@@ -28,7 +28,7 @@ $cloutHubURL = "https://app.clouthub.com/share?url={$urlSocial}&text={$titleSoci
 
 if (empty($socialAdded)) { // do not add the CSS more then once
     ?>     
-    <link href="<?php echo getCDN(); ?>view/css/social.css" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
     <?php
 }
 $socialAdded = 1;
@@ -45,14 +45,14 @@ $socialAdded = 1;
     <li>
         <a href="<?php echo $gabURL; ?>" style="" target="_blank" class="icoGab" title="Gab" data-toggle="tooltip" >
             <i class="fas">
-                <img src="<?php echo getCDN(); ?>view/img/gab.png" title="gab" style="height: 30px;"/>
+                <img src="<?php echo getCDN('view/img/gab.png'); ?>" title="gab" style="height: 30px;"/>
             </i>
         </a>
     </li>
     <li>
         <a href="<?php echo $cloutHubURL; ?>" style="" target="_blank" class="icoCloutHub" title="CloutHub" data-toggle="tooltip" >
             <i class="fas">
-                <img src="<?php echo getCDN(); ?>view/img/cloutHub.png" title="gab" style="height: 30px;"/>
+                <img src="<?php echo getCDN('view/img/cloutHub.png'); ?>" title="gab" style="height: 30px;"/>
             </i>
         </a>
     </li>

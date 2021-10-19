@@ -47,12 +47,12 @@ abstract class ObjectYPT implements ObjectInterface {
 
     public static function setTimeZone() {
         global $advancedCustom, $timezoneOriginal;
-        if(!isset($timezoneOriginal)){
+        if (!isset($timezoneOriginal)) {
             $timezoneOriginal = date_default_timezone_get();
         }
-        if(!empty($_COOKIE['timezone']) && $_COOKIE['timezone'] !== 'undefined'){
+        if (!empty($_COOKIE['timezone']) && $_COOKIE['timezone'] !== 'undefined') {
             $timezone = $_COOKIE['timezone'];
-        }else{
+        } else {
             $timeZOnesOptions = object_to_array($advancedCustom->timeZone->type);
             $timezone = $timeZOnesOptions[$advancedCustom->timeZone->value];
         }
@@ -270,9 +270,9 @@ abstract class ObjectYPT implements ObjectInterface {
                     $fields[] = " now() ";
                 } elseif (!isset($this->$value) || strtolower($this->$value) == 'null') {
                     $fields[] = " NULL ";
-                } else if(is_string($this->$value) || is_numeric($this->$value)){
+                } else if (is_string($this->$value) || is_numeric($this->$value)) {
                     $fields[] = " '{$this->$value}' ";
-                }else{
+                } else {
                     $fields[] = " NULL ";
                 }
             }
@@ -327,12 +327,12 @@ abstract class ObjectYPT implements ObjectInterface {
     public static function setCache($name, $value) {
         $cachefile = self::getCacheFileName($name);
         make_path($cachefile);
-        
+
         $content = _json_encode($value);
-        if(empty($content)){
+        if (empty($content)) {
             $content = $value;
         }
-        
+
         $bytes = @file_put_contents($cachefile, $content);
         self::setSessionCache($name, $value);
         return array('bytes' => $bytes, 'cachefile' => $cachefile);
@@ -357,11 +357,11 @@ abstract class ObjectYPT implements ObjectInterface {
      * @return type
      */
     public static function getCache($name, $lifetime = 60, $ignoreSessionCache = false) {
-        self::setLastUsedCacheMode("No cache detected $name, $lifetime, ".intval($ignoreSessionCache));
+        self::setLastUsedCacheMode("No cache detected $name, $lifetime, " . intval($ignoreSessionCache));
         if (isCommandLineInterface()) {
             return false;
         }
-        if(isBot()){
+        if (isBot()) {
             $lifetime = 0;
         }
         global $getCachesProcessed, $_getCache;
@@ -400,26 +400,26 @@ abstract class ObjectYPT implements ObjectInterface {
             }
         }
         /*
-        if (preg_match('/firstpage/i', $cachefile)) {
-            echo var_dump($cachefile) . PHP_EOL;
-            $trace = debug_backtrace();
-            $backtrace_lite = array();
-            foreach ($trace as $call) {
-                echo $call['function'] . "    " . $call['file'] . "    line " . $call['line'] . PHP_EOL;
-            }exit;
-        }
-         /** 
+          if (preg_match('/firstpage/i', $cachefile)) {
+          echo var_dump($cachefile) . PHP_EOL;
+          $trace = debug_backtrace();
+          $backtrace_lite = array();
+          foreach ($trace as $call) {
+          echo $call['function'] . "    " . $call['file'] . "    line " . $call['line'] . PHP_EOL;
+          }exit;
+          }
+          /**
          */
         if (file_exists($cachefile) && (empty($lifetime) || time() - $lifetime <= filemtime($cachefile))) {
             //if(preg_match('/getStats/', $cachefile)){echo $cachefile,'<br>';}
             self::setLastUsedCacheMode("Local File $cachefile");
             $c = @url_get_contents($cachefile);
             $json = _json_decode($c);
-            
-            if(empty($json) && !is_object($json) && !is_array($json)){
+
+            if (empty($json) && !is_object($json) && !is_array($json)) {
                 $json = $c;
             }
-            
+
             self::setSessionCache($name, $json);
             $_getCache[$name] = $json;
             //_error_log('getCache: '.__LINE__);
@@ -432,25 +432,26 @@ abstract class ObjectYPT implements ObjectInterface {
         //_error_log("YPTObject::getCache log error [{$name}] $cachefile filemtime = ".filemtime($cachefile));
         return null;
     }
-    
-    private static function setLastUsedCacheMode($mode){
+
+    private static function setLastUsedCacheMode($mode) {
         global $_lastCacheMode;
         $_lastCacheMode = $mode;
     }
-    
-    private static function setLastUsedCacheFile($cachefile){
+
+    private static function setLastUsedCacheFile($cachefile) {
         global $_lastCacheFile;
         $_lastCacheFile = $cachefile;
     }
-    
-    public static function getLastUsedCacheInfo(){
+
+    public static function getLastUsedCacheInfo() {
         global $_lastCacheFile, $_lastCacheMode;
-        return array('file'=>$_lastCacheFile, 'mode'=>$_lastCacheMode );
+        return array('file' => $_lastCacheFile, 'mode' => $_lastCacheMode);
     }
 
-    
     public static function deleteCache($name) {
-        if(empty($name)){return false;}
+        if (empty($name)) {
+            return false;
+        }
         global $__getAVideoCache;
         unset($__getAVideoCache);
         //_error_log('deleteCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -465,7 +466,7 @@ abstract class ObjectYPT implements ObjectInterface {
         unset($__getAVideoCache);
         $tmpDir = self::getCacheDir();
         $array = _glob($tmpDir, $pattern);
-        _error_log('deleteCachePattern: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log('deleteCachePattern: ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         foreach ($array as $value) {
             _error_log("Object::deleteCachePattern file [{$value}]");
             @unlink($value);
@@ -482,9 +483,9 @@ abstract class ObjectYPT implements ObjectInterface {
 
     public static function deleteALLCache() {
         self::deleteAllSessionCache();
-        $lockFile = getVideosDir().'.deleteALLCache.lock';
-        if(file_exists($lockFile) && filectime($lockFile) > strtotime('-5 minutes')){
-            _error_log('clearCache is in progress '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        $lockFile = getVideosDir() . '.deleteALLCache.lock';
+        if (file_exists($lockFile) && filectime($lockFile) > strtotime('-5 minutes')) {
+            _error_log('clearCache is in progress ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             return false;
         }
         $start = microtime(true);
@@ -493,11 +494,20 @@ abstract class ObjectYPT implements ObjectInterface {
         unset($__getAVideoCache);
         //_error_log('deleteALLCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $tmpDir = self::getCacheDir();
-        _error_log('deleteALLCache rmdir '.$tmpDir);
-        rrmdir($tmpDir);
+
+        $newtmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . uniqid();
+        _error_log("deleteALLCache rename($tmpDir, $newtmpDir) ");
+        rename($tmpDir, $newtmpDir);
+        if (is_dir($tmpDir)) {
+            _error_log('deleteALLCache 1 rmdir ' . $tmpDir);
+            rrmdir($tmpDir);
+        } else {
+            _error_log('deleteALLCache 2 rmdir ' . $newtmpDir);
+            rrmdirCommandLine($newtmpDir, true);
+        }
         self::setLastDeleteALLCacheTime();
         unlink($lockFile);
-        $end = microtime(true)-$start;
+        $end = microtime(true) - $start;
         _error_log("deleteALLCache end in {$end} seconds");
         return true;
     }
@@ -533,15 +543,15 @@ abstract class ObjectYPT implements ObjectInterface {
                     $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
                 }
             }
-        
+
             if (User::isLogged()) {
-                if(User::isAdmin()){
-                    $tmpDir .= 'admin_'.md5("admin".$global['salt']).DIRECTORY_SEPARATOR;
-                }else{
-                    $tmpDir .= 'user_'.md5("user".$global['salt']).DIRECTORY_SEPARATOR;
+                if (User::isAdmin()) {
+                    $tmpDir .= 'admin_' . md5("admin" . $global['salt']) . DIRECTORY_SEPARATOR;
+                } else {
+                    $tmpDir .= 'user_' . md5("user" . $global['salt']) . DIRECTORY_SEPARATOR;
                 }
-            }else{
-                $tmpDir .= 'notlogged_'.md5("notlogged".$global['salt']).DIRECTORY_SEPARATOR;
+            } else {
+                $tmpDir .= 'notlogged_' . md5("notlogged" . $global['salt']) . DIRECTORY_SEPARATOR;
             }
         }
         $tmpDir = fixPath($tmpDir);
@@ -562,7 +572,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     public static function deleteCacheFromPattern($name) {
-        if(empty($name)){
+        if (empty($name)) {
             return false;
         }
         $tmpDir = getTmpDir();
@@ -607,7 +617,7 @@ abstract class ObjectYPT implements ObjectInterface {
                 $c = $_SESSION['user']['sessionCache'][$name]['value'];
                 self::setLastUsedCacheMode("Session cache \$_SESSION['user']['sessionCache'][$name]");
                 $json = _json_decode($c);
-                if(is_string($json) && strtolower($json) === 'false'){
+                if (is_string($json) && strtolower($json) === 'false') {
                     $json = false;
                 }
                 return $json;
@@ -694,25 +704,23 @@ abstract class ObjectYPT implements ObjectInterface {
         }
         return $tableExists[$tableName];
     }
-    
-    static function clientTimezoneToDatabaseTimezone($clientDate){
-        
-        if(!preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $clientDate)){
+
+    static function clientTimezoneToDatabaseTimezone($clientDate) {
+
+        if (!preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $clientDate)) {
             return $clientDate;
         }
-        
+
         global $timezoneOriginal;
         $currentTimezone = date_default_timezone_get();
         $time = strtotime($clientDate);
         date_default_timezone_set($timezoneOriginal);
-        
+
         $dbDate = date('Y-m-d H:i:s', $time);
-        
+
         date_default_timezone_set($currentTimezone);
         return $dbDate;
     }
-    
-    
 
 }
 

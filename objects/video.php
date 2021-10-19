@@ -4172,7 +4172,7 @@ if (!class_exists('Video')) {
 
             $obj = new stdClass();
             $paths = self::getVideosPaths($filename);
-
+            //var_dump($paths);exit;
             $obj->mp4 = !empty($paths['mp4']) ? true : false;
             $obj->webm = !empty($paths['webm']) ? true : false;
             $obj->m3u8 = !empty($paths['m3u8']) ? true : false;

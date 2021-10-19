@@ -3158,13 +3158,7 @@ function rrmdir($dir) {
         _error_log('rrmdir: A script ties to delete the videos Directory [' . $dir . '] ' . json_encode(array($dir == getVideosDir(), $dir == "{$global['systemRootPath']}videos" . DIRECTORY_SEPARATOR, preg_match($pattern, $dir))));
         return false;
     }
-    if (is_dir($dir)) {
-        if (isWindows()) {
-            exec('DEL /S ' . $dir);
-        } else {
-            exec('rm -R ' . $dir);
-        }
-    }
+    rrmdirCommandLine($dir);
     if (is_dir($dir)) {
         //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
         $objects = scandir($dir);
@@ -3194,6 +3188,23 @@ function rrmdir($dir) {
         return true;
     }
 }
+
+function rrmdirCommandLine($dir, $async = false) {
+    if (is_dir($dir)) {
+        if (isWindows()) {
+            $command = ('rd /s /q ' . $dir);
+        } else {
+            $command = ('rm -fR ' . $dir);
+        }
+        
+        if($async){
+            return execAsync($command);
+        }else{
+            return exec($command);
+        }
+    }
+}
+
 
 /**
  * You can now configure it on the configuration.php
@@ -6516,7 +6527,7 @@ function sendSocketMessageToNone($msg, $callbackJSFunction = "") {
 function execAsync($command) {
     //$command = escapeshellarg($command);
     // If windows, else
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    if (isWindows()) {
         //echo $command;
         //$pid = system("start /min  ".$command. " > NUL");
         //$commandString = "start /B " . $command;
@@ -6862,7 +6873,7 @@ function getTitle() {
     return $global['pageTitle'];
 }
 
-function outputAndContinueInBackground() {
+function outputAndContinueInBackground($msg='') {
     global $outputAndContinueInBackground;
 
     if (!empty($outputAndContinueInBackground)) {
@@ -6877,6 +6888,7 @@ function outputAndContinueInBackground() {
         fastcgi_finish_request();
     }
     ob_start();
+    echo $msg;
     @header("Connection: close");
     @header("Content-Length: " . ob_get_length());
     @header("HTTP/1.1 200 OK");

@@ -99,6 +99,9 @@ if (!file_exists($DVRFile)) {
     die("saveDVR: m3u8 File does not exists {$DVRFile} ");
 }
 
+if(!empty($_REQUEST['howManySegments'])){
+    
+}
 
 $ffmpeg = "ffmpeg -i {$DVRFile} -c copy -bsf:a aac_adtstoasc {$filename} -y";
 
