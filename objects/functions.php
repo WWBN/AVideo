@@ -7460,3 +7460,13 @@ function listFolderFiles($dir) {
     }
     return $files;
 }
+
+function convertToMyTimezone($date, $fromTimezone){
+    $time = getTimestampFromTimezone($date, $fromTimezone);
+    return date('Y-m-d H:i:s', $time);
+}
+
+function getTimestampFromTimezone($date, $fromTimezone){
+    $date = new DateTime($date, new DateTimeZone($fromTimezone));
+    return $date->getTimestamp();    
+}
