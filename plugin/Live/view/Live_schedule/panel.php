@@ -105,7 +105,7 @@ global $Schedulecount;
             </button>
         </div>
         <hr>
-        <div class="btn-group pull-right">
+        <div class="btn-group pull-right futureButtons">
             <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL+'plugin/Live/webcamFullscreen.php?live_schedule_id='+$(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
                 <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($objScheduleLive->button_title); ?></span>
             </button>
@@ -175,7 +175,7 @@ global $Schedulecount;
                                     $('.btn', $clone).attr('schedule_id', schedule.id).attr('serverURL', schedule.serverURL).attr('key', schedule.key);
                                     $($clone).attr('id', id);
                                     if (!schedule.future) {
-                                        $('.btn-group', $clone).hide();
+                                        $('.btn-group.futureButtons', $clone).hide();
                                         $($clone).addClass('disabled');
                                     }
                                     $("#schedule_live_list").append($clone);
