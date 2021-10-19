@@ -8,6 +8,7 @@ if (!empty($images->posterPortrait) && strpos($images->posterPortrait, 'notfound
 }
 $imgw = 1280;
 $imgh = 720;
+$metaDescription = str_replace('"', '', $video['title']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
