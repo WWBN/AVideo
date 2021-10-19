@@ -64,7 +64,7 @@ if (empty($feed)) {
     ob_end_clean();
     ObjectYPT::setCache($cacheFeedName, $feed);
 }else{
-    echo '<!-- cache -->';
+    //echo '<!-- cache -->';
 }
 if(!is_string($feed)){
     $feed = json_encode($feed);
