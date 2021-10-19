@@ -188,7 +188,7 @@ class Live extends PluginAbstract {
             
             $timestamp = getTimestampFromTimezone($value['scheduled_time'], $value['timezone']);
             // live is already expired
-            if($timestamp>time()){
+            if($timestamp<time()){
                 continue;
             }
                     
