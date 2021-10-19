@@ -8,12 +8,12 @@ if (!empty($images->posterPortrait) && strpos($images->posterPortrait, 'notfound
 }
 $imgw = 1280;
 $imgh = 720;
-$metaDescription = str_replace('"', '', $video['title']);
+$metaDescription = $title = str_replace('"', '', $video['title']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Confirm Rating") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Confirm Rating") . $config->getPageTitleSeparator() . $title; ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
