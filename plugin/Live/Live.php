@@ -185,11 +185,18 @@ class Live extends PluginAbstract {
             if($isLive){
                 continue;
             }
+            
+            $timestamp = getTimestampFromTimezone($value['scheduled_time'], $value['timezone']);
+            // live is already expired
+            if($timestamp>time()){
+                continue;
+            }
+                    
             $callback = '';
             $link = Live::getLinkToLiveFromUsers_idAndLiveServer($value['users_id'],$value['live_servers_id']);
             $link = addQueryStringParameter($link, 'live_schedule', $value['id']);
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
-            $array[] = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, Live_schedule::getPosterURL($value['id']), '' , 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_'.$value['id'], $callback, convertToMyTimezone($value['scheduled_time'], $value['timezone']), 'live_'.$value['key']);
+            $array[] = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, Live_schedule::getPosterURL($value['id']), '' , 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_'.$value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_'.$value['key']);
         }
 
         return $array;
