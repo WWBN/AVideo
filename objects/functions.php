@@ -2262,7 +2262,7 @@ function combineFiles($filesArray, $extension = "js") {
 }
 
 function combineFilesHTML($filesArray, $extension = "js", $doNotCombine = false) {
-    if(empty($doNotCombine)){
+    if (empty($doNotCombine)) {
         $jsURL = combineFiles($filesArray, $extension);
     }
     if ($extension == "js") {
@@ -3177,9 +3177,9 @@ function rrmdir($dir) {
             // do not delete videos or cache folder
             return false;
         }
-        if(rmdir($dir)){
+        if (rmdir($dir)) {
             return true;
-        }else{
+        } else {
             _error_log('rrmdir: could not delete folder ' . $dir);
             return false;
         }
@@ -3196,15 +3196,14 @@ function rrmdirCommandLine($dir, $async = false) {
         } else {
             $command = ('rm -fR ' . $dir);
         }
-        
-        if($async){
+
+        if ($async) {
             return execAsync($command);
-        }else{
+        } else {
             return exec($command);
         }
     }
 }
-
 
 /**
  * You can now configure it on the configuration.php
@@ -4349,9 +4348,9 @@ function verifyToken($token, $salt = "") {
         return false;
     }
     $old_timezone = date_default_timezone_get();
-    date_default_timezone_set($obj->timezone);    
+    date_default_timezone_set($obj->timezone);
     $time = time();
-    date_default_timezone_set($old_timezone);  
+    date_default_timezone_set($old_timezone);
     if (!($time >= $obj->time && $time <= $obj->timeout)) {
         _error_log("verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout");
         return false;
@@ -6185,7 +6184,7 @@ function m3u8ToMP4($input) {
         if ($ism3u8 && !preg_match('/.m3u8$/i', $filepath)) {
             $filepath = addLastSlash($filepath) . 'index.m3u8';
         }
-        
+
         $token = getToken(60);
         $filepath = addQueryStringParameter($filepath, 'globalToken', $token);
     } else {
@@ -6873,7 +6872,7 @@ function getTitle() {
     return $global['pageTitle'];
 }
 
-function outputAndContinueInBackground($msg='') {
+function outputAndContinueInBackground($msg = '') {
     global $outputAndContinueInBackground;
 
     if (!empty($outputAndContinueInBackground)) {
@@ -7461,12 +7460,21 @@ function listFolderFiles($dir) {
     return $files;
 }
 
-function convertToMyTimezone($date, $fromTimezone){
+function convertToMyTimezone($date, $fromTimezone) {
     $time = getTimestampFromTimezone($date, $fromTimezone);
     return date('Y-m-d H:i:s', $time);
 }
 
-function getTimestampFromTimezone($date, $fromTimezone){
+function convertToServerTimezone($date, $fromTimezone) {
+    $time = getTimestampFromTimezone($date, $fromTimezone);
+    $oldtimezone = date_default_timezone_get(ini_get('date.timezone'));
+    date_default_timezone_set(ini_get('date.timezone'));
+    $date = date('Y-m-d H:i:s', $time);
+    date_default_timezone_set($oldtimezone);
+    return $date;
+}
+
+function getTimestampFromTimezone($date, $fromTimezone) {
     $date = new DateTime($date, new DateTimeZone($fromTimezone));
-    return $date->getTimestamp();    
+    return $date->getTimestamp();
 }
