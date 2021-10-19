@@ -7465,15 +7465,6 @@ function convertToMyTimezone($date, $fromTimezone) {
     return date('Y-m-d H:i:s', $time);
 }
 
-function convertToServerTimezone($date, $fromTimezone) {
-    $time = getTimestampFromTimezone($date, $fromTimezone);
-    $oldtimezone = date_default_timezone_get(ini_get('date.timezone'));
-    date_default_timezone_set(ini_get('date.timezone'));
-    $date = date('Y-m-d H:i:s', $time);
-    date_default_timezone_set($oldtimezone);
-    return $date;
-}
-
 function getTimestampFromTimezone($date, $fromTimezone) {
     $date = new DateTime($date, new DateTimeZone($fromTimezone));
     return $date->getTimestamp();
