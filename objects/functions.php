@@ -4000,7 +4000,7 @@ function getUsageFromFilename($filename, $dir = "") {
                 $isEnabled = AVideoPlugin::isEnabledByName('YPTStorage');
                 $isEnabledCDN = AVideoPlugin::getObjectDataIfEnabled('CDN');
                 $isEnabledS3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
-                if ($isEnabledCDN->enable_storage) {
+                if (!empty($isEnabledCDN) && $isEnabledCDN->enable_storage) {
                     $v = Video::getVideoFromFileName($filename);
                     if (!empty($v)) {
                         $size = CDNStorage::getRemoteDirectorySize($v['id']);

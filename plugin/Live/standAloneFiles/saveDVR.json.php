@@ -1,9 +1,41 @@
 <?php
 
+function setLastSegments($DVRFile, $total){
+    $parts = explode(DIRECTORY_SEPARATOR,$DVRFile );
+    array_pop($parts);  
+    $dir = implode(DIRECTORY_SEPARATOR, $parts).DIRECTORY_SEPARATOR;
+
+    $text = file_get_contents($DVRFile);
+
+    error_log("setLastSegments 1 $dir $DVRFile, $total ".json_encode($text));
+    if(empty($total)){
+        return $text;
+    }
+    
+    $array = preg_split ('/$\R?^/m', $text);
+    for($i=count($array)-1;$i>=0;$i--){
+        if(preg_match('/[0-9]+.ts$/', $array[$i])){
+            if($total){
+                $total--;
+            }else{
+                unset($array[$i]);
+                unset($array[$i-1]);
+            }
+            $i--;
+        }
+    }
+    
+    $newcontent = implode(PHP_EOL, $array);
+    error_log("setLastSegments 2 ".json_encode($newcontent));
+    $bytes = file_put_contents($DVRFile, $newcontent);
+    error_log("setLastSegments 3 ".$bytes);
+}
+
+
 // this file MUST be on the same directory as getRecordedFile.php
 
 $hls_path = "/HLS/live/"; //update this URL
-$streamerURL = "http://192.168.1.4/YouPHPTube/"; // change it to your streamer URL
+$streamerURL = ""; // change it to your streamer URL
 
 /*
  * DO NOT EDIT AFTER THIS LINE
@@ -12,6 +44,10 @@ $configFile = '../../../videos/configuration.php';
 if (file_exists($configFile)) {
     include_once $configFile;
     $streamerURL = $global['webSiteRootURL'];
+}
+
+if(empty($streamerURL) && !empty($_REQUEST['webSiteRootURL'])){
+    $streamerURL = $_REQUEST['webSiteRootURL'];
 }
 
 //die("Remove the line ".__LINE__." to use this script "); // remove this line so the script will work
@@ -67,6 +103,10 @@ if (!$isAdaptive) {
 }
 exec($copyDir);
 error_log("saveDVR: copy dir done");
+$howManySegments = 0;
+if(!empty($_REQUEST['howManySegments'])){
+    $howManySegments = intval($_REQUEST['howManySegments']);
+}
 
 if (!$isAdaptive) {
     //file_put_contents(PHP_EOL . '#EXT-X-ENDLIST', $DVRFile, FILE_APPEND);
@@ -84,6 +124,11 @@ if (!$isAdaptive) {
             $indexFile = $dir . $value . DIRECTORY_SEPARATOR . 'index.m3u8';
             error_log("saveDVR: checking {$indexFile}");
             if (file_exists($indexFile)) {
+                if(!empty($howManySegments)){
+                    error_log("saveDVR: howManySegments [{$howManySegments}]");
+                    setLastSegments($indexFile, $howManySegments);
+                }
+
                 $endLine = PHP_EOL . '#EXT-X-ENDLIST';
                 $appendCommand = "echo \"{$endLine}\" >> {$indexFile}";
                 error_log("saveDVR: append [{$appendCommand}]");
@@ -97,10 +142,6 @@ if (!$isAdaptive) {
 if (!file_exists($DVRFile)) {
     error_log("saveDVR: m3u8 File does not exists {$DVRFile} ");
     die("saveDVR: m3u8 File does not exists {$DVRFile} ");
-}
-
-if(!empty($_REQUEST['howManySegments'])){
-    
 }
 
 $ffmpeg = "ffmpeg -i {$DVRFile} -c copy -bsf:a aac_adtstoasc {$filename} -y";

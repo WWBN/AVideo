@@ -337,5 +337,4 @@ class Live_schedule extends ObjectYPT {
         }
         return $row;
     }
-
 }
