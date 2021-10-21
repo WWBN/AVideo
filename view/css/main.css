@@ -1181,7 +1181,7 @@ li.dropdown-submenu > ul > li > a{
 }
 
 .videoCreator{
-    display: -webkit-inline-box;
+    display: inline-block;
 }
 .videoCreator .zoom{
     width: 40px;
