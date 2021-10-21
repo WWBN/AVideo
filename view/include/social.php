@@ -45,14 +45,14 @@ $socialAdded = 1;
     <li>
         <a href="<?php echo $gabURL; ?>" style="" target="_blank" class="icoGab" title="Gab" data-toggle="tooltip" >
             <i class="fas">
-                <img src="<?php echo getCDN('view/img/gab.png'); ?>" title="gab" style="height: 30px;"/>
+                <img src="<?php echo getURL('view/img/gab.png'); ?>" title="gab" style="height: 30px;"/>
             </i>
         </a>
     </li>
     <li>
         <a href="<?php echo $cloutHubURL; ?>" style="" target="_blank" class="icoCloutHub" title="CloutHub" data-toggle="tooltip" >
             <i class="fas">
-                <img src="<?php echo getCDN('view/img/cloutHub.png'); ?>" title="gab" style="height: 30px;"/>
+                <img src="<?php echo getURL('view/img/cloutHub.png'); ?>" title="CloutHub" style="height: 30px;"/>
             </i>
         </a>
     </li>
