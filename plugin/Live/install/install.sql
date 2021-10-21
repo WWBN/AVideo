@@ -149,7 +149,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `live_schedule` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NULL,
-  `description` VARCHAR(255) NULL,
+  `description` TEXT NULL,
   `key` VARCHAR(255) NULL,
   `users_id` INT(11) NOT NULL,
   `live_servers_id` INT(11) NULL,
