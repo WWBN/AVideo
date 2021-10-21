@@ -100,7 +100,9 @@ if (empty($obj->doNotShowGoLiveButton) && User::canStream()) {
 <script>
     function refreshGetLiveImage(selector) {
         $(selector).find('.thumbsImage img').each(function (index) {
-            $(this).attr('src', $(this).attr('src') + ('&' + Math.random()));
+            var src = $(this).attr('src');
+            src = addGetParam(src, 'cache', Math.random());
+            $(this).attr('src', src);
         });
         setTimeout(function () {
             $(selector).slideDown();
