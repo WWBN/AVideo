@@ -110,6 +110,7 @@ class Live_schedule extends ObjectYPT {
             foreach ($fullData as $row) {
                 $row['future'] = isTimeForFuture($row['scheduled_time'], $row['timezone']);
                 $row['secondsIntervalHuman'] = secondsIntervalHuman($row['scheduled_time'], $row['timezone']);
+                //var_dump($row['secondsIntervalHuman']);exit;
                 $row['posterURL'] = self::getPosterURL($row['id']);
                 $row['serverURL'] = Live::getServerURL($row['key'], $row['users_id']);
 

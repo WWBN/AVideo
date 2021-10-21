@@ -7012,11 +7012,14 @@ function isTimeForFuture($time, $useDatabaseTime = true) {
 }
 
 function secondsIntervalFromNow($time, $useDatabaseTimeOrTimezoneString = true) {
-    $timeNow = time();
+    $timeNow = time();    
+    //var_dump($time, $useDatabaseTimeOrTimezoneString);
     if (!empty($useDatabaseTimeOrTimezoneString)) {
         if (is_numeric($useDatabaseTimeOrTimezoneString) || is_bool($useDatabaseTimeOrTimezoneString)) {
+            //echo $time.'-'.__LINE__.'=>';
             $timeNow = getDatabaseTime();
         } else if (is_string($useDatabaseTimeOrTimezoneString)) {
+            //echo '-'.__LINE__.PHP_EOL.PHP_EOL;
             $timeNow = getTimeInTimezone($timeNow, $useDatabaseTimeOrTimezoneString);
         }
     }
