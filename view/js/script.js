@@ -822,6 +822,9 @@ function playerPlayIfAutoPlay(currentTime) {
     if (isWebRTC()) {
         return false;
     }
+    if (currentTime) {
+        setCurrentTime(currentTime);
+    }
     if (isAutoplayEnabled()) {
         playerPlayTimeout = setTimeout(function () {
             console.log('playerPlayIfAutoPlay true', currentTime);
@@ -830,9 +833,6 @@ function playerPlayIfAutoPlay(currentTime) {
         return true;
     }
     console.log('playerPlayIfAutoPlay false', currentTime);
-    if (currentTime) {
-        setCurrentTime(currentTime);
-    }
     //$.toast("Autoplay disabled");
     return false;
 }
