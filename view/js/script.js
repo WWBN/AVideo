@@ -189,8 +189,10 @@ function setPlayerListners() {
             isTryingToPlay = false;
             clearTimeout(promisePlayTimeout);
             if(startCurrentTime){
-                setCurrentTime(startCurrentTime);
-                startCurrentTime = 0;
+                setTimeout(function(){
+                    setCurrentTime(startCurrentTime);
+                    startCurrentTime = 0;
+                }, 500);
             }
             console.log("setPlayerListners: play");
             //userIsControling = true;
