@@ -192,7 +192,7 @@ function setPlayerListners() {
                 setTimeout(function(){
                     setCurrentTime(startCurrentTime);
                     startCurrentTime = 0;
-                }, 500);
+                }, 100);
             }
             console.log("setPlayerListners: play");
             //userIsControling = true;
