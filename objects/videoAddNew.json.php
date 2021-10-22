@@ -135,14 +135,20 @@ if(User::isAdmin()){
 }
 
 AVideoPlugin::saveVideosAddNew($_POST, $resp);
+
 TimeLogEnd(__FILE__, __LINE__);
 $obj = new stdClass();
+
 $obj->status = !empty($resp);
 $obj->msg = $msg;
 $obj->info = json_encode($info);
 $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
 $obj->video = Video::getVideoLight($obj->videos_id);
+if($obj->video['status'] == Video::$statusActive){
+    $obj->clearFirstPageCache = clearFirstPageCache();
+    //clearAllUsersSessionCache();
+}
 
 TimeLogEnd(__FILE__, __LINE__);
 echo json_encode($obj);

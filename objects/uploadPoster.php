@@ -79,6 +79,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             // delete thumbs from poster
             Video::deleteThumbs($video->getFilename());
         }
+        $obj->clearFirstPageCache = clearFirstPageCache();
         $obj->error = false;
         echo "{}";
         exit;

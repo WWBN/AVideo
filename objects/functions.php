@@ -3939,18 +3939,29 @@ function clearCache($firstPageOnly = false) {
     file_put_contents($lockFile, time());
 
     $dir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
+    $tmpDir = ObjectYPT::getCacheDir('firstPage');
+    $parts = explode('firstpage', $tmpDir);
+    
     if ($firstPageOnly || !empty($_GET['FirstPage'])) {
+        $tmpDir = $parts[0].'firstpage'.DIRECTORY_SEPARATOR;
+        //var_dump($tmpDir);exit;
         $dir .= "firstPage" . DIRECTORY_SEPARATOR;
+    }else{
+        $tmpDir = $parts[0];
     }
 
     //_error_log('clearCache 1: '.$dir);
     rrmdir($dir);
-
+    rrmdir($tmpDir);
     ObjectYPT::deleteCache("getEncoderURL");
     unlink($lockFile);
     $end = microtime(true) - $start;
     _error_log("clearCache end in {$end} seconds");
     return true;
+}
+
+function clearAllUsersSessionCache(){    
+    sendSocketMessageToAll(time(), 'socketClearSessionCache');
 }
 
 function clearFirstPageCache() {

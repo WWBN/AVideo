@@ -1492,33 +1492,11 @@ $(document).ready(function () {
     });
     $('#clearCache, .clearCacheButton').on('click', function (ev) {
         ev.preventDefault();
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'objects/configurationClearCache.json.php',
-            success: function (response) {
-                if (!response.error) {
-                    avideoToastSuccess("Your cache has been cleared!");
-                } else {
-                    avideoAlert("Sorry!", "Your cache has NOT been cleared!", "error");
-                }
-                modal.hidePleaseWait();
-            }
-        });
+        clearCache(true, 0, 0);
     });
     $('.clearCacheFirstPageButton').on('click', function (ev) {
         ev.preventDefault();
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=1',
-            success: function (response) {
-                if (!response.error) {
-                    avideoToastSuccess("Your First Page cache has been cleared!");
-                } else {
-                    avideoAlert("Sorry!", "Your First Page cache has NOT been cleared!", "error");
-                }
-                modal.hidePleaseWait();
-            }
-        });
+        clearCache(true, 1, 0);
     });
     $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
         ev.preventDefault();
@@ -1594,6 +1572,25 @@ $(document).ready(function () {
         });
     });
 });
+
+function clearCache(showPleaseWait, FirstPage, sessionOnly){
+    if(showPleaseWait){
+        modal.showPleaseWait();
+    }
+    $.ajax({
+        url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage='+FirstPage+'&sessionOnly='+sessionOnly,
+        success: function (response) {
+            if(showPleaseWait){
+                if (!response.error) {
+                    avideoToastSuccess("Your First Page cache has been cleared!");
+                } else {
+                    avideoAlert("Sorry!", "Your First Page cache has NOT been cleared!", "error");
+                }
+                modal.hidePleaseWait();
+            }
+        }
+    });
+}
 
 function validURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
@@ -1927,3 +1924,8 @@ document.addEventListener('visibilitychange', function () {
         _addViewAsync();
     }
 });
+
+function socketClearSessionCache(json){
+    console.log('socketClearSessionCache', json);
+    clearCache(false, 0, 1);
+}

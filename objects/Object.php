@@ -374,6 +374,7 @@ abstract class ObjectYPT implements ObjectInterface {
             $getCachesProcessed = array();
         }
         $cachefile = self::getCacheFileName($name);
+        //var_dump($cachefile);//exit;
         self::setLastUsedCacheFile($cachefile);
         //_error_log('getCache: cachefile '.$cachefile);
         if (!empty($_getCache[$name])) {
@@ -680,6 +681,7 @@ abstract class ObjectYPT implements ObjectInterface {
     public static function deleteAllSessionCache() {
         _session_start();
         unset($_SESSION['user']['sessionCache']);
+        return empty($_SESSION['user']['sessionCache']);
     }
 
     public function tableExists() {
