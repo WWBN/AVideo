@@ -188,6 +188,10 @@ function setPlayerListners() {
         player.on('play', function () {
             isTryingToPlay = false;
             clearTimeout(promisePlayTimeout);
+            if(startCurrentTime){
+                setCurrentTime(startCurrentTime);
+                startCurrentTime = 0;
+            }
             console.log("setPlayerListners: play");
             //userIsControling = true;
             pauseIfIsPlayinAdsInterval = setInterval(function () {
@@ -986,7 +990,12 @@ function reloadVideoJS() {
 }
 
 var initdone = false;
+var startCurrentTime = 0;
 function setCurrentTime(currentTime) {
+    if(startCurrentTime!=currentTime){
+        startCurrentTime=currentTime;
+        console.log("setCurrentTime changed:", currentTime);
+    }
     console.log('setCurrentTime', currentTime);
     if (typeof player !== 'undefined') {
         if (isTryingToPlay) {
