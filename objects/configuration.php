@@ -497,8 +497,10 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
 
     static function deleteEncoderURLCache(){
         _error_log_debug("Configuration::deleteEncoderURLCache");
+        $name = "getEncoderURL" . DIRECTORY_SEPARATOR;
         $tmpDir = ObjectYPT::getCacheDir();
-        $cacheDir = $tmpDir . "getEncoderURL" . DIRECTORY_SEPARATOR;
+        $cacheDir = $tmpDir . $name;
+        ObjectYPT::deleteCache($name);
         rrmdir($cacheDir);
     }
     
