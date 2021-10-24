@@ -495,13 +495,20 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         return true;
     }
 
+    static function deleteEncoderURLCache(){
+        _error_log_debug("Configuration::deleteEncoderURLCache");
+        $tmpDir = ObjectYPT::getCacheDir();
+        $cacheDir = $tmpDir . "getEncoderURL" . DIRECTORY_SEPARATOR;
+        rrmdir($cacheDir);
+    }
+    
     function getEncoderURL() {
         global $global, $getEncoderURL, $advancedCustom;
         if(!empty($global['forceEncoderURL'])){
             return $global['forceEncoderURL'];
         }
         if (empty($getEncoderURL)) {
-            $getEncoderURL = ObjectYPT::getCache("getEncoderURL", 60);
+            $getEncoderURL = ObjectYPT::getCache("getEncoderURL". DIRECTORY_SEPARATOR, 60);
             if (empty($getEncoderURL)) {
                 if ($this->shouldUseEncodernetwork()) {
                     if (substr($advancedCustom->encoderNetwork, -1) !== '/') {

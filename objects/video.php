@@ -2772,6 +2772,7 @@ if (!class_exists('Video')) {
             }
             _error_log("QUEUE CURL: ($target) " . json_encode($obj));
             curl_close($curl);
+            Configuration::deleteEncoderURLCache();
             return $obj;
         }
 
