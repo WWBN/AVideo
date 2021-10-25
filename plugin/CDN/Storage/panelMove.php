@@ -60,7 +60,7 @@
             }
             if ($totalR) {
                 if(empty($totalL)){
-                    self::setSite($videos_id, true);
+                    CDNStorage::setSite($videos_id, true);
                 }
                 ?>
                 <button type="button" class="btn btn-success" onclick="CDNStorageDownload();">
