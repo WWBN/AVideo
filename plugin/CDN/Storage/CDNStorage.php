@@ -377,7 +377,7 @@ class CDNStorage {
                 $remainingFiles = $totalFilesToTransfer-$itemsProcessed;
                 $averageSeconds = $totalTime / $itemsProcessed;
                 $remainingSeconds = intval($remainingFiles*$averageSeconds);;
-                $remainingSecondsHuman = secondsToTime($remainingSeconds);
+                $remainingSecondsHuman = secondsToVideoTime($remainingSeconds);
                 
                 $msg = "{$itemsProcessed}/{$totalFilesToTransfer} {$remainingSecondsHuman} to finish: File moved from {$value['local_path']} to {$value['remote_path']} in {$uploadfinish} seconds " . humanFileSize($bytesPerSecond) . '/sec Average: ' . number_format($averageSeconds, 2);
                 self::addToLog($videos_id, $msg);
