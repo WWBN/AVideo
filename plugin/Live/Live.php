@@ -765,6 +765,7 @@ class Live extends PluginAbstract {
                 if (!self::userCanRecordLive(User::getId())) {
                     return '<!-- User Cannot record -->';
                 }
+                $class .= ' btn-warning ';
                 return '<!-- SendRecordedToEncoder::getSaveTheMommentButton -->' . SendRecordedToEncoder::getSaveTheMommentButton($key, $live_servers_id, $class);
                 break;
             default:
