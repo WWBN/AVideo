@@ -365,8 +365,11 @@ class CDNStorage {
                 }
                  * 
                  */
+                $uploadstart = microtime(true);
                 $response = $client->put($value['relative'], $value['local_path']);
-                $msg = "PUT File moved from {$value['local_path']} to {$value['remote_path']} ";
+                $uploadfinish = microtime(true)-$uploadstart;
+                $bytesPerSecond = $value['local_filesize']/$uploadfinish;
+                $msg = "PUT File moved from {$value['local_path']} to {$value['remote_path']} in {$uploadfinish} seconds ". humanFileSize($bytesPerSecond).'/sec';
                 self::addToLog($videos_id, $msg);
                 /*
                 $remote_filesize = $client->size($value['relative']);
