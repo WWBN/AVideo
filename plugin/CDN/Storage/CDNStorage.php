@@ -427,11 +427,13 @@ class CDNStorage {
                 continue;
             } else if ($value['local']['local_filesize'] == $value['remote']['remote_filesize']) {
                 $msg = "createDummyFiles {$value['local']['local_path']} ";
+                self::addToLog($videos_id, $msg);
                 self::createDummy($value['local']['local_path']);
                 $filesAffected++;
             }
         }
         $msg = "createDummyFiles  filesAffected=$filesAffected";
+        self::addToLog($videos_id, $msg);
         return $filesAffected;
     }
 
