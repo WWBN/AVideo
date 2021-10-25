@@ -84,6 +84,10 @@ class sqlDAL {
                 }
             }
         }
+        
+        if(!is_object($global['mysqli'])){
+            _mysql_connect();
+        }
 
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . " ({$preparedStatement})");
