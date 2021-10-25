@@ -376,6 +376,9 @@ class CDNStorage {
                 $bytesPerSecond = $value['local_filesize']/$uploadfinish;
                 $msg = "{$itemsProcessed}/{$totalFilesToTransfer} PUT File moved from {$value['local_path']} to {$value['remote_path']} in {$uploadfinish} seconds ". humanFileSize($bytesPerSecond).'/sec Average: '. number_format($totalTime/$itemsProcessed,2);
                 self::addToLog($videos_id, $msg);
+                if($itemsProcessed%100===0){
+                    self::createDummyFiles($videos_id);
+                }
                 /*
                 $remote_filesize = $client->size($value['relative']);
                 if ($remote_filesize < 0) {
@@ -411,6 +414,8 @@ class CDNStorage {
     }
 
     static function createDummyFiles($videos_id) {
+        $msg = "createDummyFiles($videos_id) ";
+        self::addToLog($videos_id, $msg);
         global $_getFilesListBoth, $_getFilesListRemote, $_getFilesList_CDNSTORAGE;
         unset($_getFilesListBoth);
         unset($_getFilesListRemote);
@@ -422,6 +427,7 @@ class CDNStorage {
                 if($value['local']['local_filesize'] <= 20){
                     continue;
                 }else if($value['local']['local_filesize'] == $value['remote']['remote_filesize']){
+                    $msg = "createDummyFiles {$value['local']['local_path']} ";
                     self::createDummy($value['local']['local_path']);
                     $filesAffected++;
                 }
