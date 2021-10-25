@@ -23,7 +23,7 @@ class CDNStorage {
             $CDNstorage->pasv(true);
         } catch (Exception $exc) {
             _error_log("FTP:getClient fail ($obj->storage_hostname) ($obj->storage_username), ($obj->storage_password) " . $exc->getMessage());
-            die('CDNStorage FTP Error '.$exc->getMessage());
+            die('CDNStorage FTP Error ' . $exc->getMessage());
         }
         _error_log("FTP:getClient finish");
         return $CDNstorage;
@@ -61,7 +61,7 @@ class CDNStorage {
         $searchThis = $localList;
         $compareThis = $remoteList;
         $searchingLocal = true;
-        
+
         foreach ($localList as $key => $value) {
             $isLocal = true;
 
@@ -82,7 +82,7 @@ class CDNStorage {
             $files[$key] = array('isLocal' => $isLocal, 'local' => @$localList[$key], 'remote' => $remoteList[$key]);
             unset($localList[$key]);
         }
-        
+
         $_getFilesListBoth[$videos_id] = $files;
         return $files;
     }
@@ -354,6 +354,7 @@ class CDNStorage {
                 continue;
             }
             try {
+                /*
                 $remote_filesize = $client->size($value['relative']);
                 if ($remote_filesize > 0 && $remote_filesize == $value['local_filesize']) {
                     $msg = "File is already on the remote {$value['local_path']} to {$value['remote_path']} ";
@@ -362,7 +363,10 @@ class CDNStorage {
                     self::createDummy($value['local_path']);
                     continue;
                 }
+                 * 
+                 */
                 $response = $client->put($value['relative'], $value['local_path']);
+                /*
                 $remote_filesize = $client->size($value['relative']);
                 if ($remote_filesize < 0) {
                     self::addToLog($videos_id, "Filesizes are not the same trying the full path ");
@@ -379,6 +383,7 @@ class CDNStorage {
                     self::addToLog($videos_id, "ERROR Filesizes are not the same $remote_filesize == {$value['local_filesize']} " . json_encode($value));
                     self::addToLog($videos_id, "ERROR " . json_encode($response));
                 }
+                */
             } catch (Exception $exc) {
                 _error_log($exc->getTraceAsString());
                 _error_log(json_encode(error_get_last()));
@@ -386,12 +391,33 @@ class CDNStorage {
                 self::addToLog($videos_id, "ERROR 2 " . json_encode(error_get_last()));
             }
         }
+        self::createDummyFiles($videos_id);
         self::sendSocketNotification($videos_id, __('Video upload complete'));
         self::setProgress($videos_id, true, true);
         $end = microtime(true) - $start;
         _error_log("Finish moveLocalToRemote videos_id=($videos_id) filesCopied={$filesCopied} in {$end} Seconds");
 
         return $filesCopied;
+    }
+
+    static function createDummyFiles($videos_id) {
+        global $_getFilesListBoth, $_getFilesListRemote, $_getFilesList_CDNSTORAGE;
+        unset($_getFilesListBoth);
+        unset($_getFilesListRemote);
+        unset($_getFilesList_CDNSTORAGE);
+        $list = self::getFilesListBoth($videos_id);
+        $filesAffected = 0;
+        foreach ($list as $key => $value) {
+            if($local){
+                if($value['local']['local_filesize'] <= 20){
+                    continue;
+                }else if($value['local']['local_filesize'] == $value['remote']['remote_filesize']){
+                    self::createDummy($value['local']['local_path']);
+                    $filesAffected++;
+                }
+            }
+        }
+        return $filesAffected;
     }
 
     static function sendSocketNotification($videos_id, $msg) {
