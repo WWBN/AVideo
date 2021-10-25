@@ -348,6 +348,8 @@ class CDNStorage {
         ini_set('max_execution_time', 0);
         set_time_limit(0);
         self::addToLog($videos_id, 'Directory ' . $video['filename'] . ' Created');
+        $totalTime = 0;
+        $itemsProcessed = 0;
         foreach ($list as $value) {
             if ($value['local_filesize'] < 20) {
                 self::addToLog($value['videos_id'], $value['local_path'] . ' is a dummy file local_filesize=' . $value['local_filesize'] . ' Bytes');
@@ -367,9 +369,11 @@ class CDNStorage {
                  */
                 $uploadstart = microtime(true);
                 $response = $client->put($value['relative'], $value['local_path']);
+                $itemsProcessed++;
                 $uploadfinish = microtime(true)-$uploadstart;
+                $totalTime += $uploadfinish;
                 $bytesPerSecond = $value['local_filesize']/$uploadfinish;
-                $msg = "PUT File moved from {$value['local_path']} to {$value['remote_path']} in {$uploadfinish} seconds ". humanFileSize($bytesPerSecond).'/sec';
+                $msg = "PUT File moved from {$value['local_path']} to {$value['remote_path']} in {$uploadfinish} seconds ". humanFileSize($bytesPerSecond).'/sec Average: '.($totalTime/$itemsProcessed);
                 self::addToLog($videos_id, $msg);
                 /*
                 $remote_filesize = $client->size($value['relative']);
