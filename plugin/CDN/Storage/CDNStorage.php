@@ -431,6 +431,7 @@ class CDNStorage {
                 $filesAffected++;
             }
         }
+        $msg = "createDummyFiles  filesAffected=$filesAffected";
         return $filesAffected;
     }
 
