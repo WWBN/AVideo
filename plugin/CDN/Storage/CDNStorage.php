@@ -359,44 +359,44 @@ class CDNStorage {
             }
             try {
                 /*
-                $remote_filesize = $client->size($value['relative']);
-                if ($remote_filesize > 0 && $remote_filesize == $value['local_filesize']) {
-                    $msg = "File is already on the remote {$value['local_path']} to {$value['remote_path']} ";
-                    self::addToLog($videos_id, $msg);
-                    $filesCopied++;
-                    self::createDummy($value['local_path']);
-                    continue;
-                }
+                  $remote_filesize = $client->size($value['relative']);
+                  if ($remote_filesize > 0 && $remote_filesize == $value['local_filesize']) {
+                  $msg = "File is already on the remote {$value['local_path']} to {$value['remote_path']} ";
+                  self::addToLog($videos_id, $msg);
+                  $filesCopied++;
+                  self::createDummy($value['local_path']);
+                  continue;
+                  }
                  * 
                  */
                 $uploadstart = microtime(true);
                 $response = $client->put($value['relative'], $value['local_path']);
-                $uploadfinish = microtime(true)-$uploadstart;
+                $uploadfinish = microtime(true) - $uploadstart;
                 $totalTime += $uploadfinish;
-                $bytesPerSecond = $value['local_filesize']/$uploadfinish;
-                $msg = "{$itemsProcessed}/{$totalFilesToTransfer} PUT File moved from {$value['local_path']} to {$value['remote_path']} in {$uploadfinish} seconds ". humanFileSize($bytesPerSecond).'/sec Average: '. number_format($totalTime/$itemsProcessed,2);
+                $bytesPerSecond = $value['local_filesize'] / $uploadfinish;
+                $msg = "{$itemsProcessed}/{$totalFilesToTransfer} PUT File moved from {$value['local_path']} to {$value['remote_path']} in {$uploadfinish} seconds " . humanFileSize($bytesPerSecond) . '/sec Average: ' . number_format($totalTime / $itemsProcessed, 2);
                 self::addToLog($videos_id, $msg);
-                if($itemsProcessed%100===0){
+                if ($itemsProcessed % 100 === 0) {
                     self::createDummyFiles($videos_id);
                 }
                 /*
-                $remote_filesize = $client->size($value['relative']);
-                if ($remote_filesize < 0) {
-                    self::addToLog($videos_id, "Filesizes are not the same trying the full path ");
-                    $response = $client->put($value['remote_path'], $value['local_path']);
-                    $remote_filesize = $client->size($value['remote_path']);
-                }
+                  $remote_filesize = $client->size($value['relative']);
+                  if ($remote_filesize < 0) {
+                  self::addToLog($videos_id, "Filesizes are not the same trying the full path ");
+                  $response = $client->put($value['remote_path'], $value['local_path']);
+                  $remote_filesize = $client->size($value['remote_path']);
+                  }
 
-                if ($remote_filesize == $value['local_filesize']) {
-                    $msg = "PUT File moved from {$value['local_path']} to {$value['remote_path']} ";
-                    self::addToLog($videos_id, $msg);
-                    $filesCopied++;
-                    self::createDummy($value['local_path']);
-                } else {
-                    self::addToLog($videos_id, "ERROR Filesizes are not the same $remote_filesize == {$value['local_filesize']} " . json_encode($value));
-                    self::addToLog($videos_id, "ERROR " . json_encode($response));
-                }
-                */
+                  if ($remote_filesize == $value['local_filesize']) {
+                  $msg = "PUT File moved from {$value['local_path']} to {$value['remote_path']} ";
+                  self::addToLog($videos_id, $msg);
+                  $filesCopied++;
+                  self::createDummy($value['local_path']);
+                  } else {
+                  self::addToLog($videos_id, "ERROR Filesizes are not the same $remote_filesize == {$value['local_filesize']} " . json_encode($value));
+                  self::addToLog($videos_id, "ERROR " . json_encode($response));
+                  }
+                 */
             } catch (Exception $exc) {
                 _error_log($exc->getTraceAsString());
                 _error_log(json_encode(error_get_last()));
@@ -423,14 +423,12 @@ class CDNStorage {
         $list = self::getFilesListBoth($videos_id);
         $filesAffected = 0;
         foreach ($list as $key => $value) {
-            if($local){
-                if($value['local']['local_filesize'] <= 20){
-                    continue;
-                }else if($value['local']['local_filesize'] == $value['remote']['remote_filesize']){
-                    $msg = "createDummyFiles {$value['local']['local_path']} ";
-                    self::createDummy($value['local']['local_path']);
-                    $filesAffected++;
-                }
+            if ($value['local']['local_filesize'] <= 20) {
+                continue;
+            } else if ($value['local']['local_filesize'] == $value['remote']['remote_filesize']) {
+                $msg = "createDummyFiles {$value['local']['local_path']} ";
+                self::createDummy($value['local']['local_path']);
+                $filesAffected++;
             }
         }
         return $filesAffected;
