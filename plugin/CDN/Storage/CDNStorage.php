@@ -377,6 +377,7 @@ class CDNStorage {
                     self::createDummy($value['local_path']);
                 } else {
                     self::addToLog($videos_id, "ERROR Filesizes are not the same $remote_filesize == {$value['local_filesize']} " . json_encode($value));
+                    self::addToLog($videos_id, "ERROR " . json_encode($response));
                 }
             } catch (Exception $exc) {
                 _error_log($exc->getTraceAsString());
