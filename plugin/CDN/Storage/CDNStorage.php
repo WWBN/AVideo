@@ -61,14 +61,8 @@ class CDNStorage {
         $searchThis = $localList;
         $compareThis = $remoteList;
         $searchingLocal = true;
-
-        if (count($remoteList) > count($localList)) {
-            $searchThis = $remoteList;
-            $compareThis = $localList;
-            $searchingLocal = false;
-        }
-        $files = array();
-        foreach ($searchThis as $key => $value) {
+        
+        foreach ($localList as $key => $value) {
             $isLocal = true;
 
             if ($localList[$key]['local_filesize'] < $remoteList[$key]['remote_filesize']) {
@@ -76,7 +70,19 @@ class CDNStorage {
             }
 
             $files[$key] = array('isLocal' => $isLocal, 'local' => @$localList[$key], 'remote' => $remoteList[$key]);
+            unset($remoteList[$key]);
         }
+        foreach ($remoteList as $key => $value) {
+            $isLocal = true;
+
+            if ($localList[$key]['local_filesize'] < $remoteList[$key]['remote_filesize']) {
+                $isLocal = false;
+            }
+
+            $files[$key] = array('isLocal' => $isLocal, 'local' => @$localList[$key], 'remote' => $remoteList[$key]);
+            unset($localList[$key]);
+        }
+        
         $_getFilesListBoth[$videos_id] = $files;
         return $files;
     }
