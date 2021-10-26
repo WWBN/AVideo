@@ -79,6 +79,10 @@ Options All -Indexes
     RewriteEngine on
     #VideoHLS for DRM
 
+    #Compatibility
+    RewriteRule    ^view/css/fontawesome-free-5.5.0-web/css/all.min.css  node_modules/@fortawesome/fontawesome-free/css/all.min.css
+    RewriteRule    ^view/js/jquery-3.5.1.min.js  node_modules/jquery/dist/jquery.min.js
+
     RewriteRule    ^videos/webfonts/(fa-.*) view/css/fontawesome-free-5.5.0-web/webfonts/$1    [NC,L]
 
     RewriteRule    ^playLink/?$ view/modePlayLink.php    [QSA]
