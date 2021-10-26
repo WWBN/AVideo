@@ -3941,12 +3941,12 @@ function clearCache($firstPageOnly = false) {
     $dir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
     $tmpDir = ObjectYPT::getCacheDir('firstPage');
     $parts = explode('firstpage', $tmpDir);
-    
+
     if ($firstPageOnly || !empty($_GET['FirstPage'])) {
-        $tmpDir = $parts[0].'firstpage'.DIRECTORY_SEPARATOR;
+        $tmpDir = $parts[0] . 'firstpage' . DIRECTORY_SEPARATOR;
         //var_dump($tmpDir);exit;
         $dir .= "firstPage" . DIRECTORY_SEPARATOR;
-    }else{
+    } else {
         $tmpDir = $parts[0];
     }
 
@@ -3960,7 +3960,7 @@ function clearCache($firstPageOnly = false) {
     return true;
 }
 
-function clearAllUsersSessionCache(){    
+function clearAllUsersSessionCache() {
     sendSocketMessageToAll(time(), 'socketClearSessionCache');
 }
 
@@ -7023,7 +7023,7 @@ function isTimeForFuture($time, $useDatabaseTime = true) {
 }
 
 function secondsIntervalFromNow($time, $useDatabaseTimeOrTimezoneString = true) {
-    $timeNow = time();    
+    $timeNow = time();
     //var_dump($time, $useDatabaseTimeOrTimezoneString);
     if (!empty($useDatabaseTimeOrTimezoneString)) {
         if (is_numeric($useDatabaseTimeOrTimezoneString) || is_bool($useDatabaseTimeOrTimezoneString)) {
@@ -7165,7 +7165,24 @@ function getCDN($type = 'CDN', $id = 0) {
 
 function getURL($relativePath) {
     global $global;
-    return getCDN() . $relativePath . '?cache=' . (@filemtime("{$global['systemRootPath']}{$relativePath}") . (@filectime("{$global['systemRootPath']}{$relativePath}")));
+    if (!isset($_SESSION['user']['sessionCache']['getURL'])) {
+        $_SESSION['user']['sessionCache']['getURL'] = array();
+    }
+    if (!empty($_SESSION['user']['sessionCache']['getURL'][$relativePath])) {
+        return $_SESSION['user']['sessionCache']['getURL'][$relativePath];
+    }
+
+    $file = "{$global['systemRootPath']}{$relativePath}";
+    $url = getCDN() . $relativePath;
+    if (file_exists($file)) {
+        $cache = @filemtime($file) . '_' . @filectime($file);
+        $url = addQueryStringParameter($url, 'cache', $cache);
+        $_SESSION['user']['sessionCache']['getURL'][$relativePath] = $url;
+    }else{
+        $url = addQueryStringParameter($url, 'cache', 'not_found');
+    }
+
+    return $url;
 }
 
 function getCDNOrURL($url, $type = 'CDN', $id = 0) {
@@ -7454,7 +7471,7 @@ function listFolderFiles($dir) {
         return array();
     }
     $ffs = scandir($dir);
-    
+
     unset($ffs[array_search('.', $ffs, true)]);
     unset($ffs[array_search('..', $ffs, true)]);
 

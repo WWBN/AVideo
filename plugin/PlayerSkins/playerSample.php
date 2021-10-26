@@ -24,7 +24,7 @@ foreach (glob($dir . '*.css') as $file) {
         <link rel="icon" href="view/img/favicon.ico">
         <title><?php echo __("Player Sample") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/video.min.js.php';

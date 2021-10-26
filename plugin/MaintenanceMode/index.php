@@ -13,9 +13,11 @@ if(empty($obj)){
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!--===============================================================================================-->
-        <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+            <?php
+            include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
+            ?>
         <!--===============================================================================================-->
-        <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
 
         <!--===============================================================================================-->
         <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/animate/animate.css">
@@ -124,7 +126,9 @@ if(empty($obj)){
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
         <!--===============================================================================================
         <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/bootstrap/js/popper.js"></script>-->
-        <script src="<?php echo getCDN(); ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <?php
+        include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
+        ?>
         <!--===============================================================================================-->
         <script src="<?php echo getCDN(); ?>view/js/select2/select2.min.js"></script>
         <!--===============================================================================================-->

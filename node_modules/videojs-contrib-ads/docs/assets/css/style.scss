@@ -1,0 +1,90 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+body {
+  font-size: 18px;
+  color: #383838;
+}
+
+header {
+  background: #eee;
+}
+
+.page-content {
+  text-align: center;
+}
+
+.wrapper {
+  margin: 0 auto;
+  padding: .5em 1em;
+  text-align: left;
+  max-width: 1000px;
+}
+
+header .wrapper {
+  padding: .1em 1em .9em;
+}
+
+header h1 {
+  margin-bottom: 0;
+}
+
+a {
+  color: #0a03d6;
+}
+
+code {
+  font-size: 18px;
+  background: #eee;
+}
+
+pre code {
+  background: transparent;
+}
+
+ul, ol {
+  padding-left: 2em;
+  margin: 1em 0;
+}
+
+li {
+  margin: 0 0 .3em;
+}
+
+li ul, li ol {
+  margin-top: .2em;
+}
+
+table {
+  border: solid #ccc 2px;
+}
+
+thead {
+  background: #ccc;
+}
+
+td, th {
+  padding: 1px 5px;
+}
+
+pre {
+  padding: .2em .5em;
+}
+
+img, svg {
+  max-width: 100%;
+}
+
+h1 {
+  margin: .2em 0;
+}
+
+h2, h3, h4, h5, h6 {
+  margin: .5em 0;
+}
+
+.highlight {
+  margin: .5em 0;
+}

@@ -24,8 +24,8 @@ foreach ($tags as $value) {
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo getCDN(); ?>view/js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo getCDN(); ?>view/js/Croppie/croppie.min.js" type="text/javascript"></script>
+        <link href="<?php echo getCDN(); ?>node_modules/croppie/croppie.css" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo getCDN(); ?>node_modules/croppie/croppie.min.js" type="text/javascript"></script>
         <link href="<?php echo getCDN(); ?>view/js/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo getCDN(); ?>view/js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
         <link href="<?php echo getCDN(); ?>view/css/bodyFadein.css" rel="stylesheet" type="text/css"/>

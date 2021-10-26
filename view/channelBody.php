@@ -316,4 +316,4 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
     </div>
 </div>
 <script src="<?php echo getCDN(); ?>plugin/Gallery/script.js" type="text/javascript"></script>
-<script src="<?php echo getCDN(); ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js" type="text/javascript"></script>

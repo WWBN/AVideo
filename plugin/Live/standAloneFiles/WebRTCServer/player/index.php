@@ -50,7 +50,7 @@ if(empty($webRTCServerCDNURL)){
         <title>Live Cam</title>
         <link href="<?php echo $httpsWebSiteRootURL; ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $httpsWebSiteRootURL; ?>view/css/custom/netflix.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $httpsWebSiteRootURL; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $httpsWebSiteRootURL; ?>node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo $httpsWebSiteRootURL; ?>node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
         <link href="<?php echo $webRTCServerCDNURL; ?>player/playerButtons.css?cache=<?php echo filemtime('playerButtons.css'); ?>" rel="stylesheet" type="text/css"/>
         <script>
@@ -186,7 +186,7 @@ if(empty($webRTCServerCDNURL)){
     <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/script.js" type="text/javascript"></script>
     <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
     <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/jquery-toast/jquery.toast.min.js" type="text/javascript"></script>
-    <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
+    <script src="<?php echo $httpsWebSiteRootURL; ?>node_modules/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
     <script src="<?php echo $webRTCServerCDNURL; ?>player/adapter.js?cache=<?php echo filemtime('adapter.js'); ?>"></script>
     <script src="<?php echo $webRTCServerCDNURL; ?>player/underscore-min.js?cache=<?php echo filemtime('underscore-min.js'); ?>"></script>
     <script src="<?php echo $webRTCServerCDNURL; ?>player/OvenWebRTCInput.js?cache=<?php echo filemtime('OvenWebRTCInput.js'); ?>"></script>

@@ -56,7 +56,7 @@ if (!empty($_GET['action'])) {
         <link rel="icon" href="view/img/favicon.ico">
         <title><?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
         <style>
 
 
@@ -120,7 +120,9 @@ if (!empty($_GET['action'])) {
                 </div>
             </div>
         </div>
-        <script src="<?php echo getURL('view/bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
+        <?php
+        include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
+        ?>
         <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
         <script src="<?php echo getURL('view/js/js-cookie/js.cookie.js'); ?>" type="text/javascript"></script>
 </html>

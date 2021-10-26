@@ -75,10 +75,12 @@ echo $dif, " Seconds ";
 ?>">
 -->
 <!-- <link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 768px)" href="view/css/mobile.css" /> -->
-<link href="<?php echo getCDN(); ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css"/>
+<?php
+include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
+?>
 <link href="<?php echo getCDN(); ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getCDN(); ?>node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo getCDN(); ?>view/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo getCDN(); ?>view/css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
 <?php
@@ -93,11 +95,13 @@ $cssFiles = array_merge($cssFiles);
 echo combineFilesHTML($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo getCDN(); ?>view/css/custom/<?php echo $theme; ?>.css" rel="stylesheet" type="text/css" id="customCSS"/>
+<link href="<?php echo getURL('view/css/custom/'.$theme.'.css'); ?>" rel="stylesheet" type="text/css" id="customCSS"/>
 <?php
-$filename = Video::getStoragePath() . "cache/custom.css";
+if(empty($global['userBootstrapLatest'])){
+    $filename = Video::getStoragePath() . "cache/custom.css";
+}
 if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exists($filename)) {
-    echo '<link href="' . getCDN() . 'videos/cache/custom.css?' . filectime($filename) . filemtime($filename) . '" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
+    echo '<link href="' . getURL('videos/cache/custom.css') . '" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
 } else {
     if ($theme !== "default") {
         echo "<!-- theme is not default -->";
@@ -107,6 +111,9 @@ if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exis
     }
     if (!file_exists($filename)) {
         echo "<!-- css file does not exist -->";
+    }
+    if (!empty($global['userBootstrapLatest'])) {
+        echo "<!-- Using Bootstrap latest -->";
     }
     echo '<link href="" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
 }

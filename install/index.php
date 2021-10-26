@@ -15,7 +15,7 @@ require_once '../locale/function.php';
         <link href="../view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
         <link href="../view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css" rel="stylesheet" type="text/css"/>
-        <link href="../view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
         <link href="../view/css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
         <style>
             .bootstrap-select{
@@ -285,7 +285,7 @@ require_once '../locale/function.php';
         <script src="../view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="../view/css/flagstrap/js/jquery.flagstrap.min.js" type="text/javascript"></script>
         <script src="../view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js" type="text/javascript"></script>
-        <script src="../view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
+        <script src="../node_modules/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
         <script src="../view/js/jquery.lazy/jquery.lazy.min.js" type="text/javascript"></script>
         <script src="../view/js/jquery.lazy/jquery.lazy.plugins.min.js" type="text/javascript"></script>
         <script src="../view/js/js-cookie/js.cookie.js" type="text/javascript"></script>

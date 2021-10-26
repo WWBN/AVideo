@@ -193,8 +193,8 @@ if (User::hasBlockedUser($video['users_id'])) {
         <title><?php echo $video['title'] . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
-        <link href="<?php echo getCDN(); ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?php echo getCDN(); ?>view/js/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css"/>
 
@@ -518,7 +518,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     echo AVideoPlugin::afterVideoJS();
     $jsFiles = array();
     $jsFiles[] = "view/js/BootstrapMenu.min.js";
-    $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
+    $jsFiles[] = "node_modules/sweetalert/dist/sweetalert.min.js";
     $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
     $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
     $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
@@ -527,16 +527,17 @@ if (User::hasBlockedUser($video['users_id'])) {
     $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
-    $jsFiles[] = "view/js/jquery-ui/jquery-ui.min.js";
     $jsFiles[] = "view/js/jquery-toast/jquery.toast.min.js";
-    //$jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
     ?>
-    <script src="<?php echo getURL('view/bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
+    <?php
+    include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
+    ?>
     <?php
     echo combineFilesHTML($jsFiles, "js");
     echo AVideoPlugin::getFooterCode();
     include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
     ?>
+    <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
     <script>
         var topInfoTimeout;
         $(document).ready(function () {

@@ -220,7 +220,7 @@ $metaDescription = __("Trending");
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script src="<?php echo getCDN(); ?>plugin/Gallery/script.js" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
+        <script src="<?php echo getCDN(); ?>node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
                 $container = $('.results').infiniteScroll({

@@ -4,13 +4,14 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     if(empty($tinyMCELibs)){
         $tinyMCELibs = 1;
         ?>
-            <script type="text/javascript" src="<?php echo getCDN(); ?>view/js/tinymce/tinymce.min.js"></script>
+            <script type="text/javascript" src="<?php echo getURL('node_modules/tinymce/tinymce.min.js'); ?>"></script>
         <?php
     }
     ?>
     <script>
         tinymce.init({
             language: "<?php echo ($_SESSION['language']=='en_US')?'us':$_SESSION['language']; ?>",
+            language_url : '<?php echo getURL('node_modules/tinymce-langs/langs/'.(($_SESSION['language']=='en_US')?'us':$_SESSION['language']).'.js'); ?>',
             selector: '#<?php echo $id; ?>', // change this value according to your HTML
             plugins: 'code print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ',
             //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',

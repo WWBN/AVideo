@@ -322,7 +322,7 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $titleTag; ?></title>
-        <link href="<?php echo getCDN(); ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';

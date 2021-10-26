@@ -77,7 +77,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo __("Live") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <link href="<?php echo getCDN(); ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>

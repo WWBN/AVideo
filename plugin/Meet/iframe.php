@@ -52,7 +52,9 @@ if(User::isLogged()){
         <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
         <script src="<?php echo getCDN(); ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <?php
+        include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
+        ?>
         <script src="<?php echo getCDN(); ?>view/js/script.js"></script>
         <script>
             var getRTMPLink = '<?php echo Live::getRTMPLink($meet->getUsers_id()); ?>';

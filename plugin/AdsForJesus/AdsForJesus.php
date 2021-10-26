@@ -70,7 +70,7 @@ class AdsForJesus extends PluginAbstract {
                 return "<!-- AdsForJesus::getHeadCode not show ads [{$videos_id}] -->";
             }
             global $global;
-            $css .= '<link href="' .getCDN() . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
+            $css .= '<link href="' .getURL('node_modules/videojs-ima/dist/videojs.ima.css') .' " rel="stylesheet" type="text/css"/>';
             $css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
         }else{
             $css .= "<!-- AdsForJesus::getHeadCode empty videos_id -->";
@@ -82,8 +82,8 @@ class AdsForJesus extends PluginAbstract {
         global $global;
         $js = '';
         $js .= '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
-        $js .= '<script src="' . getCDN() . 'js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>';
-        $js .= '<script src="' . getCDN() . 'plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>';
+        $js .= '<script src="' . getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.min.js') . '" type="text/javascript"></script>';
+        $js .= '<script src="' . getURL('node_modules/videojs-ima/dist/videojs.ima.min.js') . '" type="text/javascript"></script>';
 
         //if (!empty($_GET['videoName']) || !empty($_GET['u'])) {
         $videos_id = getVideos_id();

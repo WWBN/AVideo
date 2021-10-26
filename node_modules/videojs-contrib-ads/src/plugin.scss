@@ -1,0 +1,59 @@
+/*
+Styles for ad plugins.
+*/
+
+.vjs-ad-playing.vjs-ad-playing .vjs-progress-control {
+  pointer-events: none;
+}
+
+// Make the progress bar yellow for ads
+.vjs-ad-playing.vjs-ad-playing .vjs-play-progress {
+  background-color: #ffe400;
+}
+
+// Show the videojs loading spinner during ad loading
+.vjs-ad-loading .vjs-loading-spinner {
+  display: block;
+  visibility: visible;
+}
+
+// Hide the captions button during ad playback
+.vjs-ad-playing .vjs-captions-button {
+    display: none;
+}
+
+// Hide the audio track button during ad playback
+.vjs-ad-playing .vjs-audio-button {
+    display: none;
+}
+
+/* Following is copied from https://github.com/videojs/video.js/blob/master/src/css/components/_loading.scss
+ this is needed to animate the spinner when ads, specifically VPAIDs, are loading.
+ Long term solution is to add show/hide methods to the loading spinner component and move to displaying it via the methods rather than CSS.
+*/
+.vjs-ad-loading .vjs-loading-spinner:before,
+.vjs-ad-loading .vjs-loading-spinner:after {
+  -webkit-animation: vjs-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, vjs-spinner-fade 1.1s linear infinite;
+  animation: vjs-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, vjs-spinner-fade 1.1s linear infinite;
+}
+
+.vjs-ad-loading .vjs-loading-spinner:before
+{
+  border-top-color: rgb(255,255,255);
+}
+
+.vjs-ad-loading .vjs-loading-spinner:after {
+  border-top-color: rgb(255,255,255);
+  -webkit-animation-delay: 0.44s;
+  animation-delay: 0.44s;
+}
+
+/*
+Hide BPB and poster while ad loading and resuming after an ad.
+*/
+.vjs-ad-loading .vjs-big-play-button,
+.vjs-ad-loading .vjs-poster,
+.vjs-ad-content-resuming .vjs-big-play-button,
+.vjs-ad-content-resuming .vjs-poster {
+  display: none;
+}

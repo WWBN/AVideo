@@ -230,7 +230,7 @@ if (!User::isAdmin()) {
 </div>
 <script src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>" type="text/javascript"></script>
-<script src="<?php echo getURL('view/js/chart.js/chart.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/chart.js/dist/chart.min.js'); ?>" type="text/javascript"></script>
 
 <script type="text/javascript">
     function clearVideoForm() {

@@ -49,7 +49,7 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'],
         <title><?php echo $config->getWebSiteTitle(); ?> </title>
         <link href="<?php echo getCDN(); ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
-        <link href="<?php echo getCDN(); ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <?php
         echo AVideoPlugin::afterVideoJS();
         ?>
