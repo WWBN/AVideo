@@ -28,7 +28,7 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
         <link href="<?php echo getCDN(); ?>view/css/custom/cyborg.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>view/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js"></script>
+        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
         <script>
             var loopBGHLS = '<?php echo getCDN(); ?>plugin/Live/view/loopBGHLS/index.m3u8';
         </script>

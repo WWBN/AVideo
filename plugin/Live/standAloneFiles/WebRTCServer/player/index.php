@@ -51,7 +51,7 @@ if(empty($webRTCServerCDNURL)){
         <link href="<?php echo $httpsWebSiteRootURL; ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $httpsWebSiteRootURL; ?>view/css/custom/netflix.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo $httpsWebSiteRootURL; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $httpsWebSiteRootURL; ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
+        <script src="<?php echo $httpsWebSiteRootURL; ?>node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
         <link href="<?php echo $webRTCServerCDNURL; ?>player/playerButtons.css?cache=<?php echo filemtime('playerButtons.css'); ?>" rel="stylesheet" type="text/css"/>
         <script>
             var webSiteRootURL = '<?php echo $httpsWebSiteRootURL; ?>';

@@ -48,7 +48,7 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'],
         <link rel="icon" href="<?php echo getCDN(); ?>view/img/favicon.ico">
         <title><?php echo $config->getWebSiteTitle(); ?> </title>
         <link href="<?php echo getCDN(); ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo getCDN(); ?>js/jquery-3.5.1.min.js" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
         <link href="<?php echo getCDN(); ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
         <?php
         echo AVideoPlugin::afterVideoJS();

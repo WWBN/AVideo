@@ -208,7 +208,7 @@ $outputText .= $collapsibleClose;
                 font-size: 0.8em;
             }
         </style>
-        <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js"></script>
+        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
     </head>
 
     <body  class="terminal">
