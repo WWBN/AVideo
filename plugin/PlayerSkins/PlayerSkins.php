@@ -539,8 +539,10 @@ class PlayerSkins extends PluginAbstract {
             url += '?t=' + time;
             }
             $('#linkCurrentTime, .linkCurrentTime').val(url);
-            if (time >= 5 && time % 5 === 0) {
+            if (time >= 5 && time % 1 === 0) {
                 addView({$videos_id}, time);
+            }else{
+                addViewSetCookie(PHPSESSID, {$videos_id}, time, seconds_watching_video);
             }
         });
         player.on('ended', function () {

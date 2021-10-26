@@ -447,7 +447,7 @@ function addView(videos_id, currentTime) {
     if (last_videos_id == videos_id && last_currentTime == currentTime) {
         return false;
     }
-    if (currentTime > 5 && currentTime % 5 !== 0) { // only update each 30 seconds
+    if (currentTime > 5 && currentTime % 5 !== 0) { // only update each 5 seconds
         return false;
     }
 
@@ -466,6 +466,7 @@ function _addView(videos_id, currentTime) {
     }
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', PHPSESSID);
+    console.log('_addView', videos_id, currentTime);
     $.ajax({
         url: url,
         method: 'POST',
@@ -487,6 +488,7 @@ function _addViewAsync() {
     if (typeof PHPSESSID == 'undefined') {
         PHPSESSID = '';
     }
+    console.log('_addViewAsync', mediaId, playerCurrentTime);
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', PHPSESSID);
     _addViewAsyncSent = true;
@@ -523,9 +525,16 @@ function addViewFromCookie() {
             !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
         return false;
     }
+    console.log('addViewFromCookie', addView_videos_id, addView_playerCurrentTime);
     addViewSetCookie(false, false, false, false);
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', addView_PHPSESSID);
+    
+    if(mediaId == addView_videos_id){
+        // it is the same video, play at the last momment
+        forceCurrentTime = addView_playerCurrentTime;
+    }
+    
     $.ajax({
         url: url,
         method: 'POST',
@@ -542,6 +551,7 @@ function addViewFromCookie() {
 }
 
 function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds_watching_video) {
+    //console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video);
     Cookies.set('addView_PHPSESSID', PHPSESSID, {
         path: '/',
         expires: 1
@@ -824,6 +834,12 @@ function playerPlayIfAutoPlay(currentTime) {
     if (isWebRTC()) {
         return false;
     }
+    if(forceCurrentTime !== null){
+        currentTime = forceCurrentTime;
+        forceCurrentTime = null;
+        console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
+    }
+    
     if (currentTime) {
         setCurrentTime(currentTime);
     }
@@ -993,8 +1009,15 @@ function reloadVideoJS() {
 
 var initdone = false;
 var startCurrentTime = 0;
+var forceCurrentTime = null;
 function setCurrentTime(currentTime) {
-    if(startCurrentTime!=currentTime){
+    console.log("setCurrentTime:", currentTime, forceCurrentTime);
+    if(forceCurrentTime !== null){
+        startCurrentTime = forceCurrentTime;
+        currentTime = forceCurrentTime;
+        forceCurrentTime = null;
+        console.log("forceCurrentTime:", currentTime);
+    }else if(startCurrentTime!=currentTime){
         startCurrentTime=currentTime;
         console.log("setCurrentTime changed:", currentTime);
     }
