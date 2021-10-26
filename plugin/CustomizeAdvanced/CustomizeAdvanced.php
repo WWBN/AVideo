@@ -156,6 +156,11 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotDisplayPluginsTags = false;
         $obj->showNotRatedLabel = false;
         $obj->showShareMenuOpenByDefault = false;
+        
+        foreach ($global['social_medias'] as $key => $value) {
+            eval("\$obj->showShareButton_{$key} = true;");
+        }
+        
         $obj->askRRatingConfirmationBeforePlay_G = false;
         $obj->askRRatingConfirmationBeforePlay_PG = false;
         $obj->askRRatingConfirmationBeforePlay_PG13 = false;
@@ -430,3 +435,81 @@ Allow: .css";
     }
 
 }
+
+class SocialMedias{
+    public $href;
+    public $class;
+    public $title;
+    public $iclass;
+    public $img;
+    public $onclick;
+    
+    function __construct($iclass, $img='') {
+        $this->iclass = $iclass;
+        $this->img = $img;
+    }
+
+    
+    function getHref() {
+        return $this->href;
+    }
+
+    function getClass() {
+        return $this->class;
+    }
+
+    function getTitle() {
+        return $this->title;
+    }
+
+    function getIclass() {
+        return $this->iclass;
+    }
+
+    function getImg() {
+        return $this->img;
+    }
+
+    function getOnclick() {
+        return $this->onclick;
+    }
+
+    function setHref($href): void {
+        $this->href = $href;
+    }
+
+    function setClass($class): void {
+        $this->class = $class;
+    }
+
+    function setTitle($title): void {
+        $this->title = $title;
+    }
+
+    function setIclass($iclass): void {
+        $this->iclass = $iclass;
+    }
+
+    function setImg($img): void {
+        $this->img = $img;
+    }
+
+    function setOnclick($onclick): void {
+        $this->onclick = $onclick;
+    }
+
+
+}
+
+$global['social_medias'] = array(
+    'Facebook'=>new SocialMedias('fab fa-facebook-square', ''),
+    'Twitter'=>new SocialMedias('fab fa-twitter', ''),
+    'Tumblr'=>new SocialMedias('fab fa-tumblr', ''),
+    'Pinterest'=>new SocialMedias('fab fa-pinterest-p', ''),
+    'Reddit'=>new SocialMedias('fab fa-reddit-alien', ''),
+    'LinkedIn'=>new SocialMedias('fab fa-linkedin-in', ''),
+    'Wordpress'=>new SocialMedias('fab fa-wordpress-simple', ''),
+    'Pinboard'=>new SocialMedias('fas fa-thumbtack', ''),
+    'Gab'=>new SocialMedias('', getURL('view/img/gab.png')),
+    'CloutHub'=>new SocialMedias('', getURL('view/img/cloutHub.png')),
+);
