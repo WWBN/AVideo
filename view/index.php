@@ -7,6 +7,8 @@ if (version_compare(PHP_VERSION, '7.2') < 0){
   $msg[] = 'sudo apt-get update && sudo apt-get upgrade';
   $msg[] = 'sudo apt-get install php7.4 libapache2-mod-php7.4 php7.4-mysql php7.4-curl php7.4-gd php7.4-intl php7.4-zip php7.4-xml -y';
   $msg[] = 'sudo update-alternatives --set php /usr/bin/php7.4 && sudo a2dismod php7.0 && sudo a2enmod php7.4';
+  //$msg[] = 'sudo apt-get install php8.1 libapache2-mod-php8.1 php8.1-mysql php8.1-curl php8.1-gd php8.1-intl php8.1-zip php8.1-xml -y';
+  //$msg[] = '  $msg[] = 'sudo update-alternatives --set php /usr/bin/php8.1 && sudo a2dismod php7.4 && sudo a2enmod php8.1';
   $msg[] = 'sudo /etc/init.d/apache2 restart';
   die(implode('<br>', $msg));
 }

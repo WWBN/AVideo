@@ -7454,7 +7454,7 @@ function listFolderFiles($dir) {
         return array();
     }
     $ffs = scandir($dir);
-
+    
     unset($ffs[array_search('.', $ffs, true)]);
     unset($ffs[array_search('..', $ffs, true)]);
 

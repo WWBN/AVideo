@@ -1008,7 +1008,6 @@ $t["Clone Site"] = "Clonar site";
 $t["Manage Clones"] = "Gerenciar clones";
 $t["Key"] = "Chave";
 $t["Last Clone"] = "Último clone";
-//----- translation strings from plugin/CombineSites/page/editor.php
 $t["You can not manage this plugin"] = "Você não tem permissão para acessar este plugin";
 $t["Combine Sites"] = "Combinar sites";
 $t["Waiting connection approval"] = "Aguardando aprovação de conexão";
@@ -1016,9 +1015,7 @@ $t["Connected"] = "Conectado";
 $t["Connection pre approved"] = "Conexão pré-aprovada";
 $t["Request to approve connection"] = "Solicitar aprovação de conexão";
 $t["Pre approved connection"] = "Conexão pré-aprovada";
-//----- translation strings from plugin/CombineSites/page/get/index.php
 $t["Views"] = "Visualizações";
-//----- translation strings from plugin/CombineSites/page/modeGallery.php
 $t["Home"] = "Início";
 //----- translation strings from plugin/CustomizeAdvanced/CustomizeAdvanced.php
 $t["Update disk usage for this media"] = "Atualizar uso do armazenamento para esta mídia";

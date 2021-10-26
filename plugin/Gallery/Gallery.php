@@ -160,7 +160,7 @@ class Gallery extends PluginAbstract {
 
     public function getFirstPage() {
         global $global;
-        if (!AVideoPlugin::isEnabledByName("YouPHPFlix2") && !AVideoPlugin::isEnabledByName("CombineSites")) {
+        if (!AVideoPlugin::isEnabledByName("YouPHPFlix2")) {
             return $global['systemRootPath'] . 'plugin/Gallery/view/modeGallery.php';
         }
     }

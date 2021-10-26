@@ -31,7 +31,7 @@ class FirstPageChannelList extends PluginAbstract {
 
     public function getFirstPage(){
         global $global;
-        if(!AVideoPlugin::isEnabledByName("YouPHPFlix2") && !AVideoPlugin::isEnabledByName("CombineSites")){
+        if(!AVideoPlugin::isEnabledByName("YouPHPFlix2")){
             return $global['systemRootPath'].'view/channels.php';
         }
     }   

@@ -79,9 +79,7 @@ class YouPHPFlix2 extends PluginAbstract {
     public function getFirstPage(){
         global $global;
 
-        if(!AVideoPlugin::isEnabledByName("CombineSites")){
-            return $global['systemRootPath'].'plugin/YouPHPFlix2/view/modeFlix.php';
-        }
+        return $global['systemRootPath'].'plugin/YouPHPFlix2/view/modeFlix.php';
     }
 
     public function getHeadCode() {
