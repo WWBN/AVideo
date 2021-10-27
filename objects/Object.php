@@ -495,14 +495,15 @@ abstract class ObjectYPT implements ObjectInterface {
         unset($__getAVideoCache);
         //_error_log('deleteALLCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $tmpDir = self::getCacheDir();
-
+        
         $newtmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . uniqid();
         _error_log("deleteALLCache rename($tmpDir, $newtmpDir) ");
         rename($tmpDir, $newtmpDir);
         if (is_dir($tmpDir)) {
             _error_log('deleteALLCache 1 rmdir ' . $tmpDir);
             rrmdir($tmpDir);
-        } else {
+        } else if(preg_match('/videos.cache/', $newtmpDir)){ 
+            // only delete if it is on the videos dir. otherwise it is on the /tmp dit and the system will delete it
             _error_log('deleteALLCache 2 rmdir ' . $newtmpDir);
             rrmdirCommandLine($newtmpDir, true);
         }
