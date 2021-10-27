@@ -3272,13 +3272,12 @@ if (!class_exists('Video')) {
             $filename = self::getCleanFilenameFromFile($filename);
 
             $return = array();
-            /*
+            
             $cacheName = "getHigestResolution($filename)";
-            $return = ObjectYPT::getCache($cacheName, 0);
+            $return = ObjectYPT::getSessionCache($cacheName, 0);
             if (!empty($return)) {
                 return object_to_array($return);
             }
-             */
             $name0 = "Video:::getHigestResolution($filename)";
             TimeLogStart($name0);
             $name1 = "Video:::getHigestResolution::getVideosURL_V2($filename)";
@@ -3349,7 +3348,7 @@ if (!class_exists('Video')) {
             //if($filename=='video_210916143432_c426'){var_dump(1, $filename, $return);exit;}
             $video->setVideoHigestResolution($return['resolution']);
             TimeLogEnd($name0, __LINE__);
-            //ObjectYPT::setCache($cacheName, $return);
+            ObjectYPT::setSessionCache($cacheName, $return);
             return $return;
         }
 
