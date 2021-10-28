@@ -403,7 +403,7 @@ if (!class_exists('Video')) {
                 }
                 ObjectYPT::deleteCache("getItemprop{$this->id}");
                 ObjectYPT::deleteCache("getLdJson{$this->id}");
-                ObjectYPT::deleteCache("getVideoTags{$this->id}");
+                Cache::deleteCache("getVideoTags{$this->id}");
                 self::deleteTagsAsync($this->id);
                 if ($updateVideoGroups) {
                     require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -1214,7 +1214,7 @@ if (!class_exists('Video')) {
 
         private static function getInfo($row, $getStatistcs = false) {
             $name = "_getVideoInfo_{$row['id']}";
-            $cache = ObjectYPT::getSessionCache($name, 3600);
+            $cache = ObjectYPT::getCache($name, 3600);
             if (!empty($cache)) {
                 $externalOptions = $cache->externalOptions;
                 $obj = object_to_array($cache);
@@ -2427,7 +2427,7 @@ if (!class_exists('Video')) {
             }
 
             $name = "getVideoTags{$video_id}";
-            ObjectYPT::deleteCache($name);
+            Cache::deleteCache($name);
 
             _session_start();
             unset($_SESSION['getVideoTags'][$video_id]);
@@ -4079,8 +4079,8 @@ if (!class_exists('Video')) {
             ObjectYPT::deleteCache(md5($filename . ".mp4"));
             ObjectYPT::deleteCache(md5($filename . ".m3u81"));
             ObjectYPT::deleteCache(md5($filename . ".mp41"));
-            ObjectYPT::deleteCache("getSourceFile($filename)1");
-            ObjectYPT::deleteCache("getSourceFile($filename)0");
+            Cache::deleteCache("getSourceFile($filename)1");
+            Cache::deleteCache("getSourceFile($filename)0");
             Video::clearImageCache($filename);
             Video::clearImageCache($filename, "article");
             Video::clearImageCache($filename, "pdf");

@@ -558,6 +558,7 @@ class AVideoPlugin {
             //self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                //_error_log('AVideoPlugin::getStart: '.$value['dirName']);
                 $p->getStart();
             }
             //self::YPTend("{$value['dirName']}::".__FUNCTION__);
@@ -1441,8 +1442,7 @@ class AVideoPlugin {
         }
         $name = "getVideoTags{$videos_id}";
         _error_log("deleteVideoTags {$name}");
-        ObjectYPT::deleteSessionCache($name);
-        return ObjectYPT::deleteCache($name);
+        return Cache::deleteCache($name);
     }
 
     public static function getVideoWhereClause() {

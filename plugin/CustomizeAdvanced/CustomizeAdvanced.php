@@ -222,6 +222,7 @@ class CustomizeAdvanced extends PluginAbstract {
         
         
         $obj->keywords = "AVideo, videos, live, movies";
+        $obj->doNotSaveCacheOnFilesystem = false;
         
         
         $o = new stdClass();

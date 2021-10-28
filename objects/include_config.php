@@ -192,7 +192,7 @@ if (empty($global['disableTimeFix'])) {
       $offset = sprintf('%+d:%02d', $hrs * $sgn, $mins);
       $global['mysqli']->query("SET time_zone='$offset';");
      */
-    ObjectYPT::setTimeZone();
+    ObjectYPT::setGlobalTimeZone();
 }
 
 $avideoLayout = AVideoPlugin::getObjectData('Layout');

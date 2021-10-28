@@ -136,9 +136,6 @@ class Plugin extends ObjectYPT {
             $pluginJustInstalled = array();
         }
         if (empty($getPluginByUUID[$uuid])) {
-            $getPluginByUUID[$uuid] = object_to_array(ObjectYPT::getCache($name, 60));
-        }
-        if (empty($getPluginByUUID[$uuid])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = ? LIMIT 1";
             $res = sqlDAL::readSql($sql, "s", array($uuid));
             $data = sqlDAL::fetchAssoc($res);
@@ -151,7 +148,6 @@ class Plugin extends ObjectYPT {
                     $data['status'] = 'active';
                 }
                 $getPluginByUUID[$uuid] = $data;
-                ObjectYPT::setCache($name, $getPluginByUUID[$uuid]);
             } else {
                 $name = AVideoPlugin::getPluginsNameOnByDefaultFromUUID($uuid);
                 if ($name !== false && empty($pluginJustInstalled[$uuid])) {
@@ -201,7 +197,7 @@ class Plugin extends ObjectYPT {
             $pluginsMarketplace = ObjectYPT::getSessionCache('getAvailablePlugins', 600); // 10 min cache
             if (empty($pluginsMarketplace)) {
                 $pluginsMarketplace = _json_decode(url_get_contents("https://tutorials.avideo.com/info?version=1", "", 2));
-                if(!empty($pluginsMarketplace)){
+                if (!empty($pluginsMarketplace)) {
                     ObjectYPT::setSessionCache('getAvailablePlugins', $pluginsMarketplace);
                 }
             }
@@ -267,9 +263,18 @@ class Plugin extends ObjectYPT {
                             }
                             continue;
                         }
+                        $row = self::getPluginByUUID($p->getUUID());
                         $obj = new stdClass();
                         $obj->name = $p->getName();
                         $obj->pluginversion = $p->getPluginVersion();
+                        $obj->status = $row['status'];
+
+                        $pinfoFile = $dir . DIRECTORY_SEPARATOR . $value . DIRECTORY_SEPARATOR . 'pinfo.json';
+                        if (file_exists($pinfoFile)) {
+                            $obj->pinfo = json_decode(file_get_contents($pinfoFile));
+                        } else {
+                            $obj->pinfo = false;
+                        }
                         $getAvailablePlugins[$p->getUUID()] = $obj;
                     }
                 }
@@ -301,47 +306,41 @@ class Plugin extends ObjectYPT {
     static function getAllEnabled($try = 0) {
         global $global, $getAllEnabledRows;
         if (empty($getAllEnabledRows)) {
-            $getAllEnabledRows = ObjectYPT::getCache("plugin::getAllEnabled", 3600);
-            $getAllEnabledRows = object_to_array($getAllEnabledRows);
-            if (empty($getAllEnabledRows)) {
+            $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
 
-                $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='active' ";
+            $defaultEnabledUUIDs = AVideoPlugin::getPluginsOnByDefault(true);
+            $defaultEnabledNames = AVideoPlugin::getPluginsOnByDefault(false);
+            $sql .= " OR uuid IN ('" . implode("','", $defaultEnabledUUIDs) . "')";
 
-                $defaultEnabledUUIDs = AVideoPlugin::getPluginsOnByDefault(true);
-                $defaultEnabledNames = AVideoPlugin::getPluginsOnByDefault(false);
-                $sql .= " OR uuid IN ('" . implode("','", $defaultEnabledUUIDs) . "')";
-
-                $res = sqlDAL::readSql($sql);
-                $fullData = sqlDAL::fetchAllAssoc($res);
-                sqlDAL::close($res);
-                $getAllEnabledRows = array();
-                foreach ($fullData as $row) {
-                    $getAllEnabledRows[] = $row;
-                    if (($key = array_search($row['uuid'], $defaultEnabledUUIDs)) !== false) {
-                        unset($defaultEnabledUUIDs[$key], $defaultEnabledNames[$key]);
-                    }
+            $res = sqlDAL::readSql($sql);
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+            $getAllEnabledRows = array();
+            foreach ($fullData as $row) {
+                $getAllEnabledRows[] = $row;
+                if (($key = array_search($row['uuid'], $defaultEnabledUUIDs)) !== false) {
+                    unset($defaultEnabledUUIDs[$key], $defaultEnabledNames[$key]);
                 }
-
-                $addedNewPlugin = false;
-                foreach ($defaultEnabledUUIDs as $key => $value) {
-                    $obj = new Plugin(0);
-                    $obj->loadFromUUID($defaultEnabledUUIDs[$key]);
-                    $obj->setName($defaultEnabledNames[$key]);
-                    $obj->setDirName($defaultEnabledNames[$key]);
-                    $obj->setStatus("active");
-                    if ($obj->save()) {
-                        $addedNewPlugin = true;
-                    }
-                }
-
-                if ($addedNewPlugin && empty($try)) {
-                    //ObjectYPT::deleteALLCache();
-                    return self::getAllEnabled(1);
-                }
-
-                uasort($getAllEnabledRows, 'cmpPlugin');
-                ObjectYPT::setCache("plugin::getAllEnabled", $getAllEnabledRows);
             }
+
+            $addedNewPlugin = false;
+            foreach ($defaultEnabledUUIDs as $key => $value) {
+                $obj = new Plugin(0);
+                $obj->loadFromUUID($defaultEnabledUUIDs[$key]);
+                $obj->setName($defaultEnabledNames[$key]);
+                $obj->setDirName($defaultEnabledNames[$key]);
+                $obj->setStatus("active");
+                if ($obj->save()) {
+                    $addedNewPlugin = true;
+                }
+            }
+
+            if ($addedNewPlugin && empty($try)) {
+                //ObjectYPT::deleteALLCache();
+                return self::getAllEnabled(1);
+            }
+
+            uasort($getAllEnabledRows, 'cmpPlugin');
         }
         return $getAllEnabledRows;
     }

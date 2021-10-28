@@ -1981,6 +1981,7 @@ function make_path($path) {
         $path = pathinfo($path, PATHINFO_DIRNAME);
     }
     if (!is_dir($path)) {
+        //if(preg_match('/getvideoinfo/i', $path)){var_dump(debug_backtrace());}
         $created = mkdir($path, 0755, true);
         /*
           if (!$created) {
@@ -6659,6 +6660,7 @@ function deleteStatsNotifications() {
 
 function getStatsNotifications($force_recreate = false) {
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
+    unset($_POST['sort']);
     if ($force_recreate) {
         Live::deleteStatsCache();
     } else {
@@ -7452,6 +7454,12 @@ function seconds2human($ss) {
     return implode(', ', $times);
 }
 
+/**
+ * convert a time in a timezone into my time
+ * @param type $time
+ * @param type $timezone
+ * @return type
+ */
 function getTimeInTimezone($time, $timezone) {
     if (!is_numeric($time)) {
         $time = strtotime($time);

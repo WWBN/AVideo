@@ -445,7 +445,7 @@ function log_error($err) {
     if (!empty($global['debug'])) {
         echo $err;
     }
-    _error_log("MySQL ERROR: ".json_encode(debug_backtrace()), AVideoLog::$ERROR);
+    _error_log("MySQL ERROR: ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)), AVideoLog::$ERROR);
     _error_log($err, AVideoLog::$ERROR);
 }
 

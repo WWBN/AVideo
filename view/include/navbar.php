@@ -286,7 +286,7 @@ if(!empty($metaDescription)){
 }
 if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
     ?>
-    <nav class="navbar navbar-default navbar-fixed-top " id="mainNavBar">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-expand-lg navbar-light bg-light" id="mainNavBar">
         <div class="pull-right">
             <a id="buttonMyNavbar" class=" btn btn-default navbar-btn" style="padding: 6px 12px; margin-right: 40px;" href="<?php echo $advancedCustomUser->userMustBeLoggedInCloseButtonURL; ?>">
                 <i class="fas fa-times"></i>
@@ -297,7 +297,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
 } else if (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php" || $thisScriptFile["basename"] === "userRecoverPass.php") || User::isLogged()) {
     $updateFiles = getUpdatesFilesArray();
     ?>
-    <nav class="navbar navbar-default navbar-fixed-top " id="mainNavBar">
+    <nav class="navbar navbar-default navbar-fixed-top navbar-expand-lg navbar-light bg-light" id="mainNavBar">
         <ul class="items-container">
             <li>
                 <ul class="left-side">
@@ -600,8 +600,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
 
             </li>
 
-            <li style="margin-right: 0px;">
-
+            <li style="margin-right: 0px;" id="lastItemOnMenu">
                 <div class="navbar-header pull-right">
                     <ul style="margin: 0; padding: 0;">
                         <?php
@@ -762,7 +761,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
 
         <div id="sidebar" class="list-group-item" style="<?php echo $sidebarStyle; ?>">
             <div id="sideBarContainer">
-                <ul class="nav navbar">
+                <ul class="nav navbar btn-group-vertical" style="width:100%;">
 
                     <?php
                     if (empty($advancedCustom->doNotShowLeftHomeButton)) {
