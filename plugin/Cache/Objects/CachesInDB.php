@@ -130,6 +130,7 @@ class CachesInDB extends ObjectYPT {
         $c->setIshttps($ishttps);
         $c->setUser_location($user_location);
         $c->setLoggedType($loggedType);
+        $c->setExpires(date('Y-m-d H:i:s', strtotime('+ 1 month')));
         return $c->save();
     }
 
