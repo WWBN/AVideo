@@ -2252,7 +2252,7 @@ function combineFiles($filesArray, $extension = "js") {
         if (!is_dir($cacheDir)) {
             make_path($cacheDir);
         }
-        $bytes = file_put_contents($cacheDir . $md5FileName, $str);
+        $bytes = _file_put_contents($cacheDir . $md5FileName, $str);
         if (empty($bytes)) {
             _error_log('combineFiles: error on save strlen=' . strlen($str) . ' ' . $cacheDir . $md5FileName . ' cacheDir=' . $cacheDir);
             return false;
