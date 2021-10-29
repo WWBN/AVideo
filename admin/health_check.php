@@ -96,7 +96,7 @@ foreach ($linuxApps as $value) {
                                 <?php
                                 }else{
                                 ?>
-                                <code><?php echo $value[1]; ?></code> 
+                                <br><code><?php echo $value[1]; ?></code> 
                                 <?php
                                 }
                             }
