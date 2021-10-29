@@ -62,7 +62,18 @@ foreach ($apacheModules as $value) {
     if (in_array($value[0], $mods)) {
         $messages[] = $value[0];
     } else {
-        $messages[] = array($value[0], @$value[1]);
+        $found = false;
+        foreach ($mods as $value2) {
+            if(preg_match("/{$value[0]}/", $value2)){
+                $found = $value2;
+                break;
+            }
+        }
+        if($found){
+            $messages[] = $found;
+        }else{
+            $messages[] = array($value[0], @$value[1]);
+        }
     }
 }
 
