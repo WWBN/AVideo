@@ -253,6 +253,11 @@ function isExifToo() {
     return trim(shell_exec('which exiftool'));
 }
 
+function isAPPInstalled($appName) {
+    $appName = preg_replace('/[^a-z0-9_-]/i', '', $appName);
+    return trim(shell_exec("which {$appName}"));
+}
+
 function getPathToApplication() {
     return str_replace("install/index.php", "", $_SERVER["SCRIPT_FILENAME"]);
 }

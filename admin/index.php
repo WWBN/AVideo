@@ -89,6 +89,8 @@ $menu->addItem(new MenuAdmin(__("Plugins"), "fas fa-puzzle-piece", "plugins"));
 $menu->addItem(new MenuAdmin(__("Email All Users"), "fas fa-mail-bulk", "mail_all_users"));
 $itens[] = $menu;
 
+$menu = new MenuAdmin(__("Health Check"), "fas fa-notes-medical", "health_check");
+$itens[] = $menu;
 
 $_GET['page'] = xss_esc(@$_GET['page']);
 
@@ -170,6 +172,9 @@ switch ($_GET['page']) {
     case "videos":
         $includeHead = $global['systemRootPath'] . 'view/managerVideos_head.php';
         $includeBody = $global['systemRootPath'] . 'view/managerVideos_body.php';
+        break;
+    case "health_check":
+        $includeBody = $global['systemRootPath'] . 'admin/health_check.php';
         break;
     default :
         $includeHead = $global['systemRootPath'] . 'view/charts_head.php';
