@@ -123,9 +123,12 @@ if(empty($result)){
     }else{
         $messages['Server'][] = array("Something is wrong: ", implode('<br>', $verified->msg));
     }
+    /*
     if(!empty($verified->screenshot)){
         $messages['Server'][] = "<img src='$verified->screenshot' class='img img-responsive'>";
     }
+     * 
+     */
 }
 ?>
 <div class="panel panel-default">
