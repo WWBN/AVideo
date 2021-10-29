@@ -72,7 +72,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                         unset($_GET['catName']);
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
-                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>?getBackURL=<?php echo urlencode(getBackURL());?>" title="<?php $cat['name']; ?>">
                                 <div class="aspectRatio16_9">
                                     <?php
                                     if (!empty($videos)) {
