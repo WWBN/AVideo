@@ -21,10 +21,10 @@ $apacheModules[] = array('mod_expires');
 $apacheModules[] = array('mod_headers');
 
 $linuxApps = array();
-$linuxApps[] = array('mysql-server');
+$linuxApps[] = array('mysql');
 $linuxApps[] = array('ffmpeg');
 $linuxApps[] = array('git');
-$linuxApps[] = array('libimage-exiftool-perl');
+$linuxApps[] = array('exiftool');
 $linuxApps[] = array('unzip');
 $linuxApps[] = array('youtube-dl');
 $linuxApps[] = array('sshpass');
