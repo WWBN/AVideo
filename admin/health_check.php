@@ -85,6 +85,28 @@ foreach ($linuxApps as $value) {
         $messages['Server'][] = array("{$value[0]} is NOT installed", @$value[1]);
     }
 }
+$videosDir = getVideosDir();
+if (is_writable($videosDir)) {
+    $messages['Server'][] = "{$videosDir} is writable";
+} else {
+    $messages['Server'][] = array("{$videosDir} is NOT writable", 'sudo chmod -R 777 '.$videosDir);
+}
+
+$_50GB = 53687091200;
+
+$df = disk_free_space("/");
+if ($df>$_50GB) {
+    $messages['Server'][] = "You have enough free disk space ". humanFileSize($df);
+} else {
+    $messages['Server'][] = array("Your disk is almost full, you have only ". humanFileSize($df). ' free');
+}
+
+$dfVideos = disk_free_space($videosDir);
+if ($dfVideos>$_50GB) {
+    $messages['Server'][] = "You have enough free disk space for the videos directory ". humanFileSize($dfVideos);
+} else {
+    $messages['Server'][] = array("Your videos directory is almost full, you have only ". humanFileSize($dfVideos). ' free');
+}
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -109,7 +131,7 @@ foreach ($linuxApps as $value) {
                                     $count++;
                                     if (is_array($value)) {
                                         ?>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-12">
                                             <div class="alert alert-danger">
                                                 <i class="fas fa-times"></i> <?php
                                                 echo $value[0];
@@ -130,7 +152,7 @@ foreach ($linuxApps as $value) {
                                         <?php
                                     } else {
                                         ?>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-12">
                                             <div class="alert alert-success">
                                                 <i class="fas fa-check"></i> <?php
                                                 echo $value;
@@ -139,9 +161,12 @@ foreach ($linuxApps as $value) {
                                         </div>    
                                         <?php
                                     }
+                                    /*
                                     if ($count % 2 === 0) {
                                         echo '<div class="clearfix"></div>';
                                     }
+                                     * 
+                                     */
                                 }
                                 ?>
                             </div>
