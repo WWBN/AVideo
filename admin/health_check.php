@@ -107,6 +107,23 @@ if ($dfVideos>$_50GB) {
 } else {
     $messages['Server'][] = array("Your videos directory is almost full, you have only ". humanFileSize($dfVideos). ' free');
 }
+
+
+$verifyURL = "https://search.avideo.com/verify.php?url=" . urlencode($global['webSiteRootURL']);
+$result = url_get_contents($verifyURL, '', 5);
+if(empty($result)){
+    $messages['Server'][] = array("We could not verify your server from outside {$global['webSiteRootURL']}");
+} else {
+    $verified = json_decode($result);
+    if(!empty($verified->verified)){
+        $messages['Server'][] = "Server Checked from outside: <br>". implode('<br>', $verified->msg);
+    }else{
+        $messages['Server'][] = array("Something is wrong: ", implode('<br>', $verified->msg));
+    }
+    if(!empty($verified->screenshot)){
+        $messages['Server'][] = "<img src='$verified->screenshot' class='img img-responsive'>";
+    }
+}
 ?>
 <div class="panel panel-default">
     <div class="panel-heading">
