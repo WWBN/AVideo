@@ -455,7 +455,7 @@ class VideoStatistic extends ObjectYPT {
             $result = intval($result2['total']);
         }
         ObjectYPT::setCache($cacheName, $result);
-        return 0;
+        return $result;
     }
 
     public static function getTotalStatisticsRecords() {
