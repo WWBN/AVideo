@@ -8,17 +8,17 @@ function _isAPPInstalled($appName) {
 $phpExtensions = array();
 $phpExtensions[] = array('pdo_mysql');
 $phpExtensions[] = array('curl');
-$phpExtensions[] = array('gd');
-$phpExtensions[] = array('xml');
-$phpExtensions[] = array('zip');
+$phpExtensions[] = array('gd', 'Important to generate images');
+$phpExtensions[] = array('xml', 'Important to get the live stats');
+$phpExtensions[] = array('zip', 'Important handle HLS files');
 // $phpExtensions[] = array('mbstring'); // I could not detect that
 
 $apacheModules = array();
 $apacheModules[] = array('mod_php');
 $apacheModules[] = array('mod_xsendfile', 'https://github.com/WWBN/AVideo/wiki/Install-Apache-XSendFIle');
 $apacheModules[] = array('mod_rewrite');
-$apacheModules[] = array('mod_expires');
-$apacheModules[] = array('mod_headers');
+$apacheModules[] = array('mod_expires', 'Important for CDN and cache configuration');
+$apacheModules[] = array('mod_headers', 'Important for CDN and cache configuration');
 
 $linuxApps = array();
 $linuxApps[] = array('mysql');
@@ -27,7 +27,7 @@ $linuxApps[] = array('git');
 $linuxApps[] = array('exiftool');
 $linuxApps[] = array('unzip');
 $linuxApps[] = array('youtube-dl');
-$linuxApps[] = array('sshpass');
+$linuxApps[] = array('sshpass', 'https://github.com/WWBN/AVideo/wiki/Clone-Site-Plugin#the-process-with-rsync-support-hls');
 $linuxApps[] = array('apache2');
 
 
