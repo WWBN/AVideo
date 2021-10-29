@@ -109,7 +109,10 @@ if ($dfVideos>$_50GB) {
 }
 
 
-$verifyURL = "https://search.avideo.com/verify.php?url=" . urlencode($global['webSiteRootURL']);
+$verifyURL = "https://search.avideo.com/verify.php";
+$verifyURL = addQueryStringParameter($verifyURL, 'url', $global['webSiteRootURL']);
+$verifyURL = addQueryStringParameter($verifyURL, 'screenshot', 1);
+
 $result = url_get_contents($verifyURL, '', 5);
 if(empty($result)){
     $messages['Server'][] = array("We could not verify your server from outside {$global['webSiteRootURL']}");
