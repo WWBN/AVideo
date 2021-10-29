@@ -93,7 +93,9 @@ foreach ($linuxApps as $value) {
     <div class="panel-body">
         <div class="row">
             <?php
+            $count = 0;
             foreach ($messages as $value) {
+                $count++;
                 if (is_array($value)) {
                     ?>
                     <div class="col-sm-3">
@@ -125,6 +127,9 @@ foreach ($linuxApps as $value) {
                         </div>  
                     </div>    
                     <?php
+                }
+                if($count%4===0){
+                    echo '<div class="clearfix"></div>';
                 }
             }
             ?>
