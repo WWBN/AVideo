@@ -140,7 +140,7 @@ $metaDescription = __("Channels");
                             </div>
                             <div class="panel-footer " style="font-size: 0.8em">
                                 <div class=" text-muted align-right">
-    <?php echo VideoStatistic::getChannelsTotalViews($value['id']), " ", __("Views in the last 30 days"); ?>
+    <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($value['id'])), " ", __("Views in the last 30 days"); ?>
                                 </div>
                             </div>
                         </div>
