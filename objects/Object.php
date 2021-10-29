@@ -492,7 +492,7 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     public static function deleteCache($name) {
-        if (empty($name)) {
+        if (empty($name) || !class_exists('Cache')) {
             return false;
         }
         
@@ -528,7 +528,9 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     public static function deleteALLCache() {
-        Cache::deleteAllCache();        
+        if(class_exists('Cache')){
+            Cache::deleteAllCache();        
+        }
         self::deleteAllSessionCache();
         $lockFile = getVideosDir() . '.deleteALLCache.lock';
         if (file_exists($lockFile) && filectime($lockFile) > strtotime('-5 minutes')) {
