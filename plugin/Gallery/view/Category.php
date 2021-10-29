@@ -16,7 +16,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
             $parentCat = Category::getCategory($currentCat['parentId']);
             // -1 is a personal workaround only
             if ((empty($parentCat)) && (($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
-                if (!empty($_GET['catName'])) {
+                if (!empty($_GET['catName'])) { 
                     $backURL = getBackURL();
                     if(!empty($_REQUEST['getBackURL'])){
                         $backURL = $_REQUEST['getBackURL'];
@@ -37,7 +37,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                 }
                 ?>
                 <div class="clearfix" style="margin: 10px 0;">
-                    <a class="btn btn-default btn-sm pull-left" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>?backURL=<?php echo urlencode($backURL); ?>">
+                    <a class="btn btn-default btn-sm pull-left" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>?getBackURL=<?php echo urlencode($backURL); ?>">
                         <i class="fa fa-backward"></i>
                         <?php echo __("Back to") . " " . $parentCat['name']; ?> 
                     </a>
