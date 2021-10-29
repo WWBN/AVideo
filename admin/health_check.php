@@ -52,7 +52,7 @@ foreach ($phpExtensions as $value) {
     if (in_array($value[0], $extensions)) {
         $messages[] = $value[0];
     } else {
-        $messages[] = array($value[0], @$value[1]);
+        $messages[] = array($value[0], 'sudo apt-get install '. str_replace('_', '-', $value[0]));
     }
 }
 
@@ -90,9 +90,15 @@ foreach ($linuxApps as $value) {
                             <i class="fas fa-times"></i> <?php
                             echo $value[0];
                             if (!empty($value[1])) {
+                                if(preg_match('/^http/i', $value[1])){
                                 ?>
                                 <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs pull-right" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
                                 <?php
+                                }else{
+                                ?>
+                                <code><?php echo $value[1]; ?></code> 
+                                <?php
+                                }
                             }
                             ?>
                         </div>    
