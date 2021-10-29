@@ -4753,12 +4753,16 @@ function getVideoIDFromURL($url) {
 
 function getBackURL() {
     global $global;
-    $backURL = getRedirectUri();
-    if (empty($backURL)) {
-        $backURL = getRequestURI();
-    }
-    if (isSameVideoAsSelfURI($backURL)) {
-        $backURL = getHomeURL();
+    if(!empty($_REQUEST['getBackURL'])){
+        $backURL = $_REQUEST['getBackURL'];
+    }else{
+        $backURL = getRedirectUri();
+        if (empty($backURL)) {
+            $backURL = getRequestURI();
+        }
+        if (isSameVideoAsSelfURI($backURL)) {
+            $backURL = getHomeURL();
+        }
     }
     return $backURL;
 }
