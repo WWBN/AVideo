@@ -91,48 +91,64 @@ foreach ($linuxApps as $value) {
         <?php echo '<h1>' . PHP_OS . '</h1>'; ?>
     </div>
     <div class="panel-body">
-        <div class="row">
+
+        <div class="row">    
             <?php
             foreach ($messages as $type => $message) {
                 $count = 0;
-                foreach ($message as $value) {
-                    $count++;
-                    if (is_array($value)) {
-                        ?>
-                        <div class="col-sm-3">
-                            <div class="alert alert-danger">
-                                <i class="fas fa-times"></i> <?php
-                                echo $value[0];
-                                if (!empty($value[1])) {
-                                    if (preg_match('/^http/i', $value[1])) {
+                ?>
+                <div class="col-sm-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <?php echo '<h2>' . $type . '</h2>'; ?>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">    
+                                <?php
+                                foreach ($message as $value) {
+                                    $count++;
+                                    if (is_array($value)) {
                                         ?>
-                                        <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs pull-right" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
+                                        <div class="col-sm-6">
+                                            <div class="alert alert-danger">
+                                                <i class="fas fa-times"></i> <?php
+                                                echo $value[0];
+                                                if (!empty($value[1])) {
+                                                    if (preg_match('/^http/i', $value[1])) {
+                                                        ?>
+                                                        <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
+                                                        <?php
+                                                    } else {
+                                                        ?>
+                                                        <br><code><?php echo $value[1]; ?></code> 
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </div>    
+                                        </div>
                                         <?php
                                     } else {
                                         ?>
-                                        <br><code><?php echo $value[1]; ?></code> 
+                                        <div class="col-sm-6">
+                                            <div class="alert alert-success">
+                                                <i class="fas fa-check"></i> <?php
+                                                echo $value;
+                                                ?>
+                                            </div>  
+                                        </div>    
                                         <?php
+                                    }
+                                    if ($count % 2 === 0) {
+                                        echo '<div class="clearfix"></div>';
                                     }
                                 }
                                 ?>
-                            </div>    
+                            </div>
                         </div>
-                        <?php
-                    } else {
-                        ?>
-                        <div class="col-sm-3">
-                            <div class="alert alert-success">
-                                <i class="fas fa-check"></i> <?php
-                                echo $value;
-                                ?>
-                            </div>  
-                        </div>    
-                        <?php
-                    }
-                    if ($count % 4 === 0) {
-                        echo '<div class="clearfix"></div>';
-                    }
-                }
+                    </div>
+                </div>
+                <?php
             }
             ?>
         </div>
