@@ -19,7 +19,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                 if (!empty($_GET['catName'])) {
                     ?>
                     <div class="clearfix" style="margin: 10px 0;">
-                        <a class="btn btn-default btn-sm pull-left"  href="<?php echo $global['webSiteRootURL']; ?>">
+                        <a class="btn btn-default btn-sm pull-left"  href="<?php echo getBackURL(); ?>">
                             <i class="fa fa-backward"></i>
                             <?php echo __("Back"); ?> 
                         </a>
