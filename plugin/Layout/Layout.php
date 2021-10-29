@@ -165,7 +165,7 @@ class Layout extends PluginAbstract {
         global $global;
         include $global['systemRootPath'] . 'plugin/Layout/fontAwesomeFAB.php';
         // Fetch variables scss file in variable
-        $font_vars = file_get_contents($global['systemRootPath'] . 'view/css/fontawesome-free-5.5.0-web/scss/_variables.scss');
+        $font_vars = file_get_contents($global['systemRootPath'] . 'node_modules/@fortawesome/fontawesome-free/scss/_variables.scss');
 
         // Find the position of first $fa-var , as all icon class names start after that
         $pos = strpos($font_vars, '$fa-var');
