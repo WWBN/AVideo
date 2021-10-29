@@ -11,7 +11,7 @@ $phpExtensions[] = array('curl');
 $phpExtensions[] = array('gd');
 $phpExtensions[] = array('xml');
 $phpExtensions[] = array('zip');
-$phpExtensions[] = array('mbstring');
+// $phpExtensions[] = array('mbstring'); // I could not detect that
 
 $apacheModules = array();
 $apacheModules[] = array('mod_php');
