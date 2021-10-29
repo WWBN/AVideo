@@ -78,9 +78,14 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                         }
                         $countCols++;
                         unset($_GET['catName']);
+                        
+                        $backURL = getBackURL();
+                        if(!empty($_REQUEST['getBackURL'])){
+                            $backURL = $_REQUEST['getBackURL'];
+                        }
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
-                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>?getBackURL=<?php echo urlencode(getBackURL());?>" title="<?php $cat['name']; ?>">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>?getBackURL=<?php echo urlencode($backURL);?>" title="<?php $cat['name']; ?>">
                                 <div class="aspectRatio16_9">
                                     <?php
                                     if (!empty($videos)) {
