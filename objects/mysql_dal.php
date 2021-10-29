@@ -71,7 +71,9 @@ class sqlDAL {
 
     static function writeSql($preparedStatement, $formats = "", $values = array()) {
         global $global, $disableMysqlNdMethods;
-
+        if(empty($preparedStatement)){
+            return false;
+        }
         // make sure it does not store autid transactions
         $debug = debug_backtrace();
         if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable") {
