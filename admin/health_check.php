@@ -52,7 +52,7 @@ foreach ($phpExtensions as $value) {
     if (in_array($value[0], $extensions)) {
         $messages[] = $value[0];
     } else {
-        $messages[] = array($value[0], 'sudo apt-get install php-'. str_replace('_', '-', $value[0]));
+        $messages[] = array($value[0], 'sudo apt-get install php-'. str_replace('_', '-', $value[0]).' -y && sudo /etc/init.d/apache2 restart');
     }
 }
 
