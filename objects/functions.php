@@ -6323,7 +6323,7 @@ function saveCroppieImage($destination, $postIndex = "imgBase64") {
         return false;
     }
     $fileData = base64DataToImage($_POST[$postIndex]);
-    return file_put_contents($destination, $fileData);
+    return _file_put_contents($destination, $fileData);
 }
 
 function get_ffmpeg($ignoreGPU = false) {
