@@ -1711,6 +1711,9 @@ function im_resizePNG($file_src, $file_dest, $wd, $hd) {
 }
 
 function im_resizeV3($file_src, $file_dest, $wd, $hd) {
+    
+    return im_resizeV2($file_src, $file_dest, $wd, $hd); // ffmpeg disabled 
+    
     _error_log("im_resizeV3: $file_src, $file_dest, $wd, $hd");
     // This tries to preserve the aspect ratio of the thumb while letterboxing it in
     // The same way that the encoder now does.
