@@ -1662,6 +1662,9 @@ function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
         return false;
     }
     $src = imagecreatefromjpeg($file_dest);
+    if(empty($src)){
+        return false;
+    }
     $ws = imagesx($src);
     $hs = imagesy($src);
 
