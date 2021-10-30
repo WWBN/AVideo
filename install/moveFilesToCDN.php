@@ -26,6 +26,10 @@ $count = 0;
 foreach ($videos as $value) {
     $count++;
     echo "{$count}/{$total} Moving video {$value['title']}".PHP_EOL;
+    if(!empty($value['sites_id'])){
+        echo "sites_id is not empty {$value['sites_id']}".PHP_EOL;
+    }
+    
     CDNStorage::moveLocalToRemote($value['id']);
     ob_flush();
 }
