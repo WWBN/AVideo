@@ -1362,7 +1362,7 @@ class Live extends PluginAbstract {
                 _error_log("Live::getStats Live Server NOT found {$value['id']} " . json_encode($server) . " " . json_encode($value));
             }
         }
-        _error_log("Live::getStats return " . json_encode($liveServers));
+        //_error_log("Live::getStats return " . json_encode($liveServers));
         $_REQUEST['live_servers_id'] = $getLiveServersIdRequest;
         $getStatsLive = $liveServers;
         return $liveServers;
