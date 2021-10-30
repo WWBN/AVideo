@@ -403,7 +403,9 @@ if (!class_exists('Video')) {
                 }
                 ObjectYPT::deleteCache("getItemprop{$this->id}");
                 ObjectYPT::deleteCache("getLdJson{$this->id}");
-                Cache::deleteCache("getVideoTags{$this->id}");
+                if(class_exists('Cache')){
+                    Cache::deleteCache("getVideoTags{$this->id}");
+                }
                 self::deleteTagsAsync($this->id);
                 if ($updateVideoGroups) {
                     require_once $global['systemRootPath'] . 'objects/userGroups.php';
