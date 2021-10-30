@@ -28,6 +28,11 @@ foreach ($videos as $value) {
     echo "{$count}/{$total} Moving video {$value['title']}".PHP_EOL;
     if(!empty($value['sites_id'])){
         echo "sites_id is not empty {$value['sites_id']}".PHP_EOL;
+        continue;
+    }
+    if($value['status'] !== Video::$statusActive){
+        echo "The video status is not active {$value['status']}".PHP_EOL;
+        continue;
     }
     
     CDNStorage::moveLocalToRemote($value['id']);
