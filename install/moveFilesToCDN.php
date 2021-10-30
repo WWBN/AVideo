@@ -25,7 +25,7 @@ $count = 0;
 
 foreach ($videos as $value) {
     $count++;
-    echo "{$count}/{$total} Moving video {$value['title']}".PHP_EOL;
+    echo "{$count}/{$total} Moving video {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}".PHP_EOL;
     if(!empty($value['sites_id'])){
         echo "sites_id is not empty {$value['sites_id']}".PHP_EOL;
         continue;
