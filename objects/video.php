@@ -2903,7 +2903,11 @@ if (!class_exists('Video')) {
                 $canUseCDN = canUseCDN($video['id']);
                 $fsize = @filesize($source['path']);
                 $isValidType = (preg_match("/.*\\.mp3$/", $type) || preg_match("/.*\\.mp4$/", $type) || preg_match("/.*\\.webm$/", $type) || $type == ".m3u8" || $type == ".pdf" || $type == ".zip");
-
+                
+                if(!empty($video['sites_id'])){
+                    $site = new Sites($video['sites_id']);
+                }
+                
                 if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20) {
                     if ($type == ".m3u8") {
                         $f = "{$filename}/index{$type}";
@@ -2912,8 +2916,7 @@ if (!class_exists('Video')) {
                     }
                     $source['url'] = CDNStorage::getURL($f) . "{$token}";
                     $source['url_noCDN'] = $source['url'];
-                } else if (!empty($yptStorage) && !empty($video['sites_id']) && $isValidType && $fsize < 20) {
-                    $site = new Sites($video['sites_id']);
+                } else if (!empty($yptStorage) && !empty($site) && $site->getStatus()=='t' && $isValidType && $fsize < 20) {
                     $siteURL = getCDNOrURL($site->getUrl(), 'CDN_YPTStorage', $video['sites_id']);
                     $source['url'] = "{$siteURL}{$paths['relative']}{$filename}{$type}{$token}";
                     $source['url_noCDN'] = $site->getUrl() . "{$paths['relative']}{$filename}{$type}{$token}";
