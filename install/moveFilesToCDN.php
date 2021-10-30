@@ -28,10 +28,12 @@ foreach ($videos as $value) {
     echo "{$count}/{$total} Moving {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}".PHP_EOL;
     if(!empty($value['sites_id'])){
         echo "sites_id is not empty {$value['sites_id']}".PHP_EOL;
+        ob_flush();
         continue;
     }
     if($value['status'] !== Video::$statusActive){
         echo "The video status is not active {$value['status']}".PHP_EOL;
+        ob_flush();
         continue;
     }
     
