@@ -571,6 +571,9 @@ class CDNStorage {
     }
 
     static function addToLog($videos_id, $message) {
+        if(isCommandLineInterface()){
+            echo $message.PHP_EOL;
+        }
         _error_log($message);
         $file = self::getLogFile($videos_id);
         return file_put_contents($file, date('Y-m-d H:i:s: ') . $message . PHP_EOL, FILE_APPEND);

@@ -19,6 +19,7 @@ if(!Category::canCreateCategory()){
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
 }
+
 $objCat = new Category(intval(@$_POST['id']));
 $objCat->setName($_POST['name']);
 $objCat->setClean_name($_POST['clean_name']);
@@ -30,8 +31,6 @@ $objCat->setParentId($_POST['parentId']);
 $objCat->setPrivate($_POST['private']);
 $objCat->setAllow_download($_POST['allow_download']);
 $objCat->setOrder($_POST['order']);
-
-
 
 $obj->categories_id = $objCat->save();
 //$objCat->setType($_POST['type'],$id);
