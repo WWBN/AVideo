@@ -335,7 +335,11 @@ abstract class ObjectYPT implements ObjectInterface {
     }
 
     static function shouldUseDatabase($content){
-        global $advancedCustom;
+        global $advancedCustom, $global;
+        if(!empty($global['doNotUseCacheDatabase'])){
+            return false;
+        }
+        
         if(empty($advancedCustom)){
             $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
         }
