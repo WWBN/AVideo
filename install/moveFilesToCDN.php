@@ -27,6 +27,7 @@ $countStatusNotActive = 0;
 $countMoved = 0;
 foreach ($videos as $value) {
     $count++;
+    echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;".PHP_EOL;
     echo "{$count}/{$total} Moving {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}".PHP_EOL;
     if(!empty($value['sites_id'])){
         $countSiteIdNotEmpty++;
@@ -43,10 +44,10 @@ foreach ($videos as $value) {
     $countMoved++;
     //CDNStorage::moveLocalToRemote($value['id']);
     echo "{$count}/{$total} Moved done {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}".PHP_EOL;
-    echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;".PHP_EOL;
     ob_flush();
 }
 
+echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;".PHP_EOL;
 echo PHP_EOL." Done! ".PHP_EOL;
 die();
 
