@@ -1197,8 +1197,11 @@ if (!class_exists('Video')) {
             if ($res != false) {
                 // for the cache on the database fast insert 
                 $global['mysqli']->begin_transaction();
+                //$global['mysqli']->commit();
                 require_once 'userGroups.php';
                 TimeLogStart("video::getAllVideos foreach");
+                // for the cache on the database fast insert 
+                $global['mysqli']->begin_transaction();
                 foreach ($fullData as $row) {
                     if (empty($row['duration_in_seconds'])) {
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
@@ -1206,6 +1209,7 @@ if (!class_exists('Video')) {
                     $row = self::getInfo($row, $getStatistcs);
                     $videos[] = $row;
                 }
+                $global['mysqli']->commit();
                 // for the cache on the database fast insert 
                 $global['mysqli']->commit();
                 $rowCount = getRowCount();
