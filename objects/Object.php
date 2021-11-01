@@ -345,14 +345,15 @@ abstract class ObjectYPT implements ObjectInterface {
             $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
         }
         if(empty($advancedCustom->doNotSaveCacheOnFilesystem) && class_exists('Cache') && self::isTableInstalled('CachesInDB')){
-            $len = strlen($content);
+            $json = _json_encode($content);
+            $len = strlen($json);
             if($len>$maxLen/2){
                 return false;
             }
             if(class_exists('CachesInDB')){
-                $content = CachesInDB::encodeContent($content);
+                $content = CachesInDB::encodeContent($json);
             }else{
-                $content = base64_encode(_json_encode($content));
+                $content = base64_encode($json);
             }
             
             $len = strlen($content);
