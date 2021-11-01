@@ -14,6 +14,7 @@ $lockFile = "{$videosDir}cache/sitemap.lock";
 
 header("Content-type: application/xml");
 if (file_exists($lockFile) && filemtime($filename) > strtotime('-10 minutes')) {
+    _error_log('Please wait we are creating the sitemap');
     echo "<!-- please wait -->";
     exit;
 }
