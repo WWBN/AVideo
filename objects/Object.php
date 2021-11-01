@@ -339,11 +339,16 @@ abstract class ObjectYPT implements ObjectInterface {
         if(!empty($global['doNotUseCacheDatabase'])){
             return false;
         }
+        $maxLen = 60000;
         
         if(empty($advancedCustom)){
             $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
         }
         if(empty($advancedCustom->doNotSaveCacheOnFilesystem) && class_exists('Cache') && self::isTableInstalled('CachesInDB')){
+            $len = strlen($content);
+            if($len>$maxLen/2){
+                return false;
+            }
             if(class_exists('CachesInDB')){
                 $content = CachesInDB::encodeContent($content);
             }else{
@@ -351,7 +356,7 @@ abstract class ObjectYPT implements ObjectInterface {
             }
             
             $len = strlen($content);
-            if(!empty($len) && $len<60000){
+            if(!empty($len) && $len<$maxLen){
                 return $content;
             }else if(!empty($len)){
                 //_error_log('Object::setCache '.$len);
