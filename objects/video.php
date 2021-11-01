@@ -2944,7 +2944,7 @@ if (!class_exists('Video')) {
                     $site = new Sites($video['sites_id']);
                 }
                 
-                if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && !empty($site)/* && $site->getStatus()=='t'*/) {
+                if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && !empty($site) && empty($yptStorage) /* && $site->getStatus()=='t'*/) {
                     if ($type == ".m3u8") {
                         $f = "{$filename}/index{$type}";
                     } else {
@@ -3581,14 +3581,21 @@ if (!class_exists('Video')) {
         }
 
         public static function getPoster($videos_id) {
+            global $_getPoster;
+            if(!isset($_getPoster)){
+                $_getPoster = array();
+            }
+            if(isset($_getPoster[$videos_id])){
+                return $_getPoster[$videos_id];
+            }
             $images = self::getImageFromID($videos_id);
+            $_getPoster[$videos_id] = false;
             if (!empty($images->poster)) {
-                return $images->poster;
+                $_getPoster[$videos_id] = $images->poster;
+            }else if (!empty($images->posterPortrait)) {
+                $_getPoster[$videos_id] = $images->posterPortrait;
             }
-            if (!empty($images->posterPortrait)) {
-                return $images->poster;
-            }
-            return false;
+            return $_getPoster[$videos_id];
         }
 
         public static function getRokuImage($videos_id) {
