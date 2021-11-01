@@ -1260,7 +1260,9 @@ if (!class_exists('Video')) {
             if (empty($otherInfo)) {
                 $otherInfo = array();
                 $otherInfo['category'] = xss_esc_back($row['category']);
+                TimeLogStart("video::getInfo getVideoGroups {$row['id']}");
                 $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
+                TimeLogEnd("video::getInfo getVideoGroups {$row['id']}", __LINE__, 0.5);
                 TimeLogStart("video::getInfo otherInfo tags {$row['id']}");
                 $otherInfo['tags'] = self::getTags($row['id']);
                 TimeLogEnd("video::getInfo otherInfo tags {$row['id']}", __LINE__, 0.5);
