@@ -2956,7 +2956,7 @@ if (!class_exists('Video')) {
                     $site = new Sites($video['sites_id']);
                 }
 
-                if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && !empty($site) && empty($yptStorage) && ($site->getStatus()=='t' || $site->getUrl()=='url')) {
+                if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && !empty($site) && ($site->getStatus()=='t' || $site->getUrl()=='url')) {
                     if ($type == ".m3u8") {
                         $f = "{$filename}/index{$type}";
                     } else {
