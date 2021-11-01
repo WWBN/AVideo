@@ -2232,7 +2232,16 @@ if (!class_exists('Video')) {
         }
 
         public static function getTags_($video_id, $type = "") {
-            global $advancedCustom, $advancedCustomUser;
+            global $advancedCustom, $advancedCustomUser, $getTags_;
+            
+            if(!isset($getTags_)){
+                $getTags_ = array();
+            }
+            $index = "{$video_id}_{$type}";
+            if(!empty($getTags_[$index])){
+                return $getTags_[$index];
+            }
+            
             TimeLogStart("video::getTags_ $video_id, $type");
             if (empty($advancedCustom)) {
                 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
@@ -2430,7 +2439,7 @@ if (!class_exists('Video')) {
             TimeLogEnd("video::getTags_ $video_id, $type", __LINE__, 0.5);
             $_REQUEST['current'] = $currentPage;
             $_REQUEST['rowCount'] = $rowCount;
-
+            $getTags_[$index] = $tags;
             return $tags;
         }
 
