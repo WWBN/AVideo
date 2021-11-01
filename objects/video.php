@@ -4074,6 +4074,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             self::deleteThumbs($filename, true);
+            ObjectYPT::deleteCache("_getVideoInfo_{$videos_id}");
             ObjectYPT::deleteCache("otherInfo{$videos_id}");
             ObjectYPT::deleteCache($filename);
             ObjectYPT::deleteCache("getVideosURL_V2$filename");
