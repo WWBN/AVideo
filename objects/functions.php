@@ -3074,7 +3074,7 @@ function siteMap() {
                     <video:publication_date>' . date("Y-m-d\TH:i:s", strtotime($video['created'])) . '+00:00</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
                     <video:requires_subscription>' . (Video::isPublic($video['id']) ? "no" : "yes") . '</video:requires_subscription>
-                    <video:uploader info="' . User::getChannelLink($video['users_id']) . '">' . User::getNameIdentificationById($video['users_id']) . '</video:uploader>
+                    <video:uploader info="' . User::getChannelLink($video['users_id']) . '">' . htmlentities(User::getNameIdentificationById($video['users_id'])) . '</video:uploader>
                     <video:live>no</video:live>
                 </video:video>
             </url>
