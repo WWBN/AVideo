@@ -2233,6 +2233,7 @@ if (!class_exists('Video')) {
 
         public static function getTags_($video_id, $type = "") {
             global $advancedCustom, $advancedCustomUser;
+            TimeLogStart("video::getTags_ $video_id, $type");
             if (empty($advancedCustom)) {
                 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
             }
@@ -2305,6 +2306,8 @@ if (!class_exists('Video')) {
               d = downloading
               u = unlisted
              */
+            
+            TimeLogStart("video::getTags_ status $video_id, $type");
             if (empty($type) || $type === "status") {
                 $objTag = new stdClass();
                 $objTag->label = __("Status");
@@ -2340,7 +2343,9 @@ if (!class_exists('Video')) {
                 $tags[] = $objTag;
                 $objTag = new stdClass();
             }
-
+            TimeLogStart("video::getTags_ status $video_id, $type");
+            
+            TimeLogStart("video::getTags_ userGroups $video_id, $type");
             if (empty($type) || $type === "userGroups") {
                 $groups = UserGroups::getVideoGroups($video_id);
                 $objTag = new stdClass();
@@ -2369,7 +2374,9 @@ if (!class_exists('Video')) {
                     }
                 }
             }
+            TimeLogStart("video::getTags_ userGroups $video_id, $type");
 
+            TimeLogStart("video::getTags_ category $video_id, $type");
             if (empty($type) || $type === "category") {
                 require_once 'category.php';
                 $sort = null;
@@ -2390,7 +2397,9 @@ if (!class_exists('Video')) {
                     $objTag = new stdClass();
                 }
             }
+            TimeLogStart("video::getTags_ category $video_id, $type");
 
+            TimeLogStart("video::getTags_ source $video_id, $type");
             if (empty($type) || $type === "source") {
                 $url = $video->getVideoDownloadedLink();
                 $parse = parse_url($url);
@@ -2408,13 +2417,17 @@ if (!class_exists('Video')) {
                     $objTag = new stdClass();
                 }
             }
-
+            TimeLogStart("video::getTags_ source $video_id, $type");
+            
+            TimeLogStart("video::getTags_ AVideoPlugin::getVideoTags $video_id");
             $array2 = AVideoPlugin::getVideoTags($video_id);
             if (is_array($array2)) {
                 $tags = array_merge($tags, $array2);
             }
+            TimeLogStart("video::getTags_ AVideoPlugin::getVideoTags $video_id");
             //var_dump($tags);
-
+            
+            TimeLogEnd("video::getTags_ $video_id, $type", __LINE__, 0.5);
             $_REQUEST['current'] = $currentPage;
             $_REQUEST['rowCount'] = $rowCount;
 
