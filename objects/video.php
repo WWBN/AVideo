@@ -4074,6 +4074,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             self::deleteThumbs($filename, true);
+            ObjectYPT::deleteCache("PlayeSkins_getVideoTags{$videos_id}");
             ObjectYPT::deleteCache("_getVideoInfo_{$videos_id}");
             ObjectYPT::deleteCache("otherInfo{$videos_id}");
             ObjectYPT::deleteCache($filename);
