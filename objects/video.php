@@ -1256,7 +1256,9 @@ if (!class_exists('Video')) {
             }
             TimeLogStart("video::getInfo otherInfo 1 {$row['id']}");
             $otherInfocachename = "otherInfo{$row['id']}";
+            TimeLogStart("video::getInfo getCache $otherInfocachename");
             $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename, 600));
+            TimeLogEnd("video::getInfo getCache $otherInfocachename", __LINE__, 0.5);
             if (empty($otherInfo)) {
                 $otherInfo = array();
                 $otherInfo['category'] = xss_esc_back($row['category']);
