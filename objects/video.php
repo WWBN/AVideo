@@ -1261,7 +1261,9 @@ if (!class_exists('Video')) {
                 $otherInfo = array();
                 $otherInfo['category'] = xss_esc_back($row['category']);
                 $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
+                TimeLogStart("video::getInfo otherInfo tags {$row['id']}");
                 $otherInfo['tags'] = self::getTags($row['id']);
+                TimeLogEnd("video::getInfo otherInfo tags {$row['id']}", __LINE__, 0.5);
                 ObjectYPT::setCache($otherInfocachename, $otherInfo);
             }
             TimeLogEnd("video::getInfo otherInfo 1 {$row['id']}", __LINE__, 0.5);
