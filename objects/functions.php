@@ -1662,7 +1662,7 @@ function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
         return false;
     }
     $src = imagecreatefromjpeg($file_dest);
-    if(empty($src)){
+    if (empty($src)) {
         return false;
     }
     $ws = imagesx($src);
@@ -1714,9 +1714,9 @@ function im_resizePNG($file_src, $file_dest, $wd, $hd) {
 }
 
 function im_resizeV3($file_src, $file_dest, $wd, $hd) {
-    
+
     return im_resizeV2($file_src, $file_dest, $wd, $hd); // ffmpeg disabled 
-    
+
     _error_log("im_resizeV3: $file_src, $file_dest, $wd, $hd");
     // This tries to preserve the aspect ratio of the thumb while letterboxing it in
     // The same way that the encoder now does.
@@ -3034,29 +3034,50 @@ function siteMap() {
     _error_log("siteMap: getAllVideos " . count($rows));
     foreach ($rows as $video) {
         $videos_id = $video['id'];
-        
+
+        TimeLogStart("siteMap Video::getPoster $videos_id");
         $img = Video::getPoster($videos_id);
-        
+        TimeLogEnd("siteMap Video::getPoster $videos_id", __LINE__, 0.5);
+
         $description = str_replace(array('"', "\n", "\r"), array('', ' ', ' '), empty(trim($video['description'])) ? $video['title'] : $video['description']);
         $duration = parseDurationToSeconds($video['duration']);
         if ($duration > 28800) {
             // this is because this issue https://github.com/WWBN/AVideo/issues/3338 remove in the future if is not necessary anymore
             $duration = 28800;
         }
+
+        TimeLogStart("siteMap Video::getLink $videos_id");
+        $loc = Video::getLink($video['id'], $video['clean_title']);
+        TimeLogEnd("siteMap Video::getLink $videos_id", __LINE__, 0.5);
+        $title = strip_tags($video['title']);
+        $description = _substr(strip_tags(br2nl($description)), 0, 2048);
+        TimeLogStart("siteMap Video::getLinkToVideo $videos_id");
+        $player_loc = Video::getLinkToVideo($video['id'], $video['clean_title'], true);
+        TimeLogEnd("siteMap Video::getLinkToVideo $videos_id", __LINE__, 0.5);
+        TimeLogStart("siteMap Video::isPublic $videos_id");
+        $requires_subscription = Video::isPublic($video['id']) ? "no" : "yes";
+        TimeLogEnd("siteMap Video::isPublic $videos_id", __LINE__, 0.5);
+        TimeLogStart("siteMap Video::getChannelLink $videos_id");
+        $uploader_info = User::getChannelLink($video['users_id']);
+        TimeLogEnd("siteMap Video::getChannelLink $videos_id", __LINE__, 0.5);
+        TimeLogStart("siteMap Video::getNameIdentificationById $videos_id");
+        $uploader = htmlentities(User::getNameIdentificationById($video['users_id']));
+        TimeLogEnd("siteMap Video::getNameIdentificationById $videos_id", __LINE__, 0.5);
+
         $xml .= '
             <url>
-                <loc>' . Video::getLink($video['id'], $video['clean_title']) . '</loc>
+                <loc>' . $loc . '</loc>
                 <video:video>
                     <video:thumbnail_loc>' . $img . '</video:thumbnail_loc>
-                    <video:title><![CDATA[' . strip_tags($video['title']) . ']]></video:title>
-                    <video:description><![CDATA[' . (_substr(strip_tags(br2nl($description)), 0, 2048)) . ']]></video:description>
-                    <video:player_loc><![CDATA[' . (parseVideos(Video::getLinkToVideo($videos_id))) . ']]></video:player_loc>
+                    <video:title><![CDATA[' . $title . ']]></video:title>
+                    <video:description><![CDATA[' . $description . ']]></video:description>
+                    <video:player_loc><![CDATA[' . $player_loc . ']]></video:player_loc>
                     <video:duration>' . $duration . '</video:duration>
                     <video:view_count>' . $video['views_count'] . '</video:view_count>
                     <video:publication_date>' . date("Y-m-d\TH:i:s", strtotime($video['created'])) . '+00:00</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
-                    <video:requires_subscription>' . (Video::isPublic($video['id']) ? "no" : "yes") . '</video:requires_subscription>
-                    <video:uploader info="' . User::getChannelLink($video['users_id']) . '">' . htmlentities(User::getNameIdentificationById($video['users_id'])) . '</video:uploader>
+                    <video:requires_subscription>' . $requires_subscription . '</video:requires_subscription>
+                    <video:uploader info="' . $uploader_info . '">' . $uploader . '</video:uploader>
                     <video:live>no</video:live>
                 </video:video>
             </url>
@@ -3424,9 +3445,9 @@ function getLdJson($videos_id) {
         return false;
     }
     $videos_id = $video['id'];
-    
+
     $img = Video::getPoster($videos_id);
-    
+
     $description = html2plainText(empty(trim($video['description'])) ? $video['title'] : $video['description']);
     $duration = Video::getItemPropDuration($video['duration']);
     if ($duration == "PT0H0M0S") {
@@ -7122,7 +7143,7 @@ function getURL($relativePath) {
         $cache = @filemtime($file) . '_' . @filectime($file);
         $url = addQueryStringParameter($url, 'cache', $cache);
         $_SESSION['user']['sessionCache']['getURL'][$relativePath] = $url;
-    }else{
+    } else {
         $url = addQueryStringParameter($url, 'cache', 'not_found');
     }
 
