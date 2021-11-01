@@ -1280,7 +1280,7 @@ if (!class_exists('Video')) {
                 TimeLogEnd("video::getInfo otherInfo tags {$row['id']}", __LINE__, 0.5);
                 TimeLogStart("video::getInfo setCache");
                 $cached = ObjectYPT::setCache($otherInfocachename, $otherInfo);
-                _error_log("video::getInfo cache " . json_encode($cached));
+                //_error_log("video::getInfo cache " . json_encode($cached));
                 TimeLogEnd("video::getInfo setCache", __LINE__, 0.1);
             }
             TimeLogEnd("video::getInfo otherInfo 1 {$row['id']}", __LINE__, 0.5);
