@@ -7123,9 +7123,6 @@ function getCDN($type = 'CDN', $id = 0) {
             $_getCDNURL[$index] = $global['webSiteRootURL'];
         }
     }
-    if($_getCDNURL[$index]=='url/'){
-        return false;
-    }
     //var_dump($type, $id, $_getCDNURL[$index]);
     return empty($_getCDNURL[$index]) ? false : $_getCDNURL[$index];
 }
