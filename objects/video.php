@@ -1254,9 +1254,9 @@ if (!class_exists('Video')) {
                 $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
                 TimeLogEnd("video::getInfo getStatistcs", __LINE__, 0.5);
             }
-            TimeLogStart("video::getInfo otherInfo");
+            TimeLogStart("video::getInfo otherInfo 1 {$row['id']}");
             $otherInfocachename = "otherInfo{$row['id']}";
-            $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename), 600);
+            $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename, 600));
             if (empty($otherInfo)) {
                 $otherInfo = array();
                 $otherInfo['category'] = xss_esc_back($row['category']);
@@ -1264,12 +1264,18 @@ if (!class_exists('Video')) {
                 $otherInfo['tags'] = self::getTags($row['id']);
                 ObjectYPT::setCache($otherInfocachename, $otherInfo);
             }
+            TimeLogEnd("video::getInfo otherInfo 1 {$row['id']}", __LINE__, 0.5);
+            
+            TimeLogStart("video::getInfo otherInfo 2 {$row['id']}");
             $otherInfo['title'] = UTF8encode($row['title']);
             $otherInfo['description'] = UTF8encode($row['description']);
             $otherInfo['descriptionHTML'] = self::htmlDescription($otherInfo['description']);
             foreach ($otherInfo as $key => $value) {
                 $row[$key] = $value;
             }
+            TimeLogEnd("video::getInfo otherInfo 2 {$row['id']}", __LINE__, 0.5);
+            
+            TimeLogStart("video::getInfo otherInfo 3 {$row['id']}");
             $row['hashId'] = idToHash($row['id']);
             $row['link'] = self::getLinkToVideo($row['id'], $row['clean_title']);
             $row['embedlink'] = self::getLinkToVideo($row['id'], $row['clean_title'], true);
@@ -1284,7 +1290,7 @@ if (!class_exists('Video')) {
             if (empty($row['externalOptions'])) {
                 $row['externalOptions'] = json_encode(array('videoStartSeconds' => '00:00:00'));
             }
-            TimeLogEnd("video::getInfo otherInfo", __LINE__, 0.5);
+            TimeLogEnd("video::getInfo otherInfo 3 {$row['id']}", __LINE__, 0.5);
 
             TimeLogStart("video::getInfo getAllVideosArray");
             $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
