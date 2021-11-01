@@ -181,6 +181,7 @@ $v = new Video('', '', $video_id);
 $obj->video_id_hash = $v->getVideoIdHash();
 
 _error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
+Video::clearCache($video_id);
 if(!empty($destinationFile)){
     if(file_exists($destinationFile)){
         _error_log("aVideoEncoder.json: Success $destinationFile ");
