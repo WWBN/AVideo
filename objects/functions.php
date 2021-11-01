@@ -2942,6 +2942,7 @@ function siteMap() {
     _error_log("siteMap: start");
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 0);
+    @session_write_close();
     global $global, $advancedCustom;
     $global['disableVideoTags'] = 1;
     $date = date('Y-m-d\TH:i:s') . "+00:00";
