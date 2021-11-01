@@ -1195,8 +1195,6 @@ if (!class_exists('Video')) {
             sqlDAL::close($res);
             $videos = array();
             if ($res != false) {
-                // for the cache on the database fast insert 
-                $global['mysqli']->begin_transaction();
                 //$global['mysqli']->commit();
                 require_once 'userGroups.php';
                 TimeLogStart("video::getAllVideos foreach");
@@ -1209,8 +1207,6 @@ if (!class_exists('Video')) {
                     $row = self::getInfo($row, $getStatistcs);
                     $videos[] = $row;
                 }
-                $global['mysqli']->commit();
-                // for the cache on the database fast insert 
                 $global['mysqli']->commit();
                 $rowCount = getRowCount();
                 $tolerance = $rowCount / 100;
