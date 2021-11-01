@@ -73,6 +73,23 @@ if (!empty($plugin)) {
     }
 }
 
+
+// Update YPT Storage CDN
+$resp->CDN_YPTStorage = array();
+$plugin = AVideoPlugin::getDataObjectIfEnabled('YPTStorage');
+if (!empty($plugin)) {
+    $rows = Sites::getAllActive();
+    foreach ($rows as $value) {
+        if (empty($value['url'])) {
+            continue;
+        }
+        $resp->CDN_YPTStorage[] = array(
+            'id' => $value['id'],
+            'url' => addLastSlash($value['url'])
+        );
+    }
+}
+
 // Update Liveservers CDN
 $cdn = AVideoPlugin::loadPluginIfEnabled('CDN');
 $id = $cdn->setDataObject($obj);
