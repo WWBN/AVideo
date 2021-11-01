@@ -2943,6 +2943,7 @@ function siteMap() {
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 0);
     global $global, $advancedCustom;
+    $global['disableVideoTags'] = 1;
     $date = date('Y-m-d\TH:i:s') . "+00:00";
     $xml = '<?xml version="1.0" encoding="UTF-8"?>
     <urlset
