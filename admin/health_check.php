@@ -89,23 +89,36 @@ $videosDir = getVideosDir();
 if (is_writable($videosDir)) {
     $messages['Server'][] = "{$videosDir} is writable";
 } else {
-    $messages['Server'][] = array("{$videosDir} is NOT writable", 'sudo chmod -R 777 '.$videosDir);
+    $messages['Server'][] = array("{$videosDir} is NOT writable", 'sudo chmod -R 777 ' . $videosDir);
+}
+
+if (is_writable($global['logfile'])) {
+    $messages['Server'][] = "Log file is writable";
+} else {
+    $messages['Server'][] = array("{$global['logfile']} is NOT writable", 'sudo chmod -R 777 ' . $global['logfile']);
+}
+
+$cacheDir = "{$videosDir}cache/";
+if (is_writable($cacheDir)) {
+    $messages['Server'][] = "Cache is writable";
+} else {
+    $messages['Server'][] = array("{$cacheDir} is NOT writable", 'sudo chmod -R 777 ' . $cacheDir);
 }
 
 $_50GB = 53687091200;
 
 $df = disk_free_space("/");
-if ($df>$_50GB) {
-    $messages['Server'][] = "You have enough free disk space ". humanFileSize($df);
+if ($df > $_50GB) {
+    $messages['Server'][] = "You have enough free disk space " . humanFileSize($df);
 } else {
-    $messages['Server'][] = array("Your disk is almost full, you have only ". humanFileSize($df). ' free');
+    $messages['Server'][] = array("Your disk is almost full, you have only " . humanFileSize($df) . ' free');
 }
 
 $dfVideos = disk_free_space($videosDir);
-if ($dfVideos>$_50GB) {
-    $messages['Server'][] = "You have enough free disk space for the videos directory ". humanFileSize($dfVideos);
+if ($dfVideos > $_50GB) {
+    $messages['Server'][] = "You have enough free disk space for the videos directory " . humanFileSize($dfVideos);
 } else {
-    $messages['Server'][] = array("Your videos directory is almost full, you have only ". humanFileSize($dfVideos). ' free');
+    $messages['Server'][] = array("Your videos directory is almost full, you have only " . humanFileSize($dfVideos) . ' free');
 }
 
 
@@ -114,91 +127,187 @@ $verifyURL = addQueryStringParameter($verifyURL, 'url', $global['webSiteRootURL'
 $verifyURL = addQueryStringParameter($verifyURL, 'screenshot', 1);
 
 $result = url_get_contents($verifyURL, '', 5);
-if(empty($result)){
+if (empty($result)) {
     $messages['Server'][] = array("We could not verify your server from outside {$global['webSiteRootURL']}");
 } else {
     $verified = json_decode($result);
-    if(!empty($verified->verified)){
-        $messages['Server'][] = "Server Checked from outside: <br>". implode('<br>', $verified->msg);
-    }else{
+    if (!empty($verified->verified)) {
+        $messages['Server'][] = "Server Checked from outside: <br>" . implode('<br>', $verified->msg);
+    } else {
         $messages['Server'][] = array("Something is wrong: ", implode('<br>', $verified->msg));
     }
     /*
-    if(!empty($verified->screenshot)){
-        $messages['Server'][] = "<img src='$verified->screenshot' class='img img-responsive'>";
-    }
+      if(!empty($verified->screenshot)){
+      $messages['Server'][] = "<img src='$verified->screenshot' class='img img-responsive'>";
+      }
      * 
      */
 }
 ?>
-<div class="panel panel-default">
+<style>
+    #healthCheck .alert{
+        overflow: auto;
+    }
+</style>
+<div class="panel panel-default" id="healthCheck">
     <div class="panel-heading">
         <?php echo '<h1>' . PHP_OS . '</h1>'; ?>
     </div>
     <div class="panel-body">
 
         <div class="row">    
-            <?php
-            foreach ($messages as $type => $message) {
-                $count = 0;
-                ?>
-                <div class="col-sm-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <?php echo '<h2>' . $type . '</h2>'; ?>
-                        </div>
-                        <div class="panel-body">
-                            <div class="row">    
-                                <?php
-                                foreach ($message as $value) {
-                                    $count++;
-                                    if (is_array($value)) {
-                                        ?>
-                                        <div class="col-sm-12">
-                                            <div class="alert alert-danger">
-                                                <i class="fas fa-times"></i> <?php
-                                                echo $value[0];
-                                                if (!empty($value[1])) {
-                                                    if (preg_match('/^http/i', $value[1])) {
-                                                        ?>
-                                                        <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
-                                                        <?php
-                                                    } else {
-                                                        ?>
-                                                        <br><code><?php echo $value[1]; ?></code> 
-                                                        <?php
-                                                    }
+
+            <div class="col-lg-8 col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Server
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">    
+                            <?php
+                            $count = 0;
+                            foreach ($messages['Server'] as $value) {
+                                $count++;
+                                if (is_array($value)) {
+                                    ?>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="alert alert-danger">
+                                            <i class="fas fa-times"></i> <?php
+                                            echo $value[0];
+                                            if (!empty($value[1])) {
+                                                if (preg_match('/^http/i', $value[1])) {
+                                                    ?>
+                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <br><code><?php echo $value[1]; ?></code> 
+                                                    <?php
                                                 }
-                                                ?>
-                                            </div>    
-                                        </div>
-                                        <?php
-                                    } else {
-                                        ?>
-                                        <div class="col-sm-12">
-                                            <div class="alert alert-success">
-                                                <i class="fas fa-check"></i> <?php
-                                                echo $value;
-                                                ?>
-                                            </div>  
+                                            }
+                                            ?>
                                         </div>    
-                                        <?php
-                                    }
-                                    /*
-                                    if ($count % 2 === 0) {
-                                        echo '<div class="clearfix"></div>';
-                                    }
-                                     * 
-                                     */
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="col-lg-4 col-md-6">
+                                        <div class="alert alert-success">
+                                            <i class="fas fa-check"></i> <?php
+                                            echo $value;
+                                            ?>
+                                        </div>  
+                                    </div>    
+                                    <?php
                                 }
-                                ?>
-                            </div>
+                                if ($count % 2 === 0) {
+                                    echo '<div class="clearfix visible-md"></div>';
+                                }
+                                if ($count % 3 === 0) {
+                                    echo '<div class="clearfix visible-lg"></div>';
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
-                <?php
-            }
-            ?>
+            </div>
+
+            <div class="col-lg-2 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        PHP
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">    
+                            <?php
+                            foreach ($messages['PHP'] as $value) {
+                                if (is_array($value)) {
+                                    ?>
+                                    <div class="col-sm-12">
+                                        <div class="alert alert-danger">
+                                            <i class="fas fa-times"></i> <?php
+                                            echo $value[0];
+                                            if (!empty($value[1])) {
+                                                if (preg_match('/^http/i', $value[1])) {
+                                                    ?>
+                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <br><code><?php echo $value[1]; ?></code> 
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </div>    
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="col-sm-12">
+                                        <div class="alert alert-success">
+                                            <i class="fas fa-check"></i> <?php
+                                            echo $value;
+                                            ?>
+                                        </div>  
+                                    </div>    
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Apache
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">    
+                            <?php
+                            foreach ($messages['Apache'] as $value) {
+                                if (is_array($value)) {
+                                    ?>
+                                    <div class="col-sm-12">
+                                        <div class="alert alert-danger">
+                                            <i class="fas fa-times"></i> <?php
+                                            echo $value[0];
+                                            if (!empty($value[1])) {
+                                                if (preg_match('/^http/i', $value[1])) {
+                                                    ?>
+                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <br><code><?php echo $value[1]; ?></code> 
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                        </div>    
+                                    </div>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <div class="col-sm-12">
+                                        <div class="alert alert-success">
+                                            <i class="fas fa-check"></i> <?php
+                                            echo $value;
+                                            ?>
+                                        </div>  
+                                    </div>    
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
