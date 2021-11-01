@@ -2262,6 +2262,7 @@ if (!class_exists('Video')) {
             $_REQUEST['current'] = 1;
             $_REQUEST['rowCount'] = 1000;
 
+            TimeLogStart("video::getTags_ new Video $video_id, $type");
             $video = new Video("", "", $video_id);
             $tags = array();
             if (empty($type) || $type === "paid") {
@@ -2314,6 +2315,7 @@ if (!class_exists('Video')) {
                 $tags[] = $objTag;
                 $objTag = new stdClass();
             }
+            TimeLogEnd("video::getTags_ new Video $video_id, $type", __LINE__, 0.5);
 
             /**
               a = active
@@ -2360,7 +2362,7 @@ if (!class_exists('Video')) {
                 $tags[] = $objTag;
                 $objTag = new stdClass();
             }
-            TimeLogStart("video::getTags_ status $video_id, $type");
+            TimeLogEnd("video::getTags_ status $video_id, $type", __LINE__, 0.5);
             
             TimeLogStart("video::getTags_ userGroups $video_id, $type");
             if (empty($type) || $type === "userGroups") {
@@ -2391,7 +2393,7 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            TimeLogStart("video::getTags_ userGroups $video_id, $type");
+            TimeLogEnd("video::getTags_ userGroups $video_id, $type", __LINE__, 0.5);
 
             TimeLogStart("video::getTags_ category $video_id, $type");
             if (empty($type) || $type === "category") {
@@ -2414,7 +2416,7 @@ if (!class_exists('Video')) {
                     $objTag = new stdClass();
                 }
             }
-            TimeLogStart("video::getTags_ category $video_id, $type");
+            TimeLogEnd("video::getTags_ category $video_id, $type", __LINE__, 0.5);
 
             TimeLogStart("video::getTags_ source $video_id, $type");
             if (empty($type) || $type === "source") {
@@ -2434,14 +2436,14 @@ if (!class_exists('Video')) {
                     $objTag = new stdClass();
                 }
             }
-            TimeLogStart("video::getTags_ source $video_id, $type");
+            TimeLogEnd("video::getTags_ source $video_id, $type", __LINE__, 0.5);
             
-            TimeLogStart("video::getTags_ AVideoPlugin::getVideoTags $video_id");
+            TimeLogStart("video::getTags_ AVideoPlugin::getVideoTags $video_id", __LINE__, 0.5);
             $array2 = AVideoPlugin::getVideoTags($video_id);
             if (is_array($array2)) {
                 $tags = array_merge($tags, $array2);
             }
-            TimeLogStart("video::getTags_ AVideoPlugin::getVideoTags $video_id");
+            TimeLogEnd("video::getTags_ AVideoPlugin::getVideoTags $video_id", __LINE__, 0.5);
             //var_dump($tags);
             
             TimeLogEnd("video::getTags_ $video_id, $type", __LINE__, 0.5);
