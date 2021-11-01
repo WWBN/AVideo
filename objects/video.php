@@ -3689,8 +3689,8 @@ if (!class_exists('Video')) {
                     // create thumbs
                     if (!file_exists($thumbsSource['path']) && filesize($jpegSource['path']) > 1024) {
                         if (!empty($advancedCustom->useFFMPEGToGenerateThumbs)) {
-                            _error_log("Resize JPG 3 useFFMPEGToGenerateThumbs {$jpegSource['path']}, {$thumbsSource['path']}");
-                            //im_resizeV3($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
+                            //_error_log("Resize JPG 3 useFFMPEGToGenerateThumbs {$jpegSource['path']}, {$thumbsSource['path']}");
+                            im_resizeV3($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
                         } else {
                             //_error_log("Resize JPG 3 {$jpegSource['path']}, {$thumbsSource['path']}");
                             im_resizeV2($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
