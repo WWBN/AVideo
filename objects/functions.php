@@ -2993,6 +2993,7 @@ function siteMap() {
     $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
     _error_log("siteMap: rowCount {$_REQUEST['rowCount']} ");
     $_POST['sort']['modified'] = "DESC";
+    TimeLogStart("siteMap getAllUsersThatHasVideos");
     $users = User::getAllUsersThatHasVideos(true);
     _error_log("siteMap: getAllUsers " . count($users));
     foreach ($users as $value) {
@@ -3005,6 +3006,8 @@ function siteMap() {
             </url>
             ';
     }
+    TimeLogEnd("siteMap getAllUsersThatHasVideos", __LINE__, 0.5);
+    TimeLogStart("siteMap getAllCategories");
     $xml .= '
         <!-- Categories -->
         ';
@@ -3022,6 +3025,8 @@ function siteMap() {
             </url>
             ';
     }
+    TimeLogEnd("siteMap getAllCategories", __LINE__, 0.5);
+    TimeLogStart("siteMap getAllVideos");
     $xml .= '<!-- Videos -->';
     $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
@@ -3081,6 +3086,7 @@ function siteMap() {
             </url>
             ';
     }
+    TimeLogEnd("siteMap getAllVideos", __LINE__, 0.5);
     $xml .= '</urlset> ';
     _error_log("siteMap: done ");
     $newXML1 = preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xml);
