@@ -2957,7 +2957,6 @@ if (!class_exists('Video')) {
                 }
 
                 if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && !empty($site) && $site->getUrl()=='url/') {
-                    var_dump();
                     if ($type == ".m3u8") {
                         $f = "{$filename}/index{$type}";
                     } else {
