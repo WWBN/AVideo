@@ -56,24 +56,31 @@ if (isset($_SERVER["HTTPS"])) {
 } else {
     $messages['Apache'][] = array("HTTPS is not enabled", 'https://github.com/WWBN/AVideo/wiki/Why-use-HTTPS');
 }
-$mods = array_map('strtolower', apache_get_modules());
-//var_dump($mods);
-foreach ($apacheModules as $value) {
-    if (in_array($value[0], $mods)) {
-        $messages['Apache'][] = $value[0];
-    } else {
-        $found = false;
-        foreach ($mods as $value2) {
-            if (preg_match("/{$value[0]}/", $value2)) {
-                $found = $value2;
-                break;
+
+if(function_exists('apache_get_modules')){
+    $mods = array_map('strtolower', apache_get_modules());
+    //var_dump($mods);
+    foreach ($apacheModules as $value) {
+        if (in_array($value[0], $mods)) {
+            $messages['Apache'][] = $value[0];
+        } else {
+            $found = false;
+            foreach ($mods as $value2) {
+                if (preg_match("/{$value[0]}/", $value2)) {
+                    $found = $value2;
+                    break;
+                }
+            }
+            if ($found) {
+                $messages['Apache'][] = $found;
+            } else {
+                $messages['Apache'][] = array($value[0], @$value[1]);
             }
         }
-        if ($found) {
-            $messages['Apache'][] = $found;
-        } else {
-            $messages['Apache'][] = array($value[0], @$value[1]);
-        }
+    }
+}else{
+    foreach ($apacheModules as $value) {
+        $messages['Apache'][] = array($value[0], 'We could not check your installed modules. We recommend you to use apache as a module NOT as a FPM');
     }
 }
 
