@@ -17,6 +17,7 @@ if (empty($output)) {
     if (empty($movies)) {
         foreach ($rows as $row) {
             $videoSource = Video::getSourceFileURL($row['filename']);
+            $videoResolution = Video::getResolutionFromFilename($videoSource);
             //var_dump($videoSource);
             if (empty($videoSource)) {
                 _error_log("Roku Empty video source {$row['id']}, {$row['clean_title']}, {$row['filename']}");
@@ -43,7 +44,7 @@ if (empty($output)) {
 
             $video = new stdClass();
             $video->url = $videoSource;
-            $video->quality = "HD";
+            $video->quality = getResolutionTextRoku($videoResolution);
             $video->videoType = Video::getVideoTypeText($row['filename']);
             $content->videos = array($video);
 
