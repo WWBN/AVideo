@@ -13,7 +13,7 @@ if (empty($feed)) {
          xmlns:gml="http://www.opengis.net/gml">
         <channel>
             <title><?php echo feedText($title); ?></title>
-            <description><?php echo feedText($title); ?></description>
+            <description><?php echo feedText($description); ?></description>
             <link><?php echo $link; ?></link>
             <image>
             <title><?php echo feedText($title); ?></title>
@@ -47,7 +47,7 @@ if (empty($feed)) {
                 ?>
                 <item>
                     <title><?php echo feedText($row['title']); ?></title>
-                    <description><?php echo feedText($row['description']); ?></description>
+                    <description><?php echo feedText($row['title']); ?></description>
                     <link> <?php echo Video::getLink($row['id'], $row['clean_title']); ?></link>
                     <?php echo $enclosure; ?>
                     <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
