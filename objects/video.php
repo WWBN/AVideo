@@ -3520,6 +3520,23 @@ if (!class_exists('Video')) {
             return self::getVideosPaths($video->getFilename(), true);
         }
 
+        public static function getSourceFileURL($filename, $includeS3 = false){
+            $sources = self::getVideosPaths($filename, $includeS3);
+            if(!empty($sources['mp3'])){
+                return $sources['mp3'];
+            }
+            if(!empty($sources['webm'])){
+                return end($sources['webm']);
+            }
+            if(!empty($sources['m3u8']) && !empty($sources['url'])){
+                return $sources['url'];
+            }
+            if(!empty($sources['mp4'])){
+                return end($sources['mp4']);
+            }
+            return false;
+        }
+        
         public static function getVideosPaths($filename, $includeS3 = false) {
             global $global;
             $types = array('', '_Low', '_SD', '_HD');
