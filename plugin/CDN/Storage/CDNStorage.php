@@ -535,6 +535,15 @@ class CDNStorage {
 
     static function getURL($filename) {
         global $global;
+        
+        // this is because sometimes I send filenames like this "videos/video_200721131007_6b3e/video_200721131007_6b3e_Low.mp4"
+        if(preg_match('/^videos\\//', $filename)){
+            $parts = explode('/', $filename);
+            if(count($parts)==3){
+                $filename = $parts[2];
+            }
+        }
+        
         $paths = Video::getPaths($filename);
         $file = $paths['path'] . $filename;
         if (!file_exists($file)) {
