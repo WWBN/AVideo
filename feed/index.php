@@ -48,7 +48,7 @@ if(!empty($_REQUEST['roku'])){
 }
 
 function feedText($text){
-    return str_replace(array('&&'), array('&'), str_replace(array('&','<','>'), array('&amp;','&lt;','&gt;'), (strip_tags(br2nl($text)))));
+    return UTF8encode(str_replace(array('&&'), array('&'), str_replace(array('&','<','>'), array('&amp;','&lt;','&gt;'), (strip_tags(br2nl($text))))));
 }
 
 ?>
