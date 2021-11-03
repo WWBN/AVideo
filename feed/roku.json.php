@@ -78,8 +78,9 @@ if (empty($output)) {
     if (empty($output) && json_last_error()) {
         $output = json_encode(json_last_error_msg());
         var_dump($obj);
+    }else{
+        ObjectYPT::setCache($cacheFeedName, $output);
     }
-    ObjectYPT::setCache($cacheFeedName, $output);
 }else{
     //echo '<!-- cache -->';
 }
