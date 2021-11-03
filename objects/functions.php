@@ -5935,18 +5935,31 @@ function getResolutionLabel($res) {
 }
 
 function getResolutionText($res) {
-    if ($res == 720) {
+    if ($res >= 720 && $res < 1080) {
         return "HD";
-    } elseif ($res == 1080) {
+    } elseif ($res >= 1080 && $res < 1440) {
         return "FHD";
-    } elseif ($res == 1440) {
+    } elseif ($res >= 1440 && $res < 2160) {
         return "FHD+";
-    } elseif ($res == 2160) {
+    } elseif ($res >= 2160 && $res < 4320) {
         return "4K";
-    } elseif ($res == 4320) {
+    } elseif ($res >= 4320) {
         return "8K";
     } else {
         return '';
+    }
+}
+
+
+function getResolutionTextRoku($res) {
+    if ($res >= 720 && $res < 1080) {
+        return "HD";
+    } elseif ($res >= 1080 && $res < 2160) {
+        return "FHD";
+    } elseif ($res >= 2160 ) {
+        return "UHD";
+    } else {
+        return 'SD';
     }
 }
 
