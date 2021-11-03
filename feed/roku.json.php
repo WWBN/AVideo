@@ -30,10 +30,10 @@ if (empty($output)) {
             $movie->longDescription = "=> " . _substr(strip_tags(br2nl(UTF8encode($row['description']))), 0, 490);
             $movie->shortDescription = _substr($movie->longDescription, 0, 200);
             $movie->thumbnail = Video::getRokuImage($row['id']);
-            $movie->tags = _substr(UTF8encode($row['category']), 0, 20);
+            $movie->tags = array(_substr(UTF8encode($row['category']), 0, 20));
             $movie->genres = array("special");
             $movie->releaseDate = date('c', strtotime($row['created']));
-            $movie->categories_id = $row['categories_id'];
+            //$movie->categories_id = $row['categories_id'];
 
             $content = new stdClass();
             $content->dateAdded = date('c', strtotime($row['created']));
