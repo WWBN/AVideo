@@ -18,6 +18,7 @@ if (empty($output)) {
     if (empty($movies)) {
         foreach ($rows as $row) {
             $videoSource = Video::getSourceFileURL($row['filename']);
+            //var_dump($videoSource);
             if (empty($videoSource)) {
                 continue;
             }            
