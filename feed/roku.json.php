@@ -10,7 +10,7 @@ if (empty($output)) {
     $obj->lastUpdated = date('c');
     $obj->movies = array();
 
-    $cacheName = "feedCache_ROKU_movies";
+    $cacheName = "feedCache_ROKU_movies".json_encode($_REQUEST);
 
     $movies = ObjectYPT::getCache($cacheName, 0);
 
