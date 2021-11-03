@@ -13,7 +13,7 @@ if (empty($feed)) {
          xmlns:gml="http://www.opengis.net/gml">
         <channel>
             <title><?php echo feedText($title); ?></title>
-            <description><?php echo feedText($description); ?></description>
+            <description><?php echo feedText($title); ?></description>
             <link><?php echo $link; ?></link>
             <image>
             <title><?php echo feedText($title); ?></title>
