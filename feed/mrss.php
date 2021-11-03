@@ -53,7 +53,7 @@ if (empty($feed)) {
                     <guid isPermaLink="true"><?php echo Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink"); ?></guid>
                     <media:category><?php echo $row["category"]; ?></media:category>
                     <media:content url="<?php echo $videoSource; ?>" fileSize="<?php echo $video["filesize"]; ?>" bitrate="128" 
-                                   type="<?php echo mime_content_type_per_filename($videoSource["path"]); ?>" expression="full"
+                                   type="<?php echo mime_content_type_per_filename($videoSource); ?>" expression="full"
                                    duration="<?php echo durationToSeconds($row['duration']); ?>">
                         <media:title type="plain"><?php echo htmlspecialchars($row['title']); ?></media:title>
                         <media:description type="html"><![CDATA[<?php echo Video::htmlDescription($row['description']); ?>]]></media:description>
