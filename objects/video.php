@@ -3528,8 +3528,8 @@ if (!class_exists('Video')) {
             if(!empty($sources['webm'])){
                 return end($sources['webm']);
             }
-            if(!empty($sources['m3u8']) && !empty($sources['url'])){
-                return $sources['url'];
+            if(!empty($sources['m3u8']) && !empty($sources['m3u8']['url'])){
+                return $sources['m3u8']['url'];
             }
             if(!empty($sources['mp4'])){
                 return end($sources['mp4']);
