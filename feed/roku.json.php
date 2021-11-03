@@ -20,6 +20,7 @@ if (empty($output)) {
             $videoSource = Video::getSourceFileURL($row['filename']);
             //var_dump($videoSource);
             if (empty($videoSource)) {
+                _error_log("Empty video source {$row['id']}, {$row['clean_title']}, {$row['filename']}");
                 continue;
             }            
             
