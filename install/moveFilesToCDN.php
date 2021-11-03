@@ -42,7 +42,7 @@ foreach ($videos as $value) {
         continue;
     }
     $countMoved++;
-    //CDNStorage::moveLocalToRemote($value['id']);
+    CDNStorage::moveLocalToRemote($value['id']);
     echo "{$count}/{$total} Moved done {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}".PHP_EOL;
     ob_flush();
 }
