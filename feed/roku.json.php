@@ -55,7 +55,7 @@ if (empty($output)) {
             if (empty($categories[$movie->categories_id])) {
                 $categories[$movie->categories_id] = new stdClass();
                 $categories[$movie->categories_id]->name = $movie->tags;
-                $categories[$movie->categories_id]->query = $movie->tags;
+                $categories[$movie->categories_id]->playlistName = $movie->tags;
                 $categories[$movie->categories_id]->order = 'most_recent';
             }
         }
