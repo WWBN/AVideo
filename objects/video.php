@@ -3639,9 +3639,10 @@ if (!class_exists('Video')) {
             }
             $rokuImage = str_replace(".jpg", "_roku.jpg", $imagePath);
             if (convertImageToRoku($images->posterLandscapePath, $rokuImage)) {
-                return str_replace($global['systemRootPath'], $global['webSiteRootURL'], $rokuImage);
+                $relativePath = str_replace($global['systemRootPath'], '', $rokuImage);
+                return getURL($relativePath);
             }
-            return "" . getCDN() . "view/img/notfound.jpg";
+            return getURL("view/img/notfound.jpg");
         }
 
         public static function clearImageCache($filename, $type = "video") {
