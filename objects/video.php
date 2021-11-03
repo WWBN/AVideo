@@ -3412,10 +3412,12 @@ if (!class_exists('Video')) {
                 if (!empty($matches[1])) {
                     $resolution = intval($matches[1]);
                 }
+                //var_dump(__LINE__);
             } elseif (preg_match('/res([0-9]+)\/index.m3u8/i', $filename, $matches)) {
                 if (!empty($matches[1])) {
                     $resolution = intval($matches[1]);
                 }
+                //var_dump(__LINE__);
             } elseif (preg_match('/_(HD|Low|SD).(mp4|webm)/i', $filename, $matches)) {
                 if (!empty($matches[1])) {
                     if ($matches[1] == 'HD') {
@@ -3426,6 +3428,7 @@ if (!class_exists('Video')) {
                         $resolution = 480;
                     }
                 }
+                //var_dump(__LINE__);
             } elseif (preg_match('/\/(hd|low|sd)\/index.m3u8/', $filename, $matches)) {
                 if (!empty($matches[1])) {
                     if ($matches[1] == 'hd') {
@@ -3436,13 +3439,15 @@ if (!class_exists('Video')) {
                         $resolution = 480;
                     }
                 }
+                //var_dump(__LINE__);
             } elseif (preg_match('/video_[0-9_a-z]+\/index.m3u8/i', $filename)) {
-                if (file_exists($filename) && class_exists('VideoHLS')) {
+                if (class_exists('VideoHLS')) {
                     $resolution = VideoHLS::getHLSHigestResolutionFromFile($filename);
                     //var_dump(5, $filename,$resolution);
                 }
+                //var_dump(__LINE__);
             }
-            //var_dump(4, preg_match('/video_[0-9_a-z]+\/index.m3u8/i', $filename), $filename, $resolution, $matches);
+            //echo PHP_EOL.PHP_EOL;var_dump(__LINE__, preg_match('/video_[0-9_a-z]+\/index.m3u8/i', $filename), $filename, $resolution, $matches);echo PHP_EOL.PHP_EOL;
             //if($filename=='video_210916143432_c426'){var_dump(3, $filename, $resolution, $matches);exit;}
             return $resolution;
         }
