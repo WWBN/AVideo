@@ -60,7 +60,7 @@ if (empty($feed)) {
                         <media:description type="html"><![CDATA[<?php echo Video::htmlDescription($row['description']); ?>]]></media:description>
                         <media:thumbnail url="<?php echo Video::getPoster($row['id']); ?>" />
                     </media:content>
-                    <media:embed url="<?php echo Video::getLinkToVideo($row['id'], $row['clean_title'], true); ?>"/>
+                    <media:embed url="<?php echo str_replace('&', '&amp;', Video::getLinkToVideo($row['id'], $row['clean_title'], true)); ?>"/>
                     <media:status state="active" />
                 </item>
                 <?php
