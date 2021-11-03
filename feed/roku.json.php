@@ -77,6 +77,7 @@ if (empty($output)) {
     $output = json_encode($obj, JSON_UNESCAPED_UNICODE);
     if (json_last_error()) {
         $output = json_encode(json_last_error_msg());
+        var_dump($obj);
     }
     ObjectYPT::setCache($cacheFeedName, $output);
 }else{
