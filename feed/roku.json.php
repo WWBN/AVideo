@@ -17,10 +17,11 @@ if (empty($output)) {
     $categories = array();
     if (empty($movies)) {
         foreach ($rows as $row) {
-            $videoSource = Video::getHigestResolution($row['filename']);
+            $videoSource = Video::getSourceFileURL($row['filename']);
             if (empty($videoSource)) {
                 continue;
-            }
+            }            
+            
             $movie = new stdClass();
             $movie->id = Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink");
             $movie->title = UTF8encode($row['title']);
@@ -40,7 +41,7 @@ if (empty($output)) {
             $content->adBreaks = array("00:00:00");
 
             $video = new stdClass();
-            $video->url = $videoSource["url"];
+            $video->url = $videoSource;
             $video->quality = "HD";
             $video->videoType = Video::getVideoTypeText($row['filename']);
             $content->videos = array($video);
