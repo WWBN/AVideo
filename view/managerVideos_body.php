@@ -76,7 +76,7 @@
         <div class="panel panel-default ">
             <div class="panel-body">
 
-                <div class="btn-group btn-block  <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft'); ?>"  >
+                <div class="btn-group btn-block"  >
                     <?php if (User::isAdmin()) { ?>
                         <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn  btn-sm btn-xs btn-warning">
                             <span class="fa fa-users"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("User Groups"); ?></span>
@@ -185,7 +185,7 @@
     ?>
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="btn-group <?php echo getCSSAnimationClassAndStyle('animate__fadeInRight'); ?>" id="actionButtonsVideoManager">
+            <div class="btn-group" id="actionButtonsVideoManager">
                 <button class="btn btn-default" id="checkBtn">
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
