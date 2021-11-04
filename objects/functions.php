@@ -5935,6 +5935,7 @@ function getResolutionLabel($res) {
 }
 
 function getResolutionText($res) {
+    $res = intval($res);
     if ($res >= 720 && $res < 1080) {
         return "HD";
     } elseif ($res >= 1080 && $res < 1440) {
@@ -5952,6 +5953,7 @@ function getResolutionText($res) {
 
 
 function getResolutionTextRoku($res) {
+    $res = intval($res);
     if ($res >= 720 && $res < 1080) {
         return "HD";
     } elseif ($res >= 1080 && $res < 2160) {
