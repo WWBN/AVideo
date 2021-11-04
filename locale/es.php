@@ -125,6 +125,7 @@ $t['Most'] = "Más";
 $t['My Account'] = 'Mi cuenta';
 $t['My Channel'] = 'Mi Canal';
 $t['My Menu'] = "Mi Menú";
+$t['My Subscribers'] = 'Mis suscriptores';
 $t['My Wallet'] = 'Mi Cartera';
 $t['My list'] = 'Mi lista';
 $t['My videos'] = 'Mis videos';

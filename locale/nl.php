@@ -171,6 +171,7 @@ $t['Most watched'] = 'Meest bekeken';
 $t['My Account'] = 'Mijn account';
 $t['My Channel'] = 'Mijn kanaal';
 $t['My Menu'] = 'Mijn Menu';
+$t['My Subscribers'] = 'Mijn Abonnees';
 $t['My videos'] = "Mijn video's";
 $t['Name can\'t be blank'] = 'Naam kan niet leeg zijn';
 $t['Name'] = 'Naam';

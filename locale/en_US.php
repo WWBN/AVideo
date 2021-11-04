@@ -222,6 +222,7 @@ $t['Most popular'] = 'Most popular';
 $t['Most watched'] = 'Most watched';
 $t['My Account'] = 'My Account';
 $t['My Channel'] = 'My Channel';
+$t['My Subscribers'] = 'My Subscribers';
 $t['My list'] = 'My list';
 $t['My videos'] = 'My videos';
 $t['Name can\'t be blank'] = "Name can't be blank";

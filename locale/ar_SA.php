@@ -56,6 +56,7 @@ $t['Most Popular'] = "الأكثر شهرة";
 $t['Most Watched'] = "الأكثر مشاهدة";
 $t['Most popular'] = "الأكثر شهرة";
 $t['Most watched'] = "الأكثر مشاهدة";
+$t['My Subscribers'] = 'المشتركين في قناتي';
 $t['Name'] = "اسم";
 $t['New Category'] = "فئة جديدة";
 $t['New Password'] = "كلمة السر الجديدة";

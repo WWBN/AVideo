@@ -221,6 +221,7 @@ $t['Most popular'] = 'Najbolj popularno';
 $t['Most watched'] = 'Najbolj ogledano';
 $t['My Account'] = "Moj račun";
 $t['My Channel'] = 'Moj kanal';
+$t['My Subscribers'] = 'Moji naročniki';
 $t['My list'] = 'Moj seznam';
 $t['My videos'] = 'Moji posnetki';
 $t['Name can\'t be blank'] = 'Ime ne sme biti prazen';

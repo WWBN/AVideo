@@ -150,6 +150,7 @@ $t['Most popular'] = 'Mais populares';
 $t['Most watched'] = 'Mais vistos';
 $t['My Account'] = 'Minha conta';
 $t['My Channel'] = 'Meu canal';
+$t['My Subscribers'] = 'Meus assinantes';
 $t['My videos'] = "Meus vídeos";
 $t['Name can\'t be blank'] = "O nome não pode estar em branco";
 $t['Name'] = 'Nome';

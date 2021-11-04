@@ -221,6 +221,7 @@ $t['Most popular'] = "Più popolari";
 $t['Most watched'] = "Più visti";
 $t['My Account'] = 'Mio Conto';
 $t['My Channel'] = 'Mio Canale';
+$t['My Subscribers'] = 'I Miei Iscritti';
 $t['My list'] = 'Mia Lista';
 $t['My videos'] = 'Miei Video';
 $t['Name can\'t be blank'] = "Il nome non può essere vuoto";

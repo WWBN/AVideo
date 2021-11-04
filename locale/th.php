@@ -187,6 +187,7 @@ $t['Most popular'] = "ที่นิยมมากที่สุด";
 $t['Most watched'] = "ดูมากที่สุด";
 $t['My Account'] = "บัญชีของฉัน";
 $t['My Channel'] = "ช่องของฉัน";
+$t['My Subscribers'] = 'สมาชิกของฉัน';
 $t['My videos'] = "วีดีโอช่องของฉัน";
 $t['Name can\'t be blank'] = "ชื่อต้องไม่เว้นว่างไว้";
 $t['Name'] = "ชื่อ";

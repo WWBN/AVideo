@@ -222,6 +222,7 @@ $t['Most popular'] = "Mest populär";
 $t['Most watched'] = 'Mest sett';
 $t['My Account'] = 'Mitt konto';
 $t['My Channel'] = 'Min kanal';
+$t['My Subscribers'] = 'Mina Prenumeranter';
 $t['My list'] = 'Min lista';
 $t['My videos'] = 'Mina videor';
 $t['Name can\'t be blank'] = 'Namnet kan inte vara tomt';

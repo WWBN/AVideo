@@ -231,6 +231,7 @@ $t['Most watched'] = "En çok izlenen";
 $t['My Account'] = "Hesabım";
 $t['My Channel'] = "Kanalım";
 $t['My Menu'] = "Menüm";
+$t['My Subscribers'] = 'Abonelerim';
 $t['My list'] = 'Listem';
 $t['My videos'] = "Videolarım";
 $t['Name can\'t be blank'] = "İsim boş bırakılamaz";
