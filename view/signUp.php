@@ -39,7 +39,7 @@ if (!empty($_GET['siteRedirectUri'])) {
                 <div class="col-xs-12 col-sm-12 col-lg-8">
                     <form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
                         <fieldset>
-                            <legend class="hidden-xs"><?php echo __("Sign Up"); ?></legend>
+                            <legend class="hidden-xs animate__animated animate__fadeInRight" style="-webkit-animation-delay: 0.2s; animation-delay: 0.2s;"><?php echo __("Sign Up"); ?></legend>
                             <div class="form-group">
                                 <div class="col-md-12 inputGroupContainer">
                                     <div class="input-group">
@@ -51,7 +51,7 @@ if (!empty($_GET['siteRedirectUri'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 0.2s; animation-delay: 0.2s; ">
                                 <label class="col-sm-4 control-label hidden-xs"><?php echo __("Name"); ?></label>
                                 <div class="col-sm-8 inputGroupContainer">
                                     <div class="input-group">
@@ -60,7 +60,7 @@ if (!empty($_GET['siteRedirectUri'])) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 0.4s; animation-delay: 0.4s; ">
                                 <label class="col-sm-4 control-label hidden-xs"><?php echo __("User"); ?></label>
                                 <div class="col-sm-8 inputGroupContainer">
                                     <div class="input-group">
@@ -72,7 +72,7 @@ if (!empty($_GET['siteRedirectUri'])) {
                             <?php
                             if (empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                                 ?>
-                                <div class="form-group">
+                                <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 0.4s; animation-delay: 0.4s; ">
                                     <label class="col-sm-4 control-label hidden-xs"><?php echo __("E-mail"); ?></label>
                                     <div class="col-sm-8 inputGroupContainer">
                                         <div class="input-group">
@@ -82,7 +82,7 @@ if (!empty($_GET['siteRedirectUri'])) {
                                     </div>
                                 </div>
                             <?php } ?>
-                            <div class="form-group">
+                            <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 0.6s; animation-delay: 0.6s; ">
                                 <label class="col-sm-4 control-label hidden-xs"><?php echo __("New Password"); ?></label>
                                 <div class="col-sm-8 inputGroupContainer">
                                     <?php
@@ -91,7 +91,7 @@ if (!empty($_GET['siteRedirectUri'])) {
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 0.8s; animation-delay: 0.8s; ">
                                 <label class="col-sm-4 control-label hidden-xs"><?php echo __("Confirm New Password"); ?></label>
                                 <div class="col-sm-8 inputGroupContainer">
                                     <?php
@@ -99,14 +99,15 @@ if (!empty($_GET['siteRedirectUri'])) {
                                     ?>
                                 </div>
                             </div>
-
+                            <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 0.8s; animation-delay: 0.8s; ">
                             <?php
                             if (!empty($agreement)) {
                                 $agreement->getSignupCheckBox();
                             }
                             ?>
+                            </div>
 
-                            <div class="form-group">
+                            <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 1s; animation-delay: 1s; ">
                                 <label class="col-sm-4 control-label hidden-xs"><?php echo __("Type the code"); ?></label>
                                 <div class="col-sm-8 inputGroupContainer captcha">
                                     <div class="input-group">
@@ -119,12 +120,12 @@ if (!empty($_GET['siteRedirectUri'])) {
 
 
                             <!-- Button -->
-                            <div class="form-group">
+                            <div class="form-group animate__animated animate__flipInX"  style="-webkit-animation-delay: 1.2s; animation-delay: 1.2s; ">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn btn-primary btn-block" ><i class="fas fa-user-plus"></i> <?php echo __("Sign Up"); ?></button>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group animate__animated animate__flipInX"  style="-webkit-animation-delay: 1.4s; animation-delay: 1.4s; ">
                                 <div class="col-md-12">
                                     <a href="<?php echo $signInLink; ?>" class="btn btn-success btn-block" ><i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?></a>
                                 </div>

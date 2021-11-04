@@ -58,7 +58,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2>
+                <h2 class="animate__animated animate__fadeInRight" style="-webkit-animation-delay: 0.2s; animation-delay: 0.2s;">
                     <?php echo __('Welcome back!'); ?>
                 </h2>
                 <div class="">
@@ -81,7 +81,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                     ?>
                     <form class="form-horizontal"  id="loginForm">
                         <input type="hidden" name="redirectUri" value=""/>
-                        <div class="form-group">
+                        <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 0.2s; animation-delay: 0.2s; " >
                             <label class="col-sm-4 control-label"><?php echo __("User"); ?></label>
                             <div class="col-sm-8 inputGroupContainer">
                                 <div class="input-group">
@@ -92,7 +92,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 0.4s; animation-delay: 0.4s;" >
                             <label class="col-sm-4 control-label"><?php echo __("Password"); ?></label>
                             <div class="col-sm-8 inputGroupContainer">
                                 <?php
@@ -107,7 +107,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                         <div class="form-group captcha" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
                             <?php echo $captcha; ?>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 0.6s; animation-delay: 0.6s;" >
                             <div class="col-xs-4 text-right">
                                 <label for="inputRememberMe" ><?php echo __("Remember me"); ?></label>
                             </div>
@@ -119,17 +119,17 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                             </div>
                         </div>
                         <!-- Button -->
-                        <div class="form-group">
+                        <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 0.8s; animation-delay: 0.8s;" >
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-success  btn-block" id="mainButton" ><span class="fas fa-sign-in-alt"></span> <?php echo __("Sign in"); ?></button>
+                                <button type="submit" class="btn btn-success  btn-block animate__animated animate__flipInX"  style="-webkit-animation-delay: 0.5s; animation-delay: 0.5s;" id="mainButton" ><span class="fas fa-sign-in-alt"></span> <?php echo __("Sign in"); ?></button>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group animate__animated animate__bounceIn"  style="-webkit-animation-delay: 1s; animation-delay: 1s;" >
                             <div class="col-xs-12 inputGroupContainer text-center">
                                 <?php
                                 if (empty($advancedCustomUser->disableNativeSignUp)) {
                                     ?>
-                                    <a href="#" class="btn btn-default btn-xs" id="forgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></a>
+                                    <a href="#" class="btn btn-default btn-xs animate__animated animate__flipInX"  style="-webkit-animation-delay: 1s; animation-delay: 1s;"  id="forgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></a>
                                     <?php
                                 }
                                 ?>
@@ -145,10 +145,20 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                 <?php
                 if (empty($advancedCustomUser->disableNativeSignUp)) {
                     ?>
-                    <div class="row" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
+                    <div class="row animate__animated animate__flipInX"  style="-webkit-animation-delay: 1.2s; animation-delay: 1.2s;" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
                         <div class="col-md-12">
                             <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" 
-                               class="btn btn-default btn-block"><span class="fa fa-user-plus"></span> <?php echo __("Sign up"); ?></a>
+                               class="btn btn-default btn-block"><i class="fas fa-plus"></i> <?php echo __("Sign up"); ?></a>
+                        </div>
+                    </div>
+                    <?php
+                }
+                if (!empty($_REQUEST['cancelUri']) && isValidURL($_REQUEST['cancelUri'])) {
+                    ?>
+                    <div class="row animate__animated animate__flipInX"  style="-webkit-animation-delay: 1.4s; animation-delay: 1.4s;" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
+                        <div class="col-md-12">
+                            <a href="<?php echo $_REQUEST['cancelUri']; ?>" 
+                               class="btn btn-link btn-block"><i class="fas fa-arrow-left"></i> <?php echo __("Cancel"); ?></a>
                         </div>
                     </div>
                     <?php
@@ -190,15 +200,17 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                     break;
             }
         }
-
+        $loginCount = 0;
         foreach ($login as $value) {
             if (is_string($value) && file_exists($value)) {
                 //include $value;
             } else if (is_array($value)) {
+                $loginCount++;
                 $uid = uniqid();
                 $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=" . (isset($_GET['redirectUri']) ? $_GET['redirectUri'] : "");
                 ?>
-                <div class="col-md-<?php echo $columSize; ?>">
+                <div class="col-md-<?php echo $columSize; ?> animate__animated animate__bounceInUp " 
+                     style="-webkit-animation-delay: <?php echo $loginCount; ?>s; animation-delay: <?php echo $loginCount/4; ?>s;" >
                     <button id="login<?php echo $uid; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></button>
                 </div>
                 <script>
@@ -237,7 +249,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
 <script>
 
     function loginFormActive() {
-        
+
     }
     function loginFormReset() {
 
@@ -294,7 +306,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                         loginFormReset();
                     } else {
                         var url = response.redirectUri;
-                        if(inIframe()){
+                        if (inIframe()) {
                             url = addGetParam(url, 'PHPSESSID', response.PHPSESSID);
                         }
                         console.log('Login success', url);

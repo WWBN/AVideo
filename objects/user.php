@@ -426,13 +426,13 @@ if (typeof gtag !== \"function\") {
         }
         if (!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)) {
             if (file_exists($global['systemRootPath'] . $photo)) {
-                $photo = getCDN() . $photo . "?" . filemtime($global['systemRootPath'] . $photo);
+                $photo = getURL($photo);
             } else {
                 $photo = "";
             }
         }
         if (empty($photo)) {
-            $photo = getCDN() . "view/img/userSilhouette.jpg";
+            $photo = getURL("view/img/userSilhouette.jpg");
         }
         return $photo;
     }

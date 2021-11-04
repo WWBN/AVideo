@@ -7,8 +7,8 @@ if (isset($_GET['noNavbar'])) {
         $_SESSION['noNavbar'] = 0;
         $_SESSION['noNavbarClose'] = 0;
     }
-}else{
-    if(!isIframe()){
+} else {
+    if (!isIframe()) {
         _session_start();
         unset($_SESSION['noNavbar']);
     }
@@ -58,7 +58,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 $_GET['parentsOnly'] = "1";
 if (empty($_SESSION['language'])) {
     $lang = $config->getLanguage();
-    if(empty($lang)){
+    if (empty($lang)) {
         $lang = 'us_EN';
     }
 } else {
@@ -75,9 +75,9 @@ if (!$includeDefaultNavBar) {
     return false;
 }
 
-if(!empty($_GET['avideoIframe'])){ // comes from avideoModalIframe(url) javascript
+if (!empty($_GET['avideoIframe'])) { // comes from avideoModalIframe(url) javascript
     ?>
-        <style>body{padding: 0;}#mainFooter{display: none !important;}</style>
+    <style>body{padding: 0;}#mainFooter{display: none !important;}</style>
     <?php
     return false;
 }
@@ -252,7 +252,7 @@ if(!empty($_GET['avideoIframe'])){ // comes from avideoModalIframe(url) javascri
     li.navsub-toggle a + ul {
         padding-left: 15px;
     }
-    
+
     .navbar-lang-btn .select2-container{
         margin: 8px 0;
     }
@@ -278,10 +278,10 @@ if(!empty($_GET['avideoIframe'])){ // comes from avideoModalIframe(url) javascri
     ?>
 </style>
 <?php
-if(!empty($customizePluginDescription)){
+if (!empty($customizePluginDescription)) {
     echo "<h1 class='hidden metaDescription'>{$customizePluginDescription}</h1>";
-}else 
-if(!empty($metaDescription)){
+} else
+if (!empty($metaDescription)) {
     echo "<h1 class='hidden metaDescription'>{$metaDescription}</h1>";
 }
 if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
@@ -329,7 +329,11 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             }
 
                             $(document).ready(function () {
-                                <?php if($advancedCustom->disableNavBarInsideIframe){echo 'YPTHidenavbar();';} ?>
+    <?php
+    if ($advancedCustom->disableNavBarInsideIframe) {
+        echo 'YPTHidenavbar();';
+    }
+    ?>
                                 $('#buttonMenu').on("click.sidebar", function (event) {
                                     event.stopPropagation();
                                     //$('#sidebar').fadeToggle();
@@ -444,7 +448,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     </button>
                                     <?php
                                     if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
-                                        echo '<!-- navbar line '.__LINE__.'-->';
+                                        echo '<!-- navbar line ' . __LINE__ . '-->';
                                         ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <?php
@@ -491,7 +495,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                         </ul>     
                                         <?php
                                     } else {
-                                        echo '<!-- navbar line '.__LINE__.'-->';
+                                        echo '<!-- navbar line ' . __LINE__ . '-->';
                                         ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <li>
@@ -524,7 +528,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                         <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
                                             <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon) ? $advancedCustom->uploadButtonDropdownIcon : "fas fa-video"; ?>"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? __($advancedCustom->uploadButtonDropdownText) : ""; ?> <span class="caret"></span>
                                         </button>
-                                        <?php echo '<!-- navbar line '.__LINE__.'-->'; ?>
+                                            <?php echo '<!-- navbar line ' . __LINE__ . '-->'; ?>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
                                             <?php
                                             echo $getUploadMenuButton;
@@ -536,19 +540,19 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                 $getUploadMenuButton = ob_get_clean();
                                 ob_start();
                             }
-                            echo $output.$getUploadMenuButton;
+                            echo $output . $getUploadMenuButton;
                         }
                         ?>
                         <li>
                             <div class="navbar-lang-btn">
-                            <?php
-                            if ($lang == 'en') {
-                                $lang = 'en_US';
-                            }
-                            echo Layout::getLangsSelect('navBarFlag', $lang, 'navBarFlag', '', true);                            
-                            //var_dump($lang);exit;
-                            ?>
-                                
+                                <?php
+                                if ($lang == 'en') {
+                                    $lang = 'en_US';
+                                }
+                                echo Layout::getLangsSelect('navBarFlag', $lang, 'navBarFlag', '', true);
+                                //var_dump($lang);exit;
+                                ?>
+
                             </div>
                             <script>
                                 $(function () {
@@ -624,15 +628,17 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                                  class="img img-responsive img-circle" alt="User Photo"
                                                  />
                                         </button>
-                                        <?php echo '<!-- navbar line '.__LINE__.'-->'; ?>
-                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
+                                        <?php echo '<!-- navbar line ' . __LINE__ . '-->'; ?>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" style="margin-right:10px;">
                                             <li>
                                                 <div class="pull-left" style="margin-left: 10px;">
                                                     <img src="<?php echo User::getPhoto(); ?>" style="max-width: 50px;"  class="img img-responsive img-circle" alt="User Photo"/>
                                                 </div>
-                                                <div  class="pull-left" >
+                                                <div  class="pull-left"  >
                                                     <h2><?php echo User::getName(); ?></h2>
-                                                    <div><small><?php echo User::getMail(); ?></small></div>
+                                                    <div style="white-space: nowrap;
+                                                         overflow: hidden;
+                                                         text-overflow: ellipsis; margin: 0 5px;"><small><?php echo User::getMail(); ?></small></div>
 
                                                 </div>
                                             </li>
@@ -1245,7 +1251,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             }
                             //$parsed_cats[] = $value['id'];
                             echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
-                            . '<a href="' . Category::getCategoryLinkFromName( $value['clean_name']) . '" >';
+                            . '<a href="' . Category::getCategoryLinkFromName($value['clean_name']) . '" >';
                             echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . __($value['name']);
                             if (empty($advancedCustom->hideCategoryVideosCount)) {
                                 echo ' <span class="badge">' . $total . '</span>';
