@@ -55,6 +55,7 @@ $t['Most Popular'] = "सबसे लोकप्रिय";
 $t['Most Watched'] = "सबसे ज्यादा देखा गया";
 $t['Most popular'] = "सबसे लोकप्रिय";
 $t['Most watched'] = "सबसे ज्यादा देखा गया";
+$t['My Subscribers'] = 'मेरी सब्सक्राइबर्स';
 $t['Name'] = "नाम";
 $t['New Category'] = "नई श्रेणी";
 $t['New Password'] = "नया पासवर्ड";
