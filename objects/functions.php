@@ -6939,6 +6939,9 @@ function listAllWordsToTranslate() {
 
     function listAll($dir) {
         $vars = array();
+        if(preg_match('/vendor.*$/', $dir)){
+            return $vars;
+        }
         if ($handle = opendir($dir)) {
             while (false !== ($entry = readdir($handle))) {
                 if ($entry != "." && $entry != "..") {
