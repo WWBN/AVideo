@@ -2,7 +2,19 @@
     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 dashboard">
         <?php
         if (User::isAdmin()) {
-            ?>
+            ?><div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fas fa-user-friends fa-2x text-success"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge total_users_online" id="total_users_online">0</div>
+                            <div><?php echo __("Online Users"); ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="panel panel-purple">
                 <div class="panel-heading">
                     <div class="row">
