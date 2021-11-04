@@ -235,13 +235,16 @@ switch ($_GET['page']) {
                 <div class=" col-lg-2 col-md-3 col-sm-3 fixed affix leftMenu">
                     <div class="panel-group" id="accordion">
                         <?php
+                        $panel = 'panel-default';
+                        if(empty($_REQUEST['page'])){
+                            $panel = 'panel-primary';
+                        }
                         foreach ($itens as $key => $value) {
                             $uid = uniqid();
                             $href = 'data-toggle="collapse" data-parent="#accordion" href="#collapse' . $uid . '"';
                             if (!empty($value->href)) {
                                 $href = 'href="' . $global['webSiteRootURL'] . 'admin/?page=' . $value->href . '"';
                             }
-                            $panel = 'panel-default';
                             if (!empty($_REQUEST['page']) && $_REQUEST['page'] == $value->href) {
                                 $panel = 'panel-primary';
                             } else {
@@ -252,7 +255,7 @@ switch ($_GET['page']) {
                                 }
                             }
                             ?>
-                            <div class="panel <?php echo $panel; ?>" class="adminLeftMenu">
+                            <div class="panel <?php echo $panel; ?> adminLeftMenu <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'menu'); ?>">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a <?php echo $href; ?> >
@@ -276,8 +279,11 @@ switch ($_GET['page']) {
                                         <div class="panel-body">
                                             <table class="table">
                                                 <?php
+                                                $active = "";
+                                                if (empty($_GET['page'])) {
+                                                    $active = "active";
+                                                }
                                                 foreach ($value->itens as $key2 => $value2) {
-                                                    $active = "";
                                                     if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
                                                         $active = "active";
                                                     }
@@ -288,6 +294,7 @@ switch ($_GET['page']) {
                                                         </td>
                                                     </tr>
                                                     <?php
+                                                    $active = "";
                                                 }
                                                 ?>
                                             </table>
@@ -298,6 +305,7 @@ switch ($_GET['page']) {
                                 ?>
                             </div>
                             <?php
+                            $panel = 'panel-default';
                         }
                         ?>
                     </div>

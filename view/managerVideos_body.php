@@ -73,10 +73,10 @@
     <?php
     if (empty($_GET['iframe'])) {
         ?>
-        <div class="panel panel-default">
+        <div class="panel panel-default ">
             <div class="panel-body">
 
-                <div class="btn-group" style="width: 100%;" >
+                <div class="btn-group btn-block  <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft'); ?>"  >
                     <?php if (User::isAdmin()) { ?>
                         <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn  btn-sm btn-xs btn-warning">
                             <span class="fa fa-users"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("User Groups"); ?></span>
@@ -150,7 +150,7 @@
         <div class="panel panel-default">
             <div class="panel-body"><?php echo AVideoPlugin::getVideoManagerButton(); ?></div>
         </div>
-        <small class="text-muted clearfix">
+        <small class="text-muted clearfix <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
             <?php
             $secondsTotal = getSecondsTotalVideosLength();
             $seconds = $secondsTotal % 60;
@@ -185,7 +185,7 @@
     ?>
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="btn-group" id="actionButtonsVideoManager">
+            <div class="btn-group <?php echo getCSSAnimationClassAndStyle('animate__fadeInRight'); ?>" id="actionButtonsVideoManager">
                 <button class="btn btn-default" id="checkBtn">
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>

@@ -177,7 +177,7 @@ if (empty($result)) {
                                 $count++;
                                 if (is_array($value)) {
                                     ?>
-                                    <div class="col-lg-4 col-md-6">
+                                    <div class="col-lg-4 col-md-6 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-danger">
                                             <i class="fas fa-times"></i> <?php
                                             echo $value[0];
@@ -198,7 +198,7 @@ if (empty($result)) {
                                     <?php
                                 } else {
                                     ?>
-                                    <div class="col-lg-4 col-md-6">
+                                    <div class="col-lg-4 col-md-6 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
                                             <i class="fas fa-check"></i> <?php
                                             echo $value;
@@ -231,7 +231,7 @@ if (empty($result)) {
                             foreach ($messages['PHP'] as $value) {
                                 if (is_array($value)) {
                                     ?>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-danger">
                                             <i class="fas fa-times"></i> <?php
                                             echo $value[0];
@@ -252,7 +252,7 @@ if (empty($result)) {
                                     <?php
                                 } else {
                                     ?>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
                                             <i class="fas fa-check"></i> <?php
                                             echo $value;
@@ -279,7 +279,7 @@ if (empty($result)) {
                             foreach ($messages['Apache'] as $value) {
                                 if (is_array($value)) {
                                     ?>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-danger">
                                             <i class="fas fa-times"></i> <?php
                                             echo $value[0];
@@ -300,7 +300,7 @@ if (empty($result)) {
                                     <?php
                                 } else {
                                     ?>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
                                             <i class="fas fa-check"></i> <?php
                                             echo $value;

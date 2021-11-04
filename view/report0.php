@@ -2,7 +2,8 @@
     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-12 dashboard">
         <?php
         if (User::isAdmin()) {
-            ?><div class="panel panel-default">
+            ?>
+            <div class="panel panel-default <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
@@ -15,7 +16,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel panel-purple">
+            <div class="panel panel-purple <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
@@ -38,7 +39,7 @@
             <?php
         }
         ?>
-        <div class="panel panel-blue">
+        <div class="panel panel-blue <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -58,7 +59,7 @@
                 </div>
             </a>
         </div>
-        <div class="panel panel-primary">
+        <div class="panel panel-primary <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -78,7 +79,7 @@
                 </div>
             </a>
         </div>
-        <div class="panel panel-green">
+        <div class="panel panel-green <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -98,7 +99,7 @@
                 </div>
             </a>
         </div>
-        <div class="panel panel-wine">
+        <div class="panel panel-wine <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -118,7 +119,7 @@
                 </div>
             </a>
         </div>
-        <div class="panel panel-red">
+        <div class="panel panel-red <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -138,7 +139,7 @@
                 </div>
             </a>
         </div>
-        <div class="panel panel-orange">
+        <div class="panel panel-orange <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -158,7 +159,7 @@
                 </div>
             </a>
         </div>
-        <div class="panel panel-yellow">
+        <div class="panel panel-yellow <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'rep0'); ?>">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-xs-3">
@@ -181,7 +182,7 @@
     </div>
     <div class="col-lg-10 col-md-9 col-sm-8 col-xs-12">
         <div class="row">
-            <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <?php echo __("Today"); ?>
@@ -191,7 +192,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-6 col-xs-12 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <?php echo __("Last 7 Days"); ?>
@@ -201,7 +202,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="col-md-4 col-sm-12 col-xs-12 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <?php echo __("Last 15 Days"); ?>
@@ -211,7 +212,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <?php echo __("Last 30 Days"); ?>
@@ -221,7 +222,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="col-md-6 col-sm-12 col-xs-12 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <?php echo __("Last 90 Days"); ?>
