@@ -10,7 +10,7 @@
                     ?>
                     <hr>
                     <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i> <?php echo __('As a database increases in size full database backups take more time to complete, and require more storage space. please be patience'); ?>
+                        <i class="fas fa-info-circle"></i> <?php echo __('As a database increases in size full database backups take more time to complete, and require more storage space. Please be patient'); ?>
                     </div>
                     <?php
                 } else {

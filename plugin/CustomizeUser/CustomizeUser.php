@@ -87,7 +87,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->disableNativeSignIn = !isset($advancedCustom->disableNativeSignIn) ? false : $advancedCustom->disableNativeSignIn;
         $obj->disablePersonalInfo = !isset($advancedCustom->disablePersonalInfo) ? true : $advancedCustom->disablePersonalInfo;
 
-        
+
         $o = new stdClass();
         $o->type = array(0 => '-- ' . __("None"), 1 => '-- ' . __("Random")) + self::getBGAnimationArray();
         $o->value = 1;
@@ -131,7 +131,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->allowDonationLink = false;
         $obj->donationButtonLabel = __('Donation');
         $obj->allowWalletDirectTransferDonation = false;
-        $obj->donationWalletButtonLabel = __('Donatate from your wallet');
+        $obj->donationWalletButtonLabel = __('Donate from your wallet');
         $obj->disableCaptchaOnWalletDirectTransferDonation = false;
 
         $obj->showEmailVerifiedMark = true;
@@ -152,7 +152,7 @@ class CustomizeUser extends PluginAbstract {
 
         return $obj;
     }
-    
+
     static function autoIncludeBGAnimationFile() {$baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         $obj = AVideoPlugin::getObjectData('CustomizeUser');
         Layout::includeBGAnimationFile($obj->loginBackgroundAnimation->value);
@@ -173,7 +173,7 @@ class CustomizeUser extends PluginAbstract {
         }
         return $userOptions;
     }
-    
+
     static function getBGAnimationArray() {
         if(!class_exists('Layout')){
             $avideoLayout = AVideoPlugin::getObjectData('Layout');
@@ -401,7 +401,7 @@ class CustomizeUser extends PluginAbstract {
               header("Location: {$global['webSiteRootURL']}?msg=" . urlencode(__("Sorry, this video is private")));
               }
               exit;
-             * 
+             *
              */
         } else if ($obj->userCanProtectVideosWithPassword) {
             if (!$this->videoPasswordIsGood($videos_id)) {
@@ -510,7 +510,7 @@ class CustomizeUser extends PluginAbstract {
 
         return false;
     }
-    
-    
+
+
 
 }

@@ -46,8 +46,8 @@ $subscribe->save();
                     ?>
                 </div>
                 <div class="panel-body">
-                    <h1><?php echo __("You’ve unsubscribed"); ?></h1>
-                    <?php echo __(" You’ll no longer receive emails from us"); ?>
+                    <h1><?php echo __("You've unsubscribed"); ?></h1>
+                    <?php echo __(" You'll no longer receive emails from us"); ?>
                 </div>
             </div>
 
