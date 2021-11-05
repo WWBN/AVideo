@@ -84,7 +84,7 @@ if (!empty($_GET['type'])) {
             }
         }
         if (empty($id)) {
-            die(sprintf(__("%s ERROR: You must set a ID on config"), $_GET['type']));
+            die(sprintf(__("%s ERROR: You must set an ID on config"), $_GET['type']));
         }
 
         if (empty($key)) {
