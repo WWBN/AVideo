@@ -27,7 +27,7 @@ $countStatusNotActive = 0;
 $countMoved = 0;
 
 $videosDir = getVideosDir();
-
+$errorsFound = 0;
 foreach ($videos as $value) {
     $count++;
     //echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
@@ -54,12 +54,16 @@ foreach ($videos as $value) {
             if(preg_match('/index.m3u8$/', $value)){
                 ob_flush();
                 echo "Check {$value}" . PHP_EOL;
-                echo CDNStorage::file_get_contents($remote_filename);
+                $content = trim(CDNStorage::file_get_contents($remote_filename));
+                if($content=='Dummy File'){
+                    $errorsFound++;
+                    echo "Found ERROR {$value}" . PHP_EOL;
+                }
             }
         }
     }
     
 }
-echo PHP_EOL . " Done! " . PHP_EOL;
+echo PHP_EOL . " Done! errorsFound = {$errorsFound} " . PHP_EOL;
 die();
 
