@@ -27,7 +27,6 @@ $countStatusNotActive = 0;
 $countMoved = 0;
 foreach ($videos as $value) {
     $count++;
-    echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;
     echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
     if (empty($value['sites_id'])) {
         $countSiteIdNotEmpty++;
@@ -54,8 +53,6 @@ foreach ($videos as $value) {
     }
     
 }
-
-echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;
 echo PHP_EOL . " Done! " . PHP_EOL;
 die();
 
