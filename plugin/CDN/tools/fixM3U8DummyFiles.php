@@ -41,7 +41,7 @@ foreach ($videos as $value) {
     }
     echo "*** Checking {$value['id']} {$value['title']}" . PHP_EOL;
     $videos_id = $value['id'];
-    $list = CDNStorage::getFilesListLocal($videos_id);    
+    $list = CDNStorage::getLocalFolder($videos_id);    
     echo "Files found ".count($list) . PHP_EOL;
     foreach ($list as $value) {
         if(preg_match('/index.m3u8$/', $value['local_path'])){
