@@ -592,5 +592,11 @@ class CDNStorage {
         $file = self::getLogFile($videos_id);
         return unlink($file);
     }
+    
+    static function file_get_contents($remote_filename){
+        $obj = AVideoPlugin::getDataObject('CDN');
+        $filename = "ftp://{$obj->storage_username}:{$obj->storage_password}@{$obj->storage_hostname}/{$remote_filename}";
+        return file_get_contents($filename);
+    }
 
 }

@@ -25,6 +25,9 @@ $count = 0;
 $countSiteIdNotEmpty = 0;
 $countStatusNotActive = 0;
 $countMoved = 0;
+
+$videosDir = getVideosDir();
+
 foreach ($videos as $value) {
     $count++;
     //echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
@@ -43,11 +46,16 @@ foreach ($videos as $value) {
     $videos_id = $value['id'];
     $list = CDNStorage::getLocalFolder($videos_id);    
     echo "Files found ".count($list) . PHP_EOL;
-    var_dump($list);
     foreach ($list as $value) {
-        if(preg_match('/index.m3u8$/', $value['local_path'])){
-            ob_flush();
-            echo "Check {$value['local_path']}" . PHP_EOL;
+        $remote_filename = str_replace($videosDir, '', $value);
+        if(is_array($value)){
+            
+        }else{
+            if(preg_match('/index.m3u8$/', $value)){
+                ob_flush();
+                echo "Check {$value}" . PHP_EOL;
+                echo CDNStorage::file_get_contents($remote_filename);
+            }
         }
     }
     
