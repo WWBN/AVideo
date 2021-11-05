@@ -1,7 +1,7 @@
 <?php
 global $t;
 
-$t['%s ERROR: You must set a ID on config'] = "%s エラー：設定時にIDを設定する必要があります。";
+$t['%s ERROR: You must set an ID on config'] = "%s エラー：設定時にIDを設定する必要があります。";
 $t['%s ERROR: You must set a KEY on config'] = "%s エラー：設定時にKEYを設定する必要があります";
 $t['(filtered from _MAX_ total entries)'] = "(_MAX_ すべてのアイテムでフィルタリング)";
 $t['465 OR 587'] = "465または587";
@@ -845,7 +845,7 @@ $t['help'] = "ヘルプ";
 $t['hour'] = "時間";
 $t['hours'] = "時間";
 $t['info'] = 'info';
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "インストールされているデータベースは最新ではありません。 これはバグにつながる可能性があります。 更新サイトにアクセスしてください";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "インストールされているデータベースは最新ではありません。 これはバグにつながる可能性があります。 更新サイトにアクセスしてください";
 $t['is Active'] = "アカウントを有効化";
 $t['is Admin'] = "管理者";
 $t['is Private'] = "プライベート";

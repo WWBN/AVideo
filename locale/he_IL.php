@@ -2,7 +2,7 @@
 global $t;
 global $t_isRTL; $t_isRTL = true;
 
-$t['%s ERROR: You must set a ID on config'] = "% s ERROR: עליך להגדיר מזהה בתצורה";
+$t['%s ERROR: You must set an ID on config'] = "% s ERROR: עליך להגדיר מזהה בתצורה";
 $t['%s ERROR: You must set a KEY on config'] = "% s ERROR: עליך להגדיר KEY על התצורה";
 $t['(filtered from _MAX_ total entries)'] = "(מסוננים מרשימות _MAX_ סה\"כ)";
 $t['465 OR 587'] = "465 או 587";
@@ -527,7 +527,7 @@ $t['This creates a download-button under your video, suggest you title.mp4 as do
 $t['This e-mail will be used for this web site notifications'] = "דואר אלקטרוני זה ישמש עבור הודעות אתר אינטרנט זה";
 $t['This help us to track and dettect errors'] = "זה עוזר לנו לעקוב אחר שגיאות dettect";
 $t['This is an experimental resource'] = "זהו משאב ניסיוני";
-$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "דף זה פועל רק עם קבצי MP4, MP3 ו- OGG, אם יש לך או צריך פורמט אחר, נסה להתקין את עצמו <a href = 'https: //github.com/DanielnetoDotCom/AVideo-Encoder' class = 'btn btn-btn-xs '> או להשתמש ב <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'> הציבור </a>";
+$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "דף זה פועל רק עם קבצי MP4, MP3 ו- OGG, אם יש לך או צריך פורמט אחר, נסה להתקין את עצמו <a href='https://github.com/DanielnetoDotCom/AVideo-Encoder' class='btn btn-btn-xs '> או להשתמש ב <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'> הציבור </a>";
 $t['This value must match with the language files on'] = "ערך זה חייב להתאים לקובצי השפה";
 $t['This video was reported to our team, we will review it soon'] = "סרטון זה דווח לצוות שלנו, נבדוק אותו בקרוב";
 $t['Thumbs Down'] = "בוז";
@@ -786,7 +786,7 @@ $t['Your user has been created!'] = "המשתמש שלך נוצר!";
 $t['Your user has been saved!'] = "המשתמש שלך נשמר!";
 $t['Your user is not verified, we sent you a new e-mail'] = "המשתמש שלך לא אומת, שלחנו לך הודעת אימייל חדשה";
 $t['Your user or password is wrong!'] = "המשתמש או הסיסמה שלך שגויים!";
-$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fas fa-play-circle\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fab fa-youtube-square\'></span> YouTube Account</a><br> '] = "הסרטון שלך <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'> <span class = 'fas fa-play-circle'> </ span>% s < / a> הועלה אל <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'> <span class = 'fab fa-youtube-square' > </ span> חשבון YouTube </a>";
+$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fas fa-play-circle\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fab fa-youtube-square\'></span> YouTube Account</a><br> '] = "הסרטון שלך <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'> <span class='fas fa-play-circle'> </ span>% s < / a> הועלה אל <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'> <span class='fab fa-youtube-square' > </ span> חשבון YouTube </a>";
 $t['Your video download is complete, it is encoding now'] = "הורדת הסרטון שלך הושלמה, היא מקודדת כעת";
 $t['Your video has NOT been deleted!'] = "הסרטון שלך לא נמחק!";
 $t['Your video has NOT been saved!'] = "הסרטון שלך לא נשמר!";
@@ -810,7 +810,7 @@ $t['help'] = "עזרה";
 $t['hour'] = "שעה";
 $t['hours'] = "שעות";
 $t['info'] = "מידע";
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "מותקן, אך מסד הנתונים שלך אינו מעודכן. זה יכול להוביל באגים. עבור אל אתר העדכונים.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "מותקן, אך מסד הנתונים שלך אינו מעודכן. זה יכול להוביל באגים. עבור אל אתר העדכונים.";
 $t['is Active'] = "הוא פעיל";
 $t['is Admin'] = "הוא מנהל";
 $t['language'] = "שפה";

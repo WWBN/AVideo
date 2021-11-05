@@ -2,7 +2,7 @@
 global $t;
 
 $t['%d Users linked'] = "%d Användare länkade";
-$t['%s ERROR: You must set a ID on config'] = "%s FEL: Du måste ställa in ett ID på config";
+$t['%s ERROR: You must set an ID on config'] = "%s FEL: Du måste ställa in ett ID på config";
 $t['%s ERROR: You must set a KEY on config'] = "%s FEL: Du måste ställa in en KEY på config";
 $t['(filtered from _MAX_ total entries)'] = "(filtrerad från _MAX_ totala poster)";
 $t['465 OR 587'] = '465 eller 587';
@@ -366,7 +366,7 @@ $t['This creates a download-button under your video, suggest you title.mp4 as do
 $t['This e-mail will be used for this website notifications'] = "Det här e-postmeddelandet kommer att användas för den här webbplatsaviseringen";
 $t['This help us to track and dettect errors'] = "Detta hjälper oss att spåra och detektera fel";
 $t['This is an experimental resource'] = "Detta är en experimentell resurs";
-$t['This page works only with a MP4 File, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Den här sidan fungerar bara med en MP4-fil, om du har eller behöver något annat format, försök att installera ditt eget <a href = 'https: //github.com/WWBN/ AVideo-Encoder 'class =' ​​btn btn-warning btn-xs '> kodare </a> eller använd <a href =' https: //encoder1.avideo.com/ 'class =' ​​btn btn-warning btn-xs '> offentlig </a> en ";
+$t['This page works only with a MP4 File, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Den här sidan fungerar bara med en MP4-fil, om du har eller behöver något annat format, försök att installera ditt eget <a href='https://github.com/WWBN/ AVideo-Encoder' class='btn btn-warning btn-xs'> kodare </a> eller använd <a href =' https://encoder1.avideo.com/ 'class='btn btn-warning btn-xs'> offentlig </a> en ";
 $t['This plugin is not available for you'] = "Detta plugin är inte tillgängligt för dig";
 $t['This value must match with the language files on'] = "Detta värde måste matcha språkfilerna på";
 $t['This video will cost you %s point(s)'] = "Den här videon kostar dig%s poäng (er)";
@@ -601,7 +601,7 @@ $t['days'] = 'dagar';
 $t['description'] = 'beskrivning';
 $t['hour'] = 'timme';
 $t['hours'] = 'timmar';
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "Installerad, men din databas är inte uppdaterad. Detta kan leda till fel. Gå till uppdateringsplatsen.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "Installerad, men din databas är inte uppdaterad. Detta kan leda till fel. Gå till uppdateringsplatsen.";
 $t['is Active'] = "är aktiv";
 $t['is Admin'] = "är Admin";
 $t['is live'] = "är live";

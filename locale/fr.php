@@ -1,7 +1,7 @@
 <?php
 global $t;
 
-$t['%s ERROR: You must set a ID on config'] = "%s ERREUR: Tu doit définir une ID";
+$t['%s ERROR: You must set an ID on config'] = "%s ERREUR: Tu doit définir une ID";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERREUR: Tu doit définir une clé";
 $t['(Permalink .txt file)'] = '(Permalink)';
 $t['(SEO .txt file)'] = '(SEO)';
@@ -804,7 +804,7 @@ $t['Your user has been deleted!'] = "Ton utilisateur a été supprimé !";
 $t['Your user has been saved!'] = "Tob utilisateur a été enregistré !";
 $t['Your user has been updated!'] = "Tob utilisateur a été mis à jour !";
 $t['Your user or password is wrong!'] = "Ton utilisateur ou votre mot de passe est faux !";
-$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fas fa-play-circle\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fab fa-youtube-square\'></span> YouTube Account</a><br> '] = "Ta vidéo <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'> <span class = 'fa-youtube-play'> </ span>% s </a> a été importé dans ton <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'> <span class = 'fa-youtube' > </ span> Compte YouTube </a> <br>";
+$t['Your video <a href=\'https://youtu.be/%s\' target=\'_blank\' class=\'btn btn-default\'><span class=\'fas fa-play-circle\'></span> %s</a> was uploaded to your <a href=\'https://www.youtube.com/my_videos\' class=\'btn btn-default\' target=\'_blank\'><span class=\'fab fa-youtube-square\'></span> YouTube Account</a><br> '] = "Ta vidéo <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'> <span class='fa-youtube-play'> </ span>% s </a> a été importé dans ton <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'> <span class='fa-youtube' > </ span> Compte YouTube </a> <br>";
 $t['Your video download is complete, it is encoding now'] = "Ton téléchargement de vidéo est terminé, il est en cours d'encodage à présent";
 $t['Your video has NOT been deleted!'] = "Ta vidéo n'a PAS été supprimée !";
 $t['Your video has NOT been deleted!'] = "Ta vidéo n'a PAS été supprimée !";
@@ -827,7 +827,7 @@ $t['entries'] = 'enregistrements';
 $t['here'] = 'ici';
 $t['hour'] = 'heure';
 $t['hours'] = 'heures';
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "Installé, mais la base de données n'est pas à jour. Cela pourrait conduire à des bugs. Mettez à jour depuis votre panel.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "Installé, mais la base de données n'est pas à jour. Cela pourrait conduire à des bugs. Mettez à jour depuis votre panel.";
 $t['is Active'] = 'Actif';
 $t['is Admin'] = 'Administrateur';
 $t['is Present'] = 'est présent';

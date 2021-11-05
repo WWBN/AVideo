@@ -1,7 +1,7 @@
 <?php
 global $t;
 
-$t['%s ERROR: You must set a ID on config'] = "% s ERROR: debe establecer una ID en la configuración";
+$t['%s ERROR: You must set an ID on config'] = "% s ERROR: debe establecer una ID en la configuración";
 $t['%s ERROR: You must set a KEY on config'] = "% s ERROR: debe establecer una CLAVE en la configuración";
 $t['(filtered from _MAX_ total entries)'] = "(filtrado de _MAX_ entradas totales)";
 $t['465 OR 587'] = '465 o 587';
@@ -559,7 +559,7 @@ $t['This e-mail will be used for this web site notifications'] = "Este correo el
 $t['This help us to track and dettect errors'] = 'Esto nos ayuda a rastrear y detectar errores';
 $t['This is an experimental resource'] = 'Este es un recurso experimental';
 $t['This is where you can create groups and associate them with your videos and users. This will make your videos private. Only users who are in the same group as the videos can view them'] = "Aquí es donde puede crear grupos y asociarlos con sus videos y usuarios. Esto hará que tus videos sean privados. Solo los usuarios que están en el mismo grupo que los videos pueden verlos.";
-$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Esta página solo funciona con archivos MP4, MP3 y OGG, si tiene o necesita cualquier otro formato, intente instalar su propio <a href = 'https: //github.com/WWBN/AVideo-Encoder' class = 'btn btn-warning btn-xs '> encoder </a> o use el <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'> public </a> one";
+$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Esta página solo funciona con archivos MP4, MP3 y OGG, si tiene o necesita cualquier otro formato, intente instalar su propio <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs '> encoder </a> o use el <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'> public </a> one";
 $t['This video was reported to our team, we will review it soon'] = "Este video fue reportado a nuestro equipo, lo revisaremos pronto";
 $t['Thumbs Down'] = 'Pulgar abajo';
 $t['Thumbs Up'] = 'Pulgar arriba';
@@ -811,7 +811,7 @@ $t['days'] = "días";
 $t['description'] = "descripción";
 $t['hour'] = 'hora';
 $t['hours'] = 'horas';
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "instalado, pero su base de datos no está actualizada. Esto podría provocar errores. Por favor, vaya al sitio de actualización.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "instalado, pero su base de datos no está actualizada. Esto podría provocar errores. Por favor, vaya al sitio de actualización.";
 $t['is Active'] = "está activo";
 $t['is Admin'] = 'es administrador';
 $t['is Private'] = 'es privado';

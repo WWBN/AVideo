@@ -1,7 +1,7 @@
 <?php
 global $t;
 
-$t['%s ERROR: You must set a ID on config'] = "%s 오류: 구성 시 ID를 설정해야 함";
+$t['%s ERROR: You must set an ID on config'] = "%s 오류: 구성 시 ID를 설정해야 함";
 $t['%s ERROR: You must set a KEY on config'] = "%s 오류: 구성 시 KEY를 설정해야 함";
 $t['(filtered from _MAX_ total entries)'] = "(_MAX_ 전체 항목에서 필터링)";
 $t['465 OR 587'] = "465년 또는 587년";
@@ -760,7 +760,7 @@ $t['help'] = "도와 주세요.";
 $t['hour'] = "1시간";
 $t['hours'] = "몇시간.";
 $t['info'] = "정보";
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "설치되었지만 데이터베이스가 최신 상태가 아님. 이것은 벌레로 이어질 수 있다. 업데이트 사이트로 이동하십시오.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "설치되었지만 데이터베이스가 최신 상태가 아님. 이것은 벌레로 이어질 수 있다. 업데이트 사이트로 이동하십시오.";
 $t['is Active'] = "활성화됨";
 $t['is Admin'] = "관리자";
 $t['is Private'] = "일병";

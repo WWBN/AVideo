@@ -1,7 +1,7 @@
 <?php
 global $t;
 
-$t['%s ERROR: You must set a ID on config'] = "%s ERROR: Een ID moet worden ingesteld";
+$t['%s ERROR: You must set an ID on config'] = "%s ERROR: Een ID moet worden ingesteld";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: Een KEY moet worden ingesteld";
 $t['465 OR 587'] = '465 of 587';
 $t['A service error occurred: %s'] = "Er is een probleem omgetreden: %s";

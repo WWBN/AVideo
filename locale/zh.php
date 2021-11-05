@@ -1,7 +1,7 @@
 <?php
 global $t;
 
-$t['%s ERROR: You must set a ID on config'] = "%s 错误：您必须设定 ID";
+$t['%s ERROR: You must set an ID on config'] = "%s 错误：您必须设定 ID";
 $t['%s ERROR: You must set a KEY on config'] = "%s 错误：您必须设定 KEY";
 $t['(filtered from _MAX_ total entries)'] = "(filtered from _MAX_ total entries)";
 $t['465 OR 587'] = "465 或 587";
@@ -871,7 +871,7 @@ $t['help'] = "help";//路由
 $t['hour'] = "小时";
 $t['hours'] = "小时";
 $t['info'] = "info";//路由
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "已安装，但您的数据库不是最新的。 这可能会导致错误。 请到更新站点.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "已安装，但您的数据库不是最新的。 这可能会导致错误。 请到更新站点.";
 $t['is Active'] = "启用";
 $t['is Admin'] = "管理员";
 $t['is live'] = "是直播";
@@ -915,7 +915,7 @@ $t['Play a Link'] = "播放链接";
 //前台播放页
 $t['Donation'] = "捐款";
 $t['Please login to donate'] = "请登录以捐赠";
-$t['Donatate from your wallet'] = "从您的钱包捐赠";
+$t['Donate from your wallet'] = "从您的钱包捐赠";
 $t['Block User'] = "阻止用户";
 $t['Do you want to block this user?'] = "您确定要阻止此用户吗？";
 $t['More'] = "更多";

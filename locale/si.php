@@ -1,7 +1,7 @@
 <?php
 global $t;
 
-$t['%s ERROR: You must set a ID on config'] = "%s ERROR: You must set a ID on config";
+$t['%s ERROR: You must set an ID on config'] = "%s ERROR: You must set an ID on config";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: You must set a KEY on config";
 $t['(filtered from _MAX_ total entries)'] = "(filtered from _MAX_ total entries)";
 $t['465 OR 587'] = '465 ali 587';
@@ -601,7 +601,7 @@ $t['days'] = 'dni';
 $t['description'] = 'opis';
 $t['hour'] = 'ura';
 $t['hours'] = 'ure';
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "installed, but your database is not up to date. This could lead to bugs. Please go to the update site.";
 $t['is Active'] = 'je aktiven';
 $t['is Admin'] = 'je admin';
 $t['is live'] = "v živo";

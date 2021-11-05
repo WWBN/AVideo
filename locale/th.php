@@ -1,7 +1,7 @@
 <?php
 global $t;
 
-$t['%s ERROR: You must set a ID on config'] = "%s ERROR: คุณต้องตั้งรหัสใน config";
+$t['%s ERROR: You must set an ID on config'] = "%s ERROR: คุณต้องตั้งรหัสใน config";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: คุณต้องตั้ง KEY ใน config";
 $t['465 OR 587'] = "465 หรือ 587";
 $t['A service error occurred: %s'] = "เกิดข้อผิดพลาดเกี่ยวกับบริการ: %s";

@@ -2,7 +2,7 @@
 global $t;
 
 $t['%d Users linked'] = "%d Users linked";
-$t['%s ERROR: You must set a ID on config'] = "%s ERROR: You must set a ID on config";
+$t['%s ERROR: You must set an ID on config'] = "%s ERROR: You must set an ID on config";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: You must set a KEY on config";
 $t['(filtered from _MAX_ total entries)'] = "(filtered from _MAX_ total entries)";
 $t['465 OR 587'] = '465 or 587';
@@ -601,7 +601,7 @@ $t['days'] = 'days';
 $t['description'] = 'description';
 $t['hour'] = 'hour';
 $t['hours'] = 'hours';
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "installed, but your database is not up to date. This could lead to bugs. Please go to the update site.";
 $t['is Active'] = 'is Active';
 $t['is Admin'] = 'is Admin';
 $t['is live'] = 'is live';

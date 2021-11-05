@@ -1,7 +1,7 @@
 <?php
 global $t;
 
-$t['%s ERROR: You must set a ID on config'] = "% s ERROR: você deve definir uma identificação na configuração";
+$t['%s ERROR: You must set an ID on config'] = "% s ERROR: você deve definir uma identificação na configuração";
 $t['%s ERROR: You must set a KEY on config'] = "% s ERROR: você deve definir uma tecla na configuração";
 $t['465 OR 587'] = '465 ou 587';
 $t['A service error occurred: %s'] = "Ocorreu um erro de serviço:% s";
@@ -233,7 +233,7 @@ $t['Themes'] = 'Temas';
 $t['There is missing data to recover your password'] = 'Faltam dados para recuperar sua senha';
 $t['This e-mail will be used for this web site notifications'] = "Este e-mail será usado para as notificações deste site";
 $t['This help us to track and dettect errors'] = 'Isso nos ajuda a rastrear e corrigir erros';
-$t['This page works only with a MP4 File, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Esta página funciona apenas com um arquivo MP4, se você tiver ou precisar de qualquer outro formato, tente instalar seu próprio <a href = 'https: //github.com/DanielnetoDotCom/AVideo-Encoder' class = 'btn btn-warning btn -xs '> codificador </a> ou use <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'> public </a> one";
+$t['This page works only with a MP4 File, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Esta página funciona apenas com um arquivo MP4, se você tiver ou precisar de qualquer outro formato, tente instalar seu próprio <a href='https://github.com/DanielnetoDotCom/AVideo-Encoder' class='btn btn-warning btn-xs'> codificador </a> ou use <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'> public </a> one";
 $t['This value must match with the language files on'] = 'Esse valor deve corresponder com os arquivos de idioma em';
 $t['This video will work as an advertising and will no longer appear on videos list'] = "Este vídeo funcionará como publicidade e não aparecerá mais na lista de vídeos";
 $t['Timeline'] = 'Cronograma';

@@ -2,7 +2,7 @@
 global $t;
 
 $t['%d Users linked'] = "%d verknüpfte Benutzer";
-$t['%s ERROR: You must set a ID on config'] = "%s FEHLER: Du musst eine ID in der config erstellen";
+$t['%s ERROR: You must set an ID on config'] = "%s FEHLER: Du musst eine ID in der config erstellen";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: Du musst einen KEY (Schlüssel) in der config generieren";
 $t['(filtered from _MAX_ total entries)'] = "(gefiltert von _MAX_ total Einträgen)";
 $t['465 OR 587'] = '465 oder 587';
@@ -499,7 +499,7 @@ $t['This e-mail will be used for this web site notifications'] = "Diese E-Mail-A
 $t['This help us to track and dettect errors'] = "Hilft uns, Fehler zu entdecken und nachzuverfolgen";
 $t['This is an experimental resource'] = 'Dies ist eine experimentelle Ressource';
 $t['This is where you can create groups and associate them with your videos and users. This will make your videos private. Only users who are in the same group as the videos can view them'] = "Hier kannst Du Gruppen erstellen und diesen Videos und Nutzer zuordnen. Dadurch werden deine Videos privat. Nur Benutzer, die derselben Gruppe wie die Videos angehören, können sie ansehen";
-$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/DanielnetoDotCom/YouPHPTube-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder.youphptube.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Diese Seite funktioniert nur mit MP4-, MP3- und OGG-Dateien. Wenn Du ein anderes Format benötigst, versuche einen eigenen oder verwende den <a href=\'https://encoder.youphptube.com/\' class=\'btn btn-warning btn-xs\'>öffentlichen</a>";
+$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/DanielnetoDotCom/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder.youphptube.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Diese Seite funktioniert nur mit MP4-, MP3- und OGG-Dateien. Wenn Du ein anderes Format benötigst, versuche einen eigenen oder verwende den <a href=\'https://encoder.youphptube.com/\' class=\'btn btn-warning btn-xs\'>öffentlichen</a>";
 $t['This value must match with the language files on'] = "Dieser Eintrag muss mit den Sprachdateien übereinstimmen";
 $t['This video was reported to our team, we will review it soon'] = "Video wurde gemeldet und wird bald überprüpft";
 $t['Thumbs Down'] = 'Daumen runter';
@@ -552,8 +552,8 @@ $t['Unlisted'] = 'Nicht gelistet';
 $t['Unsuggest'] = 'Nicht vorgeschlagen';
 $t['Up Next'] = "Als Nächstes";
 $t['Up'] = 'Rauf';
+$t['Update AVideo System'] = 'Update AVideo System';
 $t['Update Now'] = 'Jetzt updaten';
-$t['Update YouPHPTube System'] = 'Update YouPHPTube System';
 $t['Update version'] = 'Update Version';
 $t['Update your user'] = 'Aktualisiere Deine Nutzer';
 $t['Upload a Background'] = 'Hinzergrund hochladen';
@@ -747,7 +747,7 @@ $t['help'] = 'Hilfe';
 $t['hour'] = 'Stunde';
 $t['hours'] = 'Stunden';
 $t['info'] = 'Info';
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "installiert, aber die Datenbank ist nicht aktuell. Dies kann zu Fehlern führen. Bitte besuche die Update-Seite.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "installiert, aber die Datenbank ist nicht aktuell. Dies kann zu Fehlern führen. Bitte besuche die Update-Seite.";
 $t['is Active'] = 'ist aktiv';
 $t['is Admin'] = 'ist Administrator';
 $t['login'] = 'anmelden';

@@ -1,7 +1,7 @@
 <?php
 global $t;
 
-$t['%s ERROR: You must set a ID on config'] = "%s 錯誤：您必須設定 ID";
+$t['%s ERROR: You must set an ID on config'] = "%s 錯誤：您必須設定 ID";
 $t['%s ERROR: You must set a KEY on config'] = "%s 錯誤：您必須設定 KEY";
 $t['(filtered from _MAX_ total entries)'] = "（從 _MAX_ 個條目中篩選出）";
 $t[', where you can edit the ad-options'] = "，您可以在其中編輯廣告選項";
@@ -217,7 +217,7 @@ $t['Do you want to block this user?'] = "您要阻止此用戶嗎？";
 $t['Do you want to report this video as inapropriate?'] = "您要舉報此視頻不當嗎？";
 $t['Do you want to report this video? Sign in to make your opinion count.'] = "您要舉報此視頻嗎？登錄以讓您的意見有價值。";
 $t['Document'] = "文檔";
-$t['Donatate from your wallet'] = "從你的錢包捐贈";
+$t['Donate from your wallet'] = "從你的錢包捐贈";
 $t['Donation Link'] = "捐贈鏈接";
 $t['Donation'] = "捐款";
 $t['Donation'] = "捐款";
@@ -1065,7 +1065,7 @@ $t['days'] = "天";
 $t['hour'] = "小時";
 $t['hours'] = "小時";
 $t['info'] = 'info';
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "已安裝，但您的數據庫不是最新的。這可能會導致錯誤。請訪問更新站點。";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "已安裝，但您的數據庫不是最新的。這可能會導致錯誤。請訪問更新站點。";
 $t['is Active'] = "啟用";
 $t['is Admin'] = "管理員";
 $t['is live'] = "正在直播";

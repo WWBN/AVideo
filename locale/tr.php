@@ -2,7 +2,7 @@
 global $t;
 
 $t['%d Users linked'] = "%d Users linked";
-$t['%s ERROR: You must set a ID on config'] = "%s ERROR: Yapılandırmada bir ID ayarlamanız gerekiyor";
+$t['%s ERROR: You must set an ID on config'] = "%s ERROR: Yapılandırmada bir ID ayarlamanız gerekiyor";
 $t['%s ERROR: You must set a KEY on config'] = "%s ERROR: Yapılandırmada bir KEY ayarlamanız gerekiyor";
 $t['(filtered from _MAX_ total entries)'] = "(Toplam _MAX_ girdiden filtrelendi)";
 $t['465 OR 587'] = '465 veya 587';
@@ -624,7 +624,7 @@ $t['days'] = "gün";
 $t['description'] = "Açıklama";
 $t['hour'] = 'saat';
 $t['hours'] = 'saat';
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "yüklü, ancak veritabanınız güncel değil. Bu, hatalara neden olabilir. Lütfen güncelleme sitesine gidin.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "yüklü, ancak veritabanınız güncel değil. Bu, hatalara neden olabilir. Lütfen güncelleme sitesine gidin.";
 $t['is Active'] = 'Aktif';
 $t['is Admin'] = "Yönetici";
 $t['is live'] = "yayında";

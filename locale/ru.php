@@ -3,7 +3,7 @@ global $t;
 
 $t[' Email Configuration'] = "Настройка электронной почты";
 $t['%d Users linked'] = "%d Связанных пользователей";
-$t['%s ERROR: You must set a ID on config'] = "%s ОШИБКА: Вы должны установить ID в конфигурации";
+$t['%s ERROR: You must set an ID on config'] = "%s ОШИБКА: Вы должны установить ID в конфигурации";
 $t['%s ERROR: You must set a KEY on config'] = "%s ОШИБКА: Вы должны установить ключ в конфигурации";
 $t['(filtered from _MAX_ total entries)'] = "(отфильтровано из _MAX_ всего записей)";
 $t['465 OR 587'] = "465 или 587";
@@ -507,7 +507,7 @@ $t['This e-mail will be used for this web site notifications'] = "Этот ад�
 $t['This help us to track and dettect errors'] = "Это помогает нам отслеживать и обнаруживать ошибки";
 $t['This is an experimental resource'] = "Это экспериментальный ресурс";
 $t['This is where you can create groups and associate them with your videos and users. This will make your videos private. Only users who are in the same group as the videos can view them'] = "Здесь вы можете создавать группы и связывать их с вашими видео и пользователями. Это сделает ваши видео приватными. Только пользователи, которые находятся в той же группе, что и видео, могут просматривать их";
-$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Эта страница работает только с MP4 файлами , если у вас есть или вам нужен какой-либо другой формат, попробуйте установить свой собственный <a href = 'https: //github.com/WWBN/AVideo-Encoder' class = 'btn btn-warning btn -xs '> encoder </a> или используйте <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'> общедоступный </a>";
+$t['This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href=\'https://github.com/WWBN/AVideo-Encoder\' class=\'btn btn-warning btn-xs\'>encoder</a> or use the <a href=\'https://encoder1.avideo.com/\' class=\'btn btn-warning btn-xs\'>public</a> one'] = "Эта страница работает только с MP4 файлами, если у вас есть или вам нужен какой-либо другой формат, попробуйте установить свой собственный <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> или используйте <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'> общедоступный </a>";
 $t['This value must match with the language files on'] = "Это значение должно соответствовать языковым файлам на";
 $t['This video was reported to our team, we will review it soon'] = "На это видео было указано нашей команде, мы скоро рассмотрим его";
 $t['Thumbs Down'] = "Нравится";
@@ -759,7 +759,7 @@ $t['help'] = "помощь";
 $t['hour'] = "час";
 $t['hours'] = "часов";
 $t['info'] = "информация";
-$t['installed , but your database is not up to date. This could lead to bugs. Please go to the update-site.'] = "установлен, но ваша база данных не обновлена. Это может привести к ошибкам. Пожалуйста, перейдите на сайт обновления.";
+$t['installed, but your database is not up to date. This could lead to bugs. Please go to the update site.'] = "установлен, но ваша база данных не обновлена. Это может привести к ошибкам. Пожалуйста, перейдите на сайт обновления.";
 $t['is Active'] = "Активен";
 $t['is Admin'] = "Администратор";
 $t['login'] = "авторизация";
