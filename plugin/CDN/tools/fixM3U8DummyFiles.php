@@ -43,6 +43,7 @@ foreach ($videos as $value) {
     $videos_id = $value['id'];
     $list = CDNStorage::getLocalFolder($videos_id);    
     echo "Files found ".count($list) . PHP_EOL;
+    var_dump($list);
     foreach ($list as $value) {
         if(preg_match('/index.m3u8$/', $value['local_path'])){
             ob_flush();
