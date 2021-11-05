@@ -45,15 +45,10 @@ foreach ($videos as $value) {
     $videos_id = $value['id'];
 
     $list = self::getFilesListLocal($videos_id);
-    $totalFiles = count($list);
-    if (empty($totalFiles)) {
-       echo "There is not file to check ";
-        self::setProgress($videos_id, true, true);
-        return false;
-    }
     
     foreach ($list as $value) {
         if(preg_match('/index.m3u8$/', $value['local_path'])){
+            ob_flush();
             echo "Check {$value['local_path']}" . PHP_EOL;
         }
     }
