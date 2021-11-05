@@ -7516,7 +7516,13 @@ function getTimestampFromTimezone($date, $fromTimezone) {
 }
 
 
-function getCSSAnimation($type='animate__fadeInUp', $loaderSequenceName='default', $delay = 0.2){
+function getCSSAnimation($type='animate__fadeInUp', $loaderSequenceName='default', $delay = 0.1){
+    global $_getCSSAnimationClassDelay;
+    getCSSAnimationClassAndStyleAddWait($delay, $loaderSequenceName);
+    return array('css'=>'animate__animated '.$type, 'style'=>"-webkit-animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s; animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s;");
+}
+
+function getCSSAnimationClassAndStyleAddWait($delay, $loaderSequenceName='default'){
     global $_getCSSAnimationClassDelay;
     if(!isset($_getCSSAnimationClassDelay)){
         $_getCSSAnimationClassDelay = array();
@@ -7525,10 +7531,9 @@ function getCSSAnimation($type='animate__fadeInUp', $loaderSequenceName='default
         $_getCSSAnimationClassDelay[$loaderSequenceName] = 0;
     }
     $_getCSSAnimationClassDelay[$loaderSequenceName] += $delay;
-    return array('css'=>'animate__animated '.$type, 'style'=>"-webkit-animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s; animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s;");
 }
 
-function getCSSAnimationClassAndStyle($type='animate__fadeInUp', $loaderSequenceName='default', $delay = 0.1){
+function getCSSAnimationClassAndStyle($type='animate__flipInX', $loaderSequenceName='default', $delay = 0.1){
     $array = getCSSAnimation($type, $loaderSequenceName, $delay);
     return "{$array['css']}\" style=\"{$array['style']}";
 }
