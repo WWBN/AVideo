@@ -27,9 +27,8 @@ $countStatusNotActive = 0;
 $countMoved = 0;
 foreach ($videos as $value) {
     $count++;
-    echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
+    //echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
     if (empty($value['sites_id'])) {
-        $countSiteIdNotEmpty++;
         echo "sites_id is empty {$value['id']} {$value['title']}" . PHP_EOL;
         ob_flush();
         continue;
@@ -40,11 +39,9 @@ foreach ($videos as $value) {
         ob_flush();
         continue;
     }
-    $countMoved++;
+    echo "*** Checking {$value['id']} {$value['title']}" . PHP_EOL;
     $videos_id = $value['id'];
-
-    $list = self::getFilesListLocal($videos_id);
-    
+    $list = self::getFilesListLocal($videos_id);    
     foreach ($list as $value) {
         if(preg_match('/index.m3u8$/', $value['local_path'])){
             ob_flush();
