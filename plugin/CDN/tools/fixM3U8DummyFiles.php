@@ -72,8 +72,12 @@ foreach ($videos as $value) {
             }
         }
     }
-    
 }
+
+foreach ($errorsFound as $value) {
+    echo "*** ERROR {$value}" . PHP_EOL;
+}
+
 echo PHP_EOL . " Done! errorsFound = {$errorsFound} " . PHP_EOL;
 die();
 
