@@ -27,7 +27,7 @@ $countStatusNotActive = 0;
 $countMoved = 0;
 
 $videosDir = getVideosDir();
-$errorsFound = 0;
+$errorsFound = array();
 foreach ($videos as $value) {
     $count++;
     //echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
@@ -47,25 +47,26 @@ foreach ($videos as $value) {
     $list = CDNStorage::getLocalFolder($videos_id);    
     echo "errorsFound = {$errorsFound} and Files found ".count($list) . PHP_EOL;
     foreach ($list as $value) {
-        $remote_filename = str_replace($videosDir, '', $value);
         if(is_array($value)){
             foreach ($value as $value2) {
-                if(preg_match('/index.m3u8$/', $value)){
-                    echo "Check {$value}" . PHP_EOL;
+                $remote_filename = str_replace($videosDir, '', $value2);
+                if(preg_match('/index.m3u8$/', $value2)){
+                    echo "Check {$value2}" . PHP_EOL;
                     $content = trim(CDNStorage::file_get_contents($remote_filename));
                     if($content=='Dummy File'){
-                        $errorsFound++;
-                        echo "Found ERROR {$value}" . PHP_EOL;
+                        $errorsFound[] = $value2;
+                        //echo "Found ERROR {$value2}" . PHP_EOL;
                     }
                 }
             }
         }else{
+            $remote_filename = str_replace($videosDir, '', $value);
             if(preg_match('/index.m3u8$/', $value)){
                 echo "Check {$value}" . PHP_EOL;
                 $content = trim(CDNStorage::file_get_contents($remote_filename));
                 if($content=='Dummy File'){
-                    $errorsFound++;
-                    echo "Found ERROR {$value}" . PHP_EOL;
+                    $errorsFound[] = $value;
+                    //echo "Found ERROR {$value}" . PHP_EOL;
                 }
             }
         }
