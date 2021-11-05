@@ -42,17 +42,25 @@ foreach ($videos as $value) {
         ob_flush();
         continue;
     }
-    echo "*** Checking {$value['id']} {$value['title']}" . PHP_EOL;
+    echo "Checking {$value['id']} {$value['title']}" . PHP_EOL;
     $videos_id = $value['id'];
     $list = CDNStorage::getLocalFolder($videos_id);    
-    echo "Files found ".count($list) . PHP_EOL;
+    echo "errorsFound = {$errorsFound} and Files found ".count($list) . PHP_EOL;
     foreach ($list as $value) {
         $remote_filename = str_replace($videosDir, '', $value);
         if(is_array($value)){
-            
+            foreach ($value as $value2) {
+                if(preg_match('/index.m3u8$/', $value)){
+                    echo "Check {$value}" . PHP_EOL;
+                    $content = trim(CDNStorage::file_get_contents($remote_filename));
+                    if($content=='Dummy File'){
+                        $errorsFound++;
+                        echo "Found ERROR {$value}" . PHP_EOL;
+                    }
+                }
+            }
         }else{
             if(preg_match('/index.m3u8$/', $value)){
-                ob_flush();
                 echo "Check {$value}" . PHP_EOL;
                 $content = trim(CDNStorage::file_get_contents($remote_filename));
                 if($content=='Dummy File'){
