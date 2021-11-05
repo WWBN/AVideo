@@ -50,8 +50,8 @@ foreach ($videos as $value) {
     foreach ($list as $value) {
         if(is_array($value)){
             foreach ($value as $value2) {
-                $remote_filename = str_replace($videosDir, '', $value2);
                 if(preg_match('/index.m3u8$/', $value2)){
+                    $remote_filename = str_replace($videosDir, '', $value2);
                     echo "Check {$value2}" . PHP_EOL;
                     $content = trim(CDNStorage::file_get_contents($remote_filename));
                     if($content=='Dummy File'){
@@ -61,8 +61,8 @@ foreach ($videos as $value) {
                 }
             }
         }else{
-            $remote_filename = str_replace($videosDir, '', $value);
             if(preg_match('/index.m3u8$/', $value)){
+                $remote_filename = str_replace($videosDir, '', $value);
                 echo "Check {$value}" . PHP_EOL;
                 $content = trim(CDNStorage::file_get_contents($remote_filename));
                 if($content=='Dummy File'){

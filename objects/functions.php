@@ -2644,6 +2644,32 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
     return $passwordSalted === $hash || $passwordUnSalted === $hash || $password === $hash;
 }
 
+function encryptPasswordV2($uniqueSalt, $password, $noSalt = false) {
+    global $advancedCustom, $global, $advancedCustomUser;
+    if (!empty($advancedCustomUser->encryptPasswordsWithSalt) && !empty($global['salt']) && empty($noSalt)) {
+        $password .= $global['salt'];
+    }
+    $password .= md5($uniqueSalt);
+    return md5(hash("whirlpool", sha1($password)));
+}
+
+function encryptPasswordVerifyV2($uniqueSalt, $password, $hash, $encodedPass = false) {
+    global $advancedCustom, $global;
+    if (!$encodedPass || $encodedPass === 'false') {
+        //_error_log("encryptPasswordVerify: encrypt");
+        $passwordSalted = encryptPasswordV2($uniqueSalt, $password);
+        // in case you enable the salt later
+        $passwordUnSalted = encryptPasswordV2($uniqueSalt, $password, true);
+    } else {
+        //_error_log("encryptPasswordVerify: do not encrypt");
+        $passwordSalted = $password;
+        // in case you enable the salt later
+        $passwordUnSalted = $password;
+    }
+    //_error_log("passwordSalted = $passwordSalted,  hash=$hash, passwordUnSalted=$passwordUnSalted");
+    return $passwordSalted === $hash || $passwordUnSalted === $hash || $password === $hash;
+}
+
 function isMobile($userAgent = null, $httpHeaders = null) {
     if (empty($userAgent) && empty($_SERVER["HTTP_USER_AGENT"])) {
         return false;
