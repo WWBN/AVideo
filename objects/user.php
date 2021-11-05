@@ -1079,6 +1079,12 @@ if (typeof gtag !== \"function\") {
 
         $formats .= "s";
         $values[] = $user;
+        
+        if(trim($user) !== $user){
+            $formats .= "s";
+            $values[] = trim($user);
+            $sql .= " OR user = ? ";
+        }
 
         if ($mustBeactive) {
             $sql .= " AND status = 'a' ";
