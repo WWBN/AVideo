@@ -353,7 +353,7 @@ class CDNStorage {
         $totalFilesToTransfer = count($list);
         foreach ($list as $value) {
             $itemsProcessed++;
-            if ($value['local_filesize'] < 20) {
+            if (filesize($value['local_path']) < 20) {
                 self::addToLog($value['videos_id'], $value['local_path'] . ' is a dummy file local_filesize=' . $value['local_filesize'] . ' Bytes');
                 continue;
             }
