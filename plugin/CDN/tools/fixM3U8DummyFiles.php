@@ -45,7 +45,8 @@ foreach ($videos as $value) {
     echo "Checking {$value['id']} {$value['title']}" . PHP_EOL;
     $videos_id = $value['id'];
     $list = CDNStorage::getLocalFolder($videos_id);    
-    echo "errorsFound = {$errorsFound} and Files found ".count($list) . PHP_EOL;
+    echo "Files found ".count($list) . PHP_EOL;
+    echo "Errors found ".count($errorsFound) . PHP_EOL;
     foreach ($list as $value) {
         if(is_array($value)){
             foreach ($value as $value2) {
