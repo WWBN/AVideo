@@ -2188,12 +2188,23 @@ if (typeof gtag !== \"function\") {
         if (empty($_REQUEST['pass']) && !empty($_REQUEST['password'])) {
             $_REQUEST['pass'] = $_REQUEST['password'];
         }
+        
+        $response = false;
         if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
-            $user->login(false, !empty($_REQUEST['encodedPass']));
-            _error_log("loginFromRequest {$_REQUEST['user']}, {$_REQUEST['pass']}");
+            $response = $user->login(false, !empty($_REQUEST['encodedPass']));
+            if(!$response){
+                _error_log("loginFromRequest trying again");
+                $response = $user->login(false, empty($_REQUEST['encodedPass']));
+            }
+            if($response){
+                _error_log("loginFromRequest {$_REQUEST['user']}, {$_REQUEST['pass']}");
+            }else{
+                _error_log("loginFromRequest ERROR {$_REQUEST['user']}, {$_REQUEST['pass']}");
+            }
             $_REQUEST['do_not_login'] = 1;
         }
+        return $response;
     }
 
     public static function loginFromRequestToGet() {
