@@ -23,8 +23,15 @@ if (empty($_REQUEST['current'])) {
     $_REQUEST['current'] = getCurrentPage();
 }
 
-$videos = Video::getAllVideos('', $showOnlyLoggedUserVideos, true, array(), false, $showUnlisted, $activeUsersOnly);
-$total = Video::getTotalVideos('', $showOnlyLoggedUserVideos, true, $showUnlisted, $activeUsersOnly);
+$status = '';
+if (!empty($_REQUEST['status'])) {
+    if(!empty(Video::$statusDesc[$_REQUEST['status']])){
+        $status = $_REQUEST['status'];
+    }
+}
+
+$videos = Video::getAllVideos($status, $showOnlyLoggedUserVideos, true, array(), false, $showUnlisted, $activeUsersOnly);
+$total = Video::getTotalVideos($status, $showOnlyLoggedUserVideos, true, $showUnlisted, $activeUsersOnly);
 foreach ($videos as $key => $value) {
     unset($value['password'], $value['recoverPass']);
     $name = empty($value['name'])?$value['user']:$value['name'];
@@ -61,6 +68,7 @@ $obj->current = getCurrentPage();
 $obj->rowCount = getRowCount();
 $obj->total = $total;
 $obj->rows = $videos;
+$obj->status = $status;
 
 die(json_encode($obj));
 exit;

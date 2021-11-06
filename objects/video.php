@@ -70,6 +70,17 @@ if (!class_exists('Video')) {
             'u' => 'Unlisted',
             'r' => 'Recording',
             'f' => 'FansOnly');
+        public static $statusIcons = array(
+            'a' => '<i class=\'fas fa-eye\'></i>',
+            'k' => '<i class=\'fas fa-cog\'></i>',
+            'i' => '<i class=\'fas fa-eye-slash\'></i>',
+            'e' => '<i class=\'fas fa-cog\'></i>',
+            'x' => '<i class=\'fas fa-exclamation-triangle\'></i>',
+            'd' => '<i class=\'fas fa-download\'></i>',
+            't' => '<i class=\'fas fa-sync\'></i>',
+            'u' => '<i class=\'fas fa-eye\' style=\'color: #BBB;\'></i>',
+            'r' => '<i class=\'fas fa-circle\'></i>',
+            'f' => '<i class=\'fas fa-star\'></i>');
         public static $statusActive = 'a';
         public static $statusActiveAndEncoding = 'k';
         public static $statusInactive = 'i';

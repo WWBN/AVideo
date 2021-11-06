@@ -69,6 +69,9 @@
         display: flow-root;
     }
 </style>
+<script>
+    var filterStatus = '';
+</script>
 <div class="container-fluid">
     <?php
     if (empty($_GET['iframe'])) {
@@ -285,6 +288,34 @@
                 <button class="btn btn-danger" id="deleteBtn">
                     <i class="fa fa-trash" aria-hidden="true"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Delete'); ?></span>
                 </button>
+            </div>
+
+            <div class="btn-group pull-right" id="filterButtonsVideoManager">
+                <div class="btn-group ">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="activeFilter"><?php echo __('All'); ?></span> <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li><a href="#" onclick="filterStatus = ''; $('.activeFilter').html('<?php echo __('All'); ?>');
+                                $(".tooltip").tooltip("hide");$('#grid').bootgrid('reload');
+                                return false;"><?php echo __('All'); ?></a></li>
+                        <?php
+                        $showOnly = array('a', 'i', 'e', 't', 'u');
+                        if(AVideoPlugin::isEnabled('FansSubscriptions')){
+                            $showOnly[] = 'f';
+                        }
+                        if(AVideoPlugin::isEnabled('SendRecordedToEncoder')){
+                            $showOnly[] = 'r';
+                        }
+                        foreach (Video::$statusDesc as $key => $value) {
+                            if(!in_array($key, $showOnly)){
+                                continue;
+                            }
+                            $text = Video::$statusIcons[$key] . ' ' . __($value);
+                            echo '<li><a href="#" onclick="filterStatus=\'' . $key . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
+                        }
+                        ?>
+                    </ul>
+                </div>
             </div>
             <table id="grid" class="table table-condensed table-hover table-striped videosManager">
                 <thead>
@@ -567,7 +598,8 @@
                                                         url: '<?php echo $global['webSiteRootURL']; ?>objects/videos.json.php?rowCount=6',
                                                         type: "POST",
                                                         data: {
-                                                            searchPhrase: req.term
+                                                            searchPhrase: req.term,
+                                                            status: filterStatus
                                                         },
                                                         success: function (data) {
                                                             res(data.rows);
@@ -1740,6 +1772,11 @@ if (User::isAdmin()) {
                                                 $('#inputNextVideoClean').val("");
                                                 $('#inputNextVideo-id').val("");
                                             });
+
+                                            function getGridURL() {
+                                                return webSiteRootURL + "objects/videos.json.php?showAll=1&status=" + filterStatus;
+                                            }
+
                                             var grid = $("#grid").bootgrid({
                                                 labels: {
                                                     noResults: "<?php echo __("No results found!"); ?>",
@@ -1751,7 +1788,7 @@ if (User::isAdmin()) {
                                                 },
                                                 rowCount: <?php echo $advancedCustom->videosManegerRowCount; ?>,
                                                 ajax: true,
-                                                url: "<?php echo $global['webSiteRootURL'] . "objects/videos.json.php?showAll=1"; ?>",
+                                                url: getGridURL,
                                                 formatters: {
                                                     "commands": function (column, row)
                                                     {
