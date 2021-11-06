@@ -2198,7 +2198,7 @@ if (typeof gtag !== \"function\") {
                 $response = $user->login(false, empty($_REQUEST['encodedPass']));
             }
             if($response){
-                _error_log("loginFromRequest {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                _error_log("loginFromRequest SUCCESS {$_REQUEST['user']}, {$_REQUEST['pass']}");
             }else{
                 _error_log("loginFromRequest ERROR {$_REQUEST['user']}, {$_REQUEST['pass']}");
             }
