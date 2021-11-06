@@ -185,7 +185,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <a href="https://youphp.tube/plugins/?tab=plugin" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
+                        <a href="https://youphp.tube/marketplace/?tab=plugin" class="btn btn-success btn-xs" role="button"><i class="fa fa-cart-plus"></i> <?php echo __("Buy This Plugin"); ?> </a>
                     </div>
                 </div>
             </li>

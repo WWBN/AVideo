@@ -63,7 +63,7 @@ if (User::isAdmin()) {
                                                 <?php
                                                 if (!AVideoPlugin::exists('Customize')) {
                                                     ?>
-                                                    <a href="https://youphp.tube/plugins/" class="btn btn-success btn-radio btn-block btn-xs" id=""> <i class="fas fa-palette"></i>  Purchase the Customize Plugin</a>
+                                                    <a href="https://youphp.tube/marketplace/" class="btn btn-success btn-radio btn-block btn-xs" id=""> <i class="fas fa-palette"></i>  Purchase the Customize Plugin</a>
                                                     <?php
                                                 } else {
                                                     ?>
