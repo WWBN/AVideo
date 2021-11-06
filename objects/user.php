@@ -2209,6 +2209,12 @@ if (typeof gtag !== \"function\") {
                     case self::USER_NOT_VERIFIED:
                         _error_log("loginFromRequest NOT VERIFIED {$_REQUEST['user']}, {$_REQUEST['pass']}");
                         break;
+                    case self::CAPTCHA_ERROR:
+                        _error_log("loginFromRequest CAPTCHA_ERROR {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        break;
+                    case self::REQUIRE2FA:
+                        _error_log("loginFromRequest REQUIRE2FA {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        break;
                     default:
                         _error_log("loginFromRequest UNDEFINED {$_REQUEST['user']}, {$_REQUEST['pass']}");
                         break;
