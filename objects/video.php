@@ -4861,11 +4861,15 @@ if (!class_exists('Video')) {
         static function checkIfIsBroken($videos_id){
             $video = new Video('', '', $videos_id);
             if($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted){
-                if(self::isMediaFileMissing($video->getFilename())){
-                    $video->setStatus(Video::$statusBrokenMissingFiles);
-                    Video::clearCache($videos_id);
+                if($video->getType() == 'audio' || $video->getType() ==  'video'){
+                    if(self::isMediaFileMissing($video->getFilename())){
+                        $video->setStatus(Video::$statusBrokenMissingFiles);
+                        Video::clearCache($videos_id);
+                        return true;
+                    }
                 }
             }
+            return false;
         }
         
         public static function isMediaFileMissing($filename) {
