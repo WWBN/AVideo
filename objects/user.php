@@ -2193,7 +2193,7 @@ if (typeof gtag !== \"function\") {
         if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
             $response = $user->login(false, !empty($_REQUEST['encodedPass']));
-            if (!$response) {
+            if ($response !== self::USER_LOGGED) {
                 _error_log("loginFromRequest trying again");
                 $response = $user->login(false, empty($_REQUEST['encodedPass']));
             }
