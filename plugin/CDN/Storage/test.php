@@ -20,8 +20,9 @@ $remote_file = "{$filename}";
 echo '<h2>Transfering...</h2>' . PHP_EOL;
 
 echo '<h4>Test 1 Default configuration</h4>' . PHP_EOL;
+echo '<h4>Test 1 Default configuration</h4>' . PHP_EOL;
 $CDNstorage = new \FtpClient\FtpClient();
-$CDNstorage->connect('storage.bunnycdn.com');
+$CDNstorage->connect($obj->storage_hostname);
 $CDNstorage->login($obj->storage_username, $obj->storage_password);
 $CDNstorage->pasv(true);
 if ($CDNstorage->modifiedTime($remote_file) > 0) {
