@@ -753,7 +753,7 @@ if (typeof gtag !== \"function\") {
                 if (User::isLogged()) {
                     _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [" . User::getId() . "] can not see ({$videos_id})");
                 } else {
-                    _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [not logged] can not see ({$videos_id})");
+                    //_error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [not logged] can not see ({$videos_id})");
                 }
                 self::setCacheWatchVideo($cacheName, false);
                 return false;
@@ -764,7 +764,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!User::isLogged()) {
-            _error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=" . session_id() . " SCRIPT_NAME=" . $_SERVER["SCRIPT_NAME"] . " IP = " . getRealIpAddr());
+            //_error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=" . session_id() . " SCRIPT_NAME=" . $_SERVER["SCRIPT_NAME"] . " IP = " . getRealIpAddr());
 
             self::setCacheWatchVideo($cacheName, false);
             return false;
@@ -2201,26 +2201,26 @@ if (typeof gtag !== \"function\") {
 
                 switch ($response) {
                     case self::USER_LOGGED:
-                        _error_log("loginFromRequest SUCCESS {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        _error_log("loginFromRequest SUCCESS {$_REQUEST['user']}");
                         break;
                     case self::USER_NOT_FOUND:
-                        _error_log("loginFromRequest NOT FOUND {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        _error_log("loginFromRequest NOT FOUND {$_REQUEST['user']}");
                         break;
                     case self::USER_NOT_VERIFIED:
-                        _error_log("loginFromRequest NOT VERIFIED {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        _error_log("loginFromRequest NOT VERIFIED {$_REQUEST['user']}");
                         break;
                     case self::CAPTCHA_ERROR:
-                        _error_log("loginFromRequest CAPTCHA_ERROR {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        _error_log("loginFromRequest CAPTCHA_ERROR {$_REQUEST['user']}");
                         break;
                     case self::REQUIRE2FA:
-                        _error_log("loginFromRequest REQUIRE2FA {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        _error_log("loginFromRequest REQUIRE2FA {$_REQUEST['user']}");
                         break;
                     default:
-                        _error_log("loginFromRequest UNDEFINED {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        _error_log("loginFromRequest UNDEFINED {$_REQUEST['user']}");
                         break;
                 }
             } else {
-                _error_log("loginFromRequest ERROR {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                //_error_log("loginFromRequest ERROR {$_REQUEST['user']}");
             }
             $_REQUEST['do_not_login'] = 1;
         }

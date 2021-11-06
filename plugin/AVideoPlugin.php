@@ -1100,12 +1100,15 @@ class AVideoPlugin {
                 $can = $p->userCanUpload($users_id);
                 if (!empty($can)) {
                     if ($can < 0) {
-                        _error_log("userCanUpload: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT upload a video ");
-
+                        if(!empty($users_id)){
+                            _error_log("userCanUpload: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT upload a video ");
+                        }
                         $resp = false;
                     }
                     if ($can > 0) {
-                        _error_log("userCanUpload: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can upload a video ");
+                        if(!empty($users_id)){
+                            _error_log("userCanUpload: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can upload a video ");
+                        }
                         return true;
                     }
                 }
@@ -1155,11 +1158,15 @@ class AVideoPlugin {
                 $can = $p->userCanWatchVideo($users_id, $videos_id);
                 if (!empty($can)) {
                     if ($can < 0) {
-                        _error_log("userCanWatchVideo: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT watch the video ({$videos_id})");
+                        if(!empty($users_id)){
+                            _error_log("userCanWatchVideo: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT watch the video ({$videos_id})");
+                        }
                         $resp = false;
                     }
                     if ($can > 0) {
-                        _error_log("userCanWatchVideo: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can watch the video ({$videos_id})");
+                        if(!empty($users_id)){
+                            _error_log("userCanWatchVideo: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can watch the video ({$videos_id})");
+                        }
                         $userCanWatchVideoFunction[$users_id][$videos_id] = true;
                         ObjectYPT::setSessionCache($cacheName, true);
                         return true;

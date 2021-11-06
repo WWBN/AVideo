@@ -29,15 +29,11 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 
 Category::clearCacheCount();
 TimeLogEnd($timeLog, __LINE__);
-_error_log("Start Login Request");
-
-_error_log("redirectUri: " . $_POST['redirectUri']);
 
 if (!preg_match("|^" . $global['webSiteRootURL'] . "|", $_POST['redirectUri'])) {
     $_POST['redirectUri'] = $global['webSiteRootURL'];
 }
-
-_error_log("same redirectUri: " . $_POST['redirectUri']);
+_error_log("Start Login Request redirectUri=" . $_POST['redirectUri']);
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;

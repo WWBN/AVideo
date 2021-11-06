@@ -1847,7 +1847,7 @@ function convertImage($originalImage, $outputImage, $quality) {
         return 0;
     }
     if (!is_resource($imageTmp)) {
-        _error_log("convertImage: could not create a resource $originalImage, $outputImage, $quality");
+        _error_log("convertImage: could not create a resource $originalImage, $outputImage, $quality, $ext");
         return 0;
     }
     // quality is a value from 0 (worst) to 100 (best)
@@ -6722,7 +6722,7 @@ function getStatsNotifications($force_recreate = false) {
             }
         }
         $cache = ObjectYPT::setCache($cacheName, $json);
-        _error_log('Live::createStatsCache ' . json_encode($cache));
+        //_error_log('Live::createStatsCache ' . json_encode($cache));
     } else {
         //_error_log('getStatsNotifications: 2 cached result');
         $json = object_to_array($json);

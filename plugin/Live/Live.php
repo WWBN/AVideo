@@ -1059,7 +1059,7 @@ class Live extends PluginAbstract {
             sleep(1);
             return self::getStatsObject($live_servers_id, $force_recreate, $tries + 1);
         }
-        _error_log("Live::getStatsObject[$live_servers_id]: Creating a waitfile {$waitFile}");
+        //_error_log("Live::getStatsObject[$live_servers_id]: Creating a waitfile {$waitFile}");
         file_put_contents($waitFile, time());
         $data = $this->get_data($url, $o->requestStatsTimout);
         unlink($waitFile);
@@ -1095,7 +1095,7 @@ class Live extends PluginAbstract {
             return false;
         }
 
-        _error_log_debug("Live::get_data($url, $timeout)");
+        //_error_log_debug("Live::get_data($url, $timeout)");
         return url_get_contents($url, '', $timeout);
     }
 
