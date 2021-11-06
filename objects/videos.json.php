@@ -1,4 +1,5 @@
 <?php
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -25,7 +26,7 @@ if (empty($_REQUEST['current'])) {
 
 $status = '';
 if (!empty($_REQUEST['status'])) {
-    if(!empty(Video::$statusDesc[$_REQUEST['status']])){
+    if (!empty(Video::$statusDesc[$_REQUEST['status']])) {
         $status = $_REQUEST['status'];
     }
 }
@@ -33,9 +34,14 @@ if (!empty($_REQUEST['status'])) {
 $videos = Video::getAllVideos($status, $showOnlyLoggedUserVideos, true, array(), false, $showUnlisted, $activeUsersOnly);
 $total = Video::getTotalVideos($status, $showOnlyLoggedUserVideos, true, $showUnlisted, $activeUsersOnly);
 foreach ($videos as $key => $value) {
+    /*
+      $video = new Video('', '', $value['id']);
+      $video->setStatus(Video::$statusActive);
+      Video::clearCache($value['id']);continue;
+     */
     unset($value['password'], $value['recoverPass']);
-    $name = empty($value['name'])?$value['user']:$value['name'];
-    $videos[$key]['creator'] = '<div class="pull-left"><img src="'.User::getPhoto($value['users_id']).'" alt="User Photo" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails"><div class="commenterName"><strong>'.$name.'</strong>' . User::getEmailVerifiedIcon($value['users_id']) . ' <small>'.humanTiming(strtotime($value['videoCreation'])).'</small></div></div>';
+    $name = empty($value['name']) ? $value['user'] : $value['name'];
+    $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails"><div class="commenterName"><strong>' . $name . '</strong>' . User::getEmailVerifiedIcon($value['users_id']) . ' <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
     $videos[$key]['next_video'] = array();
     $videos[$key]['description'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['description']);
     $videos[$key]['title'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['title']);
@@ -56,8 +62,10 @@ foreach ($videos as $key => $value) {
         $videos[$key]['videosURL'] = getVideosURLPDF($videos[$key]['filename']);
     } elseif ($videos[$key]['type'] == 'audio') {
         $videos[$key]['videosURL'] = getVideosURLAudio($videos[$key]['filename']);
+        Video::checkIfIsBroken($value['id']);
     } else {
         $videos[$key]['videosURL'] = getVideosURL($videos[$key]['filename']);
+        Video::checkIfIsBroken($value['id']);
     }
     unset($videos[$key]['password'], $videos[$key]['recoverPass']);
 }

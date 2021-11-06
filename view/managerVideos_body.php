@@ -296,10 +296,10 @@
                         <span class="activeFilter"><?php echo __('All'); ?></span> <span class="caret"></span></button>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                         <li><a href="#" onclick="filterStatus = ''; $('.activeFilter').html('<?php echo __('All'); ?>');
-                                $(".tooltip").tooltip("hide");$('#grid').bootgrid('reload');
+                                $('.tooltip').tooltip('hide');$('#grid').bootgrid('reload');
                                 return false;"><?php echo __('All'); ?></a></li>
                         <?php
-                        $showOnly = array('a', 'i', 'e', 't', 'u');
+                        $showOnly = array('a', 'i', 'e', 't', 'u', 'b');
                         if(AVideoPlugin::isEnabled('FansSubscriptions')){
                             $showOnly[] = 'f';
                         }
@@ -311,7 +311,7 @@
                                 continue;
                             }
                             $text = Video::$statusIcons[$key] . ' ' . __($value);
-                            echo '<li><a href="#" onclick="filterStatus=\'' . $key . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
+                            echo PHP_EOL.'<li><a href="#" onclick="filterStatus=\'' . $key . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
                         }
                         ?>
                     </ul>

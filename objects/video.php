@@ -69,7 +69,8 @@ if (!class_exists('Video')) {
             't' => 'Transferring',
             'u' => 'Unlisted',
             'r' => 'Recording',
-            'f' => 'FansOnly');
+            'f' => 'FansOnly',
+            'b' => 'Broken Missing files');
         public static $statusIcons = array(
             'a' => '<i class=\'fas fa-eye\'></i>',
             'k' => '<i class=\'fas fa-cog\'></i>',
@@ -80,7 +81,8 @@ if (!class_exists('Video')) {
             't' => '<i class=\'fas fa-sync\'></i>',
             'u' => '<i class=\'fas fa-eye\' style=\'color: #BBB;\'></i>',
             'r' => '<i class=\'fas fa-circle\'></i>',
-            'f' => '<i class=\'fas fa-star\'></i>');
+            'f' => '<i class=\'fas fa-star\'></i>',
+            'b' => '<i class=\'fas fa-times\'></i>');
         public static $statusActive = 'a';
         public static $statusActiveAndEncoding = 'k';
         public static $statusInactive = 'i';
@@ -91,6 +93,7 @@ if (!class_exists('Video')) {
         public static $statusUnlisted = 'u';
         public static $statusRecording = 'r';
         public static $statusFansOnly = 'f';
+        public static $statusBrokenMissingFiles = 'b';
         public static $rratingOptions = array('', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma');
         //ver 3.4
         private $youtubeId;
@@ -4853,6 +4856,31 @@ if (!class_exists('Video')) {
 
         function setDuration_in_seconds($duration_in_seconds) {
             $this->duration_in_seconds = intval($duration_in_seconds);
+        }
+        
+        static function checkIfIsBroken($videos_id){
+            $video = new Video('', '', $videos_id);
+            if($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted){
+                if(self::isMediaFileMissing($video->getFilename())){
+                    $video->setStatus(Video::$statusBrokenMissingFiles);
+                    Video::clearCache($videos_id);
+                }
+            }
+        }
+        
+        public static function isMediaFileMissing($filename) {
+            $sources = getVideosURL($filename);
+            $search = array('mp3', 'mp4', 'm3u8', 'webm');
+            $found = false;
+            foreach ($sources as $key => $value1) {                
+                foreach ($search as $value2) {
+                    if(preg_match("/^{$value2}/i", $key)){
+                        $found = true;
+                        break 2;
+                    }
+                }
+            }
+            return !$found;
         }
 
     }
