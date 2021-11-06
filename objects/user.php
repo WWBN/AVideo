@@ -1079,8 +1079,8 @@ if (typeof gtag !== \"function\") {
 
         $formats .= "s";
         $values[] = $user;
-        
-        if(trim($user) !== $user){
+
+        if (trim($user) !== $user) {
             $formats .= "s";
             $values[] = trim($user);
             $sql .= " OR user = ? ";
@@ -1839,7 +1839,7 @@ if (typeof gtag !== \"function\") {
         foreach ($groups as $value) {
             $obj = new stdClass();
             $obj->type = "warning";
-            $obj->text = (!empty($value['isDynamic'])?'<i class="fas fa-link"></i>':'<i class="fas fa-lock"></i>').' '.$value['group_name'];
+            $obj->text = (!empty($value['isDynamic']) ? '<i class="fas fa-link"></i>' : '<i class="fas fa-lock"></i>') . ' ' . $value['group_name'];
             $tags[] = $obj;
         }
 
@@ -2188,18 +2188,32 @@ if (typeof gtag !== \"function\") {
         if (empty($_REQUEST['pass']) && !empty($_REQUEST['password'])) {
             $_REQUEST['pass'] = $_REQUEST['password'];
         }
-        
+
         $response = false;
         if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
             $response = $user->login(false, !empty($_REQUEST['encodedPass']));
-            if(!$response){
+            if (!$response) {
                 _error_log("loginFromRequest trying again");
                 $response = $user->login(false, empty($_REQUEST['encodedPass']));
             }
-            if($response){
-                _error_log("loginFromRequest SUCCESS {$_REQUEST['user']}, {$_REQUEST['pass']}");
-            }else{
+            if ($response) {
+
+                switch ($response) {
+                    case self::USER_LOGGED:
+                        _error_log("loginFromRequest SUCCESS {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        break;
+                    case self::USER_NOT_FOUND:
+                        _error_log("loginFromRequest NOT FOUND {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        break;
+                    case self::USER_NOT_VERIFIED:
+                        _error_log("loginFromRequest NOT VERIFIED {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        break;
+                    default:
+                        _error_log("loginFromRequest UNDEFINED {$_REQUEST['user']}, {$_REQUEST['pass']}");
+                        break;
+                }
+            } else {
                 _error_log("loginFromRequest ERROR {$_REQUEST['user']}, {$_REQUEST['pass']}");
             }
             $_REQUEST['do_not_login'] = 1;
