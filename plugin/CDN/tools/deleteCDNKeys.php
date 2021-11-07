@@ -20,6 +20,10 @@ ini_set('max_execution_time', 300);
 
 getConnID(0);
 
+$list = ftp_mlsd_recursive($conn_id[0], "/{$CDNObj->storage_username}/");
+var_dump($list);
+
+/*
 $list = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/", true);
 
 foreach ($list as $value) {
@@ -33,3 +37,5 @@ foreach ($list as $value) {
         }
     }
 }
+ * 
+ */
