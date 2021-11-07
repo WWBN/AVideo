@@ -32,7 +32,7 @@ foreach ($list as $value) {
     $parts = explode(' ', $value);
     $dir = end($parts);
     
-    echo $value.PHP_EOL;exit;
+    //echo $value.PHP_EOL;exit;
     echo $count.' Searching '."/{$CDNObj->storage_username}/{$dir}/".PHP_EOL;
     $files = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/{$dir}/", true);
     foreach ($files as $file) {
@@ -40,7 +40,7 @@ foreach ($list as $value) {
             echo '******** '.$file.PHP_EOL;
         }
     }
-    if($count>10){
+    if($count>20){
         exit;
     }
 }
