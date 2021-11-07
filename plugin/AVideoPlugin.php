@@ -59,6 +59,7 @@ class AVideoPlugin {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                //echo $value['dirName'].PHP_EOL;
                 $str .= $p->getHeadCode();
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);

@@ -5599,7 +5599,10 @@ function avidoeShutdown() {
                 echo json_encode($o);
             }
         } else {
+            echo '<pre>';
             var_dump($error);
+            var_dump(debug_backtrace());            
+            echo '</pre>';
         }
         exit;
     }
