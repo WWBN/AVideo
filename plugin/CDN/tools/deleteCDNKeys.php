@@ -19,17 +19,18 @@ set_time_limit(300);
 ini_set('max_execution_time', 300);
 
 getConnID(0);
-
+/*
 $list = ftp_mlsd_recursive($conn_id[0], "/{$CDNObj->storage_username}/");
 var_dump($list);
+*/
 
-/*
+
 $list = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/", true);
 
 foreach ($list as $value) {
     $parts = explode(' ', $value);
     $dir = end($parts);
-    echo 'Searching '."/{$CDNObj->storage_username}/{$dir}/".PHP_EOL;
+    echo 'Searching '."/{$CDNObj->storage_username}/{$dir}/".PHP_EOL;exit;
     $files = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/{$dir}/", true);
     foreach ($files as $file) {
         if(preg_match('/enc_[0-9a-z].key$/i', $file)){
@@ -37,5 +38,3 @@ foreach ($list as $value) {
         }
     }
 }
- * 
- */
