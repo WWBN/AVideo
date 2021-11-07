@@ -1,7 +1,6 @@
 <?php
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
-$global['ignoreChat2'] = 1;
 $isLive = 1;
 global $doNotFullScreen;
 $doNotFullScreen = 1;
@@ -65,7 +64,7 @@ if (empty($channelName)) {
     $user->setChannelName($channelName);
     $user->save();
 }
-//$global['ignoreChat2'] = 1;
+$global['ignoreChat2'] = 1;
 $col1Class = "col-md-12 col-lg-12";
 $col2Class = "hidden";
 $chat2 = AVideoPlugin::getObjectDataIfEnabled("Chat2");
