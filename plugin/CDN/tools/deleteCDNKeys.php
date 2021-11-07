@@ -22,4 +22,13 @@ getConnID(0);
 
 $list = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/", true);
 
-var_dump($list);
+foreach ($list as $value) {
+    $parts = explode(' ', $value);
+    $dir = end($parts);
+    $files = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/{$dir}/", true);
+    foreach ($files as $file) {
+        if(preg_match('/enc_[0-9a-z].key$/i', $file)){
+            echo $file.PHP_EOL;
+        }
+    }
+}
