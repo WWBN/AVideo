@@ -38,9 +38,11 @@ for ($i=$index;$i<count($list);$i++){
     foreach ($files as $file) {
         trim($file);
         if(preg_match('/enc_[0-9a-z]+.key$/i', $file)){
-            echo '******** '.$file.PHP_EOL;
-        }else{
-            echo '* '.$file.PHP_EOL;
+            $parts = explode(' ', $file);
+            $file = end($parts);
+            $file = "/{$CDNObj->storage_username}/{$dir}/{$file}";
+            echo '******** Delete '.$file.PHP_EOL;
+            ftp_delete($conn_id[0], $file);
         }
     }
 }
