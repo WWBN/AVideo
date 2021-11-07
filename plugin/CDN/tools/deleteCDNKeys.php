@@ -27,19 +27,17 @@ var_dump($list);
 $index = intval(@$argv[1]);
 
 $list = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/", true);
-$count = 0;
 for ($i=$index;$i<count($list);$i++){
     $value = $list[$i];
-    $count++;
     $parts = explode(' ', $value);
     $dir = end($parts);
     
     //echo $value.PHP_EOL;exit;
-    echo $count.' Searching '."/{$CDNObj->storage_username}/{$dir}/".PHP_EOL;
+    echo $i.' Searching '."/{$CDNObj->storage_username}/{$dir}/".PHP_EOL;
     $files = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/{$dir}/", true);
     foreach ($files as $file) {
         trim($file);
-        if(preg_match('/enc_[0-9a-z].key$/i', $file)){
+        if(preg_match('/enc_[0-9a-z]+.key$/i', $file)){
             echo '******** '.$file.PHP_EOL;
         }else{
             echo '* '.$file.PHP_EOL;
