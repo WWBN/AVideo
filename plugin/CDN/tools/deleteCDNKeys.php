@@ -20,6 +20,6 @@ ini_set('max_execution_time', 300);
 
 getConnID(0);
 
-$list = ftp_rawlist($conn_id[0], '/', true);
+$list = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/", true);
 
 var_dump($list);
