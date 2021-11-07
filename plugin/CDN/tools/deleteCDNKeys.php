@@ -25,9 +25,9 @@ $list = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/", true);
 foreach ($list as $value) {
     $parts = explode(' ', $value);
     $dir = end($parts);
+    echo 'Searching '."/{$CDNObj->storage_username}/{$dir}/".PHP_EOL;
     $files = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/{$dir}/", true);
     foreach ($files as $file) {
-        echo 'Searching '.$file.PHP_EOL;
         if(preg_match('/enc_[0-9a-z].key$/i', $file)){
             echo '******** '.$file.PHP_EOL;
         }
