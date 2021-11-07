@@ -40,7 +40,7 @@ foreach ($list as $value) {
             echo '******** '.$file.PHP_EOL;
         }
     }
-    if($count>100){
+    if($count>1000){
         exit;
     }
 }
