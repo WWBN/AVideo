@@ -38,6 +38,8 @@ foreach ($list as $value) {
     foreach ($files as $file) {
         if(preg_match('/enc_[0-9a-z].key$/i', $file)){
             echo '******** '.$file.PHP_EOL;
+        }else{
+            echo '* '.$file.PHP_EOL;
         }
     }
 }
