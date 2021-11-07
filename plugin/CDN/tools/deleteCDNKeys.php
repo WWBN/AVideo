@@ -30,6 +30,8 @@ $list = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/", true);
 foreach ($list as $value) {
     $parts = explode(' ', $value);
     $dir = end($parts);
+    
+    echo $value.PHP_EOL;exit;
     echo 'Searching '."/{$CDNObj->storage_username}/{$dir}/".PHP_EOL;exit;
     $files = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/{$dir}/", true);
     foreach ($files as $file) {
