@@ -6,7 +6,7 @@ require_once $config;
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
-
+ob_end_flush();
 $isCDNEnabled = AVideoPlugin::isEnabledByName('CDN');
 
 if (empty($isCDNEnabled)) {
@@ -39,8 +39,5 @@ foreach ($list as $value) {
         if(preg_match('/enc_[0-9a-z].key$/i', $file)){
             echo '******** '.$file.PHP_EOL;
         }
-    }
-    if($count>1000){
-        exit;
     }
 }
