@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '16534d421740808ba107fd068052561ae69afd08',
+    'reference' => '43493dde3d07262bfbb012e24cb2231cf6385194',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -130,12 +130,12 @@
     ),
     'google/apiclient-services' => 
     array (
-      'pretty_version' => 'v0.220.0',
-      'version' => '0.220.0.0',
+      'pretty_version' => 'v0.221.0',
+      'version' => '0.221.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '95d9913a54d870c49776375e2327dcee1a2e5919',
+      'reference' => '55fb77c4dcb7ec2b41128d41815b3aac65ddfadb',
     ),
     'google/auth' => 
     array (
@@ -668,7 +668,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '16534d421740808ba107fd068052561ae69afd08',
+      'reference' => '43493dde3d07262bfbb012e24cb2231cf6385194',
     ),
   ),
 );
