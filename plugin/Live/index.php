@@ -132,7 +132,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                             $activeServerFound = true;
                             $_REQUEST['live_servers_id'] = 0;
                             ?>
-                            <li class="active">
+                            <li class="active <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'menu'); ?>">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=0">
                                     <i class="fas fa-broadcast-tower"></i> <?php echo __("Local Server"); ?>
                                 </a>
@@ -156,7 +156,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                     $active = "active";
                                 }
                                 ?>
-                                <li class="<?php echo $active; ?>">
+                                <li class="<?php echo $active; ?>  <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'menu'); ?>">
                                     <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=<?php echo $value['id']; ?>">
                                         <i class="fas fa-broadcast-tower"></i> <?php echo $value['name']; ?>
                                     </a>
@@ -214,7 +214,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6" id="indexCol2">
+                    <div class="col-lg-6 " id="indexCol2">
                         <?php
                         include $global['systemRootPath'] . 'plugin/Live/indexCol3.php';
                         ?>

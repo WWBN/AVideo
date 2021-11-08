@@ -5,7 +5,7 @@ if (!empty($obj->experimentalWebcam)) {
 ?>
 <div class="clear clearfix"></div>
 
-<div class="tabbable-line"  id="indexTabs">
+<div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInRight', 'live'); ?>"  id="indexTabs">
     <ul class="nav nav-tabs">
         <li class="active" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use streaming software or hardware"); ?>"><a data-toggle="tab" href="#tabStreamKey"><i class="fas fa-key"></i> <?php echo __("Stream Key"); ?></a></li>
         <li class="" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Share information about your live"); ?>"><a data-toggle="tab" href="#tabShare"><i class="fa fa-share"></i> <?php echo __("Share"); ?></a></li>
@@ -42,6 +42,8 @@ if (!empty($obj->experimentalWebcam)) {
 
     </div> 
 </div>  
-<?php
-AVideoPlugin::getLivePanel();
-?>
+<div class="<?php echo getCSSAnimationClassAndStyle('animate__fadeInRight', 'live'); ?>">
+    <?php
+    AVideoPlugin::getLivePanel();
+    ?>
+</div>

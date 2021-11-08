@@ -22,7 +22,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
         border-bottom-left-radius: 0;
     }
 </style>
-<div class="panel panel-default">
+<div class="panel panel-default <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
     <div class="panel-heading"><i class="fas fa-hdd"></i> <?php echo __("Devices Stream Info"); ?> (<?php echo $channelName; ?>)</div>
     <div class="panel-body" style="overflow: hidden;">
         <div class="form-group">
@@ -62,7 +62,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
         ?>
     </div>
 </div>
-<div class="tabbable-line">
+<div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
     <ul class="nav nav-tabs">
         <li class="active" >
             <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-key"></i> <?php echo __("Stream Meta Data"); ?></a></li>

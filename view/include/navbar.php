@@ -305,13 +305,21 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         <button class="btn btn-default navbar-btn pull-left" id="buttonMenu"  data-toggle="tooltip" title="<?php echo __("Main Menu"); ?>" data-placement="right" ><span class="fa fa-bars"></span></button>
                         <script>
                             function YPTSidebarOpen() {
-                                $('body').addClass('youtube')
-                                $("#sidebar").fadeIn();
+                                $("#sidebar").removeClass('animate__bounceOutLeft');
+                                $("#sidebar").show();
+                                $("#sidebar").addClass('animate__animated animate__bounceInLeft');
+                                setTimeout(function(){
+                                    $('body').addClass('youtube');
+                                }, 500);
                                 youTubeMenuIsOpened = true;
                             }
                             function YPTSidebarClose() {
-                                $('body').removeClass('youtube');
-                                $("#sidebar").fadeOut();
+                                $("#sidebar").removeClass('animate__bounceInLeft');
+                                $("#sidebar").addClass('animate__bounceOutLeft');
+                                setTimeout(function(){
+                                    $('body').removeClass('youtube');
+                                    $("#sidebar").hide();
+                                }, 500);
                                 youTubeMenuIsOpened = false;
                             }
 
@@ -777,7 +785,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             <div>
                                 <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-primary btn-block  " style="border-radius: 4px 4px 0 0;">
                                     <span class="fa fa-home"></span>
-        <?php echo __("Home"); ?>
+                                    <?php echo __("Home"); ?>
                                 </a>
 
                             </div>
@@ -869,7 +877,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                 <div>
                                     <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-block" style="border-radius: 4px 4px 0 0;">
                                         <span class="fa fa-user-circle"></span>
-            <?php echo __("My Account"); ?>
+                                        <?php echo __("My Account"); ?>
                                     </a>
 
                                 </div>
@@ -883,7 +891,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                         <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success btn-block" style="border-radius: 0;">
                                             <span class="glyphicon glyphicon-film"></span>
                                             <span class="glyphicon glyphicon-headphones"></span>
-                <?php echo __("My videos"); ?>
+                                            <?php echo __("My videos"); ?>
                                         </a>
                                     </div>
                                 </li>
