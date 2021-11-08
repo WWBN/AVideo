@@ -1,0 +1,12 @@
+{
+  "accountId": "accountId",
+  "bucketId": "bucketId",
+  "contentLength": 555,
+  "contentSha1": "0f4dd743cc9c501c70b6e3d2e033e179926ee768",
+  "contentType": "application/octet-stream",
+  "fileId": "fileId",
+  "fileInfo": {
+    "src_last_modified_millis": "1453326047773"
+  },
+  "fileName": "testfile.bin"
+}

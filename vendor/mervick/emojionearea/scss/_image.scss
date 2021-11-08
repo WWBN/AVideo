@@ -1,0 +1,45 @@
+$image-map: () !default;
+
+@function inline-image-store($attr, $value: null) {
+    $selector: &;
+    $map: ();
+    $list: ();
+    @if map-has-key($image-map, $attr) {
+        $map: map-get($image-map, $attr);
+        @if map-has-key($map, $value) {
+            $list: map-get($map, $value);
+        }
+    }
+    $list: append($list, $selector, comma);
+    $map: map-merge($map, ($value: $list));
+    $image-map: map-merge($image-map, ($attr: $map)) !global;
+    @return null;
+}
+
+@mixin inline-images-flash() {
+    $selectors: ();
+    @each $attr, $map in $image-map {
+        @each $value, $selector in $map {
+            $attributes: ();
+            @if map-has-key($selectors, $selector) {
+                $attributes: map-get($selectors, $selector);
+            }
+            $attributes: map-merge($attributes, ($attr: $value));
+            $selectors: map-merge($selectors, ($selector: $attributes));
+        }
+    }
+    @each $selector, $attributes in $selectors {
+        #{$selector} {
+            @each $attr, $value in $attributes {
+                @if $attr == content {
+                    content: inline_image($value) !important;
+                } @else if $attr == background {
+                    background-image: inline_image($value) !important;
+                } @else {
+                    #{$attr}: $value;
+                }
+            }
+        }
+    }
+    $image-map: () !global;
+}

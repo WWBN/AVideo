@@ -1,0 +1,13 @@
+tests/ export-ignore
+sample/ export-ignore
+docs/ export-ignore
+.coveralls.yml export-ignore
+.editorconfig export-ignore
+.releasinator.rb export-ignore
+.travis.yml export-ignore
+CONTRIBUTING.md export-ignore
+Gemfile export-ignore
+Gemfile.lock export-ignore
+Rakefile export-ignore
+generate-api.sh export-ignore
+

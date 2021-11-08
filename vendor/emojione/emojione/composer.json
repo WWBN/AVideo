@@ -1,0 +1,19 @@
+{
+    "name": "emojione/emojione",
+    "type": "library",
+    "description": "EmojiOne is a complete set of emojis designed for the web. It includes libraries to easily convert unicode characters to shortnames (:smile:) and shortnames to our custom emoji images. PNG format provided for the emoji images.",
+    "keywords": ["emojione","EmojiOne","emoji","emojis","emoticons","smileys","smilies","unicode"],
+    "homepage": "http://www.emojione.com",
+    "license": "(CC-BY-4.0 and MIT)",
+    "autoload": {
+        "psr-4": {
+            "Emojione\\": "lib/php/src"
+        }
+    },
+    "require": {
+        "php": ">=5.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.6 || ~5.0"
+    }
+}

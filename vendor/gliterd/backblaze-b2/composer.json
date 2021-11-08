@@ -1,0 +1,44 @@
+{
+    "name": "gliterd/backblaze-b2",
+    "type": "library",
+    "description": "PHP SDK for working with backblaze B2 cloud storage.",
+    "keywords": ["cloud-storage", "b2", "storage", "backblaze", "cloud", "filesystem", "backup"],
+    "homepage": "https://github.com/gliterd/b2-sdk-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ramesh Mhetre",
+            "email": "mhetreramesh@gmail.com",
+            "homepage": "https://gliterd.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^6.1|^7.0",
+        "nesbot/carbon": "2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5",
+        "scrutinizer/ocular": "~1.1",
+        "squizlabs/php_codesniffer": "~2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "BackblazeB2\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BackblazeB2\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "format": "phpcbf --standard=psr2 src/"
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

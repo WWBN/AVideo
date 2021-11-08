@@ -1,0 +1,5 @@
+{
+  "code": "bad_json",
+  "message": "bucketId not valid for account",
+  "status": 400
+}

@@ -1,0 +1,28 @@
+{
+  "name": "singpolyma/openpgp-php",
+  "description": "Pure-PHP implementation of the OpenPGP Message Format (RFC 4880)",
+  "license": "Unlicense",
+  "authors": [
+    {
+      "name": "Arto Bendiken",
+      "email": "arto.bendiken@gmail.com"
+    },
+    {
+      "name": "Stephen Paul Weber",
+      "email": "singpolyma@singpolyma.net"
+    }
+  ],
+  "require": {
+    "php": "^5.6 || ^7.0 || ^8.0",
+    "phpseclib/phpseclib": "^2.0 !=2.0.8"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0"
+  },
+  "suggest": {
+    "ext-mcrypt": "required if you use encryption cast5"
+  },
+  "autoload": {
+    "classmap": ["lib/"]
+  }
+}

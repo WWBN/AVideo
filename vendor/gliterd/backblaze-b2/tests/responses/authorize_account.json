@@ -1,0 +1,6 @@
+{
+  "accountId": "testId",
+  "apiUrl": "https://api900.backblaze.com",
+  "authorizationToken": "testAuthToken",
+  "downloadUrl": "https://f900.backblaze.com"
+}
