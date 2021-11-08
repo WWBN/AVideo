@@ -116,7 +116,7 @@ class ReportVideo extends PluginAbstract
     private function replaceText($users_id, $videos_id, $text)
     {
         $user = new User($users_id);
-        $userName = $user->getNameIdentification();
+        $userName = $user->getNameIdentificationBd();
 
         $video = new Video("", "", $videos_id);
         $videoName = $video->getTitle();
