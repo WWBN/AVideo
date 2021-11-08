@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'a3272b294f5dec31159945465734bc0647b145f2',
+    'reference' => '89e5734df1f1c52dd74f8171e31dfb60a12f818a',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -668,7 +668,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'a3272b294f5dec31159945465734bc0647b145f2',
+      'reference' => '89e5734df1f1c52dd74f8171e31dfb60a12f818a',
     ),
   ),
 );
