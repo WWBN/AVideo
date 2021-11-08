@@ -523,7 +523,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
                         error_log("Configuration::getEncoderURL ERROR your network ($advancedCustom->encoderNetwork) is not configured properly This slow down your site a lot, disable the option useEncoderNetworkRecomendation in your CustomizeAdvanced plugin");
                     }
                 }else{
-                    error_log("Configuration::getEncoderURL shouldUseEncodernetwork said no");
+                    //error_log("Configuration::getEncoderURL shouldUseEncodernetwork said no");
                 }
 
                 if (empty($this->encoderURL)) {
@@ -533,7 +533,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
                 $getEncoderURL = $this->encoderURL;
                 ObjectYPT::setCache("getEncoderURL", $getEncoderURL);
             }else{
-                error_log("Configuration::getEncoderURL got it from cache ". json_encode($getEncoderURL));
+                //error_log("Configuration::getEncoderURL got it from cache ". json_encode($getEncoderURL));
             }
         }
         return $getEncoderURL;
