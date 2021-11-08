@@ -1015,7 +1015,7 @@ if (!class_exists('Video')) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
                     TimeLogStart("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})");
                     $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
-                    TimeLogEnd("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})", __LINE__);
+                    TimeLogEnd("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})", __LINE__, 0.2);
                 }
             }
             $status = str_replace("'", "", $status);
@@ -1072,7 +1072,7 @@ if (!class_exists('Video')) {
                 if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
                     $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
                 }
-                TimeLogEnd("video::getAllVideos::getAllVideosExcludeVideosIDArray", __LINE__);
+                TimeLogEnd("video::getAllVideos::getAllVideosExcludeVideosIDArray", __LINE__, 0.2);
             }
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL('v.');
@@ -1194,14 +1194,19 @@ if (!class_exists('Video')) {
 
             //echo $sql;//exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
+
+            $timeLogName = TimeLogStart("video::getAllVideos");
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
+            TimeLogEnd($timeLogName, __LINE__, 0.5);
 
             // if there is a search, and there is no data and is inside a channel try again without a channel
             if (!empty($_GET['search']) && empty($fullData) && !empty($_GET['channelName'])) {
                 $channelName = $_GET['channelName'];
                 unset($_GET['channelName']);
+                TimeLogEnd($timeLogName, __LINE__, 1);
                 $return = self::getAllVideos($status, $showOnlyLoggedUserVideos, $ignoreGroup, $videosArrayId, $getStatistcs, $showUnlisted, $activeUsersOnly, $suggestedOnly);
+                TimeLogEnd($timeLogName, __LINE__, 1);
                 $_GET['channelName'] = $channelName;
                 return $return;
             }
@@ -1213,6 +1218,8 @@ if (!class_exists('Video')) {
                 require_once 'userGroups.php';
                 TimeLogStart("video::getAllVideos foreach");
                 // for the cache on the database fast insert 
+
+                TimeLogEnd($timeLogName, __LINE__, 0.2);
                 $global['mysqli']->begin_transaction();
                 foreach ($fullData as $row) {
                     if (empty($row['duration_in_seconds'])) {
@@ -1222,6 +1229,7 @@ if (!class_exists('Video')) {
                     $videos[] = $row;
                 }
                 $global['mysqli']->commit();
+                TimeLogEnd($timeLogName, __LINE__, 1);
                 $rowCount = getRowCount();
                 $tolerance = $rowCount / 100;
                 if ($tolerance < 0.2) {
@@ -2970,7 +2978,7 @@ if (!class_exists('Video')) {
                     $site = new Sites($video['sites_id']);
                 }
 
-                if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && !empty($site) && (empty($yptStorage) || $site->getUrl()=='url/')) {
+                if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && !empty($site) && (empty($yptStorage) || $site->getUrl() == 'url/')) {
                     if ($type == ".m3u8") {
                         $f = "{$filename}/index{$type}";
                     } else {
@@ -3539,23 +3547,23 @@ if (!class_exists('Video')) {
             return self::getVideosPaths($video->getFilename(), true);
         }
 
-        public static function getSourceFileURL($filename, $includeS3 = false){
+        public static function getSourceFileURL($filename, $includeS3 = false) {
             $sources = self::getVideosPaths($filename, $includeS3);
-            if(!empty($sources['mp3'])){
+            if (!empty($sources['mp3'])) {
                 return $sources['mp3'];
             }
-            if(!empty($sources['webm'])){
+            if (!empty($sources['webm'])) {
                 return end($sources['webm']);
             }
-            if(!empty($sources['m3u8']) && !empty($sources['m3u8']['url'])){
+            if (!empty($sources['m3u8']) && !empty($sources['m3u8']['url'])) {
                 return $sources['m3u8']['url'];
             }
-            if(!empty($sources['mp4'])){
+            if (!empty($sources['mp4'])) {
                 return end($sources['mp4']);
             }
             return false;
         }
-        
+
         public static function getVideosPaths($filename, $includeS3 = false) {
             global $global;
             $types = array('', '_Low', '_SD', '_HD');
@@ -4857,12 +4865,12 @@ if (!class_exists('Video')) {
         function setDuration_in_seconds($duration_in_seconds) {
             $this->duration_in_seconds = intval($duration_in_seconds);
         }
-        
-        static function checkIfIsBroken($videos_id){
+
+        static function checkIfIsBroken($videos_id) {
             $video = new Video('', '', $videos_id);
-            if($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted){
-                if($video->getType() == 'audio' || $video->getType() ==  'video'){
-                    if(self::isMediaFileMissing($video->getFilename())){
+            if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted) {
+                if ($video->getType() == 'audio' || $video->getType() == 'video') {
+                    if (self::isMediaFileMissing($video->getFilename())) {
                         $video->setStatus(Video::$statusBrokenMissingFiles);
                         Video::clearCache($videos_id);
                         return true;
@@ -4871,14 +4879,14 @@ if (!class_exists('Video')) {
             }
             return false;
         }
-        
+
         public static function isMediaFileMissing($filename) {
             $sources = getVideosURL($filename);
             $search = array('mp3', 'mp4', 'm3u8', 'webm');
             $found = false;
-            foreach ($sources as $key => $value1) {                
+            foreach ($sources as $key => $value1) {
                 foreach ($search as $value2) {
-                    if(preg_match("/^{$value2}/i", $key)){
+                    if (preg_match("/^{$value2}/i", $key)) {
                         $found = true;
                         break 2;
                     }

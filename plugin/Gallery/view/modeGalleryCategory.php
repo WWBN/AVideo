@@ -34,6 +34,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 ?>
 <div class="categoriesContainerItem">
     <?php
+    $timeLogName = TimeLogStart('modeGalleryCategory');
     foreach ($categories as $_cat) {
         $_GET['catName'] = $_cat['clean_name'];
         if (!empty($liveobj) && empty($liveobj->doNotShowLiveOnCategoryList)) {
@@ -68,6 +69,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 
         <?php
     }
+    TimeLogEnd($timeLogName, __LINE__, 1);
     ?>
 </div>
 <!-- modeGalleryCategory -->
