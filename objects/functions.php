@@ -3726,6 +3726,7 @@ function TimeLogStart($name) {
         $global['start'] = array();
     }
     $global['start'][$name] = $time;
+    return $name;
 }
 
 function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
