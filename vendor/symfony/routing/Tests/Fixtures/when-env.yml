@@ -1,9 +1,0 @@
-when@some-env:
-    a: {path: /a2}
-    b: {path: /b}
-
-when@some-other-env:
-    a: {path: /a3}
-    c: {path: /c}
-
-a: {path: /a1}
