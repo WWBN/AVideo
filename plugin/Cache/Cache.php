@@ -322,7 +322,7 @@ class Cache extends PluginAbstract {
             $row = CachesInDB::_getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType']);
             if (!empty($row)) {
                 $time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
-                if (($time + $lifetime) < time()) { 
+                if (!empty($lifetime) && ($time + $lifetime) < time()) { 
                     $c = new CachesInDB($row['id']);
                     $c->delete();
                 }else{

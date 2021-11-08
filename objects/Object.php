@@ -415,13 +415,6 @@ abstract class ObjectYPT implements ObjectInterface {
             $lifetime = 0;
         }
         global $getCachesProcessed, $_getCache;
-
-        if(self::shouldUseDatabase('')){
-            $cache = Cache::getCache($name, $lifetime);
-            if(!empty($cache)){
-                return $cache;
-            }
-        }
         
         if (empty($_getCache)) {
             $_getCache = array();
@@ -457,6 +450,14 @@ abstract class ObjectYPT implements ObjectInterface {
                 return $session;
             }
         }
+
+        if(self::shouldUseDatabase('')){
+            $cache = Cache::getCache($name, $lifetime);
+            if(!empty($cache)){
+                return $cache;
+            }
+        }
+        
         /*
           if (preg_match('/firstpage/i', $cachefile)) {
           echo var_dump($cachefile) . PHP_EOL;

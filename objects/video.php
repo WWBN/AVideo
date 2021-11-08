@@ -1198,7 +1198,7 @@ if (!class_exists('Video')) {
             $timeLogName = TimeLogStart("video::getAllVideos");
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
-            TimeLogEnd($timeLogName, __LINE__, 0.5);
+            TimeLogEnd($timeLogName, __LINE__, 0.2);
 
             // if there is a search, and there is no data and is inside a channel try again without a channel
             if (!empty($_GET['search']) && empty($fullData) && !empty($_GET['channelName'])) {
@@ -1247,6 +1247,8 @@ if (!class_exists('Video')) {
         }
 
         private static function getInfo($row, $getStatistcs = false) {
+            $TimeLogLimit = 0.1;
+            $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             $name = "_getVideoInfo_{$row['id']}";
             $cache = ObjectYPT::getCache($name, 3600);
             if (!empty($cache)) {
@@ -1265,7 +1267,7 @@ if (!class_exists('Video')) {
                 }
                 return $obj;
             }
-
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row = cleanUpRowFromDatabase($row);
             if (!self::canEdit($row['id'])) {
                 if (!empty($row['video_password'])) {
@@ -1274,8 +1276,8 @@ if (!class_exists('Video')) {
                     $row['video_password'] = 0;
                 }
             }
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             if ($getStatistcs) {
-                TimeLogStart("video::getInfo getStatistcs");
                 $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
                 $previewsWeek = date("Y-m-d 00:00:00", strtotime("-7 days"));
                 $today = date('Y-m-d 23:59:59');
@@ -1284,59 +1286,56 @@ if (!class_exists('Video')) {
                 $row['statistc_week'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsWeek, $today);
                 $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsMonth, $today);
                 $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
-                TimeLogEnd("video::getInfo getStatistcs", __LINE__, 0.5);
+                
             }
-            TimeLogStart("video::getInfo otherInfo 1 {$row['id']}");
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $otherInfocachename = "otherInfo{$row['id']}";
-            TimeLogStart("video::getInfo getCache $otherInfocachename");
             $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename, 600));
-            TimeLogEnd("video::getInfo getCache $otherInfocachename", __LINE__, 0.5);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             if (empty($otherInfo)) {
                 $otherInfo = array();
                 $otherInfo['category'] = xss_esc_back($row['category']);
-                TimeLogStart("video::getInfo getVideoGroups {$row['id']}");
                 $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
-                TimeLogEnd("video::getInfo getVideoGroups {$row['id']}", __LINE__, 0.5);
-                TimeLogStart("video::getInfo otherInfo tags {$row['id']}");
                 $otherInfo['tags'] = self::getTags($row['id']);
-                TimeLogEnd("video::getInfo otherInfo tags {$row['id']}", __LINE__, 0.5);
-                TimeLogStart("video::getInfo setCache");
                 $cached = ObjectYPT::setCache($otherInfocachename, $otherInfo);
                 //_error_log("video::getInfo cache " . json_encode($cached));
-                TimeLogEnd("video::getInfo setCache", __LINE__, 0.1);
             }
-            TimeLogEnd("video::getInfo otherInfo 1 {$row['id']}", __LINE__, 0.5);
-
-            TimeLogStart("video::getInfo otherInfo 2 {$row['id']}");
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $otherInfo['title'] = UTF8encode($row['title']);
             $otherInfo['description'] = UTF8encode($row['description']);
             $otherInfo['descriptionHTML'] = self::htmlDescription($otherInfo['description']);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             foreach ($otherInfo as $key => $value) {
                 $row[$key] = $value;
             }
-            TimeLogEnd("video::getInfo otherInfo 2 {$row['id']}", __LINE__, 0.5);
-
-            TimeLogStart("video::getInfo otherInfo 3 {$row['id']}");
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['hashId'] = idToHash($row['id']);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['link'] = self::getLinkToVideo($row['id'], $row['clean_title']);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['embedlink'] = self::getLinkToVideo($row['id'], $row['clean_title'], true);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['progress'] = self::getVideoPogressPercent($row['id']);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['isFavorite'] = self::isFavorite($row['id']);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['isWatchLater'] = self::isWatchLater($row['id']);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['total_seconds_watching_human'] = seconds2human($row['total_seconds_watching']);
             $row['views_count_short'] = number_format_short($row['views_count']);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
 
             if (empty($row['externalOptions'])) {
                 $row['externalOptions'] = json_encode(array('videoStartSeconds' => '00:00:00'));
             }
-            TimeLogEnd("video::getInfo otherInfo 3 {$row['id']}", __LINE__, 0.5);
-
-            TimeLogStart("video::getInfo getAllVideosArray");
             $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
-            TimeLogEnd("video::getInfo getAllVideosArray", __LINE__);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             ObjectYPT::setCache($name, $row);
+            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             return $row;
         }
 
@@ -3565,7 +3564,15 @@ if (!class_exists('Video')) {
         }
 
         public static function getVideosPaths($filename, $includeS3 = false) {
-            global $global;
+            global $global, $_getVideosPaths;
+            
+            $cacheName = "getVideosPaths_$filename".($includeS3?1:0);
+            $cache = ObjectYPT::getCache($cacheName, 0);
+            //var_dump($cacheName, $cache, _json_decode($cache));//exit;
+            if(!empty($cache)){
+                return object_to_array(_json_decode($cache));
+            }
+            
             $types = array('', '_Low', '_SD', '_HD');
 
             foreach ($global['avideo_resolutions'] as $value) {
@@ -3604,6 +3611,8 @@ if (!class_exists('Video')) {
             if (!empty($source['url'])) {
                 $videos['mp3'] = $source['url'];
             }
+            $c = ObjectYPT::setCache($cacheName, $videos);
+            //var_dump($cacheName, $c);exit;
             return $videos;
         }
 
