@@ -1,5 +1,0 @@
-{
-  "code": "bad_json",
-  "message": "Bad fileId: nonExistantFileId",
-  "status": 400
-}

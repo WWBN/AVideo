@@ -1,1 +1,0 @@
-emojione = module.exports;
