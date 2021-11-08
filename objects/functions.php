@@ -4720,7 +4720,11 @@ function getVideoIDFromURL($url) {
         return intval($matches[1]);
     }
     if (preg_match('/\/(video|videoEmbed|v|vEmbed|article|articleEmbed)\/([0-9]+)/', $url, $matches)) {
-        return intval($matches[1]);
+        if(is_numeric($matches[1])){
+            return intval($matches[1]);
+        }else if(is_numeric($matches[2])){
+            return intval($matches[2]);
+        }
     }
     if (AVideoPlugin::isEnabledByName('PlayLists')) {
         if (preg_match('/player.php\?playlists_id=([0-9]+)/', $url, $matches)) {

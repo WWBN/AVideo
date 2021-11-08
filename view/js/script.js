@@ -188,8 +188,8 @@ function setPlayerListners() {
         player.on('play', function () {
             isTryingToPlay = false;
             clearTimeout(promisePlayTimeout);
-            if(startCurrentTime){
-                setTimeout(function(){
+            if (startCurrentTime) {
+                setTimeout(function () {
                     setCurrentTime(startCurrentTime);
                     startCurrentTime = 0;
                 }, 100);
@@ -229,22 +229,30 @@ function removeTracks() {
 function changeVideoSrc(vid_obj, source) {
     var srcs = [];
     removeTracks();
+    var autoLoad = true;
     for (i = 0; i < source.length; i++) {
         if (source[i].type) {
-            console.log(source[i].type);
             if (source[i].type === "application/x-mpegURL") {
                 // it is HLS cancel it
-                return false;
+                //return false;
+                autoLoad = false;
             }
             srcs.push(source[i]);
         } else if (source[i].srclang) {
             player.addRemoteTextTrack(source[i]);
         }
     }
+    console.log('changeVideoSrc srcs', srcs);
     vid_obj.src(srcs);
+
     setTimeout(function () {
-        changeVideoSrcLoad();
+        if (autoLoad) {
+            changeVideoSrcLoad();
+        }else{
+            player.play();
+        }
     }, 1000);
+
     return true;
 }
 
@@ -529,12 +537,12 @@ function addViewFromCookie() {
     addViewSetCookie(false, false, false, false);
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', addView_PHPSESSID);
-    
-    if(mediaId == addView_videos_id){
+
+    if (mediaId == addView_videos_id) {
         // it is the same video, play at the last momment
         forceCurrentTime = addView_playerCurrentTime;
     }
-    
+
     $.ajax({
         url: url,
         method: 'POST',
@@ -834,12 +842,12 @@ function playerPlayIfAutoPlay(currentTime) {
     if (isWebRTC()) {
         return false;
     }
-    if(forceCurrentTime !== null){
+    if (forceCurrentTime !== null) {
         currentTime = forceCurrentTime;
         forceCurrentTime = null;
         console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
     }
-    
+
     if (currentTime) {
         setCurrentTime(currentTime);
     }
@@ -869,6 +877,8 @@ function playNext(url) {
             console.log("playNext changing location " + url);
             document.location = url;
         } else {
+            forceCurrentTime = 0;
+            setCurrentTime(0);
             console.log("playNext ajax");
             $.ajax({
                 url: webSiteRootURL + 'view/infoFromURL.php?url=' + encodeURI(url),
@@ -877,7 +887,7 @@ function playNext(url) {
                     if (!response || response.error) {
                         console.log("playNext ajax fail");
                         if (response.url) {
-                            //document.location = response.url;
+                            document.location = response.url;
                         }
                     } else {
                         console.log("playNext ajax success");
@@ -895,6 +905,7 @@ function playNext(url) {
                             return false;
                         }
                         $('video, #mainVideo').attr('poster', response.poster);
+                        player.poster(response.poster);
                         history.pushState(null, null, url);
                         $('.topInfoTitle, title').text(response.title);
                         $('#topInfo img').attr('src', response.userPhoto);
@@ -1012,13 +1023,13 @@ var startCurrentTime = 0;
 var forceCurrentTime = null;
 function setCurrentTime(currentTime) {
     console.log("setCurrentTime:", currentTime, forceCurrentTime);
-    if(forceCurrentTime !== null){
+    if (forceCurrentTime !== null) {
         startCurrentTime = forceCurrentTime;
         currentTime = forceCurrentTime;
         forceCurrentTime = null;
         console.log("forceCurrentTime:", currentTime);
-    }else if(startCurrentTime!=currentTime){
-        startCurrentTime=currentTime;
+    } else if (startCurrentTime != currentTime) {
+        startCurrentTime = currentTime;
         console.log("setCurrentTime changed:", currentTime);
     }
     console.log('setCurrentTime', currentTime);
@@ -1596,14 +1607,14 @@ $(document).ready(function () {
     });
 });
 
-function clearCache(showPleaseWait, FirstPage, sessionOnly){
-    if(showPleaseWait){
+function clearCache(showPleaseWait, FirstPage, sessionOnly) {
+    if (showPleaseWait) {
         modal.showPleaseWait();
     }
     $.ajax({
-        url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage='+FirstPage+'&sessionOnly='+sessionOnly,
+        url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=' + FirstPage + '&sessionOnly=' + sessionOnly,
         success: function (response) {
-            if(showPleaseWait){
+            if (showPleaseWait) {
                 if (!response.error) {
                     avideoToastSuccess("Your First Page cache has been cleared!");
                 } else {
@@ -1948,7 +1959,7 @@ document.addEventListener('visibilitychange', function () {
     }
 });
 
-function socketClearSessionCache(json){
+function socketClearSessionCache(json) {
     console.log('socketClearSessionCache', json);
     clearCache(false, 0, 1);
 }
