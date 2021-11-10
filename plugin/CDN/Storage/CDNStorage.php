@@ -534,7 +534,7 @@ class CDNStorage {
             $login_result = ftp_login($conn_id[$index], $obj->storage_username, $obj->storage_password);
             ftp_pasv($conn_id[$index], true);
         } else {
-            _error_log("CDNStorage::put:getConnID $index created");
+            //_error_log("CDNStorage::put:getConnID $index created");
         }
         return $conn_id[$index];
     }
@@ -552,7 +552,7 @@ class CDNStorage {
             return false;
         }
         $filesize = filesize($local_path);
-        _error_log(PHP_EOL."CDNStorage::put:uploadToCDNStorage [$index] START " . humanFileSize($filesize) . " {$remote_file} ");
+        _error_log("CDNStorage::put:uploadToCDNStorage [$index] START " . humanFileSize($filesize) . " {$remote_file} ");
         $connID = self::getConnID($index, $conn_id);
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => $filesize, 'local_path' => $local_path, 'remote_file' => $remote_file);
