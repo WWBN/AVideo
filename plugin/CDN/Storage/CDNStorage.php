@@ -437,7 +437,7 @@ class CDNStorage {
         foreach ($list as $value) {
             $filesize = filesize($value['local']['local_path']);
             if ($value['isLocal'] && $filesize > 20) {
-                if($value['local']['local_path'] != $value['remote']['remote_filesize']){
+                if($filesize != $value['remote']['remote_filesize']){
                     $filesToUpload[] = $value['local']['local_path'];
                     $totalFilesize += $filesize;
                 }else{                    
