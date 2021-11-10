@@ -448,16 +448,16 @@ class CDNStorage {
 
         $totalFiles = count($filesToUpload);
 
-        _error_log("CDNStorage::put videos_id={$videos_id} totalSameTime=$totalSameTime totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
+        //_error_log("CDNStorage::put videos_id={$videos_id} totalSameTime=$totalSameTime totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
 
         $conn_id = array();
         $ret = array();
         $fileUploadCount = 0;
         for ($i = 0; $i < $totalSameTime; $i++) {
             $file = array_shift($filesToUpload);
-            _error_log("CDNStorage::put:upload 1 {$i} Start {$file}");
+            //_error_log("CDNStorage::put:upload 1 {$i} Start {$file}");
             $upload = self::uploadToCDNStorage($file, $i, $conn_id, $ret);
-            _error_log("CDNStorage::put:upload 1 {$i} done {$file}");
+            //_error_log("CDNStorage::put:upload 1 {$i} done {$file}");
             if ($upload) {
                 $fileUploadCount++;
                 $totalBytesTransferred += $filesize;
@@ -465,7 +465,7 @@ class CDNStorage {
                 _error_log("CDNStorage::put:upload 1 {$i} error {$file}");
             }
         }
-        _error_log("CDNStorage::put confirmed " . count($ret));
+        //_error_log("CDNStorage::put confirmed " . count($ret));
         $continue = true;
         while ($continue) {
             $continue = false;
