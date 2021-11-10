@@ -512,9 +512,9 @@ class CDNStorage {
         }
 
         if ($fileUploadCount == $totalBytesTransferred) {
-            //self::createDummyFiles($videos_id);
-            //self::sendSocketNotification($videos_id, __('Video upload complete'));
-            //self::setProgress($videos_id, true, true);
+            self::createDummyFiles($videos_id);
+            self::sendSocketNotification($videos_id, __('Video upload complete'));
+            self::setProgress($videos_id, true, true);
             _error_log("CDNStorage::put finished SUCCESS {$fileUploadCount} == {$totalBytesTransferred}");
         } else {
             _error_log("CDNStorage::put finished ERROR {$fileUploadCount} == {$totalBytesTransferred}");
@@ -552,7 +552,7 @@ class CDNStorage {
             return false;
         }
         $filesize = filesize($local_path);
-        _error_log("CDNStorage::put:uploadToCDNStorage [$index] START " . humanFileSize($filesize) . " {$remote_file} ");
+        _error_log(PHP_EOL."CDNStorage::put:uploadToCDNStorage [$index] START " . humanFileSize($filesize) . " {$remote_file} ");
         $connID = self::getConnID($index, $conn_id);
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => $filesize, 'local_path' => $local_path, 'remote_file' => $remote_file);
