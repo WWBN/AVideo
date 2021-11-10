@@ -438,7 +438,7 @@ class CDNStorage {
                 $filesArray[] = $value['local']['local_path'];
                 $totalFilesize += $filesize;
             }else{                
-                _error_log("CDNStorage::put not valid local file ". json_encode($value));
+                _error_log("CDNStorage::put not valid local file {$value['local']['local_path']}");
             }
         }
 
