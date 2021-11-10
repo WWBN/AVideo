@@ -30,16 +30,15 @@ $sites_id_to_move = array();
 
 foreach ($videos as $value) {
     $count++;
-    echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;
-    echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
+    //echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
     if (!empty($value['sites_id'])) {
         $countSiteIdNotEmpty++;
-        echo "sites_id is not empty {$value['sites_id']}" . PHP_EOL;
+        //echo "sites_id is not empty {$value['sites_id']}" . PHP_EOL;
         continue;
     }
     if ($value['status'] !== Video::$statusActive) {
         $countStatusNotActive++;
-        echo "The video status is not active {$value['status']}" . PHP_EOL;
+        //echo "The video status is not active {$value['status']}" . PHP_EOL;
         continue;
     }
     $countMoved++;
