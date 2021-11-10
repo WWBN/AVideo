@@ -530,15 +530,20 @@ class CDNStorage {
             if (!isset($_uploadInfo)) {
                 $_uploadInfo = array();
             }
+            _error_log("CDNStorage::put:uploadToCDNStorage ".__LINE__);
             $remote_file = CDNStorage::filenameToRemotePath($local_path);
+            _error_log("CDNStorage::put:uploadToCDNStorage ".__LINE__);
             if (empty($remote_file)) {
-                _error_log("CDNStorage::put:upload error empty remote file name {$local_path}");
+                _error_log("CDNStorage::put:uploadToCDNStorage error empty remote file name {$local_path}");
                 return false;
             }
+            _error_log("CDNStorage::put:uploadToCDNStorage ".__LINE__);
             $connID = getConnID($index, $conn_id);
+            _error_log("CDNStorage::put:uploadToCDNStorage ".__LINE__);
             $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => filesize($local_path), 'local_path' => $local_path);
+            _error_log("CDNStorage::put:uploadToCDNStorage ".__LINE__);
             $ret[$index] = ftp_nb_put($connID, $remote_file, $local_path, FTP_BINARY);
-            _error_log("CDNStorage::put:upload SUCCESS [$index] {$remote_file} ". json_encode($_uploadInfo));
+            _error_log("CDNStorage::put:uploadToCDNStorage SUCCESS [$index] {$remote_file} ". json_encode($_uploadInfo));
             return true;
         }
         if($fileUploadCount == $totalBytesTransferred){
