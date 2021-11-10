@@ -49,6 +49,7 @@ foreach ($videos as $value) {
 
 $total = count($sites_id_to_move);
 foreach ($sites_id_to_move as $key => $value) {
+    echo "{$key}/{$total} Start move {$value}".PHP_EOL;
     CDNStorage::moveLocalToRemote($value, false);
     echo "{$key}/{$total} Moved done {$value}".PHP_EOL;
 }
