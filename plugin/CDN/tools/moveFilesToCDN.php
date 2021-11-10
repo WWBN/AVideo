@@ -51,10 +51,14 @@ foreach ($sites_id_to_move as $key => $value) {
     echo "{$key}/{$total} Start move {$value}" . PHP_EOL;
     $startF = microtime(true);
     $response = CDNStorage::put($value, 10);
-    $endF = microtime(true) - $startF;
-    $ETA = ($total - $key + 1) * $endF;
-    $mbps = number_format(($response['totalBytesTransferred']/(1024*1024)) / ($endF));
-    echo "{$key}/{$total} Moved done {$value} filesCopied={$response['filesCopied']} totalBytesTransferred=" . humanFileSize($response['totalBytesTransferred']) . " in " . secondsToDuration($endF) . " ETA: " . secondsToDuration($ETA) . " " . $mbps . '/Mbps' . PHP_EOL;
+    if(empty($response)){
+        echo "{$key}/{$total} ERROR " . PHP_EOL;
+    }else{
+        $endF = microtime(true) - $startF;
+        $ETA = ($total - $key + 1) * $endF;
+        $mbps = number_format(($response['totalBytesTransferred']/(1024*1024)) / ($endF));
+        echo "{$key}/{$total} Moved done {$value} filesCopied={$response['filesCopied']} totalBytesTransferred=" . humanFileSize($response['totalBytesTransferred']) . " in " . secondsToDuration($endF) . " ETA: " . secondsToDuration($ETA) . " " . $mbps . '/Mbps' . PHP_EOL;
+    }
 }
 
 echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;

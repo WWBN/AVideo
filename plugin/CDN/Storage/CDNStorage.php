@@ -431,30 +431,33 @@ class CDNStorage {
         $list = self::getFilesListBoth($videos_id);
         $filesArray = array();
         $totalFilesize = 0;
+        $totalBytesTransferred = 0;
         foreach ($array as $value) {
             $filesize = filesize($value['local']['local_path']);
             if ($value['isLocal'] && $filesize > 20) {
                 $filesArray[] = $value['local']['local_path'];
-                $totalFilesize+=$filesize;
+                $totalFilesize += $filesize;
             }
         }
 
         if (empty($filesArray)) {
+            _error_log("CDNStorage::put videos_id={$videos_id} There is no file to upload ");
             return false;
         }
 
         $totalFiles = count($filesArray);
-        
-        _error_log("CDNStorage::put videos_id={$videos_id} totalFiles={$totalFiles} totalFilesize=". humanFileSize($totalFilesize));
-        
+
+        _error_log("CDNStorage::put videos_id={$videos_id} totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
+
         $conn_id = array();
         $ret = array();
         $fileUploadCount = 0;
         for ($i = 0; $i < $maxSimultaneous; $i++) {
             $file = array_shift($filesToUpload);
             $uplaod = upload($file, $i);
-            if($uplaod){
+            if ($uplaod) {
                 $fileUploadCount++;
+                $totalBytesTransferred += $filesize;
             }
         }
 
@@ -471,21 +474,22 @@ class CDNStorage {
                     $continue = true;
                 }
                 if ($r == FTP_FINISHED) {
-                    $end = microtime(true)-$_uploadInfo[$key]['microtime'];
+                    $end = microtime(true) - $_uploadInfo[$key]['microtime'];
                     $filesize = $_uploadInfo[$key]['filesize'];
                     $humanFilesize = humanFileSize($filesize);
-                    $mbps = number_format(($filesize/(1024*1024))/$end);
+                    $mbps = number_format(($filesize / (1024 * 1024)) / $end);
                     $seconds = number_format($end);
                     unset($ret[$key]);
                     unset($_uploadInfo[$key]);
-                    
+
                     _error_log("CDNStorage::put [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} {$humanFilesize} {$mbps}/Mbps");
-        
+
                     $file = array_shift($filesToUpload);
                     //echo "File finished... $key" . PHP_EOL;
                     $upload = upload($file, $key);
-                    if($uplaod){
+                    if ($uplaod) {
                         $fileUploadCount++;
+                        $totalBytesTransferred += $filesize;
                     }
                 }
             }
@@ -513,7 +517,7 @@ class CDNStorage {
 
         function upload($local_path, $index, &$conn_id, &$ret) {
             global $_uploadInfo;
-            if(!isset($_uploadInfo)){
+            if (!isset($_uploadInfo)) {
                 $_uploadInfo = array();
             }
             $remote_file = CDNStorage::filenameToRemotePath($local_path);
@@ -521,11 +525,15 @@ class CDNStorage {
                 return false;
             }
             $connID = getConnID($index, $conn_id);
-            $_uploadInfo[$index] = array('microtime'=>microtime(true), 'filesize'=> filesize($local_path), 'local_path'=>$local_path);
+            $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => filesize($local_path), 'local_path' => $local_path);
             $ret[$index] = ftp_nb_put($connID, $remote_file, $local_path, FTP_BINARY);
             return true;
         }
 
+        self::createDummyFiles($videos_id);
+        self::sendSocketNotification($videos_id, __('Video upload complete'));
+        self::setProgress($videos_id, true, true);
+        return array('filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred);
     }
 
     static function createDummyFiles($videos_id) {
