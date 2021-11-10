@@ -339,7 +339,7 @@ class CDNStorage {
         self::addToLog($videos_id, 'Found ' . $totalFiles . ' Files');
         $client = self::getStorageClient();
         $video = Video::getVideoLight($videos_id);
-        $client->mkdir($video['filename'], true);
+        //$client->mkdir($video['filename'], true);
         if ($runInBackground) {
             outputAndContinueInBackground();
         }
@@ -347,7 +347,7 @@ class CDNStorage {
         _mysql_close();
         ini_set('max_execution_time', 0);
         set_time_limit(0);
-        self::addToLog($videos_id, 'Directory ' . $video['filename'] . ' Created');
+        //self::addToLog($videos_id, 'Directory ' . $video['filename'] . ' Created');
         $totalTime = 0;
         $itemsProcessed = 0;
         $totalFilesToTransfer = count($list);

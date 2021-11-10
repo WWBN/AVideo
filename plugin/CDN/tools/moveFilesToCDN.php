@@ -31,7 +31,7 @@ $sites_id_to_move = array();
 foreach ($videos as $value) {
     $count++;
     echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;".PHP_EOL;
-    echo "{$count}/{$total} Moving {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}".PHP_EOL;
+    echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}".PHP_EOL;
     if(!empty($value['sites_id'])){
         $countSiteIdNotEmpty++;
         echo "sites_id is not empty {$value['sites_id']}".PHP_EOL;
@@ -49,7 +49,7 @@ foreach ($videos as $value) {
 
 $total = count($sites_id_to_move);
 foreach ($sites_id_to_move as $key => $value) {
-    CDNStorage::moveLocalToRemote($value);
+    CDNStorage::moveLocalToRemote($value, false);
     echo "{$key}/{$total} Moved done {$value}".PHP_EOL;
 }
 
