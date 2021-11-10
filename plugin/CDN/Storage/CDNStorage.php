@@ -441,7 +441,6 @@ class CDNStorage {
                 _error_log("CDNStorage::put not valid local file {$value['local']['local_path']}");
             }
         }
-        $filesToUpload = array_reverse($filesToUpload); // start from older files
         if (empty($filesToUpload)) {
             _error_log("CDNStorage::put videos_id={$videos_id} There is no file to upload ");
             return false;
