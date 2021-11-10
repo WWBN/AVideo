@@ -549,6 +549,14 @@ class CDNStorage {
         if (!isset($_uploadInfo)) {
             $_uploadInfo = array();
         }
+        if(empty($local_path)){
+            _error_log("CDNStorage::put:uploadToCDNStorage error empty local file name {$local_path}");
+            return false;
+        }
+        if(!file_exists($local_path)){
+            _error_log("CDNStorage::put:uploadToCDNStorage error file does not exists {$local_path}");
+            return false;
+        }
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         $remote_file = CDNStorage::filenameToRemotePath($local_path);
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
