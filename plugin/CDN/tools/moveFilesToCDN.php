@@ -46,6 +46,7 @@ foreach ($videos as $value) {
     echo "{$key}/{$total} added to move {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
 }
 
+$sites_id_to_move = array_reverse($sites_id_to_move); // start from older files
 $total = count($sites_id_to_move);
 foreach ($sites_id_to_move as $key => $value) {
     echo "{$key}/{$total} Start move {$value}" . PHP_EOL;
