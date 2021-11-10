@@ -464,7 +464,7 @@ class CDNStorage {
                 _error_log("CDNStorage::put:upload 1 {$i} error {$file}");
             }
         }
-
+        _error_log("CDNStorage::put: confirmed ". count($ret));
         $continue = true;
         while ($continue) {
             $continue = false;
