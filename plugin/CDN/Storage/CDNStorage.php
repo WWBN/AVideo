@@ -515,7 +515,8 @@ class CDNStorage {
             ftp_close($value);
         }
 
-        if ($fileUploadCount == $totalBytesTransferred) {
+        _error_log("CDNStorage::put videos_id={$videos_id} End totalFiles => $totalFiles, filesCopied => $fileUploadCount, totalBytesTransferred => $totalBytesTransferred" );
+        if ($fileUploadCount == $totalFiles) {
             self::createDummyFiles($videos_id);
             self::sendSocketNotification($videos_id, __('Video upload complete'));
             self::setProgress($videos_id, true, true);
