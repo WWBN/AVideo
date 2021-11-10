@@ -531,11 +531,13 @@ class CDNStorage {
             }
             $remote_file = CDNStorage::filenameToRemotePath($local_path);
             if (empty($remote_file)) {
+                _error_log("CDNStorage::put:upload error");
                 return false;
             }
             $connID = getConnID($index, $conn_id);
             $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => filesize($local_path), 'local_path' => $local_path);
             $ret[$index] = ftp_nb_put($connID, $remote_file, $local_path, FTP_BINARY);
+            _error_log("CDNStorage::put:upload SUCCESS [$index] {$remote_file} ". json_encode($_uploadInfo));
             return true;
         }
         if($fileUploadCount == $totalBytesTransferred){
