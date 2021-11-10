@@ -488,14 +488,14 @@ class CDNStorage {
                     $filesize = $_uploadInfo[$key]['filesize'];
                     $remote_file = $_uploadInfo[$key]['remote_file'];
                     $humanFilesize = humanFileSize($filesize);
-                    $mbps = number_format(($filesize / (1024 * 1024)) / $end);
+                    $ps = humanFileSize($filesize / $end);
                     $seconds = number_format($end);
                     $ETA = secondsToDuration($end*(($totalFiles-$fileUploadCount)/$totalSameTime));
                     $totalBytesTransferred += $filesize;
                     unset($ret[$key]);
                     unset($_uploadInfo[$key]);
 
-                    _error_log("CDNStorage::put:uploadToCDNStorage [$key] [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} seconds {$humanFilesize} {$mbps}/Mbps ETA: {$ETA}");
+                    _error_log("CDNStorage::put:uploadToCDNStorage [$key] [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} seconds {$humanFilesize} {$ps}ps ETA: {$ETA}");
 
                     $file = array_shift($filesToUpload);
                     //echo "File finished... $key" . PHP_EOL;
