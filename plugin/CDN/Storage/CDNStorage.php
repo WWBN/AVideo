@@ -232,7 +232,7 @@ class CDNStorage {
             $v->setSites_id(0);
         }
 
-        return $v->save();
+        return $v->save(false, true);
     }
 
     static function moveRemoteToLocal($videos_id, $runInBackground = true) {
