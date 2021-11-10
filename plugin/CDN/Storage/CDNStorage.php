@@ -483,13 +483,14 @@ class CDNStorage {
                 if ($r == FTP_FINISHED) {
                     $end = microtime(true) - $_uploadInfo[$key]['microtime'];
                     $filesize = $_uploadInfo[$key]['filesize'];
+                    $remote_file = $_uploadInfo[$key]['remote_file'];
                     $humanFilesize = humanFileSize($filesize);
                     $mbps = number_format(($filesize / (1024 * 1024)) / $end);
                     $seconds = number_format($end);
                     unset($ret[$key]);
                     unset($_uploadInfo[$key]);
 
-                    _error_log("CDNStorage::put [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} {$humanFilesize} {$mbps}/Mbps");
+                    _error_log("CDNStorage::put [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} {$humanFilesize} {$mbps}/Mbps {$remote_file}");
 
                     $file = array_shift($filesToUpload);
                     //echo "File finished... $key" . PHP_EOL;
@@ -549,10 +550,11 @@ class CDNStorage {
             _error_log("CDNStorage::put:uploadToCDNStorage error empty remote file name {$local_path}");
             return false;
         }
-        //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
+        $filesize = filesize($local_path);
+        _error_log("CDNStorage::put:uploadToCDNStorage START " . humanFileSize($filesize) . " {$local_path} to {$remote_file} ");
         $connID = self::getConnID($index, $conn_id);
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
-        $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => filesize($local_path), 'local_path' => $local_path);
+        $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => $filesize, 'local_path' => $local_path, 'remote_file' => $remote_file);
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         $ret[$index] = ftp_nb_put($connID, $remote_file, $local_path, FTP_BINARY);
         //_error_log("CDNStorage::put:uploadToCDNStorage SUCCESS [$index] {$remote_file} " . json_encode($_uploadInfo[$index]));
