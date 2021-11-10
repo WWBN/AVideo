@@ -50,8 +50,11 @@ foreach ($videos as $value) {
 $total = count($sites_id_to_move);
 foreach ($sites_id_to_move as $key => $value) {
     echo "{$key}/{$total} Start move {$value}".PHP_EOL;
-    CDNStorage::moveLocalToRemote($value, false);
-    echo "{$key}/{$total} Moved done {$value}".PHP_EOL;
+    $startF = microtime(true);
+    $response = CDNStorage::moveLocalToRemote($value, false);
+    $endF = microtime(true)-$startF;
+    $ETA = ($total-$key+1)*$endF;
+    echo "{$key}/{$total} Moved done {$value} filesCopied={$response['filesCopied']} ".humanFileSize($response['totalBytesTransferred'])." in ". number_format($endF)." seconds ETA: ". secondsToDuration($ETA).PHP_EOL;
 }
 
 echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;".PHP_EOL;

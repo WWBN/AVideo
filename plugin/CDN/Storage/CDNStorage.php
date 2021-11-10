@@ -351,6 +351,7 @@ class CDNStorage {
         $totalTime = 0;
         $itemsProcessed = 0;
         $totalFilesToTransfer = count($list);
+        $totalBytesTransferred = 0;
         foreach ($list as $value) {
             $itemsProcessed++;
             if (filesize($value['local_path']) < 20) {
@@ -379,9 +380,8 @@ class CDNStorage {
                 $remainingFiles = $totalFilesToTransfer - $itemsProcessed;
                 $averageSeconds = $totalTime / $itemsProcessed;
                 $remainingSeconds = intval($remainingFiles * $averageSeconds);
-                ;
                 $remainingSecondsHuman = secondsToVideoTime($remainingSeconds);
-
+                $totalBytesTransferred += filesize($value['local_path']);
                 $msg = "{$itemsProcessed}/{$totalFilesToTransfer} {$remainingSecondsHuman} to finish: File moved from {$value['local_path']} to {$value['remote_path']} in {$uploadfinish} seconds " . humanFileSize($bytesPerSecond) . '/sec Average: ' . number_format($averageSeconds, 2);
                 self::addToLog($videos_id, $msg);
                 if ($itemsProcessed % 100 === 0) {
@@ -418,7 +418,7 @@ class CDNStorage {
         $end = microtime(true) - $start;
         _error_log("Finish moveLocalToRemote videos_id=($videos_id) filesCopied={$filesCopied} in {$end} Seconds");
 
-        return $filesCopied;
+        return array('filesCopied'=>$filesCopied, 'totalBytesTransferred'=>$totalBytesTransferred);
     }
 
     static function createDummyFiles($videos_id) {
