@@ -457,6 +457,7 @@ class CDNStorage {
             $file = array_shift($filesToUpload);
             _error_log("CDNStorage::put:upload 1 {$i} Start {$file}");
             $upload = uploadToCDNStorage($file, $i, $conn_id, $ret);
+            _error_log("CDNStorage::put:upload 1 {$i} done {$file}");
             if ($upload) {
                 $fileUploadCount++;
                 $totalBytesTransferred += $filesize;
