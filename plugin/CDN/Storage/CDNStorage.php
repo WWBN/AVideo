@@ -538,6 +538,9 @@ class CDNStorage {
            //self::createDummyFiles($videos_id);
            //self::sendSocketNotification($videos_id, __('Video upload complete'));
            //self::setProgress($videos_id, true, true);
+            _error_log("CDNStorage::put finished SUCCESS {$fileUploadCount} == {$totalBytesTransferred}");
+        }else{
+            _error_log("CDNStorage::put finished ERROR {$fileUploadCount} == {$totalBytesTransferred}");
         }
         return array('filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred);
     }
