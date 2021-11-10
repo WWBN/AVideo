@@ -487,6 +487,7 @@ class CDNStorage {
                     $humanFilesize = humanFileSize($filesize);
                     $mbps = number_format(($filesize / (1024 * 1024)) / $end);
                     $seconds = number_format($end);
+                    $ETA = secondsToDuration($end*($totalFiles-$fileUploadCount));
                     unset($ret[$key]);
                     unset($_uploadInfo[$key]);
 
