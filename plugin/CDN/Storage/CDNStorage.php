@@ -358,27 +358,30 @@ class CDNStorage {
                 continue;
             }
             try {
-                /*
-                  $remote_filesize = $client->size($value['relative']);
-                  if ($remote_filesize > 0 && $remote_filesize == $value['local_filesize']) {
-                  $msg = "File is already on the remote {$value['local_path']} to {$value['remote_path']} ";
-                  self::addToLog($videos_id, $msg);
-                  $filesCopied++;
-                  self::createDummy($value['local_path']);
-                  continue;
-                  }
-                 * 
-                 */
+                if(empty($value['remote_filesize'])){
+                    $remote_filesize = $client->size($value['relative']);
+                }else{
+                    $remote_filesize = $value['remote_filesize'];
+                }
+                
+                if ($remote_filesize > 0 && $remote_filesize == $value['local_filesize']) {
+                    $msg = "File is already on the remote {$value['local_path']} to {$value['remote_path']} ";
+                    self::addToLog($videos_id, $msg);
+                    $filesCopied++;
+                    self::createDummy($value['local_path']);
+                    continue;
+                }
                 $uploadstart = microtime(true);
                 $response = $client->put($value['relative'], $value['local_path']);
                 $uploadfinish = microtime(true) - $uploadstart;
                 $totalTime += $uploadfinish;
                 $bytesPerSecond = $value['local_filesize'] / $uploadfinish;
-                $remainingFiles = $totalFilesToTransfer-$itemsProcessed;
+                $remainingFiles = $totalFilesToTransfer - $itemsProcessed;
                 $averageSeconds = $totalTime / $itemsProcessed;
-                $remainingSeconds = intval($remainingFiles*$averageSeconds);;
+                $remainingSeconds = intval($remainingFiles * $averageSeconds);
+                ;
                 $remainingSecondsHuman = secondsToVideoTime($remainingSeconds);
-                
+
                 $msg = "{$itemsProcessed}/{$totalFilesToTransfer} {$remainingSecondsHuman} to finish: File moved from {$value['local_path']} to {$value['remote_path']} in {$uploadfinish} seconds " . humanFileSize($bytesPerSecond) . '/sec Average: ' . number_format($averageSeconds, 2);
                 self::addToLog($videos_id, $msg);
                 if ($itemsProcessed % 100 === 0) {
@@ -535,15 +538,15 @@ class CDNStorage {
 
     static function getURL($filename) {
         global $global;
-        
+
         // this is because sometimes I send filenames like this "videos/video_200721131007_6b3e/video_200721131007_6b3e_Low.mp4"
-        if(preg_match('/^videos\\//', $filename)){
+        if (preg_match('/^videos\\//', $filename)) {
             $parts = explode('/', $filename);
-            if(count($parts)==3){
+            if (count($parts) == 3) {
                 $filename = $parts[2];
             }
         }
-        
+
         $paths = Video::getPaths($filename);
         $file = $paths['path'] . $filename;
         if (!file_exists($file)) {
@@ -580,8 +583,8 @@ class CDNStorage {
     }
 
     static function addToLog($videos_id, $message) {
-        if(isCommandLineInterface()){
-            echo $message.PHP_EOL;
+        if (isCommandLineInterface()) {
+            echo $message . PHP_EOL;
         }
         _error_log($message);
         $file = self::getLogFile($videos_id);
@@ -592,8 +595,8 @@ class CDNStorage {
         $file = self::getLogFile($videos_id);
         return unlink($file);
     }
-    
-    static function file_get_contents($remote_filename){
+
+    static function file_get_contents($remote_filename) {
         $obj = AVideoPlugin::getDataObject('CDN');
         $filename = "ftp://{$obj->storage_username}:{$obj->storage_password}@{$obj->storage_hostname}/{$remote_filename}";
         return file_get_contents($filename);
