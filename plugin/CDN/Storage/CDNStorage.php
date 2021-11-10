@@ -424,30 +424,30 @@ class CDNStorage {
 
     /**
      * upload simultaneous files max 15
-     * @param type $filesArray
+     * @param type $filesToUpload
      */
     static function put($videos_id, $totalSameTime) {
         global $_uploadInfo;
         $list = self::getFilesListBoth($videos_id);
-        $filesArray = array();
+        $filesToUpload = array();
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
         foreach ($list as $value) {
             $filesize = filesize($value['local']['local_path']);
             if ($value['isLocal'] && $filesize > 20) {
-                $filesArray[] = $value['local']['local_path'];
+                $filesToUpload[] = $value['local']['local_path'];
                 $totalFilesize += $filesize;
             }else{                
                 _error_log("CDNStorage::put not valid local file {$value['local']['local_path']}");
             }
         }
 
-        if (empty($filesArray)) {
+        if (empty($filesToUpload)) {
             _error_log("CDNStorage::put videos_id={$videos_id} There is no file to upload ");
             return false;
         }
 
-        $totalFiles = count($filesArray);
+        $totalFiles = count($filesToUpload);
 
         _error_log("CDNStorage::put videos_id={$videos_id} totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
 
