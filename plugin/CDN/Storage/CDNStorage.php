@@ -466,7 +466,6 @@ class CDNStorage {
             //_error_log("CDNStorage::put:upload 1 {$i} done {$file}");
             if ($upload) {
                 $fileUploadCount++;
-                $totalBytesTransferred += $filesize;
             } else {
                 _error_log("CDNStorage::put:upload 1 {$i} error {$file}");
             }
@@ -492,6 +491,7 @@ class CDNStorage {
                     $mbps = number_format(($filesize / (1024 * 1024)) / $end);
                     $seconds = number_format($end);
                     $ETA = secondsToDuration($end*($totalFiles-$fileUploadCount));
+                    $totalBytesTransferred += $filesize;
                     unset($ret[$key]);
                     unset($_uploadInfo[$key]);
 
