@@ -450,7 +450,7 @@ class CDNStorage {
 
         $totalFiles = count($filesToUpload);
 
-        //_error_log("CDNStorage::put videos_id={$videos_id} totalSameTime=$totalSameTime totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
+        _error_log("CDNStorage::put videos_id={$videos_id} totalSameTime=$totalSameTime totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
 
         $conn_id = array();
         $ret = array();
