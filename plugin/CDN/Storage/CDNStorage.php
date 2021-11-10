@@ -441,7 +441,7 @@ class CDNStorage {
                     $filesToUpload[] = $value['local']['local_path'];
                     $totalFilesize += $filesize;
                 }else{                    
-                    _error_log("CDNStorage::put skip because remote file has the same size {$value['remote']['remote_filesize']}");
+                    _error_log("CDNStorage::put skip because remote file has the same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
                 }
             } else {
                 _error_log("CDNStorage::put not valid local file {$value['local']['local_path']}");
