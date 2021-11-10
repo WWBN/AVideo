@@ -456,7 +456,7 @@ class CDNStorage {
         $fileUploadCount = 0;
         for ($i = 0; $i < $maxSimultaneous; $i++) {
             $file = array_shift($filesToUpload);
-            $upload = upload($file, $i, $conn_id, $ret);
+            $upload = uploadToCDNStorage($file, $i, $conn_id, $ret);
             if ($upload) {
                 $fileUploadCount++;
                 $totalBytesTransferred += $filesize;
@@ -490,7 +490,7 @@ class CDNStorage {
 
                     $file = array_shift($filesToUpload);
                     //echo "File finished... $key" . PHP_EOL;
-                    $upload = upload($file, $key, $conn_id, $ret);
+                    $upload = uploadToCDNStorage($file, $key, $conn_id, $ret);
                     if ($upload) {
                         $fileUploadCount++;
                         $totalBytesTransferred += $filesize;
@@ -524,7 +524,7 @@ class CDNStorage {
             return $conn_id[$index];
         }
 
-        function upload($local_path, $index, &$conn_id, &$ret) {
+        function uploadToCDNStorage($local_path, $index, &$conn_id, &$ret) {
             global $_uploadInfo;
             if (!isset($_uploadInfo)) {
                 $_uploadInfo = array();
