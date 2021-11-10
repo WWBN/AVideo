@@ -432,7 +432,7 @@ class CDNStorage {
         $filesArray = array();
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
-        foreach ($array as $value) {
+        foreach ($list as $value) {
             $filesize = filesize($value['local']['local_path']);
             if ($value['isLocal'] && $filesize > 20) {
                 $filesArray[] = $value['local']['local_path'];
