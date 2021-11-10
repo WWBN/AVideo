@@ -321,7 +321,7 @@ class CDNStorage {
     static function filenameToRemotePath($filename) {
         global $global;
         $obj = AVideoPlugin::getDataObject('CDN');
-        $filename = str_replace($global['systemRootPath'], '', $filename);
+        $filename = str_replace(getVideosDir(), '', $filename);
         if (!preg_match('/^\/' . $obj->storage_username . '\//', $filename)) {
             return "/{$obj->storage_username}/$filename";
         }
