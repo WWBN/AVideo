@@ -491,7 +491,7 @@ class CDNStorage {
                     unset($ret[$key]);
                     unset($_uploadInfo[$key]);
 
-                    _error_log("CDNStorage::put:uploadToCDNStorage [$key] [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} {$humanFilesize} {$mbps}/Mbps");
+                    _error_log("CDNStorage::put:uploadToCDNStorage [$key] [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} {$humanFilesize} {$mbps}/Mbps ETA: {$ETA}");
 
                     $file = array_shift($filesToUpload);
                     //echo "File finished... $key" . PHP_EOL;
