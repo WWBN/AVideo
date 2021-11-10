@@ -532,9 +532,9 @@ class CDNStorage {
             return true;
         }
 
-        self::createDummyFiles($videos_id);
-        self::sendSocketNotification($videos_id, __('Video upload complete'));
-        self::setProgress($videos_id, true, true);
+        //self::createDummyFiles($videos_id);
+       // self::sendSocketNotification($videos_id, __('Video upload complete'));
+        //self::setProgress($videos_id, true, true);
         return array('filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred);
     }
 
