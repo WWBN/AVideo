@@ -454,7 +454,7 @@ class CDNStorage {
         $conn_id = array();
         $ret = array();
         $fileUploadCount = 0;
-        for ($i = 0; $i < $maxSimultaneous; $i++) {
+        for ($i = 0; $i < $totalSameTime; $i++) {
             $file = array_shift($filesToUpload);
             $upload = uploadToCDNStorage($file, $i, $conn_id, $ret);
             if ($upload) {
@@ -464,7 +464,7 @@ class CDNStorage {
                 _error_log("CDNStorage::put:upload 1 {$i} error {$file}");
             }
         }
-        _error_log("CDNStorage::put: confirmed ". count($ret));
+        _error_log("CDNStorage::put confirmed ". count($ret));
         $continue = true;
         while ($continue) {
             $continue = false;
@@ -531,7 +531,7 @@ class CDNStorage {
             }
             $remote_file = CDNStorage::filenameToRemotePath($local_path);
             if (empty($remote_file)) {
-                _error_log("CDNStorage::put:upload error");
+                _error_log("CDNStorage::put:upload error empty remote file name {$local_path}");
                 return false;
             }
             $connID = getConnID($index, $conn_id);
