@@ -456,10 +456,12 @@ class CDNStorage {
         $fileUploadCount = 0;
         for ($i = 0; $i < $maxSimultaneous; $i++) {
             $file = array_shift($filesToUpload);
-            $uplaod = upload($file, $i, $conn_id, $ret);
-            if ($uplaod) {
+            $upload = upload($file, $i, $conn_id, $ret);
+            if ($upload) {
                 $fileUploadCount++;
                 $totalBytesTransferred += $filesize;
+            }else{
+                _error_log("CDNStorage::put:upload 1 {$i} error {$file}");
             }
         }
 
@@ -489,9 +491,11 @@ class CDNStorage {
                     $file = array_shift($filesToUpload);
                     //echo "File finished... $key" . PHP_EOL;
                     $upload = upload($file, $key, $conn_id, $ret);
-                    if ($uplaod) {
+                    if ($upload) {
                         $fileUploadCount++;
                         $totalBytesTransferred += $filesize;
+                    }else{
+                        _error_log("CDNStorage::put:upload 2 {$i} error {$file}");
                     }
                 }
             }
