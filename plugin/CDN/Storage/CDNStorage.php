@@ -456,7 +456,7 @@ class CDNStorage {
         $fileUploadCount = 0;
         for ($i = 0; $i < $maxSimultaneous; $i++) {
             $file = array_shift($filesToUpload);
-            $uplaod = upload($file, $i);
+            $uplaod = upload($file, $i, $conn_id, $ret);
             if ($uplaod) {
                 $fileUploadCount++;
                 $totalBytesTransferred += $filesize;
@@ -488,7 +488,7 @@ class CDNStorage {
 
                     $file = array_shift($filesToUpload);
                     //echo "File finished... $key" . PHP_EOL;
-                    $upload = upload($file, $key);
+                    $upload = upload($file, $key, $conn_id, $ret);
                     if ($uplaod) {
                         $fileUploadCount++;
                         $totalBytesTransferred += $filesize;
@@ -531,10 +531,11 @@ class CDNStorage {
             $ret[$index] = ftp_nb_put($connID, $remote_file, $local_path, FTP_BINARY);
             return true;
         }
-
-        //self::createDummyFiles($videos_id);
-       // self::sendSocketNotification($videos_id, __('Video upload complete'));
-        //self::setProgress($videos_id, true, true);
+        if($fileUploadCount == $totalBytesTransferred){
+           //self::createDummyFiles($videos_id);
+           //self::sendSocketNotification($videos_id, __('Video upload complete'));
+           //self::setProgress($videos_id, true, true);
+        }
         return array('filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred);
     }
 
