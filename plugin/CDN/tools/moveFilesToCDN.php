@@ -50,7 +50,7 @@ $total = count($sites_id_to_move);
 foreach ($sites_id_to_move as $key => $value) {
     echo "{$key}/{$total} Start move {$value}" . PHP_EOL;
     $startF = microtime(true);
-    $response = CDNStorage::moveLocalToRemote($value, false);
+    $response = CDNStorage::put($value, 10);
     $endF = microtime(true) - $startF;
     $ETA = ($total - $key + 1) * $endF;
     $mbps = number_format(($response['totalBytesTransferred']/(1024*1024)) / ($endF));

@@ -360,12 +360,12 @@ class CDNStorage {
                 continue;
             }
             try {
-                if(empty($value['remote_filesize'])){
+                if (empty($value['remote_filesize'])) {
                     $remote_filesize = $client->size($value['relative']);
-                }else{
+                } else {
                     $remote_filesize = $value['remote_filesize'];
                 }
-                
+
                 if ($remote_filesize > 0 && $remote_filesize == $value['local_filesize']) {
                     $msg = "File is already on the remote {$value['local_path']} to {$value['remote_path']} ";
                     self::addToLog($videos_id, $msg);
@@ -419,7 +419,113 @@ class CDNStorage {
         $end = microtime(true) - $start;
         _error_log("Finish moveLocalToRemote videos_id=($videos_id) filesCopied={$filesCopied} in {$end} Seconds");
 
-        return array('filesCopied'=>$filesCopied, 'totalBytesTransferred'=>$totalBytesTransferred);
+        return array('filesCopied' => $filesCopied, 'totalBytesTransferred' => $totalBytesTransferred);
+    }
+
+    /**
+     * upload simultaneous files max 15
+     * @param type $filesArray
+     */
+    static function put($videos_id, $totalSameTime) {
+        global $_uploadInfo;
+        $list = self::getFilesListBoth($videos_id);
+        $filesArray = array();
+        $totalFilesize = 0;
+        foreach ($array as $value) {
+            $filesize = filesize($value['local']['local_path']);
+            if ($value['isLocal'] && $filesize > 20) {
+                $filesArray[] = $value['local']['local_path'];
+                $totalFilesize+=$filesize;
+            }
+        }
+
+        if (empty($filesArray)) {
+            return false;
+        }
+
+        $totalFiles = count($filesArray);
+        
+        _error_log("CDNStorage::put videos_id={$videos_id} totalFiles={$totalFiles} totalFilesize=". humanFileSize($totalFilesize));
+        
+        $conn_id = array();
+        $ret = array();
+        $fileUploadCount = 0;
+        for ($i = 0; $i < $maxSimultaneous; $i++) {
+            $file = array_shift($filesToUpload);
+            $uplaod = upload($file, $i);
+            if($uplaod){
+                $fileUploadCount++;
+            }
+        }
+
+        $continue = true;
+        while ($continue) {
+            $continue = false;
+            foreach ($ret as $key => $r) {
+                if (empty($r)) {
+                    continue;
+                }
+                if ($r == FTP_MOREDATA) {
+                    // Continue uploading...
+                    $ret[$key] = ftp_nb_continue($conn_id[$key]);
+                    $continue = true;
+                }
+                if ($r == FTP_FINISHED) {
+                    $end = microtime(true)-$_uploadInfo[$key]['microtime'];
+                    $filesize = $_uploadInfo[$key]['filesize'];
+                    $humanFilesize = humanFileSize($filesize);
+                    $mbps = number_format(($filesize/(1024*1024))/$end);
+                    $seconds = number_format($end);
+                    unset($ret[$key]);
+                    unset($_uploadInfo[$key]);
+                    
+                    _error_log("CDNStorage::put [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} {$humanFilesize} {$mbps}/Mbps");
+        
+                    $file = array_shift($filesToUpload);
+                    //echo "File finished... $key" . PHP_EOL;
+                    $upload = upload($file, $key);
+                    if($uplaod){
+                        $fileUploadCount++;
+                    }
+                }
+            }
+        }
+
+        // close the connection
+        foreach ($conn_id as $value) {
+            ftp_close($value);
+        }
+
+        function getConnID($index, &$conn_id) {
+            if (empty($conn_id[$index])) {
+                $obj = AVideoPlugin::getDataObject('CDN');
+                $conn_id[$index] = ftp_connect($obj->storage_hostname);
+                if (empty($conn_id[$index])) {
+                    sleep(1);
+                    return getConnID($index);
+                }
+                // login with username and password
+                $login_result = ftp_login($conn_id[$index], $obj->storage_username, $obj->storage_password);
+                ftp_pasv($conn_id[$index], true);
+            }
+            return $conn_id[$index];
+        }
+
+        function upload($local_path, $index, &$conn_id, &$ret) {
+            global $_uploadInfo;
+            if(!isset($_uploadInfo)){
+                $_uploadInfo = array();
+            }
+            $remote_file = CDNStorage::filenameToRemotePath($local_path);
+            if (empty($remote_file)) {
+                return false;
+            }
+            $connID = getConnID($index, $conn_id);
+            $_uploadInfo[$index] = array('microtime'=>microtime(true), 'filesize'=> filesize($local_path), 'local_path'=>$local_path);
+            $ret[$index] = ftp_nb_put($connID, $remote_file, $local_path, FTP_BINARY);
+            return true;
+        }
+
     }
 
     static function createDummyFiles($videos_id) {
