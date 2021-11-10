@@ -54,7 +54,7 @@ foreach ($sites_id_to_move as $key => $value) {
     $endF = microtime(true) - $startF;
     $ETA = ($total - $key + 1) * $endF;
     $mbps = number_format($response['totalBytesTransferred'] / $endF);
-    echo "{$key}/{$total} Moved done {$value} filesCopied={$response['filesCopied']} " . humanFileSize($response['totalBytesTransferred']) . " in " . secondsToDuration($endF) . " ETA: " . secondsToDuration($ETA) . " " . $mbps . '/Mbps' . PHP_EOL;
+    echo "{$key}/{$total} Moved done {$value} filesCopied={$response['filesCopied']} totalBytesTransferred=" . humanFileSize($response['totalBytesTransferred']) . " in " . secondsToDuration($endF) . " ETA: " . secondsToDuration($ETA) . " " . $mbps . '/Mbps' . PHP_EOL;
 }
 
 echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;

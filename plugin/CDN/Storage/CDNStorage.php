@@ -352,6 +352,7 @@ class CDNStorage {
         $itemsProcessed = 0;
         $totalFilesToTransfer = count($list);
         $totalBytesTransferred = 0;
+        $filesCopied = 0;
         foreach ($list as $value) {
             $itemsProcessed++;
             if (filesize($value['local_path']) < 20) {
@@ -368,12 +369,12 @@ class CDNStorage {
                 if ($remote_filesize > 0 && $remote_filesize == $value['local_filesize']) {
                     $msg = "File is already on the remote {$value['local_path']} to {$value['remote_path']} ";
                     self::addToLog($videos_id, $msg);
-                    $filesCopied++;
                     self::createDummy($value['local_path']);
                     continue;
                 }
                 $uploadstart = microtime(true);
                 $response = $client->put($value['relative'], $value['local_path']);
+                $filesCopied++;
                 $uploadfinish = microtime(true) - $uploadstart;
                 $totalTime += $uploadfinish;
                 $bytesPerSecond = $value['local_filesize'] / $uploadfinish;
