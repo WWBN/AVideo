@@ -510,19 +510,19 @@ class CDNStorage {
             }
         }
 
+        _error_log("CDNStorage::put videos_id={$videos_id} End totalFiles => $totalFiles, filesCopied => $fileUploadCount, totalBytesTransferred => $totalBytesTransferred" );
         // close the connection
         foreach ($conn_id as $value) {
             ftp_close($value);
         }
 
-        _error_log("CDNStorage::put videos_id={$videos_id} End totalFiles => $totalFiles, filesCopied => $fileUploadCount, totalBytesTransferred => $totalBytesTransferred" );
         if ($fileUploadCount == $totalFiles) {
             self::createDummyFiles($videos_id);
             self::sendSocketNotification($videos_id, __('Video upload complete'));
             self::setProgress($videos_id, true, true);
-            _error_log("CDNStorage::put finished SUCCESS {$fileUploadCount} == {$totalBytesTransferred}");
+            _error_log("CDNStorage::put finished SUCCESS ");
         } else {
-            _error_log("CDNStorage::put finished ERROR {$fileUploadCount} == {$totalBytesTransferred}");
+            _error_log("CDNStorage::put finished ERROR ");
         }
         return array('filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred);
     }
