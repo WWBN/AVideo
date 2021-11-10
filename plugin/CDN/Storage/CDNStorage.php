@@ -319,7 +319,9 @@ class CDNStorage {
     }
 
     static function filenameToRemotePath($filename) {
+        global $global;
         $obj = AVideoPlugin::getDataObject('CDN');
+        $filename = str_replace($global['systemRootPath'], '', $filename);
         if (!preg_match('/^\/' . $obj->storage_username . '\//', $filename)) {
             return "/{$obj->storage_username}/$filename";
         }
@@ -553,7 +555,7 @@ class CDNStorage {
         $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => filesize($local_path), 'local_path' => $local_path);
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         $ret[$index] = ftp_nb_put($connID, $remote_file, $local_path, FTP_BINARY);
-        _error_log("CDNStorage::put:uploadToCDNStorage SUCCESS [$index] {$remote_file} " . json_encode($_uploadInfo[$index]));
+        //_error_log("CDNStorage::put:uploadToCDNStorage SUCCESS [$index] {$remote_file} " . json_encode($_uploadInfo[$index]));
         return true;
     }
 
