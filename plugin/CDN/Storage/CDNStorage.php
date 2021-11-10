@@ -437,7 +437,7 @@ class CDNStorage {
             if ($value['isLocal'] && $filesize > 20) {
                 $filesToUpload[] = $value['local']['local_path'];
                 $totalFilesize += $filesize;
-            }else{                
+            } else {
                 _error_log("CDNStorage::put not valid local file {$value['local']['local_path']}");
             }
         }
@@ -456,16 +456,16 @@ class CDNStorage {
         for ($i = 0; $i < $totalSameTime; $i++) {
             $file = array_shift($filesToUpload);
             _error_log("CDNStorage::put:upload 1 {$i} Start {$file}");
-            $upload = uploadToCDNStorage($file, $i, $conn_id, $ret);
+            $upload = self::uploadToCDNStorage($file, $i, $conn_id, $ret);
             _error_log("CDNStorage::put:upload 1 {$i} done {$file}");
             if ($upload) {
                 $fileUploadCount++;
                 $totalBytesTransferred += $filesize;
-            }else{
+            } else {
                 _error_log("CDNStorage::put:upload 1 {$i} error {$file}");
             }
         }
-        _error_log("CDNStorage::put confirmed ". count($ret));
+        _error_log("CDNStorage::put confirmed " . count($ret));
         $continue = true;
         while ($continue) {
             $continue = false;
@@ -491,11 +491,11 @@ class CDNStorage {
 
                     $file = array_shift($filesToUpload);
                     //echo "File finished... $key" . PHP_EOL;
-                    $upload = uploadToCDNStorage($file, $key, $conn_id, $ret);
+                    $upload = self::uploadToCDNStorage($file, $key, $conn_id, $ret);
                     if ($upload) {
                         $fileUploadCount++;
                         $totalBytesTransferred += $filesize;
-                    }else{
+                    } else {
                         _error_log("CDNStorage::put:upload 2 {$i} error {$file}");
                     }
                 }
@@ -507,54 +507,54 @@ class CDNStorage {
             ftp_close($value);
         }
 
-        function getConnID($index, &$conn_id) {
-            if (empty($conn_id[$index])) {
-                $obj = AVideoPlugin::getDataObject('CDN');
-                $conn_id[$index] = ftp_connect($obj->storage_hostname);
-                if (empty($conn_id[$index])) {
-                    sleep(1);
-                    return getConnID($index);
-                }
-                // login with username and password
-                $login_result = ftp_login($conn_id[$index], $obj->storage_username, $obj->storage_password);
-                ftp_pasv($conn_id[$index], true);
-            }else{
-                _error_log("CDNStorage::put:getConnID $index created");
-
-            }
-            return $conn_id[$index];
-        }
-
-        function uploadToCDNStorage($local_path, $index, &$conn_id, &$ret) {
-            global $_uploadInfo;
-            if (!isset($_uploadInfo)) {
-                $_uploadInfo = array();
-            }
-            _error_log("CDNStorage::put:uploadToCDNStorage ".__LINE__);
-            $remote_file = CDNStorage::filenameToRemotePath($local_path);
-            _error_log("CDNStorage::put:uploadToCDNStorage ".__LINE__);
-            if (empty($remote_file)) {
-                _error_log("CDNStorage::put:uploadToCDNStorage error empty remote file name {$local_path}");
-                return false;
-            }
-            _error_log("CDNStorage::put:uploadToCDNStorage ".__LINE__);
-            $connID = getConnID($index, $conn_id);
-            _error_log("CDNStorage::put:uploadToCDNStorage ".__LINE__);
-            $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => filesize($local_path), 'local_path' => $local_path);
-            _error_log("CDNStorage::put:uploadToCDNStorage ".__LINE__);
-            $ret[$index] = ftp_nb_put($connID, $remote_file, $local_path, FTP_BINARY);
-            _error_log("CDNStorage::put:uploadToCDNStorage SUCCESS [$index] {$remote_file} ". json_encode($_uploadInfo));
-            return true;
-        }
-        if($fileUploadCount == $totalBytesTransferred){
-           //self::createDummyFiles($videos_id);
-           //self::sendSocketNotification($videos_id, __('Video upload complete'));
-           //self::setProgress($videos_id, true, true);
+        if ($fileUploadCount == $totalBytesTransferred) {
+            //self::createDummyFiles($videos_id);
+            //self::sendSocketNotification($videos_id, __('Video upload complete'));
+            //self::setProgress($videos_id, true, true);
             _error_log("CDNStorage::put finished SUCCESS {$fileUploadCount} == {$totalBytesTransferred}");
-        }else{
+        } else {
             _error_log("CDNStorage::put finished ERROR {$fileUploadCount} == {$totalBytesTransferred}");
         }
         return array('filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred);
+    }
+
+    private static function getConnID($index, &$conn_id) {
+        if (empty($conn_id[$index])) {
+            $obj = AVideoPlugin::getDataObject('CDN');
+            $conn_id[$index] = ftp_connect($obj->storage_hostname);
+            if (empty($conn_id[$index])) {
+                sleep(1);
+                return self::getConnID($index);
+            }
+            // login with username and password
+            $login_result = ftp_login($conn_id[$index], $obj->storage_username, $obj->storage_password);
+            ftp_pasv($conn_id[$index], true);
+        } else {
+            _error_log("CDNStorage::put:getConnID $index created");
+        }
+        return $conn_id[$index];
+    }
+
+    private static function uploadToCDNStorage($local_path, $index, &$conn_id, &$ret) {
+        global $_uploadInfo;
+        if (!isset($_uploadInfo)) {
+            $_uploadInfo = array();
+        }
+        _error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
+        $remote_file = CDNStorage::filenameToRemotePath($local_path);
+        _error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
+        if (empty($remote_file)) {
+            _error_log("CDNStorage::put:uploadToCDNStorage error empty remote file name {$local_path}");
+            return false;
+        }
+        _error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
+        $connID = self::getConnID($index, $conn_id);
+        _error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
+        $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => filesize($local_path), 'local_path' => $local_path);
+        _error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
+        $ret[$index] = ftp_nb_put($connID, $remote_file, $local_path, FTP_BINARY);
+        _error_log("CDNStorage::put:uploadToCDNStorage SUCCESS [$index] {$remote_file} " . json_encode($_uploadInfo));
+        return true;
     }
 
     static function createDummyFiles($videos_id) {
