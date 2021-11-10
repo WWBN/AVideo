@@ -48,7 +48,7 @@ $obj->jpgDest = "{$destination_local}.jpg";
 if(!empty($_REQUEST['downloadURL_image']) ){
     $content = url_get_contents($_REQUEST['downloadURL_image']);
     $obj->jpgDestSize = _file_put_contents($obj->jpgDest, $content);
-    _error_log("ReceiveImage: download {$_REQUEST['downloadURL_image']} {$obj->jpgDestSize}");
+    _error_log("ReceiveImage: download {$_REQUEST['downloadURL_image']} to {$obj->jpgDest} ". humanFileSize($obj->jpgDestSize));
 } else if (!empty($_FILES['image']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->jpgDest) || filesize($obj->jpgDest) === 42342)) {
     if (!move_uploaded_file($_FILES['image']['tmp_name'], $obj->jpgDest)) {
         if(!rename($_FILES['image']['tmp_name'], $obj->jpgDest)){
