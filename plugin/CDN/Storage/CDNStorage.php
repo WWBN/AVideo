@@ -513,6 +513,9 @@ class CDNStorage {
                 // login with username and password
                 $login_result = ftp_login($conn_id[$index], $obj->storage_username, $obj->storage_password);
                 ftp_pasv($conn_id[$index], true);
+            }else{
+                _error_log("CDNStorage::put:getConnID $index created");
+
             }
             return $conn_id[$index];
         }
