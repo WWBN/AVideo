@@ -49,11 +49,6 @@ class Live extends PluginAbstract {
 
     public function getHTMLMenuRight() {
         global $global;
-        $buttonTitle = $this->getButtonTitle();
-        $obj = $this->getDataObject();
-        if (!empty($obj->hideTopButton)) {
-            return '';
-        }
         include $global['systemRootPath'] . 'plugin/Live/view/menuRight.php';
     }
 
@@ -306,6 +301,10 @@ class Live extends PluginAbstract {
         }
 
         $obj = new stdClass();
+        $obj->topCopyKeysButtonTitle = "Copy Live Keys";
+        $obj->hideTopCopyKeysButton = false;
+        self::addDataObjectHelper('hideTopCopyKeysButton', 'Hide Top Copy Live Keys Button', 'This will hide the "Copy Live Keys" button on the top menu bar');
+        
         $obj->button_title = "LIVE";
         self::addDataObjectHelper('button_title', 'Button Title', 'This is the title that will appear in your button to enter in the Live panel');
         $o = new stdClass();
