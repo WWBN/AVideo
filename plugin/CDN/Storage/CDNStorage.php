@@ -457,6 +457,9 @@ class CDNStorage {
         $fileUploadCount = 0;
         for ($i = 0; $i < $totalSameTime; $i++) {
             $file = array_shift($filesToUpload);
+            if(empty($file)){
+                continue;
+            }
             //_error_log("CDNStorage::put:upload 1 {$i} Start {$file}");
             $upload = self::uploadToCDNStorage($file, $i, $conn_id, $ret);
             //_error_log("CDNStorage::put:upload 1 {$i} done {$file}");
@@ -494,6 +497,9 @@ class CDNStorage {
                     _error_log("CDNStorage::put:uploadToCDNStorage [$key] [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} seconds {$humanFilesize} {$ps}ps ETA: {$ETA}");
 
                     $file = array_shift($filesToUpload);
+                    if(empty($file)){
+                        continue;
+                    }
                     //echo "File finished... $key" . PHP_EOL;
                     $upload = self::uploadToCDNStorage($file, $key, $conn_id, $ret);
                     if ($upload) {
