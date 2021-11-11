@@ -265,7 +265,7 @@ class CDNStorage {
         foreach ($list as $value) {
             $count++;
             $remote_filesize = $client->size($value['relative']);
-            $local_filesize = filesize($value['local_path']);
+            $local_filesize = @filesize($value['local_path']);
             if ($local_filesize >= $remote_filesize) {
                 self::addToLog($value['videos_id'], $value['local_path'] . ' is NOT a dummy file local_filesize=' . $value['local_filesize'] . ' Bytes');
                 //$client->delete($value['remote_path']);
