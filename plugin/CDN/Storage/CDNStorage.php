@@ -666,7 +666,7 @@ class CDNStorage {
         }
         
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
-        $remote_file = CDNStorage::filenameToRemotePath($local_path, false);
+        $remote_file = '/'.CDNStorage::filenameToRemotePath($local_path, false);
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         if (empty($remote_file)) {
             _error_log("CDNStorage::downloadFromCDNStorage error empty remote file name {$local_path}");
