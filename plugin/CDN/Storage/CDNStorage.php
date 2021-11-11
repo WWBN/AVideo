@@ -260,7 +260,10 @@ class CDNStorage {
         set_time_limit(0);
         $fails = 0;
         $totalBytesTransferred = 0;
+        $count = 0;
+        $total = count($list);
         foreach ($list as $value) {
+            $count++;
             $remote_filesize = $client->size($value['relative']);
             if ($local_filesize >= $remote_filesize) {
                 self::addToLog($value['videos_id'], $value['local_path'] . ' is NOT a dummy file local_filesize=' . $value['local_filesize'] . ' Bytes');
@@ -268,6 +271,7 @@ class CDNStorage {
                 continue;
             }
             try {
+                $msg = "[{$count}/{$total}] GET File start from {$value['remote_path']} ". humanFileSize($remote_filesize);
                 $response = $client->get($value['local_path'], $value['relative']);
                 $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} ";
                 self::addToLog($videos_id, $msg);
