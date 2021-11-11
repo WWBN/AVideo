@@ -2,6 +2,7 @@
 
 $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
+error_reporting(E_ALL);
 
 if (!isCommandLineInterface()) {
     return die('Command Line only');
