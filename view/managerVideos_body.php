@@ -1876,7 +1876,7 @@ if (User::isAdmin()) {
 
                                                         var nextIsSet;
                                                         if (row.next_video == null || row.next_video.length == 0) {
-                                                            nextIsSet = "<span class='label label-danger'> <?php echo __("Next video NOT set"); ?> </span>";
+                                                            //nextIsSet = "<span class='label label-danger'> <?php echo __("Next video NOT set"); ?> </span>";
                                                         } else {
                                                             var nextVideoTitle;
                                                             if (row.next_video.title.length > 20) {
