@@ -241,6 +241,7 @@ class CDNStorage {
         $client = self::getStorageClient();
         $list = self::getFilesListRemote($videos_id, $client);
         $totalFiles = count($list);
+        $filesCopied=0;
         if (empty($totalFiles)) {
             $msg = 'There is not file to transfer (' . $totalFiles . ')';
             _error_log($msg);
