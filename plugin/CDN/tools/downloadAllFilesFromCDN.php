@@ -50,7 +50,8 @@ $total = count($sites_id_to_move);
 foreach ($sites_id_to_move as $key => $value) {
     echo "{$key}/{$total} Start download {$value}" . PHP_EOL;
     $startF = microtime(true);
-    $response = CDNStorage::get($value, 10);
+    //$response = CDNStorage::get($value, 10);
+    $response = CDNStorage::moveRemoteToLocal($value, false, false);
     if(empty($response)){
         echo "{$key}/{$total} ERROR " . PHP_EOL;
     }else{

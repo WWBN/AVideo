@@ -235,7 +235,7 @@ class CDNStorage {
         return $v->save(false, true);
     }
 
-    static function moveRemoteToLocal($videos_id, $runInBackground = true) {
+    static function moveRemoteToLocal($videos_id, $runInBackground = true, $deleteWhenIsDone=true) {
         $start = microtime(true);
         self::addToLog($videos_id, "Start moveRemoteToLocal videos_id={$videos_id}");
         $client = self::getStorageClient();
@@ -259,6 +259,7 @@ class CDNStorage {
         ini_set('max_execution_time', 0);
         set_time_limit(0);
         $fails = 0;
+        $totalBytesTransferred = 0;
         foreach ($list as $value) {
             $remote_filesize = $client->size($value['relative']);
             if ($local_filesize >= $remote_filesize) {
@@ -271,6 +272,7 @@ class CDNStorage {
                 $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} ";
                 self::addToLog($videos_id, $msg);
                 $filesCopied++;
+                $totalBytesTransferred+=$remote_filesize;
             } catch (Exception $exc) {
                 $fails++;
                 _error_log($exc->getTraceAsString());
@@ -280,15 +282,17 @@ class CDNStorage {
             }
         }
         if (empty($fails)) {
-            self::deleteRemoteDirectory($videos_id, $client);
-            self::setProgress($videos_id, true, true);
-            self::sendSocketNotification($videos_id, __('Video upload complete'));
+            if($deleteWhenIsDone){
+                self::deleteRemoteDirectory($videos_id, $client);
+            }
+            self::setProgress($videos_id, false, true);
+            self::sendSocketNotification($videos_id, __('Video download complete'));
         } else {
             _error_log("ERROR moveRemoteToLocal had {$fails} fails videos_id=($videos_id) filesCopied={$filesCopied} in {$end} Seconds");
         }
         $end = microtime(true) - $start;
         _error_log("Finish moveRemoteToLocal videos_id=($videos_id) filesCopied={$filesCopied} in {$end} Seconds");
-        return $filesCopied;
+        return array('filesCopied' => $filesCopied, 'totalBytesTransferred' => $totalBytesTransferred);
     }
 
     static function deleteRemoteDirectory($videos_id, $client = null, $recursive = true) {
