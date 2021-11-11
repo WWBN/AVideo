@@ -652,10 +652,7 @@ class CDNStorage {
             _error_log("CDNStorage::downloadFromCDNStorage error empty local file name {$local_path}");
             return false;
         }
-        if (file_exists($local_path) && filesize($local_path) > 20) {
-            _error_log("CDNStorage::downloadFromCDNStorage error file already exists {$local_path}");
-            return false;
-        }
+        
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         $remote_file = CDNStorage::filenameToRemotePath($local_path);
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
@@ -668,6 +665,12 @@ class CDNStorage {
 
         if ($filesize < 20) {
             _error_log("CDNStorage::downloadFromCDNStorage error {$remote_file} filesize is too small {$filesize}");
+            return false;
+        }
+        
+        $localFilesize = filesize($local_path);
+        if (file_exists($local_path) && $localFilesize > 20 && $localFilesize >= $filesize) {
+            _error_log("CDNStorage::downloadFromCDNStorage error file already exists {$local_path}");
             return false;
         }
         //_error_log("CDNStorage::put:uploadToCDNStorage [$index] START " . humanFileSize($filesize) . " {$remote_file} ");
