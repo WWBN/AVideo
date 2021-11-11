@@ -272,6 +272,7 @@ class CDNStorage {
             }
             try {
                 $msg = "[{$count}/{$total}] GET File start from {$value['remote_path']} ". humanFileSize($remote_filesize);
+                self::addToLog($videos_id, $msg);
                 $response = $client->get($value['local_path'], $value['relative']);
                 $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} ";
                 self::addToLog($videos_id, $msg);
