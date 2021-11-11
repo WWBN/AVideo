@@ -162,6 +162,26 @@ class TopMenu extends PluginAbstract {
         $_getVideoMenuURL[$index] = $externalOptions->$parameterName;
         return $_getVideoMenuURL[$index];
     }
+    
+    static public function thereIsMenuItemsActive(){
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURL);
+        if(!empty($menu)){
+            return true;
+        }
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForLoggedUsers);
+        if(!empty($menu)){
+            return true;
+        }
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanWatchVideo);
+        if(!empty($menu)){
+            return true;
+        }
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanNotWatchVideo);
+        if(!empty($menu)){
+            return true;
+        }
+        return false;
+    }
         
     public function getVideosManagerListButton() {
         if (!User::canUpload()) {
@@ -171,6 +191,10 @@ class TopMenu extends PluginAbstract {
         $obj = $this->getDataObject();
         
         if(empty($obj->show_menu_items)){
+            return '';
+        }
+        
+        if(!thereIsMenuItemsActive()){
             return '';
         }
         
