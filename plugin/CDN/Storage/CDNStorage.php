@@ -433,10 +433,10 @@ class CDNStorage {
         foreach ($list as $value) {
             $filesize = filesize($value['local']['local_path']);
             if ($value['isLocal'] && $filesize > 20) {
-                if($filesize != $value['remote']['remote_filesize']){
+                if ($filesize != $value['remote']['remote_filesize']) {
                     $filesToUpload[] = $value['local']['local_path'];
                     $totalFilesize += $filesize;
-                }else{                    
+                } else {
                     _error_log("CDNStorage::put same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
                 }
             } else {
@@ -486,7 +486,7 @@ class CDNStorage {
                     $humanFilesize = humanFileSize($filesize);
                     $ps = humanFileSize($filesize / $end);
                     $seconds = number_format($end);
-                    $ETA = secondsToDuration($end*(($totalFiles-$fileUploadCount)/$totalSameTime));
+                    $ETA = secondsToDuration($end * (($totalFiles - $fileUploadCount) / $totalSameTime));
                     $totalBytesTransferred += $filesize;
                     unset($ret[$key]);
                     unset($_uploadInfo[$key]);
@@ -506,7 +506,7 @@ class CDNStorage {
             }
         }
 
-        _error_log("CDNStorage::put videos_id={$videos_id} End totalFiles => $totalFiles, filesCopied => $fileUploadCount, totalBytesTransferred => $totalBytesTransferred" );
+        _error_log("CDNStorage::put videos_id={$videos_id} End totalFiles => $totalFiles, filesCopied => $fileUploadCount, totalBytesTransferred => $totalBytesTransferred");
         // close the connection
         foreach ($conn_id as $value) {
             ftp_close($value);
@@ -522,8 +522,7 @@ class CDNStorage {
         }
         return array('filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred);
     }
-    
-    
+
     static function get($videos_id, $totalSameTime) {
         global $_downloadInfo;
         $list = self::getFilesListBoth($videos_id);
@@ -532,15 +531,20 @@ class CDNStorage {
         $totalBytesTransferred = 0;
         foreach ($list as $value) {
             $filesize = filesize($value['local']['local_path']);
-            if (!$value['isLocal'] && $filesize < 20 && $value['remote']['remote_filesize'] > 20) {
-                if($filesize != $value['remote']['remote_filesize']){
+            if (!$value['isLocal']) {
+                _error_log("CDNStorage::get Local {$value['local']['local_path']} {$filesize} ");
+                if ($filesize > 20) {
+                    _error_log("CDNStorage::get Local filesize is too big");
+                } else if ($value['remote']['remote_filesize'] < 20) {
+                    _error_log("CDNStorage::get remote filesize is too small");
+                } else if ($filesize == $value['remote']['remote_filesize']) {
+                    _error_log("CDNStorage::get same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
+                } else {
                     $filesToDownload[] = $value['local']['local_path'];
                     $totalFilesize += $value['remote']['remote_filesize'];
-                }else{                    
-                    _error_log("CDNStorage::get same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
                 }
             } else {
-                _error_log("CDNStorage::get not valid local file {$value['local']['local_path']}");
+                _error_log("CDNStorage::get not valid local file ". json_encode($value['remote']));
             }
         }
         if (empty($filesToDownload)) {
@@ -586,7 +590,7 @@ class CDNStorage {
                     $humanFilesize = humanFileSize($filesize);
                     $ps = humanFileSize($filesize / $end);
                     $seconds = number_format($end);
-                    $ETA = secondsToDuration($end*(($totalFiles-$fileDownloadCount)/$totalSameTime));
+                    $ETA = secondsToDuration($end * (($totalFiles - $fileDownloadCount) / $totalSameTime));
                     $totalBytesTransferred += $filesize;
                     unset($ret[$key]);
                     unset($_downloadInfo[$key]);
@@ -606,7 +610,7 @@ class CDNStorage {
             }
         }
 
-        _error_log("CDNStorage::get videos_id={$videos_id} End totalFiles => $totalFiles, filesCopied => $fileDownloadCount, totalBytesTransferred => $totalBytesTransferred" );
+        _error_log("CDNStorage::get videos_id={$videos_id} End totalFiles => $totalFiles, filesCopied => $fileDownloadCount, totalBytesTransferred => $totalBytesTransferred");
         // close the connection
         foreach ($conn_id as $value) {
             ftp_close($value);
@@ -639,17 +643,16 @@ class CDNStorage {
         return $conn_id[$index];
     }
 
-
     private static function downloadFromCDNStorage($local_path, $index, &$conn_id, &$ret) {
         global $_uploadInfo;
         if (!isset($_uploadInfo)) {
             $_uploadInfo = array();
         }
-        if(empty($local_path)){
+        if (empty($local_path)) {
             _error_log("CDNStorage::downloadFromCDNStorage error empty local file name {$local_path}");
             return false;
         }
-        if(file_exists($local_path) && filesize($local_path) > 20){
+        if (file_exists($local_path) && filesize($local_path) > 20) {
             _error_log("CDNStorage::downloadFromCDNStorage error file already exists {$local_path}");
             return false;
         }
@@ -662,7 +665,7 @@ class CDNStorage {
         }
         $connID = self::getConnID($index, $conn_id);
         $filesize = ftp_size($connID, $remote_file);
-        
+
         if ($filesize < 20) {
             _error_log("CDNStorage::downloadFromCDNStorage error {$remote_file} filesize is too small {$filesize}");
             return false;
@@ -676,17 +679,17 @@ class CDNStorage {
         //_error_log("CDNStorage::put:uploadToCDNStorage SUCCESS [$index] {$remote_file} " . json_encode($_uploadInfo[$index]));
         return true;
     }
-    
+
     private static function uploadToCDNStorage($local_path, $index, &$conn_id, &$ret) {
         global $_uploadInfo;
         if (!isset($_uploadInfo)) {
             $_uploadInfo = array();
         }
-        if(empty($local_path)){
+        if (empty($local_path)) {
             _error_log("CDNStorage::put:uploadToCDNStorage error empty local file name {$local_path}");
             return false;
         }
-        if(!file_exists($local_path)){
+        if (!file_exists($local_path)) {
             _error_log("CDNStorage::put:uploadToCDNStorage error file does not exists {$local_path}");
             return false;
         }

@@ -43,7 +43,7 @@ foreach ($videos as $value) {
     }
     $countMoved++;
     $sites_id_to_move[] = $value['id'];
-    echo "{$key}/{$total} added to move {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
+    echo "{$key}/{$total} added to download {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
 }
 
 $total = count($sites_id_to_move);
