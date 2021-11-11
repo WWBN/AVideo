@@ -1874,7 +1874,7 @@ if (User::isAdmin()) {
                                                             return editBtn + deleteBtn;
                                                         }
 
-                                                        var nextIsSet;
+                                                        var nextIsSet = '';
                                                         if (row.next_video == null || row.next_video.length == 0) {
                                                             //nextIsSet = "<span class='label label-danger'> <?php echo __("Next video NOT set"); ?> </span>";
                                                         } else {
