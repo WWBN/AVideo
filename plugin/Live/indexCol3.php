@@ -8,8 +8,12 @@ if (!empty($obj->experimentalWebcam)) {
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInRight', 'live'); ?>"  id="indexTabs">
     <ul class="nav nav-tabs">
         <li class="active" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use streaming software or hardware"); ?>"><a data-toggle="tab" href="#tabStreamKey"><i class="fas fa-key"></i> <?php echo __("Stream Key"); ?></a></li>
+        <?php
+        if(empty($objLive->hideShare)){
+        ?>
         <li class="" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Share information about your live"); ?>"><a data-toggle="tab" href="#tabShare"><i class="fa fa-share"></i> <?php echo __("Share"); ?></a></li>
         <?php
+        }
         if (empty($obj->disableRestream)) {
             ?>
             <li class="" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Live stream to other platforms simultaneously"); ?>"><a data-toggle="tab" href="#tabRestream"><i class="fas fa-sync"></i> <?php echo __("Restream"); ?></a> </li>

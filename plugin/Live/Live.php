@@ -335,6 +335,8 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('disableLiveThumbs', 'Disable Live thumbnails', 'This option will disable the çive image extraction and will use the user static image, it will save some hardware capacity from your encoder and may speedup your page');
         $obj->hideTopButton = false;
         self::addDataObjectHelper('hideTopButton', 'Hide Top Button', 'This will hide the "Go Live" button on the top menu bar');
+        $obj->hideUserGroups = false;
+        $obj->hideShare = false;
         $obj->useAadaptiveMode = false;
         self::addDataObjectHelper('useAadaptiveMode', 'Adaptive mode', 'https://github.com/WWBN/AVideo/wiki/Adaptive-Bitrates-on-Livestream');
         $obj->protectLive = false;

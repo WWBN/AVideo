@@ -65,12 +65,20 @@ $key = $liveStreamObject->getKeyWithIndex(true);
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
     <ul class="nav nav-tabs">
         <li class="active" >
-            <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-key"></i> <?php echo __("Stream Meta Data"); ?></a></li>
+            <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-key"></i> <?php echo __("Stream Meta Data"); ?></a>
+        </li>
         <li class="">
-            <a data-toggle="tab" href="#tabPosterImage"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a></li>
+            <a data-toggle="tab" href="#tabPosterImage"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a>
+        </li>
+        <?php
+        if(empty($objLive->hideUserGroups)){
+        ?>
         <li class="" >
-            <a data-toggle="tab" href="#tabUserGroups"><i class="fas fa-users"></i> <?php echo __("User Groups"); ?></a></li>
-
+            <a data-toggle="tab" href="#tabUserGroups"><i class="fas fa-users"></i> <?php echo __("User Groups"); ?></a>
+        </li>
+        <?php
+        }
+        ?>
     </ul>
     <div class="tab-content">
         <div id="tabStreamMetaData" class="tab-pane fade in active">
