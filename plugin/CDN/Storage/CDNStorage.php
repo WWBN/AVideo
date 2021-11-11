@@ -134,7 +134,7 @@ class CDNStorage {
             $remote_filesize = $matches[1];
             $relative = $parts1[1];
             $local_path = "{$global['systemRootPath']}videos/{$relative}";
-            $local_filesize = filesize($local_path);
+            $local_filesize = @filesize($local_path);
             $remote_path = self::filenameToRemotePath($relative);
             $path_parts = pathinfo($local_path);
             $extension = $path_parts['extension'];
@@ -265,6 +265,7 @@ class CDNStorage {
         foreach ($list as $value) {
             $count++;
             $remote_filesize = $client->size($value['relative']);
+            $local_filesize = filesize($value['local_path']);
             if ($local_filesize >= $remote_filesize) {
                 self::addToLog($value['videos_id'], $value['local_path'] . ' is NOT a dummy file local_filesize=' . $value['local_filesize'] . ' Bytes');
                 //$client->delete($value['remote_path']);
@@ -276,7 +277,7 @@ class CDNStorage {
                 $start = microtime(true);
                 $response = $client->get($value['local_path'], $value['relative']);
                 $end = microtime(true)-$start;
-                $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} in ". secondsToTime($end).' ETA: '.secondsToTime($end*($total-$count));
+                $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} in ". secondsToTime($end).' ETA: '. secondsToDuration($end*($total-$count));
                 self::addToLog($videos_id, $msg);
                 $filesCopied++;
                 $totalBytesTransferred+=$remote_filesize;
