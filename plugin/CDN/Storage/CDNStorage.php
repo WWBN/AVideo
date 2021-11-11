@@ -533,7 +533,7 @@ class CDNStorage {
             $filesize = filesize($value['local']['local_path']);
             if (!$value['isLocal']) {
                 _error_log("CDNStorage::get Local {$value['local']['local_path']} {$filesize} ");
-                if ($filesize > 20) {
+                if ($filesize > $value['remote']['remote_filesize']) {
                     _error_log("CDNStorage::get Local filesize is too big");
                 } else if ($value['remote']['remote_filesize'] < 20) {
                     _error_log("CDNStorage::get remote filesize is too small");
