@@ -194,7 +194,7 @@ class TopMenu extends PluginAbstract {
             return '';
         }
         
-        if(!thereIsMenuItemsActive()){
+        if(!self::thereIsMenuItemsActive()){
             return '';
         }
         
