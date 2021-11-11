@@ -568,6 +568,9 @@ class CDNStorage {
         for ($i = 0; $i < $totalSameTime; $i++) {
             $file = array_shift($filesToDownload);
             //_error_log("CDNStorage::get:download 1 {$i} Start {$file}");
+            if(empty($file)){
+                continue;
+            }
             $download = self::downloadFromCDNStorage($file, $i, $conn_id, $ret);
             //_error_log("CDNStorage::get:download 1 {$i} done {$file}");
             if ($download) {
@@ -604,6 +607,9 @@ class CDNStorage {
                     _error_log("CDNStorage::get:downloadToCDNStorage [$key] [{$fileDownloadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} seconds {$humanFilesize} {$ps}ps ETA: {$ETA}");
 
                     $file = array_shift($filesToDownload);
+                    if(empty($file)){
+                        continue;
+                    }
                     //echo "File finished... $key" . PHP_EOL;
                     $download = self::downloadFromCDNStorage($file, $key, $conn_id, $ret);
                     if ($download) {
@@ -679,7 +685,7 @@ class CDNStorage {
             _error_log("CDNStorage::downloadFromCDNStorage error file already exists {$local_path}");
             return false;
         }
-        //_error_log("CDNStorage::put:uploadToCDNStorage [$index] START " . humanFileSize($filesize) . " {$remote_file} ");
+        _error_log("CDNStorage::downloadFromCDNStorage [$index] START {$remote_file} to {$local_path} ");
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         $_uploadInfo[$index] = array('microtime' => microtime(true), 'filesize' => $filesize, 'local_path' => $local_path, 'remote_file' => $remote_file);
         $fp = fopen($local_path, 'w');
