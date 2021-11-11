@@ -904,6 +904,8 @@ function playNext(url) {
                             document.location = url;
                             return false;
                         }
+                        mediaId = response.videos_id;
+                        webSocketVideos_id = mediaId;
                         $('video, #mainVideo').attr('poster', response.poster);
                         player.poster(response.poster);
                         history.pushState(null, null, url);

@@ -198,96 +198,100 @@
                     </button>
                     <?php
                 }
-                if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
-                    ?>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <i class="far fa-object-group"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Categories'); ?></span> <span class="caret"></span></button>
-                        <ul class="dropdown-menu" role="menu">
-                            <?php
-                            foreach ($categories as $value) {
-                                echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['hierarchyAndName']}</a></li>";
-                            }
-                            ?>
-                        </ul>
-                    </div>
-                <?php } ?>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                        <i class="far fa-eye"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Status'); ?></span> <span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" onclick="changeStatus('a'); return false;"><i class="fas fa-eye"></i> <?php echo __('Active'); ?></a></li>
-                        <li><a href="#" onclick="changeStatus('i'); return false;"><i class="fas fa-eye-slash"></i></span> <?php echo __('Inactive'); ?></a></li>
-                        <li><a href="#" onclick="changeStatus('u'); return false;"><i class="fas fa-eye" style="color: #BBB;"></i> <?php echo __('Unlisted'); ?></a></li>
-                        <!--
-                        <li><a href="#" onclick="changeStatus('p'); return false;"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <?php echo __('Private'); ?></a></li>
-                        -->
-                    </ul>
-                </div>
-                <?php
-                if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
-                    ?>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <i class="fas fa-users"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Add User Group'); ?></span> <span class="caret"></span></button>                        
-                        <ul class="dropdown-menu" role="menu">
-                            <?php
-                            foreach ($userGroups as $value) {
-                                ?>
-                                <li>
-                                    <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 1); return false;">
-                                        <span class="fa fa-lock"></span>
-                                        <span class="label label-info"><?php echo $value['total_users'] . " "; ?><?php echo __("Users linked"); ?></span>
-                                        <?php echo $value['group_name']; ?>
-                                    </a>  
-                                </li>
+                if ($advancedCustom->videosManegerBulkActionButtons) {
+                    if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
+                        ?>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <i class="far fa-object-group"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Categories'); ?></span> <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu">
                                 <?php
-                            }
-                            ?>
-                        </ul>
-                    </div>
+                                foreach ($categories as $value) {
+                                    echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['hierarchyAndName']}</a></li>";
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                            <i class="fas fa-user-slash"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Remove User Group'); ?></span> <span class="caret"></span></button>                        
+                            <i class="far fa-eye"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Status'); ?></span> <span class="caret"></span></button>
                         <ul class="dropdown-menu" role="menu">
-                            <?php
-                            foreach ($userGroups as $value) {
-                                ?>
-                                <li>
-                                    <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 0); return false;">
-                                        <span class="fa fa-lock"></span>
-                                        <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
-                                        <?php echo $value['group_name']; ?>
-                                    </a>  
-                                </li>
-                                <?php
-                            }
-                            ?>
+                            <li><a href="#" onclick="changeStatus('a'); return false;"><i class="fas fa-eye"></i> <?php echo __('Active'); ?></a></li>
+                            <li><a href="#" onclick="changeStatus('i'); return false;"><i class="fas fa-eye-slash"></i></span> <?php echo __('Inactive'); ?></a></li>
+                            <li><a href="#" onclick="changeStatus('u'); return false;"><i class="fas fa-eye" style="color: #BBB;"></i> <?php echo __('Unlisted'); ?></a></li>
+                            <!--
+                            <li><a href="#" onclick="changeStatus('p'); return false;"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <?php echo __('Private'); ?></a></li>
+                            -->
                         </ul>
                     </div>
                     <?php
-                }
-                if (empty($advancedCustom->disableVideoSwap) && (empty($advancedCustom->makeSwapVideosOnlyForAdmin) || User::isAdmin())) {
+                    if (empty($advancedCustomUser->userCanNotChangeUserGroup) || User::isAdmin()) {
+                        ?>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <i class="fas fa-users"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Add User Group'); ?></span> <span class="caret"></span></button>                        
+                            <ul class="dropdown-menu" role="menu">
+                                <?php
+                                foreach ($userGroups as $value) {
+                                    ?>
+                                    <li>
+                                        <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 1); return false;">
+                                            <span class="fa fa-lock"></span>
+                                            <span class="label label-info"><?php echo $value['total_users'] . " "; ?><?php echo __("Users linked"); ?></span>
+                                            <?php echo $value['group_name']; ?>
+                                        </a>  
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                <i class="fas fa-user-slash"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Remove User Group'); ?></span> <span class="caret"></span></button>                        
+                            <ul class="dropdown-menu" role="menu">
+                                <?php
+                                foreach ($userGroups as $value) {
+                                    ?>
+                                    <li>
+                                        <a href="#"  onclick="userGroupSave(<?php echo $value['id']; ?>, 0); return false;">
+                                            <span class="fa fa-lock"></span>
+                                            <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
+                                            <?php echo $value['group_name']; ?>
+                                        </a>  
+                                    </li>
+                                    <?php
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                        <?php
+                    }
+                    if (empty($advancedCustom->disableVideoSwap) && (empty($advancedCustom->makeSwapVideosOnlyForAdmin) || User::isAdmin())) {
+                        ?>
+                        <button class="btn btn-primary" id="swapBtn">
+                            <i class="fas fa-random"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Swap Video File'); ?></span>
+                        </button>
+                        <?php
+                    }
+                    if (User::isAdmin()) {
+                        ?>
+                        <button class="btn btn-primary" id="updateAllUsage">
+                            <i class="fas fa-chart-line"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Update all videos disk usage'); ?></span>
+                        </button>
+                        <?php
+                    }
+                    if (AVideoPlugin::isEnabledByName('CDN') && CDN::userCanMoveVideoStorage()) {
+                        include $global['systemRootPath'] . 'plugin/CDN/Storage/getVideoManagerButton.php';
+                    }
                     ?>
-                    <button class="btn btn-primary" id="swapBtn">
-                        <i class="fas fa-random"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Swap Video File'); ?></span>
+                    <button class="btn btn-danger" id="deleteBtn">
+                        <i class="fa fa-trash" aria-hidden="true"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Delete'); ?></span>
                     </button>
                     <?php
-                }
-                if (User::isAdmin()) {
-                    ?>
-                    <button class="btn btn-primary" id="updateAllUsage">
-                        <i class="fas fa-chart-line"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Update all videos disk usage'); ?></span>
-                    </button>
-                    <?php
-                }
-                if (AVideoPlugin::isEnabledByName('CDN') && CDN::userCanMoveVideoStorage()) {
-                    include $global['systemRootPath'] . 'plugin/CDN/Storage/getVideoManagerButton.php';
                 }
                 ?>
-                <button class="btn btn-danger" id="deleteBtn">
-                    <i class="fa fa-trash" aria-hidden="true"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Delete'); ?></span>
-                </button>
             </div>
 
             <div class="btn-group pull-right" id="filterButtonsVideoManager">
@@ -296,24 +300,25 @@
                         <span class="activeFilter"><?php echo __('All'); ?></span> <span class="caret"></span></button>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
                         <li><a href="#" onclick="filterStatus = ''; $('.activeFilter').html('<?php echo __('All'); ?>');
-                                $('.tooltip').tooltip('hide');$('#grid').bootgrid('reload');
+                                $('.tooltip').tooltip('hide');
+                                $('#grid').bootgrid('reload');
                                 return false;"><?php echo __('All'); ?></a></li>
-                        <?php
-                        $showOnly = array('a', 'i', 'e', 't', 'u', 'b');
-                        if(AVideoPlugin::isEnabled('FansSubscriptions')){
-                            $showOnly[] = 'f';
-                        }
-                        if(AVideoPlugin::isEnabled('SendRecordedToEncoder')){
-                            $showOnly[] = 'r';
-                        }
-                        foreach (Video::$statusDesc as $key => $value) {
-                            if(!in_array($key, $showOnly)){
-                                continue;
+                            <?php
+                            $showOnly = array('a', 'i', 'e', 't', 'u', 'b');
+                            if (AVideoPlugin::isEnabled('FansSubscriptions')) {
+                                $showOnly[] = 'f';
                             }
-                            $text = Video::$statusIcons[$key] . ' ' . __($value);
-                            echo PHP_EOL.'<li><a href="#" onclick="filterStatus=\'' . $key . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
-                        }
-                        ?>
+                            if (AVideoPlugin::isEnabled('SendRecordedToEncoder')) {
+                                $showOnly[] = 'r';
+                            }
+                            foreach (Video::$statusDesc as $key => $value) {
+                                if (!in_array($key, $showOnly)) {
+                                    continue;
+                                }
+                                $text = Video::$statusIcons[$key] . ' ' . __($value);
+                                echo PHP_EOL . '<li><a href="#" onclick="filterStatus=\'' . $key . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
+                            }
+                            ?>
                     </ul>
                 </div>
             </div>
@@ -324,22 +329,22 @@
                         <th data-column-id="title" data-formatter="titleTag" ><?php echo __("Title"); ?></th>
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="300px" data-header-css-class='hidden-xs' data-css-class='hidden-xs tagsInfo'><?php echo __("Tags"); ?></th>
                         <th style="display: none;" data-column-id="sites_id" data-formatter="sites_id" data-width="50px" data-header-css-class='hidden-xs' data-css-class='hidden-xs'>
-                            <?php echo htmlentities('<i class="fas fa-hdd" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Storage") . '"></i>'); ?>
+<?php echo htmlentities('<i class="fas fa-hdd" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Storage") . '"></i>'); ?>
                         </th>
                         <th  style="display: none;"  data-column-id="duration" data-width="80px"  data-header-css-class='hidden-md hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-md hidden-sm hidden-xs'>
-                            <?php echo htmlentities('<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Duration") . '"></i>'); ?>
+<?php echo htmlentities('<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Duration") . '"></i>'); ?>
                         </th>
                         <th  style="display: none;"  data-column-id="views_count" data-formatter="views_count" data-width="50px"  data-header-css-class='hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-sm hidden-xs'>
-                            <?php echo htmlentities('<i class="fas fa-eye" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Views") . '"></i>'); ?>
+<?php echo htmlentities('<i class="fas fa-eye" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Views") . '"></i>'); ?>
                         </th>
                         <th  style="display: none;"  data-column-id="total_seconds_watching" data-formatter="total_seconds_watching" data-width="100px" data-header-css-class='hidden-sm hidden-xs showOnGridDone' data-css-class='hidden-sm hidden-xs'>
-                            <?php echo htmlentities('<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Time Watching") . '"></i>'); ?>
+                        <?php echo htmlentities('<i class="fas fa-stopwatch" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Time Watching") . '"></i>'); ?>
                         </th>
                         <?php
                         if (Permissions::canAdminVideos()) {
                             ?>
                             <th  style="display: none;"  data-column-id="isSuggested" data-formatter="isSuggested" data-width="42px"  data-header-css-class='hidden-xs showOnGridDone' data-css-class='hidden-xs'>
-                                <?php echo htmlentities('<i class="fas fa-star" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Suggested") . '"></i>'); ?>
+                            <?php echo htmlentities('<i class="fas fa-star" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Suggested") . '"></i>'); ?>
                             </th>
                             <?php
                         }
@@ -359,7 +364,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">
-                        <?php echo __("Upload Form"); ?>
+<?php echo __("Upload Form"); ?>
                     </h4>
                 </div>
                 <div class="modal-body" style="max-height: 70vh; overflow-y: scroll;">
@@ -527,7 +532,7 @@
                                                         </div>
                                                     </li>
                                                     <li class="list-group-item active non-public">
-                                                        <?php echo __("Groups that can see this video"); ?>
+    <?php echo __("Groups that can see this video"); ?>
                                                         <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                                                     </li>
                                                     <?php
@@ -535,7 +540,7 @@
                                                         ?>
                                                         <li class="list-group-item non-public">
                                                             <span class="fa fa-lock"></span>
-                                                            <?php echo $value['group_name']; ?>
+        <?php echo $value['group_name']; ?>
                                                             <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
                                                             <div class="material-switch pull-right">
                                                                 <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups"/>
@@ -552,7 +557,7 @@
                                     <div id="videoExtraDetails">
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
-                                                <?php echo __("Autoplay Next Video"); ?>
+<?php echo __("Autoplay Next Video"); ?>
                                                 <button class="btn btn-danger btn-sm btn-xs pull-right" id="removeAutoplay" type="button"><i class="fa fa-trash"></i> <?php echo __("Remove Autoplay Next Video"); ?></button>
                                             </div>
                                             <div class="panel-body">
@@ -730,20 +735,20 @@
             <h2><?php echo __("How to setup the Youtube-Upload feature"); ?>:</h2>
             <ol>
                 <li>
-                    <?php echo __("You need to enable"); ?>
+    <?php echo __("You need to enable"); ?>
                     <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-info btn-xs"><?php echo __("Google Login"); ?></a> <?php echo __("and get the following information") . ": <strong>" . __("Google ID and Key") . "</strong>"; ?>
                 </li>
                 <li>
                     <?php echo __("Go to your"); ?> 
                     <a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs" target="_blank" rel="noopener noreferrer"><?php echo __("Google Console API Dashboard"); ?></a> 
-                    <?php echo __("and enable the following API") . ": <strong>" . __("YouTube Data API") . " v3</strong>"; ?>
+    <?php echo __("and enable the following API") . ": <strong>" . __("YouTube Data API") . " v3</strong>"; ?>
                 </li>
                 <li>
-                    <?php echo __("In authorized credentials allow the following URIs redirection"); ?>:
+    <?php echo __("In authorized credentials allow the following URIs redirection"); ?>:
                     <code><?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php</code>
                 </li>
                 <li>
-                    <?php echo __("You can find more help on the following documentation"); ?>: 
+    <?php echo __("You can find more help on the following documentation"); ?>: 
                     <a href="https://developers.google.com/youtube/v3/getting-started" class="btn btn-info btn-xs"  target="_blank" rel="noopener noreferrer"><?php echo __("YouTube Data API Overview"); ?></a>
                 </li>
             </ol>

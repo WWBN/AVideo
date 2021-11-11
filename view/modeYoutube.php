@@ -1,12 +1,12 @@
 <?php
-$modeYouTubeTime = microtime(true);
-$modeYouTubeTimeLog = array();
 global $global, $config;
 $isChannel = 1; // still workaround, for gallery-functions, please let it there.
 $isModeYouTube = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+$TimeLogLimitMY = 0.05;
+$timeLogNameMY = TimeLogStart("modeYoutube.php");
 //_error_log("modeYoutube: session_id = " . session_id() . " IP = " . getRealIpAddr());
 
 if (!empty($_GET['evideo'])) {
@@ -30,8 +30,8 @@ if (!empty($evideo)) {
     require_once $global['systemRootPath'] . 'objects/subscribe.php';
     require_once $global['systemRootPath'] . 'objects/functions.php';
 
-    $img = "".getCDN()."view/img/notfound.jpg";
-    $poster = "".getCDN()."view/img/notfound.jpg";
+    $img = "" . getCDN() . "view/img/notfound.jpg";
+    $poster = "" . getCDN() . "view/img/notfound.jpg";
     $imgw = 1280;
     $imgh = 720;
 
@@ -53,8 +53,6 @@ if (!empty($evideo)) {
     }
     session_write_close();
 
-    $modeYouTubeTimeLog['Code part 1'] = microtime(true) - $modeYouTubeTime;
-    $modeYouTubeTime = microtime(true);
     if (!empty($_GET['playlist_id'])) {
         $isSerie = 1;
         if (preg_match("/^[0-9]+$/", $_GET['playlist_id'])) {
@@ -128,12 +126,12 @@ if (!empty($evideo)) {
         if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $advancedCustom->forceCategory === false)) {
             $_GET['catName'] = "";
         }
-        
+
         if (empty($video) && !empty($_REQUEST['v'])) {
             $video = Video::getVideo($_REQUEST['v'], "viewable", false, false, false, true);
             //var_dump('Line: '.__LINE__, $_REQUEST['v'], $video);exit;
         }
-        
+
         if (empty($video)) {
             $video = Video::getVideo("", "viewable", false, false, true, true);
         }
@@ -158,13 +156,6 @@ if (!empty($evideo)) {
             $_GET['isMediaPlaySite'] = $video['id'];
             $obj = new Video("", "", $video['id']);
         }
-        /*
-          if (empty($_SESSION['type'])) {
-          $_SESSION['type'] = $video['type'];
-          }
-         * 
-         */
-// $resp = $obj->addView();
 
         $get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
 
@@ -200,17 +191,14 @@ if (!empty($evideo)) {
         $name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($video['users_id']) . "</a>";
         $subscribe = Subscribe::getButton($video['users_id']);
         $video['creator'] = Video::getCreatorHTML($video['users_id'], '<div class="clearfix"></div><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small>');
-            
-        $obj = new Video("", "", $video['id']);
 
-// Don't need because have an embedded video on this page
-// $resp = $obj->addView();
+        $obj = new Video("", "", $video['id']);
     }
 
     if (!empty($video) && $video['type'] == "video") {
         $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
     } else {
-        $poster = "".getCDN()."view/img/audio_wave.jpg";
+        $poster = "" . getCDN() . "view/img/audio_wave.jpg";
     }
 
     if (!empty($video)) {
@@ -221,7 +209,7 @@ if (!empty($evideo)) {
             $imgw = $data[0];
             $imgh = $data[1];
         } else if ($video['type'] == "audio") {
-            $img = "".getCDN()."view/img/audio_wave.jpg";
+            $img = "" . getCDN() . "view/img/audio_wave.jpg";
         }
         $type = 'video';
         if ($video['type'] === 'pdf') {
@@ -242,7 +230,7 @@ if (!empty($evideo)) {
             $img = isMobile() ? $images->thumbsJpg : $images->poster;
         }
     } else {
-        $poster = "".getCDN()."view/img/notfound.jpg";
+        $poster = "" . getCDN() . "view/img/notfound.jpg";
     }
     $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
     $modeYouTubeTimeLog['Code part 3'] = microtime(true) - $modeYouTubeTime;
@@ -262,7 +250,7 @@ if (!empty($evideo)) {
     if (empty($_GET['videoName']) && !empty($video)) {
         $_GET['videoName'] = $video['clean_title'];
     }
-    if(!empty($_GET['videoName'])){
+    if (!empty($_GET['videoName'])) {
         $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
     if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
@@ -276,34 +264,10 @@ if (!empty($evideo)) {
     }
 }
 
+
+TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 // video not found
 if (empty($video)) {
-    /*
-    $img = "".getCDN()."view/img/this-video-is-not-available.jpg";
-    $poster = "".getCDN()."view/img/this-video-is-not-available.jpg";
-    $imgw = 1280;
-    $imgh = 720;
-    unset($_SESSION['type']);
-    session_write_close();
-    $video = array();
-    $video['id'] = 0;
-    $video['type'] = 'notfound';
-    $video['rotation'] = 0;
-    $video['videoLink'] = "";
-    $video['title'] = __("Video Not Available");
-    $video['clean_title'] = "video-not-available";
-    $video['description'] = "";
-    $video['duration'] = "";
-    $video['creator'] = "";
-    $video['likes'] = "";
-    $video['dislikes'] = "";
-    $video['category'] = "embed";
-    $video['views_count'] = 0;
-    $video['filename'] = "";
-
-    header('HTTP/1.0 404 Not Found', true, 404);
-     * 
-     */
     videoNotFound('The video is not available');
 }
 $metaDescription = " {$video['id']}";
@@ -317,6 +281,8 @@ $titleTag = (strlen($titleTag) > 70) ? (substr($titleTag, 0, 68) . " &hellip;") 
 if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
     $video['type'] = "blockedUser";
 }
+
+TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -334,14 +300,15 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
             getOpenGraph(0);
             getLdJson(0);
         }
-        $modeYouTubeTimeLog['After head'] = microtime(true) - $modeYouTubeTime;
-        $modeYouTubeTime = microtime(true);
         ?>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
-        <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <?php
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+        include $global['systemRootPath'] . 'view/include/navbar.php';
+
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
             ?>
             <div class="container" style="margin-bottom: 10px;">
@@ -357,7 +324,11 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
                     $video['type'] = "video";
                 }
                 $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
+
+                TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
                 require "{$global['systemRootPath']}view/modeYoutubeBundle.php";
+
+                TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
             } else {
                 ?>
                 <br>
@@ -370,16 +341,16 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
             <?php } ?>
         </div>
         <?php
-        $modeYouTubeTimeLog['before add js '] = microtime(true) - $modeYouTubeTime;
-        $modeYouTubeTime = microtime(true);
-        ?>
-        <?php
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
-        ?>
-        <?php
+
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+
         echo AVideoPlugin::afterVideoJS();
         $disableYoutubeIntegration = @$advancedCustom->disableYoutubePlayerIntegration || isMobile();
 
+
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if ((isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false)) {
             if ($_GET['isEmbedded'] == "y") {
                 ?>
@@ -391,17 +362,11 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
                 <?php
             }
         }
+
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         include $global['systemRootPath'] . 'view/include/footer.php';
-        $modeYouTubeTimeLog['after add js and footer '] = microtime(true) - $modeYouTubeTime;
-        $modeYouTubeTime = microtime(true);
-        echo "<!-- \n";
-        foreach ($modeYouTubeTimeLog as $key => $value) {
-            if ($value > 0.5) {
-                echo "*** ";
-            }
-            echo "{$key} = {$value} seconds \n";
-        }
-        echo "\n -->";
+
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         ?>
         <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
         <script>
@@ -410,7 +375,13 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
 
         <?php
         showCloseButton();
+
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         ?>
     </body>
 </html>
-<?php include $global['systemRootPath'] . 'objects/include_end.php'; ?>
+<?php
+include $global['systemRootPath'] . 'objects/include_end.php';
+
+TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+?>

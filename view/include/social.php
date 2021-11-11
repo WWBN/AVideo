@@ -47,6 +47,7 @@ $social_medias = array(
 ?>
 <ul class="social-network social-circle">
     <?php
+    $loaderSequenceName = uniqid();
     foreach ($global['social_medias'] as $key => $value) {
         eval("\$show = \$advancedCustom->showShareButton_{$key};");
         if(empty($show)){
@@ -54,14 +55,14 @@ $social_medias = array(
         }
         $url = $global['social_medias_'.$key];
         if(empty($value->img)){
-            echo '<li><a href="'.$url.'" target="_blank" class="ico'.$key.'" title="'.$key.'" data-toggle="tooltip" ><i class="'.$value->iclass.'"></i></a></li>';
+            echo '<li class=""><a href="'.$url.'" target="_blank" class="ico'.$key.' '.getCSSAnimationClassAndStyle('animate__bounceIn', $loaderSequenceName).'" title="'.$key.'" data-toggle="tooltip" ><i class="'.$value->iclass.'"></i></a></li>';
         }else{
-            echo '<li><a href="'.$url.'" style="" target="_blank" class="ico'.$key.'" title="'.$key.'" data-toggle="tooltip" ><i class="fas"><img src="'.$value->img.'" title="'.$key.'" style="height: 30px;"/></i></a></li>';
+            echo '<li class=""><a href="'.$url.'" target="_blank" class="ico'.$key.' '.getCSSAnimationClassAndStyle('animate__bounceIn', $loaderSequenceName).'" title="'.$key.'" data-toggle="tooltip" ><i class="fas"><img src="'.$value->img.'" title="'.$key.'" style="height: 30px;"/></i></a></li>';
         }
     }
     ?>
     <li>
-        <a href="#" class="icoCopy" title="<?php echo __('Copy to Clipboard'); ?>" data-toggle="tooltip" onclick="copyToClipboard('<?php echo urldecode($urlSocial); ?>');$(this).closest('.modal').modal('hide');return false;" >
+        <a href="#" class="icoCopy <?php echo getCSSAnimationClassAndStyle('animate__bounceIn', $loaderSequenceName); ?>" title="<?php echo __('Copy to Clipboard'); ?>" data-toggle="tooltip" onclick="copyToClipboard('<?php echo urldecode($urlSocial); ?>');$(this).closest('.modal').modal('hide');return false;" >
             <i class="far fa-copy"></i>
         </a>
     </li>
