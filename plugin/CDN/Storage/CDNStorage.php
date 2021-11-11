@@ -318,11 +318,11 @@ class CDNStorage {
         return $client->rmdir($dir, $recursive);
     }
 
-    static function filenameToRemotePath($filename) {
+    static function filenameToRemotePath($filename, $addUsernameFolder=true) {
         global $global;
         $obj = AVideoPlugin::getDataObject('CDN');
         $filename = str_replace(getVideosDir(), '', $filename);
-        if (!preg_match('/^\/' . $obj->storage_username . '\//', $filename)) {
+        if ($addUsernameFolder && !preg_match('/^\/' . $obj->storage_username . '\//', $filename)) {
             return "/{$obj->storage_username}/$filename";
         }
         return $filename;
@@ -666,7 +666,7 @@ class CDNStorage {
         }
         
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
-        $remote_file = CDNStorage::filenameToRemotePath($local_path);
+        $remote_file = CDNStorage::filenameToRemotePath($local_path, false);
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         if (empty($remote_file)) {
             _error_log("CDNStorage::downloadFromCDNStorage error empty remote file name {$local_path}");
