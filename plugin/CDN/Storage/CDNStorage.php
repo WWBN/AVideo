@@ -273,8 +273,10 @@ class CDNStorage {
             try {
                 $msg = "[{$count}/{$total}] GET File start from {$value['remote_path']} ". humanFileSize($remote_filesize);
                 self::addToLog($videos_id, $msg);
+                $start = microtime(true);
                 $response = $client->get($value['local_path'], $value['relative']);
-                $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} ";
+                $end = microtime(true)-$start;
+                $msg = "GET File moved from {$value['remote_path']} to {$value['local_path']} in ". secondsToTime($end).' ETA: '.secondsToTime($end*($total-$count));
                 self::addToLog($videos_id, $msg);
                 $filesCopied++;
                 $totalBytesTransferred+=$remote_filesize;
