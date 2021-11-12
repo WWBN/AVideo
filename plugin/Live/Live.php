@@ -2232,6 +2232,8 @@ class Live extends PluginAbstract {
         if ($clearFirstPage) {
             clearCache(true);
         }
+        // temporary solution to when you go online
+        ObjectYPT::deleteALLCache();
         //isURL200Clear();
         unset($__getAVideoCache);
         unset($getStatsLive);
