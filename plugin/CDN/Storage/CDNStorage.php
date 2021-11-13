@@ -466,7 +466,6 @@ class CDNStorage {
         $totalFiles = count($filesToUpload);
         if (empty($filesToUpload)) {
             _error_log("CDNStorage::put videos_id={$videos_id} There is no file to upload ");
-            return false;
         } else {
             _error_log("CDNStorage::put videos_id={$videos_id} totalSameTime=$totalSameTime totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
             $conn_id = array();
