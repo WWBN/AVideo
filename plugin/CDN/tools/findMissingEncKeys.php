@@ -33,7 +33,7 @@ foreach ($videos as $value) {
     $count++;
     $videos_id = $value['id'];
     $list = CDNStorage::getLocalFolder($videos_id);
-    echo "videos_id = {$videos_id} Files found " . count($list) . PHP_EOL;
+    //echo "videos_id = {$videos_id} Files found " . count($list) . PHP_EOL;
     $m3u8 = false;
     $enckey = false;
     foreach ($list as $file) {
