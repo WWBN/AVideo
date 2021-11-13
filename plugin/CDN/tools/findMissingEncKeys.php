@@ -68,9 +68,9 @@ foreach ($videos as $value) {
             if(!empty($content)){
                 $json = json_decode($content);
                 if(!empty($json->pathinfo)){
-                    file_put_contents("{$value['filename']}missingkey", time());
-                    file_put_contents("{$value['filename']}{$json->pathinfo->basename}", base64_decode($json->content));
-                    echo "Saved from {$s} on {$value['filename']}{$json->pathinfo->basename}" . PHP_EOL;
+                    file_put_contents("{$paths['path']}missingkey", time());
+                    file_put_contents("{$paths['path']}{$json->pathinfo->basename}", base64_decode($json->content));
+                    echo "Saved from {$s} on {$paths['path']}{$json->pathinfo->basename}" . PHP_EOL;
                     break;
                 }
             }
