@@ -36,19 +36,19 @@ foreach ($videos as $value) {
     echo "videos_id = {$value['id']} Files found " . count($list) . PHP_EOL;
     $m3u8 = false;
     $enckey = false;
-    foreach ($list as $value) {
-        if (is_array($value)) {
-            foreach ($value as $value2) {
-                if (preg_match('/index.m3u8$/', $value2)) {
+    foreach ($list as $file) {
+        if (is_array($file)) {
+            foreach ($file as $file2) {
+                if (preg_match('/index.m3u8$/', $file2)) {
                     $m3u8 = true;
-                } else if (preg_match('/enc.*.key$/', $value2)) {
+                } else if (preg_match('/enc.*.key$/', $file2)) {
                     $enckey = true;
                 }
             }
         } else {
-            if (preg_match('/index.m3u8$/', $value2)) {
+            if (preg_match('/index.m3u8$/', $file2)) {
                 $m3u8 = true;
-            } else if (preg_match('/enc.*.key$/', $value2)) {
+            } else if (preg_match('/enc.*.key$/', $file2)) {
                 $enckey = true;
             }
         }
