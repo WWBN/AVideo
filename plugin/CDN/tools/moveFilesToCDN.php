@@ -12,6 +12,9 @@ $isCDNEnabled = AVideoPlugin::isEnabledByName('CDN');
 if (empty($isCDNEnabled)) {
     return die('Plugin disabled');
 }
+
+$onlyExtension = trim(@$argv[1]);
+
 ob_end_flush();
 set_time_limit(300);
 ini_set('max_execution_time', 300);
@@ -52,7 +55,7 @@ $total = count($sites_id_to_move);
 foreach ($sites_id_to_move as $key => $value) {
     echo "{$key}/{$total} Start move {$value}" . PHP_EOL;
     $startF = microtime(true);
-    $response = CDNStorage::put($value, 10);
+    $response = CDNStorage::put($value, 10, $onlyExtension);
     if(empty($response)){
         echo "{$key}/{$total} ERROR " . PHP_EOL;
     }else{
