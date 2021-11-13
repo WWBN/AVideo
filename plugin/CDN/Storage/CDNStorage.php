@@ -453,6 +453,7 @@ class CDNStorage {
             $filesize = filesize($value['local']['local_path']);
             if ($value['isLocal'] && $filesize > 20) {
                 if ($filesize != $value['remote']['remote_filesize']) {
+                    _error_log("CDNStorage:: add {$value['remote']['relative']} {$filesize} != {$value['remote']['remote_filesize']}");
                     $filesToUpload[] = $value['local']['local_path'];
                     $totalFilesize += $filesize;
                 } else {
