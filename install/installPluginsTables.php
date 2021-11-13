@@ -41,9 +41,15 @@ if ($option == 1 || $option == 2) {
     $files = _rsearch("{$global['systemRootPath']}plugin/", "/install\/install.sql$/i");
     $templine = '';
     $global['mysqli']->begin_transaction();
+    $totalFiles = count($files);
+    $countFiles = 0;
     foreach ($files as $value) {
+        $countFiles++;
         $lines = file($value);
+        $totalLines = count($files);
+        $countLines = 0;
         foreach ($lines as $line) {
+            $countLines++;
             if (substr($line, 0, 2) == '--' || $line == '')
                 continue;
             $templine .= $line;
@@ -52,7 +58,7 @@ if ($option == 1 || $option == 2) {
                     echo ($value . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
                     die(json_encode($obj));
                 } else {
-                    echo "Success performing query from $value\n";
+                    echo "[{$countFiles}/{$totalFiles}][{$countLines}/{$totalLines}] Success performing query from $value\n";
                 }
                 $templine = '';
             }
