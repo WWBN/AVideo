@@ -31,7 +31,7 @@ $videosDir = getVideosDir();
 $errorsFound = array();
 foreach ($videos as $value) {
     $count++;
-    $videos_id = $value['id'];
+    $videos_id = $value;
     $list = CDNStorage::getLocalFolder($videos_id);
     echo "videos_id = {$value['id']} Files found " . count($list) . PHP_EOL;
     $m3u8 = false;
@@ -54,7 +54,8 @@ foreach ($videos as $value) {
         }
     }
     if ($m3u8 && !$enckey) {
-        $paths = Video::getPaths($value['filename']);
+        $video = Video::getVideoLight($value);
+        $paths = Video::getPaths($video['filename']);
         echo "Missing enc key for video {$videos_id} {$paths['path']}" . PHP_EOL;
     }
 }
