@@ -3096,7 +3096,12 @@ if (!class_exists('Video')) {
             if (is_dir("{$videosDir}{$cleanVideoFilename}")) {
                 $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
             } else {
-                $path = addLastSlash("{$videosDir}{$videoFilename}");
+                $complement = $videoFilename;
+                $parts = pathinfo($videoFilename);
+                if(!empty($parts['filename'])){
+                    $complement = $parts['filename'];
+                }
+                $path = addLastSlash("{$videosDir}{$complement}");
             }
 
             $path = fixPath($path);
