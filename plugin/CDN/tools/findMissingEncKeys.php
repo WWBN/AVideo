@@ -13,6 +13,8 @@ if (empty($isCDNEnabled)) {
     return die('Plugin disabled');
 }
 
+$storages = array('https://storage.wetube.club/', 'https://storage1.wetube.club/');
+
 ob_end_flush();
 set_time_limit(300);
 ini_set('max_execution_time', 300);
@@ -58,6 +60,16 @@ foreach ($videos as $value) {
         //$video = Video::getVideoLight($value);
         $paths = Video::getPaths($value['filename']);
         echo "[$errorsFound] Missing enc key for video {$videos_id} {$paths['path']}" . PHP_EOL;
+        
+        foreach ($storages as $value) {
+            $url = "{$value}tools/getenckey.json.php?folder={$value['filename']}";
+            echo "{$url}" . PHP_EOL;
+            $content = file_get_contents("{$value}tools/getenckey.json.php?folder={$value['filename']}");
+            if(!empty($content)){
+                var_dump($content);
+                break;
+            }
+        }
     }
 }
 
