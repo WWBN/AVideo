@@ -66,8 +66,13 @@ foreach ($videos as $value) {
             echo "{$url}" . PHP_EOL;
             $content = file_get_contents("{$s}tools/getenckey.json.php?folder={$value['filename']}");
             if(!empty($content)){
-                var_dump($content);
-                break;
+                $json = json_decode($content);
+                if(!empty($json->pathinfo)){
+                    file_put_contents("{$value['filename']}missingkey", time());
+                    file_put_contents("{$value['filename']}{$json->pathinfo->basename}", base64_decode($json->content));
+                    echo "Saved from {$s} on {$value['filename']}{$json->pathinfo->basename}" . PHP_EOL;
+                    break;
+                }
             }
         }
     }
