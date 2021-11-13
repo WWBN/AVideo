@@ -34,7 +34,7 @@ foreach ($videos as $value) {
     if (!empty($value['sites_id'])) {
         $countSiteIdNotEmpty++;
         // make sure it is dummy files
-        CDNStorage::createDummyFiles($value['id']);
+        //CDNStorage::createDummyFiles($value['id']);
         //echo "sites_id is not empty {$value['sites_id']}" . PHP_EOL;
         continue;
     }
