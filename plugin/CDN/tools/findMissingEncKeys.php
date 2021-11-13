@@ -28,7 +28,7 @@ $countStatusNotActive = 0;
 $countMoved = 0;
 
 $videosDir = getVideosDir();
-$errorsFound = array();
+$errorsFound = 0;
 foreach ($videos as $value) {
     $count++;
     $videos_id = $value['id'];
