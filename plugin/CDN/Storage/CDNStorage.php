@@ -437,13 +437,18 @@ class CDNStorage {
         return array('filesCopied' => $filesCopied, 'totalBytesTransferred' => $totalBytesTransferred);
     }
 
-    static function put($videos_id, $totalSameTime) {
+    static function put($videos_id, $totalSameTime, $onlyExtension = '') {
         global $_uploadInfo;
         $list = self::getFilesListBoth($videos_id);
         $filesToUpload = array();
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
         foreach ($list as $value) {
+            $ext = pathinfo($value['local']['local_path'], PATHINFO_EXTENSION);
+            if (!empty($onlyExtension) && strtolower($onlyExtension) !== strtolower($ext)) {
+                _error_log("CDNStorage::put we will only upload {$onlyExtension} we will not uplaod {$value['local']['local_path']}");
+                continue;
+            }
             $filesize = filesize($value['local']['local_path']);
             if ($value['isLocal'] && $filesize > 20) {
                 if ($filesize != $value['remote']['remote_filesize']) {
@@ -529,7 +534,7 @@ class CDNStorage {
             }
         }
 
-        if ($fileUploadCount == $totalFiles) {
+        if ((empty($onlyExtension) || !empty($fileUploadCount)) && $fileUploadCount == $totalFiles) {
             self::createDummyFiles($videos_id);
             self::sendSocketNotification($videos_id, __('Video upload complete'));
             self::setProgress($videos_id, true, true);
