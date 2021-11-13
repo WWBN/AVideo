@@ -443,6 +443,7 @@ class CDNStorage {
         $filesToUpload = array();
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
+        $fileUploadCount = 0;
         foreach ($list as $value) {
             $ext = pathinfo($value['local']['local_path'], PATHINFO_EXTENSION);
             if (!empty($onlyExtension) && strtolower($onlyExtension) !== strtolower($ext)) {
@@ -456,13 +457,13 @@ class CDNStorage {
                     $totalFilesize += $filesize;
                 } else {
                     _error_log("CDNStorage::put same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
+                    $fileUploadCount++;
                 }
             } else {
                 _error_log("CDNStorage::put not valid local file {$value['local']['local_path']}");
             }
         }
         $totalFiles = count($filesToUpload);
-        $fileUploadCount = 0;
         if (empty($filesToUpload)) {
             _error_log("CDNStorage::put videos_id={$videos_id} There is no file to upload ");
             return false;

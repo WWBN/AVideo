@@ -60,9 +60,9 @@ foreach ($sites_id_to_move as $key => $value) {
     if (!empty($index) && $key < $index) {
         continue;
     }
-    echo "{$key}/{$total} Start move {$value} onlyExtension={$onlyExtension}" . PHP_EOL;
+    echo "{$key}/{$total} Start move {$value}" . PHP_EOL;
     $startF = microtime(true);
-    $response = CDNStorage::put($value, 10, $onlyExtension);
+    $response = CDNStorage::put($value, 2);
     if (empty($response)) {
         echo "{$key}/{$total} ERROR " . PHP_EOL;
     } else {

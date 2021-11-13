@@ -59,7 +59,7 @@ foreach ($sites_id_to_move as $key => $value) {
     }
     echo "{$key}/{$total} Start move {$value} onlyExtension={$onlyExtension}" . PHP_EOL;
     $startF = microtime(true);
-    $response = CDNStorage::put($value, 10, $onlyExtension);
+    $response = CDNStorage::put($value, 4, $onlyExtension);
     if(empty($response)){
         echo "{$key}/{$total} ERROR " . PHP_EOL;
     }else{
