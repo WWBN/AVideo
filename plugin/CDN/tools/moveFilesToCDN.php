@@ -14,6 +14,7 @@ if (empty($isCDNEnabled)) {
 }
 
 $onlyExtension = trim(@$argv[1]);
+$index = intval(@$argv[2]);
 
 ob_end_flush();
 set_time_limit(300);
@@ -53,6 +54,9 @@ foreach ($videos as $value) {
 
 $total = count($sites_id_to_move);
 foreach ($sites_id_to_move as $key => $value) {
+    if(!empty($index) && $key<$index){
+        continue;
+    }
     echo "{$key}/{$total} Start move {$value} onlyExtension={$onlyExtension}" . PHP_EOL;
     $startF = microtime(true);
     $response = CDNStorage::put($value, 10, $onlyExtension);
