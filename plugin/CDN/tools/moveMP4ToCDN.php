@@ -42,6 +42,7 @@ foreach ($videos as $value) {
                 if (preg_match('/.mp4$/', $file2)) {
                     if (filesize($file2) > 20) {
                         $sites_id_to_move[] = $videos_id;
+                        break 2;
                     }
                 }
             }
@@ -49,6 +50,7 @@ foreach ($videos as $value) {
             if (preg_match('/.mp4$/', $file)) {
                 if (filesize($file) > 20) {
                     $sites_id_to_move[] = $videos_id;
+                    break;
                 }
             }
         }
