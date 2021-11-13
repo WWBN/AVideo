@@ -46,7 +46,7 @@ if ($option == 1 || $option == 2) {
     foreach ($files as $value) {
         $countFiles++;
         $lines = file($value);
-        $totalLines = count($files);
+        $totalLines = count($lines);
         $countLines = 0;
         foreach ($lines as $line) {
             $countLines++;
