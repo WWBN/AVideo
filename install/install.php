@@ -16,7 +16,7 @@ if (version_compare(phpversion(), '7.2', '<')) {
 }
 
 $webSiteRootURL = @$argv[1];
-$webSiteRootURL = preg_replace("/[^0-9a-z._\/:]/i", "", trim($webSiteRootURL));
+$webSiteRootURL = preg_replace("/[^0-9a-z._\/:-]/i", "", trim($webSiteRootURL));
 $databaseUser = empty($argv[2])?$databaseUser:$argv[2];
 $databasePass = empty($argv[3])?$databasePass:$argv[3];
 $systemAdminPass = empty($argv[4])?"123":$argv[4];
