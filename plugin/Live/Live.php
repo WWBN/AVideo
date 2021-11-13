@@ -206,7 +206,20 @@ class Live extends PluginAbstract {
     }
 
     static function getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive='', $uid ='', $callback='', $startsOnDate='', $class='') {
-        global $global;
+        global $global, $_getLiveApplicationModelArray_counter, $_getLiveApplicationModelArray;
+        
+        if(!isset($_getLiveApplicationModelArray)){
+            $_getLiveApplicationModelArray = array();
+        }
+        
+        if(!empty($_getLiveApplicationModelArray[$uid])){
+            return $_getLiveApplicationModelArray[$uid];
+        }
+        
+        if(empty($_getLiveApplicationModelArray_counter)){
+            $_getLiveApplicationModelArray_counter = 0;
+        }
+        $_getLiveApplicationModelArray_counter++;
         
         $search = array(
             '_unique_id_',
@@ -286,6 +299,7 @@ class Live extends PluginAbstract {
             'comingsoon' => $comingsoon
         );
 
+        $_getLiveApplicationModelArray[$uid] = $array;
         return $array;
     }
 
@@ -302,7 +316,7 @@ class Live extends PluginAbstract {
 
         $obj = new stdClass();
         $obj->topCopyKeysButtonTitle = "Copy Live Keys";
-        $obj->hideTopCopyKeysButton = false;
+        $obj->hideTopCopyKeysButton = true;
         self::addDataObjectHelper('hideTopCopyKeysButton', 'Hide Top Copy Live Keys Button', 'This will hide the "Copy Live Keys" button on the top menu bar');
         
         $obj->button_title = "LIVE";
