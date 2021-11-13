@@ -457,7 +457,6 @@ class CDNStorage {
                     $totalFilesize += $filesize;
                 } else {
                     _error_log("CDNStorage::put same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
-                    $fileUploadCount++;
                 }
             } else {
                 _error_log("CDNStorage::put not valid local file {$value['local']['local_path']}");
