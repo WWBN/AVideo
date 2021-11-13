@@ -61,10 +61,10 @@ foreach ($videos as $value) {
         $paths = Video::getPaths($value['filename']);
         echo "[$errorsFound] Missing enc key for video {$videos_id} {$paths['path']}" . PHP_EOL;
         
-        foreach ($storages as $value) {
+        foreach ($storages as $s) {
             $url = "{$value}tools/getenckey.json.php?folder={$value['filename']}";
             echo "{$url}" . PHP_EOL;
-            $content = file_get_contents("{$value}tools/getenckey.json.php?folder={$value['filename']}");
+            $content = file_get_contents("{$s}tools/getenckey.json.php?folder={$value['filename']}");
             if(!empty($content)){
                 var_dump($content);
                 break;
