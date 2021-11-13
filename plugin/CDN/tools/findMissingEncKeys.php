@@ -54,9 +54,10 @@ foreach ($videos as $value) {
         }
     }
     if ($m3u8 && !$enckey) {
+        $errorsFound++;
         //$video = Video::getVideoLight($value);
         $paths = Video::getPaths($value['filename']);
-        echo "Missing enc key for video {$videos_id} {$paths['path']}" . PHP_EOL;
+        echo "[$errorsFound] Missing enc key for video {$videos_id} {$paths['path']}" . PHP_EOL;
     }
 }
 
