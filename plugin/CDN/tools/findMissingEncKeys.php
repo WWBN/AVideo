@@ -46,9 +46,9 @@ foreach ($videos as $value) {
                 }
             }
         } else {
-            if (preg_match('/index.m3u8$/', $file2)) {
+            if (preg_match('/index.m3u8$/', $file)) {
                 $m3u8 = true;
-            } else if (preg_match('/enc.*.key$/', $file2)) {
+            } else if (preg_match('/enc.*.key$/', $file)) {
                 $enckey = true;
             }
         }
