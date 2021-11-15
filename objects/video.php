@@ -3093,16 +3093,7 @@ if (!class_exists('Video')) {
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
             $videosDir = self::getStoragePath();
 
-            if (is_dir("{$videosDir}{$cleanVideoFilename}")) {
-                $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
-            } else {
-                $complement = $videoFilename;
-                $parts = pathinfo($videoFilename);
-                if(!empty($parts['filename'])){
-                    $complement = $parts['filename'];
-                }
-                $path = addLastSlash("{$videosDir}{$complement}");
-            }
+            $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
 
             $path = fixPath($path);
             if ($createDir) {
@@ -3276,7 +3267,6 @@ if (!class_exists('Video')) {
 
                 $search[] = "res{$value}";
             }
-
             $cleanName = str_replace($search, '', $filename);
 
             if ($cleanName == $filename) {
