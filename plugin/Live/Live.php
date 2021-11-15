@@ -1018,6 +1018,12 @@ class Live extends PluginAbstract {
     }
 
     function getStatsObject($live_servers_id = 0, $force_recreate = false, $tries = 0) {
+        global $global;
+        
+        if(!empty($global['disableGetStatsObject'])){
+            return array();
+        }
+        
         if (!function_exists('simplexml_load_file')) {
             _error_log("Live::getStatsObject: You need to install the simplexml_load_file function to be able to see the Live stats", AVideoLog::$ERROR);
             return false;
