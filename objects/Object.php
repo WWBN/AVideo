@@ -270,15 +270,15 @@ abstract class ObjectYPT implements ObjectInterface {
             $sql = "INSERT INTO " . static::getTableName() . " ( ";
             $sql .= "`" . implode("`,`", $fieldsName) . "` )";
             $fields = array();
-            foreach ($fieldsName as $value) {
-                if (strtolower($value) == 'created' || strtolower($value) == 'modified') {
+            foreach ($fieldsName as $value) { 
+                if (is_string($value) && (strtolower($value) == 'created' || strtolower($value) == 'modified')) {
                     $fields[] = " now() ";
-                }  elseif (strtolower($value) == 'timezone') {
+                }  elseif (is_string($value) && strtolower($value) == 'timezone') {
                     if(empty($this->$value)){
                         $this->$value = date_default_timezone_get();
                     }
                     $fields[] = " '{$this->$value}' ";
-                } elseif (!isset($this->$value) || strtolower($this->$value) == 'null') {
+                } elseif (!isset($this->$value) || (is_string($this->$value) && strtolower($this->$value) == 'null')) {
                     $fields[] = " NULL ";
                 } else if (is_string($this->$value) || is_numeric($this->$value)) {
                     $fields[] = " '{$this->$value}' ";
