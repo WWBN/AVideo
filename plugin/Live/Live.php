@@ -2557,6 +2557,7 @@ class Live extends PluginAbstract {
     }
 
     static function notifySocketStats($callBack = 'socketLiveONCallback', $array = array()) {
+        clearAllUsersSessionCache();
         if (empty($array['stats'])) {
             $array['stats'] = getStatsNotifications();
         }
