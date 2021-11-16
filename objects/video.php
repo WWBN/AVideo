@@ -4962,6 +4962,10 @@ if (!class_exists('Video')) {
          */
         public static function updateLikesDislikes($videos_id, $type, $value = 'automatic') {
             global $global;
+            if ($config->currentVersionLowerThen('11.5')) {
+                return false;
+            }            
+            
             require_once $global['systemRootPath'] . 'objects/like.php';
             $videos_id = intval($videos_id);
             if (empty($videos_id)) {
