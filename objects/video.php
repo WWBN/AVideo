@@ -4961,7 +4961,7 @@ if (!class_exists('Video')) {
          * any number = will change the database
          */
         public static function updateLikesDislikes($videos_id, $type, $value = 'automatic') {
-            global $global;
+            global $config, $global;
             if ($config->currentVersionLowerThen('11.5')) {
                 return false;
             }            
