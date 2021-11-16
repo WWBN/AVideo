@@ -1034,7 +1034,7 @@ if (!class_exists('Video')) {
          */
         public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null) {
             global $global, $config, $advancedCustom, $advancedCustomUser;
-            if ($config->currentVersionLowerThen('5')) {
+            if ($config->currentVersionLowerThen('11.5')) {
                 return false;
             }
             if ($dirh) {
