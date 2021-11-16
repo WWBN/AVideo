@@ -4988,7 +4988,7 @@ if (!class_exists('Video')) {
             }
             //var_dump($videos_id, $type, $value);
             $sql = "UPDATE videos SET ";
-            if ($value == 'automatic') {
+            if ($value === 'automatic') {
                 $likes = Like::getLikes($videos_id);
                 return self::updateLikesDislikes($videos_id, $type, $likes->$type);
             } else if (preg_match('/\+([0-9]+)/', $value, $matches)) {
