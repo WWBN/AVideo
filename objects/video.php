@@ -4961,10 +4961,19 @@ if (!class_exists('Video')) {
          * any number = will change the database
          */
         public static function updateLikesDislikes($videos_id, $type, $value = 'automatic') {
-            global $config, $global;
+            global $config, $global, $_updateLikesDislikes;
             if ($config->currentVersionLowerThen('11.5')) {
                 return false;
             }            
+            
+            $index = "$videos_id, $type, $value";
+            if(!isset($_updateLikesDislikes)){
+                $_updateLikesDislikes = array();
+            }
+            
+            if(isset($_updateLikesDislikes[$index])){
+                return $_updateLikesDislikes[$index];
+            }
             
             require_once $global['systemRootPath'] . 'objects/like.php';
             $videos_id = intval($videos_id);
@@ -4996,6 +5005,7 @@ if (!class_exists('Video')) {
             //secho $sql.PHP_EOL;
             $saved = sqlDAL::writeSql($sql);
             self::clearCache($videos_id);
+            $_updateLikesDislikes[$index] = $value;
             return $value;
         }
 
