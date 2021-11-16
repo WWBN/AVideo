@@ -147,6 +147,10 @@ footer ul.list-inline li {
     border-bottom-right-radius: 5px;
     margin-bottom: 10px;
 }
+.container-fluid{
+    margin: 0;
+    transition: width 0.3s, margin 0.3s;
+}
 @media (max-width: 767px) {
     .navbar-form, #modeYoutubeBottomContent, .principalContainer,
     .nopaddingOnSmall,.container-fluid,.container, #yptRightBar,
@@ -824,28 +828,6 @@ img.blur{
 
 .btn-group-justified .btn, .justified .btn {
     flex: 1
-}
-
-
-.addWidthOnMenuOpen {
-    transition: width 0.3s;
-}
-
-
-@media (min-width: 1200px){
-    body.youtube .lessMarginLeftOnMenuOpen{
-        margin-left: -200px;
-    }
-    body.youtube .col-lg-4.addWidthOnMenuOpen {
-        margin-left: -150px;
-        width: calc(33.3333333333% + 300px);
-    }
-    body.youtube .col-lg-10.addWidthOnMenuOpen {
-        width: 100%;
-    }
-    body.youtube .col-lg-offset-1.addWidthOnMenuOpen {
-        margin-left: 0;
-    }
 }
 
 .liveVideo .thumbsImage img{

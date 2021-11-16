@@ -59,6 +59,8 @@ if (!class_exists('Video')) {
         private $live_transmitions_history_id;
         private $total_seconds_watching;
         private $duration_in_seconds;
+        private $likes;
+        private $dislikes;
         public static $statusDesc = array(
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -707,9 +709,10 @@ if (!class_exists('Video')) {
                     . " nv.clean_title as next_clean_title,"
                     . " nv.filename as next_filename,"
                     . " nv.id as next_id,"
-                    . " c.id as category_id,c.iconClass,c.name as category,c.iconClass,  c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, "
-                    . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
-                    . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes ";
+                    . " c.id as category_id,c.iconClass,c.name as category,c.iconClass,  c.clean_name as clean_category,c.description as category_description, v.created as videoCreation "
+            //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
+            //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
+            ;
             if (User::isLogged()) {
                 $sql .= ", (SELECT `like` FROM likes as l where l.videos_id = v.id AND users_id = '" . User::getId() . "' ) as myVote ";
             } else {
@@ -825,6 +828,12 @@ if (!class_exists('Video')) {
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
 
+            if (is_null($video['likes'])) {
+                $video['likes'] = self::updateLikesDislikes($video['id'], 'likes');
+            }
+            if (is_null($video['dislikes'])) {
+                $video['dislikes'] = self::updateLikesDislikes($video['id'], 'dislikes');
+            }
             // if there is a search, and there is no data and is inside a channel try again without a channel
             if (!empty($_GET['search']) && empty($video) && !empty($_GET['channelName'])) {
                 $channelName = $_GET['channelName'];
@@ -844,6 +853,32 @@ if (!class_exists('Video')) {
                 $video = false;
             }
             return $video;
+        }
+
+        public static function getVideoLikes($videos_id) {
+            global $global, $_getLikes;
+
+            if (!isset($_getLikes)) {
+                $_getLikes = array();
+            }
+
+            if (!empty($_getLikes[$videos_id])) {
+                return $_getLikes[$videos_id];
+            }
+
+            require_once $global['systemRootPath'] . 'objects/like.php';
+            $obj = new stdClass();
+            $obj->videos_id = $videos_id;
+            $obj->likes = 0;
+            $obj->dislikes = 0;
+            $obj->myVote = Like::getMyVote($videos_id);
+
+            $video = Video::getVideoLight($obj->videos_id);
+            $obj->likes = intval($video['likes']);
+            $obj->dislikes = intval($video['dislikes']);
+            $_getLikes[$videos_id] = $obj;
+
+            return $obj;
         }
 
         public static function getVideoLight($id) {
@@ -1020,9 +1055,9 @@ if (!class_exists('Video')) {
             }
             $status = str_replace("'", "", $status);
 
-            $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified, "
-                    . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes, "
-                    . " (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
+            $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
+                    //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
+                    //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
                     . " FROM videos as v "
                     . " LEFT JOIN categories c ON categories_id = c.id "
                     . " LEFT JOIN users u ON v.users_id = u.id "
@@ -1222,6 +1257,12 @@ if (!class_exists('Video')) {
                 TimeLogEnd($timeLogName, __LINE__, 0.2);
                 $global['mysqli']->begin_transaction();
                 foreach ($fullData as $row) {
+                    if (is_null($row['likes'])) {
+                        $row['likes'] = self::updateLikesDislikes($row['id'], 'likes');
+                    }
+                    if (is_null($row['dislikes'])) {
+                        $row['dislikes'] = self::updateLikesDislikes($row['id'], 'dislikes');
+                    }
                     if (empty($row['duration_in_seconds'])) {
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
                     }
@@ -1286,7 +1327,6 @@ if (!class_exists('Video')) {
                 $row['statistc_week'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsWeek, $today);
                 $row['statistc_month'] = VideoStatistic::getStatisticTotalViews($row['id'], false, $previewsMonth, $today);
                 $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
-                
             }
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $otherInfocachename = "otherInfo{$row['id']}";
@@ -3560,14 +3600,14 @@ if (!class_exists('Video')) {
 
         public static function getVideosPaths($filename, $includeS3 = false) {
             global $global, $_getVideosPaths;
-            
-            $cacheName = "getVideosPaths_$filename".($includeS3?1:0);
+
+            $cacheName = "getVideosPaths_$filename" . ($includeS3 ? 1 : 0);
             $cache = ObjectYPT::getCache($cacheName, 0);
             //var_dump($cacheName, $cache, _json_decode($cache));//exit;
-            if(!empty($cache)){
+            if (!empty($cache)) {
                 return object_to_array(_json_decode($cache));
             }
-            
+
             $types = array('', '_Low', '_SD', '_HD');
 
             foreach ($global['avideo_resolutions'] as $value) {
@@ -4116,6 +4156,26 @@ if (!class_exists('Video')) {
                 }
             }
 
+            return $r;
+        }
+
+        public static function getTotalVideosThumbsUpFromUserFromVideos($users_id) {
+            global $global;
+
+            $sql = "SELECT sum(likes) as thumbsUp, sum(dislikes) as thumbsDown from videos WHERE users_id = ?  ";
+
+            $res = sqlDAL::readSql($sql, "i", array($users_id));
+            $videoRows = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+
+            $r = array('thumbsUp' => 0, 'thumbsDown' => 0);
+
+            if ($res != false) {
+                foreach ($videoRows as $row) {
+                    $r['thumbsUp'] += intval($row['thumbsUp']);
+                    $r['thumbsDown'] += intval($row['thumbsDown']);
+                }
+            }
             return $r;
         }
 
@@ -4870,6 +4930,69 @@ if (!class_exists('Video')) {
 
         function setDuration_in_seconds($duration_in_seconds) {
             $this->duration_in_seconds = intval($duration_in_seconds);
+        }
+
+        function getLikes() {
+            return $this->likes;
+        }
+
+        function getDislikes() {
+            return $this->dislikes;
+        }
+
+        function setLikes($likes): void {
+            $this->likes = intval($likes);
+        }
+
+        function setDislikes($dislikes): void {
+            $this->dislikes = intval($dislikes);
+        }
+
+        /**
+         * 
+         * @param type $videos_id
+         * @param type $type [like or dislike] 
+         * @param type $value 
+         * @return boolean
+         * 
+         * automatic = will get from like table
+         * +1 = add one
+         * -1 = remove one
+         * any number = will change the database
+         */
+        public static function updateLikesDislikes($videos_id, $type, $value = 'automatic') {
+            global $global;
+            require_once $global['systemRootPath'] . 'objects/like.php';
+            $videos_id = intval($videos_id);
+            if (empty($videos_id)) {
+                return false;
+            }
+
+            if (strtolower($type) == 'likes') {
+                $type = 'likes';
+            } else {
+                $type = 'dislikes';
+            }
+            //var_dump($videos_id, $type, $value);
+            $sql = "UPDATE videos SET ";
+            if ($value == 'automatic') {
+                $likes = Like::getLikes($videos_id);
+                return self::updateLikesDislikes($videos_id, $type, $likes->$type);
+            } else if (preg_match('/\+([0-9]+)/', $value, $matches)) {
+                $value = intval($matches[1]);
+                $sql .= " {$type} = {$type}+{$value} ";
+            } else if (preg_match('/-([0-9]+)/', $value, $matches)) {
+                $value = intval($matches[1]);
+                $sql .= " {$type} = {$type}-{$value} ";
+            } else {
+                $value = intval($value);
+                $sql .= " {$type} = {$value} ";
+            }
+            $sql .= ", modified = now() WHERE id = {$videos_id}";
+            //secho $sql.PHP_EOL;
+            $saved = sqlDAL::writeSql($sql);
+            self::clearCache($videos_id);
+            return $value;
         }
 
         static function checkIfIsBroken($videos_id) {

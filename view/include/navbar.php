@@ -458,7 +458,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
                                         echo '<!-- navbar line ' . __LINE__ . '-->';
                                         ?>
-                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" id="uploadMenu">
                                             <?php
                                             include $global['systemRootPath'] . 'view/include/navbarEncoder.php';
                                             if (empty($advancedCustom->doNotShowUploadMP4Button)) {
@@ -505,7 +505,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     } else {
                                         echo '<!-- navbar line ' . __LINE__ . '-->';
                                         ?>
-                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" id="uploadMenu">
                                             <li>
                                                 <a  href="" >
                                                     <span class="fa fa-exclamation faa-flash animated"></span> <?php echo __("Only verified users can upload"); ?>
@@ -537,7 +537,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                             <i class="<?php echo isset($advancedCustom->uploadButtonDropdownIcon) ? $advancedCustom->uploadButtonDropdownIcon : "fas fa-video"; ?>"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? __($advancedCustom->uploadButtonDropdownText) : ""; ?> <span class="caret"></span>
                                         </button>
                                             <?php echo '<!-- navbar line ' . __LINE__ . '-->'; ?>
-                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" style="">
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" id="uploadMenu">
                                             <?php
                                             echo $getUploadMenuButton;
                                             ?>
@@ -625,19 +625,39 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             }
                             ?>
                             <li class="rightProfile" <?php echo $tooltip; ?> >
-                                <div class="btn-group" >
+                                <div class="btn-group" id="rightProfileBtnGroup" >
 
                                     <?php
                                     if (User::isLogged()) {
                                         ?>
-                                        <button type="button" class="btn btn-default dropdown-toggle navbar-btn pull-left btn-circle"  data-toggle="dropdown" id="rightProfileButton" style="padding:0;">
+                                    <button type="button" class="btn btn-default dropdown-toggle navbar-btn pull-left btn-circle"  id="rightProfileButton" style="padding:0;" onclick="toogleRightProfile();">
                                             <img src="<?php echo User::getPhoto(); ?>" 
                                                  style="width: 32px; height: 32px; max-width: 32px;"  
                                                  class="img img-responsive img-circle" alt="User Photo"
                                                  />
                                         </button>
+                                        <script>
+                                        function toogleRightProfile(){
+                                            if($('#rightProfileBtnGroup').hasClass('open')){
+                                                $('#rightProfileButton').removeClass('glowBox');
+                                                
+                                                $('#rightProfileBtnGroup .dropdown-menu').removeClass('animate__bounceInRight');
+                                                $('#rightProfileBtnGroup .dropdown-menu').addClass('animate__bounceOutRight');
+                                                setTimeout(function(){
+                                                    $('#rightProfileBtnGroup').removeClass('open');
+                                                    $('#rightProfileButton').attr('aria-expanded', false);
+                                                },500);
+                                            }else{
+                                                $('#rightProfileButton').addClass('glowBox');
+                                                $('#rightProfileBtnGroup .dropdown-menu').removeClass('animate__bounceOutRight');
+                                                $('#rightProfileBtnGroup .dropdown-menu').addClass('animate__bounceInRight');
+                                                $('#rightProfileBtnGroup').addClass('open');
+                                                $('#rightProfileButton').attr('aria-expanded', true).focus();
+                                            }
+                                        }
+                                        </script>
                                         <?php echo '<!-- navbar line ' . __LINE__ . '-->'; ?>
-                                        <ul class="dropdown-menu dropdown-menu-right" role="menu" style="margin-right:10px;">
+                                        <ul class="dropdown-menu dropdown-menu-right <?php echo getCSSAnimationClassAndStyle('animate__bounceInRight', 'rightProfileButton', 0); ?>margin-right:10px;" >
                                             <li>
                                                 <div class="pull-left" style="margin-left: 10px;">
                                                     <img src="<?php echo User::getPhoto(); ?>" style="max-width: 50px;"  class="img img-responsive img-circle" alt="User Photo"/>

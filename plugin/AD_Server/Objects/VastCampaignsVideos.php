@@ -173,5 +173,13 @@ class VastCampaignsVideos extends ObjectYPT {
         }
         return parent::delete();
     }
+    
+    public function save() {
+        if(empty($this->vast_campaigns_id)){
+            return false;
+        }
+        return parent::save();
+    }
+    
 
 }

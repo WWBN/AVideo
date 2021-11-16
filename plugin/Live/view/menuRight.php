@@ -46,9 +46,7 @@ if (empty($obj->hideTopButton)) {
             overflow: hidden;
         }
     </style>
-    <li class="dropdown" onclick="setTimeout(function () {
-                lazyImage();
-            }, 200);">
+    <li class="dropdown" onclick="setTimeout(function () {lazyImage();}, 500);setTimeout(function () {lazyImage();}, 1000);setTimeout(function () {lazyImage();}, 1500);">
         <a href="#" class="faa-parent animated-hover btn btn-default navbar-btn" data-toggle="dropdown">
             <span class="fas fa-bell faa-ring"></span>
             <span class="badge onlineApplications" style=" background: rgba(255,0,0,1); color: #FFF;">0</span>
@@ -252,6 +250,7 @@ if (empty($obj->hideTopButton)) {
                     } else {
                         $('#availableLiveStream').prepend(notificationHTML);
                     }
+                    animateChilds('#availableLiveStream', 'animate__bounceInRight', 0.05);
                 } else {
                     //console.log('processApplication is already present '+notificatioID, application.className);
                 }

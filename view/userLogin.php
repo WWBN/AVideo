@@ -54,7 +54,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
 ?>
 <div class="row loginPage">
     <div class="hidden-xs col-sm-2 col-md-3 "></div>
-    <div class="col-xs-12 col-sm-8  col-md-6 addWidthOnMenuOpen">
+    <div class="col-xs-12 col-sm-8  col-md-6">
 
         <div class="panel panel-default <?php echo getCSSAnimationClassAndStyle();getCSSAnimationClassAndStyleAddWait(0.5); ?>">
             <div class="panel-heading">

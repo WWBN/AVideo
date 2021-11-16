@@ -36,11 +36,13 @@ class PayPalYPT extends PluginAbstract {
     }
 
     public function getDescription() {
-        return "Paypal module for several purposes<br>
+        $msg = "Paypal module for several purposes<br>
             Go to Paypal developer <a href='https://developer.paypal.com/developer/applications' target='_blank'>Site here</a> (you must have Paypal account, of course)
     <br>Click on Create App on right side of page
     <br>Choose name of your app and click Create App
     <br>Now you can see and manage everything include client ID and secret.";
+        $msg .= "<br>Payouts need to be enabled for the live environment. They work in the sandbox but until you actually go to the account status page and click on the link to enable it you will get the AUTHORIZATION_ERROR. It will ask you some questions. Answer them and get ready for them to email you back for a more complete description of how you are going to use their services. This can take a few days.";
+        return $msg;
     }
 
     public function getName() {

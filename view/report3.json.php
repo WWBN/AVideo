@@ -29,7 +29,8 @@ $rows = array();
 foreach ($users as $key => $value) {
     // list all videos on that channel
     $identification = User::getNameIdentificationById($value['id']);
-    $thumbs = Video::getTotalVideosThumbsUpFromUser($value['id'], $from, $to);
+    //$thumbs = Video::getTotalVideosThumbsUpFromUser($value['id'], $from, $to);
+    $thumbs = Video::getTotalVideosThumbsUpFromUserFromVideos($value['id']); 
     if(empty($thumbs['thumbsUp']) && empty($thumbs['thumbsDown'])){
         continue;
     }

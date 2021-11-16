@@ -131,7 +131,12 @@ function clean_name(str) {
     return str.replace(/[!#$&'()*+,/:;=?@[\] ]+/g, "-");
 }
 
+var processing_lazyImage = false;
 function lazyImage() {
+    if(processing_lazyImage){
+        return false;
+    }
+    processing_lazyImage = true;
     try {
         if ($(".thumbsJPG").length) {
             $('.thumbsJPG').lazy({
@@ -152,6 +157,13 @@ function lazyImage() {
                             gif.lazy({
                                 effect: 'fadeIn'
                             });
+                            /*
+                            gif.addClass('animate__animated');
+                            gif.addClass('animate__bounceIn');
+                            gif.css('-webkit-animation-delay', step+"s");
+                            gif.css('animation-delay', "1s");
+                            */
+                            
                             gif.height(element.height());
                             gif.width(element.width());
                             //console.log('lazyImage', gif);
@@ -166,6 +178,7 @@ function lazyImage() {
         }
     } catch (e) {
     }
+    processing_lazyImage=false;
 }
 
 lazyImage();
@@ -1412,6 +1425,12 @@ function checkDescriptionArea() {
     });
 }
 $(document).ready(function () {
+    //animateChilds('#sideBarContainer > ul', 'animate__bounceInLeft', 0.05);
+    //animateChilds('#uploadMenu', 'animate__bounceIn', 0.05);
+    //animateChilds('#myNavbar > ul > li.dropdown > ul > div.btn-group.btn-group-justified', 'animate__bounceIn', 0.1);
+    //animateChilds('#lastItemOnMenu > div.navbar-header > ul > li > div > ul', 'animate__bounceInRight', 0.05);
+    //animateChilds('.gallerySectionContent, .categoriesContainerItem .clearfix', 'animate__fadeInUp', 0.05);
+    //animateChilds('#videosList', 'animate__bounceInRight', 0.1);
     addViewFromCookie();
     checkDescriptionArea();
     setInterval(function () {// check for the carousel
@@ -1964,4 +1983,16 @@ document.addEventListener('visibilitychange', function () {
 function socketClearSessionCache(json) {
     console.log('socketClearSessionCache', json);
     clearCache(false, 0, 1);
+}
+
+function animateChilds(selector, type, delay){
+    var step = delay;
+    $(selector).children().each(function () {
+        var $currentElement = $(this);
+        $currentElement.addClass('animate__animated');
+        $currentElement.addClass(type);
+        $currentElement.css('-webkit-animation-delay', step+"s");
+        $currentElement.css('animation-delay', step+"s");
+        step+=delay;
+    });
 }

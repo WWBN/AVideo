@@ -7524,10 +7524,10 @@ function getTimestampFromTimezone($date, $fromTimezone) {
 }
 
 
-function getCSSAnimation($type='animate__fadeInUp', $loaderSequenceName='default', $delay = 0.1){
+function getCSSAnimation($type='animate__flipInX', $loaderSequenceName='default', $delay = 0.1){
     global $_getCSSAnimationClassDelay;
     getCSSAnimationClassAndStyleAddWait($delay, $loaderSequenceName);
-    return array('css'=>'animate__animated '.$type, 'style'=>"-webkit-animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s; animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s;");
+    return array('class'=>'animate__animated '.$type, 'style'=>"-webkit-animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s; animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s;");
 }
 
 function getCSSAnimationClassAndStyleAddWait($delay, $loaderSequenceName='default'){
@@ -7543,5 +7543,5 @@ function getCSSAnimationClassAndStyleAddWait($delay, $loaderSequenceName='defaul
 
 function getCSSAnimationClassAndStyle($type='animate__flipInX', $loaderSequenceName='default', $delay = 0.1){
     $array = getCSSAnimation($type, $loaderSequenceName, $delay);
-    return "{$array['css']}\" style=\"{$array['style']}";
+    return "{$array['class']}\" style=\"{$array['style']}";
 }
