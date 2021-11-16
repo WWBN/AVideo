@@ -827,12 +827,13 @@ if (!class_exists('Video')) {
             //echo $sql, "<br>";//exit;
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
-
-            if (is_null($video['likes'])) {
-                $video['likes'] = self::updateLikesDislikes($video['id'], 'likes');
-            }
-            if (is_null($video['dislikes'])) {
-                $video['dislikes'] = self::updateLikesDislikes($video['id'], 'dislikes');
+            if(!empty($video['id'])){
+                if (is_null($video['likes'])) {
+                    $video['likes'] = self::updateLikesDislikes($video['id'], 'likes');
+                }
+                if (is_null($video['dislikes'])) {
+                    $video['dislikes'] = self::updateLikesDislikes($video['id'], 'dislikes');
+                }
             }
             // if there is a search, and there is no data and is inside a channel try again without a channel
             if (!empty($_GET['search']) && empty($video) && !empty($_GET['channelName'])) {
