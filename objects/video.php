@@ -5013,7 +5013,7 @@ if (!class_exists('Video')) {
             if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted) {
                 if ($video->getType() == 'audio' || $video->getType() == 'video') {
                     if (self::isMediaFileMissing($video->getFilename())) {
-                        _error_log("Video::checkIfIsBroken($videos_id) true");
+                        _error_log("Video::checkIfIsBroken($videos_id) true ".$video->getFilename());
                         $video->setStatus(Video::$statusBrokenMissingFiles);
                         Video::clearCache($videos_id);
                         return true;
