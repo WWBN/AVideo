@@ -4845,8 +4845,6 @@ if (!class_exists('Video')) {
                 $loggedUserHTML .= '</div>';
             }
             $progress = self::getVideoPogressPercent($value['id']);
-            ;
-
             $category = new Category($value['categories_id']);
 
             $categoryLink = $category->getLink();
@@ -5015,6 +5013,7 @@ if (!class_exists('Video')) {
             if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted) {
                 if ($video->getType() == 'audio' || $video->getType() == 'video') {
                     if (self::isMediaFileMissing($video->getFilename())) {
+                        _error_log("Video::checkIfIsBroken($videos_id) true");
                         $video->setStatus(Video::$statusBrokenMissingFiles);
                         Video::clearCache($videos_id);
                         return true;
@@ -5024,8 +5023,8 @@ if (!class_exists('Video')) {
             return false;
         }
 
-        public static function isMediaFileMissing($filename) {
-            $sources = getVideosURL($filename);
+        public static function isMediaFileMissing($filename, $cacheCleared = false) {
+            $sources = getVideosURL_V2($filename);
             $search = array('mp3', 'mp4', 'm3u8', 'webm');
             $found = false;
             foreach ($sources as $key => $value1) {
@@ -5036,6 +5035,14 @@ if (!class_exists('Video')) {
                     }
                 }
             }
+            
+            if(!$cacheCleared && !$found){
+                global $getVideosURL_V2Array;
+                ObjectYPT::deleteCache("getVideosURL_V2$filename");
+                unset($getVideosURL_V2Array);
+                return self::isMediaFileMissing($filename, true);
+            }
+            
             return !$found;
         }
 
