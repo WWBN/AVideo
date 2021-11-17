@@ -276,7 +276,8 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                         "key": "<?php echo $trasnmition['key']; ?>",
                         "listed": $('#listed').is(":checked"),
                         "saveTransmition": $('#recordLive').is(":checked"),
-                        "userGroups": selectedUserGroups
+                        "userGroups": selectedUserGroups,
+                        users_id: '<?php echo $users_id; ?>'
                     },
                     type: 'post',
                     success: function (response) {
