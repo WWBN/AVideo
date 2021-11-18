@@ -9,7 +9,7 @@ session_write_close();
 header('Content-Type: application/json');
 $start = microtime(true);
 
-$TimeLogLimit = 0.1;
+$TimeLogLimit = 1;
 $timeLogName = TimeLogStart("videos.json.php");
 
 $showOnlyLoggedUserVideos = true;
