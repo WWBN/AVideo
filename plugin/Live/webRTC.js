@@ -96,7 +96,7 @@ function webRTCisOffline() {
 }
 
 $(document).ready(function () {
-    $("#webRTCConnect").on('click', function (event) {
+    $("#webRTCConnect button").on('click', function (event) {
         event.preventDefault();
         webRTCConnect();
         return false;
