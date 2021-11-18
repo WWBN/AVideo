@@ -30,6 +30,7 @@ function onStreamReady() {
 }
 
 function startLiveRestream(m3u8, forceIndex) {
+    console.log('WebRTCLiveCam: startLiveRestream');
     console.log('WebRTCLiveCam: startLiveRestream', m3u8, forceIndex);
     modal.showPleaseWait();
     $.ajax({
@@ -44,9 +45,11 @@ function startLiveRestream(m3u8, forceIndex) {
         },
         success: function (response) {
             if (response.error) {
+                console.log('WebRTCLiveCam: response error '+response.msg);
                 webRTCDisconnect();
                 avideoAlertError(response.msg);
             } else {
+                console.log('WebRTCLiveCam: response success '+response.msg);
                 avideoToastSuccess(response.msg);
                 //document.querySelector("iframe").contentWindow.postMessage({setLiveStart: 1}, "*");
             }
@@ -56,17 +59,20 @@ function startLiveRestream(m3u8, forceIndex) {
 }
 
 function webRTCConnect() {
+    console.log('webRTCConnect');
     modal.showPleaseWait();
     document.querySelector("iframe").contentWindow.postMessage({setLiveStart: 1}, "*");
     webRTCPleaseWaitShow();
 }
 
 function webRTCDisconnect() {
+    console.log('webRTCDisconnect');
     document.querySelector("iframe").contentWindow.postMessage({setLiveStop: 1}, "*");
     webRTCPleaseWaitHide();
 }
 
 function webRTCConfiguration() {
+    console.log('webRTCConfiguration');
     document.querySelector("iframe").contentWindow.postMessage({setConfiguration: 1}, "*");
 }
 
