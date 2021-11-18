@@ -143,7 +143,7 @@ $controls = Live::getAllControlls($streamName);
                 </button>
             </div>
             <div class="col col-xs-9" id="webRTCConnect" >
-                <button class="btn btn-success btn-block" onclick="webRTCConnect();" data-toggle="tooltip" title="<?php echo __("Start Live Now"); ?>"  disabled="disabled">
+                <button class="btn btn-success btn-block" id="webRTCConnect" data-toggle="tooltip" title="<?php echo __("Start Live Now"); ?>"  disabled="disabled">
                     <i class="fas fa-circle"></i> <?php echo __("Go Live"); ?>
                 </button>
             </div>

@@ -2,30 +2,30 @@
 window.addEventListener('message', event => {
     if (event.data.startLiveRestream) {
         startLiveRestream(event.data.m3u8, forceIndex);
-    }else if (event.data.onStreamReady) {
+    } else if (event.data.onStreamReady) {
         onStreamReady();
-    }else if (event.data.webRTCPleaseWaitHide) {
+    } else if (event.data.webRTCPleaseWaitHide) {
         webRTCPleaseWaitHide();
-    }else if (event.data.showPleaseWait) {
+    } else if (event.data.showPleaseWait) {
         modal.showPleaseWait();
-    }else if (event.data.hidePleaseWait) {
+    } else if (event.data.hidePleaseWait) {
         modal.hidePleaseWait();
-    }else
+    } else
     if (event.data.webRTCModalConfig) {
         console.log('event.data.webRTCModalConfig', event.data.webRTCModalConfig, typeof webRTCModalConfigShow);
-        if(event.data.webRTCModalConfig==1){
-            if(typeof webRTCModalConfigShow =='function'){
+        if (event.data.webRTCModalConfig == 1) {
+            if (typeof webRTCModalConfigShow == 'function') {
                 webRTCModalConfigShow();
             }
-        }else{
-            if(typeof webRTCModalConfigHide =='function'){
+        } else {
+            if (typeof webRTCModalConfigHide == 'function') {
                 webRTCModalConfigHide();
             }
         }
     }
 });
 
-function onStreamReady(){
+function onStreamReady() {
     $('#webRTCConnect button').prop('disabled', false);
 }
 
@@ -71,26 +71,34 @@ function webRTCConfiguration() {
 }
 
 var _webRTCPleaseWaitShowTimeout;
-function webRTCPleaseWaitShow(){
+function webRTCPleaseWaitShow() {
     $('body').addClass('webRTCPleaseWait');
     clearTimeout(_webRTCPleaseWaitShowTimeout);
-    _webRTCPleaseWaitShowTimeout = setTimeout(function(){
+    _webRTCPleaseWaitShowTimeout = setTimeout(function () {
         avideoToastError('Live error')
         webRTCPleaseWaitHide();
-    },120000);
+    }, 120000);
 }
 
-function webRTCPleaseWaitHide(){
+function webRTCPleaseWaitHide() {
     clearTimeout(_webRTCPleaseWaitShowTimeout);
     $('body').removeClass('webRTCPleaseWait');
 }
 
-function webRTCisLive(){
+function webRTCisLive() {
     $('body').addClass('webRTCisLive');
     webRTCPleaseWaitHide();
 }
 
-function webRTCisOffline(){
+function webRTCisOffline() {
     $('body').removeClass('webRTCisLive');
     webRTCPleaseWaitHide();
 }
+
+$(document).ready(function () {
+    $("#webRTCConnect").on('click', function (event) {
+        event.preventDefault();
+        webRTCConnect();
+        return false;
+    });
+});
