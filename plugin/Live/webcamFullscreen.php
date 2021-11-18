@@ -187,7 +187,7 @@ $controls = Live::getAllControlls($streamName);
                     }
 
                     function socketLiveOFFCallback(json) {
-                        console.log('socketLiveOFFCallback webcamFullscreen', json);
+                        console.log('socketLiveOFFCallback webcamFullscreen');
                         if (typeof onlineLabelOffline == 'function') {
                             selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
                             //console.log('socketLiveOFFCallback 2', selector);
