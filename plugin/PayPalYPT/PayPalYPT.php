@@ -41,7 +41,10 @@ class PayPalYPT extends PluginAbstract {
     <br>Click on Create App on right side of page
     <br>Choose name of your app and click Create App
     <br>Now you can see and manage everything include client ID and secret.";
-        $msg .= "<br>Payouts need to be enabled for the live environment. They work in the sandbox but until you actually go to the account status page and click on the link to enable it you will get the AUTHORIZATION_ERROR. It will ask you some questions. Answer them and get ready for them to email you back for a more complete description of how you are going to use their services. This can take a few days.";
+        $msg .= "<br>Payouts need to be enabled for the live environment. "
+                . "They work in the sandbox but until you actually go to the <a href='https://developer.paypal.com/developer/accountStatus'  target='_blank'>account status page</a> and click on the link to enable it you will get the AUTHORIZATION_ERROR. "
+                . "It will ask you some questions. Answer them and get ready for them to email you back for a more complete description of how you are going to use their services. "
+                . "This can take a few days.";
         return $msg;
     }
 
