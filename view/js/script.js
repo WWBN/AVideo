@@ -1491,13 +1491,13 @@ $(document).ready(function () {
             },
             setProgress: function (valeur) {
                 var element = $('#pleaseWaitDialog').find('.progress');
-                console.log(element);
+                console.log('showPleaseWait setProgress',element);
                 element.slideDown();
                 $('#pleaseWaitDialog').find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
             },
             setText: function (text) {
                 var element = $('#pleaseWaitDialog').find('h2');
-                console.log(element);
+                console.log('showPleaseWait setText', element);
                 element.slideDown();
                 element.html(text);
             },
