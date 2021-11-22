@@ -248,7 +248,9 @@ class Configuration {
         global $global;
         $destination = Video::getStoragePath()."cache/og_200X200.jpg";
         $return = self::_getFavicon(true);
-        convertImageToOG($return['file'], $destination);
+        if(file_exists($return['file'])){
+            convertImageToOG($return['file'], $destination);
+        }
         return getCDN() . "videos/cache/og_200X200.jpg";
     }
 

@@ -255,7 +255,7 @@ switch ($_GET['page']) {
                                 }
                             }
                             ?>
-                            <div class="panel <?php echo $panel; ?> adminLeftMenu <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'menu'); ?>">
+                            <div class="panel <?php echo $panel; ?> adminLeftMenu <?php echo getCSSAnimationClassAndStyle('animate__bounceInLeft', 'menu'); ?>">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a <?php echo $href; ?> >

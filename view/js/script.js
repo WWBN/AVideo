@@ -1259,9 +1259,22 @@ function avideoModalIframeLarge(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-large');
 }
 
+var avideoModalIframeFullScreenOriginalURL = false;
 function avideoModalIframeFullScreen(url) {
+    if(!avideoModalIframeFullScreenOriginalURL){
+        avideoModalIframeFullScreenOriginalURL = document.location.href;
+    }
+    window.history.pushState("", "", url);
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-full');
 }
+
+function avideoModalIframeFullScreenClose() {
+    $('.swal-overlay iframe').attr('src', 'about:blank');
+    swal.close();
+    window.history.pushState("", "", avideoModalIframeFullScreenOriginalURL);
+    avideoModalIframeFullScreenOriginalURL = false;
+}
+
 function avideoModalIframeFull(url) {
     avideoModalIframeFullScreen(url);
 }
@@ -1270,10 +1283,10 @@ function avideoModalIframeWithClassName(url, className) {
     url = addGetParam(url, 'avideoIframe', 1);
     var html = '';
     html = '<div id="avideoModalIframeDiv" class="clearfix">';
-    html += '<button class="btn btn-default pull-left" onclick="swal.close();">';
+    html += '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
     html += '<i class="fas fa-chevron-left"></i>';
-    html += '</button></div>';
-    html += '<iframe frameBorder="0" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
+    html += '</button><img src="'+webSiteRootURL +'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;"></div>';
+    html += '<iframe frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
     var span = document.createElement("span");
     span.innerHTML = html;
     swal({

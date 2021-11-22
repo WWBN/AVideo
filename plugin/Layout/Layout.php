@@ -465,7 +465,7 @@ class Layout extends PluginAbstract {
     public function navBarAfter() {
         global $global;
         $obj = $this->getDataObject();
-        if(!empty($obj->categoriesTopButtons)){
+        if(!AVideoPlugin::isEnabledByName('YouPHPFlix2') && !empty($obj->categoriesTopButtons)){
             if(!empty($obj->categoriesTopButtonsShowOnlyOnFirstPage) && !isFirstPage()){
                 return '';
             }

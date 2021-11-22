@@ -1,12 +1,17 @@
 <?php
+$TimeLogLimitMYBR = 0.01;
+$timeLogNameMYBR = TimeLogStart("modeYoutubeBottomRight.php");
 if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
     return false;
 }
+
+TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
 ?>
 <div class="col-lg-12 col-sm-12 col-xs-12 text-center">
     <?php echo getAdsSideRectangle(); ?>
 </div>
 <?php
+TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
 if (!empty($playlist_id)) {
     include $global['systemRootPath'] . 'view/include/playlist.php';
     ?>
@@ -48,12 +53,13 @@ if (!empty($playlist_id)) {
     </div>
     <?php
     $style = 'margin: 10px 0; padding: 15px 5px;';
-    if(!PlayerSkins::isAutoplayEnabled()){
+    if (!PlayerSkins::isAutoplayEnabled()) {
         $style .= 'display: none;';
     }
     echo Video::getVideosListItem($autoPlayVideo['id'], 'autoPlayVideoDiv', $style);
 }
 
+TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
 
 $modeYouTubeTimeLog['After autoplay and playlist '] = microtime(true) - $modeYouTubeTime;
 $modeYouTubeTime = microtime(true);
@@ -65,9 +71,11 @@ $modeYouTubeTime = microtime(true);
 <!--googleoff: all-->
 <div id="videosList">
     <?php
+    TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
     if (empty($playlist_id)) {
         include $global['systemRootPath'] . 'view/videosList.php';
     }
+    TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
     ?>
 </div>
 <!--googleon: all-->

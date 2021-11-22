@@ -13,6 +13,8 @@ if (!empty($_GET['evideo'])) {
     $v = Video::decodeEvideo();
     $evideo = $v['evideo'];
 }
+
+TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 $playlist_index = 0;
 if (!empty($evideo)) {
     $video = $v['video'];
@@ -25,6 +27,7 @@ if (!empty($evideo)) {
     $autoPlayPoster = '';
     $autoPlayThumbsSprit = '';
 } else {
+    TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     require_once $global['systemRootPath'] . 'objects/user.php';
     require_once $global['systemRootPath'] . 'objects/category.php';
     require_once $global['systemRootPath'] . 'objects/subscribe.php';
@@ -53,6 +56,7 @@ if (!empty($evideo)) {
     }
     session_write_close();
 
+    TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     if (!empty($_GET['playlist_id'])) {
         $isSerie = 1;
         if (preg_match("/^[0-9]+$/", $_GET['playlist_id'])) {
@@ -120,6 +124,7 @@ if (!empty($evideo)) {
             $catLink = "cat/{$_GET['catName']}/";
         }
 
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 // add this because if you change the video category the video was not loading anymore
         $catName = @$_GET['catName'];
 
@@ -143,6 +148,7 @@ if (!empty($evideo)) {
             $video = AVideoPlugin::getVideo();
         }
 
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (!empty($_GET['v']) && (empty($video) || $video['id'] != $_GET['v'])) {
             $video = false;
         }
@@ -176,6 +182,7 @@ if (!empty($evideo)) {
             //}
         }
 
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         $modeYouTubeTimeLog['Code part 1.6'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
         if (!empty($autoPlayVideo)) {
@@ -183,6 +190,7 @@ if (!empty($evideo)) {
             $autoPlayVideo['tags'] = Video::getTags($autoPlayVideo['id'], '<br /><small>' . humanTiming(strtotime($autoPlayVideo['videoCreation'])) . '</small>');
             $autoPlayVideo['url'] = Video::getLink($autoPlayVideo['id'], $autoPlayVideo['clean_title'], false, $get);
         }
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     }
     $modeYouTubeTimeLog['Code part 2'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
@@ -195,6 +203,7 @@ if (!empty($evideo)) {
         $obj = new Video("", "", $video['id']);
     }
 
+    TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     if (!empty($video) && $video['type'] == "video") {
         $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
     } else {
@@ -232,6 +241,7 @@ if (!empty($evideo)) {
     } else {
         $poster = "" . getCDN() . "view/img/notfound.jpg";
     }
+    TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
     $modeYouTubeTimeLog['Code part 3'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
@@ -246,6 +256,7 @@ if (!empty($evideo)) {
         $autoPlayPoster = '';
         $autoPlayThumbsSprit = "";
     }
+    TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 
     if (empty($_GET['videoName']) && !empty($video)) {
         $_GET['videoName'] = $video['clean_title'];
@@ -262,6 +273,7 @@ if (!empty($evideo)) {
         $modeYouTubeTimeLog['Code part 5'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
     }
+    TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 }
 
 
@@ -291,8 +303,10 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
         <?php
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         include $global['systemRootPath'] . 'view/include/head.php';
 
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (!empty($_GET['v'])) {
             getOpenGraph($_GET['v']);
             getLdJson($_GET['v']);
@@ -300,6 +314,7 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
             getOpenGraph(0);
             getLdJson(0);
         }
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         ?>
     </head>
 

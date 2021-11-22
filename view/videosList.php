@@ -3,19 +3,20 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'objects/user.php';
-require_once $global['systemRootPath'] . 'objects/functions.php';
 if (isBot()) {
     return;
 }
 
-require_once $global['systemRootPath'] . 'objects/video.php';
+$TimeLogLimitVL = 0.01;
+$timeLogNameVL = TimeLogStart("videosList.php");
+
 $post = $_POST;
 if (!empty($_POST['video_id'])) {
     $video = Video::getVideo($_POST['video_id'], "viewable");
 }
 $_POST = $post;
 
+TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
 $catLink = "";
 if (!empty($_GET['catName'])) {
     $catLink = "cat/{$_GET['catName']}/";
@@ -51,8 +52,10 @@ $_SESSION['rowCount'] = $_REQUEST['rowCount'];
 $_SESSION['sort'] = $_POST['sort'];
 
 
+TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
 $videos = Video::getAllVideos("viewableNotUnlisted");
 $total = Video::getTotalVideos("viewableNotUnlisted");
+TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
 $totalPages = ceil($total / $_REQUEST['rowCount']);
 $_POST = $post;
 if (empty($totalPages)) {
@@ -84,6 +87,7 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
 if (empty($video['id'])) {
     $video['id'] = 0;
 }
+TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
 ?>
 <div class="col-md-8 col-sm-12 " style="position: relative; z-index: 2;" >
     <select class="form-control" id="sortBy" >
@@ -119,13 +123,23 @@ if (empty($video['id'])) {
 </div>
 
 <?php
-$program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
-foreach ($videos as $key => $value) {
-    if (!empty($video['id']) && $video['id'] == $value['id']) {
-        continue; // skip video
+TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
+
+$cacheName = "videosList_" . md5(json_encode($_REQUEST));
+$getVideosListItem = ObjectYPT::getSessionCache($cacheName);
+//$program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
+if (empty($getVideosListItem)) {
+    $getVideosListItem = '';
+    foreach ($videos as $key => $value) {
+        if (!empty($video['id']) && $video['id'] == $value['id']) {
+            continue; // skip video
+        }
+        $getVideosListItem .= Video::getVideosListItem($value['id']);
     }
-    echo Video::getVideosListItem($value['id']);
+    ObjectYPT::setSessionCache($cacheName, $getVideosListItem);
 }
+echo $getVideosListItem;
+TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
 ?>
 <ul class="pages">
 </ul>

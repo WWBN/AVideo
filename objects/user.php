@@ -1397,6 +1397,7 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if ($res != false) {
             foreach ($downloadedArray as $row) {
+                $row['creator'] = Video::getCreatorHTML($row['id'], '', true, true);
                 $row = cleanUpRowFromDatabase($row);
                 $user[] = self::getUserInfoFromRow($row);
             }
@@ -1469,6 +1470,7 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if ($res != false) {
             foreach ($downloadedArray as $row) {
+                $row['creator'] = Video::getCreatorHTML($row['id'], '', true, true);
                 $row = cleanUpRowFromDatabase($row);
                 $user[] = self::getUserInfoFromRow($row);
             }

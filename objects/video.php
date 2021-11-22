@@ -4736,7 +4736,7 @@ if (!class_exists('Video')) {
             return false;
         }
 
-        static function getCreatorHTML($users_id, $html = '', $small = false) {
+        static function getCreatorHTML($users_id, $html = '', $small = false, $ignoreLinks=false) {
             global $global;
             if ($small) {
                 $template = $global['systemRootPath'] . 'view/videoCreatorSmall.html';
@@ -4756,9 +4756,15 @@ if (!class_exists('Video')) {
                 '{subscriptionButton}',
                 '{html}');
 
+            if($ignoreLinks){
+                $channelLink = '#';
+            }else{
+                $channelLink = User::getChannelLink($users_id);
+            }
+            
             $replace = array(
                 User::getPhoto($users_id),
-                User::getChannelLink($users_id),
+                $channelLink,
                 strip_tags($name),
                 User::getEmailVerifiedIcon($users_id),
                 Subscribe::getButton($users_id),

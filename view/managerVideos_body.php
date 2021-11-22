@@ -660,7 +660,7 @@
                                                     return false;
                                                 }
                                             }).autocomplete("instance")._renderItem = function (ul, item) {
-                                                return $("<li>").append("<div>" + item.name + "<br>" + item.email + "<br>" + item.user + "</div>").appendTo(ul);
+                                                return $("<li>").append("<div>" + item.creator + item.email + "</div>").appendTo(ul);
                                             };
                                         });
                                     </script>

@@ -1,9 +1,10 @@
 <?php
 $obj = AVideoPlugin::getObjectDataIfEnabled('PlayerSkins');
 $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/skins/';
+$delay = 0.2;
 ?>
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-6  <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp', 'player', $delay); ?>">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Default
@@ -25,7 +26,7 @@ $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/skins/';
         $file = basename($filename);         // $file is set to "index.php"
         $fileEx = basename($filename, ".css"); // $file is set to "index"
         ?>
-        <div class="col-xs-6">
+        <div class="col-xs-6  <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp', 'player', $delay); ?>">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <?php echo ucfirst($fileEx); ?>

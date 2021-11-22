@@ -54,7 +54,7 @@ $metaDescription = __("Trending");
                         //var_dump($rows);
                         foreach ($videos as $key => $value) {
                             ?>
-                            <div class="col-lg-12 searchResult thumbsImage mb-2" style="overflow: hidden;">
+                            <div class="col-lg-12 searchResult thumbsImage mb-2 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp', 'trending', 0.2); ?> overflow: hidden;">
                                 <a class="galleryLink col-sm-4 col-md-4 col-lg-4" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
                                     <?php
                                     $images = Video::getImageFromFilename($value['filename'], $value['type']);
