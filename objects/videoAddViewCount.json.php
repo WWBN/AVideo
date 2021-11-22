@@ -42,6 +42,8 @@ if (!empty($seconds)) {
         }
     }
 }
+
+$obj2 = new stdClass();
 if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
     $resp = $obj->addView();
     _session_start();
@@ -56,13 +58,13 @@ if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
         $seconds_watching_video = 0;
     }
     
+    $obj2->seconds_watching_video = $seconds_watching_video;
     $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), $currentTime, $seconds_watching_video);
 } else {
     $resp = 0;
 }
 $count = $obj->getViews_count();
 
-$obj2 = new stdClass();
 $obj2->status = !empty($resp);
 $obj2->count = $count;
 $obj2->countHTML = number_format_short($count);
