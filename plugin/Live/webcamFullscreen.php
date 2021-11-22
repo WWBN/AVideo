@@ -181,7 +181,7 @@ $controls = Live::getAllControlls($streamName);
                             onlineLabelOnline(selector);
                         }
                         if (json.cleanKey == '<?php echo $streamName; ?>') {
-                            console.log('socketLiveONCallback webcamFullscreen webRTCisLive'+json.key);
+                            console.log('socketLiveONCallback webcamFullscreen webRTCisLive'+json.cleanKey);
                             webRTCisLive();
                         }
                     }

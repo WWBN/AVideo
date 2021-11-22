@@ -286,6 +286,7 @@ class Live_schedule extends ObjectYPT {
             $array['stats'] = getStatsNotifications(true);
             $array['key'] = $this->key;
             $array['live_servers_id'] = $this->live_servers_id;
+            $array['cleanKey'] = Live::cleanUpKey($array['key']);
             Live::notifySocketStats("socketLiveONCallback", $array);
             self::clearScheduleCache();
         }

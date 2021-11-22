@@ -61,7 +61,7 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         $array['key'] = $lt->getKey();
         $array['live_servers_id'] = $lt->getLive_servers_id();
     }
-    
+    $array['cleanKey'] = Live::cleanUpKey($array['key']);
     $socketObj = Live::notifySocketStats("socketLiveONCallback", $array);
 }
 
