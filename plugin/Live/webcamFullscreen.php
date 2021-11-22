@@ -175,12 +175,12 @@ $controls = Live::getAllControlls($streamName);
                     function socketLiveONCallback(json) {
                         console.log('socketLiveONCallback webcamFullscreen');
                         if (typeof onlineLabelOnline == 'function') {
-                            selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
+                            selector = '#liveViewStatusID_' + json.cleanKey + '_' + json.live_servers_id;
                             onlineLabelOnline(selector);
-                            selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+                            selector = '.liveViewStatusClass_' + json.cleanKey + '_' + json.live_servers_id;
                             onlineLabelOnline(selector);
                         }
-                        if (json.key == '<?php echo $streamName; ?>') {
+                        if (json.cleanKey == '<?php echo $streamName; ?>') {
                             console.log('socketLiveONCallback webcamFullscreen webRTCisLive'+json.key);
                             webRTCisLive();
                         }
@@ -189,17 +189,17 @@ $controls = Live::getAllControlls($streamName);
                     function socketLiveOFFCallback(json) {
                         console.log('socketLiveOFFCallback webcamFullscreen');
                         if (typeof onlineLabelOffline == 'function') {
-                            selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
+                            selector = '#liveViewStatusID_' + json.cleanKey + '_' + json.live_servers_id;
                             //console.log('socketLiveOFFCallback 2', selector);
                             onlineLabelOffline(selector);
-                            selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+                            selector = '.liveViewStatusClass_' + json.cleanKey + '_' + json.live_servers_id;
                             //console.log('socketLiveOFFCallback 3', selector);
                             onlineLabelOffline(selector);
                             selector = '.liveViewStatusClass_' + json.cleanKey;
                             //console.log('socketLiveOFFCallback 3', selector);
                             onlineLabelOffline(selector);
                         }
-                        if (json.key == '<?php echo $streamName; ?>') {
+                        if (json.cleanKey == '<?php echo $streamName; ?>') {
                             webRTCisOffline();
                         }
                     }
