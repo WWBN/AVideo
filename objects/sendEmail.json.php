@@ -11,7 +11,7 @@ $valid = Captcha::validation(@$_POST['captcha']);
 $obj = new stdClass();
 $obj->error = "";
 if ($valid) {
-    $msg = "<b>Name:</b> {$_POST['first_name']}<br> <b>Email:</b> {$_POST['email']}<br><b>Website:</b> {$_POST['website']}<br><br>{$_POST['comment']}";
+    $msg = "<b>Email:</b> {$_POST['email']}<br><br>{$_POST['comment']}";
     //Create a new PHPMailer instance
     $mail = new \PHPMailer\PHPMailer\PHPMailer;
     setSiteSendMessage($mail);
