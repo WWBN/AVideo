@@ -122,10 +122,10 @@ class VideoStatistic extends ObjectYPT {
 
     public static function getLastStatistics($videos_id, $users_id = 0) {
         if (!empty($users_id)) {
-            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY modified DESC LIMIT 1 ";
+            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY id DESC LIMIT 1 ";
             $res = sqlDAL::readSql($sql, 'ii', array($videos_id, $users_id), true);
         } else {
-            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND session_id = ? ORDER BY modified DESC LIMIT 1 ";
+            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND session_id = ? ORDER BY id DESC LIMIT 1 ";
             $res = sqlDAL::readSql($sql, 'is', array($videos_id, session_id()), true);
         }
         $result = sqlDAL::fetchAssoc($res);
