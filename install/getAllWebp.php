@@ -48,7 +48,7 @@ foreach ($videos as $value) {
         echo "\nGet done";
         ob_flush();
     } else {
-        echo "\nFile exists: " . $value['title'];
+        echo "\nFile exists: " . $value['title']. " {$destination}";
         ob_flush();
     }
 

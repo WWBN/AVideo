@@ -542,6 +542,7 @@ class PlayerSkins extends PluginAbstract {
             if (time >= 5 && time % 1 === 0) {
                 addView({$videos_id}, time);
             }else{
+                addViewFromCookie();
                 addViewSetCookie(PHPSESSID, {$videos_id}, time, seconds_watching_video);
             }
         });

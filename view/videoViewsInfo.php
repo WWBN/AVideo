@@ -66,6 +66,34 @@ $v = new Video('', '', $videos_id);
                     </div>
                 </div>
                 <div class="panel-body">
+                    <div class="form-inline">
+
+                        <div class="form-group">
+                            <label for="month">Month:</label>
+                            <select class="form-control" id="month">
+                                <?php
+                                $currMonth = date('m');
+                                echo "<option value='0'>All</option>";
+                                for ($i = 1; $i <= 12; $i++) {
+                                    echo "<option value='{$i}'>{$i}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year:</label>
+                            <select class="form-control" id="year">
+                                <?php
+                                $currYear = date('Y');
+                                echo "<option value='0'>All</option>";
+                                for ($i = $currYear; $i > $currYear - 20; $i--) {
+                                    echo "<option value='{$i}'>{$i}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
                     <h3>
                         <?php
                         echo number_format_short($v->getViews_count());
@@ -108,28 +136,38 @@ $v = new Video('', '', $videos_id);
         ?>
         <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
         <script type="text/javascript">
+                            function getVideoViewsAjaxURL() {
+                                var url = webSiteRootURL + "view/videoViewsInfo.json.php?videos_id=<?php echo $videos_id; ?>&hash=<?php echo @$_REQUEST['hash']; ?>";
+                                url = addGetParam(url, 'created_year', $('#year').val());
+                                url = addGetParam(url, 'created_month', $('#month').val());
+                                return url;
+                            }
+                            var VideoViewsInfo;
                             $(document).ready(function () {
-                                var VideoViewsInfo = $('#VideoViewsInfo').DataTable({
+                                VideoViewsInfo = $('#VideoViewsInfo').DataTable({
                                     "order": [[1, "desc"]],
                                     serverSide: true,
-                                    "ajax": "<?php echo $global['webSiteRootURL']; ?>view/videoViewsInfo.json.php?videos_id=<?php echo $videos_id; ?>&hash=<?php echo @$_REQUEST['hash']; ?>",
-                                                "columns": [
-                                                    {data: 'users_id', render: function (data, type, row) {
-                                                            return row.users
-                                                        }},
-                                                    {data: 'when', render: function (data, type, row) {
-                                                            return row.when_human
-                                                        }},
-                                                    {data: 'seconds_watching_video', render: function (data, type, row) {
-                                                            return row.seconds_watching_video_human
-                                                        }},
-                                                    {orderable: false, render: function (data, type, row) {
-                                                            return row.location_name
-                                                        }}
-                                                ],
-                                                select: true,
-                                            });
-                                        });
+                                    "ajax": getVideoViewsAjaxURL(),
+                                    "columns": [
+                                        {data: 'users_id', render: function (data, type, row) {
+                                                return row.users
+                                            }},
+                                        {data: 'when', render: function (data, type, row) {
+                                                return row.when_human
+                                            }},
+                                        {data: 'seconds_watching_video', render: function (data, type, row) {
+                                                return row.seconds_watching_video_human
+                                            }},
+                                        {orderable: false, render: function (data, type, row) {
+                                                return row.location_name
+                                            }}
+                                    ],
+                                    select: true,
+                                });
+                                $('#year, #month').change(function(){
+                                    VideoViewsInfo.ajax.url(getVideoViewsAjaxURL()).load();
+                                });
+                            });
         </script>
     </body>
 </html>

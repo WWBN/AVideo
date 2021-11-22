@@ -531,10 +531,15 @@ function _addViewAsync() {
     });
 }
 
+var _addViewFromCookie_addingtime = false;
 function addViewFromCookie() {
     if (typeof webSiteRootURL == 'undefined') {
         return false;
     }
+    if(_addViewFromCookie_addingtime){
+       return false; 
+    }
+    _addViewFromCookie_addingtime = true;
     var addView_PHPSESSID = Cookies.get('addView_PHPSESSID');
     var addView_videos_id = Cookies.get('addView_videos_id');
     var addView_playerCurrentTime = Cookies.get('addView_playerCurrentTime');
@@ -566,13 +571,14 @@ function addViewFromCookie() {
         },
         async: false,
         success: function (response) {
+            _addViewFromCookie_addingtime = false;
             console.log('addViewFromCookie', response);
         }
     });
 }
 
 function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds_watching_video) {
-    //console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video);
+    //console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video, new Error().stack);
     Cookies.set('addView_PHPSESSID', PHPSESSID, {
         path: '/',
         expires: 1
