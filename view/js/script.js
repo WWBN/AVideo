@@ -1288,7 +1288,7 @@ function avideoModalIframeFull(url) {
 function avideoModalIframeWithClassName(url, className) {
     url = addGetParam(url, 'avideoIframe', 1);
     var html = '';
-    html = '<div id="avideoModalIframeDiv" class="clearfix bg-default">';
+    html = '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
     html += '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
     html += '<i class="fas fa-chevron-left"></i>';
     html += '</button><img src="'+webSiteRootURL +'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;"></div>';
