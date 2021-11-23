@@ -1,4 +1,4 @@
-FROM ubuntu/apache2
+FROM ubuntu/apache2:2.4-20.04_edge
 
 # Update OS
 RUN apt-get update && apt-get upgrade -y
