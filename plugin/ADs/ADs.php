@@ -239,9 +239,6 @@ class ADs extends PluginAbstract {
         foreach ($paths as $value) {
             $fsize = filesize($value['imagePath']);
             $html .= "<!-- fsize = {$fsize} {$value['imageURL']} -->";
-            if($fsize < 5000){
-                continue;
-            }
             $validPaths++;
             $html .= "<div class=\"item {$active}\">";
             if (isValidURL($value['url'])) {
