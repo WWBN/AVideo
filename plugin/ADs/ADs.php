@@ -258,8 +258,6 @@ class ADs extends PluginAbstract {
                 <span class=\"glyphicon glyphicon-chevron-right\"></span>
                 <span class=\"sr-only\">Next</span>
               </a>";
-        }else if(empty($paths) && User::isAdmin()){
-            $html .= "<div class='alert alert-warning'>{$type} ADs Area</div>";
         }
         $html .= "</div></div></center>";
         return $html;
