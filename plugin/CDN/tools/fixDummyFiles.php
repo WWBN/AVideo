@@ -13,8 +13,7 @@ if (empty($isCDNEnabled)) {
     return die('Plugin disabled');
 }
 
-$onlyExtension = trim(@$argv[1]);
-$index = intval(@$argv[2]);
+$index = intval(@$argv[1]);
 
 ob_end_flush();
 set_time_limit(300);
@@ -49,9 +48,9 @@ foreach ($sites_id_to_move as $key => $value) {
     if(!empty($index) && $key<$index){
         continue;
     }
-    echo "{$key}/{$total} Start move {$value} onlyExtension={$onlyExtension}" . PHP_EOL;
+    echo "{$key}/{$total} Start move {$value} " . PHP_EOL;
     $startF = microtime(true);
-    $response = CDNStorage::put($value, 4, $onlyExtension);
+    $response = CDNStorage::put($value, 4);
     if(empty($response)){
         echo "{$key}/{$total} ERROR " . PHP_EOL;
     }else{
