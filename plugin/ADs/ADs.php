@@ -245,10 +245,10 @@ class ADs extends PluginAbstract {
             $html .= "<div class=\"item {$active}\">";
             if (isValidURL($value['url'])) {
                 $html .= "<a href=\"{$value['url']}\" target=\"_blank\">";
-                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\" fsize=\"{$fsize}\" >";
+                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\" title=\"{$fsize}\" >";
                 $html .= "</a>";
             } else {
-                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\"  fsize=\"{$fsize}\" >";
+                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\"  title=\"{$fsize}\" >";
             }
             $html .= "</div>";
             $active = '';
