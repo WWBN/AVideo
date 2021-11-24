@@ -2,12 +2,13 @@
 
 //streamer config
 require_once '../videos/configuration.php';
-ob_end_flish();
+ob_end_flush();
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 
 $path = getVideosDir();
+
 $files = array_diff(scandir($path), array('.', '..'));
 foreach ($files as $value) {
     $dir = "{$path}{$value}";
