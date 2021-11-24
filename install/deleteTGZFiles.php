@@ -18,7 +18,8 @@ foreach ($files as $value) {
             $ext = pathinfo($value2, PATHINFO_EXTENSION);
             if($ext=='tgz'){
                 $file = "{$dir}/{$value2}";
-                echo $file.PHP_EOL;
+                echo $file.' '. humanFileSize(filesize($file)).PHP_EOL;
+                unlink($file);
             }
         }
     }
