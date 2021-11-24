@@ -17,8 +17,8 @@ foreach ($files as $value) {
         foreach ($files2 as $value2) {
             $ext = pathinfo($value2, PATHINFO_EXTENSION);
             if($ext=='tgz'){
-                $dir2 = "{$dir2}/{$value2}";
-                echo $dir2.PHP_EOL;
+                $file = "{$dir2}/{$value2}";
+                echo $file.PHP_EOL;
             }
         }
     }
