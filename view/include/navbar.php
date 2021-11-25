@@ -597,7 +597,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             } else {
                                 ?>
                                 <li>
-                                    <a class="btn navbar-btn btn-default" <?php echo $global['webSiteRootURL']; ?>user >
+                                    <a class="btn navbar-btn btn-default" href="<?php echo $global['webSiteRootURL']; ?>user" >
                                         <i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?>
                                     </a>
                                 </li>
