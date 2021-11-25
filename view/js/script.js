@@ -551,8 +551,7 @@ function addViewFromCookie() {
             !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
         return false;
     }
-    console.log('addViewFromCookie', addView_videos_id, addView_playerCurrentTime);
-    addViewSetCookie(false, false, false, false);
+    console.log('addViewFromCookie', addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', addView_PHPSESSID);
 
@@ -573,6 +572,7 @@ function addViewFromCookie() {
         success: function (response) {
             _addViewFromCookie_addingtime = false;
             console.log('addViewFromCookie', response);
+            addViewSetCookie(false, false, false, false);
         }
     });
 }
@@ -684,6 +684,7 @@ function playerPlay(currentTime) {
             if (promisePlay !== undefined) {
                 tryToPlay(currentTime);
                 console.log("playerPlay: promise found", currentTime);
+                setPlayerListners();
                 promisePlay.then(function () {
                     console.log("playerPlay: Autoplay started", currentTime);
                     userIsControling = true;

@@ -151,6 +151,12 @@ footer ul.list-inline li {
     margin: 0;
     transition: width 0.3s, margin 0.3s;
 }
+.panel, #mainNavBar, #sidebar, .swal-modal{
+    box-shadow: 0 1px 8px 0 rgb(0 0 0 / 8%);
+}
+.panel{
+    margin-top: 10px;
+}
 @media (max-width: 767px) {
     .navbar-form, #modeYoutubeBottomContent, .principalContainer,
     .nopaddingOnSmall,.container-fluid,.container, #yptRightBar,

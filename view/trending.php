@@ -200,8 +200,8 @@ $metaDescription = __("Trending");
         </div>
         <!-- status elements -->
         <div class="scroller-status">
-            <div class="infinite-scroll-request loader-ellips text-center">
-                <img src="img/loading.gif" alt=""/>
+            <div class="infinite-scroll-request loader-ellips text-center fa-2x">
+                <i class="fas fa-sync fa-spin"></i>
             </div>
             <p class="infinite-scroll-last text-center text-muted"><?php echo __('End of content') ?></p>
             <p class="infinite-scroll-error text-center text-muted"><?php echo __('No more pages to load') ?></p>
