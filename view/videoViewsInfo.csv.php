@@ -18,7 +18,9 @@ if (empty($videos_id)) {
 
 $rowsCount = getRowCount();
 $video = new Video('', '', $videos_id);
-$filename = "{$videos_id}_".$video->getClean_title();
+$year = intval(@$_REQUEST['created_year']);
+$month = intval(@$_REQUEST['created_month']);
+$filename = "{$year}{$month}_{$videos_id}_".$video->getClean_title();
 $rows = VideoStatistic::getAllFromVideos_id($videos_id);
 //var_dump($rows);exit;
 $output = fopen("php://output", 'w') or die("Can't open php://output");

@@ -60,14 +60,13 @@ $v = new Video('', '', $videos_id);
                     ?>
                     <div class="btn-group" role="group" aria-label="Basic example" id="buttonsGroup">
                         <button type="button" class="btn btn-default" onclick="copyToClipboard(webSiteRootURL + 'view/videoViewsInfo.php?hash=<?php echo $hash; ?>');"><i class="fas fa-copy"></i> <?php echo __('Share link'); ?></button>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>view/videoViewsInfo.csv.php?videos_id=<?php echo $videos_id; ?>&rowCount=9999&hash=<?php echo $hash; ?>" class="btn btn-primary" >
+                        <button onclick="getVideoViewsCSV();" class="btn btn-primary" >
                             <i class="fas fa-file-csv"></i> <?php echo __('CSV File'); ?>
-                        </a>
+                        </button>
                     </div>
                 </div>
                 <div class="panel-body">
                     <div class="form-inline">
-
                         <div class="form-group">
                             <label for="month">Month:</label>
                             <select class="form-control" id="month">
@@ -92,6 +91,8 @@ $v = new Video('', '', $videos_id);
                                 ?>
                             </select>
                         </div>
+                        <button class="btn btn-default" onclick="$('#month').val(<?php echo $currMonth; ?>);$('#year').val(<?php echo $currYear; ?>);$('#year').trigger('change');"><?php echo __('Current Month'); ?></button>
+                        <button class="btn btn-default" onclick="$('#month').val(0);$('#year').val(0);$('#year').trigger('change');"><?php echo __('All'); ?></button>
                     </div>
                     <hr>
                     <h3>
@@ -141,6 +142,12 @@ $v = new Video('', '', $videos_id);
                                 url = addGetParam(url, 'created_year', $('#year').val());
                                 url = addGetParam(url, 'created_month', $('#month').val());
                                 return url;
+                            }
+                            function getVideoViewsCSV() {
+                                var url = webSiteRootURL + "view/videoViewsInfo.csv.php?videos_id=<?php echo $videos_id; ?>&hash=<?php echo @$_REQUEST['hash']; ?>";
+                                url = addGetParam(url, 'created_year', $('#year').val());
+                                url = addGetParam(url, 'created_month', $('#month').val());
+                                document.location = url;
                             }
                             var VideoViewsInfo;
                             $(document).ready(function () {
