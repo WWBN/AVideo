@@ -1264,7 +1264,7 @@ if (!class_exists('Video')) {
                     if (is_null($row['dislikes'])) {
                         $row['dislikes'] = self::updateLikesDislikes($row['id'], 'dislikes');
                     }
-                    if (empty($row['duration_in_seconds'])) {
+                    if (empty($row['duration_in_seconds']) && $row['type']!=='article') {
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
                     }
                     $row = self::getInfo($row, $getStatistcs);
@@ -1541,7 +1541,7 @@ if (!class_exists('Video')) {
             $videos = array();
             if ($res != false) {
                 foreach ($fullData as $row) {
-                    if (empty($row['duration_in_seconds'])) {
+                    if (empty($row['duration_in_seconds']) && $row['type']!=='article') {
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
                     }
                     if (empty($row['filesize'])) {
