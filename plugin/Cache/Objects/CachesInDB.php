@@ -145,6 +145,18 @@ class CachesInDB extends ObjectYPT {
         //_error_log("Delete Query: ".$sql);
         return sqlDAL::writeSql($sql, "s", array($name));
     }
+    
+    public static function _deleteCacheStartingWith($name) {
+        global $global;
+        if(empty($name)){
+            return false;
+        }
+        $sql = "DELETE FROM " . static::getTableName() . " ";
+        $sql .= " WHERE name LIKE '{$name}%'";
+        $global['lastQuery'] = $sql;
+        //_error_log("Delete Query: ".$sql);
+        return sqlDAL::writeSql($sql);
+    }
 
     public static function _deleteAllCache() {
         global $global;

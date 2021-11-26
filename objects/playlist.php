@@ -650,8 +650,10 @@ class PlayList extends ObjectYPT {
 
     private static function deleteCacheDir($playlists_id){
         $tmpDir = ObjectYPT::getCacheDir();
-        $cacheDir = $tmpDir . "getvideosfromplaylist{$playlists_id}" . DIRECTORY_SEPARATOR;
+        $name = "getvideosfromplaylist{$playlists_id}";
+        $cacheDir = $tmpDir . $name . DIRECTORY_SEPARATOR;
         rrmdir($cacheDir);
+        CachesInDB::_deleteCacheStartingWith($name);
     }
     
     public function delete() {
