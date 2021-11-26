@@ -1711,14 +1711,19 @@ if (typeof gtag !== \"function\") {
             return false;
         }
 
-        if (empty($_SESSION['user']['canUpload']) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified())) {
+        if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified())) {
             return false;
         }
 
         if ($config->getAuthCanUploadVideos()) {
             return self::isLogged();
         }
-        if (self::isLogged() && !empty($_SESSION['user']['canUpload'])) {
+        
+        if(empty($_SESSION['user']['canUpload'])){
+            return false;
+        }
+        
+        if (self::isLogged()) {
             return true;
         }
         return self::isAdmin();
