@@ -1718,12 +1718,7 @@ if (typeof gtag !== \"function\") {
         if ($config->getAuthCanUploadVideos()) {
             return self::isLogged();
         }
-        
-        if(empty($_SESSION['user']['canUpload'])){
-            return false;
-        }
-        
-        if (self::isLogged()) {
+        if (self::isLogged() && !empty($_SESSION['user']['canUpload'])) {
             return true;
         }
         return self::isAdmin();
