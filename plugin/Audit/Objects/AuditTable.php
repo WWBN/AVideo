@@ -18,6 +18,9 @@ class AuditTable extends ObjectYPT {
         
     
     function audit($method, $class, $statement, $formats, $values, $users_id) {
+        if(strtolower($class) === 'cachesindb'){
+            return false;
+        }
         $this->method = $method;
         $this->class = $class;
         $this->statement = substr(str_replace(array("'","\\","\\x","\x"), array("","","",""), $statement),0,1000)."n";
