@@ -18,7 +18,7 @@ class AuditTable extends ObjectYPT {
         
     
     function audit($method, $class, $statement, $formats, $values, $users_id) {
-        if(strtolower($class) === 'cachesindb'){
+        if(strtolower($class) === 'cachesindb' || preg_match('/^INSERT INTO CachesInDB/i', $statement) || preg_match('/^UPDATE CachesInDB/i', $statement)){
             return false;
         }
         $this->method = $method;
