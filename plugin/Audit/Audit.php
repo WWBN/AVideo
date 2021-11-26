@@ -5,6 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Audit/Objects/AuditTable.php';
 
 class Audit extends PluginAbstract {
+
     public function getTags() {
         return array(
             PluginTags::$RECOMMENDED,
@@ -23,30 +24,46 @@ class Audit extends PluginAbstract {
 
     public function getUUID() {
         return "26570956-dc62-46e3-ace9-86c6e8f9c81b";
-    }  
+    }
 
     public function getPluginVersion() {
-        return "2.0";   
+        return "2.0";
     }
-        
-    public function getPluginMenu(){
+
+    public function getEmptyDataObject() {
+        $obj = new stdClass();
+        $obj->autoDeleteAuditOlderThanDays = 60;
+    }
+
+    public function getPluginMenu() {
         global $global;
         $filename = $global['systemRootPath'] . 'plugin/Audit/pluginMenu.html';
         return file_get_contents($filename);
     }
-    
+
     function exec($method, $class, $statement, $formats, $values, $users_id) {
         $audit = new AuditTable(0);
         return $audit->audit($method, $class, $statement, $formats, $values, $users_id);
     }
-    
+
     public function updateScript() {
         global $global;
         //update version 2.0
-        if(AVideoPlugin::compareVersion($this->getName(), "2.0")<0){
+        if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
             sqlDal::executeFile($global['systemRootPath'] . 'plugin/Audit/install/updateV2.0.sql');
-        }        
+        }
         return true;
+    }
+    
+    public function getEnd(): boolean {
+        _session_start();
+        if(User::isAdmin() && empty($_SESSION['auditDelete'])){
+            $obj = $this->getDataObject();
+            if(!empty($obj->autoDeleteAuditOlderThanDays)){
+                AuditTable::deleteOlderThan($obj->autoDeleteAuditOlderThanDays);
+                $_SESSION['auditDelete'] = 1;
+            }
+        }
     }
 
 }

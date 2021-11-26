@@ -63,5 +63,18 @@ class AuditTable extends ObjectYPT {
         }
         return $rows;
     }
+    
+    static public function deleteOlderThan($days) {
+        global $global;
+        $days = intval($days);
+        if (!empty($days)) {
+            $sql = "DELETE FROM " . static::getTableName() . " ";
+            $sql .= " WHERE created < now() - interval $days DAY;";
+            $global['lastQuery'] = $sql;
+            //_error_log("Delete Query: ".$sql);
+            return sqlDAL::writeSql($sql);
+        }
+        return false;
+    }
 
 }
