@@ -1711,7 +1711,7 @@ if (typeof gtag !== \"function\") {
             return false;
         }
 
-        if (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified()) {
+        if (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified() && !empty($_SESSION['user']['canUpload'])) {
             return false;
         }
 
