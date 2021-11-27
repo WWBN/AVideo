@@ -55,7 +55,7 @@ class Audit extends PluginAbstract {
         return true;
     }
     
-    public function getEnd(): boolean {
+    public function getEnd() {
         _session_start();
         if(User::isAdmin() && empty($_SESSION['auditDelete'])){
             $obj = $this->getDataObject();
