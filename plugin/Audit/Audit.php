@@ -62,8 +62,10 @@ class Audit extends PluginAbstract {
             if(!empty($obj->autoDeleteAuditOlderThanDays)){
                 AuditTable::deleteOlderThan($obj->autoDeleteAuditOlderThanDays);
                 $_SESSION['auditDelete'] = 1;
+                return true;
             }
         }
+        return false;
     }
 
 }
