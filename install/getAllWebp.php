@@ -30,7 +30,14 @@ foreach ($videos as $value) {
         $duration = (Video::getItemDurationSeconds(Video::getDurationFromFile($videoPath)) / 2);
         if (!empty($videosURL)) {
             $url = $videosURL;
-            $file_headers = @get_headers($url);
+            $context = stream_context_create([
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ]);
+
+            $file_headers = @get_headers($url, 0, $context);
             if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
                 echo "\nGet webp not found {$url}";
                 ob_flush();
@@ -48,7 +55,7 @@ foreach ($videos as $value) {
         echo "\nGet done";
         ob_flush();
     } else {
-        echo "\nFile exists: " . $value['title']. " {$destination}";
+        echo "\nFile exists: " . $value['title'] . " {$destination}";
         ob_flush();
     }
 
