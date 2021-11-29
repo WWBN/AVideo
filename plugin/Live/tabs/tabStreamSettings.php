@@ -107,12 +107,16 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                                 </div>
                             </div>
                             <?php
+                            $SendRecordedToEncoderObjectData = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
+                            $SendRecordedToEncoderClassExists = class_exists('SendRecordedToEncoder');
+                            $SendRecordedToEncoderMethodExists = method_exists('SendRecordedToEncoder', 'canAutoRecord');
                             if (
-                                    AVideoPlugin::isEnabledByName('SendRecordedToEncoder') && 
-                                    class_exists('SendRecordedToEncoder') && 
-                                    method_exists('SendRecordedToEncoder', 'canAutoRecord') 
-                                    && SendRecordedToEncoder::canAutoRecord(User::getId()) && 
-                                    SendRecordedToEncoder::canApprove(User::getId())) {
+                                    $SendRecordedToEncoderObjectData && 
+                                    $SendRecordedToEncoderClassExists && 
+                                    $SendRecordedToEncoderMethodExists ) {
+                                $SendRecordedToEncoderCanAutoRecord = SendRecordedToEncoder::canAutoRecord(User::getId());
+                                $SendRecordedToEncoderCanApprove = SendRecordedToEncoder::canApprove(User::getId());
+                                if($SendRecordedToEncoderCanAutoRecord || ($SendRecordedToEncoderCanApprove && $SendRecordedToEncoderObjectData->usersCanSelectAutoRecord)){
                                 ?> 
                                 <div class="form-group">
                                     <span class="fa fa-globe"></span> <?php echo __("Auto record this live"); ?> 
@@ -122,6 +126,17 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                                     </div>
                                 </div>
                                 <?php
+                                }else{
+                                    if(!$SendRecordedToEncoderCanAutoRecord){
+                                        echo '<!-- Cannot auto record -->';
+                                    }
+                                    if(!$SendRecordedToEncoderCanApprove){
+                                        echo '<!-- Cannot approve -->';
+                                    }
+                                    if(!$SendRecordedToEncoderObjectData->usersCanSelectAutoRecord){
+                                        echo '<!-- Cannot Select AutoRecord -->';
+                                    }
+                                }
                             }
                             ?>
                         </div>
