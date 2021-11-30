@@ -463,7 +463,7 @@ Passcode: {password}
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'livestreaming', 'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                    'tileview', 'download', 'help', 'mute-everyone'
+                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur'
                 ];
             } else {
                 return [
@@ -471,7 +471,7 @@ Passcode: {password}
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                    'tileview', 'download', 'help', 'mute-everyone'
+                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur'
                 ];
             }
         } else {
@@ -479,7 +479,7 @@ Passcode: {password}
                 'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                 'fodeviceselection', 'hangup', 'profile', 'chat', 'etherpad', 'settings', 'raisehand',
                 'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                'tileview', 'download', 'help', 'mute-everyone'
+                'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur'
             ];
         }
     }

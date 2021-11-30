@@ -122,7 +122,9 @@ if (empty($meet_schedule_id)) {
             ConfigOverwrite: {
                 disableDeepLinking: true,
                 disableInviteFunctions: true,
-                openBridgeChannel: 'websocket'
+                openBridgeChannel: 'websocket',
+                liveStreamingEnabled: true,
+                fileRecordingsEnabled: false
             },
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,
