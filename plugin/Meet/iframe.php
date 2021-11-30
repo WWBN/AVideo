@@ -28,7 +28,11 @@ if (Meet::isModerator($meet_schedule_id)) {
         mode: 'stream',
         youtubeStreamKey: '" . Live::getRTMPLink($meet->getUsers_id()) . "',
     });";
+    }else{
+        $apiExecute[] = "/* getLive_stream = false */";
     }
+}else{
+    $apiExecute[] = "/* not moderator */";
 }
 
 $domain = Meet::getDomainURL();
