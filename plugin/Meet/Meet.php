@@ -457,7 +457,7 @@ Passcode: {password}
          *
          */
         if (self::isModerator($meet_schedule_id)) {
-            if (self::hasJibris()) {
+            if (self::hasJibris() || self::isCustomJitsi()) {
                 return [
                     'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                     'fodeviceselection', 'hangup', 'profile', 'chat',
