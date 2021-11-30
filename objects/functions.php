@@ -1847,7 +1847,7 @@ function convertImage($originalImage, $outputImage, $quality) {
         return 0;
     }
     if (!is_resource($imageTmp)) {
-        _error_log("convertImage: could not create a resource $originalImage, $outputImage, $quality, $ext ". json_encode(debug_backtrace()));
+        _error_log("convertImage: could not create a resource $originalImage, $outputImage, $quality, $ext " . json_encode(debug_backtrace()));
         return 0;
     }
     // quality is a value from 0 (worst) to 100 (best)
@@ -4721,9 +4721,9 @@ function getVideoIDFromURL($url) {
         return intval($matches[1]);
     }
     if (preg_match('/\/(video|videoEmbed|v|vEmbed|article|articleEmbed)\/([0-9]+)/', $url, $matches)) {
-        if(is_numeric($matches[1])){
+        if (is_numeric($matches[1])) {
             return intval($matches[1]);
-        }else if(is_numeric($matches[2])){
+        } else if (is_numeric($matches[2])) {
             return intval($matches[2]);
         }
     }
@@ -5606,7 +5606,7 @@ function avidoeShutdown() {
         } else {
             echo '<pre>';
             var_dump($error);
-            var_dump(debug_backtrace());            
+            var_dump(debug_backtrace());
             echo '</pre>';
         }
         exit;
@@ -5985,14 +5985,13 @@ function getResolutionText($res) {
     }
 }
 
-
 function getResolutionTextRoku($res) {
     $res = intval($res);
     if ($res >= 720 && $res < 1080) {
         return "HD";
     } elseif ($res >= 1080 && $res < 2160) {
         return "FHD";
-    } elseif ($res >= 2160 ) {
+    } elseif ($res >= 2160) {
         return "UHD";
     } else {
         return 'SD';
@@ -6973,7 +6972,7 @@ function listAllWordsToTranslate() {
 
     function listAll($dir) {
         $vars = array();
-        if(preg_match('/vendor.*$/', $dir)){
+        if (preg_match('/vendor.*$/', $dir)) {
             return $vars;
         }
         if ($handle = opendir($dir)) {
@@ -7523,25 +7522,38 @@ function getTimestampFromTimezone($date, $fromTimezone) {
     return $date->getTimestamp();
 }
 
-
-function getCSSAnimation($type='animate__flipInX', $loaderSequenceName='default', $delay = 0.1){
+function getCSSAnimation($type = 'animate__flipInX', $loaderSequenceName = 'default', $delay = 0.1) {
     global $_getCSSAnimationClassDelay;
     getCSSAnimationClassAndStyleAddWait($delay, $loaderSequenceName);
-    return array('class'=>'animate__animated '.$type, 'style'=>"-webkit-animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s; animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s;");
+    return array('class' => 'animate__animated ' . $type, 'style' => "-webkit-animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s; animation-delay: {$_getCSSAnimationClassDelay[$loaderSequenceName]}s;");
 }
 
-function getCSSAnimationClassAndStyleAddWait($delay, $loaderSequenceName='default'){
+function getCSSAnimationClassAndStyleAddWait($delay, $loaderSequenceName = 'default') {
     global $_getCSSAnimationClassDelay;
-    if(!isset($_getCSSAnimationClassDelay)){
+    if (!isset($_getCSSAnimationClassDelay)) {
         $_getCSSAnimationClassDelay = array();
     }
-    if(empty($_getCSSAnimationClassDelay[$loaderSequenceName])){
+    if (empty($_getCSSAnimationClassDelay[$loaderSequenceName])) {
         $_getCSSAnimationClassDelay[$loaderSequenceName] = 0;
     }
     $_getCSSAnimationClassDelay[$loaderSequenceName] += $delay;
 }
 
-function getCSSAnimationClassAndStyle($type='animate__flipInX', $loaderSequenceName='default', $delay = 0.1){
+function getCSSAnimationClassAndStyle($type = 'animate__flipInX', $loaderSequenceName = 'default', $delay = 0.1) {
     $array = getCSSAnimation($type, $loaderSequenceName, $delay);
     return "{$array['class']}\" style=\"{$array['style']}";
+}
+
+function isImage($file) {
+    list($width, $height, $type, $attr) = getimagesize($file);
+    if ($type == IMAGETYPE_PNG) {
+        return 'png';
+    }
+    if ($type == IMAGETYPE_JPEG) {
+        return 'jpg';
+    }
+    if ($type == IMAGETYPE_GIF) {
+        return 'gif';
+    }
+    return false;
 }
