@@ -28,7 +28,7 @@ _error_log("MOBILE UPLOAD: Starts");
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     $extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
-
+    _error_log("MOBILE UPLOAD: extension {$extension}");
     if (!in_array(strtolower($extension), $allowed)) {
         $object->msg = "File extension error (" . $_FILES['upl']['name'] . "), we allow only (" . implode(",", $allowed) . ")";
         _error_log("MOBILE UPLOAD: {$object->msg}");
