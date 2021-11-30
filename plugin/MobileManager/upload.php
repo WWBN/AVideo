@@ -80,11 +80,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     $video = new Video(preg_replace("/_+/", " ", $_FILES['upl']['name']), $filename, 0);
     $video->setDuration($duration);
-    if ($type == 'audio') {
-        $video->setType($type);
-    } else {
-        $video->setType("video");
-    }
+    $video->setType($type);
 
     if(!empty($_REQUEST['title'])){
         $video->setTitle($_REQUEST['title']);
