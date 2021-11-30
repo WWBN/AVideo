@@ -106,6 +106,8 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
             _error_log("MOBILE UPLOAD IMAGE ERROR: ".  json_encode($object));
             die(json_encode($object));
         }
+        $object->error = false;
+        $object->msg = "your image was posted";
         $object->videos_id = $video->save();
     }else{
         $video->setStatus(Video::$statusEncoding);
@@ -117,9 +119,9 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         }
         $object->videos_id = $video->save();
         $video->queue();
+        $object->error = false;
+        $object->msg = "We sent your video to the encoder";
     }
-    $object->error = false;
-    $object->msg = "We sent your video to the encoder";
     _error_log("MOBILE SUCCESS UPLOAD: ".  json_encode($object));
     die(json_encode($object));
 } else {
