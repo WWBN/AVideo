@@ -99,6 +99,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
     if($type == "image"){
         $video->setStatus(Video::$statusActive);
+        make_path($paths['path']);
         $file = "{$paths['path']}{$paths['filename']}.{$extension}";
        if (!move_uploaded_file($_FILES['upl']['tmp_name'], $file)) {
             $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . $file . ")";
