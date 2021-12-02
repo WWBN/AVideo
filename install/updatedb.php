@@ -9,6 +9,9 @@ if (!isCommandLineInterface()) {
 ob_end_flush();
 set_time_limit(300);
 ini_set('max_execution_time', 300);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 $updateDir = $global['systemRootPath'] . "updatedb/";
 $currentVersion = $config->getVersion();
@@ -28,6 +31,8 @@ foreach ($files1 as $value) {
 
 if (empty($updateFiles)) {
     echo "No new update files found on ({$updateDir})" . PHP_EOL;
+}else{
+    echo "Found ".count($updateDir)." updats" . PHP_EOL;
 }
 
 foreach ($updateFiles as $value) {
