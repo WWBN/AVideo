@@ -50,7 +50,6 @@ foreach ($updateFiles as $value) {
         if (substr(trim($line), -1, 1) == ';') {
             if (!$global['mysqli']->query($templine)) {
                 echo ('Error performing query ' . $templine . ': ' . $global['mysqli']->error . PHP_EOL);
-                echo json_encode($obj);
                 //exit;
             }
             $templine = '';
