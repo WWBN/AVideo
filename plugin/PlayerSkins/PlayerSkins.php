@@ -284,7 +284,7 @@ class PlayerSkins extends PluginAbstract {
             }
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $title = $config->getWebSiteTitle();
-                $url = "{$global['webSiteRootURL']}{$config->getLogo(true)}";
+                //$url = "{$global['webSiteRootURL']}{$config->getLogo(true)}";
                 $js .= "<script>var PlayerSkinLogoTitle = '{$title}';</script>";
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/logo.js"));
                 //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/logo.js\"></script>";
