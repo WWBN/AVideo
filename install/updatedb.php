@@ -6,7 +6,7 @@ require_once '../videos/configuration.php';
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
-
+ob_end_flush();
 set_time_limit(300);
 ini_set('max_execution_time', 300);
 
