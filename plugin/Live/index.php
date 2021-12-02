@@ -106,9 +106,6 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                     #live .panel-body {
                         height: calc(50vh - 200px);
                     }
-                    #liveFooterPanel{
-                        padding: 0;
-                    }
                 }    
                 <?php
             }

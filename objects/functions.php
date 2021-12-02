@@ -7557,3 +7557,7 @@ function isImage($file) {
     }
     return false;
 }
+
+function isHTMLEmpty($html_string){
+    return empty(trim(strip_specific_tags($html_string, array('br', 'p'))));
+}

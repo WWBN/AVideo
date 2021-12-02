@@ -340,7 +340,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 if ((!empty($value['description'])) && !empty($obj->Description)) {
                     //$desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($value['description']))));
                     $desc = nl2br(trim($value['description']));
-                    if (!empty($desc)) {
+                    if (!isHTMLEmpty($desc)) {
                         $duid = uniqid();
                         $titleAlert = str_replace(array('"', "'"), array('``', "`"), $value['title']);
                         ?>
@@ -541,7 +541,7 @@ function createGalleryLiveSection($videos) {
                 <?php
                 if ((!empty($video['description'])) && !empty($obj->Description)) {
                     $desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($video['description']))));
-                    if (!empty($desc)) {
+                    if (!isHTMLEmpty($desc)) {
                         $titleAlert = str_replace(array('"', "'"), array('``', "`"), $video['title']);
                         ?>
                         <div>

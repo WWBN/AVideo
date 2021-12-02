@@ -165,6 +165,7 @@ if (typeof gtag !== \"function\") {
     public function setExternalOptions($options) {
         //we convert it to base64 to sanitize the input since we do not validate input from externalOptions
         $this->externalOptions = base64_encode(serialize($options));
+        //var_dump($this->externalOptions, $options);
     }
 
     public function getExternalOption($id) {
@@ -1041,12 +1042,20 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
+     public function getExternalOptions($id) {
+         if(empty($this->id)){
+             return null;
+         }
+         return self::externalOptionsFromUserID($this->id, $id);
+     }
+    
     public static function externalOptionsFromUserID($users_id, $id) {
         $user = self::findById($users_id);
         if ($user) {
             if (!is_null($user['externalOptions'])) {
                 $externalOptions = unserialize(base64_decode($user['externalOptions']));
                 if (is_array($externalOptions) && sizeof($externalOptions) > 0) {
+                    //var_dump($externalOptions);
                     foreach ($externalOptions as $k => $v) {
                         if ($id != $k) {
                             continue;
@@ -2441,6 +2450,27 @@ if (typeof gtag !== \"function\") {
             }
         }
         return false;
+    }
+    
+    
+    static function getExtraSubscribers($users_id) {
+        global $config;
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj)) {
+            return 0;
+        }
+        $user = new User($users_id);
+        $value = $user->getExternalOptions('ExtraSubscribers'); 
+        return intval($value);
+    }
+
+    static function setExtraSubscribers($users_id, $value) {
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj) || !User::isAdmin()) {
+            return false;
+        }
+        $user = new User($users_id);
+        return $user->addExternalOptions('ExtraSubscribers', intval($value));
     }
 
 }
