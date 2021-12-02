@@ -13,6 +13,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+function currentVersionLowerThen($currentversion, $oldversion) {
+    return version_compare($currentversion, $oldversion) > 0;
+}
+
 $updateDir = $global['systemRootPath'] . "updatedb/";
 $currentVersion = $config->getVersion();
 
