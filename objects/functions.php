@@ -6526,6 +6526,7 @@ function sendSocketMessage($msg, $callbackJSFunction = "", $users_id = "-1", $se
 }
 
 function sendSocketMessageToUsers_id($msg, $users_id, $callbackJSFunction = "") {
+    _error_log("sendSocketMessageToUsers_id start " . json_encode($users_id));
     if (!is_array($users_id)) {
         $users_id = array($users_id);
     }
@@ -6536,6 +6537,19 @@ function sendSocketMessageToUsers_id($msg, $users_id, $callbackJSFunction = "") 
     }
 
     return $resp;
+}
+
+function sendSocketErrorMessageToUsers_id($msg, $users_id, $callbackJSFunction = "avideoResponse") {
+    $newMessage = new stdClass();
+    $newMessage->error = true;
+    $newMessage->msg = $msg;
+    return sendSocketMessageToUsers_id($newMessage, $users_id, $callbackJSFunction);
+}
+function sendSocketSuccessMessageToUsers_id($msg, $users_id, $callbackJSFunction = "avideoResponse") {
+    $newMessage = new stdClass();
+    $newMessage->error = false;
+    $newMessage->msg = $msg;
+    return sendSocketMessageToUsers_id($newMessage, $users_id, $callbackJSFunction);
 }
 
 function sendSocketMessageToAll($msg, $callbackJSFunction = "", $send_to_uri_pattern = "") {

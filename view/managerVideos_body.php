@@ -2058,7 +2058,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
 ?>
                                                         img = img + '<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> ' + row.duration + '</div>';
                                                         var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
-                                                        var buttonTitleLink = '<a href="' + row.link + '" class="btn btn-default btn-xs titleBtn" style="overflow: hidden;">' + type + row.title + '</a>';
+                                                        var buttonTitleLink = '<a href="' + row.link + '" class="btn btn-default btn-xs titleBtn" style="overflow: hidden;" target="_top">' + type + row.title + '</a>';
                                                         return img + '<div class="clearfix hidden-md hidden-lg"></div>' + buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList;
                                                     }
 
