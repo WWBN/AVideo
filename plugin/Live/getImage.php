@@ -147,7 +147,7 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
             $socketMessage['cacheName3'] = ObjectYPT::setCache($name, $content);
             $socketMessage['cacheName4'] = strlen($content);
             echo $content;
-            $socketObj = sendSocketMessageToAll($socketMessage, 'socketLiveImageUpdateCallback');
+            //$socketObj = sendSocketMessageToAll($socketMessage, 'socketLiveImageUpdateCallback');
         }
     } else {
         
