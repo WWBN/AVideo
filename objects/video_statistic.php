@@ -114,7 +114,9 @@ class VideoStatistic extends ObjectYPT {
         if (empty($this->users_id)) {
             $this->setUsers_id('null');
         }
-
+        
+        $this->lastVideoTime = intval(@$this->lastVideoTime);
+        
         $this->seconds_watching_video = intval($this->seconds_watching_video);
 
         return parent::save();
