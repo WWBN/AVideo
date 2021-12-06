@@ -66,12 +66,12 @@ class Category {
     }
 
     function setName($name) {
-        $this->name = $name;
+        $this->name = _substr($name, 0, 45);
     }
 
     function setClean_name($clean_name) {
         $clean_name = preg_replace('/\W+/', '-', strtolower(cleanString($clean_name)));
-        $this->clean_name = $clean_name;
+        $this->clean_name = _substr($clean_name, 0, 45);;
     }
 
     function setNextVideoOrder($nextVideoOrder) {
