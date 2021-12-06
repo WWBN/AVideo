@@ -155,6 +155,9 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+if (empty($_SESSION['language']) && !AVideoPlugin::isEnabledByName('User_Location')) {
+    $_SESSION['language'] = $config->getLanguage();
+}
 fixSystemPath();
 ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime();
 getDeviceID();
