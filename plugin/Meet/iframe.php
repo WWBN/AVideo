@@ -49,6 +49,7 @@ if(User::isLogged()){
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
         <title>Meet::<?php echo $meet->getName(); ?></title>
         <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $config->getFavicon(true); ?>">
         <link rel="icon" type="image/png" href="<?php echo $config->getFavicon(true); ?>">
