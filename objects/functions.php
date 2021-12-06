@@ -4484,6 +4484,11 @@ function isLive() {
     if (!empty($global['doNotLoadPlayer'])) {
         return false;
     }
+    $livet = LiveTransmition::getFromRequest();
+    if(!empty($livet)){
+        setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
+        $isLive = 1;
+    }
     if (!empty($isLive)) {
         $live = getLiveKey();
         if (empty($live)) {

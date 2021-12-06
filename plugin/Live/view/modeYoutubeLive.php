@@ -23,6 +23,9 @@ if (!empty($_GET['c'])) {
 $livet = LiveTransmition::getFromRequest();
 setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 $lt = new LiveTransmition($livet['id']);
+
+Live::checkIfPasswordIsGood($lt->getKey());
+
 if (!$lt->userCanSeeTransmition()) {
     forbiddenPage("You are not allowed see this streaming");
 }
@@ -179,10 +182,10 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                             <div class="row">
                                 <div class="col-md-12 watch8-action-buttons text-muted">
                                     <?php if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) { ?>
-                                    <a href="#" class="btn btn-default no-outline" id="shareBtn">
-                                        <span class="fa fa-share"></span> <?php echo __("Share"); ?>
-                                    </a>
-                                    <?php
+                                        <a href="#" class="btn btn-default no-outline" id="shareBtn">
+                                            <span class="fa fa-share"></span> <?php echo __("Share"); ?>
+                                        </a>
+                                        <?php
                                     }
                                     ?>
                                     <script>
@@ -195,17 +198,16 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                                             });
                                         });
                                     </script>
-                                    <?php 
-                                    echo AVideoPlugin::getWatchActionButton(0); ?>
+                                    <?php echo AVideoPlugin::getWatchActionButton(0); ?>
                                 </div>
                             </div>
                             <?php
                             $link = Live::getLinkToLiveFromUsers_id($user_id);
-                            if(!empty($_REQUEST['live_schedule'])){
+                            if (!empty($_REQUEST['live_schedule'])) {
                                 $link = addQueryStringParameter($link, 'live_schedule', $_REQUEST['live_schedule']);
                             }
                             if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) {
-                                getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img,"row bgWhite list-group-item menusDiv");
+                                getShareMenu($liveTitle, $link, $link, addQueryStringParameter($link, 'embed', 1), $img, "row bgWhite list-group-item menusDiv");
                             }
                             ?>
                             <div class="row">

@@ -274,7 +274,8 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                         "listed": $('#listed').is(":checked"),
                         "saveTransmition": $('#recordLive').is(":checked"),
                         "userGroups": selectedUserGroups,
-                        users_id: '<?php echo $users_id; ?>'
+                        users_id: '<?php echo $users_id; ?>',
+                        password: $('#password_livestream').val()
                     },
                     type: 'post',
                     success: function (response) {

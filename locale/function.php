@@ -94,3 +94,12 @@ function br2nl($html) {
     $nl = preg_replace(array('#<br\s*/?>#i', '#<p\s*/?>#i', '#</p\s*>#i'), array("\n", "\n", ''), $html);
     return $nl;
 }
+
+function flag2Lang($flagCode){
+    global $global;
+    $index = strtolower($flagCode);
+    if(!empty($global['flag2Lang'][$index])){
+        return $global['flag2Lang'][$index];
+    }
+    return $flagCode;
+}

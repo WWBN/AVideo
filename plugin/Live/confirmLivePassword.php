@@ -1,32 +1,47 @@
 <?php
-require_once '../videos/configuration.php';
+require_once '../../videos/configuration.php';
 
-$images = Video::getImageFromFilename($video['filename']);
-$img = $images->poster;
-if (!empty($images->posterPortrait) && strpos($images->posterPortrait, 'notfound_portrait') === false) {
-    $img = $images->posterPortrait;
+$key = @$_REQUEST['key'];
+
+if(empty($key)){
+    forbiddenPage('Key is undefined');
 }
-$imgw = 1280;
-$imgh = 720;
+
+$row = LiveTransmition::getFromKey($key);
+
+if (!empty($_GET['c'])) {
+    $user = User::getChannelOwner($_GET['c']);
+    if (!empty($user)) {
+        $_GET['u'] = $user['user'];
+    }
+}
+
+$livet = LiveTransmition::getFromRequest();
+$liveTitle = $livet['title'];
+$liveDescription = $livet['description'];
+$liveUrl = Live::getLinkToLiveFromUsers_id($user_id);
+
+$img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
+$imgw = 640;
+$imgh = 360;
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <title><?php echo __("Confirm Password") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Confirm Password"); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link rel="image_src" href="<?php echo $img; ?>" />
+        
         <meta property="fb:app_id"             content="774958212660408" />
-        <meta property="og:url"                content="<?php echo $global['webSiteRootURL'], "video/", $video['clean_title']; ?>" />
+        <meta property="og:url"                content="<?php echo $liveUrl; ?>" />
         <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo str_replace('"', '', $video['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
-        <meta property="og:description"        content="<?php echo!empty($custom) ? $custom : str_replace('"', '', $video['title']); ?>" />
+        <meta property="og:title"              content="<?php echo str_replace('"', '', $liveTitle); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
+        <meta property="og:description"        content="<?php echo str_replace('"', '', $liveTitle); ?>" />
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
-        <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
-        <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
         <style>
             body {
                 padding-top: 0;
@@ -38,17 +53,14 @@ $imgh = 720;
                 position: fixed;
                 width: 100%;
                 height: 100%;
-                background-image: url('<?php echo $images->poster; ?>');
+                background-image: url('<?php echo $img; ?>');
                 background-size: cover;
                 opacity: 0.3;
                 filter: alpha(opacity=30); /* For IE8 and earlier */
             }
         </style>
     </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        //include $global['systemRootPath'] . 'view/include/navbar.php';
-        ?>
+    <body>
         <div id="bg"></div>
 
         <!-- Modal -->
@@ -73,16 +85,16 @@ $imgh = 720;
                                 <center>
                                     <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
                                         <?php
-                                        if (!empty($_POST['video_password'])) {
+                                        if (!empty($_POST['live_password'])) {
                                             ?>
                                             <div class="alert alert-danger"><?php echo __("Your password does not match!"); ?></div>    
                                             <?php
                                         }
                                         ?>
                                         <div class="form-group">
-                                            <label for="video_password"><?php echo __("This Video Requires a Password"); ?></label>
+                                            <label for="live_password"><?php echo __("This Live Requires a Password"); ?></label>
                                             <?php
-                                            echo getInputPassword('video_password', 'class="form-control"',  __("Password"));
+                                            echo getInputPassword('live_password', 'class="form-control"',  __("Password"));
                                             ?>
                                         </div>
                                         <div class="row"> 

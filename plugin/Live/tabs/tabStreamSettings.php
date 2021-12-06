@@ -94,9 +94,9 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                                 <input type="text" class="form-control" id="title" value="<?php echo $trasnmition['title'] ?>">
                             </div>  
                             <div class="form-group">
-                                <label for="title"><?php echo __("Category"); ?>:</label>
+                                <label for="title"><?php echo __("Password Protect"); ?>:</label>
                                 <?php
-                                echo Layout::getCategorySelect('categories_id', $trasnmition['categories_id']);
+                                echo getInputPassword('password_livestream', 'class="form-control" value="'.$trasnmition['password'].'"',  __("Password Protect"));
                                 ?>
                             </div>  
                             <div class="form-group">
@@ -143,6 +143,12 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                         <div class="col-sm-6">
 
                             <div class="form-group">
+                                <label for="title"><?php echo __("Category"); ?>:</label>
+                                <?php
+                                echo Layout::getCategorySelect('categories_id', $trasnmition['categories_id']);
+                                ?>
+                            </div> 
+                            <div class="form-group">
                                 <label for="description"><?php echo __("Description"); ?>:</label>
                                 <textarea rows="6" class="form-control" id="description"><?php echo $trasnmition['description'] ?></textarea>
                             </div>
@@ -150,7 +156,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                     </div>  
                 </div>
                 <div class="panel-footer">
-                    <button type="button" class="btn btn-success btnSaveStream" id="btnSaveStream"><?php echo __("Save Stream"); ?></button>
+                    <button type="button" class="btn btn-success btn-block btnSaveStream" id="btnSaveStream"><i class="fas fa-save"></i> <?php echo __("Save Stream Settings"); ?></button>
                 </div>
             </div>
         </div>
@@ -190,7 +196,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                     ?>
                 </div>
                 <div class="panel-footer">
-                    <button type="button" class="btn btn-success btnSaveStream" id="btnSaveStream"><?php echo __("Save Stream"); ?></button>
+                    <button type="button" class="btn btn-success btnSaveStream" id="btnSaveStream"><i class="fas fa-save"></i> <?php echo __("Save Stream Settings"); ?></button>
                     <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-primary"><span class="fa fa-users"></span> <?php echo __("Add more user Groups"); ?></a>
                 </div>
             </div>

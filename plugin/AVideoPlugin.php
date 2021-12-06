@@ -559,6 +559,7 @@ class AVideoPlugin {
             //self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                //echo $value['dirName'].PHP_EOL;
                 //_error_log('AVideoPlugin::getStart: '.$value['dirName']);
                 $p->getStart();
             }

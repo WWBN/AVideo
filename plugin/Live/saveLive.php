@@ -26,6 +26,7 @@ $l = new LiveTransmition(0);
 $l->loadByUser(User::getId());
 $l->setTitle($_POST['title']);
 $l->setDescription($_POST['description']);
+$l->setPassword($_POST['password']);
 $l->setKey($_POST['key']);
 $l->setCategories_id($categories_id);
 $l->setPublic((empty($_POST['listed'])|| $_POST['listed']==='false')?0:1);

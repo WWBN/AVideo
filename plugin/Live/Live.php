@@ -57,7 +57,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "10.1";
+        return "10.2";
     }
 
     public function updateScript() {
@@ -159,6 +159,14 @@ class Live extends PluginAbstract {
         }
         if (AVideoPlugin::compareVersion($this->getName(), "10.1") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.1.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+            LiveTransmitionHistory::finishALL();
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "10.2") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.2.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
@@ -2695,6 +2703,39 @@ class Live extends PluginAbstract {
         }
         $url = str_replace('%3D', '', $url);
         return $url;
+    }
+    
+    public static function passwordIsGood($key) {
+        $row = LiveTransmition::getFromKey($key);
+        if (empty($row) || empty($row['id']) || empty($row['users_id'])) {
+            return false;
+        }
+        
+        $password = $row['live_password'];
+        
+        //var_dump($key, $_REQUEST, $_SESSION['live_password'], $row);exit;
+        if (empty($password)) {
+            return true;
+        }
+        if (empty($_SESSION['live_password'][$key]) || $password !== $_SESSION['live_password'][$key]) {
+            if (!empty($_POST['live_password']) && $_REQUEST['live_password'] == $password) {
+                _session_start();
+                $_SESSION['live_password'][$key] = $_REQUEST['live_password'];
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+    
+    public static function checkIfPasswordIsGood($key) {  
+        global $global;
+        if(!self::passwordIsGood($key)){
+            $_REQUEST['key'] = $key;
+            include $global['systemRootPath'] . 'plugin/Live/confirmLivePassword.php';
+            exit;
+        }
+        return true;
     }
 
 }

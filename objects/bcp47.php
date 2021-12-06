@@ -449,6 +449,7 @@ $global['langs_codes_values_withdot'] = array();
 
 foreach ($global['langs_codes'] as $value) {
     $global['bcp47'][$value['value']] = $value;
+    $global['flag2Lang'][$value['flag']] = $value['value'];
     $global['langs_codes_values'][] = $value['value'];
     $global['langs_codes_values_withdot'][] = '.'.$value['value'];
 }
