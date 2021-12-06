@@ -9,7 +9,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/category.php';
 
 header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
 $_REQUEST['rowCount'] = getRowCount(1000);
 $_REQUEST['current'] = getCurrentPage();
