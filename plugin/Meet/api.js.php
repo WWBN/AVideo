@@ -79,7 +79,7 @@ if (empty($meet_schedule_id)) {
     });
 
     function aVideoMeetZoom(zoom) {
-        document.querySelector("iframe").contentWindow.postMessage({zoom: zoom}, "*");
+        //document.querySelector("iframe").contentWindow.postMessage({zoom: zoom}, "*");
     }
 
     function getMeetDisplayName(domain, roomName, jwt, email, TOOLBAR_BUTTONS) {
