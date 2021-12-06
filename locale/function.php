@@ -8,9 +8,6 @@ if (!empty($_GET['lang'])) {
     $_GET['lang'] = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($_GET['lang']));
 }
 
-if (empty($_SESSION['language']) && !AVideoPlugin::isEnabledByName('User_Location')) {
-    $_SESSION['language'] = $config->getLanguage();
-}
 if (!empty($_GET['lang'])) {
     $_GET['lang'] = strip_tags($_GET['lang']);
     $_SESSION['language'] = $_GET['lang'];
