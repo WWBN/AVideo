@@ -145,6 +145,7 @@ class User_Location extends PluginAbstract {
                 }
             }
             if (!$changed) {
+                _error_log('getStart language: got from config '.$file);
                 $_SESSION['language'] = $config->getLanguage();
             }
         }
