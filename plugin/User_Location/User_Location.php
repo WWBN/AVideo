@@ -93,6 +93,8 @@ class User_Location extends PluginAbstract {
             if (file_exists($file)) {
                 include_once $file;
                 return true;
+            }else{
+                _error_log('setLanguage: File does not exists 1 '.$file);
             }
         }
 
@@ -103,12 +105,15 @@ class User_Location extends PluginAbstract {
             include_once $file;
             return true;
         } else {
+            _error_log('setLanguage: File does not exists 2 '.$file);
             $lang = strtolower($lang);
             $file = "{$global['systemRootPath']}locale/{$lang}.php";
             if (file_exists($file)) {
                 $_SESSION['language'] = $lang;
                 include_once $file;
                 return true;
+            }else{
+                _error_log('setLanguage: File does not exists 3 '.$file);
             }
         }
         return false;
