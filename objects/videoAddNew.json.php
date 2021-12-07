@@ -114,6 +114,22 @@ if ($advancedCustomUser->userCanChangeVideoOwner || Permissions::canModerateVide
     $obj->setUsers_id($_POST['users_id']);
 }
 
+$externalOptions = new stdClass();
+
+$externalOptionsOriginal = json_decode($obj->getExternalOptions());
+if(!empty($externalOptionsOriginal) && is_object($externalOptionsOriginal)){
+    foreach ($externalOptionsOriginal as $key => $value) {
+        $externalOptions->$key = $value;
+    }
+}
+
+$externalOptionsPost = json_decode(@$_POST['externalOptions']);
+if(!empty($externalOptionsPost) && is_object($externalOptionsPost)){
+    foreach ($externalOptionsPost as $key => $value) {
+        $externalOptions->$key = $value;
+    }
+}
+
 TimeLogEnd(__FILE__, __LINE__);
 $obj->setCan_download(@$_POST['can_download']);
 $obj->setCan_share(@$_POST['can_share']);
@@ -121,7 +137,7 @@ $obj->setOnly_for_paid(@$_POST['only_for_paid']);
 $obj->setVideo_password(@$_POST['video_password']);
 $obj->setTrailer1(@$_POST['trailer1']);
 $obj->setRrating(@$_POST['rrating']);
-$obj->setExternalOptions(@$_POST['externalOptions']);
+$obj->setExternalOptions($externalOptions);
 
 TimeLogEnd(__FILE__, __LINE__);
 $resp = $obj->save(true);
