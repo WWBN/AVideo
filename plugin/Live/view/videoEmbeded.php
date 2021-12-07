@@ -15,6 +15,10 @@ $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
 $livet = LiveTransmition::getFromRequest();
 setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
+
+$lt = new LiveTransmition($livet['id']);
+Live::checkIfPasswordIsGood($lt->getKey());
+
 $uuid = LiveTransmition::keyNameFix($livet['key']);
 $p = AVideoPlugin::loadPlugin("Live");
 $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
