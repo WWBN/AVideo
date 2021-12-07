@@ -4462,6 +4462,9 @@ if (!class_exists('Video')) {
 
         public function setExternalOptions($externalOptions) {
             AVideoPlugin::onVideoSetExternalOptions($this->id, $this->externalOptions, $externalOptions);
+            if(!is_string($externalOptions)){
+                $externalOptions = _json_encode($externalOptions);
+            }
             $this->externalOptions = $externalOptions;
         }
 
