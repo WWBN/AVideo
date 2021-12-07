@@ -64,6 +64,7 @@ $isCommandLine = php_sapi_name() === 'cli';
 if (!$isCommandLine) { // not command line
     $request = file_get_contents("php://input");
     error_log("Restreamer.json.php php://input {$request}");
+    error_log("Restreamer.json.php POST ". json_encode($_POST));
     $robj = json_decode($request);
 } else {
     $robj = new stdClass();
