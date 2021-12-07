@@ -213,7 +213,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
         sleep($tries);
         return startRestream($m3u8, $restreamsDestinations, $logFile, $tries + 1);
     }
-    sleep(30);
+    //sleep(5);
     /*
       $command = "ffmpeg -i {$m3u8} ";
       foreach ($restreamsDestinations as $value) {
