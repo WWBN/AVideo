@@ -22,8 +22,12 @@ if ($res != false) {
     foreach ($fullData as $key => $row) {
         $count++;
         $filename = $row['filename'];
-        Video::deleteThumbs($filename, true, $checkIfIsCorrupted);
-        echo "{$total}/{$count} Thumbs deleted from {$row['title']}".PHP_EOL;
+        $totalDeleted = Video::deleteThumbs($filename, true, $checkIfIsCorrupted);
+        if($totalDeleted){
+            echo "{$total}/{$count} Thumbs deleted ($totalDeleted) from {$row['title']}".PHP_EOL;
+        }else{
+            echo "{$total}/{$count} Thumbs NOT deleted from {$row['title']}".PHP_EOL;
+        }
     }
 } else {
     die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
