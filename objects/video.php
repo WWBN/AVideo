@@ -4203,7 +4203,7 @@ if (!class_exists('Video')) {
                         continue;
                     }
                     if (isCommandLineInterface()) {
-                        echo "Deleting {$file} ".PHP_EOL;
+                        echo "Deleting {$file} ". humanFileSize(filesize($file)).PHP_EOL;
                     }
                     @unlink($file);
                     $totalDeleted++;
