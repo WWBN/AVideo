@@ -77,7 +77,7 @@ if (!$includeDefaultNavBar) {
 
 if (!empty($_GET['avideoIframe'])) { // comes from avideoModalIframe(url) javascript
     ?>
-    <style>body{padding: 0;}#mainFooter{display: none !important;}</style>
+    <style>body, body > div.container-fluid > div.panel {padding: 0; margin: 0;}#mainFooter{display: none !important;}</style>
     <?php
     return false;
 }

@@ -626,6 +626,11 @@ function nl2br(str, is_xhtml) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
 function inIframe() {
+    var url = new URL(location.href);
+    var avideoIframe = url.searchParams.get("avideoIframe");
+    if(avideoIframe && avideoIframe !== 0){
+        return true;
+    }
     try {
         return window.self !== window.top;
     } catch (e) {
