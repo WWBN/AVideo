@@ -232,6 +232,7 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
+$object->canMeet = AVideoPlugin::isEnabledByName('Meet');
 $object->canCreateCategory = Category::canCreateCategory();
 $object->theme = getCurrentTheme();
 $object->canStream = User::canStream();
