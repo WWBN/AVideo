@@ -1737,9 +1737,11 @@ if (!class_exists('Video')) {
 
         public static function getViewableStatus($showUnlisted = false) {
             $viewable = array('a', 'k', 'f');
-            if ($showUnlisted) {
+            if ($showUnlisted || Permissions::canModerateVideos()) {
                 $viewable[] = "u";
             }
+            /*
+             * Cannot do that otherwise it will list videos on the list videos menu
             $videos_id = getVideos_id();
             if (!empty($videos_id)) {
                 $post = $_POST;
@@ -1748,6 +1750,8 @@ if (!class_exists('Video')) {
                 }
                 $_POST = $post;
             }
+             * 
+             */
             return $viewable;
         }
 
