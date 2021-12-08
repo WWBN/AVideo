@@ -7613,12 +7613,16 @@ function totalImageColors($image_path) {
 
 function isImageCorrupted($image_path) {
     $fsize = filesize($image_path);
-    if (strpos($file, 'thumbsSmall') !== false && $fsize < 1000) {
-        return true;
+    if (strpos($file, 'thumbsSmall') !== false) {
+        if ($fsize < 1000) {
+            return true;
+        }
+    } else {
+        if ($fsize < 20000) {
+            return true;
+        }
     }
-    if ($fsize < 20000) {
-        return true;
-    }
+
     if (totalImageColors($image_path) === 1) {
         return true;
     }
