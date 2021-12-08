@@ -4202,6 +4202,9 @@ if (!class_exists('Video')) {
                     if ($doNotDeleteSprit && strpos($file, '_thumbsSprit.jpg') !== false) {
                         continue;
                     }
+                    if (isCommandLineInterface()) {
+                        echo "Deleting {$file} ".PHP_EOL;
+                    }
                     @unlink($file);
                     $totalDeleted++;
                 }
