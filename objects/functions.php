@@ -7611,11 +7611,15 @@ function totalImageColors($image_path) {
     return $colorCount;
 }
 
-function isImageCorrupted($image_path){
-    if(filesize($image_path)<20000){
+function isImageCorrupted($image_path) {
+    $fsize = filesize($image_path);
+    if (strpos($file, 'thumbsSmall') !== false && $fsize < 1000) {
         return true;
     }
-    if(totalImageColors($image_path) === 1){
+    if ($fsize < 20000) {
+        return true;
+    }
+    if (totalImageColors($image_path) === 1) {
         return true;
     }
     return false;
