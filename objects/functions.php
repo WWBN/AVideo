@@ -4484,7 +4484,7 @@ function isLive() {
     if (!empty($global['doNotLoadPlayer'])) {
         return false;
     }
-    if(class_exists('LiveTransmition')){
+    if(class_exists('LiveTransmition') && class_exists('Live')){
         $livet = LiveTransmition::getFromRequest();
         if(!empty($livet)){
             setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
