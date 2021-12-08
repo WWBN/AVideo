@@ -4193,6 +4193,7 @@ if (!class_exists('Video')) {
             $filePath = Video::getPathToFile($filename);
             // Streamlined for less coding space.
             $files = glob("{$filePath}*_thumbs*.jpg");
+            $totalDeleted = 0;
             foreach ($files as $file) {
                 if (file_exists($file)) {
                     if($checkIfIsCorrupted && !isImageCorrupted($file)){
@@ -4202,18 +4203,21 @@ if (!class_exists('Video')) {
                         continue;
                     }
                     @unlink($file);
+                    $totalDeleted++;
                 }
             }
-            ObjectYPT::deleteCache($filename);
-            ObjectYPT::deleteCache($filename . "article");
-            ObjectYPT::deleteCache($filename . "pdf");
-            ObjectYPT::deleteCache($filename . "video");
-            Video::clearImageCache($filename);
-            Video::clearImageCache($filename, "article");
-            Video::clearImageCache($filename, "pdf");
-            Video::clearImageCache($filename, "audio");
-            clearVideosURL($filename);
-            return true;
+            if($totalDeleted){
+                ObjectYPT::deleteCache($filename);
+                ObjectYPT::deleteCache($filename . "article");
+                ObjectYPT::deleteCache($filename . "pdf");
+                ObjectYPT::deleteCache($filename . "video");
+                Video::clearImageCache($filename);
+                Video::clearImageCache($filename, "article");
+                Video::clearImageCache($filename, "pdf");
+                Video::clearImageCache($filename, "audio");
+                clearVideosURL($filename);
+            }
+            return $totalDeleted;
         }
 
         public static function deleteGifAndWebp($filename) {
