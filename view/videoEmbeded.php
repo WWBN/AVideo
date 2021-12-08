@@ -34,6 +34,9 @@ AVideoPlugin::getEmbed($video['id']);
 if (empty($video)) {
     forbiddenPage("Video not found");
 }
+if ($video['status']=='i') {
+    forbiddenPage("Video inactive");
+}
 if (empty($video['users_id'])) {
     $video['users_id'] = User::getId();
 }
