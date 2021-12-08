@@ -7612,7 +7612,7 @@ function totalImageColors($image_path) {
 }
 
 function isImageCorrupted($image_path){
-    if(filesize($image_path)<10){
+    if(filesize($image_path)<20000){
         return true;
     }
     if(totalImageColors($image_path) === 1){
