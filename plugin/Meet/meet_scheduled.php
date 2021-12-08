@@ -301,9 +301,9 @@ if ($manageMeetings) {
                                                         var tr = $(this).closest('tr')[0];
                                                         var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
                                                         var url = data.link;
-                                                        url = addGetParam(url, 'user', '<?php echo User::getUserName(); ?>');
-                                                        url = addGetParam(url, 'pass', '<?php echo User::getUserPass(); ?>');
-                                                        url = addGetParam(url, 'encoded', 1);
+                                                        //url = addGetParam(url, 'user', '<?php echo User::getUserName(); ?>');
+                                                        //url = addGetParam(url, 'pass', '<?php echo User::getUserPass(); ?>');
+                                                        //url = addGetParam(url, 'encoded', 1);
                                                         document.location = url;
 
                                                     });
