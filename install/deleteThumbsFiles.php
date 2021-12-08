@@ -8,6 +8,7 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 $checkIfIsCorrupted = intval(@$argv[1]);
+echo "checkIfIsCorrupted = $checkIfIsCorrupted".PHP_EOL;
 $users_ids = array();
 $sql = "SELECT * FROM  videos ";
 $res = sqlDAL::readSql($sql);
