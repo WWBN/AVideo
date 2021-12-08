@@ -1737,7 +1737,7 @@ if (!class_exists('Video')) {
 
         public static function getViewableStatus($showUnlisted = false) {
             $viewable = array('a', 'k', 'f');
-            if ($showUnlisted || Permissions::canModerateVideos()) {
+            if ($showUnlisted) {
                 $viewable[] = "u";
             }
             /*
@@ -4201,7 +4201,6 @@ if (!class_exists('Video')) {
                     if ($doNotDeleteSprit && strpos($file, '_thumbsSprit.jpg') !== false) {
                         continue;
                     }
-                    echo "Delete {$file}";PHP_EOL;
                     @unlink($file);
                 }
             }
