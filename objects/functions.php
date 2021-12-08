@@ -7618,7 +7618,7 @@ function isImageCorrupted($image_path) {
             return true;
         }
     } else {
-        if ($fsize < 20000) {
+        if ($fsize < 2000) {
             return true;
         }
     }
@@ -7626,5 +7626,25 @@ function isImageCorrupted($image_path) {
     if (totalImageColors($image_path) === 1) {
         return true;
     }
+    
+    if (!isGoodImage($image_path)) {
+        return true;
+    }
     return false;
+}
+
+function isGoodImage($fn) {
+    list($w, $h) = getimagesize($fn);
+    $im = imagecreatefromstring(file_get_contents($fn));
+    $grey = 0;
+    for ($i = 0; $i < 5; ++$i) {
+        for ($j = 0; $j < 5; ++$j) {
+            $x = $w - 5 + $i;
+            $y = $h - 5 + $j;
+            list($r, $g, $b) = array_values(imagecolorsforindex($im, imagecolorat($im, $x, $y)));
+            if ($r == $g && $g == $b && $b == 128)
+                ++$grey;
+        }
+    }
+    return $grey < 12;
 }
