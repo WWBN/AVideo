@@ -300,7 +300,11 @@ if ($manageMeetings) {
                                                         modal.showPleaseWait();
                                                         var tr = $(this).closest('tr')[0];
                                                         var data = Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>tableVar.row(tr).data();
-                                                        document.location = data.link;
+                                                        var url = data.link;
+                                                        url = addGetParam(url, 'user', '<?php echo User::getUserName(); ?>');
+                                                        url = addGetParam(url, 'pass', '<?php echo User::getUserPass(); ?>');
+                                                        url = addGetParam(url, 'encoded', 1);
+                                                        document.location = url;
 
                                                     });
                                                     $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.copyInvitation_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {

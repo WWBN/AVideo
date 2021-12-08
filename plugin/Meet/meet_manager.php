@@ -163,7 +163,11 @@ $userCredentials = User::loginFromRequestToGet();
                         modal.hidePleaseWait();
                     } else {
                         if ($("#whenNew").val() == "1") {
-                            document.location = response.link;
+                            var url = response.link;
+                            url = addGetParam(url, 'user', '<?php echo User::getUserName(); ?>');
+                            url = addGetParam(url, 'pass', '<?php echo User::getUserPass(); ?>');
+                            url = addGetParam(url, 'encoded', 1);
+                            document.location = url;
                         } else {
                             avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                             try {Meet_schedule2today1tableVar.ajax.reload();} catch (e) {}
