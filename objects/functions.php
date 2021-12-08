@@ -4484,9 +4484,9 @@ function isLive() {
     if (!empty($global['doNotLoadPlayer'])) {
         return false;
     }
-    if(class_exists('LiveTransmition') && class_exists('Live')){
+    if (class_exists('LiveTransmition') && class_exists('Live')) {
         $livet = LiveTransmition::getFromRequest();
-        if(!empty($livet)){
+        if (!empty($livet)) {
             setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
             $isLive = 1;
         }
@@ -6552,6 +6552,7 @@ function sendSocketErrorMessageToUsers_id($msg, $users_id, $callbackJSFunction =
     $newMessage->msg = $msg;
     return sendSocketMessageToUsers_id($newMessage, $users_id, $callbackJSFunction);
 }
+
 function sendSocketSuccessMessageToUsers_id($msg, $users_id, $callbackJSFunction = "avideoResponse") {
     $newMessage = new stdClass();
     $newMessage->error = false;
@@ -7579,6 +7580,43 @@ function isImage($file) {
     return false;
 }
 
-function isHTMLEmpty($html_string){
+function isHTMLEmpty($html_string) {
     return empty(trim(strip_specific_tags($html_string, array('br', 'p'))));
+}
+
+function totalImageColors($image_path) {
+    $img = imagecreatefromjpeg($image_path);
+    $w = imagesx($img);
+    $h = imagesy($img);
+
+    // capture the raw data of the image
+    ob_start();
+    imagegd2($img, null, $w);
+    $data = ob_get_clean();
+    $totalLength = strlen($data);
+
+    // calculate the length of the actual pixel data
+    // from that we can derive the header size
+    $pixelDataLength = $w * $h * 4;
+    $headerLength = $totalLength - $pixelDataLength;
+
+    // use each four-byte segment as the key to a hash table
+    $counts = array();
+    for ($i = $headerLength; $i < $totalLength; $i += 4) {
+        $pixel = substr($data, $i, 4);
+        $count = & $counts[$pixel];
+        $count += 1;
+    }
+    $colorCount = count($counts);
+    return $colorCount;
+}
+
+function isImageCorrupted($image_path){
+    if(filesize($image_path)<10){
+        return true;
+    }
+    if(totalImageColors($image_path) === 1){
+        return true;
+    }
+    return false;
 }

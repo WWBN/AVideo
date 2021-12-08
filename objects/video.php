@@ -4184,7 +4184,7 @@ if (!class_exists('Video')) {
             return $r;
         }
 
-        public static function deleteThumbs($filename, $doNotDeleteSprit = false) {
+        public static function deleteThumbs($filename, $doNotDeleteSprit = false, $checkIfIsCorrupted = false) {
             if (empty($filename)) {
                 return false;
             }
@@ -4195,9 +4195,13 @@ if (!class_exists('Video')) {
             $files = glob("{$filePath}*_thumbs*.jpg");
             foreach ($files as $file) {
                 if (file_exists($file)) {
+                    if($checkIfIsCorrupted && !isImageCorrupted($image_path)){
+                        continue;
+                    }
                     if ($doNotDeleteSprit && strpos($file, '_thumbsSprit.jpg') !== false) {
                         continue;
                     }
+                    echo "Delete {$file}";PHP_EOL;
                     @unlink($file);
                 }
             }

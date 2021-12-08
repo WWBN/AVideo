@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
-
+$checkIfIsCorrupted = intval(@$argv[1]);
 $users_ids = array();
 $sql = "SELECT * FROM  videos ";
 $res = sqlDAL::readSql($sql);
@@ -20,7 +20,7 @@ if ($res != false) {
     foreach ($fullData as $key => $row) {
         $count++;
         $filename = $row['filename'];
-        Video::deleteThumbs($filename, true);
+        Video::deleteThumbs($filename, true, $checkIfIsCorrupted);
         echo "{$total}/{$count} Thumbs deleted from {$row['title']}".PHP_EOL;
         ob_flush();
     }
