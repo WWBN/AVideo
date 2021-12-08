@@ -4195,7 +4195,7 @@ if (!class_exists('Video')) {
             $files = glob("{$filePath}*_thumbs*.jpg");
             foreach ($files as $file) {
                 if (file_exists($file)) {
-                    if($checkIfIsCorrupted && !isImageCorrupted($image_path)){
+                    if($checkIfIsCorrupted && !isImageCorrupted($file)){
                         continue;
                     }
                     if ($doNotDeleteSprit && strpos($file, '_thumbsSprit.jpg') !== false) {

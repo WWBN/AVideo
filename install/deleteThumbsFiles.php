@@ -7,6 +7,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
+ob_end_flush();
 $checkIfIsCorrupted = intval(@$argv[1]);
 echo "checkIfIsCorrupted = $checkIfIsCorrupted".PHP_EOL;
 $users_ids = array();
@@ -23,7 +24,6 @@ if ($res != false) {
         $filename = $row['filename'];
         Video::deleteThumbs($filename, true, $checkIfIsCorrupted);
         echo "{$total}/{$count} Thumbs deleted from {$row['title']}".PHP_EOL;
-        ob_flush();
     }
 } else {
     die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
