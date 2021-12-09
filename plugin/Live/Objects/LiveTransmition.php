@@ -236,9 +236,11 @@ class LiveTransmition extends ObjectYPT {
             if(!empty($row)){
                 $row['scheduled'] = 0;
             }
-            $p = $row['live_password'];
-            $row = cleanUpRowFromDatabase($row);
-            $row['live_password'] = $p;
+            if(!empty($row)){
+                $p = $row['live_password'];
+                $row = cleanUpRowFromDatabase($row);
+                $row['live_password'] = $p;
+            }
         } else {
             $row = false;
         }

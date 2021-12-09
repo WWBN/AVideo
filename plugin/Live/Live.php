@@ -2711,7 +2711,7 @@ class Live extends PluginAbstract {
             return false;
         }
         
-        $password = $row['live_password'];
+        $password = @$row['live_password'];
         
         //var_dump($key, $_REQUEST, $_SESSION['live_password'], $row);exit;
         if (empty($password)) {
