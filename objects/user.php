@@ -70,7 +70,7 @@ class User {
     }
 
     public function setAbout($about) {
-        $this->about = xss_esc($about);
+        $this->about = strip_specific_tags(xss_esc($about));
     }
 
     public function getPassword() {

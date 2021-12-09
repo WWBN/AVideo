@@ -6380,7 +6380,7 @@ function canFullScreen() {
     return true;
 }
 
-function getTinyMCE($id) {
+function getTinyMCE($id, $simpleMode = false) {
     global $global;
     ob_start();
     include $global['systemRootPath'] . 'objects/functionsGetTinyMCE.php';
@@ -7294,7 +7294,7 @@ function useVideoHashOrLogin() {
     return User::loginFromRequest();
 }
 
-function strip_specific_tags($string, $tags_to_strip = array("script")) {
+function strip_specific_tags($string, $tags_to_strip = array('script', 'style', 'iframe', 'object', 'applet', 'link')) {
     foreach ($tags_to_strip as $tag) {
         $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', '', $string);
     }
@@ -7633,6 +7633,7 @@ function isImageCorrupted($image_path) {
     return false;
 }
 
+// detect partial grey immages
 function isGoodImage($fn) {
     list($w, $h) = getimagesize($fn);
     $im = imagecreatefromstring(file_get_contents($fn));

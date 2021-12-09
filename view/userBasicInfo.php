@@ -150,6 +150,9 @@
         <label class="col-md-4 control-label"><?php echo __("About"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"  ><?php echo $user->getAbout(); ?></textarea>
+            <?php
+            echo getTinyMCE("textAbout", true);
+            ?>
         </div>
     </div>
 
