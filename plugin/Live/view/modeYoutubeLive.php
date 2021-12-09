@@ -24,7 +24,7 @@ $livet = LiveTransmition::getFromRequest();
 setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 $lt = new LiveTransmition($livet['id']);
 
-Live::checkIfPasswordIsGood($lt->getKey());
+Live::checkIfPasswordIsGood($livet['key']);
 
 if (!$lt->userCanSeeTransmition()) {
     forbiddenPage("You are not allowed see this streaming");
