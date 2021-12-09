@@ -153,7 +153,8 @@ class CustomizeUser extends PluginAbstract {
         return $obj;
     }
 
-    static function autoIncludeBGAnimationFile() {$baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+    static function autoIncludeBGAnimationFile() {
+        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         $obj = AVideoPlugin::getObjectData('CustomizeUser');
         Layout::includeBGAnimationFile($obj->loginBackgroundAnimation->value);
         //Layout::includeBGAnimationFile('Animated3');
@@ -175,7 +176,7 @@ class CustomizeUser extends PluginAbstract {
     }
 
     static function getBGAnimationArray() {
-        if(!class_exists('Layout')){
+        if (!class_exists('Layout')) {
             $avideoLayout = AVideoPlugin::getObjectData('Layout');
         }
         $files = Layout::getBGAnimationFiles();
@@ -388,10 +389,10 @@ class CustomizeUser extends PluginAbstract {
         $obj = $this->getDataObject();
         if (!$cansee) {
             $resp = Video::canVideoBePurchased($videos_id);
-            if(!empty($resp) && $resp->canVideoBePurchased && isValidURL($resp->buyURL)){
+            if (!empty($resp) && $resp->canVideoBePurchased && isValidURL($resp->buyURL)) {
                 header("Location: {$resp->buyURL}");
                 exit;
-            }else{
+            } else {
                 forbiddenPage(__("Sorry, this video is private"));
             }
             /*
@@ -486,6 +487,9 @@ class CustomizeUser extends PluginAbstract {
                 $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoAlertAJAXHTML(webSiteRootURL+\\\'plugin/CustomizeUser/View/extraInfo.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Show Extra Info') . '"><i class="fas fa-info"></i> ' . __('Extra Info') . '</button>';
             }
             $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CustomizeUser/setSubscribers.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('This will add a fake number of subscribers on the user subscribe button') . '"><i class="fas fa-plus"></i> ' . __('Subscribers') . '</button>';
+            if (AVideoPlugin::isEnabledByName('LoginControl')) {
+                $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframe(webSiteRootURL+\\\'plugin/LoginControl/loginHistory.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Login History') . '"><i class="fas fa-history"></i> ' . __('Login History') . '</button>';
+            }
         }
         return $btn;
     }
@@ -511,6 +515,5 @@ class CustomizeUser extends PluginAbstract {
 
         return false;
     }
-    
 
 }
