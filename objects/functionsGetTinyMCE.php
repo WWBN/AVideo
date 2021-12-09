@@ -5,6 +5,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $tinyMCELibs = 1;
         ?>
         <script type="text/javascript" src="<?php echo getURL('node_modules/tinymce/tinymce.min.js'); ?>"></script>
+        <style>.tox-statusbar__branding{display:none !important;}</style>
         <?php
     }
     ?>
@@ -15,8 +16,9 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             function images_upload_handler(blobInfo, success, failure) {
                 avideoToastError('Image upload disabled');
             }
-            var tinyMCEplugins = 'code print preview searchreplace autolink directionality visualblocks visualchars fullscreen link codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern help ';
-            var tinyMCEtoolbar = 'fullscreen | formatselect | bold italic strikethrough | link pageembed | numlist bullist | removeformat | addcomment';
+            var tinyMCEplugins = 'code print preview autolink fullscreen link hr pagebreak nonbreaking anchor wordcount help ';
+            var tinyMCEtoolbar = 'fullscreen | styleselect align bold italic strikethrough underline | link | numlist bullist | removeformat | code';
+            var tinyMCEmenubar = '';
         <?php
     } else {
         ?>
@@ -57,6 +59,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             }
             var tinyMCEplugins = 'code print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ';
             var tinyMCEtoolbar = 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment';
+            var tinyMCEmenubar = 'edit insert view format table tools help';
         <?php
     }
     ?>
@@ -67,7 +70,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             plugins: tinyMCEplugins,
             //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
             toolbar: tinyMCEtoolbar,
-            menubar: 'edit insert view format table tools help', // remove 'file' menu as it's useless in our context
+            menubar: tinyMCEmenubar, // remove 'file' menu as it's useless in our context
             height: 400,
             convert_urls: false,
             mobile: {
