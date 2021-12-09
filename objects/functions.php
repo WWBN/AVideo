@@ -7296,7 +7296,7 @@ function useVideoHashOrLogin() {
 
 function strip_specific_tags($string, $tags_to_strip = array('script', 'style', 'iframe', 'object', 'applet', 'link')) {
     foreach ($tags_to_strip as $tag) {
-        $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', '', $string);
+        $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', '$1', $string);
     }
     return $string;
 }
