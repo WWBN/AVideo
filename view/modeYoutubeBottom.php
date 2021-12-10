@@ -66,7 +66,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                 if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                     ?>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="#" class="btn btn-primary btn-xs"  onclick="avideoModalIframeFull(webSiteRootURL+'mvideos?video_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
+                        <a href="#" class="btn btn-primary btn-xs"  onclick="avideoModalIframe(webSiteRootURL+'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
                             <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
                         </a>
                         <button type="button" class="btn btn-default btn-xs" onclick="avideoModalIframeFull(webSiteRootURL+'view/videoViewsInfo.php?videos_id=<?php echo $video['id']; ?>');return false;">

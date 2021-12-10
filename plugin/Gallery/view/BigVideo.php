@@ -231,7 +231,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                             </div>
                                             <?php if (Video::canEdit($videoRow['id'])) { ?>
                                                 <div>
-                                                    <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $videoRow['id']; ?>');return false;"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                    <a href="#" onclick="avideoModalIframe(webSiteRootURL+'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $videoRow['id']; ?>');return false;"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                                                 </div>
                                             <?php } ?>
                                             <?php if (!empty($videoRow['trailer1'])) { ?>
