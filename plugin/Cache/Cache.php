@@ -309,8 +309,10 @@ class Cache extends PluginAbstract {
     }
 
     public static function getCache($name, $lifetime = 60) {
-        global $_getCacheDB;
-        
+        global $_getCacheDB, $global;
+        if(!empty($global['ignoreAllCache'])){
+            return null;
+        }
         if(!isset($_getCacheDB)){
             $_getCacheDB = array();
         }
