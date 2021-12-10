@@ -23,7 +23,7 @@ $pwa->start_url = '/';
 $pwa->background_color = $obj->pwa_background_color;
 $pwa->theme_color = $obj->pwa_background_color;
 $pwa->orientation = "portrait";
-$pwa->display_override = array("window-control-overlay", "minimal-ui");
+$pwa->display_override = array($obj->pwa_display->value, 'fullscreen', 'standalone', 'minimal-ui', "window-control-overlay");
 $pwa->display = $obj->pwa_display->value;
 $pwa->scope = $obj->pwa_scope;
 
