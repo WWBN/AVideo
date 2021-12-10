@@ -1822,6 +1822,7 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                                                         var status;
                                                         var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                                                         var download = "";
+                                                        var downloadhighest = '';
 <?php
 if (CustomizeUser::canDownloadVideos()) {
     ?>
@@ -1852,11 +1853,13 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                     download += '<a class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + url + '\');" ><span class="fa fa-copy " aria-hidden="true"></span> ' + k + '</a>';
                                                                     download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
                                                                     download += '</div>';
+                                                                    downloadhighest = downloadURL;
                                                                 } else {
                                                                     if (addParameters) {
                                                                         downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '.mp4');
                                                                     }
                                                                     download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
+                                                                    downloadhighest = downloadURL;
                                                                 }
 
                                                             }
@@ -1916,7 +1919,16 @@ if (Permissions::canAdminVideos()) {
 ?>
                                                         var playBtn = '<button type="button" class="btn btn-default btn-xs"  onclick="avideoModalIframe(\'' + row.embedlink + '\')"  data-toggle="tooltip" title="<?php echo __('Play'); ?>"><span class="fas fa-play" aria-hidden="true"></span></button>';
 
-                                                        return playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + editLikes + pluginsButtons + download + nextIsSet;
+                                                        var _edit = '<button type="button" class="btn btn-default btn-block edit-simple" onclick="avideoModalIframe(webSiteRootURL +\'view/managerVideosLight.php?videos_id=' + row.id + '\')"   data-toggle="tooltip" title="<?php echo __('Edit'); ?>"><i class="fas fa-edit"></i> <?php echo __('Edit'); ?></button>';
+                                                        var _thumbnail = '<button type="button" class="btn btn-default btn-block edit-thumbs" onclick="avideoModalIframe(webSiteRootURL +\'view/managerVideosLight.php?image=1&videos_id=' + row.id + '\')"   data-toggle="tooltip" title="<?php echo __('Custom Thumbnail'); ?>"><i class="far fa-image"></i> <?php echo __('Custom Thumbnail'); ?></button>';
+                                                        var _download = '';
+                                                        if (downloadhighest) {
+                                                            _download = '<a href=' + downloadhighest + ' class="btn btn-default btn-block downloadhigest" data-toggle="tooltip" title="<?php echo __('Download'); ?>"><i class="fas fa-download"></i> <?php echo __('Download'); ?></a>';
+                                                        }
+
+                                                        var bigButtons = _edit + _thumbnail + _download;
+
+                                                        return playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + editLikes + bigButtons + pluginsButtons + download + nextIsSet;
                                                     },
                                                     "tags": function (column, row) {
                                                         var tags = "";

@@ -1259,6 +1259,21 @@ function avideoAlertHTMLText(title, msg, type) {
     });
 }
 
+function avideoModalIframeClose() {
+    try {
+        swal.close();
+    } catch (e) {
+        
+    }
+    try {
+        if(inIframe()){
+            window.parent.swal.close();
+        }
+    } catch (e) {
+        
+    }
+}
+
 function avideoModalIframe(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe');
 }

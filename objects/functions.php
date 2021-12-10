@@ -1586,7 +1586,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
     try {
         $src = $icfunc($file_src);
     } catch (Exception $exc) {
-        _error_log("im_resize: " . $exc->getMessage());
+        _error_log("im_resize: ($file_src) " . $exc->getMessage());
         _error_log("im_resize: Try {$icfunc} from string");
         $src = imagecreatefromstring(file_get_contents($file_src));
         if (!$src) {
@@ -1594,7 +1594,6 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
             return false;
         }
     }
-
     $ws = imagesx($src);
     $hs = imagesy($src);
 
@@ -1829,14 +1828,19 @@ function convertImage($originalImage, $outputImage, $quality) {
 
     try {
         if ($imagetype == IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext)) {
-            $imageTmp = @imagecreatefromjpeg($originalImage);
+            //_error_log("convertImage: IMAGETYPE_JPEG");
+            $imageTmp = imagecreatefromjpeg($originalImage);
         } elseif ($imagetype == IMAGETYPE_PNG || preg_match('/png/i', $ext)) {
+            //_error_log("convertImage: IMAGETYPE_PNG");
             $imageTmp = imagecreatefrompng($originalImage);
         } elseif ($imagetype == IMAGETYPE_GIF || preg_match('/gif/i', $ext)) {
+            //_error_log("convertImage: IMAGETYPE_GIF");
             $imageTmp = imagecreatefromgif($originalImage);
         } elseif ($imagetype == IMAGETYPE_BMP || preg_match('/bmp/i', $ext)) {
+            //_error_log("convertImage: IMAGETYPE_BMP");
             $imageTmp = imagecreatefrombmp($originalImage);
         } elseif ($imagetype == IMAGETYPE_WEBP || preg_match('/webp/i', $ext)) {
+            //_error_log("convertImage: IMAGETYPE_WEBP");
             $imageTmp = imagecreatefromwebp($originalImage);
         } else {
             _error_log("convertImage: File Extension not found ($originalImage, $outputImage, $quality) " . exif_imagetype($originalImage));
@@ -1846,10 +1850,13 @@ function convertImage($originalImage, $outputImage, $quality) {
         _error_log("convertImage: " . $exc->getMessage());
         return 0;
     }
+    /*
     if (!is_resource($imageTmp)) {
-        _error_log("convertImage: could not create a resource $originalImage, $outputImage, $quality, $ext " . json_encode(debug_backtrace()));
+        _error_log("convertImage: could not create a resource: $originalImage, $outputImage, $quality, $ext " . json_encode(debug_backtrace()));
         return 0;
     }
+     * 
+     */
     // quality is a value from 0 (worst) to 100 (best)
     $response = 0;
     if ($extOutput === 'jpg') {
@@ -6332,11 +6339,28 @@ function getCroppie(
 }
 
 function saveCroppieImage($destination, $postIndex = "imgBase64") {
-    if (empty($_POST[$postIndex])) {
+    if (empty($destination) || empty($_POST[$postIndex])) {
         return false;
     }
     $fileData = base64DataToImage($_POST[$postIndex]);
-    return _file_put_contents($destination, $fileData);
+    
+    $path_parts = pathinfo($destination);
+    $tmpDestination = $destination;
+    $extension = strtolower($path_parts['extension']);
+    if($extension!=='png'){
+        $tmpDestination = $destination.'.png';
+    }
+    
+    $saved = _file_put_contents($tmpDestination, $fileData);
+    
+    if($saved){
+        if($extension!=='png'){
+            convertImage($tmpDestination, $destination, 100);
+            unlink($tmpDestination);
+        }
+    }
+    //var_dump($saved, $tmpDestination, $destination, $extension);exit;
+    return $saved;
 }
 
 function get_ffmpeg($ignoreGPU = false) {
@@ -7648,4 +7672,17 @@ function isGoodImage($fn) {
         }
     }
     return $grey < 12;
+}
+
+function defaultIsPortrait(){
+    global $_defaultIsPortrait;
+    
+    if(!isset($_defaultIsPortrait)){
+        $_defaultIsPortrait = false;
+        if($obj = AVideoPlugin::getDataObjectIfEnabled('YouPHPFlix2') && empty($obj->landscapePosters)){
+            $_defaultIsPortrait = true;
+        }
+    }
+    
+    return $_defaultIsPortrait;
 }

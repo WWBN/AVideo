@@ -290,7 +290,7 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
                 <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="description">
                     <div class="descriptionAreaPreContent">
                         <div class="descriptionAreaContent">
-                            <?php
+                            <?php                            
                             echo Video::htmlDescription($video['description']);
                             ?>
                         </div>
