@@ -1260,6 +1260,7 @@ function avideoAlertHTMLText(title, msg, type) {
 }
 
 function avideoModalIframeClose() {
+    console.log('avideoModalIframeClose');
     try {
         swal.close();
     } catch (e) {
@@ -1272,6 +1273,12 @@ function avideoModalIframeClose() {
     } catch (e) {
         
     }
+}
+
+function avideoModalIframeCloseToastSuccess(msg) {
+    avideoModalIframeClose();
+    avideoToastSuccess(msg);
+    window.parent.avideoToastSuccess(msg);
 }
 
 function avideoModalIframe(url) {

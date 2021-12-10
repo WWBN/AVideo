@@ -134,12 +134,10 @@ global $Schedulecount;
                         }).done(function (resposta) {
                             if (resposta.error) {
                                 avideoAlertError(resposta.msg);
+                                modal.hidePleaseWait();
                             } else {
-                                avideoAlertSuccess(resposta.msg);
-                                listScheduledLives();
-                                resetSchedule();
+                                avideoModalIframeCloseToastSuccess(resposta.msg);
                             }
-                            modal.hidePleaseWait();
                         });
                     });
                     listScheduledLives();
@@ -251,6 +249,7 @@ global $Schedulecount;
                         //maxImageHeight: 1440
                     }).on('fileuploaded', function (event, previewId, index, fileId) {
                         listScheduledLives();
+                        swal.close();
                     });
                 }
 
