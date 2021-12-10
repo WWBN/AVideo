@@ -89,6 +89,9 @@ class User_Location extends PluginAbstract {
     static function setLanguage($lang) {
         global $global;
         $lang = flag2Lang($lang);
+        if(empty($lang) || $lang === '-'){
+            return false;
+        }
         if (!empty($_SESSION['language'])) {
             $file = "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
             if (file_exists($file)) {

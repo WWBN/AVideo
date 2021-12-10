@@ -1,5 +1,6 @@
 <?php
-if(!empty($doNotIncludeConfig)){
+
+if (!empty($doNotIncludeConfig)) {
     error_log('AVideo includeconfig ignored');
     return false;
 }
@@ -8,7 +9,7 @@ if(!empty($doNotIncludeConfig)){
 //$global['stopBotsWhiteList'] = array('google','bing','yahoo','yandex','twitter');
 if (!empty($global['stopBotsList']) && is_array($global['stopBotsList'])) {
     foreach ($global['stopBotsList'] as $value) {
-        if(empty($_SERVER['HTTP_USER_AGENT'])){
+        if (empty($_SERVER['HTTP_USER_AGENT'])) {
             continue;
         }
         if (stripos($_SERVER['HTTP_USER_AGENT'], $value) !== false) {
@@ -52,7 +53,7 @@ if (empty($global['logfile'])) {
 ini_set('error_log', $global['logfile']);
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
-if(empty($doNotConnectDatabaseIncludeConfig)){
+if (empty($doNotConnectDatabaseIncludeConfig)) {
     $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
 
     if ($global['mysqli'] === false || !empty($global['mysqli']->connect_errno)) {
@@ -65,7 +66,7 @@ if(empty($doNotConnectDatabaseIncludeConfig)){
     if (!empty($global['mysqli_charset'])) {
         $global['mysqli']->set_charset($global['mysqli_charset']);
     }
-}else{
+} else {
     $mysql_connect_was_closed = 1;
 }
 require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
@@ -80,7 +81,7 @@ if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) 
 $global['dont_show_us_flag'] = false;
 // this is for old versions
 
-if(empty($doNotStartSessionbaseIncludeConfig)){
+if (empty($doNotStartSessionbaseIncludeConfig)) {
     $config = new Configuration();
     session_write_close();
 
@@ -155,9 +156,16 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-if (empty($_SESSION['language']) && !AVideoPlugin::isEnabledByName('User_Location')) {
-    $_SESSION['language'] = $config->getLanguage();
+if (!AVideoPlugin::isEnabledByName('User_Location')) {
+    if (empty($_SESSION['language'])) {
+        $_SESSION['language'] = $config->getLanguage();
+    }
+    $file = "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
+    if (file_exists($file)) {
+        include_once $file;
+    }
 }
+
 fixSystemPath();
 ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime();
 getDeviceID();
@@ -179,7 +187,7 @@ if (empty($global['avideo_resolutions'])) {
 }
 
 sort($global['avideo_resolutions']);
-if(!empty($doNotConnectDatabaseIncludeConfig)){
+if (!empty($doNotConnectDatabaseIncludeConfig)) {
     return false;
 }
 $advancedCustom = AVideoPlugin::getObjectData('CustomizeAdvanced');
