@@ -1,4 +1,32 @@
 <?php
+
+function rokuRating($avideoRating){
+    //('', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma');
+    switch (strtolower($avideoRating)) {
+        case 'g':
+            return 'G';
+            break;
+        case 'pg':
+            return 'PG';
+            break;
+        case 'pg-13':
+            return 'PG13';
+            break;
+        case 'r':
+            return 'R';
+            break;
+        case 'nc-17':
+            return 'NC17';
+            break;
+        case 'ma':
+            return '18+';
+            break;
+        default:
+            return 'G';
+            break;
+    }
+}
+
 header('Content-Type: application/json');
 $cacheFeedName = "feedCache_ROKU" . json_encode($_REQUEST);
 $lifetime = 43200;
@@ -34,7 +62,14 @@ if (empty($output)) {
             $movie->genres = array("special");
             $movie->releaseDate = date('c', strtotime($row['created']));
             $movie->categories_id = $row['categories_id'];
-
+            $rrating = $row['rrating'];
+            if(!empty($rrating)){
+                $movie->rating = new stdClass();
+                $movie->rating->rating = rokuRating($rrating);
+                $movie->rating->ratingSource = 'MPAA';
+            }
+            
+            
             $content = new stdClass();
             $content->dateAdded = date('c', strtotime($row['created']));
             $content->captions = array();
