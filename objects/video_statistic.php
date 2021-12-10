@@ -104,6 +104,7 @@ class VideoStatistic extends ObjectYPT {
     }
 
     public function save() {
+        global $global;
         if (empty($this->videos_id)) {
             return false;
         }
@@ -119,6 +120,8 @@ class VideoStatistic extends ObjectYPT {
         
         $this->seconds_watching_video = intval($this->seconds_watching_video);
 
+        $this->json = $global['mysqli']->real_escape_string($this->json);
+        
         return parent::save();
     }
 
@@ -590,5 +593,7 @@ class VideoStatistic extends ObjectYPT {
         }
         return 0;
     }
+    
+    
 
 }
