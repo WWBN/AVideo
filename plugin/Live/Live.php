@@ -1859,7 +1859,11 @@ class Live extends PluginAbstract {
             return false;
         }
         $key = $lh['key'];
-        $_live_is_live[$name] = self::isLiveAndIsReadyFromKey($key, $live_servers_id, $live_index, $force_recreate);
+        if(self::isLiveAndIsReadyFromKey($key, $live_servers_id, $live_index, $force_recreate)){
+            $_live_is_live[$name] = $key;
+        }else{
+            $_live_is_live[$name] = false;
+        }
         return $_live_is_live[$name];
     }
 
