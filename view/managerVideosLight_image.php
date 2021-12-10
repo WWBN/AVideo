@@ -1,23 +1,29 @@
                        
 <?php
 $images = Video::getImageFromID($videos_id);
+
 if(isMobile()){
     $viewportWidth = 250;
 }else{
     $viewportWidth = 1024;
 }
+
 if(defaultIsPortrait()){
     $width = 540;
     $height = 800;
-    $image = $images->posterPortrait;
+    $path = $images->posterPortraitPath;
     $portreait = 1;
 }else{
     $width = 1280;
     $height = 720;
-    $image = $images->poster;
+    $path = $images->posterLandscapePath;
     $portreait = 0;
 }
 
+$image = str_replace(array($global['systemRootPath'], DIRECTORY_SEPARATOR), array($global['webSiteRootURL'], '/'), $path);
+
+$image = addQueryStringParameter($image, 'cache', filectime($path));
+//var_dump($image);exit;
 $croppie1 = getCroppie(__("Upload Poster"), "saveVideo", $width, $height, $viewportWidth);
 echo $croppie1['html'];
 ?>
