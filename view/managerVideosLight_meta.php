@@ -10,7 +10,7 @@
     </div>
     <div class="form-group col-sm-12">
         <label for="description"><?php echo __('Description'); ?></label>
-        <textarea class="form-control" id="description" ><?php echo $description; ?></textarea>
+        <textarea class="form-control" id="description" rows="10" ><?php echo $description; ?></textarea>
         <?php
         if (empty($advancedCustom->disableHTMLDescription)) {
             echo getTinyMCE("description");
