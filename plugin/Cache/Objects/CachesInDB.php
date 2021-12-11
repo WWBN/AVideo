@@ -160,8 +160,7 @@ class CachesInDB extends ObjectYPT {
 
     public static function _deleteAllCache() {
         global $global;
-        $sql = "DELETE FROM " . static::getTableName() . " ";
-        $sql .= " WHERE id > 0";
+        $sql = "TRUNCATE TABLE " . static::getTableName() . " ";
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
         return sqlDAL::writeSql($sql);
