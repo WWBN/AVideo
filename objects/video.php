@@ -2543,8 +2543,9 @@ if (!class_exists('Video')) {
             }
 
             $name = "getVideoTags{$video_id}";
-            Cache::deleteCache($name);
-
+            if(class_exists('Cache')){
+                Cache::deleteCache($name);
+            }
             _session_start();
             unset($_SESSION['getVideoTags'][$video_id]);
             $path = getCacheDir() . "getTagsAsync/";
