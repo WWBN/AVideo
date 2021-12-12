@@ -4266,10 +4266,12 @@ if (!class_exists('Video')) {
             ObjectYPT::deleteCache(md5($filename . ".mp4"));
             ObjectYPT::deleteCache(md5($filename . ".m3u81"));
             ObjectYPT::deleteCache(md5($filename . ".mp41"));
-            Cache::deleteCache("getSourceFile($filename)1");
-            Cache::deleteCache("getSourceFile($filename)0");
-            Cache::deleteCache("getVideosPaths_($filename)1");
-            Cache::deleteCache("getVideosPaths_($filename)0");
+            if(class_exists('Cache')){
+                Cache::deleteCache("getSourceFile($filename)1");
+                Cache::deleteCache("getSourceFile($filename)0");
+                Cache::deleteCache("getVideosPaths_($filename)1");
+                Cache::deleteCache("getVideosPaths_($filename)0");
+            }
             Video::clearImageCache($filename);
             Video::clearImageCache($filename, "article");
             Video::clearImageCache($filename, "pdf");
