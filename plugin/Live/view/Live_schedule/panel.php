@@ -1,5 +1,5 @@
 <?php
-if(!User::canStream()){
+if (!User::canStream()) {
     return false;
 }
 $objScheduleLive = AVideoPlugin::getObjectData("Live");
@@ -77,6 +77,7 @@ global $Schedulecount;
     <div class="panel-footer">
         <button class="btn btn-primary " onclick="resetSchedule()"><i class="fas fa-plus"></i> <?php echo __("New"); ?></button>
         <button class="btn btn-success " id="saveScheduleLive"><i class="fas fa-save"></i> <?php echo __("Save Schedule"); ?></button>
+        <button class="btn btn-warning " id="saveScheduleLiveAndClose"><i class="fas fa-save"></i> <?php echo __("Save Schedule and Close"); ?></button>
     </div>
 </div>
 <div id="Live_schedulebtnModelList" style="display: none;">
@@ -84,15 +85,15 @@ global $Schedulecount;
         <div class="list_name" style="white-space: nowrap;
              overflow: hidden;
              text-overflow: ellipsis;"></div>
-             <br>
+        <br>
         <div class="btn-group pull-left">
-            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL')); " data-toggle="tooltip" title="<?php echo __('Server URL'); ?>" >
+            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?>" >
                 <i class="fa fa-server"></i> <span class="hidden-sm hidden-xs"><?php echo __('Server URL'); ?></span>
             </button>
             <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Key'); ?>" >
                 <i class="fa fa-key"></i> <span class="hidden-sm hidden-xs"><?php echo __('Key'); ?></span>
             </button>
-            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL')+'/'+$(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?> + <?php echo __('Key'); ?>" >
+            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL') + '/' + $(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?> + <?php echo __('Key'); ?>" >
                 <i class="fa fa-server"></i> + <i class="fa fa-key"></i> <span class="hidden-sm hidden-xs"><?php echo __('Server URL'); ?> + <?php echo __('Key'); ?></span>
             </button>
         </div>
@@ -106,7 +107,7 @@ global $Schedulecount;
         </div>
         <hr>
         <div class="btn-group pull-right futureButtons">
-            <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL+'plugin/Live/webcamFullscreen.php?live_schedule_id='+$(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
+            <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
                 <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($objScheduleLive->button_title); ?></span>
             </button>
             <button class="btn btn-primary" onclick="editSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Edit') ?>" >
@@ -126,22 +127,44 @@ global $Schedulecount;
                     $('#scheduled_time').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
                     $('#Live_schedulestart_sell_in').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
                     $('#saveScheduleLive').click(function () {
-                        modal.showPleaseWait();
-                        $.ajax({
-                            type: "POST",
-                            url: webSiteRootURL + "plugin/Live/view/Live_schedule/add.json.php",
-                            data: $("#Schedule_form").serialize()
-                        }).done(function (resposta) {
-                            if (resposta.error) {
-                                avideoAlertError(resposta.msg);
-                                modal.hidePleaseWait();
-                            } else {
-                                avideoModalIframeCloseToastSuccess(resposta.msg);
-                            }
-                        });
+                        saveSchedule(false);
+                    });
+                    $('#saveScheduleLiveAndClose').click(function () {
+                        saveSchedule(true);
                     });
                     listScheduledLives();
                 });
+
+                function saveSchedule(close){
+                    if($('#Schedule_title').val()==''){
+                        avideoToastError('Empty title');
+                        return false;
+                    }
+                    if($('#scheduled_time').val()==''){
+                        avideoToastError('Empty date');
+                        return false;
+                    }
+                    modal.showPleaseWait();
+                    $.ajax({
+                        type: "POST",
+                        url: webSiteRootURL + "plugin/Live/view/Live_schedule/add.json.php",
+                        data: $("#Schedule_form").serialize()
+                    }).done(function (resposta) {
+                        if (resposta.error) {
+                            avideoAlertError(resposta.msg);
+                            modal.hidePleaseWait();
+                        } else {
+                            if (close) {
+                                avideoModalIframeCloseToastSuccess(resposta.msg);
+                            } else {
+                                modal.hidePleaseWait();
+                                avideoToastSuccess(resposta.msg);
+                                listScheduledLives();
+                                resetSchedule();
+                            }
+                        }
+                    });
+                }
 
                 function resetSchedule() {
                     $("#Schedule_form")[0].reset();

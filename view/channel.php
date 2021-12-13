@@ -12,16 +12,20 @@ require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 session_write_close();
 $user_id = isChannel();
 $user = new User($user_id);
-if($user->getStatus()==='i'){
+if ($user->getStatus() === 'i') {
     forbiddenPage(__("This user is inactive"));
 }
 $isMyChannel = $user_id == User::getId();
+
+$channelPassword = User::getProfilePassword($user_id);
+forbiddenPage('This channel is password protected',false, $channelPassword);
+
 AVideoPlugin::getChannel($user_id, $user);
 $channelFluidLayout = true;
 // verify the width to match with the old profile bg image
 $bgImagePath = $global['systemRootPath'] . $user->getBackgroundURL();
 $bgSize = getimagesize($bgImagePath);
-if($bgSize[0]<2048){
+if ($bgSize[0] < 2048) {
     $channelFluidLayout = false;
 }
 $metaDescription = " Channel - {$_GET['channelName']}";
@@ -39,9 +43,9 @@ $metaDescription = " Channel - {$_GET['channelName']}";
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container<?php echo !empty($channelFluidLayout)?"-fluid":""; ?>">
+        <div class="container<?php echo!empty($channelFluidLayout) ? "-fluid" : ""; ?>">
             <?php
-                include $global['systemRootPath'] . 'view/channelBody.php';
+            include $global['systemRootPath'] . 'view/channelBody.php';
             ?>
         </div>
         <?php

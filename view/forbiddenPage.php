@@ -19,6 +19,39 @@ $global['isForbidden'] = true;
         <div class="container">
             <?php
             include $global['systemRootPath'] . 'view/img/image403.php';
+            if (!empty($unlockPassword)) {
+                ?>
+                <form method="post" action="#">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <?php
+                            $value = '';
+                            if (!empty($_REQUEST['unlockPassword'])) {
+                                $value = $_REQUEST['unlockPassword'];
+                            }
+                            echo getInputPassword('unlockPassword', 'class="form-control" value="' . $value . '"', __('Unlock Password'));
+                            ?>
+                        </div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-success btn-block" type="submit"><i class="fas fa-lock-open"></i> <?php echo __('Unlock'); ?></button>
+                        </div>
+                        <div class="col-sm-12">
+                            <?php
+                            if (!empty($_REQUEST['unlockPassword'])) {
+                                ?>
+                                <div class="alert alert-danger">
+                                    <?php
+                                    echo __('Invalid password');
+                                    ?>
+                                </div>    
+                                <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </form>
+                <?php
+            }
             ?>
         </div>
         <?php

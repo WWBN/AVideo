@@ -490,6 +490,7 @@ class CustomizeUser extends PluginAbstract {
             if (AVideoPlugin::isEnabledByName('LoginControl')) {
                 $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframe(webSiteRootURL+\\\'plugin/LoginControl/loginHistory.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Login History') . '"><i class="fas fa-history"></i> ' . __('Login History') . '</button>';
             }
+            $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CustomizeUser/setPassword.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Channel Password') . '"><i class="fas fa-lock"></i> ' . __('Password') . '</button>';
         }
         return $btn;
     }

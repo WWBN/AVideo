@@ -2472,5 +2472,25 @@ if (typeof gtag !== \"function\") {
         $user = new User($users_id);
         return $user->addExternalOptions('ExtraSubscribers', intval($value));
     }
+    
+    static function getProfilePassword($users_id) {
+        global $config;
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj)) {
+            return false;
+        }
+        $user = new User($users_id);
+        $value = $user->getExternalOptions('ProfilePassword'); 
+        return $value;
+    }
+
+    static function setProfilePassword($users_id, $value) {
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj) || !User::isAdmin()) {
+            return false;
+        }
+        $user = new User($users_id);
+        return $user->addExternalOptions('ProfilePassword', preg_replace('/[^0-9a-z]/i','',$value));
+    }
 
 }

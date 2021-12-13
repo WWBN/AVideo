@@ -5581,8 +5581,25 @@ function getSharePopupButton($videos_id, $url = "", $title = "") {
     include $global['systemRootPath'] . 'view/include/socialModal.php';
 }
 
-function forbiddenPage($message, $logMessage = false) {
+function forbiddenPage($message, $logMessage = false, $unlockPassword='', $namespace='') {
     global $global;
+    if(!empty($unlockPassword)){
+        if(empty($namespace)){
+            $namespace = $_SERVER["SCRIPT_FILENAME"];
+        }
+        if(!empty($_REQUEST['unlockPassword'])){
+            if($_REQUEST['unlockPassword'] == $unlockPassword){
+                _session_start();
+                if(!isset($_SESSION['user']['forbiddenPage'])){
+                    $_SESSION['user']['forbiddenPage'] = array();
+                }
+                $_SESSION['user']['forbiddenPage'][$namespace] = $_REQUEST['unlockPassword'];
+            }
+        }
+        if(!empty($_SESSION['user']['forbiddenPage'][$namespace]) && $unlockPassword === $_SESSION['user']['forbiddenPage'][$namespace]){
+            return true;
+        }
+    }
     $_REQUEST['403ErrorMsg'] = $message;
     if ($logMessage) {
         _error_log($message);
