@@ -1042,13 +1042,13 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
-     public function getExternalOptions($id) {
-         if(empty($this->id)){
-             return null;
-         }
-         return self::externalOptionsFromUserID($this->id, $id);
-     }
-    
+    public function getExternalOptions($id) {
+        if (empty($this->id)) {
+            return null;
+        }
+        return self::externalOptionsFromUserID($this->id, $id);
+    }
+
     public static function externalOptionsFromUserID($users_id, $id) {
         $user = self::findById($users_id);
         if ($user) {
@@ -1380,14 +1380,26 @@ if (typeof gtag !== \"function\") {
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT * FROM users u WHERE 1=1 ";
-        $sql .= " AND (id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
 
-        $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
-        if (!empty($ids) && is_array($ids)) {
-            $ids = array_unique($ids);
-            $sql .= " OR id IN ('" . implode("','", $ids) . "') ";
+        $queryIds = array();
+        if (empty($_REQUEST['userGroupShowOnly']) || $_REQUEST['userGroupShowOnly'] == 'permanent') {
+            $queryIds[] = " id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
         }
-        $sql .= " ) ";
+        if (empty($_REQUEST['userGroupShowOnly']) || $_REQUEST['userGroupShowOnly'] == 'dynamic') {
+            $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
+            if (!empty($ids) && is_array($ids)) {
+                $ids = array_unique($ids);
+                $queryIds[] = " id IN ('" . implode("','", $ids) . "') ";
+            }
+        }
+        if (!empty($queryIds)) {
+            $sql .= " AND ( ";
+            $sql .= implode(' OR ', $queryIds);
+            $sql .= " ) ";
+        }else{
+            // do not return nothing
+            $sql .= " AND u.id < 0 ";
+        }
 
         if (!empty($status)) {
             if (strtolower($status) === 'i') {
@@ -1401,6 +1413,7 @@ if (typeof gtag !== \"function\") {
 
         $user = array();
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
+        //echo $sql;exit;
         $res = sqlDAL::readSql($sql . ";");
         $downloadedArray = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -1430,14 +1443,27 @@ if (typeof gtag !== \"function\") {
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT id FROM users WHERE 1=1  ";
-        $sql .= " AND (id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
-
-        $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
-        if (!empty($ids) && is_array($ids)) {
-            $ids = array_unique($ids);
-            $sql .= " OR id IN ('" . implode("','", $ids) . "') ";
+        
+        $queryIds = array();
+        if (empty($_REQUEST['userGroupShowOnly']) || $_REQUEST['userGroupShowOnly'] == 'permanent') {
+            $queryIds[] = " id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
         }
-        $sql .= " ) ";
+        if (empty($_REQUEST['userGroupShowOnly']) || $_REQUEST['userGroupShowOnly'] == 'dynamic') {
+            $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
+            if (!empty($ids) && is_array($ids)) {
+                $ids = array_unique($ids);
+                $queryIds[] = " id IN ('" . implode("','", $ids) . "') ";
+            }
+        }
+        if (!empty($queryIds)) {
+            $sql .= " AND ( ";
+            $sql .= implode(' OR ', $queryIds);
+            $sql .= " ) ";
+        }else{
+            // do not return nothing
+            $sql .= " AND u.id < 0 ";
+        }
+        
         if (!empty($status)) {
             if (strtolower($status) === 'i') {
                 $sql .= " AND status = 'i' ";
@@ -1455,7 +1481,7 @@ if (typeof gtag !== \"function\") {
         return $result;
     }
 
-    public static function getAllUsers($ignoreAdmin = false, $searchFields = array('name', 'email', 'user', 'channelName', 'about'), $status = "") {
+    public static function getAllUsers($ignoreAdmin = false, $searchFields = array('name', 'email', 'user', 'channelName', 'about'), $status = "", $isAdmin = null) {
         if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
             return false;
         }
@@ -1470,6 +1496,13 @@ if (typeof gtag !== \"function\") {
                 $sql .= " AND status = 'a' ";
             }
         }
+        if (isset($isAdmin)) {
+            if (empty($isAdmin)) {
+                $sql .= " AND isAdmin = 0 ";
+            } else {
+                $sql .= " AND isAdmin = 1 ";
+            }
+        }
         $sql .= BootGrid::getSqlFromPost($searchFields);
 
         $user = array();
@@ -1480,8 +1513,9 @@ if (typeof gtag !== \"function\") {
         if ($res != false) {
             foreach ($downloadedArray as $row) {
                 $row['creator'] = Video::getCreatorHTML($row['id'], '', true, true);
+                $row = self::getUserInfoFromRow($row);
                 $row = cleanUpRowFromDatabase($row);
-                $user[] = self::getUserInfoFromRow($row);
+                $user[] = $row;
             }
         } else {
             $user = false;
@@ -1578,7 +1612,7 @@ if (typeof gtag !== \"function\") {
         return $user;
     }
 
-    public static function getTotalUsers($ignoreAdmin = false, $status = "") {
+    public static function getTotalUsers($ignoreAdmin = false, $status = "", $isAdmin = null) {
         if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
             return false;
         }
@@ -1592,6 +1626,13 @@ if (typeof gtag !== \"function\") {
                 $sql .= " AND status = 'i' ";
             } else {
                 $sql .= " AND status = 'a' ";
+            }
+        }
+        if (isset($isAdmin)) {
+            if (empty($isAdmin)) {
+                $sql .= " AND isAdmin = 0 ";
+            } else {
+                $sql .= " AND isAdmin = 1 ";
             }
         }
         $sql .= BootGrid::getSqlSearchFromPost(array('name', 'email', 'user'));
@@ -2451,8 +2492,7 @@ if (typeof gtag !== \"function\") {
         }
         return false;
     }
-    
-    
+
     static function getExtraSubscribers($users_id) {
         global $config;
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
@@ -2460,7 +2500,7 @@ if (typeof gtag !== \"function\") {
             return 0;
         }
         $user = new User($users_id);
-        $value = $user->getExternalOptions('ExtraSubscribers'); 
+        $value = $user->getExternalOptions('ExtraSubscribers');
         return intval($value);
     }
 
@@ -2472,7 +2512,7 @@ if (typeof gtag !== \"function\") {
         $user = new User($users_id);
         return $user->addExternalOptions('ExtraSubscribers', intval($value));
     }
-    
+
     static function getProfilePassword($users_id) {
         global $config;
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
@@ -2480,7 +2520,7 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         $user = new User($users_id);
-        $value = $user->getExternalOptions('ProfilePassword'); 
+        $value = $user->getExternalOptions('ProfilePassword');
         return $value;
     }
 
@@ -2490,7 +2530,7 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         $user = new User($users_id);
-        return $user->addExternalOptions('ProfilePassword', preg_replace('/[^0-9a-z]/i','',$value));
+        return $user->addExternalOptions('ProfilePassword', preg_replace('/[^0-9a-z]/i', '', $value));
     }
 
 }
