@@ -259,6 +259,9 @@ class LiveTransmition extends ObjectYPT {
         $this->public = intval($this->public);
         $this->saveTransmition = intval($this->saveTransmition);
         $this->showOnTV = intval($this->showOnTV);
+        if(empty($this->password)){
+            $this->password = '';
+        }
         $id = parent::save();
         Category::clearCacheCount();
         Live::deleteStatsCache(true);
