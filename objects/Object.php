@@ -245,6 +245,9 @@ abstract class ObjectYPT implements ObjectInterface {
             $like = array();
             $searchFields = static::getSearchFieldsNames();
             foreach ($searchFields as $value) {
+                if(!str_contains($value, '.') && !str_contains($value, '`')){
+                    $value = "`{$value}`";
+                }
                 $like[] = " {$value} LIKE '%{$search}%' ";
                 // for accent insensitive
                 $like[] = " CONVERT(CAST({$value} as BINARY) USING utf8) LIKE '%{$search}%' ";

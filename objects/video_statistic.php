@@ -23,7 +23,7 @@ class VideoStatistic extends ObjectYPT {
     protected $json;
 
     public static function getSearchFieldsNames() {
-        return array();
+        return array('json', 'ip', 'when', 'user', 'name', 'email', 'channelName');
     }
 
     public static function getTableName() {
@@ -522,10 +522,10 @@ class VideoStatistic extends ObjectYPT {
             return false;
         }
 
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE videos_id=$videos_id ";
+        $sql = "SELECT u.*, vs.* FROM  " . static::getTableName() . " vs LEFT JOIN users u ON vs.users_id = u.id WHERE videos_id=$videos_id ";
 
         $sql .= self::getSqlFromPost();
-        //echo $sql;//exit;
+        //var_dump($_POST['searchPhrase'], $_GET['search']['value'], $sql);exit;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -581,7 +581,7 @@ class VideoStatistic extends ObjectYPT {
             return false;
         }
 
-        $sql = "SELECT count(id) as total FROM  " . static::getTableName() . " WHERE videos_id=$videos_id ";
+        $sql = "SELECT count(vs.id) as total FROM  " . static::getTableName() . " vs LEFT JOIN users u ON vs.users_id = u.id WHERE videos_id=$videos_id ";
 
         $sql .= self::getSqlSearchFromPost();
 
