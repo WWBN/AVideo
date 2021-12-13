@@ -43,7 +43,9 @@ if (!empty($_POST['videoLink'])) {
     $path_parts = pathinfo($_POST['videoLink']);
     $extension = strtolower(@$path_parts["extension"]);
     if (empty($_POST['id']) && !(in_array($extension, $audioLinks) || in_array($extension, $videoLinks))) {
-        $info = url_get_contents($config->getEncoderURL() . "getLinkInfo/" . base64_encode($_POST['videoLink']));
+        $getLinkInfo = $config->getEncoderURL() . "getLinkInfo/" . base64_encode($_POST['videoLink']);
+        _error_log('videoAddNew: '.$getLinkInfo);
+        $info = url_get_contents($getLinkInfo, '', 0, true);
         $infoObj = _json_decode($info);
         $paths = Video::getNewVideoFilename();
         $filename = $paths['filename'];
