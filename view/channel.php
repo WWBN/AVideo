@@ -18,8 +18,9 @@ if ($user->getStatus() === 'i') {
 $isMyChannel = $user_id == User::getId();
 
 $channelPassword = User::getProfilePassword($user_id);
-forbiddenPage('This channel is password protected',false, $channelPassword);
-
+if(!empty($channelPassword)){
+    forbiddenPage('This channel is password protected',false, $channelPassword);
+}
 AVideoPlugin::getChannel($user_id, $user);
 $channelFluidLayout = true;
 // verify the width to match with the old profile bg image
