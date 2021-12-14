@@ -87,7 +87,7 @@
                                 <span class="activeFilter"><?php echo __('All'); ?></span> <span class="caret"></span></button>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#" id="filter<?php echo $value['id']; ?>_" onclick="userGroupFilter(<?php echo $value['id']; ?>, '');return false;"><?php echo __('All'); ?></a></li>
-                                <li><a href="#" id="filter<?php echo $value['id']; ?>_dynamic" onclick="userGroupFilter(<?php echo $value['id']; ?>, 'dynamic');return false;"><i class="fas fa-link"></i> <?php echo __('Dynamic User groups'); ?></a></li>
+                                <li><a href="#" id="filter<?php echo $value['id']; ?>_dynamic" onclick="userGroupFilter(<?php echo $value['id']; ?>, 'dynamic');return false;"><i class="fas fa-link"></i> <?php echo __('Dynamic User groups'); ?> (<?php echo __('Added by a plugin, PPV or Subscription'); ?>)</a></li>
                                 <li><a href="#" id="filter<?php echo $value['id']; ?>_permanent" onclick="userGroupFilter(<?php echo $value['id']; ?>, 'permanent');return false;;"><i class="fas fa-lock"></i> <?php echo __('Permanent User groups'); ?></a></li>
                             </ul>
                         </div>
