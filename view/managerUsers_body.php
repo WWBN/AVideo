@@ -200,10 +200,11 @@
                         <?php
                         foreach ($userGroups as $value) {
                             ?>
-                            <li class="list-group-item">
+                            <li class="list-group-item usergroupsLi" id="usergroupsLi<?php echo $value['id']; ?>">
                                 <span class="fa fa-unlock"></span>
                                 <?php echo $value['group_name']; ?>
                                 <span class="label label-info"><?php echo $value['total_videos']; ?> <?php echo __("Videos linked"); ?></span>
+                                <span class="label label-warning dynamicLabel"><i class="fas fa-link"></i> <?php echo __("Dynamic group"); ?></span>
                                 <div class="material-switch pull-right">
                                     <input id="userGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups"/>
                                     <label for="userGroup<?php echo $value['id']; ?>" class="label-warning"></label>
@@ -321,7 +322,7 @@
         return true;
         //return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
     }
-    
+
     $(document).ready(function () {
 
         startUserGrid("#grid", "?status=a", 0);
@@ -403,20 +404,20 @@ print AVideoPlugin::updateUserFormJS();
         }
         );
     });
-        
+
     var userGroupShowOnly = '';
     var userGroupQueryString = '';
-    function userGroupFilter(user_groups_id, value){
+    function userGroupFilter(user_groups_id, value) {
         console.log('Filter usergroup', user_groups_id, value);
         userGroupShowOnly = value;
-        $('#userGroupTab'+user_groups_id+' .activeFilter').html($('#filter'+user_groups_id+'_'+value).html());
+        $('#userGroupTab' + user_groups_id + ' .activeFilter').html($('#filter' + user_groups_id + '_' + value).html());
         $('.tooltip').tooltip('hide');
-        var selector = '#userGroupGrid'+user_groups_id;
+        var selector = '#userGroupGrid' + user_groups_id;
         if ($(selector).hasClass('bootgrid-table')) {
             $(selector).bootgrid('reload');
         }
     }
-    
+
     function getUserGridURL() {
         var url = webSiteRootURL + "objects/users.json.php" + userGroupQueryString;
         url = addGetParam(url, 'userGroupShowOnly', userGroupShowOnly);
@@ -424,7 +425,7 @@ print AVideoPlugin::updateUserFormJS();
     }
     function startUserGrid(selector, queryString, user_groups_id) {
         userGroupQueryString = queryString;
-        if(user_groups_id){
+        if (user_groups_id) {
             userGroupFilter(user_groups_id, '');
         }
         if ($(selector).hasClass('bootgrid-table')) {
@@ -483,8 +484,15 @@ print AVideoPlugin::updateUserFormJS();
                 $('#inputChannelName').val(row.channelName);
                 $('#inputAnalyticsCode').val(row.analyticsCode);
                 $('.userGroups').prop('checked', false);
+                $('.usergroupsLi').removeClass('dynamic');
+                $('.usergroupsLi input').removeAttr('disabled');
+                
                 for (var index in row.groups) {
                     $('#userGroup' + row.groups[index].id).prop('checked', true);
+                    if(row.groups[index].isDynamic){
+                        $('#usergroupsLi' + row.groups[index].id).addClass('dynamic');
+                        $('#usergroupsLi' + row.groups[index].id+' input').attr("disabled", true);
+                    }
                 }
                 $('#isAdmin').prop('checked', (row.isAdmin == "1" ? true : false));
                 $('#canStream').prop('checked', (row.canStream == "1" ? true : false));
