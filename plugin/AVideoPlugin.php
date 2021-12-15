@@ -876,6 +876,7 @@ class AVideoPlugin {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $appArray = $p->getDynamicUserGroupsId($users_id);
+                //echo $value['dirName']." - {$users_id} - ". json_encode($appArray).PHP_EOL;
                 $array = array_merge($array, $appArray);
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);

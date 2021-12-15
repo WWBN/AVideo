@@ -16,20 +16,24 @@ if(defaultIsPortrait()){
 }else{
     $width = 1280;
     $height = 720;
-    $path = $images->posterLandscapePath;
+    $path = empty($images->posterLandscapePath)?"{$global['systemRootPath']}view/img/notfound.jpg":$images->posterLandscapePath;
     $portreait = 0;
 }
 
 $image = str_replace(array($global['systemRootPath'], DIRECTORY_SEPARATOR), array($global['webSiteRootURL'], '/'), $path);
 
 $image = addQueryStringParameter($image, 'cache', filectime($path));
-//var_dump($image);exit;
+//var_dump($image, $images);exit;
 $croppie1 = getCroppie(__("Upload Poster"), "saveVideo", $width, $height, $viewportWidth);
 echo $croppie1['html'];
 ?>
-
-<button class="btn btn-success btn-lg btn-block" onclick="<?php echo $croppie1['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
+<hr>
+<div class="btn-group btn-group-justified">
+    <button class="btn btn-success btn-lg" onclick="closeWindowAfterImageSave=false;<?php echo $croppie1['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
+    <button class="btn btn-primary btn-lg" onclick="closeWindowAfterImageSave=true;<?php echo $croppie1['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save And Close'); ?></button>
+</div>
 <script>
+    var closeWindowAfterImageSave = false;
     function saveVideo(image) {
         modal.showPleaseWait();
         $.ajax({
@@ -44,7 +48,9 @@ echo $croppie1['html'];
                 modal.hidePleaseWait();
                 avideoResponse(response);
                 if (response && !response.error) {
-                    //avideoModalIframeClose();
+                    if(closeWindowAfterImageSave){
+                        avideoModalIframeClose();
+                    }
                 }
             }
         });

@@ -23,6 +23,7 @@ $video = new Video('', '', $obj->videos_id);
 
 if(isset($_REQUEST['title'])){
     $video->setTitle($_REQUEST['title']);
+    $video->setClean_title($_REQUEST['title']);
 }
 if(isset($_REQUEST['categories_id'])){
     $video->setCategories_id($_REQUEST['categories_id']);
@@ -42,5 +43,7 @@ if(isset($_REQUEST['image'])){
 }
 $obj->save = $video->save();
 $obj->error = empty($obj->save);
-
+if(empty($obj->error)){
+    Video::clearCache($obj->videos_id);
+}
 die(json_encode($obj));

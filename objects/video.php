@@ -3936,7 +3936,18 @@ if (!class_exists('Video')) {
 
         public static function getImageFromID($videos_id, $type = "video") {
             $video = new Video("", "", $videos_id);
-            return self::getImageFromFilename($video->getFilename());
+            $return = self::getImageFromFilename($video->getFilename());
+            if(empty($return->posterLandscapePath)){
+                $path = Video::getPaths($video->getFilename());
+                $return->posterLandscapePath = "{$path['path']}{$path['filename']}.jpg";
+                $return->posterLandscape = "{$path['url']}{$path['filename']}.jpg";
+            }
+            if(empty($return->posterPortraitPath)){
+                $path = Video::getPaths($video->getFilename());
+                $return->posterPortraitPath = "{$path['path']}{$path['filename']}_portrait.jpg";
+                $return->posterPortrait = "{$path['url']}{$path['filename']}_portrait.jpg";
+            }
+            return $return;
         }
 
         public function getViews_count() {
