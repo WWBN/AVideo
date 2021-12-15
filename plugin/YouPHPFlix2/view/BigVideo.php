@@ -18,14 +18,6 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         $images = Video::getImageFromFilename($video['filename'], $video['type']);
         $imgGif = $images->thumbsGif;
         $poster = $images->poster;
-        $canWatchPlayButton = "";
-        $get = $_GET;
-        if (User::canWatchVideoWithAds($video['id'])) {
-            $canWatchPlayButton = "canWatchPlayButton";
-        }else if($obj->hidePlayButtonIfCannotWatch){
-            $canWatchPlayButton = "hidden";
-        }
-        $_GET = $get;
         ?>
         <div style="padding-bottom: 40%;"></div>
         <div class="embed-responsive-16by9" id="bigVideo"

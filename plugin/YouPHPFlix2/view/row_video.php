@@ -127,9 +127,25 @@
         </div>
         <div class="footerBtn">
             <?php
-            if (empty($canWatchPlayButton) && $obj->hidePlayButtonIfCannotWatch) {
+            $canWatchPlayButton = "";
+            $get = $_GET;
+            if (User::canWatchVideoWithAds($value['id'])) {
+                $canWatchPlayButton = "canWatchPlayButton";
+            } else if ($obj->hidePlayButtonIfCannotWatch) {
                 $canWatchPlayButton = "hidden";
+                if (!User::isLogged()) {
+                    $url = "{$global['webSiteRootURL']}user";
+                    $url = addQueryStringParameter($url, 'redirectUri', $rowLink);
+                    ?>
+                    <a class="btn btn-default" 
+                       href="<?php echo $url; ?>">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span class="hidden-xs"><?php echo __("Login"); ?></span>
+                    </a>
+                    <?php
+                }
             }
+            $_GET = $get;
             ?>
             <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" 
                href="<?php echo $rowLink; ?>" 
