@@ -5,7 +5,7 @@ $images = Video::getImageFromID($videos_id);
 if(isMobile()){
     $viewportWidth = 250;
 }else{
-    $viewportWidth = 1024;
+    $viewportWidth = 800;
 }
 
 if(defaultIsPortrait()){
