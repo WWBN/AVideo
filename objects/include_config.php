@@ -157,19 +157,9 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
-if(!empty($_GET['lang'])){
-    _session_start();
-    $_SESSION['language'] = $_GET['lang'];
-}else if (empty($_SESSION['language'])) {
-    _session_start();
-    $_SESSION['language'] = $config->getLanguage();
+if(!empty($_GET['lang']) || !!AVideoPlugin::isEnabledByName('User_Location')){
+    setSiteLang();
 }
-$lang2 = flag2Lang($_SESSION['language']);
-$file = "{$global['systemRootPath']}locale/{$lang2}.php";
-if (file_exists($file)) {
-    include_once $file;
-}
-
 fixSystemPath();
 ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime();
 getDeviceID();

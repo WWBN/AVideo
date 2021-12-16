@@ -100,3 +100,19 @@ function flag2Lang($flagCode){
     }
     return $flagCode;
 }
+
+function setSiteLang() {
+    global $config;
+    if (!empty($_GET['lang'])) {
+        _session_start();
+        $_SESSION['language'] = $_GET['lang'];
+    } else if (empty($_SESSION['language'])) {
+        _session_start();
+        $_SESSION['language'] = $config->getLanguage();
+    }
+    $lang2 = flag2Lang($_SESSION['language']);
+    $file = "{$global['systemRootPath']}locale/{$lang2}.php";
+    if (file_exists($file)) {
+        include_once $file;
+    }
+}
