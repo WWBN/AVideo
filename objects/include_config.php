@@ -157,9 +157,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
-if(!empty($_GET['lang']) || !!AVideoPlugin::isEnabledByName('User_Location')){
-    setSiteLang();
-}
+setSiteLang();
 fixSystemPath();
 ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime();
 getDeviceID();

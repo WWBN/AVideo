@@ -103,16 +103,48 @@ function flag2Lang($flagCode){
 
 function setSiteLang() {
     global $config;
+    
+    $userLocation = false;
+    $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
+    $userLocation = !empty($obj) && !empty($obj->autoChangeLanguage);
+    
     if (!empty($_GET['lang'])) {
         _session_start();
         $_SESSION['language'] = $_GET['lang'];
-    } else if (empty($_SESSION['language'])) {
+    } else if (empty($_SESSION['language']) && !$userLocation) {
         _session_start();
         $_SESSION['language'] = $config->getLanguage();
     }
-    $lang2 = flag2Lang($_SESSION['language']);
-    $file = "{$global['systemRootPath']}locale/{$lang2}.php";
-    if (file_exists($file)) {
-        include_once $file;
-    }
+    return setLanguage($_SESSION['language']);
 }
+
+function setLanguage($lang) {
+        if (empty($lang)) {
+            return false;
+        }
+        global $global;
+        $lang = flag2Lang($lang);
+        if (empty($lang) || $lang === '-') {
+            return false;
+        }
+
+        $file = "{$global['systemRootPath']}locale/{$lang}.php";
+        _session_start();
+        if (file_exists($file)) {
+            $_SESSION['language'] = $lang;
+            include_once $file;
+            return true;
+        } else {
+            _error_log('setLanguage: File does not exists 1 ' . $file);
+            $lang = strtolower($lang);
+            $file = "{$global['systemRootPath']}locale/{$lang}.php";
+            if (file_exists($file)) {
+                $_SESSION['language'] = $lang;
+                include_once $file;
+                return true;
+            } else {
+                _error_log('setLanguage: File does not exists 2 ' . $file);
+            }
+        }
+        return false;
+    }

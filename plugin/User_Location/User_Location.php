@@ -86,58 +86,20 @@ class User_Location extends PluginAbstract {
         return str_replace('-', '_', $parts[0]);
     }
 
-    static function setLanguage($lang) {
-        global $global;
-        $lang = flag2Lang($lang);
-        if (empty($lang) || $lang === '-') {
-            return false;
-        }
-        if (!empty($_SESSION['language'])) {
-            $lang2 = flag2Lang($_SESSION['language']);
-            $file = "{$global['systemRootPath']}locale/{$lang2}.php";
-            if (file_exists($file)) {
-                include_once $file;
-                return true;
-            } else {
-                _error_log('setLanguage: File does not exists 1 ' . $file);
-            }
-        }
-
-        $file = "{$global['systemRootPath']}locale/{$lang}.php";
-        _session_start();
-        if (file_exists($file)) {
-            $_SESSION['language'] = $lang;
-            include_once $file;
-            return true;
-        } else {
-            _error_log('setLanguage: File does not exists 2 ' . $file);
-            $lang = strtolower($lang);
-            $file = "{$global['systemRootPath']}locale/{$lang}.php";
-            if (file_exists($file)) {
-                $_SESSION['language'] = $lang;
-                include_once $file;
-                return true;
-            } else {
-                _error_log('setLanguage: File does not exists 3 ' . $file);
-            }
-        }
-        return false;
-    }
-
     static function setLanguageFromBrowser() {
-        return self::setLanguage(self::getLanguageFromBrowser());
+        return setLanguage(self::getLanguageFromBrowser());
     }
 
     static function setLanguageFromIP() {
         $User_Location = self::getThisUserLocation();
-        return self::setLanguage($User_Location['country_code']);
+        return setLanguage($User_Location['country_code']);
     }
 
     public function getStart() {
         global $global, $config;
         $obj = $this->getDataObject();
         $User_Location = self::getThisUserLocation();
-        if ($obj->autoChangeLanguage) {
+        if ($obj->autoChangeLanguage && empty($_SESSION['language'])) {
             if ($obj->useLanguageFrom->value == 'browser') {
                 $changed = self::setLanguageFromBrowser();
                 if (!$changed) {
