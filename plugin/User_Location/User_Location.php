@@ -89,16 +89,23 @@ class User_Location extends PluginAbstract {
     static function setLanguage($lang) {
         global $global;
         $lang = flag2Lang($lang);
-        if(empty($lang) || $lang === '-'){
+        if (empty($lang) || $lang === '-') {
             return false;
         }
+        if ($lang == 'en') {
+            $lang = 'en_US';
+        }
         if (!empty($_SESSION['language'])) {
-            $file = "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
+            $lang2 = $_SESSION['language'];
+            if ($lang2 == 'en') {
+                $lang2 = 'en_US';
+            }
+            $file = "{$global['systemRootPath']}locale/{$lang2}.php";
             if (file_exists($file)) {
                 include_once $file;
                 return true;
-            }else{
-                _error_log('setLanguage: File does not exists 1 '.$file);
+            } else {
+                _error_log('setLanguage: File does not exists 1 ' . $file);
             }
         }
 
@@ -109,15 +116,15 @@ class User_Location extends PluginAbstract {
             include_once $file;
             return true;
         } else {
-            _error_log('setLanguage: File does not exists 2 '.$file);
+            _error_log('setLanguage: File does not exists 2 ' . $file);
             $lang = strtolower($lang);
             $file = "{$global['systemRootPath']}locale/{$lang}.php";
             if (file_exists($file)) {
                 $_SESSION['language'] = $lang;
                 include_once $file;
                 return true;
-            }else{
-                _error_log('setLanguage: File does not exists 3 '.$file);
+            } else {
+                _error_log('setLanguage: File does not exists 3 ' . $file);
             }
         }
         return false;
@@ -149,7 +156,7 @@ class User_Location extends PluginAbstract {
                 }
             }
             if (!$changed) {
-                _error_log('getStart language: got from config '.$file);
+                _error_log('getStart language: got from config ' . $file);
                 $_SESSION['language'] = $config->getLanguage();
             }
         }
