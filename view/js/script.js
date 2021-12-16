@@ -1688,11 +1688,7 @@ function clearCache(showPleaseWait, FirstPage, sessionOnly) {
         url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=' + FirstPage + '&sessionOnly=' + sessionOnly,
         success: function (response) {
             if (showPleaseWait) {
-                if (!response.error) {
-                    avideoToastSuccess("Your First Page cache has been cleared!");
-                } else {
-                    avideoAlert("Sorry!", "Your First Page cache has NOT been cleared!", "error");
-                }
+                avideoResponse(response);
                 modal.hidePleaseWait();
             }
         }
