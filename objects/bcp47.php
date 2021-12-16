@@ -380,7 +380,7 @@ $global['langs_codes'] = array(
     array('value'=>'es_PE','label'=>'Spanish (Peru)', 'flag'=>'pe'),
     array('value'=>'es_PR','label'=>'Spanish (Puerto Rico)', 'flag'=>'pr'),
     array('value'=>'es_ES','label'=>'Spanish (Spain)', 'flag'=>'es'),
-    array('value'=>'es_US','label'=>'Spanish (United States)', 'flag'=>'us'),
+    //array('value'=>'es_US','label'=>'Spanish (United States)', 'flag'=>'us'),
     array('value'=>'es_UY','label'=>'Spanish (Uruguay)', 'flag'=>'uy'),
     array('value'=>'es_VE','label'=>'Spanish (Venezuela)', 'flag'=>'ve'),
     array('value'=>'es','label'=>'Spanish', 'flag'=>'es'),
