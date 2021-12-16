@@ -453,5 +453,7 @@ foreach ($global['langs_codes'] as $value) {
     $global['langs_codes_values'][] = $value['value'];
     $global['langs_codes_values_withdot'][] = '.'.$value['value'];
 }
+$global['flag2Lang']['en'] = 'en_US';
+$global['flag2Lang']['us'] = 'en_US';
 
 $global['js_availableLangs'] = 'var availableLangs = ' . json_encode($global['langs_codes']) . ';';

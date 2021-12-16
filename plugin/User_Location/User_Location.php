@@ -92,14 +92,8 @@ class User_Location extends PluginAbstract {
         if (empty($lang) || $lang === '-') {
             return false;
         }
-        if ($lang == 'en') {
-            $lang = 'en_US';
-        }
         if (!empty($_SESSION['language'])) {
-            $lang2 = $_SESSION['language'];
-            if ($lang2 == 'en') {
-                $lang2 = 'en_US';
-            }
+            $lang2 = flag2Lang($_SESSION['language']);
             $file = "{$global['systemRootPath']}locale/{$lang2}.php";
             if (file_exists($file)) {
                 include_once $file;

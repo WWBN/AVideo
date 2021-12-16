@@ -156,10 +156,16 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-if (empty($_SESSION['language']) && !AVideoPlugin::isEnabledByName('User_Location')) {
+
+if(!empty($_GET['lang'])){
+    _session_start();
+    $_SESSION['language'] = $_GET['lang'];
+}else if (empty($_SESSION['language'])) {
+    _session_start();
     $_SESSION['language'] = $config->getLanguage();
 }
-$file = "{$global['systemRootPath']}locale/".$config->getLanguage().".php";
+$lang2 = flag2Lang($_SESSION['language']);
+$file = "{$global['systemRootPath']}locale/{$lang2}.php";
 if (file_exists($file)) {
     include_once $file;
 }
