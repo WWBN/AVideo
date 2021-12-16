@@ -1316,10 +1316,20 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         <hr>
                     </li>
                     <?php
+                    if (empty($advancedCustom->disableInstallPWAButton)) {
+                        ?>
+                        <li class="nav-item A2HSInstall" style="display: none;">
+                            <a class="nav-link" href="#" onclick="A2HSInstall();return false;">
+                                <i class="fas fa-arrow-alt-circle-down"></i>
+                                <?php echo __("Install"); ?>
+                            </a>
+                        </li>    
+                        <?php
+                    }
                     if (empty($advancedCustom->disablePlayLink)) {
                         ?>
                         <li class="nav-item">
-                            <a class="nav-link"  href="#" onclick="avideoModalIframeFull(webSiteRootURL+'playLink');return false;">
+                            <a class="nav-link" href="#" onclick="avideoModalIframeFull(webSiteRootURL+'playLink');return false;">
                                 <i class="fas fa-play-circle"></i>
                                 <?php echo __("Play a Link"); ?>
                             </a>

@@ -132,6 +132,7 @@ class CustomizeAdvanced extends PluginAbstract {
             }
         }
 
+        $obj->disableInstallPWAButton = false;
         $obj->disablePlayLink = false;
         $obj->disableHelpLeftMenu = false;
         $obj->disableAboutLeftMenu = false;
