@@ -1885,7 +1885,31 @@ function addGetParam(_url, _key, _value) {
     }
     _url += sep + param;
 
+    _url = removeDuplicatedGetParam(_url);
     return _url;
+}
+
+function removeDuplicatedGetParam(_url){
+    var queryParam = _url.replace(/^[^?]+\?/, '');
+    if(queryParam==''){
+        return _url;
+    }
+    var params = queryParam.split('&'),
+    results = {};
+    for(var i = 0; i < params.length; i++){
+        var temp = params[i].split('='),
+            key = temp[0],
+            val = temp[1];
+
+        results[key] = val;
+    }
+    
+    var newQueryParam = [];
+    for (var key in results) {
+        newQueryParam.push(key+'='+results[key]);
+    }
+    var newQueryParamString = newQueryParam.join('&');
+    return _url.replace(queryParam, newQueryParamString);
 }
 
 function readFileCroppie(input, crop) {
