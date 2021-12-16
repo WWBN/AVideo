@@ -8,6 +8,10 @@ if (!isset($global['systemRootPath'])) {
 header('Content-Type: application/json');
 
 $obj = AVideoPlugin::getDataObject('MobileManager');
+if(empty($obj->pwa_display->value)){
+    $obj->pwa_display->value = 'fullscreen';
+}
+
 
 $pwa = new stdClass();
 
