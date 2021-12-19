@@ -122,8 +122,8 @@ $metaDescription = __("Channels");
                                 </div>
                             </div>
                             <div class="panel-body gallery ">
-                                <div>
-                                    <?php echo stripslashes(str_replace('\\\\\\\n', '<br/>', $value['about'])); ?>
+                                <div  style="margin-left: 120px;">
+                                    <?php echo stripslashes(str_replace('\\\\\\\n', '<br/>', html_entity_decode($value['about']))); ?>
                                 </div>
 
                                 <div class="clearfix" style="margin-bottom: 10px;"></div>
