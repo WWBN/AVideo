@@ -15,7 +15,7 @@
 .flipdown .rotor-top,
 .flipdown .rotor-bottom,
 .flipdown .rotor:after {
-    width: 30px;
+    width: 25px;
 }
 
 .flipdown .rotor-group {
@@ -34,7 +34,7 @@
 
 .flipdown .rotor-group:nth-child(n+2):nth-child(-n+3):before,
 .flipdown .rotor-group:nth-child(n+2):nth-child(-n+3):after {
-    left: 69px;
+    left: 59px;
 }
 
 .flipdown .rotor-group:nth-child(n+2):nth-child(-n+3):before {
