@@ -256,7 +256,7 @@
                     "about": $('#textAbout').val(),
                     "channelName": $('#channelName').val(),
                     "donationLink": $('#donationLink').val(),
-                    "analyticsCode": $('#analyticsCode').val()
+                    "analyticsCode": $('#analyticsCode').val(),
                 },
                 type: 'post',
                 success: function (response) {
@@ -270,7 +270,7 @@
                                 type: "POST",
                                 url: "<?php echo $global['webSiteRootURL']; ?>objects/userSavePhoto.php",
                                 data: {
-                                    imgBase64: resp
+                                    imgBase64: resp,
                                 },
                                 success: function (response) {
                                     modal.hidePleaseWait();

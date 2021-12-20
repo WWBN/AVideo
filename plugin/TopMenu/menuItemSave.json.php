@@ -25,6 +25,10 @@ $menu->setUrl($_POST['url']);
 $menu->setIcon($_POST['icon']);
 $menu->setMenuSeoUrlItem($_POST['menuSeoUrlItem']);
 
+if(!empty($_POST['mobileicon'])){
+    $menu->setIcon($_POST['mobileicon']);
+}
+
 $obj->error = $menu->save();
 
 echo json_encode($obj); ?>

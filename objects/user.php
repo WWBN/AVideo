@@ -1001,9 +1001,15 @@ if (typeof gtag !== \"function\") {
         }
     }
 
-    public static function isLogged() {
+    public static function isLogged($checkForRequestLogin=false) {
         self::recreateLoginFromCookie();
-        return !empty($_SESSION['user']['id']);
+        $isLogged = !empty($_SESSION['user']['id']);
+        if(empty($isLogged) && $checkForRequestLogin){
+            self::loginFromRequest();
+            return !empty($_SESSION['user']['id']);
+        }else{
+            return $isLogged;
+        }
     }
 
     public static function isVerified() {

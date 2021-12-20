@@ -213,7 +213,7 @@ if (!User::canCreateMeet()) {
                         ],
                         select: true,
                         "initComplete": function (settings, json) {
-                            $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+                            $('[data-toggle="tooltip"]').tooltip({container: 'body', html:true});
                         }
                     });
 <?php
@@ -368,7 +368,7 @@ if ($manageMeetings) {
 
                                                     });
                                                     setTimeout(function () {
-                                                        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+                                                        $('[data-toggle="tooltip"]').tooltip({container: 'body', html:true});
                                                     }, 500);
                                                 });
 </script>

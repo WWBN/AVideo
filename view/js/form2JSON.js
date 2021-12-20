@@ -75,7 +75,7 @@ function jsonToForm(json, helper) {
             $('#inputData').val(json);
         });
 
-        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+        $('[data-toggle="tooltip"]').tooltip({container: 'body', html:true});
     })
 }
 

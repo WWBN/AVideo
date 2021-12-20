@@ -840,7 +840,7 @@ function showMuteTooltip() {
         $("#mainVideo .vjs-volume-panel").attr("data-toggle", "tooltip");
         $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
         $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
-        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar'});
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar', html:true});
         $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
         $("#mainVideo .vjs-volume-panel").click(function () {
             console.log("remove unmute tooltip");
@@ -1403,7 +1403,7 @@ function avideoTooltip(selector, text) {
     $(selector).attr('title', text);
     $(selector).attr('data-toggle', 'tooltip');
     $(selector).attr('data-original-title', text);
-    $(selector).tooltip();
+    $(selector).tooltip({html:true});
 }
 
 function fixAdSize() {
@@ -1949,7 +1949,7 @@ async function setToolTips() {
     if (!$('[data-toggle="tooltip"]').not('.alreadyTooltip').length) {
         return false;
     }
-    $('[data-toggle="tooltip"]').not('.alreadyTooltip').tooltip({container: 'body'});
+    $('[data-toggle="tooltip"]').not('.alreadyTooltip').tooltip({container: 'body', html:true});
     $('[data-toggle="tooltip"]').not('.alreadyTooltip').on('click', function () {
         var t = this;
         setTimeout(function () {

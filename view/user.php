@@ -39,25 +39,28 @@ foreach ($tags as $value) {
             if (User::isLogged()) {
                 $user = new User("");
                 $user->loadSelfUser();
-                ?>
-                <div class="row">
-                    <div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading tabbable-line">
-                                <div class="pull-right">
-                                    <?php echo $tagsStr; ?>
-                                </div>
-                                <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#basicInfo" id="aBasicInfo"><?php echo __("Basic Info") ?></a></li>
+                if (!empty($_REQUEST['basicInfoOnly'])) {
+                    include $global['systemRootPath'] . './view/userBasicInfo.php';
+                } else {
+                    ?>
+                    <div class="row">
+                        <div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading tabbable-line">
+                                    <div class="pull-right">
+                                        <?php echo $tagsStr; ?>
+                                    </div>
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-toggle="tab" href="#basicInfo" id="aBasicInfo"><?php echo __("Basic Info") ?></a></li>
 
-                                    <?php if (empty($advancedCustomUser->disablePersonalInfo)) { ?>
-                                        <li><a data-toggle="tab" href="#personalInfo" id="aPersonalInfo"><?php echo __("Personal Info") ?></a></li>
-                                    <?php } ?>
-                                    <?php echo AVideoPlugin::profileTabName($user->getId()); ?>
-                                </ul>
-                            </div>
-                            <div class="panel-body">
-                                <div class="tab-content">
+                                        <?php if (empty($advancedCustomUser->disablePersonalInfo)) { ?>
+                                            <li><a data-toggle="tab" href="#personalInfo" id="aPersonalInfo"><?php echo __("Personal Info") ?></a></li>
+                                        <?php } ?>
+                                        <?php echo AVideoPlugin::profileTabName($user->getId()); ?>
+                                    </ul>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="tab-content">
                                         <div id="basicInfo" class="tab-pane fade in active" style="padding: 10px 0;">
                                             <?php
                                             include $global['systemRootPath'] . './view/userBasicInfo.php';
@@ -71,15 +74,16 @@ foreach ($tags as $value) {
                                                 ?>
                                             </div>
                                         <?php } ?>
-                                    <?php echo AVideoPlugin::profileTabContent($user->getId()); ?>
+                                        <?php echo AVideoPlugin::profileTabContent($user->getId()); ?>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
-
                     </div>
-                </div>
 
-                <?php
+                    <?php
+                }
             } else {
                 include $global['systemRootPath'] . './view/userLogin.php';
             }

@@ -524,7 +524,7 @@ $uuidJSCondition = implode(" && ", $rowId);
         }).on("loaded.rs.jquery.bootgrid", function () {
             $('[data-toggle="tooltip"], .tooltip').tooltip("hide");
             setTimeout(function(){
-                $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+                $('[data-toggle="tooltip"]').tooltip({container: 'body',html:true});
             },500);
             /* Executes after data is loaded and rendered */
             grid.find(".pluginSwitch").on("change", function (e) {
