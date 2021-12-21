@@ -255,18 +255,22 @@ class PlayLists extends PluginAbstract {
         }
     }
 
-    static function getLink($playlists_id, $embed = false) {
+    static function getLink($playlists_id, $embed = false, $playlist_index=null) {
         global $global;
         $obj = AVideoPlugin::getObjectData("PlayLists");
         if ($embed) {
-            return $global['webSiteRootURL'] . "plugin/PlayLists/embed.php?playlists_id=" . $playlists_id;
+            $url = $global['webSiteRootURL'] . "plugin/PlayLists/embed.php?playlists_id=" . $playlists_id;
         } else {
             if (empty($obj->useOldPlayList)) {
-                return $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
+                $url = $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
             } else {
-                return $global['webSiteRootURL'] . "program/" . $playlists_id;
+                $url = $global['webSiteRootURL'] . "program/" . $playlists_id;
             }
         }
+        if(isset($playlist_index)){
+            $url = addQueryStringParameter($url, 'playlist_index', $playlist_index);
+        }
+        return $url;
     }
 
     public function navBarButtons() {
