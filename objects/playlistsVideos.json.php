@@ -41,8 +41,8 @@ foreach ($videos as $key => $value) {
     $videos[$key]['imageClass'] = !empty($objMob->portraitImage)?"portrait":"landscape";
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
-    $videos[$key]['pageUrl'] = Video::getLink($videos[$key]['videos_id'], $videos[$key]['clean_title'], false);
-    $videos[$key]['embedUrl'] = Video::getLink($videos[$key]['videos_id'], $videos[$key]['clean_title'], true);
+    $videos[$key]['pageUrl'] =  PlayLists::getLink($videos[$key]["id"], false);
+    $videos[$key]['embedUrl'] = PlayLists::getLink($videos[$key]["id"], true);
     unset($_POST['sort'], $_POST['current'], $_POST['searchPhrase']);
     $_REQUEST['rowCount'] = 10;
     $_POST['sort']['created'] = "desc";
