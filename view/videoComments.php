@@ -232,8 +232,8 @@ if (User::canSeeCommentTextarea()) {
                                 method: 'POST',
                                 data: {'comment': comment, 'video': video, 'comments_id': comments_id, 'id': id},
                                 success: function (response) {
-                                    if (response.status > 0) {
-                                        avideoToast("<?php echo __("Your comment has been saved!"); ?>");
+                                    avideoResponse(response);
+                                    if (!response.error) {
                                         if (comments_id) {
                                             if ($('.grid' + comments_id).hasClass('bootgrid-table')) {
                                                 $('.grid' + comments_id).bootgrid('reload');
@@ -245,8 +245,6 @@ if (User::canSeeCommentTextarea()) {
                                             $('#grid').bootgrid('reload');
                                         }
                                         addCommentCount(comments_id, 1);
-                                    } else {
-                                        avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been saved!"); ?>", "error");
                                     }
                                     modal.hidePleaseWait();
                                 }
