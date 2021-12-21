@@ -62,7 +62,7 @@ function isCommentASpam($comment, $videos_id){
         return $obj;
     }
     
-    // if you already comment 3x or +_+ on the same video you must wait 30 seconds
+    // if you already comment 3 times or more on the same video you must wait 30 seconds
     if($_SESSION['comments']['_avideo_count_comments_'.$videos_id]>3){
         $rest = $_SESSION['comments']['_avideo_last_comment'] - ($obj->time-30); 
         if($rest>0){
@@ -73,7 +73,7 @@ function isCommentASpam($comment, $videos_id){
     
     $index = preg_replace('/[^0-9a-z]/i', '', $comment);
     $obj->index = $index;
-    // if you can only repeat the comment each 60 seconds
+    // you can only repeat the comment (equal or similar) each 60 seconds
     if(!empty($_SESSION['comments'][$index])){
         $rest = $_SESSION['comments'][$index]->time - ($obj->time-60); 
         if($rest>0){
