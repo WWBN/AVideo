@@ -77,7 +77,7 @@ function isCommentASpam($comment, $videos_id){
     if(!empty($_SESSION['comments'][$index])){
         $rest = $_SESSION['comments'][$index]->time - ($obj->time-60); 
         if($rest>0){
-            $obj->msg = __('Please wait to comment again').', '.$rest.' '.__('Seconds');
+            $obj->msg = __('You just comment something similar, please wait to comment again').', '.$rest.' '.__('Seconds');
             return $obj;            
         }
     }
