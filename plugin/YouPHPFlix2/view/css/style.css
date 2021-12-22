@@ -174,6 +174,7 @@ a:visited {
     padding: 10px;
     position: relative;
     min-height: 500px;
+    height: 100vh;
 }
 
 
