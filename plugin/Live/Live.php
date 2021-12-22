@@ -1472,6 +1472,18 @@ class Live extends PluginAbstract {
         }
         return $lt->userCanSeeTransmition();
     }
+    
+    static function isPasswordProtected($key) {
+        $lt = self::getLiveTransmitionObjectFromKey($key);
+        if (empty($lt)) {
+            return false;
+        }
+        $password = $lt->getPassword();
+        if(!empty($password)){
+            return true;
+        }
+        return false;
+    }
 
     static function canManageLiveFromLiveKey($key, $users_id) {
         if (empty($users_id)) {
@@ -1622,6 +1634,11 @@ class Live extends PluginAbstract {
                 $title = $row['title'];
                 $u = new User($row['users_id']);
                 $hiddenName = preg_replace('/^(.{5})/', '*****', $value->name);
+                
+                if (self::isPasswordProtected($value->name)) {
+                    $title = "<i class=\"fas fa-lock\"></i> {$title}";
+                } 
+                
                 //_error_log('Live::isLiveFromKey:_getStats '. json_encode($_SERVER));
                 if (!self::canSeeLiveFromLiveKey($value->name)) {
                     $obj->hidden_applications[] = array(
@@ -1637,17 +1654,7 @@ class Live extends PluginAbstract {
                     }
                 } else
                 if (empty($row) || empty($row['public'])) {
-                    $obj->hidden_applications[] = array(
-                        "key" => $value->name,
-                        "name" => $row['channelName'],
-                        "user" => $row['channelName'],
-                        "title" => "{$row['channelName']} ($hiddenName} " . __("is set to not be listed")
-                    );
-                    if (!User::isAdmin()) {
-                        continue;
-                    } else {
-                        $title .= __(" (set to not be listed)");
-                    }
+                    $title .= __(" (set to not be listed)");
                 } else
                 if ($u->getStatus() !== 'a') {
                     $obj->hidden_applications[] = array(
