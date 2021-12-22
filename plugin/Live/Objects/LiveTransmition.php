@@ -317,11 +317,13 @@ class LiveTransmition extends ObjectYPT {
         if (User::isAdmin()) {
             return true;
         }
-        
+        /*
         $password = $this->getPassword();
         if(!empty($password) && !Live::passwordIsGood($this->getKey())){
             return false;
         }
+         * 
+         */
         
         $transmitionGroups = $this->getGroups();
         if (!empty($transmitionGroups)) {
