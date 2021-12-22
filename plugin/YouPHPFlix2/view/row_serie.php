@@ -10,8 +10,8 @@
     <div class="topicRow">
         <h2 class="infoTitle">
             <?php
-            $link = PlayLists::getLink($value['serie_playlists_id']);
-            $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
+            $rowLink = $link = PlayLists::getLink($value['serie_playlists_id']);
+            $rowLinkEmbed = $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
             $canWatchPlayButton = "";
             if (User::canWatchVideoWithAds($value['id'])) {
                 $canWatchPlayButton = "canWatchPlayButton";
@@ -22,6 +22,11 @@
             echo $value['title'];
             ?>
         </h2>
+        <div class="col-sm-12">
+        <?php
+        include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_info.php';
+        ?>
+        </div>
         <div id="ajaxLoad-<?php echo $uid; ?>" class="flickity-area col-sm-12"><?php echo __('Loading...'); ?></div>
     </div>
 </div>
