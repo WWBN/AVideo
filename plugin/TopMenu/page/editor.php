@@ -22,7 +22,6 @@ $groups = UserGroups::getAllUsersGroups();
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css"/>
-        <link href="<?php echo getCDN(); ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
         <style>
             #sortable li{
@@ -271,7 +270,6 @@ $groups = UserGroups::getAllUsersGroups();
     include $global['systemRootPath'] . 'view/include/footer.php';
     ?>
     <script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
-    <script src="<?php echo getCDN(); ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
     <script src="<?php echo getCDN(); ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.js" type="text/javascript"></script>  
     <script>
             var currentItem = [];
