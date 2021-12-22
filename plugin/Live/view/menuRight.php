@@ -94,7 +94,7 @@ if (empty($obj->hideTopButton)) {
             </div>
         </a>
 
-        <a class="h6 galleryLink " href="_link_" title="_title_" >
+        <a class="h6 galleryLink " href="_link_" >
             <strong class="title liveTitle"><?php echo __("Title"); ?></strong>
         </a>
         <div class="galeryDetails" style="overflow: hidden;">
