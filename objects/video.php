@@ -4012,7 +4012,7 @@ if (!class_exists('Video')) {
          * @param type $type URLFriendly or permalink
          * @return String a web link
          */
-        public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly", $get = array()) {
+        public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly", $get = array(), $ignoreChannelname = false) {
             global $global, $advancedCustomUser, $advancedCustom;
             if (!empty($_GET['evideo'])) {
                 $v = self::decodeEvideo();
@@ -4036,8 +4036,10 @@ if (!class_exists('Video')) {
             }
             $video = new Video("", "", $videos_id);
 
-            if ($advancedCustomUser->addChannelNameOnLinks) {
+            if (!$ignoreChannelname && $advancedCustomUser->addChannelNameOnLinks) {
                 $get['channelName'] = $video->getChannelName();
+            }else if($ignoreChannelname){
+                $get['channelName'] = null;
             }
 
             unset($get['v'], $get['videoName'], $get['videoName'], $get['isMediaPlaySite'], $get['parentsOnly']);

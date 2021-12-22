@@ -1,8 +1,13 @@
 <?php
 global $socialAdded, $global;
 $titleSocial = @$title;
+$urlShort = $url;
+if(empty($video['id']) && !empty(getVideos_id())){
+    $video['id'] = getVideos_id();
+}
 if (!empty($video['id'])) {
     $url = Video::getLinkToVideo($video['id']);
+    $urlShort = Video::getLinkToVideo($video['id'], '', false, "short", array(), true);
     if (!empty($video['title'])) {
         $titleSocial = $video['title'];
     } else {
@@ -42,28 +47,31 @@ $socialAdded = 1;
 $social_medias = array(
     new SocialMedias($href, $class, $title, $iclass, $img, $onclick)
 );
-
-
 ?>
 <ul class="social-network social-circle">
     <?php
     $loaderSequenceName = uniqid();
     foreach ($global['social_medias'] as $key => $value) {
         eval("\$show = \$advancedCustom->showShareButton_{$key};");
-        if(empty($show)){
+        if (empty($show)) {
             continue;
         }
-        $url = $global['social_medias_'.$key];
-        if(empty($value->img)){
-            echo '<li class=""><a href="'.$url.'" target="_blank" class="ico'.$key.' '.getCSSAnimationClassAndStyle('animate__bounceIn', $loaderSequenceName).'" title="'.$key.'" data-toggle="tooltip" ><i class="'.$value->iclass.'"></i></a></li>';
-        }else{
-            echo '<li class=""><a href="'.$url.'" target="_blank" class="ico'.$key.' '.getCSSAnimationClassAndStyle('animate__bounceIn', $loaderSequenceName).'" title="'.$key.'" data-toggle="tooltip" ><i class="fas"><img src="'.$value->img.'" title="'.$key.'" style="height: 30px;"/></i></a></li>';
+        $url = $global['social_medias_' . $key];
+        if (empty($value->img)) {
+            echo '<li class=""><a href="' . $url . '" target="_blank" class="ico' . $key . ' ' . getCSSAnimationClassAndStyle('animate__bounceIn', $loaderSequenceName) . '" title="' . $key . '" data-toggle="tooltip" ><i class="' . $value->iclass . '"></i></a></li>';
+        } else {
+            echo '<li class=""><a href="' . $url . '" target="_blank" class="ico' . $key . ' ' . getCSSAnimationClassAndStyle('animate__bounceIn', $loaderSequenceName) . '" title="' . $key . '" data-toggle="tooltip" ><i class="fas"><img src="' . $value->img . '" title="' . $key . '" style="height: 30px;"/></i></a></li>';
         }
     }
     ?>
     <li>
-        <a href="#" class="icoCopy <?php echo getCSSAnimationClassAndStyle('animate__bounceIn', $loaderSequenceName); ?>" title="<?php echo __('Copy to Clipboard'); ?>" data-toggle="tooltip" onclick="copyToClipboard('<?php echo urldecode($urlSocial); ?>');$(this).closest('.modal').modal('hide');return false;" >
+        <a href="#" class="icoCopy <?php echo getCSSAnimationClassAndStyle('animate__bounceIn', $loaderSequenceName); ?>" title="<?php echo __('Copy to Clipboard'); ?>" data-toggle="tooltip" onclick="copyToClipboard('<?php echo $urlShort; ?>');$(this).closest('.modal').modal('hide');return false;" >
             <i class="far fa-copy"></i>
         </a>
     </li>
 </ul>
+<div style="margin-top: 10px;">
+    <?php
+    getInputCopyToClipboard(uniqid(), $urlShort, 'class="form-control" readonly="readonly" style="background-color: #EEE; color: #000;"');
+    ?>
+</div>
