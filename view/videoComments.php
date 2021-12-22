@@ -61,6 +61,7 @@ if (User::canSeeCommentTextarea()) {
                 </button>
                 <?php
             }
+            if(empty($advancedCustom->removeThumbsUpAndDown)){
             ?>
             <button class="faa-parent animated-hover btn btn-default no-outline btn-xs replyLikeBtn"> 
                 <span class="fa fa-thumbs-up faa-bounce"></span>
@@ -69,7 +70,10 @@ if (User::canSeeCommentTextarea()) {
             <button class="faa-parent animated-hover btn btn-default no-outline btn-xs replyDislikeBtn"> 
                 <span class="fa fa-thumbs-down faa-bounce faa-reverse"></span>
                 <small>0</small>
-            </button>           
+            </button>
+            <?php
+            }
+            ?>
             <button class="btn btn-default no-outline allReplies btn-xs viewAllReplies">  
                 <?php echo __("View all replies"); ?> (<span class="total_replies">0</span>) <i class="fa fa-chevron-down" aria-hidden="true"></i>
             </button> 
