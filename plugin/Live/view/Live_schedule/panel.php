@@ -76,8 +76,10 @@ global $Schedulecount;
     </div>
     <div class="panel-footer">
         <button class="btn btn-primary " onclick="resetSchedule()"><i class="fas fa-plus"></i> <?php echo __("New"); ?></button>
-        <button class="btn btn-success " id="saveScheduleLive"><i class="fas fa-save"></i> <?php echo __("Save Schedule"); ?></button>
-        <button class="btn btn-warning " id="saveScheduleLiveAndClose"><i class="fas fa-save"></i> <?php echo __("Save Schedule and Close"); ?></button>
+        <button class="btn btn-success " id="saveScheduleLive" onclick="saveSchedule(false);"><i class="fas fa-save"></i> <?php echo __("Save Schedule"); ?></button>
+        <!--
+        <button class="btn btn-warning " id="saveScheduleLiveAndClose" onclick="saveSchedule(true);"><i class="fas fa-save"></i> <?php echo __("Save Schedule and Close"); ?></button>
+        -->
     </div>
 </div>
 <div id="Live_schedulebtnModelList" style="display: none;">
@@ -126,12 +128,6 @@ global $Schedulecount;
 
                     $('#scheduled_time').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
                     $('#Live_schedulestart_sell_in').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
-                    $('#saveScheduleLive').click(function () {
-                        saveSchedule(false);
-                    });
-                    $('#saveScheduleLiveAndClose').click(function () {
-                        saveSchedule(true);
-                    });
                     listScheduledLives();
                 });
 

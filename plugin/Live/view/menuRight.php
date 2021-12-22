@@ -69,7 +69,7 @@ if (empty($obj->hideTopButton)) {
                     }
                     if (Live::canScheduleLive()) {
                         ?>
-                        <button class="btn btn-primary btn-sm" onclick="avideoModalIframe(webSiteRootURL + 'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>" >
+                        <button class="btn btn-primary btn-sm" onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>" >
                             <i class="far fa-calendar"></i> <span class="hidden-sm hidden-xs"><?php echo __('Schedule'); ?></span>
                         </button>
                         <?php
