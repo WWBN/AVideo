@@ -133,7 +133,7 @@ function clean_name(str) {
 
 var processing_lazyImage = false;
 function lazyImage() {
-    if(processing_lazyImage){
+    if (processing_lazyImage) {
         return false;
     }
     processing_lazyImage = true;
@@ -158,12 +158,12 @@ function lazyImage() {
                                 effect: 'fadeIn'
                             });
                             /*
-                            gif.addClass('animate__animated');
-                            gif.addClass('animate__bounceIn');
-                            gif.css('-webkit-animation-delay', step+"s");
-                            gif.css('animation-delay', "1s");
-                            */
-                            
+                             gif.addClass('animate__animated');
+                             gif.addClass('animate__bounceIn');
+                             gif.css('-webkit-animation-delay', step+"s");
+                             gif.css('animation-delay', "1s");
+                             */
+
                             gif.height(element.height());
                             gif.width(element.width());
                             //console.log('lazyImage', gif);
@@ -178,7 +178,7 @@ function lazyImage() {
         }
     } catch (e) {
     }
-    processing_lazyImage=false;
+    processing_lazyImage = false;
 }
 
 lazyImage();
@@ -261,7 +261,7 @@ function changeVideoSrc(vid_obj, source) {
     setTimeout(function () {
         if (autoLoad) {
             changeVideoSrcLoad();
-        }else{
+        } else {
             player.play();
         }
     }, 1000);
@@ -536,8 +536,8 @@ function addViewFromCookie() {
     if (typeof webSiteRootURL == 'undefined') {
         return false;
     }
-    if(_addViewFromCookie_addingtime){
-       return false; 
+    if (_addViewFromCookie_addingtime) {
+        return false;
     }
     _addViewFromCookie_addingtime = true;
     var addView_PHPSESSID = Cookies.get('addView_PHPSESSID');
@@ -628,7 +628,7 @@ function nl2br(str, is_xhtml) {
 function inIframe() {
     var url = new URL(location.href);
     var avideoIframe = url.searchParams.get("avideoIframe");
-    if(avideoIframe && avideoIframe !== 0){
+    if (avideoIframe && avideoIframe !== 0) {
         return true;
     }
     try {
@@ -840,7 +840,7 @@ function showMuteTooltip() {
         $("#mainVideo .vjs-volume-panel").attr("data-toggle", "tooltip");
         $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
         $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
-        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar', html:true});
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar', html: true});
         $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
         $("#mainVideo .vjs-volume-panel").click(function () {
             console.log("remove unmute tooltip");
@@ -1264,14 +1264,14 @@ function avideoModalIframeClose() {
     try {
         swal.close();
     } catch (e) {
-        
+
     }
     try {
-        if(inIframe()){
+        if (inIframe()) {
             window.parent.swal.close();
         }
     } catch (e) {
-        
+
     }
 }
 
@@ -1295,7 +1295,7 @@ function avideoModalIframeLarge(url) {
 
 var avideoModalIframeFullScreenOriginalURL = false;
 function avideoModalIframeFullScreen(url) {
-    if(!avideoModalIframeFullScreenOriginalURL){
+    if (!avideoModalIframeFullScreenOriginalURL) {
         avideoModalIframeFullScreenOriginalURL = document.location.href;
     }
     window.history.pushState("", "", url);
@@ -1309,17 +1309,27 @@ function avideoModalIframeFullScreenClose() {
     avideoModalIframeFullScreenOriginalURL = false;
 }
 
+window.onload = function () {
+    if (typeof history.pushState === "function") {
+        console.log('history.pushState loaded');
+        window.onpopstate = function () {
+            console.log('onpopstate');
+            avideoModalIframeFullScreenClose();
+        };
+    }
+}
+
 function avideoModalIframeFull(url) {
     avideoModalIframeFullScreen(url);
 }
-""
+
 function avideoModalIframeWithClassName(url, className) {
     url = addGetParam(url, 'avideoIframe', 1);
     var html = '';
     html = '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
     html += '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
     html += '<i class="fas fa-chevron-left"></i>';
-    html += '</button><img src="'+webSiteRootURL +'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;"></div>';
+    html += '</button><img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;"></div>';
     html += '<iframe frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
     var span = document.createElement("span");
     span.innerHTML = html;
@@ -1367,7 +1377,7 @@ function avideoModalIframeRemove() {
 
 function avideoResponse(response) {
     console.log('avideoResponse', response);
-    if(typeof response == 'string'){
+    if (typeof response == 'string') {
         response = JSON.parse(response);
     }
     console.log('avideoResponse', response);
@@ -1403,7 +1413,7 @@ function avideoTooltip(selector, text) {
     $(selector).attr('title', text);
     $(selector).attr('data-toggle', 'tooltip');
     $(selector).attr('data-original-title', text);
-    $(selector).tooltip({html:true});
+    $(selector).tooltip({html: true});
 }
 
 function fixAdSize() {
@@ -1543,7 +1553,7 @@ $(document).ready(function () {
             },
             setProgress: function (valeur) {
                 var element = $('#pleaseWaitDialog').find('.progress');
-                console.log('showPleaseWait setProgress',element);
+                console.log('showPleaseWait setProgress', element);
                 element.slideDown();
                 $('#pleaseWaitDialog').find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
             },
@@ -1890,24 +1900,24 @@ function addGetParam(_url, _key, _value) {
     return _url;
 }
 
-function removeDuplicatedGetParam(_url){
+function removeDuplicatedGetParam(_url) {
     var queryParam = _url.replace(/^[^?]+\?/, '');
-    if(queryParam==''){
+    if (queryParam == '') {
         return _url;
     }
     var params = queryParam.split('&'),
-    results = {};
-    for(var i = 0; i < params.length; i++){
+            results = {};
+    for (var i = 0; i < params.length; i++) {
         var temp = params[i].split('='),
-            key = temp[0],
-            val = temp[1];
+                key = temp[0],
+                val = temp[1];
 
         results[key] = val;
     }
-    
+
     var newQueryParam = [];
     for (var key in results) {
-        newQueryParam.push(key+'='+results[key]);
+        newQueryParam.push(key + '=' + results[key]);
     }
     var newQueryParamString = newQueryParam.join('&');
     return _url.replace(queryParam, newQueryParamString);
@@ -1949,7 +1959,7 @@ async function setToolTips() {
     if (!$('[data-toggle="tooltip"]').not('.alreadyTooltip').length) {
         return false;
     }
-    $('[data-toggle="tooltip"]').not('.alreadyTooltip').tooltip({container: 'body', html:true});
+    $('[data-toggle="tooltip"]').not('.alreadyTooltip').tooltip({container: 'body', html: true});
     $('[data-toggle="tooltip"]').not('.alreadyTooltip').on('click', function () {
         var t = this;
         setTimeout(function () {
@@ -2058,14 +2068,14 @@ function socketClearSessionCache(json) {
     clearCache(false, 0, 1);
 }
 
-function animateChilds(selector, type, delay){
+function animateChilds(selector, type, delay) {
     var step = delay;
     $(selector).children().each(function () {
         var $currentElement = $(this);
         $currentElement.addClass('animate__animated');
         $currentElement.addClass(type);
-        $currentElement.css('-webkit-animation-delay', step+"s");
-        $currentElement.css('animation-delay', step+"s");
-        step+=delay;
+        $currentElement.css('-webkit-animation-delay', step + "s");
+        $currentElement.css('animation-delay', step + "s");
+        step += delay;
     });
 }
