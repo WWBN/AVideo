@@ -205,6 +205,8 @@ class ReportVideo extends PluginAbstract
         $resp = new stdClass();
         $resp->error = true;
         $resp->msg = "Block not made";
+        $resp->reported_users_id = intval($reported_users_id);
+        $resp->users_id = intval($users_id);
 
         if (empty($report)) {
             //save it on the database

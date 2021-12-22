@@ -16,8 +16,12 @@ $_SESSION['user']['sessionCache']['getAllCategoriesClearCache'] = 1;
 if (!Permissions::canClearCache() || !empty($_REQUEST['sessionOnly'])) {
     $obj->deleteAllSessionCache = ObjectYPT::deleteAllSessionCache();
 }else{
-    $obj->clearCache = clearCache();
-    $obj->deleteALLCache = ObjectYPT::deleteALLCache();
+    if(!empty($_REQUEST['FirstPage'])){
+        $obj->firstPageCache = clearCache(true);
+    }else{
+        $obj->clearCache = clearCache();
+        $obj->deleteALLCache = ObjectYPT::deleteALLCache();
+    }
 }
 $obj->error = false;
 die(json_encode($obj));

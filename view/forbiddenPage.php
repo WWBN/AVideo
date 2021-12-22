@@ -13,7 +13,9 @@ $global['isForbidden'] = true;
     </head>
     <body>
         <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
+        if(!isEmbed()){
+            include $global['systemRootPath'] . 'view/include/navbar.php';
+        }
         CustomizeUser::autoIncludeBGAnimationFile();
         ?>
         <div class="container">

@@ -3937,7 +3937,7 @@ function clearCache($firstPageOnly = false) {
     $tmpDir = ObjectYPT::getCacheDir('firstPage');
     $parts = explode('firstpage', $tmpDir);
 
-    if ($firstPageOnly || !empty($_GET['FirstPage'])) {
+    if ($firstPageOnly || !empty($_REQUEST['FirstPage'])) {
         $tmpDir = $parts[0] . 'firstpage' . DIRECTORY_SEPARATOR;
         //var_dump($tmpDir);exit;
         $dir .= "firstPage" . DIRECTORY_SEPARATOR;

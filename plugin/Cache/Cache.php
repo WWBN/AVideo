@@ -125,7 +125,12 @@ class Cache extends PluginAbstract {
 
         $isBot = isBot();
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
-            $cacheName = 'firstPage' . DIRECTORY_SEPARATOR . $this->getFileName();
+            $cacheName = $this->getFileName();
+            
+            if($this->isFirstPage()){
+                $cacheName = 'firstPage' . DIRECTORY_SEPARATOR . $cacheName;
+            }
+            
             $lifetime = $obj->cacheTimeInSeconds;
             if ($isBot && $lifetime < 3600) {
                 $lifetime = 3600;
@@ -188,7 +193,11 @@ class Cache extends PluginAbstract {
          */
 
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
-            $cacheName = 'firstPage' . DIRECTORY_SEPARATOR . $this->getFileName();
+            $cacheName = $this->getFileName();
+            
+            if($this->isFirstPage()){
+                $cacheName = 'firstPage' . DIRECTORY_SEPARATOR . $cacheName;
+            }
 
             $c = preg_replace('/<script id="infoForNonCachedPages">[^<]+<\/script>/', '', $c);
 
@@ -340,6 +349,11 @@ class Cache extends PluginAbstract {
     
     public static function deleteAllCache() {
         return CachesInDB::_deleteAllCache();
+    }
+    
+    public static function deleteFirstPageCache() {
+        clearCache(true);
+        return CachesInDB::_deleteCacheStartingWith('firstPage');
     }
 
 }

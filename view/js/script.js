@@ -1308,7 +1308,7 @@ function avideoModalIframeFullScreenClose() {
     window.history.pushState("", "", avideoModalIframeFullScreenOriginalURL);
     avideoModalIframeFullScreenOriginalURL = false;
 }
-
+// this is to make sure when the use click on the back page button it will close the iframe
 window.onload = function () {
     if (typeof history.pushState === "function") {
         console.log('history.pushState loaded');

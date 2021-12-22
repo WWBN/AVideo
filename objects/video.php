@@ -554,6 +554,9 @@ if (!class_exists('Video')) {
                     die('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
                 self::clearCache($this->id);
+                if($this->status==Video::$statusActive || $status==Video::$statusActive && ($this->status != $status)){
+                    clearCache(true); 
+                }
             }
             AVideoPlugin::onVideoSetStatus($this->id, $this->status, $status);
             $this->status = $status;
