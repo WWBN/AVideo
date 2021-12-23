@@ -29,7 +29,7 @@ class Menu extends ObjectYPT {
         8=>'Mobile Tab Menu',
         9=>'Mobile Left Menu',
         10=>'Mobile Tab Menu in a Browser',
-        11=>'Mobile Tab Left in a Browser');
+        11=>'Mobile Left in a Browser');
 
     protected $id, $menuName, $categories_id, $users_groups_id, $menu_order, $status, $position, $type, $icon, $menuSeoUrl;
 
