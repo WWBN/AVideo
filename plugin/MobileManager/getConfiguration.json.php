@@ -15,9 +15,11 @@ if(!empty($obj->YPTSocket)){
     $obj->webSocketTypes = json_encode($refl->getConstants());
     $obj->webSocketURL = addQueryStringParameter(YPTSocket::getWebSocketURL(true), 'page_title', 'Mobile APP');
 }
+$obj->tabMenuItems = array(); 
+$obj->leftMenuItems = array(); 
+$obj->tabMenuItemsInABrowser = array(); 
+$obj->leftMenuItemsInABrowser = array(); 
 if(AVideoPlugin::isEnabledByName("TopMenu")){
-    $obj->tabMenuItems = array(); 
-    $obj->leftMenuItems = array(); 
     if(empty($_POST['sort'])){
         $_POST['sort'] = array('item_order'=>"ASC");
     }
@@ -32,6 +34,22 @@ if(AVideoPlugin::isEnabledByName("TopMenu")){
     foreach ($tabMenu as $key => $value) {
         $menuItems = MenuItem::getAllFromMenu($value['id'], true);
         foreach ($menuItems as $value2) {
+            $obj->leftMenuItems[] = $value2; 
+        }
+    }
+    $tabMenu = Menu::getAllActive(Menu::$typeMobileTabMenuInABrowser); 
+    foreach ($tabMenu as $key => $value) {
+        $menuItems = MenuItem::getAllFromMenu($value['id'], true);
+        foreach ($menuItems as $value2) {
+            $value2['target'] = '_blank';
+            $obj->tabMenuItems[] = $value2; 
+        }
+    }
+    $tabMenu = Menu::getAllActive(Menu::$typeMobileLeftMenuInABrowser); 
+    foreach ($tabMenu as $key => $value) {
+        $menuItems = MenuItem::getAllFromMenu($value['id'], true);
+        foreach ($menuItems as $value2) {
+            $value2['target'] = '_blank';
             $obj->leftMenuItems[] = $value2; 
         }
     }
