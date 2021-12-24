@@ -66,19 +66,19 @@ require_once '../locale/function.php';
                                 }
                                 ?>
                                 <?php
-                                if (isPHP("5.6")) {
+                                if (isPHP('7.3')) {
                                     ?>
                                     <div class="alert alert-success">
                                         <span class="glyphicon glyphicon-check"></span>
-                                        <strong>PHP <?php echo PHP_VERSION; ?> is Present</strong>
+                                        <strong>PHP <?php echo PHP_VERSION; ?> is present.</strong>
                                     </div>
                                     <?php
                                 } else {
                                     ?>
                                     <div class="alert alert-warning">
                                         <span class="glyphicon glyphicon-exclamation-sign"></span>
-                                        <strong>Your PHP version is <?php echo PHP_VERSION; ?>, we recommend install PHP 5.6.x or greater</strong>
-                                    </div>                  
+                                        <strong>Your PHP version is <?php echo PHP_VERSION; ?>. PHP 7.3 or newer is required.</strong>
+                                    </div>
                                     <?php
                                 }
                                 ?>
@@ -195,7 +195,7 @@ require_once '../locale/function.php';
                                             <select class="selectpicker" id="mainLanguage">
                                                 <?php
                                                 global $global;
-                                                include_once '../objects/bcp47.php'; 
+                                                include_once '../objects/bcp47.php';
                                                 $dir = "../locale/";
                                                 $flags = array();
                                                 if ($handle = opendir($dir)) {
