@@ -161,18 +161,18 @@ if (User::isAdmin()) {
 
 
                         <?php
-                        if (isPHP("5.6")) {
+                        if (isPHP('7.3')) {
                             ?>
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
-                                <strong>PHP <?php echo PHP_VERSION; ?> is Present</strong>
+                                <strong>PHP <?php echo PHP_VERSION; ?> is present.</strong>
                             </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
-                                <strong>Your PHP version is <?php echo PHP_VERSION; ?>, you must install PHP 5.6.x or greater</strong>
+                                <strong>Your PHP version is <?php echo PHP_VERSION; ?>. PHP 7.3 or newer is required.</strong>
                             </div>
                             <?php
                         }
