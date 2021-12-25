@@ -218,7 +218,7 @@ function isApache() {
     return (strpos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false);
 }
 
-function isPHP($version = "'7.0.0'") {
+function isPHP($version = "'7.3.0'") {
     return (version_compare(PHP_VERSION, $version) >= 0);
 }
 
@@ -1714,7 +1714,7 @@ function im_resizePNG($file_src, $file_dest, $wd, $hd) {
 
 function im_resizeV3($file_src, $file_dest, $wd, $hd) {
 
-    return im_resizeV2($file_src, $file_dest, $wd, $hd); // ffmpeg disabled 
+    return im_resizeV2($file_src, $file_dest, $wd, $hd); // ffmpeg disabled
 
     _error_log("im_resizeV3: $file_src, $file_dest, $wd, $hd");
     // This tries to preserve the aspect ratio of the thumb while letterboxing it in
@@ -6357,16 +6357,16 @@ function saveCroppieImage($destination, $postIndex = "imgBase64") {
         return false;
     }
     $fileData = base64DataToImage($_POST[$postIndex]);
-    
+
     $path_parts = pathinfo($destination);
     $tmpDestination = $destination;
     $extension = strtolower($path_parts['extension']);
     if($extension!=='png'){
         $tmpDestination = $destination.'.png';
     }
-    
+
     $saved = _file_put_contents($tmpDestination, $fileData);
-    
+
     if($saved){
         if($extension!=='png'){
             convertImage($tmpDestination, $destination, 100);
@@ -7664,7 +7664,7 @@ function isImageCorrupted($image_path) {
     if (totalImageColors($image_path) === 1) {
         return true;
     }
-    
+
     if (!isGoodImage($image_path)) {
         return true;
     }
@@ -7690,13 +7690,13 @@ function isGoodImage($fn) {
 
 function defaultIsPortrait(){
     global $_defaultIsPortrait;
-    
+
     if(!isset($_defaultIsPortrait)){
         $_defaultIsPortrait = false;
         if($obj = AVideoPlugin::getDataObjectIfEnabled('YouPHPFlix2') && empty($obj->landscapePosters)){
             $_defaultIsPortrait = true;
         }
     }
-    
+
     return $_defaultIsPortrait;
 }
