@@ -28,7 +28,7 @@ $rows = array();
 if ($res != false) {
     foreach ($fullData as $row) {
         if (!empty($row['sites_id'])) {
-            $localList = CDNStorage::getFilesListLocal($videos_id, false);
+            $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
             echo "videos_id = {$row['id']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
             CDNStorage::createDummyFiles($row['id']);
