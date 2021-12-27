@@ -833,6 +833,9 @@ class CDNStorage {
 
     static function getFilesListLocal($videos_id, $skipDummyFiles = true) {
         global $global, $_getFilesList_CDNSTORAGE;
+        if(empty($videos_id)){
+            return array();
+        }
         if (!isset($_getFilesList_CDNSTORAGE)) {
             $_getFilesList_CDNSTORAGE = array();
         }
