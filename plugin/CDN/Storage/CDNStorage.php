@@ -842,7 +842,7 @@ class CDNStorage {
         $obj = AVideoPlugin::getDataObject('CDN');
         $pz = self::getPZ();
         $files = self::getLocalFolder($videos_id);
-        var_dump($videos_id, $files);exit;
+        var_dump($videos_id, count($files));exit;
         $video = Video::getVideoLight($videos_id);
         $filesList = array();
         $acumulative = 0;
