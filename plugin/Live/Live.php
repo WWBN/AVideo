@@ -1551,7 +1551,7 @@ class Live extends PluginAbstract {
         }
         $parts = explode('&', $application->name);
         if(!empty($parts[0])){
-            $application->name = $parts;
+            $application->name = $parts[0];
         }
         return $application;
     }
