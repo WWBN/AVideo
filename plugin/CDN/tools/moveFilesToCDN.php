@@ -36,11 +36,11 @@ foreach ($videos as $value) {
     $count++;
     //echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
     if (!empty($value['sites_id'])) {
+        echo "sites_id is not empty {$value['sites_id']}" . PHP_EOL;
         self::createDummyFiles($value['id']);
         $countSiteIdNotEmpty++;
         // make sure it is dummy files
         //CDNStorage::createDummyFiles($value['id']);
-        //echo "sites_id is not empty {$value['sites_id']}" . PHP_EOL;
         continue;
     }
     if ($value['status'] !== Video::$statusActive) {
