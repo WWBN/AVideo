@@ -65,11 +65,11 @@ class CDNStorage {
         foreach ($localList as $key => $value) {
             $isLocal = true;
 
-            if ($localList[$key]['local_filesize'] < $remoteList[$key]['remote_filesize']) {
+            if (@$localList[$key]['local_filesize'] < @$remoteList[$key]['remote_filesize']) {
                 $isLocal = false;
             }
 
-            $files[$key] = array('isLocal' => $isLocal, 'local' => @$localList[$key], 'remote' => $remoteList[$key]);
+            $files[$key] = array('isLocal' => $isLocal, 'local' => @$localList[$key], 'remote' => @$remoteList[$key]);
             unset($remoteList[$key]);
         }
         foreach ($remoteList as $key => $value) {
