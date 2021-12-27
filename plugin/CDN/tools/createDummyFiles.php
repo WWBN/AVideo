@@ -20,7 +20,7 @@ ini_set('max_execution_time', 300);
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-$sql = "SELECT * FROM  videos WHERE ORDER BY id DESC ";
+$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id DESC ";
 $res = sqlDAL::readSql($sql);
 $fullData = sqlDAL::fetchAllAssoc($res);
 sqlDAL::close($res);
