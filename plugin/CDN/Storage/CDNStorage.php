@@ -178,6 +178,7 @@ class CDNStorage {
         }
         if(!is_string($local_path)){
             var_dump($local_path);
+            return false;
         }
         $path_parts = pathinfo($local_path);
         if(empty($path_parts) || empty($path_parts['extension'])){
