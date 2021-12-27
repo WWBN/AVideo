@@ -801,7 +801,13 @@ class CDNStorage {
     }
 
     static function sendSocketNotification($videos_id, $msg) {
+        if(empty($videos_id)){
+            return false;
+        }
         $v = Video::getVideoLight($videos_id);
+        if(empty($v)){
+            return false;
+        }
         $users_id = $v['users_id'];
         if (!empty($users_id)) {
             $poster = Video::getPoster($videos_id);
@@ -954,6 +960,9 @@ class CDNStorage {
     }
 
     static function addToLog($videos_id, $message) {
+        if(empty($videos_id)){
+            return false;
+        }
         if (isCommandLineInterface()) {
             echo $message . PHP_EOL;
         }
