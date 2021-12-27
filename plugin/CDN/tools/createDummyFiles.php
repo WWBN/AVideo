@@ -21,8 +21,6 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
 $sql = "SELECT * FROM  videos WHERE ORDER BY id DESC ";
-
-$sql .= self::getSqlFromPost();
 $res = sqlDAL::readSql($sql);
 $fullData = sqlDAL::fetchAllAssoc($res);
 sqlDAL::close($res);
