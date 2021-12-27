@@ -1553,6 +1553,7 @@ class Live extends PluginAbstract {
         if(!empty($parts[0])){
             $application->name = $parts[0];
         }
+        //var_dump($application, $parts);exit;
         return $application;
     }
     
