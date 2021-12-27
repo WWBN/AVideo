@@ -176,8 +176,8 @@ class CDNStorage {
         if(empty($local_path)){
             return false;
         }
-        if(!is_string($local_path)){
-            debug_print_backtrace();
+        if(is_array($local_path)){
+            debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
             //var_dump($local_path);
             return false;
         }
