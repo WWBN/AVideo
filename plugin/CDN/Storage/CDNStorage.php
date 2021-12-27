@@ -217,12 +217,12 @@ class CDNStorage {
 
     static function getLocalFolder($videos_id) {
         if(empty($videos_id)){
-            return false;
+            return array();
         }
         $video = Video::getVideoLight($videos_id);
         
         if(empty($video)){
-            return false;
+            return array();
         }
         
         $paths = Video::getPaths($video['filename']);
@@ -968,10 +968,16 @@ class CDNStorage {
         }
         _error_log($message);
         $file = self::getLogFile($videos_id);
+        if(empty($file)){
+            return false;
+        }
         return file_put_contents($file, date('Y-m-d H:i:s: ') . $message . PHP_EOL, FILE_APPEND);
     }
 
     static function deleteLog($videos_id) {
+        if(empty($videos_id)){
+            return false;
+        }
         $file = self::getLogFile($videos_id);
         return unlink($file);
     }
