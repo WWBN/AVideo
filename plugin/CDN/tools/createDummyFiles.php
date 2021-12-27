@@ -15,8 +15,8 @@ if (empty($isCDNEnabled)) {
 
 
 ob_end_flush();
-set_time_limit(300);
-ini_set('max_execution_time', 300);
+set_time_limit(600);
+ini_set('max_execution_time', 600);
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
@@ -28,7 +28,9 @@ $rows = array();
 if ($res != false) {
     foreach ($fullData as $row) {
         if (!empty($row['sites_id'])) {
-            echo "videos_id = {$row['id']} sites_id is not empty {$row['sites_id']}" . PHP_EOL;
+            $localList = CDNStorage::getFilesListLocal($videos_id, false);
+            $last = end($localList);
+            echo "videos_id = {$row['id']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
             CDNStorage::createDummyFiles($row['id']);
         }
     }
