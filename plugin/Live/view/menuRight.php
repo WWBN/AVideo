@@ -273,7 +273,7 @@ if (empty($obj->hideTopButton)) {
         <?php
     }
     ?>
-                var id = $(html).attr('id');
+                var id = $(html).attr('id').replace(/[&=]/g, '');
                 if ($('#' + id).length) {
                     //console.log('processApplication key found', id);
                     return false;

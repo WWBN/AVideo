@@ -227,6 +227,9 @@ class Live extends PluginAbstract {
         if(empty($_getLiveApplicationModelArray_counter)){
             $_getLiveApplicationModelArray_counter = 0;
         }
+        
+        $uid = str_replace(array('&', '='), '', $uid);
+        
         $_getLiveApplicationModelArray_counter++;
         
         $search = array(
