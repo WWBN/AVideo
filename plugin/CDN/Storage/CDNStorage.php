@@ -979,6 +979,9 @@ class CDNStorage {
             return false;
         }
         $file = self::getLogFile($videos_id);
+        if(empty($file)){
+            return false;
+        }
         return unlink($file);
     }
 
