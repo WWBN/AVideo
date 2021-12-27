@@ -1545,6 +1545,17 @@ class Live extends PluginAbstract {
         return $getLiveTransmitionObjectFromKey[$parts[0]];
     }
 
+    static function cleanUpApplocation($application){
+        if(!is_object($application) || empty($application->name)){
+            return $application;
+        }
+        $parts = explode('&', $application->name);
+        if(!empty($parts[0])){
+            $application->name = $parts;
+        }
+        return $application;
+    }
+    
     static function _getStats($live_servers_id = 0, $force_recreate = false) {
         global $global, $_getStats;
         if (empty($_REQUEST['name'])) {
@@ -1594,6 +1605,7 @@ class Live extends PluginAbstract {
                 $xml->server->application[] = $application;
             }
             foreach ($xml->server->application as $key => $application) {
+                $application = cleanUpApplocation($application);
                 if ($application->name !== $applicationName && $application->name !== 'adaptive') {
                     continue;
                 }
