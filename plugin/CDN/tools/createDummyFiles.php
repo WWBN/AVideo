@@ -30,6 +30,9 @@ if ($res != false) {
         if (!empty($row['sites_id'])) {
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
+            if(empty($last)){
+                continue;
+            }
             if($last['acumulativeFilesize']<10000){
                 //echo "SKIP videos_id = {$row['id']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
             }else{
