@@ -451,6 +451,9 @@ class CDNStorage {
 
     static function put($videos_id, $totalSameTime, $onlyExtension = '') {
         global $_uploadInfo;
+        if(empty($videos_id)){
+            return false;
+        }
         $list = self::getFilesListBoth($videos_id);
         $filesToUpload = array();
         $totalFilesize = 0;
