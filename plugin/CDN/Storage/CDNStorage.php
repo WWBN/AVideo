@@ -476,6 +476,9 @@ class CDNStorage {
         $totalBytesTransferred = 0;
         $fileUploadCount = 0;
         foreach ($list as $value) {
+            if(empty($value['local'])){
+                continue;
+            }
             $ext = pathinfo($value['local']['local_path'], PATHINFO_EXTENSION);
             if (!empty($onlyExtension) && strtolower($onlyExtension) !== strtolower($ext)) {
                 _error_log("CDNStorage::put we will only upload {$onlyExtension} we will not uplaod {$value['local']['local_path']}");
