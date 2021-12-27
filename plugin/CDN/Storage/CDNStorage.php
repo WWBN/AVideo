@@ -848,11 +848,22 @@ class CDNStorage {
         foreach ($files as $value) {
             if (is_array($value)) {
                 foreach ($value as $value2) {
-                    $file = self::getFilesListInfo($value2, $pz, $videos_id, $skipDummyFiles);
-                    if (!empty($file)) {
-                        $acumulative+= $file['local_filesize'];
-                        $file['acumulativeFilesize'] = $acumulative;
-                        $filesList[$file['relative']] = $file;
+                    if (is_array($value2)) {
+                        foreach ($value2 as $value3) {
+                            $file = self::getFilesListInfo($value3, $pz, $videos_id, $skipDummyFiles);
+                            if (!empty($file)) {
+                                $acumulative+= $file['local_filesize'];
+                                $file['acumulativeFilesize'] = $acumulative;
+                                $filesList[$file['relative']] = $file;
+                            }
+                        }
+                    } else {
+                        $file = self::getFilesListInfo($value2, $pz, $videos_id, $skipDummyFiles);
+                        if (!empty($file)) {
+                            $acumulative+= $file['local_filesize'];
+                            $file['acumulativeFilesize'] = $acumulative;
+                            $filesList[$file['relative']] = $file;
+                        }
                     }
                 }
             } else {
