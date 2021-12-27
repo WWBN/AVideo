@@ -845,7 +845,7 @@ class CDNStorage {
         $video = Video::getVideoLight($videos_id);
         $filesList = array();
         $acumulative = 0;
-        var_dump($files);exit;
+        var_dump($videos_id, $files);exit;
         foreach ($files as $value) {
             if (is_array($value)) {
                 foreach ($value as $value2) {
