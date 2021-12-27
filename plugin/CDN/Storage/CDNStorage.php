@@ -96,6 +96,9 @@ class CDNStorage {
 
     static function getFilesListRemote($videos_id, $client = null) {
         global $global, $_getFilesListRemote;
+        if(empty($videos_id)){
+            return false;
+        }
         if (!isset($_getFilesListRemote)) {
             $_getFilesListRemote = array();
         }
@@ -103,6 +106,11 @@ class CDNStorage {
             return $_getFilesListRemote[$videos_id];
         }
         $video = Video::getVideoLight($videos_id);
+        
+        if(empty($video)){
+            return false;
+        }
+        
         //$paths = Video::getPaths($video['filename']);
         if (empty($client)) {
             $client = self::getStorageClient();
