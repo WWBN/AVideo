@@ -171,8 +171,13 @@ class CDNStorage {
         if ($skipDummyFiles && filesize($local_path) < 20) {
             return false;
         }
-
+        if(empty($local_path)){
+            return false;
+        }
         $path_parts = pathinfo($local_path);
+        if(empty($path_parts) || empty($path_parts['extension'])){
+            return false;
+        }
         $extension = $path_parts['extension'];
         if (!in_array(strtolower($extension), CDNStorage::$allowedFiles)) {
             return false;
