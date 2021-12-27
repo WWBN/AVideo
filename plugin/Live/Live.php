@@ -1545,7 +1545,7 @@ class Live extends PluginAbstract {
         return $getLiveTransmitionObjectFromKey[$parts[0]];
     }
 
-    static function cleanUpApplocation($application){
+    static function cleanUpApplication($application){
         if(!is_object($application) || empty($application->name)){
             return $application;
         }
@@ -1605,7 +1605,7 @@ class Live extends PluginAbstract {
                 $xml->server->application[] = $application;
             }
             foreach ($xml->server->application as $key => $application) {
-                $application = cleanUpApplocation($application);
+                $application = self::cleanUpApplication($application);
                 if ($application->name !== $applicationName && $application->name !== 'adaptive') {
                     continue;
                 }
