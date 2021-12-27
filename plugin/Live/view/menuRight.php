@@ -240,7 +240,7 @@ if (empty($obj->hideTopButton)) {
             }
             if (typeof application.html != 'undefined') {
                 var notificationHTML = $(application.html);
-                var notificatioID = notificationHTML.attr('id') + '_notification';
+                var notificatioID = (notificationHTML.attr('id') + '_notification').replace(/[&=]/g, '');
                 if (typeof key !== 'undefined') {
                     //console.log('processApplication remove class .live_' + key);
                     $('.live_' + key).remove();
