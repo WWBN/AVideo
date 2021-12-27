@@ -80,6 +80,8 @@ if (strpos($_GET['p'], '/') !== false) {
     }
 }
 
+$_POST['name'] = preg_replace("/[&=]/", '', $_POST['name']);
+
 if (!empty($_GET['p'])) {
     $_GET['p'] = str_replace("/", "", $_GET['p']);
     _error_log("NGINX ON Publish check if key exists ({$_POST['name']})");
@@ -131,7 +133,7 @@ if (!empty($obj) && empty($obj->error)) {
     _error_log("NGINX ON Publish success");
     http_response_code(200);
     header("HTTP/1.1 200 OK");
-    header("Location: ". preg_replace("/[&=]/", '', $_POST['name']));
+    header("Location: {$_POST['name']}");
     
     outputAndContinueInBackground();
     Live::deleteStatsCache(true);
