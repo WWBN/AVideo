@@ -467,7 +467,7 @@ class CDNStorage {
             }
             $filesize = filesize($value['local']['local_path']);
             if ($value['isLocal'] && $filesize > 20) {
-                if (empty($value) || $filesize != $value['remote']['remote_filesize']) {
+                if (empty($value) || empty($value['remote']) || $filesize != $value['remote']['remote_filesize']) {
                     if(!empty($value['remote']['remote_filesize'])){
                         _error_log("CDNStorage:: add {$value['remote']['relative']} {$filesize} != {$value['remote']['remote_filesize']}");
                     }
@@ -922,7 +922,15 @@ class CDNStorage {
     }
 
     static function getLogFile($videos_id) {
+        if(empty($videos_id)){
+            return false;
+        }
         $video = Video::getVideoLight($videos_id);
+        
+        if(empty($video)){
+            return false;
+        }
+        
         $path = Video::getPathToFile($video['filename']);
 
         $path .= '_cdnStorage.log';
