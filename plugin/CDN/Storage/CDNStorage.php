@@ -763,7 +763,7 @@ class CDNStorage {
         foreach ($list as $key => $value) {
             if (empty($value['local']) || empty($value['local']['local_filesize']) || $value['local']['local_filesize'] <= 20) {
                 continue;
-            } else if ($value['local']['local_filesize'] == $value['remote']['remote_filesize']) {
+            } else if (@$value['local']['local_filesize'] == @$value['remote']['remote_filesize']) {
                 $msg = "createDummyFiles {$value['local']['local_path']} ";
                 self::addToLog($videos_id, $msg);
                 self::createDummy($value['local']['local_path']);
