@@ -758,6 +758,7 @@ class CDNStorage {
         unset($_getFilesListBoth);
         unset($_getFilesListRemote);
         unset($_getFilesList_CDNSTORAGE);
+        
         $list = self::getFilesListBoth($videos_id);
         $filesAffected = 0;
         foreach ($list as $key => $value) {
@@ -838,17 +839,22 @@ class CDNStorage {
         $files = self::getLocalFolder($videos_id);
         $video = Video::getVideoLight($videos_id);
         $filesList = array();
+        $acumulative = 0;
         foreach ($files as $value) {
             if (is_array($value)) {
                 foreach ($value as $value2) {
                     $file = self::getFilesListInfo($value2, $pz, $videos_id, $skipDummyFiles);
                     if (!empty($file)) {
+                        $acumulative+= $file['local_filesize'];
+                        $file['acumulativeFilesize'] = $acumulative;
                         $filesList[$file['relative']] = $file;
                     }
                 }
             } else {
                 $file = self::getFilesListInfo($value, $pz, $videos_id, $skipDummyFiles);
                 if (!empty($file)) {
+                    $acumulative+= $file['local_filesize'];
+                    $file['acumulativeFilesize'] = $acumulative;
                     $filesList[$file['relative']] = $file;
                 }
             }
