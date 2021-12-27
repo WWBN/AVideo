@@ -36,6 +36,7 @@ foreach ($videos as $value) {
     $count++;
     //echo "{$count}/{$total} Checking {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
     if (!empty($value['sites_id'])) {
+        self::createDummyFiles($value['id']);
         $countSiteIdNotEmpty++;
         // make sure it is dummy files
         //CDNStorage::createDummyFiles($value['id']);
