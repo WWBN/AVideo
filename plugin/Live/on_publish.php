@@ -131,9 +131,10 @@ if (!empty($obj) && empty($obj->error)) {
      */
     
     _error_log("NGINX ON Publish success");
-    http_response_code(200);
-    header("HTTP/1.1 200 OK");
+    $code = 301;
     header("Location: {$_POST['name']}");
+    http_response_code($code);
+    header("HTTP/1.1 {$code} OK");
     
     outputAndContinueInBackground();
     Live::deleteStatsCache(true);
