@@ -19,6 +19,8 @@ $index = intval(@$argv[2]);
 ob_end_flush();
 set_time_limit(300);
 ini_set('max_execution_time', 300);
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
 $path = getVideosDir();
