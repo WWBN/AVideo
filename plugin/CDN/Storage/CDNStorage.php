@@ -845,25 +845,15 @@ class CDNStorage {
         $video = Video::getVideoLight($videos_id);
         $filesList = array();
         $acumulative = 0;
+        var_dump($files);exit;
         foreach ($files as $value) {
             if (is_array($value)) {
                 foreach ($value as $value2) {
-                    if (is_array($value2)) {
-                        foreach ($value2 as $value3) {
-                            $file = self::getFilesListInfo($value3, $pz, $videos_id, $skipDummyFiles);
-                            if (!empty($file)) {
-                                $acumulative+= $file['local_filesize'];
-                                $file['acumulativeFilesize'] = $acumulative;
-                                $filesList[$file['relative']] = $file;
-                            }
-                        }
-                    } else {
-                        $file = self::getFilesListInfo($value2, $pz, $videos_id, $skipDummyFiles);
-                        if (!empty($file)) {
-                            $acumulative+= $file['local_filesize'];
-                            $file['acumulativeFilesize'] = $acumulative;
-                            $filesList[$file['relative']] = $file;
-                        }
+                    $file = self::getFilesListInfo($value2, $pz, $videos_id, $skipDummyFiles);
+                    if (!empty($file)) {
+                        $acumulative+= $file['local_filesize'];
+                        $file['acumulativeFilesize'] = $acumulative;
+                        $filesList[$file['relative']] = $file;
                     }
                 }
             } else {
