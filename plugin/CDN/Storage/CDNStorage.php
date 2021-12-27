@@ -61,7 +61,7 @@ class CDNStorage {
         $searchThis = $localList;
         $compareThis = $remoteList;
         $searchingLocal = true;
-
+        $files = array();
         foreach ($localList as $key => $value) {
             $isLocal = true;
 
