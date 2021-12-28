@@ -15,8 +15,8 @@ if (empty($isCDNEnabled)) {
 
 
 ob_end_flush();
-set_time_limit(600);
-ini_set('max_execution_time', 600);
+set_time_limit(1800);
+ini_set('max_execution_time', 1800);
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
