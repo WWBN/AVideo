@@ -130,6 +130,9 @@ $outputText .= $collapsibleClose;
 <html>
     <head>
         <title><?php echo __("Logs") . " " . date("Y-M-d H:i:s") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+        <?php
+        include $global['systemRootPath'] . 'view/include/head.php';
+        ?>
         <link rel="stylesheet" href="<?php echo getCDN(); ?>view/css/terminal.min.css" />
         <style>
             html {
@@ -208,7 +211,6 @@ $outputText .= $collapsibleClose;
                 font-size: 0.8em;
             }
         </style>
-        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
     </head>
 
     <body  class="terminal">
@@ -216,7 +218,7 @@ $outputText .= $collapsibleClose;
             <div class="terminal-nav">
                 <header class="terminal-logo">
                     <div class="logo terminal-prompt">
-                        Log Date <?php echo date("Y-M-d H:i:s"); ?>
+                        Log Date <?php echo date("Y-M-d H:i:s"); ?> log size file <?php echo humanFileSize(filesize($global['logfile'])); ?>
                     </div>
                 </header>
             </div>
@@ -273,6 +275,7 @@ $outputText .= $collapsibleClose;
             <div class="btn-group">
                 <button class="btn btn-default btn-ghost expandAll">Expand All</button>
                 <button class="btn btn-default btn-ghost collapseAll">Collapse All</button>
+                <button class="btn btn-default btn-ghost archiveLog">Archive Log</button>
             </div>
             <pre class="logCode">
                 <?php
@@ -282,6 +285,11 @@ $outputText .= $collapsibleClose;
                 ?>
             </pre>
         </div>
+        
+        <?php
+        
+        include $global['systemRootPath'] . 'view/include/footer.php';
+        ?>
         <script>
             $(function () {
                 $(".collapsibleBtn").click(function () {
@@ -325,6 +333,17 @@ $outputText .= $collapsibleClose;
                     $(".collapsible-container").removeClass('active');
                     $(".collapsibleOpen").show();
                     $(".collapsibleClose").hide();
+                });
+
+                $(".archiveLog").click(function () {
+                    modal.showPleaseWait();
+                    $.ajax({
+                        url: '<?php echo $global['webSiteRootURL']; ?>view/logArchive.json.php',
+                        success: function (response) {
+                            modal.hidePleaseWait();
+                            avideoResponse(response);
+                        }
+                    });
                 });
 
                 $(".scrollToError").click(function () {
