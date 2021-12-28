@@ -38,7 +38,7 @@ if ($res != false) {
             }else{
                 echo "videos_id = {$row['id']} {$row['title']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
                 CDNStorage::put($row['id'], 4);
-                CDNStorage::createDummyFiles($row['id']);
+                //CDNStorage::createDummyFiles($row['id']);
             }
         }
     }
