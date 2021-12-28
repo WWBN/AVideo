@@ -112,7 +112,7 @@ Options All -Indexes
     RewriteRule    ^js/(.+)$ view/js/$1 [NC,L]
     RewriteRule    ^css/(.+)$ view/css/$1 [NC,L]
     RewriteRule    ^img/(.+)$ view/img/$1 [NC,L]
-    RewriteRule    ^i/(.+)$ view/iframe.php?type=$1 [NC,L]
+    RewriteRule    ^i/(.+)$ view/iframe.php?type=$1 [NC,L,QSA]
     RewriteRule    ^videos/fonts/(.+)$ view/bootstrap/fonts/$1 [NC,L]
     RewriteRule    ^page/([0-9]+)/?$ view/?page=$1    [QSA]
     RewriteRule    ^videoOnly/?$ view/?type=video    [NC,L]
