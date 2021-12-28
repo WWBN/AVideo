@@ -28,6 +28,7 @@ $rows = array();
 if ($res != false) {
     foreach ($fullData as $row) {
         if ($row['status'] === Video::$statusActive) {
+            exec("rm /var/www/html/AVideo/videos/{$row['filename']}/*.tgz");
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
             if(empty($last)){
