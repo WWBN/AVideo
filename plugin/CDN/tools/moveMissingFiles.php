@@ -27,7 +27,7 @@ sqlDAL::close($res);
 $rows = array();
 if ($res != false) {
     foreach ($fullData as $row) {
-        if (!empty($row['sites_id'])) {
+        if ($row['status'] === Video::$statusActive) {
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
             if(empty($last)){
@@ -36,9 +36,13 @@ if ($res != false) {
             if($last['acumulativeFilesize']<10000){
                 //echo "SKIP videos_id = {$row['id']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
             }else{
-                echo "videos_id = {$row['id']} {$row['title']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
-                CDNStorage::put($row['id'], 4);
-                //CDNStorage::createDummyFiles($row['id']);
+                if(CDNStorage::isMoving($videos_id)){
+                    echo "videos_id = {$row['id']} {$row['title']} Is moving ". PHP_EOL;
+                }else{
+                    echo "videos_id = {$row['id']} {$row['title']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
+                    CDNStorage::put($row['id'], 4);
+                    //CDNStorage::createDummyFiles($row['id']);
+                }
             }
         }
     }
