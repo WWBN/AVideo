@@ -545,7 +545,7 @@ class CDNStorage {
                         unset($ret[$key]);
                         unset($_uploadInfo[$key]);
 
-                        _error_log("CDNStorage::put:uploadToCDNStorage [$key] [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} seconds {$humanFilesize} {$ps}ps ETA: {$ETA}");
+                        _error_log("CDNStorage::put:uploadToCDNStorage [$key] [{$fileUploadCount}/{$totalFiles}] FTP_FINISHED {$remote_file} in {$seconds} seconds {$humanFilesize} {$ps}ps ETA: {$ETA}");
 
                         $file = array_shift($filesToUpload);
                         if (empty($file)) {
@@ -656,7 +656,7 @@ class CDNStorage {
                     unset($ret[$key]);
                     unset($_downloadInfo[$key]);
 
-                    _error_log("CDNStorage::get:downloadToCDNStorage [$key] [{$fileDownloadCount}/{$totalFiles}] FTP_FINISHED in {$seconds} seconds {$humanFilesize} {$ps}ps ETA: {$ETA}");
+                    _error_log("CDNStorage::get:downloadToCDNStorage [$key] [{$fileDownloadCount}/{$totalFiles}] FTP_FINISHED {$remote_file} in {$seconds} seconds {$humanFilesize} {$ps}ps ETA: {$ETA}");
 
                     $file = array_shift($filesToDownload);
                     if (empty($file)) {
