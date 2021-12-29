@@ -35,7 +35,7 @@ foreach ($sites_id_to_check as $key => $value) {
     }
     echo "{$key}/{$total} Start check {$value} " . PHP_EOL;
     if(Video::isMediaFileMissing($value)){
-        $sources = getVideosURL_V2($filename);
+        $sources = getVideosURL_V2($value);
         echo "{$key}/{$total} is missing ". json_encode($sources) . PHP_EOL;
     }
 }
