@@ -42,6 +42,7 @@ foreach ($sites_id_to_check as $key => $value) {
         echo "{$key}/{$total} is missing ". json_encode($sources) . PHP_EOL;
     }else{
         $video->setStatus(Video::$statusActive);
+        echo "{$key}/{$total} is set to active " . PHP_EOL;
     }
 }
 
