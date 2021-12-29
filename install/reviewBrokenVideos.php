@@ -16,6 +16,7 @@ $path = getVideosDir();
 $total = Video::getTotalVideos("", false, true, true, false, false);
 $videos = Video::getAllVideosLight("", false, true, false);
 
+echo "Path: {$path}" . PHP_EOL;
 
 $sites_id_to_check = array();
 
