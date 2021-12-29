@@ -224,7 +224,12 @@ if (empty($obj->hideTopButton)) {
             name = application.name;
             user = application.user;
             photo = application.photo;
-            key = application.key.replace(/[&=]/g, '');
+            if(application && typeof application.key == 'string'){
+                key = application.key.replace(/[&=]/g, '');
+            }else{
+                key = '';
+            }
+            
             //console.log('processApplication', application.className);
             callback = '';
             if (typeof application.callback === 'string') {
