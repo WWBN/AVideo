@@ -24,7 +24,7 @@ foreach ($videos as $value) {
     if ($value['status'] !== Video::$statusBrokenMissingFiles) {
         continue;
     }
-    $sites_id_to_check[] = $value['filename'];
+    $sites_id_to_check[] = $value['id'];
     echo "{$key}/{$total} added to move {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
 }
 
@@ -33,10 +33,15 @@ foreach ($sites_id_to_check as $key => $value) {
     if(!empty($index) && $key<$index){
         continue;
     }
-    echo "{$key}/{$total} Start check {$value} " . PHP_EOL;
-    if(Video::isMediaFileMissing($value)){
-        $sources = getVideosURL_V2($value);
+    $video = new Video('', '', $value);
+    $filename = $video->getFilename();
+    
+    echo "{$key}/{$total} Start check {$filename} " . PHP_EOL;
+    if(Video::isMediaFileMissing($filename)){
+        $sources = getVideosURL_V2($filename);
         echo "{$key}/{$total} is missing ". json_encode($sources) . PHP_EOL;
+    }else{
+        $video->setStatus(Video::$statusActive);
     }
 }
 
