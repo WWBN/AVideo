@@ -7,7 +7,7 @@ if(!isset($global['systemRootPath'])){
     require_once '../videos/configuration.php';
 }
 
-$_POST['comments_id'] = intval(@$_POST['comments_id']);
+$_REQUEST['comments_id'] = intval(@$_REQUEST['comments_id']);
 
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
@@ -15,15 +15,15 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
 $input = _json_decode($inputJSON, TRUE); //convert JSON into array
-unset($_POST["redirectUri"]);
-if(!empty($input) && empty($_POST)){
+unset($_REQUEST["redirectUri"]);
+if(!empty($input) && empty($_REQUEST)){
     foreach ($input as $key => $value) {
-        $_POST[$key]=$value;
+        $_REQUEST[$key]=$value;
     }
 }
 
-if(!empty($_POST['user']) && !empty($_POST['pass'])){
-    $user = new User(0, $_POST['user'], $_POST['pass']);
+if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
+    $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
     $user->login(false, true);
 }
 
@@ -95,22 +95,27 @@ function isCommentASpam($comment, $videos_id){
     return $obj;
 }
 
-$isSpam = isCommentASpam($_POST['comment'], $_POST['video']);
+require_once 'comment.php';
+if(empty($_REQUEST['video']) && !empty($_REQUEST['comments_id'])){
+    $c = new Comment('', '', $_REQUEST['comments_id']);
+    $_REQUEST['video'] = $c->getVideos_id();
+}
+
+$isSpam = isCommentASpam($_REQUEST['comment'], $_REQUEST['video']);
 if($isSpam->error){
     $obj->msg = $isSpam->msg;
     die(json_encode($obj));
 }
 
-require_once 'comment.php';
-if(!empty($_POST['id'])){
-    $_POST['id'] = intval($_POST['id']);
-    if(Comment::userCanEditComment($_POST['id'])){
-        $objC = new Comment("", 0, $_POST['id']);
-        $objC->setComment($_POST['comment']);
+if(!empty($_REQUEST['id'])){
+    $_REQUEST['id'] = intval($_REQUEST['id']);
+    if(Comment::userCanEditComment($_REQUEST['id'])){
+        $objC = new Comment("", 0, $_REQUEST['id']);
+        $objC->setComment($_REQUEST['comment']);
     }
 }else{
-    $objC = new Comment($_POST['comment'], $_POST['video']);
-    $objC->setComments_id_pai($_POST['comments_id']);
+    $objC = new Comment($_REQUEST['comment'], $_REQUEST['video']);
+    $objC->setComments_id_pai($_REQUEST['comments_id']);
 }
 
 $obj->comments_id = $objC->save();
