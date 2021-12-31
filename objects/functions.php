@@ -6737,14 +6737,16 @@ function getStatsNotifications($force_recreate = false) {
     } else {
         $json = ObjectYPT::getCache($cacheName, 0, true);
     }
-    if (empty($json)) {
+    if (empty($json) || !empty($json->error)) {
         //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $json = Live::getStats();
         $json = object_to_array($json);
 
         if (empty($json['applications']) && is_array($json)) {
+            $oldjson = $json;
+            $json = array();
             $json['applications'] = array();
-            foreach ($json as $key => $value) {
+            foreach ($oldjson as $key => $value) {
                 if (empty($value['applications'])) {
                     continue;
                 }
