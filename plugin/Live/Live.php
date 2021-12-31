@@ -1358,7 +1358,7 @@ class Live extends PluginAbstract {
             return $getStatsLive;
         } else {
             $rows = Live_servers::getAllActive();
-            foreach ($rows as $key => $value) {
+            foreach ($rows as $key => $row) {
                 $ls = new Live_servers(Live::getLiveServersIdRequest());
                 if (!empty($row['playerServer'])) {
                     //_error_log('getStats getStats 2: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
