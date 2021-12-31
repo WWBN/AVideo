@@ -1578,7 +1578,7 @@ class Live extends PluginAbstract {
         $cacheName = "getStats" . DIRECTORY_SEPARATOR . "live_servers_id_{$live_servers_id}" . DIRECTORY_SEPARATOR . "{$_REQUEST['name']}_" . User::getId();
         //$force_recreate = true;
         if (empty($force_recreate)) {
-            if (!empty($_getStats[$live_servers_id][$_REQUEST['name']]) && is_object($_getStats[$live_servers_id][$_REQUEST['name']])) {
+            if (!empty($_getStats[$live_servers_id][$_REQUEST['name']]) && is_object($_getStats[$live_servers_id][$_REQUEST['name']]) && empty($_getStats[$live_servers_id][$_REQUEST['name']]->error)) {
                 _error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ". json_encode($_getStats[$live_servers_id][$_REQUEST['name']]));
                 return $_getStats[$live_servers_id][$_REQUEST['name']];
             }
