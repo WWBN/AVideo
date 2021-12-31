@@ -6737,7 +6737,7 @@ function getStatsNotifications($force_recreate = false) {
     } else {
         $json = ObjectYPT::getCache($cacheName, 0, true);
     }
-    if (empty($json) || !empty($json->error)) {
+    if (empty($json) || !empty($json->error) || !isset($json->error)) {
         //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $json = Live::getStats();
         $json = object_to_array($json);
