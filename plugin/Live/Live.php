@@ -1770,7 +1770,7 @@ class Live extends PluginAbstract {
         $obj->countLiveStream = count($obj->applications);
         $obj->error = false;
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
-        //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
+        _error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         ObjectYPT::setCache($cacheName, json_encode($obj));
         return $obj;
     }
