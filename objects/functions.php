@@ -6743,8 +6743,10 @@ function getStatsNotifications($force_recreate = false) {
         $json = object_to_array($json);
 
         if (empty($json['applications']) && is_array($json)) {
+            $oldjson = $json;
+            $json = array();
             $json['applications'] = array();
-            foreach ($json as $key => $value) {
+            foreach ($oldjson as $key => $value) {
                 if (empty($value['applications'])) {
                     continue;
                 }
