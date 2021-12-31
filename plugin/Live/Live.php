@@ -1355,7 +1355,7 @@ class Live extends PluginAbstract {
             }
             return $servers;
         }else if (empty($obj->useLiveServers)) {
-            //_error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
+            _error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
             $getStatsLive = self::_getStats(0, $force_recreate);
             //_error_log('Live::getStats(0) 1');
             return $getStatsLive;
@@ -1364,7 +1364,7 @@ class Live extends PluginAbstract {
             foreach ($rows as $key => $value) {
                 $ls = new Live_servers(Live::getLiveServersIdRequest());
                 if (!empty($row['playerServer'])) {
-                    //_error_log('getStats getStats 2: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
+                    _error_log('getStats getStats 2: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
                     $server = self::_getStats($row['id'], $force_recreate);
                     $server->live_servers_id = $row['id'];
                     $server->playerServer = $row['playerServer'];
@@ -1620,6 +1620,7 @@ class Live extends PluginAbstract {
         if (empty($xml) || !is_object($xml)) {
             _error_log("_getStats XML is not an object live_servers_id=$live_servers_id");
         } else {
+            _error_log("_getStats XML is an object live_servers_id=$live_servers_id");
 //$obj->server = $xml->server;
             if (!empty($xml->server->application) && !is_array($xml->server->application)) {
                 $application = $xml->server->application;
