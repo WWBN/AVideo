@@ -1595,6 +1595,7 @@ class Live extends PluginAbstract {
             }
             
             if(!empty($result) && is_object($result) && empty($result->error)){
+                _error_log("Live::_getStats result is valid");
                 return $result;
             }else{
                 _error_log("Live::_getStats error on cached result ". json_encode($result));
