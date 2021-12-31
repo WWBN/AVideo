@@ -1578,19 +1578,18 @@ class Live extends PluginAbstract {
         $cacheName = "getStats" . DIRECTORY_SEPARATOR . "live_servers_id_{$live_servers_id}" . DIRECTORY_SEPARATOR . "{$_REQUEST['name']}_" . User::getId();
         //$force_recreate = true;
         if (empty($force_recreate)) {
-            $return = false;
             if (!empty($_getStats[$live_servers_id][$_REQUEST['name']]) && is_object($_getStats[$live_servers_id][$_REQUEST['name']]) ) {
                 _error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ". json_encode($_getStats[$live_servers_id][$_REQUEST['name']]));
-                $return = $_getStats[$live_servers_id][$_REQUEST['name']];
+                $result = $_getStats[$live_servers_id][$_REQUEST['name']];
             }else{
                 $result = ObjectYPT::getCache($cacheName, maxLifetime() + 60, true);
                 if (!empty($result)) {
                     _error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
-                    $return = _json_decode($result);
+                    $result = _json_decode($result);
                 }
             }
-            if(!empty($return) && is_object($return) && empty($return->error)){
-                return $return;
+            if(!empty($result) && is_object($result) && empty($result->error)){
+                return $result;
             }else{
                 _error_log("Live::_getStats error on cached result ". json_encode($result));
             }
