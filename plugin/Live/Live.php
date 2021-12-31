@@ -1056,9 +1056,9 @@ class Live extends PluginAbstract {
             $result = ObjectYPT::getCache($name, maxLifetime() + 60, true);
 
             if (!empty($result)) {
-                _error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "]");
                 $response = _json_decode($result);
                 if(!empty($response) && empty($result->error)){
+                    _error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "] ". json_encode($response));
                     return $response;
                 }
             }
