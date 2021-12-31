@@ -1057,7 +1057,10 @@ class Live extends PluginAbstract {
 
             if (!empty($result)) {
                 _error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "]");
-                return _json_decode($result);
+                $response = _json_decode($result);
+                if(!empty($response) && empty($result->error)){
+                    return $response;
+                }
             }
             _error_log("Live::getStatsObject[$live_servers_id] 4: cache not found");
         } else {
@@ -1770,7 +1773,7 @@ class Live extends PluginAbstract {
         $obj->countLiveStream = count($obj->applications);
         $obj->error = false;
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
-        _error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj->error));
+        _error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         ObjectYPT::setCache($cacheName, json_encode($obj));
         return $obj;
     }
