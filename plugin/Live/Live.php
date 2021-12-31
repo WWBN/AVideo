@@ -1581,13 +1581,16 @@ class Live extends PluginAbstract {
             if (!empty($_getStats[$live_servers_id][$_REQUEST['name']]) && is_object($_getStats[$live_servers_id][$_REQUEST['name']]) ) {
                 _error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ". json_encode($_getStats[$live_servers_id][$_REQUEST['name']]));
                 $result = $_getStats[$live_servers_id][$_REQUEST['name']];
-            }else{
+            }
+            
+            if(empty($result) || !is_object($result) || !empty($result->error)){
                 $result = ObjectYPT::getCache($cacheName, maxLifetime() + 60, true);
                 if (!empty($result)) {
                     _error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
                     $result = _json_decode($result);
                 }
             }
+            
             if(!empty($result) && is_object($result) && empty($result->error)){
                 return $result;
             }else{
