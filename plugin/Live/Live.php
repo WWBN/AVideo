@@ -1056,11 +1056,8 @@ class Live extends PluginAbstract {
             $result = ObjectYPT::getCache($name, maxLifetime() + 60, true);
 
             if (!empty($result)) {
-                $response = _json_decode($result);
-                if(!empty($response)){
-                    _error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "] ");
-                    return $response;
-                }
+                _error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "]");
+                return _json_decode($result);
             }
             _error_log("Live::getStatsObject[$live_servers_id] 4: cache not found");
         } else {
@@ -1355,7 +1352,7 @@ class Live extends PluginAbstract {
             }
             return $servers;
         }else if (empty($obj->useLiveServers)) {
-            _error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
+            //_error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
             $getStatsLive = self::_getStats(0, $force_recreate);
             //_error_log('Live::getStats(0) 1');
             return $getStatsLive;
@@ -1364,7 +1361,7 @@ class Live extends PluginAbstract {
             foreach ($rows as $key => $value) {
                 $ls = new Live_servers(Live::getLiveServersIdRequest());
                 if (!empty($row['playerServer'])) {
-                    _error_log('getStats getStats 2: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
+                    //_error_log('getStats getStats 2: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
                     $server = self::_getStats($row['id'], $force_recreate);
                     $server->live_servers_id = $row['id'];
                     $server->playerServer = $row['playerServer'];
@@ -1581,24 +1578,14 @@ class Live extends PluginAbstract {
         $cacheName = "getStats" . DIRECTORY_SEPARATOR . "live_servers_id_{$live_servers_id}" . DIRECTORY_SEPARATOR . "{$_REQUEST['name']}_" . User::getId();
         //$force_recreate = true;
         if (empty($force_recreate)) {
-            if (!empty($_getStats[$live_servers_id][$_REQUEST['name']]) && is_object($_getStats[$live_servers_id][$_REQUEST['name']]) ) {
-                _error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ". json_encode($_getStats[$live_servers_id][$_REQUEST['name']]));
-                $result = $_getStats[$live_servers_id][$_REQUEST['name']];
+            if (!empty($_getStats[$live_servers_id][$_REQUEST['name']]) && is_object($_getStats[$live_servers_id][$_REQUEST['name']])) {
+                _error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ");
+                return $_getStats[$live_servers_id][$_REQUEST['name']];
             }
-            
-            if(empty($result) || !is_object($result) || !empty($result->error)){
-                $result = ObjectYPT::getCache($cacheName, maxLifetime() + 60, true);
-                if (!empty($result)) {
-                    _error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
-                    $result = _json_decode($result);
-                }
-            }
-            
-            if(!empty($result) && is_object($result) && empty($result->error)){
-                _error_log("Live::_getStats result is valid");
-                return $result;
-            }else{
-                _error_log("Live::_getStats error on cached result ". json_encode($result));
+            $result = ObjectYPT::getCache($cacheName, maxLifetime() + 60, true);
+            if (!empty($result)) {
+                _error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
+                return _json_decode($result);
             }
         }
         session_write_close();
@@ -1621,7 +1608,6 @@ class Live extends PluginAbstract {
         if (empty($xml) || !is_object($xml)) {
             _error_log("_getStats XML is not an object live_servers_id=$live_servers_id");
         } else {
-            _error_log("_getStats XML is an object live_servers_id=$live_servers_id");
 //$obj->server = $xml->server;
             if (!empty($xml->server->application) && !is_array($xml->server->application)) {
                 $application = $xml->server->application;
@@ -1775,7 +1761,7 @@ class Live extends PluginAbstract {
         $obj->countLiveStream = count($obj->applications);
         $obj->error = false;
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
-        _error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
+        //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         ObjectYPT::setCache($cacheName, json_encode($obj));
         return $obj;
     }
