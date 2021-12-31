@@ -1057,8 +1057,8 @@ class Live extends PluginAbstract {
 
             if (!empty($result)) {
                 $response = _json_decode($result);
-                if(!empty($response) && empty($result->error)){
-                    _error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "] ". json_encode($response));
+                if(!empty($response)){
+                    _error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "] ");
                     return $response;
                 }
             }
