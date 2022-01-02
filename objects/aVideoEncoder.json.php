@@ -209,9 +209,9 @@ function downloadVideoFromDownloadURL($downloadURL){
         $_FILES['video']['name'] = basename($downloadURL);
 
         $temp = Video::getStoragePath()."cache/tmpFile/" . $_FILES['video']['name'];
-        _error_log("aVideoEncoder.json: save " . $temp);
         make_path($temp);
-        file_put_contents($temp, $file);
+        $bytesSaved = file_put_contents($temp, $file);
+        _error_log("aVideoEncoder.json: saved " . $temp  . ' '. humanFileSize($bytesSaved));
         return $temp;
     }
     return false;
