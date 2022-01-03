@@ -7,8 +7,8 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 
-set_time_limit(300);
-ini_set('max_execution_time', 300); 
+set_time_limit(1800);
+ini_set('max_execution_time', 1800); 
 
 $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
 $path = getVideosDir();
