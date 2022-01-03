@@ -8,12 +8,12 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class DiscordNotify extends PluginAbstract {
 
-
     public function getTags() {
         return array(
             PluginTags::$FREE
         );
     }
+
     public function getDescription() {
         return "Send video upload notifications to discord webhook";
     }
@@ -42,8 +42,8 @@ class DiscordNotify extends PluginAbstract {
         return $obj;
     }
 
-    public function afterNewVideo($videos_id) {
-		_error_log("DiscordNotify:afterNewVideo start");
+    public static function afterNewVideo($videos_id) {
+        _error_log("DiscordNotify:afterNewVideo start");
         global $global;
         $o = $this->getDataObject();
         $users_id = Video::getOwner($videos_id);
@@ -61,9 +61,9 @@ class DiscordNotify extends PluginAbstract {
         $avatar_url = $o->avatar_url;
         $bot_username = $o->bot_username;
         $footer_image = $o->footer_image;
-		_error_log("DiscordNotify:afterNewVideo: {$url}");
+        _error_log("DiscordNotify:afterNewVideo: {$url}");
 
-         $hookObject = json_encode([
+        $hookObject = json_encode([
             "content" => "",
             "username" => $bot_username,
             "avatar_url" => $avatar_url,
@@ -106,16 +106,17 @@ class DiscordNotify extends PluginAbstract {
                     ]
                 ]
             ]
-        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
         $c = curl_init($url);
-		curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($c, CURLOPT_POST, true);
-		curl_setopt($c, CURLOPT_POSTFIELDS, $hookObject);
-		curl_setopt($c, CURLOPT_HTTPHEADER, array(
-				'Content-Type: application/json',
-		));
-		curl_exec($c);
-		curl_close($c);
+        curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($c, CURLOPT_POST, true);
+        curl_setopt($c, CURLOPT_POSTFIELDS, $hookObject);
+        curl_setopt($c, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+        ));
+        curl_exec($c);
+        curl_close($c);
     }
+
 }
