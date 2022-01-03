@@ -42,7 +42,7 @@ class DiscordNotify extends PluginAbstract {
         return $obj;
     }
 
-    public static function afterNewVideo($videos_id) {
+    public function afterNewVideo($videos_id) {
         _error_log("DiscordNotify:afterNewVideo start");
         global $global;
         $o = $this->getDataObject();
