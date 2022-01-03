@@ -1298,7 +1298,11 @@ function avideoModalIframeFullScreen(url) {
     if (!avideoModalIframeFullScreenOriginalURL) {
         avideoModalIframeFullScreenOriginalURL = document.location.href;
     }
-    window.history.pushState("", "", url);
+    try {
+        window.history.pushState("", "", url);
+    } catch (e) {
+        
+    }    
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-full');
 }
 
