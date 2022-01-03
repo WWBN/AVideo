@@ -17,28 +17,30 @@ if (!isset($phpbb_root_path)) {
     }
 }
 
-function getRequest($name) {
-    global $request;
-    return $request->variable($name, '', true, \phpbb\request\request_interface::REQUEST);
-}
-
 function getCookie($name) {
     global $request;
     return $request->variable($name, '', true, \phpbb\request\request_interface::COOKIE);
 }
 $avideoURL = "{webSiteRootURL}";
-$userR = getRequest('user');
-$passR = getRequest('pass');
+$userR = $_GET['user'];
+$passR = $_GET['pass'];
 if (!empty($userR) && !empty($passR)) {
     $loginURL = "{$avideoURL}objects/login.json.php?user=" . urlencode($userR) . "&pass=" . urlencode($passR).'&encodedPass=1';
+    error_log('PHPBB login '.$loginURL);
     $content = file_get_contents($loginURL);
     if (!empty($content)) {
         $json = json_decode($content);
         if (!empty($json->id)) {
             $dbuserToLogin = $json->user;
             $email = $json->email;
+        }else{
+            error_log('Invalid login ');
         }
+    }else{
+        error_log('No response on login');
     }
+}else{
+    error_log('No user passed');
 }
 if (!empty($dbuserToLogin)) {
 
