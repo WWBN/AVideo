@@ -62,6 +62,7 @@ if(file_exists($originalFilePath)){
 _error_log("Video is done notified {$video_id}: " . $video->getTitle());
 Video::clearCache($video_id);
 AVideoPlugin::onEncoderNotifyIsDone($video_id);
+AVideoPlugin::afterNewVideo($video_id);
 die(json_encode($obj));
 
 /*

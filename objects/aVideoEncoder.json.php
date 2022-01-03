@@ -211,12 +211,12 @@ function downloadVideoFromDownloadURL($downloadURL){
 
         $temp = Video::getStoragePath()."cache/tmpFile/" . $_FILES['video']['name'];
         make_path($temp);
-        $bytesSaved = _file_put_contents($temp, $file);
+        $bytesSaved = file_put_contents($temp, $file);
         if($bytesSaved){
             _error_log("aVideoEncoder.json: saved " . $temp  . ' '. humanFileSize($bytesSaved));
             return $temp;
         }else{
-            _error_log("aVideoEncoder.json: ERROR on save file " . $temp  . ' '. humanFileSize($strlen));
+            _error_log("aVideoEncoder.json: ERROR on save file " . $temp );
         }
     }
     return false;
