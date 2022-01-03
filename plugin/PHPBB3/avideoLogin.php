@@ -32,7 +32,7 @@ $userR = getRequest('user');
 $passR = getRequest('pass');
 if (!empty($userR) && !empty($passR)) {
     $loginURL = "{$avideoURL}objects/login.json.php?user=" . urlencode($userR) . "&pass=" . urlencode($passR) . '&encodedPass=1';
-    error_log('PHPBB login ' . $loginURL);
+    //error_log('PHPBB login ' . $loginURL);
     $content = file_get_contents($loginURL);
     if (!empty($content)) {
         $json = json_decode($content);
@@ -55,15 +55,15 @@ if (!empty($dbuserToLogin)) {
 
     // Create connection
     $mysqli = new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
-    error_log('PHPBB checking Line ' . __LINE__);
+    //error_log('PHPBB checking Line ' . __LINE__);
 
     if ($result = $mysqli->query("SELECT * FROM {$table_prefix}users WHERE username = '{$dbuserToLogin}' LIMIT 1")) {
-        error_log('PHPBB checking Line ' . __LINE__);
+        //error_log('PHPBB checking Line ' . __LINE__);
         if ($row = $result->fetch_assoc()) {
-            error_log('PHPBB checking Line ' . __LINE__);
+            //error_log('PHPBB checking Line ' . __LINE__);
             $users_id = $row['user_id'];
         } else {
-            error_log('PHPBB checking Line ' . __LINE__);
+            //error_log('PHPBB checking Line ' . __LINE__);
             $user_row = array(
                 'username' => $dbuserToLogin,
                 'group_id' => 2,
@@ -72,10 +72,10 @@ if (!empty($dbuserToLogin)) {
             $users_id = user_add($user_row);
         }
     }
-    error_log('PHPBB checking Line ' . __LINE__);
+    //error_log('PHPBB checking Line ' . __LINE__);
 
     if (!empty($users_id) && $result = $mysqli->query("SELECT * FROM {$table_prefix}config WHERE config_name = 'cookie_name' LIMIT 1")) {
-        error_log('PHPBB checking ' . $users_id);
+        error_log('PHPBB checking user ' . $users_id);
         if ($result->num_rows > 0) {
             if ($row = $result->fetch_assoc()) {
                 //var_dump($row);exit;
