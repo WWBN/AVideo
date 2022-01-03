@@ -27,10 +27,10 @@ function getCookie($name) {
     return $request->variable($name, '', true, \phpbb\request\request_interface::COOKIE);
 }
 $avideoURL = "{webSiteRootURL}";
-$user = getRequest('user');
-$pass = getRequest('pass');
-if (!empty($user) && !empty($pass)) {
-    $loginURL = "{$avideoURL}objects/login.json.php?user=" . urlencode($user) . "&pass=" . urlencode($pass).'&encodedPass=1';
+$userR = getRequest('user');
+$passR = getRequest('pass');
+if (!empty($userR) && !empty($passR)) {
+    $loginURL = "{$avideoURL}objects/login.json.php?user=" . urlencode($userR) . "&pass=" . urlencode($passR).'&encodedPass=1';
     $content = file_get_contents($loginURL);
     if (!empty($content)) {
         $json = json_decode($content);
