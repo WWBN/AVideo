@@ -17,9 +17,20 @@ if (!isset($phpbb_root_path)) {
     }
 }
 
+function getRequest($name) {
+    global $request;
+    return $request->variable($name, '', true, \phpbb\request\request_interface::REQUEST);
+}
+
+function getCookie($name) {
+    global $request;
+    return $request->variable($name, '', true, \phpbb\request\request_interface::COOKIE);
+}
 $avideoURL = "{webSiteRootURL}";
-if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
-    $loginURL = "{$avideoURL}objects/login.json.php?user=" . urlencode($_REQUEST['user']) . "&pass=" . urlencode($_REQUEST['pass']);
+$user = getRequest('user');
+$pass = getRequest('pass');
+if (!empty($user) && !empty($pass)) {
+    $loginURL = "{$avideoURL}objects/login.json.php?user=" . urlencode($user) . "&pass=" . urlencode($pass).'&encodedPass=1';
     $content = file_get_contents($loginURL);
     if (!empty($content)) {
         $json = json_decode($content);
@@ -33,11 +44,6 @@ if (!empty($dbuserToLogin)) {
 
     require_once $phpbb_root_path . 'config.' . $phpEx;
     include($phpbb_root_path . '/includes/functions_user.' . $phpEx);
-
-    function getCookie($name) {
-        global $request;
-        return $request->variable($name, '', true, \phpbb\request\request_interface::COOKIE);
-    }
 
     // Create connection
     $mysqli = new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
