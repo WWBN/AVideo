@@ -97,6 +97,8 @@ if (!empty($dbuserToLogin)) {
                     setcookie("{$row['config_value']}_u", $users_id, time() + (86400 * 30), "/"); // 86400 = 1 day
                     $mysqli->query("UPDATE `{$table_prefix}sessions` SET `session_user_id` = '{$users_id}' WHERE (`session_id` = '{$cookie_sid}')");
                     //var_dump($cookie_sid, $dbuserToLogin, $email);
+                    header('Location: .');
+                    exit;
                 }
             }
         } else {
