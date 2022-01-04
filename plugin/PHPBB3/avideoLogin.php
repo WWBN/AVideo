@@ -9,6 +9,13 @@ if (!isset($phpbb_root_path)) {
             $content = file_get_contents('index.original.php');
             $newContent = str_replace('$user->session_begin();', 'require_once $phpbb_root_path . \'avideoLogin.php\';' . PHP_EOL . '$user->session_begin();', $content);
             file_put_contents('index.php', $newContent);
+            
+            if (!file_exists('ucp.original.php')) {
+                copy('ucp.php', 'ucp.original.php');
+            }
+            $content = file_get_contents('ucp.original.php');
+            $newContent = str_replace('require($phpbb_root_path . \'includes/functions_module.\' . $phpEx);', 'require($phpbb_root_path . \'includes/functions_module.\' . $phpEx);'.PHP_EOL.'require_once $phpbb_root_path . \'avideoLogin.php\';', $content);
+            file_put_contents('ucp.php', $newContent);
         } else {
             die('Must be inside phpBB directory');
         }
@@ -30,6 +37,12 @@ function getCookie($name) {
 $avideoURL = "{webSiteRootURL}";
 $userR = getRequest('user');
 $passR = getRequest('pass');
+if(empty($userR)){
+    $userR = getRequest('username');
+}
+if(empty($passR)){
+    $passR = getRequest('password');
+}
 if (!empty($userR) && !empty($passR)) {
     $loginURL = "{$avideoURL}objects/login.json.php?user=" . urlencode($userR) . "&pass=" . urlencode($passR) . '&encodedPass=1';
     //error_log('PHPBB login ' . $loginURL);
@@ -51,7 +64,7 @@ if (!empty($userR) && !empty($passR)) {
 if (!empty($dbuserToLogin)) {
 
     require_once $phpbb_root_path . 'config.' . $phpEx;
-    include($phpbb_root_path . '/includes/functions_user.' . $phpEx);
+    require_once ($phpbb_root_path . '/includes/functions_user.' . $phpEx);
 
     // Create connection
     $mysqli = new mysqli($dbhost, $dbuser, $dbpasswd, $dbname);
