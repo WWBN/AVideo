@@ -26,11 +26,17 @@ if (!isset($phpbb_root_path)) {
 
 function getRequest($name) {
     global $request;
+    if(empty($request)){
+        return null;
+    }
     return $request->variable($name, '', true, \phpbb\request\request_interface::REQUEST);
 }
 
 function getCookie($name) {
     global $request;
+    if(empty($request)){
+        return null;
+    }
     return $request->variable($name, '', true, \phpbb\request\request_interface::COOKIE);
 }
 
