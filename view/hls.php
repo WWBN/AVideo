@@ -79,7 +79,11 @@ if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->vi
     } else if (!empty($_GET['playHLSasMP4'])) {
         playHLSasMP4($_GET['file']);
     } else {
-        $filename = pathToRemoteURL($filename);
+        if(@filesize($_GET['file'])>20){
+            $filename = $_GET['file'];
+        }else{
+            $filename = pathToRemoteURL($filename);
+        }
         $content = file_get_contents($filename);
         $newContent = str_replace('{$pathToVideo}', "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
         if (!empty($_GET['token'])) {
