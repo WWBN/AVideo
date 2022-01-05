@@ -14,6 +14,16 @@ if(!User::canStream()){
     die(json_encode($obj));
 }
 
+if(empty($_POST['title'])){
+    $obj->msg = "invalid title";
+    die(json_encode($obj));
+}
+
+if(empty($_POST['scheduled_time'])){
+    $obj->msg = "invalid date";
+    die(json_encode($obj));
+}
+
 $o = new Live_schedule(@$_POST['id']);
 $o->setTitle($_POST['title']);
 $o->setDescription($_POST['description']);
@@ -28,7 +38,12 @@ $o->setStatus($_POST['status']);
 //$o->setShowOnTV($_POST['showOnTV']);
 
 if($id = $o->save()){
+    $obj->msg = "{$_POST['title']} ".__('Saved');
     $obj->error = false;
+}else{
+    $obj->msg = __('Error on save')." {$_POST['title']}";
 }
+
+
 
 echo json_encode($obj);

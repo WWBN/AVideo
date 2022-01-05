@@ -150,6 +150,9 @@
         <label class="col-md-4 control-label"><?php echo __("About"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"  ><?php echo $user->getAbout(); ?></textarea>
+            <?php
+            echo getTinyMCE("textAbout", true);
+            ?>
         </div>
     </div>
 
@@ -253,7 +256,7 @@
                     "about": $('#textAbout').val(),
                     "channelName": $('#channelName').val(),
                     "donationLink": $('#donationLink').val(),
-                    "analyticsCode": $('#analyticsCode').val()
+                    "analyticsCode": $('#analyticsCode').val(),
                 },
                 type: 'post',
                 success: function (response) {
@@ -267,7 +270,7 @@
                                 type: "POST",
                                 url: "<?php echo $global['webSiteRootURL']; ?>objects/userSavePhoto.php",
                                 data: {
-                                    imgBase64: resp
+                                    imgBase64: resp,
                                 },
                                 success: function (response) {
                                     modal.hidePleaseWait();

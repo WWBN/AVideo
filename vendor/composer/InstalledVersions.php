@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '5392c6788dc2180fdc2b8bb15363b41bf11b989a',
+    'reference' => '374966982138bc982c115f6d3c71a71403f7a983',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -55,12 +55,12 @@ private static $installed = array (
     ),
     'aws/aws-sdk-php' => 
     array (
-      'pretty_version' => '3.198.0',
-      'version' => '3.198.0.0',
+      'pretty_version' => '3.200.1',
+      'version' => '3.200.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '313472659580c84efa343b5f3ef65e5d42f0fbd6',
+      'reference' => '41ffdb283c524c6632610ec43d89ba7f6094b575',
     ),
     'cboden/ratchet' => 
     array (
@@ -82,12 +82,12 @@ private static $installed = array (
     ),
     'composer/ca-bundle' => 
     array (
-      'pretty_version' => '1.2.11',
-      'version' => '1.2.11.0',
+      'pretty_version' => '1.3.1',
+      'version' => '1.3.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '0b072d51c5a9c6f3412f7ea3ab043d6603cb2582',
+      'reference' => '4c679186f2aca4ab6a0f1b0b9cf9252decb44d0b',
     ),
     'emojione/assets' => 
     array (
@@ -127,12 +127,12 @@ private static $installed = array (
     ),
     'firebase/php-jwt' => 
     array (
-      'pretty_version' => 'v5.4.0',
-      'version' => '5.4.0.0',
+      'pretty_version' => 'v5.5.0',
+      'version' => '5.5.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'd2113d9b2e0e349796e72d2a63cf9319100382d2',
+      'reference' => 'cf814442ce0e9eebe5317d61b63ccda4b85de67a',
     ),
     'gliterd/backblaze-b2' => 
     array (
@@ -154,12 +154,12 @@ private static $installed = array (
     ),
     'google/apiclient-services' => 
     array (
-      'pretty_version' => 'v0.215.0',
-      'version' => '0.215.0.0',
+      'pretty_version' => 'v0.221.0',
+      'version' => '0.221.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1d4d488c09a9bb5f361f8d7ddd8dbb37cb7786ac',
+      'reference' => '55fb77c4dcb7ec2b41128d41815b3aac65ddfadb',
     ),
     'google/auth' => 
     array (
@@ -181,12 +181,12 @@ private static $installed = array (
     ),
     'guzzlehttp/promises' => 
     array (
-      'pretty_version' => '1.5.0',
-      'version' => '1.5.0.0',
+      'pretty_version' => '1.5.1',
+      'version' => '1.5.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '136a635e2b4a49b9d79e9c8fee267ffb257fdba0',
+      'reference' => 'fe752aedc9fd8fcca3fe7ad05d419d32998a06da',
     ),
     'guzzlehttp/psr7' => 
     array (
@@ -244,12 +244,12 @@ private static $installed = array (
     ),
     'nesbot/carbon' => 
     array (
-      'pretty_version' => '2.53.1',
-      'version' => '2.53.1.0',
+      'pretty_version' => '2.54.0',
+      'version' => '2.54.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f4655858a784988f880c1b8c7feabbf02dfdf045',
+      'reference' => 'eed83939f1aed3eee517d03a33f5ec587ac529b5',
     ),
     'norkunas/onesignal-php-api' => 
     array (
@@ -339,12 +339,12 @@ private static $installed = array (
     ),
     'phpseclib/phpseclib' => 
     array (
-      'pretty_version' => '2.0.33',
-      'version' => '2.0.33.0',
+      'pretty_version' => '2.0.34',
+      'version' => '2.0.34.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'fb53b7889497ec7c1362c94e61d8127ac67ea094',
+      'reference' => '98a6fe587f3481aea319eef7e656d02cfe1675ec',
     ),
     'psr/cache' => 
     array (
@@ -529,12 +529,12 @@ private static $installed = array (
     ),
     'stripe/stripe-php' => 
     array (
-      'pretty_version' => 'v7.98.0',
-      'version' => '7.98.0.0',
+      'pretty_version' => 'v7.100.0',
+      'version' => '7.100.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '87f27d3da4a72c93da49d81011cb675c2847a7c0',
+      'reference' => '3dfc3dcd5d967a14d2852f34e544188af5f9b799',
     ),
     'symfony/deprecation-contracts' => 
     array (
@@ -547,12 +547,12 @@ private static $installed = array (
     ),
     'symfony/http-client' => 
     array (
-      'pretty_version' => 'v5.3.8',
-      'version' => '5.3.8.0',
+      'pretty_version' => 'v5.3.10',
+      'version' => '5.3.10.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'c6370fe2c0a445aedc08f592a6a3149da1fea4c7',
+      'reference' => '710b69ed4bc9469900ec5ae5c3807b0509bee0dc',
     ),
     'symfony/http-client-contracts' => 
     array (
@@ -572,12 +572,12 @@ private static $installed = array (
     ),
     'symfony/http-foundation' => 
     array (
-      'pretty_version' => 'v5.3.7',
-      'version' => '5.3.7.0',
+      'pretty_version' => 'v5.3.10',
+      'version' => '5.3.10.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e36c8e5502b4f3f0190c675f1c1f1248a64f04e5',
+      'reference' => '9f34f02e8a5fdc7a56bafe011cea1ce97300e54c',
     ),
     'symfony/options-resolver' => 
     array (
@@ -662,12 +662,12 @@ private static $installed = array (
     ),
     'symfony/translation' => 
     array (
-      'pretty_version' => 'v5.3.9',
-      'version' => '5.3.9.0',
+      'pretty_version' => 'v5.3.10',
+      'version' => '5.3.10.0',
       'aliases' => 
       array (
       ),
-      'reference' => '6e69f3551c1a3356cf6ea8d019bf039a0f8b6886',
+      'reference' => '6ef197aea2ac8b9cd63e0da7522b3771714035aa',
     ),
     'symfony/translation-contracts' => 
     array (
@@ -692,7 +692,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '5392c6788dc2180fdc2b8bb15363b41bf11b989a',
+      'reference' => '374966982138bc982c115f6d3c71a71403f7a983',
     ),
   ),
 );

@@ -139,32 +139,35 @@ unset($_POST['current']);
                                 ?>'/>
                                        <?php
                                    }
-                                   ?>
-                            <button class="btn btn-xs btn-info seriePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-film"></i> <?php echo __("Serie"); ?></button>
+                                   if (User::canUpload()) {
+                                       ?>
+                                <button class="btn btn-xs btn-info seriePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-film"></i> <?php echo __("Serie"); ?></button>
 
-                            <div id="seriePlaylistModal" class="modal fade" tabindex="-1" role="dialog" >
-                                <div class="modal-dialog" role="document" style="width: 90%; margin: auto;">
-                                    <div class="modal-content">
-                                        <div class="modal-body">
-                                            <iframe style="width: 100%; height: 80vh;" src="about:blank">
+                                <div id="seriePlaylistModal" class="modal fade" tabindex="-1" role="dialog" >
+                                    <div class="modal-dialog" role="document" style="width: 90%; margin: auto;">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <iframe style="width: 100%; height: 80vh;" src="about:blank">
 
-                                            </iframe>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
-                            <script>
-                                $(function () {
-                                    $('.seriePlaylist').click(function () {
-                                        $($('#seriePlaylistModal').find('iframe')[0]).attr('src', 'about:blank');
-                                        var playlist_id = $(this).attr('playlist_id');
-                                        $($('#seriePlaylistModal').find('iframe')[0]).attr('src', '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=' + playlist_id);
-                                        $('#seriePlaylistModal').modal();
-                                        //$('#seriePlaylistModal').modal('hide');
+                                                </iframe>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                                <script>
+                                    $(function () {
+                                        $('.seriePlaylist').click(function () {
+                                            $($('#seriePlaylistModal').find('iframe')[0]).attr('src', 'about:blank');
+                                            var playlist_id = $(this).attr('playlist_id');
+                                            $($('#seriePlaylistModal').find('iframe')[0]).attr('src', '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=' + playlist_id);
+                                            $('#seriePlaylistModal').modal();
+                                            //$('#seriePlaylistModal').modal('hide');
+                                        });
                                     });
-                                });
-                            </script>
-
+                                </script>
+                                <?php
+                            }
+                            ?>
                             <button class="btn btn-xs btn-danger deletePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-trash"></i> <?php echo __("Delete"); ?></button>
                             <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-edit"></i> <?php echo __("Rename"); ?></button>
                             <button class="btn btn-xs btn-default statusPlaylist statusPlaylist<?php echo $playlist['id']; ?>" playlist_id="<?php echo $playlist['id']; ?>" style="" >
@@ -248,17 +251,17 @@ unset($_POST['current']);
                                         if (!empty($serie['trailer1'])) {
                                             ?>
                                             <a href="#" class="btn btn-xs btn-warning" onclick="$(this).removeAttr('href'); $('#serie<?php echo $serie['id']; ?> img').fadeOut(); $('<iframe>', {
-                                                                        src: '<?php echo parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'); ?>',
-                                                                        id: 'myFrame<?php echo $serie['id']; ?>',
-                                                                        allow: 'autoplay',
-                                                                        frameborder: 0,
-                                                                        height: 200,
-                                                                        width: '100%',
-                                                                        scrolling: 'no'
-                                                                    }).appendTo('#serie<?php echo $serie['id']; ?>');
-                                                                    $(this).removeAttr('onclick');
-                                                                    $(this).fadeOut();
-                                                                    return false;">
+                                                        src: '<?php echo parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'); ?>',
+                                                        id: 'myFrame<?php echo $serie['id']; ?>',
+                                                        allow: 'autoplay',
+                                                        frameborder: 0,
+                                                        height: 200,
+                                                        width: '100%',
+                                                        scrolling: 'no'
+                                                    }).appendTo('#serie<?php echo $serie['id']; ?>');
+                                                    $(this).removeAttr('onclick');
+                                                    $(this).fadeOut();
+                                                    return false;">
                                                 <span class="fa fa-film"></span> 
                                                 <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
                                             </a>
@@ -285,7 +288,7 @@ unset($_POST['current']);
                             $count++;
                             continue;
                         }
-                        $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/" . urlencode(cleanURLName($playlist['name'])) . "/".cleanURLName($value['clean_title']);
+                        $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/" . urlencode(cleanURLName($playlist['name'])) . "/" . cleanURLName($value['clean_title']);
                         $count++;
                         $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                         $name = User::getNameIdentificationById($value['users_id']);
@@ -329,14 +332,14 @@ unset($_POST['current']);
                                         ?>
 
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['watchLaterId']; ?>);
-                                                                return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button> 
+                                                return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button> 
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['watchLaterId']; ?>);
-                                                                return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
+                                                return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
                                         <br>
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['favoriteId']; ?>);
-                                                                return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
+                                                return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
                                         <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['favoriteId']; ?>);
-                                                                return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart" ></i></button>    
+                                                return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>  faa-parent animated-hover" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>    
 
                                     </div>
                                     <?php

@@ -235,20 +235,26 @@ class ADs extends PluginAbstract {
                 . "<div class=\"carousel-inner\">";
 
         $active = 'active';
+        $validPaths = 0;
         foreach ($paths as $value) {
+            $fsize= filesize($value['imagePath']);
+            if($fsize<5000){
+                continue;
+            }
+            $validPaths++;
             $html .= "<div class=\"item {$active}\">";
             if (isValidURL($value['url'])) {
                 $html .= "<a href=\"{$value['url']}\" target=\"_blank\">";
-                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\" >";
+                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\" title=\"{$fsize}\" >";
                 $html .= "</a>";
             } else {
-                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\"  >";
+                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\"  title=\"{$fsize}\" >";
             }
             $html .= "</div>";
             $active = '';
         }
 
-        if (count($paths) > 1) {
+        if (count($validPaths) > 1) {
             $html .= "
               <a class=\"left carousel-control\" href=\"#{$id}\" data-slide=\"prev\">
                 <span class=\"glyphicon glyphicon-chevron-left\"></span>
@@ -258,6 +264,8 @@ class ADs extends PluginAbstract {
                 <span class=\"glyphicon glyphicon-chevron-right\"></span>
                 <span class=\"sr-only\">Next</span>
               </a>";
+        }else if(empty($validPaths) && User::isAdmin()){
+            $html .= "<div class='alert alert-warning'>{$type} ADs Area</div>";
         }
         $html .= "</div></div></center>";
         return $html;

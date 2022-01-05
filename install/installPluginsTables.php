@@ -18,12 +18,17 @@ function _rsearch($folder, $pattern) {
         }
         $fileList = array_merge($fileList, $file);
     }
+    usort($fileList,
+            function($a, $b) {
+                return preg_match('/SendRecordedToEncoder/', $a) ? 1 : 0;
+            }
+    );
     return $fileList;
 }
 
 $option = intval(@$argv[1]);
 
-if(empty($option)){
+if (empty($option)) {
     echo "1 - Install tables and enable plugins\n";
     echo "2 - Install tables only\n";
     echo "3 - Enable plugins only\n";
@@ -35,9 +40,16 @@ if(empty($option)){
 if ($option == 1 || $option == 2) {
     $files = _rsearch("{$global['systemRootPath']}plugin/", "/install\/install.sql$/i");
     $templine = '';
+    $global['mysqli']->begin_transaction();
+    $totalFiles = count($files);
+    $countFiles = 0;
     foreach ($files as $value) {
+        $countFiles++;
         $lines = file($value);
+        $totalLines = count($lines);
+        $countLines = 0;
         foreach ($lines as $line) {
+            $countLines++;
             if (substr($line, 0, 2) == '--' || $line == '')
                 continue;
             $templine .= $line;
@@ -46,12 +58,13 @@ if ($option == 1 || $option == 2) {
                     echo ($value . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
                     die(json_encode($obj));
                 } else {
-                    echo "Success performing query from $value\n";
+                    echo "[{$countFiles}/{$totalFiles}][{$countLines}/{$totalLines}] Success performing query from $value\n";
                 }
                 $templine = '';
             }
         }
     }
+    $global['mysqli']->commit();
 }
 if ($option == 1 || $option == 3) {
     $EnablePlugins = array(
@@ -87,18 +100,18 @@ if ($option == 1 || $option == 3) {
     }
 }
 if ($option == 4) {
-    echo "Searching for {$global['systemRootPath']}plugin/[plugin]/install/install.sql".PHP_EOL;
+    echo "Searching for {$global['systemRootPath']}plugin/[plugin]/install/install.sql" . PHP_EOL;
     $files = _rsearch("{$global['systemRootPath']}plugin/", "/install\/install.sql$/i");
     $templine = '';
     foreach ($files as $value) {
-        if(preg_match("/User_Location/", $value)){
+        if (preg_match("/User_Location/", $value)) {
             continue;
         }
-        if(preg_match("/Customize/", $value)){
+        if (preg_match("/Customize/", $value)) {
             continue;
         }
-        
-        echo "Checking tables from {$value}".PHP_EOL;
+
+        echo "Checking tables from {$value}" . PHP_EOL;
         $lines = file($value);
         foreach ($lines as $line) {
             if (substr($line, 0, 2) == '--' || $line == '')
@@ -118,15 +131,15 @@ if ($option == 4) {
     $plugins = Plugin::getAvailablePlugins();
     foreach ($plugins as $value) {
         $p = AVideoPlugin::loadPlugin($value->dir);
-        if(empty($p)){
+        if (empty($p)) {
             continue;
         }
         $currentVersion = $p->getPluginVersion();
-        if(AVideoPlugin::updatePlugin($value->dir)){
+        if (AVideoPlugin::updatePlugin($value->dir)) {
             $p = AVideoPlugin::loadPlugin($value->dir, true);
             $newVersion = $p->getPluginVersion();
-            echo "{$value->dir} updated FROM {$currentVersion} TO {$newVersion}".PHP_EOL;
-        } 
+            echo "{$value->dir} updated FROM {$currentVersion} TO {$newVersion}" . PHP_EOL;
+        }
     }
 }
 echo "Option {$option} finished \n";

@@ -20,7 +20,7 @@ if (empty($meet_schedule_id)) {
 }
 ?>
 <script src="<?php echo getCDN(); ?>plugin/Meet/external_api.js" type="text/javascript"></script>
-<script src="<?php echo getCDN(); ?>view/js/seetalert/sweetalert.min.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>node_modules/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
 <script>
     var webSiteRootURL = "<?php echo $global['webSiteRootURL']; ?>";
     var webSiteTitle = "<?php echo $config->getWebSiteTitle(); ?>";
@@ -79,7 +79,7 @@ if (empty($meet_schedule_id)) {
     });
 
     function aVideoMeetZoom(zoom) {
-        document.querySelector("iframe").contentWindow.postMessage({zoom: zoom}, "*");
+        //document.querySelector("iframe").contentWindow.postMessage({zoom: zoom}, "*");
     }
 
     function getMeetDisplayName(domain, roomName, jwt, email, TOOLBAR_BUTTONS) {
@@ -122,7 +122,9 @@ if (empty($meet_schedule_id)) {
             ConfigOverwrite: {
                 disableDeepLinking: true,
                 disableInviteFunctions: true,
-                openBridgeChannel: 'websocket'
+                openBridgeChannel: 'websocket',
+                liveStreamingEnabled: true,
+                fileRecordingsEnabled: false
             },
             interfaceConfigOverwrite: {
                 TOOLBAR_BUTTONS: TOOLBAR_BUTTONS,

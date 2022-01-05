@@ -31,9 +31,9 @@ if(empty($_POST['playlists_id'])){
 require_once './playlist.php';
 $videos = PlayList::getVideosFromPlaylist($_POST['playlists_id']);
 $objMob = AVideoPlugin::getObjectData("MobileManager");
-
+$index = 0;
 foreach ($videos as $key => $value) {
-    unset($videos[$key]['password'], $videos[$key]['recoverPass']);
+    $videos[$key] = cleanUpRowFromDatabase($videos[$key]);
     $images = Video::getImageFromFilename($videos[$key]['filename'], $videos[$key]['type']);
     $videos[$key]['images'] = $images;
     $videos[$key]['Poster'] = !empty($objMob->portraitImage)?$images->posterPortrait:$images->poster;
@@ -41,8 +41,8 @@ foreach ($videos as $key => $value) {
     $videos[$key]['imageClass'] = !empty($objMob->portraitImage)?"portrait":"landscape";
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
-    $videos[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/".$videos[$key]['clean_title'];
-    $videos[$key]['embedUrl'] = "{$global['webSiteRootURL']}videoEmbeded/".$videos[$key]['clean_title'];
+    $videos[$key]['pageUrl'] =  PlayLists::getLink($_POST['playlists_id'], false, $index);
+    $videos[$key]['embedUrl'] = PlayLists::getLink($_POST['playlists_id'], true, $index);
     unset($_POST['sort'], $_POST['current'], $_POST['searchPhrase']);
     $_REQUEST['rowCount'] = 10;
     $_POST['sort']['created'] = "desc";
@@ -67,7 +67,7 @@ foreach ($videos as $key => $value) {
     }else{
         $videos[$key]['UserPhoto'] = $videos[$key]['photoURL'];
     }
-
+    $index++;
 }
 
 echo json_encode($videos);

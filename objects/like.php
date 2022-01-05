@@ -25,9 +25,29 @@ class Like
         // if click again in the same vote, remove the vote
         if ($this->like == $like) {
             $like = 0;
+            if($this->like==1){
+                Video::updateLikesDislikes($videos_id, 'likes', '-1');
+            }else if($this->like==-1){
+                Video::updateLikesDislikes($videos_id, 'dislikes', '-1');
+            }
+        }else{
+            if(!empty($this->like)){
+                // need to remove some like or dislike
+                if($like==1){
+                    Video::updateLikesDislikes($videos_id, 'dislikes', '-1');
+                }else if($like==-1){
+                    Video::updateLikesDislikes($videos_id, 'likes', '-1');
+                }
+            }
+            if($like==1){
+                Video::updateLikesDislikes($videos_id, 'likes', '+1');
+            }else if($like==-1){
+                Video::updateLikesDislikes($videos_id, 'dislikes', '+1');
+            }
         }
+        //exit;
         $this->setLike($like);
-        $this->save();
+        $saved = $this->save();
     }
 
     private function setLike($like)
@@ -85,10 +105,17 @@ class Like
         return $res;
     }
 
-    public static function getLikes($videos_id)
-    {
-        global $global;
+    public static function getLikes($videos_id){
+        global $global, $_getLikes;
 
+        if(!isset($_getLikes)){
+            $_getLikes = array();
+        }
+        
+        if(!empty($_getLikes[$videos_id])){
+            return $_getLikes[$videos_id];
+        }
+        
         $obj = new stdClass();
         $obj->videos_id = $videos_id;
         $obj->likes = 0;
@@ -113,6 +140,7 @@ class Like
             die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         $obj->dislikes = intval($row['total']);
+        $_getLikes[$videos_id] = $obj;
         return $obj;
     }
 

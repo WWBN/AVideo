@@ -20,7 +20,7 @@ $leaderBoardTop = getAdsLeaderBoardTop();
                 echo '<div class="row text-center" style="padding: 10px;">'.$leaderBoardTop.'</div>';
             }
             ?>
-            <div class="col-lg-10 col-lg-offset-1 addWidthOnMenuOpen">
+            <div class="col-lg-10 col-lg-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <?php

@@ -54,7 +54,7 @@ $metaDescription = __("Trending");
                         //var_dump($rows);
                         foreach ($videos as $key => $value) {
                             ?>
-                            <div class="col-lg-12 searchResult thumbsImage mb-2" style="overflow: hidden;">
+                            <div class="col-lg-12 searchResult thumbsImage mb-2 <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp', 'trending', 0.2); ?> overflow: hidden;">
                                 <a class="galleryLink col-sm-4 col-md-4 col-lg-4" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
                                     <?php
                                     $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -200,8 +200,8 @@ $metaDescription = __("Trending");
         </div>
         <!-- status elements -->
         <div class="scroller-status">
-            <div class="infinite-scroll-request loader-ellips text-center">
-                <img src="img/loading.gif" alt=""/>
+            <div class="infinite-scroll-request loader-ellips text-center fa-2x">
+                <i class="fas fa-sync fa-spin"></i>
             </div>
             <p class="infinite-scroll-last text-center text-muted"><?php echo __('End of content') ?></p>
             <p class="infinite-scroll-error text-center text-muted"><?php echo __('No more pages to load') ?></p>
@@ -220,7 +220,7 @@ $metaDescription = __("Trending");
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script src="<?php echo getCDN(); ?>plugin/Gallery/script.js" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
+        <script src="<?php echo getCDN(); ?>node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
                 $container = $('.results').infiniteScroll({

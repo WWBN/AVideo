@@ -22,7 +22,6 @@ $groups = UserGroups::getAllUsersGroups();
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css"/>
-        <link href="<?php echo getCDN(); ?>js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
         <style>
             #sortable li{
@@ -199,7 +198,7 @@ $groups = UserGroups::getAllUsersGroups();
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-6" id="menuItemIconDiv">
                                                 <div class="form-group">
                                                     <label>Icon:</label><br>
                                                     <div>
@@ -207,6 +206,13 @@ $groups = UserGroups::getAllUsersGroups();
                                                         echo Layout::getIconsSelect(__("Select an icon for the menu"), "", "menuItemIcon");
                                                         ?>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" id="menuItemIconMobileDiv">
+                                                <div class="form-group">
+                                                    <label>Icon:</label><br>
+                                                    <input type="text" class="form-control" id="menuItemIconMobile">
+                                                    Get the icon name from <a href="https://ionicframework.com/docs/v3/ionicons/" target="_blank">here</a>
                                                 </div>
                                             </div>
                                             <hr>
@@ -264,7 +270,6 @@ $groups = UserGroups::getAllUsersGroups();
     include $global['systemRootPath'] . 'view/include/footer.php';
     ?>
     <script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
-    <script src="<?php echo getCDN(); ?>js/Croppie/croppie.min.js" type="text/javascript"></script>
     <script src="<?php echo getCDN(); ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.js" type="text/javascript"></script>  
     <script>
             var currentItem = [];
@@ -307,6 +312,7 @@ $groups = UserGroups::getAllUsersGroups();
                 $('#menuSeoUrlItem').val("");
                 $('iframe').contents().find('.wysihtml5-editor').html('');
                 $("#menuItemIcon").val("");
+                $("#menuItemIconMobile").val("");
                 $("#menuItemIcon").trigger('change');
             }
 
@@ -415,6 +421,7 @@ $groups = UserGroups::getAllUsersGroups();
                     $('#text').val(item.text);
                     $('#menuSeoUrlItem').val(item.menuSeoUrlItem);
                     $("#menuItemIcon").val(item.icon);
+                    $("#menuItemIconMobile").val(item.icon);
                     $("#menuItemIcon").trigger('change');
                     $('iframe').contents().find('.wysihtml5-editor').html(item.text);
                     if (item.url.length > 0) {
@@ -490,6 +497,13 @@ $groups = UserGroups::getAllUsersGroups();
                     $('#users_groups_id').val(data.users_groups_id);
                     $("#menuIcon").val(data.icon);
                     $("#menuIcon").trigger('change');
+                    if(data.type == 8){
+                       $("#menuItemIconDiv").hide();
+                       $("#menuItemIconMobileDiv").show();
+                    }else{
+                       $("#menuItemIconDiv").show();
+                       $("#menuItemIconMobileDiv").hide();
+                    }
                     checkIfHasId();
                     loadItems(data.id);
                 });
@@ -536,7 +550,8 @@ $groups = UserGroups::getAllUsersGroups();
                             "item_order": $('#item_order').val(),
                             "item_status": $('#item_status').val(),
                             "text": $('#pageType').val() == 'page' ? $('#text').val() : '',
-                            "icon": $("#menuItemIcon").val()
+                            "icon": $("#menuItemIcon").val(),
+                            "mobileicon": $("#menuItemIconMobile").val()
                         },
                         type: 'post',
                         success: function (response) {

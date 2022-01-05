@@ -22,7 +22,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
         border-bottom-left-radius: 0;
     }
 </style>
-<div class="panel panel-default">
+<div class="panel panel-default <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
     <div class="panel-heading"><i class="fas fa-hdd"></i> <?php echo __("Devices Stream Info"); ?> (<?php echo $channelName; ?>)</div>
     <div class="panel-body" style="overflow: hidden;">
         <div class="form-group">
@@ -62,15 +62,23 @@ $key = $liveStreamObject->getKeyWithIndex(true);
         ?>
     </div>
 </div>
-<div class="tabbable-line">
+<div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
     <ul class="nav nav-tabs">
         <li class="active" >
-            <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-key"></i> <?php echo __("Stream Meta Data"); ?></a></li>
+            <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-key"></i> <?php echo __("Stream Meta Data"); ?></a>
+        </li>
         <li class="">
-            <a data-toggle="tab" href="#tabPosterImage"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a></li>
+            <a data-toggle="tab" href="#tabPosterImage"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a>
+        </li>
+        <?php
+        if(empty($objLive->hideUserGroups)){
+        ?>
         <li class="" >
-            <a data-toggle="tab" href="#tabUserGroups"><i class="fas fa-users"></i> <?php echo __("User Groups"); ?></a></li>
-
+            <a data-toggle="tab" href="#tabUserGroups"><i class="fas fa-users"></i> <?php echo __("User Groups"); ?></a>
+        </li>
+        <?php
+        }
+        ?>
     </ul>
     <div class="tab-content">
         <div id="tabStreamMetaData" class="tab-pane fade in active">
@@ -86,9 +94,9 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                                 <input type="text" class="form-control" id="title" value="<?php echo $trasnmition['title'] ?>">
                             </div>  
                             <div class="form-group">
-                                <label for="title"><?php echo __("Category"); ?>:</label>
+                                <label for="title"><?php echo __("Password Protect"); ?>:</label>
                                 <?php
-                                echo Layout::getCategorySelect('categories_id', $trasnmition['categories_id']);
+                                echo getInputPassword('password_livestream', 'class="form-control" value="'.$trasnmition['password'].'"',  __("Password Protect"));
                                 ?>
                             </div>  
                             <div class="form-group">
@@ -99,12 +107,16 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                                 </div>
                             </div>
                             <?php
+                            $SendRecordedToEncoderObjectData = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
+                            $SendRecordedToEncoderClassExists = class_exists('SendRecordedToEncoder');
+                            $SendRecordedToEncoderMethodExists = method_exists('SendRecordedToEncoder', 'canAutoRecord');
                             if (
-                                    AVideoPlugin::isEnabledByName('SendRecordedToEncoder') && 
-                                    class_exists('SendRecordedToEncoder') && 
-                                    method_exists('SendRecordedToEncoder', 'canAutoRecord') 
-                                    && (SendRecordedToEncoder::canAutoRecord(User::getId()) || 
-                                    SendRecordedToEncoder::canApprove(User::getId()))) {
+                                    $SendRecordedToEncoderObjectData && 
+                                    $SendRecordedToEncoderClassExists && 
+                                    $SendRecordedToEncoderMethodExists ) {
+                                $SendRecordedToEncoderCanAutoRecord = SendRecordedToEncoder::canAutoRecord(User::getId());
+                                $SendRecordedToEncoderCanApprove = SendRecordedToEncoder::canApprove(User::getId());
+                                if($SendRecordedToEncoderCanAutoRecord || ($SendRecordedToEncoderCanApprove && $SendRecordedToEncoderObjectData->usersCanSelectAutoRecord)){
                                 ?> 
                                 <div class="form-group">
                                     <span class="fa fa-globe"></span> <?php echo __("Auto record this live"); ?> 
@@ -114,11 +126,28 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                                     </div>
                                 </div>
                                 <?php
+                                }else{
+                                    if(!$SendRecordedToEncoderCanAutoRecord){
+                                        echo '<!-- Cannot auto record -->';
+                                    }
+                                    if(!$SendRecordedToEncoderCanApprove){
+                                        echo '<!-- Cannot approve -->';
+                                    }
+                                    if(!$SendRecordedToEncoderObjectData->usersCanSelectAutoRecord){
+                                        echo '<!-- Cannot Select AutoRecord -->';
+                                    }
+                                }
                             }
                             ?>
                         </div>
                         <div class="col-sm-6">
 
+                            <div class="form-group">
+                                <label for="title"><?php echo __("Category"); ?>:</label>
+                                <?php
+                                echo Layout::getCategorySelect('categories_id', $trasnmition['categories_id']);
+                                ?>
+                            </div> 
                             <div class="form-group">
                                 <label for="description"><?php echo __("Description"); ?>:</label>
                                 <textarea rows="6" class="form-control" id="description"><?php echo $trasnmition['description'] ?></textarea>
@@ -127,7 +156,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                     </div>  
                 </div>
                 <div class="panel-footer">
-                    <button type="button" class="btn btn-success btnSaveStream" id="btnSaveStream"><?php echo __("Save Stream"); ?></button>
+                    <button type="button" class="btn btn-success btn-block btnSaveStream" id="btnSaveStream"><i class="fas fa-save"></i> <?php echo __("Save Stream Settings"); ?></button>
                 </div>
             </div>
         </div>
@@ -167,7 +196,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                     ?>
                 </div>
                 <div class="panel-footer">
-                    <button type="button" class="btn btn-success btnSaveStream" id="btnSaveStream"><?php echo __("Save Stream"); ?></button>
+                    <button type="button" class="btn btn-success btnSaveStream" id="btnSaveStream"><i class="fas fa-save"></i> <?php echo __("Save Stream Settings"); ?></button>
                     <a href="<?php echo $global['webSiteRootURL']; ?>usersGroups" class="btn btn-primary"><span class="fa fa-users"></span> <?php echo __("Add more user Groups"); ?></a>
                 </div>
             </div>

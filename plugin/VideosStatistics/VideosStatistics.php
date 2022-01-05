@@ -118,13 +118,50 @@ class VideosStatistics extends PluginAbstract {
     }
 
     static public function getTotalLikes($users_id) {
-        return self::getTotalLikesDislikes($users_id, 1, 0);
+        return self::getTotalLikesDislikesFromVideos($users_id, 1, 0);
     }
 
     static public function getTotalDislikes($users_id) {
-        return self::getTotalLikesDislikes($users_id, -1, 0);
+        return self::getTotalLikesDislikesFromVideos($users_id, -1, 0);
     }
 
+    static public function getTotalLikesDislikesFromVideos($users_id, $like, $days) {
+        global $_getTotalLikesDislikes; 
+        
+        $index = "$users_id, $like, $days";
+        
+        if(!isset($_getTotalLikesDislikes)){
+            $_getTotalLikesDislikes = array();
+        }
+        
+        if(isset($_getTotalLikesDislikes[$index])){
+            return $_getTotalLikesDislikes[$index];
+        }
+        
+        $column = 'likes';
+        if($like == -1){
+            $column = 'dislikes';
+        }
+        
+        $sql = "SELECT sum({$column}) as total FROM videos WHERE 1=1 ";
+        $users_id = intval($users_id);
+        if (!empty($users_id)) {
+            $sql .= " AND users_id = $users_id ";
+        }
+        if (!empty($days)) {
+            $sql .= " AND modified  > (NOW() - INTERVAL {$days} DAY) ";
+        }
+        $total = 0;
+        $res = sqlDAL::readSql($sql);
+        if ($res != false) {
+            $row = sqlDAL::fetchAssoc($res);
+            sqlDAL::close($res);
+            $total = intval($row['total']);
+        }
+        $_getTotalLikesDislikes[$index] = $total;
+        return $total;
+    }
+    
     static public function getTotalLikesDislikes($users_id, $like, $days) {
         global $_getTotalLikesDislikes; 
         

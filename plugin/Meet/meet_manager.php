@@ -20,7 +20,7 @@ $userCredentials = User::loginFromRequestToGet();
 ?>
 
 <div class="row">
-    <div class="col-sm-5">
+    <div class="col-sm-3">
         <div class="panel panel-default" id="roomConfiguration">
             <div class="panel-heading">
                 <i class="fas fa-plus"></i> <?php echo __("Create Room"); ?>
@@ -29,24 +29,24 @@ $userCredentials = User::loginFromRequestToGet();
 
                 <form id="formMeetManager">
                     <input type="hidden" id="meet_schedule_id" name="id" value="0">
-                    <div class="form-group col-sm-6">
+                    <div class="form-group">
                         <label for="RoomTopic"><?php echo __("Meet Topic"); ?>:</label>
                         <input type="text" id="RoomTopic" name="RoomTopic" class="form-control input-sm" placeholder="<?php echo __("Meet Topic"); ?>">
                     </div>
-                    <div class="form-group col-sm-6">
+                    <div class="form-group">
                         <label for="RoomPasswordNew"><?php echo __("Meet Password"); ?>:</label>
                         <?php
                         getInputPassword("RoomPasswordNew");
                         ?>
                     </div>
-                    <div class="form-group col-sm-6 hidden">
+                    <div class="form-group hidden">
                         <label for="live_streamNew"><?php echo __("Auto Transmit Live"); ?>:</label>
                         <select class="form-control input-sm" name="live_stream" id="live_streamNew">
                             <option value="0"><?php echo __("No"); ?></option>
                             <option value="1"><?php echo __("Yes"); ?></option>
                         </select>
                     </div>
-                    <div class="form-group col-sm-6">
+                    <div class="form-group">
                         <label for="publicNew"><?php echo __("Public"); ?>/<?php echo __("Private"); ?>:</label>
                         <select class="form-control input-sm" name="public" id="publicNew">
                             <option value="2"><?php echo __("Public"); ?></option>
@@ -70,7 +70,7 @@ $userCredentials = User::loginFromRequestToGet();
                             ?>
                         </div>
                     </div>
-                    <div class="form-group col-sm-6">
+                    <div class="form-group">
                         <label for="whenNew"><?php echo __("When"); ?>:</label>
                         <select class="form-control input-sm" name="when" id="whenNew">
                             <option value="1"><?php echo __("Now"); ?></option>
@@ -83,7 +83,7 @@ $userCredentials = User::loginFromRequestToGet();
 
                     </div>
                     <div class="clearfix"></div>
-                    <div class="form-group col-sm-12">
+                    <div class="form-group">
                         <div class="btn-group justified">
                             <span class="btn btn-success" id="newMeet_scheduleLink" onclick="clearMeetForm(true)"><i class="fas fa-plus"></i> <?php echo __("New"); ?></span>
                             <button class="btn btn-primary" type="submit"><i class="fas fa-save"></i> <?php echo __("Save"); ?></button>
@@ -95,7 +95,7 @@ $userCredentials = User::loginFromRequestToGet();
             </div>
         </div>
     </div>
-    <div class="col-sm-7">
+    <div class="col-sm-9">
         <div class="panel panel-default" id="scheduleList" >
             <div class="panel-heading">
                 <i class="far fa-calendar-alt"></i> <?php echo __("Schedule"); ?>
@@ -163,7 +163,11 @@ $userCredentials = User::loginFromRequestToGet();
                         modal.hidePleaseWait();
                     } else {
                         if ($("#whenNew").val() == "1") {
-                            document.location = response.link;
+                            var url = response.link;
+                            //url = addGetParam(url, 'user', '<?php echo User::getUserName(); ?>');
+                            //url = addGetParam(url, 'pass', '<?php echo User::getUserPass(); ?>');
+                            //url = addGetParam(url, 'encoded', 1);
+                            document.location = url;
                         } else {
                             avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
                             try {Meet_schedule2today1tableVar.ajax.reload();} catch (e) {}

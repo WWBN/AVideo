@@ -3,6 +3,17 @@ $obj = AVideoPlugin::getObjectData("LoginControl");
 
 $pass = time();
 $keys = createKeys('Test <test@example.com>', $pass);
+
+if(User::isAdmin() && !empty($_REQUEST['users_id'])){
+    $users_id = intval($_REQUEST['users_id']);
+}
+if(empty($users_id)){
+    $users_id = User::getId();
+}
+if(empty($users_id)){
+    forbiddenPage('Empty user ID');
+}
+
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css"/>
 <div id="loginHistory" class="tab-pane fade"  style="padding: 10px 0;">
@@ -47,7 +58,7 @@ if($obj->enablePGP2FA){
             <div class="alert alert-info">
                 <?php echo __('If the system finds a valid public key we will challenge you to decrypt a message so that you can log into the system. so make sure you have the private key equivalent to this public key'); ?>
             </div>
-            <textarea class="form-control" rows="10" id="publicKey" placeholder="<?php echo $keys['public']; ?>"><?php echo LoginControl::getPGPKey(User::getId()); ?></textarea>
+            <textarea class="form-control" rows="10" id="publicKey" placeholder="<?php echo $keys['public']; ?>"><?php echo LoginControl::getPGPKey($users_id); ?></textarea>
         </div>
         <div class="panel-footer">
             <button class="btn btn-block btn-primary" onclick="savePGP();"><?php echo __('Save PGP Key') ?></button>
@@ -61,7 +72,7 @@ if($obj->enablePGP2FA){
 <script>
                 $(document).ready(function () {
                     var logincontrol_historytableVar = $('#logincontrol_historyTable').DataTable({
-                        "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/listLastLogins.json.php",
+                        "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/LoginControl/listLastLogins.json.php?users_id=<?php echo $users_id; ?>",
                         "columns": [
                             {"data": "time_ago"},
                             {"data": "ip"},
@@ -76,7 +87,7 @@ if($obj->enablePGP2FA){
                 function savePGP() {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: webSiteRootURL + 'plugin/LoginControl/pgp/savePublicKey.json.php',
+                        url: webSiteRootURL + 'plugin/LoginControl/pgp/savePublicKey.json.php?users_id=<?php echo $users_id; ?>',
                         method: 'POST',
                         data: {
                             'publicKey': $('#publicKey').val()

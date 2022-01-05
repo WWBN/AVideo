@@ -9,9 +9,9 @@ class Scheduler_commands extends ObjectYPT {
     public static $statusCanceled = 'c';
     public static $statusExecuted = 'e';
     public static $statusRepeat = 'r';
-    protected $id, $callbackURL, $parameters, $date_to_execute, $executed_in, 
+    protected $id, $callbackURL, $parameters, $date_to_execute, $executed_in,
             $status, $callbackResponse, $timezone,
-            $repeat_minute, $repeat_hour, $repeat_day_of_month, $repeat_month, 
+            $repeat_minute, $repeat_hour, $repeat_day_of_month, $repeat_month,
             $repeat_day_of_week, $type;
 
     static function getSearchFieldsNames() {
@@ -21,27 +21,39 @@ class Scheduler_commands extends ObjectYPT {
     static function getTableName() {
         return 'scheduler_commands';
     }
+    
+    public static function getTimesNow() {
+        $minute = intval(date('i'));
+        $hour = intval(date('H'));
+        $day_of_month = intval(date('d'));
+        $month = intval(date('m'));
+        $day_of_week = intval(date('w'));
+        
+        return array(
+            'minute'=>$minute,
+            'hour'=>$hour,
+            'day_of_month'=>$day_of_month,
+            'month'=>$month,
+            'day_of_week'=>$day_of_week,
+        );
+    }
 
     public static function getAllScheduledTORepeat() {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='".self::$statusRepeat."' ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='" . self::$statusRepeat . "' ";
 
-        $minute = date('i');
-        $hour = date('H');
-        $day_of_month = date('d');
-        $month = date('m');
-        $day_of_week = date('w');
-        
-        $sql .= " AND (repeat_minute IS NULL OR repeat_minute = {$minute}) ";     
-        $sql .= " AND (repeat_hour IS NULL OR repeat_hour = {$hour}) ";    
-        $sql .= " AND (repeat_day_of_month IS NULL OR repeat_day_of_month = {$day_of_month}) ";    
-        $sql .= " AND (repeat_month IS NULL OR repeat_month = {$month}) ";    
-        $sql .= " AND (repeat_day_of_week IS NULL OR repeat_day_of_week = {$day_of_week}) ";
-        
-        //echo $sql;
+        $times = self::getTimesNow();
+
+        $sql .= " AND (repeat_minute IS NULL OR repeat_minute = {$times['minute']}) ";
+        $sql .= " AND (repeat_hour IS NULL OR repeat_hour = {$times['hour']}) ";
+        $sql .= " AND (repeat_day_of_month IS NULL OR repeat_day_of_month = {$times['day_of_month']}) ";
+        $sql .= " AND (repeat_month IS NULL OR repeat_month = {$times['month']}) ";
+        $sql .= " AND (repeat_day_of_week IS NULL OR repeat_day_of_week = {$times['day_of_week']}) ";
+
+        //echo $sql;exit;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -61,8 +73,8 @@ class Scheduler_commands extends ObjectYPT {
         if (!static::isTableInstalled()) {
             return false;
         }
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='".self::$statusActive."' AND date_to_execute <= now() ";
-        
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='" . self::$statusActive . "' AND date_to_execute <= now() ";
+
         //echo $sql;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
@@ -143,8 +155,8 @@ class Scheduler_commands extends ObjectYPT {
         }
         $this->setExecuted_in(date('Y-m-d H:i:s'));
         $this->setCallbackResponse($callbackResponse);
-        
-        if($this->status !== self::$statusRepeat){
+
+        if ($this->status !== self::$statusRepeat) {
             $this->setStatus(self::$statusExecuted);
         }
         return $this->save();
@@ -226,7 +238,7 @@ class Scheduler_commands extends ObjectYPT {
     function setRepeat_month($repeat_month) {
         $this->repeat_month = intval($repeat_month);
     }
-    
+
     function getType() {
         return $this->type;
     }
@@ -234,7 +246,7 @@ class Scheduler_commands extends ObjectYPT {
     function setType($type) {
         $this->type = $type;
     }
-    
+
     function getRepeat_day_of_week() {
         return $this->repeat_day_of_week;
     }
@@ -242,7 +254,7 @@ class Scheduler_commands extends ObjectYPT {
     function setRepeat_day_of_week($repeat_day_of_week) {
         $this->repeat_day_of_week = $repeat_day_of_week;
     }
-        
+
     public static function deleteFromType($type) {
         global $global;
         if (!empty($type)) {
@@ -253,16 +265,38 @@ class Scheduler_commands extends ObjectYPT {
         }
         return false;
     }
-    
+
     public static function getAllFromType($type) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE type=? ";
-        
+
         //echo $sql;
         $res = sqlDAL::readSql($sql, 's', array($type));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $rows[] = $row;
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
+    }
+
+    public static function getAllActiveOrToRepeat() {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='" . (self::$statusActive) . "' OR status='" . (self::$statusRepeat) . "' ";
+
+        $sql .= self::getSqlFromPost();
+        $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = array();

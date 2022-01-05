@@ -135,7 +135,7 @@ class YPTSocket extends PluginAbstract {
         require_once $global['systemRootPath'] . 'objects/autoload.php';
 
         $SocketURL = self::getWebSocketURL(true, $SocketSendObj->webSocketToken);
-        _error_log("Socket Send: {$SocketURL}");
+        //_error_log("Socket Send: {$SocketURL}");
         \Ratchet\Client\connect($SocketURL)->then(function($conn) {
             global $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj;
             $conn->on('message', function($msg) use ($conn, $SocketSendResponseObj) {

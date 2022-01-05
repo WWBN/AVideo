@@ -59,6 +59,9 @@
                 <?php
             }
             if ($totalR) {
+                if(empty($totalL)){
+                    CDNStorage::setSite($videos_id, true);
+                }
                 ?>
                 <button type="button" class="btn btn-success" onclick="CDNStorageDownload();">
                     <i class="fas fa-project-diagram"></i>

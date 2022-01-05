@@ -88,7 +88,7 @@ class Live_schedule extends ObjectYPT {
         }
     }
 
-    static function getAll($users_id=0) {
+    static function getAll($users_id=0, $activeHoursAgo=false) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
@@ -97,6 +97,9 @@ class Live_schedule extends ObjectYPT {
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
         if(!empty($users_id)){
             $sql .= " AND users_id = $users_id ";
+        }
+        if($activeHoursAgo){
+            $sql .= " AND scheduled_time > DATE_SUB(NOW(), INTERVAL {$activeHoursAgo} HOUR) ";
         }
         $sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);
@@ -107,6 +110,7 @@ class Live_schedule extends ObjectYPT {
             foreach ($fullData as $row) {
                 $row['future'] = isTimeForFuture($row['scheduled_time'], $row['timezone']);
                 $row['secondsIntervalHuman'] = secondsIntervalHuman($row['scheduled_time'], $row['timezone']);
+                //var_dump($row['secondsIntervalHuman']);exit;
                 $row['posterURL'] = self::getPosterURL($row['id']);
                 $row['serverURL'] = Live::getServerURL($row['key'], $row['users_id']);
 
@@ -282,8 +286,9 @@ class Live_schedule extends ObjectYPT {
             $array['stats'] = getStatsNotifications(true);
             $array['key'] = $this->key;
             $array['live_servers_id'] = $this->live_servers_id;
+            $array['cleanKey'] = Live::cleanUpKey($array['key']);
             Live::notifySocketStats("socketLiveONCallback", $array);
-            clearCache(true);
+            self::clearScheduleCache();
         }
         return $id;
     }
@@ -295,9 +300,16 @@ class Live_schedule extends ObjectYPT {
         if (!empty($id)) {
             $array['stats'] = getStatsNotifications(true);
             Live::notifySocketStats("socketLiveOFFCallback", $array);
-            clearCache(true);
+            self::clearScheduleCache();
         }      
         return $id;
+    }
+    
+    static function clearScheduleCache(){
+        clearCache(true);
+        deleteStatsNotifications();
+        //ObjectYPT::deleteAllSessionCache();
+        ObjectYPT::deleteALLCache();
     }
 
     static function keyExists($key) {
@@ -327,5 +339,4 @@ class Live_schedule extends ObjectYPT {
         }
         return $row;
     }
-
 }

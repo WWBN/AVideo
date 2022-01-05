@@ -65,7 +65,14 @@ if (User::hasBlockedUser($video['users_id'])) {
                 echo $video['title'];
                 if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                     ?>
-                    <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'mvideos?video_id=<?php echo $video['id']; ?>');return false;" class="btn btn-primary btn-xs" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a href="#" class="btn btn-primary btn-xs"  onclick="avideoModalIframe(webSiteRootURL+'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
+                            <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
+                        </a>
+                        <button type="button" class="btn btn-default btn-xs" onclick="avideoModalIframeFull(webSiteRootURL+'view/videoViewsInfo.php?videos_id=<?php echo $video['id']; ?>');return false;">
+                            <i class="fa fa-eye"></i> <?php echo __("Views Info"); ?>
+                        </button>
+                    </div>
                 <?php } ?>
                 <small>
                     <?php
@@ -277,13 +284,13 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
                 </div>
                 <?php
             }
-            if ($video['type'] !== 'notfound' && $video['type'] !== 'article') {
+            if ($video['type'] !== 'notfound' && $video['type'] !== 'article' && !isHTMLEmpty($video['description'])) {
                 ?>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="description">
                     <div class="descriptionAreaPreContent">
                         <div class="descriptionAreaContent">
-                            <?php
+                            <?php                            
                             echo Video::htmlDescription($video['description']);
                             ?>
                         </div>

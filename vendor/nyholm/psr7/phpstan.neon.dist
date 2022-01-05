@@ -1,7 +1,0 @@
-includes:
-    - phpstan.baseline.dist
-
-parameters:
-    level: 5
-    paths:
-      - src

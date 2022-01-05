@@ -23,7 +23,7 @@ class VideoStatistic extends ObjectYPT {
     protected $json;
 
     public static function getSearchFieldsNames() {
-        return array();
+        return array('json', 'ip', 'when', 'user', 'name', 'email', 'channelName');
     }
 
     public static function getTableName() {
@@ -33,15 +33,15 @@ class VideoStatistic extends ObjectYPT {
     public static function create($videos_id, $currentTime = 0) {
         global $global;
         /**
-         * Dont crash if is an old version
-
-          $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
-          $result = sqlDal::num_rows($res);
-          sqlDAL::close($res);
-          if (empty($result)) {
-          echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
-          return false;
-          }
+         * Don't crash if it's an old version
+         *
+         * $res = sqlDAL::readSql("SHOW TABLES LIKE 'videos_statistics'");
+         * $result = sqlDal::num_rows($res);
+         * sqlDAL::close($res);
+         * if (empty($result)) {
+         * echo "<div class='alert alert-danger'>You need to <a href='{$global['webSiteRootURL']}update'>update your system</a></div>";
+         * return false;
+         * }
          */
         if (empty($videos_id)) {
             die(__("You need a video to generate statistics"));
@@ -104,6 +104,7 @@ class VideoStatistic extends ObjectYPT {
     }
 
     public function save() {
+        global $global;
         if (empty($this->videos_id)) {
             return false;
         }
@@ -114,18 +115,22 @@ class VideoStatistic extends ObjectYPT {
         if (empty($this->users_id)) {
             $this->setUsers_id('null');
         }
-
+        
+        $this->lastVideoTime = intval(@$this->lastVideoTime);
+        
         $this->seconds_watching_video = intval($this->seconds_watching_video);
 
+        $this->json = $global['mysqli']->real_escape_string($this->json);
+        
         return parent::save();
     }
 
     public static function getLastStatistics($videos_id, $users_id = 0) {
         if (!empty($users_id)) {
-            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY modified DESC LIMIT 1 ";
+            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY id DESC LIMIT 1 ";
             $res = sqlDAL::readSql($sql, 'ii', array($videos_id, $users_id), true);
         } else {
-            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND session_id = ? ORDER BY modified DESC LIMIT 1 ";
+            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND session_id = ? ORDER BY id DESC LIMIT 1 ";
             $res = sqlDAL::readSql($sql, 'is', array($videos_id, session_id()), true);
         }
         $result = sqlDAL::fetchAssoc($res);
@@ -411,6 +416,9 @@ class VideoStatistic extends ObjectYPT {
                     if (empty($video)) {
                         continue;
                     }
+                    unset($video['title']);
+                    unset($video['description']);
+                    unset($video['descriptionHTML']);
                     $video['total'] = $result2['total'];
                     $videos[] = $video;
                 }
@@ -437,7 +445,7 @@ class VideoStatistic extends ObjectYPT {
         $cacheName = "getChannelsTotalViews($users_id, $daysLimit)";
         $cache = ObjectYPT::getCache($cacheName, 3600); // 1 hour cache
         if (!empty($cache)) {
-            return object_to_array($cache);
+            return intval($cache);
         }
         $users_id = intval($users_id);
         // count how many views each one has
@@ -452,7 +460,7 @@ class VideoStatistic extends ObjectYPT {
             $result = intval($result2['total']);
         }
         ObjectYPT::setCache($cacheName, $result);
-        return 0;
+        return $result;
     }
 
     public static function getTotalStatisticsRecords() {
@@ -514,10 +522,10 @@ class VideoStatistic extends ObjectYPT {
             return false;
         }
 
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE videos_id=$videos_id ";
+        $sql = "SELECT u.*, vs.* FROM  " . static::getTableName() . " vs LEFT JOIN users u ON vs.users_id = u.id WHERE videos_id=$videos_id ";
 
         $sql .= self::getSqlFromPost();
-        //echo $sql;//exit;
+        //var_dump($_POST['searchPhrase'], $_GET['search']['value'], $sql);exit;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -549,7 +557,7 @@ class VideoStatistic extends ObjectYPT {
                     }else{
                         $row['location_name'] = "{$json->location['country_name']}, {$json->location['city_name']}, {$json->location['region_name']}";
                     }
-                    
+
                 } else {
                     $row['location_name'] = $row['location'] = '';
                 }
@@ -573,7 +581,7 @@ class VideoStatistic extends ObjectYPT {
             return false;
         }
 
-        $sql = "SELECT count(id) as total FROM  " . static::getTableName() . " WHERE videos_id=$videos_id ";
+        $sql = "SELECT count(vs.id) as total FROM  " . static::getTableName() . " vs LEFT JOIN users u ON vs.users_id = u.id WHERE videos_id=$videos_id ";
 
         $sql .= self::getSqlSearchFromPost();
 
@@ -585,5 +593,7 @@ class VideoStatistic extends ObjectYPT {
         }
         return 0;
     }
+    
+    
 
 }

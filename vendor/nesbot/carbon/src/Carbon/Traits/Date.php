@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Carbon\Traits;
 
 use BadMethodCallException;
@@ -1572,7 +1573,13 @@ trait Date
     #[ReturnTypeWillChange]
     public function setTimezone($value)
     {
-        return parent::setTimezone(static::safeCreateDateTimeZone($value));
+        $tz = static::safeCreateDateTimeZone($value);
+
+        if ($tz === false && !self::isStrictModeEnabled()) {
+            $tz = new CarbonTimeZone();
+        }
+
+        return parent::setTimezone($tz);
     }
 
     /**

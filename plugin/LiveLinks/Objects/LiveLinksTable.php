@@ -143,7 +143,7 @@ class LiveLinksTable extends ObjectYPT {
         return $rows;
     }
     
-    public function userGroupsMatch($livelinks_id, $users_id=0){
+    static public function userGroupsMatch($livelinks_id, $users_id=0){
         $user_groups = self::getUserGorups($livelinks_id);
         $user_groups_ids = array();
         foreach ($user_groups as $value) {

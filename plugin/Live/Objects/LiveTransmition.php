@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveTransmition extends ObjectYPT {
 
-    protected $id, $title, $public, $saveTransmition, $users_id, $categories_id, $key, $description, $showOnTV;
+    protected $id, $title, $public, $saveTransmition, $users_id, $categories_id, $key, $description, $showOnTV, $password;
 
     static function getSearchFieldsNames() {
         return array('title');
@@ -225,7 +225,7 @@ class LiveTransmition extends ObjectYPT {
             return false;
         }
         $key = Live::cleanUpKey($key);
-        $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
+        $sql = "SELECT u.*, lt.*, lt.password as live_password FROM " . static::getTableName() . " lt "
                 . " LEFT JOIN users u ON u.id = users_id AND u.status='a' "
                 . " WHERE  `key` = '$key' LIMIT 1";
         $res = sqlDAL::readSql($sql);
@@ -236,7 +236,11 @@ class LiveTransmition extends ObjectYPT {
             if(!empty($row)){
                 $row['scheduled'] = 0;
             }
-            $row = cleanUpRowFromDatabase($row);
+            if(!empty($row)){
+                $p = $row['live_password'];
+                $row = cleanUpRowFromDatabase($row);
+                $row['live_password'] = $p;
+            }
         } else {
             $row = false;
         }
@@ -255,6 +259,9 @@ class LiveTransmition extends ObjectYPT {
         $this->public = intval($this->public);
         $this->saveTransmition = intval($this->saveTransmition);
         $this->showOnTV = intval($this->showOnTV);
+        if(empty($this->password)){
+            $this->password = '';
+        }
         $id = parent::save();
         Category::clearCacheCount();
         Live::deleteStatsCache(true);
@@ -310,7 +317,14 @@ class LiveTransmition extends ObjectYPT {
         if (User::isAdmin()) {
             return true;
         }
-
+        /*
+        $password = $this->getPassword();
+        if(!empty($password) && !Live::passwordIsGood($this->getKey())){
+            return false;
+        }
+         * 
+         */
+        
         $transmitionGroups = $this->getGroups();
         if (!empty($transmitionGroups)) {
             if (empty($this->id)) {
@@ -361,7 +375,15 @@ class LiveTransmition extends ObjectYPT {
     function setShowOnTV($showOnTV) {
         $this->showOnTV = $showOnTV;
     }
+    
+    function getPassword() {
+        return $this->password;
+    }
 
+    function setPassword($password): void {
+        $this->password = trim($password);
+    }
+    
     static function canSaveTransmition($users_id){
         $lt = self::getFromDbByUser($users_id);
         return !empty($lt['saveTransmition']);

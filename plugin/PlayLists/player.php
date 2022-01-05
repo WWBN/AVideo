@@ -80,7 +80,7 @@ if(empty($playListData)){
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $playListObj->getName() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <link href="<?php echo getCDN(); ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>view/css/social.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?php echo getCDN(); ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.css" rel="stylesheet">
@@ -202,13 +202,11 @@ if(empty($playListData)){
         <?php
         echo AVideoPlugin::afterVideoJS();
         include $global['systemRootPath'] . 'view/include/footer.php';
-        $videoJSArray = array(
-            "view/js/BootstrapMenu.min.js");
-        $jsURL = combineFiles($videoJSArray, "js");
         ?>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script><script src="<?php echo getCDN(); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
-        <script src="<?php echo getCDN(); ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js"></script>
-        <script src="<?php echo getCDN(); ?>view/js/videojs-youtube/Youtube.js"></script>
+        <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
+        <script src="<?php echo getURL('plugin/PlayLists/videojs-playlist/videojs-playlist.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
+        <script src="<?php echo getURL('plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
+        <script src="<?php echo getURL('view/js/videojs-youtube/Youtube.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
         <script>
 
                                             var playerPlaylist = <?php echo json_encode($playListData); ?>;

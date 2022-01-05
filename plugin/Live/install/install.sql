@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `live_transmitions` (
   `users_id` INT(11) NOT NULL,
   `categories_id` INT(11) NOT NULL,
   `showOnTV` TINYINT NULL,
+  `password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_live_transmitions_users1_idx` (`users_id` ASC),
   INDEX `fk_live_transmitions_categories1_idx` (`categories_id` ASC),
@@ -149,7 +150,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `live_schedule` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(255) NULL,
-  `description` VARCHAR(255) NULL,
+  `description` TEXT NULL,
   `key` VARCHAR(255) NULL,
   `users_id` INT(11) NOT NULL,
   `live_servers_id` INT(11) NULL,

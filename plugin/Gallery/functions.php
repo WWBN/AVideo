@@ -256,7 +256,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                             <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['watchLaterId']; ?>);return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
                             <br>
                             <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
-                            <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart" ></i></button>    
+                            <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?> faa-parent animated-hover" data-toggle="tooltip" data-placement="left" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>    
 
                         </div>
                         <?php
@@ -340,7 +340,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 if ((!empty($value['description'])) && !empty($obj->Description)) {
                     //$desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($value['description']))));
                     $desc = nl2br(trim($value['description']));
-                    if (!empty($desc)) {
+                    if (!isHTMLEmpty($desc)) {
                         $duid = uniqid();
                         $titleAlert = str_replace(array('"', "'"), array('``', "`"), $value['title']);
                         ?>
@@ -354,7 +354,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 ?>
                 <?php if (Video::canEdit($value['id'])) { ?>
                     <div>
-                        <a href="#" onclick="avideoModalIframeFull('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
+                        <a href="#" onclick="avideoModalIframe(webSiteRootURL+'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $value['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
                             <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
                         </a>
                     </div>
@@ -541,7 +541,7 @@ function createGalleryLiveSection($videos) {
                 <?php
                 if ((!empty($video['description'])) && !empty($obj->Description)) {
                     $desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($video['description']))));
-                    if (!empty($desc)) {
+                    if (!isHTMLEmpty($desc)) {
                         $titleAlert = str_replace(array('"', "'"), array('``', "`"), $video['title']);
                         ?>
                         <div>

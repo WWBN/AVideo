@@ -59,6 +59,7 @@ class AVideoPlugin {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                //echo $value['dirName'].PHP_EOL;
                 $str .= $p->getHeadCode();
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
@@ -558,6 +559,8 @@ class AVideoPlugin {
             //self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                //echo $value['dirName'].PHP_EOL;
+                //_error_log('AVideoPlugin::getStart: '.$value['dirName']);
                 $p->getStart();
             }
             //self::YPTend("{$value['dirName']}::".__FUNCTION__);
@@ -873,6 +876,7 @@ class AVideoPlugin {
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $appArray = $p->getDynamicUserGroupsId($users_id);
+                //echo $value['dirName']." - {$users_id} - ". json_encode($appArray).PHP_EOL;
                 $array = array_merge($array, $appArray);
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
@@ -1099,12 +1103,15 @@ class AVideoPlugin {
                 $can = $p->userCanUpload($users_id);
                 if (!empty($can)) {
                     if ($can < 0) {
-                        _error_log("userCanUpload: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT upload a video ");
-
+                        if(!empty($users_id)){
+                            _error_log("userCanUpload: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT upload a video ");
+                        }
                         $resp = false;
                     }
                     if ($can > 0) {
-                        _error_log("userCanUpload: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can upload a video ");
+                        if(!empty($users_id)){
+                            _error_log("userCanUpload: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can upload a video ");
+                        }
                         return true;
                     }
                 }
@@ -1154,11 +1161,15 @@ class AVideoPlugin {
                 $can = $p->userCanWatchVideo($users_id, $videos_id);
                 if (!empty($can)) {
                     if ($can < 0) {
-                        _error_log("userCanWatchVideo: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT watch the video ({$videos_id})");
+                        if(!empty($users_id)){
+                            _error_log("userCanWatchVideo: DENIED The plugin {$value['dirName']} said the user ({$users_id}) can NOT watch the video ({$videos_id})");
+                        }
                         $resp = false;
                     }
                     if ($can > 0) {
-                        _error_log("userCanWatchVideo: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can watch the video ({$videos_id})");
+                        if(!empty($users_id)){
+                            _error_log("userCanWatchVideo: SUCCESS The plugin {$value['dirName']} said the user ({$users_id}) can watch the video ({$videos_id})");
+                        }
                         $userCanWatchVideoFunction[$users_id][$videos_id] = true;
                         ObjectYPT::setSessionCache($cacheName, true);
                         return true;
@@ -1168,7 +1179,7 @@ class AVideoPlugin {
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
         if (!empty($users_id)) {
-            _error_log("userCanWatchVideo: No plugins approve user ({$users_id}) watch the video ({$videos_id}) ");
+            //_error_log("userCanWatchVideo: No plugins approve user ({$users_id}) watch the video ({$videos_id}) ");
         }
         $userCanWatchVideoFunction[$users_id][$videos_id] = $resp;
         ObjectYPT::setSessionCache($cacheName, $resp);
@@ -1197,7 +1208,9 @@ class AVideoPlugin {
                 if (!empty($can)) {
                     $resp = $can > 0 ? true : false;
                     if ($resp) {
-                        _error_log("userCanWatchVideoWithAds the plugin ({$value['dirName']}) said user ({$users_id}) can watch");
+                        if(!empty($users_id)){
+                            _error_log("userCanWatchVideoWithAds the plugin ({$value['dirName']}) said user ({$users_id}) can watch");
+                        }
                         $userCanWatchVideoWithAdsFunction[$users_id][$videos_id] = true;
                         return true;
                     } else {
@@ -1439,8 +1452,7 @@ class AVideoPlugin {
         }
         $name = "getVideoTags{$videos_id}";
         _error_log("deleteVideoTags {$name}");
-        ObjectYPT::deleteSessionCache($name);
-        return ObjectYPT::deleteCache($name);
+        return Cache::deleteCache($name);
     }
 
     public static function getVideoWhereClause() {

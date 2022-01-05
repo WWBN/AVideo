@@ -45,17 +45,25 @@ showAlertMessage();
 ?>
     });
 </script>
-<script src="<?php echo getCDN(); ?>view/js/jquery.lazy/jquery.lazy.min.js" type="text/javascript"></script>
-<script src="<?php echo getCDN(); ?>view/js/jquery.lazy/jquery.lazy.plugins.min.js" type="text/javascript"></script>
-<script src="<?php echo getCDN(); ?>view/js/script.js?cache=<?php echo filectime("{$global['systemRootPath']}view/js/script.js"), filemtime("{$global['systemRootPath']}view/js/script.js"); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('view/js/jquery.lazy/jquery.lazy.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('view/js/jquery.lazy/jquery.lazy.plugins.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
+<!--
+<script src="<?php echo getURL('node_modules/wow.js/dist/wow.min.js'); ?>" type="text/javascript"></script>
+<script>
+    new WOW().init();
+</script>
+-->
+<?php
+include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
+?>
 <?php
 $jsFiles = array();
 //$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
 //$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
 //$jsFiles[] = "view/js/script.js";
-$jsFiles[] = "view/js/jquery-ui/jquery-ui.min.js";
-$jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
-$jsFiles[] = "view/js/seetalert/sweetalert.min.js";
+$jsFiles[] = "node_modules/sweetalert/dist/sweetalert.min.js";
 $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
 $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
 $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
@@ -70,9 +78,8 @@ $jsFiles[] = "view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-ta
 $jsFiles[] = "view/js/BootstrapMenu.min.js";
 
 $jsFiles = array_merge($jsFiles, AVideoPlugin::getJSFiles());
-$jsURL = combineFiles($jsFiles, "js");
+echo combineFilesHTML($jsFiles, "js", true);
 ?>
-<script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
 <div id="pluginFooterCode" >
     <?php
     if (!isForbidden()) {
@@ -88,10 +95,9 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
     echo $advancedCustom->footerHTMLCode->value;
 }
 
-if(isFirstPage()){
-    echo '<script src="'.(getCDN().'view/js/a2hs.js?'.filectime("{$global['systemRootPath']}view/js/a2hs.js")).'" type="text/javascript"></script>';
+if (isFirstPage()) {
+    echo '<script src="' . (getCDN() . 'view/js/a2hs.js?' . filectime("{$global['systemRootPath']}view/js/a2hs.js")) . '" type="text/javascript"></script>';
 }
-
 ?>
 <script>
     var checkFooterTimout;
@@ -137,50 +143,50 @@ if(isFirstPage()){
 
     function getPageHeight() {
         var mainNavBarH = 0;
-        if($('#mainNavBar').length){
+        if ($('#mainNavBar').length) {
             mainNavBarH = $('#mainNavBar').height();
         }
         var mainFooterH = 0;
-        if($('#mainFooter').length){
+        if ($('#mainFooter').length) {
             mainFooterH = $('#mainFooter').height();
         }
         var containerH = getLargerContainerHeight();
         return mainNavBarH + mainFooterH + containerH;
     }
-    
-    function getLargerContainerHeight(){
+
+    function getLargerContainerHeight() {
         var conteiners = $('body > .container,body >  .container-fluid');
         var height = 0;
         for (var item in conteiners) {
-            if(isNaN(item)){
+            if (isNaN(item)) {
                 continue;
             }
             var h = $(conteiners[item]).height();
-            if(h>height){
+            if (h > height) {
                 height = h;
             }
         }
         return height;
     }
-    
+
 </script>
 <!--
 <?php
 /*
-if (User::isAdmin() && !empty($getCachesProcessed) && is_array($getCachesProcessed)) {
-    arsort($getCachesProcessed);
-    echo "Total cached methods " . PHP_EOL;
-    foreach ($getCachesProcessed as $key => $value) {
-        echo "$key => $value" . PHP_EOL;
-    }
-}
+  if (User::isAdmin() && !empty($getCachesProcessed) && is_array($getCachesProcessed)) {
+  arsort($getCachesProcessed);
+  echo "Total cached methods " . PHP_EOL;
+  foreach ($getCachesProcessed as $key => $value) {
+  echo "$key => $value" . PHP_EOL;
+  }
+  }
  * 
  */
-if(!empty($config) && is_object($config)){
-    echo PHP_EOL.'v:'.$config->getVersion().PHP_EOL;
+if (!empty($config) && is_object($config)) {
+    echo PHP_EOL . 'v:' . $config->getVersion() . PHP_EOL;
 }
-if(!empty($global['rowCount'])){
-    echo PHP_EOL."rowCount: {$global['rowCount']}";
+if (!empty($global['rowCount'])) {
+    echo PHP_EOL . "rowCount: {$global['rowCount']}";
 }
 ?>
 -->

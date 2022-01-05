@@ -48,6 +48,7 @@ class PlayerSkins extends PluginAbstract {
         $obj->showLogo = false;
         $obj->showShareSocial = true;
         $obj->showShareAutoplay = true;
+        $obj->forceAlwaysAutoplay = false;
         $obj->showLogoOnEmbed = false;
         $obj->showLogoAdjustScale = "0.4";
         $obj->showLogoAdjustLeft = "-74px";
@@ -139,7 +140,7 @@ class PlayerSkins extends PluginAbstract {
                     }
                     $htmlMediaTag = "<!-- Embed Link {$video['title']} {$video['filename']} -->";
                     $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
-                    $htmlMediaTag .= '<div id="main-video" class="embed-responsive embed-responsive-16by9">';
+                    $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
                     $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="' . $url . '"></iframe>';
                     $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
                     $htmlMediaTag .= '</div>';
@@ -212,7 +213,7 @@ class PlayerSkins extends PluginAbstract {
             $js .= "<script>var isLive = true;</script>";
         }
         if (isVideo() || !empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
-            if (!empty($_REQUEST['autoplay'])) {
+            if (!empty($_REQUEST['autoplay']) || !empty($obj->forceAlwaysAutoplay)) {
                 $js .= "<script>var autoplay = true;var forceautoplay = true;</script>";
             } else if (self::isAutoplayEnabled()) {
                 $js .= "<script>var autoplay = true;</script>";
@@ -257,7 +258,7 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/shareButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar()) {
+            if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay)) {
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/autoplayButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
         }
@@ -283,7 +284,7 @@ class PlayerSkins extends PluginAbstract {
             }
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $title = $config->getWebSiteTitle();
-                $url = "{$global['webSiteRootURL']}{$config->getLogo(true)}";
+                //$url = "{$global['webSiteRootURL']}{$config->getLogo(true)}";
                 $js .= "<script>var PlayerSkinLogoTitle = '{$title}';</script>";
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/logo.js"));
                 //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/logo.js\"></script>";
@@ -297,7 +298,7 @@ class PlayerSkins extends PluginAbstract {
                 $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
             }
 
-            if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar()) {
+            if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay)) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/autoplayButton.js"));
             }
         }
@@ -538,8 +539,11 @@ class PlayerSkins extends PluginAbstract {
             url += '?t=' + time;
             }
             $('#linkCurrentTime, .linkCurrentTime').val(url);
-            if (time >= 5 && time % 5 === 0) {
+            if (time >= 5 && time % 1 === 0) {
                 addView({$videos_id}, time);
+            }else{
+                addViewFromCookie();
+                addViewSetCookie(PHPSESSID, {$videos_id}, time, seconds_watching_video);
             }
         });
         player.on('ended', function () {

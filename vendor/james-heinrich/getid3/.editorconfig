@@ -1,9 +1,0 @@
-; top-most EditorConfig file
-root = true
-
-; Unix-style newlines
-[*]
-end_of_line = LF
-
-[*.php]
-indent_style = tab

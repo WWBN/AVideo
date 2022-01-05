@@ -165,7 +165,7 @@ class Layout extends PluginAbstract {
         global $global;
         include $global['systemRootPath'] . 'plugin/Layout/fontAwesomeFAB.php';
         // Fetch variables scss file in variable
-        $font_vars = file_get_contents($global['systemRootPath'] . 'view/css/fontawesome-free-5.5.0-web/scss/_variables.scss');
+        $font_vars = file_get_contents($global['systemRootPath'] . 'node_modules/@fortawesome/fontawesome-free/scss/_variables.scss');
 
         // Find the position of first $fa-var , as all icon class names start after that
         $pos = strpos($font_vars, '$fa-var');
@@ -320,7 +320,7 @@ class Layout extends PluginAbstract {
         }else{
             $selectedJsonIcon = '';
         }
-        $code = "<script>function getLangSelectformatStateResult (state) {
+        $code = "<script>/*selected={$selected}*/function getLangSelectformatStateResult (state) {
                                     if (!state.id) {
                                       return state.text;
                                     }
@@ -465,7 +465,7 @@ class Layout extends PluginAbstract {
     public function navBarAfter() {
         global $global;
         $obj = $this->getDataObject();
-        if(!empty($obj->categoriesTopButtons)){
+        if(!AVideoPlugin::isEnabledByName('YouPHPFlix2') && !empty($obj->categoriesTopButtons)){
             if(!empty($obj->categoriesTopButtonsShowOnlyOnFirstPage) && !isFirstPage()){
                 return '';
             }

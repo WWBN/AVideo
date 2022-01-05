@@ -2,8 +2,8 @@
 global $croppieFilesAdded;
 if (empty($croppieFilesAdded)) {
     ?>
-    <link href="<?php echo getCDN(); ?>view/js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
-    <script src="<?php echo getCDN(); ?>view/js/Croppie/croppie.min.js" type="text/javascript"></script>
+    <link href="<?php echo getCDN(); ?>node_modules/croppie/croppie.css" rel="stylesheet" type="text/css"/>
+    <script src="<?php echo getCDN(); ?>node_modules/croppie/croppie.min.js" type="text/javascript"></script>
     <?php
 }
 $croppieFilesAdded = 1;
@@ -11,10 +11,10 @@ $croppieFilesAdded = 1;
 <div class="croppieDiv" objectName="uploadCrop<?php echo $uid; ?>">
     <div class="col-md-12 ">
         <div id="croppie<?php echo $uid; ?>" style="min-height: <?php echo $boundaryHeight+40; ?>px;"></div>
-        <center>
+        <div class="btn-group btn-group-justified" role="group">
             <a id="upload-btn<?php echo $uid; ?>" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo $buttonTitle; ?></a>
             <a id="delete-btn<?php echo $uid; ?>" class="btn btn-danger"><i class="fa fa-trash"></i> <?php echo __('Delete'); ?></a>
-        </center>
+        </div>
     </div>
     <div class="col-md-12 ">
         <input type="file" id="upload<?php echo $uid; ?>" value="Choose a file" accept="image/*" style="display:none;" />

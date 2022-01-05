@@ -1,3 +1,4 @@
+<!--
 <div class="row">
     <div class="form-group col-sm-3">
         <label for="datefrom3" class="col-sm-2 col-form-label"><?php echo __('From'); ?>:</label>
@@ -15,6 +16,7 @@
         <button class="btn btn-primary" id="refresh3"><i class="fa fa-refresh"></i> <?php echo __('Refresh'); ?></button>
     </div>
 </div>
+-->
 <table id="dt3" class="table table-striped table-bordered" style="width:100%">
     <thead>
         <tr>
@@ -39,11 +41,12 @@
                 };
     }
     $(document).ready(function () {
+        /*
         $( "#datefrom3" ).datepicker();
         $( "#datefrom3" ).datepicker( "setDate", "<?php echo date("m/d/Y", strtotime("-30 days"));?>" );
         $( "#dateto3" ).datepicker();
         $( "#dateto3" ).datepicker( "setDate", "<?php echo date("m/d/Y");?>" );
-        
+        */
         $('#refresh3').click(function(){
             $('#dt3').DataTable().ajax.reload();
         });
@@ -75,7 +78,7 @@
             "ajax": {
                 'type': 'POST',
                 'url': "<?php echo $global['webSiteRootURL']; ?>view/report3.json.php",
-                'data': getData3,
+                //'data': getData3,
             },
             "columns": [
                 {"data": "channel"},

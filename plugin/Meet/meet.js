@@ -58,7 +58,7 @@ function startYPTScripts() {
             if (typeof e.data.hideElement !== 'undefined') {
                 $(e.data.hideElement).hide();
             } else if (typeof e.data.zoom !== 'undefined') {
-                aVideoMeetZoom(e.data.zoom);
+                //aVideoMeetZoom(e.data.zoom);
             } else if (typeof e.data.append !== 'undefined') {
                 $(e.data.append.parentSelector).append(e.data.append.html);
             } else if (typeof e.data.prepend !== 'undefined') {
@@ -87,7 +87,7 @@ function aVideoMeetStopRecording(dropURL) {
 }
 
 function aVideoMeetZoom(zoom) {
-    $('.new-toolbox, .sideToolbarContainer, .subject  ').css({'zoom':zoom, '-moz-transform': 'scale('+zoom+')' , '-moz-transform-origin': '0 0' });
+    //$('.new-toolbox, .sideToolbarContainer, .subject  ').css({'zoom':zoom, '-moz-transform': 'scale('+zoom+')' , '-moz-transform-origin': '0 0' });
 }
 
 function fixHREF(){

@@ -20,10 +20,11 @@
         <div class="clearfix"></div>
         <ul class="nav nav-tabs nav-tabs-horizontal">
             <li class="active"><a data-toggle="tab" href="#usersTab"><?php echo __('Active Users'); ?></a></li>
-            <li><a data-toggle="tab" href="#inactiveUsersTab" onclick="startUserGrid('#gridInactive', '?status=i');"><?php echo __('Inactive Users'); ?></a></li>
+            <li><a data-toggle="tab" href="#inactiveUsersTab" onclick="startUserGrid('#gridInactive', '?status=i', 0);"><?php echo __('Inactive Users'); ?></a></li>
+            <li><a data-toggle="tab" href="#adminUsersTab" onclick="startUserGrid('#gridAdmin', '?isAdmin=1', 0);"><?php echo __('Admin Users'); ?></a></li>
             <?php
             foreach ($userGroups as $value) {
-                echo '<li><a data-toggle="tab" href="#userGroupTab' . $value['id'] . '" onclick="startUserGrid(\'#userGroupGrid' . $value['id'] . '\', \'?status=a&user_groups_id=' . $value['id'] . '\');">' . $value['group_name'] . '</a></li>';
+                echo '<li><a data-toggle="tab" href="#userGroupTab' . $value['id'] . '" onclick="startUserGrid(\'#userGroupGrid' . $value['id'] . '\', \'?status=a&user_groups_id=' . $value['id'] . '\', ' . $value['id'] . ');">' . $value['group_name'] . '</a></li>';
             }
             ?>
         </ul>
@@ -40,7 +41,7 @@
                             <th data-column-id="created" ><?php echo __("Created"); ?></th>
                             <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
                             <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
-                            <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="100px"></th>
+                            <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
                         </tr>
                     </thead>
                 </table>
@@ -55,16 +56,43 @@
                             <th data-column-id="created" ><?php echo __("Created"); ?></th>
                             <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
                             <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
-                            <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="100px"></th>
+                            <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="adminUsersTab" class="tab-pane fade">
+                <table id="gridAdmin" class="table table-condensed table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
+                            <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
+                            <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
+                            <th data-column-id="created" ><?php echo __("Created"); ?></th>
+                            <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
+                            <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
+                            <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
                         </tr>
                     </thead>
                 </table>
             </div>
             <?php
             foreach ($userGroups as $value) {
+                $gridID = "userGroupGrid{$value['id']}";
                 ?>
                 <div id="userGroupTab<?php echo $value['id']; ?>" class="tab-pane fade">
-                    <table id="userGroupGrid<?php echo $value['id']; ?>" class="table table-condensed table-hover table-striped">
+                    <div class="btn-group pull-left" id="filterButtonsUG<?php echo $value['id']; ?>">
+                        <div class="btn-group ">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="activeFilter"><?php echo __('All'); ?></span> <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" id="filter<?php echo $value['id']; ?>_" onclick="userGroupFilter(<?php echo $value['id']; ?>, '');return false;"><?php echo __('All'); ?></a></li>
+                                <li><a href="#" id="filter<?php echo $value['id']; ?>_dynamic" onclick="userGroupFilter(<?php echo $value['id']; ?>, 'dynamic');return false;"><i class="fas fa-link"></i> <?php echo __('Dynamic User groups'); ?> (<?php echo __('Added by a plugin, PPV or Subscription'); ?>)</a></li>
+                                <li><a href="#" id="filter<?php echo $value['id']; ?>_permanent" onclick="userGroupFilter(<?php echo $value['id']; ?>, 'permanent');return false;;"><i class="fas fa-lock"></i> <?php echo __('Permanent User groups'); ?></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <table id="<?php echo $gridID; ?>" class="table table-condensed table-hover table-striped">
                         <thead>
                             <tr>
                                 <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
@@ -73,7 +101,7 @@
                                 <th data-column-id="created" ><?php echo __("Created"); ?></th>
                                 <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
                                 <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
-                                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="100px"></th>
+                                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
                             </tr>
                         </thead>
                     </table>
@@ -172,10 +200,11 @@
                         <?php
                         foreach ($userGroups as $value) {
                             ?>
-                            <li class="list-group-item">
+                            <li class="list-group-item usergroupsLi" id="usergroupsLi<?php echo $value['id']; ?>">
                                 <span class="fa fa-unlock"></span>
                                 <?php echo $value['group_name']; ?>
                                 <span class="label label-info"><?php echo $value['total_videos']; ?> <?php echo __("Videos linked"); ?></span>
+                                <span class="label label-warning dynamicLabel"><i class="fas fa-link"></i> <?php echo __("Dynamic group"); ?></span>
                                 <div class="material-switch pull-right">
                                     <input id="userGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups"/>
                                     <label for="userGroup<?php echo $value['id']; ?>" class="label-warning"></label>
@@ -293,9 +322,10 @@
         return true;
         //return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
     }
+
     $(document).ready(function () {
 
-        startUserGrid("#grid", "?status=a");
+        startUserGrid("#grid", "?status=a", 0);
         $('#addUserBtn').click(function (evt) {
             $('#inputUserId').val('');
             $('#inputUser').val('');
@@ -374,8 +404,32 @@ print AVideoPlugin::updateUserFormJS();
         }
         );
     });
-    function startUserGrid(selector, queryString) {
-        if ($(selector).hasClass('.bootgrid-table')) {
+
+    var userGroupShowOnly = '';
+    var userGroupQueryString = '';
+    function userGroupFilter(user_groups_id, value) {
+        console.log('Filter usergroup', user_groups_id, value);
+        userGroupShowOnly = value;
+        $('#userGroupTab' + user_groups_id + ' .activeFilter').html($('#filter' + user_groups_id + '_' + value).html());
+        $('.tooltip').tooltip('hide');
+        var selector = '#userGroupGrid' + user_groups_id;
+        if ($(selector).hasClass('bootgrid-table')) {
+            $(selector).bootgrid('reload');
+        }
+    }
+
+    function getUserGridURL() {
+        var url = webSiteRootURL + "objects/users.json.php" + userGroupQueryString;
+        url = addGetParam(url, 'userGroupShowOnly', userGroupShowOnly);
+        return url;
+    }
+    function startUserGrid(selector, queryString, user_groups_id) {
+        userGroupQueryString = queryString;
+        if (user_groups_id) {
+            userGroupFilter(user_groups_id, '');
+        }
+        if ($(selector).hasClass('bootgrid-table')) {
+            console.log(selector, 'already loaded');
             return false;
         }
         var grid = $(selector).bootgrid({
@@ -388,7 +442,7 @@ print AVideoPlugin::updateUserFormJS();
                 search: "<?php echo __("Search"); ?>",
             },
             ajax: true,
-            url: "<?php echo $global['webSiteRootURL']; ?>objects/users.json.php" + queryString,
+            url: getUserGridURL,
             formatters: {
                 "commands": function (column, row) {
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
@@ -410,7 +464,7 @@ print AVideoPlugin::updateUserFormJS();
                 "user": function (column, row) {
                     var photo = "";
                     if (row.photoURL) {
-                        photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:50px;'/>";
+                        photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:100px;'/>";
                     }
                     return row.user + photo;
                 }
@@ -430,8 +484,15 @@ print AVideoPlugin::updateUserFormJS();
                 $('#inputChannelName').val(row.channelName);
                 $('#inputAnalyticsCode').val(row.analyticsCode);
                 $('.userGroups').prop('checked', false);
+                $('.usergroupsLi').removeClass('dynamic');
+                $('.usergroupsLi input').removeAttr('disabled');
+                
                 for (var index in row.groups) {
                     $('#userGroup' + row.groups[index].id).prop('checked', true);
+                    if(row.groups[index].isDynamic){
+                        $('#usergroupsLi' + row.groups[index].id).addClass('dynamic');
+                        $('#usergroupsLi' + row.groups[index].id+' input').attr("disabled", true);
+                    }
                 }
                 $('#isAdmin').prop('checked', (row.isAdmin == "1" ? true : false));
                 $('#canStream').prop('checked', (row.canStream == "1" ? true : false));

@@ -120,7 +120,9 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
             <div class="col-md-12" id="aboutArea">
                 <div id="aboutAreaPreContent">
                     <div id="aboutAreaContent">
-                        <?php echo nl2br(textToLink($user->getAbout())); ?>
+                        <?php
+                        echo html_entity_decode($user->getAbout());
+                        ?>
                     </div>
                 </div>
                 <button onclick="$('#aboutArea').toggleClass('expanded');" class="btn btn-xs btn-default" id="aboutAreaShowMoreBtn" style="display: none; ">
@@ -151,7 +153,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false">
-                                        <?php echo strtoupper(__("Home")); ?>
+        <?php echo strtoupper(__("Home")); ?>
                                     </a>
                                 </li>
                                 <?php
@@ -164,7 +166,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelVideos" data-toggle="tab" aria-expanded="false">
-                                        <?php echo strtoupper(__("Videos")); ?> <span class="badge"><?php echo $uploadedTotalVideos; ?></span>
+        <?php echo strtoupper(__("Videos")); ?> <span class="badge"><?php echo $uploadedTotalVideos; ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -176,7 +178,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                                     ?>
                                     <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
                                         <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
-                                            <?php echo strtoupper(__($palyListsObj->name)); ?> <span class="badge"><?php echo count($totalPrograms); ?></span>
+            <?php echo strtoupper(__($palyListsObj->name)); ?> <span class="badge"><?php echo count($totalPrograms); ?></span>
                                         </a>
                                     </li>
                                     <?php
@@ -237,7 +239,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
                                                     <span class="glyphicon glyphicon-film"></span>
                                                     <span class="glyphicon glyphicon-headphones"></span>
-                                                    <?php echo __("My videos"); ?>
+                                                <?php echo __("My videos"); ?>
                                                 </a>
                                                 <?php
                                             } else {
@@ -316,4 +318,4 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
     </div>
 </div>
 <script src="<?php echo getCDN(); ?>plugin/Gallery/script.js" type="text/javascript"></script>
-<script src="<?php echo getCDN(); ?>view/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
+<script src="<?php echo getCDN(); ?>node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js" type="text/javascript"></script>

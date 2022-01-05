@@ -71,7 +71,9 @@ class sqlDAL {
 
     static function writeSql($preparedStatement, $formats = "", $values = array()) {
         global $global, $disableMysqlNdMethods;
-
+        if(empty($preparedStatement)){
+            return false;
+        }
         // make sure it does not store autid transactions
         $debug = debug_backtrace();
         if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable") {
@@ -83,6 +85,10 @@ class sqlDAL {
                     echo log_error($exc->getTraceAsString());
                 }
             }
+        }
+        
+        if(!is_object($global['mysqli'])){
+            _mysql_connect();
         }
 
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
@@ -441,7 +447,7 @@ function log_error($err) {
     if (!empty($global['debug'])) {
         echo $err;
     }
-    _error_log("MySQL ERROR: ".json_encode(debug_backtrace()), AVideoLog::$ERROR);
+    _error_log("MySQL ERROR: ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)), AVideoLog::$ERROR);
     _error_log($err, AVideoLog::$ERROR);
 }
 

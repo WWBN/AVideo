@@ -34,6 +34,9 @@ AVideoPlugin::getEmbed($video['id']);
 if (empty($video)) {
     forbiddenPage("Video not found");
 }
+if ($video['status']=='i') {
+    forbiddenPage("Video inactive");
+}
 if (empty($video['users_id'])) {
     $video['users_id'] = User::getId();
 }
@@ -176,7 +179,7 @@ if (User::hasBlockedUser($video['users_id'])) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
 
         <?php
         //echo AVideoPlugin::getHeadCode();
@@ -193,8 +196,8 @@ if (User::hasBlockedUser($video['users_id'])) {
         <title><?php echo $video['title'] . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
 
-        <link href="<?php echo getCDN(); ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
 
         <link href="<?php echo getCDN(); ?>view/js/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css"/>
 
@@ -259,14 +262,6 @@ if (User::hasBlockedUser($video['users_id'])) {
                 position: absolute;
                 right: 25px;
                 top: 25px;
-            }
-            #blockUserTop button{
-                background-color: rgba(255,255,255,0.3);
-                border-color:  rgba(255,255,255,0.2);
-            }
-            #blockUserTop button:hover{
-                background-color: rgba(255,255,255,0.8);
-                border-color:  rgba(255,255,255,1);
             }
 
 
@@ -518,7 +513,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     echo AVideoPlugin::afterVideoJS();
     $jsFiles = array();
     $jsFiles[] = "view/js/BootstrapMenu.min.js";
-    $jsFiles[] = "view/js/seetalert/sweetalert.min.js";
+    $jsFiles[] = "node_modules/sweetalert/dist/sweetalert.min.js";
     $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
     $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
     $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
@@ -527,17 +522,17 @@ if (User::hasBlockedUser($video['users_id'])) {
     $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
     $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
-    $jsFiles[] = "view/js/jquery-ui/jquery-ui.min.js";
     $jsFiles[] = "view/js/jquery-toast/jquery.toast.min.js";
-    $jsFiles[] = "view/bootstrap/js/bootstrap.min.js";
-    $jsURL = combineFiles($jsFiles, "js");
     ?>
-    <script src="<?php echo getCDN(); ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
     <?php
+    include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
+    ?>
+    <?php
+    echo combineFilesHTML($jsFiles, "js");
     echo AVideoPlugin::getFooterCode();
     include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
     ?>
+    <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
     <script>
         var topInfoTimeout;
         $(document).ready(function () {

@@ -70,7 +70,7 @@ class User {
     }
 
     public function setAbout($about) {
-        $this->about = xss_esc($about);
+        $this->about = strip_specific_tags(xss_esc($about));
     }
 
     public function getPassword() {
@@ -165,6 +165,7 @@ if (typeof gtag !== \"function\") {
     public function setExternalOptions($options) {
         //we convert it to base64 to sanitize the input since we do not validate input from externalOptions
         $this->externalOptions = base64_encode(serialize($options));
+        //var_dump($this->externalOptions, $options);
     }
 
     public function getExternalOption($id) {
@@ -195,8 +196,8 @@ if (typeof gtag !== \"function\") {
         if (empty($userLoaded)) {
             return false;
         }
-        _error_log("User::loadFromUser($user) ");
-        _error_log("User::loadFromUser json " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        //_error_log("User::loadFromUser($user) ");
+        //_error_log("User::loadFromUser json " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         foreach ($userLoaded as $key => $value) {
             $this->$key = $value;
         }
@@ -426,13 +427,13 @@ if (typeof gtag !== \"function\") {
         }
         if (!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)) {
             if (file_exists($global['systemRootPath'] . $photo)) {
-                $photo = getCDN() . $photo . "?" . filemtime($global['systemRootPath'] . $photo);
+                $photo = getURL($photo);
             } else {
                 $photo = "";
             }
         }
         if (empty($photo)) {
-            $photo = getCDN() . "view/img/userSilhouette.jpg";
+            $photo = getURL("view/img/userSilhouette.jpg");
         }
         return $photo;
     }
@@ -541,7 +542,7 @@ if (typeof gtag !== \"function\") {
     public function save($updateUserGroups = false) {
         global $global, $config, $advancedCustom, $advancedCustomUser;
         if (is_object($config) && $config->currentVersionLowerThen('5.6')) {
-            // they dont have analytics code
+            // they don't have analytics code
             return false;
         }
         if (empty($this->user) || empty($this->password)) {
@@ -753,7 +754,7 @@ if (typeof gtag !== \"function\") {
                 if (User::isLogged()) {
                     _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [" . User::getId() . "] can not see ({$videos_id})");
                 } else {
-                    _error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [not logged] can not see ({$videos_id})");
+                    //_error_log("User::canWatchVideo there is no usergorup set for this video but A plugin said user [not logged] can not see ({$videos_id})");
                 }
                 self::setCacheWatchVideo($cacheName, false);
                 return false;
@@ -764,7 +765,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!User::isLogged()) {
-            _error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=" . session_id() . " SCRIPT_NAME=" . $_SERVER["SCRIPT_NAME"] . " IP = " . getRealIpAddr());
+            //_error_log("User::canWatchVideo You are not logged so can not see ({$videos_id}) session_id=" . session_id() . " SCRIPT_NAME=" . $_SERVER["SCRIPT_NAME"] . " IP = " . getRealIpAddr());
 
             self::setCacheWatchVideo($cacheName, false);
             return false;
@@ -973,7 +974,7 @@ if (typeof gtag !== \"function\") {
         if (empty($justTryToRecreateLoginFromCookie) && empty($justLogoff) && empty($_SESSION['user']['id'])) {
             $justTryToRecreateLoginFromCookie = 1;
 
-            // first check if the LoginControl::singleDeviceLogin is enabled, if it is only recreate login if the device is the last device  
+            // first check if the LoginControl::singleDeviceLogin is enabled, if it is only recreate login if the device is the last device
             if ($obj = AVideoPlugin::getDataObjectIfEnabled("LoginControl")) {
                 if (!empty($obj->singleDeviceLogin)) {
                     if (!LoginControl::isLoggedFromSameDevice()) {
@@ -1000,9 +1001,15 @@ if (typeof gtag !== \"function\") {
         }
     }
 
-    public static function isLogged() {
+    public static function isLogged($checkForRequestLogin=false) {
         self::recreateLoginFromCookie();
-        return !empty($_SESSION['user']['id']);
+        $isLogged = !empty($_SESSION['user']['id']);
+        if(empty($isLogged) && $checkForRequestLogin){
+            self::loginFromRequest();
+            return !empty($_SESSION['user']['id']);
+        }else{
+            return $isLogged;
+        }
     }
 
     public static function isVerified() {
@@ -1041,12 +1048,20 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
+    public function getExternalOptions($id) {
+        if (empty($this->id)) {
+            return null;
+        }
+        return self::externalOptionsFromUserID($this->id, $id);
+    }
+
     public static function externalOptionsFromUserID($users_id, $id) {
         $user = self::findById($users_id);
         if ($user) {
             if (!is_null($user['externalOptions'])) {
                 $externalOptions = unserialize(base64_decode($user['externalOptions']));
                 if (is_array($externalOptions) && sizeof($externalOptions) > 0) {
+                    //var_dump($externalOptions);
                     foreach ($externalOptions as $k => $v) {
                         if ($id != $k) {
                             continue;
@@ -1079,6 +1094,12 @@ if (typeof gtag !== \"function\") {
 
         $formats .= "s";
         $values[] = $user;
+
+        if (trim($user) !== $user) {
+            $formats .= "s";
+            $values[] = trim($user);
+            $sql .= " OR user = ? ";
+        }
 
         if ($mustBeactive) {
             $sql .= " AND status = 'a' ";
@@ -1365,14 +1386,26 @@ if (typeof gtag !== \"function\") {
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT * FROM users u WHERE 1=1 ";
-        $sql .= " AND (id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
 
-        $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
-        if (!empty($ids) && is_array($ids)) {
-            $ids = array_unique($ids);
-            $sql .= " OR id IN ('" . implode("','", $ids) . "') ";
+        $queryIds = array();
+        if (empty($_REQUEST['userGroupShowOnly']) || $_REQUEST['userGroupShowOnly'] == 'permanent') {
+            $queryIds[] = " id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
         }
-        $sql .= " ) ";
+        if (empty($_REQUEST['userGroupShowOnly']) || $_REQUEST['userGroupShowOnly'] == 'dynamic') {
+            $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
+            if (!empty($ids) && is_array($ids)) {
+                $ids = array_unique($ids);
+                $queryIds[] = " id IN ('" . implode("','", $ids) . "') ";
+            }
+        }
+        if (!empty($queryIds)) {
+            $sql .= " AND ( ";
+            $sql .= implode(' OR ', $queryIds);
+            $sql .= " ) ";
+        }else{
+            // do not return nothing
+            $sql .= " AND u.id < 0 ";
+        }
 
         if (!empty($status)) {
             if (strtolower($status) === 'i') {
@@ -1386,11 +1419,13 @@ if (typeof gtag !== \"function\") {
 
         $user = array();
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
+        //echo $sql;exit;
         $res = sqlDAL::readSql($sql . ";");
         $downloadedArray = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
             foreach ($downloadedArray as $row) {
+                $row['creator'] = Video::getCreatorHTML($row['id'], '', true, true);
                 $row = cleanUpRowFromDatabase($row);
                 $user[] = self::getUserInfoFromRow($row);
             }
@@ -1414,14 +1449,27 @@ if (typeof gtag !== \"function\") {
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT id FROM users WHERE 1=1  ";
-        $sql .= " AND (id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
-
-        $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
-        if (!empty($ids) && is_array($ids)) {
-            $ids = array_unique($ids);
-            $sql .= " OR id IN ('" . implode("','", $ids) . "') ";
+        
+        $queryIds = array();
+        if (empty($_REQUEST['userGroupShowOnly']) || $_REQUEST['userGroupShowOnly'] == 'permanent') {
+            $queryIds[] = " id IN (SELECT users_id FROM users_has_users_groups ug WHERE ug.users_groups_id = {$users_groups_id}) ";
         }
-        $sql .= " ) ";
+        if (empty($_REQUEST['userGroupShowOnly']) || $_REQUEST['userGroupShowOnly'] == 'dynamic') {
+            $ids = AVideoPlugin::getDynamicUsersId($users_groups_id);
+            if (!empty($ids) && is_array($ids)) {
+                $ids = array_unique($ids);
+                $queryIds[] = " id IN ('" . implode("','", $ids) . "') ";
+            }
+        }
+        if (!empty($queryIds)) {
+            $sql .= " AND ( ";
+            $sql .= implode(' OR ', $queryIds);
+            $sql .= " ) ";
+        }else{
+            // do not return nothing
+            $sql .= " AND u.id < 0 ";
+        }
+        
         if (!empty($status)) {
             if (strtolower($status) === 'i') {
                 $sql .= " AND status = 'i' ";
@@ -1439,7 +1487,7 @@ if (typeof gtag !== \"function\") {
         return $result;
     }
 
-    public static function getAllUsers($ignoreAdmin = false, $searchFields = array('name', 'email', 'user', 'channelName', 'about'), $status = "") {
+    public static function getAllUsers($ignoreAdmin = false, $searchFields = array('name', 'email', 'user', 'channelName', 'about'), $status = "", $isAdmin = null) {
         if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
             return false;
         }
@@ -1454,6 +1502,13 @@ if (typeof gtag !== \"function\") {
                 $sql .= " AND status = 'a' ";
             }
         }
+        if (isset($isAdmin)) {
+            if (empty($isAdmin)) {
+                $sql .= " AND isAdmin = 0 ";
+            } else {
+                $sql .= " AND isAdmin = 1 ";
+            }
+        }
         $sql .= BootGrid::getSqlFromPost($searchFields);
 
         $user = array();
@@ -1463,8 +1518,10 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if ($res != false) {
             foreach ($downloadedArray as $row) {
+                $row['creator'] = Video::getCreatorHTML($row['id'], '', true, true);
+                $row = self::getUserInfoFromRow($row);
                 $row = cleanUpRowFromDatabase($row);
-                $user[] = self::getUserInfoFromRow($row);
+                $user[] = $row;
             }
         } else {
             $user = false;
@@ -1561,7 +1618,7 @@ if (typeof gtag !== \"function\") {
         return $user;
     }
 
-    public static function getTotalUsers($ignoreAdmin = false, $status = "") {
+    public static function getTotalUsers($ignoreAdmin = false, $status = "", $isAdmin = null) {
         if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
             return false;
         }
@@ -1575,6 +1632,13 @@ if (typeof gtag !== \"function\") {
                 $sql .= " AND status = 'i' ";
             } else {
                 $sql .= " AND status = 'a' ";
+            }
+        }
+        if (isset($isAdmin)) {
+            if (empty($isAdmin)) {
+                $sql .= " AND isAdmin = 0 ";
+            } else {
+                $sql .= " AND isAdmin = 1 ";
             }
         }
         $sql .= BootGrid::getSqlSearchFromPost(array('name', 'email', 'user'));
@@ -1703,7 +1767,7 @@ if (typeof gtag !== \"function\") {
             return false;
         }
 
-        if (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified()) {
+        if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified())) {
             return false;
         }
 
@@ -1833,7 +1897,7 @@ if (typeof gtag !== \"function\") {
         foreach ($groups as $value) {
             $obj = new stdClass();
             $obj->type = "warning";
-            $obj->text = (!empty($value['isDynamic'])?'<i class="fas fa-link"></i>':'<i class="fas fa-lock"></i>').' '.$value['group_name'];
+            $obj->text = (!empty($value['isDynamic']) ? '<i class="fas fa-link"></i>' : '<i class="fas fa-lock"></i>') . ' ' . $value['group_name'];
             $tags[] = $obj;
         }
 
@@ -2182,11 +2246,43 @@ if (typeof gtag !== \"function\") {
         if (empty($_REQUEST['pass']) && !empty($_REQUEST['password'])) {
             $_REQUEST['pass'] = $_REQUEST['password'];
         }
+
+        $response = false;
         if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
-            $user->login(false, !empty($_REQUEST['encodedPass']));
+            $response = $user->login(false, !empty($_REQUEST['encodedPass']));
+            if ($response !== self::USER_LOGGED) {
+                //_error_log("loginFromRequest trying again");
+                $response = $user->login(false, empty($_REQUEST['encodedPass']));
+            }
+            if ($response) {
+
+                switch ($response) {
+                    case self::USER_LOGGED:
+                        _error_log("loginFromRequest SUCCESS {$_REQUEST['user']}");
+                        break;
+                    case self::USER_NOT_FOUND:
+                        _error_log("loginFromRequest NOT FOUND {$_REQUEST['user']}");
+                        break;
+                    case self::USER_NOT_VERIFIED:
+                        _error_log("loginFromRequest NOT VERIFIED {$_REQUEST['user']}");
+                        break;
+                    case self::CAPTCHA_ERROR:
+                        _error_log("loginFromRequest CAPTCHA_ERROR {$_REQUEST['user']}");
+                        break;
+                    case self::REQUIRE2FA:
+                        _error_log("loginFromRequest REQUIRE2FA {$_REQUEST['user']}");
+                        break;
+                    default:
+                        _error_log("loginFromRequest UNDEFINED {$_REQUEST['user']}");
+                        break;
+                }
+            } else {
+                //_error_log("loginFromRequest ERROR {$_REQUEST['user']}");
+            }
             $_REQUEST['do_not_login'] = 1;
         }
+        return $response;
     }
 
     public static function loginFromRequestToGet() {
@@ -2401,6 +2497,46 @@ if (typeof gtag !== \"function\") {
             }
         }
         return false;
+    }
+
+    static function getExtraSubscribers($users_id) {
+        global $config;
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj)) {
+            return 0;
+        }
+        $user = new User($users_id);
+        $value = $user->getExternalOptions('ExtraSubscribers');
+        return intval($value);
+    }
+
+    static function setExtraSubscribers($users_id, $value) {
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj) || !User::isAdmin()) {
+            return false;
+        }
+        $user = new User($users_id);
+        return $user->addExternalOptions('ExtraSubscribers', intval($value));
+    }
+
+    static function getProfilePassword($users_id) {
+        global $config;
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj)) {
+            return false;
+        }
+        $user = new User($users_id);
+        $value = $user->getExternalOptions('ProfilePassword');
+        return $value;
+    }
+
+    static function setProfilePassword($users_id, $value) {
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj) || !User::isAdmin()) {
+            return false;
+        }
+        $user = new User($users_id);
+        return $user->addExternalOptions('ProfilePassword', preg_replace('/[^0-9a-z]/i', '', $value));
     }
 
 }

@@ -7,9 +7,10 @@ $channelListSwitch = Plugin::isEnabledByName('FirstPageChannelList');
 if (empty($netflixSwitch) && empty($gallerySwitch) && empty($youtubeSwitch) && empty($channelListSwitch)) {
     $defaultSwitch = true;
 }
+$delay = 0.5;
 ?>
 <div class="row">
-    <div class="col-sm-6 col-md-3 col-lg-3">
+    <div class="col-sm-6 col-md-3 col-lg-3 <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'layout', $delay); ?>">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Default
@@ -23,7 +24,7 @@ if (empty($netflixSwitch) && empty($gallerySwitch) && empty($youtubeSwitch) && e
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-md-3 col-lg-3">
+    <div class="col-sm-6 col-md-3 col-lg-3 <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'layout', $delay); ?>">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Netflix
@@ -38,7 +39,7 @@ if (empty($netflixSwitch) && empty($gallerySwitch) && empty($youtubeSwitch) && e
         </div>
     </div>
     <div class="clearfix hidden-md hidden-lg"></div>
-    <div class="col-sm-6 col-md-3 col-lg-3">
+    <div class="col-sm-6 col-md-3 col-lg-3 <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'layout', $delay); ?>">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Channel
@@ -52,7 +53,7 @@ if (empty($netflixSwitch) && empty($gallerySwitch) && empty($youtubeSwitch) && e
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-md-3 col-lg-3">
+    <div class="col-sm-6 col-md-3 col-lg-3 <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'layout', $delay); ?>">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Gallery

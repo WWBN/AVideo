@@ -29,15 +29,11 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 
 Category::clearCacheCount();
 TimeLogEnd($timeLog, __LINE__);
-_error_log("Start Login Request");
-
-_error_log("redirectUri: " . $_POST['redirectUri']);
 
 if (!preg_match("|^" . $global['webSiteRootURL'] . "|", $_POST['redirectUri'])) {
     $_POST['redirectUri'] = $global['webSiteRootURL'];
 }
-
-_error_log("same redirectUri: " . $_POST['redirectUri']);
+_error_log("Start Login Request redirectUri=" . $_POST['redirectUri']);
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
@@ -70,7 +66,7 @@ if (!empty($_GET['type'])) {
             ],
                 /* optional : set debug mode
                   'debug_mode' => true,
-                  // Path to file writeable by the web server. Required if 'debug_mode' is not false
+                  // Path to file writable by the web server. Required if 'debug_mode' is not false
                   'debug_file' => __FILE__ . '.log', */
         ];
     } else {
@@ -84,7 +80,7 @@ if (!empty($_GET['type'])) {
             }
         }
         if (empty($id)) {
-            die(sprintf(__("%s ERROR: You must set a ID on config"), $_GET['type']));
+            die(sprintf(__("%s ERROR: You must set an ID on config"), $_GET['type']));
         }
 
         if (empty($key)) {
@@ -156,7 +152,7 @@ if (!empty($_GET['type'])) {
         //echo $e->getMessage();
     }
     if(!isSameDomainAsMyAVideo($location)){
-       $location = $global['webSiteRootURL']; 
+       $location = $global['webSiteRootURL'];
     }
     header('Content-Type: text/html');
     ?>
@@ -236,6 +232,7 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
+$object->canMeet = AVideoPlugin::isEnabledByName('Meet');
 $object->canCreateCategory = Category::canCreateCategory();
 $object->theme = getCurrentTheme();
 $object->canStream = User::canStream();

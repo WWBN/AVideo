@@ -191,7 +191,6 @@ Passcode: {password}
 
     public function getPluginMenu() {
         global $global;
-        //return '<a href="plugin/Meet/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</a>';
         return '<button onclick="avideoModalIframe(webSiteRootURL +\'plugin/Meet/checkServers.php\');" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-network-wired"></i> Check Servers</button>';
     }
 
@@ -457,13 +456,13 @@ Passcode: {password}
          *
          */
         if (self::isModerator($meet_schedule_id)) {
-            if (self::hasJibris()) {
+            if (self::hasJibris() || self::isCustomJitsi()) {
                 return [
                     'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'livestreaming', 'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                    'tileview', 'download', 'help', 'mute-everyone'
+                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur'
                 ];
             } else {
                 return [
@@ -471,7 +470,7 @@ Passcode: {password}
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                    'tileview', 'download', 'help', 'mute-everyone'
+                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur'
                 ];
             }
         } else {
@@ -479,7 +478,7 @@ Passcode: {password}
                 'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                 'fodeviceselection', 'hangup', 'profile', 'chat', 'etherpad', 'settings', 'raisehand',
                 'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                'tileview', 'download', 'help', 'mute-everyone'
+                'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur'
             ];
         }
     }

@@ -146,7 +146,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                 <button onclick="addVideoToPlayList(<?php echo $videoRow['id']; ?>, true, <?php echo $videoRow['watchLaterId']; ?>);return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $videoRow['id']; ?>" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
                                                 <br>
                                                 <button onclick="addVideoToPlayList(<?php echo $videoRow['id']; ?>, false, <?php echo $videoRow['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $videoRow['id']; ?>" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
-                                                <button onclick="addVideoToPlayList(<?php echo $videoRow['id']; ?>, true, <?php echo $videoRow['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $videoRow['id']; ?>" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart" ></i></button>    
+                                                <button onclick="addVideoToPlayList(<?php echo $videoRow['id']; ?>, true, <?php echo $videoRow['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $videoRow['id']; ?> faa-parent animated-hover" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>    
 
                                             </div>
                                             <?php
@@ -231,7 +231,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                             </div>
                                             <?php if (Video::canEdit($videoRow['id'])) { ?>
                                                 <div>
-                                                    <a href="#" onclick="avideoModalIframe('<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $videoRow['id']; ?>');return false;"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
+                                                    <a href="#" onclick="avideoModalIframe(webSiteRootURL+'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $videoRow['id']; ?>');return false;"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
                                                 </div>
                                             <?php } ?>
                                             <?php if (!empty($videoRow['trailer1'])) { ?>

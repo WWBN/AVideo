@@ -62,6 +62,8 @@ if(!$video2->save()){
     $obj->msg = __("Error on save video 2");
     die(json_encode($obj));
 }
+$video1->setVideoHigestResolution(0);
+$video2->setVideoHigestResolution(0);
 $global['mysqli']->commit();
 $obj->error = false;
 die(json_encode($obj));

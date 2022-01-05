@@ -248,7 +248,9 @@ class Configuration {
         global $global;
         $destination = Video::getStoragePath()."cache/og_200X200.jpg";
         $return = self::_getFavicon(true);
-        convertImageToOG($return['file'], $destination);
+        if(file_exists($return['file'])){
+            convertImageToOG($return['file'], $destination);
+        }
         return getCDN() . "videos/cache/og_200X200.jpg";
     }
 
@@ -495,34 +497,45 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         return true;
     }
 
+    static function deleteEncoderURLCache(){
+        _error_log_debug("Configuration::deleteEncoderURLCache");
+        $name = "getEncoderURL" . DIRECTORY_SEPARATOR;
+        $tmpDir = ObjectYPT::getCacheDir();
+        $cacheDir = $tmpDir . $name;
+        ObjectYPT::deleteCache($name);
+        rrmdir($cacheDir);
+    }
+    
     function getEncoderURL() {
         global $global, $getEncoderURL, $advancedCustom;
         if(!empty($global['forceEncoderURL'])){
             return $global['forceEncoderURL'];
         }
         if (empty($getEncoderURL)) {
-            $getEncoderURL = ObjectYPT::getCache("getEncoderURL", 60);
+            $getEncoderURL = ObjectYPT::getCache("getEncoderURL". DIRECTORY_SEPARATOR, 60);
             if (empty($getEncoderURL)) {
                 if ($this->shouldUseEncodernetwork()) {
                     if (substr($advancedCustom->encoderNetwork, -1) !== '/') {
                         $advancedCustom->encoderNetwork .= "/";
                     }
-                    $bestEncoder = _json_decode(url_get_contents($advancedCustom->encoderNetwork . "view/getBestEncoder.php", "", 10));
+                    $bestEncoder = _json_decode(url_get_contents($advancedCustom->encoderNetwork . "view/getBestEncoder.php", "", 10, true));
                     if (!empty($bestEncoder->siteURL)) {
                         $this->encoderURL = $bestEncoder->siteURL;
                     } else {
                         error_log("Configuration::getEncoderURL ERROR your network ($advancedCustom->encoderNetwork) is not configured properly This slow down your site a lot, disable the option useEncoderNetworkRecomendation in your CustomizeAdvanced plugin");
                     }
+                }else{
+                    //error_log("Configuration::getEncoderURL shouldUseEncodernetwork said no");
                 }
 
                 if (empty($this->encoderURL)) {
                     $getEncoderURL = "https://encoder1.avideo.com/";
                 }
-                if (substr($this->encoderURL, -1) !== '/') {
-                    $this->encoderURL .= "/";
-                }
+                addLastSlash($this->encoderURL);
                 $getEncoderURL = $this->encoderURL;
                 ObjectYPT::setCache("getEncoderURL", $getEncoderURL);
+            }else{
+                //error_log("Configuration::getEncoderURL got it from cache ". json_encode($getEncoderURL));
             }
         }
         return $getEncoderURL;

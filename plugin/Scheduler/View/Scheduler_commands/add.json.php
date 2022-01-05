@@ -20,6 +20,14 @@ $o->setParameters($_POST['parameters']);
 $o->setDate_to_execute($_POST['date_to_execute']);
 $o->setExecuted_in($_POST['executed_in']);
 $o->setStatus($_POST['status']);
+$o->setCallbackResponse($_POST['callbackResponse']);
+$o->setTimezone($_POST['timezone']);
+$o->setRepeat_minute($_POST['repeat_minute']);
+$o->setRepeat_hour($_POST['repeat_hour']);
+$o->setRepeat_day_of_month($_POST['repeat_day_of_month']);
+$o->setRepeat_month($_POST['repeat_month']);
+$o->setRepeat_day_of_week($_POST['repeat_day_of_week']);
+$o->setType($_POST['type']);
 
 if($id = $o->save()){
     $obj->error = false;

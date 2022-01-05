@@ -10,7 +10,7 @@
                     ?>
                     <hr>
                     <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i> <?php echo __('As a database increases in size full database backups take more time to complete, and require more storage space. please be patience'); ?>
+                        <i class="fas fa-info-circle"></i> <?php echo __('As a database increases in size full database backups take more time to complete, and require more storage space. Please be patient'); ?>
                     </div>
                     <?php
                 } else {
@@ -19,7 +19,7 @@
                         <h2><i class="fas fa-undo"></i> <?php echo __('Prevent Data Loss'); ?></h2>
                         <?php echo __('Backing up your video files and databases, running test restores procedures on your backups, and storing copies of backups in a safe, off-site location protects you from potentially catastrophic data loss. Backing up is the only way to protect your data.'); ?>
                         <br> <?php echo __('We can help you with this task,'); ?>
-                        <a class="btn btn-info btn-sm btn-xs" href="https://youphp.tube/plugins/"><?php echo __('Buy our Backup Plugin Now'); ?></a>
+                        <a class="btn btn-info btn-sm btn-xs" href="https://youphp.tube/marketplace/"><?php echo __('Buy our Backup Plugin Now'); ?></a>
                     </div>
                     <?php
                 }

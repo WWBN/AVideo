@@ -213,6 +213,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
         sleep($tries);
         return startRestream($m3u8, $restreamsDestinations, $logFile, $tries + 1);
     }
+    //sleep(5);
     /*
       $command = "ffmpeg -i {$m3u8} ";
       foreach ($restreamsDestinations as $value) {
@@ -230,14 +231,14 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
                 continue;
             }
             $value = clearCommandURL($value);
-            $command .= ' -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -preset veryfast -f flv "' . $value . '" ';
+            $command .= ' -max_muxing_queue_size 1024 -c:a copy -ac 1 -ar 44100 -b:a 96k -vcodec libx264 -pix_fmt yuv420p -vf scale=1080:-1 -r 30 -g 60 -tune zerolatency -f flv -maxrate 2000k -preset veryfast -f flv "' . $value . '" ';
         }
     } else {
         if (!isOpenSSLEnabled() && preg_match("/rtpms:/i", $restreamsDestinations[0])) {
             error_log("Restreamer.json.php ERROR #2 FFMPEG openssl is not enabled, ignoring {$restreamsDestinations[0]} ");
         } else {
             //$command = "ffmpeg -re -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
-            $command = "{$ffmpegBinary} -re -rw_timeout 15000000 -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -preset veryfast -f flv \"{$restreamsDestinations[0]}\"";
+            $command = "{$ffmpegBinary} -re -rw_timeout 15000000 -y -i \"{$m3u8}\" -max_muxing_queue_size 1024 -c:a copy -ac 1 -ar 44100 -b:a 96k -vcodec libx264 -pix_fmt yuv420p -vf scale=1080:-1 -r 30 -g 60 -tune zerolatency -f flv -maxrate 2000k -preset veryfast -f flv \"{$restreamsDestinations[0]}\"";
         }
     }
     if (empty($command) || !preg_match("/-f flv/i", $command)) {

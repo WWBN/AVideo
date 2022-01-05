@@ -1,12 +1,13 @@
 <div class="row">
     <?php
     $savedTheme = $config->getTheme();
+    $delay = 0.2;
     foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
         //echo "$filename size " . filesize($filename) . "\n";
         $file = basename($filename);         // $file is set to "index.php"
         $fileEx = basename($filename, ".css"); // $file is set to "index"
         ?>
-        <div class="col-xs-4">
+        <div class="col-xs-4  <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp', 'themess', $delay); ?>">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <?php echo ucfirst($fileEx); ?>

@@ -150,6 +150,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         if (!empty($_FILES['upl']['tmp_name'])) {
             $video->setAutoStatus(Video::$statusActive);
             AVideoPlugin::onUploadIsDone($obj->videos_id);
+            AVideoPlugin::afterNewVideo($obj->videos_id);
         }
         die(json_encode($obj));
     }

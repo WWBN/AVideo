@@ -8,9 +8,6 @@ if (!empty($_GET['lang'])) {
     $_GET['lang'] = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($_GET['lang']));
 }
 
-if (empty($_SESSION['language'])) {
-    $_SESSION['language'] = $config->getLanguage();
-}
 if (!empty($_GET['lang'])) {
     $_GET['lang'] = strip_tags($_GET['lang']);
     $_SESSION['language'] = $_GET['lang'];
@@ -94,3 +91,60 @@ function br2nl($html) {
     $nl = preg_replace(array('#<br\s*/?>#i', '#<p\s*/?>#i', '#</p\s*>#i'), array("\n", "\n", ''), $html);
     return $nl;
 }
+
+function flag2Lang($flagCode){
+    global $global;
+    $index = strtolower($flagCode);
+    if(!empty($global['flag2Lang'][$index])){
+        return $global['flag2Lang'][$index];
+    }
+    return $flagCode;
+}
+
+function setSiteLang() {
+    global $config;
+    
+    $userLocation = false;
+    $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
+    $userLocation = !empty($obj) && !empty($obj->autoChangeLanguage);
+    
+    if (!empty($_GET['lang'])) {
+        _session_start();
+        $_SESSION['language'] = $_GET['lang'];
+    } else if (empty($_SESSION['language']) && !$userLocation) {
+        _session_start();
+        $_SESSION['language'] = $config->getLanguage();
+    }
+    return setLanguage($_SESSION['language']);
+}
+
+function setLanguage($lang) {
+        if (empty($lang)) {
+            return false;
+        }
+        global $global;
+        $lang = flag2Lang($lang);
+        if (empty($lang) || $lang === '-') {
+            return false;
+        }
+
+        $file = "{$global['systemRootPath']}locale/{$lang}.php";
+        _session_start();
+        if (file_exists($file)) {
+            $_SESSION['language'] = $lang;
+            include_once $file;
+            return true;
+        } else {
+            _error_log('setLanguage: File does not exists 1 ' . $file);
+            $lang = strtolower($lang);
+            $file = "{$global['systemRootPath']}locale/{$lang}.php";
+            if (file_exists($file)) {
+                $_SESSION['language'] = $lang;
+                include_once $file;
+                return true;
+            } else {
+                _error_log('setLanguage: File does not exists 2 ' . $file);
+            }
+        }
+        return false;
+    }

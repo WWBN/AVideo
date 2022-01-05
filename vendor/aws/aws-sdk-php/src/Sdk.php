@@ -70,6 +70,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionChime(array $args = [])
  * @method \Aws\ChimeSDKIdentity\ChimeSDKIdentityClient createChimeSDKIdentity(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionChimeSDKIdentity(array $args = [])
+ * @method \Aws\ChimeSDKMeetings\ChimeSDKMeetingsClient createChimeSDKMeetings(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionChimeSDKMeetings(array $args = [])
  * @method \Aws\ChimeSDKMessaging\ChimeSDKMessagingClient createChimeSDKMessaging(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionChimeSDKMessaging(array $args = [])
  * @method \Aws\Cloud9\Cloud9Client createCloud9(array $args = [])
@@ -400,6 +402,8 @@ namespace Aws;
  * @method \Aws\MultiRegionClient createMultiRegionOutposts(array $args = [])
  * @method \Aws\PI\PIClient createPI(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionPI(array $args = [])
+ * @method \Aws\Panorama\PanoramaClient createPanorama(array $args = [])
+ * @method \Aws\MultiRegionClient createMultiRegionPanorama(array $args = [])
  * @method \Aws\Personalize\PersonalizeClient createPersonalize(array $args = [])
  * @method \Aws\MultiRegionClient createMultiRegionPersonalize(array $args = [])
  * @method \Aws\PersonalizeEvents\PersonalizeEventsClient createPersonalizeEvents(array $args = [])
@@ -573,7 +577,7 @@ namespace Aws;
  */
 class Sdk
 {
-    const VERSION = '3.198.0';
+    const VERSION = '3.200.1';
 
     /** @var array Arguments for creating clients */
     private $args;

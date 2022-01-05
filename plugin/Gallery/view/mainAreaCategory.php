@@ -25,7 +25,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
                         <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name']; ?>
                     </a>
                     <?php
-                    if (!empty($currentCat['description'])) {
+                    if (!isHTMLEmpty($currentCat['description'])) {
                         $duid = uniqid();
                         $titleAlert = str_replace(array('"', "'"), array('``', "`"), $currentCat['name']);
                         ?>

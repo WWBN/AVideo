@@ -4,8 +4,8 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/playlist.php';
-if (!User::isLogged()) {
-    die('{"error":"' . __("Permission denied") . '"}');
+if (!User::canUpload()) {
+    forbiddenPage(__('You cannot upload'));
 }
 $obj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
 
@@ -45,7 +45,7 @@ if (!empty($_GET['action'])) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
 
         <?php
         echo AVideoPlugin::getHeadCode();
@@ -56,7 +56,7 @@ if (!empty($_GET['action'])) {
         <link rel="icon" href="view/img/favicon.ico">
         <title><?php echo $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
         <style>
 
 
@@ -121,11 +121,8 @@ if (!empty($_GET['action'])) {
             </div>
         </div>
         <?php
-        $jsFiles = array();
-        $jsFiles[] = "view/js/script.js";
-        $jsFiles[] = "view/js/js-cookie/js.cookie.js";
-        $jsURL = combineFiles($jsFiles, "js");
+        include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
         ?>
-        <script src="<?php echo getCDN(); ?>view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/js/js-cookie/js.cookie.js'); ?>" type="text/javascript"></script>
 </html>

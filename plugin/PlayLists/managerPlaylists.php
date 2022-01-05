@@ -195,7 +195,7 @@ if (!User::isLogged()) {
                                                                     <button type="button" class="btn btn-default btn-xs pull-right"   data-toggle="tooltip" title="<?php echo __('Play Video'); ?>"  onclick="avideoModalIframe('<?php echo Video::getPermaLink($row["id"], true); ?>');" >
                                                                         <i class="fas fa-play"></i>
                                                                     </button>
-                                                                    <button type="button" class="btn btn-default btn-xs pull-right"   data-toggle="tooltip" title="<?php echo __('Edit Video'); ?>"  onclick="avideoModalIframe(webSiteRootURL + 'mvideos?video_id=<?php echo $row["id"]; ?>');" >
+                                                                    <button type="button" class="btn btn-default btn-xs pull-right"   data-toggle="tooltip" title="<?php echo __('Edit Video'); ?>"  onclick="avideoModalIframe(webSiteRootURL+'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $value['id']; ?>');" >
                                                                         <i class="fas fa-edit"></i>
                                                                     </button>
                                                                 </li>
@@ -229,7 +229,7 @@ if (!User::isLogged()) {
                                                                     <button type="button" class="btn btn-default btn-xs pull-right"   data-toggle="tooltip" title="<?php echo __('Play Video'); ?>"  onclick="avideoModalIframe('<?php echo Video::getPermaLink($row["id"], true); ?>');" >
                                                                         <i class="fas fa-play"></i>
                                                                     </button>
-                                                                    <button type="button" class="btn btn-default btn-xs pull-right"   data-toggle="tooltip" title="<?php echo __('Edit Video'); ?>"  onclick="avideoModalIframe(webSiteRootURL + 'mvideos?video_id=<?php echo $row["id"]; ?>');" >
+                                                                    <button type="button" class="btn btn-default btn-xs pull-right"   data-toggle="tooltip" title="<?php echo __('Edit Video'); ?>"  onclick="avideoModalIframe(webSiteRootURL+'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $value['id']; ?>');" >
                                                                         <i class="fas fa-edit"></i>
                                                                     </button>
                                                                 </li>

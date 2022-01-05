@@ -24,11 +24,13 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
         <link rel="icon" type="image/png" href="<?php echo getCDN(); ?>videos/favicon.png?1602260237">
         <link rel="shortcut icon" href="<?php echo getCDN(); ?>videos/favicon.ico?1601872356" sizes="16x16,24x24,32x32,48x48,144x144">
         <meta name="msapplication-TileImage" content="<?php echo getCDN(); ?>videos/favicon.png?1602260237">
-        <link href="<?php echo getCDN(); ?>view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <?php
+        include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
+        ?>
         <link href="<?php echo getCDN(); ?>view/css/custom/cyborg.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>view/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo getCDN(); ?>view/js/jquery-3.5.1.min.js"></script>
+        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
         <script>
             var loopBGHLS = '<?php echo getCDN(); ?>plugin/Live/view/loopBGHLS/index.m3u8';
         </script>
@@ -93,7 +95,7 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
             }
             .container-fluid{
                 margin-left: 100px;
-                
+
                 transition: all 0.25s ease-in-out;
                 -moz-transition: all 0.25s ease-in-out;
                 -webkit-transition: all 0.25s ease-in-out;
@@ -205,7 +207,7 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
                     } else if (e.key === "Enter") {
                         e.preventDefault();
                         triggerChannelClick();
-                    }else if(e.key.match(/^[0-9]$/)){
+                    } else if (e.key.match(/^[0-9]$/)) {
                         typeNumber(e.key);
                     }
                 });
@@ -213,41 +215,43 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
                 setInterval(function () {
                     loadBody();
                 }, 60000);
-                
+
                 setInterval(function () {
                     reloadImages();
                 }, 30000);
 
             });
-            
+
             var channelTypedNumber = "";
             var typeNumberTimeout;
-            
-            function backButton(){
+
+            function backButton() {
                 var evalCode = undoArray.pop();
                 if (evalCode) {
                     eval(evalCode);
                 }
             }
-            
-            function typeNumber(num){
+
+            function typeNumber(num) {
                 channelTypedNumber += num;
                 showMessage(channelTypedNumber);
                 clearTimeout(typeNumberTimeout);
-                typeNumberTimeout = setTimeout(function(){goToChannelNumber()},1000);
+                typeNumberTimeout = setTimeout(function () {
+                    goToChannelNumber()
+                }, 1000);
             }
-            
-            function goToChannelNumber(){
+
+            function goToChannelNumber() {
                 var index = parseInt($('div[channelNumber="' + channelTypedNumber + '"]').attr('tabindex'));
-                if(index){
+                if (index) {
                     tabindex = index;
                     triggerChannelClick();
-                }else{
+                } else {
                     showMessage("Channel not found");
                 }
                 channelTypedNumber = "";
             }
-            
+
             function isVideoOpened() {
                 return $('body').hasClass('showingVideo');
             }
@@ -396,9 +400,9 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
                     }
                 }
             }
-            
+
             var changeVolumeTimeOut;
-            function changeVolume(total){
+            function changeVolume(total) {
                 clearTimeout(changeVolumeTimeOut);
                 $("#volumeBar").fadeIn('fast');
                 var newVolume = player.volume();
@@ -411,17 +415,19 @@ require_once $global['systemRootPath'] . 'objects/configuration.php';
                 }
                 console.log('changeVolume: ' + newVolume);
                 player.volume(newVolume);
-                
-                for(i=0;i<=newVolume*10;i++){
+
+                for (i = 0; i <= newVolume * 10; i++) {
                     console.log('changeVolume:fadeIn ' + i);
-                    $('.volume'+i).fadeIn('slow');
+                    $('.volume' + i).fadeIn('slow');
                 }
-                for(;i<=10;i++){
+                for (; i <= 10; i++) {
                     console.log('changeVolume:fadeOut ' + i);
-                    $('.volume'+i).fadeOut('slow');
+                    $('.volume' + i).fadeOut('slow');
                 }
-                changeVolumeTimeOut = setTimeout(function(){$("#volumeBar").fadeOut();},3000);
-                
+                changeVolumeTimeOut = setTimeout(function () {
+                    $("#volumeBar").fadeOut();
+                }, 3000);
+
             }
 
             function setFocus() {

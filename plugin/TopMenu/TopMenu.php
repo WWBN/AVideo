@@ -35,6 +35,15 @@ class TopMenu extends PluginAbstract {
         return "2.1";   
     }
     
+     public function getEmptyDataObject() {
+        global $global;
+        
+        $obj = new stdClass();
+        $obj->show_menu_items = true;
+        
+        return $obj;
+     }
+    
     public function updateScript() {
         global $mysqlDatabase;
         //update version 2.0
@@ -153,6 +162,26 @@ class TopMenu extends PluginAbstract {
         $_getVideoMenuURL[$index] = $externalOptions->$parameterName;
         return $_getVideoMenuURL[$index];
     }
+    
+    static public function thereIsMenuItemsActive(){
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURL);
+        if(!empty($menu)){
+            return true;
+        }
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForLoggedUsers);
+        if(!empty($menu)){
+            return true;
+        }
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanWatchVideo);
+        if(!empty($menu)){
+            return true;
+        }
+        $menu = Menu::getAllActive(Menu::$typeActionMenuCustomURLForUsersThatCanNotWatchVideo);
+        if(!empty($menu)){
+            return true;
+        }
+        return false;
+    }
         
     public function getVideosManagerListButton() {
         if (!User::canUpload()) {
@@ -160,6 +189,15 @@ class TopMenu extends PluginAbstract {
         }
         
         $obj = $this->getDataObject();
+        
+        if(empty($obj->show_menu_items)){
+            return '';
+        }
+        
+        if(!self::thereIsMenuItemsActive()){
+            return '';
+        }
+        
         $btn = '';
         
         $btn .= '<button type="button" class="btn btn-primary btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/TopMenu/addVideoInfo.php?videos_id=\'+row.id+\'\\\');" ><i class="fas fa-edit"></i> Menu items</button>';

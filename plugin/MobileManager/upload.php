@@ -26,18 +26,26 @@ if (!User::canUpload()) {
 $allowed = array('mp4', 'avi', 'mov', 'mkv', 'flv', 'mp3', 'wav', 'm4v', 'webm', 'wmv', 'mpg', 'mpeg', 'f4v', 'm4v', 'm4a', 'm2p', 'rm', 'vob', 'mkv', 'jpg', 'jpeg', 'gif', 'png', 'webp');
 _error_log("MOBILE UPLOAD: Starts");
 if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
-
+    
     $extension = pathinfo($_FILES['upl']['name'], PATHINFO_EXTENSION);
-
+    _error_log("MOBILE UPLOAD: extension {$extension}");
     if (!in_array(strtolower($extension), $allowed)) {
         $object->msg = "File extension error (" . $_FILES['upl']['name'] . "), we allow only (" . implode(",", $allowed) . ")";
         _error_log("MOBILE UPLOAD: {$object->msg}");
         die(json_encode($object));
     }
-    //chack if is an audio
-    $type = "video";
-    if (strcasecmp($extension, 'mp3') == 0 || strcasecmp($extension, 'wav') == 0) {
-        $type = 'audio';
+    if($image = isImage($_FILES['upl']['tmp_name'])){
+        $type = "image";
+        $prefix = 'i';
+        $extension = $image;
+    }else{
+        //chack if is an audio
+        $type = "video";
+        $prefix = 'v';
+        if (strcasecmp($extension, 'mp3') == 0 || strcasecmp($extension, 'wav') == 0) {
+            $type = 'audio';
+            $prefix = 'a';
+        }
     }
 
     require_once $global['systemRootPath'] . 'objects/video.php';
@@ -67,16 +75,12 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
 
     $mainName = preg_replace("/[^A-Za-z0-9]/", "", cleanString($_FILES['upl']['name']));
     
-    $paths = Video::getNewVideoFilename();
+    $paths = Video::getNewVideoFilename($prefix);
     $filename = $paths['filename'];
 
     $video = new Video(preg_replace("/_+/", " ", $_FILES['upl']['name']), $filename, 0);
     $video->setDuration($duration);
-    if ($type == 'audio') {
-        $video->setType($type);
-    } else {
-        $video->setType("video");
-    }
+    $video->setType($type);
 
     if(!empty($_REQUEST['title'])){
         $video->setTitle($_REQUEST['title']);
@@ -93,19 +97,31 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     if(!empty($_REQUEST['video_password'])) {
         $video->setVideo_password($_REQUEST['video_password']);
     }
+    if($type == "image"){
+        $video->setStatus(Video::$statusActive);
+        make_path($paths['path']);
+        $file = "{$paths['path']}{$paths['filename']}.{$extension}";
+       if (!move_uploaded_file($_FILES['upl']['tmp_name'], $file)) {
+            $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . $file . ")";
+            _error_log("MOBILE UPLOAD IMAGE ERROR: ".  json_encode($object));
+            die(json_encode($object));
+        }
+        $object->error = false;
+        $object->msg = "your image was posted";
+        $object->videos_id = $video->save();
+    }else{
+        $video->setStatus(Video::$statusEncoding);
 
-    $video->setStatus(Video::$statusEncoding);
-
-    if (!move_uploaded_file($_FILES['upl']['tmp_name'], Video::getStoragePath()."original_" . $filename)) {
-        $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . Video::getStoragePath()."original_" . $filename . ")";
-        _error_log("MOBILE UPLOAD ERROR: ".  json_encode($object));
-        die(json_encode($object));
+        if (!move_uploaded_file($_FILES['upl']['tmp_name'], Video::getStoragePath()."original_" . $filename)) {
+            $object->msg = "Error on move_uploaded_file(" . $_FILES['upl']['tmp_name'] . ", " . Video::getStoragePath()."original_" . $filename . ")";
+            _error_log("MOBILE UPLOAD ERROR: ".  json_encode($object));
+            die(json_encode($object));
+        }
+        $object->videos_id = $video->save();
+        $video->queue();
+        $object->error = false;
+        $object->msg = "We sent your video to the encoder";
     }
-    $object->videos_id = $video->save();
-    $video->queue();
-
-    $object->error = false;
-    $object->msg = "We sent your video to the encoder";
     _error_log("MOBILE SUCCESS UPLOAD: ".  json_encode($object));
     die(json_encode($object));
 } else {

@@ -15,9 +15,12 @@ class CDN extends PluginAbstract {
     }
 
     public function getDescription() {
+        global $global;
         $txt = "With our CDN we will provide you a highly-distributed platform of servers that helps minimize delays in loading web page content "
                 . "by reducing the physical distance between the server and the user. This helps users around the world view the same high-quality "
                 . "content without slow loading times";
+        $txt .= "<br>If you are using the CDN Storage, add this into your crontab <code>2 1 * * * php {$global['systemRootPath']}plugin/CDN/tools/moveMissingFiles.php</code>. "
+                . "This command will daily check your files and free some space into your server";
         $help = "";
         return $txt . $help;
     }

@@ -66,12 +66,12 @@ class Category {
     }
 
     function setName($name) {
-        $this->name = $name;
+        $this->name = _substr($name, 0, 45);
     }
 
     function setClean_name($clean_name) {
         $clean_name = preg_replace('/\W+/', '-', strtolower(cleanString($clean_name)));
-        $this->clean_name = $clean_name;
+        $this->clean_name = _substr($clean_name, 0, 45);;
     }
 
     function setNextVideoOrder($nextVideoOrder) {
@@ -166,8 +166,7 @@ class Category {
         $insert_row = sqlDAL::writeSql($sql, $format, $values);
         if ($insert_row) {
             self::deleteOGImage($this->id);
-            $_SESSION['user']['sessionCache']['getAllCategoriesClearCache'] = 1;
-            ObjectYPT::deleteALLCache();
+            self::deleteCategoryCache();
             if (empty($this->id)) {
                 $id = $insert_row;
             } else {
@@ -226,8 +225,7 @@ class Category {
         } else {
             return false;
         }
-        ObjectYPT::deleteALLCache();
-        self::clearCacheCount();
+        self::deleteCategoryCache();
         self::deleteAssets($this->id);
         return sqlDAL::writeSql($sql, "i", array($this->id));
     }
@@ -279,8 +277,8 @@ class Category {
         global $global;
         return "{$global['webSiteRootURL']}cat/{$clean_name}";
     }
-    
-    function getLink(){
+
+    function getLink() {
         return self::getCategoryLinkFromName($this->getClean_name());
     }
 
@@ -340,6 +338,17 @@ class Category {
         return $id;
     }
 
+    static function deleteCategoryCache() {
+        _session_start();
+        ObjectYPT::deleteAllSessionCache();
+        clearFirstPageCache();
+        unset($_SESSION['user']['sessionCache']);
+        $_SESSION['user']['sessionCache']['getAllCategoriesClearCache'] = 1;
+        $cacheDir = ObjectYPT::getCacheDir() . 'category/';
+        $rrmdir = rrmdir($cacheDir);
+        _error_log("deleteCategoryCache: {$cacheDir} = ". json_encode($rrmdir));
+    }
+
     static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false) {
         global $global, $config;
         if ($config->currentVersionLowerThen('8.4')) {
@@ -394,9 +403,10 @@ class Category {
         }
         $sql .= BootGrid::getSqlFromPost(array('name'), "", " ORDER BY `order`, name ASC ");
         //echo $sql;exit;
-        $cacheName = md5($sql);
+        $cacheName = 'category/' . md5($sql);
         if (empty($_SESSION['user']['sessionCache']['getAllCategoriesClearCache'])) {
             $category = object_to_array(ObjectYPT::getCache($cacheName, 36000));
+            //var_dump($cacheName, ObjectYPT::getLastUsedCacheInfo(), fixPath(ObjectYPT::getCacheDir() . 'category/'));exit;
         } else {
             _session_start();
             unset($_SESSION['user']['sessionCache']['getAllCategoriesClearCache']);

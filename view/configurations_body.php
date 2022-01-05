@@ -63,7 +63,7 @@ if (User::isAdmin()) {
                                                 <?php
                                                 if (!AVideoPlugin::exists('Customize')) {
                                                     ?>
-                                                    <a href="https://youphp.tube/plugins/" class="btn btn-success btn-radio btn-block btn-xs" id=""> <i class="fas fa-palette"></i>  Purchase the Customize Plugin</a>
+                                                    <a href="https://youphp.tube/marketplace/" class="btn btn-success btn-radio btn-block btn-xs" id=""> <i class="fas fa-palette"></i>  Purchase the Customize Plugin</a>
                                                     <?php
                                                 } else {
                                                     ?>
@@ -161,18 +161,18 @@ if (User::isAdmin()) {
 
 
                         <?php
-                        if (isPHP("5.6")) {
+                        if (isPHP('7.3')) {
                             ?>
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
-                                <strong>PHP <?php echo PHP_VERSION; ?> is Present</strong>
+                                <strong>PHP <?php echo PHP_VERSION; ?> is present.</strong>
                             </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
-                                <strong>Your PHP version is <?php echo PHP_VERSION; ?>, you must install PHP 5.6.x or greater</strong>
+                                <strong>Your PHP version is <?php echo PHP_VERSION; ?>. PHP 7.3 or newer is required.</strong>
                             </div>
                             <?php
                         }
@@ -590,12 +590,12 @@ if (User::isAdmin()) {
                         <div class="form-group">
                             <label class="col-md-2 control-label"><?php echo __("Head Code"); ?></label>
                             <div class="col-md-10">
-                                <link rel="stylesheet" href="<?php echo getCDN(); ?>view/js/codemirror/lib/codemirror.css">
-                                <script src="<?php echo getCDN(); ?>view/js/codemirror/lib/codemirror.js"></script>
-                                <script src="<?php echo getCDN(); ?>view/js/codemirror/mode/xml/xml.js"></script>
-                                <script src="<?php echo getCDN(); ?>view/js/codemirror/mode/css/css.js"></script>
-                                <script src="<?php echo getCDN(); ?>view/js/codemirror/mode/javascript/javascript.js"></script>
-                                <script src="<?php echo getCDN(); ?>view/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+                                <link rel="stylesheet" href="<?php echo getCDN(); ?>node_modules/codemirrorlib/codemirror.css">
+                                <script src="<?php echo getCDN(); ?>node_modules/codemirrorlib/codemirror.js"></script>
+                                <script src="<?php echo getCDN(); ?>node_modules/codemirrormode/xml/xml.js"></script>
+                                <script src="<?php echo getCDN(); ?>node_modules/codemirrormode/css/css.js"></script>
+                                <script src="<?php echo getCDN(); ?>node_modules/codemirrormode/javascript/javascript.js"></script>
+                                <script src="<?php echo getCDN(); ?>node_modules/codemirrormode/htmlmixed/htmlmixed.js"></script>
                                 <script>
                                     (function($) {
 										$(document).ready(function() {

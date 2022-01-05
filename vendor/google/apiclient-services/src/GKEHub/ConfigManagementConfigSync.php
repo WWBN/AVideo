@@ -19,12 +19,19 @@ namespace Google\Service\GKEHub;
 
 class ConfigManagementConfigSync extends \Google\Model
 {
+  public $enabled;
   protected $gitType = ConfigManagementGitConfig::class;
   protected $gitDataType = '';
-  protected $resourceRequirementsType = ConfigManagementContainerResourceRequirements::class;
-  protected $resourceRequirementsDataType = 'map';
   public $sourceFormat;
 
+  public function setEnabled($enabled)
+  {
+    $this->enabled = $enabled;
+  }
+  public function getEnabled()
+  {
+    return $this->enabled;
+  }
   /**
    * @param ConfigManagementGitConfig
    */
@@ -38,20 +45,6 @@ class ConfigManagementConfigSync extends \Google\Model
   public function getGit()
   {
     return $this->git;
-  }
-  /**
-   * @param ConfigManagementContainerResourceRequirements[]
-   */
-  public function setResourceRequirements($resourceRequirements)
-  {
-    $this->resourceRequirements = $resourceRequirements;
-  }
-  /**
-   * @return ConfigManagementContainerResourceRequirements[]
-   */
-  public function getResourceRequirements()
-  {
-    return $this->resourceRequirements;
   }
   public function setSourceFormat($sourceFormat)
   {

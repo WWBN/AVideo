@@ -39,7 +39,8 @@ foreach ($_REQUEST['videos_id'] as $videos_id) {
     }
 
     $obj->error = false;
-    $obj->response = CDNStorage::moveLocalToRemote($videos_id);
+    //$obj->response = CDNStorage::moveLocalToRemote($videos_id);
+    $obj->response = CDNStorage::put($videos_id, 4);
 
 }
 _error_log('Finish to move file ');

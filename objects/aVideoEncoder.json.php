@@ -24,7 +24,7 @@ if(!isset($_REQUEST['encodedPass'])){
 }
 useVideoHashOrLogin();
 if (!User::canUpload()) {
-    _error_log("aVideoEncoder.json: Permission denied to receive a file: " . json_encode($_POST));
+    _error_log("aVideoEncoder.json: Permission denied to receive a file: " . json_encode($_REQUEST));
     $obj->msg = __("Permission denied to receive a file: ") . json_encode($_POST);
     _error_log($obj->msg);
     die(json_encode($obj));
@@ -200,19 +200,24 @@ function downloadVideoFromDownloadURL($downloadURL){
     global $global;
     _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
     $file = url_get_contents($_POST['downloadURL']);
-    if (strlen($file)<20000) {
+    $strlen = strlen($file);
+    if ($strlen<20000) {
         //it is not a video
         return false;
     }
-    _error_log("aVideoEncoder.json: Got the download " . $downloadURL);
+    _error_log("aVideoEncoder.json: Got the download " . $downloadURL . ' '. humanFileSize($strlen));
     if ($file) {
         $_FILES['video']['name'] = basename($downloadURL);
 
         $temp = Video::getStoragePath()."cache/tmpFile/" . $_FILES['video']['name'];
-        _error_log("aVideoEncoder.json: save " . $temp);
         make_path($temp);
-        file_put_contents($temp, $file);
-        return $temp;
+        $bytesSaved = file_put_contents($temp, $file);
+        if($bytesSaved){
+            _error_log("aVideoEncoder.json: saved " . $temp  . ' '. humanFileSize($bytesSaved));
+            return $temp;
+        }else{
+            _error_log("aVideoEncoder.json: ERROR on save file " . $temp );
+        }
     }
     return false;
 }

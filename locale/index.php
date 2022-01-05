@@ -119,18 +119,16 @@ $vars = listAllWordsToTranslate();
                     $dir = "{$global['systemRootPath']}locale";
                     if (!is_writable($dir)) {
                         ?>
-                        <div class="row">
-                            <div class="col-lg-1"></div>
-                            <div class="col-lg-10  alert alert-info">
-                                <?php echo __("You need to make your locale folder writable"); ?>
-                                <pre><code>chown www-data:www-data <?php echo $global['systemRootPath']; ?>locale && sudo chmod -R 755 <?php echo $global['systemRootPath']; ?>locale</code></pre>
-                            </div>
-                            <div class="col-lg-1">
-                            </div>
+                        <div class="alert alert-info">
+                            <?php echo __("You need to make your locale folder writable"); ?>
+                            <pre><code>chown www-data:www-data <?php echo $global['systemRootPath']; ?>locale && sudo chmod -R 755 <?php echo $global['systemRootPath']; ?>locale</code></pre>
                         </div>
                         <?php
                     }
                     ?>
+                    <div class="alert alert-info">
+                        <?php echo count($vars) . ' words found'; ?>
+                    </div>
                 </div>
             </div>
         </div><!--/.container-->

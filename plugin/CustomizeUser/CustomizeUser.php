@@ -87,7 +87,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->disableNativeSignIn = !isset($advancedCustom->disableNativeSignIn) ? false : $advancedCustom->disableNativeSignIn;
         $obj->disablePersonalInfo = !isset($advancedCustom->disablePersonalInfo) ? true : $advancedCustom->disablePersonalInfo;
 
-        
+
         $o = new stdClass();
         $o->type = array(0 => '-- ' . __("None"), 1 => '-- ' . __("Random")) + self::getBGAnimationArray();
         $o->value = 1;
@@ -131,7 +131,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->allowDonationLink = false;
         $obj->donationButtonLabel = __('Donation');
         $obj->allowWalletDirectTransferDonation = false;
-        $obj->donationWalletButtonLabel = __('Donatate from your wallet');
+        $obj->donationWalletButtonLabel = __('Donate from your wallet');
         $obj->disableCaptchaOnWalletDirectTransferDonation = false;
 
         $obj->showEmailVerifiedMark = true;
@@ -152,8 +152,9 @@ class CustomizeUser extends PluginAbstract {
 
         return $obj;
     }
-    
-    static function autoIncludeBGAnimationFile() {$baseName = basename($_SERVER["SCRIPT_FILENAME"]);
+
+    static function autoIncludeBGAnimationFile() {
+        $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         $obj = AVideoPlugin::getObjectData('CustomizeUser');
         Layout::includeBGAnimationFile($obj->loginBackgroundAnimation->value);
         //Layout::includeBGAnimationFile('Animated3');
@@ -173,9 +174,9 @@ class CustomizeUser extends PluginAbstract {
         }
         return $userOptions;
     }
-    
+
     static function getBGAnimationArray() {
-        if(!class_exists('Layout')){
+        if (!class_exists('Layout')) {
             $avideoLayout = AVideoPlugin::getObjectData('Layout');
         }
         $files = Layout::getBGAnimationFiles();
@@ -388,10 +389,10 @@ class CustomizeUser extends PluginAbstract {
         $obj = $this->getDataObject();
         if (!$cansee) {
             $resp = Video::canVideoBePurchased($videos_id);
-            if(!empty($resp) && $resp->canVideoBePurchased && isValidURL($resp->buyURL)){
+            if (!empty($resp) && $resp->canVideoBePurchased && isValidURL($resp->buyURL)) {
                 header("Location: {$resp->buyURL}");
                 exit;
-            }else{
+            } else {
                 forbiddenPage(__("Sorry, this video is private"));
             }
             /*
@@ -401,7 +402,7 @@ class CustomizeUser extends PluginAbstract {
               header("Location: {$global['webSiteRootURL']}?msg=" . urlencode(__("Sorry, this video is private")));
               }
               exit;
-             * 
+             *
              */
         } else if ($obj->userCanProtectVideosWithPassword) {
             if (!$this->videoPasswordIsGood($videos_id)) {
@@ -480,11 +481,16 @@ class CustomizeUser extends PluginAbstract {
         global $global;
         $p = AVideoPlugin::loadPlugin("CustomizeUser");
         $obj = $p->getDataObject();
-        if (empty($obj->enableExtraInfo)) {
-            return "";
-        }
+        $btn = '';
         if (User::isAdmin()) {
-            $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoAlertAJAXHTML(webSiteRootURL+\\\'plugin/CustomizeUser/View/extraInfo.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Show Extra Info') . '"><i class="fas fa-info"></i> ' . __('Extra Info') . '</button>';
+            if (empty(!$obj->enableExtraInfo)) {
+                $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoAlertAJAXHTML(webSiteRootURL+\\\'plugin/CustomizeUser/View/extraInfo.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Show Extra Info') . '"><i class="fas fa-info"></i> ' . __('Extra Info') . '</button>';
+            }
+            $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CustomizeUser/setSubscribers.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('This will add a fake number of subscribers on the user subscribe button') . '"><i class="fas fa-plus"></i> ' . __('Subscribers') . '</button>';
+            if (AVideoPlugin::isEnabledByName('LoginControl')) {
+                $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframe(webSiteRootURL+\\\'plugin/LoginControl/loginHistory.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Login History') . '"><i class="fas fa-history"></i> ' . __('Login History') . '</button>';
+            }
+            $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CustomizeUser/setPassword.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Channel Password') . '"><i class="fas fa-lock"></i> ' . __('Password') . '</button>';
         }
         return $btn;
     }
@@ -510,7 +516,5 @@ class CustomizeUser extends PluginAbstract {
 
         return false;
     }
-    
-    
 
 }

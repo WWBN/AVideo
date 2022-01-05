@@ -16,7 +16,7 @@ if (!User::canStream()) {
     </div>
     <div class="panel-body">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-sm-12  <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'restream', 0.1); ?>">
 
                 <form id="panelLive_restreamsForm">
                     <div class="row">
@@ -54,7 +54,7 @@ if (!User::canStream()) {
                     </div>
                 </form>
             </div>
-            <div class="col-sm-12">
+            <div class="col-sm-12  <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'restream', 0.1); ?>">
 
                 <table id="Live_restreamsTable" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
                     <thead>

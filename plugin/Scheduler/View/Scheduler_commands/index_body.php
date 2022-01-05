@@ -24,6 +24,14 @@ if (!User::isAdmin()) {
                             <div class="row">
                                 <input type="hidden" name="id" id="Scheduler_commandsid" value="" >
                                 <div class="form-group col-sm-12">
+                                    <label for="Scheduler_commandscallbackURL"><?php echo __("CallbackURL"); ?>:</label>
+                                    <input type="text" id="Scheduler_commandscallbackURL" name="callbackURL" class="form-control input-sm" placeholder="<?php echo __("CallbackURL"); ?>" required="true">
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label for="Scheduler_commandsparameters"><?php echo __("Parameters"); ?>:</label>
+                                    <textarea id="Scheduler_commandsparameters" name="parameters" class="form-control input-sm" placeholder="<?php echo __("Parameters"); ?>" required="true"></textarea>
+                                </div>
+                                <div class="form-group col-sm-12">
                                     <label for="Scheduler_commandsdate_to_execute"><?php echo __("Date To Execute"); ?>:</label>
                                     <input type="text" id="Scheduler_commandsdate_to_execute" name="date_to_execute" class="form-control input-sm" placeholder="<?php echo __("Date To Execute"); ?>" required="true" autocomplete="off">
                                 </div>
@@ -36,7 +44,42 @@ if (!User::isAdmin()) {
                                     <select class="form-control input-sm" name="status" id="Scheduler_commandsstatus">
                                         <option value="a"><?php echo __("Active"); ?></option>
                                         <option value="i"><?php echo __("Inactive"); ?></option>
+                                        <option value="c"><?php echo __("Canceled"); ?></option>
+                                        <option value="e"><?php echo __("Executed"); ?></option>
+                                        <option value="r"><?php echo __("Repeat"); ?></option>
                                     </select>
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label for="Scheduler_commandscallbackResponse"><?php echo __("CallbackResponse"); ?>:</label>
+                                    <textarea id="Scheduler_commandscallbackResponse" name="callbackResponse" class="form-control input-sm" placeholder="<?php echo __("CallbackResponse"); ?>" required="true"></textarea>
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label for="Scheduler_commandstimezone"><?php echo __("Timezone"); ?>:</label>
+                                    <input type="text" id="Scheduler_commandstimezone" name="timezone" class="form-control input-sm" placeholder="<?php echo __("Timezone"); ?>" required="true">
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label for="Scheduler_commandsrepeat_minute"><?php echo __("Repeat Minute"); ?>:</label>
+                                    <input type="number" step="1" id="Scheduler_commandsrepeat_minute" name="repeat_minute" class="form-control input-sm" placeholder="<?php echo __("Repeat Minute"); ?>" required="true">
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label for="Scheduler_commandsrepeat_hour"><?php echo __("Repeat Hour"); ?>:</label>
+                                    <input type="number" step="1" id="Scheduler_commandsrepeat_hour" name="repeat_hour" class="form-control input-sm" placeholder="<?php echo __("Repeat Hour"); ?>" required="true">
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label for="Scheduler_commandsrepeat_day_of_month"><?php echo __("Repeat Day Of Month"); ?>:</label>
+                                    <input type="number" step="1" id="Scheduler_commandsrepeat_day_of_month" name="repeat_day_of_month" class="form-control input-sm" placeholder="<?php echo __("Repeat Day Of Month"); ?>" required="true">
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label for="Scheduler_commandsrepeat_month"><?php echo __("Repeat Month"); ?>:</label>
+                                    <input type="number" step="1" id="Scheduler_commandsrepeat_month" name="repeat_month" class="form-control input-sm" placeholder="<?php echo __("Repeat Month"); ?>" required="true">
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label for="Scheduler_commandsrepeat_day_of_week"><?php echo __("Repeat Day Of Week"); ?>:</label>
+                                    <input type="number" step="1" id="Scheduler_commandsrepeat_day_of_week" name="repeat_day_of_week" class="form-control input-sm" placeholder="<?php echo __("Repeat Day Of Week"); ?>" required="true">
+                                </div>
+                                <div class="form-group col-sm-12">
+                                    <label for="Scheduler_commandstype"><?php echo __("Type"); ?>:</label>
+                                    <input type="text" id="Scheduler_commandstype" name="type" class="form-control input-sm" placeholder="<?php echo __("Type"); ?>" required="true">
                                 </div>
                                 <div class="form-group col-sm-12">
                                     <div class="btn-group pull-right">
@@ -57,18 +100,32 @@ if (!User::isAdmin()) {
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th><?php echo __("Parameters"); ?></th>
                                     <th><?php echo __("Date To Execute"); ?></th>
                                     <th><?php echo __("Executed In"); ?></th>
                                     <th><?php echo __("Status"); ?></th>
+                                    <th><?php echo __("Repeat Minute"); ?></th>
+                                    <th><?php echo __("Repeat Hour"); ?></th>
+                                    <th><?php echo __("Repeat Day Of Month"); ?></th>
+                                    <th><?php echo __("Repeat Month"); ?></th>
+                                    <th><?php echo __("Repeat Day Of Week"); ?></th>
+                                    <th><?php echo __("Type"); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>#</th>
+                                    <th><?php echo __("Parameters"); ?></th>
                                     <th><?php echo __("Date To Execute"); ?></th>
                                     <th><?php echo __("Executed In"); ?></th>
                                     <th><?php echo __("Status"); ?></th>
+                                    <th><?php echo __("Repeat Minute"); ?></th>
+                                    <th><?php echo __("Repeat Hour"); ?></th>
+                                    <th><?php echo __("Repeat Day Of Month"); ?></th>
+                                    <th><?php echo __("Repeat Month"); ?></th>
+                                    <th><?php echo __("Repeat Day Of Week"); ?></th>
+                                    <th><?php echo __("Type"); ?></th>
                                     <th></th>
                                 </tr>
                             </tfoot>
@@ -98,6 +155,14 @@ if (!User::isAdmin()) {
         $('#Scheduler_commandsdate_to_execute').val('');
         $('#Scheduler_commandsexecuted_in').val('');
         $('#Scheduler_commandsstatus').val('');
+        $('#Scheduler_commandscallbackResponse').val('');
+        $('#Scheduler_commandstimezone').val('');
+        $('#Scheduler_commandsrepeat_minute').val('');
+        $('#Scheduler_commandsrepeat_hour').val('');
+        $('#Scheduler_commandsrepeat_day_of_month').val('');
+        $('#Scheduler_commandsrepeat_month').val('');
+        $('#Scheduler_commandsrepeat_day_of_week').val('');
+        $('#Scheduler_commandstype').val('');
     }
     $(document).ready(function () {
         $('#addScheduler_commandsBtn').click(function () {
@@ -119,12 +184,20 @@ if (!User::isAdmin()) {
             });
         });
         var Scheduler_commandstableVar = $('#Scheduler_commandsTable').DataTable({
+            serverSide: true,
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Scheduler/View/Scheduler_commands/list.json.php",
             "columns": [
                 {"data": "id"},
+                {"data": "parameters"},
                 {"data": "date_to_execute"},
                 {"data": "executed_in"},
                 {"data": "status"},
+                {"data": "repeat_minute"},
+                {"data": "repeat_hour"},
+                {"data": "repeat_day_of_month"},
+                {"data": "repeat_month"},
+                {"data": "repeat_day_of_week"},
+                {"data": "type"},
                 {
                     sortable: false,
                     data: null,
@@ -199,6 +272,14 @@ if (!User::isAdmin()) {
             $('#Scheduler_commandsdate_to_execute').val(data.date_to_execute);
             $('#Scheduler_commandsexecuted_in').val(data.executed_in);
             $('#Scheduler_commandsstatus').val(data.status);
+            $('#Scheduler_commandscallbackResponse').val(data.callbackResponse);
+            $('#Scheduler_commandstimezone').val(data.timezone);
+            $('#Scheduler_commandsrepeat_minute').val(data.repeat_minute);
+            $('#Scheduler_commandsrepeat_hour').val(data.repeat_hour);
+            $('#Scheduler_commandsrepeat_day_of_month').val(data.repeat_day_of_month);
+            $('#Scheduler_commandsrepeat_month').val(data.repeat_month);
+            $('#Scheduler_commandsrepeat_day_of_week').val(data.repeat_day_of_week);
+            $('#Scheduler_commandstype').val(data.type);
         });
     });
 </script>

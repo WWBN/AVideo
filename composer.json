@@ -6,11 +6,11 @@
         "platform-check": false,
         "vendor-dir": "vendor",
         "platform": {
-            "php": "7.2.5"
+            "php": "7.3"
         }
     },
     "require": {
-        "php": ">=7.2.5",
+        "php": "^7.3|^8",
         "ext-curl": "*",
         "ext-json": "*",
         "chrisjean/php-ico": "^1.0",
@@ -41,6 +41,7 @@
         "symfony/http-client": "^5.3",
         "nyholm/psr7": "^1.4",
         "norkunas/onesignal-php-api": "^2.7",
-        "stripe/stripe-php": "^7.97"
+        "stripe/stripe-php": "^7.97",
+        "symfony/translation": "^5.3"
     }
 }

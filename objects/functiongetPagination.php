@@ -6,7 +6,7 @@
 <center>
     <button class="btn btn-xs btn-default" style="border: none; background: transparent;" id="loadInfiniteScrollButton$uid"> More </button>
 </center>
-<script src="$webSiteRootURLview/js/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
+<script src="$webSiteRootURLnode_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
 <script>
     var $container$uid;
     $(function () {

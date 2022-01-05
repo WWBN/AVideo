@@ -107,10 +107,10 @@ class AD_Server extends PluginAbstract {
             $vc = new VastCampaigns($obj->autoAddNewVideosInCampaignId);
             if (!empty($vc->getName())) {
                 $video = new Video("", "", $videos_id);
-                if (!empty($video->getTitle()) && !empty($obj->autoAddNewVideosInCampaignId)) {
+                if (!empty($video->getTitle()) && !empty($obj->autoAddNewVideosInCampaignId->value)) {
                     _error_log("AD_Server:afterNewVideo saving");
                     $o = new VastCampaignsVideos(0);
-                    $o->setVast_campaigns_id($obj->autoAddNewVideosInCampaignId);
+                    $o->setVast_campaigns_id($obj->autoAddNewVideosInCampaignId->value);
                     $o->setVideos_id($videos_id);
                     $o->setLink("");
                     $o->setAd_title($video->getTitle());
@@ -121,7 +121,7 @@ class AD_Server extends PluginAbstract {
                     _error_log("AD_Server:afterNewVideo videos_id NOT found {$videos_id}");
                 }
             } else {
-                _error_log("AD_Server:afterNewVideo autoAddNewVideosInCampaignId NOT found {$obj->autoAddNewVideosInCampaignId}");
+                _error_log("AD_Server:afterNewVideo autoAddNewVideosInCampaignId NOT found ". json_encode($obj->autoAddNewVideosInCampaignId));
             }
         } else {
             _error_log("AD_Server:afterNewVideo is disabled");
@@ -169,8 +169,8 @@ class AD_Server extends PluginAbstract {
         global $global;
         $_GET['vmap_id'] = session_id();
 
-        $css = '<link href="' . getCDN() . 'js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>'
-                . '<link href="' . getCDN() . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' . getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.css') . '" rel="stylesheet" type="text/css"/>'
+                . '<link href="' . getURL('node_modules/videojs-ima/dist/videojs.ima.css') . '" rel="stylesheet" type="text/css"/>';
 
         if (!empty($obj->showMarkers)) {
             $css .= '<link href="' . getCDN() . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';
@@ -259,8 +259,8 @@ class AD_Server extends PluginAbstract {
         PlayerSkins::getStartPlayerJS($onPlayerReady);
         $js = '';
         $js .= '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
-        $js .= '<script src="' . getCDN() . 'js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>';
-        $js .= '<script src="' . getCDN() . 'plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>';
+        $js .= '<script src="' . getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.min.js') . '" type="text/javascript"></script>';
+        $js .= '<script src="' . getURL('node_modules/videojs-ima/dist/videojs.ima.min.js') . '" type="text/javascript"></script>';
 
         if (!empty($obj->showMarkers)) {
             $js .= '<script src="' . getCDN() . 'plugin/AD_Server/videojs-markers/videojs-markers.js"></script>';

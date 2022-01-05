@@ -13,6 +13,10 @@ class Menu extends ObjectYPT {
     static $typeActionMenuCustomURLForLoggedUsers = 5;
     static $typeActionMenuCustomURLForUsersThatCanWatchVideo = 6;
     static $typeActionMenuCustomURLForUsersThatCanNotWatchVideo = 7;
+    static $typeMobileTabMenu = 8;
+    static $typeMobileLeftMenu = 9;
+    static $typeMobileTabMenuInABrowser = 10;
+    static $typeMobileLeftMenuInABrowser = 11;
     
     static $typeName = array(
         1=>'Left', 
@@ -21,7 +25,11 @@ class Menu extends ObjectYPT {
         4=>'Action Per Video', 
         5=>'Action Per Video For Logged Users Only', 
         6=>'Action Per Video For Users That can Watch Video', 
-        7=>'Action Per Video For Users That can NOT Watch Video');
+        7=>'Action Per Video For Users That can NOT Watch Video',
+        8=>'Mobile Tab Menu',
+        9=>'Mobile Left Menu',
+        10=>'Mobile Tab Menu in a Browser',
+        11=>'Mobile Left Menu in a Browser');
 
     protected $id, $menuName, $categories_id, $users_groups_id, $menu_order, $status, $position, $type, $icon, $menuSeoUrl;
 

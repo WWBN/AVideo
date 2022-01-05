@@ -131,7 +131,12 @@ function clean_name(str) {
     return str.replace(/[!#$&'()*+,/:;=?@[\] ]+/g, "-");
 }
 
+var processing_lazyImage = false;
 function lazyImage() {
+    if (processing_lazyImage) {
+        return false;
+    }
+    processing_lazyImage = true;
     try {
         if ($(".thumbsJPG").length) {
             $('.thumbsJPG').lazy({
@@ -152,6 +157,13 @@ function lazyImage() {
                             gif.lazy({
                                 effect: 'fadeIn'
                             });
+                            /*
+                             gif.addClass('animate__animated');
+                             gif.addClass('animate__bounceIn');
+                             gif.css('-webkit-animation-delay', step+"s");
+                             gif.css('animation-delay', "1s");
+                             */
+
                             gif.height(element.height());
                             gif.width(element.width());
                             //console.log('lazyImage', gif);
@@ -166,6 +178,7 @@ function lazyImage() {
         }
     } catch (e) {
     }
+    processing_lazyImage = false;
 }
 
 lazyImage();
@@ -188,6 +201,12 @@ function setPlayerListners() {
         player.on('play', function () {
             isTryingToPlay = false;
             clearTimeout(promisePlayTimeout);
+            if (startCurrentTime) {
+                setTimeout(function () {
+                    setCurrentTime(startCurrentTime);
+                    startCurrentTime = 0;
+                }, 100);
+            }
             console.log("setPlayerListners: play");
             //userIsControling = true;
             pauseIfIsPlayinAdsInterval = setInterval(function () {
@@ -223,22 +242,30 @@ function removeTracks() {
 function changeVideoSrc(vid_obj, source) {
     var srcs = [];
     removeTracks();
+    var autoLoad = true;
     for (i = 0; i < source.length; i++) {
         if (source[i].type) {
-            console.log(source[i].type);
             if (source[i].type === "application/x-mpegURL") {
                 // it is HLS cancel it
-                return false;
+                //return false;
+                autoLoad = false;
             }
             srcs.push(source[i]);
         } else if (source[i].srclang) {
             player.addRemoteTextTrack(source[i]);
         }
     }
+    console.log('changeVideoSrc srcs', srcs);
     vid_obj.src(srcs);
+
     setTimeout(function () {
-        changeVideoSrcLoad();
+        if (autoLoad) {
+            changeVideoSrcLoad();
+        } else {
+            player.play();
+        }
     }, 1000);
+
     return true;
 }
 
@@ -441,7 +468,7 @@ function addView(videos_id, currentTime) {
     if (last_videos_id == videos_id && last_currentTime == currentTime) {
         return false;
     }
-    if (currentTime > 5 && currentTime % 5 !== 0) { // only update each 30 seconds
+    if (currentTime > 5 && currentTime % 5 !== 0) { // only update each 5 seconds
         return false;
     }
 
@@ -460,6 +487,7 @@ function _addView(videos_id, currentTime) {
     }
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', PHPSESSID);
+    console.log('_addView', videos_id, currentTime);
     $.ajax({
         url: url,
         method: 'POST',
@@ -481,6 +509,7 @@ function _addViewAsync() {
     if (typeof PHPSESSID == 'undefined') {
         PHPSESSID = '';
     }
+    console.log('_addViewAsync', mediaId, playerCurrentTime);
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', PHPSESSID);
     _addViewAsyncSent = true;
@@ -502,10 +531,15 @@ function _addViewAsync() {
     });
 }
 
+var _addViewFromCookie_addingtime = false;
 function addViewFromCookie() {
     if (typeof webSiteRootURL == 'undefined') {
         return false;
     }
+    if (_addViewFromCookie_addingtime) {
+        return false;
+    }
+    _addViewFromCookie_addingtime = true;
     var addView_PHPSESSID = Cookies.get('addView_PHPSESSID');
     var addView_videos_id = Cookies.get('addView_videos_id');
     var addView_playerCurrentTime = Cookies.get('addView_playerCurrentTime');
@@ -517,9 +551,15 @@ function addViewFromCookie() {
             !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
         return false;
     }
-    addViewSetCookie(false, false, false, false);
+    console.log('addViewFromCookie', addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', addView_PHPSESSID);
+
+    if (mediaId == addView_videos_id) {
+        // it is the same video, play at the last momment
+        forceCurrentTime = addView_playerCurrentTime;
+    }
+
     $.ajax({
         url: url,
         method: 'POST',
@@ -530,12 +570,15 @@ function addViewFromCookie() {
         },
         async: false,
         success: function (response) {
+            _addViewFromCookie_addingtime = false;
             console.log('addViewFromCookie', response);
+            addViewSetCookie(false, false, false, false);
         }
     });
 }
 
 function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds_watching_video) {
+    //console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video, new Error().stack);
     Cookies.set('addView_PHPSESSID', PHPSESSID, {
         path: '/',
         expires: 1
@@ -583,6 +626,11 @@ function nl2br(str, is_xhtml) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
 function inIframe() {
+    var url = new URL(location.href);
+    var avideoIframe = url.searchParams.get("avideoIframe");
+    if (avideoIframe && avideoIframe !== 0) {
+        return true;
+    }
     try {
         return window.self !== window.top;
     } catch (e) {
@@ -641,6 +689,7 @@ function playerPlay(currentTime) {
             if (promisePlay !== undefined) {
                 tryToPlay(currentTime);
                 console.log("playerPlay: promise found", currentTime);
+                setPlayerListners();
                 promisePlay.then(function () {
                     console.log("playerPlay: Autoplay started", currentTime);
                     userIsControling = true;
@@ -791,7 +840,7 @@ function showMuteTooltip() {
         $("#mainVideo .vjs-volume-panel").attr("data-toggle", "tooltip");
         $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
         $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
-        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar'});
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar', html: true});
         $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
         $("#mainVideo .vjs-volume-panel").click(function () {
             console.log("remove unmute tooltip");
@@ -818,6 +867,15 @@ function playerPlayIfAutoPlay(currentTime) {
     if (isWebRTC()) {
         return false;
     }
+    if (forceCurrentTime !== null) {
+        currentTime = forceCurrentTime;
+        forceCurrentTime = null;
+        console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
+    }
+
+    if (currentTime) {
+        setCurrentTime(currentTime);
+    }
     if (isAutoplayEnabled()) {
         playerPlayTimeout = setTimeout(function () {
             console.log('playerPlayIfAutoPlay true', currentTime);
@@ -826,9 +884,6 @@ function playerPlayIfAutoPlay(currentTime) {
         return true;
     }
     console.log('playerPlayIfAutoPlay false', currentTime);
-    if (currentTime) {
-        setCurrentTime(currentTime);
-    }
     //$.toast("Autoplay disabled");
     return false;
 }
@@ -847,6 +902,8 @@ function playNext(url) {
             console.log("playNext changing location " + url);
             document.location = url;
         } else {
+            forceCurrentTime = 0;
+            setCurrentTime(0);
             console.log("playNext ajax");
             $.ajax({
                 url: webSiteRootURL + 'view/infoFromURL.php?url=' + encodeURI(url),
@@ -855,7 +912,7 @@ function playNext(url) {
                     if (!response || response.error) {
                         console.log("playNext ajax fail");
                         if (response.url) {
-                            //document.location = response.url;
+                            document.location = response.url;
                         }
                     } else {
                         console.log("playNext ajax success");
@@ -872,7 +929,10 @@ function playNext(url) {
                             document.location = url;
                             return false;
                         }
+                        mediaId = response.videos_id;
+                        webSocketVideos_id = mediaId;
                         $('video, #mainVideo').attr('poster', response.poster);
+                        player.poster(response.poster);
                         history.pushState(null, null, url);
                         $('.topInfoTitle, title').text(response.title);
                         $('#topInfo img').attr('src', response.userPhoto);
@@ -986,7 +1046,19 @@ function reloadVideoJS() {
 }
 
 var initdone = false;
+var startCurrentTime = 0;
+var forceCurrentTime = null;
 function setCurrentTime(currentTime) {
+    console.log("setCurrentTime:", currentTime, forceCurrentTime);
+    if (forceCurrentTime !== null) {
+        startCurrentTime = forceCurrentTime;
+        currentTime = forceCurrentTime;
+        forceCurrentTime = null;
+        console.log("forceCurrentTime:", currentTime);
+    } else if (startCurrentTime != currentTime) {
+        startCurrentTime = currentTime;
+        console.log("setCurrentTime changed:", currentTime);
+    }
     console.log('setCurrentTime', currentTime);
     if (typeof player !== 'undefined') {
         if (isTryingToPlay) {
@@ -1187,6 +1259,28 @@ function avideoAlertHTMLText(title, msg, type) {
     });
 }
 
+function avideoModalIframeClose() {
+    console.log('avideoModalIframeClose');
+    try {
+        swal.close();
+    } catch (e) {
+
+    }
+    try {
+        if (inIframe()) {
+            window.parent.swal.close();
+        }
+    } catch (e) {
+
+    }
+}
+
+function avideoModalIframeCloseToastSuccess(msg) {
+    avideoModalIframeClose();
+    avideoToastSuccess(msg);
+    window.parent.avideoToastSuccess(msg);
+}
+
 function avideoModalIframe(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe');
 }
@@ -1199,21 +1293,48 @@ function avideoModalIframeLarge(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-large');
 }
 
+var avideoModalIframeFullScreenOriginalURL = false;
 function avideoModalIframeFullScreen(url) {
+    if (!avideoModalIframeFullScreenOriginalURL) {
+        avideoModalIframeFullScreenOriginalURL = document.location.href;
+    }
+    try {
+        window.history.pushState("", "", url);
+    } catch (e) {
+        
+    }    
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-full');
 }
+
+function avideoModalIframeFullScreenClose() {
+    $('.swal-overlay iframe').attr('src', 'about:blank');
+    swal.close();
+    window.history.pushState("", "", avideoModalIframeFullScreenOriginalURL);
+    avideoModalIframeFullScreenOriginalURL = false;
+}
+// this is to make sure when the use click on the back page button it will close the iframe
+window.onload = function () {
+    if (typeof history.pushState === "function") {
+        console.log('history.pushState loaded');
+        window.onpopstate = function () {
+            console.log('onpopstate');
+            avideoModalIframeFullScreenClose();
+        };
+    }
+}
+
 function avideoModalIframeFull(url) {
     avideoModalIframeFullScreen(url);
 }
-""
+
 function avideoModalIframeWithClassName(url, className) {
     url = addGetParam(url, 'avideoIframe', 1);
     var html = '';
-    html = '<div id="avideoModalIframeDiv" class="clearfix">';
-    html += '<button class="btn btn-default pull-left" onclick="swal.close();">';
+    html = '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
+    html += '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
     html += '<i class="fas fa-chevron-left"></i>';
-    html += '</button></div>';
-    html += '<iframe frameBorder="0" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
+    html += '</button><img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;"></div>';
+    html += '<iframe frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
     var span = document.createElement("span");
     span.innerHTML = html;
     swal({
@@ -1259,6 +1380,11 @@ function avideoModalIframeRemove() {
 }
 
 function avideoResponse(response) {
+    console.log('avideoResponse', response);
+    if (typeof response == 'string') {
+        response = JSON.parse(response);
+    }
+    console.log('avideoResponse', response);
     if (response.error) {
         if (!response.msg) {
             response.msg = 'Error';
@@ -1291,7 +1417,7 @@ function avideoTooltip(selector, text) {
     $(selector).attr('title', text);
     $(selector).attr('data-toggle', 'tooltip');
     $(selector).attr('data-original-title', text);
-    $(selector).tooltip();
+    $(selector).tooltip({html: true});
 }
 
 function fixAdSize() {
@@ -1365,6 +1491,12 @@ function checkDescriptionArea() {
     });
 }
 $(document).ready(function () {
+    //animateChilds('#sideBarContainer > ul', 'animate__bounceInLeft', 0.05);
+    //animateChilds('#uploadMenu', 'animate__bounceIn', 0.05);
+    //animateChilds('#myNavbar > ul > li.dropdown > ul > div.btn-group.btn-group-justified', 'animate__bounceIn', 0.1);
+    //animateChilds('#lastItemOnMenu > div.navbar-header > ul > li > div > ul', 'animate__bounceInRight', 0.05);
+    //animateChilds('.gallerySectionContent, .categoriesContainerItem .clearfix', 'animate__fadeInUp', 0.05);
+    //animateChilds('#videosList', 'animate__bounceInRight', 0.1);
     addViewFromCookie();
     checkDescriptionArea();
     setInterval(function () {// check for the carousel
@@ -1425,13 +1557,13 @@ $(document).ready(function () {
             },
             setProgress: function (valeur) {
                 var element = $('#pleaseWaitDialog').find('.progress');
-                console.log(element);
+                console.log('showPleaseWait setProgress', element);
                 element.slideDown();
                 $('#pleaseWaitDialog').find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
             },
             setText: function (text) {
                 var element = $('#pleaseWaitDialog').find('h2');
-                console.log(element);
+                console.log('showPleaseWait setText', element);
                 element.slideDown();
                 element.html(text);
             },
@@ -1481,33 +1613,11 @@ $(document).ready(function () {
     });
     $('#clearCache, .clearCacheButton').on('click', function (ev) {
         ev.preventDefault();
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'objects/configurationClearCache.json.php',
-            success: function (response) {
-                if (!response.error) {
-                    avideoToastSuccess("Your cache has been cleared!");
-                } else {
-                    avideoAlert("Sorry!", "Your cache has NOT been cleared!", "error");
-                }
-                modal.hidePleaseWait();
-            }
-        });
+        clearCache(true, 0, 0);
     });
     $('.clearCacheFirstPageButton').on('click', function (ev) {
         ev.preventDefault();
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=1',
-            success: function (response) {
-                if (!response.error) {
-                    avideoToastSuccess("Your First Page cache has been cleared!");
-                } else {
-                    avideoAlert("Sorry!", "Your First Page cache has NOT been cleared!", "error");
-                }
-                modal.hidePleaseWait();
-            }
-        });
+        clearCache(true, 1, 0);
     });
     $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
         ev.preventDefault();
@@ -1568,6 +1678,7 @@ $(document).ready(function () {
     window.addEventListener('beforeinstallprompt', (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt
         e.preventDefault();
+        $('.A2HSInstall').show();
         // Stash the event so it can be triggered later.
         deferredPrompt = e;
         var beforeinstallprompt = Cookies.get('beforeinstallprompt');
@@ -1583,6 +1694,21 @@ $(document).ready(function () {
         });
     });
 });
+
+function clearCache(showPleaseWait, FirstPage, sessionOnly) {
+    if (showPleaseWait) {
+        modal.showPleaseWait();
+    }
+    $.ajax({
+        url: webSiteRootURL + 'objects/configurationClearCache.json.php?FirstPage=' + FirstPage + '&sessionOnly=' + sessionOnly,
+        success: function (response) {
+            if (showPleaseWait) {
+                avideoResponse(response);
+                modal.hidePleaseWait();
+            }
+        }
+    });
+}
 
 function validURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
@@ -1774,7 +1900,31 @@ function addGetParam(_url, _key, _value) {
     }
     _url += sep + param;
 
+    _url = removeDuplicatedGetParam(_url);
     return _url;
+}
+
+function removeDuplicatedGetParam(_url) {
+    var queryParam = _url.replace(/^[^?]+\?/, '');
+    if (queryParam == '') {
+        return _url;
+    }
+    var params = queryParam.split('&'),
+            results = {};
+    for (var i = 0; i < params.length; i++) {
+        var temp = params[i].split('='),
+                key = temp[0],
+                val = temp[1];
+
+        results[key] = val;
+    }
+
+    var newQueryParam = [];
+    for (var key in results) {
+        newQueryParam.push(key + '=' + results[key]);
+    }
+    var newQueryParamString = newQueryParam.join('&');
+    return _url.replace(queryParam, newQueryParamString);
 }
 
 function readFileCroppie(input, crop) {
@@ -1813,7 +1963,7 @@ async function setToolTips() {
     if (!$('[data-toggle="tooltip"]').not('.alreadyTooltip').length) {
         return false;
     }
-    $('[data-toggle="tooltip"]').not('.alreadyTooltip').tooltip({container: 'body'});
+    $('[data-toggle="tooltip"]').not('.alreadyTooltip').tooltip({container: 'body', html: true});
     $('[data-toggle="tooltip"]').not('.alreadyTooltip').on('click', function () {
         var t = this;
         setTimeout(function () {
@@ -1916,3 +2066,20 @@ document.addEventListener('visibilitychange', function () {
         _addViewAsync();
     }
 });
+
+function socketClearSessionCache(json) {
+    console.log('socketClearSessionCache', json);
+    clearCache(false, 0, 1);
+}
+
+function animateChilds(selector, type, delay) {
+    var step = delay;
+    $(selector).children().each(function () {
+        var $currentElement = $(this);
+        $currentElement.addClass('animate__animated');
+        $currentElement.addClass(type);
+        $currentElement.css('-webkit-animation-delay', step + "s");
+        $currentElement.css('animation-delay', step + "s");
+        step += delay;
+    });
+}

@@ -20,31 +20,6 @@ $userCredentials = User::loginFromRequestToGet();
 ?>
 
 <div class="row">
-    <div class="col-sm-5">
-        <div class="panel panel-default" id="roomConfiguration">
-            <div class="panel-heading">
-                <i class="fas fa-check-double"></i> <?php echo __("Last 10 Attends"); ?>
-            </div>
-            <div class="panel-body">
-                <ul class="list-group">
-                    <?php
-                    $count = 0;
-                    $r = $_REQUEST;
-                    $p = $_POST;
-                    $r = $_REQUEST['rowCount'] = 10;
-                    $p = $_POST['sort']['ml.created'] = 'DESC';
-                    $list = Meet_join_log::getAllFromUser(User::getId());
-                    $_REQUEST = $r;
-                    $_POST = $p;
-                    foreach ($list as $value) {
-                        $count++;
-                        echo '<li class="list-group-item">#' . $count . " - " . $value['topic'] . ' <span class="badge">' . $value['created'] . '</span><br><small class="text-muted">' . $value['user_agent'] . '</small></li>';
-                    }
-                    ?>
-                </ul>
-            </div>
-        </div>
-    </div>
     <div class="col-sm-7">
         <div class="panel panel-default" id="roomConfiguration">
             <div class="panel-heading">
@@ -68,6 +43,31 @@ $userCredentials = User::loginFromRequestToGet();
                          echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=past&manageMeetings=0&'.$userCredentials;
                          ?>"><div class="loader"></div></div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <div class="panel panel-default" id="roomConfiguration">
+            <div class="panel-heading">
+                <i class="fas fa-check-double"></i> <?php echo __("Last 10 Attends"); ?>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <?php
+                    $count = 0;
+                    $r = $_REQUEST;
+                    $p = $_POST;
+                    $r = $_REQUEST['rowCount'] = 10;
+                    $p = $_POST['sort']['ml.created'] = 'DESC';
+                    $list = Meet_join_log::getAllFromUser(User::getId());
+                    $_REQUEST = $r;
+                    $_POST = $p;
+                    foreach ($list as $value) {
+                        $count++;
+                        echo '<li class="list-group-item">#' . $count . " - " . $value['topic'] . ' <span class="badge">' . $value['created'] . '</span><br><small class="text-muted">' . $value['user_agent'] . '</small></li>';
+                    }
+                    ?>
+                </ul>
             </div>
         </div>
     </div>

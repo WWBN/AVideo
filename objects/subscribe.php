@@ -271,7 +271,7 @@ class Subscribe {
         return $subscribe;
     }
 
-    static function getTotalSubscribes($user_id = "") {
+    static function getTotalSubscribes($user_id = 0) {
         global $global;
         $sql = "SELECT id FROM subscribes WHERE status = 'a' AND subscriber_users_id > 0 ";
         if (!empty($user_id)) {
@@ -283,8 +283,8 @@ class Subscribe {
         $numRows = sqlDAL::num_rows($res);
         sqlDAL::close($res);
 
-
-        return $numRows;
+        $extra = User::getExtraSubscribers($user_id);
+        return $numRows+$extra;
     }
 
     static function getTotalSubscribedChannels($user_id = "") {

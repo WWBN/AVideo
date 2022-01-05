@@ -13,7 +13,7 @@ if(empty($_GET['video_id']) && !empty($_POST['videos_id'])){
 $obj = new stdClass();
 $obj->error = true;
 if (!Video::canEdit($_GET['video_id'])) {
-    $obj->msg = 'You cant edit this file';
+    $obj->msg = 'You can\'t edit this file';
     die(json_encode($obj));
 }
 $obj->videos_id = intval($_GET['video_id']);
@@ -79,6 +79,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             // delete thumbs from poster
             Video::deleteThumbs($video->getFilename());
         }
+        $obj->clearFirstPageCache = clearFirstPageCache();
         $obj->error = false;
         echo "{}";
         exit;

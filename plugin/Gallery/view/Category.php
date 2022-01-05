@@ -16,10 +16,14 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
             $parentCat = Category::getCategory($currentCat['parentId']);
             // -1 is a personal workaround only
             if ((empty($parentCat)) && (($currentCat['parentId'] == "0") || ($currentCat['parentId'] == "-1"))) {
-                if (!empty($_GET['catName'])) {
+                if (!empty($_GET['catName'])) { 
+                    $backURL = getBackURL();
+                    if(!empty($_REQUEST['getBackURL'])){
+                        $backURL = $_REQUEST['getBackURL'];
+                    }
                     ?>
                     <div class="clearfix" style="margin: 10px 0;">
-                        <a class="btn btn-default btn-sm pull-left"  href="<?php echo $global['webSiteRootURL']; ?>">
+                        <a class="btn btn-default btn-sm pull-left"  href="<?php echo $backURL; ?>">
                             <i class="fa fa-backward"></i>
                             <?php echo __("Back"); ?> 
                         </a>
@@ -27,9 +31,13 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                     <?php
                 }
             } else if (!empty($parentCat)) {
+                $backURL = '';
+                if(!empty($_REQUEST['getBackURL'])){
+                    $backURL = $_REQUEST['getBackURL'];
+                }
                 ?>
                 <div class="clearfix" style="margin: 10px 0;">
-                    <a class="btn btn-default btn-sm pull-left" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>">
+                    <a class="btn btn-default btn-sm pull-left" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $parentCat['clean_name']; ?>?getBackURL=<?php echo urlencode($backURL); ?>">
                         <i class="fa fa-backward"></i>
                         <?php echo __("Back to") . " " . $parentCat['name']; ?> 
                     </a>
@@ -70,9 +78,14 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                         }
                         $countCols++;
                         unset($_GET['catName']);
+                        
+                        $backURL = getBackURL();
+                        if(!empty($_REQUEST['getBackURL'])){
+                            $backURL = $_REQUEST['getBackURL'];
+                        }
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
-                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>" title="<?php $cat['name']; ?>">
+                            <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>?getBackURL=<?php echo urlencode($backURL);?>" title="<?php $cat['name']; ?>">
                                 <div class="aspectRatio16_9">
                                     <?php
                                     if (!empty($videos)) {

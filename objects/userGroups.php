@@ -206,6 +206,9 @@ class UserGroups {
         if (!is_array($array_groups_id)) {
             return false;
         }
+        if(empty($users_id)){
+            return false;
+        }
         
         if($mergeWithCurrentUserGroups){
             $current_user_groups = self::getUserGroups($users_id);
@@ -226,6 +229,13 @@ class UserGroups {
                 continue;
             }
             sqlDAL::writeSql($sql,"ii",array($users_id,$value));
+        }
+        
+        // make sure you do not save the dynamic user groups
+        $user_groups_ids = AVideoPlugin::getDynamicUserGroupsId($users_id);
+        if(!empty($user_groups_ids) && is_array($user_groups_ids)){
+            $sql = "DELETE FROM users_has_users_groups WHERE users_id = ? AND users_groups_id IN (". implode(',', $user_groups_ids).") ";
+            return sqlDAL::writeSql($sql,"i",array($users_id));
         }
 
         return true;

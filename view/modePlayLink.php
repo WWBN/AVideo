@@ -61,7 +61,7 @@ if (!isset($global['systemRootPath'])) {
                                 <div id="custom-search-input">
                                     <div class="input-group col-md-12">
                                         <input type="search" name="urlToPlay" class="form-control input-lg" placeholder="<?php echo __("Place a Link to play"); ?>" value="<?php
-                                        echo @$_GET['urlToPlay'];
+                                        echo @str_replace(array('(', ')'), array('', ''), xss_esc($_GET['urlToPlay']));
                                         ?>" id="playFormInput" />
                                         <span class="input-group-btn">
                                             <button class="btn btn-info btn-lg" type="submit">

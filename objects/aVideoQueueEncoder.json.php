@@ -146,7 +146,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $postFields = array();
     if ($video->getType() == 'video') {
         if (AVideoPlugin::isEnabledByName("VideoHLS")) {
-            $postFields['inputHLS'] = 1;
+            $postFields['inputAutoHLS'] = 1;
         }else{
             $postFields['inputLow'] = 1;
             $postFields['inputSD'] = 1;

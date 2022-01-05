@@ -323,7 +323,17 @@ class GoogleAnalyticsAdmin extends \Google\Service
         'properties',
         [
           'methods' => [
-            'create' => [
+            'acknowledgeUserDataCollection' => [
+              'path' => 'v1alpha/{+property}:acknowledgeUserDataCollection',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'property' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
               'path' => 'v1alpha/properties',
               'httpMethod' => 'POST',
               'parameters' => [],
@@ -1327,16 +1337,6 @@ class GoogleAnalyticsAdmin extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'getEnhancedMeasurementSettings' => [
-              'path' => 'v1alpha/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
             ],'getGlobalSiteTag' => [
               'path' => 'v1alpha/{+name}',
               'httpMethod' => 'GET',
@@ -1366,20 +1366,6 @@ class GoogleAnalyticsAdmin extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1alpha/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'updateMask' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'updateEnhancedMeasurementSettings' => [
               'path' => 'v1alpha/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [

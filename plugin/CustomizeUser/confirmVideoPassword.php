@@ -81,7 +81,9 @@ $imgh = 720;
                                         ?>
                                         <div class="form-group">
                                             <label for="video_password"><?php echo __("This Video Requires a Password"); ?></label>
-                                            <input type="text" class="form-control" id="video_password" name="video_password" placeholder="<?php echo __("Password"); ?>" required>
+                                            <?php
+                                            echo getInputPassword('video_password', 'class="form-control"',  __("Password"));
+                                            ?>
                                         </div>
                                         <div class="row"> 
                                             <div class="col-md-6">

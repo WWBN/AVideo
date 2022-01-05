@@ -95,6 +95,8 @@ $global['langs_codes'] = array(
     array('value'=>'nl','label'=>'Dutch', 'flag'=>'nl'),
     array('value'=>'ebu_KE','label'=>'Embu (Kenya)', 'flag'=>'ke'),
     array('value'=>'ebu','label'=>'Embu', 'flag'=>'ebu'),
+    array('value'=>'en_US','label'=>'English (United States)', 'flag'=>'us'),
+    array('value'=>'en_GB','label'=>'English (United Kingdom)', 'flag'=>'gb'),
     array('value'=>'en_AS','label'=>'English (American Samoa)', 'flag'=>'as'),
     array('value'=>'en_AU','label'=>'English (Australia)', 'flag'=>'au'),
     array('value'=>'en_BE','label'=>'English (Belgium)', 'flag'=>'be'),
@@ -120,8 +122,6 @@ $global['langs_codes'] = array(
     array('value'=>'en_TT','label'=>'English (Trinidad and Tobago)', 'flag'=>'tt'),
     array('value'=>'en_UM','label'=>'English (U.S. Minor Outlying Islands)', 'flag'=>'um'),
     array('value'=>'en_VI','label'=>'English (U.S. Virgin Islands)', 'flag'=>'vi'),
-    array('value'=>'en_GB','label'=>'English (United Kingdom)', 'flag'=>'gb'),
-    array('value'=>'en_US','label'=>'English (United States)', 'flag'=>'us'),
     array('value'=>'en_ZW','label'=>'English (Zimbabwe)', 'flag'=>'zw'),
     array('value'=>'en','label'=>'English', 'flag'=>'us'),
     array('value'=>'eo','label'=>'Esperanto', 'flag'=>'eo'),
@@ -380,7 +380,7 @@ $global['langs_codes'] = array(
     array('value'=>'es_PE','label'=>'Spanish (Peru)', 'flag'=>'pe'),
     array('value'=>'es_PR','label'=>'Spanish (Puerto Rico)', 'flag'=>'pr'),
     array('value'=>'es_ES','label'=>'Spanish (Spain)', 'flag'=>'es'),
-    array('value'=>'es_US','label'=>'Spanish (United States)', 'flag'=>'us'),
+    //array('value'=>'es_US','label'=>'Spanish (United States)', 'flag'=>'us'),
     array('value'=>'es_UY','label'=>'Spanish (Uruguay)', 'flag'=>'uy'),
     array('value'=>'es_VE','label'=>'Spanish (Venezuela)', 'flag'=>'ve'),
     array('value'=>'es','label'=>'Spanish', 'flag'=>'es'),
@@ -449,8 +449,11 @@ $global['langs_codes_values_withdot'] = array();
 
 foreach ($global['langs_codes'] as $value) {
     $global['bcp47'][$value['value']] = $value;
+    $global['flag2Lang'][$value['flag']] = $value['value'];
     $global['langs_codes_values'][] = $value['value'];
     $global['langs_codes_values_withdot'][] = '.'.$value['value'];
 }
+$global['flag2Lang']['en'] = 'en_US';
+$global['flag2Lang']['us'] = 'en_US';
 
 $global['js_availableLangs'] = 'var availableLangs = ' . json_encode($global['langs_codes']) . ';';

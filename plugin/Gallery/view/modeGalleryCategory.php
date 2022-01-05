@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 $obj = AVideoPlugin::getObjectData("Gallery");
-$liveobj = AVideoPlugin::getObjectData("Live");
+$liveobj = AVideoPlugin::getObjectDataIfEnabled("Live");
 $_REQUEST['rowCount'] = 2;
 $_REQUEST['current'] = getCurrentPage();
 
@@ -34,9 +34,10 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 ?>
 <div class="categoriesContainerItem">
     <?php
+    $timeLogName = TimeLogStart('modeGalleryCategory');
     foreach ($categories as $_cat) {
         $_GET['catName'] = $_cat['clean_name'];
-        if (empty($liveobj->doNotShowLiveOnCategoryList)) {
+        if (!empty($liveobj) && empty($liveobj->doNotShowLiveOnCategoryList)) {
             $currentCat = $_cat;
             include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
         }
@@ -68,6 +69,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 
         <?php
     }
+    TimeLogEnd($timeLogName, __LINE__, 1);
     ?>
 </div>
 <!-- modeGalleryCategory -->

@@ -22,6 +22,7 @@
         echo '<center style="margin:5px;">' . getAdsLeaderBoardTop2() . '</center>';
         if (empty($_GET['catName'])) {
             $objLive = AVideoPlugin::getDataObject('Live');
+            if(empty($objLive->doNotShowLiveOnVideosList)){
             ?>
             <!-- For Live Videos -->
             <div id="liveVideos" class="clear clearfix" style="display: none;">
@@ -35,6 +36,7 @@
             </div>
             <!-- For Live Videos End -->
             <?php
+            }
         }
         echo AVideoPlugin::getGallerySection();
 

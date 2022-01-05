@@ -2,34 +2,35 @@
 window.addEventListener('message', event => {
     if (event.data.startLiveRestream) {
         startLiveRestream(event.data.m3u8, forceIndex);
-    }else if (event.data.onStreamReady) {
+    } else if (event.data.onStreamReady) {
         onStreamReady();
-    }else if (event.data.webRTCPleaseWaitHide) {
+    } else if (event.data.webRTCPleaseWaitHide) {
         webRTCPleaseWaitHide();
-    }else if (event.data.showPleaseWait) {
+    } else if (event.data.showPleaseWait) {
         modal.showPleaseWait();
-    }else if (event.data.hidePleaseWait) {
+    } else if (event.data.hidePleaseWait) {
         modal.hidePleaseWait();
-    }else
+    } else
     if (event.data.webRTCModalConfig) {
         console.log('event.data.webRTCModalConfig', event.data.webRTCModalConfig, typeof webRTCModalConfigShow);
-        if(event.data.webRTCModalConfig==1){
-            if(typeof webRTCModalConfigShow =='function'){
+        if (event.data.webRTCModalConfig == 1) {
+            if (typeof webRTCModalConfigShow == 'function') {
                 webRTCModalConfigShow();
             }
-        }else{
-            if(typeof webRTCModalConfigHide =='function'){
+        } else {
+            if (typeof webRTCModalConfigHide == 'function') {
                 webRTCModalConfigHide();
             }
         }
     }
 });
 
-function onStreamReady(){
+function onStreamReady() {
     $('#webRTCConnect button').prop('disabled', false);
 }
 
 function startLiveRestream(m3u8, forceIndex) {
+    console.log('WebRTCLiveCam: startLiveRestream');
     console.log('WebRTCLiveCam: startLiveRestream', m3u8, forceIndex);
     modal.showPleaseWait();
     $.ajax({
@@ -44,9 +45,11 @@ function startLiveRestream(m3u8, forceIndex) {
         },
         success: function (response) {
             if (response.error) {
+                console.log('WebRTCLiveCam: response error '+response.msg);
                 webRTCDisconnect();
                 avideoAlertError(response.msg);
             } else {
+                console.log('WebRTCLiveCam: response success '+response.msg);
                 avideoToastSuccess(response.msg);
                 //document.querySelector("iframe").contentWindow.postMessage({setLiveStart: 1}, "*");
             }
@@ -56,41 +59,52 @@ function startLiveRestream(m3u8, forceIndex) {
 }
 
 function webRTCConnect() {
+    console.log('webRTCConnect');
     modal.showPleaseWait();
     document.querySelector("iframe").contentWindow.postMessage({setLiveStart: 1}, "*");
     webRTCPleaseWaitShow();
 }
 
 function webRTCDisconnect() {
+    console.log('webRTCDisconnect');
     document.querySelector("iframe").contentWindow.postMessage({setLiveStop: 1}, "*");
     webRTCPleaseWaitHide();
 }
 
 function webRTCConfiguration() {
+    console.log('webRTCConfiguration');
     document.querySelector("iframe").contentWindow.postMessage({setConfiguration: 1}, "*");
 }
 
 var _webRTCPleaseWaitShowTimeout;
-function webRTCPleaseWaitShow(){
+function webRTCPleaseWaitShow() {
     $('body').addClass('webRTCPleaseWait');
     clearTimeout(_webRTCPleaseWaitShowTimeout);
-    _webRTCPleaseWaitShowTimeout = setTimeout(function(){
+    _webRTCPleaseWaitShowTimeout = setTimeout(function () {
         avideoToastError('Live error')
         webRTCPleaseWaitHide();
-    },120000);
+    }, 120000);
 }
 
-function webRTCPleaseWaitHide(){
+function webRTCPleaseWaitHide() {
     clearTimeout(_webRTCPleaseWaitShowTimeout);
     $('body').removeClass('webRTCPleaseWait');
 }
 
-function webRTCisLive(){
+function webRTCisLive() {
     $('body').addClass('webRTCisLive');
     webRTCPleaseWaitHide();
 }
 
-function webRTCisOffline(){
+function webRTCisOffline() {
     $('body').removeClass('webRTCisLive');
     webRTCPleaseWaitHide();
 }
+
+$(document).ready(function () {
+    $("#webRTCConnect button").on('click', function (event) {
+        event.preventDefault();
+        webRTCConnect();
+        return false;
+    });
+});
