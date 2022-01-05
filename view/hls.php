@@ -94,6 +94,6 @@ if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->vi
     $newContent .= User::canWatchVideo($video['id']) ? "" : " cannot watch ({$video['id']})";
     $newContent .= " " . date("Y-m-d H:i:s");
 }
-//header("Content-Type: text/plain");
-header('Content-Type:');
+header("Content-Type: text/plain");
+//header('Content-Type:');
 echo $newContent;
