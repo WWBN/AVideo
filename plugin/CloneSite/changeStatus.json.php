@@ -7,14 +7,14 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 
-if(!User::isAdmin()){
+if (!User::isAdmin()) {
     $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 
 $o = new Clones($_POST['id']);
 
-if($o->toogleStatus()){
+if ($o->toogleStatus()) {
     $obj->error = false;
 }
 echo json_encode($obj);

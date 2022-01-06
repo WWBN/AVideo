@@ -1,5 +1,4 @@
 <?php
-
 require_once '../../videos/configuration.php';
 set_time_limit(0);
 session_write_close();
@@ -19,29 +18,29 @@ $resp->key = $_GET['key'];
 $resp->useRsync = intval($_GET['useRsync']);
 $resp->videosDir = Video::getStoragePath()."";
 $resp->sqlFile = "";
-$resp->videoFiles = array();
-$resp->photoFiles = array();
+$resp->videoFiles = [];
+$resp->photoFiles = [];
 
 $objClone = AVideoPlugin::getObjectDataIfEnabled("CloneSite");
-if(empty($objClone)){
+if (empty($objClone)) {
     $resp->msg = "CloneSite is not enabled on the Master site";
     die(json_encode($resp));
 }
 
 
-if(empty($resp->key)){
+if (empty($resp->key)) {
     $resp->msg = "Key cannot be blank";
     die(json_encode($resp));
 }
 
 // check if the url is allowed to clone it
 $canClone = Clones::thisURLCanCloneMe($resp->url, $resp->key);
-if(empty($canClone->canClone)){
+if (empty($canClone->canClone)) {
     $resp->msg = $canClone->msg;
     die(json_encode($resp));
 }
 
-if(!empty($_GET['deleteDump'])){
+if (!empty($_GET['deleteDump'])) {
     $resp->error = !unlink("{$clonesDir}{$_GET['deleteDump']}");
     $resp->msg = "Delete Dump {$_GET['deleteDump']}";
     die(json_encode($resp));
@@ -64,7 +63,7 @@ if ($return_val !== 0) {
     _error_log("Clone Error: ". print_r($output, true));
 }
 
-if(empty($resp->useRsync)){
+if (empty($resp->useRsync)) {
     $resp->videoFiles = getCloneFilesInfo($videosDir);
     $resp->photoFiles = getCloneFilesInfo($photosDir, "userPhoto/");
 }

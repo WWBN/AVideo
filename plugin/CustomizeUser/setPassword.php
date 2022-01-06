@@ -3,6 +3,7 @@ require_once '../../videos/configuration.php';
 if (!User::isAdmin()) {
     forbiddenPage('Must be admin');
 }
+
 $users_id = intval(@$_REQUEST['users_id']);
 if (empty($users_id)) {
     forbiddenPage('Empty users_id');

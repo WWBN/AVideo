@@ -29,7 +29,7 @@ $forceIndex = '';
 if (!empty($lObj->server_type->value)) {
     $forceIndex = "Live" . date('YmdHis');
 }
- * 
+ *
  */
 
 $liveStreamObject = new LiveStreamObject($trasnmition['key'], $live_servers_id, $forceIndex, 0);

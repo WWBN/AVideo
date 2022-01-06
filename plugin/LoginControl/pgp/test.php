@@ -1,5 +1,4 @@
 <?php
-
 require_once dirname(__FILE__) . '/../../../plugin/LoginControl/pgp/functions.php';
 
 $message = 'teste 1234';
@@ -25,6 +24,6 @@ $encMessage = encryptMessage($message, $public);
 echo $encMessage["encryptedMessage"];
 
 echo '<hr><h1>Decrypt</h1><br>' . PHP_EOL;
-echo (decryptMessage($encMessage['encryptedMessage'], $private, $pass));
+echo(decryptMessage($encMessage['encryptedMessage'], $private, $pass));
 
 echo '</pre>';

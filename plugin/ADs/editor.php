@@ -59,12 +59,10 @@ if (empty($obj)) {
                                 <?php
                                 $active = ' in active';
                                 foreach (ADs::$AdsPositions as $key => $value) {
-                                    
                                     $size = ADs::getSize($value[0]);
-                                    
+
                                     $width = $size['width'];
-                                    $height = $size['height'];
-                                    ?>
+                                    $height = $size['height']; ?>
                                     <div id="adsTabs<?php echo $key; ?>" class="tab-pane fade <?php echo $active; ?>">
 
                                         <div class="panel panel-default">
@@ -76,8 +74,7 @@ if (empty($obj)) {
                                                     <div class="form-group">                   
                                                         <?php
                                                         $croppie1 = getCroppie(__("Upload Image") . ' ' . $value[0], "setImage_" . $value[0], $width, $height);
-                                                        echo $croppie1['html'];
-                                                        ?>
+                                    echo $croppie1['html']; ?>
                                                     </div> 
                                                     <div class="form-group">
                                                         <label for="inputAdsURL<?php echo $value[0]; ?>"><?php echo __("URL"); ?></label>
@@ -91,20 +88,18 @@ if (empty($obj)) {
                                                     <?php
                                                     $adsList = ADs::getAds($value[0]);
 
-                                                    foreach ($adsList as $item) {
-                                                        ?>
+                                    foreach ($adsList as $item) {
+                                        ?>
                                                         <li class="list-group-item clearfix" id="<?php echo $item["fileName"]; ?>" >
                                                             <img src="<?php echo $item["imageURL"]; ?>" 
                                                                  class="img img-responsive pull-left" 
                                                                  style="max-height: 60px; max-width: 150px; margin-right: 10px;">
                                                                  <?php
-                                                                 echo $item["url"];
-                                                                 ?>
+                                                                 echo $item["url"]; ?>
                                                             <button class="btn btn-sm btn-danger pull-right" onclick="deleteAdsImage('<?php echo $item["type"]; ?>', '<?php echo $item["fileName"]; ?>')"><i class="fas fa-trash"></i></button>
                                                         </li>
                                                         <?php
-                                                    }
-                                                    ?>
+                                    } ?>
                                                 </ul>
                                             </div>
                                         </div>
@@ -114,8 +109,7 @@ if (empty($obj)) {
                                             evt.preventDefault();
                                             setTimeout(function () {
     <?php
-    echo $croppie1['getCroppieFunction'];
-    ?>
+    echo $croppie1['getCroppieFunction']; ?>
                                             }, 500);
                                             return false;
                                         });

@@ -9,7 +9,7 @@
         $(document).ready(function () {
 <?php
 if (!empty($obj->showMarkers)) {
-    ?>
+?>
                 $.getScript("<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/videojs-markers/videojs-markers.js", function (data, textStatus, jqxhr) {
 
                     if (typeof player == 'undefined') {
@@ -30,12 +30,10 @@ if (!empty($obj->showMarkers)) {
     <?php
     foreach ($vmaps as $value) {
         $vastCampaingVideos = new VastCampaignsVideos($value->VAST->campaing);
-        $video = new Video("", "", $vastCampaingVideos->getVideos_id());
-        ?>
+        $video = new Video("", "", $vastCampaingVideos->getVideos_id()); ?>
                                 {time: <?php echo $value->timeOffsetSeconds; ?>, text: "<?php echo addcslashes($video->getTitle(), '"'); ?>"},
         <?php
-    }
-    ?>
+    } ?>
                         ]
                     });
                 });

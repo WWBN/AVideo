@@ -8,8 +8,8 @@ $obj->msg = "";
 $obj->response = @$_REQUEST['response'];
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('LoginControl');
-                                                
-if(!User::isLogged()){
+
+if (!User::isLogged()) {
     $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
@@ -18,6 +18,3 @@ if(!User::isLogged()){
 $obj->error = empty(LoginControl::verifyChallenge($obj->response));
 
 echo json_encode($obj);
-
-
-?>

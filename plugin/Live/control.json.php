@@ -77,6 +77,7 @@ switch ($obj->command) {
         break;
     case "drop_publisher_reset_key":
         $obj->newkey = LiveTransmition::resetTransmitionKey($l->getUsers_id());
+        // no break
     case "drop_publisher":
         //http://server.com/control/drop/publisher|subscriber|client?srv=SRV&app=APP&name=NAME&addr=ADDR&clientid=CLIENTID
         $obj->commandURL = Live::getDropURL($obj->key, $obj->live_servers_id);

@@ -9,8 +9,8 @@ if (!empty($obj->experimentalWebcam)) {
     <ul class="nav nav-tabs">
         <li class="active" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use streaming software or hardware"); ?>"><a data-toggle="tab" href="#tabStreamKey"><i class="fas fa-key"></i> <?php echo __("Stream Key"); ?></a></li>
         <?php
-        if(empty($objLive->hideShare)){
-        ?>
+        if (empty($objLive->hideShare)) {
+            ?>
         <li class="" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Share information about your live"); ?>"><a data-toggle="tab" href="#tabShare"><i class="fa fa-share"></i> <?php echo __("Share"); ?></a></li>
         <?php
         }
@@ -37,8 +37,7 @@ if (!empty($obj->experimentalWebcam)) {
             ?>
             <div id="tabRestream" class="tab-pane fade"> 
                 <?php
-                include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/livePanel.php';
-                ?>
+                include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/livePanel.php'; ?>
             </div>
             <?php
         }

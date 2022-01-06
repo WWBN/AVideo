@@ -1,39 +1,45 @@
 <?php
-
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-class MobileManager extends PluginAbstract {
-
-    public function getTags() {
-        return array(
+class MobileManager extends PluginAbstract
+{
+    public function getTags()
+    {
+        return [
             PluginTags::$FREE,
-            PluginTags::$MOBILE
-        );
+            PluginTags::$MOBILE,
+        ];
     }
-    public static function getVersion(){
+    public static function getVersion()
+    {
         return 2;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         $desc = "Manage the Mobile App";
-        $desc .= $this->isReadyLabel(array('API'));
+        $desc .= $this->isReadyLabel(['API']);
         return $desc;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return "MobileManager";
     }
 
-    public function getUUID() {
+    public function getUUID()
+    {
         return "4c1f4f76-b336-4ddc-a4de-184efe715c09";
     }
 
-    public function getPluginVersion() {
+    public function getPluginVersion()
+    {
         return "1.5";
     }
 
-    public function getEmptyDataObject() {
+    public function getEmptyDataObject()
+    {
         global $global;
         $obj = new stdClass();
         //$obj->aboutPage = "";
@@ -80,19 +86,19 @@ class MobileManager extends PluginAbstract {
         $obj->doNotAutoSearch = false;
         $obj->playStoreApp = 'https://play.google.com/store/apps/details?id=mobile.youphptube.com';
         $obj->appleStoreApp = 'https://apps.apple.com/us/app/youphptube/id1337322357';
-        
+
         $obj->pwa_background_color = "#000000";
         $o = new stdClass();
-        $o->type = array('fullscreen', 'standalone', 'minimal-ui');
+        $o->type = ['fullscreen', 'standalone', 'minimal-ui'];
         $o->value = "fullscreen";
-        
+
         $obj->pwa_display = $o;
         $obj->pwa_scope = "/";
 
         return $obj;
     }
 
-    public function upload(){
+    public function upload()
+    {
     }
-
 }

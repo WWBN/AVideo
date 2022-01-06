@@ -3,22 +3,29 @@
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 
-class Clones extends ObjectYPT {
+class Clones extends ObjectYPT
+{
+    protected $id;
+    protected $url;
+    protected $status;
+    protected $key;
+    protected $last_clone_request;
 
-    protected $id, $url, $status, $key, $last_clone_request;
-
-    static function getSearchFieldsNames() {
-        return array('url');
+    public static function getSearchFieldsNames()
+    {
+        return ['url'];
     }
 
-    static function getTableName() {
+    public static function getTableName()
+    {
         return 'clone_SitesAllowed';
     }
-    
-    static function getFromURL($url){
+
+    public static function getFromURL($url)
+    {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  url = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql,"s",array($url)); 
+        $res = sqlDAL::readSql($sql, "s", [$url]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -28,8 +35,9 @@ class Clones extends ObjectYPT {
         }
         return $row;
     }
-    
-    function updateLastCloneRequest() {
+
+    public function updateLastCloneRequest()
+    {
         global $global;
         if (!empty($this->id)) {
             $sql = "UPDATE " . static::getTableName() . " SET last_clone_request = now() ";
@@ -46,35 +54,38 @@ class Clones extends ObjectYPT {
             die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
     }
-    
-    function loadFromURL($url) {
+
+    public function loadFromURL($url)
+    {
         $row = self::getFromURL($url);
-        if (empty($row))
+        if (empty($row)) {
             return false;
+        }
         foreach ($row as $key => $value) {
             $this->$key = $value;
         }
         return true;
     }
-    
-    static function thisURLCanCloneMe($url, $key){
+
+    public static function thisURLCanCloneMe($url, $key)
+    {
         $resp = new stdClass();
         $resp->canClone = false;
         $resp->clone = null;
         $resp->msg = "";
-        
+
         $clone = new Clones(0);
         $clone->loadFromURL($url);
-        if(empty($clone->getId())){
+        if (empty($clone->getId())) {
             $resp->msg = "The URL {$url} was just added in our server, ask the Server Manager to approve this URL on plugins->Clone Site->Clones Manager (The Blue Button) and Activate your client";
             self::addURL($url, $key);
             return $resp;
         }
-        if($clone->getKey() !== $key){
+        if ($clone->getKey() !== $key) {
             $resp->msg = "Invalid Key";
             return $resp;
         }
-        if($clone->getStatus() !== 'a'){
+        if ($clone->getStatus() !== 'a') {
             $resp->msg = "The URL {$url} is inactive in our Clone Server";
             return $resp;
         }
@@ -82,79 +93,90 @@ class Clones extends ObjectYPT {
         $resp->canClone = true;
         return $resp;
     }
-    
-    static function addURL($url, $key){
+
+    public static function addURL($url, $key)
+    {
         $clone = new Clones(0);
         $clone->loadFromURL($url);
-        if(empty($clone->getId())){
+        if (empty($clone->getId())) {
             $clone->setUrl($url);
             $clone->setKey($key);
             return $clone->save();
         }
         return false;
     }
-    
-    function save() {
-        if(empty($this->status)){
+
+    public function save()
+    {
+        if (empty($this->status)) {
             $this->status = 'i';
         }
-        if(empty($this->last_clone_request)){
+        if (empty($this->last_clone_request)) {
             $this->last_clone_request = 'null';
         }
         return parent::save();
     }
-            
-    function getId() {
+
+    public function getId()
+    {
         return $this->id;
     }
 
-    function getUrl() {
+    public function getUrl()
+    {
         return $this->url;
     }
 
-    function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    function getKey() {
+    public function getKey()
+    {
         return $this->key;
     }
 
-    function getLast_clone_request() {
+    public function getLast_clone_request()
+    {
         return $this->last_clone_request;
     }
 
-    function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    function setUrl($url) {
+    public function setUrl($url)
+    {
         $this->url = $url;
     }
 
-    function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
     }
 
-    function setKey($key) {
+    public function setKey($key)
+    {
         $this->key = $key;
     }
 
-    function setLast_clone_request($last_clone_request) {
+    public function setLast_clone_request($last_clone_request)
+    {
         $this->last_clone_request = $last_clone_request;
     }
 
-    function toogleStatus(){
-        if(empty($this->id)){
-           return false; 
+    public function toogleStatus()
+    {
+        if (empty($this->id)) {
+            return false;
         }
-        if($this->status==='i'){
+        if ($this->status==='i') {
             $this->status='a';
-        }else{
+        } else {
             $this->status='i';
         }
-        return $this->save();             
+        return $this->save();
     }
-
-
 }

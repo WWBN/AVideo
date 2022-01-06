@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/PayPalYPT/Objects/PayPalYPT_log.php';
@@ -8,8 +9,8 @@ $obj->error = true;
 $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('PayPalYPT');
-                                                
-if(!User::isAdmin()){
+
+if (!User::isAdmin()) {
     $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
@@ -22,7 +23,7 @@ $o->setRecurring_payment_id($_POST['recurring_payment_id']);
 $o->setValue($_POST['value']);
 $o->setToken($_POST['token']);
 
-if($id = $o->save()){
+if ($id = $o->save()) {
     $obj->error = false;
 }
 

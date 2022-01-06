@@ -28,7 +28,7 @@ if (!User::isAdmin()) {
                             <label for="PayPalYPT_logusers_id"><?php echo __("Users Id"); ?>:</label>
                             <select class="form-control input-sm" name="users_id" id="PayPalYPT_logusers_id">
                                 <?php
-                                $options = User::getAllUsers(false, array(), "a");
+                                $options = User::getAllUsers(false, [], "a");
                                 foreach ($options as $value) {
                                     echo '<option value="' . $value['id'] . '">' . $value['identification'] . '</option>';
                                 }

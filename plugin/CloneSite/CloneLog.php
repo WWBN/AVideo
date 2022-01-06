@@ -1,9 +1,10 @@
 <?php
-
-class CloneLog{
+class CloneLog
+{
     public $file;
-    
-    function __construct() {
+
+    public function __construct()
+    {
         global $global;
         $clonesDir = Video::getStoragePath()."cache/clones/";
         $this->file = "{$clonesDir}client.log";
@@ -13,9 +14,10 @@ class CloneLog{
         }
         file_put_contents($this->file, "");
     }
-    
-    function add($message){
+
+    public function add($message)
+    {
         _error_log($message);
-        file_put_contents($this->file, $message.PHP_EOL , FILE_APPEND | LOCK_EX);
+        file_put_contents($this->file, $message.PHP_EOL, FILE_APPEND | LOCK_EX);
     }
 }

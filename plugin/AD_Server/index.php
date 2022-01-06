@@ -12,8 +12,8 @@ if (!User::isAdmin()) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <?php 
-        echo getHTMLTitle( __("VAST"));
+        <?php
+        echo getHTMLTitle(__("VAST"));
         ?>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';

@@ -58,46 +58,43 @@ $timeouts = 2000;
                                         <div class="panel-heading ">
                                             <?php
                                             echo "<b>{$value} ({$obj->CUSTOM_JITSI_DOMAIN})</b> ";
-                                            if ($obj->server->value !== $key) {
-                                                ?>
+                                if ($obj->server->value !== $key) {
+                                    ?>
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/?newServer=<?php echo $key; ?>" data-toggle="tooltip" data-placement="bottom" title="Change to (<?php echo $value; ?>) server" >
                                                     <i class="fas fa-random" ></i>
                                                 </a>
                                                 <?php
-                                            } else {
-                                                ?>
+                                } else {
+                                    ?>
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/" data-toggle="tooltip" data-placement="bottom" title="Stay on (<?php echo $value; ?>)" >
                                                     <i class="fas fa-check" ></i>
                                                 </a>
                                                 <?php
-                                            }
-                                            ?>
+                                } ?>
                                         </div>
                                     </div>
                                 </div>
                                 <?php
                             } else {
-                                $newKey = str_replace(".", "_", $key);
-                                ?>
+                                $newKey = str_replace(".", "_", $key); ?>
                                 <div class="col-xs-6">
                                     <div class="panel panel-default" id="panel<?php echo $newKey; ?>">
                                         <div class="panel-heading ">
                                             <?php
                                             echo "<b>{$value}</b> ";
-                                            if ($obj->server->value !== $key) {
-                                                ?>
+                                if ($obj->server->value !== $key) {
+                                    ?>
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/?newServer=<?php echo $key; ?>" data-toggle="tooltip" data-placement="bottom" title="Change to (<?php echo $value; ?>) server" >
                                                     <i class="fas fa-random" ></i>
                                                 </a>
                                                 <?php
-                                            } else {
-                                                ?>
+                                } else {
+                                    ?>
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/" data-toggle="tooltip" data-placement="bottom" title="Stay on (<?php echo $value; ?>)" >
                                                     <i class="fas fa-check" ></i>
                                                 </a>
                                                 <?php
-                                            }
-                                            ?>
+                                } ?>
                                             <span class="label label-primary grade pull-right" id="grade<?php echo $newKey; ?>">
                                                 <i class="fas fa-cog"></i>
                                             </span>

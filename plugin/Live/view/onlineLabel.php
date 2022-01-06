@@ -1,16 +1,16 @@
 <?php
-if(empty($streamName)){
+if (empty($streamName)) {
     $live = isLive();
     $streamName = $live['key'];
     $live_servers_id = $live['live_servers_id'];
-}else{
+} else {
     $live_servers_id = Live::getCurrentLiveServersId();
 }
 $liveViewStatusID = str_replace('-', '_', "liveViewStatusID_{$streamName}_{$live_servers_id}");
 $liveViewStatusClass = "liveViewStatusClass liveViewStatusClass_{$streamName} liveViewStatusClass_{$streamName}_{$live_servers_id}";
 
 $liveObj = AVideoPlugin::getObjectData('Live');
-if($liveObj->doNotShowOnlineOfflineLabel){
+if ($liveObj->doNotShowOnlineOfflineLabel) {
     $liveViewStatusClass .= ' hidden';
 }
 if (isLiveLink() || Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id, @$live['live_index'])) {
@@ -29,7 +29,7 @@ if (isMobile()) {
             return !$('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline');
     <?php
 } else {
-    ?>
+        ?>
             if (player.readyState()) {
                 if (typeof player.tech_ !== 'undefined') {
                     var uri = player.tech_.hls.selectPlaylist().uri;
@@ -49,7 +49,7 @@ if (isMobile()) {
                 console.log("isOfflineVideo player.readyState not ready", player.readyState());
             }
     <?php
-}
+    }
 ?>
         return true;
     }

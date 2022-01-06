@@ -24,26 +24,27 @@ if ($result) {
 
 _log('Finish try to get URL ');
 
-$timeElapsed = number_format(microtime(true) - $timeStarted,5);
-if($timeElapsed>=2){
+$timeElapsed = number_format(microtime(true) - $timeStarted, 5);
+if ($timeElapsed>=2) {
     _log('IMPORTANT: your stats took longer than 2 seconds to respond, the Streamer has a 2 seconds timeout rule ');
 }
 
-function url_get_contents($url, $timeout = 0) {
+function url_get_contents($url, $timeout = 0)
+{
     _log('url_get_contents start timeout=' . $timeout);
     $agent = "AVideoStreamer";
 
-    $opts = array(
-        'http' => array('header' => "User-Agent: {$agent}\r\n"),
-        "ssl" => array(
+    $opts = [
+        'http' => ['header' => "User-Agent: {$agent}\r\n"],
+        "ssl" => [
             "verify_peer" => false,
             "verify_peer_name" => false,
             "allow_self_signed" => true,
-        ),
-    );
+        ],
+    ];
     if (!empty($timeout)) {
         ini_set('default_socket_timeout', $timeout);
-        $opts['http'] = array('timeout' => $timeout);
+        $opts['http'] = ['timeout' => $timeout];
     }
 
     $context = stream_context_create($opts);
@@ -55,7 +56,7 @@ function url_get_contents($url, $timeout = 0) {
             if (empty($tmp)) {
                 _log('file_get_contents fail return an empty content');
                 return false;
-            }else{
+            } else {
                 _log('file_get_contents works');
                 return true;
             }
@@ -120,7 +121,8 @@ function url_get_contents($url, $timeout = 0) {
     return false;
 }
 
-function wget($url, $filename) {
+function wget($url, $filename)
+{
     if (empty($url) || $url == "php://input" || !preg_match("/^http/", $url)) {
         _log('this is not a URL ');
         return false;
@@ -144,8 +146,9 @@ function wget($url, $filename) {
     }
 }
 
-function _log($msg) {
+function _log($msg)
+{
     global $timeStarted;
-    $timeElapsed = number_format(microtime(true) - $timeStarted,5);
+    $timeElapsed = number_format(microtime(true) - $timeStarted, 5);
     echo '[' . date('Y-m-d H:i:s') . "] Time Elapsed: {$timeElapsed} seconds - " . $msg . '<br>' . PHP_EOL;
 }

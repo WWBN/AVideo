@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_join_log.php';
@@ -9,7 +10,7 @@ $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('Meet');
 
-if(!User::isAdmin()){
+if (!User::isAdmin()) {
     $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
@@ -20,7 +21,7 @@ $o->setUsers_id($_POST['users_id']);
 $o->setIp($_POST['ip']);
 $o->setUser_agent($_POST['user_agent']);
 
-if($id = $o->save()){
+if ($id = $o->save()) {
     $obj->error = false;
 }
 

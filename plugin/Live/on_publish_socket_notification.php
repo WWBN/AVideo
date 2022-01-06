@@ -46,7 +46,7 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     }
     $array['live_transmitions_history_id'] = $liveTransmitionHistory_id;
     $array['users_id'] = $users_id;
-    
+
     if ($isLive) {
         _error_log("NGINX Live::on_publish_socket_notification is200");
         $array['stats'] = LiveTransmitionHistory::getStatsAndAddApplication($liveTransmitionHistory_id);
@@ -55,8 +55,8 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         $array['stats'] = getStatsNotifications();
     }
     $obj->error = false;
-    
-    if(empty($array['key']) && !empty($liveTransmitionHistory_id)){
+
+    if (empty($array['key']) && !empty($liveTransmitionHistory_id)) {
         $lt = new LiveTransmitionHistory($liveTransmitionHistory_id);
         $array['key'] = $lt->getKey();
         $array['live_servers_id'] = $lt->getLive_servers_id();

@@ -11,7 +11,6 @@ $result->msg = '';
 $result->url = '';
 $result->imageURL = '';
 
-
 if (!User::isAdmin()) {
     $result->msg = __("You can not do this");
     die(json_encode($result));
@@ -32,7 +31,7 @@ if (empty($type)) {
 
 $typeFound = false;
 foreach (ADs::$AdsPositions as $key => $value) {
-    if($type===$value[0]){
+    if ($type===$value[0]) {
         $typeFound = true;
         break;
     }
@@ -43,7 +42,7 @@ if (empty($typeFound)) {
     die(json_encode($result));
 }
 
-if(!IsValidURL(@$_REQUEST['url'])){
+if (!IsValidURL(@$_REQUEST['url'])) {
     $_REQUEST['url'] = '';
 }
 

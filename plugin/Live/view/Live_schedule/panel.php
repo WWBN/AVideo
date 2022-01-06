@@ -55,8 +55,7 @@ global $Schedulecount;
                                 <?php
                                 foreach ($options as $value) {
                                     echo '<option value="' . $value['id'] . '">[' . $value['id'] . '] ' . $value['name'] . '</option>';
-                                }
-                                ?>
+                                } ?>
                             </select>
                         </div>
                         <?php

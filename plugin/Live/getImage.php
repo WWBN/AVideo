@@ -1,15 +1,16 @@
 <?php
+
 $lifetime = 300;
 
 if (empty($_REQUEST['format'])) {
     $_REQUEST['format'] = "png";
     header('Content-Type: image/x-png');
-} else if ($_REQUEST['format'] === 'jpg') {
+} elseif ($_REQUEST['format'] === 'jpg') {
     header('Content-Type: image/jpg');
-} else if ($_REQUEST['format'] === 'gif') {
+} elseif ($_REQUEST['format'] === 'gif') {
     header('Content-Type: image/gif');
     $lifetime *= 3;
-} else if ($_REQUEST['format'] === 'webp') {
+} elseif ($_REQUEST['format'] === 'webp') {
     header('Content-Type: image/webp');
     $lifetime *= 3;
 } else {
@@ -23,10 +24,10 @@ $f = md5(@$_REQUEST['u'] . @$_REQUEST['live_servers_id'] . @$_REQUEST['live_inde
 $cacheFileImageName = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}.{$_REQUEST['format']}";
 if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheFileImageName))) {
     $content = file_get_contents($cacheFileImageName);
-    if(!empty($content)){
+    if (!empty($content)) {
         echo $content;
         exit;
-    } 
+    }
 }
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
@@ -41,7 +42,7 @@ if (!empty($_GET['c'])) {
 }
 $livet = LiveTransmition::getFromRequest();
 //header('Content-Type: text/plain');var_dump($livet);exit;
-if(!empty($_REQUEST['live_schedule']) && !empty($livet['scheduled_time']) && isTimeForFuture($livet['scheduled_time'], $livet['timezone'])){
+if (!empty($_REQUEST['live_schedule']) && !empty($livet['scheduled_time']) && isTimeForFuture($livet['scheduled_time'], $livet['timezone'])) {
     $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule']);
     $uploadedPoster = $array['path'];
     header('Content-Type: image/jpg');
@@ -61,7 +62,7 @@ if (empty($livet)) {
     } else {
         _error_log('getImage: File NOT exists 1 ' . $uploadedPoster);
     }
-} else if (!Live::isLive($livet['users_id'])) {
+} elseif (!Live::isLive($livet['users_id'])) {
     $uploadedPoster = $global['systemRootPath'] . Live::getPoster($livet['users_id'], $_REQUEST['live_servers_id']);
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster, empty($livet), Live::isLive($livet['users_id']) );exit;
     if (file_exists($uploadedPoster)) {
@@ -95,7 +96,7 @@ if (!empty($_REQUEST['live_index']) && $_REQUEST['live_index'] !== 'false') {
 $name = "getLiveImage_{$uuid}_{$_REQUEST['format']}";
 $result = ObjectYPT::getCache($name, $lifetime, true);
 
-$socketMessage = array();
+$socketMessage = [];
 $socketMessage['cacheName1'] = $name;
 $socketMessage['iscache'] = !empty($result);
 $socketMessage['src'] = getSelfURI();
@@ -121,7 +122,7 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     $url = "{$encoderURL}objects/getImage.php";
     $url = addQueryStringParameter($url, 'base64Url', base64_encode($video));
     $url = addQueryStringParameter($url, 'format', $_REQUEST['format']);
-    
+
     //_error_log("Live:getImage $url");
     //header('Content-Type: text/plain');var_dump($url);exit;
     session_write_close();
@@ -131,7 +132,6 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     if (empty($content)) {
         echo file_get_contents($filename);
     } else {
-        
     }
 
     ob_end_clean();
@@ -150,9 +150,8 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
             //$socketObj = sendSocketMessageToAll($socketMessage, 'socketLiveImageUpdateCallback');
         }
     } else {
-        
         $result = file_get_contents($filename);
-        if(!Live::isDefaultImage($result)){
+        if (!Live::isDefaultImage($result)) {
             copy($filename, $cacheFileImageName);
         }
         echo $result;

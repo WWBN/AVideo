@@ -10,7 +10,7 @@ $obj->error = true;
 $plugin = AVideoPlugin::loadPluginIfEnabled('Meet');
 
 if (!is_array($_POST['id'])) {
-    $_POST['id'] = array($_POST['id']);
+    $_POST['id'] = [$_POST['id']];
 }
 
 foreach ($_POST['id'] as $value) {
@@ -26,4 +26,3 @@ foreach ($_POST['id'] as $value) {
 }
 
 die(json_encode($obj));
-?>

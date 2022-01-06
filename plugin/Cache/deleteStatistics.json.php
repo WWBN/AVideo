@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 
@@ -18,8 +17,8 @@ require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 $objC = AVideoPlugin::getDataObject('Cache');
 
 $days = $objC->deleteStatisticsDaysOld;
-if(empty($days)){
-   $days = 180;
+if (empty($days)) {
+    $days = 180;
 }
 $obj->before = VideoStatistic::getTotalStatisticsRecords();
 $obj->result = VideoStatistic::deleteOldStatistics($days);

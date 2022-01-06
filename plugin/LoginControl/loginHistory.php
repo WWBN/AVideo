@@ -1,13 +1,13 @@
 <?php
 require_once '../../videos/configuration.php';
 
-if(User::isAdmin() && !empty($_REQUEST['users_id'])){
+if (User::isAdmin() && !empty($_REQUEST['users_id'])) {
     $users_id = intval($_REQUEST['users_id']);
 }
-if(empty($users_id)){
+if (empty($users_id)) {
     $users_id = User::getId();
 }
-if(empty($users_id)){
+if (empty($users_id)) {
     forbiddenPage('Empty user ID');
 }
 

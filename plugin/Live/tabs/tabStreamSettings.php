@@ -53,8 +53,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                 </div>
                 <div class="panel-body myUsedKeys<?php echo $key; ?>">
                     <?php
-                    echo implode('', $onliveApplications);
-                    ?>
+                    echo implode('', $onliveApplications); ?>
                 </div>
             </div>
             <?php
@@ -71,8 +70,8 @@ $key = $liveStreamObject->getKeyWithIndex(true);
             <a data-toggle="tab" href="#tabPosterImage"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a>
         </li>
         <?php
-        if(empty($objLive->hideUserGroups)){
-        ?>
+        if (empty($objLive->hideUserGroups)) {
+            ?>
         <li class="" >
             <a data-toggle="tab" href="#tabUserGroups"><i class="fas fa-users"></i> <?php echo __("User Groups"); ?></a>
         </li>
@@ -96,7 +95,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                             <div class="form-group">
                                 <label for="title"><?php echo __("Password Protect"); ?>:</label>
                                 <?php
-                                echo getInputPassword('password_livestream', 'class="form-control" value="'.$trasnmition['password'].'"',  __("Password Protect"));
+                                echo getInputPassword('password_livestream', 'class="form-control" value="'.$trasnmition['password'].'"', __("Password Protect"));
                                 ?>
                             </div>  
                             <div class="form-group">
@@ -111,13 +110,13 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                             $SendRecordedToEncoderClassExists = class_exists('SendRecordedToEncoder');
                             $SendRecordedToEncoderMethodExists = method_exists('SendRecordedToEncoder', 'canAutoRecord');
                             if (
-                                    $SendRecordedToEncoderObjectData && 
-                                    $SendRecordedToEncoderClassExists && 
-                                    $SendRecordedToEncoderMethodExists ) {
+                                    $SendRecordedToEncoderObjectData &&
+                                    $SendRecordedToEncoderClassExists &&
+                                    $SendRecordedToEncoderMethodExists) {
                                 $SendRecordedToEncoderCanAutoRecord = SendRecordedToEncoder::canAutoRecord(User::getId());
                                 $SendRecordedToEncoderCanApprove = SendRecordedToEncoder::canApprove(User::getId());
-                                if($SendRecordedToEncoderCanAutoRecord || ($SendRecordedToEncoderCanApprove && $SendRecordedToEncoderObjectData->usersCanSelectAutoRecord)){
-                                ?> 
+                                if ($SendRecordedToEncoderCanAutoRecord || ($SendRecordedToEncoderCanApprove && $SendRecordedToEncoderObjectData->usersCanSelectAutoRecord)) {
+                                    ?> 
                                 <div class="form-group">
                                     <span class="fa fa-globe"></span> <?php echo __("Auto record this live"); ?> 
                                     <div class="material-switch pull-right">
@@ -126,14 +125,14 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                                     </div>
                                 </div>
                                 <?php
-                                }else{
-                                    if(!$SendRecordedToEncoderCanAutoRecord){
+                                } else {
+                                    if (!$SendRecordedToEncoderCanAutoRecord) {
                                         echo '<!-- Cannot auto record -->';
                                     }
-                                    if(!$SendRecordedToEncoderCanApprove){
+                                    if (!$SendRecordedToEncoderCanApprove) {
                                         echo '<!-- Cannot approve -->';
                                     }
-                                    if(!$SendRecordedToEncoderObjectData->usersCanSelectAutoRecord){
+                                    if (!$SendRecordedToEncoderObjectData->usersCanSelectAutoRecord) {
                                         echo '<!-- Cannot Select AutoRecord -->';
                                     }
                                 }
@@ -187,7 +186,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                         <div class="form-group">
                             <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
                             <div class="material-switch pull-right">
-                                <input id="group<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" <?php echo (in_array($value['id'], $groups) ? "checked" : "") ?>/>
+                                <input id="group<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" <?php echo(in_array($value['id'], $groups) ? "checked" : "") ?>/>
                                 <label for="group<?php echo $value['id']; ?>" class="label-success"></label>
                             </div>
                         </div>

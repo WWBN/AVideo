@@ -2,100 +2,127 @@
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
-class Users_extra_info extends ObjectYPT {
+class Users_extra_info extends ObjectYPT
+{
+    protected $id;
+    protected $field_name;
+    protected $field_type;
+    protected $field_options;
+    protected $field_default_value;
+    protected $parameters;
+    protected $status;
+    protected $order;
 
-    protected $id, $field_name, $field_type, $field_options, $field_default_value, $parameters, $status, $order;
-
-    static function getSearchFieldsNames() {
-        return array('field_name', 'field_type', 'field_options', 'field_default_value', 'parameters');
+    public static function getSearchFieldsNames()
+    {
+        return ['field_name', 'field_type', 'field_options', 'field_default_value', 'parameters'];
     }
 
-    static function getTableName() {
+    public static function getTableName()
+    {
         return 'users_extra_info';
     }
 
-    function setId($id) {
+    public function setId($id)
+    {
         $this->id = intval($id);
     }
 
-    function setField_name($field_name) {
+    public function setField_name($field_name)
+    {
         $this->field_name = $field_name;
     }
 
-    function setField_type($field_type) {
+    public function setField_type($field_type)
+    {
         $this->field_type = $field_type;
     }
 
-    function setField_options($field_options) {
+    public function setField_options($field_options)
+    {
         $this->field_options = $field_options;
     }
 
-    function setField_default_value($field_default_value) {
+    public function setField_default_value($field_default_value)
+    {
         $this->field_default_value = $field_default_value;
     }
 
-    function setParameters($parameters) {
+    public function setParameters($parameters)
+    {
         $this->parameters = $parameters;
     }
 
-    function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
     }
 
-    function getId() {
+    public function getId()
+    {
         return intval($this->id);
     }
 
-    function getField_name() {
+    public function getField_name()
+    {
         return $this->field_name;
     }
 
-    function getField_type() {
+    public function getField_type()
+    {
         return $this->field_type;
     }
 
-    function getField_options() {
+    public function getField_options()
+    {
         return $this->field_options;
     }
 
-    function getField_default_value() {
+    public function getField_default_value()
+    {
         return $this->field_default_value;
     }
 
-    function getParameters() {
+    public function getParameters()
+    {
         return $this->parameters;
     }
 
-    function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    function getOrder() {
+    public function getOrder()
+    {
         return $this->order;
     }
 
-    function setOrder($order) {
+    public function setOrder($order)
+    {
         $this->order = intval($order);
     }
 
-    static function getTypesOptionArray() {
-        return array('input' => 'Text', 'number' => 'Number', 'select' => 'Predefined options (select one)', 'textarea' => 'Textarea');
+    public static function getTypesOptionArray()
+    {
+        return ['input' => 'Text', 'number' => 'Number', 'select' => 'Predefined options (select one)', 'textarea' => 'Textarea'];
     }
 
-    static function typeToHTML($row) {
+    public static function typeToHTML($row)
+    {
         $html = "";
-        if(isset($row['value'])){
+        if (isset($row['value'])) {
             $row['field_default_value'] = $row['value'];
         }
         if ($row['field_type'] == 'input') {
             $html .= "<label for=\"usersExtraInfo_{$row['id']}\">{$row['field_name']}:</label>";
             $html .= "<input type=\"text\" id=\"usersExtraInfo_{$row['id']}\" name=\"usersExtraInfo[{$row['id']}]\" "
                     . "class=\"form-control input-sm usersExtraInfoInput\" placeholder=\"{$row['field_name']}\" value=\"{$row['field_default_value']}\">";
-        } else if ($row['field_type'] == 'number') {
+        } elseif ($row['field_type'] == 'number') {
             $html .= "<label for=\"usersExtraInfo_{$row['id']}\">{$row['field_name']}:</label>";
             $html .= "<input type=\"number\" id=\"usersExtraInfo_{$row['id']}\" name=\"usersExtraInfo[{$row['id']}]\" "
                     . "class=\"form-control input-sm usersExtraInfoInput\" placeholder=\"{$row['field_name']}\" value=\"{$row['field_default_value']}\">";
-        } else if ($row['field_type'] == 'select') {
+        } elseif ($row['field_type'] == 'select') {
             $html = "<label for=\"usersExtraInfo_{$row['id']}\">{$row['field_name']}:</label>
                 <select class=\"form-control input-sm usersExtraInfoInput\" name=\"usersExtraInfo[{$row['id']}]\" id=\"usersExtraInfo_{$row['id']}\">";
             foreach (preg_split("/((\r?\n)|(\r\n?))/", $row['field_options']) as $line) {
@@ -110,7 +137,7 @@ class Users_extra_info extends ObjectYPT {
                 $html .= "<option {$selected}>" . htmlentities($line) . "</option>";
             }
             $html .= "</select>";
-        } else if ($row['field_type'] == 'textarea') {
+        } elseif ($row['field_type'] == 'textarea') {
             $html .= "<label for=\"usersExtraInfo_{$row['id']}\">{$row['field_name']}:</label>";
             $html .= "<textarea type=\"text\" id=\"usersExtraInfo_{$row['id']}\" name=\"usersExtraInfo[{$row['id']}]\" "
                     . "class=\"form-control input-sm usersExtraInfoInput\" placeholder=\"{$row['field_name']}\" rows=\"6\">{$row['field_default_value']}</textarea>";
@@ -118,7 +145,8 @@ class Users_extra_info extends ObjectYPT {
         return $html;
     }
 
-    public static function getAllActive($users_id=0) {
+    public static function getAllActive($users_id=0)
+    {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
@@ -127,16 +155,16 @@ class Users_extra_info extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
-            if(!empty($users_id)){
+            if (!empty($users_id)) {
                 $extraInfo = self::getFromUser($users_id);
             }
             foreach ($fullData as $row) {
-                if(!empty($extraInfo) && !empty($extraInfo[$row['id']])){
+                if (!empty($extraInfo) && !empty($extraInfo[$row['id']])) {
                     $row['value'] = $extraInfo[$row['id']];
                     $row['current_value'] = $row['value'];
-                }else{
+                } else {
                     $row['current_value'] = $row['field_default_value'];
                 }
                 $rows[] = $row;
@@ -147,9 +175,9 @@ class Users_extra_info extends ObjectYPT {
         return $rows;
     }
 
-    public static function getFromUser($users_id) {
+    public static function getFromUser($users_id)
+    {
         $u = new User($users_id);
         return object_to_array(_json_decode($u->getExtra_info()));
     }
-
 }

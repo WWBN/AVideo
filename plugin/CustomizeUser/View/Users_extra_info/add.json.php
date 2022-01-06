@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_extra_info.php';
@@ -8,8 +9,8 @@ $obj->error = true;
 $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
-                                                
-if(!User::isAdmin()){
+
+if (!User::isAdmin()) {
     $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
@@ -23,7 +24,7 @@ $o->setParameters($_POST['parameters']);
 $o->setStatus($_POST['status']);
 $o->setOrder($_POST['order']);
 
-if($id = $o->save()){
+if ($id = $o->save()) {
     $obj->error = false;
 }
 

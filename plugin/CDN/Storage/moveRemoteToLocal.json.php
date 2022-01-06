@@ -10,12 +10,12 @@ $obj->error = true;
 $obj->msg = "";
 
 $isEnabled = AVideoPlugin::isEnabledByName('CDN');
-if(!$isEnabled){
+if (!$isEnabled) {
     $obj->msg = "CDN is disabled";
     die(json_encode($obj));
 }
 
-if(empty($_REQUEST['videos_id'])){
+if (empty($_REQUEST['videos_id'])) {
     $_REQUEST['videos_id'] = intval(@$argv[1]);
 }
 
@@ -25,7 +25,7 @@ if (empty($_REQUEST['videos_id'])) {
 }
 
 if (!is_array($_REQUEST['videos_id'])) {
-    $_REQUEST['videos_id'] = array($_REQUEST['videos_id']);
+    $_REQUEST['videos_id'] = [$_REQUEST['videos_id']];
 }
 
 _error_log('Start to move remote to local ');
@@ -40,7 +40,6 @@ foreach ($_REQUEST['videos_id'] as $videos_id) {
 
     $obj->error = false;
     $obj->response = CDNStorage::moveRemoteToLocal($videos_id);
-
 }
 _error_log('Finish to move remote to local ');
 

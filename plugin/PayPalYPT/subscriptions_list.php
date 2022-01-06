@@ -43,8 +43,7 @@ $rows = PayPalYPT::getAllLogsFromUser(User::getId());
                             if (!empty($agreement)) {
                                 $value['status'] = $agreement->getState();
                             }
-                        }
-                        ?>
+                        } ?>
                         <tr id="tr<?php echo $value['agreement_id']; ?>">
                             <td><?php echo $value['id']; ?></td>
                             <td>
@@ -64,12 +63,10 @@ $rows = PayPalYPT::getAllLogsFromUser(User::getId());
                                     ?>
                                     <button class="btn btn-danger btn-xs" onclick="cancelAgreement('<?php echo $value['agreement_id']; ?>')">
                                         <?php
-                                        echo __('Cancel Agreement');
-                                        ?>
+                                        echo __('Cancel Agreement'); ?>
                                     </button>
                                     <?php
-                                }
-                                ?>
+                                } ?>
                             </td>
                         </tr>
                         <?php

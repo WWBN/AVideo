@@ -1,8 +1,7 @@
 <?php
-
 require_once '../../videos/configuration.php';
-
 header('Content-Type: application/json');
+
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
@@ -17,7 +16,7 @@ if (empty($_POST['agreement_id'])) {
     die(json_encode($obj));
 }
 
-if(!User::isAdmin() && !Subscription::isAgreementFromUser($_POST['agreement_id'], User::getId())){
+if (!User::isAdmin() && !Subscription::isAgreementFromUser($_POST['agreement_id'], User::getId())) {
     $obj->msg = "Only the owner can delete his agreement";
     die(json_encode($obj));
 }
@@ -26,7 +25,7 @@ $plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 
 $agreement = PayPalYPT::cancelAgreement($_POST['agreement_id']);
 
-if(empty($agreement)){
+if (empty($agreement)) {
     $obj->msg = "Agreement not found";
     die(json_encode($obj));
 }
@@ -39,4 +38,3 @@ $s->save();
 $obj->error = false;
 _error_log("PayPalAgreementCancel: ".json_encode($agreement->getAgreementDetails()));
 die(json_encode($obj));
-?>

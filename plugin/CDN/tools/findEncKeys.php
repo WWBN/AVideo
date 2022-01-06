@@ -1,5 +1,4 @@
 <?php
-
 $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
 
@@ -13,7 +12,7 @@ if (empty($isCDNEnabled)) {
     return die('Plugin disabled');
 }
 
-$storages = array('https://storage.wetube.club/', 'https://storage1.wetube.club/');
+$storages = ['https://storage.wetube.club/', 'https://storage1.wetube.club/'];
 
 ob_end_flush();
 set_time_limit(300);
@@ -43,14 +42,14 @@ foreach ($videos as $value) {
             foreach ($file as $file2) {
                 if (preg_match('/index.m3u8$/', $file2)) {
                     $m3u8 = true;
-                } else if (preg_match('/enc.*.key$/', $file2)) {
+                } elseif (preg_match('/enc.*.key$/', $file2)) {
                     $enckey = true;
                 }
             }
         } else {
             if (preg_match('/index.m3u8$/', $file)) {
                 $m3u8 = true;
-            } else if (preg_match('/enc.*.key$/', $file)) {
+            } elseif (preg_match('/enc.*.key$/', $file)) {
                 $enckey = true;
             }
         }
@@ -60,14 +59,14 @@ foreach ($videos as $value) {
         //$video = Video::getVideoLight($value);
         $paths = Video::getPaths($value['filename']);
         echo "[$errorsFound] Missing enc key for video {$videos_id} {$paths['path']}" . PHP_EOL;
-        
+
         foreach ($storages as $s) {
             $url = "{$s}tools/getenckey.json.php?folder={$value['filename']}";
             echo "{$url}" . PHP_EOL;
             $content = file_get_contents("{$s}tools/getenckey.json.php?folder={$value['filename']}");
-            if(!empty($content)){
+            if (!empty($content)) {
                 $json = json_decode($content);
-                if(!empty($json->pathinfo)){
+                if (!empty($json->pathinfo)) {
                     file_put_contents("{$paths['path']}missingkey", time());
                     file_put_contents("{$paths['path']}{$json->pathinfo->basename}", base64_decode($json->content));
                     echo "Saved from {$s} on {$paths['path']}{$json->pathinfo->basename}" . PHP_EOL;
@@ -81,4 +80,3 @@ foreach ($videos as $value) {
 
 echo PHP_EOL . " Done! " . PHP_EOL;
 die();
-

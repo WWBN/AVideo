@@ -70,13 +70,13 @@ if (!User::canCreateMeet()) {
 <div id="Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>btnModelLinksJoinOnly" style="display:none;">
     <?php
         if ($meet_scheduled == "today") {
-                ?>
+            ?>
                 <button href="" class="go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?> btn btn-success  btn-block"
                         data-toggle="tooltip" title="<?php echo __("Join"); ?>">
                     <i class="fa fa-check"></i>
                 </button>
                 <?php
-            }
+        }
         ?>
     <div class="btn-group btn-group-justified">
         <?php
@@ -158,7 +158,7 @@ if (!User::canCreateMeet()) {
 
             "processing": true,
             "serverSide": true,
-            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/list.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&manageMeetings=<?php echo $manageMeetings; ?><?php echo !empty($userCredentials)?"&{$userCredentials}":''; ?>",
+            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Meet/View/Meet_schedule/list.json.php?meet_scheduled=<?php echo $meet_scheduled; ?>&manageMeetings=<?php echo $manageMeetings; ?><?php echo !empty($userCredentials) ? "&{$userCredentials}" : ''; ?>",
                         "order": [],
                         "columns": [
                             {
@@ -218,7 +218,7 @@ if (!User::canCreateMeet()) {
                     });
 <?php
 if ($manageMeetings) {
-    ?>
+            ?>
                         $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.delete_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
                             e.preventDefault();
                             var tr = $(this).closest('tr')[0];
@@ -293,7 +293,7 @@ if ($manageMeetings) {
 
                                                         });
     <?php
-}
+        }
 ?>
                                                     $('#Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>Table').on('click', 'button.go_Meet_schedule2<?php echo $meet_scheduled, $manageMeetings; ?>', function (e) {
                                                         e.preventDefault();
