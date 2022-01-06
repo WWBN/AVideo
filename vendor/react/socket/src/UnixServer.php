@@ -57,7 +57,10 @@ final class UnixServer extends EventEmitter implements ServerInterface
         if (\strpos($path, '://') === false) {
             $path = 'unix://' . $path;
         } elseif (\substr($path, 0, 7) !== 'unix://') {
-            throw new \InvalidArgumentException('Given URI "' . $path . '" is invalid');
+            throw new \InvalidArgumentException(
+                'Given URI "' . $path . '" is invalid (EINVAL)',
+                \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : 22
+            );
         }
 
         $this->master = @\stream_socket_server(
@@ -79,7 +82,10 @@ final class UnixServer extends EventEmitter implements ServerInterface
                 }
             }
 
-            throw new \RuntimeException('Failed to listen on Unix domain socket "' . $path . '": ' . $errstr, $errno);
+            throw new \RuntimeException(
+                'Failed to listen on Unix domain socket "' . $path . '": ' . $errstr . SocketServer::errconst($errno),
+                $errno
+            );
         }
         \stream_set_blocking($this->master, 0);
 
@@ -113,10 +119,10 @@ final class UnixServer extends EventEmitter implements ServerInterface
 
         $that = $this;
         $this->loop->addReadStream($this->master, function ($master) use ($that) {
-            $newSocket = @\stream_socket_accept($master, 0);
-            if (false === $newSocket) {
-                $that->emit('error', array(new \RuntimeException('Error accepting new connection')));
-
+            try {
+                $newSocket = SocketServer::accept($master);
+            } catch (\RuntimeException $e) {
+                $that->emit('error', array($e));
                 return;
             }
             $that->handleConnection($newSocket);

@@ -321,7 +321,11 @@ class MessageBufferTest extends TestCase
      * @requires PHP 7.0
      */
     public function testIniSizes($phpConfigurationValue, $expectedLimit) {
-        ini_set('memory_limit', $phpConfigurationValue);
+        $value = @ini_set('memory_limit', $phpConfigurationValue);
+        if ($value === false) {
+           $this->markTestSkipped("Does not support setting the memory_limit lower than current memory_usage");
+        }
+
         $messageBuffer = new MessageBuffer(
             new CloseFrameChecker(),
             function (Message $message) {},
@@ -348,7 +352,11 @@ class MessageBufferTest extends TestCase
      * @requires PHP 7.0
      */
     public function testInvalidIniSize() {
-        ini_set('memory_limit', 'lots of memory');
+        $value = @ini_set('memory_limit', 'lots of memory');
+        if ($value === false) {
+            $this->markTestSkipped("Does not support setting the memory_limit lower than current memory_usage");
+        }
+
         $messageBuffer = new MessageBuffer(
             new CloseFrameChecker(),
             function (Message $message) {},

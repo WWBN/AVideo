@@ -3,7 +3,7 @@
 // Include Requests only if not already defined
 if (class_exists('Requests') === false)
 {
-    require_once __DIR__.'/libs/Requests-1.7.0/library/Requests.php';
+    require_once __DIR__.'/libs/Requests-1.8.0/library/Requests.php';
 }
 
 try

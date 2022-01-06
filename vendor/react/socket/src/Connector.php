@@ -169,10 +169,68 @@ final class Connector implements ConnectorInterface
 
         if (!isset($this->connectors[$scheme])) {
             return \React\Promise\reject(new \RuntimeException(
-                'No connector available for URI scheme "' . $scheme . '"'
+                'No connector available for URI scheme "' . $scheme . '" (EINVAL)',
+                \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : 22
             ));
         }
 
         return $this->connectors[$scheme]->connect($uri);
+    }
+
+
+    /**
+     * [internal] Builds on URI from the given URI parts and ip address with original hostname as query
+     *
+     * @param array  $parts
+     * @param string $host
+     * @param string $ip
+     * @return string
+     * @internal
+     */
+    public static function uri(array $parts, $host, $ip)
+    {
+        $uri = '';
+
+        // prepend original scheme if known
+        if (isset($parts['scheme'])) {
+            $uri .= $parts['scheme'] . '://';
+        }
+
+        if (\strpos($ip, ':') !== false) {
+            // enclose IPv6 addresses in square brackets before appending port
+            $uri .= '[' . $ip . ']';
+        } else {
+            $uri .= $ip;
+        }
+
+        // append original port if known
+        if (isset($parts['port'])) {
+            $uri .= ':' . $parts['port'];
+        }
+
+        // append orignal path if known
+        if (isset($parts['path'])) {
+            $uri .= $parts['path'];
+        }
+
+        // append original query if known
+        if (isset($parts['query'])) {
+            $uri .= '?' . $parts['query'];
+        }
+
+        // append original hostname as query if resolved via DNS and if
+        // destination URI does not contain "hostname" query param already
+        $args = array();
+        \parse_str(isset($parts['query']) ? $parts['query'] : '', $args);
+        if ($host !== $ip && !isset($args['hostname'])) {
+            $uri .= (isset($parts['query']) ? '&' : '?') . 'hostname=' . \rawurlencode($host);
+        }
+
+        // append original fragment if known
+        if (isset($parts['fragment'])) {
+            $uri .= '#' . $parts['fragment'];
+        }
+
+        return $uri;
     }
 }

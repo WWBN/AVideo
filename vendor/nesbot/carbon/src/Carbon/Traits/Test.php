@@ -12,9 +12,12 @@
 namespace Carbon\Traits;
 
 use Carbon\CarbonInterface;
+use Carbon\CarbonTimeZone;
 use Closure;
 use DateTimeImmutable;
 use DateTimeInterface;
+use InvalidArgumentException;
+use Throwable;
 
 trait Test
 {
@@ -41,6 +44,9 @@ trait Test
      * Note the timezone parameter was left out of the examples above and
      * has no affect as the mock value will be returned regardless of its value.
      *
+     * Only the moment is mocked with setTestNow(), the timezone will still be the one passed
+     * as parameter of date_default_timezone_get() as a fallback (see setTestNowAndTimezone()).
+     *
      * To clear the test instance call this method using the default
      * parameter of null.
      *
@@ -57,18 +63,38 @@ trait Test
         static::$testNow = \is_string($testNow) ? static::parse($testNow) : $testNow;
     }
 
+    /**
+     * Set a Carbon instance (real or mock) to be returned when a "now"
+     * instance is created.  The provided instance will be returned
+     * specifically under the following conditions:
+     *   - A call to the static now() method, ex. Carbon::now()
+     *   - When a null (or blank string) is passed to the constructor or parse(), ex. new Carbon(null)
+     *   - When the string "now" is passed to the constructor or parse(), ex. new Carbon('now')
+     *   - When a string containing the desired time is passed to Carbon::parse().
+     *
+     * It will also align default timezone (e.g. call date_default_timezone_set()) with
+     * the second argument or if null, with the timezone of the given date object.
+     *
+     * To clear the test instance call this method using the default
+     * parameter of null.
+     *
+     * /!\ Use this method for unit tests only.
+     *
+     * @param Closure|static|string|false|null $testNow real or mock Carbon instance
+     */
     public static function setTestNowAndTimezone($testNow = null, $tz = null)
     {
         $useDateInstanceTimezone = $testNow instanceof DateTimeInterface;
 
         if ($useDateInstanceTimezone) {
-            date_default_timezone_set($testNow->getTimezone()->getName());
+            self::setDefaultTimezone($testNow->getTimezone()->getName(), $testNow);
         }
 
         static::setTestNow($testNow);
 
         if (!$useDateInstanceTimezone) {
-            date_default_timezone_set(static::getMockedTestNow(\func_num_args() === 1 ? null : $tz)->timezone);
+            $now = static::getMockedTestNow(\func_num_args() === 1 ? null : $tz);
+            self::setDefaultTimezone($now->tzName, $now);
         }
     }
 
@@ -152,5 +178,31 @@ trait Test
         $time = $testInstance instanceof self
             ? $testInstance->rawFormat(static::MOCK_DATETIME_FORMAT)
             : $testInstance->format(static::MOCK_DATETIME_FORMAT);
+    }
+
+    private static function setDefaultTimezone($timezone, DateTimeInterface $date = null)
+    {
+        $previous = null;
+        $success = false;
+
+        try {
+            $success = date_default_timezone_set($timezone);
+        } catch (Throwable $exception) {
+            $previous = $exception;
+        }
+
+        if (!$success) {
+            $suggestion = @CarbonTimeZone::create($timezone)->toRegionName($date);
+
+            throw new InvalidArgumentException(
+                "Timezone ID '$timezone' is invalid".
+                ($suggestion && $suggestion !== $timezone ? ", did you mean '$suggestion'?" : '.')."\n".
+                "It must be one of the IDs from DateTimeZone::listIdentifiers(),\n".
+                'For the record, hours/minutes offset are relevant only for a particular moment, '.
+                'but not as a default timezone.',
+                0,
+                $previous
+            );
+        }
     }
 }

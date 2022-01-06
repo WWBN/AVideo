@@ -127,6 +127,9 @@ class TcpTransportExecutor implements ExecutorInterface
     private $readBuffer = '';
     private $readPending = false;
 
+    /** @var string */
+    private $readChunk = 0xffff;
+
     /**
      * @param string         $nameserver
      * @param ?LoopInterface $loop
@@ -139,7 +142,7 @@ class TcpTransportExecutor implements ExecutorInterface
         }
 
         $parts = \parse_url((\strpos($nameserver, '://') === false ? 'tcp://' : '') . $nameserver);
-        if (!isset($parts['scheme'], $parts['host']) || $parts['scheme'] !== 'tcp' || !\filter_var(\trim($parts['host'], '[]'), \FILTER_VALIDATE_IP)) {
+        if (!isset($parts['scheme'], $parts['host']) || $parts['scheme'] !== 'tcp' || @\inet_pton(\trim($parts['host'], '[]')) === false) {
             throw new \InvalidArgumentException('Invalid nameserver address given');
         }
 
@@ -181,7 +184,7 @@ class TcpTransportExecutor implements ExecutorInterface
             // set socket to non-blocking and wait for it to become writable (connection success/rejected)
             \stream_set_blocking($socket, false);
             if (\function_exists('stream_set_chunk_size')) {
-                \stream_set_chunk_size($socket, (int) ((1 << 31) - 1)); // @codeCoverageIgnore
+                \stream_set_chunk_size($socket, $this->readChunk); // @codeCoverageIgnore
             }
             $this->socket = $socket;
         }
@@ -270,7 +273,7 @@ class TcpTransportExecutor implements ExecutorInterface
     {
         // read one chunk of data from the DNS server
         // any error is fatal, this is a stream of TCP/IP data
-        $chunk = @\fread($this->socket, 65536);
+        $chunk = @\fread($this->socket, $this->readChunk);
         if ($chunk === false || $chunk === '') {
             $this->closeError('Connection to DNS server ' . $this->nameserver . ' lost');
             return;

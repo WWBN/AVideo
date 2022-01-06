@@ -133,8 +133,8 @@ class HostsFile
 
         $names = array();
         foreach (preg_split('/\r?\n/', $this->contents) as $line) {
-            $parts = preg_split('/\s+/', $line, null, PREG_SPLIT_NO_EMPTY);
-            $addr = array_shift($parts);
+            $parts = preg_split('/\s+/', $line, -1, PREG_SPLIT_NO_EMPTY);
+            $addr = (string) array_shift($parts);
 
             // remove IPv6 zone ID (`fe80::1%lo0` => `fe80:1`)
             if (strpos($addr, ':') !== false && ($pos = strpos($addr, '%')) !== false) {
