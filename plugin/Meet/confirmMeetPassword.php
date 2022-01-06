@@ -1,6 +1,5 @@
 <?php
 require_once '../../videos/configuration.php';
-
 require_once $global['systemRootPath'] . 'plugin/Meet/validateMeet.php';
 
 if (Meet::validatePassword($meet_schedule_id, @$_POST['meet_password'])) {

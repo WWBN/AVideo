@@ -1,10 +1,9 @@
 <?php
-
 $time_start = microtime(true);
 $config = '../../videos/configuration.php';
 session_write_close();
 if (!file_exists($config)) {
-    list($scriptPath) = get_included_files();
+    [$scriptPath] = get_included_files();
     $path = pathinfo($scriptPath);
     $config = $path['dirname'] . "/" . $config;
 }
@@ -41,13 +40,13 @@ if (empty($objClone->cloneSiteURL)) {
     die(json_encode($resp));
 }
 
-$objClone->cloneSiteURL = rtrim($objClone->cloneSiteURL,"/").'/';
+$objClone->cloneSiteURL = rtrim($objClone->cloneSiteURL, "/").'/';
 $objCloneOriginal = $objClone;
 $argv[1] = preg_replace("/[^A-Za-z0-9 ]/", '', @$argv[1]);
 
 if (empty($objClone) || empty($argv[1]) || $objClone->myKey !== $argv[1]) {
     if (!User::isAdmin()) {
-        $resp->msg = "You cant do this";
+        $resp->msg = "You can't do this";
         $log->add("Clone: {$resp->msg}");
         echo "$objClone->myKey !== $argv[1]";
         die(json_encode($resp));
@@ -160,13 +159,13 @@ if (empty($objClone->useRsync)) {
     // decrypt the password now
     $objClone = Plugin::decryptIfNeed($objClone);
     $port = intval($objClone->cloneSiteSSHPort);
-    if(empty($port)){
+    if (empty($port)) {
         $port = 22;
     }
     $rsync = "sshpass -p '{password}' rsync -av -e 'ssh  -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$objClone->cloneSiteSSHIP}:{$json->videosDir} ". Video::getStoragePath()." --log-file='{$log->file}' ";
     $cmd = str_replace("{password}", $objClone->cloneSiteSSHPassword->value, $rsync);
     $log->add("Clone (4 of {$totalSteps}): execute rsync ({$rsync})");
-    
+
     exec($cmd . " 2>&1", $output, $return_val);
     if ($return_val !== 0) {
         //$log->add("Clone Error: " . print_r($output, true));
@@ -193,7 +192,7 @@ $log->add("Clone (7 of {$totalSteps}): Resotre the Clone Configuration");
 $plugin = new CloneSite();
 $p = new Plugin(0);
 $p->loadFromUUID($plugin->getUUID());
-$p->setObject_data(addcslashes(json_encode($objCloneOriginal),'\\'));
+$p->setObject_data(addcslashes(json_encode($objCloneOriginal), '\\'));
 $p->setStatus('active');
 $p->save();
 

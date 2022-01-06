@@ -106,7 +106,7 @@ final class UdpTransportExecutor implements ExecutorInterface
         }
 
         $parts = \parse_url((\strpos($nameserver, '://') === false ? 'udp://' : '') . $nameserver);
-        if (!isset($parts['scheme'], $parts['host']) || $parts['scheme'] !== 'udp' || !\filter_var(\trim($parts['host'], '[]'), \FILTER_VALIDATE_IP)) {
+        if (!isset($parts['scheme'], $parts['host']) || $parts['scheme'] !== 'udp' || @\inet_pton(\trim($parts['host'], '[]')) === false) {
             throw new \InvalidArgumentException('Invalid nameserver address given');
         }
 

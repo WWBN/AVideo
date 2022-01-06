@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';

@@ -15,7 +15,7 @@ if (empty($obj)) {
 $serverStatus = Meet::getMeetServerStatus();
 $moreJibris = "https://upgrade." . Meet::getServer()['domain'] . "/?webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&secret=" . Meet::getSecret();
 $moreJibris = "#";
-$moreJibrisOnclick = "avideoAlert('Comming soon');return false;";
+$moreJibrisOnclick = "avideoAlert('Coming soon');return false;";
 if (User::isAdmin() && empty($serverStatus->error)) {
     ?>
     <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="Unlimited number of meetings"><i class="fas fa-comments"></i> <span class="hidden-sm hidden-xs"><?php echo __("Unlimited"); ?></span></span>
@@ -38,8 +38,7 @@ if (User::isAdmin() && empty($serverStatus->error)) {
                     <i class="fas fa-circle-notch" data-toggle="tooltip" data-placement="bottom" title="Instance <?php echo $jibriObj->instance; ?> is available"></i>
                     <?php
                 }
-            }
-            ?>
+            } ?>
             &nbsp; <a class="fas fa-plus" data-toggle="tooltip" data-placement="bottom" title="Get more streaming services" href="<?php echo $moreJibris; ?>" style="color: white;" onclick="<?php echo $moreJibrisOnclick; ?>"></a>
         </span>
         <?php
@@ -62,7 +61,7 @@ if (User::isAdmin() && empty($serverStatus->error)) {
 </span>
 <?php
 if (!empty($serverStatus->nextUpdate)) {
-    ?>
+                ?>
     <script>
         $(document).ready(function () {
             setTimeout(function () {
@@ -84,12 +83,12 @@ if (!empty($serverStatus->nextUpdate)) {
         });
     </script>
     <?php
-} else {
-    ?>
+            } else {
+                ?>
     <script>
         $(document).ready(function () {
         });
     </script>
     <?php
-}
+            }
 ?>

@@ -135,8 +135,6 @@ class ApiRequestor
      * @param null|array $headers
      *
      * @throws Exception\ApiErrorException
-     *
-     * @return array tuple containing (ApiReponse, API key)
      */
     public function requestStream($method, $url, $readBodyChunkCallable, $params = null, $headers = null)
     {
@@ -461,7 +459,7 @@ class ApiRequestor
 
         if (isset($rheaders['request-id'])
         && \is_string($rheaders['request-id'])
-        && \strlen($rheaders['request-id']) > 0) {
+        && '' !== $rheaders['request-id']) {
             self::$requestTelemetry = new RequestTelemetry(
                 $rheaders['request-id'],
                 Util\Util::currentTimeMillis() - $requestStartMs
@@ -501,7 +499,7 @@ class ApiRequestor
 
         if (isset($rheaders['request-id'])
         && \is_string($rheaders['request-id'])
-        && \strlen($rheaders['request-id']) > 0) {
+        && '' !== $rheaders['request-id']) {
             self::$requestTelemetry = new RequestTelemetry(
                 $rheaders['request-id'],
                 Util\Util::currentTimeMillis() - $requestStartMs

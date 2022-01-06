@@ -117,10 +117,10 @@ class MessageBuffer {
         $memory_limit_bytes = static::getMemoryLimit();
 
         if ($maxMessagePayloadSize === null) {
-            $maxMessagePayloadSize = $memory_limit_bytes / 4;
+            $maxMessagePayloadSize = (int)($memory_limit_bytes / 4);
         }
         if ($maxFramePayloadSize === null) {
-            $maxFramePayloadSize = $memory_limit_bytes / 4;
+            $maxFramePayloadSize = (int)($memory_limit_bytes / 4);
         }
 
         if (!is_int($maxFramePayloadSize) || $maxFramePayloadSize > 0x7FFFFFFFFFFFFFFF || $maxFramePayloadSize < 0) { // this should be interesting on non-64 bit systems

@@ -2,6 +2,7 @@
 require_once '../../../videos/configuration.php';
 AVideoPlugin::loadPlugin("LoginControl");
 require_once $global['systemRootPath'] . 'plugin/LoginControl/pgp/functions.php';
+
 ?>
 <!DOCTYPE html>
 <html>

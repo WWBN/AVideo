@@ -6,9 +6,9 @@ $obj = AVideoPlugin::getObjectData("LoginControl");
         <?php echo __("Login History") ?>
     </a>
 </li>
-<?php 
-if($obj->enablePGP2FA){
-?>
+<?php
+if ($obj->enablePGP2FA) {
+    ?>
 <li>
     <a data-toggle="tab" href="#pgp2fa" id="aloginControlpgp2fa">
         <?php echo __("PGP 2FA") ?>

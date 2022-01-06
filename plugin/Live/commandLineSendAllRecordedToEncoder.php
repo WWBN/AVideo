@@ -19,12 +19,12 @@ foreach ($files as $file) {
     preg_match($pattern, $file, $matches);
     if (!empty($matches[1])) {
         $filePath = $file;
-        $postFields = array(
+        $postFields = [
             "app" => "live",
             "tcurl" => "rtmp://$liveServerURL:1935/live",
             "name" => $matches[1],
-            "path" => $filePath
-        );
+            "path" => $filePath,
+        ];
         $target = $streamerServerURL . "plugin/Live/on_record_done.php?secretRecorderKey={$secretRecorderKey}";
         echo "Sending to $target filesize=". humanFileSize(filesize($filePath))." ". json_encode($postFields).PHP_EOL;
         $curl = curl_init();
@@ -33,8 +33,8 @@ foreach ($files as $file) {
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_SAFE_UPLOAD, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         $r = curl_exec($curl);
         if ($errno = curl_errno($curl)) {
             $error_message = curl_strerror($errno);
@@ -44,12 +44,13 @@ foreach ($files as $file) {
             echo " **** Success ".$r.PHP_EOL;
         }
         curl_close($curl);
-    }else{
+    } else {
         echo "ERROR pattern does not match ".PHP_EOL;
     }
 }
 
-function humanFileSize($size, $unit = "") {
+function humanFileSize($size, $unit = "")
+{
     if ((!$unit && $size >= 1 << 30) || $unit == "GB") {
         return number_format($size / (1 << 30), 2) . "GB";
     }

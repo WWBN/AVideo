@@ -1,5 +1,4 @@
 <?php
-
 // check recurrent payments
 header('Content-Type: application/json');
 
@@ -8,6 +7,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
+
 _error_log("PayPalIPN V2 Start");
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = AVideoPlugin::getObjectData("YPTWallet");
@@ -51,7 +51,7 @@ if (!empty($_GET['token'])) {
         _error_log("PayPalIPN V2: token will be processed ");
         $agreement = $paypal->execute();
         //_error_log("PayPalIPN V2: agreement ". print_r($agreement->getAgreementDetails()->getLastPaymentAmount()->getValue(), true));
-        
+
         if ($agreement->getState() !== 'Active') {
             $obj->msg = 'The Agreement is not active yet ';
             _error_log("PayPalIPN V2: {$obj->msg} ");
@@ -76,7 +76,7 @@ if (!empty($_GET['token'])) {
         $pp->setAgreement_id($agreement->id);
         $pp->setToken($_GET['token']);
         $pp->setValue($payment_amount);
-        $pp->setJson(array('post' => $_POST, 'get' => $_GET));
+        $pp->setJson(['post' => $_POST, 'get' => $_GET]);
     } else {
         _error_log("PayPalIPN V2: token was already processed ");
     }
@@ -99,7 +99,7 @@ if (!empty($_GET['token'])) {
         $pp->setUsers_id($json->users_id);
         $pp->setRecurring_payment_id($_POST["verify_sign"]);
         $pp->setValue($payment_amount);
-        $pp->setJson(array('ipn' => $ipn, 'post' => $_POST, 'get' => $_GET));
+        $pp->setJson(['ipn' => $ipn, 'post' => $_POST, 'get' => $_GET]);
     } else {
         _error_log("PayPalIPN V2: verify_sign was already processed ");
     }
@@ -139,4 +139,3 @@ if (!empty($json->type)) {
 }
 
 _error_log("PayPalIPN V2 END");
-?>

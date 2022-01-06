@@ -1,5 +1,4 @@
 <?php
-
 $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
 
@@ -30,7 +29,7 @@ $countSiteIdNotEmpty = 0;
 $countStatusNotActive = 0;
 $countMoved = 0;
 
-$sites_id_to_move = array();
+$sites_id_to_move = [];
 
 foreach ($videos as $value) {
     $count++;
@@ -78,4 +77,3 @@ foreach ($sites_id_to_move as $key => $value) {
 echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;
 echo PHP_EOL . " Done! " . PHP_EOL;
 die();
-

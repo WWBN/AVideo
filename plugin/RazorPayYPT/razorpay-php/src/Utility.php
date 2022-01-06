@@ -24,10 +24,20 @@ class Utility
 
             $payload = $paymentId . '|' . $subscriptionId;
         }
+        else if (isset($attributes['razorpay_payment_link_id']) === true)
+        {
+            $paymentLinkId     = $attributes['razorpay_payment_link_id'];
+
+            $paymentLinkRefId  = $attributes['razorpay_payment_link_reference_id'];
+
+            $paymentLinkStatus = $attributes['razorpay_payment_link_status'];
+
+            $payload = $paymentLinkId . '|'. $paymentLinkRefId . '|' . $paymentLinkStatus . '|' . $paymentId;
+        }
         else
         {
             throw new Errors\SignatureVerificationError(
-                'Either razorpay_order_id or razorpay_subscription_id must be present.');
+                'Either razorpay_order_id or razorpay_subscription_id or razorpay_payment_link_id must be present.');
         }
 
         $secret = Api::getSecret();

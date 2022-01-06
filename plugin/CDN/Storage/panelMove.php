@@ -7,7 +7,7 @@
             <?php
             $totalL = $totalR = $totalFileSizeR = $totalFileSizeL = 0;
             $list = CDNStorage::getFilesListBoth($videos_id);
-            $listString = array();
+            $listString = [];
             foreach ($list as $key => $value) {
                 if (!empty($value['local']['local_filesize']) && $value['local']['local_filesize'] > 20 && $value['local']['local_filesize'] > 0) {
                     $totalL++;
@@ -33,9 +33,8 @@
                     <i class="fas fa-project-diagram"></i>
                     <?php
                     printf(__('Upload %d files to storage'), $totalL);
-                    $humanSize = humanFileSize($totalFileSizeL);
-                    echo ' (' . $humanSize . ')';
-                    ?>
+                $humanSize = humanFileSize($totalFileSizeL);
+                echo ' (' . $humanSize . ')'; ?>
                 </button>
                 <script>
 
@@ -59,17 +58,15 @@
                 <?php
             }
             if ($totalR) {
-                if(empty($totalL)){
+                if (empty($totalL)) {
                     CDNStorage::setSite($videos_id, true);
-                }
-                ?>
+                } ?>
                 <button type="button" class="btn btn-success" onclick="CDNStorageDownload();">
                     <i class="fas fa-project-diagram"></i>
                     <?php
                     printf(__('Download %d files to disk'), $totalR);
-                    $humanSize = humanFileSize($totalFileSizeR);
-                    echo ' (' . $humanSize . ')';
-                    ?>
+                $humanSize = humanFileSize($totalFileSizeR);
+                echo ' (' . $humanSize . ')'; ?>
                 </button>
                 <script>
 

@@ -1,5 +1,4 @@
 <?php
-
 $objM = AVideoPlugin::getObjectDataIfEnabled("Meet");
 //_error_log(json_encode($_SERVER));
 if (empty($objM)) {
@@ -13,7 +12,7 @@ if (empty($meet_schedule_id)) {
 }
 
 $meet = new Meet_schedule($meet_schedule_id);
-if(empty($meet->getCleanName())){
+if (empty($meet->getCleanName())) {
     forbiddenPage("meet not found");
 }
 

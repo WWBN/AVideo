@@ -17,7 +17,7 @@ $tmp_name = "{$global['systemRootPath']}plugin/CDN/Storage/test.txt";
 $filename = "test.txt";
 $remote_file = "{$filename}";
 
-echo '<h2>Transfering...</h2>' . PHP_EOL;
+echo '<h2>Transferring...</h2>' . PHP_EOL;
 
 echo '<h4>Test 1 Default configuration</h4>' . PHP_EOL;
 echo '<h4>Test 1 Default configuration</h4>' . PHP_EOL;

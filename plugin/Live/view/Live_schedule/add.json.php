@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_schedule.php';
@@ -8,18 +9,18 @@ $obj->error = true;
 $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('Live');
-                                                
-if(!User::canStream()){
+
+if (!User::canStream()) {
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
 
-if(empty($_POST['title'])){
+if (empty($_POST['title'])) {
     $obj->msg = "invalid title";
     die(json_encode($obj));
 }
 
-if(empty($_POST['scheduled_time'])){
+if (empty($_POST['scheduled_time'])) {
     $obj->msg = "invalid date";
     die(json_encode($obj));
 }
@@ -37,10 +38,10 @@ $o->setStatus($_POST['status']);
 //$o->setSaveTransmition($_POST['saveTransmition']);
 //$o->setShowOnTV($_POST['showOnTV']);
 
-if($id = $o->save()){
+if ($id = $o->save()) {
     $obj->msg = "{$_POST['title']} ".__('Saved');
     $obj->error = false;
-}else{
+} else {
     $obj->msg = __('Error on save')." {$_POST['title']}";
 }
 

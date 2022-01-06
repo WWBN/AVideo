@@ -67,18 +67,16 @@ if (empty($obj->hideTopButton)) {
                         </button>
                         <?php
                     }
-                    if (Live::canScheduleLive()) {
-                        ?>
+                if (Live::canScheduleLive()) {
+                    ?>
                         <button class="btn btn-primary btn-sm" onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>" >
                             <i class="far fa-calendar"></i> <span class="hidden-sm hidden-xs"><?php echo __('Schedule'); ?></span>
                         </button>
                         <?php
-                    }
-                    ?>
+                } ?>
                 </div>
                 <?php
-            }
-            ?>
+            } ?>
             <div id="availableLiveStream">
 
             </div>
@@ -106,8 +104,7 @@ if (empty($obj->hideTopButton)) {
                 <?php
                 if (AVideoPlugin::isEnabledByName("LiveUsers") && method_exists("LiveUsers", "getLabels")) {
                     echo LiveUsers::getLabels('extraVideosModelOnLineLabels');
-                }
-                ?>
+                } ?>
             </div>
         </div>
     </div>
@@ -149,10 +146,9 @@ if (empty($obj->hideTopButton)) {
     <?php
     if (!empty($obj->playLiveInFullScreenOnIframe)) {
         echo 'if (typeof linksToFullscreen === \'function\') {linksToFullscreen(\'.liveVideo a, #availableLiveStream a\');}';
-    } else if (!empty($obj->playLiveInFullScreen)) {
+    } elseif (!empty($obj->playLiveInFullScreen)) {
         echo 'if (typeof linksToEmbed === \'function\') {linksToEmbed(\'.liveVideo a, #availableLiveStream a\');}';
-    }
-    ?>
+    } ?>
             }, 200);
         }
 
@@ -268,7 +264,7 @@ if (empty($obj->hideTopButton)) {
         ?>
                     html = application.htmlExtraVideoListItem;
         <?php
-    } else if (isLive()) {
+    } elseif (isLive()) {
         ?>
                     html = application.htmlExtraVideoPage;
         <?php
@@ -276,8 +272,7 @@ if (empty($obj->hideTopButton)) {
         ?>
                     html = application.htmlExtra;
         <?php
-    }
-    ?>
+    } ?>
                 var id = $(html).attr('id').replace(/[&=]/g, '');
                 if ($('#' + id).length) {
                     //console.log('processApplication key found', id);
@@ -304,10 +299,9 @@ if (empty($obj->hideTopButton)) {
     <?php
     if (!empty($obj->playLiveInFullScreenOnIframe)) {
         echo 'if (typeof linksToFullscreen === \'function\') {linksToFullscreen(\'.liveVideo a, #availableLiveStream a\');}';
-    } else if (!empty($obj->playLiveInFullScreen)) {
+    } elseif (!empty($obj->playLiveInFullScreen)) {
         echo 'if (typeof linksToEmbed === \'function\') {linksToEmbed(\'.liveVideo a, #availableLiveStream a\');}';
-    }
-    ?>
+    } ?>
                 avideoSocket();
             }, 500);
             if (application.users && typeof application.users.views !== 'undefined') {
@@ -402,8 +396,7 @@ if (empty($obj->hideTopButton)) {
     <?php
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         echo 'processLiveStats(' . json_encode(getStatsNotifications()) . ');';
-    }
-    ?>
+    } ?>
         });
     </script>
     <?php

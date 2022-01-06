@@ -10,7 +10,7 @@ $obj->error = true;
 $plugin = AVideoPlugin::loadPluginIfEnabled('Meet');
 
 if (!is_array($_POST['id'])) {
-    $_POST['id'] = array($_POST['id']);
+    $_POST['id'] = [$_POST['id']];
 }
 
 foreach ($_POST['id'] as $value) {
@@ -18,7 +18,7 @@ foreach ($_POST['id'] as $value) {
     $row = new Meet_schedule($id);
 
     if (!$row->canManageSchedule()) {
-        $obj->msg = "You cant do this";
+        $obj->msg = "You can't do this";
         die(json_encode($obj));
     }
 
@@ -26,4 +26,3 @@ foreach ($_POST['id'] as $value) {
 }
 
 die(json_encode($obj));
-?>

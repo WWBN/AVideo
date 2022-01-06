@@ -30,7 +30,7 @@
         "react/cache": "^1.0 || ^0.6 || ^0.5",
         "react/event-loop": "^1.2",
         "react/promise": "^3.0 || ^2.7 || ^1.2.1",
-        "react/promise-timer": "^1.2"
+        "react/promise-timer": "^1.8"
     },
     "require-dev": {
         "clue/block-react": "^1.2",

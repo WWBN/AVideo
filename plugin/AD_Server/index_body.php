@@ -471,10 +471,10 @@ if (!User::isAdmin()) {
                         avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
 <?php
 if (!empty($ad_server_location)) {
-    ?>
+                                        ?>
                             $('#locationList').empty();
     <?php
-}
+                                    }
 ?>
                         $("#panelForm").trigger("reset");
                     }

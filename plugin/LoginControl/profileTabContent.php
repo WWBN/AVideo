@@ -4,13 +4,13 @@ $obj = AVideoPlugin::getObjectData("LoginControl");
 $pass = time();
 $keys = createKeys('Test <test@example.com>', $pass);
 
-if(User::isAdmin() && !empty($_REQUEST['users_id'])){
+if (User::isAdmin() && !empty($_REQUEST['users_id'])) {
     $users_id = intval($_REQUEST['users_id']);
 }
-if(empty($users_id)){
+if (empty($users_id)) {
     $users_id = User::getId();
 }
-if(empty($users_id)){
+if (empty($users_id)) {
     forbiddenPage('Empty user ID');
 }
 
@@ -43,9 +43,9 @@ if(empty($users_id)){
         </div>
     </div>
 </div>
-<?php 
-if($obj->enablePGP2FA){
-?>
+<?php
+if ($obj->enablePGP2FA) {
+    ?>
 <div id="pgp2fa" class="tab-pane fade"  style="padding: 10px 0;">
     <div class="panel panel-default">
         <div class="panel-heading">

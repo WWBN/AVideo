@@ -1,4 +1,5 @@
 <?php
+
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/captcha.php';
 session_write_close();
@@ -32,7 +33,7 @@ if (empty($wallet)) {
     die(json_encode($obj));
 }
 
-if(empty($cu->disableCaptchaOnWalletDirectTransferDonation)){
+if (empty($cu->disableCaptchaOnWalletDirectTransferDonation)) {
     $valid = Captcha::validation(@$_POST['captcha']);
 
     if (empty($valid)) {
@@ -58,8 +59,7 @@ if (!empty($_POST['videos_id'])) {
         $obj->error = false;
         AVideoPlugin::afterDonation(User::getId(), $value, $videos_id, 0);
     }
-} else if (!empty($_POST['users_id'])) {
-
+} elseif (!empty($_POST['users_id'])) {
     $users_id = intval($_POST['users_id']);
     if (empty($users_id)) {
         $obj->msg = "User id is empty";

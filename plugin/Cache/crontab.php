@@ -10,7 +10,7 @@ $daysLimit = 3;
 
 // delete object cache
 $cacheDir = ObjectYPT::getCacheDir();
-if(empty($cacheDir) || !preg_match('/YPTObjectCache/', $cacheDir)){
+if (empty($cacheDir) || !preg_match('/YPTObjectCache/', $cacheDir)) {
     die('Wrong dir: '.$cacheDir);
 }
 _error_log('crontab.php: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -22,7 +22,7 @@ exec($cmd);
 
 //delete site cache
 $cacheDir = getCacheDir();
-if(empty($cacheDir) || !preg_match('/cache/', $cacheDir)){
+if (empty($cacheDir) || !preg_match('/cache/', $cacheDir)) {
     die('Wrong dir: '.$cacheDir);
 }
 echo "deleting {$cacheDir}".PHP_EOL;

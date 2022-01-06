@@ -34,7 +34,7 @@ if (!empty($_REQUEST['live_schedule'])) {
     $ls = new Live_schedule($_REQUEST['live_schedule']);
     $liveTitle = $ls->getTitle();
     global $getLiveKey;
-    $getLiveKey = array('key' => $ls->getKey(), 'live_servers_id' => intval($ls->getLive_servers_id()), 'live_index' => '', 'cleanKey' => '');
+    $getLiveKey = ['key' => $ls->getKey(), 'live_servers_id' => intval($ls->getLive_servers_id()), 'live_index' => '', 'cleanKey' => ''];
 }
 $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'], @$_REQUEST['live_schedule']);
 ?>

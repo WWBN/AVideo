@@ -1,5 +1,45 @@
 # Changelog
 
+## 7.108.0 - 2021-12-22
+* [#1226](https://github.com/stripe/stripe-php/pull/1226) Upgrade php-cs-fixer to 3.4.0.
+* [#1222](https://github.com/stripe/stripe-php/pull/1222) API Updates
+  * Add support for `processing` on `PaymentIntent`
+* [#1220](https://github.com/stripe/stripe-php/pull/1220) API Updates
+
+## 7.107.0 - 2021-12-09
+* [#1219](https://github.com/stripe/stripe-php/pull/1219) API Updates
+  * Add support for `metadata` on `BillingPortal.Configuration`
+  * Add support for `wallets` on `Issuing.Card`
+
+## 7.106.0 - 2021-12-09
+* [#1218](https://github.com/stripe/stripe-php/pull/1218) API Updates
+  * Add support for new values `ge_vat` and `ua_vat` on enum `TaxId.type`
+* [#1216](https://github.com/stripe/stripe-php/pull/1216) Fix namespaced classes in @return PHPDoc.
+* [#1214](https://github.com/stripe/stripe-php/pull/1214) Announce PHP8 support in CHANGELOG.md
+
+## 7.105.0 - 2021-12-06
+* [#1213](https://github.com/stripe/stripe-php/pull/1213) PHP 8.1 missing ReturnTypeWillChange annotations.
+* As of this version, PHP 8.1 is officially supported.
+
+## 7.104.0 - 2021-12-01
+* [#1211](https://github.com/stripe/stripe-php/pull/1211) PHPStan compatibility with PHP8.x
+* [#1209](https://github.com/stripe/stripe-php/pull/1209) PHPUnit compatibility with PHP 8.x
+
+## 7.103.0 - 2021-11-19
+* [#1206](https://github.com/stripe/stripe-php/pull/1206) API Updates
+  * Add support for new value `jct` on enum `TaxRate.tax_type`
+
+## 7.102.0 - 2021-11-17
+* [#1205](https://github.com/stripe/stripe-php/pull/1205) API Updates
+  * Add support for `automatic_payment_methods` on `PaymentIntent`
+
+## 7.101.0 - 2021-11-16
+* [#1203](https://github.com/stripe/stripe-php/pull/1203) API Updates
+  * Add support for new resource `ShippingRate`
+  * Add support for `shipping_options` and `shipping_rate` on `Checkout.Session`
+  * Add support for `expire` method on resource `Checkout.Session`
+  * Add support for `status` on `Checkout.Session`
+
 ## 7.100.0 - 2021-10-11
 * [#1190](https://github.com/stripe/stripe-php/pull/1190) API Updates
   * Add support for `klarna` on `PaymentMethod`.

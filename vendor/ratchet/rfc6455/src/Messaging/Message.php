@@ -12,11 +12,13 @@ class Message implements \IteratorAggregate, MessageInterface {
      */
     private $len;
 
+    #[\ReturnTypeWillChange]
     public function __construct() {
         $this->_frames = new \SplDoublyLinkedList;
         $this->len = 0;
     }
 
+    #[\ReturnTypeWillChange]
     public function getIterator() {
         return $this->_frames;
     }
@@ -24,6 +26,7 @@ class Message implements \IteratorAggregate, MessageInterface {
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function count() {
         return count($this->_frames);
     }
@@ -31,6 +34,7 @@ class Message implements \IteratorAggregate, MessageInterface {
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function isCoalesced() {
         if (count($this->_frames) == 0) {
             return false;

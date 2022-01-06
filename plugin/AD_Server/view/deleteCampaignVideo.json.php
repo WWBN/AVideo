@@ -1,4 +1,5 @@
 <?php
+
 require_once '../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaignsVideos.php';
 header('Content-Type: application/json');
@@ -8,15 +9,15 @@ $obj->error = true;
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('AD_Server');
 
-if(!User::isAdmin()){
-    $obj->msg = "You cant do this";
+if (!User::isAdmin()) {
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 
 $id = intval($_POST['id']);
 $row = new VastCampaignsVideos($id);
-if(User::isAdmin()){
-    $obj->error = !$row->delete();;
+if (User::isAdmin()) {
+    $obj->error = !$row->delete();
+    ;
 }
 die(json_encode($obj));
-?>

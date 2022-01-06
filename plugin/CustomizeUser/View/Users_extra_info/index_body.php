@@ -30,7 +30,7 @@ if (!User::isAdmin()) {
                                     <label for="order"><?php echo __("order"); ?>:</label>
                                     <select class="form-control input-sm" name="order" id="Users_extra_infoorder">
                                         <?php
-                                        for($i=0;$i<20;$i++){
+                                        for ($i=0;$i<20;$i++) {
                                             echo '<option value="'.$i.'">'.$i.'</option>';
                                         }
                                         ?>

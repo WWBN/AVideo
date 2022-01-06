@@ -9,7 +9,7 @@ $obj = AVideoPlugin::getObjectData("PayPalYPT");
 // After Step 1
 
 /**
- *  
+ *
  * https://stackoverflow.com/questions/20494944/how-to-create-clientid-and-clientsecret-for-oauthtokencredential-paypal-rest-api
 You need to follow the following steps:
 
@@ -21,18 +21,18 @@ You need to follow the following steps:
  */
 
 $apiContext = new \PayPal\Rest\ApiContext(
-        new \PayPal\Auth\OAuthTokenCredential(
-            $obj->ClientID,     // ClientID
+    new \PayPal\Auth\OAuthTokenCredential(
+        $obj->ClientID,     // ClientID
             $obj->ClientSecret      // ClientSecret
-        )
+    )
 );
 
 // Step 2.1 : Between Step 2 and Step 3
 $apiContext->setConfig(
-      array(
-        'mode' => ($obj->disableSandbox?'LIVE':'sandbox'),
+    [
+        'mode' => ($obj->disableSandbox ? 'LIVE' : 'sandbox'),
         'log.LogEnabled' => true,
         'log.FileName' => $global['systemRootPath'].'videos/PayPal.log',
-        'log.LogLevel' => 'DEBUG'
-      )
+        'log.LogLevel' => 'DEBUG',
+      ]
 );

@@ -25,7 +25,7 @@ if (empty($_REQUEST['videos_id'])) {
     die(json_encode($obj));
 }
 if (!is_array($_REQUEST['videos_id'])) {
-    $_REQUEST['videos_id'] = array($_REQUEST['videos_id']);
+    $_REQUEST['videos_id'] = [$_REQUEST['videos_id']];
 }
 
 _error_log('Start to move file ');
@@ -41,7 +41,6 @@ foreach ($_REQUEST['videos_id'] as $videos_id) {
     $obj->error = false;
     //$obj->response = CDNStorage::moveLocalToRemote($videos_id);
     $obj->response = CDNStorage::put($videos_id, 4);
-
 }
 _error_log('Finish to move file ');
 echo json_encode($obj);

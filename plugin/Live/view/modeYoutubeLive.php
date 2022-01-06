@@ -62,7 +62,7 @@ if (!empty($_REQUEST['live_schedule'])) {
     $liveUrl = addQueryStringParameter($liveUrl, 'live_schedule', $_REQUEST['live_schedule']);
     $img = addQueryStringParameter($img, 'live_schedule', $_REQUEST['live_schedule']);
     global $getLiveKey;
-    $getLiveKey = array('key' => $ls->getKey(), 'live_servers_id' => intval($ls->getLive_servers_id()), 'live_index' => '', 'cleanKey' => '');
+    $getLiveKey = ['key' => $ls->getKey(), 'live_servers_id' => intval($ls->getLive_servers_id()), 'live_index' => '', 'cleanKey' => ''];
 }
 
 
@@ -122,8 +122,7 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                     </div>  
                     <div class="col-md-12">
                         <?php
-                        require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
-                        ?>
+                        require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php"; ?>
                     </div>  
                     <div class="col-md-12">
                         <center style="margin:5px;">
@@ -148,8 +147,7 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                             </div>  
                             <div class="col-md-12">
                                 <?php
-                                require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php";
-                                ?>
+                                require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php"; ?>
                             </div>  
                             <div class="col-md-12">
                                 <center style="margin:5px;">

@@ -9,13 +9,13 @@ $obj->users_id = @$_REQUEST['users_id'];
 $obj->id = 0;
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('LoginControl');
-                                                
-if(!User::isAdmin()){
-    $obj->msg = "You cant do this";
+
+if (!User::isAdmin()) {
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 
-if(empty($obj->users_id)){
+if (empty($obj->users_id)) {
     $obj->msg = "users_id cannot be empty";
     die(json_encode($obj));
 }
@@ -23,7 +23,7 @@ if(empty($obj->users_id)){
 $obj->id = LoginControl::setPGPKey($obj->users_id, '');
 
 $obj->error = empty($obj->id);
-if(!$obj->error){
+if (!$obj->error) {
     $obj->msg = __('PGP Key removed');
 }
 

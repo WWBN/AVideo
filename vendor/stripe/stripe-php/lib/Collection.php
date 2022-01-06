@@ -47,6 +47,7 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
         $this->filters = $filters;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($k)
     {
         if (\is_string($k)) {
@@ -107,6 +108,7 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
     /**
      * @return int the number of objects in the current page
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->data);
@@ -116,6 +118,7 @@ class Collection extends StripeObject implements \Countable, \IteratorAggregate
      * @return \ArrayIterator an iterator that can be used to iterate
      *    across objects in the current page
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator($this->data);

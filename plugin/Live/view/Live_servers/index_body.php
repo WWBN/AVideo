@@ -20,8 +20,8 @@ $obj = AVideoPlugin::getObjectData("Live");
     </div>
     <div class="panel-body">
         <?php
-        if(empty($obj->useLiveServers)){
-        ?>
+        if (empty($obj->useLiveServers)) {
+            ?>
         <div class="alert alert-danger">
             Live Servers is Disabled, if you want to use it, enable it on the (Live) Plugin
         </div>

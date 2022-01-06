@@ -17,11 +17,10 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
             <i class="fas fa-donate"></i> <small class="hidden-sm hidden-xs"><?php echo __("Please login to donate"); ?></small>
         </a>    
         <?php
-    } else if (class_exists("YPTWallet")) {
+    } elseif (class_exists("YPTWallet")) {
         $u = new User($video['users_id']);
         $uid = uniqid();
-        $captcha = User::getCaptchaForm($uid);
-        ?>
+        $captcha = User::getCaptchaForm($uid); ?>
         <button class="btn btn-success no-outline" onclick="openDonationMoodal<?php echo $uid; ?>();">
             <i class="fas fa-donate"></i> <small class="hidden-sm hidden-xs"><?php echo __($obj->donationWalletButtonLabel); ?></small>
         </button>   
@@ -56,8 +55,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                                     </div>
                                 </div>
                                 <?php
-                            }
-                            ?>
+                            } ?>
                         </form>
                     </div>
                     <div class="modal-footer">

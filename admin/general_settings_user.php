@@ -9,7 +9,7 @@ $filter = array(
     'doNotIndentifyByUserName'=>__('Do not show user\'s username on the site'),
     'unverifiedEmailsCanNOTLogin'=>__('Users must verify their emails before login'),
     'onlyVerifiedEmailCanUpload'=>__('Users must verify their emails before upload/submit videos'),
-    'sendVerificationMailAutomaic'=>__('After sign up we will automatic send a verification email'),
+    'sendVerificationMailAutomatic'=>__('After sign up we will automatic send a verification email'),
     'userMustBeLoggedIn'=>__('Hide the website to non logged users')
 );
 createTable("CustomizeUser", $filter);
