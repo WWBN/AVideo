@@ -5581,7 +5581,7 @@ function getSharePopupButton($videos_id, $url = "", $title = "") {
     include $global['systemRootPath'] . 'view/include/socialModal.php';
 }
 
-function forbiddenPage($message, $logMessage = false, $unlockPassword='', $namespace='') {
+function forbiddenPage($message='', $logMessage = false, $unlockPassword='', $namespace='') {
     global $global;
     if(!empty($unlockPassword)){
         if(empty($namespace)){
