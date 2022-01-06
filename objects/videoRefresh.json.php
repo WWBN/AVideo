@@ -1,11 +1,11 @@
 <?php
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
-if(!empty($_GET['id'])){
+if (!empty($_GET['id'])) {
     $_POST['id'] = $_GET['id'];
 }
 if (!Permissions::canModerateVideos() || empty($_POST['id'])) {
@@ -14,26 +14,26 @@ if (!Permissions::canModerateVideos() || empty($_POST['id'])) {
 
 require_once 'video.php';
 $obj = new Video("", "", $_POST['id']);
-if(empty($obj)){
+if (empty($obj)) {
     die("Object not found");
 }
 $file = $global['systemRootPath']."videos/original_".$obj->getFilename();
 
-if(!file_exists($file)){
+if (!file_exists($file)) {
     $file = $global['systemRootPath']."videos/".$obj->getFilename().".mp4";
-    if(!file_exists($file)){
+    if (!file_exists($file)) {
         $file = $global['systemRootPath']."videos/".$obj->getFilename().".mp3";
     }
 }
-if(file_exists($file)){
+if (file_exists($file)) {
     $duration = Video::getDurationFromFile($file);
     $data = Video::getVideoConversionStatus($obj->getFilename());
 
     $obj->setDuration($duration);
-    if($data->webm->progress == 100 && $data->mp4->progress == 100 && $obj->getStatus()!='i'){
+    if ($data->webm->progress == 100 && $data->mp4->progress == 100 && $obj->getStatus()!='i') {
         $obj->setStatus('a');
     }
-}else{
+} else {
     $obj->setStatus('i');
     $obj->setDuration('0:00:00.000000');
 }

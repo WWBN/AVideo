@@ -39,8 +39,7 @@ if (empty($advancedCustom->openEncoderInIFrame) || !isSameDomainAsMyAVideo($conf
             <?php
         }
     }
-}else{
-    
+} else {
     if (!empty($advancedCustom->encoderNetwork) && empty($advancedCustom->doNotShowEncoderNetwork)) {
         ?>
         <li>

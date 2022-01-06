@@ -1,6 +1,6 @@
 <?php
 $theme = "default";
-if(!empty($_REQUEST['theme'])){
+if (!empty($_REQUEST['theme'])) {
     $theme = $_REQUEST['theme'];
 }
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
@@ -83,7 +82,7 @@ if (!empty($users_id)) {
         CustomizeUser::setCanShareVideosFromUser($users_id, true);
     }
     if (!empty($advancedCustomUser->userDefaultUserGroup->value)) { // for new users use the default usergroup
-        UserGroups::updateUserGroups($users_id, array($advancedCustomUser->userDefaultUserGroup->value), true);
+        UserGroups::updateUserGroups($users_id, [$advancedCustomUser->userDefaultUserGroup->value], true);
     }
     AVideoPlugin::onUserSignup($users_id);
 }

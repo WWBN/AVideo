@@ -1,12 +1,17 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-class Captcha{
-    private $largura, $altura, $tamanho_fonte, $quantidade_letras;
+class Captcha
+{
+    private $largura;
+    private $altura;
+    private $tamanho_fonte;
+    private $quantidade_letras;
 
-    function __construct($largura, $altura, $tamanho_fonte, $quantidade_letras) {
+    public function __construct($largura, $altura, $tamanho_fonte, $quantidade_letras)
+    {
         $this->largura = $largura;
         $this->altura = $altura;
         $this->tamanho_fonte = $tamanho_fonte;
@@ -14,10 +19,11 @@ class Captcha{
     }
 
 
-    public function getCaptchaImage() {
+    public function getCaptchaImage()
+    {
         global $global;
         header('Content-type: image/jpeg');
-        $imagem = imagecreate($this->largura,$this->altura); // define a largura e a altura da imagem
+        $imagem = imagecreate($this->largura, $this->altura); // define a largura e a altura da imagem
         $fonte = $global['systemRootPath'] . 'objects/monof55.ttf'; //voce deve ter essa ou outra fonte de sua preferencia em sua pasta
         $preto  = imagecolorallocate($imagem, 0, 0, 0); // define a cor preta
         $branco = imagecolorallocate($imagem, 255, 255, 255); // define a cor branca
@@ -26,7 +32,7 @@ class Captcha{
         //$letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnPpQqRrSsTtUuVvYyXxWwZz23456789';
         $letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnPpQqRrSsTtUuVvYyXxWwZz23456789';
         $palavra = substr(str_shuffle($letters), 0, ($this->quantidade_letras));
-        if(User::isAdmin()){
+        if (User::isAdmin()) {
             $palavra = "admin";
         }
         _session_start();
@@ -49,20 +55,20 @@ class Captcha{
         //_error_log("getCaptchaImage _SESSION[palavra] = ($_SESSION[palavra]) - session_name ". session_name()." session_id: ". session_id());
     }
 
-    static public function validation($word) {
-        if(User::isAdmin()){
+    public static function validation($word)
+    {
+        if (User::isAdmin()) {
             return true;
         }
         _session_start();
-        if(empty($_SESSION["palavra"])){
+        if (empty($_SESSION["palavra"])) {
             _error_log("Captcha validation Error: you type ({$word}) and session is empty - session_name ". session_name()." session_id: ". session_id());
             return false;
         }
         $validation = (strcasecmp($word, $_SESSION["palavra"]) == 0);
-        if(!$validation){
+        if (!$validation) {
             _error_log("Captcha validation Error: you type ({$word}) and session is ({$_SESSION["palavra"]})- session_name ". session_name()." session_id: ". session_id());
         }
         return $validation;
     }
-
 }

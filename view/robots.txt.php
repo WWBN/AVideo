@@ -1,5 +1,4 @@
 <?php
-
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';

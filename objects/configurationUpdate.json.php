@@ -58,26 +58,26 @@ if (!is_writable($global['systemRootPath'] . $imagePath)) {
     print json_encode($response);
     return;
 }
- * 
+ *
  */
-$response = array();
+$response = [];
 if (!empty($_POST['logoImgBase64'])) {
     $fileData = base64DataToImage($_POST['logoImgBase64']);
     $fileName = 'logo.png';
     $photoURL = $imagePath . $fileName;
     $bytes = file_put_contents($global['systemRootPath'] . $photoURL, $fileData);
     if ($bytes > 10) {
-        $response = array(
+        $response = [
             "status" => 'success',
-            "url" => $global['systemRootPath'] . $photoURL
-        );
+            "url" => $global['systemRootPath'] . $photoURL,
+        ];
         $config->setLogo($photoURL);
     } else {
-        $response = array(
+        $response = [
             "status" => 'error',
             "msg" => 'We could not save logo',
-            "url" => $global['systemRootPath'] . $photoURL
-        );
+            "url" => $global['systemRootPath'] . $photoURL,
+        ];
     }
 }
 if (!empty($_POST['faviconBase64'])) {
@@ -87,27 +87,27 @@ if (!empty($_POST['faviconBase64'])) {
     $photoURL = $imagePath . $fileName;
     $bytes = file_put_contents($global['systemRootPath'] . $photoURL, $fileData);
     if ($bytes > 10) {
-        $response2 = array(
+        $response2 = [
             "status" => 'success',
-            "url" => $global['systemRootPath'] . $photoURL
-        );
+            "url" => $global['systemRootPath'] . $photoURL,
+        ];
 
-        $sizes = array(
-            array(16, 16),
-            array(24, 24),
-            array(32, 32),
-            array(48, 48),
-            array(144, 144)
-        );
+        $sizes = [
+            [16, 16],
+            [24, 24],
+            [32, 32],
+            [48, 48],
+            [144, 144],
+        ];
 
         $ico_lib = new PHP_ICO($global['systemRootPath'] . $photoURL, $sizes);
         $ico_lib->save_ico($global['systemRootPath'] . $imagePath.'favicon.ico');
     } else {
-        $response2 = array(
+        $response2 = [
             "status" => 'error',
             "msg" => 'We could not save favicon',
-            "url" => $global['systemRootPath'] . $photoURL
-        );
+            "url" => $global['systemRootPath'] . $photoURL,
+        ];
     }
 }
 

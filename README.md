@@ -168,6 +168,6 @@ docker-compose up --build -d
 
 ## git clone
 
-After a git clone command run this 
+After a git clone command run this
 
 composer update --prefer-dist --ignore-platform-reqs

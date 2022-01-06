@@ -1,29 +1,28 @@
 <?php
-
 require_once 'subscribe.php';
 header('Content-Type: application/json');
 $obj = new stdClass();
-$obj->error = "";
-$obj->subscribe = "";
+$obj->error = '';
+$obj->subscribe = '';
 
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
-$input = _json_decode($inputJSON, TRUE); //convert JSON into array
+$input = _json_decode($inputJSON, true); //convert JSON into array
 unset($_POST["redirectUri"]);
-if(!empty($input) && empty($_POST)){
+if (!empty($input) && empty($_POST)) {
     foreach ($input as $key => $value) {
         $_POST[$key]=$value;
     }
 }
 
 // gettig the mobile submited value
-if(empty($_POST) && !empty($_GET)){
+if (empty($_POST) && !empty($_GET)) {
     foreach ($_GET as $key => $value) {
         $_POST[$key]=$value;
     }
 }
 
-if(!empty($_POST['user']) && !empty($_POST['pass'])){
+if (!empty($_POST['user']) && !empty($_POST['pass'])) {
     $user = new User(0, $_POST['user'], $_POST['pass']);
     $user->login(false, true);
 }

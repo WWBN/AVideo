@@ -36,7 +36,7 @@ $user->setAnalyticsCode($_POST['analyticsCode']);
 
 _error_log("userAddNew.json.php: set channel name = ({$_POST['channelName']})");
 
-if(empty($_POST['channelName'])){
+if (empty($_POST['channelName'])) {
     $_POST['channelName'] = $_POST['user'];
 }
 
@@ -45,7 +45,7 @@ $unique = $user->setChannelName($_POST['channelName']);
 //identify what variables come from external plugins
 $userOptions=AVideoPlugin::getPluginUserOptions();
 if (is_array($userOptions)) {
-    $externalOptions=array();
+    $externalOptions=[];
     foreach ($userOptions as $uo => $id) {
         if (isset($_POST[$id])) {
             $externalOptions[$id]=$_POST[$id];
@@ -63,7 +63,7 @@ if (!empty($_POST['channelName']) && !$unique) {
 
 if (empty($_POST['userGroups'])) {
     if (empty($_POST['id']) && !empty($advancedCustomUser->userDefaultUserGroup->value)) { // for new users use the default usergroup
-        $user->setUserGroups(array($advancedCustomUser->userDefaultUserGroup->value));
+        $user->setUserGroups([$advancedCustomUser->userDefaultUserGroup->value]);
     }
 } else {
     $user->setUserGroups($_POST['userGroups']);

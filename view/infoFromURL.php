@@ -1,5 +1,4 @@
 <?php
-
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
@@ -7,23 +6,23 @@ if (!isset($global['systemRootPath'])) {
 header('Content-Type: application/json');
 
 $obj = new stdClass();
-$obj->videos_id = "";
-$obj->poster = "";
-$obj->sources = "";
-$obj->url = "";
-$obj->friendly = "";
-$obj->embed = "";
-$obj->sprits = "";
-$obj->nextURL = "";
-$obj->nextURLEmbed = "";
+$obj->videos_id = '';
+$obj->poster = '';
+$obj->sources = '';
+$obj->url = '';
+$obj->friendly = '';
+$obj->embed = '';
+$obj->sprits = '';
+$obj->nextURL = '';
+$obj->nextURLEmbed = '';
 $obj->error = true;
-$obj->msg = "";
+$obj->msg = '';
 if (empty($_GET['url'])) {
     $obj->msg = "empty URL";
     die(json_encode($obj));
 }
 $obj->url = $_GET['url'];
-$obj->vtt = array();
+$obj->vtt = [];
 
 $patternURL = addcslashes($global['webSiteRootURL'], "/");
 $obj->videos_id = getVideoIDFromURL($obj->url);
@@ -57,7 +56,7 @@ $obj->userPhoto = User::getPhoto($video['users_id']);
 if (!empty($video['next_videos_id'])) {
     $obj->nextURL = Video::getURLFriendly($video['next_videos_id']);
     $obj->nextURLEmbed = Video::getURLFriendly($video['next_videos_id'], true);
-}else{
+} else {
     $catName = @$_GET['catName'];
     $cat = new Category($video['categories_id']);
     $_GET['catName'] = $cat->getClean_name();

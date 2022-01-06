@@ -62,7 +62,7 @@
                     <option><?php echo $text; ?></option>
                     <?php
                     foreach ($countries as $key => $value) {
-                        $selected = "";
+                        $selected = '';
                         if ($myCountry === $value) {
                             $selected = 'selected';
                         }
@@ -73,7 +73,7 @@
             </div>
 
         </div>
-    </div> 
+    </div>
 
 
     <div class="form-group">
@@ -88,7 +88,7 @@
             </div>
 
         </div>
-    </div> 
+    </div>
 
     <div class="form-group">
         <label for="status" class="col-md-4 control-label"><?php echo __("City"); ?>:</label>
@@ -102,7 +102,7 @@
             </div>
 
         </div>
-    </div> 
+    </div>
 
     <div class="form-group">
         <div class="col-md-12 ">
@@ -238,12 +238,12 @@
 
 <?php
 if (!empty($myCountry)) {
-    ?>
+                        ?>
                             setTimeout(function () {
                                 $("#country").trigger('change');
                             }, 1000);
     <?php
-}
+                    }
 ?>
 
                     });

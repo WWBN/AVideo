@@ -2,13 +2,11 @@
 if (empty($advancedCustom->disableHTMLDescription)) {
     global $tinyMCELibs;
     if (empty($tinyMCELibs)) {
-        $tinyMCELibs = 1;
-        ?>
+        $tinyMCELibs = 1; ?>
         <script type="text/javascript" src="<?php echo getURL('node_modules/tinymce/tinymce.min.js'); ?>"></script>
         <style>.tox-statusbar__branding{display:none !important;}</style>
         <?php
-    }
-    ?>
+    } ?>
     <script>
     <?php
     if ($simpleMode) {
@@ -61,8 +59,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             var tinyMCEtoolbar = 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment';
             var tinyMCEmenubar = 'edit insert view format table tools help';
         <?php
-    }
-    ?>
+    } ?>
         tinymce.init({
             language: "<?php echo ($_SESSION['language'] == 'en_US') ? 'us' : $_SESSION['language']; ?>",
             language_url: '<?php echo getURL('node_modules/tinymce-langs/langs/' . (($_SESSION['language'] == 'en_US') ? 'us' : $_SESSION['language']) . '.js'); ?>',

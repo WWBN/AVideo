@@ -25,23 +25,23 @@ class Like
         // if click again in the same vote, remove the vote
         if ($this->like == $like) {
             $like = 0;
-            if($this->like==1){
+            if ($this->like==1) {
                 Video::updateLikesDislikes($videos_id, 'likes', '-1');
-            }else if($this->like==-1){
+            } elseif ($this->like==-1) {
                 Video::updateLikesDislikes($videos_id, 'dislikes', '-1');
             }
-        }else{
-            if(!empty($this->like)){
+        } else {
+            if (!empty($this->like)) {
                 // need to remove some like or dislike
-                if($like==1){
+                if ($like==1) {
                     Video::updateLikesDislikes($videos_id, 'dislikes', '-1');
-                }else if($like==-1){
+                } elseif ($like==-1) {
                     Video::updateLikesDislikes($videos_id, 'likes', '-1');
                 }
             }
-            if($like==1){
+            if ($like==1) {
                 Video::updateLikesDislikes($videos_id, 'likes', '+1');
-            }else if($like==-1){
+            } elseif ($like==-1) {
                 Video::updateLikesDislikes($videos_id, 'dislikes', '+1');
             }
         }
@@ -53,7 +53,7 @@ class Like
     private function setLike($like)
     {
         $like = intval($like);
-        if (!in_array($like, array(0,1,-1))) {
+        if (!in_array($like, [0,1,-1])) {
             $like = 0;
         }
         $this->like = $like;
@@ -78,7 +78,7 @@ class Like
             die('{"error":"You must have user and videos set to get a like"}');
         }
         $sql = "SELECT * FROM likes WHERE users_id = ? AND videos_id = ".$this->videos_id." LIMIT 1;";
-        $res = sqlDAL::readSql($sql, "i", array($this->users_id));
+        $res = sqlDAL::readSql($sql, "i", [$this->users_id]);
         $dbLike = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return $dbLike;
@@ -93,10 +93,10 @@ class Like
         }
         if (!empty($this->id)) {
             $sql = "UPDATE likes SET `like` = ?, modified = now() WHERE id = ?;";
-            $res = sqlDAL::writeSql($sql, "ii", array($this->like, $this->id));
+            $res = sqlDAL::writeSql($sql, "ii", [$this->like, $this->id]);
         } else {
             $sql = "INSERT INTO likes (`like`,users_id, videos_id, created, modified) VALUES (?, ?, ?, now(), now());";
-            $res = sqlDAL::writeSql($sql, "iii", array($this->like, $this->users_id, $this->videos_id));
+            $res = sqlDAL::writeSql($sql, "iii", [$this->like, $this->users_id, $this->videos_id]);
         }
         //echo $sql;
         if ($global['mysqli']->errno!=0) {
@@ -105,17 +105,18 @@ class Like
         return $res;
     }
 
-    public static function getLikes($videos_id){
+    public static function getLikes($videos_id)
+    {
         global $global, $_getLikes;
 
-        if(!isset($_getLikes)){
-            $_getLikes = array();
+        if (!isset($_getLikes)) {
+            $_getLikes = [];
         }
-        
-        if(!empty($_getLikes[$videos_id])){
+
+        if (!empty($_getLikes[$videos_id])) {
             return $_getLikes[$videos_id];
         }
-        
+
         $obj = new stdClass();
         $obj->videos_id = $videos_id;
         $obj->likes = 0;
@@ -123,7 +124,7 @@ class Like
         $obj->myVote = self::getMyVote($videos_id);
 
         $sql = "SELECT count(*) as total FROM likes WHERE videos_id = ? AND `like` = 1 "; // like
-        $res = sqlDAL::readSql($sql, "i", array($videos_id));
+        $res = sqlDAL::readSql($sql, "i", [$videos_id]);
         $row = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($global['mysqli']->errno!=0) {
@@ -133,7 +134,7 @@ class Like
 
         $sql = "SELECT count(*) as total FROM likes WHERE videos_id = ? AND `like` = -1 "; // dislike
 
-        $res = sqlDAL::readSql($sql, "i", array($videos_id));
+        $res = sqlDAL::readSql($sql, "i", [$videos_id]);
         $row = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($global['mysqli']->errno!=0) {
@@ -181,7 +182,7 @@ class Like
         $id = User::getId();
         $sql = "SELECT `like` FROM likes WHERE videos_id = ? AND users_id = ? "; // like
 
-        $res = sqlDAL::readSql($sql, "ii", array($videos_id,$id));
+        $res = sqlDAL::readSql($sql, "ii", [$videos_id,$id]);
         $dbLike = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($dbLike!=false) {

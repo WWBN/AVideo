@@ -14,7 +14,7 @@ if (!empty($advancedCustomUser->disableNativeSignUp)) {
 
 $agreement = AVideoPlugin::loadPluginIfEnabled("SignUpAgreement");
 
-$signInLink = "{$global['webSiteRootURL']}user?redirectUri=" . urlencode(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : "");
+$signInLink = "{$global['webSiteRootURL']}user?redirectUri=" . urlencode($_GET['redirectUri'] ?? "");
 if (!empty($_GET['siteRedirectUri'])) {
     $signInLink = $_GET['siteRedirectUri'];
 }
@@ -81,7 +81,8 @@ if (!empty($_GET['siteRedirectUri'])) {
                                         </div>
                                     </div>
                                 </div>
-                            <?php } ?>
+                            <?php
+                            } ?>
                             <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>">
                                 <label class="col-sm-4 control-label hidden-xs"><?php echo __("New Password"); ?></label>
                                 <div class="col-sm-8 inputGroupContainer">
@@ -174,14 +175,14 @@ if (!empty($_GET['siteRedirectUri'])) {
                                                                                         }).then(function () {
 <?php
 if (!empty($_GET['siteRedirectUri'])) {
-    ?>
+                                ?>
                                                                                                 window.location.href = '<?php echo $_GET['siteRedirectUri']; ?>';
     <?php
-} else {
-    ?>
-                                                                                                window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php echo urlencode(isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""); ?>';
+                            } else {
+                                ?>
+                                                                                                window.location.href = '<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php echo urlencode($_GET['redirectUri'] ?? ""); ?>';
     <?php
-}
+                            }
 ?>
 
                                                                                                                         });

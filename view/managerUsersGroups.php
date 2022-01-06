@@ -5,7 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!Permissions::canAdminUserGroups()) {
-    forbiddenPage( __("You can not manage do this"));
+    forbiddenPage(__("You can not manage do this"));
 }
 ?>
 <!DOCTYPE html>

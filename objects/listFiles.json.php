@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 header('Content-Type: application/json');
@@ -8,8 +8,8 @@ header('Content-Type: application/json');
 if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
     return false;
 }
-$global['allowed'] = array('mp4');
-$files = array();
+$global['allowed'] = ['mp4'];
+$files = [];
 if (!empty($_POST['path'])) {
     $path = $_POST['path'];
     if (substr($path, -1) !== '/') {

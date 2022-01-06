@@ -47,7 +47,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label><?php echo __("Image"); ?></label>                        
+                                            <label><?php echo __("Image"); ?></label>
                                             <?php
                                             $croppie1 = getCroppie(__("Upload Image"), "setImage1", 144, 192);
                                             echo $croppie1['html'];
@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label><?php echo __("Background"); ?></label>                        
+                                            <label><?php echo __("Background"); ?></label>
                                             <?php
                                             $croppie2 = getCroppie(__("Upload Image"), "setImage2", 1280, 180, 400);
                                             echo $croppie2['html'];
@@ -88,13 +88,13 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label><?php echo __("Order"); ?></label>                        
+                                            <label><?php echo __("Order"); ?></label>
                                             <input type="number" id="order" class="form-control" placeholder="<?php echo __("Order"); ?>">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label><?php echo __("Privacy"); ?> <i class="fas fa-question-circle" data-toggle="tooltip" title="<?php echo htmlentities(__('This option will not make your videos private, this option is for other users not to be able to include their videos in this category. to make your videos private use the user groups feature')); ?>" ></i></label>                        
+                                            <label><?php echo __("Privacy"); ?> <i class="fas fa-question-circle" data-toggle="tooltip" title="<?php echo htmlentities(__('This option will not make your videos private, this option is for other users not to be able to include their videos in this category. to make your videos private use the user groups feature')); ?>" ></i></label>
                                             <select class="form-control" id="inputPrivate">
                                                 <option value="0"><?php echo __("Public"); ?></option>
                                                 <option value="1"><?php echo __("Private"); ?></option>
@@ -104,7 +104,7 @@
                                     <div class="clearfix"></div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label><?php echo __("Allow Download"); ?></label>                        
+                                            <label><?php echo __("Allow Download"); ?></label>
                                             <select class="form-control" id="allow_download">
                                                 <option value="1"><?php echo __("Yes"); ?></option>
                                                 <option value="0"><?php echo __("No"); ?></option>
@@ -113,7 +113,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label><?php echo __("Suggested"); ?></label>                        
+                                            <label><?php echo __("Suggested"); ?></label>
                                             <select class="form-control" id="inputSuggested">
                                                 <option value="0"><?php echo __("No"); ?></option>
                                                 <option value="1"><?php echo __("Yes"); ?></option>
@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label><?php echo __("Category Icon"); ?></label>                        
+                                            <label><?php echo __("Category Icon"); ?></label>
                                             <?php
                                             echo Layout::getIconsSelect("iconCat");
                                             ?>
@@ -201,7 +201,7 @@ echo $croppie2['getCroppieFunction'];
         }
 
         $('#categoryFormModal').on('hidden.bs.modal', function () {
-            // when modal is closed in any way, get the new list - show old entry again (hidden by edit) + if a name was changed, it's corrected with this reload. 
+            // when modal is closed in any way, get the new list - show old entry again (hidden by edit) + if a name was changed, it's corrected with this reload.
             refreshSubCategoryList();
         })
 
@@ -265,8 +265,8 @@ echo $croppie2['getCroppieFunction'];
                     rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("Roku Json"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>roku.json?catName=' + row.clean_name + '" >ROKU</a>';
 
                     if (!row.canEdit) {
-                        editBtn = "";
-                        deleteBtn = "";
+                        editBtn = '';
+                        deleteBtn = '';
                     }
 
                     return editBtn + deleteBtn + rssBtn;
@@ -366,13 +366,13 @@ echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(0));";
 
         $('#updateCategoryForm').submit(function (evt) {
             //$('#updateCategoryForm a[href="#images"]').trigger("click");
-            
+
             evt.preventDefault();
             setTimeout(function(){
                 <?php
 echo $croppie1['getCroppieFunction'];
 ?>
-                
+
             },500);
 
             return false;

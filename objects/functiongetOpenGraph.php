@@ -23,7 +23,7 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($
     $data = getimgsize($source['path']);
     $imgw = $data[0];
     $imgh = $data[1];
-} else if ($video['type'] == "audio") {
+} elseif ($video['type'] == "audio") {
     $img = getCDN()."view/img/audio_wave.jpg";
 }
 $type = 'video';
@@ -43,8 +43,8 @@ if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'no
     $img = $images->poster;
 }
 $twitter_site = $advancedCustom->twitter_site;
-$title = _substr(html2plainText($video['title']), 0,55);
-$description = _substr(html2plainText($video['description']), 0,155);
+$title = _substr(html2plainText($video['title']), 0, 55);
+$description = _substr(html2plainText($video['description']), 0, 155);
 $ogURL = Video::getLinkToVideo($videos_id);
 ?>
 <link rel="image_src" href="<?php echo $img; ?>" />
@@ -63,14 +63,14 @@ $ogURL = Video::getLinkToVideo($videos_id);
 
 <?php
 $source = Video::getHigestResolution($video['filename']);
-if(empty($source['url'])){
-    if(CustomizeUser::canDownloadVideos()){
+if (empty($source['url'])) {
+    if (CustomizeUser::canDownloadVideos()) {
         echo "<!-- you cannot download videos we will not share the video source file -->";
     }
-    if(empty($source['url'])){
+    if (empty($source['url'])) {
         echo "<!-- we could not get the MP4 source file -->";
     }
-}else{
+} else {
     $source['url'] = str_replace(".m3u8", ".m3u8.mp4", $source['url']);
 }
 if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['url'])) {
@@ -82,18 +82,16 @@ if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['u
     <meta property="og:video:height" content="<?php echo $imgh; ?>" />
     <?php
 } else {
-    if(AVideoPlugin::isEnabledByName("SecureVideosDirectory")){
-        echo "<!-- SecureVideosDirectory plugin is enabled we will not share the video source file -->";
-    }
-    if(empty($source['url'])){
-        echo "<!-- we could not get the source file -->";
-    }
-    
-    ?>
+        if (AVideoPlugin::isEnabledByName("SecureVideosDirectory")) {
+            echo "<!-- SecureVideosDirectory plugin is enabled we will not share the video source file -->";
+        }
+        if (empty($source['url'])) {
+            echo "<!-- we could not get the source file -->";
+        } ?>
     <meta property="og:video" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
     <meta property="og:video:secure_url" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
     <?php
-}
+    }
 ?>
 <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
 <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
@@ -102,7 +100,7 @@ if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['u
 <?php
 if (!empty($advancedCustom->twitter_player)) {
     if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['url'])) {
-    ?>
+        ?>
     <meta name="twitter:card" content="player" />
     <meta name="twitter:player" content=<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
     <meta name="twitter:player:width" content="<?php echo $imgw; ?>" />
@@ -110,14 +108,14 @@ if (!empty($advancedCustom->twitter_player)) {
     <meta name="twitter:player:stream" content="<?php echo $source['url']; ?>" />
     <meta name="twitter:player:stream:content_type" content="video/mp4" />
     <?php
-} else {
-    ?>
+    } else {
+        ?>
     <meta name="twitter:card" content="player" />
     <meta name="twitter:player" content="<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
     <meta name="twitter:player:width" content="480" />
     <meta name="twitter:player:height" content="480" />
     <?php
-}
+    }
 } else {
     if (!empty($advancedCustom->twitter_summary_large_image)) {
         ?>

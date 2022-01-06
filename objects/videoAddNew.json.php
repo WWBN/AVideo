@@ -1,5 +1,4 @@
 <?php
-
 //error_reporting(0);
 header('Content-Type: application/json');
 if (empty($global['systemRootPath'])) {
@@ -11,8 +10,8 @@ if (!User::canUpload()) {
     die('{"error":"1 ' . __("Permission denied") . '"}');
 }
 
-$msg = "";
-$info = $infoObj = "";
+$msg = '';
+$info = $infoObj = '';
 require_once 'video.php';
 
 if (!empty($_POST['id'])) {
@@ -25,7 +24,7 @@ if (!empty($_POST['id'])) {
 if (!is_writable("{$global['systemRootPath']}vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer")) {
     die('{"error":"Directory ' . $global['systemRootPath'] . 'vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer not writable, please chmod to 777 "}');
 }
- * 
+ *
  */
 
 TimeLogStart(__FILE__);
@@ -35,8 +34,8 @@ $obj = new Video($_POST['title'], "", @$_POST['id']);
 TimeLogEnd(__FILE__, __LINE__);
 
 $obj->setClean_Title($_POST['clean_title']);
-$audioLinks = array('mp3', 'ogg');
-$videoLinks = array('mp4', 'webm', 'm3u8');
+$audioLinks = ['mp3', 'ogg'];
+$videoLinks = ['mp4', 'webm', 'm3u8'];
 TimeLogEnd(__FILE__, __LINE__);
 if (!empty($_POST['videoLink'])) {
     //var_dump($config->getEncoderURL()."getLinkInfo/". base64_encode($_POST['videoLink']));exit;
@@ -50,7 +49,7 @@ if (!empty($_POST['videoLink'])) {
         $paths = Video::getNewVideoFilename();
         $filename = $paths['filename'];
         $filename = $obj->setFilename($filename);
-        if(is_object($infoObj)){
+        if (is_object($infoObj)) {
             $obj->setTitle($infoObj->title);
             $obj->setClean_title($infoObj->title);
             $obj->setDuration($infoObj->duration);
@@ -58,7 +57,7 @@ if (!empty($_POST['videoLink'])) {
             file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
         }
         $_POST['videoLinkType'] = "embed";
-    } else if (empty($_POST['id'])) {
+    } elseif (empty($_POST['id'])) {
         $paths = Video::getNewVideoFilename();
         $filename = $paths['filename'];
         $filename = $obj->setFilename($filename);
@@ -76,7 +75,7 @@ if (!empty($_POST['videoLink'])) {
         } else {
             $obj->setType('linkVideo');
         }
-    } else if(!empty($obj->getType())){
+    } elseif (!empty($obj->getType())) {
         $obj->setType('embed');
     }
 
@@ -86,7 +85,7 @@ if (!empty($_POST['videoLink'])) {
     if (empty($_POST['id'])) {
         $obj->setStatus('a');
     }
-}else if(!empty($obj->getType()) && ($obj->getType() == 'video' || $obj->getType() == 'serie' || $obj->getType() == 'audio')){
+} elseif (!empty($obj->getType()) && ($obj->getType() == 'video' || $obj->getType() == 'serie' || $obj->getType() == 'audio')) {
     $obj->setVideoLink("");
 }
 
@@ -110,7 +109,7 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canMode
 }
 
 if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canModerateVideos()) {
-    $obj->setVideoGroups(empty($_POST['videoGroups']) ? array() : $_POST['videoGroups']);
+    $obj->setVideoGroups(empty($_POST['videoGroups']) ? [] : $_POST['videoGroups']);
 }
 if ($advancedCustomUser->userCanChangeVideoOwner || Permissions::canModerateVideos()) {
     $obj->setUsers_id($_POST['users_id']);
@@ -119,14 +118,14 @@ if ($advancedCustomUser->userCanChangeVideoOwner || Permissions::canModerateVide
 $externalOptions = new stdClass();
 
 $externalOptionsOriginal = json_decode($obj->getExternalOptions());
-if(!empty($externalOptionsOriginal) && is_object($externalOptionsOriginal)){
+if (!empty($externalOptionsOriginal) && is_object($externalOptionsOriginal)) {
     foreach ($externalOptionsOriginal as $key => $value) {
         $externalOptions->$key = $value;
     }
 }
 
 $externalOptionsPost = json_decode(@$_POST['externalOptions']);
-if(!empty($externalOptionsPost) && is_object($externalOptionsPost)){
+if (!empty($externalOptionsPost) && is_object($externalOptionsPost)) {
     foreach ($externalOptionsPost as $key => $value) {
         $externalOptions->$key = $value;
     }
@@ -144,11 +143,11 @@ $obj->setExternalOptions($externalOptions);
 TimeLogEnd(__FILE__, __LINE__);
 $resp = $obj->save(true);
 // if is a new embed video
-if (empty($_POST['id']) && ($obj->getType() == 'embed' || $obj->getType() == 'linkVideo' )) {
+if (empty($_POST['id']) && ($obj->getType() == 'embed' || $obj->getType() == 'linkVideo')) {
     AVideoPlugin::afterNewVideo($resp);
 }
 
-if(User::isAdmin()){
+if (User::isAdmin()) {
     $obj->updateViewsCount($_REQUEST['views_count']);
 }
 
@@ -163,7 +162,7 @@ $obj->info = json_encode($info);
 $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
 $obj->video = Video::getVideoLight($obj->videos_id);
-if($obj->video['status'] == Video::$statusActive){
+if ($obj->video['status'] == Video::$statusActive) {
     $obj->clearFirstPageCache = clearFirstPageCache();
     //clearAllUsersSessionCache();
 }

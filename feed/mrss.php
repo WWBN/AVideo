@@ -7,8 +7,7 @@ $lifetime = 43200;
 $feed = ObjectYPT::getCache($cacheFeedName, $lifetime);
 if (empty($feed)) {
     ob_start();
-    echo'<?xml version="1.0" encoding="UTF-8"?>';
-    ?>
+    echo'<?xml version="1.0" encoding="UTF-8"?>'; ?>
     <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"
          xmlns:georss="http://www.georss.org/georss"
          xmlns:gml="http://www.opengis.net/gml">
@@ -29,7 +28,7 @@ if (empty($feed)) {
             foreach ($rows as $row) {
                 $video = Video::getVideoFromFileName($row['filename']);
                 $files = getVideosURL($row['filename']);
-                $enclosure = "";
+                $enclosure = '';
                 $videoSource = Video::getSourceFileURL($row['filename']);
                 if (empty($videoSource)) {
                     continue;
@@ -44,8 +43,7 @@ if (empty($feed)) {
                         $enclosure = '<enclosure url="' . $value['url'] . '" length="' . $value['size'] . '" type="' . $value['mime'] . '" />';
                         break;
                     }
-                }
-                ?>
+                } ?>
                 <item>
                     <title><?php echo feedText($row['title']); ?></title>
                     <description><?php echo feedText($row['title']); ?></description>
@@ -54,7 +52,7 @@ if (empty($feed)) {
                     <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
                     <guid isPermaLink="true"><?php echo Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink"); ?></guid>
                     <media:category><?php echo $row["category"]; ?></media:category>
-                    <media:content url="<?php echo $videoSource; ?>" fileSize="<?php echo $video["filesize"]; ?>" bitrate="128" 
+                    <media:content url="<?php echo $videoSource; ?>" fileSize="<?php echo $video["filesize"]; ?>" bitrate="128"
                                    type="<?php echo mime_content_type_per_filename($videoSource); ?>" expression="full"
                                    duration="<?php echo durationToSeconds($row['duration']); ?>">
                         <media:title type="plain"><?php echo htmlspecialchars($row['title']); ?></media:title>
@@ -65,8 +63,7 @@ if (empty($feed)) {
                     <media:status state="active" />
                 </item>
                 <?php
-            }
-            ?>
+            } ?>
         </channel>
     </rss>
     <?php
@@ -74,12 +71,11 @@ if (empty($feed)) {
     ob_end_clean();
     //var_dump($cacheFeedName, $feed);exit;
     ObjectYPT::setCache($cacheFeedName, $feed);
-    //echo '<!-- NO cache -->';
-}else{
+//echo '<!-- NO cache -->';
+} else {
     //echo '<!-- cache -->';
 }
-if(!is_string($feed)){
+if (!is_string($feed)) {
     $feed = json_encode($feed);
 }
 echo $feed;
-?>

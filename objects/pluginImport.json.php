@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -20,7 +20,7 @@ if (!User::isAdmin()) {
     die(json_encode($obj));
 }
 
-$allowed = array('zip');
+$allowed = ['zip'];
 $path_parts = pathinfo($_FILES['input-b1']['name']);
 $extension = $path_parts['extension'];
 
@@ -36,7 +36,7 @@ if (strcasecmp($extension, 'zip') == 0) {
     $obj->destination = $destination;
     $path = $_FILES['input-b1']['tmp_name'];
     $dir = "{$destination}/{$path_parts['filename']}";
-    if(is_dir($dir)){
+    if (is_dir($dir)) {
         rrmdir($dir);
     }
     exec("unzip {$path} -d {$destination}");

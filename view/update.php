@@ -85,12 +85,11 @@ if (!empty($_POST['updateFile'])) {
                                     <label for="updateFile" class="sr-only"><?php echo __("Select the update"); ?></label>
                                     <select class="selectpicker" data-width="fit" name="updateFile" id="updateFile" required autofocus>
                                         <?php
-                                        $disabled = "";
-                                        foreach ($updateFiles as $value) {
-                                            echo "<option value=\"{$value['filename']}\" {$disabled}>Version {$value['version']}</option>";
-                                            $disabled = "disabled";
-                                        }
-                                        ?>
+                                        $disabled = '';
+                        foreach ($updateFiles as $value) {
+                            echo "<option value=\"{$value['filename']}\" {$disabled}>Version {$value['version']}</option>";
+                            $disabled = "disabled";
+                        } ?>
                                     </select>
                                     <?php printf(__("We detected a total of %s pending updates, if you want to do it now click (Update Now) button"), "<strong class='badge'>" . count($updateFiles) . "</strong>"); ?>
                                     <hr>
@@ -105,12 +104,11 @@ if (!empty($_POST['updateFile'])) {
                             });
                         </script>
                         <?php
-                    } else
-                    if ($version = thereIsAnyRemoteUpdate()) {
+                    } elseif ($version = thereIsAnyRemoteUpdate()) {
                         ?>
                         <div class="alert alert-warning">
-                            Our repository is now running at version <?php echo $version->version; ?>. 
-                            You can follow this <a target="_blank" href="https://github.com/WWBN/AVideo/wiki/How-to-Update-your-AVideo-Platform" class="btn btn-warning btn-xs" rel="noopener noreferrer">Update Tutorial</a> 
+                            Our repository is now running at version <?php echo $version->version; ?>.
+                            You can follow this <a target="_blank" href="https://github.com/WWBN/AVideo/wiki/How-to-Update-your-AVideo-Platform" class="btn btn-warning btn-xs" rel="noopener noreferrer">Update Tutorial</a>
                             to update your files and get the latest version.
                         </div>
                         <?php
@@ -134,10 +132,11 @@ if (!empty($_POST['updateFile'])) {
                         _error_log("avideo.js.log deleted by update");
                     }
                     $lines = file("{$global['systemRootPath']}updatedb/{$_POST['updateFile']}");
-                    $obj->error = "";
+                    $obj->error = '';
                     foreach ($lines as $line) {
-                        if (substr($line, 0, 2) == '--' || $line == '')
+                        if (substr($line, 0, 2) == '--' || $line == '') {
                             continue;
+                        }
                         $templine .= $line;
                         if (substr(trim($line), -1, 1) == ';') {
                             if (!$global['mysqli']->query($templine)) {
@@ -152,14 +151,14 @@ if (!empty($_POST['updateFile'])) {
                     // insert configuration if is version 1.0
                     if ($config->currentVersionLowerThen('1.0')) {
                         $sql = "DELETE FROM configurations WHERE id = 1 ";
-                        if ($global['mysqli']->query($sql) !== TRUE) {
+                        if ($global['mysqli']->query($sql) !== true) {
                             $obj->error = "Error deleting configuration: " . $global['mysqli']->error;
                             echo json_encode($obj);
                             exit;
                         }
 
                         $sql = "INSERT INTO configurations (id, video_resolution, users_id, version,  created, modified) VALUES (1, '426:240', " . User::getId() . ",'1.0', now(), now())";
-                        if ($global['mysqli']->query($sql) !== TRUE) {
+                        if ($global['mysqli']->query($sql) !== true) {
                             $obj->error = "Error creating configuration: " . $global['mysqli']->error;
                             echo json_encode($obj);
                             exit;
@@ -168,19 +167,17 @@ if (!empty($_POST['updateFile'])) {
 
                     if ($config->currentVersionEqual('1.0')) {
                         $sql = "UPDATE configurations SET  users_id = " . User::getId() . ", version = '1.1', webSiteTitle = '{$global['webSiteTitle']}', language = '{$global['language']}', contactEmail = '{$global['contactEmail']}', modified = now() WHERE id = 1";
-                        if ($global['mysqli']->query($sql) !== TRUE) {
+                        if ($global['mysqli']->query($sql) !== true) {
                             $obj->error = "Error creating configuration: " . $global['mysqli']->error;
                             echo json_encode($obj);
                             exit;
                         }
                     }
 
-                    //$renamed = rename("{$global['systemRootPath']}updateDb.sql", "{$global['systemRootPath']}updateDb.sql.old");
-                    ?>
+                    //$renamed = rename("{$global['systemRootPath']}updateDb.sql", "{$global['systemRootPath']}updateDb.sql.old");?>
                     <div class="alert alert-success">
                         <?php
-                        printf(__("Your update from file %s is done, click continue"), $_POST['updateFile']);
-                        ?><hr>
+                        printf(__("Your update from file %s is done, click continue"), $_POST['updateFile']); ?><hr>
                         <a class="btn btn-success" href="?done=1" > <span class="glyphicon glyphicon-ok"></span> <?php echo __("Continue"); ?> </a>
                     </div>
                     <?php

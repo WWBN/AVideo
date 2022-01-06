@@ -1,12 +1,11 @@
 <?php
-
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-if(empty($_GET['video_id']) && !empty($_POST['videos_id'])){
+if (empty($_GET['video_id']) && !empty($_POST['videos_id'])) {
     $_GET['video_id'] = $_POST['videos_id'];
 }
 
@@ -18,7 +17,7 @@ if (!Video::canEdit($_GET['video_id'])) {
 }
 header('Content-Type: application/json');
 // A list of permitted file extensions
-$allowed = array('jpg', 'gif', 'png');
+$allowed = ['jpg', 'gif', 'png'];
 if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     $extension = pathinfo($_FILES['file_data']['name'], PATHINFO_EXTENSION);
     if (!in_array(strtolower($extension), $allowed)) {
@@ -30,7 +29,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     if (!empty($video)) {
         $dir = Video::getStoragePath()."articleImages/" . $video->getFilename()."/";
         $name = uniqid();
-        if(!is_dir($dir)){
+        if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
         $destination = $dir . $name.".".strtolower($extension);

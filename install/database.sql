@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   INDEX `categoriesindex9suggested` (`suggested` ASC),
   FULLTEXT INDEX `index7cname` (`name`),
   FULLTEXT INDEX `index8cdescr` (`description`),
-  UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC), 
+  UNIQUE INDEX `clean_name_UNIQUE` (`clean_name` ASC),
   CONSTRAINT `fk_categories_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
@@ -584,10 +584,10 @@ ENGINE = InnoDB;
 ALTER TABLE `category_type_cache`
   ADD UNIQUE KEY `categoryId` (`categoryId`);
 
-ALTER TABLE `plugins` 
+ALTER TABLE `plugins`
 ADD INDEX `plugin_status` (`status` ASC);
 
-ALTER TABLE `videos` 
+ALTER TABLE `videos`
 ADD INDEX `videos_status_index` (`status` ASC),
 ADD INDEX `is_suggested_index` (`isSuggested` ASC),
 ADD INDEX `views_count_index` (`views_count` ASC),

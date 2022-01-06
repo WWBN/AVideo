@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -64,8 +63,9 @@ foreach ($videos as $value) {
     ob_flush();
 }
 
-function getFirstVideoURL($videoFileName) {
-    $types = array('', '_Low', '_SD', '_HD');
+function getFirstVideoURL($videoFileName)
+{
+    $types = ['', '_Low', '_SD', '_HD'];
     $videosList = getVideosURL($videoFileName);
     if (!empty($videosList['m3u8']["url"])) {
         return $videosList['m3u8']["url"];
@@ -73,15 +73,16 @@ function getFirstVideoURL($videoFileName) {
     foreach ($types as $value) {
         if (!empty($videosList['mp4' . $value]["url"])) {
             return $videosList['mp4' . $value]["url"];
-        } else if (!empty($videosList['webm' . $value]["url"])) {
+        } elseif (!empty($videosList['webm' . $value]["url"])) {
             return $videosList['webm' . $value]["url"];
         }
     }
     return false;
 }
 
-function getFirstVideoPath($videoFileName) {
-    $types = array('', '_Low', '_SD', '_HD');
+function getFirstVideoPath($videoFileName)
+{
+    $types = ['', '_Low', '_SD', '_HD'];
     $videosList = getVideosURL($videoFileName);
     if (!empty($videosList['m3u8']["path"])) {
         return $videosList['m3u8']["path"];
@@ -89,7 +90,7 @@ function getFirstVideoPath($videoFileName) {
     foreach ($types as $value) {
         if (!empty($videosList['mp4' . $value]["path"])) {
             return $videosList['mp4' . $value]["path"];
-        } else if (!empty($videosList['webm' . $value]["path"])) {
+        } elseif (!empty($videosList['webm' . $value]["path"])) {
             return $videosList['webm' . $value]["path"];
         }
     }

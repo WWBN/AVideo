@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -18,7 +17,7 @@ $videos = Video::getAllVideosLight("", false, true, false);
 
 echo "Path: {$path}" . PHP_EOL;
 
-$sites_id_to_check = array();
+$sites_id_to_check = [];
 
 foreach ($videos as $value) {
     if ($value['status'] !== Video::$statusBrokenMissingFiles) {
@@ -30,17 +29,17 @@ foreach ($videos as $value) {
 
 $total = count($sites_id_to_check);
 foreach ($sites_id_to_check as $key => $value) {
-    if(!empty($index) && $key<$index){
+    if (!empty($index) && $key<$index) {
         continue;
     }
     $video = new Video('', '', $value);
     $filename = $video->getFilename();
-    
+
     echo "{$key}/{$total} Start check {$filename} " . PHP_EOL;
-    if(Video::isMediaFileMissing($filename)){
+    if (Video::isMediaFileMissing($filename)) {
         $sources = getVideosURL_V2($filename);
         echo "{$key}/{$total} is missing ". json_encode($sources) . PHP_EOL;
-    }else{
+    } else {
         $video->setStatus(Video::$statusActive);
         echo "{$key}/{$total} is set to active " . PHP_EOL;
     }

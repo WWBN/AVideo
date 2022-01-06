@@ -2,11 +2,11 @@
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
 // filter some security here
-$securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName');
-$securityFilterInt = array('isAdmin', 'priority', 'totalClips', 'rowCount');
-$securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password');
-$securityRemoveNonChars = array('resolution', 'format', 'videoDirectory');
-$filterURL = array('videoURL', 'siteURL', 'redirectUri', 'encoderURL');
+$securityFilter = ['error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
+$securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount'];
+$securityRemoveSingleQuotes = ['search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password'];
+$securityRemoveNonChars = ['resolution', 'format', 'videoDirectory'];
+$filterURL = ['videoURL', 'siteURL', 'redirectUri', 'encoderURL'];
 
 if (!empty($_FILES)) {
     foreach ($_FILES as $key => $value) {
@@ -14,7 +14,7 @@ if (!empty($_FILES)) {
     }
 }
 
-$scanVars = array('_GET', '_POST', '_REQUEST');
+$scanVars = ['_GET', '_POST', '_REQUEST'];
 
 foreach ($scanVars as $value) {
     $scanThis = &$$value;
@@ -30,11 +30,11 @@ foreach ($scanVars as $value) {
     if (!empty($scanThis['v'])) {
         $originalValue = $scanThis['v'];
         $scanThis['v'] = videosHashToID($scanThis['v']);
-        if(!empty($global['makeVideosIDHarderToGuessNotDecrypted']) && $originalValue != $scanThis['v']){
-            // if you set $global['makeVideosIDHarderToGuessNotDecrypted'] and originalValue = scanThis['v'] it meand it was not decrypted, and it is a direct video ID, 
+        if (!empty($global['makeVideosIDHarderToGuessNotDecrypted']) && $originalValue != $scanThis['v']) {
+            // if you set $global['makeVideosIDHarderToGuessNotDecrypted'] and originalValue = scanThis['v'] it meand it was not decrypted, and it is a direct video ID,
             // otherwiseit was a hash that we decrypt into an ID
             $global['makeVideosIDHarderToGuessNotDecrypted'] = 0;
-        }        
+        }
     }
 
     foreach ($filterURL as $key => $value) {
@@ -43,7 +43,7 @@ foreach ($scanVars as $value) {
                 //_error_log($value.' attack ' . json_encode($_SERVER), AVideoLog::$SECURITY);
                 unset($scanThis[$value]);
             } else {
-                $scanThis[$value] = str_replace(array("'", '"', "<", ">"), array("", "", "", ""), $scanThis[$value]);
+                $scanThis[$value] = str_replace(["'", '"', "<", ">"], ["", "", "", ""], $scanThis[$value]);
             }
         }
     }
@@ -79,18 +79,17 @@ foreach ($scanVars as $value) {
     // all variables with _id at the end will be forced to be interger
     foreach ($scanThis as $key => $value) {
         if (preg_match('/_id$/i', $key)) {
-            if(empty($value)){
+            if (empty($value)) {
                 $scanThis[$key] = 0;
-            }else 
-            if (is_numeric($value)) {
+            } elseif (is_numeric($value)) {
                 $scanThis[$key] = intval($value);
             } else {
-                if(is_string($value)){
+                if (is_string($value)) {
                     $json = json_decode($value);
-                    if(empty($json)){
+                    if (empty($json)) {
                         $json = json_decode("[$value]");
                     }
-                }else{
+                } else {
                     $json = $value;
                 }
                 if (is_array($json)) {
@@ -117,7 +116,7 @@ foreach ($scanVars as $value) {
 
     foreach ($securityFilter as $value) {
         if (!empty($scanThis[$value])) {
-            $scanThis[$value] = str_replace(array('\\', "--", "'", '"', "&quot;", "&#039;", "%23", "%5c", "#"), array('', '', '', '', '', '', '', '', ''), xss_esc($scanThis[$value]));
+            $scanThis[$value] = str_replace(['\\', "--", "'", '"', "&quot;", "&#039;", "%23", "%5c", "#"], ['', '', '', '', '', '', '', '', ''], xss_esc($scanThis[$value]));
         }
     }
 

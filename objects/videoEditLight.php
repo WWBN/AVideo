@@ -1,5 +1,4 @@
 <?php
-
 //error_reporting(0);
 header('Content-Type: application/json');
 require_once '../videos/configuration.php';
@@ -21,21 +20,21 @@ if (!Video::canEdit($obj->videos_id)) {
 
 $video = new Video('', '', $obj->videos_id);
 
-if(isset($_REQUEST['title'])){
+if (isset($_REQUEST['title'])) {
     $video->setTitle($_REQUEST['title']);
     $video->setClean_title($_REQUEST['title']);
 }
-if(isset($_REQUEST['categories_id'])){
+if (isset($_REQUEST['categories_id'])) {
     $video->setCategories_id($_REQUEST['categories_id']);
 }
-if(isset($_REQUEST['description'])){
+if (isset($_REQUEST['description'])) {
     $video->setDescription($_REQUEST['description']);
 }
-if(isset($_REQUEST['image'])){
+if (isset($_REQUEST['image'])) {
     $images = Video::getImageFromID($obj->videos_id);
-    if(!empty($_REQUEST['portrait'])){
+    if (!empty($_REQUEST['portrait'])) {
         $path = $images->posterPortraitPath;
-    }else{
+    } else {
         $path = $images->posterLandscapePath;
     }
     $obj->path = $path;
@@ -43,7 +42,7 @@ if(isset($_REQUEST['image'])){
 }
 $obj->save = $video->save();
 $obj->error = empty($obj->save);
-if(empty($obj->error)){
+if (empty($obj->error)) {
     Video::clearCache($obj->videos_id);
 }
 die(json_encode($obj));

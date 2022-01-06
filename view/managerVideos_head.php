@@ -16,8 +16,8 @@ if (!empty($_GET['video_id'])) {
 <script src="<?php echo getCDN(); ?>view/js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
 <link href="<?php echo getCDN(); ?>view/mini-upload-form/assets/css/style.css" rel="stylesheet" />
 <?php
-if(AVideoPlugin::isEnabledByName("VideoTags")){
-?>
+if (AVideoPlugin::isEnabledByName("VideoTags")) {
+    ?>
 <link href="<?php echo getCDN(); ?>plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css"/>
 <style>
     .tt-open{

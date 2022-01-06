@@ -14,5 +14,5 @@ $filename = "{$global['systemRootPath']}videos/cache/custom.css";
 if(file_exists($filename)){
     echo file_get_contents($filename);
 }
- * 
+ *
  */

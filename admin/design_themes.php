@@ -12,8 +12,8 @@
                 <div class="panel-heading">
                     <?php echo ucfirst($fileEx); ?>
                     <div class="material-switch pull-right">
-                        <input class="themeSwitch" data-toggle="toggle" type="checkbox" value="<?php echo ($fileEx); ?>" id="themeSwitch<?php echo ($fileEx); ?>" <?php echo ($fileEx == $savedTheme) ? "checked" : ""; ?>>
-                        <label for="themeSwitch<?php echo ($fileEx); ?>" class="label-primary"></label>
+                        <input class="themeSwitch" data-toggle="toggle" type="checkbox" value="<?php echo($fileEx); ?>" id="themeSwitch<?php echo($fileEx); ?>" <?php echo ($fileEx == $savedTheme) ? "checked" : ""; ?>>
+                        <label for="themeSwitch<?php echo($fileEx); ?>" class="label-primary"></label>
                     </div>
                 </div>
                 <div class="panel-body">

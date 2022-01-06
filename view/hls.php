@@ -1,5 +1,4 @@
 <?php
-
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     $configFile = '../videos/configuration.php';
@@ -45,7 +44,6 @@ if (empty($video) || !file_exists($filename)) {
 {$global['webSiteRootURL']}plugin/Live/view/loopBGHLS/res720/index.m3u8";
     exit;
 } else {
-
     if (filesize($filename) < 20) {
         Video::clearCache($video['id']);
     }
@@ -63,32 +61,31 @@ $tokenIsValid = false;
 if (!empty($_GET['token'])) {
     $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
     if ($secure) {
-        $filenameParts = explode(".DIRECTORY_SEPARATOR.", $_GET['videoDirectory']); 
+        $filenameParts = explode(".DIRECTORY_SEPARATOR.", $_GET['videoDirectory']);
         $fname = $filenameParts[0];
         $tokenIsValid = $secure->isTokenValid($_GET['token'], $fname, $_GET['videoDirectory']);
     }
-} else if (!empty($_GET['globalToken'])) {
+} elseif (!empty($_GET['globalToken'])) {
     $tokenIsValid = verifyToken($_GET['globalToken']);
 }
-$newContent = "";
+$newContent = '';
 // if is using a CDN I can not check if the user is logged
 if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id']) || User::canWatchVideoWithAds($video['id']) || isCDN()) {
-
     if (!empty($_GET['download'])) {
         downloadHLS($_GET['file']);
-    } else if (!empty($_GET['playHLSasMP4'])) {
+    } elseif (!empty($_GET['playHLSasMP4'])) {
         playHLSasMP4($_GET['file']);
     } else {
-        if(@filesize($_GET['file'])>20){
+        if (@filesize($_GET['file'])>20) {
             $filename = $_GET['file'];
-        }else{
+        } else {
             $filename = pathToRemoteURL($filename);
         }
         $content = file_get_contents($filename);
         $newContent = str_replace('{$pathToVideo}', "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
         if (!empty($_GET['token'])) {
             $newContent = str_replace('/index.m3u8', "/index.m3u8?token={$_GET['token']}", $newContent);
-        } else if (!empty($_GET['globalToken'])) {
+        } elseif (!empty($_GET['globalToken'])) {
             $newContent = str_replace('/index.m3u8', "/index.m3u8?globalToken={$_GET['globalToken']}", $newContent);
         }
     }

@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -8,7 +7,7 @@ if (!isCommandLineInterface()) {
 }
 
 set_time_limit(1800);
-ini_set('max_execution_time', 1800); 
+ini_set('max_execution_time', 1800);
 
 $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
 $path = getVideosDir();
@@ -20,12 +19,12 @@ $isStorage = isAnyStorageEnabled();
 
 foreach ($videos as $value) {
     $count++;
-    
+
     $basename = "{$path}{$value['filename']}";
     echo " {$count}/{$total} Searching {$basename} ".PHP_EOL;
     $glob = glob("{$basename}*");
     $totalItems = count($glob);
-    if($totalItems){
+    if ($totalItems) {
         echo "Creating dir {$basename} " . PHP_EOL;
         make_path(addLastSlash($basename));
     }
@@ -36,11 +35,11 @@ foreach ($videos as $value) {
         $countItems++;
         echo "[$countItems/$totalItems] Process file {$file} " . PHP_EOL;
         if (is_dir($file)) {
-            if(!$isStorage && !Video::isNewVideoFilename($move['oldDir'])){
+            if (!$isStorage && !Video::isNewVideoFilename($move['oldDir'])) {
                 //echo $file.PHP_EOL;
                 $move = Video::updateDirectoryFilename($file);
                 echo "-->".PHP_EOL." {$count}/{$total} move directory {$move['oldDir']} to {$move['newDir']} ".PHP_EOL."<--" . PHP_EOL . PHP_EOL;
-            }else{
+            } else {
                 echo " We will not rename directory {$file} ".PHP_EOL;
             }
             continue;
@@ -48,9 +47,9 @@ foreach ($videos as $value) {
         $filename = basename($file);
         $newname = Video::getPathToFile($filename);
         $renamed = rename($file, $newname);
-        if($renamed){
+        if ($renamed) {
             echo "{$count}/{$total} moved $filename to $newname" . PHP_EOL;
-        }else{
+        } else {
             echo "{$count}/{$total} fail to move $filename to $newname" . PHP_EOL;
         }
     }
@@ -58,9 +57,8 @@ foreach ($videos as $value) {
 }
 echo PHP_EOL." Deleting cache ... ";
 ObjectYPT::deleteALLCache();
-$videosDir = Video::getStoragePath(); 
+$videosDir = Video::getStoragePath();
 exec("chown -R www-data:www-data {$videosDir}");
 exec("chmod -R 755 {$videosDir}");
 echo PHP_EOL." Done! ".PHP_EOL;
 die();
-

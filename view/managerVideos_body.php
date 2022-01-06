@@ -29,7 +29,7 @@
     if (!empty($_GET['iframe'])) {
         ?>
         body{
-            padding: 0;   
+            padding: 0;
         }
         footer{
             display: none;
@@ -44,7 +44,7 @@
         margin: 5px 0;
     }
     #grid .tagsInfo span.label:not(.tagTitle){
-        display: inline-block;    
+        display: inline-block;
         width: 70%;
         text-align: left;
         border-top-left-radius: 0;
@@ -54,7 +54,7 @@
         text-overflow: ellipsis;
     }
     #grid .tagsInfo span.label.tagTitle{
-        display: inline-block;    
+        display: inline-block;
         width: 30%;
         overflow: hidden;
         text-align: right;
@@ -99,18 +99,15 @@
                             <span class="far fa-money-bill-alt"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Advertising Manager"); ?></span>
                         </a>
                         <?php
-                    }
-                    ?>
+                    } ?>
                     <?php
                     unset($_GET['parentsOnly']);
-                    $categories = Category::getAllCategories(Permissions::canAdminVideos() ? false : true);
-                    array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
-                    if (User::canUpload()) {
-                        if (empty($advancedCustom->doNotShowEncoderButton)) {
-                            if (!empty($config->getEncoderURL())) {
-                                
-                            }
-                            ?>
+        $categories = Category::getAllCategories(Permissions::canAdminVideos() ? false : true);
+        array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
+        if (User::canUpload()) {
+            if (empty($advancedCustom->doNotShowEncoderButton)) {
+                if (!empty($config->getEncoderURL())) {
+                } ?>
                             <form id="formEncoderVideosM" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
                                 <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
                                 <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
@@ -120,33 +117,32 @@
                                 <span class="fa fa-cog"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?></span>
                             </a>
                             <?php
-                        }
-                        if (empty($advancedCustom->doNotShowUploadMP4Button)) {
-                            ?>
+            }
+            if (empty($advancedCustom->doNotShowUploadMP4Button)) {
+                ?>
                             <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4">
                                 <span class="fa fa-upload"></span>
                                 <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : $advancedCustom->uploadMP4ButtonLabel; ?></span>
                             </button>
                             <?php
-                        }
-                        if (empty($advancedCustom->doNotShowEmbedButton)) {
-                            ?>
+            }
+            if (empty($advancedCustom->doNotShowEmbedButton)) {
+                ?>
                             <button class="btn btn-sm btn-xs btn-default" id="linkExternalVideo">
                                 <span class="fa fa-link"></span>
                                 <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Embed a video link"); ?></span>
                             </button>
                             <?php
-                        }
-                        if (AVideoPlugin::isEnabledByName("Articles")) {
-                            ?>
+            }
+            if (AVideoPlugin::isEnabledByName("Articles")) {
+                ?>
                             <button class="btn btn-sm btn-xs btn-default" id="addArticle" onclick="newArticle()">
                                 <i class="far fa-newspaper"></i>
                                 <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Add Article"); ?></span>
                             </button>
                             <?php
-                        }
-                    }
-                    ?>
+            }
+        } ?>
                 </div>
             </div>
         </div>
@@ -156,12 +152,11 @@
         <small class="text-muted clearfix <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
             <?php
             $secondsTotal = getSecondsTotalVideosLength();
-            $seconds = $secondsTotal % 60;
-            $minutes = ($secondsTotal - $seconds) / 60;
-            $totalVideos = humanFileSize(Video::getTotalVideosFromUser(User::getId()));
-            $totalVideosSize = humanFileSize(Video::getTotalVideosSizeFromUser(User::getId()));
-            printf(__("You are hosting %d videos total, %d minutes and %d seconds and consuming %s of disk"), $totalVideos, $minutes, $seconds, $totalVideosSize);
-            ?>
+        $seconds = $secondsTotal % 60;
+        $minutes = ($secondsTotal - $seconds) / 60;
+        $totalVideos = humanFileSize(Video::getTotalVideosFromUser(User::getId()));
+        $totalVideosSize = humanFileSize(Video::getTotalVideosSizeFromUser(User::getId()));
+        printf(__("You are hosting %d videos total, %d minutes and %d seconds and consuming %s of disk"), $totalVideos, $minutes, $seconds, $totalVideosSize); ?>
         </small>
         <?php
         if (Permissions::canAdminVideos()) {
@@ -170,12 +165,10 @@
         if (!empty($global['videoStorageLimitMinutes'])) {
             $secondsLimit = $global['videoStorageLimitMinutes'] * 60;
             if ($secondsLimit > $secondsTotal) {
-
                 $percent = intval($secondsTotal / $secondsLimit * 100);
             } else {
                 $percent = 100;
-            }
-            ?> and you have <?php echo $global['videoStorageLimitMinutes']; ?> minutes of storage
+            } ?> and you have <?php echo $global['videoStorageLimitMinutes']; ?> minutes of storage
             <div class="progress">
                 <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
                      aria-valuenow="<?php echo $percent; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent; ?>%">
@@ -208,11 +201,11 @@
                                 <?php
                                 foreach ($categories as $value) {
                                     echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['hierarchyAndName']}</a></li>";
-                                }
-                                ?>
+                                } ?>
                             </ul>
                         </div>
-                    <?php } ?>
+                    <?php
+                    } ?>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                             <i class="far fa-eye"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Status'); ?></span> <span class="caret"></span></button>
@@ -230,7 +223,7 @@
                         ?>
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <i class="fas fa-users"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Add User Group'); ?></span> <span class="caret"></span></button>                        
+                                <i class="fas fa-users"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Add User Group'); ?></span> <span class="caret"></span></button>
                             <ul class="dropdown-menu" role="menu">
                                 <?php
                                 foreach ($userGroups as $value) {
@@ -240,16 +233,15 @@
                                             <span class="fa fa-lock"></span>
                                             <span class="label label-info"><?php echo $value['total_users'] . " "; ?><?php echo __("Users linked"); ?></span>
                                             <?php echo $value['group_name']; ?>
-                                        </a>  
+                                        </a>
                                     </li>
                                     <?php
-                                }
-                                ?>
+                                } ?>
                             </ul>
                         </div>
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <i class="fas fa-user-slash"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Remove User Group'); ?></span> <span class="caret"></span></button>                        
+                                <i class="fas fa-user-slash"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Remove User Group'); ?></span> <span class="caret"></span></button>
                             <ul class="dropdown-menu" role="menu">
                                 <?php
                                 foreach ($userGroups as $value) {
@@ -259,11 +251,10 @@
                                             <span class="fa fa-lock"></span>
                                             <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
                                             <?php echo $value['group_name']; ?>
-                                        </a>  
+                                        </a>
                                     </li>
                                     <?php
-                                }
-                                ?>
+                                } ?>
                             </ul>
                         </div>
                         <?php
@@ -284,8 +275,7 @@
                     }
                     if (AVideoPlugin::isEnabledByName('CDN') && CDN::userCanMoveVideoStorage()) {
                         include $global['systemRootPath'] . 'plugin/CDN/Storage/getVideoManagerButton.php';
-                    }
-                    ?>
+                    } ?>
                     <button class="btn btn-danger" id="deleteBtn">
                         <i class="fa fa-trash" aria-hidden="true"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Delete'); ?></span>
                     </button>
@@ -304,7 +294,7 @@
                                 $('#grid').bootgrid('reload');
                                 return false;"><?php echo __('All'); ?></a></li>
                             <?php
-                            $showOnly = array('a', 'i', 'e', 't', 'u', 'b');
+                            $showOnly = ['a', 'i', 'e', 't', 'u', 'b'];
                             if (AVideoPlugin::isEnabled('FansSubscriptions')) {
                                 $showOnly[] = 'f';
                             }
@@ -450,8 +440,7 @@
                                             <?php
                                             foreach ($categories as $value) {
                                                 echo "<option value='{$value['id']}'>{$value['hierarchyAndName']}</option>";
-                                            }
-                                            ?>
+                                            } ?>
                                         </select>
                                         <?php
                                     }
@@ -528,8 +517,7 @@
                                                             </div>
                                                         </li>
                                                         <?php
-                                                    }
-                                                    ?>
+                                                    } ?>
                                                     <li class="list-group-item">
                                                         <span class="fa fa-globe"></span> <?php echo __("Public Media"); ?>
                                                         <div class="material-switch pull-right">
@@ -745,8 +733,8 @@
                     <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-info btn-xs"><?php echo __("Google Login"); ?></a> <?php echo __("and get the following information") . ": <strong>" . __("Google ID and Key") . "</strong>"; ?>
                 </li>
                 <li>
-                    <?php echo __("Go to your"); ?> 
-                    <a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs" target="_blank" rel="noopener noreferrer"><?php echo __("Google Console API Dashboard"); ?></a> 
+                    <?php echo __("Go to your"); ?>
+                    <a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs" target="_blank" rel="noopener noreferrer"><?php echo __("Google Console API Dashboard"); ?></a>
                     <?php echo __("and enable the following API") . ": <strong>" . __("YouTube Data API") . " v3</strong>"; ?>
                 </li>
                 <li>
@@ -754,7 +742,7 @@
                     <code><?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php</code>
                 </li>
                 <li>
-                    <?php echo __("You can find more help on the following documentation"); ?>: 
+                    <?php echo __("You can find more help on the following documentation"); ?>:
                     <a href="https://developers.google.com/youtube/v3/getting-started" class="btn btn-info btn-xs"  target="_blank" rel="noopener noreferrer"><?php echo __("YouTube Data API Overview"); ?></a>
                 </li>
             </ol>
@@ -782,7 +770,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 ?>
 <script>
                                         var timeOut;
-                                        var encodingNowId = "";
+                                        var encodingNowId = '';
                                         var waitToSubmit = true;
                                         // make sure the video was uploaded, delete in case it was not uploaded
                                         var videoUploaded = false;
@@ -1024,10 +1012,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                 tinymce.get('inputDescription').setContent(row.descriptionHTML);
     <?php
 } else {
-    ?>
+        ?>
                                                 $('#inputDescription').val(row.description);
     <?php
-}
+    }
 ?>
                                             $('#inputCategory').val(row.categories_id);
                                             $('#inputRrating').val(row.rrating);
@@ -1258,7 +1246,8 @@ echo AVideoPlugin::getManagerVideosAddNew();
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
                                                         "description": tinymce.get('inputDescription').getContent(),
-<?php } else { ?>
+<?php
+} else { ?>
                                                         "description": $('#inputDescription').val(),
 <?php } ?>
                                                     "categories_id": $('#inputCategory').val(),
@@ -1326,9 +1315,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                             $('#videoLinkType').val("");
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
-    ?>
+        ?>
                                                 tinymce.get('inputDescription').setContent("");
-<?php } ?>
+<?php
+    } ?>
                                             $('#inputCategory').val("");
                                             $('#inputRrating').val("");
                                             $('#removeAutoplay').trigger('click');
@@ -1383,7 +1373,8 @@ echo AVideoPlugin::getManagerVideosReset();
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
                                                 tinymce.get('inputDescription').setContent("");
-<?php } ?>
+<?php
+} ?>
                                             $('#inputCategory').val($('#inputCategory option:first').val());
                                             $('#inputRrating').val("");
                                             $('.videoGroups').prop('checked', false);
@@ -1476,7 +1467,7 @@ echo AVideoPlugin::getManagerVideosReset();
                                          .attr("aria-valuenow", p100)
                                          .text("End: " + p100 + "%");
                                          }
-                                         
+
                                          function viewsDetailsReset() {
                                          $("#videoViewFormModal .modal-title").html("Loading ... ");
                                          $("#progress25 .progress-bar")
@@ -1634,7 +1625,8 @@ if (!empty($row)) {
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
                                                     tinymce.get('inputDescription').setContent("");
-<?php } ?>
+<?php
+} ?>
                                                 $('#inputCategory').val($('#inputCategory option:first').val());
                                                 $('#inputRrating').val("");
                                                 $('.videoGroups').prop('checked', false);
@@ -1821,7 +1813,7 @@ if (empty($advancedCustom->disableCopyEmbed)) {
                                                         var fansOnlyBtn = '<button style="color: #FFD700" type="button" class="btn btn-default btn-xs command-fansOnly"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is for fans Only, click here to toogle it")); ?>" onclick="avideoAjax(webSiteRootURL+\'plugin/FansSubscriptions/toogleFansOnly.json.php?videos_id=' + row.id + '\', {});"><i class="fas fa-star" aria-hidden="true"></i></button>';
                                                         var status;
                                                         var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
-                                                        var download = "";
+                                                        var download = '';
                                                         var downloadhighest = '';
 <?php
 if (CustomizeUser::canDownloadVideos()) {
@@ -1901,8 +1893,8 @@ if (Permissions::canAdminVideos()) {
                                                             nextIsSet = "<span class='label label-success' data-toggle='tooltip' title='" + row.next_video.title + "'>Next video: " + nextVideoTitle + "</span>";
                                                         }
 
-                                                        var suggestBtn = "";
-                                                        var editLikes = "";
+                                                        var suggestBtn = '';
+                                                        var editLikes = '';
 <?php
 if (Permissions::canAdminVideos()) {
     ?>
@@ -1931,7 +1923,7 @@ if (Permissions::canAdminVideos()) {
                                                         return playBtn + embedBtn + editBtn + deleteBtn + status + suggestBtn + editLikes + bigButtons + pluginsButtons + download + nextIsSet;
                                                     },
                                                     "tags": function (column, row) {
-                                                        var tags = "";
+                                                        var tags = '';
 <?php
 if (Permissions::canAdminVideos()) {
     ?>
@@ -1977,7 +1969,7 @@ if (Permissions::canAdminVideos()) {
                                                         }
                                                     },
                                                     "isSuggested": function (column, row) {
-                                                        var suggestBtn = "";
+                                                        var suggestBtn = '';
 <?php
 if (Permissions::canAdminVideos()) {
     ?>
@@ -2006,8 +1998,8 @@ if (Permissions::canAdminVideos()) {
                                                         return row.views_count_short;
                                                     },
                                                     "titleTag": function (column, row) {
-                                                        var tags = "";
-                                                        var youTubeLink = "", youTubeUpload = "";
+                                                        var tags = '';
+                                                        var youTubeLink = "", youTubeUpload = '';
 <?php if (!$config->getDisable_youtubeupload()) { ?>
                                                             youTubeUpload = '<button type="button" class="btn btn-danger btn-xs command-uploadYoutube"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
                                                             if (row.youtubeId) {
@@ -2015,7 +2007,7 @@ if (Permissions::canAdminVideos()) {
                                                             }
                                                             var yt = '<div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fas fa-play-circle" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
                                                             if (row.status == "d" || row.status == "e") {
-                                                                yt = "";
+                                                                yt = '';
                                                             }
     <?php
 } else {
@@ -2063,10 +2055,10 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                             var playList = "<hr><div class='videoPlaylist' videos_id='" + row.id + "' style='height:100px; overflow-y: scroll; padding:10px 5px;'></div>";
     <?php
 } else {
-    ?>
+        ?>
                                                             var playList = '';
     <?php
-}
+    }
 ?>
                                                         img = img + '<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> ' + row.duration + '</div>';
                                                         var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
@@ -2097,7 +2089,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                             data: {"users_id": <?php echo User::getId(); ?>, "videos_id": videos_id},
                                                             type: 'post',
                                                             success: function (response) {
-                                                                var lists = "";
+                                                                var lists = '';
                                                                 for (var x in response) {
                                                                     if (typeof response[x] !== 'object') {
                                                                         continue;
@@ -2279,15 +2271,15 @@ if (!empty($_GET['link'])) {
     ?>
                                                     $('#linkExternalVideo').trigger('click');
     <?php
-} else if (!empty($_GET['article'])) {
-    ?>
+} elseif (!empty($_GET['article'])) {
+        ?>
                                                     $('#addArticle').trigger('click');
     <?php
-} else if (!empty($_GET['upload'])) {
-    ?>
+    } elseif (!empty($_GET['upload'])) {
+        ?>
                                                     $('#uploadMp4').trigger('click');
     <?php
-}
+    }
 ?>
                                                 $('.showOnGridDone').fadeIn();
 

@@ -190,7 +190,7 @@ class Minifier
         '-' => true,
         '+' => true,
         '[' => true,
-        '@' => true];
+        '@' => true, ];
 
     /**
      * The primary action occurs here. This function loops through the input string,

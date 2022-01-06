@@ -1,5 +1,4 @@
 <?php
-
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -16,10 +15,10 @@ header("Content-type: application/xml");
 if (file_exists($lockFile) && filemtime($lockFile) > strtotime('-10 minutes')) {
     _error_log('Please wait we are creating the sitemap');
     $sitemap = ObjectYPT::getCache($name, 0);
-    if(empty($sitemap)){
+    if (empty($sitemap)) {
         echo "<!-- please wait -->";
         exit;
-    }else{
+    } else {
         echo $sitemap;
         exit;
     }

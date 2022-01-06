@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -7,11 +6,11 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 
-$doNotDeleteFilesList = array('configuration.php', 'favicon.ico', 'favicon.png', 'avideo.log', 'PayPal.log', 'socketPID.log', 'logo.png', 'logoOverlay.png');
+$doNotDeleteFilesList = ['configuration.php', 'favicon.ico', 'favicon.png', 'avideo.log', 'PayPal.log', 'socketPID.log', 'logo.png', 'logoOverlay.png'];
 
 $lockFilename = '.move_v1.lock';
 $path = getVideosDir();
-$files = array_diff(scandir($path), array('.', '..'));
+$files = array_diff(scandir($path), ['.', '..']);
 echo "*** Total filenames " . count($files) . "\n";
 foreach ($files as $key => $value) {
     $dir = "{$path}{$value}";
@@ -26,7 +25,7 @@ foreach ($files as $key => $value) {
                 //echo "+++ Video FOUND for filename {$filename} ".PHP_EOL;
                 unset($files[$key]);
             } else {
-                $files[$key] = array($value, $dir);
+                $files[$key] = [$value, $dir];
                 //echo "*** Video NOT found for filename {$filename} ".PHP_EOL;
             }
         }
@@ -40,7 +39,7 @@ foreach ($files as $key => $value) {
             //echo "+++ Video FOUND for filename {$filename} ".PHP_EOL;
             unset($files[$key]);
         } else {
-            $files[$key] = array($value, $dir);
+            $files[$key] = [$value, $dir];
             //echo "*** Video NOT found for filename {$filename} ".PHP_EOL;
         }
     } else {
@@ -75,8 +74,7 @@ if (!empty($confirm) && strtolower($confirm) === 'y') {
             } else {
                 echo "$value[1] Directory Could Not be Deleted \n";
             }
-        } else
-        if (unlink($value[1])) {
+        } elseif (unlink($value[1])) {
             echo "$value[1] Deleted \n";
         } else {
             echo "$value[1] Could Not be Deleted \n";

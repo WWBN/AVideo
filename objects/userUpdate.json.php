@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: application/json');
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
@@ -29,7 +28,7 @@ if (!$unique) {
     die(json_encode($obj));
 }
 
-if(empty($user->getBdId())){
+if (empty($user->getBdId())) {
     $obj->error = __("User not found");
     die(json_encode($obj));
 }

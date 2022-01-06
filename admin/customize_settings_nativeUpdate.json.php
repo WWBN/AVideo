@@ -22,31 +22,31 @@ if (!file_exists($global['systemRootPath'] . $imagePath)) {
 }
 
 if (!is_writable($global['systemRootPath'] . $imagePath)) {
-    $response = Array(
+    $response = [
         "status" => 'error',
-        "message" => 'No write Access'
-    );
+        "message" => 'No write Access',
+    ];
     print json_encode($response);
     return;
 }
-$response = array();
+$response = [];
 if (!empty($_POST['logoImgBase64'])) {
     $fileData = base64DataToImage($_POST['logoImgBase64']);
     $fileName = 'logo.png';
     $photoURL = $imagePath . $fileName;
     $bytes = file_put_contents($global['systemRootPath'] . $photoURL, $fileData);
     if ($bytes > 10) {
-        $response = array(
+        $response = [
             "status" => 'success',
-            "url" => $global['systemRootPath'] . $photoURL
-        );
+            "url" => $global['systemRootPath'] . $photoURL,
+        ];
         $config->setLogo($photoURL);
     } else {
-        $response = array(
+        $response = [
             "status" => 'error',
             "msg" => 'We could not save logo',
-            "url" => $global['systemRootPath'] . $photoURL
-        );
+            "url" => $global['systemRootPath'] . $photoURL,
+        ];
     }
 }
 

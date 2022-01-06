@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once dirname(__FILE__) . '/../videos/configuration.php';
 
@@ -10,17 +9,17 @@ if (!isCommandLineInterface()) {
 }
 
 $tmpFile = @$argv[1];
-if(empty($tmpFile)){
+if (empty($tmpFile)) {
     _error_log('sendSiteEmailAsync: ERROR: empty argument');
     die('sendSiteEmailAsync empty argument');
 }
-if(!file_exists($tmpFile)){
+if (!file_exists($tmpFile)) {
     _error_log('sendSiteEmailAsync: ERROR: file do not exists '.$tmpFile);
     die('sendSiteEmailAsync file do not exists '.$tmpFile);
 }
 $json = _json_decode(file_get_contents($tmpFile));
 unlink($tmpFile);
-if(empty($json)){
+if (empty($json)) {
     _error_log('sendSiteEmailAsync: ERROR JSON invalid');
     die('sendSiteEmailAsync JSON invalid');
 }

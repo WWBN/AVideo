@@ -12,7 +12,7 @@ if (!empty($global['disableAdvancedConfigurations'])) {
     forbiddenPage("This page is disabled");
 }
 
-$printedarray = array();
+$printedarray = [];
 AVideoLog::$ERROR;
 
 $collapsibleOpen = "<div class='collapsible-container terminal-alert'>
@@ -22,13 +22,14 @@ $collapsibleOpen = "<div class='collapsible-container terminal-alert'>
 <div class=\"collapsible-content\" style=\"display:none;\">";
 $collapsibleClose = "</div></div>";
 
-$outputText = "";
-$outputTextErrors = array();
-$outputTextWarnings = array();
+$outputText = '';
+$outputTextErrors = [];
+$outputTextWarnings = [];
 $linesAdded = 0;
 $isCollapsed = true;
 
-function e($text) {
+function e($text)
+{
     if (empty($text)) {
         return false;
     }
@@ -36,8 +37,8 @@ function e($text) {
     $outputText, $outputTextErrors, $outputTextWarnings,
     $collapsibleOpen, $collapsibleClose, $linesAdded, $isCollapsed;
 
-    $uniqid = "";
-    $class = "";
+    $uniqid = '';
+    $class = '';
     $collapsible = true;
     $uniqid = uniqid();
     if (
@@ -45,18 +46,17 @@ function e($text) {
             preg_match("/(Prepare failed)/i", $text, $matches) ||
             preg_match("/(AVideoLog::ERROR)/", $text, $matches) ||
             preg_match("/(fatal)/i", $text, $matches)) {
-        $outputTextErrors[] = array($uniqid, $text, $matches[1]);
+        $outputTextErrors[] = [$uniqid, $text, $matches[1]];
         $class = "terminal-alert terminal-alert-error ";
         $style = "background-color: #A00; color:#FFF;font-weight: bold;";
         $collapsible = false;
-    } else
-    if (preg_match("/(PHP Warning)/i", $text, $matches)) {
+    } elseif (preg_match("/(PHP Warning)/i", $text, $matches)) {
         $class = "terminal-alert terminal-alert-primary";
-        $outputTextWarnings[] = array($uniqid, $text, $matches[1]);
+        $outputTextWarnings[] = [$uniqid, $text, $matches[1]];
         $collapsible = false;
-    } else if (preg_match("/PHP Notice/", $text)) {
+    } elseif (preg_match("/PHP Notice/", $text)) {
         $class = "logNotice";
-    } else if (preg_match("/(AVideoLog::WARNING)/", $text, $matches) || preg_match("/AVideoLog::DEBUG/", $text)) {
+    } elseif (preg_match("/(AVideoLog::WARNING)/", $text, $matches) || preg_match("/AVideoLog::DEBUG/", $text)) {
         $class = "logDebug";
     }
 
@@ -70,7 +70,7 @@ function e($text) {
         }
     }
 
-    $removeLinesWithWords = array('password', 'recoverPass', 'pass');
+    $removeLinesWithWords = ['password', 'recoverPass', 'pass'];
     foreach ($removeLinesWithWords as $value) {
         if (preg_match("/{$value}/i", $text)) {
             $text = preg_replace("/[^ ]/", "*", $text) . " - {$value}";
@@ -87,14 +87,13 @@ function e($text) {
     }
     if (!$collapsible && $isCollapsed) {
         if ($linesAdded === 0) {
-            $outputText = "";
+            $outputText = '';
         } else {
             $outputText .= $collapsibleClose;
         }
         $isCollapsed = false;
     }
     if (!$collapsible && !$isCollapsed) {
-        
     }
     $linesAdded++;
     $outputText .= "<div class='logLine {$class}' id='{$uniqid}'>"
@@ -138,7 +137,7 @@ $outputText .= $collapsibleClose;
             html {
                 scroll-behavior: smooth;
             }
-            input[type='checkbox'] { display: none; } 
+            input[type='checkbox'] { display: none; }
             :root {
                 --global-font-size: 15px;
                 --global-line-height: 1.4em;
@@ -236,13 +235,11 @@ $outputText .= $collapsibleClose;
                         <div class="btn-group">
                             <?php
                             $count = 0;
-                            foreach ($outputTextErrors as $value) {
-                                $count++;
-                                ?>
+                foreach ($outputTextErrors as $value) {
+                    $count++; ?>
                                 <?php echo "<a href='#{$value[0]}'  class='btn btn-default btn-ghost scrollToError'>#{$count} - {$value[2]}</a>"; ?>
                                 <?php
-                            }
-                            ?>
+                } ?>
                         </div>
                     </div>
                 </div>
@@ -260,11 +257,10 @@ $outputText .= $collapsibleClose;
                         <div class="btn-group">
                             <?php
                             $count = 0;
-                            foreach ($outputTextWarnings as $value) {
-                                $count++;
-                                echo "<a href='#{$value[0]}'  class='btn btn-default btn-ghost scrollToError'>#{$count} - {$value[2]}</a>";
-                            }
-                            ?>
+                foreach ($outputTextWarnings as $value) {
+                    $count++;
+                    echo "<a href='#{$value[0]}'  class='btn btn-default btn-ghost scrollToError'>#{$count} - {$value[2]}</a>";
+                } ?>
                         </div>
                     </div>
                 </div>
@@ -279,15 +275,14 @@ $outputText .= $collapsibleClose;
             </div>
             <pre class="logCode">
                 <?php
-                $outputText = str_replace(array(parse_url($global['webSiteRootURL'], PHP_URL_HOST), $global['systemRootPath'], $global['salt'], $mysqlPass, $mysqlUser, $mysqlHost, $mysqlDatabase), array("www.mysite.com", "path/to/my/streamer/site/", "mySalt", "myMySQLPass", "myMySQLUser", "myMySQLHost", "myMySQLDatabase"), $outputText);
+                $outputText = str_replace([parse_url($global['webSiteRootURL'], PHP_URL_HOST), $global['systemRootPath'], $global['salt'], $mysqlPass, $mysqlUser, $mysqlHost, $mysqlDatabase], ["www.mysite.com", "path/to/my/streamer/site/", "mySalt", "myMySQLPass", "myMySQLUser", "myMySQLHost", "myMySQLDatabase"], $outputText);
 
                 echo $outputText;
                 ?>
             </pre>
         </div>
-        
+
         <?php
-        
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script>

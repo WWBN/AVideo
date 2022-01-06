@@ -13,11 +13,9 @@
             <?php
             return false;
         } else {
-
             require_once $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
 
-            $ec = new ExtraConfig();
-            ?>
+            $ec = new ExtraConfig(); ?>
             <div class="row">
                 <div class="col-md-12">
                     <form id="customizeForm">

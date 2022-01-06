@@ -102,8 +102,7 @@ $metaDescription = __("Channels");
                     </ul>
                     <?php
                     foreach ($channels as $value) {
-                        $get = array('channelName' => $value['channelName']);
-                        ?>
+                        $get = ['channelName' => $value['channelName']]; ?>
                         <div class="panel panel-default">
                             <div class="panel-heading" style="position: relative;">
                                 <img src="<?php echo User::getPhoto($value['id']); ?>"
@@ -111,13 +110,11 @@ $metaDescription = __("Channels");
                                 <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default">
                                     <i class="fas fa-play-circle"></i>
                                     <?php
-                                    echo User::getNameIdentificationById($value['id']);
-                                    ?>
+                                    echo User::getNameIdentificationById($value['id']); ?>
                                 </a>
                                 <div style="position: absolute; right: 10px; top: 10px;">
                                     <?php
-                                    echo User::getBlockUserButton($value['id']);
-                                    ?>
+                                    echo User::getBlockUserButton($value['id']); ?>
                                     <?php echo Subscribe::getButton($value['id']); ?>
                                 </div>
                             </div>
@@ -130,12 +127,11 @@ $metaDescription = __("Channels");
                                 <div class="clear clearfix galeryRowElement">
                                     <?php
                                     $_POST['current'] = 1;
-                                    $_REQUEST['rowCount'] = 6;
-                                    $_POST['sort']['created'] = "DESC";
-                                    $uploadedVideos = Video::getAllVideos("viewable", $value['id']);
+                        $_REQUEST['rowCount'] = 6;
+                        $_POST['sort']['created'] = "DESC";
+                        $uploadedVideos = Video::getAllVideos("viewable", $value['id']);
 
-                                    createGallerySection($uploadedVideos, dechex(crc32($value['channelName'])));
-                                    ?>
+                        createGallerySection($uploadedVideos, dechex(crc32($value['channelName']))); ?>
                                 </div>
                             </div>
                             <div class="panel-footer " style="font-size: 0.8em">

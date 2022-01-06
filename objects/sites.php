@@ -1,53 +1,68 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-class Sites extends ObjectYPT {
-    protected $name, $url, $status, $secret;
+class Sites extends ObjectYPT
+{
+    protected $name;
+    protected $url;
+    protected $status;
+    protected $secret;
 
-    public static function getSearchFieldsNames() {
-        return array('name', 'url');
+    public static function getSearchFieldsNames()
+    {
+        return ['name', 'url'];
     }
 
-    public static function getTableName() {
+    public static function getTableName()
+    {
         return 'sites';
     }
 
-    function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    function getUrl() {
+    public function getUrl()
+    {
         return $this->url;
     }
 
-    function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    function setUrl($url) {
+    public function setUrl($url)
+    {
         $this->url = $url;
     }
 
-    function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
     }
 
-    function getSecret() {
+    public function getSecret()
+    {
         return $this->secret;
     }
 
-    function setSecret($secret) {
+    public function setSecret($secret)
+    {
         $this->secret = $secret;
     }
 
-    function save() {
-        if(empty($this->getSecret())){
+    public function save()
+    {
+        if (empty($this->getSecret())) {
             $this->setSecret(md5(uniqid()));
         }
 
@@ -59,31 +74,33 @@ class Sites extends ObjectYPT {
         return parent::save();
     }
 
-    static function getFromFileName($fileName){
+    public static function getFromFileName($fileName)
+    {
         $obj = new stdClass();
-        $obj->url = "";
-        $obj->secret = "";
+        $obj->url = '';
+        $obj->secret = '';
         $obj->filename = $fileName;
         $video = Video::getVideoFromFileNameLight($fileName);
-        if(!empty($video['sites_id'])){
+        if (!empty($video['sites_id'])) {
             $site = new Sites($video['sites_id']);
             $obj->url = $site->getUrl();
             $obj->secret = $site->getSecret();
         }
         return $obj;
     }
-    
-    static function getFromStatus($status) {
+
+    public static function getFromStatus($status)
+    {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status = ? ";
 
-        $res = sqlDAL::readSql($sql, 's', array($status));
+        $res = sqlDAL::readSql($sql, 's', [$status]);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
@@ -93,5 +110,4 @@ class Sites extends ObjectYPT {
         }
         return $rows;
     }
-
 }

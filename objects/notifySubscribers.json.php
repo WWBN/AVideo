@@ -14,7 +14,7 @@ if (!User::canUpload()) {
 $user_id = User::getId();
 // if admin bring all subscribers
 if (User::isAdmin()) {
-    $user_id = "";
+    $user_id = '';
 }
 
 require_once 'subscribe.php';
@@ -23,7 +23,7 @@ $Subscribes = Subscribe::getAllSubscribes($user_id);
 
 $obj = new stdClass();
 //Create a new PHPMailer instance
-$mail = new \PHPMailer\PHPMailer\PHPMailer;
+$mail = new \PHPMailer\PHPMailer\PHPMailer();
 setSiteSendMessage($mail);
 //Set who the message is to be sent from
 $mail->setFrom($config->getContactEmail());

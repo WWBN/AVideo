@@ -1,16 +1,16 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 header('Content-Type: application/json');
 $row = Plugin::getAll();
-if(!User::isAdmin()){
+if (!User::isAdmin()) {
     foreach ($row as $key => $value) {
-        if(!empty($row[$key]->installedPlugin['object_data'])){
-            $row[$key]->installedPlugin['object_data'] = "";
+        if (!empty($row[$key]->installedPlugin['object_data'])) {
+            $row[$key]->installedPlugin['object_data'] = '';
         }
     }
 }

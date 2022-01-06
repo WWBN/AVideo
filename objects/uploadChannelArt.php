@@ -1,12 +1,11 @@
 <?php
-
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-if(empty($_GET['video_id']) && !empty($_POST['videos_id'])){
+if (empty($_GET['video_id']) && !empty($_POST['videos_id'])) {
     $_GET['video_id'] = $_POST['videos_id'];
 }
 
@@ -18,7 +17,7 @@ if (!User::isLogged()) {
 }
 header('Content-Type: application/json');
 // A list of permitted file extensions
-$allowed = array('jpg', 'jpeg', 'gif', 'png');
+$allowed = ['jpg', 'jpeg', 'gif', 'png'];
 if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     $extension = pathinfo($_FILES['file_data']['name'], PATHINFO_EXTENSION);
     if (!in_array(strtolower($extension), $allowed)) {
@@ -36,7 +35,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     }
     convertImage($tmpDestination, $global['systemRootPath'].$obj->file, 70);
     unlink($tmpDestination);
-    if(file_exists($oldfile)){
+    if (file_exists($oldfile)) {
         unlink($oldfile);
     }
 

@@ -1,10 +1,10 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 session_write_close();
-if(!User::isLogged()){
+if (!User::isLogged()) {
     die();
 }
 require_once $global['systemRootPath'] . 'objects/playlist.php';

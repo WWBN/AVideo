@@ -99,7 +99,7 @@ $v = new Video('', '', $videos_id);
                         <?php
                         echo number_format_short($v->getViews_count());
                         ?>
-                        Views and watched 
+                        Views and watched
                         <?php
                         echo seconds2human($v->getTotal_seconds_watching());
                         ?>

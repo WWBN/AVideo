@@ -2,12 +2,12 @@
 global $socialAdded, $global;
 $titleSocial = @$title;
 $urlShort = $url;
-if(empty($video['id']) && !empty(getVideos_id())){
+if (empty($video['id']) && !empty(getVideos_id())) {
     $video['id'] = getVideos_id();
 }
 if (!empty($video['id'])) {
     $url = Video::getLinkToVideo($video['id']);
-    $urlShort = Video::getLinkToVideo($video['id'], '', false, "short", array(), true);
+    $urlShort = Video::getLinkToVideo($video['id'], '', false, "short", [], true);
     if (!empty($video['title'])) {
         $titleSocial = $video['title'];
     } else {
@@ -20,7 +20,7 @@ if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }
 
-$removeChars = array('|');
+$removeChars = ['|'];
 $titleSocial = str_replace($removeChars, '-', $titleSocial);
 //$originalURL = $urlSocial;
 $urlSocial = urlencode($url);
@@ -44,9 +44,9 @@ if (empty($socialAdded)) { // do not add the CSS more then once
 }
 $socialAdded = 1;
 
-$social_medias = array(
-    new SocialMedias($href, $class, $title, $iclass, $img, $onclick)
-);
+$social_medias = [
+    new SocialMedias($href, $class, $title, $iclass, $img, $onclick),
+];
 ?>
 <ul class="social-network social-circle">
     <?php

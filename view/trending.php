@@ -8,11 +8,10 @@ if (!isset($global['systemRootPath'])) {
 if (!empty($_GET['type'])) {
     if ($_GET['type'] == 'audio') {
         $_SESSION['type'] = 'audio';
-    } else
-    if ($_GET['type'] == 'video') {
+    } elseif ($_GET['type'] == 'video') {
         $_SESSION['type'] = 'video';
     } else {
-        $_SESSION['type'] = "";
+        $_SESSION['type'] = '';
         unset($_SESSION['type']);
     }
 } else {
@@ -58,16 +57,16 @@ $metaDescription = __("Trending");
                                 <a class="galleryLink col-sm-4 col-md-4 col-lg-4" videos_id="<?php echo $value['id']; ?>" href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>" title="<?php echo $value['title']; ?>">
                                     <?php
                                     $images = Video::getImageFromFilename($value['filename'], $value['type']);
-                                    $imgGif = $images->thumbsGif;
-                                    $poster = $images->thumbsJpg;
-                                    ?>
+                            $imgGif = $images->thumbsGif;
+                            $poster = $images->thumbsJpg; ?>
                                     <div class="aspectRatio16_9">
                                         <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="thumbsJPG img img-responsive <?php echo @$img_portrait; ?>  rotate<?php echo $value['rotation']; ?>  <?php echo ($poster != $images->thumbsJpgSmall) ? "blur" : ""; ?>" id="thumbsJPG<?php echo $value['id']; ?>" />
                                         <?php
                                         if (!empty($imgGif)) {
                                             ?>
                                             <img src="<?php echo getCDN(); ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive" height="196" />
-                                        <?php } ?>
+                                        <?php
+                                        } ?>
                                         <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
                                     </div>
                                     <div class="progress" style="height: 3px; margin-bottom: 2px;">
@@ -101,8 +100,7 @@ $metaDescription = __("Trending");
                                                         ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
                                                     }
                                                 }
-                                            }
-                                            ?>
+                                            } ?>
                                         </div>
 
                                         <?php
@@ -114,7 +112,8 @@ $metaDescription = __("Trending");
                                                     <?php echo number_format_short($value['views_count']); ?> <?php echo __("Views"); ?>
                                                 </span>
                                             </div>
-                                        <?php } ?>
+                                        <?php
+                                        } ?>
                                         <div>
                                             <i class="far fa-clock"></i>
                                             <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
@@ -136,8 +135,7 @@ $metaDescription = __("Trending");
                                             </div>
                                             <?php
                                         }
-                                        AVideoPlugin::getgalleryActionButton($value['id']);
-                                        ?>
+                            AVideoPlugin::getgalleryActionButton($value['id']); ?>
                                     </div>
                                     <div class="mainAreaDescriptionContainer  col-lg-12">
                                         <h4 class="mainAreaDescription" itemprop="description" style="max-height: 7vw; padding: 0; margin: 5px 0;"><?php echo $value['description']; ?></h4>
@@ -156,38 +154,34 @@ $metaDescription = __("Trending");
                                 <li class="page-item <?php
                                 if ($_REQUEST['current'] == 1) {
                                     echo "disabled";
-                                }
-                                ?>">
+                                } ?>">
                                     <a class="page-link" href="<?php echo "{$global['webSiteRootURL']}trending?current=" . ($_REQUEST['current'] - 1); ?>" tabindex="-1"><?php echo __('Previous') ?></a>
                                 </li>
                                 <?php
                                 $size = 5;
-                                $i = 1;
-                                $end = $pages;
+                        $i = 1;
+                        $end = $pages;
 
-                                if ($_REQUEST['current'] - $size > $i) {
-                                    $i = $_REQUEST['current'] - $size;
-                                }
+                        if ($_REQUEST['current'] - $size > $i) {
+                            $i = $_REQUEST['current'] - $size;
+                        }
 
-                                if ($_REQUEST['current'] + $size < $end) {
-                                    $end = $_REQUEST['current'] + $size;
-                                }
+                        if ($_REQUEST['current'] + $size < $end) {
+                            $end = $_REQUEST['current'] + $size;
+                        }
 
-                                for (; $i <= $end; $i++) {
-                                    ?>
+                        for (; $i <= $end; $i++) {
+                            ?>
                                     <li class="page-item  <?php
                                     if ($_REQUEST['current'] == $i) {
                                         echo "active";
-                                    }
-                                    ?>"><a class="page-link" href="<?php echo "{$global['webSiteRootURL']}trending?current={$i}"; ?>"><?php echo $i; ?></a></li>
+                                    } ?>"><a class="page-link" href="<?php echo "{$global['webSiteRootURL']}trending?current={$i}"; ?>"><?php echo $i; ?></a></li>
                                         <?php
-                                    }
-                                    ?>
+                        } ?>
                                 <li class="page-item <?php
                                 if ($_REQUEST['current'] == $pages) {
                                     echo "disabled";
-                                }
-                                ?>">
+                                } ?>">
                                     <a class="page-link" href="<?php echo "{$global['webSiteRootURL']}trending?current=" . ($_REQUEST['current'] + 1); ?>"><?php echo __('Next') ?></a>
                                 </li>
                             </ul>

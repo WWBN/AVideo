@@ -1,5 +1,5 @@
 <?php
-function createTable($pluginName, $filter = array())
+function createTable($pluginName, $filter = [])
 {
     $plugin = AVideoPlugin::getObjectData($pluginName);
     if (empty($filter)) {
@@ -12,7 +12,7 @@ function createTable($pluginName, $filter = array())
     echo '<input type="hidden" value="' . $pluginName . '" name="pluginName"/>';
     echo '<input type="hidden" value="' . implode("|", array_keys($filter)) . '" name="pluginsList"/>';
     echo '<table class="table table-hover">';
-    $pluginsList = array();
+    $pluginsList = [];
     if (!AVideoPlugin::exists($pluginName)) {
         echo "<tr><td colspan='2'> ".__('Sorry you do not have the plugin')." </td></tr>";
     } else {
@@ -27,27 +27,27 @@ function createTable($pluginName, $filter = array())
     echo '</table></form>';
 }
 
-function jsonToFormElements($json, $filter = array())
+function jsonToFormElements($json, $filter = [])
 {
     //var_dump($json, $filter);exit;
-    $elements = array();
+    $elements = [];
     foreach ($json as $keyJson => $valueJson) {
         if (!empty($filter) && empty($filter[$keyJson])) {
             continue;
         }
         $label = "<label>{$keyJson}</label>";
-        $help = "";
+        $help = '';
         if (!empty($filter[$keyJson])) {
             $help = "<small class=\"form-text text-muted\">{$filter[$keyJson]}</small>";
         }
-        $input = "";
+        $input = '';
         if (is_object($valueJson)) {
             if ($valueJson->type === 'textarea') {
                 $input = "<textarea class='form-control jsonElement' name='{$keyJson}' pluginType='object'>{$valueJson->value}</textarea>";
             } elseif (is_array($valueJson->type)) {
                 $input = "<select class='form-control jsonElement' name='{$keyJson}'  pluginType='object'>";
                 foreach ($valueJson->type as $key => $value) {
-                    $select = "";
+                    $select = '';
                     if ($valueJson->value == $key) {
                         $select = "selected";
                     }
@@ -55,7 +55,7 @@ function jsonToFormElements($json, $filter = array())
                 }
                 $input .= "</select>";
             } else {
-                if(!is_string($valueJson->type) || !is_string($valueJson->value)){
+                if (!is_string($valueJson->type) || !is_string($valueJson->value)) {
                     continue;
                 }
                 $input = "<input class='form-control jsonElement' name='{$keyJson}' "

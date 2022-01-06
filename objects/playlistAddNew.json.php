@@ -1,8 +1,7 @@
 <?php
-
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -10,7 +9,7 @@ require_once $global['systemRootPath'] . 'objects/playlist.php';
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
 
-if(empty($plugin)){
+if (empty($plugin)) {
     die('{"error":"Plugin not enabled"}');
 }
 if (!User::isLogged()) {

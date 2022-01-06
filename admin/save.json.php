@@ -18,9 +18,9 @@ if (empty($_POST['pluginsList'])) {
 } else {
     $pluginsList = explode("|", $_POST['pluginsList']);
 
-    $pluginValues = array();
+    $pluginValues = [];
     foreach ($pluginsList as $value) {
-        $pluginValues[$value] = empty($_POST[$value]) ? false : ($_POST[$value]==1||$_POST[$value]=="true"?true:$_POST[$value]);
+        $pluginValues[$value] = empty($_POST[$value]) ? false : ($_POST[$value]==1||$_POST[$value]=="true" ? true : $_POST[$value]);
     }
 }
 
@@ -30,7 +30,7 @@ $pluginDB = Plugin::getPluginByName($pluginName);
 foreach ($pluginDO as $key => $value) {
     if (isset($pluginValues[$key])) {
         if (is_bool($pluginDO->$key)) {
-            $pluginDO->$key = empty($pluginValues[$key])?false:true;
+            $pluginDO->$key = empty($pluginValues[$key]) ? false : true;
         } else {
             //$pluginDO->$key = str_replace('"', '\\"', $pluginValues[$key]);
             $pluginDO->$key = $pluginValues[$key];
@@ -43,6 +43,8 @@ $p->setObject_data(json_encode($pluginDO));
 
 $obj = new stdClass();
 $obj->save = $p->save();
-if ($obj->save === false) _error_log("[ERROR] Error saving plugin $pluginName data. Maybe plugin is not enabled?", AVideoLog::$ERROR);
+if ($obj->save === false) {
+    _error_log("[ERROR] Error saving plugin $pluginName data. Maybe plugin is not enabled?", AVideoLog::$ERROR);
+}
 
-echo (json_encode($obj));
+echo(json_encode($obj));

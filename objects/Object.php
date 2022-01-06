@@ -1,26 +1,27 @@
 <?php
-
-interface ObjectInterface {
-
+interface ObjectInterface
+{
     public static function getTableName();
 
     public static function getSearchFieldsNames();
 }
 
-$tableExists = array();
+$tableExists = [];
 
-abstract class ObjectYPT implements ObjectInterface {
+abstract class ObjectYPT implements ObjectInterface
+{
+    protected $fieldsName = [];
 
-    protected $fieldsName = array();
-
-    public function __construct($id = "") {
+    public function __construct($id = "")
+    {
         if (!empty($id)) {
             // get data from id
             $this->load($id);
         }
     }
 
-    protected function load($id) {
+    protected function load($id)
+    {
         $row = self::getFromDb($id);
         if (empty($row)) {
             return false;
@@ -31,7 +32,8 @@ abstract class ObjectYPT implements ObjectInterface {
         return true;
     }
 
-    public static function getNowFromDB() {
+    public static function getNowFromDB()
+    {
         global $global;
         $sql = "SELECT NOW() as my_date_field";
         $res = sqlDAL::readSql($sql);
@@ -45,7 +47,8 @@ abstract class ObjectYPT implements ObjectInterface {
         return $row;
     }
 
-    public static function setGlobalTimeZone() {
+    public static function setGlobalTimeZone()
+    {
         global $advancedCustom, $timezoneOriginal;
         if (!isset($timezoneOriginal)) {
             $timezoneOriginal = date_default_timezone_get();
@@ -62,12 +65,13 @@ abstract class ObjectYPT implements ObjectInterface {
         date_default_timezone_set($timezone);
     }
 
-    protected static function getFromDb($id) {
+    protected static function getFromDb($id)
+    {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = ? LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "i", array($id), true);
+        $res = sqlDAL::readSql($sql, "i", [$id], true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -78,7 +82,8 @@ abstract class ObjectYPT implements ObjectInterface {
         return $row;
     }
 
-    public static function getAll() {
+    public static function getAll()
+    {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
@@ -89,7 +94,7 @@ abstract class ObjectYPT implements ObjectInterface {
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
@@ -100,7 +105,8 @@ abstract class ObjectYPT implements ObjectInterface {
         return $rows;
     }
 
-    public static function getAllActive() {
+    public static function getAllActive()
+    {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
@@ -111,7 +117,7 @@ abstract class ObjectYPT implements ObjectInterface {
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
@@ -122,7 +128,8 @@ abstract class ObjectYPT implements ObjectInterface {
         return $rows;
     }
 
-    public static function getTotal() {
+    public static function getTotal()
+    {
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
@@ -137,7 +144,8 @@ abstract class ObjectYPT implements ObjectInterface {
         return $countRow;
     }
 
-    public static function getSqlFromPost($keyPrefix = "") {
+    public static function getSqlFromPost($keyPrefix = "")
+    {
         global $global;
         $sql = self::getSqlSearchFromPost();
 
@@ -155,7 +163,7 @@ abstract class ObjectYPT implements ObjectInterface {
         }
 
         if (!empty($_POST['sort'])) {
-            $orderBy = array();
+            $orderBy = [];
             foreach ($_POST['sort'] as $key => $value) {
                 $key = $global['mysqli']->real_escape_string($key);
                 //$value = $global['mysqli']->real_escape_string($value);
@@ -177,9 +185,10 @@ abstract class ObjectYPT implements ObjectInterface {
         return $sql;
     }
 
-    public static function getSqlLimit() {
+    public static function getSqlLimit()
+    {
         global $global;
-        $sql = "";
+        $sql = '';
 
         if (empty($_POST['rowCount']) && !empty($_GET['length'])) {
             $_POST['rowCount'] = intval($_GET['length']);
@@ -208,30 +217,32 @@ abstract class ObjectYPT implements ObjectInterface {
         return $sql;
     }
 
-    public static function getSqlDateFilter() {
+    public static function getSqlDateFilter()
+    {
         $sql = '';
         $created_year = intval(@$_REQUEST['created_year']);
         $created_month = intval(@$_REQUEST['created_month']);
         $modified_year = intval(@$_REQUEST['modified_year']);
         $modified_month = intval(@$_REQUEST['modified_month']);
-        
-        if(!empty($created_year)){
+
+        if (!empty($created_year)) {
             $sql .= " AND YEAR(created) = $created_year ";
         }
-        if(!empty($created_month)){
+        if (!empty($created_month)) {
             $sql .= " AND MONTH(created) = $created_month ";
         }
-        if(!empty($modified_year)){
+        if (!empty($modified_year)) {
             $sql .= " AND YEAR(modified) = $modified_year ";
         }
-        if(!empty($modified_month)){
+        if (!empty($modified_month)) {
             $sql .= " AND MONTH(modified) = $modified_month ";
-        }        
+        }
 
         return $sql;
     }
-    
-    public static function getSqlSearchFromPost() {
+
+    public static function getSqlSearchFromPost()
+    {
         $sql = self::getSqlDateFilter();
         if (!empty($_POST['searchPhrase'])) {
             $_GET['q'] = $_POST['searchPhrase'];
@@ -242,10 +253,10 @@ abstract class ObjectYPT implements ObjectInterface {
             global $global;
             $search = $global['mysqli']->real_escape_string(xss_esc($_GET['q']));
 
-            $like = array();
+            $like = [];
             $searchFields = static::getSearchFieldsNames();
             foreach ($searchFields as $value) {
-                if(!str_contains($value, '.') && !str_contains($value, '`')){
+                if (!str_contains($value, '.') && !str_contains($value, '`')) {
                     $value = "`{$value}`";
                 }
                 $like[] = " {$value} LIKE '%{$search}%' ";
@@ -262,7 +273,8 @@ abstract class ObjectYPT implements ObjectInterface {
         return $sql;
     }
 
-    public function save() {
+    public function save()
+    {
         if (!$this->tableExists()) {
             _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
             return false;
@@ -271,14 +283,14 @@ abstract class ObjectYPT implements ObjectInterface {
         $fieldsName = $this->getAllFields();
         if (!empty($this->id)) {
             $sql = "UPDATE " . static::getTableName() . " SET ";
-            $fields = array();
+            $fields = [];
             foreach ($fieldsName as $value) {
                 if (strtolower($value) == 'created') {
                     // do nothing
                 } elseif (strtolower($value) == 'modified') {
                     $fields[] = " {$value} = now() ";
                 } elseif (strtolower($value) == 'timezone') {
-                    if(empty($this->$value)){
+                    if (empty($this->$value)) {
                         $this->$value = date_default_timezone_get();
                     }
                     $fields[] = " `{$value}` = '{$this->$value}' ";
@@ -295,18 +307,18 @@ abstract class ObjectYPT implements ObjectInterface {
         } else {
             $sql = "INSERT INTO " . static::getTableName() . " ( ";
             $sql .= "`" . implode("`,`", $fieldsName) . "` )";
-            $fields = array();
-            foreach ($fieldsName as $value) { 
+            $fields = [];
+            foreach ($fieldsName as $value) {
                 if (is_string($value) && (strtolower($value) == 'created' || strtolower($value) == 'modified')) {
                     $fields[] = " now() ";
-                }  elseif (is_string($value) && strtolower($value) == 'timezone') {
-                    if(empty($this->$value)){
+                } elseif (is_string($value) && strtolower($value) == 'timezone') {
+                    if (empty($this->$value)) {
                         $this->$value = date_default_timezone_get();
                     }
                     $fields[] = " '{$this->$value}' ";
                 } elseif (!isset($this->$value) || (is_string($this->$value) && strtolower($this->$value) == 'null')) {
                     $fields[] = " NULL ";
-                } else if (is_string($this->$value) || is_numeric($this->$value)) {
+                } elseif (is_string($this->$value) || is_numeric($this->$value)) {
                     $fields[] = " '{$this->$value}' ";
                 } else {
                     $fields[] = " NULL ";
@@ -330,13 +342,14 @@ abstract class ObjectYPT implements ObjectInterface {
         }
     }
 
-    private function getAllFields() {
+    private function getAllFields()
+    {
         global $global, $mysqlDatabase;
         $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = '" . static::getTableName() . "'";
-        $res = sqlDAL::readSql($sql, "s", array($mysqlDatabase));
+        $res = sqlDAL::readSql($sql, "s", [$mysqlDatabase]);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row["COLUMN_NAME"];
@@ -347,75 +360,79 @@ abstract class ObjectYPT implements ObjectInterface {
         return $rows;
     }
 
-    public function delete() {
+    public function delete()
+    {
         global $global;
         if (!empty($this->id)) {
             $sql = "DELETE FROM " . static::getTableName() . " ";
             $sql .= " WHERE id = ?";
             $global['lastQuery'] = $sql;
             //_error_log("Delete Query: ".$sql);
-            return sqlDAL::writeSql($sql, "i", array($this->id));
+            return sqlDAL::writeSql($sql, "i", [$this->id]);
         }
         _error_log("Id for table " . static::getTableName() . " not defined for deletion ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)), AVideoLog::$ERROR);
         return false;
     }
 
-    static function shouldUseDatabase($content){
+    public static function shouldUseDatabase($content)
+    {
         global $advancedCustom, $global;
-        if(!empty($global['doNotUseCacheDatabase'])){
+        if (!empty($global['doNotUseCacheDatabase'])) {
             return false;
         }
         $maxLen = 60000;
-        
-        if(empty($advancedCustom)){
+
+        if (empty($advancedCustom)) {
             $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
         }
-        if(empty($advancedCustom->doNotSaveCacheOnFilesystem) && class_exists('Cache') && self::isTableInstalled('CachesInDB')){
+        if (empty($advancedCustom->doNotSaveCacheOnFilesystem) && class_exists('Cache') && self::isTableInstalled('CachesInDB')) {
             $json = _json_encode($content);
             $len = strlen($json);
-            if($len>$maxLen/2){
+            if ($len>$maxLen/2) {
                 return false;
             }
-            if(class_exists('CachesInDB')){
+            if (class_exists('CachesInDB')) {
                 $content = CachesInDB::encodeContent($json);
-            }else{
+            } else {
                 $content = base64_encode($json);
             }
-            
+
             $len = strlen($content);
-            if(!empty($len) && $len<$maxLen){
+            if (!empty($len) && $len<$maxLen) {
                 return $content;
-            }else if(!empty($len)){
+            } elseif (!empty($len)) {
                 //_error_log('Object::setCache '.$len);
             }
         }
         return false;
     }
-    
-    public static function setCache($name, $value) {  
-        if($content = self::shouldUseDatabase($value)){
+
+    public static function setCache($name, $value)
+    {
+        if ($content = self::shouldUseDatabase($value)) {
             return Cache::_setCache($name, $content);
         }
-            
+
         $content = _json_encode($value);
         if (empty($content)) {
             $content = $value;
         }
-        
-        if(empty($content)){
+
+        if (empty($content)) {
             return false;
         }
-        
+
         $cachefile = self::getCacheFileName($name);
         //make_path($cachefile);
 
         $bytes = @file_put_contents($cachefile, $content);
         self::setSessionCache($name, $value);
-        return array('bytes' => $bytes, 'cachefile' => $cachefile);
+        return ['bytes' => $bytes, 'cachefile' => $cachefile];
     }
 
-    public static function cleanCacheName($name) {
-        $name = str_replace(array('/', '\\'), array(DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR), $name);
+    public static function cleanCacheName($name)
+    {
+        $name = str_replace(['/', '\\'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $name);
         $name = preg_replace('/[!#$&\'()*+,:;=?@[\\]% -]+/', '_', trim(strtolower(cleanString($name))));
         $name = preg_replace('/\/{2,}/', '/', trim(strtolower(cleanString($name))));
         if (function_exists('mb_ereg_replace')) {
@@ -432,9 +449,10 @@ abstract class ObjectYPT implements ObjectInterface {
      * @param type $lifetime, if is = 0 it is unlimited
      * @return type
      */
-    public static function getCache($name, $lifetime = 60, $ignoreSessionCache = false) {
+    public static function getCache($name, $lifetime = 60, $ignoreSessionCache = false)
+    {
         global $global;
-        if(!empty($global['ignoreAllCache'])){
+        if (!empty($global['ignoreAllCache'])) {
             return null;
         }
         self::setLastUsedCacheMode("No cache detected $name, $lifetime, " . intval($ignoreSessionCache));
@@ -445,13 +463,13 @@ abstract class ObjectYPT implements ObjectInterface {
             $lifetime = 0;
         }
         global $getCachesProcessed, $_getCache;
-        
+
         if (empty($_getCache)) {
-            $_getCache = array();
+            $_getCache = [];
         }
 
         if (empty($getCachesProcessed)) {
-            $getCachesProcessed = array();
+            $getCachesProcessed = [];
         }
         $cachefile = self::getCacheFileName($name, false);
         //var_dump($cachefile);//exit;
@@ -481,13 +499,13 @@ abstract class ObjectYPT implements ObjectInterface {
             }
         }
 
-        if(self::shouldUseDatabase('')){
+        if (self::shouldUseDatabase('')) {
             $cache = Cache::getCache($name, $lifetime);
-            if(!empty($cache)){
+            if (!empty($cache)) {
                 return $cache;
             }
         }
-        
+
         /*
           if (preg_match('/firstpage/i', $cachefile)) {
           echo var_dump($cachefile) . PHP_EOL;
@@ -521,29 +539,33 @@ abstract class ObjectYPT implements ObjectInterface {
         //_error_log("YPTObject::getCache log error [{$name}] $cachefile filemtime = ".filemtime($cachefile));
         return null;
     }
-    
-    private static function setLastUsedCacheMode($mode) {
+
+    private static function setLastUsedCacheMode($mode)
+    {
         global $_lastCacheMode;
         $_lastCacheMode = $mode;
     }
 
-    private static function setLastUsedCacheFile($cachefile) {
+    private static function setLastUsedCacheFile($cachefile)
+    {
         global $_lastCacheFile;
         $_lastCacheFile = $cachefile;
     }
 
-    public static function getLastUsedCacheInfo() {
+    public static function getLastUsedCacheInfo()
+    {
         global $_lastCacheFile, $_lastCacheMode;
-        return array('file' => $_lastCacheFile, 'mode' => $_lastCacheMode);
+        return ['file' => $_lastCacheFile, 'mode' => $_lastCacheMode];
     }
 
-    public static function deleteCache($name) {
+    public static function deleteCache($name)
+    {
         if (empty($name) || !class_exists('Cache')) {
             return false;
         }
-        
+
         Cache::deleteCache($name);
-        
+
         global $__getAVideoCache;
         unset($__getAVideoCache);
         //_error_log('deleteCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -553,7 +575,8 @@ abstract class ObjectYPT implements ObjectInterface {
         ObjectYPT::deleteCacheFromPattern($name);
     }
 
-    static function deleteCachePattern($pattern) {
+    public static function deleteCachePattern($pattern)
+    {
         global $__getAVideoCache;
         unset($__getAVideoCache);
         $tmpDir = self::getCacheDir();
@@ -573,9 +596,10 @@ abstract class ObjectYPT implements ObjectInterface {
         }
     }
 
-    public static function deleteALLCache() {
-        if(class_exists('Cache')){
-            Cache::deleteAllCache();        
+    public static function deleteALLCache()
+    {
+        if (class_exists('Cache')) {
+            Cache::deleteAllCache();
         }
         self::deleteAllSessionCache();
         $lockFile = getVideosDir() . '.deleteALLCache.lock';
@@ -589,14 +613,14 @@ abstract class ObjectYPT implements ObjectInterface {
         unset($__getAVideoCache);
         //_error_log('deleteALLCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $tmpDir = self::getCacheDir('', false);
-        
+
         $newtmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . uniqid();
         _error_log("deleteALLCache rename($tmpDir, $newtmpDir) ");
         rename($tmpDir, $newtmpDir);
         if (is_dir($tmpDir)) {
             _error_log('deleteALLCache 1 rmdir ' . $tmpDir);
             rrmdir($tmpDir);
-        } else if(preg_match('/videos.cache/', $newtmpDir)){ 
+        } elseif (preg_match('/videos.cache/', $newtmpDir)) {
             // only delete if it is on the videos dir. otherwise it is on the /tmp dit and the system will delete it
             _error_log('deleteALLCache 2 rmdir ' . $newtmpDir);
             rrmdirCommandLine($newtmpDir, true);
@@ -608,11 +632,12 @@ abstract class ObjectYPT implements ObjectInterface {
         return true;
     }
 
-    public static function getCacheDir($filename = '', $createDir=true) {
+    public static function getCacheDir($filename = '', $createDir=true)
+    {
         global $_getCacheDir, $global;
 
         if (!isset($_getCacheDir)) {
-            $_getCacheDir = array();
+            $_getCacheDir = [];
         }
 
         if (!empty($_getCacheDir[$filename])) {
@@ -628,9 +653,9 @@ abstract class ObjectYPT implements ObjectInterface {
             $tmpDir .= $filename . DIRECTORY_SEPARATOR;
 
             $domain = getDomain();
-            // make sure you separete http and https cache 
+            // make sure you separete http and https cache
             $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
-            
+
             $tmpDir .= "{$protocol}_{$domain}" . DIRECTORY_SEPARATOR;
 
             if (class_exists("User_Location")) {
@@ -651,7 +676,7 @@ abstract class ObjectYPT implements ObjectInterface {
             }
         }
         $tmpDir = fixPath($tmpDir);
-        if($createDir){
+        if ($createDir) {
             make_path($tmpDir);
         }
         if (!file_exists($tmpDir . "index.html") && is_writable($tmpDir)) {// to avoid search into the directory
@@ -662,14 +687,16 @@ abstract class ObjectYPT implements ObjectInterface {
         return $tmpDir;
     }
 
-    public static function getCacheFileName($name, $createDir=true) {
+    public static function getCacheFileName($name, $createDir=true)
+    {
         global $global;
         $tmpDir = self::getCacheDir($name, $createDir);
         $uniqueHash = md5($name . $global['salt']); // add salt for security reasons
         return $tmpDir . $uniqueHash . '.cache';
     }
 
-    public static function deleteCacheFromPattern($name) {
+    public static function deleteCacheFromPattern($name)
+    {
         if (empty($name)) {
             return false;
         }
@@ -689,7 +716,8 @@ abstract class ObjectYPT implements ObjectInterface {
      * @param type $name
      * @param type $value
      */
-    public static function setSessionCache($name, $value) {
+    public static function setSessionCache($name, $value)
+    {
         $name = self::cleanCacheName($name);
         _session_start();
         $_SESSION['user']['sessionCache'][$name]['value'] = json_encode($value);
@@ -705,7 +733,8 @@ abstract class ObjectYPT implements ObjectInterface {
      * @param type $lifetime, if is = 0 it is unlimited
      * @return type
      */
-    public static function getSessionCache($name, $lifetime = 60) {
+    public static function getSessionCache($name, $lifetime = 60)
+    {
         $name = self::cleanCacheName($name);
         if (!empty($_GET['lifetime'])) {
             $lifetime = intval($_GET['lifetime']);
@@ -726,24 +755,28 @@ abstract class ObjectYPT implements ObjectInterface {
         return null;
     }
 
-    public static function clearSessionCache() {
+    public static function clearSessionCache()
+    {
         unset($_SESSION['user']['sessionCache']);
     }
 
-    private static function getLastDeleteALLCacheTimeFile() {
+    private static function getLastDeleteALLCacheTimeFile()
+    {
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . "/";
         $tmpDir .= "lastDeleteALLCacheTime.cache";
         return $tmpDir;
     }
 
-    public static function setLastDeleteALLCacheTime() {
+    public static function setLastDeleteALLCacheTime()
+    {
         $file = self::getLastDeleteALLCacheTimeFile();
         //_error_log("ObjectYPT::setLastDeleteALLCacheTime {$file}");
         return file_put_contents($file, time());
     }
 
-    public static function getLastDeleteALLCacheTime() {
+    public static function getLastDeleteALLCacheTime()
+    {
         global $getLastDeleteALLCacheTime;
         if (empty($getLastDeleteALLCacheTime)) {
             $getLastDeleteALLCacheTime = (int) @file_get_contents(self::getLastDeleteALLCacheTimeFile(), time());
@@ -751,7 +784,8 @@ abstract class ObjectYPT implements ObjectInterface {
         return $getLastDeleteALLCacheTime;
     }
 
-    public static function checkSessionCacheBasedOnLastDeleteALLCacheTime() {
+    public static function checkSessionCacheBasedOnLastDeleteALLCacheTime()
+    {
         /*
           var_dump(
           $session_var['time'],
@@ -768,24 +802,28 @@ abstract class ObjectYPT implements ObjectInterface {
         return true;
     }
 
-    public static function deleteSessionCache($name) {
+    public static function deleteSessionCache($name)
+    {
         $name = self::cleanCacheName($name);
         _session_start();
         $_SESSION['user']['sessionCache'][$name] = null;
         unset($_SESSION['user']['sessionCache'][$name]);
     }
 
-    public static function deleteAllSessionCache() {
+    public static function deleteAllSessionCache()
+    {
         _session_start();
         unset($_SESSION['user']['sessionCache']);
         return empty($_SESSION['user']['sessionCache']);
     }
 
-    public function tableExists() {
+    public function tableExists()
+    {
         return self::isTableInstalled();
     }
 
-    public static function isTableInstalled($tableName = "") {
+    public static function isTableInstalled($tableName = "")
+    {
         global $global, $tableExists;
         if (empty($tableName)) {
             $tableName = static::getTableName();
@@ -804,8 +842,8 @@ abstract class ObjectYPT implements ObjectInterface {
         return $tableExists[$tableName];
     }
 
-    static function clientTimezoneToDatabaseTimezone($clientDate) {
-
+    public static function clientTimezoneToDatabaseTimezone($clientDate)
+    {
         if (!preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $clientDate)) {
             return $clientDate;
         }
@@ -820,7 +858,6 @@ abstract class ObjectYPT implements ObjectInterface {
         date_default_timezone_set($currentTimezone);
         return $dbDate;
     }
-
 }
 
 //abstract class Object extends ObjectYPT{};

@@ -19,7 +19,7 @@ if (empty($_POST['format']) || !in_array($_POST['format'], $global['allowedExten
     _error_log("aVideoEncoder.json: Extension not allowed File " . __FILE__ . ": " . json_encode($_POST));
     die();
 }
-if(!isset($_REQUEST['encodedPass'])){
+if (!isset($_REQUEST['encodedPass'])) {
     $_REQUEST['encodedPass'] = 1;
 }
 useVideoHashOrLogin();
@@ -42,7 +42,7 @@ _error_log("aVideoEncoder.json: start to receive: " . json_encode($_POST));
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", @$_POST['videos_id']);
 
-if(!empty($video->getId()) && !empty($_REQUEST['first_request'])){
+if (!empty($video->getId()) && !empty($_REQUEST['first_request'])) {
     _error_log("aVideoEncoder.json: There is a new video to replace the existing one, we will delete the current files videos_id = ".$video->getId());
     $video->removeVideoFiles();
 }
@@ -61,9 +61,9 @@ if (empty($description)) {
 }
 
 
-if(!empty($_REQUEST['duration'])){
+if (!empty($_REQUEST['duration'])) {
     $duration = $video->getDuration();
-    if(empty($duration) || $duration === 'EE:EE:EE'){
+    if (empty($duration) || $duration === 'EE:EE:EE') {
         $video->setDuration($_REQUEST['duration']);
     }
 }
@@ -104,7 +104,7 @@ if (!empty($_FILES)) {
 }
 
 if (!empty($_FILES['video']['error'])) {
-    $phpFileUploadErrors = array(
+    $phpFileUploadErrors = [
         0 => 'There is no error, the file uploaded with success',
         1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
         2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
@@ -113,7 +113,7 @@ if (!empty($_FILES['video']['error'])) {
         6 => 'Missing a temporary folder',
         7 => 'Failed to write file to disk.',
         8 => 'A PHP extension stopped the file upload.',
-    );
+    ];
     _error_log("aVideoEncoder.json: ********  Files ERROR " . $phpFileUploadErrors[$_FILES['video']['error']]);
     if (!empty($_POST['downloadURL'])) {
         $_FILES['video']['tmp_name'] = downloadVideoFromDownloadURL($_POST['downloadURL']);
@@ -126,7 +126,7 @@ if (empty($_FILES['video']['tmp_name']) && !empty($_POST['chunkFile'])) {
 
 // get video file from encoder
 if (!empty($_FILES['video']['tmp_name'])) {
-    $resolution = "";
+    $resolution = '';
     if (!empty($_POST['resolution'])) {
         $resolution = "_{$_POST['resolution']}";
     }
@@ -169,7 +169,7 @@ $video->updateHLSDurationIfNeed();
 
 if (!empty($_POST['usergroups_id'])) {
     if (!is_array($_POST['usergroups_id'])) {
-        $_POST['usergroups_id'] = array($_POST['usergroups_id']);
+        $_POST['usergroups_id'] = [$_POST['usergroups_id']];
     }
     UserGroups::updateVideoGroups($video_id, $_POST['usergroups_id']);
 }
@@ -181,10 +181,10 @@ $v = new Video('', '', $video_id);
 $obj->video_id_hash = $v->getVideoIdHash();
 
 _error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
-if(!empty($destinationFile)){
-    if(file_exists($destinationFile)){
+if (!empty($destinationFile)) {
+    if (file_exists($destinationFile)) {
         _error_log("aVideoEncoder.json: Success $destinationFile ");
-    }else{
+    } else {
         _error_log("aVideoEncoder.json: ERROR $destinationFile ");
     }
 }
@@ -196,7 +196,8 @@ die(json_encode($obj));
   var_dump($_POST, $_FILES);
  */
 
-function downloadVideoFromDownloadURL($downloadURL){
+function downloadVideoFromDownloadURL($downloadURL)
+{
     global $global;
     _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
     $file = url_get_contents($_POST['downloadURL']);
@@ -212,11 +213,11 @@ function downloadVideoFromDownloadURL($downloadURL){
         $temp = Video::getStoragePath()."cache/tmpFile/" . $_FILES['video']['name'];
         make_path($temp);
         $bytesSaved = file_put_contents($temp, $file);
-        if($bytesSaved){
+        if ($bytesSaved) {
             _error_log("aVideoEncoder.json: saved " . $temp  . ' '. humanFileSize($bytesSaved));
             return $temp;
-        }else{
-            _error_log("aVideoEncoder.json: ERROR on save file " . $temp );
+        } else {
+            _error_log("aVideoEncoder.json: ERROR on save file " . $temp);
         }
     }
     return false;

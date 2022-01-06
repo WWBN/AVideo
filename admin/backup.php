@@ -6,8 +6,7 @@
                 <?php
                 if (AVideoPlugin::exists('Backup')) {
                     include $global['systemRootPath'] . 'plugin/Backup/backupEditor_head.php';
-                    include $global['systemRootPath'] . 'plugin/Backup/backupEditor_body.php';
-                    ?>
+                    include $global['systemRootPath'] . 'plugin/Backup/backupEditor_body.php'; ?>
                     <hr>
                     <div class="alert alert-info">
                         <i class="fas fa-info-circle"></i> <?php echo __('As a database increases in size full database backups take more time to complete, and require more storage space. Please be patient'); ?>
@@ -36,8 +35,8 @@
                     <?php echo __('You May find some help how to use Clone Plugin'); ?> <a target="_blank" href="https://github.com/WWBN/AVideo/wiki/Clone-Site-Plugin" rel="noopener noreferrer"><?php echo __('here'); ?></a>
                 </div>
                 <?php
-                $filter = array(
-                    'cloneSiteURL' => __('Place here the URL of the site you want to clone'));
+                $filter = [
+                    'cloneSiteURL' => __('Place here the URL of the site you want to clone'), ];
                 echo createTable("CloneSite", $filter);
                 include $global['systemRootPath'] . 'plugin/CloneSite/pluginMenu.html';
                 ?>

@@ -1,16 +1,15 @@
 <?php
-
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
-$obj->msg = "";
+$obj->msg = '';
 $obj->url = @$_REQUEST['url'];
-$obj->embed = "";
-$obj->playLink = "";
-$obj->playEmbedLink = "";
+$obj->embed = '';
+$obj->playLink = '';
+$obj->playEmbedLink = '';
 
 if (!isValidURL($obj->url)) {
     $obj->msg = "URL is invalid";
@@ -24,12 +23,12 @@ $obj->embed = parseVideos($obj->url, 1);
 $evideo = new stdClass();
 $evideo->videos_id = 0;
 $evideo->videoLink = $obj->url;
-$evideo->title = "";
-$evideo->description = "";
+$evideo->title = '';
+$evideo->description = '';
 $evideo->webSiteRootURL = $global['webSiteRootURL'];
 $evideo->thumbnails = false;
 $evideo->poster = false;
-$evideo->filename = "";
+$evideo->filename = '';
 $evideo->type = 'embed';
 $evideo->users_id = User::getId();
 $evideo->thumbnails = false;

@@ -20,7 +20,7 @@ $users_id = User::getId();
 if (!User::isAdmin()) {
     if ($config->getAuthCanViewChart() == 0 && !User::canUpload()) {
         forbiddenPage("Only video uploaders can see charts");
-    }    
+    }
     if ($config->getAuthCanViewChart() == 1) {
         // mode 1 means selected users see admin-charts.
         if (empty($_SESSION['user']['canViewChart'])) {
@@ -46,15 +46,15 @@ if (!User::isAdmin()) {
     }
 
     <?php
-    $cssPanel = array(
-        'green' => array('5cb85c', '3d8b3d'),
-        'red' => array('d9534f', 'b52b27'),
-        'yellow' => array('f0ad4e', 'df8a13'),
-        'orange' => array('f26c23', 'bd4a0b'),
-        'purple' => array('5133ab', '31138b'),
-        'wine' => array('ac193d', '9c091d'),
-        'blue' => array('2672ec', '0252ac')
-    );
+    $cssPanel = [
+        'green' => ['5cb85c', '3d8b3d'],
+        'red' => ['d9534f', 'b52b27'],
+        'yellow' => ['f0ad4e', 'df8a13'],
+        'orange' => ['f26c23', 'bd4a0b'],
+        'purple' => ['5133ab', '31138b'],
+        'wine' => ['ac193d', '9c091d'],
+        'blue' => ['2672ec', '0252ac'],
+    ];
     foreach ($cssPanel as $key => $value) {
         ?>
         .panel-<?php echo $key; ?> {

@@ -1,5 +1,5 @@
 <?php
-$filter = array(
+$filter = [
     'disableNativeSignUp'=>__('This is useful if you want to use our LDAP plugin or maybe only allow authentication from Social Networks'),
     'disableNativeSignIn'=>__('This is useful if you want to use our LDAP plugin or maybe only allow authentication from Social Networks'),
     'disablePersonalInfo'=>__('Disable the My Account personal info like: First and Last Name and address'),
@@ -10,6 +10,6 @@ $filter = array(
     'unverifiedEmailsCanNOTLogin'=>__('Users must verify their emails before login'),
     'onlyVerifiedEmailCanUpload'=>__('Users must verify their emails before upload/submit videos'),
     'sendVerificationMailAutomatic'=>__('After sign up we will automatic send a verification email'),
-    'userMustBeLoggedIn'=>__('Hide the website to non logged users')
-);
+    'userMustBeLoggedIn'=>__('Hide the website to non logged users'),
+];
 createTable("CustomizeUser", $filter);

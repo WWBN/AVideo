@@ -272,8 +272,8 @@ $delay = 0.5;
                 }
             });
         });
-        
-        
+
+
         $('#channelListSwitch').change(function (e) {
             if ($(this).is(":checked")) {
                 $('#gallerySwitch').prop('checked', false);

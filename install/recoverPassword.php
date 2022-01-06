@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -59,7 +58,3 @@ if (empty($userName) || empty($password)) {
 echo "Bye";
 echo "\n";
 die();
-
-
-
-

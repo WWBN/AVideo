@@ -43,7 +43,7 @@
         $( "#datefrom2" ).datepicker( "setDate", "<?php echo date("m/d/Y", strtotime("-30 days"));?>" );
         $( "#dateto2" ).datepicker();
         $( "#dateto2" ).datepicker( "setDate", "<?php echo date("m/d/Y");?>" );
-        
+
         $('#refresh2').click(function(){
             $('#dt2').DataTable().ajax.reload();
         });

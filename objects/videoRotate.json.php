@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -10,12 +10,12 @@ if (!User::canUpload() || empty($_POST['id'])) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 
-$type = !empty($_POST['type'])?$_POST['type']:"";
+$type = !empty($_POST['type']) ? $_POST['type'] : "";
 
 require_once 'video.php';
 
 $obj = new Video("", "", $_POST['id']);
-if(empty($obj)){
+if (empty($obj)) {
     croak(["error" => "Video not found"]);
 }
 

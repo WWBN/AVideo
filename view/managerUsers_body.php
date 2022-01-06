@@ -78,8 +78,7 @@
             </div>
             <?php
             foreach ($userGroups as $value) {
-                $gridID = "userGroupGrid{$value['id']}";
-                ?>
+                $gridID = "userGroupGrid{$value['id']}"; ?>
                 <div id="userGroupTab<?php echo $value['id']; ?>" class="tab-pane fade">
                     <div class="btn-group pull-left" id="filterButtonsUG<?php echo $value['id']; ?>">
                         <div class="btn-group ">
@@ -452,7 +451,7 @@ print AVideoPlugin::updateUserFormJS();
                     return editBtn + infoBtn + pluginsButtons;
                 },
                 "tags": function (column, row) {
-                    var tags = "";
+                    var tags = '';
                     for (var i in row.tags) {
                         if (typeof row.tags[i].type == "undefined") {
                             continue;
@@ -462,7 +461,7 @@ print AVideoPlugin::updateUserFormJS();
                     return tags;
                 },
                 "user": function (column, row) {
-                    var photo = "";
+                    var photo = '';
                     if (row.photoURL) {
                         photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:100px;'/>";
                     }
@@ -486,7 +485,7 @@ print AVideoPlugin::updateUserFormJS();
                 $('.userGroups').prop('checked', false);
                 $('.usergroupsLi').removeClass('dynamic');
                 $('.usergroupsLi input').removeAttr('disabled');
-                
+
                 for (var index in row.groups) {
                     $('#userGroup' + row.groups[index].id).prop('checked', true);
                     if(row.groups[index].isDynamic){

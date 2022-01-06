@@ -43,7 +43,7 @@ if (isset($_GET['code'])) {
     header('Location: ' . $redirect);
 }
 if (!is_array($_POST['id'])) {
-    $_POST['id'] = array($_POST['id']);
+    $_POST['id'] = [$_POST['id']];
 }
 foreach ($_POST['id'] as $value) {
     $v = new Video("", "", $value);
@@ -66,7 +66,7 @@ foreach ($_POST['id'] as $value) {
             $snippet = new Google_Service_YouTube_VideoSnippet();
             $snippet->setTitle($v->getTitle());
             $snippet->setDescription($v->getDescription());
-            $snippet->setTags(array("AVideo", $config->getWebSiteTitle()));
+            $snippet->setTags(["AVideo", $config->getWebSiteTitle()]);
             // Numeric video category. See
             // https://developers.google.com/youtube/v3/docs/videoCategories/list
             // $snippet->setCategoryId("22");

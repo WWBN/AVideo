@@ -9,7 +9,7 @@ if (User::isLogged()) {
     redirectIfRedirectUriIsSet();
 }
 $tags = User::getTags(User::getId());
-$tagsStr = "";
+$tagsStr = '';
 foreach ($tags as $value) {
     $tagsStr .= "<span class=\"label label-{$value->type} fix-width\">{$value->text}</span>";
 }
@@ -63,8 +63,7 @@ foreach ($tags as $value) {
                                     <div class="tab-content">
                                         <div id="basicInfo" class="tab-pane fade in active" style="padding: 10px 0;">
                                             <?php
-                                            include $global['systemRootPath'] . './view/userBasicInfo.php';
-                                            ?>
+                                            include $global['systemRootPath'] . './view/userBasicInfo.php'; ?>
                                         </div>
 
                                         <?php if (empty($advancedCustomUser->disablePersonalInfo)) { ?>

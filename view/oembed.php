@@ -9,17 +9,17 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 require_once '../videos/configuration.php';
 
-if(empty($_REQUEST['url'])){
+if (empty($_REQUEST['url'])) {
     forbiddenPage("URL not defined");
 }
 
-if(!isSameDomain($global['webSiteRootURL'], $_REQUEST['url'])){
+if (!isSameDomain($global['webSiteRootURL'], $_REQUEST['url'])) {
     forbiddenPage("It is not from the same domain");
 }
 
 $vars["v"] = getVideoIDFromURL($_REQUEST['url']);
 
-if(empty($vars["v"])){
+if (empty($vars["v"])) {
     forbiddenPage("Video variable not found");
 }
 
@@ -27,13 +27,13 @@ $videos_id = intval($vars["v"]);
 
 $video = Video::getVideo($videos_id);
 
-if(empty($video)){
+if (empty($video)) {
     forbiddenPage("Video not found");
 }
 
 $format = 'json';
 
-if(empty($_REQUEST['format']) || $_REQUEST['format']=='xml'){
+if (empty($_REQUEST['format']) || $_REQUEST['format']=='xml') {
     $format = 'xml';
 }
 
@@ -46,7 +46,7 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($
     $data = getimgsize($source['path']);
     $imgw = $data[0];
     $imgh = $data[1];
-} else if ($video['type'] == "audio") {
+} elseif ($video['type'] == "audio") {
     $img = "".getCDN()."view/img/audio_wave.jpg";
 }
 $type = 'video';
@@ -66,8 +66,7 @@ $duration = Video::getItemDurationSeconds($video['duration']);
 $code = str_replace("{embedURL}", $embedURL, $advancedCustom->embedCodeTemplate);
 
 if ($format === 'xml') {
-    header('Content-type: application/xml');
-    ?><?xml version="1.0" encoding="UTF-8"?>    
+    header('Content-type: application/xml'); ?><?xml version="1.0" encoding="UTF-8"?>
 <oembed>
   <version>1.0</version>
   <type>rich</type>
@@ -81,20 +80,19 @@ if ($format === 'xml') {
 </oembed>
     <?php
 } else {
-    header('Content-Type: application/json');
-    $obj=new stdClass();
-    $obj->version = 1.0;
-    $obj->type = "rich";
-    $obj->width = $imgw;
-    $obj->height = $imgh;
-    $obj->title = $title;
-    $obj->url = $link;
-    $obj->provider_name = $siteTitle;
-    $obj->provider_url = $global['webSiteRootURL'];
-    $obj->html = $code;
-    die(json_encode($obj));
-    
-}
+        header('Content-Type: application/json');
+        $obj=new stdClass();
+        $obj->version = 1.0;
+        $obj->type = "rich";
+        $obj->width = $imgw;
+        $obj->height = $imgh;
+        $obj->title = $title;
+        $obj->url = $link;
+        $obj->provider_name = $siteTitle;
+        $obj->provider_url = $global['webSiteRootURL'];
+        $obj->html = $code;
+        die(json_encode($obj));
+    }
 
 
 ?>

@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -18,17 +17,13 @@ sqlDAL::close($res);
 if ($res != false) {
     foreach ($users as $row) {
         echo "-----------------------------------".PHP_EOL;
-        if(!empty($row['public'])){
+        if (!empty($row['public'])) {
             echo "PUBLIC ";
         }
         echo "{$row['id']} - {$row['user']} ".PHP_EOL;
-        echo Live::getServer() . "?p=" . $row['password'] . "/" . $row['key'].PHP_EOL;  
+        echo Live::getServer() . "?p=" . $row['password'] . "/" . $row['key'].PHP_EOL;
         echo Live::getLinkToLiveFromUsers_id($row['id']).PHP_EOL;
         echo "-----------------------------------".PHP_EOL;
     }
 }
 die();
-
-
-
-

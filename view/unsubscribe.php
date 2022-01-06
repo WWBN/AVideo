@@ -4,17 +4,17 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
-if(empty($_REQUEST['users_id'])){
+if (empty($_REQUEST['users_id'])) {
     forbiddenPage('Invalid users_id');
 }
 
-if(!User::isLogged()){
+if (!User::isLogged()) {
     gotToLoginAndComeBackHere('');
 }
 
 $row = Subscribe::getSubscribeFromID(User::getId(), $_REQUEST['users_id'], '');
 
-if(empty($row)){
+if (empty($row)) {
     forbiddenPage('Invalid subscription');
 }
 

@@ -1,5 +1,4 @@
 <?php
-
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -7,8 +6,8 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
-class Configuration {
-
+class Configuration
+{
     private $id;
     private $video_resolution;
     private $webSiteTitle;
@@ -43,19 +42,21 @@ class Configuration {
     // version 4
     private $encoderURL;
 
-    function __construct($video_resolution = "") {
+    public function __construct($video_resolution = "")
+    {
         $this->load();
         if (!empty($video_resolution)) {
             $this->video_resolution = $video_resolution;
         }
     }
 
-    function load() {
+    public function load()
+    {
         global $global;
         $sql = "SELECT * FROM configurations WHERE id = 1 LIMIT 1";
         //echo $sql;exit;
         // add true because I was not getting the SMTP configuration on function setSiteSendMessage(&$mail)
-        $res = sqlDAL::readSql($sql, "", array(), true);
+        $res = sqlDAL::readSql($sql, "", [], true);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res && !empty($result)) {
@@ -69,7 +70,8 @@ class Configuration {
         }
     }
 
-    function save() {
+    public function save()
+    {
         global $global;
         if (!User::isAdmin()) {
             header('Content-Type: application/json');
@@ -113,98 +115,119 @@ class Configuration {
         return sqlDAL::writeSql($sql);
     }
 
-    function getVideo_resolution() {
+    public function getVideo_resolution()
+    {
         return $this->video_resolution;
     }
 
-    function getUsers_id() {
+    public function getUsers_id()
+    {
         return $this->users_id;
     }
 
-    function getVersion() {
+    public function getVersion()
+    {
         if (empty($this->version)) {
             return " 0.1";
         }
         return $this->version;
     }
 
-    function getWebSiteTitle() {
+    public function getWebSiteTitle()
+    {
         return $this->webSiteTitle;
     }
 
-    function getLanguage() {
+    public function getLanguage()
+    {
         if ($this->language == "en") {
             return "us";
         }
         return $this->language;
     }
 
-    function getContactEmail() {
+    public function getContactEmail()
+    {
         return $this->contactEmail;
     }
 
-    function setVideo_resolution($video_resolution) {
+    public function setVideo_resolution($video_resolution)
+    {
         $this->video_resolution = $video_resolution;
     }
 
-    function setWebSiteTitle($webSiteTitle) {
+    public function setWebSiteTitle($webSiteTitle)
+    {
         $this->webSiteTitle = $webSiteTitle;
     }
 
-    function setLanguage($language) {
+    public function setLanguage($language)
+    {
         $this->language = $language;
     }
 
-    function setContactEmail($contactEmail) {
+    public function setContactEmail($contactEmail)
+    {
         $this->contactEmail = $contactEmail;
     }
 
-    function currentVersionLowerThen($version) {
+    public function currentVersionLowerThen($version)
+    {
         return version_compare($version, $this->getVersion()) > 0;
     }
 
-    function currentVersionGreaterThen($version) {
+    public function currentVersionGreaterThen($version)
+    {
         return version_compare($version, $this->getVersion()) < 0;
     }
 
-    function currentVersionEqual($version) {
+    public function currentVersionEqual($version)
+    {
         return version_compare($version, $this->getVersion()) == 0;
     }
 
-    function getAuthCanUploadVideos() {
+    public function getAuthCanUploadVideos()
+    {
         return $this->authCanUploadVideos;
     }
 
-    function getAuthCanViewChart() {
+    public function getAuthCanViewChart()
+    {
         return $this->authCanViewChart;
     }
 
-    function getAuthCanComment() {
+    public function getAuthCanComment()
+    {
         return $this->authCanComment;
     }
 
-    function setAuthCanUploadVideos($authCanUploadVideos) {
+    public function setAuthCanUploadVideos($authCanUploadVideos)
+    {
         $this->authCanUploadVideos = intval($authCanUploadVideos);
     }
 
-    function setAuthCanViewChart($authCanViewChart) {
+    public function setAuthCanViewChart($authCanViewChart)
+    {
         $this->authCanViewChart = $authCanViewChart;
     }
 
-    function setAuthCanComment($authCanComment) {
+    public function setAuthCanComment($authCanComment)
+    {
         $this->authCanComment = $authCanComment;
     }
 
-    function getHead() {
+    public function getHead()
+    {
         return $this->head;
     }
 
-    function getLogo($timestamp = false) {
+    public function getLogo($timestamp = false)
+    {
         global $global;
         if (empty($this->logo)) {
             return "view/img/logo.png";
         }
-        $get = "";
+        $get = '';
         $file = str_replace("?", "", $global['systemRootPath'] . $this->logo);
         if ($timestamp && file_exists($file)) {
             $get .= "?" . filemtime($file);
@@ -212,7 +235,8 @@ class Configuration {
         return $this->logo . $get;
     }
 
-    static function _getFavicon($getPNG = false) {
+    public static function _getFavicon($getPNG = false)
+    {
         global $global;
         $file = false;
         $url = false;
@@ -232,10 +256,11 @@ class Configuration {
                 $url = getCDN()."view/img/favicon.png";
             }
         }
-        return array('file' => $file, 'url' => $url);
+        return ['file' => $file, 'url' => $url];
     }
 
-    function getFavicon($getPNG = false, $getTime = true) {
+    public function getFavicon($getPNG = false, $getTime = true)
+    {
         $return = self::_getFavicon($getPNG);
         if ($getTime) {
             return $return['url'] . "?" . filemtime($return['file']);
@@ -244,98 +269,118 @@ class Configuration {
         }
     }
 
-    static function getOGImage() {
+    public static function getOGImage()
+    {
         global $global;
         $destination = Video::getStoragePath()."cache/og_200X200.jpg";
         $return = self::_getFavicon(true);
-        if(file_exists($return['file'])){
+        if (file_exists($return['file'])) {
             convertImageToOG($return['file'], $destination);
         }
         return getCDN() . "videos/cache/og_200X200.jpg";
     }
 
-    function setHead($head) {
+    public function setHead($head)
+    {
         $this->head = $head;
     }
 
-    function setLogo($logo) {
+    public function setLogo($logo)
+    {
         $this->logo = $logo;
     }
 
-    function getLogo_small() {
+    public function getLogo_small()
+    {
         if (empty($this->logo_small)) {
             return "view/img/logo32.png";
         }
         return $this->logo_small;
     }
 
-    function setLogo_small($logo_small) {
+    public function setLogo_small($logo_small)
+    {
         $this->logo_small = $logo_small;
     }
 
-    function getAdsense() {
+    public function getAdsense()
+    {
         return $this->adsense;
     }
 
-    function setAdsense($adsense) {
+    public function setAdsense($adsense)
+    {
         $this->adsense = $adsense;
     }
 
-    function getMode() {
+    public function getMode()
+    {
         if (empty($this->mode)) {
             return 'Youtube';
         }
         return $this->mode;
     }
 
-    function setMode($mode) {
+    public function setMode($mode)
+    {
         $this->mode = $mode;
     }
 
     // version 2.7
-    function getDisable_analytics() {
+    public function getDisable_analytics()
+    {
         return $this->disable_analytics;
     }
 
-    function getDisable_youtubeupload() {
+    public function getDisable_youtubeupload()
+    {
         return $this->disable_youtubeupload;
     }
 
-    function getAllow_download() {
+    public function getAllow_download()
+    {
         return $this->allow_download;
     }
 
-    function getSession_timeout() {
+    public function getSession_timeout()
+    {
         return $this->session_timeout;
     }
 
-    function setDisable_analytics($disable_analytics) {
+    public function setDisable_analytics($disable_analytics)
+    {
         $this->disable_analytics = ($disable_analytics == 'true' || $disable_analytics == '1') ? 1 : 0;
     }
 
-    function setDisable_youtubeupload($disable_youtubeupload) {
+    public function setDisable_youtubeupload($disable_youtubeupload)
+    {
         $this->disable_youtubeupload = ($disable_youtubeupload == 'true' || $disable_youtubeupload == '1') ? 1 : 0;
     }
 
-    function setAllow_download($allow_download) {
+    public function setAllow_download($allow_download)
+    {
         $this->allow_download = ($allow_download == 'true' || $allow_download == '1') ? 1 : 0;
     }
 
-    function setSession_timeout($session_timeout) {
+    public function setSession_timeout($session_timeout)
+    {
         $this->session_timeout = $session_timeout;
     }
 
-    function getAutoplay() {
+    public function getAutoplay()
+    {
         return intval($this->autoplay);
     }
 
-    function setAutoplay($autoplay) {
+    public function setAutoplay($autoplay)
+    {
         $this->autoplay = ($autoplay == 'true' || $autoplay == '1') ? 1 : 0;
     }
 
     // end version 2.7
 
-    static function rewriteConfigFile() {
+    public static function rewriteConfigFile()
+    {
         global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase;
         if (empty($global['salt'])) {
             $global['salt'] = uniqid();
@@ -395,100 +440,118 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         fclose($fp);
     }
 
-    function getTheme() {
+    public function getTheme()
+    {
         if (empty($this->theme)) {
             return "default";
         }
         return $this->theme;
     }
 
-    function setTheme($theme) {
+    public function setTheme($theme)
+    {
         $this->theme = $theme;
     }
 
-    function getSmtp() {
+    public function getSmtp()
+    {
         return intval($this->smtp);
     }
 
-    function getSmtpAuth() {
+    public function getSmtpAuth()
+    {
         return intval($this->smtpAuth);
     }
 
-    function getSmtpSecure() {
+    public function getSmtpSecure()
+    {
         return $this->smtpSecure;
     }
 
-    function getSmtpHost() {
+    public function getSmtpHost()
+    {
         return $this->smtpHost;
     }
 
-    function getSmtpUsername() {
+    public function getSmtpUsername()
+    {
         return $this->smtpUsername;
     }
 
-    function getSmtpPassword() {
+    public function getSmtpPassword()
+    {
         return $this->smtpPassword;
     }
 
-    function setSmtp($smtp) {
+    public function setSmtp($smtp)
+    {
         $this->smtp = ($smtp == 'true' || $smtp == '1') ? 1 : 0;
     }
 
-    function setSmtpAuth($smtpAuth) {
+    public function setSmtpAuth($smtpAuth)
+    {
         $this->smtpAuth = ($smtpAuth == 'true' || $smtpAuth == '1') ? 1 : 0;
     }
 
-    function setSmtpSecure($smtpSecure) {
+    public function setSmtpSecure($smtpSecure)
+    {
         $this->smtpSecure = $smtpSecure;
     }
 
-    function setSmtpHost($smtpHost) {
+    public function setSmtpHost($smtpHost)
+    {
         $this->smtpHost = $smtpHost;
     }
 
-    function setSmtpUsername($smtpUsername) {
+    public function setSmtpUsername($smtpUsername)
+    {
         $this->smtpUsername = $smtpUsername;
     }
 
-    function setSmtpPassword($smtpPassword) {
+    public function setSmtpPassword($smtpPassword)
+    {
         $this->smtpPassword = $smtpPassword;
     }
 
-    function getSmtpPort() {
+    public function getSmtpPort()
+    {
         return intval($this->smtpPort);
     }
 
-    function setSmtpPort($smtpPort) {
+    public function setSmtpPort($smtpPort)
+    {
         $this->smtpPort = intval($smtpPort);
     }
 
-    function _getEncoderURL() {
+    public function _getEncoderURL()
+    {
         if (substr($this->encoderURL, -1) !== '/') {
             $this->encoderURL .= "/";
         }
         return $this->encoderURL;
     }
-    
-    function shouldUseEncodernetwork(){
+
+    public function shouldUseEncodernetwork()
+    {
         global $advancedCustom, $global;
-        if(empty($advancedCustom->useEncoderNetworkRecomendation) || empty($advancedCustom->encoderNetwork)){
-           return false; 
+        if (empty($advancedCustom->useEncoderNetworkRecomendation) || empty($advancedCustom->encoderNetwork)) {
+            return false;
         }
-        if($advancedCustom->encoderNetwork === 'https://network.avideo.com/'){   
+        if ($advancedCustom->encoderNetwork === 'https://network.avideo.com/') {
             // check if you have your own encoder
             $encoderConfigFile = "{$global['systemRootPath']}Encoder/videos/configuration.php";
-            if(file_exists($encoderConfigFile)){ // you have an encoder do not use the public one
+            if (file_exists($encoderConfigFile)) { // you have an encoder do not use the public one
                 _error_log("Configuration:shouldUseEncodernetwork 1 You checked the Encoder Network but you have your own encoder, we will ignore this option");
                 return false;
             }
-            
+
             if (substr($this->encoderURL, -1) !== '/') {
                 $this->encoderURL .= "/";
             }
-            
-            if(!preg_match('/encoder[1-9].avideo.com/i', $this->encoderURL)){
+
+            if (!preg_match('/encoder[1-9].avideo.com/i', $this->encoderURL)) {
                 $creatingImages = "{$this->encoderURL}view/img/creatingImages.jpg";
-                if(isURL200($creatingImages)){
+                if (isURL200($creatingImages)) {
                     _error_log("Configuration:shouldUseEncodernetwork 2 You checked the Encoder Network but you have your own encoder, we will ignore this option");
                     return false;
                 }
@@ -497,7 +560,8 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         return true;
     }
 
-    static function deleteEncoderURLCache(){
+    public static function deleteEncoderURLCache()
+    {
         _error_log_debug("Configuration::deleteEncoderURLCache");
         $name = "getEncoderURL" . DIRECTORY_SEPARATOR;
         $tmpDir = ObjectYPT::getCacheDir();
@@ -505,10 +569,11 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         ObjectYPT::deleteCache($name);
         rrmdir($cacheDir);
     }
-    
-    function getEncoderURL() {
+
+    public function getEncoderURL()
+    {
         global $global, $getEncoderURL, $advancedCustom;
-        if(!empty($global['forceEncoderURL'])){
+        if (!empty($global['forceEncoderURL'])) {
             return $global['forceEncoderURL'];
         }
         if (empty($getEncoderURL)) {
@@ -524,7 +589,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
                     } else {
                         error_log("Configuration::getEncoderURL ERROR your network ($advancedCustom->encoderNetwork) is not configured properly This slow down your site a lot, disable the option useEncoderNetworkRecomendation in your CustomizeAdvanced plugin");
                     }
-                }else{
+                } else {
                     //error_log("Configuration::getEncoderURL shouldUseEncodernetwork said no");
                 }
 
@@ -534,22 +599,23 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
                 addLastSlash($this->encoderURL);
                 $getEncoderURL = $this->encoderURL;
                 ObjectYPT::setCache("getEncoderURL", $getEncoderURL);
-            }else{
+            } else {
                 //error_log("Configuration::getEncoderURL got it from cache ". json_encode($getEncoderURL));
             }
         }
         return $getEncoderURL;
     }
 
-    function setEncoderURL($encoderURL) {
+    public function setEncoderURL($encoderURL)
+    {
         $this->encoderURL = $encoderURL;
     }
 
-    function getPageTitleSeparator() {
-        if(!defined('PAGE_TITLE_SEPARATOR')){
+    public function getPageTitleSeparator()
+    {
+        if (!defined('PAGE_TITLE_SEPARATOR')) {
             define("PAGE_TITLE_SEPARATOR", "&middot;"); // This is ready to be configurable, if needed
         }
         return " " . PAGE_TITLE_SEPARATOR . " ";
     }
-
 }
