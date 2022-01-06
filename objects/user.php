@@ -840,6 +840,14 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         global $global, $advancedCustom, $advancedCustomUser, $config;
+
+        if (empty($advancedCustom)) {
+            $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
+        }
+        if (empty($advancedCustom)) {
+            $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+        }
+
         if (strtolower($encodedPass) === 'false') {
             $encodedPass = false;
         }
