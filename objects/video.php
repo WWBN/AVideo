@@ -2049,11 +2049,7 @@ if (!class_exists('Video')) {
 
         public static function getCleanDuration($duration = "") {
             if (empty($duration)) {
-                if (!empty($this) && !empty($this->duration)) {
-                    $durationParts = explode(".", $this->duration);
-                } else {
-                    return "00:00:00";
-                }
+                return "00:00:00";
             } else {
                 $durationParts = explode(".", $duration);
             }
