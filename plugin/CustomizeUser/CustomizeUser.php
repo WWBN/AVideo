@@ -57,7 +57,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->userMustBeLoggedIn = !isset($advancedCustom->userMustBeLoggedIn) ? false : $advancedCustom->userMustBeLoggedIn;
         $obj->userMustBeLoggedInCloseButtonURL = "";
         $obj->onlyVerifiedEmailCanUpload = !isset($advancedCustom->onlyVerifiedEmailCanUpload) ? false : $advancedCustom->onlyVerifiedEmailCanUpload;
-        $obj->sendVerificationMailAutomaic = !isset($advancedCustom->sendVerificationMailAutomaic) ? false : $advancedCustom->sendVerificationMailAutomaic;
+        $obj->sendVerificationMailAutomatic = !isset($advancedCustom->sendVerificationMailAutomatic) ? false : $advancedCustom->sendVerificationMailAutomatic;
 
         $o = new stdClass();
         $o->type = "textarea";
@@ -358,7 +358,7 @@ class CustomizeUser extends PluginAbstract {
         global $global;
         $obj = $this->getDataObject();
 
-        if ($obj->sendVerificationMailAutomaic) {
+        if ($obj->sendVerificationMailAutomatic) {
             url_get_contents("{$global['webSiteRootURL']}objects/userVerifyEmail.php?users_id=$users_id");
         }
     }
