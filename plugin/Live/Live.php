@@ -397,7 +397,7 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('requestStatsTimout', 'Stats Timout', 'If a remote server (stats page) does not respond we stop waiting after this timeout');
         $obj->cacheStatsTimout = 15; // we will cache the result
         self::addDataObjectHelper('cacheStatsTimout', 'Stats Cache Timeout', 'we will cache the result, this will save some resources');
-        $obj->requestStatsInterval = 15; // how many seconds untill request the stats again
+        $obj->requestStatsInterval = 15; // how many seconds until requesting the stats again
         self::addDataObjectHelper('requestStatsInterval', 'Stats Request Interval', 'how many seconds until request the stats again');
         $obj->streamDeniedMsg = "You can not stream live videos";
         self::addDataObjectHelper('streamDeniedMsg', 'Denied Message', 'We will show this message when a user is not allowed so watch a livestream');

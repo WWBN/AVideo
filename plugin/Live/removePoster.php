@@ -15,7 +15,7 @@ if(empty($live_servers_id)){
 }
 
 if (!User::isLogged()) {
-    $obj->msg = 'You cant edit this file';
+    $obj->msg = 'You can\'t edit this file';
     die(json_encode($obj));
 }
 

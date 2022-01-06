@@ -92,7 +92,7 @@ if (!User::canCreateMeet()) {
             </button>
             <?php
         } else {
-            echo __("Comming Soon");
+            echo __("Coming soon");
         }
         ?>
     </div>

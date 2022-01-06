@@ -1005,7 +1005,7 @@ class AVideoPlugin {
     }
 
     /**
-     * excecute update function at plugin and 
+     * Execute update function at plugin and 
      * update plugin version at database 
      */
     public static function updatePlugin($name) {

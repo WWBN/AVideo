@@ -28,7 +28,7 @@ if (empty($obj->meet_schedule_id)) {
 $ms = new Meet_schedule($obj->meet_schedule_id);
 
 if (!$ms->canManageSchedule()) {
-    $obj->msg = "You cant do this";
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 

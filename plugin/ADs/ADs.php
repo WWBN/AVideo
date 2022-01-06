@@ -227,7 +227,7 @@ class ADs extends PluginAbstract {
         if ($size['isSquare']) {
             $width = $size['width'];
             $height = $size['height'];
-            $style = "width: {$width}px; heigth: {$height}px;";
+            $style = "width: {$width}px; height: {$height}px;";
         }
 
 

@@ -15,7 +15,7 @@ if (empty($obj)) {
 $serverStatus = Meet::getMeetServerStatus();
 $moreJibris = "https://upgrade." . Meet::getServer()['domain'] . "/?webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&secret=" . Meet::getSecret();
 $moreJibris = "#";
-$moreJibrisOnclick = "avideoAlert('Comming soon');return false;";
+$moreJibrisOnclick = "avideoAlert('Coming soon');return false;";
 if (User::isAdmin() && empty($serverStatus->error)) {
     ?>
     <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="Unlimited number of meetings"><i class="fas fa-comments"></i> <span class="hidden-sm hidden-xs"><?php echo __("Unlimited"); ?></span></span>

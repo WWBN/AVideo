@@ -8,7 +8,7 @@ $obj->error = true;
 $obj->msg = "";
 
 if(!User::isAdmin()){
-    $obj->msg = "You cant do this";
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 

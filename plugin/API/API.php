@@ -112,7 +112,7 @@ class API extends PluginAbstract {
 
     /**
      * @param type $parameters 
-     * 'plugin_name' The plugin name that you want to retreive the parameters
+     * 'plugin_name' The plugin name that you want to retrieve the parameters
      * 'APISecret' to list all videos
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&rowCount=3&APISecret={APISecret}
      * @return \ApiObject

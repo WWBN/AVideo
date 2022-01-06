@@ -11,7 +11,7 @@ $plugin = AVideoPlugin::loadPluginIfEnabled('AD_Server');
 $ad_server_location = AVideoPlugin::loadPluginIfEnabled('AD_Server_Location');
                                                 
 if(!User::isAdmin()){
-    $obj->msg = "You cant do this";
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 

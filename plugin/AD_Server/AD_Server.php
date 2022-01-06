@@ -434,7 +434,7 @@ class VMAP {
         if (empty($time)) {
             //$time = "start";
         }
-        // if is longer then the video lenght will be END
+        // if is longer then the video length will be END
         if (empty($time) || $time == "start") {
             $this->idTag = "preroll-ad-" . $this->VAST->id;
         } else if ($time == "end") {

@@ -9,7 +9,7 @@ $obj->msg = "";
 $obj->result = "";
 
 if (!User::isAdmin()) {
-    $obj->msg = "You cant do this";
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 

@@ -11,7 +11,7 @@ $obj->id = 0;
 $plugin = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
                                                 
 if(!User::isLogged()){
-    $obj->msg = "You cant do this";
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 

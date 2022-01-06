@@ -10,7 +10,7 @@ $obj->response = @$_REQUEST['response'];
 $plugin = AVideoPlugin::loadPluginIfEnabled('LoginControl');
                                                 
 if(!User::isLogged()){
-    $obj->msg = "You cant do this";
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 
