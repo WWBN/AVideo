@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
@@ -28,7 +28,7 @@ if (!User::isLogged()) {
     die(json_encode($obj));
 }
 $playList = new PlayList($_REQUEST['playlist_id']);
-if(!User::isAdmin() && User::getId() != $playList->getUsers_id()){
+if (!User::isAdmin() && User::getId() != $playList->getUsers_id()) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
 }

@@ -24,22 +24,22 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
         <div class="alert alert-warning">
             <h1><i class="fas fa-exclamation-circle"></i> <?php echo __("Login Alert"); ?></h1>
             <h2><?php echo __("Please Login in the window pop up"); ?></h2>
-            <button class="btn btn-block btn-warning" onclick="openLoginWindow()"><i class="fas fa-sign-in-alt"></i> <?php echo __("Open pop-up Login window"); ?></button><br>      
-            <?php echo __("In case the login window does not open, check how do I disable the pop-up blocker in your browser"); ?>:<br>        
+            <button class="btn btn-block btn-warning" onclick="openLoginWindow()"><i class="fas fa-sign-in-alt"></i> <?php echo __("Open pop-up Login window"); ?></button><br>
+            <?php echo __("In case the login window does not open, check how do I disable the pop-up blocker in your browser"); ?>:<br>
             <a href="https://support.mozilla.org/en-US/kb/pop-blocker-settings-exceptions-troubleshooting" target="_blank">Mozilla Firefox</a><br>
             <a href="https://support.google.com/chrome/answer/95472" target="_blank">Google Chrome</a>
         </div>
     </div>
     <script>
         function openLoginWindow() {
-            win = window.open('<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>', 'Login Page', "width=640,height=480,scrollbars=no");
+            win = window.open('<?php echo $global['webSiteRootURL']; ?>user?redirectUri=<?php print $_GET['redirectUri'] ?? ""; ?>', 'Login Page', "width=640,height=480,scrollbars=no");
                 }
                 var win;
                 openLoginWindow();
                 var logintimer = setInterval(function () {
                     if (win.closed) {
                         clearInterval(logintimer);
-                        document.location = "<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : $global['webSiteRootURL']; ?>";
+                        document.location = "<?php print $_GET['redirectUri'] ?? $global['webSiteRootURL']; ?>";
                     }
                 }, 1000);
                 $(document).ready(function () {
@@ -96,14 +96,12 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                             <label class="col-sm-4 control-label"><?php echo __("Password"); ?></label>
                             <div class="col-sm-8 inputGroupContainer">
                                 <?php
-                                getInputPassword("inputPassword");
-                                ?>
+                                getInputPassword("inputPassword"); ?>
                             </div>
                         </div>
 
                         <?php
-                        $captcha = User::getCaptchaForm();
-                        ?>
+                        $captcha = User::getCaptchaForm(); ?>
                         <div class="form-group captcha" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
                             <?php echo $captcha; ?>
                         </div>
@@ -131,8 +129,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                                     ?>
                                     <a href="#" class="btn btn-default btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>"  id="forgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></a>
                                     <?php
-                                }
-                                ?>
+                                } ?>
                             </div>
                         </div>
 
@@ -147,7 +144,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                     ?>
                     <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
                         <div class="col-md-12">
-                            <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>" 
+                            <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print $_GET['redirectUri'] ?? ""; ?>"
                                class="btn btn-default btn-block"><i class="fas fa-plus"></i> <?php echo __("Sign up"); ?></a>
                         </div>
                     </div>
@@ -157,7 +154,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                     ?>
                     <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
                         <div class="col-md-12">
-                            <a href="<?php echo $_REQUEST['cancelUri']; ?>" 
+                            <a href="<?php echo $_REQUEST['cancelUri']; ?>"
                                class="btn btn-link btn-block"><i class="fas fa-arrow-left"></i> <?php echo __("Cancel"); ?></a>
                         </div>
                     </div>
@@ -175,7 +172,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
         foreach ($login as $value) {
             if (is_string($value) && file_exists($value)) { // it is a include path for a form
                 include $value;
-            } else if (is_array($value)) {
+            } elseif (is_array($value)) {
                 $totalLogins++;
             }
         }
@@ -204,11 +201,10 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
         foreach ($login as $value) {
             if (is_string($value) && file_exists($value)) {
                 //include $value;
-            } else if (is_array($value)) {
+            } elseif (is_array($value)) {
                 $loginCount++;
                 $uid = uniqid();
-                $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=" . (isset($_GET['redirectUri']) ? $_GET['redirectUri'] : "");
-                ?>
+                $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=" . ($_GET['redirectUri'] ?? ""); ?>
                 <div class="col-md-<?php echo $columSize; ?> <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>" >
                     <button id="login<?php echo $uid; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></button>
                 </div>
@@ -256,10 +252,10 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
     $(document).ready(function () {
 <?php
 if (!empty($_GET['error'])) {
-    ?>
+            ?>
             avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");
     <?php
-}
+        }
 ?>
         $('#loginForm').submit(function (evt) {
             evt.preventDefault();
@@ -288,7 +284,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
             loginFormActive();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
-                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": $('#captchaText').val(), "redirectUri": "<?php print isset($_GET['redirectUri']) ? $_GET['redirectUri'] : ""; ?>"},
+                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": $('#captchaText').val(), "redirectUri": "<?php print $_GET['redirectUri'] ?? ""; ?>"},
                 type: 'post',
                 success: function (response) {
                     if (!response.isLogged) {

@@ -13,15 +13,15 @@ TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
 <?php
 TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
 if (!empty($playlist_id)) {
-    include $global['systemRootPath'] . 'view/include/playlist.php';
-    ?>
+    include $global['systemRootPath'] . 'view/include/playlist.php'; ?>
     <script>
         $(document).ready(function () {
             setAutoplay(true);
         });
     </script>
-<?php } else if (empty($autoPlayVideo)) {
-    ?>
+<?php
+} elseif (empty($autoPlayVideo)) {
+        ?>
     <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="margin: 10px 0;" >
         <strong><?php echo __("Autoplay ended"); ?></strong>
         <span class="pull-right">
@@ -35,7 +35,8 @@ if (!empty($playlist_id)) {
             </div>
         </span>
     </div>
-<?php } else if (!empty($autoPlayVideo)) { ?>
+<?php
+    } elseif (!empty($autoPlayVideo)) { ?>
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="margin: 10px 0;" >
             <strong><?php echo __("Up Next"); ?></strong>

@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_extra_info.php';
@@ -9,13 +10,13 @@ $obj->msg = "";
 $obj->id = 0;
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
-                                                
-if(!User::isLogged()){
-    $obj->msg = "You cant do this";
+
+if (!User::isLogged()) {
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 
-if(empty($_POST['usersExtraInfo'])){
+if (empty($_POST['usersExtraInfo'])) {
     $obj->msg = "Extra info is empty";
     die(json_encode($obj));
 }

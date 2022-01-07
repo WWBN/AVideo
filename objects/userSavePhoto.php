@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 $obj = new stdClass();
@@ -42,7 +42,7 @@ if ($bytes) {
 
 $user = new User(User::getId());
 $user->setPhotoURL($photoURL);
-if($user->save()){
+if ($user->save()) {
     User::deleteOGImage(User::getId());
     User::updateSessionInfo();
 }

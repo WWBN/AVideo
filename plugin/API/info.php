@@ -81,22 +81,21 @@ $reflector = new ReflectionClass('API');
                 foreach ($class_methods as $method_name) {
                     if (!preg_match("/(get|set)_api_(.*)/", $method_name, $matches)) {
                         continue;
-                    }
-                    ?>
+                    } ?>
                     <li class="list-group-item">
                         <details>
                             <summary style="cursor: pointer;"><i class="fas fa-sign-<?php echo strtoupper($matches[1]) === "GET" ? "out" : "in" ?>-alt"></i> <?php echo strtoupper($matches[1]) ?> <?php echo $matches[2] ?></summary>
                             <br>
                             <pre><?php
                                 $comment = $reflector->getMethod($method_name)->getDocComment();
-                                $comment = str_replace(array('{webSiteRootURL}', '{getOrSet}', '{APIName}', '{APISecret}'), array($global['webSiteRootURL'], $matches[1], $matches[2], $obj->APISecret), $comment);
-                                preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $comment, $match2);
-                                //var_dump($match2[0]);
-                                $link = "<a target='_blank' href='{$match2[0][0]}'>" . htmlentities($match2[0][0]) . "</a>";
-                                $comment = str_replace(array($match2[0][0], "     *"), array($link, "*"), $comment);
+                    $comment = str_replace(['{webSiteRootURL}', '{getOrSet}', '{APIName}', '{APISecret}'], [$global['webSiteRootURL'], $matches[1], $matches[2], $obj->APISecret], $comment);
+                    preg_match_all('#\bhttps?://[^,\s()<>]+(?:\([\w\d]+\)|([^,[:punct:]\s]|/))#', $comment, $match2);
+                    //var_dump($match2[0]);
+                    $link = "<a target='_blank' href='{$match2[0][0]}'>" . htmlentities($match2[0][0]) . "</a>";
+                    $comment = str_replace([$match2[0][0], "     *"], [$link, "*"], $comment);
 
-                                echo ($comment);
-                                //{webSiteRootURL}plugin/API/{getOrSet}.json.php?name={name}
+                    echo($comment);
+                    //{webSiteRootURL}plugin/API/{getOrSet}.json.php?name={name}
                                 ?>
                             </pre>
                         </details> 

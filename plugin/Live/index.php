@@ -21,16 +21,16 @@ if (!empty($_GET['c'])) {
 if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
     include $global['systemRootPath'] . 'plugin/Live/view/videoEmbededV2.php';
     exit;
-} else if (!empty($_GET['u']) && !empty($_GET['embed'])) {
+} elseif (!empty($_GET['u']) && !empty($_GET['embed'])) {
     include $global['systemRootPath'] . 'plugin/Live/view/videoEmbeded.php';
     exit;
-} else if (!empty($_GET['u'])) {
+} elseif (!empty($_GET['u'])) {
     include $global['systemRootPath'] . 'plugin/Live/view/modeYoutubeLive.php';
     exit;
-} else if (!User::isLogged()) {
+} elseif (!User::isLogged()) {
     gotToLoginAndComeBackHere("");
     exit;
-} else if (!User::canStream()) {
+} elseif (!User::canStream()) {
     forbiddenPage(__($obj->streamDeniedMsg));
 }
 
@@ -45,7 +45,7 @@ if (!empty($_GET['users_id']) && User::isAdmin()) {
 
 // if user already have a key
 $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
-$getLiveKey = array('key' => $trasnmition['key'], 'live_servers_id' => Live::getLiveServersIdRequest());
+$getLiveKey = ['key' => $trasnmition['key'], 'live_servers_id' => Live::getLiveServersIdRequest()];
 setLiveKey($trasnmition['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 if (!empty($_GET['resetKey'])) {
     LiveTransmition::resetTransmitionKey($users_id);
@@ -127,8 +127,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                             $liveStreamObject = new LiveStreamObject($trasnmition['key'], 0, @$_REQUEST['live_index'], 0);
                             $key = $liveStreamObject->getKeyWithIndex(true);
                             $activeServerFound = true;
-                            $_REQUEST['live_servers_id'] = 0;
-                            ?>
+                            $_REQUEST['live_servers_id'] = 0; ?>
                             <li class="active <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'menu'); ?>">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=0">
                                     <i class="fas fa-broadcast-tower"></i> <?php echo __("Local Server"); ?>
@@ -147,12 +146,11 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                                         $activeServerFound = true;
                                         $active = "active";
                                     }
-                                } else if ($index == 0) {
+                                } elseif ($index == 0) {
                                     $_REQUEST['live_servers_id'] = $value['id'];
                                     $activeServerFound = true;
                                     $active = "active";
-                                }
-                                ?>
+                                } ?>
                                 <li class="<?php echo $active; ?>  <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'menu'); ?>">
                                     <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=<?php echo $value['id']; ?>">
                                         <i class="fas fa-broadcast-tower"></i> <?php echo $value['name']; ?>
@@ -167,12 +165,12 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                             }
                         }
                         if (Live::canStreamWithMeet()) {
-                                ?>
+                            ?>
                                 <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Meet/');" class="btn btn-default pull-right"><i class="fas fa-comments"></i> <?php echo __("Meet"); ?></button>
                                 <?php
                         }
                         if (Live::canStreamWithWebRTC()) {
-                                ?>
+                            ?>
                                 <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?avideoIframe=1');" class="btn btn-default pull-right"><i class="fas fa-camera"></i> <?php echo __("Webcam"); ?></button>
                                 <?php
                         }

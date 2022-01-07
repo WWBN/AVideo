@@ -2,9 +2,9 @@
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     $configFile = '../videos/configuration.php';
-    if(file_exists($configFile)){
+    if (file_exists($configFile)) {
         require_once $configFile;
-    }else{
+    } else {
         header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
         include '../view/maintanance.html';
         exit;

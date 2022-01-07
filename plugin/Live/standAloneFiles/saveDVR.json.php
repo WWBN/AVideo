@@ -1,6 +1,7 @@
 <?php
 
-function setLastSegments($DVRFile, $total) {
+function setLastSegments($DVRFile, $total)
+{
     $parts = explode(DIRECTORY_SEPARATOR, $DVRFile);
     array_pop($parts);
     $dir = implode(DIRECTORY_SEPARATOR, $parts) . DIRECTORY_SEPARATOR;
@@ -93,7 +94,7 @@ if (!$isAdaptive) {
     $copyDir = "cp -R {$DVRFile} {$tmpDVRDir} && chmod -R 777 {$tmpDVRDir} ";
     error_log("saveDVR: copy dir 1 [{$copyDir}]");
     $DVRFile = "{$tmpDVRDir}" . DIRECTORY_SEPARATOR . 'index.m3u8';
-    //$DVRFile .= DIRECTORY_SEPARATOR . 'index.m3u8';
+//$DVRFile .= DIRECTORY_SEPARATOR . 'index.m3u8';
 } else {
     $copyDir = "mkdir {$tmpDVRDir} && cp -R {$DVRFile}* {$tmpDVRDir} && chmod -R 777 {$tmpDVRDir} ";
     error_log("saveDVR: copy dir 2 [{$copyDir}]");

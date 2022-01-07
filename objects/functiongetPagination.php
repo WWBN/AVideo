@@ -13,8 +13,8 @@
         loadInfiniteScrool$uid();
     });
     /*
-     * 
-     
+     *
+
     document.addEventListener('scroll', function (e) {
         var scrollPosition = window.pageYOffset;
         var windowSize = window.innerHeight;
@@ -65,7 +65,7 @@
             });
             $container$uid.on('history.infiniteScroll', function (event, title, path) {
                 //console.log(`infiniteScroll History changed to: ${path}`);
-            });            
+            });
         }
     }
 

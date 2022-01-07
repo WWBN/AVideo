@@ -2,7 +2,7 @@
 error_reporting(0);
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -15,7 +15,7 @@ $obj->categories_id = 0;
 $obj->image1 = 0;
 $obj->image2 = 0;
 
-if(!Category::canCreateCategory()){
+if (!Category::canCreateCategory()) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
 }
@@ -35,7 +35,7 @@ $objCat->setOrder($_POST['order']);
 $obj->categories_id = $objCat->save();
 //$objCat->setType($_POST['type'],$id);
 
-if(!empty($obj->categories_id)){
+if (!empty($obj->categories_id)) {
     $obj->error = false;
     $path = Category::getCategoryPhotoPath($obj->categories_id);
     $obj->image1 = saveCroppieImage($path['path'], "image1");

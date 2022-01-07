@@ -1,5 +1,5 @@
 <?php
-$footerjs = "";
+$footerjs = '';
 $fileUpdates = thereIsAnyUpdate();
 if (!empty($fileUpdates)) {
     $footerjs .= "$.toast({
@@ -18,7 +18,7 @@ if (empty($advancedCustom)) {
 <div class="clearfix"></div>
 <footer style="<?php echo $advancedCustom->footerStyle; ?> display: none;" id="mainFooter">
     <?php
-    $custom = "";
+    $custom = '';
     $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
     if (file_exists($extraPluginFile) && AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
         require_once $extraPluginFile;
@@ -59,7 +59,7 @@ showAlertMessage();
 include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
 ?>
 <?php
-$jsFiles = array();
+$jsFiles = [];
 //$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
 //$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
 //$jsFiles[] = "view/js/script.js";
@@ -89,8 +89,8 @@ echo combineFilesHTML($jsFiles, "js", true);
 </div>
 <?php
 if (isset($_SESSION['savedQuerys'])) {
-    echo "<!-- Saved querys: " . $_SESSION['savedQuerys'] . " -->";
-}
+        echo "<!-- Saved querys: " . $_SESSION['savedQuerys'] . " -->";
+    }
 if (!empty($advancedCustom->footerHTMLCode->value)) {
     echo $advancedCustom->footerHTMLCode->value;
 }
@@ -180,7 +180,7 @@ if (isFirstPage()) {
   echo "$key => $value" . PHP_EOL;
   }
   }
- * 
+ *
  */
 if (!empty($config) && is_object($config)) {
     echo PHP_EOL . 'v:' . $config->getVersion() . PHP_EOL;

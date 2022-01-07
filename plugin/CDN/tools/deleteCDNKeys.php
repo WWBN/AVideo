@@ -1,5 +1,4 @@
 <?php
-
 $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
 
@@ -27,17 +26,17 @@ var_dump($list);
 $index = intval(@$argv[1]);
 
 $list = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/", true);
-for ($i=$index;$i<count($list);$i++){
+for ($i=$index;$i<count($list);$i++) {
     $value = $list[$i];
     $parts = explode(' ', $value);
     $dir = end($parts);
-    
+
     //echo $value.PHP_EOL;exit;
     echo $i.' Searching '."/{$CDNObj->storage_username}/{$dir}/".PHP_EOL;
     $files = ftp_rawlist($conn_id[0], "/{$CDNObj->storage_username}/{$dir}/", true);
     foreach ($files as $file) {
         trim($file);
-        if(preg_match('/enc_[0-9a-z]+.key$/i', $file)){
+        if (preg_match('/enc_[0-9a-z]+.key$/i', $file)) {
             $parts = explode(' ', $file);
             $file = end($parts);
             $file = "/{$CDNObj->storage_username}/{$dir}/{$file}";

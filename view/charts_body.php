@@ -11,7 +11,7 @@
     <div class="tab-content">
         <div id="dashboard" class="tab-pane fade in active" style="padding: 10px;">
             <?php
-            if(User::isAdmin()){
+            if (User::isAdmin()) {
                 echo diskUsageBars();
             }
             include $global['systemRootPath'] . 'view/report0.php';

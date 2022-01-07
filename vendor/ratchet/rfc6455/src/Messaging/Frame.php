@@ -327,15 +327,6 @@ class Frame implements FrameInterface {
         }
 
         return $payload ^ str_pad('', $len, $maskingKey, STR_PAD_RIGHT);
-
-        // TODO: Remove this before publish - keeping methods here to compare performance (above is faster but need control against v0.3.3)
-
-        $applied = '';
-        for ($i = 0, $len = strlen($payload); $i < $len; $i++) {
-            $applied .= $payload[$i] ^ $maskingKey[$i % static::MASK_LENGTH];
-        }
-
-        return $applied;
     }
 
     /**

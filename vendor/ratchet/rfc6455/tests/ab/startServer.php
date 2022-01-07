@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Psr7\Message;
 use GuzzleHttp\Psr7\Response;
 use Ratchet\RFC6455\Handshake\PermessageDeflateOptions;
 use Ratchet\RFC6455\Messaging\MessageBuffer;
@@ -35,18 +36,18 @@ $socket->on('connection', function (React\Socket\ConnectionInterface $connection
             return;
         }
         $headerComplete = true;
-        $psrRequest = \GuzzleHttp\Psr7\parse_request($parts[0] . "\r\n\r\n");
+        $psrRequest = Message::parseRequest($parts[0] . "\r\n\r\n");
         $negotiatorResponse = $negotiator->handshake($psrRequest);
 
         $negotiatorResponse = $negotiatorResponse->withAddedHeader("Content-Length", "0");
 
         if ($negotiatorResponse->getStatusCode() !== 101 && $psrRequest->getUri()->getPath() === '/shutdown') {
-            $connection->end(\GuzzleHttp\Psr7\str(new Response(200, [], 'Shutting down echo server.' . PHP_EOL)));
+            $connection->end(Message::toString(new Response(200, [], 'Shutting down echo server.' . PHP_EOL)));
             $socket->close();
             return;
         };
 
-        $connection->write(\GuzzleHttp\Psr7\str($negotiatorResponse));
+        $connection->write(Message::toString($negotiatorResponse));
 
         if ($negotiatorResponse->getStatusCode() !== 101) {
             $connection->end();

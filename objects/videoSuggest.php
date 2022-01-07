@@ -10,7 +10,7 @@ if (!Permissions::canModerateVideos()) {
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
 if (!is_array($_POST['id'])) {
-    $_POST['id'] = array($_POST['id']);
+    $_POST['id'] = [$_POST['id']];
 }
 $id = 0;
 foreach ($_POST['id'] as $value) {

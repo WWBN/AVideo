@@ -2,98 +2,121 @@
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
-class Live_restreams extends ObjectYPT {
+class Live_restreams extends ObjectYPT
+{
+    protected $id;
+    protected $name;
+    protected $stream_url;
+    protected $stream_key;
+    protected $status;
+    protected $parameters;
+    protected $users_id;
 
-    protected $id,$name,$stream_url,$stream_key,$status,$parameters,$users_id;
-    
-    static function getSearchFieldsNames() {
-        return array('name','stream_url','stream_key','parameters');
+    public static function getSearchFieldsNames()
+    {
+        return ['name','stream_url','stream_key','parameters'];
     }
 
-    static function getTableName() {
+    public static function getTableName()
+    {
         return 'live_restreams';
     }
-     
-    function setId($id) {
+
+    public function setId($id)
+    {
         $this->id = intval($id);
-    } 
- 
-    function setName($name) {
+    }
+
+    public function setName($name)
+    {
         $this->name = $name;
-    } 
- 
-    function setStream_url($stream_url) {
+    }
+
+    public function setStream_url($stream_url)
+    {
         $this->stream_url = $stream_url;
-    } 
- 
-    function setStream_key($stream_key) {
+    }
+
+    public function setStream_key($stream_key)
+    {
         $this->stream_key = $stream_key;
-    } 
- 
-    function setStatus($status) {
+    }
+
+    public function setStatus($status)
+    {
         $this->status = $status;
-    } 
- 
-    function setParameters($parameters) {
+    }
+
+    public function setParameters($parameters)
+    {
         $this->parameters = $parameters;
-    } 
- 
-    function setUsers_id($users_id) {
+    }
+
+    public function setUsers_id($users_id)
+    {
         $this->users_id = intval($users_id);
-    } 
-    
-     
-    function getId() {
+    }
+
+
+    public function getId()
+    {
         return intval($this->id);
-    }  
- 
-    function getName() {
+    }
+
+    public function getName()
+    {
         return $this->name;
-    }  
- 
-    function getStream_url() {
+    }
+
+    public function getStream_url()
+    {
         return $this->stream_url;
-    }  
- 
-    function getStream_key() {
+    }
+
+    public function getStream_key()
+    {
         return $this->stream_key;
-    }  
- 
-    function getStatus() {
+    }
+
+    public function getStatus()
+    {
         return $this->status;
-    }  
- 
-    function getParameters() {
+    }
+
+    public function getParameters()
+    {
         return $this->parameters;
-    }  
- 
-    function getUsers_id() {
+    }
+
+    public function getUsers_id()
+    {
         return intval($this->users_id);
-    }  
+    }
 
 
-    static function getAllFromUser($users_id, $status = 'a') {
+    public static function getAllFromUser($users_id, $status = 'a')
+    {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
-        
+
         $users_id = intval($users_id);
-        if(empty($users_id)){
+        if (empty($users_id)) {
             return false;
         }
-        
+
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE users_id = $users_id ";
 
-        if(!empty($status)){
-           $sql .= " AND status = '$status' " ;
+        if (!empty($status)) {
+            $sql .= " AND status = '$status' " ;
         }
-        
+
         $sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
@@ -103,5 +126,4 @@ class Live_restreams extends ObjectYPT {
         }
         return $rows;
     }
-        
 }

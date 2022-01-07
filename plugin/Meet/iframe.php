@@ -9,14 +9,14 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'].'plugin/Meet/validateMeet.php';
 
 if (!Meet::validatePassword($meet_schedule_id, @$_POST['meet_password'])) {
-   header("Location: {$global['webSiteRootURL']}plugin/Meet/confirmMeetPassword.php?meet_schedule_id=$meet_schedule_id");
-   exit;
+    header("Location: {$global['webSiteRootURL']}plugin/Meet/confirmMeetPassword.php?meet_schedule_id=$meet_schedule_id");
+    exit;
 }
 
 $objLive = AVideoPlugin::getObjectData("Live");
 Meet_join_log::log($meet_schedule_id);
 
-$apiExecute = array();
+$apiExecute = [];
 $readyToClose = User::getChannelLink($meet->getUsers_id())."?{$userCredentials}";
 if (Meet::isModerator($meet_schedule_id)) {
     $readyToClose = "{$global['webSiteRootURL']}plugin/Meet/?{$userCredentials}";
@@ -28,10 +28,10 @@ if (Meet::isModerator($meet_schedule_id)) {
         mode: 'stream',
         youtubeStreamKey: '" . Live::getRTMPLink($meet->getUsers_id()) . "',
     });";
-    }else{
+    } else {
         $apiExecute[] = "/* getLive_stream = false */";
     }
-}else{
+} else {
     $apiExecute[] = "/* not moderator */";
 }
 
@@ -41,7 +41,7 @@ $domain = Meet::getDomainURL();
 //$domain = str_replace('ca2.ypt.me', 'ca1.ypt.me', $domain);
 
 $nameIdentification = '';
-if(User::isLogged()){
+if (User::isLogged()) {
     $nameIdentification = User::getNameIdentification();
 }
 

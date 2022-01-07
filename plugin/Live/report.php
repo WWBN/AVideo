@@ -10,8 +10,8 @@ if (!User::canViewChart()) {
 
 $lives = LiveTransmitionHistory::getAllFromUser(User::getId());
 
-$labelsArray = array();
-$valueArray = array();
+$labelsArray = [];
+$valueArray = [];
 
 foreach ($lives as $value) {
     $labelsArray[] = $value['created'] . "\n" . $value['title'];

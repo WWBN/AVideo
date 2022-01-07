@@ -1,11 +1,13 @@
 <?php
-class Main {
-     /**
-      * receive a YYYY-MM-DD
-      * @param type $brDate
-      * @return String dd/mm/yyyy
-      */
-    static public function dateMySQLToBrString($mySqlDate) {
+class Main
+{
+    /**
+     * receive a YYYY-MM-DD
+     * @param type $brDate
+     * @return String dd/mm/yyyy
+     */
+    public static function dateMySQLToBrString($mySqlDate)
+    {
         $parts = explode('-', $mySqlDate);
         //switch month and day
         if (empty($parts[2])) {
@@ -17,7 +19,7 @@ class Main {
                 $hour = " " . $parts2[1];
             } else {
                 $day = $parts[2];
-                $hour = "";
+                $hour = '';
             }
             return "{$day}/{$parts[1]}/{$parts[0]}{$hour}";
         }
@@ -28,7 +30,8 @@ class Main {
      * @param type $mySqlDate
      * @return String YYYY-mm-dd
      */
-    static public function dateBrStringToMySQL($date) {
+    public static function dateBrStringToMySQL($date)
+    {
         $parts = explode("/", $date);
         //switch month and day
         if (empty($parts[2])) {
@@ -40,7 +43,7 @@ class Main {
                 $hour = " " . $parts2[1];
             } else {
                 $year = $parts[2];
-                $hour = "";
+                $hour = '';
             }
             return "{$year}-{$parts[1]}-{$parts[0]}{$hour}";
         }

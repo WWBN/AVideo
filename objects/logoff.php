@@ -1,15 +1,15 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 if (!empty($advancedCustomUser->afterLogoffGoToMyChannel)) {
     $redirectUri = User::getChannelLink();
-}else if (!empty($advancedCustomUser->afterLogoffGoToURL)) {
+} elseif (!empty($advancedCustomUser->afterLogoffGoToURL)) {
     $redirectUri = $advancedCustomUser->afterLogoffGoToURL;
-}else{
+} else {
     $redirectUri = $global['webSiteRootURL'];
 }
 

@@ -1,7 +1,7 @@
 <?php
 error_reporting(0);
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
@@ -13,9 +13,9 @@ if (Permissions::canModerateVideos()) {
 }
 $videos = Video::getAllVideosLight('', $showOnlyLoggedUserVideos, false);
 foreach ($videos as $key => $value) {
-    if(empty($_GET['type'])){
+    if (empty($_GET['type'])) {
         echo Video::getPermaLink($videos[$key]['id']);
-    }else{
+    } else {
         echo Video::getURLFriendlyFromCleanTitle($videos[$key]['clean_title']);
     }
     echo PHP_EOL;

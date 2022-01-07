@@ -3,11 +3,11 @@ require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_schedule.php';
 header('Content-Type: application/json');
 
-if(!User::canStream()){
-    $rows = array();
+if (!User::canStream()) {
+    $rows = [];
     $total = 0;
-}else{
-    if(empty($_POST['sort'])){
+} else {
+    if (empty($_POST['sort'])) {
         $_POST['sort']['scheduled_time'] = 'DESC';
     }
     $rows = Live_schedule::getAll(User::getId(), 24);

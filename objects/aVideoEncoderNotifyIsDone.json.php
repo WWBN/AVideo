@@ -1,12 +1,11 @@
 <?php
-
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
 
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -27,7 +26,7 @@ if (!User::canUpload()) {
     die(json_encode($obj));
 }
 
-if(!Video::canEdit($_POST['videos_id'])){
+if (!Video::canEdit($_POST['videos_id'])) {
     $obj->msg = __("Permission denied to edit a video: ") . print_r($_POST, true);
     _error_log($obj->msg);
     die(json_encode($obj));
@@ -44,7 +43,7 @@ $video_id = $video->save();
 
 $video = new Video("", "", $video_id);
 
-if($video->getType() == 'audio' && AVideoPlugin::isEnabledByName('MP4ThumbsAndGif')){
+if ($video->getType() == 'audio' && AVideoPlugin::isEnabledByName('MP4ThumbsAndGif')) {
     $videoFileName = $video->getFilename();
     MP4ThumbsAndGif::getImage($videoFileName, 'jpg', $video_id);
     Video::deleteThumbs($videoFileName);
@@ -56,7 +55,7 @@ $obj->video_id = $video_id;
 Video::updateFilesize($video_id);
 // delete original files if any
 $originalFilePath =  Video::getStoragePath()."original_" . $video->getFilename();
-if(file_exists($originalFilePath)){
+if (file_exists($originalFilePath)) {
     unlink($originalFilePath);
 }
 _error_log("Video is done notified {$video_id}: " . $video->getTitle());

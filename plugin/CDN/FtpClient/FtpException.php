@@ -9,6 +9,7 @@
  *
  * @copyright Nicolas Tallefourtane http://nicolab.net
  */
+
 namespace FtpClient;
 
 /**
@@ -17,4 +18,6 @@ namespace FtpClient;
  * @inheritDoc
  * @author Nicolas Tallefourtane <dev@nicolab.net>
  */
-class FtpException extends \Exception {}
+class FtpException extends \Exception
+{
+}

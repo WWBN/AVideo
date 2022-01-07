@@ -9,9 +9,10 @@
  *
  * @copyright Nicolas Tallefourtane http://nicolab.net
  */
+
 namespace FtpClient;
 
-use \Countable;
+use Countable;
 
 /**
  * The FTP and SSL-FTP client for PHP.
@@ -280,7 +281,7 @@ class FtpClient implements Countable
             throw new FtpException('Unable to list directory');
         }
 
-        $result  = array();
+        $result  = [];
         $dir_len = strlen($directory);
 
         // if it's the current
@@ -289,7 +290,7 @@ class FtpClient implements Countable
         }
 
         // if it's the parent
-        if(false !== ($kdot = array_search('..', $files))) {
+        if (false !== ($kdot = array_search('..', $files))) {
             unset($files[$kdot]);
         }
 
@@ -334,7 +335,6 @@ class FtpClient implements Countable
                 foreach ($items as $item) {
                     $result[] = $item;
                 }
-
             } else {
                 $result[] = $file;
             }
@@ -618,7 +618,6 @@ class FtpClient implements Countable
 
                 // do the following if it is a directory
                 if (is_dir($source_directory.'/'.$file)) {
-
                     if (!$this->isDir($target_directory.'/'.$file)) {
 
                         // create directories that do not yet exist
@@ -627,14 +626,16 @@ class FtpClient implements Countable
 
                     // recursive part
                     $this->putAll(
-                        $source_directory.'/'.$file, $target_directory.'/'.$file,
+                        $source_directory.'/'.$file,
+                        $target_directory.'/'.$file,
                         $mode
                     );
                 } else {
 
                     // put the files
                     $this->ftp->put(
-                        $target_directory.'/'.$file, $source_directory.'/'.$file,
+                        $target_directory.'/'.$file,
+                        $source_directory.'/'.$file,
                         $mode
                     );
                 }
@@ -643,14 +644,14 @@ class FtpClient implements Countable
 
         return $this;
     }
-    
+
     public function put($source_directory, $target_directory, $mode = FTP_BINARY)
     {
         $this->ftp->put($source_directory, $target_directory, $mode);
 
         return $this;
     }
-    
+
 
     /**
      * Returns a detailed list of files in the given directory.
@@ -670,7 +671,7 @@ class FtpClient implements Countable
         }
 
         $list  = $this->ftp->rawlist($directory);
-        $items = array();
+        $items = [];
 
         if (!$list) {
             return $items;
@@ -718,8 +719,7 @@ class FtpClient implements Countable
 
             // ".."
             or $item[$len-1] == '.' && $item[$len-2] == '.' && $item[$len-3] == ' ')
-            ){
-
+            ) {
                 continue;
             }
 
@@ -769,7 +769,7 @@ class FtpClient implements Countable
      */
     public function parseRawList(array $rawlist)
     {
-        $items = array();
+        $items = [];
         $path  = '';
 
         foreach ($rawlist as $key => $child) {
@@ -825,7 +825,6 @@ class FtpClient implements Countable
                 }
 
                 $items[$key] = $item;
-
             } else {
 
                 // the key is the path, behavior of FtpClient::rawlist() method()

@@ -12,15 +12,15 @@ if (empty($video) && !empty($_GET['videos_id'])) {
         $data = getimgsize($source['path']);
         $imgw = $data[0];
         $imgh = $data[1];
-    } else if ($video['type'] == "audio") {
+    } elseif ($video['type'] == "audio") {
         $img = "" . getCDN() . "view/img/audio_wave.jpg";
     }
     $type = 'video';
     if ($video['type'] === 'pdf') {
         $type = 'pdf';
-    } else if ($video['type'] === 'zip') {
+    } elseif ($video['type'] === 'zip') {
         $type = 'zip';
-    } else if ($video['type'] === 'article') {
+    } elseif ($video['type'] === 'article') {
         $type = 'article';
     }
     $images = Video::getImageFromFilename($video['filename'], $type);
@@ -73,13 +73,14 @@ if (User::hasBlockedUser($video['users_id'])) {
                             <i class="fa fa-eye"></i> <?php echo __("Views Info"); ?>
                         </button>
                     </div>
-                <?php } ?>
+                <?php
+                } ?>
                 <small>
                     <?php
                     if (!empty($video['id'])) {
                         $video['tags'] = Video::getTags($video['id']);
                     } else {
-                        $video['tags'] = array();
+                        $video['tags'] = [];
                     }
                     foreach ($video['tags'] as $value) {
                         if (is_array($value)) {
@@ -120,12 +121,12 @@ if (User::hasBlockedUser($video['users_id'])) {
                 <?php if (empty($advancedCustom->disableShareAndPlaylist)) { ?>
                     <?php if (CustomizeUser::canShareVideosFromVideo($video['id'])) { ?>
                         <a href="#" class="btn btn-default no-outline" id="shareBtn">
-                            <span class="fa fa-share"></span> 
+                            <span class="fa fa-share"></span>
                             <span class="hidden-sm hidden-xs"><?php echo __("Share"); ?></span>
                         </a>
                         <?php
                     }
-                    $filesToDownload = array();
+                    $filesToDownload = [];
                     if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
                         if ($video['type'] == "zip") {
                             $files = getVideosURLZIP($video['filename']);
@@ -134,9 +135,9 @@ if (User::hasBlockedUser($video['users_id'])) {
                         }//var_dump($files);exit;
                         foreach ($files as $key => $theLink) {
                             //$notAllowedKeys = array('m3u8');
-                            $notAllowedKeys = array();
+                            $notAllowedKeys = [];
                             if (empty($advancedCustom->showImageDownloadOption)) {
-                                $notAllowedKeys = array_merge($notAllowedKeys, array('jpg', 'gif', 'webp', 'pjpg'));
+                                $notAllowedKeys = array_merge($notAllowedKeys, ['jpg', 'gif', 'webp', 'pjpg']);
                             }
                             $keyFound = false;
                             foreach ($notAllowedKeys as $notAllowedKey) {
@@ -163,12 +164,12 @@ if (User::hasBlockedUser($video['users_id'])) {
                                 }
                             }
 
-                            $filesToDownload[] = array('name' => $name, 'url' => $theLink['url']);
+                            $filesToDownload[] = ['name' => $name, 'url' => $theLink['url']];
                         }
                         if (!empty($filesToDownload)) {
                             ?>
                             <a href="#" class="btn btn-default no-outline" id="downloadBtn">
-                                <span class="fa fa-download"></span> 
+                                <span class="fa fa-download"></span>
                                 <span class="hidden-sm hidden-xs"><?php echo __("Download"); ?></span>
                             </a>
                             <?php
@@ -181,10 +182,9 @@ if (User::hasBlockedUser($video['users_id'])) {
                     ?>
                     <?php
                 }
-                $_v = $video;
-                echo AVideoPlugin::getWatchActionButton($video['id']);
-                $video = $_v;
-                ?>
+        $_v = $video;
+        echo AVideoPlugin::getWatchActionButton($video['id']);
+        $video = $_v; ?>
                 <?php
                 if (!empty($video['id']) && empty($advancedCustom->removeThumbsUpAndDown)) {
                     ?>
@@ -226,8 +226,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                     </script>
 
                     <?php
-                }
-                ?>
+                } ?>
             </div>
         </div>
         <?php
@@ -279,8 +278,7 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Rating"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10">
                     <?php
-                    include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php';
-                    ?>
+                    include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php'; ?>
                 </div>
                 <?php
             }
@@ -290,9 +288,8 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
                 <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="description">
                     <div class="descriptionAreaPreContent">
                         <div class="descriptionAreaContent">
-                            <?php                            
-                            echo Video::htmlDescription($video['description']);
-                            ?>
+                            <?php
+                            echo Video::htmlDescription($video['description']); ?>
                         </div>
                     </div>
                     <button onclick="$(this).closest('.descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default descriptionAreaShowMoreBtn" style="display: none; ">
@@ -311,10 +308,10 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
     $(document).ready(function () {
 <?php
 if (empty($advancedCustom->showShareMenuOpenByDefault)) {
-    ?>
+                ?>
             $("#shareDiv").slideUp();
     <?php
-}
+            }
 ?>
         $("#shareBtn").click(function () {
             $(".menusDiv").not("#shareDiv").slideUp();

@@ -2,9 +2,9 @@
 
 /**
  * This file intent to control some features from NGINX based on the control module https://github.com/arut/nginx-rtmp-module/wiki/Control-module
- * 
+ *
  * This file suppose to sit on the same server as the live stream, and for security reasons you may want to setup your control module in a different port, listning only localhost o port 8080
- * 
+ *
   http {
     ...
     server {
@@ -34,14 +34,14 @@ if (file_exists($configFile)) {
     include_once $configFile;
     $streamerURL = $global['webSiteRootURL'];
     $live = AVideoPlugin::getObjectDataIfEnabled('Live');
-    if(empty($live)){
+    if (empty($live)) {
         return false;
     }
     $controlServer = $live->controlServer;
     $controlServer = addLastSlash($controlServer);
 }
 
-if(!empty($_REQUEST['streamerURL'])){
+if (!empty($_REQUEST['streamerURL'])) {
     $streamerURL = $_REQUEST['streamerURL'];
 }
 
@@ -58,7 +58,7 @@ $obj->name = $_REQUEST['name'];
 $obj->response = "";
 $obj->requestedURL = "";
 
-if(!preg_match('/^live/i',$obj->app)){
+if (!preg_match('/^live/i', $obj->app)) {
     $obj->app = 'live';
 }
 
@@ -83,12 +83,12 @@ $verifyTokenURL = "{$obj->streamerURL}plugin/Live/verifyToken.json.php?token={$o
 
 error_log("Control.json.php verifying token {$verifyTokenURL}");
 
-$arrContextOptions=array(
-    "ssl"=>array(
+$arrContextOptions=[
+    "ssl"=>[
         "verify_peer"=>false,
         "verify_peer_name"=>false,
-    ),
-);  
+    ],
+];
 
 $content = file_get_contents($verifyTokenURL, false, stream_context_create($arrContextOptions));
 
@@ -99,7 +99,7 @@ if (empty($json)) {
     $obj->msg = "Could not verify token";
     error_log("Control.json.php ERROR {$obj->msg} ({$verifyTokenURL}) ");
     die(json_encode($obj));
-} else if (!empty($json->error)) {
+} elseif (!empty($json->error)) {
     $obj->msg = "Token is invalid";
     error_log("Control.json.php ERROR {$obj->msg} ({$verifyTokenURL}) " . json_encode($json));
     die(json_encode($obj));
@@ -139,7 +139,7 @@ switch ($obj->command) {
         // check the last file change time, if is less then x seconds it is recording
         $files = glob("$record_path/{$obj->name}*.flv");
         foreach ($files as $value) {
-            if(time()<=filemtime($value)+$tolerance){
+            if (time()<=filemtime($value)+$tolerance) {
                 $obj->response = true;
                 break;
             }

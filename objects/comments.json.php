@@ -11,9 +11,10 @@ header('Content-Type: application/json');
 $comments = Comment::getAllComments($_GET['video_id'], @$_POST['comments_id']);
 $total = Comment::getTotalComments($_GET['video_id'], @$_POST['comments_id']);
 
-function fixCommentText($subject){
-    $search = array('\n');
-    $replace = array("<br/>");
+function fixCommentText($subject)
+{
+    $search = ['\n'];
+    $replace = ["<br/>"];
     return stripslashes(str_replace($search, $replace, $subject));
 }
 

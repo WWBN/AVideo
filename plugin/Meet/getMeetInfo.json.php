@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';
     if (file_exists($configFile)) {
@@ -28,7 +29,7 @@ if (empty($obj->meet_schedule_id)) {
 $ms = new Meet_schedule($obj->meet_schedule_id);
 
 if (!$ms->canManageSchedule()) {
-    $obj->msg = "You cant do this";
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 
@@ -39,22 +40,18 @@ ob_start();
 
 
 if ($_REQUEST['meet_scheduled'] !== "past") {
-    $invitation = Meet::getInvitation($obj->meet_schedule_id);
-
-    ?>
+    $invitation = Meet::getInvitation($obj->meet_schedule_id); ?>
     <div class="row">
         <div class="form-group col-sm-9">
             <label for="RoomLink"><?php echo __("Meet Link"); ?>:</label>
             <?php
-            getInputCopyToClipboard("RoomLink", $ms->getMeetLink());
-            ?>
+            getInputCopyToClipboard("RoomLink", $ms->getMeetLink()); ?>
         </div>
         <div class="form-group col-sm-3">
             <label for="RoomInvitation"><?php echo __("Invitation"); ?>:</label>
             <textarea id="RoomInvitation" name="RoomInvitation" class="form-control input-sm hidden" placeholder="<?php echo __("Meet Invitation"); ?>" readonly><?php echo $invitation; ?></textarea>
             <?php
-            getButtontCopyToClipboard("RoomInvitation", 'class="btn btn-default btn-block "', __("Copy"));
-            ?>
+            getButtontCopyToClipboard("RoomInvitation", 'class="btn btn-default btn-block "', __("Copy")); ?>
         </div>
     </div>
     <?php
@@ -83,8 +80,8 @@ if ($_REQUEST['meet_scheduled'] !== "past") {
     </div>
 </div>
 <?php
-if(!$ms->getPublic()){
-?>
+if (!$ms->getPublic()) {
+                        ?>
 <div class="row">
     <div class="col-sm-12">
         <div class="panel panel-default">
@@ -93,22 +90,21 @@ if(!$ms->getPublic()){
                 <ul class="list-group">
                     <?php
                     $count = 0;
-                    $list = Meet_schedule_has_users_groups::getAllFromSchedule($obj->meet_schedule_id);
-                    foreach ($list as $value) {
-                        $count++;
-                        echo '<li class="list-group-item">#' . $count . " - " . ($value['group_name']) . '</li>';
-                    }
-                    if (empty($count)) {
-                        echo '<li class="list-group-item">There are no user groups selected for this Meet</li>';
-                    }
-                    ?>
+                        $list = Meet_schedule_has_users_groups::getAllFromSchedule($obj->meet_schedule_id);
+                        foreach ($list as $value) {
+                            $count++;
+                            echo '<li class="list-group-item">#' . $count . " - " . ($value['group_name']) . '</li>';
+                        }
+                        if (empty($count)) {
+                            echo '<li class="list-group-item">There are no user groups selected for this Meet</li>';
+                        } ?>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 <?php
-}
+                    }
 $obj->html = ob_get_clean();
 die(json_encode($obj));
 ?>

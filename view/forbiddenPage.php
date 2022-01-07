@@ -13,7 +13,7 @@ $global['isForbidden'] = true;
     </head>
     <body>
         <?php
-        if(!isEmbed()){
+        if (!isEmbed()) {
             include $global['systemRootPath'] . 'view/include/navbar.php';
         }
         CustomizeUser::autoIncludeBGAnimationFile();
@@ -28,11 +28,10 @@ $global['isForbidden'] = true;
                         <div class="col-sm-8">
                             <?php
                             $value = '';
-                            if (!empty($_REQUEST['unlockPassword'])) {
-                                $value = $_REQUEST['unlockPassword'];
-                            }
-                            echo getInputPassword('unlockPassword', 'class="form-control" value="' . $value . '"', __('Unlock Password'));
-                            ?>
+                if (!empty($_REQUEST['unlockPassword'])) {
+                    $value = $_REQUEST['unlockPassword'];
+                }
+                echo getInputPassword('unlockPassword', 'class="form-control" value="' . $value . '"', __('Unlock Password')); ?>
                         </div>
                         <div class="col-sm-4">
                             <button class="btn btn-success btn-block" type="submit"><i class="fas fa-lock-open"></i> <?php echo __('Unlock'); ?></button>
@@ -43,12 +42,10 @@ $global['isForbidden'] = true;
                                 ?>
                                 <div class="alert alert-danger">
                                     <?php
-                                    echo __('Invalid password');
-                                    ?>
-                                </div>    
+                                    echo __('Invalid password'); ?>
+                                </div>
                                 <?php
-                            }
-                            ?>
+                            } ?>
                         </div>
                     </div>
                 </form>
@@ -58,6 +55,6 @@ $global['isForbidden'] = true;
         </div>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>  
+        ?>
     </body>
 </html>

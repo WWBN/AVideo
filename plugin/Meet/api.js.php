@@ -62,7 +62,7 @@ if (empty($meet_schedule_id)) {
             aVideoMeetCreateButtons();
             <?php
             $css = file_get_contents($global['systemRootPath'] . 'plugin/Meet/meet.mobile.css');
-            if(!isMobile()){
+            if (!isMobile()) {
                 $css = "@media (max-width: 767px) {{$css}}";
             }
             $css .= file_get_contents($global['systemRootPath'] . 'plugin/Meet/meet.css');
@@ -232,10 +232,10 @@ if (empty($meet_schedule_id)) {
     function aVideoMeetCreateButtons() {
 <?php
 if (!empty($rtmpLink) && Meet::isModerator($meet_schedule_id)) {
-    ?>
+                ?>
             aVideoMeetAppendElement(".button-group-center", <?php echo json_encode(Meet::createJitsiRecordStartStopButton($rtmpLink, $dropURL)); ?>);
     <?php
-}
+            }
 ?>
     }
 

@@ -3,7 +3,7 @@ require_once '../../videos/configuration.php';
 
 $key = @$_REQUEST['key'];
 
-if(empty($key)){
+if (empty($key)) {
     forbiddenPage('Key is undefined');
 }
 
@@ -94,7 +94,7 @@ $imgh = 360;
                                         <div class="form-group">
                                             <label for="live_password"><?php echo __("This Live Requires a Password"); ?></label>
                                             <?php
-                                            echo getInputPassword('live_password', 'class="form-control"',  __("Password"));
+                                            echo getInputPassword('live_password', 'class="form-control"', __("Password"));
                                             ?>
                                         </div>
                                         <div class="row"> 

@@ -2,19 +2,34 @@
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
-class Live_schedule extends ObjectYPT {
+class Live_schedule extends ObjectYPT
+{
+    protected $id;
+    protected $title;
+    protected $description;
+    protected $key;
+    protected $users_id;
+    protected $live_servers_id;
+    protected $scheduled_time;
+    protected $timezone;
+    protected $status;
+    protected $poster;
+    protected $public;
+    protected $saveTransmition;
+    protected $showOnTV;
 
-    protected $id, $title, $description, $key, $users_id, $live_servers_id, $scheduled_time, $timezone, $status, $poster, $public, $saveTransmition, $showOnTV;
-
-    static function getSearchFieldsNames() {
-        return array('title', 'description', 'key', 'timezone', 'poster');
+    public static function getSearchFieldsNames()
+    {
+        return ['title', 'description', 'key', 'timezone', 'poster'];
     }
 
-    static function getTableName() {
+    public static function getTableName()
+    {
         return 'live_schedule';
     }
 
-    static function getAllUsers() {
+    public static function getAllUsers()
+    {
         global $global;
         $table = "users";
         $sql = "SELECT * FROM {$table} WHERE 1=1 ";
@@ -23,7 +38,7 @@ class Live_schedule extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
@@ -34,7 +49,8 @@ class Live_schedule extends ObjectYPT {
         return $rows;
     }
 
-    static function getAllLive_servers() {
+    public static function getAllLive_servers()
+    {
         global $global;
         $table = "live_servers";
         $sql = "SELECT * FROM {$table} WHERE 1=1 ";
@@ -43,7 +59,7 @@ class Live_schedule extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
@@ -54,7 +70,8 @@ class Live_schedule extends ObjectYPT {
         return $rows;
     }
 
-    static function getPosterPaths($live_schedule_id) {
+    public static function getPosterPaths($live_schedule_id)
+    {
         $live_schedule_id = intval($live_schedule_id);
         if (empty($live_schedule_id)) {
             return false;
@@ -62,7 +79,7 @@ class Live_schedule extends ObjectYPT {
 
         $subdir = "live_schedule_posters";
 
-        $array = array();
+        $array = [];
 
         $array['path'] = getVideosDir() . $subdir . DIRECTORY_SEPARATOR;
 
@@ -79,7 +96,8 @@ class Live_schedule extends ObjectYPT {
         return $array;
     }
 
-    static function getPosterURL($live_schedule_id) {
+    public static function getPosterURL($live_schedule_id)
+    {
         $paths = self::getPosterPaths($live_schedule_id);
         if (file_exists($paths['path'])) {
             return $paths['url'];
@@ -88,24 +106,25 @@ class Live_schedule extends ObjectYPT {
         }
     }
 
-    static function getAll($users_id=0, $activeHoursAgo=false) {
+    public static function getAll($users_id=0, $activeHoursAgo=false)
+    {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
         $users_id = intval($users_id);
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
-        if(!empty($users_id)){
+        if (!empty($users_id)) {
             $sql .= " AND users_id = $users_id ";
         }
-        if($activeHoursAgo){
+        if ($activeHoursAgo) {
             $sql .= " AND scheduled_time > DATE_SUB(NOW(), INTERVAL {$activeHoursAgo} HOUR) ";
         }
         $sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row['future'] = isTimeForFuture($row['scheduled_time'], $row['timezone']);
@@ -122,13 +141,14 @@ class Live_schedule extends ObjectYPT {
         return $rows;
     }
 
-    public static function getAllActiveLimit($limit = 10) {
+    public static function getAllActiveLimit($limit = 10)
+    {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
         // to convert time must load time zone table into mysql
-        
+
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='a' "
                 . " AND (CONVERT_TZ(scheduled_time, timezone, @@session.time_zone ) > NOW() || scheduled_time > NOW()) "
                 . " ORDER BY scheduled_time ASC LIMIT {$limit} ";
@@ -136,7 +156,7 @@ class Live_schedule extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
@@ -147,128 +167,154 @@ class Live_schedule extends ObjectYPT {
         return $rows;
     }
 
-    function setId($id) {
+    public function setId($id)
+    {
         $this->id = intval($id);
     }
 
-    function setTitle($title) {
+    public function setTitle($title)
+    {
         $this->title = $title;
     }
 
-    function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
     }
 
-    function setKey($key) {
+    public function setKey($key)
+    {
         $this->key = $key;
     }
 
-    function setUsers_id($users_id) {
+    public function setUsers_id($users_id)
+    {
         $this->users_id = intval($users_id);
     }
 
-    function setLive_servers_id($live_servers_id) {
+    public function setLive_servers_id($live_servers_id)
+    {
         $this->live_servers_id = intval($live_servers_id);
     }
 
-    function setScheduled_time($scheduled_time) {
+    public function setScheduled_time($scheduled_time)
+    {
         $this->scheduled_time = $scheduled_time;
     }
 
-    private function _setTimezone($timezone) {
+    private function _setTimezone($timezone)
+    {
         $this->timezone = $timezone;
     }
 
-    function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
     }
 
-    function setPoster($poster) {
+    public function setPoster($poster)
+    {
         $this->poster = $poster;
     }
 
-    function setPublic($public) {
+    public function setPublic($public)
+    {
         $this->public = intval($public);
     }
 
-    function setSaveTransmition($saveTransmition) {
+    public function setSaveTransmition($saveTransmition)
+    {
         $this->saveTransmition = intval($saveTransmition);
     }
 
-    function setShowOnTV($showOnTV) {
+    public function setShowOnTV($showOnTV)
+    {
         $this->showOnTV = intval($showOnTV);
     }
 
-    function getId() {
+    public function getId()
+    {
         return intval($this->id);
     }
 
-    function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
-    function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
-    function getKey() {
+    public function getKey()
+    {
         return $this->key;
     }
 
-    function getUsers_id() {
+    public function getUsers_id()
+    {
         return intval($this->users_id);
     }
 
-    function getLive_servers_id() {
+    public function getLive_servers_id()
+    {
         return intval($this->live_servers_id);
     }
 
-    function getScheduled_time() {
+    public function getScheduled_time()
+    {
         return $this->scheduled_time;
     }
 
-    function getTimezone() {
+    public function getTimezone()
+    {
         return $this->timezone;
     }
 
-    function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    function getPoster() {
+    public function getPoster()
+    {
         return $this->poster;
     }
 
-    function getPublic() {
+    public function getPublic()
+    {
         return intval($this->public);
     }
 
-    function getSaveTransmition() {
+    public function getSaveTransmition()
+    {
         return intval($this->saveTransmition);
     }
 
-    function getShowOnTV() {
+    public function getShowOnTV()
+    {
         return intval($this->showOnTV);
     }
 
-    function save() {
-
+    public function save()
+    {
         if (empty($this->live_servers_id)) {
             $this->live_servers_id = 'NULL';
         }
-        
+
         if (empty($this->public)) {
             $this->public = 'NULL';
         }
-        
+
         if (empty($this->saveTransmition)) {
             $this->saveTransmition = 'NULL';
         }
-        
+
         if (empty($this->showOnTV)) {
             $this->showOnTV = 'NULL';
         }
-        
+
         if (empty($this->key)) {
             $this->key = uniqid();
         }
@@ -281,7 +327,7 @@ class Live_schedule extends ObjectYPT {
         $id = parent::save();
 
         if (!empty($id)) {
-            $array = array();
+            $array = [];
             $array['users_id'] = $this->users_id;
             $array['stats'] = getStatsNotifications(true);
             $array['key'] = $this->key;
@@ -292,27 +338,30 @@ class Live_schedule extends ObjectYPT {
         }
         return $id;
     }
-    
-    public function delete() {
-        $t = new Live_schedule($this->id);   
-        $array = setLiveKey($t->key, $t->live_servers_id);          
-        $id = parent::delete();        
+
+    public function delete()
+    {
+        $t = new Live_schedule($this->id);
+        $array = setLiveKey($t->key, $t->live_servers_id);
+        $id = parent::delete();
         if (!empty($id)) {
             $array['stats'] = getStatsNotifications(true);
             Live::notifySocketStats("socketLiveOFFCallback", $array);
             self::clearScheduleCache();
-        }      
+        }
         return $id;
     }
-    
-    static function clearScheduleCache(){
+
+    public static function clearScheduleCache()
+    {
         clearCache(true);
         deleteStatsNotifications();
         //ObjectYPT::deleteAllSessionCache();
         ObjectYPT::deleteALLCache();
     }
 
-    static function keyExists($key) {
+    public static function keyExists($key)
+    {
         global $global;
         if (!is_string($key)) {
             return false;

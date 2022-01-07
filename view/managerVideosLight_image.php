@@ -1,26 +1,26 @@
-                       
+
 <?php
 $images = Video::getImageFromID($videos_id);
 
-if(isMobile()){
+if (isMobile()) {
     $viewportWidth = 250;
-}else{
+} else {
     $viewportWidth = 800;
 }
 
-if(defaultIsPortrait()){
+if (defaultIsPortrait()) {
     $width = 540;
     $height = 800;
     $path = $images->posterPortraitPath;
     $portreait = 1;
-}else{
+} else {
     $width = 1280;
     $height = 720;
-    $path = empty($images->posterLandscapePath)?"{$global['systemRootPath']}view/img/notfound.jpg":$images->posterLandscapePath;
+    $path = empty($images->posterLandscapePath) ? "{$global['systemRootPath']}view/img/notfound.jpg" : $images->posterLandscapePath;
     $portreait = 0;
 }
 
-$image = str_replace(array($global['systemRootPath'], DIRECTORY_SEPARATOR), array($global['webSiteRootURL'], '/'), $path);
+$image = str_replace([$global['systemRootPath'], DIRECTORY_SEPARATOR], [$global['webSiteRootURL'], '/'], $path);
 
 $image = addQueryStringParameter($image, 'cache', filectime($path));
 //var_dump($image, $images);exit;
@@ -54,7 +54,7 @@ echo $croppie1['html'];
                 }
             }
         });
-        
+
     }
 
     $(document).ready(function () {

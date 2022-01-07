@@ -1,5 +1,4 @@
 <?php
-
 require_once  '../../../plugin/LoginControl/pgp/functions.php';
 header('Content-Type: application/json');
 
@@ -21,7 +20,5 @@ if (!empty($keys['public']) && !empty($keys['private'])) {
     $obj->error = false;
     $obj->public = $keys['public'];
     $obj->private = $keys['private'];
-    
-    
 }
 die(json_encode($obj));

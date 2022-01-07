@@ -4,13 +4,13 @@
             <div class="panel-heading"><i class="fas fa-wallet"></i> <?php echo __('Wallet'); ?> <div class="pull-right"><?php echo getPluginSwitch('YPTWallet'); ?></div></div>
             <div class="panel-body" style="overflow: hidden;">
                 <?php
-                $filter = array(
+                $filter = [
                     'decimalPrecision' => __('Usually for USD we use 2, for cryptocurrencies we use more the 2'),
                     'currency' => __('Australian Dollar = AUD, Brazilian Real = BRL, Canadian Dollar = CAD, Euro = EUR, U.S. Dollar = USD, etc'),
                     'currency_symbol' => __('$, R$, etc, the format will be  {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'),
                     'manualAddFundsTransferFromUserId' => __('When some one buy something on your web site, the wallet balance will be transferred to this user ID'),
                     'enablePlugin_YPTWalletPayPal' => __('You need to enable it to be able to use PayPal to add funds on your wallet'),
-                    'enableManualWithdrawFundsPage' => __('Let users request withdraws from his wallet. the withdraw mus be done manually'));
+                    'enableManualWithdrawFundsPage' => __('Let users request withdraws from his wallet. the withdraw mus be done manually'), ];
                 createTable("YPTWallet", $filter);
                 ?>
             </div>

@@ -9,7 +9,8 @@ if (!User::canUpload()) {
     exit;
 }
 
-function isYoutubeDl() {
+function isYoutubeDl()
+{
     return trim(shell_exec('which youtube-dl'));
 }
 ?>

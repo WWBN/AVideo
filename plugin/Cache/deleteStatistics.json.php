@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
 
@@ -9,7 +8,7 @@ $obj->msg = "";
 $obj->result = "";
 
 if (!User::isAdmin()) {
-    $obj->msg = "You cant do this";
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 
@@ -18,8 +17,8 @@ require_once $global['systemRootPath'] . 'objects/video_statistic.php';
 $objC = AVideoPlugin::getDataObject('Cache');
 
 $days = $objC->deleteStatisticsDaysOld;
-if(empty($days)){
-   $days = 180;
+if (empty($days)) {
+    $days = 180;
 }
 $obj->before = VideoStatistic::getTotalStatisticsRecords();
 $obj->result = VideoStatistic::deleteOldStatistics($days);

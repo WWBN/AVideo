@@ -1,6 +1,6 @@
 <?php
-
 header('Content-Type: application/json');
+
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';
     if (file_exists($configFile)) {
@@ -63,7 +63,7 @@ if (!isset($_REQUEST['live_stream'])) {
 }
 
 if (empty($_REQUEST['userGroups']) || !empty($_REQUEST['public'])) {
-    $_REQUEST['userGroups'] = array();
+    $_REQUEST['userGroups'] = [];
 }
 
 $o = new Meet_schedule($obj->meet_schedule_id);
@@ -101,4 +101,3 @@ $obj->invitation = Meet::getInvitation($meet_schedule_id);
 //var_dump($obj->domain);
 
 die(json_encode($obj));
-?>

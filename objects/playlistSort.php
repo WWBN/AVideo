@@ -24,7 +24,7 @@ $count = 1;
 if (empty($_POST['list'])) {
     // get all videos from playlist
     $videosArrayId = PlayList::getVideosIdFromPlaylist($_POST['playlist_id']);
-    $videos = array();
+    $videos = [];
     foreach ($videosArrayId as $value) {
         $videos[] = Video::getVideoLight($value);
     }

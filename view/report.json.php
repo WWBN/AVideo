@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
@@ -16,29 +16,29 @@ $obj->configAuthCanViewChart = $config->getAuthCanViewChart();
 $obj->performance = new stdClass();
 $obj->performance->start = microtime(true);
 
-if(empty($_REQUEST['users_id'])){
+if (empty($_REQUEST['users_id'])) {
     $obj->users_id = User::getId();
-}else{
+} else {
     $obj->users_id = intval($_REQUEST['users_id']);
 }
 
-if(empty($obj->users_id)){
+if (empty($obj->users_id)) {
     $obj->msg = 'You MUST Specify a user';
     die(_json_encode($obj));
 }
 
 $user = new User($obj->users_id);
 
-if(empty($user->getUser())){
+if (empty($user->getUser())) {
     $obj->msg = 'Invalid user';
     die(_json_encode($obj));
 }
 
 $obj->users_id_statistics = $obj->users_id;
-if(User::isAdmin() && !empty($_REQUEST['isAdminPanel'])){
+if (User::isAdmin() && !empty($_REQUEST['isAdminPanel'])) {
     $obj->users_id_statistics = 0; // show all results
     $obj->totalUsers = User::getTotalUsers(false, 'a');
-}else if(User::getId() !== $obj->users_id_statistics){
+} elseif (User::getId() !== $obj->users_id_statistics) {
     $obj->msg = 'Invalid user';
     die(_json_encode($obj));
 }
@@ -46,11 +46,11 @@ if(User::isAdmin() && !empty($_REQUEST['isAdminPanel'])){
 $cacheName = 'statisticsReport_'.$obj->users_id_statistics;
 
 $cache = ObjectYPT::getCache($cacheName, 300); // 5 min cache
-if(!empty($cache)){
-    if(empty($cache->performance)){
+if (!empty($cache)) {
+    if (empty($cache->performance)) {
         $cache->performance = new stdClass();
     }
-    if(empty($cache->performance->cache)){
+    if (empty($cache->performance->cache)) {
         $cache->performance->cache = new stdClass();
     }
     $cache->performance->cache->time = time();

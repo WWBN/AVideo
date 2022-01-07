@@ -39,21 +39,25 @@ final class PermessageDeflateOptions
     public function withClientNoContextTakeover() {
         $new = clone $this;
         $new->client_no_context_takeover = true;
+        return $new;
     }
 
     public function withoutClientNoContextTakeover() {
         $new = clone $this;
         $new->client_no_context_takeover = false;
+        return $new;
     }
 
     public function withServerNoContextTakeover() {
         $new = clone $this;
         $new->server_no_context_takeover = true;
+        return $new;
     }
 
     public function withoutServerNoContextTakeover() {
         $new = clone $this;
         $new->server_no_context_takeover = false;
+        return $new;
     }
 
     public function withServerMaxWindowBits($bits = self::MAX_WINDOW_BITS) {
@@ -62,6 +66,7 @@ final class PermessageDeflateOptions
         }
         $new = clone $this;
         $new->server_max_window_bits = $bits;
+        return $new;
     }
 
     public function withClientMaxWindowBits($bits = self::MAX_WINDOW_BITS) {
@@ -70,6 +75,7 @@ final class PermessageDeflateOptions
         }
         $new = clone $this;
         $new->client_max_window_bits = $bits;
+        return $new;
     }
 
     /**

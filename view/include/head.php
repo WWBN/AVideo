@@ -9,7 +9,7 @@ if (empty($advancedCustom)) {
 if (is_object($video)) {
     $video = Video::getVideoLight($video->getId());
 }
-$custom = array();
+$custom = [];
 
 $customizePluginDescription = '';
 if (file_exists($extraPluginFile) && AVideoPlugin::isEnabledByName("Customize")) {
@@ -20,8 +20,8 @@ if (file_exists($extraPluginFile) && AVideoPlugin::isEnabledByName("Customize"))
 }
 
 if (!empty($poster)) {
-    $subTitle = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($video['description']));
-    $custom = array();
+    $subTitle = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags($video['description']));
+    $custom = [];
     $custom[] = $subTitle;
     if (!empty($video["category"])) {
         $custom[] = $video["category"];
@@ -30,8 +30,8 @@ if (!empty($poster)) {
 
 if (!empty($_GET['catName'])) {
     $category = Category::getCategoryByName($_GET['catName']);
-    $description = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($category['description']));
-    $custom = array();
+    $description = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags($category['description']));
+    $custom = [];
     $custom[] = $description;
     $custom[] = $category['name'];
 }
@@ -48,7 +48,7 @@ if (!empty($metaDescription)) {
     $metaDescription = implode(" - ", $custom);
 }
 // for SEO to not rise an error of duplicated title or description of same pages with and without last slash
-$metaDescription .= getSEOComplement(array("addAutoPrefix" => false));
+$metaDescription .= getSEOComplement(["addAutoPrefix" => false]);
 $theme = getCurrentTheme();
 
 if (empty($config)) {
@@ -78,8 +78,8 @@ echo $dif, " Seconds ";
 <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css"/>
 <?php
 include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
-if(empty($advancedCustom->disableAnimations)){
-?>
+if (empty($advancedCustom->disableAnimations)) {
+    ?>
 <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet"  type="text/css" />
 <?php
 }
@@ -89,7 +89,7 @@ if(empty($advancedCustom->disableAnimations)){
 <link href="<?php echo getCDN(); ?>view/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
 <link href="<?php echo getCDN(); ?>view/css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
 <?php
-$cssFiles = array();
+$cssFiles = [];
 //$cssFiles[] = "view/js/seetalert/sweetalert.css";
 $cssFiles[] = "view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
 $cssFiles[] = "view/js/bootgrid/jquery.bootgrid.css";
@@ -102,7 +102,7 @@ echo combineFilesHTML($cssFiles, "css");
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
 <link href="<?php echo getURL('view/css/custom/'.$theme.'.css'); ?>" rel="stylesheet" type="text/css" id="customCSS"/>
 <?php
-if(empty($global['userBootstrapLatest'])){
+if (empty($global['userBootstrapLatest'])) {
     $filename = Video::getStoragePath() . "cache/custom.css";
 }
 if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exists($filename)) {
@@ -122,7 +122,7 @@ if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exis
     }
     echo '<link href="" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
 }
-$cssFiles = array();
+$cssFiles = [];
 $cssFiles[] = "view/css/main.css";
 $cssFiles = array_merge($cssFiles, AVideoPlugin::getCSSFiles());
 echo combineFilesHTML($cssFiles, "css");

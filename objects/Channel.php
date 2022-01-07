@@ -18,12 +18,12 @@ class Channel
         if ($activeOnly) {
             $sql .= " AND u.status = 'a' ";
         }
-        $sql .= BootGrid::getSqlFromPost(array('user', 'about', 'channelName', 'u.name', 'u.email'), "", "", false, $FIND_IN_SET);
+        $sql .= BootGrid::getSqlFromPost(['user', 'about', 'channelName', 'u.name', 'u.email'], "", "", false, $FIND_IN_SET);
 
         $res = sqlDAL::readSql($sql);
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $subscribe = array();
+        $subscribe = [];
         if ($res != false) {
             foreach ($fullResult as $row) {
                 $row = cleanUpRowFromDatabase($row);
@@ -46,7 +46,7 @@ class Channel
         if ($activeOnly) {
             $sql .= " AND u.status = 'a' ";
         }
-        $sql .= BootGrid::getSqlFromPost(array('user', 'about'));
+        $sql .= BootGrid::getSqlFromPost(['user', 'about']);
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

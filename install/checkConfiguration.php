@@ -34,7 +34,7 @@ error_log("Installation: ".__LINE__);
 
 if ($_POST['createTables'] == 2) {
     $sql = "CREATE DATABASE IF NOT EXISTS {$_POST['databaseName']}";
-    if ($mysqli->query($sql) !== TRUE) {
+    if ($mysqli->query($sql) !== true) {
         $obj->error = "Error creating database: " . $mysqli->error;
         echo json_encode($obj);
         exit;
@@ -55,33 +55,34 @@ error_log("Installation: ".__LINE__);
 error_log("Installation: ".__LINE__);
 if ($_POST['createTables'] > 0) {
     error_log("Installation: ".__LINE__);
-// Temporary variable, used to store current query
+    // Temporary variable, used to store current query
     $templine = '';
     $installFile = "{$_POST['systemRootPath']}install/database.sql";
-    if(!file_exists($installFile)){
+    if (!file_exists($installFile)) {
         $obj->error = "File Not found {$installFile}";
         echo json_encode($obj);
         exit;
     }
     error_log("Installation: ".__LINE__);
-// Read in entire file
+    // Read in entire file
     $lines = file($installFile);
-    if(empty($lines)){
+    if (empty($lines)) {
         $obj->error = "File is empty {$installFile}";
         echo json_encode($obj);
         exit;
     }
     error_log("Installation: ".__LINE__);
-// Loop through each line
-    $obj->error = "";
+    // Loop through each line
+    $obj->error = '';
     foreach ($lines as $line) {
-// Skip it if it's a comment
-        if (substr($line, 0, 2) == '--' || $line == '')
+        // Skip it if it's a comment
+        if (substr($line, 0, 2) == '--' || $line == '') {
             continue;
+        }
 
-// Add this line to the current segment
+        // Add this line to the current segment
         $templine .= $line;
-// If it has a semicolon at the end, it's the end of the query
+        // If it has a semicolon at the end, it's the end of the query
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
             //error_log("Installation: ".$templine);
@@ -99,7 +100,7 @@ if ($_POST['createTables'] > 0) {
 error_log("Installation: ".__LINE__);
 
 $sql = "DELETE FROM users WHERE id = 1 ";
-if ($mysqli->query($sql) !== TRUE) {
+if ($mysqli->query($sql) !== true) {
     $obj->error = "Error deleting user: " . $mysqli->error;
     echo json_encode($obj);
     exit;
@@ -108,7 +109,7 @@ if ($mysqli->query($sql) !== TRUE) {
 
 error_log("Installation: ".__LINE__);
 $sql = "INSERT INTO users (id, user, email, password, created, modified, isAdmin) VALUES (1, 'admin', '" . $_POST['contactEmail'] . "', '" . md5($_POST['systemAdminPass']) . "', now(), now(), true)";
-if ($mysqli->query($sql) !== TRUE) {
+if ($mysqli->query($sql) !== true) {
     $obj->error = "Error creating admin user: " . $mysqli->error;
     echo json_encode($obj);
     exit;
@@ -116,7 +117,7 @@ if ($mysqli->query($sql) !== TRUE) {
 
 error_log("Installation: ".__LINE__);
 $sql = "DELETE FROM categories WHERE id = 1 ";
-if ($mysqli->query($sql) !== TRUE) {
+if ($mysqli->query($sql) !== true) {
     $obj->error = "Error deleting category: " . $mysqli->error;
     echo json_encode($obj);
     exit;
@@ -124,7 +125,7 @@ if ($mysqli->query($sql) !== TRUE) {
 
 error_log("Installation: ".__LINE__);
 $sql = "INSERT INTO categories (id, name, clean_name, description, created, modified) VALUES (1, 'Default', 'default','', now(), now())";
-if ($mysqli->query($sql) !== TRUE) {
+if ($mysqli->query($sql) !== true) {
     $obj->error = "Error creating category: " . $mysqli->error;
     echo json_encode($obj);
     exit;
@@ -132,7 +133,7 @@ if ($mysqli->query($sql) !== TRUE) {
 
 error_log("Installation: ".__LINE__);
 $sql = "DELETE FROM configurations WHERE id = 1 ";
-if ($mysqli->query($sql) !== TRUE) {
+if ($mysqli->query($sql) !== true) {
     $obj->error = "Error deleting configuration: " . $mysqli->error;
     echo json_encode($obj);
     exit;
@@ -141,14 +142,14 @@ if ($mysqli->query($sql) !== TRUE) {
 error_log("Installation: ".__LINE__);
 
 $encoder = 'https://encoder1.avideo.com/';
-if(is_dir("{$_POST['systemRootPath']}Encoder")){
+if (is_dir("{$_POST['systemRootPath']}Encoder")) {
     $encoder = "{$_POST['webSiteRootURL']}Encoder/";
 }
 
 $sql = "INSERT INTO configurations (id, video_resolution, users_id, version, webSiteTitle, language, contactEmail, encoderURL,  created, modified) "
         . " VALUES "
         . " (1, '858:480', 1,'{$installationVersion}', '{$_POST['webSiteTitle']}', '{$_POST['mainLanguage']}', '{$_POST['contactEmail']}', '{$encoder}', now(), now())";
-if ($mysqli->query($sql) !== TRUE) {
+if ($mysqli->query($sql) !== true) {
     $obj->error = "Error creating configuration: " . $mysqli->error;
     echo json_encode($obj);
     exit;
@@ -156,7 +157,7 @@ if ($mysqli->query($sql) !== TRUE) {
 
 error_log("Installation: ".__LINE__);
 $sql = "INSERT INTO `plugins` VALUES (NULL, 'a06505bf-3570-4b1f-977a-fd0e5cab205d', 'active', now(), now(), '', 'Gallery', 'Gallery', '1.0');";
-if ($mysqli->query($sql) !== TRUE) {
+if ($mysqli->query($sql) !== true) {
     $obj->error = "Error enabling Gallery Plugin: " . $mysqli->error;
     echo json_encode($obj);
     exit;
@@ -166,7 +167,7 @@ if ($mysqli->query($sql) !== TRUE) {
 error_log("Installation: ".__LINE__);
 $mysqli->close();
 
-if(empty($_POST['salt'])){
+if (empty($_POST['salt'])) {
     $_POST['salt'] = uniqid();
 }
 $content = "<?php
@@ -175,7 +176,7 @@ $content = "<?php
 \$global['videoStorageLimitMinutes'] = 0;
 \$global['disableTimeFix'] = 0;
 \$global['logfile'] = '{$_POST['systemRootPath']}videos/avideo.log';
-if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) { 
+if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' && !filter_var(\$_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP)) {
     // get the subdirectory, if exists
     \$file = str_replace(\"\\\\\", \"/\", __FILE__);
     \$subDir = str_replace(array(\$_SERVER[\"DOCUMENT_ROOT\"], 'videos/configuration.php'), array('',''), \$file);
@@ -207,7 +208,7 @@ if(empty(\$global['webSiteRootPath'])){
 \$mysqlUser = '{$_POST['databaseUser']}';
 \$mysqlPass = '{$_POST['databasePass']}';
 \$mysqlDatabase = '{$_POST['databaseName']}';
-    
+
 //\$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
 //\$global['stopBotsWhiteList'] = array('google','bing','yahoo','yandex','twitter');
 

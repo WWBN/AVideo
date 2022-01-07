@@ -1,5 +1,4 @@
 <?php
-
 // check recurrent payments
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../../';
@@ -25,7 +24,7 @@ if (empty($_REQUEST['payout_batch'])) {
 
 $response = PayPalYPT::getPayoutInfo($_REQUEST['payout_batch']);
 
-if(!is_object($response) || empty($response->result)){
+if (!is_object($response) || empty($response->result)) {
     forbiddenPage('Request error');
 }
 

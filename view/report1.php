@@ -41,11 +41,11 @@
         $( "#datefrom1" ).datepicker( "setDate", "<?php echo date("m/d/Y", strtotime("-30 days"));?>" );
         $( "#dateto1" ).datepicker();
         $( "#dateto1" ).datepicker( "setDate", "<?php echo date("m/d/Y");?>" );
-        
+
         $('#refresh1').click(function(){
             $('#dt1').DataTable().ajax.reload();
         });
-        
+
         $('#dt1').DataTable({
             "language": {
                 "decimal":        "",

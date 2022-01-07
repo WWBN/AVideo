@@ -20,7 +20,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
             $valid = Captcha::validation($_POST['captcha']);
             if ($valid) {
                 //Create a new PHPMailer instance
-                $mail = new \PHPMailer\PHPMailer\PHPMailer;
+                $mail = new \PHPMailer\PHPMailer\PHPMailer();
                 setSiteSendMessage($mail);
                 //Set who the message is to be sent from
                 $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
@@ -55,8 +55,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     <html lang="<?php echo $_SESSION['language']; ?>">
         <head>
             <?php
-            echo getHTMLTitle(__("Recover Password"));
-            ?>
+            echo getHTMLTitle(__("Recover Password")); ?>
             <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         </head>
 
@@ -69,8 +68,8 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
         ?>
                     <div class="alert alert-danger"><?php echo __("The recover pass does not match!"); ?></div>
                     <?php
-                } else {
-                    ?>
+    } else {
+        ?>
                     <form class="well form-horizontal" action=" " method="post"  id="recoverPassForm">
                         <fieldset>
 
@@ -121,8 +120,8 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 
                         </fieldset>
                     </form>
-        <?php }
-    ?>
+        <?php
+    } ?>
             </div>
 
         </div><!--/.container-->

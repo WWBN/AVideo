@@ -23,7 +23,7 @@ $metaDescription = "About Page";
             <div class="panel panel-default">
                 <div class="panel-body">
                     <?php
-                    $custom = "";
+                    $custom = '';
                     if (AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
                         require_once $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
                         $ec = new ExtraConfig();
@@ -52,7 +52,7 @@ $metaDescription = "About Page";
                         <span class="label label-default">
                             <?php echo $_SERVER['HTTP_USER_AGENT']; ?>
                         </span>
-                        
+
 
                         <?php
                     } else {

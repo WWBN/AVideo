@@ -24,10 +24,10 @@ $filename = "{$year}{$month}_{$videos_id}_".$video->getClean_title();
 $rows = VideoStatistic::getAllFromVideos_id($videos_id);
 //var_dump($rows);exit;
 $output = fopen("php://output", 'w') or die("Can't open php://output");
-$fields = array('when', 'ip', 'users', 'location_name', 'seconds_watching_video');
+$fields = ['when', 'ip', 'users', 'location_name', 'seconds_watching_video'];
 fputcsv($output, $fields);
 foreach ($rows as $row) {
-    $statistic = array();
+    $statistic = [];
     foreach ($fields as $value) {
         $statistic[$value] = $row[$value];
     }
@@ -37,4 +37,3 @@ foreach ($rows as $row) {
 header("Content-Type:application/csv");
 header("Content-Disposition:attachment;filename={$filename}.csv");
 fclose($output) or die("Can't close php://output");
-?>

@@ -20,12 +20,12 @@ _error_log("NGINX ON Publish Done  parse_str: " . json_encode($_GET));
 
 $_GET = object_to_array($_GET);
 
-if(!empty($_GET['e']) && empty($_GET['p'])){
+if (!empty($_GET['e']) && empty($_GET['p'])) {
     $obj = json_decode(decryptString($_GET['e']));
-    if(empty($objE)){
+    if (empty($objE)) {
         $objE = json_decode(decryptString(base64_decode($_GET['e'])));
     }
-    if(!empty($obj->users_id)){
+    if (!empty($obj->users_id)) {
         $user = new User($obj->users_id);
         $_GET['p'] = $user->getPassword();
     }
@@ -51,7 +51,7 @@ if (strpos($_GET['p'], '/') !== false) {
     $parts = explode("/", $_GET['p']);
     if (!empty($parts[1])) {
         $_GET['p'] = $parts[0];
-        if(empty($_POST['name'])){
+        if (empty($_POST['name'])) {
             $_POST['name'] = $parts[1];
         }
     }
@@ -66,4 +66,3 @@ $parameters = Live::getLiveParametersFromKey($array['key']);
 $array['cleanKey'] = $parameters['cleanKey'];
 $array['stats'] = LiveTransmitionHistory::getStatsAndRemoveApplication($row['id']);
 $socketObj = Live::notifySocketStats("socketLiveOFFCallback", $array);
-

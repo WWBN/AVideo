@@ -7,7 +7,7 @@ if (!isset($global['systemRootPath'])) {
 header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
-$obj->msg = "";
+$obj->msg = '';
 $obj->filename = $global['systemRootPath'].'videos'.DIRECTORY_SEPARATOR.'avideo.log_'.date('Ymd-His').'.zip';
 
 if (!Permissions::canSeeLogs()) {
@@ -20,8 +20,8 @@ if (!empty($global['disableAdvancedConfigurations'])) {
     die(json_encode($obj));
 }
 
-$zip = new ZipArchive;
-if ($zip->open($obj->filename, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+$zip = new ZipArchive();
+if ($zip->open($obj->filename, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
     $zip->addFile($global['logfile'], 'avideo.log');
     $zip->close();
     file_put_contents($global['logfile'], '');
@@ -31,5 +31,3 @@ if ($zip->open($obj->filename, ZipArchive::CREATE | ZipArchive::OVERWRITE) === T
     $obj->msg = __("Error on create file");
     die(json_encode($obj));
 }
-
-?>

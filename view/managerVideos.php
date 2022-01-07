@@ -5,8 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-
-if(!User::isLogged()) {
+if (!User::isLogged()) {
     header("Location: {$global['webSiteRootURL']}user?redirectUri={$global['webSiteRootURL']}mvideos");
     exit;
 }
@@ -16,7 +15,7 @@ if (!User::canUpload(true)) {
     exit;
 }
 
-if(!empty($_GET['iframe'])){
+if (!empty($_GET['iframe'])) {
     $_GET['noNavbar'] = 1;
 }
 
@@ -32,7 +31,7 @@ if(!empty($_GET['iframe'])){
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
-        <?php 
+        <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         include $global['systemRootPath'] . 'view/managerVideos_body.php';
         include $global['systemRootPath'] . 'view/include/footer.php';

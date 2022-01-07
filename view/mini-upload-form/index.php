@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/functions.php';
@@ -68,8 +68,7 @@ if (!User::canUpload()) {
                     </div>
                     <?php
                     if (!empty($global['videoStorageLimitMinutes'])) {
-                        $secondsTotal = getMinutesTotalVideosLength();
-                        ?>
+                        $secondsTotal = getMinutesTotalVideosLength(); ?>
                         <div class="alert alert-warning"><?php printf(__("You have about %s minutes left of video storage!"), ($global['videoStorageLimitMinutes']-$secondsTotal)); ?></div>
                         <?php
                     }

@@ -33,7 +33,7 @@ if (empty($feed)) {
             <?php
             foreach ($rows as $row) {
                 $files = getVideosURL($row['filename']);
-                $enclosure = "";
+                $enclosure = '';
                 foreach ($files as $value) {
                     if ($value["type"] === "video" && file_exists($value['path'])) {
                         $path_parts = pathinfo($value['path']);
@@ -44,8 +44,7 @@ if (empty($feed)) {
                         $enclosure = '<enclosure url="' . $value['url'] . '" length="' . $value['size'] . '" type="' . $value['mime'] . '" />';
                         break;
                     }
-                }
-                ?>
+                } ?>
                 <item>
                     <title><?php echo feedText($row['title']); ?></title>
                     <description><?php echo feedText($row['description']); ?></description>
@@ -55,19 +54,17 @@ if (empty($feed)) {
                     <guid><?php echo Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink"); ?></guid>
                 </item>
                 <?php
-            }
-            ?>
+            } ?>
         </channel>
     </rss>
     <?php
     $feed = ob_get_contents();
     ob_end_clean();
     ObjectYPT::setCache($cacheFeedName, $feed);
-}else{
+} else {
     //echo '<!-- cache -->';
 }
-if(!is_string($feed)){
+if (!is_string($feed)) {
     $feed = json_encode($feed);
 }
 echo $feed;
-?>

@@ -41,8 +41,8 @@
                     <input type="text" id="inputName" name="group_name" class="form-control" placeholder="<?php echo __("Name"); ?>" required autofocus>
 
                     <?php
-                    if(User::isAdmin()){
-                    ?>
+                    if (User::isAdmin()) {
+                        ?>
                     <hr>
 
                     <div class="panel panel-default">
@@ -51,8 +51,7 @@
                         </div>
                         <div class="panel-body">
                             <?php
-                            echo Permissions::getForm();
-                            ?>
+                            echo Permissions::getForm(); ?>
                         </div>
                     </div>
                     <?php
@@ -76,7 +75,7 @@
     </div>
 </div>
 <script>
-    
+
     function pluginPermissionsBtn(plugins_id) {
         modal.showPleaseWait();
         $('#groupFormModal').modal('hide');

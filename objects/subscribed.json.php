@@ -1,10 +1,10 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'].'objects/subscribe.php';
-if(!empty($_GET['user']) && !empty($_GET['pass'])){
+if (!empty($_GET['user']) && !empty($_GET['pass'])) {
     $user = new User(0, $_GET['user'], $_GET['pass']);
     $user->login(false, true);
 }

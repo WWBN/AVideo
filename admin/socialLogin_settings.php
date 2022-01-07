@@ -4,10 +4,10 @@
             <div class="panel-heading"><i class="fa fa-cog"></i> <?php echo __('Customize options'); ?> <div class="pull-right"><?php echo getPluginSwitch('CustomizeAdvanced'); ?></div></div>
             <div class="panel-body" style="overflow: hidden;">
                 <?php
-                $filter = array(
+                $filter = [
                     'disableNativeSignUp' => __('The form to signup will not exists'),
                     'disableNativeSignIn' => __('The regular form to signin will not exist, if you check this will only have social login or LDAP option'),
-                    'userMustBeLoggedIn' => __('The site will display only a login form to un authenticated users'));
+                    'userMustBeLoggedIn' => __('The site will display only a login form to un authenticated users'), ];
                 createTable("CustomizeUser", $filter);
                 ?>
             </div>

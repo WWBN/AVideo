@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 AVideoPlugin::loadPlugin('YPTStorage');

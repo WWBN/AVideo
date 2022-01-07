@@ -1,14 +1,14 @@
 <?php
-if(empty($advancedCustom->showCategoryTopImages)){
+if (empty($advancedCustom->showCategoryTopImages)) {
     return false;
 }
 if (!empty($_GET['catName'])) {
     $currentCat = Category::getCategoryByName($_GET['catName']);
     $categories_id = $currentCat['id'];
-    if(!Category::isAssetsValids($categories_id)){
+    if (!Category::isAssetsValids($categories_id)) {
         return false;
     }
-}else{
+} else {
     return false;
 }
 

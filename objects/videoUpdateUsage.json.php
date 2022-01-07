@@ -8,7 +8,7 @@ if (!isset($global['systemRootPath'])) {
 }
 session_write_close();
 $obj = new stdClass();
-$obj->msg = "";
+$obj->msg = '';
 $obj->error = true;
 
 

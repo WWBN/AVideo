@@ -320,12 +320,12 @@
             });
 <?php
 if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
-    ?>
+        ?>
                 $('#inputUser').on('keyup', function () {
                     $('#inputEmail').val($(this).val());
                 });
     <?php
-}
+    }
 ?>
 
 

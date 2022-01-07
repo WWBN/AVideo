@@ -1,5 +1,4 @@
 <?php
-
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -14,15 +13,15 @@ if (empty($_POST['current'])) {
 if (empty($_REQUEST['rowCount'])) {
     $_REQUEST['rowCount'] = 10;
 }
-if(empty($_REQUEST['user_groups_id'])){
+if (empty($_REQUEST['user_groups_id'])) {
     $isAdmin=null;
-    if(isset($_REQUEST['isAdmin'])){
+    if (isset($_REQUEST['isAdmin'])) {
         $isAdmin=1;
     }
-    $users = User::getAllUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, array('name', 'email', 'user', 'channelName', 'about'), @$_GET['status'], $isAdmin);
-    $total = User::getTotalUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, @$_GET['status'],$isAdmin);
-}else{
-    $users = User::getAllUsersFromUsergroup($_REQUEST['user_groups_id'], $advancedCustomUser->userCanChangeVideoOwner ? true : false, array('name', 'email', 'user', 'channelName', 'about'), @$_GET['status']);
+    $users = User::getAllUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, ['name', 'email', 'user', 'channelName', 'about'], @$_GET['status'], $isAdmin);
+    $total = User::getTotalUsers($advancedCustomUser->userCanChangeVideoOwner ? true : false, @$_GET['status'], $isAdmin);
+} else {
+    $users = User::getAllUsersFromUsergroup($_REQUEST['user_groups_id'], $advancedCustomUser->userCanChangeVideoOwner ? true : false, ['name', 'email', 'user', 'channelName', 'about'], @$_GET['status']);
     $total = User::getTotalUsersFromUsergroup($_REQUEST['user_groups_id'], $advancedCustomUser->userCanChangeVideoOwner ? true : false, @$_GET['status']);
 }
 //echo examineJSONError($users);exit;
@@ -31,7 +30,7 @@ if (json_last_error()) {
     _error_log("users.json error 1: " . print_r($users, true));
     $users = object_to_array($users);
     //echo examineJSONError($users);exit;
-    array_walk_recursive($users, function(&$item) {
+    array_walk_recursive($users, function (&$item) {
         if (is_string($item)) {
             $item = cleanString($item);
         }
@@ -41,7 +40,7 @@ if (json_last_error()) {
 if (json_last_error()) {
     _error_log("users.json error 2 ");
     foreach ($users as $key => $value) {
-        $users[$key]['about'] = "";
+        $users[$key]['about'] = '';
     }
     $json = json_encode($users);
 }

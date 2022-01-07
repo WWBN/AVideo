@@ -58,11 +58,11 @@ if (!empty($_GET['type'])) {
                         "id" => trim($obj->id),
                         "team_id" => trim($obj->team_id),
                         "key_id" => trim($obj->key_id),
-                        "key_content" => trim($obj->key_content->value)
+                        "key_content" => trim($obj->key_content->value),
                     ],
                     "scope" => "name email",
-                    "verifyTokenSignature" => true
-                ]
+                    "verifyTokenSignature" => true,
+                ],
             ],
                 /* optional : set debug mode
                   'debug_mode' => true,
@@ -102,8 +102,8 @@ if (!empty($_GET['type'])) {
                     'keys' => ['id' => $id, 'secret' => $key, 'key' => $id],
                     "includeEmail" => true,
                     'scope' => $scope,
-                    'trustForwarded' => false
-                ]
+                    'trustForwarded' => false,
+                ],
             ],
                 /* optional : set debug mode
                   'debug_mode' => true,
@@ -140,7 +140,7 @@ if (!empty($_GET['type'])) {
             _session_start();
             $location = $_SESSION['redirectUri'];
             //header("Location: {$_SESSION['redirectUri']}");
-            $_SESSION['redirectUri'] = "";
+            $_SESSION['redirectUri'] = '';
             unset($_SESSION['redirectUri']);
         } else {
             $location = $global['webSiteRootURL'];
@@ -151,11 +151,10 @@ if (!empty($_GET['type'])) {
         //header("Location: {$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage()));
         //echo $e->getMessage();
     }
-    if(!isSameDomainAsMyAVideo($location)){
-       $location = $global['webSiteRootURL'];
+    if (!isSameDomainAsMyAVideo($location)) {
+        $location = $global['webSiteRootURL'];
     }
-    header('Content-Type: text/html');
-    ?>
+    header('Content-Type: text/html'); ?>
     <script>
         window.opener = self;
         if (window.name == 'loginYPT') {
@@ -262,14 +261,14 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
         array_multisort(array_column($object->categories, 'hierarchyAndName'), SORT_ASC, $object->categories);
     }
 } else {
-    $object->categories = array();
+    $object->categories = [];
 }
 //_error_log("login.json.php get user groups");
 TimeLogEnd($timeLog, __LINE__);
 $object->userGroups = UserGroups::getAllUsersGroups();
 TimeLogEnd($timeLog, __LINE__);
-$object->streamServerURL = "";
-$object->streamKey = "";
+$object->streamServerURL = '';
+$object->streamKey = '';
 if ($object->isLogged) {
     $timeLog2 = __FILE__ . "::Is Logged ";
     TimeLogStart($timeLog2);

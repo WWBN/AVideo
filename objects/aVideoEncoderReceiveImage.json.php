@@ -1,5 +1,4 @@
 <?php
-
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 $obj = new stdClass();
@@ -45,17 +44,17 @@ $destination_local = "{$paths['path']}{$videoFileName}";
 _error_log("ReceiveImage: videoFilename = [$videoFileName] destination_local = {$destination_local} Encoder receiving post " . json_encode($_FILES));
 
 $obj->jpgDest = "{$destination_local}.jpg";
-if(!empty($_REQUEST['downloadURL_image']) ){
+if (!empty($_REQUEST['downloadURL_image'])) {
     $content = url_get_contents($_REQUEST['downloadURL_image']);
     $obj->jpgDestSize = _file_put_contents($obj->jpgDest, $content);
     _error_log("ReceiveImage: download {$_REQUEST['downloadURL_image']} to {$obj->jpgDest} ". humanFileSize($obj->jpgDestSize));
-} else if (!empty($_FILES['image']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->jpgDest) || filesize($obj->jpgDest) === 42342)) {
+} elseif (!empty($_FILES['image']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->jpgDest) || filesize($obj->jpgDest) === 42342)) {
     if (!move_uploaded_file($_FILES['image']['tmp_name'], $obj->jpgDest)) {
-        if(!rename($_FILES['image']['tmp_name'], $obj->jpgDest)){
-            if(!copy($_FILES['image']['tmp_name'], $obj->jpgDest)){
-                if(!file_exists($_FILES['image']['tmp_name'])){
+        if (!rename($_FILES['image']['tmp_name'], $obj->jpgDest)) {
+            if (!copy($_FILES['image']['tmp_name'], $obj->jpgDest)) {
+                if (!file_exists($_FILES['image']['tmp_name'])) {
                     $obj->msg = print_r(sprintf(__("Could not move image file because it does not exits %s => [%s]"), $_FILES['image']['tmp_name'], $obj->jpgDest), true);
-                }else{
+                } else {
                     $obj->msg = print_r(sprintf(__("Could not move image file %s => [%s]"), $_FILES['image']['tmp_name'], $obj->jpgDest), true);
                 }
                 _error_log("ReceiveImage: " . $obj->msg);
@@ -77,11 +76,11 @@ if(!empty($_REQUEST['downloadURL_image']) ){
     }
 }
 
-if(!empty($_REQUEST['downloadURL_spectrumimage']) ){
+if (!empty($_REQUEST['downloadURL_spectrumimage'])) {
     $content = url_get_contents($_REQUEST['downloadURL_spectrumimage']);
     $obj->jpgSpectrumDestSize = _file_put_contents($obj->jpgSpectrumDest, $content);
     _error_log("ReceiveImage: download {$_REQUEST['downloadURL_spectrumimage']} {$obj->jpgDestSize}");
-} else if (!empty($_FILES['spectrumimage']['tmp_name'])) {
+} elseif (!empty($_FILES['spectrumimage']['tmp_name'])) {
     $obj->jpgSpectrumDest = "{$destination_local}_spectrum.jpg";
     if ((!empty($_REQUEST['update_video_id']) || !file_exists($obj->jpgSpectrumDest) || filesize($obj->jpgSpectrumDest) === 42342)) {
         if (!move_uploaded_file($_FILES['spectrumimage']['tmp_name'], $obj->jpgSpectrumDest)) {
@@ -105,11 +104,11 @@ if(!empty($_REQUEST['downloadURL_spectrumimage']) ){
 }
 
 $obj->gifDest = "{$destination_local}.gif";
-if(!empty($_REQUEST['downloadURL_gifimage']) ){
+if (!empty($_REQUEST['downloadURL_gifimage'])) {
     $content = url_get_contents($_REQUEST['downloadURL_gifimage']);
     $obj->gifDestSize = file_put_contents($obj->gifDest, $content);
     _error_log("ReceiveImage: download {$_REQUEST['downloadURL_gifimage']} {$obj->gifDestSize}");
-} else if (!empty($_FILES['gifimage']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->gifDest) || filesize($obj->gifDest) === 2095341)) {
+} elseif (!empty($_FILES['gifimage']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->gifDest) || filesize($obj->gifDest) === 2095341)) {
     if (!move_uploaded_file($_FILES['gifimage']['tmp_name'], $obj->gifDest)) {
         $obj->msg = print_r(sprintf(__("Could not move gif image file [%s.gif]"), $destination_local), true);
         _error_log("ReceiveImage: " . $obj->msg);
@@ -129,11 +128,11 @@ if(!empty($_REQUEST['downloadURL_gifimage']) ){
     }
 }
 $obj->webpDest = "{$destination_local}.webp";
-if(!empty($_REQUEST['downloadURL_webpimage']) ){
+if (!empty($_REQUEST['downloadURL_webpimage'])) {
     $content = url_get_contents($_REQUEST['downloadURL_webpimage']);
     $obj->webpDestSize = file_put_contents($obj->webpDest, $content);
     _error_log("ReceiveImage: download {$_REQUEST['downloadURL_webpimage']} {$obj->webpDestSize}");
-} else if (!empty($_FILES['webpimage']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->webpDest) || filesize($obj->webpDest) === 2095341)) {
+} elseif (!empty($_FILES['webpimage']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->webpDest) || filesize($obj->webpDest) === 2095341)) {
     if (!move_uploaded_file($_FILES['webpimage']['tmp_name'], $obj->webpDest)) {
         $obj->msg = print_r(sprintf(__("Could not move webp image file [%s.webp]"), $destination_local), true);
         _error_log("ReceiveImage: " . $obj->msg);

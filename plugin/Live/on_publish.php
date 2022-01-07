@@ -17,35 +17,34 @@ if (empty($url)) {
     $url = $_POST['swfurl'];
 }
 $parts = parse_url($url);
-if(!empty($parts["query"])){
+if (!empty($parts["query"])) {
     parse_str($parts["query"], $_GET);
 }
 
-if(!empty($_GET['e']) && empty($_GET['p'])){
+if (!empty($_GET['e']) && empty($_GET['p'])) {
     if (strpos($_GET['e'], '/') !== false) {
         $parts = explode("/", $_GET['e']);
         if (!empty($parts[1])) {
-            if(empty($_POST['name'])){
+            if (empty($_POST['name'])) {
                 $_POST['name'] = $parts[1];
             }
         }
         $_GET['e'] = $parts[0];
     }
     $objE = _json_decode(decryptString($_GET['e']));
-    if(empty($objE)){
-        
+    if (empty($objE)) {
         $objE = _json_decode(decryptString(base64_decode($_GET['e'])));
     }
-    
-    if(!empty($objE->users_id)){
+
+    if (!empty($objE->users_id)) {
         $user = new User($objE->users_id);
         $_GET['p'] = $user->getPassword();
-    }else{
+    } else {
         _error_log("NGINX ON Publish encryption token error: " . json_encode($objE));
     }
 }
 
-if(empty($_GET['p']) && !empty($_POST['p'])){
+if (empty($_GET['p']) && !empty($_POST['p'])) {
     $_GET['p'] = $_POST['p'];
 }
 
@@ -74,7 +73,7 @@ if (strpos($_GET['p'], '/') !== false) {
     $parts = explode("/", $_GET['p']);
     if (!empty($parts[1])) {
         $_GET['p'] = $parts[0];
-        if(empty($_POST['name'])){
+        if (empty($_POST['name'])) {
             $_POST['name'] = $parts[1];
         }
     }
@@ -87,7 +86,7 @@ $_POST['name'] = preg_replace("/[&=]/", '', $_POST['name']);
     header("Location: {$_POST['name']}");
     http_response_code($code);
     header("HTTP/1.1 {$code} OK");
- * 
+ *
  */
 
 if (!empty($_GET['p'])) {
@@ -100,7 +99,7 @@ if (!empty($_GET['p'])) {
         $user = new User($obj->row['users_id']);
         if (!$user->thisUserCanStream()) {
             _error_log("NGINX ON Publish User [{$obj->row['users_id']}] can not stream");
-        } else if (!empty($_GET['p']) && $_GET['p'] === $user->getPassword()) {
+        } elseif (!empty($_GET['p']) && $_GET['p'] === $user->getPassword()) {
             _error_log("NGINX ON Publish get LiveTransmitionHistory");
             $lth = new LiveTransmitionHistory();
             $lth->setTitle($obj->row['title']);
@@ -113,7 +112,7 @@ if (!empty($_GET['p'])) {
             $obj->liveTransmitionHistory_id = $lth->save();
             _error_log("NGINX ON Publish saved LiveTransmitionHistory");
             $obj->error = false;
-        } else if (empty($_GET['p'])) {
+        } elseif (empty($_GET['p'])) {
             _error_log("NGINX ON Publish error, Password is empty");
         } else {
             _error_log("NGINX ON Publish error, Password does not match ({$_GET['p']}) expect (" . $user->getPassword() . ")");
@@ -135,14 +134,14 @@ if (!empty($obj) && empty($obj->error)) {
         header("Location: rtmp://192.168.1.18/live/$newKey/?p={$_GET['p']}");
         exit;
     }
-     * 
+     *
      */
-    
+
     _error_log("NGINX ON Publish success");
     $code = 200;
     http_response_code($code);
     header("HTTP/1.1 {$code} OK");
-    
+
     outputAndContinueInBackground();
     Live::deleteStatsCache(true);
     _error_log("NGINX Live::on_publish start");
@@ -153,16 +152,16 @@ if (!empty($obj) && empty($obj->error)) {
         ob_end_flush();
         ob_start();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
-        $m3u8 = Live::getM3U8File($lth->getKey());                
+        $m3u8 = Live::getM3U8File($lth->getKey());
         $users_id = $obj->row['users_id'];
         $liveTransmitionHistory_id = $obj->liveTransmitionHistory_id;
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             include "{$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php";
-        }else{
+        } else {
             $command = "php {$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php '$users_id' '$m3u8' '{$obj->liveTransmitionHistory_id}'";
 
             _error_log("NGINX Live::on_publish YPTSocket start  ($command)");
-            $pid = execAsync($command);        
+            $pid = execAsync($command);
             _error_log("NGINX Live::on_publish YPTSocket end {$pid}");
         }
     }

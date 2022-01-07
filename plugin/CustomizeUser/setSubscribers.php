@@ -1,5 +1,6 @@
 <?php
 require_once '../../videos/configuration.php';
+
 if (!User::isAdmin()) {
     forbiddenPage('Must be admin');
 }

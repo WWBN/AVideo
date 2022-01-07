@@ -1,7 +1,7 @@
-<?php 
+<?php
 global $advancedCustom;
 $global['doNotLoadPlayer'] = 1;
-if(!is_numeric($toTime)){
+if (!is_numeric($toTime)) {
     $toTime = strtotime($toTime);
 }
 //$toTime = strtotime('+10 seconds');

@@ -22,4 +22,4 @@ $p->setObject_data(json_encode($pluginDO));
 $obj = new stdClass();
 $obj->save = $p->save();
 
-echo (json_encode($obj));
+echo(json_encode($obj));

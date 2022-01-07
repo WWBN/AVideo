@@ -9,19 +9,19 @@ $obj = new stdClass();
 $obj->error = true;
 
 $live_servers_id = intval($_REQUEST['live_servers_id']);
-if(empty($live_servers_id)){
+if (empty($live_servers_id)) {
     $obj->msg = 'live_servers_id is empty';
     die(json_encode($obj));
 }
 
 if (!User::isLogged()) {
-    $obj->msg = 'You cant edit this file';
+    $obj->msg = 'You can\'t edit this file';
     die(json_encode($obj));
 }
 
 $live = AVideoPlugin::loadPluginIfEnabled("Live");
 
-if(empty($live)){
+if (empty($live)) {
     $obj->msg = 'Plugin not enabled';
     die(json_encode($obj));
 }

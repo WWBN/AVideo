@@ -35,7 +35,7 @@ $categories_id = $video->getCategories_id();
             <div class="panel panel-default ">
                 <div class="panel-heading clearfix ">
                     <h1 class="pull-left" >
-                        <?php 
+                        <?php
                         echo $title;
                         ?>
                     </h1>

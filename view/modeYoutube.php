@@ -22,7 +22,7 @@ if (!empty($evideo)) {
     $poster = $evideo->thumbnails;
     $imgw = 1280;
     $imgh = 720;
-    $autoPlaySources = array();
+    $autoPlaySources = [];
     $autoPlayURL = '';
     $autoPlayPoster = '';
     $autoPlayThumbsSprit = '';
@@ -41,14 +41,12 @@ if (!empty($evideo)) {
     if (!empty($_GET['type'])) {
         if ($_GET['type'] == 'audio') {
             $_SESSION['type'] = 'audio';
-        } else
-        if ($_GET['type'] == 'video') {
+        } elseif ($_GET['type'] == 'video') {
             $_SESSION['type'] = 'video';
-        } else
-        if ($_GET['type'] == 'pdf') {
+        } elseif ($_GET['type'] == 'pdf') {
             $_SESSION['type'] = 'pdf';
         } else {
-            $_SESSION['type'] = "";
+            $_SESSION['type'] = '';
             unset($_SESSION['type']);
         }
     } else {
@@ -61,7 +59,7 @@ if (!empty($evideo)) {
         $isSerie = 1;
         if (preg_match("/^[0-9]+$/", $_GET['playlist_id'])) {
             $playlist_id = $_GET['playlist_id'];
-        } else if (User::isLogged()) {
+        } elseif (User::isLogged()) {
             if ($_GET['playlist_id'] == "favorite") {
                 $playlist_id = PlayList::getFavoriteIdFromUser(User::getId());
             } else {
@@ -89,7 +87,7 @@ if (!empty($evideo)) {
 
         if (!empty($videoSerie)) {
             $videoSerie = Video::getVideo($videoSerie["id"], "", true);
-            if (!empty($playListObject->showTrailerInThePlayList) && !empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== FALSE) {
+            if (!empty($playListObject->showTrailerInThePlayList) && !empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== false) {
                 $videoSerie["type"] = "embed";
                 $videoSerie["videoLink"] = $videoSerie["trailer1"];
                 array_unshift($videosPlayList, $videoSerie);
@@ -108,28 +106,28 @@ if (!empty($evideo)) {
         if (!empty($videosPlayList[$playlist_index + 1])) {
             $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index + 1]['id'], "viewableNotUnlisted", false, false, false, true);
             $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/" . ($playlist_index + 1);
-        } else if (!empty($videosPlayList[0])) {
+        } elseif (!empty($videosPlayList[0])) {
             $autoPlayVideo = Video::getVideo($videosPlayList[0]['id'], "viewableNotUnlisted", false, false, false, true);
             $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/0";
         }
 
         if ($serie = PlayLists::isPlayListASerie($playlist_id)) {
             setVideos_id($serie['id']);
-        } else if (!empty($videosPlayList[$playlist_index])) {
+        } elseif (!empty($videosPlayList[$playlist_index])) {
             setVideos_id($videosPlayList[$playlist_index]['id']);
         }
     } else {
-        $catLink = "";
+        $catLink = '';
         if (!empty($_GET['catName'])) {
             $catLink = "cat/{$_GET['catName']}/";
         }
 
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-// add this because if you change the video category the video was not loading anymore
+        // add this because if you change the video category the video was not loading anymore
         $catName = @$_GET['catName'];
 
         if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $advancedCustom->forceCategory === false)) {
-            $_GET['catName'] = "";
+            $_GET['catName'] = '';
         }
 
         if (empty($video) && !empty($_REQUEST['v'])) {
@@ -163,7 +161,7 @@ if (!empty($evideo)) {
             $obj = new Video("", "", $video['id']);
         }
 
-        $get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
+        $get = ['channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']];
 
         $modeYouTubeTimeLog['Code part 1.1'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
@@ -217,15 +215,15 @@ if (!empty($evideo)) {
             $data = getimgsize($source['path']);
             $imgw = $data[0];
             $imgh = $data[1];
-        } else if ($video['type'] == "audio") {
+        } elseif ($video['type'] == "audio") {
             $img = "" . getCDN() . "view/img/audio_wave.jpg";
         }
         $type = 'video';
         if ($video['type'] === 'pdf') {
             $type = 'pdf';
-        } else if ($video['type'] === 'zip') {
+        } elseif ($video['type'] === 'zip') {
             $type = 'zip';
-        } else if ($video['type'] === 'article') {
+        } elseif ($video['type'] === 'article') {
             $type = 'article';
         }
         $images = Video::getImageFromFilename($video['filename'], $type);
@@ -251,10 +249,10 @@ if (!empty($evideo)) {
         $autoPlayPoster = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}.jpg";
         $autoPlayThumbsSprit = "{$global['webSiteRootURL']}videos/{$autoPlayVideo['filename']}_thumbsSprit.jpg";
     } else {
-        $autoPlaySources = array();
+        $autoPlaySources = [];
         $autoPlayURL = '';
         $autoPlayPoster = '';
-        $autoPlayThumbsSprit = "";
+        $autoPlayThumbsSprit = '';
     }
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 
@@ -287,7 +285,7 @@ $metaDescription = " {$video['id']}";
 // make sure the title tag does not have more then 70 chars
 $titleTag = $video['title'];
 $titleTag = (strlen($titleTag) > 50) ? (substr($titleTag, 0, 48) . " &hellip;") : $titleTag;
-$titleTag .= getSEOComplement(array("allowedTypes" => array("audio", "video", "pdf"))) . $config->getPageTitleSeparator() . $config->getWebSiteTitle();
+$titleTag .= getSEOComplement(["allowedTypes" => ["audio", "video", "pdf"]]) . $config->getPageTitleSeparator() . $config->getWebSiteTitle();
 $titleTag = (strlen($titleTag) > 70) ? (substr($titleTag, 0, 68) . " &hellip;") : $titleTag;
 
 if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
@@ -353,7 +351,8 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
                 <div class="alert alert-warning">
                     <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Attention"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText->value) ? __("We have not found any videos or audios to show") : $advancedCustom->videoNotFoundText->value; ?>.
                 </div>
-            <?php } ?>
+            <?php
+            } ?>
         </div>
         <?php
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
@@ -371,7 +370,7 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
                 ?>
                 <script src="<?php echo getCDN(); ?>view/js/videojs-youtube/Youtube.js" type="text/javascript"></script>
                 <?php
-            } else if ($_GET['isEmbedded'] == "v") {
+            } elseif ($_GET['isEmbedded'] == "v") {
                 ?>
                 <script src="<?php echo getCDN(); ?>view/js/videojs-vimeo/videojs-vimeo.js" type="text/javascript"></script>
                 <?php

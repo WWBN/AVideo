@@ -13,7 +13,7 @@ if (empty($_REQUEST['id'])) {
 if (empty($_COOKIE[$global['session_name']])) {
     die('{"error":"Cookie is disabled"}');
 }
-if(empty($_COOKIE) && isIframe() && isIframeInDifferentDomain()){
+if (empty($_COOKIE) && isIframe() && isIframeInDifferentDomain()) {
     die('{"error":"isIframeInDifferentDomain"}');
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
@@ -23,14 +23,14 @@ if (empty($obj)) {
 }
 _session_start();
 if (empty($_SESSION['addViewCount'])) {
-    $_SESSION['addViewCount'] = array();
+    $_SESSION['addViewCount'] = [];
 }
 
 $seconds = parseDurationToSeconds($obj->getDuration());
 
 if (!empty($seconds)) {
     $percent = (intval($_REQUEST['currentTime']) / $seconds) * 100;
-    $percentOptions = array(25,50,75,100);
+    $percentOptions = [25,50,75,100];
     foreach ($percentOptions as $value) {
         if ($percent >= $value) {
             if (empty($_SESSION['addViewCount'][$_REQUEST['id']][$value]) && !empty($_REQUEST['currentTime'])) {
@@ -45,7 +45,7 @@ if (!empty($seconds)) {
 
 $obj2 = new stdClass();
 $seconds_watching_video = intval(@$_REQUEST['seconds_watching_video']);
-if($seconds_watching_video<0){
+if ($seconds_watching_video<0) {
     $seconds_watching_video = 0;
 }
 
@@ -56,7 +56,7 @@ if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
     $_SESSION['addViewCount'][$_REQUEST['id']]['time'] = strtotime("+{$seconds} seconds");
 } elseif (isset($_REQUEST['currentTime'])) {
     $currentTime = intval($_REQUEST['currentTime']);
-    if($currentTime<0){
+    if ($currentTime<0) {
         $currentTime = 0;
     }
     $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), $currentTime, $seconds_watching_video);

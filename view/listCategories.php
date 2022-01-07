@@ -8,7 +8,7 @@ if (!isset($global['systemRootPath'])) {
 <html lang="<?php echo $config->getLanguage(); ?>">
     <head>
         <?php
-        echo getHTMLTitle(array('Categories'));
+        echo getHTMLTitle(['Categories']);
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <style>
@@ -96,20 +96,18 @@ if (!isset($global['systemRootPath'])) {
                         continue;
                     }
 
-                    if(!empty($value['fullTotal_videos'])){
+                    if (!empty($value['fullTotal_videos'])) {
                         $video = Category::getLatestVideoFromCategory($value['id'], true, true);
                         $images = Video::getImageFromID($video['id']);
                         $image = $images->poster;
-                    }else 
-                    if(!empty($value['fullTotal_lives'])){
+                    } elseif (!empty($value['fullTotal_lives'])) {
                         $live = Category::getLatestLiveFromCategory($value['id'], true, true);
                         $image = Live::getImage($live['users_id'], $live['live_servers_id']);
-                    }else 
-                    if(!empty($value['fullTotal_livelinks'])){
+                    } elseif (!empty($value['fullTotal_livelinks'])) {
                         $liveLinks = Category::getLatestLiveLinksFromCategory($value['id'], true, true);
                         $image = LiveLinks::getImage($liveLinks['id']);
                     }
-                    
+
                     $totalVideosOnChilds = Category::getTotalFromChildCategory($value['id']);
                     $childs = Category::getChildCategories($value['id']);
                     $photo = Category::getCategoryPhotoPath($value['id']);
@@ -138,8 +136,7 @@ if (!isset($global['systemRootPath'])) {
                             }
                         </style>
                         <?php
-                    }
-                    ?>
+                    } ?>
                     <a href="<?php echo $link; ?>">
                         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 categoryItem categoryItem<?php echo $value['id']; ?>" >
                             <div class="panel panel-default embed-responsive embed-responsive-16by9 ">
@@ -153,7 +150,7 @@ if (!isset($global['systemRootPath'])) {
                                     <img src="<?php echo $photo['url+timestamp']; ?>" class=" img img-responsive" />
                                 </div>
                             </div>
-                        </div>   
+                        </div>
                     </a>
                     <?php
                 }

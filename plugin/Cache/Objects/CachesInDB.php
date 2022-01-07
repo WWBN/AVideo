@@ -2,105 +2,134 @@
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
-class CachesInDB extends ObjectYPT {
+class CachesInDB extends ObjectYPT
+{
+    public static $loggedType_NOT_LOGGED = 'n';
+    public static $loggedType_LOGGED = 'l';
+    public static $loggedType_ADMIN = 'a';
+    public static $prefix = 'ypt_cache_';
+    protected $id;
+    protected $content;
+    protected $domain;
+    protected $ishttps;
+    protected $loggedType;
+    protected $user_location;
+    protected $expires;
+    protected $timezone;
+    protected $name;
 
-    static $loggedType_NOT_LOGGED = 'n';
-    static $loggedType_LOGGED = 'l';
-    static $loggedType_ADMIN = 'a';
-    static $prefix = 'ypt_cache_';
-    protected $id, $content, $domain, $ishttps, $loggedType, $user_location, $expires, $timezone, $name;
-
-    static function getSearchFieldsNames() {
-        return array('domain', 'ishttps', 'user_location', 'timezone', 'name');
+    public static function getSearchFieldsNames()
+    {
+        return ['domain', 'ishttps', 'user_location', 'timezone', 'name'];
     }
 
-    static function getTableName() {
+    public static function getTableName()
+    {
         return 'CachesInDB';
     }
 
-    function setId($id) {
+    public function setId($id)
+    {
         $this->id = intval($id);
     }
 
-    function setContent($content) {
+    public function setContent($content)
+    {
         $content = self::encodeContent($content);
         $this->content = $content;
     }
 
-    function setDomain($domain) {
+    public function setDomain($domain)
+    {
         $this->domain = $domain;
     }
 
-    function setIshttps($ishttps) {
+    public function setIshttps($ishttps)
+    {
         $this->ishttps = $ishttps;
     }
 
-    function setLoggedType($loggedType) {
+    public function setLoggedType($loggedType)
+    {
         $this->loggedType = $loggedType;
     }
 
-    function setUser_location($user_location) {
+    public function setUser_location($user_location)
+    {
         $this->user_location = $user_location;
     }
 
-    function setExpires($expires) {
+    public function setExpires($expires)
+    {
         $this->expires = $expires;
     }
 
-    function setTimezone($timezone) {
+    public function setTimezone($timezone)
+    {
         $this->timezone = $timezone;
     }
 
-    function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    function getId() {
+    public function getId()
+    {
         return intval($this->id);
     }
 
-    function getContent() {
+    public function getContent()
+    {
         $this->content = self::decodeContent($this->content);
         return $this->content;
     }
 
-    function getDomain() {
+    public function getDomain()
+    {
         return $this->domain;
     }
 
-    function getIshttps() {
+    public function getIshttps()
+    {
         return $this->ishttps;
     }
 
-    function getLoggedType() {
+    public function getLoggedType()
+    {
         return $this->loggedType;
     }
 
-    function getUser_location() {
+    public function getUser_location()
+    {
         return $this->user_location;
     }
 
-    function getExpires() {
+    public function getExpires()
+    {
         return $this->expires;
     }
 
-    function getTimezone() {
+    public function getTimezone()
+    {
         return $this->timezone;
     }
 
-    function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    static function _getCache($name, $domain, $ishttps, $user_location, $loggedType) {
+    public static function _getCache($name, $domain, $ishttps, $user_location, $loggedType)
+    {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  ishttps = ? AND loggedType = ? AND name = ? AND domain = ? AND user_location = ? LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "issss", array($ishttps, $loggedType, $name, $domain, $user_location), true);
+        $res = sqlDAL::readSql($sql, "issss", [$ishttps, $loggedType, $name, $domain, $user_location], true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
-            if(!empty($data) && !empty($data['content'])){
+            if (!empty($data) && !empty($data['content'])) {
                 $data['content'] = self::decodeContent($data['content']);
             }
             $row = $data;
@@ -110,14 +139,15 @@ class CachesInDB extends ObjectYPT {
         return $row;
     }
 
-    public static function _setCache($name, $value, $domain, $ishttps, $user_location, $loggedType) {
-        if(!is_string($value)){
+    public static function _setCache($name, $value, $domain, $ishttps, $user_location, $loggedType)
+    {
+        if (!is_string($value)) {
             $value = _json_encode($value);
         }
-        if(empty($value)){
+        if (empty($value)) {
             return false;
         }
-        
+
         $row = self::_getCache($name, $domain, $ishttps, $user_location, $loggedType);
         if (!empty($row)) {
             $c = new CachesInDB($row['id']);
@@ -134,21 +164,23 @@ class CachesInDB extends ObjectYPT {
         return $c->save();
     }
 
-    public static function _deleteCache($name) {
+    public static function _deleteCache($name)
+    {
         global $global;
-        if(empty($name)){
+        if (empty($name)) {
             return false;
         }
         $sql = "DELETE FROM " . static::getTableName() . " ";
         $sql .= " WHERE name = ?";
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
-        return sqlDAL::writeSql($sql, "s", array($name));
+        return sqlDAL::writeSql($sql, "s", [$name]);
     }
-    
-    public static function _deleteCacheStartingWith($name) {
+
+    public static function _deleteCacheStartingWith($name)
+    {
         global $global;
-        if(empty($name)){
+        if (empty($name)) {
             return false;
         }
         $sql = "DELETE FROM " . static::getTableName() . " ";
@@ -158,33 +190,35 @@ class CachesInDB extends ObjectYPT {
         return sqlDAL::writeSql($sql);
     }
 
-    public static function _deleteAllCache() {
+    public static function _deleteAllCache()
+    {
         global $global;
         $sql = "TRUNCATE TABLE " . static::getTableName() . " ";
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
         return sqlDAL::writeSql($sql);
     }
-    
-    public static function encodeContent($content){
-        if(!is_string($content)){
+
+    public static function encodeContent($content)
+    {
+        if (!is_string($content)) {
             $content = _json_encode($content);
         }
         $prefix = substr($content, 0, 10);
-        if($prefix!== CachesInDB::$prefix){
+        if ($prefix!== CachesInDB::$prefix) {
             $base64 = base64_encode($content);
             $content = CachesInDB::$prefix.$base64;
         }
         return $content;
     }
-    
-    public static function decodeContent($content){
+
+    public static function decodeContent($content)
+    {
         $prefix = substr($content, 0, 10);
-        if($prefix === CachesInDB::$prefix){
+        if ($prefix === CachesInDB::$prefix) {
             $content = str_replace(CachesInDB::$prefix, '', $content);
             $content = base64_decode($content);
         }
         return $content;
     }
-
 }

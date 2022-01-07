@@ -27,6 +27,8 @@ class DeviceResolver implements ResolverInterface
         $resolver = (new OptionsResolver())
             ->setDefined('identifier')
             ->setAllowedTypes('identifier', 'string')
+            ->setDefined('identifier_auth_hash')
+            ->setAllowedTypes('identifier_auth_hash', 'string')
             ->setDefined('language')
             ->setAllowedTypes('language', 'string')
             ->setDefined('timezone')
@@ -69,6 +71,8 @@ class DeviceResolver implements ResolverInterface
             ->setAllowedTypes('country', 'string')
             ->setDefined('external_user_id')
             ->setAllowedTypes('external_user_id', 'string')
+            ->setDefined('external_user_id_auth_hash')
+            ->setAllowedTypes('external_user_id_auth_hash', 'string')
             ->setDefault('app_id', $this->config->getApplicationId())
             ->setAllowedTypes('app_id', 'string');
 

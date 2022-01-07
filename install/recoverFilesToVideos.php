@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -7,25 +6,25 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 
-$fileExtensions = array('mp4', 'webm', 'm3u8');
+$fileExtensions = ['mp4', 'webm', 'm3u8'];
 
 
-$files = array();
+$files = [];
 
 //foreach (glob("../videos/*.{" . implode(",", $fileExtensions) . "}", GLOB_BRACE) as $filename) {
 foreach (glob("../videos/*", GLOB_BRACE) as $filename) {
     $base = basename($filename);
     if (is_dir($filename)) {
         if (strpos($base, "_YPTuniqid_") !== false) {
-            $files[$base] = array($base, $filename);
+            $files[$base] = [$base, $filename];
         }
     } else {
-        $types = array('_HD', '_Low', '_SD');
+        $types = ['_HD', '_Low', '_SD'];
         $notFound = true;
         foreach ($types as $value) {
             $baseName = explode($value, $base);
             if (!empty($baseName[1])) {
-                $files[$base] = array($baseName[0], $filename);
+                $files[$base] = [$baseName[0], $filename];
                 $notFound = false;
             }
         }
@@ -37,7 +36,7 @@ foreach (glob("../videos/*", GLOB_BRACE) as $filename) {
                 $baseName = str_replace("." . $value, "", $base);
                 if (!empty($baseName[1])) {
                     if (!in_array($baseName, $files)) {
-                        $files[$base] = array($baseName, $filename);
+                        $files[$base] = [$baseName, $filename];
                     }
                 }
             }
@@ -64,9 +63,9 @@ if (!empty($confirm) && strtolower($confirm) === 'y') {
         $video = new Video($title, $value[0]);
         $video->setStatus(Video::$statusActive);
         $video->setUsers_id(1);
-        if($video->save(false, true)){
+        if ($video->save(false, true)) {
             echo "{$count}/{$total} {$title} created\n";
-        }else{
+        } else {
             echo "{$count}/{$total} ERROR on create video {$title}\n";
         }
     }

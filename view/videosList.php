@@ -17,7 +17,7 @@ if (!empty($_POST['video_id'])) {
 $_POST = $post;
 
 TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
-$catLink = "";
+$catLink = '';
 if (!empty($_GET['catName'])) {
     $catLink = "cat/{$_GET['catName']}/";
 }
@@ -61,19 +61,18 @@ $_POST = $post;
 if (empty($totalPages)) {
     $totalPages = 1;
 }
-$videoName = "";
+$videoName = '';
 if (!empty($video['clean_title'])) {
     $videoName = $video['clean_title'];
-} else if (!empty($_GET['videoName'])) {
+} elseif (!empty($_GET['videoName'])) {
     $videoName = $_GET['videoName'];
 }
-$get = array();
+$get = [];
 
-$get = array('channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']);
+$get = ['channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']];
 if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannelFromModeYoutube)) {
     $user = User::getChannelOwner($_GET['channelName']);
-    //var_dump($user);exit;
-    ?>
+    //var_dump($user);exit;?>
     <div class="col-md-12" style="padding: 15px; margin: 5px 0; background-image: url(<?php echo $global['webSiteRootURL'], User::getBackgroundURLFromUserID($user['id']); ?>); background-size: cover;"  >
         <img src="<?php echo User::getPhoto($user['id']); ?>" class="img img-responsive img-circle" style="max-width: 60px;" alt="User Photo"/>
         <div style="position: absolute; right: 5px; top: 5px;">
@@ -98,9 +97,10 @@ TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
         <option value="popular" data-icon="glyphicon-thumbs-up"  <?php echo (!empty($_POST['sort']['likes'])) ? "selected='selected'" : "" ?>> <?php echo __("Most popular"); ?></option>
         <?php
         if (empty($advancedCustom->doNotDisplayViews)) {
-            ?> 
+            ?>
             <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count'])) ? "selected='selected'" : "" ?>> <?php echo __("Most watched"); ?></option>
-        <?php } ?>
+        <?php
+        } ?>
     </select>
 </div>
 <div class="col-md-4 col-sm-12" style="position: relative; z-index: 2;">
@@ -168,29 +168,29 @@ TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
         if (typeof num != 'undefined' && num != 'undefined') {
             page = '/page/' + num;
         }
-        var query = "";
+        var query = '';
 <?php
 if (!empty($get)) {
     echo "query = \"?" . http_build_query($get) . "\";";
 }
 ?>
         if (disableChannel) {
-            query = "";
+            query = '';
         }
 <?php
 if (!empty($videoName) && !empty($video['id'])) {
     ?>
             var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>video/<?php echo addslashes($videoName); ?>' + page + query;
     <?php
-} else if (!empty($_GET['evideo'])) {
-    ?>
+} elseif (!empty($_GET['evideo'])) {
+        ?>
                     var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>evideo/<?php echo $_GET['evideo']; ?>';
     <?php
-} else {
-    ?>
+    } else {
+        ?>
                             var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>';
     <?php
-}
+    }
 ?>
                         var urlList = "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo addslashes($catLink); ?>video/<?php echo addslashes($videoName); ?>" + page + query;
 

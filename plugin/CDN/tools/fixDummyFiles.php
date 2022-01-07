@@ -1,5 +1,4 @@
 <?php
-
 $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
 
@@ -29,7 +28,7 @@ $countSiteIdNotEmpty = 0;
 $countStatusNotActive = 0;
 $countMoved = 0;
 
-$sites_id_to_move = array();
+$sites_id_to_move = [];
 
 foreach ($videos as $value) {
     $count++;
@@ -45,15 +44,15 @@ foreach ($videos as $value) {
 
 $total = count($sites_id_to_move);
 foreach ($sites_id_to_move as $key => $value) {
-    if(!empty($index) && $key<$index){
+    if (!empty($index) && $key<$index) {
         continue;
     }
     echo "{$key}/{$total} Start move {$value} " . PHP_EOL;
     $startF = microtime(true);
     $response = CDNStorage::put($value, 4);
-    if(empty($response)){
+    if (empty($response)) {
         echo "{$key}/{$total} ERROR " . PHP_EOL;
-    }else{
+    } else {
         $endF = microtime(true) - $startF;
         $ETA = ($total - $key + 1) * $endF;
         $ps = humanFileSize($response['totalBytesTransferred'] / ($endF));
@@ -64,4 +63,3 @@ foreach ($sites_id_to_move as $key => $value) {
 echo "SiteIdNotEmpty = $countSiteIdNotEmpty; StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;
 echo PHP_EOL . " Done! " . PHP_EOL;
 die();
-

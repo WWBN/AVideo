@@ -1,4 +1,5 @@
 <?php
+
 $configFile = dirname(__FILE__).'/../../videos/configuration.php';
 require_once $configFile;
 session_write_close();
@@ -9,13 +10,13 @@ $file = 'video-placeholder-gray.png';
 $type = 'image/png';
 
 $imageURL = $_SERVER["REQUEST_URI"];
-if(!empty($_GET['image'])){
+if (!empty($_GET['image'])) {
     $imageURL = $_GET['image'];
 }
 // if the thumb is not ready yet, try to find the default image
-if(preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/',$imageURL, $matches) && !empty($matches[2])){
+if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches) && !empty($matches[2])) {
     $jpg = Video::getPathToFile("{$matches[2]}.jpg");
-    if(file_exists($jpg)){
+    if (file_exists($jpg)) {
         $file = $jpg;
         $type = 'image/jpg';
         header("HTTP/1.0 404 Not Found");
@@ -27,7 +28,7 @@ if(preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/',$imageURL, $matches) && !e
     }
 }
 
-if(empty($_GET['notFound'])){
+if (empty($_GET['notFound'])) {
     header("Location: ".getCDN()."view/img/image404.php?notFound=1");
     exit;
 }

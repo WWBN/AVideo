@@ -88,10 +88,9 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
                                      if (User::canCreateMeet()) {
                                          ?>
                                     <div id="createMeet" class="tab-pane fade" url="<?php
-                                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_manager.php?' . $userCredentials;
-                                    ?>"><div class="loader"></div></div>
+                                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_manager.php?' . $userCredentials; ?>"><div class="loader"></div></div>
                                         <?php
-                                    }
+                                     }
                                     ?>
                             </div>
                         </div>
@@ -167,7 +166,7 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
 
 <?php
 if (User::canCreateMeet()) {
-    ?>
+                ?>
                                                         function _startMeetNow() {
                                                             console.log('_startMeetNow');
                                                             swal({
@@ -206,7 +205,7 @@ if (User::canCreateMeet()) {
 
                                                         }
     <?php
-}
+            }
 ?>
 
             </script>

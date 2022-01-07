@@ -1,5 +1,4 @@
 <?php
-
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -7,8 +6,8 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-class Subscribe {
-
+class Subscribe
+{
     private $id;
     private $email;
     private $status;
@@ -17,7 +16,8 @@ class Subscribe {
     private $notify;
     private $subscriber_users_id;
 
-    function __construct($id, $email = "", $user_id = "", $subscriber_users_id = "") {
+    public function __construct($id, $email = "", $user_id = "", $subscriber_users_id = "")
+    {
         if (!empty($id)) {
             $this->load($id);
         }
@@ -31,37 +31,44 @@ class Subscribe {
         }
     }
 
-    private function load($id) {
+    private function load($id)
+    {
         $obj = self::getSubscribe($id);
-        if (empty($obj))
+        if (empty($obj)) {
             return false;
+        }
         foreach ($obj as $key => $value) {
             $this->$key = $value;
         }
         return true;
     }
 
-    private function loadFromEmail($email, $user_id, $status = "a") {
+    private function loadFromEmail($email, $user_id, $status = "a")
+    {
         $obj = self::getSubscribeFromEmail($email, $user_id, $status);
-        if (empty($obj))
+        if (empty($obj)) {
             return false;
+        }
         foreach ($obj as $key => $value) {
             $this->$key = $value;
         }
         return true;
     }
 
-    private function loadFromId($subscriber_users_id, $user_id, $status = "a") {
+    private function loadFromId($subscriber_users_id, $user_id, $status = "a")
+    {
         $obj = self::getSubscribeFromID($subscriber_users_id, $user_id, $status);
-        if (empty($obj))
+        if (empty($obj)) {
             return false;
+        }
         foreach ($obj as $key => $value) {
             $this->$key = $value;
         }
         return true;
     }
 
-    function save() {
+    public function save()
+    {
         global $global;
         if (!empty($this->id)) {
             $sql = "UPDATE subscribes SET status = '{$this->status}',  notify = '{$this->notify}',ip = '" . getRealIpAddr() . "', modified = now() WHERE id = {$this->id}";
@@ -71,11 +78,12 @@ class Subscribe {
         return sqlDAL::writeSql($sql);
     }
 
-    static function getSubscribe($id) {
+    public static function getSubscribe($id)
+    {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM subscribes WHERE  id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "i", array($id));
+        $res = sqlDAL::readSql($sql, "i", [$id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
@@ -86,7 +94,8 @@ class Subscribe {
         return $subscribe;
     }
 
-    static function getSubscribeFromEmail($email, $user_id, $status = "a") {
+    public static function getSubscribeFromEmail($email, $user_id, $status = "a")
+    {
         global $global;
         $status = str_replace("'", "", $status);
         $sql = "SELECT * FROM subscribes WHERE  email = '$email' AND users_id = {$user_id} ";
@@ -105,7 +114,8 @@ class Subscribe {
         return $subscribe;
     }
 
-    static function getSubscribeFromID($subscriber_users_id, $user_id, $status = "a") {
+    public static function getSubscribeFromID($subscriber_users_id, $user_id, $status = "a")
+    {
         global $global;
         $status = str_replace("'", "", $status);
         $sql = "SELECT * FROM subscribes WHERE  subscriber_users_id = '$subscriber_users_id' AND users_id = {$user_id} ";
@@ -113,7 +123,7 @@ class Subscribe {
             $sql .= " AND status = '{$status}' ";
         }
         $sql .= " LIMIT 1";
-        $res = sqlDAL::readSql($sql, "", array(), true);
+        $res = sqlDAL::readSql($sql, "", [], true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
@@ -124,7 +134,8 @@ class Subscribe {
         return $subscribe;
     }
 
-    static function isSubscribed($subscribed_to_user_id, $user_id = 0) {
+    public static function isSubscribed($subscribed_to_user_id, $user_id = 0)
+    {
         if (empty($user_id)) {
             if (User::isLogged()) {
                 $user_id = User::getId();
@@ -142,7 +153,8 @@ class Subscribe {
      * @param type $user_id
      * @return boolean
      */
-    static function getAllSubscribes($user_id = "", $status = "a", $verifiedOnly = false) {
+    public static function getAllSubscribes($user_id = "", $status = "a", $verifiedOnly = false)
+    {
         global $global;
         $cacheName = "getAllSubscribes_{$user_id}_{$status}_" . getCurrentPage() . "_" . getRowCount();
         $subscribe = ObjectYPT::getCache($cacheName, 300); // 5 minutes
@@ -167,15 +179,15 @@ class Subscribe {
 
             //$sql .= " GROUP BY subscriber_id ";
 
-            $sql .= BootGrid::getSqlFromPost(array('email'));
+            $sql .= BootGrid::getSqlFromPost(['email']);
 
 
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
-            $subscribe = array();
+            $subscribe = [];
             if ($res != false) {
-                $emails = array();
+                $emails = [];
                 foreach ($fullData as $row) {
                     $row = cleanUpRowFromDatabase($row);
                     if (in_array($row['email'], $emails)) {
@@ -209,7 +221,8 @@ class Subscribe {
      * @param type $user_id
      * @return boolean
      */
-    static function getSubscribedChannels($user_id, $limit = 0, $page = 0) {
+    public static function getSubscribedChannels($user_id, $limit = 0, $page = 0)
+    {
         global $global;
         $limit = intval($limit);
         $page = intval($page) - 1;
@@ -225,10 +238,10 @@ class Subscribe {
             $sql .= " LIMIT {$offset},{$limit} ";
         }
         //var_dump($sql, $user_id);exit;
-        $res = sqlDAL::readSql($sql, "i", array($user_id));
+        $res = sqlDAL::readSql($sql, "i", [$user_id]);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $subscribe = array();
+        $subscribe = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row['identification'] = User::getNameIdentificationById($row['users_id']);
@@ -271,14 +284,15 @@ class Subscribe {
         return $subscribe;
     }
 
-    static function getTotalSubscribes($user_id = 0) {
+    public static function getTotalSubscribes($user_id = 0)
+    {
         global $global;
         $sql = "SELECT id FROM subscribes WHERE status = 'a' AND subscriber_users_id > 0 ";
         if (!empty($user_id)) {
             $sql .= " AND users_id = '{$user_id}' ";
         }
 
-        $sql .= BootGrid::getSqlSearchFromPost(array('email'));
+        $sql .= BootGrid::getSqlSearchFromPost(['email']);
         $res = sqlDAL::readSql($sql);
         $numRows = sqlDAL::num_rows($res);
         sqlDAL::close($res);
@@ -287,12 +301,13 @@ class Subscribe {
         return $numRows+$extra;
     }
 
-    static function getTotalSubscribedChannels($user_id = "") {
+    public static function getTotalSubscribedChannels($user_id = "")
+    {
         global $global;
         $sql = "SELECT id FROM subscribes WHERE status = 'a' AND subscriber_users_id = ? ";
 
         //$sql .= BootGrid::getSqlSearchFromPost(array('email'));
-        $res = sqlDAL::readSql($sql, "i", array($user_id));
+        $res = sqlDAL::readSql($sql, "i", [$user_id]);
         $numRows = sqlDAL::num_rows($res);
         sqlDAL::close($res);
 
@@ -300,7 +315,8 @@ class Subscribe {
         return $numRows;
     }
 
-    function toggle() {
+    public function toggle()
+    {
         if (empty($this->status) || $this->status == "i") {
             $this->status = 'a';
         } else {
@@ -309,7 +325,8 @@ class Subscribe {
         $this->save();
     }
 
-    function notifyToggle() {
+    public function notifyToggle()
+    {
         if (empty($this->notify)) {
             $this->notify = 1;
         } else {
@@ -318,19 +335,23 @@ class Subscribe {
         $this->save();
     }
 
-    function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    function getNotify() {
+    public function getNotify()
+    {
         return $this->notify;
     }
 
-    function setNotify($notify) {
+    public function setNotify($notify)
+    {
         $this->notify = $notify;
     }
 
-    static function getButton($user_id) {
+    public static function getButton($user_id)
+    {
         global $global, $advancedCustom;
 
         if (!empty($advancedCustom->removeSubscribeButton)) {
@@ -360,45 +381,48 @@ class Subscribe {
         $content = local_get_contents($btnFile);
 
         $signInBTN = ("<a class='btn btn-primary btn-sm btn-block' href='{$global['webSiteRootURL']}user'>".__("Sign in to subscribe to this channel")."</a>");
-        
-        $search = array(
-            '_user_id_', 
-            '{notify}', 
-            '{tooltipStop}', 
-            '{tooltip}', 
-            '{titleOffline}', 
-            '{tooltipOffline}', 
+
+        $search = [
+            '_user_id_',
+            '{notify}',
+            '{tooltipStop}',
+            '{tooltip}',
+            '{titleOffline}',
+            '{tooltipOffline}',
             '{email}', '{total}',
-            '{subscribed}', '{subscribeText}', '{subscribedText}');
-        
-        $replace = array(
-            $user_id, 
+            '{subscribed}', '{subscribeText}', '{subscribedText}', ];
+
+        $replace = [
+            $user_id,
             $notify,
-            __("Stop getting notified for every new video"), 
-            __("Click to get notified for every new video"), 
+            __("Stop getting notified for every new video"),
+            __("Click to get notified for every new video"),
             __("Want to subscribe to this channel?"),
             $signInBTN,
             $email, $total,
-            $subscribed, $subscribeText, $subscribedText);
+            $subscribed, $subscribeText, $subscribedText, ];
 
         $btnHTML = str_replace($search, $replace, $content);
         return $btnHTML;
     }
 
-    function getSubscriber_users_id() {
+    public function getSubscriber_users_id()
+    {
         return $this->subscriber_users_id;
     }
 
-    function setSubscriber_users_id($subscriber_users_id) {
+    public function setSubscriber_users_id($subscriber_users_id)
+    {
         $this->subscriber_users_id = $subscriber_users_id;
     }
 
-    function getUsers_id() {
+    public function getUsers_id()
+    {
         return $this->users_id;
     }
 
-    function setUsers_id($users_id) {
+    public function setUsers_id($users_id)
+    {
         $this->users_id = $users_id;
     }
-
 }

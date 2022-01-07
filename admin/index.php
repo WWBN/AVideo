@@ -1,5 +1,5 @@
 <?php
-$vars = array();
+$vars = [];
 require_once '../videos/configuration.php';
 require_once './functions.php';
 
@@ -9,11 +9,19 @@ if (!User::isAdmin()) {
 }
 $isAdminPanel = 1;
 
-class MenuAdmin {
+class MenuAdmin
+{
+    public $title;
+    public $icon;
+    public $href;
+    public $active = false;
+    public $show = false;
+    public $itens = [];
+    public $data_toggle;
+    public $data_target;
 
-    public $title, $icon, $href, $active = false, $show = false, $itens = array(), $data_toggle, $data_target;
-
-    function __construct($title, $icon, $href = "", $data_toggle = "", $data_target = "") {
+    public function __construct($title, $icon, $href = "", $data_toggle = "", $data_target = "")
+    {
         $this->title = $title;
         $this->icon = $icon;
         $this->href = $href;
@@ -27,16 +35,16 @@ class MenuAdmin {
         }
     }
 
-    function addItem(MenuAdmin $menu) {
+    public function addItem(MenuAdmin $menu)
+    {
         $this->itens[] = $menu;
         if ($menu->active) {
             $this->show = true;
         }
     }
-
 }
 
-$itens = array();
+$itens = [];
 
 $menu = new MenuAdmin(__("Dashboard"), "fa fa-tachometer-alt", "dashboard");
 $itens[] = $menu;
@@ -94,8 +102,8 @@ $itens[] = $menu;
 
 $_GET['page'] = xss_esc(@$_GET['page']);
 
-$includeHead = "";
-$includeBody = "";
+$includeHead = '';
+$includeBody = '';
 switch ($_GET['page']) {
     case "backup":
         $includeBody = $global['systemRootPath'] . 'admin/backup.php';
@@ -136,7 +144,7 @@ switch ($_GET['page']) {
         break;
     case "monetize_subscription":
         $includeHead = $global['systemRootPath'] . 'plugin/Subscription/page/editor_head.php';
-        $includeBody = array();
+        $includeBody = [];
         $includeBody[] = $global['systemRootPath'] . 'plugin/Subscription/page/editor_body.php';
         $includeBody[] = $global['systemRootPath'] . 'admin/monetize_subscription.php';
         break;
@@ -176,7 +184,7 @@ switch ($_GET['page']) {
     case "health_check":
         $includeBody = $global['systemRootPath'] . 'admin/health_check.php';
         break;
-    default :
+    default:
         $includeHead = $global['systemRootPath'] . 'view/charts_head.php';
         $includeBody = $global['systemRootPath'] . 'view/charts_body.php';
         break;
@@ -236,7 +244,7 @@ switch ($_GET['page']) {
                     <div class="panel-group" id="accordion">
                         <?php
                         $panel = 'panel-default';
-                        if(empty($_REQUEST['page'])){
+                        if (empty($_REQUEST['page'])) {
                             $panel = 'panel-primary';
                         }
                         foreach ($itens as $key => $value) {
@@ -253,8 +261,7 @@ switch ($_GET['page']) {
                                         $panel = 'panel-primary';
                                     }
                                 }
-                            }
-                            ?>
+                            } ?>
                             <div class="panel <?php echo $panel; ?> adminLeftMenu <?php echo getCSSAnimationClassAndStyle('animate__bounceInLeft', 'menu'); ?>">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
@@ -265,7 +272,7 @@ switch ($_GET['page']) {
                                 </div>
                                 <?php
                                 if (!empty($value->itens)) {
-                                    $in = "";
+                                    $in = '';
                                     if (!empty($_GET['page'])) {
                                         foreach ($value->itens as $search) {
                                             if ($_GET['page'] === $search->href) {
@@ -273,36 +280,32 @@ switch ($_GET['page']) {
                                                 break;
                                             }
                                         }
-                                    }
-                                    ?>
+                                    } ?>
                                     <div id="collapse<?php echo $uid; ?>" class="panel-collapse collapse <?php echo $in; ?>">
                                         <div class="panel-body">
                                             <table class="table">
                                                 <?php
-                                                $active = "";
-                                                if (empty($_GET['page'])) {
-                                                    $active = "active";
-                                                }
-                                                foreach ($value->itens as $key2 => $value2) {
-                                                    if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
-                                                        $active = "active";
-                                                    }
-                                                    ?>
+                                                $active = '';
+                                    if (empty($_GET['page'])) {
+                                        $active = "active";
+                                    }
+                                    foreach ($value->itens as $key2 => $value2) {
+                                        if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
+                                            $active = "active";
+                                        } ?>
                                                     <tr>
                                                         <td class="<?php echo $active; ?>">
                                                             <a href="<?php echo "{$global['webSiteRootURL']}admin/?page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
                                                         </td>
                                                     </tr>
                                                     <?php
-                                                    $active = "";
-                                                }
-                                                ?>
+                                                    $active = '';
+                                    } ?>
                                             </table>
                                         </div>
                                     </div>
                                     <?php
-                                }
-                                ?>
+                                } ?>
                             </div>
                             <?php
                             $panel = 'panel-default';

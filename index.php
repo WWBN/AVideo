@@ -110,7 +110,7 @@
     </body>
 </html>
 <?php
-function __($text){
+function __($text)
+{
     return $text;
 }
-?>

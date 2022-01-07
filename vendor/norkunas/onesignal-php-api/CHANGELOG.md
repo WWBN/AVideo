@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 2.8.0
+
+- add external user id auth hash in device to enable identity verification
+- Allow Symfony 6
+
 ## Version 2.7.0
 
 - Additional SMS related fields (on the Notifications payload)

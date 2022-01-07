@@ -1,6 +1,6 @@
 <?php
 $uuids = AVideoPlugin::getPluginsOnByDefault();
-$rowId = array();
+$rowId = [];
 foreach ($uuids as $value) {
     $rowId[] = " row.uuid != '{$value}' ";
 }
@@ -61,9 +61,9 @@ $uuidJSCondition = implode(" && ", $rowId);
                             $staticProperties = $class->getStaticProperties();
                             foreach ($staticProperties as $key => $value) {
                                 ?>
-                                <button class="label label-<?php echo $value[0]; ?> unchecked PluginTags" 
-                                        id="PluginTags<?php echo $value[3]; ?>" 
-                                        pluginTag="<?php echo $value[3]; ?>" 
+                                <button class="label label-<?php echo $value[0]; ?> unchecked PluginTags"
+                                        id="PluginTags<?php echo $value[3]; ?>"
+                                        pluginTag="<?php echo $value[3]; ?>"
                                         onclick="PluginTagsToggle('<?php echo $value[3]; ?>')"
                                         data-toggle="tooltip" title="<?php echo __($value[1]); ?>">
                                     <?php echo $value[2]; ?> <span class="hidden-md hidden-sm hidden-xs"><?php echo __($value[1]); ?></span>
@@ -441,7 +441,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                     return  editBtn + sqlBtn + menu;
                 },
                 "name": function (column, row) {
-                    var checked = "";
+                    var checked = '';
                     var switchBtn = '';
                     if (<?php echo $uuidJSCondition; ?>) {
                         if(row.isPluginTablesInstalled || !row.databaseScript || (row.hasOwnProperty("installedPlugin") && row.installedPlugin.hasOwnProperty("pluginversion"))){
@@ -450,7 +450,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                             }
                             switchBtn = '<div class="material-small material-switch pull-left"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
                         }
-                        
+
                     } else {
                         if (!row.enabled) {
                             $.ajax({
@@ -483,7 +483,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                         }
                     }
                     if (row.hasOwnProperty("permissions") && row.permissions.length) {
-                        var disabled = "";
+                        var disabled = '';
                         if (!row.isPluginTablesInstalled) {
                             disabled = ' disabled="disabled" ';
                         }
@@ -564,7 +564,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                     type: 'post',
                     success: function (response) {
                         if(response.error){
-                            avideoAlertError(response.msg) ;                               
+                            avideoAlertError(response.msg) ;
                         }else{
                             $("#grid").bootgrid('reload');
                         }

@@ -1,5 +1,4 @@
 <?php
-
 $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
 
@@ -24,22 +23,22 @@ $sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id DESC ";
 $res = sqlDAL::readSql($sql);
 $fullData = sqlDAL::fetchAllAssoc($res);
 sqlDAL::close($res);
-$rows = array();
+$rows = [];
 if ($res != false) {
     foreach ($fullData as $row) {
         if ($row['status'] === Video::$statusActive) {
             exec("rm /var/www/html/AVideo/videos/{$row['filename']}/*.tgz");
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
-            if(empty($last)){
+            if (empty($last)) {
                 continue;
             }
-            if($last['acumulativeFilesize']<10000){
+            if ($last['acumulativeFilesize']<10000) {
                 //echo "SKIP videos_id = {$row['id']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
-            }else{
-                if(CDNStorage::isMoving($row['id'])){
+            } else {
+                if (CDNStorage::isMoving($row['id'])) {
                     echo "videos_id = {$row['id']} {$row['title']} Is moving ". PHP_EOL;
-                }else{
+                } else {
                     echo "videos_id = {$row['id']} {$row['title']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
                     CDNStorage::put($row['id'], 4);
                     //CDNStorage::createDummyFiles($row['id']);
@@ -52,4 +51,3 @@ if ($res != false) {
 }
 echo PHP_EOL . " Done! " . PHP_EOL;
 die();
-

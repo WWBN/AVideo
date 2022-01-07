@@ -9,7 +9,7 @@ $obj->msg = '';
 $obj->textEncrypted = '';
 
 $encMessage = encryptMessage(@$_REQUEST['textToEncrypt'], @$_REQUEST['publicKeyToEncryptMsg']);
-if(!empty($encMessage["encryptedMessage"])){
+if (!empty($encMessage["encryptedMessage"])) {
     $obj->error = false;
     $obj->textEncrypted = $encMessage["encryptedMessage"];
 }

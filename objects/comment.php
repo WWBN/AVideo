@@ -101,12 +101,12 @@ class Comment
             }
             $sql = "UPDATE comments SET "
                     . " comment = ?, modified = now() WHERE id = ?";
-            $resp = sqlDAL::writeSql($sql, "si", array(xss_esc($this->comment),$this->id));
+            $resp = sqlDAL::writeSql($sql, "si", [xss_esc($this->comment),$this->id]);
         } else {
             $id = User::getId();
             $sql = "INSERT INTO comments ( comment,users_id, videos_id, comments_id_pai, created, modified) VALUES "
                     . " (?, ?, ?, {$this->comments_id_pai}, now(), now())";
-            $resp = sqlDAL::writeSql($sql, "sii", array(xss_esc($this->comment),$id,$this->videos_id));
+            $resp = sqlDAL::writeSql($sql, "sii", [xss_esc($this->comment),$id,$this->videos_id]);
         }
         if ((empty($resp))&&($global['mysqli']->errno!=0)) {
             die('Error (comment save) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -138,7 +138,7 @@ class Comment
         } else {
             return false;
         }
-        return sqlDAL::writeSql($sql, "i", array($this->id));
+        return sqlDAL::writeSql($sql, "i", [$this->id]);
     }
 
     private function getComment($id)
@@ -146,7 +146,7 @@ class Comment
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM comments WHERE  id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "i", array($id));
+        $res = sqlDAL::readSql($sql, "i", [$id]);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return ($res!=false) ? $result : false;
@@ -155,8 +155,8 @@ class Comment
     public static function getAllComments($videoId = 0, $comments_id_pai = 'NULL')
     {
         global $global;
-        $format = "";
-        $values = array();
+        $format = '';
+        $values = [];
         $sql = "SELECT c.*, u.name as name, u.user as user, "
                 . " (SELECT count(id) FROM comments_likes as l where l.comments_id = c.id AND `like` = 1 ) as likes, "
                 . " (SELECT count(id) FROM comments_likes as l where l.comments_id = c.id AND `like` = -1 ) as dislikes ";
@@ -201,11 +201,11 @@ class Comment
             $values[]=$comments_id_pai;
         }
 
-        $sql .= BootGrid::getSqlFromPost(array('name'));
+        $sql .= BootGrid::getSqlFromPost(['name']);
         $res = sqlDAL::readSql($sql, $format, $values);
         $allData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $comment = array();
+        $comment = [];
         if ($res!=false) {
             foreach ($allData as $row) {
                 $row = cleanUpRowFromDatabase($row);
@@ -225,8 +225,8 @@ class Comment
     public static function getTotalComments($videoId = 0, $comments_id_pai = 'NULL', $video_owner_users_id=0)
     {
         global $global;
-        $format = "";
-        $values = array();
+        $format = '';
+        $values = [];
         $sql = "SELECT c.id FROM comments c LEFT JOIN users as u ON u.id = users_id LEFT JOIN videos as v ON v.id = videos_id WHERE 1=1  ";
 
         if (!empty($videoId)) {
@@ -265,7 +265,7 @@ class Comment
             $values[] = $video_owner_users_id;
         }
 
-        $sql .= BootGrid::getSqlSearchFromPost(array('name'));
+        $sql .= BootGrid::getSqlSearchFromPost(['name']);
 
         $res = sqlDAL::readSql($sql, $format, $values);
         $countRow = sqlDAL::num_rows($res);
@@ -312,14 +312,14 @@ class Comment
     {
         global $global;
         $sql = "SELECT id from comments  WHERE users_id = ?";
-        $res = sqlDAL::readSql($sql, "i", array($users_id));
+        $res = sqlDAL::readSql($sql, "i", [$users_id]);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $r = array('thumbsUp'=>0, 'thumbsDown'=>0 );
+        $r = ['thumbsUp'=>0, 'thumbsDown'=>0 ];
         if ($res!=false) {
             foreach ($fullData as $row) {
                 $format = "i";
-                $values = array($row['id']);
+                $values = [$row['id']];
                 $sql = "SELECT id from comments_likes WHERE comments_id = ? AND `like` = 1  ";
                 if (!empty($startDate)) {
                     $sql .= " AND `created` >= ? ";
@@ -336,7 +336,7 @@ class Comment
                 sqlDAL::close($res);
                 $r['thumbsUp']+=$countRow;
                 $format = "i";
-                $values = array($row['id']);
+                $values = [$row['id']];
                 $sql = "SELECT id from comments_likes WHERE comments_id = ? AND `like` = -1  ";
                 if (!empty($startDate)) {
                     $sql .= " AND `created` >= ? ";

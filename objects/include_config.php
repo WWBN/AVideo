@@ -1,5 +1,4 @@
 <?php
-
 if (!empty($doNotIncludeConfig)) {
     error_log('AVideo includeconfig ignored');
     return false;
@@ -111,8 +110,8 @@ $url1['host'] = '';
 $global['HTTP_REFERER'] = '';
 if (!empty($_SERVER['HTTP_REFERER'])) {
     if ((
-            strpos($_SERVER['HTTP_REFERER'], '/video/') !== false || strpos($_SERVER['HTTP_REFERER'], '/v/') !== false
-            ) &&
+        strpos($_SERVER['HTTP_REFERER'], '/video/') !== false || strpos($_SERVER['HTTP_REFERER'], '/v/') !== false
+    ) &&
             !empty($_SESSION['LAST_HTTP_REFERER'])) {
         if (strpos($_SESSION['LAST_HTTP_REFERER'], 'cache/css/') !== false ||
                 strpos($_SESSION['LAST_HTTP_REFERER'], 'cache/js/') !== false ||
@@ -172,10 +171,10 @@ if (empty($doNotConnectDatabaseIncludeConfig) && $baseName !== 'xsendfile.php' &
 if (empty($global['bodyClass'])) {
     $global['bodyClass'] = '';
 }
-$global['allowedExtension'] = array('gif', 'jpg', 'mp4', 'webm', 'mp3', 'm4a', 'ogg', 'zip', 'm3u8');
+$global['allowedExtension'] = ['gif', 'jpg', 'mp4', 'webm', 'mp3', 'm4a', 'ogg', 'zip', 'm3u8'];
 
 if (empty($global['avideo_resolutions'])) {
-    $global['avideo_resolutions'] = array(240, 360, 480, 540, 720, 1080, 1440, 2160);
+    $global['avideo_resolutions'] = [240, 360, 480, 540, 720, 1080, 1440, 2160];
 }
 
 sort($global['avideo_resolutions']);

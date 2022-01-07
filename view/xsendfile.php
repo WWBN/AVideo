@@ -38,7 +38,7 @@ if ($file == "configuration.php") {
 $path = Video::getPathToFile($file);
 if (file_exists($path)) {
     if (!empty($_GET['download'])) {
-        if(!CustomizeUser::canDownloadVideos()){
+        if (!CustomizeUser::canDownloadVideos()) {
             _error_log("downloadHLS: CustomizeUser::canDownloadVideos said NO");
             forbiddenPage("Can't download this");
         }
@@ -62,7 +62,7 @@ if (file_exists($path)) {
         if (empty($advancedCustom->doNotUseXsendFile)) {
             //_error_log("X-Sendfile: {$path}");
             header("X-Sendfile: {$path}");
-        }else{
+        } else {
             _error_log("Careful, we recommend you to use the X-Sendfile and it is disabled on AdvancedCustom plugin -> doNotUseXsendFile. You may have an error 'Allowed Memory Size Exhausted' if your video file is too big", AVideoLog::$WARNING);
         }
     } else {

@@ -6,168 +6,224 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaignsVideos.php';
 require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaignsLogs.php';
 
-class VastCampaigns extends ObjectYPT {
+class VastCampaigns extends ObjectYPT
+{
+    protected $id;
+    protected $name;
+    protected $type;
+    protected $status;
+    protected $start_date;
+    protected $end_date;
+    protected $pricing_model;
+    protected $price;
+    protected $max_impressions;
+    protected $max_clicks;
+    protected $priority;
+    protected $users_id;
+    protected $visibility;
+    protected $cpc_budget_type;
+    protected $cpc_total_budget;
+    protected $cpc_max_price_per_click;
+    protected $cpm_max_prints;
+    protected $cpm_current_prints;
 
-    protected $id, $name, $type, $status, $start_date, $end_date, $pricing_model,
-            $price, $max_impressions, $max_clicks, $priority, $users_id, $visibility, $cpc_budget_type, $cpc_total_budget, $cpc_max_price_per_click, $cpm_max_prints, $cpm_current_prints;
-
-    static function getSearchFieldsNames() {
-        return array('name');
+    public static function getSearchFieldsNames()
+    {
+        return ['name'];
     }
 
-    static function getTableName() {
+    public static function getTableName()
+    {
         return 'vast_campaigns';
     }
 
-    function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    function getType() {
+    public function getType()
+    {
         return $this->type;
     }
 
-    function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    function getStart_date() {
+    public function getStart_date()
+    {
         return $this->start_date;
     }
 
-    function getEnd_date() {
+    public function getEnd_date()
+    {
         return $this->end_date;
     }
 
-    function getPricing_model() {
+    public function getPricing_model()
+    {
         return $this->pricing_model;
     }
 
-    function getPrice() {
+    public function getPrice()
+    {
         return $this->price;
     }
 
-    function getMax_impressions() {
+    public function getMax_impressions()
+    {
         return $this->max_impressions;
     }
 
-    function getMax_clicks() {
+    public function getMax_clicks()
+    {
         return $this->max_clicks;
     }
 
-    function getPriority() {
+    public function getPriority()
+    {
         return $this->priority;
     }
 
-    function getUsers_id() {
+    public function getUsers_id()
+    {
         return $this->users_id;
     }
 
-    function getVisibility() {
+    public function getVisibility()
+    {
         return $this->visibility;
     }
 
-    function getCpc_budget_type() {
+    public function getCpc_budget_type()
+    {
         return $this->cpc_budget_type;
     }
 
-    function getCpc_total_budget() {
+    public function getCpc_total_budget()
+    {
         return $this->cpc_total_budget;
     }
 
-    function getCpc_max_price_per_click() {
+    public function getCpc_max_price_per_click()
+    {
         return $this->cpc_max_price_per_click;
     }
 
-    function getCpm_max_prints() {
+    public function getCpm_max_prints()
+    {
         return $this->cpm_max_prints;
     }
 
-    function getCpm_current_prints() {
+    public function getCpm_current_prints()
+    {
         return $this->cpm_current_prints;
     }
-    
-    function getPrintsLeft() {
+
+    public function getPrintsLeft()
+    {
         return ($this->cpm_max_prints-$this->cpm_current_prints);
     }
 
-    function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
-    function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
     }
 
-    function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
     }
 
-    function setStart_date($start_date) {
+    public function setStart_date($start_date)
+    {
         $this->start_date = $start_date;
     }
 
-    function setEnd_date($end_date) {
+    public function setEnd_date($end_date)
+    {
         $this->end_date = $end_date;
     }
 
-    function setPricing_model($pricing_model) {
+    public function setPricing_model($pricing_model)
+    {
         $this->pricing_model = $pricing_model;
     }
 
-    function setPrice($price) {
+    public function setPrice($price)
+    {
         $this->price = $price;
     }
 
-    function setMax_impressions($max_impressions) {
+    public function setMax_impressions($max_impressions)
+    {
         $this->max_impressions = $max_impressions;
     }
 
-    function setMax_clicks($max_clicks) {
+    public function setMax_clicks($max_clicks)
+    {
         $this->max_clicks = $max_clicks;
     }
 
-    function setPriority($priority) {
+    public function setPriority($priority)
+    {
         $this->priority = $priority;
     }
 
-    function setUsers_id($users_id) {
+    public function setUsers_id($users_id)
+    {
         $this->users_id = $users_id;
     }
 
-    function setVisibility($visibility) {
+    public function setVisibility($visibility)
+    {
         $this->visibility = $visibility;
     }
 
-    function setCpc_budget_type($cpc_budget_type) {
+    public function setCpc_budget_type($cpc_budget_type)
+    {
         $this->cpc_budget_type = $cpc_budget_type;
     }
 
-    function setCpc_total_budget($cpc_total_budget) {
+    public function setCpc_total_budget($cpc_total_budget)
+    {
         $this->cpc_total_budget = $cpc_total_budget;
     }
 
-    function setCpc_max_price_per_click($cpc_max_price_per_click) {
+    public function setCpc_max_price_per_click($cpc_max_price_per_click)
+    {
         $this->cpc_max_price_per_click = $cpc_max_price_per_click;
     }
 
-    function setCpm_max_prints($cpm_max_prints) {
+    public function setCpm_max_prints($cpm_max_prints)
+    {
         $this->cpm_max_prints = $cpm_max_prints;
     }
 
-    function setCpm_current_prints($cpm_current_prints) {
+    public function setCpm_current_prints($cpm_current_prints)
+    {
         $this->cpm_current_prints = $cpm_current_prints;
     }
 
-    function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    function save() {
+    public function save()
+    {
         $this->cpm_current_prints = intval($this->cpm_current_prints);
         if (empty($this->visibility)) {
             $this->visibility = 'listed';
@@ -188,7 +244,8 @@ class VastCampaigns extends ObjectYPT {
         return parent::save();
     }
 
-    function addVideo($videos_id, $status = 'a') {
+    public function addVideo($videos_id, $status = 'a')
+    {
         $vast_campaigns_id = $this->getId();
         if (empty($vast_campaigns_id)) {
             $this->setId($this->save());
@@ -200,13 +257,14 @@ class VastCampaigns extends ObjectYPT {
         return $campainVideos->save();
     }
 
-    static public function getValidCampaigns() {
+    public static function getValidCampaigns()
+    {
         global $global;
         $ad_server_location = AVideoPlugin::loadPluginIfEnabled('AD_Server_Location');
         AVideoPlugin::loadPlugin('User_Location');
         $User_Location = User_Location::getSessionLocation();
         $sql = "SELECT * from " . static::getTableName() . " vc  WHERE status = 'a' AND start_date <= now() AND end_date >=now() AND cpm_max_prints > cpm_current_prints ";
-        if(!empty($ad_server_location) && !empty($User_Location) && $User_Location['country_name'] !== '-'){
+        if (!empty($ad_server_location) && !empty($User_Location) && $User_Location['country_name'] !== '-') {
             // show only campaign for the user location
             $sql .= " AND ( (vc.id IN (SELECT vast_campaigns_id FROM campaign_locations WHERE (country_name = 'All' OR country_name IS NULL OR country_name = '') OR  "
                     . " (country_name = \"{$User_Location['country_name']}\" AND region_name = 'All') OR "
@@ -221,7 +279,7 @@ class VastCampaigns extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $rows = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $r = array();
+        $r = [];
         if ($res != false) {
             foreach ($rows as $row) {
                 $row['printsLeft'] = $row['cpm_max_prints'] - $row['cpm_current_prints'];
@@ -232,7 +290,8 @@ class VastCampaigns extends ObjectYPT {
         return $r;
     }
 
-    static function getAll() {
+    public static function getAll()
+    {
         global $global;
         $ad_server_location = AVideoPlugin::loadPluginIfEnabled('AD_Server_Location');
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
@@ -241,7 +300,7 @@ class VastCampaigns extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row['data'] = VastCampaignsLogs::getDataFromCampaign($row['id']);
@@ -257,39 +316,42 @@ class VastCampaigns extends ObjectYPT {
         return $rows;
     }
 
-    function addView() {
+    public function addView()
+    {
         global $global;
         if (!empty($this->id)) {
             $sql = "UPDATE " . static::getTableName() . " SET cpm_current_prints = cpm_current_prints+1 ";
             $sql .= " WHERE id = ?";
             $global['lastQuery'] = $sql;
             //_error_log("Delete Query: ".$sql);
-            return sqlDAL::writeSql($sql, "i", array($this->id));
+            return sqlDAL::writeSql($sql, "i", [$this->id]);
         }
         _error_log("Id for table " . static::getTableName() . " not defined for add view");
         return false;
     }
 
-    function delete() {
+    public function delete()
+    {
         global $global;
         if (!empty($this->id)) {
             $sql = "DELETE FROM vast_campaigns_logs ";
             $sql .= " WHERE vast_campaigns_has_videos_id IN (SELECT id FROM vast_campaigns_has_videos WHERE vast_campaigns_id = ?)";
             $global['lastQuery'] = $sql;
             //_error_log("Delete Query: ".$sql);
-            $campaigns_video_log = sqlDAL::writeSql($sql, "i", array($this->id));
+            $campaigns_video_log = sqlDAL::writeSql($sql, "i", [$this->id]);
 
 
             $sql = "DELETE FROM vast_campaigns_has_videos ";
             $sql .= " WHERE vast_campaigns_id = ?";
             $global['lastQuery'] = $sql;
             //_error_log("Delete Query: ".$sql);
-            $campaigns_video = sqlDAL::writeSql($sql, "i", array($this->id));
+            $campaigns_video = sqlDAL::writeSql($sql, "i", [$this->id]);
         }
         return parent::delete();
     }
-    
-    static public function getValidCampaignsFromVideo($videos_id) {
+
+    public static function getValidCampaignsFromVideo($videos_id)
+    {
         global $global;
 
         $sql = "SELECT vchv.*, vc.* from " . static::getTableName() . " vc LEFT JOIN vast_campaigns_has_videos vchv ON vchv.vast_campaigns_id = vc.id WHERE vc.status = 'a' "
@@ -298,7 +360,7 @@ class VastCampaigns extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $rows = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $r = array();
+        $r = [];
         if ($res != false) {
             foreach ($rows as $row) {
                 $row['printsLeft'] = $row['cpm_max_prints'] - $row['cpm_current_prints'];
@@ -308,5 +370,4 @@ class VastCampaigns extends ObjectYPT {
 
         return $r;
     }
-
 }

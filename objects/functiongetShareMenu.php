@@ -1,7 +1,7 @@
 <?php
 $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-$search = array('{permaLink}','{imgSRC}','{title}', '{embedURL}', '{videoLengthInSeconds}');
-$replace = array($permaLink,$img,$title, $embedURL, $videoLengthInSeconds);
+$search = ['{permaLink}','{imgSRC}','{title}', '{embedURL}', '{videoLengthInSeconds}'];
+$replace = [$permaLink,$img,$title, $embedURL, $videoLengthInSeconds];
 ?>
 <div class="<?php echo $class; ?>" id="shareDiv">
     <div class="tabbable-panel">
@@ -86,8 +86,7 @@ $replace = array($permaLink,$img,$title, $embedURL, $videoLengthInSeconds);
                 </div>
                 <?php
                 if (empty($advancedCustom->disableEmailSharing)) {
-                    $loaderSequenceName = uniqid();
-                    ?>
+                    $loaderSequenceName = uniqid(); ?>
                     <div class="tab-pane" id="tabEmail">
                         <?php if (!User::isLogged()) { ?>
                             <strong>
@@ -171,26 +170,22 @@ $replace = array($permaLink,$img,$title, $embedURL, $videoLengthInSeconds);
                     <?php
                 }
                 if (!empty($permaLink) && $permaLink !== $URLFriendly) {
-                    $loaderSequenceName = uniqid();
-                    ?>
+                    $loaderSequenceName = uniqid(); ?>
                     <div class="tab-pane" id="tabPermaLink">
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                             <label class="control-label"><?php echo __("Permanent Link") ?></label>
                             <?php
-                            getInputCopyToClipboard('linkPermanent', $permaLink);
-                            ?>
+                            getInputCopyToClipboard('linkPermanent', $permaLink); ?>
                         </div>
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                             <label class="control-label"><?php echo __("URL Friendly") ?> (SEO)</label>
                             <?php
-                            getInputCopyToClipboard('linkFriendly', $URLFriendly);
-                            ?>
+                            getInputCopyToClipboard('linkFriendly', $URLFriendly); ?>
                         </div>
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                             <label class="control-label"><?php echo __("Current Time") ?> (SEO)</label>
                             <?php
-                            getInputCopyToClipboard('linkCurrentTime', $URLFriendly);
-                            ?>
+                            getInputCopyToClipboard('linkCurrentTime', $URLFriendly); ?>
                         </div>
                     </div>
                     <?php
