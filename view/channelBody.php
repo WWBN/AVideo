@@ -24,8 +24,19 @@ $current = $_POST['current'];
 $rowCount = 25;
 $_REQUEST['rowCount'] = $rowCount;
 
-$uploadedVideos = Video::getAllVideos("a", $user_id, !isToHidePrivateVideos());
-$uploadedTotalVideos = Video::getTotalVideos("a", $user_id, !isToHidePrivateVideos());
+if(empty($channelPassword) && !$isMyChannel){
+    $status = 'a';
+    $showUnlisted = false;
+}else{
+    $status = 'viewable';
+    $showUnlisted = true;
+}
+
+
+//getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null) 
+$uploadedVideos = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), array(), false, $showUnlisted);
+//getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false) {
+$uploadedTotalVideos = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted);
 TimeLogEnd($timeLog, __LINE__);
 $totalPages = ceil($uploadedTotalVideos / $rowCount);
 
