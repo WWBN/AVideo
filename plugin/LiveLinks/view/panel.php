@@ -76,7 +76,7 @@
                                             <div class="form-group">
                                                 <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
                                                 <div class="material-switch pull-right">
-                                                    <input id="group<?php echo $value['id']; ?>" name="userGroups[]" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" <?php echo (in_array($value['id'], $groups) ? "checked" : "") ?>/>
+                                                    <input id="group<?php echo $value['id']; ?>" name="userGroups[]" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups"/>
                                                     <label for="group<?php echo $value['id']; ?>" class="label-success"></label>
                                                 </div>
                                             </div>
