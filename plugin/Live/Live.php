@@ -826,6 +826,20 @@ class Live extends PluginAbstract
                 $class .= 'btn btn-warning ';
                 return '<!-- SendRecordedToEncoder::getSaveTheMommentButton -->' . SendRecordedToEncoder::getSaveTheMommentButton($key, $live_servers_id, $class);
                 break;
+            case "download_the_momment":
+                $obj2 = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
+                if (empty($obj2) || empty($obj2->downloadTheMommentEnable)) {
+                    return '<!-- SendRecordedToEncoder saveDVREnable is not present -->';
+                }
+                if ($obj->controllButtonsShowOnlyToAdmin_save_dvr && !User::isAdmin()) {
+                    return '<!-- User Cannot save DVR controllButtonsShowOnlyToAdmin_save_dvr -->';
+                }
+                if (!self::userCanRecordLive(User::getId())) {
+                    return '<!-- User Cannot record -->';
+                }
+                $class .= 'btn btn-info ';
+                return '<!-- SendRecordedToEncoder::getSaveTheMommentButton -->' . SendRecordedToEncoder::getDownloadTheMommentButton($key, $live_servers_id, $class);
+                break;
             default:
                 return '';
         }
@@ -882,6 +896,7 @@ class Live extends PluginAbstract
         //$btn .= self::getButton("drop_publisher", $live_transmition_id, $live_servers_id);
         $btn .= self::getButton("save_dvr", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= self::getButton("save_the_momment", $key, $live_servers_id, $iconsOnly, '', $btnClass);
+        $btn .= self::getButton("download_the_momment", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= self::getButton("drop_publisher_reset_key", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= self::getButton("record_start", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= self::getButton("record_stop", $key, $live_servers_id, $iconsOnly, '', $btnClass);
