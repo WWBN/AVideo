@@ -2425,7 +2425,7 @@ if (!class_exists('Video')) {
             }
 
             TimeLogStart("video::getTags_ $video_id, $type");
-            if (empty($advancedCustom)) {
+            if (empty($advancedCustomUser)) {
                 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
             }
             if (empty($advancedCustom)) {
