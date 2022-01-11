@@ -39,6 +39,7 @@ if(!empty($_REQUEST['cacheDownload'])){
     $relativePath = "cache/download/";
     $path = getVideosDir().$relativePath.$file;
     $_GET['download'] = 1;
+    _error_log("cacheDownload: $path");
 }else{
     $path = Video::getPathToFile($file);
 }
