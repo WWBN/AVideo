@@ -207,7 +207,11 @@ class ADs extends PluginAbstract
         foreach ($files as $value) {
             $fileName = str_replace($videosDir, '', $value);
             $fileName = str_replace('.png', '', $fileName);
+            if(empty($fileName)){
+                continue;
+            }
             $return[] = ['type' => $type, 'fileName' => $fileName, 'url' => file_get_contents($videosDir . "{$fileName}.txt"), 'imageURL' => $videosURL . "{$fileName}.png", 'imagePath' => $value];
+            $fileName = '';
         }
 
         return $return;
