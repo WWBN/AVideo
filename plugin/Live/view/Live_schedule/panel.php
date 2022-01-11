@@ -22,7 +22,7 @@ global $Schedulecount;
                 <a data-toggle="tab" href="#newSchedule"><i class="far fa-file"></i> <?php echo __('New Schedule'); ?></a>
             </li>
             <li>
-                <a data-toggle="tab" href="#savedSchedule"><i class="far fa-save"></i> <?php echo __('Saved Schedule'); ?></a>
+                <a data-toggle="tab" href="#savedSchedule"><i class="far fa-save"></i> <?php echo __('Saved Schedule'); ?> <span class="badge badge-primary" class="savedScheduleTotals" >0</span></a>
             </li>
         </ul>
         <div class="tab-content">
@@ -173,6 +173,7 @@ global $Schedulecount;
                         url: webSiteRootURL + "plugin/Live/view/Live_schedule/list.json.php?users_id=<?php echo User::getId(); ?>"
                     }).done(
                             function (resposta) {
+                                $('.savedScheduleTotals').text(resposta.data.length);
                                 $("#schedule_live_list").empty();
                                 for (x in resposta.data) {
                                     var schedule = resposta.data[x];
