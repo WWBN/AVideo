@@ -59,7 +59,7 @@ if (!User::isAdmin()) {
                                 </div>
                                 <div class="form-group col-sm-12">
                                     <label for="Live_schedulescheduled_time"><?php echo __("Scheduled Time"); ?>:</label>
-                                    <input type="text" id="Live_schedulescheduled_time" name="scheduled_time" class="form-control input-sm" placeholder="<?php echo __("Scheduled Time"); ?>" required="true" autocomplete="off">
+                                    <input type="text" id="Live_schedulescheduled_time" name="scheduled_time" class="form-control input-sm" placeholder="<?php echo __("Scheduled Time"); ?>" required="true" autocomplete="off"  readonly="readonly" >
                                 </div>
                                 <div class="form-group col-sm-12">
                                     <label for="Live_scheduletimezone"><?php echo __("Timezone"); ?>:</label>
@@ -289,5 +289,5 @@ if (!User::isAdmin()) {
     });
 </script>
 <script> $(document).ready(function () {
-        $('#Live_schedulescheduled_time').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
+        $('#Live_schedulescheduled_time').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true, ignoreReadonly: true});
     });</script>

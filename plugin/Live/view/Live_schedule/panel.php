@@ -42,7 +42,7 @@ global $Schedulecount;
                     </div>
                     <div class="form-group col-sm-6" style="padding-right: 1px">
                         <label for="scheduled_time"><?php echo __("Live Starts"); ?>:</label>
-                        <input type="text" id="scheduled_time" name="scheduled_time" class="form-control input-sm" placeholder="<?php echo __("Live Starts"); ?>" required="true" autocomplete="off">
+                        <input type="text" id="scheduled_time" name="scheduled_time" class="form-control input-sm" placeholder="<?php echo __("Live Starts"); ?>" required="true" autocomplete="off" readonly="readonly" >
                     </div>
                     <?php
                     $options = Live_servers::getAllActive();
@@ -125,8 +125,8 @@ global $Schedulecount;
                 var Schedule_plans = {};
                 $(document).ready(function () {
 
-                    $('#scheduled_time').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
-                    $('#Live_schedulestart_sell_in').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
+                    $('#scheduled_time').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true, ignoreReadonly: true });
+                    $('#Live_schedulestart_sell_in').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true, ignoreReadonly: true});
                     listScheduledLives();
                 });
 
