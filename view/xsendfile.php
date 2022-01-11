@@ -35,7 +35,7 @@ if ($file == "configuration.php") {
     forbiddenPage("Can't read this");
 }
 if(!empty($_REQUEST['cacheDownload'])){
-    $file = preg_replace('/[0-9a-z_\.]/i', '', $_GET['file']);
+    $file = preg_replace('/[^0-9a-z_\.]/i', '', $_GET['file']);
     $relativePath = "cache/download/";
     $path = getVideosDir().$relativePath.$file;
     $_GET['download'] = 1;
