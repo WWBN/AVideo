@@ -23,7 +23,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
     }
 </style>
 <div class="panel panel-default <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
-    <div class="panel-heading"><i class="fas fa-hdd"></i> <?php echo __("Devices Stream Info"); ?> (<?php echo $channelName; ?>)</div>
+    <div class="panel-heading"><i class="fas fa-hdd"></i> <?php echo __("RTMP Settings"); ?> (<?php echo $channelName; ?>)</div>
     <div class="panel-body" style="overflow: hidden;">
         <div class="form-group">
             <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
@@ -31,7 +31,6 @@ $key = $liveStreamObject->getKeyWithIndex(true);
             getInputCopyToClipboard('server', Live::getRTMPLinkWithOutKey(User::getId()));
             ?>
             <small class="label label-info"><i class="fa fa-warning"></i> <?php echo __("If you change your password the Server URL parameters will be changed too."); ?></small>
-            <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Keep Key Private, Anyone with key can broadcast on your account"); ?></span>
         </div>
         <div class="form-group">
             <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Stream name/key"); ?>: </label>
