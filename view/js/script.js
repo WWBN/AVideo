@@ -1282,35 +1282,24 @@ function avideoModalIframeCloseToastSuccess(msg) {
 }
 
 function avideoModalIframe(url) {
-    avideoModalIframeWithClassName(url, 'swal-modal-iframe');
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe', false);
 }
 
 function avideoModalIframeSmall(url) {
-    avideoModalIframeWithClassName(url, 'swal-modal-iframe-small');
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-small', false);
 }
 
 function avideoModalIframeLarge(url) {
-    avideoModalIframeWithClassName(url, 'swal-modal-iframe-large');
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-large', false);
 }
 
-var avideoModalIframeFullScreenOriginalURL = false;
 function avideoModalIframeFullScreen(url) {
-    if (!avideoModalIframeFullScreenOriginalURL) {
-        avideoModalIframeFullScreenOriginalURL = document.location.href;
-    }
-    try {
-        window.history.pushState("", "", url);
-    } catch (e) {
-        
-    }    
-    avideoModalIframeWithClassName(url, 'swal-modal-iframe-full');
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-full', true);
 }
 
 function avideoModalIframeFullScreenClose() {
     $('.swal-overlay iframe').attr('src', 'about:blank');
     swal.close();
-    window.history.pushState("", "", avideoModalIframeFullScreenOriginalURL);
-    avideoModalIframeFullScreenOriginalURL = false;
 }
 // this is to make sure when the use click on the back page button it will close the iframe
 window.onload = function () {
@@ -1327,7 +1316,20 @@ function avideoModalIframeFull(url) {
     avideoModalIframeFullScreen(url);
 }
 
-function avideoModalIframeWithClassName(url, className) {
+var avideoModalIframeFullScreenOriginalURL = false;
+function avideoModalIframeWithClassName(url, className, updateURL) {
+    showURL = document.location.href;
+    if (updateURL) {
+        if (!avideoModalIframeFullScreenOriginalURL) {
+            avideoModalIframeFullScreenOriginalURL = document.location.href;
+        }
+        showURL = url;
+    }
+    try {
+        window.history.pushState("", "", showURL);
+    } catch (e) {
+
+    }
     url = addGetParam(url, 'avideoIframe', 1);
     var html = '';
     html = '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
@@ -1343,6 +1345,11 @@ function avideoModalIframeWithClassName(url, className) {
         buttons: false,
         className: className,
         onClose: avideoModalIframeRemove
+    }).then(() => {
+        if (avideoModalIframeFullScreenOriginalURL) {
+            window.history.pushState("", "", avideoModalIframeFullScreenOriginalURL);
+            avideoModalIframeFullScreenOriginalURL = false;
+        }
     });
     setTimeout(function () {
         avideoModalIframeRemove();
