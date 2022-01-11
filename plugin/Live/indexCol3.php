@@ -15,10 +15,12 @@ if (!empty($obj->experimentalWebcam)) {
             <?php
             $active = '';
         }
-        ?>
-        <li class="<?php echo $active; ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use streaming software or hardware"); ?>"><a data-toggle="tab" href="#tabStreamKey"><i class="fas fa-key"></i> <?php echo __("Stream Key"); ?></a></li>
-        <?php
-        $active = '';
+        if (empty($objLive->hideAdvancedStreamKeys)) {
+            ?>
+            <li class="<?php echo $active; ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Use streaming software or hardware"); ?>"><a data-toggle="tab" href="#tabStreamKey"><i class="fas fa-key"></i> <?php echo __("Stream Key"); ?></a></li>
+            <?php
+            $active = '';
+        }
         if (empty($objLive->hideShare)) {
             ?>
             <li class="<?php echo $active; ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Share information about your live"); ?>"><a data-toggle="tab" href="#tabShare"><i class="fa fa-share"></i> <?php echo __("Share"); ?></a></li>
@@ -38,6 +40,8 @@ if (!empty($obj->experimentalWebcam)) {
             <?php
             $active = '';
         }
+        
+        if (empty($objLive->hideAdvancedStreamKeys)) {
         ?>
         <div id="tabStreamKey" class="tab-pane fade <?php echo $active; ?>">
             <?php
@@ -45,9 +49,13 @@ if (!empty($obj->experimentalWebcam)) {
             $active = '';
             ?>
         </div>
+        <?php
+        }
+        ?>
         <div id="tabShare" class="tab-pane fade <?php echo $active; ?>"> 
             <?php
             include $global['systemRootPath'] . 'plugin/Live/tabs/tabShare.php';
+            $active = '';
             ?>
         </div>
 
