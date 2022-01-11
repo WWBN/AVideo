@@ -22,7 +22,7 @@ global $Schedulecount;
                 <a data-toggle="tab" href="#newSchedule"><i class="far fa-file"></i> <?php echo __('New Schedule'); ?></a>
             </li>
             <li>
-                <a data-toggle="tab" href="#savedSchedule"><i class="far fa-save"></i> <?php echo __('Saved Schedule'); ?> <span class="badge badge-primary" class="savedScheduleTotals" >0</span></a>
+                <a data-toggle="tab" href="#savedSchedule"><i class="far fa-save"></i> <?php echo __('Saved Schedule'); ?> <span class="badge badge-primary savedScheduleTotals" >0</span></a>
             </li>
         </ul>
         <div class="tab-content">
