@@ -77,6 +77,8 @@ class ADs extends PluginAbstract
 
             eval("\$obj->$value[0]Width = {$width};");
             eval("\$obj->$value[0]Height = {$height};");
+            
+            eval("\$obj->$value[0]Label = '{$value[0]}';");
         }
 
         $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
@@ -217,8 +219,7 @@ class ADs extends PluginAbstract
         return $return;
     }
 
-    public static function getSize($type)
-    {
+    public static function getSize($type) {
         $obj = AVideoPlugin::getObjectData("ADs");
         foreach (ADs::$AdsPositions as $key => $value) {
             if ($type == $value[0]) {
@@ -228,6 +229,16 @@ class ADs extends PluginAbstract
             }
         }
         return ['width' => null, 'height' => null];
+    }
+    
+    public static function getLabel($type) {
+        $obj = AVideoPlugin::getObjectData("ADs");
+        eval("\$label = \$obj->{$type}Label;");
+        if(empty($label)){
+            return $type;
+        }else{
+            return $label;
+        }
     }
 
     public static function getAdsHTML($type)

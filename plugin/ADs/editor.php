@@ -45,7 +45,7 @@ if (empty($obj)) {
                                 $active = 'active';
                                 foreach (ADs::$AdsPositions as $key => $value) {
                                     echo '<li class="' . $active . '">'
-                                    . '<a onclick="restartForm' . $value[0] . '()" data-toggle="tab" href="#adsTabs' . $key . '">' . $value[0] . '</a>'
+                                    . '<a onclick="restartForm' . $value[0] . '()" data-toggle="tab" href="#adsTabs' . $key . '">' . ADs::getLabel($value[0]) . '</a>'
                                     . '</li>';
                                     $active = '';
                                 }
