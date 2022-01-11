@@ -896,7 +896,7 @@ if (typeof gtag !== \"function\") {
         }
         global $global, $advancedCustom, $advancedCustomUser, $config;
 
-        if (empty($advancedCustom)) {
+        if (empty($advancedCustomUser)) {
             $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
         }
         if (empty($advancedCustom)) {
