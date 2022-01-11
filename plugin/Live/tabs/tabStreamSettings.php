@@ -59,6 +59,13 @@ $key = $liveStreamObject->getKeyWithIndex(true);
             <?php
         }
         ?>
+        
+        <div class="form-group <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
+            <label for="serverAndStreamkey"><i class="fa fa-key"></i> <?php echo __("Server URL"); ?> + <?php echo __("Stream name/key"); ?>:</label>
+            <?php
+            getInputCopyToClipboard('serverAndStreamkey', Live::getRTMPLink(User::getId()));
+            ?>
+        </div>
     </div>
 </div>
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
