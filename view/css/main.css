@@ -517,10 +517,10 @@ img.rotate-90 {
     min-height: 90px;
     max-height: 300px;
     margin: 10px 0;
-    -webkit-background-size: cover !important;
-    -moz-background-size: cover !important;
-    -o-background-size: cover !important;
-    background-size: cover !important;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 #sidebar {
     width: 300px;
