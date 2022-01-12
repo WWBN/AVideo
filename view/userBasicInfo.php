@@ -192,10 +192,8 @@
                         <div class="col-sm-5">
                             <img src="<?php echo $global['webSiteRootURL']; ?>view/img/sampleGuide.png" class="img img-responsive">
                             <hr>
-                            <b><?php echo __("minImageWidth"); ?>:</b> 2048px<br>
-                            <b><?php echo __("minImageHeight"); ?>:</b> 1152px<br>
-                            <b><?php echo __("maxImageWidth"); ?>:</b> 2560px<br>
-                            <b><?php echo __("maxImageHeight"); ?>:</b> 1440px<br>
+                            <b><?php echo __("Image Width"); ?>:</b> 2560px<br>
+                            <b><?php echo __("Image Height"); ?>:</b> 1440px<br>
                         </div>
                     </div>
                 </div>

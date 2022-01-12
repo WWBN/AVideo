@@ -103,8 +103,18 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
             </div>
             <?php
             if (empty($advancedCustomUser->doNotShowTopBannerOnChannel)) {
+                $relativePath = $user->getBackgroundURL();
+                $localImage = $global['systemRootPath'].$relativePath;
+                $sizes = getimagesize($localImage);
+                $cover = '';
+                if($sizes[0]!=2560){
+                    $cover = '-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;';
+                }
                 ?>
-                <div class="row bg-info profileBg" style="margin: 20px -10px; background: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(), "?", @filemtime($global['systemRootPath'] . $user->getBackgroundURL()); ?>')  no-repeat 50% 50%;">
+            <div class="row bg-info profileBg" style="margin: 20px -10px; background: url('<?php echo getURL($relativePath); ?>')  no-repeat 50% 50%; <?php echo $cover; ?>">
                     <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
                 </div>
                 <?php
