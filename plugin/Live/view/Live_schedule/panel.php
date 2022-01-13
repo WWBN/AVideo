@@ -94,35 +94,34 @@ global $Schedulecount;
              overflow: hidden;
              text-overflow: ellipsis;"></div>
         <br>
-        <div class="btn-group pull-left">
-            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?>" >
-                <i class="fa fa-server"></i> <span class="hidden-sm hidden-xs"><?php echo __('Server URL'); ?></span>
+        <div class="btn-group btn-group-justified" style="margin-top: 10px;">
+            <button class="btn btn-default" onclick="copyToClipboard($(this).attr('serverURL'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?>" >
+                <i class="fa fa-server"></i> <span class=""><?php echo __('RTMP URL'); ?></span>
             </button>
-            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Key'); ?>" >
-                <i class="fa fa-key"></i> <span class="hidden-sm hidden-xs"><?php echo __('Key'); ?></span>
+            <button class="btn btn-default" onclick="copyToClipboard($(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Key'); ?>" >
+                <i class="fa fa-key"></i> <span class=""><?php echo __('Key'); ?></span>
             </button>
-            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL') + '/' + $(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?> + <?php echo __('Key'); ?>" >
-                <i class="fa fa-server"></i> + <i class="fa fa-key"></i> <span class="hidden-sm hidden-xs"><?php echo __('Server URL'); ?> + <?php echo __('Key'); ?></span>
-            </button>
-        </div>
-        <div class="btn-group pull-right">
-            <button class="btn btn-primary btn-xs" onclick="uploadPoster($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Upload Poster Image'); ?>" >
-                <i class="far fa-image"></i> <i class="far fa-upload"></i> <span class="hidden-sm hidden-xs"><?php echo __('Upload Poster'); ?></span>
-            </button>
-            <button class="btn btn-danger btn-xs" onclick="removePosterSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Remove Poster') ?>" >
-                <i class="fa fa-trash"></i> <span class="hidden-sm hidden-xs"><?php echo __('Delete Poster'); ?></span>
+            <button class="btn btn-default" onclick="copyToClipboard($(this).attr('serverURL') + '/' + $(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?> + <?php echo __('Key'); ?>" >
+                <i class="fa fa-server"></i> + <i class="fa fa-key"></i> <span class="hidden-xs"><?php echo __('RTMP URL'); ?> + <?php echo __('Key'); ?></span>
             </button>
         </div>
-        <hr>
-        <div class="btn-group pull-right futureButtons">
+        <div class="btn-group btn-group-justified" style="margin-top: 10px;">
+            <button class="btn btn-primary" onclick="uploadPoster($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Upload Poster Image'); ?>" >
+                <i class="far fa-image"></i> <i class="fas fa-upload"></i> <span class=""><?php echo __('Upload Poster'); ?></span>
+            </button>
+            <button class="btn btn-danger " onclick="removePosterSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Remove Poster') ?>" >
+                <i class="fa fa-trash"></i> <span class=""><?php echo __('Delete Poster'); ?></span>
+            </button>
+        </div>
+        <div class="btn-group  btn-group-justified futureButtons" style="margin-top: 10px;">
             <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
-                <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($objScheduleLive->button_title); ?></span>
+                <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class=""><?php echo __($objScheduleLive->button_title); ?></span>
             </button>
             <button class="btn btn-primary" onclick="editSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Edit') ?>" >
-                <i class="fa fa-edit"></i> <span class="hidden-sm hidden-xs"><?php echo __('Edit'); ?></span>
+                <i class="fa fa-edit"></i> <span class=""><?php echo __('Edit'); ?></span>
             </button>
             <button class="btn btn-danger" onclick="deleteSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Delete') ?>" >
-                <i class="fa fa-trash"></i> <span class="hidden-sm hidden-xs"><?php echo __('Delete'); ?></span>
+                <i class="fa fa-trash"></i> <span class=""><?php echo __('Delete'); ?></span>
             </button>
         </div>
     </a>
