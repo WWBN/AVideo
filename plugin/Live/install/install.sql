@@ -163,6 +163,7 @@ CREATE TABLE IF NOT EXISTS `live_schedule` (
   `public` TINYINT(1) NULL,
   `saveTransmition` TINYINT(1) NULL,
   `showOnTV` TINYINT(4) NULL,
+  `scheduled_password` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_live_schedule_users1_idx` (`users_id` ASC),
   INDEX `fk_live_schedule_live_servers1_idx` (`live_servers_id` ASC),

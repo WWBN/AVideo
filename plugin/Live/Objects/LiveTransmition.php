@@ -395,10 +395,10 @@ class LiveTransmition extends ObjectYPT
         }
     }
 
-    public static function getFromKey($key)
+    public static function getFromKey($key, $checkSchedule = true)
     {
         global $global;
-        return self::keyExists($key);
+        return self::keyExists($key, $checkSchedule);
     }
 
     public static function keyNameFix($key)

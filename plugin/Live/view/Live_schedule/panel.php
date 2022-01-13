@@ -44,6 +44,12 @@ global $Schedulecount;
                         <label for="scheduled_time"><?php echo __("Live Starts"); ?>:</label>
                         <input type="text" id="scheduled_time" name="scheduled_time" class="form-control input-sm" placeholder="<?php echo __("Live Starts"); ?>" required="true" autocomplete="off" readonly="readonly" >
                     </div>
+                    <div class="form-group col-sm-6">
+                        <label for="scheduled_password"><?php echo __("Scheduled Password"); ?>:</label>
+                        <?php
+                        echo getInputPassword('scheduled_password', 'class="form-control input-sm" ', __("Scheduled Password"));
+                        ?>
+                    </div>
                     <?php
                     $options = Live_servers::getAllActive();
                     if (!empty($options)) {
@@ -55,7 +61,8 @@ global $Schedulecount;
                                 <?php
                                 foreach ($options as $value) {
                                     echo '<option value="' . $value['id'] . '">[' . $value['id'] . '] ' . $value['name'] . '</option>';
-                                } ?>
+                                }
+                                ?>
                             </select>
                         </div>
                         <?php
@@ -125,17 +132,17 @@ global $Schedulecount;
                 var Schedule_plans = {};
                 $(document).ready(function () {
 
-                    $('#scheduled_time').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true, ignoreReadonly: true });
+                    $('#scheduled_time').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true, ignoreReadonly: true});
                     $('#Live_schedulestart_sell_in').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true, ignoreReadonly: true});
                     listScheduledLives();
                 });
 
-                function saveSchedule(close){
-                    if($('#Schedule_title').val()==''){
+                function saveSchedule(close) {
+                    if ($('#Schedule_title').val() == '') {
                         avideoToastError('Empty title');
                         return false;
                     }
-                    if($('#scheduled_time').val()==''){
+                    if ($('#scheduled_time').val() == '') {
                         avideoToastError('Empty date');
                         return false;
                     }
@@ -211,6 +218,7 @@ global $Schedulecount;
                     $("#Schedule_title").val(schedule.title);
                     $("#Schedule_status").val(schedule.status);
                     $("#scheduled_time").val(schedule.scheduled_time);
+                    $("#scheduled_password").val(schedule.scheduled_password);
                     $("#Schedule_live_servers_id").val(schedule.live_servers_id);
                     $("#Schedule_description").val(schedule.description);
                 }

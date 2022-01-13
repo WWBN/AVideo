@@ -24,7 +24,7 @@ $liveUrl = Live::getLinkToLiveFromUsers_id($user_id);
 $img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
 $imgw = 640;
 $imgh = 360;
-
+$global['ignoreChat2'] = 1;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
