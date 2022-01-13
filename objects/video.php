@@ -98,7 +98,10 @@ if (!class_exists('Video')) {
         //ver 3.4
         private $youtubeId;
         public static $typeOptions = ['audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser'];
-
+        public static $searchFieldsNames = ['v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename'];
+        public static $searchFieldsNamesLabels = ['Video Title', 'Video Description', 'Channel Name', 'Channel Description', 'Video ID', 'Video Filename'];
+        
+        
         public function __construct($title = "", $filename = "", $id = 0)
         {
             global $global;
@@ -815,10 +818,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $_POST['searchPhrase'] = str_replace('&quot;', '"', $_POST['searchPhrase']);
-                $searchFieldsNames = ['v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename'];
-                if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
-                    $searchFieldsNames[] = 'u.channelName';
-                }
+                $searchFieldsNames = self::getSearchFieldsNames();
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
@@ -1204,10 +1204,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $_POST['searchPhrase'] = str_replace('&quot;', '"', $_POST['searchPhrase']);
-                $searchFieldsNames = ['v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename'];
-                if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
-                    $searchFieldsNames[] = 'u.channelName';
-                }
+                $searchFieldsNames = self::getSearchFieldsNames();
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
@@ -1711,10 +1708,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_POST['searchPhrase'])) {
                 $_POST['searchPhrase'] = str_replace('&quot;', '"', $_POST['searchPhrase']);
-                $searchFieldsNames = ['v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename'];
-                if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
-                    $searchFieldsNames[] = 'u.channelName';
-                }
+                $searchFieldsNames = self::getSearchFieldsNames();
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
                     $sql .= "v.id IN (select videos_id FROM tags_has_videos LEFT JOIN tags as t ON tags_id = t.id AND t.name LIKE '%{$_POST['searchPhrase']}%' WHERE t.id is NOT NULL)";
@@ -1746,6 +1740,30 @@ if (!class_exists('Video')) {
             }
 
             return $numRows;
+        }
+        
+        static function getSearchFieldsNames(){
+            $searchFieldsNames = self::$searchFieldsNames;
+            if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
+                $searchFieldsNames[] = 'u.channelName';
+            }
+            $newSearchFieldsNames = array();
+            if(!empty($_REQUEST['searchFieldsNames'])){
+                if(!is_array($_REQUEST['searchFieldsNames'])){
+                    $_REQUEST['searchFieldsNames'] = array($_REQUEST['searchFieldsNames']);
+                }
+                foreach ($_REQUEST['searchFieldsNames'] as $value) {
+                    if(in_array($value, $searchFieldsNames)){
+                        $newSearchFieldsNames[] = $value;
+                    }
+                }
+                
+            }
+            
+            if(empty($newSearchFieldsNames)){
+                $newSearchFieldsNames = $searchFieldsNames;
+            }
+            return $newSearchFieldsNames;
         }
 
         public static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [])

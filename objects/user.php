@@ -110,7 +110,6 @@ class User
     public function setCanCreateMeet($canCreateMeet)
     {
         $this->canCreateMeet = (empty($canCreateMeet) || strtolower($canCreateMeet) === 'false') ? 0 : 1;
-        ;
     }
 
     public function getCanUpload()

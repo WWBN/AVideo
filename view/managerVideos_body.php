@@ -98,16 +98,18 @@
                         <a href="<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/" class="btn btn-sm btn-xs btn-danger">
                             <span class="far fa-money-bill-alt"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Advertising Manager"); ?></span>
                         </a>
-                        <?php
-                    } ?>
+                    <?php }
+                    ?>
                     <?php
                     unset($_GET['parentsOnly']);
-        $categories = Category::getAllCategories(Permissions::canAdminVideos() ? false : true);
-        array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
-        if (User::canUpload()) {
-            if (empty($advancedCustom->doNotShowEncoderButton)) {
-                if (!empty($config->getEncoderURL())) {
-                } ?>
+                    $categories = Category::getAllCategories(Permissions::canAdminVideos() ? false : true);
+                    array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
+                    if (User::canUpload()) {
+                        if (empty($advancedCustom->doNotShowEncoderButton)) {
+                            if (!empty($config->getEncoderURL())) {
+                                
+                            }
+                            ?>
                             <form id="formEncoderVideosM" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
                                 <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>" />
                                 <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>" />
@@ -117,32 +119,33 @@
                                 <span class="fa fa-cog"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?></span>
                             </a>
                             <?php
-            }
-            if (empty($advancedCustom->doNotShowUploadMP4Button)) {
-                ?>
+                        }
+                        if (empty($advancedCustom->doNotShowUploadMP4Button)) {
+                            ?>
                             <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4">
                                 <span class="fa fa-upload"></span>
                                 <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : $advancedCustom->uploadMP4ButtonLabel; ?></span>
                             </button>
                             <?php
-            }
-            if (empty($advancedCustom->doNotShowEmbedButton)) {
-                ?>
+                        }
+                        if (empty($advancedCustom->doNotShowEmbedButton)) {
+                            ?>
                             <button class="btn btn-sm btn-xs btn-default" id="linkExternalVideo">
                                 <span class="fa fa-link"></span>
                                 <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Embed a video link"); ?></span>
                             </button>
                             <?php
-            }
-            if (AVideoPlugin::isEnabledByName("Articles")) {
-                ?>
+                        }
+                        if (AVideoPlugin::isEnabledByName("Articles")) {
+                            ?>
                             <button class="btn btn-sm btn-xs btn-default" id="addArticle" onclick="newArticle()">
                                 <i class="far fa-newspaper"></i>
                                 <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Add Article"); ?></span>
                             </button>
                             <?php
-            }
-        } ?>
+                        }
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -152,11 +155,12 @@
         <small class="text-muted clearfix <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
             <?php
             $secondsTotal = getSecondsTotalVideosLength();
-        $seconds = $secondsTotal % 60;
-        $minutes = ($secondsTotal - $seconds) / 60;
-        $totalVideos = humanFileSize(Video::getTotalVideosFromUser(User::getId()));
-        $totalVideosSize = humanFileSize(Video::getTotalVideosSizeFromUser(User::getId()));
-        printf(__("You are hosting %d videos total, %d minutes and %d seconds and consuming %s of disk"), $totalVideos, $minutes, $seconds, $totalVideosSize); ?>
+            $seconds = $secondsTotal % 60;
+            $minutes = ($secondsTotal - $seconds) / 60;
+            $totalVideos = humanFileSize(Video::getTotalVideosFromUser(User::getId()));
+            $totalVideosSize = humanFileSize(Video::getTotalVideosSizeFromUser(User::getId()));
+            printf(__("You are hosting %d videos total, %d minutes and %d seconds and consuming %s of disk"), $totalVideos, $minutes, $seconds, $totalVideosSize);
+            ?>
         </small>
         <?php
         if (Permissions::canAdminVideos()) {
@@ -168,7 +172,8 @@
                 $percent = intval($secondsTotal / $secondsLimit * 100);
             } else {
                 $percent = 100;
-            } ?> and you have <?php echo $global['videoStorageLimitMinutes']; ?> minutes of storage
+            }
+            ?> and you have <?php echo $global['videoStorageLimitMinutes']; ?> minutes of storage
             <div class="progress">
                 <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
                      aria-valuenow="<?php echo $percent; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $percent; ?>%">
@@ -201,11 +206,12 @@
                                 <?php
                                 foreach ($categories as $value) {
                                     echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['hierarchyAndName']}</a></li>";
-                                } ?>
+                                }
+                                ?>
                             </ul>
                         </div>
-                    <?php
-                    } ?>
+                    <?php }
+                    ?>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                             <i class="far fa-eye"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Status'); ?></span> <span class="caret"></span></button>
@@ -235,8 +241,8 @@
                                             <?php echo $value['group_name']; ?>
                                         </a>
                                     </li>
-                                    <?php
-                                } ?>
+                                <?php }
+                                ?>
                             </ul>
                         </div>
                         <div class="btn-group">
@@ -253,8 +259,8 @@
                                             <?php echo $value['group_name']; ?>
                                         </a>
                                     </li>
-                                    <?php
-                                } ?>
+                                <?php }
+                                ?>
                             </ul>
                         </div>
                         <?php
@@ -275,7 +281,8 @@
                     }
                     if (AVideoPlugin::isEnabledByName('CDN') && CDN::userCanMoveVideoStorage()) {
                         include $global['systemRootPath'] . 'plugin/CDN/Storage/getVideoManagerButton.php';
-                    } ?>
+                    }
+                    ?>
                     <button class="btn btn-danger" id="deleteBtn">
                         <i class="fa fa-trash" aria-hidden="true"></i>  <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Delete'); ?></span>
                     </button>
@@ -312,6 +319,32 @@
                     </ul>
                 </div>
             </div>
+
+            <div class="btn-group pull-right" id="filterSearchButtonsVideoManager">
+                <div class="btn-group ">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span><?php echo __('Search Fields'); ?></span> <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu" style="min-width: 200px;">
+
+                        <?php
+                        foreach (Video::$searchFieldsNamesLabels as $key => $value) {
+                            ?>
+                            <li onclick="$('#grid').bootgrid('reload');event.stopPropagation();">
+                                <div class="form-check" style="padding-left: 5px;" >
+                                    <input class="form-check-input searchFieldsNames" type="checkbox" value="<?php echo Video::$searchFieldsNames[$key]; ?>" id="searchFieldsNames<?php echo $key; ?>" checked>
+                                    <label class="form-check-label" for="searchFieldsNames<?php echo $key; ?>">
+                                        <?php echo __($value); ?>
+                                    </label>
+                                </div>
+                            </li>
+                            <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+            </div>
+
             <table id="grid" class="table table-condensed table-hover table-striped videosManager">
                 <thead>
                     <tr>
@@ -440,7 +473,8 @@
                                             <?php
                                             foreach ($categories as $value) {
                                                 echo "<option value='{$value['id']}'>{$value['hierarchyAndName']}</option>";
-                                            } ?>
+                                            }
+                                            ?>
                                         </select>
                                         <?php
                                     }
@@ -516,8 +550,8 @@
                                                                 <label for="only_for_paid" class="label-success"></label>
                                                             </div>
                                                         </li>
-                                                        <?php
-                                                    } ?>
+                                                    <?php }
+                                                    ?>
                                                     <li class="list-group-item">
                                                         <span class="fa fa-globe"></span> <?php echo __("Public Media"); ?>
                                                         <div class="material-switch pull-right">
@@ -597,8 +631,7 @@
                                                         url: '<?php echo $global['webSiteRootURL']; ?>objects/videos.json.php?rowCount=6',
                                                         type: "POST",
                                                         data: {
-                                                            searchPhrase: req.term,
-                                                            status: filterStatus
+                                                            searchPhrase: req.term
                                                         },
                                                         success: function (data) {
                                                             res(data.rows);
@@ -1012,10 +1045,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                 tinymce.get('inputDescription').setContent(row.descriptionHTML);
     <?php
 } else {
-        ?>
+    ?>
                                                 $('#inputDescription').val(row.description);
     <?php
-    }
+}
 ?>
                                             $('#inputCategory').val(row.categories_id);
                                             $('#inputRrating').val(row.rrating);
@@ -1246,8 +1279,8 @@ echo AVideoPlugin::getManagerVideosAddNew();
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
                                                         "description": tinymce.get('inputDescription').getContent(),
-<?php
-} else { ?>
+<?php } else {
+    ?>
                                                         "description": $('#inputDescription').val(),
 <?php } ?>
                                                     "categories_id": $('#inputCategory').val(),
@@ -1315,10 +1348,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                             $('#videoLinkType').val("");
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
-        ?>
+    ?>
                                                 tinymce.get('inputDescription').setContent("");
-<?php
-    } ?>
+<?php }
+?>
                                             $('#inputCategory').val("");
                                             $('#inputRrating').val("");
                                             $('#removeAutoplay').trigger('click');
@@ -1373,8 +1406,8 @@ echo AVideoPlugin::getManagerVideosReset();
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
                                                 tinymce.get('inputDescription').setContent("");
-<?php
-} ?>
+<?php }
+?>
                                             $('#inputCategory').val($('#inputCategory option:first').val());
                                             $('#inputRrating').val("");
                                             $('.videoGroups').prop('checked', false);
@@ -1467,7 +1500,7 @@ echo AVideoPlugin::getManagerVideosReset();
                                          .attr("aria-valuenow", p100)
                                          .text("End: " + p100 + "%");
                                          }
-
+                                         
                                          function viewsDetailsReset() {
                                          $("#videoViewFormModal .modal-title").html("Loading ... ");
                                          $("#progress25 .progress-bar")
@@ -1625,8 +1658,8 @@ if (!empty($row)) {
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
                                                     tinymce.get('inputDescription').setContent("");
-<?php
-} ?>
+<?php }
+?>
                                                 $('#inputCategory').val($('#inputCategory option:first').val());
                                                 $('#inputRrating').val("");
                                                 $('.videoGroups').prop('checked', false);
@@ -1777,7 +1810,12 @@ if (Permissions::canAdminVideos()) {
                                             });
 
                                             function getGridURL() {
-                                                return webSiteRootURL + "objects/videos.json.php?showAll=1&status=" + filterStatus;
+                                                var url = webSiteRootURL + "objects/videos.json.php?showAll=1&status=" + filterStatus;
+
+                                                $('.searchFieldsNames:checked').each(function (index) {
+                                                    url = addGetParam(url, 'searchFieldsNames[' + index + ']', $(this).val());
+                                                });
+                                                return url;
                                             }
 
                                             var grid = $("#grid").bootgrid({
@@ -2055,10 +2093,10 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                             var playList = "<hr><div class='videoPlaylist' videos_id='" + row.id + "' style='height:100px; overflow-y: scroll; padding:10px 5px;'></div>";
     <?php
 } else {
-        ?>
+    ?>
                                                             var playList = '';
     <?php
-    }
+}
 ?>
                                                         img = img + '<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> ' + row.duration + '</div>';
                                                         var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
@@ -2272,14 +2310,14 @@ if (!empty($_GET['link'])) {
                                                     $('#linkExternalVideo').trigger('click');
     <?php
 } elseif (!empty($_GET['article'])) {
-        ?>
+    ?>
                                                     $('#addArticle').trigger('click');
     <?php
-    } elseif (!empty($_GET['upload'])) {
-        ?>
+} elseif (!empty($_GET['upload'])) {
+    ?>
                                                     $('#uploadMp4').trigger('click');
     <?php
-    }
+}
 ?>
                                                 $('.showOnGridDone').fadeIn();
 
