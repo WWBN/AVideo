@@ -517,7 +517,11 @@ class LiveTransmitionHistory extends ObjectYPT {
         
         $activeLive = self::getActiveLiveFromUser($this->users_id, $this->live_servers_id, $this->key);
         if(!empty($activeLive)){
-            $this->id = $activeLive['id'];
+            foreach ($activeLive as $key => $value) {
+                if(empty($this->$key)){
+                    $this->$key = $value;
+                }
+            }
         }
         
         
