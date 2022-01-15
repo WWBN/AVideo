@@ -7103,7 +7103,7 @@ function getStatsNotifications($force_recreate = false)
                     $json['applications'][$key]['users_id'] = $u['id'];
                 }
                 // make sure it is online
-                $activeLive = self::getActiveLiveFromUser($json['applications'][$key]['users_id'], $json['applications'][$key]['live_servers_id'], $json['applications'][$key]['live_servers_id']);
+                $activeLive = LiveTransmitionHistory::getActiveLiveFromUser($json['applications'][$key]['users_id'], $json['applications'][$key]['live_servers_id'], $json['applications'][$key]['live_servers_id']);
                 $lth = new LiveTransmitionHistory();
                 $lth->setTitle($json['applications'][$key]['title']);
                 $lth->setKey($json['applications'][$key]['key']);
