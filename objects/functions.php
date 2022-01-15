@@ -7045,7 +7045,6 @@ function getStatsNotifications($force_recreate = false)
         $json = ObjectYPT::getCache($cacheName, 0, true);
     }
     if (empty($json) || !empty($json->error) || !isset($json->error)) {
-        /* Remove this line to from now on get the active lives only from database
         //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $json = Live::getStats();
         $json = object_to_array($json);
@@ -7062,8 +7061,6 @@ function getStatsNotifications($force_recreate = false)
                 unset($json[$key]);
             }
         }
-         * 
-         */
 
         $appArray = AVideoPlugin::getLiveApplicationArray();
         if (!empty($appArray)) {
@@ -7093,7 +7090,14 @@ function getStatsNotifications($force_recreate = false)
             $count++;
         }
         if (!empty($json['applications'])) {
+            $applications = array();
             foreach ($json['applications'] as $key => $value) {
+                // remove duplicated
+                if(in_array($value['href'], $applications)){
+                    unset($json['applications'][$key]);
+                    continue;
+                }
+                $applications[] = $value['href'];
                 if (empty($value['users_id']) && !empty($value['user'])) {
                     $u = User::getFromUsername($value['user']);
                     $json['applications'][$key]['users_id'] = $u['id'];
