@@ -225,6 +225,13 @@ class Live extends PluginAbstract
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
             $array[] = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_'.$value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_'.$value['key']);
         }
+        
+        $rows = LiveTransmitionHistory::getActiveLives();
+        foreach ($rows as $value) {
+            $link = Live::getLinkToLiveFromUsers_idAndLiveServer($value['users_id'], $value['live_servers_id']);
+            $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
+            $array[] = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'live_'.$value['id'], '', '', "live_{$value['key']}");
+        }
 
         return $array;
     }

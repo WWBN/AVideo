@@ -4,8 +4,8 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 
-class LiveTransmitionHistory extends ObjectYPT
-{
+class LiveTransmitionHistory extends ObjectYPT {
+
     protected $id;
     protected $title;
     protected $description;
@@ -18,122 +18,99 @@ class LiveTransmitionHistory extends ObjectYPT
     protected $domain;
     protected $json;
 
-    public static function getSearchFieldsNames()
-    {
+    public static function getSearchFieldsNames() {
         return ['title', 'description'];
     }
 
-    public static function getTableName()
-    {
+    public static function getTableName() {
         return 'live_transmitions_history';
     }
 
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
-    public function getKey()
-    {
+    public function getKey() {
         return $this->key;
     }
 
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function getUsers_id()
-    {
+    public function getUsers_id() {
         return $this->users_id;
     }
 
-    public function setId($id)
-    {
+    public function setId($id) {
         $this->id = $id;
     }
 
-    public function getFinished()
-    {
+    public function getFinished() {
         return $this->finished;
     }
 
-    public function getDomain()
-    {
+    public function getDomain() {
         return $this->domain;
     }
 
-    public function getJson()
-    {
+    public function getJson() {
         return $this->json;
     }
 
-    public function setDomain($domain)
-    {
+    public function setDomain($domain) {
         $this->domain = $domain;
     }
 
-    public function setJson($json)
-    {
+    public function setJson($json) {
         $this->json = $json;
     }
 
-    public function setTitle($title)
-    {
+    public function setTitle($title) {
         global $global;
         $title = $global['mysqli']->real_escape_string($title);
         $this->title = $title;
     }
 
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         global $global;
         $description = $global['mysqli']->real_escape_string($description);
         $this->description = $description;
     }
 
-    public function setKey($key)
-    {
+    public function setKey($key) {
         $this->key = $key;
     }
 
-    public function setCreated($created)
-    {
+    public function setCreated($created) {
         $this->created = $created;
     }
 
-    public function setModified($modified)
-    {
+    public function setModified($modified) {
         $this->modified = $modified;
     }
 
-    public function setUsers_id($users_id)
-    {
+    public function setUsers_id($users_id) {
         $this->users_id = $users_id;
     }
 
-    public function getLive_servers_id()
-    {
+    public function getLive_servers_id() {
         return intval($this->live_servers_id);
     }
 
-    public function getLive_index()
-    {
+    public function getLive_index() {
         if (empty($this->key)) {
             return '';
         }
@@ -141,8 +118,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return $parameters['live_index'];
     }
 
-    public function getLive_cleanKey()
-    {
+    public function getLive_cleanKey() {
         if (empty($this->key)) {
             return '';
         }
@@ -150,8 +126,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return $parameters['cleanKey'];
     }
 
-    public static function getApplicationObject($liveTransmitionHistory_id)
-    {
+    public static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
 
@@ -184,8 +159,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return Live::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive, $uid, '', '', "live_{$key}");
     }
 
-    public static function getStatsAndAddApplication($liveTransmitionHistory_id)
-    {
+    public static function getStatsAndAddApplication($liveTransmitionHistory_id) {
         $stats = getStatsNotifications();
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
 
@@ -230,8 +204,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return $stats;
     }
 
-    public static function getCleankeyName($key)
-    {
+    public static function getCleankeyName($key) {
         $parts = explode("_", $key);
         if (!empty($parts[1])) {
             $adaptive = ['hi', 'low', 'mid'];
@@ -242,8 +215,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return $key;
     }
 
-    public static function getStatsAndRemoveApplication($liveTransmitionHistory_id)
-    {
+    public static function getStatsAndRemoveApplication($liveTransmitionHistory_id) {
         $stats = getStatsNotifications();
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
 
@@ -271,13 +243,11 @@ class LiveTransmitionHistory extends ObjectYPT
         return $stats;
     }
 
-    public function setLive_servers_id($live_servers_id)
-    {
+    public function setLive_servers_id($live_servers_id) {
         $this->live_servers_id = intval($live_servers_id);
     }
 
-    public static function getAllFromUser($users_id)
-    {
+    public static function getAllFromUser($users_id) {
         global $global;
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE users_id = ? ";
 
@@ -298,8 +268,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return $rows;
     }
 
-    public static function isLive($key)
-    {
+    public static function isLive($key) {
         global $global;
 
         $row = self::getActiveLiveFromUser(0, '', $key);
@@ -309,8 +278,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return self::getApplicationObject($row['id']);
     }
 
-    public static function getLatest($key, $live_servers_id = null)
-    {
+    public static function getLatest($key, $live_servers_id = null) {
         global $global;
 
         $key = $global['mysqli']->real_escape_string($key);
@@ -342,8 +310,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return $row;
     }
 
-    public static function finish($key)
-    {
+    public static function finish($key) {
         $row = self::getLatest($key);
         if (empty($row) || empty($row['id']) || !empty($row['finished'])) {
             return false;
@@ -352,8 +319,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return self::finishFromTransmitionHistoryId($row['id']);
     }
 
-    public static function finishFromTransmitionHistoryId($live_transmitions_history_id)
-    {
+    public static function finishFromTransmitionHistoryId($live_transmitions_history_id) {
         $live_transmitions_history_id = intval($live_transmitions_history_id);
         if (empty($live_transmitions_history_id)) {
             return false;
@@ -366,13 +332,11 @@ class LiveTransmitionHistory extends ObjectYPT
         return $insert_row;
     }
 
-
-    public static function finishALL($olderThan = '')
-    {
+    public static function finishALL($olderThan = '') {
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE finished IS NULL ";
 
         if (!empty($olderThan)) {
-            $sql .= " modified < ".date('Y-m-d H:i:s', strtotime($olderThan));
+            $sql .= " modified < " . date('Y-m-d H:i:s', strtotime($olderThan));
         }
 
         $insert_row = sqlDAL::writeSql($sql);
@@ -380,14 +344,12 @@ class LiveTransmitionHistory extends ObjectYPT
         return $insert_row;
     }
 
-    public static function getLatestFromUser($users_id)
-    {
+    public static function getLatestFromUser($users_id) {
         $rows = self::getLastsLiveHistoriesFromUser($users_id, 1);
         return @$rows[0];
     }
 
-    public static function getLatestFromKey($key)
-    {
+    public static function getLatestFromKey($key) {
         global $global;
         $parts = Live::getLiveParametersFromKey($key);
         $key = $parts['cleanKey'];
@@ -406,14 +368,12 @@ class LiveTransmitionHistory extends ObjectYPT
         return $row;
     }
 
-    public static function getLatestIndexFromKey($key)
-    {
+    public static function getLatestIndexFromKey($key) {
         $row = self::getLatestFromKey($key);
         return Live::getLiveIndexFromKey(@$row['key']);
     }
 
-    public static function getLastsLiveHistoriesFromUser($users_id, $count = 10)
-    {
+    public static function getLastsLiveHistoriesFromUser($users_id, $count = 10) {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `users_id` = ? ORDER BY created DESC LIMIT ?";
 
@@ -433,8 +393,52 @@ class LiveTransmitionHistory extends ObjectYPT
         return $rows;
     }
 
-    public static function getActiveLiveFromUser($users_id, $live_servers_id = '', $key = '', $count = 1)
-    {
+    public static function getActiveLives($live_servers_id = '') {
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE finished IS NULL ";
+
+        $formats = "";
+        $values = [];
+
+        if (!empty($live_servers_id)) {
+            $sql .= ' AND `live_servers_id` = ? ';
+            $formats .= "i";
+            $values[] = $live_servers_id;
+        }
+
+        $sql .= " ORDER BY created DESC";
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = [];
+        if ($res != false) {
+            $total = count($fullData);
+            foreach ($fullData as $row) {
+                if ($total < 10 && strtotime($row['modified']) < strtotime('-1 hour')) {
+                    // check if the m3u8 file still exists
+                    $m3u8 = Live::getM3U8File($row['key'], false, true);
+                    $isURL200 = isValidM3U8Link($m3u8);
+                    if (empty($isURL200)) {
+                        self::finishFromTransmitionHistoryId($row['id']);
+                        //var_dump($isURL200, $m3u8, $row);exit;
+                        continue;
+                    } else {
+                        // update it to make sure the modified date is updated
+                        $lth = new LiveTransmitionHistory($row['id']);
+                        $lth->save();
+                    }
+                }
+                $log = LiveTransmitionHistoryLog::getAllFromHistory($row['id']);
+                $row['totalUsers'] = count($log);
+                $rows[] = $row;
+            }
+        } else {
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $rows;
+    }
+
+    public static function getActiveLiveFromUser($users_id, $live_servers_id = '', $key = '', $count = 1) {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE finished IS NULL ";
 
@@ -478,7 +482,7 @@ class LiveTransmitionHistory extends ObjectYPT
             if ($res != false) {
                 $total = count($fullData);
                 foreach ($fullData as $row) {
-                    if ($total<10 && strtotime($row['modified']) < strtotime('-1 hour')) {
+                    if ($total < 10 && strtotime($row['modified']) < strtotime('-1 hour')) {
                         // check if the m3u8 file still exists
                         $m3u8 = Live::getM3U8File($row['key']);
                         $isURL200 = isValidM3U8Link($m3u8);
@@ -503,8 +507,7 @@ class LiveTransmitionHistory extends ObjectYPT
         }
     }
 
-    public function save()
-    {
+    public function save() {
         if (empty($this->live_servers_id)) {
             $this->live_servers_id = 'NULL';
         }
@@ -515,8 +518,7 @@ class LiveTransmitionHistory extends ObjectYPT
         return parent::save();
     }
 
-    public static function deleteAllFromLiveServer($live_servers_id)
-    {
+    public static function deleteAllFromLiveServer($live_servers_id) {
         global $global;
         $live_servers_id = intval($live_servers_id);
         if (!empty($live_servers_id)) {
@@ -537,11 +539,11 @@ class LiveTransmitionHistory extends ObjectYPT
         }
     }
 
-    public function delete()
-    {
+    public function delete() {
         if (!empty($this->id)) {
             LiveTransmitionHistoryLog::deleteAllFromHistory($this->id);
         }
         return parent::delete();
     }
+
 }
