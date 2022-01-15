@@ -139,7 +139,7 @@ if (empty($obj->hideTopButton)) {
                 } else {
                     $('#availableLiveStream').removeClass('notfound');
                 }
-                $('.onlineApplications').text(response.countLiveStream);
+                $('.onlineApplications').text($('#availableLiveStream > div').length);
             }
 
             setTimeout(function () {

@@ -168,7 +168,7 @@ if (isMobile()) {
                     playCorrectSource<?php echo $liveViewStatusID; ?>();
                     $('.liveViewCount').text(" " + response.nclients);
                     $('#<?php echo $liveViewStatusID; ?>').text(response.msg);
-                    $('#onlineApplications').text(response.applications.lenght);
+                    $('.onlineApplications').text($('#availableLiveStream > div').length);
                     timeout = 15000;
                 }
                 setTimeout(function () {
