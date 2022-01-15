@@ -1001,17 +1001,21 @@ class Live extends PluginAbstract
         return $key;
     }
 
-    public static function getPlayerServer()
+    public static function getPlayerServer($ignoreCDN=false)
     {
         $obj = AVideoPlugin::getObjectData("Live");
 
         $url = $obj->playerServer;
-        $url = getCDNOrURL($url, 'CDN_Live');
+        if(empty($ignoreCDN)){
+            $url = getCDNOrURL($url, 'CDN_Live');
+        }
         if (!empty($obj->useLiveServers)) {
             $ls = new Live_servers(self::getLiveServersIdRequest());
             if (!empty($ls->getPlayerServer())) {
                 $url = $ls->getPlayerServer();
-                $url = getCDNOrURL($url, 'CDN_LiveServers', $ls->getId());
+                if(empty($ignoreCDN)){
+                    $url = getCDNOrURL($url, 'CDN_LiveServers', $ls->getId());
+                }
             }
         }
         //$url = str_replace("encoder.gdrive.local", "192.168.1.18", $url);
@@ -1064,11 +1068,11 @@ class Live extends PluginAbstract
         return intval($_REQUEST['live_servers_id']);
     }
 
-    public static function getM3U8File($uuid, $doNotProtect = false)
+    public static function getM3U8File($uuid, $doNotProtect = false, $ignoreCDN=false)
     {
         $live_servers_id = self::getLiveServersIdRequest();
         $lso = new LiveStreamObject($uuid, $live_servers_id, false, false);
-        return $lso->getM3U8($doNotProtect);
+        return $lso->getM3U8($doNotProtect, false, $ignoreCDN);
     }
 
     public function getDisableGifThumbs()
@@ -2143,7 +2147,7 @@ class Live extends PluginAbstract
             } else {
                 $ls = @$_REQUEST['live_servers_id'];
                 $_REQUEST['live_servers_id'] = $live_servers_id;
-                $m3u8 = self::getM3U8File($key);
+                $m3u8 = self::getM3U8File($key, false, true);
                 $_REQUEST['live_servers_id'] = $ls;
                 //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
                 $is200 = isValidM3U8Link($m3u8);
@@ -3051,7 +3055,7 @@ class LiveStreamObject
         return addQueryStringParameter($url, 'embed', 1);
     }
 
-    public function getM3U8($doNotProtect = false, $allowOnlineIndex = false)
+    public function getM3U8($doNotProtect = false, $allowOnlineIndex = false, $ignoreCDN=false)
     {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
@@ -3064,7 +3068,7 @@ class LiveStreamObject
             }
         }
 
-        $playerServer = Live::getPlayerServer();
+        $playerServer = Live::getPlayerServer($ignoreCDN);
         if (!empty($this->live_servers_id)) {
             $liveServer = new Live_servers($this->live_servers_id);
             if ($liveServer->getStats_url()) {
