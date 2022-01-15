@@ -7102,13 +7102,15 @@ function getStatsNotifications($force_recreate = false)
                     $u = User::getFromUsername($value['user']);
                     $json['applications'][$key]['users_id'] = $u['id'];
                 }
-                // make sure it is online
-                $lth = new LiveTransmitionHistory();
-                $lth->setTitle($json['applications'][$key]['title']);
-                $lth->setKey($json['applications'][$key]['key']);
-                $lth->setUsers_id($json['applications'][$key]['users_id']);
-                $lth->setLive_servers_id($json['applications'][$key]['live_servers_id']);
-                $lth->save();
+                if(!empty($json['applications'][$key]['key'])){
+                    // make sure it is online
+                    $lth = new LiveTransmitionHistory();
+                    $lth->setTitle($json['applications'][$key]['title']);
+                    $lth->setKey($json['applications'][$key]['key']);
+                    $lth->setUsers_id($json['applications'][$key]['users_id']);
+                    $lth->setLive_servers_id($json['applications'][$key]['live_servers_id']);
+                    $lth->save();
+                }
             }
         }
         $cache = ObjectYPT::setCache($cacheName, $json);
