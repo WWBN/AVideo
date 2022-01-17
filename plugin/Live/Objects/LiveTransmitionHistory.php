@@ -274,13 +274,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        $liveUsersIsEnabled = false;
-        if(AVideoPlugin::isEnabledByName('LiveUsers')){
-            $liveUsersIsEnabled = true;
-        }
         if ($res != false) {
             foreach ($fullData as $row) {
-                if(!$liveUsersIsEnabled && empty($row['total_viewers'])){
+                if(empty($row['total_viewers'])){
                     $log = LiveTransmitionHistoryLog::getAllFromHistory($row['id']);
                     $row['total_viewers'] = count($log);
                     if(!empty($row['total_viewers'])){
