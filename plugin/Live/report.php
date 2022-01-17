@@ -7,6 +7,8 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHis
 if (!User::canStream()) {
     return false;
 }
+global $isAdminPanel;
+
 $_POST['sort'] = array();
 $_POST['sort']['created'] = 'DESC';
 $_REQUEST['rowCount'] = 30;
@@ -48,7 +50,7 @@ foreach ($lives as $value) {
 
 $_POST['sort'] = array();
 $_POST['sort']['max_viewers_sametime'] = 'DESC';
-if ($isAdminPanel) {
+if (!empty($isAdminPanel)) {
     $lives = LiveTransmitionHistory::getAllFromUser(0);
 } else {
     $lives = LiveTransmitionHistory::getAllFromUser(User::getId());
