@@ -108,7 +108,7 @@ foreach ($liveChartLatest as $i) {
             var liveChartLatest<?php echo $i; ?> = new Chart(document.getElementById("liveChartLatest<?php echo $i; ?>"), {
                 type: 'doughnut',
                 data: {
-                    labels: [<?php echo json_encode(__('Total Viewers')), '+ " (', count($valueArraySameTime[$i]), ')"'; ?>, <?php echo json_encode(__('Max Viewers Same Time')), '+ " (', count($valueArray[$i]), ')"'; ?>],
+                    labels: [<?php echo json_encode(__('Total Viewers')), '+ " ('. $valueArraySameTime[$i]. ')"'; ?>, <?php echo json_encode(__('Max Viewers Same Time')), '+ " ('. $valueArray[$i]. ')"'; ?>],
                     datasets: [{
                             label: '',
                             data: <?php echo json_encode(array($valueArraySameTime[$i], $valueArray[$i])); ?>,
