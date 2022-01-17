@@ -27,15 +27,21 @@ foreach ($lives as $value) {
         <div class="panel-heading when"># <?php echo __("Last 3"); ?></div>
         <div class="panel-body" id="timelive">
             <?php
-            for ($i = 0; $i < 4; $i++) {
+            $liveChartLatest = array();
+
+            foreach ($valueArray as $i => $value) {
                 if (empty($valueArray[$i])) {
                     continue;
                 }
+                $liveChartLatest[] = $i;
                 ?>
                 <div class="col-md-3">
                     <canvas id="liveChartLatest<?php echo $i; ?>"  ></canvas>
                 </div>
                 <?php
+                if (count($liveChartLatest) >= 4) {
+                    break;
+                }
             }
             ?>
         </div>
@@ -96,10 +102,7 @@ foreach ($lives as $value) {
         });
 
 <?php
-for ($i = 0; $i < 4; $i++) {
-    if (empty($valueArray[$i])) {
-        continue;
-    }
+foreach ($liveChartLatest as $i) {
     ?>
 
             var liveChartLatest<?php echo $i; ?> = new Chart(document.getElementById("liveChartLatest<?php echo $i; ?>"), {
@@ -112,7 +115,7 @@ for ($i = 0; $i < 4; $i++) {
                             backgroundColor: [
                                 "#00FF0055",
                                 "#FF000055",
-                              ],
+                            ],
 
                         }]
                 },
