@@ -540,6 +540,9 @@ class LiveTransmitionHistory extends ObjectYPT {
             $this->finished = 'NULL';
         }
         
+        $this->max_viewers_sametime = intval($this->max_viewers_sametime);
+        $this->total_viewers = intval($this->total_viewers);
+        
         $activeLive = self::getActiveLiveFromUser($this->users_id, $this->live_servers_id, $this->key);
         if(!empty($activeLive)){
             foreach ($activeLive as $key => $value) {
