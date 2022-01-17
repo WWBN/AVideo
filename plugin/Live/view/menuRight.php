@@ -128,11 +128,11 @@ if (empty($obj->hideTopButton)) {
                         if (typeof response[i] !== 'object') {
                             continue;
                         }
-                        console.log('processLiveStats', response[i]);
+                        console.log('processLiveStats isarray', response[i]);
                         processApplicationLive(response[i]);
                     }
                 } else {
-                    console.log('processLiveStats', response);
+                    console.log('processLiveStats not array', response);
                     processApplicationLive(response);
                 }
                 if (!response.countLiveStream) {
@@ -177,8 +177,8 @@ if (empty($obj->hideTopButton)) {
         }
 
         function processApplicationLive(response) {
+            console.log('processApplicationLive', response);
             if (typeof response.applications !== 'undefined') {
-                console.log('processApplicationLive', response.applications.length);
                 if (response.applications.length) {
                     for (i = 0; i < response.applications.length; i++) {
                         processApplication(response.applications[i]);
