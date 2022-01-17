@@ -27,6 +27,7 @@ $caUid = 'ChannelArt_' . uniqid();
     }
 </style>
 <div class="form-group" id="<?php echo $caUid; ?>">   
+    <a href="<?php echo getURL('view/img/sampleGuide.png'); ?>" target="_blank" class="btn btn-default pull-right"><i class="fas fa-question-circle"></i> <?php echo __('Channel Art Help'); ?></a>
     <?php
     $croppie = getCroppie(__('Select new Channel Art'), 'channelArtUpload', $finalWidth, $finalHeight, $screenWidth, 100, $screenHeight);
     echo $croppie['html'];

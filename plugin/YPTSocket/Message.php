@@ -257,9 +257,10 @@ class Message implements MessageComponentInterface {
         $obj['autoUpdateOnHTML'] = array_merge($totals, $return['class_to_update']);
 
         $obj['users_uri'] = $return['users_uri'];
+        $obj['resourceId'] = $resourceId;
 
         $msgToSend = json_encode($obj);
-        //_log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
+        _log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
         $this->clients[$resourceId]['conn']->send($msgToSend);
     }
 

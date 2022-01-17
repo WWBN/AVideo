@@ -6864,8 +6864,11 @@ function sendSocketMessage($msg, $callbackJSFunction = "", $users_id = "-1", $se
     return false;
 }
 
-function sendSocketMessageToUsers_id($msg, $users_id, $callbackJSFunction = "")
-{
+function sendSocketMessageToUsers_id($msg, $users_id, $callbackJSFunction = ""){
+    
+    if(empty($users_id)){
+        return false;
+    }
     _error_log("sendSocketMessageToUsers_id start " . json_encode($users_id));
     if (!is_array($users_id)) {
         $users_id = [$users_id];
