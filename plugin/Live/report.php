@@ -10,10 +10,14 @@ if (!User::canStream()) {
 $_POST['sort'] = array();
 $_POST['sort']['created'] = 'DESC';
 $_REQUEST['rowCount'] = 30;
-$lives = LiveTransmitionHistory::getAllFromUser(User::getId());
-
+if ($isAdminPanel) {
+    $lives = LiveTransmitionHistory::getAllFromUser(0);
+} else {
+    $lives = LiveTransmitionHistory::getAllFromUser(User::getId());
+}
 $labelsArray = [];
 $valueArray = [];
+$valueArraySameTime = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
@@ -21,11 +25,49 @@ foreach ($lives as $value) {
     $valueArraySameTime[] = intval($value['max_viewers_sametime']);
     $valueArray[] = intval($value['total_viewers']);
 }
+
+
+$_POST['sort'] = array();
+$_POST['sort']['total_viewers'] = 'DESC';
+if ($isAdminPanel) {
+    $lives = LiveTransmitionHistory::getAllFromUser(0);
+} else {
+    $lives = LiveTransmitionHistory::getAllFromUser(User::getId());
+}
+$labelsArrayMoreViews = [];
+$valueArrayMoreViews = [];
+$valueArraySameTimeMoreViews = [];
+
+foreach ($lives as $value) {
+    //var_dump($lives);
+    $labelsArrayMoreViews[] = $value['created'] . "\n" . $value['title'];
+    $valueArraySameTimeMoreViews[] = intval($value['max_viewers_sametime']);
+    $valueArrayMoreViews[] = intval($value['total_viewers']);
+}
+
+
+$_POST['sort'] = array();
+$_POST['sort']['max_viewers_sametime'] = 'DESC';
+if ($isAdminPanel) {
+    $lives = LiveTransmitionHistory::getAllFromUser(0);
+} else {
+    $lives = LiveTransmitionHistory::getAllFromUser(User::getId());
+}
+$labelsArrayMoreViewsSameTime = [];
+$valueArrayMoreViewsSameTime = [];
+$valueArraySameTimeMoreViewsSameTime = [];
+
+foreach ($lives as $value) {
+    //var_dump($lives);
+    $labelsArrayMoreViewsSameTime[] = $value['created'] . "\n" . $value['title'];
+    $valueArraySameTimeMoreViewsSameTime[] = intval($value['max_viewers_sametime']);
+    $valueArrayMoreViewsSameTime[] = intval($value['total_viewers']);
+}
 ?>
 <div id="liveVideosMenu" class="tab-pane fade" style="padding: 10px;">
     <div class="panel panel-default">
         <div class="panel-heading when"># <?php echo __("Last 3"); ?></div>
-        <div class="panel-body" id="timelive">
+        <div class="panel-body">
             <?php
             $liveChartLatest = array();
 
@@ -49,12 +91,19 @@ foreach ($lives as $value) {
     <div class="panel panel-default">
         <div class="panel-heading when"># <?php echo __("Timeline"); ?></div>
         <div class="panel-body" id="timelive">
+            <div class="col-md-12">
             <canvas id="liveChart" height="90"  ></canvas>
+            </div>
+            <div class="col-md-12">
+            <canvas id="liveChartMoreViews" height="90"  ></canvas>
+            </div>
+            <div class="col-md-12">
+            <canvas id="liveChartMoreViewsSameTime" height="90"  ></canvas>
+            </div>
         </div>
     </div>
 </div>
 <script>
-
     var ctxLiveChat = document.getElementById("liveChart");
     var liveChartData = {
         labels: <?php echo json_encode($labelsArray); ?>,
@@ -70,12 +119,91 @@ foreach ($lives as $value) {
                 data: <?php echo json_encode($valueArraySameTime); ?>
             }]
     };
+    
+    var ctxLiveChatMoreViews = document.getElementById("liveChartMoreViews");
+    var liveChartDataMoreViews = {
+        labels: <?php echo json_encode($labelsArrayMoreViews); ?>,
+        datasets: [{
+                backgroundColor: 'rgba(255, 0, 0, 0.3)',
+                borderColor: 'rgba(255, 0, 0, 0.5)',
+                label: '# <?php echo __("Total Views"); ?>',
+                data: <?php echo json_encode($valueArrayMoreViews); ?>
+            }]
+    };
+    
+    var ctxLiveChatMoreViewsSameTime = document.getElementById("liveChartMoreViewsSameTime");
+    var liveChartDataMoreViewsSameTime = {
+        labels: <?php echo json_encode($labelsArrayMoreViewsSameTime); ?>,
+        datasets: [{
+                backgroundColor: 'rgba(0,255, 0, 0.3)',
+                borderColor: 'rgba( 0,255, 0, 0.5)',
+                label: '# <?php echo __("Total Viewers Same Time"); ?>',
+                data: <?php echo json_encode($valueArraySameTimeMoreViewsSameTime); ?>
+            }]
+    };
+    
 
     $(document).ready(function () {
 
         var liveChart = new Chart(ctxLiveChat, {
             type: 'bar',
             data: liveChartData,
+            fill: false,
+            responsive: true,
+            options: {
+                scales: {
+                    yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function (value, index, values) {
+                                    if (Math.floor(value) === value) {
+                                        return value;
+                                    }
+                                }
+                            }
+                        }]
+                },
+                legend: {
+                    display: false
+                },
+                responsive: true,
+                title: {
+                    display: true
+                }
+            }
+        });
+
+        var liveChartMoreViews = new Chart(ctxLiveChatMoreViews, {
+            type: 'bar',
+            data: liveChartDataMoreViews,
+            fill: false,
+            responsive: true,
+            options: {
+                scales: {
+                    yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                callback: function (value, index, values) {
+                                    if (Math.floor(value) === value) {
+                                        return value;
+                                    }
+                                }
+                            }
+                        }]
+                },
+                legend: {
+                    display: false
+                },
+                responsive: true,
+                title: {
+                    display: true
+                }
+            }
+        });
+
+        var liveChartMoreViewsSameTime = new Chart(ctxLiveChatMoreViewsSameTime, {
+            type: 'bar',
+            data: liveChartDataMoreViewsSameTime,
             fill: false,
             responsive: true,
             options: {
@@ -108,7 +236,7 @@ foreach ($liveChartLatest as $i) {
             var liveChartLatest<?php echo $i; ?> = new Chart(document.getElementById("liveChartLatest<?php echo $i; ?>"), {
                 type: 'doughnut',
                 data: {
-                    labels: [<?php echo json_encode(__('Total Viewers')), '+ " ('. $valueArraySameTime[$i]. ')"'; ?>, <?php echo json_encode(__('Max Viewers Same Time')), '+ " ('. $valueArray[$i]. ')"'; ?>],
+                    labels: [<?php echo json_encode(__('Total Viewers')), '+ " (' . $valueArraySameTime[$i] . ')"'; ?>, <?php echo json_encode(__('Max Viewers Same Time')), '+ " (' . $valueArray[$i] . ')"'; ?>],
                     datasets: [{
                             label: '',
                             data: <?php echo json_encode(array($valueArraySameTime[$i], $valueArray[$i])); ?>,
