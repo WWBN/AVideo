@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistory.php';
 
-if (!User::canViewChart()) {
+if (!User::canStream()) {
     return false;
 }
 $_POST['sort'] = array();
