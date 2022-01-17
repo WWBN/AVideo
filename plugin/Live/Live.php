@@ -2295,7 +2295,7 @@ class Live extends PluginAbstract
         return $global['webSiteRootURL'] . self::getLivePosterImageRelativePath($users_id, $live_servers_id, $playlists_id_live, $live_index, $format);
     }
 
-    public function getLivePosterImageRelativePath($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '', $format = 'jpg')
+    public static function getLivePosterImageRelativePath($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '', $format = 'jpg')
     {
         global $global;
         if (empty($live_servers_id)) {
