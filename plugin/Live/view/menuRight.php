@@ -122,16 +122,17 @@ if (empty($obj->hideTopButton)) {
         }
 
         function processLiveStats(response) {
-            console.log('processLiveStats', response);
             if (typeof response !== 'undefined') {
                 if (isArray(response)) {
                     for (var i in response) {
                         if (typeof response[i] !== 'object') {
                             continue;
                         }
+                        console.log('processLiveStats', response[i]);
                         processApplicationLive(response[i]);
                     }
                 } else {
+                    console.log('processLiveStats', response);
                     processApplicationLive(response);
                 }
                 if (!response.countLiveStream) {
