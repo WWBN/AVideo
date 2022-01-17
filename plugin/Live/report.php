@@ -92,13 +92,23 @@ foreach ($lives as $value) {
     </div>
     <div class="panel panel-default">
         <div class="panel-heading when"># <?php echo __("Timeline"); ?></div>
-        <div class="panel-body" id="timelive">
+        <div class="panel-body">
             <div class="col-md-12">
             <canvas id="liveChart" height="90"  ></canvas>
             </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading when"># <?php echo __("More views"); ?></div>
+        <div class="panel-body">
             <div class="col-md-12">
             <canvas id="liveChartMoreViews" height="90"  ></canvas>
             </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading when"># <?php echo __("More views same time"); ?></div>
+        <div class="panel-body">
             <div class="col-md-12">
             <canvas id="liveChartMoreViewsSameTime" height="90"  ></canvas>
             </div>
