@@ -7,20 +7,41 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHis
 if (!User::canViewChart()) {
     return false;
 }
-
+$_POST['sort'] = array();
+$_POST['sort']['created'] = 'DESC';
+$_REQUEST['rowCount'] = 30;
 $lives = LiveTransmitionHistory::getAllFromUser(User::getId());
 
 $labelsArray = [];
 $valueArray = [];
 
 foreach ($lives as $value) {
+    //var_dump($lives);
     $labelsArray[] = $value['created'] . "\n" . $value['title'];
-    $valueArray[] = intval($value['totalUsers']);
+    $valueArraySameTime[] = intval($value['max_viewers_sametime']);
+    $valueArray[] = intval($value['total_viewers']);
 }
 ?>
 <div id="liveVideosMenu" class="tab-pane fade" style="padding: 10px;">
     <div class="panel panel-default">
-        <div class="panel-heading when"># <?php echo __("Timelive"); ?></div>
+        <div class="panel-heading when"># <?php echo __("Last 3"); ?></div>
+        <div class="panel-body" id="timelive">
+            <?php
+            for ($i = 0; $i < 4; $i++) {
+                if (empty($valueArray[$i])) {
+                    continue;
+                }
+                ?>
+                <div class="col-md-3">
+                    <canvas id="liveChartLatest<?php echo $i; ?>"  ></canvas>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading when"># <?php echo __("Timeline"); ?></div>
         <div class="panel-body" id="timelive">
             <canvas id="liveChart" height="90"  ></canvas>
         </div>
@@ -34,8 +55,13 @@ foreach ($lives as $value) {
         datasets: [{
                 backgroundColor: 'rgba(255, 0, 0, 0.3)',
                 borderColor: 'rgba(255, 0, 0, 0.5)',
-                label: '# <?php echo __("Total Views (90 Days)"); ?>',
+                label: '# <?php echo __("Total Views"); ?>',
                 data: <?php echo json_encode($valueArray); ?>
+            }, {
+                backgroundColor: 'rgba(0,255, 0, 0.3)',
+                borderColor: 'rgba( 0,255, 0, 0.5)',
+                label: '# <?php echo __("Total Viewers Same Time"); ?>',
+                data: <?php echo json_encode($valueArraySameTime); ?>
             }]
     };
 
@@ -45,6 +71,7 @@ foreach ($lives as $value) {
             type: 'bar',
             data: liveChartData,
             fill: false,
+            responsive: true,
             options: {
                 scales: {
                     yAxes: [{
@@ -68,6 +95,42 @@ foreach ($lives as $value) {
             }
         });
 
+<?php
+for ($i = 0; $i < 4; $i++) {
+    if (empty($valueArray[$i])) {
+        continue;
+    }
+    ?>
 
+            var liveChartLatest<?php echo $i; ?> = new Chart(document.getElementById("liveChartLatest<?php echo $i; ?>"), {
+                type: 'doughnut',
+                data: {
+                    labels: [<?php echo json_encode(__('Total Viewers')); ?>, <?php echo json_encode(__('Max Viewers Same Time')); ?>],
+                    datasets: [{
+                            label: '',
+                            data: <?php echo json_encode(array($valueArraySameTime[$i], $valueArray[$i])); ?>,
+                            backgroundColor: [
+                                "#00FF0055",
+                                "#FF000055",
+                              ],
+
+                        }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: <?php echo json_encode($labelsArray[$i]); ?>
+                        }
+                    }
+                },
+            });
+    <?php
+}
+?>
     });
 </script>

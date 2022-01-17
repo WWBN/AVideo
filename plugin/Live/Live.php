@@ -63,7 +63,7 @@ class Live extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "10.3";
+        return "10.4";
     }
 
     public function updateScript()
@@ -182,6 +182,14 @@ class Live extends PluginAbstract
         }
         if (AVideoPlugin::compareVersion($this->getName(), "10.3") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.3.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+            LiveTransmitionHistory::finishALL();
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "10.4") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.4.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));

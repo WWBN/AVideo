@@ -78,6 +78,8 @@ CREATE TABLE IF NOT EXISTS `live_transmitions_history` (
   `finished` DATETIME NULL DEFAULT NULL,
   `domain` VARCHAR(255) NULL DEFAULT NULL,
   `json` TEXT NULL DEFAULT NULL,
+  `max_viewers_sametime` INT(10) UNSIGNED NULL DEFAULT NULL,
+  `total_viewers` INT(10) UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_live_transmitions_history_users_idx` (`users_id` ASC),
   INDEX `fk_live_transmitions_history_live_servers1_idx` (`live_servers_id` ASC),

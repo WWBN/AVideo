@@ -17,6 +17,8 @@ class LiveTransmitionHistory extends ObjectYPT {
     protected $finished;
     protected $domain;
     protected $json;
+    protected $max_viewers_sametime;
+    protected $total_viewers;
 
     public static function getSearchFieldsNames() {
         return ['title', 'description'];
@@ -125,7 +127,23 @@ class LiveTransmitionHistory extends ObjectYPT {
         $parameters = Live::getLiveParametersFromKey($this->key);
         return $parameters['cleanKey'];
     }
+    
+    function getMax_viewers_sametime() {
+        return intval($this->max_viewers_sametime);
+    }
 
+    function getTotal_viewers() {
+        return intval($this->total_viewers);
+    }
+
+    function setMax_viewers_sametime($max_viewers_sametime): void {
+        $this->max_viewers_sametime = intval($max_viewers_sametime);
+    }
+
+    function setTotal_viewers($total_viewers): void {
+        $this->total_viewers = intval($total_viewers);
+    }
+    
     public static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
@@ -258,8 +276,8 @@ class LiveTransmitionHistory extends ObjectYPT {
         $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
-                $log = LiveTransmitionHistoryLog::getAllFromHistory($row['id']);
-                $row['totalUsers'] = count($log);
+                //$log = LiveTransmitionHistoryLog::getAllFromHistory($row['id']);
+                //$row['totalUsers'] = count($log);
                 $rows[] = $row;
             }
         } else {
