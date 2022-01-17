@@ -437,7 +437,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         return $rows;
     }
-
+    
     public static function getActiveLiveFromUser($users_id, $live_servers_id = '', $key = '', $count = 1) {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE finished IS NULL ";

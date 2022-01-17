@@ -160,11 +160,11 @@ if (empty($obj->hideTopButton)) {
             $.ajax({
                 url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu',
                 success: function (response) {
+                    processLiveStats(response);
                     if (avideoSocketIsActive()) {
                         console.log('getStatsMenu: Socket is enabled we will not process ajax result');
                         return false;
                     }
-                    processLiveStats(response);
                     if (recurrentCall) {
                         var timeOut = <?php echo $obj->requestStatsInterval * 1000; ?>;
                         setTimeout(function () {
@@ -177,6 +177,7 @@ if (empty($obj->hideTopButton)) {
 
         function processApplicationLive(response) {
             if (typeof response.applications !== 'undefined') {
+                console.log('processApplicationLive', response.applications.length);
                 if (response.applications.length) {
                     for (i = 0; i < response.applications.length; i++) {
                         processApplication(response.applications[i]);
