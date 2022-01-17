@@ -177,8 +177,8 @@ if (empty($obj->hideTopButton)) {
         }
 
         function processApplicationLive(response) {
-            console.log('processApplicationLive', response);
             if (typeof response.applications !== 'undefined') {
+                console.log('processApplicationLive', response.applications, response.applications.length);
                 if (response.applications.length) {
                     for (i = 0; i < response.applications.length; i++) {
                         processApplication(response.applications[i]);
