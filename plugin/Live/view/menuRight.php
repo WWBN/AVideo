@@ -122,7 +122,7 @@ if (empty($obj->hideTopButton)) {
         }
 
         function processLiveStats(response) {
-            //console.log('processLiveStats', response);
+            console.log('processLiveStats', response);
             if (typeof response !== 'undefined') {
                 if (isArray(response)) {
                     for (var i in response) {
