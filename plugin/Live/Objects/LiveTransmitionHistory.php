@@ -265,12 +265,16 @@ class LiveTransmitionHistory extends ObjectYPT {
         $this->live_servers_id = intval($live_servers_id);
     }
 
-    public static function getAllFromUser($users_id) {
+    public static function getAllFromUser($users_id=0) {
         global $global;
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE users_id = ? ";
+        $users_id = intval($users_id);
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
 
+        if(!empty($users_id)){
+            $sql .= " AND users_id = $users_id ";
+        }
         $sql .= self::getSqlFromPost();
-        $res = sqlDAL::readSql($sql, "i", [$users_id]);
+        $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
