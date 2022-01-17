@@ -23,7 +23,12 @@ $valueArraySameTime = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    $labelsArray[] = $value['created'] . "\n" . $value['title'];
+    if ($isAdminPanel) {
+        $label = $value['created'] . "\n users_id#{$value['users_id']} " . User::getNameIdentificationById($value['users_id']);
+    } else {
+        $label = $value['created'] . "\n" . $value['title'];
+    }
+    $labelsArray[] = $label;
     $valueArraySameTime[] = intval($value['max_viewers_sametime']);
     $valueArray[] = intval($value['total_viewers']);
 }
@@ -42,7 +47,12 @@ $valueArraySameTimeMoreViews = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    $labelsArrayMoreViews[] = $value['created'] . "\n" . $value['title'];
+    if ($isAdminPanel) {
+        $label = $value['created'] . "\n users_id#{$value['users_id']} " . User::getNameIdentificationById($value['users_id']);
+    } else {
+        $label = $value['created'] . "\n" . $value['title'];
+    }
+    $labelsArrayMoreViews[] = $label;
     $valueArraySameTimeMoreViews[] = intval($value['max_viewers_sametime']);
     $valueArrayMoreViews[] = intval($value['total_viewers']);
 }
@@ -61,7 +71,12 @@ $valueArraySameTimeMoreViewsSameTime = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    $labelsArrayMoreViewsSameTime[] = $value['created'] . "\n" . $value['title'];
+    if ($isAdminPanel) {
+        $label = $value['created'] . "\n users_id#{$value['users_id']} " . User::getNameIdentificationById($value['users_id']);
+    } else {
+        $label = $value['created'] . "\n" . $value['title'];
+    }
+    $labelsArrayMoreViewsSameTime[] = $label;
     $valueArraySameTimeMoreViewsSameTime[] = intval($value['max_viewers_sametime']);
     $valueArrayMoreViewsSameTime[] = intval($value['total_viewers']);
 }
