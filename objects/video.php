@@ -3476,7 +3476,7 @@ if (!class_exists('Video')) {
             }
             $cleanName = str_replace($search, '', $filename);
 
-            if ($cleanName == $filename) {
+            if ($cleanName == $filename || preg_match('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', $filename)) {
                 $cleanName = preg_replace('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', '$1', $filename);
             }
 
