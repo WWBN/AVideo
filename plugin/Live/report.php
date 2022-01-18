@@ -94,7 +94,7 @@ foreach ($lives as $value) {
 ?>
 <div id="liveVideosMenu" class="tab-pane fade" style="padding: 10px;">
     <div class="panel panel-default">
-        <div class="panel-heading when"># <?php echo __("Last 3"); ?></div>
+        <div class="panel-heading when"># <?php echo __("Last Lives"); ?></div>
         <div class="panel-body">
             <?php
             $liveChartLatest = array();
