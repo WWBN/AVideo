@@ -120,7 +120,7 @@ foreach ($lives as $value) {
         <div class="panel-heading when"># <?php echo __("Timeline"); ?></div>
         <div class="panel-body">
             <div class="col-md-12">
-            <canvas id="liveChart" height="150"  ></canvas>
+            <canvas id="liveChart" height="200"  ></canvas>
             </div>
         </div>
     </div>
