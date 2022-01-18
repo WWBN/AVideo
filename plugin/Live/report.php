@@ -11,11 +11,13 @@ global $isAdminPanel;
 
 $_POST['sort'] = array();
 $_POST['sort']['created'] = 'DESC';
+$_POST['sort']['total_viewers'] = 'DESC';
+$_POST['sort']['max_viewers_sametime'] = 'DESC';
 $_REQUEST['rowCount'] = 30;
-if ($isAdminPanel) {
-    $lives = LiveTransmitionHistory::getAllFromUser(0);
+if (!empty($isAdminPanel)) {
+    $lives = LiveTransmitionHistory::getAllFromUser(0, true);
 } else {
-    $lives = LiveTransmitionHistory::getAllFromUser(User::getId());
+    $lives = LiveTransmitionHistory::getAllFromUser(User::getId(), true);
 }
 $labelsArray = [];
 $valueArray = [];
@@ -23,7 +25,10 @@ $valueArraySameTime = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if ($isAdminPanel) {
+    if(!intval($value['total_viewers'])){
+        continue;
+    }
+    if (!empty($isAdminPanel)) {
         $label = $value['created'] . "\n users_id#{$value['users_id']} " . User::getNameIdentificationById($value['users_id']);
     } else {
         $label = $value['created'] . "\n" . $value['title'];
@@ -37,9 +42,9 @@ foreach ($lives as $value) {
 $_POST['sort'] = array();
 $_POST['sort']['total_viewers'] = 'DESC';
 if ($isAdminPanel) {
-    $lives = LiveTransmitionHistory::getAllFromUser(0);
+    $lives = LiveTransmitionHistory::getAllFromUser(0, true);
 } else {
-    $lives = LiveTransmitionHistory::getAllFromUser(User::getId());
+    $lives = LiveTransmitionHistory::getAllFromUser(User::getId(), true);
 }
 $labelsArrayMoreViews = [];
 $valueArrayMoreViews = [];
@@ -47,7 +52,10 @@ $valueArraySameTimeMoreViews = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if ($isAdminPanel) {
+    if(!intval($value['total_viewers'])){
+        continue;
+    }
+    if (!empty($isAdminPanel)) {
         $label = $value['created'] . "\n users_id#{$value['users_id']} " . User::getNameIdentificationById($value['users_id']);
     } else {
         $label = $value['created'] . "\n" . $value['title'];
@@ -61,9 +69,9 @@ foreach ($lives as $value) {
 $_POST['sort'] = array();
 $_POST['sort']['max_viewers_sametime'] = 'DESC';
 if (!empty($isAdminPanel)) {
-    $lives = LiveTransmitionHistory::getAllFromUser(0);
+    $lives = LiveTransmitionHistory::getAllFromUser(0, true);
 } else {
-    $lives = LiveTransmitionHistory::getAllFromUser(User::getId());
+    $lives = LiveTransmitionHistory::getAllFromUser(User::getId(), true);
 }
 $labelsArrayMoreViewsSameTime = [];
 $valueArrayMoreViewsSameTime = [];
@@ -71,7 +79,10 @@ $valueArraySameTimeMoreViewsSameTime = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if ($isAdminPanel) {
+    if(!intval($value['max_viewers_sametime'])){
+        continue;
+    }
+    if (!empty($isAdminPanel)) {
         $label = $value['created'] . "\n users_id#{$value['users_id']} " . User::getNameIdentificationById($value['users_id']);
     } else {
         $label = $value['created'] . "\n" . $value['title'];
