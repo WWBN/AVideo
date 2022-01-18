@@ -1020,10 +1020,17 @@ class CDNStorage
         return unlink($file);
     }
 
-    public static function file_get_contents($remote_filename)
-    {
+    public static function file_get_contents($remote_filename){
         $obj = AVideoPlugin::getDataObject('CDN');
         $filename = "ftp://{$obj->storage_username}:{$obj->storage_password}@{$obj->storage_hostname}/{$remote_filename}";
         return file_get_contents($filename);
+    }
+    
+    public static function file_exists_on_cdn($remote_filename) {
+        $client = self::getStorageClient();
+        $dir = dirname($remote_filename);
+        $list = $client->rawlist($dir, true);
+        $index = "file#{$remote_filename}";
+        return isset($list[$index]);
     }
 }

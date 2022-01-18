@@ -66,15 +66,16 @@ if (User::hasBlockedUser($video['users_id'])) {
                 if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                     ?>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="#" class="btn btn-primary btn-xs"  onclick="avideoModalIframe(webSiteRootURL+'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
+                        <a href="#" class="btn btn-primary btn-xs"  onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
                             <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
                         </a>
-                        <button type="button" class="btn btn-default btn-xs" onclick="avideoModalIframeFull(webSiteRootURL+'view/videoViewsInfo.php?videos_id=<?php echo $video['id']; ?>');return false;">
+                        <button type="button" class="btn btn-default btn-xs" onclick="avideoModalIframeFull(webSiteRootURL + 'view/videoViewsInfo.php?videos_id=<?php echo $video['id']; ?>');
+                                    return false;">
                             <i class="fa fa-eye"></i> <?php echo __("Views Info"); ?>
                         </button>
                     </div>
-                <?php
-                } ?>
+                <?php }
+                ?>
                 <small>
                     <?php
                     if (!empty($video['id'])) {
@@ -133,6 +134,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                         } else {
                             $files = getVideosURL($video['filename']);
                         }//var_dump($files);exit;
+                        $downloadMP3Link = array();
                         foreach ($files as $key => $theLink) {
                             //$notAllowedKeys = array('m3u8');
                             $notAllowedKeys = [];
@@ -150,22 +152,36 @@ if (User::hasBlockedUser($video['users_id'])) {
                                 continue;
                             }
 
-                            $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
-                            $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_." . ($video['type'] === 'audio' ? 'mp3' : 'mp4'));
-
-                            $parts = explode("_", $key);
-                            $name = $key;
-                            if (count($parts) > 1) {
-                                $name = strtoupper($parts[0]);
-                                if (is_numeric($parts[1])) {
-                                    $name .= " <div class='label label-primary'>{$parts[1]}p</div> " . getResolutionLabel($parts[1]);
-                                } else {
-                                    $name .= " <div class='label label-primary'>" . strtoupper($parts[1]) . "</div> ";
+                            if (preg_match('/cdn\.ypt\.me(.*)\.m3u8/i', $theLink['url'])) {
+                                $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
+                                if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
+                                    $filesToDownload[] = VideoHLS::getCDNDownloadLink($theLink['url'], 'mp4', $key, $video['title']);
                                 }
-                            }
+                                if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
+                                    $downloadMP3Link = array($theLink['url'], $video['title']);
+                                }
+                            }else{
+                                $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
+                                $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_." . ($video['type'] === 'audio' ? 'mp3' : 'mp4'));
 
-                            $filesToDownload[] = ['name' => $name, 'url' => $theLink['url']];
+                                $parts = explode("_", $key);
+                                $name = $key;
+                                if (count($parts) > 1) {
+                                    $name = strtoupper($parts[0]);
+                                    if (is_numeric($parts[1])) {
+                                        $name .= " <div class='label label-primary'>{$parts[1]}p</div> " . getResolutionLabel($parts[1]);
+                                    } else {
+                                        $name .= " <div class='label label-primary'>" . strtoupper($parts[1]) . "</div> ";
+                                    }
+                                }
+
+                                $filesToDownload[] = ['name' => $name, 'url' => $theLink['url']];
+                            }
                         }
+                        if(!empty($downloadMP3Link)){
+                            $filesToDownload[] = VideoHLS::getCDNDownloadLink($downloadMP3Link[0], 'mp3', '', $downloadMP3Link[1]);
+                        }
+                                    
                         if (!empty($filesToDownload)) {
                             ?>
                             <a href="#" class="btn btn-default no-outline" id="downloadBtn">
@@ -182,9 +198,10 @@ if (User::hasBlockedUser($video['users_id'])) {
                     ?>
                     <?php
                 }
-        $_v = $video;
-        echo AVideoPlugin::getWatchActionButton($video['id']);
-        $video = $_v; ?>
+                $_v = $video;
+                echo AVideoPlugin::getWatchActionButton($video['id']);
+                $video = $_v;
+                ?>
                 <?php
                 if (!empty($video['id']) && empty($advancedCustom->removeThumbsUpAndDown)) {
                     ?>
@@ -225,8 +242,8 @@ if (User::hasBlockedUser($video['users_id'])) {
                         });
                     </script>
 
-                    <?php
-                } ?>
+                <?php }
+                ?>
             </div>
         </div>
         <?php
@@ -277,8 +294,7 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
                 ?>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Rating"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10">
-                    <?php
-                    include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php'; ?>
+                    <?php include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php'; ?>
                 </div>
                 <?php
             }
@@ -288,8 +304,7 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
                 <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="description">
                     <div class="descriptionAreaPreContent">
                         <div class="descriptionAreaContent">
-                            <?php
-                            echo Video::htmlDescription($video['description']); ?>
+                            <?php echo Video::htmlDescription($video['description']); ?>
                         </div>
                     </div>
                     <button onclick="$(this).closest('.descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default descriptionAreaShowMoreBtn" style="display: none; ">
@@ -308,10 +323,10 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
     $(document).ready(function () {
 <?php
 if (empty($advancedCustom->showShareMenuOpenByDefault)) {
-                ?>
+    ?>
             $("#shareDiv").slideUp();
     <?php
-            }
+}
 ?>
         $("#shareBtn").click(function () {
             $(".menusDiv").not("#shareDiv").slideUp();
