@@ -26,7 +26,7 @@ $video = Video::getVideoLight($videos_id);
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <style>
-            #downloadButtons a.btn{
+            #downloadButtons .btn{
                 height: calc(50vh - 50px);
                 font-size: 30px;
             }
