@@ -3962,7 +3962,11 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
             $prefix .= "SOCKET: ";
             break;
     }
-    error_log($prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}");
+    $str = $prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}";
+    if(isCommandLineInterface()){
+        echo '['.date('Y-m-d H:i:s').'] '.$str.PHP_EOL;
+    }
+    error_log($str);
 }
 
 function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
@@ -8089,4 +8093,29 @@ function defaultIsPortrait()
     }
 
     return $_defaultIsPortrait;
+}
+
+function isDummyFile($filePath){
+    global $_isDummyFile;
+    
+    if(!isset($_isDummyFile)){
+        $_isDummyFile = array();
+    }
+    if(isset($_isDummyFile[$filePath])){
+        return $_isDummyFile[$filePath];
+    }
+    
+    $return = false;
+    
+    if(file_exists($filePath)){
+        $fileSize = filesize($filePath);
+        if($fileSize>5 && $fileSize < 20){
+            $return = true;
+        }else 
+        if($fileSize<100){
+            $return = preg_match("/Dummy File/i", file_get_contents($filePath));
+        }
+    }
+    $_isDummyFile[$filePath] = $return;
+    return $return;
 }

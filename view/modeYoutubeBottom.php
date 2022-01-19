@@ -135,6 +135,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                             $files = getVideosURL($video['filename']);
                         }//var_dump($files);exit;
                         $downloadMP3Link = array();
+                        $downloadMP4Link = array();
                         foreach ($files as $key => $theLink) {
                             //$notAllowedKeys = array('m3u8');
                             $notAllowedKeys = [];
@@ -152,15 +153,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                                 continue;
                             }
 
-                            if (preg_match('/cdn\.ypt\.me(.*)\.m3u8/i', $theLink['url'])) {
-                                $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
-                                if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
-                                    $filesToDownload[] = VideoHLS::getCDNDownloadLink($theLink['url'], 'mp4', $key, $video['title']);
-                                }
-                                if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
-                                    $downloadMP3Link = array($theLink['url'], $video['title']);
-                                }
-                            }else{
+                            if (!preg_match('/cdn\.ypt\.me(.*)\.m3u8/i', $theLink['url'])) {
                                 $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
                                 $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_." . ($video['type'] === 'audio' ? 'mp3' : 'mp4'));
 
@@ -178,10 +171,16 @@ if (User::hasBlockedUser($video['users_id'])) {
                                 $filesToDownload[] = ['name' => $name, 'url' => $theLink['url']];
                             }
                         }
-                        if(!empty($downloadMP3Link)){
-                            $filesToDownload[] = VideoHLS::getCDNDownloadLink($downloadMP3Link[0], 'mp3', '', $downloadMP3Link[1]);
+
+                        $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
+                        if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
+                            $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp4');
                         }
-                                    
+                        if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
+                            $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp3');
+                        }
+
+
                         if (!empty($filesToDownload)) {
                             ?>
                             <a href="#" class="btn btn-default no-outline" id="downloadBtn">
