@@ -173,7 +173,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                         }
 
                         $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
-                        if(!empty($videoHLSObj)){
+                        if (!empty($videoHLSObj)) {
                             if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
                                 $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp4');
                             }
@@ -258,11 +258,20 @@ if (User::hasBlockedUser($video['users_id'])) {
             <div class="list-group list-group-horizontal">
                 <?php
                 foreach ($filesToDownload as $theLink) {
-                    ?>
-                    <a href="<?php echo $theLink['url']; ?>" class="list-group-item list-group-item-action" target="_blank">
-                        <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
-                    </a>
-                    <?php
+                    if (preg_match('/\.json/i', $theLink['url'])) {
+                        ?>
+                        <button type="button" onclick="goToURLOrAlertError('<?php echo $theLink['url']; ?>', {});" 
+                                class="btn btn-default" target="_blank">
+                            <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
+                        </button>
+                        <?php
+                    } else {
+                        ?>
+                        <a href="<?php echo $theLink['url']; ?>" class="list-group-item list-group-item-action" target="_blank">
+                            <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
+                        </a>
+                        <?php
+                    }
                 }
                 ?>
             </div>

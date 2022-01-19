@@ -2090,3 +2090,27 @@ function animateChilds(selector, type, delay) {
         step += delay;
     });
 }
+
+function goToURLOrAlertError(jsonURL, data){
+    modal.showPleaseWait();
+    $.ajax({
+        url: jsonURL,
+        method: 'POST',
+        data: data,
+        success: function (response) {
+            if(response.error){
+                avideoAlertError(response.msg);
+                modal.hidePleaseWait();
+            }else if(response.url){
+                if(response.msg){
+                    avideoAlertInfo(response.msg);
+                }
+                document.location = response.url;
+                setTimeout(function(){ modal.hidePleaseWait();},3000)
+            }else{
+                avideoResponse(response);
+                modal.hidePleaseWait();
+            }
+        }
+    });
+}
