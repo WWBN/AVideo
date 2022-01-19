@@ -1035,7 +1035,8 @@ class CDNStorage {
             }
         }
 
-        if (empty($m3u8File)) {
+        if (empty($m3u8File)) {            
+            _error_log('convertCDNHLSVideoToDownlaod: m3u8 not found ');
             return false;
         }
 
@@ -1043,14 +1044,15 @@ class CDNStorage {
         $parts1 = explode('cdn.ypt.me/', $url);
         $url = addQueryStringParameter($url, 'download', 1);
         if (empty($parts1[1])) {
-            die('Invalid filename');
+            _error_log('convertCDNHLSVideoToDownlaod: Invalid filename '.$url);
+            return false;
         }
         $parts2 = explode('?', $parts1[1]);
         $relativeFilename = $parts2[0];
         $localFile = getVideosDir() . "{$relativeFilename}";
         $localFileLock = getVideosDir() . "{$relativeFilename}.lock";
         if(file_exists($localFileLock)){
-            _error_log('download from CDN There is a process running for ' . $localFile);
+            _error_log('convertCDNHLSVideoToDownlaod: download from CDN There is a process running for ' . $localFile);
             return false;
         }
         file_put_contents($localFileLock, time());
@@ -1060,21 +1062,20 @@ class CDNStorage {
             if (isDummyFile($localFile)) {
                 $file_exists = true;
             } else {
-                _error_log('download from CDN download file exists but the file is not a dummy file ' . $localFile . ' ' . filesize($localFile));
+                _error_log('convertCDNHLSVideoToDownlaod: download from CDN download file exists but the file is not a dummy file ' . $localFile . ' ' . filesize($localFile));
             }
         } else {
-            _error_log('download from CDN dummy file not found ' . $localFile);
+            _error_log('convertCDNHLSVideoToDownlaod: download from CDN dummy file not found ' . $localFile);
         }
         if (empty($file_exists)) {
             $file_exists = CDNStorage::file_exists_on_cdn($relativeFilename);
             if (!$file_exists && isDummyFile($localFile)) {
                 unlink($localFile);
             }else if($file_exists && !isDummyFile($localFile)){
-                $bytes = file_put_contents($localFile, 'Dummy File');
-                _error_log('download from CDN create dummy file ' . $localFile . ' ' . $bytes);
+                self::createDummy($localFile);
             }
         }
-        if ($file_exists) {
+        if ($file_exists && isURL200($url, true)) {
             $returnURL = $url;
         } else {
             //var_dump($localFile);exit;
@@ -1084,20 +1085,21 @@ class CDNStorage {
                 } else {
                     $command = get_ffmpeg() . " -i \"{$m3u8File}\" -c copy \"{$localFile}\"";
                 }
-                _error_log('download from CDN ' . $command);
+                _error_log('convertCDNHLSVideoToDownlaod: download from CDN ' . $command);
                 exec($command, $output);
-                _error_log('download from CDN output: ' . json_encode($output));
+                _error_log('convertCDNHLSVideoToDownlaod: download from CDN output: ' . json_encode($output));
             }
             if (!file_exists($localFile)) {
-                _error_log('download from CDN file not created ' . $localFile);
+                _error_log('convertCDNHLSVideoToDownlaod: download from CDN file not created ' . $localFile);
             } else {
-                if(empty(filesize($localFile))){
+                $filesize = filesize($localFile);
+                if(empty($filesize) || isDummyFile($localFile)){
                     unlink($localFile);
-                }else{
-                    _error_log('Upload file to CDN ' . $localFile);
+                }else if(!isDummyFile($localFile)){
+                    _error_log('convertCDNHLSVideoToDownlaod: Upload file to CDN ' . $localFile);
                     $client = CDNStorage::getStorageClient();
                     $client->put($relativeFilename, $localFile);
-                    file_put_contents($localFile, 'Dummy File');
+                    self::createDummy($localFile);
                     $returnURL = $url;
                 }
             }

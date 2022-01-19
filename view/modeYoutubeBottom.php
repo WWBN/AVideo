@@ -173,11 +173,13 @@ if (User::hasBlockedUser($video['users_id'])) {
                         }
 
                         $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
-                        if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
-                            $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp4');
-                        }
-                        if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
-                            $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp3');
+                        if(!empty($videoHLSObj)){
+                            if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
+                                $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp4');
+                            }
+                            if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
+                                $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp3');
+                            }
                         }
 
 

@@ -1861,6 +1861,9 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                 if (pattern.test(k) === true) {
                                                                     continue;
                                                                 }
+                                                                if (/.m3u8/i.test(k) === true) {
+                                                                    continue;
+                                                                }
                                                                 if (typeof row.videosURL[k].url === 'undefined' || !row.videosURL[k].url) {
                                                                     continue;
                                                                 }
@@ -1883,12 +1886,13 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                     download += '<a class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + url + '\');" ><span class="fa fa-copy " aria-hidden="true"></span> ' + k + '</a>';
                                                                     download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
                                                                     download += '</div>';
-                                                                    downloadhighest = downloadURL;
                                                                 } else {
                                                                     if (addParameters) {
                                                                         downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '.mp4');
                                                                     }
                                                                     download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
+                                                                }
+                                                                if((/\.(mp3|mp4|webm)\?/i.test(downloadURL) === true)){
                                                                     downloadhighest = downloadURL;
                                                                 }
 
@@ -1953,7 +1957,7 @@ if (Permissions::canAdminVideos()) {
                                                         var _thumbnail = '<button type="button" class="btn btn-default btn-block edit-thumbs" onclick="avideoModalIframe(webSiteRootURL +\'view/managerVideosLight.php?image=1&videos_id=' + row.id + '\')"   data-toggle="tooltip" title="<?php echo __('Custom Thumbnail'); ?>"><i class="far fa-image"></i> <?php echo __('Custom Thumbnail'); ?></button>';
                                                         var _download = '';
                                                         if (downloadhighest) {
-                                                            _download = '<a href=' + downloadhighest + ' class="btn btn-default btn-block downloadhigest" data-toggle="tooltip" title="<?php echo __('Download'); ?>"><i class="fas fa-download"></i> <?php echo __('Download'); ?></a>';
+                                                            _download = '<a href=' + downloadhighest + ' class="btn btn-default btn-block downloadhigest" data-toggle="tooltip" title="<?php echo __('Download'); ?>"><i class="fas fa-download"></i> <?php echo __('Download'); ?></a>';   
                                                         }
 
                                                         var bigButtons = _edit + _thumbnail + _download;

@@ -37,7 +37,6 @@ if (!User::canWatchVideo($json->videos_id)) {
 
 set_time_limit(7200); // 2 hours
 ini_set('max_execution_time', 7200);
-
 $url = CDNStorage::convertCDNHLSVideoToDownlaod($json->videos_id, $json->format);
 
 if(empty($url)){
