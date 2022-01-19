@@ -59,12 +59,14 @@ if (count($downloadOptions) == 1) {
                 <?php
                 $count = 0;
                 $lastURL = '';
+                $lastFormat = '';
                 foreach ($downloadOptions as $theLink) {
                     if (!empty($theLink)) {
                         $count++;
                         $lastURL = $theLink['url'];
+                        $lastFormat = strtolower($theLink['name']);
                         ?>
-                        <button type="button" onclick="_goToURLOrAlertError('<?php echo $theLink['url']; ?>');" 
+                        <button type="button" onclick="_goToURLOrAlertError('<?php echo $lastURL; ?>', '<?php echo $lastFormat; ?>');" 
                                 class="btn btn-default btn-light btn-lg btn-block" target="_blank">
                             <i class="fas fa-download"></i> Download <?php echo $theLink['name']; ?>
                         </button>    
@@ -74,12 +76,12 @@ if (count($downloadOptions) == 1) {
                 ?>
             </div>
         </div>
-            <script>
-                function _goToURLOrAlertError(url){
-                    avideoToastSuccess(<?php echo json_encode(__('Downloading').'... '.$video['title']); ?>);
-                    goToURLOrAlertError(url, {});
-                }
-            </script>
+        <script>
+            function _goToURLOrAlertError(url, format) {
+                avideoToastSuccess(<?php echo json_encode(__('Downloading') . '... ' . $video['title']); ?>);
+                downloadURLOrAlertError(url, {}, '<?php echo $video['clean_title']; ?>.' + format);
+            }
+        </script>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
 
@@ -87,7 +89,7 @@ if (count($downloadOptions) == 1) {
             ?>
             <script>
                 $(function () {
-                    _goToURLOrAlertError('<?php echo $lastURL; ?>');
+                    _goToURLOrAlertError('<?php echo $lastURL; ?>', '<?php echo $lastFormat; ?>');
                 });
             </script>
             <?php

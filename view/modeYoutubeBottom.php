@@ -260,7 +260,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                 foreach ($filesToDownload as $theLink) {
                     if (preg_match('/\.json/i', $theLink['url'])) {
                         ?>
-                        <button type="button" onclick="goToURLOrAlertError('<?php echo $theLink['url']; ?>', {});" 
+                        <button type="button" onclick="downloadURLOrAlertError('<?php echo $theLink['url']; ?>', {}, '<?php echo $video['clean_title']; ?>.<?php echo strtolower($theLink['name']); ?>');" 
                                 class="btn btn-default" target="_blank">
                             <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
                         </button>

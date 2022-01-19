@@ -2091,23 +2091,65 @@ function animateChilds(selector, type, delay) {
     });
 }
 
-function goToURLOrAlertError(jsonURL, data){
+function goToURLOrAlertError(jsonURL, data) {
     modal.showPleaseWait();
     $.ajax({
         url: jsonURL,
         method: 'POST',
         data: data,
         success: function (response) {
-            if(response.error){
+            if (response.error) {
                 avideoAlertError(response.msg);
                 modal.hidePleaseWait();
-            }else if(response.url){
-                if(response.msg){
+            } else if (response.url) {
+                if (response.msg) {
                     avideoAlertInfo(response.msg);
                 }
                 document.location = response.url;
-                setTimeout(function(){ modal.hidePleaseWait();},3000)
-            }else{
+                setTimeout(function () {
+                    modal.hidePleaseWait();
+                }, 3000)
+            } else {
+                avideoResponse(response);
+                modal.hidePleaseWait();
+            }
+        }
+    });
+}
+
+function downloadURLOrAlertError(jsonURL, data, filename) {
+    modal.showPleaseWait();
+    avideoToastInfo('Converting');
+    $.ajax({
+        url: jsonURL,
+        method: 'POST',
+        data: data,
+        success: function (response) {
+            if (response.error) {
+                avideoAlertError(response.msg);
+                modal.hidePleaseWait();
+            } else if (response.url) {
+                if (response.msg) {
+                    avideoAlertInfo(response.msg);
+                }
+                avideoToastInfo('Download start');
+                fetch(response.url)
+                        .then(resp => resp.blob())
+                        .then(blob => {
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = url;
+                            // the filename you want
+                            a.download = filename;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            modal.hidePleaseWait();
+                            avideoToastSuccess('Download complete');
+                        })
+                        .catch(() => avideoAlertError('An error on download file'));
+            } else {
                 avideoResponse(response);
                 modal.hidePleaseWait();
             }
