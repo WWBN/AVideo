@@ -401,6 +401,7 @@ class Live extends PluginAbstract
         $obj->hideUserGroups = false;
         $obj->hideShare = false;
         $obj->hideAdvancedStreamKeys = false;
+        $obj->hidePublicListedOption = false;
         $obj->useAadaptiveMode = false;
         self::addDataObjectHelper('useAadaptiveMode', 'Adaptive mode', 'https://github.com/WWBN/AVideo/wiki/Adaptive-Bitrates-on-Livestream');
         $obj->protectLive = false;
