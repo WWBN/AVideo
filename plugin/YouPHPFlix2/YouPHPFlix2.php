@@ -91,7 +91,7 @@ class YouPHPFlix2 extends PluginAbstract {
         }
         $css = "";
         //$css .= "<link href=\"".getCDN()."view/css/custom/".$obj->theme.".css\" rel=\"stylesheet\" type=\"text/css\"/>";
-        $css .= "<link href=\"".getCDN()."plugin/YouPHPFlix2/view/css/style.css?".  filectime("{$global['systemRootPath']}plugin/YouPHPFlix2/view/css/style.css")."\" rel=\"stylesheet\" type=\"text/css\"/>";
+        $css .= "<link href=\"".getURL("plugin/YouPHPFlix2/view/css/style.css")."\" rel=\"stylesheet\" type=\"text/css\"/>";
         if(!empty($obj->youtubeModeOnFullscreen) && canFullScreen()){
             $isEmbed = 1;
             $css .= '<link href="' .getCDN() . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
