@@ -56,8 +56,8 @@ $video = Video::getVideoLight($videos_id);
                     }
                 }
                 if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
-                    $link = VideoHLS::getCDNDownloadLink($videos_id, 'mp3');
-                    if(!empty($link)){
+                    $theLink = VideoHLS::getCDNDownloadLink($videos_id, 'mp3');
+                    if(!empty($theLink)){
                         ?>
                         <button type="button" onclick="goToURLOrAlertError('<?php echo $theLink['url']; ?>', {});" 
                                 class="btn btn-default btn-light btn-lg btn-block" target="_blank">
