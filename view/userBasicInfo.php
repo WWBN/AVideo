@@ -186,8 +186,8 @@
         $finalWidth = 2560;
         $finalHeight = 1440;
 
-        $screenWidth = 640;
-        $screenHeight = 360;
+        $screenWidth = 960;
+        $screenHeight = 540;
 
         $factorW = $screenWidth / $finalWidth;
         include $global['systemRootPath'] . 'view/userChannelArtUploadInclude.php';
