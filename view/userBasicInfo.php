@@ -185,10 +185,13 @@
 
         $finalWidth = 2560;
         $finalHeight = 1440;
-
-        $screenWidth = 960;
-        $screenHeight = 540;
-
+        if(isMobile()){
+            $screenWidth = 640;
+            $screenHeight = 360;
+        }else{
+            $screenWidth = 960;
+            $screenHeight = 540;
+        }
         $factorW = $screenWidth / $finalWidth;
         include $global['systemRootPath'] . 'view/userChannelArtUploadInclude.php';
         ?>
