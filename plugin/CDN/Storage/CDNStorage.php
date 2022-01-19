@@ -1027,15 +1027,22 @@ class CDNStorage {
         $files = getVideosURL($filename);
 
         $m3u8File = false;
+        $mp4File = false;
 
         foreach ($files as $key => $theLink) {
             if (preg_match('/cdn\.ypt\.me(.*)' . $filename . '\/index\.m3u8/i', $theLink['url'])) {
                 $m3u8File = $theLink['url'];
                 break;
+            }else if (preg_match('/cdn\.ypt\.me(.*)' . $filename . '\/.*.mp4/i', $theLink['url'])) {
+                $mp4File = $theLink['url'];
+                break;
             }
         }
 
-        if (empty($m3u8File)) {            
+        if (empty($m3u8File)) {       
+            if(!empty($mp4File)){
+                return $mp4File;
+            }
             _error_log('convertCDNHLSVideoToDownlaod: m3u8 not found ');
             return false;
         }
