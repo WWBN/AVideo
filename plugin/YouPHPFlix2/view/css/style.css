@@ -223,7 +223,7 @@ iframe{
 
 /* carousel height */
 .carousel {
-    height: 160px;
+    min-height: 160px;
 }
 .container-fluid{
     overflow: hidden;
