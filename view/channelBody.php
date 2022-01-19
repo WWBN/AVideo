@@ -92,7 +92,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="gallery" >
-            <div class="row">
+            <div class="row clearfix">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <center style="margin:5px;">
                         <?php
@@ -109,6 +109,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                     $relativePath = $user->getBackgroundURL(User::$channel_artDesktopMax);
                 }
                 ?>
+            <div class="clearfix" style="clear: both;"></div>
             <div class="row bg-info profileBg" style="margin: 20px -10px; background: url('<?php echo getURL($relativePath); ?>')  no-repeat 50% 50%; -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

@@ -2163,7 +2163,7 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
                                                     }
                                                     loaded += value.byteLength;
                                                     var percentageLoaded = Math.round(loaded / total * 100);
-                                                    console.log(percentageLoaded);
+                                                    //console.log(percentageLoaded);
                                                     modal.setProgress(percentageLoaded);
                                                     controller.enqueue(value);
                                                     read();
