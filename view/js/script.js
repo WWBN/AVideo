@@ -2133,8 +2133,50 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
                     avideoAlertInfo(response.msg);
                 }
                 avideoToastInfo('Download start');
+                var loaded = 0;
+                var contentLength = 0;
+
                 fetch(response.url)
-                        .then(resp => resp.blob())
+                        .then(response => {
+                            avideoToastSuccess('Download Start');
+                            const contentEncoding = response.headers.get('content-encoding');
+                            const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
+                            if (contentLength === null) {
+                                throw Error('Response size header unavailable');
+                            }
+
+                            const total = parseInt(contentLength, 10);
+                            let loaded = 0;
+
+                            return new Response(
+                                    new ReadableStream({
+                                        start(controller) {
+                                            const reader = response.body.getReader();
+
+                                            read();
+
+                                            function read() {
+                                                reader.read().then(({done, value}) => {
+                                                    if (done) {
+                                                        controller.close();
+                                                        return;
+                                                    }
+                                                    loaded += value.byteLength;
+                                                    var percentageLoaded = Math.round(loaded / total * 100);
+                                                    console.log(percentageLoaded);
+                                                    modal.setProgress(percentageLoaded);
+                                                    controller.enqueue(value);
+                                                    read();
+                                                }).catch(error => {
+                                                    console.error(error);
+                                                    controller.error(error)
+                                                })
+                                            }
+                                        }
+                                    })
+                                    );
+                        })
+                        .then(response => response.blob())
                         .then(blob => {
                             const url = window.URL.createObjectURL(blob);
                             const a = document.createElement('a');
@@ -2148,7 +2190,13 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
                             modal.hidePleaseWait();
                             avideoToastSuccess('Download complete');
                         })
-                        .catch(() => avideoAlertError('An error on download file'));
+                        .catch(function (err) {
+                            avideoAlertError('Error on download ');
+                            console.log(err)
+                        });
+
+
+
             } else {
                 avideoResponse(response);
                 modal.hidePleaseWait();
