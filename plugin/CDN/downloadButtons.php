@@ -45,15 +45,25 @@ $video = Video::getVideoLight($videos_id);
             <div id="downloadButtons">
                 <?php
                 if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
-                    $link = VideoHLS::getCDNDownloadLink($videos_id, 'mp4');
-                    if(!empty($link)){
-                        echo '<a class="btn btn-default btn-light btn-lg btn-block " href="' . $link['url'] . '" ><span><i class="fas fa-download"></i> Download MP4</span></a>';
+                    $theLink = VideoHLS::getCDNDownloadLink($videos_id, 'mp4');
+                    if(!empty($theLink)){
+                        ?>
+                        <button type="button" onclick="goToURLOrAlertError('<?php echo $theLink['url']; ?>', {});" 
+                                class="btn btn-default btn-light btn-lg btn-block" target="_blank">
+                            <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
+                        </button>    
+                        <?php
                     }
                 }
                 if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
                     $link = VideoHLS::getCDNDownloadLink($videos_id, 'mp3');
                     if(!empty($link)){
-                        echo '<a class="btn btn-default btn-light btn-lg btn-block " href="' . $link['url'] . '" ><span><i class="fas fa-download"></i> Download MP3</span></a>';
+                        ?>
+                        <button type="button" onclick="goToURLOrAlertError('<?php echo $theLink['url']; ?>', {});" 
+                                class="btn btn-default btn-light btn-lg btn-block" target="_blank">
+                            <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
+                        </button>    
+                        <?php
                     }
                 }
                 ?>
