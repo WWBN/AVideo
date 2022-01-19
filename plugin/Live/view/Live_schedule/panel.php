@@ -114,9 +114,15 @@ global $Schedulecount;
             </button>
         </div>
         <div class="btn-group  btn-group-justified futureButtons" style="margin-top: 10px;">
-            <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
-                <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class=""><?php echo __($objScheduleLive->button_title); ?></span>
-            </button>
+            <?php
+            if (Live::canStreamWithWebRTC()) {
+                ?>
+                <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
+                    <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class=""><?php echo __($objScheduleLive->button_title); ?></span>
+                </button>
+                <?php
+            }
+            ?>
             <button class="btn btn-primary" onclick="editSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Edit') ?>" >
                 <i class="fa fa-edit"></i> <span class=""><?php echo __('Edit'); ?></span>
             </button>
