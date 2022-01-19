@@ -12,9 +12,18 @@ if (!User::canWatchVideo($videos_id)) {
 }
 
 $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
-
 if (empty($videoHLSObj)) {
     forbiddenPage('VideoHLS plugin is required for that');
+}
+$downloadOptions = array();
+if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
+    $downloadOptions[] = VideoHLS::getCDNDownloadLink($videos_id, 'mp4');
+}
+if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
+    $downloadOptions[] = VideoHLS::getCDNDownloadLink($videos_id, 'mp3');
+}
+if (empty($downloadOptions)) {
+    forbiddenPage('All download options on VideoHLS plugin are disabled');
 }
 $video = Video::getVideoLight($videos_id);
 ?>
@@ -44,27 +53,28 @@ $video = Video::getVideoLight($videos_id);
         <div class="container-fluid">
             <div id="downloadButtons">
                 <?php
-                if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
-                    $theLink = VideoHLS::getCDNDownloadLink($videos_id, 'mp4');
-                    if(!empty($theLink)){
+                $count = 0;
+                $lastURL = '';
+                foreach ($downloadOptions as $theLink) {
+                    if (!empty($theLink)) {
+                        $count++;
+                        $lastURL = $theLink['url'];
                         ?>
                         <button type="button" onclick="goToURLOrAlertError('<?php echo $theLink['url']; ?>', {});" 
                                 class="btn btn-default btn-light btn-lg btn-block" target="_blank">
-                            <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
+                            <i class="fas fa-download"></i> Download <?php echo $theLink['name']; ?>
                         </button>    
                         <?php
                     }
                 }
-                if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
-                    $theLink = VideoHLS::getCDNDownloadLink($videos_id, 'mp3');
-                    if(!empty($theLink)){
-                        ?>
-                        <button type="button" onclick="goToURLOrAlertError('<?php echo $theLink['url']; ?>', {});" 
-                                class="btn btn-default btn-light btn-lg btn-block" target="_blank">
-                            <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
-                        </button>    
-                        <?php
-                    }
+                if ($count == 1) {
+                    ?>
+                    <script>
+                        $(function () {
+                            goToURLOrAlertError('<?php echo $lastURL; ?>', {});
+                        });
+                    </script>
+                    <?php
                 }
                 ?>
             </div>
