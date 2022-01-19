@@ -26,9 +26,9 @@ if (empty($downloadOptions)) {
     forbiddenPage('All download options on VideoHLS plugin are disabled');
 }
 $video = Video::getVideoLight($videos_id);
-$height = 'calc(50vh - 50px);';
-if(count($downloadOptions) == 1){
-    $height = 'calc(100vh - 50px);';    
+$height = 'calc(50vh - 50px)';
+if (count($downloadOptions) == 1) {
+    $height = 'calc(100vh - 50px)';
 }
 ?>
 <!DOCTYPE html>
@@ -40,7 +40,7 @@ if(count($downloadOptions) == 1){
         ?>
         <style>
             #downloadButtons .btn{
-                height: <?php echo $height; ?>
+                height: <?php echo $height; ?>;
                 font-size: 30px;
             }
             #downloadButtons a.btn span{
@@ -71,20 +71,21 @@ if(count($downloadOptions) == 1){
                         <?php
                     }
                 }
-                if ($count == 1) {
-                    ?>
-                    <script>
-                        $(function () {
-                            goToURLOrAlertError('<?php echo $lastURL; ?>', {});
-                        });
-                    </script>
-                    <?php
-                }
                 ?>
             </div>
         </div>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
+
+        if ($count == 1) {
+            ?>
+            <script>
+                $(function () {
+                    goToURLOrAlertError('<?php echo $lastURL; ?>', {});
+                });
+            </script>
+            <?php
+        }
         ?>
     </body>
 </html>
