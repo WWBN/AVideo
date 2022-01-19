@@ -6393,7 +6393,7 @@ function getTimerFromDates($startTime, $endTime = 0)
     }
     $timer = abs($endTime - $startTime);
     $uid = uniqid();
-    return "<span id='{$uid}'></span><script>$(document).ready(function () {startTimer({$timer}, '#{$uid}');})</script>";
+    return "<span id='{$uid}'></span><script>$(document).ready(function () {startTimer({$timer}, '#{$uid}', '');})</script>";
 }
 
 function getServerClock()

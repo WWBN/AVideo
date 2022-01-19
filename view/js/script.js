@@ -1731,7 +1731,7 @@ function isURL(url) {
     return validURL(url);
 }
 var startTimerInterval = [];
-function startTimer(duration, selector) {
+function startTimer(duration, selector, prepend) {
     //console.log('startTimer 1', duration);
     clearInterval(startTimerInterval[selector]);
     var timer = duration;
@@ -1767,7 +1767,7 @@ function startTimer(duration, selector) {
             //$(selector).text("EXPIRED");
             startTimerTo(duration * -1, selector);
         } else {
-            $(selector).text(text);
+            $(selector).html(prepend+text);
             duration--;
         }
 
@@ -1844,7 +1844,7 @@ function startTimerToDate(toDate, selector, useDBDate) {
     //console.log('startTimerToDate toDate', toDate);
     //console.log('startTimerToDate selector', selector);
     //console.log('startTimerToDate seconds', seconds);
-    return startTimer(seconds, selector);
+    return startTimer(seconds, selector, toDate.toLocaleString()+'<br>');
 }
 
 var _timerIndex = 0;
