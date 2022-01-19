@@ -26,6 +26,10 @@ if (empty($downloadOptions)) {
     forbiddenPage('All download options on VideoHLS plugin are disabled');
 }
 $video = Video::getVideoLight($videos_id);
+$height = 'calc(50vh - 50px);';
+if(count($downloadOptions) == 1){
+    $height = 'calc(100vh - 100px);';    
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -36,7 +40,7 @@ $video = Video::getVideoLight($videos_id);
         ?>
         <style>
             #downloadButtons .btn{
-                height: calc(50vh - 50px);
+                height: <?php echo $height; ?>
                 font-size: 30px;
             }
             #downloadButtons a.btn span{
