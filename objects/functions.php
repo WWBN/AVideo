@@ -6611,7 +6611,8 @@ function getCroppie(
     $resultHeight,
     $viewportWidth = 0,
     $boundary = 25,
-    $viewportHeight = 0
+    $viewportHeight = 0,
+    $enforceBoundary = true
 ) {
     global $global;
     if (empty($viewportWidth)) {
@@ -6621,6 +6622,9 @@ function getCroppie(
     if (empty($viewportHeight)) {
         $zoom = ($viewportWidth / $resultWidth);
         $viewportHeight = $zoom * $resultHeight;
+    }
+    if(empty($enforceBoundary)){
+        $boundary = 0;
     }
     $boundaryWidth = $viewportWidth + $boundary;
     $boundaryHeight = $viewportHeight + $boundary;
