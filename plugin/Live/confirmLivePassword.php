@@ -22,6 +22,9 @@ $liveDescription = $livet['description'];
 $liveUrl = Live::getLinkToLiveFromUsers_id($user_id);
 
 $img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
+if(!empty($_REQUEST['live_schedule'])){
+    $img = addQueryStringParameter($img, 'live_schedule', intval($_REQUEST['live_schedule']));
+}
 $imgw = 640;
 $imgh = 360;
 $global['ignoreChat2'] = 1;
