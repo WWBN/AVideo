@@ -28,7 +28,7 @@ if (empty($downloadOptions)) {
 $video = Video::getVideoLight($videos_id);
 $height = 'calc(50vh - 50px);';
 if(count($downloadOptions) == 1){
-    $height = 'calc(100vh - 100px);';    
+    $height = 'calc(100vh - 50px);';    
 }
 ?>
 <!DOCTYPE html>
