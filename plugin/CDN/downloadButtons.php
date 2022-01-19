@@ -81,6 +81,7 @@ if (count($downloadOptions) == 1) {
             ?>
             <script>
                 $(function () {
+                    avideoToastSuccess('Downloading... '+<?php echo _json_encode($video['title']); ?>);
                     goToURLOrAlertError('<?php echo $lastURL; ?>', {});
                 });
             </script>
