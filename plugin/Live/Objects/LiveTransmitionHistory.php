@@ -376,6 +376,23 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $insert_row;
     }
 
+    public static function finishALLOffline() {
+        $rows = self::getActiveLives();
+        $modified = array();
+        foreach ($rows as $value) {
+            $m3u8 = Live::getM3U8File($value['key'], true, true);
+            if(!isURL200($m3u8)){
+                $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE id = {$value['id']} ";
+                sqlDAL::writeSql($sql);
+                $modified[] = $value['id'];
+            }
+        }
+        if(!empty($modified)){
+            Live::deleteStatsCache(true);
+        }
+        return $modified;
+    }
+
     public static function getLatestFromUser($users_id) {
         $rows = self::getLastsLiveHistoriesFromUser($users_id, 1);
         return @$rows[0];
