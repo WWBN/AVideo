@@ -20,13 +20,13 @@ if (!User::isAdmin()) {
 }
 if (!empty($_REQUEST['all'])) {
     $obj->error = !LiveTransmitionHistory::finishALL();
+    if (empty($obj->error)) {
+        $obj->msg = __('All lives were marked as finished');
+    }
 } else {
     $obj->error = false;
     $obj->finished = LiveTransmitionHistory::finishALLOffline();
     $obj->msg = count($obj->finished).' '.__('Lives finished');
-}
-if (empty($obj->error)) {
-    $obj->msg = __('All lives were marked as finished');
 }
 
 die(json_encode($obj));
