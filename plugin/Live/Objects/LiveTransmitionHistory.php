@@ -503,7 +503,9 @@ class LiveTransmitionHistory extends ObjectYPT {
             $formats .= "i";
             $values[] = $users_id;
         }
-        if (!empty($live_servers_id)) {
+        if (strtolower($live_servers_id) == 'null') {
+            $sql .= ' AND `live_servers_id` IS NULL ';
+        }else if (!empty($live_servers_id)) {
             $sql .= ' AND `live_servers_id` = ? ';
             $formats .= "i";
             $values[] = $live_servers_id;
