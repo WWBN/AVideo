@@ -155,7 +155,7 @@ function parseSocketResponse() {
     }
     //console.log("parseSocketResponse", json);
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
-        if (typeof avideoToastWarning == 'funciton') {
+        if (typeof avideoToastWarning == 'function') {
             avideoToastWarning("Please restart your socket server. You are running (v" + json.webSocketServerVersion + ") and your client is expecting (v" + webSocketServerVersion + ")");
         }
     }

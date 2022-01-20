@@ -11,10 +11,12 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 class Message implements MessageComponentInterface {
 
     protected $clients;
+    protected $clientsWatchinLive;
 
     public function __construct() {
         //$this->clients = new \SplObjectStorage;
         $this->clients = [];
+        $this->clientsWatchinLive = [];
         _log_message("Construct");
     }
 
@@ -58,7 +60,17 @@ class Message implements MessageComponentInterface {
         $client['live_key'] = object_to_array(@$json->live_key);
         $client['ip'] = $json->ip;
         $client['location'] = $json->location;
-
+        
+        if(!empty($client['live_key']['key'])){
+            $this->clientsWatchinLive[$client['live_key']['key']][$client['resourceId']] = $client['users_id'];
+        }else
+        if(!empty($client['live_key']['liveLink'])){
+            $this->clientsWatchinLive[$client['live_key']['liveLink']][$client['resourceId']] = $client['users_id'];
+        }else
+        if(!empty($client['videos_id'])){
+            $this->clientsWatchinLive[$client['videos_id']][$client['resourceId']] = $client['users_id'];
+        }
+        
         _log_message("New connection ($conn->resourceId) {$json->yptDeviceId} {$client['selfURI']} {$client['browser']}");
 
         $this->clients[$conn->resourceId] = $client;
@@ -104,16 +116,10 @@ class Message implements MessageComponentInterface {
                         $l = new \LiveTransmitionHistory($lt['id']);
                         $total_viewers = \LiveUsers::getTotalUsers($lt['key'], $lt['live_servers_id']);
                         $max_viewers_sametime = $l->getMax_viewers_sametime();
-                        $viewers_now = 0;
-                        foreach ($this->clients as $key => $client) {
-                            if (empty($client['live_key']) || (empty($client['live_key']['key']) && empty($client['live_key']['liveLink']))) {
-                                continue;
-                            }
-                            if ($client['live_key']['key'] == $live_key['key'] && $client['live_key']['live_servers_id'] == $live_key['live_servers_id']) {
-                                $viewers_now++;
-                            } else if ($client['live_key']['liveLink'] == $live_key['liveLink']) {
-                                $viewers_now++;
-                            }
+                        if(!empty($live_key['key'])){
+                            $viewers_now = count($this->clientsWatchinLive[$live_key['key']]);
+                        }else if(!empty($live_key['liveLink'])){
+                            $viewers_now = count($this->clientsWatchinLive[$live_key['liveLink']]);
                         }
                         if ($viewers_now > $max_viewers_sametime) {
                             $l->setMax_viewers_sametime($viewers_now);
@@ -145,6 +151,16 @@ class Message implements MessageComponentInterface {
             return false;
         }
         $client = $this->clients[$conn->resourceId];
+        
+        if(!empty($client['live_key'])){
+            if(!empty($client['live_key']['key'])){
+                unset($this->clientsWatchinLive[$client['live_key']['key']][$conn->resourceId]);
+            }
+            if(!empty($client['live_key']['liveLink'])){
+                unset($this->clientsWatchinLive[$client['live_key']['liveLink']][$conn->resourceId]);
+            }
+        }
+        
         unset($this->clients[$conn->resourceId]);
         $users_id = $client['users_id'];
         $videos_id = $client['videos_id'];
