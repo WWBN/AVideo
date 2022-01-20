@@ -577,8 +577,8 @@ class LiveTransmitionHistory extends ObjectYPT {
             }
         }
         
-        _error_log("LiveTransmitionHistory::save: $this->users_id, $this->live_servers_id, $this->key ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $id = parent::save();
+        _error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $global['mysqli']->commit();
         return $id;
     }
