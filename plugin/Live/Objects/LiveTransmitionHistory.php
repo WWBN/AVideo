@@ -540,6 +540,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     }
 
     public function save() {
+        global $global;
         if (empty($this->live_servers_id)) {
             $this->live_servers_id = 'NULL';
         }
@@ -560,7 +561,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         
         
-        return parent::save();
+        $id = parent::save();
+        $global['mysqli']->commit();
+        return $id;
     }
 
     public static function deleteAllFromLiveServer($live_servers_id) {

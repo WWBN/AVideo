@@ -59,8 +59,8 @@ if (strpos($_GET['p'], '/') !== false) {
 
 Live::deleteStatsCache(true);
 $row = LiveTransmitionHistory::getLatest($_POST['name']);
-_error_log("NGINX ON Publish Done finishFromTransmitionHistoryId {$_POST['name']} {$row['id']} {$row['key']} {$row['live_servers_id']}");
-LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
+$insert_row = LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
+_error_log("NGINX ON Publish Done finishFromTransmitionHistoryId {$_POST['name']} id={$row['id']} key={$row['key']} live_servers_id={$row['live_servers_id']} insert_row={$insert_row}");
 $array = setLiveKey($row['key'], $row['live_servers_id']);
 $parameters = Live::getLiveParametersFromKey($array['key']);
 $array['cleanKey'] = $parameters['cleanKey'];
