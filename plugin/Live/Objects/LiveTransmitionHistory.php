@@ -387,6 +387,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $keysChecked = array();
         foreach ($rows as $value) {
             if(in_array($keysChecked, $value['key'])){
+                _error_log("LiveTransmitionHistory::finishALLOffline the key {$value['key']} is in another history record and will be finished ");
                 self::finishFromTransmitionHistoryId($value['id']);
                 $modified[] = $value['id'];
                 continue;
