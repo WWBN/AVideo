@@ -381,7 +381,8 @@ class LiveTransmitionHistory extends ObjectYPT {
         $modified = array();
         foreach ($rows as $value) {
             $m3u8 = Live::getM3U8File($value['key'], true, true);
-            if(!isURL200($m3u8)){
+            $isURL200 = isValidM3U8Link($m3u8);
+            if (empty($isURL200)) {
                 $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE id = {$value['id']} ";
                 sqlDAL::writeSql($sql);
                 $modified[] = $value['id'];
