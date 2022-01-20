@@ -352,6 +352,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     }
 
     public static function finishFromTransmitionHistoryId($live_transmitions_history_id) {
+        global $global;
         $live_transmitions_history_id = intval($live_transmitions_history_id);
         if (empty($live_transmitions_history_id)) {
             return false;
@@ -360,7 +361,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE id = {$live_transmitions_history_id} ";
 
         $insert_row = sqlDAL::writeSql($sql);
-
+        $global['mysqli']->commit();
         return $insert_row;
     }
 
@@ -383,8 +384,11 @@ class LiveTransmitionHistory extends ObjectYPT {
             $m3u8 = Live::getM3U8File($value['key'], true, true);
             $isURL200 = isValidM3U8Link($m3u8);
             if (empty($isURL200)) {
+                _error_log('LiveTransmitionHistory::finishALLOffline will be finished '.$m3u8);
                 self::finishFromTransmitionHistoryId($value['id']);
                 $modified[] = $value['id'];
+            }else{
+                _error_log('LiveTransmitionHistory::finishALLOffline still online '.$m3u8);
             }
         }
         if(!empty($modified)){
