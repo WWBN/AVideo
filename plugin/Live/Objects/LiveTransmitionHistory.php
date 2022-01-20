@@ -574,11 +574,17 @@ class LiveTransmitionHistory extends ObjectYPT {
         
         $activeLive = self::getActiveLiveFromUser($this->users_id, $this->live_servers_id, $this->key);
         if(!empty($activeLive)){
+            _error_log("LiveTransmitionHistory::save: active live found ". json_encode($activeLive));
             foreach ($activeLive as $key => $value) {
                 if(empty($this->$key)){
                     $this->$key = $value;
                 }
             }
+        }else{
+            _error_log("LiveTransmitionHistory::save: active live NOT found ");
+        }
+        if(empty($this->id)){
+            // if is creating a new make sure all 
         }
         
         $id = parent::save();
