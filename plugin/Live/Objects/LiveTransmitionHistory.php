@@ -384,7 +384,14 @@ class LiveTransmitionHistory extends ObjectYPT {
     public static function finishALLOffline() {
         $rows = self::getActiveLives();
         $modified = array();
+        $keysChecked = array();
         foreach ($rows as $value) {
+            if(in_array($keysChecked, $value['key'])){
+                self::finishFromTransmitionHistoryId($value['id']);
+                $modified[] = $value['id'];
+                continue;
+            }
+            $keysChecked[] = $value['key'];
             $m3u8 = Live::getM3U8File($value['key'], true, true);
             $isURL200 = isValidM3U8Link($m3u8);
             if (empty($isURL200)) {
