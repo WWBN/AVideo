@@ -310,7 +310,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         return self::getApplicationObject($row['id']);
     }
 
-    public static function getLatest($key, $live_servers_id = null) {
+    public static function getLatest($key, $live_servers_id = null, $active=false) {
         global $global;
 
         $key = $global['mysqli']->real_escape_string($key);
@@ -327,6 +327,9 @@ class LiveTransmitionHistory extends ObjectYPT {
                 $sql .= " OR live_servers_id IS NULL ";
             }
             $sql .= " )";
+        }
+        if($active){
+            $sql .= " AND finished IS NULL ";
         }
         $sql .= " ORDER BY created DESC LIMIT 1";
         //var_dump($sql, $key);exit;
@@ -355,6 +358,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         global $global;
         $live_transmitions_history_id = intval($live_transmitions_history_id);
         if (empty($live_transmitions_history_id)) {
+            _error_log('LiveTransmitionHistory::finishALLOffline ERROR empty live_transmitions_history_id ');
             return false;
         }
 
@@ -452,8 +456,10 @@ class LiveTransmitionHistory extends ObjectYPT {
 
         $formats = "";
         $values = [];
-
-        if (!empty($live_servers_id)) {
+        
+        if (strtolower($live_servers_id) == 'null') {
+            $sql .= ' AND `live_servers_id` IS NULL ';
+        }else if (!empty($live_servers_id)) {
             $sql .= ' AND `live_servers_id` = ? ';
             $formats .= "i";
             $values[] = $live_servers_id;
