@@ -590,21 +590,21 @@ class LiveTransmitionHistory extends ObjectYPT {
         
         $activeLive = self::getActiveLiveFromUser($this->users_id, $this->live_servers_id, $this->key);
         if(!empty($activeLive)){
-            _error_log("LiveTransmitionHistory::save: active live found ". json_encode($activeLive));
+            //_error_log("LiveTransmitionHistory::save: active live found ". json_encode($activeLive));
             foreach ($activeLive as $key => $value) {
                 if(empty($this->$key)){
                     $this->$key = $value;
                 }
             }
         }else{
-            _error_log("LiveTransmitionHistory::save: active live NOT found ");
+            //_error_log("LiveTransmitionHistory::save: active live NOT found ");
         }
         if(empty($this->id)){
             // if is creating a new make sure all 
         }
         
         $id = parent::save();
-        _error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        //_error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $global['mysqli']->commit();
         return $id;
     }
