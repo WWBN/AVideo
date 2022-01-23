@@ -23,7 +23,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
     }
 </style>
 <div class="panel panel-default <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
-    <div class="panel-heading"><i class="fas fa-hdd"></i> <?php echo __("Devices Stream Info"); ?> (<?php echo $channelName; ?>)</div>
+    <div class="panel-heading"><i class="fas fa-hdd"></i> <?php echo __("RTMP Settings"); ?> (<?php echo $channelName; ?>)</div>
     <div class="panel-body" style="overflow: hidden;">
         <div class="form-group">
             <label for="server"><i class="fa fa-server"></i> <?php echo __("Server URL"); ?>:</label>
@@ -31,7 +31,6 @@ $key = $liveStreamObject->getKeyWithIndex(true);
             getInputCopyToClipboard('server', Live::getRTMPLinkWithOutKey(User::getId()));
             ?>
             <small class="label label-info"><i class="fa fa-warning"></i> <?php echo __("If you change your password the Server URL parameters will be changed too."); ?></small>
-            <span class="label label-warning"><i class="fa fa-warning"></i> <?php echo __("Keep Key Private, Anyone with key can broadcast on your account"); ?></span>
         </div>
         <div class="form-group">
             <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Stream name/key"); ?>: </label>
@@ -52,13 +51,19 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                     <?php echo __('Active Livestreams'); ?>
                 </div>
                 <div class="panel-body myUsedKeys<?php echo $key; ?>">
-                    <?php
-                    echo implode('', $onliveApplications); ?>
+                    <?php echo implode('', $onliveApplications); ?>
                 </div>
             </div>
             <?php
         }
         ?>
+
+        <div class="form-group <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
+            <label for="serverAndStreamkey"><i class="fa fa-key"></i> <?php echo __("Server URL"); ?> + <?php echo __("Stream name/key"); ?>:</label>
+            <?php
+            getInputCopyToClipboard('serverAndStreamkey', Live::getRTMPLink(User::getId()));
+            ?>
+        </div>
     </div>
 </div>
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
@@ -72,10 +77,10 @@ $key = $liveStreamObject->getKeyWithIndex(true);
         <?php
         if (empty($objLive->hideUserGroups)) {
             ?>
-        <li class="" >
-            <a data-toggle="tab" href="#tabUserGroups"><i class="fas fa-users"></i> <?php echo __("User Groups"); ?></a>
-        </li>
-        <?php
+            <li class="" >
+                <a data-toggle="tab" href="#tabUserGroups"><i class="fas fa-users"></i> <?php echo __("User Groups"); ?></a>
+            </li>
+            <?php
         }
         ?>
     </ul>
@@ -95,17 +100,25 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                             <div class="form-group">
                                 <label for="title"><?php echo __("Password Protect"); ?>:</label>
                                 <?php
-                                echo getInputPassword('password_livestream', 'class="form-control" value="'.$trasnmition['password'].'"', __("Password Protect"));
+                                echo getInputPassword('password_livestream', 'class="form-control" value="' . $trasnmition['password'] . '"', __("Password Protect"));
                                 ?>
                             </div>  
-                            <div class="form-group">
-                                <span class="fa fa-globe"></span> <?php echo __("Make Stream Publicly Listed"); ?> 
-                                <div class="material-switch pull-right">
-                                    <input id="listed" type="checkbox" value="1" <?php echo!empty($trasnmition['public']) ? "checked" : ""; ?> onchange="saveStream();"/>
-                                    <label for="listed" class="label-success"></label> 
-                                </div>
-                            </div>
                             <?php
+                            if (!empty($objLive->hidePublicListedOption)) {
+                                ?>
+                                <input id="listed" type="hidden" value="1"/>
+                                <?php
+                            } else {
+                                ?>
+                                <div class="form-group">
+                                    <span class="fa fa-globe"></span> <?php echo __("Make Stream Publicly Listed"); ?> 
+                                    <div class="material-switch pull-right">
+                                        <input id="listed" type="checkbox" value="1" <?php echo!empty($trasnmition['public']) ? "checked" : ""; ?> onchange="saveStream();"/>
+                                        <label for="listed" class="label-success"></label> 
+                                    </div>
+                                </div>
+                                <?php
+                            }
                             $SendRecordedToEncoderObjectData = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
                             $SendRecordedToEncoderClassExists = class_exists('SendRecordedToEncoder');
                             $SendRecordedToEncoderMethodExists = method_exists('SendRecordedToEncoder', 'canAutoRecord');
@@ -117,14 +130,14 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                                 $SendRecordedToEncoderCanApprove = SendRecordedToEncoder::canApprove(User::getId());
                                 if ($SendRecordedToEncoderCanAutoRecord || ($SendRecordedToEncoderCanApprove && $SendRecordedToEncoderObjectData->usersCanSelectAutoRecord)) {
                                     ?> 
-                                <div class="form-group">
-                                    <span class="fa fa-globe"></span> <?php echo __("Auto record this live"); ?> 
-                                    <div class="material-switch pull-right">
-                                        <input id="recordLive" type="checkbox" value="1" <?php echo SendRecordedToEncoder::userApproved(User::getId()) ? "checked" : ""; ?> onchange="saveStream();"/>
-                                        <label for="recordLive" class="label-success"></label> 
+                                    <div class="form-group">
+                                        <span class="fa fa-globe"></span> <?php echo __("Auto record this live"); ?> 
+                                        <div class="material-switch pull-right">
+                                            <input id="recordLive" type="checkbox" value="1" <?php echo SendRecordedToEncoder::userApproved(User::getId()) ? "checked" : ""; ?> onchange="saveStream();"/>
+                                            <label for="recordLive" class="label-success"></label> 
+                                        </div>
                                     </div>
-                                </div>
-                                <?php
+                                    <?php
                                 } else {
                                     if (!$SendRecordedToEncoderCanAutoRecord) {
                                         echo '<!-- Cannot auto record -->';

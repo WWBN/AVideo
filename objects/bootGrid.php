@@ -46,8 +46,7 @@ class BootGrid
         return $sql;
     }
 
-    public static function getSqlSearchFromPost($searchFieldsNames = [], $connection = "AND")
-    {
+    public static function getSqlSearchFromPost($searchFieldsNames = [], $connection = "AND"){
         $sql = '';
         if (!empty($_GET['searchPhrase'])) {
             $_POST['searchPhrase'] = $_GET['searchPhrase'];
@@ -83,7 +82,7 @@ class BootGrid
                 $sql .= " {$connection} 1=1 ";
             }
         }
-
+        //var_dump($searchFieldsNames, $sql);exit;
         return $sql;
     }
 }

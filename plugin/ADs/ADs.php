@@ -77,6 +77,8 @@ class ADs extends PluginAbstract
 
             eval("\$obj->$value[0]Width = {$width};");
             eval("\$obj->$value[0]Height = {$height};");
+            
+            eval("\$obj->$value[0]Label = '{$value[0]}';");
         }
 
         $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
@@ -207,14 +209,17 @@ class ADs extends PluginAbstract
         foreach ($files as $value) {
             $fileName = str_replace($videosDir, '', $value);
             $fileName = str_replace('.png', '', $fileName);
+            if(empty($fileName)){
+                continue;
+            }
             $return[] = ['type' => $type, 'fileName' => $fileName, 'url' => file_get_contents($videosDir . "{$fileName}.txt"), 'imageURL' => $videosURL . "{$fileName}.png", 'imagePath' => $value];
+            $fileName = '';
         }
 
         return $return;
     }
 
-    public static function getSize($type)
-    {
+    public static function getSize($type) {
         $obj = AVideoPlugin::getObjectData("ADs");
         foreach (ADs::$AdsPositions as $key => $value) {
             if ($type == $value[0]) {
@@ -224,6 +229,16 @@ class ADs extends PluginAbstract
             }
         }
         return ['width' => null, 'height' => null];
+    }
+    
+    public static function getLabel($type) {
+        $obj = AVideoPlugin::getObjectData("ADs");
+        eval("\$label = \$obj->{$type}Label;");
+        if(empty($label)){
+            return $type;
+        }else{
+            return $label;
+        }
     }
 
     public static function getAdsHTML($type)
@@ -261,9 +276,11 @@ class ADs extends PluginAbstract
             $html .= "<div class=\"item {$active}\">";
             if (isValidURL($value['url'])) {
                 $html .= "<a href=\"{$value['url']}\" target=\"_blank\">";
+                $html .= "<!-- getAdsHTML::isValidURL -->";
                 $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\" title=\"{$fsize}\" >";
                 $html .= "</a>";
             } else {
+                $html .= "<!-- getAdsHTML -->";
                 $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\"  title=\"{$fsize}\" >";
             }
             $html .= "</div>";

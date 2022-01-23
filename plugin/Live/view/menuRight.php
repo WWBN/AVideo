@@ -122,16 +122,17 @@ if (empty($obj->hideTopButton)) {
         }
 
         function processLiveStats(response) {
-            //console.log('processLiveStats', response);
             if (typeof response !== 'undefined') {
                 if (isArray(response)) {
                     for (var i in response) {
                         if (typeof response[i] !== 'object') {
                             continue;
                         }
+                        console.log('processLiveStats isarray', response[i]);
                         processApplicationLive(response[i]);
                     }
                 } else {
+                    console.log('processLiveStats not array', response);
                     processApplicationLive(response);
                 }
                 if (!response.countLiveStream) {
@@ -139,7 +140,7 @@ if (empty($obj->hideTopButton)) {
                 } else {
                     $('#availableLiveStream').removeClass('notfound');
                 }
-                $('.onlineApplications').text(response.countLiveStream);
+                $('.onlineApplications').text($('#availableLiveStream > div').length);
             }
 
             setTimeout(function () {
@@ -160,11 +161,11 @@ if (empty($obj->hideTopButton)) {
             $.ajax({
                 url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu',
                 success: function (response) {
+                    processLiveStats(response);
                     if (avideoSocketIsActive()) {
                         console.log('getStatsMenu: Socket is enabled we will not process ajax result');
                         return false;
                     }
-                    processLiveStats(response);
                     if (recurrentCall) {
                         var timeOut = <?php echo $obj->requestStatsInterval * 1000; ?>;
                         setTimeout(function () {
@@ -177,6 +178,15 @@ if (empty($obj->hideTopButton)) {
 
         function processApplicationLive(response) {
             if (typeof response.applications !== 'undefined') {
+                var applications = response.applications;
+                response.applications = [];
+                for (let key in applications) {
+                    if (applications[key].hasOwnProperty('html')) {
+                        response.applications.push(applications[key]);
+                    }
+                }
+                
+                console.log('processApplicationLive', response.applications, response.applications.length);
                 if (response.applications.length) {
                     for (i = 0; i < response.applications.length; i++) {
                         processApplication(response.applications[i]);

@@ -15,7 +15,7 @@ if (empty($_GET['file'])) {
 
 $path_parts = pathinfo($_GET['file']);
 $file = $path_parts['basename'];
-
+//var_dump($_GET['file'], $path_parts, $file);exit;
 
 if ($file == "X-Sendfile.mp4") {
     $path = "{$global['systemRootPath']}plugin/SecureVideosDirectory/test.json";
@@ -34,11 +34,18 @@ if ($file == "configuration.php") {
     _error_log("XSENDFILE Can't read this configuration ");
     forbiddenPage("Can't read this");
 }
-
-$path = Video::getPathToFile($file);
+if(!empty($_REQUEST['cacheDownload'])){
+    $file = preg_replace('/[^0-9a-z_\.]/i', '', $_GET['file']);
+    $relativePath = "cache/download/";
+    $path = getVideosDir().$relativePath.$file;
+    $_GET['download'] = 1;
+    _error_log("cacheDownload: $path");
+}else{
+    $path = Video::getPathToFile($file);
+}
 if (file_exists($path)) {
     if (!empty($_GET['download'])) {
-        if (!CustomizeUser::canDownloadVideos()) {
+        if (empty($_REQUEST['cacheDownload']) && !CustomizeUser::canDownloadVideos()) {
             _error_log("downloadHLS: CustomizeUser::canDownloadVideos said NO");
             forbiddenPage("Can't download this");
         }

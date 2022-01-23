@@ -24,6 +24,10 @@
 
 }
 
+.swal-content, .swal-content a{
+    color: #555;
+}
+
 .webui-popover {
     background-color: #333;
 }

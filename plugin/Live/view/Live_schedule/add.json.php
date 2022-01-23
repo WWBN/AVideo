@@ -33,6 +33,7 @@ $o->setUsers_id(User::getId());
 $o->setLive_servers_id($_POST['live_servers_id']);
 $o->setScheduled_time($_POST['scheduled_time']);
 $o->setStatus($_POST['status']);
+$o->setScheduled_password($_POST['scheduled_password']);
 //$o->setPoster($_POST['poster']);
 //$o->setPublic($_POST['public']);
 //$o->setSaveTransmition($_POST['saveTransmition']);

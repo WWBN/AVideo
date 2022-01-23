@@ -18,10 +18,15 @@ if (!User::isAdmin()) {
     $obj->msg = __('Not Admin');
     die(json_encode($obj));
 }
-$obj->error = !LiveTransmitionHistory::finishALL();
-
-if (empty($obj->error)) {
-    $obj->msg = __('All lives were marked as finished');
+if (!empty($_REQUEST['all'])) {
+    $obj->error = !LiveTransmitionHistory::finishALL();
+    if (empty($obj->error)) {
+        $obj->msg = __('All lives were marked as finished');
+    }
+} else {
+    $obj->error = false;
+    $obj->finished = LiveTransmitionHistory::finishALLOffline();
+    $obj->msg = count($obj->finished).' '.__('Lives finished');
 }
 
 die(json_encode($obj));

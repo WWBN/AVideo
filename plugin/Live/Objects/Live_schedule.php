@@ -17,6 +17,7 @@ class Live_schedule extends ObjectYPT
     protected $public;
     protected $saveTransmition;
     protected $showOnTV;
+    protected $scheduled_password;
 
     public static function getSearchFieldsNames()
     {
@@ -383,9 +384,20 @@ class Live_schedule extends ObjectYPT
         if ($res) {
             $row = $data;
             $row = cleanUpRowFromDatabase($row);
+            $row['scheduled_password'] = $data['scheduled_password'];
         } else {
             $row = false;
         }
         return $row;
     }
+    
+    function getScheduled_password() {
+        return $this->scheduled_password;
+    }
+
+    function setScheduled_password($scheduled_password): void {
+        $this->scheduled_password = $scheduled_password;
+    }
+
+
 }

@@ -29,7 +29,8 @@ $croppieFilesAdded = 1;
         uploadCrop<?php echo $uid; ?> = $('#croppie<?php echo $uid; ?>').croppie({
             //url: imageURL,
             //enableExif: true,
-            //enforceBoundary: true,
+            enforceBoundary: <?php echo json_encode($enforceBoundary); ?>,
+            enableResizeboolean: true,
             mouseWheelZoom: false,
             viewport: {
                 width: <?php echo $viewportWidth; ?>,
@@ -56,7 +57,13 @@ $croppieFilesAdded = 1;
         });
 
         $('#croppie<?php echo $uid; ?>').croppie('bind', {url: addGetParam(imageURL, 'cache', Math.random())}).then(function () {
-            $('#croppie<?php echo $uid; ?>').croppie('setZoom', <?php echo $zoom; ?>)
+            <?php
+            if($enforceBoundary){
+                ?>
+                $('#croppie<?php echo $uid; ?>').croppie('setZoom', <?php echo $zoom; ?>);    
+                <?php
+            }
+            ?>
         });
     }
 

@@ -2573,8 +2573,8 @@ function thereIsAnyRemoteUpdate()
         return $cache;
     }
 
-    //$version = _json_decode(url_get_contents("https://tutorials.avideo.com/version"));
-    $version = _json_decode(url_get_contents("https://tutorialsavideo.b-cdn.net/version", "", 4));
+    $version = _json_decode(url_get_contents("https://tutorials.avideo.com/version"));
+    //$version = _json_decode(url_get_contents("https://tutorialsavideo.b-cdn.net/version", "", 4));
     if (empty($version)) {
         return false;
     }
@@ -3962,7 +3962,11 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
             $prefix .= "SOCKET: ";
             break;
     }
-    error_log($prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}");
+    $str = $prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}";
+    if(isCommandLineInterface()){
+        echo '['.date('Y-m-d H:i:s').'] '.$str.PHP_EOL;
+    }
+    error_log($str);
 }
 
 function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
@@ -6389,7 +6393,7 @@ function getTimerFromDates($startTime, $endTime = 0)
     }
     $timer = abs($endTime - $startTime);
     $uid = uniqid();
-    return "<span id='{$uid}'></span><script>$(document).ready(function () {startTimer({$timer}, '#{$uid}');})</script>";
+    return "<span id='{$uid}'></span><script>$(document).ready(function () {startTimer({$timer}, '#{$uid}', '');})</script>";
 }
 
 function getServerClock()
@@ -6607,7 +6611,8 @@ function getCroppie(
     $resultHeight,
     $viewportWidth = 0,
     $boundary = 25,
-    $viewportHeight = 0
+    $viewportHeight = 0,
+    $enforceBoundary = true
 ) {
     global $global;
     if (empty($viewportWidth)) {
@@ -6617,6 +6622,9 @@ function getCroppie(
     if (empty($viewportHeight)) {
         $zoom = ($viewportWidth / $resultWidth);
         $viewportHeight = $zoom * $resultHeight;
+    }
+    if(empty($enforceBoundary)){
+        $boundary = 0;
     }
     $boundaryWidth = $viewportWidth + $boundary;
     $boundaryHeight = $viewportHeight + $boundary;
@@ -6864,8 +6872,11 @@ function sendSocketMessage($msg, $callbackJSFunction = "", $users_id = "-1", $se
     return false;
 }
 
-function sendSocketMessageToUsers_id($msg, $users_id, $callbackJSFunction = "")
-{
+function sendSocketMessageToUsers_id($msg, $users_id, $callbackJSFunction = ""){
+    
+    if(empty($users_id)){
+        return false;
+    }
     _error_log("sendSocketMessageToUsers_id start " . json_encode($users_id));
     if (!is_array($users_id)) {
         $users_id = [$users_id];
@@ -7090,10 +7101,26 @@ function getStatsNotifications($force_recreate = false)
             $count++;
         }
         if (!empty($json['applications'])) {
+            $applications = array();
             foreach ($json['applications'] as $key => $value) {
+                // remove duplicated
+                if(in_array($value['href'], $applications)){
+                    unset($json['applications'][$key]);
+                    continue;
+                }
+                $applications[] = $value['href'];
                 if (empty($value['users_id']) && !empty($value['user'])) {
                     $u = User::getFromUsername($value['user']);
                     $json['applications'][$key]['users_id'] = $u['id'];
+                }
+                if(!empty($json['applications'][$key]['key'])){
+                    // make sure it is online
+                    $lth = new LiveTransmitionHistory();
+                    $lth->setTitle($json['applications'][$key]['title']);
+                    $lth->setKey($json['applications'][$key]['key']);
+                    $lth->setUsers_id($json['applications'][$key]['users_id']);
+                    $lth->setLive_servers_id($json['applications'][$key]['live_servers_id']);
+                    $lth->save();
                 }
             }
         }
@@ -8070,4 +8097,29 @@ function defaultIsPortrait()
     }
 
     return $_defaultIsPortrait;
+}
+
+function isDummyFile($filePath){
+    global $_isDummyFile;
+    
+    if(!isset($_isDummyFile)){
+        $_isDummyFile = array();
+    }
+    if(isset($_isDummyFile[$filePath])){
+        return $_isDummyFile[$filePath];
+    }
+    
+    $return = false;
+    
+    if(file_exists($filePath)){
+        $fileSize = filesize($filePath);
+        if($fileSize>5 && $fileSize < 20){
+            $return = true;
+        }else 
+        if($fileSize<100){
+            $return = preg_match("/Dummy File/i", file_get_contents($filePath));
+        }
+    }
+    $_isDummyFile[$filePath] = $return;
+    return $return;
 }

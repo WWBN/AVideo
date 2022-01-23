@@ -180,26 +180,21 @@
             </div>
         </div>
         <div class="col-sm-9">
-            <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __("Channel Art"); ?><br>
-                    <small><?php echo __("For the best results, please Use this image as a guide to create your Channel Art"); ?></small>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <input id="input-jpg" type="file" class="file-loading" accept="image/*">
-                        </div>
-                        <div class="col-sm-5">
-                            <img src="<?php echo $global['webSiteRootURL']; ?>view/img/sampleGuide.png" class="img img-responsive">
-                            <hr>
-                            <b><?php echo __("minImageWidth"); ?>:</b> 2048px<br>
-                            <b><?php echo __("minImageHeight"); ?>:</b> 1152px<br>
-                            <b><?php echo __("maxImageWidth"); ?>:</b> 2560px<br>
-                            <b><?php echo __("maxImageHeight"); ?>:</b> 1440px<br>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <?php
+        $channelArtRelativePath = User::getBackgroundURLFromUserID(User::getId());
+
+        $finalWidth = 2560;
+        $finalHeight = 1440;
+        if(isMobile()){
+            $screenWidth = 640;
+            $screenHeight = 360;
+        }else{
+            $screenWidth = 960;
+            $screenHeight = 540;
+        }
+        $factorW = $screenWidth / $finalWidth;
+        include $global['systemRootPath'] . 'view/userChannelArtUploadInclude.php';
+        ?>
         </div>
     </div>
 
@@ -289,28 +284,6 @@
             });
         }
         $(document).ready(function () {
-
-            $("#input-jpg").fileinput({
-                uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadChannelArt.php",
-                autoReplace: true,
-                overwriteInitial: true,
-                showUploadedThumbs: false,
-                showPreview: true,
-                maxFileCount: 1,
-                initialPreview: [
-                    "<img class='img img-responsive' src='<?php echo $global['webSiteRootURL'], $bgURL; ?>?<?php echo filectime($global['systemRootPath'] . $bgURL); ?>'>",
-                ],
-                initialCaption: 'channelArt.jpg',
-                initialPreviewShowDelete: false,
-                showRemove: false,
-                showClose: false,
-                layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                allowedFileExtensions: ["jpg", "jpeg", "png"],
-                //minImageWidth: 2048,
-                //minImageHeight: 1152,
-                //maxImageWidth: 2560,
-                //maxImageHeight: 1440
-            });
 
             $('#upload').on('change', function () {
                 readFile(this, uploadCrop);

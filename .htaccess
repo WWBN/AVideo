@@ -327,6 +327,7 @@ Options All -Indexes
 
     <IfModule mod_xsendfile.c>
         RewriteRule    ^videos/([_A-Za-z0-9.-]+/)?([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ view/xsendfile.php?file=$2    [QSA]
+        RewriteRule    ^videos/cache/download/([_A-Za-z0-9.-]+/)?([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ view/xsendfile.php?file=$2&cacheDownload=1    [QSA]
     </IfModule>
 
     # if image do not exists

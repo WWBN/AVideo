@@ -32,14 +32,20 @@
                 videos_id: <?php echo $videos_id; ?>,
                 title: $('#title').val(),
                 categories_id: $('#categories_id').val(),
-                description: tinymce.get('description').getContent()
+                description: <?php
+if (empty($advancedCustom->disableHTMLDescription)) {
+    echo 'tinymce.get(\'description\').getContent()';
+} else {
+    echo '$(\'#description\').val()';
+}
+?>
             },
             type: 'post',
             success: function (response) {
                 modal.hidePleaseWait();
                 avideoResponse(response);
                 if (response && !response.error) {
-                    if(close){
+                    if (close) {
                         avideoModalIframeClose();
                     }
                 }

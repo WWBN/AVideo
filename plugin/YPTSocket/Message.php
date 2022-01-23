@@ -11,10 +11,12 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 class Message implements MessageComponentInterface {
 
     protected $clients;
+    protected $clientsWatchinLive;
 
     public function __construct() {
         //$this->clients = new \SplObjectStorage;
         $this->clients = [];
+        $this->clientsWatchinLive = [];
         _log_message("Construct");
     }
 
@@ -58,26 +60,36 @@ class Message implements MessageComponentInterface {
         $client['live_key'] = object_to_array(@$json->live_key);
         $client['ip'] = $json->ip;
         $client['location'] = $json->location;
-
+        
+        if(!empty($client['live_key']['key'])){
+            $this->clientsWatchinLive[$client['live_key']['key']][$client['resourceId']] = $client['users_id'];
+        }else
+        if(!empty($client['live_key']['liveLink'])){
+            $this->clientsWatchinLive[$client['live_key']['liveLink']][$client['resourceId']] = $client['users_id'];
+        }else
+        if(!empty($client['videos_id'])){
+            $this->clientsWatchinLive[$client['videos_id']][$client['resourceId']] = $client['users_id'];
+        }
+        
         _log_message("New connection ($conn->resourceId) {$json->yptDeviceId} {$client['selfURI']} {$client['browser']}");
 
         $this->clients[$conn->resourceId] = $client;
         /*
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $limit = 250;
-        } else {
-            $limit = 900;
-        }
-        //$limit = 99999;
-        if(count($this->clients)>$limit){
-            $resourceId = array_key_first($this->clients);
-            _log_message("\e[1;32;40m*** Closing connection {$resourceId} ***\e[0m");
-            //$this->clients[$resourceId]->close();
-            //$this->clients->detach($this->clients[$resourceId]['conn']);
-            $this->clients[$resourceId]['conn']->close();
-            unset($resourceId);
-        }
-        */
+          if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+          $limit = 250;
+          } else {
+          $limit = 900;
+          }
+          //$limit = 99999;
+          if(count($this->clients)>$limit){
+          $resourceId = array_key_first($this->clients);
+          _log_message("\e[1;32;40m*** Closing connection {$resourceId} ***\e[0m");
+          //$this->clients[$resourceId]->close();
+          //$this->clients->detach($this->clients[$resourceId]['conn']);
+          $this->clients[$resourceId]['conn']->close();
+          unset($resourceId);
+          }
+         */
         if ($client['browser'] == \SocketMessageType::TESTING) {
             _log_message("Test detected and received from ($conn->resourceId) " . PHP_EOL . "\e[1;32;40m*** SUCCESS TEST CONNECION {$json->test_msg} ***\e[0m");
             $this->msgToResourceId($json, $conn->resourceId, \SocketMessageType::TESTING);
@@ -95,6 +107,30 @@ class Message implements MessageComponentInterface {
         }
         if (!empty($json->live_key)) {
             //_log_message("msgToAllSameLive ");
+            if (\AVideoPlugin::isEnabledByName('LiveUsers')) {
+                $live_key = object_to_array($json->live_key);
+                if (!empty($live_key['key'])) {
+                    \_mysql_connect();
+                    $lt = \LiveTransmitionHistory::getLatest($live_key['key']);
+                    if (!empty($lt['id'])) {
+                        $l = new \LiveTransmitionHistory($lt['id']);
+                        $total_viewers = \LiveUsers::getTotalUsers($lt['key'], $lt['live_servers_id']);
+                        $max_viewers_sametime = $l->getMax_viewers_sametime();
+                        if(!empty($live_key['key'])){
+                            $viewers_now = count($this->clientsWatchinLive[$live_key['key']]);
+                        }else if(!empty($live_key['liveLink'])){
+                            $viewers_now = count($this->clientsWatchinLive[$live_key['liveLink']]);
+                        }
+                        if ($viewers_now > $max_viewers_sametime) {
+                            $l->setMax_viewers_sametime($viewers_now);
+                        }
+                        $l->setTotal_viewers($total_viewers);
+                        _log_message("onOpen Connection viewers_now = {$viewers_now} => total_viewers = {$total_viewers}");
+                        $l->save();
+                    }
+                    \_mysql_close();
+                }
+            }
             $this->msgToAllSameLive($json->live_key, "");
         } else {
             //_log_message("NOT msgToAllSameLive ");
@@ -115,6 +151,16 @@ class Message implements MessageComponentInterface {
             return false;
         }
         $client = $this->clients[$conn->resourceId];
+        
+        if(!empty($client['live_key'])){
+            if(!empty($client['live_key']['key'])){
+                unset($this->clientsWatchinLive[$client['live_key']['key']][$conn->resourceId]);
+            }
+            if(!empty($client['live_key']['liveLink'])){
+                unset($this->clientsWatchinLive[$client['live_key']['liveLink']][$conn->resourceId]);
+            }
+        }
+        
         unset($this->clients[$conn->resourceId]);
         $users_id = $client['users_id'];
         $videos_id = $client['videos_id'];
@@ -257,9 +303,10 @@ class Message implements MessageComponentInterface {
         $obj['autoUpdateOnHTML'] = array_merge($totals, $return['class_to_update']);
 
         $obj['users_uri'] = $return['users_uri'];
+        $obj['resourceId'] = $resourceId;
 
         $msgToSend = json_encode($obj);
-        //_log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
+        _log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
         $this->clients[$resourceId]['conn']->send($msgToSend);
     }
 
@@ -398,7 +445,7 @@ class Message implements MessageComponentInterface {
     }
 
     public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {
-        _log_message("msgToAll FROM ({$from->resourceId}) {$type} Total Clients: ".count($this->clients));
+        _log_message("msgToAll FROM ({$from->resourceId}) {$type} Total Clients: " . count($this->clients));
         foreach ($this->clients as $key => $client) {
             if (!empty($includeMe) || $from !== $client['conn']) {
                 //_log_message("msgToAll FROM ({$from->resourceId}) TO {$key} {$type}");

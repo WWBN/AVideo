@@ -152,7 +152,7 @@ if (!empty($obj) && empty($obj->error)) {
         ob_end_flush();
         ob_start();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
-        $m3u8 = Live::getM3U8File($lth->getKey());
+        $m3u8 = Live::getM3U8File($lth->getKey(), false,true);
         $users_id = $obj->row['users_id'];
         $liveTransmitionHistory_id = $obj->liveTransmitionHistory_id;
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {

@@ -68,10 +68,16 @@ class CDN extends PluginAbstract
 
     public function getVideosManagerListButton()
     {
-        if (!self::userCanMoveVideoStorage()) {
-            return '';
+        $btn = '';
+        $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
+        if(!empty($videoHLSObj)){
+            if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload) || !empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
+                $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CDN/downloadButtons.php?videos_id=\'+ row.id +\'\\\');" ><i class="fas fa-download"></i> Download</button>';
+            }
         }
-        $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CDN/Storage/syncVideo.php?videos_id=\'+ row.id +\'\\\');" ><i class="fas fa-project-diagram"></i> CDN Storage</button>';
+        if (self::userCanMoveVideoStorage()) {
+            $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CDN/Storage/syncVideo.php?videos_id=\'+ row.id +\'\\\');" ><i class="fas fa-project-diagram"></i> CDN Storage</button>';
+        }
         return $btn;
     }
 

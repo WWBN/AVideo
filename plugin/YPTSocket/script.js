@@ -49,7 +49,7 @@ function socketConnect() {
         } else {
             var myfunc;
             if (json.callback) {
-                console.log("Socket onmessage json.callback", json.callback);
+                console.log("Socket onmessage json.callback ", json.resourceId, json.callback);
                 var code = "if(typeof " + json.callback + " == 'function'){myfunc = " + json.callback + ";}else{myfunc = defaultCallback;}";
                 //console.log(code);
                 eval(code);
@@ -155,7 +155,7 @@ function parseSocketResponse() {
     }
     //console.log("parseSocketResponse", json);
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
-        if (typeof avideoToastWarning == 'funciton') {
+        if (typeof avideoToastWarning == 'function') {
             avideoToastWarning("Please restart your socket server. You are running (v" + json.webSocketServerVersion + ") and your client is expecting (v" + webSocketServerVersion + ")");
         }
     }

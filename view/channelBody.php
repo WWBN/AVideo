@@ -92,7 +92,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 <div class="panel panel-default">
     <div class="panel-body">
         <div class="gallery" >
-            <div class="row">
+            <div class="row clearfix">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <center style="margin:5px;">
                         <?php
@@ -103,8 +103,17 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
             </div>
             <?php
             if (empty($advancedCustomUser->doNotShowTopBannerOnChannel)) {
+                if(isMobile()){
+                    $relativePath = $user->getBackgroundURL(User::$channel_artDesktopMin);
+                }else{
+                    $relativePath = $user->getBackgroundURL(User::$channel_artDesktopMax);
+                }
                 ?>
-                <div class="row bg-info profileBg" style="margin: 20px -10px; background: url('<?php echo $global['webSiteRootURL'], $user->getBackgroundURL(), "?", @filemtime($global['systemRootPath'] . $user->getBackgroundURL()); ?>')  no-repeat 50% 50%;">
+            <div class="clearfix" style="clear: both;"></div>
+            <div class="row bg-info profileBg" style="margin: 20px -10px; background: url('<?php echo getURL($relativePath); ?>')  no-repeat 50% 50%; -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;">
                     <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
                 </div>
                 <?php

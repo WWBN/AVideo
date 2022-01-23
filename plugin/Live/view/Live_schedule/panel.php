@@ -22,7 +22,7 @@ global $Schedulecount;
                 <a data-toggle="tab" href="#newSchedule"><i class="far fa-file"></i> <?php echo __('New Schedule'); ?></a>
             </li>
             <li>
-                <a data-toggle="tab" href="#savedSchedule"><i class="far fa-save"></i> <?php echo __('Saved Schedule'); ?></a>
+                <a data-toggle="tab" href="#savedSchedule"><i class="far fa-save"></i> <?php echo __('Saved Schedule'); ?> <span class="badge badge-primary savedScheduleTotals" >0</span></a>
             </li>
         </ul>
         <div class="tab-content">
@@ -42,7 +42,13 @@ global $Schedulecount;
                     </div>
                     <div class="form-group col-sm-6" style="padding-right: 1px">
                         <label for="scheduled_time"><?php echo __("Live Starts"); ?>:</label>
-                        <input type="text" id="scheduled_time" name="scheduled_time" class="form-control input-sm" placeholder="<?php echo __("Live Starts"); ?>" required="true" autocomplete="off">
+                        <input type="text" id="scheduled_time" name="scheduled_time" class="form-control input-sm" placeholder="<?php echo __("Live Starts"); ?>" required="true" autocomplete="off" readonly="readonly" >
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="scheduled_password"><?php echo __("Scheduled Password"); ?>:</label>
+                        <?php
+                        echo getInputPassword('scheduled_password', 'class="form-control input-sm" ', __("Scheduled Password"));
+                        ?>
                     </div>
                     <?php
                     $options = Live_servers::getAllActive();
@@ -55,7 +61,8 @@ global $Schedulecount;
                                 <?php
                                 foreach ($options as $value) {
                                     echo '<option value="' . $value['id'] . '">[' . $value['id'] . '] ' . $value['name'] . '</option>';
-                                } ?>
+                                }
+                                ?>
                             </select>
                         </div>
                         <?php
@@ -87,35 +94,40 @@ global $Schedulecount;
              overflow: hidden;
              text-overflow: ellipsis;"></div>
         <br>
-        <div class="btn-group pull-left">
-            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?>" >
-                <i class="fa fa-server"></i> <span class="hidden-sm hidden-xs"><?php echo __('Server URL'); ?></span>
+        <div class="btn-group btn-group-justified" style="margin-top: 10px;">
+            <button class="btn btn-default" onclick="copyToClipboard($(this).attr('serverURL'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?>" >
+                <i class="fa fa-server"></i> <span class=""><?php echo __('RTMP URL'); ?></span>
             </button>
-            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Key'); ?>" >
-                <i class="fa fa-key"></i> <span class="hidden-sm hidden-xs"><?php echo __('Key'); ?></span>
+            <button class="btn btn-default" onclick="copyToClipboard($(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Key'); ?>" >
+                <i class="fa fa-key"></i> <span class=""><?php echo __('Key'); ?></span>
             </button>
-            <button class="btn btn-default btn-xs" onclick="copyToClipboard($(this).attr('serverURL') + '/' + $(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?> + <?php echo __('Key'); ?>" >
-                <i class="fa fa-server"></i> + <i class="fa fa-key"></i> <span class="hidden-sm hidden-xs"><?php echo __('Server URL'); ?> + <?php echo __('Key'); ?></span>
-            </button>
-        </div>
-        <div class="btn-group pull-right">
-            <button class="btn btn-primary btn-xs" onclick="uploadPoster($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Upload Poster Image'); ?>" >
-                <i class="far fa-image"></i> <i class="far fa-upload"></i> <span class="hidden-sm hidden-xs"><?php echo __('Upload Poster'); ?></span>
-            </button>
-            <button class="btn btn-danger btn-xs" onclick="removePosterSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Remove Poster') ?>" >
-                <i class="fa fa-trash"></i> <span class="hidden-sm hidden-xs"><?php echo __('Delete Poster'); ?></span>
+            <button class="btn btn-default" onclick="copyToClipboard($(this).attr('serverURL') + '/' + $(this).attr('key'));" data-toggle="tooltip" title="<?php echo __('Server URL'); ?> + <?php echo __('Key'); ?>" >
+                <i class="fa fa-server"></i> + <i class="fa fa-key"></i> <span class="hidden-xs"><?php echo __('RTMP URL'); ?> + <?php echo __('Key'); ?></span>
             </button>
         </div>
-        <hr>
-        <div class="btn-group pull-right futureButtons">
-            <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
-                <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($objScheduleLive->button_title); ?></span>
+        <div class="btn-group btn-group-justified" style="margin-top: 10px;">
+            <button class="btn btn-primary" onclick="uploadPoster($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Upload Poster Image'); ?>" >
+                <i class="far fa-image"></i> <i class="fas fa-upload"></i> <span class=""><?php echo __('Upload Poster'); ?></span>
             </button>
+            <button class="btn btn-danger " onclick="removePosterSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Remove Poster') ?>" >
+                <i class="fa fa-trash"></i> <span class=""><?php echo __('Delete Poster'); ?></span>
+            </button>
+        </div>
+        <div class="btn-group  btn-group-justified futureButtons" style="margin-top: 10px;">
+            <?php
+            if (Live::canStreamWithWebRTC()) {
+                ?>
+                <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
+                    <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class=""><?php echo __($objScheduleLive->button_title); ?></span>
+                </button>
+                <?php
+            }
+            ?>
             <button class="btn btn-primary" onclick="editSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Edit') ?>" >
-                <i class="fa fa-edit"></i> <span class="hidden-sm hidden-xs"><?php echo __('Edit'); ?></span>
+                <i class="fa fa-edit"></i> <span class=""><?php echo __('Edit'); ?></span>
             </button>
             <button class="btn btn-danger" onclick="deleteSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Delete') ?>" >
-                <i class="fa fa-trash"></i> <span class="hidden-sm hidden-xs"><?php echo __('Delete'); ?></span>
+                <i class="fa fa-trash"></i> <span class=""><?php echo __('Delete'); ?></span>
             </button>
         </div>
     </a>
@@ -125,17 +137,17 @@ global $Schedulecount;
                 var Schedule_plans = {};
                 $(document).ready(function () {
 
-                    $('#scheduled_time').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
-                    $('#Live_schedulestart_sell_in').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
+                    $('#scheduled_time').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true, ignoreReadonly: true});
+                    $('#Live_schedulestart_sell_in').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true, ignoreReadonly: true});
                     listScheduledLives();
                 });
 
-                function saveSchedule(close){
-                    if($('#Schedule_title').val()==''){
+                function saveSchedule(close) {
+                    if ($('#Schedule_title').val() == '') {
                         avideoToastError('Empty title');
                         return false;
                     }
-                    if($('#scheduled_time').val()==''){
+                    if ($('#scheduled_time').val() == '') {
                         avideoToastError('Empty date');
                         return false;
                     }
@@ -173,6 +185,7 @@ global $Schedulecount;
                         url: webSiteRootURL + "plugin/Live/view/Live_schedule/list.json.php?users_id=<?php echo User::getId(); ?>"
                     }).done(
                             function (resposta) {
+                                $('.savedScheduleTotals').text(resposta.data.length);
                                 $("#schedule_live_list").empty();
                                 for (x in resposta.data) {
                                     var schedule = resposta.data[x];
@@ -210,6 +223,7 @@ global $Schedulecount;
                     $("#Schedule_title").val(schedule.title);
                     $("#Schedule_status").val(schedule.status);
                     $("#scheduled_time").val(schedule.scheduled_time);
+                    $("#scheduled_password").val(schedule.scheduled_password);
                     $("#Schedule_live_servers_id").val(schedule.live_servers_id);
                     $("#Schedule_description").val(schedule.description);
                 }

@@ -1282,35 +1282,24 @@ function avideoModalIframeCloseToastSuccess(msg) {
 }
 
 function avideoModalIframe(url) {
-    avideoModalIframeWithClassName(url, 'swal-modal-iframe');
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe', false);
 }
 
 function avideoModalIframeSmall(url) {
-    avideoModalIframeWithClassName(url, 'swal-modal-iframe-small');
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-small', false);
 }
 
 function avideoModalIframeLarge(url) {
-    avideoModalIframeWithClassName(url, 'swal-modal-iframe-large');
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-large', false);
 }
 
-var avideoModalIframeFullScreenOriginalURL = false;
 function avideoModalIframeFullScreen(url) {
-    if (!avideoModalIframeFullScreenOriginalURL) {
-        avideoModalIframeFullScreenOriginalURL = document.location.href;
-    }
-    try {
-        window.history.pushState("", "", url);
-    } catch (e) {
-        
-    }    
-    avideoModalIframeWithClassName(url, 'swal-modal-iframe-full');
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-full', true);
 }
 
 function avideoModalIframeFullScreenClose() {
     $('.swal-overlay iframe').attr('src', 'about:blank');
     swal.close();
-    window.history.pushState("", "", avideoModalIframeFullScreenOriginalURL);
-    avideoModalIframeFullScreenOriginalURL = false;
 }
 // this is to make sure when the use click on the back page button it will close the iframe
 window.onload = function () {
@@ -1327,7 +1316,20 @@ function avideoModalIframeFull(url) {
     avideoModalIframeFullScreen(url);
 }
 
-function avideoModalIframeWithClassName(url, className) {
+var avideoModalIframeFullScreenOriginalURL = false;
+function avideoModalIframeWithClassName(url, className, updateURL) {
+    showURL = document.location.href;
+    if (updateURL) {
+        if (!avideoModalIframeFullScreenOriginalURL) {
+            avideoModalIframeFullScreenOriginalURL = document.location.href;
+        }
+        showURL = url;
+    }
+    try {
+        window.history.pushState("", "", showURL);
+    } catch (e) {
+
+    }
     url = addGetParam(url, 'avideoIframe', 1);
     var html = '';
     html = '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
@@ -1343,6 +1345,11 @@ function avideoModalIframeWithClassName(url, className) {
         buttons: false,
         className: className,
         onClose: avideoModalIframeRemove
+    }).then(() => {
+        if (avideoModalIframeFullScreenOriginalURL) {
+            window.history.pushState("", "", avideoModalIframeFullScreenOriginalURL);
+            avideoModalIframeFullScreenOriginalURL = false;
+        }
     });
     setTimeout(function () {
         avideoModalIframeRemove();
@@ -1724,7 +1731,7 @@ function isURL(url) {
     return validURL(url);
 }
 var startTimerInterval = [];
-function startTimer(duration, selector) {
+function startTimer(duration, selector, prepend) {
     //console.log('startTimer 1', duration);
     clearInterval(startTimerInterval[selector]);
     var timer = duration;
@@ -1760,7 +1767,7 @@ function startTimer(duration, selector) {
             //$(selector).text("EXPIRED");
             startTimerTo(duration * -1, selector);
         } else {
-            $(selector).text(text);
+            $(selector).html(prepend+text);
             duration--;
         }
 
@@ -1837,7 +1844,7 @@ function startTimerToDate(toDate, selector, useDBDate) {
     //console.log('startTimerToDate toDate', toDate);
     //console.log('startTimerToDate selector', selector);
     //console.log('startTimerToDate seconds', seconds);
-    return startTimer(seconds, selector);
+    return startTimer(seconds, selector, toDate.toLocaleString()+'<br>');
 }
 
 var _timerIndex = 0;
@@ -2081,5 +2088,119 @@ function animateChilds(selector, type, delay) {
         $currentElement.css('-webkit-animation-delay', step + "s");
         $currentElement.css('animation-delay', step + "s");
         step += delay;
+    });
+}
+
+function goToURLOrAlertError(jsonURL, data) {
+    modal.showPleaseWait();
+    $.ajax({
+        url: jsonURL,
+        method: 'POST',
+        data: data,
+        success: function (response) {
+            if (response.error) {
+                avideoAlertError(response.msg);
+                modal.hidePleaseWait();
+            } else if (response.url) {
+                if (response.msg) {
+                    avideoAlertInfo(response.msg);
+                }
+                document.location = response.url;
+                setTimeout(function () {
+                    modal.hidePleaseWait();
+                }, 3000)
+            } else {
+                avideoResponse(response);
+                modal.hidePleaseWait();
+            }
+        }
+    });
+}
+
+function downloadURLOrAlertError(jsonURL, data, filename) {
+    modal.showPleaseWait();
+    avideoToastInfo('Converting');
+    $.ajax({
+        url: jsonURL,
+        method: 'POST',
+        data: data,
+        success: function (response) {
+            if (response.error) {
+                avideoAlertError(response.msg);
+                modal.hidePleaseWait();
+            } else if (response.url) {
+                if (response.msg) {
+                    avideoAlertInfo(response.msg);
+                }
+                avideoToastInfo('Download start');
+                var loaded = 0;
+                var contentLength = 0;
+
+                fetch(response.url)
+                        .then(response => {
+                            avideoToastSuccess('Download Start');
+                            const contentEncoding = response.headers.get('content-encoding');
+                            const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
+                            if (contentLength === null) {
+                                throw Error('Response size header unavailable');
+                            }
+
+                            const total = parseInt(contentLength, 10);
+                            let loaded = 0;
+
+                            return new Response(
+                                    new ReadableStream({
+                                        start(controller) {
+                                            const reader = response.body.getReader();
+
+                                            read();
+
+                                            function read() {
+                                                reader.read().then(({done, value}) => {
+                                                    if (done) {
+                                                        controller.close();
+                                                        return;
+                                                    }
+                                                    loaded += value.byteLength;
+                                                    var percentageLoaded = Math.round(loaded / total * 100);
+                                                    //console.log(percentageLoaded);
+                                                    modal.setProgress(percentageLoaded);
+                                                    controller.enqueue(value);
+                                                    read();
+                                                }).catch(error => {
+                                                    console.error(error);
+                                                    controller.error(error)
+                                                })
+                                            }
+                                        }
+                                    })
+                                    );
+                        })
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = url;
+                            // the filename you want
+                            a.download = filename;
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            modal.hidePleaseWait();
+                            avideoToastSuccess('Download complete');
+                        })
+                        .catch(function (err) {
+                            avideoAlertError('Error on download ');
+                            console.log(err)
+                        });
+
+
+
+            } else {
+                avideoResponse(response);
+                modal.hidePleaseWait();
+            }
+        }
     });
 }
