@@ -2317,10 +2317,10 @@ class Live extends PluginAbstract
             _error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' is live and ready');
         } else {
             if (self::isKeyLiveInStats($lh['key'], $lh['live_servers_id'])) {
-                _error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' key is in the stats');
+                //_error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' key is in the stats');
                 return self::getPosterImage($users_id, $live_servers_id, $live_index);
             } else {
-                _error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' key is NOT in the stats');
+                //_error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' key is NOT in the stats');
                 return $poster;
             }
         }
