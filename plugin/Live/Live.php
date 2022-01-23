@@ -1478,6 +1478,7 @@ class Live extends PluginAbstract
             return $getStatsLive;
         } else {
             $rows = Live_servers::getAllActive();
+            $liveServers = [];
             foreach ($rows as $key => $row) {
                 $ls = new Live_servers(Live::getLiveServersIdRequest());
                 if (!empty($row['playerServer'])) {
@@ -1486,9 +1487,13 @@ class Live extends PluginAbstract
                     $server->live_servers_id = $row['id'];
                     $server->playerServer = $row['playerServer'];
                     $getStatsLive = $server;
-                    return $server;
+                    $liveServers[] = $server;
                 }
             }
+            if(!empty($liveServers)){
+                return $liveServers;
+            }
+
         }
         $ls = Live_servers::getAllActive();
         $liveServers = [];
