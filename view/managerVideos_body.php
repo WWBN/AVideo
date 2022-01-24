@@ -2119,6 +2119,7 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                     return ret;
                                                 },
                                             }).on("loaded.rs.jquery.bootgrid", function () {
+                                                $(".tooltip").tooltip("hide");
                                                 if ($('.videoPlaylist').length > 50) {
                                                     console.log("You are listing too many videos we will not process the playlist");
                                                 } else {
