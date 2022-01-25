@@ -75,7 +75,7 @@ if (empty($livet)) {
     }
 }
 //_error_log('getImage: continue '. getSelfURI());
-$filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id'], false, @$_REQUEST['live_schedule_id']);
+$filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users_id'], $_REQUEST['live_servers_id'], false);
 
 if (Live::isLiveThumbsDisabled()) {
     $uploadedPoster = $filename;
