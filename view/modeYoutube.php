@@ -281,7 +281,7 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 if (empty($video)) {
     if(!empty($_GET['v'])){
         $v = new Video('', '', $_GET['v']);
-        if($video->getStatus()===Video::$statusBrokenMissingFiles){
+        if($v->getStatus()===Video::$statusBrokenMissingFiles){
             if (!Video::isMediaFileMissing($v->getFilename())) {
                 $v->setStatus(Video::$statusActive);
                 $v->save();
