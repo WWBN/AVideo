@@ -172,7 +172,7 @@ class ADs extends PluginAbstract
         }
 
         $videosDir = getVideosDir() . 'ADs/' . $type . '/';
-        $videosURL = "{$global['webSiteRootURL']}videos/ADs/{$type}/";
+        $videosURL = getCDN()."videos/ADs/{$type}/";
         make_path($videosDir);
 
         return ['path' => $videosDir, 'url' => $videosURL];
@@ -201,7 +201,7 @@ class ADs extends PluginAbstract
         }
 
         $videosDir = getVideosDir() . 'ADs/' . $type . '/';
-        $videosURL = "{$global['webSiteRootURL']}videos/ADs/{$type}/";
+        $videosURL = getCDN()."videos/ADs/{$type}/";
 
 
         $files = _glob($paths['path'], '/.png$/');
