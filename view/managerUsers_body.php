@@ -35,6 +35,7 @@
                 <table id="grid" class="table table-condensed table-hover table-striped">
                     <thead>
                         <tr>
+                            <th data-column-id="id"><?php echo __("#"); ?></th>
                             <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
                             <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
                             <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
@@ -50,6 +51,7 @@
                 <table id="gridInactive" class="table table-condensed table-hover table-striped">
                     <thead>
                         <tr>
+                            <th data-column-id="id"><?php echo __("#"); ?></th>
                             <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
                             <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
                             <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
@@ -65,6 +67,7 @@
                 <table id="gridAdmin" class="table table-condensed table-hover table-striped">
                     <thead>
                         <tr>
+                            <th data-column-id="id"><?php echo __("#"); ?></th>
                             <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
                             <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
                             <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
@@ -94,6 +97,7 @@
                     <table id="<?php echo $gridID; ?>" class="table table-condensed table-hover table-striped">
                         <thead>
                             <tr>
+                                <th data-column-id="id"><?php echo __("#"); ?></th>
                                 <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
                                 <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
                                 <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
