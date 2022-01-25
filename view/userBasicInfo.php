@@ -162,7 +162,22 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __("Profile Photo"); ?><br><small><?php echo __("You must click save to confirm"); ?></small></div>
+                <div class="panel-heading">
+                    <?php echo __("Profile Photo"); ?><br>
+                    <?php
+                    if($vloObj = AVideoPlugin::isEnabledByName('VideoLogoOverlay')){
+                        if($vloObj->useUserChannelImageAsLogo){
+                            ?>
+                                <small><?php echo __("This image will appear in your livestream"); ?></small><br>
+                            <?php
+                        }
+                    }
+                    ?>
+                    <?php
+                    
+                    ?>
+                    <small><?php echo __("You must click save to confirm"); ?></small>
+                </div>
                 <div class="panel-body">
                     <div class="form-group">
                         <div class="col-md-12 ">
