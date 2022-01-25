@@ -1,6 +1,6 @@
 <style>
     <?php
-    if (!empty($advancedCustom->hideEditAdvancedFromVideosManager) && User::isAdmin()) {
+    if (!empty($advancedCustom->hideEditAdvancedFromVideosManager) && !User::isAdmin()) {
         ?>
             .command-edit{
                 display: none !important;
