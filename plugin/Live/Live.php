@@ -2336,13 +2336,13 @@ class Live extends PluginAbstract
         return false;
     }
 
-    public static function getPosterThumbsImage($users_id, $live_servers_id, $cominsoon=false, $live_schedule_id=null)
+    public static function getPosterThumbsImage($users_id, $live_servers_id, $cominsoon=false)
     {
         global $global;
         if (empty($_REQUEST['live_schedule'])) {
             $file = self::_getPosterThumbsImage($users_id, $live_servers_id);
-        } else if(!empty($live_schedule_id)){
-            $array = Live_schedule::getPosterPaths($live_schedule_id);
+        } else {
+            $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule']);
             $file = $array['relative_path'];
         }
 
