@@ -280,11 +280,11 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 // video not found
 if (empty($video)) {
     if(!empty($_GET['v'])){
-        $v = new Video('', '', $_GET['v']);
-        if($v->getStatus()===Video::$statusBrokenMissingFiles){
+        $vid = new Video('', '', $_GET['v']);
+        if($vid->getStatus()===Video::$statusBrokenMissingFiles){
             if (!Video::isMediaFileMissing($v->getFilename())) {
-                $v->setStatus(Video::$statusActive);
-                $v->save();
+                $vid->setStatus(Video::$statusActive);
+                $vid->save();
                 _error_log('Missing files recovered '. $_GET['v']);
             }else{
                 videoNotFound('The video is not available 1');                
