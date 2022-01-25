@@ -1564,7 +1564,7 @@ $(document).ready(function () {
             if (typeof avideoLoader == 'undefined') {
                 avideoLoader = '';
             }
-            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
+            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
         }
 
         return {
@@ -2194,6 +2194,7 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
                                                     var percentageLoaded = Math.round(loaded / total * 100);
                                                     //console.log(percentageLoaded);
                                                     modal.setProgress(percentageLoaded);
+                                                    modal.setText('Downloading ... '+percentageLoaded+'%');
                                                     controller.enqueue(value);
                                                     read();
                                                 }).catch(error => {
