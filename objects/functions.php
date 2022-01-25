@@ -2541,7 +2541,7 @@ function getUpdatesFilesArray()
             }
         }
     }
-    usort($updateFiles, fn($a, $b) => version_compare($a['version'],$b['version']));
+    usort($updateFiles, function($a, $b){ return version_compare($a['version'],$b['version']);});
     return $updateFiles;
 }
 
