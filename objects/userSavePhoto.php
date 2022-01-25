@@ -45,5 +45,6 @@ $user->setPhotoURL($photoURL);
 if ($user->save()) {
     User::deleteOGImage(User::getId());
     User::updateSessionInfo();
+    clearCache(true);
 }
 die(json_encode($obj));
