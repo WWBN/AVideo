@@ -1352,7 +1352,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
             avideoModalIframeFullScreenOriginalURL = false;
         }
     });
-    $('#avideoModalIframeDiv iframe').load(function(){
+    $('body > div.swal-overlay iframe').load(function(){
         clearTimout(avideoModalIframeWithClassNameTimeout);
         avideoModalIframeRemove();
     });
