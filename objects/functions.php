@@ -4834,9 +4834,15 @@ function getSelfURI()
     if (empty($_SERVER['PHP_SELF']) || empty($_SERVER['HTTP_HOST'])) {
         return "";
     }
+    global $global;
+    $http = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
+    if(preg_match('/^https:/', $global['webSiteRootURL'])){
+        $http = 'https';
+    }
+    
     $queryStringWithoutError = preg_replace("/error=[^&]*/", "", @$_SERVER['QUERY_STRING']);
     $phpselfWithoutIndex = preg_replace("/index.php/", "", @$_SERVER['PHP_SELF']);
-    $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$phpselfWithoutIndex?$queryStringWithoutError";
+    $url = $http . "://$_SERVER[HTTP_HOST]$phpselfWithoutIndex?$queryStringWithoutError";
     $url = rtrim($url, '?');
     return $url;
 }
