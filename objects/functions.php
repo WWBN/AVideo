@@ -4836,7 +4836,7 @@ function getSelfURI()
     }
     global $global;
     $http = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
-    if(preg_match('/^https:/', $global['webSiteRootURL'])){
+    if(preg_match('/^https:/i', $global['webSiteRootURL'])){
         $http = 'https';
     }
     
