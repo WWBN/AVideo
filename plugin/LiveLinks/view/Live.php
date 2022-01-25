@@ -47,7 +47,8 @@ if ($toTime > time()) {
     $message = "<strong>{$t['title']}</strong><br>{$t['description']}";
     $image = User::getPhoto($t['users_id']);
     $bgImage = LiveLinks::getImage($t['id']);
-    countDownPage($toTime, $message, $image, $bgImage);
+    $title = $t['title'];
+    countDownPage($toTime, $message, $image, $bgImage, $title);
 }
 
 $u = new User($t['users_id']);

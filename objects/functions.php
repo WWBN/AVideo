@@ -7676,7 +7676,7 @@ function isIPPrivate($ip)
     return false;
 }
 
-function countDownPage($toTime, $message, $image, $bgImage)
+function countDownPage($toTime, $message, $image, $bgImage, $title)
 {
     global $global;
     include $global['systemRootPath'] . 'objects/functionCountDownPage.php';
