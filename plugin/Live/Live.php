@@ -237,6 +237,11 @@ class Live extends PluginAbstract
         $rows = LiveTransmitionHistory::getActiveLives();
         $currentLives = array();
         foreach ($rows as $value) {
+            // if key is from schedule, skipp it
+            if(Live_schedule::keyExists($value['key'])){
+                continue;
+            }
+            
             $link = Live::getLinkToLiveFromUsers_idAndLiveServer($value['users_id'], $value['live_servers_id']);
             if(in_array($link, $currentLives)){
                 LiveTransmitionHistory::finishFromTransmitionHistoryId($value['id']);
