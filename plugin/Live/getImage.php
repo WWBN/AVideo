@@ -80,7 +80,7 @@ $filename = $global['systemRootPath'] . Live::getPosterThumbsImage($livet['users
 if (Live::isLiveThumbsDisabled()) {
     $uploadedPoster = $filename;
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
-    if (file_exists($uploadedPoster)) {
+    if (file_exists($uploadedPoster) && !is_dir($uploadedPoster)) {
         header('Content-Type: image/jpg');
         echo file_get_contents($uploadedPoster);
         exit;
