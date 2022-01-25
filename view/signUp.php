@@ -128,11 +128,6 @@ if (!empty($_GET['siteRedirectUri'])) {
                             </div>
                         </fieldset>
                     </form>
-                    <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>">
-                        <div class="col-md-12">
-                            <a href="<?php echo $signInLink; ?>" class="btn btn-success btn-block" ><i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?></a>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-2"></div>
             </div>
