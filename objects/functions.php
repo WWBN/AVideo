@@ -2541,7 +2541,7 @@ function getUpdatesFilesArray()
             }
         }
     }
-    sort($updateFiles, SORT_NUMERIC); 
+    usort($updateFiles, fn($a, $b) => version_compare($a['version'],$b['version']));
     return $updateFiles;
 }
 
