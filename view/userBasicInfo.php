@@ -165,7 +165,7 @@
                 <div class="panel-heading">
                     <?php echo __("Profile Photo"); ?><br>
                     <?php
-                    if($vloObj = AVideoPlugin::isEnabledByName('VideoLogoOverlay')){
+                    if($vloObj = AVideoPlugin::getDataObjectIfEnabled('VideoLogoOverlay')){
                         if($vloObj->useUserChannelImageAsLogo){
                             ?>
                                 <small><?php echo __("This image will appear in your livestream"); ?></small><br>
