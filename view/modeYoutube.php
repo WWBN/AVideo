@@ -276,9 +276,26 @@ if (!empty($evideo)) {
 
 
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+    var_dump($_GET['v'], $videos_id);exit;
 // video not found
 if (empty($video)) {
-    videoNotFound('The video is not available');
+    if(!empty($_GET['v'])){
+        $video = new Video('', '', $_GET['v']);
+        if($video->getStatus()===Video::$statusBrokenMissingFiles){
+            if (!Video::isMediaFileMissing($video->getFilename())) {
+                $video->setStatus(Video::$statusActive);
+                $video->save();
+                _error_log('Missing files recovered '. $_GET['v']);
+            }else{
+                videoNotFound('The video is not available 1');                
+            }
+        }else{
+            videoNotFound('The video is not available 2');
+        }
+        
+    }else{    
+        videoNotFound('The video is not available 3');
+    }
 }
 $metaDescription = " {$video['id']}";
 
