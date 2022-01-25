@@ -1352,8 +1352,34 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         }
     });
     setTimeout(function () {
-        avideoModalIframeRemove();
-    }, 2000);
+        if ($('#avideoModalIframeDiv iframe').contents().find('body').children().length > 0) {
+            // is loaded
+            avideoModalIframeRemove();
+        } else {
+            // is not loaded
+            document.location = url;
+        }
+    }, 5000);
+}
+
+function checkIframeLoaded(id) {
+    // Get a handle to the iframe element
+    var iframe = document.getElementById(id);
+    var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+    // Check if loading is complete
+    if (  iframeDoc.readyState  == 'complete' ) {
+        //iframe.contentWindow.alert("Hello");
+        iframe.contentWindow.onload = function(){
+            alert("I am loaded");
+        };
+        // The loading is complete, call the function we want executed once the iframe is loaded
+        afterLoading();
+        return;
+    } 
+
+    // If we are here, it is not loaded. Set things up so we check   the status again in 100 milliseconds
+    window.setTimeout(checkIframeLoaded, 100);
 }
 
 function avideoModalIframeIsVisible() {
