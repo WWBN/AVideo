@@ -28,10 +28,8 @@ $croppie1 = getCroppie(__("Upload Poster"), "saveVideo", $width, $height, $viewp
 echo $croppie1['html'];
 ?>
 <hr>
-<div class="btn-group btn-group-justified">
-    <button class="btn btn-success btn-lg" onclick="closeWindowAfterImageSave=false;<?php echo $croppie1['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
-    <button class="btn btn-primary btn-lg" onclick="closeWindowAfterImageSave=true;<?php echo $croppie1['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save And Close'); ?></button>
-</div>
+<button class="btn btn-success btn-lg btn-block" onclick="closeWindowAfterImageSave=true;<?php echo $croppie1['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
+    
 <script>
     var closeWindowAfterImageSave = false;
     function saveVideo(image) {

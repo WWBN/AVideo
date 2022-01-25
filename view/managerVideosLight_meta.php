@@ -19,10 +19,7 @@
     </div>
 </div>
 <hr>
-<div class="btn-group btn-group-justified">
-    <button class="btn btn-success btn-lg" onclick="saveVideo(false);"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
-    <button class="btn btn-primary btn-lg" onclick="saveVideo(true);"><i class="fas fa-save"></i> <?php echo __('Save And Close'); ?></button>
-</div>
+<button class="btn btn-success btn-lg btn-block" onclick="saveVideo(true);"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
 <script>
     function saveVideo(close) {
         modal.showPleaseWait();
