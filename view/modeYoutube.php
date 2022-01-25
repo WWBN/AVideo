@@ -276,7 +276,7 @@ if (!empty($evideo)) {
 
 
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-    var_dump($_GET['v'], $videos_id);exit;
+
 // video not found
 if (empty($video)) {
     if(!empty($_GET['v'])){
