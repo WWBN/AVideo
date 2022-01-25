@@ -123,16 +123,16 @@ if (!empty($_GET['siteRedirectUri'])) {
                             <!-- Button -->
                             <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>">
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-primary btn-block" ><i class="fas fa-user-plus"></i> <?php echo __("Sign Up"); ?></button>
-                                </div>
-                            </div>
-                            <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>">
-                                <div class="col-md-12">
-                                    <a href="<?php echo $signInLink; ?>" class="btn btn-success btn-block" ><i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?></a>
+                                    <button type="submit" class="btn btn-primary btn-block btn-lg" ><i class="fas fa-user-plus"></i> <?php echo __("Sign Up"); ?></button>
                                 </div>
                             </div>
                         </fieldset>
                     </form>
+                    <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>">
+                        <div class="col-md-12">
+                            <a href="<?php echo $signInLink; ?>" class="btn btn-success btn-block" ><i class="fas fa-sign-in-alt"></i> <?php echo __("Sign In"); ?></a>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-2"></div>
             </div>
