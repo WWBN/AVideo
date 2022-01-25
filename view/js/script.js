@@ -1317,6 +1317,7 @@ function avideoModalIframeFull(url) {
 }
 
 var avideoModalIframeFullScreenOriginalURL = false;
+var avideoModalIframeWithClassNameTimeout;
 function avideoModalIframeWithClassName(url, className, updateURL) {
     showURL = document.location.href;
     if (updateURL) {
@@ -1351,15 +1352,14 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
             avideoModalIframeFullScreenOriginalURL = false;
         }
     });
-    setTimeout(function () {
-        if ($('#avideoModalIframeDiv iframe').contents().find('body').children().length > 0) {
-            // is loaded
-            avideoModalIframeRemove();
-        } else {
-            // is not loaded
-            url = addGetParam(url, 'avideoIframe', 0);
-            document.location = url;
-        }
+    $('#avideoModalIframeDiv iframe').load(function(){
+        clearTimout(avideoModalIframeWithClassNameTimeout);
+        avideoModalIframeRemove();
+    });
+    avideoModalIframeWithClassNameTimeout = setTimeout(function () {
+        // is not loaded
+        url = addGetParam(url, 'avideoIframe', 0);
+        document.location = url;
     }, 5000);
 }
 
