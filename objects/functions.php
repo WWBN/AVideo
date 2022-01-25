@@ -2541,6 +2541,7 @@ function getUpdatesFilesArray()
             }
         }
     }
+    sort($updateFiles, SORT_NUMERIC); 
     return $updateFiles;
 }
 
