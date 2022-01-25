@@ -15,35 +15,39 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     header('Content-Type: application/json');
     if (!empty($user->getEmail())) {
         $recoverPass = $user->setRecoverPass();
-        if (!empty($_POST['captcha']) && $user->save()) {
-            require_once 'captcha.php';
-            $valid = Captcha::validation($_POST['captcha']);
-            if ($valid) {
-                //Create a new PHPMailer instance
-                $mail = new \PHPMailer\PHPMailer\PHPMailer();
-                setSiteSendMessage($mail);
-                //Set who the message is to be sent from
-                $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
-                //Set who the message is to be sent to
-                $mail->addAddress($user->getEmail());
-                //Set the subject line
-                $mail->Subject = 'Recover Pass from ' . $config->getWebSiteTitle();
+        if (empty($_POST['captcha'])) {
+            $obj->error = __("Captcha is empty");
+        } else {
+            if ($user->save()) {
+                require_once 'captcha.php';
+                $valid = Captcha::validation($_POST['captcha']);
+                if ($valid) {
+                    //Create a new PHPMailer instance
+                    $mail = new \PHPMailer\PHPMailer\PHPMailer();
+                    setSiteSendMessage($mail);
+                    //Set who the message is to be sent from
+                    $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
+                    //Set who the message is to be sent to
+                    $mail->addAddress($user->getEmail());
+                    //Set the subject line
+                    $mail->Subject = 'Recover Pass from ' . $config->getWebSiteTitle();
 
-                $msg = __("You asked for a recover link, click on the provided link") . " <a href='{$global['webSiteRootURL']}recoverPass?user={$_POST['user']}&recoverpass={$recoverPass}'>" . __("Reset password") . "</a>";
+                    $msg = __("You asked for a recover link, click on the provided link") . " <a href='{$global['webSiteRootURL']}recoverPass?user={$_POST['user']}&recoverpass={$recoverPass}'>" . __("Reset password") . "</a>";
 
-                $mail->msgHTML($msg);
+                    $mail->msgHTML($msg);
 
-                //send the message, check for errors
-                if (!$mail->send()) {
-                    $obj->error = __("Message could not be sent") . " " . $mail->ErrorInfo;
+                    //send the message, check for errors
+                    if (!$mail->send()) {
+                        $obj->error = __("Message could not be sent") . " " . $mail->ErrorInfo;
+                    } else {
+                        $obj->success = __("Message sent");
+                    }
                 } else {
-                    $obj->success = __("Message sent");
+                    $obj->error = __("Your code is not valid");
                 }
             } else {
-                $obj->error = __("Your code is not valid");
+                $obj->error = __("Recover password could not be saved!");
             }
-        } else {
-            $obj->error = __("Recover password could not be saved!");
         }
     } else {
         $obj->error = __("You do not have an e-mail");
@@ -54,8 +58,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     <!DOCTYPE html>
     <html lang="<?php echo $_SESSION['language']; ?>">
         <head>
-            <?php
-            echo getHTMLTitle(__("Recover Password")); ?>
+            <?php echo getHTMLTitle(__("Recover Password")); ?>
             <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         </head>
 
@@ -63,13 +66,13 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
             <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
             <div class="container">
-    <?php
-    if ($user->getRecoverPass() != $_GET['recoverpass']) {
-        ?>
+                <?php
+                if ($user->getRecoverPass() != $_GET['recoverpass']) {
+                    ?>
                     <div class="alert alert-danger"><?php echo __("The recover pass does not match!"); ?></div>
                     <?php
-    } else {
-        ?>
+                } else {
+                    ?>
                     <form class="well form-horizontal" action=" " method="post"  id="recoverPassForm">
                         <fieldset>
 
@@ -98,14 +101,14 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
-        <?php getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password")); ?>
+                                    <?php getInputPassword("newPassword", 'class="form-control" required="required" autocomplete="off"', __("New Password")); ?>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
                                 <div class="col-md-8 inputGroupContainer">
-        <?php getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password")); ?>
+                                    <?php getInputPassword("newPasswordConfirm", 'class="form-control" required="required" autocomplete="off"', __("Confirm New Password")); ?>
                                 </div>
                             </div>
 
@@ -120,13 +123,13 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 
                         </fieldset>
                     </form>
-        <?php
-    } ?>
+                    <?php }
+                ?>
             </div>
 
         </div><!--/.container-->
 
-    <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
+        <?php include $global['systemRootPath'] . 'view/include/footer.php'; ?>
 
         <script>
             $(document).ready(function () {

@@ -56,10 +56,11 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
     <div class="hidden-xs col-sm-2 col-md-3 "></div>
     <div class="col-xs-12 col-sm-8  col-md-6">
 
-        <div class="panel panel-default <?php echo getCSSAnimationClassAndStyle();getCSSAnimationClassAndStyleAddWait(0.5); ?>">
+        <div class="panel panel-default <?php echo getCSSAnimationClassAndStyle();
+getCSSAnimationClassAndStyleAddWait(0.5); ?>">
             <div class="panel-heading">
                 <h2 class="<?php echo getCSSAnimationClassAndStyle(); ?>">
-                    <?php echo __('Welcome back!'); ?>
+<?php echo __('Welcome back!'); ?>
                 </h2>
                 <div class="">
                     <?php
@@ -95,13 +96,11 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
                             <label class="col-sm-4 control-label"><?php echo __("Password"); ?></label>
                             <div class="col-sm-8 inputGroupContainer">
-                                <?php
-                                getInputPassword("inputPassword"); ?>
+                                <?php getInputPassword("inputPassword"); ?>
                             </div>
                         </div>
 
-                        <?php
-                        $captcha = User::getCaptchaForm(); ?>
+                        <?php $captcha = User::getCaptchaForm(); ?>
                         <div class="form-group captcha" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
                             <?php echo $captcha; ?>
                         </div>
@@ -127,9 +126,9 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                                 <?php
                                 if (empty($advancedCustomUser->disableNativeSignUp)) {
                                     ?>
-                                    <a href="#" class="btn btn-default btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>"  id="forgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></a>
-                                    <?php
-                                } ?>
+                                    <button type="button" class="btn btn-default btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>"  id="forgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></button>
+                                    <?php }
+                                ?>
                             </div>
                         </div>
 
@@ -204,7 +203,8 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
             } elseif (is_array($value)) {
                 $loginCount++;
                 $uid = uniqid();
-                $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=" . ($_GET['redirectUri'] ?? ""); ?>
+                $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=" . ($_GET['redirectUri'] ?? "");
+                ?>
                 <div class="col-md-<?php echo $columSize; ?> <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>" >
                     <button id="login<?php echo $uid; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></button>
                 </div>
@@ -252,10 +252,10 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
     $(document).ready(function () {
 <?php
 if (!empty($_GET['error'])) {
-            ?>
+    ?>
             avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo addslashes($_GET['error']); ?>", "error");
     <?php
-        }
+}
 ?>
         $('#loginForm').submit(function (evt) {
             evt.preventDefault();
@@ -311,45 +311,46 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
             });
         });
         $('#forgotPassword').click(function () {
-            var user = $('#inputUser').val();
-            if (!user) {
-                avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("You need to inform what is your user!"); ?>", "error");
-                return false;
-            }
-            var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?<?php echo time(); ?>" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText2">';
-            var span = document.createElement("span");
-            span.innerHTML = "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha;
-            swal({
-                title: "<?php echo __("Are you sure?"); ?>",
-                content: span,
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                    .then(function (willDelete) {
-                        if (willDelete) {
-
-                            modal.showPleaseWait();
-                            $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPass.php',
-                                data: {"user": $('#inputUser').val(), "captcha": $('#captchaText2').val()},
-                                type: 'post',
-                                success: function (response) {
-                                    if (response.error) {
-                                        avideoAlert("<?php echo __("Error"); ?>", response.error, "error");
-                                    } else {
-                                        avideoAlert("<?php echo __("E-mail sent"); ?>", "<?php echo __("We sent you an e-mail with instructions"); ?>", "success");
-                                    }
-                                    modal.hidePleaseWait();
-                                }
-                            });
-                        }
-                    });
-            $('#btnReloadCapcha').click(function () {
-                $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
-                $('#captchaText').val('');
-            });
+            _forgotPass();
         });
     });
-
+    function _forgotPass() {
+        var user = $('#inputUser').val();
+        if (!user) {
+            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("You need to inform what is your user!"); ?>", "error");
+            return false;
+        }
+        var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?<?php echo time(); ?>" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText2">';
+        var span = document.createElement("span");
+        span.innerHTML = "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha;
+        swal({
+            title: "<?php echo __("Are you sure?"); ?>",
+            content: span,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(function (willDelete) {
+            console.log('forgotPassword', willDelete);
+            if (willDelete) {
+                modal.showPleaseWait();
+                $.ajax({
+                    url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPass.php',
+                    data: {"user": $('#inputUser').val(), "captcha": $('#captchaText2').val()},
+                    type: 'post',
+                    success: function (response) {
+                        if (response.error) {
+                            avideoAlert("<?php echo __("Error"); ?>", response.error, "error");
+                        } else {
+                            avideoAlert("<?php echo __("E-mail sent"); ?>", "<?php echo __("We sent you an e-mail with instructions"); ?>", "success");
+                        }
+                        modal.hidePleaseWait();
+                    }
+                });
+            }
+        });
+        $('#btnReloadCapcha').click(function () {
+            $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
+            $('#captchaText').val('');
+        });
+    }
 </script>
