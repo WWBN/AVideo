@@ -1,4 +1,13 @@
 <style>
+    <?php
+    if (empty($advancedCustom->hideEditAdvancedFromVideosManager)) {
+        ?>
+            .command-edit{
+                display: none;
+            }
+        <?php
+    }
+    ?>
     .bootgrid-table td {
         -ms-text-overflow: initial;
         -o-text-overflow: initial;

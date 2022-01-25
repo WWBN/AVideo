@@ -26,6 +26,17 @@ $categories_id = $video->getCategories_id();
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <style>
+            <?php
+            if (empty($advancedCustom->hideEditAdvancedFromVideosManager)) {
+                ?>
+                    .command-edit{
+                        display: none;
+                    }
+                <?php
+            }
+            ?>
+        </style>
     </head>
     <body>
         <?php
@@ -49,7 +60,7 @@ $categories_id = $video->getCategories_id();
                             }
                             ?>
                         </a>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?avideoIframe=1&video_id=<?php echo $videos_id; ?>" class="btn btn-primary">
+                        <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?avideoIframe=1&video_id=<?php echo $videos_id; ?>" class="btn btn-primary command-edit">
                             <i class="far fa-edit"></i> <?php echo __('Advanced'); ?>
                         </a>
                     </div>
