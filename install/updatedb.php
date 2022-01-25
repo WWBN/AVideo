@@ -36,7 +36,7 @@ foreach ($files1 as $value) {
 if (empty($updateFiles)) {
     echo "No new update files found on ({$updateDir})" . PHP_EOL;
 } else {
-    echo "Found ".count($updateDir)." updats" . PHP_EOL;
+    echo "Found ".count($updateFiles)." updaets" . PHP_EOL;
 }
 
 foreach ($updateFiles as $value) {
