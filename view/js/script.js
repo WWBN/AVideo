@@ -1352,15 +1352,17 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
             avideoModalIframeFullScreenOriginalURL = false;
         }
     });
-    $('body > div.swal-overlay iframe').load(function(){
-        clearTimout(avideoModalIframeWithClassNameTimeout);
-        avideoModalIframeRemove();
-    });
-    avideoModalIframeWithClassNameTimeout = setTimeout(function () {
-        // is not loaded
-        url = addGetParam(url, 'avideoIframe', 0);
-        document.location = url;
-    }, 5000);
+    setTimeout(function () {
+        $('body > div.swal-overlay iframe').load(function(){
+            clearTimout(avideoModalIframeWithClassNameTimeout);
+            avideoModalIframeRemove();
+        });
+        avideoModalIframeWithClassNameTimeout = setTimeout(function () {
+            // is not loaded
+            url = addGetParam(url, 'avideoIframe', 0);
+            document.location = url;
+        }, 5000);
+    }, 1000);
 }
 
 function checkIframeLoaded(id) {
