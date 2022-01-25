@@ -28,10 +28,10 @@ $categories_id = $video->getCategories_id();
         ?>
         <style>
             <?php
-            if (empty($advancedCustom->hideEditAdvancedFromVideosManager)) {
+            if (!empty($advancedCustom->hideEditAdvancedFromVideosManager)) {
                 ?>
                     .command-edit{
-                        display: none;
+                        display: none !important;
                     }
                 <?php
             }
