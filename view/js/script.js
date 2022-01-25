@@ -1357,6 +1357,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
             avideoModalIframeRemove();
         } else {
             // is not loaded
+            url = addGetParam(url, 'avideoIframe', 0);
             document.location = url;
         }
     }, 5000);
