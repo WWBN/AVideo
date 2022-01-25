@@ -4839,7 +4839,7 @@ function getSelfURI()
     if(preg_match('/^https:/i', $global['webSiteRootURL'])){
         $http = 'https';
     }
-    var_dump($http);exit;
+    
     $queryStringWithoutError = preg_replace("/error=[^&]*/", "", @$_SERVER['QUERY_STRING']);
     $phpselfWithoutIndex = preg_replace("/index.php/", "", @$_SERVER['PHP_SELF']);
     $url = $http . "://$_SERVER[HTTP_HOST]$phpselfWithoutIndex?$queryStringWithoutError";
