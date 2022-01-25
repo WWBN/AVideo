@@ -628,7 +628,7 @@ function nl2br(str, is_xhtml) {
 function inIframe() {
     var url = new URL(location.href);
     var avideoIframe = url.searchParams.get("avideoIframe");
-    if (avideoIframe && avideoIframe !== 0) {
+    if (avideoIframe && avideoIframe !== '0' && avideoIframe !== 0) {
         return true;
     }
     try {
