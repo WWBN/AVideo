@@ -1353,7 +1353,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         }
     });
     setTimeout(function () {
-        $('body > div.swal-overlay iframe').load(function(){
+        $('body > div.swal-overlay iframe').load(function () {
             clearTimout(avideoModalIframeWithClassNameTimeout);
             avideoModalIframeRemove();
         });
@@ -1371,15 +1371,15 @@ function checkIframeLoaded(id) {
     var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
     // Check if loading is complete
-    if (  iframeDoc.readyState  == 'complete' ) {
+    if (iframeDoc.readyState == 'complete') {
         //iframe.contentWindow.alert("Hello");
-        iframe.contentWindow.onload = function(){
+        iframe.contentWindow.onload = function () {
             alert("I am loaded");
         };
         // The loading is complete, call the function we want executed once the iframe is loaded
         afterLoading();
         return;
-    } 
+    }
 
     // If we are here, it is not loaded. Set things up so we check   the status again in 100 milliseconds
     window.setTimeout(checkIframeLoaded, 100);
@@ -1796,7 +1796,7 @@ function startTimer(duration, selector, prepend) {
             //$(selector).text("EXPIRED");
             startTimerTo(duration * -1, selector);
         } else {
-            $(selector).html(prepend+text);
+            $(selector).html(prepend + text);
             duration--;
         }
 
@@ -1873,7 +1873,7 @@ function startTimerToDate(toDate, selector, useDBDate) {
     //console.log('startTimerToDate toDate', toDate);
     //console.log('startTimerToDate selector', selector);
     //console.log('startTimerToDate seconds', seconds);
-    return startTimer(seconds, selector, toDate.toLocaleString()+'<br>');
+    return startTimer(seconds, selector, toDate.toLocaleString() + '<br>');
 }
 
 var _timerIndex = 0;
@@ -2161,72 +2161,73 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
                 if (response.msg) {
                     avideoAlertInfo(response.msg);
                 }
-                avideoToastInfo('Download start');
-                var loaded = 0;
-                var contentLength = 0;
+                if (isMobile()) {
+                    document.location = response.url
+                } else {
+                    avideoToastInfo('Download start');
+                    var loaded = 0;
+                    var contentLength = 0;
 
-                fetch(response.url)
-                        .then(response => {
-                            avideoToastSuccess('Download Start');
-                            const contentEncoding = response.headers.get('content-encoding');
-                            const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
-                            if (contentLength === null) {
-                                throw Error('Response size header unavailable');
-                            }
+                    fetch(response.url)
+                            .then(response => {
+                                avideoToastSuccess('Download Start');
+                                const contentEncoding = response.headers.get('content-encoding');
+                                const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
+                                if (contentLength === null) {
+                                    throw Error('Response size header unavailable');
+                                }
 
-                            const total = parseInt(contentLength, 10);
-                            let loaded = 0;
+                                const total = parseInt(contentLength, 10);
+                                let loaded = 0;
 
-                            return new Response(
-                                    new ReadableStream({
-                                        start(controller) {
-                                            const reader = response.body.getReader();
+                                return new Response(
+                                        new ReadableStream({
+                                            start(controller) {
+                                                const reader = response.body.getReader();
 
-                                            read();
+                                                read();
 
-                                            function read() {
-                                                reader.read().then(({done, value}) => {
-                                                    if (done) {
-                                                        controller.close();
-                                                        return;
-                                                    }
-                                                    loaded += value.byteLength;
-                                                    var percentageLoaded = Math.round(loaded / total * 100);
-                                                    //console.log(percentageLoaded);
-                                                    modal.setProgress(percentageLoaded);
-                                                    modal.setText('Downloading ... '+percentageLoaded+'%');
-                                                    controller.enqueue(value);
-                                                    read();
-                                                }).catch(error => {
-                                                    console.error(error);
-                                                    controller.error(error)
-                                                })
+                                                function read() {
+                                                    reader.read().then(({done, value}) => {
+                                                        if (done) {
+                                                            controller.close();
+                                                            return;
+                                                        }
+                                                        loaded += value.byteLength;
+                                                        var percentageLoaded = Math.round(loaded / total * 100);
+                                                        //console.log(percentageLoaded);
+                                                        modal.setProgress(percentageLoaded);
+                                                        modal.setText('Downloading ... ' + percentageLoaded + '%');
+                                                        controller.enqueue(value);
+                                                        read();
+                                                    }).catch(error => {
+                                                        console.error(error);
+                                                        controller.error(error)
+                                                    })
+                                                }
                                             }
-                                        }
-                                    })
-                                    );
-                        })
-                        .then(response => response.blob())
-                        .then(blob => {
-                            const url = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.style.display = 'none';
-                            a.href = url;
-                            // the filename you want
-                            a.download = filename;
-                            document.body.appendChild(a);
-                            a.click();
-                            window.URL.revokeObjectURL(url);
-                            modal.hidePleaseWait();
-                            avideoToastSuccess('Download complete');
-                        })
-                        .catch(function (err) {
-                            avideoAlertError('Error on download ');
-                            console.log(err)
-                        });
-
-
-
+                                        })
+                                        );
+                            })
+                            .then(response => response.blob())
+                            .then(blob => {
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.style.display = 'none';
+                                a.href = url;
+                                // the filename you want
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                                window.URL.revokeObjectURL(url);
+                                modal.hidePleaseWait();
+                                avideoToastSuccess('Download complete');
+                            })
+                            .catch(function (err) {
+                                avideoAlertError('Error on download ');
+                                console.log(err)
+                            });
+                }
             } else {
                 avideoResponse(response);
                 modal.hidePleaseWait();
