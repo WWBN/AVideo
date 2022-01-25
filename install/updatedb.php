@@ -49,10 +49,15 @@ foreach ($updateFiles as $value) {
         }
         $templine .= $line;
         if (substr(trim($line), -1, 1) == ';') {
-            if (!$global['mysqli']->query($templine)) {
-                echo('Error performing query ' . $templine . ': ' . $global['mysqli']->error . PHP_EOL);
-                //exit;
-            }
+            try {
+                if (!$global['mysqli']->query($templine)) {
+                    echo('Error performing query ' . $templine . ': ' . $global['mysqli']->error . PHP_EOL);
+                    //exit;
+                }
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString(). PHP_EOL;
+            } 
+
             $templine = '';
         }
     }
