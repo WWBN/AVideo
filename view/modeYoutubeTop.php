@@ -12,6 +12,8 @@
                 </style>
                 <?php
                 echo $getAdsLeaderBoardTop;
+            }else{
+                echo "<!-- getAdsLeaderBoardTop is empty -->";
             }
             ?>
         </center>
