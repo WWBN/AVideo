@@ -72,6 +72,10 @@ if (!empty($_GET['type'])) {
     } else {
         $login = AVideoPlugin::getLogin();
         foreach ($login as $value) {
+            if(!is_object($value['loginObject'])){
+                _error_log('Error on getLogin: '. json_encode($value), AVideoLog::$ERROR);
+                continue;
+            }
             $obj = $value['loginObject']->getDataObject();
             if ($value['parameters']->type === $_GET['type']) {
                 $id = $obj->id;

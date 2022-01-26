@@ -3461,6 +3461,8 @@ function getAdsLeaderBoardTop()
         } else {
             return ADs::giveGoogleATimeout($ad->leaderBoardTop->value);
         }
+    }else{
+        return '<!-- ADs plugin disabled -->';
     }
 }
 

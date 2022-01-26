@@ -580,7 +580,7 @@ class AVideoPlugin
                 if (is_string($l) && file_exists($l)) { // it is a login form
                     $logins[] = $l;
                 } elseif (!empty($l->type)) { // it is a hybridauth
-                    $logins[] = ['parameters' => $l, 'loginObject' => $p];
+                    $logins[] = ['parameters' => $l, 'loginObject' => $p, 'dirName' => $value['dirName']];
                 }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
