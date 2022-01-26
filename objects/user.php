@@ -2075,7 +2075,7 @@ if (typeof gtag !== \"function\") {
             $msg .= "<br><br>" . __($advancedCustomUser->verificationMailTextLine1);
             $msg .= "<br><br>" . sprintf(__($advancedCustomUser->verificationMailTextLine2), $webSiteTitle);
             $msg .= "<br><br>" . sprintf(__($advancedCustomUser->verificationMailTextLine3), $webSiteTitle);
-            $msg .= "<br><br>" . sprintf(__($advancedCustomUser->verificationMailTextLine4));
+            $msg .= "<br><br>" . __($advancedCustomUser->verificationMailTextLine4);
             $msg .= "<br><br>" . " <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}'>" . __("Verify") . "</a>";
 
             $mail->msgHTML($msg);
