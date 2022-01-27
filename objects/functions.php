@@ -1584,7 +1584,9 @@ function getSources($fileName, $returnArray = false, $try = 0)
 function getimgsize($file_src)
 {
     global $_getimagesize;
-
+    if(empty($file_src) || !file_exists($file_src)){
+        return [0, 0];
+    }
     if (empty($_getimagesize)) {
         $_getimagesize = [];
     }
