@@ -144,10 +144,10 @@ abstract class ObjectYPT implements ObjectInterface
         return $countRow;
     }
 
-    public static function getSqlFromPost($keyPrefix = "")
+    public static function getSqlFromPost($keyPrefix = "", $searchTableAlias='')
     {
         global $global;
-        $sql = self::getSqlSearchFromPost();
+        $sql = self::getSqlSearchFromPost($searchTableAlias);
 
         if (empty($_POST['sort']) && !empty($_GET['order'][0]['dir'])) {
             $index = intval($_GET['order'][0]['column']);

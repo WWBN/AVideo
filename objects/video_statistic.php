@@ -558,7 +558,7 @@ class VideoStatistic extends ObjectYPT
 
         $sql = "SELECT u.*, vs.* FROM  " . static::getTableName() . " vs LEFT JOIN users u ON vs.users_id = u.id WHERE videos_id=$videos_id ";
 
-        $sql .= self::getSqlFromPost('vs');
+        $sql .= self::getSqlFromPost('','vs');
         //var_dump($_POST['searchPhrase'], $_GET['search']['value'], $sql);exit;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
