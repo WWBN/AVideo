@@ -201,7 +201,7 @@ TimeLogEnd($timeLog, __LINE__);
 $object->isCaptchaNeed = User::isCaptchaNeed();
 if ($resp === User::USER_NOT_VERIFIED) {
     _error_log("login.json.php User not verified");
-    $object->error = __("Your user is not verified, we sent you a new e-mail");
+    $object->error = __("Please verify your email address");
     die(json_encode($object));
 }
 
