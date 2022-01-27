@@ -2045,7 +2045,7 @@ if (typeof gtag !== \"function\") {
     public static function sendVerificationLink($users_id) {
         global $global, $advancedCustomUser;
         //Only send the verification email each 30 minutes
-        if (!empty($_SESSION["sendVerificationLink"][$users_id]) && time() - $_SESSION["sendVerificationLink"][$users_id] > 1800) {
+        if (!empty($_SESSION["sendVerificationLink"][$users_id]) && time() - $_SESSION["sendVerificationLink"][$users_id] < 1800) {
             _error_log("sendVerificationLink: Email already sent, we will wait 30 min  {$users_id}");
             return true;
         }
