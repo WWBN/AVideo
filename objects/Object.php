@@ -217,33 +217,35 @@ abstract class ObjectYPT implements ObjectInterface
         return $sql;
     }
 
-    public static function getSqlDateFilter()
+    public static function getSqlDateFilter($searchTableAlias='')
     {
         $sql = '';
         $created_year = intval(@$_REQUEST['created_year']);
         $created_month = intval(@$_REQUEST['created_month']);
         $modified_year = intval(@$_REQUEST['modified_year']);
         $modified_month = intval(@$_REQUEST['modified_month']);
-
+        if(!empty($searchTableAlias)){
+            $searchTableAlias = "`$searchTableAlias`.";
+        }
         if (!empty($created_year)) {
-            $sql .= " AND YEAR(created) = $created_year ";
+            $sql .= " AND YEAR({$searchTableAlias}created) = $created_year ";
         }
         if (!empty($created_month)) {
-            $sql .= " AND MONTH(created) = $created_month ";
+            $sql .= " AND MONTH({$searchTableAlias}created) = $created_month ";
         }
         if (!empty($modified_year)) {
-            $sql .= " AND YEAR(modified) = $modified_year ";
+            $sql .= " AND YEAR({$searchTableAlias}modified) = $modified_year ";
         }
         if (!empty($modified_month)) {
-            $sql .= " AND MONTH(modified) = $modified_month ";
+            $sql .= " AND MONTH({$searchTableAlias}modified) = $modified_month ";
         }
 
         return $sql;
     }
 
-    public static function getSqlSearchFromPost()
+    public static function getSqlSearchFromPost($searchTableAlias='')
     {
-        $sql = self::getSqlDateFilter();
+        $sql = self::getSqlDateFilter($searchTableAlias);
         if (!empty($_POST['searchPhrase'])) {
             $_GET['q'] = $_POST['searchPhrase'];
         } elseif (!empty($_GET['search']['value'])) {
