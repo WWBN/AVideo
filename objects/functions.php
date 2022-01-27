@@ -683,7 +683,7 @@ function createEmailMessageFromTemplate($message)
     global $global, $config;
     $text = file_get_contents("{$global['systemRootPath']}view/include/emailTemplate.html");
     $siteTitle = $config->getWebSiteTitle();
-    $logo = "<img src=\"" . getCDN() . $config->getLogo(true) . "\" alt=\"{$siteTitle}\">";
+    $logo = "<img src=\"" . getURL($config->getLogo()) . "\" alt=\"{$siteTitle}\"/>";
 
     $words = [$logo, $message, $siteTitle];
     $replace = ['{logo}', '{message}', '{siteTitle}'];
