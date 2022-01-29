@@ -17,6 +17,19 @@ $path_parts = pathinfo($_GET['file']);
 $file = $path_parts['basename'];
 //var_dump($_GET['file'], $path_parts, $file);exit;
 
+if ($file == "test.mp4") {
+    $path = "{$global['systemRootPath']}view/xsendfile.html";
+    header('Content-Transfer-Encoding: binary');
+    header('Connection: Keep-Alive');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Pragma: public');
+    header('Content-Type: text/html');
+    header('Content-Length: ' . filesize($path));
+    header("X-Sendfile: {$path}");
+    exit;
+}
+
 if ($file == "X-Sendfile.mp4") {
     $path = "{$global['systemRootPath']}plugin/SecureVideosDirectory/test.json";
     header('Content-Transfer-Encoding: binary');
