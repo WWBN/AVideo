@@ -2251,6 +2251,14 @@ class Live extends PluginAbstract {
     }
 
     public static function getPoster($users_id, $live_servers_id, $key = '') {
+        global $_getPoster;
+        if(!isset($_getPoster)){
+            $_getPoster = array();
+        }
+        $index = "$users_id, $live_servers_id, $key";
+        if(isset($_getPoster[$index])){
+            return $_getPoster[$index];
+        }
         _error_log("getPoster($users_id, $live_servers_id, $key)");
         $lh = LiveTransmitionHistory::getActiveLiveFromUser($users_id, $live_servers_id, $key);
         $live_index = self::getLiveIndexFromKey($lh['key']);
@@ -2260,22 +2268,25 @@ class Live extends PluginAbstract {
         }
         if (empty($lh)) {
             _error_log("getPoster empty activity");
-            return $poster;
+            $_getPoster[$index] = $poster;
+            return $_getPoster[$index];
         }
         $parameters = self::getLiveParametersFromKey($lh['key']);
         $live_index = $parameters['live_index'];
         $playlists_id_live = $parameters['playlists_id_live'];
         if (self::isLiveAndIsReadyFromKey($lh['key'], $lh['live_servers_id'])) {
-            return self::getLivePosterImageRelativePath($users_id, $live_servers_id, $playlists_id_live, $live_index);
+            $_getPoster[$index] = self::getLivePosterImageRelativePath($users_id, $live_servers_id, $playlists_id_live, $live_index);
             _error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' is live and ready');
+            return $_getPoster[$index];
         } else {
             if (self::isKeyLiveInStats($lh['key'], $lh['live_servers_id'])) {
                 //_error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' key is in the stats');
-                return self::getPosterImage($users_id, $live_servers_id, $live_index);
+                $_getPoster[$index] = self::getPosterImage($users_id, $live_servers_id, $live_index);
             } else {
                 //_error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' key is NOT in the stats');
-                return $poster;
+                $_getPoster[$index] = $poster;
             }
+            return $_getPoster[$index];
         }
     }
 
