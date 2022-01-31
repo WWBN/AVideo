@@ -32,7 +32,7 @@ if (empty($_GET['version'])) {
     $obj->videos = [];
     //$_GET['modified'] = "2018-03-13 15:46:57";
     $_REQUEST['rowCount'] = 100;
-    $videos = Video::getAllVideos();
+    $videos = Video::getAllVideos('', false, true, [], false, true, true, false, null);
 
     foreach ($videos as $key => $value) {
         $vid = new stdClass();
@@ -45,7 +45,8 @@ if (empty($_GET['version'])) {
         $vid->dislikes = $value['dislikes'];
         $vid->modified = $value['videoModified'];
         $vid->duration = $value['duration'];
-        $vid->description = $value['description'];
+        //$vid->description = $value['description'];
+        $vid->description = '';
         $vid->type = $value['type'];
         $vid->image_url = Video::getImageFromFilename($value['filename']);
         $obj->videos[] = $vid;
