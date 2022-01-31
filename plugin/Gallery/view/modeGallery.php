@@ -18,6 +18,8 @@ $leaderBoardTop = getAdsLeaderBoardTop();
             <?php
             if(!empty($leaderBoardTop)){
                 echo '<div class="row text-center" style="padding: 10px;">'.$leaderBoardTop.'</div>';
+            }else{
+                echo '<!-- getAdsLeaderBoardTop is empty -->';
             }
             ?>
             <div class="col-lg-10 col-lg-offset-1">
