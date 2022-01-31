@@ -51,7 +51,7 @@ if (empty($_GET['version'])) {
         $obj->videos[] = $vid;
     }
 }
-$obj->totalVideosResponse = count($obj->videos);
+$obj->totalVideosResponse = is_array($obj->videos)?count($obj->videos):0;
 $json = json_encode($obj);
 file_put_contents($cachedFile, $json);
 echo $json;
