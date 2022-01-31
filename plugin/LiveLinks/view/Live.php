@@ -67,6 +67,9 @@ $poster = $img = LiveLinks::getImage($t['id']);
 $imgw = 400;
 $imgh = 255;
 
+if(isAVideoMobileApp()){
+   $_GET['embed'] = 1; 
+}
 
 if (!empty($_GET['embed'])) {
     $video['videoLink'] = LiveLinks::getSourceLink($t['id']);
