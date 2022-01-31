@@ -465,15 +465,16 @@ class CustomizeUser extends PluginAbstract
         global $global;
         $obj = $this->getDataObject();
         $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
-        if (!isBot() && !empty($obj->userMustBeLoggedIn) &&
+        if (empty($global['ignoreUserMustBeLoggedIn']) && !isBot() && !empty($obj->userMustBeLoggedIn) &&
                 ($thisScriptFile["basename"] === 'index.php' ||
                 $thisScriptFile["basename"] === "channel.php" ||
                 $thisScriptFile["basename"] === "channels.php" ||
                 $thisScriptFile["basename"] === "trending.php") &&
                 !User::isLogged()) {
             _error_log("CustomizeUser::userMustBeLoggedIn basename: {$thisScriptFile["basename"]}");
-            $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-            header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($actual_link));
+            gotToLoginAndComeBackHere('');
+            //$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            //header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode($actual_link));
             exit;
         }
     }
