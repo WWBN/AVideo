@@ -61,7 +61,7 @@ if (!empty($_GET['siteRedirectUri'])) {
                                 </div>
                             </div>
                             <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>">
-                                <label class="col-sm-4 control-label hidden-xs"><?php echo __("User"); ?></label>
+                                <label class="col-sm-4 control-label hidden-xs"><?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? __("E-mail") : __("User"); ?></label>
                                 <div class="col-sm-8 inputGroupContainer">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>

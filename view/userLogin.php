@@ -83,7 +83,7 @@ getCSSAnimationClassAndStyleAddWait(0.5); ?>">
                     <form class="form-horizontal"  id="loginForm">
                         <input type="hidden" name="redirectUri" value=""/>
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
-                            <label class="col-sm-4 control-label"><?php echo __("User"); ?></label>
+                            <label class="col-sm-4 control-label"><?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? __("E-mail") : __("User"); ?>; ?></label>
                             <div class="col-sm-8 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>

@@ -22,7 +22,7 @@
     </div>
 
     <div class="form-group">
-        <label class="col-md-4 control-label"><?php echo __("User"); ?></label>
+        <label class="col-md-4 control-label"><?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? __("E-mail") : __("User"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
