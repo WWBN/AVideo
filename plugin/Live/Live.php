@@ -1701,6 +1701,7 @@ class Live extends PluginAbstract {
         $obj->disableGif = $p->getDisableGifThumbs();
 
         foreach ($lifeStream as $value) {
+            $notListed = false;
             if (!empty($value->name)) {
                 $row = LiveTransmition::keyExists($value->name);
                 //var_dump($row);exit;
@@ -1732,6 +1733,9 @@ class Live extends PluginAbstract {
                         $title .= " (private live)";
                     }
                 } elseif (empty($row) || empty($row['public'])) {
+                    if(empty($row) || (!User::isAdmin() && User::getId()!=$row['users_id']) ){
+                        $notListed = true;
+                    }
                     $title .= __(" (set to not be listed)");
                 } elseif ($u->getStatus() !== 'a') {
                     $obj->hidden_applications[] = [
@@ -1800,8 +1804,11 @@ class Live extends PluginAbstract {
                 $app = self::getLiveApplicationModelArray($row['users_id'], $title, $link, $imgJPG, $imgGIF, 'live', $LiveUsersLabelLive, $uid, '', $uid, 'live_' . $value->name);
                 $app['live_servers_id'] = $live_servers_id;
                 $app['key'] = $value->name;
-
-                $obj->applications[] = $app;
+                if($notListed){
+                    $obj->hidden_applications[] = $app;
+                }else{
+                    $obj->applications[] = $app;
+                }
 
                 if ($value->name === $obj->name) {
                     $obj->error = property_exists($value, 'publishing') ? false : true;
