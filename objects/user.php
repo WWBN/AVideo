@@ -754,7 +754,7 @@ if (typeof gtag !== \"function\") {
         }
 
         // check if the video is not public
-        $rows = UserGroups::getVideoGroups($videos_id);
+        $rows = UserGroups::getVideosAndCategoriesUserGroups($videos_id);
 
         if (empty($rows)) {
             // check if any plugin restrict access to this video

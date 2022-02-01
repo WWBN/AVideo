@@ -391,7 +391,7 @@ class UserGroups
         }
 
         if ($mergeWithCurrentUserGroups) {
-            $current_user_groups = self::getVideoGroups($videos_id);
+            $current_user_groups = self::getVideosAndCategoriesUserGroups($videos_id);
             foreach ($current_user_groups as $value) {
                 if (!in_array($value['id'], $array_groups_id)) {
                     $array_groups_id[] = $value['id'];
@@ -411,23 +411,11 @@ class UserGroups
         return true;
     }
 
-    public static function getVideoGroups($videos_id)
-    {
+    public static function getVideoGroups($videos_id){
         if (empty($videos_id)) {
             return [];
         }
         global $global;
-        //check if table exists if not you need to update
-        $sql = "SELECT 1 FROM `videos_group_view` LIMIT 1";
-        $res = sqlDAL::readSql($sql);
-        sqlDAL::close($res);
-        if (!$res) {
-            if (User::isAdmin()) {
-                $_GET['error'] = "You need to Update AVideo to version 2.3 <a href='{$global['webSiteRootURL']}update/'>Click here</a>";
-            }
-            return [];
-        }
-
         $sql = "SELECT v.*, ug.*FROM videos_group_view as v "
                 . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE videos_id = ? ";
         $res = sqlDAL::readSql($sql, "i", [$videos_id]);
@@ -445,9 +433,63 @@ class UserGroups
         }
         return $arr;
     }
+    
+    public static function getCategoriesGroups($videos_id){
+        if (empty($videos_id)) {
+            return [];
+        }
+        global $global;
+        
+        $v = Video::getVideoLight($videos_id);
+        
+        $sql = "SELECT chug.*, ug.* FROM categories_has_users_groups as chug "
+                . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE categories_id = ? ";
+        $res = sqlDAL::readSql($sql, "i", [$v['categories_id']]);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $arr = [];
+        if ($res!=false) {
+            foreach ($fullData as $row) {
+                $row = cleanUpRowFromDatabase($row);
+                $arr[] = $row;
+            }
+        } else {
+            $arr = false;
+            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        }
+        return $arr;
+    }
+    
+    public static function getVideosAndCategoriesUserGroups($videos_id){
+        global $_getVideosAndCategoriesUserGroups;
+        
+        if(!isset($_getVideosAndCategoriesUserGroups)){
+            $_getVideosAndCategoriesUserGroups = array();
+        }
+        if(!isset($_getVideosAndCategoriesUserGroups[$videos_id])){
+            $videosug = self::getVideoGroups($videos_id);
+            $categoriessug = self::getCategoriesGroups($videos_id);
+            $response = array();
+            foreach ($videosug as $value) {
+                $value['isVideoUserGroup'] = 1;
+                $value['isCategoryUserGroup'] = 0;
+                $response[$value['users_groups_id']] = $value;
+            }
+            foreach ($categoriessug as $value) {
+                if(!isset($response[$value['users_groups_id']])){
+                    $value['isVideoUserGroup'] = 0;
+                    $value['isCategoryUserGroup'] = 1;
+                    $response[$value['users_groups_id']] = $value;
+                }else{
+                    $response[$value['users_groups_id']]['isCategoryUserGroup'] = 1;
+                }
+            }
+            $_getVideosAndCategoriesUserGroups[$videos_id] = $response;
+        }
+        return $_getVideosAndCategoriesUserGroups[$videos_id];
+    }
 
-    private static function deleteGroupsFromVideo($videos_id)
-    {
+    private static function deleteGroupsFromVideo($videos_id){
         if (!User::canUpload()) {
             return false;
         }

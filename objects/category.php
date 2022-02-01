@@ -997,4 +997,18 @@ class Category
         }
         return $path;
     }
+    
+    
+    public static function setUsergroups($categories_id, $usergroups_ids_array){
+        if(!is_array($usergroups_ids_array)){
+            $usergroups_ids_array = array($usergroups_ids_array);
+        }
+        Categories_has_users_groups::deleteAllFromCategory($categories_id);
+        $return = array();
+        foreach ($usergroups_ids_array as $users_groups_id) {
+            $id = Categories_has_users_groups::saveUsergroup($categories_id, $users_groups_id);
+            $return[] = $id;
+        }
+        return $return;
+    }
 }

@@ -14,6 +14,7 @@ $obj->msg = true;
 $obj->categories_id = 0;
 $obj->image1 = 0;
 $obj->image2 = 0;
+$obj->usergroups_ids_array = @$_REQUEST['usergroups_ids_array'];
 
 if (!Category::canCreateCategory()) {
     $obj->msg = __("Permission denied");
@@ -43,6 +44,9 @@ if (!empty($obj->categories_id)) {
     $path = Category::getCategoryBackgroundPath($obj->categories_id);
     $obj->image2 = saveCroppieImage($path['path'], "image2");
     $obj->image2P = $path['path'];
+    
+    // save usergroups
+    Category::setUsergroups($obj->categories_id, $obj->usergroups_ids_array);
 }
 
 die(json_encode($obj));

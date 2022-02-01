@@ -691,7 +691,7 @@ if (!class_exists('Video')) {
             if (Permissions::canModerateVideos()) {
                 return "";
             }
-
+            $categories_id = intval($categories_id);
             if (self::allowFreePlayWithAdsIsEnabled()) {
                 $sql = " AND {$tableAlias}only_for_paid = 0 ";
                 return $sql;
@@ -705,7 +705,10 @@ if (!class_exists('Video')) {
                         $groups_id[] = $value['id'];
                     }
                     if (!empty($groups_id)) {
-                        $sql = " (({$sql}) OR ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)) ";
+                        $sql = " (({$sql}) OR ("
+                        . " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)";
+                        $sql .= " OR (SELECT count(id) FROM categories_has_users_groups as chug WHERE chug.categories_id = {$tableAlias}categories_id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)";
+                        $sql .= " ) ";
                     }
                 }
                 return " AND " . $sql;
@@ -731,7 +734,7 @@ if (!class_exists('Video')) {
 
         public static function getUserGroups($videos_id)
         {
-            return UserGroups::getVideoGroups($videos_id);
+            return UserGroups::getVideosAndCategoriesUserGroups($videos_id);
         }
 
         public static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true)
@@ -1028,7 +1031,7 @@ if (!class_exists('Video')) {
             sqlDAL::close($res);
             if (!empty($video) && $res) {
                 return self::getVideo($video['id'], "", true, false, false, true);
-            //$video['groups'] = UserGroups::getVideoGroups($video['id']);
+            //$video['groups'] = UserGroups::getVideosAndCategoriesUserGroups($video['id']);
             } else {
                 return false;
             }
@@ -1383,7 +1386,7 @@ if (!class_exists('Video')) {
             if (empty($otherInfo)) {
                 $otherInfo = [];
                 $otherInfo['category'] = xss_esc_back($row['category']);
-                $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
+                $otherInfo['groups'] = UserGroups::getVideosAndCategoriesUserGroups($row['id']);
                 $otherInfo['tags'] = self::getTags($row['id']);
                 $cached = ObjectYPT::setCache($otherInfocachename, $otherInfo);
                 //_error_log("video::getInfo cache " . json_encode($cached));
@@ -2557,7 +2560,7 @@ if (!class_exists('Video')) {
 
             TimeLogStart("video::getTags_ userGroups $video_id, $type");
             if (empty($type) || $type === "userGroups") {
-                $groups = UserGroups::getVideoGroups($video_id);
+                $groups = UserGroups::getVideosAndCategoriesUserGroups($video_id);
                 $objTag = new stdClass();
                 $objTag->label = __("Group");
                 if (empty($groups)) {
@@ -2573,12 +2576,21 @@ if (!class_exists('Video')) {
 //$objTag->text = __("Public");
                     }
                 } else {
+                    $groupNames = array();
                     foreach ($groups as $value) {
+                        $groupNames[] = $value['group_name'];
+                    }
+                    $totalUG = count($groupNames);
+                    if(!empty($totalUG)){
                         $objTag = new stdClass();
                         $objTag->label = __("Group");
                         $objTag->type = "info";
-                        $objTag->text = '<i class="fas fa-users"></i>';
-                        $objTag->tooltip = $value['group_name'];
+                        if($totalUG>1){
+                            $objTag->text = '<i class="fas fa-users"></i> '.($totalUG);
+                        }else{
+                            $objTag->text = '<i class="fas fa-users"></i>';
+                        }
+                        $objTag->tooltip = implode(', ',$groupNames);
                         $tags[] = $objTag;
                         $objTag = new stdClass();
                     }
@@ -4649,7 +4661,7 @@ if (!class_exists('Video')) {
         public static function isPublic($videos_id)
         {
             // check if the video is not public
-            $rows = UserGroups::getVideoGroups($videos_id);
+            $rows = UserGroups::getVideosAndCategoriesUserGroups($videos_id);
 
             if (empty($rows)) {
                 return true;
@@ -4668,7 +4680,7 @@ if (!class_exists('Video')) {
                 $ppv->userCanWatchVideo($users_id, $videos_id);
             }
             // check if the video is not public
-            $rows = UserGroups::getVideoGroups($videos_id);
+            $rows = UserGroups::getVideosAndCategoriesUserGroups($videos_id);
             if (empty($rows)) {
                 return true;
             }

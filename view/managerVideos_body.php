@@ -77,6 +77,21 @@
         display: flex;
         display: flow-root;
     }
+    .groupSwitch .categoryGroupSwitch, .groupSwitch .categoryGroupSwitchInline{
+        display: none;
+    }
+    .groupSwitch.categoryUserGroup{
+        pointer-events: none;
+    }
+    .groupSwitch.categoryUserGroup .categoryGroupSwitch{
+        display: block;
+    }
+    .groupSwitch.categoryUserGroup .categoryGroupSwitchInline{
+        display: inline;
+    }
+    .groupSwitch.categoryUserGroup .videoGroupSwitch{
+        display: none;
+    }
 </style>
 <script>
     var filterStatus = '';
@@ -575,13 +590,18 @@
                                                     <?php
                                                     foreach ($userGroups as $value) {
                                                         ?>
-                                                        <li class="list-group-item non-public">
+                                                        <li class="list-group-item non-public groupSwitch" id="groupSwitch<?php echo $value['id']; ?>" >
                                                             <span class="fa fa-lock"></span>
                                                             <?php echo $value['group_name']; ?>
                                                             <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
-                                                            <div class="material-switch pull-right">
+                                                            <span class="label label-default categoryGroupSwitchInline"><?php echo __('Category User Group'); ?></span>
+                                                            <div class="material-switch pull-right videoGroupSwitch">
                                                                 <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups"/>
                                                                 <label for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
+                                                            </div>
+                                                            <div class="material-switch pull-right categoryGroupSwitch" >
+                                                                <input id="categoryGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="categoryGroups"/>
+                                                                <label for="categoryGroup<?php echo $value['id']; ?>" class="label-default"></label>
                                                             </div>
                                                         </li>
                                                         <?php
@@ -1093,12 +1113,20 @@ echo AVideoPlugin::getManagerVideosEdit();
                                             $('#inputUserOwner_id').val(row.users_id);
                                             $('#views_count').val(row.views_count);
                                             $('.videoGroups').prop('checked', false);
+                                            $('.categoryGroups').prop('checked', false);
+                                            $('.groupSwitch').parent().removeClass('categoryUserGroup');
                                             if (row.groups.length === 0) {
                                                 $('#public').prop('checked', true);
                                             } else {
                                                 $('#public').prop('checked', false);
                                                 for (var index in row.groups) {
-                                                    $('#videoGroup' + row.groups[index].id).prop('checked', true);
+                                                    if(row.groups[index].isCategoryUserGroup){
+                                                        var selector = $('#groupSwitch' + row.groups[index].id);
+                                                        selector.addClass('categoryUserGroup');
+                                                        $('#categoryGroup' + row.groups[index].id).prop('checked', true);
+                                                    }else{
+                                                        $('#videoGroup' + row.groups[index].id).prop('checked', true);
+                                                    }
                                                 }
                                             }
 
