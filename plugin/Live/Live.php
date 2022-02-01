@@ -1733,7 +1733,7 @@ class Live extends PluginAbstract {
                         $title .= " (private live)";
                     }
                 } elseif (!empty($row) || empty($row['public'])) {
-                    if(!empty($row['scheduled'])){
+                    if(empty($row['scheduled'])){
                         if(!User::isAdmin() && User::getId()!=$row['users_id']){
                             $notListed = true;
                         }
