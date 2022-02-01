@@ -1734,10 +1734,14 @@ class Live extends PluginAbstract {
                     }
                 } elseif (!empty($row) || empty($row['public'])) {
                     if(empty($row['scheduled'])){
-                        if(!User::isAdmin() && User::getId()!=$row['users_id']){
-                            $notListed = true;
+                        if(empty($row['live_password'])){
+                            if(!User::isAdmin() && User::getId()!=$row['users_id']){
+                                $notListed = true;
+                            }
+                            $title .= __(" (set to not be listed)");
+                        }else{
+                            $title .= __(" (Password Protected)");
                         }
-                        $title .= __(" (set to not be listed)");
                     }
                 } elseif ($u->getStatus() !== 'a') {
                     $obj->hidden_applications[] = [
