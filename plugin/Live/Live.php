@@ -1727,7 +1727,7 @@ class Live extends PluginAbstract {
                         "user" => $row['channelName'],
                         "title" => "{$row['channelName']} ($hiddenName} is a private live",
                     ];
-                    if (!User::isAdmin()) {
+                    if (empty($row['live_password']) && !User::isAdmin()) {
                         continue;
                     } else {
                         $title .= " (private live)";
