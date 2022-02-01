@@ -1733,10 +1733,12 @@ class Live extends PluginAbstract {
                         $title .= " (private live)";
                     }
                 } elseif (!empty($row) || empty($row['public'])) {
-                    if(empty($row['scheduled']) && !User::isAdmin() && User::getId()!=$row['users_id']){
-                        $notListed = true;
+                    if(!empty($row['scheduled'])){
+                        if(!User::isAdmin() && User::getId()!=$row['users_id']){
+                            $notListed = true;
+                        }
+                        $title .= __(" (set to not be listed)");
                     }
-                    $title .= __(" (set to not be listed)");
                 } elseif ($u->getStatus() !== 'a') {
                     $obj->hidden_applications[] = [
                         "key" => $value->name,
