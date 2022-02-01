@@ -1732,8 +1732,8 @@ class Live extends PluginAbstract {
                     } else {
                         $title .= " (private live)";
                     }
-                } elseif (empty($row) || empty($row['public'])) {
-                    if(empty($row) || (!User::isAdmin() && User::getId()!=$row['users_id']) ){
+                } elseif (!empty($row) || empty($row['public'])) {
+                    if(!User::isAdmin() && User::getId()!=$row['users_id']){
                         $notListed = true;
                     }
                     $title .= __(" (set to not be listed)");
