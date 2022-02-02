@@ -7,6 +7,7 @@ if (empty($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
+require_once $global['systemRootPath'] . 'objects/userGroups.php';
 
 class User {
 
