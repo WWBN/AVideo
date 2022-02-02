@@ -2221,6 +2221,9 @@ class Live extends PluginAbstract {
         }
         $live_schedule_id = intval($live_schedule_id);
         if (self::isLiveThumbsDisabled()) {
+            if($format!='jpg'){
+                return false;
+            }
             $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id);
 
             if (!file_exists($global['systemRootPath'] . $file)) {
