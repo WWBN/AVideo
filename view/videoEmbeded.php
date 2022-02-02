@@ -44,7 +44,7 @@ if (empty($customizedAdvanced)) {
     $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 }
 
-forbiddenPageIfCannotEmbed();
+forbiddenPageIfCannotEmbed($video['id']);
 
 $source = [];
 $img = '';

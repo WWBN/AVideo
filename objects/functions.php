@@ -7772,20 +7772,23 @@ function isDummyFile($filePath) {
     return $return;
 }
 
-function forbiddenPageIfCannotEmbed() {
-    global $customizedAdvanced, $global;
+function forbiddenPageIfCannotEmbed($videos_id) {
+    global $customizedAdvanced,$advancedCustomUser, $global;
     if (empty($customizedAdvanced)) {
         $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
     }
+    if (empty($advancedCustomUser)) {
+        $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeUser');
+    }
     if(!isAVideoMobileApp()){
         if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {
-            if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($video['id'])) {
+            if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($videos_id)) {
                 $reason = array();
                 if (!empty($advancedCustomUser->blockEmbedFromSharedVideos)) {
                     error_log("forbiddenPageIfCannotEmbed: Embed is forbidden: \$advancedCustomUser->blockEmbedFromSharedVideos");
                     $reason[] = __('Admin block video sharing');
                 }
-                if (!CustomizeUser::canShareVideosFromVideo($video['id'])) {
+                if (!CustomizeUser::canShareVideosFromVideo($videos_id)) {
                     error_log("forbiddenPageIfCannotEmbed: Embed is forbidden: !CustomizeUser::canShareVideosFromVideo(\$video['id'])");
                     $reason[] = __('User block video sharing');
                 }
