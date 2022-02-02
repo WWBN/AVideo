@@ -86,7 +86,7 @@ if (empty($obj->hideTopButton)) {
     <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border hidden extraVideosModel liveVideo">
         <a href="" class="videoLink" class="videoLink galleryLink " >
             <div class="aspectRatio16_9" style="min-height: 70px;" >
-                <img src="<?php echo getCDN(); ?>videos/userPhoto/logo.png" class="thumbsJPG img-responsive" height="130" itemprop="thumbnailUrl" alt="Logo" />
+                <img src="<?php echo getURL('videos/userPhoto/logo.png'); ?>" class="thumbsJPG img-responsive" height="130" itemprop="thumbnailUrl" alt="Logo" />
                 <img src="" style="position: absolute; top: 0; display: none;" class="thumbsGIF img-responsive" height="130" />
                 <span class="label label-danger liveNow faa-flash faa-slow animated"><?php echo __("LIVE NOW"); ?></span>
             </div>

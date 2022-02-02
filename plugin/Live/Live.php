@@ -310,8 +310,8 @@ class Live extends PluginAbstract {
             $title,
             $u->getUser(),
             $link,
-            (!empty($imgJPG) ? '<img src="' . getCDN() . 'view/img/loading-gif.png" data-src="' . $imgJPG . '" class="thumbsJPG img-responsive" height="130">' : ''),
-            (!empty($imgGIF) ? ('<img src="' . getCDN() . 'view/img/loading-gif.png" data-src="' . $imgGIF . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : ''),
+            (!empty($imgJPG) ? '<img src="' . getURL('view/img/loading-gif.png') . '" data-src="' . $imgJPG . '" class="thumbsJPG img-responsive" height="130">' : ''),
+            (!empty($imgGIF) ? ('<img src="' . getURL('view/img/loading-gif.png') . '" data-src="' . $imgGIF . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : ''),
             $LiveUsersLabelLive,
             $class,
         ];
@@ -1293,7 +1293,7 @@ class Live extends PluginAbstract {
         return self::getLinkToLiveFromChannelNameAndLiveServer($user->getChannelName(), $live_servers_id, $live_index);
     }
 
-    public static function getLinkToLiveFromChannelNameAndLiveServer($channelName, $live_servers_id, $live_index = null) {
+    public static function getLinkToLiveFromChannelNameAndLiveServer($channelName, $live_servers_id, $live_index = null, $live_schedule_id = 0) {
         global $global;
         $live_servers_id = intval($live_servers_id);
         $channelName = trim($channelName);
@@ -1312,7 +1312,10 @@ class Live extends PluginAbstract {
         if (!empty($_REQUEST['playlists_id_live'])) {
             $url = addQueryStringParameter($url, 'playlists_id_live', $_REQUEST['playlists_id_live']);
         }
-
+        $live_schedule_id = intval($live_schedule_id);
+        if (!empty($live_schedule_id)) {
+            $url = addQueryStringParameter($url, '$live_schedule', $live_schedule_id);
+        }
 
         //return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
         return $url;
@@ -1791,20 +1794,18 @@ class Live extends PluginAbstract {
                 }
 
                 $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value->name, $live_servers_id) : '');
-                $imgJPG = $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index);
+                $uid = "live_{$live_servers_id}_{$value->name}";
+                $live_schedule_id = 0;
+                if (!empty($row['scheduled'])) {
+                    $live_schedule_id = intval($row['id']);
+                }
+                
+                $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id, $live_index, $live_schedule_id);
+                $imgJPG = $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index, 'jpg', $live_schedule_id);
                 if ($obj->disableGif) {
                     $imgGIF = '';
                 } else {
-                    $imgGIF = $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index, 'webp');
-                }
-                $uid = "live_{$live_servers_id}_{$value->name}";
-                $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id, $live_index);
-                if (!empty($row['scheduled'])) {
-                    $link = addQueryStringParameter($link, 'live_schedule', $row['id']);
-                    $imgJPG = addQueryStringParameter($imgJPG, 'live_schedule', $row['id']);
-                    if (!empty($imgGIF)) {
-                        $imgGIF = addQueryStringParameter($imgGIF, 'live_schedule', $row['id']);
-                    }
+                    $imgGIF = $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index, 'webp', $live_schedule_id);
                 }
 
                 $app = self::getLiveApplicationModelArray($row['users_id'], $title, $link, $imgJPG, $imgGIF, 'live', $LiveUsersLabelLive, $uid, '', $uid, 'live_' . $value->name);
@@ -2207,19 +2208,20 @@ class Live extends PluginAbstract {
         return $poster;
     }
 
-    public function getLivePosterImage($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '', $format = 'jpg') {
+    public function getLivePosterImage($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '', $format = 'jpg', $live_schedule_id = 0) {
         global $global;
 
-        return $global['webSiteRootURL'] . self::getLivePosterImageRelativePath($users_id, $live_servers_id, $playlists_id_live, $live_index, $format);
+        return $global['webSiteRootURL'] . self::getLivePosterImageRelativePath($users_id, $live_servers_id, $playlists_id_live, $live_index, $format, $live_schedule_id);
     }
 
-    public static function getLivePosterImageRelativePath($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '', $format = 'jpg') {
+    public static function getLivePosterImageRelativePath($users_id, $live_servers_id = 0, $playlists_id_live = 0, $live_index = '', $format = 'jpg', $live_schedule_id = 0) {
         global $global;
         if (empty($live_servers_id)) {
             $live_servers_id = self::getCurrentLiveServersId();
         }
+        $live_schedule_id = intval($live_schedule_id);
         if (self::isLiveThumbsDisabled()) {
-            $file = self::_getPosterImage($users_id, $live_servers_id);
+            $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id);
 
             if (!file_exists($global['systemRootPath'] . $file)) {
                 $file = self::getOnAirImage(false);
@@ -2228,6 +2230,9 @@ class Live extends PluginAbstract {
             $u = new User($users_id);
             $username = $u->getUser();
             $file = "plugin/Live/getImage.php?live_servers_id={$live_servers_id}&playlists_id_live={$playlists_id_live}&live_index={$live_index}&u={$username}&format={$format}";
+            if(!empty($live_schedule_id)){
+                $file .= "&live_schedule={$live_schedule_id}";
+            }
         }
 
         return $file;
