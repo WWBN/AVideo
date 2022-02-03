@@ -1741,9 +1741,9 @@ class Live extends PluginAbstract {
                             if(!User::isAdmin() && User::getId()!=$row['users_id']){
                                 $notListed = true;
                             }
-                            $title .= __(" (set to not be listed)");
+                            //$title .= __(" (set to not be listed)");
                         } else {
-                            $title .= __(" (Password Protected)");
+                            //$title .= __(" (Password Protected)");
                         }
                     }
                 } elseif ($u->getStatus() !== 'a') {
