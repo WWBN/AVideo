@@ -25,7 +25,7 @@ $valueArraySameTime = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if(!intval($value['total_viewers'])){
+    if(!intval($value['total_viewers'])) {
         continue;
     }
     if (!empty($isAdminPanel)) {
@@ -52,7 +52,7 @@ $valueArraySameTimeMoreViews = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if(!intval($value['total_viewers'])){
+    if(!intval($value['total_viewers'])) {
         continue;
     }
     if (!empty($isAdminPanel)) {
@@ -79,7 +79,7 @@ $valueArraySameTimeMoreViewsSameTime = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if(!intval($value['max_viewers_sametime'])){
+    if(!intval($value['max_viewers_sametime'])) {
         continue;
     }
     if (!empty($isAdminPanel)) {
@@ -157,7 +157,7 @@ foreach ($lives as $value) {
                 data: <?php echo json_encode($valueArraySameTime); ?>
             }]
     };
-    
+
     var ctxLiveChatMoreViews = document.getElementById("liveChartMoreViews");
     var liveChartDataMoreViews = {
         labels: <?php echo json_encode($labelsArrayMoreViews); ?>,
@@ -168,7 +168,7 @@ foreach ($lives as $value) {
                 data: <?php echo json_encode($valueArrayMoreViews); ?>
             }]
     };
-    
+
     var ctxLiveChatMoreViewsSameTime = document.getElementById("liveChartMoreViewsSameTime");
     var liveChartDataMoreViewsSameTime = {
         labels: <?php echo json_encode($labelsArrayMoreViewsSameTime); ?>,
@@ -179,7 +179,6 @@ foreach ($lives as $value) {
                 data: <?php echo json_encode($valueArraySameTimeMoreViewsSameTime); ?>
             }]
     };
-    
 
     $(document).ready(function () {
 
@@ -269,7 +268,7 @@ foreach ($lives as $value) {
 
 <?php
 foreach ($liveChartLatest as $i) {
-    ?>
+?>
 
             var liveChartLatest<?php echo $i; ?> = new Chart(document.getElementById("liveChartLatest<?php echo $i; ?>"), {
                 type: 'doughnut',

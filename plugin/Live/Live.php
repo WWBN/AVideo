@@ -859,7 +859,7 @@ class Live extends PluginAbstract {
                     success: function (response) {
                         console.log('getDropButton called');
                         console.log(response);
-                        
+
                         modal.hidePleaseWait();
                         if (response.error) {
                             avideoToastError('" . __('Error') . " '+response.msg);
@@ -1609,15 +1609,15 @@ class Live extends PluginAbstract {
 
     /*
       static function cleanUpApplication($application){
-      if(!is_object($application) || empty($application->name)){
+      if(!is_object($application) || empty($application->name)) {
       return $application;
       }
       $parts = explode('&', $application->name);
-      if(!empty($parts[0])){
+      if (!empty($parts[0])) {
       $application->name = $parts[0];
       }
       $parts = explode('&', $application->{$application->name}->stream->name);
-      if(!empty($parts[0])){
+      if (!empty($parts[0])) {
       $application->{$application->name}->stream->name = $parts[0];
       }
       //var_dump($application, $parts);exit;
@@ -1736,13 +1736,13 @@ class Live extends PluginAbstract {
                         $title .= " (private live)";
                     }
                 } elseif (!empty($row) || empty($row['public'])) {
-                    if(empty($row['scheduled'])){
-                        if(empty($row['live_password'])){
+                    if (empty($row['scheduled'])) {
+                        if (empty($row['live_password'])) {
                             if(!User::isAdmin() && User::getId()!=$row['users_id']){
                                 $notListed = true;
                             }
                             $title .= __(" (set to not be listed)");
-                        }else{
+                        } else {
                             $title .= __(" (Password Protected)");
                         }
                     }
@@ -1799,7 +1799,7 @@ class Live extends PluginAbstract {
                 if (!empty($row['scheduled'])) {
                     $live_schedule_id = intval($row['id']);
                 }
-                
+
                 $link = Live::getLinkToLiveFromChannelNameAndLiveServer($u->getChannelName(), $live_servers_id, $live_index, $live_schedule_id);
                 $imgJPG = $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index, 'jpg', $live_schedule_id);
                 if ($obj->disableGif) {
@@ -1811,9 +1811,9 @@ class Live extends PluginAbstract {
                 $app = self::getLiveApplicationModelArray($row['users_id'], $title, $link, $imgJPG, $imgGIF, 'live', $LiveUsersLabelLive, $uid, '', $uid, 'live_' . $value->name);
                 $app['live_servers_id'] = $live_servers_id;
                 $app['key'] = $value->name;
-                if($notListed){
+                if ($notListed){
                     $obj->hidden_applications[] = $app;
-                }else{
+                } else {
                     $obj->applications[] = $app;
                 }
 
@@ -2221,7 +2221,7 @@ class Live extends PluginAbstract {
         }
         $live_schedule_id = intval($live_schedule_id);
         if (self::isLiveThumbsDisabled()) {
-            if($format!='jpg'){
+            if ($format !== 'jpg'){
                 return false;
             }
             $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id);
@@ -2229,17 +2229,17 @@ class Live extends PluginAbstract {
             if (!file_exists($global['systemRootPath'] . $file)) {
                 $file = self::getOnAirImage(false);
             }
-            if($returnURL){
+            if ($returnURL){
                 $file = getURL($file);
             }
         } else {
             $u = new User($users_id);
             $username = $u->getUser();
             $file = "plugin/Live/getImage.php?live_servers_id={$live_servers_id}&playlists_id_live={$playlists_id_live}&live_index={$live_index}&u={$username}&format={$format}";
-            if(!empty($live_schedule_id)){
+            if (!empty($live_schedule_id)) {
                 $file .= "&live_schedule={$live_schedule_id}";
             }
-            if($returnURL){
+            if ($returnURL){
                 $file = $global['webSiteRootURL'].$file;
             }
         }
@@ -2279,11 +2279,11 @@ class Live extends PluginAbstract {
 
     public static function getPoster($users_id, $live_servers_id, $key = '') {
         global $_getPoster;
-        if(!isset($_getPoster)){
+        if(!isset($_getPoster)) {
             $_getPoster = array();
         }
         $index = "$users_id, $live_servers_id, $key";
-        if(isset($_getPoster[$index])){
+        if(isset($_getPoster[$index])) {
             return $_getPoster[$index];
         }
         _error_log("getPoster($users_id, $live_servers_id, $key)");
