@@ -1315,7 +1315,7 @@ class Live extends PluginAbstract {
         }
         $live_schedule_id = intval($live_schedule_id);
         if (!empty($live_schedule_id)) {
-            $url = addQueryStringParameter($url, '$live_schedule', $live_schedule_id);
+            $url = addQueryStringParameter($url, 'live_schedule', $live_schedule_id);
         }
 
         //return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
