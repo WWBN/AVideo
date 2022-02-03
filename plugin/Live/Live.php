@@ -229,8 +229,8 @@ class Live extends PluginAbstract {
         $currentLives = array();
         foreach ($rows as $value) {
             // if key is from schedule, skipp it
-            //if (!LiveTransmition::keyExists($value['key'], false) && Live_schedule::keyExists($value['key'])) {
-            if (Live_schedule::keyExists($value['key'])) {
+            if (!LiveTransmition::keyExists($value['key'], false) && Live_schedule::keyExists($value['key'])) {
+            //if (Live_schedule::keyExists($value['key'])) {
                 continue;
             }
 
