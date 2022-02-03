@@ -27,7 +27,8 @@
             <div class="panel-body">
                 <?php
                 $filter = [
-                    'doNotDisplayCounter' => 'It will collect usage info but will not display the counter on the live video', ];
+                    'doNotDisplayCounter' => 'It will collect usage info but will not display the counter on the live video'
+                ];
 
                 createTable("LiveUsers", $filter);
                 ?>

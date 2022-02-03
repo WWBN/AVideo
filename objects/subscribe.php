@@ -390,7 +390,8 @@ class Subscribe
             '{titleOffline}',
             '{tooltipOffline}',
             '{email}', '{total}',
-            '{subscribed}', '{subscribeText}', '{subscribedText}', ];
+            '{subscribed}', '{subscribeText}', '{subscribedText}'
+        ];
 
         $replace = [
             $user_id,

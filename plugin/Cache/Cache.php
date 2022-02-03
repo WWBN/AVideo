@@ -1,5 +1,4 @@
 <?php
-
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Cache/Objects/CachesInDB.php';
 
@@ -235,7 +234,8 @@ class Cache extends PluginAbstract
             'mrss',
             '/sitemap.xml',
             'plugin/Live/verifyToken.json.php',
-            'control.json.php', ];
+            'control.json.php'
+        ];
         foreach ($cacheBotWhitelist as $value) {
             if (strpos($_SERVER['REQUEST_URI'], $value) !== false) {
                 _error_log("Cache::isREQUEST_URIWhitelisted: ($value) is whitelisted");

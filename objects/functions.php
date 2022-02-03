@@ -5846,7 +5846,8 @@ function _setcookie($cookieName, $value, $expires = 0) {
             'domain' => getDomain(),
             'secure' => true,
             'httponly' => false,
-            'samesite' => 'None',];
+            'samesite' => 'None'
+        ];
         return setcookie($cookieName, $value, $cookie_options);
     } else {
         return setcookie($cookieName, $value, (int) $expires, "/", getDomain());
@@ -7780,7 +7781,7 @@ function forbiddenPageIfCannotEmbed($videos_id) {
     if (empty($advancedCustomUser)) {
         $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeUser');
     }
-    if(!isAVideoMobileApp()){
+    if (!isAVideoMobileApp()) {
         if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {
             if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($videos_id)) {
                 $reason = array();

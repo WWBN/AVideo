@@ -70,7 +70,8 @@ if (!class_exists('Video')) {
             'u' => 'Unlisted',
             'r' => 'Recording',
             'f' => 'FansOnly',
-            'b' => 'Broken Missing files', ];
+            'b' => 'Broken Missing files'
+        ];
         public static $statusIcons = [
             'a' => '<i class=\'fas fa-eye\'></i>',
             'k' => '<i class=\'fas fa-cog\'></i>',
@@ -82,7 +83,8 @@ if (!class_exists('Video')) {
             'u' => '<i class=\'fas fa-eye\' style=\'color: #BBB;\'></i>',
             'r' => '<i class=\'fas fa-circle\'></i>',
             'f' => '<i class=\'fas fa-star\'></i>',
-            'b' => '<i class=\'fas fa-times\'></i>', ];
+            'b' => '<i class=\'fas fa-times\'></i>'
+        ];
         public static $statusActive = 'a';
         public static $statusActiveAndEncoding = 'k';
         public static $statusInactive = 'i';
@@ -100,8 +102,7 @@ if (!class_exists('Video')) {
         public static $typeOptions = ['audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser'];
         public static $searchFieldsNames = ['v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename'];
         public static $searchFieldsNamesLabels = ['Video Title', 'Video Description', 'Channel Name', 'Channel Description', 'Video ID', 'Video Filename'];
-        
-        
+
         public function __construct($title = "", $filename = "", $id = 0)
         {
             global $global;
@@ -1744,26 +1745,24 @@ if (!class_exists('Video')) {
 
             return $numRows;
         }
-        
-        static function getSearchFieldsNames(){
+
+        static function getSearchFieldsNames() {
             $searchFieldsNames = self::$searchFieldsNames;
             if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                 $searchFieldsNames[] = 'u.channelName';
             }
             $newSearchFieldsNames = array();
-            if(!empty($_REQUEST['searchFieldsNames'])){
-                if(!is_array($_REQUEST['searchFieldsNames'])){
+            if (!empty($_REQUEST['searchFieldsNames'])) {
+                if (!is_array($_REQUEST['searchFieldsNames'])) {
                     $_REQUEST['searchFieldsNames'] = array($_REQUEST['searchFieldsNames']);
                 }
                 foreach ($_REQUEST['searchFieldsNames'] as $value) {
-                    if(in_array($value, $searchFieldsNames)){
+                    if (in_array($value, $searchFieldsNames)) {
                         $newSearchFieldsNames[] = $value;
                     }
                 }
-                
             }
-            
-            if(empty($newSearchFieldsNames)){
+            if (empty($newSearchFieldsNames)) {
                 $newSearchFieldsNames = $searchFieldsNames;
             }
             return $newSearchFieldsNames;
@@ -2581,7 +2580,7 @@ if (!class_exists('Video')) {
                         $groupNames[] = $value['group_name'];
                     }
                     $totalUG = count($groupNames);
-                    if(!empty($totalUG)){
+                    if (!empty($totalUG)) {
                         $objTag = new stdClass();
                         $objTag->label = __("Group");
                         $objTag->type = "info";
@@ -3100,7 +3099,7 @@ if (!class_exists('Video')) {
         public static function getSourceFile($filename, $type = ".jpg", $includeS3 = false)
         {
             global $global, $advancedCustom, $videosPaths, $VideoGetSourceFile;
-            //if(!isValidFormats($type)){
+            //if (!isValidFormats($type)) {
             //return array();
             //}
             self::_moveSourceFilesToDir($filename);
@@ -3936,7 +3935,7 @@ if (!class_exists('Video')) {
                 /*
                   $name = "getImageFromFilename_{$filename}{$type}_";
                   $cached = ObjectYPT::getCache($name, 86400);//one day
-                  if(!empty($cached)){
+                  if (!empty($cached)) {
                   return $cached;
                   }
                  *
@@ -4003,7 +4002,7 @@ if (!class_exists('Video')) {
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/pdf_portrait.png";
                         $obj->posterPortraitThumbs = "" . getCDN() . "view/img/pdf_portrait.png";
                         $obj->posterPortraitThumbsSmall = "" . getCDN() . "view/img/pdf_portrait.png";
-                    } /* else if ($type == "image") {
+                    } /* elseif ($type == "image") {
                       $obj->posterPortrait = "".getCDN()."view/img/image_portrait.png";
                       $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/image_portrait.png";
                       $obj->posterPortraitThumbs = "".getCDN()."view/img/image_portrait.png";
@@ -5025,7 +5024,8 @@ if (!class_exists('Video')) {
                 '{name}',
                 '{icon}',
                 '{subscriptionButton}',
-                '{html}', ];
+                '{html}'
+            ];
 
             if ($ignoreLinks) {
                 $channelLink = '#';
@@ -5165,7 +5165,8 @@ if (!class_exists('Video')) {
                 '{category}',
                 '{tagsHTML}',
                 '{viewsHTML}',
-                '{creator}', ];
+                '{creator}'
+            ];
 
             $replace = [
                 $style,
