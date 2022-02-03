@@ -220,7 +220,7 @@ class Live extends PluginAbstract {
 
             $callback = '';
             $link = Live::getLinkToLiveFromUsers_idAndLiveServer($value['users_id'], $value['live_servers_id']);
-            $link = addQueryStringParameter($link, 'live_schedule', $value['id']);
+            $link = addQueryStringParameter($link, 'live_schedule', intval($value['id']));
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
             $array[] = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_' . $value['key']);
         }
@@ -230,6 +230,7 @@ class Live extends PluginAbstract {
         foreach ($rows as $value) {
             // if key is from schedule, skipp it
             if (!LiveTransmition::keyExists($value['key'], false) && Live_schedule::keyExists($value['key'])) {
+            //if (Live_schedule::keyExists($value['key'])) {
                 continue;
             }
 
