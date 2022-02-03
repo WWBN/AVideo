@@ -103,7 +103,7 @@ class sqlDAL
             return false;
         }
         $stmt->execute();
-        if ($stmt->errno != 0) {
+        if ($stmt->errno !== 0) {
             log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
             $stmt->close();
             return false;
@@ -168,7 +168,7 @@ class sqlDAL
                 TimeLogStart($TimeLog);
                 $stmt->execute();
                 $readSqlCached[$crc] = $stmt->get_result();
-                if ($stmt->errno != 0) {
+                if ($stmt->errno !== 0) {
                     log_error('Error in readSql (mysqlnd): (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
                     $stmt->close();
                     $disableMysqlNdMethods = true;
@@ -196,7 +196,7 @@ class sqlDAL
             //
             // if ($readSqlCached[$crc] == "false") {
             // add this in case the cache fail
-            // ->lenghts seems to be always NULL.. fix: $readSqlCached[$crc]->data_seek(0); above
+            // ->lengths seems to be always NULL.. fix: $readSqlCached[$crc]->data_seek(0); above
             //if("SELECT * FROM configurations WHERE id = 1 LIMIT 1"==$preparedStatement){
             //  var_dump($readSqlCached[$crc]);
             //}
@@ -225,7 +225,7 @@ class sqlDAL
 
             $stmt->execute();
             $result = self::iimysqli_stmt_get_result($stmt);
-            if ($stmt->errno != 0) {
+            if ($stmt->errno !== 0) {
                 log_error('Error in readSql (no mysqlnd): (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
                 $stmt->close();
                 $readSqlCached[$crc] = false;
@@ -244,7 +244,7 @@ class sqlDAL
     public static function close($result)
     {
         global $disableMysqlNdMethods, $global;
-        if ((!function_exists('mysqli_fetch_all')) || ($disableMysqlNdMethods != false)) {
+        if ((!function_exists('mysqli_fetch_all')) || ($disableMysqlNdMethods !== false)) {
             if (!empty($result->stmt)) {
                 $result->stmt->close();
             }
@@ -320,7 +320,7 @@ class sqlDAL
         ini_set('memory_limit', '-1');
         // here, a cache is more/too difficult, because fetch gives always a next. with this kind of cache, we would give always the same.
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
-            if ($result != false) {
+            if ($result !== false) {
                 return $result->fetch_assoc();
             }
         } else {

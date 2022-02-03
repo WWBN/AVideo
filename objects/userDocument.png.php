@@ -6,7 +6,7 @@ if (empty($_GET['users_id'])) {
     die('users_id empty');
 }
 if (!User::isAdmin()) {
-    if (User::getId() != $_GET['users_id']) {
+    if (User::getId() !== $_GET['users_id']) {
         die('users_id is not you');
     }
 }

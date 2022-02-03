@@ -148,7 +148,7 @@ class Category
 
         // check if clean name exists
         $exists = $this->getCategoryByName($this->clean_name);
-        if (!empty($exists) && $exists['id'] != $this->id) {
+        if (!empty($exists) && $exists['id'] !== $this->id) {
             $this->clean_name .= uniqid();
         }
 
@@ -212,7 +212,7 @@ class Category
         $res = sqlDAL::readSql($sql, "", [], true);
         $cleanTitleExists = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($cleanTitleExists != false) {
+        if ($cleanTitleExists !== false) {
             return self::fixCleanTitle($original_title . "-" . $count, $count + 1, $id, $original_title);
         }
         return $clean_title;
@@ -997,8 +997,7 @@ class Category
         }
         return $path;
     }
-    
-    
+
     public static function setUsergroups($categories_id, $usergroups_ids_array){
         if(!is_array($usergroups_ids_array)){
             $usergroups_ids_array = array($usergroups_ids_array);

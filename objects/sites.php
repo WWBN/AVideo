@@ -101,7 +101,7 @@ class Sites extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
