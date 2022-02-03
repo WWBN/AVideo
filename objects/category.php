@@ -184,7 +184,7 @@ class Category
         $insert_row = sqlDAL::writeSql($sql, $format, $values);
         if ($insert_row) {
             self::deleteOGImage($this->id);
-            self::deleteCategoryCache();
+            Category::deleteCategoryCache();
             if (empty($this->id)) {
                 $id = $insert_row;
             } else {
@@ -212,8 +212,9 @@ class Category
         $res = sqlDAL::readSql($sql, "", [], true);
         $cleanTitleExists = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($cleanTitleExists !== false) {
-            return self::fixCleanTitle($original_title . "-" . $count, $count + 1, $id, $original_title);
+        if (!empty($cleanTitleExists)) {
+            $new_cleanTitle = $original_title . "-" . $count;
+            return self::fixCleanTitle($new_cleanTitle, $count + 1, $id, $original_title);
         }
         return $clean_title;
     }
@@ -245,8 +246,8 @@ class Category
         } else {
             return false;
         }
-        self::deleteCategoryCache();
         self::deleteAssets($this->id);
+        Category::deleteCategoryCache();
         return sqlDAL::writeSql($sql, "i", [$this->id]);
     }
 
@@ -367,15 +368,8 @@ class Category
         return $id;
     }
 
-    public static function deleteCategoryCache()
-    {
-        _session_start();
-        ObjectYPT::deleteAllSessionCache();
-        clearFirstPageCache();
-        unset($_SESSION['user']['sessionCache']);
-        $_SESSION['user']['sessionCache']['getAllCategoriesClearCache'] = 1;
-        $cacheDir = ObjectYPT::getCacheDir() . 'category/';
-        $rrmdir = rrmdir($cacheDir);
+    public static function deleteCategoryCache() {
+        ObjectYPT::deleteALLCache();
         _error_log("deleteCategoryCache: {$cacheDir} = ". json_encode($rrmdir));
     }
 
@@ -435,13 +429,7 @@ class Category
         $sql .= BootGrid::getSqlFromPost(['name'], "", " ORDER BY `order`, name ASC ");
         //echo $sql;exit;
         $cacheName = 'category/' . md5($sql);
-        if (empty($_SESSION['user']['sessionCache']['getAllCategoriesClearCache'])) {
-            $category = object_to_array(ObjectYPT::getCache($cacheName, 36000));
-        //var_dump($cacheName, ObjectYPT::getLastUsedCacheInfo(), fixPath(ObjectYPT::getCacheDir() . 'category/'));exit;
-        } else {
-            _session_start();
-            unset($_SESSION['user']['sessionCache']['getAllCategoriesClearCache']);
-        }
+        $category = object_to_array(ObjectYPT::getCache($cacheName, 36000));
         if (empty($category)) {
             $res = sqlDAL::readSql($sql);
             $fullResult = sqlDAL::fetchAllAssoc($res);
