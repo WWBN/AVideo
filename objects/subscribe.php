@@ -86,7 +86,7 @@ class Subscribe
         $res = sqlDAL::readSql($sql, "i", [$id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res != false) {
+        if ($res !== false) {
             $subscribe = $data;
         } else {
             $subscribe = false;
@@ -106,7 +106,7 @@ class Subscribe
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res != false) {
+        if ($res !== false) {
             $subscribe = $data;
         } else {
             $subscribe = false;
@@ -126,7 +126,7 @@ class Subscribe
         $res = sqlDAL::readSql($sql, "", [], true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res != false) {
+        if ($res !== false) {
             $subscribe = $data;
         } else {
             $subscribe = false;
@@ -186,7 +186,7 @@ class Subscribe
             $fullData = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $subscribe = [];
-            if ($res != false) {
+            if ($res !== false) {
                 $emails = [];
                 foreach ($fullData as $row) {
                     $row = cleanUpRowFromDatabase($row);
@@ -242,7 +242,7 @@ class Subscribe
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $subscribe = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $row) {
                 $row['identification'] = User::getNameIdentificationById($row['users_id']);
                 if ($row['identification'] === __("Unknown User")) {
@@ -390,7 +390,8 @@ class Subscribe
             '{titleOffline}',
             '{tooltipOffline}',
             '{email}', '{total}',
-            '{subscribed}', '{subscribeText}', '{subscribedText}', ];
+            '{subscribed}', '{subscribeText}', '{subscribedText}'
+        ];
 
         $replace = [
             $user_id,

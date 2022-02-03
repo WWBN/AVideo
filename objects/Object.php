@@ -95,7 +95,7 @@ abstract class ObjectYPT implements ObjectInterface
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
@@ -118,7 +118,7 @@ abstract class ObjectYPT implements ObjectInterface
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
@@ -352,7 +352,7 @@ abstract class ObjectYPT implements ObjectInterface
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $row) {
                 $rows[] = $row["COLUMN_NAME"];
             }
@@ -662,7 +662,7 @@ abstract class ObjectYPT implements ObjectInterface
 
             if (class_exists("User_Location")) {
                 $loc = User_Location::getThisUserLocation();
-                if (!empty($loc) && !empty($loc['country_code']) && $loc['country_code']!='-') {
+                if (!empty($loc) && !empty($loc['country_code']) && $loc['country_code'] !== '-') {
                     $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
                 }
             }

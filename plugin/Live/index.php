@@ -19,8 +19,8 @@ if (!empty($_GET['c'])) {
     }
 }
 
-if (!empty($_GET['u']) && isAVideoMobileApp()){
-   $_GET['embed'] = 1; 
+if (!empty($_GET['u']) && isAVideoMobileApp()) {
+   $_GET['embed'] = 1;
 }
 
 if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
@@ -111,7 +111,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                     #live .panel-body {
                         height: calc(50vh - 200px);
                     }
-                }    
+                }
                 <?php
             }
             ?>

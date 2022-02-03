@@ -28,7 +28,7 @@ if (!PlayLists::canAddVideoOnPlaylist($_POST['videos_id'])) {
 }
 
 $playList = new PlayList($_POST['playlists_id']);
-if (empty($playList || User::getId()!=$playList->getUsers_id()) || empty($_POST['videos_id'])) {
+if (empty($playList || User::getId() !== $playList->getUsers_id()) || empty($_POST['videos_id'])) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
 }

@@ -22,7 +22,7 @@ $liveDescription = $livet['description'];
 $liveUrl = Live::getLinkToLiveFromUsers_id($user_id);
 
 $img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
-if(!empty($_REQUEST['live_schedule'])){
+if (!empty($_REQUEST['live_schedule'])) {
     $img = addQueryStringParameter($img, 'live_schedule', intval($_REQUEST['live_schedule']));
 }
 $imgw = 640;
@@ -36,7 +36,7 @@ $global['ignoreChat2'] = 1;
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        
+
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo $liveUrl; ?>" />
         <meta property="og:type"               content="video.other" />
@@ -50,7 +50,7 @@ $global['ignoreChat2'] = 1;
                 padding-top: 0;
             }
             footer{
-                display: none;   
+                display: none;
             }
             #bg{
                 position: fixed;
@@ -90,7 +90,7 @@ $global['ignoreChat2'] = 1;
                                         <?php
                                         if (!empty($_POST['live_password'])) {
                                             ?>
-                                            <div class="alert alert-danger"><?php echo __("Your password does not match!"); ?></div>    
+                                            <div class="alert alert-danger"><?php echo __("Your password does not match!"); ?></div>
                                             <?php
                                         }
                                         ?>
@@ -100,7 +100,7 @@ $global['ignoreChat2'] = 1;
                                             echo getInputPassword('live_password', 'class="form-control"', __("Password"));
                                             ?>
                                         </div>
-                                        <div class="row"> 
+                                        <div class="row">
                                             <div class="col-md-6">
                                                 <button type="submit" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></button>
                                             </div>

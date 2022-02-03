@@ -1,4 +1,4 @@
 <?php
 include './en_US.php';
-// ADD translation variables like below to add a differentr word
+// Add translation variables like below to add a different word.
 //$t['year'] = 'year';

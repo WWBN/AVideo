@@ -434,6 +434,7 @@ $t['Leave Channel'] = 'Deixar o canal';
 $t['Leave blank for native code'] = 'Deixe em branco para incluir o código nativo';
 $t['Left Menu'] = 'Menu à esquerda';
 $t['Let us upload your video to YouTube'] = 'Enviar vídeo para o YouTube';
+$t['Let users request withdraws from their wallet. The withdraw must be done manually'] = 'Deixar usuários solicitar saques da carteira (wallet). O saque deve ser feito manualmente';
 $t['Like this video? Sign in to make your opinion count.'] = 'Gostou deste vídeo? Faça login para opinar.';
 $t['List Files'] = 'Listar arquivos';
 $t['Listed Transmition'] = 'Transmissão listada';
@@ -1276,7 +1277,6 @@ $t['Just like admin, this user will have permission to edit and delete videos fr
 $t['Last 15 Days'] = 'Last 15 Days';
 $t['Last 90 Days'] = 'Last 90 Days';
 $t['Left'] = 'Left';
-$t['Let users request withdraws from his wallet. the withdraw mus be donemanually'] = 'Let users request withdraws from his wallet. the withdraw mus be donemanually';
 $t['Link'] = 'Link';
 $t['Live Chat'] = 'Live Chat';
 $t['Live Info'] = 'Live Info';
@@ -1581,7 +1581,6 @@ $t['It appears that either something went wrong or the mod rewrite configration 
 $t['It can be, that you will need a database-update after. For this, go as admin to the menu-point'] = 'É possível que seja necessário atualizar o banco de dados após a atualização do código. Para isso, como administrador, vá ao menu';
 $t['Leave it blank to send to all users'] = 'Deixe em branco para enviar a todos os usuários';
 $t['Let the encoder network (If configured) choose what is the best encoder to use'] = 'Deixe o encoder network (se configurado) escolher qual o melhor codificador para usar';
-$t['Let users request withdraws from his wallet. the withdraw mus be done manually'] = 'Deixar usuários solicitar saques da carteira (wallet). O saque deve ser feito manualmente';
 $t['Like on a lot of plugins, on the right site, you will find a button'] = 'Como muitos plugins, instalados corretamente, você encontrará um botão';
 $t['Live stream to other platforms simultaneously'] = 'Transmitir para outras plataformas simultaneamente';
 $t['Login error'] = 'Erro no login';

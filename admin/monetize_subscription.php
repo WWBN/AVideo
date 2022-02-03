@@ -7,7 +7,8 @@
                 $filter = [
                     'displayTopBarSubscribeButton' => 'Show a button on the top to subscribe',
                     'displayLeftMenuSubscribeButton' => 'Show a button on the the left menu to subscribe',
-                    'textSubscribe' => 'The button text label', ];
+                    'textSubscribe' => 'The button text label'
+                ];
                 createTable("Subscription", $filter);
                 ?>
             </div>

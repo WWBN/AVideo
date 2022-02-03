@@ -116,7 +116,7 @@ class PlayList extends ObjectYPT
         $watch_later = [];
         $favoriteCount = 0;
         $watch_laterCount = 0;
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
@@ -205,7 +205,7 @@ class PlayList extends ObjectYPT
             $status = str_replace("'", "", $status);
             $sql .= " AND pl.status = '{$status}' ";
         } elseif ($publicOnly) {
-            if (User::getId() != $userId) {
+            if (User::getId() !== $userId) {
                 $sql .= " AND pl.status = 'public' ";
             }
         }
@@ -220,7 +220,7 @@ class PlayList extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 if ($onlyWithVideos) {
@@ -248,7 +248,7 @@ class PlayList extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $key => $row) {
                 if ($key === 0) {
                     continue;
@@ -273,7 +273,7 @@ class PlayList extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $key => $row) {
                 if ($key === 0) {
                     continue;
@@ -342,7 +342,7 @@ class PlayList extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
@@ -378,7 +378,7 @@ class PlayList extends ObjectYPT
             sqlDAL::close($res);
             $rows = [];
             $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
-            if ($res != false) {
+            if ($res !== false) {
                 foreach ($fullData as $row) {
                     $row = cleanUpRowFromDatabase($row);
                     if (!empty($_GET['isChannel'])) {
@@ -482,7 +482,7 @@ class PlayList extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
@@ -754,7 +754,7 @@ class PlayList extends ObjectYPT
     {
         $obj = new PlayList($playlist_id);
         $status = $obj->getStatus();
-        if ($status !== 'public' && $status !== 'unlisted' && $users_id != $obj->getUsers_id()) {
+        if ($status !== 'public' && $status !== 'unlisted' && $users_id !== $obj->getUsers_id()) {
             return false;
         }
         return true;
@@ -801,7 +801,7 @@ class PlayList extends ObjectYPT
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $rows[] = $row;

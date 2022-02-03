@@ -24,7 +24,7 @@ class Channel
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $subscribe = [];
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($fullResult as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $subscribe[] = $row;

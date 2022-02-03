@@ -30,7 +30,7 @@ if (file_exists($file)) {
     $data = Video::getVideoConversionStatus($obj->getFilename());
 
     $obj->setDuration($duration);
-    if ($data->webm->progress == 100 && $data->mp4->progress == 100 && $obj->getStatus()!='i') {
+    if ($data->webm->progress == 100 && $data->mp4->progress == 100 && $obj->getStatus() !== 'i') {
         $obj->setStatus('a');
     }
 } else {

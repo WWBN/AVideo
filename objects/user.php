@@ -323,7 +323,7 @@ if (typeof gtag !== \"function\") {
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
 
-        if ($user != false) {
+        if ($user !== false) {
             $user = cleanUpRowFromDatabase($user);
             return $user;
         } else {
@@ -1233,7 +1233,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql, "s", [$email]);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res != false) {
+        if ($res !== false) {
             $user = $result;
         } else {
             $user = false;
@@ -1251,7 +1251,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql, "i", [$id]);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($user != false) {
+        if ($user !== false) {
             return $user;
         }
         return false;
@@ -1266,7 +1266,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql, "s", [$user]);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($user != false) {
+        if ($user !== false) {
             return $user;
         }
         return false;
@@ -1281,7 +1281,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql, "s", [$users_id]);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($user != false) {
+        if ($user !== false) {
             $user['groups'] = UserGroups::getUserGroups($user['id']);
             $user['identification'] = self::getNameIdentificationById($user['id']);
             $user['photo'] = self::getPhoto($user['id']);
@@ -1325,7 +1325,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql, "s", [$email], true);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($user != false) {
+        if ($user !== false) {
             return $user;
         }
         return false;
@@ -1441,7 +1441,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql . ";");
         $downloadedArray = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($downloadedArray as $row) {
                 $row['creator'] = Video::getCreatorHTML($row['id'], '', true, true);
                 $row = cleanUpRowFromDatabase($row);
@@ -1534,7 +1534,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql . ";");
         $downloadedArray = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($downloadedArray as $row) {
                 $row['creator'] = Video::getCreatorHTML($row['id'], '', true, true);
                 $row = self::getUserInfoFromRow($row);
@@ -1562,7 +1562,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql . ";");
         $downloadedArray = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($downloadedArray as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $user[] = $row;
@@ -1623,7 +1623,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql . ";");
         $downloadedArray = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        if ($res != false) {
+        if ($res !== false) {
             foreach ($downloadedArray as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $user[] = $row;
@@ -1677,7 +1677,7 @@ if (typeof gtag !== \"function\") {
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
 
-        if ($user != false) {
+        if ($user !== false) {
             return $user['id'];
         } else {
             return false;
@@ -1691,7 +1691,7 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql, "i", [$users_id]);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($user != false) {
+        if ($user !== false) {
             return $user['id'];
         } else {
             return false;
@@ -2411,7 +2411,7 @@ if (typeof gtag !== \"function\") {
         $obj = new stdClass();
 
         // Update Background Image
-        if (isset($params['backgroundImg']) && $params['backgroundImg'] != '') {
+        if (isset($params['backgroundImg']) && $params['backgroundImg'] !== '') {
             $background = url_get_contents($params['backgroundImg']);
             $ext = pathinfo(parse_url($params['backgroundImg'], PHP_URL_PATH), PATHINFO_EXTENSION);
             $allowed = ['jpg', 'jpeg', 'gif', 'png'];
@@ -2449,7 +2449,7 @@ if (typeof gtag !== \"function\") {
         }
 
         // Update Profile Image
-        if (isset($params['profileImg']) && $params['profileImg'] != '') {
+        if (isset($params['profileImg']) && $params['profileImg'] !== '') {
             $photo = url_get_contents($params['profileImg']);
             $photoPath = "videos/userPhoto/photo{$id}.png";
 

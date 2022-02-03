@@ -67,7 +67,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 
             <div class="container">
                 <?php
-                if ($user->getRecoverPass() != $_GET['recoverpass']) {
+                if ($user->getRecoverPass() !== $_GET['recoverpass']) {
                     ?>
                     <div class="alert alert-danger"><?php echo __("The recover pass does not match!"); ?></div>
                     <?php

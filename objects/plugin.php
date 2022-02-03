@@ -414,7 +414,7 @@ class Plugin extends ObjectYPT
             $res = sqlDAL::readSql($sql);
             $pluginRows = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
-            if ($pluginRows != false) {
+            if ($pluginRows !== false) {
                 foreach ($pluginRows as $row) {
                     $getEnabled[$uuid][] = $row;
                 }

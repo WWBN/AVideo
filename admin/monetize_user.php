@@ -6,7 +6,8 @@
                 <?php
                 $filter = [
                     'rewardPerView' => 'How much will your users receive per each video view',
-                    'rewardOnlyLoggedUsersView' => 'Check this to allow only count rewards from logged users', ];
+                    'rewardOnlyLoggedUsersView' => 'Check this to allow only count rewards from logged users'
+                ];
 
                 createTable("MonetizeUsers", $filter);
                 ?>
@@ -25,7 +26,8 @@
                     'currency_symbol' => '$, R$, etc, the format will be  {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)',
                     'manualAddFundsTransferFromUserId' => 'When some one buy something on your web site, the wallet balance will be transferred to this user ID',
                     'enablePlugin_YPTWalletPayPal' => 'You need to enable it to be able to use PayPal to add funds on your wallet',
-                    'enableManualWithdrawFundsPage' => 'Let users request withdraws from his wallet. the withdraw mus be done manually', ];
+                    'enableManualWithdrawFundsPage' => 'Let users request withdraws from their wallet. The withdraw must be done manually'
+                ];
                 createTable("YPTWallet", $filter);
                 ?>
             </div>

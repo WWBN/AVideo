@@ -10,7 +10,7 @@ if (!User::isLogged()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 $obj = new PlayList($_POST['playlist_id']);
-if (User::getId() != $obj->getUsers_id()) {
+if (User::getId() !== $obj->getUsers_id()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 $obj->setStatus($_POST['status']);

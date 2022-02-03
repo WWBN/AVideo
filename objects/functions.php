@@ -985,7 +985,7 @@ function _getImagesURL($fileName, $type) {
             'url' => $source['url'],
             'type' => 'image',
         ];
-    } elseif ($type != 'image') {
+    } elseif ($type !== 'image') {
         if (!empty($file1)) {
             $files["pjpg"] = $files["jpg"];
         } else {
@@ -2229,7 +2229,7 @@ function combineFiles($filesArray, $extension = "js") {
     foreach ($filesArray as $value) {
         $fileName .= $value . filectime($global['systemRootPath'] . $value) . filemtime($global['systemRootPath'] . $value);
     }
-    if ($advancedCustom != false) {
+    if ($advancedCustom !== false) {
         $minifyEnabled = $advancedCustom->EnableMinifyJS;
     } else {
         $minifyEnabled = false;
@@ -2369,7 +2369,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
         }
         try {
             $tmp = @file_get_contents($url, false, $context);
-            if ($tmp != false) {
+            if ($tmp !== false) {
                 $response = remove_utf8_bom($tmp);
                 if ($debug) {
                     //_error_log("url_get_contents: SUCCESS file_get_contents($url) {$response}");
@@ -2588,7 +2588,7 @@ function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false) {
     fseek($f, -1, SEEK_END);
     // Read it and adjust line number if necessary
     // (Otherwise the result would be wrong if file doesn't end with a blank line)
-    if (fread($f, 1) != "\n") {
+    if (fread($f, 1) !== "\n") {
         $lines -= 1;
     }
 
@@ -2950,7 +2950,7 @@ function get_domain($url, $ifEmptyReturnSameString = false) {
 
 function verify($url) {
     ini_set('default_socket_timeout', 5);
-    $cacheFile = sys_get_temp_dir() . "/" . md5($url) . "_verify.log";
+    $cacheFile = sys_get_temp_dir() . '/' . md5($url) . "_verify.log";
     $lifetime = 86400; //24 hours
     error_log("Verification Start {$url}");
     $verifyURL = "https://search.avideo.com/verify.php?url=" . urlencode($url);
@@ -3218,7 +3218,7 @@ function rrmdir($dir) {
         $objects = scandir($dir);
         //_error_log('rrmdir: scandir ' . $dir . ' '. json_encode($objects));
         foreach ($objects as $object) {
-            if ($object != "." && $object != "..") {
+            if ($object !== '.' && $object !== '..') {
                 if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
                     rrmdir($dir . DIRECTORY_SEPARATOR . $object);
                 } else {
@@ -3863,7 +3863,7 @@ function _session_start(array $options = []) {
     try {
         if (!empty($_GET['PHPSESSID'])) {
             if ($_GET['PHPSESSID'] !== session_id()) {
-                if (session_status() != PHP_SESSION_NONE) {
+                if (session_status() !== PHP_SESSION_NONE) {
                     @session_write_close();
                 }
                 session_id($_GET['PHPSESSID']);
@@ -5846,7 +5846,8 @@ function _setcookie($cookieName, $value, $expires = 0) {
             'domain' => getDomain(),
             'secure' => true,
             'httponly' => false,
-            'samesite' => 'None',];
+            'samesite' => 'None'
+        ];
         return setcookie($cookieName, $value, $cookie_options);
     } else {
         return setcookie($cookieName, $value, (int) $expires, "/", getDomain());
@@ -7083,8 +7084,8 @@ function listAllWordsToTranslate() {
         }
         if ($handle = opendir($dir)) {
             while (false !== ($entry = readdir($handle))) {
-                if ($entry != "." && $entry != "..") {
-                    $filename = $dir . "/" . $entry;
+                if ($entry !== '.' && $entry !== '..') {
+                    $filename = $dir . '/' . $entry;
                     if (is_dir($filename)) {
                         $vars = listAll($filename);
                     } elseif (preg_match("/\.php$/", $entry)) {
@@ -7780,7 +7781,7 @@ function forbiddenPageIfCannotEmbed($videos_id) {
     if (empty($advancedCustomUser)) {
         $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeUser');
     }
-    if(!isAVideoMobileApp()){
+    if (!isAVideoMobileApp()) {
         if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {
             if (!empty($advancedCustomUser->blockEmbedFromSharedVideos) && !CustomizeUser::canShareVideosFromVideo($videos_id)) {
                 $reason = array();
