@@ -9,7 +9,7 @@ LABEL maintainer="TRW <trw@acoby.de>" \
       org.label-schema.vendor="WWBN"
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG VERSION_ENCODER 3.7
+ARG VERSION_ENCODER=3.7
 
 ENV DB_MYSQL_HOST database
 ENV DB_MYSQL_PORT 3306
@@ -18,6 +18,7 @@ ENV DB_MYSQL_USER avideo
 ENV DB_MYSQL_PASSWORD avideo
 
 ENV SERVER_NAME avideo.localhost
+ENV ENABLE_PHPMYADMIN yes
 ENV CREATE_TLS_CERTIFICATE yes
 ENV TLS_CERTIFICATE_FILE /etc/apache2/ssl/localhost.crt
 ENV TLS_CERTIFICATE_KEY /etc/apache2/ssl/localhost.key
@@ -64,33 +65,34 @@ COPY deploy/apache/avideo.conf /etc/apache2/sites-enabled/000-default.conf
 COPY deploy/apache/phpmyadmin.conf /etc/apache2/conf-available/phpmyadmin.conf
 COPY deploy/docker-entrypoint /usr/local/bin/docker-entrypoint
 
-COPY admin /var/www/html/AVideo
-COPY feed /var/www/html/AVideo
-COPY install /var/www/html/AVideo
-COPY locale /var/www/html/AVideo
-COPY node_modules /var/www/html/AVideo
-COPY objects /var/www/html/AVideo
-COPY plugin /var/www/html/AVideo
-COPY storage /var/www/html/AVideo
-COPY updatedb /var/www/html/AVideo
-COPY vendor /var/www/html/AVideo
-COPY view /var/www/html/AVideo
+COPY admin /var/www/html/AVideo/admin
+COPY feed /var/www/html/AVideo/feed
+COPY install /var/www/html/AVideo/install
+COPY locale /var/www/html/AVideo/locale
+COPY node_modules /var/www/html/AVideo/node_modules
+COPY objects /var/www/html/AVideo/objects
+COPY plugin /var/www/html/AVideo/plugin
+COPY storage /var/www/html/AVideo/storage
+COPY updatedb /var/www/html/AVideo/updatedb
+COPY vendor /var/www/html/AVideo/vendor
+COPY view /var/www/html/AVideo/view
 COPY _config.yml /var/www/html/AVideo
 COPY .htaccess /var/www/html/AVideo
-COPY *.php /var/www/html/AVideo
 COPY CNAME /var/www/html/AVideo
 COPY LICENSE /var/www/html/AVideo
 COPY README.md /var/www/html/AVideo
-COPY *.js /var/www/html/AVideo
 COPY web.config /var/www/html/AVideo
+COPY index.php /var/www/html/AVideo
+COPY git.json.php /var/www/html/AVideo
+COPY sw.js /var/www/html/AVideo/
 
 # Configure AVideo
 RUN chmod 755 /usr/local/bin/docker-entrypoint && \
+    pip3 install youtube-dl && \
     cd /var/www/html && \
     git config --global advice.detachedHead false && \
     git clone -b $VERSION_ENCODER --depth 1 https://github.com/WWBN/AVideo-Encoder.git && \
     chown -R www-data:www-data /var/www/html/AVideo && \
-    pip3 install youtube-dl && \
     cd /var/www/html/AVideo/plugin/User_Location/install && \
     unzip install.zip && \
     a2enmod rewrite expires headers ssl xsendfile
@@ -99,11 +101,6 @@ VOLUME /var/www/tmp
 RUN mkdir -p /var/www/tmp && \
     chown www-data:www-data /var/www/tmp && \
     chmod 777 /var/www/tmp
-
-VOLUME /var/www/html/AVideo/plugin
-RUN mkdir -p /var/www/AVideo/plugin && \
-    chown www-data:www-data /var/www/html/AVideo/plugin && \
-    chmod 755 /var/www/html/AVideo/plugin
 
 VOLUME /var/www/html/AVideo/videos
 RUN mkdir -p /var/www/html/AVideo/videos && \
