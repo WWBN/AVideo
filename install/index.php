@@ -230,7 +230,7 @@ require_once '../locale/function.php';
 
                                     <div class="form-group">
                                         <label for="databaseHost">Database Host</label>
-                                        <input type="text" class="form-control" id="databaseHost" placeholder="Enter Database Host" value="localhost" required="required">
+                                        <input type="text" class="form-control" id="databaseHost" placeholder="Enter Database Host" value="database" required="required">
                                     </div>
                                     <div class="form-group">
                                         <label for="databasePort">Database Port</label>
@@ -238,7 +238,7 @@ require_once '../locale/function.php';
                                     </div>
                                     <div class="form-group">
                                         <label for="databaseUser">Database User</label>
-                                        <input type="text" class="form-control" id="databaseUser" placeholder="Enter Database User" value="root" required="required">
+                                        <input type="text" class="form-control" id="databaseUser" placeholder="Enter Database User" value="avideo" required="required">
                                     </div>
                                     <div class="form-group">
                                         <label for="databasePass">Database Password</label>
@@ -247,7 +247,7 @@ require_once '../locale/function.php';
                                     </div>
                                     <div class="form-group">
                                         <label for="databaseName">Database Name</label>
-                                        <input type="text" class="form-control" id="databaseName" placeholder="Enter Database Name" value="aVideo" required="required">
+                                        <input type="text" class="form-control" id="databaseName" placeholder="Enter Database Name" value="avideo" required="required">
                                     </div>
                                     <div class="form-group">
                                         <label for="createTables">Do you want to create database and tables?</label><br>
@@ -339,7 +339,7 @@ require_once '../locale/function.php';
                             if (xhr.status == 404) {
                                 avideoAlert("Sorry!", "Your Site URL is wrong!", "error");
                             } else {
-                                avideoAlert("Sorry!", "Unknow error!", "error");
+                                avideoAlert("Sorry!", "Unknown error!", "error");
                             }
                         }
                     });

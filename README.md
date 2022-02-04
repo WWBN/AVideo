@@ -198,7 +198,7 @@ docker-compose up --build -d
 
 In production you should remove the phpmyadmin image by setting `ENABLE_PHPMYADMIN=no`.
 
-Also we're working on a prebuild image.
+Also we're working on a prebuild image. So you can use the image from [Docker hub](https://hub.docker.com/r/trickert76/avideo-platform/tags).
 
 # Roadmap
 

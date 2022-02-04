@@ -95,6 +95,8 @@ RUN chmod 755 /usr/local/bin/docker-entrypoint && \
     chown -R www-data:www-data /var/www/html/AVideo && \
     cd /var/www/html/AVideo/plugin/User_Location/install && \
     unzip install.zip && \
+    sed -i 's/^post_max_size.*$/post_max_size = 100M/' /etc/php/7.4/apache2/php.ini && \
+    sed -i 's/^upload_max_filesize.*$/upload_max_filesize = 100M/' /etc/php/7.4/apache2/php.ini && \
     a2enmod rewrite expires headers ssl xsendfile
 
 VOLUME /var/www/tmp
