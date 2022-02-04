@@ -5625,7 +5625,27 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
     if ($logMessage) {
         _error_log($message);
     }
-    include $global['systemRootPath'] . 'view/forbiddenPage.php';
+
+    $headers = headers_list(); // get list of headers
+    foreach ($headers as $header) { // iterate over that list of headers
+        if (stripos($header, 'Content-Type') !== FALSE) { // if the current header hasthe String "Content-Type" in it
+            $headerParts = explode(':', $header); // split the string, getting an array
+            $headerValue = trim($headerParts[1]); // take second part as value
+            $contentType = $headerValue;
+            break;
+        }
+    }
+    if(empty($unlockPassword) && preg_match('/json/i', $contentType)){
+        header("Content-Type: application/json");
+        $obj = new stdClass();
+        $obj->error = true;
+        $obj->msg = $message;
+        $obj->forbiddenPage = true;
+        die(json_encode($obj));
+    }else{
+        header("Content-Type: text/html");
+        include $global['systemRootPath'] . 'view/forbiddenPage.php';
+    }
     exit;
 }
 
@@ -6310,7 +6330,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -7774,7 +7794,7 @@ function isDummyFile($filePath) {
 }
 
 function forbiddenPageIfCannotEmbed($videos_id) {
-    global $customizedAdvanced,$advancedCustomUser, $global;
+    global $customizedAdvanced, $advancedCustomUser, $global;
     if (empty($customizedAdvanced)) {
         $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
     }
