@@ -1,0 +1,75 @@
+#!/bin/bash
+
+echo "Starting AVideo Platform..."
+CONFIG_FILE=/etc/apache2/sites-enabled/000-default.conf
+
+if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
+  echo "Generate Certificate..."
+  echo "Certificate file: ${TLS_CERTIFICATE_FILE}"
+  echo "Certificate key: ${TLS_CERTIFICATE_KEY}"
+
+  mkdir -p `dirname ${TLS_CERTIFICATE_FILE}`
+  mkdir -p `dirname ${TLS_CERTIFICATE_KEY}`
+  subjectAltName="IP:127.0.0.1,DNS:${SERVER_NAME}"
+  
+  CONFIG=""
+  CONFIG="${CONFIG}[dn]\n"
+  CONFIG="${CONFIG}C=NN\n"
+  CONFIG="${CONFIG}L=Earth\n"
+  CONFIG="${CONFIG}O=AVideo\n"
+  CONFIG="${CONFIG}OU=Development\n"
+  CONFIG="${CONFIG}CN=localhost\n"
+  CONFIG="${CONFIG}\n"
+  CONFIG="${CONFIG}[req]\n"
+  CONFIG="${CONFIG}distinguished_name=dn\n"
+  CONFIG="${CONFIG}\n"
+  CONFIG="${CONFIG}[EXT]\n"
+  CONFIG="${CONFIG}subjectAltName=${subjectAltName}\n"
+  CONFIG="${CONFIG}extendedKeyUsage=serverAuth\n"
+  CONFIG="${CONFIG}\n"
+  
+  openssl req -x509 \
+    -out ${TLS_CERTIFICATE_FILE} -keyout ${TLS_CERTIFICATE_KEY} \
+    -newkey rsa:4096 \
+    -nodes \
+    -sha256 \
+    -days 3650 \
+    -subj '/C=NN/L=Earth/O=avideo/OU=DEV/CN=localhost' \
+    -extensions EXT -config <( \
+      printf "${CONFIG}")
+  
+  echo "New Certificate config..."
+  openssl x509 -in ${TLS_CERTIFICATE_FILE} -noout -text || true
+fi
+
+echo "Configure Apache..."
+sed -i 's#SERVER_NAME#'${SERVER_NAME}'#' ${CONFIG_FILE}
+sed -i 's#TLS_CERTIFICATE_FILE#'${TLS_CERTIFICATE_FILE}'#' ${CONFIG_FILE}
+sed -i 's#TLS_CERTIFICATE_KEY#'${TLS_CERTIFICATE_KEY}'#' ${CONFIG_FILE}
+sed -i 's#CONTACT_EMAIL#'${CONTACT_EMAIL}'#' ${CONFIG_FILE}
+
+if [ "_${ENABLE_PHPMYADMIN}_" = "_yes_" ]; then
+  echo "Enabling local PHPMyAdmin on https://${SERVER_NAME}/phpmyadmin"
+  cp /etc/apache2/conf-available/phpmyadmin.conf /etc/apache2/conf-enabled/phpmyadmin.conf
+  a2enmod proxy
+  a2enmod proxy_http
+fi
+
+echo "Waiting for database ${DB_MYSQL_HOST} to be up and running"
+php /usr/local/bin/wait-for-db.php
+if [ $? -ne 0 ]; then
+  echo "Stopping container"
+  exit 1
+fi
+
+if [ -f /var/www/html/AVideo/videos/configuration.php ]; then
+  echo "Using existing configuration..."
+else
+  echo "Create new configuration..."
+  cd /var/www/html/AVideo/install/
+  php ./cli.php
+  cd /var/www/html/AVideo/
+fi
+
+apache2-foreground
+#eof
