@@ -14,7 +14,7 @@ if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   
   CONFIG=""
   CONFIG="${CONFIG}[dn]\n"
-  CONFIG="${CONFIG}C=Sol\n"
+  CONFIG="${CONFIG}C=NN\n"
   CONFIG="${CONFIG}L=Earth\n"
   CONFIG="${CONFIG}O=AVideo\n"
   CONFIG="${CONFIG}OU=Development\n"
@@ -27,19 +27,16 @@ if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   CONFIG="${CONFIG}subjectAltName=${subjectAltName}\n"
   CONFIG="${CONFIG}extendedKeyUsage=serverAuth\n"
   CONFIG="${CONFIG}\n"
-
+  
   openssl req -x509 \
     -out ${TLS_CERTIFICATE_FILE} -keyout ${TLS_CERTIFICATE_KEY} \
     -newkey rsa:4096 \
     -nodes \
     -sha256 \
     -days 3650 \
-    -subj '/C=SOL/L=Earth/O=avideo/OU=DEV/CN=localhost' \
+    -subj '/C=NN/L=Earth/O=avideo/OU=DEV/CN=localhost' \
     -extensions EXT -config <( \
       printf "${CONFIG}")
-  
-  ls -al /etc/apache2
-  ls -al /etc/apache2/ssl || true
   
   echo "New Certificate config..."
   openssl x509 -in ${TLS_CERTIFICATE_FILE} -noout -text || true
