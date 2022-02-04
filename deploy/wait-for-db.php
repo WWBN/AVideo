@@ -13,14 +13,14 @@ $db_pass = getenv("DB_MYSQL_PASSWORD");
 while (!$connected) {
   echo "Checking database connection....";
   $mysqli = @new mysqli($db_host, $db_user, $db_pass, $db_name, $db_port);
-  if ($mysqli !== false) {
+  if ($mysqli !== false && $mysqli->connect_error === null) {
     echo "OK\n";
     $connected = true;
   } else {
     $counter ++;
     echo "Failed (attempt ".$counter.")\n";
     if ($counter*$sleep > $timeout) {
-      echo "Giving up...";
+      echo "Giving up... (".$mysqli->connect_errno.") ".$mysqli->connect_error;
       exit(1);
     }
     
