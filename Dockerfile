@@ -68,6 +68,7 @@ RUN apt install -y --no-install-recommends \
 COPY deploy/apache/avideo.conf /etc/apache2/sites-enabled/000-default.conf
 COPY deploy/apache/phpmyadmin.conf /etc/apache2/conf-available/phpmyadmin.conf
 COPY deploy/docker-entrypoint /usr/local/bin/docker-entrypoint
+COPY deploy/wait-for-db.php /usr/local/bin/wait-for-db.php
 
 COPY admin /var/www/html/AVideo/admin
 COPY feed /var/www/html/AVideo/feed

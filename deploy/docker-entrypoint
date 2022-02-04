@@ -55,6 +55,13 @@ if [ "_${ENABLE_PHPMYADMIN}_" = "_yes_" ]; then
   a2enmod proxy_http
 fi
 
+echo "Waiting for database ${DB_MYSQL_HOST} to be up and running"
+php /usr/local/bin/wait-for-db.php
+if [ $? -ne 0 ]; then
+  echo "Stopping container"
+  exit 1
+fi
+
 if [ -f /var/www/html/AVideo/videos/configuration.php ]; then
   echo "Using existing configuration..."
 else
