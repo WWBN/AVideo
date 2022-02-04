@@ -54,4 +54,5 @@ if [ "_${ENABLE_PHPMYADMIN}_" = "_yes_" ]; then
   a2enmod proxy_http
 fi
 
+apache2-foreground
 #eof
