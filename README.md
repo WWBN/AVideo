@@ -152,11 +152,57 @@ In order for you to be able to run AVideo Platform, there are certain tools that
 - MySQL 5.0+
 - Apache web server 2.x (with mod_rewrite enabled)
 
-## Docker local development
+## Docker
+
+We've created a docker compose environment for easy development and production.
+
+### Development
+
+Either just build the current branch by cloning the repository and run
+
+```bash
+doker build -t avideo .
+```
+
+And run the image. It contains an Apache2 webserver exposing ports 80 and 443. 
+We recommend using HTTPS on port 443 and ignore the HTTP port 80. The container
+will create a self-signed certificate on startup. There are some environment
+variables, that could be used to configure the environment
+
+- `DB_MYSQL_HOST` - defines the database host name - default is `database`
+- `DB_MYSQL_PORT` - defines the database port - default is `3306`
+- `DB_MYSQL_NAME` - defines the database name - default is `avideo`
+- `DB_MYSQL_USER` - defines the database user - default is `avideo`
+- `DB_MYSQL_PASSWORD` - defines the database password - default is `avideo`
+- `SERVER_NAME` - defines the virtualhost name for Apache - default is ` avideo.localhost`
+- `ENABLE_PHPMYADMIN` - defines, if PHPMyAdmin should be exposed - default is `yes`
+- `CREATE_TLS_CERTIFICATE` - defines, if the container should generate a self-signed certificate - default is `yes`
+- `TLS_CERTIFICATE_FILE` - defines the location of the TLS certificate - default is `/etc/apache2/ssl/localhost.crt`
+- `TLS_CERTIFICATE_KEY` - defines the location of the TLS private key - default is `/etc/apache2/ssl/localhost.key`
+- `CONTACT_EMAIL` - defines the contact mail address - default is `admin@localhost`
+- `SYSTEM_ADMIN_PASSWORD` - defines the system administrator passwort - default is `password`
+- `WEBSITE_TITLE` - defines the website title - default is `AVideo`
+- `MAIN_LANGUAGE` - defines the main language - default is `en_US`
+
+If you don't want to rebuild the image during development, mount the git repository to
+the path `/var/www/html/AVideo`. Then it using your local copy.
+
+### Compose
+
+We've also a simple docker compose environment to define the complete necessary 
+environment. You can just use and customize the local `docker-compose.yml` file.
+
+Beside the above defined docker image that can be build locally, the environment
+contains a MariaDB database and a PhpMyAdmin to have an easy look into the 
+database content.
 
 ```bash
 docker-compose up --build -d
 ```
+
+In production you should remove the phpmyadmin image by setting `ENABLE_PHPMYADMIN=no`.
+
+Also we're working on a prebuild image. So you can use the image from [Docker hub](https://hub.docker.com/r/trickert76/avideo-platform/tags).
 
 # Roadmap
 
