@@ -179,6 +179,10 @@ variables, that could be used to configure the environment
 - `CREATE_TLS_CERTIFICATE` - defines, if the container should generate a self-signed certificate - default is `yes`
 - `TLS_CERTIFICATE_FILE` - defines the location of the TLS certificate - default is `/etc/apache2/ssl/localhost.crt`
 - `TLS_CERTIFICATE_KEY` - defines the location of the TLS private key - default is `/etc/apache2/ssl/localhost.key`
+- `CONTACT_EMAIL` - defines the contact mail address - default is `admin@localhost`
+- `SYSTEM_ADMIN_PASSWORD` - defines the system administrator passwort - default is `password`
+- `WEBSITE_TITLE` - defines the website title - default is `AVideo`
+- `MAIN_LANGUAGE` - defines the main language - default is `en_US`
 
 If you don't want to rebuild the image during development, mount the git repository to
 the path `/var/www/html/AVideo`. Then it using your local copy.

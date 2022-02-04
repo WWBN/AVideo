@@ -14,9 +14,14 @@ services:
       DB_MYSQL_USER: "avideo"
       DB_MYSQL_PASSWORD: "avideo"
       SERVER_NAME: "localhost"
+      ENABLE_PHPMYADMIN: "yes"
       CREATE_TLS_CERTIFICATE: "yes"
       TLS_CERTIFICATE_FILE: "/etc/apache2/ssl/localhost.crt"
       TLS_CERTIFICATE_KEY: "/etc/apache2/ssl/localhost.key"
+      CONTACT_EMAIL: "admin@localhost"
+      SYSTEM_ADMIN_PASSWORD: "password"
+      WEBSITE_TITLE: "AVideo"
+      MAIN_LANGUAGE: "en_US"
     volumes:
       - "./var/www/avideo:/var/www/avideo"
     depends_on:

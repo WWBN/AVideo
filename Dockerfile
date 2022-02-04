@@ -17,11 +17,15 @@ ENV DB_MYSQL_NAME avideo
 ENV DB_MYSQL_USER avideo
 ENV DB_MYSQL_PASSWORD avideo
 
-ENV SERVER_NAME avideo.localhost
+ENV SERVER_NAME localhost
 ENV ENABLE_PHPMYADMIN yes
 ENV CREATE_TLS_CERTIFICATE yes
 ENV TLS_CERTIFICATE_FILE /etc/apache2/ssl/localhost.crt
 ENV TLS_CERTIFICATE_KEY /etc/apache2/ssl/localhost.key
+ENV CONTACT_EMAIL admin@localhost
+ENV SYSTEM_ADMIN_PASSWORD password
+ENV WEBSITE_TITLE AVideo
+ENV MAIN_LANGUAGE en_US
 
 # Retrieve package list
 RUN apt update
@@ -89,9 +93,9 @@ COPY sw.js /var/www/html/AVideo/
 # Configure AVideo
 RUN chmod 755 /usr/local/bin/docker-entrypoint && \
     pip3 install youtube-dl && \
-    cd /var/www/html && \
+    cd /var/www/html/AVideo && \
     git config --global advice.detachedHead false && \
-    git clone -b $VERSION_ENCODER --depth 1 https://github.com/WWBN/AVideo-Encoder.git && \
+    git clone -b $VERSION_ENCODER --depth 1 https://github.com/WWBN/AVideo-Encoder.git Encoder && \
     chown -R www-data:www-data /var/www/html/AVideo && \
     cd /var/www/html/AVideo/plugin/User_Location/install && \
     unzip install.zip && \

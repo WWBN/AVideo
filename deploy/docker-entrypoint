@@ -46,12 +46,22 @@ echo "Configure Apache..."
 sed -i 's#SERVER_NAME#'${SERVER_NAME}'#' ${CONFIG_FILE}
 sed -i 's#TLS_CERTIFICATE_FILE#'${TLS_CERTIFICATE_FILE}'#' ${CONFIG_FILE}
 sed -i 's#TLS_CERTIFICATE_KEY#'${TLS_CERTIFICATE_KEY}'#' ${CONFIG_FILE}
+sed -i 's#CONTACT_EMAIL#'${CONTACT_EMAIL}'#' ${CONFIG_FILE}
 
 if [ "_${ENABLE_PHPMYADMIN}_" = "_yes_" ]; then
   echo "Enabling local PHPMyAdmin on https://${SERVER_NAME}/phpmyadmin"
   cp /etc/apache2/conf-available/phpmyadmin.conf /etc/apache2/conf-enabled/phpmyadmin.conf
   a2enmod proxy
   a2enmod proxy_http
+fi
+
+if [ -f /var/www/html/AVideo/videos/configuration.php ]; then
+  echo "Using existing configuration..."
+else
+  echo "Create new configuration..."
+  cd /var/www/html/AVideo/install/
+  php ./cli.php
+  cd /var/www/html/AVideo/
 fi
 
 apache2-foreground
