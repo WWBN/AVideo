@@ -61,6 +61,7 @@ RUN apt install -y --no-install-recommends \
       php7.4-intl
 
 COPY deploy/apache/avideo.conf /etc/apache2/sites-enabled/000-default.conf
+COPY deploy/apache/phpmyadmin.conf /etc/apache2/conf-available/phpmyadmin.conf
 COPY deploy/docker-entrypoint /usr/local/bin/docker-entrypoint
 
 COPY admin /var/www/html/AVideo
@@ -78,7 +79,7 @@ COPY _config.yml /var/www/html/AVideo
 COPY .htaccess /var/www/html/AVideo
 COPY *.php /var/www/html/AVideo
 COPY CNAME /var/www/html/AVideo
-COPY LICENCE /var/www/html/AVideo
+COPY LICENSE /var/www/html/AVideo
 COPY README.md /var/www/html/AVideo
 COPY *.js /var/www/html/AVideo
 COPY web.config /var/www/html/AVideo
