@@ -1,0 +1,47 @@
+#!/bin/bash
+
+echo "Starting AVideo Platform..."
+CONFIG_FILE=/etc/apache2/sites-enabled/000-default.conf
+
+if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
+  echo "Generate Certificate..."
+  mkdir -p `dirname ${CREATE_TLS_CERTIFICATE}`
+  mkdir -p `dirname ${TLS_CERTIFICATE_KEY}`
+  subjectAltName="IP:127.0.0.1,DNS:${SERVER_NAME}"
+  
+  CONFIG=""
+  CONFIG="${CONFIG}[dn]\n"
+  CONFIG="${CONFIG}C=Sol\n"
+  CONFIG="${CONFIG}L=Earth\n"
+  CONFIG="${CONFIG}O=AVideo\n"
+  CONFIG="${CONFIG}OU=Development\n"
+  CONFIG="${CONFIG}CN=localhost\n"
+  CONFIG="${CONFIG}\n"
+  CONFIG="${CONFIG}[req]\n"
+  CONFIG="${CONFIG}distinguished_name=dn\n"
+  CONFIG="${CONFIG}\n"
+  CONFIG="${CONFIG}[EXT]\n"
+  CONFIG="${CONFIG}subjectAltName=${subjectAltName}\n"
+  CONFIG="${CONFIG}extendedKeyUsage=serverAuth\n"
+  CONFIG="${CONFIG}\n"
+
+  openssl req -x509 \
+    -out ${TLS_CERTIFICATE_FILE} -keyout ${TLS_CERTIFICATE_KEY} \
+    -newkey rsa:4096 \
+    -nodes \
+    -sha256 \
+    -days 3650 \
+    -subj '/C=SOL/L=Earth/O=avideo/OU=DEV/CN=localhost' \
+    -extensions EXT -config <( \
+      printf "${CONFIG}")
+  
+  echo "New Certificate config..."
+  openssl x509 -in ${TLS_CERTIFICATE_FILE} -noout -text
+fi
+
+echo "Configure Apache..."
+sed -i 's#SERVER_NAME#'${SERVER_NAME}'#' ${CONFIG_FILE}
+sed -i 's#TLS_CERTIFICATE_FILE#'${TLS_CERTIFICATE_FILE}'#' ${CONFIG_FILE}
+sed -i 's#TLS_CERTIFICATE_KEY#'${TLS_CERTIFICATE_KEY}'#' ${CONFIG_FILE}
+
+#eof
