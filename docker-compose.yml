@@ -1,37 +1,60 @@
 version: '3'
+
 services:
   web:
-    image: ubuntu/apache2
-    restart: unless-stopped
-# Change ports when in use
-    ports:
-      - '8383:80'
-      - '881:3306'
-      - '8443:443'
-    expose:
-      - 8383
-      - 881
-      - 8443
     build: .
-    environment:
-      DB_MYSQL_HOST: "db"
-      DB_MYSQL_PORT: 3306
-      DB_MYSQL_USER: "avideo"
-      DB_MYSQL_PASSWORD: "root"
-      DB_MYSQL_NAME: "avideo"
-    volumes:
-      - ./var/www/avideo:/var/www/avideo
-    networks:
-      - app_net
-  db:
-    image: mariadb
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
+    restart: "unless-stopped"
     ports:
-       - 8306:3306
+      - "80:80"
+      - "443:443"
+    environment:
+      DB_MYSQL_HOST: "database"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_NAME: "avideo"
+      DB_MYSQL_USER: "avideo"
+      DB_MYSQL_PASSWORD: "avideo"
+      SERVER_NAME: "localhost"
+      CREATE_TLS_CERTIFICATE: "yes"
+      TLS_CERTIFICATE_FILE: "/etc/apache2/ssl/localhost.crt"
+      TLS_CERTIFICATE_KEY: "/etc/apache2/ssl/localhost.key"
+    volumes:
+      - "./var/www/avideo:/var/www/avideo"
+    depends_on:
+      - database
+      - phpmyadmin
     networks:
       - app_net
+
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin"
+    restart: "unless-stopped"
+    environment:
+      PMA_ABSOLUTE_URI: "https://localhost/phpmyadmin"
+      PMA_HOST: "database"
+      PMA_PORT: 3306
+      PMA_CONTROLUSER: "avideo"
+      PMA_CONTROLPASS: "avideo"
+      PMA_PMADB: "avideo"
+      HIDE_PHP_VERSION: "true"
+    depends_on:
+      - database
+    networks:
+      - app_net
+
+  database:
+    image: "mariadb:latest"
+    restart: "unless-stopped"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+      MYSQL_INITDB_SKIP_TZINFO: 1
+      MYSQL_DATABASE: "avideo"
+      MYSQL_USER: "avideo"
+      MYSQL_PASSWORD: "avideo"
+    volumes:
+      - ./.compose/db:/var/lib/mysql
+    networks:
+      - app_net
+
 networks:
   app_net:
     driver: bridge

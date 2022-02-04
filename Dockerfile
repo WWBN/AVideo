@@ -9,14 +9,13 @@ LABEL maintainer="TRW <trw@acoby.de>" \
       org.label-schema.vendor="WWBN"
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG VERSION_ENCODER 3.7
 
-ENV DB_MYSQL_HOST db
+ENV DB_MYSQL_HOST database
 ENV DB_MYSQL_PORT 3306
 ENV DB_MYSQL_NAME avideo
 ENV DB_MYSQL_USER avideo
 ENV DB_MYSQL_PASSWORD avideo
-
-ENV VERSION_ENCODER 3.7
 
 ENV SERVER_NAME avideo.localhost
 ENV CREATE_TLS_CERTIFICATE yes
