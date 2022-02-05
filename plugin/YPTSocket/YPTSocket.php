@@ -105,7 +105,7 @@ class YPTSocket extends PluginAbstract {
         if(!is_string($msg)){
             $msg = json_encode($msg);
         }
-        $command = "php {$global['systemRootPath']}plugin/YPTSocket/send.json.php '$msg' '$callbackJSFunction' '$users_id' '$send_to_uri_pattern'";
+        $command = get_php(). " {$global['systemRootPath']}plugin/YPTSocket/send.json.php '$msg' '$callbackJSFunction' '$users_id' '$send_to_uri_pattern'";
         execAsync($command);
     }
 
