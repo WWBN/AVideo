@@ -724,7 +724,7 @@ class Live extends PluginAbstract {
     public static function controlRecordingAsync($key, $live_servers_id, $start = true) {
         global $global;
         outputAndContinueInBackground();
-        $command = "php {$global['systemRootPath']}plugin/Live/controlRecording.php '$key' '$live_servers_id' '$start'";
+        $command = get_php()." {$global['systemRootPath']}plugin/Live/controlRecording.php '$key' '$live_servers_id' '$start'";
 
         _error_log("NGINX Live::controlRecordingAsync start  ($command)");
         $pid = execAsync($command);

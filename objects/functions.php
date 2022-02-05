@@ -6450,6 +6450,15 @@ function get_ffmpeg($ignoreGPU = false) {
     return $ffmpeg . $complement;
 }
 
+function get_php() {
+    global $global;
+    $php = 'php  ';
+    if (!empty($global['php'])) {
+        $php = "{$global['php']} ";
+    }
+    return $php;
+}
+
 function isHTMLPage($url) {
     if (preg_match('/https?:\/\/(www\.)?(youtu.be|youtube.com|vimeo.com|bitchute.com)\//i', $url)) {
         return true;
