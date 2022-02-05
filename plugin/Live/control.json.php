@@ -19,6 +19,10 @@ $obj->key = $_REQUEST['key'];
 $obj->live_servers_id = $_REQUEST['live_servers_id'];
 $obj->newkey = "";
 
+if(empty($obj->key) && !empty($_REQUEST['name'])){
+    $obj->key = $_REQUEST['name'];
+}
+
 if (empty($obj->command)) {
     $obj->msg = __("empty command");
     die(json_encode($obj));
