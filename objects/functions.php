@@ -2010,7 +2010,12 @@ function make_path($path) {
     }
     if (!is_dir($path)) {
         //if(preg_match('/getvideoinfo/i', $path)){var_dump(debug_backtrace());}
-        $created = mkdir($path, 0755, true);
+        if(preg_match('/cache/i', $path)){
+            $mode = 0777;
+        }else{
+            $mode = 0755;
+        }
+        $created = mkdir($path, $mode, true);
         /*
           if (!$created) {
           _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
