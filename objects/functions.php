@@ -5201,7 +5201,7 @@ function getTmpDir($subdir = "") {
         }
         $tmpDir = addLastSlash($tmpDir);
         if (!is_dir($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
+            mkdir($tmpDir, 0777, true);
         }
         _session_start();
         $_SESSION['getTmpDir'][$subdir . "_"] = $tmpDir;
