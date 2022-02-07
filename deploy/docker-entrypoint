@@ -3,6 +3,12 @@
 echo "Starting AVideo Platform..."
 CONFIG_FILE=/etc/apache2/sites-enabled/000-default.conf
 
+if [ "_${ENABLE_ENCODER}_" == "_yes_" ]; then
+  echo "Enabling AVideo Encoder..."
+  git config --global advice.detachedHead false
+  git clone -b ${ENCODER_VERSION} --depth 1 ${ENCODER_REPOSITORY} /var/www/html/AVideo/Encoder
+fi
+
 if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   echo "Generate Certificate..."
   echo "Certificate file: ${TLS_CERTIFICATE_FILE}"

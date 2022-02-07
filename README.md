@@ -176,6 +176,10 @@ variables, that could be used to configure the environment
 - `DB_MYSQL_PASSWORD` - defines the database password - default is `avideo`
 - `SERVER_NAME` - defines the virtualhost name for Apache - default is ` avideo.localhost`
 - `ENABLE_PHPMYADMIN` - defines, if PHPMyAdmin should be exposed - default is `yes`
+- `ENABLE_ENCODER` - defines, if the encoder is enabled inside the container - default is `yes`
+- `ENCODER_REPOSITORY` - defines the encoder git repository to be enabled inside the container - default is `https://github.com/WWBN/AVideo-Encoder.git`
+- `ENCODER_VERSION` - defines the encoder version (git tag) of the image - default is `master`
+- `ENCODER_URL` - defines the encoder url for the platform - default is `https://localhost/Encoder`
 - `CREATE_TLS_CERTIFICATE` - defines, if the container should generate a self-signed certificate - default is `yes`
 - `TLS_CERTIFICATE_FILE` - defines the location of the TLS certificate - default is `/etc/apache2/ssl/localhost.crt`
 - `TLS_CERTIFICATE_KEY` - defines the location of the TLS private key - default is `/etc/apache2/ssl/localhost.key`

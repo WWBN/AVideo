@@ -12,5 +12,8 @@ $_POST["systemAdminPass"] = getenv("SYSTEM_ADMIN_PASSWORD");
 $_POST["webSiteTitle"] = getenv("WEBSITE_TITLE");
 $_POST["mainLanguage"] = getenv("MAIN_LANGUAGE");
 $_POST["webSiteRootURL"] = "https://".getenv("SERVER_NAME")."/";
+if (getenv("ENCODER_URL") !== false) {
+  $_POST["encoderURL"] = getenv("ENCODER_URL");
+}
 
 require_once "./checkConfiguration.php";

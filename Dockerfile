@@ -9,7 +9,6 @@ LABEL maintainer="TRW <trw@acoby.de>" \
       org.label-schema.vendor="WWBN"
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG VERSION_ENCODER=master
 
 ENV DB_MYSQL_HOST database
 ENV DB_MYSQL_PORT 3306
@@ -19,6 +18,11 @@ ENV DB_MYSQL_PASSWORD avideo
 
 ENV SERVER_NAME localhost
 ENV ENABLE_PHPMYADMIN yes
+ENV ENABLE_ENCODER yes
+ENV ENCODER_REPOSITORY https://github.com/WWBN/AVideo-Encoder.git
+ENV ENCODER_VERSION master
+ENV ENCODER_URL https://localhost/Encoder
+
 ENV CREATE_TLS_CERTIFICATE yes
 ENV TLS_CERTIFICATE_FILE /etc/apache2/ssl/localhost.crt
 ENV TLS_CERTIFICATE_KEY /etc/apache2/ssl/localhost.key
@@ -28,10 +32,10 @@ ENV WEBSITE_TITLE AVideo
 ENV MAIN_LANGUAGE en_US
 
 # Retrieve package list
-RUN apt update
+RUN apt-get update
 
 # Install dependencies
-RUN apt install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
       systemctl \
       apt-transport-https \
       lsb-release \
@@ -40,7 +44,7 @@ RUN apt install -y --no-install-recommends \
       unzip \
       curl \
       wget && \
-    apt install -y \
+    apt-get install -y \
       sshpass \
       ffmpeg \
       libimage-exiftool-perl \
@@ -95,9 +99,6 @@ COPY sw.js /var/www/html/AVideo/
 # Configure AVideo
 RUN chmod 755 /usr/local/bin/docker-entrypoint && \
     pip3 install youtube-dl && \
-    cd /var/www/html/AVideo && \
-    git config --global advice.detachedHead false && \
-    git clone -b $VERSION_ENCODER --depth 1 https://github.com/WWBN/AVideo-Encoder.git Encoder && \
     chown -R www-data:www-data /var/www/html/AVideo && \
     cd /var/www/html/AVideo/plugin/User_Location/install && \
     unzip install.zip && \
