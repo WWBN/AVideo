@@ -9,7 +9,7 @@ LABEL maintainer="TRW <trw@acoby.de>" \
       org.label-schema.vendor="WWBN"
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG VERSION_ENCODER=3.7
+ARG VERSION_ENCODER=master
 
 ENV DB_MYSQL_HOST database
 ENV DB_MYSQL_PORT 3306
@@ -41,6 +41,7 @@ RUN apt install -y --no-install-recommends \
       curl \
       wget && \
     apt install -y \
+      sshpass \
       ffmpeg \
       libimage-exiftool-perl \
       libapache2-mod-xsendfile \
@@ -102,7 +103,11 @@ RUN chmod 755 /usr/local/bin/docker-entrypoint && \
     unzip install.zip && \
     sed -i 's/^post_max_size.*$/post_max_size = 100M/' /etc/php/7.4/apache2/php.ini && \
     sed -i 's/^upload_max_filesize.*$/upload_max_filesize = 100M/' /etc/php/7.4/apache2/php.ini && \
-    a2enmod rewrite expires headers ssl xsendfile
+    sed -i 's/^max_execution_time.*$/max_execution_time = 7200/' /etc/php/7.4/apache2/php.ini && \
+    sed -i 's/^memory_limit.*$/memory_limit = 512M/' /etc/php/7.4/apache2/php.ini && \
+    a2enmod rewrite expires headers ssl xsendfile && \
+    apt-get clean && \
+    apt-get -y autoremove
 
 VOLUME /var/www/tmp
 RUN mkdir -p /var/www/tmp && \
