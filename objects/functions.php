@@ -322,20 +322,26 @@ function getRealIpAddr() {
 
 function cleanString($text) {
     $utf8 = [
-        '/[áàâãªä]/u' => 'a',
-        '/[ÁÀÂÃÄ]/u' => 'A',
-        '/[ÍÌÎÏ]/u' => 'I',
-        '/[íìîï]/u' => 'i',
-        '/[éèêë]/u' => 'e',
-        '/[ÉÈÊË]/u' => 'E',
-        '/[óòôõºö]/u' => 'o',
-        '/[ÓÒÔÕÖ]/u' => 'O',
-        '/[úùûü]/u' => 'u',
-        '/[ÚÙÛÜ]/u' => 'U',
-        '/ç/' => 'c',
-        '/Ç/' => 'C',
-        '/ñ/' => 'n',
-        '/Ñ/' => 'N',
+        '/[áaâaaäą]/u' => 'a',
+        '/[ÁAÂAÄĄ]/u' => 'A',
+        '/[ÍIÎI]/u' => 'I',
+        '/[íiîi]/u' => 'i',
+        '/[éeeëę]/u' => 'e',
+        '/[ÉEEËĘ]/u' => 'E',
+        '/[óoôooö]/u' => 'o',
+        '/[ÓOÔOÖ]/u' => 'O',
+        '/[úuuü]/u' => 'u',
+        '/[ÚUUÜ]/u' => 'U',
+        '/[çć]/u' => 'c',
+        '/[ÇĆ]/u' => 'C',
+        '/[nń]/u' => 'n',
+        '/[NŃ]/u' => 'N',
+        '/[żź]/u' => 'z',
+        '/[ŻŹ]/u' => 'Z',
+        '/ł/' => 'l',
+        '/Ł/' => 'L',
+        '/ś/' => 's',
+        '/Ś/' => 'S',
         '/–/' => '-', // UTF-8 hyphen to 'normal' hyphen
         '/[’‘‹›‚]/u' => ' ', // Literally a single quote
         '/[“”«»„]/u' => ' ', // Double quote
@@ -2004,7 +2010,12 @@ function make_path($path) {
     }
     if (!is_dir($path)) {
         //if(preg_match('/getvideoinfo/i', $path)){var_dump(debug_backtrace());}
-        $created = mkdir($path, 0755, true);
+        if(preg_match('/cache/i', $path)){
+            $mode = 0777;
+        }else{
+            $mode = 0755;
+        }
+        $created = mkdir($path, $mode, true);
         /*
           if (!$created) {
           _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -5190,7 +5201,7 @@ function getTmpDir($subdir = "") {
         }
         $tmpDir = addLastSlash($tmpDir);
         if (!is_dir($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
+            mkdir($tmpDir, 0777, true);
         }
         _session_start();
         $_SESSION['getTmpDir'][$subdir . "_"] = $tmpDir;
@@ -5625,7 +5636,27 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
     if ($logMessage) {
         _error_log($message);
     }
-    include $global['systemRootPath'] . 'view/forbiddenPage.php';
+
+    $headers = headers_list(); // get list of headers
+    foreach ($headers as $header) { // iterate over that list of headers
+        if (stripos($header, 'Content-Type') !== FALSE) { // if the current header hasthe String "Content-Type" in it
+            $headerParts = explode(':', $header); // split the string, getting an array
+            $headerValue = trim($headerParts[1]); // take second part as value
+            $contentType = $headerValue;
+            break;
+        }
+    }
+    if(empty($unlockPassword) && preg_match('/json/i', $contentType)){
+        header("Content-Type: application/json");
+        $obj = new stdClass();
+        $obj->error = true;
+        $obj->msg = $message;
+        $obj->forbiddenPage = true;
+        die(json_encode($obj));
+    }else{
+        header("Content-Type: text/html");
+        include $global['systemRootPath'] . 'view/forbiddenPage.php';
+    }
     exit;
 }
 
@@ -6310,7 +6341,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
             <div class="modal-content">
                 <div class="modal-body">
                     <center>
-    <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
+                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
                     </center>
                 </div>
             </div>
@@ -6417,6 +6448,15 @@ function get_ffmpeg($ignoreGPU = false) {
         $ffmpeg = "{$global['ffmpeg']}{$ffmpeg}";
     }
     return $ffmpeg . $complement;
+}
+
+function get_php() {
+    global $global;
+    $php = 'php  ';
+    if (!empty($global['php'])) {
+        $php = "{$global['php']} ";
+    }
+    return $php;
 }
 
 function isHTMLPage($url) {
@@ -7774,7 +7814,7 @@ function isDummyFile($filePath) {
 }
 
 function forbiddenPageIfCannotEmbed($videos_id) {
-    global $customizedAdvanced,$advancedCustomUser, $global;
+    global $customizedAdvanced, $advancedCustomUser, $global;
     if (empty($customizedAdvanced)) {
         $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
     }

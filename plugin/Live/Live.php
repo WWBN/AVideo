@@ -226,7 +226,10 @@ class Live extends PluginAbstract {
             }
             $link = addQueryStringParameter($link, 'live_schedule', intval($value['id']));
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
-            $array[] = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_' . $value['key']);
+            $app = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_' . $value['key']);
+            $app['live_servers_id'] = $value['live_servers_id'];
+            $app['key'] = $value['key'];
+            $array[] = $app;
         }
 
         $rows = LiveTransmitionHistory::getActiveLives();
@@ -245,7 +248,10 @@ class Live extends PluginAbstract {
             }
             $currentLives[] = $link;
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
-            $array[] = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'LiveObject_' . $value['id'], '', '', "live_{$value['key']}");
+            $app = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'LiveObject_' . $value['id'], '', '', "live_{$value['key']}");
+            $app['live_servers_id'] = $value['live_servers_id'];
+            $app['key'] = $value['key'];
+            $array[] = $app;
         }
 
         return $array;
@@ -724,7 +730,7 @@ class Live extends PluginAbstract {
     public static function controlRecordingAsync($key, $live_servers_id, $start = true) {
         global $global;
         outputAndContinueInBackground();
-        $command = "php {$global['systemRootPath']}plugin/Live/controlRecording.php '$key' '$live_servers_id' '$start'";
+        $command = get_php()." {$global['systemRootPath']}plugin/Live/controlRecording.php '$key' '$live_servers_id' '$start'";
 
         _error_log("NGINX Live::controlRecordingAsync start  ($command)");
         $pid = execAsync($command);

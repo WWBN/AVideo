@@ -281,8 +281,8 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 if (empty($video)) {
     if(!empty($_GET['v'])){
         $vid = new Video('', '', $_GET['v']);
-        if($vid->getStatus()===Video::$statusBrokenMissingFiles){
-            if (!Video::isMediaFileMissing($v->getFilename())) {
+        if($vid->getStatus()===Video::$statusBrokenMissingFiles){            
+            if (!Video::isMediaFileMissing($vid->getFilename())) {
                 $vid->setStatus(Video::$statusActive);
                 $vid->save();
                 _error_log('Missing files recovered '. $_GET['v']);

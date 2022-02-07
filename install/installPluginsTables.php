@@ -56,12 +56,17 @@ if ($option == 1 || $option == 2) {
             }
             $templine .= $line;
             if (substr(trim($line), -1, 1) == ';') {
-                if (!$global['mysqli']->query($templine)) {
-                    echo($value . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
-                    die(json_encode($obj));
-                } else {
-                    echo "[{$countFiles}/{$totalFiles}][{$countLines}/{$totalLines}] Success performing query from $value\n";
-                }
+                try {
+                    if (!$global['mysqli']->query($templine)) {
+                        echo($value . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+                        die(json_encode($obj));
+                    } else {
+                        echo "[{$countFiles}/{$totalFiles}][{$countLines}/{$totalLines}] Success performing query from $value\n";
+                    }
+                } catch (Exception $exc) {
+                    echo $exc->getTraceAsString();
+                } 
+
                 $templine = '';
             }
         }
