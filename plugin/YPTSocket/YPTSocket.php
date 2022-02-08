@@ -68,6 +68,8 @@ class YPTSocket extends PluginAbstract {
         self::addDataObjectHelper('forceNonSecure', 'Force not to use wss (non secure)', 'This is good if a reverse proxy is giving you a SSL');
         $obj->port = "2053";
         self::addDataObjectHelper('port', 'Server Port', 'You also MUST open this port on the firewall');
+        $obj->uri = "0.0.0.0";
+        self::addDataObjectHelper('uri', 'Server URI', 'You should not change it, only if you know what you are doing');
         $obj->host = $host;
         self::addDataObjectHelper('host', 'Server host', 'If your site is HTTPS make sure this host also handle the SSL connection');
         $obj->debugSocket = true;
