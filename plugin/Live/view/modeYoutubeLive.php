@@ -51,14 +51,14 @@ $imgh = 360;
 if (!empty($_REQUEST['playlists_id_live'])) {
     $liveTitle = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
     $liveDescription = PlayLists::getDescriptionIfIsSerie($_REQUEST['playlists_id_live']);
-    $liveImg = PlayLists::getImage($_REQUEST['playlists_id_live']);
+    //$liveImg = PlayLists::getImage($_REQUEST['playlists_id_live']);
 }
 
 if (!empty($_REQUEST['live_schedule'])) {
     $ls = new Live_schedule($_REQUEST['live_schedule']);
     $liveTitle = $ls->getTitle();
     $liveDescription = $ls->getDescription();
-    $liveImg = Live_schedule::getPosterURL($_REQUEST['live_schedule']);
+    //$liveImg = Live_schedule::getPosterURL($_REQUEST['live_schedule']);
     $liveUrl = addQueryStringParameter($liveUrl, 'live_schedule', intval($_REQUEST['live_schedule']));
     $img = addQueryStringParameter($img, 'live_schedule', intval($_REQUEST['live_schedule']));
     global $getLiveKey;
