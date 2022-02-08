@@ -102,45 +102,7 @@ $metaDescription = __("Channels");
                     </ul>
                     <?php
                     foreach ($channels as $value) {
-                        $get = ['channelName' => $value['channelName']]; ?>
-                        <div class="panel panel-default">
-                            <div class="panel-heading" style="position: relative;">
-                                <img src="<?php echo User::getPhoto($value['id']); ?>"
-                                     class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" alt="User Photo" />
-                                <a href="<?php echo User::getChannelLink($value['id']); ?>" class="btn btn-default">
-                                    <i class="fas fa-play-circle"></i>
-                                    <?php
-                                    echo User::getNameIdentificationById($value['id']); ?>
-                                </a>
-                                <div style="position: absolute; right: 10px; top: 10px;">
-                                    <?php
-                                    echo User::getBlockUserButton($value['id']); ?>
-                                    <?php echo Subscribe::getButton($value['id']); ?>
-                                </div>
-                            </div>
-                            <div class="panel-body gallery ">
-                                <div  style="margin-left: 120px;">
-                                    <?php echo stripslashes(str_replace('\\\\\\\n', '<br/>', html_entity_decode($value['about']))); ?>
-                                </div>
-
-                                <div class="clearfix" style="margin-bottom: 10px;"></div>
-                                <div class="clear clearfix galeryRowElement">
-                                    <?php
-                                    $_POST['current'] = 1;
-                        $_REQUEST['rowCount'] = 6;
-                        $_POST['sort']['created'] = "DESC";
-                        $uploadedVideos = Video::getAllVideos("viewable", $value['id']);
-
-                        createGallerySection($uploadedVideos, dechex(crc32($value['channelName']))); ?>
-                                </div>
-                            </div>
-                            <div class="panel-footer " style="font-size: 0.8em">
-                                <div class=" text-muted align-right">
-                                    <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($value['id'])), " ", __("Views in the last 30 days"); ?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php
+                        User::getChannelPanel($value['id']);
                     }
 
                     echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channels?page={page}");

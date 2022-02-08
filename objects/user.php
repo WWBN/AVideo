@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
 if (empty($global['systemRootPath'])) {
@@ -2567,6 +2566,54 @@ if (typeof gtag !== \"function\") {
         }
         $user = new User($users_id);
         return $user->addExternalOptions('ProfilePassword', preg_replace('/[^0-9a-z]/i', '', $value));
+    }
+
+    static function getChannelPanel($users_id) {
+        $u = new User($users_id);
+        $get = ['channelName' => $u->getChannelName()];
+        ?>
+        <div class="panel panel-default">
+            <div class="panel-heading" style="position: relative;">
+                <img src="<?php echo User::getPhoto($users_id); ?>"
+                     class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" alt="User Photo" />
+                <a href="<?php echo User::getChannelLink($users_id); ?>" class="btn btn-default">
+                    <i class="fas fa-play-circle"></i>
+                    <?php echo User::getNameIdentificationById($users_id); ?>
+                </a>
+                <div style="position: absolute; right: 10px; top: 10px;">
+                    <?php echo User::getBlockUserButton($users_id); ?>
+                    <?php echo Subscribe::getButton($users_id); ?>
+                </div>
+            </div>
+            <div class="panel-body gallery ">
+                <div  style="margin-left: 120px;">
+                    <?php echo stripslashes(str_replace('\\\\\\\n', '<br/>', html_entity_decode($value['about']))); ?>
+                </div>
+
+                <div class="clearfix" style="margin-bottom: 10px;"></div>
+                <div class="clear clearfix galeryRowElement">
+                    <?php
+                    $current = getCurrentPage();
+                    $rowCount = getRowCount();
+                    $sort = $_POST['sort'];
+                    $_POST['current'] = 1;
+                    $_REQUEST['rowCount'] = 6;
+                    $_POST['sort']['created'] = "DESC";
+                    $uploadedVideos = Video::getAllVideos("viewable", $users_id);
+                    createGallerySection($uploadedVideos, dechex(crc32($users_id)));
+                    $_POST['current'] = $current;
+                    $_REQUEST['rowCount'] = $rowCount;
+                    $_POST['sort'] = $sort;
+                    ?>
+                </div>
+            </div>
+            <div class="panel-footer " style="font-size: 0.8em">
+                <div class=" text-muted align-right">
+                    <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($users_id)), " ", __("Views in the last 30 days"); ?>
+                </div>
+            </div>
+        </div>
+        <?php
     }
 
 }

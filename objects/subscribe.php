@@ -292,7 +292,8 @@ class Subscribe
             $sql .= " AND users_id = '{$user_id}' ";
         }
 
-        $sql .= BootGrid::getSqlSearchFromPost(['email']);
+        //$sql .= BootGrid::getSqlSearchFromPost(['email']);
+        //echo $sql, '<br>', PHP_EOL;
         $res = sqlDAL::readSql($sql);
         $numRows = sqlDAL::num_rows($res);
         sqlDAL::close($res);
@@ -357,7 +358,7 @@ class Subscribe
         if (!empty($advancedCustom->removeSubscribeButton)) {
             return "";
         }
-
+        $rowCount = getRowCount();
         $total = static::getTotalSubscribes($user_id);
         $btnFile = $global['systemRootPath'] . 'view/subscribeBtnOffline.html';
 

@@ -2010,9 +2010,9 @@ function make_path($path) {
     }
     if (!is_dir($path)) {
         //if(preg_match('/getvideoinfo/i', $path)){var_dump(debug_backtrace());}
-        if(preg_match('/cache/i', $path)){
+        if (preg_match('/cache/i', $path)) {
             $mode = 0777;
-        }else{
+        } else {
             $mode = 0755;
         }
         $created = mkdir($path, $mode, true);
@@ -5646,14 +5646,14 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
             break;
         }
     }
-    if(empty($unlockPassword) && preg_match('/json/i', $contentType)){
+    if (empty($unlockPassword) && preg_match('/json/i', $contentType)) {
         header("Content-Type: application/json");
         $obj = new stdClass();
         $obj->error = true;
         $obj->msg = $message;
         $obj->forbiddenPage = true;
         die(json_encode($obj));
-    }else{
+    } else {
         header("Content-Type: text/html");
         include $global['systemRootPath'] . 'view/forbiddenPage.php';
     }
@@ -6373,14 +6373,31 @@ function getSocialModal($videos_id, $url = "", $title = "") {
 function getCroppie(
         $buttonTitle,
         $callBackJSFunction,
-        $resultWidth,
-        $resultHeight,
+        $resultWidth = 0,
+        $resultHeight = 0,
         $viewportWidth = 0,
         $boundary = 25,
         $viewportHeight = 0,
         $enforceBoundary = true
 ) {
     global $global;
+
+    if (empty($resultWidth) && empty($resultHeight)) {
+        if (isMobile()) {
+            $viewportWidth = 250;
+        } else {
+            $viewportWidth = 800;
+        }
+
+        if (defaultIsPortrait()) {
+            $resultWidth = 540;
+            $resultHeight = 800;
+        } else {
+            $resultWidth = 1280;
+            $resultHeight = 720;
+        }
+    }
+
     if (empty($viewportWidth)) {
         $viewportWidth = $resultWidth;
     }

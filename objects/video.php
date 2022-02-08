@@ -5007,6 +5007,9 @@ if (!class_exists('Video')) {
 
         public static function getCreatorHTML($users_id, $html = '', $small = false, $ignoreLinks=false)
         {
+            if(empty($users_id)){
+                return '';
+            }
             global $global;
             if ($small) {
                 $template = $global['systemRootPath'] . 'view/videoCreatorSmall.html';
