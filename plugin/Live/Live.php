@@ -209,12 +209,14 @@ class Live extends PluginAbstract {
         foreach ($rows as $value) {
             $isLive = LiveTransmitionHistory::getActiveLiveFromUser($value['users_id'], $value['live_servers_id'], $value['key']);
             if ($isLive) {
+                //var_dump(__LINE__, $isLive);
                 continue;
             }
 
             $timestamp = getTimestampFromTimezone($value['scheduled_time'], $value['timezone']);
             // live is already expired
             if ($timestamp < time()) {
+                //var_dump(__LINE__, $timestamp);
                 continue;
             }
 
@@ -222,6 +224,7 @@ class Live extends PluginAbstract {
             $link = Live::getLinkToLiveFromUsers_idAndLiveServer($value['users_id'], $value['live_servers_id']);
             // AVOID image POG
             if(preg_match('/\.jpg/', $link)){
+                //var_dump(__LINE__, $link);
                 continue;
             }
             $link = addQueryStringParameter($link, 'live_schedule', intval($value['id']));
@@ -231,7 +234,8 @@ class Live extends PluginAbstract {
             $app['key'] = $value['key'];
             $array[] = $app;
         }
-
+        //var_dump($rows);exit;
+        
         $rows = LiveTransmitionHistory::getActiveLives();
         $currentLives = array();
         foreach ($rows as $value) {

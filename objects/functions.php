@@ -6881,7 +6881,7 @@ function getStatsNotifications($force_recreate = false) {
                     $u = User::getFromUsername($value['user']);
                     $json['applications'][$key]['users_id'] = $u['id'];
                 }
-                if (!empty($json['applications'][$key]['key'])) {
+                if (!empty($json['applications'][$key]['key']) && $json['applications'][$key]["type"] === "live") {
                     // make sure it is online
                     $lth = new LiveTransmitionHistory();
                     $lth->setTitle($json['applications'][$key]['title']);
