@@ -10,7 +10,6 @@ services:
     volumes:
       - "./deploy/nginx:/etc/nginx/conf.d"
       - "./deploy/ssl:/etc/nginx/ssl"
-      - "./.compose/logs:/var/log/nginx/vhosts"
     healthcheck:
       test: curl --fail http://localhost/ || exit 1
       interval: 60s
