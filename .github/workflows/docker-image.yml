@@ -27,7 +27,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3.6.2
         with:
-          images: docker.io/trickert76/avideo-platform
+          images: ${{ secrets.DOCKERHUB_IMAGE }}
 
       - name: Build and push
         id: docker_build
