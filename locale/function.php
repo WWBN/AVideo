@@ -135,7 +135,7 @@ function setLanguage($lang) {
             include_once $file;
             return true;
         } else {
-            _error_log('setLanguage: File does not exists 1 ' . $file);
+            //_error_log('setLanguage: File does not exists 1 ' . $file);
             $lang = strtolower($lang);
             $file = "{$global['systemRootPath']}locale/{$lang}.php";
             if (file_exists($file)) {
@@ -143,7 +143,7 @@ function setLanguage($lang) {
                 include_once $file;
                 return true;
             } else {
-                _error_log('setLanguage: File does not exists 2 ' . $file);
+                //_error_log('setLanguage: File does not exists 2 ' . $file);
             }
         }
         return false;
