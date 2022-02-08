@@ -106,7 +106,7 @@ global $Schedulecount;
             </button>
         </div>
         <div class="btn-group btn-group-justified" style="margin-top: 10px;">
-            <button class="btn btn-primary" onclick="uploadPoster($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Upload Poster Image'); ?>" >
+            <button class="btn btn-primary" onclick="uploadPosterCroppie($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Upload Poster Image'); ?>" >
                 <i class="far fa-image"></i> <i class="fas fa-upload"></i> <span class=""><?php echo __('Upload Poster'); ?></span>
             </button>
             <button class="btn btn-danger " onclick="removePosterSchedule($(this).attr('schedule_id'));" data-toggle="tooltip" title="<?php echo __('Remove Poster') ?>" >
@@ -283,6 +283,12 @@ global $Schedulecount;
                         listScheduledLives();
                         swal.close();
                     });
+                }
+                
+                function uploadPosterCroppie(live_schedule_id) {
+                    //console.log(Schedule_plans[schedule_id]);
+                    //var schedule = Schedule_plans[schedule_id];
+                    avideoModalIframe(webSiteRootURL + "plugin/Live/view/Live_schedule/uploadPoster.php?live_schedule_id="+live_schedule_id);
                 }
 
                 function removePosterSchedule(schedule_id) {
