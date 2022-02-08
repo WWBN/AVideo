@@ -23,8 +23,15 @@ $croppieFilesAdded = 1;
 <script>
 
     var uploadCrop<?php echo $uid; ?>;
-
+    var createCroppie<?php echo $uid; ?>Timeout;
     function createCroppie<?php echo $uid; ?>(imageURL) {
+        clearTimeout(createCroppie<?php echo $uid; ?>Timeout);
+        if($('#croppie<?php echo $uid; ?>').is(":hidden")){
+            createCroppie<?php echo $uid; ?>Timeout = setTimeout(function(){
+                createCroppie<?php echo $uid; ?>(imageURL);
+            },1000);
+            return false;
+        }
         console.log('createCroppie');
         uploadCrop<?php echo $uid; ?> = $('#croppie<?php echo $uid; ?>').croppie({
             //url: imageURL,

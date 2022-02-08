@@ -183,7 +183,44 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                     </button>
                 </div>
                 <div class="panel-body"> 
-                    <input id="input-jpg" type="file" class="file-loading" accept="image/*">
+                    <?php
+                    $poster = Live::getPosterImage(User::getId(), $_REQUEST['live_servers_id']);
+                    $image = getURL($poster);
+                    $croppie1 = getCroppie(__("Upload Poster"), "saveLivePoster");
+                    echo $croppie1['html'];
+                    ?>
+                    <hr>
+                    <button class="btn btn-success btn-lg btn-block" onclick="closeWindowAfterImageSave = true;<?php echo $croppie1['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
+                    <script>
+                        var closeWindowAfterImageSave = false;
+                        function saveLivePoster(image) {
+                            modal.showPleaseWait();
+                            $.ajax({
+                                url: webSiteRootURL + 'plugin/Live/uploadPoster.json.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>',
+                                data: {
+                                    image: image
+                                },
+                                type: 'post',
+                                success: function (response) {
+                                    modal.hidePleaseWait();
+                                    avideoResponse(response);
+                                    if (response && !response.error) {
+                                        if (closeWindowAfterImageSave) {
+                                            avideoModalIframeClose();
+                                        }
+                                    }
+                                }
+                            });
+
+                        }
+
+                        $(document).ready(function () {
+
+<?php
+echo $croppie1['createCroppie'] . "('{$image}');";
+?>
+                        });
+                    </script>
                 </div>
             </div>
         </div>

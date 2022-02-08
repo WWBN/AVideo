@@ -47,7 +47,7 @@ $image = Live_schedule::getPosterURL($live_schedule_id);
             function saveSchedulePoster(image) {
                 modal.showPleaseWait();
                 $.ajax({
-                    url: webSiteRootURL + 'plugin/Live/view/Live_schedule/uploadPoster.json.php',
+                    url: webSiteRootURL + 'plugin/Live/uploadPoster.json.php',
                     data: {
                         live_schedule_id: <?php echo $live_schedule_id; ?>,
                         image: image

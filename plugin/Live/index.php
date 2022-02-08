@@ -287,32 +287,6 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
                 });
             }
             $(document).ready(function () {
-                $("#input-jpg").fileinput({
-                    uploadUrl: webSiteRootURL + "plugin/Live/uploadPoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>",
-                    autoReplace: true,
-                    overwriteInitial: true,
-                    showUploadedThumbs: false,
-                    showPreview: true,
-                    maxFileCount: 1,
-                    initialPreview: [
-                        "<img class='img img-responsive' src='<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>'>",
-                    ],
-                    initialCaption: 'LiveBG.jpg',
-                    initialPreviewShowDelete: false,
-                    showRemove: false,
-                    showClose: false,
-                    layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                    allowedFileExtensions: ["jpg", "jpeg", "png"],
-                    //minImageWidth: 2048,
-                    //minImageHeight: 1152,
-                    //maxImageWidth: 2560,
-                    //maxImageHeight: 1440
-                }).on('fileuploaded', function (event, previewId, index, fileId) {
-                    var poster = webSiteRootURL + '<?php echo Live::_getPosterImage(User::getId(), $_REQUEST['live_servers_id']); ?>?' + Math.random();
-                    $('#mainVideo video').attr('poster', poster);
-                    $('#mainVideo .vjs-poster').css('background-image', 'url("' + poster + '"');
-                });
-
                 $('#removePoster').click(function () {
                     modal.showPleaseWait();
                     $.ajax({
