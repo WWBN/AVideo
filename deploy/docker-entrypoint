@@ -54,13 +54,6 @@ sed -i 's#TLS_CERTIFICATE_FILE#'${TLS_CERTIFICATE_FILE}'#' ${CONFIG_FILE}
 sed -i 's#TLS_CERTIFICATE_KEY#'${TLS_CERTIFICATE_KEY}'#' ${CONFIG_FILE}
 sed -i 's#CONTACT_EMAIL#'${CONTACT_EMAIL}'#' ${CONFIG_FILE}
 
-if [ "_${ENABLE_PHPMYADMIN}_" = "_yes_" ]; then
-  echo "Enabling local PHPMyAdmin on https://${SERVER_NAME}/phpmyadmin"
-  cp /etc/apache2/conf-available/phpmyadmin.conf /etc/apache2/conf-enabled/phpmyadmin.conf
-  a2enmod proxy
-  a2enmod proxy_http
-fi
-
 echo "Waiting for database ${DB_MYSQL_HOST} to be up and running"
 php /usr/local/bin/wait-for-db.php
 if [ $? -ne 0 ]; then

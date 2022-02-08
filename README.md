@@ -175,7 +175,6 @@ variables, that could be used to configure the environment
 - `DB_MYSQL_USER` - defines the database user - default is `avideo`
 - `DB_MYSQL_PASSWORD` - defines the database password - default is `avideo`
 - `SERVER_NAME` - defines the virtualhost name for Apache - default is ` avideo.localhost`
-- `ENABLE_PHPMYADMIN` - defines, if PHPMyAdmin should be exposed - default is `yes`
 - `ENABLE_ENCODER` - defines, if the encoder is enabled inside the container - default is `yes`
 - `ENCODER_REPOSITORY` - defines the encoder git repository to be enabled inside the container - default is `https://github.com/WWBN/AVideo-Encoder.git`
 - `ENCODER_VERSION` - defines the encoder version (git tag) of the image - default is `master`
@@ -204,9 +203,7 @@ database content.
 docker-compose up --build -d
 ```
 
-In production you should remove the phpmyadmin image by setting `ENABLE_PHPMYADMIN=no`.
-
-Also we're working on a prebuild image. So you can use the image from [Docker hub](https://hub.docker.com/r/trickert76/avideo-platform/tags).
+Also there is a prebuild image. So you can use the image from [Docker hub](https://hub.docker.com/r/avideo/streamer/tags).
 
 # Roadmap
 

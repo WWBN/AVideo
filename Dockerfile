@@ -17,7 +17,7 @@ ENV DB_MYSQL_USER avideo
 ENV DB_MYSQL_PASSWORD avideo
 
 ENV SERVER_NAME localhost
-ENV ENABLE_PHPMYADMIN yes
+
 ENV ENABLE_ENCODER yes
 ENV ENCODER_REPOSITORY https://github.com/WWBN/AVideo-Encoder.git
 ENV ENCODER_VERSION master
@@ -71,7 +71,6 @@ RUN apt-get install -y --no-install-recommends \
       php7.4-intl
 
 COPY deploy/apache/avideo.conf /etc/apache2/sites-enabled/000-default.conf
-COPY deploy/apache/phpmyadmin.conf /etc/apache2/conf-available/phpmyadmin.conf
 COPY deploy/docker-entrypoint /usr/local/bin/docker-entrypoint
 COPY deploy/wait-for-db.php /usr/local/bin/wait-for-db.php
 

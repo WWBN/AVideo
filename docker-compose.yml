@@ -14,7 +14,6 @@ services:
       DB_MYSQL_USER: "avideo"
       DB_MYSQL_PASSWORD: "avideo"
       SERVER_NAME: "localhost"
-      ENABLE_PHPMYADMIN: "yes"
       ENABLE_ENCODER: "yes"
       ENCODER_VERSION: "master"
       ENCODER_URL: "https://localhost/Encoder"
