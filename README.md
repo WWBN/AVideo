@@ -169,12 +169,12 @@ We recommend using HTTPS on port 443 and ignore the HTTP port 80. The container
 will create a self-signed certificate on startup. There are some environment
 variables, that could be used to configure the environment
 
+- `SERVER_NAME` - defines the virtualhost name for Apache - default is ` localhost`
 - `DB_MYSQL_HOST` - defines the database host name - default is `database`
 - `DB_MYSQL_PORT` - defines the database port - default is `3306`
 - `DB_MYSQL_NAME` - defines the database name - default is `avideo`
 - `DB_MYSQL_USER` - defines the database user - default is `avideo`
 - `DB_MYSQL_PASSWORD` - defines the database password - default is `avideo`
-- `SERVER_NAME` - defines the virtualhost name for Apache - default is ` avideo.localhost`
 - `ENABLE_ENCODER` - defines, if the encoder is enabled inside the container - default is `yes`
 - `ENCODER_REPOSITORY` - defines the encoder git repository to be enabled inside the container - default is `https://github.com/WWBN/AVideo-Encoder.git`
 - `ENCODER_VERSION` - defines the encoder version (git tag) of the image - default is `master`

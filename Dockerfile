@@ -21,7 +21,7 @@ ENV SERVER_NAME localhost
 ENV ENABLE_ENCODER yes
 ENV ENCODER_REPOSITORY https://github.com/WWBN/AVideo-Encoder.git
 ENV ENCODER_VERSION master
-ENV ENCODER_URL https://localhost/Encoder
+ENV ENCODER_URL https://localhost/Encoder/
 
 ENV CREATE_TLS_CERTIFICATE yes
 ENV TLS_CERTIFICATE_FILE /etc/apache2/ssl/localhost.crt

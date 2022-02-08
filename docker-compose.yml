@@ -2,33 +2,64 @@ version: '3'
 
 services:
   web:
-    build: .
+    image: "nginx:mainline-alpine"
     restart: "unless-stopped"
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - "./deploy/nginx:/etc/nginx/conf.d"
+      - "./deploy/ssl:/etc/nginx/ssl"
+      - "./.compose/logs:/var/log/nginx/vhosts"
+    healthcheck:
+      test: curl --fail http://localhost/ || exit 1
+      interval: 60s
+      timeout: 5s
+      start_period: 5s
+    depends_on:
+      - "streamer"
+      - "encoder"
+      - "phpmyadmin"
+
+  streamer:
+    image: "docker.io/avideo/streamer:master"
+    # build: .
+    restart: "unless-stopped"
     environment:
+      SERVER_NAME: "localhost"
       DB_MYSQL_HOST: "database"
       DB_MYSQL_PORT: 3306
       DB_MYSQL_NAME: "avideo"
       DB_MYSQL_USER: "avideo"
       DB_MYSQL_PASSWORD: "avideo"
-      SERVER_NAME: "localhost"
-      ENABLE_ENCODER: "yes"
-      ENCODER_VERSION: "master"
-      ENCODER_URL: "https://localhost/Encoder"
-      CREATE_TLS_CERTIFICATE: "yes"
-      TLS_CERTIFICATE_FILE: "/etc/apache2/ssl/localhost.crt"
-      TLS_CERTIFICATE_KEY: "/etc/apache2/ssl/localhost.key"
+      ENABLE_ENCODER: "no"
+      ENCODER_URL: "https://localhost/encoder"
       CONTACT_EMAIL: "admin@localhost"
       SYSTEM_ADMIN_PASSWORD: "password"
       WEBSITE_TITLE: "AVideo"
       MAIN_LANGUAGE: "en_US"
-    volumes:
-      - "./var/www/avideo:/var/www/avideo"
     depends_on:
       - database
-      - phpmyadmin
+    networks:
+      - app_net
+
+  encoder:
+    image: "docker.io/avideo/encoder:master"
+    # build: .
+    restart: "unless-stopped"
+    environment:
+      SERVER_NAME: "localhost"
+      DB_MYSQL_HOST: "database"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_NAME: "avideo"
+      DB_MYSQL_USER: "avideo"
+      DB_MYSQL_PASSWORD: "avideo"
+      CONTACT_EMAIL: "admin@localhost"
+      STREAMER_URL: "https://localhost/"
+      STREAMER_USER: "admin"
+      STREAMER_PASSWORD: "password"
+    depends_on:
+      - database
     networks:
       - app_net
 
