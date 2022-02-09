@@ -97,7 +97,8 @@ class ADs extends PluginAbstract
 
     public function getHeadCode()
     {
-        $head = "<script> var adsbygoogleTimeout; </script>";
+        $head = "";
+        //$head .= "<script> var adsbygoogleTimeout = []; </script>";
         if (!empty($_GET['abkw'])) {
             $abkw = preg_replace('/[^a-zA-Z0-9_ ,-]/', '', $_GET['abkw']);
             $head .= "<script> window.abkw = '{$abkw}'; </script>";
@@ -142,7 +143,8 @@ class ADs extends PluginAbstract
             return "";
         }
         if (preg_match("/adsbygoogle/i", $adCode)) {
-            $adCode = str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "clearTimeout(adsbygoogleTimeout); adsbygoogleTimeout = setTimeout(function () {(adsbygoogle = window.adsbygoogle || []).push({});},5000);", trim($adCode));
+            $uid = uniqid();
+            $adCode = str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "setTimeout(function () {(adsbygoogle = window.adsbygoogle || []).push({});},5000);", trim($adCode));
             $adCode = "<div style='min-width:250px;min-height:90px;'>{$adCode}</div>";
         }
         return $adCode;
