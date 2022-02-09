@@ -2242,7 +2242,6 @@ function startGoogleAd(selector){
         try {
             (adsbygoogle = window.adsbygoogle || []).push({});
         } catch (e) {
-            setTimeout(function(){startGoogleAd(selector);},1000);
             console.log('startGoogleAd ERROR',selector);
         }
 
