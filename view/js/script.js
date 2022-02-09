@@ -2239,7 +2239,12 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
 function startGoogleAd(selector){
     if(isVisibleAndInViewport(selector)){
         console.log('startGoogleAd',selector);
-        (adsbygoogle = window.adsbygoogle || []).push({});
+        try {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+            console.log('startGoogleAd ERROR',selector);
+        }
+
     }else{
         setTimeout(function(){startGoogleAd(selector);},1000);
     }
