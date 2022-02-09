@@ -2237,9 +2237,23 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
 }
 
 function startGoogleAd(selector, timeout){
-    if($(selector).is(":visible") && $(selector).height() >= 80 && $(selector).width() >= 200){
+    if(isVisibleAndInViewport(selector)){
         setTimeout(function(){(adsbygoogle = window.adsbygoogle || []).push({});},timeout);
     }else{
         setTimeout(function(){startGoogleAd(selector, timeout);},1000);
     }
 }
+
+function isVisibleAndInViewport(selector){
+    if($(selector).is(":visible")){
+        var elementTop = $(selector).offset().top;
+        var elementBottom = elementTop + $(selector).outerHeight();
+
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + $(window).height();
+
+        return elementBottom > viewportTop && elementTop < viewportBottom;
+    }else{
+        return false;
+    }
+} 
