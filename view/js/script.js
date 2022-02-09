@@ -2236,15 +2236,12 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
     });
 }
 
-function startGoogleAd(selector, timeout){
+function startGoogleAd(selector){
     if(isVisibleAndInViewport(selector)){
-        console.log('startGoogleAd',selector, timeout);
-        setTimeout(function(){
-            console.log('startGoogleAd now',selector, timeout);
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        },timeout);
+        console.log('startGoogleAd',selector);
+        (adsbygoogle = window.adsbygoogle || []).push({});
     }else{
-        setTimeout(function(){startGoogleAd(selector, timeout);},1000);
+        setTimeout(function(){startGoogleAd(selector);},1000);
     }
 }
 
