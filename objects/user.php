@@ -919,7 +919,11 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function checkLoginAttempts() {
-        global $advancedCustomUser, $global;
+        global $advancedCustomUser, $global, $_checkLoginAttempts;
+        if(isset($_checkLoginAttempts)){
+            return true;
+        }
+        $_checkLoginAttempts = 1;
         // check for multiple logins attempts to prevent hacking
         if (empty($_SESSION['loginAttempts'])) {
             _session_start();
