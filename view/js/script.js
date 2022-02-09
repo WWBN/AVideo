@@ -2240,6 +2240,6 @@ function startGoogleAd(selector, timeout){
     if($(selector).is(":visible") && $(selector).height() >= 80 && $(selector).width() >= 200){
         setTimeout(function(){(adsbygoogle = window.adsbygoogle || []).push({});},timeout);
     }else{
-        setTimeout(function(){startGoogleAd(selector);},1000);
+        setTimeout(function(){startGoogleAd(selector, timeout);},1000);
     }
 }
