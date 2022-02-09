@@ -2238,7 +2238,8 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
 
 function startGoogleAd(selector){
     if($(selector).is(":visible") && $(selector).height() >= 80 && $(selector).width() >= 200){
-        (adsbygoogle = window.adsbygoogle || []).push({});
+        setTimeout(function(){(adsbygoogle = window.adsbygoogle || []).push({});},2000);
+        
     }else{
         setTimeout(function(){startGoogleAd(selector);},1000);
     }
