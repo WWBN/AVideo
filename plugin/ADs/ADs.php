@@ -135,8 +135,13 @@ class ADs extends PluginAbstract
         return "{$head}<script> window.abkw = 'home-page'; </script>";
     }
 
-    public static function giveGoogleATimeout($adCode)
-    {
+    public static function giveGoogleATimeout($adCode){
+        global $adsbygoogle_timeout;
+        if(empty($adsbygoogle_timeout)){
+            $adsbygoogle_timeout = 5000;
+        }else{
+            $adsbygoogle_timeout += 1000;
+        }
         $videos_id = getVideos_id();
         $showAds = AVideoPlugin::showAds($videos_id);
         if (!$showAds) {
@@ -144,7 +149,7 @@ class ADs extends PluginAbstract
         }
         if (preg_match("/adsbygoogle/i", $adCode)) {
             $uid = uniqid();
-            $adCode = str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "setTimeout(function () {(adsbygoogle = window.adsbygoogle || []).push({});},5000);", trim($adCode));
+            $adCode = str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "setTimeout(function () {(adsbygoogle = window.adsbygoogle || []).push({});},{$adsbygoogle_timeout});", trim($adCode));
             $adCode = "<div style='min-width:250px;min-height:90px;'>{$adCode}</div>";
         }
         return $adCode;
