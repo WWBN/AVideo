@@ -2242,7 +2242,7 @@ function startGoogleAd(selector){
         try {
             (adsbygoogle = window.adsbygoogle || []).push({});
         } catch (e) {
-            console.log('startGoogleAd ERROR',selector);
+            console.log('startGoogleAd ERROR',selector, $(selector), e);
         }
 
     }else{
