@@ -867,7 +867,7 @@ if (typeof gtag !== \"function\") {
             $user = $this->find($this->user, $this->password, true, $encodedPass);
         }
 
-        if (!self::checkLoginAttempts()) {
+        if (!isAVideoMobileApp() && !isAVideoEncoder() && !self::checkLoginAttempts()) {
             return self::CAPTCHA_ERROR;
         }
         ObjectYPT::clearSessionCache();
