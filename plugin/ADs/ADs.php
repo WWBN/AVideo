@@ -137,11 +137,6 @@ class ADs extends PluginAbstract
 
     public static function giveGoogleATimeout($adCode){
         global $adsbygoogle_timeout;
-        if(empty($adsbygoogle_timeout)){
-            $adsbygoogle_timeout = 1000;
-        }else{
-            $adsbygoogle_timeout += 1000;
-        }
         $videos_id = getVideos_id();
         $showAds = AVideoPlugin::showAds($videos_id);
         if (!$showAds) {
@@ -149,7 +144,7 @@ class ADs extends PluginAbstract
         }
         if (preg_match("/adsbygoogle/i", $adCode)) {
             $uid = uniqid();
-            $adCode = str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "$(function () {startGoogleAd('#adContainer{$uid}', {$adsbygoogle_timeout});});", trim($adCode));
+            $adCode = str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "$(function () {startGoogleAd('#adContainer{$uid}');});", trim($adCode));
             $adCode = "<div style='min-width:250px;min-height:90px;' id='adContainer{$uid}'>{$adCode}</div>";
         }
         return $adCode;
