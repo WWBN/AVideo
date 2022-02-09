@@ -2238,8 +2238,11 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
 
 function startGoogleAd(selector, timeout){
     if(isVisibleAndInViewport(selector)){
-        console.log('startGoogleAd',selector);
-        setTimeout(function(){(adsbygoogle = window.adsbygoogle || []).push({});},timeout);
+        console.log('startGoogleAd',selector, timeout);
+        setTimeout(function(){
+            console.log('startGoogleAd now',selector, timeout);
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        },timeout);
     }else{
         setTimeout(function(){startGoogleAd(selector, timeout);},1000);
     }
