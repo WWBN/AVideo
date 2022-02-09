@@ -868,6 +868,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!isAVideoMobileApp() && !isAVideoEncoder() && !self::checkLoginAttempts()) {
+            _error_log('login Captcha error '.$_SERVER['HTTP_USER_AGENT']);
             return self::CAPTCHA_ERROR;
         }
         ObjectYPT::clearSessionCache();
