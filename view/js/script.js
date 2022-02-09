@@ -2235,3 +2235,11 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
         }
     });
 }
+
+function startGoogleAd(selector){
+    if($(selector).is(":visible")){
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    }else{
+        setTimeout(function(){startGoogleAd(selector);},1000);
+    }
+}
