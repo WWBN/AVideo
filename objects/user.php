@@ -388,7 +388,7 @@ if (typeof gtag !== \"function\") {
             $about = br2nl($about);
             $about = strip_tags($about);
         }
-        return $about;
+        return trim($about);
     }
     
     public static function getAboutFromId($id) {

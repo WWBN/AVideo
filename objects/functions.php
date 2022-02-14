@@ -7724,7 +7724,7 @@ function isImage($file) {
 }
 
 function isHTMLEmpty($html_string) {
-    return empty(trim(strip_specific_tags($html_string, ['br', 'p'])));
+    return empty(trim(str_replace(array("\r", "\n"), array('', ''), strip_specific_tags($html_string, ['br', 'p']))));
 }
 
 function totalImageColors($image_path) {

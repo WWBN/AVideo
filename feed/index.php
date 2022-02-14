@@ -26,7 +26,10 @@ if (!empty($_GET['channelName'])) {
     $user = User::getChannelOwner($_GET['channelName']);
     $showOnlyLoggedUserVideos = $user['id'];
     $title = User::getNameIdentificationById($user['id']);
-    $description = User::getDescriptionById($user['id'], true);
+    $about = User::getDescriptionById($user['id'], true);
+    if(!isHTMLEmpty($about)){
+        $description = $about;
+    }
     $link = User::getChannelLink($user['id']);
     $logo = User::getPhoto($user['id']);
 }
