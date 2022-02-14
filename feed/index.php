@@ -12,7 +12,7 @@ $_REQUEST['rowCount'] = getRowCount();
 $showOnlyLoggedUserVideos = false;
 $title = $config->getWebSiteTitle();
 $link = $global['webSiteRootURL'];
-$logo = getCDN()."videos/userPhoto/logo.png";
+$logo = getURL("videos/userPhoto/logo.png");
 $description = '';
 
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
@@ -26,6 +26,7 @@ if (!empty($_GET['channelName'])) {
     $user = User::getChannelOwner($_GET['channelName']);
     $showOnlyLoggedUserVideos = $user['id'];
     $title = User::getNameIdentificationById($user['id']);
+    $description = User::getDescriptionById($user['id'], true);
     $link = User::getChannelLink($user['id']);
     $logo = User::getPhoto($user['id']);
 }

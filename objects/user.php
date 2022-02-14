@@ -381,6 +381,23 @@ if (typeof gtag !== \"function\") {
         }
         return __("Unknown User");
     }
+    
+    public static function getDescriptionById($id, $removeHTML = false) {
+        $about = self::getAboutFromId($id);
+        if($removeHTML){
+            $about = br2nl($about);
+            $about = strip_tags($about);
+        }
+        return $about;
+    }
+    
+    public static function getAboutFromId($id) {
+        if (!empty($id)) {
+            $user = new User($id);
+            return $user->getAbout();
+        }
+        return '';
+    }
 
     public static function getUserPass() {
         if (self::isLogged()) {
