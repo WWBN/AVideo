@@ -5,7 +5,7 @@
 if (isMobile()) {
     ?>
         #carouselRows .posterDetails {
-            height: 100%;
+            height: 100% !important;
         }
     <?php
 }
