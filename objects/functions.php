@@ -308,7 +308,9 @@ function base64DataToImage($imgBase64) {
 }
 
 function getRealIpAddr() {
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) { //check ip from share internet
+    if(isCommandLineInterface()){
+        $ip = "127.0.0.1";
+    }else if (!empty($_SERVER['HTTP_CLIENT_IP'])) { //check ip from share internet
         $ip = $_SERVER['HTTP_CLIENT_IP'];
     } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { //to check ip is pass from proxy
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
