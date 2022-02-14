@@ -119,6 +119,7 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
 } else if (!empty($playList[$playlist_index])) {
     setVideos_id($playList[$playlist_index]['id']);
 }
+$_REQUEST['hideAutoplaySwitch'] = 1;
 //var_dump($playListData);exit;
 ?>
 
