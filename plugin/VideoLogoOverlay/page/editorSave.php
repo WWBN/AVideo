@@ -2,11 +2,10 @@
 require_once '../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/plugin.php';
-if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager plugin logo overlay"));
-    exit;
-}
 header('Content-Type: application/json');
+if (!User::isAdmin()) {
+    forbiddenPage(__("You can not manager plugin logo overlay"));
+}
 require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
 
 $plugin = new VideoLogoOverlay();
@@ -17,11 +16,13 @@ $o = $plugin->getDataObject();
 $o->position->value = $_POST['position'];
 $o->opacity = $_POST['opacity'];
 $o->url = $_POST['url'];
+$o->error = true;
 
-$fileData = base64DataToImage($_POST['logoImgBase64']);
 $fileName = 'logoOverlay.png';
 $photoPath = $global['systemRootPath'] . '/videos/' . $fileName;
-$obj->bytes = file_put_contents($photoPath, $fileData);
+$obj->bytes = saveCroppieImage($photoPath, "image");
+
+$o->error = empty($obj->bytes);
 
 $p = new Plugin(0);
 $p->loadFromUUID($plugin->getUUID());
