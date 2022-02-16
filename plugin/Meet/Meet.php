@@ -112,7 +112,7 @@ Passcode: {password}
             $u = new User($users_id);
             $user = [
                 "avatar" => $u->getPhotoDB(),
-                "name" => ($isModerator?'+ ':'- ').$u->getNameIdentificationBd(),
+                "name" => $u->getNameIdentificationBd(),
                 "email" => $u->getEmail(),
                 "id" => $users_id,
                 "affiliation"=> ($isModerator?'owner':'member'),
