@@ -103,6 +103,9 @@ Passcode: {password}
         }
         $m = new Meet_schedule($meet_schedule_id);
         $room = $m->getCleanName();
+        
+        $isModerator = self::isModerator($meet_schedule_id);
+        
         if (empty($users_id)) {
             $user = [];
         } else {
@@ -112,6 +115,7 @@ Passcode: {password}
                 "name" => $u->getNameIdentificationBd(),
                 "email" => $u->getEmail(),
                 "id" => $users_id,
+                "affiliation"=> ($isModerator?'owner':'member'),
             ];
         }
 
@@ -125,7 +129,7 @@ Passcode: {password}
             "sub" => "meet.jitsi",
             "room" => $room,
             "exp" => strtotime("+30 hours"),
-            "moderator" => self::isModerator($meet_schedule_id),
+            "moderator" => $isModerator,
         ];
         return $jitsiPayload; // HS256
     }
