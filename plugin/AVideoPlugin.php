@@ -1420,6 +1420,18 @@ class AVideoPlugin
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
     }
+    
+    public static function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id){
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onLiveStream($live_transmitions_history_id, $users_id, $key, $live_servers_id);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
 
     public static function onUserSocketConnect()
     {

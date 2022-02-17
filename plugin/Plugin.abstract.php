@@ -480,6 +480,10 @@ abstract class PluginAbstract {
     public function onLiveStream($users_id, $live_servers_id) {
         return null;
     }
+    
+    public function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id) {
+        return null;
+    }
 
     public function thumbsOverlay($videos_id) {
         return "";

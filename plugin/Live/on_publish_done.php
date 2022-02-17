@@ -66,3 +66,4 @@ $parameters = Live::getLiveParametersFromKey($array['key']);
 $array['cleanKey'] = $parameters['cleanKey'];
 $array['stats'] = LiveTransmitionHistory::getStatsAndRemoveApplication($row['id']);
 $socketObj = Live::notifySocketStats("socketLiveOFFCallback", $array);
+AVideoPlugin::on_publish_done($row['id'], $row['users_id'], $row['key'], $row['live_servers_id']);
