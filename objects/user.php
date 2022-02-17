@@ -40,6 +40,7 @@ class User {
     private $donationLink;
     private $modified;
     private $extra_info;
+    private $phone;
     public static $DOCUMENT_IMAGE_TYPE = "Document Image";
     public static $channel_artTV = 'tv';
     public static $channel_artDesktopMax = 'desktop_max';
@@ -67,6 +68,14 @@ class User {
         }
     }
 
+    function getPhone() {
+        return $this->phone;
+    }
+
+    function setPhone($phone): void {
+        $this->phone = $phone;
+    }
+        
     public function getEmail() {
         return $this->email;
     }
@@ -631,7 +640,7 @@ if (typeof gtag !== \"function\") {
                 $values[] = $this->canViewChart;
                 $sql .= "canViewChart = ?, ";
             }
-            $formats .= "ssssssissssssssssi";
+            $formats .= "ssssssisssssssssssi";
             $values[] = $this->status;
             $values[] = $this->photoURL;
             $values[] = $this->backgroundURL;
@@ -649,21 +658,22 @@ if (typeof gtag !== \"function\") {
             $values[] = $this->region;
             $values[] = $this->city;
             $values[] = $this->donationLink;
+            $values[] = $this->phone;
             $values[] = $this->id;
 
             $sql .= "status = ?, "
                     . "photoURL = ?, backgroundURL = ?, "
                     . "recoverPass = ?, about = ?, "
                     . " channelName = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , "
-                    . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , donationLink = ? , "
+                    . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , donationLink = ? , phone = ? , "
                     . " modified = now() WHERE id = ?";
         } else {
-            $formats = "ssssiiiissssss";
+            $formats = "ssssiiiisssssss";
             $values = [$user, $password, $this->email, $name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet,
-                $status, $this->photoURL, $this->recoverPass, $channelName, $this->analyticsCode, $this->externalOptions,];
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions) "
+                $status, $this->photoURL, $this->recoverPass, $channelName, $this->analyticsCode, $this->externalOptions, $this->phone];
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions, phone) "
                     . " VALUES (?,?,?,?,?,?,?,?, false, "
-                    . "?,?,?, now(), now(),?,?,?)";
+                    . "?,?,?, now(), now(),?,?,?,?)";
         }
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
         if ($insert_row) {

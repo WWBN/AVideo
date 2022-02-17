@@ -71,6 +71,7 @@ $user->setUser($_POST['user']);
 $user->setPassword($_POST['pass']);
 $user->setEmail($_POST['email']);
 $user->setName($_POST['name']);
+$user->setPhone(@$_POST['phone']);
 
 $user->setCanUpload($config->getAuthCanUploadVideos());
 

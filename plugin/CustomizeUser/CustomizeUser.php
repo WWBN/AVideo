@@ -155,7 +155,10 @@ class CustomizeUser extends PluginAbstract
         self::addDataObjectHelper('enableExtraInfo', 'Enable user extra info', 'You can add custom fields on user´s profile, Edit this plugin to tell what fields should be saved');
         $obj->videosSearchAlsoSearchesOnChannelName = false;
         self::addDataObjectHelper('videosSearchAlsoSearchesOnChannelName', 'Videos search also searches on ChannelName', 'With this checked when you searc a video we will also return the results that matches with the channel name');
-
+        
+        $obj->doNotShowPhoneMyAccount = true;
+        $obj->doNotShowPhoneOnSignup = true;
+        
         return $obj;
     }
 

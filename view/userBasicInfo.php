@@ -22,7 +22,7 @@
     </div>
 
     <div class="form-group">
-        <label class="col-md-4 control-label"><?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? __("E-mail") : __("User"); ?></label>
+        <label class="col-md-4 control-label"><?php echo!empty($advancedCustomUser->forceLoginToBeTheEmail) ? __("E-mail") : __("User"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -78,6 +78,20 @@
                 <?php
             }
             ?>
+        </div>
+    </div>
+
+    <div class="form-group <?php
+    if (!empty($advancedCustomUser->doNotShowPhone)) {
+        echo " hidden ";
+    }
+    ?>">
+        <label class="col-md-4 control-label"><?php echo __("Phone"); ?></label>
+        <div class="col-md-8 inputGroupContainer">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fas fa-phone"></i></span>
+                <input  id="phone" placeholder="<?php echo __("Phone"); ?>" class="form-control"  type="text" value="<?php echo $user->getPhone(); ?>" >
+            </div>
         </div>
     </div>
 
@@ -161,55 +175,26 @@
     ?>
     <div class="row">
         <div class="col-sm-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <?php echo __("Profile Photo"); ?><br>
-                    <?php
-                    if($vloObj = AVideoPlugin::getDataObjectIfEnabled('VideoLogoOverlay')){
-                        if($vloObj->useUserChannelImageAsLogo){
-                            ?>
-                                <small><?php echo __("This image will appear in your livestream"); ?></small><br>
-                            <?php
-                        }
-                    }
-                    ?>
-                    <?php
-                    
-                    ?>
-                    <small><?php echo __("You must click save to confirm"); ?></small>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <div class="col-md-12 ">
-                            <div id="croppie"></div>
-                            <center>
-                                <a id="upload-btn" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo __("Upload a Photo"); ?></a>
-                            </center>
-                            <div class="alert alert-info">
-                                <?php echo __("Make sure you click on the Save button after change the photo"); ?>
-                            </div>
-                        </div>
-                        <input type="file" id="upload" value="Choose a file" accept="image/*" style="display: none;" />
-                    </div>
-                </div>
-            </div>
+            <?php
+            include $global['systemRootPath'] . 'view/userPhotoUploadInclude.php';
+            ?>
         </div>
         <div class="col-sm-9">
-        <?php
-        $channelArtRelativePath = User::getBackgroundURLFromUserID(User::getId());
+            <?php
+            $channelArtRelativePath = User::getBackgroundURLFromUserID(User::getId());
 
-        $finalWidth = 2560;
-        $finalHeight = 1440;
-        if(isMobile()){
-            $screenWidth = 640;
-            $screenHeight = 360;
-        }else{
-            $screenWidth = 960;
-            $screenHeight = 540;
-        }
-        $factorW = $screenWidth / $finalWidth;
-        include $global['systemRootPath'] . 'view/userChannelArtUploadInclude.php';
-        ?>
+            $finalWidth = 2560;
+            $finalHeight = 1440;
+            if (isMobile()) {
+                $screenWidth = 640;
+                $screenHeight = 360;
+            } else {
+                $screenWidth = 960;
+                $screenHeight = 540;
+            }
+            $factorW = $screenWidth / $finalWidth;
+            include $global['systemRootPath'] . 'view/userChannelArtUploadInclude.php';
+            ?>
         </div>
     </div>
 
@@ -232,27 +217,6 @@
             str = $('#analyticsCode').val();
             return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
         }
-        function readFile(input, crop) {
-            console.log(input);
-            console.log($(input)[0]);
-            console.log($(input)[0].files);
-            if ($(input)[0].files && $(input)[0].files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    crop.croppie('bind', {
-                        url: e.target.result
-                    }).then(function () {
-                        console.log('jQuery bind complete');
-                    });
-
-                }
-
-                reader.readAsDataURL($(input)[0].files[0]);
-            } else {
-                avideoAlert("Sorry - you're browser doesn't support the FileReader API");
-            }
-        }
 
         function updateUserFormSubmit() {
 
@@ -262,6 +226,7 @@
                     "user": $('#inputUser').val(),
                     "pass": $('#inputPassword').val(),
                     "email": $('#inputEmail').val(),
+                    "phone": $('#phone').val(),
                     "name": $('#inputName').val(),
                     "about": $('#textAbout').val(),
                     "channelName": $('#channelName').val(),
@@ -270,67 +235,25 @@
                 },
                 type: 'post',
                 success: function (response) {
-                    if (response.status > "0") {
-                        uploadCrop.croppie('result', {
-                            type: 'canvas',
-                            size: 'viewport'
-                        }).then(function (resp) {
-                            console.log("userSavePhoto");
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php echo $global['webSiteRootURL']; ?>objects/userSavePhoto.php",
-                                data: {
-                                    imgBase64: resp,
-                                },
-                                success: function (response) {
-                                    modal.hidePleaseWait();
-                                    avideoResponse(response);
-                                }
-                            });
-                        });
-                    } else if (response.error) {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
-                        modal.hidePleaseWait();
-                    } else {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
-                        modal.hidePleaseWait();
-                    }
+                    avideoResponse(response);
+                    modal.hidePleaseWait();
                 }
             });
         }
         $(document).ready(function () {
 
-            $('#upload').on('change', function () {
-                readFile(this, uploadCrop);
-            });
-            $('#upload-btn').on('click', function (ev) {
-                $('#upload').trigger("click");
-            });
 <?php
 if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
-        ?>
+    ?>
                 $('#inputUser').on('keyup', function () {
                     $('#inputEmail').val($(this).val());
                 });
     <?php
-    }
+}
 ?>
 
 
-            uploadCrop = $('#croppie').croppie({
-                url: '<?php echo $user->getPhoto(); ?>',
-                enableExif: true,
-                enforceBoundary: false,
-                mouseWheelZoom: false,
-                viewport: {
-                    width: 150,
-                    height: 150
-                },
-                boundary: {
-                    width: 150,
-                    height: 150
-                }
-            });
+            
             $('#updateUserForm').submit(function (evt) {
                 evt.preventDefault();
                 if (!isAnalytics()) {
@@ -348,9 +271,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                     avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your password does not match!"); ?>", "error");
                     return false;
                 } else {
-                    setTimeout(function () {
-                        updateUserFormSubmit();
-                    }, 1000);
+                    updateUserFormSubmit();
                     return false;
                 }
             });

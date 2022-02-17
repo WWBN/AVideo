@@ -5,6 +5,19 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 
 allowOrigin();
 $obj = AVideoPlugin::getObjectData("MobileManager");
+
+$customizeUser = AVideoPlugin::getDataObject('CustomizeUser');
+$obj->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
+
+$chat2 = AVideoPlugin::getDataObjectIfEnabled('Chat2');
+if(!empty($chat2)){
+    $obj->chat2ShowOnLive = $chat2->showOnLive;
+    $obj->chat2ShowOnUserVideos = $chat2->showOnUserVideos;
+}else{
+    $obj->chat2ShowOnLive = false;
+    $obj->chat2ShowOnUserVideos = false;
+}
+
 $obj->EULA = nl2br($obj->EULA->value);
 $obj->YPTSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
 $obj->language = $config->getLanguage();

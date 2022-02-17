@@ -83,6 +83,20 @@ if (!empty($_GET['siteRedirectUri'])) {
                                 </div>
                             <?php
                             } ?>
+                            <?php
+                            if (empty($advancedCustomUser->doNotShowPhoneOnSignup)) {
+                                ?>
+                                <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>">
+                                    <label class="col-sm-4 control-label hidden-xs"><?php echo __("Phone"); ?></label>
+                                    <div class="col-sm-8 inputGroupContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-phone"></i></span>
+                                            <input  id="phone" placeholder="<?php echo __("Phone"); ?>" class="form-control"  type="text" value="" >
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
+                            } ?>
                             <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>">
                                 <label class="col-sm-4 control-label hidden-xs"><?php echo __("New Password"); ?></label>
                                 <div class="col-sm-8 inputGroupContainer">
@@ -155,6 +169,7 @@ if (!empty($_GET['siteRedirectUri'])) {
                                                         "user": $('#inputUser').val(),
                                                         "pass": $('#inputPassword').val(),
                                                         "email": $('#inputEmail').val(),
+                                                        "phone": $('#Phone').val(),
                                                         "name": $('#inputName').val(),
                                                         "captcha": $('#captchaText').val()
                                                     },

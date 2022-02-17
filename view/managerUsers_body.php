@@ -81,7 +81,8 @@
             </div>
             <?php
             foreach ($userGroups as $value) {
-                $gridID = "userGroupGrid{$value['id']}"; ?>
+                $gridID = "userGroupGrid{$value['id']}";
+                ?>
                 <div id="userGroupTab<?php echo $value['id']; ?>" class="tab-pane fade">
                     <div class="btn-group pull-left" id="filterButtonsUG<?php echo $value['id']; ?>">
                         <div class="btn-group ">
@@ -136,6 +137,13 @@
                     <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>" >
                     <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
                     <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>" >
+                    <?php
+                    if (empty($advancedCustomUser->doNotShowPhoneOnSignup)) {
+                        ?>
+                        <label for="phone" class="sr-only"><?php echo __("Phone"); ?></label>
+                        <input type="text" id="phone" class="form-control " placeholder="<?php echo __("Phone"); ?>" >
+                        <?php }
+                    ?>
                     <label for="inputChannelName" class="sr-only"><?php echo __("Channel Name"); ?></label>
                     <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>" >
                     <label for="inputAnalyticsCode" class="sr-only"><?php echo __("Analytics Code"); ?></label>
@@ -143,49 +151,49 @@
                     <small>Do not paste the full javascript code, paste only the gtag id</small>
                     <ul class="list-group">
                         <li class="list-group-item <?php echo User::isAdmin() ? "" : "hidden"; ?>">
-                            <?php echo __("is Admin"); ?>
+<?php echo __("is Admin"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="isAdmin" id="isAdmin"/>
                                 <label for="isAdmin" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <?php echo __("Can Stream Videos"); ?>
+<?php echo __("Can Stream Videos"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="canStream" id="canStream"/>
                                 <label for="canStream" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <?php echo __("Can Upload Videos"); ?>
+<?php echo __("Can Upload Videos"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="canUpload" id="canUpload"/>
                                 <label for="canUpload" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <?php echo __("Can view chart"); ?>
+<?php echo __("Can view chart"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="canViewChart" id="canViewChart"/>
                                 <label for="canViewChart" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <?php echo __("Can create meet"); ?>
+<?php echo __("Can create meet"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="canCreateMeet" id="canCreateMeet"/>
                                 <label for="canCreateMeet" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <?php echo __("E-mail Verified"); ?>
+<?php echo __("E-mail Verified"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="isEmailVerified" id="isEmailVerified"/>
                                 <label for="isEmailVerified" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <?php echo __("is Active"); ?>
+<?php echo __("is Active"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="status" id="status"/>
                                 <label for="status" class="label-success"></label>
@@ -197,7 +205,7 @@
                     </ul>
                     <ul class="list-group">
                         <li class="list-group-item active">
-                            <?php echo __("User Groups"); ?>
+<?php echo __("User Groups"); ?>
                             <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By associating groups with this user, they will be able to see all the videos that are related to this group"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                         </li>
                         <?php
@@ -205,7 +213,7 @@
                             ?>
                             <li class="list-group-item usergroupsLi" id="usergroupsLi<?php echo $value['id']; ?>">
                                 <span class="fa fa-unlock"></span>
-                                <?php echo $value['group_name']; ?>
+    <?php echo $value['group_name']; ?>
                                 <span class="label label-info"><?php echo $value['total_videos']; ?> <?php echo __("Videos linked"); ?></span>
                                 <span class="label label-warning dynamicLabel"><i class="fas fa-link"></i> <?php echo __("Dynamic group"); ?></span>
                                 <div class="material-switch pull-right">
@@ -335,6 +343,7 @@
             $('#inputPassword').val('');
             $('#inputEmail').val('');
             $('#inputName').val('');
+            $('#phone').val('');
             $('#inputChannelName').val('');
             $('#inputAnalyticsCode').val('');
             $('#isAdmin').prop('checked', false);
@@ -377,6 +386,7 @@ print AVideoPlugin::updateUserFormJS();
                                 "pass": $('#inputPassword').val(),
                                 "email": $('#inputEmail').val(),
                                 "name": $('#inputName').val(),
+                                "phone": $('#phone').val(),
                                 "channelName": $('#inputChannelName').val(),
                                 "analyticsCode": $('#inputAnalyticsCode').val(),
                                 "isAdmin": $('#isAdmin').is(':checked'),
@@ -484,6 +494,7 @@ print AVideoPlugin::updateUserFormJS();
                 $('#inputPassword').val('');
                 $('#inputEmail').val(row.email);
                 $('#inputName').val(row.name);
+                $('#phone').val(row.phone);
                 $('#inputChannelName').val(row.channelName);
                 $('#inputAnalyticsCode').val(row.analyticsCode);
                 $('.userGroups').prop('checked', false);
@@ -492,9 +503,9 @@ print AVideoPlugin::updateUserFormJS();
 
                 for (var index in row.groups) {
                     $('#userGroup' + row.groups[index].id).prop('checked', true);
-                    if(row.groups[index].isDynamic){
+                    if (row.groups[index].isDynamic) {
                         $('#usergroupsLi' + row.groups[index].id).addClass('dynamic');
-                        $('#usergroupsLi' + row.groups[index].id+' input').attr("disabled", true);
+                        $('#usergroupsLi' + row.groups[index].id + ' input').attr("disabled", true);
                     }
                 }
                 $('#isAdmin').prop('checked', (row.isAdmin == "1" ? true : false));
