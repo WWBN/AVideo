@@ -381,10 +381,12 @@ class CustomizeUser extends PluginAbstract
     {
         global $global;
         $obj = $this->getDataObject();
-
+        /**
+         * No need to send verification email here
         if ($obj->sendVerificationMailAutomatic) {
             url_get_contents("{$global['webSiteRootURL']}objects/userVerifyEmail.php?users_id=$users_id");
         }
+         */
     }
 
     public function getWatchActionButton($videos_id)
