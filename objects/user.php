@@ -2134,7 +2134,7 @@ if (typeof gtag !== \"function\") {
             if (!$resp) {
                 _error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
             } else {
-                _error_log("sendVerificationLink: SUCCESS {$users_id} ". json_encode(debug_backtrace()));
+                _error_log("sendVerificationLink: SUCCESS {$users_id} ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 _session_start();
                 $_SESSION["sendVerificationLink"][$users_id] = time();
             }
