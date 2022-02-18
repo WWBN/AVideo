@@ -26,6 +26,7 @@
                     </div>
                 </div>
                 <?php
+                $contentSearchFound = true;
             }
         }
     }
