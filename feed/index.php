@@ -38,7 +38,12 @@ $cacheName = "feedCache".json_encode($_GET);
 $rows = ObjectYPT::getCache($cacheName, 0);
 if (empty($rows)) {
     // send $_GET['catName'] to be able to filter by category
+    $sort = @$_POST['sort'];
+    if(empty($_POST['sort'])){
+        $_POST['sort'] = array('created'=>'DESC');
+    }
     $rows = Video::getAllVideos("viewable", $showOnlyLoggedUserVideos);
+    $_POST['sort'] = $sort;
     ObjectYPT::setCache($cacheName, $rows);
 } else {
     $rows = object_to_array($rows);
