@@ -75,7 +75,7 @@ class User {
     function setPhone($phone): void {
         $this->phone = $phone;
     }
-        
+
     public function getEmail() {
         return $this->email;
     }
@@ -390,16 +390,16 @@ if (typeof gtag !== \"function\") {
         }
         return __("Unknown User");
     }
-    
+
     public static function getDescriptionById($id, $removeHTML = false) {
         $about = self::getAboutFromId($id);
-        if($removeHTML){
+        if ($removeHTML) {
             $about = br2nl($about);
             $about = strip_tags($about);
         }
         return trim($about);
     }
-    
+
     public static function getAboutFromId($id) {
         if (!empty($id)) {
             $user = new User($id);
@@ -895,7 +895,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!isAVideoMobileApp() && !isAVideoEncoder() && !self::checkLoginAttempts()) {
-            _error_log('login Captcha error '.$_SERVER['HTTP_USER_AGENT']);
+            _error_log('login Captcha error ' . $_SERVER['HTTP_USER_AGENT']);
             return self::CAPTCHA_ERROR;
         }
         ObjectYPT::clearSessionCache();
@@ -947,7 +947,7 @@ if (typeof gtag !== \"function\") {
 
     public static function checkLoginAttempts() {
         global $advancedCustomUser, $global, $_checkLoginAttempts;
-        if(isset($_checkLoginAttempts)){
+        if (isset($_checkLoginAttempts)) {
             return true;
         }
         $_checkLoginAttempts = 1;
@@ -2075,9 +2075,23 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function sendVerificationLink($users_id) {
-        global $global, $advancedCustomUser;
+        global $global, $advancedCustomUser, $_sendVerificationLink_sent;
+        
+        if(empty($users_id)){
+            _error_log("sendVerificationLink: empty user");
+            return false;
+        }
+        if (!isset($_sendVerificationLink_sent)) {
+            $_sendVerificationLink_sent = array();
+        }
         //Only send the verification email each 30 minutes
-        if (!empty($_SESSION["sendVerificationLink"][$users_id]) && time() - $_SESSION["sendVerificationLink"][$users_id] < 1800) {
+        if (!empty($_sendVerificationLink_sent[$users_id])) {
+            _error_log("sendVerificationLink: Email already sent, we will wait 30 min  {$users_id}");
+            return true;
+        }
+        $_sendVerificationLink_sent[$users_id] = 1;
+        //Only send the verification email each 30 minutes
+        if (!empty($_SESSION["sendVerificationLink"][$users_id]) && (time() - $_SESSION["sendVerificationLink"][$users_id]) < 1800) {
             _error_log("sendVerificationLink: Email already sent, we will wait 30 min  {$users_id}");
             return true;
         }
@@ -2144,16 +2158,29 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function createVerificationCode($users_id) {
-        global $global;
-        $obj = new stdClass();
-        $obj->users_id = $users_id;
-        $obj->salt = hash('sha256', $global['salt']);
+        global $global, $_createVerificationCode;
+        
+        if(empty($users_id)){
+            return false;
+        }
 
-        $user = new User($users_id);
-        $obj->recoverPass = $user->setRecoverPass();
-        $user->save();
+        if (!isset($_createVerificationCode)) {
+            $_createVerificationCode = array();
+        }
 
-        return base64_encode(json_encode($obj));
+        if (empty($_createVerificationCode[$users_id])) {
+            $obj = new stdClass();
+            $obj->users_id = $users_id;
+            $obj->salt = hash('sha256', $global['salt']);
+
+            $user = new User($users_id);
+            $obj->recoverPass = $user->setRecoverPass();
+            $user->save();
+
+            $_createVerificationCode[$users_id] = base64_encode(json_encode($obj));
+        }
+
+        return $_createVerificationCode[$users_id];
     }
 
     public static function decodeVerificationCode($code) {
