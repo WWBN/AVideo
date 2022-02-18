@@ -4,14 +4,30 @@
         include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
     }
 
-    if ($obj->searchOnChannels && !empty($_GET['search'])) {
-        $channels = User::getAllUsers(true);
-        //cleanSearchVar();
-        foreach ($channels as $value) {
-            $contentSearchFound = true;
-            createChannelItem($value['id'], $value['photoURL'], $value['identification']);
+    if ($obj->searchOnChannels) {
+        if (!empty($_REQUEST['search'])) {
+            $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
+            $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
+            if (!empty($channels)) {
+                ?>
+                <div id="channelsResults" class="clear clearfix">
+                    <h3 class="galleryTitle"> <i class="fas fa-user"></i> <?php echo __('Channels'); ?></h3>
+                    <div class="row">
+                        <?php
+                        $search = $_REQUEST['search'];
+                        clearSearch();
+                        foreach ($channels as $value) {
+                            echo '<div class="col-sm-12">';
+                            User::getChannelPanel($value['id']);
+                            echo '</div>';
+                        }
+                        reloadSearch();
+                        ?>
+                    </div>
+                </div>
+                <?php
+            }
         }
-        //reloadSearchVar();
     }
     if (!empty($video)) {
         $contentSearchFound = true;
@@ -36,29 +52,6 @@
                 </div>
                 <!-- For Live Videos End -->
                 <?php
-            }
-            if (!empty($_REQUEST['search'])) {
-                $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
-                $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
-                if (!empty($channels)) {
-                    ?>
-                    <div id="channelsResults" class="clear clearfix">
-                        <h3 class="galleryTitle"> <i class="fas fa-user"></i> <?php echo __('Channels'); ?></h3>
-                        <div class="row">
-                            <?php
-                            $search = $_REQUEST['search'];
-                            clearSearch();
-                            foreach ($channels as $value) {
-                                echo '<div class="col-sm-12">';
-                                User::getChannelPanel($value['id']);
-                                echo '</div>';
-                            }
-                            reloadSearch();
-                            ?>
-                        </div>
-                    </div>
-                    <?php
-                }
             }
         }
         echo AVideoPlugin::getGallerySection();
