@@ -2081,6 +2081,12 @@ if (typeof gtag !== \"function\") {
             _error_log("sendVerificationLink: empty user");
             return false;
         }
+        
+        $user = new User($users_id);
+        if(empty($user->getUser())){
+            _error_log("sendVerificationLink: user not found {$users_id}");
+            return false;
+        }
         if (!isset($_sendVerificationLink_sent)) {
             $_sendVerificationLink_sent = array();
         }
@@ -2096,7 +2102,6 @@ if (typeof gtag !== \"function\") {
             return true;
         }
         $config = new Configuration();
-        $user = new User($users_id);
         $code = urlencode(static::createVerificationCode($users_id));
         //Create a new PHPMailer instance
         if (!is_object($config)) {
@@ -2129,6 +2134,7 @@ if (typeof gtag !== \"function\") {
             if (!$resp) {
                 _error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
             } else {
+                _error_log("sendVerificationLink: SUCCESS {$users_id} ". json_encode(debug_backtrace()));
                 _session_start();
                 $_SESSION["sendVerificationLink"][$users_id] = time();
             }
