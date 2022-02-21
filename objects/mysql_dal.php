@@ -85,7 +85,7 @@ class sqlDAL
                 try {
                     $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
                 } catch (Exception $exc) {
-                    echo log_error($exc->getTraceAsString());
+                    _log_error($exc->getTraceAsString());
                 }
             }
         }
@@ -99,12 +99,18 @@ class sqlDAL
             return false;
         }
         if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
-            log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match ({$preparedStatement}) with formats ({$formats})");
+            _log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match ({$preparedStatement}) with formats ({$formats})");
             return false;
         }
-        $stmt->execute();
+        try {
+            $stmt->execute();
+        } catch (Exception $exc) {
+            _log_error($exc->getTraceAsString());
+            _log_error('Error in writeSql stmt->execute: '.$preparedStatement);
+        }
+
         if ($stmt->errno !== 0) {
-            log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
+            _log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
             $stmt->close();
             return false;
         }
