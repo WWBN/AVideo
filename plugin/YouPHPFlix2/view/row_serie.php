@@ -14,28 +14,28 @@
          background: -moz-linear-gradient(to right, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);">
         <div class="topicRow">
             <?php
-            if(empty($obj->doNotShowSeriesInfoOnMainPage)){
-            ?>
-            <h2 class="infoTitle">
-                <?php
-                $rowLink = $link = PlayLists::getLink($value['serie_playlists_id']);
-                $rowLinkEmbed = $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
-                $canWatchPlayButton = "";
-                if (User::canWatchVideoWithAds($value['id'])) {
-                    $canWatchPlayButton = "canWatchPlayButton";
-                } else if ($obj->hidePlayButtonIfCannotWatch) {
-                    $canWatchPlayButton = "hidden";
-                }
-                $value['title'] = "<a href='{$link}' embed='{$linkEmbed}' class='{$canWatchPlayButton}'>{$value['title']}</a>";
-                echo $value['title'];
+            if (empty($obj->doNotShowSeriesInfoOnMainPage)) {
                 ?>
-            </h2>
-            <div class="col-sm-12">
+                <h2 class="infoTitle">
+                    <?php
+                    $rowLink = $link = PlayLists::getLink($value['serie_playlists_id']);
+                    $rowLinkEmbed = $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
+                    $canWatchPlayButton = "";
+                    if (User::canWatchVideoWithAds($value['id'])) {
+                        $canWatchPlayButton = "canWatchPlayButton";
+                    } else if ($obj->hidePlayButtonIfCannotWatch) {
+                        $canWatchPlayButton = "hidden";
+                    }
+                    $value['title'] = "<a href='{$link}' embed='{$linkEmbed}' class='{$canWatchPlayButton}'>{$value['title']}</a>";
+                    echo $value['title'];
+                    ?>
+                </h2>
+                <div class="col-sm-12">
+                    <?php
+                    include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_info.php';
+                    ?>
+                </div>
                 <?php
-                include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_info.php';
-                ?>
-            </div>
-            <?php
             }
             ?>
             <div id="ajaxLoad-<?php echo $uid; ?>" class="flickity-area col-sm-12"><?php echo __('Loading...'); ?></div>
