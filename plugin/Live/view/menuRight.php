@@ -190,10 +190,17 @@ if (empty($obj->hideTopButton)) {
                 if (response.applications.length) {
                     for (i = 0; i < response.applications.length; i++) {
                         processApplication(response.applications[i]);
-                        var selector = '.liveViewStatusClass_' + response.applications[i].live_cleanKey;
-                        onlineLabelOnline(selector);
-                        selector = '.liveViewStatusClass_' + response.applications[i].key;
-                        onlineLabelOnline(selector);
+                        if(response.applications[i].type == "scheduleLive"){
+                            continue;
+                        }
+                        if(typeof response.applications[i].live_cleanKey !== 'undefined'){
+                            selector = '.liveViewStatusClass_' + response.applications[i].live_cleanKey;
+                            onlineLabelOnline(selector);
+                        }
+                        if(typeof response.applications[i].key !== 'undefined'){
+                            selector = '.liveViewStatusClass_' + response.applications[i].key;
+                            onlineLabelOnline(selector);
+                        }
                     }
                     mouseEffect();
                 }

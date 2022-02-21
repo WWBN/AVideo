@@ -304,6 +304,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         global $global;
 
         $row = self::getActiveLiveFromUser(0, '', $key);
+        //var_dump($key, $row);exit;
         if (empty($row)) {
             return false;
         }

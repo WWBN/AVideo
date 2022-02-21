@@ -97,14 +97,23 @@ class Live_schedule extends ObjectYPT
         return $array;
     }
 
-    public static function getPosterURL($live_schedule_id)
-    {
+    public static function getPosterURL($live_schedule_id){
         $paths = self::getPosterPaths($live_schedule_id);
         if (file_exists($paths['path'])) {
             return $paths['url'];
         } else {
             return Live::getComingSoonImage();
         }
+    }
+    
+    public static function isLive($live_schedule_id){
+        $ls = self::getFromDb($live_schedule_id);
+        if(empty($ls['key'])){
+            return false;
+        }
+        $isLive = LiveTransmitionHistory::isLive($ls['key']);
+        //var_dump($ls['key'], $isLive);exit;
+        return $isLive;
     }
 
     public static function getAll($users_id=0, $activeHoursAgo=false)

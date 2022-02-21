@@ -2208,9 +2208,21 @@ class Live extends PluginAbstract {
         $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id);
 
         if (!file_exists($global['systemRootPath'] . $file)) {
-            $file = self::getOnAirImage(false);
+            if(!empty($live_schedule_id)){
+                if(Live_schedule::isLive($live_schedule_id)){
+                    $file = self::getOnAirImage(false);
+                }else{
+                    $file = self::getComingSoonImage(false);
+                }
+            }else{
+                if(LiveTransmitionHistory::isLive($live_schedule_id)){
+                    $file = self::getOnAirImage(false);
+                }else{
+                    $file = self::getOfflineImage(false);
+                }
+            }
         }
-
+        //var_dump($file);exit;
         return $file;
     }
 

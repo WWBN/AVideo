@@ -1,7 +1,8 @@
 <script>
     function onlineLabelOnline(selector) {
         selector = selector.replace(/[&=]/g, '');
-        //console.log("Change video to Online ",selector);
+        console.log("Change video to Online ",selector);
+        console.trace();
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-danger');
         $(selector).addClass('label-success');
