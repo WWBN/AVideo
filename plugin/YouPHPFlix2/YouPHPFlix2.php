@@ -66,6 +66,7 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->titleLabelOverPoster = false;
         $obj->titleLabelCSS = "";
         $obj->hidePlayButtonIfCannotWatch = false;
+        $obj->doNotShowSeriesInfoOnMainPage = false;
         return $obj;
     }
 
