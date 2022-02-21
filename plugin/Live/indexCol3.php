@@ -40,24 +40,29 @@ if (!empty($obj->experimentalWebcam)) {
             <?php
             $active = '';
         }
-        
+
         if (empty($objLive->hideAdvancedStreamKeys)) {
-        ?>
-        <div id="tabStreamKey" class="tab-pane fade <?php echo $active; ?>">
-            <?php
-            include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamKey.php';
-            $active = '';
             ?>
-        </div>
-        <?php
+            <div id="tabStreamKey" class="tab-pane fade <?php echo $active; ?>">
+                <?php
+                include $global['systemRootPath'] . 'plugin/Live/tabs/tabStreamKey.php';
+                $active = '';
+                ?>
+            </div>
+            <?php
+        }
+
+        if (empty($objLive->hideShare)) {
+            ?>
+            <div id="tabShare" class="tab-pane fade <?php echo $active; ?>"> 
+                <?php
+                include $global['systemRootPath'] . 'plugin/Live/tabs/tabShare.php';
+                $active = '';
+                ?>
+            </div>
+            <?php
         }
         ?>
-        <div id="tabShare" class="tab-pane fade <?php echo $active; ?>"> 
-            <?php
-            include $global['systemRootPath'] . 'plugin/Live/tabs/tabShare.php';
-            $active = '';
-            ?>
-        </div>
 
     </div> 
 </div>  
