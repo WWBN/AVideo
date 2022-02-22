@@ -1491,7 +1491,11 @@ if (!class_exists('Video')) {
 
         public static function updateFilesize($videos_id)
         {
-            global $config;
+            global $config, $global;
+            
+            if(!empty($global['ignoreUupdateFilesize'])){
+                return false;
+            }
             if ($config->currentVersionLowerThen('8.5')) {
                 return false;
             }
