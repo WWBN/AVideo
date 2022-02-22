@@ -61,23 +61,6 @@ use phpseclib\Crypt\Twofish;
 use phpseclib\Math\BigInteger; // Used to do Diffie-Hellman key exchange and DSA/RSA signature verification.
 use phpseclib\System\SSH\Agent;
 
-/**#@+
- * @access private
- */
-/**
- * No compression
- */
-define('NET_SSH2_COMPRESSION_NONE',  1);
-/**
- * zlib compression
- */
-define('NET_SSH2_COMPRESSION_ZLIB', 2);
-/**
- * zlib@openssh.com
- */
-define('NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH', 3);
-/**#@-*/
-
 /**
  * Pure-PHP implementation of SSHv2.
  *
@@ -87,6 +70,25 @@ define('NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH', 3);
  */
 class SSH2
 {
+    /**#@+
+     * Compression Types
+     *
+     * @access private
+     */
+    /**
+     * No compression
+     */
+    const NET_SSH2_COMPRESSION_NONE = 1;
+    /**
+     * zlib compression
+     */
+    const NET_SSH2_COMPRESSION_ZLIB = 2;
+    /**
+     * zlib@openssh.com
+     */
+    const NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH = 3;
+    /**#@-*/
+
     /**#@+
      * Execution Bitmap Masks
      *
@@ -1002,7 +1004,7 @@ class SSH2
      * @var int
      * @access private
      */
-    var $compress = NET_SSH2_COMPRESSION_NONE;
+    var $compress = self::NET_SSH2_COMPRESSION_NONE;
 
     /**
      * Decompression method
@@ -1010,7 +1012,7 @@ class SSH2
      * @var resource|object
      * @access private
      */
-    var $decompress = NET_SSH2_COMPRESSION_NONE;
+    var $decompress = self::NET_SSH2_COMPRESSION_NONE;
 
     /**
      * Compression context
@@ -1292,8 +1294,8 @@ class SSH2
                     $read = array($this->fsock);
                     $write = $except = null;
                     $start = microtime(true);
-                    $sec = floor($this->curTimeout);
-                    $usec = 1000000 * ($this->curTimeout - $sec);
+                    $sec = (int) floor($this->curTimeout);
+                    $usec = (int) (1000000 * ($this->curTimeout - $sec));
                     // on windows this returns a "Warning: Invalid CRT parameters detected" error
                     // the !count() is done as a workaround for <https://bugs.php.net/42682>
                     if (!@stream_select($read, $write, $except, $sec, $usec) && !count($read)) {
@@ -1308,6 +1310,7 @@ class SSH2
                 if (strlen($temp) == 255) {
                     continue;
                 }
+
                 if ($temp === false) {
                     return false;
                 }
@@ -1644,9 +1647,9 @@ class SSH2
         }
 
         $compression_map = array(
-            'none' => NET_SSH2_COMPRESSION_NONE,
-            'zlib' => NET_SSH2_COMPRESSION_ZLIB,
-            'zlib@openssh.com' => NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH
+            'none' => self::NET_SSH2_COMPRESSION_NONE,
+            'zlib' => self::NET_SSH2_COMPRESSION_ZLIB,
+            'zlib@openssh.com' => self::NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH
         );
 
         $compression_algorithm_out = $this->_array_intersect_first($c2s_compression_algorithms, $this->compression_algorithms_client_to_server);
@@ -2301,6 +2304,10 @@ class SSH2
                             }
                     }
                 }
+            }
+
+            if (!count($newargs)) {
+                return false;
             }
 
             foreach ($newargs as $arg) {
@@ -3497,8 +3504,8 @@ class SSH2
                     $this->curTimeout-= $elapsed;
                 }
 
-                $sec = floor($this->curTimeout);
-                $usec = 1000000 * ($this->curTimeout - $sec);
+                $sec = (int)floor($this->curTimeout);
+                $usec = (int)(1000000 * ($this->curTimeout - $sec));
 
                 // on windows this returns a "Warning: Invalid CRT parameters detected" error
                 if (!@stream_select($read, $write, $except, $sec, $usec) && !count($read)) {
@@ -3585,11 +3592,11 @@ class SSH2
         }
 
         switch ($this->decompress) {
-            case NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH:
+            case self::NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH:
                 if (!$this->isAuthenticated()) {
                     break;
                 }
-            case NET_SSH2_COMPRESSION_ZLIB:
+            case self::NET_SSH2_COMPRESSION_ZLIB:
                 if ($this->regenerate_decompression_context) {
                     $this->regenerate_decompression_context = false;
 
@@ -4177,16 +4184,16 @@ class SSH2
         }
 
         switch ($this->compress) {
-            case NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH:
+            case self::NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH:
                 if (!$this->isAuthenticated()) {
                     break;
                 }
-            case NET_SSH2_COMPRESSION_ZLIB:
+            case self::NET_SSH2_COMPRESSION_ZLIB:
                 if (!$this->regenerate_compression_context) {
                     $header = '';
                 } else {
                     $this->regenerate_compression_context = false;
-                    $this->compress_context = deflate_init(ZLIB_ENCODING_RAW, ['window' => 15]);
+                    $this->compress_context = deflate_init(ZLIB_ENCODING_RAW, array('window' => 15));
                     $header = "\x78\x9C";
                 }
                 if ($this->compress_context) {
@@ -4939,9 +4946,9 @@ class SSH2
         $this->_connect();
 
         $compression_map = array(
-            NET_SSH2_COMPRESSION_NONE => 'none',
-            NET_SSH2_COMPRESSION_ZLIB => 'zlib',
-            NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH => 'zlib@openssh.com'
+            self::NET_SSH2_COMPRESSION_NONE => 'none',
+            self::NET_SSH2_COMPRESSION_ZLIB => 'zlib',
+            self::NET_SSH2_COMPRESSION_ZLIB_AT_OPENSSH => 'zlib@openssh.com'
         );
 
         return array(

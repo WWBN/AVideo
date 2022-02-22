@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.5.0
+
+### Added
+
+- Add explicit `@return mixed`
+- Add explicit return types to HttplugFactory
+
+### Fixed
+
+- Improve error handling with streams
+
 ## 1.4.1
 
 ### Fixed

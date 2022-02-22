@@ -34,7 +34,7 @@ final class TcpConnector implements ConnectorInterface
         }
 
         $ip = \trim($parts['host'], '[]');
-        if (false === \filter_var($ip, \FILTER_VALIDATE_IP)) {
+        if (@\inet_pton($ip) === false) {
             return Promise\reject(new \InvalidArgumentException(
                 'Given URI "' . $uri . '" does not contain a valid host IP (EINVAL)',
                 \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : 22

@@ -133,6 +133,9 @@ class ServerRequest implements ServerRequestInterface
         return $this->attributes;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAttribute($attribute, $default = null)
     {
         if (false === \array_key_exists($attribute, $this->attributes)) {

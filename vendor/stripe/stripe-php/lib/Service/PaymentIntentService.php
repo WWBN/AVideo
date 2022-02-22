@@ -14,7 +14,7 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection
+     * @return \Stripe\Collection<\Stripe\PaymentIntent>
      */
     public function all($params = null, $opts = null)
     {
@@ -178,5 +178,21 @@ class PaymentIntentService extends \Stripe\Service\AbstractService
     public function update($id, $params = null, $opts = null)
     {
         return $this->request('post', $this->buildPath('/v1/payment_intents/%s', $id), $params, $opts);
+    }
+
+    /**
+     * Verifies microdeposits on a PaymentIntent object.
+     *
+     * @param string $id
+     * @param null|array $params
+     * @param null|array|\Stripe\Util\RequestOptions $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return \Stripe\PaymentIntent
+     */
+    public function verifyMicrodeposits($id, $params = null, $opts = null)
+    {
+        return $this->request('post', $this->buildPath('/v1/payment_intents/%s/verify_microdeposits', $id), $params, $opts);
     }
 }

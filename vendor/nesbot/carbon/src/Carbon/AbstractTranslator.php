@@ -68,12 +68,13 @@ abstract class AbstractTranslator extends Translation\Translator
     public static function get($locale = null)
     {
         $locale = $locale ?: 'en';
+        $key = static::class === Translator::class ? $locale : static::class.'|'.$locale;
 
-        if (!isset(static::$singletons[$locale])) {
-            static::$singletons[$locale] = new static($locale);
+        if (!isset(static::$singletons[$key])) {
+            static::$singletons[$key] = new static($locale);
         }
 
-        return static::$singletons[$locale];
+        return static::$singletons[$key];
     }
 
     public function __construct($locale, MessageFormatterInterface $formatter = null, $cacheDir = null, $debug = false)
@@ -337,7 +338,7 @@ abstract class AbstractTranslator extends Translation\Translator
             $completeLocaleChunks = preg_split('/[_.-]+/', $completeLocale);
 
             $getScore = function ($language) use ($completeLocaleChunks) {
-                return static::compareChunkLists($completeLocaleChunks, preg_split('/[_.-]+/', $language));
+                return self::compareChunkLists($completeLocaleChunks, preg_split('/[_.-]+/', $language));
             };
 
             usort($locales, function ($first, $second) use ($getScore) {

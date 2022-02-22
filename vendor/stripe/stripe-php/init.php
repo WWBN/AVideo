@@ -124,6 +124,7 @@ require __DIR__ . '/lib/Order.php';
 require __DIR__ . '/lib/OrderItem.php';
 require __DIR__ . '/lib/OrderReturn.php';
 require __DIR__ . '/lib/PaymentIntent.php';
+require __DIR__ . '/lib/PaymentLink.php';
 require __DIR__ . '/lib/PaymentMethod.php';
 require __DIR__ . '/lib/Payout.php';
 require __DIR__ . '/lib/Person.php';
@@ -200,6 +201,7 @@ require __DIR__ . '/lib/Service/MandateService.php';
 require __DIR__ . '/lib/Service/OrderService.php';
 require __DIR__ . '/lib/Service/OrderReturnService.php';
 require __DIR__ . '/lib/Service/PaymentIntentService.php';
+require __DIR__ . '/lib/Service/PaymentLinkService.php';
 require __DIR__ . '/lib/Service/PaymentMethodService.php';
 require __DIR__ . '/lib/Service/PayoutService.php';
 require __DIR__ . '/lib/Service/PlanService.php';
@@ -234,9 +236,9 @@ require __DIR__ . '/lib/Service/TransferService.php';
 require __DIR__ . '/lib/Service/WebhookEndpointService.php';
 
 // Service factories
-require __DIR__ . '/lib/Service/CoreServiceFactory.php';
 require __DIR__ . '/lib/Service/BillingPortal/BillingPortalServiceFactory.php';
 require __DIR__ . '/lib/Service/Checkout/CheckoutServiceFactory.php';
+require __DIR__ . '/lib/Service/CoreServiceFactory.php';
 require __DIR__ . '/lib/Service/Identity/IdentityServiceFactory.php';
 require __DIR__ . '/lib/Service/Issuing/IssuingServiceFactory.php';
 require __DIR__ . '/lib/Service/Radar/RadarServiceFactory.php';
