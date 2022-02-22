@@ -469,6 +469,7 @@ if (!class_exists('Video')) {
             global $config, $global;
             
             if(!empty($global['ignoreUpdateDurationInSeconds'])){
+                _error_log('video:updateDurationInSeconds ignoreUpdateDurationInSeconds '. json_encode(debug_backtrace()));
                 return false;
             }
             
