@@ -1322,6 +1322,9 @@ if (!class_exists('Video')) {
                     }
                     if (empty($row['duration_in_seconds']) && $row['type']!=='article') {
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
+                        if(empty($row['duration_in_seconds'])){
+                            _error_log("Video duration_in_seconds not updated: id={$row['id']} type={$row['type']}");
+                        }
                     }
                     $row = self::getInfo($row, $getStatistcs);
                     $videos[] = $row;
