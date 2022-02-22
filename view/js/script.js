@@ -1337,7 +1337,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     html += '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
     html += '<i class="fas fa-chevron-left"></i>';
     html += '</button><img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;"></div>';
-    html += '<iframe frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
+    html += '<iframe id="avideoModalIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
     var span = document.createElement("span");
     span.innerHTML = html;
     swal({
@@ -1353,13 +1353,20 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         }
     });
     setTimeout(function () {
+        var contentLoaded = false;
         try {
-            $('body > div.swal-overlay iframe').load(function () {
-                clearTimout(avideoModalIframeWithClassNameTimeout);
-                avideoModalIframeRemove();
+            $('#avideoModalIframe').load(function () {
+                contentLoaded = true;
             });
         } catch (e) {
-            
+            if($('#avideoModalIframe').contents().find("body").length){
+                contentLoaded = true;
+            }
+        }
+        if(contentLoaded){
+            console.log('avideoModalIframeWithClassName content loaded');
+            clearTimout(avideoModalIframeWithClassNameTimeout);
+            avideoModalIframeRemove();
         }
         avideoModalIframeWithClassNameTimeout = setTimeout(function () {
             // is not loaded
