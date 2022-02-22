@@ -466,7 +466,12 @@ if (!class_exists('Video')) {
 
         public static function updateDurationInSeconds($videos_id, $duration)
         {
-            global $config;
+            global $config, $global;
+            
+            if(!empty($global['ignoreUpdateDurationInSeconds'])){
+                return false;
+            }
+            
             $videos_id = intval($videos_id);
             if ($config->currentVersionLowerThen('11.4')) {
                 return false;
