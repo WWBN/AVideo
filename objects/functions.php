@@ -1429,6 +1429,9 @@ function getResolutionFromFilename($filename) {
         return $getResolutionFromFilenameArray[$filename];
     }
 
+    if(!preg_match('/^http/i', $filename) && !file_exists($filename)){
+        return 0;
+    }
     $res = Video::getResolutionFromFilename($filename);
     if (empty($res)) {
         if (preg_match('/[_\/]hd[.\/]/i', $filename)) {
