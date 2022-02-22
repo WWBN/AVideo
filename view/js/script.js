@@ -1353,10 +1353,14 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         }
     });
     setTimeout(function () {
-        $('body > div.swal-overlay iframe').load(function () {
-            clearTimout(avideoModalIframeWithClassNameTimeout);
-            avideoModalIframeRemove();
-        });
+        try {
+            $('body > div.swal-overlay iframe').load(function () {
+                clearTimout(avideoModalIframeWithClassNameTimeout);
+                avideoModalIframeRemove();
+            });
+        } catch (e) {
+            
+        }
         avideoModalIframeWithClassNameTimeout = setTimeout(function () {
             // is not loaded
             url = addGetParam(url, 'avideoIframe', 0);
