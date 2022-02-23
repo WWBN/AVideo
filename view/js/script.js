@@ -1365,11 +1365,12 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         }
         
         if($('#avideoModalIframe').contents().find("body").length){
+            console.log('avideoModalIframeWithClassName content loaded 2');
             contentLoaded = true;
         }
         
         if(contentLoaded){
-            console.log('avideoModalIframeWithClassName content loaded 2');
+            console.log('avideoModalIframeWithClassName content loaded 3');
             clearTimeout(avideoModalIframeWithClassNameTimeout);
             avideoModalIframeRemove();
         }else{
