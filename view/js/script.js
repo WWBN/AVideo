@@ -1363,16 +1363,17 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
                 contentLoaded = true;
             }
         }
-        if(contentLoaded){
-            console.log('avideoModalIframeWithClassName content loaded');
-            clearTimout(avideoModalIframeWithClassNameTimeout);
-            avideoModalIframeRemove();
-        }
         avideoModalIframeWithClassNameTimeout = setTimeout(function () {
             // is not loaded
             url = addGetParam(url, 'avideoIframe', 0);
             document.location = url;
         }, 5000);
+        
+        if(contentLoaded){
+            console.log('avideoModalIframeWithClassName content loaded');
+            clearTimout(avideoModalIframeWithClassNameTimeout);
+            avideoModalIframeRemove();
+        }
     }, 1000);
 }
 
