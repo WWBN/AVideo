@@ -1358,7 +1358,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
             $('#avideoModalIframe').load(function () {
                 contentLoaded = true;
                 console.log('avideoModalIframeWithClassName content loaded 1');
-                clearTimout(avideoModalIframeWithClassNameTimeout);
+                clearTimeout(avideoModalIframeWithClassNameTimeout);
                 avideoModalIframeRemove();
             });
         } catch (e) {
@@ -1370,7 +1370,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         
         if(contentLoaded){
             console.log('avideoModalIframeWithClassName content loaded 2');
-            clearTimout(avideoModalIframeWithClassNameTimeout);
+            clearTimeout(avideoModalIframeWithClassNameTimeout);
             avideoModalIframeRemove();
         }else{
             avideoModalIframeWithClassNameTimeout = setTimeout(function () {
