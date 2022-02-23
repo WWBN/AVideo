@@ -128,16 +128,11 @@ if ($dfVideos > $_50GB) {
     $messages['Server'][] = ["Your videos directory is almost full, you have only " . humanFileSize($dfVideos) . ' free'];
 }
 
+$verified = verify($global['webSiteRootURL']);
 
-$verifyURL = "https://search.avideo.com/verify.php";
-$verifyURL = addQueryStringParameter($verifyURL, 'url', $global['webSiteRootURL']);
-$verifyURL = addQueryStringParameter($verifyURL, 'screenshot', 1);
-
-$result = url_get_contents($verifyURL, '', 5);
-if (empty($result)) {
+if (empty($verified)) {
     $messages['Server'][] = ["We could not verify your server from outside {$global['webSiteRootURL']}"];
 } else {
-    $verified = json_decode($result);
     if (!empty($verified->verified)) {
         $messages['Server'][] = "Server Checked from outside: <br>" . implode('<br>', $verified->msg);
     } else {
