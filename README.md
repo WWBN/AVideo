@@ -74,7 +74,7 @@ PROFITABLE STRATEGIES - We provide companies with new business models that evolv
 ### To see a demo select one below.
 * <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
   - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
-* <a href="https://tutorials.avideo.com/" target="_blank">AVideo Platform Gallery Demo</a>
+* <a href="https://tutorials.wwbn.net/" target="_blank">AVideo Platform Gallery Demo</a>
   - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
 * <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
@@ -101,7 +101,7 @@ I would humbly like to thank God for giving me the necessary knowledge, motivati
 
 I don´t want to read I just want you to show me how to install!!
 
-Ok, <a href="https://tutorials.avideo.com/video/streamer-and-encoder">check this out!</a>
+Ok, <a href="https://tutorials.wwbn.net/video/streamer-and-encoder">check this out!</a>
 
 For text-based tutorials and the manual, <a href="https://github.com/WWBN/AVideo/wiki/Admin-manual"> look here</a>.
 
