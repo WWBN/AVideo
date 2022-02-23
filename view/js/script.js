@@ -1357,6 +1357,9 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         try {
             $('#avideoModalIframe').load(function () {
                 contentLoaded = true;
+                console.log('avideoModalIframeWithClassName content loaded 1');
+                clearTimout(avideoModalIframeWithClassNameTimeout);
+                avideoModalIframeRemove();
             });
         } catch (e) {
         }
@@ -1364,16 +1367,17 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         if($('#avideoModalIframe').contents().find("body").length){
             contentLoaded = true;
         }
-        avideoModalIframeWithClassNameTimeout = setTimeout(function () {
-            // is not loaded
-            url = addGetParam(url, 'avideoIframe', 0);
-            document.location = url;
-        }, 5000);
         
         if(contentLoaded){
-            console.log('avideoModalIframeWithClassName content loaded');
+            console.log('avideoModalIframeWithClassName content loaded 2');
             clearTimout(avideoModalIframeWithClassNameTimeout);
             avideoModalIframeRemove();
+        }else{
+            avideoModalIframeWithClassNameTimeout = setTimeout(function () {
+                // is not loaded
+                url = addGetParam(url, 'avideoIframe', 0);
+                document.location = url;
+            }, 5000);
         }
     }, 1000);
 }
