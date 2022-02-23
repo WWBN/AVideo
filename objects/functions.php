@@ -2496,7 +2496,7 @@ function thereIsAnyRemoteUpdate() {
         return $cache;
     }
 
-    $version = _json_decode(url_get_contents("https://tutorials.avideo.com/version"));
+    $version = _json_decode(url_get_contents("https://tutorials.wwbn.net/version"));
     //$version = _json_decode(url_get_contents("https://tutorialsavideo.b-cdn.net/version", "", 4));
     if (empty($version)) {
         return false;
