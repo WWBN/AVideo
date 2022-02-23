@@ -1363,24 +1363,26 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
             });
         } catch (e) {
         }
-        
-        if($('#avideoModalIframe').contents().find("body").length){
+
+        if ($('#avideoModalIframe').contents().find("body").length) {
             console.log('avideoModalIframeWithClassName content loaded 2');
             contentLoaded = true;
         }
-        
-        if(contentLoaded){
+
+        if (contentLoaded) {
             console.log('avideoModalIframeWithClassName content loaded 3');
             clearTimeout(avideoModalIframeWithClassNameTimeout);
             avideoModalIframeRemove();
-        }else{
+        } else {
             console.log('avideoModalIframeWithClassName content loaded 4');
             clearTimeout(avideoModalIframeWithClassNameTimeout);
             avideoModalIframeWithClassNameTimeout = setTimeout(function () {
-                console.log('avideoModalIframeWithClassName content loaded 5');
-                // is not loaded
-                url = addGetParam(url, 'avideoIframe', 0);
-                document.location = url;
+                if (!$('#avideoModalIframe').contents().find("body").length) {
+                    console.log('avideoModalIframeWithClassName content loaded 5');
+                    // is not loaded
+                    url = addGetParam(url, 'avideoIframe', 0);
+                    document.location = url;
+                }
             }, 5000);
         }
     }, 1000);
@@ -2257,22 +2259,24 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
     });
 }
 
-function startGoogleAd(selector){
-    if(isVisibleAndInViewport(selector)){
-        console.log('startGoogleAd',selector);
+function startGoogleAd(selector) {
+    if (isVisibleAndInViewport(selector)) {
+        console.log('startGoogleAd', selector);
         try {
             (adsbygoogle = window.adsbygoogle || []).push({});
         } catch (e) {
-            console.log('startGoogleAd ERROR',selector, $(selector), e);
+            console.log('startGoogleAd ERROR', selector, $(selector), e);
         }
 
-    }else{
-        setTimeout(function(){startGoogleAd(selector);},1000);
+    } else {
+        setTimeout(function () {
+            startGoogleAd(selector);
+        }, 1000);
     }
 }
 
-function isVisibleAndInViewport(selector){
-    if($(selector).is(":visible")){
+function isVisibleAndInViewport(selector) {
+    if ($(selector).is(":visible")) {
         var elementTop = $(selector).offset().top;
         var elementBottom = elementTop + $(selector).outerHeight();
 
@@ -2280,7 +2284,7 @@ function isVisibleAndInViewport(selector){
         var viewportBottom = viewportTop + $(window).height();
 
         return elementBottom > viewportTop && elementTop < viewportBottom;
-    }else{
+    } else {
         return false;
     }
 } 
