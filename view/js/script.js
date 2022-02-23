@@ -1359,9 +1359,10 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
                 contentLoaded = true;
             });
         } catch (e) {
-            if($('#avideoModalIframe').contents().find("body").length){
-                contentLoaded = true;
-            }
+        }
+        
+        if($('#avideoModalIframe').contents().find("body").length){
+            contentLoaded = true;
         }
         avideoModalIframeWithClassNameTimeout = setTimeout(function () {
             // is not loaded
