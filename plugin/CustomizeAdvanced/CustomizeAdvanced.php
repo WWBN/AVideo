@@ -34,7 +34,7 @@ class CustomizeAdvanced extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->logoMenuBarURL = "";
-        $obj->encoderNetwork = "https://network.avideo.com/";
+        $obj->encoderNetwork = "https://network.wwbn.net/";
         $obj->useEncoderNetworkRecomendation = false;
         $obj->doNotShowEncoderNetwork = true;
         $obj->doNotShowUploadButton = false;
