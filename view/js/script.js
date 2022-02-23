@@ -1374,6 +1374,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
             clearTimeout(avideoModalIframeWithClassNameTimeout);
             avideoModalIframeRemove();
         }else{
+            clearTimeout(avideoModalIframeWithClassNameTimeout);
             avideoModalIframeWithClassNameTimeout = setTimeout(function () {
                 // is not loaded
                 url = addGetParam(url, 'avideoIframe', 0);
