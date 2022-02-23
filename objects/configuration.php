@@ -537,7 +537,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         if (empty($advancedCustom->useEncoderNetworkRecomendation) || empty($advancedCustom->encoderNetwork)) {
             return false;
         }
-        if ($advancedCustom->encoderNetwork === 'https://network.avideo.com/') {
+        if ($advancedCustom->encoderNetwork === 'https://network.wwbn.net/') {
             // check if you have your own encoder
             $encoderConfigFile = "{$global['systemRootPath']}Encoder/videos/configuration.php";
             if (file_exists($encoderConfigFile)) { // you have an encoder do not use the public one
