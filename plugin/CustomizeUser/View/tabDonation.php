@@ -65,7 +65,8 @@ foreach ($donation as $value) {
                             <div class="col-md-12 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-check"></i></span>
-                                    <input id="donationThankyou<?php echo $i; ?>" placeholder="<?php echo __("Thank you text"); ?>" class="form-control donationThankyou"  type="text" value="<?php echo $donationThankyou; ?>" required >
+                                    <input id="donationThankyou<?php echo $i; ?>" placeholder="{user} <?php echo __("Thank you for the donation"); ?>" class="form-control donationThankyou"  type="text" value="<?php echo $donationThankyou; ?>" required >
+                                    <small class="text-muted">Use the placeholder {user} and {value} for dinamically replacement</small>
                                 </div>
                             </div>
                         </div>
