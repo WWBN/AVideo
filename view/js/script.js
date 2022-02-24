@@ -2288,3 +2288,45 @@ function isVisibleAndInViewport(selector) {
         return false;
     }
 } 
+
+function playAudio(mp3) {
+    console.log('pling start');
+    if (disableChatSound) {
+        console.log('pling disableChatSound');
+        return false;
+    }
+    if (!$('#soundEnabled').is(':checked')) {
+        console.log('pling soundEnabled unchecked');
+        return false;
+    }
+    if (!plingEnabled) {
+        console.log('pling plingEnabled NOT enabled');
+        return false;
+    }
+    clearTimeout(plingTimeout);
+    plingTimeout = setTimeout(function () {
+        var audio = new Audio();
+        audio.autoplay = true;
+        audio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+        audio.src = mp3;
+
+        console.log('pling setTimeout', audio);
+        const promise = audio.play();
+        if (promise !== undefined) {
+            console.log('pling promise', promise);
+            promise.then((response) => {
+                console.log('pling audio played', response);
+                plingEnabled = false;
+                setTimeout(function () {
+                    plingEnabled = true;
+                }, 3000);
+            }).catch(error => {
+                console.log('pling audio disabled', error);
+                if (showEnableAudioMessage) {
+                    showEnableAudioMessage = false;
+                    avideoAlertInfo('Click here to enable audio');
+                }
+            });
+        }
+    }, 500);
+}
