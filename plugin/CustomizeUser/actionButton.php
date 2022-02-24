@@ -58,9 +58,9 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                                 } else if ($totalButtons == 2) {
                                     $column = 6;
                                 } else if ($totalButtons == 3) {
-                                    $column = 4;
+                                    $column = 6;
                                 } else {
-                                    $column = 3;
+                                    $column = 6;
                                 }
                                 foreach ($donationButtons as $value) {
                                     ?>
