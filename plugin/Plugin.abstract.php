@@ -227,7 +227,7 @@ abstract class PluginAbstract {
         return false;
     }
     
-    public function afterDonation($from_users_id, $how_much, $videos_id, $users_id) {
+    public function afterDonation($from_users_id, $how_much, $videos_id, $users_id, $extraParameters) {
         return false;
     }
 

@@ -141,7 +141,7 @@ if ($mysqli->query($sql) !== true) {
 
 error_log("Installation: ".__LINE__);
 
-$encoder = 'https://encoder1.avideo.com/';
+$encoder = 'https://encoder1.wwbn.net/';
 if (is_dir("{$_POST['systemRootPath']}Encoder")) {
     $encoder = "{$_POST['webSiteRootURL']}Encoder/";
 }

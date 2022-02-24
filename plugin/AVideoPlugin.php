@@ -695,14 +695,14 @@ class AVideoPlugin
         }
     }
 
-    public static function afterDonation($from_users_id, $how_much, $videos_id, $users_id)
+    public static function afterDonation($from_users_id, $how_much, $videos_id, $users_id, $extraParameters)
     {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $p->afterDonation($from_users_id, $how_much, $videos_id, $users_id);
+                $p->afterDonation($from_users_id, $how_much, $videos_id, $users_id, $extraParameters);
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }

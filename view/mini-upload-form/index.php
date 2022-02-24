@@ -63,7 +63,7 @@ if (!User::canUpload()) {
                     <div class="alert alert-warning">
                         <h1>
                             <span class="glyphicon glyphicon-warning-sign" style="font-size:1em;"></span>
-                            <?php echo __("This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'>public</a> one"); ?>
+                            <?php echo __("This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.wwbn.net/' class='btn btn-warning btn-xs'>public</a> one"); ?>
                         </h1>
                     </div>
                     <?php

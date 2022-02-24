@@ -137,6 +137,7 @@ class CustomizeUser extends PluginAbstract
         $obj->allowDonationLink = false;
         $obj->donationButtonLabel = __('Donation');
         $obj->allowWalletDirectTransferDonation = false;
+        $obj->UsersCanCustomizeWalletDirectTransferDonation = false;
         $obj->donationWalletButtonLabel = __('Donate from your wallet');
         $obj->disableCaptchaOnWalletDirectTransferDonation = false;
 
@@ -494,10 +495,15 @@ class CustomizeUser extends PluginAbstract
     {
         $p = AVideoPlugin::loadPlugin("CustomizeUser");
         $obj = $p->getDataObject();
-        if (empty($obj->enableExtraInfo)) {
-            return "";
+        $btn = '';
+        if (!empty($obj->enableExtraInfo)) {
+            $btn .= '<li><a data-toggle="tab" href="#tabExtraInfo' . $p->getUUID() . '">' . __('Extra Info') . '</a></li>';
         }
-        return '<li><a data-toggle="tab" href="#tabExtraInfo' . $p->getUUID() . '">' . __('Extra Info') . '</a></li>';
+        if($obj->allowWalletDirectTransferDonation && $obj->UsersCanCustomizeWalletDirectTransferDonation){
+            $btn .= '<li><a data-toggle="tab" href="#tabWalletDonation' . $p->getUUID() . '">' . __('Donations Options') . '</a></li>';
+        }
+        return $btn;
+        
     }
 
     public static function profileTabContent($users_id)
@@ -505,12 +511,21 @@ class CustomizeUser extends PluginAbstract
         global $global;
         $p = AVideoPlugin::loadPlugin("CustomizeUser");
         $obj = $p->getDataObject();
-        if (empty($obj->enableExtraInfo)) {
-            return "";
+        $btn = '';
+        if (!empty($obj->enableExtraInfo)) {
+            $tabId = 'tabExtraInfo' . $p->getUUID();
+            include $global['systemRootPath'] . 'plugin/CustomizeUser/View/tabExtraInfo.php';
         }
-        $tabId = 'tabExtraInfo' . $p->getUUID();
-        include $global['systemRootPath'] . 'plugin/CustomizeUser/View/tabExtraInfo.php';
-        return "";
+        if($obj->allowWalletDirectTransferDonation && $obj->UsersCanCustomizeWalletDirectTransferDonation){
+            $tabId = 'tabWalletDonation' . $p->getUUID();
+            include $global['systemRootPath'] . 'plugin/CustomizeUser/View/tabDonation.php';
+        }
+        
+        if($obj->allowWalletDirectTransferDonation && $obj->UsersCanCustomizeWalletDirectTransferDonation){
+            
+        }
+        
+        return $btn;
     }
 
     public function getUsersManagerListButton()

@@ -408,7 +408,7 @@ if (User::isAdmin()) {
                                                     <input id="encoder_url" aria-describedby="encoder_urlHelp" class="form-control"  type="url" value="<?php echo $config->_getEncoderURL(); ?>" >
                                                     <small id="encoder_urlHelp" class="form-text text-muted">
                                                         <?php echo __("You need to set up an encoder server"); ?><br>
-                                                        <?php echo __("You can use our public encoder on"); ?>: https://encoder1.avideo.com/ or
+                                                        <?php echo __("You can use our public encoder on"); ?>: https://encoder1.wwbn.net/ or
                                                         <a href="https://github.com/WWBN/AVideo-Encoder" class="btn btn-default btn-xs" target="_blank" rel="noopener noreferrer"><?php echo __("For faster encode, download your own encoder"); ?></a>
                                                     </small>
                                                 </div>

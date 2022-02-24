@@ -2633,6 +2633,29 @@ if (typeof gtag !== \"function\") {
         return $user->addExternalOptions('ProfilePassword', preg_replace('/[^0-9a-z]/i', '', $value));
     }
 
+    public static function getDonationButtons($users_id) {
+        global $config;
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj) || empty($users_id)) {
+            return false;
+        }
+        $user = new User($users_id);
+        $value = $user->getExternalOptions('DonationButtons');
+        return _json_decode($value);
+    }
+
+    public static function setDonationButtons($users_id, $value) {
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj) || !User::isAdmin()) {
+            return false;
+        }
+        $user = new User($users_id);
+        if(!is_string($value)){
+            $value = _json_encode($value);
+        }
+        return $user->addExternalOptions('DonationButtons', $value);
+    }
+
     static function getChannelPanel($users_id) {
         $u = new User($users_id);
         $get = ['channelName' => $u->getChannelName()];

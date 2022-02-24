@@ -594,7 +594,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
                 }
 
                 if (empty($this->encoderURL)) {
-                    $getEncoderURL = "https://encoder1.avideo.com/";
+                    $getEncoderURL = "https://encoder1.wwbn.net/";
                 }
                 addLastSlash($this->encoderURL);
                 $getEncoderURL = $this->encoderURL;
