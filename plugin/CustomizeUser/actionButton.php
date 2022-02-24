@@ -67,7 +67,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                                     <div class="col-md-<?php echo $column; ?>">
                                         <button type="button" class="btn btn-primary btn-block" onclick="submitDonationButton<?php echo $uid; ?>(<?php echo $value->index; ?>)">
                                             <?php echo $value->label; ?>
-                                            - <?php echo YPTWallet::formatCurrency($value->value); ?>
+                                            - <?php echo YPTWallet::formatCurrency($value->value, false, false, ''); ?>
                                         </button>   
                                     </div> 
                                     <?php
