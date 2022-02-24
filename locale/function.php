@@ -79,12 +79,7 @@ function textToLink($string, $targetBlank = false) {
     if ($targetBlank) {
         $target = "target=\"_blank\"";
     }
-
-    return preg_replace(
-        "~[^\"'=][[:alpha:]]+://[^<>[:space:]'\"]+[[:alnum:]/]~",
-        "<a href=\"\\0\" {$target} >\\0</a>",
-        $string
-    );
+    return preg_replace('$(\s|^)(https?://[a-z0-9_./?=&-]+)(?![^<>]*>)$i', ' <a href="$2" '.$target.'>$2</a> ', $string);
 }
 
 function br2nl($html) {
