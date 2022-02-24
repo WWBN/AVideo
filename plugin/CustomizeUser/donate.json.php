@@ -7,7 +7,7 @@ header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
-$obj->extraParameters = false;
+$obj->extraParameters = new stdClass();
 $value = floatval($_POST['value']);
 if (empty($value)) {
     if (isset($_POST['buttonIndex'])) {
@@ -96,6 +96,8 @@ if (!empty($_POST['videos_id'])) {
         $obj->msg = "User does not exists";
         die(json_encode($obj));
     }
+    
+    $obj->extraParameters->live_transmitions_history_id = intval(@$_REQUEST['live_transmitions_history_id']);
 
     if (YPTWallet::transferBalance(User::getId(), $users_id, $value, "Donation from " . User::getNameIdentification() . " to Live for  " . $user->getNameIdentificationBd())) {
         $obj->error = false;

@@ -24,6 +24,13 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
         $u = new User($video['users_id']);
         $uid = uniqid();
         $captcha = User::getCaptchaForm($uid);
+        $live = isLive();
+        if (!empty($live)) {
+            $lt = LiveTransmitionHistory::getLatest($live['key'], $live['live_servers_id']);
+            if (!empty($lt)) {
+                $_REQUEST['live_transmitions_history_id'] = $lt['id'];
+            }
+        }
         ?>
         <button class="btn btn-success no-outline" onclick="openDonationMoodal<?php echo $uid; ?>();"  data-toggle="tooltip" data-placement="bottom"  title="<?php echo __($obj->donationWalletButtonLabel); ?>">
             <i class="fas fa-donate"></i> <small class="hidden-sm hidden-xs"><?php echo __($obj->donationWalletButtonLabel); ?></small>
@@ -80,11 +87,11 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                                 ?>
                                 <div class="form-group" id="donationCaptcha<?php echo $uid; ?>">
                                     <div class="col-md-12 ">
-                                <?php echo $captcha; ?>
+                                        <?php echo $captcha; ?>
                                     </div>
                                 </div>
-            <?php }
-        ?>
+                            <?php }
+                            ?>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -112,6 +119,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         "value": $('#donationValue<?php echo $uid; ?>').val(),
                         "videos_id": <?php echo intval(@$video['id']); ?>,
                         "users_id": <?php echo intval(@$video['users_id']); ?>,
+                        "live_transmitions_history_id": <?php echo intval(@$_REQUEST['live_transmitions_history_id']); ?>,
                         "captcha": $('#captchaText<?php echo $uid; ?>').val()
                     },
                     type: 'post',
@@ -128,7 +136,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                     }
                 });
             }
-            
+
             function submitDonationButton<?php echo $uid; ?>(buttonIndex) {
                 modal.showPleaseWait();
                 $.ajax({
@@ -137,6 +145,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         "buttonIndex": buttonIndex,
                         "videos_id": <?php echo intval(@$video['id']); ?>,
                         "users_id": <?php echo intval(@$video['users_id']); ?>,
+                        "live_transmitions_history_id": <?php echo intval(@$_REQUEST['live_transmitions_history_id']); ?>,
                         "captcha": $('#captchaText<?php echo $uid; ?>').val()
                     },
                     type: 'post',
