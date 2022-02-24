@@ -81,7 +81,7 @@ function textToLink($string, $targetBlank = false) {
     }
 
     return preg_replace(
-        "~[[:alpha:]]+://[^<>[:space:]'\"]+[[:alnum:]/]~",
+        "~[^\"'=][[:alpha:]]+://[^<>[:space:]'\"]+[[:alnum:]/]~",
         "<a href=\"\\0\" {$target} >\\0</a>",
         $string
     );
