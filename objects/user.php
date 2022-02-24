@@ -2645,10 +2645,7 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function setDonationButtons($users_id, $value) {
-        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
-        if (empty($obj) || !User::isAdmin()) {
-            return false;
-        }
+        $obj = AVideoPlugin::getObjectData("CustomizeUser");
         $user = new User($users_id);
         if(!is_string($value)){
             $value = _json_encode($value);
