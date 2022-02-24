@@ -127,13 +127,15 @@ class YPTWallet extends PluginAbstract
         return number_format($balance, $obj->decimalPrecision);
     }
 
-    public static function formatCurrency($value, $addHTML=false, $doNotUseVirtualCurrency = false)
+    public static function formatCurrency($value, $addHTML=false, $doNotUseVirtualCurrency = false, $currency=false)
     {
         $value = floatval($value);
         $obj = AVideoPlugin::getObjectData('YPTWallet');
         $currency_symbol = $obj->currency_symbol;
         $decimalPrecision = $obj->decimalPrecision;
-        $currency = $obj->currency;
+        if($currency===false){
+            $currency = $obj->currency;
+        }
         if (empty($doNotUseVirtualCurrency) && $obj->virtual_currency_enable) {
             $currency_symbol = $obj->virtual_currency_symbol;
             $decimalPrecision = $obj->virtual_currency_decimalPrecision;
