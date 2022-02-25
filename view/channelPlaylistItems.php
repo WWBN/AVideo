@@ -39,7 +39,11 @@ if (empty($_GET['current'])) {
     $_POST['current'] = intval($_GET['current']);
 }
 $_REQUEST['rowCount'] = 4;
+$sort = @$_POST['sort'];
+$_POST['sort'] = array();
+$_POST['sort']['created'] = 'DESC';
 $playlists = PlayList::getAllFromUser($user_id, $publicOnly, false, 0, 0, true);
+$_POST['sort'] = $sort;
 $current = $_POST['current'];
 unset($_POST['current']);
 ?>
