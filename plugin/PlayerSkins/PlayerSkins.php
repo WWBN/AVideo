@@ -440,13 +440,20 @@ class PlayerSkins extends PluginAbstract {
 
         $js .= "}
         player.ready(function () {";
+        
+        if(empty($_REQUEST['mute'])){
+            $play = "playerPlayIfAutoPlay({$currentTime});";
+        }else{
+            $play = "player.muted(true);playerPlayMutedIfAutoPlay({$currentTime});";
+        }
+        
         $js .= "var err = this.error();
             if (err && err.code) {
                 $('.vjs-error-display').hide();
                 $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
             }
             " . implode(PHP_EOL, $prepareStartPlayerJS_onPlayerReady) . "
-            playerPlayIfAutoPlay({$currentTime});
+            {$play}
         });
         player.persistvolume({
             namespace: 'AVideo'
