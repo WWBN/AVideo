@@ -1381,7 +1381,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
                     console.log('avideoModalIframeWithClassName content loaded 5');
                     // is not loaded
                     url = addGetParam(url, 'avideoIframe', 0);
-                    document.location = url;
+                    //document.location = url;
                 }
             }, 5000);
         }
