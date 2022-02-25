@@ -194,7 +194,7 @@ class PlayList extends ObjectYPT {
         if ($includeSeries) {
             $sql .= " LEFT JOIN videos v ON pl.id = serie_playlists_id  ";
         }
-        $sql .= " LEFT JOIN users u ON u.id = users_id WHERE 1=1 ";
+        $sql .= " LEFT JOIN users u ON u.id = pl.users_id WHERE 1=1 ";
         if (!empty($playlists_id)) {
             $sql .= " AND pl.id = '{$playlists_id}' ";
         }
