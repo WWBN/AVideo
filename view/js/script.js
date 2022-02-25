@@ -873,6 +873,31 @@ function playerPlayIfAutoPlay(currentTime) {
     return false;
 }
 
+function playerPlayMutedIfAutoPlay(currentTime) {
+    if (isWebRTC()) {
+        return false;
+    }
+    if (forceCurrentTime !== null) {
+        currentTime = forceCurrentTime;
+        forceCurrentTime = null;
+        console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
+    }
+
+    if (currentTime) {
+        setCurrentTime(currentTime);
+    }
+    if (isAutoplayEnabled()) {
+        playerPlayTimeout = setTimeout(function () {
+            console.log('playerPlayIfAutoPlay true', currentTime);
+            tryToPlayMuted(currentTime);
+        }, 200);
+        return true;
+    }
+    console.log('playerPlayIfAutoPlay false', currentTime);
+    //$.toast("Autoplay disabled");
+    return false;
+}
+
 function playNext(url) {
     if (!player.paused()) {
         return false;
