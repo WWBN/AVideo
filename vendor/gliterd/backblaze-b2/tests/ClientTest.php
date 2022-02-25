@@ -320,7 +320,7 @@ class ClientTest extends TestCase
         $authorizeAccount = json_decode($authorizeAccountString);
         $expectedFileContents = 'foo';
         $uriResponses = [
-            'https://api.backblazeb2.com/b2api/v1//b2_authorize_account'      => $authorizeAccountString,
+            'https://api.backblazeb2.com/b2api/v1/b2_authorize_account'       => $authorizeAccountString,
             $authorizeAccount->downloadUrl.'/b2api/v1/b2_download_file_by_id' => $expectedFileContents,
         ];
 

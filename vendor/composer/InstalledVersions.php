@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'fbee728e5e9353e28af728c7969edef3d0f6edbc',
+    'reference' => '7d1ffbf1f05778465cdaa175fbd94ee03f634733',
     'name' => 'wwbn/avideo',
   ),
   'versions' => 
@@ -55,12 +55,12 @@ private static $installed = array (
     ),
     'aws/aws-sdk-php' => 
     array (
-      'pretty_version' => '3.209.28',
-      'version' => '3.209.28.0',
+      'pretty_version' => '3.209.31',
+      'version' => '3.209.31.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'dfc4fdee991cdf764241125490a0b22875af6afe',
+      'reference' => '595a97c3ca53ba1f33f5bacbb6a8e48ccb45f068',
     ),
     'cboden/ratchet' => 
     array (
@@ -136,12 +136,12 @@ private static $installed = array (
     ),
     'gliterd/backblaze-b2' => 
     array (
-      'pretty_version' => '1.5.1',
-      'version' => '1.5.1.0',
+      'pretty_version' => '1.5.2',
+      'version' => '1.5.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => '568b9513a040712f3a8a737b7d107cce3c45c2e7',
+      'reference' => 'be02bed19a4ce8d8eace32c58ad04742292ceae8',
     ),
     'google/apiclient' => 
     array (
@@ -692,7 +692,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'fbee728e5e9353e28af728c7969edef3d0f6edbc',
+      'reference' => '7d1ffbf1f05778465cdaa175fbd94ee03f634733',
     ),
   ),
 );

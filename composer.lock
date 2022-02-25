@@ -119,16 +119,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.209.28",
+            "version": "3.209.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "dfc4fdee991cdf764241125490a0b22875af6afe"
+                "reference": "595a97c3ca53ba1f33f5bacbb6a8e48ccb45f068"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/dfc4fdee991cdf764241125490a0b22875af6afe",
-                "reference": "dfc4fdee991cdf764241125490a0b22875af6afe",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/595a97c3ca53ba1f33f5bacbb6a8e48ccb45f068",
+                "reference": "595a97c3ca53ba1f33f5bacbb6a8e48ccb45f068",
                 "shasum": ""
             },
             "require": {
@@ -204,9 +204,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.209.28"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.209.31"
             },
-            "time": "2022-02-21T19:14:33+00:00"
+            "time": "2022-02-24T22:02:07+00:00"
         },
         {
             "name": "cboden/ratchet",
@@ -548,12 +548,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "HTMLPurifier": "library/"
-                },
                 "files": [
                     "library/HTMLPurifier.composer.php"
                 ],
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
                 "exclude-from-classmap": [
                     "/library/HTMLPurifier/Language/"
                 ]
@@ -639,16 +639,16 @@
         },
         {
             "name": "gliterd/backblaze-b2",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gliterd/backblaze-b2.git",
-                "reference": "568b9513a040712f3a8a737b7d107cce3c45c2e7"
+                "reference": "be02bed19a4ce8d8eace32c58ad04742292ceae8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gliterd/backblaze-b2/zipball/568b9513a040712f3a8a737b7d107cce3c45c2e7",
-                "reference": "568b9513a040712f3a8a737b7d107cce3c45c2e7",
+                "url": "https://api.github.com/repos/gliterd/backblaze-b2/zipball/be02bed19a4ce8d8eace32c58ad04742292ceae8",
+                "reference": "be02bed19a4ce8d8eace32c58ad04742292ceae8",
                 "shasum": ""
             },
             "require": {
@@ -693,9 +693,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gliterd/backblaze-b2/issues",
-                "source": "https://github.com/gliterd/backblaze-b2/tree/1.5.1"
+                "source": "https://github.com/gliterd/backblaze-b2/tree/1.5.2"
             },
-            "time": "2021-02-05T03:39:02+00:00"
+            "time": "2022-02-25T01:01:07+00:00"
         },
         {
             "name": "google/apiclient",
@@ -966,12 +966,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Promise\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
