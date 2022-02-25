@@ -59,6 +59,11 @@ foreach ($obj->data as $value) {
 $filename = "{$users_id}_{$fromDate}_{$toDate}";
 //var_dump($rows);exit;
 $output = fopen("php://output", 'w') or die("Can't open php://output");
+$identification = 'All Users';
+if(!empty($users_id)){
+    $identification = User::getNameIdentificationById($users_id);
+}
+fputcsv($output, array('From', $fromDate, 'To', $toDate, 'User', "[{$users_id}] {$identification}"));
 $fields = ['videos_id', 'title', 'type', 'total views', 'seconds watching video'];
 fputcsv($output, $fields);
 foreach ($rows as $row) {
