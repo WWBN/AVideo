@@ -2656,6 +2656,19 @@ if (typeof gtag !== \"function\") {
     static function getChannelPanel($users_id) {
         $u = new User($users_id);
         $get = ['channelName' => $u->getChannelName()];
+        $current = getCurrentPage();
+        $rowCount = getRowCount();
+        $sort = $_POST['sort'];
+        $_POST['current'] = 1;
+        $_REQUEST['rowCount'] = 6;
+        $_POST['sort']['created'] = "DESC";
+        $uploadedVideos = Video::getAllVideos("viewable", $users_id);
+        $_POST['current'] = $current;
+        $_REQUEST['rowCount'] = $rowCount;
+        $_POST['sort'] = $sort;
+        if(empty($uploadedVideos)){
+            return '';
+        }
         ?>
         <div class="panel panel-default">
             <div class="panel-heading" style="position: relative;">
@@ -2678,17 +2691,7 @@ if (typeof gtag !== \"function\") {
                 <div class="clearfix" style="margin-bottom: 10px;"></div>
                 <div class="clear clearfix galeryRowElement">
                     <?php
-                    $current = getCurrentPage();
-                    $rowCount = getRowCount();
-                    $sort = $_POST['sort'];
-                    $_POST['current'] = 1;
-                    $_REQUEST['rowCount'] = 6;
-                    $_POST['sort']['created'] = "DESC";
-                    $uploadedVideos = Video::getAllVideos("viewable", $users_id);
                     createGallerySection($uploadedVideos, dechex(crc32($users_id)));
-                    $_POST['current'] = $current;
-                    $_REQUEST['rowCount'] = $rowCount;
-                    $_POST['sort'] = $sort;
                     ?>
                 </div>
             </div>
