@@ -84,17 +84,19 @@
                 // Update footer by showing the total with the reference of the column index 
                 var totalViewsAllVideos = 0;
                 var totalWatchingTimeAllVideosHuman = '';
-                if(data[0]){
+                if (data[0]) {
                     totalViewsAllVideos = data[0].totalViewsAllVideos;
                     totalWatchingTimeAllVideosHuman = data[0].totalWatchingTimeAllVideosHuman;
                 }
-                
+
                 $(api.column(0).footer()).html('Total');
                 $(api.column(1).footer()).html(totalViewsAllVideos);
                 $(api.column(2).footer()).html(totalWatchingTimeAllVideosHuman);
             },
             "columns": [
-                {"data": "title"},
+                {"data": "title", render: function (data, type, row) {
+                        return '<button class="btn btn-default btn-block" onclick="avideoModalIframe(webSiteRootURL +\'view/videoViewsInfo.php?videos_id=' + row.videos_id + '\');return false;">' + row.title + '</button>';
+                    }},
                 {"data": "total_views"},
                 {"data": "seconds_watching_video_human"},
             ]
