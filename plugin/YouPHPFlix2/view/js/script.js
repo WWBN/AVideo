@@ -82,7 +82,8 @@ function startModeFlix(container) {
 
         $(".arrow-down").fadeOut();
         $(".thumbsImage").removeClass('active');
-        $('.poster').not('#poster' + crc).slideUp();
+        console.log('flickity-area', $(this).closest('.flickity-area'));
+        $(this).closest('.flickity-area').find('.poster').not('#poster' + crc).slideUp();
         $('.'+uidOriginal).find('.poster').not('#poster' + crc).slideUp();
         if ($('#poster' + crc).is(":hidden")) {
             $('#poster' + crc).css('background-image', 'url(' + $('#poster' + crc).attr('poster') + ')');
