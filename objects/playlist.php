@@ -197,6 +197,7 @@ class PlayList extends ObjectYPT
         $formats = '';
         $values = [];
         $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl "
+                . " LEFT JOIN videos v ON pl.id = serie_playlists_id  "
                 . " LEFT JOIN users u ON u.id = users_id WHERE 1=1 ";
         if (!empty($playlists_id)) {
             $sql .= " AND pl.id = '{$playlists_id}' ";
@@ -210,8 +211,9 @@ class PlayList extends ObjectYPT
             }
         }
         if (!empty($userId)) {
-            $sql .= " AND users_id = ? ";
-            $formats .= "i";
+            $sql .= " AND (pl.users_id = ? OR v.users_id = ?) ";
+            $formats .= "ii";
+            $values[] = $userId;
             $values[] = $userId;
         }
         $sql .= self::getSqlFromPost("pl.");
