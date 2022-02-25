@@ -14,7 +14,6 @@ var mouseY;
 var videoContainerDragged = false;
 var youTubeMenuIsOpened = false;
 var userIsControling = false;
-
 var _serverTime;
 var _serverDBTime;
 var _serverTimeString;
@@ -22,7 +21,6 @@ var _serverDBTimeString;
 let deferredPrompt;
 var playerCurrentTime;
 var mediaId;
-
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
     mouseY = e.pageY;
@@ -147,7 +145,6 @@ function lazyImage() {
 
                     element.addClass('gifNotLoaded');
                     element.removeClass('blur');
-
                     element.mouseover(function () {
 
                         if ($(this).hasClass('gifNotLoaded')) {
@@ -171,7 +168,6 @@ function lazyImage() {
 
                         $("#log").append("<div>Handler for .mouseover() called.</div>");
                     });
-
                 }
             });
             mouseEffect();
@@ -182,12 +178,10 @@ function lazyImage() {
 }
 
 lazyImage();
-
 var pleaseWaitIsINUse = false;
 var pauseIfIsPlayinAdsInterval;
 var seconds_watching_video = 0;
 var _startCountPlayingTime;
-
 function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
@@ -197,7 +191,6 @@ function setPlayerListners() {
             clearInterval(pauseIfIsPlayinAdsInterval);
             clearInterval(_startCountPlayingTime);
         });
-
         player.on('play', function () {
             isTryingToPlay = false;
             clearTimeout(promisePlayTimeout);
@@ -217,7 +210,6 @@ function setPlayerListners() {
                 seconds_watching_video++;
             }, 1000);
         });
-
         $("#mainVideo .vjs-mute-control").click(function () {
             Cookies.set('muted', player.muted(), {
                 path: '/',
@@ -246,8 +238,8 @@ function changeVideoSrc(vid_obj, source) {
     for (i = 0; i < source.length; i++) {
         if (source[i].type) {
             if (source[i].type === "application/x-mpegURL") {
-                // it is HLS cancel it
-                //return false;
+// it is HLS cancel it
+//return false;
                 autoLoad = false;
             }
             srcs.push(source[i]);
@@ -257,7 +249,6 @@ function changeVideoSrc(vid_obj, source) {
     }
     console.log('changeVideoSrc srcs', srcs);
     vid_obj.src(srcs);
-
     setTimeout(function () {
         if (autoLoad) {
             changeVideoSrcLoad();
@@ -265,7 +256,6 @@ function changeVideoSrc(vid_obj, source) {
             player.play();
         }
     }, 1000);
-
     return true;
 }
 
@@ -318,7 +308,6 @@ function reloadAds() {
             player.ima.requestAds();
         } catch (e) {
             console.log('reloadAds ERROR', e.message);
-
         }
     } else {
         _reloadAdsTimeout = setTimeout(function () {
@@ -460,9 +449,7 @@ function isMobile() {
 var last_videos_id = 0;
 var last_currentTime = -1;
 var videoViewAdded = false;
-
 var addViewBeaconTimeout;
-
 function addView(videos_id, currentTime) {
     addViewSetCookie(PHPSESSID, videos_id, currentTime, seconds_watching_video);
     if (last_videos_id == videos_id && last_currentTime == currentTime) {
@@ -544,7 +531,6 @@ function addViewFromCookie() {
     var addView_videos_id = Cookies.get('addView_videos_id');
     var addView_playerCurrentTime = Cookies.get('addView_playerCurrentTime');
     var addView_seconds_watching_video = Cookies.get('addView_seconds_watching_video');
-
     if (!addView_PHPSESSID || addView_PHPSESSID === 'false' ||
             !addView_videos_id || addView_videos_id === 'false' ||
             !addView_playerCurrentTime || addView_playerCurrentTime === 'false' ||
@@ -554,7 +540,6 @@ function addViewFromCookie() {
     console.log('addViewFromCookie', addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', addView_PHPSESSID);
-
     if (mediaId == addView_videos_id) {
         // it is the same video, play at the last momment
         forceCurrentTime = addView_playerCurrentTime;
@@ -578,7 +563,7 @@ function addViewFromCookie() {
 }
 
 function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds_watching_video) {
-    //console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video, new Error().stack);
+//console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video, new Error().stack);
     Cookies.set('addView_PHPSESSID', PHPSESSID, {
         path: '/',
         expires: 1
@@ -1103,14 +1088,14 @@ function isWebRTC() {
 }
 
 function isAutoplayEnabled() {
-    //console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
+//console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
     if (typeof forceautoplay !== 'undefined' && forceautoplay) {
         return true;
     } else if (isWebRTC()) {
         console.log("isAutoplayEnabled said No because is WebRTC ");
         return false;
     } else if (isALiveContent()) {
-        //console.log("isAutoplayEnabled always autoplay live contents");
+//console.log("isAutoplayEnabled always autoplay live contents");
         return true;
     } else
     if ($("#autoplay").length && $("#autoplay").is(':visible')) {
@@ -1123,17 +1108,17 @@ function isAutoplayEnabled() {
             typeof Cookies.get('autoplay') !== 'undefined'
             ) {
         if (Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true) {
-            //console.log("isAutoplayEnabled Cookie said Yes ");
+//console.log("isAutoplayEnabled Cookie said Yes ");
             setAutoplay(true);
             return true;
         } else {
-            //console.log("isAutoplayEnabled Cookie said No ");
+//console.log("isAutoplayEnabled Cookie said No ");
             setAutoplay(false);
             return false;
         }
     } else {
         if (typeof autoplay !== 'undefined') {
-            //console.log("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
+//console.log("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
             setAutoplay(autoplay);
             return autoplay;
         }
@@ -1381,7 +1366,9 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
                     console.log('avideoModalIframeWithClassName content loaded 5');
                     // is not loaded
                     url = addGetParam(url, 'avideoIframe', 0);
-                    //document.location = url;
+                    if(isSameDomain(url)){
+                        document.location = url;
+                    }
                 }
             }, 5000);
         }
@@ -1389,13 +1376,12 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
 }
 
 function checkIframeLoaded(id) {
-    // Get a handle to the iframe element
+// Get a handle to the iframe element
     var iframe = document.getElementById(id);
     var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
     // Check if loading is complete
     if (iframeDoc.readyState == 'complete') {
-        //iframe.contentWindow.alert("Hello");
+//iframe.contentWindow.alert("Hello");
         iframe.contentWindow.onload = function () {
             alert("I am loaded");
         };
@@ -1404,7 +1390,7 @@ function checkIframeLoaded(id) {
         return;
     }
 
-    // If we are here, it is not loaded. Set things up so we check   the status again in 100 milliseconds
+// If we are here, it is not loaded. Set things up so we check   the status again in 100 milliseconds
     window.setTimeout(checkIframeLoaded, 100);
 }
 
@@ -1550,24 +1536,21 @@ function checkDescriptionArea() {
     });
 }
 $(document).ready(function () {
-    //animateChilds('#sideBarContainer > ul', 'animate__bounceInLeft', 0.05);
-    //animateChilds('#uploadMenu', 'animate__bounceIn', 0.05);
-    //animateChilds('#myNavbar > ul > li.dropdown > ul > div.btn-group.btn-group-justified', 'animate__bounceIn', 0.1);
-    //animateChilds('#lastItemOnMenu > div.navbar-header > ul > li > div > ul', 'animate__bounceInRight', 0.05);
-    //animateChilds('.gallerySectionContent, .categoriesContainerItem .clearfix', 'animate__fadeInUp', 0.05);
-    //animateChilds('#videosList', 'animate__bounceInRight', 0.1);
+//animateChilds('#sideBarContainer > ul', 'animate__bounceInLeft', 0.05);
+//animateChilds('#uploadMenu', 'animate__bounceIn', 0.05);
+//animateChilds('#myNavbar > ul > li.dropdown > ul > div.btn-group.btn-group-justified', 'animate__bounceIn', 0.1);
+//animateChilds('#lastItemOnMenu > div.navbar-header > ul > li > div > ul', 'animate__bounceInRight', 0.05);
+//animateChilds('.gallerySectionContent, .categoriesContainerItem .clearfix', 'animate__fadeInUp', 0.05);
+//animateChilds('#videosList', 'animate__bounceInRight', 0.1);
     addViewFromCookie();
     checkDescriptionArea();
     setInterval(function () {// check for the carousel
         checkDescriptionArea();
     }, 3000);
-
-
     Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone, {
         path: '/',
         expires: 365
     });
-
     tabsCategoryDocumentHeight = $(document).height();
     if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
         $('.nav-tabs-horizontal').scrollingTabs();
@@ -1580,7 +1563,6 @@ $(document).ready(function () {
             }
         }
     }, 1000);
-
     modal = modal || (function () {
         var pleaseWaitDiv = $("#pleaseWaitDialog");
         if (pleaseWaitDiv.length === 0) {
@@ -1637,7 +1619,6 @@ $(document).ready(function () {
     setInterval(function () {
         setToolTips();
     }, 1000);
-
     $(".thumbsImage").on("mouseenter", function () {
         gifId = $(this).find(".thumbsGIF").attr('id');
         $(".thumbsGIF").fadeOut();
@@ -1657,9 +1638,7 @@ $(document).ready(function () {
     $(".thumbsImage").on("mouseleave", function () {
         $(this).find(".thumbsGIF").stop(true, true).fadeOut();
     });
-
     lazyImage();
-
     $("a").each(function () {
         var location = window.location.toString()
         var res = location.split("?");
@@ -1698,9 +1677,7 @@ $(document).ready(function () {
         });
     });
     setPlayerListners();
-
     $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
-
     setInterval(function () {
         if (typeof conn != 'undefined') {
             if (avideoSocketIsActive()) {
@@ -1711,7 +1688,6 @@ $(document).ready(function () {
         }
 
     }, 1000);
-
     $("input.saveCookie").each(function () {
         var mycookie = Cookies.get($(this).attr('name'));
         if (mycookie && mycookie == "true") {
@@ -1732,7 +1708,6 @@ $(document).ready(function () {
         checkAutoPlay();
     });
     checkAutoPlay();
-
     // Code to handle install prompt on desktop
     window.addEventListener('beforeinstallprompt', (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt
@@ -1753,7 +1728,6 @@ $(document).ready(function () {
         });
     });
 });
-
 function clearCache(showPleaseWait, FirstPage, sessionOnly) {
     if (showPleaseWait) {
         modal.showPleaseWait();
@@ -1795,7 +1769,6 @@ function startTimer(duration, selector, prepend) {
         var hours = Math.floor((duration % (60 * 60 * 24)) / (60 * 60));
         var minutes = Math.floor((duration % (60 * 60)) / (60));
         var seconds = Math.floor((duration % (60)));
-
         // Display the result in the element with id="demo"
         var text = '';
         if (years) {
@@ -1837,7 +1810,6 @@ function startTimerTo(durationTo, selector) {
         var hours = Math.floor((durationTo % (60 * 60 * 24)) / (60 * 60));
         var minutes = Math.floor((durationTo % (60 * 60)) / (60));
         var seconds = Math.floor((durationTo % (60)));
-
         // Display the result in the element with id="demo"
         var text = '';
         if (years) {
@@ -1857,7 +1829,6 @@ function startTimerTo(durationTo, selector) {
         }
         $(selector).text(text);
         durationTo++;
-
     }, 1000);
 }
 
@@ -1919,7 +1890,6 @@ function getServerTime() {
     }
     getServerTimeActive = 1;
     var d = new Date();
-
     $.ajax({
         url: webSiteRootURL + 'objects/getTimes.json.php',
         success: function (response) {
@@ -1946,7 +1916,6 @@ function clearServerTime() {
 
 function addGetParam(_url, _key, _value) {
     var param = _key + '=' + escape(_value);
-
     var sep = '&';
     if (_url.indexOf('?') < 0) {
         sep = '?';
@@ -1958,7 +1927,6 @@ function addGetParam(_url, _key, _value) {
             sep = '';
     }
     _url += sep + param;
-
     _url = removeDuplicatedGetParam(_url);
     return _url;
 }
@@ -1974,7 +1942,6 @@ function removeDuplicatedGetParam(_url) {
         var temp = params[i].split('='),
                 key = temp[0],
                 val = temp[1];
-
         results[key] = val;
     }
 
@@ -1989,14 +1956,12 @@ function removeDuplicatedGetParam(_url) {
 function readFileCroppie(input, crop) {
     if ($(input)[0].files && $(input)[0].files[0]) {
         var reader = new FileReader();
-
         reader.onload = function (e) {
             crop.croppie('bind', {
                 url: e.target.result
             }).then(function () {
                 console.log('jQuery bind complete');
             });
-
         }
 
         reader.readAsDataURL($(input)[0].files[0]);
@@ -2014,7 +1979,6 @@ function getCroppie(uploadCropObject, callback, width, height) {
         console.log('cropieError getCroppie => ' + callback, err);
         eval(callback + "(null);");
     });
-
     console.log('getCroppie 3', ret);
 }
 
@@ -2117,7 +2081,7 @@ function isPlayerUserActive() {
 }
 
 window.addEventListener('beforeunload', function (e) {
-    //console.log('window.addEventListener(beforeunload');
+//console.log('window.addEventListener(beforeunload');
     _addViewAsync();
 }, false);
 document.addEventListener('visibilitychange', function () {
@@ -2125,7 +2089,6 @@ document.addEventListener('visibilitychange', function () {
         _addViewAsync();
     }
 });
-
 function socketClearSessionCache(json) {
     console.log('socketClearSessionCache', json);
     clearCache(false, 0, 1);
@@ -2190,7 +2153,6 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
                     avideoToastInfo('Download start');
                     var loaded = 0;
                     var contentLength = 0;
-
                     fetch(response.url)
                             .then(response => {
                                 avideoToastSuccess('Download Start');
@@ -2202,14 +2164,11 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
 
                                 const total = parseInt(contentLength, 10);
                                 let loaded = 0;
-
                                 return new Response(
                                         new ReadableStream({
                                             start(controller) {
                                                 const reader = response.body.getReader();
-
                                                 read();
-
                                                 function read() {
                                                     reader.read().then(({done, value}) => {
                                                         if (done) {
@@ -2279,15 +2238,13 @@ function isVisibleAndInViewport(selector) {
     if ($(selector).is(":visible")) {
         var elementTop = $(selector).offset().top;
         var elementBottom = elementTop + $(selector).outerHeight();
-
         var viewportTop = $(window).scrollTop();
         var viewportBottom = viewportTop + $(window).height();
-
         return elementBottom > viewportTop && elementTop < viewportBottom;
     } else {
         return false;
     }
-} 
+}
 
 function playAudio(mp3) {
     console.log('pling start');
@@ -2309,7 +2266,6 @@ function playAudio(mp3) {
         audio.autoplay = true;
         audio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
         audio.src = mp3;
-
         console.log('pling setTimeout', audio);
         const promise = audio.play();
         if (promise !== undefined) {
@@ -2329,4 +2285,14 @@ function playAudio(mp3) {
             });
         }
     }, 500);
+}
+
+function isSameDomain(url) {
+    var hrefURL, pageURL;
+    hrefURL = new URL(url);
+    pageURL = new URL(window.location);
+    if (!(href.startsWith("/") || hrefURL.host === pageURL.host)) {
+        return true;
+    }
+    return false;
 }
