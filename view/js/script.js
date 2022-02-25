@@ -1338,39 +1338,44 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         }
     });
     setTimeout(function () {
-        var contentLoaded = false;
-        try {
-            $('#avideoModalIframe').load(function () {
-                contentLoaded = true;
-                console.log('avideoModalIframeWithClassName content loaded 1');
-                clearTimeout(avideoModalIframeWithClassNameTimeout);
-                avideoModalIframeRemove();
-            });
-        } catch (e) {
-        }
-
-        if ($('#avideoModalIframe').contents().find("body").length) {
-            console.log('avideoModalIframeWithClassName content loaded 2');
-            contentLoaded = true;
-        }
-
-        if (contentLoaded) {
-            console.log('avideoModalIframeWithClassName content loaded 3');
-            clearTimeout(avideoModalIframeWithClassNameTimeout);
+        if (!isSameDomain(url)) {
+            console.log('avideoModalIframeWithClassName different domain');
             avideoModalIframeRemove();
         } else {
-            console.log('avideoModalIframeWithClassName content loaded 4');
-            clearTimeout(avideoModalIframeWithClassNameTimeout);
-            avideoModalIframeWithClassNameTimeout = setTimeout(function () {
-                if (!$('#avideoModalIframe').contents().find("body").length) {
-                    console.log('avideoModalIframeWithClassName content loaded 5');
-                    // is not loaded
-                    url = addGetParam(url, 'avideoIframe', 0);
-                    if(isSameDomain(url)){
-                        document.location = url;
+            var contentLoaded = false;
+            try {
+                $('#avideoModalIframe').load(function () {
+                    contentLoaded = true;
+                    console.log('avideoModalIframeWithClassName content loaded 1');
+                    clearTimeout(avideoModalIframeWithClassNameTimeout);
+                    avideoModalIframeRemove();
+                });
+            } catch (e) {
+            }
+
+            if ($('#avideoModalIframe').contents().find("body").length) {
+                console.log('avideoModalIframeWithClassName content loaded 2');
+                contentLoaded = true;
+            }
+
+            if (contentLoaded) {
+                console.log('avideoModalIframeWithClassName content loaded 3');
+                clearTimeout(avideoModalIframeWithClassNameTimeout);
+                avideoModalIframeRemove();
+            } else {
+                console.log('avideoModalIframeWithClassName content loaded 4');
+                clearTimeout(avideoModalIframeWithClassNameTimeout);
+                avideoModalIframeWithClassNameTimeout = setTimeout(function () {
+                    if (!$('#avideoModalIframe').contents().find("body").length) {
+                        console.log('avideoModalIframeWithClassName content loaded 5');
+                        // is not loaded
+                        url = addGetParam(url, 'avideoIframe', 0);
+                        if (isSameDomain(url)) {
+                            document.location = url;
+                        }
                     }
-                }
-            }, 5000);
+                }, 5000);
+            }
         }
     }, 1000);
 }
