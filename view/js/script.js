@@ -2291,7 +2291,7 @@ function isSameDomain(url) {
     var hrefURL, pageURL;
     hrefURL = new URL(url);
     pageURL = new URL(window.location);
-    if (!(url.startsWith("/") || hrefURL.host === pageURL.host)) {
+    if (url.startsWith("/") || hrefURL.host === pageURL.host) {
         return true;
     }
     return false;
