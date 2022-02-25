@@ -11,6 +11,46 @@
             <input type="text" class="form-control datepicker" id="datetoVideosRep">
         </div>
     </div>
+    <?php
+    if (Permissions::canAdminUsers()) {
+        ?>
+        <div class="form-group col-sm-3">
+            <input id="inputUserOwner" placeholder="<?php echo __("User"); ?>" class="form-control">
+            <input type="hidden" id="inputUserOwner_id">
+            <script>
+                $(document).ready(function () {
+                    $("#inputUserOwner").autocomplete({
+                        minLength: 0,
+                        source: function (req, res) {
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/users.json.php',
+                                type: "POST",
+                                data: {
+                                    searchPhrase: req.term
+                                },
+                                success: function (data) {
+                                    res(data.rows);
+                                }
+                            });
+                        },
+                        focus: function (event, ui) {
+                            $("#inputUserOwner").val(ui.item.user);
+                            return false;
+                        },
+                        select: function (event, ui) {
+                            $("#inputUserOwner").val(ui.item.user);
+                            $("#inputUserOwner_id").val(ui.item.id);
+                            return false;
+                        }
+                    }).autocomplete("instance")._renderItem = function (ul, item) {
+                        return $("<li>").append("<div>" + item.creator + item.email + "</div>").appendTo(ul);
+                    };
+                });
+            </script>
+        </div>
+        <?php
+    }
+    ?>
     <div class="form-group col-sm-3">
         <button class="btn btn-primary" id="refreshMyVideosRep"><i class="fa fa-refresh"></i> <?php echo __('Refresh'); ?></button>
     </div>
@@ -35,7 +75,8 @@
     function getDataFromVideoRep() {
         return {
             dateFrom: $("#datefromVideosRep").val(),
-            dateTo: $("#datetoVideosRep").val()
+            dateTo: $("#datetoVideosRep").val(),
+            users_id: (($("#inputUserOwner").val())?($("#inputUserOwner_id").val()):0)
         };
     }
     $(document).ready(function () {

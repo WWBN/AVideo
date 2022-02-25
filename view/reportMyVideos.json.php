@@ -14,13 +14,21 @@ $users_id = 0;
 if ($config->getAuthCanViewChart() == 0) {
     // list all channels
     if (User::isAdmin()) {
-        $users_id = 'all';
+        if(empty($_REQUEST['users_id'])){
+            $users_id = 'all';
+        }else{
+            $users_id = $_REQUEST['users_id'];
+        }
     } elseif (User::isLogged()) {
         $users_id = User::getId();
     } 
 } elseif ($config->getAuthCanViewChart() == 1) {
     if ((!empty($_SESSION['user']['canViewChart']))||(User::isAdmin())) {
-        $users_id = 'all';
+        if(empty($_REQUEST['users_id'])){
+            $users_id = 'all';
+        }else{
+            $users_id = $_REQUEST['users_id'];
+        }
     }
 }
 
