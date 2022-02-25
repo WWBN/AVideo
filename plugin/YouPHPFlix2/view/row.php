@@ -47,7 +47,8 @@ TimeLogStart($timeLog3);
         ?>
         <div class="carousel-cell" >
             <div class="tile">
-                <div class="slide thumbsImage" crc="<?php echo $uid; ?>" 
+                <div class="slide thumbsImage _<?php echo $uidOriginal; ?>" crc="<?php echo $uid; ?>" 
+                     uidOriginal="<?php echo $uidOriginal; ?>"
                      videos_id="<?php echo $value['id']; ?>" 
                      poster="<?php echo $poster; ?>" 
                      href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  

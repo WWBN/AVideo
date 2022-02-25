@@ -67,6 +67,7 @@ function startModeFlix(container) {
 
     $(container + ".thumbsImage").on("click", function () {
         var crc = $(this).attr('crc');
+        var uidOriginal = $(this).attr('uidOriginal');
         var ajaxLoad = $(this).attr('ajaxLoad');
         var myEleTop = $('.navbar-fixed-top .items-container').outerHeight(true);
         var row = $(this).closest('.row');
@@ -82,6 +83,7 @@ function startModeFlix(container) {
         $(".arrow-down").fadeOut();
         $(".thumbsImage").removeClass('active');
         $(this).closest('.flickity-area').find('.poster').not('#poster' + crc).slideUp();
+        $('.'+uidOriginal).find('.poster').not('#poster' + crc).slideUp();
         if ($('#poster' + crc).is(":hidden")) {
             $('#poster' + crc).css('background-image', 'url(' + $('#poster' + crc).attr('poster') + ')');
             $('#poster' + crc).slideDown('fast', function () {
