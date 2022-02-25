@@ -54,10 +54,11 @@ if (is_array($userOptions)) {
     $user->setExternalOptions($externalOptions);
 }
 //save it
-
+$finalChannelName = $originalChannelName = @$_POST['channelName'];
 if (!empty($_POST['channelName']) && !$unique) {
     _error_log("userAddNew.json.php: channel name already exits = ({$_POST['channelName']})");
-    $user->setChannelName(User::_recommendChannelName($_POST['channelName']));
+    $finalChannelName = User::_recommendChannelName($_POST['channelName']);
+    $user->setChannelName($finalChannelName);
     _error_log("userAddNew.json.php: new channel name: ".$user->getChannelName());
 }
 
@@ -69,6 +70,9 @@ if (empty($_POST['userGroups'])) {
     $user->setUserGroups($_POST['userGroups']);
 }
 
+if($originalChannelName !== $finalChannelName){
+    _error_log("Users Add could not add the selected channel name,  you want=[{$originalChannelName}] it will be = [{$finalChannelName}]");
+}
 _error_log("userAddNew.json.php: saving");
 $users_id = $user->save(true);
 echo '{"status":"'.$users_id.'"}';
