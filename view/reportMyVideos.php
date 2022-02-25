@@ -53,6 +53,9 @@
     ?>
     <div class="form-group col-sm-3">
         <button class="btn btn-primary" id="refreshMyVideosRep"><i class="fa fa-refresh"></i> <?php echo __('Refresh'); ?></button>
+        <button onclick="getVideoViewsAndWatchingTimeCSV();" class="btn btn-primary" >
+            <i class="fas fa-file-csv"></i> <?php echo __('CSV File'); ?>
+        </button>
     </div>
 </div>
 <table id="dtMyVideosRep" class="table table-striped table-bordered" style="width:100%">
@@ -76,8 +79,19 @@
         return {
             dateFrom: $("#datefromVideosRep").val(),
             dateTo: $("#datetoVideosRep").val(),
-            users_id: (($("#inputUserOwner").val())?($("#inputUserOwner_id").val()):0)
+            users_id: (($("#inputUserOwner").val()) ? ($("#inputUserOwner_id").val()) : 0)
         };
+    }
+
+    function getVideoViewsAndWatchingTimeCSV() {
+        var url = webSiteRootURL + "view/videoViewsAnWatchingTime.csv.php";
+        var data = getDataFromVideoRep();
+
+        for (var item in data) {
+            url = addGetParam(url, item, data[item]);
+        }
+
+        document.location = url;
     }
     $(document).ready(function () {
         $("#datefromVideosRep").datepicker();
