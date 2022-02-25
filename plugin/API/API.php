@@ -778,6 +778,7 @@ class API extends PluginAbstract
             $obj->photo = User::getPhoto($value['id']);
             $obj->channelLink = User::getChannelLink($value['id']);
             $obj->name = User::getNameIdentificationById($value['id']);
+            $obj->channelName = $value['channelName'];
 
             $list[] = $obj;
         }
