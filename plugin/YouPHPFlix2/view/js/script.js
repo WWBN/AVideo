@@ -98,7 +98,11 @@ function startModeFlix(container) {
                 }, 'fast');
             });
         } else {
-            $(this).closest('.flickity-area').find('#poster' + crc).slideUp();
+            if ($(this).closest('.flickity-area').length) {
+                $(this).closest('.flickity-area').find('.poster').not('#poster' + crc).slideUp();
+            } else {
+                $('.poster').not('#poster' + crc).slideUp();
+            }
             for (i = 0; i < $carousel.length; i++) {
                 $carousel[i].flickity('playPlayer');
             }
