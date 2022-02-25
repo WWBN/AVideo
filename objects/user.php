@@ -2030,6 +2030,7 @@ if (typeof gtag !== \"function\") {
         $user = static::getChannelOwner($channelName);
         if (!empty($user)) { // if the channel name exists and it is not from this user, rename the channel name
             if (empty($this->id) || $user['id'] != $this->id) {
+                _error_log("setChannelName: name NOT UNIQUE [{$channelName}] found on user=[{$user['user']}] id=[{$user['id']}]");
                 return false;
             }
         }
