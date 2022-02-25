@@ -83,8 +83,12 @@ function startModeFlix(container) {
         $(".arrow-down").fadeOut();
         $(".thumbsImage").removeClass('active');
         console.log('flickity-area', $(this).closest('.flickity-area'));
-        $(this).closest('.flickity-area').find('.poster').not('#poster' + crc).slideUp();
-        $('.'+uidOriginal).find('.poster').not('#poster' + crc).slideUp();
+        if ($(this).closest('.flickity-area').length) {
+            $(this).closest('.flickity-area').find('.poster').not('#poster' + crc).slideUp();
+        } else {
+            $('.poster').not('#poster' + crc).slideUp();
+        }
+        $('.' + uidOriginal).find('.poster').not('#poster' + crc).slideUp();
         if ($('#poster' + crc).is(":hidden")) {
             $('#poster' + crc).css('background-image', 'url(' + $('#poster' + crc).attr('poster') + ')');
             $('#poster' + crc).slideDown('fast', function () {
