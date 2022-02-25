@@ -191,7 +191,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                                 $active = '';
                 }
                 if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
-                    $totalPrograms = PlayList::getAllFromUserLight($user_id, true, false, 0, true);
+                    $totalPrograms = PlayList::getAllFromUserLight($user_id, true, false, 0, true, true);
                     if ($totalPrograms) {
                         ?>
                                     <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
