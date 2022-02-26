@@ -15,7 +15,7 @@ if (empty($live_schedule_id)) {
 
 $row = new Live_schedule($live_schedule_id);
 
-if (!User::isAdmin() && $row->getUsers_id() == User::getId()) {
+if (!User::isAdmin() && $row->getUsers_id() != User::getId()) {
     forbiddenPage("You cant do this 2");
 }
 
