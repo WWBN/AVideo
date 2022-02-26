@@ -289,7 +289,7 @@ class ADs extends PluginAbstract
             $active = '';
         }
 
-        if (count($validPaths) > 1) {
+        if ($validPaths > 1) {
             $html .= "
               <a class=\"left carousel-control\" href=\"#{$id}\" data-slide=\"prev\">
                 <span class=\"glyphicon glyphicon-chevron-left\"></span>
