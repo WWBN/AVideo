@@ -26,10 +26,16 @@ $obj->variations = array();
 if (file_exists($obj->imagePNG)) {
     unlink($obj->imagePNG);
 }
+try {
+    $im = imagecreatefromjpeg($obj->imageJPG);
+    $width = imagesx($im);
+    $height = imagesy($im);
+} catch (Exception $exc) {
+    $obj->msg = $exc->getTraceAsString();
+    $obj->imageJPG = $obj->imageJPG;
+    die(json_encode($obj));
+}
 
-$im = imagecreatefromjpeg($obj->imageJPG);
-$width = imagesx($im);
-$height = imagesy($im);
 
 foreach (User::$channel_art as $value) {
     $x = ($width - $value[1])/2;
