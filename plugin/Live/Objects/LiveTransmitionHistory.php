@@ -640,5 +640,17 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         return parent::delete();
     }
+    
+    public static function getLinkToLive($live_transmitions_history_id) {
+        if (empty($live_transmitions_history_id)) {
+            return false;
+        }
+        
+        $lt = new LiveTransmitionHistory($live_transmitions_history_id);
+        if(empty($lt->getUsers_id())){
+            return false;
+        }
+        return Live::getLinkToLiveFromUsers_idAndLiveServer($lt->getUsers_id(), $lt->getLive_servers_id(), $lt->getLive_index());
+    }
 
 }
