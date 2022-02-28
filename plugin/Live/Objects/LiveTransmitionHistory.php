@@ -365,7 +365,7 @@ class LiveTransmitionHistory extends ObjectYPT {
             _error_log('LiveTransmitionHistory::finishALLOffline ERROR empty live_transmitions_history_id ');
             return false;
         }
-
+        _error_log('LiveTransmitionHistory::finishALLOffline finishing $live_transmitions_history_id '. json_encode(debug_backtrace()));
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE id = {$live_transmitions_history_id} ";
 
         $insert_row = sqlDAL::writeSql($sql);
