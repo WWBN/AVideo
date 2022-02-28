@@ -24,7 +24,7 @@ if ($vloObj = AVideoPlugin::getDataObjectIfEnabled('VideoLogoOverlay')) {
 <script>
     $(document).ready(function () {
 <?php
-echo $croppie['restartCroppie'] . "('" . User::getPhoto() . "');";
+echo $croppie['restartCroppie'] . "('" . User::getPhoto(0, true) . "');";
 ?>
     });
     function userPhotoUpload(image) {
