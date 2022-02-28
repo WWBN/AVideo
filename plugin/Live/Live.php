@@ -246,12 +246,12 @@ class Live extends PluginAbstract {
             }
 
             $link = Live::getLinkToLiveFromUsers_idAndLiveServer($value['users_id'], $value['live_servers_id']);
-            if (in_array($link, $currentLives)) {
+            if (in_array($value['id'], $currentLives)) {
                 _error_log("Live::getLiveApplicationArray LiveTransmitionHistory::finishFromTransmitionHistoryId({$value['id']}) {$value['users_id']}, {$value['live_servers_id']} [{$link}]");
                 LiveTransmitionHistory::finishFromTransmitionHistoryId($value['id']);
                 continue;
             }
-            $currentLives[] = $link;
+            $currentLives[] = $value['id'];
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
             $app = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'LiveObject_' . $value['id'], '', '', "live_{$value['key']}");
             $app['live_servers_id'] = $value['live_servers_id'];
