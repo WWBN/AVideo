@@ -450,7 +450,7 @@ if (typeof gtag !== \"function\") {
         return $photo;
     }
 
-    public static function getPhoto($id = "") {
+    public static function getPhoto($id = "", $ignoreCDN = false) {
         global $global;
         if (!empty($id)) {
             $user = self::findById($id);
@@ -462,7 +462,7 @@ if (typeof gtag !== \"function\") {
         }
         if (!empty($photo) && preg_match("/videos\/userPhoto\/.*/", $photo)) {
             if (file_exists($global['systemRootPath'] . $photo)) {
-                $photo = getURL($photo);
+                $photo = getURL($photo, $ignoreCDN);
             } else {
                 $photo = '';
             }
