@@ -27,8 +27,12 @@ if (file_exists($obj->imagePNG)) {
     unlink($obj->imagePNG);
 }
 try {
-    _error_log("uploadChannelArt {$obj->imageJPG}");
-    $im = imagecreatefromjpeg($obj->imageJPG);
+    _error_log("uploadChannelArt {$obj->imageJPG} ". json_encode($obj->imageJPGResponse));
+    if(preg_match('/.png$/i', $obj->imageJPG)){
+        $im = imagecreatefrompng($obj->imageJPG);
+    }else{
+        $im = imagecreatefromjpeg($obj->imageJPG);
+    }
     $width = imagesx($im);
     $height = imagesy($im);
 } catch (Exception $exc) {
