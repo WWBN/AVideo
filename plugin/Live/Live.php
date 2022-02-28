@@ -247,6 +247,7 @@ class Live extends PluginAbstract {
 
             $link = Live::getLinkToLiveFromUsers_idAndLiveServer($value['users_id'], $value['live_servers_id']);
             if (in_array($link, $currentLives)) {
+                _error_log("Live::getLiveApplicationArray LiveTransmitionHistory::finishFromTransmitionHistoryId({$value['id']}) [{$link}]");
                 LiveTransmitionHistory::finishFromTransmitionHistoryId($value['id']);
                 continue;
             }
