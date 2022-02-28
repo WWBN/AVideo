@@ -255,6 +255,7 @@ class Live extends PluginAbstract {
             $app = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'LiveObject_' . $value['id'], '', '', "live_{$value['key']}");
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
+            $app['live_transmitions_history_id'] = $value['id'];
             $array[] = $app;
         }
 
