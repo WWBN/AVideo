@@ -6895,7 +6895,7 @@ function getStatsNotifications($force_recreate = false) {
                     $lth->setKey($json['applications'][$key]['key']);
                     $lth->setUsers_id($json['applications'][$key]['users_id']);
                     $lth->setLive_servers_id($json['applications'][$key]['live_servers_id']);
-                    $lth->save();
+                    $json['applications'][$key]['live_transmitions_history_id'] = $lth->save();
                 }
             }
         }
