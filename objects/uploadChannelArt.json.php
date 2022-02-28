@@ -27,6 +27,7 @@ if (file_exists($obj->imagePNG)) {
     unlink($obj->imagePNG);
 }
 try {
+    _error_log("uploadChannelArt {$obj->imageJPG}");
     $im = imagecreatefromjpeg($obj->imageJPG);
     $width = imagesx($im);
     $height = imagesy($im);
