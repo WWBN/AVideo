@@ -7346,7 +7346,7 @@ function getCDN($type = 'CDN', $id = 0) {
     return empty($_getCDNURL[$index]) ? false : $_getCDNURL[$index];
 }
 
-function getURL($relativePath) {
+function getURL($relativePath, $ignoreCDN = false) {
     global $global;
     if (!isset($_SESSION['user']['sessionCache']['getURL'])) {
         $_SESSION['user']['sessionCache']['getURL'] = [];
@@ -7356,7 +7356,11 @@ function getURL($relativePath) {
     }
 
     $file = "{$global['systemRootPath']}{$relativePath}";
-    $url = getCDN() . $relativePath;
+    if(empty($ignoreCDN)){
+        $url = getCDN() . $relativePath;
+    }else{
+        $url = $global['webSiteRootURL'] . $relativePath;
+    }
     if (file_exists($file)) {
         $cache = @filemtime($file) . '_' . @filectime($file);
         $url = addQueryStringParameter($url, 'cache', $cache);
