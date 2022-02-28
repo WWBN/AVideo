@@ -1515,12 +1515,14 @@ class Live extends PluginAbstract {
                     $obj->countLiveStream = 0;
                     $liveServers[$value['id']] = $obj;
                 }
-
+                /*
                 foreach ($stats['applications'] as $value) {
                     if (!empty($value['live_servers_id'])) {
                         $liveServers[$value['live_servers_id']]->countLiveStream++;
                     }
                 }
+                 * 
+                 */
 
                 usort($liveServers, function ($a, $b) {
                     if ($a->countLiveStream == $b->countLiveStream) {
