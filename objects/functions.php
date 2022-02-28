@@ -6905,9 +6905,7 @@ function getStatsNotifications($force_recreate = false) {
         //_error_log('getStatsNotifications: 2 cached result');
         $json = object_to_array($json);
     }
-    if (empty($json['countLiveStream']) || $json['countLiveStream'] < $json['total']) {
-        $json['countLiveStream'] = $json['total'];
-    }
+    $json['countLiveStream'] = count($json['applications']);
     return $json;
 }
 
