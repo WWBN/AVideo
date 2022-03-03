@@ -61,6 +61,7 @@ if (!class_exists('Video')) {
         private $duration_in_seconds;
         private $likes;
         private $dislikes;
+        private $users_id_company;
         public static $statusDesc = [
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -120,6 +121,14 @@ if (!class_exists('Video')) {
             }
         }
 
+        function getUsers_id_company(): int {
+            return intval($this->users_id_company);
+        }
+
+        function setUsers_id_company($users_id_company): void {
+            $this->users_id_company = intval($users_id_company);
+        }
+                
         public function addView($currentTime = 0) {
             global $global;
             if (empty($this->id)) {
@@ -391,7 +400,7 @@ if (!class_exists('Video')) {
                         . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
                         . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, isSuggested = {$this->isSuggested}, users_id = {$this->users_id}, "
                         . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}', sites_id = {$this->sites_id}, serie_playlists_id = {$this->serie_playlists_id} ,live_transmitions_history_id = {$this->live_transmitions_history_id} , video_password = '{$this->video_password}', "
-                        . " encoderURL = '{$this->encoderURL}', filepath = '{$this->filepath}' , filesize = '{$this->filesize}' , duration_in_seconds = '{$this->duration_in_seconds}' , modified = now()"
+                        . " encoderURL = '{$this->encoderURL}', filepath = '{$this->filepath}' , filesize = '{$this->filesize}' , duration_in_seconds = '{$this->duration_in_seconds}' , modified = now(), users_id_companny = ".(empty($this->users_id_companny)?'NULL':intval($this->users_id_companny))." "
                         . " WHERE id = {$this->id}";
 
                 $saved = sqlDAL::writeSql($sql);
@@ -400,8 +409,8 @@ if (!class_exists('Video')) {
                 }
             } else {
                 $sql = "INSERT INTO videos "
-                        . "(duration_in_seconds, title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id,live_transmitions_history_id, video_password, encoderURL, filepath , filesize) values "
-                        . "('{$this->duration_in_seconds}','{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}')";
+                        . "(duration_in_seconds, title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id,live_transmitions_history_id, video_password, encoderURL, filepath , filesize, users_id_companny) values "
+                        . "('{$this->duration_in_seconds}','{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}', ".(empty($this->users_id_companny)?'NULL':intval($this->users_id_companny)).")";
 
                 $insert_row = sqlDAL::writeSql($sql);
             }
@@ -4959,7 +4968,7 @@ if (!class_exists('Video')) {
                 if (AVideoPlugin::isEnabledByName('LiveUsers')) {
                     $viewsHTML = '<div class="text-muted pull-right" style="display:flex;">' . getLiveUsersLabelVideo($value['id'], $value['views_count']) . '</div>';
                 } else {
-                    $viewsHTML = '<div class="text-muted pull-right"><i class="fas fa-eye"></i> ' . number_format($value['views_count'], 0) . '</strong></div>';
+                    $viewsHTML = '<div class="text-muted pull-right"><i class="fas fa-eye"></i> ' . number_format($value['views_count'], 0) . '</div>';
                 }
             }
             $creator = self::getCreatorHTML($value['users_id'], '', true);
