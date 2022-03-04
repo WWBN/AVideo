@@ -38,7 +38,7 @@ $croppieFilesAdded = 1;
         var boundaryHeight = <?php echo $boundaryHeight; ?>;
         
         var parentWidth = $('#croppie<?php echo $uid; ?>').parent().width();
-        var totalWidth = viewportWidth+boundaryWidth;
+        var totalWidth = viewportWidth+(boundaryWidth-viewportWidth);
         
         if(parentWidth <= totalWidth){
             
