@@ -59,10 +59,23 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             var tinyMCEtoolbar = 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment';
             var tinyMCEmenubar = 'edit insert view format table tools help';
         <?php
-    } ?>
+    } 
+    
+    $language = ($_SESSION['language'] == 'en_US') ? 'us' : $_SESSION['language'];
+    $langFile = 'node_modules/tinymce-langs/langs/' . $language . '.js';
+    
+    if(file_exists($global['systemRootPath'].$langFile)){
+        $language = "'{$language}'";
+        $language_url = "'".getURL($langFile)."'";
+    }else{
+        $language = 'null';
+        $language_url = 'null';
+    }
+    
+    ?>
         tinymce.init({
-            language: "<?php echo ($_SESSION['language'] == 'en_US') ? 'us' : $_SESSION['language']; ?>",
-            language_url: '<?php echo getURL('node_modules/tinymce-langs/langs/' . (($_SESSION['language'] == 'en_US') ? 'us' : $_SESSION['language']) . '.js'); ?>',
+            language: <?php echo $language; ?>,
+            language_url: <?php echo $language_url; ?>,
             selector: '#<?php echo $id; ?>', // change this value according to your HTML
             plugins: tinyMCEplugins,
             //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',

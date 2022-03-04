@@ -77,6 +77,7 @@ if (!empty($chat2) && !empty($chat2->useStaticLayout)) {
     $col1Class = "col-md-8 col-lg-8";
     $col2Class = "col-md-4 col-lg-4";
 }
+$global['doNotLoadPlayer'] = 1;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
