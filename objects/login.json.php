@@ -331,3 +331,4 @@ $json = _json_encode($object);
 //header("Content-length: " . strlen($json));
 _error_log('login.json.php is done');
 echo $json;
+exit;
