@@ -19,6 +19,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     protected $json;
     protected $max_viewers_sametime;
     protected $total_viewers;
+    protected $users_id_companny;
 
     public static function getSearchFieldsNames() {
         return ['title', 'description'];
@@ -28,6 +29,14 @@ class LiveTransmitionHistory extends ObjectYPT {
         return 'live_transmitions_history';
     }
 
+    function getUsers_id_companny(): int {
+        return intval($this->users_id_companny);
+    }
+
+    function setUsers_id_companny($users_id_companny): void {
+        $this->users_id_companny = intval($users_id_companny);
+    }
+        
     public function getId() {
         return $this->id;
     }
@@ -172,12 +181,37 @@ class LiveTransmitionHistory extends ObjectYPT {
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($key, $live_servers_id) : '');
         $uid = "{$type}_{$liveTransmitionHistory_id}";
-
+        $title = Live::getTitleFromKey($key, $title);
         //getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive='', $uid ='', $callback='', $startsOnDate='', $class='')
         $obj = Live::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive, $uid, '', '', "live_{$key}");
         $obj['key'] = $key;
         $obj['live_transmitions_history_id'] = $liveTransmitionHistory_id;
+        $obj['isPrivate'] = self::isPrivate($liveTransmitionHistory_id);
+        $obj['isPasswordProtected'] = self::isPasswordProtected($liveTransmitionHistory_id);
+        $obj['method'] = 'LiveTransmitionHistory::getApplicationObject';
+        
         return $obj;
+    }
+    
+    public static function isPrivate($liveTransmitionHistory_id) {
+        $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
+        $key = $lth->getKey();
+        if(!empty($key)){
+            $lt = LiveTransmition::getFromKey($key);
+            if(empty($lt['public'])){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static function isPasswordProtected($liveTransmitionHistory_id) {
+        $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
+        $key = $lth->getKey();
+        if(!empty($key)){
+            return Live::isPasswordProtected($key);
+        }
+        return false;
     }
 
     public static function getStatsAndAddApplication($liveTransmitionHistory_id) {
@@ -587,6 +621,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         if (empty($this->finished)) {
             $this->finished = 'NULL';
+        }
+        if (empty($this->users_id_companny)) {
+            $this->users_id_companny = 'NULL';
         }
         
         $this->max_viewers_sametime = intval($this->max_viewers_sametime);

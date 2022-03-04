@@ -53,8 +53,8 @@ if (empty($advancedCustom->openEncoderInIFrame) || !isSameDomainAsMyAVideo($conf
         if (!empty($config->getEncoderURL())) {
             ?>
             <li>
-                <a href="#" onclick="avideoModalIframeFull(webSiteRootURL+'i/upload');return false;" data-toggle="tooltip" title="<?php echo __("Upload a file or download it from the Internet"); ?>" data-placement="left" >
-                    <span class="fa fa-cog"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?>
+                <a class="faa-parent animated-hover" href="#" onclick="avideoModalIframeFull(webSiteRootURL+'i/upload');return false;" data-toggle="tooltip" title="<?php echo __("Upload a file or download it from the Internet"); ?>" data-placement="left" >
+                    <span class="fa fa-cog faa-spin"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?>
                 </a>
             </li>
             <?php

@@ -159,6 +159,7 @@ foreach ($donation as $value) {
 
         $(".donationFlyIcon").emojioneArea({
             standalone: true,
+            autocomplete: false,
             useInternalCDN: false,
             pickerPosition: "right"
         });

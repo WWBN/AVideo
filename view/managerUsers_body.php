@@ -13,18 +13,24 @@
             <a href="<?php echo $global['webSiteRootURL']; ?>objects/getAllEmails.csv.php" class="btn btn-primary">
                 <i class="fas fa-file-csv"></i> <?php echo __("CSV File"); ?>
             </a>
-            <a href="#" class="btn btn-primary">
-                <i class="fas fa-users"></i> <span class="totalDevicesOnline">0</span>
-            </a>
+            <div class="btn btn-primary" data-toggle="tooltip" title="<?php echo __('Online users'); ?>">
+                <i class="fas fa-users"></i> <span class="total_users_online">0</span>
+            </div>
         </div>
         <div class="clearfix"></div>
         <ul class="nav nav-tabs nav-tabs-horizontal">
-            <li class="active"><a data-toggle="tab" href="#usersTab"><?php echo __('Active Users'); ?></a></li>
-            <li><a data-toggle="tab" href="#inactiveUsersTab" onclick="startUserGrid('#gridInactive', '?status=i', 0);"><?php echo __('Inactive Users'); ?></a></li>
-            <li><a data-toggle="tab" href="#adminUsersTab" onclick="startUserGrid('#gridAdmin', '?isAdmin=1', 0);"><?php echo __('Admin Users'); ?></a></li>
+            <li class="active"><a data-toggle="tab" href="#usersTab" onclick="startUserGrid('#grid', '?status=a', 0);"><i class="fas fa-user"></i> <?php echo __('Active Users'); ?></a></li>
+            <li><a data-toggle="tab" href="#inactiveUsersTab" onclick="startUserGrid('#gridInactive', '?status=i', 0);"><i class="fas fa-user-slash"></i> <?php echo __('Inactive Users'); ?></a></li>
+            <li><a data-toggle="tab" href="#adminUsersTab" onclick="startUserGrid('#gridAdmin', '?isAdmin=1', 0);"><i class="fas fa-user-tie"></i> <?php echo __('Admin Users'); ?></a></li>
             <?php
+            if (empty($advancedCustomUser->disableCompanySignUp)) {
+                ?>
+                <li><a data-toggle="tab" href="#companyUsersTab" onclick="startUserGrid('#companyAdmin', '?isCompany=1', 0);"><i class="fas fa-building"></i> <?php echo __('Company Users'); ?></a></li>
+                <li><a data-toggle="tab" href="#companyApUsersTab" onclick="startUserGrid('#companyApAdmin', '?isCompany=2', 0);"><i class="fas fa-building"></i> <?php echo __('Company Waiting Approval'); ?></a></li>
+                <?php
+            }
             foreach ($userGroups as $value) {
-                echo '<li><a data-toggle="tab" href="#userGroupTab' . $value['id'] . '" onclick="startUserGrid(\'#userGroupGrid' . $value['id'] . '\', \'?status=a&user_groups_id=' . $value['id'] . '\', ' . $value['id'] . ');">' . $value['group_name'] . '</a></li>';
+                echo '<li><a data-toggle="tab" href="#userGroupTab' . $value['id'] . '" onclick="startUserGrid(\'#userGroupGrid' . $value['id'] . '\', \'?status=a&user_groups_id=' . $value['id'] . '\', ' . $value['id'] . ');"><i class="fas fa-users"></i> ' . $value['group_name'] . '</a></li>';
             }
             ?>
         </ul>
@@ -79,7 +85,44 @@
                     </thead>
                 </table>
             </div>
+
             <?php
+            if (empty($advancedCustomUser->disableCompanySignUp)) {
+                ?>
+                <div id="companyUsersTab" class="tab-pane fade">
+                    <table id="companyAdmin" class="table table-condensed table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
+                                <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
+                                <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
+                                <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
+                                <th data-column-id="created" ><?php echo __("Created"); ?></th>
+                                <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
+                                <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
+                                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div id="companyApUsersTab" class="tab-pane fade">
+                    <table id="companyApAdmin" class="table table-condensed table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
+                                <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
+                                <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
+                                <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
+                                <th data-column-id="created" ><?php echo __("Created"); ?></th>
+                                <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
+                                <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
+                                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <?php
+            }
             foreach ($userGroups as $value) {
                 $gridID = "userGroupGrid{$value['id']}";
                 ?>
@@ -142,58 +185,74 @@
                         ?>
                         <label for="phone" class="sr-only"><?php echo __("Phone"); ?></label>
                         <input type="text" id="phone" class="form-control " placeholder="<?php echo __("Phone"); ?>" >
-                        <?php }
+                    <?php }
                     ?>
                     <label for="inputChannelName" class="sr-only"><?php echo __("Channel Name"); ?></label>
                     <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>" >
                     <label for="inputAnalyticsCode" class="sr-only"><?php echo __("Analytics Code"); ?></label>
                     <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1" >
                     <small>Do not paste the full javascript code, paste only the gtag id</small>
+                    <br>
+                    <?php
+                    if (empty($advancedCustomUser->disableCompanySignUp)) {
+                        ?>
+                        <label for="is_company" class="sr-only"><?php echo __("is a Company"); ?></label>
+                        <select name="is_company" id="is_company" class="form-control last">
+                            <?php
+                            foreach (User::$is_company_status as $key => $value) {
+                                echo "<option value='{$key}'>" . __($value) . "</option>";
+                            }
+                            ?>
+
+                        </select>
+                    <?php }
+                    ?>
+
                     <ul class="list-group">
                         <li class="list-group-item <?php echo User::isAdmin() ? "" : "hidden"; ?>">
-<?php echo __("is Admin"); ?>
+                            <?php echo __("is Admin"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="isAdmin" id="isAdmin"/>
                                 <label for="isAdmin" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-<?php echo __("Can Stream Videos"); ?>
+                            <?php echo __("Can Stream Videos"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="canStream" id="canStream"/>
                                 <label for="canStream" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-<?php echo __("Can Upload Videos"); ?>
+                            <?php echo __("Can Upload Videos"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="canUpload" id="canUpload"/>
                                 <label for="canUpload" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-<?php echo __("Can view chart"); ?>
+                            <?php echo __("Can view chart"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="canViewChart" id="canViewChart"/>
                                 <label for="canViewChart" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-<?php echo __("Can create meet"); ?>
+                            <?php echo __("Can create meet"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="canCreateMeet" id="canCreateMeet"/>
                                 <label for="canCreateMeet" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-<?php echo __("E-mail Verified"); ?>
+                            <?php echo __("E-mail Verified"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="isEmailVerified" id="isEmailVerified"/>
                                 <label for="isEmailVerified" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
-<?php echo __("is Active"); ?>
+                            <?php echo __("is Active"); ?>
                             <div class="material-switch pull-right">
                                 <input type="checkbox" value="status" id="status"/>
                                 <label for="status" class="label-success"></label>
@@ -205,7 +264,7 @@
                     </ul>
                     <ul class="list-group">
                         <li class="list-group-item active">
-<?php echo __("User Groups"); ?>
+                            <?php echo __("User Groups"); ?>
                             <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By associating groups with this user, they will be able to see all the videos that are related to this group"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                         </li>
                         <?php
@@ -213,7 +272,7 @@
                             ?>
                             <li class="list-group-item usergroupsLi" id="usergroupsLi<?php echo $value['id']; ?>">
                                 <span class="fa fa-unlock"></span>
-    <?php echo $value['group_name']; ?>
+                                <?php echo $value['group_name']; ?>
                                 <span class="label label-info"><?php echo $value['total_videos']; ?> <?php echo __("Videos linked"); ?></span>
                                 <span class="label label-warning dynamicLabel"><i class="fas fa-link"></i> <?php echo __("Dynamic group"); ?></span>
                                 <div class="material-switch pull-right">
@@ -346,6 +405,7 @@
             $('#phone').val('');
             $('#inputChannelName').val('');
             $('#inputAnalyticsCode').val('');
+            $('#is_company').val(0);
             $('#isAdmin').prop('checked', false);
             $('#canStream').prop('checked', false);
             $('#canUpload').prop('checked', false);
@@ -391,6 +451,7 @@ print AVideoPlugin::updateUserFormJS();
                                 "analyticsCode": $('#inputAnalyticsCode').val(),
                                 "isAdmin": $('#isAdmin').is(':checked'),
                                 "canStream": $('#canStream').is(':checked'),
+                                "is_company": $('#is_company').val(),
                                 "canUpload": $('#canUpload').is(':checked'),
                                 "canViewChart": $('#canViewChart').is(':checked'),
                                 "canCreateMeet": $('#canCreateMeet').is(':checked'),
@@ -500,6 +561,7 @@ print AVideoPlugin::updateUserFormJS();
                 $('.userGroups').prop('checked', false);
                 $('.usergroupsLi').removeClass('dynamic');
                 $('.usergroupsLi input').removeAttr('disabled');
+                $('#is_company').val(row.is_company);
 
                 for (var index in row.groups) {
                     $('#userGroup' + row.groups[index].id).prop('checked', true);

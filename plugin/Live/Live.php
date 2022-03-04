@@ -237,7 +237,10 @@ class Live extends PluginAbstract {
             }
             $link = addQueryStringParameter($link, 'live_schedule', intval($value['id']));
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
-            $app = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_' . $value['key']);
+            
+            $title = self::getTitleFromKey($value['key'], $value['title']);
+            
+            $app = self::getLiveApplicationModelArray($value['users_id'], $title, $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_' . $value['key']);
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
             $app['isPrivate'] = false;
@@ -268,13 +271,17 @@ class Live extends PluginAbstract {
             }
             $currentLives[] = $link;
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
-            $app = self::getLiveApplicationModelArray($value['users_id'], $value['title'], $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'LiveObject_' . $value['id'], '', '', "live_{$value['key']}");
+
+            $title = self::getTitleFromKey($value['key'], $value['title']);
+
+            $app = self::getLiveApplicationModelArray($value['users_id'], $title, $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'LiveObject_' . $value['id'], '', '', "live_{$value['key']}");
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
             $app['live_transmitions_history_id'] = $value['id'];
             $app['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
             $app['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
             $app['method'] = 'Live::getLiveApplicationArray::LiveTransmitionHistory';
+
             $array[] = $app;
         }
 
@@ -1573,15 +1580,28 @@ class Live extends PluginAbstract {
     }
 
     public static function isPasswordProtected($key) {
-        $lt = self::getLiveTransmitionObjectFromKey($key);
-        if (empty($lt)) {
+        global $_isPasswordProtected;
+        if (empty($key)) {
             return false;
         }
-        $password = $lt->getPassword();
-        if (!empty($password)) {
-            return true;
+        if (!isset($_isPasswordProtected)) {
+            $_isPasswordProtected = array();
         }
-        return false;
+        if (!isset($_isPasswordProtected[$key])) {
+            $lt = self::getLiveTransmitionObjectFromKey($key);
+            if (empty($lt)) {
+                $_isPasswordProtected[$key] = false;
+            } else {
+                $password = $lt->getPassword();
+                if (!empty($password)) {
+                    $_isPasswordProtected[$key] = true;
+                } else {
+                    $_isPasswordProtected[$key] = false;
+                }
+            }
+        }
+        //var_dump($key, $_isPasswordProtected[$key]);
+        return $_isPasswordProtected[$key];
     }
 
     public static function canManageLiveFromLiveKey($key, $users_id) {
@@ -1609,8 +1629,14 @@ class Live extends PluginAbstract {
     }
 
     public static function getTitleFromUsers_Id($users_id) {
+        if (empty($users_id)) {
+            return '';
+        }
         $lt = self::getLiveTransmitionObjectFromUsers_id($users_id);
-        return $lt->getTitle();
+        if (empty($lt)) {
+            return '';
+        }
+        return self::getTitleFromKey($lt->getKey(), $lt->getTitle());
     }
 
     public static function getLiveTransmitionObjectFromUsers_id($users_id) {
@@ -1750,13 +1776,10 @@ class Live extends PluginAbstract {
                 if (!empty($row) && $value->name === $obj->name) {
                     $obj->msg = "ONLINE";
                 }
-                $title = $row['title'];
+                $title = self::getTitleFromKey($row['key'], $row['title']);
+                self::getTitleFromUsers_Id($users_id);
                 $u = new User($row['users_id']);
                 $hiddenName = preg_replace('/^(.{5})/', '*****', $value->name);
-
-                if (self::isPasswordProtected($value->name)) {
-                    $title = "<i class=\"fas fa-lock\"></i> {$title}";
-                }
 
                 //_error_log('Live::isLiveFromKey:_getStats '. json_encode($_SERVER));
                 if (!self::canSeeLiveFromLiveKey($value->name)) {
@@ -1766,15 +1789,6 @@ class Live extends PluginAbstract {
                         "user" => $row['channelName'],
                         "title" => "{$row['channelName']} ($hiddenName} is a private live",
                     ];
-                    if (empty($row['live_password']) && !User::isAdmin()) {
-                        continue;
-                    } else {
-                        $title .= " (private live)";
-                    }
-                } elseif (self::isPrivate($row['key'])) {
-                    $title .= __(" (set to not be listed)");
-                } elseif (self::isPasswordProtected($row['key'])) {
-                    $title .= __(" (Password Protected)");
                 } elseif ($u->getStatus() !== 'a') {
                     $obj->hidden_applications[] = [
                         "key" => $value->name,
@@ -1784,8 +1798,6 @@ class Live extends PluginAbstract {
                     ];
                     if (!User::isAdmin()) {
                         continue;
-                    } else {
-                        $title .= __(" (user is inactive)");
                     }
                 }
 
@@ -1816,10 +1828,6 @@ class Live extends PluginAbstract {
                 }
                 if (!empty($live_index)) {
                     $_REQUEST['live_index'] = $live_index;
-                }
-
-                if (!empty($live_index) || $live_index === 'false') {
-                    $title .= " ({$live_index})";
                 }
 
                 $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value->name, $live_servers_id) : '');
@@ -1868,12 +1876,51 @@ class Live extends PluginAbstract {
         return $obj;
     }
 
-    public static function isApplicationListed($key) {
+    static function getTitleFromKey($key, $title = '') {
+        if (empty($key)) {
+            return $title;
+        }
+        $row = LiveTransmition::keyExists($key);
+        if (empty($row)) {
+            return $title;
+        }
+        if (empty($title)) {
+            $title = $row['title'];
+        }
+        $Char = "&zwnj;";
+        if(str_contains($title, $Char)){
+            return $title;
+        }
+        $title = "{$Char}{$title}";
+        //var_dump($title);
+        if (self::isPrivate($row['key'])) {
+            $title = " <i class=\"fas fa-eye-slash\"></i> {$title}";
+        }
+        if (self::isPasswordProtected($row['key'])) {
+            $title = " <i class=\"fas fa-lock\"></i> {$title}";
+        }
+
+        $u = new User($row['users_id']);
+        if ($u->getStatus() !== 'a') {
+            $title = " <i class=\"fas fa-user-alt-slash\"></i> {$title}";
+        }
+
+        $parameters = self::getLiveParametersFromKey($key);
+        $playlists_id_live = $parameters['playlists_id_live'];
+        $live_index = $parameters['live_index'];
+        if (!empty($live_index) && $live_index !== 'false') {
+            $title .= " ({$live_index})";
+        }
+
+        return $title;
+    }
+
+    public static function isApplicationListed($key, $listItIfIsAdminOrOwner = true) {
         global $_isApplicationListed;
         if (empty($key)) {
             return __LINE__;
         }
-        if (User::isAdmin()) {
+        if ($listItIfIsAdminOrOwner && User::isAdmin()) {
             return __LINE__;
         }
         if (!isset($_isApplicationListed)) {
@@ -1887,7 +1934,7 @@ class Live extends PluginAbstract {
                 $_isApplicationListed[$key] = __LINE__;
             } else if (!empty($row['public'])) {
                 $_isApplicationListed[$key] = __LINE__;
-            } else if (User::getId() == $row['users_id']) {
+            } else if ($listItIfIsAdminOrOwner && User::getId() == $row['users_id']) {
                 $_isApplicationListed[$key] = __LINE__;
             } else {
                 $_isApplicationListed[$key] = false;

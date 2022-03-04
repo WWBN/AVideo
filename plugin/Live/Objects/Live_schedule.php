@@ -18,6 +18,7 @@ class Live_schedule extends ObjectYPT
     protected $saveTransmition;
     protected $showOnTV;
     protected $scheduled_password;
+    protected $users_id_companny;
 
     public static function getSearchFieldsNames()
     {
@@ -27,6 +28,14 @@ class Live_schedule extends ObjectYPT
     public static function getTableName()
     {
         return 'live_schedule';
+    }
+    
+    function getUsers_id_companny(): int {
+        return intval($this->users_id_companny);
+    }
+
+    function setUsers_id_companny($users_id_companny): void {
+        $this->users_id_companny = intval($users_id_companny);
     }
 
     public static function getAllUsers()
@@ -323,6 +332,10 @@ class Live_schedule extends ObjectYPT
 
         if (empty($this->showOnTV)) {
             $this->showOnTV = 'NULL';
+        }
+        
+        if (empty($this->users_id_companny)) {
+            $this->users_id_companny = 'NULL';
         }
 
         if (empty($this->key)) {

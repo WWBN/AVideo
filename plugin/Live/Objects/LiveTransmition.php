@@ -306,7 +306,7 @@ class LiveTransmition extends ObjectYPT
         Category::clearCacheCount();
         Live::deleteStatsCache(true);
 
-        $socketObj = sendSocketMessageToAll(['stats'=>getStatsNotifications()], "socketLiveONCallback");
+        $socketObj = sendSocketMessageToAll(['stats'=>getStatsNotifications(false, false)], "socketLiveONCallback");
 
         return $id;
     }

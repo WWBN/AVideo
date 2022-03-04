@@ -26,6 +26,7 @@ AVideoPlugin::loadPlugin("CustomizeUser");
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#Categories_has_users_groups"><i class="fas fa-list"></i> <?php echo __("Categories"); ?> <i class="fas fa-times"></i> <i class="fas fa-users"></i> <?php echo __("Categories Has Users Groups"); ?></a></li>
                         <li class=""><a data-toggle="tab" href="#Users_extra_info"><i class="fas fa-address-book"></i> <?php echo __("Users Extra Info"); ?></a></li>
+                        <li class=""><a data-toggle="tab" href="#Users_affiliations"><i class="fas fa-child"></i> <?php echo __("Users Affiliations"); ?></a></li>
                     </ul>
                     <div class="tab-content">
                         <div id="Categories_has_users_groups" class="tab-pane fade in active" style="padding: 10px;">
@@ -36,6 +37,11 @@ AVideoPlugin::loadPlugin("CustomizeUser");
                         <div id="Users_extra_info" class="tab-pane fade " style="padding: 10px;">
                             <?php
                             include $global['systemRootPath'] . 'plugin/CustomizeUser/View/Users_extra_info/index_body.php';
+                            ?>
+                        </div>
+                        <div id="Users_affiliations" class="tab-pane fade" style="padding: 10px;">
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/CustomizeUser/View/Users_affiliations/index_body.php';
                             ?>
                         </div>
                     </div>

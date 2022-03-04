@@ -472,5 +472,15 @@ class Layout extends PluginAbstract {
             include $global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php';
         }
     }
+    
+    static function getUserAutocomplete($default_users_id=0, $id = '', $parameters = array()){
+        global $global;
+        $default_users_id = intval($default_users_id);
+        if(empty($id)){
+            $id = 'getUserAutocomplete_'.uniqid();
+        }
+        include $global['systemRootPath'] . 'plugin/Layout/userAutocomplete.php';
+        return "updateUserAutocomplete{$id}();";
+    }
 
 }

@@ -308,9 +308,9 @@ function base64DataToImage($imgBase64) {
 }
 
 function getRealIpAddr() {
-    if(isCommandLineInterface()){
+    if (isCommandLineInterface()) {
         $ip = "127.0.0.1";
-    }else if (!empty($_SERVER['HTTP_CLIENT_IP'])) { //check ip from share internet
+    } else if (!empty($_SERVER['HTTP_CLIENT_IP'])) { //check ip from share internet
         $ip = $_SERVER['HTTP_CLIENT_IP'];
     } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { //to check ip is pass from proxy
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -1429,7 +1429,7 @@ function getResolutionFromFilename($filename) {
         return $getResolutionFromFilenameArray[$filename];
     }
 
-    if(!preg_match('/^http/i', $filename) && !file_exists($filename)){
+    if (!preg_match('/^http/i', $filename) && !file_exists($filename)) {
         return 0;
     }
     $res = Video::getResolutionFromFilename($filename);
@@ -4594,17 +4594,24 @@ function isHLS() {
     return false;
 }
 
-function getRedirectUri() {
-    if (!empty($_GET['redirectUri'])) {
+function getRedirectUri($returnThisIfRedirectUriIsNotSet = false) {
+    if (isValidURL(@$_GET['redirectUri'])) {
         return $_GET['redirectUri'];
     }
-    if (!empty($_SESSION['redirectUri'])) {
+    if (isValidURL(@$_SESSION['redirectUri'])) {
         return $_SESSION['redirectUri'];
     }
-    if (!empty($_SERVER["HTTP_REFERER"])) {
+    if (isValidURL(@$_REQUEST["redirectUri"])) {
+        return $_REQUEST["redirectUri"];
+    }
+    if (isValidURL(@$_SERVER["HTTP_REFERER"])) {
         return $_SERVER["HTTP_REFERER"];
     }
-    return getRequestURI();
+    if (isValidURL($returnThisIfRedirectUriIsNotSet)) {
+        return $returnThisIfRedirectUriIsNotSet;
+    } else {
+        return getRequestURI();
+    }
 }
 
 function setRedirectUri($redirectUri) {
@@ -5458,8 +5465,17 @@ function _json_encode($object) {
                         if (empty($json) && json_last_error()) {
                             _error_log("_json_encode: Error 6 Found: " . json_last_error_msg());
                             $json = json_encode($objectDecoded, JSON_UNESCAPED_UNICODE);
-                            if (json_last_error()) {
+                            if (empty($json) && json_last_error()) {
                                 _error_log("_json_encode: Error 7 Found: " . json_last_error_msg());
+                                array_walk_recursive($objectDecoded, function (&$item) {
+                                    if (is_string($item)) {
+                                        $item = cleanString($item);
+                                    }
+                                });
+                                $json = json_encode($users);
+                                if (json_last_error()) {
+                                    _error_log("_json_encode: Error 8 Found: " . json_last_error_msg());
+                                }
                             }
                         }
                     }
@@ -6822,7 +6838,7 @@ function deleteStatsNotifications() {
     ObjectYPT::deleteCache($cacheName);
 }
 
-function getStatsNotifications($force_recreate = false) {
+function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner = true) {
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     unset($_POST['sort']);
     if ($force_recreate) {
@@ -6905,6 +6921,14 @@ function getStatsNotifications($force_recreate = false) {
         //_error_log('getStatsNotifications: 2 cached result');
         $json = object_to_array($json);
     }
+
+    foreach ($json['applications'] as $key => $value) {
+        if (!Live::isApplicationListed(@$value['key'], $listItIfIsAdminOrOwner)) {
+            $json['hidden_applications'][] = $value;
+            unset($json['applications'][$key]);
+        }
+    }
+
     $json['countLiveStream'] = count($json['applications']);
     return $json;
 }
@@ -7356,9 +7380,9 @@ function getURL($relativePath, $ignoreCDN = false) {
     }
 
     $file = "{$global['systemRootPath']}{$relativePath}";
-    if(empty($ignoreCDN)){
+    if (empty($ignoreCDN)) {
         $url = getCDN() . $relativePath;
-    }else{
+    } else {
         $url = $global['webSiteRootURL'] . $relativePath;
     }
     if (file_exists($file)) {

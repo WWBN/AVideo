@@ -443,8 +443,8 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                         if (User::canUpload() && empty($advancedCustom->doNotShowUploadButton)) {
                             ?>
                             <li>
-                                <div data-toggle="tooltip" title="<?php echo __("Submit your videos"); ?>" data-placement="left"  class="btn-group faa-parent animated-hover">
-                                    <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
+                                <div data-toggle="tooltip" title="<?php echo __("Submit your videos"); ?>" data-placement="left"  class="btn-group">
+                                    <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left  faa-parent animated-hover"  data-toggle="dropdown">
                                         <i class="<?php echo $advancedCustom->uploadButtonDropdownIcon ?? "fas fa-video"; ?>"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? __($advancedCustom->uploadButtonDropdownText) : ""; ?> <span class="caret"></span>
                                     </button>
                                     <?php
@@ -520,8 +520,8 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             if (!empty($getUploadMenuButton)) {
                                 ?>
                                 <li>
-                                    <div data-toggle="tooltip" title="<?php echo __("Submit your videos"); ?>" data-placement="left"  class="btn-group faa-parent animated-hover">
-                                        <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left"  data-toggle="dropdown">
+                                    <div data-toggle="tooltip" title="<?php echo __("Submit your videos"); ?>" data-placement="left"  class="btn-group">
+                                        <button type="button" class="btn btn-default  dropdown-toggle navbar-btn pull-left faa-parent animated-hover"  data-toggle="dropdown">
                                             <i class="<?php echo $advancedCustom->uploadButtonDropdownIcon ?? "fas fa-video"; ?>"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? __($advancedCustom->uploadButtonDropdownText) : ""; ?> <span class="caret"></span>
                                         </button>
                                         <?php echo '<!-- navbar line ' . __LINE__ . '-->'; ?>

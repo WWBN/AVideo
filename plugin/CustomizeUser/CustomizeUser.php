@@ -7,6 +7,7 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Categories_has_users_groups.php';
 require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_extra_info.php';
+require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_affiliations.php';
 
 class CustomizeUser extends PluginAbstract
 {
@@ -41,7 +42,7 @@ class CustomizeUser extends PluginAbstract
 
     public function getEmptyDataObject()
     {
-        global $advancedCustom;
+        global $advancedCustom, $advancedCustomUser;
         $obj = new stdClass();
         $obj->nonAdminCannotDownload = false;
         $obj->userCanAllowFilesDownload = false;
@@ -77,9 +78,12 @@ class CustomizeUser extends PluginAbstract
         $obj->unverifiedEmailsCanNOTLogin = !isset($advancedCustom->unverifiedEmailsCanNOTLogin) ? false : $advancedCustom->unverifiedEmailsCanNOTLogin;
         $obj->unverifiedEmailsCanNOTComment = false;
         $obj->newUsersCanStream = !isset($advancedCustom->newUsersCanStream) ? false : $advancedCustom->newUsersCanStream;
-        $obj->doNotIndentifyByEmail = !isset($advancedCustom->doNotIndentifyByEmail) ? false : $advancedCustom->doNotIndentifyByEmail;
-        $obj->doNotIndentifyByName = !isset($advancedCustom->doNotIndentifyByName) ? false : $advancedCustom->doNotIndentifyByName;
-        $obj->doNotIndentifyByUserName = !isset($advancedCustom->doNotIndentifyByUserName) ? false : $advancedCustom->doNotIndentifyByUserName;
+        $obj->doNotIdentifyByName = !isset($advancedCustomUser->doNotIndentifyByName) ? false : $advancedCustomUser->doNotIndentifyByName;
+        self::addDataObjectHelper('doNotIdentifyByName', 'Do NOT identify user by Name', 'The identification order will be: <br>1. Name<br>2. email<br>3. Username<br>4. Channel Name');
+        $obj->doNotIdentifyByEmail = !isset($advancedCustomUser->doNotIndentifyByEmail) ? false : $advancedCustomUser->doNotIndentifyByEmail;
+        self::addDataObjectHelper('doNotIdentifyByEmail', 'Do NOT identify user by Email', 'The identification order will be: <br>1. Name<br>2. email<br>3. Username<br>4. Channel Name');
+        $obj->doNotIdentifyByUserName = !isset($advancedCustomUser->doNotIndentifyByUserName) ? false : $advancedCustomUser->doNotIndentifyByUserName;
+        self::addDataObjectHelper('doNotIdentifyByUserName', 'Do NOT identify user by Username', 'The identification order will be: <br>1. Name<br>2. email<br>3. Username<br>4. Channel Name');
         $obj->hideRemoveChannelFromModeYoutube = !isset($advancedCustom->hideRemoveChannelFromModeYoutube) ? false : $advancedCustom->hideRemoveChannelFromModeYoutube;
         $obj->showChannelBannerOnModeYoutube = !isset($advancedCustom->showChannelBannerOnModeYoutube) ? false : $advancedCustom->showChannelBannerOnModeYoutube;
         $obj->showChannelHomeTab = true;
@@ -90,6 +94,8 @@ class CustomizeUser extends PluginAbstract
         $obj->requestCaptchaAfterLoginsAttempts = !isset($advancedCustom->requestCaptchaAfterLoginsAttempts) ? 0 : $advancedCustom->requestCaptchaAfterLoginsAttempts;
         $obj->disableSignOutButton = false;
         $obj->disableNativeSignUp = !isset($advancedCustom->disableNativeSignUp) ? false : $advancedCustom->disableNativeSignUp;
+        $obj->disableCompanySignUp = true;
+        self::addDataObjectHelper('disableCompanySignUp', 'Disable Company SignUp', 'Company SignUp will enable a form with sone extra fields specific for companies');
         $obj->disableNativeSignIn = !isset($advancedCustom->disableNativeSignIn) ? false : $advancedCustom->disableNativeSignIn;
         $obj->disablePersonalInfo = !isset($advancedCustom->disablePersonalInfo) ? true : $advancedCustom->disablePersonalInfo;
 
@@ -160,6 +166,10 @@ class CustomizeUser extends PluginAbstract
         $obj->doNotShowPhoneMyAccount = true;
         $obj->doNotShowPhoneOnSignup = true;
         
+        $obj->enableAffiliation = false;
+        self::addDataObjectHelper('enableAffiliation', 'Enable user affiliation', 'Users that are marked as company can select other users to be afiliated to him');
+        
+        
         return $obj;
     }
 
@@ -175,6 +185,7 @@ class CustomizeUser extends PluginAbstract
     {
         $obj = $this->getDataObject();
         $userOptions = [];
+        
         if ($obj->Checkmark1Enabled) {
             $userOptions["Checkmark 1"] = "checkmark1";
         }
@@ -502,6 +513,9 @@ class CustomizeUser extends PluginAbstract
         if($obj->allowWalletDirectTransferDonation && $obj->UsersCanCustomizeWalletDirectTransferDonation){
             $btn .= '<li><a data-toggle="tab" href="#tabWalletDonation' . $p->getUUID() . '">' . __('Donations Options') . '</a></li>';
         }
+        if($obj->enableAffiliation){
+            $btn .= '<li><a data-toggle="tab" href="#tabAffiliation' . $p->getUUID() . '">' . __('Affiliations') . '</a></li>';
+        }
         return $btn;
         
     }
@@ -521,8 +535,9 @@ class CustomizeUser extends PluginAbstract
             include $global['systemRootPath'] . 'plugin/CustomizeUser/View/tabDonation.php';
         }
         
-        if($obj->allowWalletDirectTransferDonation && $obj->UsersCanCustomizeWalletDirectTransferDonation){
-            
+        if($obj->enableAffiliation){
+            $tabId = 'tabAffiliation' . $p->getUUID();
+            include $global['systemRootPath'] . 'plugin/CustomizeUser/View/tabAffiliation.php';
         }
         
         return $btn;

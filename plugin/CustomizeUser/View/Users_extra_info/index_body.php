@@ -8,7 +8,10 @@ if (!User::isAdmin()) {
 }
 ?>
 
-
+<div class="alert alert-info">
+    This will let you create new custom fields for your users. 
+    You can create fields for the signup or for the profile only.
+</div>
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fas fa-cog"></i> <?php echo __("Configurations"); ?>
@@ -30,20 +33,20 @@ if (!User::isAdmin()) {
                                     <label for="order"><?php echo __("order"); ?>:</label>
                                     <select class="form-control input-sm" name="order" id="Users_extra_infoorder">
                                         <?php
-                                        for ($i=0;$i<20;$i++) {
-                                            echo '<option value="'.$i.'">'.$i.'</option>';
+                                        for ($i = 0; $i < 20; $i++) {
+                                            echo '<option value="' . $i . '">' . $i . '</option>';
                                         }
                                         ?>
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label for="Users_extra_infofield_type"><?php echo __("Field Type"); ?>:</label>
-                                    
+
                                     <select class="form-control input-sm" name="field_type" id="Users_extra_infofield_type"  required="true">
                                         <?php
                                         $types = Users_extra_info::getTypesOptionArray();
                                         foreach ($types as $key => $value) {
-                                            echo '<option value="'.$key.'">'.__($value).'</option>';
+                                            echo '<option value="' . $key . '">' . __($value) . '</option>';
                                         }
                                         ?>
                                     </select>
@@ -59,8 +62,11 @@ if (!User::isAdmin()) {
                                 <div class="form-group col-sm-6">
                                     <label for="status"><?php echo __("Status"); ?>:</label>
                                     <select class="form-control input-sm" name="status" id="Users_extra_infostatus">
-                                        <option value="a"><?php echo __("Active"); ?></option>
-                                        <option value="i"><?php echo __("Inactive"); ?></option>
+                                        <?php
+                                        foreach (Users_extra_info::$status_options as $key => $value) {
+                                            echo '<option value="' . $key . '">' . __($value) . '</option>';
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-12" style="display: none;">
@@ -138,10 +144,10 @@ if (!User::isAdmin()) {
         $('#Users_extra_infoorder').val(0);
     }
     $(document).ready(function () {
-        $('#Users_extra_infofield_type').change(function(){
-            if($(this).val() == 'select'){
+        $('#Users_extra_infofield_type').change(function () {
+            if ($(this).val() == 'select') {
                 $("#Users_extra_infofield_options").parent().slideDown();
-            }else{
+            } else {
                 $("#Users_extra_infofield_options").parent().slideUp();
             }
         });
@@ -171,7 +177,10 @@ if (!User::isAdmin()) {
                 {"data": "field_type"},
                 {"data": "field_options"},
                 {"data": "field_default_value"},
-                {"data": "status"},
+                {"data": "status",
+                    "render": function (data, type, row, meta) {
+                        return row.status_description;
+                    }},
                 {"data": "order"},
                 {
                     sortable: false,

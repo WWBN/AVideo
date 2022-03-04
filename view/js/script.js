@@ -1456,13 +1456,17 @@ function avideoModalIframeRemove() {
 
 function avideoResponse(response) {
     console.log('avideoResponse', response);
-    if (typeof response == 'string') {
+    if (typeof response === 'string') {
         response = JSON.parse(response);
     }
     console.log('avideoResponse', response);
     if (response.error) {
         if (!response.msg) {
-            response.msg = 'Error';
+            if(typeof response.error === 'string'){
+                response.msg = response.error;
+            }else{
+                response.msg = 'Error';
+            }
         }
         avideoAlertError(response.msg);
     } else {

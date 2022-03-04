@@ -40,8 +40,33 @@ CREATE TABLE IF NOT EXISTS `users` (
   `donationLink` VARCHAR(225) NULL DEFAULT NULL,
   `extra_info` TEXT NULL DEFAULT NULL,
   `phone` VARCHAR(255) NULL DEFAULT NULL,
+  `is_company` TINYINT(4) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
+ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `users_affiliations` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `created` DATETIME NULL DEFAULT NULL,
+  `modified` DATETIME NULL DEFAULT NULL,
+  `users_id_company` INT(11) NOT NULL,
+  `users_id_affiliate` INT(11) NOT NULL,
+  `status` CHAR(1) NULL DEFAULT NULL,
+  `company_agree_date` DATETIME NULL DEFAULT NULL,
+  `affiliate_agree_date` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_users_affiliations_users1_idx` (`users_id_company` ASC),
+  INDEX `fk_users_affiliations_users2_idx` (`users_id_affiliate` ASC),
+  CONSTRAINT `fk_users_affiliations_users1`
+    FOREIGN KEY (`users_id_company`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_users_affiliations_users2`
+    FOREIGN KEY (`users_id_affiliate`)
+    REFERENCES `users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -155,7 +180,9 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `duration_in_seconds` INT NULL DEFAULT NULL,
   `likes` INT(11) NULL DEFAULT NULL,
   `dislikes` INT(11) NULL DEFAULT NULL,
+  `users_id_company` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
+  INDEX `fk_videos_users1_idx` (`users_id_company` ASC),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
   UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
@@ -196,7 +223,12 @@ CONSTRAINT `fk_videos_playlists1`
   FOREIGN KEY (`serie_playlists_id`)
   REFERENCES `playlists` (`id`)
   ON DELETE CASCADE
-  ON UPDATE CASCADE)
+  ON UPDATE CASCADE,
+ CONSTRAINT `fk_videos_users1`
+  FOREIGN KEY (`users_id_company`)
+  REFERENCES `users` (`id`)
+  ON DELETE SET NULL
+  ON UPDATE SET NULL)
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `videos_metadata` (

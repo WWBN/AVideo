@@ -41,6 +41,7 @@ class User {
     private $modified;
     private $extra_info;
     private $phone;
+    private $is_company;
     public static $DOCUMENT_IMAGE_TYPE = "Document Image";
     public static $channel_artTV = 'tv';
     public static $channel_artDesktopMax = 'desktop_max';
@@ -52,6 +53,10 @@ class User {
         'tablet' => array('tablet', 1855, 423),
         'DesktopMin' => array('desktop_min', 1546, 423)
     );
+    public static $is_company_status_NOTCOMPANY = 0;
+    public static $is_company_status_ISACOMPANY = 1;
+    public static $is_company_status_WAITINGAPPROVAL = 2;
+    public static $is_company_status = array(0=>'Not a Company', 1=>'Active Company', 2=>'Company waiting for approval');
 
     public function __construct($id, $user = "", $password = "") {
         if (empty($id)) {
@@ -68,6 +73,27 @@ class User {
         }
     }
 
+    function getIs_company(): int {
+        return intval($this->is_company);
+    }
+
+    function setIs_company($is_company): void {
+        if($is_company === 'true'){
+            $is_company = 1;
+        }
+        if (empty($is_company) || $is_company === "false") {
+            $is_company = self::$is_company_status_NOTCOMPANY;
+        } else {
+            if(Permissions::canAdminUsers()){
+                $is_company = intval($is_company);
+            }else{
+                // only admin can approve a company
+                $is_company = self::$is_company_status_WAITINGAPPROVAL;
+            }
+        }
+        $this->is_company = $is_company;
+    }
+        
     function getPhone() {
         return $this->phone;
     }
@@ -346,13 +372,13 @@ if (typeof gtag !== \"function\") {
     public static function getNameIdentification() {
         global $advancedCustomUser;
         if (self::isLogged()) {
-            if (!empty(self::getName()) && empty($advancedCustomUser->doNotIndentifyByName)) {
+            if (!empty(self::getName()) && empty($advancedCustomUser->doNotIdentifyByName)) {
                 return self::getName();
             }
-            if (!empty(self::getMail()) && empty($advancedCustomUser->doNotIndentifyByEmail)) {
+            if (!empty(self::getMail()) && empty($advancedCustomUser->doNotIdentifyByEmail)) {
                 return self::getMail();
             }
-            if (!empty(self::getUserName()) && empty($advancedCustomUser->doNotIndentifyByUserName)) {
+            if (!empty(self::getUserName()) && empty($advancedCustomUser->doNotIdentifyByUserName)) {
                 return self::getUserName();
             }
             if (!empty(self::getUserChannelName())) {
@@ -368,13 +394,13 @@ if (typeof gtag !== \"function\") {
      */
     public function getNameIdentificationBd() {
         global $advancedCustomUser;
-        if (!empty($this->name) && empty($advancedCustomUser->doNotIndentifyByName)) {
+        if (!empty($this->name) && empty($advancedCustomUser->doNotIdentifyByName)) {
             return $this->name;
         }
-        if (!empty($this->email) && empty($advancedCustomUser->doNotIndentifyByEmail)) {
+        if (!empty($this->email) && empty($advancedCustomUser->doNotIdentifyByEmail)) {
             return $this->email;
         }
-        if (!empty($this->user) && empty($advancedCustomUser->doNotIndentifyByUserName)) {
+        if (!empty($this->user) && empty($advancedCustomUser->doNotIdentifyByUserName)) {
             return $this->user;
         }
         if (!empty($this->channelName)) {
@@ -618,7 +644,9 @@ if (typeof gtag !== \"function\") {
         if (empty($this->emailVerified)) {
             $this->emailVerified = "false";
         }
-
+        
+        $this->is_company = $this->getIs_company();                
+                
         $user = ($this->user);
         $password = ($this->password);
         $name = ($this->name);
@@ -665,15 +693,16 @@ if (typeof gtag !== \"function\") {
                     . "photoURL = ?, backgroundURL = ?, "
                     . "recoverPass = ?, about = ?, "
                     . " channelName = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , "
-                    . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , donationLink = ? , phone = ? , "
+                    . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , donationLink = ? , phone = ? , is_company = ".(empty($this->is_company)?'NULL':intval($this->is_company)).", "
                     . " modified = now() WHERE id = ?";
         } else {
             $formats = "ssssiiiisssssss";
             $values = [$user, $password, $this->email, $name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet,
                 $status, $this->photoURL, $this->recoverPass, $channelName, $this->analyticsCode, $this->externalOptions, $this->phone];
-            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions, phone) "
+            $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, "
+                    . " status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions, phone, is_company) "
                     . " VALUES (?,?,?,?,?,?,?,?, false, "
-                    . "?,?,?, now(), now(),?,?,?,?)";
+                    . "?,?,?, now(), now(),?,?,?,?,".(empty($this->is_company)?'NULL':intval($this->is_company)).")";
         }
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
         if ($insert_row) {
@@ -1075,6 +1104,16 @@ if (typeof gtag !== \"function\") {
         self::recreateLoginFromCookie();
         return !empty($_SESSION['user']['isAdmin']);
     }
+    
+    public static function isACompany($users_id = 0) {
+        if (!empty($users_id)) {
+            $user = new User($users_id);
+            return !empty($user->getIs_company());
+        }
+
+        self::recreateLoginFromCookie();
+        return !empty($_SESSION['user']['is_company']);
+    }
 
     public static function canStream() {
         self::recreateLoginFromCookie();
@@ -1305,11 +1344,12 @@ if (typeof gtag !== \"function\") {
 
     public static function getUserFromID($users_id) {
         global $global;
+        $users_id = intval($users_id);
         if (empty($users_id)) {
             return false;
         }
         $sql = "SELECT * FROM users WHERE id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "s", [$users_id]);
+        $res = sqlDAL::readSql($sql, "i", [$users_id]);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user !== false) {
@@ -1536,7 +1576,7 @@ if (typeof gtag !== \"function\") {
         return $result;
     }
 
-    public static function getAllUsers($ignoreAdmin = false, $searchFields = ['name', 'email', 'user', 'channelName', 'about'], $status = "", $isAdmin = null) {
+    public static function getAllUsers($ignoreAdmin = false, $searchFields = ['name', 'email', 'user', 'channelName', 'about'], $status = "", $isAdmin = null, $isCompany = null) {
         if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
             return false;
         }
@@ -1558,8 +1598,15 @@ if (typeof gtag !== \"function\") {
                 $sql .= " AND isAdmin = 1 ";
             }
         }
+        if (isset($isCompany)) {
+            if (!empty($isCompany) && $isCompany == self::$is_company_status_ISACOMPANY || $isCompany == self::$is_company_status_WAITINGAPPROVAL){
+                    $sql .= " AND is_company = $isCompany ";
+            }  else{
+                $sql .= " AND (is_company = 0 OR is_company IS NULL) ";
+            }
+        }
         $sql .= BootGrid::getSqlFromPost($searchFields);
-
+        //var_dump($isCompany, $sql);exit;
         $user = [];
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
         $res = sqlDAL::readSql($sql . ";");
@@ -1667,7 +1714,7 @@ if (typeof gtag !== \"function\") {
         return $user;
     }
 
-    public static function getTotalUsers($ignoreAdmin = false, $status = "", $isAdmin = null) {
+    public static function getTotalUsers($ignoreAdmin = false, $status = "", $isAdmin = null, $isCompany = null) {
         if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
             return false;
         }
@@ -1688,6 +1735,14 @@ if (typeof gtag !== \"function\") {
                 $sql .= " AND isAdmin = 0 ";
             } else {
                 $sql .= " AND isAdmin = 1 ";
+            }
+        }
+        
+        if (isset($isCompany)) {
+            if (!empty($isCompany) && $isCompany == self::$is_company_status_ISACOMPANY || $isCompany == self::$is_company_status_WAITINGAPPROVAL){
+                    $sql .= " AND is_company = $isCompany ";
+            } else{
+                $sql .= " AND (is_company = 0 OR is_company IS NULL) ";
             }
         }
         $sql .= BootGrid::getSqlSearchFromPost(['name', 'email', 'user']);
@@ -1911,6 +1966,17 @@ if (typeof gtag !== \"function\") {
             $obj = new stdClass();
             $obj->type = "default";
             $obj->text = __("Regular User");
+            $tags[] = $obj;
+        }
+        
+        if ($status = $user->getIs_company()) {
+                $obj = new stdClass();
+            if($status !== self::$is_company_status_ISACOMPANY){
+                $obj->type = "warning";
+            }else{
+                $obj->type = "success";
+            }
+            $obj->text = '<i class="fas fa-building"></i> '.__(self::$is_company_status[$status]);
             $tags[] = $obj;
         }
 

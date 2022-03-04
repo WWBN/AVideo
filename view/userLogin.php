@@ -144,7 +144,7 @@ getCSSAnimationClassAndStyleAddWait(0.5); ?>">
                     <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
                         <div class="col-md-12">
                             <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print $_GET['redirectUri'] ?? ""; ?>"
-                               class="btn btn-default btn-block"><i class="fas fa-plus"></i> <?php echo __("Sign up"); ?></a>
+                               class="btn btn-primary btn-block"><i class="fas fa-plus"></i> <?php echo __("Sign up"); ?></a>
                         </div>
                     </div>
                     <?php
