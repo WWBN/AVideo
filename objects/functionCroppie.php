@@ -42,7 +42,7 @@ $croppieFilesAdded = 1;
         
         if(parentWidth <= totalWidth){
             
-            var factor = (viewportWidth/(totalWidth));
+            var factor = (parentWidth/(totalWidth));
             console.log('createCroppie parent and factor ', parentWidth, totalWidth, factor, viewportWidth, viewportHeight, boundaryWidth, boundaryHeight);
             
             viewportWidth = parseInt(viewportWidth * factor);
