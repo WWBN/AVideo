@@ -32,7 +32,28 @@ $croppieFilesAdded = 1;
             },1000);
             return false;
         }
-        console.log('createCroppie');
+        var viewportWidth = <?php echo $viewportWidth; ?>;
+        var viewportHeight = <?php echo $viewportHeight; ?>;
+        var boundaryWidth = <?php echo $boundaryWidth; ?>;
+        var boundaryHeight = <?php echo $boundaryHeight; ?>;
+        
+        var parentWidth = $('#croppie<?php echo $uid; ?>').parent().width();
+        var totalWidth = viewportWidth+boundaryWidth;
+        
+        if(parentWidth <= totalWidth){
+            boundaryWidth = 0;
+            boundaryHeight = 0;
+            
+            var factor = (viewportWidth/(totalWidth));
+            
+            viewportWidth = viewportWidth * factor;
+            viewportHeight = viewportHeight * factor;
+            console.log('createCroppie make size smaller ', viewportWidth, viewportHeight, boundaryWidth, boundaryHeight);
+        }else{
+            console.log('createCroppie ', viewportWidth, viewportHeight, boundaryWidth, boundaryHeight);
+        }
+
+        
         uploadCrop<?php echo $uid; ?> = $('#croppie<?php echo $uid; ?>').croppie({
             //url: imageURL,
             //enableExif: true,
@@ -40,12 +61,12 @@ $croppieFilesAdded = 1;
             enableResizeboolean: true,
             mouseWheelZoom: false,
             viewport: {
-                width: <?php echo $viewportWidth; ?>,
-                height: <?php echo $viewportHeight; ?>
+                width: viewportWidth,
+                height: viewportHeight
             },
             boundary: {
-                width: <?php echo $boundaryWidth; ?>,
-                height: <?php echo $boundaryHeight; ?>
+                width: boundaryWidth,
+                height: boundaryHeight
             }
         });
         $('#upload<?php echo $uid; ?>').off('change');

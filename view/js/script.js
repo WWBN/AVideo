@@ -987,7 +987,7 @@ function tooglePlayerLoop() {
 var setPlayerLoopSetTimeout;
 function setPlayerLoop(loop) {
     clearTimeout(setPlayerLoopSetTimeout);
-    if (typeof player === 'undefined') {
+    if (typeof player === 'undefined' && $('#mainVideo').length) {
         setPlayerLoopSetTimeout = setTimeout(function () {
             setPlayerLoop(loop)
         }, 1000);
@@ -1033,7 +1033,7 @@ function toogleImageLoop(t) {
 }
 
 function isPlayerLoop() {
-    if (typeof player === 'undefined') {
+    if (typeof player === 'undefined' && $('#mainVideo').length) {
         return false;
     }
     var loop = Cookies.get('playerLoop');

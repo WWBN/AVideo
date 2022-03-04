@@ -54,7 +54,7 @@ foreach (glob($dir . '*.css') as $file) {
         </video>
         <script>
         $(document).ready(function () {
-            if (typeof player === 'undefined') {
+            if (typeof player === 'undefined' && $('#mainVideo').length) {
                 player = videojs('mainVideo');
             }
         });

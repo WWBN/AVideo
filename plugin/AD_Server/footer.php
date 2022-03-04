@@ -1,7 +1,7 @@
 <script src="<?php echo getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/videojs-ima/dist/videojs.ima.min.js'); ?>" type="text/javascript"></script>
 <script>
-    if (typeof player === 'undefined') {
+    if (typeof player === 'undefined' && $('#mainVideo').length) {
         player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
     }
     var options = {id: 'mainVideo', adTagUrl: '<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/VMAP.php?video_length=<?php echo $video_length ?>&vmap_id=<?php echo $vmap_id ?>&random=<?php echo uniqid(); ?>'};
