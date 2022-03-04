@@ -50,6 +50,7 @@ $croppieFilesAdded = 1;
             boundaryWidth = viewportWidth;
             boundaryHeight = viewportHeight;
             console.log('createCroppie make size smaller ', viewportWidth, viewportHeight, boundaryWidth, boundaryHeight);
+            $('#croppie<?php echo $uid; ?>').css("min-height", (boundaryHeight+10)+"px");
         }else{
             console.log('createCroppie ', viewportWidth, viewportHeight, boundaryWidth, boundaryHeight);
         }
