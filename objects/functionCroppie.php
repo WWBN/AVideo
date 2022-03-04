@@ -41,13 +41,13 @@ $croppieFilesAdded = 1;
         var totalWidth = viewportWidth+boundaryWidth;
         
         if(parentWidth <= totalWidth){
-            boundaryWidth = 0;
-            boundaryHeight = 0;
             
             var factor = (viewportWidth/(totalWidth));
             
             viewportWidth = parseInt(viewportWidth * factor);
             viewportHeight = parseInt(viewportHeight * factor);
+            boundaryWidth = viewportWidth;
+            boundaryHeight = viewportHeight;
             console.log('createCroppie make size smaller ', viewportWidth, viewportHeight, boundaryWidth, boundaryHeight);
         }else{
             console.log('createCroppie ', viewportWidth, viewportHeight, boundaryWidth, boundaryHeight);
