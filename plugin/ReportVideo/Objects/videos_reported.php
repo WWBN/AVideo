@@ -140,7 +140,20 @@ class VideosReported extends ObjectYPT {
             $this->status = 'a';
         }
 
-        return parent::save();
+        $saved = parent::save();
+        if($saved){
+            Cache::deleteFirstPageCache();
+        }
+        return $saved;
+            
+    }
+    
+    public function delete() {
+        $deleted = parent::delete();
+        if($deleted){
+            Cache::deleteFirstPageCache();
+        }
+        return $deleted;
     }
 
 }
