@@ -38,8 +38,10 @@ foreach ($videos as $key => $value) {
     $destination = Video::getPathToFile($value['filename'], true);
 
     foreach (glob($destination . '*.{mp3,mp4,webm}', GLOB_BRACE) as $file) {
-        echo "{$count}/{$total} checking [{$value['id']}] {$value['title']} {$file}" . PHP_EOL;
-        if (file_exists($file) && isDummyFile($file)) {
+        $filesize =  filesize($file);
+        $filesizeHuman =  humanFileSize($filesize);
+        echo "{$count}/{$total} checking [{$value['id']}] {$value['title']} {$file} [$filesizeHuman]" . PHP_EOL;
+        if ($filesize && isDummyFile($file)) {
             echo "{$count}/{$total} Downloading [{$value['id']}] {$value['title']}" . PHP_EOL;
             $filename = basename($file);
             if ($S3->copy_from_s3($filename, $file)) {
@@ -48,7 +50,7 @@ foreach ($videos as $key => $value) {
                 echo "{$count}/{$total} FAIL [{$value['id']}] {$value['title']}" . PHP_EOL;
             }
         } else {
-            echo "{$count}/{$total} Not Dummy [{$value['id']}] {$value['title']} $file " . humanFileSize(filesize($file)) . PHP_EOL;
+            echo "{$count}/{$total} Not Dummy [{$value['id']}] {$value['title']} $file " . PHP_EOL;
         }
     }
 }
