@@ -37,7 +37,7 @@ foreach ($videos as $key => $value) {
     echo "{$count}/{$total} checking [{$value['id']}] {$value['title']}" . PHP_EOL;
     $destination = Video::getPathToFile($value['filename'], true);
 
-    foreach (glob($videoDir . '*.{mp3,mp4,webm}', GLOB_BRACE) as $file) {
+    foreach (glob($destination . '*.{mp3,mp4,webm}', GLOB_BRACE) as $file) {
         echo "{$count}/{$total} checking [{$value['id']}] {$value['title']} {$file}" . PHP_EOL;
         if (file_exists($file) && isDummyFile($file)) {
             echo "{$count}/{$total} Downloading [{$value['id']}] {$value['title']}" . PHP_EOL;
