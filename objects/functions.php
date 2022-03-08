@@ -3980,6 +3980,7 @@ function clearCache($firstPageOnly = false) {
     rrmdir($dir);
     rrmdir($tmpDir);
     ObjectYPT::deleteCache("getEncoderURL");
+    ObjectYPT::deleteAllSessionCache();
     unlink($lockFile);
     $end = microtime(true) - $start;
     _error_log("clearCache end in {$end} seconds");
