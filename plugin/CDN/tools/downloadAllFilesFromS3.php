@@ -45,7 +45,9 @@ foreach ($videos as $key => $value) {
             echo "{$count}/{$total} Downloading [{$value['id']}] {$value['title']}" . PHP_EOL;
             $filename = basename($file);
             if ($S3->copy_from_s3($filename, $file)) {
-                echo "{$count}/{$total} SUCCESS [{$value['id']}] {$value['title']}" . PHP_EOL;
+                $filesize =  filesize($file);
+                $filesizeHuman =  humanFileSize($filesize);
+                echo "{$count}/{$total} SUCCESS [{$value['id']}] {$value['title']} [$filesizeHuman]" . PHP_EOL;
             } else {
                 echo "{$count}/{$total} FAIL [{$value['id']}] {$value['title']}" . PHP_EOL;
             }
