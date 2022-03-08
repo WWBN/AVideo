@@ -20,8 +20,8 @@ if (empty($S3)) {
     return die('Plugin S3 disabled');
 }
 ob_end_flush();
-set_time_limit(300);
-ini_set('max_execution_time', 300);
+set_time_limit(1200);
+ini_set('max_execution_time', 1200);
 
 $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
 $path = getVideosDir();
