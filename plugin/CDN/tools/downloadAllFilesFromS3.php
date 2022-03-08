@@ -46,7 +46,7 @@ foreach ($videos as $key => $value) {
             echo "{$count}/{$total} FAIL [{$value['id']}] {$value['title']}" . PHP_EOL;
         }
     }else{
-        echo "{$count}/{$total} Not Dummy [{$value['id']}] {$value['title']}" . PHP_EOL;
+        echo "{$count}/{$total} Not Dummy [{$value['id']}] {$value['title']} ". humanFileSize(filesize($destination)) . PHP_EOL;
     }
 
 }
