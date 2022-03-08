@@ -76,7 +76,7 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
     if(empty($content)){
         session_write_close();
         _mysql_close();
-        $content = url_get_contents($url, "", 2);
+        $content = url_get_contents($url, "", 4);
         if(!empty($content)){
             ObjectYPT::setCache($name, $content);
         }
