@@ -177,8 +177,10 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                         </div>
                                         <div class="galeryDetails">
                                             <div class="galleryTags">
-                                                <?php if (empty($_GET['catName'])) { ?>
-                                                    <a class="label label-default" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>">
+                                                <?php 
+                                                if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) { 
+                                                    ?>
+                                                    <a class="label label-default" href="<?php echo "{$global['webSiteRootURL']}cat/{$videoRow['clean_category']}"; ?>"  data-toggle="tooltip" title="<?php echo $videoRow['category']; ?>">
                                                         <?php
                                                         if (!empty($videoRow['iconClass'])) {
                                                             ?>
