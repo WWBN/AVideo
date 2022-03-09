@@ -696,7 +696,7 @@ $t['Your video has NOT been saved!'] = 'Ваше видео не было сох
 $t['Your video is downloading now'] = 'Ваше видео сейчас загружается';
 $t['Your videos have been saved!'] = 'Ваши видео были сохранены!';
 $t['Zip Code'] = 'Почтовый код';
-$t['ago'] = 'тому назад';
+$t['ago'] = 'назад';
 $t['arrow'] = 'стрелка';
 $t['day'] = 'день';
 $t['days'] = 'дней';
@@ -709,7 +709,7 @@ $t['is Admin'] = 'Администратор';
 $t['minute'] = 'минута';
 $t['minutes'] = 'минут';
 $t['month'] = 'месяц';
-$t['months'] = 'месяцев';
+$t['months'] = 'месяца';
 $t['pause'] = 'пауза';
 $t['remaining'] = 'осталось';
 $t['second'] = 'второй';
@@ -718,7 +718,7 @@ $t['space'] = 'пробел';
 $t['week'] = 'неделя';
 $t['weeks'] = 'недель';
 $t['year'] = 'год';
-$t['years'] = 'лет';
+$t['years'] = 'года';
 $t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'youtube-dl использует Python, и некоторые серверы не поставляются с python по умолчанию, для установки Python:';
 
 
