@@ -79,7 +79,7 @@ class User {
 
     function setIs_company($is_company): void {
         if ($is_company === 'true') {
-            $is_company = 1;
+            $is_company = self::$is_company_status_ISACOMPANY;
         }
         if (empty($is_company) || $is_company === "false") {
             $is_company = self::$is_company_status_NOTCOMPANY;

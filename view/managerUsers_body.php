@@ -194,16 +194,18 @@
                     <small>Do not paste the full javascript code, paste only the gtag id</small>
                     <br>
                     <?php
-                    if (empty($advancedCustomUser->disableCompanySignUp)) {
+                    if (empty($advancedCustomUser->disableCompanySignUp) || !empty($advancedCustomUser->enableAffiliation)) {
                         ?>
                         <label for="is_company" class="sr-only"><?php echo __("is a Company"); ?></label>
                         <select name="is_company" id="is_company" class="form-control last">
                             <?php
                             foreach (User::$is_company_status as $key => $value) {
+                                if(!empty($advancedCustomUser->disableCompanySignUp) && $key == User::$is_company_status_WAITINGAPPROVAL){
+                                    continue;
+                                }
                                 echo "<option value='{$key}'>" . __($value) . "</option>";
                             }
                             ?>
-
                         </select>
                     <?php }
                     ?>
