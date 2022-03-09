@@ -1057,7 +1057,7 @@ if (!class_exists('Video')) {
          */
         public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null) {
             global $global, $config, $advancedCustom, $advancedCustomUser;
-            if ($config->currentVersionLowerThen('11.5')) {
+            if ($config->currentVersionLowerThen('11.7')) {
                 return false;
             }
             if ($dirh) {
@@ -1585,7 +1585,7 @@ if (!class_exists('Video')) {
 
         public static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false) {
             global $global, $config, $advancedCustomUser;
-            if ($config->currentVersionLowerThen('5')) {
+            if ($config->currentVersionLowerThen('11.7')) {
                 return false;
             }
             if (!empty($_POST['sort']['suggested'])) {
