@@ -18,7 +18,7 @@ class Live_schedule extends ObjectYPT
     protected $saveTransmition;
     protected $showOnTV;
     protected $scheduled_password;
-    protected $users_id_companny;
+    protected $users_id_company;
 
     public static function getSearchFieldsNames()
     {
@@ -30,12 +30,12 @@ class Live_schedule extends ObjectYPT
         return 'live_schedule';
     }
     
-    function getUsers_id_companny(): int {
-        return intval($this->users_id_companny);
+    function getUsers_id_company(): int {
+        return intval($this->users_id_company);
     }
 
-    function setUsers_id_companny($users_id_companny): void {
-        $this->users_id_companny = intval($users_id_companny);
+    function setUsers_id_company($users_id_company): void {
+        $this->users_id_company = intval($users_id_company);
     }
 
     public static function getAllUsers()
@@ -171,7 +171,7 @@ class Live_schedule extends ObjectYPT
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='a' "
                 . " AND (CONVERT_TZ(scheduled_time, timezone, @@session.time_zone ) > NOW() || scheduled_time > NOW()) "
                 . " ORDER BY scheduled_time ASC LIMIT {$limit} ";
-
+        //echo $sql;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -334,8 +334,8 @@ class Live_schedule extends ObjectYPT
             $this->showOnTV = 'NULL';
         }
         
-        if (empty($this->users_id_companny)) {
-            $this->users_id_companny = 'NULL';
+        if (empty($this->users_id_company)) {
+            $this->users_id_company = 'NULL';
         }
 
         if (empty($this->key)) {
@@ -421,5 +421,13 @@ class Live_schedule extends ObjectYPT
         $this->scheduled_password = $scheduled_password;
     }
 
+    static function getUsers_idOrCompany($live_schedule_id) {
+        $lt = new Live_schedule($live_schedule_id);
+        $users_id = $lt->getUsers_id();
+        if(!empty($lt->getUsers_id_company())){
+            $users_id = $lt->getUsers_id_company();
+        }
+        return $users_id;
+    }
 
 }

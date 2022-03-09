@@ -789,7 +789,7 @@ if (!class_exists('Video')) {
             if (empty($id) && !empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 if (!empty($user['id'])) {
-                    $sql .= " AND v.users_id = '{$user['id']}' ";
+                    $sql .= " AND (v.users_id = '{$user['id']}' OR  v.users_id_company = '{$user['id']}' ) ";
                 }
             }
 
@@ -920,7 +920,7 @@ if (!class_exists('Video')) {
             $sql = "SELECT sum(filesize) as total FROM videos WHERE 1=1 ";
 
             if (!empty($users_id)) {
-                $sql .= " AND users_id = '$users_id'";
+                $sql .= " AND (users_id = '$users_id' OR users_id_company  = '$users_id' )";
             }
 
             $res = sqlDAL::readSql($sql, "", [], true);
@@ -935,7 +935,7 @@ if (!class_exists('Video')) {
             $sql = "SELECT count(*) as total FROM videos WHERE 1=1 ";
 
             if (!empty($users_id)) {
-                $sql .= " AND users_id = '$users_id'";
+                $sql .= " AND (users_id = '$users_id' OR users_id_company ='{$users_id}' )";
             }
 
             $res = sqlDAL::readSql($sql, "", [], true);
@@ -1093,14 +1093,14 @@ if (!class_exists('Video')) {
 
             if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
                 $uid = intval(User::getId());
-                $sql .= " AND v.users_id = '{$uid}'";
+                $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company ='{$uid}')";
             } elseif (!empty($showOnlyLoggedUserVideos)) {
                 $uid = intval($showOnlyLoggedUserVideos);
-                $sql .= " AND v.users_id = '{$uid}'";
+                $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company ='{$uid}')";
             } elseif (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $uid = intval($user['id']);
-                $sql .= " AND v.users_id = '{$uid}' ";
+                $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company = '{$uid}')";
             }
 
             if (isset($_REQUEST['is_serie']) && empty($is_serie)) {
@@ -1149,7 +1149,7 @@ if (!class_exists('Video')) {
 
             if ($status == "viewable") {
                 if (User::isLogged()) {
-                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='" . User::getId() . "'))";
+                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND (v.users_id ='" . User::getId() . "' OR v.users_id_company = '" . User::getId() . "')))";
                 } else {
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
@@ -1516,13 +1516,13 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
             }
             if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
-                $sql .= " AND v.users_id = '" . User::getId() . "'";
+                $sql .= " AND (v.users_id = '" . User::getId() . "' OR v.users_id_company ='" . User::getId() . "')";
             } elseif (!empty($showOnlyLoggedUserVideos)) {
-                $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
+                $sql .= " AND (v.users_id = '{$showOnlyLoggedUserVideos}' OR v.users_id_company = '{$showOnlyLoggedUserVideos}')";
             }
             if ($status == "viewable") {
                 if (User::isLogged()) {
-                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='" . User::getId() . "'))";
+                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND (v.users_id ='" . User::getId() . "' OR v.users_id_company ='" . User::getId() . "' )))";
                 } else {
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
@@ -1534,7 +1534,7 @@ if (!class_exists('Video')) {
 
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
-                $sql .= " AND v.users_id = '{$user['id']}' ";
+                $sql .= " AND (v.users_id = '{$user['id']}' OR v.users_id_company = '{$user['id']}')";
             }
             $sql .= AVideoPlugin::getVideoWhereClause();
 
@@ -1633,9 +1633,9 @@ if (!class_exists('Video')) {
             }
 
             if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
-                $sql .= " AND v.users_id = '" . User::getId() . "'";
+                $sql .= " AND (v.users_id = '" . User::getId() . "' OR v.users_id_company  = '" . User::getId() . "')";
             } elseif (is_int($showOnlyLoggedUserVideos)) {
-                $sql .= " AND v.users_id = '{$showOnlyLoggedUserVideos}'";
+                $sql .= " AND (v.users_id = '{$showOnlyLoggedUserVideos}' OR v.users_id_company  = '{$showOnlyLoggedUserVideos}')";
             }
 
             if (isset($_REQUEST['is_serie'])) {
@@ -1670,7 +1670,7 @@ if (!class_exists('Video')) {
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $uid = intval($user['id']);
-                $sql .= " AND v.users_id = '{$uid}' ";
+                $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company  = '{$uid}')";
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
@@ -2298,13 +2298,13 @@ if (!class_exists('Video')) {
             }
 
             // if you're not admin you can only manage your videos
-            $users_id = $this->users_id;
+            $users_id = array($this->users_id, $this->users_id_company);
             if ($advancedCustomUser->userCanChangeVideoOwner) {
                 $video = new Video("", "", $this->id); // query again to make sure the user is not changing the owner
-                $users_id = $video->getUsers_id();
+                $users_id = array($video->getUsers_id(), $video->getUsers_id_company());
             }
-
-            if ($users_id != User::getId()) {
+            //var_dump(User::getId(), $users_id, $video, $this);
+            if (!in_array(User::getId(), $users_id)) {
                 return false;
             }
             return true;
@@ -2685,18 +2685,18 @@ if (!class_exists('Video')) {
          * @param type $users_id if is empty will use the logged user
          * @return boolean
          */
-        public static function isOwner($videos_id, $users_id = 0) {
+        public static function isOwner($videos_id, $users_id = 0, $checkAffiliate = true) {
             global $global;
             if (empty($users_id)) {
                 $users_id = User::getId();
-                if (empty($users_id)) {
-                    return false;
-                }
+            }
+            if (empty($users_id)) {
+                return false;
             }
 
-            $video_owner = self::getOwner($videos_id);
-            if ($video_owner) {
-                if ($video_owner == $users_id) {
+            $video = self::getVideoLight($videos_id);
+            if ($video) {
+                if ($video['users_id'] == $users_id || ($checkAffiliate && $video['users_id_company'] == $users_id) ) {
                     return true;
                 }
             }

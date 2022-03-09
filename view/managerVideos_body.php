@@ -1,13 +1,13 @@
 <style>
-    <?php
-    if (!empty($advancedCustom->hideEditAdvancedFromVideosManager) && !User::isAdmin()) {
-        ?>
-            .command-edit{
-                display: none !important;
-            }
-        <?php
-    }
+<?php
+if (!empty($advancedCustom->hideEditAdvancedFromVideosManager) && !User::isAdmin()) {
     ?>
+        .command-edit{
+            display: none !important;
+        }
+    <?php
+}
+?>
     .bootgrid-table td {
         -ms-text-overflow: initial;
         -o-text-overflow: initial;
@@ -34,18 +34,18 @@
             margin: 0;
         }
     }
-    <?php
-    if (!empty($_GET['iframe'])) {
-        ?>
+<?php
+if (!empty($_GET['iframe'])) {
+    ?>
         body{
             padding: 0;
         }
         footer{
             display: none;
         }
-        <?php
-    }
-    ?>
+    <?php
+}
+?>
     #actionButtonsVideoManager button{
         font-size: 12px;
     }
@@ -517,16 +517,39 @@
                                         }
                                         ?>
                                     </select>
-                                    <div class="row" <?php if (empty($advancedCustomUser->userCanChangeVideoOwner) && !Permissions::canAdminVideos()) { ?> style="display: none;" <?php } ?>>
-                                        <h3><?php echo __("Media Owner"); ?></h3>
-                                        <div class="col-md-2">
-                                            <img id="inputUserOwner-img" src="view/img/userSilhouette.jpg" class="img img-responsive img-circle" style="max-height: 60px;" alt="User Photo">
+                                    <?php
+                                    $myAffiliates = CustomizeUser::getCompanyAffiliates(User::getId());
+                                    if (!empty($myAffiliates)) {
+                                        $users_id_list = array();
+                                        $users_id_list[] = User::getId();
+                                        foreach ($myAffiliates as $value) {
+                                            $users_id_list[] = $value['users_id_affiliate'];
+                                        }
+                                        
+                                        echo '<label for="users_id_company" >'.__("Media Owner").'</label>';
+                                        echo Layout::getUserSelect('inputUserOwner', $users_id_list, "", 'inputUserOwner_id','');
+                                    } else {
+                                        ?>
+                                        <div class="row" <?php if (empty($advancedCustomUser->userCanChangeVideoOwner) && !Permissions::canAdminVideos()) { ?> style="display: none;" <?php } ?>>
+                                            <label for="inputUserOwner_id" ><?php echo __("Media Owner"); ?></label>
+                                            <?php
+                                            $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'inputUserOwner_id', array());
+                                            ?>
                                         </div>
-                                        <div class="col-md-10">
-                                            <input id="inputUserOwner" placeholder="<?php echo __("Media Owner"); ?>" class="form-control">
-                                            <input type="hidden" id="inputUserOwner_id">
-                                        </div>
-                                    </div>
+                                        <?php
+                                    }
+                                    ?>
+                                    <?php
+                                    $myAffiliation = CustomizeUser::getAffiliateCompanies(User::getId());
+                                    if (!empty($myAffiliation)) {
+                                        $users_id_list = array();
+                                        foreach ($myAffiliation as $value) {
+                                            $users_id_list[] = $value['users_id_company'];
+                                        }
+                                        echo '<label for="users_id_company" >'.__("Company").'</label>';
+                                        echo Layout::getUserSelect('users_id_company', $users_id_list, "", 'users_id_company','');
+                                    } 
+                                    ?>
                                     <hr>
                                     <div class="row" >
                                         <div class="col-md-12" >
@@ -680,37 +703,6 @@
                                                 }
                                             }).autocomplete("instance")._renderItem = function (ul, item) {
                                                 return $("<li>").append("<div class='clearfix'><img class='img img-responsive pull-left' style='max-width: 90px;max-height: 35px; margin-right: 10px;' src='" + item.videosURL.jpg.url + "'/>[#" + item.id + "] " + item.title + "<br><?php echo __("Owner"); ?>: " + item.user + "</div>").appendTo(ul);
-                                            };
-                                            $("#inputUserOwner").autocomplete({
-                                                minLength: 0,
-                                                source: function (req, res) {
-                                                    $.ajax({
-                                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/users.json.php',
-                                                        type: "POST",
-                                                        data: {
-                                                            searchPhrase: req.term
-                                                        },
-                                                        success: function (data) {
-                                                            res(data.rows);
-                                                        }
-                                                    });
-                                                },
-                                                focus: function (event, ui) {
-                                                    $("#inputUserOwner").val(ui.item.user);
-                                                    return false;
-                                                },
-                                                select: function (event, ui) {
-                                                    $("#inputUserOwner").val(ui.item.user);
-                                                    $("#inputUserOwner_id").val(ui.item.id);
-                                                    var photoURL = '<?php echo $global['webSiteRootURL']; ?>img/userSilhouette.jpg'
-                                                    if (ui.item.photoURL) {
-                                                        photoURL = '<?php echo $global['webSiteRootURL']; ?>' + ui.item.photoURL + '?rand=' + Math.random();
-                                                    }
-                                                    $("#inputUserOwner-img").attr("src", photoURL);
-                                                    return false;
-                                                }
-                                            }).autocomplete("instance")._renderItem = function (ul, item) {
-                                                return $("<li>").append("<div>" + item.creator + item.email + "</div>").appendTo(ul);
                                             };
                                         });
                                     </script>
@@ -1110,7 +1102,10 @@ echo AVideoPlugin::getManagerVideosEdit();
                                             }
                                             $("#inputUserOwner-img").attr("src", photoURL);
                                             $('#inputUserOwner').val(row.user);
-                                            $('#inputUserOwner_id').val(row.users_id);
+                                            $('#inputUserOwner_id').val(row.users_id).trigger('change');
+                                            $('#users_id_company').val(row.users_id_company).trigger('change');
+
+<?php echo $updateUserAutocomplete; ?>
                                             $('#views_count').val(row.views_count);
                                             $('.videoGroups').prop('checked', false);
                                             $('.categoryGroups').prop('checked', false);
@@ -1120,11 +1115,11 @@ echo AVideoPlugin::getManagerVideosEdit();
                                             } else {
                                                 $('#public').prop('checked', false);
                                                 for (var index in row.groups) {
-                                                    if(row.groups[index].isCategoryUserGroup){
+                                                    if (row.groups[index].isCategoryUserGroup) {
                                                         var selector = $('#groupSwitch' + row.groups[index].id);
                                                         selector.addClass('categoryUserGroup');
                                                         $('#categoryGroup' + row.groups[index].id).prop('checked', true);
-                                                    }else{
+                                                    } else {
                                                         $('#videoGroup' + row.groups[index].id).prop('checked', true);
                                                     }
                                                 }
@@ -1326,6 +1321,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                                             "videoGroups": selectedVideoGroups,
                                                             "next_videos_id": $('#inputNextVideo-id').val(),
                                                             "users_id": $('#inputUserOwner_id').val(),
+                                                            "users_id_company": $('#users_id_company').val(),
                                                             "can_download": $('#can_download').is(':checked'),
                                                             "can_share": $('#can_share').is(':checked'),
                                                             "isArticle": isArticle,
@@ -1398,7 +1394,9 @@ echo AVideoPlugin::getManagerVideosReset();
                                             var photoURL = '<?php echo User::getPhoto(); ?>';
                                             $("#inputUserOwner-img").attr("src", photoURL);
                                             $('#inputUserOwner').val('<?php echo User::getUserName(); ?>');
-                                            $('#inputUserOwner_id').val(<?php echo User::getId(); ?>);
+                                            $('#inputUserOwner_id').val(<?php echo User::getId(); ?>).trigger('change');
+                                            $('#users_id_company').val(0).trigger('change');
+<?php echo $updateUserAutocomplete; ?>
                                             $('#views_count').val(0);
                                             $('.videoGroups').prop('checked', false);
                                             $('#can_download').prop('checked', false);
@@ -1929,7 +1927,7 @@ if (CustomizeUser::canDownloadVideos()) {
                                                                     }
                                                                     download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
                                                                 }
-                                                                if((/\.(mp3|mp4|webm)\?/i.test(downloadURL) === true)){
+                                                                if ((/\.(mp3|mp4|webm)\?/i.test(downloadURL) === true)) {
                                                                     downloadhighest = downloadURL;
                                                                 }
 
@@ -1994,7 +1992,7 @@ if (Permissions::canAdminVideos()) {
                                                         var _thumbnail = '<button type="button" class="btn btn-default btn-block btn-sm btn-xs edit-thumbs" onclick="avideoModalIframe(webSiteRootURL +\'view/managerVideosLight.php?image=1&videos_id=' + row.id + '\')"   data-toggle="tooltip" title="<?php echo __('Custom Thumbnail'); ?>"><i class="far fa-image"></i> <?php echo __('Custom Thumbnail'); ?></button>';
                                                         var _download = '';
                                                         if (downloadhighest) {
-                                                            _download = '<a href=' + downloadhighest + ' class="btn btn-default btn-block downloadhigest" data-toggle="tooltip" title="<?php echo __('Download'); ?>"><i class="fas fa-download"></i> <?php echo __('Download'); ?></a>';   
+                                                            _download = '<a href=' + downloadhighest + ' class="btn btn-default btn-block downloadhigest" data-toggle="tooltip" title="<?php echo __('Download'); ?>"><i class="fas fa-download"></i> <?php echo __('Download'); ?></a>';
                                                         }
 
                                                         var bigButtons = _edit + _thumbnail + _download;

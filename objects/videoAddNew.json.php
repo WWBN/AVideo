@@ -111,9 +111,6 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canMode
 if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canModerateVideos()) {
     $obj->setVideoGroups(empty($_POST['videoGroups']) ? [] : $_POST['videoGroups']);
 }
-if ($advancedCustomUser->userCanChangeVideoOwner || Permissions::canModerateVideos()) {
-    $obj->setUsers_id($_POST['users_id']);
-}
 
 $externalOptions = new stdClass();
 
@@ -139,6 +136,14 @@ $obj->setVideo_password(@$_POST['video_password']);
 $obj->setTrailer1(@$_POST['trailer1']);
 $obj->setRrating(@$_POST['rrating']);
 $obj->setExternalOptions($externalOptions);
+
+if(!empty($_REQUEST['users_id_company'])){
+    $obj->setUsers_id_company(@$_REQUEST['users_id_company']);
+}
+
+if ($advancedCustomUser->userCanChangeVideoOwner || Permissions::canModerateVideos() || Users_affiliations::isUserAffiliateOrCompanyToEachOther($obj->getUsers_id(), $_POST['users_id'])) {
+    $obj->setUsers_id($_POST['users_id']);
+}
 
 TimeLogEnd(__FILE__, __LINE__);
 $resp = $obj->save(true);

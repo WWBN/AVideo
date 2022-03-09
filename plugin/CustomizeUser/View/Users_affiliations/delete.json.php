@@ -5,16 +5,19 @@ header('Content-Type: application/json');
 
 $obj = new stdClass();
 $obj->error = true;
+$obj->id = intval($_POST['id']);
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('CustomizeUser');
 
-if(!User::isAdmin()){
-    $obj->msg = "You cant do this";
-    die(json_encode($obj));
+if (empty($obj->id)) {
+    forbiddenPage('Invalid ID');
 }
 
-$id = intval($_POST['id']);
-$row = new Users_affiliations($id);
+if(!Users_affiliations::canEditAffiliation($obj->id)){
+    forbiddenPage();
+}
+
+$row = new Users_affiliations($obj->id);
 $obj->error = !$row->delete();
 die(json_encode($obj));
 ?>

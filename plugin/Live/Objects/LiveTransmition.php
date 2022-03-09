@@ -395,8 +395,7 @@ class LiveTransmition extends ObjectYPT
         }
     }
 
-    public static function getFromKey($key, $checkSchedule = true)
-    {
+    public static function getFromKey($key, $checkSchedule = true){
         global $global;
         return self::keyExists($key, $checkSchedule);
     }
@@ -439,5 +438,16 @@ class LiveTransmition extends ObjectYPT
     {
         $lt = self::getFromDbByUser($users_id);
         return !empty($lt['saveTransmition']);
+    }
+    
+    
+    static function getUsers_idOrCompanyFromKey($key) {
+        
+        $row = self::getFromKey($key);
+        if(!empty($row['users_id_company'])){
+            return $row['users_id_company'];
+        }
+        
+        return $row['users_id'];
     }
 }

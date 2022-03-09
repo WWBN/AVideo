@@ -36,7 +36,7 @@ class VideoLogoOverlay extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.1";
+        return "2.2";
     }
 
     public function getPluginMenu() {
@@ -112,15 +112,14 @@ class VideoLogoOverlay extends PluginAbstract {
                 $liveLink = new LiveLinksTable($liveLink_id);
                 $users_id = $liveLink->getUsers_id();
             } else if ($live = isLive()) {
-                if(!empty($_REQUEST['live_schedule'])){
+                if (!empty($_REQUEST['live_schedule'])) {
                     $js .= "/* VideoLogoOverlay live schedule {$_REQUEST['live_schedule']} */";
-                    $ls = new Live_schedule($_REQUEST['live_schedule']);
-                    $users_id = $ls->getUsers_id();
-                }else{
+                    $users_id = Live_schedule::getUsers_idOrCompany($_REQUEST['live_schedule']);
+                } else {
                     $js .= "/* VideoLogoOverlay live */";
                     //$live = array('key' => false, 'live_servers_id' => false, 'live_index' => false);
-                    $lt = LiveTransmition::getFromKey($live['key']);
-                    $users_id = $lt['users_id'];
+                    
+                    $users_id = LiveTransmition::getUsers_idOrCompanyFromKey($live['key']);
                 }
             } else {
                 $js .= "/* VideoLogoOverlay video */";
@@ -133,13 +132,13 @@ class VideoLogoOverlay extends PluginAbstract {
                 $url = User::getChannelLink($users_id);
                 $class .= ' VideoLogoOverlay-User';
                 //$cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
-            }else{
+            } else {
                 $js .= "/* VideoLogoOverlay empty users_id */";
             }
             $js .= "/* VideoLogoOverlay users_id = {$users_id} */";
         }
         $cols = "";
-        
+
         if (!empty($url)) {
             $class .= ' VideoLogoOverlay-URL';
         }

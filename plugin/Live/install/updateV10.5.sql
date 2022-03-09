@@ -16,8 +16,8 @@ ALTER TABLE `live_schedule`
 DROP FOREIGN KEY `fk_live_schedule_live_servers1`;
 
 ALTER TABLE `live_transmitions_history` 
-ADD COLUMN `users_id_companny` INT(11) NULL DEFAULT NULL AFTER `total_viewers`,
-ADD INDEX `fk_live_transmitions_history_users1_idx` (`users_id_companny` ASC);
+ADD COLUMN `users_id_company` INT(11) NULL DEFAULT NULL AFTER `total_viewers`,
+ADD INDEX `fk_live_transmitions_history_users1_idx` (`users_id_company` ASC);
 
 ALTER TABLE `live_schedule` 
 ADD COLUMN `users_id_company` INT(11) NULL DEFAULT NULL AFTER `scheduled_password`,
@@ -30,7 +30,7 @@ ADD CONSTRAINT `fk_live_transmitions_history_live_servers1`
   ON DELETE CASCADE
   ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_live_transmitions_history_users1`
-  FOREIGN KEY (`users_id_companny`)
+  FOREIGN KEY (`users_id_company`)
   REFERENCES `users` (`id`)
   ON DELETE CASCADE
   ON UPDATE CASCADE;

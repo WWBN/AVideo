@@ -198,7 +198,7 @@ class Meet_schedule extends ObjectYPT
         if (empty($users_id)) {
             return false;
         }
-        $sql = "SELECT * FROM  " . static::getTableName() . " ms WHERE users_id = $users_id ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " ms WHERE (users_id = $users_id ";
 
         if ($canAttend) {
             $userGroups = UserGroups::getUserGroups($users_id);
@@ -215,6 +215,7 @@ class Meet_schedule extends ObjectYPT
         if ($hideIfHasPassword) {
             $sql .= " AND (password = '' OR password IS NULL) ";
         }
+        $sql .= " )  ";
 
         $identification = User::getNameIdentificationById($users_id);
         if (!empty($time)) {
@@ -236,12 +237,14 @@ class Meet_schedule extends ObjectYPT
         } else {
             $sql .= self::getSqlFromPost();
         }
+        //echo $sql;exit;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
         unset($_GET['order']);
         if ($res != false) {
+            $domain = Meet::getDomainURL();
             foreach ($fullData as $row) {
                 $row['identification'] = $identification;
                 $row['link'] = Meet::getMeetLink($row['id']);
@@ -255,6 +258,8 @@ class Meet_schedule extends ObjectYPT
                 if (Meet::canJoinMeet($row['id'])) {
                     $row['joinURL'] = Meet::getJoinURL();
                     $row['roomID'] = Meet::getRoomID($row['id']);
+                    $row['jwt'] = Meet::getToken($row['id'], User::getId());
+                    $row['domain'] = $domain;
                 }
 
                 $row['starts_timezone'] = "{$row['starts']} ".__('Timezone').": {$row['timezone']}";
@@ -281,7 +286,7 @@ class Meet_schedule extends ObjectYPT
         if (empty($users_id)) {
             return false;
         }
-        $sql = "SELECT id FROM  " . static::getTableName() . " WHERE 1=1  ";
+        $sql = "SELECT id FROM  " . static::getTableName() . " WHERE (users_id = $users_id ";
 
         if ($canAttend) {
             $userGroups = UserGroups::getUserGroups($users_id);
@@ -298,6 +303,7 @@ class Meet_schedule extends ObjectYPT
         if ($hideIfHasPassword) {
             $sql .= " AND (password = '' OR password IS NULL) ";
         }
+        $sql .= " )  ";
         if (!empty($time)) {
             unset($_POST['sort']);
             if ($time=="today") {

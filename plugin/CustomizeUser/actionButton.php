@@ -52,6 +52,10 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                             <?php
                             if (!empty($obj->UsersCanCustomizeWalletDirectTransferDonation)) {
                                 $donationButtons = User::getDonationButtons($video['users_id']);
+                                if (empty($donationButtons)) {
+                                    $donationButtons = array();
+                                }
+                                //var_dump($video['users_id'], $donationButtons);exit;
                                 $totalButtons = count($donationButtons);
                                 if ($totalButtons == 1) {
                                     $column = 12;

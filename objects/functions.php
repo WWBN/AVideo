@@ -7756,7 +7756,13 @@ function isImage($file) {
 }
 
 function isHTMLEmpty($html_string) {
-    return empty(trim(str_replace(array("\r", "\n"), array('', ''), strip_specific_tags($html_string, ['br', 'p']))));
+    $html_string_no_tags = strip_specific_tags($html_string, ['br', 'p', 'span', 'div']);
+    //var_dump($html_string_no_tags, $html_string);
+    return empty(trim(str_replace(array("\r", "\n"), array('', ''), $html_string_no_tags)));
+}
+
+function emptyHTML($html_string){
+    return isHTMLEmpty($html_string);
 }
 
 function totalImageColors($image_path) {

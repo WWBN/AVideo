@@ -74,6 +74,8 @@ if (!User::isAdmin()) {
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th><?php echo __("Company"); ?></th>
+                                    <th><?php echo __("Affiliate"); ?></th>
                                     <th><?php echo __("Status"); ?></th>
                                     <th><?php echo __("Company Agree Date"); ?></th>
                                     <th><?php echo __("Affiliate Agree Date"); ?></th>
@@ -83,6 +85,8 @@ if (!User::isAdmin()) {
                             <tfoot>
                                 <tr>
                                     <th>#</th>
+                                    <th><?php echo __("Company"); ?></th>
+                                    <th><?php echo __("Affiliate"); ?></th>
                                     <th><?php echo __("Status"); ?></th>
                                     <th><?php echo __("Company Agree Date"); ?></th>
                                     <th><?php echo __("Affiliate Agree Date"); ?></th>
@@ -141,6 +145,8 @@ if (!User::isAdmin()) {
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/CustomizeUser/View/Users_affiliations/list.json.php",
             "columns": [
                 {"data": "id"},
+                {"data": "company"},
+                {"data": "affiliate"},
                 {"data": "status"},
                 {"data": "company_agree_date"},
                 {"data": "affiliate_agree_date"},

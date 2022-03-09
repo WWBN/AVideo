@@ -1212,6 +1212,17 @@ function avideoAlert(title, msg, type) {
     }
 }
 
+function avideoAlertOnce(title, msg, type, uid) {
+    var cookieName = 'avideoAlertOnce'+uid;
+    if(!Cookies.set(cookieName)){ 
+        Cookies.set(cookieName, 1, {
+            path: '/',
+            expires: 365
+        });
+        return avideoAlert(title, msg, type);
+    }
+}
+
 function _avideoToast(msg, icon) {
     var options = {text: msg, hideAfter: 7000};
     if (icon) {

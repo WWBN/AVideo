@@ -19,7 +19,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     protected $json;
     protected $max_viewers_sametime;
     protected $total_viewers;
-    protected $users_id_companny;
+    protected $users_id_company;
 
     public static function getSearchFieldsNames() {
         return ['title', 'description'];
@@ -29,12 +29,12 @@ class LiveTransmitionHistory extends ObjectYPT {
         return 'live_transmitions_history';
     }
 
-    function getUsers_id_companny(): int {
-        return intval($this->users_id_companny);
+    function getUsers_id_company(): int {
+        return intval($this->users_id_company);
     }
 
-    function setUsers_id_companny($users_id_companny): void {
-        $this->users_id_companny = intval($users_id_companny);
+    function setUsers_id_company($users_id_company): void {
+        $this->users_id_company = intval($users_id_company);
     }
         
     public function getId() {
@@ -622,8 +622,8 @@ class LiveTransmitionHistory extends ObjectYPT {
         if (empty($this->finished)) {
             $this->finished = 'NULL';
         }
-        if (empty($this->users_id_companny)) {
-            $this->users_id_companny = 'NULL';
+        if (empty($this->users_id_company)) {
+            $this->users_id_company = 'NULL';
         }
         
         $this->max_viewers_sametime = intval($this->max_viewers_sametime);
@@ -688,6 +688,15 @@ class LiveTransmitionHistory extends ObjectYPT {
             return false;
         }
         return Live::getLinkToLiveFromUsers_idAndLiveServer($lt->getUsers_id(), $lt->getLive_servers_id(), $lt->getLive_index());
+    }
+    
+    static function getUsers_idOrCompany($live_transmitions_history_id) {
+        $lt = new LiveTransmitionHistory($live_transmitions_history_id);
+        $users_id = $lt->getUsers_id();
+        if(!empty($lt->getUsers_id_company())){
+            $users_id = $lt->getUsers_id_company();
+        }
+        return $users_id;
     }
 
 }

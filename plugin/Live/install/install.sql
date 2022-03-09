@@ -80,9 +80,9 @@ CREATE TABLE IF NOT EXISTS `live_transmitions_history` (
   `json` TEXT NULL DEFAULT NULL,
   `max_viewers_sametime` INT(10) UNSIGNED NULL DEFAULT NULL,
   `total_viewers` INT(10) UNSIGNED NULL DEFAULT NULL,
-  `users_id_companny` INT(11) NULL DEFAULT NULL,
+  `users_id_company` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_live_transmitions_history_users1_idx` (`users_id_companny` ASC),
+  INDEX `fk_live_transmitions_history_users1_idx` (`users_id_company` ASC),
   INDEX `fk_live_transmitions_history_users_idx` (`users_id` ASC),
   INDEX `fk_live_transmitions_history_live_servers1_idx` (`live_servers_id` ASC),
   CONSTRAINT `fk_live_transmitions_history_users`
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `live_transmitions_history` (
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_live_transmitions_history_users1`
-    FOREIGN KEY (`users_id_companny`)
+    FOREIGN KEY (`users_id_company`)
     REFERENCES `users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)

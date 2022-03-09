@@ -16,9 +16,9 @@ if (empty($_REQUEST['rowCount'])) {
 }
 if (!empty($_REQUEST['users_id'])) {
     //echo __LINE__, PHP_EOL;
-    $users = User::getUserFromID($_REQUEST['users_id']);
-    if (!empty($users)) {
-        $users = array($users);
+    $user = User::getUserFromID($_REQUEST['users_id']);
+    if (!empty($user)) {
+        $users = array($user);
         $total = 1;
     } else {
         $users = array();
@@ -56,6 +56,27 @@ if (empty($users)) {
     $json = '[]';
     $total = 0;
 } else {
+    foreach ($users as $key => $value) {
+        if(!User::isAdmin()){
+            $u = array();
+            $u['id'] = $value['id'];
+            //$u['user'] = $user['user'];
+            $u['identification'] = $value['identification'];
+            $u['photo'] = $value['photo'];
+            $u['background'] = $value['background'];
+            $u['status'] = $value['status'];
+        }else{
+            $u = $value;
+        }
+        if(empty($u['creator'])){
+            $u['creator'] = Video::getCreatorHTML($u['id'], '', true, true);
+        }  
+        if(empty($u['photo'])){
+            $u['photo'] = User::getPhoto($u['id']);
+        }  
+        $users[$key] = $u; 
+    }
+
     $json = _json_encode($users);
 }
 //var_dump($users, $json);

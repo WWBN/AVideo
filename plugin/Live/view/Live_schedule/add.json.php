@@ -39,6 +39,17 @@ $o->setScheduled_password($_POST['scheduled_password']);
 //$o->setSaveTransmition($_POST['saveTransmition']);
 //$o->setShowOnTV($_POST['showOnTV']);
 
+if(!empty($_REQUEST['users_id_company'])){
+    $myAffiliation = CustomizeUser::getAffiliateCompanies(User::getId());
+    $users_id_list = array();
+    foreach ($myAffiliation as $value) {
+        $users_id_list[] = $value['users_id_company'];
+    }
+    if(in_array($_REQUEST['users_id_company'], $users_id_list)){
+        $o->setusers_id_company($_REQUEST['users_id_company']);
+    }
+}
+
 if ($id = $o->save()) {
     $obj->msg = "{$_POST['title']} ".__('Saved');
     $obj->error = false;

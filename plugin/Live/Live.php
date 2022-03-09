@@ -211,7 +211,7 @@ class Live extends PluginAbstract {
         $obj = $this->getDataObject();
 
         $rows = Live_schedule::getAllActiveLimit();
-
+        //var_dump($rows);exit;
         $array = [];
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         foreach ($rows as $value) {
@@ -240,7 +240,9 @@ class Live extends PluginAbstract {
             
             $title = self::getTitleFromKey($value['key'], $value['title']);
             
-            $app = self::getLiveApplicationModelArray($value['users_id'], $title, $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_' . $value['key']);
+            $users_id = Live_schedule::getUsers_idOrCompany($value['id']);
+            
+            $app = self::getLiveApplicationModelArray($users_id, $title, $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_' . $value['key']);
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
             $app['isPrivate'] = false;
@@ -274,7 +276,9 @@ class Live extends PluginAbstract {
 
             $title = self::getTitleFromKey($value['key'], $value['title']);
 
-            $app = self::getLiveApplicationModelArray($value['users_id'], $title, $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'LiveObject_' . $value['id'], '', '', "live_{$value['key']}");
+            $users_id = LiveTransmitionHistory::getUsers_idOrCompany($value['id']);
+            
+            $app = self::getLiveApplicationModelArray($users_id, $title, $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'LiveObject_' . $value['id'], '', '', "live_{$value['key']}");
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
             $app['live_transmitions_history_id'] = $value['id'];
@@ -342,10 +346,9 @@ class Live extends PluginAbstract {
                 $comingsoon = true;
             }
         }
-
         if (empty($imgJPG)) {
             $imgJPG = getURL(Live::getPosterThumbsImage($users_id, 0, $comingsoon));
-        }
+        }                        
         $replace = [
             $uid,
             $UserPhoto,
@@ -1845,7 +1848,9 @@ class Live extends PluginAbstract {
                     $imgGIF = $p->getLivePosterImage($row['users_id'], $live_servers_id, $playlists_id_live, $live_index, 'webp', $live_schedule_id);
                 }
 
-                $app = self::getLiveApplicationModelArray($row['users_id'], $title, $link, $imgJPG, $imgGIF, 'live', $LiveUsersLabelLive, $uid, '', $uid, 'live_' . $value->name);
+                $users_id = LiveTransmition::getUsers_idOrCompanyFromKey($value->name);
+                
+                $app = self::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, 'live', $LiveUsersLabelLive, $uid, '', $uid, 'live_' . $value->name);
                 $app['live_servers_id'] = $live_servers_id;
                 $app['key'] = $value->name;
                 $app['isPrivate'] = self::isPrivate($app['key']);

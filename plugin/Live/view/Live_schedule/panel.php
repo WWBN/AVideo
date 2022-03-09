@@ -68,6 +68,23 @@ global $Schedulecount;
                         <?php
                     }
                     ?>
+                    <?php
+                    $myAffiliation = CustomizeUser::getAffiliateCompanies(User::getId());
+                    if (!empty($myAffiliation)) {
+                        ?>
+                        <div class="form-group col-sm-6">
+                            <?php
+                            $users_id_list = array();
+                            foreach ($myAffiliation as $value) {
+                                $users_id_list[] = $value['users_id_company'];
+                            }
+                            echo '<label for="users_id_company" >' . __("Company") . '</label>';
+                            echo Layout::getUserSelect('users_id_company', $users_id_list, "", 'users_id_company', '');
+                            ?>
+                        </div>
+                        <?php
+                    }
+                    ?>
                     <div class="form-group col-sm-12">
                         <label for="Schedule_description"><?php echo __("Description"); ?>:</label>
                         <textarea id="Schedule_description" name="description" class="form-control input-sm" placeholder="<?php echo __("Descriptions"); ?>" required="true" autocomplete="off"></textarea>
@@ -81,7 +98,7 @@ global $Schedulecount;
         </div>
     </div>
     <div class="panel-footer">
-        <button class="btn btn-primary " onclick="resetSchedule()"><i class="fas fa-plus"></i> <?php echo __("New"); ?></button>
+        <button class="btn btn-primary " onclick="resetLiveSchedule()"><i class="fas fa-plus"></i> <?php echo __("New"); ?></button>
         <button class="btn btn-success " id="saveScheduleLive" onclick="saveSchedule(false);"><i class="fas fa-save"></i> <?php echo __("Save Schedule"); ?></button>
         <!--
         <button class="btn btn-warning " id="saveScheduleLiveAndClose" onclick="saveSchedule(true);"><i class="fas fa-save"></i> <?php echo __("Save Schedule and Close"); ?></button>
@@ -152,10 +169,13 @@ global $Schedulecount;
                         return false;
                     }
                     modal.showPleaseWait();
+                    var data = $("#Schedule_form").serialize();
+                    data += '&users_id_company='+$('#users_id_company').val();
+                    //console.log('saveSchedule', data);
                     $.ajax({
                         type: "POST",
                         url: webSiteRootURL + "plugin/Live/view/Live_schedule/add.json.php",
-                        data: $("#Schedule_form").serialize()
+                        data: data
                     }).done(function (resposta) {
                         if (resposta.error) {
                             avideoAlertError(resposta.msg);
@@ -167,16 +187,17 @@ global $Schedulecount;
                                 modal.hidePleaseWait();
                                 avideoToastSuccess(resposta.msg);
                                 listScheduledLives();
-                                resetSchedule();
+                                resetLiveSchedule();
                             }
                         }
                     });
                 }
 
-                function resetSchedule() {
+                function resetLiveSchedule() {
                     $("#Schedule_form")[0].reset();
                     $("#startsel1").trigger("change");
                     $("#Live_schedule_id").val('');
+                    $("#users_id_company").val(0).trigger('change');
                 }
 
                 function listScheduledLives() {
@@ -224,7 +245,8 @@ global $Schedulecount;
                     $("#Schedule_status").val(schedule.status);
                     $("#scheduled_time").val(schedule.scheduled_time);
                     $("#scheduled_password").val(schedule.scheduled_password);
-                    $("#Schedule_live_servers_id").val(schedule.live_servers_id);
+                    $("#Schedule_live_servers_id").val(schedule.live_servers_id?schedule.live_servers_id:0);
+                    $("#users_id_company").val(schedule.users_id_company).trigger('change');
                     $("#Schedule_description").val(schedule.description);
                 }
 
@@ -284,11 +306,11 @@ global $Schedulecount;
                         swal.close();
                     });
                 }
-                
+
                 function uploadPosterCroppie(live_schedule_id) {
                     //console.log(Schedule_plans[schedule_id]);
                     //var schedule = Schedule_plans[schedule_id];
-                    avideoModalIframe(webSiteRootURL + "plugin/Live/view/Live_schedule/uploadPoster.php?live_schedule_id="+live_schedule_id);
+                    avideoModalIframe(webSiteRootURL + "plugin/Live/view/Live_schedule/uploadPoster.php?live_schedule_id=" + live_schedule_id);
                 }
 
                 function removePosterSchedule(schedule_id) {

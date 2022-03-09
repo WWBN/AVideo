@@ -45,9 +45,11 @@ $crc = uniqid();
             $(document).ready(function () {
                 loadPL<?php echo $videos_id . $crc; ?>();
             });
+            var _loadPL<?php echo $videos_id . $crc; ?>_timeout;
             function loadPL<?php echo $videos_id . $crc; ?>(){
-                if(typeof $('#addBtn<?php echo $videos_id . $crc; ?>').webuiPopover !== 'function'){
-                    setTimeout(function(){loadPL<?php echo $videos_id . $crc; ?>()}, 1000);
+                clearTimeout(_loadPL<?php echo $videos_id . $crc; ?>_timeout);
+;                if(typeof $('#addBtn<?php echo $videos_id . $crc; ?>').webuiPopover !== 'function' || typeof loadPlayLists !== 'function'){
+                    _loadPL<?php echo $videos_id . $crc; ?>_timeout = setTimeout(function(){loadPL<?php echo $videos_id . $crc; ?>()}, 1000);
                 }else{
                     loadPlayLists('<?php echo $videos_id; ?>', '<?php echo $crc; ?>');
                     $('#addBtn<?php echo $videos_id . $crc; ?>').webuiPopover();

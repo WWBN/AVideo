@@ -45,7 +45,7 @@ foreach ($tags as $value) {
                     ?>
                     <div class="row">
                         <div>
-                            <div class="panel panel-default">
+                            <div class="panel panel-default" id="userTabsPanel">
                                 <div class="panel-heading tabbable-line">
                                     <div class="pull-right">
                                         <?php echo $tagsStr; ?>
@@ -62,8 +62,7 @@ foreach ($tags as $value) {
                                 <div class="panel-body">
                                     <div class="tab-content">
                                         <div id="basicInfo" class="tab-pane fade in active" style="padding: 10px 0;">
-                                            <?php
-                                            include $global['systemRootPath'] . './view/userBasicInfo.php'; ?>
+                                            <?php include $global['systemRootPath'] . './view/userBasicInfo.php'; ?>
                                         </div>
 
                                         <?php if (empty($advancedCustomUser->disablePersonalInfo)) { ?>
@@ -93,5 +92,17 @@ foreach ($tags as $value) {
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
+        <script>
+            $(document).ready(function () {
+<?php
+if (!empty($_REQUEST['tab'])) {
+    $tab = preg_replace('/[^a-z0-9_-]/i', '', $_REQUEST['tab']);
+    ?>
+                    $('#userTabsPanel a[href="#<?php echo $tab; ?>"]').trigger('click');
+    <?php
+}
+?>
+            });
+        </script>
     </body>
 </html>

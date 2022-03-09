@@ -25,9 +25,10 @@ if (empty($name)) {
     function updateUserAutocomplete<?php echo $id; ?>() {
         var data = <?php echo _json_encode((object) $parameters); ?>;
         data.users_id = $('#<?php echo $id; ?>').val();
-        console.log('updateUserAutocomplete<?php echo $id; ?>', users_id);
+        var users_id = data.users_id;
+        console.log('updateUserAutocomplete<?php echo $id; ?>', data.users_id );
         resetUserAutocomplete<?php echo $id; ?>();
-        if (users_id && users_id !== '0') {
+        if (data.users_id && data.users_id !== '0') {
             modal.showPleaseWait();
             $.ajax({
                 url: webSiteRootURL + 'objects/users.json.php',
@@ -35,7 +36,7 @@ if (empty($name)) {
                 data: data,
                 success: function (data) {
                     if (data.rows && data.rows[0]) {
-                        $("#user<?php echo $id; ?>").val(data.rows[0].user);
+                        $("#user<?php echo $id; ?>").val(data.rows[0].identification);
                         $("#<?php echo $id; ?>").val(users_id);
                         var photoURL = data.rows[0].photo
                         $("#user-img<?php echo $id; ?>").attr("src", photoURL);
@@ -80,21 +81,21 @@ if (empty($name)) {
                 });
             },
             focus: function (event, ui) {
-                $("#user<?php echo $id; ?>").val(ui.item.user);
+                $("#user<?php echo $id; ?>").val(ui.item.identification);
                 return false;
             },
             select: function (event, ui) {
-                $("#user<?php echo $id; ?>").val(ui.item.user);
+                $("#user<?php echo $id; ?>").val(ui.item.identification);
                 $("#<?php echo $id; ?>").val(ui.item.id);
                 var photoURL = webSiteRootURL + 'img/userSilhouette.jpg'
-                if (ui.item.photoURL) {
-                    photoURL = webSiteRootURL + ui.item.photoURL + '?rand=' + Math.random();
+                if (ui.item.photo) {
+                    photoURL = ui.item.photo;
                 }
                 $("#user-img<?php echo $id; ?>").attr("src", photoURL);
                 return false;
             }
         }).autocomplete("instance")._renderItem = function (ul, item) {
-            return $("<li>").append("<div>" + item.creator + item.email + "</div>").appendTo(ul);
+            return $("<li>").append("<div>["+item.id+"] " + item.creator + "</div>").appendTo(ul);
         };
     });
 </script>
