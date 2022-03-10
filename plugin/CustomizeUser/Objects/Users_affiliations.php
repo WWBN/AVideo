@@ -157,17 +157,17 @@ class Users_affiliations extends ObjectYPT {
         }
 
         if (empty($this->company_agree_date) || $this->company_agree_date == '0000-00-00 00:00:00' || $this->company_agree_date == 'NULL') {
-            $this->company_agree_date = null;
+            $this->company_agree_date = 'NULL';
         }
         if (empty($this->affiliate_agree_date) || $this->affiliate_agree_date == '0000-00-00 00:00:00' || $this->affiliate_agree_date == 'NULL') {
-            $this->affiliate_agree_date = null;
+            $this->affiliate_agree_date = 'NULL';
         }
 
         if (empty($this->users_id_affiliate)) {
-            $this->users_id_affiliate = null;
+            $this->users_id_affiliate = 'NULL';
         }
         if (empty($this->users_id_company)) {
-            $this->users_id_company = null;
+            $this->users_id_company = 'NULL';
         }
 
         //var_dump($this);exit;
