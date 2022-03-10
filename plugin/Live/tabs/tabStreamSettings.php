@@ -31,7 +31,9 @@ $key = $liveStreamObject->getKeyWithIndex(true);
             <?php
             getInputCopyToClipboard('server', Live::getRTMPLinkWithOutKey(User::getId()));
             ?>
+            <!--
             <small class="label label-info"><i class="fa fa-warning"></i> <?php echo __("If you change your password the Server URL parameters will be changed too."); ?></small>
+            -->
         </div>
         <div class="form-group">
             <label for="streamkey"><i class="fa fa-key"></i> <?php echo __("Stream name/key"); ?>: </label>

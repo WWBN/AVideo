@@ -1002,10 +1002,10 @@ class Live extends PluginAbstract {
         return $lso->getRTMPLink($forceIndex);
     }
 
-    public static function getRTMPLinkWithOutKey($users_id) {
+    public static function getRTMPLinkWithOutKey($users_id, $short = true) {
         $lso = new LiveStreamObject(self::getKeyFromUser($users_id));
 
-        return $lso->getRTMPLinkWithOutKey();
+        return $lso->getRTMPLinkWithOutKey($short);
     }
 
     public static function getRTMPLinkWithOutKeyFromKey($key) {
@@ -1899,7 +1899,7 @@ class Live extends PluginAbstract {
         $title = "{$Char}{$title}";
         //var_dump($title);
         if (self::isPrivate($row['key'])) {
-            $title = " <i class=\"fas fa-eye-slash\"></i> {$title}";
+            $title = " <i class=\"fas fa-eye-slash\"></i> {$title}". json_encode($row);
         }
         if (self::isPasswordProtected($row['key'])) {
             $title = " <i class=\"fas fa-lock\"></i> {$title}";
@@ -2951,17 +2951,24 @@ class Live extends PluginAbstract {
         return object_to_array($json);
     }
 
-    public static function getServerURL($key, $users_id) {
+    public static function getServerURL($key, $users_id, $short = true) {
         global $global;
-        $obj = new stdClass();
-        $obj->users_id = $users_id;
-        $obj->key = $key;
-        $encrypt = encryptString($obj);
+        if(empty($short)){
+            $obj = new stdClass();
+            $obj->users_id = $users_id;
+            $obj->key = $key;
+            $encrypt = encryptString($obj);
 
-        $url = Live::getServer();
-        $url = addQueryStringParameter($url, 'e', base64_encode($encrypt));
+            $url = Live::getServer();
+            $url = addQueryStringParameter($url, 'e', base64_encode($encrypt));
+        }else{
+            $str = "{$key}";
+            $encrypt = encryptString($str);
+
+            $url = Live::getServer();
+            $url = addQueryStringParameter($url, 's', $encrypt);
+        }
         $url = addQueryStringParameter($url, 'webSiteRootURL', base64_encode($global['webSiteRootURL']));
-
         $o = AVideoPlugin::getObjectDataIfEnabled("Live");
         if (empty($o->server_type->value)) {
             $url = addQueryStringParameter($url, 'webSiteRootURL', base64_encode($global['webSiteRootURL']));
@@ -2969,6 +2976,7 @@ class Live extends PluginAbstract {
         $url = str_replace('%3D', '', $url);
         return $url;
     }
+
 
     public static function passwordIsGood($key) {
         $row = LiveTransmition::getFromKey($key, true);
@@ -3174,9 +3182,9 @@ class LiveStreamObject {
         return $url;
     }
 
-    public function getRTMPLinkWithOutKey() {
+    public function getRTMPLinkWithOutKey($short = true) {
         $lt = LiveTransmition::getFromKey($this->key);
-        return Live::getServerURL($this->key, $lt['users_id']);
+        return Live::getServerURL($this->key, $lt['users_id'], $short);
     }
 
 }

@@ -21,26 +21,54 @@ if (!empty($parts["query"])) {
     parse_str($parts["query"], $_GET);
 }
 
-if (!empty($_GET['e']) && empty($_GET['p'])) {
-    if (strpos($_GET['e'], '/') !== false) {
-        $parts = explode("/", $_GET['e']);
-        if (!empty($parts[1])) {
-            if (empty($_POST['name'])) {
-                $_POST['name'] = $parts[1];
+if (empty($_GET['p'])) {
+    if (!empty($_GET['e'])) {
+        if (strpos($_GET['e'], '/') !== false) {
+            $parts = explode("/", $_GET['e']);
+            if (!empty($parts[1])) {
+                if (empty($_POST['name'])) {
+                    $_POST['name'] = $parts[1];
+                }
             }
+            $_GET['e'] = $parts[0];
         }
-        $_GET['e'] = $parts[0];
-    }
-    $objE = _json_decode(decryptString($_GET['e']));
-    if (empty($objE)) {
-        $objE = _json_decode(decryptString(base64_decode($_GET['e'])));
-    }
+        $objE = _json_decode(decryptString($_GET['e']));
+        if (empty($objE)) {
+            $objE = _json_decode(decryptString(base64_decode($_GET['e'])));
+        }
 
-    if (!empty($objE->users_id)) {
-        $user = new User($objE->users_id);
-        $_GET['p'] = $user->getPassword();
-    } else {
-        _error_log("NGINX ON Publish encryption token error: " . json_encode($objE));
+        if (!empty($objE->users_id)) {
+            $user = new User($objE->users_id);
+            $_GET['p'] = $user->getPassword();
+        } else {
+            _error_log("NGINX ON Publish encryption token error: " . json_encode($objE));
+        }
+    }else if (!empty($_GET['s'])) {
+        if (strpos($_GET['s'], '/') !== false) {
+            $parts = explode("/", $_GET['s']);
+            if (!empty($parts[1])) {
+                if (empty($_POST['name'])) {
+                    $_POST['name'] = $parts[1];
+                }
+            }
+            $_GET['s'] = $parts[0];
+        }
+        $name = decryptString($_GET['s']);
+        
+        $lt = LiveTransmition::getFromKey($name);
+
+        if(!empty($lt)){
+            $name = Live::cleanUpKey($_POST['name']);
+            if($name == $lt['key']){
+                $user = new User($lt['users_id']);
+                $_GET['p'] = $user->getPassword();
+                _error_log("NGINX ON Publish encryption token found users_id: [{$lt['users_id']}] {$name} == {$lt['key']}");
+            }else{
+                _error_log("NGINX ON Publish encryption token keys doe not matchd: {$name} == {$lt['key']}");
+            }
+        }else{
+            _error_log("NGINX ON Publish encryption token error livetransmition error: [{$name}]");
+        }
     }
 }
 
