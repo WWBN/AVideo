@@ -157,17 +157,10 @@ class Users_affiliations extends ObjectYPT {
         }
 
         if (empty($this->company_agree_date) || $this->company_agree_date == '0000-00-00 00:00:00' || $this->company_agree_date == 'NULL') {
-            $this->company_agree_date = 'NULL';
+            $this->company_agree_date = null;
         }
         if (empty($this->affiliate_agree_date) || $this->affiliate_agree_date == '0000-00-00 00:00:00' || $this->affiliate_agree_date == 'NULL') {
-            $this->affiliate_agree_date = 'NULL';
-        }
-
-        if (empty($this->users_id_affiliate)) {
-            $this->users_id_affiliate = 'NULL';
-        }
-        if (empty($this->users_id_company)) {
-            $this->users_id_company = 'NULL';
+            $this->affiliate_agree_date = null;
         }
 
         //var_dump($this);exit;
@@ -181,6 +174,21 @@ class Users_affiliations extends ObjectYPT {
             _error_log('Affiliation: one date is empty ' . $this->id . " company_agree_date={$this->company_agree_date} affiliate_agree_date={$this->affiliate_agree_date}");
             $this->status = 'i';
         }
+        
+        if (empty($this->company_agree_date) || $this->company_agree_date == '0000-00-00 00:00:00' ) {
+            $this->company_agree_date = 'NULL';
+        }
+        if (empty($this->affiliate_agree_date) || $this->affiliate_agree_date == '0000-00-00 00:00:00') {
+            $this->affiliate_agree_date = 'NULL';
+        }
+
+        if (empty($this->users_id_affiliate)) {
+            $this->users_id_affiliate = 'NULL';
+        }
+        if (empty($this->users_id_company)) {
+            $this->users_id_company = 'NULL';
+        }
+        
         return parent::save();
     }
 
