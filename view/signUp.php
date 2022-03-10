@@ -288,7 +288,7 @@ if (isValidURL(@$_GET['siteRedirectUri'])) {
                         avideoAlertError("<?php echo __("The captcha is wrong"); ?>");
                         return false;
                     }
-                    if (!isEmailValid($('#inputEmail').val())) {
+                    if ($('#inputEmail').is(":visible") && !isEmailValid($('#inputEmail').val())) {
                         if (!isEmailValid($('#inputUser').val())) {
                             $('#inputEmail').closest('.input-group').addClass(errorClass);
                             avideoAlertError("<?php echo __("You must specify a valid email"); ?>");
