@@ -156,10 +156,10 @@ class Users_affiliations extends ObjectYPT {
             }
         }
 
-        if ($this->company_agree_date == '0000-00-00 00:00:00' || $this->company_agree_date == 'NULL') {
+        if (empty($this->company_agree_date) || $this->company_agree_date == '0000-00-00 00:00:00' || $this->company_agree_date == 'NULL') {
             $this->company_agree_date = null;
         }
-        if ($this->affiliate_agree_date == '0000-00-00 00:00:00' || $this->affiliate_agree_date == 'NULL') {
+        if (empty($this->affiliate_agree_date) || $this->affiliate_agree_date == '0000-00-00 00:00:00' || $this->affiliate_agree_date == 'NULL') {
             $this->affiliate_agree_date = null;
         }
 
