@@ -130,6 +130,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                         ?></h2>
                     <span class="pull-right">
                         <?php
+                        echo User::getAddChannelToGalleryButton($user_id);
                         echo User::getBlockUserButton($user_id);
                         echo Subscribe::getButton($user_id);
                         ?>

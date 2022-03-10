@@ -70,6 +70,10 @@
                     continue;
                 }
                 $countSections++;
+                if(preg_match('/Channel_([0-9]+)_/', $value['name'], $matches)){
+                    $users_id = intval($matches[1]);
+                    User::getChannelPanel($users_id);
+                } else
                 if ($value['name'] == 'Suggested') {
                     createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star");
                 } else

@@ -373,6 +373,22 @@ class AVideoPlugin
     {
         return self::getDataObject($name);
     }
+    
+    public static function setObjectData($name, $object){
+        $p = static::loadPlugin($name);
+        if ($p) {
+            return $p->setDataObject($object);
+        }
+        return false;
+    }
+    
+    public static function setObjectDataParameter($name, $parameterName, $value){
+        $p = static::loadPlugin($name);
+        if ($p) {
+            return $p->setDataObjectParameter($parameterName, $value);
+        }
+        return false;
+    }
 
     public static function getDataObject($name)
     {
