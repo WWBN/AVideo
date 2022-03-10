@@ -647,6 +647,8 @@ if (typeof gtag !== \"function\") {
         if(isset($global['emailVerified'])){
             $this->emailVerified = $global['emailVerified'];
         }
+        
+        $this->emailVerified = intval($this->emailVerified);
 
         $this->is_company = $this->getIs_company();
 
@@ -701,17 +703,17 @@ if (typeof gtag !== \"function\") {
         } else {
             $formats = "ssssiiiisssssss";
             $values = [$user, $password, $this->email, $name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet,
-                $status, $this->photoURL, $this->recoverPass, $channelName, $this->analyticsCode, $this->externalOptions, $this->phone];
+                $status, $this->photoURL, $this->recoverPass, $channelName, $this->analyticsCode, $this->externalOptions, $this->phone,$this->emailVerified];
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, "
-                    . " status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions, phone, is_company) "
+                    . " status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions, phone, is_company,emailVerified) "
                     . " VALUES (?,?,?,?,?,?,?,?, false, "
-                    . "?,?,?, now(), now(),?,?,?,?," . (empty($this->is_company) ? 'NULL' : intval($this->is_company)) . ")";
+                    . "?,?,?, now(), now(),?,?,?,?," . (empty($this->is_company) ? 'NULL' : intval($this->is_company)) . ",?)";
         }
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
-                if (!empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
+                if (empty($global['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
                     self::sendVerificationLink($id);
                 }
             } else {
