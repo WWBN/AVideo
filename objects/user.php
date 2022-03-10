@@ -701,7 +701,7 @@ if (typeof gtag !== \"function\") {
                     . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , donationLink = ? , phone = ? , is_company = " . (empty($this->is_company) ? 'NULL' : intval($this->is_company)) . ", "
                     . " modified = now() WHERE id = ?";
         } else {
-            $formats = "ssssiiiisssssss";
+            $formats = "ssssiiiisssssssi";
             $values = [$user, $password, $this->email, $name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet,
                 $status, $this->photoURL, $this->recoverPass, $channelName, $this->analyticsCode, $this->externalOptions, $this->phone,$this->emailVerified];
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, "
@@ -2470,6 +2470,14 @@ if (typeof gtag !== \"function\") {
         return "";
     }
 
+    public static function getAddChannelToGalleryButton($users_id) { 
+        $gallery = AVideoPlugin::isEnabledByName('Gallery');
+        if (empty($gallery)) {
+            return '';
+        }
+        return Gallery::getAddChannelToGalleryButton($users_id);
+    }
+
     public static function getBlockUserButton($users_id) {
         $canBlock = self::userCanBlockUserWithReason($users_id);
         if (!$canBlock->result) {
@@ -2762,6 +2770,7 @@ if (typeof gtag !== \"function\") {
                     <?php echo User::getNameIdentificationById($users_id); ?>
                 </a>
                 <div style="position: absolute; right: 10px; top: 10px;">
+                    <?php echo User::getAddChannelToGalleryButton($users_id); ?>
                     <?php echo User::getBlockUserButton($users_id); ?>
                     <?php echo Subscribe::getButton($users_id); ?>
                 </div>
