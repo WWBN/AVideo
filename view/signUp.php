@@ -295,7 +295,7 @@ if (isValidURL(@$_GET['siteRedirectUri'])) {
                             return false;
                         }
                     }
-                    if (!$('#inputUser').val().match(/^[0-9a-z]{3,}$/i)) {
+                    if (!$('#inputUser').val().match(/^[0-9a-z@._-]{3,}$/i)) {
                         $('#inputUser').closest('.input-group').addClass(errorClass);
                         avideoAlertError("<?php echo __("Invalid user"); ?>");
                         return false;
