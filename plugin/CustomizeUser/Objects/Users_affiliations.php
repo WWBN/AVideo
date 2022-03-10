@@ -93,7 +93,7 @@ class Users_affiliations extends ObjectYPT {
             $sql .= "AND status = 'a' ";
         }
 
-        $sql .= self::getSqlFromPost();
+        //$sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -134,7 +134,7 @@ class Users_affiliations extends ObjectYPT {
         if (!empty($activeOnly)) {
             $sql .= "AND status = 'a' ";
         }
-        $sql .= self::getSqlSearchFromPost();
+        //$sql .= self::getSqlSearchFromPost();
         $res = sqlDAL::readSql($sql);
         $countRow = sqlDAL::num_rows($res);
         sqlDAL::close($res);
