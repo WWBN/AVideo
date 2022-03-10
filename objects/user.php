@@ -642,7 +642,10 @@ if (typeof gtag !== \"function\") {
             $this->status = 'a';
         }
         if (empty($this->emailVerified)) {
-            $this->emailVerified = "false";
+            $this->emailVerified = 0;
+        }
+        if(isset($global['emailVerified'])){
+            $this->emailVerified = $global['emailVerified'];
         }
 
         $this->is_company = $this->getIs_company();

@@ -915,6 +915,7 @@ class API extends PluginAbstract {
      * 'pass' password  of the user
      * 'email' email of the user
      * 'name' real name of the user
+     * ['emailVerified' 1 = email verified]
      * 'APISecret' mandatory for security reasons
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&user=admin&pass=123&email=me@mysite.com&name=Yeshua
      * @return type
@@ -927,6 +928,9 @@ class API extends PluginAbstract {
             return new ApiObject("APISecret Not valid");
         }
         $ignoreCaptcha = 1;
+        if(isset($_REQUEST['emailVerified'])){
+            $global['emailVerified']  = intval($_REQUEST['emailVerified']);
+        }
         require_once $global['systemRootPath'] . 'objects/userCreate.json.php';
         exit;
     }
