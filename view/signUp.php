@@ -155,7 +155,7 @@ if (isValidURL(@$_GET['siteRedirectUri'])) {
                                         if (empty($advancedCustomUser->disableCompanySignUp)) {
                                             $extra_info_fields = Users_extra_info::getAllActive(0, true);
                                             echo '<!-- Show CompanySignUp -->';
-                                            echo '<input id="is_company" name="is_company" type="hidden" value="'.User::$is_company_status_WAITINGAPPROVAL.'" >';
+                                            echo '<input id="is_company" name="is_company" type="hidden" value="' . User::$is_company_status_WAITINGAPPROVAL . '" >';
                                         } else {
                                             $extra_info_fields = Users_extra_info::getAllActive();
                                             echo '<!-- DO NOT Show CompanySignUp -->';
@@ -241,34 +241,34 @@ if (isValidURL(@$_GET['siteRedirectUri'])) {
                     var errorClass = 'glowBox';
                     $('#updateUserForm .input-group').removeClass(errorClass);
                     $('#updateUserForm input').each(function () {
-                        console.log('found', $( this ).attr( 'name' ));
-                        if($(this).prop('required') && $(this).is(":visible")){
-                            if($( this ).attr( 'type' )==='checkbox'){
-                                if(!$( this ).is(':checked')){
-                                    $( this ).closest('.input-group').addClass(errorClass);
+                        console.log('found', $(this).attr('name'));
+                        if ($(this).prop('required') && $(this).is(":visible")) {
+                            if ($(this).attr('type') === 'checkbox') {
+                                if (!$(this).is(':checked')) {
+                                    $(this).closest('.input-group').addClass(errorClass);
                                     errorFound = 'Confirmation Required';
                                     return false;
                                 }
-                            }else{
-                                console.log('is required', $( this ).attr( 'name' ));
-                                if (!$( this ).val().match(/[0-9a-z]+/i)) {
-                                    $( this ).closest('.input-group').addClass(errorClass);
+                            } else {
+                                console.log('is required', $(this).attr('name'));
+                                if (!$(this).val().match(/[0-9a-z]+/i)) {
+                                    $(this).closest('.input-group').addClass(errorClass);
                                     var label = $("label[for='" + $(this).attr('id') + "']").text();
-                                    if(!label){
-                                        label = $( this ).attr( 'name' );
+                                    if (!label) {
+                                        label = $(this).attr('name');
                                     }
-                                    errorFound = label+' is required';
+                                    errorFound = label + ' is required';
                                     return false;
                                 }
                             }
-                        } 
+                        }
                     });
                     console.log(errorFound);
-                    if(errorFound){
+                    if (errorFound) {
                         avideoAlertError(errorFound);
                         return false;
                     }
-                    
+
                     var pass1 = $('#inputPassword').val();
                     var pass2 = $('#inputPasswordConfirm').val();
                     // Password doesn't match
@@ -288,17 +288,19 @@ if (isValidURL(@$_GET['siteRedirectUri'])) {
                         avideoAlertError("<?php echo __("The captcha is wrong"); ?>");
                         return false;
                     }
-                    if(!isEmailValid($('#inputEmail').val())){
-                        $('#inputEmail').closest('.input-group').addClass(errorClass);
-                        avideoAlertError("<?php echo __("You must specify a valid email"); ?>");
-                        return false;
+                    if (!isEmailValid($('#inputEmail').val())) {
+                        if (!isEmailValid($('#inputUser').val())) {
+                            $('#inputEmail').closest('.input-group').addClass(errorClass);
+                            avideoAlertError("<?php echo __("You must specify a valid email"); ?>");
+                            return false;
+                        }
                     }
-                    if(!$('#inputUser').val().match(/^[0-9a-z]{3,}$/i)){
+                    if (!$('#inputUser').val().match(/^[0-9a-z]{3,}$/i)) {
                         $('#inputUser').closest('.input-group').addClass(errorClass);
                         avideoAlertError("<?php echo __("Invalid user"); ?>");
                         return false;
                     }
-                    
+
                     return true;
                 }
 
