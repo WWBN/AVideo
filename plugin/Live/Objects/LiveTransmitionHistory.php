@@ -476,9 +476,13 @@ class LiveTransmitionHistory extends ObjectYPT {
         return Live::getLiveIndexFromKey(@$row['key']);
     }
 
-    public static function getLastsLiveHistoriesFromUser($users_id, $count = 10) {
+    public static function getLastsLiveHistoriesFromUser($users_id, $count = 10, $finishedOnly = false) {
         global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `users_id` = ? ORDER BY created DESC LIMIT ?";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `users_id` = ? ";
+        if($finishedOnly){
+            $sql .= " finished IS NOT NULL ";
+        }
+        $sql .= " ORDER BY created DESC LIMIT ?";
 
         $res = sqlDAL::readSql($sql, "ii", [$users_id, $count]);
         $fullData = sqlDAL::fetchAllAssoc($res);
