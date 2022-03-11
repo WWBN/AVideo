@@ -1,4 +1,4 @@
-<div class="mainArea">
+<div class="row mainArea">
     <?php
     if (!empty($currentCat)) {
         include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
