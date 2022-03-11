@@ -160,16 +160,24 @@ class Live_schedule extends ObjectYPT
         return $rows;
     }
 
-    public static function getAllActiveLimit($limit = 10)
+    public static function getAllActiveLimit($users_id=0,$limit = 10)
     {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
         // to convert time must load time zone table into mysql
-
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='a' "
-                . " AND (CONVERT_TZ(scheduled_time, timezone, @@session.time_zone ) > NOW() || scheduled_time > NOW()) "
+        
+        $users_id = intval($users_id);
+        $limit = intval($limit);
+        
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='a' ";
+        
+        if (!empty($users_id)) {
+            $sql .= " AND users_id = $users_id ";
+        }
+        
+        $sql .= " AND (CONVERT_TZ(scheduled_time, timezone, @@session.time_zone ) > NOW() || scheduled_time > NOW()) "
                 . " ORDER BY scheduled_time ASC LIMIT {$limit} ";
         //echo $sql;
         $res = sqlDAL::readSql($sql);
@@ -178,6 +186,10 @@ class Live_schedule extends ObjectYPT
         $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
+                $row['future'] = isTimeForFuture($row['scheduled_time'], $row['timezone']);
+                $row['secondsIntervalHuman'] = secondsIntervalHuman($row['scheduled_time'], $row['timezone']);
+                $row['posterURL'] = self::getPosterURL($row['id']);
+                $row['serverURL'] = Live::getServerURL($row['key'], $row['users_id']);
                 $rows[] = $row;
             }
         } else {
