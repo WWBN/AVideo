@@ -374,26 +374,6 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         <?php
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
-
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-
-        echo AVideoPlugin::afterVideoJS();
-        $disableYoutubeIntegration = @$advancedCustom->disableYoutubePlayerIntegration || isMobile();
-
-
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-        if ((isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false)) {
-            if ($_GET['isEmbedded'] == "y") {
-                ?>
-                <script src="<?php echo getCDN(); ?>view/js/videojs-youtube/Youtube.js" type="text/javascript"></script>
-                <?php
-            } elseif ($_GET['isEmbedded'] == "v") {
-                ?>
-                <script src="<?php echo getCDN(); ?>view/js/videojs-vimeo/videojs-vimeo.js" type="text/javascript"></script>
-                <?php
-            }
-        }
-
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         include $global['systemRootPath'] . 'view/include/footer.php';
 
