@@ -659,7 +659,7 @@ class API extends PluginAbstract {
                 $value['live_transmitions_history_id'] = $value['id'];
                 $value['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
                 $value['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
-                $obj->livestream["activeLives"][] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
+                $obj->livestream["activeLives"][] = $value;
             }
 
             return new ApiObject("", false, $obj);
