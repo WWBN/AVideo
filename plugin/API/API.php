@@ -653,6 +653,7 @@ class API extends PluginAbstract {
 
             $obj->livestream["activeLives"] = array();
             $obj->livestream["latestLives"] = array();
+            $obj->livestream["scheduledLives"] = array();
 
             $rows = LiveTransmitionHistory::getActiveLiveFromUser($parameters['users_id'], '','', 100);
 
@@ -670,6 +671,12 @@ class API extends PluginAbstract {
                 $value['live_transmitions_history_id'] = $value['id'];
                 $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
                 $obj->livestream["latestLives"][] = $value;
+            }
+            
+            $rows = Live_schedule::getAllActiveLimit($users_id);
+
+            foreach ($rows as $value) {
+                $obj->livestream["scheduledLives"][] = $value;
             }
 
             return new ApiObject("", false, $obj);
