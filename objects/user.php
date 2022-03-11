@@ -2733,6 +2733,7 @@ if (typeof gtag !== \"function\") {
         if(empty($json)){
             return array();
         }
+        return $json;
     }
 
     public static function setDonationButtons($users_id, $value) {
