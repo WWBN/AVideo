@@ -76,10 +76,6 @@ if (!empty($_REQUEST['live_schedule'])) {
     }
 }
 
-$img = "{$global['webSiteRootURL']}plugin/Live/getImage.php?u={$_GET['u']}&format=jpg";
-$imgw = 640;
-$imgh = 360;
-
 $video['creator'] = '<div class="pull-left"><img src="' . $liveImg . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
 
 $liveDO = AVideoPlugin::getObjectData("Live");
