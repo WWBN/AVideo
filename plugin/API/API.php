@@ -658,6 +658,7 @@ class API extends PluginAbstract {
 
             foreach ($rows as $value) {
                 $value['live_transmitions_history_id'] = $value['id'];
+                $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
                 $value['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
                 $value['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
                 $obj->livestream["activeLives"][] = $value;
@@ -667,6 +668,7 @@ class API extends PluginAbstract {
 
             foreach ($rows as $value) {
                 $value['live_transmitions_history_id'] = $value['id'];
+                $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
                 $obj->livestream["latestLives"][] = $value;
             }
 
