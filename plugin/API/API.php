@@ -651,6 +651,17 @@ class API extends PluginAbstract {
             $obj->livestream["poster"] = $global['webSiteRootURL'] . $p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
             $obj->livestream["joinURL"] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
 
+            $obj->livestream["activeLives"] = array();
+
+            $rows = LiveTransmitionHistory::getActiveLiveFromUser($parameters['users_id']);
+
+            foreach ($rows as $value) {
+                $value['live_transmitions_history_id'] = $value['id'];
+                $value['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
+                $value['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
+                $obj->livestream["activeLives"][] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
+            }
+
             return new ApiObject("", false, $obj);
         } else {
             return new ApiObject("API Secret is not valid");
@@ -928,8 +939,8 @@ class API extends PluginAbstract {
             return new ApiObject("APISecret Not valid");
         }
         $ignoreCaptcha = 1;
-        if(isset($_REQUEST['emailVerified'])){
-            $global['emailVerified']  = intval($_REQUEST['emailVerified']);
+        if (isset($_REQUEST['emailVerified'])) {
+            $global['emailVerified'] = intval($_REQUEST['emailVerified']);
         }
         require_once $global['systemRootPath'] . 'objects/userCreate.json.php';
         exit;
