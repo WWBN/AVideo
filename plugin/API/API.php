@@ -652,6 +652,7 @@ class API extends PluginAbstract {
             $obj->livestream["joinURL"] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
 
             $obj->livestream["activeLives"] = array();
+            $obj->livestream["latestLives"] = array();
 
             $rows = LiveTransmitionHistory::getActiveLiveFromUser($parameters['users_id'], '','', 100);
 
@@ -660,6 +661,13 @@ class API extends PluginAbstract {
                 $value['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
                 $value['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
                 $obj->livestream["activeLives"][] = $value;
+            }
+
+            $rows = LiveTransmitionHistory::getLastsLiveHistoriesFromUser($parameters['users_id'], 100);
+
+            foreach ($rows as $value) {
+                $value['live_transmitions_history_id'] = $value['id'];
+                $obj->livestream["latestLives"][] = $value;
             }
 
             return new ApiObject("", false, $obj);
