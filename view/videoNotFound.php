@@ -37,7 +37,7 @@ $video['filename'] = '';
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
-        <div class="container-fluid principalContainer" id="modeYoutubePrincipal">
+        <div class="container-fluid principalContainer" id="modeYoutubePrincipal" style="overflow: hidden;">
             <?php
             require "{$global['systemRootPath']}view/modeYoutubeBundle.php";
             ?>

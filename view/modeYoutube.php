@@ -347,7 +347,7 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
             <?php
         }
         ?>
-        <div class="container-fluid principalContainer" id="modeYoutubePrincipal">
+        <div class="container-fluid principalContainer" id="modeYoutubePrincipal" style="overflow: hidden;">
             <?php
             if (!empty($video)) {
                 if (empty($video['type'])) {

@@ -114,7 +114,7 @@ if (isHTMLEmpty($sideAd)) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid principalContainer" style="padding: 0;" id="modeYoutubePrincipal">
+        <div class="container-fluid principalContainer" style="padding: 0;overflow: hidden;" id="modeYoutubePrincipal">
             <?php
             if (!$isCompressed) {
                 ?>

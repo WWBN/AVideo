@@ -121,7 +121,7 @@ if(empty($playListData)){
             <?php
         }
         ?>
-        <div class="container-fluid principalContainer">
+        <div class="container-fluid principalContainer" style="overflow: hidden;">
             <?php
             if (!empty($playListObj)) {
                 if (!empty($advancedCustom->showAdsenseBannerOnTop)) {
