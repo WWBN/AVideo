@@ -480,7 +480,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `users_id` = ? ";
         if($finishedOnly){
-            $sql .= " finished IS NOT NULL ";
+            $sql .= " AND finished IS NOT NULL ";
         }
         $sql .= " ORDER BY created DESC LIMIT ?";
 
