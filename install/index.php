@@ -230,7 +230,7 @@ require_once '../locale/function.php';
 
                                     <div class="form-group">
                                         <label for="databaseHost">Database Host</label>
-                                        <input type="text" class="form-control" id="databaseHost" placeholder="Enter Database Host" value="database" required="required">
+                                        <input type="text" class="form-control" id="databaseHost" placeholder="Enter Database Host" value="localhost" required="required">
                                     </div>
                                     <div class="form-group">
                                         <label for="databasePort">Database Port</label>
