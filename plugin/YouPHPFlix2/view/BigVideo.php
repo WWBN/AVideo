@@ -79,7 +79,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     $ads1 = getAdsLeaderBoardTop();
     if (!empty($ads1)) {
         ?>
-        <div class="row text-center" style="padding: 10px;">
+        <div class="text-center" style="padding: 10px;">
             <?php echo $ads1; ?>
         </div>
         <?php
