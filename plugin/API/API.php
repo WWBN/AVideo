@@ -663,7 +663,7 @@ class API extends PluginAbstract {
                 $obj->livestream["activeLives"][] = $value;
             }
 
-            $rows = LiveTransmitionHistory::getLastsLiveHistoriesFromUser($parameters['users_id'], 100);
+            $rows = LiveTransmitionHistory::getLastsLiveHistoriesFromUser($parameters['users_id'], 5, true);
 
             foreach ($rows as $value) {
                 $value['live_transmitions_history_id'] = $value['id'];
