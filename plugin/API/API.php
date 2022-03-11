@@ -646,8 +646,10 @@ class API extends PluginAbstract {
 
             $obj->user = User::getUserFromID($user->getBdId());
             
-            unset($obj->externalOptions);
-            unset($obj->extra_info);
+            unset($obj->user['externalOptions']);
+            unset($obj->user['extra_info']);
+            
+            $obj->user['DonationButtons'] = _json_decode($obj->user['DonationButtons']);
             
             $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
             $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
