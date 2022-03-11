@@ -24,7 +24,7 @@ $leaderBoardTop = getAdsLeaderBoardTop();
             ?>
             <div class="col-lg-10 col-lg-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-body">
+                    <div class="panel-body" style="overflow: hidden;">
                         <?php
                     include $global['systemRootPath'] . 'view/include/categoryTop.php';
                     include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
