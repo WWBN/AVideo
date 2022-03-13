@@ -5783,7 +5783,7 @@ function getHostOnlyFromURL($url) {
  */
 function getDeviceID($useRandomString = true) {
     $ip = md5(getRealIpAddr());
-    $pattern = "/[0-9a-z_.-]/i";
+    $pattern = "/[^0-9a-z_.-]/i";
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         $device = "unknowDevice-{$ip}";
         $device .= '-' . intval(User::getId());
