@@ -5783,10 +5783,11 @@ function getHostOnlyFromURL($url) {
  */
 function getDeviceID($useRandomString = true) {
     $ip = md5(getRealIpAddr());
+    $pattern = "/[0-9a-z_.-]/i";
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         $device = "unknowDevice-{$ip}";
         $device .= '-' . intval(User::getId());
-        return $device;
+        return preg_replace($pattern, '-', $device);
     }
 
     if (empty($useRandomString)) {
@@ -5797,7 +5798,7 @@ function getDeviceID($useRandomString = true) {
                 $device
         );
         $device .= '-' . intval(User::getId());
-        return $device;
+        return preg_replace($pattern, '', $device);
     }
 
     $cookieName = "yptDeviceID";
@@ -5816,9 +5817,8 @@ function getDeviceID($useRandomString = true) {
             return "getDeviceIDError";
         }
         $_COOKIE[$cookieName] = $_GET[$cookieName];
-        return $_GET[$cookieName];
     }
-    return $_COOKIE[$cookieName];
+    return preg_replace($pattern, '', $_COOKIE[$cookieName]);
 }
 
 function deviceIdToObject($deviceID) {
