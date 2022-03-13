@@ -5798,7 +5798,7 @@ function getDeviceID($useRandomString = true) {
                 $device
         );
         $device .= '-' . intval(User::getId());
-        return preg_replace($pattern, '', $device);
+        return preg_replace($pattern, '-', $device);
     }
 
     $cookieName = "yptDeviceID";
@@ -5818,7 +5818,7 @@ function getDeviceID($useRandomString = true) {
         }
         $_COOKIE[$cookieName] = $_GET[$cookieName];
     }
-    return preg_replace($pattern, '', $_COOKIE[$cookieName]);
+    return preg_replace($pattern, '-', $_COOKIE[$cookieName]);
 }
 
 function deviceIdToObject($deviceID) {
