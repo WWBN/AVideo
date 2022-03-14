@@ -16,16 +16,16 @@ if (!empty($_GET['lang'])) {
 
 function __($str, $allowHTML = false) {
     global $t;
-
-    if (!isset($t_insensitive)) {
-        $t_insensitive = array_change_key_case($t);
+    if (!isset($t_insensitive) && function_exists('array_change_key_case') && !isCommandLineInterface()) {
+        $t_insensitive = array_change_key_case($t, CASE_LOWER);
+    }else{
+        $t_insensitive = array();
     }
-
     $return = $str;
 
     if (!empty($t[$str])) {
         $return = $t[$str];
-    } else if (!empty($t_insensitive[strtolower($str)])) {
+    } else if (!empty($t_insensitive) && !empty($t_insensitive[strtolower($str)])) {
         $return = $t_insensitive[strtolower($str)];
     }
 
