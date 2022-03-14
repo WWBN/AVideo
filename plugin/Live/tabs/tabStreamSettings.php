@@ -103,7 +103,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                             <div class="form-group">
                                 <label for="title"><?php echo __("Password Protect"); ?>:</label>
                                 <?php
-                                echo getInputPassword('password_livestream', 'class="form-control" value="' . $trasnmition['password'] . '"', __("Password Protect"));
+                                echo getInputPassword('password_livestream', 'class="form-control" autocomplete="off" autofill="off"  value="' . $trasnmition['password'] . '"', __("Password Protect"));
                                 ?>
                             </div>  
                             <?php
