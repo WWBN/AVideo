@@ -30,7 +30,7 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 Category::clearCacheCount();
 TimeLogEnd($timeLog, __LINE__);
 
-if (!preg_match("|^" . $global['webSiteRootURL'] . "|", $_POST['redirectUri'])) {
+if(!isSameDomain($global['webSiteRootURL'], $_POST['redirectUri'])){
     $_POST['redirectUri'] = $global['webSiteRootURL'];
 }
 _error_log("Start Login Request redirectUri=" . $_POST['redirectUri']);
