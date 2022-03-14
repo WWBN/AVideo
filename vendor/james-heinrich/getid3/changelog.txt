@@ -1320,7 +1320,7 @@ Version History
          into the files where they are actually used.
        Renamed getid3.functions.php to getid3.lib.php
        Moved getid3.rgad.php functions into getid3_lib
-       Moved getid3.getimagesize.php funcitons ingo getid3_lib
+       Moved getid3.getimagesize.php functions ingo getid3_lib
    ¤ Moved getid3.ogginfo.php into ogg module
    ¤ Combined GetTagOnly() and GetAllFileInfo() in method analyze
    ¤ Removed redundant and unuseful root keys

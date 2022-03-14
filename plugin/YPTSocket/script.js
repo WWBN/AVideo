@@ -232,7 +232,7 @@ $(function () {
         success: function (response) {
             if (response.error) {
                 console.log('Getting webSocketToken ERROR ' + response.msg);
-                if (typeof avideoToastError == 'funciton') {
+                if (typeof avideoToastError == 'function') {
                     avideoToastError(response.msg);
                 }
             } else {
