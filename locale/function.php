@@ -1,4 +1,5 @@
 <?php
+
 if (empty($config)) {
     return true;
 }
@@ -15,11 +16,13 @@ if (!empty($_GET['lang'])) {
 @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 
 function __($str, $allowHTML = false) {
-    global $t;
-    if (!isset($t_insensitive) && function_exists('array_change_key_case') && !isCommandLineInterface()) {
-        $t_insensitive = array_change_key_case($t, CASE_LOWER);
-    }else{
-        $t_insensitive = array();
+    global $t, $t_insensitive;
+    if (!isset($t_insensitive)) {
+        if (function_exists('array_change_key_case') && !isCommandLineInterface()) {
+            $t_insensitive = array_change_key_case($t, CASE_LOWER);
+        } else {
+            $t_insensitive = array();
+        }
     }
     $return = $str;
 
@@ -85,7 +88,7 @@ function textToLink($string, $targetBlank = false) {
     if ($targetBlank) {
         $target = "target=\"_blank\"";
     }
-    return preg_replace('$(\s|^)(https?://[a-z0-9_./?=&-]+)(?![^<>]*>)$i', ' <a href="$2" '.$target.'>$2</a> ', $string);
+    return preg_replace('$(\s|^)(https?://[a-z0-9_./?=&-]+)(?![^<>]*>)$i', ' <a href="$2" ' . $target . '>$2</a> ', $string);
 }
 
 function br2nl($html) {
@@ -93,10 +96,10 @@ function br2nl($html) {
     return $nl;
 }
 
-function flag2Lang($flagCode){
+function flag2Lang($flagCode) {
     global $global;
     $index = strtolower($flagCode);
-    if(!empty($global['flag2Lang'][$index])){
+    if (!empty($global['flag2Lang'][$index])) {
         return $global['flag2Lang'][$index];
     }
     return $flagCode;
@@ -104,11 +107,11 @@ function flag2Lang($flagCode){
 
 function setSiteLang() {
     global $config;
-    
+
     $userLocation = false;
     $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
     $userLocation = !empty($obj) && !empty($obj->autoChangeLanguage);
-    
+
     if (!empty($_GET['lang'])) {
         _session_start();
         $_SESSION['language'] = $_GET['lang'];
@@ -120,32 +123,32 @@ function setSiteLang() {
 }
 
 function setLanguage($lang) {
-        if (empty($lang)) {
-            return false;
-        }
-        global $global;
-        $lang = flag2Lang($lang);
-        if (empty($lang) || $lang === '-') {
-            return false;
-        }
+    if (empty($lang)) {
+        return false;
+    }
+    global $global;
+    $lang = flag2Lang($lang);
+    if (empty($lang) || $lang === '-') {
+        return false;
+    }
 
+    $file = "{$global['systemRootPath']}locale/{$lang}.php";
+    _session_start();
+    if (file_exists($file)) {
+        $_SESSION['language'] = $lang;
+        include_once $file;
+        return true;
+    } else {
+        //_error_log('setLanguage: File does not exists 1 ' . $file);
+        $lang = strtolower($lang);
         $file = "{$global['systemRootPath']}locale/{$lang}.php";
-        _session_start();
         if (file_exists($file)) {
             $_SESSION['language'] = $lang;
             include_once $file;
             return true;
         } else {
-            //_error_log('setLanguage: File does not exists 1 ' . $file);
-            $lang = strtolower($lang);
-            $file = "{$global['systemRootPath']}locale/{$lang}.php";
-            if (file_exists($file)) {
-                $_SESSION['language'] = $lang;
-                include_once $file;
-                return true;
-            } else {
-                //_error_log('setLanguage: File does not exists 2 ' . $file);
-            }
+            //_error_log('setLanguage: File does not exists 2 ' . $file);
         }
-        return false;
     }
+    return false;
+}
