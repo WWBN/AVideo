@@ -16,17 +16,23 @@ if (!empty($_GET['lang'])) {
 
 function __($str, $allowHTML = false) {
     global $t;
-    if (empty($t[$str])) {
-        if ($allowHTML) {
-            return $str;
-        }
-        return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $str);
-    } else {
-        if ($allowHTML) {
-            return $t[$str];
-        }
-        return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $t[$str]);
+
+    if (!isset($t_insensitive)) {
+        $t_insensitive = array_change_key_case($t);
     }
+
+    $return = $str;
+
+    if (!empty($t[$str])) {
+        $return = $t[$str];
+    } else if (!empty($t_insensitive[strtolower($str)])) {
+        $return = $t_insensitive[strtolower($str)];
+    }
+
+    if ($allowHTML) {
+        return $return;
+    }
+    return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $return);
 }
 
 function isRTL() {
