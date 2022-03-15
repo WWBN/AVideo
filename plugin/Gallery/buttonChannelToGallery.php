@@ -6,7 +6,9 @@ $class = '';
 if(Gallery::isChannelToGallery($users_id)){
     $class = 'isChannelToGallery';
 }
-
+if(!User::isAdmin()){
+    return '';
+}
 ?>
 <div class="ChannelToGallery<?php echo $users_id; ?> <?php echo $class; ?>" style="display: inline-block;">
     <button class="btn btn-primary btn-xs addChannelToGallery" onclick="channelToGallery(<?php echo $users_id; ?>, 1);"  data-toggle="tooltip" title="<?php echo $titleBtn1; ?>" >
