@@ -1440,7 +1440,7 @@ class API extends PluginAbstract {
         global $global;
         $meet = AVideoPlugin::loadPluginIfEnabled('Meet');
         if ($meet) {
-            if (User::canCreateMeet()) {
+            if (!User::canCreateMeet()) {
                 return new ApiObject("You cannot create a meet");
             } else {
                 include $global['systemRootPath'] . 'plugin/Meet/saveMeet.json.php';
