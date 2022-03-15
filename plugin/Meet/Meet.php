@@ -617,8 +617,9 @@ Passcode: {password}
     
     public static function getIframeURL($meet_schedule_id){
         $joinURL = self::getJoinURL();
+        $joinURL = addLastSlash($joinURL);
         $roomID = self::getRoomID($meet_schedule_id);
-        return "{$joinURL}/{$roomID}";
+        return "{$joinURL}{$roomID}";
     }
 
     public static function validatePassword($meet_schedule_id, $password)
