@@ -1433,7 +1433,7 @@ class API extends PluginAbstract {
      * ['userGroups' user groups array]
      * ['RoomPasswordNew' the meet password]
      * ['encodedPass' tell the script id the password submited is raw or encrypted]
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&RoomTopic=APITestMeet
      * @return type
      */
     public function set_api_meet($parameters) {
@@ -1464,6 +1464,7 @@ class ApiObject {
         $this->error = $error;
         $this->message = $message;
         $this->response = $response;
+        $this->users_id = User::getId();
     }
 
 }
