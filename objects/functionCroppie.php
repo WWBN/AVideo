@@ -9,7 +9,7 @@ if (empty($croppieFilesAdded)) {
 $croppieFilesAdded = 1;
 ?>
 <div class="croppieDiv" objectName="uploadCrop<?php echo $uid; ?>">
-    <div class="col-md-12 ">
+    <div class="col-md-12 " >
         <div id="croppie<?php echo $uid; ?>" style="min-height: <?php echo $boundaryHeight+40; ?>px;"></div>
         <div class="btn-group btn-group-justified" role="group">
             <a id="upload-btn<?php echo $uid; ?>" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo $buttonTitle; ?></a>
@@ -53,6 +53,34 @@ $croppieFilesAdded = 1;
             $('#croppie<?php echo $uid; ?>').css("min-height", (boundaryHeight+10)+"px");
         }else{
             console.log('createCroppie ', viewportWidth, viewportHeight, boundaryWidth, boundaryHeight);
+        }
+        
+        var paddingTop = 25;
+        var saveButton = 55;
+        var slider = 25;
+        var uploadDeleteButtons = 40;
+        var parentHeight = $('#croppie<?php echo $uid; ?>').parent().height();
+        
+        var bodyHeight = $('body').height();
+        if(bodyHeight<parentHeight){
+            parentHeight = bodyHeight;
+        }
+        
+        var totalHeight = viewportHeight+(boundaryHeight-viewportHeight)+paddingTop+saveButton+slider+uploadDeleteButtons;
+        
+        if(parentHeight <= totalHeight){
+            var factor = (parentHeight/(totalHeight));
+            console.log('createCroppie height parent and factor parentHeight, totalHeight', parentHeight, totalHeight);
+            console.log('createCroppie height parent and factor factor, viewportWidth, viewportHeight', factor, viewportWidth, viewportHeight);
+            
+            viewportWidth = parseInt(viewportWidth * factor);
+            viewportHeight = parseInt(viewportHeight * factor);
+            boundaryWidth = viewportWidth;
+            boundaryHeight = viewportHeight;
+            console.log('createCroppie height make size smaller parentHeight, totalHeight, boundaryWidth, boundaryHeight', parentHeight, totalHeight, boundaryWidth, boundaryHeight);
+            $('#croppie<?php echo $uid; ?>').css("min-height", (boundaryHeight+10)+"px");
+        }else{
+            console.log('createCroppie height', parentHeight, totalHeight, viewportHeight, boundaryWidth, boundaryHeight);
         }
 
         
