@@ -620,18 +620,6 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public function save() {
         global $global;
-        if (empty($this->live_servers_id)) {
-            $this->live_servers_id = 'NULL';
-        }
-        if (empty($this->finished)) {
-            $this->finished = 'NULL';
-        }
-        if (empty($this->users_id_company)) {
-            $this->users_id_company = 'NULL';
-        }
-        
-        $this->max_viewers_sametime = intval($this->max_viewers_sametime);
-        $this->total_viewers = intval($this->total_viewers);
         
         $activeLive = self::getActiveLiveFromUser($this->users_id, $this->live_servers_id, $this->key);
         if(!empty($activeLive)){
@@ -647,6 +635,18 @@ class LiveTransmitionHistory extends ObjectYPT {
         if(empty($this->id)){
             // if is creating a new make sure all 
         }
+        if (empty($this->live_servers_id)) {
+            $this->live_servers_id = 'NULL';
+        }
+        if (empty($this->finished)) {
+            $this->finished = 'NULL';
+        }
+        if (empty($this->users_id_company)) {
+            $this->users_id_company = 'NULL';
+        }
+        
+        $this->max_viewers_sametime = intval($this->max_viewers_sametime);
+        $this->total_viewers = intval($this->total_viewers);
         
         $id = parent::save();
         //_error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
