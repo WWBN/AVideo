@@ -260,6 +260,7 @@ class Meet_schedule extends ObjectYPT
                     $row['roomID'] = Meet::getRoomID($row['id']);
                     $row['jwt'] = Meet::getToken($row['id'], User::getId());
                     $row['domain'] = $domain;
+                    $row['iframeURL'] = Meet::getIframeURL($row['id']);
                 }
 
                 $row['starts_timezone'] = "{$row['starts']} ".__('Timezone').": {$row['timezone']}";
