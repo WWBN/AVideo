@@ -614,6 +614,12 @@ Passcode: {password}
         $invitation = preg_replace("/{meetLink}/i", $ms->getMeetLink(), $invitation);
         return $invitation;
     }
+    
+    public static function getIframeURL($meet_schedule_id){
+        $joinURL = self::getJoinURL();
+        $roomID = self::getRoomID($meet_schedule_id);
+        return "{$joinURL}/{$roomID}";
+    }
 
     public static function validatePassword($meet_schedule_id, $password)
     {
