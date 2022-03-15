@@ -18,7 +18,7 @@ if (!empty($_GET['lang'])) {
 function __($str, $allowHTML = false) {
     global $t, $t_insensitive;
     if (!isset($t_insensitive)) {
-        if (function_exists('array_change_key_case') && !isCommandLineInterface()) {
+        if (is_array($t) && function_exists('array_change_key_case') && !isCommandLineInterface()) {
             $t_insensitive = array_change_key_case($t, CASE_LOWER);
         } else {
             $t_insensitive = array();
