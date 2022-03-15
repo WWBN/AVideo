@@ -27,7 +27,7 @@
     });*/
     var append_infiniteScroll_timout;
     function loadInfiniteScrool$uid() {
-        if (typeof $('$infinityScrollAppendIntoSelector').infiniteScroll !== 'function') {
+        if (typeof $('$infinityScrollAppendIntoSelector').infiniteScroll == 'function') {
             $container$uid = $('$infinityScrollAppendIntoSelector').infiniteScroll({
                 path: '.pagination__next$uid',
                 append: '$infinityScrollGetFromSelector',
