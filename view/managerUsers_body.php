@@ -172,25 +172,20 @@
                 <form class="form-compact"  id="updateUserForm" onsubmit="">
                     <input type="hidden" id="inputUserId"  >
                     <label for="inputUser" class="sr-only"><?php echo __("User"); ?></label>
-                    <input type="text" id="inputUser" class="form-control first" placeholder="<?php echo __("User"); ?>" autofocus required="required">
+                    <input type="text" id="inputUser" class="form-control first" placeholder="<?php echo __("User"); ?>" autofocus required="required"  data-toggle="tooltip" title="<?php echo __('User'); ?>">
                     <?php
                     getInputPassword("inputPassword", 'class="form-control" required="required"  autocomplete="off"', __("Password"));
                     ?>
                     <label for="inputEmail" class="sr-only"><?php echo __("E-mail"); ?></label>
-                    <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>" >
+                    <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>"  data-toggle="tooltip" title="<?php echo __('E-mail'); ?>">
                     <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
-                    <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>" >
-                    <?php
-                    if (empty($advancedCustomUser->doNotShowPhoneOnSignup)) {
-                        ?>
-                        <label for="phone" class="sr-only"><?php echo __("Phone"); ?></label>
-                        <input type="text" id="phone" class="form-control " placeholder="<?php echo __("Phone"); ?>" >
-                    <?php }
-                    ?>
+                    <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>"  data-toggle="tooltip" title="<?php echo __('Name'); ?>">
                     <label for="inputChannelName" class="sr-only"><?php echo __("Channel Name"); ?></label>
-                    <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>" >
+                    <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>"  data-toggle="tooltip" title="<?php echo __('Channel Name'); ?>">
+                    <label for="inputPhone" class="sr-only"><?php echo __("Phone"); ?></label>
+                    <input type="text" id="inputPhone" class="form-control" placeholder="<?php echo __("Phone"); ?>" data-toggle="tooltip" title="<?php echo __('Phone'); ?>" >
                     <label for="inputAnalyticsCode" class="sr-only"><?php echo __("Analytics Code"); ?></label>
-                    <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1" >
+                    <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1"  data-toggle="tooltip" title="<?php echo __('Analytics Code'); ?>">
                     <small>Do not paste the full javascript code, paste only the gtag id</small>
                     <br>
                     <?php
@@ -404,8 +399,8 @@
             $('#inputPassword').val('');
             $('#inputEmail').val('');
             $('#inputName').val('');
-            $('#phone').val('');
             $('#inputChannelName').val('');
+            $('#inputPhone').val('');
             $('#inputAnalyticsCode').val('');
             $('#is_company').val(0);
             $('#isAdmin').prop('checked', false);
@@ -448,7 +443,7 @@ print AVideoPlugin::updateUserFormJS();
                                 "pass": $('#inputPassword').val(),
                                 "email": $('#inputEmail').val(),
                                 "name": $('#inputName').val(),
-                                "phone": $('#phone').val(),
+                                "phone": $('#inputPhone').val(),
                                 "channelName": $('#inputChannelName').val(),
                                 "analyticsCode": $('#inputAnalyticsCode').val(),
                                 "isAdmin": $('#isAdmin').is(':checked'),
@@ -557,8 +552,8 @@ print AVideoPlugin::updateUserFormJS();
                 $('#inputPassword').val('');
                 $('#inputEmail').val(row.email);
                 $('#inputName').val(row.name);
-                $('#phone').val(row.phone);
                 $('#inputChannelName').val(row.channelName);
+                $('#inputPhone').val(row.phone);
                 $('#inputAnalyticsCode').val(row.analyticsCode);
                 $('.userGroups').prop('checked', false);
                 $('.usergroupsLi').removeClass('dynamic');

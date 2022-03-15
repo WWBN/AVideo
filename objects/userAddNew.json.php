@@ -41,6 +41,7 @@ $user->setCanCreateMeet($_POST['canCreateMeet']);
 $user->setStatus($_POST['status']);
 $user->setEmailVerified($_POST['isEmailVerified']);
 $user->setAnalyticsCode($_POST['analyticsCode']);
+$user->setPhone($_POST['phone']);
 
 _error_log("userAddNew.json.php: set channel name = ({$_POST['channelName']})");
 

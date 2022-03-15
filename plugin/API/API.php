@@ -445,7 +445,7 @@ class API extends PluginAbstract {
      * @param type $parameters
      * 'videos_id' the video id that will be deleted
      * ['APISecret' if passed will not require user and pass]
-     * ['user' usename of the user that will like the video]
+     * ['user' username of the user that will like the video]
      * ['pass' password  of the user that will like the video]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
      * @return \ApiObject
@@ -479,7 +479,7 @@ class API extends PluginAbstract {
      * 'videos_id' the video that will receive the comment
      * ['id' the comment id if you will edit some]
      * ['APISecret' if passed will not require user and pass]
-     * ['user' usename of the user that will like the video]
+     * ['user' username of the user that will like the video]
      * ['pass' password  of the user that will like the video]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
      * @return \ApiObject
@@ -519,7 +519,7 @@ class API extends PluginAbstract {
      * 'title' the video title
      * 'status' the video status
      * ['APISecret' if passed will not require user and pass]
-     * ['user' usename of the user that will like the video]
+     * ['user' username of the user that will like the video]
      * ['pass' password  of the user that will like the video]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
      * @return \ApiObject
@@ -572,7 +572,7 @@ class API extends PluginAbstract {
      * ['public' 1 = live is listed; 0 = not listed]
      * ['APISecret' if passed will not require user and pass]
      * ['users_id' the user ID]
-     * ['user' usename if does not have the APISecret]
+     * ['user' username if does not have the APISecret]
      * ['pass' password  if does not have the APISecret]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&users_id=1
      * @return \ApiObject
@@ -619,7 +619,7 @@ class API extends PluginAbstract {
      * @param type $parameters
      * ['APISecret' if passed will not require user and pass]
      * ['users_id' the user ID]
-     * ['user' usename if does not have the APISecret]
+     * ['user' username if does not have the APISecret]
      * ['pass' password  if does not have the APISecret]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&users_id=1
      * @return \ApiObject
@@ -893,7 +893,7 @@ class API extends PluginAbstract {
     /**
      * @param type $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
-     * 'user' usename of the user that will like the video
+     * 'user' username of the user that will like the video
      * 'pass' password  of the user that will like the video
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123
      * @return \ApiObject
@@ -905,7 +905,7 @@ class API extends PluginAbstract {
     /**
      * @param type $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
-     * 'user' usename of the user that will like the video
+     * 'user' username of the user that will like the video
      * 'pass' password  of the user that will like the video
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123
      * @return \ApiObject
@@ -917,7 +917,7 @@ class API extends PluginAbstract {
     /**
      * @param type $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
-     * 'user' usename of the user that will like the video
+     * 'user' username of the user that will like the video
      * 'pass' password  of the user that will like the video
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123
      * @return \ApiObject
@@ -929,9 +929,9 @@ class API extends PluginAbstract {
     /**
      *
      * @param type $parameters
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * ['encodedPass' tell the script id the password submited is raw or encrypted]
+     * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
@@ -945,7 +945,7 @@ class API extends PluginAbstract {
     /**
      *
      * @param type $parameters
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
      * 'email' email of the user
      * 'name' real name of the user
@@ -987,9 +987,9 @@ class API extends PluginAbstract {
      * @param type $parameters
      * 'videos_id' the video id to calculate the ads length
      * ['optionalAdTagUrl' a tag number 1 or 2 or 3 or 4 to use another tag, if do not pass it will use the default tag]
-     * ['user' usename of the user]
+     * ['user' username of the user]
      * ['pass' password  of the user]
-     * ['encodedPass' tell the script id the password submited is raw or encrypted]
+     * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
      * @example for XML response: {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2
      * @example for JSON response: {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2&json=1
      * @return type
@@ -1006,9 +1006,9 @@ class API extends PluginAbstract {
      * @param type $parameters
      * 'videos_id' the video id to calculate the ads length
      * ['optionalAdTagUrl' a tag number 1 or 2 or 3 or 4 to use another tag, if do not pass it will use the default tag]
-     * ['user' usename of the user]
+     * ['user' username of the user]
      * ['pass' password  of the user]
-     * ['encodedPass' tell the script id the password submited is raw or encrypted]
+     * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2
      * @return type
      */
@@ -1048,9 +1048,9 @@ class API extends PluginAbstract {
     /**
      * Return all favorites from a user
      * @param type $parameters
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
@@ -1082,9 +1082,9 @@ class API extends PluginAbstract {
      * add a video into a user favorite play list
      * @param type $parameters
      * 'videos_id' the video id that you want to add
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
@@ -1095,9 +1095,9 @@ class API extends PluginAbstract {
     /**
      * @param type $parameters
      * 'videos_id' the video id that you want to remove
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
@@ -1124,9 +1124,9 @@ class API extends PluginAbstract {
     /**
      * Return all watch_later from a user
      * @param type $parameters
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
@@ -1163,9 +1163,9 @@ class API extends PluginAbstract {
      * add a video into a user watch_later play list
      * @param type $parameters
      * 'videos_id' the video id that you want to add
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
@@ -1176,9 +1176,9 @@ class API extends PluginAbstract {
     /**
      * @param type $parameters
      * 'videos_id' the video id that you want to remove
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
@@ -1209,9 +1209,9 @@ class API extends PluginAbstract {
      * ['users_id'] User's ID to what this message will be sent to (send the users_id or room_users_id)
      * ['room_users_id'] User's ID from the channel where this message will be sent to (send the users_id or room_users_id)
      * 'message' URL encoded message
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&message=HelloWorld&users_id=2&room_users_id=4&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
@@ -1239,9 +1239,9 @@ class API extends PluginAbstract {
      * ['lower_then_id'] Chat message ID to filter the message search. will only return messages before that chat id
      * ['greater_then_id'] Chat message ID to filter the message search. will only return messages after that chat id
      * 'message' URL encoded message
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&greater_then_id=88&lower_then_id=98&to_users_id=2&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
@@ -1279,9 +1279,9 @@ class API extends PluginAbstract {
      * ['lower_then_id'] Chat message ID to filter the message search. will only return messages before that chat id
      * ['greater_then_id'] Chat message ID to filter the message search. will only return messages after that chat id
      * 'message' URL encoded message
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * 'encodedPass' tell the script id the password submited is raw or encrypted
+     * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&greater_then_id=88&lower_then_id=98&room_users_id=2&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
      */
@@ -1361,7 +1361,7 @@ class API extends PluginAbstract {
     /**
      * @param type $parameters
      * ['APISecret' mandatory for security reasons - required]
-     * ['user' usename of the user - required]
+     * ['user' username of the user - required]
      * ['backgroundImg' URL path of the image - optional]
      * ['profileImg' URL path of the image - optional]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&user=admin
@@ -1390,9 +1390,9 @@ class API extends PluginAbstract {
     /**
      *
      * @param type $parameters
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
-     * ['encodedPass' tell the script id the password submited is raw or encrypted]
+     * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
      * ['time' default is today but the options are [today|upcoming|past]]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
      * @return type
@@ -1423,7 +1423,7 @@ class API extends PluginAbstract {
     /**
      *
      * @param type $parameters
-     * 'user' usename of the user
+     * 'user' username of the user
      * 'pass' password  of the user
      * 'RoomTopic' The meet title
      * ['id' the meet_schedule_id to delete]
@@ -1432,7 +1432,7 @@ class API extends PluginAbstract {
      * ['public' 2 = public, 1 = (Private) Logged Users Only, 0 = (Private) Specific User Groups [default value is 2]]
      * ['userGroups' user groups array]
      * ['RoomPasswordNew' the meet password]
-     * ['encodedPass' tell the script id the password submited is raw or encrypted]
+     * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&RoomTopic=APITestMeet
      * @return type
      */
