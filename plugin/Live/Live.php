@@ -208,6 +208,8 @@ class Live extends PluginAbstract {
 
     public function getLiveApplicationArray() {
         global $global;
+        $_playlists_id_live = @$_REQUEST['playlists_id_live'];
+        unset($_REQUEST['playlists_id_live']);
         
         $obj = $this->getDataObject();
 
@@ -290,6 +292,7 @@ class Live extends PluginAbstract {
             $array[] = $app;
         }
 
+        $_REQUEST['playlists_id_live'] = $_playlists_id_live;
         return $array;
     }
 
