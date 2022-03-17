@@ -114,8 +114,12 @@ class Subscribe
         return $subscribe;
     }
 
-    public static function getSubscribeFromID($subscriber_users_id, $user_id, $status = "a")
-    {
+    public static function getSubscribeFromID($subscriber_users_id, $user_id, $status = "a"){
+        $subscriber_users_id = intval($subscriber_users_id);
+        $user_id = intval($user_id);
+        if(empty($user_id) || empty($subscriber_users_id)){
+            return false;
+        }
         global $global;
         $status = str_replace("'", "", $status);
         $sql = "SELECT * FROM subscribes WHERE  subscriber_users_id = '$subscriber_users_id' AND users_id = {$user_id} ";
