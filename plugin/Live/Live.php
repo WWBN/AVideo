@@ -1102,7 +1102,6 @@ class Live extends PluginAbstract {
             $allowOnlineIndex = false;
         }
 
-
         return $lso->getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN);
     }
 
@@ -3135,6 +3134,7 @@ class LiveStreamObject {
         $o = AVideoPlugin::getObjectData("Live");
 
         $uuid = $this->getKeyWithIndex($allowOnlineIndex, $allowOnlineIndex);
+        _error_log("Live:getM3U8($doNotProtect , $allowOnlineIndex e, $ignoreCDN) $uuid ($allowOnlineIndex");
         if (empty($o->server_type->value)) {
             $row = LiveTransmitionHistory::getLatest($this->key, $this->live_servers_id);
             if (!empty($row['domain'])) {
