@@ -35,7 +35,7 @@ if (!empty($array['time']) && time() - $array['time'] > $twelveHours) {
     die(json_encode($obj));
 }
 
-_error_log("Live::verifyToken.json.php ". getRequestURI().' '. json_encode($array));
+_error_log("Live::verifyToken.json.php {$_SERVER['HTTP_REFERER']} ". json_encode($array));
 
 $trasnmition = LiveTransmition::createTransmitionIfNeed($obj->users_id);
 $obj->key = $trasnmition['key'].'_'.time();
