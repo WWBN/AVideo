@@ -1778,6 +1778,7 @@ class Live extends PluginAbstract {
 
         foreach ($lifeStream as $value) {
             if (!empty($value->name)) {
+                $_playlists_id_live = @$_REQUEST['playlists_id_live'];
                 $row = LiveTransmition::keyExists($value->name);
                 //var_dump($row);exit;
                 if (empty($row['users_id'])) {
@@ -1877,6 +1878,9 @@ class Live extends PluginAbstract {
                     $obj->nclients = intval($value->nclients);
                     break;
                 }
+                
+                
+                $_REQUEST['playlists_id_live'] = $_playlists_id_live;
             }
         }
 

@@ -155,6 +155,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     
     public static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
+        $_playlists_id_live = @$_REQUEST['playlists_id_live'];
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
 
         $users_id = $lth->getUsers_id();
@@ -189,7 +190,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $obj['isPrivate'] = self::isPrivate($liveTransmitionHistory_id);
         $obj['isPasswordProtected'] = self::isPasswordProtected($liveTransmitionHistory_id);
         $obj['method'] = 'LiveTransmitionHistory::getApplicationObject';
-        
+        $_REQUEST['playlists_id_live'] = $_playlists_id_live;
         return $obj;
     }
     
