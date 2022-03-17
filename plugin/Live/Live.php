@@ -2593,7 +2593,7 @@ class Live extends PluginAbstract {
                 return false;
             }
             $data_string = json_encode($obj);
-            _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string}");
+            _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string} ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
             //open connection
             $ch = curl_init();
             //set the url, number of POST vars, POST data
