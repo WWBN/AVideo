@@ -1095,7 +1095,10 @@ class Live extends PluginAbstract {
     public static function getM3U8File($uuid, $doNotProtect = false, $ignoreCDN = false) {
         $live_servers_id = self::getLiveServersIdRequest();
         $lso = new LiveStreamObject($uuid, $live_servers_id, false, false);
-        return $lso->getM3U8($doNotProtect, false, $ignoreCDN);
+        // it must be true because of the restream
+        $allowOnlineIndex = true;
+        
+        return $lso->getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN);
     }
 
     public function getDisableGifThumbs() {
