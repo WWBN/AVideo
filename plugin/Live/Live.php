@@ -2563,6 +2563,8 @@ class Live extends PluginAbstract {
         $obj->restreamsDestinations = [];
         $obj->token = getToken(60);
         $obj->users_id = $lth->getUsers_id();
+        $obj->liveTransmitionHistory_id = $liveTransmitionHistory_id;
+        $obj->key = $lth->getKey();
 
         $rows = Live_restreams::getAllFromUser($lth->getUsers_id());
         foreach ($rows as $value) {
