@@ -209,7 +209,6 @@ class Live extends PluginAbstract {
     public function getLiveApplicationArray() {
         global $global;
         $_playlists_id_live = @$_REQUEST['playlists_id_live'];
-        unset($_REQUEST['playlists_id_live']);
         
         $obj = $this->getDataObject();
 
@@ -257,6 +256,7 @@ class Live extends PluginAbstract {
         $rows = LiveTransmitionHistory::getActiveLives();
         $currentLives = array();
         foreach ($rows as $value) {
+            unset($_REQUEST['playlists_id_live']);
             // if key is from schedule, skipp it
             if (!LiveTransmition::keyExists($value['key'], false) && Live_schedule::keyExists($value['key'])) {
                 //if (Live_schedule::keyExists($value['key'])) {
