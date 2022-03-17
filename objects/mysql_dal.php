@@ -466,9 +466,10 @@ class sqlDAL
 
 function log_error($err)
 {
-    if (!empty($global['debug'])) {
+    if (!empty($global['debug']) || isCommandLineInterface()) {
         echo $err;
     }
-    _error_log("MySQL ERROR: ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)), AVideoLog::$ERROR);
+    
+    _error_log("MySQL ERROR: ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)), AVideoLog::$ERROR);
     _error_log($err, AVideoLog::$ERROR);
 }
