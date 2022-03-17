@@ -3071,14 +3071,15 @@ class LiveStreamObject {
             if (is_string($forceIndexIfEnabled)) {
                 $this->live_index = $forceIndexIfEnabled;
             } else {
-                $objLive = AVideoPlugin::getDataObject("Live");
-                if (!empty($objLive->allowMultipleLivesPerUser)) {
+                // disabled that because otherwise when you go live with a playlist will not work to restream
+                //$objLive = AVideoPlugin::getDataObject("Live");
+                //if (!empty($objLive->allowMultipleLivesPerUser)) {
                     if (empty($allowOnlineIndex)) {
                         $this->live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
                     } else {
                         $this->live_index = LiveTransmitionHistory::getLatestIndexFromKey($this->key);
                     }
-                }
+                //}
             }
         }
         return Live::getLiveKeyFromRequest($this->key, $this->live_index, $this->playlists_id_live);
