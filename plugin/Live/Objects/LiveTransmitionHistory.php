@@ -156,6 +156,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     public static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
         $_playlists_id_live = @$_REQUEST['playlists_id_live'];
+        unset($_REQUEST['playlists_id_live']);
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
 
         $users_id = $lth->getUsers_id();

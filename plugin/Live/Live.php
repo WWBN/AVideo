@@ -208,6 +208,7 @@ class Live extends PluginAbstract {
 
     public function getLiveApplicationArray() {
         global $global;
+        
         $obj = $this->getDataObject();
 
         $rows = Live_schedule::getAllActiveLimit();
@@ -1777,6 +1778,7 @@ class Live extends PluginAbstract {
         $obj->disableGif = $p->getDisableGifThumbs();
 
         foreach ($lifeStream as $value) {
+            unset($_REQUEST['playlists_id_live']);
             if (!empty($value->name)) {
                 $_playlists_id_live = @$_REQUEST['playlists_id_live'];
                 $row = LiveTransmition::keyExists($value->name);
