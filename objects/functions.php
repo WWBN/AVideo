@@ -6840,6 +6840,10 @@ function deleteStatsNotifications() {
 }
 
 function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner = true) {
+    global $__getStatsNotifications__;
+    if(!empty($__getStatsNotifications__)){
+        return $__getStatsNotifications__;
+    }
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     unset($_POST['sort']);
     if ($force_recreate) {
@@ -6931,6 +6935,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     }
 
     $json['countLiveStream'] = count($json['applications']);
+    $__getStatsNotifications__ = $json;
     return $json;
 }
 
