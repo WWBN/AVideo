@@ -1101,7 +1101,7 @@ class Live extends PluginAbstract {
         } elseif (!empty($_REQUEST['live_index'])) {
             $allowOnlineIndex = false;
         }
-        _error_log("Live: getM3U8File($uuid) ". json_encode($parts));
+        //_error_log("Live:getM3U8File($uuid) ". json_encode($parts));
         return $lso->getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN);
     }
 
@@ -1975,7 +1975,7 @@ class Live extends PluginAbstract {
 
     public static function getLiveParametersFromKey($key) {
         $key = preg_replace('/[^a-z0-9_-]/i', '', $key);
-        $obj = AVideoPlugin::getObjectData('Live');
+        //$obj = AVideoPlugin::getObjectData('Live');
         $playlists_id_live = false;
         if (preg_match("/.*_([0-9]+)/", $key, $matches)) {
             if (!empty($matches[1])) {
@@ -3061,6 +3061,14 @@ class LiveStreamObject {
                 $this->live_index = $_REQUEST['live_index'];
             }
         }
+        if (empty($this->playlists_id_live)) {
+            // check if the index is on the key already
+            if (!empty($parts['playlists_id_live'])) {
+                $this->playlists_id_live = $parts['playlists_id_live'];
+            } elseif (!empty($_REQUEST['playlists_id_live'])) {
+                $this->playlists_id_live = $_REQUEST['playlists_id_live'];
+            }
+        }
         $this->key = $parts['cleanKey'];
         $this->live_index = preg_replace('/[^0-9a-z]/i', '', $this->live_index);
     }
@@ -3134,7 +3142,7 @@ class LiveStreamObject {
         $o = AVideoPlugin::getObjectData("Live");
 
         $uuid = $this->getKeyWithIndex($allowOnlineIndex, $allowOnlineIndex);
-        _error_log("Live:getM3U8($doNotProtect , $allowOnlineIndex e, $ignoreCDN) $uuid ($allowOnlineIndex");
+        //_error_log("Live:getM3U8($doNotProtect , $allowOnlineIndex e, $ignoreCDN) $uuid ($allowOnlineIndex");
         if (empty($o->server_type->value)) {
             $row = LiveTransmitionHistory::getLatest($this->key, $this->live_servers_id);
             if (!empty($row['domain'])) {
