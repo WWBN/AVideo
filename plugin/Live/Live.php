@@ -1530,9 +1530,9 @@ class Live extends PluginAbstract {
     }
 
     public static function getAvailableLiveServer() {
-        global $_getAvailableLiveServer;
-        if (isset($_getAvailableLiveServer)) {
-            return $_getAvailableLiveServer;
+        global $_getAvailableLiveServer__Live;
+        if (isset($_getAvailableLiveServer__Live)) {
+            return $_getAvailableLiveServer__Live;
         }
         // create 1 min cache
         $name = "Live::getAvailableLiveServer";
@@ -1570,14 +1570,14 @@ class Live extends PluginAbstract {
                 });
                 if (empty($liveServers[0])) {
                     _error_log("Live::getAvailableLiveServer we could not get server status, try to uncheck useLiveServers parameter from the Live plugin");
-                    $_getAvailableLiveServer = [];
+                    $_getAvailableLiveServer__Live = [];
                     return [];
                 }
                 $return = $liveServers[0];
                 ObjectYPT::setCache($name, $return);
             }
         }
-        $_getAvailableLiveServer = $return;
+        $_getAvailableLiveServer__Live = $return;
         return $return;
     }
 
