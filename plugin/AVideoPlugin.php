@@ -869,24 +869,28 @@ class AVideoPlugin
 
     public static function getLiveApplicationArray()
     {
-        $plugins = Plugin::getAllEnabled();
-        $array = [];
-        foreach ($plugins as $value) {
-            self::YPTstart();
-            $p = static::loadPlugin($value['dirName']);
-            if (is_object($p)) {
-                $appArray = $p->getLiveApplicationArray();
-                if (is_array($appArray)) {
-                    if (!is_array($array)) {
-                        $array = $appArray;
-                    } else {
-                        $array = array_merge($array, $appArray);
+        global $_getLiveApplicationArrayPlugin;
+        if(empty($_getLiveApplicationArrayPlugin)){
+            $plugins = Plugin::getAllEnabled();
+            $array = [];
+            foreach ($plugins as $value) {
+                self::YPTstart();
+                $p = static::loadPlugin($value['dirName']);
+                if (is_object($p)) {
+                    $appArray = $p->getLiveApplicationArray();
+                    if (is_array($appArray)) {
+                        if (!is_array($array)) {
+                            $array = $appArray;
+                        } else {
+                            $array = array_merge($array, $appArray);
+                        }
                     }
                 }
+                self::YPTend("{$value['dirName']}::" . __FUNCTION__);
             }
-            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+            $_getLiveApplicationArrayPlugin = $array;
         }
-        return $array;
+        return $_getLiveApplicationArrayPlugin;
     }
 
     public static function getPlayListButtons($playlist_id = "")
