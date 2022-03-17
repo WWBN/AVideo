@@ -314,7 +314,7 @@ function killIfIsRunning($m3u8){
         }
         return true;
     } else {
-        error_log("Restreamer.json.php killIfIsRunning there is not a process running for {$m3u8} ");
+        //error_log("Restreamer.json.php killIfIsRunning there is not a process running for {$m3u8} ");
     }
     return false;
 }
