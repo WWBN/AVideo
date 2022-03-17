@@ -6841,14 +6841,14 @@ function deleteStatsNotifications() {
 
 function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner = true) {
     global $__getStatsNotifications__;
-    if(!empty($__getStatsNotifications__)){
-        return $__getStatsNotifications__;
-    }
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     unset($_POST['sort']);
     if ($force_recreate) {
         Live::deleteStatsCache();
     } else {
+        if(!empty($__getStatsNotifications__)){
+            return $__getStatsNotifications__;
+        }
         $json = ObjectYPT::getCache($cacheName, 0, true);
     }
     if (empty($json) || !empty($json->error) || !isset($json->error)) {
