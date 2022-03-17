@@ -316,9 +316,9 @@ if (!User::isAdmin()) {
             select: function (event, ui) {
                 $('#inputVideoAd_id').val(0);
                 $("#inputVideo").val(ui.item.title);
-                $("#inputVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + ui.item.clean_title);
+                $("#inputVideoClean").val(ui.item.link);
                 $("#inputVideo-id").val(ui.item.id);
-                $("#inputVideo-poster").attr("src", "<?php echo $global['webSiteRootURL']; ?>videos/" + ui.item.filename + ".jpg");
+                $("#inputVideo-poster").attr("src", ui.item.videosURL.jpg.url);
                 $('#videos_id').val(ui.item.id);
                 $('#inputVideoURI').val('');
                 $('#inputVideoTitle').val('');

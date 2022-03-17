@@ -221,11 +221,13 @@ class AD_Server extends PluginAbstract
         return $vmapURL;
     }
 
-    public function afterVideoJS()
-    {
+    public function afterVideoJS(){
         $obj = $this->getDataObject();
-        if (!$this->canLoadAds() || empty($_GET['vmap_id'])) {
-            return "";
+        if (!$this->canLoadAds()) {
+            return "/* AD_Server canNOTLoadAds */";
+        }
+        if (empty($_GET['vmap_id'])) {
+            return "/* AD_Server empty vmap_id */";
         }
         global $global;
         $vmap_id = @$_GET['vmap_id'];
@@ -274,7 +276,7 @@ class AD_Server extends PluginAbstract
         $js .= '<script src="' . getURL('node_modules/videojs-ima/dist/videojs.ima.min.js') . '" type="text/javascript"></script>';
 
         if (!empty($obj->showMarkers)) {
-            $js .= '<script src="' . getCDN() . 'plugin/AD_Server/videojs-markers/videojs-markers.js"></script>';
+            $js .= '<script src="' . getURL('plugin/AD_Server/videojs-markers/videojs-markers.js') . '"></script>';
         }
         return $js;
     }
