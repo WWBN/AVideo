@@ -870,7 +870,8 @@ class AVideoPlugin
     public static function getLiveApplicationArray()
     {
         global $_getLiveApplicationArrayPlugin;
-        if(empty($_getLiveApplicationArrayPlugin)){
+        if(!isset($_getLiveApplicationArrayPlugin)){
+            $_getLiveApplicationArrayPlugin = array();
             $plugins = Plugin::getAllEnabled();
             $array = [];
             foreach ($plugins as $value) {
