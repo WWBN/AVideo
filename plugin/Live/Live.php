@@ -2290,7 +2290,7 @@ class Live extends PluginAbstract {
         }
         if (strpos($key, '_') === false) {
             if (!empty($playlists_id_live)) {
-                $key .= '_' . preg_replace('/[^0-9]/', '', $_REQUEST['playlists_id_live']);
+                $key .= '_' . preg_replace('/[^0-9]/', '', $playlists_id_live);
             } elseif (!empty($_REQUEST['playlists_id_live'])) {
                 $key .= '_' . preg_replace('/[^0-9]/', '', $_REQUEST['playlists_id_live']);
             }
