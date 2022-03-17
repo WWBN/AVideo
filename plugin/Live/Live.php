@@ -2225,7 +2225,7 @@ class Live extends PluginAbstract {
                 //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
                 $is200 = isValidM3U8Link($m3u8);
                 if (empty($is200)) {
-                    _error_log("isLiveAndIsReadyFromKey the m3u8 file is not present {$m3u8}");
+                    _error_log("isLiveAndIsReadyFromKey the m3u8 file is not present {$m3u8} ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
                     $_isLiveAndIsReadyFromKey[$name] = false;
                 }
             }
