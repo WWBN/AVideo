@@ -1146,14 +1146,14 @@ class Live extends PluginAbstract {
         if (empty($force_recreate)) {
             //_error_log("Live::getStatsObject[$live_servers_id] 1: searching for cache");
             if (isset($getStatsObject[$live_servers_id])) {
-                _error_log("Live::getStatsObject[$live_servers_id] 2: return cached result");
+                //_error_log("Live::getStatsObject[$live_servers_id] 2: return cached result");
                 return $getStatsObject[$live_servers_id];
             }
 
             $result = ObjectYPT::getCache($name, maxLifetime() + 60, true);
 
             if (!empty($result)) {
-                _error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "]");
+                //_error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "]");
                 return _json_decode($result);
             }
             _error_log("Live::getStatsObject[$live_servers_id] 4: cache not found");
@@ -2438,7 +2438,7 @@ class Live extends PluginAbstract {
         $playlists_id_live = $parameters['playlists_id_live'];
         if (self::isLiveAndIsReadyFromKey($lh['key'], $lh['live_servers_id'])) {
             $_getPoster[$index] = self::getLivePosterImageRelativePath($users_id, $live_servers_id, $playlists_id_live, $live_index);
-            _error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' is live and ready');
+            //_error_log('getImage: ' . ("[{$lh['key']}, {$lh['live_servers_id']}]") . ' is live and ready');
             return $_getPoster[$index];
         } else {
             if (self::isKeyLiveInStats($lh['key'], $lh['live_servers_id'])) {
