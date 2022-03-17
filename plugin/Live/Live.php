@@ -2106,7 +2106,7 @@ class Live extends PluginAbstract {
             $_isLiveFromKey = [];
         }
 
-        if (empty($force_recreate) && isset($_isLiveFromKey[$index])) {
+        if (isset($_isLiveFromKey[$index])) {
             _error_log('Live::isKeyLiveInStats key is already set');
             return $_isLiveFromKey[$index];
         }
@@ -2202,10 +2202,10 @@ class Live extends PluginAbstract {
             $_isLiveAndIsReadyFromKey = [];
         }
         $name = "getStats" . DIRECTORY_SEPARATOR . "isLiveAndIsReadyFromKey{$key}_{$live_servers_id}";
+        if (isset($_isLiveAndIsReadyFromKey[$name])) {
+            return $_isLiveAndIsReadyFromKey[$name];
+        }
         if (empty($force_recreate)) {
-            if (isset($_isLiveAndIsReadyFromKey[$name])) {
-                return $_isLiveAndIsReadyFromKey[$name];
-            }
             $cache = ObjectYPT::getCache($name, 60, true);
         }
         if (!empty($cache)) {
