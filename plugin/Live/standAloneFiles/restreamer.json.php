@@ -221,7 +221,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1)
         return startRestream($m3u8, $restreamsDestinations, $logFile, $tries + 1);
     }
     
-    error_log("Restreamer.json.php isURL200 ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
+    error_log("Restreamer.json.php isURL200 tries={$tries} ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
     //sleep(5);
     /*
       $command = "ffmpeg -i {$m3u8} ";
