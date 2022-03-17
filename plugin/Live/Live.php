@@ -1435,7 +1435,7 @@ class Live extends PluginAbstract {
         global $getStatsLive, $_getStats, $getStatsObject;
         if (empty($force_recreate)) {
             if (isset($getStatsLive)) {
-                _error_log('Live::getStats: return cached result');
+                //_error_log('Live::getStats: return cached result');
                 return $getStatsLive;
             }
         }
@@ -2421,7 +2421,7 @@ class Live extends PluginAbstract {
         if (isset($_getPoster[$index])) {
             return $_getPoster[$index];
         }
-        _error_log("getPoster($users_id, $live_servers_id, $key)");
+        //_error_log("getPoster($users_id, $live_servers_id, $key)");
         $lh = LiveTransmitionHistory::getActiveLiveFromUser($users_id, $live_servers_id, $key);
         $live_index = self::getLiveIndexFromKey($lh['key']);
         $poster = self::getPosterImageOrFalse($users_id, $live_servers_id, $live_index);
