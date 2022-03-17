@@ -2213,10 +2213,10 @@ class Live extends PluginAbstract {
             $_isLiveAndIsReadyFromKey = [];
         }
         $name = "getStats" . DIRECTORY_SEPARATOR . "isLiveAndIsReadyFromKey{$key}_{$live_servers_id}";
-        if (isset($_isLiveAndIsReadyFromKey[$name])) {
-            return $_isLiveAndIsReadyFromKey[$name];
-        }
         if (empty($force_recreate)) {
+            if (isset($_isLiveAndIsReadyFromKey[$name])) {
+                return $_isLiveAndIsReadyFromKey[$name];
+            }
             $cache = ObjectYPT::getCache($name, 60, true);
         }
         if (!empty($cache)) {
