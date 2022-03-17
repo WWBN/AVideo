@@ -209,6 +209,7 @@ class Live extends PluginAbstract {
     public function getLiveApplicationArray() {
         global $global;
         $_playlists_id_live = @$_REQUEST['playlists_id_live'];
+        unset($_REQUEST['playlists_id_live']);
         
         $obj = $this->getDataObject();
 
@@ -217,6 +218,7 @@ class Live extends PluginAbstract {
         $array = [];
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         foreach ($rows as $value) {
+            unset($_REQUEST['playlists_id_live']);
             $isLive = LiveTransmitionHistory::getActiveLiveFromUser($value['users_id'], $value['live_servers_id'], $value['key']);
             if ($isLive) {
                 //var_dump(__LINE__, $isLive);
