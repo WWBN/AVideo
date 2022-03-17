@@ -298,10 +298,9 @@ function getProcess($m3u8)
     return false;
 }
 
-function killIfIsRunning($m3u8)
-{
+function killIfIsRunning($m3u8){
     $process = getProcess($m3u8);
-    error_log("Restreamer.json.php killIfIsRunning checking if there is a process running for {$m3u8} ");
+    //error_log("Restreamer.json.php killIfIsRunning checking if there is a process running for {$m3u8} ");
     if (!empty($process)) {
         error_log("Restreamer.json.php killIfIsRunning there is a process running for {$m3u8} " . json_encode($process));
         $pid = intval($process[1]);
