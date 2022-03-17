@@ -1101,7 +1101,7 @@ class Live extends PluginAbstract {
         } elseif (!empty($_REQUEST['live_index'])) {
             $allowOnlineIndex = false;
         }
-
+        _error_log("Live: getM3U8File($uuid) ". json_encode($parts));
         return $lso->getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN);
     }
 
