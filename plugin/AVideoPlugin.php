@@ -23,7 +23,7 @@ class AVideoPlugin
         $total_time = round(($finish - $global['AVideoPluginStart']), 4);
         $timeLimit = empty($global['noDebug']) ? 0.5 : 1;
         if ($total_time > $timeLimit) {
-            _error_log("The plugin [{$pluginName}] takes {$total_time} seconds to complete. URL: " . getSelfURI() . " IP: " . getRealIpAddr() . ' '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)), AVideoLog::$WARNING);
+            _error_log("The plugin [{$pluginName}] takes {$total_time} seconds to complete. URL: " . getSelfURI() . " IP: " . getRealIpAddr() . ' '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10)), AVideoLog::$WARNING);
         }
     }
 
