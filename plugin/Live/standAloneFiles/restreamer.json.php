@@ -213,6 +213,9 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1)
             error_log("Restreamer.json.php tried too many times, we could not find your stream URL");
             return false;
         }
+        if ($tries === 1) {
+            error_log("Restreamer.json.php ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
+        }
         error_log("Restreamer.json.php URL ($m3u8) is NOT ready. trying again ({$tries})");
         sleep($tries);
         return startRestream($m3u8, $restreamsDestinations, $logFile, $tries + 1);
