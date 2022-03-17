@@ -237,11 +237,11 @@ class Live extends PluginAbstract {
             }
             $link = addQueryStringParameter($link, 'live_schedule', intval($value['id']));
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
-            
+
             $title = self::getTitleFromKey($value['key'], $value['title']);
-            
+
             $users_id = Live_schedule::getUsers_idOrCompany($value['id']);
-            
+
             $app = self::getLiveApplicationModelArray($users_id, $title, $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_' . $value['key']);
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
@@ -277,7 +277,7 @@ class Live extends PluginAbstract {
             $title = self::getTitleFromKey($value['key'], $value['title']);
 
             $users_id = LiveTransmitionHistory::getUsers_idOrCompany($value['id']);
-            
+
             $app = self::getLiveApplicationModelArray($users_id, $title, $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'LiveObject_' . $value['id'], '', '', "live_{$value['key']}");
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
@@ -348,7 +348,7 @@ class Live extends PluginAbstract {
         }
         if (empty($imgJPG)) {
             $imgJPG = getURL(Live::getPosterThumbsImage($users_id, 0, $comingsoon));
-        }                        
+        }
         $replace = [
             $uid,
             $UserPhoto,
@@ -1095,9 +1095,14 @@ class Live extends PluginAbstract {
     public static function getM3U8File($uuid, $doNotProtect = false, $ignoreCDN = false) {
         $live_servers_id = self::getLiveServersIdRequest();
         $lso = new LiveStreamObject($uuid, $live_servers_id, false, false);
-        // it must be true because of the restream
-        $allowOnlineIndex = true;
-        
+        $parts = self::getLiveParametersFromKey($uuid);
+        if (!empty($parts['live_index'])) {
+            $allowOnlineIndex = $parts['live_index'];
+        } elseif (!empty($_REQUEST['live_index'])) {
+            $allowOnlineIndex = false;
+        }
+
+
         return $lso->getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN);
     }
 
@@ -1852,7 +1857,7 @@ class Live extends PluginAbstract {
                 }
 
                 $users_id = LiveTransmition::getUsers_idOrCompanyFromKey($value->name);
-                
+
                 $app = self::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, 'live', $LiveUsersLabelLive, $uid, '', $uid, 'live_' . $value->name);
                 $app['live_servers_id'] = $live_servers_id;
                 $app['key'] = $value->name;
@@ -1896,13 +1901,13 @@ class Live extends PluginAbstract {
             $title = $row['title'];
         }
         $Char = "&zwnj;";
-        if(str_contains($title, $Char)){
+        if (str_contains($title, $Char)) {
             return $title;
         }
         $title = "{$Char}{$title}";
         //var_dump($title);
         if (self::isPrivate($row['key'])) {
-            $title = " <i class=\"fas fa-eye-slash\"></i> {$title}". json_encode($row);
+            $title = " <i class=\"fas fa-eye-slash\"></i> {$title}" . json_encode($row);
         }
         if (self::isPasswordProtected($row['key'])) {
             $title = " <i class=\"fas fa-lock\"></i> {$title}";
@@ -2228,7 +2233,7 @@ class Live extends PluginAbstract {
                 //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
                 $is200 = isValidM3U8Link($m3u8);
                 if (empty($is200)) {
-                    _error_log("isLiveAndIsReadyFromKey the m3u8 file is not present {$m3u8} ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
+                    _error_log("isLiveAndIsReadyFromKey the m3u8 file is not present {$m3u8} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
                     $_isLiveAndIsReadyFromKey[$name] = false;
                 }
             }
@@ -2598,7 +2603,7 @@ class Live extends PluginAbstract {
                 return false;
             }
             $data_string = json_encode($obj);
-            _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string} ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
+            _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
             //open connection
             $ch = curl_init();
             //set the url, number of POST vars, POST data
@@ -2958,7 +2963,7 @@ class Live extends PluginAbstract {
 
     public static function getServerURL($key, $users_id, $short = true) {
         global $global;
-        if(empty($short)){
+        if (empty($short)) {
             $obj = new stdClass();
             $obj->users_id = $users_id;
             $obj->key = $key;
@@ -2966,7 +2971,7 @@ class Live extends PluginAbstract {
 
             $url = Live::getServer();
             $url = addQueryStringParameter($url, 'e', base64_encode($encrypt));
-        }else{
+        } else {
             $str = "{$key}";
             $encrypt = encryptString($str);
 
@@ -2981,7 +2986,6 @@ class Live extends PluginAbstract {
         $url = str_replace('%3D', '', $url);
         return $url;
     }
-
 
     public static function passwordIsGood($key) {
         $row = LiveTransmition::getFromKey($key, true);
@@ -3068,18 +3072,17 @@ class LiveStreamObject {
 
     public function getKeyWithIndex($forceIndexIfEnabled = false, $allowOnlineIndex = false) {
         if (!empty($forceIndexIfEnabled)) {
-            if (is_string($forceIndexIfEnabled)) {
+            if (is_string($forceIndexIfEnabled) || is_int($forceIndexIfEnabled)) {
                 $this->live_index = $forceIndexIfEnabled;
             } else {
-                // disabled that because otherwise when you go live with a playlist will not work to restream
-                //$objLive = AVideoPlugin::getDataObject("Live");
-                //if (!empty($objLive->allowMultipleLivesPerUser)) {
+                $objLive = AVideoPlugin::getDataObject("Live");
+                if (!empty($objLive->allowMultipleLivesPerUser)) {
                     if (empty($allowOnlineIndex)) {
                         $this->live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
                     } else {
                         $this->live_index = LiveTransmitionHistory::getLatestIndexFromKey($this->key);
                     }
-                //}
+                }
             }
         }
         return Live::getLiveKeyFromRequest($this->key, $this->live_index, $this->playlists_id_live);
@@ -3131,7 +3134,7 @@ class LiveStreamObject {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
 
-        $uuid = $this->getKeyWithIndex(false, $allowOnlineIndex);
+        $uuid = $this->getKeyWithIndex($allowOnlineIndex, $allowOnlineIndex);
         if (empty($o->server_type->value)) {
             $row = LiveTransmitionHistory::getLatest($this->key, $this->live_servers_id);
             if (!empty($row['domain'])) {
