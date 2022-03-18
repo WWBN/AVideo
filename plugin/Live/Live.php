@@ -1917,7 +1917,7 @@ class Live extends PluginAbstract {
         $title = "{$Char}{$title}";
         //var_dump($title);
         if (self::isPrivate($row['key'])) {
-            $title = " <i class=\"fas fa-eye-slash\"></i> {$title}" . json_encode($row);
+            $title = " <i class=\"fas fa-eye-slash\"></i> {$title}";
         }
         if (self::isPasswordProtected($row['key'])) {
             $title = " <i class=\"fas fa-lock\"></i> {$title}";
