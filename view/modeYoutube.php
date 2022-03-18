@@ -372,11 +372,9 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
             } ?>
         </div>
         <?php
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+        echo AVideoPlugin::afterVideoJS();
         include $global['systemRootPath'] . 'view/include/footer.php';
-
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         ?>
         <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>

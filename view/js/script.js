@@ -1521,7 +1521,7 @@ function fixAdSize() {
 }
 
 function playerIsPlayingAds() {
-    return ($("#mainVideo_ima-ad-container").length && $("#mainVideo_ima-ad-container").is(':visible'));
+    return ($("#mainVideo_ima-ad-container").length && $("#mainVideo_ima-ad-container").is(':visible')) && player.ima.getAdsManager().getRemainingTime()>0;
 }
 
 function playerHasAds() {
@@ -1530,7 +1530,7 @@ function playerHasAds() {
 
 function pauseIfIsPlayinAds() { // look like the mobile does not know if is playing ads
     if (!isMobile() && !player.paused() && playerHasAds() && playerIsPlayingAds()) {
-        player.pause();
+        //player.pause();
     }
 }
 

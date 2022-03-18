@@ -3911,6 +3911,8 @@ function _mysql_connect() {
         }
     } catch (Exception $exc) {
         _error_log($exc->getTraceAsString());
+        include $global['systemRootPath'] . 'view/include/offlinePage.php';
+        exit;
         return false;
     }
 }

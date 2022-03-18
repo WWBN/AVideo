@@ -52,19 +52,9 @@ if (empty($global['logfile'])) {
 ini_set('error_log', $global['logfile']);
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
+require_once $global['systemRootPath'] . 'objects/functions.php';
 if (empty($doNotConnectDatabaseIncludeConfig)) {
-    $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
-
-    if ($global['mysqli'] === false || !empty($global['mysqli']->connect_errno)) {
-        error_log("MySQL connect_errno[{$global['mysqli']->connect_errno}] {$global['mysqli']->connect_error}");
-        include $global['systemRootPath'] . 'view/include/offlinePage.php';
-        exit;
-    }
-
-    // if you set it on configuration file it will help you to encode
-    if (!empty($global['mysqli_charset'])) {
-        $global['mysqli']->set_charset($global['mysqli_charset']);
-    }
+    _mysql_connect();
 } else {
     $mysql_connect_was_closed = 1;
 }

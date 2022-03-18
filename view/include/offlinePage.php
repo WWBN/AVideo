@@ -1,4 +1,11 @@
 <?php
+
+if(!function_exists('__')){
+    function __($txt){
+        return $txt;
+    }
+}
+
 if (empty($mysqlHost)) {
     die();
 }

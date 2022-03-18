@@ -138,6 +138,10 @@ class LiveTransmition extends ObjectYPT
     public static function getFromDbByUser($user_id)
     {
         global $global;
+        if (!self::isTableInstalled(static::getTableName())) {
+            _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
+            return false;
+        }
         $user_id = intval($user_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "i", [$user_id], true);

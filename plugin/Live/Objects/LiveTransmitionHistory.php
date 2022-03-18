@@ -456,6 +456,10 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public static function getLatestFromKey($key) {
         global $global;
+        if (!self::isTableInstalled(static::getTableName())) {
+            _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
+            return false;
+        }
         $parts = Live::getLiveParametersFromKey($key);
         $key = $parts['cleanKey'];
 
@@ -504,6 +508,10 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public static function getActiveLives($live_servers_id = '') {
         global $global;
+        if (!self::isTableInstalled(static::getTableName())) {
+            _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
+            return false;
+        }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE finished IS NULL ";
 
         $formats = "";
