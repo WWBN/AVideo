@@ -224,10 +224,10 @@ class AD_Server extends PluginAbstract
     public function afterVideoJS(){
         $obj = $this->getDataObject();
         if (!$this->canLoadAds()) {
-            return "/* AD_Server canNOTLoadAds */";
+            return "<!-- AD_Server canNOTLoadAds -->";
         }
         if (empty($_GET['vmap_id'])) {
-            return "/* AD_Server empty vmap_id */";
+            return "<!-- AD_Server empty vmap_id -->";
         }
         global $global;
         $vmap_id = @$_GET['vmap_id'];
