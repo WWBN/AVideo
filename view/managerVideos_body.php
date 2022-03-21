@@ -148,7 +148,7 @@ if (!empty($_GET['iframe'])) {
                             ?>
                             <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4">
                                 <span class="fa fa-upload"></span>
-                                <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : $advancedCustom->uploadMP4ButtonLabel; ?></span>
+                                <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></span>
                             </button>
                             <?php
                         }
@@ -423,7 +423,7 @@ if (!empty($_GET['iframe'])) {
                 <div class="modal-body" style="max-height: 70vh; overflow-y: scroll;">
                     <div id="postersImage">
                         <ul class="nav nav-tabs">
-                            <li class="active uploadFile"><a data-toggle="tab" href="#pmedia"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : $advancedCustom->uploadMP4ButtonLabel; ?></a></li>
+                            <li class="active uploadFile"><a data-toggle="tab" href="#pmedia"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></a></li>
                             <li><a data-toggle="tab" href="#pimages"><?php echo __("Images"); ?></a></li>
                             <li><a data-toggle="tab" href="#pmetadata"><?php echo __("Meta Data"); ?></a></li>
                             <?php
