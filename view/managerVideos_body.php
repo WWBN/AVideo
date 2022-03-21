@@ -140,7 +140,7 @@ if (!empty($_GET['iframe'])) {
                                 <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>" />
                             </form>
                             <a href="#" onclick="$('#formEncoderVideosM').submit(); return false;" class="btn btn-sm btn-xs btn-default">
-                                <span class="fa fa-cog"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : $advancedCustom->encoderButtonLabel; ?></span>
+                                <span class="fa fa-cog"></span> <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?></span>
                             </a>
                             <?php
                         }
