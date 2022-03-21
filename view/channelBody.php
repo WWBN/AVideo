@@ -299,7 +299,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                                             if ($isMyChannel) {
                                                 ?>
                                                 <a class="btn btn-default btn-xs " href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/managerPlaylists.php">
-                                                    <i class="fas fa-edit"></i> <?php echo __('Organize') . ' ' . $palyListsObj->name; ?>
+                                                    <i class="fas fa-edit"></i> <?php echo __('Organize') . ' ' . __($palyListsObj->name); ?>
                                                 </a>
                                                 <?php
                                             } ?>
