@@ -3908,6 +3908,9 @@ function _mysql_connect() {
             if (!empty($global['mysqli_charset'])) {
                 $global['mysqli']->set_charset($global['mysqli_charset']);
             }
+            if(isCommandLineInterface()){
+                _error_log("_mysql_connect HOST=$mysqlHost,DB=$mysqlDatabase");
+            }
         }
     } catch (Exception $exc) {
         _error_log($exc->getTraceAsString());
