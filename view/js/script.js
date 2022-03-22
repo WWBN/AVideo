@@ -1319,15 +1319,21 @@ function avideoModalIframeFullScreen(url) {
 }
 
 function avideoModalIframeFullScreenClose() {
-    $('.swal-overlay iframe').attr('src', 'about:blank');
-    swal.close();
+    if(typeof swal === 'function'){
+        $('.swal-overlay iframe').attr('src', 'about:blank');
+        try {
+            swal.close();
+        } catch (e) {
+
+        }
+    }
 }
 // this is to make sure when the use click on the back page button it will close the iframe
 window.onload = function () {
     if (typeof history.pushState === "function") {
         console.log('history.pushState loaded');
-        window.onpopstate = function () {
-            console.log('onpopstate');
+        window.onpopstate = function (e) {
+            console.log('onpopstate', e.state, history.state);
             avideoModalIframeFullScreenClose();
         };
     }
@@ -1353,6 +1359,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
 
     }
     url = addGetParam(url, 'avideoIframe', 1);
+    console.log('avideoModalIframeWithClassName',url, className, updateURL);
     var html = '';
     html = '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
     html += '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
@@ -2018,7 +2025,7 @@ function readFileCroppie(input, crop) {
 function getCroppie(uploadCropObject, callback, width, height) {
     console.log('getCroppie 1', uploadCropObject);
     var ret = uploadCropObject.croppie('result', {type: 'base64', size: {width: width, height: height}, format: 'png'}).then(function (resp) {
-        console.log('getCroppie 2 ' + callback, resp);
+        //console.log('getCroppie 2 ' + callback, resp);
         eval(callback + "(resp);");
     }).catch(function (err) {
         console.log('cropieError getCroppie => ' + callback, err);
