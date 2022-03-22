@@ -161,7 +161,8 @@ class sqlDAL
                     " preparedStatement = ". json_encode($preparedStatement). 
                     " formats = ". json_encode($formats).
                     " values = ". json_encode($values).
-                    " refreshCache = ". json_encode($refreshCache));
+                    " refreshCache = ". json_encode($refreshCache).
+                    " stmt = ". json_encode($stmt));
                     //log_error("[sqlDAL::readSql] trying close and reconnect");
                     _mysql_close();
                     _mysql_connect();
