@@ -95,7 +95,10 @@ class sqlDAL
         }
 
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
-            log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . " ({$preparedStatement})");
+            log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . 
+                    " preparedStatement = ". json_encode($preparedStatement). 
+                    " formats = ". json_encode($formats).
+                    " values = ". json_encode($values));
             return false;
         }
         if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
@@ -155,7 +158,11 @@ class sqlDAL
                 _mysql_connect();
 
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
-                    log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . " ({$preparedStatement}) - format=({$formats}) values=" . json_encode($values));
+                    log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . 
+                    " preparedStatement = ". json_encode($preparedStatement). 
+                    " formats = ". json_encode($formats).
+                    " values = ". json_encode($values).
+                    " refreshCache = ". json_encode($refreshCache));
                     //log_error("[sqlDAL::readSql] trying close and reconnect");
                     _mysql_close();
                     _mysql_connect();
