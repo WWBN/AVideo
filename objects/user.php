@@ -647,6 +647,15 @@ if (typeof gtag !== \"function\") {
         if(isset($global['emailVerified'])){
             $this->emailVerified = $global['emailVerified'];
         }
+        if(isset($global['canCreateMeet'])){
+            $this->canCreateMeet = $global['canCreateMeet'];
+        }
+        if(isset($global['canStream'])){
+            $this->canStream = $global['canStream'];
+        }
+        if(isset($global['canUpload'])){
+            $this->canUpload = $global['canUpload'];
+        }
         
         $this->emailVerified = intval($this->emailVerified);
 
