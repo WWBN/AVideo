@@ -3904,8 +3904,8 @@ function _mysql_connect() {
     $checkValues = array('mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase', 'mysqlPort');    
     
     foreach ($checkValues as $value) {
-        if(empty($$value) && !empty($global[$value])){
-            $$value = $global[$value];
+        if(!isset($$value)){
+            _error_log("_mysql_connect Variable NOT set $value");
         }
     }
     
