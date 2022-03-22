@@ -950,6 +950,9 @@ class API extends PluginAbstract {
      * 'email' email of the user
      * 'name' real name of the user
      * ['emailVerified' 1 = email verified]
+     * ['canCreateMeet' 1 = Can create meetings]
+     * ['canStream' 1 = Can make live streams]
+     * ['canUpload' 1 = Can upload files]
      * 'APISecret' mandatory for security reasons
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&user=admin&pass=123&email=me@mysite.com&name=Yeshua
      * @return type
@@ -964,6 +967,15 @@ class API extends PluginAbstract {
         $ignoreCaptcha = 1;
         if (isset($_REQUEST['emailVerified'])) {
             $global['emailVerified'] = intval($_REQUEST['emailVerified']);
+        }
+        if (isset($_REQUEST['canCreateMeet'])) {
+            $global['canCreateMeet'] = intval($_REQUEST['canCreateMeet']);
+        }
+        if (isset($_REQUEST['canStream'])) {
+            $global['canStream'] = intval($_REQUEST['canStream']);
+        }
+        if (isset($_REQUEST['canUpload'])) {
+            $global['canUpload'] = intval($_REQUEST['canUpload']);
         }
         require_once $global['systemRootPath'] . 'objects/userCreate.json.php';
         exit;
