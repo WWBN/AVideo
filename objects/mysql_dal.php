@@ -157,7 +157,7 @@ class sqlDAL
                 _mysql_connect();
 
                 if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
-                    log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . 
+                    log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: ({$global['mysqli']->errno}) ({$global['mysqli']->error}) ".
                     " preparedStatement = ". json_encode($preparedStatement). 
                     " formats = ". json_encode($formats).
                     " values = ". json_encode($values).
