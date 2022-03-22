@@ -3900,6 +3900,15 @@ function _session_start(array $options = []) {
 
 function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
+    
+    $checkValues = array('mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase', 'mysqlPort');    
+    
+    foreach ($checkValues as $value) {
+        if(empty($$value) && !empty($global[$value])){
+            $$value = $global[$value];
+        }
+    }
+    
     try {
         if (!_mysql_is_open()) {
             //_error_log('MySQL Connect '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
