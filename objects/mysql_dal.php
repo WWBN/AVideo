@@ -97,8 +97,7 @@ class sqlDAL
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . 
                     " preparedStatement = ". json_encode($preparedStatement). 
-                    " formats = ". json_encode($formats).
-                    " values = ". json_encode($values));
+                    " formats = ". json_encode($formats));
             return false;
         }
         if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
