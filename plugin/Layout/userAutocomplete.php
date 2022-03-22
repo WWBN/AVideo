@@ -29,7 +29,9 @@ if (empty($name)) {
         console.log('updateUserAutocomplete<?php echo $id; ?>', data.users_id );
         resetUserAutocomplete<?php echo $id; ?>();
         if (data.users_id && data.users_id !== '0') {
-            modal.showPleaseWait();
+            if(typeof modal === 'object'){
+                modal.showPleaseWait();
+            }
             $.ajax({
                 url: webSiteRootURL + 'objects/users.json.php',
                 type: "POST",
@@ -41,8 +43,9 @@ if (empty($name)) {
                         var photoURL = data.rows[0].photo
                         $("#user-img<?php echo $id; ?>").attr("src", photoURL);
                     }
-                    
-                    modal.hidePleaseWait();
+                    if(typeof modal === 'object'){
+                        modal.hidePleaseWait();
+                    }
                 }
             });
         }
