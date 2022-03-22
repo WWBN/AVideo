@@ -53,6 +53,7 @@ class Configuration
     public function load()
     {
         global $global;
+        _mysql_connect();
         $sql = "SELECT * FROM configurations WHERE id = 1 LIMIT 1";
         //echo $sql;exit;
         // add true because I was not getting the SMTP configuration on function setSiteSendMessage(&$mail)
