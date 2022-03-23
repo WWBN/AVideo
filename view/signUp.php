@@ -251,7 +251,7 @@ if (isValidURL(@$_GET['siteRedirectUri'])) {
                                 }
                             } else {
                                 console.log('is required', $(this).attr('name'));
-                                if (!$(this).val().match(/[0-9a-z]+/i)) {
+                                if (!$(this).val().match(/[0-9a-z\u00BF-\u1FFF\u2C00-\uD7FF\w]+/i)) {
                                     $(this).closest('.input-group').addClass(errorClass);
                                     var label = $("label[for='" + $(this).attr('id') + "']").text();
                                     if (!label) {
