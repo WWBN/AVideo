@@ -75,7 +75,7 @@ $key = $liveStreamObject->getKeyWithIndex(true);
             <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-key"></i> <?php echo __("Stream Meta Data"); ?></a>
         </li>
         <li class="">
-            <a data-toggle="tab" href="#tabPosterImage"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a>
+            <a style="cursor: pointer;" onclick="avideoModalIframe(webSiteRootURL + 'plugin/Live/view/Live_schedule/uploadPoster.php');"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a>
         </li>
         <?php
         if (empty($objLive->hideUserGroups)) {
@@ -172,58 +172,6 @@ $key = $liveStreamObject->getKeyWithIndex(true);
                 </div>
                 <div class="panel-footer">
                     <button type="button" class="btn btn-success btn-block btnSaveStream" id="btnSaveStream"><i class="fas fa-save"></i> <?php echo __("Save Stream Settings"); ?></button>
-                </div>
-            </div>
-        </div>
-        <div id="tabPosterImage" class="tab-pane fade"> 
-            <div class="panel panel-default ">
-                <div class="panel-heading">
-                    <?php
-                    echo __("Upload Poster Image");
-                    ?>
-                    <button class="btn btn-danger btn-sm btn-xs pull-right" id="removePoster">
-                        <i class="far fa-trash-alt"></i> <?php echo __("Remove Poster"); ?>
-                    </button>
-                </div>
-                <div class="panel-body"> 
-                    <?php
-                    $poster = Live::getPosterImage(User::getId(), $_REQUEST['live_servers_id']);
-                    $image = getURL($poster);
-                    $croppie1 = getCroppie(__("Upload Poster"), "saveLivePoster");
-                    echo $croppie1['html'];
-                    ?>
-                    <hr>
-                    <button class="btn btn-success btn-lg btn-block" onclick="closeWindowAfterImageSave = true;<?php echo $croppie1['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
-                    <script>
-                        var closeWindowAfterImageSave = false;
-                        function saveLivePoster(image) {
-                            modal.showPleaseWait();
-                            $.ajax({
-                                url: webSiteRootURL + 'plugin/Live/uploadPoster.json.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>',
-                                data: {
-                                    image: image
-                                },
-                                type: 'post',
-                                success: function (response) {
-                                    modal.hidePleaseWait();
-                                    avideoResponse(response);
-                                    if (response && !response.error) {
-                                        if (closeWindowAfterImageSave) {
-                                            avideoModalIframeClose();
-                                        }
-                                    }
-                                }
-                            });
-
-                        }
-
-                        $(document).ready(function () {
-
-<?php
-echo $croppie1['createCroppie'] . "('{$image}');";
-?>
-                        });
-                    </script>
                 </div>
             </div>
         </div>

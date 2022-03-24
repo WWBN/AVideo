@@ -80,11 +80,15 @@ class Live_schedule extends ObjectYPT
         return $rows;
     }
 
-    public static function getPosterPaths($live_schedule_id)
+    public static function getPosterPaths($live_schedule_id, $posterType=0)
     {
         $live_schedule_id = intval($live_schedule_id);
+        $posterType = intval($posterType);
         if (empty($live_schedule_id)) {
             return false;
+        }
+        if(!empty($posterType)){
+            $live_schedule_id = "{$live_schedule_id}_{$posterType}";
         }
 
         $subdir = "live_schedule_posters";
@@ -106,8 +110,8 @@ class Live_schedule extends ObjectYPT
         return $array;
     }
 
-    public static function getPosterURL($live_schedule_id){
-        $paths = self::getPosterPaths($live_schedule_id);
+    public static function getPosterURL($live_schedule_id, $posterType=0){
+        $paths = self::getPosterPaths($live_schedule_id, $posterType);
         if (file_exists($paths['path'])) {
             return $paths['url'];
         } else {

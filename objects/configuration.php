@@ -57,7 +57,7 @@ class Configuration
         $sql = "SELECT * FROM configurations WHERE id = 1 LIMIT 1";
         //echo $sql;exit;
         // add true because I was not getting the SMTP configuration on function setSiteSendMessage(&$mail)
-        $res = sqlDAL::readSql($sql, "", [], true);
+        $res = sqlDAL::readSql($sql, '', [], true);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res && !empty($result)) {

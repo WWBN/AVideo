@@ -19,6 +19,9 @@ class Live extends PluginAbstract {
     public static $public_server_http = 'http';
     public static $public_server_port = 8080;
     public static $public_server_domain = 'live.ypt.me';
+    public static $posterType_regular = 0;
+    public static $posterType_preroll = 1;
+    public static $posterType_postroll = 2;
 
     public function getTags() {
         return [
@@ -210,7 +213,7 @@ class Live extends PluginAbstract {
         global $global;
         $_playlists_id_live = @$_REQUEST['playlists_id_live'];
         unset($_REQUEST['playlists_id_live']);
-        
+
         $obj = $this->getDataObject();
 
         $rows = Live_schedule::getAllActiveLimit();
@@ -367,7 +370,6 @@ class Live extends PluginAbstract {
             $class,
         ];
 
-
         $newContent = str_replace($search, $replace, $global['getLiveApplicationModelArray']['content']);
         $newContentExtra = str_replace($search, $replace, $global['getLiveApplicationModelArray']['contentExtra']);
         $newContentExtraVideoPage = str_replace($search, $replace, $global['getLiveApplicationModelArray']['contentExtraVideoPage']);
@@ -501,7 +503,6 @@ class Live extends PluginAbstract {
         $obj->controllButtonsShowOnlyToAdmin_save_dvr = false;
         self::addDataObjectHelper('controllButtonsShowOnlyToAdmin_save_dvr', 'Show Save DVR Button Only to Admin', 'Regular users will not able to see this button');
 
-
         $obj->disable_live_schedule = false;
         self::addDataObjectHelper('disable_live_schedule', 'Disable Live Schedule');
 
@@ -546,12 +547,35 @@ class Live extends PluginAbstract {
 
         if (!empty($obj->playLiveInFullScreen)) {
             if ((isLive() || isEmbed()) && canFullScreen()) {
-                $css .= '<link href="' . getCDN() . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
+                $css .= '<link href="' . getURL('plugin/YouPHPFlix2/view/css/fullscreen.css') . '" rel="stylesheet" type="text/css"/>';
                 $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
             }
             $js .= '<script>var playLiveInFullScreen = true</script>';
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
         }
+        
+        if($live = isLive()){
+            $prerollPoster = 'false';
+            $postrollPoster = 'false';
+            if (self::prerollPosterExists()) {
+                $prerollPoster = "'" . getURL(self::getPrerollPosterImage()) . "'";
+            }
+            if (self::postrollPosterExists()) {
+                $postrollPoster = "'" . getURL(self::getPostrollPosterImage()) . "'";
+            }
+            $liveImageBGTemplate = '';
+            if($prerollPoster || $postrollPoster){
+                $liveImageBGTemplate = file_get_contents($global['systemRootPath'].'plugin/Live/view/imagebg.template.html');
+            }
+            $js .= '<script>'
+                    . 'var prerollPoster_'.$live['cleanKey'].' = ' . $prerollPoster . ';'
+                    . 'var postrollPoster_'.$live['cleanKey'].' = ' . $postrollPoster . ';'
+                    . 'var liveImageBGTemplate = ' . json_encode($liveImageBGTemplate) . ';'
+                    . '</script>';
+            
+            
+        }
+        
         return $js . $css;
     }
 
@@ -597,12 +621,13 @@ class Live extends PluginAbstract {
 
         $js = '';
         if (!empty($obj->playLiveInFullScreen)) {
-            $js = '<script src="' . getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' . getURL('plugin/YouPHPFlix2/view/js/fullscreen.js') . '"></script>';
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'.liveVideo a.galleryLink\'); } });</script>';
         } elseif (!empty($obj->playLiveInFullScreenOnIframe)) {
-            $js = '<script src="' . getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' . getURL('plugin/YouPHPFlix2/view/js/fullscreen.js') . '"></script>';
             $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'.liveVideo a.galleryLink\'); } });</script>';
         }
+
         include $global['systemRootPath'] . 'plugin/Live/view/footer.php';
         return $js;
     }
@@ -1096,6 +1121,13 @@ class Live extends PluginAbstract {
             return 0;
         }
         return intval($_REQUEST['live_servers_id']);
+    }
+
+    public static function getLiveScheduleIdRequest() {
+        if (empty($_REQUEST['live_schedule_id'])) {
+            return 0;
+        }
+        return intval($_REQUEST['live_schedule_id']);
     }
 
     public static function getM3U8File($uuid, $doNotProtect = false, $ignoreCDN = false) {
@@ -1885,8 +1917,8 @@ class Live extends PluginAbstract {
                     $obj->nclients = intval($value->nclients);
                     break;
                 }
-                
-                
+
+
                 $_REQUEST['playlists_id_live'] = $_playlists_id_live;
             }
         }
@@ -2329,10 +2361,30 @@ class Live extends PluginAbstract {
         return $url;
     }
 
-    public static function getPosterImage($users_id, $live_servers_id, $live_schedule_id = 0) {
+    public static function getPosterImage($users_id, $live_servers_id, $live_schedule_id = 0, $posterType = 0) {
         global $global;
-        $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id);
+        if (empty($users_id)) {
+            $isLive = isLive();
+            if (!empty($isLive)) {
+                $lt = self::getLiveTransmitionObjectFromKey($isLive['key']);
+                if (empty($lt)) {
+                    return false;
+                }
+                $users_id = $lt->getUsers_id();
+                if (empty($live_servers_id)) {
+                    $live_servers_id = self::getLiveServersIdRequest();
+                }
+                if (empty($live_schedule_id)) {
+                    $live_schedule_id = self::getLiveScheduleIdRequest();
+                }
+            }
+        }
 
+        if (empty($users_id)) {
+            return false;
+        }
+        $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id, $posterType);
+        //var_dump($file);
         if (!file_exists($global['systemRootPath'] . $file)) {
             if (!empty($live_schedule_id)) {
                 if (Live_schedule::isLive($live_schedule_id)) {
@@ -2350,6 +2402,50 @@ class Live extends PluginAbstract {
         }
         //var_dump($file);exit;
         return $file;
+    }
+
+    public static function getPrerollPosterImage($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0) {
+        return self::getPosterImage($users_id, $live_servers_id, $live_schedule_id, self::$posterType_preroll);
+    }
+
+    public static function getPostrollPosterImage($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0) {
+        return self::getPosterImage($users_id, $live_servers_id, $live_schedule_id, self::$posterType_postroll);
+    }
+
+    public static function posterExists($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0, $posterType = 0) {
+        global $global;
+
+        if (empty($users_id)) {
+            $isLive = isLive();
+            if (!empty($isLive)) {
+                $lt = self::getLiveTransmitionObjectFromKey($isLive['key']);
+                if (empty($lt)) {
+                    return false;
+                }
+                $users_id = $lt->getUsers_id();
+                if (empty($live_servers_id)) {
+                    $live_servers_id = self::getLiveServersIdRequest();
+                }
+                if (empty($live_schedule_id)) {
+                    $live_schedule_id = self::getLiveScheduleIdRequest();
+                }
+            }
+        }
+
+        if (empty($users_id)) {
+            return false;
+        }
+
+        $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id, $posterType);
+        return file_exists("{$global['systemRootPath']}{$file}");
+    }
+
+    public static function prerollPosterExists($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0) {
+        return self::posterExists($users_id, $live_servers_id, $live_schedule_id, self::$posterType_preroll);
+    }
+
+    public static function postrollPosterExists($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0) {
+        return self::posterExists($users_id, $live_servers_id, $live_schedule_id, self::$posterType_postroll);
     }
 
     public static function getPosterImageOrFalse($users_id, $live_servers_id) {
@@ -2501,17 +2597,32 @@ class Live extends PluginAbstract {
         return $img;
     }
 
-    public static function _getPosterImage($users_id, $live_servers_id, $live_schedule_id = 0) {
+    public static function _getPosterImage($users_id, $live_servers_id, $live_schedule_id = 0, $posterType = 0) {
+
+        $users_id = intval($users_id);
+        $live_servers_id = intval($live_servers_id);
+        $live_schedule_id = intval($live_schedule_id);
+        $posterType = intval($posterType);
+
         if (!empty($live_schedule_id)) {
-            $paths = Live_schedule::getPosterPaths($live_schedule_id);
+            $paths = Live_schedule::getPosterPaths($live_schedule_id, $posterType);
             return $paths['relative_path'];
         }
-        $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}.jpg";
+        $type = '';
+        if (!empty($posterType)) {
+            $type = "_{$posterType}_";
+        }
+        $file = "videos/userPhoto/Live/user_{$users_id}_bg_{$live_servers_id}{$type}.jpg";
         return $file;
     }
 
-    public static function _getPosterThumbsImage($users_id, $live_servers_id) {
-        $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}.jpg";
+    public static function _getPosterThumbsImage($users_id, $live_servers_id, $posterType = 0) {
+        $posterType = intval($posterType);
+        $type = '';
+        if (!empty($posterType)) {
+            $type = "_{$posterType}_";
+        }
+        $file = "videos/userPhoto/Live/user_{$users_id}_thumbs_{$live_servers_id}{$type}.jpg";
         return $file;
     }
 

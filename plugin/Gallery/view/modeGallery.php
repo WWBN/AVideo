@@ -17,7 +17,7 @@ $leaderBoardTop = getAdsLeaderBoardTop();
         <div class="container-fluid gallery">
             <?php
             if(!empty($leaderBoardTop)){
-                echo '<div class="row text-center" style="padding: 10px;">'.$leaderBoardTop.'</div>';
+                echo '<!-- leaderBoardTop start --><div class="row text-center" style="padding: 10px;">'.$leaderBoardTop.'</div><!-- leaderBoardTop end -->';
             }else{
                 echo '<!-- getAdsLeaderBoardTop is empty -->';
             }

@@ -55,7 +55,7 @@ class Message implements MessageComponentInterface {
             $client['selfURI'] = $json->selfURI;
         }
         $client['isCommandLine'] = @$wsocketGetVars['isCommandLine'];
-        $client['page_title'] = utf8_encode(@$wsocketGetVars['page_title']);
+        $client['page_title'] = @utf8_encode(@$wsocketGetVars['page_title']);
         $client['videos_id'] = $json->videos_id;
         $client['live_key'] = object_to_array(@$json->live_key);
         $client['ip'] = $json->ip;

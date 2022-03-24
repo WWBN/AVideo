@@ -17,22 +17,24 @@ if (!User::canStream()) {
 
 $live_servers_id = intval(@$_REQUEST['live_servers_id']);
 $live_schedule_id = intval(@$_REQUEST['live_schedule_id']);
+$posterType = intval(@$_REQUEST['posterType']);
 
 if (!empty($live_schedule_id)) {
     $row = new Live_schedule($live_schedule_id);
     if (User::isAdmin() || $row->getUsers_id() == User::getId()) {
         if (isset($_REQUEST['image'])) {
-            $image = Live_schedule::getPosterPaths($live_schedule_id);
+            $image = Live_schedule::getPosterPaths($live_schedule_id, $posterType);
             $obj->path = $image['path'];
             $obj->image = saveCroppieImage($obj->path, "image");
             $obj->error = false;
         }
     }
 } else {
-    $obj->path = $global['systemRootPath'] . Live::_getPosterImage(User::getId(), $live_servers_id);
+    //_getPosterImage($users_id, $live_servers_id, $live_schedule_id = 0, $posterType=0)
+    $obj->path = $global['systemRootPath'] . Live::_getPosterImage(User::getId(), $live_servers_id, 0, $posterType);
     $obj->image = saveCroppieImage($obj->path, "image");
     if ($obj->image) {
-        $obj->pathThumbs = $global['systemRootPath'] . Live::_getPosterThumbsImage(User::getId(), $live_servers_id);
+        $obj->pathThumbs = $global['systemRootPath'] . Live::_getPosterThumbsImage(User::getId(), $live_servers_id, $posterType);
         @unlink($obj->pathThumbs);
         $obj->error = false;
     }

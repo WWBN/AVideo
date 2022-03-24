@@ -277,39 +277,7 @@ global $Schedulecount;
                             });
                 }
 
-                function uploadPoster(schedule_id) {
-                    console.log(Schedule_plans[schedule_id]);
-                    var schedule = Schedule_plans[schedule_id];
-                    avideoAlertHTMLText('<?php echo __('Upload Poster Image'); ?>', '<input id="input-jpg-Schedule" type="file" class="file-loading" accept="image/*">', '');
-                    $("#input-jpg-Schedule").fileinput({
-                        uploadUrl: webSiteRootURL + "plugin/Live/uploadPoster.php?live_servers_id=<?php echo $_REQUEST['live_servers_id']; ?>&live_schedule_id=" + schedule_id,
-                        autoReplace: true,
-                        overwriteInitial: true,
-                        showUploadedThumbs: false,
-                        showPreview: true,
-                        maxFileCount: 1,
-                        initialPreview: [
-                            "<img class='img img-responsive' src='" + schedule.posterURL + "'>",
-                        ],
-                        initialCaption: 'ScheduledLiveBG.jpg',
-                        initialPreviewShowDelete: false,
-                        showRemove: false,
-                        showClose: false,
-                        layoutTemplates: {actionDelete: ''}, // disable thumbnail deletion
-                        allowedFileExtensions: ["jpg", "jpeg", "png"],
-                        //minImageWidth: 2048,
-                        //minImageHeight: 1152,
-                        //maxImageWidth: 2560,
-                        //maxImageHeight: 1440
-                    }).on('fileuploaded', function (event, previewId, index, fileId) {
-                        listScheduledLives();
-                        swal.close();
-                    });
-                }
-
                 function uploadPosterCroppie(live_schedule_id) {
-                    //console.log(Schedule_plans[schedule_id]);
-                    //var schedule = Schedule_plans[schedule_id];
                     avideoModalIframe(webSiteRootURL + "plugin/Live/view/Live_schedule/uploadPoster.php?live_schedule_id=" + live_schedule_id);
                 }
 

@@ -41,7 +41,6 @@ $croppieFilesAdded = 1;
         var totalWidth = viewportWidth+(boundaryWidth-viewportWidth);
         
         if(parentWidth <= totalWidth){
-            
             var factor = (parentWidth/(totalWidth));
             console.log('createCroppie parent and factor ', parentWidth, totalWidth, factor, viewportWidth, viewportHeight, boundaryWidth, boundaryHeight);
             
@@ -59,12 +58,7 @@ $croppieFilesAdded = 1;
         var saveButton = 55;
         var slider = 25;
         var uploadDeleteButtons = 40;
-        var parentHeight = $('#croppie<?php echo $uid; ?>').parent().height();
-        
-        var bodyHeight = $('body').height();
-        if(bodyHeight<parentHeight){
-            parentHeight = bodyHeight;
-        }
+        var parentHeight = $('body').height();
         
         var totalHeight = viewportHeight+(boundaryHeight-viewportHeight)+paddingTop+saveButton+slider+uploadDeleteButtons;
         

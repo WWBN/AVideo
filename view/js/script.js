@@ -1213,8 +1213,8 @@ function avideoAlert(title, msg, type) {
 }
 
 function avideoAlertOnce(title, msg, type, uid) {
-    var cookieName = 'avideoAlertOnce'+uid;
-    if(!Cookies.set(cookieName)){ 
+    var cookieName = 'avideoAlertOnce' + uid;
+    if (!Cookies.set(cookieName)) {
         Cookies.set(cookieName, 1, {
             path: '/',
             expires: 365
@@ -1319,7 +1319,7 @@ function avideoModalIframeFullScreen(url) {
 }
 
 function avideoModalIframeFullScreenClose() {
-    if(typeof swal === 'function'){
+    if (typeof swal === 'function') {
         $('.swal-overlay iframe').attr('src', 'about:blank');
         try {
             swal.close();
@@ -1359,7 +1359,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
 
     }
     url = addGetParam(url, 'avideoIframe', 1);
-    console.log('avideoModalIframeWithClassName',url, className, updateURL);
+    console.log('avideoModalIframeWithClassName', url, className, updateURL);
     var html = '';
     html = '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
     html += '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
@@ -1480,9 +1480,9 @@ function avideoResponse(response) {
     console.log('avideoResponse', response);
     if (response.error) {
         if (!response.msg) {
-            if(typeof response.error === 'string'){
+            if (typeof response.error === 'string') {
                 response.msg = response.error;
-            }else{
+            } else {
                 response.msg = 'Error';
             }
         }
@@ -1528,7 +1528,7 @@ function fixAdSize() {
 }
 
 function playerIsPlayingAds() {
-    return ($("#mainVideo_ima-ad-container").length && $("#mainVideo_ima-ad-container").is(':visible')) && player.ima.getAdsManager().getRemainingTime()>0;
+    return ($("#mainVideo_ima-ad-container").length && $("#mainVideo_ima-ad-container").is(':visible')) && player.ima.getAdsManager().getRemainingTime() > 0;
 }
 
 function playerHasAds() {
@@ -2347,4 +2347,25 @@ function isSameDomain(url) {
         return true;
     }
     return false;
+}
+
+function empty(data) {
+    var type = typeof (data);
+    if (type == 'undefined' || data === null) {
+        return true;
+    } else if (type == 'number') {
+        return data == 0;
+    } else if (type == 'boolean') {
+        return !data;
+    } else if (type == 'string') {
+        return /^[\s]*$/.test(data);
+    } else if (type != 'undefined') {
+        return data.length == 0;
+    }
+    for (var i in data) {
+        if (data.hasOwnProperty(i)) {
+            return false;
+        }
+    }
+    return true;
 }
