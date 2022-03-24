@@ -2443,7 +2443,7 @@ class Live extends PluginAbstract {
         }        
         if(empty($times)){
             $times = new stdClass();
-            $times->liveImgCloseTimeInSeconds = 30;
+            $times->liveImgCloseTimeInSeconds = 10;
             $times->liveImgTimeInSeconds = 30;
         }        
         return $times;
