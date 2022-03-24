@@ -56,3 +56,7 @@ th a, .select2-container--default span{
 th:hover, .select2-dropdown{
     background-color: #111 !important;
 }
+
+.progress {
+    height: 27px;
+}
