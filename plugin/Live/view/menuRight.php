@@ -417,17 +417,31 @@ if (empty($obj->hideTopButton)) {
             
             eval('prerollPoster = prerollPoster_'+key);
             eval('postrollPoster = postrollPoster_'+key);
-            
+            eval('liveImgCloseTimeInSecondsPreroll = liveImgCloseTimeInSecondsPreroll_'+key);
+            eval('liveImgTimeInSecondsPreroll = liveImgTimeInSecondsPreroll_'+key);
+            eval('liveImgCloseTimeInSecondsPostroll = liveImgCloseTimeInSecondsPostroll_'+key);
+            eval('liveImgTimeInSecondsPostroll = liveImgTimeInSecondsPostroll_'+key);
+            var liveImgTimeInSeconds = 30;
+            var liveImgCloseTimeInSeconds = 30;
             if (type == 'prerollPoster' && prerollPoster) {
+                liveImgTimeInSeconds = liveImgTimeInSecondsPreroll;
+                liveImgCloseTimeInSeconds = liveImgCloseTimeInSecondsPreroll;
                 img = prerollPoster;
             } else if (type == 'postrollPoster' && postrollPoster) {
+                liveImgTimeInSeconds = liveImgTimeInSecondsPostroll;
+                liveImgCloseTimeInSeconds = liveImgCloseTimeInSecondsPostroll;
                 img = postrollPoster;
             }
             console.log('showImage Poster', type, img, key);
             if (img) {
+                if(typeof closeLiveImageRoll == 'function'){
+                    closeLiveImageRoll();
+                }
                 $('.'+type).remove();
                 
-                var _liveImageBGTemplate = liveImageBGTemplate.replace('{src}', img);
+                var _liveImageBGTemplate = liveImageBGTemplate.replace('{liveImgCloseTimeInSeconds}', liveImgCloseTimeInSeconds);
+                var _liveImageBGTemplate = _liveImageBGTemplate.replace('{liveImgTimeInSeconds}', liveImgTimeInSeconds);
+                var _liveImageBGTemplate = _liveImageBGTemplate.replace('{src}', img);
                 _liveImageBGTemplate = _liveImageBGTemplate.replace(/\{class\}/g, type);
                 
                 $(_liveImageBGTemplate).appendTo("#mainVideo");
@@ -435,6 +449,8 @@ if (empty($obj->hideTopButton)) {
 
             console.log('prerollPoster', prerollPoster);
             console.log('postrollPoster', postrollPoster);
+            console.log('liveImgTimeInSeconds', liveImgTimeInSeconds);
+            console.log('liveImgCloseTimeInSeconds', liveImgCloseTimeInSeconds);
         }
 
         function hideExtraVideosIfEmpty() {

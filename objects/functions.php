@@ -4848,6 +4848,23 @@ function isValidURL($url) {
     return false;
 }
 
+function isValidURLOrPath($str) {
+    //var_dump(empty($url), !is_string($url), preg_match("/^http.*/", $url), filter_var($url, FILTER_VALIDATE_URL));
+    if (empty($str) || !is_string($str)) {
+        return false;
+    }
+    if (str_starts_with($str, '/')) {
+        return true;
+    }
+    if (preg_match("/^[a-z]:.*/i", $str)) {
+        return true;
+    }
+    if (isValidURL($str)) {
+        return true;
+    }
+    return false;
+}
+
 function hasLastSlash($word) {
     return substr($word, -1) === '/';
 }
@@ -5261,6 +5278,9 @@ function getMySQLDate() {
 
 function _file_put_contents($filename, $data, $flags = 0, $context = null) {
     make_path($filename);
+    if(!is_string($value)){
+        $data = _json_encode($data);
+    }
     return file_put_contents($filename, $data, $flags, $context);
 }
 
@@ -5507,6 +5527,12 @@ function _json_decode($object) {
     }
     if (!is_string($object)) {
         return $object;
+    }
+    if(isValidURLOrPath($object)){
+        $content = file_get_contents($object);
+        if(!empty($content)){
+            $object = $content;
+        }
     }
     $json = json_decode($object);
     if ($json === null) {

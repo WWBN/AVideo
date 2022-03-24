@@ -1967,6 +1967,9 @@ function clearServerTime() {
 }
 
 function addGetParam(_url, _key, _value) {
+    if(typeof _url !== 'string'){
+        return false;
+    }
     var param = _key + '=' + escape(_value);
     var sep = '&';
     if (_url.indexOf('?') < 0) {

@@ -40,4 +40,13 @@ if (!empty($live_schedule_id)) {
     }
 }
 
+if(isset($_REQUEST['liveImgCloseTimeInSeconds']) && isset($_REQUEST['liveImgTimeInSeconds'])){
+    $o = new stdClass();
+    $o->liveImgCloseTimeInSeconds = intval($_REQUEST['liveImgCloseTimeInSeconds']);
+    $o->liveImgTimeInSeconds = intval($_REQUEST['liveImgTimeInSeconds']);
+    
+    $obj->jsonFile = str_replace('.jpg', '.json', $obj->path);
+    $obj->jsonFileBytes = _file_put_contents($obj->jsonFile, $o);
+}
+
 die(json_encode($obj));
