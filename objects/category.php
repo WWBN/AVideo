@@ -450,7 +450,7 @@ class Category
                     $row['canEdit'] = self::userCanEditCategory($row['id']);
                     $row['canAddVideo'] = self::userCanAddInCategory($row['id']);
                     $row['hierarchy'] = self::getHierarchyString($row['parentId']);
-                    $row['hierarchyAndName'] = $row['hierarchy'] . $row['name'];
+                    $row['hierarchyAndName'] = $row['hierarchy'] . __($row['name']);
                     $row['description_html'] = textToLink(htmlentities($row['description']));
                     $category[] = $row;
                 }
@@ -493,7 +493,7 @@ class Category
         }
         $str = "/";
         foreach ($array as $value) {
-            $str .= xss_esc_back($value['name']) . "/";
+            $str .= __(xss_esc_back($value['name'])) . "/";
         }
         return $str;
     }
