@@ -129,7 +129,8 @@ echo combineFilesHTML($cssFiles, "css");
 if (isRTL()) {
     ?>
     <style>
-        .principalContainer, #mainContainer, #bigVideo, .mainArea, .galleryVideo, #sidebar, .navbar-header li{
+        .principalContainer, #mainContainer, #bigVideo, .mainArea, .galleryVideo, #sidebar, .navbar-header li, 
+        .panel-heading, th, td, a{
             direction:rtl;
             unicode-bidi:embed;
         }
