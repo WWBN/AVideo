@@ -3441,18 +3441,20 @@ function convertImageToOG($source, $destination) {
 }
 
 function convertImageToRoku($source, $destination) {
+    return convertImageIfNotExists($source, $destination, 1280, 720);
+}
+
+function convertImageIfNotExists($source, $destination, $width, $height){
     if (empty($source)) {
         _error_log("convertImageToRoku: source image is empty");
         return false;
     }
-
-    $w = 1280;
-    $h = 720;
     if (file_exists($destination)) {
         $sizes = getimagesize($destination);
-        if ($sizes[0] < $w || $sizes[1] < $h) {
-            _error_log("convertImageToRoku: file is smaller " . json_encode($sizes));
+        if ($sizes[0] < $width || $sizes[1] < $height) {
+            _error_log("convertImageIfNotExists: file is smaller " . json_encode($sizes));
             unlink($destination);
+            return false;
         }
     }
     if (!file_exists($destination)) {
@@ -3460,10 +3462,10 @@ function convertImageToRoku($source, $destination) {
             $tmpDir = getTmpDir();
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
-            im_resizeV2($fileConverted, $destination, $w, $h, 100);
+            im_resizeV2($fileConverted, $destination, $width, $height, 100);
             @unlink($fileConverted);
         } catch (Exception $exc) {
-            _error_log("convertImageToRoku: " . $exc->getMessage());
+            _error_log("convertImageIfNotExists: " . $exc->getMessage());
             return false;
         }
     }
@@ -7418,6 +7420,7 @@ function getCDN($type = 'CDN', $id = 0) {
 
 function getURL($relativePath, $ignoreCDN = false) {
     global $global;
+    $relativePath = str_replace('\\', '/', $relativePath);
     if (!isset($_SESSION['user']['sessionCache']['getURL'])) {
         $_SESSION['user']['sessionCache']['getURL'] = [];
     }

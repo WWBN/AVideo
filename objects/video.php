@@ -1310,7 +1310,7 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        private static function getInfo($row, $getStatistcs = false) {
+        static function getInfo($row, $getStatistcs = false) {
             $TimeLogLimit = 0.1;
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             $name = "_getVideoInfo_{$row['id']}";
@@ -1391,6 +1391,7 @@ if (!class_exists('Video')) {
             $row['total_seconds_watching_human'] = seconds2human($row['total_seconds_watching']);
             $row['views_count_short'] = number_format_short($row['views_count']);
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
+            $row['identification'] = User::getNameIdentificationById(!empty($row['users_id_company'])?$row['users_id_company']:$row['users_id']);
 
             if (empty($row['externalOptions'])) {
                 $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
@@ -1401,7 +1402,25 @@ if (!class_exists('Video')) {
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             return $row;
         }
+        
+        public static function getMediaSession($videos_id) {
+            $video = Video::getVideoLight($videos_id);
+            $video = Video::getInfo($video);
 
+            $posters = Video::getMediaSessionPosters($videos_id);
+            //var_dump($posters);exit;
+            $MediaMetadata = new stdClass();
+
+            $MediaMetadata->title = $video['title'];
+            $MediaMetadata->artist = $video['identification'];
+            $MediaMetadata->album = $video['category'];
+            $MediaMetadata->artwork = array();
+            foreach ($posters as $key => $value) {
+                $MediaMetadata->artwork[] = array('src' => $value['url'], 'sizes' => "{$key}x{$key}", 'type' => 'image/jpg');
+            }
+            return $MediaMetadata;
+        }
+        
         public static function htmlDescription($description) {
             if (strip_tags($description) !== $description) {
                 return $description;
@@ -3763,6 +3782,33 @@ if (!class_exists('Video')) {
             }
             return $_getPoster[$videos_id];
         }
+        
+        public static function getMediaSessionPosters($videos_id) {
+            global $global;
+            $images = self::getImageFromID($videos_id);
+            $imagePath = $images->posterLandscapePath;
+            if (empty($imagePath) || !file_exists($imagePath)) {
+                $imagePath = $images->posterLandscapeThumbs;
+            }
+            if (empty($imagePath) || !file_exists($imagePath)) {
+                $imagePath = $images->poster;
+            }
+            
+            $sizes = array(96,128,192,256,384,512);
+            
+            $posters = array();
+            
+            foreach ($sizes as $value) {
+                $destination = str_replace('.jpg', "_{$value}.jpg", $imagePath);
+                $path = convertImageIfNotExists($imagePath, $destination, $value, $value);
+                if(!empty($path)){
+                    $relativePath = str_replace($global['systemRootPath'], '', convertImageIfNotExists($imagePath, $destination, $value, $value));
+                    $url = getURL($relativePath);
+                    $posters[$value] = array('path'=>$path, 'relativePath'=>$relativePath, 'url'=>$url);
+                }
+            }
+            return $posters;
+        }
 
         public static function getRokuImage($videos_id) {
             global $global;
@@ -3775,7 +3821,7 @@ if (!class_exists('Video')) {
                 $imagePath = $images->poster;
             }
             $rokuImage = str_replace(".jpg", "_roku.jpg", $imagePath);
-            if (convertImageToRoku($images->posterLandscapePath, $rokuImage)) {
+            if (convertImageToRoku($imagePath, $rokuImage)) {
                 $relativePath = str_replace($global['systemRootPath'], '', $rokuImage);
                 return getURL($relativePath);
             }
