@@ -743,7 +743,7 @@ class PlayLists extends PluginAbstract {
         return $last['key'];
     }
 
-    public function getLivePosterImage($playlists_id) {
+    public static function getLivePosterImage($playlists_id) {
         $live = AVideoPlugin::loadPluginIfEnabled("Live");
         if ($live) {
             $pl = new PlayList($playlists_id);
