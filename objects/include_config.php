@@ -135,7 +135,12 @@ $_SESSION['LAST_HTTP_REFERER'] = $global['HTTP_REFERER'];
 //var_dump($global['HTTP_REFERER'], $url1);exit;
 
 $output = ob_get_clean();
-ob_start('ob_gzhandler');
+
+if(!isset($global['ob_start_callback'])){
+    $global['ob_start_callback'] = 'ob_gzhandler';
+}
+
+ob_start($global['ob_start_callback']);
 echo $output;
 $_SESSION['lastUpdate'] = time();
 $_SESSION['savedQuerys'] = 0;
