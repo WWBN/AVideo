@@ -2779,7 +2779,7 @@ if (typeof gtag !== \"function\") {
                     <i class="fas fa-play-circle"></i>
                     <?php echo User::getNameIdentificationById($users_id); ?>
                 </a>
-                <div style="position: absolute; right: 10px; top: 10px;">
+                <div class="pull-right">
                     <?php echo User::getAddChannelToGalleryButton($users_id); ?>
                     <?php echo User::getBlockUserButton($users_id); ?>
                     <?php echo Subscribe::getButton($users_id); ?>
@@ -2798,7 +2798,7 @@ if (typeof gtag !== \"function\") {
                 </div>
             </div>
             <div class="panel-footer " style="font-size: 0.8em">
-                <div class=" text-muted align-right">
+                <div class=" text-muted">
                     <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($users_id)), " ", __("Views in the last 30 days"); ?>
                 </div>
             </div>
