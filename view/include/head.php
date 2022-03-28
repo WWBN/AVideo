@@ -70,7 +70,8 @@ if (empty($config)) {
 <meta name="newCache" content="<?php echo ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime() ? "yes" : "No" ?>">
 <meta name="sessionCache" content="<?php echo humanTimingAgo(@$_SESSION['user']['sessionCache']['time']), " ", @$_SESSION['user']['sessionCache']['time']; ?>">
 <meta name="systemCache" content="<?php echo humanTimingAgo(ObjectYPT::getLastDeleteALLCacheTime()), " ", ObjectYPT::getLastDeleteALLCacheTime(); ?>">
-<meta name="sessionCache-systemCache" content="<?php $dif = @$_SESSION['user']['sessionCache']['time'] - ObjectYPT::getLastDeleteALLCacheTime();
+<meta name="sessionCache-systemCache" content="<?php
+$dif = @$_SESSION['user']['sessionCache']['time'] - ObjectYPT::getLastDeleteALLCacheTime();
 echo $dif, " Seconds ";
 ?>">
 -->
@@ -80,8 +81,8 @@ echo $dif, " Seconds ";
 include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
 if (empty($advancedCustom->disableAnimations)) {
     ?>
-<link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet"  type="text/css" />
-<?php
+    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet"  type="text/css" />
+    <?php
 }
 ?>
 <link href="<?php echo getCDN(); ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
@@ -100,7 +101,7 @@ $cssFiles = array_merge($cssFiles);
 echo combineFilesHTML($cssFiles, "css");
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo getURL('view/css/custom/'.$theme.'.css'); ?>" rel="stylesheet" type="text/css" id="customCSS"/>
+<link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS"/>
 <?php
 if (empty($global['userBootstrapLatest'])) {
     $filename = Video::getStoragePath() . "cache/custom.css";
@@ -128,9 +129,10 @@ $cssFiles = array_merge($cssFiles, AVideoPlugin::getCSSFiles());
 echo combineFilesHTML($cssFiles, "css");
 if (isRTL()) {
     ?>
+
     <style>
-        .principalContainer, #mainContainer, #bigVideo, .mainArea, .galleryVideo, #sidebar, .navbar-header li, 
-        .panel-heading, th, td, a{
+        .principalContainer, #mainContainer, #bigVideo, .mainArea, .galleryVideo, #sidebar, .navbar-header li,
+        .panel-heading, th, td, a, .panel-footer{
             direction:rtl;
             unicode-bidi:embed;
         }
@@ -149,6 +151,15 @@ if (isRTL()) {
         #saveCommentBtn{
             border-width: 1px;
             border-right-width: 0;
+        }
+        .pull-left {
+            float: right!important;
+        }
+        .pull-right {
+            float: left!important;
+        }
+        .material-switch{
+            direction: initial;
         }
     </style>    
     <?php
