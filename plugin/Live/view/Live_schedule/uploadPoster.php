@@ -31,6 +31,7 @@ $poster = Live::getPostrollPosterImage(User::getId(), @$_REQUEST['live_servers_i
 $image_postroll = getURL($poster);
 
 $defaultTIme = 30;
+$defaultCloseTIme = 10;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -96,7 +97,7 @@ $defaultTIme = 30;
                                     <?php
                                     for ($i = 10; $i < 600; $i += 5) {
                                         $selected = '';
-                                        if ($i == $defaultTIme) {
+                                        if ($i == $defaultCloseTIme) {
                                             $selected = 'selected';
                                         }
                                         echo "<option value=\"{$i}\" {$selected}>{$i} {$seconds}</option>";
@@ -191,7 +192,7 @@ echo $croppie1['createCroppie'] . "('{$image}');";
 <?php
 echo $croppie1['restartCroppie'] . "(imageToRelaod);";
 ?>      
-                                        var liveImgCloseTimeInSeconds = <?php echo $defaultTIme; ?>;
+                                        var liveImgCloseTimeInSeconds = <?php echo $defaultCloseTIme; ?>;
                                         var liveImgTimeInSeconds = <?php echo $defaultTIme; ?>;
                                         if (jsonFile) {
                                             modal.showPleaseWait();
