@@ -49,4 +49,8 @@ if(isset($_REQUEST['liveImgCloseTimeInSeconds']) && isset($_REQUEST['liveImgTime
     $obj->jsonFileBytes = _file_put_contents($obj->jsonFile, $o);
 }
 
+if(empty($obj->error)){
+    Live::deleteStatsCache(true);
+}
+
 die(json_encode($obj));
