@@ -132,7 +132,7 @@ if (isRTL()) {
 
     <style>
         .principalContainer, #mainContainer, #bigVideo, .mainArea, .galleryVideo, #sidebar, .navbar-header li,
-        .panel-heading, th, td, a, .panel-footer{
+        .panel-heading, th, td, a, .panel-footer, .label {
             direction:rtl;
             unicode-bidi:embed;
         }
