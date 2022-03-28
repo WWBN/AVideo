@@ -88,7 +88,7 @@ $defaultCloseTIme = 10;
                             <div class="form-group">
                                 <label for="liveImgCloseTimeInSeconds"><?php echo __('Close Button Delay'); ?></label>
                                 <select class="form-control" id="liveImgCloseTimeInSeconds">
-                                    <option value="-1" selected><?php __('Do not allow close'); ?></option>
+                                    <option value="-1" selected><?php echo __('Do not allow close'); ?></option>
                                     <?php
                                     $seconds = __('Seconds');
                                     for ($i = 0; $i < 10; $i++) {
