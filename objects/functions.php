@@ -3903,7 +3903,7 @@ function _session_start(array $options = []) {
 function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
     
-    $checkValues = array('mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase', 'mysqlPort');    
+    $checkValues = array('mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase');    
     
     foreach ($checkValues as $value) {
         if(!isset($$value)){
