@@ -88,6 +88,7 @@ $defaultCloseTIme = 10;
                             <div class="form-group">
                                 <label for="liveImgCloseTimeInSeconds"><?php echo __('Close Button Delay'); ?></label>
                                 <select class="form-control" id="liveImgCloseTimeInSeconds">
+                                    <option value="-1" selected><?php __('Do not allow close'); ?></option>
                                     <?php
                                     $seconds = __('Seconds');
                                     for ($i = 0; $i < 10; $i++) {
@@ -97,9 +98,6 @@ $defaultCloseTIme = 10;
                                     <?php
                                     for ($i = 10; $i < 600; $i += 5) {
                                         $selected = '';
-                                        if ($i == $defaultCloseTIme) {
-                                            $selected = 'selected';
-                                        }
                                         echo "<option value=\"{$i}\" {$selected}>{$i} {$seconds}</option>";
                                     }
                                     ?>
@@ -192,7 +190,7 @@ echo $croppie1['createCroppie'] . "('{$image}');";
 <?php
 echo $croppie1['restartCroppie'] . "(imageToRelaod);";
 ?>      
-                                        var liveImgCloseTimeInSeconds = <?php echo $defaultCloseTIme; ?>;
+                                        var liveImgCloseTimeInSeconds = -1;
                                         var liveImgTimeInSeconds = <?php echo $defaultTIme; ?>;
                                         if (jsonFile) {
                                             modal.showPleaseWait();

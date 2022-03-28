@@ -5,7 +5,7 @@
              aria-valuemin="0" aria-valuemax="100" style="width:0; background-color: #ecc546;">
         </div>
     </div>
-    <div class="animate__animated  animate__bounceInRight" style="position: absolute; right: 10px; top: 10px; --animate-delay: 0.6s; animation-delay: 0.6s;" >
+    <div class="animate__animated  animate__bounceInRight" id="liveTimer" style="display:none; position: absolute; right: 10px; top: 10px; --animate-delay: 0.6s; animation-delay: 0.6s;" >
         <span id="liveImgTimer"></span> 
         <button class="btn btn-default btn-sm " onclick="closeLiveImageRoll();" style="display:none;" id="liveImgCloseBtn"> 
             <i class="fas fa-times"></i> 
@@ -32,11 +32,14 @@
             }else{
                 liveImgTimer--;
             }
-            if(liveImgCloseTimer<0){
-                $('#liveImgTimer').slideUp();
-                $('#liveImgCloseBtn').slideDown();
-            }else{
-                $('#liveImgTimer').text(liveImgCloseTimer--);
+            if(liveImgCloseTimeInSeconds>0){
+                $('#liveTimer').show();
+                if(liveImgCloseTimer<0){
+                    $('#liveImgTimer').slideUp();
+                    $('#liveImgCloseBtn').slideDown();
+                }else{
+                    $('#liveImgTimer').text(liveImgCloseTimer--);
+                }
             }
         },1000);
         $('#liveImgTime .progress-bar').attr('aria-valuenow', 0).css('width','0');
