@@ -138,6 +138,10 @@ $output = ob_get_clean();
 
 if(!isset($global['ob_start_callback'])){
     $global['ob_start_callback'] = 'ob_gzhandler';
+}else{
+    if(empty($global['ob_start_callback'])){
+        $global['ob_start_callback'] = null;
+    }
 }
 
 ob_start($global['ob_start_callback']);
