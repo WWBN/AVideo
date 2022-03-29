@@ -244,5 +244,9 @@ if (!empty($rtmpLink) && Meet::isModerator($meet_schedule_id)) {
         if (typeof _readyToClose == "function") {
             _readyToClose();
         }
+    }    
+            
+    function startLiveMeet(){
+        aVideoMeetStartRecording('<?php echo $rtmpLink; ?>', '<?php echo $dropURL; ?>');
     }
 </script>
