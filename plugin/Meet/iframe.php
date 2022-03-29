@@ -41,7 +41,9 @@ $domain = Meet::getDomainURL();
 //$domain = str_replace('ca2.ypt.me', 'ca1.ypt.me', $domain);
 
 $nameIdentification = '';
-if (User::isLogged()) {
+if(!empty($_REQUEST['nameIdentification'])){
+    $nameIdentification = xss_esc($_REQUEST['nameIdentification']);
+}else if (User::isLogged()) {
     $nameIdentification = User::getNameIdentification();
 }
 
