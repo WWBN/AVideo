@@ -99,6 +99,15 @@ $obj->joinURL = Meet::getJoinURL();
 $obj->roomID = Meet::getRoomID($meet_schedule_id);
 $obj->invitation = Meet::getInvitation($meet_schedule_id);
 $obj->iframeURL = Meet::getIframeURL($meet_schedule_id);
+
+$obj->RTMPLink = false;
+$obj->LinkToLive = false;
+
+if(AVideoPlugin::isEnabledByName('Live')){
+    $obj->RTMPLink = Live::getRTMPLink(User::getId());
+    $obj->LinkToLive = Live::getLinkToLiveFromUsers_id(User::getId());
+}
+
 //var_dump($obj->domain);
 
 die(json_encode($obj));
