@@ -164,6 +164,16 @@ if (empty($meet_schedule_id)) {
         api.addEventListeners({
             readyToClose: readyToClose,
         });
+        
+        <?php
+        if(!empty($rtmpLink) && !empty($_REQUEST['startLiveMeet'])){
+            ?>
+                console.log('Live meet will start in 5 seconds');
+                setTimeout(function(){startLiveMeet();},5000);
+            <?php
+        }
+        ?>
+        
 
     }
 
