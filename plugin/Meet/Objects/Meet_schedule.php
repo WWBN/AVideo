@@ -246,7 +246,7 @@ class Meet_schedule extends ObjectYPT {
                 if ($liveIsEnabled) {
                     $row['RTMPLink'] = Live::getRTMPLink($users_id);
                     $row['LinkToLive'] = Live::getLinkToLiveFromUsers_id($users_id);
-                    $row['LinkToLiveEmbed'] = addQueryStringParameter($obj->LinkToLive, 'embed', 1);
+                    $row['LinkToLiveEmbed'] = addQueryStringParameter($row['LinkToLive'], 'embed', 1);
                 }
 
                 $rows[] = $row;
