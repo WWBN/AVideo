@@ -106,6 +106,7 @@ $obj->LinkToLive = false;
 if(AVideoPlugin::isEnabledByName('Live')){
     $obj->RTMPLink = Live::getRTMPLink(User::getId());
     $obj->LinkToLive = Live::getLinkToLiveFromUsers_id(User::getId());
+    $obj->LinkToLiveEmbed = addQueryStringParameter($obj->LinkToLive, 'embed', 1);
 }
 
 //var_dump($obj->domain);
