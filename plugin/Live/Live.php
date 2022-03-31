@@ -362,7 +362,7 @@ class Live extends PluginAbstract {
             $uid,
             $UserPhoto,
             $title,
-            $u->getUser(),
+            $u->getNameIdentificationBd(),
             $link,
             (!empty($imgJPG) ? '<img src="' . getURL('view/img/loading-gif.png') . '" data-src="' . $imgJPG . '" class="thumbsJPG img-responsive" height="130">' : ''),
             (!empty($imgGIF) ? ('<img src="' . getURL('view/img/loading-gif.png') . '" data-src="' . $imgGIF . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : ''),
@@ -553,8 +553,8 @@ class Live extends PluginAbstract {
             $js .= '<script>var playLiveInFullScreen = true</script>';
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
         }
-        
-        if($live = isLive()){
+
+        if ($live = isLive()) {
             $prerollPoster = 'false';
             $postrollPoster = 'false';
             $liveImgCloseTimeInSecondsPreroll = 'false';
@@ -562,42 +562,40 @@ class Live extends PluginAbstract {
             $liveImgCloseTimeInSecondsPostroll = 'false';
             $liveImgTimeInSecondsPostroll = 'false';
             if (self::prerollPosterExists()) {
-                
-                $path = self::getPrerollPosterImage();      
+
+                $path = self::getPrerollPosterImage();
                 $prerollPoster = "'" . getURL($path) . "'";
-                
-                $times = self::getPrerollPosterImageTimes(); 
+
+                $times = self::getPrerollPosterImageTimes();
                 $liveImgCloseTimeInSecondsPreroll = $times->liveImgCloseTimeInSeconds;
                 $liveImgTimeInSecondsPreroll = $times->liveImgTimeInSeconds;
                 //var_dump($times);
-                
             }
             if (self::postrollPosterExists()) {
                 $postrollPoster = "'" . getURL(self::getPostrollPosterImage()) . "'";
-                
+
                 $times = self::getPostrollPosterImageTimes();
                 $liveImgCloseTimeInSecondsPostroll = $times->liveImgCloseTimeInSeconds;
                 $liveImgTimeInSecondsPostroll = $times->liveImgTimeInSeconds;
                 //var_dump($times);
             }
             $liveImageBGTemplate = '';
-            if($prerollPoster || $postrollPoster){
-                $liveImageBGTemplate = file_get_contents($global['systemRootPath'].'plugin/Live/view/imagebg.template.html');
+            if ($prerollPoster || $postrollPoster) {
+                $liveImageBGTemplate = file_get_contents($global['systemRootPath'] . 'plugin/Live/view/imagebg.template.html');
             }
             //var_dump($liveImgCloseTimeInSecondsPreroll ,$liveImgTimeInSecondsPreroll,$liveImgCloseTimeInSecondsPostroll ,$liveImgTimeInSecondsPostroll);exit;
             $js .= '<script>'
-                    . 'var prerollPoster_'.$live['cleanKey'].' = ' . $prerollPoster . ';'
-                    . 'var postrollPoster_'.$live['cleanKey'].' = ' . $postrollPoster . ';'
-                    . 'var liveImgCloseTimeInSecondsPreroll_'.$live['cleanKey'].' = ' . $liveImgCloseTimeInSecondsPreroll . ';'
-                    . 'var liveImgTimeInSecondsPreroll_'.$live['cleanKey'].' = ' . $liveImgTimeInSecondsPreroll . ';'
-                    . 'var liveImgCloseTimeInSecondsPostroll_'.$live['cleanKey'].' = ' . $liveImgCloseTimeInSecondsPostroll . ';'
-                    . 'var liveImgTimeInSecondsPostroll_'.$live['cleanKey'].' = ' . $liveImgTimeInSecondsPostroll . ';'
+                    . 'var prerollPoster_' . $live['cleanKey'] . ' = ' . $prerollPoster . ';'
+                    . 'var postrollPoster_' . $live['cleanKey'] . ' = ' . $postrollPoster . ';'
+                    . 'var liveImgCloseTimeInSecondsPreroll_' . $live['cleanKey'] . ' = ' . $liveImgCloseTimeInSecondsPreroll . ';'
+                    . 'var liveImgTimeInSecondsPreroll_' . $live['cleanKey'] . ' = ' . $liveImgTimeInSecondsPreroll . ';'
+                    . 'var liveImgCloseTimeInSecondsPostroll_' . $live['cleanKey'] . ' = ' . $liveImgCloseTimeInSecondsPostroll . ';'
+                    . 'var liveImgTimeInSecondsPostroll_' . $live['cleanKey'] . ' = ' . $liveImgTimeInSecondsPostroll . ';'
                     . 'var liveImageBGTemplate = ' . json_encode($liveImageBGTemplate) . ';'
+                    . 'var isLive = ' . json_encode(isLive()) . ';'
                     . '</script>';
-            
-            
         }
-        
+
         return $js . $css;
     }
 
@@ -2432,42 +2430,42 @@ class Live extends PluginAbstract {
     public static function getPrerollPosterImage($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0) {
         return self::getPosterImage($users_id, $live_servers_id, $live_schedule_id, self::$posterType_preroll);
     }
-    
+
     public static function getPrerollPosterImageTimes($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0) {
         global $global;
         $path = self::getPrerollPosterImage($users_id, $live_servers_id, $live_schedule_id);
-        $jsonPath = $global['systemRootPath'].str_replace('.jpg', '.json', $path);
-        
-        if(file_exists($jsonPath)){
+        $jsonPath = $global['systemRootPath'] . str_replace('.jpg', '.json', $path);
+
+        if (file_exists($jsonPath)) {
             $times = _json_decode($jsonPath);
-        }        
-        if(empty($times)){
+        }
+        if (empty($times)) {
             $times = new stdClass();
             $times->liveImgCloseTimeInSeconds = 10;
             $times->liveImgTimeInSeconds = 30;
-        }        
+        }
         return $times;
     }
 
     public static function getPostrollPosterImage($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0) {
         return self::getPosterImage($users_id, $live_servers_id, $live_schedule_id, self::$posterType_postroll);
     }
-    
+
     public static function getPostrollPosterImageTimes($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0) {
         global $global;
         $path = self::getPostrollPosterImage($users_id, $live_servers_id, $live_schedule_id);
-        $jsonPath = $global['systemRootPath'].str_replace('.jpg', '.json', $path);
-        if(file_exists($jsonPath)){
+        $jsonPath = $global['systemRootPath'] . str_replace('.jpg', '.json', $path);
+        if (file_exists($jsonPath)) {
             $times = _json_decode($jsonPath);
-        }        
-        if(empty($times)){
+        }
+        if (empty($times)) {
             $times = new stdClass();
             $times->liveImgCloseTimeInSeconds = 30;
             $times->liveImgTimeInSeconds = 30;
-        }        
+        }
         return $times;
     }
-    
+
     public static function posterExists($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0, $posterType = 0) {
         global $global;
 
@@ -3199,6 +3197,35 @@ class Live extends PluginAbstract {
             exit;
         }
         return true;
+    }
+
+    public static function getMediaSession($key, $live_servers_id, $live_schedule_id = 0) {
+        $lt = LiveTransmition::getFromKey($key);
+        $posters = self::getMediaSessionPosters($lt['users_id'], $lt['live_servers_id'], $lt['live_schedule_id']);
+        //var_dump($posters);exit;
+        $category = Category::getCategory($lt['categories_id']);
+        $MediaMetadata = new stdClass();
+
+        $MediaMetadata->title = $lt['title'];
+        $MediaMetadata->artist = User::getNameIdentificationById($lt['users_id']);
+        $MediaMetadata->album = $category['name'];
+        $MediaMetadata->artwork = array();
+        foreach ($posters as $key => $value) {
+            $MediaMetadata->artwork[] = array('src' => $value['url'], 'sizes' => "{$key}x{$key}", 'type' => 'image/jpg');
+        }
+        return $MediaMetadata;
+    }
+
+    public static function getMediaSessionPosters($users_id, $live_servers_id, $live_schedule_id = 0) {
+        global $global;
+
+        $file = self::_getPosterImage($users_id, $live_servers_id, $live_schedule_id);
+        $imagePath = $global['systemRootPath'] . $file;
+        //var_dump($imagePath);exit;
+        if (file_exists($imagePath)) {
+            return getMediaSessionPosters($imagePath);
+        }
+        return false;
     }
 
 }
