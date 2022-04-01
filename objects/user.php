@@ -1559,7 +1559,7 @@ if (typeof gtag !== \"function\") {
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
-        $sql = "SELECT id FROM users WHERE 1=1  ";
+        $sql = "SELECT id FROM users u WHERE 1=1  ";
 
         $queryIds = [];
         if (empty($_REQUEST['userGroupShowOnly']) || $_REQUEST['userGroupShowOnly'] == 'permanent') {
