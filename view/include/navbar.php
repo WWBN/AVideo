@@ -513,10 +513,10 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             <?php
                         } else {
                             $output = ob_get_clean();
-                            ob_start();
+                            _ob_start();
                             echo AVideoPlugin::getUploadMenuButton();
                             $getUploadMenuButton = ob_get_clean();
-                            ob_start();
+                            _ob_start();
                             if (!empty($getUploadMenuButton)) {
                                 ?>
                                 <li>
@@ -533,7 +533,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                 </li>
                                 <?php
                                 $getUploadMenuButton = ob_get_clean();
-                                ob_start();
+                                _ob_start();
                             }
                             echo $output . $getUploadMenuButton;
                         } ?>
