@@ -491,7 +491,7 @@ Passcode: {password}
          */
         if (self::isModerator($meet_schedule_id)) {
             if (self::hasJibris() || self::isCustomJitsi()) {
-                return [
+                $return = [
                     'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'livestreaming', 'etherpad', 'settings', 'raisehand',
@@ -499,7 +499,7 @@ Passcode: {password}
                     'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur',
                 ];
             } else {
-                return [
+                $return = [
                     'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'etherpad', 'settings', 'raisehand',
@@ -508,13 +508,21 @@ Passcode: {password}
                 ];
             }
         } else {
-            return [
+            $return = [
                 'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                 'fodeviceselection', 'hangup', 'profile', 'chat', 'etherpad', 'settings', 'raisehand',
                 'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
                 'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur',
             ];
         }
+        
+        foreach ($return as $key => $value) {
+            if(isset($_REQUEST[$value]) && (empty($_REQUEST[$value]) || strtolower($_REQUEST[$value]) === 'false')){
+                unset($return[$key]);
+            }
+        }
+        
+        return $return;
     }
 
     public static function hasJibris()
