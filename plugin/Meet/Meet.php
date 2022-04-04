@@ -629,7 +629,7 @@ Passcode: {password}
         }
         $meet = new Meet_schedule($meet_schedule_id);
         if (!empty($meet->getPassword())) {
-            var_dump($meet_schedule_id, $meet->getPassword());exit;
+            //var_dump($meet_schedule_id, $meet->getPassword());exit;
             if (empty($_SESSION['user']['meet_password'][$meet_schedule_id])) {
                 if (!empty($password) && $meet->getPassword() == $password) {
                     _session_start();
