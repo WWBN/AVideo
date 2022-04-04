@@ -1425,7 +1425,7 @@ class API extends PluginAbstract {
             $dataObj = $this->getDataObject();
             foreach ($meets as $key => $value) {
                 $RoomPassword = '';
-                if ($dataObj->APISecret === @$_GET['APISecret'] || Meet::isModerator($value['id'])) {
+                if ($dataObj->APISecret === @$_GET['APISecret'] || Meet::isModerator($value['id']) || Meet::canJoinMeet($value['id'])) {
                     $RoomPassword = $value['password'];
                 } 
                 
