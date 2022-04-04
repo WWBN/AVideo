@@ -265,7 +265,7 @@ class Live extends PluginAbstract {
             // if key is from schedule, skipp it
             if(strtotime($value['modified']) > strtotime('+10 minures')){
                 $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($value['key'], $value['live_servers_id']);
-                if(empty($isLiveAndIsReadyFromKey)){
+                if(empty($isLiveAndIsReadyFromKey) && !empty($value['key'])){
                     _error_log("Live::getLiveApplicationArray LiveTransmitionHistory::finishFromTransmitionHistoryId({$value['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$value['live_servers_id']})");
                     LiveTransmitionHistory::finishFromTransmitionHistoryId($value['id']);
                     continue;
