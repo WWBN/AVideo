@@ -293,6 +293,8 @@ class Live extends PluginAbstract {
             $app['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
             $app['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
             $app['method'] = 'Live::getLiveApplicationArray::LiveTransmitionHistory';
+            $app['isLiveAndIsReadyFromKey'] = Live::isLiveAndIsReadyFromKey($value['key'], $value['live_servers_id']);
+            
 
             $array[] = $app;
         }
@@ -2302,8 +2304,10 @@ class Live extends PluginAbstract {
                     $_isLiveAndIsReadyFromKey[$name] = false;
                 }
             }
+            
             $json->result = $_isLiveAndIsReadyFromKey[$name];
             ObjectYPT::setCache($name, json_encode($json));
+            
         }
 
         return $_isLiveAndIsReadyFromKey[$name];
