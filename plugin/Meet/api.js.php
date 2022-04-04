@@ -75,6 +75,9 @@ if (empty($meet_schedule_id)) {
         } else if (typeof e.data.aVideoMeetStopRecording !== 'undefined') {
             console.log("YPTMeetScript aVideoMeetStopRecording");
             aVideoMeetStopRecording(e.data.aVideoMeetStopRecording.dropURL);
+        } else if (typeof e.data.terminateMeet !== 'undefined' && e.data.terminateMeet == 1) {
+            console.log("YPTMeetScript terminateMeet");
+            terminateMeet();
         }
     });
 
