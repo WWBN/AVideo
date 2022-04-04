@@ -79,6 +79,8 @@ $o->setMeet_code(uniqid());
 $meet_schedule_id = $o->save();
 if ($meet_schedule_id) {
     Meet_schedule_has_users_groups::saveUsergroupsToMeet($meet_schedule_id, $_REQUEST['userGroups']);
+    $createdMeet = new Meet_schedule($meet_schedule_id);
+    $obj->RoomPassword = $createdMeet->getPassword();
 }
 $obj->meet_schedule_id = $meet_schedule_id;
 $obj->password = @$_REQUEST['RoomPasswordNew'];
