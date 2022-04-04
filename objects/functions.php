@@ -2463,7 +2463,7 @@ function getUpdatesFilesArray() {
             }
         }
     }
-    usort($updateFiles, function($a, $b) {
+    usort($updateFiles, function ($a, $b) {
         return version_compare($a['version'], $b['version']);
     });
     return $updateFiles;
@@ -3444,7 +3444,7 @@ function convertImageToRoku($source, $destination) {
     return convertImageIfNotExists($source, $destination, 1280, 720);
 }
 
-function convertImageIfNotExists($source, $destination, $width, $height){
+function convertImageIfNotExists($source, $destination, $width, $height) {
     if (empty($source)) {
         _error_log("convertImageToRoku: source image is empty");
         return false;
@@ -3902,15 +3902,15 @@ function _session_start(array $options = []) {
 
 function _mysql_connect() {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
-    
-    $checkValues = array('mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase');    
-    
+
+    $checkValues = array('mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase');
+
     foreach ($checkValues as $value) {
-        if(!isset($$value)){
+        if (!isset($$value)) {
             _error_log("_mysql_connect Variable NOT set $value");
         }
     }
-    
+
     try {
         if (!_mysql_is_open()) {
             //_error_log('MySQL Connect '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -3919,7 +3919,7 @@ function _mysql_connect() {
             if (!empty($global['mysqli_charset'])) {
                 $global['mysqli']->set_charset($global['mysqli_charset']);
             }
-            if(isCommandLineInterface()){
+            if (isCommandLineInterface()) {
                 _error_log("_mysql_connect HOST=$mysqlHost,DB=$mysqlDatabase");
             }
         }
@@ -5280,7 +5280,7 @@ function getMySQLDate() {
 
 function _file_put_contents($filename, $data, $flags = 0, $context = null) {
     make_path($filename);
-    if(!is_string($value)){
+    if (!is_string($value)) {
         $data = _json_encode($data);
     }
     return file_put_contents($filename, $data, $flags, $context);
@@ -5530,9 +5530,9 @@ function _json_decode($object) {
     if (!is_string($object)) {
         return $object;
     }
-    if(isValidURLOrPath($object)){
+    if (isValidURLOrPath($object)) {
         $content = file_get_contents($object);
-        if(!empty($content)){
+        if (!empty($content)) {
             $object = $content;
         }
     }
@@ -6888,7 +6888,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     if ($force_recreate) {
         Live::deleteStatsCache();
     } else {
-        if(!empty($__getStatsNotifications__)){
+        if (!empty($__getStatsNotifications__)) {
             return $__getStatsNotifications__;
         }
         $json = ObjectYPT::getCache($cacheName, 0, true);
@@ -7809,7 +7809,7 @@ function isHTMLEmpty($html_string) {
     return empty(trim(str_replace(array("\r", "\n"), array('', ''), $html_string_no_tags)));
 }
 
-function emptyHTML($html_string){
+function emptyHTML($html_string) {
     return isHTMLEmpty($html_string);
 }
 
@@ -7947,4 +7947,64 @@ function forbiddenPageIfCannotEmbed($videos_id) {
             $objSecure->verifyEmbedSecurity();
         }
     }
+}
+
+function getMediaSessionPosters($imagePath) {
+    global $global;
+    if(empty($imagePath)){
+        return false;
+    }
+    $sizes = array(96, 128, 192, 256, 384, 512);
+
+    $posters = array();
+
+    foreach ($sizes as $value) {
+        $destination = str_replace('.jpg', "_{$value}.jpg", $imagePath);
+        $path = convertImageIfNotExists($imagePath, $destination, $value, $value);
+        if (!empty($path)) {
+            $convertedImage = convertImageIfNotExists($imagePath, $destination, $value, $value);
+            $relativePath = str_replace($global['systemRootPath'], '', $convertedImage);
+            $url = getURL($relativePath);
+            $posters[$value] = array('path' => $path, 'relativePath' => $relativePath, 'url' => $url);
+        }
+    }
+    return $posters;
+}
+
+function deleteMediaSessionPosters($imagePath) {
+    if(empty($imagePath)){
+        return false;
+    }
+    $sizes = array(96, 128, 192, 256, 384, 512);
+
+    foreach ($sizes as $value) {
+        $destination = str_replace('.jpg', "_{$value}.jpg", $imagePath);
+        unlink($destination);
+    }
+}
+
+function getMediaSession() {
+    $MediaMetadata = false;
+    $videos_id = getVideos_id();
+    if ($liveLink = isLiveLink()) {
+        $MediaMetadata = LiveLinks::getMediaSession($liveLink);
+    } else if ($live = isLive()) {
+        $MediaMetadata = Live::getMediaSession($live['key'], $live['live_servers_id'], @$live['live_schedule_id']);
+    } else if (!empty($videos_id)) {
+        if (!empty($videos_id)) {
+            $MediaMetadata = Video::getMediaSession($videos_id);
+        } else {
+            echo '<!-- mediaSession videos id is empty -->';
+        }
+    } else if (!empty($_REQUEST['videos_id'])) {
+        $MediaMetadata = Video::getMediaSession($_REQUEST['videos_id']);
+    } else if (!empty($_REQUEST['key'])) {
+        $MediaMetadata = Live::getMediaSession($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_schedule_id']);
+    }
+    return $MediaMetadata;
+}
+
+function _ob_start(){
+    global $global;
+    ob_start($global['ob_start_callback']);
 }
