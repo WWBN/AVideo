@@ -1421,8 +1421,15 @@ class API extends PluginAbstract {
 
             $meets = Meet_schedule::getAllFromUsersId(User::getId(), $time, true, false);
 
+            $dataObj = $this->getDataObject();
             foreach ($meets as $key => $value) {
+                $RoomPassword = '';
+                if ($dataObj->APISecret === @$_GET['APISecret']) {
+                    $RoomPassword = $value['password'];
+                } 
+                
                 $meets[$key] = cleanUpRowFromDatabase($value);
+                $meets[$key]['RoomPassword'] = $RoomPassword;
             }
 
             return new ApiObject('', false, $meets);
