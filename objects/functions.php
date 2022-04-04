@@ -7951,7 +7951,7 @@ function forbiddenPageIfCannotEmbed($videos_id) {
 
 function getMediaSessionPosters($imagePath) {
     global $global;
-    if(empty($imagePath)){
+    if (empty($imagePath)) {
         return false;
     }
     $sizes = array(96, 128, 192, 256, 384, 512);
@@ -7972,7 +7972,7 @@ function getMediaSessionPosters($imagePath) {
 }
 
 function deleteMediaSessionPosters($imagePath) {
-    if(empty($imagePath)){
+    if (empty($imagePath)) {
         return false;
     }
     $sizes = array(96, 128, 192, 256, 384, 512);
@@ -8004,7 +8004,14 @@ function getMediaSession() {
     return $MediaMetadata;
 }
 
-function _ob_start(){
+function _ob_start() {
     global $global;
+    if (!isset($global['ob_start_callback'])) {
+        $global['ob_start_callback'] = 'ob_gzhandler';
+    } else {
+        if (empty($global['ob_start_callback'])) {
+            $global['ob_start_callback'] = null;
+        }
+    }
     ob_start($global['ob_start_callback']);
 }
