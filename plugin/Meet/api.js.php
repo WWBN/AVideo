@@ -262,4 +262,11 @@ if (!empty($rtmpLink) && Meet::isModerator($meet_schedule_id)) {
     function startLiveMeet(){
         aVideoMeetStartRecording('<?php echo $rtmpLink; ?>', '<?php echo $dropURL; ?>');
     }
+    
+    function terminateMeet(){
+        Participants = api.getParticipantsInfo();
+        for (var index in Participants) {
+            api.executeCommand('kickParticipant',Participants[index].participantId;);
+        }
+    }
 </script>
