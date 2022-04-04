@@ -8,7 +8,7 @@ if (!isset($global['systemRootPath'])) {
 
 require_once $global['systemRootPath'].'plugin/Meet/validateMeet.php';
 
-if (!Meet::validatePassword($meet_schedule_id, @$_POST['meet_password'])) {
+if (!Meet::validatePassword($meet_schedule_id, @$_REQUEST['meet_password'])) {
     header("Location: {$global['webSiteRootURL']}plugin/Meet/confirmMeetPassword.php?meet_schedule_id=$meet_schedule_id");
     exit;
 }
