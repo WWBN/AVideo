@@ -263,6 +263,15 @@ class Live extends PluginAbstract {
         foreach ($rows as $value) {
             unset($_REQUEST['playlists_id_live']);
             // if key is from schedule, skipp it
+            if(strtotime($value['modified']) > strtotime('+10 minures')){
+                $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($value['key'], $value['live_servers_id']);
+                if(empty($isLiveAndIsReadyFromKey)){
+                    _error_log("Live::getLiveApplicationArray LiveTransmitionHistory::finishFromTransmitionHistoryId({$value['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$value['live_servers_id']})");
+                    LiveTransmitionHistory::finishFromTransmitionHistoryId($value['id']);
+                    continue;
+                }
+            }
+            
             if (!LiveTransmition::keyExists($value['key'], false) && Live_schedule::keyExists($value['key'])) {
                 //if (Live_schedule::keyExists($value['key'])) {
                 continue;
@@ -293,7 +302,6 @@ class Live extends PluginAbstract {
             $app['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
             $app['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
             $app['method'] = 'Live::getLiveApplicationArray::LiveTransmitionHistory';
-            $app['isLiveAndIsReadyFromKey'] = Live::isLiveAndIsReadyFromKey($value['key'], $value['live_servers_id']);
             
 
             $array[] = $app;
