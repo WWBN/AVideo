@@ -628,7 +628,7 @@ Passcode: {password}
             return true;
         }
         $meet = new Meet_schedule($meet_schedule_id);
-        if ($meet->getPassword()) {
+        if (!empty($meet->getPassword())) {
             if (empty($_SESSION['user']['meet_password'][$meet_schedule_id])) {
                 if (!empty($password) && $meet->getPassword() == $password) {
                     _session_start();
