@@ -521,8 +521,7 @@ Passcode: {password}
                 unset($return[$key]);
             }
         }
-        reset($return);
-        return $return;
+        return array_values($return);
     }
 
     public static function hasJibris()
