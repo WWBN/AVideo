@@ -521,7 +521,7 @@ Passcode: {password}
                 unset($return[$key]);
             }
         }
-        
+        reset($return);
         return $return;
     }
 
