@@ -8,7 +8,7 @@ if ($obj->allowDonationLink && !empty($video['users_id'])) {
     if (!empty($donationLink)) {
         ?>
         <a class="btn btn-success no-outline" href="<?php echo $donationLink; ?>" target="_blank"  data-toggle="tooltip" data-placement="bottom"  title="<?php echo __($obj->donationButtonLabel); ?>">
-            <i class="fas fa-donate"></i> <small class="hidden-sm hidden-xs"><?php echo __($obj->donationButtonLabel); ?> <i class="fas fa-external-link-alt"></i></small>
+            <i class="fas fa-donate faa-tada animated"></i> <small class="hidden-sm hidden-xs"><?php echo __($obj->donationButtonLabel); ?> <i class="fas fa-external-link-alt"></i></small>
         </a>    
         <?php
     }
@@ -17,7 +17,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
     if (!User::isLogged()) {
         ?>
         <a class="btn btn-warning no-outline" href="<?php echo $global['webSiteRootURL']; ?>user"  data-toggle="tooltip" data-placement="bottom"  title="<?php echo __("Please login to donate"); ?>">
-            <i class="fas fa-donate"></i> <small class="hidden-sm hidden-xs"><?php echo __("Please login to donate"); ?></small>
+            <i class="fas fa-donate faa-tada animated"></i> <small class="hidden-sm hidden-xs"><?php echo __("Please login to donate"); ?></small>
         </a>    
         <?php
     } elseif (class_exists("YPTWallet")) {
