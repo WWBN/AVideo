@@ -7058,11 +7058,13 @@ function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = 
 
 function getLiveUsersLabelHTML($viewsClass = "label label-default", $counterClass = "label label-primary") {
     global $global;
-    _ob_start();
+    $htmlMediaTag = '';
+    //_ob_start();
     include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
-    $htmlMediaTag = '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveUsersLabel">';
-    $htmlMediaTag .= ob_get_contents();
-    ob_end_clean();
+    //$htmlMediaTag .= ob_get_contents();
+    //ob_end_clean();
+    //_ob_start();
+    $htmlMediaTag .= '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveUsersLabel">';
     $htmlMediaTag .= getLiveUsersLabel($viewsClass, $counterClass);
     $htmlMediaTag .= '</div>';
     return $htmlMediaTag;
@@ -8006,6 +8008,9 @@ function getMediaSession() {
 
 function _ob_start() {
     global $global;
+    if (ob_get_level()) {
+        return false;
+    }
     if (!isset($global['ob_start_callback'])) {
         $global['ob_start_callback'] = 'ob_gzhandler';
     } else {
