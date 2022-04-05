@@ -130,18 +130,24 @@ if (empty($obj->hideTopButton)) {
             }, 1000); // give some time to load the new images
         }
 
+        var _processLiveStats_processingNow = 0;
         function processLiveStats(response) {
+            if(_processLiveStats_processingNow){
+                return false;
+            }
+            _processLiveStats_processingNow = 1;
+            setTimeout(function(){_processLiveStats_processingNow=0;},200);
             if (typeof response !== 'undefined') {
                 if (isArray(response)) {
                     for (var i in response) {
                         if (typeof response[i] !== 'object') {
                             continue;
                         }
-                        console.log('processLiveStats isarray', response[i]);
+                        //console.log('processLiveStats is array', response[i]);
                         processApplicationLive(response[i]);
                     }
                 } else {
-                    console.log('processLiveStats not array', response);
+                    //console.log('processLiveStats not array', response);
                     processApplicationLive(response);
                 }
                 if (!response.countLiveStream) {
@@ -171,9 +177,10 @@ if (empty($obj->hideTopButton)) {
             $.ajax({
                 url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu',
                 success: function (response) {
+                    //console.log('getStatsMenu processLiveStats', response);
                     processLiveStats(response);
                     if (avideoSocketIsActive()) {
-                        console.log('getStatsMenu: Socket is enabled we will not process ajax result');
+                        //console.log('getStatsMenu: Socket is enabled we will not process ajax result');
                         return false;
                     }
                     if (recurrentCall) {
@@ -196,28 +203,31 @@ if (empty($obj->hideTopButton)) {
                     }
                 }
 
-                console.log('processApplicationLive', response.applications, response.applications.length);
                 if (response.applications.length) {
+                    //console.log('processApplicationLive 1', response.applications, response.applications.length);
                     for (i = 0; i < response.applications.length; i++) {
+                        //console.log('processApplicationLive 1 title', response.applications[i].title);
                         processApplication(response.applications[i]);
-                        if (response.applications[i].type == "scheduleLive") {
-                            continue;
-                        }
-                        if (typeof response.applications[i].live_cleanKey !== 'undefined') {
-                            selector = '.liveViewStatusClass_' + response.applications[i].live_cleanKey;
-                            onlineLabelOnline(selector);
-                        }
-                        if (typeof response.applications[i].key !== 'undefined') {
-                            selector = '.liveViewStatusClass_' + response.applications[i].key;
-                            onlineLabelOnline(selector);
+                        if (!response.applications[i].comingsoon) {
+                            if (typeof response.applications[i].live_cleanKey !== 'undefined') {
+                                selector = '.liveViewStatusClass_' + response.applications[i].live_cleanKey;
+                                onlineLabelOnline(selector);
+                            }
+                            if (typeof response.applications[i].key !== 'undefined') {
+                                selector = '.liveViewStatusClass_' + response.applications[i].key;
+                                onlineLabelOnline(selector);
+                            }
                         }
                     }
                     mouseEffect();
+                }else{
+                    //console.log('processApplicationLive ERROR', response);
                 }
             }
             // check for live servers
             var count = 0;
             while (typeof response[count] !== 'undefined') {
+                //console.log('processApplicationLive 2',count, response[count].applications, response[count].applications.length);
                 for (i = 0; i < response[count].applications.length; i++) {
                     processApplication(response[count].applications[i]);
                 }
@@ -253,7 +263,7 @@ if (empty($obj->hideTopButton)) {
                 key = '';
             }
 
-            //console.log('processApplication', application.className);
+            ////console.log('processApplication', application.className);
             callback = '';
             if (typeof application.callback === 'string') {
                 callback = application.callback;
@@ -270,19 +280,20 @@ if (empty($obj->hideTopButton)) {
                 var notificationHTML = $(application.html);
                 var notificatioID = (notificationHTML.attr('id') + '_notification').replace(/[&=]/g, '');
                 if (typeof key !== 'undefined') {
-                    //console.log('processApplication remove class .live_' + key);
+                    ////console.log('processApplication remove class .live_' + key);
                     $('.live_' + key).remove();
                 }
                 if (!$('#' + notificatioID).length) {
                     notificationHTML.attr('id', notificatioID);
                     if (application.comingsoon) {
+                        //console.log('application.comingsoon 1', application.comingsoon, application.method);
                         $('#availableLiveStream').append(notificationHTML);
                     } else {
                         $('#availableLiveStream').prepend(notificationHTML);
                     }
                     animateChilds('#availableLiveStream', 'animate__bounceInRight', 0.05);
                 } else {
-                    //console.log('processApplication is already present '+notificatioID, application.className);
+                    ////console.log('processApplication is already present '+notificatioID, application.className);
                 }
 
                 var html;
@@ -305,7 +316,9 @@ if (empty($obj->hideTopButton)) {
                     //console.log('processApplication key found', id);
                     return false;
                 }
+                //console.log('processApplication key NOT found', id);
                 if (application.comingsoon) {
+                    ////console.log('application.comingsoon 2', application.comingsoon, application.method);
                     $('#liveScheduleVideos .extraVideos').append(html);
                     $('#liveScheduleVideos').slideDown();
                 } else {
@@ -319,7 +332,7 @@ if (empty($obj->hideTopButton)) {
                     eval("try {" + callback + ";} catch (e) {console.log('processApplication application.callback error',e.message);}");
                 }
             } else {
-                console.log('application.html is undefined');
+                //console.log('application.html is undefined');
             }
             clearTimeout(linksToEmbedTimeout);
             linksToEmbedTimeout = setTimeout(function () {
@@ -342,15 +355,15 @@ if (empty($obj->hideTopButton)) {
             selector2 = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
             selector3 = '#liveViewStatusID_' + json.cleanKey + '_' + json.live_servers_id;
             selector4 = '.liveViewStatusClass_' + json.cleanKey + '_' + json.live_servers_id;
-            console.log('isInLive 1', json);
-            console.log('isInLive 2', selector1, selector2, selector3, selector4);
+            //console.log('isInLive 1', json);
+            //console.log('isInLive 2', selector1, selector2, selector3, selector4);
             var _isInLive = $(selector1).length || $(selector2).length || $(selector3).length || $(selector4).length;
-            console.log('isInLive 3', $(selector1).length, $(selector2).length, $(selector3).length, $(selector4).length, _isInLive);
+            //console.log('isInLive 3', $(selector1).length, $(selector2).length, $(selector3).length, $(selector4).length, _isInLive);
             return _isInLive;
         }
 
         function socketLiveONCallback(json) {
-            console.log('socketLiveONCallback', json);
+            //console.log('socketLiveONCallback processLiveStats', json);
             processLiveStats(json.stats);
             var selector = '.live_' + json.live_servers_id + "_" + json.key;
             $(selector).slideDown();
@@ -361,7 +374,7 @@ if (empty($obj->hideTopButton)) {
                 selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
                 onlineLabelOnline(selector);
                 selector = '.liveViewStatusClass_' + json.cleanKey;
-                //console.log('socketLiveOFFCallback 3', selector);
+                ////console.log('socketLiveOFFCallback 3', selector);
                 onlineLabelOnline(selector);
             }
 
@@ -381,26 +394,27 @@ if (empty($obj->hideTopButton)) {
             }
         }
         function socketLiveOFFCallback(json) {
-            console.log('socketLiveOFFCallback', json);
+            //console.log('socketLiveOFFCallback', json);
             var selector = '.live_' + json.live_servers_id + "_" + json.key;
             selector += ', .liveVideo_live_' + json.live_servers_id + "_" + json.key;
             selector += ', .live_' + json.key;
-            //console.log('socketLiveOFFCallback 1', selector);
+            ////console.log('socketLiveOFFCallback 1', selector);
             $(selector).slideUp("fast", function () {
                 $(this).remove();
             });
             if (typeof onlineLabelOffline == 'function') {
                 selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
-                //console.log('socketLiveOFFCallback 2', selector);
+                ////console.log('socketLiveOFFCallback 2', selector);
                 onlineLabelOffline(selector);
                 selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
-                //console.log('socketLiveOFFCallback 3', selector);
+                ////console.log('socketLiveOFFCallback 3', selector);
                 onlineLabelOffline(selector);
                 selector = '.liveViewStatusClass_' + json.cleanKey;
-                //console.log('socketLiveOFFCallback 3', selector);
+                ////console.log('socketLiveOFFCallback 3', selector);
                 onlineLabelOffline(selector);
             }
             setTimeout(function () {
+                //console.log('socketLiveOFFCallback processLiveStats');
                 processLiveStats(json.stats);
                 setTimeout(function () {
                     hideExtraVideosIfEmpty();
@@ -432,7 +446,7 @@ if (empty($obj->hideTopButton)) {
                 liveImgCloseTimeInSeconds = liveImgCloseTimeInSecondsPostroll;
                 img = postrollPoster;
             }
-            console.log('showImage Poster', type, img, key);
+            //console.log('showImage Poster', type, img, key);
             if (img) {
                 if(typeof closeLiveImageRoll == 'function'){
                     closeLiveImageRoll();
@@ -447,10 +461,10 @@ if (empty($obj->hideTopButton)) {
                 $(_liveImageBGTemplate).appendTo("#mainVideo");
             }
 
-            console.log('prerollPoster', prerollPoster);
-            console.log('postrollPoster', postrollPoster);
-            console.log('liveImgTimeInSeconds', liveImgTimeInSeconds);
-            console.log('liveImgCloseTimeInSeconds', liveImgCloseTimeInSeconds);
+            //console.log('prerollPoster', prerollPoster);
+            //console.log('postrollPoster', postrollPoster);
+            //console.log('liveImgTimeInSeconds', liveImgTimeInSeconds);
+            //console.log('liveImgCloseTimeInSeconds', liveImgCloseTimeInSeconds);
         }
 
         function hideExtraVideosIfEmpty() {
@@ -487,6 +501,7 @@ if (empty($obj->hideTopButton)) {
             }
     <?php
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
+        //echo 'console.log(\'YPTSocket processLiveStats\');';
         echo 'processLiveStats(' . json_encode(getStatsNotifications()) . ');';
     }
     ?>

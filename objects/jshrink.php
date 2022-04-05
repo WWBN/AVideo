@@ -115,7 +115,7 @@ class Minifier
     public static function minify($js, $options = [])
     {
         try {
-            ob_start();
+            _ob_start();
 
             $jshrink = new Minifier();
             $js = $jshrink->lock($js);

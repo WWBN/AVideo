@@ -263,15 +263,15 @@ class Live extends PluginAbstract {
         foreach ($rows as $value) {
             unset($_REQUEST['playlists_id_live']);
             // if key is from schedule, skipp it
-            if(!empty($value['key']) && strtotime($value['modified']) > strtotime('+10 minures')){
+            if (!empty($value['key']) && strtotime($value['modified']) > strtotime('+10 minures')) {
                 $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($value['key'], $value['live_servers_id']);
-                if(empty($isLiveAndIsReadyFromKey)){
+                if (empty($isLiveAndIsReadyFromKey)) {
                     _error_log("Live::getLiveApplicationArray LiveTransmitionHistory::finishFromTransmitionHistoryId({$value['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$value['live_servers_id']})");
                     LiveTransmitionHistory::finishFromTransmitionHistoryId($value['id']);
                     continue;
                 }
             }
-            
+
             if (!LiveTransmition::keyExists($value['key'], false) && Live_schedule::keyExists($value['key'])) {
                 //if (Live_schedule::keyExists($value['key'])) {
                 continue;
@@ -302,7 +302,6 @@ class Live extends PluginAbstract {
             $app['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
             $app['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
             $app['method'] = 'Live::getLiveApplicationArray::LiveTransmitionHistory';
-            
 
             $array[] = $app;
         }
@@ -358,11 +357,12 @@ class Live extends PluginAbstract {
         $name = User::getNameIdentificationById($users_id);
         $comingsoon = false;
         if (!empty($startsOnDate)) {
-            if (strtotime($startsOnDate) > time()) {
+            $startsOnDateTime = strtotime($startsOnDate);
+            if ($startsOnDateTime > time()) {
                 $callback .= ';' . '$(\'.' . $uid . ' .liveNow\').attr(\'class\', \'liveNow label label-primary\');'
                         . '$(\'.' . $uid . ' .liveNow\').text(\'' . $startsOnDate . '\');'
                         . 'startTimerToDate(\'' . $startsOnDate . '\', \'.' . $uid . ' .liveNow\', false);';
-                $comingsoon = true;
+                $comingsoon = $startsOnDateTime;
             }
         }
         if (empty($imgJPG)) {
@@ -604,8 +604,7 @@ class Live extends PluginAbstract {
                     . 'var liveImageBGTemplate = ' . json_encode($liveImageBGTemplate) . ';'
                     . 'var isLive = ' . json_encode(isLive()) . ';'
                     . '</script>';
-            $js .= '<link href="'.getURL('plugin/Live/view/live.css').'" rel="stylesheet" type="text/css"/>';
-            
+            $js .= '<link href="' . getURL('plugin/Live/view/live.css') . '" rel="stylesheet" type="text/css"/>';
         }
 
         return $js . $css;
@@ -2314,10 +2313,9 @@ class Live extends PluginAbstract {
                     $_isLiveAndIsReadyFromKey[$name] = false;
                 }
             }
-            
+
             $json->result = $_isLiveAndIsReadyFromKey[$name];
             ObjectYPT::setCache($name, json_encode($json));
-            
         }
 
         return $_isLiveAndIsReadyFromKey[$name];

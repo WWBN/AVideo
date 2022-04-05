@@ -891,6 +891,15 @@ class AVideoPlugin
             }
             $_getLiveApplicationArrayPlugin = $array;
         }
+        
+
+        function cmp($a, $b) {
+            //var_dump($a['title'],$a['comingsoon'], $b['title'],$b['comingsoon'], $a['comingsoon'] - $b['comingsoon']);
+            return $a['comingsoon'] - $b['comingsoon'];
+        }
+
+        usort($_getLiveApplicationArrayPlugin, "cmp");
+        
         return $_getLiveApplicationArrayPlugin;
     }
 

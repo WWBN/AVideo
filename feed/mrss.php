@@ -6,7 +6,7 @@ $cacheFeedName = "feedCacheMRSS" . json_encode($_REQUEST);
 $lifetime = 43200;
 $feed = ObjectYPT::getCache($cacheFeedName, $lifetime);
 if (empty($feed)) {
-    ob_start();
+    _ob_start();
     echo'<?xml version="1.0" encoding="UTF-8"?>'; ?>
     <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"
          xmlns:georss="http://www.georss.org/georss"
