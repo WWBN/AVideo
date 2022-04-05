@@ -30,6 +30,9 @@
         <div class="row">
             <div class="col-lg-12">
                 <textarea id="emailMessage" placeholder="<?php echo __("Enter text"); ?> ..." style="width: 100%;"></textarea>
+                <?php
+                echo getTinyMCE('emailMessage', false);
+                ?>
             </div>
         </div>
 
@@ -43,11 +46,10 @@
 
     </div>
 </div>
-
-<script src="<?php echo getCDN(); ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
 <script>
     function notify() {
         modal.showPleaseWait();
+        $("#emailMessage").val(tinymce.get('emailMessage').getContent());
         $.ajax({
             url: '<?php echo $global['webSiteRootURL']; ?>objects/emailAllUsers.json.php',
             method: 'POST',
@@ -67,8 +69,8 @@
             }
         });
     }
+    videos_id = -1;
     $(document).ready(function () {
-        $('#emailMessage').wysihtml5();
         $("#sendSubscribeBtn").click(function () {
             notify();
         });

@@ -306,7 +306,7 @@ if (empty($obj->hideTopButton)) {
                     return false;
                 }
                 if (application.comingsoon) {
-                    $('#liveScheduleVideos .extraVideos').prepend(html);
+                    $('#liveScheduleVideos .extraVideos').append(html);
                     $('#liveScheduleVideos').slideDown();
                 } else {
                     $('#liveVideos .extraVideos').prepend(html);

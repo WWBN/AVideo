@@ -5780,10 +5780,8 @@ function isForbidden() {
 function diskUsageBars() {
     return ''; //TODO check why it is slowing down
     global $global;
-    _ob_start();
     include $global['systemRootPath'] . 'objects/functiondiskUsageBars.php';
-    $contents = ob_get_contents();
-    ob_end_clean();
+    $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functiondiskUsageBars.php');
     return $contents;
 }
 
@@ -6570,10 +6568,7 @@ function canFullScreen() {
 
 function getTinyMCE($id, $simpleMode = false) {
     global $global;
-    _ob_start();
-    include $global['systemRootPath'] . 'objects/functionsGetTinyMCE.php';
-    $contents = ob_get_contents();
-    ob_end_clean();
+    $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functionsGetTinyMCE.php', array('id'=>$id, 'simpleMode'=>$simpleMode));
     return $contents;
 }
 
@@ -7062,18 +7057,9 @@ function getLiveUsersLabelHTML($viewsClass = "label label-default", $counterClas
         return '';
     }
     $_getLiveUsersLabelHTML = 1;
-    _ob_start();
-    echo ob_get_clean();
-    //ob_get_contents();
-    //ob_end_clean();
-    _ob_start();
-    $htmlMediaTag = '<!-- onlineLabel.php start -->';
+    
     $htmlMediaTag .= '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveUsersLabel">';
-    include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
-    $htmlMediaTag .= ob_get_contents();
-    $htmlMediaTag .= '<!-- onlineLabel.php end -->';
-    ob_end_clean();
-    _ob_start();
+    $htmlMediaTag .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php', array('viewsClass'=>$viewsClass,'counterClass'=>$counterClass));
     $htmlMediaTag .= getLiveUsersLabel($viewsClass, $counterClass);
     $htmlMediaTag .= '</div>';
     return $htmlMediaTag;
@@ -8028,4 +8014,22 @@ function _ob_start() {
         }
     }
     ob_start($global['ob_start_callback']);
+}
+
+function getIncludeFileContent($filePath, $varsArray=array()){
+    global $global;
+    foreach ($varsArray as $key => $value) {
+        $$key = $value;
+    }
+    _ob_start();
+    echo ob_get_clean();
+    _ob_start();
+    $basename = basename($filePath);
+    $return = "<!-- {$basename} start -->";
+    include $filePath;
+    $return .= ob_get_contents();
+    $return .= "<!-- {$basename} end -->";
+    ob_end_clean();
+    _ob_start();
+    return $return;
 }

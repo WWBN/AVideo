@@ -1,21 +1,23 @@
 <?php
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+header('Content-Type: application/json');
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-if (empty($_GET['video_id']) && !empty($_POST['videos_id'])) {
-    $_GET['video_id'] = $_POST['videos_id'];
+if (empty($_REQUEST['video_id']) && !empty($_POST['videos_id'])) {
+    $_REQUEST['video_id'] = $_POST['videos_id'];
 }
 
 $obj = new stdClass();
 $obj->error = true;
-if (!Video::canEdit($_GET['video_id'])) {
-    $obj->msg = 'You can\'t edit this file';
+$obj->videos_id = intval($_REQUEST['video_id']);
+if (!empty($obj->videos_id) && !Video::canEdit($obj->videos_id)) {
+    $obj->msg = __("You can't edit this file");
     die(json_encode($obj));
 }
-header('Content-Type: application/json');
 // A list of permitted file extensions
 $allowed = ['jpg', 'gif', 'png'];
 if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
@@ -24,27 +26,38 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         $obj->msg = "File extension error [{$_FILES['file_data']['name']}], we allow only (" . implode(",", $allowed) . ")";
         die(json_encode($obj));
     }
+    $relativeDestinationDir = '';
     //var_dump($extension, $type);exit;
-    $video = new Video("", "", $_GET['video_id']);
-    if (!empty($video)) {
-        $dir = Video::getStoragePath()."articleImages/" . $video->getFilename()."/";
-        $name = uniqid();
-        if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
+    if ($obj->videos_id > 0) {
+        $video = new Video("", "", $obj->videos_id);
+        if (!empty($video)) {
+            $relativeDestinationDir = "articleImages" . DIRECTORY_SEPARATOR . $video->getFilename() . DIRECTORY_SEPARATOR;
         }
-        $destination = $dir . $name.".".strtolower($extension);
-        _error_log("Try to move " . $destination . " \n " . print_r($video, true));
-        if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $destination)) {
-            $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . $destination;
+    }
+    if (empty($relativeDestinationDir) && Permissions::canAdminUsers()) {
+        $relativeDestinationDir = "videos" . DIRECTORY_SEPARATOR . "tmpAdminImages" . DIRECTORY_SEPARATOR . date('Ymd') . DIRECTORY_SEPARATOR;
+    }
+
+    if (!empty($relativeDestinationDir)) {
+        $name = uniqid();
+        $filename = $name . "." . strtolower($extension);
+        $relativeDestinationDirFilename = $relativeDestinationDir . $filename;
+        $destinationDir = $global['systemRootPath'] . $relativeDestinationDir;
+        make_path($destinationDir);
+        $destinationDirFilename = $global['systemRootPath'] . $relativeDestinationDirFilename;
+        _error_log("Try to move " . $destinationDirFilename);
+        if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $destinationDirFilename)) {
+            $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . $destinationDirFilename;
             die(json_encode($obj));
         }
-        $obj->url = "{$global['webSiteRootURL']}videos/articleImages/" . $video->getFilename()."/{$name}.".strtolower($extension);
+        $obj->url = getURL($relativeDestinationDirFilename);
         $obj->error = false;
     } else {
-        $obj->msg = "Video Not found";
+        $obj->msg = __("Error o save image");
         die(json_encode($obj));
     }
+} else {
+    $obj->msg = "\$_FILES Error";
 }
-$obj->msg = "\$_FILES Error";
 $obj->FILES = $_FILES;
 die(json_encode($obj));
