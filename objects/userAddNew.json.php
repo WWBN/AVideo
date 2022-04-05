@@ -83,14 +83,22 @@ if ($originalChannelName !== $finalChannelName) {
     _error_log("Users Add could not add the selected channel name,  you want=[{$originalChannelName}] it will be = [{$finalChannelName}]");
 }
 _error_log("userAddNew.json.php: saving");
-$users_id = $user->save(true);
+$obj->users_id = $user->save(true);
 
-if (!empty($users_id) && !empty($_POST['usersExtraInfo'])) {
-    $obj->error = false;
-    $obj->status = $users_id;
+if (!empty($obj->users_id) && !empty($_POST['usersExtraInfo'])) {
+    
+    $obj->status = $obj->users_id;
     if (!empty($_POST['usersExtraInfo'])) {
-        User::saveExtraInfo(json_encode($_POST['usersExtraInfo']), $users_id);
+        User::saveExtraInfo(json_encode($_POST['usersExtraInfo']), $obj->users_id);
     }
 }
-_error_log("userAddNew.json.php: saved users_id ($users_id)");
+
+$obj->error = empty($obj->users_id);
+if(empty($obj->error)){
+    $obj->msg = __("Your user has been saved!");
+}else{
+    $obj->msg = __("Your user has NOT been updated!");
+}
+
+_error_log("userAddNew.json.php: saved users_id ($obj->users_id)");
 die(_json_encode($obj));

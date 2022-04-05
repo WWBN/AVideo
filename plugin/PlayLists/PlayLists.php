@@ -104,8 +104,6 @@ class PlayLists extends PluginAbstract {
             $css .= "<link href=\"" . getURL('plugin/PlayLists/playerButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
         }
 
-        include $global['systemRootPath'] . 'plugin/PlayerSkins/mediaSession.php';
-        
         return $css;
     }
 
@@ -113,7 +111,7 @@ class PlayLists extends PluginAbstract {
         global $global;
         $obj = $this->getDataObject();
         include $global['systemRootPath'] . 'plugin/PlayLists/footer.php';
-        $js = '<script src="' . getCDN() . 'plugin/PlayLists/script.js" type="text/javascript"></script>';
+        $js = '<script src="' . getURL('plugin/PlayLists/script.js') . '" type="text/javascript"></script>';
 
         if (isEmbed()) {
             if (self::showTVFeatures()) {
@@ -133,7 +131,7 @@ class PlayLists extends PluginAbstract {
         if (!empty(getPlaylists_id())) {
             PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayLists/playerButton.js"));
         }
-
+        
         return $js;
     }
 

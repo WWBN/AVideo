@@ -232,10 +232,10 @@ class Gallery extends PluginAbstract {
     public static function getAddChannelToGalleryButton($users_id){
         global $global, $config;
         $variable = ob_get_clean();
-        ob_start(); 
+        _ob_start(); 
         include $global['systemRootPath'] . 'plugin/Gallery/buttonChannelToGallery.php';
         $button = ob_get_clean();
-        ob_start();
+        _ob_start();
         echo $variable;
         return $button;
     }

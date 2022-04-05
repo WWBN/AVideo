@@ -437,5 +437,22 @@ class LiveLinks extends PluginAbstract {
         $t['description'] = @$video->description;
         return $t;
     }
+    
+    public static function getMediaSession($id) {
+        $ll = new LiveLinks($id);
+        $posters = array();
+        //var_dump($posters);exit;
+        $category = Category::getCategory($lt['categories_id']);
+        $MediaMetadata = new stdClass();
+
+        $MediaMetadata->title = $lt['title'];
+        $MediaMetadata->artist = User::getNameIdentificationById($lt['users_id']);
+        $MediaMetadata->album = $category['name'];
+        $MediaMetadata->artwork = array();
+        foreach ($posters as $key => $value) {
+            $MediaMetadata->artwork[] = array('src' => $value['url'], 'sizes' => "{$key}x{$key}", 'type' => 'image/jpg');
+        }
+        return $MediaMetadata;
+    }
 
 }

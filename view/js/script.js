@@ -1967,7 +1967,7 @@ function clearServerTime() {
 }
 
 function addGetParam(_url, _key, _value) {
-    if(typeof _url !== 'string'){
+    if (typeof _url !== 'string') {
         return false;
     }
     var param = _key + '=' + escape(_value);
@@ -2371,4 +2371,147 @@ function empty(data) {
         }
     }
     return true;
+}
+
+function replaceLast(find, replace, string) {
+    var lastIndex = string.lastIndexOf(find);
+
+    if (lastIndex === -1) {
+        return string;
+    }
+
+    var beginString = string.substring(0, lastIndex);
+    var endString = string.substring(lastIndex + find.length);
+
+    return beginString + replace + endString;
+}
+
+
+function getCursorPos(input) {
+    if ("selectionStart" in input && document.activeElement == input) {
+        return {
+            start: input.selectionStart,
+            end: input.selectionEnd
+        };
+    } else if (input.createTextRange) {
+        var sel = document.selection.createRange();
+        if (sel.parentElement() === input) {
+            var rng = input.createTextRange();
+            rng.moveToBookmark(sel.getBookmark());
+            for (var len = 0; rng.compareEndPoints("EndToStart", rng) > 0; rng.moveEnd("character", -1)) {
+                len++;
+            }
+            rng.setEndPoint("StartToStart", input.createTextRange());
+            for (var pos = {start: 0, end: len}; rng.compareEndPoints("EndToStart", rng) > 0; rng.moveEnd("character", -1)) {
+                pos.start++;
+                pos.end++;
+            }
+            return pos;
+        }
+    } else if (document.getSelection) {    // all browsers, except IE before version 9
+        var sel = document.getSelection();
+        return {
+            start: sel.anchorOffset,
+            end: sel.focusOffset
+        };
+    }
+    return -1;
+}
+
+var addAtMentionActive = false;
+function addAtMention(selector) {
+    var emojioneArea = false;
+    if (typeof $(selector).data("emojioneArea") !== 'undefined') {
+        emojioneArea = selector;
+        selector = '.emojionearea-editor';
+    }
+    console.log('addAtMention(selector)', selector, emojioneArea);
+    var SpaceKeyCode = ' '.charCodeAt(0);
+    var AtMatcher = /^@.+/i;
+    $(selector).on("keydown", function (event) {
+        if (!$(this).autocomplete("instance").menu.active) {
+            if (
+                    event.keyCode === SpaceKeyCode ||
+                    event.keyCode === $.ui.keyCode.TAB ||
+                    event.keyCode === $.ui.keyCode.ENTER ||
+                    event.keyCode === $.ui.keyCode.ESCAPE) {
+                $(this).autocomplete("close");
+            }
+        } else {
+            if ((event.keyCode === $.ui.keyCode.TAB)) {
+                event.preventDefault();
+            }
+        }
+    })
+            .autocomplete({
+                minLength: 2,
+                source: function (request, response) {
+
+                    var pos = getCursorPos($(selector)[0]);
+                    stringStart = request.term.substring(0, pos.end);
+
+                    var term = stringStart.split(/\s+/).pop();
+                    console.log('autocomplete', request.term, term, AtMatcher.test(term));
+                    if (AtMatcher.test(term)) {
+                        $.ajax({
+                            url: webSiteRootURL + "objects/mention.json.php",
+                            data: {
+                                term: term
+                            },
+                            success: function (data) {
+                                response(data);
+                            }
+                        });
+                    } else {
+                        return false;
+                    }
+                },
+                focus: function () {
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function (event, ui) {
+                    addAtMentionActive = true;
+                    setTimeout(function () {
+                        addAtMentionActive = false;
+                    }, 200);
+                    if (emojioneArea) {
+                        this.value = $(emojioneArea).data("emojioneArea").getText();
+                    }
+                    console.log('addAtMention', this, this.value);
+                    var pos = getCursorPos($(selector)[0]);
+                    stringStart = this.value.substring(0, pos.end);
+                    stringEnd = this.value.substring(pos.end);
+
+                    var terms = stringStart.split(/\s+/);
+                    // remove the current input
+                    var word = terms.pop();
+                    // add the selected item
+                    //terms.push('@' + ui.item.value);
+                    // add placeholder to get the comma-and-space at the end
+                    //terms.push("");
+                    replace = '@' + ui.item.value;
+                    
+                    this.value = replaceLast(word, '@' + ui.item.value, stringStart) + stringEnd;
+                    if (emojioneArea) {
+                        $(emojioneArea).data("emojioneArea").setText(this.value);
+                        setTimeout(function () {
+                            contentEditableElement = document.getElementsByClassName("emojionearea-editor")[0];
+                            range = document.createRange();//Create a range (a range is a like the selection but invisible)
+                            range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
+                            range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+                            selection = window.getSelection();//get the selection object (allows you to change selection)
+                            selection.removeAllRanges();//remove any selections already made
+                            selection.addRange(range);//make the range you have just created the visible selection
+                        }, 50);
+                    }
+                    return false;
+                },
+                create: function () {
+                    $(this).data('ui-autocomplete')._renderItem = function (ul, item) {                        
+                        return $('<li>' + item.label + '</li>').appendTo(ul); // customize your HTML
+                    };
+                },
+                position: {collision: "flip"}
+            });
 }

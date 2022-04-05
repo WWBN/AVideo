@@ -3,13 +3,12 @@ if (!isVideo()) {
     echo '<!-- mediaSession is not a video -->';
     return false;
 }
-$videos_id = getVideos_id();
-if (empty($videos_id)) {
-    echo '<!-- mediaSession videos id is empty -->';
+$MediaMetadata = getMediaSession();
+
+if (empty($MediaMetadata)) {
+    echo '<!-- mediaSession MediaMetadata is empty -->';
     return false;
 }
-
-$MediaMetadata = Video::getMediaSession($videos_id)
 ?>
 <script>
     if ('mediaSession' in navigator) {
@@ -70,20 +69,36 @@ $MediaMetadata = Video::getMediaSession($videos_id)
     }
 
     function updateMediaSessionMetadata() {
-        index = player.playlist.currentIndex();
-        videos_id = playerPlaylist[index].videos_id;
-        console.log('updateMediaSessionMetadata', videos_id);
-
-        $.ajax({
-            url: webSiteRootURL + 'plugin/PlayerSkins/mediaSession.json.php',
-            method: 'POST',
-            data: {
-                'videos_id': videos_id,
-            },
-            success: function (response) {
-                navigator.mediaSession.metadata = new MediaMetadata(response);
-            }
-        });
+        videos_id = 0;
+        key = 0;
+        live_servers_id = 0;
+        live_schedule_id = 0;
+        if (player.playlist) {
+            index = player.playlist.currentIndex();
+            videos_id = playerPlaylist[index].videos_id;
+        } else if (mediaId) {
+            videos_id = mediaId;
+        } else if (isLive) {
+            key = isLive.key;
+            live_servers_id = isLive.live_servers_id;
+            live_schedule_id = isLive.live_schedule_id;
+        }
+        if (videos_id) {
+            console.log('updateMediaSessionMetadata', videos_id);
+            $.ajax({
+                url: webSiteRootURL + 'plugin/PlayerSkins/mediaSession.json.php',
+                method: 'POST',
+                data: {
+                    'videos_id': videos_id,
+                    'key': key,
+                    'live_servers_id': live_servers_id,
+                    'live_schedule_id': live_schedule_id,
+                },
+                success: function (response) {
+                    navigator.mediaSession.metadata = new MediaMetadata(response);
+                }
+            });
+        }
     }
 
     function setActionHandlerIfSupported(action, func) {

@@ -224,7 +224,7 @@ function isPHP($version = "'7.3.0'") {
 
 function modEnabled($mod_name) {
     if (!function_exists('apache_get_modules')) {
-        ob_start();
+        _ob_start();
         phpinfo(INFO_MODULES);
         $contents = ob_get_contents();
         ob_end_clean();
@@ -5780,7 +5780,7 @@ function isForbidden() {
 function diskUsageBars() {
     return ''; //TODO check why it is slowing down
     global $global;
-    ob_start();
+    _ob_start();
     include $global['systemRootPath'] . 'objects/functiondiskUsageBars.php';
     $contents = ob_get_contents();
     ob_end_clean();
@@ -6399,7 +6399,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
     global $global;
     $video['id'] = $videos_id;
     $sharingUid = uniqid();
-    ob_start();
+    _ob_start();
     ?>
     <div id="SharingModal<?php echo $sharingUid ?>" class="modal fade" role="dialog" style="top: 60px;">
         <div class="modal-dialog">
@@ -6478,7 +6478,7 @@ function getCroppie(
     $boundaryWidth = $viewportWidth + $boundary;
     $boundaryHeight = $viewportHeight + $boundary;
     $uid = uniqid();
-    ob_start();
+    _ob_start();
     include $global['systemRootPath'] . 'objects/functionCroppie.php';
     $contents = ob_get_contents();
     ob_end_clean();
@@ -6570,7 +6570,7 @@ function canFullScreen() {
 
 function getTinyMCE($id, $simpleMode = false) {
     global $global;
-    ob_start();
+    _ob_start();
     include $global['systemRootPath'] . 'objects/functionsGetTinyMCE.php';
     $contents = ob_get_contents();
     ob_end_clean();
@@ -7058,7 +7058,7 @@ function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = 
 
 function getLiveUsersLabelHTML($viewsClass = "label label-default", $counterClass = "label label-primary") {
     global $global;
-    ob_start();
+    _ob_start();
     include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
     $htmlMediaTag = '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveUsersLabel">';
     $htmlMediaTag .= ob_get_contents();
@@ -7151,7 +7151,7 @@ function outputAndContinueInBackground($msg = '') {
     if (function_exists('fastcgi_finish_request')) {
         fastcgi_finish_request();
     }
-    ob_start();
+    _ob_start();
     echo $msg;
     @header("Connection: close");
     @header("Content-Length: " . ob_get_length());
@@ -7819,7 +7819,7 @@ function totalImageColors($image_path) {
     $h = imagesy($img);
 
     // capture the raw data of the image
-    ob_start();
+    _ob_start();
     imagegd2($img, null, $w);
     $data = ob_get_clean();
     $totalLength = strlen($data);

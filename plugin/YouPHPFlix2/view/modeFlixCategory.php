@@ -22,7 +22,7 @@ if (!empty($cache)) {
     echo str_replace('{serie_uid}', uniqid(), $cache);
     return false;
 }
-ob_start();
+_ob_start();
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 $timeLog = __FILE__ . " - modeFlixCategory";
 

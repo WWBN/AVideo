@@ -283,10 +283,10 @@ class ReportVideo extends PluginAbstract
         }
         global $global, $config;
         $variable = ob_get_clean();
-        ob_start();
+        _ob_start();
         include $global['systemRootPath'] . 'plugin/ReportVideo/buttonBlockUser.php';
         $button = ob_get_clean();
-        ob_start();
+        _ob_start();
         echo $variable;
         return $button;
     }
@@ -298,10 +298,10 @@ class ReportVideo extends PluginAbstract
         }
         global $global, $config;
         $variable = ob_get_clean();
-        ob_start();
+        _ob_start();
         include $global['systemRootPath'] . 'plugin/ReportVideo/actionButtonBlockUser.php';
         $button = ob_get_clean();
-        ob_start();
+        _ob_start();
         echo $variable;
         return $button;
     }

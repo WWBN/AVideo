@@ -36,7 +36,7 @@ if (!$ms->canManageSchedule()) {
 $obj->error = false;
 
 ob_end_clean();
-ob_start();
+_ob_start();
 
 
 if ($_REQUEST['meet_scheduled'] !== "past") {

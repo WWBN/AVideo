@@ -3794,20 +3794,7 @@ if (!class_exists('Video')) {
                 $imagePath = $images->poster;
             }
             
-            $sizes = array(96,128,192,256,384,512);
-            
-            $posters = array();
-            
-            foreach ($sizes as $value) {
-                $destination = str_replace('.jpg', "_{$value}.jpg", $imagePath);
-                $path = convertImageIfNotExists($imagePath, $destination, $value, $value);
-                if(!empty($path)){
-                    $relativePath = str_replace($global['systemRootPath'], '', convertImageIfNotExists($imagePath, $destination, $value, $value));
-                    $url = getURL($relativePath);
-                    $posters[$value] = array('path'=>$path, 'relativePath'=>$relativePath, 'url'=>$url);
-                }
-            }
-            return $posters;
+            return getMediaSessionPosters($imagePath);
         }
 
         public static function getRokuImage($videos_id) {
@@ -4311,6 +4298,9 @@ if (!class_exists('Video')) {
             global $global;
 
             $filePath = Video::getPathToFile($filename);
+            
+            deleteMediaSessionPosters($filePath.'.jpg');
+            
             // Streamlined for less coding space.
             $files = glob("{$filePath}*_thumbs*.jpg");
             $files[] = "{$filePath}_roku.jpg";

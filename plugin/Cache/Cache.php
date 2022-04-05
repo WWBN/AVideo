@@ -180,7 +180,7 @@ class Cache extends PluginAbstract
             }
         }
         //ob_start('sanitize_output');
-        ob_start();
+        _ob_start();
     }
 
     public function getEnd()
@@ -190,7 +190,7 @@ class Cache extends PluginAbstract
         echo PHP_EOL . '<!--        Page Generated in ' . getScriptRunMicrotimeInSeconds() . ' Seconds -->';
         $c = ob_get_clean();
         $c = optimizeHTMLTags($c);
-        ob_start();
+        _ob_start();
         echo $c;
         if (!headers_sent()) {
             header_remove('Set-Cookie');

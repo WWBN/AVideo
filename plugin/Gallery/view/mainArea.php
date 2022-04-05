@@ -118,7 +118,7 @@
     } else {
         include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
         $ob = ob_get_clean();
-        ob_start();
+        _ob_start();
         echo AVideoPlugin::getGallerySection();
         $ob2 = ob_get_clean();
         echo $ob;

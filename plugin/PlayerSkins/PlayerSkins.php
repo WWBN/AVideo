@@ -317,6 +317,9 @@ class PlayerSkins extends PluginAbstract {
             $js .= "<script>" . self::getStartPlayerJSCode() . "</script>";
         }
 
+        include $global['systemRootPath'] . 'plugin/PlayerSkins/mediaSession.php';
+        PlayerSkins::addOnPlayerReady('if(typeof updateMediaSessionMetadata === "function"){updateMediaSessionMetadata();}');
+
         return $js;
     }
 
