@@ -6397,40 +6397,16 @@ function getSocialModal($videos_id, $url = "", $title = "") {
     global $global;
     $video['id'] = $videos_id;
     $sharingUid = uniqid();
-    _ob_start();
-    ?>
-    <div id="SharingModal<?php echo $sharingUid ?>" class="modal fade" role="dialog" style="top: 60px;">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-body">
-                    <center>
-                        <?php include $global['systemRootPath'] . 'view/include/social.php'; ?>
-                    </center>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        function showSharing<?php echo $sharingUid ?>() {
-            if ($('#mainVideo').length) {
-                $('#SharingModal<?php echo $sharingUid ?>').appendTo("#mainVideo");
-            } else {
-                $('#SharingModal<?php echo $sharingUid ?>').appendTo("body");
-            }
-            $('#SharingModal<?php echo $sharingUid ?>').modal("show");
-            $('.modal-backdrop').hide();
-
-            return false;
-        }
-
-        $(document).ready(function () {
-            $('#SharingModal<?php echo $sharingUid ?>').modal({show: false});
-        });
-    </script>
-    <?php
-    $contents = ob_get_contents();
-    ob_end_clean();
+    $filePath = $global['systemRootPath'].'objects/functionGetSocialModal.php';
+    $contents = getIncludeFileContent($filePath, 
+            array(
+                'videos_id'=>$videos_id, 
+                'url'=>$url, 
+                'title'=>$title, 
+                'video'=>$video, 
+                'sharingUid'=>$sharingUid
+            )
+            );
     return ['html' => $contents, 'id' => $sharingUid];
 }
 
