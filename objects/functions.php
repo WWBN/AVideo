@@ -7998,14 +7998,14 @@ function getIncludeFileContent($filePath, $varsArray=array()){
         $$key = $value;
     }
     _ob_start();
-    echo ob_get_clean();
+    $out = ob_get_clean();
     _ob_start();
     $basename = basename($filePath);
     $return = "<!-- {$basename} start -->";
     include $filePath;
-    $return .= ob_get_contents();
+    $return .= ob_get_clean();
     $return .= "<!-- {$basename} end -->";
-    ob_end_clean();
     _ob_start();
+    echo $out;
     return $return;
 }
