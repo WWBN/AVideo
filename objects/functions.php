@@ -7057,14 +7057,23 @@ function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = 
 }
 
 function getLiveUsersLabelHTML($viewsClass = "label label-default", $counterClass = "label label-primary") {
-    global $global;
-    $htmlMediaTag = '';
-    //_ob_start();
-    include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
-    //$htmlMediaTag .= ob_get_contents();
+    global $global, $_getLiveUsersLabelHTML;
+    if(!empty($_getLiveUsersLabelHTML)){
+        return '';
+    }
+    $_getLiveUsersLabelHTML = 1;
+    _ob_start();
+    echo ob_get_clean();
+    //ob_get_contents();
     //ob_end_clean();
-    //_ob_start();
+    _ob_start();
+    $htmlMediaTag = '<!-- onlineLabel.php start -->';
     $htmlMediaTag .= '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveUsersLabel">';
+    include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
+    $htmlMediaTag .= ob_get_contents();
+    $htmlMediaTag .= '<!-- onlineLabel.php end -->';
+    ob_end_clean();
+    _ob_start();
     $htmlMediaTag .= getLiveUsersLabel($viewsClass, $counterClass);
     $htmlMediaTag .= '</div>';
     return $htmlMediaTag;

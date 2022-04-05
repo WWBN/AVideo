@@ -604,6 +604,8 @@ class Live extends PluginAbstract {
                     . 'var liveImageBGTemplate = ' . json_encode($liveImageBGTemplate) . ';'
                     . 'var isLive = ' . json_encode(isLive()) . ';'
                     . '</script>';
+            $js .= '<link href="'.getURL('plugin/Live/view/live.css').'" rel="stylesheet" type="text/css"/>';
+            
         }
 
         return $js . $css;

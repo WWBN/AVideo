@@ -2,9 +2,6 @@
 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
 $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'], @$_REQUEST['live_schedule']);
 $posterURL = $global['webSiteRootURL'] . $poster . '?' . filectime($global['systemRootPath'] . $poster);
-?>
-<link href="<?php echo getURL('plugin/Live/view/live.css'); ?>" rel="stylesheet" type="text/css"/>
-<?php
 $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
 $isLive = 1;
 ?>
@@ -20,8 +17,3 @@ $htmlMediaTag .= getLiveUsersLabelHTML();
 echo PlayerSkins::getMediaTag(false, $htmlMediaTag);
 ?>
 <!-- Live finish -->
-<script>
-<?php
-echo PlayerSkins::getStartPlayerJS();
-?>
-</script>

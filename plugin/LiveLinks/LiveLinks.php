@@ -183,6 +183,9 @@ class LiveLinks extends PluginAbstract {
         if (!empty($obj->doNotShowLiveLinksLabel)) {
             $css .= '<style>.livelinksLabel{display: none;}</style>';
         }
+        if(isLiveLink()){
+            $js .= '<link href="'.getURL('plugin/Live/view/live.css').'" rel="stylesheet" type="text/css"/>';
+        }
 
         return $js . $css;
     }

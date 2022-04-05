@@ -1,3 +1,4 @@
+<!-- Live Link -->
 <?php
 if ($t['id'] > 0) {
     $liveLink = LiveLinks::getSourceLink($t['id']);
@@ -11,11 +12,6 @@ if (!empty($advancedCustom->disableYoutubePlayerIntegration) || isMobile()) {
     $disableYoutubeIntegration = true;
 }
 $video['videoLink'] = $liveLink;
-?>
-<link href="<?php echo getCDN(); ?>plugin/Live/view/live.css" rel="stylesheet" type="text/css"/>
-
-<!-- Live Link -->
-<?php
 if (isValidM3U8Link($liveLink)) {
 
     $htmlMediaTag = '<video poster="' . $posterURL . '" controls playsinline webkit-playsinline="webkit-playsinline" 
@@ -69,8 +65,3 @@ $htmlMediaTag .= getLiveUsersLabelHTML();
 echo PlayerSkins::getMediaTag(false, $htmlMediaTag);
 ?>
 <!-- Live link finish -->
-<script>
-<?php
-echo PlayerSkins::getStartPlayerJS();
-?>
-</script>
