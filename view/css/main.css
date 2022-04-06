@@ -803,7 +803,7 @@ img.blur{
     display: none;
 }
 
-#modeYoutubeBottomContentDetails{
+#modeYoutubeBottomContentDetails, #mainContainer{
     overflow: hidden;
 }
 
