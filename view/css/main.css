@@ -803,8 +803,12 @@ img.blur{
     display: none;
 }
 
-#modeYoutubeBottomContentDetails, #mainContainer{
+#modeYoutubeBottomContentDetails{
     overflow: hidden;
+}
+
+#mainContainer{
+    overflow-x: hidden;
 }
 
 .cursorPointer:hover {
