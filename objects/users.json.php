@@ -56,8 +56,9 @@ if (empty($users)) {
     $json = '[]';
     $total = 0;
 } else {
+    $canAdminUsers = Permissions::canAdminUsers();
     foreach ($users as $key => $value) {
-        if(!User::isAdmin()){
+        if(!$canAdminUsers){
             $u = array();
             $u['id'] = $value['id'];
             //$u['user'] = $user['user'];
