@@ -8,6 +8,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 header('Content-Type: application/json');
 
+$canAdminUsers = Permissions::canAdminUsers();
 if (empty($_POST['current'])) {
     $_POST['current'] = 1;
 }
@@ -34,7 +35,7 @@ if (!empty($_REQUEST['users_id'])) {
     }
     if (isset($_REQUEST['isCompany'])) {
         $isCompany = intval($_REQUEST['isCompany']);
-        if (!User::isAdmin()) {
+        if (!$canAdminUsers) {
             if (User::isACompany()) {
                 $isCompany = 0;
             } else {
@@ -56,7 +57,6 @@ if (empty($users)) {
     $json = '[]';
     $total = 0;
 } else {
-    $canAdminUsers = Permissions::canAdminUsers();
     foreach ($users as $key => $value) {
         if(!$canAdminUsers){
             $u = array();
