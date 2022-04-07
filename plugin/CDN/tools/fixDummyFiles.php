@@ -29,16 +29,17 @@ $videos = sqlDAL::fetchAllAssoc($res);
 $total = count($videos);
 sqlDAL::close($res);
 foreach ($videos as $key => $value) {
-    $count++;
-    if (empty($value['sites_id'])) {
-        //echo "The video status is not active {$value['status']}" . PHP_EOL;
-        continue;
-    }
-    $filesAffected = CDNStorage::createDummyFiles($value['id']);
-    if (empty($filesAffected)) {
-        echo "{$key}/{$total} ERROR " . PHP_EOL;
-    } else {
-        echo "{$key}/{$total} filesAffected={$filesAffected} " . PHP_EOL;
+    if ($row['status'] === Video::$statusActive) {
+        if (empty($value['sites_id'])) {
+            //echo "The video status is not active {$value['status']}" . PHP_EOL;
+            continue;
+        }
+        $filesAffected = CDNStorage::createDummyFiles($value['id']);
+        if (empty($filesAffected)) {
+            echo "{$key}/{$total} ERROR " . PHP_EOL;
+        } else {
+            echo "{$key}/{$total} filesAffected={$filesAffected} " . PHP_EOL;
+        }
     }
 }
 
