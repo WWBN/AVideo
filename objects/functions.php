@@ -6452,10 +6452,23 @@ function getCroppie(
     $boundaryWidth = $viewportWidth + $boundary;
     $boundaryHeight = $viewportHeight + $boundary;
     $uid = uniqid();
-    _ob_start();
-    include $global['systemRootPath'] . 'objects/functionCroppie.php';
-    $contents = ob_get_contents();
-    ob_end_clean();
+    
+    $varsArray = array(
+        'buttonTitle'=>$buttonTitle,
+        'callBackJSFunction'=>$callBackJSFunction,
+        'resultWidth'=>$resultWidth,
+        'resultHeight'=>$resultHeight,
+        'viewportWidth'=>$viewportWidth,
+        'boundary'=>$boundary,
+        'viewportHeight'=>$viewportHeight,
+        'enforceBoundary'=>$enforceBoundary,
+        'zoom'=>$zoom,
+        'boundaryWidth'=>$boundaryWidth,
+        'boundaryHeight'=>$boundaryHeight,
+        'uid'=>$uid,);
+    
+    $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functionCroppie.php', $varsArray);
+    
     $callBackJSFunction = addcslashes($callBackJSFunction, "'");
     return [
         "html" => $contents,
