@@ -29,7 +29,7 @@ $videos = sqlDAL::fetchAllAssoc($res);
 $total = count($videos);
 sqlDAL::close($res);
 foreach ($videos as $key => $value) {
-    if ($row['status'] === Video::$statusActive) {
+    if ($value['status'] === Video::$statusActive) {
         if (empty($value['sites_id'])) {
             continue;
         }
