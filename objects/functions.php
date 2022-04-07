@@ -7998,7 +7998,7 @@ function _ob_start() {
 }
 
 function getIncludeFileContent($filePath, $varsArray=array()){
-    //return getIncludeFileContentV2($filePath, $varsArray);
+    return getIncludeFileContentV2($filePath, $varsArray);
     global $global;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
