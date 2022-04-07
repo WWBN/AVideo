@@ -29,7 +29,7 @@ foreach ($videos as $key => $value) {
         //echo "The video status is not active {$value['status']}" . PHP_EOL;
         continue;
     }
-    $filesAffected = CDNStorage::createDummyFiles($value);
+    $filesAffected = CDNStorage::createDummyFiles($value['id']);
     if (empty($filesAffected)) {
         echo "{$key}/{$total} ERROR " . PHP_EOL;
     } else {
