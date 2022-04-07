@@ -67,7 +67,7 @@ while($hasNewContent){
         if(!empty($json) && !empty($json->response) && !empty($json->response->totalRows)){
             _error_log("importChannel: JSON SUCCESS totalRows={$json->response->totalRows}");
             $hasNewContent = true;
-            foreach ($json->response->rows as $value) {
+            foreach ($json->response->rows as $key => $value) {
                 
                 $videos_id = 0;
                 
@@ -103,7 +103,7 @@ while($hasNewContent){
                     download($value->images->thumbsGif, $value->filename, $path);
                                         
                     foreach ($value->videos->mp4 as $value2) {
-                        _error_log("importChannel: APIURL = $APIURL");                        
+                        _error_log("importChannel: key = {$key} APIURL = $APIURL");                        
                         download($value2, $value->filename, $path);
                     }
                     $video->setStatus(Video::$statusActive);
