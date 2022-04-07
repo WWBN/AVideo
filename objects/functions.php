@@ -7979,9 +7979,6 @@ function getMediaSession() {
 
 function _ob_start() {
     global $global;
-    if (ob_get_level()) {
-        return false;
-    }
     if (!isset($global['ob_start_callback'])) {
         $global['ob_start_callback'] = 'ob_gzhandler';
     } else {
@@ -7989,10 +7986,37 @@ function _ob_start() {
             $global['ob_start_callback'] = null;
         }
     }
+    if (ob_get_level()) {
+        //var_dump(!in_array($global['ob_start_callback'], ob_list_handlers()),$global['ob_start_callback'], ob_list_handlers());exit;
+        if(isset($global['ob_start_callback']) && !empty($global['ob_start_callback']) && !in_array($global['ob_start_callback'], ob_list_handlers())){
+            ob_end_clean();
+        }else{
+           return false; 
+        }
+    }
     ob_start($global['ob_start_callback']);
 }
 
 function getIncludeFileContent($filePath, $varsArray=array()){
+    //return getIncludeFileContentV2($filePath, $varsArray);
+    global $global;
+    foreach ($varsArray as $key => $value) {
+        $$key = $value;
+    }
+    _ob_start();
+    $out = ob_get_clean();
+    _ob_start();
+    $basename = basename($filePath);
+    $return = "<!-- {$basename} start -->";
+    include $filePath;
+    $return .= ob_get_clean();
+    $return .= "<!-- {$basename} end -->";
+    _ob_start();
+    echo $out;
+    return $return;
+}
+
+function getIncludeFileContentV2($filePath, $varsArray=array()){
     global $global;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
