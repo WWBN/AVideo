@@ -111,7 +111,7 @@ while($hasNewContent){
                     $video->setStatus(Video::$statusBrokenMissingFiles);
                 }
                 $video->save(false, true);
-                exit;
+                //exit;
                 
             }
         }else{
