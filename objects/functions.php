@@ -7987,18 +7987,13 @@ function _ob_start() {
         }
     }
     if (ob_get_level()) {
-        //var_dump(!in_array($global['ob_start_callback'], ob_list_handlers()),$global['ob_start_callback'], ob_list_handlers());exit;
-        if(isset($global['ob_start_callback']) && !empty($global['ob_start_callback']) && !in_array($global['ob_start_callback'], ob_list_handlers())){
-            ob_end_clean();
-        }else{
-           return false; 
-        }
+        return false; 
     }
     ob_start($global['ob_start_callback']);
 }
 
 function getIncludeFileContent($filePath, $varsArray=array()){
-    return getIncludeFileContentV2($filePath, $varsArray);
+    //return getIncludeFileContentV2($filePath, $varsArray);
     global $global;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
