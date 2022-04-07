@@ -31,7 +31,6 @@ sqlDAL::close($res);
 foreach ($videos as $key => $value) {
     if ($row['status'] === Video::$statusActive) {
         if (empty($value['sites_id'])) {
-            //echo "The video status is not active {$value['status']}" . PHP_EOL;
             continue;
         }
         $filesAffected = CDNStorage::createDummyFiles($value['id']);
