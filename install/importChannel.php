@@ -54,7 +54,7 @@ _error_log("importChannel: start {$siteURL} {$channelName}");
 
 while($hasNewContent){
     
-    $APIURL = "{$siteURL}plugin/API/get.json.php?APIName=video&channelName=$channelName&rowCount={$current}";
+    $APIURL = "{$siteURL}plugin/API/get.json.php?APIName=video&channelName=$channelName&rowCount={$rowCount}&current={$current}";
     
     $content = url_get_contents($APIURL, "", 30);    
     
