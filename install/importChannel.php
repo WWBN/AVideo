@@ -22,8 +22,8 @@ function download($url, $filename, $path, $forceDownload=false){
     return false;
 }
 
-set_time_limit(1800);
-ini_set('max_execution_time', 1800);
+set_time_limit(360000);
+ini_set('max_execution_time', 360000);
 
 $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
 
