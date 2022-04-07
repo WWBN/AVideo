@@ -102,8 +102,8 @@ while($hasNewContent){
                     download($value->images->poster, $value->filename, $path);
                     download($value->images->thumbsGif, $value->filename, $path);
                                         
-                    foreach ($value->videos->mp4 as $value2) {
-                        _error_log("importChannel: key = {$key} APIURL = $APIURL");                        
+                    foreach ($value->videos->mp4 as $key2=>$value2) {
+                        _error_log("importChannel: key = {$key} key2 = {$key2} APIURL = $APIURL");                        
                         download($value2, $value->filename, $path);
                     }
                     $video->setStatus(Video::$statusActive);
