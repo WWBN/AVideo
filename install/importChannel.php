@@ -14,10 +14,10 @@ function download($url, $filename, $path, $forceDownload=false){
     $file = $parts2[0];
     $destination = $path.$file;
     if($forceDownload || !file_exists($destination)){
-        _error_log("importChannel::download $url [$destination]");
+        _error_log("importChannel::download [$destination]");
         return wget($url, $destination, true);
     }else{
-        _error_log("importChannel::download skipped $url [$destination]");
+        _error_log("importChannel::download skipped [$destination]");
     }
     return false;
 }
@@ -103,6 +103,7 @@ while($hasNewContent){
                     download($value->images->thumbsGif, $value->filename, $path);
                                         
                     foreach ($value->videos->mp4 as $value2) {
+                        _error_log("importChannel: APIURL = $APIURL");                        
                         download($value2, $value->filename, $path);
                     }
                     $video->setStatus(Video::$statusActive);
