@@ -23,6 +23,11 @@ $path = getVideosDir();
 $total = Video::getTotalVideos("", false, true, true, false, false);
 $videos = Video::getAllVideosLight("", false, true, false);
 
+$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id DESC LIMIT 300 ";
+$res = sqlDAL::readSql($sql);
+$videos = sqlDAL::fetchAllAssoc($res);
+$total = count($videos);
+sqlDAL::close($res);
 foreach ($videos as $key => $value) {
     $count++;
     if (empty($value['sites_id'])) {
