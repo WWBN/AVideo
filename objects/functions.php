@@ -5026,9 +5026,9 @@ function wget($url, $filename, $debug = false) {
     if (empty($url) || $url == "php://input" || !preg_match("/^http/", $url)) {
         return false;
     }
-    if (wgetIsLocked($url)) {
+    if ($lockfilename = wgetIsLocked($url)) {
         if ($debug) {
-            _error_log("wget: ERROR the url is already downloading $url, $filename");
+            _error_log("wget: ERROR the url is already downloading {$lockfilename} $url, $filename");
         }
         return false;
     }
@@ -5201,7 +5201,7 @@ function wgetIsLocked($url) {
         unlink($filename);
         return false;
     }
-    return true;
+    return $filename;
 }
 
 // due the some OS gives a fake is_writable response

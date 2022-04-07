@@ -62,6 +62,7 @@ if (!class_exists('Video')) {
         private $likes;
         private $dislikes;
         private $users_id_company;
+        private $created;
         public static $statusDesc = [
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -120,7 +121,15 @@ if (!class_exists('Video')) {
                 $this->filename = $filename;
             }
         }
+        
+        public function getCreated() {
+            return $this->created;
+        }
 
+        public function setCreated($created): void {
+            $this->created = $created;
+        }
+        
         function getUsers_id_company(): int {
             return intval($this->users_id_company);
         }
@@ -408,10 +417,14 @@ if (!class_exists('Video')) {
                     $insert_row = $this->id;
                 }
             } else {
+                if(empty($this->created)){
+                    $this->created = 'now()';
+                }
                 $sql = "INSERT INTO videos "
                         . "(duration_in_seconds, title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id,live_transmitions_history_id, video_password, encoderURL, filepath , filesize, users_id_company) values "
-                        . "('{$this->duration_in_seconds}','{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}', ".(empty($this->users_id_company)?'NULL':intval($this->users_id_company)).")";
+                        . "('{$this->duration_in_seconds}','{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},{$this->created}, now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}', ".(empty($this->users_id_company)?'NULL':intval($this->users_id_company)).")";
 
+                //_error_log("Video::save ".$sql);
                 $insert_row = sqlDAL::writeSql($sql);
             }
             if ($insert_row) {
