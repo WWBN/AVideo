@@ -1080,6 +1080,7 @@ li.dropdown-submenu > ul > li > a{
 
 .swal-modal-iframe-full #avideoModalIframeDiv{
     display: block;
+    margin: 0;
 }
 
 .swal-modal.swal-modal-iframe-large .swal-content,

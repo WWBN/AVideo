@@ -17,6 +17,13 @@
             $("#btnEmbedText").html("<?php echo __("Copy embed code"); ?>");
         }, 3000);
     }
+    function setTextGalleryCopied() {
+        clearTimeout(timoutembed);
+        $("#btnEmbedGalleryText").html("<?php echo __("Copied!"); ?>");
+        timoutembed = setTimeout(function () {
+            $("#btnEmbedGalleryText").html("<?php echo __("Copy embed Gallery"); ?>");
+        }, 3000);
+    }
 
     function saveSortable($sortableObject, playlist_id) {
         var list = $($sortableObject).sortable("toArray");

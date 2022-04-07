@@ -140,6 +140,11 @@ unset($_POST['current']);
                                 $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/embed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
                                 echo($code);
                                 ?>'/>
+                                <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedGallery<?php echo $playlist['id']; ?>').val()); setTextGalleryCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedGalleryText"><?php echo __("Copy embed Gallery"); ?></span></button>
+                                <input type="hidden" id="playListEmbedGallery<?php echo $playlist['id']; ?>" value='<?php
+                                $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/playerEmbed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
+                                echo($code);
+                                ?>'/>
                                        <?php
                                    }
                                    if (User::canUpload()) {

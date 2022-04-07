@@ -4042,7 +4042,7 @@ if (!class_exists('Video')) {
 
         public static function getImageFromID($videos_id, $type = "video") {
             $video = new Video("", "", $videos_id);
-            $return = self::getImageFromFilename($video->getFilename());
+            $return = (object) self::getImageFromFilename($video->getFilename());
             if (empty($return->posterLandscapePath)) {
                 $path = Video::getPaths($video->getFilename());
                 $return->posterLandscapePath = "{$path['path']}{$path['filename']}.jpg";
