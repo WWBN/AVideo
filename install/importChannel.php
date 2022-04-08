@@ -10,6 +10,18 @@ ob_end_flush();
 
 function download($url, $filename, $path, $forceDownload=false){
     $parts = explode("/{$filename}/", $url);
+    
+    if(empty($parts[1])){
+        if(preg_match("/\.mp3$/", $url)){
+            $parts[1] = "{$filename}.mp3";
+        }
+    }
+    
+    if(empty($parts[1])){
+        _error_log("importChannel::download ERROR on download {$url}");
+        return false;
+    }
+    
     $parts2 = explode('?', $parts[1]);
     $file = $parts2[0];
     $destination = $path.$file;
