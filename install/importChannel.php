@@ -106,10 +106,12 @@ while($hasNewContent){
                         _error_log("importChannel MP4: key = {$key} key2 = {$key2} APIURL = $APIURL");                        
                         download($value2, $value->filename, $path);
                     }             
-                    foreach ($value->videos->mp3 as $key2=>$value2) {
-                        _error_log("importChannel MP3: key = {$key} key2 = {$key2} APIURL = $APIURL");                        
-                        download($value2, $value->filename, $path);
+                    
+                    if(!empty($value->videos->mp3)){
+                        _error_log("importChannel MP3: {$value->videos->mp3} APIURL = $APIURL");                        
+                        download($value->videos->mp3, $value->filename, $path);
                     }
+                    
                     $video->setStatus(Video::$statusActive);
                 }else{
                     _error_log("importChannel: ERROR Video NOT saved");
