@@ -19,7 +19,7 @@ ob_end_flush();
 set_time_limit(300);
 ini_set('max_execution_time', 300);
 
-$tenMB = 102400;
+$tenMB = 1024000;
 
 $sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id DESC ";
 $res = sqlDAL::readSql($sql);
