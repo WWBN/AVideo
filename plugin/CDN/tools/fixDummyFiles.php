@@ -18,12 +18,9 @@ ob_end_flush();
 set_time_limit(300);
 ini_set('max_execution_time', 300);
 
-$global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
-$path = getVideosDir();
-$total = Video::getTotalVideos("", false, true, true, false, false);
-$videos = Video::getAllVideosLight("", false, true, false);
+$tenMB = 102400;
 
-$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id DESC LIMIT 300 ";
+$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id DESC ";
 $res = sqlDAL::readSql($sql);
 $videos = sqlDAL::fetchAllAssoc($res);
 $total = count($videos);
@@ -33,6 +30,15 @@ foreach ($videos as $key => $value) {
         if (empty($value['sites_id'])) {
             continue;
         }
+        
+        $dir = "{$path}{$value['filename']}/";
+        
+        $dirsize = getDirSize($dir);
+        if($dirsize<$tenMB){
+            echo "Directory too small {$dir}  $dirsize<$tenMB" . PHP_EOL;
+            continue;
+        }
+        
         $filesAffected = CDNStorage::createDummyFiles($value['id']);
         if (empty($filesAffected)) {
             echo "{$key}/{$total} ERROR " . PHP_EOL;
