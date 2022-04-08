@@ -14,6 +14,7 @@ if (empty($isCDNEnabled)) {
 
 $index = intval(@$argv[1]);
 
+$path = getVideosDir();
 ob_end_flush();
 set_time_limit(300);
 ini_set('max_execution_time', 300);
