@@ -36,10 +36,10 @@ foreach ($videos as $key => $value) {
         
         $dirsize = getDirSize($dir);
         if($dirsize<$tenMB){
-            echo "Directory too small {$dir}  $dirsize<$tenMB" . PHP_EOL;
+            echo "Directory too small {$dir}  $dirsize<$tenMB ". humanFileSize($dirsize) . PHP_EOL;
             continue;
         }else{
-            echo "Directory size is {$dir}  $dirsize" . PHP_EOL;
+            echo "Directory size is {$dir}  $dirsize ". humanFileSize($dirsize) . PHP_EOL;
         }
         
         $filesAffected = CDNStorage::createDummyFiles($value['id']);
