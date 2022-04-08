@@ -52,7 +52,7 @@ $parts = explode('/channel/', $channelURL);
 
 $siteURL = addLastSlash($parts[0]);
 $channelName = urlencode($parts[1]);
-$rowCount = 10;
+$rowCount = 50;
 $current = 1;
 
 if(empty($channelName)){
