@@ -64,7 +64,7 @@ while($hasNewContent){
     if(!empty($content)){
         _error_log("importChannel: SUCCESS {$APIURL}");
         $json = _json_decode($content);
-        if(!empty($json) && !empty($json->response) && !empty($json->response->totalRows)){
+        if(!empty($json) && !empty($json->response) && !empty($json->response->totalRows) && !empty($json->response->rows)){
             _error_log("importChannel: JSON SUCCESS totalRows={$json->response->totalRows}");
             $hasNewContent = true;
             foreach ($json->response->rows as $key => $value) {
@@ -106,7 +106,7 @@ while($hasNewContent){
                         _error_log("importChannel MP4: key = {$key} key2 = {$key2} APIURL = $APIURL");                        
                         download($value2, $value->filename, $path);
                     }             
-                    foreach ($value->audio->mp3 as $key2=>$value2) {
+                    foreach ($value->videos->mp3 as $key2=>$value2) {
                         _error_log("importChannel MP3: key = {$key} key2 = {$key2} APIURL = $APIURL");                        
                         download($value2, $value->filename, $path);
                     }
