@@ -893,12 +893,12 @@ class AVideoPlugin
         }
         
 
-        function cmp($a, $b) {
+        function getLiveApplicationArrayCMP($a, $b) {
             //var_dump($a['title'],$a['comingsoon'], $b['title'],$b['comingsoon'], $a['comingsoon'] - $b['comingsoon']);
             return $a['comingsoon'] - $b['comingsoon'];
         }
 
-        usort($_getLiveApplicationArrayPlugin, "cmp");
+        usort($_getLiveApplicationArrayPlugin, "getLiveApplicationArrayCMP");
         
         return $_getLiveApplicationArrayPlugin;
     }
