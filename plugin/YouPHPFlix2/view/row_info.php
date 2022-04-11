@@ -1,3 +1,4 @@
+<!-- row_info start -->
 <h4 class="infoDetails">
     <?php
     if (!empty($value['rate'])) {
@@ -153,3 +154,4 @@
     getSharePopupButton($value['id']);
     ?>
 </div>
+<!-- row_info start -->
