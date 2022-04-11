@@ -154,4 +154,4 @@
     getSharePopupButton($value['id']);
     ?>
 </div>
-<!-- row_info start -->
+<!-- row_info end -->
