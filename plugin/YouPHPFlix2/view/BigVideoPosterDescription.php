@@ -52,4 +52,4 @@ if(!empty($bigVideoAd)) {
     <?php
 }
 ?>
-<!-- BigVideoPosterDescription start -->
+<!-- BigVideoPosterDescription end -->
