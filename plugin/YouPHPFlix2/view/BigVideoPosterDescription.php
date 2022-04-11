@@ -1,3 +1,4 @@
+<!-- BigVideoPosterDescription start -->
 <?php
 $bigVideoAd = getAdsLeaderBoardBigVideo();
 
@@ -51,3 +52,4 @@ if(!empty($bigVideoAd)) {
     <?php
 }
 ?>
+<!-- BigVideoPosterDescription start -->
