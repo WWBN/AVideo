@@ -6557,7 +6557,7 @@ function canFullScreen() {
 
 function getTinyMCE($id, $simpleMode = false) {
     global $global;
-    $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functionsGetTinyMCE.php', array('id'=>$id, 'simpleMode'=>$simpleMode));
+    $contents = getIncludeFileContentV2($global['systemRootPath'] . 'objects/functionsGetTinyMCE.php', array('id'=>$id, 'simpleMode'=>$simpleMode));
     return $contents;
 }
 
@@ -8000,7 +8000,7 @@ function _ob_start() {
         }
     }
     if (ob_get_level()) {
-        //return false; 
+        return false; 
     }
     ob_start($global['ob_start_callback']);
 }
@@ -8027,9 +8027,9 @@ function getIncludeFileContent($filePath, $varsArray=array()){
     $basename = basename($filePath);
     $return = "<!-- {$basename} start -->";
     include $filePath;
+    _ob_start();
     $return .= _ob_get_clean();
     $return .= "<!-- {$basename} end -->";
-    _ob_start();
     echo $__out;
     return $return;
 }
@@ -8042,14 +8042,13 @@ function getIncludeFileContentV2($filePath, $varsArray=array()){
     _ob_start();
     $out = ob_get_contents();
     ob_clean();
-    _ob_start();
     $basename = basename($filePath);
     $return = "<!-- {$basename} start -->";
     include $filePath;
+    _ob_start();
     $return .= ob_get_contents();
     $return .= "<!-- {$basename} end -->";
     ob_clean();
-    _ob_start();
     echo $out;
     return $return;
 }
