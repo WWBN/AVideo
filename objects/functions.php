@@ -8007,9 +8007,6 @@ function _ob_start($force=false) {
 
 
 function _ob_get_clean() {
-    if (!ob_get_level()) {
-        return ''; 
-    }
     $content = ob_get_clean();
     ob_clean();
     return $content;
@@ -8022,14 +8019,25 @@ function getIncludeFileContent($filePath, $varsArray=array()){
         $$key = $value;
     }
     _ob_start();
+    if(!ob_get_level()){
+        _ob_start(true);
+    }
+    if(!ob_get_level()){
+        include $filePath;
+        return '';
+    }
     $__out = _ob_get_clean();
     //_ob_start();
     $basename = basename($filePath);
     $return = "<!-- {$basename} start -->";
     include $filePath;
     _ob_start();
-    $return .= _ob_get_clean();
-    $return .= "<!-- {$basename} end -->";
+    $returnOB = _ob_get_clean();
+    if(empty($returnOB)){
+        var_dump(ob_get_level(), $filePath, $varsArray);
+        exit;
+    }
+    $return .= "{$returnOB}<!-- {$basename} end -->";
     echo $__out;
     return $return;
 }
