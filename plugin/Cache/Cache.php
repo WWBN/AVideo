@@ -188,7 +188,7 @@ class Cache extends PluginAbstract
         global $global;
         $obj = $this->getDataObject();
         echo PHP_EOL . '<!--        Page Generated in ' . getScriptRunMicrotimeInSeconds() . ' Seconds -->';
-        $c = ob_get_clean();
+        $c = _ob_get_clean();
         $c = optimizeHTMLTags($c);
         _ob_start();
         echo $c;

@@ -7999,7 +7999,7 @@ function _ob_start($force=false) {
             $global['ob_start_callback'] = null;
         }
     }
-    if (empty($force) && ob_get_level()) {
+    if (!empty($global['ob_start_callback']) && empty($force) && ob_get_level()) {
         return false; 
     }
     ob_start($global['ob_start_callback']);
@@ -8024,7 +8024,7 @@ function _ob_get_clean() {
 }
 
 function getIncludeFileContent($filePath, $varsArray=array()){
-    global $global;
+    global $global, $config;
     if(!empty($global['getIncludeFileContent'])){
         return getIncludeFileContentV2($filePath, $varsArray);
     }else{
@@ -8033,7 +8033,7 @@ function getIncludeFileContent($filePath, $varsArray=array()){
 }
 
 function getIncludeFileContentV1($filePath, $varsArray=array()){
-    global $global;
+    global $global, $config;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
     }
@@ -8067,7 +8067,7 @@ function getIncludeFileContentV1($filePath, $varsArray=array()){
 }
 
 function getIncludeFileContentV2($filePath, $varsArray=array()){
-    global $global;
+    global $global, $config;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
     }

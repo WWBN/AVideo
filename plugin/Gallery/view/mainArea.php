@@ -117,10 +117,10 @@
         }
     } else {
         include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
-        $ob = ob_get_clean();
+        $ob = _ob_get_clean();
         _ob_start();
         echo AVideoPlugin::getGallerySection();
-        $ob2 = ob_get_clean();
+        $ob2 = _ob_get_clean();
         echo $ob;
         if (empty($contentSearchFound) && empty($ob2)) {
             $contentSearchFound = false;

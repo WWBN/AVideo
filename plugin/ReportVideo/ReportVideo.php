@@ -282,12 +282,11 @@ class ReportVideo extends PluginAbstract
             return '';
         }
         global $global, $config;
-        $variable = ob_get_clean();
-        _ob_start();
-        include $global['systemRootPath'] . 'plugin/ReportVideo/buttonBlockUser.php';
-        $button = ob_get_clean();
-        _ob_start();
-        echo $variable;
+
+        $filePath = $global['systemRootPath'] . 'plugin/ReportVideo/buttonBlockUser.php';
+        $varsArray=array('users_id'=>$users_id);
+        $button = getIncludeFileContent($filePath, $varsArray);
+
         return $button;
     }
 
@@ -297,12 +296,10 @@ class ReportVideo extends PluginAbstract
             return '';
         }
         global $global, $config;
-        $variable = ob_get_clean();
-        _ob_start();
-        include $global['systemRootPath'] . 'plugin/ReportVideo/actionButtonBlockUser.php';
-        $button = ob_get_clean();
-        _ob_start();
-        echo $variable;
+
+        $filePath = $global['systemRootPath'] . 'plugin/ReportVideo/actionButtonBlockUser.php';
+        $varsArray=array('users_id'=>$users_id);
+        $button = getIncludeFileContent($filePath, $varsArray);
         return $button;
     }
 }
