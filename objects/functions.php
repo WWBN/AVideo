@@ -8033,7 +8033,6 @@ function getIncludeFileContent($filePath, $varsArray=array()){
 }
 
 function getIncludeFileContentV1($filePath, $varsArray=array()){
-    //return getIncludeFileContentV2($filePath, $varsArray);
     global $global;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
@@ -8073,7 +8072,7 @@ function getIncludeFileContentV2($filePath, $varsArray=array()){
         $$key = $value;
     }
     _ob_start();
-    $out = ob_get_contents();
+    $__out = ob_get_contents();
     ob_clean();
     $basename = basename($filePath);
     $return = "<!-- {$basename} start -->";
@@ -8082,6 +8081,6 @@ function getIncludeFileContentV2($filePath, $varsArray=array()){
     $return .= ob_get_contents();
     $return .= "<!-- {$basename} end -->";
     ob_clean();
-    echo $out;
+    echo $__out;
     return $return;
 }
