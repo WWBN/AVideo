@@ -8012,15 +8012,15 @@ function getIncludeFileContent($filePath, $varsArray=array()){
         $$key = $value;
     }
     _ob_start();
-    $out = ob_get_clean();
-    _ob_start();
+    $__out = ob_get_clean();
+    //_ob_start();
     $basename = basename($filePath);
     $return = "<!-- {$basename} start -->";
     include $filePath;
     $return .= ob_get_clean();
     $return .= "<!-- {$basename} end -->";
     _ob_start();
-    echo $out;
+    echo $__out;
     return $return;
 }
 
