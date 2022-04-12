@@ -1,26 +1,31 @@
-var modal;
-var player;
-var floatLeft = "";
-var floatTop = "";
-var floatWidth = "";
-var floatHeight = "";
-var changingVideoFloat = 0;
-var floatClosed = 0;
-var fullDuration = 0;
-var isPlayingAd = false;
-var mainVideoHeight = 0;
-var mouseX;
-var mouseY;
-var videoContainerDragged = false;
-var youTubeMenuIsOpened = false;
-var userIsControling = false;
-var _serverTime;
-var _serverDBTime;
-var _serverTimeString;
-var _serverDBTimeString;
-let deferredPrompt;
-var playerCurrentTime;
-var mediaId;
+try{
+    var modal;
+    var player;
+    var floatLeft = "";
+    var floatTop = "";
+    var floatWidth = "";
+    var floatHeight = "";
+    var changingVideoFloat = 0;
+    var floatClosed = 0;
+    var fullDuration = 0;
+    var isPlayingAd = false;
+    var mainVideoHeight = 0;
+    var mouseX;
+    var mouseY;
+    var videoContainerDragged = false;
+    var youTubeMenuIsOpened = false;
+    var userIsControling = false;
+    var _serverTime;
+    var _serverDBTime;
+    var _serverTimeString;
+    var _serverDBTimeString;
+    let deferredPrompt;
+    var playerCurrentTime;
+    var mediaId;
+}catch(e){
+    console.log(e);
+}
+
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
     mouseY = e.pageY;
