@@ -8010,11 +8010,13 @@ function _ob_get_clean() {
     if (!ob_get_level()) {
         return ''; 
     }
-    return ob_get_clean();
+    $content = ob_get_clean();
+    ob_clean();
+    return $content;
 }
 
 function getIncludeFileContent($filePath, $varsArray=array()){
-    return getIncludeFileContentV2($filePath, $varsArray);
+    //return getIncludeFileContentV2($filePath, $varsArray);
     global $global;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
