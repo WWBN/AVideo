@@ -6557,7 +6557,7 @@ function canFullScreen() {
 
 function getTinyMCE($id, $simpleMode = false) {
     global $global;
-    $contents = getIncludeFileContentV2($global['systemRootPath'] . 'objects/functionsGetTinyMCE.php', array('id'=>$id, 'simpleMode'=>$simpleMode));
+    $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functionsGetTinyMCE.php', array('id'=>$id, 'simpleMode'=>$simpleMode));
     return $contents;
 }
 
