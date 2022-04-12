@@ -6398,7 +6398,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
     $video['id'] = $videos_id;
     $sharingUid = uniqid();
     $filePath = $global['systemRootPath'].'objects/functionGetSocialModal.php';
-    $contents = getIncludeFileContent($filePath, 
+    $contents = getIncludeFileContentV2($filePath, 
             array(
                 'videos_id'=>$videos_id, 
                 'url'=>$url, 
@@ -8016,7 +8016,7 @@ function _ob_get_clean() {
 }
 
 function getIncludeFileContent($filePath, $varsArray=array()){
-    return getIncludeFileContentV2($filePath, $varsArray);
+    //return getIncludeFileContentV2($filePath, $varsArray);
     global $global;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
