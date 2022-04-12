@@ -7990,7 +7990,7 @@ function getMediaSession() {
     return $MediaMetadata;
 }
 
-function _ob_start() {
+function _ob_start($force=false) {
     global $global;
     if (!isset($global['ob_start_callback'])) {
         $global['ob_start_callback'] = 'ob_gzhandler';
@@ -7999,7 +7999,7 @@ function _ob_start() {
             $global['ob_start_callback'] = null;
         }
     }
-    if (ob_get_level()) {
+    if (empty($force) && ob_get_level()) {
         return false; 
     }
     ob_start($global['ob_start_callback']);
