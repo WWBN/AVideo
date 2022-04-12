@@ -1,5 +1,6 @@
 <?php
 global $global, $config;
+$modeYouTubeTime = microtime(true);
 $isChannel = 1; // still workaround, for gallery-functions, please let it there.
 $isModeYouTube = 1;
 if (!isset($global['systemRootPath'])) {

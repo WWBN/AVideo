@@ -80,6 +80,7 @@ if (!empty($_GET['avideoIframe'])) { // comes from avideoModalIframe(url) javasc
     <?php
     return false;
 }
+_ob_start();
 ?>
 <style>
     /* if it is IE */

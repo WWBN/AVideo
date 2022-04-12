@@ -68,7 +68,7 @@ if (empty($feed)) {
     </rss>
     <?php
     $feed = ob_get_contents();
-    ob_end_clean();
+    _ob_end_clean();
     //var_dump($cacheFeedName, $feed);exit;
     ObjectYPT::setCache($cacheFeedName, $feed);
 //echo '<!-- NO cache -->';

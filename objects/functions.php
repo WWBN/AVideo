@@ -227,7 +227,7 @@ function modEnabled($mod_name) {
         _ob_start();
         phpinfo(INFO_MODULES);
         $contents = ob_get_contents();
-        ob_end_clean();
+        _ob_end_clean();
         return (strpos($contents, 'mod_' . $mod_name) !== false);
     }
     return in_array('mod_' . $mod_name, apache_get_modules());
@@ -8018,7 +8018,7 @@ ob_get_flush               x      x
  */
 function _ob_get_clean() {
     $content = ob_get_contents();
-    ob_end_clean();
+    _ob_end_clean();
     _ob_start();
     return $content;
 }
@@ -8037,10 +8037,12 @@ function getIncludeFileContentV1($filePath, $varsArray=array()){
     foreach ($varsArray as $key => $value) {
         $$key = $value;
     }
+    /*
     if(doesPHPVersioHasOBBug()){
         include $filePath;
         return '';
     }
+    */
 
     _ob_start();
     if(!ob_get_level()){
@@ -8099,4 +8101,10 @@ function doesPHPVersioHasOBBug(){
       } else {
         return false;
       }
+}
+
+function _ob_end_clean(){
+    if(!doesPHPVersioHasOBBug()){
+        ob_end_clean();
+    }
 }
