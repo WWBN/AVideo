@@ -8008,7 +8008,7 @@ function _ob_start($force=false) {
 
 function _ob_get_clean() {
     $content = ob_get_clean();
-    ob_clean();
+    _ob_start();
     return $content;
 }
 
