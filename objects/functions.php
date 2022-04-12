@@ -8024,6 +8024,15 @@ function _ob_get_clean() {
 }
 
 function getIncludeFileContent($filePath, $varsArray=array()){
+    global $global;
+    if(!empty($global['getIncludeFileContent'])){
+        return getIncludeFileContentV2($filePath, $varsArray);
+    }else{
+        return getIncludeFileContentV1($filePath, $varsArray);
+    }
+}
+
+function getIncludeFileContentV1($filePath, $varsArray=array()){
     //return getIncludeFileContentV2($filePath, $varsArray);
     global $global;
     foreach ($varsArray as $key => $value) {
