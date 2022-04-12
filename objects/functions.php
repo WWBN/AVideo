@@ -8037,6 +8037,11 @@ function getIncludeFileContentV1($filePath, $varsArray=array()){
     foreach ($varsArray as $key => $value) {
         $$key = $value;
     }
+    if(doesPHPVersioHasOBBug()){
+        include $filePath;
+        return '';
+    }
+
     _ob_start();
     if(!ob_get_level()){
         _ob_start(true);
@@ -8083,4 +8088,15 @@ function getIncludeFileContentV2($filePath, $varsArray=array()){
     ob_clean();
     echo $__out;
     return $return;
+}
+
+//https://github.com/php/php-src/issues/8218
+function doesPHPVersioHasOBBug(){
+    if (version_compare(phpversion(), "8.1.4", "==")) {
+        return true;
+      } else if (version_compare(phpversion(), "8.0.17", "==")) {
+        return true;
+      } else {
+        return false;
+      }
 }
