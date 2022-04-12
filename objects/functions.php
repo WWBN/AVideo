@@ -8104,7 +8104,8 @@ function doesPHPVersioHasOBBug(){
 }
 
 function _ob_end_clean(){
+    ob_end_clean();
     if(!doesPHPVersioHasOBBug()){
-        ob_end_clean();
+        header_remove("Content-Encoding");
     }
 }
