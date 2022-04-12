@@ -6398,7 +6398,7 @@ function getSocialModal($videos_id, $url = "", $title = "") {
     $video['id'] = $videos_id;
     $sharingUid = uniqid();
     $filePath = $global['systemRootPath'].'objects/functionGetSocialModal.php';
-    $contents = getIncludeFileContentV2($filePath, 
+    $contents = getIncludeFileContent($filePath, 
             array(
                 'videos_id'=>$videos_id, 
                 'url'=>$url, 
