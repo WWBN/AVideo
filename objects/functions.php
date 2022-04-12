@@ -8005,6 +8005,14 @@ function _ob_start() {
     ob_start($global['ob_start_callback']);
 }
 
+
+function _ob_get_clean() {
+    if (!ob_get_level()) {
+        return ''; 
+    }
+    return ob_get_clean();
+}
+
 function getIncludeFileContent($filePath, $varsArray=array()){
     //return getIncludeFileContentV2($filePath, $varsArray);
     global $global;
