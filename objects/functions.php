@@ -7807,7 +7807,7 @@ function totalImageColors($image_path) {
     // capture the raw data of the image
     _ob_start();
     imagegd2($img, null, $w);
-    $data = ob_get_clean();
+    $data = _ob_get_clean();
     $totalLength = strlen($data);
 
     // calculate the length of the actual pixel data
@@ -8014,18 +8014,18 @@ function _ob_get_clean() {
 }
 
 function getIncludeFileContent($filePath, $varsArray=array()){
-    //return getIncludeFileContentV2($filePath, $varsArray);
+    return getIncludeFileContentV2($filePath, $varsArray);
     global $global;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
     }
     _ob_start();
-    $__out = ob_get_clean();
+    $__out = _ob_get_clean();
     //_ob_start();
     $basename = basename($filePath);
     $return = "<!-- {$basename} start -->";
     include $filePath;
-    $return .= ob_get_clean();
+    $return .= _ob_get_clean();
     $return .= "<!-- {$basename} end -->";
     _ob_start();
     echo $__out;
