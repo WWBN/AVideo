@@ -8000,7 +8000,7 @@ function _ob_start() {
         }
     }
     if (ob_get_level()) {
-        return false; 
+        //return false; 
     }
     ob_start($global['ob_start_callback']);
 }
@@ -8016,7 +8016,7 @@ function _ob_get_clean() {
 }
 
 function getIncludeFileContent($filePath, $varsArray=array()){
-    //return getIncludeFileContentV2($filePath, $varsArray);
+    return getIncludeFileContentV2($filePath, $varsArray);
     global $global;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
