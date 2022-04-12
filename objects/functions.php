@@ -8027,6 +8027,11 @@ function getIncludeFileContent($filePath, $varsArray=array()){
         return '';
     }
     $__out = _ob_get_clean();
+    if(!ob_get_level()){
+        echo $__out;
+        include $filePath;
+        return '';
+    }
     //_ob_start();
     $basename = basename($filePath);
     $return = "<!-- {$basename} start -->";
