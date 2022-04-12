@@ -8017,7 +8017,8 @@ ob_get_contents            x
 ob_get_flush               x      x 
  */
 function _ob_get_clean() {
-    $content = ob_get_clean();
+    $content = ob_get_contents();
+    ob_clean();
     _ob_start();
     return $content;
 }
