@@ -8005,7 +8005,17 @@ function _ob_start($force=false) {
     ob_start($global['ob_start_callback']);
 }
 
-
+/**
+ *
+                clear  return  send    stop
+ob_clean          x         
+ob_end_clean      x                      x
+ob_end_flush                      x      x
+ob_flush                          x 
+ob_get_clean      x        x             x  // should be called ob_get_end_clean
+ob_get_contents            x        
+ob_get_flush               x      x 
+ */
 function _ob_get_clean() {
     $content = ob_get_clean();
     _ob_start();
@@ -8039,7 +8049,7 @@ function getIncludeFileContent($filePath, $varsArray=array()){
     _ob_start();
     $returnOB = _ob_get_clean();
     if(empty($returnOB)){
-        var_dump(ob_get_level(), $filePath, $varsArray);
+        var_dump('ERROR on output buffer', ob_get_level(), $filePath, $varsArray);
         exit;
     }
     $return .= "{$returnOB}<!-- {$basename} end -->";
