@@ -1586,6 +1586,10 @@ class Live extends PluginAbstract {
     }
 
     public static function isAdaptive($key) {
+        if(!is_string($key)){
+            _error_log('isAdaptive ERROR '._json_encode($key));
+            return false;
+        }
         if (preg_match('/_(hi|low|mid)$/i', $key)) {
             return true;
         }
