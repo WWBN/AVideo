@@ -8064,10 +8064,6 @@ function getIncludeFileContentV1($filePath, $varsArray=array()){
     include $filePath;
     _ob_start();
     $returnOB = _ob_get_clean();
-    if(empty($returnOB)){
-        var_dump('ERROR on output buffer', ob_get_level(), $filePath, $varsArray);
-        exit;
-    }
     $return .= "{$returnOB}<!-- {$basename} end -->";
     echo $__out;
     return $return;
