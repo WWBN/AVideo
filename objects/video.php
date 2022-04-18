@@ -690,7 +690,7 @@ if (!class_exists('Video')) {
                 $sql = " AND {$tableAlias}only_for_paid = 0 ";
                 return $sql;
             } else {
-                $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
+                $sql = " ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 AND (SELECT count(id) FROM categories_has_users_groups as cug WHERE cug.categories_id = v.categories_id ) = 0) ";
                 if (User::isLogged()) {
                     require_once $global['systemRootPath'] . 'objects/userGroups.php';
                     $userGroups = UserGroups::getUserGroups(User::getId());
