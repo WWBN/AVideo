@@ -356,4 +356,13 @@ class Comment
         }
         return $r;
     }
+    
+    static function addExtraInfo($commentsArray){
+        foreach ($commentsArray as $key2 => $value2) {
+            $user = new User($value2['users_id']);
+            $commentsArray[$key2]['userPhotoURL'] = User::getPhoto($value2['users_id']);
+            $commentsArray[$key2]['userName'] = User::getNameIdentificationById($value2['users_id']);
+        }
+        return $commentsArray;
+    }
 }

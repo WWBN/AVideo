@@ -653,12 +653,12 @@ function createEmailMessageFromTemplate($message) {
 }
 
 function sendEmailToSiteOwner($subject, $message) {
-    global $advancedCustom;
+    global $advancedCustom,$global;
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
     _error_log("sendEmailToSiteOwner {$subject}");
     global $config, $global;
-    require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
+    //require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
     $contactEmail = $config->getContactEmail();
     $webSiteTitle = $config->getWebSiteTitle();
     try {
@@ -7965,7 +7965,7 @@ function deleteMediaSessionPosters($imagePath) {
 
     foreach ($sizes as $value) {
         $destination = str_replace('.jpg', "_{$value}.jpg", $imagePath);
-        unlink($destination);
+        @unlink($destination);
     }
 }
 
