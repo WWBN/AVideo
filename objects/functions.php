@@ -1367,7 +1367,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             if (in_array($parts['extension'], $image) && filesize($file) < 1000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
                 continue;
             }
-
+            $resolution = '';
             if (preg_match("/{$cleanfilename}(_.+)[.]{$parts['extension']}$/", $file, $matches)) {
                 $resolution = $matches[1];
             } else {
@@ -5280,7 +5280,7 @@ function getMySQLDate() {
 
 function _file_put_contents($filename, $data, $flags = 0, $context = null) {
     make_path($filename);
-    if (!is_string($value)) {
+    if (!is_string($data)) {
         $data = _json_encode($data);
     }
     return file_put_contents($filename, $data, $flags, $context);
