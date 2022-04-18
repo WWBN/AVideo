@@ -188,7 +188,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>"  
                embed="<?php echo Video::getLink($value['id'], $value['clean_title'], true, $getCN); ?>"  
                alternativeLink="<?php echo @$value['alternativeLink']; ?>"
-               title="<?php echo $value['title']; ?>">
+               title="<?php echo htmlentities($value['title']); ?>">
                    <?php
                    @$timesG[__LINE__] += microtime(true) - $startG;
                    $startG = microtime(true);
@@ -283,7 +283,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>"  
                embed="<?php echo Video::getLink($value['id'], $value['clean_title'], true, $getCN); ?>" 
                alternativeLink="<?php echo @$value['alternativeLink']; ?>" 
-               title="<?php echo $value['title']; ?>">
+               title="<?php echo htmlentities($value['title']); ?>">
                 <strong class="title"><?php echo $value['title']; ?></strong>
             </a>
 
@@ -514,7 +514,7 @@ function createGalleryLiveSection($videos) {
                href="<?php echo $video['href']; ?>"  
                embed="<?php echo $video['link']; ?>"  
                alternativeLink="<?php echo @$video['alternativeLink']; ?>"
-               title="<?php echo $video['title']; ?>">
+               title="<?php echo htmlentities($video['title']); ?>">
                 <div class="aspectRatio16_9">
                     <img src="<?php echo $video['poster']; ?>" alt="<?php echo $video['title'] ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $video['id']; ?>" />
                     <?php if (!empty($video['imgGif'])) { ?>
@@ -529,7 +529,7 @@ function createGalleryLiveSection($videos) {
                href="<?php echo $video['href']; ?>"  
                embed="<?php echo $video['link']; ?>"  
                alternativeLink="<?php echo @$video['alternativeLink']; ?>"
-               title="<?php echo $video['title']; ?>">
+               title="<?php echo htmlentities($video['title']); ?>">
                 <strong class="title"><?php echo $video['title'] ?></strong>
             </a>
 

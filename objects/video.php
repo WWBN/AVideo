@@ -690,7 +690,7 @@ if (!class_exists('Video')) {
                 $sql = " AND {$tableAlias}only_for_paid = 0 ";
                 return $sql;
             } else {
-                $sql = " ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 AND (SELECT count(id) FROM categories_has_users_groups as cug WHERE cug.categories_id = v.categories_id ) = 0) ";
+                $sql = " ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = {$tableAlias}id ) = 0 AND (SELECT count(id) FROM categories_has_users_groups as cug WHERE cug.categories_id = {$tableAlias}categories_id ) = 0) ";
                 if (User::isLogged()) {
                     require_once $global['systemRootPath'] . 'objects/userGroups.php';
                     $userGroups = UserGroups::getUserGroups(User::getId());
@@ -699,8 +699,8 @@ if (!class_exists('Video')) {
                         $groups_id[] = $value['id'];
                     }
                     if (!empty($groups_id)) {
-                        $sql = " (({$sql}) OR "
-                                . " ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)";
+                        $sql = " (({$sql}) ";
+                        $sql .= " OR ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = {$tableAlias}id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)";
                         $sql .= " OR ((SELECT count(id) FROM categories_has_users_groups as chug WHERE chug.categories_id = {$tableAlias}categories_id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)";
                         $sql .= " ) ";
                     }
