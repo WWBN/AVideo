@@ -73,7 +73,11 @@ if (empty($playList)) {
             <?php
             if (!empty($playList)) {
                 //createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true)
-                createGallerySection($playList, uniqid(), array(), true,6, 6, 4, 2, false);
+                if(isMobile()){
+                    createGallerySection($playList, uniqid(), array(), true,6, 4, 2, 1, false);
+                }else{
+                    createGallerySection($playList, uniqid(), array(), true,6, 6, 4, 2, false);
+                }
             } ?>
             </div>
         </div>

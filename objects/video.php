@@ -685,7 +685,7 @@ if (!class_exists('Video')) {
             if (Permissions::canModerateVideos()) {
                 return "";
             }
-            $categories_id = intval($categories_id);
+            //$categories_id = intval($categories_id);
             if (self::allowFreePlayWithAdsIsEnabled()) {
                 $sql = " AND {$tableAlias}only_for_paid = 0 ";
                 return $sql;
