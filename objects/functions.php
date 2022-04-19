@@ -2974,6 +2974,10 @@ function verify($url) {
     $verifyURL = addQueryStringParameter($verifyURL, 'url', $url);
     $verifyURL = addQueryStringParameter($verifyURL, 'screenshot', 1);
     if (!file_exists($cacheFile) || (time() > (filemtime($cacheFile) + $lifetime)) || empty(file_get_contents($cacheFile))) {
+        _error_log("Verification Creating the Cache {$url}");
+        $result = url_get_contents($verifyURL, '', 5);
+        file_put_contents($cacheFile, $result);
+    } else {
         if (!file_exists($cacheFile)) {
             _error_log("Verification !file_exists($cacheFile)");
         }
@@ -2985,10 +2989,6 @@ function verify($url) {
         if (empty(file_get_contents($cacheFile))) {
             _error_log("Verification empty(file_get_contents($cacheFile))");
         }
-        _error_log("Verification Creating the Cache {$url}");
-        $result = url_get_contents($verifyURL, '', 5);
-        file_put_contents($cacheFile, $result);
-    } else {
         _error_log("Verification GetFrom Cache {$url}");
         $result = file_get_contents($cacheFile);
     }
