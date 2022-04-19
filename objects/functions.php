@@ -2976,7 +2976,9 @@ function verify($url) {
     if (!file_exists($cacheFile) || (time() > (filemtime($cacheFile) + $lifetime))) {
         _error_log("Verification Creating the Cache {$url}");
         $result = url_get_contents($verifyURL, '', 5);
-        file_put_contents($cacheFile, $result);
+        if($result !== 'Invalid URL'){
+            file_put_contents($cacheFile, $result);
+        }
     } else {
         if (!file_exists($cacheFile)) {
             _error_log("Verification GetFrom Cache  !file_exists($cacheFile)");
