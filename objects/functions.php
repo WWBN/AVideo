@@ -2988,6 +2988,7 @@ function verify($url) {
         if ($time > ($filemtime + $lifetime)) {
             _error_log("Verification GetFrom Cache  $time > ($filemtime + $lifetime)");
         }
+        _error_log("Verification GetFrom Cache $cacheFile");
         $result = file_get_contents($cacheFile);
     }
     _error_log("Verification Response ($verifyURL): {$result}");
