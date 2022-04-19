@@ -88,7 +88,7 @@ if (empty($playList)) {
             $(document).ready(function () {
                $('.galleryLink').click(function(event){
                    event.preventDefault();
-                   avideoModalIframeFull($(this).attr('alternativeLink'));
+                   avideoModalIframeLarge($(this).attr('alternativeLink'));
                });
             });
         </script>
