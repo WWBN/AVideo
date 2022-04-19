@@ -653,7 +653,7 @@ function createEmailMessageFromTemplate($message) {
 }
 
 function sendEmailToSiteOwner($subject, $message) {
-    global $advancedCustom,$global;
+    global $advancedCustom, $global;
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
     _error_log("sendEmailToSiteOwner {$subject}");
@@ -2969,19 +2969,30 @@ function verify($url) {
     ini_set('default_socket_timeout', 5);
     $cacheFile = sys_get_temp_dir() . '/' . md5($url) . "_verify.log";
     $lifetime = 86400; //24 hours
-    error_log("Verification Start {$url} cacheFile={$cacheFile}");
+    _error_log("Verification Start {$url} cacheFile={$cacheFile}");
     $verifyURL = "https://search.ypt.me/verify.php";
     $verifyURL = addQueryStringParameter($verifyURL, 'url', $url);
     $verifyURL = addQueryStringParameter($verifyURL, 'screenshot', 1);
     if (!file_exists($cacheFile) || (time() > (filemtime($cacheFile) + $lifetime)) || empty(file_get_contents($cacheFile))) {
-        error_log("Verification Creating the Cache {$url}");
+        if (!file_exists($cacheFile)) {
+            _error_log("Verification !file_exists($cacheFile)");
+        }
+        $filemtime = filemtime($cacheFile);
+        $time = time();
+        if ($time > ($filemtime + $lifetime)) {
+            _error_log("Verification $time > ($filemtime + $lifetime)");
+        }
+        if (empty(file_get_contents($cacheFile))) {
+            _error_log("Verification empty(file_get_contents($cacheFile))");
+        }
+        _error_log("Verification Creating the Cache {$url}");
         $result = url_get_contents($verifyURL, '', 5);
         file_put_contents($cacheFile, $result);
     } else {
-        error_log("Verification GetFrom Cache {$url}");
+        _error_log("Verification GetFrom Cache {$url}");
         $result = file_get_contents($cacheFile);
     }
-    error_log("Verification Response ($verifyURL): {$result}");
+    _error_log("Verification Response ($verifyURL): {$result}");
     return json_decode($result);
 }
 
@@ -6398,16 +6409,16 @@ function getSocialModal($videos_id, $url = "", $title = "") {
     global $global;
     $video['id'] = $videos_id;
     $sharingUid = uniqid();
-    $filePath = $global['systemRootPath'].'objects/functionGetSocialModal.php';
-    $contents = getIncludeFileContent($filePath, 
+    $filePath = $global['systemRootPath'] . 'objects/functionGetSocialModal.php';
+    $contents = getIncludeFileContent($filePath,
             array(
-                'videos_id'=>$videos_id, 
-                'url'=>$url, 
-                'title'=>$title, 
-                'video'=>$video, 
-                'sharingUid'=>$sharingUid
+                'videos_id' => $videos_id,
+                'url' => $url,
+                'title' => $title,
+                'video' => $video,
+                'sharingUid' => $sharingUid
             )
-            );
+    );
     return ['html' => $contents, 'id' => $sharingUid];
 }
 
@@ -6453,23 +6464,23 @@ function getCroppie(
     $boundaryWidth = $viewportWidth + $boundary;
     $boundaryHeight = $viewportHeight + $boundary;
     $uid = uniqid();
-    
+
     $varsArray = array(
-        'buttonTitle'=>$buttonTitle,
-        'callBackJSFunction'=>$callBackJSFunction,
-        'resultWidth'=>$resultWidth,
-        'resultHeight'=>$resultHeight,
-        'viewportWidth'=>$viewportWidth,
-        'boundary'=>$boundary,
-        'viewportHeight'=>$viewportHeight,
-        'enforceBoundary'=>$enforceBoundary,
-        'zoom'=>$zoom,
-        'boundaryWidth'=>$boundaryWidth,
-        'boundaryHeight'=>$boundaryHeight,
-        'uid'=>$uid,);
-    
+        'buttonTitle' => $buttonTitle,
+        'callBackJSFunction' => $callBackJSFunction,
+        'resultWidth' => $resultWidth,
+        'resultHeight' => $resultHeight,
+        'viewportWidth' => $viewportWidth,
+        'boundary' => $boundary,
+        'viewportHeight' => $viewportHeight,
+        'enforceBoundary' => $enforceBoundary,
+        'zoom' => $zoom,
+        'boundaryWidth' => $boundaryWidth,
+        'boundaryHeight' => $boundaryHeight,
+        'uid' => $uid,);
+
     $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functionCroppie.php', $varsArray);
-    
+
     $callBackJSFunction = addcslashes($callBackJSFunction, "'");
     return [
         "html" => $contents,
@@ -6558,7 +6569,7 @@ function canFullScreen() {
 
 function getTinyMCE($id, $simpleMode = false) {
     global $global;
-    $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functionsGetTinyMCE.php', array('id'=>$id, 'simpleMode'=>$simpleMode));
+    $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functionsGetTinyMCE.php', array('id' => $id, 'simpleMode' => $simpleMode));
     return $contents;
 }
 
@@ -7043,13 +7054,13 @@ function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = 
 
 function getLiveUsersLabelHTML($viewsClass = "label label-default", $counterClass = "label label-primary") {
     global $global, $_getLiveUsersLabelHTML;
-    if(!empty($_getLiveUsersLabelHTML)){
+    if (!empty($_getLiveUsersLabelHTML)) {
         return '';
     }
     $_getLiveUsersLabelHTML = 1;
-    
+
     $htmlMediaTag .= '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveUsersLabel">';
-    $htmlMediaTag .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php', array('viewsClass'=>$viewsClass,'counterClass'=>$counterClass));
+    $htmlMediaTag .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php', array('viewsClass' => $viewsClass, 'counterClass' => $counterClass));
     $htmlMediaTag .= getLiveUsersLabel($viewsClass, $counterClass);
     $htmlMediaTag .= '</div>';
     return $htmlMediaTag;
@@ -7991,7 +8002,7 @@ function getMediaSession() {
     return $MediaMetadata;
 }
 
-function _ob_start($force=false) {
+function _ob_start($force = false) {
     global $global;
     if (!isset($global['ob_start_callback'])) {
         $global['ob_start_callback'] = 'ob_gzhandler';
@@ -8001,21 +8012,21 @@ function _ob_start($force=false) {
         }
     }
     if (!empty($global['ob_start_callback']) && empty($force) && ob_get_level()) {
-        return false; 
+        return false;
     }
     ob_start($global['ob_start_callback']);
 }
 
 /**
  *
-                clear  return  send    stop
-ob_clean          x         
-ob_end_clean      x                      x
-ob_end_flush                      x      x
-ob_flush                          x 
-ob_get_clean      x        x             x  // should be called ob_get_end_clean
-ob_get_contents            x        
-ob_get_flush               x      x 
+  clear  return  send    stop
+  ob_clean          x
+  ob_end_clean      x                      x
+  ob_end_flush                      x      x
+  ob_flush                          x
+  ob_get_clean      x        x             x  // should be called ob_get_end_clean
+  ob_get_contents            x
+  ob_get_flush               x      x
  */
 function _ob_get_clean() {
     $content = ob_get_contents();
@@ -8024,37 +8035,37 @@ function _ob_get_clean() {
     return $content;
 }
 
-function getIncludeFileContent($filePath, $varsArray=array()){
+function getIncludeFileContent($filePath, $varsArray = array()) {
     global $global, $config;
-    if(!empty($global['getIncludeFileContent'])){
+    if (!empty($global['getIncludeFileContent'])) {
         return getIncludeFileContentV2($filePath, $varsArray);
-    }else{
+    } else {
         return getIncludeFileContentV1($filePath, $varsArray);
     }
 }
 
-function getIncludeFileContentV1($filePath, $varsArray=array()){
+function getIncludeFileContentV1($filePath, $varsArray = array()) {
     global $global, $config;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
     }
     /*
-    if(doesPHPVersioHasOBBug()){
-        include $filePath;
-        return '';
-    }
-    */
+      if(doesPHPVersioHasOBBug()){
+      include $filePath;
+      return '';
+      }
+     */
 
     _ob_start();
-    if(!ob_get_level()){
+    if (!ob_get_level()) {
         _ob_start(true);
     }
-    if(!ob_get_level()){
+    if (!ob_get_level()) {
         include $filePath;
         return '';
     }
     $__out = _ob_get_clean();
-    if(!ob_get_level()){
+    if (!ob_get_level()) {
         echo $__out;
         include $filePath;
         return '';
@@ -8070,7 +8081,7 @@ function getIncludeFileContentV1($filePath, $varsArray=array()){
     return $return;
 }
 
-function getIncludeFileContentV2($filePath, $varsArray=array()){
+function getIncludeFileContentV2($filePath, $varsArray = array()) {
     global $global, $config;
     foreach ($varsArray as $key => $value) {
         $$key = $value;
@@ -8090,22 +8101,23 @@ function getIncludeFileContentV2($filePath, $varsArray=array()){
 }
 
 //https://github.com/php/php-src/issues/8218
-function doesPHPVersioHasOBBug(){
+function doesPHPVersioHasOBBug() {
     if (version_compare(phpversion(), "8.1.4", "==")) {
         return true;
-      } else if (version_compare(phpversion(), "8.0.17", "==")) {
+    } else if (version_compare(phpversion(), "8.0.17", "==")) {
         return true;
-      } else {
+    } else {
         return false;
-      }
+    }
 }
+
 //https://github.com/php/php-src/issues/8218#issuecomment-1072439915
-function _ob_end_clean(){
+function _ob_end_clean() {
     ob_end_clean();
     header_remove("Content-Encoding");
     /*
-    if(!doesPHPVersioHasOBBug()){
-        header_remove("Content-Encoding");
-    }
-    */
+      if(!doesPHPVersioHasOBBug()){
+      header_remove("Content-Encoding");
+      }
+     */
 }
