@@ -2965,12 +2965,13 @@ function get_domain($url, $ifEmptyReturnSameString = false) {
 }
 
 function verify($url) {
+    global $global;
     ini_set('default_socket_timeout', 5);
     $cacheFile = sys_get_temp_dir() . '/' . md5($url) . "_verify.log";
     $lifetime = 86400; //24 hours
     error_log("Verification Start {$url}");
     $verifyURL = "https://search.ypt.me/verify.php";
-    $verifyURL = addQueryStringParameter($verifyURL, 'url', $global['webSiteRootURL']);
+    $verifyURL = addQueryStringParameter($verifyURL, 'url', $url);
     $verifyURL = addQueryStringParameter($verifyURL, 'screenshot', 1);
     if (!file_exists($cacheFile) || (time() > (filemtime($cacheFile) + $lifetime))) {
         error_log("Verification Creating the Cache {$url}");
