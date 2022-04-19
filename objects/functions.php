@@ -2969,7 +2969,7 @@ function verify($url) {
     ini_set('default_socket_timeout', 5);
     $cacheFile = sys_get_temp_dir() . '/' . md5($url) . "_verify.log";
     $lifetime = 86400; //24 hours
-    error_log("Verification Start {$url}");
+    error_log("Verification Start {$url} cacheFile={$cacheFile}");
     $verifyURL = "https://search.ypt.me/verify.php";
     $verifyURL = addQueryStringParameter($verifyURL, 'url', $url);
     $verifyURL = addQueryStringParameter($verifyURL, 'screenshot', 1);
