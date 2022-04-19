@@ -46,8 +46,6 @@ if(empty($channelURL) || !isValidURL($channelURL)){
     exit;
 }
 
-$channelURL = 'https://vod.lifestream.tv/channel/Fcccbmt';
-
 $parts = explode('/channel/', $channelURL);
 
 $siteURL = addLastSlash($parts[0]);
