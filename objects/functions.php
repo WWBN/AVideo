@@ -2990,6 +2990,9 @@ function verify($url) {
         }
         _error_log("Verification GetFrom Cache $cacheFile");
         $result = file_get_contents($cacheFile);
+        if($result === 'Invalid URL'){
+            unlink($cacheFile);
+        }
     }
     _error_log("Verification Response ($verifyURL): {$result}");
     return json_decode($result);
