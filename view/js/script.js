@@ -1,4 +1,4 @@
-try{
+try {
     var modal;
     var player;
     var floatLeft = "";
@@ -24,7 +24,7 @@ try{
     let deferredPrompt;
     var playerCurrentTime;
     var mediaId;
-}catch(e){
+} catch (e) {
     console.log(e);
 }
 
@@ -1594,199 +1594,6 @@ function checkDescriptionArea() {
         }
     });
 }
-$(document).ready(function () {
-//animateChilds('#sideBarContainer > ul', 'animate__bounceInLeft', 0.05);
-//animateChilds('#uploadMenu', 'animate__bounceIn', 0.05);
-//animateChilds('#myNavbar > ul > li.dropdown > ul > div.btn-group.btn-group-justified', 'animate__bounceIn', 0.1);
-//animateChilds('#lastItemOnMenu > div.navbar-header > ul > li > div > ul', 'animate__bounceInRight', 0.05);
-//animateChilds('.gallerySectionContent, .categoriesContainerItem .clearfix', 'animate__fadeInUp', 0.05);
-//animateChilds('#videosList', 'animate__bounceInRight', 0.1);
-    addViewFromCookie();
-    checkDescriptionArea();
-    setInterval(function () {// check for the carousel
-        checkDescriptionArea();
-    }, 3000);
-    Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone, {
-        path: '/',
-        expires: 365
-    });
-    tabsCategoryDocumentHeight = $(document).height();
-    if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
-        $('.nav-tabs-horizontal').scrollingTabs();
-        //$('.nav-tabs-horizontal').fadeIn();
-    }
-    setInterval(function () {
-        if (tabsCategoryDocumentHeightChanged()) {
-            if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
-                $('.nav-tabs-horizontal').scrollingTabs('refresh');
-            }
-        }
-    }, 1000);
-    modal = modal || (function () {
-        var pleaseWaitDiv = $("#pleaseWaitDialog");
-        if (pleaseWaitDiv.length === 0) {
-            if (typeof avideoLoader == 'undefined') {
-                avideoLoader = '';
-            }
-            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
-        }
-
-        return {
-            showPleaseWait: function () {
-                if (pleaseWaitIsINUse) {
-                    return false;
-                }
-                $('#pleaseWaitDialog').removeClass('loaded');
-                $('#pleaseWaitDialog').find('.progress').hide();
-                this.setText('Processing...');
-                $('#pleaseWaitDialog').find('h2').hide();
-                this.setProgress(0);
-                $('#pleaseWaitDialog').find('.progress').hide();
-                pleaseWaitIsINUse = true;
-                pleaseWaitDiv.modal();
-            },
-            hidePleaseWait: function () {
-                setTimeout(function () {
-                    $('#pleaseWaitDialog').addClass('loaded');
-                    ;
-                }, showPleaseWaitTimeOut / 2);
-                setTimeout(function () {
-                    pleaseWaitDiv.modal('hide');
-                }, showPleaseWaitTimeOut); // wait for loader animation
-                pleaseWaitIsINUse = false;
-            },
-            setProgress: function (valeur) {
-                var element = $('#pleaseWaitDialog').find('.progress');
-                console.log('showPleaseWait setProgress', element);
-                element.slideDown();
-                $('#pleaseWaitDialog').find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
-            },
-            setText: function (text) {
-                var element = $('#pleaseWaitDialog').find('h2');
-                console.log('showPleaseWait setText', element);
-                element.slideDown();
-                element.html(text);
-            },
-        };
-    })();
-    try {
-        $('[data-toggle="popover"]').popover();
-    } catch (e) {
-
-    }
-
-    setInterval(function () {
-        setToolTips();
-    }, 1000);
-    $(".thumbsImage").on("mouseenter", function () {
-        gifId = $(this).find(".thumbsGIF").attr('id');
-        $(".thumbsGIF").fadeOut();
-        if (gifId != undefined) {
-            id = gifId.replace('thumbsGIF', '');
-            var gif = $(this).find(".thumbsGIF");
-            var jpg = $(this).find(".thumbsGIF");
-            gif.height(jpg.height());
-            gif.width(jpg.width());
-            try {
-                gif.lazy({effect: 'fadeIn'});
-            } catch (e) {
-            }
-            gif.stop(true, true).fadeIn();
-        }
-    });
-    $(".thumbsImage").on("mouseleave", function () {
-        $(this).find(".thumbsGIF").stop(true, true).fadeOut();
-    });
-    lazyImage();
-    $("a").each(function () {
-        var location = window.location.toString()
-        var res = location.split("?");
-        pathWitoutGet = res[0];
-        if ($(this).attr("href") == window.location.pathname
-                || $(this).attr("href") == window.location
-                || $(this).attr("href") == pathWitoutGet) {
-            $(this).addClass("selected");
-        }
-    });
-    $('#clearCache, .clearCacheButton').on('click', function (ev) {
-        ev.preventDefault();
-        clearCache(true, 0, 0);
-    });
-    $('.clearCacheFirstPageButton').on('click', function (ev) {
-        ev.preventDefault();
-        clearCache(true, 1, 0);
-    });
-    $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
-        ev.preventDefault();
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'objects/configurationGenerateSiteMap.json.php',
-            success: function (response) {
-                if (!response.error) {
-                    avideoAlert("Congratulations!", "File created!", "success");
-                } else {
-                    if (response.msg) {
-                        avideoAlert("Sorry!", response.msg, "error");
-                    } else {
-                        avideoAlert("Sorry!", "File NOT created!", "error");
-                    }
-                }
-                modal.hidePleaseWait();
-            }
-        });
-    });
-    setPlayerListners();
-    $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
-    setInterval(function () {
-        if (typeof conn != 'undefined') {
-            if (avideoSocketIsActive()) {
-                $(".socketStatus").removeClass('disconnected');
-            } else {
-                $(".socketStatus").addClass('disconnected');
-            }
-        }
-
-    }, 1000);
-    $("input.saveCookie").each(function () {
-        var mycookie = Cookies.get($(this).attr('name'));
-        if (mycookie && mycookie == "true") {
-            $(this).prop('checked', mycookie);
-        }
-    });
-    $("input.saveCookie").change(function () {
-        var auto = $(this).prop('checked');
-        Cookies.set($(this).attr("name"), auto, {
-            path: '/',
-            expires: 365
-        });
-    });
-    if (isAutoplayEnabled()) {
-        $("#autoplay").prop('checked', true);
-    }
-    $("#autoplay").change(function () {
-        checkAutoPlay();
-    });
-    checkAutoPlay();
-    // Code to handle install prompt on desktop
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        $('.A2HSInstall').show();
-        // Stash the event so it can be triggered later.
-        deferredPrompt = e;
-        var beforeinstallprompt = Cookies.get('beforeinstallprompt');
-        if (beforeinstallprompt) {
-            return false;
-        }
-        var msg = "<a href='#' onclick='A2HSInstall();'><img src='" + $('[rel="apple-touch-icon"]').attr('href') + "' class='img img-responsive pull-left' style='max-width: 20px; margin-right:5px;'> Add To Home Screen </a>";
-        var options = {text: msg, hideAfter: 20000};
-        $.toast(options);
-        Cookies.set('beforeinstallprompt', 1, {
-            path: '/',
-            expires: 365
-        });
-    });
-});
 function clearCache(showPleaseWait, FirstPage, sessionOnly) {
     if (showPleaseWait) {
         modal.showPleaseWait();
@@ -1896,7 +1703,6 @@ function startTimerToDate(toDate, selector, useDBDate) {
     clearTimeout(startTimerToDateTimeOut[selector]);
     if (typeof _serverTime === 'undefined') {
         //console.log('startTimerToDate _serverTime is undefined');
-        getServerTime();
         startTimerToDateTimeOut[selector] = setTimeout(function () {
             startTimerToDate(toDate, selector, useDBDate)
         }, 1000);
@@ -1977,15 +1783,16 @@ function clearServerTime() {
     _serverDBTimezone = null;
 }
 
-function convertDBDateToLocal(dbDateString){
-    if(!/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/.test(dbDateString)){
+function convertDBDateToLocal(dbDateString) {
+    if (!/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/.test(dbDateString)) {
         return dbDateString;
     }
-    if(!_serverDBTimezone){
-        getServerTime();
+    if (!_serverDBTimezone) {
+        return dbDateString;
+    } else {
+        var date = new Date(dbDateString + ' ' + _serverDBTimezone);
+        return date.toJSON().slice(0, 19).replace('T', ' ');
     }
-    var date = new Date(dbDateString+' '+_serverDBTimezone);
-    return date.toJSON().slice(0, 19).replace('T', ' ');
 }
 
 function addGetParam(_url, _key, _value) {
@@ -2513,7 +2320,7 @@ function addAtMention(selector) {
                     // add placeholder to get the comma-and-space at the end
                     //terms.push("");
                     replace = '@' + ui.item.value;
-                    
+
                     this.value = replaceLast(word, '@' + ui.item.value, stringStart) + stringEnd;
                     if (emojioneArea) {
                         $(emojioneArea).data("emojioneArea").setText(this.value);
@@ -2530,10 +2337,208 @@ function addAtMention(selector) {
                     return false;
                 },
                 create: function () {
-                    $(this).data('ui-autocomplete')._renderItem = function (ul, item) {                        
+                    $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
                         return $('<li>' + item.label + '</li>').appendTo(ul); // customize your HTML
                     };
                 },
                 position: {collision: "flip"}
             });
 }
+
+
+
+$(document).ready(function () {
+//animateChilds('#sideBarContainer > ul', 'animate__bounceInLeft', 0.05);
+//animateChilds('#uploadMenu', 'animate__bounceIn', 0.05);
+//animateChilds('#myNavbar > ul > li.dropdown > ul > div.btn-group.btn-group-justified', 'animate__bounceIn', 0.1);
+//animateChilds('#lastItemOnMenu > div.navbar-header > ul > li > div > ul', 'animate__bounceInRight', 0.05);
+//animateChilds('.gallerySectionContent, .categoriesContainerItem .clearfix', 'animate__fadeInUp', 0.05);
+//animateChilds('#videosList', 'animate__bounceInRight', 0.1);
+
+    getServerTime();
+    addViewFromCookie();
+    checkDescriptionArea();
+    setInterval(function () {// check for the carousel
+        checkDescriptionArea();
+    }, 3000);
+    Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone, {
+        path: '/',
+        expires: 365
+    });
+    tabsCategoryDocumentHeight = $(document).height();
+    if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
+        $('.nav-tabs-horizontal').scrollingTabs();
+        //$('.nav-tabs-horizontal').fadeIn();
+    }
+    setInterval(function () {
+        if (tabsCategoryDocumentHeightChanged()) {
+            if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
+                $('.nav-tabs-horizontal').scrollingTabs('refresh');
+            }
+        }
+    }, 1000);
+    modal = modal || (function () {
+        var pleaseWaitDiv = $("#pleaseWaitDialog");
+        if (pleaseWaitDiv.length === 0) {
+            if (typeof avideoLoader == 'undefined') {
+                avideoLoader = '';
+            }
+            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
+        }
+
+        return {
+            showPleaseWait: function () {
+                if (pleaseWaitIsINUse) {
+                    return false;
+                }
+                $('#pleaseWaitDialog').removeClass('loaded');
+                $('#pleaseWaitDialog').find('.progress').hide();
+                this.setText('Processing...');
+                $('#pleaseWaitDialog').find('h2').hide();
+                this.setProgress(0);
+                $('#pleaseWaitDialog').find('.progress').hide();
+                pleaseWaitIsINUse = true;
+                pleaseWaitDiv.modal();
+            },
+            hidePleaseWait: function () {
+                setTimeout(function () {
+                    $('#pleaseWaitDialog').addClass('loaded');
+                    ;
+                }, showPleaseWaitTimeOut / 2);
+                setTimeout(function () {
+                    pleaseWaitDiv.modal('hide');
+                }, showPleaseWaitTimeOut); // wait for loader animation
+                pleaseWaitIsINUse = false;
+            },
+            setProgress: function (valeur) {
+                var element = $('#pleaseWaitDialog').find('.progress');
+                console.log('showPleaseWait setProgress', element);
+                element.slideDown();
+                $('#pleaseWaitDialog').find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
+            },
+            setText: function (text) {
+                var element = $('#pleaseWaitDialog').find('h2');
+                console.log('showPleaseWait setText', element);
+                element.slideDown();
+                element.html(text);
+            },
+        };
+    })();
+    try {
+        $('[data-toggle="popover"]').popover();
+    } catch (e) {
+
+    }
+
+    setInterval(function () {
+        setToolTips();
+    }, 1000);
+    $(".thumbsImage").on("mouseenter", function () {
+        gifId = $(this).find(".thumbsGIF").attr('id');
+        $(".thumbsGIF").fadeOut();
+        if (gifId != undefined) {
+            id = gifId.replace('thumbsGIF', '');
+            var gif = $(this).find(".thumbsGIF");
+            var jpg = $(this).find(".thumbsGIF");
+            gif.height(jpg.height());
+            gif.width(jpg.width());
+            try {
+                gif.lazy({effect: 'fadeIn'});
+            } catch (e) {
+            }
+            gif.stop(true, true).fadeIn();
+        }
+    });
+    $(".thumbsImage").on("mouseleave", function () {
+        $(this).find(".thumbsGIF").stop(true, true).fadeOut();
+    });
+    lazyImage();
+    $("a").each(function () {
+        var location = window.location.toString()
+        var res = location.split("?");
+        pathWitoutGet = res[0];
+        if ($(this).attr("href") == window.location.pathname
+                || $(this).attr("href") == window.location
+                || $(this).attr("href") == pathWitoutGet) {
+            $(this).addClass("selected");
+        }
+    });
+    $('#clearCache, .clearCacheButton').on('click', function (ev) {
+        ev.preventDefault();
+        clearCache(true, 0, 0);
+    });
+    $('.clearCacheFirstPageButton').on('click', function (ev) {
+        ev.preventDefault();
+        clearCache(true, 1, 0);
+    });
+    $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
+        ev.preventDefault();
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'objects/configurationGenerateSiteMap.json.php',
+            success: function (response) {
+                if (!response.error) {
+                    avideoAlert("Congratulations!", "File created!", "success");
+                } else {
+                    if (response.msg) {
+                        avideoAlert("Sorry!", response.msg, "error");
+                    } else {
+                        avideoAlert("Sorry!", "File NOT created!", "error");
+                    }
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    });
+    setPlayerListners();
+    $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
+    setInterval(function () {
+        if (typeof conn != 'undefined') {
+            if (avideoSocketIsActive()) {
+                $(".socketStatus").removeClass('disconnected');
+            } else {
+                $(".socketStatus").addClass('disconnected');
+            }
+        }
+
+    }, 1000);
+    $("input.saveCookie").each(function () {
+        var mycookie = Cookies.get($(this).attr('name'));
+        if (mycookie && mycookie == "true") {
+            $(this).prop('checked', mycookie);
+        }
+    });
+    $("input.saveCookie").change(function () {
+        var auto = $(this).prop('checked');
+        Cookies.set($(this).attr("name"), auto, {
+            path: '/',
+            expires: 365
+        });
+    });
+    if (isAutoplayEnabled()) {
+        $("#autoplay").prop('checked', true);
+    }
+    $("#autoplay").change(function () {
+        checkAutoPlay();
+    });
+    checkAutoPlay();
+    // Code to handle install prompt on desktop
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        $('.A2HSInstall').show();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        var beforeinstallprompt = Cookies.get('beforeinstallprompt');
+        if (beforeinstallprompt) {
+            return false;
+        }
+        var msg = "<a href='#' onclick='A2HSInstall();'><img src='" + $('[rel="apple-touch-icon"]').attr('href') + "' class='img img-responsive pull-left' style='max-width: 20px; margin-right:5px;'> Add To Home Screen </a>";
+        var options = {text: msg, hideAfter: 20000};
+        $.toast(options);
+        Cookies.set('beforeinstallprompt', 1, {
+            path: '/',
+            expires: 365
+        });
+    });
+});
