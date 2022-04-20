@@ -1796,7 +1796,9 @@ function convertDBDateToLocal(dbDateString) {
         console.log('convertDBDateToLocal _serverDBTimezone is empty', dbDateString);
         return dbDateString;
     } else {
-        var date = new Date(dbDateString + ' ' + _serverDBTimezone);
+        var dateStr = dbDateString + ' ' + _serverDBTimezone;
+        console.log('convertDBDateToLocal', dateStr);
+        var date = new Date(dateStr);
         return date.toJSON().slice(0, 19).replace('T', ' ');
     }
 }
