@@ -1243,7 +1243,15 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
             unset($_POST);
             $_GET['current'] = $_POST['current'] = 1;
             $_GET['parentsOnly'] = 1;
-            $categories = Category::getAllCategories();
+            $sameUserGroupAsMe = true;
+            
+            if(User::isAdmin()){
+                $sameUserGroupAsMe = false;
+            }else if(User::isLogged()){
+                $sameUserGroupAsMe = User::getId();
+            }
+            
+            $categories = Category::getAllCategories(false, false, false, $sameUserGroupAsMe);
             foreach ($categories as $value) {
                 if ($value['parentId']) {
                     continue;
