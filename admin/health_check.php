@@ -14,11 +14,11 @@ $phpExtensions[] = ['zip', 'Important handle HLS files'];
 // $phpExtensions[] = array('mbstring'); // I could not detect that
 
 $apacheModules = [];
-$apacheModules[] = ['mod_php'];
+$apacheModules[] = ['mod_php', 'We strongly recommend you to not use PHP-fpm, use PHP module instead'];
 $apacheModules[] = ['mod_xsendfile', 'https://github.com/WWBN/AVideo/wiki/Install-Apache-XSendFIle'];
-$apacheModules[] = ['mod_rewrite'];
-$apacheModules[] = ['mod_expires', 'Important for CDN and cache configuration'];
-$apacheModules[] = ['mod_headers', 'Important for CDN and cache configuration'];
+$apacheModules[] = ['mod_rewrite', 'sudo a2enmod rewrite'];
+$apacheModules[] = ['mod_expires', 'sudo a2enmod expires'];
+$apacheModules[] = ['mod_headers', 'sudo a2enmod headers'];
 
 $linuxApps = [];
 $linuxApps[] = ['mysql'];
@@ -55,6 +55,17 @@ if (isset($_SERVER["HTTPS"])) {
     $messages['Apache'][] = "HTTPS is enabled";
 } else {
     $messages['Apache'][] = ["HTTPS is not enabled", 'https://github.com/WWBN/AVideo/wiki/Why-use-HTTPS'];
+}
+
+$XSendFileURL = "{$global['webSiteRootURL']}videos/test.mp4";
+$XSendFilePath = "{$global['systemRootPath']}view/xsendfile.html";
+$XSendFile = url_get_contents($XSendFileURL);
+$XSendFileOriginal = file_get_contents($XSendFilePath);
+//var_dump($XSendFileURL, $XSendFilePath, $XSendFile, $XSendFileOriginal);exit;
+if($XSendFile===$XSendFileOriginal){
+    $messages['Apache'][] = "XSendFIle is enabled";
+} else {
+    $messages['Apache'][] = ["XSendFIle is not enabled", 'https://github.com/WWBN/AVideo/wiki/Install-Apache-XSendFIle'];
 }
 
 if (function_exists('apache_get_modules')) {
