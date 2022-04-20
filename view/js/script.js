@@ -1703,6 +1703,7 @@ function startTimerToDate(toDate, selector, useDBDate) {
     clearTimeout(startTimerToDateTimeOut[selector]);
     if (typeof _serverTime === 'undefined') {
         //console.log('startTimerToDate _serverTime is undefined');
+        getServerTime();
         startTimerToDateTimeOut[selector] = setTimeout(function () {
             startTimerToDate(toDate, selector, useDBDate)
         }, 1000);
@@ -1765,6 +1766,7 @@ function getServerTime() {
             _serverDBTimeString = response._serverDBTimeString;
             _serverTimezone = response._serverTimezone;
             _serverDBTimezone = response._serverDBTimezone;
+            console.log('getServerTime _serverDBTimezone', _serverDBTimezone, response._serverDBTimezone);
             setInterval(function () {
                 _serverTime++;
                 _serverDBTime++;
@@ -1787,9 +1789,12 @@ function clearServerTime() {
 
 function convertDBDateToLocal(dbDateString) {
     if (!/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/.test(dbDateString)) {
+        console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
     if (!_serverDBTimezone) {
+        getServerTime();
+        console.log('convertDBDateToLocal _serverDBTimezone is empty', dbDateString);
         return dbDateString;
     } else {
         var date = new Date(dbDateString + ' ' + _serverDBTimezone);
