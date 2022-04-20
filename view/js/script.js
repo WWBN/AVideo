@@ -15,18 +15,19 @@ try {
     var videoContainerDragged = false;
     var youTubeMenuIsOpened = false;
     var userIsControling = false;
-    var _serverTime;
-    var _serverDBTime;
-    var _serverTimeString;
-    var _serverDBTimeString;
-    var _serverTimezone;
-    var _serverDBTimezone;
     let deferredPrompt;
     var playerCurrentTime;
     var mediaId;
 } catch (e) {
-    console.log('Variable declaration ERROR',e);
+    console.log('Variable declaration ERROR', e);
 }
+
+var _serverTime;
+var _serverDBTime;
+var _serverTimeString;
+var _serverDBTimeString;
+var _serverTimezone;
+var _serverDBTimezone;
 
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
