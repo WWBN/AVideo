@@ -7204,7 +7204,7 @@ function getDatabaseTimezoneName() {
     $data = sqlDAL::fetchAssoc($res);
     sqlDAL::close($res);
     if ($res) {
-        $_getDatabaseTimezoneName = $row['time_zone'];
+        $_getDatabaseTimezoneName = $data['time_zone'];
     } else {
         $_getDatabaseTimezoneName = false;
     }
