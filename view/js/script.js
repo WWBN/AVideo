@@ -25,7 +25,7 @@ try {
     var playerCurrentTime;
     var mediaId;
 } catch (e) {
-    console.log(e);
+    console.log('Variable declaration ERROR',e);
 }
 
 $(document).mousemove(function (e) {
