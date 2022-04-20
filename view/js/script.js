@@ -1758,6 +1758,7 @@ function getServerTime() {
     $.ajax({
         url: webSiteRootURL + 'objects/getTimes.json.php',
         success: function (response) {
+            console.log('getServerTime', response);
             _serverTime = response._serverTime;
             _serverDBTime = response._serverDBTime;
             _serverTimeString = response._serverTimeString;
@@ -1775,6 +1776,7 @@ function getServerTime() {
 }
 
 function clearServerTime() {
+    console.log('clearServerTime');
     _serverTime = null;
     _serverDBTime = null;
     _serverTimeString = null;
