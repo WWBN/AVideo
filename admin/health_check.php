@@ -1,9 +1,14 @@
 <?php
-function _isAPPInstalled($appName)
-{
+function _isAPPInstalled($appName){
     $appName = preg_replace('/[^a-z0-9_-]/i', '', $appName);
     return trim(shell_exec("which {$appName}"));
 }
+
+//socket
+
+
+// live
+
 
 $phpExtensions = [];
 $phpExtensions[] = ['pdo_mysql'];

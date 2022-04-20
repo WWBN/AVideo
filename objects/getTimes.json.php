@@ -11,5 +11,6 @@ $obj->_serverDBTime = getDatabaseTime();
 $obj->_serverTimeString = date('Y-m-d H:i:s');
 $obj->_serverDBTimeString = date('Y-m-d H:i:s', getDatabaseTime());
 $obj->_serverTimezone = date_default_timezone_get();
+$obj->_serverDBTimezone = getDatabaseTimezoneName();
 
 die(json_encode($obj));

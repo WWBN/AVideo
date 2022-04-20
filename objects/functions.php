@@ -7194,6 +7194,22 @@ function getDatabaseTime() {
     return $_getDatabaseTime;
 }
 
+function getDatabaseTimezoneName() {
+    global $global, $_getDatabaseTime;
+    if (isset($_getDatabaseTime)) {
+        return $_getDatabaseTime;
+    }
+    $sql = "SELECT @@system_time_zone as time_zone";
+    $res = sqlDAL::readSql($sql);
+    $data = sqlDAL::fetchAssoc($res);
+    sqlDAL::close($res);
+    if ($res) {
+        return $row['time_zone'];
+    } else {
+        return false;
+    }
+}
+
 function get_js_availableLangs() {
     global $global;
     if (empty($global['js_availableLangs'])) {

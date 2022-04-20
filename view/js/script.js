@@ -19,6 +19,8 @@ try{
     var _serverDBTime;
     var _serverTimeString;
     var _serverDBTimeString;
+    var _serverTimezone;
+    var _serverDBTimezone;
     let deferredPrompt;
     var playerCurrentTime;
     var mediaId;
@@ -1954,6 +1956,8 @@ function getServerTime() {
             _serverDBTime = response._serverDBTime;
             _serverTimeString = response._serverTimeString;
             _serverDBTimeString = response._serverDBTimeString;
+            _serverTimezone = response._serverTimezone;
+            _serverDBTimezone = response._serverDBTimezone;
             setInterval(function () {
                 _serverTime++;
                 _serverDBTime++;
@@ -1969,6 +1973,8 @@ function clearServerTime() {
     _serverDBTime = null;
     _serverTimeString = null;
     _serverDBTimeString = null;
+    _serverTimezone = null;
+    _serverDBTimezone = null;
 }
 
 function addGetParam(_url, _key, _value) {
