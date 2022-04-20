@@ -1783,8 +1783,6 @@ function clearServerTime() {
     _serverDBTime = null;
     _serverTimeString = null;
     _serverDBTimeString = null;
-    _serverTimezone = null;
-    _serverDBTimezone = null;
 }
 
 function convertDBDateToLocal(dbDateString) {
