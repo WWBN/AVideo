@@ -1977,6 +1977,17 @@ function clearServerTime() {
     _serverDBTimezone = null;
 }
 
+function convertDBDateToLocal(dbDateString){
+    if(!/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/.test(dbDateString)){
+        return dbDateString;
+    }
+    if(!_serverDBTimezone){
+        getServerTime();
+    }
+    var date = new Date(dbDateString+' '+_serverDBTimezone);
+    return date.toJSON().slice(0, 19).replace('T', ' ');
+}
+
 function addGetParam(_url, _key, _value) {
     if (typeof _url !== 'string') {
         return false;
