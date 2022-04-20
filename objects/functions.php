@@ -7195,19 +7195,20 @@ function getDatabaseTime() {
 }
 
 function getDatabaseTimezoneName() {
-    global $global, $_getDatabaseTime;
-    if (isset($_getDatabaseTime)) {
-        return $_getDatabaseTime;
+    global $global, $_getDatabaseTimezoneName;
+    if (isset($_getDatabaseTimezoneName)) {
+        return $_getDatabaseTimezoneName;
     }
     $sql = "SELECT @@system_time_zone as time_zone";
     $res = sqlDAL::readSql($sql);
     $data = sqlDAL::fetchAssoc($res);
     sqlDAL::close($res);
     if ($res) {
-        return $row['time_zone'];
+        $_getDatabaseTimezoneName = $row['time_zone'];
     } else {
-        return false;
+        $_getDatabaseTimezoneName = false;
     }
+    return $_getDatabaseTimezoneName;
 }
 
 function get_js_availableLangs() {
