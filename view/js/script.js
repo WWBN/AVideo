@@ -1,4 +1,10 @@
 try {
+    var _serverTime;
+    var _serverDBTime;
+    var _serverTimeString;
+    var _serverDBTimeString;
+    var _serverTimezone;
+    var _serverDBTimezone;
     var modal;
     var player;
     var floatLeft = "";
@@ -22,12 +28,6 @@ try {
     console.log('Variable declaration ERROR', e);
 }
 
-var _serverTime;
-var _serverDBTime;
-var _serverTimeString;
-var _serverDBTimeString;
-var _serverTimezone;
-var _serverDBTimezone;
 
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
@@ -1796,8 +1796,8 @@ function convertDBDateToLocal(dbDateString) {
         console.log('convertDBDateToLocal _serverDBTimezone is empty', dbDateString);
         return dbDateString;
     } else {
-        var dateStr = dbDateString.replaceAll('-','/') + ' ' + _serverDBTimezone;
-        console.log('convertDBDateToLocal', dateStr);
+        var dateStr = dbDateString.replaceAll('-', '/') + ' ' + _serverDBTimezone;
+        //console.log('convertDBDateToLocal', dateStr);
         var date = new Date(Date.parse(dateStr));
         return date.toLocaleString();
     }
