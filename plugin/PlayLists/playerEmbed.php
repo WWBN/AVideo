@@ -88,6 +88,7 @@ foreach ($playList as $key => $value) {
                    //avideoModalIframeFull($(this).attr('alternativeLink'));
                    var url = $(this).attr('embed');
                    url = addGetParam(url, 'controls', -1);
+                   url = addGetParam(url, 'showinfo', 0);
                    avideoAddIframeIntoElement(this, url, '.aspectRatio16_9');
                });
             });
