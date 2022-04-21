@@ -2,8 +2,6 @@
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
-$isSerie = 1;
-$isPlayList = true;
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
@@ -42,23 +40,22 @@ if (!empty($video['id'])) {
 if (empty($playList)) {
     videoNotFound('');
 }
+
+$videos = array();
+foreach ($playList as $key => $value) {
+    $videos[$key] = $value;
+    $videos[$key]['id'] = $value['videos_id'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php echo $playListObj->getName() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getURL('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
         <script src="<?php echo getURL('plugin/Gallery/script.js'); ?>" type="text/javascript"></script>
 
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
-        <?php
-        if (!empty($video['id'])) {
-            getLdJson($video['id']);
-            getItemprop($video['id']);
-        }
-        ?>
         <style>
             .clearfix {
                 margin-bottom: 10px;
@@ -74,9 +71,9 @@ if (empty($playList)) {
             if (!empty($playList)) {
                 //createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true)
                 if(isMobile()){
-                    createGallerySection($playList, uniqid(), array(), true,6, 4, 2, 1, false);
+                    createGallerySection($videos, uniqid(), array(), true,6, 4, 2, 1, false);
                 }else{
-                    createGallerySection($playList, uniqid(), array(), true,6, 6, 4, 2, false);
+                    createGallerySection($videos, uniqid(), array(), true,6, 6, 4, 2, false);
                 }
             } ?>
             </div>
@@ -88,7 +85,10 @@ if (empty($playList)) {
             $(document).ready(function () {
                $('.galleryLink').click(function(event){
                    event.preventDefault();
-                   avideoModalIframeFull($(this).attr('alternativeLink'));
+                   //avideoModalIframeFull($(this).attr('alternativeLink'));
+                   var url = $(this).attr('embed');
+                   url = addGetParam(url, 'controls', -1);
+                   avideoAddIframeIntoElement(this, url, '.aspectRatio16_9');
                });
             });
         </script>

@@ -1351,6 +1351,21 @@ function avideoModalIframeFull(url) {
     avideoModalIframeFullScreen(url);
 }
 
+function avideoAddIframeIntoElement(element, url, insideSelector) {
+    url = addGetParam(url, 'avideoIframe', 1);
+    console.log('avideoAddIframeIntoElement', url, element);
+    var html = '';
+    html += '<iframe frameBorder="0" class="avideoIframeIntoElement" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
+    
+    var insideElement = $(element);
+    
+    if(insideSelector){
+        insideElement = $(element).find(insideSelector);
+    }
+    
+    insideElement.append(html);
+}
+
 var avideoModalIframeFullScreenOriginalURL = false;
 var avideoModalIframeWithClassNameTimeout;
 function avideoModalIframeWithClassName(url, className, updateURL) {
@@ -2352,8 +2367,6 @@ function addAtMention(selector) {
                 position: {collision: "flip"}
             });
 }
-
-
 
 $(document).ready(function () {
 //animateChilds('#sideBarContainer > ul', 'animate__bounceInLeft', 0.05);
