@@ -32,7 +32,13 @@ try {
     eventer(messageEvent, function (e) {
         console.log('EventListener', e.data);
         if(e.data.getHeight){
-            var height= $('body').height();
+            var height= $('body > div.container-fluid').height();
+            if(!height){
+                height= $('body > div.container').height();
+            }
+            if(!height){
+                height= $('body').height();
+            }
             parent.postMessage({height: height}, '*');
         }
     },false);
