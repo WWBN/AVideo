@@ -24,6 +24,18 @@ try {
     let deferredPrompt;
     var playerCurrentTime;
     var mediaId;
+    // Create browser compatible event handler.
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+    // Listen for a message from the iframe.
+    eventer(messageEvent, function (e) {
+        if(e.getHeight){
+            var height= $('body').height();
+            parent.postMessage(height, '*');
+        }
+    },false);
+
 } catch (e) {
     console.log('Variable declaration ERROR', e);
 }
@@ -1356,13 +1368,13 @@ function avideoAddIframeIntoElement(element, url, insideSelector) {
     console.log('avideoAddIframeIntoElement', url, element);
     var html = '';
     html += '<iframe frameBorder="0" class="avideoIframeIntoElement" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
-    
+
     var insideElement = $(element);
-    
-    if(insideSelector){
+
+    if (insideSelector) {
         insideElement = $(element).find(insideSelector);
     }
-    
+
     insideElement.append(html);
 }
 
@@ -1987,11 +1999,11 @@ function isPlayerUserActive() {
     return $('#mainVideo').hasClass("vjs-user-active");
 }
 
-window.addEventListener('beforeunload', function (e) {
+eventer('beforeunload', function (e) {
 //console.log('window.addEventListener(beforeunload');
     _addViewAsync();
 }, false);
-document.addEventListener('visibilitychange', function () {
+eventer('visibilitychange', function () {
     if (document.visibilityState === 'hidden') {
         _addViewAsync();
     }
@@ -2544,7 +2556,7 @@ $(document).ready(function () {
     });
     checkAutoPlay();
     // Code to handle install prompt on desktop
-    window.addEventListener('beforeinstallprompt', (e) => {
+    eventer('beforeinstallprompt', (e) => {
         // Prevent Chrome 67 and earlier from automatically showing the prompt
         e.preventDefault();
         $('.A2HSInstall').show();
