@@ -30,8 +30,8 @@ try {
     var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
     // Listen for a message from the iframe.
     eventer(messageEvent, function (e) {
-        console.log('EventListener', e);
-        if(e.getHeight){
+        console.log('EventListener', e.data);
+        if(e.data.getHeight){
             var height= $('body').height();
             parent.postMessage({height: height}, '*');
         }
