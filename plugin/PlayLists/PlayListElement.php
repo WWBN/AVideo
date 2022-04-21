@@ -152,7 +152,7 @@ class playListSource {
             $obj = AVideoPlugin::getDataObject('VideoHLS');
             if(!empty($obj->downloadProtection)){
                 if(!preg_match('/token=/', $this->src)){
-                    $this->src = addQueryStringParameter($this->src, token, VideoHLS::getToken());
+                    $this->src = addQueryStringParameter($this->src, 'token', VideoHLS::getToken());
                 }
             }
         }
