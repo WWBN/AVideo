@@ -89,6 +89,7 @@ foreach ($playList as $key => $value) {
                    var url = $(this).attr('embed');
                    url = addGetParam(url, 'controls', -1);
                    url = addGetParam(url, 'showinfo', 0);
+                   url = addGetParam(url, 'autoplay', 1);
                    avideoAddIframeIntoElement(this, url, '.aspectRatio16_9');
                });
             });
