@@ -24,6 +24,7 @@ foreach($lines as $line){
 foreach($ips as $ip){
     $cmd = 'sudo ufw insert 1 deny from '.$ip.'  to any'.PHP_EOL;
     echo $cmd;
+    $output = null;
     exec($cmd.' 2>&1', $output, $return_var);
     echo json_encode($output).PHP_EOL;
 }
