@@ -37,8 +37,14 @@ while (1) {
             $newRules[] = $ip;
         }
     }
-
+    $totalNew = count($newRules);
     echo PHP_EOL . 'Found ' . $total . PHP_EOL;
-    echo PHP_EOL . count($newRules) . ' New IPs added: ' . implode(', ', $newRules) . PHP_EOL;
+    echo PHP_EOL . $totalNew . ' New IPs added: ' . implode(', ', $newRules) . PHP_EOL;
+    
+    if($totalNew){
+        //exec('/etc/init.d/apache2 restart');
+        exec('/etc/init.d/mysql restart');
+    }
+    
     sleep(5);
 }
