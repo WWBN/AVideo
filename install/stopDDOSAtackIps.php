@@ -22,6 +22,7 @@ foreach($lines as $line){
 }
 
 $total = count($ips);
+$newRules - array();
 
 foreach($ips as $key => $ip){
     $cmd = 'sudo ufw insert 1 deny from '.$ip.'  to any'.PHP_EOL;
@@ -29,6 +30,10 @@ foreach($ips as $key => $ip){
     $output = null;
     exec($cmd.' 2>&1', $output, $return_var);
     echo json_encode($output).PHP_EOL;
+    if($output[0]==='Rule inserted'){
+        $newRules[] = $ip;
+    }
 }
 
 echo PHP_EOL.'Found '.$total.PHP_EOL;
+echo PHP_EOL.count($newRules).' New IPs added: '. implode(', ', $newRules).PHP_EOL;
