@@ -325,7 +325,7 @@ class PlayerSkins extends PluginAbstract {
                 self::prepareStartPlayerJS($onPlayerReady);
             }
         }
-        if (!empty($getStartPlayerJSWasRequested) || isVideo()) {
+        if (empty($global['doNotLoadPlayer']) && !empty($getStartPlayerJSWasRequested) || isVideo()) {
             $js .= "<script src=\"" . getURL('view/js/videojs-persistvolume/videojs.persistvolume.js') . "\"></script>";
             $js .= "<script>" . self::getStartPlayerJSCode() . "</script>";
         }
