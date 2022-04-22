@@ -11,7 +11,7 @@ function tailShell($filepath, $lines = 1) {
 while (1) {
 
     $lines = tailShell($apacheAccessLogFile, 1000);
-    file_put_contents($apacheAccessLogFile,'');
+    //file_put_contents($apacheAccessLogFile,'');
     $ips = array();
 
     foreach ($lines as $line) {
