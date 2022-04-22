@@ -22,7 +22,7 @@ foreach($lines as $line){
 }
 
 $total = count($ips);
-$newRules - array();
+$newRules = array();
 
 foreach($ips as $key => $ip){
     $cmd = 'sudo ufw insert 1 deny from '.$ip.'  to any'.PHP_EOL;
