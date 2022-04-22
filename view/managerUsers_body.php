@@ -1,3 +1,19 @@
+<?php
+$users_tabs = array();
+
+$users_tabs[] = array('selector' => 'grid', 'queryString' => '?status=a', 'icon' => 'fas fa-user', 'title' => 'Active Users', 'active' => 'active', 'userGroupID' => 0);
+$users_tabs[] = array('selector' => 'gridInactive', 'queryString' => '?status=i', 'icon' => 'fas fa-user-slash', 'title' => 'Inactive Users', 'active' => '', 'userGroupID' => 0);
+$users_tabs[] = array('selector' => 'gridAdmin', 'queryString' => '?isAdmin=1', 'icon' => 'fas fa-user-tie', 'title' => 'Admin Users', 'active' => '', 'userGroupID' => 0);
+
+if (empty($advancedCustomUser->disableCompanySignUp)) {
+    $users_tabs[] = array('selector' => 'companyAdmin', 'queryString' => '?isCompany=1', 'icon' => 'fas fa-building', 'title' => 'Company Users', 'active' => '', 'userGroupID' => 0);
+    $users_tabs[] = array('selector' => 'companyApAdmin', 'queryString' => '?isCompany=0', 'icon' => 'fas fa-building', 'title' => 'Company Waiting Approval', 'active' => '', 'userGroupID' => 0);
+}
+
+foreach ($userGroups as $value) {
+    $users_tabs[] = array('selector' => 'userGroupGrid' . $value['id'], 'queryString' => '?status=a&user_groups_id=' . $value['id'], 'icon' => 'fas fa-users', 'title' => $value['group_name'], 'active' => '', 'userGroupID' => $value['id']);
+}
+?>
 <div class="panel panel-default">
     <div class="panel-heading tabbable-line">
         <div class="btn-group pull-right" >
@@ -19,132 +35,51 @@
         </div>
         <div class="clearfix"></div>
         <ul class="nav nav-tabs nav-tabs-horizontal">
-            <li class="active"><a data-toggle="tab" href="#usersTab" onclick="startUserGrid('#grid', '?status=a', 0);"><i class="fas fa-user"></i> <?php echo __('Active Users'); ?></a></li>
-            <li><a data-toggle="tab" href="#inactiveUsersTab" onclick="startUserGrid('#gridInactive', '?status=i', 0);"><i class="fas fa-user-slash"></i> <?php echo __('Inactive Users'); ?></a></li>
-            <li><a data-toggle="tab" href="#adminUsersTab" onclick="startUserGrid('#gridAdmin', '?isAdmin=1', 0);"><i class="fas fa-user-tie"></i> <?php echo __('Admin Users'); ?></a></li>
             <?php
-            if (empty($advancedCustomUser->disableCompanySignUp)) {
+            foreach ($users_tabs as $value) {
                 ?>
-                <li><a data-toggle="tab" href="#companyUsersTab" onclick="startUserGrid('#companyAdmin', '?isCompany=1', 0);"><i class="fas fa-building"></i> <?php echo __('Company Users'); ?></a></li>
-                <li><a data-toggle="tab" href="#companyApUsersTab" onclick="startUserGrid('#companyApAdmin', '?isCompany=2', 0);"><i class="fas fa-building"></i> <?php echo __('Company Waiting Approval'); ?></a></li>
+                <li class="<?php echo $value['active']; ?>">
+                    <a data-toggle="tab" href="#<?php echo $value['selector']; ?>Tab" onclick="startUserGrid('#<?php echo $value['selector']; ?>', '<?php echo $value['queryString']; ?>', <?php echo intval($value['userGroupID']); ?>);">
+                        <i class="<?php echo $value['icon']; ?>"></i> <?php echo __($value['title']); ?>
+                    </a>
+                </li>
                 <?php
-            }
-            foreach ($userGroups as $value) {
-                echo '<li><a data-toggle="tab" href="#userGroupTab' . $value['id'] . '" onclick="startUserGrid(\'#userGroupGrid' . $value['id'] . '\', \'?status=a&user_groups_id=' . $value['id'] . '\', ' . $value['id'] . ');"><i class="fas fa-users"></i> ' . $value['group_name'] . '</a></li>';
             }
             ?>
         </ul>
     </div>
     <div class="panel-body">
         <div class="tab-content">
-            <div id="usersTab" class="tab-pane fade in active">
-                <table id="grid" class="table table-condensed table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
-                            <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
-                            <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                            <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
-                            <th data-column-id="created" ><?php echo __("Created"); ?></th>
-                            <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
-                            <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
-                            <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div id="inactiveUsersTab" class="tab-pane fade">
-                <table id="gridInactive" class="table table-condensed table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
-                            <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
-                            <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                            <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
-                            <th data-column-id="created" ><?php echo __("Created"); ?></th>
-                            <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
-                            <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
-                            <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div id="adminUsersTab" class="tab-pane fade">
-                <table id="gridAdmin" class="table table-condensed table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
-                            <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
-                            <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                            <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
-                            <th data-column-id="created" ><?php echo __("Created"); ?></th>
-                            <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
-                            <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
-                            <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
 
             <?php
-            if (empty($advancedCustomUser->disableCompanySignUp)) {
+            foreach ($users_tabs as $value) {
                 ?>
-                <div id="companyUsersTab" class="tab-pane fade">
-                    <table id="companyAdmin" class="table table-condensed table-hover table-striped">
+                <div id="<?php echo $value['selector']; ?>Tab" class="tab-pane fade in <?php echo $value['active']; ?>">
+                    <?php
+                    if (!empty($value['userGroupID'])) {
+                        ?>
+                        <div class="btn-group pull-left" id="filterButtonsUG<?php echo $value['userGroupID']; ?>">
+                            <div class="btn-group ">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="activeFilter"><?php echo __('All'); ?></span> <span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" id="filter<?php echo $value['userGroupID']; ?>_" onclick="userGroupFilter(<?php echo $value['userGroupID']; ?>, '');return false;"><?php echo __('All'); ?></a></li>
+                                    <li><a href="#" id="filter<?php echo $value['userGroupID']; ?>_dynamic" onclick="userGroupFilter(<?php echo $value['userGroupID']; ?>, 'dynamic');return false;"><i class="fas fa-link"></i> <?php echo __('Dynamic User groups'); ?> (<?php echo __('Added by a plugin, PPV or Subscription'); ?>)</a></li>
+                                    <li><a href="#" id="filter<?php echo $value['userGroupID']; ?>_permanent" onclick="userGroupFilter(<?php echo $value['userGroupID']; ?>, 'permanent');return false;;"><i class="fas fa-lock"></i> <?php echo __('Permanent User groups'); ?></a></li>
+                                </ul>
+                            </div>
+                        </div>   
+                        <?php
+                    }
+                    ?>
+                    <table id="<?php echo $value['selector']; ?>" class="table table-condensed table-hover table-striped">
                         <thead>
                             <tr>
                                 <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
                                 <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
                                 <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
                                 <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
-                                <th data-column-id="created" ><?php echo __("Created"); ?></th>
-                                <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
-                                <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
-                                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div id="companyApUsersTab" class="tab-pane fade">
-                    <table id="companyApAdmin" class="table table-condensed table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
-                                <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
-                                <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                                <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
-                                <th data-column-id="created" ><?php echo __("Created"); ?></th>
-                                <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
-                                <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
-                                <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <?php
-            }
-            foreach ($userGroups as $value) {
-                $gridID = "userGroupGrid{$value['id']}";
-                ?>
-                <div id="userGroupTab<?php echo $value['id']; ?>" class="tab-pane fade">
-                    <div class="btn-group pull-left" id="filterButtonsUG<?php echo $value['id']; ?>">
-                        <div class="btn-group ">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                <span class="activeFilter"><?php echo __('All'); ?></span> <span class="caret"></span></button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#" id="filter<?php echo $value['id']; ?>_" onclick="userGroupFilter(<?php echo $value['id']; ?>, '');return false;"><?php echo __('All'); ?></a></li>
-                                <li><a href="#" id="filter<?php echo $value['id']; ?>_dynamic" onclick="userGroupFilter(<?php echo $value['id']; ?>, 'dynamic');return false;"><i class="fas fa-link"></i> <?php echo __('Dynamic User groups'); ?> (<?php echo __('Added by a plugin, PPV or Subscription'); ?>)</a></li>
-                                <li><a href="#" id="filter<?php echo $value['id']; ?>_permanent" onclick="userGroupFilter(<?php echo $value['id']; ?>, 'permanent');return false;;"><i class="fas fa-lock"></i> <?php echo __('Permanent User groups'); ?></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <table id="<?php echo $gridID; ?>" class="table table-condensed table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
-                                <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
-                                <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                                <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
+                                <th data-column-id="phone" ><?php echo __("Phone"); ?></th>
                                 <th data-column-id="created" ><?php echo __("Created"); ?></th>
                                 <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
                                 <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
@@ -195,7 +130,7 @@
                         <select name="is_company" id="is_company" class="form-control last">
                             <?php
                             foreach (User::$is_company_status as $key => $value) {
-                                if(!empty($advancedCustomUser->disableCompanySignUp) && $key == User::$is_company_status_WAITINGAPPROVAL){
+                                if (!empty($advancedCustomUser->disableCompanySignUp) && $key == User::$is_company_status_WAITINGAPPROVAL) {
                                     continue;
                                 }
                                 echo "<option value='{$key}'>" . __($value) . "</option>";
@@ -392,7 +327,7 @@
 
     $(document).ready(function () {
 
-        startUserGrid("#grid", "?status=a", 0);
+        startUserGrid("#<?php echo $users_tabs[0]['selector']; ?>", "<?php echo $users_tabs[0]['queryString']; ?>", <?php echo intval($users_tabs[0]['userGroupID']); ?>);
         $('#addUserBtn').click(function (evt) {
             $('#inputUserId').val('');
             $('#inputUser').val('');
@@ -459,16 +394,13 @@ print AVideoPlugin::updateUserFormJS();
                         },
                         type: 'post',
                         success: function (response) {
-                        if (response.status > "0") {
-                        $('#userFormModal').modal('hide');
+                            if(!response.error){
+                                $('#userFormModal').modal('hide');
                                 $('.bootgrid-table').bootgrid("reload");
-                                avideoToast("<?php echo __("Your user has been saved!"); ?>");
-                        } else if (response.error){
-                        avideoAlert("<?php echo __("Sorry!"); ?>", response.error, "error");
-                        } else {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user has NOT been updated!"); ?>", "error");
-                        }
-                        modal.hidePleaseWait();
+                            }
+                            avideoResponse(response);
+                            console.log('user save', response);
+                            modal.hidePleaseWait();
                         }
                 });
                 return false;

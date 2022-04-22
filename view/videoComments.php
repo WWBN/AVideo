@@ -309,15 +309,14 @@ if (User::canSeeCommentTextarea()) {
 
                                             modal.showPleaseWait();
                                             $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/commentDelete.json.php',
+                                                url: webSiteRootURL+'objects/commentDelete.json.php',
                                                 method: 'POST',
                                                 data: {'id': comments_id},
                                                 success: function (response) {
-                                                    if (response.status) {
+                                                    if (!response.error) {
                                                         $(t).closest('tr').fadeOut();
-                                                    } else {
-                                                        avideoAlert("<?php echo __("Sorry"); ?>!", "<?php echo __("Your comment has NOT been deleted!"); ?>", "error");
-                                                    }
+                                                    } 
+                                                    avideoResponse(response);
                                                     modal.hidePleaseWait();
                                                 }
                                             });

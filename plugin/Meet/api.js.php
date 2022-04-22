@@ -19,8 +19,8 @@ if (empty($meet_schedule_id)) {
     $meet_schedule_id = intval($meet_schedule_id);
 }
 ?>
-<script src="<?php echo getCDN(); ?>plugin/Meet/external_api.js" type="text/javascript"></script>
-<script src="<?php echo getCDN(); ?>node_modules/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
+<script src="<?php echo getURL('plugin/Meet/external_api.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/sweetalert/dist/sweetalert.min.js'); ?>" type="text/javascript"></script>
 <script>
     var webSiteRootURL = "<?php echo $global['webSiteRootURL']; ?>";
     var webSiteTitle = "<?php echo $config->getWebSiteTitle(); ?>";
@@ -75,6 +75,9 @@ if (empty($meet_schedule_id)) {
         } else if (typeof e.data.aVideoMeetStopRecording !== 'undefined') {
             console.log("YPTMeetScript aVideoMeetStopRecording");
             aVideoMeetStopRecording(e.data.aVideoMeetStopRecording.dropURL);
+        } else if (typeof e.data.terminateMeet !== 'undefined' && e.data.terminateMeet == 1) {
+            console.log("YPTMeetScript terminateMeet");
+            terminateMeet();
         }
     });
 
@@ -164,6 +167,19 @@ if (empty($meet_schedule_id)) {
         api.addEventListeners({
             readyToClose: readyToClose,
         });
+        
+        <?php
+        if(!empty($rtmpLink) && !empty($_REQUEST['startLiveMeet'])){
+            ?>
+                console.log('Live meet will start in 5 seconds');
+                setTimeout(function(){
+                    console.log('Live meet will start now');
+                    startLiveMeet();
+                },5000);
+            <?php
+        }
+        ?>
+        
 
     }
 
@@ -243,6 +259,17 @@ if (!empty($rtmpLink) && Meet::isModerator($meet_schedule_id)) {
         window.parent.postMessage({"meetIsClosed": true}, "*");
         if (typeof _readyToClose == "function") {
             _readyToClose();
+        }
+    }    
+            
+    function startLiveMeet(){
+        aVideoMeetStartRecording('<?php echo $rtmpLink; ?>', '<?php echo $dropURL; ?>');
+    }
+    
+    function terminateMeet(){
+        Participants = api.getParticipantsInfo();
+        for (var index in Participants) {
+            api.executeCommand('kickParticipant',Participants[index].participantId);
         }
     }
 </script>

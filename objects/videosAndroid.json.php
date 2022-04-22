@@ -59,11 +59,7 @@ foreach ($videos as $key => $value) {
     $_POST['sort']['created'] = "desc";
     $videos[$key]['comments'] = Comment::getAllComments($videos[$key]['id']);
     $videos[$key]['commentsTotal'] = Comment::getTotalComments($videos[$key]['id']);
-    foreach ($videos[$key]['comments'] as $key2 => $value2) {
-        $user = new User($value2['users_id']);
-        $videos[$key]['comments'][$key2]['userPhotoURL'] = User::getPhoto($videos[$key]['comments'][$key2]['users_id']);
-        $videos[$key]['comments'][$key2]['userName'] = $user->getNameIdentificationBd();
-    }
+    $videos[$key]['comments'] = Comment::addExtraInfo($videos[$key]['comments']);
     $videos[$key]['subscribers'] = Subscribe::getTotalSubscribes($videos[$key]['users_id']);
 
     $videos[$key]['firstVideo'] = '';

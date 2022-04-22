@@ -1,4 +1,5 @@
 <?php
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once dirname(__FILE__) . '/../videos/configuration.php';
@@ -8,8 +9,8 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-class Category
-{
+class Category {
+
     private $id;
     private $name;
     private $clean_name;
@@ -24,41 +25,34 @@ class Category
     private $order;
     private $suggested;
 
-    public function getSuggested()
-    {
+    public function getSuggested() {
         return empty($this->suggested) ? 0 : 1;
     }
 
-    public function setSuggested($suggested)
-    {
+    public function setSuggested($suggested) {
         $this->suggested = empty($suggested) ? 0 : 1;
     }
 
-    public function getOrder()
-    {
+    public function getOrder() {
         return intval($this->order);
     }
 
-    public function setOrder($order)
-    {
+    public function setOrder($order) {
         $this->order = intval($order);
     }
 
-    public function getUsers_id()
-    {
+    public function getUsers_id() {
         if (empty($this->users_id)) {
             $this->users_id = User::getId();
         }
         return $this->users_id;
     }
 
-    public function getPrivate()
-    {
+    public function getPrivate() {
         return $this->private;
     }
 
-    public function setUsers_id($users_id)
-    {
+    public function setUsers_id($users_id) {
         // only admin can change owner
         if (!empty($this->users_id) && !User::isAdmin()) {
             return false;
@@ -67,40 +61,33 @@ class Category
         $this->users_id = intval($users_id);
     }
 
-    public function setPrivate($private)
-    {
+    public function setPrivate($private) {
         $this->private = empty($private) ? 0 : 1;
     }
 
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = _substr($name, 0, 45);
     }
 
-    public function setClean_name($clean_name)
-    {
+    public function setClean_name($clean_name) {
         $clean_name = preg_replace('/\W+/', '-', strtolower(cleanString($clean_name)));
         $this->clean_name = _substr($clean_name, 0, 45);
         ;
     }
 
-    public function setNextVideoOrder($nextVideoOrder)
-    {
+    public function setNextVideoOrder($nextVideoOrder) {
         $this->nextVideoOrder = $nextVideoOrder;
     }
 
-    public function setParentId($parentId)
-    {
+    public function setParentId($parentId) {
         $this->parentId = $parentId;
     }
 
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->description = $description;
     }
 
-    public function __construct($id, $name = '')
-    {
+    public function __construct($id, $name = '') {
         if (empty($id)) {
             // get the category data from category and pass
             $this->name = $name;
@@ -111,8 +98,7 @@ class Category
         }
     }
 
-    private function load($id)
-    {
+    private function load($id) {
         $row = self::getCategory($id);
         if (empty($row)) {
             return false;
@@ -123,13 +109,11 @@ class Category
         return true;
     }
 
-    public function loadSelfCategory()
-    {
+    public function loadSelfCategory() {
         $this->load($this->getId());
     }
 
-    public function save($allowOfflineUser = false)
-    {
+    public function save($allowOfflineUser = false) {
         global $global;
 
         if (!$allowOfflineUser && !self::canCreateCategory()) {
@@ -196,8 +180,7 @@ class Category
         }
     }
 
-    public static function fixCleanTitle($clean_title, $count, $id, $original_title = "")
-    {
+    public static function fixCleanTitle($clean_title, $count, $id, $original_title = "") {
         global $global;
 
         if (empty($original_title)) {
@@ -219,8 +202,7 @@ class Category
         return $clean_title;
     }
 
-    public function delete()
-    {
+    public function delete() {
         if (!self::canCreateCategory()) {
             return false;
         }
@@ -251,8 +233,7 @@ class Category
         return sqlDAL::writeSql($sql, "i", [$this->id]);
     }
 
-    public static function deleteAssets($categories_id)
-    {
+    public static function deleteAssets($categories_id) {
         $dirPaths = self::getCategoryDirPath($categories_id);
         return rrmdir($dirPaths['path']);
     }
@@ -277,8 +258,7 @@ class Category
      *
      */
 
-    public static function getCategory($id)
-    {
+    public static function getCategory($id) {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM categories WHERE id = ? LIMIT 1";
@@ -291,25 +271,21 @@ class Category
         return ($res) ? $result : false;
     }
 
-    public static function getCategoryLink($id)
-    {
+    public static function getCategoryLink($id) {
         $cat = new Category($id);
         return self::getCategoryLinkFromName($cat->getClean_name());
     }
 
-    public static function getCategoryLinkFromName($clean_name)
-    {
+    public static function getCategoryLinkFromName($clean_name) {
         global $global;
         return "{$global['webSiteRootURL']}cat/{$clean_name}";
     }
 
-    public function getLink()
-    {
+    public function getLink() {
         return self::getCategoryLinkFromName($this->getClean_name());
     }
 
-    public static function getCategoryByName($name)
-    {
+    public static function getCategoryByName($name) {
         global $global;
         $sql = "SELECT * FROM categories WHERE clean_name = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", [$name]);
@@ -322,8 +298,7 @@ class Category
         return ($res) ? $result : false;
     }
 
-    public static function getOrCreateCategoryByName($name)
-    {
+    public static function getOrCreateCategoryByName($name) {
         $cat = self::getCategoryByName($name);
         if (empty($cat)) {
             $obj = new Category(0);
@@ -340,8 +315,7 @@ class Category
         return $cat;
     }
 
-    public static function getCategoryDefault()
-    {
+    public static function getCategoryDefault() {
         global $global;
         $sql = "SELECT * FROM categories ORDER BY id ASC LIMIT 1";
         $res = sqlDAL::readSql($sql);
@@ -353,8 +327,7 @@ class Category
         return ($res) ? $result : false;
     }
 
-    public static function getSiteCategoryDefaultID()
-    {
+    public static function getSiteCategoryDefaultID() {
         $obj = AVideoPlugin::getObjectDataIfEnabled("PredefinedCategory");
         $id = false;
         if ($obj) {
@@ -370,11 +343,10 @@ class Category
 
     public static function deleteCategoryCache() {
         ObjectYPT::deleteALLCache();
-        _error_log("deleteCategoryCache: {$cacheDir} = ". json_encode($rrmdir));
+        _error_log("deleteCategoryCache: {$cacheDir} = " . json_encode($rrmdir));
     }
 
-    public static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false)
-    {
+    public static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false) {
         global $global, $config;
         if ($config->currentVersionLowerThen('8.4')) {
             return false;
@@ -416,7 +388,21 @@ class Category
             }
             $sql .= ")";
         }
+        if ($sameUserGroupAsMe) {
 
+            $users_groups = UserGroups::getUserGroups($sameUserGroupAsMe);
+
+            $users_groups_id = array(0);
+            foreach ($users_groups as $value) {
+                $users_groups_id[] = $value['id'];
+            }
+
+
+            $sql .= " AND ("
+                    . "(SELECT count(*) FROM categories_has_users_groups chug WHERE c.id = chug.categories_id) = 0 OR "
+                    . "(SELECT count(*) FROM categories_has_users_groups chug2 WHERE c.id = chug2.categories_id AND users_groups_id IN (" . implode(',', $users_groups_id) . ")) >= 1 "
+                    . ")";
+        }
         $sortWhitelist = ['id', 'name', 'clean_name', 'description', 'iconClass', 'nextVideoOrder', 'parentId', 'type', 'users_id', 'private', 'allow_download', 'order', 'suggested'];
 
         if (!empty($_POST['sort']) && is_array($_POST['sort'])) {
@@ -464,8 +450,7 @@ class Category
         return $category;
     }
 
-    public static function getHierarchyArray($categories_id, $hierarchyArray = [])
-    {
+    public static function getHierarchyArray($categories_id, $hierarchyArray = []) {
         if (empty($categories_id)) {
             return $hierarchyArray;
         }
@@ -480,8 +465,7 @@ class Category
         return $hierarchyArray;
     }
 
-    public static function getHierarchyString($categories_id)
-    {
+    public static function getHierarchyString($categories_id) {
         if (empty($categories_id)) {
             return "/";
         }
@@ -498,8 +482,7 @@ class Category
         return $str;
     }
 
-    public static function userCanAddInCategory($categories_id, $users_id = 0)
-    {
+    public static function userCanAddInCategory($categories_id, $users_id = 0) {
         if (empty($categories_id)) {
             return false;
         }
@@ -516,8 +499,7 @@ class Category
         return false;
     }
 
-    public static function userCanEditCategory($categories_id, $users_id = 0)
-    {
+    public static function userCanEditCategory($categories_id, $users_id = 0) {
         if (empty($categories_id)) {
             return false;
         }
@@ -539,8 +521,7 @@ class Category
         return false;
     }
 
-    public static function canCreateCategory()
-    {
+    public static function canCreateCategory() {
         global $advancedCustomUser;
         if (User::isAdmin()) {
             return true;
@@ -551,8 +532,7 @@ class Category
         return false;
     }
 
-    public static function getChildCategories($parentId, $filterCanAddVideoOnly = false)
-    {
+    public static function getChildCategories($parentId, $filterCanAddVideoOnly = false) {
         global $global, $config;
         if ($config->currentVersionLowerThen('8.4')) {
             return false;
@@ -589,14 +569,12 @@ class Category
         return $category;
     }
 
-    public static function getChildCategoriesFromTitle($clean_title)
-    {
+    public static function getChildCategoriesFromTitle($clean_title) {
         $row = self::getCategoryByName($clean_title);
         return self::getChildCategories($row['id']);
     }
 
-    public static function getTotalFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false)
-    {
+    public static function getTotalFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false) {
         $videos = self::getTotalVideosFromCategory($categories_id, $showUnlisted, $getAllVideos, $renew);
         $lives = self::getTotalLivesFromCategory($categories_id, $showUnlisted, $renew);
         $livelinkss = self::getTotalLiveLinksFromCategory($categories_id, $showUnlisted, $renew);
@@ -604,8 +582,7 @@ class Category
         return ['videos' => $videos, 'lives' => $lives, 'livelinks' => $livelinkss, 'total' => $total];
     }
 
-    public static function getTotalFromChildCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false)
-    {
+    public static function getTotalFromChildCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false) {
         $categories = self::getChildCategories($categories_id);
         $array = ['videos' => 0, 'lives' => 0, 'livelinks' => 0, 'total' => 0];
         foreach ($categories as $value) {
@@ -614,20 +591,19 @@ class Category
                 'videos' => $array['videos'] + $totals['videos'],
                 'lives' => $array['lives'] + $totals['lives'],
                 'livelinks' => $array['livelinks'] + $totals['livelinks'],
-                'total' => $array['total'] + $totals['total'], ];
+                'total' => $array['total'] + $totals['total'],];
             $totals = self::getTotalFromChildCategory($value['id'], $showUnlisted, $getAllVideos, $renew);
             $array = [
                 'videos' => $array['videos'] + $totals['videos'],
                 'lives' => $array['lives'] + $totals['lives'],
                 'livelinks' => $array['livelinks'] + $totals['livelinks'],
-                'total' => $array['total'] + $totals['total'], ];
+                'total' => $array['total'] + $totals['total'],];
         }
 
         return $array;
     }
 
-    public static function getTotalVideosFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false)
-    {
+    public static function getTotalVideosFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false) {
         global $global, $config;
         if ($renew || empty($_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)]['videos'])) {
             $sql = "SELECT count(id) as total FROM videos v WHERE 1=1 AND categories_id = ? ";
@@ -655,8 +631,7 @@ class Category
         return $_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][intval($getAllVideos)]['videos'];
     }
 
-    public static function getLatestVideoFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false)
-    {
+    public static function getLatestVideoFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false) {
         global $global, $config;
         $sql = "SELECT * FROM videos v WHERE 1=1 AND (categories_id = ? OR categories_id IN (SELECT id from categories where parentId = ?))";
 
@@ -676,8 +651,7 @@ class Category
         return $result;
     }
 
-    public static function getLatestLiveFromCategory($categories_id)
-    {
+    public static function getLatestLiveFromCategory($categories_id) {
         if (!AVideoPlugin::isEnabledByName("Live")) {
             return [];
         }
@@ -693,8 +667,7 @@ class Category
         return $result;
     }
 
-    public static function getLatestLiveLinksFromCategory($categories_id)
-    {
+    public static function getLatestLiveLinksFromCategory($categories_id) {
         if (AVideoPlugin::isEnabledByName("LiveLinks")) {
             return [];
         }
@@ -709,8 +682,7 @@ class Category
         return $result;
     }
 
-    public static function getTotalLiveLinksFromCategory($categories_id, $showUnlisted = false, $renew = false)
-    {
+    public static function getTotalLiveLinksFromCategory($categories_id, $showUnlisted = false, $renew = false) {
         global $global;
 
         if (!AVideoPlugin::isEnabledByName("LiveLinks")) {
@@ -739,8 +711,7 @@ class Category
         return $_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][0]['livelinks'];
     }
 
-    public static function getTotalLivesFromCategory($categories_id, $showUnlisted = false, $renew = false)
-    {
+    public static function getTotalLivesFromCategory($categories_id, $showUnlisted = false, $renew = false) {
         if (!AVideoPlugin::isEnabledByName("Live")) {
             return 0;
         }
@@ -768,8 +739,7 @@ class Category
         return $_SESSION['user']['sessionCache']['categoryTotal'][$categories_id][intval($showUnlisted)][0]['live'];
     }
 
-    public static function clearCacheCount($categories_id = 0)
-    {
+    public static function clearCacheCount($categories_id = 0) {
         // clear category count cache
         _session_start();
         if (empty($categories_id)) {
@@ -781,8 +751,7 @@ class Category
         //session_write_close();
     }
 
-    public static function getTotalCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false)
-    {
+    public static function getTotalCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false) {
         global $global, $config;
 
         if ($config->currentVersionLowerThen('5.01')) {
@@ -833,46 +802,38 @@ class Category
         return $numRows;
     }
 
-    public function getIconClass()
-    {
+    public function getIconClass() {
         if (empty($this->iconClass)) {
             return "fa fa-folder";
         }
         return $this->iconClass;
     }
 
-    public function setIconClass($iconClass)
-    {
+    public function setIconClass($iconClass) {
         $this->iconClass = $iconClass;
     }
 
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    public function getClean_name()
-    {
+    public function getClean_name() {
         return $this->clean_name;
     }
 
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
-    public function getAllow_download()
-    {
+    public function getAllow_download() {
         return $this->allow_download;
     }
 
-    public function setAllow_download($allow_download)
-    {
+    public function setAllow_download($allow_download) {
         $this->allow_download = intval($allow_download);
     }
 
-    public static function getCategoryDirPath($categories_id = "")
-    {
+    public static function getCategoryDirPath($categories_id = "") {
         global $global;
 
         $dir = "videos/categories/assets/";
@@ -888,8 +849,7 @@ class Category
         return $path;
     }
 
-    public static function isAssetsValids($categories_id)
-    {
+    public static function isAssetsValids($categories_id) {
         $photo = Category::getCategoryPhotoPath($categories_id);
         $background = Category::getCategoryBackgroundPath($categories_id);
         //var_dump(filesize($background['path']), $background['path'], filesize($photo['path']), $photo['path'] );
@@ -905,8 +865,7 @@ class Category
         return true;
     }
 
-    public static function getOGImagePaths($categories_id)
-    {
+    public static function getOGImagePaths($categories_id) {
         $name = "og_200X200.jpg";
         $dirPaths = self::getCategoryDirPath($categories_id);
         $path = [];
@@ -921,8 +880,7 @@ class Category
         return $path;
     }
 
-    public static function deleteOGImage($categories_id)
-    {
+    public static function deleteOGImage($categories_id) {
         $ogPaths = self::getOGImagePaths($categories_id);
         $destination = $ogPaths['path'];
         if (file_exists($destination)) {
@@ -930,8 +888,7 @@ class Category
         }
     }
 
-    public static function getOGImage($categories_id)
-    {
+    public static function getOGImage($categories_id) {
         global $global;
         $isAssetsValids = self::isAssetsValids($categories_id);
         if ($isAssetsValids) {
@@ -949,20 +906,17 @@ class Category
         }
     }
 
-    public static function getCategoryPhotoPath($categories_id)
-    {
+    public static function getCategoryPhotoPath($categories_id) {
         $path = self::getCategoryAssetPath("photo.png", $categories_id);
         return $path;
     }
 
-    public static function getCategoryBackgroundPath($categories_id)
-    {
+    public static function getCategoryBackgroundPath($categories_id) {
         $path = self::getCategoryAssetPath("background.png", $categories_id);
         return $path;
     }
 
-    private static function getCategoryAssetPath($name, $categories_id)
-    {
+    private static function getCategoryAssetPath($name, $categories_id) {
         if (empty($categories_id)) {
             return false;
         }
@@ -986,8 +940,8 @@ class Category
         return $path;
     }
 
-    public static function setUsergroups($categories_id, $usergroups_ids_array){
-        if(!is_array($usergroups_ids_array)){
+    public static function setUsergroups($categories_id, $usergroups_ids_array) {
+        if (!is_array($usergroups_ids_array)) {
             $usergroups_ids_array = array($usergroups_ids_array);
         }
         Categories_has_users_groups::deleteAllFromCategory($categories_id);
@@ -998,4 +952,5 @@ class Category
         }
         return $return;
     }
+
 }

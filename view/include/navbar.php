@@ -80,6 +80,7 @@ if (!empty($_GET['avideoIframe'])) { // comes from avideoModalIframe(url) javasc
     <?php
     return false;
 }
+_ob_start();
 ?>
 <style>
     /* if it is IE */
@@ -512,11 +513,11 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                             </li>
                             <?php
                         } else {
-                            $output = ob_get_clean();
-                            ob_start();
+                            $output = _ob_get_clean();
+                            _ob_start();
                             echo AVideoPlugin::getUploadMenuButton();
-                            $getUploadMenuButton = ob_get_clean();
-                            ob_start();
+                            $getUploadMenuButton = _ob_get_clean();
+                            _ob_start();
                             if (!empty($getUploadMenuButton)) {
                                 ?>
                                 <li>
@@ -532,8 +533,8 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
                                     </div>
                                 </li>
                                 <?php
-                                $getUploadMenuButton = ob_get_clean();
-                                ob_start();
+                                $getUploadMenuButton = _ob_get_clean();
+                                _ob_start();
                             }
                             echo $output . $getUploadMenuButton;
                         } ?>
@@ -1242,7 +1243,15 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
             unset($_POST);
             $_GET['current'] = $_POST['current'] = 1;
             $_GET['parentsOnly'] = 1;
-            $categories = Category::getAllCategories();
+            $sameUserGroupAsMe = true;
+            
+            if(User::isAdmin()){
+                $sameUserGroupAsMe = false;
+            }else if(User::isLogged()){
+                $sameUserGroupAsMe = User::getId();
+            }
+            
+            $categories = Category::getAllCategories(false, false, false, $sameUserGroupAsMe);
             foreach ($categories as $value) {
                 if ($value['parentId']) {
                     continue;

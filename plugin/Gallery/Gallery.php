@@ -231,12 +231,9 @@ class Gallery extends PluginAbstract {
     
     public static function getAddChannelToGalleryButton($users_id){
         global $global, $config;
-        $variable = ob_get_clean();
-        ob_start(); 
-        include $global['systemRootPath'] . 'plugin/Gallery/buttonChannelToGallery.php';
-        $button = ob_get_clean();
-        ob_start();
-        echo $variable;
+        $filePath = $global['systemRootPath'] . 'plugin/Gallery/buttonChannelToGallery.php';
+        $varsArray=array('users_id'=>$users_id);
+        $button = getIncludeFileContent($filePath, $varsArray);
         return $button;
     }
     

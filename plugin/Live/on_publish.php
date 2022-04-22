@@ -178,7 +178,7 @@ if (!empty($obj) && empty($obj->error)) {
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
         ob_end_flush();
-        ob_start();
+        _ob_start();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
         $m3u8 = Live::getM3U8File($lth->getKey(), false,true);
         $users_id = $obj->row['users_id'];

@@ -36,7 +36,7 @@ if (!$ms->canManageSchedule()) {
 $obj->error = false;
 
 ob_end_clean();
-ob_start();
+_ob_start();
 
 
 if ($_REQUEST['meet_scheduled'] !== "past") {
@@ -105,6 +105,6 @@ if (!$ms->getPublic()) {
 </div>
 <?php
                     }
-$obj->html = ob_get_clean();
+$obj->html = _ob_get_clean();
 die(json_encode($obj));
 ?>

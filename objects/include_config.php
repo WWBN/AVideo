@@ -134,9 +134,11 @@ if (!empty($url1['host']) && !empty($url2['host']) && $url1['host'] !== $url2['h
 $_SESSION['LAST_HTTP_REFERER'] = $global['HTTP_REFERER'];
 //var_dump($global['HTTP_REFERER'], $url1);exit;
 
-$output = ob_get_clean();
-ob_start('ob_gzhandler');
-echo $output;
+_ob_end_clean();
+//$output = _ob_get_clean();
+_ob_start(true);
+//echo $output;
+
 $_SESSION['lastUpdate'] = time();
 $_SESSION['savedQuerys'] = 0;
 require_once $global['systemRootPath'] . 'objects/Object.php';

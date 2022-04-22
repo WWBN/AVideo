@@ -891,6 +891,9 @@ class AVideoPlugin
             }
             $_getLiveApplicationArrayPlugin = $array;
         }
+
+        usort($_getLiveApplicationArrayPlugin, "getLiveApplicationArrayCMP");
+        
         return $_getLiveApplicationArrayPlugin;
     }
 
@@ -2313,4 +2316,9 @@ class AVideoPlugin
 
 class YouPHPTubePlugin extends AVideoPlugin
 {
+}     
+
+function getLiveApplicationArrayCMP($a, $b) {
+    //var_dump($a['title'],$a['comingsoon'], $b['title'],$b['comingsoon'], $a['comingsoon'] - $b['comingsoon']);
+    return $a['comingsoon'] - $b['comingsoon'];
 }

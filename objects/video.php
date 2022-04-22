@@ -62,6 +62,7 @@ if (!class_exists('Video')) {
         private $likes;
         private $dislikes;
         private $users_id_company;
+        private $created;
         public static $statusDesc = [
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -120,7 +121,15 @@ if (!class_exists('Video')) {
                 $this->filename = $filename;
             }
         }
+        
+        public function getCreated() {
+            return $this->created;
+        }
 
+        public function setCreated($created): void {
+            $this->created = $created;
+        }
+        
         function getUsers_id_company(): int {
             return intval($this->users_id_company);
         }
@@ -408,10 +417,14 @@ if (!class_exists('Video')) {
                     $insert_row = $this->id;
                 }
             } else {
+                if(empty($this->created)){
+                    $this->created = 'now()';
+                }
                 $sql = "INSERT INTO videos "
                         . "(duration_in_seconds, title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id,live_transmitions_history_id, video_password, encoderURL, filepath , filesize, users_id_company) values "
-                        . "('{$this->duration_in_seconds}','{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},now(), now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}', ".(empty($this->users_id_company)?'NULL':intval($this->users_id_company)).")";
+                        . "('{$this->duration_in_seconds}','{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},{$this->created}, now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}', ".(empty($this->users_id_company)?'NULL':intval($this->users_id_company)).")";
 
+                //_error_log("Video::save ".$sql);
                 $insert_row = sqlDAL::writeSql($sql);
             }
             if ($insert_row) {
@@ -672,12 +685,12 @@ if (!class_exists('Video')) {
             if (Permissions::canModerateVideos()) {
                 return "";
             }
-            $categories_id = intval($categories_id);
+            //$categories_id = intval($categories_id);
             if (self::allowFreePlayWithAdsIsEnabled()) {
                 $sql = " AND {$tableAlias}only_for_paid = 0 ";
                 return $sql;
             } else {
-                $sql = " (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0 ";
+                $sql = " ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = {$tableAlias}id ) = 0 AND (SELECT count(id) FROM categories_has_users_groups as cug WHERE cug.categories_id = {$tableAlias}categories_id ) = 0) ";
                 if (User::isLogged()) {
                     require_once $global['systemRootPath'] . 'objects/userGroups.php';
                     $userGroups = UserGroups::getUserGroups(User::getId());
@@ -686,8 +699,8 @@ if (!class_exists('Video')) {
                         $groups_id[] = $value['id'];
                     }
                     if (!empty($groups_id)) {
-                        $sql = " (({$sql}) OR "
-                                . " ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)";
+                        $sql = " (({$sql}) ";
+                        $sql .= " OR ((SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = {$tableAlias}id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)";
                         $sql .= " OR ((SELECT count(id) FROM categories_has_users_groups as chug WHERE chug.categories_id = {$tableAlias}categories_id AND users_groups_id IN ('" . implode("','", $groups_id) . "') ) > 0)";
                         $sql .= " ) ";
                     }
@@ -1310,7 +1323,7 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        private static function getInfo($row, $getStatistcs = false) {
+        static function getInfo($row, $getStatistcs = false) {
             $TimeLogLimit = 0.1;
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             $name = "_getVideoInfo_{$row['id']}";
@@ -1391,6 +1404,7 @@ if (!class_exists('Video')) {
             $row['total_seconds_watching_human'] = seconds2human($row['total_seconds_watching']);
             $row['views_count_short'] = number_format_short($row['views_count']);
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
+            $row['identification'] = User::getNameIdentificationById(!empty($row['users_id_company'])?$row['users_id_company']:$row['users_id']);
 
             if (empty($row['externalOptions'])) {
                 $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
@@ -1401,7 +1415,25 @@ if (!class_exists('Video')) {
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             return $row;
         }
+        
+        public static function getMediaSession($videos_id) {
+            $video = Video::getVideoLight($videos_id);
+            $video = Video::getInfo($video);
 
+            $posters = Video::getMediaSessionPosters($videos_id);
+            //var_dump($posters);exit;
+            $MediaMetadata = new stdClass();
+
+            $MediaMetadata->title = $video['title'];
+            $MediaMetadata->artist = $video['identification'];
+            $MediaMetadata->album = $video['category'];
+            $MediaMetadata->artwork = array();
+            foreach ($posters as $key => $value) {
+                $MediaMetadata->artwork[] = array('src' => $value['url'], 'sizes' => "{$key}x{$key}", 'type' => 'image/jpg');
+            }
+            return $MediaMetadata;
+        }
+        
         public static function htmlDescription($description) {
             if (strip_tags($description) !== $description) {
                 return $description;
@@ -3763,6 +3795,20 @@ if (!class_exists('Video')) {
             }
             return $_getPoster[$videos_id];
         }
+        
+        public static function getMediaSessionPosters($videos_id) {
+            global $global;
+            $images = self::getImageFromID($videos_id);
+            $imagePath = $images->posterLandscapePath;
+            if (empty($imagePath) || !file_exists($imagePath)) {
+                $imagePath = $images->posterLandscapeThumbs;
+            }
+            if (empty($imagePath) || !file_exists($imagePath)) {
+                $imagePath = $images->poster;
+            }
+            
+            return getMediaSessionPosters($imagePath);
+        }
 
         public static function getRokuImage($videos_id) {
             global $global;
@@ -3775,7 +3821,7 @@ if (!class_exists('Video')) {
                 $imagePath = $images->poster;
             }
             $rokuImage = str_replace(".jpg", "_roku.jpg", $imagePath);
-            if (convertImageToRoku($images->posterLandscapePath, $rokuImage)) {
+            if (convertImageToRoku($imagePath, $rokuImage)) {
                 $relativePath = str_replace($global['systemRootPath'], '', $rokuImage);
                 return getURL($relativePath);
             }
@@ -3996,7 +4042,7 @@ if (!class_exists('Video')) {
 
         public static function getImageFromID($videos_id, $type = "video") {
             $video = new Video("", "", $videos_id);
-            $return = self::getImageFromFilename($video->getFilename());
+            $return = (object) self::getImageFromFilename($video->getFilename());
             if (empty($return->posterLandscapePath)) {
                 $path = Video::getPaths($video->getFilename());
                 $return->posterLandscapePath = "{$path['path']}{$path['filename']}.jpg";
@@ -4265,6 +4311,9 @@ if (!class_exists('Video')) {
             global $global;
 
             $filePath = Video::getPathToFile($filename);
+            
+            deleteMediaSessionPosters($filePath.'.jpg');
+            
             // Streamlined for less coding space.
             $files = glob("{$filePath}*_thumbs*.jpg");
             $files[] = "{$filePath}_roku.jpg";

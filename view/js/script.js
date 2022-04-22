@@ -1,26 +1,53 @@
-var modal;
-var player;
-var floatLeft = "";
-var floatTop = "";
-var floatWidth = "";
-var floatHeight = "";
-var changingVideoFloat = 0;
-var floatClosed = 0;
-var fullDuration = 0;
-var isPlayingAd = false;
-var mainVideoHeight = 0;
-var mouseX;
-var mouseY;
-var videoContainerDragged = false;
-var youTubeMenuIsOpened = false;
-var userIsControling = false;
-var _serverTime;
-var _serverDBTime;
-var _serverTimeString;
-var _serverDBTimeString;
-let deferredPrompt;
-var playerCurrentTime;
-var mediaId;
+try {
+    var _serverTime;
+    var _serverDBTime;
+    var _serverTimeString;
+    var _serverDBTimeString;
+    var _serverTimezone;
+    var _serverDBTimezone;
+    var modal;
+    var player;
+    var floatLeft = "";
+    var floatTop = "";
+    var floatWidth = "";
+    var floatHeight = "";
+    var changingVideoFloat = 0;
+    var floatClosed = 0;
+    var fullDuration = 0;
+    var isPlayingAd = false;
+    var mainVideoHeight = 0;
+    var mouseX;
+    var mouseY;
+    var videoContainerDragged = false;
+    var youTubeMenuIsOpened = false;
+    var userIsControling = false;
+    let deferredPrompt;
+    var playerCurrentTime;
+    var mediaId;
+    // Create browser compatible event handler.
+    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+    // Listen for a message from the iframe.
+    eventer(messageEvent, function (e) {
+        console.log('EventListener', e.data);
+        if(e.data.getHeight){
+            var height= $('body > div.container-fluid').height();
+            if(!height){
+                height= $('body > div.container').height();
+            }
+            if(!height){
+                height= $('body').height();
+            }
+            parent.postMessage({height: height}, '*');
+        }
+    },false);
+
+} catch (e) {
+    console.log('Variable declaration ERROR', e);
+}
+
+
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
     mouseY = e.pageY;
@@ -1343,6 +1370,21 @@ function avideoModalIframeFull(url) {
     avideoModalIframeFullScreen(url);
 }
 
+function avideoAddIframeIntoElement(element, url, insideSelector) {
+    url = addGetParam(url, 'avideoIframe', 1);
+    console.log('avideoAddIframeIntoElement', url, element);
+    var html = '';
+    html += '<iframe frameBorder="0" class="avideoIframeIntoElement" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
+
+    var insideElement = $(element);
+
+    if (insideSelector) {
+        insideElement = $(element).find(insideSelector);
+    }
+
+    insideElement.append(html);
+}
+
 var avideoModalIframeFullScreenOriginalURL = false;
 var avideoModalIframeWithClassNameTimeout;
 function avideoModalIframeWithClassName(url, className, updateURL) {
@@ -1587,199 +1629,6 @@ function checkDescriptionArea() {
         }
     });
 }
-$(document).ready(function () {
-//animateChilds('#sideBarContainer > ul', 'animate__bounceInLeft', 0.05);
-//animateChilds('#uploadMenu', 'animate__bounceIn', 0.05);
-//animateChilds('#myNavbar > ul > li.dropdown > ul > div.btn-group.btn-group-justified', 'animate__bounceIn', 0.1);
-//animateChilds('#lastItemOnMenu > div.navbar-header > ul > li > div > ul', 'animate__bounceInRight', 0.05);
-//animateChilds('.gallerySectionContent, .categoriesContainerItem .clearfix', 'animate__fadeInUp', 0.05);
-//animateChilds('#videosList', 'animate__bounceInRight', 0.1);
-    addViewFromCookie();
-    checkDescriptionArea();
-    setInterval(function () {// check for the carousel
-        checkDescriptionArea();
-    }, 3000);
-    Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone, {
-        path: '/',
-        expires: 365
-    });
-    tabsCategoryDocumentHeight = $(document).height();
-    if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
-        $('.nav-tabs-horizontal').scrollingTabs();
-        //$('.nav-tabs-horizontal').fadeIn();
-    }
-    setInterval(function () {
-        if (tabsCategoryDocumentHeightChanged()) {
-            if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
-                $('.nav-tabs-horizontal').scrollingTabs('refresh');
-            }
-        }
-    }, 1000);
-    modal = modal || (function () {
-        var pleaseWaitDiv = $("#pleaseWaitDialog");
-        if (pleaseWaitDiv.length === 0) {
-            if (typeof avideoLoader == 'undefined') {
-                avideoLoader = '';
-            }
-            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
-        }
-
-        return {
-            showPleaseWait: function () {
-                if (pleaseWaitIsINUse) {
-                    return false;
-                }
-                $('#pleaseWaitDialog').removeClass('loaded');
-                $('#pleaseWaitDialog').find('.progress').hide();
-                this.setText('Processing...');
-                $('#pleaseWaitDialog').find('h2').hide();
-                this.setProgress(0);
-                $('#pleaseWaitDialog').find('.progress').hide();
-                pleaseWaitIsINUse = true;
-                pleaseWaitDiv.modal();
-            },
-            hidePleaseWait: function () {
-                setTimeout(function () {
-                    $('#pleaseWaitDialog').addClass('loaded');
-                    ;
-                }, showPleaseWaitTimeOut / 2);
-                setTimeout(function () {
-                    pleaseWaitDiv.modal('hide');
-                }, showPleaseWaitTimeOut); // wait for loader animation
-                pleaseWaitIsINUse = false;
-            },
-            setProgress: function (valeur) {
-                var element = $('#pleaseWaitDialog').find('.progress');
-                console.log('showPleaseWait setProgress', element);
-                element.slideDown();
-                $('#pleaseWaitDialog').find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
-            },
-            setText: function (text) {
-                var element = $('#pleaseWaitDialog').find('h2');
-                console.log('showPleaseWait setText', element);
-                element.slideDown();
-                element.html(text);
-            },
-        };
-    })();
-    try {
-        $('[data-toggle="popover"]').popover();
-    } catch (e) {
-
-    }
-
-    setInterval(function () {
-        setToolTips();
-    }, 1000);
-    $(".thumbsImage").on("mouseenter", function () {
-        gifId = $(this).find(".thumbsGIF").attr('id');
-        $(".thumbsGIF").fadeOut();
-        if (gifId != undefined) {
-            id = gifId.replace('thumbsGIF', '');
-            var gif = $(this).find(".thumbsGIF");
-            var jpg = $(this).find(".thumbsGIF");
-            gif.height(jpg.height());
-            gif.width(jpg.width());
-            try {
-                gif.lazy({effect: 'fadeIn'});
-            } catch (e) {
-            }
-            gif.stop(true, true).fadeIn();
-        }
-    });
-    $(".thumbsImage").on("mouseleave", function () {
-        $(this).find(".thumbsGIF").stop(true, true).fadeOut();
-    });
-    lazyImage();
-    $("a").each(function () {
-        var location = window.location.toString()
-        var res = location.split("?");
-        pathWitoutGet = res[0];
-        if ($(this).attr("href") == window.location.pathname
-                || $(this).attr("href") == window.location
-                || $(this).attr("href") == pathWitoutGet) {
-            $(this).addClass("selected");
-        }
-    });
-    $('#clearCache, .clearCacheButton').on('click', function (ev) {
-        ev.preventDefault();
-        clearCache(true, 0, 0);
-    });
-    $('.clearCacheFirstPageButton').on('click', function (ev) {
-        ev.preventDefault();
-        clearCache(true, 1, 0);
-    });
-    $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
-        ev.preventDefault();
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'objects/configurationGenerateSiteMap.json.php',
-            success: function (response) {
-                if (!response.error) {
-                    avideoAlert("Congratulations!", "File created!", "success");
-                } else {
-                    if (response.msg) {
-                        avideoAlert("Sorry!", response.msg, "error");
-                    } else {
-                        avideoAlert("Sorry!", "File NOT created!", "error");
-                    }
-                }
-                modal.hidePleaseWait();
-            }
-        });
-    });
-    setPlayerListners();
-    $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
-    setInterval(function () {
-        if (typeof conn != 'undefined') {
-            if (avideoSocketIsActive()) {
-                $(".socketStatus").removeClass('disconnected');
-            } else {
-                $(".socketStatus").addClass('disconnected');
-            }
-        }
-
-    }, 1000);
-    $("input.saveCookie").each(function () {
-        var mycookie = Cookies.get($(this).attr('name'));
-        if (mycookie && mycookie == "true") {
-            $(this).prop('checked', mycookie);
-        }
-    });
-    $("input.saveCookie").change(function () {
-        var auto = $(this).prop('checked');
-        Cookies.set($(this).attr("name"), auto, {
-            path: '/',
-            expires: 365
-        });
-    });
-    if (isAutoplayEnabled()) {
-        $("#autoplay").prop('checked', true);
-    }
-    $("#autoplay").change(function () {
-        checkAutoPlay();
-    });
-    checkAutoPlay();
-    // Code to handle install prompt on desktop
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        $('.A2HSInstall').show();
-        // Stash the event so it can be triggered later.
-        deferredPrompt = e;
-        var beforeinstallprompt = Cookies.get('beforeinstallprompt');
-        if (beforeinstallprompt) {
-            return false;
-        }
-        var msg = "<a href='#' onclick='A2HSInstall();'><img src='" + $('[rel="apple-touch-icon"]').attr('href') + "' class='img img-responsive pull-left' style='max-width: 20px; margin-right:5px;'> Add To Home Screen </a>";
-        var options = {text: msg, hideAfter: 20000};
-        $.toast(options);
-        Cookies.set('beforeinstallprompt', 1, {
-            path: '/',
-            expires: 365
-        });
-    });
-});
 function clearCache(showPleaseWait, FirstPage, sessionOnly) {
     if (showPleaseWait) {
         modal.showPleaseWait();
@@ -1945,10 +1794,14 @@ function getServerTime() {
     $.ajax({
         url: webSiteRootURL + 'objects/getTimes.json.php',
         success: function (response) {
+            console.log('getServerTime', response);
             _serverTime = response._serverTime;
             _serverDBTime = response._serverDBTime;
             _serverTimeString = response._serverTimeString;
             _serverDBTimeString = response._serverDBTimeString;
+            _serverTimezone = response._serverTimezone;
+            _serverDBTimezone = response._serverDBTimezone;
+            console.log('getServerTime _serverDBTimezone', _serverDBTimezone, response._serverDBTimezone);
             setInterval(function () {
                 _serverTime++;
                 _serverDBTime++;
@@ -1960,14 +1813,32 @@ function getServerTime() {
 }
 
 function clearServerTime() {
+    console.log('clearServerTime');
     _serverTime = null;
     _serverDBTime = null;
     _serverTimeString = null;
     _serverDBTimeString = null;
 }
 
+function convertDBDateToLocal(dbDateString) {
+    if (!/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/.test(dbDateString)) {
+        console.log('convertDBDateToLocal format does not match', dbDateString);
+        return dbDateString;
+    }
+    if (!_serverDBTimezone) {
+        getServerTime();
+        console.log('convertDBDateToLocal _serverDBTimezone is empty', dbDateString);
+        return dbDateString;
+    } else {
+        var dateStr = dbDateString.replaceAll('-', '/') + ' ' + _serverDBTimezone;
+        //console.log('convertDBDateToLocal', dateStr);
+        var date = new Date(Date.parse(dateStr));
+        return date.toLocaleString();
+    }
+}
+
 function addGetParam(_url, _key, _value) {
-    if(typeof _url !== 'string'){
+    if (typeof _url !== 'string') {
         return false;
     }
     var param = _key + '=' + escape(_value);
@@ -2135,11 +2006,11 @@ function isPlayerUserActive() {
     return $('#mainVideo').hasClass("vjs-user-active");
 }
 
-window.addEventListener('beforeunload', function (e) {
+eventer('beforeunload', function (e) {
 //console.log('window.addEventListener(beforeunload');
     _addViewAsync();
 }, false);
-document.addEventListener('visibilitychange', function () {
+eventer('visibilitychange', function () {
     if (document.visibilityState === 'hidden') {
         _addViewAsync();
     }
@@ -2372,3 +2243,342 @@ function empty(data) {
     }
     return true;
 }
+
+function replaceLast(find, replace, string) {
+    var lastIndex = string.lastIndexOf(find);
+
+    if (lastIndex === -1) {
+        return string;
+    }
+
+    var beginString = string.substring(0, lastIndex);
+    var endString = string.substring(lastIndex + find.length);
+
+    return beginString + replace + endString;
+}
+
+
+function getCursorPos(input) {
+    if ("selectionStart" in input && document.activeElement == input) {
+        return {
+            start: input.selectionStart,
+            end: input.selectionEnd
+        };
+    } else if (input.createTextRange) {
+        var sel = document.selection.createRange();
+        if (sel.parentElement() === input) {
+            var rng = input.createTextRange();
+            rng.moveToBookmark(sel.getBookmark());
+            for (var len = 0; rng.compareEndPoints("EndToStart", rng) > 0; rng.moveEnd("character", -1)) {
+                len++;
+            }
+            rng.setEndPoint("StartToStart", input.createTextRange());
+            for (var pos = {start: 0, end: len}; rng.compareEndPoints("EndToStart", rng) > 0; rng.moveEnd("character", -1)) {
+                pos.start++;
+                pos.end++;
+            }
+            return pos;
+        }
+    } else if (document.getSelection) {    // all browsers, except IE before version 9
+        var sel = document.getSelection();
+        return {
+            start: sel.anchorOffset,
+            end: sel.focusOffset
+        };
+    }
+    return -1;
+}
+
+var addAtMentionActive = false;
+function addAtMention(selector) {
+    var emojioneArea = false;
+    if (typeof $(selector).data("emojioneArea") !== 'undefined') {
+        emojioneArea = selector;
+        selector = '.emojionearea-editor';
+    }
+    console.log('addAtMention(selector)', selector, emojioneArea);
+    var SpaceKeyCode = ' '.charCodeAt(0);
+    var AtMatcher = /^@.+/i;
+    $(selector).on("keydown", function (event) {
+        if (!$(this).autocomplete("instance").menu.active) {
+            if (
+                    event.keyCode === SpaceKeyCode ||
+                    event.keyCode === $.ui.keyCode.TAB ||
+                    event.keyCode === $.ui.keyCode.ENTER ||
+                    event.keyCode === $.ui.keyCode.ESCAPE) {
+                $(this).autocomplete("close");
+            }
+        } else {
+            if ((event.keyCode === $.ui.keyCode.TAB)) {
+                event.preventDefault();
+            }
+        }
+    })
+            .autocomplete({
+                minLength: 2,
+                source: function (request, response) {
+
+                    var pos = getCursorPos($(selector)[0]);
+                    stringStart = request.term.substring(0, pos.end);
+
+                    var term = stringStart.split(/\s+/).pop();
+                    console.log('autocomplete', request.term, term, AtMatcher.test(term));
+                    if (AtMatcher.test(term)) {
+                        $.ajax({
+                            url: webSiteRootURL + "objects/mention.json.php",
+                            data: {
+                                term: term
+                            },
+                            success: function (data) {
+                                response(data);
+                            }
+                        });
+                    } else {
+                        return false;
+                    }
+                },
+                focus: function () {
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function (event, ui) {
+                    addAtMentionActive = true;
+                    setTimeout(function () {
+                        addAtMentionActive = false;
+                    }, 200);
+                    if (emojioneArea) {
+                        this.value = $(emojioneArea).data("emojioneArea").getText();
+                    }
+                    console.log('addAtMention', this, this.value);
+                    var pos = getCursorPos($(selector)[0]);
+                    stringStart = this.value.substring(0, pos.end);
+                    stringEnd = this.value.substring(pos.end);
+
+                    var terms = stringStart.split(/\s+/);
+                    // remove the current input
+                    var word = terms.pop();
+                    // add the selected item
+                    //terms.push('@' + ui.item.value);
+                    // add placeholder to get the comma-and-space at the end
+                    //terms.push("");
+                    replace = '@' + ui.item.value;
+
+                    this.value = replaceLast(word, '@' + ui.item.value, stringStart) + stringEnd;
+                    if (emojioneArea) {
+                        $(emojioneArea).data("emojioneArea").setText(this.value);
+                        setTimeout(function () {
+                            contentEditableElement = document.getElementsByClassName("emojionearea-editor")[0];
+                            range = document.createRange();//Create a range (a range is a like the selection but invisible)
+                            range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
+                            range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+                            selection = window.getSelection();//get the selection object (allows you to change selection)
+                            selection.removeAllRanges();//remove any selections already made
+                            selection.addRange(range);//make the range you have just created the visible selection
+                        }, 50);
+                    }
+                    return false;
+                },
+                create: function () {
+                    $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+                        return $('<li>' + item.label + '</li>').appendTo(ul); // customize your HTML
+                    };
+                },
+                position: {collision: "flip"}
+            });
+}
+
+$(document).ready(function () {
+//animateChilds('#sideBarContainer > ul', 'animate__bounceInLeft', 0.05);
+//animateChilds('#uploadMenu', 'animate__bounceIn', 0.05);
+//animateChilds('#myNavbar > ul > li.dropdown > ul > div.btn-group.btn-group-justified', 'animate__bounceIn', 0.1);
+//animateChilds('#lastItemOnMenu > div.navbar-header > ul > li > div > ul', 'animate__bounceInRight', 0.05);
+//animateChilds('.gallerySectionContent, .categoriesContainerItem .clearfix', 'animate__fadeInUp', 0.05);
+//animateChilds('#videosList', 'animate__bounceInRight', 0.1);
+
+    getServerTime();
+    addViewFromCookie();
+    checkDescriptionArea();
+    setInterval(function () {// check for the carousel
+        checkDescriptionArea();
+    }, 3000);
+    Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone, {
+        path: '/',
+        expires: 365
+    });
+    tabsCategoryDocumentHeight = $(document).height();
+    if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
+        $('.nav-tabs-horizontal').scrollingTabs();
+        //$('.nav-tabs-horizontal').fadeIn();
+    }
+    setInterval(function () {
+        if (tabsCategoryDocumentHeightChanged()) {
+            if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
+                $('.nav-tabs-horizontal').scrollingTabs('refresh');
+            }
+        }
+    }, 1000);
+    modal = modal || (function () {
+        var pleaseWaitDiv = $("#pleaseWaitDialog");
+        if (pleaseWaitDiv.length === 0) {
+            if (typeof avideoLoader == 'undefined') {
+                avideoLoader = '';
+            }
+            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
+        }
+
+        return {
+            showPleaseWait: function () {
+                if (pleaseWaitIsINUse) {
+                    return false;
+                }
+                $('#pleaseWaitDialog').removeClass('loaded');
+                $('#pleaseWaitDialog').find('.progress').hide();
+                this.setText('Processing...');
+                $('#pleaseWaitDialog').find('h2').hide();
+                this.setProgress(0);
+                $('#pleaseWaitDialog').find('.progress').hide();
+                pleaseWaitIsINUse = true;
+                pleaseWaitDiv.modal();
+            },
+            hidePleaseWait: function () {
+                setTimeout(function () {
+                    $('#pleaseWaitDialog').addClass('loaded');
+                    ;
+                }, showPleaseWaitTimeOut / 2);
+                setTimeout(function () {
+                    pleaseWaitDiv.modal('hide');
+                }, showPleaseWaitTimeOut); // wait for loader animation
+                pleaseWaitIsINUse = false;
+            },
+            setProgress: function (valeur) {
+                var element = $('#pleaseWaitDialog').find('.progress');
+                console.log('showPleaseWait setProgress', element);
+                element.slideDown();
+                $('#pleaseWaitDialog').find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
+            },
+            setText: function (text) {
+                var element = $('#pleaseWaitDialog').find('h2');
+                console.log('showPleaseWait setText', element);
+                element.slideDown();
+                element.html(text);
+            },
+        };
+    })();
+    try {
+        $('[data-toggle="popover"]').popover();
+    } catch (e) {
+
+    }
+
+    setInterval(function () {
+        setToolTips();
+    }, 1000);
+    $(".thumbsImage").on("mouseenter", function () {
+        gifId = $(this).find(".thumbsGIF").attr('id');
+        $(".thumbsGIF").fadeOut();
+        if (gifId != undefined) {
+            id = gifId.replace('thumbsGIF', '');
+            var gif = $(this).find(".thumbsGIF");
+            var jpg = $(this).find(".thumbsGIF");
+            gif.height(jpg.height());
+            gif.width(jpg.width());
+            try {
+                gif.lazy({effect: 'fadeIn'});
+            } catch (e) {
+            }
+            gif.stop(true, true).fadeIn();
+        }
+    });
+    $(".thumbsImage").on("mouseleave", function () {
+        $(this).find(".thumbsGIF").stop(true, true).fadeOut();
+    });
+    lazyImage();
+    $("a").each(function () {
+        var location = window.location.toString()
+        var res = location.split("?");
+        pathWitoutGet = res[0];
+        if ($(this).attr("href") == window.location.pathname
+                || $(this).attr("href") == window.location
+                || $(this).attr("href") == pathWitoutGet) {
+            $(this).addClass("selected");
+        }
+    });
+    $('#clearCache, .clearCacheButton').on('click', function (ev) {
+        ev.preventDefault();
+        clearCache(true, 0, 0);
+    });
+    $('.clearCacheFirstPageButton').on('click', function (ev) {
+        ev.preventDefault();
+        clearCache(true, 1, 0);
+    });
+    $('#generateSiteMap, .generateSiteMapButton').on('click', function (ev) {
+        ev.preventDefault();
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'objects/configurationGenerateSiteMap.json.php',
+            success: function (response) {
+                if (!response.error) {
+                    avideoAlert("Congratulations!", "File created!", "success");
+                } else {
+                    if (response.msg) {
+                        avideoAlert("Sorry!", response.msg, "error");
+                    } else {
+                        avideoAlert("Sorry!", "File NOT created!", "error");
+                    }
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    });
+    setPlayerListners();
+    $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
+    setInterval(function () {
+        if (typeof conn != 'undefined') {
+            if (avideoSocketIsActive()) {
+                $(".socketStatus").removeClass('disconnected');
+            } else {
+                $(".socketStatus").addClass('disconnected');
+            }
+        }
+
+    }, 1000);
+    $("input.saveCookie").each(function () {
+        var mycookie = Cookies.get($(this).attr('name'));
+        if (mycookie && mycookie == "true") {
+            $(this).prop('checked', mycookie);
+        }
+    });
+    $("input.saveCookie").change(function () {
+        var auto = $(this).prop('checked');
+        Cookies.set($(this).attr("name"), auto, {
+            path: '/',
+            expires: 365
+        });
+    });
+    if (isAutoplayEnabled()) {
+        $("#autoplay").prop('checked', true);
+    }
+    $("#autoplay").change(function () {
+        checkAutoPlay();
+    });
+    checkAutoPlay();
+    // Code to handle install prompt on desktop
+    eventer('beforeinstallprompt', (e) => {
+        // Prevent Chrome 67 and earlier from automatically showing the prompt
+        e.preventDefault();
+        $('.A2HSInstall').show();
+        // Stash the event so it can be triggered later.
+        deferredPrompt = e;
+        var beforeinstallprompt = Cookies.get('beforeinstallprompt');
+        if (beforeinstallprompt) {
+            return false;
+        }
+        var msg = "<a href='#' onclick='A2HSInstall();'><img src='" + $('[rel="apple-touch-icon"]').attr('href') + "' class='img img-responsive pull-left' style='max-width: 20px; margin-right:5px;'> Add To Home Screen </a>";
+        var options = {text: msg, hideAfter: 20000};
+        $.toast(options);
+        Cookies.set('beforeinstallprompt', 1, {
+            path: '/',
+            expires: 365
+        });
+    });
+});

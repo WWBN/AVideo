@@ -301,6 +301,19 @@ class PlayerSkins extends PluginAbstract {
 
             if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay) && empty($_REQUEST['hideAutoplaySwitch'])) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/autoplayButton.js"));
+            }else{
+                if ($obj->showShareAutoplay) {
+                    $js .= "<!-- PlayerSkins showShareAutoplay -->";
+                }
+                if (isVideoPlayerHasProgressBar()) {
+                    $js .= "<!-- PlayerSkins isVideoPlayerHasProgressBar -->";
+                }
+                if (empty($obj->forceAlwaysAutoplay)) {
+                    $js .= "<!-- PlayerSkins empty(\$obj->forceAlwaysAutoplay) -->";
+                }
+                if (empty($_REQUEST['hideAutoplaySwitch'])) {
+                    $js .= "<!-- PlayerSkins empty(\$_REQUEST['hideAutoplaySwitch']) -->";
+                }
             }
         }
         if (isAudio()) {
@@ -312,10 +325,13 @@ class PlayerSkins extends PluginAbstract {
                 self::prepareStartPlayerJS($onPlayerReady);
             }
         }
-        if (!empty($getStartPlayerJSWasRequested) || isVideo()) {
-            $js .= "<script src=\"" . getCDN() . "view/js/videojs-persistvolume/videojs.persistvolume.js\"></script>";
+        if (empty($global['doNotLoadPlayer']) && !empty($getStartPlayerJSWasRequested) || isVideo()) {
+            $js .= "<script src=\"" . getURL('view/js/videojs-persistvolume/videojs.persistvolume.js') . "\"></script>";
             $js .= "<script>" . self::getStartPlayerJSCode() . "</script>";
         }
+
+        include $global['systemRootPath'] . 'plugin/PlayerSkins/mediaSession.php';
+        PlayerSkins::addOnPlayerReady('if(typeof updateMediaSessionMetadata === "function"){updateMediaSessionMetadata();}');
 
         return $js;
     }

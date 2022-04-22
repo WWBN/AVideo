@@ -506,8 +506,49 @@ class API extends PluginAbstract {
                 $obj = new Comment($parameters['comment'], $parameters['videos_id']);
                 $obj->setComments_id_pai($parameters['comments_id']);
             }
-            $id = $obj->save();
-            return new ApiObject("", !$id, $id);
+            $objResponse =  new stdClass();
+            $objResponse->comments_id = $obj->save();
+            $objResponse->videos_id = $parameters['videos_id'];
+            return new ApiObject("", !$objResponse->comments_id, $objResponse);
+        } else {
+            return new ApiObject("Video ID is required");
+        }
+    }
+    
+    
+    /**
+     * @param type $parameters
+     * 'comment' String with the comment
+     * 'videos_id' the video that will retreive the comments
+     * ['APISecret' if passed will not require user and pass]
+     * ['user' username of the user that will like the video]
+     * ['pass' password  of the user that will like the video]
+     * ['rowCount' max numbers of rows]
+     * ['current' current page]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
+     * @return \ApiObject
+     */
+    public function get_api_comment($parameters) {
+        global $global;
+        $obj = $this->startResponseObject($parameters);
+        $dataObj = $this->getDataObject();
+        if (!empty($parameters['videos_id'])) {
+            if (!empty($_GET['APISecret']) && $dataObj->APISecret !== $_GET['APISecret']) {
+                return new ApiObject("Secret does not match");
+            } elseif (!User::canComment()) {
+                return new ApiObject("Access denied");
+            }
+            
+            if(!User::canWatchVideo($parameters['videos_id'])){
+                 return new ApiObject("Cannot watch video");
+            }
+            
+            require_once $global['systemRootPath'] . 'objects/comment.php';
+            
+            $_POST['sort']['created'] = "desc";
+            $obj = Comment::getAllComments($parameters['videos_id']);
+            $obj = Comment::addExtraInfo($obj);
+            return new ApiObject("", false, $obj);
         } else {
             return new ApiObject("Video ID is required");
         }
@@ -1421,8 +1462,16 @@ class API extends PluginAbstract {
 
             $meets = Meet_schedule::getAllFromUsersId(User::getId(), $time, true, false);
 
+            
+            $dataObj = $this->getDataObject();
             foreach ($meets as $key => $value) {
+                $RoomPassword = '';
+                if ($dataObj->APISecret === @$_GET['APISecret'] || Meet::isModerator($value['id']) || Meet::canJoinMeet($value['id'])) {
+                    $RoomPassword = $value['password'];
+                } 
+                
                 $meets[$key] = cleanUpRowFromDatabase($value);
+                $meets[$key]['RoomPassword'] = $RoomPassword;
             }
 
             return new ApiObject('', false, $meets);
