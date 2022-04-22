@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 if (!PlayList::canSee($_GET['playlists_id'], User::getId())) {
     forbiddenPage(_('You cannot see this playlist'));
 }
-
+$global['doNotLoadPlayer'] = 1;
 $video = PlayLists::isPlayListASerie($_GET['playlists_id']);
 if (!empty($video)) {
     $video = Video::getVideo($video['id']);
