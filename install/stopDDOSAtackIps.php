@@ -9,6 +9,7 @@ function tailShell($filepath, $lines = 1) {
 }
 
 $ips = array();
+$ipsProcessed = array();
 while (1) {
 
     $lines = tailShell($apacheAccessLogFile, 1000);
@@ -28,6 +29,9 @@ while (1) {
     $newRules = array();
 
     foreach ($ips as $key => $ip) {
+        if (in_array($ip, $ipsProcessed)) {
+            continue;
+        }
         $cmd = 'sudo ufw insert 1 deny from ' . $ip . '  to any' . PHP_EOL;
         echo "{$key}/{$total} " . $cmd;
         $output = null;
@@ -36,6 +40,7 @@ while (1) {
         if ($output[0] === 'Rule inserted') {
             $newRules[] = $ip;
         }
+        $ipsProcessed[] = $ip;
     }
     $totalNew = count($newRules);
     echo PHP_EOL . 'Found ' . $total . PHP_EOL;
