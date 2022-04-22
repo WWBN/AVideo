@@ -12,7 +12,7 @@ $ips = array();
 $ipsProcessed = array();
 while (1) {
 
-    $lines = tailShell($apacheAccessLogFile, 1000);
+    $lines = tailShell($apacheAccessLogFile, 500);
     //file_put_contents($apacheAccessLogFile,'');
 
     foreach ($lines as $line) {
@@ -51,5 +51,5 @@ while (1) {
         //exec('/etc/init.d/mysql restart');
     }
     
-    sleep(5);
+    sleep(2);
 }
