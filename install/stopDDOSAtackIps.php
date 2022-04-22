@@ -43,8 +43,8 @@ while (1) {
         $ipsProcessed[] = $ip;
     }
     $totalNew = count($newRules);
-    echo PHP_EOL . 'Found ' . $total . PHP_EOL;
-    echo PHP_EOL . $totalNew . ' New IPs added: ' . implode(', ', $newRules) . PHP_EOL;
+    echo PHP_EOL . date('Y-m-d H:i:s').' Found ' . $total . PHP_EOL;
+    //echo PHP_EOL . $totalNew . ' New IPs added: ' . implode(', ', $newRules) . PHP_EOL;
     
     if($totalNew){
         //exec('/etc/init.d/apache2 restart');
