@@ -11,7 +11,7 @@ $lines = tailShell('/var/log/apache2/access.log', 1000);
 $ips = array();
 
 foreach($lines as $line){
-    preg_match('/^([0-9.]+).*X11/i', $line, $matches);
+    preg_match('/^([0-9.]+).*X11; Linux/i', $line, $matches);
     if(!empty($matches[1])){
         $ip = trim($matches[1]);
         if(!in_array($ip, $ips)){
@@ -23,8 +23,9 @@ foreach($lines as $line){
 
 foreach($ips as $ip){
     $cmd = 'sudo ufw insert 1 deny from '.$ip.'  to any'.PHP_EOL;
-    //exec($cmd);
     echo $cmd;
+    exec($cmd.' 2>&1', $output, $return_var);
+    echo json_encode($output).PHP_EOL;
 }
 
 echo PHP_EOL.'Found '.count($ips).PHP_EOL;
