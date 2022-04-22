@@ -2702,8 +2702,11 @@ class Live extends PluginAbstract {
             self::restream($liveTransmitionHistory_id);
         }
         $lt = new LiveTransmitionHistory($liveTransmitionHistory_id);
-
-        AVideoPlugin::onLiveStream($lt->getUsers_id(), $lt->getLive_servers_id());
+        $users_id = $lt->getUsers_id();
+        $live_servers_id = $lt->getLive_servers_id();
+        
+        _error_log("on_publish: liveTransmitionHistory_id={$liveTransmitionHistory_id} users_id={$users_id} live_servers_id={$live_servers_id} ");
+        AVideoPlugin::onLiveStream($users_id, $live_servers_id);
     }
 
     public static function deleteStatsCache($clearFirstPage = false) {
