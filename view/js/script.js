@@ -24,6 +24,28 @@ try {
     let deferredPrompt;
     var playerCurrentTime;
     var mediaId;
+    /* Code sample for resize iframe on a third party page
+    <iframe width="640" height="310" style="max-width: 100%;max-height: 100%; border:none;" src="..." frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="NO" >iFrame is not supported!</iframe>
+    <script>
+        // Create browser compatible event handler.
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+        var _iframe = document.querySelector("iframe");
+        // Listen for a message from the iframe.
+        eventer(messageEvent, function (e) {
+            console.log('EventListener', e.data);
+            if(e.data.height){
+                _iframe.style.height = e.data.height + 'px';
+            }
+        },false);
+
+        setInterval(function(){
+            _iframe.contentWindow.postMessage({getHeight: 1}, "*");
+        },1000);
+    </script>
+    */
+    
     // Create browser compatible event handler.
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
     var eventer = window[eventMethod];
@@ -1787,6 +1809,10 @@ function createTimer(selector) {
 var getServerTimeActive = 0;
 function getServerTime() {
     if (getServerTimeActive || _serverTime) {
+        return false;
+    }
+    if(typeof webSiteRootURL == 'undefined'){
+        setTimeout(function(){getServerTime();},1000);
         return false;
     }
     getServerTimeActive = 1;
