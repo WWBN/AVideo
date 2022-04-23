@@ -502,13 +502,13 @@ img.rotate-90 {
 }
 
 .notificationButton.subscribed .subscribed,
-.notificationButton.subscribed.notify .doNotNotify{
-    display: none;
+.notificationButton.subscribed.notify .doNotify{
+    display: inline-block;
 }
 
-.notificationButton.subscribed.notify .doNotify,
+.notificationButton.subscribed.notify .doNotNotify,
 .notificationButton.subscribed .subscribe{
-    display: inline-block;
+    display: none;
 }
 
 .profileBg {
