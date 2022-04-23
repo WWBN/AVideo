@@ -345,8 +345,10 @@ class Subscribe
         return $this->status;
     }
 
-    public function getNotify()
-    {
+    public function getNotify(){
+        if(!isset($this->notify)){
+            return 1;
+        }
         return $this->notify;
     }
 
