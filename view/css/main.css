@@ -498,17 +498,17 @@ img.rotate-90 {
 
 .notificationButton.subscribed .doNotNotify,
 .notificationButton .subscribe{
-    display: inline-block;
+    display: inline-block !important;
 }
 
 .notificationButton.subscribed .subscribed,
 .notificationButton.subscribed.notify .doNotify{
-    display: inline-block;
+    display: inline-block !important;
 }
 
 .notificationButton.subscribed.notify .doNotNotify,
 .notificationButton.subscribed .subscribe{
-    display: none;
+    display: none !important;
 }
 
 .profileBg {
