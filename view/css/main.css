@@ -496,7 +496,7 @@ img.rotate-90 {
     border-radius: 0 4px 4px 0 !important;
 }
 
-.notificationButton.subscribed .doNotify,
+.notificationButton.subscribed .doNotNotify,
 .notificationButton .subscribe{
     display: inline-block;
 }
