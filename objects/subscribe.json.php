@@ -40,4 +40,5 @@ if (empty($_POST['user_id'])) {
 $subscribe = new Subscribe(0, $_POST['email'], $_POST['user_id'], User::getId());
 $subscribe->toggle();
 $obj->subscribe = $subscribe->getStatus();
+$obj->notify = $subscribe->getNotify();
 die(json_encode($obj));
