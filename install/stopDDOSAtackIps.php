@@ -23,6 +23,13 @@ while (1) {
                 $ips[] = $ip;
             }
         }
+        preg_match('/^([0-9.]+).*HTTP\/1.3/i', $line, $matches);
+        if (!empty($matches[1])) {
+            $ip = trim($matches[1]);
+            if (!in_array($ip, $ips)) {
+                $ips[] = $ip;
+            }
+        }
     }
 
     $total = count($ips);
