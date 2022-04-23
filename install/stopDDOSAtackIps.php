@@ -30,7 +30,7 @@ while (1) {
                 $ips[] = $ip;
             }
         }
-        preg_match('/^([0-9.]+).*Windows NT 6/i', $line, $matches);
+        preg_match('/^([0-9.]+).*Windows NT [56]/i', $line, $matches);
         if (!empty($matches[1])) {
             $ip = trim($matches[1]);
             if (!in_array($ip, $ips)) {
