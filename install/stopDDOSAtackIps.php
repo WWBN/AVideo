@@ -68,7 +68,9 @@ while (1) {
     
     if($totalNew){
         //exec('/etc/init.d/apache2 restart');
-        //exec('/etc/init.d/mysql restart');
+        exec('/etc/init.d/mysql stop');
+    }else{
+        exec('/etc/init.d/mysql start');
     }
     
     sleep(2);
