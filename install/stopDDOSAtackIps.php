@@ -53,7 +53,6 @@ while (1) {
         $cmd = 'sudo ufw insert 1 deny from ' . $ip . '  to any' . PHP_EOL;
         echo "{$key}/{$total} " . $cmd;
         echo $uas[$key] . PHP_EOL;
-        echo $_SERVER['HTTP_USER_AGENT']. PHP_EOL;
         echo '--------------'. PHP_EOL;
         $output = null;
         exec($cmd . ' 2>&1', $output, $return_var);
