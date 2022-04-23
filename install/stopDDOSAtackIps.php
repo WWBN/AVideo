@@ -12,7 +12,7 @@ $ips = array();
 $ipsProcessed = array();
 while (1) {
 
-    $lines = tailShell($apacheAccessLogFile, 500);
+    $lines = tailShell($apacheAccessLogFile, 2000);
     //file_put_contents($apacheAccessLogFile,'');
 
     foreach ($lines as $line) {
