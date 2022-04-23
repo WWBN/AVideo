@@ -9,6 +9,7 @@ function tailShell($filepath, $lines = 1) {
 }
 
 $ips = array();
+$uas = array();
 $ipsProcessed = array();
 while (1) {
 
@@ -21,6 +22,7 @@ while (1) {
             $ip = trim($matches[1]);
             if (!in_array($ip, $ips)) {
                 $ips[] = $ip;
+                $uas[] = $line;
             }
         }
         preg_match('/^([0-9.]+).*HTTP\/1.3/i', $line, $matches);
@@ -28,6 +30,7 @@ while (1) {
             $ip = trim($matches[1]);
             if (!in_array($ip, $ips)) {
                 $ips[] = $ip;
+                $uas[] = $line;
             }
         }
         preg_match('/^([0-9.]+).*Windows NT [56]/i', $line, $matches);
@@ -35,6 +38,7 @@ while (1) {
             $ip = trim($matches[1]);
             if (!in_array($ip, $ips)) {
                 $ips[] = $ip;
+                $uas[] = $line;
             }
         }
     }
@@ -48,6 +52,7 @@ while (1) {
         }
         $cmd = 'sudo ufw insert 1 deny from ' . $ip . '  to any' . PHP_EOL;
         echo "{$key}/{$total} " . $cmd;
+        echo $uas[$key] . PHP_EOL;
         $output = null;
         exec($cmd . ' 2>&1', $output, $return_var);
         echo json_encode($output) . PHP_EOL;
