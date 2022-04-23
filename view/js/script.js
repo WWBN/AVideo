@@ -434,6 +434,11 @@ function subscribe(email, user_id) {
                 $('.notificationButton' + user_id).addClass("subscribed");
                 totalElement.text(parseInt(totalElement.first().text()) + 1);
             }
+            if (!response.notify) {
+                $('.notificationButton' + user_id).removeClass("notify");
+            } else {
+                $('.notificationButton' + user_id).addClass("notify");
+            }
             $('#popover-content #subscribeEmail').val(email);
             $('.subscribeButton' + user_id).popover('hide');
             modal.hidePleaseWait();
