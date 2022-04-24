@@ -61,10 +61,10 @@ while (1) {
         $cmd = 'sudo ufw insert 1 deny from ' . $ip . '  to any' . PHP_EOL;
         echo "{$key}/{$total} " . $cmd;
         echo $uas[$key] . PHP_EOL;
-        echo '--------------'. PHP_EOL;
         $output = null;
         exec($cmd . ' 2>&1', $output, $return_var);
         echo json_encode($output) . PHP_EOL;
+        echo '--------------'. PHP_EOL;
         if ($output[0] === 'Rule inserted') {
             $newRules[] = $ip;
         }
