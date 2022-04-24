@@ -17,6 +17,14 @@ while (1) {
     //file_put_contents($apacheAccessLogFile,'');
 
     foreach ($lines as $line) {
+        preg_match('/^([0-9.]+).*headless/i', $line, $matches);
+        if (!empty($matches[1])) {
+            $ip = trim($matches[1]);
+            if (!in_array($ip, $ips)) {
+                $ips[] = $ip;
+                $uas[] = $line;
+            }
+        }
         preg_match('/^([0-9.]+).*X11; Linux/i', $line, $matches);
         if (!empty($matches[1])) {
             $ip = trim($matches[1]);
@@ -63,7 +71,7 @@ while (1) {
         $ipsProcessed[] = $ip;
     }
     $totalNew = count($newRules);
-    echo PHP_EOL . date('Y-m-d H:i:s').' Found ' . $total . PHP_EOL;
+    //echo PHP_EOL . date('Y-m-d H:i:s').' Found ' . $total . PHP_EOL;
     //echo PHP_EOL . $totalNew . ' New IPs added: ' . implode(', ', $newRules) . PHP_EOL;
     
     if($totalNew){
