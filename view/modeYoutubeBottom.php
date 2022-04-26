@@ -38,6 +38,8 @@ if (empty($video['created'])) {
 if (User::hasBlockedUser($video['users_id'])) {
     return false;
 }
+
+$cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
 ?>
 
 
@@ -153,7 +155,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                                 continue;
                             }
 
-                            if (!preg_match('/cdn\.ypt\.me(.*)\.m3u8/i', $theLink['url'])) {
+                            if (empty($cdnObj) && empty($cdnObj->enable_storage) || !preg_match('/cdn\.ypt\.me(.*)\.m3u8/i', $theLink['url'])) {
                                 $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
                                 $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_." . ($video['type'] === 'audio' ? 'mp3' : 'mp4'));
 
@@ -174,7 +176,6 @@ if (User::hasBlockedUser($video['users_id'])) {
 
                         $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
                         if (!empty($videoHLSObj)) {
-                            $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
                             if(!empty($cdnObj) && $cdnObj->enable_storage){
                                 if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
                                     $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp4');
