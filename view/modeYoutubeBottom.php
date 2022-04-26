@@ -155,7 +155,7 @@ $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
                                 continue;
                             }
 
-                            if (empty($cdnObj) && empty($cdnObj->enable_storage) || !preg_match('/cdn\.ypt\.me(.*)\.m3u8/i', $theLink['url'])) {
+                            if (empty($cdnObj) || empty($cdnObj->enable_storage) || !preg_match('/cdn\.ypt\.me(.*)\.m3u8/i', $theLink['url'])) {
                                 $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
                                 $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_." . ($video['type'] === 'audio' ? 'mp3' : 'mp4'));
 
