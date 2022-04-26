@@ -40,6 +40,7 @@ if (User::hasBlockedUser($video['users_id'])) {
 }
 
 $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
+$cdnStorageEnabled = !empty($cdnObj) && $cdnObj->enable_storage;
 ?>
 
 
@@ -72,7 +73,7 @@ $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
                             <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
                         </a>
                         <button type="button" class="btn btn-default btn-xs" onclick="avideoModalIframeFull(webSiteRootURL + 'view/videoViewsInfo.php?videos_id=<?php echo $video['id']; ?>');
-                                    return false;">
+                                return false;">
                             <i class="fa fa-eye"></i> <?php echo __("Views Info"); ?>
                         </button>
                     </div>
@@ -155,20 +156,25 @@ $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
                                 continue;
                             }
 
-                            if (empty($cdnObj) || empty($cdnObj->enable_storage) || !preg_match('/cdn\.ypt\.me(.*)\.m3u8/i', $theLink['url'])) {
+                            if (!$cdnStorageEnabled || !preg_match('/cdn\.ypt\.me(.*)\.m3u8/i', $theLink['url'])) {
                                 $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
                                 $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_." . ($video['type'] === 'audio' ? 'mp3' : 'mp4'));
 
-                                $parts = explode("_", $key);
-                                $name = $key;
-                                if (count($parts) > 1) {
-                                    $name = strtoupper($parts[0]);
-                                    if (is_numeric($parts[1])) {
-                                        $name .= " <div class='label label-primary'>{$parts[1]}p</div> " . getResolutionLabel($parts[1]);
-                                    } else {
-                                        $name .= " <div class='label label-primary'>" . strtoupper($parts[1]) . "</div> ";
+                                if (!$cdnStorageEnabled && $key == 'm3u8') {
+                                    $name = 'MP4';
+                                } else {
+                                    $parts = explode("_", $key);
+                                    $name = $key;
+                                    if (count($parts) > 1) {
+                                        $name = strtoupper($parts[0]);
+                                        if (is_numeric($parts[1])) {
+                                            $name .= " <div class='label label-primary'>{$parts[1]}p</div> " . getResolutionLabel($parts[1]);
+                                        } else {
+                                            $name .= " <div class='label label-primary'>" . strtoupper($parts[1]) . "</div> ";
+                                        }
                                     }
                                 }
+
 
                                 $filesToDownload[] = ['name' => $name, 'url' => $theLink['url']];
                             }
@@ -176,7 +182,7 @@ $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
 
                         $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
                         if (!empty($videoHLSObj)) {
-                            if(!empty($cdnObj) && $cdnObj->enable_storage){
+                            if ($cdnStorageEnabled) {
                                 if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
                                     $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp4');
                                 }
@@ -262,7 +268,7 @@ $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
             <div class="list-group list-group-horizontal">
                 <?php
                 foreach ($filesToDownload as $theLink) {
-                    if(empty($theLink)){
+                    if (empty($theLink)) {
                         continue;
                     }
                     if (preg_match('/\.json/i', $theLink['url'])) {
