@@ -18,6 +18,15 @@ setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_inde
 
 Live::checkIfPasswordIsGood($livet['key']);
 
+if(empty($livet['live_schedule'])){
+    $lt = new LiveTransmition($livet['id']);
+}else{
+    $lt = new Live_schedule($livet['id']);
+}
+
+if (!$lt->userCanSeeTransmition()) {
+    forbiddenPage("You are not allowed see this streaming");
+}
 $uuid = LiveTransmition::keyNameFix($livet['key']);
 $p = AVideoPlugin::loadPlugin("Live");
 $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');

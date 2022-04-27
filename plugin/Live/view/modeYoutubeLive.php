@@ -22,9 +22,13 @@ if (!empty($_GET['c'])) {
 
 $livet = LiveTransmition::getFromRequest();
 setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
-$lt = new LiveTransmition($livet['id']);
-
 Live::checkIfPasswordIsGood($livet['key']);
+
+if(empty($livet['live_schedule'])){
+    $lt = new LiveTransmition($livet['id']);
+}else{
+    $lt = new Live_schedule($livet['id']);
+}
 
 if (!$lt->userCanSeeTransmition()) {
     forbiddenPage("You are not allowed see this streaming");

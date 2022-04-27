@@ -446,5 +446,52 @@ class Live_schedule extends ObjectYPT
         }
         return $users_id;
     }
+    
+    public function userCanSeeTransmition(){
+        global $global;
+        require_once $global['systemRootPath'] . 'objects/userGroups.php';
+        require_once $global['systemRootPath'] . 'objects/user.php';
+        if (User::isAdmin()) {
+            return true;
+        }
+        /*
+        $password = $this->getPassword();
+        if(!empty($password) && !Live::passwordIsGood($this->getKey())){
+            return false;
+        }
+         *
+         */
+        $ltRow = LiveTransmition::getFromDbByUser($this->getUsers_id());
+        $lt = new LiveTransmition($ltRow['id']);
+        $transmitionGroups = $lt->getGroups();
+        if (!empty($transmitionGroups)) {
+            if (empty($this->id)) {
+                return false;
+            }
+            if (!User::isLogged()) {
+                return false;
+            }
+            $userGroups = UserGroups::getUserGroups(User::getId());
+            if (empty($userGroups)) {
+                return false;
+            }
+            foreach ($userGroups as $ugvalue) {
+                foreach ($transmitionGroups as $tgvalue) {
+                    if ($ugvalue['id'] == $tgvalue) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    public function isAPrivateLive(){
+        $ltRow = LiveTransmition::getFromDbByUser($this->getUsers_id());
+        $lt = new LiveTransmition($ltRow['id']);
+        return !empty($lt->getGroups());
+    }
 
 }

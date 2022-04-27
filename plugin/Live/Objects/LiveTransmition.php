@@ -252,6 +252,7 @@ class LiveTransmition extends ObjectYPT
         sqlDAL::close($res);
         if ($res != false) {
             $user = $data;
+            $user['live_schedule'] = $live_schedule_id;
         } else {
             $user = false;
         }
