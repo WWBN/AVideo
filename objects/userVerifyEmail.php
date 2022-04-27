@@ -1,5 +1,6 @@
 <?php
 global $global, $config;
+$global['ignoreUserMustBeLoggedIn'] = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
