@@ -2,7 +2,9 @@ var socketConnectRequested = 0;
 var totalDevicesOnline = 0;
 var yptSocketResponse;
 
-var socketConnectTimeout;
+var socketResourceId;
+var socketConnectTimeout;;
+var users_id_online = [];
 function socketConnect() {
     if (socketConnectRequested) {
         return false;
@@ -21,6 +23,7 @@ function socketConnect() {
     };
     conn.onmessage = function (e) {
         var json = JSON.parse(e.data);
+        socketResourceId = json.resourceId;
         yptSocketResponse = json;
         parseSocketResponse();
         if (json.type == webSocketTypes.ON_VIDEO_MSG) {
@@ -120,6 +123,28 @@ function sendSocketMessageToUser(msg, callback, to_users_id) {
     }
 }
 
+function sendSocketMessageToUser(msg, callback, to_users_id) {
+    if (conn.readyState === 1) {
+        conn.send(JSON.stringify({msg: msg, webSocketToken: webSocketToken, callback: callback, to_users_id: to_users_id}));
+    } else {
+        console.log('Socket not ready send message in 1 second');
+        setTimeout(function () {
+            sendSocketMessageToUser(msg, to_users_id, callback);
+        }, 1000);
+    }
+}
+
+function sendSocketMessageToResourceId(msg, callback, resourceId) {
+    if (conn.readyState === 1) {
+        conn.send(JSON.stringify({msg: msg, webSocketToken: webSocketToken, callback: callback, resourceId: resourceId}));
+    } else {
+        console.log('Socket not ready send message in 1 second');
+        setTimeout(function () {
+            sendSocketMessageToUser(msg, to_users_id, callback);
+        }, 1000);
+    }
+}
+
 function isSocketActive() {
     return typeof conn != 'undefined' && conn.readyState === 1;
 }
@@ -148,6 +173,7 @@ function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
     }, 500);
 }
 
+
 function parseSocketResponse() {
     json = yptSocketResponse;
     if (typeof json === 'undefined') {
@@ -158,6 +184,9 @@ function parseSocketResponse() {
         if (typeof avideoToastWarning == 'function') {
             avideoToastWarning("Please restart your socket server. You are running (v" + json.webSocketServerVersion + ") and your client is expecting (v" + webSocketServerVersion + ")");
         }
+    }
+    if (json && typeof json.users_id_online !== 'undefined') {
+        users_id_online = json.users_id_online;
     }
     if (json && typeof json.autoUpdateOnHTML !== 'undefined') {
         socketAutoUpdateOnHTML(json.autoUpdateOnHTML);

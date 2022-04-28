@@ -168,6 +168,8 @@ if (isRTL()) {
 <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
 <script>
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+    var my_users_id = <?php echo intval(User::getId()); ?>;
+    var my_identification = <?php echo json_encode(User::getNameIdentification()); ?>;
     var player;
 </script>
 

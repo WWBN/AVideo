@@ -10,6 +10,8 @@ function _isAPPInstalled($appName){
 // live
 
 
+// max upload size max file size
+
 $phpExtensions = [];
 $phpExtensions[] = ['pdo_mysql'];
 $phpExtensions[] = ['curl'];

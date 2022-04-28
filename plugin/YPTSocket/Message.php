@@ -12,11 +12,13 @@ class Message implements MessageComponentInterface {
 
     protected $clients;
     protected $clientsWatchinLive;
+    protected $clientsUsersId;
 
     public function __construct() {
         //$this->clients = new \SplObjectStorage;
         $this->clients = [];
         $this->clientsWatchinLive = [];
+        $this->clientsWatchVideosId = [];
         _log_message("Construct");
     }
 
@@ -60,17 +62,31 @@ class Message implements MessageComponentInterface {
         $client['live_key'] = object_to_array(@$json->live_key);
         $client['ip'] = $json->ip;
         $client['location'] = $json->location;
-        
-        if(!empty($client['live_key']['key'])){
+
+        if (!empty($client['live_key']['key'])) {
             $this->clientsWatchinLive[$client['live_key']['key']][$client['resourceId']] = $client['users_id'];
-        }else
-        if(!empty($client['live_key']['liveLink'])){
+        } else
+        if (!empty($client['live_key']['liveLink'])) {
             $this->clientsWatchinLive[$client['live_key']['liveLink']][$client['resourceId']] = $client['users_id'];
-        }else
-        if(!empty($client['videos_id'])){
-            $this->clientsWatchinLive[$client['videos_id']][$client['resourceId']] = $client['users_id'];
+        } else
+        if (!empty($client['videos_id'])) {
+            $this->clientsWatchVideosId[$client['videos_id']][$client['resourceId']] = $client['users_id'];
         }
-        
+        if (!empty($client['users_id'])) {
+
+            if (!isset($this->clientsUsersId[$client['users_id']])) {
+                $this->clientsUsersId[$client['users_id']] = array(
+                    "users_id" => $client['users_id'],
+                    "isAdmin" => $client['isAdmin'],
+                    "user_name" => $client['user_name']
+                );
+                $this->clientsUsersId[$client['users_id']]['resourceId'] = array();
+            }
+
+            if (!in_array($client['resourceId'], $this->clientsUsersId[$client['users_id']]['resourceId'])) {
+                $this->clientsUsersId[$client['users_id']]['resourceId'][$client['resourceId']] = $client['resourceId'];
+            }
+        }
         _log_message("New connection ($conn->resourceId) {$json->yptDeviceId} {$client['selfURI']} {$client['browser']}");
 
         $this->clients[$conn->resourceId] = $client;
@@ -95,7 +111,7 @@ class Message implements MessageComponentInterface {
             $this->msgToResourceId($json, $conn->resourceId, \SocketMessageType::TESTING);
         } else if ($this->shouldPropagateInfo($client)) {
             //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
-            $this->msgToAll($conn, array('users_id' => $client['users_id'], 'yptDeviceId' => $client['yptDeviceId']), \SocketMessageType::NEW_CONNECTION, true);
+            $this->msgToAll($conn, array('users_id' => $client['users_id'], 'user_name' => $client['user_name'], 'yptDeviceId' => $client['yptDeviceId']), \SocketMessageType::NEW_CONNECTION, true);
         } else {
             //_log_message("NOT shouldPropagateInfo ");
         }
@@ -116,9 +132,9 @@ class Message implements MessageComponentInterface {
                         $l = new \LiveTransmitionHistory($lt['id']);
                         $total_viewers = \LiveUsers::getTotalUsers($lt['key'], $lt['live_servers_id']);
                         $max_viewers_sametime = $l->getMax_viewers_sametime();
-                        if(!empty($live_key['key'])){
+                        if (!empty($live_key['key'])) {
                             $viewers_now = count($this->clientsWatchinLive[$live_key['key']]);
-                        }else if(!empty($live_key['liveLink'])){
+                        } else if (!empty($live_key['liveLink'])) {
                             $viewers_now = count($this->clientsWatchinLive[$live_key['liveLink']]);
                         }
                         if ($viewers_now > $max_viewers_sametime) {
@@ -151,16 +167,22 @@ class Message implements MessageComponentInterface {
             return false;
         }
         $client = $this->clients[$conn->resourceId];
-        
-        if(!empty($client['live_key'])){
-            if(!empty($client['live_key']['key'])){
+
+        if (!empty($client['live_key'])) {
+            if (!empty($client['live_key']['key'])) {
                 unset($this->clientsWatchinLive[$client['live_key']['key']][$conn->resourceId]);
             }
-            if(!empty($client['live_key']['liveLink'])){
+            if (!empty($client['live_key']['liveLink'])) {
                 unset($this->clientsWatchinLive[$client['live_key']['liveLink']][$conn->resourceId]);
             }
         }
-        
+        if (!empty($client['users_id'])) {
+            unset($this->clientsUsersId[$client['users_id']]['resourceId'][$conn->resourceId]);
+            if(empty($this->clientsUsersId[$client['users_id']]['resourceId'])){
+                unset($this->clientsUsersId[$client['users_id']]);
+            }
+        }
+
         unset($this->clients[$conn->resourceId]);
         $users_id = $client['users_id'];
         $videos_id = $client['videos_id'];
@@ -206,6 +228,16 @@ class Message implements MessageComponentInterface {
                     $this->clients[$from->resourceId]['yptDeviceId'] = $msgObj->yptDeviceId;
                 }
                 break;
+            case "getClientsList":
+                if (empty($this->clientsUsersId)) {
+                    return false;
+                }
+                //var_dump($this->clientsUsersId);
+                //var_dump($msgObj->from_users_id);
+                //var_dump($json);
+                //var_dump($msgObj);
+                $this->msgToResourceId(array('json' => $this->clientsUsersId, 'callback' => 'loadCallerPanel'), $from->resourceId);
+                break;
             case \SocketMessageType::TESTING:
                 $this->msgToResourceId($json, $from->resourceId, \SocketMessageType::TESTING);
                 break;
@@ -214,7 +246,9 @@ class Message implements MessageComponentInterface {
                 //_log_message("onMessage:msgObj: " . json_encode($json));
                 if (!empty($msgObj->send_to_uri_pattern)) {
                     $this->msgToSelfURI($json, $msgObj->send_to_uri_pattern);
-                } else if (!empty($json['to_users_id'])) {
+                } else if (!empty($json['resourceId'])) {
+                    $this->msgToResourceId($json, $json['resourceId']);
+                }else if (!empty($json['to_users_id'])) {
                     $this->msgToUsers_id($json, $json['to_users_id']);
                 } else {
                     $this->msgToAll($from, $json);
@@ -304,6 +338,7 @@ class Message implements MessageComponentInterface {
 
         $obj['users_uri'] = $return['users_uri'];
         $obj['resourceId'] = $resourceId;
+        $obj['users_id_online'] = $this->clientsUsersId;
 
         $msgToSend = json_encode($obj);
         _log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
@@ -321,17 +356,33 @@ class Message implements MessageComponentInterface {
     }
 
     public function msgToUsers_id($msg, $users_id, $type = "") {
-        if (empty($users_id)) {
+        if (empty($users_id) || empty($this->clientsUsersId)) {
             return false;
         }
-        $count = 0;
-        foreach ($this->clients as $resourceId => $value) {
-            if ($value['users_id'] == $users_id) {
-                $count++;
-                $this->msgToResourceId($msg, $resourceId, $type);
+        try {
+            $count = 0;
+            if(!is_array($users_id)){
+                $users_id = array($users_id);
             }
+            foreach ($users_id as $user_id) {
+                $user_id = intval($user_id);
+                if(empty($user_id)){
+                    continue;
+                }
+                if ($this->isUserLive($user_id)) {
+                    foreach ($this->clientsUsersId[$user_id]['resourceId'] as $resourceId) {
+                        $count++;
+                        $this->msgToResourceId($msg, $resourceId, $type);
+                    }
+                }
+            }
+            
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+            var_dump($users_id, $this->clientsUsersId);
         }
-        _log_message("msgToUsers_id: sent to ($count) clients users_id={$users_id}");
+
+        _log_message("msgToUsers_id: sent to ($count) clients users_id=". json_encode($users_id));
     }
 
     public function msgToSelfURI($msg, $pattern, $type = "") {
@@ -521,6 +572,12 @@ class Message implements MessageComponentInterface {
     public function getTags() {
         return array('free', 'live');
     }
+    
+    public function isUserLive($users_id) {
+        return !empty($this->clientsUsersId[$users_id]) && !empty($this->clientsUsersId[$users_id]['resourceId']);
+    }
+    
+    
 
 }
 

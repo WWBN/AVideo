@@ -2976,7 +2976,7 @@ function verify($url) {
     if (!file_exists($cacheFile) || (time() > (filemtime($cacheFile) + $lifetime))) {
         _error_log("Verification Creating the Cache {$url}");
         $result = url_get_contents($verifyURL, '', 5);
-        if($result !== 'Invalid URL'){
+        if ($result !== 'Invalid URL') {
             file_put_contents($cacheFile, $result);
         }
     } else {
@@ -2990,7 +2990,7 @@ function verify($url) {
         }
         _error_log("Verification GetFrom Cache $cacheFile");
         $result = file_get_contents($cacheFile);
-        if($result === 'Invalid URL'){
+        if ($result === 'Invalid URL') {
             unlink($cacheFile);
         }
     }
@@ -8139,4 +8139,26 @@ function _ob_end_clean() {
       header_remove("Content-Encoding");
       }
      */
+}
+
+function pluginsRequired($arrayPluginName, $featureName='') {
+    global $global;
+    $obj = new stdClass();
+    $obj->error = false;
+    $obj->msg = '';
+    
+    foreach ($arrayPluginName as $name) {
+        $loadPluginFile = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
+        if (!file_exists($loadPluginFile)) {
+            $obj->error = true;
+            $obj->msg = "Plugin {$name} is required for $featureName ";
+            break;
+        }
+        if(!AVideoPlugin::isEnabledByName($name)){
+            $obj->error = true;
+            $obj->msg = "Please enable Plugin {$name} it is required for $featureName ";
+            break;
+        }
+    }
+    return $obj;
 }
