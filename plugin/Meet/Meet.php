@@ -217,6 +217,19 @@ Passcode: {password}
         global $global;
         $secret = self::getSecret();
         $meetServer = self::getMeetServer();
+        
+        if(preg_match('/192.168.1/', $global['webSiteRootURL'])){
+            $json = new stdClass();
+            $json->error = false;
+            $json->url = $global['webSiteRootURL'];
+            $json->isInstalled = true;
+            $json->msg = $global['webSiteRootURL'];
+            $json->host = "custom";
+            $json->jibrisInfo = new stdClass();
+            $json->jibrisInfo->jibris = [];
+            return $json;
+        }
+        
         if ($meetServer == "https://custom/") {
             $obj = AVideoPlugin::getDataObject("Meet");
             $json = new stdClass();
@@ -496,7 +509,7 @@ Passcode: {password}
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'livestreaming', 'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur',
+                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background',
                 ];
             } else {
                 $return = [
@@ -504,7 +517,7 @@ Passcode: {password}
                     'fodeviceselection', 'hangup', 'profile', 'chat',
                     'etherpad', 'settings', 'raisehand',
                     'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur',
+                    'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background',
                 ];
             }
         } else {
@@ -512,7 +525,7 @@ Passcode: {password}
                 'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
                 'fodeviceselection', 'hangup', 'profile', 'chat', 'etherpad', 'settings', 'raisehand',
                 'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
-                'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur',
+                'tileview', 'download', 'help', 'mute-everyone', 'videobackgroundblur','select-background',
             ];
         }
         
