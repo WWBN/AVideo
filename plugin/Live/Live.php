@@ -1865,7 +1865,6 @@ class Live extends PluginAbstract {
                     $obj->msg = "ONLINE";
                 }
                 $title = self::getTitleFromKey($row['key'], $row['title']);
-                self::getTitleFromUsers_Id($users_id);
                 $u = new User($row['users_id']);
                 $hiddenName = preg_replace('/^(.{5})/', '*****', $value->name);
 
