@@ -52,7 +52,7 @@ try {
     var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
     // Listen for a message from the iframe.
     eventer(messageEvent, function (e) {
-        console.log('EventListener', e.data);
+        //console.log('EventListener', e.data);
         if(e.data.getHeight){
             var height= $('body > div.container-fluid').height();
             if(!height){
@@ -1412,6 +1412,22 @@ function avideoAddIframeIntoElement(element, url, insideSelector) {
     insideElement.append(html);
 }
 
+function avideoWindowIframe(url) {
+    url = addGetParam(url, 'avideoIframe', 1);
+    console.log('avideoModalIframeWithClassName', url);
+    var html = '';
+    html += '<div class="panel panel-default" id="draggable" style="width: 400px; height: 200px; float: left; z-index: 9999;">';
+    html += '<div class="panel-heading" style="cursor: move;">head</div>';
+    html += '<div class="panel-body" style="padding: 0;">';
+    html += '<iframe id="avideoWindowIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
+    html += '</div>';
+    html += '</div>';
+    $('body').append(html);
+    $( "#draggable" ).draggable({ handle: ".panel-heading",containment: "parent" });
+    //$( "div, p" ).disableSelection();
+    $( "#draggable" ).resizable();
+}
+
 var avideoModalIframeFullScreenOriginalURL = false;
 var avideoModalIframeWithClassNameTimeout;
 function avideoModalIframeWithClassName(url, className, updateURL) {
@@ -1430,7 +1446,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     url = addGetParam(url, 'avideoIframe', 1);
     console.log('avideoModalIframeWithClassName', url, className, updateURL);
     var html = '';
-    html = '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
+    html += '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
     html += '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
     html += '<i class="fas fa-chevron-left"></i>';
     html += '</button><img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;"></div>';
@@ -2203,38 +2219,30 @@ function isVisibleAndInViewport(selector) {
     }
 }
 
+var playAudioTimeout = [];
+var showEnableAudioMessage = true;
+var audioList = [];
 function playAudio(mp3) {
-    console.log('pling start');
-    if (disableChatSound) {
-        console.log('pling disableChatSound');
-        return false;
-    }
-    if (!$('#soundEnabled').is(':checked')) {
-        console.log('pling soundEnabled unchecked');
-        return false;
-    }
-    if (!plingEnabled) {
-        console.log('pling plingEnabled NOT enabled');
-        return false;
-    }
-    clearTimeout(plingTimeout);
-    plingTimeout = setTimeout(function () {
+    clearTimeout(playAudioTimeout[mp3]);
+    playAudioTimeout[mp3] = setTimeout(function () {
         var audio = new Audio();
         audio.autoplay = true;
         audio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
         audio.src = mp3;
-        console.log('pling setTimeout', audio);
+        audioList[mp3] = audio;
+        console.log('playAudio', audioList);
+        //console.log('pling setTimeout', audio);
         const promise = audio.play();
         if (promise !== undefined) {
-            console.log('pling promise', promise);
+            //console.log('pling promise', promise);
             promise.then((response) => {
-                console.log('pling audio played', response);
+                //console.log('pling audio played', response);
                 plingEnabled = false;
                 setTimeout(function () {
                     plingEnabled = true;
                 }, 3000);
             }).catch(error => {
-                console.log('pling audio disabled', error);
+                //console.log('pling audio disabled', error);
                 if (showEnableAudioMessage) {
                     showEnableAudioMessage = false;
                     avideoAlertInfo('Click here to enable audio');
@@ -2242,6 +2250,21 @@ function playAudio(mp3) {
             });
         }
     }, 500);
+    return playAudioTimeout[mp3];
+}
+
+function stopAllAudio(){
+    var audios = document.getElementsByTagName('audio');
+    for(var i = 0, len = audios.length; i < len;i++){
+        if(audios[i] != e.target){
+            audios[i].pause();
+        }
+    }
+    for (var i in audioList) {
+        if(typeof audioList[i] === 'object'){
+            audioList[i].pause();
+        }
+    }
 }
 
 function isSameDomain(url) {
@@ -2318,6 +2341,20 @@ function getCursorPos(input) {
         };
     }
     return -1;
+}
+
+function isUserOnline(users_id){
+    users_id = parseInt(users_id);
+    if(empty(users_id_online)){
+        return false;
+    }
+    if(empty(users_id_online[users_id])){
+        return false;
+    }
+    if(empty(users_id_online[users_id].resourceId)){
+        return false;
+    }
+    return users_id_online[users_id];
 }
 
 var addAtMentionActive = false;
