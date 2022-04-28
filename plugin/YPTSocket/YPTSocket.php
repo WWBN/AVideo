@@ -90,7 +90,7 @@ class YPTSocket extends PluginAbstract {
         self::addDataObjectHelper('showTotalOnlineUsersPerLive', 'Show Total Online Users Per Live');
         $obj->showTotalOnlineUsersPerLiveLink = true;
         self::addDataObjectHelper('showTotalOnlineUsersPerLiveLink', 'Show Total Online Users Per LiveLink');
-        $obj->enableCalls = true;
+        $obj->enableCalls = false;
         self::addDataObjectHelper('enableCalls', 'Enable Meeting Calls', 'This feature requires the meet plugin enabled');
 
         return $obj;
