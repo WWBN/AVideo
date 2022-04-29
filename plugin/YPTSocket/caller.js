@@ -202,7 +202,6 @@ function callAccepted(json) {
 function startMeetForCall(json) {
     modal.showPleaseWait();
     var randomPass = parseInt(Math.random()*100000);
-    var randomName = new Date();
 
     if (!isUserOnline(json.to_users_id)) {
         avideoToastError('Start a call fail, the user is not oline anymore');
@@ -214,7 +213,7 @@ function startMeetForCall(json) {
         data: {
             'public': 1,
             'RoomPasswordNew': randomPass,
-            'RoomTopic': 'Call from ' + json.from_identification + ' to ' + json.to_identification + ' - ' + randomName.toString()
+            'RoomTopic': 'Call from ' + json.from_id + ' to ' + json.to_id
         },
         success: function (response) {
             console.log('startMeetForCall', response);
