@@ -177,7 +177,7 @@ class Meet_schedule extends ObjectYPT {
             foreach ($userGroups as $value) {
                 $userGroupsIds[] = $value['id'];
             }
-            $sql .= " OR (public = 2 OR public = 1 ";
+            $sql .= " OR ((public = 2 OR public = 1) AND (password IS NULL OR password = '') ";
             if (!empty($userGroupsIds)) {
                 $sql .= " OR (public = 0 AND (SELECT count(id) FROM meet_schedule_has_users_groups WHERE meet_schedule_id=ms.id AND users_groups_id IN (" . implode(",", $userGroupsIds) . "))>0) ";
             }
@@ -276,7 +276,7 @@ class Meet_schedule extends ObjectYPT {
             foreach ($userGroups as $value) {
                 $userGroupsIds[] = $value['id'];
             }
-            $sql .= " OR (public = 2 OR public = 1 ";
+            $sql .= " OR ((public = 2 OR public = 1) AND (password IS NULL OR password = '') ";
             if (!empty($userGroupsIds)) {
                 $sql .= " OR (public = 0 AND (SELECT count(id) FROM meet_schedule_has_users_groups WHERE meet_schedule_id=ms.id AND users_groups_id IN (" . implode(",", $userGroupsIds) . "))>0) ";
             }
