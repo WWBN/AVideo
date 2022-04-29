@@ -201,8 +201,8 @@ function callAccepted(json) {
 
 function startMeetForCall(json) {
     modal.showPleaseWait();
-    var randomPass = parseInt(Math.random()*1000);
-    var randomName = parseInt(Math.random()*1000);
+    var randomPass = parseInt(Math.random()*100000);
+    var randomName = parseInt(Math.random()*100000);
 
     if (!isUserOnline(json.to_users_id)) {
         avideoToastError('Start a call fail, the user is not oline anymore');
