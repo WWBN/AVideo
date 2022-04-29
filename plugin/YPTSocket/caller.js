@@ -213,7 +213,7 @@ function startMeetForCall(json) {
         data: {
             'public': 1,
             'RoomPasswordNew': randomPass,
-            'RoomTopic': 'Call from ' + json.from_id + ' to ' + json.to_id
+            'RoomTopic': 'Call from ' + json.from_users_id+ ' to ' + json.to_users_id
         },
         success: function (response) {
             console.log('startMeetForCall', response);
