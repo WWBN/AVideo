@@ -139,6 +139,9 @@ if (!class_exists('Video')) {
         }
                 
         public function addView($currentTime = 0) {
+            if(isBot()){
+                return false;
+            }
             global $global;
             if (empty($this->id)) {
                 return false;
@@ -195,6 +198,9 @@ if (!class_exists('Video')) {
         }
 
         public function addViewPercent($percent = 25) {
+            if(isBot()){
+                return false;
+            }
             global $global;
             if (empty($this->id)) {
                 return false;

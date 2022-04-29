@@ -72,6 +72,9 @@ class VideoStatistic extends ObjectYPT {
     }
 
     public static function updateStatistic($videos_id, $users_id, $lastVideoTime, $seconds_watching_video = 0) {
+        if(isBot()){
+            return false;
+        }
         $lastStatistic = self::getLastStatistics($videos_id, $users_id);
         if (empty($lastStatistic)) {
             $vs = new VideoStatistic(0);

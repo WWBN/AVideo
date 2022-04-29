@@ -7,6 +7,9 @@ if (!isset($global['systemRootPath'])) {
 
 //_error_log('Add view '. json_encode($_REQUEST));
 
+if(isBot()){
+    die('Bot Not Allowed');
+}
 if (empty($_REQUEST['id'])) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
