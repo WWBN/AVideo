@@ -180,7 +180,7 @@ class CustomizeUser extends PluginAbstract {
     
     public static function isChannelCallEnabled() {
         $obj = AVideoPlugin::getDataObjectIfEnabled('CustomizeUser');
-        if (empty($obj->enableChannelCalls)) {
+        if (!empty($obj->enableChannelCalls)) {
             $objSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
             return $objSocket->enableCalls;
         }
