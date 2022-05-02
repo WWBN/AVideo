@@ -122,9 +122,9 @@ class LiveLinks extends PluginAbstract {
         global $global;
         
         $liveUsers = AVideoPlugin::isEnabledByName('LiveUsers');        
-        $row = LiveLinks::getAllActive(true, true);
+        $rows = LiveLinks::getAllActive(true, true);
         $array = array();
-        foreach ($row as $value) {
+        foreach ($rows as $value) {
 
             if ($value['type'] == 'unlisted') {
                 continue;
@@ -137,7 +137,7 @@ class LiveLinks extends PluginAbstract {
                         
             $label = ($liveUsers ? getLiveUsersLabelLiveLinks($value['id']) : '');
             //var_dump( self::getPosterToLiveFromId($value['id']),$value['id'] );exit;
-            $array[] = Live::getLiveApplicationModelArray(
+            $row = Live::getLiveApplicationModelArray(
                     $value['users_id'], 
                     $value['title'], 
                     self::getLinkToLiveFromId($value['id']), 
@@ -148,9 +148,11 @@ class LiveLinks extends PluginAbstract {
                     'liveLink_'.$value['id'], 
                     '', 
                     $value['start_date']);
+            $row['categories_id'] = $value['categories_id'];
+            $array[] = $row;
             
         }
-
+        //var_dump($rows, $array);exit;
         return $array;
     }
 
