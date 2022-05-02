@@ -2357,6 +2357,10 @@ function isUserOnline(users_id){
     return users_id_online[users_id];
 }
 
+function isReadyToCheckIfIsOnline(){
+    return !empty(users_id_online);
+}
+
 var addAtMentionActive = false;
 function addAtMention(selector) {
     var emojioneArea = false;

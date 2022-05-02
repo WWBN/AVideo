@@ -121,7 +121,7 @@ function hangUpCall(json) {
         shouldHangUpCall = 1;
         callerToast[users_id].close();
     } else if ($('body').hasClass('calling')) {
-        avideoToastInfo('Hangup');
+        avideoToastWarning('Hangup');
         console.log('hangUpCall page', users_id);
     }
     setCallBodyClass('notCalling');
@@ -142,11 +142,11 @@ function finishCall(json) {
         sendSocketMessageToUser(json, 'hangUpCall', users_id);
         var obj = {users_id: users_id, shouldHangUpCall: 0};
         sendSocketMessageToUser(obj, 'hideCall', my_users_id);
-        avideoToastInfo('Finished');
+        avideoToastWarning('Finished');
     } else {
         console.log('finishCall ERRRO', users_id);
     }
-    
+
 }
 
 function acceptCall(json) {
@@ -180,9 +180,9 @@ function hideCall(obj) {
     if (typeof callerToast[users_id] == 'object' && typeof callerToast[users_id].close == 'function') {
         callerToast[users_id].close();
     }
-    setTimeout(function(){
+    setTimeout(function () {
         shouldHangUpCall = 1;
-    },1000)
+    }, 1000)
 }
 
 function callAccepted(json) {
@@ -201,7 +201,7 @@ function callAccepted(json) {
 
 function startMeetForCall(json) {
     modal.showPleaseWait();
-    var randomPass = parseInt(Math.random()*100000);
+    var randomPass = parseInt(Math.random() * 100000);
 
     if (!isUserOnline(json.to_users_id)) {
         avideoToastError('Start a call fail, the user is not oline anymore');
@@ -213,7 +213,7 @@ function startMeetForCall(json) {
         data: {
             'public': 1,
             'RoomPasswordNew': randomPass,
-            'RoomTopic': 'Call from ' + json.from_users_id+ ' to ' + json.to_users_id
+            'RoomTopic': 'Call from ' + json.from_users_id + ' to ' + json.to_users_id
         },
         success: function (response) {
             console.log('startMeetForCall', response);
@@ -222,9 +222,11 @@ function startMeetForCall(json) {
                 return false;
             }
             if (response.error) {
+                hangUpCall(json);
                 avideoAlertError(response.message);
                 sendSocketMessageToUser(users_id, 'hideCallPleaseWait', false);
                 sendSocketMessageToUser(my_users_id, 'hideCallPleaseWait', false);
+                modal.hidePleaseWait();
             } else {
                 console.log('startMeetForCall', json, response);
                 setTimeout(function () {
@@ -286,7 +288,7 @@ function playCallingSound() {
     //avideoToastInfo('playCallIncomingSound', playCallIncomingSoundTimeout);
 }
 
-function stopAllCallSounds(){
+function stopAllCallSounds() {
     clearTimeout(playCallIncomingSoundTimeout);
     clearTimeout(playCallBusySoundTimeout);
     clearTimeout(playCallingSoundTimeout);
@@ -297,16 +299,30 @@ function isCalling() {
     return $('body').hasClass("calling");
 }
 
-function isReceivingCall(){
+function isReceivingCall() {
     return $('body').hasClass("callIncoming");
 }
 
 function callerNewConnection(json) {
-    console.log('callerNewConnection', json);
+    callerCheckUser(json.msg.users_id);
 }
 
 function callerDisconnection(json) {
-    console.log('callerDisconnection', json);
+    callerCheckUser(json.msg.users_id);
+}
+
+function callerCheckUser(users_id) {
+    if(!isReadyToCheckIfIsOnline()){
+        setTimeout(function(){callerCheckUser(users_id)},1000);
+        return false;
+    }
+    if (isUserOnline(users_id)) {
+        console.log('callerCheckUser OK', users_id, users_id_online);
+        $('.caller' + users_id).show();
+    } else {
+        console.log('callerCheckUser NO', users_id, users_id_online);
+        $('.caller' + users_id).hide();
+    }
 }
 
 function setCallBodyClass(name) {
@@ -322,7 +338,7 @@ $(document).ready(function () {
     setInterval(function () {
         if (isCalling()) {
             playCallingSound();
-        }else if(isReceivingCall()){
+        } else if (isReceivingCall()) {
             playCallIncomingSound();
         }
     }, 5000);

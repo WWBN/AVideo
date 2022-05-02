@@ -2783,6 +2783,7 @@ if (typeof gtag !== \"function\") {
                     <?php echo User::getAddChannelToGalleryButton($users_id); ?>
                     <?php echo User::getBlockUserButton($users_id); ?>
                     <?php echo Subscribe::getButton($users_id); ?>
+                    <?php echo CustomizeUser::getCallerButton($users_id, 'btn-xs');?>
                 </div>
             </div>
             <div class="panel-body gallery ">

@@ -164,8 +164,27 @@ class CustomizeUser extends PluginAbstract {
         $obj->enableAffiliation = false;
         self::addDataObjectHelper('enableAffiliation', 'Enable user affiliation', 'Users that are marked as company can select other users to be afiliated to him');
 
+        $obj->enableChannelCalls = true;
+        self::addDataObjectHelper('enableChannelCalls', 'Enable Meeting Calls from channels', 'This feature requires the meet plugin enabled');
 
         return $obj;
+    }
+    
+    static function getCallerButton($users_id, $class=''){
+        global $global;
+        $users_id = intval($users_id);
+        $varsArray = array('users_id' => $users_id, 'class'=>$class);
+        $filePath = $global['systemRootPath'] . 'plugin/CustomizeUser/View/channelCall.php';
+        return getIncludeFileContent($filePath, $varsArray);
+    }
+    
+    public static function isChannelCallEnabled() {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('CustomizeUser');
+        if (empty($obj->enableChannelCalls)) {
+            $objSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
+            return $objSocket->enableCalls;
+        }
+        return false;
     }
 
     public static function autoIncludeBGAnimationFile() {
