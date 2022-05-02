@@ -18,7 +18,8 @@ if ($users_id = isChannel()) {
         $img = Category::getOGImage($category['id']);
         $title = html2plainText($category['name']);
         $url = Category::getCategoryLinkFromName($_GET['catName']);
-        echo PHP_EOL."<!-- OpenGraph not video -->".PHP_EOL; ?>
+        $description = html2plainText($category['description']);  
+        echo PHP_EOL."<!-- OpenGraph not video 1 -->".PHP_EOL; ?>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="<?php echo $title; ?>">
     <?php
@@ -28,7 +29,7 @@ if ($users_id = isChannel()) {
         $img = Configuration::getOGImage();
         $title = html2plainText($config->getWebSiteTitle());
         $url = $global['webSiteRootURL'];
-        echo PHP_EOL."<!-- OpenGraph not video -->".PHP_EOL; ?>
+        echo PHP_EOL."<!-- OpenGraph not video 2 -->".PHP_EOL; ?>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="<?php echo $title; ?>">
     <?php
@@ -43,7 +44,9 @@ if (empty($customizePluginDescription)) {
     }
 }
 
-$description = $title;
+if (empty($description)) {
+    $description = $title;
+}
 if (!empty($customizePluginDescription)) {
     $description = $customizePluginDescription;
 } elseif (!empty($metaDescription)) {
