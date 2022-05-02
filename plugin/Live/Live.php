@@ -1000,7 +1000,7 @@ class Live extends PluginAbstract {
             return '';
         }
 
-        $btn = "<div class=\"btn-group justified recordLiveControlsDiv\" style=\"display: none;\" id=\"liveControls\">";
+        $btn = "<div class=\"btn-group justified recordLiveControlsDiv keepLabels\" style=\"display: none;\" id=\"liveControls\">";
         //$btn .= self::getButton("drop_publisher", $live_transmition_id, $live_servers_id);
         $btn .= self::getButton("save_dvr", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= self::getButton("save_the_momment", $key, $live_servers_id, $iconsOnly, '', $btnClass);

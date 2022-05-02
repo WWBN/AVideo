@@ -1089,6 +1089,21 @@ li.dropdown-submenu > ul > li > a{
     margin: 0;
 }
 
+/* sm */
+@media (max-width: 992px) {
+    .btn-group.justified.keepLabels span.hidden-sm, 
+    .btn-group.justified.keepLabels span.hidden-xs{
+        display: block !important;
+        font-size: 0.8em;
+        white-space: normal;
+    }
+    .btn-group.justified.keepLabels.keepLabels span.hidden-xs{
+        display: block;
+        font-size: 0.7em;
+    }
+}
+
+/* xs */
 @media (max-width: 767px) {
     .swal-modal.swal-modal-iframe {
         width: calc(100% - 40px);

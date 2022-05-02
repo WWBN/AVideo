@@ -33,6 +33,7 @@ foreach ($stats["applications"] as $key => $value) {
     
     $videos[] = $video;
 }
+
 /*
   $videosL = $videosLL = $videos = array();
   if (AVideoPlugin::isEnabledByName("Live")) {
@@ -62,4 +63,6 @@ if (!empty($videos)) {
         ?>
     </div>
     <?php
+}else{
+    echo '<!-- Live videos list is empty -->';
 }
