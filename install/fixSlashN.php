@@ -11,7 +11,7 @@ $videos = video::getAllVideosLight("", false, true);
 $count = 0;
 foreach ($videos as $value) {
     $count++;
-    $newDescription = str_replace('\n', PHP_EOL, $value['description']);
+    $newDescription = str_replace('\n', '', $value['description']);
     if($newDescription !== $value['description']){
         echo "Change ($count) [{$value['id']}]{$value['title']} ******\n";
         $video = new Video('','',$value['id']);
