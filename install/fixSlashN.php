@@ -16,7 +16,7 @@ foreach ($videos as $value) {
         echo "Change ($count) [{$value['id']}]{$value['title']} ******".PHP_EOL;
         $video = new Video('','',$value['id']);
         $video->setDescription($newDescription);
-        $video->save();
+        $video->save(false, true);
     }else{
         //echo "\n skip ($count) [{$value['id']}]{$value['title']} ******\n";
     }
