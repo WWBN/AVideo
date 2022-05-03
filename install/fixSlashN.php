@@ -13,12 +13,11 @@ foreach ($videos as $value) {
     $count++;
     $newDescription = str_replace('\n', '', $value['description']);
     if($newDescription !== $value['description']){
-        echo "Change ($count) [{$value['id']}]{$value['title']} ******\n";
+        echo "Change ($count) [{$value['id']}]{$value['title']} ******".PHP_EOL;
         $video = new Video('','',$value['id']);
         $video->setDescription($newDescription);
         $video->save();
     }else{
         //echo "\n skip ($count) [{$value['id']}]{$value['title']} ******\n";
     }
-    echo "\n******\n";
 }
