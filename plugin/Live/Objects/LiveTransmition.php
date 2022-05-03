@@ -278,6 +278,7 @@ class LiveTransmition extends ObjectYPT
         if ($res) {
             $row = $data;
             if (!empty($row)) {
+                $row['live_schedule_id'] = 0;
                 $row['scheduled'] = 0;
             }
             if (!empty($row)) {
@@ -293,6 +294,7 @@ class LiveTransmition extends ObjectYPT
             $row = Live_schedule::keyExists($key);
             if (!empty($row)) {
                 $row['scheduled'] = 1;
+                $row['live_schedule_id'] = $row['id'];
             }
         }
 

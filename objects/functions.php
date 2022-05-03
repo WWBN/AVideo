@@ -4560,7 +4560,7 @@ function isLive() {
     if (!empty($isLive)) {
         $live = getLiveKey();
         if (empty($live)) {
-            $live = ['key' => false, 'live_servers_id' => false, 'live_index' => false];
+            $live = ['key' => false, 'live_servers_id' => false, 'live_index' => false, 'live_schedule' => false, 'users_id' => false];
         }
         $live['liveLink'] = isLiveLink();
         return $live;
@@ -4595,8 +4595,15 @@ function setLiveKey($key, $live_servers_id, $live_index = '') {
         $live_index = $parameters['live_index'];
     }
     $key = Live::getLiveKeyFromRequest($key, $live_index, $parameters['playlists_id_live']);
-
-    $getLiveKey = ['key' => $key, 'live_servers_id' => intval($live_servers_id), 'live_index' => $live_index, 'cleanKey' => $cleanKey];
+    $lt = LiveTransmition::getFromKey($key);
+    $live_schedule = 0;
+    $users_id = 0;
+    if (!empty($lt['live_schedule_id'])) {
+        $live_schedule = $lt['live_schedule_id'];
+        $live_servers_id = $lt['live_servers_id'];
+        $users_id = $lt['users_id'];
+    }
+    $getLiveKey = ['key' => $key, 'live_servers_id' => intval($live_servers_id), 'live_index' => $live_index, 'cleanKey' => $cleanKey, 'live_schedule' => $live_schedule, 'users_id' => $users_id];
     return $getLiveKey;
 }
 
@@ -6949,15 +6956,19 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                     $u = User::getFromUsername($value['user']);
                     $json['applications'][$key]['users_id'] = $u['id'];
                 }
-                if (!empty($json['applications'][$key]['key']) && $json['applications'][$key]["type"] === "live") {
-                    // make sure it is online
-                    $lth = new LiveTransmitionHistory();
-                    $lth->setTitle($json['applications'][$key]['title']);
-                    $lth->setKey($json['applications'][$key]['key']);
-                    $lth->setUsers_id($json['applications'][$key]['users_id']);
-                    $lth->setLive_servers_id($json['applications'][$key]['live_servers_id']);
-                    $json['applications'][$key]['live_transmitions_history_id'] = $lth->save();
-                }
+                /*
+                 * It was creating a duplicated records
+                  if (!empty($json['applications'][$key]['key']) && $json['applications'][$key]["type"] === "live") {
+                  // make sure it is online
+                  $lth = new LiveTransmitionHistory();
+                  $lth->setTitle($json['applications'][$key]['title']);
+                  $lth->setKey($json['applications'][$key]['key']);
+                  $lth->setUsers_id($json['applications'][$key]['users_id']);
+                  $lth->setLive_servers_id($json['applications'][$key]['live_servers_id']);
+                  $json['applications'][$key]['live_transmitions_history_id'] = $lth->save();
+                  }
+                 * 
+                 */
             }
         }
         $cache = ObjectYPT::setCache($cacheName, $json);
@@ -8141,12 +8152,12 @@ function _ob_end_clean() {
      */
 }
 
-function pluginsRequired($arrayPluginName, $featureName='') {
+function pluginsRequired($arrayPluginName, $featureName = '') {
     global $global;
     $obj = new stdClass();
     $obj->error = false;
     $obj->msg = '';
-    
+
     foreach ($arrayPluginName as $name) {
         $loadPluginFile = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
         if (!file_exists($loadPluginFile)) {
@@ -8154,7 +8165,7 @@ function pluginsRequired($arrayPluginName, $featureName='') {
             $obj->msg = "Plugin {$name} is required for $featureName ";
             break;
         }
-        if(!AVideoPlugin::isEnabledByName($name)){
+        if (!AVideoPlugin::isEnabledByName($name)) {
             $obj->error = true;
             $obj->msg = "Please enable Plugin {$name} it is required for $featureName ";
             break;

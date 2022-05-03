@@ -3,6 +3,8 @@ $obj = AVideoPlugin::getDataObject("Live");
 
 $buttonTitle = $this->getButtonTitle();
 $obj = $this->getDataObject();
+$isLive = isLive();
+$liveInfo = Live::getInfo($isLive['key'], $isLive['live_servers_id']);
 if (User::canStream()) {
     if (empty($obj->doNotShowGoLiveButton)) {
         ?>
@@ -428,7 +430,7 @@ if (empty($obj->hideTopButton)) {
 
         function showImage(type, key) {
             var img = false;
-            
+            //console.log('showImage', type, key);
             eval('prerollPoster = prerollPoster_'+key);
             eval('postrollPoster = postrollPoster_'+key);
             eval('liveImgCloseTimeInSecondsPreroll = liveImgCloseTimeInSecondsPreroll_'+key);
@@ -446,7 +448,7 @@ if (empty($obj->hideTopButton)) {
                 liveImgCloseTimeInSeconds = liveImgCloseTimeInSecondsPostroll;
                 img = postrollPoster;
             }
-            //console.log('showImage Poster', type, img, key);
+            console.log('showImage Poster', type, img, key);
             if (img) {
                 if(typeof closeLiveImageRoll == 'function'){
                     closeLiveImageRoll();
@@ -500,9 +502,28 @@ if (empty($obj->hideTopButton)) {
                 getStatsMenu(true);
             }
     <?php
+    //var_dump(isLive(),$times,$liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);exit;
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         //echo 'console.log(\'YPTSocket processLiveStats\');';
         echo 'processLiveStats(' . json_encode(getStatsNotifications()) . ');';
+    }
+    if(isLive()){
+        if($liveInfo['isLive']){
+            $times = Live::getPrerollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
+            if($liveInfo['startedSecondsAgo'] < $times->liveImgTimeInSeconds){
+                echo "setTimeout(function(){showImage('prerollPoster', '{$liveInfo['key']}');},1500);";
+            }else{
+                echo "/* prerollPoster will notplay */";
+            }
+        }else{
+            $times = Live::getPostrollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
+            //var_dump(isLive(),$times,$liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);exit;
+            if($liveInfo['finishedSecondsAgo'] < $times->liveImgTimeInSeconds){
+                echo "setTimeout(function(){showImage('postrollPoster', '{$liveInfo['key']}');},1500);";
+            }else{
+                echo "/* postrollPoster will notplay */";
+            }
+        }
     }
     ?>
         });

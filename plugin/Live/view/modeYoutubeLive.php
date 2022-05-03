@@ -97,6 +97,8 @@ if (isHTMLEmpty($sideAd)) {
     $modeYoutubeBottomClass1 = "col-sm-12 col-md-12 col-lg-10";
     $modeYoutubeBottomClass2 = "hidden ";
 }
+
+$liveInfo = Live::getInfo($livet['key'], $livet['live_servers_id']);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -190,6 +192,16 @@ if (isHTMLEmpty($sideAd)) {
                                 <?php echo $liveTitle; ?>
 
                             </h1>
+                            <div class="text-muted">
+                                <?php
+                                //var_dump($liveInfo);
+                                if($liveInfo['isFinished']){
+                                    echo $liveInfo['finishedHumanAgo'];
+                                }else if($liveInfo['isStarded']){
+                                    echo $liveInfo['startedHumanAgo'];
+                                }
+                                ?>
+                            </div>
                             <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
                             <p><?php echo nl2br(textToLink($liveDescription)); ?></p>
                             <div class="row">

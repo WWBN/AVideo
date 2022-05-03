@@ -91,6 +91,8 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public function setTitle($title) {
         global $global;
+        $Char = "&zwnj;";
+        $title = str_replace($Char, '', $title);
         $title = $global['mysqli']->real_escape_string($title);
         $this->title = $title;
     }
@@ -352,7 +354,6 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public static function getLatest($key, $live_servers_id = null, $active=false) {
         global $global;
-
         $key = $global['mysqli']->real_escape_string($key);
 
         if (empty($key)) {
@@ -373,7 +374,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         $sql .= " ORDER BY created DESC LIMIT 1";
         //var_dump($sql, $key);exit;
-
+        //_error_log($sql);
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
@@ -630,7 +631,8 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public function save() {
         global $global;
-        
+        $global['mysqli']->commit();
+        /*
         $activeLive = self::getActiveLiveFromUser($this->users_id, $this->live_servers_id, $this->key);
         if(!empty($activeLive)){
             //_error_log("LiveTransmitionHistory::save: active live found ". json_encode($activeLive));
@@ -641,6 +643,19 @@ class LiveTransmitionHistory extends ObjectYPT {
             }
         }else{
             //_error_log("LiveTransmitionHistory::save: active live NOT found ");
+        }
+         * 
+         */
+        $activeLive = self::getLatest($this->key, $this->live_servers_id, true);
+        if(!empty($activeLive)){
+            _error_log("LiveTransmitionHistory::save: active live found ". json_encode($activeLive));
+            foreach ($activeLive as $key => $value) {
+                if(empty($this->$key)){
+                    $this->$key = $value;
+                }
+            }
+        }else{
+            _error_log("LiveTransmitionHistory::save: active live NOT found ". _json_encode(array($this->key, $this->live_servers_id)));
         }
         if(empty($this->id)){
             // if is creating a new make sure all 
@@ -659,7 +674,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $this->total_viewers = intval($this->total_viewers);
         
         $id = parent::save();
-        //_error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $global['mysqli']->commit();
         return $id;
     }

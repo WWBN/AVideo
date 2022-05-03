@@ -298,7 +298,7 @@ abstract class ObjectYPT implements ObjectInterface
                     $fields[] = " `{$value}` = '{$this->$value}' ";
                 } elseif (is_numeric($this->$value)) {
                     $fields[] = " `{$value}` = {$this->$value} ";
-                } elseif (strtolower($this->$value) == 'null') {
+                } elseif (!isset($this->$value) || strtolower($this->$value) == 'null') {
                     $fields[] = " `{$value}` = NULL ";
                 } else {
                     $fields[] = " `{$value}` = '{$this->$value}' ";

@@ -571,20 +571,21 @@ class Live extends PluginAbstract {
             $liveImgTimeInSecondsPreroll = 'false';
             $liveImgCloseTimeInSecondsPostroll = 'false';
             $liveImgTimeInSecondsPostroll = 'false';
-            if (self::prerollPosterExists()) {
+            //var_dump('',$live, self::prerollPosterExists($live['users_id'], $live['live_servers_id'], $live['live_schedule']));exit;
+            if (self::prerollPosterExists($live['users_id'], $live['live_servers_id'], $live['live_schedule'])) {
 
-                $path = self::getPrerollPosterImage();
+                $path = self::getPrerollPosterImage($live['users_id'], $live['live_servers_id'], $live['live_schedule']);
                 $prerollPoster = "'" . getURL($path) . "'";
 
-                $times = self::getPrerollPosterImageTimes();
+                $times = self::getPrerollPosterImageTimes($live['users_id'], $live['live_servers_id'], $live['live_schedule']);
                 $liveImgCloseTimeInSecondsPreroll = $times->liveImgCloseTimeInSeconds;
                 $liveImgTimeInSecondsPreroll = $times->liveImgTimeInSeconds;
                 //var_dump($times);
             }
-            if (self::postrollPosterExists()) {
-                $postrollPoster = "'" . getURL(self::getPostrollPosterImage()) . "'";
+            if (self::postrollPosterExists($live['users_id'], $live['live_servers_id'], $live['live_schedule'])) {
+                $postrollPoster = "'" . getURL(self::getPostrollPosterImage($live['users_id'], $live['live_servers_id'], $live['live_schedule'])) . "'";
 
-                $times = self::getPostrollPosterImageTimes();
+                $times = self::getPostrollPosterImageTimes($live['users_id'], $live['live_servers_id'], $live['live_schedule']);
                 $liveImgCloseTimeInSecondsPostroll = $times->liveImgCloseTimeInSeconds;
                 $liveImgTimeInSecondsPostroll = $times->liveImgTimeInSeconds;
                 //var_dump($times);
@@ -2186,7 +2187,7 @@ class Live extends PluginAbstract {
             $_isLiveFromKey = [];
         }
 
-        if (isset($_isLiveFromKey[$index])) {
+        if (empty($force_recreate) && isset($_isLiveFromKey[$index])) {
             _error_log('Live::isKeyLiveInStats key is already set');
             return $_isLiveFromKey[$index];
         }
@@ -3245,6 +3246,54 @@ class Live extends PluginAbstract {
         }
         return false;
     }
+    
+    public static function getInfo($key, $live_servers_id = null){
+        
+        $array = array(
+                'key' => $key,
+                'live_schedule_id' => 0,
+                'users_id' => 0,
+                'live_servers_id' => $live_servers_id,
+                'history' => false,
+                'isLive' => false,
+                'isFinished' => false,
+                'finishedDateTime' => __('Not finished'),
+                'finishedSecondsAgo' => 0,
+                'finishedHumanAgo' => __('Not finished'),
+                'isStarded' => false,
+                'startedDateTime' => __('Not started'),
+                'startedSecondsAgo' => 0,
+                'startedHumanAgo' => __('Not started'),
+        );
+        
+        $lt = LiveTransmition::getFromKey($key);
+        if(empty($lt)){
+            return $array;
+        }
+        $array['transmission'] = $lt;
+        $array['live_schedule_id'] = $lt['live_schedule_id'];
+        $array['users_id'] = $lt['users_id'];
+        
+        $lth = LiveTransmitionHistory::getLatest($key, $live_servers_id);
+        if(empty($lth)){
+            return $array;
+        }
+        $array['history'] = $lth;
+        $array['isLive'] = true;
+        $array['isStarded'] = true;
+        $array['startedDateTime'] = $lth['created'];
+        $array['startedSecondsAgo'] = secondsIntervalFromNow($lth['created'], true);
+        $array['startedHumanAgo'] = __('Started').' '.humanTimingAgo($lth['created']);
+        
+        if(!empty($lth['finished'])){
+            $array['isLive'] = false;
+            $array['isFinished'] = true;
+            $array['finishedDateTime'] = $livet['finished'];
+            $array['finishedSecondsAgo'] = secondsIntervalFromNow($lth['finished'], true);
+            $array['finishedHumanAgo'] = __('Finished').' '.humanTimingAgo($lth['finished']);
+        }
+        return $array;
+    }
 
 }
 
@@ -3426,5 +3475,4 @@ class LiveStreamObject {
         $lt = LiveTransmition::getFromKey($this->key);
         return Live::getServerURL($this->key, $lt['users_id'], $short);
     }
-
 }

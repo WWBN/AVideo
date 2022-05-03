@@ -70,19 +70,49 @@ $defaultCloseTIme = 10;
                                 <select class="form-control" id="liveImgTimeInSeconds">
                                     <?php
                                     $seconds = __('Seconds');
-                                    for ($i = 0; $i < 10; $i++) {
-                                        echo "<option value=\"{$i}\">{$i} {$seconds}</option>";
-                                    }
                                     ?>
-                                    <?php
-                                    for ($i = 10; $i < 600; $i += 5) {
-                                        $selected = '';
-                                        if ($i == $defaultTIme) {
-                                            $selected = 'selected';
+                                    <optgroup label="<?php echo $seconds; ?>">
+                                        <?php
+                                        for ($i = 0; $i < 10; $i++) {
+                                            echo "<option value=\"{$i}\">{$i} {$seconds}</option>";
                                         }
-                                        echo "<option value=\"{$i}\" {$selected}>{$i} {$seconds}</option>";
-                                    }
+                                        ?>
+                                        <?php
+                                        for ($i = 10; $i < 60; $i += 5) {
+                                            $selected = '';
+                                            if ($i == $defaultTIme) {
+                                                $selected = 'selected';
+                                            }
+                                            echo "<option value=\"{$i}\" {$selected}>{$i} {$seconds}</option>";
+                                        }
+                                        ?>
+
+                                    </optgroup>
+                                    <?php
+                                    $minutes = __('Minutes');
                                     ?>
+                                    <optgroup label="<?php echo $minutes; ?>">
+                                        <?php
+                                        for ($i = 60; $i < 600; $i += 60) {
+                                            $selected = '';
+                                            if ($i == $defaultTIme) {
+                                                $selected = 'selected';
+                                            }
+                                            $min = intval($i / 60);
+                                            echo "<option value=\"{$i}\" {$selected}>{$min} {$minutes}</option>";
+                                        }
+                                        ?>
+                                        <?php
+                                        for ($i = 600; $i <= 3600; $i += 300) {
+                                            $selected = '';
+                                            if ($i == $defaultTIme) {
+                                                $selected = 'selected';
+                                            }
+                                            $min = intval($i / 60);
+                                            echo "<option value=\"{$i}\" {$selected}>{$min} {$minutes}</option>";
+                                        }
+                                        ?>
+                                    </optgroup>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -189,22 +219,22 @@ echo $croppie1['createCroppie'] . "('{$image}');";
                                         console.log('posterTypeBtn click', posterType, imageToRelaod);
 <?php
 echo $croppie1['restartCroppie'] . "(imageToRelaod);";
-?>      
+?>
                                         var liveImgCloseTimeInSeconds = -1;
                                         var liveImgTimeInSeconds = <?php echo $defaultTIme; ?>;
                                         if (jsonFile) {
                                             modal.showPleaseWait();
                                             $.getJSON(jsonFile, function (data) {
-                                                if(data){
+                                                if (data) {
                                                     liveImgCloseTimeInSeconds = data.liveImgCloseTimeInSeconds;
                                                     liveImgTimeInSeconds = data.liveImgTimeInSeconds;
                                                 }
-                                            }).always(function() { 
+                                            }).always(function () {
                                                 modal.hidePleaseWait();
                                                 $('#liveImgCloseTimeInSeconds').val(liveImgCloseTimeInSeconds);
                                                 $('#liveImgTimeInSeconds').val(liveImgTimeInSeconds);
                                             });
-                                        }else{
+                                        } else {
                                             $('#liveImgCloseTimeInSeconds').val(liveImgCloseTimeInSeconds);
                                             $('#liveImgTimeInSeconds').val(liveImgTimeInSeconds);
                                         }
