@@ -1351,6 +1351,7 @@ if (!class_exists('Video')) {
                 if (empty($obj['externalOptions'])) {
                     $obj['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
                 }
+                $obj = cleanUpRowFromDatabase($obj);
                 return $obj;
             }
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
