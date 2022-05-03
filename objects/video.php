@@ -1335,11 +1335,11 @@ if (!class_exists('Video')) {
             $name = "_getVideoInfo_{$row['id']}";
             $cache = ObjectYPT::getCache($name, 3600);
             if (!empty($cache)) {
+                $externalOptions = $cache->externalOptions;
+                $obj = object_to_array($cache);
                 foreach ($row as $key => $value) {
                     $obj[$key] = $value;
                 }
-                $externalOptions = $cache->externalOptions;
-                $obj = object_to_array($cache);
                 if (!empty($externalOptions)) {
                     if (is_object($externalOptions)) {
                         $obj['externalOptions'] = $externalOptions;
