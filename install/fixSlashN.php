@@ -18,8 +18,7 @@ foreach ($videos as $value) {
         $video->setDescription($newDescription);
         $video->save();
     }else{
-        echo "\n skip ($count) [{$value['id']}]{$value['title']} ******\n";
+        //echo "\n skip ($count) [{$value['id']}]{$value['title']} ******\n";
     }
-    echo "\nFinish: ";
     echo "\n******\n";
 }
