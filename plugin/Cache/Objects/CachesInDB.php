@@ -170,6 +170,10 @@ class CachesInDB extends ObjectYPT
         if (empty($name)) {
             return false;
         }
+        
+        if (!static::isTableInstalled()) {
+            return false;
+        }
         $sql = "DELETE FROM " . static::getTableName() . " ";
         $sql .= " WHERE name = ?";
         $global['lastQuery'] = $sql;
@@ -183,6 +187,9 @@ class CachesInDB extends ObjectYPT
         if (empty($name)) {
             return false;
         }
+        if (!static::isTableInstalled()) {
+            return false;
+        }
         $sql = "DELETE FROM " . static::getTableName() . " ";
         $sql .= " WHERE name LIKE '{$name}%'";
         $global['lastQuery'] = $sql;
@@ -193,6 +200,9 @@ class CachesInDB extends ObjectYPT
     public static function _deleteAllCache()
     {
         global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
         $sql = "TRUNCATE TABLE " . static::getTableName() . " ";
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
