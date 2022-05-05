@@ -13,15 +13,14 @@
 .videosDetails .title {
     font-size: 1em;
     margin: 0;
-    padding: 0;
+    padding: 5px 0 0 0;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    line-height: 16px; /* fallback */
+    line-height: 0.5em; /* fallback */
     max-height: 32px; /* fallback */
     min-height: 32px; /* fallback */
     -webkit-line-clamp: 2; /* number of lines to show */
-
     -webkit-box-orient: vertical;
 }
 .gallery .watch-view-count {
