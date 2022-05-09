@@ -17,7 +17,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    line-height: 0.5em; /* fallback */
+    line-height: 1em; /* fallback */
     max-height: 32px; /* fallback */
     min-height: 32px; /* fallback */
     -webkit-line-clamp: 2; /* number of lines to show */
