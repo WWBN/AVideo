@@ -545,8 +545,9 @@ function partition(array $list, $totalItens) {
     return $partition;
 }
 
-function sendSiteEmail($to, $subject, $message) {
+function sendSiteEmail($to, $subject, $message, $fromEmail='', $fromName='') {
     global $advancedCustom;
+    $resp = false;
     if (empty($to)) {
         return false;
     }
@@ -564,13 +565,18 @@ function sendSiteEmail($to, $subject, $message) {
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
     //require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
-    $contactEmail = $config->getContactEmail();
+    if(empty($fromEmail)){
+        $fromEmail = $config->getContactEmail();
+    }
+    if(empty($fromName)){
+        $fromName = $config->getWebSiteTitle();
+    }
     $webSiteTitle = $config->getWebSiteTitle();
     try {
         if (!is_array($to)) {
             $mail = new \PHPMailer\PHPMailer\PHPMailer();
             setSiteSendMessage($mail);
-            $mail->setFrom($contactEmail, $webSiteTitle);
+            $mail->setFrom($fromEmail, $fromName);
             $mail->Subject = $subject . " - " . $webSiteTitle;
             $mail->msgHTML($message);
 
@@ -593,7 +599,7 @@ function sendSiteEmail($to, $subject, $message) {
             foreach ($pieces as $piece) {
                 $mail = new \PHPMailer\PHPMailer\PHPMailer();
                 setSiteSendMessage($mail);
-                $mail->setFrom($contactEmail, $webSiteTitle);
+                $mail->setFrom($fromEmail, $fromName);
                 $mail->Subject = $subject . " - " . $webSiteTitle;
                 $mail->msgHTML($message);
                 $count = 0;
@@ -618,6 +624,7 @@ function sendSiteEmail($to, $subject, $message) {
     } catch (Exception $e) {
         _error_log($e->getMessage()); //Boring error messages from anything else!
     }
+    return $resp;
 }
 
 function sendSiteEmailAsync($to, $subject, $message) {
@@ -3929,7 +3936,11 @@ function _mysql_connect() {
         if (!_mysql_is_open()) {
             //_error_log('MySQL Connect '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
-            $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, @$mysqlPort);
+            $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
+            if (isCommandLineInterface() && !empty($global['createDatabase'])) {
+                $global['mysqli']->query("CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};");
+            }
+            $global['mysqli']->select_db($mysqlDatabase);
             if (!empty($global['mysqli_charset'])) {
                 $global['mysqli']->set_charset($global['mysqli_charset']);
             }
@@ -5726,7 +5737,7 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
 
     $headers = headers_list(); // get list of headers
     foreach ($headers as $header) { // iterate over that list of headers
-        if (stripos($header, 'Content-Type') !== FALSE) { // if the current header hasthe String "Content-Type" in it
+        if (stripos($header, 'Content-Type:') !== FALSE) { // if the current header hasthe String "Content-Type" in it
             $headerParts = explode(':', $header); // split the string, getting an array
             $headerValue = trim($headerParts[1]); // take second part as value
             $contentType = $headerValue;
@@ -8172,4 +8183,73 @@ function pluginsRequired($arrayPluginName, $featureName = '') {
         }
     }
     return $obj;
+}
+
+function _strtotime($datetime){
+    if(is_int($datetime)){
+        return $datetime;
+    }
+    return strtotime($datetime);
+}
+
+
+function _isSocketPresentOnCrontab() {
+    foreach (getValidCrontabLines() as $line) {
+        if (!empty($line) && preg_match('/plugin\/YPTSocket\/server.php/', $line)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function _isSchedulerPresentOnCrontab() {
+    foreach (getValidCrontabLines() as $line) {
+        if (!empty($line) && preg_match('/plugin\/Scheduler\/run.php/', $line)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+function getValidCrontabLines(){
+    global $_validCrontabLines;
+    if(empty($validCrontabLines)){
+        $crontab = shell_exec('crontab -l');
+        $crontabLines = preg_split("/\r\n|\n|\r/", $crontab);
+        $_validCrontabLines = array();
+
+        foreach ($crontabLines as $line) {
+            $line = trim($line);
+            if (!empty($line) && preg_match('/^[0-9*]/', $line)) {
+                $_validCrontabLines[] = $line;
+            }
+        }
+    }
+    return $_validCrontabLines;
+}
+
+/**
+ * 
+ * @param type $strOrArray 
+ * @return type return an array with the valid emails. 
+ */
+function is_email($strOrArray){
+    if(empty($strOrArray)){
+        return array();
+    }
+    if(!is_array($strOrArray)){
+        $strOrArray = array($strOrArray);
+    }
+    $valid_emails = array();
+    foreach ($strOrArray as $email) {
+        if(is_numeric($email)){
+            $email = User::getEmailDb($email);
+        }
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $valid_emails[] = $email;
+        }
+    }
+    return $valid_emails;
 }
