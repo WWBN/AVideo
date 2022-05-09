@@ -100,6 +100,7 @@ class sqlDAL
                     " formats = ". json_encode($formats));
             return false;
         }
+        //var_dump($preparedStatement, $formats, $values);exit;
         if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
             log_error("[sqlDAL::writeSql]  eval_mysql_bind failed: values and params in stmt don't match ({$preparedStatement}) with formats ({$formats})");
             return false;

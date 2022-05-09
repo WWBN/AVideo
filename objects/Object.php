@@ -328,7 +328,8 @@ abstract class ObjectYPT implements ObjectInterface
             }
             $sql .= " VALUES (" . implode(", ", $fields) . ")";
         }
-        //if(static::getTableName() == 'subscriptions') echo $sql;
+        //if(static::getTableName() == 'Scheduler_commands'){ echo $sql;var_dump($this->parameters);exit;}
+        //echo $sql;var_dump($this->parameters);exit;
         $insert_row = sqlDAL::writeSql($sql);
 
         if ($insert_row) {

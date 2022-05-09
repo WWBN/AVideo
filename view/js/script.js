@@ -1360,6 +1360,10 @@ function avideoModalIframe(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe', false);
 }
 
+function avideoModalIframeXSmall(url) {
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-xsmall', false);
+}
+
 function avideoModalIframeSmall(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-small', false);
 }
@@ -1529,7 +1533,9 @@ function checkIframeLoaded(id) {
 
 function avideoModalIframeIsVisible() {
     var modal = '';
-    if ($('.swal-modal-iframe-small').length) {
+    if ($('.swal-modal-iframe-xsmall').length) {
+        modal = $('.swal-modal-iframe-xsmall');
+    } else if ($('.swal-modal-iframe-small').length) {
         modal = $('.swal-modal-iframe-small');
     } else if ($('.swal-modal-iframe-large').length) {
         modal = $('.swal-modal-iframe-large');
@@ -1576,7 +1582,13 @@ function avideoResponse(response) {
         if (!response.msg) {
             response.msg = 'Success';
         }
-        avideoToastSuccess(response.msg);
+        if(response.warning){
+            avideoToastWarning(response.msg);
+        }else if(response.info){
+            avideoToastInfo(response.msg);
+        }else{
+            avideoToastSuccess(response.msg);
+        }
     }
 }
 
@@ -1902,6 +1914,10 @@ function addGetParam(_url, _key, _value) {
     _url += sep + param;
     _url = removeDuplicatedGetParam(_url);
     return _url;
+}
+
+function addQueryStringParameter(_url, _key, _value){
+    return addGetParam(_url, _key, _value);
 }
 
 function removeDuplicatedGetParam(_url) {

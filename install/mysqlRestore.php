@@ -24,12 +24,10 @@ foreach ($glob as $key => $file) {
 }
 
 echo "Type the number of what file you want to restore or just press enter to get the latest" . PHP_EOL;
-ob_flush();
 $option = trim(readline(""));
 
 if ($option === '') {
     $filename = end($glob);
-    ;
 } else {
     $option = intval($option);
     $filename = $glob[$option];

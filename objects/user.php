@@ -267,6 +267,16 @@ if (typeof gtag !== \"function\") {
             return false;
         }
     }
+    
+    public static function _getEmail() {
+        return self::getEmail_();
+    }
+    
+    static function getEmailDb($users_id) {
+        $user = self::getUserDB($users_id);
+        return @$user['email'];
+    }
+
 
     public function getBdId() {
         return $this->id;
@@ -593,11 +603,7 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function getMail() {
-        if (self::isLogged()) {
-            return $_SESSION['user']['email'];
-        } else {
-            return false;
-        }
+        self::getEmail_();
     }
 
     public function save($updateUserGroups = false) {

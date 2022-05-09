@@ -24,9 +24,9 @@ $livet = LiveTransmition::getFromRequest();
 setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 Live::checkIfPasswordIsGood($livet['key']);
 
-if(empty($livet['live_schedule'])){
+if (empty($livet['live_schedule'])) {
     $lt = new LiveTransmition($livet['id']);
-}else{
+} else {
     $lt = new Live_schedule($livet['id']);
 }
 
@@ -67,8 +67,8 @@ if (!empty($_REQUEST['live_schedule'])) {
     $img = addQueryStringParameter($img, 'live_schedule', intval($_REQUEST['live_schedule']));
     global $getLiveKey;
     $getLiveKey = ['key' => $ls->getKey(), 'live_servers_id' => intval($ls->getLive_servers_id()), 'live_index' => '', 'cleanKey' => ''];
-    
-    if(!empty($ls->getUsers_id_company())){
+
+    if (!empty($ls->getUsers_id_company())) {
         $user_id = $ls->getUsers_id_company();
         //var_dump($user_id);exit;
         $u = new User($user_id);
@@ -127,6 +127,7 @@ $liveInfo = Live::getInfo($livet['key'], $livet['live_servers_id']);
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
+        <!-- Live modeYoutubeLive.php -->
         <div class="container-fluid principalContainer" style="padding: 0; overflow: hidden;" id="modeYoutubePrincipal">
             <?php
             if (!$isCompressed) {
@@ -138,8 +139,7 @@ $liveInfo = Live::getInfo($livet['key'], $livet['live_servers_id']);
                         </center>
                     </div>  
                     <div class="col-md-12">
-                        <?php
-                        require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php"; ?>
+                        <?php require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php"; ?>
                     </div>  
                     <div class="col-md-12">
                         <center style="margin:5px;">
@@ -163,8 +163,7 @@ $liveInfo = Live::getInfo($livet['key'], $livet['live_servers_id']);
                                 </center>
                             </div>  
                             <div class="col-md-12">
-                                <?php
-                                require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php"; ?>
+                                <?php require "{$global['systemRootPath']}plugin/Live/view/liveVideo.php"; ?>
                             </div>  
                             <div class="col-md-12">
                                 <center style="margin:5px;">
@@ -191,17 +190,12 @@ $liveInfo = Live::getInfo($livet['key'], $livet['live_servers_id']);
                                 ?>
                                 <?php echo $liveTitle; ?>
 
+                                <small class="text-muted">
+                                    <?php
+                                    echo $liveInfo['displayTime'];
+                                    ?>
+                                </small>
                             </h1>
-                            <div class="text-muted">
-                                <?php
-                                //var_dump($liveInfo);
-                                if($liveInfo['isFinished']){
-                                    echo $liveInfo['finishedHumanAgo'];
-                                }else if($liveInfo['isStarded']){
-                                    echo $liveInfo['startedHumanAgo'];
-                                }
-                                ?>
-                            </div>
                             <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
                             <p><?php echo nl2br(textToLink($liveDescription)); ?></p>
                             <div class="row">
@@ -236,7 +230,6 @@ $liveInfo = Live::getInfo($livet['key'], $livet['live_servers_id']);
                             }
                             ?>
                             <div class="row">
-
                                 <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
                             </div>
                         </div>

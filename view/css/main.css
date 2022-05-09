@@ -1032,6 +1032,7 @@ li.dropdown-submenu > ul > li > a{
     height: calc(100% - 150px);
 }
 .swal-modal.swal-modal-iframe .swal-content,
+.swal-modal.swal-modal-iframe-xsmall .swal-content,
 .swal-modal.swal-modal-iframe-small .swal-content,
 .swal-modal.swal-modal-iframe-large .swal-content,
 .swal-modal.swal-modal-iframe-full .swal-content{
@@ -1039,6 +1040,7 @@ li.dropdown-submenu > ul > li > a{
     height: 100%;
 }
 .swal-modal.swal-modal-iframe iframe,
+.swal-modal.swal-modal-iframe-xsmall iframe,
 .swal-modal.swal-modal-iframe-small iframe,
 .swal-modal.swal-modal-iframe-large iframe,
 .swal-modal.swal-modal-iframe-full iframe{
@@ -1054,6 +1056,13 @@ li.dropdown-submenu > ul > li > a{
 .swal-modal-iframe-small {
     width: 800px;
     height: 600px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.swal-modal-iframe-xsmall {
+    width: 640px;
+    height: 480px;
     max-width: 100%;
     max-height: 100%;
 }
