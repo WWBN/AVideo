@@ -8224,7 +8224,7 @@ function getValidCrontabLines(){
 
         foreach ($crontabLines as $line) {
             $line = trim($line);
-            if (!empty($line) && preg_match('/^[0-9*@]/', $line)) {
+            if (!empty($line) && !preg_match('/^#/', $line)) {
                 $_validCrontabLines[] = $line;
             }
         }
