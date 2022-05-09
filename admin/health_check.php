@@ -98,7 +98,7 @@ if (function_exists('apache_get_modules')) {
         $messages['Apache'][] = [$value[0], 'We could not check your installed modules. We recommend you to use apache as a module NOT as a FPM'];
     }
 }
-
+/*
 if(_isSocketPresentOnCrontab()){
     $messages['Server'][] = "Socket is installed on your crontab";
 }else{
@@ -110,6 +110,8 @@ if(_isSchedulerPresentOnCrontab()){
 }else{
     $messages['Server'][] = ["Scheduler plugin is NOT installed on your crontab, open your terminal and type 'crontab -e', than add the code: ", "* * * * * php {$global['systemRootPath']}plugin/Scheduler/run.php"];
 }
+ * 
+ */
 
 foreach ($linuxApps as $value) {
     $response = _isAPPInstalled($value[0]);
