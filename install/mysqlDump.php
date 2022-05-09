@@ -8,7 +8,7 @@ if (!isCommandLineInterface()) {
 
 ob_end_flush();
 
-$file = Video::getStoragePath().'cache/mysqldump-'.date('YmdHis').'.sql';
+$file = Video::getStoragePath().'mysqldump-'.date('YmdHis').'.sql';
 
 passthru("mysqldump --opt -u '{$mysqlUser}' -p'{$mysqlPass}' -h {$mysqlHost} {$mysqlDatabase} > {$file}");
 
