@@ -3938,7 +3938,9 @@ function _mysql_connect() {
             $mysql_connect_was_closed = 0;
             $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
             if (isCommandLineInterface() && !empty($global['createDatabase'])) {
-                $global['mysqli']->query("CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};");
+                $createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
+                _error_log($createSQL);
+                $global['mysqli']->query($createSQL);
             }
             $global['mysqli']->select_db($mysqlDatabase);
             if (!empty($global['mysqli_charset'])) {
