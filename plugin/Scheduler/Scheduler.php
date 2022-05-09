@@ -113,9 +113,11 @@ class Scheduler extends PluginAbstract {
             _error_log("Scheduler::add ERROR date_to_execute is empty");
             return false;
         }
-
-        if (_strtotime($date_to_execute) <= time()) {
-            _error_log("Scheduler::add ERROR date_to_execute must be greater than now [{$date_to_execute}]");
+        
+        $date_to_execute_time = _strtotime($date_to_execute);
+        
+        if ($date_to_execute_time <= time()) {
+            _error_log("Scheduler::add ERROR date_to_execute must be greater than now [{$date_to_execute}] ".date('Y/m/d H:i:s', $date_to_execute_time).' '.date('Y/m/d H:i:s'));
             return false;
         }
 
