@@ -1,7 +1,6 @@
 <?php
 //streamer config
 require_once '../videos/configuration.php';
-require_once $global['systemRootPath'] . 'objects/playlist.php';
 
 if (!isCommandLineInterface()) {
     return die('Command Line only');
