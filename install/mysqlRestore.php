@@ -9,7 +9,9 @@ if (!isCommandLineInterface()) {
 
 ob_end_flush();
 
-$glob = glob(Video::getStoragePath().'mysqldump-*.sql');
+$globPattern = Video::getStoragePath().'mysqldump-*.sql';
+echo "Searching [{$globPattern}]".PHP_EOL;
+$glob = glob($globPattern);
 foreach($glob as $key => $file) {
     echo "($key) {$file}".PHP_EOL;
 }
