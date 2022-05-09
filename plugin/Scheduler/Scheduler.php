@@ -1,6 +1,7 @@
 <?php
 
 global $global;
+require_once $global['systemRootPath'] . 'objects/ICS.php';
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 require_once $global['systemRootPath'] . 'plugin/Scheduler/Objects/Scheduler_commands.php';
@@ -79,7 +80,7 @@ class Scheduler extends PluginAbstract {
     }
 
     static public function run($scheduler_commands_id) {
-        global $_executeSchelude,$global;
+        global $_executeSchelude, $global;
         if (!isset($_executeSchelude)) {
             $_executeSchelude = array();
         }
@@ -96,7 +97,7 @@ class Scheduler extends PluginAbstract {
             $_executeSchelude[$callBackURL] = url_get_contents($callBackURL, '', 30);
             _error_log("Scheduler::run got callback " . json_encode($_executeSchelude[$callBackURL]));
             $json = _json_decode($_executeSchelude[$callBackURL]);
-            if(is_object($json) && !empty($json->error)){
+            if (is_object($json) && !empty($json->error)) {
                 _error_log("Scheduler::run callback ERROR " . json_encode($json));
                 return false;
             }
@@ -113,11 +114,11 @@ class Scheduler extends PluginAbstract {
             _error_log("Scheduler::add ERROR date_to_execute is empty");
             return false;
         }
-        
+
         $date_to_execute_time = _strtotime($date_to_execute);
-        
+
         if ($date_to_execute_time <= time()) {
-            _error_log("Scheduler::add ERROR date_to_execute must be greater than now [{$date_to_execute}] ".date('Y/m/d H:i:s', $date_to_execute_time).' '.date('Y/m/d H:i:s'));
+            _error_log("Scheduler::add ERROR date_to_execute must be greater than now [{$date_to_execute}] " . date('Y/m/d H:i:s', $date_to_execute_time) . ' ' . date('Y/m/d H:i:s'));
             return false;
         }
 
@@ -127,7 +128,7 @@ class Scheduler extends PluginAbstract {
         }
         $e = new Scheduler_commands(0);
         $e->setDate_to_execute($date_to_execute);
-        $e->setCallbackURL($callbackURL);        
+        $e->setCallbackURL($callbackURL);
         if (!empty($parameters)) {
             $e->setParameters($parameters);
         }
@@ -157,7 +158,7 @@ class Scheduler extends PluginAbstract {
         return $scheduler_commands_id;
     }
 
-    static public function getReminderOptions($destinationURL, $selectedEarlierOptions = array(), $earlierOptions = array(
+    static public function getReminderOptions($destinationURL, $title, $date_start, $selectedEarlierOptions = array(), $date_end = '', $joinURL='', $description='',$earlierOptions = array(
                 '10 minutes earlier' => 10,
                 '30 minutes earlier' => 30,
                 '1 hour earlier' => 60,
@@ -168,9 +169,77 @@ class Scheduler extends PluginAbstract {
             )
     ) {
         global $global;
-        $varsArray = array('destinationURL' => $destinationURL, 'earlierOptions' => $earlierOptions, 'selectedEarlierOptions' => $selectedEarlierOptions);
+        $varsArray = array(
+            'destinationURL' => $destinationURL, 
+            'title' => $title, 
+            'date_start' => $date_start, 
+            'selectedEarlierOptions' => $selectedEarlierOptions, 
+            'date_end' => $date_end, 
+            'joinURL' => $joinURL, 
+            'description' => $description,
+            'earlierOptions' => $earlierOptions);
         $filePath = "{$global['systemRootPath']}plugin/Scheduler/reminderOptions.php";
         return getIncludeFileContent($filePath, $varsArray);
+    }
+
+    /**
+     * 
+     * @global type $global
+     * @param type $title
+     * @param type $description
+     * @param type $date_start
+     * @param type $date_end
+     * 
+     *  description - string description of the event.
+        dtend - date/time stamp designating the end of the event. You can use either a DateTime object or a PHP datetime format string (e.g. "now + 1 hour").
+        dtstart - date/time stamp designating the start of the event. You can use either a DateTime object or a PHP datetime format string (e.g. "now + 1 hour").
+        location - string address or description of the location of the event.
+        summary - string short summary of the event - usually used as the title.
+        url - string url to attach to the the event. Make sure to add the protocol (http:// or https://).
+     */
+    static public function downloadICS($title, $date_start, $date_end = '', $reminderInMinutes='', $joinURL='', $description='') {
+        global $global,$config;        
+        //var_dump(date_default_timezone_get());exit;
+        header('Content-Type: text/calendar; charset=utf-8');
+        header('Content-Disposition: attachment; filename=invite.ics');
+
+        $location = $config->getWebSiteTitle();
+        if(!isValidURL($joinURL)){
+            $joinURL = $global['webSiteRootURL'];
+        }
+        
+        if(empty($description)){
+            $description = $location;
+        }
+        
+        $date_start = _strtotime($date_start);
+        $date_end = _strtotime($date_end);
+        
+        if(empty($date_end) || $date_end <= $date_start){
+            $date_end = strtotime(date('Y/m/d H:i:s', $date_start).' + 1 hour');
+        }
+        $dtstart = date('Y/m/d H:i:s', $date_start);
+        $dtend = date('Y/m/d H:i:s', $date_end);
+        $reminderInMinutes = intval($reminderInMinutes);
+        if(!empty($reminderInMinutes)){
+            $VALARM = "-P{$reminderInMinutes}M";
+        }else{
+            $VALARM = '';
+        }
+        
+        $props = array(
+            'location' => $location,
+            'description' => $description,
+            'dtstart' => $dtstart,
+            'dtend' => $dtend,
+            'summary' => $title,
+            'url' => $joinURL,
+            'valarm' => $VALARM,
+            //'X-WR-TIMEZONE' => date_default_timezone_get()
+        );
+        $ics = new ICS($props);
+        //var_dump($props);
+        echo $ics->to_string();
     }
 
 }

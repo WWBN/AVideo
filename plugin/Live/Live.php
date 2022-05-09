@@ -3429,8 +3429,21 @@ Click <a href=\"{link}\">here</a> to join our live.";
             //var_dump($parts);
             $selectedEarlierOptions[] = intval($parts[3]);
         }
+        
+        $ls = new Live_schedule($_REQUEST['live_schedule_id']);
+        
+        $ls = new Live_schedule($live_schedule_id);
+        $users_id = Live_schedule::getUsers_idOrCompany($live_schedule_id);
+        $title = $ls->getTitle();
+        $date_start = $ls->getScheduled_time();
+        $date_end = '';
+        $joinURL = Live::getLinkToLiveFromUsers_id($users_id);
+        $joinURL = addQueryStringParameter($joinURL, 'live_schedule', $live_schedule_id);
+                
+        //        , $date_start, $selectedEarlierOptions = array(), $date_end = '', $joinURL='', $description=''
+        
+        return Scheduler::getReminderOptions($destinationURL, $title, $date_start, $selectedEarlierOptions, $date_end, $joinURL);
 
-        return Scheduler::getReminderOptions($destinationURL, $selectedEarlierOptions);
     }
 
     public function getWatchActionButton($videos_id): string {
