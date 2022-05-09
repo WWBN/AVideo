@@ -1,5 +1,6 @@
 <?php
 //streamer config
+$global['createDatabase'] = 1;
 require_once '../videos/configuration.php';
 
 if (!isCommandLineInterface()) {
