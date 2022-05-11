@@ -3449,7 +3449,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public function getWatchActionButton($videos_id): string {
         $isLive = isLive();
         if (!empty($isLive['live_schedule'])) {
-            return '<button class="btn btn-default no-outline" onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/Live/remindMe.php?live_schedule_id=' . $isLive['live_schedule'] . '\');"><i class="fas fa-bell"></i> ' . __('Remember me') . '</button>';
+            return '<button class="btn btn-default no-outline" onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/Live/remindMe.php?live_schedule_id=' . $isLive['live_schedule'] . '\');"><i class="fas fa-bell"></i> ' . __('Remind Me') . '</button>';
         }
         return '';
     }
