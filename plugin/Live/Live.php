@@ -1438,6 +1438,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         $url = "{$global['webSiteRootURL']}live/{$live_servers_id}/" . urlencode($channelName);
 
+        $live_schedule_id = intval($live_schedule_id);
+        if (!empty($live_schedule_id)) {
+            $url = "{$url}/ls/{$live_schedule_id}";
+        }
+        
         if (!empty($live_index)) {
             $url .= '/' . urlencode($live_index);
         } elseif (!isset($live_index) && !empty($_REQUEST['live_index'])) {
@@ -1446,10 +1451,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         if (!empty($_REQUEST['playlists_id_live'])) {
             $url = addQueryStringParameter($url, 'playlists_id_live', $_REQUEST['playlists_id_live']);
-        }
-        $live_schedule_id = intval($live_schedule_id);
-        if (!empty($live_schedule_id)) {
-            $url = addQueryStringParameter($url, 'live_schedule', $live_schedule_id);
         }
 
         //return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
