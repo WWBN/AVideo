@@ -242,7 +242,8 @@ class Live extends PluginAbstract {
                 //var_dump(__LINE__, $link);
                 continue;
             }
-            $link = addQueryStringParameter($link, 'live_schedule', intval($value['id']));
+            //$link = addQueryStringParameter($link, 'live_schedule', intval($value['id']));
+            $link = $link.'/ls/'.intval($value['id']).'/';
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
 
             $title = self::getTitleFromKey($value['key'], $value['title']);
