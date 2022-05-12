@@ -288,6 +288,9 @@ if (User::hasBlockedUser($video['users_id'])) {
                 }
             }
             ?>
+            #mainVideo > div.vjs-control-bar{
+                bottom: 0 !important;
+            }
         </style>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
