@@ -1527,7 +1527,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         
         foreach ($stats as $server) {
             foreach ($server as $live) {
-                var_dump($live->key);
+                if(!empty($live->key)){
+                    $row = LiveTransmitionHistory::getLatest($live->key, @$live->live_servers_id);
+                    if(!empty($row['finished'])){
+                        LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
+                    }
+                }
             }
         }
         
