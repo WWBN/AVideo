@@ -166,7 +166,7 @@ function secondsToHumanTiming($time, $precision = 0) {
     ];
 
     /**
-     * For detection propouse only
+     * For detection purposes only
      */
     __('year');
     __('month');
