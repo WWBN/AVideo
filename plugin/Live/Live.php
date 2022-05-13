@@ -1525,8 +1525,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public function unfinishAllFromStats($force_recreate = false){
         $stats = self::getStats($force_recreate);
         
-        foreach ($stats as $value) {
-            var_dump($value);
+        foreach ($stats as $server) {
+            foreach ($server as $live) {
+                var_dump($live);
+            }
         }
         
     }
