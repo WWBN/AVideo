@@ -405,6 +405,8 @@ class LiveTransmitionHistory extends ObjectYPT {
 
         $insert_row = sqlDAL::writeSql($sql);
         $global['mysqli']->commit();
+        
+        Live::unfinishAllFromStats();
         return $insert_row;
     }
     
