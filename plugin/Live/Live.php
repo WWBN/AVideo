@@ -1527,7 +1527,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         
         foreach ($stats as $server) {
             foreach ($server as $live) {
-                var_dump($live);
+                var_dump($live->key);
             }
         }
         
