@@ -3263,7 +3263,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return false;
     }
 
-    public static function getInfo($key, $live_servers_id = null) {
+    public static function getInfo($key, $live_servers_id = null, $live_index = '') {
 
         $array = array(
             'key' => $key,
@@ -3302,11 +3302,16 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $array['startedHumanAgo'] = __('Started') . ' ' . humanTimingAgo($lth['created']);
 
         if (!empty($lth['finished'])) {
-            $array['isLive'] = false;
-            $array['isFinished'] = true;
-            $array['finishedDateTime'] = $lth['finished'];
-            $array['finishedSecondsAgo'] = secondsIntervalFromNow($lth['finished'], true);
-            $array['finishedHumanAgo'] = __('Finished') . ' ' . humanTimingAgo($lth['finished']);
+            $isKeyLiveInStats = self::isKeyLiveInStats($key, $live_servers_id, $live_index);
+            if(empty($isKeyLiveInStats)){
+                $array['isLive'] = false;
+                $array['isFinished'] = true;
+                $array['finishedDateTime'] = $lth['finished'];
+                $array['finishedSecondsAgo'] = secondsIntervalFromNow($lth['finished'], true);
+                $array['finishedHumanAgo'] = __('Finished') . ' ' . humanTimingAgo($lth['finished']);
+            }else{
+                LiveTransmitionHistory::unfinishFromTransmitionHistoryId($lth['id']);
+            }
         }
 
         $array['displayTime'] = '';
