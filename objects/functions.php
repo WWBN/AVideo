@@ -6985,6 +6985,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             }
         }
         $cache = ObjectYPT::setCache($cacheName, $json);
+        Live::unfinishAllFromStats();
         //_error_log('Live::createStatsCache ' . json_encode($cache));
     } else {
         //_error_log('getStatsNotifications: 2 cached result');
