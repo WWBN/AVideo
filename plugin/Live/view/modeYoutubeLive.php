@@ -98,7 +98,6 @@ if (isHTMLEmpty($sideAd)) {
     $modeYoutubeBottomClass2 = "hidden ";
 }
 // to fix the unfinished lives
-Live::unfinishAllFromStats();
 $liveInfo = Live::getInfo($livet['key'], $livet['live_servers_id']);
 ?>
 <!DOCTYPE html>
