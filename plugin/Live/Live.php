@@ -1521,6 +1521,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         return $btn;
     }
+    
+    public function unfinishAllFromStats($force_recreate = false){
+        $stats = self::getStats($force_recreate);
+        
+        foreach ($stats as $value) {
+            var_dump($value);
+        }
+        
+    }
 
     public static function getStats($force_recreate = false) {
         global $getStatsLive, $_getStats, $getStatsObject;
