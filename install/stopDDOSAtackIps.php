@@ -14,6 +14,22 @@ function tailShell($filepath, $lines = 1) {
     return preg_split("/\r\n|\n|\r/", trim(ob_get_clean()));
 }
 
+function percentloadavg(){
+    $cpu_count = 1;
+    if(is_file('/proc/cpuinfo')) {
+        $cpuinfo = file_get_contents('/proc/cpuinfo');
+        preg_match_all('/^processor/m', $cpuinfo, $matches);
+        $cpu_count = count($matches[0]);
+    }
+
+    $sys_getloadavg = sys_getloadavg();
+    $sys_getloadavg[0] = $sys_getloadavg[0] / $cpu_count;
+    $sys_getloadavg[1] = $sys_getloadavg[1] / $cpu_count;
+    $sys_getloadavg[2] = $sys_getloadavg[2] / $cpu_count;
+
+    return $sys_getloadavg;
+}
+
 $ips = array();
 $uas = array();
 $ipsProcessed = array();
@@ -101,7 +117,7 @@ while (1) {
     }
     
     if ($totalNew && !$mySQLIsStopped) {
-        $load = sys_getloadavg();
+        $load = percentloadavg();
         echo '*** sys_getloadavg: '.$load[0] . PHP_EOL;
         if ($load[0] > 0.80) {
             //exec('/etc/init.d/apache2 restart');
