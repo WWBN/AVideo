@@ -58,6 +58,15 @@ while (1) {
                 continue;
             }
         }
+        preg_match('/^([0-9.]+).*"-" "-"/i', $line, $matches);
+        if (!empty($matches[1])) {
+            $ip = trim($matches[1]);
+            if (!in_array($ip, $ips)) {
+                $ips[] = $ip;
+                $uas[] = $line;
+                continue;
+            }
+        }
         preg_match('/^([0-9.]+).*headless/i', $line, $matches);
         if (!empty($matches[1])) {
             $ip = trim($matches[1]);
@@ -135,11 +144,21 @@ while (1) {
             exec('/etc/init.d/mysql stop');
         }
     } else if (empty($totalNew) && $mySQLIsStopped) {
-        echo '*** Start MySQL' . PHP_EOL;
+        echo '*** Start MySQL 1' . PHP_EOL;
         $mySQLIsStopped = 0;
         exec('/etc/init.d/mysql start');
         $timeout = $defaultTimeout;
         $linesCount = $defaultLines;
+    }else if($mySQLIsStopped){
+        $load = percentloadavg();
+        echo '*** sys_getloadavg: '.$load[0] . PHP_EOL;
+        if ($load[0] < 0.50) {
+            echo '*** Start MySQL 2' . PHP_EOL;
+            $mySQLIsStopped = 0;
+            exec('/etc/init.d/mysql start');
+            $timeout = $defaultTimeout;
+            $linesCount = $defaultLines;
+        }
     }
     if ($totalNew) {
         echo "*******" . PHP_EOL . PHP_EOL;
