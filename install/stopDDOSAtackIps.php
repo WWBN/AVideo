@@ -3,7 +3,7 @@
 $defaultLines = 500;
 $defaultTimeout = 1;
 
-$lines = $defaultLines;
+$linesCount = $defaultLines;
 $timeout = $defaultTimeout;
 
 $apacheAccessLogFile = '/var/log/apache2/access.log';
@@ -20,7 +20,7 @@ $ipsProcessed = array();
 $mySQLIsStopped = 0;
 while (1) {
 
-    $lines = tailShell($apacheAccessLogFile, $lines);
+    $lines = tailShell($apacheAccessLogFile, $linesCount);
     //file_put_contents($apacheAccessLogFile,'');
 
     foreach ($lines as $line) {
@@ -83,7 +83,7 @@ while (1) {
 
     if ($totalNew) {
         $timeout = $defaultTimeout/4;
-        $lines = intval($defaultLines/4);
+        $linesCount = intval($defaultLines/4);
         echo "*** {$totalNew} new rules inserted" . PHP_EOL;
     }
 
@@ -97,7 +97,7 @@ while (1) {
         $mySQLIsStopped = 0;
         exec('/etc/init.d/mysql start');
         $timeout = $defaultTimeout;
-        $lines = $defaultLines;
+        $linesCount = $defaultLines;
     }
     if ($totalNew) {
         echo "*******" . PHP_EOL . PHP_EOL;
