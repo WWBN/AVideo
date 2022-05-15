@@ -11,6 +11,7 @@ function tailShell($filepath, $lines = 1) {
 $ips = array();
 $uas = array();
 $ipsProcessed = array();
+$mySQLIsStopped = 0;
 while (1) {
 
     $lines = tailShell($apacheAccessLogFile, 2000);
@@ -74,10 +75,11 @@ while (1) {
     //echo PHP_EOL . date('Y-m-d H:i:s').' Found ' . $total . PHP_EOL;
     //echo PHP_EOL . $totalNew . ' New IPs added: ' . implode(', ', $newRules) . PHP_EOL;
     
-    if($totalNew){
+    if($totalNew>5 && !$mySQLIsStopped){
         //exec('/etc/init.d/apache2 restart');
         exec('/etc/init.d/mysql stop');
-    }else{
+    }else if($mySQLIsStopped){
+        echo 'Start MySQL';
         exec('/etc/init.d/mysql start');
     }
     
