@@ -77,9 +77,12 @@ while (1) {
     
     if($totalNew>5 && !$mySQLIsStopped){
         //exec('/etc/init.d/apache2 restart');
+        echo 'STOP MySQL';
+        $mySQLIsStopped = 1;
         exec('/etc/init.d/mysql stop');
     }else if($mySQLIsStopped){
         echo 'Start MySQL';
+        $mySQLIsStopped = 0;
         exec('/etc/init.d/mysql start');
     }
     
