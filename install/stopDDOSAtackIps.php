@@ -82,7 +82,7 @@ while (1) {
     //echo PHP_EOL . $totalNew . ' New IPs added: ' . implode(', ', $newRules) . PHP_EOL;
 
     if ($totalNew) {
-        $timeout = $timeout/4;
+        $timeout = $defaultTimeout/4;
         echo "*** {$totalNew} new rules inserted" . PHP_EOL;
     }
 
