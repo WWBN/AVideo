@@ -1,5 +1,11 @@
 <?php
 
+$defaultLines = 500;
+$defaultTimeout = 1;
+
+$lines = $defaultLines;
+$timeout = $defaultTimeout;
+
 $apacheAccessLogFile = '/var/log/apache2/access.log';
 
 function tailShell($filepath, $lines = 1) {
@@ -14,7 +20,7 @@ $ipsProcessed = array();
 $mySQLIsStopped = 0;
 while (1) {
 
-    $lines = tailShell($apacheAccessLogFile, 500);
+    $lines = tailShell($apacheAccessLogFile, $lines);
     //file_put_contents($apacheAccessLogFile,'');
 
     foreach ($lines as $line) {
@@ -76,6 +82,7 @@ while (1) {
     //echo PHP_EOL . $totalNew . ' New IPs added: ' . implode(', ', $newRules) . PHP_EOL;
 
     if ($totalNew) {
+        $timeout = $timeout/2;
         echo "*** {$totalNew} new rules inserted" . PHP_EOL;
     }
 
@@ -88,9 +95,10 @@ while (1) {
         echo '*** Start MySQL' . PHP_EOL;
         $mySQLIsStopped = 0;
         exec('/etc/init.d/mysql start');
+        $timeout = $defaultTimeout;
     }
     if ($totalNew) {
         echo "*******" . PHP_EOL . PHP_EOL;
     }
-    sleep(1);
+    sleep($timeout);
 }
