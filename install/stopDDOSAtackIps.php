@@ -83,6 +83,7 @@ while (1) {
 
     if ($totalNew) {
         $timeout = $defaultTimeout/4;
+        $lines = intval($defaultLines/4);
         echo "*** {$totalNew} new rules inserted" . PHP_EOL;
     }
 
@@ -96,6 +97,7 @@ while (1) {
         $mySQLIsStopped = 0;
         exec('/etc/init.d/mysql start');
         $timeout = $defaultTimeout;
+        $lines = $defaultLines;
     }
     if ($totalNew) {
         echo "*******" . PHP_EOL . PHP_EOL;
