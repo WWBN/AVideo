@@ -100,7 +100,7 @@ while (1) {
         echo "*** {$totalNew} new rules inserted" . PHP_EOL;
     }
     
-    if ($totalNew > 5 && !$mySQLIsStopped) {
+    if ($totalNew && !$mySQLIsStopped) {
         $load = sys_getloadavg();
         echo '*** sys_getloadavg: '.$load[0] . PHP_EOL;
         if ($load[0] > 0.80) {
