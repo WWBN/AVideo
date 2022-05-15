@@ -75,13 +75,17 @@ while (1) {
     //echo PHP_EOL . date('Y-m-d H:i:s').' Found ' . $total . PHP_EOL;
     //echo PHP_EOL . $totalNew . ' New IPs added: ' . implode(', ', $newRules) . PHP_EOL;
     
+    if($totalNew){
+        echo "{$totalNew} new rules inserted". PHP_EOL;
+    }
+    
     if($totalNew>5 && !$mySQLIsStopped){
         //exec('/etc/init.d/apache2 restart');
-        echo 'STOP MySQL';
+        echo 'STOP MySQL'. PHP_EOL;
         $mySQLIsStopped = 1;
         exec('/etc/init.d/mysql stop');
     }else if($mySQLIsStopped){
-        echo 'Start MySQL';
+        echo 'Start MySQL'. PHP_EOL;
         $mySQLIsStopped = 0;
         exec('/etc/init.d/mysql start');
     }
