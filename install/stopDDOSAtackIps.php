@@ -58,15 +58,6 @@ while (1) {
                 continue;
             }
         }
-        preg_match('/^([0-9.]+).*"-" "-"/i', $line, $matches);
-        if (!empty($matches[1])) {
-            $ip = trim($matches[1]);
-            if (!in_array($ip, $ips)) {
-                $ips[] = $ip;
-                $uas[] = $line;
-                continue;
-            }
-        }
         preg_match('/^([0-9.]+).*headless/i', $line, $matches);
         if (!empty($matches[1])) {
             $ip = trim($matches[1]);
