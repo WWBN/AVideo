@@ -14,7 +14,7 @@ $ipsProcessed = array();
 $mySQLIsStopped = 0;
 while (1) {
 
-    $lines = tailShell($apacheAccessLogFile, 2000);
+    $lines = tailShell($apacheAccessLogFile, 1000);
     //file_put_contents($apacheAccessLogFile,'');
 
     foreach ($lines as $line) {
@@ -83,5 +83,5 @@ while (1) {
         exec('/etc/init.d/mysql start');
     }
     
-    sleep(2);
+    sleep(1);
 }
