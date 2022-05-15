@@ -65,7 +65,7 @@ while (1) {
         $output = null;
         exec($cmd . ' 2>&1', $output, $return_var);
         echo json_encode($output) . PHP_EOL;
-        echo '--------------'. PHP_EOL;
+        echo '--------------' . PHP_EOL;
         if ($output[0] === 'Rule inserted') {
             $newRules[] = $ip;
         }
@@ -74,21 +74,23 @@ while (1) {
     $totalNew = count($newRules);
     //echo PHP_EOL . date('Y-m-d H:i:s').' Found ' . $total . PHP_EOL;
     //echo PHP_EOL . $totalNew . ' New IPs added: ' . implode(', ', $newRules) . PHP_EOL;
-    
-    if($totalNew){
-        echo "*** {$totalNew} new rules inserted". PHP_EOL;
+
+    if ($totalNew) {
+        echo "*** {$totalNew} new rules inserted" . PHP_EOL;
     }
-    
-    if($totalNew>5 && !$mySQLIsStopped){
+
+    if ($totalNew > 5 && !$mySQLIsStopped) {
         //exec('/etc/init.d/apache2 restart');
-        echo '*** STOP MySQL'. PHP_EOL;
+        echo '*** STOP MySQL' . PHP_EOL;
         $mySQLIsStopped = 1;
         exec('/etc/init.d/mysql stop');
-    }else if($mySQLIsStopped){
-        echo '*** Start MySQL'. PHP_EOL;
+    } else if ($mySQLIsStopped) {
+        echo '*** Start MySQL' . PHP_EOL;
         $mySQLIsStopped = 0;
         exec('/etc/init.d/mysql start');
     }
-    
+    if ($totalNew) {
+        echo "*******" . PHP_EOL . PHP_EOL;
+    }
     sleep(1);
 }
