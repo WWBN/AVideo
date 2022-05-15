@@ -24,12 +24,22 @@ while (1) {
     //file_put_contents($apacheAccessLogFile,'');
 
     foreach ($lines as $line) {
+        preg_match('/^([0-9.]+).*referer: https:\/\/198.244.178.15/i', $line, $matches);
+        if (!empty($matches[1])) {
+            $ip = trim($matches[1]);
+            if (!in_array($ip, $ips)) {
+                $ips[] = $ip;
+                $uas[] = $line;
+                continue;
+            }
+        }
         preg_match('/^([0-9.]+).*headless/i', $line, $matches);
         if (!empty($matches[1])) {
             $ip = trim($matches[1]);
             if (!in_array($ip, $ips)) {
                 $ips[] = $ip;
                 $uas[] = $line;
+                continue;
             }
         }
         preg_match('/^([0-9.]+).*X11; Linux/i', $line, $matches);
@@ -38,6 +48,7 @@ while (1) {
             if (!in_array($ip, $ips)) {
                 $ips[] = $ip;
                 $uas[] = $line;
+                continue;
             }
         }
         preg_match('/^([0-9.]+).*HTTP\/1.3/i', $line, $matches);
@@ -46,6 +57,7 @@ while (1) {
             if (!in_array($ip, $ips)) {
                 $ips[] = $ip;
                 $uas[] = $line;
+                continue;
             }
         }
         preg_match('/^([0-9.]+).*Windows NT [56]/i', $line, $matches);
@@ -54,6 +66,7 @@ while (1) {
             if (!in_array($ip, $ips)) {
                 $ips[] = $ip;
                 $uas[] = $line;
+                continue;
             }
         }
     }
