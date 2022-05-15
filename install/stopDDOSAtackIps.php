@@ -84,7 +84,7 @@ while (1) {
         echo '*** STOP MySQL' . PHP_EOL;
         $mySQLIsStopped = 1;
         exec('/etc/init.d/mysql stop');
-    } else if ($mySQLIsStopped) {
+    } else if (empty($totalNew) && $mySQLIsStopped) {
         echo '*** Start MySQL' . PHP_EOL;
         $mySQLIsStopped = 0;
         exec('/etc/init.d/mysql start');
