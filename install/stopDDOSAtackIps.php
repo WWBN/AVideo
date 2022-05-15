@@ -14,7 +14,7 @@ $ipsProcessed = array();
 $mySQLIsStopped = 0;
 while (1) {
 
-    $lines = tailShell($apacheAccessLogFile, 1000);
+    $lines = tailShell($apacheAccessLogFile, 500);
     //file_put_contents($apacheAccessLogFile,'');
 
     foreach ($lines as $line) {
