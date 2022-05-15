@@ -99,12 +99,16 @@ while (1) {
         $linesCount = intval($defaultLines/4);
         echo "*** {$totalNew} new rules inserted" . PHP_EOL;
     }
-
+    
     if ($totalNew > 5 && !$mySQLIsStopped) {
-        //exec('/etc/init.d/apache2 restart');
-        echo '*** STOP MySQL' . PHP_EOL;
-        $mySQLIsStopped = 1;
-        exec('/etc/init.d/mysql stop');
+        $load = sys_getloadavg();
+        echo '*** sys_getloadavg: '.$load[0] . PHP_EOL;
+        if ($load[0] > 0.80) {
+            //exec('/etc/init.d/apache2 restart');
+            echo '*** STOP MySQL' . PHP_EOL;
+            $mySQLIsStopped = 1;
+            exec('/etc/init.d/mysql stop');
+        }
     } else if (empty($totalNew) && $mySQLIsStopped) {
         echo '*** Start MySQL' . PHP_EOL;
         $mySQLIsStopped = 0;
