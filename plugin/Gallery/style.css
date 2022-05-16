@@ -160,9 +160,14 @@ a.h6{
     top: 5px; 
     z-index: 1025;
     display: none;
+    
 }
 .galleryVideo  .galleryVideoButtons button{
     opacity: 0.5;
+    display: inline-grid;
+    padding: 2px;
+    justify-content: center;
+    width: 24px;
 } 
 .galleryVideo:hover  .galleryVideoButtons{
     display: block !important;

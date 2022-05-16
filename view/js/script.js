@@ -1380,6 +1380,12 @@ function avideoModalIframeFullScreenClose() {
     if (typeof swal === 'function') {
         $('.swal-overlay iframe').attr('src', 'about:blank');
         try {
+            /*
+            $('.swal-overlay').slideUp();
+            setTimeout(function(){
+                swal.close();
+            },500);
+             */
             swal.close();
         } catch (e) {
 
@@ -1449,18 +1455,19 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     }
     url = addGetParam(url, 'avideoIframe', 1);
     console.log('avideoModalIframeWithClassName', url, className, updateURL);
-    var _inIframe = '';
-    if(inIframe()){
-        _inIframe = 'inIframe';
-    }
     var html = '';
-    html += '<div id="avideoModalIframeDiv" class="clearfix popover-title '+_inIframe+'">';
-    html += '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
-    html += '<i class="fas fa-chevron-left"></i>';
-    html += '</button><img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;"></div>';
+    html += '<div id="avideoModalIframeDiv" class="clearfix popover-title">';    
+    if(inIframe()){
+        html += avideoModalIframeFullScreenCloseButtonSmall;
+    }else{
+        html += avideoModalIframeFullScreenCloseButton;
+        html += '<img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;">';
+    }
+    html += '</div>';
     html += '<iframe id="avideoModalIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
     var span = document.createElement("span");
     span.innerHTML = html;
+    $('.swal-overlay').show();
     swal({
         content: span,
         closeModal: true,

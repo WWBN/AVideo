@@ -1,5 +1,5 @@
 <?php
-
+use React\EventLoop\Loop;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
@@ -29,6 +29,7 @@ session_write_close();
 exec('ulimit -n 20480'); // to handle over 1 k connections
 $SocketDataObj->port = intval($SocketDataObj->port);
 _error_log("Starting Socket server at port {$SocketDataObj->port}");
+
 //killProcessOnPort();
 $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
 echo "Starting AVideo Socket server version {$SocketDataObj->serverVersion} on port {$SocketDataObj->port}" . PHP_EOL;
@@ -67,8 +68,8 @@ if (strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) {
         echo "Parameter [{$key}]: $value " . PHP_EOL;
     }
 
-    $loop = React\EventLoop\Factory::create();
-// Set up our WebSocket server for clients wanting real-time updates
+    $loop = React\EventLoop\Loop::get();
+    
     $webSock = new React\Socket\Server($SocketDataObj->uri . ':' . $SocketDataObj->port, $loop);
     $webSock = new React\Socket\SecureServer($webSock, $loop, $parameters);
     $webServer = new Ratchet\Server\IoServer(
@@ -79,9 +80,5 @@ if (strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) {
             ),
             $webSock
     );
-//$socket = new Reactor($webServer->loop);
-//$socket->listen(8082, '0.0.0.0'); //Port 2
-//$socket->on('connection', [$webServer, 'handleConnect']);
-//$webServer->run();
     $loop->run();
 }

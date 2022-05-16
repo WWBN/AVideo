@@ -545,7 +545,7 @@ function partition(array $list, $totalItens) {
     return $partition;
 }
 
-function sendSiteEmail($to, $subject, $message, $fromEmail='', $fromName='') {
+function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '') {
     global $advancedCustom;
     $resp = false;
     if (empty($to)) {
@@ -565,10 +565,10 @@ function sendSiteEmail($to, $subject, $message, $fromEmail='', $fromName='') {
     _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
     global $config, $global;
     //require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
-    if(empty($fromEmail)){
+    if (empty($fromEmail)) {
         $fromEmail = $config->getContactEmail();
     }
-    if(empty($fromName)){
+    if (empty($fromName)) {
         $fromName = $config->getWebSiteTitle();
     }
     $webSiteTitle = $config->getWebSiteTitle();
@@ -8188,13 +8188,12 @@ function pluginsRequired($arrayPluginName, $featureName = '') {
     return $obj;
 }
 
-function _strtotime($datetime){
-    if(is_int($datetime)){
+function _strtotime($datetime) {
+    if (is_int($datetime)) {
         return $datetime;
     }
     return strtotime($datetime);
 }
-
 
 function _isSocketPresentOnCrontab() {
     foreach (getValidCrontabLines() as $line) {
@@ -8214,11 +8213,9 @@ function _isSchedulerPresentOnCrontab() {
     return false;
 }
 
-
-
-function getValidCrontabLines(){
+function getValidCrontabLines() {
     global $_validCrontabLines;
-    if(empty($validCrontabLines)){
+    if (empty($validCrontabLines)) {
         $crontab = shell_exec('crontab -l');
         $crontabLines = preg_split("/\r\n|\n|\r/", $crontab);
         $_validCrontabLines = array();
@@ -8238,16 +8235,16 @@ function getValidCrontabLines(){
  * @param type $strOrArray 
  * @return type return an array with the valid emails. 
  */
-function is_email($strOrArray){
-    if(empty($strOrArray)){
+function is_email($strOrArray) {
+    if (empty($strOrArray)) {
         return array();
     }
-    if(!is_array($strOrArray)){
+    if (!is_array($strOrArray)) {
         $strOrArray = array($strOrArray);
     }
     $valid_emails = array();
     foreach ($strOrArray as $email) {
-        if(is_numeric($email)){
+        if (is_numeric($email)) {
             $email = User::getEmailDb($email);
         }
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -8255,4 +8252,40 @@ function is_email($strOrArray){
         }
     }
     return $valid_emails;
+}
+
+/**
+ * https://codepen.io/ainalem/pen/LJYRxz
+ * @global type $global
+ * @param type $id
+ * @param type $type 1 to 8 [1=x, 2=<-, 3=close, 4=x, 5=<-, 6=x, 7=x, 8=x]
+ * @param type $parameters
+ * @return type
+ */
+function getHamburgerButton($id = '', $type = 0, $parameters = 'class="btn btn-default hamburger"', $startActive = false, $invert = false) {
+    global $global;
+    if ($type === 'x') {
+        $XOptions = array(1, 4, 6, 7, 8);
+        $type = $XOptions[rand(0, 4)];
+    }else if($type === '<-'){
+        $XOptions = array(2, 5);
+        $type = $XOptions[rand(0, 1)];
+    }
+    $type = intval($type);
+    if (empty($type) || ($type < 1 && $type > 8)) {
+        $type = rand(1, 8);
+    }
+    if (empty($id)) {
+        $id = uniqid();
+    }
+    $filePath = $global['systemRootPath'] . 'objects/functionGetHamburgerButton.php';
+    return getIncludeFileContent($filePath, array('type' => $type, 'id' => $id, 'parameters' => $parameters, 'startActive' => $startActive, 'invert' => $invert));
+}
+
+function getUserOnlineLabel($users_id, $class='', $style=''){
+    if(AVideoPlugin::isEnabledByName('YPTSocket')){
+        return YPTSocket::getUserOnlineLabel($users_id, $class, $style);
+    }else{
+        return '';
+    }
 }

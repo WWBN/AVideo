@@ -2,20 +2,15 @@
 
 namespace Socket;
 
-use React\EventLoop\Loop;
-use Ratchet\MessageComponentInterface;
-use Ratchet\ConnectionInterface;
-
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 
-class Message implements MessageComponentInterface {
+class Message2 {
 
     protected $clients;
     protected $clientsWatchinLive;
-    protected $clientsWatchVideosId;
+    protected $clientsWatchinVideosId;
     protected $clientsUsersId;
-    protected $clientsChatRoom;
 
     public function __construct() {
         //$this->clients = new \SplObjectStorage;
@@ -23,10 +18,7 @@ class Message implements MessageComponentInterface {
         $this->clientsWatchinLive = [];
         $this->clientsWatchVideosId = [];
         $this->clientsUsersId = [];
-        $this->clientsChatRoom = [];
-        //$this->loop->ad
         _log_message("Construct");
-        
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -185,7 +177,7 @@ class Message implements MessageComponentInterface {
         }
         if (!empty($client['users_id'])) {
             unset($this->clientsUsersId[$client['users_id']]['resourceId'][$conn->resourceId]);
-            if (empty($this->clientsUsersId[$client['users_id']]['resourceId'])) {
+            if(empty($this->clientsUsersId[$client['users_id']]['resourceId'])){
                 unset($this->clientsUsersId[$client['users_id']]);
             }
         }
@@ -255,7 +247,7 @@ class Message implements MessageComponentInterface {
                     $this->msgToSelfURI($json, $msgObj->send_to_uri_pattern);
                 } else if (!empty($json['resourceId'])) {
                     $this->msgToResourceId($json, $json['resourceId']);
-                } else if (!empty($json['to_users_id'])) {
+                }else if (!empty($json['to_users_id'])) {
                     $this->msgToUsers_id($json, $json['to_users_id']);
                 } else {
                     $this->msgToAll($from, $json);
@@ -368,12 +360,12 @@ class Message implements MessageComponentInterface {
         }
         try {
             $count = 0;
-            if (!is_array($users_id)) {
+            if(!is_array($users_id)){
                 $users_id = array($users_id);
             }
             foreach ($users_id as $user_id) {
                 $user_id = intval($user_id);
-                if (empty($user_id)) {
+                if(empty($user_id)){
                     continue;
                 }
                 if ($this->isUserLive($user_id)) {
@@ -383,12 +375,13 @@ class Message implements MessageComponentInterface {
                     }
                 }
             }
+            
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
             var_dump($users_id, $this->clientsUsersId);
         }
 
-        _log_message("msgToUsers_id: sent to ($count) clients users_id=" . json_encode($users_id));
+        _log_message("msgToUsers_id: sent to ($count) clients users_id=". json_encode($users_id));
     }
 
     public function msgToSelfURI($msg, $pattern, $type = "") {
@@ -578,10 +571,12 @@ class Message implements MessageComponentInterface {
     public function getTags() {
         return array('free', 'live');
     }
-
+    
     public function isUserLive($users_id) {
         return !empty($this->clientsUsersId[$users_id]) && !empty($this->clientsUsersId[$users_id]['resourceId']);
     }
+    
+    
 
 }
 
