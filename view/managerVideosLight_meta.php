@@ -12,6 +12,7 @@
         <label for="description"><?php echo __('Description'); ?></label>
         <textarea class="form-control" id="description" rows="10" ><?php echo $description; ?></textarea>
         <?php
+        echo("<script>window.videos_id={$videos_id}</script>");
         if (empty($advancedCustom->disableHTMLDescription)) {
             echo getTinyMCE("description");
         }
