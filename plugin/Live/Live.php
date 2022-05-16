@@ -266,7 +266,7 @@ class Live extends PluginAbstract {
             // if key is from schedule, skipp it
             if (!empty($value['key']) && strtotime($value['modified']) > strtotime('+10 minures')) {
                 $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($value['key'], $value['live_servers_id']);
-                if (empty($isLiveAndIsReadyFromKey)) {
+                if (empty($isLiveAndIsReadyFromKey) && self::isStatsAccessible($value['live_servers_id'])) {
                     _error_log("Live::getLiveApplicationArray LiveTransmitionHistory::finishFromTransmitionHistoryId({$value['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$value['live_servers_id']})");
                     LiveTransmitionHistory::finishFromTransmitionHistoryId($value['id']);
                     continue;
@@ -1226,7 +1226,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
             _error_log("Live::getStatsObject: You need to install the simplexml_load_file function to be able to see the Live stats", AVideoLog::$ERROR);
             return false;
         }
-
+        if(!isset($global['isStatsAccessible'])){
+            $global['isStatsAccessible'] = array();
+        }
         $name = "getStats" . DIRECTORY_SEPARATOR . "live_servers_id_{$live_servers_id}" . DIRECTORY_SEPARATOR . "getStatsObject";
 
         global $getStatsObject;
@@ -1244,7 +1246,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
             if (!empty($result)) {
                 //_error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "]");
-                return _json_decode($result);
+                $json = _json_decode($result);
+                $global['isStatsAccessible'][$live_servers_id] = !empty($json);
+                return $json;
             }
             _error_log("Live::getStatsObject[$live_servers_id] 4: cache not found");
         } else {
@@ -1259,6 +1263,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $xml->server->application = [];
             $getStatsObject[$live_servers_id] = $xml;
             ObjectYPT::setCache($name, json_encode($xml));
+            $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
             return $xml;
         }
         if (empty($o->requestStatsTimout)) {
@@ -1286,6 +1291,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         unlink($waitFile);
         if (empty($data)) {
             _session_start();
+            $global['isStatsAccessible'][$live_servers_id] = 0;
             if (empty($_SESSION['getStatsObjectRequestStatsTimout'])) {
                 $_SESSION['getStatsObjectRequestStatsTimout'] = [];
             }
@@ -1296,6 +1302,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             _error_log("Live::getStatsObject RTMP Server ($url) is OFFLINE, timeout=({$o->requestStatsTimout}) we could not connect on it => live_servers_id = ($live_servers_id) ", AVideoLog::$ERROR);
             $data = '<?xml version="1.0" encoding="utf-8" ?><?xml-stylesheet type="text/xsl" href="stat.xsl" ?><rtmp><server><application><name>The RTMP Server is Unavailable</name><live><nclients>0</nclients></live></application></server></rtmp>';
         } else {
+            $global['isStatsAccessible'][$live_servers_id] = 1;
             if (!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])) {
                 _error_log("Live::getStatsObject RTMP Server ($url) is respond again => live_servers_id = ($live_servers_id) ");
                 // the server respont again, wait the default time
@@ -1307,9 +1314,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $xml = simplexml_load_string($data);
         $getStatsObject[$live_servers_id] = $xml;
         ObjectYPT::setCache($name, json_encode($xml));
+        $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
         return $xml;
     }
 
+    static function isStatsAccessible($live_servers_id){
+        global $global;
+        return !empty($global['isStatsAccessible']) && !empty($global['isStatsAccessible'][$live_servers_id]);
+    }
+    
     public function get_data($url, $timeout) {
         global $global;
         if (!IsValidURL($url)) {
@@ -3279,13 +3292,22 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return false;
     }
 
-    public static function getInfo($key, $live_servers_id = null, $live_index = '') {
+    public static function getInfo($key, $live_servers_id = null, $live_index = '', $playlists_id_live='') {
 
+        $lso = new LiveStreamObject($key, $live_servers_id, $live_index, $playlists_id_live);
+        
+        $keyWithIndex=$lso->getKeyWithIndex();
+        $key=$lso->getKey();
+        
         $array = array(
             'key' => $key,
+            'keyWithIndex' => $keyWithIndex,
             'live_schedule_id' => 0,
             'users_id' => 0,
             'live_servers_id' => $live_servers_id,
+            'live_index' => $live_index,
+            'playlists_id_live' => $playlists_id_live,
+            'playlists_id_live' => $keyWithIndex,
             'history' => false,
             'isLive' => false,
             'isFinished' => false,
@@ -3306,7 +3328,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $array['live_schedule_id'] = $lt['live_schedule_id'];
         $array['users_id'] = $lt['users_id'];
 
-        $lth = LiveTransmitionHistory::getLatest($key, $live_servers_id);
+        $lth = LiveTransmitionHistory::getLatest($keyWithIndex, $live_servers_id);
         if (empty($lth)) {
             return $array;
         }
@@ -3344,6 +3366,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
         } else if ($array['isStarded']) {
             $array['displayTime'] = $array['startedHumanAgo'];
+        }
+        $otherLivesSameUser = LiveTransmitionHistory::getActiveLiveFromUser($users_id, '', '', 100);
+        
+        $array['otherLivesSameUser'] = array();
+        foreach ($otherLivesSameUser as $value) {
+            if($value['key']!==$keyWithIndex){
+                $array['otherLivesSameUser'][] = $value;
+            }
         }
         
         return $array;
