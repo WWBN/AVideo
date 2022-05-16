@@ -20,23 +20,51 @@ if (!empty($_GET['c'])) {
 }
 
 if (!empty($_GET['u']) && isAVideoMobileApp()) {
-   $_GET['embed'] = 1;
+    $_GET['embed'] = 1;
 }
 
-if (!empty($_GET['u']) && !empty($_GET['embedv2'])) {
-    include $global['systemRootPath'] . 'plugin/Live/view/videoEmbededV2.php';
+if (!empty($_GET['u'])) {
+    $livet = LiveTransmition::getFromRequest();
+    $live_servers_id = Live::getLiveServersIdRequest();
+    $live_index = @$_REQUEST['live_index'];
+
+    $info = Live::getInfo($livet['key'], $live_servers_id, $live_index);
+
+    if (!$info['isLive']) {
+        if (!empty($info['otherLivesSameUser'])) {
+            $link = LiveTransmitionHistory::getLinkToLive($info['otherLivesSameUser'][0]['id']);
+            //var_dump($link, $info['otherLivesSameUser'][0]);exit;
+            header("Location: {$link}");
+            exit;
+            /*
+            if (count($info['otherLivesSameUser']) == 1) {
+                
+            } else {
+                // list all lives available
+            }
+             * 
+             */
+        }
+    }
+
+    setLiveKey($livet['key'], $live_servers_id, $live_index);
+    Live::checkIfPasswordIsGood($livet['key']);
+
+    if (!empty($_GET['embedv2'])) {
+        include $global['systemRootPath'] . 'plugin/Live/view/videoEmbededV2.php';
+    } elseif (!empty($_GET['embed'])) {
+        include $global['systemRootPath'] . 'plugin/Live/view/videoEmbeded.php';
+    } else {
+        include $global['systemRootPath'] . 'plugin/Live/view/modeYoutubeLive.php';
+    }
     exit;
-} elseif (!empty($_GET['u']) && !empty($_GET['embed'])) {
-    include $global['systemRootPath'] . 'plugin/Live/view/videoEmbeded.php';
-    exit;
-} elseif (!empty($_GET['u'])) {
-    include $global['systemRootPath'] . 'plugin/Live/view/modeYoutubeLive.php';
-    exit;
-} elseif (!User::isLogged()) {
-    gotToLoginAndComeBackHere("");
-    exit;
-} elseif (!User::canStream()) {
-    forbiddenPage(__($obj->streamDeniedMsg));
+} else {
+    if (!User::isLogged()) {
+        gotToLoginAndComeBackHere("");
+        exit;
+    } elseif (!User::canStream()) {
+        forbiddenPage(__($obj->streamDeniedMsg));
+    }
 }
 
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -133,7 +161,8 @@ $global['doNotLoadPlayer'] = 1;
                             $liveStreamObject = new LiveStreamObject($trasnmition['key'], 0, @$_REQUEST['live_index'], 0);
                             $key = $liveStreamObject->getKeyWithIndex(true);
                             $activeServerFound = true;
-                            $_REQUEST['live_servers_id'] = 0; ?>
+                            $_REQUEST['live_servers_id'] = 0;
+                            ?>
                             <li class="active <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'menu'); ?>">
                                 <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=0">
                                     <i class="fas fa-broadcast-tower"></i> <?php echo __("Local Server"); ?>
@@ -156,7 +185,8 @@ $global['doNotLoadPlayer'] = 1;
                                     $_REQUEST['live_servers_id'] = $value['id'];
                                     $activeServerFound = true;
                                     $active = "active";
-                                } ?>
+                                }
+                                ?>
                                 <li class="<?php echo $active; ?>  <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'menu'); ?>">
                                     <a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=<?php echo $value['id']; ?>">
                                         <i class="fas fa-broadcast-tower"></i> <?php echo $value['name']; ?>
@@ -172,13 +202,13 @@ $global['doNotLoadPlayer'] = 1;
                         }
                         if (Live::canStreamWithMeet()) {
                             ?>
-                                <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Meet/');" class="btn btn-default pull-right"><i class="fas fa-comments"></i> <?php echo __("Meet"); ?></button>
-                                <?php
+                            <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Meet/');" class="btn btn-default pull-right"><i class="fas fa-comments"></i> <?php echo __("Meet"); ?></button>
+                            <?php
                         }
                         if (Live::canStreamWithWebRTC()) {
                             ?>
-                                <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?avideoIframe=1');" class="btn btn-default pull-right"><i class="fas fa-camera"></i> <?php echo __("Webcam"); ?></button>
-                                <?php
+                            <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?avideoIframe=1');" class="btn btn-default pull-right"><i class="fas fa-camera"></i> <?php echo __("Webcam"); ?></button>
+                            <?php
                         }
                         if (empty($activeServerFound)) {
                             if (!empty($servers[0])) {
