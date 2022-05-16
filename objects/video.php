@@ -2096,6 +2096,10 @@ if (!class_exists('Video')) {
 
         public function setDescription($description) {
             global $global, $advancedCustom;
+
+            if (empty($advancedCustom)) {
+                $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
+            }
             if (empty($advancedCustom->disableHTMLDescription)) {
                 $articleObj = AVideoPlugin::getObjectData('Articles');
                 $configPuri = HTMLPurifier_Config::createDefault();
