@@ -41,6 +41,12 @@ function callNow(to_users_id, to_identification) {
     //incomeCall(json);
 }
 
+
+function callUserNow(to_users_id) {
+    avideoModalIframeFull(webSiteRootURL + 'plugin/YPTSocket/callUser.php?users_id='+to_users_id);
+    return false;
+}
+
 function isJsonReceivingCall(json) {
     if (json.from_users_id != my_users_id) {
         // is receiving a call

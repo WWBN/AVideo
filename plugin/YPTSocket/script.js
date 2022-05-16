@@ -250,6 +250,38 @@ function parseSocketResponse() {
     }
 }
 
+
+function socketNewConnection(json) {
+    setUserOnlineStatus(json.msg.users_id);
+}
+
+function socketDisconnection(json) {
+    setUserOnlineStatus(json.msg.users_id);
+}
+
+function setInitialOnlineStatus() {
+    
+    if(!isReadyToCheckIfIsOnline()){
+        setTimeout(function(){setInitialOnlineStatus();},1000);
+        return false;
+    }
+    
+    for (var users_id in users_id_online) {
+        setUserOnlineStatus(users_id);
+    }
+    return true;
+}
+
+function setUserOnlineStatus(users_id){
+    if(isUserOnline(users_id)){
+        $('.users_id_'+users_id).removeClass('offline');
+        $('.users_id_'+users_id).addClass('online');
+    }else{
+        $('.users_id_'+users_id).removeClass('online');
+        $('.users_id_'+users_id).addClass('offline');
+    }
+}
+
 $(function () {
     //console.log('Getting webSocketToken ...');
     var getWebSocket = webSiteRootURL + 'plugin/YPTSocket/getWebSocket.json.php';
@@ -275,4 +307,5 @@ $(function () {
     if (inIframe()) {
         $('#socket_info_container').hide();
     }
+    setInitialOnlineStatus();
 });

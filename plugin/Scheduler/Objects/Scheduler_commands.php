@@ -99,6 +99,12 @@ class Scheduler_commands extends ObjectYPT {
     }
 
     function setParameters($parameters) {
+        global $global;
+        if(!is_string($parameters)){
+            $parameters = _json_encode($parameters);
+            $parameters = $global['mysqli']->real_escape_string($parameters);
+        }
+        
         $this->parameters = $parameters;
     }
 
@@ -152,6 +158,7 @@ class Scheduler_commands extends ObjectYPT {
     function setExecuted($callbackResponse) {
         if (!is_string($callbackResponse)) {
             $callbackResponse = json_encode($callbackResponse);
+            $callbackResponse = $global['mysqli']->real_escape_string($callbackResponse);
         }
         $this->setExecuted_in(date('Y-m-d H:i:s'));
         $this->setCallbackResponse($callbackResponse);
@@ -288,13 +295,17 @@ class Scheduler_commands extends ObjectYPT {
         return $rows;
     }
 
-    public static function getAllActiveOrToRepeat() {
+    public static function getAllActiveOrToRepeat($type='') {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='" . (self::$statusActive) . "' OR status='" . (self::$statusRepeat) . "' ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE (status='" . (self::$statusActive) . "' OR status='" . (self::$statusRepeat) . "') ";
 
+        if(!empty($type)){
+            $sql .= ' AND `type` LIKE "'.$type.'%" ';
+        }
+        
         $sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);

@@ -114,6 +114,7 @@ if (isHTMLEmpty($sideAd)) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
+        <!-- LiveLinks Live.php -->
         <div class="container-fluid principalContainer" style="padding: 0;overflow: hidden;" id="modeYoutubePrincipal">
             <?php
             if (!$isCompressed) {
@@ -171,18 +172,41 @@ if (isHTMLEmpty($sideAd)) {
                             <h1 itemprop="name">
                                 <i class="fas fa-video"></i> <?php echo $t['title']; ?>
                             </h1>
-                            <p><?php echo nl2br(textToLink($t['description'])); ?></p>
                             <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                            <?php
-                            $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
-                            $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
-                            getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
-                            ?>
-                            <div class="col-md-12 watch8-action-buttons text-muted">
-
-                                <?php echo AVideoPlugin::getWatchActionButton(0); ?>
+                            <p><?php echo nl2br(textToLink($t['description'])); ?></p>
+                            
+                            <div class="row">
+                                <div class="col-md-12 watch8-action-buttons text-muted">
+                                    <?php if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) { ?>
+                                        <a href="#" class="btn btn-default no-outline" id="shareBtn">
+                                            <span class="fa fa-share"></span> <?php echo __("Share"); ?>
+                                        </a>
+                                        <?php
+                                    }
+                                    ?>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $("#shareDiv").slideUp();
+                                            $("#shareBtn").click(function () {
+                                                $(".menusDiv").not("#shareDiv").slideUp();
+                                                $("#shareDiv").slideToggle();
+                                                return false;
+                                            });
+                                        });
+                                    </script>
+                                    <?php echo AVideoPlugin::getWatchActionButton(0); ?>
+                                </div>
                             </div>
-                            <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
+                            <?php
+                            if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) {
+                                $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
+                                $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
+                                getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
+                            }
+                            ?>
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

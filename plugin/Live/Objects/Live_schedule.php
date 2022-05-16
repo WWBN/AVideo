@@ -433,7 +433,11 @@ class Live_schedule extends ObjectYPT
     function getScheduled_password() {
         return $this->scheduled_password;
     }
-
+    
+    function getPassword() {
+        return $this->getScheduled_password();
+    }
+    
     function setScheduled_password($scheduled_password): void {
         $this->scheduled_password = $scheduled_password;
     }

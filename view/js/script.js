@@ -1360,6 +1360,10 @@ function avideoModalIframe(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe', false);
 }
 
+function avideoModalIframeXSmall(url) {
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-xsmall', false);
+}
+
 function avideoModalIframeSmall(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-small', false);
 }
@@ -1376,6 +1380,12 @@ function avideoModalIframeFullScreenClose() {
     if (typeof swal === 'function') {
         $('.swal-overlay iframe').attr('src', 'about:blank');
         try {
+            /*
+            $('.swal-overlay').slideUp();
+            setTimeout(function(){
+                swal.close();
+            },500);
+             */
             swal.close();
         } catch (e) {
 
@@ -1446,13 +1456,18 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     url = addGetParam(url, 'avideoIframe', 1);
     console.log('avideoModalIframeWithClassName', url, className, updateURL);
     var html = '';
-    html += '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
-    html += '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
-    html += '<i class="fas fa-chevron-left"></i>';
-    html += '</button><img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;"></div>';
+    html += '<div id="avideoModalIframeDiv" class="clearfix popover-title">';    
+    if(inIframe()){
+        html += avideoModalIframeFullScreenCloseButtonSmall;
+    }else{
+        html += avideoModalIframeFullScreenCloseButton;
+        html += '<img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;">';
+    }
+    html += '</div>';
     html += '<iframe id="avideoModalIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
     var span = document.createElement("span");
     span.innerHTML = html;
+    $('.swal-overlay').show();
     swal({
         content: span,
         closeModal: true,
@@ -1529,7 +1544,9 @@ function checkIframeLoaded(id) {
 
 function avideoModalIframeIsVisible() {
     var modal = '';
-    if ($('.swal-modal-iframe-small').length) {
+    if ($('.swal-modal-iframe-xsmall').length) {
+        modal = $('.swal-modal-iframe-xsmall');
+    } else if ($('.swal-modal-iframe-small').length) {
         modal = $('.swal-modal-iframe-small');
     } else if ($('.swal-modal-iframe-large').length) {
         modal = $('.swal-modal-iframe-large');
@@ -1576,7 +1593,13 @@ function avideoResponse(response) {
         if (!response.msg) {
             response.msg = 'Success';
         }
-        avideoToastSuccess(response.msg);
+        if(response.warning){
+            avideoToastWarning(response.msg);
+        }else if(response.info){
+            avideoToastInfo(response.msg);
+        }else{
+            avideoToastSuccess(response.msg);
+        }
     }
 }
 
@@ -1902,6 +1925,10 @@ function addGetParam(_url, _key, _value) {
     _url += sep + param;
     _url = removeDuplicatedGetParam(_url);
     return _url;
+}
+
+function addQueryStringParameter(_url, _key, _value){
+    return addGetParam(_url, _key, _value);
 }
 
 function removeDuplicatedGetParam(_url) {

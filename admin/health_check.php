@@ -1,16 +1,14 @@
 <?php
-function _isAPPInstalled($appName){
+
+function _isAPPInstalled($appName) {
     $appName = preg_replace('/[^a-z0-9_-]/i', '', $appName);
     return trim(shell_exec("which {$appName}"));
 }
 
 //socket
-
-
 // live
-
-
 // max upload size max file size
+// crontabs
 
 $phpExtensions = [];
 $phpExtensions[] = ['pdo_mysql'];
@@ -36,7 +34,6 @@ $linuxApps[] = ['unzip'];
 $linuxApps[] = ['youtube-dl'];
 $linuxApps[] = ['sshpass', 'https://github.com/WWBN/AVideo/wiki/Clone-Site-Plugin#the-process-with-rsync-support-hls'];
 $linuxApps[] = ['apache2'];
-
 
 $messages = ['Server' => [], 'PHP' => [], 'Apache' => []];
 $version = phpversion();
@@ -69,7 +66,7 @@ $XSendFilePath = "{$global['systemRootPath']}view/xsendfile.html";
 $XSendFile = url_get_contents($XSendFileURL);
 $XSendFileOriginal = file_get_contents($XSendFilePath);
 //var_dump($XSendFileURL, $XSendFilePath, $XSendFile, $XSendFileOriginal);exit;
-if($XSendFile===$XSendFileOriginal){
+if ($XSendFile === $XSendFileOriginal) {
     $messages['Apache'][] = "XSendFIle is enabled";
 } else {
     $messages['Apache'][] = ["XSendFIle is not enabled", 'https://github.com/WWBN/AVideo/wiki/Install-Apache-XSendFIle'];
@@ -101,6 +98,20 @@ if (function_exists('apache_get_modules')) {
         $messages['Apache'][] = [$value[0], 'We could not check your installed modules. We recommend you to use apache as a module NOT as a FPM'];
     }
 }
+/*
+if(_isSocketPresentOnCrontab()){
+    $messages['Server'][] = "Socket is installed on your crontab";
+}else{
+    $messages['Server'][] = ["Socket is NOT installed on your crontab, open your terminal and type 'crontab -e', than add the code: ", "@reboot sleep 60;nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &"];
+}
+
+if(_isSchedulerPresentOnCrontab()){
+    $messages['Server'][] = "Scheduler plugin is installed on your crontab";
+}else{
+    $messages['Server'][] = ["Scheduler plugin is NOT installed on your crontab, open your terminal and type 'crontab -e', than add the code: ", "* * * * * php {$global['systemRootPath']}plugin/Scheduler/run.php"];
+}
+ * 
+ */
 
 foreach ($linuxApps as $value) {
     $response = _isAPPInstalled($value[0]);
@@ -171,7 +182,7 @@ if (empty($verified)) {
 </style>
 <div class="panel panel-default" id="healthCheck">
     <div class="panel-heading">
-        <?php echo '<h1>' . PHP_OS . '</h1>'; ?>
+<?php echo '<h1>' . PHP_OS . '</h1>'; ?>
     </div>
     <div class="panel-body">
 
@@ -184,48 +195,48 @@ if (empty($verified)) {
                     </div>
                     <div class="panel-body">
                         <div class="row">    
-                            <?php
-                            $count = 0;
-                            foreach ($messages['Server'] as $value) {
-                                $count++;
-                                if (is_array($value)) {
-                                    ?>
+<?php
+$count = 0;
+foreach ($messages['Server'] as $value) {
+    $count++;
+    if (is_array($value)) {
+        ?>
                                     <div class="col-lg-4 col-md-6 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-danger">
                                             <i class="fas fa-times"></i> <?php
-                                            echo $value[0];
+                                    echo $value[0];
                                     if (!empty($value[1])) {
                                         if (preg_match('/^http/i', $value[1])) {
                                             ?>
                                                     <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
                                                     <?php
-                                        } else {
-                                            ?>
+                                                } else {
+                                                    ?>
                                                     <br><code><?php echo $value[1]; ?></code> 
                                                     <?php
-                                        }
-                                    } ?>
+                                                }
+                                            }
+                                            ?>
                                         </div>    
                                     </div>
-                                    <?php
-                                } else {
-                                    ?>
+                                            <?php
+                                        } else {
+                                            ?>
                                     <div class="col-lg-4 col-md-6 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
-                                            <i class="fas fa-check"></i> <?php
-                                            echo $value; ?>
+                                            <i class="fas fa-check"></i> <?php echo $value; ?>
                                         </div>  
                                     </div>    
-                                    <?php
-                                }
-                                if ($count % 2 === 0) {
-                                    echo '<div class="clearfix visible-md"></div>';
-                                }
-                                if ($count % 3 === 0) {
-                                    echo '<div class="clearfix visible-lg"></div>';
-                                }
-                            }
-                            ?>
+                                            <?php
+                                        }
+                                        if ($count % 2 === 0) {
+                                            echo '<div class="clearfix visible-md"></div>';
+                                        }
+                                        if ($count % 3 === 0) {
+                                            echo '<div class="clearfix visible-lg"></div>';
+                                        }
+                                    }
+                                    ?>
                         </div>
                     </div>
                 </div>
@@ -238,40 +249,40 @@ if (empty($verified)) {
                     </div>
                     <div class="panel-body">
                         <div class="row">    
-                            <?php
-                            foreach ($messages['PHP'] as $value) {
-                                if (is_array($value)) {
-                                    ?>
+<?php
+foreach ($messages['PHP'] as $value) {
+    if (is_array($value)) {
+        ?>
                                     <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-danger">
                                             <i class="fas fa-times"></i> <?php
-                                            echo $value[0];
+                                    echo $value[0];
                                     if (!empty($value[1])) {
                                         if (preg_match('/^http/i', $value[1])) {
                                             ?>
                                                     <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
                                                     <?php
-                                        } else {
-                                            ?>
+                                                } else {
+                                                    ?>
                                                     <br><code><?php echo $value[1]; ?></code> 
                                                     <?php
-                                        }
-                                    } ?>
+                                                }
+                                            }
+                                            ?>
                                         </div>    
                                     </div>
-                                    <?php
-                                } else {
-                                    ?>
+                                            <?php
+                                        } else {
+                                            ?>
                                     <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
-                                            <i class="fas fa-check"></i> <?php
-                                            echo $value; ?>
+                                            <i class="fas fa-check"></i> <?php echo $value; ?>
                                         </div>  
                                     </div>    
-                                    <?php
-                                }
-                            }
-                            ?>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                         </div>
                     </div>
                 </div>
@@ -284,40 +295,40 @@ if (empty($verified)) {
                     </div>
                     <div class="panel-body">
                         <div class="row">    
-                            <?php
-                            foreach ($messages['Apache'] as $value) {
-                                if (is_array($value)) {
-                                    ?>
+<?php
+foreach ($messages['Apache'] as $value) {
+    if (is_array($value)) {
+        ?>
                                     <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-danger">
                                             <i class="fas fa-times"></i> <?php
-                                            echo $value[0];
+                                    echo $value[0];
                                     if (!empty($value[1])) {
                                         if (preg_match('/^http/i', $value[1])) {
                                             ?>
                                                     <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
                                                     <?php
-                                        } else {
-                                            ?>
+                                                } else {
+                                                    ?>
                                                     <br><code><?php echo $value[1]; ?></code> 
                                                     <?php
-                                        }
-                                    } ?>
+                                                }
+                                            }
+                                            ?>
                                         </div>    
                                     </div>
-                                    <?php
-                                } else {
-                                    ?>
+                                            <?php
+                                        } else {
+                                            ?>
                                     <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
-                                            <i class="fas fa-check"></i> <?php
-                                            echo $value; ?>
+                                            <i class="fas fa-check"></i> <?php echo $value; ?>
                                         </div>  
                                     </div>    
-                                    <?php
-                                }
-                            }
-                            ?>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                         </div>
                     </div>
                 </div>

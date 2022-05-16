@@ -561,9 +561,6 @@ fieldset[disabled] .btn-danger.focus {
     background-color: #fff;
 }
 
-#mysearch, #myNavbar, #lastItemOnMenu{
-    padding-top: 4px;
-}
 .panel {
     margin-bottom: 20px;
     background-color: #fff;

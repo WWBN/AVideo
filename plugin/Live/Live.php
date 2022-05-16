@@ -242,7 +242,8 @@ class Live extends PluginAbstract {
                 //var_dump(__LINE__, $link);
                 continue;
             }
-            $link = addQueryStringParameter($link, 'live_schedule', intval($value['id']));
+            //$link = addQueryStringParameter($link, 'live_schedule', intval($value['id']));
+            $link = $link.'/ls/'.intval($value['id']).'/';
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
 
             $title = self::getTitleFromKey($value['key'], $value['title']);
@@ -544,6 +545,15 @@ class Live extends PluginAbstract {
 
         $obj->webRTC_PushRTMP = false;
         self::addDataObjectHelper('webRTC_PushRTMP', 'PushRTMP', 'Self Hosted only If it is unchecked we will restream the Webcam instead of pushing it');
+
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = "Hi {UserIdentification},
+
+This is a friendly reminder that the live <strong>{liveTitle}</strong> will start in <strong>{timeToStart}</strong>.
+
+Click <a href=\"{link}\">here</a> to join our live.";
+        $obj->reminderText = $o;
 
         return $obj;
     }
@@ -1428,6 +1438,11 @@ class Live extends PluginAbstract {
 
         $url = "{$global['webSiteRootURL']}live/{$live_servers_id}/" . urlencode($channelName);
 
+        $live_schedule_id = intval($live_schedule_id);
+        if (!empty($live_schedule_id)) {
+            $url = "{$url}/ls/{$live_schedule_id}";
+        }
+        
         if (!empty($live_index)) {
             $url .= '/' . urlencode($live_index);
         } elseif (!isset($live_index) && !empty($_REQUEST['live_index'])) {
@@ -1436,10 +1451,6 @@ class Live extends PluginAbstract {
 
         if (!empty($_REQUEST['playlists_id_live'])) {
             $url = addQueryStringParameter($url, 'playlists_id_live', $_REQUEST['playlists_id_live']);
-        }
-        $live_schedule_id = intval($live_schedule_id);
-        if (!empty($live_schedule_id)) {
-            $url = addQueryStringParameter($url, 'live_schedule', $live_schedule_id);
         }
 
         //return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
@@ -1509,6 +1520,22 @@ class Live extends PluginAbstract {
             }
         }
         return $btn;
+    }
+    
+    public static function unfinishAllFromStats($force_recreate = false){
+        $stats = self::getStats($force_recreate);
+        
+        foreach ($stats as $server) {
+            foreach ($server as $live) {
+                if(!empty($live->key)){
+                    $row = LiveTransmitionHistory::getLatest($live->key, @$live->live_servers_id);
+                    if(!empty($row['finished'])){
+                        LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
+                    }
+                }
+            }
+        }
+        
     }
 
     public static function getStats($force_recreate = false) {
@@ -1587,8 +1614,8 @@ class Live extends PluginAbstract {
     }
 
     public static function isAdaptive($key) {
-        if(!is_string($key)){
-            _error_log('isAdaptive ERROR '._json_encode($key));
+        if (!is_string($key)) {
+            _error_log('isAdaptive ERROR ' . _json_encode($key));
             return false;
         }
         if (preg_match('/_(hi|low|mid)$/i', $key)) {
@@ -1750,7 +1777,12 @@ class Live extends PluginAbstract {
             if (empty($livet)) {
                 $getLiveTransmitionObjectFromKey[$parts[0]] = false;
             } else {
-                $lt = new LiveTransmition($livet['id']);
+                if (!empty($livet['live_schedule_id'])) {
+                    $lt = new Live_schedule($livet['live_schedule_id']);
+                } else {
+                    $lt = new LiveTransmition($livet['id']);
+                }
+
                 $getLiveTransmitionObjectFromKey[$parts[0]] = $lt;
             }
         }
@@ -2704,7 +2736,7 @@ class Live extends PluginAbstract {
         $lt = new LiveTransmitionHistory($liveTransmitionHistory_id);
         $users_id = $lt->getUsers_id();
         $live_servers_id = $lt->getLive_servers_id();
-        
+
         _error_log("on_publish: liveTransmitionHistory_id={$liveTransmitionHistory_id} users_id={$users_id} live_servers_id={$live_servers_id} ");
         AVideoPlugin::onLiveStream($users_id, $live_servers_id);
     }
@@ -3246,36 +3278,36 @@ class Live extends PluginAbstract {
         }
         return false;
     }
-    
-    public static function getInfo($key, $live_servers_id = null){
-        
+
+    public static function getInfo($key, $live_servers_id = null, $live_index = '') {
+
         $array = array(
-                'key' => $key,
-                'live_schedule_id' => 0,
-                'users_id' => 0,
-                'live_servers_id' => $live_servers_id,
-                'history' => false,
-                'isLive' => false,
-                'isFinished' => false,
-                'finishedDateTime' => __('Not finished'),
-                'finishedSecondsAgo' => 0,
-                'finishedHumanAgo' => __('Not finished'),
-                'isStarded' => false,
-                'startedDateTime' => __('Not started'),
-                'startedSecondsAgo' => 0,
-                'startedHumanAgo' => __('Not started'),
+            'key' => $key,
+            'live_schedule_id' => 0,
+            'users_id' => 0,
+            'live_servers_id' => $live_servers_id,
+            'history' => false,
+            'isLive' => false,
+            'isFinished' => false,
+            'finishedDateTime' => __('Not finished'),
+            'finishedSecondsAgo' => 0,
+            'finishedHumanAgo' => __('Not finished'),
+            'isStarded' => false,
+            'startedDateTime' => __('Not started'),
+            'startedSecondsAgo' => 0,
+            'startedHumanAgo' => __('Not started'),
         );
-        
+
         $lt = LiveTransmition::getFromKey($key);
-        if(empty($lt)){
+        if (empty($lt)) {
             return $array;
         }
         $array['transmission'] = $lt;
         $array['live_schedule_id'] = $lt['live_schedule_id'];
         $array['users_id'] = $lt['users_id'];
-        
+
         $lth = LiveTransmitionHistory::getLatest($key, $live_servers_id);
-        if(empty($lth)){
+        if (empty($lth)) {
             return $array;
         }
         $array['history'] = $lth;
@@ -3283,16 +3315,166 @@ class Live extends PluginAbstract {
         $array['isStarded'] = true;
         $array['startedDateTime'] = $lth['created'];
         $array['startedSecondsAgo'] = secondsIntervalFromNow($lth['created'], true);
-        $array['startedHumanAgo'] = __('Started').' '.humanTimingAgo($lth['created']);
-        
-        if(!empty($lth['finished'])){
-            $array['isLive'] = false;
-            $array['isFinished'] = true;
-            $array['finishedDateTime'] = $livet['finished'];
-            $array['finishedSecondsAgo'] = secondsIntervalFromNow($lth['finished'], true);
-            $array['finishedHumanAgo'] = __('Finished').' '.humanTimingAgo($lth['finished']);
+        $array['startedHumanAgo'] = __('Started') . ' ' . humanTimingAgo($lth['created']);
+
+        if (!empty($lth['finished'])) {
+            $isKeyLiveInStats = self::isKeyLiveInStats($key, $live_servers_id, $live_index);
+            if(empty($isKeyLiveInStats)){
+                $array['isLive'] = false;
+                $array['isFinished'] = true;
+                $array['finishedDateTime'] = $lth['finished'];
+                $array['finishedSecondsAgo'] = secondsIntervalFromNow($lth['finished'], true);
+                $array['finishedHumanAgo'] = __('Finished') . ' ' . humanTimingAgo($lth['finished']);
+            }else{
+                LiveTransmitionHistory::unfinishFromTransmitionHistoryId($lth['id']);
+            }
         }
+
+        $array['displayTime'] = '';
+        if ($array['isFinished']) {
+            $array['displayTime'] = $array['finishedHumanAgo'];
+            if(!empty($lt['scheduled_time'])){
+                $time = getTimeInTimezone($lt['scheduled_time'], $lt['timezone']);
+                $displayTime = strtotime($array['finishedDateTime']);
+                
+                //var_dump($time, $displayTime, $lt['scheduled_time'], $lt['timezone'], $array['finishedDateTime']);exit;
+                if($time > $displayTime){
+                    $array['displayTime'] = __('Will start in') . ' ' . humanTiming($time). ", {$lt['scheduled_time']}, {$lt['timezone']}";
+                }
+            }
+        } else if ($array['isStarded']) {
+            $array['displayTime'] = $array['startedHumanAgo'];
+        }
+        
         return $array;
+    }
+
+    public static function setLiveScheduleReminder($live_schedule_id, $minutesEarlier = 0, $deleteIfExists = false) {
+
+        $obj = new stdClass();
+        $obj->error = true;
+        $obj->msg = '';
+        $obj->deleted = false;
+        $obj->scheduler_commands_id = 0;
+        $obj->deleted_id = 0;
+
+        if (!User::isLogged()) {
+            $obj->msg = __('Must be logged');
+            return $obj;
+        }
+
+        if (!AVideoPlugin::isEnabledByName('Scheduler')) {
+            $obj->msg = 'Scheduler is disabled';
+            return $obj;
+        }
+
+        if (empty($live_schedule_id)) {
+            $obj->msg = 'live_schedule_id cannot be empty';
+            return $obj;
+        }
+
+        $ls = new Live_schedule($live_schedule_id);
+        $to_users_id = User::getId();
+        $users_id = Live_schedule::getUsers_idOrCompany($live_schedule_id);
+
+        if (empty($users_id)) {
+            $obj->msg = 'users_id cannot be empty';
+            return $obj;
+        }
+
+        $date_to_execute = strtotime($ls->getScheduled_time() . " -{$minutesEarlier} minutes");
+
+        $reminders = self::getLiveScheduleReminders($live_schedule_id);
+        foreach ($reminders as $value) {
+            if (strtotime($value['date_to_execute']) === $date_to_execute) {
+                if ($deleteIfExists) {
+                    $e = new Scheduler_commands($value['id']);
+                    $obj->deleted_id = $value['id'];
+                    $obj->deleted = $e->delete();
+                    $obj->error = empty($obj->deleted);
+                } else {
+                    $obj->msg = __('Reminder already set');
+                }
+                return $obj;
+            }
+        }
+
+
+        $objLive = AVideoPlugin::getDataObject('Live');
+        $emailEmailBody = __($objLive->reminderText->value, true);
+        $UserIdentification = User::getNameIdentification();
+        $liveTitle = Live::getTitleFromUsers_Id($users_id);
+        $link = Live::getLinkToLiveFromUsers_id($users_id);
+        $timeToStart = humanTiming($ls->getScheduled_time());
+        $emailEmailBody = str_replace(array('{UserIdentification}', '{liveTitle}', '{link}', '{timeToStart}'), array($UserIdentification, $liveTitle, $link, $timeToStart), $emailEmailBody);
+
+        $emailTo = $to_users_id;
+        $emailSubject = $ls->getTitle() . ' - ' . __('Live reminder');
+        $emailFrom = $users_id;
+        $emailFromName = User::getNameIdentificationById($users_id);
+
+        $type = self::getLiveScheduleReminderBaseNameType($live_schedule_id, $minutesEarlier);
+        $type = "{$type}_{$users_id}";
+
+        $obj->scheduler_commands_id = Scheduler::addSendEmail($date_to_execute, $emailTo, $emailSubject, $emailEmailBody, $emailFrom, $emailFromName, $type);
+
+        $obj->error = empty($obj->scheduler_commands_id);
+
+        return $obj;
+    }
+
+    public static function getLiveScheduleReminders($live_schedule_id) {
+        $type = self::getLiveScheduleReminderBaseNameType($live_schedule_id);
+        return Scheduler_commands::getAllActiveOrToRepeat($type);
+    }
+
+    public static function getLiveScheduleReminderBaseNameType($live_schedule_id, $minutesEarlier = '') {
+        $to_users_id = User::getId();
+        $type = "LiveScheduleReminder_{$to_users_id}_{$live_schedule_id}";
+        if (!empty($minutesEarlier)) {
+            $type .= "_{$minutesEarlier}";
+        }
+        return $type;
+    }
+
+    static public function getScheduleReminderOptions($live_schedule_id) {
+        global $global;
+        $destinationURL = "{$global['webSiteRootURL']}plugin/Live/remindMe.json.php";
+        $destinationURL = addQueryStringParameter($destinationURL, 'live_schedule_id', $live_schedule_id);
+        $destinationURL = addQueryStringParameter($destinationURL, 'deleteIfExists', 1);
+        $selectedEarlierOptions = array();
+
+        $schedules = self::getLiveScheduleReminders($live_schedule_id);
+        $type = self::getLiveScheduleReminderBaseNameType($live_schedule_id);
+        //var_dump($type);
+        foreach ($schedules as $value) {
+            $parts = explode('_', $value["type"]);
+            //var_dump($parts);
+            $selectedEarlierOptions[] = intval($parts[3]);
+        }
+        
+        $ls = new Live_schedule($_REQUEST['live_schedule_id']);
+        
+        $ls = new Live_schedule($live_schedule_id);
+        $users_id = Live_schedule::getUsers_idOrCompany($live_schedule_id);
+        $title = $ls->getTitle();
+        $date_start = $ls->getScheduled_time();
+        $date_end = '';
+        $joinURL = Live::getLinkToLiveFromUsers_id($users_id);
+        $joinURL = addQueryStringParameter($joinURL, 'live_schedule', $live_schedule_id);
+                
+        //        , $date_start, $selectedEarlierOptions = array(), $date_end = '', $joinURL='', $description=''
+        
+        return Scheduler::getReminderOptions($destinationURL, $title, $date_start, $selectedEarlierOptions, $date_end, $joinURL);
+
+    }
+
+    public function getWatchActionButton($videos_id): string {
+        $isLive = isLive();
+        if (!empty($isLive['live_schedule'])) {
+            return '<button class="btn btn-default no-outline" onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/Live/remindMe.php?live_schedule_id=' . $isLive['live_schedule'] . '\');"><i class="fas fa-bell"></i> ' . __('Remind Me') . '</button>';
+        }
+        return '';
     }
 
 }
@@ -3475,4 +3657,5 @@ class LiveStreamObject {
         $lt = LiveTransmition::getFromKey($this->key);
         return Live::getServerURL($this->key, $lt['users_id'], $short);
     }
+
 }

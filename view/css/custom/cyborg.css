@@ -54,3 +54,7 @@ th:hover, .select2-dropdown{
 .btn-default.no-outline:hover{
     color: #AAA !important;
 }
+
+.gallery .title, .videosDetails .title {
+    max-height: 40px !important;
+}

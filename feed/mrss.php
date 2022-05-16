@@ -51,7 +51,7 @@ if (empty($feed)) {
                     <?php echo $enclosure; ?>
                     <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
                     <guid isPermaLink="true"><?php echo Video::getLinkToVideo($row['id'], $row['clean_title'], false, "permalink"); ?></guid>
-                    <media:category><?php echo $row["category"]; ?></media:category>
+                    <media:category><?php echo htmlspecialchars($row["category"]); ?></media:category>
                     <media:content url="<?php echo $videoSource; ?>" fileSize="<?php echo $video["filesize"]; ?>" bitrate="128"
                                    type="<?php echo mime_content_type_per_filename($videoSource); ?>" expression="full"
                                    duration="<?php echo durationToSeconds($row['duration']); ?>">

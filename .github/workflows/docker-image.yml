@@ -10,6 +10,9 @@ on:
 #  schedule:
 #    - cron: '35 2 * * 1'
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest

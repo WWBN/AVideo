@@ -193,6 +193,7 @@ class YPTSocket extends PluginAbstract {
         if (!empty($obj->enableCalls)) {
             echo 'callerNewConnection(response);';
         }
+        echo 'socketNewConnection(response);';
         return '';
     }
     
@@ -201,7 +202,38 @@ class YPTSocket extends PluginAbstract {
         if (!empty($obj->enableCalls)) {
             echo 'callerDisconnection(response);';
         }
+        echo 'socketDisconnection(response);';
         return '';
+    }
+    
+    public static function getUserOnlineLabel($users_id, $class='', $style='') {
+        global $global;
+        $users_id = intval($users_id);
+        $varsArray = array('users_id' => $users_id, 'class'=>$class, 'style'=>$style);
+        $filePath = $global['systemRootPath'] . 'plugin/YPTSocket/userOnlineLabel.php';
+        return getIncludeFileContent($filePath, $varsArray);
+    }
+    
+    
+    public static function shouldShowCaller() {
+        global $_YPTSocketshouldShowCaller;
+        if(!isset($_YPTSocketshouldShowCaller)){
+            $obj = new stdClass();
+            $obj->show = false;
+            $obj->reason = '';
+            if (!User::isLogged()) {
+                $obj->reason = 'Not logged';
+            } else {
+                $objSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
+                if (empty($objSocket->enableCalls)) {
+                    $obj->reason = 'YPTSocket enableCalls = false';
+                }else{
+                    $obj->show = true;
+                }
+            }
+            $_YPTSocketshouldShowCaller = $obj;
+        }
+        return $_YPTSocketshouldShowCaller;
     }
 
 }
