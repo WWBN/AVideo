@@ -29,11 +29,12 @@ if (!empty($_GET['u'])) {
     $live_index = @$_REQUEST['live_index'];
 
     $info = Live::getInfo($livet['key'], $live_servers_id, $live_index);
-
+    //var_dump($info);exit;
     if (!$info['isLive']) {
         if (!empty($info['otherLivesSameUser'])) {
             $link = LiveTransmitionHistory::getLinkToLive($info['otherLivesSameUser'][0]['id']);
             //var_dump($link, $info['otherLivesSameUser'][0]);exit;
+            //var_dump($link,$info['users_id'], $info['otherLivesSameUser']);exit;
             header("Location: {$link}");
             exit;
             /*
