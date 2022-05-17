@@ -49,3 +49,6 @@ th:hover, .select2-dropdown{
 .btn-default.no-outline:hover{
     color: #AAA !important;
 }
+.hamburger *{
+    stop-color: #FFF;
+}
