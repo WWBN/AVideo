@@ -1458,7 +1458,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     var html = '';
     html += '<div id="avideoModalIframeDiv" class="clearfix popover-title">';  
     
-    if(typeof avideoModalIframeFullScreenCloseButton !== 'undefined'){
+    if(typeof avideoModalIframeFullScreenCloseButton === 'undefined'){
         avideoModalIframeFullScreenCloseButtonSmall = '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
         avideoModalIframeFullScreenCloseButtonSmall += '<i class="fas fa-chevron-left"></i>';
         avideoModalIframeFullScreenCloseButtonSmall += '</button>';
