@@ -46,6 +46,7 @@ class Layout extends PluginAbstract {
         $obj->categoriesTopButtonsShowOnlyOnFirstPage = true;
         $obj->categoriesTopButtonsShowVideosCount = false;
         $obj->categoriesTopButtonsFluid = true;
+        $obj->enableAccessibility = false;
 
         $o = new stdClass();
         $o->type = array(0 => '-- ' . __("Random")) + self::getLoadersArray();
@@ -457,6 +458,13 @@ class Layout extends PluginAbstract {
             $content .= '<script src="'.getCDN().'view/js/select2/select2.min.js"></script>';
            // $content .= '<script>$(document).ready(function() {$(\'.js-select-search\').select2();});</script>';
         }
+        
+        if (!empty($obj->enableAccessibility)) {
+            
+            $file = $global['systemRootPath'] . 'plugin/Layout/accessibility/accessibility.php';
+            $content .= getIncludeFileContent($file);
+        }
+
 
         $content .= self::_getFooterCode();
         return $content;
