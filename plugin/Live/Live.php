@@ -3327,6 +3327,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $array['live_schedule_id'] = $lt['live_schedule_id'];
         $array['users_id'] = $lt['users_id'];
         
+        $otherLivesSameUser = LiveTransmitionHistory::getActiveLiveFromUser($array['users_id'], '', '', 100);
+        
+        $array['otherLivesSameUser'] = array();
+        foreach ($otherLivesSameUser as $value) {
+            if($value['key']!==$keyWithIndex){
+                $array['otherLivesSameUser'][] = $value;
+            }
+        }
+        
         $lth = LiveTransmitionHistory::getLatest($keyWithIndex, $live_servers_id);
         if (empty($lth)) {
             return $array;
@@ -3365,14 +3374,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
         } else if ($array['isStarded']) {
             $array['displayTime'] = $array['startedHumanAgo'];
-        }
-        $otherLivesSameUser = LiveTransmitionHistory::getActiveLiveFromUser($array['users_id'], '', '', 100);
-        
-        $array['otherLivesSameUser'] = array();
-        foreach ($otherLivesSameUser as $value) {
-            if($value['key']!==$keyWithIndex && $array['users_id'] == $value['users_id']){
-                $array['otherLivesSameUser'][] = $value;
-            }
         }
         
         return $array;
