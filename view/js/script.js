@@ -1463,7 +1463,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         avideoModalIframeFullScreenCloseButtonSmall += '<i class="fas fa-chevron-left"></i>';
         avideoModalIframeFullScreenCloseButtonSmall += '</button>';
 
-        avideoModalIframeFullScreenCloseButton = avideoModalIframeFullScreenCloseButtonSmall+'<img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;">';
+        avideoModalIframeFullScreenCloseButton = avideoModalIframeFullScreenCloseButtonSmall;
     }
 
     if(inIframe()){
