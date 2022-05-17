@@ -601,6 +601,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
 
         $sql .= " ORDER BY created DESC LIMIT {$count}";
+        //echo $sql;exit;
         $res = sqlDAL::readSql($sql, $formats, $values);
         if ($count == 1) {
             $data = sqlDAL::fetchAssoc($res);
