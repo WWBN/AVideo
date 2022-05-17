@@ -6,16 +6,16 @@ if (!User::isLogged()) {
     return false;
 }
 
+$obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
+
+if (empty($obj->enableCalls)) {
+    return false;
+}
+
 $response = pluginsRequired(array('Meet', 'YPTSocket'), "Caller");
 
 if($response->error){
     echo '<script>avideoAlertError("'.$response->msg.'");</script>';
-    return false;
-}
-
-$obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
-
-if (empty($obj->enableCalls)) {
     return false;
 }
 ?>

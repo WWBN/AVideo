@@ -12,17 +12,17 @@ if (empty($users_id)) {
     forbiddenPage('Users_id is empty');
 }
 
+$obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
+
+if (empty($obj->enableCalls)) {
+    forbiddenPage('Calls are disabled on YPTSocket plugin');
+}
+
 $response = pluginsRequired(array('Meet', 'YPTSocket'), "Caller");
 
 if ($response->error) {
     echo '<script>avideoAlertError("' . $response->msg . '");</script>';
     return false;
-}
-
-$obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
-
-if (empty($obj->enableCalls)) {
-    forbiddenPage('Calls are disabled on YPTSocket plugin');
 }
 
 $identification = User::getNameIdentificationById($users_id);
