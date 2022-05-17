@@ -1,3 +1,8 @@
+<?php
+if(isIframe()){
+    return false;
+}
+?>
 <link href="<?php echo getURL('plugin/Layout/accessibility/accessibility.css'); ?>" rel="stylesheet" type="text/css"/>
 <style>
     <?php
