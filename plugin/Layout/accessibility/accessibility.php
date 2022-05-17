@@ -15,7 +15,8 @@ if(isIframe()){
             .accessibility-fontsize-<?php echo $i; ?> h4, 
             .accessibility-fontsize-<?php echo $i; ?> h5, 
             .accessibility-fontsize-<?php echo $i; ?> h6,
-            .accessibility-fontsize-<?php echo $i; ?> .gallery .title, .videosDetails .title{
+            .accessibility-fontsize-<?php echo $i; ?> .gallery .title, 
+            .accessibility-fontsize-<?php echo $i; ?> .videosDetails .title{
                 font-size: <?php echo $i; ?>% !important;
                 max-height: none;
             }
