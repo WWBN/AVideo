@@ -28,7 +28,8 @@
     border-radius: 35px 0 0 35px;
 }
 
-#accessibility-toolbar > .accessibility-toolbar-toggle:hover > .button{
+#accessibility-toolbar > .accessibility-toolbar-toggle:hover,
+#accessibility-toolbar.active > .accessibility-toolbar-toggle{
     opacity: 1;
 }
 
@@ -42,9 +43,6 @@
 }
 #accessibility-toolbar.active{
     right: 0;
-}
-#accessibility-toolbar.active > .accessibility-toolbar-toggle > .button{
-    opacity: 1;
 }
 
 .accessibility-grayscale{
