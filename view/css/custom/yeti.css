@@ -17,6 +17,8 @@
     margin-bottom: 5px;
 }
 
-.hamburger svg *{
-    stroke: #FFF;
+span.selection > span.select2-selection--single{
+    color: #333333;
+    background-color: #e7e7e7;
+    border-color: #cccccc;
 }

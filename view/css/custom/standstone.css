@@ -22,3 +22,9 @@
 .hamburger svg *{
     stroke: #FFF;
 }
+span.selection > span.select2-selection--single{
+    color: #ffffff;
+    background-color: #3e3f3a;
+    border-color: transparent;
+    border: none;
+}

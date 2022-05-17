@@ -112,7 +112,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
 
             <li id="lastItemOnMenu">
                 <div class="pull-right" id="myNavbar">
-                    <ul class="right-menus" style="padding-left: 0;">
+                    <ul class="right-menus align-center" style="padding-left: 0;">
                         <?php
                         echo AVideoPlugin::getHTMLMenuRight();
                         include $global['systemRootPath'] . 'view/include/navbarLang.php';

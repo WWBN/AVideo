@@ -62,3 +62,8 @@ th:hover, .select2-dropdown{
 .hamburger svg *{
     stroke: #FFF;
 }
+span.selection > span.select2-selection--single{
+    color: #ffffff;
+    background-color: #424242;
+    border-color: #424242;
+}

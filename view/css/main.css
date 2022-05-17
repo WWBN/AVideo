@@ -1447,3 +1447,8 @@ button.btn-sm.hamburger svg{
 .users_id_online_label.online .label-danger{
     display: none;
 }
+.align-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -204,10 +204,7 @@ class Layout extends PluginAbstract {
             $html .= '<link href="'.getCDN().'view/js/select2/select2.min.css" rel="stylesheet" />';
             $html .= '<style>
                 .select2-selection__rendered {line-height: 32px !important;}
-                .select2-selection {min-height: 34px !important;}
-                .select2-container--default .select2-selection--single {
-                    background-color: transparent !important;
-                }</style>';
+                .select2-selection {min-height: 34px !important;}</style>';
         }
         if (empty($class)) {
             $class = "js-select-search";
