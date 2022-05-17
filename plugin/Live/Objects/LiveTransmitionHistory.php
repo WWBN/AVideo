@@ -549,18 +549,16 @@ class LiveTransmitionHistory extends ObjectYPT {
             $total = count($fullData);
             foreach ($fullData as $row) {
                 if ($total < 10 && strtotime($row['modified']) < strtotime('-1 hour')) {
-                    /*
-                    // check if the m3u8 file still exists
-                    $m3u8 = Live::getM3U8File($row['key'], false, true);
-                    $isURL200 = isValidM3U8Link($m3u8);
-                    if (empty($isURL200)) {
-                        self::finishFromTransmitionHistoryId($row['id']);
-                        //var_dump($isURL200, $m3u8, $row);exit;
-                        continue;
+                    if(Live::isStatsAccessible($live_servers_id)){
+                        // check if the m3u8 file still exists
+                        $m3u8 = Live::getM3U8File($row['key'], false, true);
+                        $isURL200 = isValidM3U8Link($m3u8);
+                        if (empty($isURL200)) {
+                            self::finishFromTransmitionHistoryId($row['id']);
+                            //var_dump($isURL200, $m3u8, $row);exit;
+                            continue;
+                        }
                     }
-                     * 
-                     */
-                    
                     // update it to make sure the modified date is updated
                     $lth = new LiveTransmitionHistory($row['id']);
                     $lth->save();
@@ -623,17 +621,16 @@ class LiveTransmitionHistory extends ObjectYPT {
                 $total = count($fullData);
                 foreach ($fullData as $row) {
                     if ($total < 10 && strtotime($row['modified']) < strtotime('-1 hour')) {
-                        /*
-                        // check if the m3u8 file still exists
-                        $m3u8 = Live::getM3U8File($row['key']);
-                        $isURL200 = isValidM3U8Link($m3u8);
-                        if (empty($isURL200)) {
-                            self::finishFromTransmitionHistoryId($row['id']);
-                            //var_dump($isURL200, $m3u8, $row);exit;
-                            continue;
-                        } 
-                         * 
-                         */
+                        if(Live::isStatsAccessible($live_servers_id)){
+                            // check if the m3u8 file still exists
+                            $m3u8 = Live::getM3U8File($row['key']);
+                            $isURL200 = isValidM3U8Link($m3u8);
+                            if (empty($isURL200)) {
+                                self::finishFromTransmitionHistoryId($row['id']);
+                                //var_dump($isURL200, $m3u8, $row);exit;
+                                continue;
+                            } 
+                        }
                         // update it to make sure the modified date is updated
                         $lth = new LiveTransmitionHistory($row['id']);
                         $lth->save();
