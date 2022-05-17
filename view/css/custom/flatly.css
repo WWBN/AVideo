@@ -19,3 +19,7 @@ body {
 #sidebar {
     margin-top: 60px  !important;
 }
+
+.hamburger svg *{
+    stroke: #FFF;
+}

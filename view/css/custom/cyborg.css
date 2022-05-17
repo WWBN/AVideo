@@ -58,3 +58,7 @@ th:hover, .select2-dropdown{
 .gallery .title, .videosDetails .title {
     max-height: 40px !important;
 }
+
+.hamburger svg *{
+    stroke: #FFF;
+}

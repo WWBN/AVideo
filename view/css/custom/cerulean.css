@@ -12,3 +12,7 @@
  .navbar .dropdown-menu a{
      color: #333333;
  }
+ 
+.hamburger svg *{
+    stroke: #FFF;
+}

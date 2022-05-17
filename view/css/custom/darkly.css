@@ -60,3 +60,7 @@ th:hover, .select2-dropdown{
 .progress {
     height: 27px;
 }
+
+.hamburger svg *{
+    stroke: #FFF;
+}

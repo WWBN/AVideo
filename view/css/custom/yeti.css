@@ -16,3 +16,7 @@
     margin-top: 7px;
     margin-bottom: 5px;
 }
+
+.hamburger svg *{
+    stroke: #FFF;
+}
