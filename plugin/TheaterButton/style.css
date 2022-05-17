@@ -39,3 +39,12 @@
 #modeYoutubeBottomContent .embed-responsive-16by9,#modeYoutubeBottomContent #mainVideo, #modeYoutubeBottomContent .playerFullHeight {
     height: 100% !important;
 }
+
+.show-when-is-expanded, .show-when-is-compressed{
+    display: none !important;
+}
+
+.ypt-is-expanded .show-when-is-expanded,
+.ypt-is-compressed .show-when-is-compressed{
+    display: inline-block !important;
+}

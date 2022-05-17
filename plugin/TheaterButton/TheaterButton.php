@@ -99,5 +99,10 @@ class TheaterButton extends PluginAbstract {
         }
         return (!empty($_COOKIE['compress']) && $_COOKIE['compress'] !== 'false') ? true : false;
     }
+    
+    public function getWatchActionButton($videos_id) {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/TheaterButton/actionButton.php';
+    }
 
 }
