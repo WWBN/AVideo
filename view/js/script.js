@@ -1456,7 +1456,16 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     url = addGetParam(url, 'avideoIframe', 1);
     console.log('avideoModalIframeWithClassName', url, className, updateURL);
     var html = '';
-    html += '<div id="avideoModalIframeDiv" class="clearfix popover-title">';    
+    html += '<div id="avideoModalIframeDiv" class="clearfix popover-title">';  
+    
+    if(typeof avideoModalIframeFullScreenCloseButton !== 'undefined'){
+        avideoModalIframeFullScreenCloseButtonSmall = '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
+        avideoModalIframeFullScreenCloseButtonSmall += '<i class="fas fa-chevron-left"></i>';
+        avideoModalIframeFullScreenCloseButtonSmall += '</button>';
+
+        avideoModalIframeFullScreenCloseButton = avideoModalIframeFullScreenCloseButtonSmall+'<img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;">';
+    }
+
     if(inIframe()){
         html += avideoModalIframeFullScreenCloseButtonSmall;
     }else{
