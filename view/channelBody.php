@@ -130,7 +130,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                         ?></h2>
                     <span class="pull-right">
                     <?php
-                    echo getUserOnlineLabel($value['users_id'], 'pull-right', 'padding: 0 5px;');
+                    echo getUserOnlineLabel($user_id, 'pull-right', 'padding: 0 5px;');
                     ?>
                         <?php
                         echo User::getAddChannelToGalleryButton($user_id);
