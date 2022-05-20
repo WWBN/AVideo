@@ -24,28 +24,29 @@ try {
     let deferredPrompt;
     var playerCurrentTime;
     var mediaId;
+    var userLang = navigator.language || navigator.userLanguage;
     /* Code sample for resize iframe on a third party page
-    <iframe width="640" height="310" style="max-width: 100%;max-height: 100%; border:none;" src="..." frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="NO" >iFrame is not supported!</iframe>
-    <script>
-        // Create browser compatible event handler.
-        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-        var eventer = window[eventMethod];
-        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-        var _iframe = document.querySelector("iframe");
-        // Listen for a message from the iframe.
-        eventer(messageEvent, function (e) {
-            console.log('EventListener', e.data);
-            if(e.data.height){
-                _iframe.style.height = e.data.height + 'px';
-            }
-        },false);
+     <iframe width="640" height="310" style="max-width: 100%;max-height: 100%; border:none;" src="..." frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="NO" >iFrame is not supported!</iframe>
+     <script>
+     // Create browser compatible event handler.
+     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+     var eventer = window[eventMethod];
+     var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+     var _iframe = document.querySelector("iframe");
+     // Listen for a message from the iframe.
+     eventer(messageEvent, function (e) {
+     console.log('EventListener', e.data);
+     if(e.data.height){
+     _iframe.style.height = e.data.height + 'px';
+     }
+     },false);
+     
+     setInterval(function(){
+     _iframe.contentWindow.postMessage({getHeight: 1}, "*");
+     },1000);
+     </script>
+     */
 
-        setInterval(function(){
-            _iframe.contentWindow.postMessage({getHeight: 1}, "*");
-        },1000);
-    </script>
-    */
-    
     // Create browser compatible event handler.
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
     var eventer = window[eventMethod];
@@ -53,17 +54,17 @@ try {
     // Listen for a message from the iframe.
     eventer(messageEvent, function (e) {
         //console.log('EventListener', e.data);
-        if(e.data.getHeight){
-            var height= $('body > div.container-fluid').height();
-            if(!height){
-                height= $('body > div.container').height();
+        if (e.data.getHeight) {
+            var height = $('body > div.container-fluid').height();
+            if (!height) {
+                height = $('body > div.container').height();
             }
-            if(!height){
-                height= $('body').height();
+            if (!height) {
+                height = $('body').height();
             }
             parent.postMessage({height: height}, '*');
         }
-    },false);
+    }, false);
 
 } catch (e) {
     console.log('Variable declaration ERROR', e);
@@ -1381,10 +1382,10 @@ function avideoModalIframeFullScreenClose() {
         $('.swal-overlay iframe').attr('src', 'about:blank');
         try {
             /*
-            $('.swal-overlay').slideUp();
-            setTimeout(function(){
-                swal.close();
-            },500);
+             $('.swal-overlay').slideUp();
+             setTimeout(function(){
+             swal.close();
+             },500);
              */
             swal.close();
         } catch (e) {
@@ -1433,9 +1434,9 @@ function avideoWindowIframe(url) {
     html += '</div>';
     html += '</div>';
     $('body').append(html);
-    $( "#draggable" ).draggable({ handle: ".panel-heading",containment: "parent" });
+    $("#draggable").draggable({handle: ".panel-heading", containment: "parent"});
     //$( "div, p" ).disableSelection();
-    $( "#draggable" ).resizable();
+    $("#draggable").resizable();
 }
 
 var avideoModalIframeFullScreenOriginalURL = false;
@@ -1456,9 +1457,9 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     url = addGetParam(url, 'avideoIframe', 1);
     console.log('avideoModalIframeWithClassName', url, className, updateURL);
     var html = '';
-    html += '<div id="avideoModalIframeDiv" class="clearfix popover-title">';  
-    
-    if(typeof avideoModalIframeFullScreenCloseButton === 'undefined'){
+    html += '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
+
+    if (typeof avideoModalIframeFullScreenCloseButton === 'undefined') {
         avideoModalIframeFullScreenCloseButtonSmall = '<button class="btn btn-default pull-left" onclick="avideoModalIframeFullScreenClose();">';
         avideoModalIframeFullScreenCloseButtonSmall += '<i class="fas fa-chevron-left"></i>';
         avideoModalIframeFullScreenCloseButtonSmall += '</button>';
@@ -1466,9 +1467,9 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         avideoModalIframeFullScreenCloseButton = avideoModalIframeFullScreenCloseButtonSmall;
     }
 
-    if(inIframe()){
+    if (inIframe()) {
         html += avideoModalIframeFullScreenCloseButtonSmall;
-    }else{
+    } else {
         html += avideoModalIframeFullScreenCloseButton;
         html += '<img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;">';
     }
@@ -1602,11 +1603,11 @@ function avideoResponse(response) {
         if (!response.msg) {
             response.msg = 'Success';
         }
-        if(response.warning){
+        if (response.warning) {
             avideoToastWarning(response.msg);
-        }else if(response.info){
+        } else if (response.info) {
             avideoToastInfo(response.msg);
-        }else{
+        } else {
             avideoToastSuccess(response.msg);
         }
     }
@@ -1864,8 +1865,10 @@ function getServerTime() {
     if (getServerTimeActive || _serverTime) {
         return false;
     }
-    if(typeof webSiteRootURL == 'undefined'){
-        setTimeout(function(){getServerTime();},1000);
+    if (typeof webSiteRootURL == 'undefined') {
+        setTimeout(function () {
+            getServerTime();
+        }, 1000);
         return false;
     }
     getServerTimeActive = 1;
@@ -1910,9 +1913,15 @@ function convertDBDateToLocal(dbDateString) {
         return dbDateString;
     } else {
         var dateStr = dbDateString.replaceAll('-', '/') + ' ' + _serverDBTimezone;
+        var regex = /([0-9\/]+ [0-9:]+) ?([a-z_\/]+)?/i;
+        var matches = dateStr.match(regex);
+        var dateTime = matches[1];
+        var dateTimezone = matches[2]; 
+        
         //console.log('convertDBDateToLocal', dateStr);
-        var date = new Date(Date.parse(dateStr));
-        return date.toLocaleString();
+        var date = new Date(Date.parse(dateTime));
+        //console.log('convertDBDateToLocal', dateStr, date.toLocaleString(), date, new Date(Date.parse('2022/05/12 13:15:57')));
+        return date.toLocaleString(userLang, {timeZone: dateTimezone});
     }
 }
 
@@ -1936,7 +1945,7 @@ function addGetParam(_url, _key, _value) {
     return _url;
 }
 
-function addQueryStringParameter(_url, _key, _value){
+function addQueryStringParameter(_url, _key, _value) {
     return addGetParam(_url, _key, _value);
 }
 
@@ -2289,15 +2298,15 @@ function playAudio(mp3) {
     return playAudioTimeout[mp3];
 }
 
-function stopAllAudio(){
+function stopAllAudio() {
     var audios = document.getElementsByTagName('audio');
-    for(var i = 0, len = audios.length; i < len;i++){
-        if(audios[i] != e.target){
+    for (var i = 0, len = audios.length; i < len; i++) {
+        if (audios[i] != e.target) {
             audios[i].pause();
         }
     }
     for (var i in audioList) {
-        if(typeof audioList[i] === 'object'){
+        if (typeof audioList[i] === 'object') {
             audioList[i].pause();
         }
     }
@@ -2379,21 +2388,21 @@ function getCursorPos(input) {
     return -1;
 }
 
-function isUserOnline(users_id){
+function isUserOnline(users_id) {
     users_id = parseInt(users_id);
-    if(empty(users_id_online)){
+    if (empty(users_id_online)) {
         return false;
     }
-    if(empty(users_id_online[users_id])){
+    if (empty(users_id_online[users_id])) {
         return false;
     }
-    if(empty(users_id_online[users_id].resourceId)){
+    if (empty(users_id_online[users_id].resourceId)) {
         return false;
     }
     return users_id_online[users_id];
 }
 
-function isReadyToCheckIfIsOnline(){
+function isReadyToCheckIfIsOnline() {
     return !empty(users_id_online);
 }
 
