@@ -5,6 +5,7 @@ try {
     var _serverDBTimeString;
     var _serverTimezone;
     var _serverDBTimezone;
+    var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     var modal;
     var player;
     var floatLeft = "";
@@ -1910,19 +1911,11 @@ function convertDBDateToLocal(dbDateString) {
     if (!_serverDBTimezone) {
         getServerTime();
         console.log('convertDBDateToLocal _serverDBTimezone is empty', dbDateString);
-        return dbDateString;
+        var m = moment.tz(dbDateString);
     } else {
-        var dateStr = dbDateString.replaceAll('-', '/') + ' ' + _serverDBTimezone;
-        var regex = /([0-9\/]+ [0-9:]+) ?([a-z_\/]+)?/i;
-        var matches = dateStr.match(regex);
-        var dateTime = matches[1];
-        var dateTimezone = matches[2]; 
-        
-        //console.log('convertDBDateToLocal', dateStr);
-        var date = new Date(Date.parse(dateTime));
-        //console.log('convertDBDateToLocal', dateStr, date.toLocaleString(), date, new Date(Date.parse('2022/05/12 13:15:57')));
-        return date.toLocaleString(userLang, {timeZone: dateTimezone});
+        var m = moment.tz(dbDateString, _serverDBTimezone);
     }
+    return m.fromNow();
 }
 
 function addGetParam(_url, _key, _value) {
@@ -2518,7 +2511,7 @@ $(document).ready(function () {
     setInterval(function () {// check for the carousel
         checkDescriptionArea();
     }, 3000);
-    Cookies.set('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone, {
+    Cookies.set('timezone', timezone, {
         path: '/',
         expires: 365
     });
