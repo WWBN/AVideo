@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "chart.js": "^3.7.1",
+    "codemirror": "^5.65.4",
+    "croppie": "^2.6.5",
+    "dom-walk": "^0.1.2",
+    "fontawesome-free": "^1.0.4",
+    "infinite-scroll": "^4.0.1",
+    "jquery": "^3.6.0",
+    "jquery-ui": "^1.13.1",
+    "jquery-ui-dist": "^1.13.1",
+    "keycode": "^2.2.1",
+    "moment-timezone": "^0.5.34",
+    "sweetalert": "^2.1.2",
+    "tinymce": "^6.0.2",
+    "tinymce-langs": "^1.0.0",
+    "video.js": "^7.19.2",
+    "videojs": "^1.0.0",
+    "videojs-contrib-ads": "^6.9.0",
+    "videojs-font": "^3.2.0",
+    "videojs-ima": "^2.0.0",
+    "videojs-vtt": "^0.0.1-security",
+    "wow.js": "^1.2.2"
+  }
+}

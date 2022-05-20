@@ -81,7 +81,6 @@ Options All -Indexes
 
     RedirectMatch 404 /\.git    
     #Compatibility
-    RewriteRule    ^view/css/fontawesome-free-5.5.0-web/(.*)  node_modules/@fortawesome/fontawesome-free/$1
     RewriteRule    ^view/js/jquery-3.5.1.min.js  node_modules/jquery/dist/jquery.min.js
     RewriteRule    ^view/js/seetalert/sweetalert.min.js  node_modules/sweetalert/dist/sweetalert.min.js
     RewriteRule    ^view/js/jquery-ui/(.*)  node_modules/jquery-ui-dist/$1
