@@ -79,7 +79,7 @@ if (!User::canStream()) {
     </div>
     <div class="panel-footer">
         <?php
-        include $global['systemRootPath'].'plugin/Live/view/Live_restreams/getLiveKey.php';
+        //include $global['systemRootPath'].'plugin/Live/view/Live_restreams/getLiveKey.php';
         ?>
     </div>
 </div>
