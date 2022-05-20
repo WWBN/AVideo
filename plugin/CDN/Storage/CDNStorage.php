@@ -14,7 +14,7 @@ class CDNStorage {
         return self::getStorageClient();
     }
 
-    public static function getStorageClient() {
+    public static function getStorageClient($try=0) {
         $obj = AVideoPlugin::getDataObject('CDN');
         $CDNstorage = new \FtpClient\FtpClient();
         try {
@@ -23,7 +23,13 @@ class CDNStorage {
             $CDNstorage->pasv(true);
         } catch (Exception $exc) {
             _error_log("FTP:getClient fail ($obj->storage_hostname) ($obj->storage_username), ($obj->storage_password) " . $exc->getMessage());
-            die('CDNStorage FTP Error ' . $exc->getMessage());
+            $try++;
+            if($try<=3){
+                sleep($try);
+                return self::getStorageClient($try);
+            }else{
+                die('CDNStorage FTP Error ' . $exc->getMessage());
+            }
         }
         _error_log("FTP:getClient finish");
         return $CDNstorage;
