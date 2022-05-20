@@ -16,6 +16,9 @@ class CDNStorage {
 
     public static function getStorageClient($try=0) {
         $obj = AVideoPlugin::getDataObject('CDN');
+        if(empty($obj->storage_hostname)){
+           die('CDNStorage storage_hostname is empty ');
+        }
         $CDNstorage = new \FtpClient\FtpClient();
         try {
             $CDNstorage->connect($obj->storage_hostname);
