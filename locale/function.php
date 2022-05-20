@@ -152,3 +152,7 @@ function setLanguage($lang) {
     }
     return false;
 }
+
+function getLanguage(){
+    return strtolower(str_replace('_', '-', $_SESSION['language']));
+}
