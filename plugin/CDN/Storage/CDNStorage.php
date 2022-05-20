@@ -22,7 +22,7 @@ class CDNStorage {
             $CDNstorage->login($obj->storage_username, $obj->storage_password);
             $CDNstorage->pasv(true);
         } catch (Exception $exc) {
-            _error_log("FTP:getClient fail ($obj->storage_hostname) ($obj->storage_username), ($obj->storage_password) " . $exc->getMessage());
+            _error_log("FTP:getClient fail try={$try} ($obj->storage_hostname) ($obj->storage_username), ($obj->storage_password) " . $exc->getMessage());
             $try++;
             if($try<=3){
                 sleep($try);
