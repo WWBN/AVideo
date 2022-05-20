@@ -2,6 +2,7 @@ export const parsedManifest = {
   allowCache: true,
   discontinuityStarts: [],
   segments: [],
+  timelineStarts: [{ start: 0, timeline: 0 }],
   endList: true,
   mediaGroups: {
     'AUDIO': {
@@ -21,6 +22,9 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
+              timelineStarts: [{ start: 0, timeline: 0 }],
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
               resolvedUri: '',
               targetDuration: 1.984,
               segments: [
@@ -93,6 +97,9 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
+              timelineStarts: [{ start: 0, timeline: 0 }],
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
               resolvedUri: '',
               targetDuration: 1.984,
               segments: [
@@ -173,6 +180,9 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
+              timelineStarts: [{ start: 0, timeline: 0 }],
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
               resolvedUri: '',
               targetDuration: 1.984,
               segments: [
@@ -245,6 +255,9 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
+              timelineStarts: [{ start: 0, timeline: 0 }],
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
               resolvedUri: '',
               targetDuration: 1.984,
               segments: [
@@ -330,6 +343,9 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
+              timelineStarts: [{ start: 0, timeline: 0 }],
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
               resolvedUri: 'https://example.com/en.vtt',
               targetDuration: 6,
               segments: [
@@ -360,6 +376,9 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
+              timelineStarts: [{ start: 0, timeline: 0 }],
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
               resolvedUri: 'https://example.com/es.vtt',
               targetDuration: 6,
               segments: [
@@ -398,6 +417,9 @@ export const parsedManifest = {
       uri: '',
       endList: true,
       timeline: 0,
+      timelineStarts: [{ start: 0, timeline: 0 }],
+      discontinuitySequence: 0,
+      discontinuityStarts: [],
       resolvedUri: '',
       targetDuration: 1.9185833333333333,
       segments: [
@@ -476,6 +498,9 @@ export const parsedManifest = {
       uri: '',
       endList: true,
       timeline: 0,
+      timelineStarts: [{ start: 0, timeline: 0 }],
+      discontinuitySequence: 0,
+      discontinuityStarts: [],
       resolvedUri: '',
       targetDuration: 1.9185833333333333,
       segments: [

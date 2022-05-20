@@ -2,6 +2,10 @@ export const parsedManifest = {
   allowCache: true,
   discontinuityStarts: [],
   segments: [],
+  timelineStarts: [{
+    start: 0,
+    timeline: 0
+  }],
   endList: true,
   mediaGroups: {
     'AUDIO': {
@@ -26,7 +30,13 @@ export const parsedManifest = {
               resolvedUri: '',
               targetDuration: 60,
               segments: [],
-              mediaSequence: 1,
+              mediaSequence: 0,
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
+              timelineStarts: [{
+                start: 0,
+                timeline: 0
+              }],
               sidx: {
                 uri: 'http://example.com/audio_en_2c_128k_aac.mp4',
                 resolvedUri: 'http://example.com/audio_en_2c_128k_aac.mp4',
@@ -44,6 +54,7 @@ export const parsedManifest = {
                 },
                 duration: 60,
                 timeline: 0,
+                presentationTime: 0,
                 number: 0
               }
             }
@@ -70,7 +81,13 @@ export const parsedManifest = {
               resolvedUri: '',
               targetDuration: 60,
               segments: [],
-              mediaSequence: 1,
+              mediaSequence: 0,
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
+              timelineStarts: [{
+                start: 0,
+                timeline: 0
+              }],
               sidx: {
                 uri: 'http://example.com/audio_es_2c_128k_aac.mp4',
                 resolvedUri: 'http://example.com/audio_es_2c_128k_aac.mp4',
@@ -88,6 +105,7 @@ export const parsedManifest = {
                 },
                 duration: 60,
                 timeline: 0,
+                presentationTime: 0,
                 number: 0
               }
             }

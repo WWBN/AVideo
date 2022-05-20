@@ -102,7 +102,7 @@ Key code/name maps are available directly as `keycode.codes` and `keycode.names`
 
 ```js
 keycode.names[13] // => 'enter'
-keycode.codes['Enter'] // => 13
+keycode.codes['enter'] // => 13
 ```
 
 ## Credit

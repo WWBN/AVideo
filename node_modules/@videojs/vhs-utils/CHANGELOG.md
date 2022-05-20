@@ -1,3 +1,10 @@
+<a name="3.0.5"></a>
+## [3.0.5](https://github.com/videojs/vhs-utils/compare/v3.0.4...v3.0.5) (2022-03-16)
+
+### Bug Fixes
+
+* ArrayBuffer.isView may not be available everywhere ([#33](https://github.com/videojs/vhs-utils/issues/33)) ([bff9147](https://github.com/videojs/vhs-utils/commit/bff9147)), closes [#1134](https://github.com/videojs/vhs-utils/issues/1134)
+
 <a name="3.0.4"></a>
 ## [3.0.4](https://github.com/videojs/vhs-utils/compare/v3.0.3...v3.0.4) (2021-09-22)
 

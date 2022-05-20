@@ -1,3 +1,11 @@
+<a name="4.7.1"></a>
+## [4.7.1](https://github.com/videojs/m3u8-parser/compare/v4.7.0...v4.7.1) (2022-04-05)
+
+### Bug Fixes
+
+* EXT-X-KEY support playready keyformat ([#143](https://github.com/videojs/m3u8-parser/issues/143)) ([4e7c9eb](https://github.com/videojs/m3u8-parser/commit/4e7c9eb))
+* update vhs-utils to 3.0.5 for tizen 2.4 support ([#149](https://github.com/videojs/m3u8-parser/issues/149)) ([efce797](https://github.com/videojs/m3u8-parser/commit/efce797))
+
 <a name="4.7.0"></a>
 # [4.7.0](https://github.com/videojs/m3u8-parser/compare/v4.6.0...v4.7.0) (2021-05-19)
 

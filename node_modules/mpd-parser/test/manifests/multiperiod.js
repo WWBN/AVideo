@@ -2,6 +2,22 @@ export const parsedManifest = {
   allowCache: true,
   discontinuityStarts: [],
   segments: [],
+  timelineStarts: [{
+    start: 0,
+    timeline: 0
+  }, {
+    start: 5.972633333,
+    timeline: 5.972633333
+  }, {
+    start: 10.810799998,
+    timeline: 10.810799998
+  }, {
+    start: 24.791433331,
+    timeline: 24.791433331
+  }, {
+    start: 27.949347162000002,
+    timeline: 27.949347162000002
+  }],
   endList: true,
   mediaGroups: {
     'AUDIO': {
@@ -62,7 +78,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment3.m4f',
-                  timeline: 1,
+                  timeline: 5.972633333,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment3.m4f',
                   map: {
@@ -75,7 +91,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment4.m4f',
-                  timeline: 1,
+                  timeline: 5.972633333,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment4.m4f',
                   map: {
@@ -87,7 +103,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment5.m4f',
-                  timeline: 1,
+                  timeline: 5.972633333,
                   duration: 0.8591383219954648,
                   resolvedUri: 'https://example.com/default_audio128_2/segment5.m4f',
                   map: {
@@ -99,7 +115,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment6.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment6.m4f',
                   map: {
@@ -112,7 +128,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment7.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment7.m4f',
                   map: {
@@ -124,7 +140,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment8.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment8.m4f',
                   map: {
@@ -136,7 +152,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment9.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment9.m4f',
                   map: {
@@ -148,7 +164,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment10.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment10.m4f',
                   map: {
@@ -160,7 +176,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment11.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment11.m4f',
                   map: {
@@ -172,7 +188,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment12.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment12.m4f',
                   map: {
@@ -184,7 +200,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment13.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 0.023219954648526078,
                   resolvedUri: 'https://example.com/default_audio128_2/segment13.m4f',
                   map: {
@@ -196,7 +212,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment14.m4f',
-                  timeline: 3,
+                  timeline: 24.791433331,
                   duration: 1.1609977324263039,
                   resolvedUri: 'https://example.com/default_audio128_2/segment14.m4f',
                   map: {
@@ -209,7 +225,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment15.m4f',
-                  timeline: 3,
+                  timeline: 24.791433331,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment15.m4f',
                   map: {
@@ -221,7 +237,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment16.m4f',
-                  timeline: 4,
+                  timeline: 27.949347162000002,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment16.m4f',
                   map: {
@@ -234,7 +250,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment17.m4f',
-                  timeline: 4,
+                  timeline: 27.949347162000002,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment17.m4f',
                   map: {
@@ -246,7 +262,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment18.m4f',
-                  timeline: 4,
+                  timeline: 27.949347162000002,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment18.m4f',
                   map: {
@@ -258,7 +274,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio128_2/segment19.m4f',
-                  timeline: 4,
+                  timeline: 27.949347162000002,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio128_2/segment19.m4f',
                   map: {
@@ -270,6 +286,24 @@ export const parsedManifest = {
                 }
               ],
               mediaSequence: 0,
+              timelineStarts: [{
+                start: 0,
+                timeline: 0
+              }, {
+                start: 5.972633333,
+                timeline: 5.972633333
+              }, {
+                start: 10.810799998,
+                timeline: 10.810799998
+              }, {
+                start: 24.791433331,
+                timeline: 24.791433331
+              }, {
+                start: 27.949347162000002,
+                timeline: 27.949347162000002
+              }],
+              discontinuitySequence: 0,
+              discontinuityStarts: [3, 6, 14, 16],
               contentProtection: {
                 'com.widevine.alpha': {
                   attributes: {
@@ -330,7 +364,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment3.m4f',
-                  timeline: 1,
+                  timeline: 5.972633333,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment3.m4f',
                   map: {
@@ -343,7 +377,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment4.m4f',
-                  timeline: 1,
+                  timeline: 5.972633333,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment4.m4f',
                   map: {
@@ -355,7 +389,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment5.m4f',
-                  timeline: 1,
+                  timeline: 5.972633333,
                   duration: 0.8591383219954648,
                   resolvedUri: 'https://example.com/default_audio96_2/segment5.m4f',
                   map: {
@@ -367,7 +401,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment6.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment6.m4f',
                   map: {
@@ -380,7 +414,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment7.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment7.m4f',
                   map: {
@@ -392,7 +426,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment8.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment8.m4f',
                   map: {
@@ -404,7 +438,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment9.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment9.m4f',
                   map: {
@@ -416,7 +450,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment10.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment10.m4f',
                   map: {
@@ -428,7 +462,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment11.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment11.m4f',
                   map: {
@@ -440,7 +474,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment12.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment12.m4f',
                   map: {
@@ -452,7 +486,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment13.m4f',
-                  timeline: 2,
+                  timeline: 10.810799998,
                   duration: 0.023219954648526078,
                   resolvedUri: 'https://example.com/default_audio96_2/segment13.m4f',
                   map: {
@@ -464,7 +498,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment14.m4f',
-                  timeline: 3,
+                  timeline: 24.791433331,
                   duration: 1.1609977324263039,
                   resolvedUri: 'https://example.com/default_audio96_2/segment14.m4f',
                   map: {
@@ -477,7 +511,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment15.m4f',
-                  timeline: 3,
+                  timeline: 24.791433331,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment15.m4f',
                   map: {
@@ -489,7 +523,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment16.m4f',
-                  timeline: 4,
+                  timeline: 27.949347162000002,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment16.m4f',
                   map: {
@@ -502,7 +536,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment17.m4f',
-                  timeline: 4,
+                  timeline: 27.949347162000002,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment17.m4f',
                   map: {
@@ -514,7 +548,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment18.m4f',
-                  timeline: 4,
+                  timeline: 27.949347162000002,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment18.m4f',
                   map: {
@@ -526,7 +560,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'https://example.com/default_audio96_2/segment19.m4f',
-                  timeline: 4,
+                  timeline: 27.949347162000002,
                   duration: 1.9969160997732427,
                   resolvedUri: 'https://example.com/default_audio96_2/segment19.m4f',
                   map: {
@@ -538,6 +572,24 @@ export const parsedManifest = {
                 }
               ],
               mediaSequence: 0,
+              timelineStarts: [{
+                start: 0,
+                timeline: 0
+              }, {
+                start: 5.972633333,
+                timeline: 5.972633333
+              }, {
+                start: 10.810799998,
+                timeline: 10.810799998
+              }, {
+                start: 24.791433331,
+                timeline: 24.791433331
+              }, {
+                start: 27.949347162000002,
+                timeline: 27.949347162000002
+              }],
+              discontinuitySequence: 0,
+              discontinuityStarts: [3, 6, 14, 16],
               contentProtection: {
                 'com.widevine.alpha': {
                   attributes: {
@@ -616,7 +668,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment3.m4f',
-          timeline: 1,
+          timeline: 5.972633333,
           duration: 1.9352666666666667,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment3.m4f',
           map: {
@@ -629,7 +681,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment4.m4f',
-          timeline: 1,
+          timeline: 5.972633333,
           duration: 1.9352666666666667,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment4.m4f',
           map: {
@@ -641,7 +693,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment5.m4f',
-          timeline: 1,
+          timeline: 5.972633333,
           duration: 0.9676333333333333,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment5.m4f',
           map: {
@@ -653,7 +705,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment6.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment6.m4f',
           map: {
@@ -666,7 +718,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment7.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment7.m4f',
           map: {
@@ -678,7 +730,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment8.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment8.m4f',
           map: {
@@ -690,7 +742,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment9.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment9.m4f',
           map: {
@@ -702,7 +754,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment10.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment10.m4f',
           map: {
@@ -714,7 +766,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment11.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment11.m4f',
           map: {
@@ -726,7 +778,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment12.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 1.9686333333333332,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment12.m4f',
           map: {
@@ -738,7 +790,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment13.m4f',
-          timeline: 3,
+          timeline: 24.791433331,
           duration: 0.9676333333333333,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment13.m4f',
           map: {
@@ -751,7 +803,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment14.m4f',
-          timeline: 3,
+          timeline: 24.791433331,
           duration: 1.9352666666666667,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment14.m4f',
           map: {
@@ -763,7 +815,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment15.m4f',
-          timeline: 3,
+          timeline: 24.791433331,
           duration: 0.26693333333333336,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment15.m4f',
           map: {
@@ -775,7 +827,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment16.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment16.m4f',
           map: {
@@ -788,7 +840,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment17.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment17.m4f',
           map: {
@@ -800,7 +852,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment18.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment18.m4f',
           map: {
@@ -812,7 +864,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video2000_0_1280x720/segment19.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 1.9686333333333332,
           resolvedUri: 'https://example.com/default_video2000_0_1280x720/segment19.m4f',
           map: {
@@ -824,6 +876,24 @@ export const parsedManifest = {
         }
       ],
       mediaSequence: 0,
+      timelineStarts: [{
+        start: 0,
+        timeline: 0
+      }, {
+        start: 5.972633333,
+        timeline: 5.972633333
+      }, {
+        start: 10.810799998,
+        timeline: 10.810799998
+      }, {
+        start: 24.791433331,
+        timeline: 24.791433331
+      }, {
+        start: 27.949347162000002,
+        timeline: 27.949347162000002
+      }],
+      discontinuitySequence: 0,
+      discontinuityStarts: [3, 6, 13, 16],
       contentProtection: {
         'com.widevine.alpha': {
           attributes: {
@@ -890,7 +960,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment3.m4f',
-          timeline: 1,
+          timeline: 5.972633333,
           duration: 1.9352666666666667,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment3.m4f',
           map: {
@@ -903,7 +973,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment4.m4f',
-          timeline: 1,
+          timeline: 5.972633333,
           duration: 1.9352666666666667,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment4.m4f',
           map: {
@@ -915,7 +985,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment5.m4f',
-          timeline: 1,
+          timeline: 5.972633333,
           duration: 0.9676333333333333,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment5.m4f',
           map: {
@@ -927,7 +997,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment6.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment6.m4f',
           map: {
@@ -940,7 +1010,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment7.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment7.m4f',
           map: {
@@ -952,7 +1022,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment8.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment8.m4f',
           map: {
@@ -964,7 +1034,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment9.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment9.m4f',
           map: {
@@ -976,7 +1046,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment10.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment10.m4f',
           map: {
@@ -988,7 +1058,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment11.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment11.m4f',
           map: {
@@ -1000,7 +1070,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment12.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 1.9686333333333332,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment12.m4f',
           map: {
@@ -1012,7 +1082,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment13.m4f',
-          timeline: 3,
+          timeline: 24.791433331,
           duration: 0.9676333333333333,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment13.m4f',
           map: {
@@ -1025,7 +1095,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment14.m4f',
-          timeline: 3,
+          timeline: 24.791433331,
           duration: 1.9352666666666667,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment14.m4f',
           map: {
@@ -1037,7 +1107,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment15.m4f',
-          timeline: 3,
+          timeline: 24.791433331,
           duration: 0.26693333333333336,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment15.m4f',
           map: {
@@ -1049,7 +1119,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment16.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment16.m4f',
           map: {
@@ -1062,7 +1132,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment17.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment17.m4f',
           map: {
@@ -1074,7 +1144,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment18.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment18.m4f',
           map: {
@@ -1086,7 +1156,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video1200_1_960x540/segment19.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 1.9686333333333332,
           resolvedUri: 'https://example.com/default_video1200_1_960x540/segment19.m4f',
           map: {
@@ -1098,6 +1168,24 @@ export const parsedManifest = {
         }
       ],
       mediaSequence: 0,
+      timelineStarts: [{
+        start: 0,
+        timeline: 0
+      }, {
+        start: 5.972633333,
+        timeline: 5.972633333
+      }, {
+        start: 10.810799998,
+        timeline: 10.810799998
+      }, {
+        start: 24.791433331,
+        timeline: 24.791433331
+      }, {
+        start: 27.949347162000002,
+        timeline: 27.949347162000002
+      }],
+      discontinuitySequence: 0,
+      discontinuityStarts: [3, 6, 13, 16],
       contentProtection: {
         'com.widevine.alpha': {
           attributes: {
@@ -1164,7 +1252,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment3.m4f',
-          timeline: 1,
+          timeline: 5.972633333,
           duration: 1.9352666666666667,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment3.m4f',
           map: {
@@ -1177,7 +1265,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment4.m4f',
-          timeline: 1,
+          timeline: 5.972633333,
           duration: 1.9352666666666667,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment4.m4f',
           map: {
@@ -1189,7 +1277,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment5.m4f',
-          timeline: 1,
+          timeline: 5.972633333,
           duration: 0.9676333333333333,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment5.m4f',
           map: {
@@ -1201,7 +1289,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment6.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment6.m4f',
           map: {
@@ -1214,7 +1302,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment7.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment7.m4f',
           map: {
@@ -1226,7 +1314,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment8.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment8.m4f',
           map: {
@@ -1238,7 +1326,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment9.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment9.m4f',
           map: {
@@ -1250,7 +1338,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment10.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment10.m4f',
           map: {
@@ -1262,7 +1350,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment11.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment11.m4f',
           map: {
@@ -1274,7 +1362,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment12.m4f',
-          timeline: 2,
+          timeline: 10.810799998,
           duration: 1.9686333333333332,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment12.m4f',
           map: {
@@ -1286,7 +1374,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment13.m4f',
-          timeline: 3,
+          timeline: 24.791433331,
           duration: 0.9676333333333333,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment13.m4f',
           map: {
@@ -1299,7 +1387,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment14.m4f',
-          timeline: 3,
+          timeline: 24.791433331,
           duration: 1.9352666666666667,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment14.m4f',
           map: {
@@ -1311,7 +1399,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment15.m4f',
-          timeline: 3,
+          timeline: 24.791433331,
           duration: 0.26693333333333336,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment15.m4f',
           map: {
@@ -1323,7 +1411,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment16.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment16.m4f',
           map: {
@@ -1336,7 +1424,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment17.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment17.m4f',
           map: {
@@ -1348,7 +1436,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment18.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 2.002,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment18.m4f',
           map: {
@@ -1360,7 +1448,7 @@ export const parsedManifest = {
         },
         {
           uri: 'https://example.com/default_video900_1_640x360/segment19.m4f',
-          timeline: 4,
+          timeline: 27.949347162000002,
           duration: 1.9686333333333332,
           resolvedUri: 'https://example.com/default_video900_1_640x360/segment19.m4f',
           map: {
@@ -1372,6 +1460,24 @@ export const parsedManifest = {
         }
       ],
       mediaSequence: 0,
+      timelineStarts: [{
+        start: 0,
+        timeline: 0
+      }, {
+        start: 5.972633333,
+        timeline: 5.972633333
+      }, {
+        start: 10.810799998,
+        timeline: 10.810799998
+      }, {
+        start: 24.791433331,
+        timeline: 24.791433331
+      }, {
+        start: 27.949347162000002,
+        timeline: 27.949347162000002
+      }],
+      discontinuitySequence: 0,
+      discontinuityStarts: [3, 6, 13, 16],
       contentProtection: {
         'com.widevine.alpha': {
           attributes: {

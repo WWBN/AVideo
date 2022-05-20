@@ -24,7 +24,16 @@ export const parsedManifest = {
         'SUBTITLES': 'subs'
       },
       endList: true,
-      mediaSequence: 1,
+      mediaSequence: 0,
+      discontinuitySequence: 0,
+      discontinuityStarts: [2],
+      timelineStarts: [{
+        start: 0,
+        timeline: 0
+      }, {
+        start: 6,
+        timeline: 6
+      }],
       targetDuration: 3,
       resolvedUri: '',
       segments: [
@@ -38,7 +47,7 @@ export const parsedManifest = {
           timeline: 0,
           presentationTime: 0,
           uri: 'low/segment-1.ts',
-          number: 1
+          number: 0
         },
         {
           duration: 3,
@@ -50,7 +59,7 @@ export const parsedManifest = {
           timeline: 0,
           presentationTime: 3,
           uri: 'low/segment-2.ts',
-          number: 2
+          number: 1
         },
         {
           discontinuity: true,
@@ -60,10 +69,10 @@ export const parsedManifest = {
             resolvedUri: 'https://www.example.com/base'
           },
           resolvedUri: 'https://www.example.com/low/segment-1.ts',
-          timeline: 1,
+          timeline: 6,
           presentationTime: 6,
           uri: 'low/segment-1.ts',
-          number: 1
+          number: 2
         },
         {
           duration: 3,
@@ -72,10 +81,10 @@ export const parsedManifest = {
             resolvedUri: 'https://www.example.com/base'
           },
           resolvedUri: 'https://www.example.com/low/segment-2.ts',
-          timeline: 1,
+          timeline: 6,
           presentationTime: 9,
           uri: 'low/segment-2.ts',
-          number: 2
+          number: 3
         }
       ],
       timeline: 0,
@@ -83,5 +92,12 @@ export const parsedManifest = {
     }
   ],
   segments: [],
+  timelineStarts: [{
+    start: 0,
+    timeline: 0
+  }, {
+    start: 6,
+    timeline: 6
+  }],
   uri: ''
 };

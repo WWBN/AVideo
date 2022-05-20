@@ -4034,9 +4034,17 @@ QUnit.test('pipeline retriggers log events', function(assert) {
   })));
   transmuxer.push(packetize(timedMetadataPes([0x03])));
   transmuxer.flush();
+  transmuxer.push(packetize(PAT));
+  transmuxer.push(packetize(generatePMT({
+    hasAudio: true
+  })));
+  transmuxer.push(packetize(timedMetadataPes([0x03])));
+  transmuxer.flush();
   assert.equal(transmuxer.transmuxPipeline_.type, 'ts', 'detected TS file data');
   checkLogs();
 
+  transmuxer.push(new Uint8Array(id3.id3Tag(id3.id3Frame('PRIV', 0x00, 0x01)).concat([0xFF, 0xF1])));
+  transmuxer.flush();
   transmuxer.push(new Uint8Array(id3.id3Tag(id3.id3Frame('PRIV', 0x00, 0x01)).concat([0xFF, 0xF1])));
   transmuxer.flush();
   assert.equal(transmuxer.transmuxPipeline_.type, 'aac', 'detected AAC file data');

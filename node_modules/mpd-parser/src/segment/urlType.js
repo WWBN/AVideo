@@ -1,4 +1,5 @@
 import resolveUrl from '@videojs/vhs-utils/es/resolve-url';
+import window from 'global/window';
 
 /**
  * @typedef {Object} SingleUri
@@ -34,13 +35,36 @@ export const urlTypeToSegment = ({ baseUrl = '', source = '', range = '', indexR
   if (range || indexRange) {
     const rangeStr = range ? range : indexRange;
     const ranges = rangeStr.split('-');
-    const startRange = parseInt(ranges[0], 10);
-    const endRange = parseInt(ranges[1], 10);
+
+    // default to parsing this as a BigInt if possible
+    let startRange = window.BigInt ? window.BigInt(ranges[0]) : parseInt(ranges[0], 10);
+    let endRange = window.BigInt ? window.BigInt(ranges[1]) : parseInt(ranges[1], 10);
+
+    // convert back to a number if less than MAX_SAFE_INTEGER
+    if (startRange < Number.MAX_SAFE_INTEGER && typeof startRange === 'bigint') {
+      startRange = Number(startRange);
+    }
+
+    if (endRange < Number.MAX_SAFE_INTEGER && typeof endRange === 'bigint') {
+      endRange = Number(endRange);
+    }
+
+    let length;
+
+    if (typeof endRange === 'bigint' || typeof startRange === 'bigint') {
+      length = window.BigInt(endRange) - window.BigInt(startRange) + window.BigInt(1);
+    } else {
+      length = endRange - startRange + 1;
+    }
+
+    if (typeof length === 'bigint' && length < Number.MAX_SAFE_INTEGER) {
+      length = Number(length);
+    }
 
     // byterange should be inclusive according to
     // RFC 2616, Clause 14.35.1
     segment.byterange = {
-      length: endRange - startRange + 1,
+      length,
       offset: startRange
     };
   }
@@ -51,7 +75,13 @@ export const urlTypeToSegment = ({ baseUrl = '', source = '', range = '', indexR
 export const byteRangeToString = (byterange) => {
   // `endRange` is one less than `offset + length` because the HTTP range
   // header uses inclusive ranges
-  const endRange = byterange.offset + byterange.length - 1;
+  let endRange;
+
+  if (typeof byterange.offset === 'bigint' || typeof byterange.length === 'bigint') {
+    endRange = window.BigInt(byterange.offset) + window.BigInt(byterange.length) - window.BigInt(1);
+  } else {
+    endRange = byterange.offset + byterange.length - 1;
+  }
 
   return `${byterange.offset}-${endRange}`;
 };

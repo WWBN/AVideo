@@ -1,7 +1,11 @@
 import { values } from './utils/object';
-import { findIndexes } from './utils/list';
+import { findIndex, findIndexes } from './utils/list';
 import { addSidxSegmentsToPlaylist as addSidxSegmentsToPlaylist_ } from './segment/segmentBase';
 import { byteRangeToString } from './segment/urlType';
+import {
+  getUniqueTimelineStarts,
+  positionManifestOnTimeline
+} from './playlist-merge';
 
 export const generateSidxKey = (sidx) => sidx &&
   sidx.uri + '-' + byteRangeToString(sidx.byterange);
@@ -13,13 +17,19 @@ const mergeDiscontiguousPlaylists = playlists => {
     // across periods
     const name = playlist.attributes.id + (playlist.attributes.lang || '');
 
-    // Periods after first
-    if (acc[name]) {
-      // first segment of subsequent periods signal a discontinuity
-      if (playlist.segments[0]) {
-        playlist.segments[0].discontinuity = true;
+    if (!acc[name]) {
+      // First Period
+      acc[name] = playlist;
+      acc[name].attributes.timelineStarts = [];
+    } else {
+      // Subsequent Periods
+      if (playlist.segments) {
+        // first segment of subsequent periods signal a discontinuity
+        if (playlist.segments[0]) {
+          playlist.segments[0].discontinuity = true;
+        }
+        acc[name].segments.push(...playlist.segments);
       }
-      acc[name].segments.push(...playlist.segments);
 
       // bubble up contentProtection, this assumes all DRM content
       // has the same contentProtection
@@ -27,17 +37,21 @@ const mergeDiscontiguousPlaylists = playlists => {
         acc[name].attributes.contentProtection =
           playlist.attributes.contentProtection;
       }
-    } else {
-      // first Period
-      acc[name] = playlist;
     }
+
+    acc[name].attributes.timelineStarts.push({
+      // Although they represent the same number, it's important to have both to make it
+      // compatible with HLS potentially having a similar attribute.
+      start: playlist.attributes.periodStart,
+      timeline: playlist.attributes.periodStart
+    });
 
     return acc;
   }, {}));
 
   return mergedPlaylists.map(playlist => {
     playlist.discontinuityStarts =
-        findIndexes(playlist.segments, 'discontinuity');
+        findIndexes(playlist.segments || [], 'discontinuity');
 
     return playlist;
   });
@@ -66,7 +80,14 @@ export const addSidxSegmentsToPlaylists = (playlists, sidxMapping = {}) => {
   return playlists;
 };
 
-export const formatAudioPlaylist = ({ attributes, segments, sidx }, isAudioOnly) => {
+export const formatAudioPlaylist = ({
+  attributes,
+  segments,
+  sidx,
+  mediaSequence,
+  discontinuitySequence,
+  discontinuityStarts
+}, isAudioOnly) => {
   const playlist = {
     attributes: {
       NAME: attributes.id,
@@ -76,11 +97,14 @@ export const formatAudioPlaylist = ({ attributes, segments, sidx }, isAudioOnly)
     },
     uri: '',
     endList: attributes.type === 'static',
-    timeline: attributes.periodIndex,
+    timeline: attributes.periodStart,
     resolvedUri: '',
     targetDuration: attributes.duration,
-    segments,
-    mediaSequence: segments.length ? segments[0].number : 1
+    discontinuitySequence,
+    discontinuityStarts,
+    timelineStarts: attributes.timelineStarts,
+    mediaSequence,
+    segments
   };
 
   if (attributes.contentProtection) {
@@ -99,12 +123,18 @@ export const formatAudioPlaylist = ({ attributes, segments, sidx }, isAudioOnly)
   return playlist;
 };
 
-export const formatVttPlaylist = ({ attributes, segments }) => {
+export const formatVttPlaylist = ({
+  attributes,
+  segments,
+  mediaSequence,
+  discontinuityStarts,
+  discontinuitySequence
+}) => {
   if (typeof segments === 'undefined') {
     // vtt tracks may use single file in BaseURL
     segments = [{
       uri: attributes.baseUrl,
-      timeline: attributes.periodIndex,
+      timeline: attributes.periodStart,
       resolvedUri: attributes.baseUrl || '',
       duration: attributes.sourceDuration,
       number: 0
@@ -126,11 +156,14 @@ export const formatVttPlaylist = ({ attributes, segments }) => {
     attributes: m3u8Attributes,
     uri: '',
     endList: attributes.type === 'static',
-    timeline: attributes.periodIndex,
+    timeline: attributes.periodStart,
     resolvedUri: attributes.baseUrl || '',
     targetDuration: attributes.duration,
-    segments,
-    mediaSequence: segments.length ? segments[0].number : 1
+    timelineStarts: attributes.timelineStarts,
+    discontinuityStarts,
+    discontinuitySequence,
+    mediaSequence,
+    segments
   };
 };
 
@@ -234,7 +267,12 @@ const organizeCaptionServices = (captionServices) => captionServices.reduce((svc
   return svcObj;
 }, {});
 
-export const formatVideoPlaylist = ({ attributes, segments, sidx }) => {
+export const formatVideoPlaylist = ({
+  attributes,
+  segments,
+  sidx,
+  discontinuityStarts
+}) => {
   const playlist = {
     attributes: {
       NAME: attributes.id,
@@ -250,11 +288,12 @@ export const formatVideoPlaylist = ({ attributes, segments, sidx }) => {
     },
     uri: '',
     endList: attributes.type === 'static',
-    timeline: attributes.periodIndex,
+    timeline: attributes.periodStart,
     resolvedUri: '',
     targetDuration: attributes.duration,
-    segments,
-    mediaSequence: segments.length ? segments[0].number : 1
+    discontinuityStarts,
+    timelineStarts: attributes.timelineStarts,
+    segments
   };
 
   if (attributes.contentProtection) {
@@ -275,7 +314,79 @@ const audioOnly = ({ attributes }) =>
 const vttOnly = ({ attributes }) =>
   attributes.mimeType === 'text/vtt' || attributes.contentType === 'text';
 
-export const toM3u8 = (dashPlaylists, locations, sidxMapping = {}) => {
+/**
+ * Contains start and timeline properties denoting a timeline start. For DASH, these will
+ * be the same number.
+ *
+ * @typedef {Object} TimelineStart
+ * @property {number} start - the start time of the timeline
+ * @property {number} timeline - the timeline number
+ */
+
+/**
+ * Adds appropriate media and discontinuity sequence values to the segments and playlists.
+ *
+ * Throughout mpd-parser, the `number` attribute is used in relation to `startNumber`, a
+ * DASH specific attribute used in constructing segment URI's from templates. However, from
+ * an HLS perspective, the `number` attribute on a segment would be its `mediaSequence`
+ * value, which should start at the original media sequence value (or 0) and increment by 1
+ * for each segment thereafter. Since DASH's `startNumber` values are independent per
+ * period, it doesn't make sense to use it for `number`. Instead, assume everything starts
+ * from a 0 mediaSequence value and increment from there.
+ *
+ * Note that VHS currently doesn't use the `number` property, but it can be helpful for
+ * debugging and making sense of the manifest.
+ *
+ * For live playlists, to account for values increasing in manifests when periods are
+ * removed on refreshes, merging logic should be used to update the numbers to their
+ * appropriate values (to ensure they're sequential and increasing).
+ *
+ * @param {Object[]} playlists - the playlists to update
+ * @param {TimelineStart[]} timelineStarts - the timeline starts for the manifest
+ */
+export const addMediaSequenceValues = (playlists, timelineStarts) => {
+  // increment all segments sequentially
+  playlists.forEach((playlist) => {
+    playlist.mediaSequence = 0;
+    playlist.discontinuitySequence = findIndex(timelineStarts, ({ timeline }) => timeline === playlist.timeline);
+
+    if (!playlist.segments) {
+      return;
+    }
+
+    playlist.segments.forEach((segment, index) => {
+      segment.number = index;
+    });
+  });
+};
+
+/**
+ * Given a media group object, flattens all playlists within the media group into a single
+ * array.
+ *
+ * @param {Object} mediaGroupObject - the media group object
+ *
+ * @return {Object[]}
+ *         The media group playlists
+ */
+export const flattenMediaGroupPlaylists = (mediaGroupObject) => {
+  if (!mediaGroupObject) {
+    return [];
+  }
+
+  return Object.keys(mediaGroupObject).reduce((acc, label) => {
+    const labelContents = mediaGroupObject[label];
+
+    return acc.concat(labelContents.playlists);
+  }, []);
+};
+
+export const toM3u8 = ({
+  dashPlaylists,
+  locations,
+  sidxMapping = {},
+  previousManifest
+}) => {
   if (!dashPlaylists.length) {
     return {};
   }
@@ -290,7 +401,7 @@ export const toM3u8 = (dashPlaylists, locations, sidxMapping = {}) => {
 
   const videoPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(videoOnly)).map(formatVideoPlaylist);
   const audioPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(audioOnly));
-  const vttPlaylists = dashPlaylists.filter(vttOnly);
+  const vttPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(vttOnly));
   const captions = dashPlaylists.map((playlist) => playlist.attributes.captionServices).filter(Boolean);
 
   const manifest = {
@@ -322,18 +433,38 @@ export const toM3u8 = (dashPlaylists, locations, sidxMapping = {}) => {
   }
 
   const isAudioOnly = manifest.playlists.length === 0;
+  const organizedAudioGroup = audioPlaylists.length ?
+    organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly) : null;
+  const organizedVttGroup = vttPlaylists.length ?
+    organizeVttPlaylists(vttPlaylists, sidxMapping) : null;
+  const formattedPlaylists = videoPlaylists.concat(
+    flattenMediaGroupPlaylists(organizedAudioGroup),
+    flattenMediaGroupPlaylists(organizedVttGroup)
+  );
+  const playlistTimelineStarts =
+    formattedPlaylists.map(({ timelineStarts }) => timelineStarts);
 
-  if (audioPlaylists.length) {
-    manifest.mediaGroups.AUDIO.audio =
-      organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly);
+  manifest.timelineStarts = getUniqueTimelineStarts(playlistTimelineStarts);
+
+  addMediaSequenceValues(formattedPlaylists, manifest.timelineStarts);
+
+  if (organizedAudioGroup) {
+    manifest.mediaGroups.AUDIO.audio = organizedAudioGroup;
   }
 
-  if (vttPlaylists.length) {
-    manifest.mediaGroups.SUBTITLES.subs = organizeVttPlaylists(vttPlaylists, sidxMapping);
+  if (organizedVttGroup) {
+    manifest.mediaGroups.SUBTITLES.subs = organizedVttGroup;
   }
 
   if (captions.length) {
     manifest.mediaGroups['CLOSED-CAPTIONS'].cc = organizeCaptionServices(captions);
+  }
+
+  if (previousManifest) {
+    return positionManifestOnTimeline({
+      oldManifest: previousManifest,
+      newManifest: manifest
+    });
   }
 
   return manifest;

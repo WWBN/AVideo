@@ -6,7 +6,7 @@ const internals = {};
 module.exports = function (...args) {
 
     try {
-        return JSON.stringify.apply(null, args);
+        return JSON.stringify(...args);
     }
     catch (err) {
         return '[Cannot display object: ' + err.message + ']';

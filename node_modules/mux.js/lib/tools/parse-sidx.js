@@ -1,4 +1,4 @@
-var MAX_UINT32 = Math.pow(2, 32);
+var getUint64 = require('../utils/numbers.js').getUint64;
 
 var parseSidx = function(data) {
   var view = new DataView(data.buffer, data.byteOffset, data.byteLength),
@@ -17,8 +17,8 @@ var parseSidx = function(data) {
     i += 8;
   } else {
     // read 64 bits
-    result.earliestPresentationTime = (view.getUint32(i) * MAX_UINT32) + view.getUint32(i + 4);
-    result.firstOffset = (view.getUint32(i + 8) * MAX_UINT32) + view.getUint32(i + 12);
+    result.earliestPresentationTime = getUint64(data.subarray(i));
+    result.firstOffset = getUint64(data.subarray(i + 8));
     i += 16;
   }
 

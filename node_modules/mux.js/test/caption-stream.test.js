@@ -3,6 +3,7 @@
 var segments = require('data-files!segments');
 
 var
+  window = require('global/window'),
   captionStream,
   m2ts = require('../lib/m2ts'),
   mp4 = require('../lib/mp4'),
@@ -14,6 +15,7 @@ var
   packetHeader708 = seiNalUnitGenerator.packetHeader708,
   displayWindows708 = seiNalUnitGenerator.displayWindows708,
   cc708PinkUnderscore = require('./utils/cc708-pink-underscore'),
+  cc708Korean = require('./utils/cc708-korean'),
   sintelCaptions = segments['sintel-captions.ts'](),
   mixed608708Captions = require('./utils/mixed-608-708-captions.js'),
   multiChannel608Captions = segments['multi-channel-608-captions.ts']();
@@ -2687,6 +2689,30 @@ QUnit.module('CEA 708 Stream', {
   }
 });
 
+QUnit.test('Filters encoding values out of captionServices option block', function(assert) {
+  var expectedServiceEncodings = {
+    SERVICE1: 'euc-kr',
+    SERVICE2: 'utf-8',
+  };
+
+  cea708Stream = new m2ts.Cea708Stream({
+    captionServices: {
+      SERVICE1: {
+        language: 'kr',
+        label: 'Korean',
+        encoding: 'euc-kr'
+      },
+      SERVICE2: {
+        language: 'en',
+        label: 'English',
+        encoding: 'utf-8'
+      }
+    }
+  });
+
+  assert.deepEqual(cea708Stream.serviceEncodings, expectedServiceEncodings, 'filtered encodings correctly');
+});
+
 QUnit.test('parses 708 captions', function(assert) {
   var captions = [];
 
@@ -2733,6 +2759,71 @@ QUnit.test('parses 708 captions', function(assert) {
     text: 'I_guess_I\'ll_just_have\nto_duck_a_little_bit.',
     stream: 'cc708_1'
   }, 'parsed caption 234 correctly');
+});
+
+QUnit.test('Decodes multibyte characters if valid encoding option is provided and TextDecoder is supported', function(assert) {
+  var captions = [];
+
+  cea708Stream = new m2ts.Cea708Stream({
+    captionServices: {
+      SERVICE1: {
+        encoding: 'euc-kr'
+      }
+    }
+  });
+
+  cea708Stream.on('data', function(caption) {
+    captions.push(caption);
+  });
+
+  cc708Korean.forEach(cea708Stream.push, cea708Stream);
+
+  cea708Stream.flushDisplayed(4721138662, cea708Stream.services[1]);
+
+  assert.equal(captions.length, 1, 'parsed single caption correctly');
+
+  if (window.TextDecoder) {
+    assert.ok(cea708Stream.services[1].textDecoder_, 'TextDecoder created when supported');
+    assert.equal(
+      captions[0].text,
+      '니가 ',
+      'parsed multibyte characters correctly'
+    );
+  } else {
+    assert.notOk(cea708Stream.services[1].textDecoder_, 'TextDecoder not created when unsupported');
+  }
+});
+
+QUnit.test('Creates TextDecoder only if valid encoding value is provided', function(assert) {
+  var secondCea708Stream;
+
+  cea708Stream = new m2ts.Cea708Stream({
+    captionServices: {
+      SERVICE1: {
+        encoding: 'euc-kr'
+      }
+    }
+  });
+
+  cc708Korean.forEach(cea708Stream.push, cea708Stream);
+  cea708Stream.flushDisplayed(4721138662, cea708Stream.services[1]);
+
+  if (window.TextDecoder) {
+    assert.ok(cea708Stream.services[1].textDecoder_, 'TextDecoder created successfully when encoding is valid');
+  }
+
+  secondCea708Stream = new m2ts.Cea708Stream({
+    captionServices: {
+      SERVICE1: {
+        encoding: 'invalid'
+      }
+    }
+  });
+
+  cc708Korean.forEach(secondCea708Stream.push, secondCea708Stream);
+  secondCea708Stream.flushDisplayed(4721138662, secondCea708Stream.services[1]);
+
+  assert.notOk(secondCea708Stream.services[1].textDecoder_, 'TextDecoder not created when encoding is invalid');
 });
 
 QUnit.test('reset command', function(assert) {

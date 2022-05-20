@@ -126,4 +126,15 @@ class Live_restreams extends ObjectYPT
         }
         return $rows;
     }
+    
+    public function save() {
+        $rows = self::getAllFromUser($this->users_id,'');
+        foreach ($rows as $row) {
+            if($row['stream_key'] == $this->stream_key && $row['stream_url'] == $this->stream_url){
+                $this->id = $row['id'];
+                break;
+            }
+        }
+        return parent::save();
+    }
 }

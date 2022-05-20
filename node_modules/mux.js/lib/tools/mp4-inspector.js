@@ -9,7 +9,9 @@
  */
 'use strict';
 
-var MAX_UINT32 = Math.pow(2, 32);
+var numberHelpers = require('../utils/numbers.js');
+var MAX_UINT32 = numberHelpers.MAX_UINT32;
+var getUint64 = numberHelpers.getUint64;
 
 var
   inspectMp4,
@@ -150,8 +152,8 @@ var
           i += 12;
         } else {
           result.edits.push({
-            segmentDuration: (view.getUint32(i) * MAX_UINT32) + view.getUint32(i + 4),
-            mediaTime: (view.getUint32(i + 8) * MAX_UINT32) + view.getUint32(i + 12),
+            segmentDuration: getUint64(data.subarray(i)),
+            mediaTime: getUint64(data.subarray(i + 8)),
             mediaRate: view.getUint16(i + 16) + view.getUint16(i + 18) / (256 * 256)
           });
           i += 20;

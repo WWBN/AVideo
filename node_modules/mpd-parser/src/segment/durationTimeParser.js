@@ -71,13 +71,18 @@ export const segmentRange = {
       availabilityStartTime,
       timescale = 1,
       duration,
-      start = 0,
+      periodStart = 0,
       minimumUpdatePeriod = 0,
       timeShiftBufferDepth = Infinity
     } = attributes;
     const endNumber = parseEndNumber(attributes.endNumber);
+    // clientOffset is passed in at the top level of mpd-parser and is an offset calculated
+    // after retrieving UTC server time.
     const now = (NOW + clientOffset) / 1000;
-    const periodStartWC = availabilityStartTime + start;
+    // WC stands for Wall Clock.
+    // Convert the period start time to EPOCH.
+    const periodStartWC = availabilityStartTime + periodStart;
+    // Period end in EPOCH is manifest's retrieval time + time until next update.
     const periodEndWC = now + minimumUpdatePeriod;
     const periodDuration = periodEndWC - periodStartWC;
     const segmentCount = Math.ceil(periodDuration * timescale / duration);
@@ -115,19 +120,19 @@ export const segmentRange = {
  * @return {toSegmentsCallback}
  *         Callback map function
  */
-export const toSegments = (attributes) => (number, index) => {
+export const toSegments = (attributes) => (number) => {
   const {
     duration,
     timescale = 1,
-    periodIndex,
+    periodStart,
     startNumber = 1
   } = attributes;
 
   return {
     number: startNumber + number,
     duration: duration / timescale,
-    timeline: periodIndex,
-    time: index * duration
+    timeline: periodStart,
+    time: number * duration
   };
 };
 

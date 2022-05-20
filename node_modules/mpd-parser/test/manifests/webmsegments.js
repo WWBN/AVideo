@@ -2,6 +2,7 @@ export const parsedManifest = {
   allowCache: true,
   discontinuityStarts: [],
   segments: [],
+  timelineStarts: [{ start: 0, timeline: 0 }],
   endList: true,
   mediaGroups: {
     'AUDIO': {
@@ -20,13 +21,13 @@ export const parsedManifest = {
               },
               uri: '',
               endList: true,
-              timeline: 1,
+              timeline: 0,
               resolvedUri: '',
               targetDuration: 4,
               segments: [
                 {
                   uri: 'audio/segment_0.chk',
-                  timeline: 1,
+                  timeline: 0,
                   duration: 4,
                   resolvedUri: 'https://www.example.com/audio/segment_0.chk',
                   map: {
@@ -38,7 +39,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'audio/segment_1.chk',
-                  timeline: 1,
+                  timeline: 0,
                   duration: 4,
                   resolvedUri: 'https://www.example.com/audio/segment_1.chk',
                   map: {
@@ -50,7 +51,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'audio/segment_2.chk',
-                  timeline: 1,
+                  timeline: 0,
                   duration: 4,
                   resolvedUri: 'https://www.example.com/audio/segment_2.chk',
                   map: {
@@ -62,7 +63,7 @@ export const parsedManifest = {
                 },
                 {
                   uri: 'audio/segment_3.chk',
-                  timeline: 1,
+                  timeline: 0,
                   duration: 4,
                   resolvedUri: 'https://www.example.com/audio/segment_3.chk',
                   map: {
@@ -73,7 +74,10 @@ export const parsedManifest = {
                   presentationTime: 12
                 }
               ],
-              mediaSequence: 0
+              mediaSequence: 0,
+              timelineStarts: [{ start: 0, timeline: 0 }],
+              discontinuitySequence: 0,
+              discontinuityStarts: []
             }
           ],
           uri: ''
@@ -102,13 +106,13 @@ export const parsedManifest = {
       },
       uri: '',
       endList: true,
-      timeline: 1,
+      timeline: 0,
       resolvedUri: '',
       targetDuration: 4,
       segments: [
         {
           uri: 'video/segment_0.chk',
-          timeline: 1,
+          timeline: 0,
           duration: 4,
           resolvedUri: 'https://www.example.com/video/segment_0.chk',
           map: {
@@ -120,7 +124,7 @@ export const parsedManifest = {
         },
         {
           uri: 'video/segment_1.chk',
-          timeline: 1,
+          timeline: 0,
           duration: 4,
           resolvedUri: 'https://www.example.com/video/segment_1.chk',
           map: {
@@ -132,7 +136,7 @@ export const parsedManifest = {
         },
         {
           uri: 'video/segment_2.chk',
-          timeline: 1,
+          timeline: 0,
           duration: 4,
           resolvedUri: 'https://www.example.com/video/segment_2.chk',
           map: {
@@ -144,7 +148,7 @@ export const parsedManifest = {
         },
         {
           uri: 'video/segment_3.chk',
-          timeline: 1,
+          timeline: 0,
           duration: 4,
           resolvedUri: 'https://www.example.com/video/segment_3.chk',
           map: {
@@ -155,7 +159,10 @@ export const parsedManifest = {
           presentationTime: 12
         }
       ],
-      mediaSequence: 0
+      mediaSequence: 0,
+      timelineStarts: [{ start: 0, timeline: 0 }],
+      discontinuitySequence: 0,
+      discontinuityStarts: []
     }
   ]
 };

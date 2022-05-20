@@ -2,6 +2,7 @@
 
 const AssertError = require('./error');
 
+
 const internals = {};
 
 

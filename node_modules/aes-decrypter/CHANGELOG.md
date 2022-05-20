@@ -1,3 +1,10 @@
+<a name="3.1.3"></a>
+## [3.1.3](https://github.com/videojs/aes-decrypter/compare/v3.1.2...v3.1.3) (2022-04-05)
+
+### Bug Fixes
+
+* update vhs-utils to 3.0.5 for tizen 2.4 support ([#85](https://github.com/videojs/aes-decrypter/issues/85)) ([1ab933b](https://github.com/videojs/aes-decrypter/commit/1ab933b))
+
 <a name="3.1.2"></a>
 ## [3.1.2](https://github.com/videojs/aes-decrypter/compare/v3.1.1...v3.1.2) (2021-01-12)
 

@@ -2,7 +2,7 @@
 
 # URL Toolkit
 
-Lightweight library to build an absolute URL from a base URL and a relative URL, written from [the spec (RFC 1808)](https://tools.ietf.org/html/rfc1808). Initially part of [HLS.JS](https://github.com/dailymotion/hls.js).
+Lightweight library to build an absolute URL from a base URL and a relative URL, written from [the spec (RFC 1808)](https://tools.ietf.org/html/rfc1808). Initially part of [HLS.JS](https://github.com/video-dev/hls.js).
 
 ## Differences to JS `URL()`
 

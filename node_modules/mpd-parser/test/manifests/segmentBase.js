@@ -32,6 +32,7 @@ export const parsedManifest = {
           duration: 6,
           timeline: 0,
           number: 0,
+          presentationTime: 0,
           map: {
             uri: '',
             resolvedUri: 'https://www.example.com/1080p.ts'
@@ -41,9 +42,13 @@ export const parsedManifest = {
         }
       ],
       timeline: 0,
+      timelineStarts: [{ start: 0, timeline: 0 }],
+      discontinuitySequence: 0,
+      discontinuityStarts: [],
       uri: ''
     }
   ],
   segments: [],
+  timelineStarts: [{ start: 0, timeline: 0 }],
   uri: ''
 };

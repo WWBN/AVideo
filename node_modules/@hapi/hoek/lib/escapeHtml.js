@@ -29,8 +29,8 @@ module.exports = function (input) {
 
 internals.escapeHtmlChar = function (charCode) {
 
-    const namedEscape = internals.namedHtml[charCode];
-    if (typeof namedEscape !== 'undefined') {
+    const namedEscape = internals.namedHtml.get(charCode);
+    if (namedEscape) {
         return namedEscape;
     }
 
@@ -45,27 +45,27 @@ internals.escapeHtmlChar = function (charCode) {
 
 internals.isSafe = function (charCode) {
 
-    return (typeof internals.safeCharCodes[charCode] !== 'undefined');
+    return internals.safeCharCodes.has(charCode);
 };
 
 
-internals.namedHtml = {
-    '38': '&amp;',
-    '60': '&lt;',
-    '62': '&gt;',
-    '34': '&quot;',
-    '160': '&nbsp;',
-    '162': '&cent;',
-    '163': '&pound;',
-    '164': '&curren;',
-    '169': '&copy;',
-    '174': '&reg;'
-};
+internals.namedHtml = new Map([
+    [38, '&amp;'],
+    [60, '&lt;'],
+    [62, '&gt;'],
+    [34, '&quot;'],
+    [160, '&nbsp;'],
+    [162, '&cent;'],
+    [163, '&pound;'],
+    [164, '&curren;'],
+    [169, '&copy;'],
+    [174, '&reg;']
+]);
 
 
 internals.safeCharCodes = (function () {
 
-    const safe = {};
+    const safe = new Set();
 
     for (let i = 32; i < 123; ++i) {
 
@@ -79,7 +79,7 @@ internals.safeCharCodes = (function () {
             i === 58 ||                     // :
             i === 95) {                     // _
 
-            safe[i] = null;
+            safe.add(i);
         }
     }
 

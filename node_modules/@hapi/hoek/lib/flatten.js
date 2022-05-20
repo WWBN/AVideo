@@ -7,12 +7,12 @@ module.exports = internals.flatten = function (array, target) {
 
     const result = target || [];
 
-    for (let i = 0; i < array.length; ++i) {
-        if (Array.isArray(array[i])) {
-            internals.flatten(array[i], result);
+    for (const entry of array) {
+        if (Array.isArray(entry)) {
+            internals.flatten(entry, result);
         }
         else {
-            result.push(array[i]);
+            result.push(entry);
         }
     }
 

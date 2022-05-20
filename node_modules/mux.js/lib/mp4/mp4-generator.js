@@ -9,7 +9,8 @@
  */
 'use strict';
 
-var UINT32_MAX = Math.pow(2, 32) - 1;
+var MAX_UINT32 = require('../utils/numbers.js').MAX_UINT32;
+
 
 var box, dinf, esds, ftyp, mdat, mfhd, minf, moof, moov, mvex, mvhd,
     trak, tkhd, mdia, mdhd, hdlr, sdtp, stbl, stsd, traf, trex,
@@ -581,8 +582,8 @@ traf = function(track) {
     0x00, 0x00, 0x00, 0x00  // default_sample_flags
   ]));
 
-  upperWordBaseMediaDecodeTime = Math.floor(track.baseMediaDecodeTime / (UINT32_MAX + 1));
-  lowerWordBaseMediaDecodeTime = Math.floor(track.baseMediaDecodeTime % (UINT32_MAX + 1));
+  upperWordBaseMediaDecodeTime = Math.floor(track.baseMediaDecodeTime / (MAX_UINT32));
+  lowerWordBaseMediaDecodeTime = Math.floor(track.baseMediaDecodeTime % (MAX_UINT32));
 
   trackFragmentDecodeTime = box(types.tfdt, new Uint8Array([
     0x01, // version 1

@@ -17,7 +17,8 @@
  * https://www.github.com/googleads/videojs-ima
  */
 
-import Controller from './controller.js';
+import Controller from './client-side/controller.js';
+import DaiController from './dai/dai-controller.js';
 import videojs from 'video.js';
 
 /**
@@ -209,13 +210,122 @@ const ImaPlugin = function(player, options) {
   }.bind(this);
 };
 
+/**
+ * Exposes the ImaDaiPlugin to a publisher implementation.
+ *
+ * @param {Object} player Instance of the video.js player to which this plugin
+ *     will be added.
+ * @param {Object} options Options provided by the implementation.
+ * @constructor
+ * @struct
+ * @final
+ */
+const ImaDaiPlugin = function(player, options) {
+  this.controller = new DaiController(player, options);
+
+  /**
+   * Adds a listener that will be called when content and all ads in the
+   * stream have finished playing. VOD stream only.
+   * @param {listener} listener The listener to be called when content and ads
+   *     complete.
+   */
+   this.streamEndedListener = function(listener) {
+    this.controller.addStreamEndedListener(listener);
+  }.bind(this);
+
+  /**
+   * Adds an EventListener to the StreamManager. For a list of available events,
+   * see
+   * https://developers.google.com/interactive-media-ads/docs/sdks/html5/dai/reference/js/StreamEvent
+   * @param {google.ima.StreamEvent.Type} event The StreamEvent.Type for which to
+   *     listen.
+   * @param {callback} callback The method to call when the event is fired.
+   */
+   this.addEventListener = function(event, callback) {
+    this.controller.addEventListener(event, callback);
+  }.bind(this);
+
+  /**
+   * Returns the instance of the StreamManager.
+   * @return {google.ima.StreamManager} The StreamManager being used by the plugin.
+   */
+   this.getStreamManager = function() {
+    return this.controller.getStreamManager();
+  }.bind(this);
+}
 
 const init = function(options) {
   /* eslint no-invalid-this: 'off' */
   this.ima = new ImaPlugin(this, options);
 };
 
+class LiveStream {
+  constructor(streamFormat, assetKey) {
+    streamFormat = streamFormat.toLowerCase();
+    if (streamFormat !== 'hls' && streamFormat !== 'dash') {
+      window.console.error('VodStream error: incorrect streamFormat.');
+      return;
+    } else if (streamFormat === 'dash') {
+      window.console.error('streamFormat error: DASH streams are not' +
+                           'currently supported by this plugin.');
+      return;
+    } else if (typeof assetKey !== 'string') {
+      window.console.error('assetKey error: value must be string.');
+      return;
+    }
+    this.streamFormat = streamFormat;
+    this.assetKey = assetKey;
+  }
+}
+
+class VodStream {
+  constructor(streamFormat, cmsId, videoId) {
+    streamFormat = streamFormat.toLowerCase();
+    if (streamFormat !== 'hls' && streamFormat !== 'dash') {
+      window.console.error('VodStream error: incorrect streamFormat.');
+      return;
+    } else if (streamFormat === 'dash') {
+      window.console.error('streamFormat error: DASH streams are not' +
+                           'currently supported by this plugin.');
+      return;
+    } else if (typeof cmsId !== 'string') {
+      window.console.error('cmsId error: value must be string.');
+      return;
+    } else if(typeof videoId !== 'string') {
+      window.console.error('videoId error: value must be string.');
+      return;
+    }
+
+    this.streamFormat = streamFormat;
+    this.cmsId = cmsId;
+    this.videoId = videoId;
+  }
+}
+
+const initDai = function(stream, options) {
+  if (stream instanceof LiveStream) {
+    options.streamType = 'live';
+    options.assetKey = stream.assetKey;
+  } else if (stream instanceof VodStream) {
+    options.streamType = 'vod';
+    options.cmsId = stream.cmsId;
+    options.videoId = stream.videoId;
+  } else {
+    window.console.error('initDai() first parameter must be an instance of LiveStream or VodStream.');
+    return;
+  }
+
+  options.streamFormat = stream.streamFormat;
+  /* eslint no-invalid-this: 'off' */
+  this.imaDai = new ImaDaiPlugin(this, options);
+};
+
 const registerPlugin = videojs.registerPlugin || videojs.plugin;
 registerPlugin('ima', init);
+registerPlugin('imaDai', initDai);
 
 export default ImaPlugin;
+export {
+  VodStream,
+  LiveStream
+}

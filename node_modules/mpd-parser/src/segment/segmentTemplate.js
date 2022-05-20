@@ -113,7 +113,7 @@ export const parseTemplateInfo = (attributes, segmentTimeline) => {
       number: attributes.startNumber || 1,
       duration: attributes.sourceDuration,
       time: 0,
-      timeline: attributes.periodIndex
+      timeline: attributes.periodStart
     }];
   }
 

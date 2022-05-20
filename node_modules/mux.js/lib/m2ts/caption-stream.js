@@ -40,7 +40,7 @@ var CaptionStream = function(options) {
   ];
 
   if (this.parse708captions_) {
-    this.cc708Stream_ = new Cea708Stream(); // eslint-disable-line no-use-before-define
+    this.cc708Stream_ = new Cea708Stream({captionServices: options.captionServices}); // eslint-disable-line no-use-before-define
   }
 
   this.reset();
@@ -371,11 +371,17 @@ Cea708Window.prototype.backspace = function() {
   }
 };
 
-var Cea708Service = function(serviceNum) {
+var Cea708Service = function(serviceNum, encoding, stream) {
   this.serviceNum = serviceNum;
   this.text = '';
   this.currentWindow = new Cea708Window(-1);
   this.windows = [];
+  this.stream = stream;
+
+  // Try to setup a TextDecoder if an `encoding` value was provided
+  if (typeof encoding === 'string') {
+    this.createTextDecoder(encoding);
+  }
 };
 
 /**
@@ -406,10 +412,46 @@ Cea708Service.prototype.setCurrentWindow = function(windowNum) {
   this.currentWindow = this.windows[windowNum];
 };
 
-var Cea708Stream = function() {
+/**
+ * Try to create a TextDecoder if it is natively supported
+ */
+Cea708Service.prototype.createTextDecoder = function(encoding) {
+  if (typeof TextDecoder === 'undefined') {
+    this.stream.trigger('log', {
+      level: 'warn',
+      message: 'The `encoding` option is unsupported without TextDecoder support'
+    });
+  } else {
+    try {
+      this.textDecoder_ = new TextDecoder(encoding);
+    } catch (error) {
+      this.stream.trigger('log', {
+        level: 'warn',
+        message: 'TextDecoder could not be created with ' + encoding + ' encoding. ' + error
+      });
+    }
+  }
+}
+
+var Cea708Stream = function(options) {
+  options = options || {};
   Cea708Stream.prototype.init.call(this);
 
   var self = this;
+  var captionServices = options.captionServices || {};
+  var captionServiceEncodings = {};
+  var serviceProps;
+
+  // Get service encodings from captionServices option block
+  Object.keys(captionServices).forEach(serviceName => {
+    serviceProps = captionServices[serviceName];
+
+    if (/^SERVICE/.test(serviceName)) {
+      captionServiceEncodings[serviceName] = serviceProps.encoding;
+    }
+  });
+
+  this.serviceEncodings = captionServiceEncodings;
   this.current708Packet = null;
   this.services = {};
 
@@ -519,6 +561,8 @@ Cea708Stream.prototype.pushServiceBlock = function(serviceNum, start, size) {
 
     if (within708TextBlock(b)) {
       i = this.handleText(i, service);
+    } else if (b === 0x18) {
+      i = this.multiByteCharacter(i, service);
     } else if (b === 0x10) {
       i = this.extendedCommands(i, service);
     } else if (0x80 <= b && b <= 0x87) {
@@ -583,7 +627,7 @@ Cea708Stream.prototype.extendedCommands = function(i, service) {
   var packetData = this.current708Packet.data;
   var b = packetData[++i];
   if (within708TextBlock(b)) {
-    i = this.handleText(i, service, true);
+    i = this.handleText(i, service, {isExtended: true});
   } else {
     // Unknown command
   }
@@ -609,9 +653,16 @@ Cea708Stream.prototype.getPts = function(byteIndex) {
  * @return {Service}            Initialized service object
  */
 Cea708Stream.prototype.initService = function(serviceNum, i) {
+  var serviceName = 'SERVICE' + serviceNum;
   var self = this;
+  var serviceName;
+  var encoding;
 
-  this.services[serviceNum] = new Cea708Service(serviceNum);
+  if (serviceName in this.serviceEncodings) {
+    encoding = this.serviceEncodings[serviceName];
+  }
+
+  this.services[serviceNum] = new Cea708Service(serviceNum, encoding, self);
   this.services[serviceNum].init(this.getPts(i), function(pts) {
     self.flushDisplayed(pts, self.services[serviceNum]);
   });
@@ -626,18 +677,58 @@ Cea708Stream.prototype.initService = function(serviceNum, i) {
  * @param  {Service} service  The service object to be affected
  * @return {Integer}          New index after parsing
  */
-Cea708Stream.prototype.handleText = function(i, service, isExtended) {
+Cea708Stream.prototype.handleText = function(i, service, options) {
+  var isExtended = options && options.isExtended;
+  var isMultiByte = options && options.isMultiByte;
   var packetData = this.current708Packet.data;
-  var b = packetData[i];
   var extended = isExtended ? 0x1000 : 0x0000;
-  var char = get708CharFromCode(extended | b);
+  var currentByte = packetData[i];
+  var nextByte = packetData[i + 1];
   var win = service.currentWindow;
+  var char;
+  var charCodeArray;
+
+  // Use the TextDecoder if one was created for this service
+  if (service.textDecoder_ && !isExtended) {
+    if (isMultiByte) {
+      charCodeArray = [currentByte, nextByte];
+      i++;
+    } else {
+     charCodeArray = [currentByte];
+    }
+
+    char = service.textDecoder_.decode(new Uint8Array(charCodeArray));
+  } else {
+    char = get708CharFromCode(extended | currentByte);
+  }
 
   if (win.pendingNewLine && !win.isEmpty()) {
     win.newLine(this.getPts(i));
   }
+
   win.pendingNewLine = false;
   win.addText(char);
+
+  return i;
+};
+
+/**
+ * Handle decoding of multibyte character
+ *
+ * @param  {Integer} i        Current index in the 708 packet
+ * @param  {Service} service  The service object to be affected
+ * @return {Integer}          New index after parsing
+ */
+Cea708Stream.prototype.multiByteCharacter = function (i, service) {
+  var packetData = this.current708Packet.data;
+  var firstByte = packetData[i + 1];
+  var secondByte = packetData[i + 2];
+
+  if (within708TextBlock(firstByte) && within708TextBlock(secondByte)) {
+    i = this.handleText(++i, service, {isMultiByte: true});
+  } else {
+    // Unknown command
+  }
 
   return i;
 };

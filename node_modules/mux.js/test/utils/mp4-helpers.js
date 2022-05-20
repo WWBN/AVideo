@@ -2,15 +2,12 @@
  * Helper functions for creating test MP4 data.
  */
 'use strict';
-var box, typeBytes, unityMatrix;
-
-module.exports = {};
 
 // ----------------------
 // Box Generation Helpers
 // ----------------------
 
-module.exports.typeBytes = typeBytes = function(type) {
+var typeBytes = function(type) {
   return [
     type.charCodeAt(0),
     type.charCodeAt(1),
@@ -19,7 +16,7 @@ module.exports.typeBytes = typeBytes = function(type) {
   ];
 };
 
-module.exports.box = box = function(type) {
+var box = function(type) {
   var
     array = Array.prototype.slice.call(arguments, 1),
     result = [],
@@ -45,7 +42,7 @@ module.exports.box = box = function(type) {
   return result;
 };
 
-module.exports.unityMatrix = unityMatrix = [
+var unityMatrix = unityMatrix = [
   0, 0, 0x10, 0,
   0, 0, 0, 0,
   0, 0, 0, 0,
@@ -63,7 +60,7 @@ module.exports.unityMatrix = unityMatrix = [
 // Example Data
 // ------------
 
-module.exports.sampleMoov =
+var sampleMoov =
   box('moov',
       box('mvhd',
           0x01, // version 1
@@ -313,3 +310,10 @@ module.exports.sampleMoov =
                           0x00, 0x00, 0x00, // flags
                           0x00, 0x00, 0x00, 0x01, // entry_count
                           0x00, 0x00, 0x00, 0x01)))))); // chunk_offset
+
+module.exports = {
+  typeBytes,
+  sampleMoov,
+  unityMatrix,
+  box
+};

@@ -5,6 +5,10 @@ export const parsedManifest = {
   ],
   allowCache: true,
   discontinuityStarts: [],
+  timelineStarts: [{
+    start: 0,
+    timeline: 0
+  }],
   duration: 6,
   endList: true,
   mediaGroups: {
@@ -31,11 +35,18 @@ export const parsedManifest = {
       resolvedUri: '',
       targetDuration: 6,
       mediaSequence: 0,
+      discontinuitySequence: 0,
+      discontinuityStarts: [],
+      timelineStarts: [{
+        start: 0,
+        timeline: 0
+      }],
       segments: [
         {
           duration: 6,
           timeline: 0,
           number: 0,
+          presentationTime: 0,
           map: {
             uri: '',
             resolvedUri: 'https://www.example.com/1080p.ts'

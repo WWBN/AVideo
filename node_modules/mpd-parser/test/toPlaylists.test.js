@@ -13,7 +13,6 @@ QUnit.test('pretty simple', function(assert) {
   const representations = [{
     attributes: {
       baseUrl: 'http://example.com/',
-      periodIndex: 0,
       sourceDuration: 2,
       type: 'static',
       periodStart: 0
@@ -26,7 +25,6 @@ QUnit.test('pretty simple', function(assert) {
   const playlists = [{
     attributes: {
       baseUrl: 'http://example.com/',
-      periodIndex: 0,
       periodStart: 0,
       sourceDuration: 2,
       duration: 2,
@@ -53,7 +51,7 @@ QUnit.test('segment base', function(assert) {
   const representations = [{
     attributes: {
       baseUrl: 'http://example.com/',
-      periodIndex: 0,
+      periodStart: 0,
       sourceDuration: 2,
       type: 'static'
     },
@@ -65,7 +63,7 @@ QUnit.test('segment base', function(assert) {
   const playlists = [{
     attributes: {
       baseUrl: 'http://example.com/',
-      periodIndex: 0,
+      periodStart: 0,
       sourceDuration: 2,
       duration: 2,
       type: 'static'
@@ -79,6 +77,7 @@ QUnit.test('segment base', function(assert) {
       uri: 'http://example.com/',
       timeline: 0,
       duration: 2,
+      presentationTime: 0,
       number: 0
     }]
   }];
@@ -90,7 +89,7 @@ QUnit.test('segment base with sidx', function(assert) {
   const representations = [{
     attributes: {
       baseUrl: 'http://example.com/',
-      periodIndex: 0,
+      periodStart: 0,
       sourceDuration: 2,
       indexRange: '10-19',
       type: 'static'
@@ -103,7 +102,7 @@ QUnit.test('segment base with sidx', function(assert) {
   const playlists = [{
     attributes: {
       baseUrl: 'http://example.com/',
-      periodIndex: 0,
+      periodStart: 0,
       sourceDuration: 2,
       duration: 2,
       indexRange: '10-19',
@@ -122,6 +121,7 @@ QUnit.test('segment base with sidx', function(assert) {
         length: 10
       },
       timeline: 0,
+      presentationTime: 0,
       duration: 2,
       number: 0
     }
@@ -136,7 +136,6 @@ QUnit.test('segment list', function(assert) {
       baseUrl: 'http://example.com/',
       duration: 10,
       sourceDuration: 11,
-      periodIndex: 0,
       periodStart: 0,
       type: 'static'
     },
@@ -161,7 +160,6 @@ QUnit.test('segment list', function(assert) {
       }, {
         media: '2.fmp4'
       }],
-      periodIndex: 0,
       periodStart: 0,
       type: 'static'
     },
@@ -197,7 +195,6 @@ QUnit.test('presentationTime accounts for presentationTimeOffset', function(asse
   const representations = [{
     attributes: {
       baseUrl: 'http://example.com/',
-      periodIndex: 0,
       sourceDuration: 2,
       type: 'static',
       periodStart: 25
@@ -213,7 +210,6 @@ QUnit.test('presentationTime accounts for presentationTimeOffset', function(asse
   const playlists = [{
     attributes: {
       baseUrl: 'http://example.com/',
-      periodIndex: 0,
       periodStart: 25,
       presentationTimeOffset: 100,
       sourceDuration: 2,
@@ -223,7 +219,7 @@ QUnit.test('presentationTime accounts for presentationTimeOffset', function(asse
     },
     segments: [{
       uri: '',
-      timeline: 0,
+      timeline: 25,
       duration: 2,
       // The presentationTime value should be adjusted based on the presentationTimeOffset
       // and its timescale.

@@ -2,6 +2,10 @@ export const parsedManifest = {
   allowCache: true,
   discontinuityStarts: [],
   segments: [],
+  timelineStarts: [{
+    start: 0,
+    timeline: 0
+  }],
   endList: true,
   mediaGroups: {
     'AUDIO': {
@@ -74,6 +78,12 @@ export const parsedManifest = {
                 }
               ],
               mediaSequence: 0,
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
+              timelineStarts: [{
+                start: 0,
+                timeline: 0
+              }],
               contentProtection: {
                 'com.widevine.alpha': {
                   attributes: {
@@ -146,6 +156,12 @@ export const parsedManifest = {
                 }
               ],
               mediaSequence: 0,
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
+              timelineStarts: [{
+                start: 0,
+                timeline: 0
+              }],
               contentProtection: {
                 'com.widevine.alpha': {
                   attributes: {
@@ -226,6 +242,12 @@ export const parsedManifest = {
                 }
               ],
               mediaSequence: 0,
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
+              timelineStarts: [{
+                start: 0,
+                timeline: 0
+              }],
               contentProtection: {
                 'com.widevine.alpha': {
                   attributes: {
@@ -298,6 +320,12 @@ export const parsedManifest = {
                 }
               ],
               mediaSequence: 0,
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
+              timelineStarts: [{
+                start: 0,
+                timeline: 0
+              }],
               contentProtection: {
                 'com.widevine.alpha': {
                   attributes: {
@@ -342,7 +370,13 @@ export const parsedManifest = {
                   number: 0
                 }
               ],
-              mediaSequence: 0
+              mediaSequence: 0,
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
+              timelineStarts: [{
+                start: 0,
+                timeline: 0
+              }]
             }
           ],
           uri: ''
@@ -372,7 +406,13 @@ export const parsedManifest = {
                   number: 0
                 }
               ],
-              mediaSequence: 0
+              mediaSequence: 0,
+              discontinuitySequence: 0,
+              discontinuityStarts: [],
+              timelineStarts: [{
+                start: 0,
+                timeline: 0
+              }]
             }
           ],
           uri: ''
@@ -452,6 +492,12 @@ export const parsedManifest = {
         }
       ],
       mediaSequence: 0,
+      discontinuitySequence: 0,
+      discontinuityStarts: [],
+      timelineStarts: [{
+        start: 0,
+        timeline: 0
+      }],
       contentProtection: {
         'com.widevine.alpha': {
           attributes: {
@@ -530,6 +576,12 @@ export const parsedManifest = {
         }
       ],
       mediaSequence: 0,
+      discontinuitySequence: 0,
+      discontinuityStarts: [],
+      timelineStarts: [{
+        start: 0,
+        timeline: 0
+      }],
       contentProtection: {
         'com.widevine.alpha': {
           attributes: {

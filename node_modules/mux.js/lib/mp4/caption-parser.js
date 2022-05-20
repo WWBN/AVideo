@@ -15,6 +15,7 @@ var findBox = require('../mp4/find-box.js');
 var parseTfdt = require('../tools/parse-tfdt.js');
 var parseTrun = require('../tools/parse-trun.js');
 var parseTfhd = require('../tools/parse-tfhd.js');
+var window = require('global/window');
 
 /**
   * Maps an offset in the mdat to a sample based on the the size of the samples.
@@ -122,7 +123,7 @@ var findSeiNals = function(avcStream, samples, trackId) {
   * the absolute presentation and decode timestamps of each sample.
   *
   * @param {Array<Uint8Array>} truns - The Trun Run boxes to be parsed
-  * @param {Number} baseMediaDecodeTime - base media decode time from tfdt
+  * @param {Number|BigInt} baseMediaDecodeTime - base media decode time from tfdt
       @see ISO-BMFF-12/2015, Section 8.8.12
   * @param {Object} tfhd - The parsed Track Fragment Header
   *   @see inspect.parseTfhd
@@ -156,9 +157,15 @@ var parseSamples = function(truns, baseMediaDecodeTime, tfhd) {
       if (sample.compositionTimeOffset === undefined) {
         sample.compositionTimeOffset = 0;
       }
-      sample.pts = currentDts + sample.compositionTimeOffset;
 
-      currentDts += sample.duration;
+      if (typeof currentDts === 'bigint') {
+        sample.pts = currentDts + window.BigInt(sample.compositionTimeOffset);
+        currentDts += window.BigInt(sample.duration);
+
+      } else {
+        sample.pts = currentDts + sample.compositionTimeOffset;
+        currentDts += sample.duration;
+      }
     });
 
     allSamples = allSamples.concat(samples);

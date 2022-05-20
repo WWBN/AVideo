@@ -21,6 +21,7 @@
 */
 var
   mp4 = require('../lib/mp4'),
+  tools = require('../lib/tools/mp4-inspector.js'),
   QUnit = require('qunit'),
   validateMvhd, validateTrak, validateTkhd, validateMdia,
   validateMdhd, validateHdlr, validateMinf, validateDinf,
@@ -34,7 +35,7 @@ QUnit.test('generates a BSMFF ftyp', function(assert) {
 
   assert.ok(data, 'box is not null');
 
-  boxes = mp4.tools.inspect(data);
+  boxes = tools.inspect(data);
   assert.equal(1, boxes.length, 'generated a single box');
   assert.equal(boxes[0].type, 'ftyp', 'generated ftyp type');
   assert.equal(boxes[0].size, data.byteLength, 'generated size');
@@ -309,7 +310,7 @@ QUnit.test('generates a video moov', function(assert) {
     }]);
 
   assert.ok(data, 'box is not null');
-  boxes = mp4.tools.inspect(data);
+  boxes = tools.inspect(data);
   assert.equal(boxes.length, 1, 'generated a single box');
   assert.equal(boxes[0].type, 'moov', 'generated a moov type');
   assert.equal(boxes[0].size, data.byteLength, 'generated size');
@@ -338,7 +339,7 @@ QUnit.test('generates an audio moov', function(assert) {
     boxes;
 
   assert.ok(data, 'box is not null');
-  boxes = mp4.tools.inspect(data);
+  boxes = tools.inspect(data);
   assert.equal(boxes.length, 1, 'generated a single box');
   assert.equal(boxes[0].type, 'moov', 'generated a moov type');
   assert.equal(boxes[0].size, data.byteLength, 'generated size');
@@ -363,7 +364,7 @@ QUnit.test('generates a sound hdlr', function(assert) {
 
   assert.ok(data, 'box is not null');
 
-  boxes = mp4.tools.inspect(data);
+  boxes = tools.inspect(data);
 
   hdlr = boxes[0].boxes[1].boxes[1].boxes[1];
   assert.equal(hdlr.type, 'hdlr', 'generate an hdlr type');
@@ -384,7 +385,7 @@ QUnit.test('generates a video hdlr', function(assert) {
 
   assert.ok(data, 'box is not null');
 
-  boxes = mp4.tools.inspect(data);
+  boxes = tools.inspect(data);
 
   hdlr = boxes[0].boxes[1].boxes[1].boxes[1];
   assert.equal(hdlr.type, 'hdlr', 'generate an hdlr type');
@@ -407,7 +408,7 @@ QUnit.test('generates an initialization segment', function(assert) {
     }]),
     init, mvhd, trak1, trak2, mvex;
 
-  init = mp4.tools.inspect(data);
+  init = tools.inspect(data);
   assert.equal(init.length, 2, 'generated two boxes');
   assert.equal(init[0].type, 'ftyp', 'generated a ftyp box');
   assert.equal(init[1].type, 'moov', 'generated a moov box');
@@ -464,7 +465,7 @@ QUnit.test('generates a minimal moof', function(assert) {
         compositionTimeOffset: 1000
       }]
     }]),
-    moof = mp4.tools.inspect(data),
+    moof = tools.inspect(data),
     trun,
     sdtp;
 
@@ -544,7 +545,7 @@ QUnit.test('generates a moof for audio', function(assert) {
         size: 11
       }]
     }]),
-    moof = mp4.tools.inspect(data),
+    moof = tools.inspect(data),
     trun;
 
   assert.deepEqual(moof[0].boxes[1].boxes.length, 3, 'generated three traf children');
@@ -565,7 +566,7 @@ QUnit.test('can generate a traf without samples', function(assert) {
     data = mp4.generator.moof(8, [{
       trackId: 13
     }]),
-    moof = mp4.tools.inspect(data);
+    moof = tools.inspect(data);
 
   assert.equal(moof[0].boxes[1].boxes[2].samples.length, 0, 'generated no samples');
 });
@@ -573,7 +574,7 @@ QUnit.test('can generate a traf without samples', function(assert) {
 QUnit.test('generates an mdat', function(assert) {
   var
     data = mp4.generator.mdat(new Uint8Array([1, 2, 3, 4])),
-    mdat = mp4.tools.inspect(data);
+    mdat = tools.inspect(data);
 
   assert.equal(mdat.length, 1, 'generated one box');
   assert.equal(mdat[0].type, 'mdat', 'generated an mdat box');

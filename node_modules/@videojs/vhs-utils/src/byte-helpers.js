@@ -19,7 +19,14 @@ export const countBits = (x) => x.toString(2).length;
 // count the number of whole bytes it would take to represent a number
 export const countBytes = (x) => Math.ceil(countBits(x) / 8);
 export const padStart = (b, len, str = ' ') => (repeat(str, len) + b.toString()).slice(-len);
-export const isTypedArray = (obj) => ArrayBuffer.isView(obj);
+export const isArrayBufferView = (obj) => {
+  if (ArrayBuffer.isView === 'function') {
+    return ArrayBuffer.isView(obj);
+  }
+
+  return obj && obj.buffer instanceof ArrayBuffer;
+};
+export const isTypedArray = (obj) => isArrayBufferView(obj);
 
 export const toUint8 = function(bytes) {
   if (bytes instanceof Uint8Array) {

@@ -1,5 +1,5 @@
 /**
- * EvEmitter v2.0.0
+ * EvEmitter v2.1.1
  * Lil' event emitter
  * MIT License
  */

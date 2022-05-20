@@ -6,6 +6,13 @@ import {sumDurations, getPartsAndSegments} from './playlist';
 import videojs from 'video.js';
 import logger from './util/logger';
 
+// The maximum gap allowed between two media sequence tags when trying to
+// synchronize expired playlist segments.
+// the max media sequence diff is 48 hours of live stream
+// content with two second segments. Anything larger than that
+// will likely be invalid.
+const MAX_MEDIA_SEQUENCE_DIFF_FOR_SYNC = 86400;
+
 export const syncPointStrategies = [
   // Stategy "VOD": Handle the VOD-case where the sync-point is *always*
   //                the equivalence display-time 0 === segment-index 0
@@ -46,35 +53,33 @@ export const syncPointStrategies = [
         const datetimeMapping =
           syncController.timelineToDatetimeMappings[segment.timeline];
 
-        if (!datetimeMapping) {
+        if (!datetimeMapping || !segment.dateTimeObject) {
           continue;
         }
 
-        if (segment.dateTimeObject) {
-          const segmentTime = segment.dateTimeObject.getTime() / 1000;
-          let start = segmentTime + datetimeMapping;
+        const segmentTime = segment.dateTimeObject.getTime() / 1000;
+        let start = segmentTime + datetimeMapping;
 
-          // take part duration into account.
-          if (segment.parts && typeof partAndSegment.partIndex === 'number') {
-            for (let z = 0; z < partAndSegment.partIndex; z++) {
-              start += segment.parts[z].duration;
-            }
+        // take part duration into account.
+        if (segment.parts && typeof partAndSegment.partIndex === 'number') {
+          for (let z = 0; z < partAndSegment.partIndex; z++) {
+            start += segment.parts[z].duration;
           }
-          const distance = Math.abs(currentTime - start);
-
-          // Once the distance begins to increase, or if distance is 0, we have passed
-          // currentTime and can stop looking for better candidates
-          if (lastDistance !== null && (distance === 0 || lastDistance < distance)) {
-            break;
-          }
-
-          lastDistance = distance;
-          syncPoint = {
-            time: start,
-            segmentIndex: partAndSegment.segmentIndex,
-            partIndex: partAndSegment.partIndex
-          };
         }
+        const distance = Math.abs(currentTime - start);
+
+        // Once the distance begins to increase, or if distance is 0, we have passed
+        // currentTime and can stop looking for better candidates
+        if (lastDistance !== null && (distance === 0 || lastDistance < distance)) {
+          break;
+        }
+
+        lastDistance = distance;
+        syncPoint = {
+          time: start,
+          segmentIndex: partAndSegment.segmentIndex,
+          partIndex: partAndSegment.partIndex
+        };
       }
       return syncPoint;
     }
@@ -363,6 +368,12 @@ export default class SyncController extends videojs.EventTarget {
    */
   saveExpiredSegmentInfo(oldPlaylist, newPlaylist) {
     const mediaSequenceDiff = newPlaylist.mediaSequence - oldPlaylist.mediaSequence;
+
+    // Ignore large media sequence gaps
+    if (mediaSequenceDiff > MAX_MEDIA_SEQUENCE_DIFF_FOR_SYNC) {
+      videojs.log.warn(`Not saving expired segment info. Media sequence gap ${mediaSequenceDiff} is too large.`);
+      return;
+    }
 
     // When a segment expires from the playlist and it has a start time
     // save that information as a possible sync-point reference in future

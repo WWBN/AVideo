@@ -18,6 +18,9 @@ import multiperiodSegmentTemplate from './manifests/multiperiod-segment-template
 import multiperiodSegmentList from './manifests/multiperiod-segment-list.mpd';
 import multiperiodDynamic from './manifests/multiperiod-dynamic.mpd';
 import audioOnly from './manifests/audio-only.mpd';
+import multiperiodStartnumber from './manifests/multiperiod-startnumber.mpd';
+import multiperiodStartnumberRemovedPeriods from
+  './manifests/multiperiod-startnumber-removed-periods.mpd';
 import {
   parsedManifest as maatVttSegmentTemplateManifest
 } from './manifests/maat_vtt_segmentTemplate.js';
@@ -62,6 +65,12 @@ import {
 import {
   parsedManifest as audioOnlyManifest
 } from './manifests/audio-only.js';
+import {
+  parsedManifest as multiperiodStartnumberManifest
+} from './manifests/multiperiod-startnumber.js';
+import {
+  parsedManifest as multiperiodStartnumberRemovedPeriodsManifest
+} from './manifests/multiperiod-startnumber-removed-periods.js';
 
 QUnit.module('mpd-parser');
 
@@ -129,10 +138,22 @@ QUnit.test('has parse', function(assert) {
   name: 'audio-only',
   input: audioOnly,
   expected: audioOnlyManifest
+}, {
+  name: 'multiperiod_startnumber',
+  input: multiperiodStartnumber,
+  expected: multiperiodStartnumberManifest
 }].forEach(({ name, input, expected }) => {
   QUnit.test(`${name} test manifest`, function(assert) {
     const actual = parse(input);
 
     assert.deepEqual(actual, expected);
   });
+});
+
+// this test is handled separately as a `previousManifest` needs to be parsed and provided
+QUnit.test('multiperiod_startnumber_removed_periods test manifest', function(assert) {
+  const previousManifest = parse(multiperiodStartnumber);
+  const actual = parse(multiperiodStartnumberRemovedPeriods, { previousManifest });
+
+  assert.deepEqual(actual, multiperiodStartnumberRemovedPeriodsManifest);
 });

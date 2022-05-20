@@ -8,7 +8,7 @@ if (!User::canStream()) {
     exit;
 }
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="<?php echo getURL('view/css/DataTables/datatables.min.css'); ?>"/>
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fas fa-sync"></i> <?php echo __("Restream"); ?>
@@ -17,7 +17,6 @@ if (!User::canStream()) {
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-12  <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'restream', 0.1); ?>">
-
                 <form id="panelLive_restreamsForm">
                     <div class="row">
                         <input type="hidden" name="id" id="Live_restreamsid" value="" >
@@ -55,13 +54,13 @@ if (!User::canStream()) {
                 </form>
             </div>
             <div class="col-sm-12  <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'restream', 0.1); ?>">
-
                 <table id="Live_restreamsTable" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th><?php echo __("Name"); ?></th>
                             <th><?php echo __("Status"); ?></th>
+                            <th><?php echo __("Key"); ?></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -70,12 +69,18 @@ if (!User::canStream()) {
                             <th>#</th>
                             <th><?php echo __("Name"); ?></th>
                             <th><?php echo __("Status"); ?></th>
+                            <th><?php echo __("Key"); ?></th>
                             <th></th>
                         </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
+    </div>
+    <div class="panel-footer">
+        <?php
+        include $global['systemRootPath'].'plugin/Live/view/Live_restreams/getLiveKey.php';
+        ?>
     </div>
 </div>
 <div id="Live_restreamsbtnModelLinks" style="display: none;">
@@ -88,7 +93,7 @@ if (!User::canStream()) {
         </button>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
+<script type="text/javascript" src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>"></script>
 <script type="text/javascript">
     function clearLive_restreamsForm() {
         $('#Live_restreamsid').val('');
@@ -102,7 +107,7 @@ if (!User::canStream()) {
     $(document).ready(function () {
         $('#addLive_restreamsBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/addLive_restreamsVideo.php',
+                url: webSiteRootURL + 'plugin/Live/view/addLive_restreamsVideo.php',
                 data: $('#panelLive_restreamsForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -119,11 +124,12 @@ if (!User::canStream()) {
             });
         });
         var Live_restreamstableVar = $('#Live_restreamsTable').DataTable({
-            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/list.json.php?users_id=<?php echo User::getId(); ?>",
+            "ajax": webSiteRootURL + "plugin/Live/view/Live_restreams/list.json.php?users_id=<?php echo User::getId(); ?>",
             "columns": [
                 {"data": "id"},
                 {"data": "name"},
                 {"data": "status"},
+                {"data": "stream_key"},
                 {
                     sortable: false,
                     data: null,
@@ -141,7 +147,7 @@ if (!User::canStream()) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/add.json.php',
+                url: webSiteRootURL + 'plugin/Live/view/Live_restreams/add.json.php',
                 data: $('#panelLive_restreamsForm').serialize(),
                 type: 'post',
                 success: function (response) {
@@ -168,12 +174,12 @@ if (!User::canStream()) {
                 buttons: true,
                 dangerMode: true,
             })
-                    .then(function(willDelete) {
+                    .then(function (willDelete) {
                         if (willDelete) {
                             modal.showPleaseWait();
                             $.ajax({
                                 type: "POST",
-                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/delete.json.php",
+                                url: webSiteRootURL + "plugin/Live/view/Live_restreams/delete.json.php",
                                 data: data
 
                             }).done(function (resposta) {

@@ -23,9 +23,11 @@ var
   mp4 = require('../lib/mp4'),
   mp4Helpers = require('./utils/mp4-helpers'),
   QUnit = require('qunit'),
+  window = require('global/window'),
   typeBytes = mp4Helpers.typeBytes,
   box = mp4Helpers.box,
   unityMatrix = mp4Helpers.unityMatrix,
+  BigInt = window.BigInt || Number,
 
   mvhd0 = box('mvhd',
              0x00, // version 0
@@ -403,7 +405,7 @@ QUnit.test('can parse a moov', function(assert) {
           flags: new Uint8Array([0, 0, 0]),
           edits: [{
             segmentDuration: 0,
-            mediaTime: 1152921504606847000,
+            mediaTime: BigInt('0x1000000000000000'),
             mediaRate: 1.5
           }]
         }]
@@ -1043,6 +1045,56 @@ QUnit.test('can parse a version 1 sidx', function(assert) {
     }]);
 });
 
+QUnit.test('can parse a big version 1 sidx', function(assert) {
+  var data = box('sidx',
+                  0x01, // version
+                  0x00, 0x00, 0x00, // flags
+                  0x00, 0x00, 0x00, 0x02, // reference_ID
+                  0x00, 0x00, 0x00, 0x01, // timescale
+                  0x01, 0x02, 0x03, 0x04, // earliest_presentation_time
+                  0x05, 0x06, 0x07, 0x08,
+                  0x08, 0x07, 0x06, 0x05, // first_offset
+                  0x04, 0x03, 0x02, 0x01,
+                  0x00, 0x00,             // reserved
+                  0x00, 0x02,             // reference_count
+                  // first reference
+                  0x80, 0x00, 0x00, 0x07, // reference_type(1) + referenced_size(31)
+                  0x00, 0x00, 0x00, 0x08, // subsegment_duration
+                  0x80, 0x00, 0x00, 0x09, // starts_with_SAP(1) + SAP_type(3) + SAP_delta_time(28)
+                  // second reference
+                  0x00, 0x00, 0x00, 0x03, // reference_type(1) + referenced_size(31)
+                  0x00, 0x00, 0x00, 0x04, // subsegment_duration
+                  0x10, 0x00, 0x00, 0x05  // starts_with_SAP(1) + SAP_type(3) + SAP_delta_time(28)
+  );
+  assert.deepEqual(mp4.tools.inspect(new Uint8Array(data)),
+    [{
+      type: 'sidx',
+      version: 1,
+      flags: new Uint8Array([0, 0x00, 0x00]),
+      timescale: 1,
+      earliestPresentationTime: BigInt('0x0102030405060708'),
+      firstOffset: BigInt('0x0807060504030201'),
+      referenceId: 2,
+      size: 64,
+      references: [{
+        referenceType: 1,
+        referencedSize: 7,
+        subsegmentDuration: 8,
+        startsWithSap: true,
+        sapType: 0,
+        sapDeltaTime: 9
+      }, {
+        referenceType: 0,
+        referencedSize: 3,
+        subsegmentDuration: 4,
+        startsWithSap: false,
+        sapType: 1,
+        sapDeltaTime: 5
+      }]
+
+    }]);
+});
+
 QUnit.test('can parse an smhd', function(assert) {
   var data = box('smhd',
                  0x00,             // version
@@ -1088,7 +1140,7 @@ QUnit.test('can parse a version 1 tfdt and return an unsigned integer value', fu
               version: 1,
               size: 20,
               flags: new Uint8Array([0, 0, 0]),
-              baseMediaDecodeTime: 0x8102030405060708
+              baseMediaDecodeTime: BigInt('0x8102030405060708')
             }]);
 });
 

@@ -22,7 +22,7 @@ module.exports = function (obj, chain, options) {
 
     const isChainArray = Array.isArray(chain);
 
-    Assert(!isChainArray || !options.separator, 'Separator option no valid for array-based chain');
+    Assert(!isChainArray || !options.separator, 'Separator option is not valid for array-based chain');
 
     const path = isChainArray ? chain : chain.split(options.separator || '.');
     let ref = obj;

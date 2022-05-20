@@ -28,6 +28,27 @@ var VIDEO_PROPERTIES = require('../constants/video-properties.js');
 // object types
 var VideoSegmentStream, AudioSegmentStream, Transmuxer, CoalesceStream;
 
+var retriggerForStream = function(key, event) {
+  event.stream = key;
+  this.trigger('log', event);
+};
+
+var addPipelineLogRetriggers = function(transmuxer, pipeline) {
+  var keys = Object.keys(pipeline);
+
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+
+    // skip non-stream keys and headOfPipeline
+    // which is just a duplicate
+    if (key === 'headOfPipeline' || !pipeline[key].on) {
+      continue;
+    }
+
+    pipeline[key].on('log', retriggerForStream.bind(transmuxer, key));
+  }
+};
+
 /**
  * Compare two arrays (even typed) for same-ness
  */
@@ -972,6 +993,8 @@ Transmuxer = function(options) {
     pipeline.coalesceStream.on('data', this.trigger.bind(this, 'data'));
     // Let the consumer know we have finished flushing the entire pipeline
     pipeline.coalesceStream.on('done', this.trigger.bind(this, 'done'));
+
+    addPipelineLogRetriggers(this, pipeline);
   };
 
   this.setupTsPipeline = function() {
@@ -1107,6 +1130,8 @@ Transmuxer = function(options) {
     pipeline.coalesceStream.on('caption', this.trigger.bind(this, 'caption'));
     // Let the consumer know we have finished flushing the entire pipeline
     pipeline.coalesceStream.on('done', this.trigger.bind(this, 'done'));
+
+    addPipelineLogRetriggers(this, pipeline);
   };
 
   // hook up the segment streams once track metadata is delivered
@@ -1181,20 +1206,6 @@ Transmuxer = function(options) {
         this.setupTsPipeline();
       }
 
-      if (this.transmuxPipeline_) {
-        var keys = Object.keys(this.transmuxPipeline_);
-
-        for (var i = 0; i < keys.length; i++) {
-          var key = keys[i];
-
-          // skip non-stream keys and headOfPipeline
-          // which is just a duplicate
-          if (key === 'headOfPipeline' || !this.transmuxPipeline_[key].on) {
-            continue;
-          }
-          this.transmuxPipeline_[key].on('log', this.getLogTrigger_(key));
-        }
-      }
       hasFlushed = false;
     }
     this.transmuxPipeline_.headOfPipeline.push(data);

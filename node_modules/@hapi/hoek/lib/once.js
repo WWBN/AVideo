@@ -1,16 +1,18 @@
 'use strict';
 
-const internals = {};
+const internals = {
+    wrapped: Symbol('wrapped')
+};
 
 
 module.exports = function (method) {
 
-    if (method._hoekOnce) {
+    if (method[internals.wrapped]) {
         return method;
     }
 
     let once = false;
-    const wrapped = function (...args) {
+    const wrappedFn = function (...args) {
 
         if (!once) {
             once = true;
@@ -18,6 +20,6 @@ module.exports = function (method) {
         }
     };
 
-    wrapped._hoekOnce = true;
-    return wrapped;
+    wrappedFn[internals.wrapped] = true;
+    return wrappedFn;
 };

@@ -263,6 +263,17 @@ export default class Parser extends Stream {
                 return;
               }
 
+              if (entry.attributes.KEYFORMAT === 'com.microsoft.playready') {
+                this.manifest.contentProtection = this.manifest.contentProtection || {};
+
+                // TODO: add full support for this.
+                this.manifest.contentProtection['com.microsoft.playready'] = {
+                  uri: entry.attributes.URI
+                };
+
+                return;
+              }
+
               // check if the content is encrypted for Widevine
               // Widevine/HLS spec: https://storage.googleapis.com/wvdocs/Widevine_DRM_HLS.pdf
               if (entry.attributes.KEYFORMAT === widevineUuid) {
