@@ -1,0 +1,26 @@
+{
+  "name": "videojs",
+  "version": "1.0.0",
+  "description": "A placeholder for videojs packages",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "grunt-contrib-uglify": "^0.2.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/videojs/videojs-placeholder.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/videojs/videojs-placeholder/issues"
+  },
+  "homepage": "https://github.com/videojs/videojs-placeholder#readme"
+}
