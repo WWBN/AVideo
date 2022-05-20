@@ -45,8 +45,12 @@ showAlertMessage();
 ?>
     });
 </script>
+
 <script src="<?php echo getURL('view/js/jquery.lazy/jquery.lazy.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('view/js/jquery.lazy/jquery.lazy.plugins.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/moment/moment.js'); ?>"></script>
+<script src="<?php echo getURL('node_modules/moment/locale/'. getLanguage().'.js'); ?>"></script>
+<script src="<?php echo getURL('node_modules/moment-timezone/builds/moment-timezone-with-data.min.js'); ?>"></script>
 <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
 <!--
@@ -96,7 +100,7 @@ if (!empty($advancedCustom->footerHTMLCode->value)) {
 }
 
 if (isFirstPage()) {
-    echo '<script src="' . (getCDN() . 'view/js/a2hs.js?' . filectime("{$global['systemRootPath']}view/js/a2hs.js")) . '" type="text/javascript"></script>';
+    echo '<script src="' . getURL('view/js/a2hs.js') . '" type="text/javascript"></script>';
 }
 ?>
 <script>
