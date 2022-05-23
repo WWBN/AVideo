@@ -22,7 +22,7 @@
         "guzzlehttp/psr7": "^1.7",
         "hybridauth/hybridauth": "^3.3",
         "james-heinrich/getid3": "^1.9",
-        "monolog/monolog": "^1.17",
+        "monolog/monolog": "^2.6",
         "phpmailer/phpmailer": "^6.2",
         "psr/cache": "^1.0",
         "psr/http-message": "^1.0",
