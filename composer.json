@@ -37,7 +37,7 @@
         "emojione/assets": "^4.5",
         "mervick/emojionearea": "^3.4",
         "emojione/emojione": "^4.5",
-        "abraham/twitteroauth": "^1.0",
+        "abraham/twitteroauth": "^3.1",
         "symfony/http-client": "^5.3",
         "nyholm/psr7": "^1.4",
         "norkunas/onesignal-php-api": "^2.7",
