@@ -6,3 +6,13 @@ updates:
     open-pull-requests-limit: 10
     schedule:
       interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "weekly"
