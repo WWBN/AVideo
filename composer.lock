@@ -4,32 +4,32 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c992061ab59aaf14a3d2aafeb4864612",
+    "content-hash": "8cc038e34dd5d7ef0c55e8d346801258",
     "packages": [
         {
             "name": "abraham/twitteroauth",
-            "version": "1.2.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/abraham/twitteroauth.git",
-                "reference": "f5cda73d1deae8b9e3e54f1572a6d28d03e06644"
+                "reference": "51a502cde3c4f414ea0f98827afbeca1f19dfe2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/f5cda73d1deae8b9e3e54f1572a6d28d03e06644",
-                "reference": "f5cda73d1deae8b9e3e54f1572a6d28d03e06644",
+                "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/51a502cde3c4f414ea0f98827afbeca1f19dfe2d",
+                "reference": "51a502cde3c4f414ea0f98827afbeca1f19dfe2d",
                 "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "^1.2",
                 "ext-curl": "*",
-                "php": "^7.2 || ^7.3 || ^7.4"
+                "php": "^7.3 || ^7.4 || ^8.0"
             },
             "require-dev": {
                 "php-vcr/php-vcr": "^1",
-                "php-vcr/phpunit-testlistener-vcr": "^3",
+                "php-vcr/phpunit-testlistener-vcr": "dev-php-8",
                 "phpmd/phpmd": "^2",
-                "phpunit/phpunit": "^8",
+                "phpunit/phpunit": "^8 || ^9",
                 "squizlabs/php_codesniffer": "^3"
             },
             "type": "library",
@@ -65,7 +65,7 @@
                 "issues": "https://github.com/abraham/twitteroauth/issues",
                 "source": "https://github.com/abraham/twitteroauth"
             },
-            "time": "2020-09-22T14:27:00+00:00"
+            "time": "2021-07-19T00:42:49+00:00"
         },
         {
             "name": "aws/aws-crt-php",
