@@ -19,7 +19,7 @@
         "google/apiclient-services": "*",
         "google/auth": "^1.14.3",
         "guzzlehttp/guzzle": "^7.4",
-        "guzzlehttp/psr7": "^1.7",
+        "guzzlehttp/psr7": "^2.2",
         "hybridauth/hybridauth": "^3.3",
         "james-heinrich/getid3": "^1.9",
         "monolog/monolog": "^2.6",
