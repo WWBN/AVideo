@@ -77,6 +77,10 @@ class OneSignal
             throw new JsonException(sprintf('JSON content was expected to decode to an array, %s returned.', gettype($content)));
         }
 
+        if (!isset($content['_status_code'])) {
+            $content['_status_code'] = $response->getStatusCode();
+        }
+
         return $content;
     }
 

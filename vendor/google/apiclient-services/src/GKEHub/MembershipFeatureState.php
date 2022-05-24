@@ -19,15 +19,33 @@ namespace Google\Service\GKEHub;
 
 class MembershipFeatureState extends \Google\Model
 {
+  protected $anthosvmType = AnthosVMMembershipState::class;
+  protected $anthosvmDataType = '';
   protected $appdevexperienceType = AppDevExperienceFeatureState::class;
   protected $appdevexperienceDataType = '';
   protected $configmanagementType = ConfigManagementMembershipState::class;
   protected $configmanagementDataType = '';
-  protected $policycontrollerType = PolicyControllerMembershipState::class;
-  protected $policycontrollerDataType = '';
+  protected $identityserviceType = IdentityServiceMembershipState::class;
+  protected $identityserviceDataType = '';
+  protected $servicemeshType = ServiceMeshMembershipState::class;
+  protected $servicemeshDataType = '';
   protected $stateType = FeatureState::class;
   protected $stateDataType = '';
 
+  /**
+   * @param AnthosVMMembershipState
+   */
+  public function setAnthosvm(AnthosVMMembershipState $anthosvm)
+  {
+    $this->anthosvm = $anthosvm;
+  }
+  /**
+   * @return AnthosVMMembershipState
+   */
+  public function getAnthosvm()
+  {
+    return $this->anthosvm;
+  }
   /**
    * @param AppDevExperienceFeatureState
    */
@@ -57,18 +75,32 @@ class MembershipFeatureState extends \Google\Model
     return $this->configmanagement;
   }
   /**
-   * @param PolicyControllerMembershipState
+   * @param IdentityServiceMembershipState
    */
-  public function setPolicycontroller(PolicyControllerMembershipState $policycontroller)
+  public function setIdentityservice(IdentityServiceMembershipState $identityservice)
   {
-    $this->policycontroller = $policycontroller;
+    $this->identityservice = $identityservice;
   }
   /**
-   * @return PolicyControllerMembershipState
+   * @return IdentityServiceMembershipState
    */
-  public function getPolicycontroller()
+  public function getIdentityservice()
   {
-    return $this->policycontroller;
+    return $this->identityservice;
+  }
+  /**
+   * @param ServiceMeshMembershipState
+   */
+  public function setServicemesh(ServiceMeshMembershipState $servicemesh)
+  {
+    $this->servicemesh = $servicemesh;
+  }
+  /**
+   * @return ServiceMeshMembershipState
+   */
+  public function getServicemesh()
+  {
+    return $this->servicemesh;
   }
   /**
    * @param FeatureState

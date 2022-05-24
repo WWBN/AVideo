@@ -23,12 +23,18 @@ class Subscription extends \Google\Model
    * @var int
    */
   public $ackDeadlineSeconds;
+  protected $bigqueryConfigType = BigQueryConfig::class;
+  protected $bigqueryConfigDataType = '';
   protected $deadLetterPolicyType = DeadLetterPolicy::class;
   protected $deadLetterPolicyDataType = '';
   /**
    * @var bool
    */
   public $detached;
+  /**
+   * @var bool
+   */
+  public $enableExactlyOnceDelivery;
   /**
    * @var bool
    */
@@ -87,6 +93,20 @@ class Subscription extends \Google\Model
     return $this->ackDeadlineSeconds;
   }
   /**
+   * @param BigQueryConfig
+   */
+  public function setBigqueryConfig(BigQueryConfig $bigqueryConfig)
+  {
+    $this->bigqueryConfig = $bigqueryConfig;
+  }
+  /**
+   * @return BigQueryConfig
+   */
+  public function getBigqueryConfig()
+  {
+    return $this->bigqueryConfig;
+  }
+  /**
    * @param DeadLetterPolicy
    */
   public function setDeadLetterPolicy(DeadLetterPolicy $deadLetterPolicy)
@@ -113,6 +133,20 @@ class Subscription extends \Google\Model
   public function getDetached()
   {
     return $this->detached;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableExactlyOnceDelivery($enableExactlyOnceDelivery)
+  {
+    $this->enableExactlyOnceDelivery = $enableExactlyOnceDelivery;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableExactlyOnceDelivery()
+  {
+    return $this->enableExactlyOnceDelivery;
   }
   /**
    * @param bool

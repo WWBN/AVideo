@@ -50,6 +50,14 @@ class RuntimeSoftwareConfig extends \Google\Collection
    * @var string
    */
   public $postStartupScript;
+  /**
+   * @var string
+   */
+  public $postStartupScriptBehavior;
+  /**
+   * @var bool
+   */
+  public $upgradeable;
 
   /**
    * @param string
@@ -162,6 +170,34 @@ class RuntimeSoftwareConfig extends \Google\Collection
   public function getPostStartupScript()
   {
     return $this->postStartupScript;
+  }
+  /**
+   * @param string
+   */
+  public function setPostStartupScriptBehavior($postStartupScriptBehavior)
+  {
+    $this->postStartupScriptBehavior = $postStartupScriptBehavior;
+  }
+  /**
+   * @return string
+   */
+  public function getPostStartupScriptBehavior()
+  {
+    return $this->postStartupScriptBehavior;
+  }
+  /**
+   * @param bool
+   */
+  public function setUpgradeable($upgradeable)
+  {
+    $this->upgradeable = $upgradeable;
+  }
+  /**
+   * @return bool
+   */
+  public function getUpgradeable()
+  {
+    return $this->upgradeable;
   }
 }
 

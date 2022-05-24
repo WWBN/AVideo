@@ -37,6 +37,7 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
     use LoggerAwareTrait;
 
     private $defaultOptions = self::OPTIONS_DEFAULTS;
+    private static $emptyDefaults = self::OPTIONS_DEFAULTS;
 
     /** @var NativeClientState */
     private $multi;
@@ -80,9 +81,20 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
             }
         }
 
+        $hasContentLength = isset($options['normalized_headers']['content-length']);
+        $hasBody = '' !== $options['body'] || 'POST' === $method || $hasContentLength;
+
         $options['body'] = self::getBodyAsString($options['body']);
 
-        if ('' !== $options['body'] && 'POST' === $method && !isset($options['normalized_headers']['content-type'])) {
+        if ('chunked' === substr($options['normalized_headers']['transfer-encoding'][0] ?? '', \strlen('Transfer-Encoding: '))) {
+            unset($options['normalized_headers']['transfer-encoding']);
+            $options['headers'] = array_merge(...array_values($options['normalized_headers']));
+            $options['body'] = self::dechunk($options['body']);
+        }
+        if ('' === $options['body'] && $hasBody && !$hasContentLength) {
+            $options['headers'][] = 'Content-Length: 0';
+        }
+        if ($hasBody && !isset($options['normalized_headers']['content-type'])) {
             $options['headers'][] = 'Content-Type: application/x-www-form-urlencoded';
         }
 
@@ -354,7 +366,7 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
             }
         }
 
-        return static function (NativeClientState $multi, ?string $location, $context) use ($redirectHeaders, $proxy, &$info, $maxRedirects, $onProgress): ?string {
+        return static function (NativeClientState $multi, ?string $location, $context) use (&$redirectHeaders, $proxy, &$info, $maxRedirects, $onProgress): ?string {
             if (null === $location || $info['http_code'] < 300 || 400 <= $info['http_code']) {
                 $info['redirect_url'] = null;
 
@@ -387,9 +399,12 @@ final class NativeHttpClient implements HttpClientInterface, LoggerAwareInterfac
                 if ('POST' === $options['method'] || 303 === $info['http_code']) {
                     $info['http_method'] = $options['method'] = 'HEAD' === $options['method'] ? 'HEAD' : 'GET';
                     $options['content'] = '';
-                    $options['header'] = array_filter($options['header'], static function ($h) {
-                        return 0 !== stripos($h, 'Content-Length:') && 0 !== stripos($h, 'Content-Type:');
-                    });
+                    $filterContentHeaders = static function ($h) {
+                        return 0 !== stripos($h, 'Content-Length:') && 0 !== stripos($h, 'Content-Type:') && 0 !== stripos($h, 'Transfer-Encoding:');
+                    };
+                    $options['header'] = array_filter($options['header'], $filterContentHeaders);
+                    $redirectHeaders['no_auth'] = array_filter($redirectHeaders['no_auth'], $filterContentHeaders);
+                    $redirectHeaders['with_auth'] = array_filter($redirectHeaders['with_auth'], $filterContentHeaders);
 
                     stream_context_set_option($context, ['http' => $options]);
                 }

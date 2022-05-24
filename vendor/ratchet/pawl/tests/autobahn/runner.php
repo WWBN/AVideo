@@ -4,12 +4,10 @@ use React\Promise\Deferred;
 
     require __DIR__ . '/../../vendor/autoload.php';
 
-    define('AGENT', 'Pawl/0.3');
+    define('AGENT', 'Pawl/0.4');
 
-    $loop = React\EventLoop\Factory::create();
-
-    $connFactory = function() use ($loop) {
-        $connector = new Ratchet\Client\Connector($loop);
+    $connFactory = function() {
+        $connector = new Ratchet\Client\Connector();
 
         return function($url) use ($connector) {
             return $connector('ws://127.0.0.1:9001' . $url);
@@ -29,14 +27,14 @@ use React\Promise\Deferred;
             return $futureNum->promise();
         }, function($e) {
             echo "Could not connect to test server: {$e->getMessage()}\n";
-        })->then(function($numOfCases) use ($connector, $loop) {
+        })->then(function($numOfCases) use ($connector) {
             echo "Running {$numOfCases} test cases\n\n";
 
             $allCases = new Deferred;
 
             $i = 0;
 
-            $runNextCase = function() use (&$runNextCase, &$i, $numOfCases, $allCases, $connector, $loop) {
+            $runNextCase = function() use (&$runNextCase, &$i, $numOfCases, $allCases, $connector) {
                 $i++;
 
                 if ($i > (int)$numOfCases->getPayload()) {
@@ -59,11 +57,11 @@ use React\Promise\Deferred;
             $runNextCase();
 
             return $allCases->promise();
-        })->then(function() use ($connector, $loop) {
-            $connector('/updateReports?agent=' . AGENT)->then(function(WebSocket $conn) use ($loop) {
+        })->then(function() use ($connector) {
+            $connector('/updateReports?agent=' . AGENT)->then(function(WebSocket $conn) {
                 echo "\nDone!\n";
-                $conn->on('close', [$loop, 'stop']);
+                $conn->on('close', function () {
+                    \React\EventLoop\Loop::stop();
+                });
             });
         });
-
-    $loop->run();

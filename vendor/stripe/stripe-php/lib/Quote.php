@@ -13,6 +13,7 @@ namespace Stripe;
  * @property string $object String representing the object's type. Objects of the same type share the same value.
  * @property int $amount_subtotal Total before any discounts or taxes are applied.
  * @property int $amount_total Total after discounts and taxes are applied.
+ * @property null|string|\Stripe\StripeObject $application ID of the Connect Application that created the quote.
  * @property null|int $application_fee_amount The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. Only applicable if there are no line items with recurring prices on the quote.
  * @property null|float $application_fee_percent A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. Only applicable if there are line items with recurring prices on the quote.
  * @property \Stripe\StripeObject $automatic_tax
@@ -40,6 +41,7 @@ namespace Stripe;
  * @property null|string|\Stripe\Subscription $subscription The subscription that was created or updated from this quote.
  * @property \Stripe\StripeObject $subscription_data
  * @property null|string|\Stripe\SubscriptionSchedule $subscription_schedule The subscription schedule that was created or updated from this quote.
+ * @property null|string|\Stripe\TestHelpers\TestClock $test_clock ID of the test clock this quote belongs to.
  * @property \Stripe\StripeObject $total_details
  * @property null|\Stripe\StripeObject $transfer_data The account (if any) the payments will be attributed to for tax reporting, and where funds from each payment will be transferred to for each of the invoices.
  */
@@ -136,7 +138,7 @@ class Quote extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\Quote> list of LineItems
+     * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
      */
     public static function allComputedUpfrontLineItems($id, $params = null, $opts = null)
     {
@@ -155,7 +157,7 @@ class Quote extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\Quote> list of LineItems
+     * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
      */
     public static function allLineItems($id, $params = null, $opts = null)
     {

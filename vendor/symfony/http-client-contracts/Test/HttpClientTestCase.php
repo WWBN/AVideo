@@ -835,6 +835,39 @@ abstract class HttpClientTestCase extends TestCase
         }
     }
 
+    public function testTimeoutOnInitialize()
+    {
+        $p1 = TestHttpServer::start(8067);
+        $p2 = TestHttpServer::start(8077);
+
+        $client = $this->getHttpClient(__FUNCTION__);
+        $start = microtime(true);
+        $responses = [];
+
+        $responses[] = $client->request('GET', 'http://localhost:8067/timeout-header', ['timeout' => 0.25]);
+        $responses[] = $client->request('GET', 'http://localhost:8077/timeout-header', ['timeout' => 0.25]);
+        $responses[] = $client->request('GET', 'http://localhost:8067/timeout-header', ['timeout' => 0.25]);
+        $responses[] = $client->request('GET', 'http://localhost:8077/timeout-header', ['timeout' => 0.25]);
+
+        try {
+            foreach ($responses as $response) {
+                try {
+                    $response->getContent();
+                    $this->fail(TransportExceptionInterface::class.' expected');
+                } catch (TransportExceptionInterface $e) {
+                }
+            }
+            $responses = [];
+
+            $duration = microtime(true) - $start;
+
+            $this->assertLessThan(1.0, $duration);
+        } finally {
+            $p1->stop();
+            $p2->stop();
+        }
+    }
+
     public function testTimeoutOnDestruct()
     {
         $p1 = TestHttpServer::start(8067);
@@ -921,6 +954,16 @@ abstract class HttpClientTestCase extends TestCase
 
         $body = $response->toArray();
         $this->assertSame('Basic Zm9vOmI9YXI=', $body['HTTP_PROXY_AUTHORIZATION']);
+
+        $_SERVER['http_proxy'] = 'http://localhost:8057';
+        try {
+            $response = $client->request('GET', 'http://localhost:8057/');
+            $body = $response->toArray();
+            $this->assertSame('localhost:8057', $body['HTTP_HOST']);
+            $this->assertMatchesRegularExpression('#^http://(localhost|127\.0\.0\.1):8057/$#', $body['REQUEST_URI']);
+        } finally {
+            unset($_SERVER['http_proxy']);
+        }
     }
 
     public function testNoProxy()
