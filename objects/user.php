@@ -2111,7 +2111,7 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function validateChannelName($channelName) {
-        return trim(preg_replace("/[^0-9A-Z_]/i", "", ucwords($channelName)));
+        return trim(preg_replace("/[^0-9A-Z_-]/i", "", ucwords($channelName)));
     }
 
     /**
