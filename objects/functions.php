@@ -3921,7 +3921,7 @@ function _session_start(array $options = []) {
     }
 }
 
-function _mysql_connect() {
+function _mysql_connect($persistent = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
 
     $checkValues = array('mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase');
@@ -3936,7 +3936,7 @@ function _mysql_connect() {
         if (!_mysql_is_open()) {
             //_error_log('MySQL Connect '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
-            $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
+            $global['mysqli'] = new mysqli(($persistent ? 'p:' : '').$mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
             if (isCommandLineInterface() && !empty($global['createDatabase'])) {
                 $createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
                 _error_log($createSQL);

@@ -133,7 +133,7 @@ class Message implements MessageComponentInterface {
             if (\AVideoPlugin::isEnabledByName('LiveUsers')) {
                 $live_key = object_to_array($json->live_key);
                 if (!empty($live_key['key'])) {
-                    \_mysql_connect();
+                    \_mysql_connect(true);
                     $lt = \LiveTransmitionHistory::getLatest($live_key['key']);
                     if (!empty($lt['id'])) {
                         $l = new \LiveTransmitionHistory($lt['id']);
@@ -151,7 +151,7 @@ class Message implements MessageComponentInterface {
                         _log_message("onOpen Connection viewers_now = {$viewers_now} => total_viewers = {$total_viewers}");
                         $l->save();
                     }
-                    \_mysql_close();
+                    //\_mysql_close();
                 }
             }
             $this->msgToAllSameLive($json->live_key, "");
@@ -537,9 +537,9 @@ class Message implements MessageComponentInterface {
         if (!is_array($msg)) {
             $this->msgToArray($msg);
         }
-        _mysql_connect();
+        _mysql_connect(true);
         $msg['is_live'] = \Live::isLiveAndIsReadyFromKey($live_key['key'], $live_key['live_servers_id'], true);
-        _mysql_close();
+        //_mysql_close();
         _log_message("msgToAllSameLive: key={$live_key['key']} live_servers_id={$live_key['live_servers_id']} liveLink={$live_key['liveLink']}");
         foreach ($this->clients as $key => $client) {
             if (empty($client['live_key']) || (empty($client['live_key']['key']) && empty($client['live_key']['liveLink']))) {
