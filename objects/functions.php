@@ -7443,7 +7443,7 @@ function getCDN($type = 'CDN', $id = 0) {
         $_getCDNURL = [];
     }
     if (empty($_getCDNURL[$index])) {
-        if (!empty($type) && AVideoPlugin::isEnabledByName('CDN')) {
+        if (!empty($type) && class_exists('AVideoPlugin') && AVideoPlugin::isEnabledByName('CDN')) {
             $_getCDNURL[$index] = CDN::getURL($type, $id);
         }
     }
