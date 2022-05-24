@@ -57,6 +57,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     console.log('images_upload_handler formData',blobInfo.filename());
                     formData = new FormData();
                     formData.append('file_data', blobInfo.blob(), blobInfo.filename());
+                    console.log('images_upload_handler formData 2 ',xhr);
                     xhr.send(formData);
                 }, timeOuttime);
                 console.log('images_upload_handler end');
