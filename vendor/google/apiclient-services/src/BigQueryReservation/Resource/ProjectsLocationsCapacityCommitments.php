@@ -45,8 +45,9 @@ class ProjectsLocationsCapacityCommitments extends \Google\Service\Resource
    * @opt_param string capacityCommitmentId The optional capacity commitment ID.
    * Capacity commitment name will be generated automatically if this field is
    * empty. This field must only contain lower case alphanumeric characters or
-   * dash. Max length is 64 characters. NOTE: this ID won't be kept if the
-   * capacity commitment is split or merged.
+   * dashes. The first and last character cannot be a dash. Max length is 64
+   * characters. NOTE: this ID won't be kept if the capacity commitment is split
+   * or merged.
    * @opt_param bool enforceSingleAdminProjectPerOrg If true, fail the request if
    * another project in the organization has a capacity commitment.
    * @return CapacityCommitment
@@ -138,6 +139,9 @@ class ProjectsLocationsCapacityCommitments extends \Google\Service\Resource
    *
    * @param string $name Output only. The resource name of the capacity
    * commitment, e.g., `projects/myproject/locations/US/capacityCommitments/123`
+   * The commitment_id must only contain lower case alphanumeric characters or
+   * dashes. It must start with a letter and must not end with a dash. Its maximum
+   * length is 64 characters.
    * @param CapacityCommitment $postBody
    * @param array $optParams Optional parameters.
    *
@@ -156,8 +160,8 @@ class ProjectsLocationsCapacityCommitments extends \Google\Service\Resource
    * `commitment_end_time`. A common use case is to enable downgrading
    * commitments. For example, in order to downgrade from 10000 slots to 8000, you
    * might split a 10000 capacity commitment into commitments of 2000 and 8000.
-   * Then, you would change the plan of the first one to `FLEX` and then delete
-   * it. (capacityCommitments.split)
+   * Then, you delete the first one after the commitment end time passes.
+   * (capacityCommitments.split)
    *
    * @param string $name Required. The resource name e.g.,:
    * `projects/myproject/locations/US/capacityCommitments/123`

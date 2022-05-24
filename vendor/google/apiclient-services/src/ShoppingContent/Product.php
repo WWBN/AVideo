@@ -140,6 +140,10 @@ class Product extends \Google\Collection
   /**
    * @var string
    */
+  public $externalSellerId;
+  /**
+   * @var string
+   */
   public $gender;
   /**
    * @var string
@@ -233,6 +237,10 @@ class Product extends \Google\Collection
    * @var string
    */
   public $pattern;
+  /**
+   * @var string
+   */
+  public $pause;
   /**
    * @var string
    */
@@ -765,6 +773,20 @@ class Product extends \Google\Collection
   /**
    * @param string
    */
+  public function setExternalSellerId($externalSellerId)
+  {
+    $this->externalSellerId = $externalSellerId;
+  }
+  /**
+   * @return string
+   */
+  public function getExternalSellerId()
+  {
+    return $this->externalSellerId;
+  }
+  /**
+   * @param string
+   */
   public function setGender($gender)
   {
     $this->gender = $gender;
@@ -1111,6 +1133,20 @@ class Product extends \Google\Collection
   public function getPattern()
   {
     return $this->pattern;
+  }
+  /**
+   * @param string
+   */
+  public function setPause($pause)
+  {
+    $this->pause = $pause;
+  }
+  /**
+   * @return string
+   */
+  public function getPause()
+  {
+    return $this->pause;
   }
   /**
    * @param string

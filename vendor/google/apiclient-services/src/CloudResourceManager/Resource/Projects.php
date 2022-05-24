@@ -105,8 +105,9 @@ class Projects extends \Google\Service\Resource
    * if the policy or the resource do not exist. (projects.getIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
-   * requested. See the operation documentation for the appropriate value for this
-   * field.
+   * requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
@@ -211,7 +212,7 @@ class Projects extends \Google\Service\Resource
    * continue.
    * @opt_param string query Optional. A query string for searching for projects
    * that the caller has `resourcemanager.projects.get` permission to. If multiple
-   * fields are included in the query, the it will return results that match any
+   * fields are included in the query, then it will return results that match any
    * of the fields. Some eligible fields are: ``` | Field | Description |
    * |-------------------------|----------------------------------------------| |
    * displayName, name | Filters by displayName. | | parent | Project's parent
@@ -270,8 +271,9 @@ class Projects extends \Google\Service\Resource
    * the App Engine Admin API. (projects.setIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
-   * specified. See the operation documentation for the appropriate value for this
-   * field.
+   * specified. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
@@ -288,8 +290,9 @@ class Projects extends \Google\Service\Resource
    * (projects.testIamPermissions)
    *
    * @param string $resource REQUIRED: The resource for which the policy detail is
-   * being requested. See the operation documentation for the appropriate value
-   * for this field.
+   * being requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse

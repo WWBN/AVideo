@@ -74,8 +74,8 @@ class ProjectsServiceAccountsKeys extends \Google\Service\Resource
     return $this->call('delete', [$params], IamEmpty::class);
   }
   /**
-   * Disable a ServiceAccountKey. A disabled service account key can be enabled
-   * through EnableServiceAccountKey. (keys.disable)
+   * Disable a ServiceAccountKey. A disabled service account key can be re-enabled
+   * with EnableServiceAccountKey. (keys.disable)
    *
    * @param string $name Required. The resource name of the service account key in
    * the following format:
@@ -157,7 +157,9 @@ class ProjectsServiceAccountsKeys extends \Google\Service\Resource
     return $this->call('list', [$params], ListServiceAccountKeysResponse::class);
   }
   /**
-   * Creates a ServiceAccountKey, using a public key that you provide.
+   * Uploads the public key portion of a key pair that you manage, and associates
+   * the public key with a ServiceAccount. After you upload the public key, you
+   * can use the private key from the key pair as a service account key.
    * (keys.upload)
    *
    * @param string $name The resource name of the service account in the following

@@ -23,38 +23,15 @@ class ComposerAutoloaderInitc3a61dba26daada128f5891f1a57c504
         }
 
         spl_autoload_register(array('ComposerAutoloaderInitc3a61dba26daada128f5891f1a57c504', 'loadClassLoader'), true, true);
-        self::$loader = $loader = new \Composer\Autoload\ClassLoader(\dirname(\dirname(__FILE__)));
+        self::$loader = $loader = new \Composer\Autoload\ClassLoader(\dirname(__DIR__));
         spl_autoload_unregister(array('ComposerAutoloaderInitc3a61dba26daada128f5891f1a57c504', 'loadClassLoader'));
 
-        $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION') && (!function_exists('zend_loader_file_encoded') || !zend_loader_file_encoded());
-        if ($useStaticLoader) {
-            require __DIR__ . '/autoload_static.php';
-
-            call_user_func(\Composer\Autoload\ComposerStaticInitc3a61dba26daada128f5891f1a57c504::getInitializer($loader));
-        } else {
-            $map = require __DIR__ . '/autoload_namespaces.php';
-            foreach ($map as $namespace => $path) {
-                $loader->set($namespace, $path);
-            }
-
-            $map = require __DIR__ . '/autoload_psr4.php';
-            foreach ($map as $namespace => $path) {
-                $loader->setPsr4($namespace, $path);
-            }
-
-            $classMap = require __DIR__ . '/autoload_classmap.php';
-            if ($classMap) {
-                $loader->addClassMap($classMap);
-            }
-        }
+        require __DIR__ . '/autoload_static.php';
+        call_user_func(\Composer\Autoload\ComposerStaticInitc3a61dba26daada128f5891f1a57c504::getInitializer($loader));
 
         $loader->register(true);
 
-        if ($useStaticLoader) {
-            $includeFiles = Composer\Autoload\ComposerStaticInitc3a61dba26daada128f5891f1a57c504::$files;
-        } else {
-            $includeFiles = require __DIR__ . '/autoload_files.php';
-        }
+        $includeFiles = \Composer\Autoload\ComposerStaticInitc3a61dba26daada128f5891f1a57c504::$files;
         foreach ($includeFiles as $fileIdentifier => $file) {
             composerRequirec3a61dba26daada128f5891f1a57c504($fileIdentifier, $file);
         }
@@ -63,11 +40,16 @@ class ComposerAutoloaderInitc3a61dba26daada128f5891f1a57c504
     }
 }
 
+/**
+ * @param string $fileIdentifier
+ * @param string $file
+ * @return void
+ */
 function composerRequirec3a61dba26daada128f5891f1a57c504($fileIdentifier, $file)
 {
     if (empty($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
-        require $file;
-
         $GLOBALS['__composer_autoload_files'][$fileIdentifier] = true;
+
+        require $file;
     }
 }

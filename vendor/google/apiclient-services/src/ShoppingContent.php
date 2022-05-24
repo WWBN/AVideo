@@ -42,7 +42,9 @@ class ShoppingContent extends \Google\Service
   public $accounts_credentials;
   public $accounts_labels;
   public $accounts_returncarrier;
+  public $accountsbyexternalsellerid;
   public $accountstatuses;
+  public $accountstatusesbyexternalsellerid;
   public $accounttax;
   public $buyongoogleprograms;
   public $collections;
@@ -60,6 +62,7 @@ class ShoppingContent extends \Google\Service
   public $orders;
   public $ordertrackingsignals;
   public $pos;
+  public $productdeliverytime;
   public $products;
   public $productstatuses;
   public $productstatuses_repricingreports;
@@ -455,6 +458,31 @@ class ShoppingContent extends \Google\Service
           ]
         ]
     );
+    $this->accountsbyexternalsellerid = new ShoppingContent\Resource\Accountsbyexternalsellerid(
+        $this,
+        $this->serviceName,
+        'accountsbyexternalsellerid',
+        [
+          'methods' => [
+            'get' => [
+              'path' => '{merchantId}/accountsbyexternalsellerid/{externalSellerId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'externalSellerId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->accountstatuses = new ShoppingContent\Resource\Accountstatuses(
         $this,
         $this->serviceName,
@@ -510,6 +538,36 @@ class ShoppingContent extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->accountstatusesbyexternalsellerid = new ShoppingContent\Resource\Accountstatusesbyexternalsellerid(
+        $this,
+        $this->serviceName,
+        'accountstatusesbyexternalsellerid',
+        [
+          'methods' => [
+            'get' => [
+              'path' => '{merchantId}/accountstatusesbyexternalsellerid/{externalSellerId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'externalSellerId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'destinations' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
                 ],
               ],
             ],
@@ -1995,6 +2053,56 @@ class ShoppingContent extends \Google\Service
                   'required' => true,
                 ],
                 'targetMerchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->productdeliverytime = new ShoppingContent\Resource\Productdeliverytime(
+        $this,
+        $this->serviceName,
+        'productdeliverytime',
+        [
+          'methods' => [
+            'create' => [
+              'path' => '{merchantId}/productdeliverytime',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => '{merchantId}/productdeliverytime/{productId}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'productId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => '{merchantId}/productdeliverytime/{productId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'productId' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
