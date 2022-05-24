@@ -59,6 +59,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     formData.append('file_data', blobInfo.blob(), blobInfo.filename());
                     xhr.send(formData);
                 }, timeOuttime);
+                console.log('images_upload_handler end');
             }
             //var tinyMCEplugins = 'code print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ';
             var tinyMCEplugins = 'code preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help ';
