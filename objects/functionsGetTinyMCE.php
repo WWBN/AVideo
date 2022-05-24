@@ -2,11 +2,14 @@
 if (empty($advancedCustom->disableHTMLDescription)) {
     global $tinyMCELibs;
     if (empty($tinyMCELibs)) {
-        $tinyMCELibs = 1; ?>
+        $tinyMCELibs = 1;
+        ?>
         <script type="text/javascript" src="<?php echo getURL('node_modules/tinymce/tinymce.min.js'); ?>"></script>
-        <style>.tox-statusbar__branding{display:none !important;}</style>
-        <?php
-    } ?>
+        <style>.tox-statusbar__branding{
+                display:none !important;
+            }</style>
+        <?php }
+        ?>
     <script>
     <?php
     if ($simpleMode) {
@@ -20,8 +23,57 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         <?php
     } else {
         ?>
-            function images_upload_handler(blobInfo, success, failure) {
-                console.log('images_upload_handler start');
+
+            const image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
+
+                    if (!videos_id) {
+                        console.log('images_upload_handler !videos_id', videos_id);
+                        $('#inputTitle').val("Article automatically booked");
+                        saveVideo(false);
+                    }
+                    
+                    const xhr = new XMLHttpRequest();
+                    xhr.withCredentials = false;
+                    xhr.open('POST', webSiteRootURL + 'objects/uploadArticleImage.php?video_id=' + videos_id);
+
+                    xhr.upload.onprogress = (e) => {
+                        progress(e.loaded / e.total * 100);
+                    };
+
+                    xhr.onload = () => {
+                        if (xhr.status === 403) {
+                            reject({message: 'HTTP Error: ' + xhr.status, remove: true});
+                            return;
+                        }
+
+                        if (xhr.status < 200 || xhr.status >= 300) {
+                            reject('HTTP Error: ' + xhr.status);
+                            return;
+                        }
+
+                        const json = JSON.parse(xhr.responseText);
+
+                        if (!json || typeof json.url != 'string') {
+                            reject('Invalid JSON: ' + xhr.responseText);
+                            return;
+                        }
+
+                        resolve(json.url);
+                    };
+
+                    xhr.onerror = () => {
+                        reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+                    };
+
+                    const formData = new FormData();
+                    formData.append('file_data', blobInfo.blob(), blobInfo.filename());
+
+                    xhr.send(formData);
+                });
+
+
+            function images_upload_handler_old(blobInfo, success, failure) {
+                console.log('images_upload_handler start', blobInfo, success, failure);
                 var xhr, formData;
                 var timeOuttime = 0;
                 if (!videos_id) {
@@ -54,11 +106,12 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         }
 
                     };
-                    console.log('images_upload_handler formData',blobInfo.filename());
+                    console.log('images_upload_handler formData', blobInfo.filename());
                     formData = new FormData();
                     formData.append('file_data', blobInfo.blob(), blobInfo.filename());
-                    console.log('images_upload_handler formData 2 ',xhr);
+                    console.log('images_upload_handler formData 2 ', xhr);
                     xhr.send(formData);
+                    console.log('images_upload_handler formData 3 ', xhr);
                 }, timeOuttime);
                 console.log('images_upload_handler end');
             }
@@ -67,19 +120,18 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             var tinyMCEtoolbar = 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment';
             var tinyMCEmenubar = 'edit insert view format table tools help';
         <?php
-    } 
-    
+    }
+
     $language = ($_SESSION['language'] == 'en_US') ? 'us' : $_SESSION['language'];
     $langFile = 'node_modules/tinymce-langs/langs/' . $language . '.js';
-    
-    if(file_exists($global['systemRootPath'].$langFile)){
+
+    if (file_exists($global['systemRootPath'] . $langFile)) {
         $language = "'{$language}'";
-        $language_url = "'".getURL($langFile)."'";
-    }else{
+        $language_url = "'" . getURL($langFile) . "'";
+    } else {
         $language = 'null';
         $language_url = 'null';
     }
-    
     ?>
         tinymce.init({
             language: <?php echo $language; ?>,
@@ -94,7 +146,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             mobile: {
                 theme: 'silver'
             },
-            images_upload_handler: images_upload_handler
+            images_upload_handler: image_upload_handler
         });
     </script>
     <?php
