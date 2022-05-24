@@ -20,7 +20,6 @@ use Composer\CaBundle\CaBundle;
  */
 class TwitterOAuth extends Config
 {
-    private const API_VERSION = '1.1';
     private const API_HOST = 'https://api.twitter.com';
     private const UPLOAD_HOST = 'https://upload.twitter.com';
 
@@ -203,7 +202,7 @@ class TwitterOAuth extends Config
             $this->token,
             $method,
             $url,
-            $parameters
+            $parameters,
         );
         $authorization =
             'Authorization: Basic ' .
@@ -212,7 +211,7 @@ class TwitterOAuth extends Config
             $request->getNormalizedHttpUrl(),
             $method,
             $authorization,
-            $parameters
+            $parameters,
         );
         $response = JsonDecoder::decode($result, $this->decodeJsonAsArray);
         $this->response->setBody($response);
@@ -313,7 +312,7 @@ class TwitterOAuth extends Config
                 'command' => 'STATUS',
                 'media_id' => $media_id,
             ],
-            false
+            false,
         );
     }
 
@@ -332,7 +331,7 @@ class TwitterOAuth extends Config
             ($file = file_get_contents($parameters['media'])) === false
         ) {
             throw new \InvalidArgumentException(
-                'You must supply a readable file'
+                'You must supply a readable file',
             );
         }
         $parameters['media'] = base64_encode($file);
@@ -341,7 +340,7 @@ class TwitterOAuth extends Config
             self::UPLOAD_HOST,
             $path,
             $parameters,
-            false
+            false,
         );
     }
 
@@ -360,7 +359,7 @@ class TwitterOAuth extends Config
             self::UPLOAD_HOST,
             $path,
             $this->mediaInitParameters($parameters),
-            false
+            false,
         );
         // Append
         $segmentIndex = 0;
@@ -375,10 +374,10 @@ class TwitterOAuth extends Config
                     'media_id' => $init->media_id_string,
                     'segment_index' => $segmentIndex++,
                     'media_data' => base64_encode(
-                        fread($media, $this->chunkSize)
+                        fread($media, $this->chunkSize),
                     ),
                 ],
-                false
+                false,
             );
         }
         fclose($media);
@@ -391,7 +390,7 @@ class TwitterOAuth extends Config
                 'command' => 'FINALIZE',
                 'media_id' => $init->media_id_string,
             ],
-            false
+            false,
         );
         return $finalize;
     }
@@ -418,7 +417,7 @@ class TwitterOAuth extends Config
         ];
         $allowed_parameters = array_intersect_key(
             $parameters,
-            array_flip($allowed_keys)
+            array_flip($allowed_keys),
         );
         return array_merge($base, $allowed_parameters);
     }
@@ -442,6 +441,19 @@ class TwitterOAuth extends Config
     }
 
     /**
+     * Get URL extension for current API Version.
+     *
+     * @return string
+     */
+    private function extension()
+    {
+        return [
+            '1.1' => '.json',
+            '2' => '',
+        ][$this->apiVersion];
+    }
+
+    /**
      * @param string $method
      * @param string $host
      * @param string $path
@@ -459,12 +471,37 @@ class TwitterOAuth extends Config
     ) {
         $this->resetLastResponse();
         $this->resetAttemptsNumber();
-        $url = sprintf('%s/%s/%s.json', $host, self::API_VERSION, $path);
         $this->response->setApiPath($path);
         if (!$json) {
             $parameters = $this->cleanUpParameters($parameters);
         }
-        return $this->makeRequests($url, $method, $parameters, $json);
+        return $this->makeRequests(
+            $this->apiUrl($host, $path),
+            $method,
+            $parameters,
+            $json,
+        );
+    }
+
+    /**
+     * Generate API URL.
+     *
+     * Overriding this function is not supported and may cause unintended issues.
+     *
+     * @param string $host
+     * @param string $path
+     *
+     * @return string
+     */
+    protected function apiUrl(string $host, string $path)
+    {
+        return sprintf(
+            '%s/%s/%s%s',
+            $host,
+            $this->apiVersion,
+            $path,
+            $this->extension(),
+        );
     }
 
     /**
@@ -532,7 +569,7 @@ class TwitterOAuth extends Config
             $method,
             $url,
             $parameters,
-            $json
+            $json,
         );
         if (array_key_exists('oauth_callback', $parameters)) {
             // Twitter doesn't like oauth_callback as a parameter.
@@ -542,7 +579,7 @@ class TwitterOAuth extends Config
             $request->signRequest(
                 $this->signatureMethod,
                 $this->consumer,
-                $this->token
+                $this->token,
             );
             $authorization = $request->toHeader();
             if (array_key_exists('oauth_verifier', $parameters)) {
@@ -558,7 +595,7 @@ class TwitterOAuth extends Config
             $method,
             $authorization,
             $parameters,
-            $json
+            $json,
         );
     }
 
@@ -636,7 +673,7 @@ class TwitterOAuth extends Config
                     $options[CURLOPT_POSTFIELDS] = json_encode($postfields);
                 } else {
                     $options[CURLOPT_POSTFIELDS] = Util::buildHttpQuery(
-                        $postfields
+                        $postfields,
                     );
                 }
                 break;
@@ -668,7 +705,7 @@ class TwitterOAuth extends Config
         }
 
         $this->response->setHttpCode(
-            curl_getinfo($curlHandle, CURLINFO_HTTP_CODE)
+            curl_getinfo($curlHandle, CURLINFO_HTTP_CODE),
         );
         $parts = explode("\r\n\r\n", $response);
         $responseBody = array_pop($parts);
@@ -692,7 +729,7 @@ class TwitterOAuth extends Config
         $headers = [];
         foreach (explode("\r\n", $header) as $line) {
             if (strpos($line, ':') !== false) {
-                list($key, $value) = explode(': ', $line);
+                [$key, $value] = explode(': ', $line);
                 $key = str_replace('-', '_', strtolower($key));
                 $headers[$key] = trim($value);
             }

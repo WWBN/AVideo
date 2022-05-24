@@ -20,7 +20,7 @@ namespace Google\Service;
 use Google\Client;
 
 /**
- * Service definition for Playintegrity (v1).
+ * Service definition for PlayIntegrity (v1).
  *
  * <p>
  * Play Integrity</p>
@@ -32,14 +32,16 @@ use Google\Client;
  *
  * @author Google, Inc.
  */
-class Playintegrity extends \Google\Service
+class PlayIntegrity extends \Google\Service
 {
+  /** Private Service: https://www.googleapis.com/auth/playintegrity. */
+  const PLAYINTEGRITY =
+      "https://www.googleapis.com/auth/playintegrity";
 
-
-
+  public $v1;
 
   /**
-   * Constructs the internal representation of the Playintegrity service.
+   * Constructs the internal representation of the PlayIntegrity service.
    *
    * @param Client|array $clientOrConfig The client used to deliver requests, or a
    *                                     config array to pass to a new Client instance.
@@ -54,8 +56,28 @@ class Playintegrity extends \Google\Service
     $this->version = 'v1';
     $this->serviceName = 'playintegrity';
 
+    $this->v1 = new PlayIntegrity\Resource\V1(
+        $this,
+        $this->serviceName,
+        'v1',
+        [
+          'methods' => [
+            'decodeIntegrityToken' => [
+              'path' => 'v1/{+packageName}:decodeIntegrityToken',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'packageName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
   }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.
-class_alias(Playintegrity::class, 'Google_Service_Playintegrity');
+class_alias(PlayIntegrity::class, 'Google_Service_PlayIntegrity');

@@ -73,6 +73,11 @@ final class Timers
 
     public function tick()
     {
+        // hot path: skip timers if nothing is scheduled
+        if (!$this->schedule) {
+            return;
+        }
+
         // ensure timers are sorted so we can execute in order
         if (!$this->sorted) {
             $this->sorted = true;

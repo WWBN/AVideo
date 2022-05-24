@@ -30,6 +30,10 @@ class Volume extends \Google\Model
   /**
    * @var string
    */
+  public $emergencySizeGib;
+  /**
+   * @var string
+   */
   public $id;
   /**
    * @var string[]
@@ -42,6 +46,10 @@ class Volume extends \Google\Model
   /**
    * @var string
    */
+  public $pod;
+  /**
+   * @var string
+   */
   public $remainingSpaceGib;
   /**
    * @var string
@@ -51,6 +59,10 @@ class Volume extends \Google\Model
    * @var string
    */
   public $snapshotAutoDeleteBehavior;
+  /**
+   * @var bool
+   */
+  public $snapshotEnabled;
   protected $snapshotReservationDetailType = SnapshotReservationDetail::class;
   protected $snapshotReservationDetailDataType = '';
   /**
@@ -97,6 +109,20 @@ class Volume extends \Google\Model
   /**
    * @param string
    */
+  public function setEmergencySizeGib($emergencySizeGib)
+  {
+    $this->emergencySizeGib = $emergencySizeGib;
+  }
+  /**
+   * @return string
+   */
+  public function getEmergencySizeGib()
+  {
+    return $this->emergencySizeGib;
+  }
+  /**
+   * @param string
+   */
   public function setId($id)
   {
     $this->id = $id;
@@ -139,6 +165,20 @@ class Volume extends \Google\Model
   /**
    * @param string
    */
+  public function setPod($pod)
+  {
+    $this->pod = $pod;
+  }
+  /**
+   * @return string
+   */
+  public function getPod()
+  {
+    return $this->pod;
+  }
+  /**
+   * @param string
+   */
   public function setRemainingSpaceGib($remainingSpaceGib)
   {
     $this->remainingSpaceGib = $remainingSpaceGib;
@@ -177,6 +217,20 @@ class Volume extends \Google\Model
   public function getSnapshotAutoDeleteBehavior()
   {
     return $this->snapshotAutoDeleteBehavior;
+  }
+  /**
+   * @param bool
+   */
+  public function setSnapshotEnabled($snapshotEnabled)
+  {
+    $this->snapshotEnabled = $snapshotEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getSnapshotEnabled()
+  {
+    return $this->snapshotEnabled;
   }
   /**
    * @param SnapshotReservationDetail

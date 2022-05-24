@@ -120,8 +120,9 @@ class ProjectsLocationsTargets extends \Google\Service\Resource
    * resource exists and does not have a policy set. (targets.getIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
-   * requested. See the operation documentation for the appropriate value for this
-   * field.
+   * requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int options.requestedPolicyVersion Optional. The maximum policy
@@ -152,7 +153,7 @@ class ProjectsLocationsTargets extends \Google\Service\Resource
    * targets. Format must be projects/{project_id}/locations/{location_name}.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Optional. Filter builds to be returned. See
+   * @opt_param string filter Optional. Filter targets to be returned. See
    * https://google.aip.dev/160 for more details.
    * @opt_param string orderBy Optional. Field to sort by. See
    * https://google.aip.dev/132#ordering for more details.
@@ -215,8 +216,9 @@ class ProjectsLocationsTargets extends \Google\Service\Resource
    * `PERMISSION_DENIED` errors. (targets.setIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
-   * specified. See the operation documentation for the appropriate value for this
-   * field.
+   * specified. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
@@ -235,8 +237,9 @@ class ProjectsLocationsTargets extends \Google\Service\Resource
    * This operation may "fail open" without warning. (targets.testIamPermissions)
    *
    * @param string $resource REQUIRED: The resource for which the policy detail is
-   * being requested. See the operation documentation for the appropriate value
-   * for this field.
+   * being requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse

@@ -19,7 +19,7 @@ namespace Google\Service\Compute;
 
 class BackendService extends \Google\Collection
 {
-  protected $collection_key = 'healthChecks';
+  protected $collection_key = 'serviceBindings';
   /**
    * @var int
    */
@@ -84,6 +84,8 @@ class BackendService extends \Google\Collection
    * @var string
    */
   public $loadBalancingScheme;
+  protected $localityLbPoliciesType = BackendServiceLocalityLoadBalancingPolicyConfig::class;
+  protected $localityLbPoliciesDataType = 'array';
   /**
    * @var string
    */
@@ -128,6 +130,10 @@ class BackendService extends \Google\Collection
    * @var string
    */
   public $selfLink;
+  /**
+   * @var string[]
+   */
+  public $serviceBindings;
   /**
    * @var string
    */
@@ -420,6 +426,20 @@ class BackendService extends \Google\Collection
     return $this->loadBalancingScheme;
   }
   /**
+   * @param BackendServiceLocalityLoadBalancingPolicyConfig[]
+   */
+  public function setLocalityLbPolicies($localityLbPolicies)
+  {
+    $this->localityLbPolicies = $localityLbPolicies;
+  }
+  /**
+   * @return BackendServiceLocalityLoadBalancingPolicyConfig[]
+   */
+  public function getLocalityLbPolicies()
+  {
+    return $this->localityLbPolicies;
+  }
+  /**
    * @param string
    */
   public function setLocalityLbPolicy($localityLbPolicy)
@@ -600,6 +620,20 @@ class BackendService extends \Google\Collection
   public function getSelfLink()
   {
     return $this->selfLink;
+  }
+  /**
+   * @param string[]
+   */
+  public function setServiceBindings($serviceBindings)
+  {
+    $this->serviceBindings = $serviceBindings;
+  }
+  /**
+   * @return string[]
+   */
+  public function getServiceBindings()
+  {
+    return $this->serviceBindings;
   }
   /**
    * @param string

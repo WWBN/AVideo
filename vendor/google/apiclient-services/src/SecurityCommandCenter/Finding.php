@@ -17,8 +17,9 @@
 
 namespace Google\Service\SecurityCommandCenter;
 
-class Finding extends \Google\Model
+class Finding extends \Google\Collection
 {
+  protected $collection_key = 'iamBindings';
   protected $accessType = Access::class;
   protected $accessDataType = '';
   /**
@@ -29,10 +30,16 @@ class Finding extends \Google\Model
    * @var string
    */
   public $category;
+  protected $connectionsType = Connection::class;
+  protected $connectionsDataType = 'array';
   /**
    * @var string
    */
   public $createTime;
+  /**
+   * @var string
+   */
+  public $description;
   /**
    * @var string
    */
@@ -47,6 +54,8 @@ class Finding extends \Google\Model
    * @var string
    */
   public $findingClass;
+  protected $iamBindingsType = IamBinding::class;
+  protected $iamBindingsDataType = 'array';
   protected $indicatorType = Indicator::class;
   protected $indicatorDataType = '';
   protected $mitreAttackType = MitreAttack::class;
@@ -67,6 +76,10 @@ class Finding extends \Google\Model
    * @var string
    */
   public $name;
+  /**
+   * @var string
+   */
+  public $nextSteps;
   /**
    * @var string
    */
@@ -135,6 +148,20 @@ class Finding extends \Google\Model
     return $this->category;
   }
   /**
+   * @param Connection[]
+   */
+  public function setConnections($connections)
+  {
+    $this->connections = $connections;
+  }
+  /**
+   * @return Connection[]
+   */
+  public function getConnections()
+  {
+    return $this->connections;
+  }
+  /**
    * @param string
    */
   public function setCreateTime($createTime)
@@ -147,6 +174,20 @@ class Finding extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param string
+   */
+  public function setDescription($description)
+  {
+    $this->description = $description;
+  }
+  /**
+   * @return string
+   */
+  public function getDescription()
+  {
+    return $this->description;
   }
   /**
    * @param string
@@ -203,6 +244,20 @@ class Finding extends \Google\Model
   public function getFindingClass()
   {
     return $this->findingClass;
+  }
+  /**
+   * @param IamBinding[]
+   */
+  public function setIamBindings($iamBindings)
+  {
+    $this->iamBindings = $iamBindings;
+  }
+  /**
+   * @return IamBinding[]
+   */
+  public function getIamBindings()
+  {
+    return $this->iamBindings;
   }
   /**
    * @param Indicator
@@ -287,6 +342,20 @@ class Finding extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setNextSteps($nextSteps)
+  {
+    $this->nextSteps = $nextSteps;
+  }
+  /**
+   * @return string
+   */
+  public function getNextSteps()
+  {
+    return $this->nextSteps;
   }
   /**
    * @param string
