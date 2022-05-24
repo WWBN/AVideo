@@ -21,18 +21,22 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     } else {
         ?>
             function images_upload_handler(blobInfo, success, failure) {
+                console.log('images_upload_handler start');
                 var xhr, formData;
                 var timeOuttime = 0;
                 if (!videos_id) {
+                    console.log('images_upload_handler !videos_id', videos_id);
                     $('#inputTitle').val("Article automatically booked");
                     saveVideo(false);
                     timeOuttime = 5;
                 }
                 setTimeout(function () {
+                    console.log('images_upload_handler uploadArticleImage', videos_id);
                     xhr = new XMLHttpRequest();
                     xhr.withCredentials = false;
                     xhr.open('POST', webSiteRootURL + 'objects/uploadArticleImage.php?video_id=' + videos_id);
                     xhr.onload = function () {
+                        console.log('images_upload_handler xhr.onload', xhr);
                         var json;
                         if (xhr.status != 200) {
                             failure('HTTP Error: ' + xhr.status);
@@ -50,6 +54,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         }
 
                     };
+                    console.log('images_upload_handler formData',blobInfo.filename());
                     formData = new FormData();
                     formData.append('file_data', blobInfo.blob(), blobInfo.filename());
                     xhr.send(formData);
