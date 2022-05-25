@@ -32,10 +32,11 @@ function checkWebhook($payload, $sig_header, $endpoint_secret) {
                             $payload, $sig_header, $secret
             );
             return $event;
-        } catch (\UnexpectedValueException $e) {
+        } catch (Exception $exc) {
             // Invalid payload
-            _error_log("Stripe IPN Invalid payload {$secret}");
+            _error_log("Stripe IPN Invalid payload {$secret} ".$exc->getMessage());
         }
+        
     }
     _error_log("Stripe IPN END Invalid payload {$endpoint_secret}");
     http_response_code(400); // PHP 5.4 or greater
