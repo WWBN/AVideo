@@ -24,5 +24,5 @@ $output = PayPalYPT::validateWebhook();
 
 //$output = PayPalYPT::deleteAllWebhooks();
 
-_error_log('PayPal webhok: '. PayPalYPT::getWebhookURL());
+_error_log('PayPal webhook: '. PayPalYPT::getWebhookURL());
 _error_log($output);
