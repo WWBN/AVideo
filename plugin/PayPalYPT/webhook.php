@@ -8,6 +8,8 @@ $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = AVideoPlugin::getObjectData("YPTWallet");
 $paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 
+_error_log("PayPal::webhook start ".json_encode($_GET).' '.json_encode($_POST));
+        
 $output = PayPalYPT::validateWebhook();
 
 

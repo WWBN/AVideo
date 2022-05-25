@@ -8,12 +8,12 @@ $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $walletObject = AVideoPlugin::getObjectData("YPTWallet");
 $paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 
-//$output = PayPalYPT::validateWebhook();
+$output = PayPalYPT::validateWebhook();
 
 
 //$output = PayPalYPT::createWebhook();
 
-$output = PayPalYPT::getOrCreateWebhook();
+//$output = PayPalYPT::getOrCreateWebhook();
 
 
 //require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
