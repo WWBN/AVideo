@@ -995,13 +995,14 @@ class PayPalYPT extends PluginAbstract {
          */
         $headers = array_change_key_case($headers, CASE_UPPER);
         
-        $webhook = self::getOrCreateWebhook();   
-        _error_log("PayPal::validateWebhook start ".__LINE__.' '.json_encode($requestBody).' '.json_encode($headers));
+        $webhook = self::getOrCreateWebhook();  
+        $webhookId = $webhook->getId();
+        _error_log("PayPal::validateWebhook start webhookId={$webhookId} ".__LINE__.' '.json_encode($requestBody).' '.json_encode($headers));
         $signatureVerification = new VerifyWebhookSignature();
         $signatureVerification->setAuthAlgo($headers['PAYPAL-AUTH-ALGO']);
         $signatureVerification->setTransmissionId($headers['PAYPAL-TRANSMISSION-ID']);
         $signatureVerification->setCertUrl($headers['PAYPAL-CERT-URL']);
-        $signatureVerification->setWebhookId($webhook->getId()); // Note that the Webhook ID must be a currently valid Webhook that you created with your client ID/secret.
+        $signatureVerification->setWebhookId($webhookId); // Note that the Webhook ID must be a currently valid Webhook that you created with your client ID/secret.
         $signatureVerification->setTransmissionSig($headers['PAYPAL-TRANSMISSION-SIG']);
         $signatureVerification->setTransmissionTime($headers['PAYPAL-TRANSMISSION-TIME']);
 
