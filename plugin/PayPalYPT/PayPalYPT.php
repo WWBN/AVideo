@@ -994,7 +994,8 @@ class PayPalYPT extends PluginAbstract {
          * All header keys as UPPERCASE, but I receive the header key as the example array, First letter as UPPERCASE
          */
         $headers = array_change_key_case($headers, CASE_UPPER);
-
+        
+        _error_log("PayPal::validateWebhook start ".json_encode($requestBody).' '.json_encode($headers));
         $signatureVerification = new VerifyWebhookSignature();
         $signatureVerification->setAuthAlgo($headers['PAYPAL-AUTH-ALGO']);
         $signatureVerification->setTransmissionId($headers['PAYPAL-TRANSMISSION-ID']);
@@ -1009,20 +1010,20 @@ class PayPalYPT extends PluginAbstract {
         try {
             /** @var \PayPal\Api\VerifyWebhookSignatureResponse $output */
             $output = $signatureVerification->post($apiContext);
-            _error_log("Validate Received Webhook Event WebhookEvent ".json_encode($output->getVerificationStatus()).' '.json_encode($request->toJSON()).' '.json_encode($output));
+            _error_log("PayPal::validateWebhook start  ".json_encode($output->getVerificationStatus()).' '.json_encode($request->toJSON()).' '.json_encode($output));
             //verification_statusenum
             //Possible values: SUCCESS,FAILURE.
             return $output->getVerificationStatus()==='SUCCESS';
         } catch (Exception $ex) {
             // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-            _error_log("Validate Received Webhook Event WebhookEvent ".json_encode($request->toJSON()).' '.json_encode($ex->getMessage()));
+            _error_log("PayPal::validateWebhook start  ".json_encode($request->toJSON()).' '.json_encode($ex->getMessage()));
             
             var_dump($request->toJSON(),$output, $ex->getMessage());
             return false;
         }
 
         // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-        _error_log("Validate Received Webhook Event WebhookEvent ".json_encode($output->getVerificationStatus()).' '.json_encode($request->toJSON()).' '.json_encode($output));
+        _error_log("PayPal::validateWebhook start  ".json_encode($output->getVerificationStatus()).' '.json_encode($request->toJSON()).' '.json_encode($output));
         
         //var_dump($output->getVerificationStatus(),$request->toJSON(),$output);
         return true;
