@@ -28,7 +28,7 @@ function checkWebhook($payload, $sig_header, $endpoint_secret) {
         }
         try {
             $event = \Stripe\Webhook::constructEvent(
-                            $payload, $sig_header, $endpoint_secret
+                            $payload, $sig_header, $secret
             );
             return $event;
         } catch (\UnexpectedValueException $e) {
