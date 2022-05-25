@@ -141,7 +141,7 @@ Passcode: {password}
         $key = self::getSecret();
         //var_dump($jitsiPayload, $key);
 
-        return JWT::encode($jitsiPayload, $key); // HS256
+        return JWT::encode($jitsiPayload, $key, 'HS256'); // HS256
     }
 
     public static function getSecret()
