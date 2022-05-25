@@ -26,6 +26,7 @@ function checkWebhook($payload, $sig_header, $endpoint_secret) {
         if(empty($secret)){
             continue;
         }
+        _error_log("Stripe IPN checkWebhook {$secret}");
         try {
             $event = \Stripe\Webhook::constructEvent(
                             $payload, $sig_header, $secret
