@@ -17,18 +17,21 @@
 
 namespace Google\Service\Firebaseappcheck\Resource;
 
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaAppAttestChallengeResponse;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaAttestationTokenResponse;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaExchangeAppAttestAssertionRequest;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationRequest;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationResponse;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaExchangeCustomTokenRequest;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaExchangeDebugTokenRequest;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaExchangeDeviceCheckTokenRequest;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaExchangeRecaptchaEnterpriseTokenRequest;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaExchangeRecaptchaTokenRequest;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaExchangeSafetyNetTokenRequest;
-use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1betaGenerateAppAttestChallengeRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1AppCheckToken;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1ExchangeRecaptchaEnterpriseTokenRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest;
+use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse;
 
 /**
  * The "apps" collection of methods.
@@ -43,173 +46,188 @@ class ProjectsApps extends \Google\Service\Resource
   /**
    * Accepts an App Attest assertion and an artifact previously obtained from
    * ExchangeAppAttestAttestation and verifies those with Apple. If valid, returns
-   * an App Check token encapsulated in an AttestationTokenResponse.
-   * (apps.exchangeAppAttestAssertion)
+   * an AppCheckToken. (apps.exchangeAppAttestAssertion)
    *
    * @param string $app Required. The relative resource name of the iOS app, in
    * the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
    * `project_number` element can be replaced with the project ID of the Firebase
    * project. Learn more about using project identifiers in Google's [AIP
    * 2510](https://google.aip.dev/cloud/2510) standard.
-   * @param GoogleFirebaseAppcheckV1betaExchangeAppAttestAssertionRequest $postBody
+   * @param GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleFirebaseAppcheckV1betaAttestationTokenResponse
+   * @return GoogleFirebaseAppcheckV1AppCheckToken
    */
-  public function exchangeAppAttestAssertion($app, GoogleFirebaseAppcheckV1betaExchangeAppAttestAssertionRequest $postBody, $optParams = [])
+  public function exchangeAppAttestAssertion($app, GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest $postBody, $optParams = [])
   {
     $params = ['app' => $app, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('exchangeAppAttestAssertion', [$params], GoogleFirebaseAppcheckV1betaAttestationTokenResponse::class);
+    return $this->call('exchangeAppAttestAssertion', [$params], GoogleFirebaseAppcheckV1AppCheckToken::class);
   }
   /**
    * Accepts an App Attest CBOR attestation and verifies it with Apple using your
    * preconfigured team and bundle IDs. If valid, returns an attestation artifact
-   * that can later be exchanged for an AttestationTokenResponse using
+   * that can later be exchanged for an AppCheckToken using
    * ExchangeAppAttestAssertion. For convenience and performance, this method's
-   * response object will also contain an App Check token encapsulated in an
-   * AttestationTokenResponse (if the verification is successful).
-   * (apps.exchangeAppAttestAttestation)
+   * response object will also contain an AppCheckToken (if the verification is
+   * successful). (apps.exchangeAppAttestAttestation)
    *
    * @param string $app Required. The relative resource name of the iOS app, in
    * the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
    * `project_number` element can be replaced with the project ID of the Firebase
    * project. Learn more about using project identifiers in Google's [AIP
    * 2510](https://google.aip.dev/cloud/2510) standard.
-   * @param GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationRequest $postBody
+   * @param GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationResponse
+   * @return GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse
    */
-  public function exchangeAppAttestAttestation($app, GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationRequest $postBody, $optParams = [])
+  public function exchangeAppAttestAttestation($app, GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest $postBody, $optParams = [])
   {
     $params = ['app' => $app, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('exchangeAppAttestAttestation', [$params], GoogleFirebaseAppcheckV1betaExchangeAppAttestAttestationResponse::class);
+    return $this->call('exchangeAppAttestAttestation', [$params], GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse::class);
   }
   /**
    * Validates a custom token signed using your project's Admin SDK service
-   * account credentials. If valid, returns an App Check token encapsulated in an
-   * AttestationTokenResponse. (apps.exchangeCustomToken)
+   * account credentials. If valid, returns an AppCheckToken.
+   * (apps.exchangeCustomToken)
    *
    * @param string $app Required. The relative resource name of the app, in the
    * format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
    * `project_number` element can be replaced with the project ID of the Firebase
    * project. Learn more about using project identifiers in Google's [AIP
    * 2510](https://google.aip.dev/cloud/2510) standard.
-   * @param GoogleFirebaseAppcheckV1betaExchangeCustomTokenRequest $postBody
+   * @param GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleFirebaseAppcheckV1betaAttestationTokenResponse
+   * @return GoogleFirebaseAppcheckV1AppCheckToken
    */
-  public function exchangeCustomToken($app, GoogleFirebaseAppcheckV1betaExchangeCustomTokenRequest $postBody, $optParams = [])
+  public function exchangeCustomToken($app, GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest $postBody, $optParams = [])
   {
     $params = ['app' => $app, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('exchangeCustomToken', [$params], GoogleFirebaseAppcheckV1betaAttestationTokenResponse::class);
+    return $this->call('exchangeCustomToken', [$params], GoogleFirebaseAppcheckV1AppCheckToken::class);
   }
   /**
    * Validates a debug token secret that you have previously created using
-   * CreateDebugToken. If valid, returns an App Check token encapsulated in an
-   * AttestationTokenResponse. Note that a restrictive quota is enforced on this
-   * method to prevent accidental exposure of the app to abuse.
-   * (apps.exchangeDebugToken)
+   * CreateDebugToken. If valid, returns an AppCheckToken. Note that a restrictive
+   * quota is enforced on this method to prevent accidental exposure of the app to
+   * abuse. (apps.exchangeDebugToken)
    *
    * @param string $app Required. The relative resource name of the app, in the
    * format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
    * `project_number` element can be replaced with the project ID of the Firebase
    * project. Learn more about using project identifiers in Google's [AIP
    * 2510](https://google.aip.dev/cloud/2510) standard.
-   * @param GoogleFirebaseAppcheckV1betaExchangeDebugTokenRequest $postBody
+   * @param GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleFirebaseAppcheckV1betaAttestationTokenResponse
+   * @return GoogleFirebaseAppcheckV1AppCheckToken
    */
-  public function exchangeDebugToken($app, GoogleFirebaseAppcheckV1betaExchangeDebugTokenRequest $postBody, $optParams = [])
+  public function exchangeDebugToken($app, GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest $postBody, $optParams = [])
   {
     $params = ['app' => $app, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('exchangeDebugToken', [$params], GoogleFirebaseAppcheckV1betaAttestationTokenResponse::class);
+    return $this->call('exchangeDebugToken', [$params], GoogleFirebaseAppcheckV1AppCheckToken::class);
   }
   /**
    * Accepts a [`device_token`](https://developer.apple.com/documentation/devicech
    * eck/dcdevice) issued by DeviceCheck, and attempts to validate it with Apple.
-   * If valid, returns an App Check token encapsulated in an
-   * AttestationTokenResponse. (apps.exchangeDeviceCheckToken)
+   * If valid, returns an AppCheckToken. (apps.exchangeDeviceCheckToken)
    *
    * @param string $app Required. The relative resource name of the iOS app, in
    * the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
    * `project_number` element can be replaced with the project ID of the Firebase
    * project. Learn more about using project identifiers in Google's [AIP
    * 2510](https://google.aip.dev/cloud/2510) standard.
-   * @param GoogleFirebaseAppcheckV1betaExchangeDeviceCheckTokenRequest $postBody
+   * @param GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleFirebaseAppcheckV1betaAttestationTokenResponse
+   * @return GoogleFirebaseAppcheckV1AppCheckToken
    */
-  public function exchangeDeviceCheckToken($app, GoogleFirebaseAppcheckV1betaExchangeDeviceCheckTokenRequest $postBody, $optParams = [])
+  public function exchangeDeviceCheckToken($app, GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest $postBody, $optParams = [])
   {
     $params = ['app' => $app, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('exchangeDeviceCheckToken', [$params], GoogleFirebaseAppcheckV1betaAttestationTokenResponse::class);
+    return $this->call('exchangeDeviceCheckToken', [$params], GoogleFirebaseAppcheckV1AppCheckToken::class);
   }
   /**
-   * Validates a [reCAPTCHA Enterprise response token](https://cloud.google.com
-   * /recaptcha-enterprise/docs/create-assessment#retrieve_token). If valid,
-   * returns an App Check token encapsulated in an AttestationTokenResponse.
-   * (apps.exchangeRecaptchaEnterpriseToken)
-   *
-   * @param string $app Required. The relative resource name of the web app, in
-   * the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
-   * `project_number` element can be replaced with the project ID of the Firebase
-   * project. Learn more about using project identifiers in Google's [AIP
-   * 2510](https://google.aip.dev/cloud/2510) standard.
-   * @param GoogleFirebaseAppcheckV1betaExchangeRecaptchaEnterpriseTokenRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleFirebaseAppcheckV1betaAttestationTokenResponse
-   */
-  public function exchangeRecaptchaEnterpriseToken($app, GoogleFirebaseAppcheckV1betaExchangeRecaptchaEnterpriseTokenRequest $postBody, $optParams = [])
-  {
-    $params = ['app' => $app, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('exchangeRecaptchaEnterpriseToken', [$params], GoogleFirebaseAppcheckV1betaAttestationTokenResponse::class);
-  }
-  /**
-   * Validates a [reCAPTCHA v3 response
-   * token](https://developers.google.com/recaptcha/docs/v3). If valid, returns an
-   * App Check token encapsulated in an AttestationTokenResponse.
-   * (apps.exchangeRecaptchaToken)
-   *
-   * @param string $app Required. The relative resource name of the web app, in
-   * the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
-   * `project_number` element can be replaced with the project ID of the Firebase
-   * project. Learn more about using project identifiers in Google's [AIP
-   * 2510](https://google.aip.dev/cloud/2510) standard.
-   * @param GoogleFirebaseAppcheckV1betaExchangeRecaptchaTokenRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleFirebaseAppcheckV1betaAttestationTokenResponse
-   */
-  public function exchangeRecaptchaToken($app, GoogleFirebaseAppcheckV1betaExchangeRecaptchaTokenRequest $postBody, $optParams = [])
-  {
-    $params = ['app' => $app, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('exchangeRecaptchaToken', [$params], GoogleFirebaseAppcheckV1betaAttestationTokenResponse::class);
-  }
-  /**
-   * Validates a [SafetyNet
-   * token](https://developer.android.com/training/safetynet/attestation#request-
-   * attestation-step). If valid, returns an App Check token encapsulated in an
-   * AttestationTokenResponse. (apps.exchangeSafetyNetToken)
+   * Validates an [integrity verdict response token from Play
+   * Integrity](https://developer.android.com/google/play/integrity/verdict
+   * #decrypt-verify). If valid, returns an AppCheckToken.
+   * (apps.exchangePlayIntegrityToken)
    *
    * @param string $app Required. The relative resource name of the Android app,
    * in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary,
    * the `project_number` element can be replaced with the project ID of the
    * Firebase project. Learn more about using project identifiers in Google's [AIP
    * 2510](https://google.aip.dev/cloud/2510) standard.
-   * @param GoogleFirebaseAppcheckV1betaExchangeSafetyNetTokenRequest $postBody
+   * @param GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleFirebaseAppcheckV1betaAttestationTokenResponse
+   * @return GoogleFirebaseAppcheckV1AppCheckToken
    */
-  public function exchangeSafetyNetToken($app, GoogleFirebaseAppcheckV1betaExchangeSafetyNetTokenRequest $postBody, $optParams = [])
+  public function exchangePlayIntegrityToken($app, GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest $postBody, $optParams = [])
   {
     $params = ['app' => $app, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('exchangeSafetyNetToken', [$params], GoogleFirebaseAppcheckV1betaAttestationTokenResponse::class);
+    return $this->call('exchangePlayIntegrityToken', [$params], GoogleFirebaseAppcheckV1AppCheckToken::class);
+  }
+  /**
+   * Validates a [reCAPTCHA Enterprise response token](https://cloud.google.com
+   * /recaptcha-enterprise/docs/create-assessment#retrieve_token). If valid,
+   * returns an AppCheckToken. (apps.exchangeRecaptchaEnterpriseToken)
+   *
+   * @param string $app Required. The relative resource name of the web app, in
+   * the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
+   * `project_number` element can be replaced with the project ID of the Firebase
+   * project. Learn more about using project identifiers in Google's [AIP
+   * 2510](https://google.aip.dev/cloud/2510) standard.
+   * @param GoogleFirebaseAppcheckV1ExchangeRecaptchaEnterpriseTokenRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleFirebaseAppcheckV1AppCheckToken
+   */
+  public function exchangeRecaptchaEnterpriseToken($app, GoogleFirebaseAppcheckV1ExchangeRecaptchaEnterpriseTokenRequest $postBody, $optParams = [])
+  {
+    $params = ['app' => $app, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('exchangeRecaptchaEnterpriseToken', [$params], GoogleFirebaseAppcheckV1AppCheckToken::class);
+  }
+  /**
+   * Validates a [reCAPTCHA v3 response
+   * token](https://developers.google.com/recaptcha/docs/v3). If valid, returns an
+   * AppCheckToken. (apps.exchangeRecaptchaV3Token)
+   *
+   * @param string $app Required. The relative resource name of the web app, in
+   * the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
+   * `project_number` element can be replaced with the project ID of the Firebase
+   * project. Learn more about using project identifiers in Google's [AIP
+   * 2510](https://google.aip.dev/cloud/2510) standard.
+   * @param GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleFirebaseAppcheckV1AppCheckToken
+   */
+  public function exchangeRecaptchaV3Token($app, GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest $postBody, $optParams = [])
+  {
+    $params = ['app' => $app, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('exchangeRecaptchaV3Token', [$params], GoogleFirebaseAppcheckV1AppCheckToken::class);
+  }
+  /**
+   * Validates a [SafetyNet
+   * token](https://developer.android.com/training/safetynet/attestation#request-
+   * attestation-step). If valid, returns an AppCheckToken.
+   * (apps.exchangeSafetyNetToken)
+   *
+   * @param string $app Required. The relative resource name of the Android app,
+   * in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary,
+   * the `project_number` element can be replaced with the project ID of the
+   * Firebase project. Learn more about using project identifiers in Google's [AIP
+   * 2510](https://google.aip.dev/cloud/2510) standard.
+   * @param GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleFirebaseAppcheckV1AppCheckToken
+   */
+  public function exchangeSafetyNetToken($app, GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest $postBody, $optParams = [])
+  {
+    $params = ['app' => $app, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('exchangeSafetyNetToken', [$params], GoogleFirebaseAppcheckV1AppCheckToken::class);
   }
   /**
    * Generates a challenge that protects the integrity of an immediately following
@@ -222,15 +240,37 @@ class ProjectsApps extends \Google\Service\Resource
    * `project_number` element can be replaced with the project ID of the Firebase
    * project. Learn more about using project identifiers in Google's [AIP
    * 2510](https://google.aip.dev/cloud/2510) standard.
-   * @param GoogleFirebaseAppcheckV1betaGenerateAppAttestChallengeRequest $postBody
+   * @param GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleFirebaseAppcheckV1betaAppAttestChallengeResponse
+   * @return GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse
    */
-  public function generateAppAttestChallenge($app, GoogleFirebaseAppcheckV1betaGenerateAppAttestChallengeRequest $postBody, $optParams = [])
+  public function generateAppAttestChallenge($app, GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest $postBody, $optParams = [])
   {
     $params = ['app' => $app, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('generateAppAttestChallenge', [$params], GoogleFirebaseAppcheckV1betaAppAttestChallengeResponse::class);
+    return $this->call('generateAppAttestChallenge', [$params], GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse::class);
+  }
+  /**
+   * Generates a challenge that protects the integrity of an immediately following
+   * integrity verdict request to the Play Integrity API. The next call to
+   * ExchangePlayIntegrityToken using the resulting integrity token will verify
+   * the presence and validity of the challenge. A challenge should not be reused
+   * for multiple calls. (apps.generatePlayIntegrityChallenge)
+   *
+   * @param string $app Required. The relative resource name of the app, in the
+   * format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
+   * `project_number` element can be replaced with the project ID of the Firebase
+   * project. Learn more about using project identifiers in Google's [AIP
+   * 2510](https://google.aip.dev/cloud/2510) standard.
+   * @param GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse
+   */
+  public function generatePlayIntegrityChallenge($app, GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest $postBody, $optParams = [])
+  {
+    $params = ['app' => $app, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('generatePlayIntegrityChallenge', [$params], GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse::class);
   }
 }
 

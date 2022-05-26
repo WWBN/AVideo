@@ -43,7 +43,7 @@ class Notifications extends AbstractApi
      * @param int $offset Results offset (results are sorted by ID)
      * @param int $kind   Kind of notifications returned. Default (not set) is all notification types
      */
-    public function getAll(int $limit = null, int $offset = null/*, int $kind = null */): array
+    public function getAll(int $limit = null, int $offset = null/* , int $kind = null */): array
     {
         if (func_num_args() > 2 && !is_int(func_get_arg(2))) {
             trigger_deprecation('norkunas/onesignal-php-api', '2.1.0', 'Method %s() will have a third `int $kind` argument. Not defining it or passing a non integer value is deprecated.', __METHOD__);

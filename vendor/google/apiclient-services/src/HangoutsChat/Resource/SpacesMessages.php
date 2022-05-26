@@ -31,7 +31,9 @@ use Google\Service\HangoutsChat\Message;
 class SpacesMessages extends \Google\Service\Resource
 {
   /**
-   * Creates a message. (messages.create)
+   * Creates a message. Requires [service account
+   * authentication](https://developers.google.com/chat/api/guides/auth/service-
+   * accounts). (messages.create)
    *
    * @param string $parent Required. Space resource name, in the form "spaces".
    * Example: spaces/AAAAAAAAAAA
@@ -39,17 +41,13 @@ class SpacesMessages extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string requestId Optional. A unique request ID for this message.
-   * If a message has already been created in the space with this request ID, the
-   * subsequent request will return the existing message and no new message will
-   * be created.
-   * @opt_param string threadKey Optional. Opaque thread identifier string that
-   * can be specified to group messages into a single thread. If this is the first
-   * message with a given thread identifier, a new thread is created. Subsequent
-   * messages with the same thread identifier will be posted into the same thread.
-   * This relieves bots and webhooks from having to store the Google Chat thread
-   * ID of a thread (created earlier by them) to post further updates to it. Has
-   * no effect if thread field, corresponding to an existing thread, is set in
-   * message.
+   * Specifying an existing request ID returns the message created with that ID
+   * instead of creating a new message.
+   * @opt_param string threadKey Optional. Opaque thread identifier. To start or
+   * add to a thread, create a message and specify a `threadKey` instead of
+   * thread.name. (Setting thread.name has no effect.) The first message with a
+   * given `threadKey` starts a new thread. Subsequent messages with the same
+   * `threadKey` post into the same thread.
    * @return Message
    */
   public function create($parent, Message $postBody, $optParams = [])
@@ -59,7 +57,9 @@ class SpacesMessages extends \Google\Service\Resource
     return $this->call('create', [$params], Message::class);
   }
   /**
-   * Deletes a message. (messages.delete)
+   * Deletes a message. Requires [service account
+   * authentication](https://developers.google.com/chat/api/guides/auth/service-
+   * accounts). (messages.delete)
    *
    * @param string $name Required. Resource name of the message to be deleted, in
    * the form "spaces/messages" Example:
@@ -74,7 +74,9 @@ class SpacesMessages extends \Google\Service\Resource
     return $this->call('delete', [$params], ChatEmpty::class);
   }
   /**
-   * Returns a message. (messages.get)
+   * Returns a message. Requires [service account
+   * authentication](https://developers.google.com/chat/api/guides/auth/service-
+   * accounts). (messages.get)
    *
    * @param string $name Required. Resource name of the message to be retrieved,
    * in the form "spaces/messages". Example:
@@ -89,7 +91,9 @@ class SpacesMessages extends \Google\Service\Resource
     return $this->call('get', [$params], Message::class);
   }
   /**
-   * Updates a message. (messages.update)
+   * Updates a message. Requires [service account
+   * authentication](https://developers.google.com/chat/api/guides/auth/service-
+   * accounts). (messages.update)
    *
    * @param string $name Resource name in the form `spaces/messages`. Example:
    * `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`
@@ -98,7 +102,7 @@ class SpacesMessages extends \Google\Service\Resource
    *
    * @opt_param string updateMask Required. The field paths to be updated, comma
    * separated if there are multiple. Currently supported field paths: * text *
-   * cards * gsuite_message_integration_render_data * attachment
+   * cards * attachment
    * @return Message
    */
   public function update($name, Message $postBody, $optParams = [])

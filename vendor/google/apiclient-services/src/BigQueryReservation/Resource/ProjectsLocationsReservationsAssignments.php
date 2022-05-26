@@ -62,7 +62,7 @@ class ProjectsLocationsReservationsAssignments extends \Google\Service\Resource
    *
    * @opt_param string assignmentId The optional assignment ID. Assignment name
    * will be generated automatically if this field is empty. This field must only
-   * contain lower case alphanumeric characters or dash. Max length is 64
+   * contain lower case alphanumeric characters or dashes. Max length is 64
    * characters.
    * @return Assignment
    */
@@ -138,6 +138,27 @@ class ProjectsLocationsReservationsAssignments extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('move', [$params], Assignment::class);
+  }
+  /**
+   * Updates an existing assignment. Only the `priority` field can be updated.
+   * (assignments.patch)
+   *
+   * @param string $name Output only. Name of the resource. E.g.:
+   * `projects/myproject/locations/US/reservations/team1-prod/assignments/123`.
+   * The assignment_id must only contain lower case alphanumeric characters or
+   * dashes and the max length is 64 characters.
+   * @param Assignment $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Standard field mask for the set of fields to be
+   * updated.
+   * @return Assignment
+   */
+  public function patch($name, Assignment $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Assignment::class);
   }
 }
 

@@ -1,6 +1,7 @@
 <?php
 namespace Ratchet\Client;
 use Ratchet\RFC6455\Handshake\ClientNegotiator;
+use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Socket\ConnectionInterface;
 use React\Socket\ConnectorInterface;
@@ -12,17 +13,17 @@ use GuzzleHttp\Psr7 as gPsr;
 class Connector {
     protected $_loop;
     protected $_connector;
-    protected $_secureConnector;
     protected $_negotiator;
 
-    public function __construct(LoopInterface $loop, ConnectorInterface $connector = null) {
+    public function __construct(LoopInterface $loop = null, ConnectorInterface $connector = null) {
+        $this->_loop = $loop ?: Loop::get();
+
         if (null === $connector) {
-            $connector = new \React\Socket\Connector($loop, [
+            $connector = new \React\Socket\Connector([
                 'timeout' => 20
-            ]);
+            ], $this->_loop);
         }
 
-        $this->_loop       = $loop;
         $this->_connector  = $connector;
         $this->_negotiator = new ClientNegotiator;
     }
@@ -84,10 +85,10 @@ class Connector {
 
                 $stream->removeListener('data', $headerParser);
 
-                $response = gPsr\parse_response($buffer);
+                $response = gPsr\Message::parseResponse($buffer);
 
                 if (!$this->_negotiator->validateResponse($request, $response)) {
-                    $futureWsConn->reject(new \DomainException(gPsr\str($response)));
+                    $futureWsConn->reject(new \DomainException(gPsr\Message::toString($response)));
                     $stream->close();
 
                     return;
@@ -109,7 +110,7 @@ class Connector {
             };
 
             $stream->on('data', $headerParser);
-            $stream->write(gPsr\str($request));
+            $stream->write(gPsr\Message::toString($request));
         }, array($futureWsConn, 'reject'));
 
         return $futureWsConn->promise();
@@ -123,7 +124,7 @@ class Connector {
      * @return \Psr\Http\Message\RequestInterface
      */
     protected function generateRequest($url, array $subProtocols, array $headers) {
-        $uri = gPsr\uri_for($url);
+        $uri = gPsr\Utils::uriFor($url);
 
         $scheme = $uri->getScheme();
 
@@ -133,7 +134,7 @@ class Connector {
 
         $uri = $uri->withScheme('wss' === $scheme ? 'HTTPS' : 'HTTP');
 
-        $headers += ['User-Agent' => 'Ratchet-Pawl/0.3'];
+        $headers += ['User-Agent' => 'Ratchet-Pawl/0.4.1'];
 
         $request = array_reduce(array_keys($headers), function(RequestInterface $request, $header) use ($headers) {
             return $request->withHeader($header, $headers[$header]);

@@ -19,11 +19,27 @@ namespace Google\Service\Datastream;
 
 class OracleSourceConfig extends \Google\Model
 {
+  protected $dropLargeObjectsType = DropLargeObjects::class;
+  protected $dropLargeObjectsDataType = '';
   protected $excludeObjectsType = OracleRdbms::class;
   protected $excludeObjectsDataType = '';
   protected $includeObjectsType = OracleRdbms::class;
   protected $includeObjectsDataType = '';
 
+  /**
+   * @param DropLargeObjects
+   */
+  public function setDropLargeObjects(DropLargeObjects $dropLargeObjects)
+  {
+    $this->dropLargeObjects = $dropLargeObjects;
+  }
+  /**
+   * @return DropLargeObjects
+   */
+  public function getDropLargeObjects()
+  {
+    return $this->dropLargeObjects;
+  }
   /**
    * @param OracleRdbms
    */

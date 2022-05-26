@@ -20,6 +20,8 @@ namespace Google\Service\AIPlatformNotebooks\Resource;
 use Google\Service\AIPlatformNotebooks\ListRuntimesResponse;
 use Google\Service\AIPlatformNotebooks\Operation;
 use Google\Service\AIPlatformNotebooks\Policy;
+use Google\Service\AIPlatformNotebooks\RefreshRuntimeTokenInternalRequest;
+use Google\Service\AIPlatformNotebooks\RefreshRuntimeTokenInternalResponse;
 use Google\Service\AIPlatformNotebooks\ReportRuntimeEventRequest;
 use Google\Service\AIPlatformNotebooks\ResetRuntimeRequest;
 use Google\Service\AIPlatformNotebooks\Runtime;
@@ -48,6 +50,7 @@ class ProjectsLocationsRuntimes extends \Google\Service\Resource
    * @param Runtime $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string requestId Idempotent request UUID.
    * @opt_param string runtimeId Required. User-defined unique ID of this Runtime.
    * @return Operation
    */
@@ -63,6 +66,8 @@ class ProjectsLocationsRuntimes extends \Google\Service\Resource
    * @param string $name Required. Format:
    * `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string requestId Idempotent request UUID.
    * @return Operation
    */
   public function delete($name, $optParams = [])
@@ -91,8 +96,9 @@ class ProjectsLocationsRuntimes extends \Google\Service\Resource
    * resource exists and does not have a policy set. (runtimes.getIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
-   * requested. See the operation documentation for the appropriate value for this
-   * field.
+   * requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int options.requestedPolicyVersion Optional. The maximum policy
@@ -135,6 +141,50 @@ class ProjectsLocationsRuntimes extends \Google\Service\Resource
     return $this->call('list', [$params], ListRuntimesResponse::class);
   }
   /**
+   * Update Notebook Runtime configuration. (runtimes.patch)
+   *
+   * @param string $name Output only. The resource name of the runtime. Format:
+   * `projects/{project}/locations/{location}/runtimes/{runtimeId}`
+   * @param Runtime $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string requestId Idempotent request UUID.
+   * @opt_param string updateMask Required. Specifies the path, relative to
+   * `Runtime`, of the field to update. For example, to change the software
+   * configuration kernels, the `update_mask` parameter would be specified as
+   * `software_config.kernels`, and the `PATCH` request body would specify the new
+   * value, as follows: { "software_config":{ "kernels": [{ 'repository': 'gcr.io
+   * /deeplearning-platform-release/pytorch-gpu', 'tag': 'latest' }], } }
+   * Currently, only the following fields can be updated: -
+   * software_config.kernels - software_config.post_startup_script -
+   * software_config.custom_gpu_driver_path - software_config.idle_shutdown -
+   * software_config.idle_shutdown_timeout
+   * @return Operation
+   */
+  public function patch($name, Runtime $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * Gets an access token for the consumer service account that the customer
+   * attached to the runtime. Only accessible from the tenant instance.
+   * (runtimes.refreshRuntimeTokenInternal)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/runtimes/{runtime_id}`
+   * @param RefreshRuntimeTokenInternalRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return RefreshRuntimeTokenInternalResponse
+   */
+  public function refreshRuntimeTokenInternal($name, RefreshRuntimeTokenInternalRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('refreshRuntimeTokenInternal', [$params], RefreshRuntimeTokenInternalResponse::class);
+  }
+  /**
    * Report and process a runtime event. (runtimes.reportEvent)
    *
    * @param string $name Required. Format:
@@ -170,8 +220,9 @@ class ProjectsLocationsRuntimes extends \Google\Service\Resource
    * `PERMISSION_DENIED` errors. (runtimes.setIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
-   * specified. See the operation documentation for the appropriate value for this
-   * field.
+   * specified. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
@@ -241,8 +292,9 @@ class ProjectsLocationsRuntimes extends \Google\Service\Resource
    * This operation may "fail open" without warning. (runtimes.testIamPermissions)
    *
    * @param string $resource REQUIRED: The resource for which the policy detail is
-   * being requested. See the operation documentation for the appropriate value
-   * for this field.
+   * being requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse

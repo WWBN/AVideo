@@ -11,6 +11,7 @@ namespace Stripe;
  * @property \Stripe\Service\AccountService $accounts
  * @property \Stripe\Service\ApplePayDomainService $applePayDomains
  * @property \Stripe\Service\ApplicationFeeService $applicationFees
+ * @property \Stripe\Service\Apps\AppsServiceFactory $apps
  * @property \Stripe\Service\BalanceService $balance
  * @property \Stripe\Service\BalanceTransactionService $balanceTransactions
  * @property \Stripe\Service\BillingPortal\BillingPortalServiceFactory $billingPortal
@@ -26,13 +27,13 @@ namespace Stripe;
  * @property \Stripe\Service\ExchangeRateService $exchangeRates
  * @property \Stripe\Service\FileLinkService $fileLinks
  * @property \Stripe\Service\FileService $files
+ * @property \Stripe\Service\FinancialConnections\FinancialConnectionsServiceFactory $financialConnections
  * @property \Stripe\Service\Identity\IdentityServiceFactory $identity
  * @property \Stripe\Service\InvoiceItemService $invoiceItems
  * @property \Stripe\Service\InvoiceService $invoices
  * @property \Stripe\Service\Issuing\IssuingServiceFactory $issuing
  * @property \Stripe\Service\MandateService $mandates
  * @property \Stripe\Service\OAuthService $oauth
- * @property \Stripe\Service\OrderReturnService $orderReturns
  * @property \Stripe\Service\OrderService $orders
  * @property \Stripe\Service\PaymentIntentService $paymentIntents
  * @property \Stripe\Service\PaymentLinkService $paymentLinks
@@ -59,9 +60,11 @@ namespace Stripe;
  * @property \Stripe\Service\TaxCodeService $taxCodes
  * @property \Stripe\Service\TaxRateService $taxRates
  * @property \Stripe\Service\Terminal\TerminalServiceFactory $terminal
+ * @property \Stripe\Service\TestHelpers\TestHelpersServiceFactory $testHelpers
  * @property \Stripe\Service\TokenService $tokens
  * @property \Stripe\Service\TopupService $topups
  * @property \Stripe\Service\TransferService $transfers
+ * @property \Stripe\Service\Treasury\TreasuryServiceFactory $treasury
  * @property \Stripe\Service\WebhookEndpointService $webhookEndpoints
  */
 class StripeClient extends BaseStripeClient
