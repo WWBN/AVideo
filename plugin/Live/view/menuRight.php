@@ -440,6 +440,12 @@ if (empty($obj->hideTopButton)) {
             var liveImgTimeInSeconds = 30;
             var liveImgCloseTimeInSeconds = 30;
             if (type == 'prerollPoster' && prerollPoster) {
+                if(player.paused()){
+                    setTimeout(function(){
+                        showImage(type, key);
+                    },1000);
+                    return false;
+                }
                 liveImgTimeInSeconds = liveImgTimeInSecondsPreroll;
                 liveImgCloseTimeInSeconds = liveImgCloseTimeInSecondsPreroll;
                 img = prerollPoster;
@@ -511,7 +517,7 @@ if (empty($obj->hideTopButton)) {
         if($liveInfo['isLive']){
             $times = Live::getPrerollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
             if($liveInfo['startedSecondsAgo'] < $times->liveImgTimeInSeconds){
-                echo "player.on('play', function () {setTimeout(function(){showImage('prerollPoster', '{$liveInfo['key']}');},500);});";
+                echo "setTimeout(function(){showImage('prerollPoster', '{$liveInfo['key']}');},1500);";
             }else{
                 echo "/* prerollPoster will notplay */";
             }
