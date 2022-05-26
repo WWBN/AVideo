@@ -430,7 +430,7 @@ if (empty($obj->hideTopButton)) {
 
         function showImage(type, key) {
             var img = false;
-            //console.log('showImage', type, key);
+            console.log('showImage', type, key,player.paused());
             eval('prerollPoster = prerollPoster_'+key);
             eval('postrollPoster = postrollPoster_'+key);
             eval('liveImgCloseTimeInSecondsPreroll = liveImgCloseTimeInSecondsPreroll_'+key);
