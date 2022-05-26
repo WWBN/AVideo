@@ -572,9 +572,6 @@ class PlayerSkins extends PluginAbstract {
             }
         }
         $url = Video::getURLFriendly($videos_id);
-        if(!empty($_GET['mute'])){
-            $js .= 'player.muted(true);';
-        }
         $js .= "
         player.on('play', function () {
             addView({$videos_id}, this.currentTime());
