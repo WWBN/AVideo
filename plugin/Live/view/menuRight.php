@@ -427,7 +427,7 @@ if (empty($obj->hideTopButton)) {
                 showImage('postrollPoster', json.cleanKey);
             }
         }
-
+        var prerollPosterAlreadyPlayed = false;
         function showImage(type, key) {
             var img = false;
             console.log('showImage', type, key,player.paused());
@@ -440,6 +440,11 @@ if (empty($obj->hideTopButton)) {
             var liveImgTimeInSeconds = 30;
             var liveImgCloseTimeInSeconds = 30;
             if (type == 'prerollPoster' && prerollPoster) {
+                if(prerollPosterAlreadyPlayed){
+                    console.log('showImage prerollPosterAlreadyPlayed');
+                   return false;
+                }
+                prerollPosterAlreadyPlayed = true;
                 if(player.paused()){
                     setTimeout(function(){
                         showImage(type, key);
