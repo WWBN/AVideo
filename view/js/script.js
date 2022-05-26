@@ -2692,3 +2692,24 @@ $(document).ready(function () {
         });
     });
 });
+
+function openWindowWithPost(url, name, params, strWindowFeatures) {
+    var windowObject = window.open("about:blank", name, strWindowFeatures);
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", url);
+    form.setAttribute("target", name);
+    for (var i in params) {
+        if (params.hasOwnProperty(i)) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = i;
+            input.value = params[i];
+            form.appendChild(input);
+        }
+    }
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+    return windowObject;
+}
