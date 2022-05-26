@@ -484,8 +484,13 @@ class PlayerSkins extends PluginAbstract {
         
         if(empty($_REQUEST['mute'])){
             $play = "playerPlayIfAutoPlay({$currentTime});";
+            
+            $js .= "
+            player.persistvolume({
+                namespace: 'AVideo'
+            });";
         }else{
-            $play = "setInterval(function(){player.volume(0);player.muted(true);},500);playerPlayMutedIfAutoPlay({$currentTime});";
+            $play = "player.volume(0);player.muted(true);playerPlayMutedIfAutoPlay({$currentTime});";
         }
         
         $js .= "var err = this.error();
@@ -495,9 +500,6 @@ class PlayerSkins extends PluginAbstract {
             }
             " . implode(PHP_EOL, $prepareStartPlayerJS_onPlayerReady) . "
             {$play}
-        });
-        player.persistvolume({
-            namespace: 'AVideo'
         });";
 
         if ($obj->showLoopButton && isVideoPlayerHasProgressBar()) {
