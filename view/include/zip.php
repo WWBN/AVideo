@@ -31,7 +31,7 @@ $sources = getVideosURLZIP($video['filename']);
                                 if($i==15){
                                     if($za->numFiles>15){
                                         ?>
-                                        <li class="list-group-item" style="text-align: left;">...</li>
+                                        <li class="list-group-item" style="text-align: left;"><?php echo __('Total'), ' ', $za->numFiles, ' ', __('Files'); ?>...</li>
                                         <?php
                                     }
                                     break;
