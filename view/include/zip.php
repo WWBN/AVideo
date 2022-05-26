@@ -28,6 +28,14 @@ $sources = getVideosURLZIP($video['filename']);
                                 $fname = basename($stat['name']); ?>
                             <li class="list-group-item" style="text-align: left;"><i class="<?php echo fontAwesomeClassName($fname) ?>"></i> <?php echo $fname; ?></li>
                                 <?php
+                                if($i==15){
+                                    if($za->numFiles>15){
+                                        ?>
+                                        <li class="list-group-item" style="text-align: left;"><?php echo __('Total'), ' ', $za->numFiles, ' ', __('Files'); ?>...</li>
+                                        <?php
+                                    }
+                                    break;
+                                }
                             }
                             ?>
                         </ul>
