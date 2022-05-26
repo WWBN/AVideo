@@ -524,7 +524,7 @@ if (empty($obj->hideTopButton)) {
         }else{
             $times = Live::getPostrollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
             //var_dump(isLive(),$times,$liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);exit;
-            if($liveInfo['finishedSecondsAgo'] < $times->liveImgTimeInSeconds){
+            if(!empty($liveInfo['finishedSecondsAgo']) && $liveInfo['finishedSecondsAgo'] < $times->liveImgTimeInSeconds){
                 echo "setTimeout(function(){showImage('postrollPoster', '{$liveInfo['key']}');},1500);";
             }else{
                 echo "/* postrollPoster will notplay */";
