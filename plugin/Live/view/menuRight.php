@@ -429,6 +429,10 @@ if (empty($obj->hideTopButton)) {
         }
         var prerollPosterAlreadyPlayed = false;
         function showImage(type, key) {
+            if(typeof closeLiveImageRoll == 'function'){
+                closeLiveImageRoll();
+            }
+            $('.'+type).remove();
             var img = false;
             console.log('showImage', type, key,player.paused());
             eval('prerollPoster = prerollPoster_'+key);
@@ -448,9 +452,6 @@ if (empty($obj->hideTopButton)) {
                 if(player.paused()){
                     setTimeout(function(){
                         showImage(type, key);
-                        if(typeof closeLiveImageRoll == 'function'){
-                            closeLiveImageRoll();
-                        }
                     },1000);
                     return false;
                 }
@@ -464,10 +465,6 @@ if (empty($obj->hideTopButton)) {
             }
             console.log('showImage Poster', type, img, key);
             if (img) {
-                if(typeof closeLiveImageRoll == 'function'){
-                    closeLiveImageRoll();
-                }
-                $('.'+type).remove();
                 
                 var _liveImageBGTemplate = liveImageBGTemplate.replace('{liveImgCloseTimeInSeconds}', liveImgCloseTimeInSeconds);
                 var _liveImageBGTemplate = _liveImageBGTemplate.replace('{liveImgTimeInSeconds}', liveImgTimeInSeconds);
