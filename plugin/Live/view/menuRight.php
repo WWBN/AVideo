@@ -511,7 +511,7 @@ if (empty($obj->hideTopButton)) {
         if($liveInfo['isLive']){
             $times = Live::getPrerollPosterImageTimes($liveInfo['users_id'], $liveInfo['live_servers_id'], $liveInfo['live_schedule_id']);
             if($liveInfo['startedSecondsAgo'] < $times->liveImgTimeInSeconds){
-                echo "setTimeout(function(){showImage('prerollPoster', '{$liveInfo['key']}');},1500);";
+                echo "player.on('play', function () {setTimeout(function(){showImage('prerollPoster', '{$liveInfo['key']}');},500);});";
             }else{
                 echo "/* prerollPoster will notplay */";
             }
