@@ -448,6 +448,9 @@ if (empty($obj->hideTopButton)) {
                 if(player.paused()){
                     setTimeout(function(){
                         showImage(type, key);
+                        if(typeof closeLiveImageRoll == 'function'){
+                            closeLiveImageRoll();
+                        }
                     },1000);
                     return false;
                 }
