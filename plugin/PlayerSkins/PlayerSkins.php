@@ -485,7 +485,7 @@ class PlayerSkins extends PluginAbstract {
         if(empty($_REQUEST['mute'])){
             $play = "playerPlayIfAutoPlay({$currentTime});";
         }else{
-            $play = "player.volume(0);player.muted(true);playerPlayMutedIfAutoPlay({$currentTime});";
+            $play = "setInterval(function(){player.volume(0);player.muted(true);},500);playerPlayMutedIfAutoPlay({$currentTime});";
         }
         
         $js .= "var err = this.error();
