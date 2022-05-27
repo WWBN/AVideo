@@ -171,8 +171,11 @@ if (empty($meet_schedule_id)) {
         <?php
         if(!empty($rtmpLink) && !empty($_REQUEST['startLiveMeet'])){
             ?>
-                console.log('Live meet will start now');
-                startLiveMeet();
+                console.log('Live meet will start in 5 seconds');
+                setTimeout(function(){
+                    console.log('Live meet will start now');
+                    startLiveMeet();
+                },5000);
             <?php
         }
         ?>
