@@ -280,7 +280,7 @@ if (!empty($rtmpLink) && Meet::isModerator($meet_schedule_id)) {
             setTimeout(function(){
                 console.log('startLiveMeet: Start now');
                 aVideoMeetStartRecording('<?php echo $rtmpLink; ?>', '<?php echo $dropURL; ?>');
-            },3000);
+            },5000);
         }
     }
     
