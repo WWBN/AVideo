@@ -1,5 +1,5 @@
 <?php
-
+//pkill -9 -f "rw_timeout.*6196bac40f89f" //When -f is set, the full command line is used for pattern matching.
 /**
  * This file intent to restream your lives, you can copy this file in any server with FFMPEG
  * Make sure you add the correct path to this file on the Live plugin restreamerURL parameter
@@ -36,6 +36,8 @@ if (!file_exists($ffmpegBinary)) {
         $ffmpegBinary = '/usr/local/bin/ffmpeg';
     }
 }
+
+ini_set('memory_limit','5000M');
 
 set_time_limit(300);
 ini_set('max_execution_time', 300);
