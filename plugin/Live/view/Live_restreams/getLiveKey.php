@@ -1,3 +1,7 @@
+<?php
+$restreamerURL = 'http://localhost/Restreamer/';
+$restreamerURL = 'https://restream.ypt.me/';
+?>
 <button type="button" class="btn btn-default" onclick="openRestream('facebook')">
     <i class="fab fa-facebook-f"></i>
     Facebook
@@ -35,7 +39,7 @@
         restreamPopupOpened = 1;
         modal.showPleaseWait();
         $('#newLive_restreamsLink').trigger("click");
-        var url = "http://localhost/Restreamer/" + provider;
+        var url = "<?php echo $restreamerURL; ?>" + provider;
         var name = "theRestreamerPopUp";
         var params = {title: $('#title').val(), description: $('#description').val()};
         var strWindowFeatures = "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800";
