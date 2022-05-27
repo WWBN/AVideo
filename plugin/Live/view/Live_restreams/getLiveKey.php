@@ -39,7 +39,7 @@ $restreamerURL = 'https://restream.ypt.me/';
         restreamPopupOpened = 1;
         modal.showPleaseWait();
         $('#newLive_restreamsLink').trigger("click");
-        var url = "<?php echo $restreamerURL; ?>" + provider;
+        var url = "<?php  echo $restreamerURL; ?>" + provider;
         var name = "theRestreamerPopUp";
         var params = {title: $('#title').val(), description: $('#description').val()};
         var strWindowFeatures = "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800";
