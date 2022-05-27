@@ -130,7 +130,7 @@ class Message implements MessageComponentInterface {
         }
         if (!empty($json->live_key)) {
             //_log_message("msgToAllSameLive ");
-            if (\AVideoPlugin::isEnabledByName('LiveUsers') && method_exists(\LiveUsers, 'getTotalUsers')) {
+            if (\AVideoPlugin::isEnabledByName('LiveUsers') && method_exists('LiveUsers', 'getTotalUsers')) {
                 $live_key = object_to_array($json->live_key);
                 if (!empty($live_key['key'])) {
                     \_mysql_connect(true);
