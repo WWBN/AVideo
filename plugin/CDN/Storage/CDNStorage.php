@@ -30,7 +30,7 @@ class CDNStorage {
             if($try<5){
                 sleep($try);
                 return self::getStorageClient($try);
-            }else if($try==5){
+            }else if($try==5 && isCommandLineInterface()){
                 sleep(30);
                 return self::getStorageClient($try);
             }else{
