@@ -14,7 +14,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     <?php
     if ($simpleMode) {
         ?>
-            function images_upload_handler(blobInfo, success, failure) {
+            function image_upload_handler(blobInfo, success, failure) {
                 avideoToastError('Image upload disabled');
             }
             var tinyMCEplugins = 'code print preview autolink fullscreen link hr pagebreak nonbreaking anchor wordcount help ';
