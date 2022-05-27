@@ -171,11 +171,8 @@ if (empty($meet_schedule_id)) {
         <?php
         if(!empty($rtmpLink) && !empty($_REQUEST['startLiveMeet'])){
             ?>
-                console.log('Live meet will start in 5 seconds');
-                setTimeout(function(){
-                    console.log('Live meet will start now');
-                    startLiveMeet();
-                },5000);
+                console.log('Live meet will start now');
+                startLiveMeet();
             <?php
         }
         ?>
@@ -184,6 +181,14 @@ if (empty($meet_schedule_id)) {
     }
 
     function aVideoMeetStartRecording(RTMPLink, dropURL) {
+        
+        if(api.getNumberOfParticipants()===0){
+            setTimeout(function(){
+                aVideoMeetStartRecording(RTMPLink, dropURL);
+            },1000);
+            return false;
+        }
+        
         if (typeof on_processingLive === 'function') {
             on_processingLive();
         }
