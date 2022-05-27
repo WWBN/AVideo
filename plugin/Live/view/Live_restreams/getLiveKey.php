@@ -10,7 +10,12 @@
     <i class="fab fa-twitch"></i>
     Twitch
 </button>
-
+<!--
+<button type="button" class="btn btn-default" onclick="openRestream('')">
+    <i class="fas fa-cog"></i>
+    Open restream
+</button>
+-->
 <script>
     var restreamPopupOpened = false;
     // Create browser compatible event handler.
@@ -30,7 +35,11 @@
         restreamPopupOpened = 1;
         modal.showPleaseWait();
         $('#newLive_restreamsLink').trigger("click");
-        restreamWin = window.open("http://localhost/Restreamer/"+provider, "theRestreamerPopUp", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800");
+        var url = "http://localhost/Restreamer/" + provider;
+        var name = "theRestreamerPopUp";
+        var params = {title: $('#title').val(), description: $('#description').val()};
+        var strWindowFeatures = "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800";
+        restreamWin = openWindowWithPost(url, name, params, strWindowFeatures);
         var pollTimer = window.setInterval(function () {
             if (restreamWin.closed !== false) { // !== is required for compatibility with Opera
                 window.clearInterval(pollTimer);

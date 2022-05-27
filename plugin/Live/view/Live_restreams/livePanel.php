@@ -79,7 +79,9 @@ if (!User::canStream()) {
     </div>
     <div class="panel-footer">
         <?php
-        //include $global['systemRootPath'].'plugin/Live/view/Live_restreams/getLiveKey.php';
+        if(!empty($global['developer_mode'])){
+            include $global['systemRootPath'].'plugin/Live/view/Live_restreams/getLiveKey.php';
+        }
         ?>
     </div>
 </div>
