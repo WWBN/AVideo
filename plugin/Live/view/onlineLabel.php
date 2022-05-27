@@ -38,7 +38,9 @@ if (isLiveLink() || Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id,
 
     function socketLiveONCallback(json) {
         //console.log('socketLiveONCallback processLiveStats', json);
-        processLiveStats(json.stats);
+        if(typeof processLiveStats == 'function'){
+            processLiveStats(json.stats);
+        }
         var selector = '.live_' + json.live_servers_id + "_" + json.key;
         $(selector).slideDown();
 
@@ -87,14 +89,15 @@ if (isLiveLink() || Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id,
             ////console.log('socketLiveOFFCallback 3', selector);
             onlineLabelOffline(selector);
         }
-        setTimeout(function () {
-            //console.log('socketLiveOFFCallback processLiveStats');
-            processLiveStats(json.stats);
+        if(typeof processLiveStats == 'function'){
             setTimeout(function () {
-                hideExtraVideosIfEmpty();
+                //console.log('socketLiveOFFCallback processLiveStats');
+                processLiveStats(json.stats);
+                setTimeout(function () {
+                    hideExtraVideosIfEmpty();
+                }, 500);
             }, 500);
-        }, 500);
-
+        }
         if (isInLive(json)) {
             showImage('postrollPoster', json.cleanKey);
         }
