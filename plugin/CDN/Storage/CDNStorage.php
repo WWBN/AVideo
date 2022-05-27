@@ -27,8 +27,11 @@ class CDNStorage {
         } catch (Exception $exc) {
             _error_log("FTP:getClient fail try={$try} ($obj->storage_hostname) ($obj->storage_username), ($obj->storage_password) " . $exc->getMessage());
             $try++;
-            if($try<=3){
+            if($try<5){
                 sleep($try);
+                return self::getStorageClient($try);
+            }else if($try==5){
+                sleep(30);
                 return self::getStorageClient($try);
             }else{
                 die('CDNStorage FTP Error ' . $exc->getMessage());
