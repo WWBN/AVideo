@@ -171,11 +171,9 @@ if (empty($meet_schedule_id)) {
         <?php
         if(!empty($rtmpLink) && !empty($_REQUEST['startLiveMeet'])){
             ?>
-                console.log('Live meet will start in 5 seconds');
-                setTimeout(function(){
-                    console.log('Live meet will start now');
-                    startLiveMeet();
-                },5000);
+                
+                console.log('Live meet will start now');
+                startLiveMeet();
             <?php
         }
         ?>
@@ -271,7 +269,19 @@ if (!empty($rtmpLink) && Meet::isModerator($meet_schedule_id)) {
     }    
             
     function startLiveMeet(){
-        aVideoMeetStartRecording('<?php echo $rtmpLink; ?>', '<?php echo $dropURL; ?>');
+        if(api.getNumberOfParticipants()===0){
+            console.log('startLiveMeet: No participants yet, try in 1 second');
+            setTimeout(function(){
+                startLiveMeet();
+            },1000);
+            return false;
+        }else{
+            console.log('startLiveMeet: Participants found, we will start in 5 seconds');
+            setTimeout(function(){
+                console.log('startLiveMeet: Start now');
+                aVideoMeetStartRecording('<?php echo $rtmpLink; ?>', '<?php echo $dropURL; ?>');
+            },3000);
+        }
     }
     
     function terminateMeet(){
