@@ -16,6 +16,22 @@ _error_log("Paypal:Webhook php://input" . file_get_contents("php://input"));
         
 $output = PayPalYPT::validateWebhook();
 
+_error_log("Paypal:Webhook validation " . json_encode($output));
+
+if(!empty($output) && !empty($output["billing_agreement_id"])){
+    $row = Subscription::getFromAgreement($output->billing_agreement_id);
+    _error_log("Paypal:Webhook user found from billing_agreement_id (users_id = {$row['users_id']}) ");
+    $users_id = $row['users_id'];
+    $payment_amount = $output->webhook_event->amount->total;
+    $payment_currency = $output->webhook_event->amount->currency;
+    if ($walletObject->currency===$payment_currency) {
+        $plugin->addBalance($users_id, $payment_amount, "Paypal recurrent webhook: ", json_encode($output->webhook_event));
+        Subscription::renew($users_id, $row['subscriptions_plans_id']);
+        $obj->error = false;
+    } else {
+        _error_log("PayPalIPN: FAIL currency check $walletObject->currency===$payment_currency ");
+    }
+}
 
 //$output = PayPalYPT::createWebhook();
 

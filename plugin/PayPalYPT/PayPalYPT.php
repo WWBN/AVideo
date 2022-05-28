@@ -1012,10 +1012,14 @@ class PayPalYPT extends PluginAbstract {
         try {
             /** @var \PayPal\Api\VerifyWebhookSignatureResponse $output */
             $output = $signatureVerification->post($apiContext);
-            _error_log("PayPal::validateWebhook ".__LINE__.' '.json_encode($output->getVerificationStatus()).' '.json_encode($request->toJSON()).' '.json_encode($output));
+            _error_log("PayPal::validateWebhook ".__LINE__.' '.json_encode($output->getVerificationStatus()).' '.$request->toJSON().' '.json_encode($output));
             //verification_statusenum
             //Possible values: SUCCESS,FAILURE.
-            return $output->getVerificationStatus()==='SUCCESS';
+            if($output->getVerificationStatus()==='SUCCESS'){
+                return json_decode($request->toJSON());
+            }else{
+                return false;
+            }
         } catch (Exception $ex) {
             // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
             _error_log("PayPal::validateWebhook ".__LINE__.' '.json_encode($request->toJSON()).' '.json_encode($ex->getMessage()));
