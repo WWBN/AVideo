@@ -506,6 +506,9 @@ class PayPalYPT extends PluginAbstract {
     }
 
     private function executeBillingAgreement() {
+        
+        self::getOrCreateWebhook();
+        
         global $global;
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         $token = $_GET['token'];
