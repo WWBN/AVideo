@@ -1044,6 +1044,7 @@ class PayPalYPT extends PluginAbstract {
     
     public static function resendWebhook($event_id){
         
+        require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
         $webhookEvent = new WebhookEvent();
         $webhookEvent->setId($event_id);
 
