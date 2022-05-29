@@ -1041,5 +1041,29 @@ class PayPalYPT extends PluginAbstract {
         $url = str_replace('http://', 'https://', $url);
         return $url;
     }
+    
+    public static function resendWebhook($event_id){
+        
+        $webhookEvent = new WebhookEvent();
+        $webhookEvent->setId($event_id);
+
+        try {
+            $output = $webhookEvent->resend();
+            _error_log("PayPal::resendWebhook ".json_encode($output));
+            return $output;
+        } catch (Exception $ex) {
+            // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
+            _error_log("PayPal::resendWebhook ".__LINE__.' '.json_encode($ex->getMessage()));
+            
+            var_dump($request->toJSON(),$output, $ex->getMessage());
+            return false;
+        }
+
+        // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
+        _error_log("PayPal::resendWebhook ".__LINE__.' '.json_encode($output));
+        
+        //var_dump($output->getVerificationStatus(),$request->toJSON(),$output);
+        return false;
+    }
 
 }
