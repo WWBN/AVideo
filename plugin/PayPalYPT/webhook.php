@@ -18,7 +18,7 @@ $output = PayPalYPT::validateWebhook();
 
 _error_log("Paypal:Webhook validation " . json_encode($output));
 
-if(!empty($output) && !empty($output["billing_agreement_id"])){
+if(!empty($output) && !empty($output->billing_agreement_id)){
     $row = Subscription::getFromAgreement($output->billing_agreement_id);
     _error_log("Paypal:Webhook user found from billing_agreement_id (users_id = {$row['users_id']}) ");
     $users_id = $row['users_id'];
