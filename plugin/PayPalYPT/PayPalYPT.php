@@ -1052,7 +1052,7 @@ class PayPalYPT extends PluginAbstract {
         _error_log("PayPal::resendWebhook ".__LINE__.' '.json_encode($event_id));
 
         try {
-            $output = $webhookEvent->resend();
+            $output = $webhookEvent->resend($apiContext);
             _error_log("PayPal::resendWebhook ".json_encode($output));
             return $output;
         } catch (Exception $ex) {
