@@ -1043,6 +1043,7 @@ class PayPalYPT extends PluginAbstract {
     }
     
     public static function resendWebhook($event_id){
+        global $global;
         _error_log("PayPal::resendWebhook ".__LINE__.' '.json_encode($event_id));
         
         require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
