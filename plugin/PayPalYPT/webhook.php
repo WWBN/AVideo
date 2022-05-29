@@ -29,7 +29,7 @@ if(!empty($output) && !empty($output->billing_agreement_id)){
         Subscription::renew($users_id, $row['subscriptions_plans_id']);
         $obj->error = false;
     } else {
-        _error_log("PayPalIPN: FAIL currency check $walletObject->currency===$payment_currency ");
+        _error_log("Paypal:Webhook FAIL currency check $walletObject->currency===$payment_currency ");
     }
 }
 
