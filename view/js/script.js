@@ -1918,6 +1918,15 @@ function convertDBDateToLocal(dbDateString) {
     return m.fromNow();
 }
 
+function convertDateFromTimezoneToLocal(dbDateString, timezone) {
+    if (!/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/.test(dbDateString)) {
+        console.log('convertDBDateToLocal format does not match', dbDateString);
+        return dbDateString;
+    }
+    var m = moment.tz(dbDateString, timezone);
+    return m.format("YYYY-MM-DD HH:mm:ss");;
+}
+
 function addGetParam(_url, _key, _value) {
     if (typeof _url !== 'string') {
         return false;
