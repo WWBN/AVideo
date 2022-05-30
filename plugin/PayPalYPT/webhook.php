@@ -29,7 +29,7 @@ if(!empty($output) && !empty($output->webhook_event->resource->billing_agreement
     $resource = $output->webhook_event->resource;
     
     $row = Subscription::getFromAgreement($resource->billing_agreement_id);
-    _error_log("Paypal:Webhook user found from billing_agreement_id (users_id = {$row['users_id']}) ");
+    _error_log("Paypal:Webhook user found from billing_agreement_id (users_id = {$row['users_id']}) (subscriptions_plans_id = {$row['subscriptions_plans_id']})");
     $users_id = $row['users_id'];
     $payment_amount = empty($resource->amount->total)?$resource->transaction_fee->value:$resource->amount->total;
     $payment_currency = empty($resource->amount->currency)?$resource->transaction_fee->currency:$resource->amount->currency;
