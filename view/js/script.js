@@ -1931,7 +1931,8 @@ function convertDateFromTimezoneToLocal(dbDateString, timezone) {
         console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
-    console.log(' moment.tz',dbDateString,timezone);
+    dbDateString = myString.replace(/[^0-9:- ]/g,'')
+    console.log('moment.tz',dbDateString,timezone);
     isMomentTimezoneReady(timezone);
     var m = moment.tz(dbDateString,timezone).local();
     return m.format("YYYY-MM-DD HH:mm:ss");
