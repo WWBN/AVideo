@@ -1903,22 +1903,20 @@ function clearServerTime() {
     _serverDBTimeString = null;
 }
 
-function isMomentTimezoneReady(timezone){
-    console.log('isMomentTimezoneReady 1',moment.tz.zone(timezone));
-    console.log('isMomentTimezoneReady 2',moment.tz.names().length);
-}
-
 function convertDBDateToLocal(dbDateString) {
     if (!/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/.test(dbDateString)) {
         console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
+    
+    dbDateString = $.trim(dbDateString.replace(/[^ 0-9:-]/g,''));
     var m;
     if (!_serverDBTimezone) {
         getServerTime();
         console.log('convertDBDateToLocal _serverDBTimezone is empty', dbDateString);
         m = moment.tz(dbDateString);
     } else {
+        _serverDBTimezone = $.trim(_serverDBTimezone);
         //m = moment(dbDateString).tz(_serverDBTimezone);
         //m = moment.tz(dbDateString, _serverDBTimezone);
         m = moment.tz(dbDateString,_serverDBTimezone).local();
@@ -1932,9 +1930,7 @@ function convertDateFromTimezoneToLocal(dbDateString, timezone) {
         return dbDateString;
     }
     dbDateString = $.trim(dbDateString.replace(/[^ 0-9:-]/g,''));
-    timezone = $.trim(timezone)
-    console.log('moment.tz',dbDateString,timezone);
-    isMomentTimezoneReady(timezone);
+    timezone = $.trim(timezone);
     var m = moment.tz(dbDateString,timezone).local();
     return m.format("YYYY-MM-DD HH:mm:ss");
 }
