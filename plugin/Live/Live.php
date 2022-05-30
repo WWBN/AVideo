@@ -362,11 +362,20 @@ class Live extends PluginAbstract {
         $name = User::getNameIdentificationById($users_id);
         $comingsoon = false;
         if (!empty($startsOnDate)) {
+            
+            preg_match('/{[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})(.*)/', $startsOnDate, $matches);
+            
+            if(empty($matches) || empty($matches[2])){
+                $datetime = "'$startsOnDate'";
+            }else{
+                $datetime = "convertDateFromTimezoneToLocal('{$matches[1]}', '{$matches[2]}')";
+            }
+            
             $startsOnDateTime = strtotime($startsOnDate);
             if ($startsOnDateTime > time()) {
                 $callback .= ';' . '$(\'.' . $uid . ' .liveNow\').attr(\'class\', \'liveNow label label-primary\');'
-                        . '$(\'.' . $uid . ' .liveNow\').text(convertDateFromTimezoneToLocal(\'' . $startsOnDate . '\', \'' . date_default_timezone_get() . '\'));'
-                        . 'startTimerToDate(convertDateFromTimezoneToLocal(\'' . $startsOnDate . '\', \'' . date_default_timezone_get() . '\'), \'.' . $uid . ' .liveNow\', false);';
+                        . '$(\'.' . $uid . ' .liveNow\').text('.$datetime.');'
+                        . 'startTimerToDate('.$datetime.', \'.' . $uid . ' .liveNow\', false);';
                 $comingsoon = $startsOnDateTime;
             }
         }
