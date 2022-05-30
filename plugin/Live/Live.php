@@ -255,7 +255,6 @@ class Live extends PluginAbstract {
             $app['key'] = $value['key'];
             $app['isPrivate'] = false;
             $app['method'] = 'Live::getLiveApplicationArray::Live_schedule';
-            $app['timezone'] = date_default_timezone_get();
             
             $array[] = $app;
         }
@@ -407,6 +406,7 @@ class Live extends PluginAbstract {
             'categories_id' => intval($lt['categories_id']),
             'className' => $uid,
             'comingsoon' => $comingsoon,
+            'timezone' => date_default_timezone_get(),
         ];
 
         $_getLiveApplicationModelArray[$uid] = $array;
