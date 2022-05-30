@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "animate.css": "^4.1.1",
-    "chart.js": "^3.7.1",
+    "chart.js": "^3.8.0",
     "codemirror": "^5.65.4",
     "croppie": "^2.6.5",
     "dom-walk": "^0.1.2",
