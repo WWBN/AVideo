@@ -363,7 +363,7 @@ class Live extends PluginAbstract {
         $comingsoon = false;
         if (!empty($startsOnDate)) {
             
-            preg_match('/{[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})(.*)/', $startsOnDate, $matches);
+            preg_match('/([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})(.*)/', $startsOnDate, $matches);
             
             if(empty($matches) || empty($matches[2])){
                 $datetime = "'$startsOnDate'";
