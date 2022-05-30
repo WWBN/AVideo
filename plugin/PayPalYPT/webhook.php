@@ -39,7 +39,7 @@ if(!empty($output) && !empty($output->webhook_event->resource->billing_agreement
             $plan = new SubscriptionPlansTable($row['subscriptions_plans_id']);
             $description .= " ".$plan->getName();
         }
-        $plugin->addBalance($users_id, $payment_amount, "Paypal recurrent WH: ", json_encode($output));
+        $plugin->addBalance($users_id, $payment_amount, $description, json_encode($output));
         Subscription::renew($users_id, $row['subscriptions_plans_id']);
         $obj->error = false;
     } else {
