@@ -51,6 +51,7 @@ if (!empty($output) && !empty($output->webhook_event->resource->billing_agreemen
             $pp->setToken($token);
             $pp->setValue($payment_amount);
             $pp->setJson($output);
+            $pp->save();
         } else {
             _error_log("Paypal:Webhook FAIL currency check $walletObject->currency===$payment_currency ");
         }
