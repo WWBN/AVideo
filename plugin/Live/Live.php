@@ -255,6 +255,8 @@ class Live extends PluginAbstract {
             $app['key'] = $value['key'];
             $app['isPrivate'] = false;
             $app['method'] = 'Live::getLiveApplicationArray::Live_schedule';
+            $app['timezone'] = date_default_timezone_get();
+            
             $array[] = $app;
         }
         //var_dump($rows);exit;
