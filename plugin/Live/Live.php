@@ -250,7 +250,7 @@ class Live extends PluginAbstract {
 
             $users_id = Live_schedule::getUsers_idOrCompany($value['id']);
 
-            $app = self::getLiveApplicationModelArray($users_id, $title, $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, date('Y-m-d H:i:s', $timestamp), 'live_' . $value['key']);
+            $app = self::getLiveApplicationModelArray($users_id, $title, $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, "{$value['scheduled_time']} {$value['timezone']}", 'live_' . $value['key']);
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
             $app['isPrivate'] = false;
