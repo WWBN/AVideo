@@ -365,8 +365,8 @@ class Live extends PluginAbstract {
             $startsOnDateTime = strtotime($startsOnDate);
             if ($startsOnDateTime > time()) {
                 $callback .= ';' . '$(\'.' . $uid . ' .liveNow\').attr(\'class\', \'liveNow label label-primary\');'
-                        . '$(\'.' . $uid . ' .liveNow\').text(\'' . $startsOnDate . '\');'
-                        . 'startTimerToDate(\'' . $startsOnDate . '\', \'.' . $uid . ' .liveNow\', false);';
+                        . '$(\'.' . $uid . ' .liveNow\').text(convertDateFromTimezoneToLocal(\'' . $startsOnDate . '\', \'' . date_default_timezone_get() . '\'));'
+                        . 'startTimerToDate(convertDateFromTimezoneToLocal(\'' . $startsOnDate . '\', \'' . date_default_timezone_get() . '\'), \'.' . $uid . ' .liveNow\', false);';
                 $comingsoon = $startsOnDateTime;
             }
         }
