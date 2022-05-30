@@ -18,12 +18,15 @@ $output = PayPalYPT::validateWebhook();
 
 _error_log("Paypal:Webhook validation " . json_encode($output));
 
-if(!empty($output) && !empty($output->billing_agreement_id)){
-    $row = Subscription::getFromAgreement($output->billing_agreement_id);
+if(!empty($output) && !empty($output->webhook_event->resource->billing_agreement_id)){
+    
+    $resource = $output->webhook_event->resource;
+    
+    $row = Subscription::getFromAgreement($resource->billing_agreement_id);
     _error_log("Paypal:Webhook user found from billing_agreement_id (users_id = {$row['users_id']}) ");
     $users_id = $row['users_id'];
-    $payment_amount = empty($output->webhook_event->amount->total)?$output->transaction_fee->value:$output->webhook_event->amount->total;
-    $payment_currency = empty($output->webhook_event->amount->currency)?$output->transaction_fee->currency:$output->webhook_event->amount->currency;
+    $payment_amount = empty($resource->amount->total)?$resource->transaction_fee->value:$resource->amount->total;
+    $payment_currency = empty($resource->amount->currency)?$resource->transaction_fee->currency:$resource->amount->currency;
     if ($walletObject->currency===$payment_currency) {
         $plugin->addBalance($users_id, $payment_amount, "Paypal recurrent webhook: ", json_encode($output));
         Subscription::renew($users_id, $row['subscriptions_plans_id']);
