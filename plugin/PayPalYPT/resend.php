@@ -13,7 +13,7 @@ $paypal = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 
 //$output = PayPalYPT::createWebhook();
 
-$output = PayPalYPT::resendWebhook('WH-32N36537L5260044T-61011283GC480074S');
+$output = PayPalYPT::resendWebhook('WH-3G7997568U823792U-59G303851C6702143');
 
 
 //require $global['systemRootPath'] . 'plugin/PayPalYPT/bootstrap.php';
