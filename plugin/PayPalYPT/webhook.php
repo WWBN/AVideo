@@ -13,8 +13,14 @@ _error_log("Paypal:Webhook POST: " . json_encode($_POST));
 _error_log("Paypal:Webhook GET: " . json_encode($_GET));
 _error_log("Paypal:Webhook php://input" . file_get_contents("php://input"));
 
-        
-$output = PayPalYPT::validateWebhook();
+try {
+    $output = PayPalYPT::validateWebhook();
+} catch (Exception $exc) {    
+    _error_log("Paypal:Webhook validation ERROR " . json_encode($exc->getTraceAsString()));
+    exit;
+}
+
+
 
 _error_log("Paypal:Webhook validation " . json_encode($output));
 
