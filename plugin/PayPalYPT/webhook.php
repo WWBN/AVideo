@@ -34,7 +34,12 @@ if(!empty($output) && !empty($output->webhook_event->resource->billing_agreement
     $payment_amount = empty($resource->amount->total)?$resource->transaction_fee->value:$resource->amount->total;
     $payment_currency = empty($resource->amount->currency)?$resource->transaction_fee->currency:$resource->amount->currency;
     if ($walletObject->currency===$payment_currency) {
-        $plugin->addBalance($users_id, $payment_amount, "Paypal recurrent webhook: ", json_encode($output));
+        $description = "Paypal recurrent WH";
+        if(!empty($row['subscriptions_plans_id'])){
+            $plan = new SubscriptionPlansTable($row['subscriptions_plans_id']);
+            $description .= " ".$plan->getName();
+        }
+        $plugin->addBalance($users_id, $payment_amount, "Paypal recurrent WH: ", json_encode($output));
         Subscription::renew($users_id, $row['subscriptions_plans_id']);
         $obj->error = false;
     } else {
