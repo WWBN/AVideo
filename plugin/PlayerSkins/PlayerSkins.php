@@ -61,6 +61,9 @@ class PlayerSkins extends PluginAbstract {
         $obj->contextMenuCopyEmbedCode = true;
         $obj->contextMenuShare = true;
         $obj->playerFullHeight = false;
+        $obj->useShakaPlayer = false;
+        
+        
         return $obj;
     }
 
@@ -346,7 +349,10 @@ class PlayerSkins extends PluginAbstract {
         if (isVideoPlayerHasProgressBar() && !empty($obj->playbackRates)) {
             $dataSetup[] = "'playbackRates':{$obj->playbackRates}";
         }
-        if (isVideoPlayerHasProgressBar() && (isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false) && !empty($video['videoLink'])) {
+        if(!empty($obj->useShakaPlayer) && isVideoPlayerHasProgressBar() && empty($video['videoLink'])){
+            $dataSetup[] = "techOrder:[\"shaka\", \"html5\"]";
+            //$dataSetup[] = "shaka: {debug: true}";
+        }else if (isVideoPlayerHasProgressBar() && (isset($_GET['isEmbedded'])) && ($disableYoutubeIntegration == false) && !empty($video['videoLink'])) {
             if ($_GET['isEmbedded'] == "y") {
                 $dataSetup[] = "techOrder:[\"youtube\"]";
                 $dataSetup[] = "sources:[{type: \"video/youtube\", src: \"{$video['videoLink']}\"}]";

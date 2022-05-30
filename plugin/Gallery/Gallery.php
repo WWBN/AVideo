@@ -80,6 +80,11 @@ class Gallery extends PluginAbstract {
         $obj->DateAddedRowCount = 12;
         $obj->DateAddedOrder = 3;
         
+        $obj->PrivateContent = true;
+        $obj->PrivateContentCustomTitle = "";
+        $obj->PrivateContentRowCount = 12;
+        $obj->PrivateContentOrder = 4;
+        
         $obj->MostWatched = true;
         $obj->MostWatchedCustomTitle = "";
         $obj->MostWatchedRowCount = 12;

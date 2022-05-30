@@ -50,11 +50,18 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         if (empty($_GET['page'])) {
             $_GET['page'] = 1;
         }
-        $_POST['sort'][$sort] = $_GET[$getName];
+        $_POST['sort'][$sort] = $_GET[$getName];        
         $_REQUEST['current'] = $_GET['page'];
         $_REQUEST['rowCount'] = $rowCount;
 
-        $total = Video::getTotalVideos("viewableNotUnlisted", false, $ignoreGroup);
+        $videoStatus = 'viewableNotUnlisted';
+        
+        if($getName == 'privateContentOrder'){
+            $videoStatus = 'privateOnly';
+            $ignoreGroup = true;
+        }
+        
+        $total = Video::getTotalVideos($videoStatus, false, $ignoreGroup);
         $totalPages = ceil($total / $_REQUEST['rowCount']);
         $page = $_GET['page'];
         if ($totalPages < $_GET['page']) {
@@ -65,7 +72,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $page = $totalPages;
             $_REQUEST['current'] = $totalPages;
         }
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, $ignoreGroup);
+        $videos = Video::getAllVideos($videoStatus, false, $ignoreGroup);
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         ?>
         <div class="gallerySectionContent">
