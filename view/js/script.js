@@ -1914,8 +1914,9 @@ function convertDBDateToLocal(dbDateString) {
         console.log('convertDBDateToLocal _serverDBTimezone is empty', dbDateString);
         m = moment.tz(dbDateString);
     } else {
-        m = moment(dbDateString).tz(_serverDBTimezone);
+        //m = moment(dbDateString).tz(_serverDBTimezone);
         //m = moment.tz(dbDateString, _serverDBTimezone);
+        m = moment.tz(dbDateString,_serverDBTimezone).local();
     }
     return m.fromNow();
 }
@@ -1925,7 +1926,8 @@ function convertDateFromTimezoneToLocal(dbDateString, timezone) {
         console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
-    var m = moment(dbDateString).tz(timezone);
+    
+    var m = moment.tz(dbDateString,timezone).local();
     return m.format("YYYY-MM-DD HH:mm:ss");
 }
 
