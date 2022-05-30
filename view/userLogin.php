@@ -123,12 +123,7 @@ getCSSAnimationClassAndStyleAddWait(0.5); ?>">
                         </div>
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
                             <div class="col-xs-12 inputGroupContainer text-center">
-                                <?php
-                                if (empty($advancedCustomUser->disableNativeSignUp)) {
-                                    ?>
-                                    <button type="button" class="btn btn-default btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>"  id="forgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></button>
-                                    <?php }
-                                ?>
+                                <button type="button" class="btn btn-default btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>"  id="forgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></button>
                             </div>
                         </div>
 
