@@ -1903,8 +1903,9 @@ function clearServerTime() {
     _serverDBTimeString = null;
 }
 
-function isMomentTimezoneReady(){
-    console.log('isMomentTimezoneReady',moment.tz.names().length);
+function isMomentTimezoneReady(timezone){
+    console.log('isMomentTimezoneReady 1',moment.tz.zone(timezone));
+    console.log('isMomentTimezoneReady 2',moment.tz.names().length);
 }
 
 function convertDBDateToLocal(dbDateString) {
@@ -1930,7 +1931,8 @@ function convertDateFromTimezoneToLocal(dbDateString, timezone) {
         console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
-    isMomentTimezoneReady();
+    console.log(' moment.tz',dbDateString,timezone);
+    isMomentTimezoneReady(timezone);
     var m = moment.tz(dbDateString,timezone).local();
     return m.format("YYYY-MM-DD HH:mm:ss");
 }
