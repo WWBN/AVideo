@@ -7001,6 +7001,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     }
 
     $json['countLiveStream'] = count($json['applications']);
+    $json['timezone'] = date_default_timezone_get();
     $__getStatsNotifications__ = $json;
     return $json;
 }
