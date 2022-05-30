@@ -1903,6 +1903,10 @@ function clearServerTime() {
     _serverDBTimeString = null;
 }
 
+function isMomentTimezoneReady(){
+    console.log('isMomentTimezoneReady',moment.tz.names().length);
+}
+
 function convertDBDateToLocal(dbDateString) {
     if (!/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/.test(dbDateString)) {
         console.log('convertDBDateToLocal format does not match', dbDateString);
@@ -1926,7 +1930,7 @@ function convertDateFromTimezoneToLocal(dbDateString, timezone) {
         console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
-    
+    isMomentTimezoneReady();
     var m = moment.tz(dbDateString,timezone).local();
     return m.format("YYYY-MM-DD HH:mm:ss");
 }
