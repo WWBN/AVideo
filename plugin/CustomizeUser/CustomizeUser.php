@@ -83,6 +83,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->showChannelBannerOnModeYoutube = !isset($advancedCustom->showChannelBannerOnModeYoutube) ? false : $advancedCustom->showChannelBannerOnModeYoutube;
         $obj->showChannelHomeTab = true;
         $obj->showChannelVideosTab = true;
+        $obj->showArticlesTab = true;
         $obj->showChannelProgramsTab = true;
         $obj->showBigVideoOnChannelVideosTab = true;
         $obj->encryptPasswordsWithSalt = !isset($advancedCustom->encryptPasswordsWithSalt) ? false : $advancedCustom->encryptPasswordsWithSalt;

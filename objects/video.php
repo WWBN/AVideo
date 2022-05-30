@@ -1074,7 +1074,7 @@ if (!class_exists('Video')) {
          * @param type $videosArrayId an array with videos to return (for filter only)
          * @return boolean
          */
-        public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null) {
+        public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type='') {
             global $global, $config, $advancedCustom, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
                 return false;
@@ -1164,6 +1164,12 @@ if (!class_exists('Video')) {
                 } else {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
+            }
+            
+            if(!empty($type) && $type == 'notArticle'){
+                $sql .= " AND v.type != 'article' ";
+            }else if(!empty($type)){
+                $sql .= " AND v.type = '{$type}' ";
             }
 
             if ($status == "viewable") {
@@ -1627,7 +1633,7 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        public static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false) {
+        public static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type='') {
             global $global, $config, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
                 return false;
@@ -1709,6 +1715,13 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
             }
+            
+            if(!empty($type) && $type == 'notArticle'){
+                $sql .= " AND v.type != 'article' ";
+            }else if(!empty($type)){
+                $sql .= " AND v.type = '{$type}' ";
+            }
+            
             if (!$ignoreGroup) {
                 $arrayNotIN = AVideoPlugin::getAllVideosExcludeVideosIDArray();
                 if (!empty($arrayNotIN) && is_array($arrayNotIN)) {
