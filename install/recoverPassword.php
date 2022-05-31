@@ -29,6 +29,7 @@ if (empty($userName) || empty($password)) {
                 $password2 = trim(readline(""));
                 if ($password === $password2) {
                     $user->setPassword($password);
+                    $user->setStatus('a');
                     if ($user->save()) {
                         echo "Your new password was saved";
                         echo "\n";
