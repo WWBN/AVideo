@@ -196,11 +196,11 @@ die(json_encode($obj));
   var_dump($_POST, $_FILES);
  */
 
-function downloadVideoFromDownloadURL($downloadURL)
-{
+function downloadVideoFromDownloadURL($downloadURL){
     global $global;
+    $downloadURL = trim($downloadURL);
     _error_log("aVideoEncoder.json: Try to download " . $downloadURL);
-    $file = url_get_contents($_POST['downloadURL']);
+    $file = url_get_contents($downloadURL);
     $strlen = strlen($file);
     if ($strlen<20000) {
         //it is not a video
