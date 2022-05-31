@@ -13,6 +13,10 @@ $user = new User(0, $_POST['user'], false);
 if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     $obj = new stdClass();
     header('Content-Type: application/json');
+    if($user->getStatus() !== 'a'){
+        $obj->error = __("The user is not active");
+        die(json_encode($obj));
+    }
     if (!empty($user->getEmail())) {
         $recoverPass = $user->setRecoverPass();
         if (empty($_POST['captcha'])) {
