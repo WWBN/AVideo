@@ -1,10 +1,10 @@
 /*!
- * Chart.js v3.7.1
+ * Chart.js v3.8.0
  * https://www.chartjs.org
  * (c) 2022 Chart.js Contributors
  * Released under the MIT License
  */
-import { r as requestAnimFrame, a as resolve, e as effects, c as color, d as defaults, i as isObject, b as isArray, v as valueOrDefault, u as unlistenArrayEvents, l as listenArrayEvents, f as resolveObjectKey, g as isNumberFinite, h as createContext, j as defined, s as sign, k as isNullOrUndef, _ as _arrayUnique, t as toRadians, m as toPercentage, n as toDimension, T as TAU, o as formatNumber, p as _angleBetween, H as HALF_PI, P as PI, q as isNumber, w as _limitValue, x as _lookupByKey, y as getRelativePosition$1, z as _isPointInArea, A as _rlookupByKey, B as getAngleFromPoint, C as toPadding, D as each, E as getMaximumSize, F as _getParentNode, G as readUsedSize, I as throttled, J as supportsEventListenerOptions, K as _isDomSupported, L as log10, M as _factorize, N as finiteOrDefault, O as callback, Q as _addGrace, R as toDegrees, S as _measureText, U as _int16Range, V as _alignPixel, W as clipArea, X as renderText, Y as unclipArea, Z as toFont, $ as _toLeftRightCenter, a0 as _alignStartEnd, a1 as overrides, a2 as merge, a3 as _capitalize, a4 as descriptors, a5 as isFunction, a6 as _attachContext, a7 as _createResolver, a8 as _descriptors, a9 as mergeIf, aa as uid, ab as debounce, ac as retinaScale, ad as clearCanvas, ae as setsEqual, af as _elementsEqual, ag as _isClickEvent, ah as _isBetween, ai as _readValueToProps, aj as _updateBezierControlPoints, ak as _computeSegments, al as _boundSegments, am as _steppedInterpolation, an as _bezierInterpolation, ao as _pointInLine, ap as _steppedLineTo, aq as _bezierCurveTo, ar as drawPoint, as as addRoundedRectPath, at as toTRBL, au as toTRBLCorners, av as _boundSegment, aw as _normalizeAngle, ax as getRtlAdapter, ay as overrideTextDirection, az as _textX, aA as restoreTextDirection, aB as noop, aC as distanceBetweenPoints, aD as _setMinAndMaxByKey, aE as niceNum, aF as almostWhole, aG as almostEquals, aH as _decimalPlaces, aI as _longestText, aJ as _filterBetween, aK as _lookup } from './chunks/helpers.segment.js';
+import { r as requestAnimFrame, a as resolve, e as effects, c as color, d as defaults, i as isObject, b as isArray, v as valueOrDefault, u as unlistenArrayEvents, l as listenArrayEvents, f as resolveObjectKey, g as isNumberFinite, h as createContext, j as defined, s as sign, k as isNullOrUndef, _ as _arrayUnique, t as toRadians, m as toPercentage, n as toDimension, T as TAU, o as formatNumber, p as _angleBetween, H as HALF_PI, P as PI, q as isNumber, w as _limitValue, x as _lookupByKey, y as _parseObjectDataRadialScale, z as getRelativePosition, A as _rlookupByKey, B as _isPointInArea, C as getAngleFromPoint, D as toPadding, E as each, F as getMaximumSize, G as _getParentNode, I as readUsedSize, J as throttled, K as supportsEventListenerOptions, L as _isDomSupported, M as log10, N as _factorize, O as finiteOrDefault, Q as callback, R as _addGrace, S as toDegrees, U as _measureText, V as _int16Range, W as _alignPixel, X as clipArea, Y as renderText, Z as unclipArea, $ as toFont, a0 as _toLeftRightCenter, a1 as _alignStartEnd, a2 as overrides, a3 as merge, a4 as _capitalize, a5 as descriptors, a6 as isFunction, a7 as _attachContext, a8 as _createResolver, a9 as _descriptors, aa as mergeIf, ab as uid, ac as debounce, ad as retinaScale, ae as clearCanvas, af as setsEqual, ag as _elementsEqual, ah as _isClickEvent, ai as _isBetween, aj as _readValueToProps, ak as _updateBezierControlPoints, al as _computeSegments, am as _boundSegments, an as _steppedInterpolation, ao as _bezierInterpolation, ap as _pointInLine, aq as _steppedLineTo, ar as _bezierCurveTo, as as drawPoint, at as addRoundedRectPath, au as toTRBL, av as toTRBLCorners, aw as _boundSegment, ax as _normalizeAngle, ay as getRtlAdapter, az as overrideTextDirection, aA as _textX, aB as restoreTextDirection, aC as noop, aD as distanceBetweenPoints, aE as _setMinAndMaxByKey, aF as niceNum, aG as almostWhole, aH as almostEquals, aI as _decimalPlaces, aJ as _longestText, aK as _filterBetween, aL as _lookup } from './chunks/helpers.segment.js';
 export { d as defaults } from './chunks/helpers.segment.js';
 
 class Animator {
@@ -615,6 +615,7 @@ class DatasetController {
     this._drawStart = undefined;
     this._drawCount = undefined;
     this.enableOptionSharing = false;
+    this.supportsDecimation = false;
     this.$context = undefined;
     this._syncList = [];
     this.initialize();
@@ -1520,6 +1521,11 @@ class BarController extends DatasetController {
       if (value === actualBase) {
         base -= size / 2;
       }
+      const startPixel = vScale.getPixelForDecimal(0);
+      const endPixel = vScale.getPixelForDecimal(1);
+      const min = Math.min(startPixel, endPixel);
+      const max = Math.max(startPixel, endPixel);
+      base = Math.max(Math.min(base, max), min);
       head = base + size;
     }
     if (base === vScale.getPixelForValue(actualBase)) {
@@ -2030,6 +2036,7 @@ DoughnutController.overrides = {
 class LineController extends DatasetController {
   initialize() {
     this.enableOptionSharing = true;
+    this.supportsDecimation = true;
     super.initialize();
   }
   update(mode) {
@@ -2078,7 +2085,7 @@ class LineController extends DatasetController {
       const iPixel = properties[iAxis] = iScale.getPixelForValue(parsed[iAxis], i);
       const vPixel = properties[vAxis] = reset || nullData ? vScale.getBasePixel() : vScale.getPixelForValue(_stacked ? this.applyStack(vScale, parsed, _stacked) : parsed[vAxis], i);
       properties.skip = isNaN(iPixel) || isNaN(vPixel) || nullData;
-      properties.stop = i > 0 && (parsed[iAxis] - prevParsed[iAxis]) > maxGapLength;
+      properties.stop = i > 0 && (Math.abs(parsed[iAxis] - prevParsed[iAxis])) > maxGapLength;
       if (segment) {
         properties.parsed = parsed;
         properties.raw = _dataset.data[i];
@@ -2189,10 +2196,29 @@ class PolarAreaController extends DatasetController {
       value,
     };
   }
+  parseObjectData(meta, data, start, count) {
+    return _parseObjectDataRadialScale.bind(this)(meta, data, start, count);
+  }
   update(mode) {
     const arcs = this._cachedMeta.data;
     this._updateRadius();
     this.updateElements(arcs, 0, arcs.length, mode);
+  }
+  getMinMax() {
+    const meta = this._cachedMeta;
+    const range = {min: Number.POSITIVE_INFINITY, max: Number.NEGATIVE_INFINITY};
+    meta.data.forEach((element, index) => {
+      const parsed = this.getParsed(index).r;
+      if (!isNaN(parsed) && this.chart.getDataVisibility(index)) {
+        if (parsed < range.min) {
+          range.min = parsed;
+        }
+        if (parsed > range.max) {
+          range.max = parsed;
+        }
+      }
+    });
+    return range;
   }
   _updateRadius() {
     const chart = this.chart;
@@ -2208,7 +2234,6 @@ class PolarAreaController extends DatasetController {
   updateElements(arcs, start, count, mode) {
     const reset = mode === 'reset';
     const chart = this.chart;
-    const dataset = this.getDataset();
     const opts = chart.options;
     const animationOpts = opts.animation;
     const scale = this._cachedMeta.rScale;
@@ -2225,7 +2250,7 @@ class PolarAreaController extends DatasetController {
       const arc = arcs[i];
       let startAngle = angle;
       let endAngle = angle + this._computeAngle(i, mode, defaultAngle);
-      let outerRadius = chart.getDataVisibility(i) ? scale.getDistanceFromCenterForValue(dataset.data[i]) : 0;
+      let outerRadius = chart.getDataVisibility(i) ? scale.getDistanceFromCenterForValue(this.getParsed(i).r) : 0;
       angle = endAngle;
       if (reset) {
         if (animationOpts.animateScale) {
@@ -2248,11 +2273,10 @@ class PolarAreaController extends DatasetController {
     }
   }
   countVisibleElements() {
-    const dataset = this.getDataset();
     const meta = this._cachedMeta;
     let count = 0;
     meta.data.forEach((element, index) => {
-      if (!isNaN(dataset.data[index]) && this.chart.getDataVisibility(index)) {
+      if (!isNaN(this.getParsed(index).r) && this.chart.getDataVisibility(index)) {
         count++;
       }
     });
@@ -2359,6 +2383,9 @@ class RadarController extends DatasetController {
       value: '' + vScale.getLabelForValue(parsed[vScale.axis])
     };
   }
+  parseObjectData(meta, data, start, count) {
+    return _parseObjectDataRadialScale.bind(this)(meta, data, start, count);
+  }
   update(mode) {
     const meta = this._cachedMeta;
     const line = meta.dataset;
@@ -2380,13 +2407,12 @@ class RadarController extends DatasetController {
     this.updateElements(points, 0, points.length, mode);
   }
   updateElements(points, start, count, mode) {
-    const dataset = this.getDataset();
     const scale = this._cachedMeta.rScale;
     const reset = mode === 'reset';
     for (let i = start; i < start + count; i++) {
       const point = points[i];
       const options = this.resolveDataElementOptions(i, point.active ? 'active' : mode);
-      const pointPosition = scale.getPointPositionForValue(i, dataset.data[i]);
+      const pointPosition = scale.getPointPositionForValue(i, this.getParsed(i).r);
       const x = reset ? scale.xCenter : pointPosition.x;
       const y = reset ? scale.yCenter : pointPosition.y;
       const properties = {
@@ -2502,28 +2528,6 @@ var adapters = {
   _date: DateAdapter
 };
 
-function getRelativePosition(e, chart) {
-  if ('native' in e) {
-    return {
-      x: e.x,
-      y: e.y
-    };
-  }
-  return getRelativePosition$1(e, chart);
-}
-function evaluateAllVisibleItems(chart, handler) {
-  const metasets = chart.getSortedVisibleDatasetMetas();
-  let index, data, element;
-  for (let i = 0, ilen = metasets.length; i < ilen; ++i) {
-    ({index, data} = metasets[i]);
-    for (let j = 0, jlen = data.length; j < jlen; ++j) {
-      element = data[j];
-      if (!element.skip) {
-        handler(element, index, j);
-      }
-    }
-  }
-}
 function binarySearch(metaset, axis, value, intersect) {
   const {controller, data, _sorted} = metaset;
   const iScale = controller._cachedMeta.iScale;
@@ -2543,7 +2547,7 @@ function binarySearch(metaset, axis, value, intersect) {
   }
   return {lo: 0, hi: data.length - 1};
 }
-function optimizedEvaluateItems(chart, axis, position, handler, intersect) {
+function evaluateInteractionItems(chart, axis, position, handler, intersect) {
   const metasets = chart.getSortedVisibleDatasetMetas();
   const value = position[axis];
   for (let i = 0, ilen = metasets.length; i < ilen; ++i) {
@@ -2566,17 +2570,20 @@ function getDistanceMetricForAxis(axis) {
     return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
   };
 }
-function getIntersectItems(chart, position, axis, useFinalPosition) {
+function getIntersectItems(chart, position, axis, useFinalPosition, includeInvisible) {
   const items = [];
-  if (!_isPointInArea(position, chart.chartArea, chart._minPadding)) {
+  if (!includeInvisible && !chart.isPointInArea(position)) {
     return items;
   }
   const evaluationFunc = function(element, datasetIndex, index) {
+    if (!includeInvisible && !_isPointInArea(element, chart.chartArea, 0)) {
+      return;
+    }
     if (element.inRange(position.x, position.y, useFinalPosition)) {
       items.push({element, datasetIndex, index});
     }
   };
-  optimizedEvaluateItems(chart, axis, position, evaluationFunc, true);
+  evaluateInteractionItems(chart, axis, position, evaluationFunc, true);
   return items;
 }
 function getNearestRadialItems(chart, position, axis, useFinalPosition) {
@@ -2588,10 +2595,10 @@ function getNearestRadialItems(chart, position, axis, useFinalPosition) {
       items.push({element, datasetIndex, index});
     }
   }
-  optimizedEvaluateItems(chart, axis, position, evaluationFunc);
+  evaluateInteractionItems(chart, axis, position, evaluationFunc);
   return items;
 }
-function getNearestCartesianItems(chart, position, axis, intersect, useFinalPosition) {
+function getNearestCartesianItems(chart, position, axis, intersect, useFinalPosition, includeInvisible) {
   let items = [];
   const distanceMetric = getDistanceMetricForAxis(axis);
   let minDistance = Number.POSITIVE_INFINITY;
@@ -2601,7 +2608,7 @@ function getNearestCartesianItems(chart, position, axis, intersect, useFinalPosi
       return;
     }
     const center = element.getCenterPoint(useFinalPosition);
-    const pointInArea = _isPointInArea(center, chart.chartArea, chart._minPadding);
+    const pointInArea = !!includeInvisible || chart.isPointInArea(center);
     if (!pointInArea && !inRange) {
       return;
     }
@@ -2613,44 +2620,42 @@ function getNearestCartesianItems(chart, position, axis, intersect, useFinalPosi
       items.push({element, datasetIndex, index});
     }
   }
-  optimizedEvaluateItems(chart, axis, position, evaluationFunc);
+  evaluateInteractionItems(chart, axis, position, evaluationFunc);
   return items;
 }
-function getNearestItems(chart, position, axis, intersect, useFinalPosition) {
-  if (!_isPointInArea(position, chart.chartArea, chart._minPadding)) {
+function getNearestItems(chart, position, axis, intersect, useFinalPosition, includeInvisible) {
+  if (!includeInvisible && !chart.isPointInArea(position)) {
     return [];
   }
   return axis === 'r' && !intersect
     ? getNearestRadialItems(chart, position, axis, useFinalPosition)
-    : getNearestCartesianItems(chart, position, axis, intersect, useFinalPosition);
+    : getNearestCartesianItems(chart, position, axis, intersect, useFinalPosition, includeInvisible);
 }
-function getAxisItems(chart, e, options, useFinalPosition) {
-  const position = getRelativePosition(e, chart);
+function getAxisItems(chart, position, axis, intersect, useFinalPosition) {
   const items = [];
-  const axis = options.axis;
   const rangeMethod = axis === 'x' ? 'inXRange' : 'inYRange';
   let intersectsItem = false;
-  evaluateAllVisibleItems(chart, (element, datasetIndex, index) => {
+  evaluateInteractionItems(chart, axis, position, (element, datasetIndex, index) => {
     if (element[rangeMethod](position[axis], useFinalPosition)) {
       items.push({element, datasetIndex, index});
-    }
-    if (element.inRange(position.x, position.y, useFinalPosition)) {
-      intersectsItem = true;
+      intersectsItem = intersectsItem || element.inRange(position.x, position.y, useFinalPosition);
     }
   });
-  if (options.intersect && !intersectsItem) {
+  if (intersect && !intersectsItem) {
     return [];
   }
   return items;
 }
 var Interaction = {
+  evaluateInteractionItems,
   modes: {
     index(chart, e, options, useFinalPosition) {
       const position = getRelativePosition(e, chart);
       const axis = options.axis || 'x';
+      const includeInvisible = options.includeInvisible || false;
       const items = options.intersect
-        ? getIntersectItems(chart, position, axis, useFinalPosition)
-        : getNearestItems(chart, position, axis, false, useFinalPosition);
+        ? getIntersectItems(chart, position, axis, useFinalPosition, includeInvisible)
+        : getNearestItems(chart, position, axis, false, useFinalPosition, includeInvisible);
       const elements = [];
       if (!items.length) {
         return [];
@@ -2667,9 +2672,10 @@ var Interaction = {
     dataset(chart, e, options, useFinalPosition) {
       const position = getRelativePosition(e, chart);
       const axis = options.axis || 'xy';
+      const includeInvisible = options.includeInvisible || false;
       let items = options.intersect
-        ? getIntersectItems(chart, position, axis, useFinalPosition) :
-        getNearestItems(chart, position, axis, false, useFinalPosition);
+        ? getIntersectItems(chart, position, axis, useFinalPosition, includeInvisible) :
+        getNearestItems(chart, position, axis, false, useFinalPosition, includeInvisible);
       if (items.length > 0) {
         const datasetIndex = items[0].datasetIndex;
         const data = chart.getDatasetMeta(datasetIndex).data;
@@ -2683,18 +2689,22 @@ var Interaction = {
     point(chart, e, options, useFinalPosition) {
       const position = getRelativePosition(e, chart);
       const axis = options.axis || 'xy';
-      return getIntersectItems(chart, position, axis, useFinalPosition);
+      const includeInvisible = options.includeInvisible || false;
+      return getIntersectItems(chart, position, axis, useFinalPosition, includeInvisible);
     },
     nearest(chart, e, options, useFinalPosition) {
       const position = getRelativePosition(e, chart);
       const axis = options.axis || 'xy';
-      return getNearestItems(chart, position, axis, options.intersect, useFinalPosition);
+      const includeInvisible = options.includeInvisible || false;
+      return getNearestItems(chart, position, axis, options.intersect, useFinalPosition, includeInvisible);
     },
     x(chart, e, options, useFinalPosition) {
-      return getAxisItems(chart, e, {axis: 'x', intersect: options.intersect}, useFinalPosition);
+      const position = getRelativePosition(e, chart);
+      return getAxisItems(chart, position, 'x', options.intersect, useFinalPosition);
     },
     y(chart, e, options, useFinalPosition) {
-      return getAxisItems(chart, e, {axis: 'y', intersect: options.intersect}, useFinalPosition);
+      const position = getRelativePosition(e, chart);
+      return getAxisItems(chart, position, 'y', options.intersect, useFinalPosition);
     }
   }
 };
@@ -3101,7 +3111,7 @@ function removeListener(chart, type, listener) {
 }
 function fromNativeEvent(event, chart) {
   const type = EVENT_TYPES[event.type] || event.type;
-  const {x, y} = getRelativePosition$1(event, chart);
+  const {x, y} = getRelativePosition(event, chart);
   return {
     type,
     chart,
@@ -3820,6 +3830,7 @@ class Scale extends Element {
     if (tickOpts.display && (tickOpts.autoSkip || tickOpts.source === 'auto')) {
       this.ticks = autoSkip(this, this.ticks);
       this._labelSizes = null;
+      this.afterAutoSkip();
     }
     if (samplingEnabled) {
       this._convertTicksToLabels(this.ticks);
@@ -3940,6 +3951,7 @@ class Scale extends Element {
   afterCalculateLabelRotation() {
     callback(this.options.afterCalculateLabelRotation, [this]);
   }
+  afterAutoSkip() {}
   beforeFit() {
     callback(this.options.beforeFit, [this]);
   }
@@ -4006,7 +4018,7 @@ class Scale extends Element {
         paddingRight = last.width;
       } else if (align === 'end') {
         paddingLeft = first.width;
-      } else {
+      } else if (align !== 'inner') {
         paddingLeft = first.width / 2;
         paddingRight = last.width / 2;
       }
@@ -4357,8 +4369,18 @@ class Scale extends Element {
       const color = optsAtIndex.color;
       const strokeColor = optsAtIndex.textStrokeColor;
       const strokeWidth = optsAtIndex.textStrokeWidth;
+      let tickTextAlign = textAlign;
       if (isHorizontal) {
         x = pixel;
+        if (textAlign === 'inner') {
+          if (i === ilen - 1) {
+            tickTextAlign = !this.options.reverse ? 'right' : 'left';
+          } else if (i === 0) {
+            tickTextAlign = !this.options.reverse ? 'left' : 'right';
+          } else {
+            tickTextAlign = 'center';
+          }
+        }
         if (position === 'top') {
           if (crossAlign === 'near' || rotation !== 0) {
             textOffset = -lineCount * lineHeight + lineHeight / 2;
@@ -4422,7 +4444,7 @@ class Scale extends Element {
         strokeColor,
         strokeWidth,
         textOffset,
-        textAlign,
+        textAlign: tickTextAlign,
         textBaseline,
         translation: [x, y],
         backdrop,
@@ -4441,6 +4463,8 @@ class Scale extends Element {
       align = 'left';
     } else if (ticks.align === 'end') {
       align = 'right';
+    } else if (ticks.align === 'inner') {
+      align = 'inner';
     }
     return align;
   }
@@ -5283,7 +5307,7 @@ function needContext(proxy, names) {
   return false;
 }
 
-var version = "3.7.1";
+var version = "3.8.0";
 
 const KNOWN_POSITIONS = ['top', 'bottom', 'left', 'right', 'chartArea'];
 function positionIsHorizontal(position, axis) {
@@ -5824,6 +5848,9 @@ class Chart {
     args.cancelable = false;
     this.notifyPlugins('afterDatasetDraw', args);
   }
+  isPointInArea(point) {
+    return _isPointInArea(point, this.chartArea, this._minPadding);
+  }
   getElementsAtEventForMode(e, mode, options, useFinalPosition) {
     const method = Interaction.modes[mode];
     if (typeof method === 'function') {
@@ -6063,7 +6090,7 @@ class Chart {
       event: e,
       replay,
       cancelable: true,
-      inChartArea: _isPointInArea(e, this.chartArea, this._minPadding)
+      inChartArea: this.isPointInArea(e)
     };
     const eventFilter = (plugin) => (plugin.options.events || this.options.events).includes(e.native.type);
     if (this.notifyPlugins('beforeEvent', args, eventFilter) === false) {
@@ -7061,7 +7088,7 @@ var plugin_decimation = {
       if (resolve([indexAxis, chart.options.indexAxis]) === 'y') {
         return;
       }
-      if (meta.type !== 'line') {
+      if (!meta.controller.supportsDecimation) {
         return;
       }
       const xAxis = chart.scales[meta.xAxisID];
@@ -7110,10 +7137,176 @@ var plugin_decimation = {
   }
 };
 
-function getLineByIndex(chart, index) {
-  const meta = chart.getDatasetMeta(index);
-  const visible = meta && chart.isDatasetVisible(index);
-  return visible ? meta.dataset : null;
+function _segments(line, target, property) {
+  const segments = line.segments;
+  const points = line.points;
+  const tpoints = target.points;
+  const parts = [];
+  for (const segment of segments) {
+    let {start, end} = segment;
+    end = _findSegmentEnd(start, end, points);
+    const bounds = _getBounds(property, points[start], points[end], segment.loop);
+    if (!target.segments) {
+      parts.push({
+        source: segment,
+        target: bounds,
+        start: points[start],
+        end: points[end]
+      });
+      continue;
+    }
+    const targetSegments = _boundSegments(target, bounds);
+    for (const tgt of targetSegments) {
+      const subBounds = _getBounds(property, tpoints[tgt.start], tpoints[tgt.end], tgt.loop);
+      const fillSources = _boundSegment(segment, points, subBounds);
+      for (const fillSource of fillSources) {
+        parts.push({
+          source: fillSource,
+          target: tgt,
+          start: {
+            [property]: _getEdge(bounds, subBounds, 'start', Math.max)
+          },
+          end: {
+            [property]: _getEdge(bounds, subBounds, 'end', Math.min)
+          }
+        });
+      }
+    }
+  }
+  return parts;
+}
+function _getBounds(property, first, last, loop) {
+  if (loop) {
+    return;
+  }
+  let start = first[property];
+  let end = last[property];
+  if (property === 'angle') {
+    start = _normalizeAngle(start);
+    end = _normalizeAngle(end);
+  }
+  return {property, start, end};
+}
+function _pointsFromSegments(boundary, line) {
+  const {x = null, y = null} = boundary || {};
+  const linePoints = line.points;
+  const points = [];
+  line.segments.forEach(({start, end}) => {
+    end = _findSegmentEnd(start, end, linePoints);
+    const first = linePoints[start];
+    const last = linePoints[end];
+    if (y !== null) {
+      points.push({x: first.x, y});
+      points.push({x: last.x, y});
+    } else if (x !== null) {
+      points.push({x, y: first.y});
+      points.push({x, y: last.y});
+    }
+  });
+  return points;
+}
+function _findSegmentEnd(start, end, points) {
+  for (;end > start; end--) {
+    const point = points[end];
+    if (!isNaN(point.x) && !isNaN(point.y)) {
+      break;
+    }
+  }
+  return end;
+}
+function _getEdge(a, b, prop, fn) {
+  if (a && b) {
+    return fn(a[prop], b[prop]);
+  }
+  return a ? a[prop] : b ? b[prop] : 0;
+}
+
+function _createBoundaryLine(boundary, line) {
+  let points = [];
+  let _loop = false;
+  if (isArray(boundary)) {
+    _loop = true;
+    points = boundary;
+  } else {
+    points = _pointsFromSegments(boundary, line);
+  }
+  return points.length ? new LineElement({
+    points,
+    options: {tension: 0},
+    _loop,
+    _fullLoop: _loop
+  }) : null;
+}
+
+function _resolveTarget(sources, index, propagate) {
+  const source = sources[index];
+  let fill = source.fill;
+  const visited = [index];
+  let target;
+  if (!propagate) {
+    return fill;
+  }
+  while (fill !== false && visited.indexOf(fill) === -1) {
+    if (!isNumberFinite(fill)) {
+      return fill;
+    }
+    target = sources[fill];
+    if (!target) {
+      return false;
+    }
+    if (target.visible) {
+      return fill;
+    }
+    visited.push(fill);
+    fill = target.fill;
+  }
+  return false;
+}
+function _decodeFill(line, index, count) {
+  const fill = parseFillOption(line);
+  if (isObject(fill)) {
+    return isNaN(fill.value) ? false : fill;
+  }
+  let target = parseFloat(fill);
+  if (isNumberFinite(target) && Math.floor(target) === target) {
+    return decodeTargetIndex(fill[0], index, target, count);
+  }
+  return ['origin', 'start', 'end', 'stack', 'shape'].indexOf(fill) >= 0 && fill;
+}
+function decodeTargetIndex(firstCh, index, target, count) {
+  if (firstCh === '-' || firstCh === '+') {
+    target = index + target;
+  }
+  if (target === index || target < 0 || target >= count) {
+    return false;
+  }
+  return target;
+}
+function _getTargetPixel(fill, scale) {
+  let pixel = null;
+  if (fill === 'start') {
+    pixel = scale.bottom;
+  } else if (fill === 'end') {
+    pixel = scale.top;
+  } else if (isObject(fill)) {
+    pixel = scale.getPixelForValue(fill.value);
+  } else if (scale.getBasePixel) {
+    pixel = scale.getBasePixel();
+  }
+  return pixel;
+}
+function _getTargetValue(fill, scale, startValue) {
+  let value;
+  if (fill === 'start') {
+    value = startValue;
+  } else if (fill === 'end') {
+    value = scale.options.reverse ? scale.min : scale.max;
+  } else if (isObject(fill)) {
+    value = fill.value;
+  } else {
+    value = scale.getBaseValue();
+  }
+  return value;
 }
 function parseFillOption(line) {
   const options = line.options;
@@ -7130,138 +7323,14 @@ function parseFillOption(line) {
   }
   return fill;
 }
-function decodeFill(line, index, count) {
-  const fill = parseFillOption(line);
-  if (isObject(fill)) {
-    return isNaN(fill.value) ? false : fill;
-  }
-  let target = parseFloat(fill);
-  if (isNumberFinite(target) && Math.floor(target) === target) {
-    if (fill[0] === '-' || fill[0] === '+') {
-      target = index + target;
-    }
-    if (target === index || target < 0 || target >= count) {
-      return false;
-    }
-    return target;
-  }
-  return ['origin', 'start', 'end', 'stack', 'shape'].indexOf(fill) >= 0 && fill;
-}
-function computeLinearBoundary(source) {
-  const {scale = {}, fill} = source;
-  let target = null;
-  let horizontal;
-  if (fill === 'start') {
-    target = scale.bottom;
-  } else if (fill === 'end') {
-    target = scale.top;
-  } else if (isObject(fill)) {
-    target = scale.getPixelForValue(fill.value);
-  } else if (scale.getBasePixel) {
-    target = scale.getBasePixel();
-  }
-  if (isNumberFinite(target)) {
-    horizontal = scale.isHorizontal();
-    return {
-      x: horizontal ? target : null,
-      y: horizontal ? null : target
-    };
-  }
-  return null;
-}
-class simpleArc {
-  constructor(opts) {
-    this.x = opts.x;
-    this.y = opts.y;
-    this.radius = opts.radius;
-  }
-  pathSegment(ctx, bounds, opts) {
-    const {x, y, radius} = this;
-    bounds = bounds || {start: 0, end: TAU};
-    ctx.arc(x, y, radius, bounds.end, bounds.start, true);
-    return !opts.bounds;
-  }
-  interpolate(point) {
-    const {x, y, radius} = this;
-    const angle = point.angle;
-    return {
-      x: x + Math.cos(angle) * radius,
-      y: y + Math.sin(angle) * radius,
-      angle
-    };
-  }
-}
-function computeCircularBoundary(source) {
-  const {scale, fill} = source;
-  const options = scale.options;
-  const length = scale.getLabels().length;
-  const target = [];
-  const start = options.reverse ? scale.max : scale.min;
-  const end = options.reverse ? scale.min : scale.max;
-  let i, center, value;
-  if (fill === 'start') {
-    value = start;
-  } else if (fill === 'end') {
-    value = end;
-  } else if (isObject(fill)) {
-    value = fill.value;
-  } else {
-    value = scale.getBaseValue();
-  }
-  if (options.grid.circular) {
-    center = scale.getPointPositionForValue(0, start);
-    return new simpleArc({
-      x: center.x,
-      y: center.y,
-      radius: scale.getDistanceFromCenterForValue(value)
-    });
-  }
-  for (i = 0; i < length; ++i) {
-    target.push(scale.getPointPositionForValue(i, value));
-  }
-  return target;
-}
-function computeBoundary(source) {
-  const scale = source.scale || {};
-  if (scale.getPointPositionForValue) {
-    return computeCircularBoundary(source);
-  }
-  return computeLinearBoundary(source);
-}
-function findSegmentEnd(start, end, points) {
-  for (;end > start; end--) {
-    const point = points[end];
-    if (!isNaN(point.x) && !isNaN(point.y)) {
-      break;
-    }
-  }
-  return end;
-}
-function pointsFromSegments(boundary, line) {
-  const {x = null, y = null} = boundary || {};
-  const linePoints = line.points;
-  const points = [];
-  line.segments.forEach(({start, end}) => {
-    end = findSegmentEnd(start, end, linePoints);
-    const first = linePoints[start];
-    const last = linePoints[end];
-    if (y !== null) {
-      points.push({x: first.x, y});
-      points.push({x: last.x, y});
-    } else if (x !== null) {
-      points.push({x, y: first.y});
-      points.push({x, y: last.y});
-    }
-  });
-  return points;
-}
-function buildStackLine(source) {
+
+function _buildStackLine(source) {
   const {scale, index, line} = source;
   const points = [];
   const segments = line.segments;
   const sourcePoints = line.points;
   const linesBelow = getLinesBelow(scale, index);
-  linesBelow.push(createBoundaryLine({x: null, y: scale.bottom}, line));
+  linesBelow.push(_createBoundaryLine({x: null, y: scale.bottom}, line));
   for (let i = 0; i < segments.length; i++) {
     const segment = segments[i];
     for (let j = segment.start; j <= segment.end; j++) {
@@ -7325,13 +7394,37 @@ function findPoint(line, sourcePoint, property) {
   }
   return {first, last, point};
 }
-function getTarget(source) {
+
+class simpleArc {
+  constructor(opts) {
+    this.x = opts.x;
+    this.y = opts.y;
+    this.radius = opts.radius;
+  }
+  pathSegment(ctx, bounds, opts) {
+    const {x, y, radius} = this;
+    bounds = bounds || {start: 0, end: TAU};
+    ctx.arc(x, y, radius, bounds.end, bounds.start, true);
+    return !opts.bounds;
+  }
+  interpolate(point) {
+    const {x, y, radius} = this;
+    const angle = point.angle;
+    return {
+      x: x + Math.cos(angle) * radius,
+      y: y + Math.sin(angle) * radius,
+      angle
+    };
+  }
+}
+
+function _getTarget(source) {
   const {chart, fill, line} = source;
   if (isNumberFinite(fill)) {
     return getLineByIndex(chart, fill);
   }
   if (fill === 'stack') {
-    return buildStackLine(source);
+    return _buildStackLine(source);
   }
   if (fill === 'shape') {
     return true;
@@ -7340,49 +7433,81 @@ function getTarget(source) {
   if (boundary instanceof simpleArc) {
     return boundary;
   }
-  return createBoundaryLine(boundary, line);
+  return _createBoundaryLine(boundary, line);
 }
-function createBoundaryLine(boundary, line) {
-  let points = [];
-  let _loop = false;
-  if (isArray(boundary)) {
-    _loop = true;
-    points = boundary;
-  } else {
-    points = pointsFromSegments(boundary, line);
-  }
-  return points.length ? new LineElement({
-    points,
-    options: {tension: 0},
-    _loop,
-    _fullLoop: _loop
-  }) : null;
+function getLineByIndex(chart, index) {
+  const meta = chart.getDatasetMeta(index);
+  const visible = meta && chart.isDatasetVisible(index);
+  return visible ? meta.dataset : null;
 }
-function resolveTarget(sources, index, propagate) {
-  const source = sources[index];
-  let fill = source.fill;
-  const visited = [index];
-  let target;
-  if (!propagate) {
-    return fill;
+function computeBoundary(source) {
+  const scale = source.scale || {};
+  if (scale.getPointPositionForValue) {
+    return computeCircularBoundary(source);
   }
-  while (fill !== false && visited.indexOf(fill) === -1) {
-    if (!isNumberFinite(fill)) {
-      return fill;
-    }
-    target = sources[fill];
-    if (!target) {
-      return false;
-    }
-    if (target.visible) {
-      return fill;
-    }
-    visited.push(fill);
-    fill = target.fill;
-  }
-  return false;
+  return computeLinearBoundary(source);
 }
-function _clip(ctx, target, clipY) {
+function computeLinearBoundary(source) {
+  const {scale = {}, fill} = source;
+  const pixel = _getTargetPixel(fill, scale);
+  if (isNumberFinite(pixel)) {
+    const horizontal = scale.isHorizontal();
+    return {
+      x: horizontal ? pixel : null,
+      y: horizontal ? null : pixel
+    };
+  }
+  return null;
+}
+function computeCircularBoundary(source) {
+  const {scale, fill} = source;
+  const options = scale.options;
+  const length = scale.getLabels().length;
+  const start = options.reverse ? scale.max : scale.min;
+  const value = _getTargetValue(fill, scale, start);
+  const target = [];
+  if (options.grid.circular) {
+    const center = scale.getPointPositionForValue(0, start);
+    return new simpleArc({
+      x: center.x,
+      y: center.y,
+      radius: scale.getDistanceFromCenterForValue(value)
+    });
+  }
+  for (let i = 0; i < length; ++i) {
+    target.push(scale.getPointPositionForValue(i, value));
+  }
+  return target;
+}
+
+function _drawfill(ctx, source, area) {
+  const target = _getTarget(source);
+  const {line, scale, axis} = source;
+  const lineOpts = line.options;
+  const fillOption = lineOpts.fill;
+  const color = lineOpts.backgroundColor;
+  const {above = color, below = color} = fillOption || {};
+  if (target && line.points.length) {
+    clipArea(ctx, area);
+    doFill(ctx, {line, target, above, below, area, scale, axis});
+    unclipArea(ctx);
+  }
+}
+function doFill(ctx, cfg) {
+  const {line, target, above, below, area, scale} = cfg;
+  const property = line._loop ? 'angle' : cfg.axis;
+  ctx.save();
+  if (property === 'x' && below !== above) {
+    clipVertical(ctx, target, area.top);
+    fill(ctx, {line, target, color: above, scale, property});
+    ctx.restore();
+    ctx.save();
+    clipVertical(ctx, target, area.bottom);
+  }
+  fill(ctx, {line, target, color: below, scale, property});
+  ctx.restore();
+}
+function clipVertical(ctx, target, clipY) {
   const {segments, points} = target;
   let first = true;
   let lineLoop = false;
@@ -7390,7 +7515,7 @@ function _clip(ctx, target, clipY) {
   for (const segment of segments) {
     const {start, end} = segment;
     const firstPoint = points[start];
-    const lastPoint = points[findSegmentEnd(start, end, points)];
+    const lastPoint = points[_findSegmentEnd(start, end, points)];
     if (first) {
       ctx.moveTo(firstPoint.x, firstPoint.y);
       first = false;
@@ -7409,78 +7534,7 @@ function _clip(ctx, target, clipY) {
   ctx.closePath();
   ctx.clip();
 }
-function getBounds(property, first, last, loop) {
-  if (loop) {
-    return;
-  }
-  let start = first[property];
-  let end = last[property];
-  if (property === 'angle') {
-    start = _normalizeAngle(start);
-    end = _normalizeAngle(end);
-  }
-  return {property, start, end};
-}
-function _getEdge(a, b, prop, fn) {
-  if (a && b) {
-    return fn(a[prop], b[prop]);
-  }
-  return a ? a[prop] : b ? b[prop] : 0;
-}
-function _segments(line, target, property) {
-  const segments = line.segments;
-  const points = line.points;
-  const tpoints = target.points;
-  const parts = [];
-  for (const segment of segments) {
-    let {start, end} = segment;
-    end = findSegmentEnd(start, end, points);
-    const bounds = getBounds(property, points[start], points[end], segment.loop);
-    if (!target.segments) {
-      parts.push({
-        source: segment,
-        target: bounds,
-        start: points[start],
-        end: points[end]
-      });
-      continue;
-    }
-    const targetSegments = _boundSegments(target, bounds);
-    for (const tgt of targetSegments) {
-      const subBounds = getBounds(property, tpoints[tgt.start], tpoints[tgt.end], tgt.loop);
-      const fillSources = _boundSegment(segment, points, subBounds);
-      for (const fillSource of fillSources) {
-        parts.push({
-          source: fillSource,
-          target: tgt,
-          start: {
-            [property]: _getEdge(bounds, subBounds, 'start', Math.max)
-          },
-          end: {
-            [property]: _getEdge(bounds, subBounds, 'end', Math.min)
-          }
-        });
-      }
-    }
-  }
-  return parts;
-}
-function clipBounds(ctx, scale, bounds) {
-  const {top, bottom} = scale.chart.chartArea;
-  const {property, start, end} = bounds || {};
-  if (property === 'x') {
-    ctx.beginPath();
-    ctx.rect(start, top, end - start, bottom - top);
-    ctx.clip();
-  }
-}
-function interpolatedLineTo(ctx, target, point, property) {
-  const interpolatedPoint = target.interpolate(point, property);
-  if (interpolatedPoint) {
-    ctx.lineTo(interpolatedPoint.x, interpolatedPoint.y);
-  }
-}
-function _fill(ctx, cfg) {
+function fill(ctx, cfg) {
   const {line, target, property, color, scale} = cfg;
   const segments = _segments(line, target, property);
   for (const {source: src, target: tgt, start, end} of segments) {
@@ -7488,7 +7542,7 @@ function _fill(ctx, cfg) {
     const notShape = target !== true;
     ctx.save();
     ctx.fillStyle = backgroundColor;
-    clipBounds(ctx, scale, notShape && getBounds(property, start, end));
+    clipBounds(ctx, scale, notShape && _getBounds(property, start, end));
     ctx.beginPath();
     const lineLoop = !!line.pathSegment(ctx, src);
     let loop;
@@ -7509,34 +7563,23 @@ function _fill(ctx, cfg) {
     ctx.restore();
   }
 }
-function doFill(ctx, cfg) {
-  const {line, target, above, below, area, scale} = cfg;
-  const property = line._loop ? 'angle' : cfg.axis;
-  ctx.save();
-  if (property === 'x' && below !== above) {
-    _clip(ctx, target, area.top);
-    _fill(ctx, {line, target, color: above, scale, property});
-    ctx.restore();
-    ctx.save();
-    _clip(ctx, target, area.bottom);
-  }
-  _fill(ctx, {line, target, color: below, scale, property});
-  ctx.restore();
-}
-function drawfill(ctx, source, area) {
-  const target = getTarget(source);
-  const {line, scale, axis} = source;
-  const lineOpts = line.options;
-  const fillOption = lineOpts.fill;
-  const color = lineOpts.backgroundColor;
-  const {above = color, below = color} = fillOption || {};
-  if (target && line.points.length) {
-    clipArea(ctx, area);
-    doFill(ctx, {line, target, above, below, area, scale, axis});
-    unclipArea(ctx);
+function clipBounds(ctx, scale, bounds) {
+  const {top, bottom} = scale.chart.chartArea;
+  const {property, start, end} = bounds || {};
+  if (property === 'x') {
+    ctx.beginPath();
+    ctx.rect(start, top, end - start, bottom - top);
+    ctx.clip();
   }
 }
-var plugin_filler = {
+function interpolatedLineTo(ctx, target, point, property) {
+  const interpolatedPoint = target.interpolate(point, property);
+  if (interpolatedPoint) {
+    ctx.lineTo(interpolatedPoint.x, interpolatedPoint.y);
+  }
+}
+
+var index = {
   id: 'filler',
   afterDatasetsUpdate(chart, _args, options) {
     const count = (chart.data.datasets || []).length;
@@ -7550,7 +7593,7 @@ var plugin_filler = {
         source = {
           visible: chart.isDatasetVisible(i),
           index: i,
-          fill: decodeFill(line, i, count),
+          fill: _decodeFill(line, i, count),
           chart,
           axis: meta.controller.options.indexAxis,
           scale: meta.vScale,
@@ -7565,7 +7608,7 @@ var plugin_filler = {
       if (!source || source.fill === false) {
         continue;
       }
-      source.fill = resolveTarget(sources, i, options.propagate);
+      source.fill = _resolveTarget(sources, i, options.propagate);
     }
   },
   beforeDraw(chart, _args, options) {
@@ -7579,7 +7622,7 @@ var plugin_filler = {
       }
       source.line.updateControlPoints(area, source.axis);
       if (draw) {
-        drawfill(chart.ctx, source, area);
+        _drawfill(chart.ctx, source, area);
       }
     }
   },
@@ -7591,7 +7634,7 @@ var plugin_filler = {
     for (let i = metasets.length - 1; i >= 0; --i) {
       const source = metasets[i].$filler;
       if (source) {
-        drawfill(chart.ctx, source, chart.chartArea);
+        _drawfill(chart.ctx, source, chart.chartArea);
       }
     }
   },
@@ -7600,7 +7643,7 @@ var plugin_filler = {
     if (!source || source.fill === false || options.drawTime !== 'beforeDatasetDraw') {
       return;
     }
-    drawfill(chart.ctx, source, chart.chartArea);
+    _drawfill(chart.ctx, source, chart.chartArea);
   },
   defaults: {
     propagate: true,
@@ -7974,7 +8017,7 @@ class Legend extends Element {
       return;
     }
     const hoveredItem = this._getLegendItemAt(e.x, e.y);
-    if (e.type === 'mousemove') {
+    if (e.type === 'mousemove' || e.type === 'mouseout') {
       const previous = this._hoveredItem;
       const sameItem = itemsEqual(previous, hoveredItem);
       if (previous && !sameItem) {
@@ -7990,7 +8033,7 @@ class Legend extends Element {
   }
 }
 function isListened(type, opts) {
-  if (type === 'mousemove' && (opts.onHover || opts.onLeave)) {
+  if ((type === 'mousemove' || type === 'mouseout') && (opts.onHover || opts.onLeave)) {
     return true;
   }
   if (opts.onClick && (type === 'click' || type === 'mouseup')) {
@@ -8940,6 +8983,9 @@ class Tooltip extends Element {
       }
     }
   }
+  _willRender() {
+    return !!this.opacity;
+  }
   draw(ctx) {
     const options = this.options.setContext(this.getContext());
     let opacity = this.opacity;
@@ -9060,16 +9106,16 @@ var plugin_tooltip = {
   },
   afterDraw(chart) {
     const tooltip = chart.tooltip;
-    const args = {
-      tooltip
-    };
-    if (chart.notifyPlugins('beforeTooltipDraw', args) === false) {
-      return;
-    }
-    if (tooltip) {
+    if (tooltip && tooltip._willRender()) {
+      const args = {
+        tooltip
+      };
+      if (chart.notifyPlugins('beforeTooltipDraw', args) === false) {
+        return;
+      }
       tooltip.draw(chart.ctx);
+      chart.notifyPlugins('afterTooltipDraw', args);
     }
-    chart.notifyPlugins('afterTooltipDraw', args);
   },
   afterEvent(chart, args) {
     if (chart.tooltip) {
@@ -9217,7 +9263,7 @@ var plugin_tooltip = {
 var plugins = /*#__PURE__*/Object.freeze({
 __proto__: null,
 Decimation: plugin_decimation,
-Filler: plugin_filler,
+Filler: index,
 Legend: plugin_legend,
 SubTitle: plugin_subtitle,
 Title: plugin_title,
@@ -9858,9 +9904,26 @@ function drawPointLabels(scale, labelCount) {
     const {x, y, textAlign, left, top, right, bottom} = scale._pointLabelItems[i];
     const {backdropColor} = optsAtIndex;
     if (!isNullOrUndef(backdropColor)) {
+      const borderRadius = toTRBLCorners(optsAtIndex.borderRadius);
       const padding = toPadding(optsAtIndex.backdropPadding);
       ctx.fillStyle = backdropColor;
-      ctx.fillRect(left - padding.left, top - padding.top, right - left + padding.width, bottom - top + padding.height);
+      const backdropLeft = left - padding.left;
+      const backdropTop = top - padding.top;
+      const backdropWidth = right - left + padding.width;
+      const backdropHeight = bottom - top + padding.height;
+      if (Object.values(borderRadius).some(v => v !== 0)) {
+        ctx.beginPath();
+        addRoundedRectPath(ctx, {
+          x: backdropLeft,
+          y: backdropTop,
+          w: backdropWidth,
+          h: backdropHeight,
+          radius: borderRadius,
+        });
+        ctx.fill();
+      } else {
+        ctx.fillRect(backdropLeft, backdropTop, backdropWidth, backdropHeight);
+      }
     }
     renderText(
       ctx,
@@ -10354,6 +10417,11 @@ class TimeScale extends Scale {
     }
     return ticksFromTimestamps(this, ticks, this._majorUnit);
   }
+  afterAutoSkip() {
+    if (this.options.offsetAfterAutoskip) {
+      this.initOffsets(this.ticks.map(tick => +tick.value));
+    }
+  }
   initOffsets(timestamps) {
     let start = 0;
     let end = 0;
@@ -10624,4 +10692,4 @@ const registerables = [
   scales,
 ];
 
-export { Animation, Animations, ArcElement, BarController, BarElement, BasePlatform, BasicPlatform, BubbleController, CategoryScale, Chart, DatasetController, plugin_decimation as Decimation, DomPlatform, DoughnutController, Element, plugin_filler as Filler, Interaction, plugin_legend as Legend, LineController, LineElement, LinearScale, LogarithmicScale, PieController, PointElement, PolarAreaController, RadarController, RadialLinearScale, Scale, ScatterController, plugin_subtitle as SubTitle, Ticks, TimeScale, TimeSeriesScale, plugin_title as Title, plugin_tooltip as Tooltip, adapters as _adapters, _detectPlatform, animator, controllers, elements, layouts, plugins, registerables, registry, scales };
+export { Animation, Animations, ArcElement, BarController, BarElement, BasePlatform, BasicPlatform, BubbleController, CategoryScale, Chart, DatasetController, plugin_decimation as Decimation, DomPlatform, DoughnutController, Element, index as Filler, Interaction, plugin_legend as Legend, LineController, LineElement, LinearScale, LogarithmicScale, PieController, PointElement, PolarAreaController, RadarController, RadialLinearScale, Scale, ScatterController, plugin_subtitle as SubTitle, Ticks, TimeScale, TimeSeriesScale, plugin_title as Title, plugin_tooltip as Tooltip, adapters as _adapters, _detectPlatform, animator, controllers, elements, layouts, plugins, registerables, registry, scales };

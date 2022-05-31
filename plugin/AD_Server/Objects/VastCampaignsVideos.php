@@ -100,6 +100,7 @@ class VastCampaignsVideos extends ObjectYPT
                     $row['poster'] = Video::getImageFromID($row['videos_id']);
                 }
                 $row['data'] = VastCampaignsLogs::getDataFromCampaign($row['vast_campaigns_id']);
+                $row['link'] = Video::getLink($row['videos_id'], $row['clean_title']);
                 $rows[] = $row;
             }
         } else {

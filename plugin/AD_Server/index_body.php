@@ -152,6 +152,7 @@ if (!User::isAdmin()) {
                     </div>
                     <hr>
                     <button type="button" class="btn btn-success" id="addVideoBtn"><i class="fa fa-save"></i> <?php echo __("Save Video"); ?></button>
+                    <button type="button" class="btn btn-primary" id="addVideoBtnUpload"><i class="fas fa-upload"></i> <?php echo __("Upload Video"); ?></button>
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
@@ -233,6 +234,7 @@ if (!User::isAdmin()) {
 <script src="<?php echo getURL('node_modules/chart.js/dist/chart.min.js'); ?>" type="text/javascript"></script>
 
 <script type="text/javascript">
+    var videoUploadModalinterval;
     function clearVideoForm() {
         $('#inputVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>view/img/notfound.jpg");
         $('#inputVideo').val('');
@@ -401,7 +403,7 @@ if (!User::isAdmin()) {
 
             $('#inputVideoAd_id').val(data.id);
             $("#inputVideo").val(data.title);
-            $("#inputVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + data.clean_title);
+            $("#inputVideoClean").val(data.link);
             $("#inputVideo-id").val(data.videos_id);
             $("#inputVideo-poster").attr("src", data.poster.poster);
             $('#videos_id').val(data.videos_id);
@@ -412,7 +414,7 @@ if (!User::isAdmin()) {
 
         $('#addVideoBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/addCampaignVideo.php',
+                url: webSiteRootURL+'plugin/AD_Server/view/addCampaignVideo.php',
                 data: {inputVideoAd_id: $('#inputVideoAd_id').val(), vast_campaigns_id: $('#vast_campaigns_id').val(), videos_id: $('#videos_id').val(), uri: $('#inputVideoURI').val(), title: $('#inputVideoTitle').val()},
                 type: 'post',
                 success: function (response) {
@@ -427,6 +429,23 @@ if (!User::isAdmin()) {
                     modal.hidePleaseWait();
                 }
             });
+        });
+
+        $('#addVideoBtnUpload').click(function () {
+            <?php          
+            $encoderURL = $config->getEncoderURL(true);
+            ?>
+            var url = <?php echo json_encode($encoderURL)?>;
+            url = addQueryStringParameter(url, 'callback', JSON.stringify({vast_campaigns_id:$('#vast_campaigns_id').val()}));         
+            avideoModalIframeFull(url);
+            
+            videoUploadModalinterval = setInterval(function(){
+                if(!avideoModalIframeIsVisible()){
+                    clearInterval(videoUploadModalinterval);
+                    tableVideos.ajax.reload();
+                }
+            },1000);
+            
         });
 
         var tableLinks = $('#campaignTable').DataTable({

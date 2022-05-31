@@ -421,6 +421,10 @@ if (!class_exists('Video')) {
                 $saved = sqlDAL::writeSql($sql);
                 if ($saved) {
                     $insert_row = $this->id;
+                    AVideoPlugin::onUpdateVideo($insert_row);
+                    _error_log('onUpdateVideo $insert_row = '.$insert_row);
+                }else{
+                    _error_log('onUpdateVideo error $saved is empty');
                 }
             } else {
                 if(empty($this->created)){
@@ -432,6 +436,12 @@ if (!class_exists('Video')) {
 
                 //_error_log("Video::save ".$sql);
                 $insert_row = sqlDAL::writeSql($sql);
+                if(!empty($insert_row)){
+                    AVideoPlugin::onNewVideo($insert_row);
+                    _error_log('onNewVideo $insert_row = '.$insert_row);
+                }else{
+                    _error_log('onNewVideo error $insert_row is empty');
+                }
             }
             if ($insert_row) {
                 _error_log("Video::save ({$this->title}) Saved id = {$insert_row} ");

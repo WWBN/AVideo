@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.0.2 (2022-04-27)
+ * TinyMCE version 6.0.3 (2022-05-25)
  */
 
 (function () {
@@ -866,25 +866,25 @@
       };
       return checkChildren(firstChildStyle, cells);
     };
-    const applyAlign = (editor, elm, name) => {
+    const setAlign = (editor, elm, name) => {
+      global$2.each('left center right'.split(' '), align => {
+        if (align !== name) {
+          editor.formatter.remove('align' + align, {}, elm);
+        }
+      });
       if (name) {
         editor.formatter.apply('align' + name, {}, elm);
       }
     };
-    const applyVAlign = (editor, elm, name) => {
+    const setVAlign = (editor, elm, name) => {
+      global$2.each('top middle bottom'.split(' '), align => {
+        if (align !== name) {
+          editor.formatter.remove('valign' + align, {}, elm);
+        }
+      });
       if (name) {
         editor.formatter.apply('valign' + name, {}, elm);
       }
-    };
-    const unApplyAlign = (editor, elm) => {
-      global$2.each('left center right'.split(' '), name => {
-        editor.formatter.remove('align' + name, {}, elm);
-      });
-    };
-    const unApplyVAlign = (editor, elm) => {
-      global$2.each('top middle bottom'.split(' '), name => {
-        editor.formatter.remove('valign' + name, {}, elm);
-      });
     };
 
     const fireTableModified = (editor, table, data) => {
@@ -1769,25 +1769,19 @@
       };
     };
 
-    const modifiers = testTruthy => (editor, element) => {
+    const normal = (editor, element) => {
       const dom = editor.dom;
       const setAttrib = (attr, value) => {
-        if (!testTruthy || value) {
-          dom.setAttrib(element, attr, value);
-        }
+        dom.setAttrib(element, attr, value);
       };
       const setStyle = (prop, value) => {
-        if (!testTruthy || value) {
-          dom.setStyle(element, prop, value);
-        }
+        dom.setStyle(element, prop, value);
       };
       const setFormat = (formatName, value) => {
-        if (!testTruthy || value) {
-          if (value === '') {
-            editor.formatter.remove(formatName, { value: null }, element, true);
-          } else {
-            editor.formatter.apply(formatName, { value }, element);
-          }
+        if (value === '') {
+          editor.formatter.remove(formatName, { value: null }, element, true);
+        } else {
+          editor.formatter.apply(formatName, { value }, element);
         }
       };
       return {
@@ -1796,10 +1790,7 @@
         setFormat
       };
     };
-    const DomModifier = {
-      normal: modifiers(false),
-      ifTruthy: modifiers(true)
-    };
+    const DomModifier = { normal };
 
     const isHeaderCell = isTag('th');
     const getRowHeaderType = (isHeaderRow, isHeaderCells) => {
@@ -2128,37 +2119,50 @@
         column: Warehouse.getColumnAt(warehouse, cell.column).map(col => col.element.dom)
       }));
     };
-    const updateSimpleProps$1 = (modifier, colModifier, data) => {
-      modifier.setAttrib('scope', data.scope);
-      modifier.setAttrib('class', data.class);
-      modifier.setStyle('height', addPxSuffix(data.height));
-      colModifier.setStyle('width', addPxSuffix(data.width));
+    const updateSimpleProps$1 = (modifier, colModifier, data, shouldUpdate) => {
+      if (shouldUpdate('scope')) {
+        modifier.setAttrib('scope', data.scope);
+      }
+      if (shouldUpdate('class')) {
+        modifier.setAttrib('class', data.class);
+      }
+      if (shouldUpdate('height')) {
+        modifier.setStyle('height', addPxSuffix(data.height));
+      }
+      if (shouldUpdate('width')) {
+        colModifier.setStyle('width', addPxSuffix(data.width));
+      }
     };
-    const updateAdvancedProps$1 = (modifier, data) => {
-      modifier.setFormat('tablecellbackgroundcolor', data.backgroundcolor);
-      modifier.setFormat('tablecellbordercolor', data.bordercolor);
-      modifier.setFormat('tablecellborderstyle', data.borderstyle);
-      modifier.setFormat('tablecellborderwidth', addPxSuffix(data.borderwidth));
+    const updateAdvancedProps$1 = (modifier, data, shouldUpdate) => {
+      if (shouldUpdate('backgroundcolor')) {
+        modifier.setFormat('tablecellbackgroundcolor', data.backgroundcolor);
+      }
+      if (shouldUpdate('bordercolor')) {
+        modifier.setFormat('tablecellbordercolor', data.bordercolor);
+      }
+      if (shouldUpdate('borderstyle')) {
+        modifier.setFormat('tablecellborderstyle', data.borderstyle);
+      }
+      if (shouldUpdate('borderwidth')) {
+        modifier.setFormat('tablecellborderwidth', addPxSuffix(data.borderwidth));
+      }
     };
-    const applyStyleData$1 = (editor, cells, data) => {
+    const applyStyleData$1 = (editor, cells, data, wasChanged) => {
       const isSingleCell = cells.length === 1;
       each(cells, item => {
         const cellElm = item.element;
-        const modifier = isSingleCell ? DomModifier.normal(editor, cellElm) : DomModifier.ifTruthy(editor, cellElm);
-        const colModifier = item.column.map(col => isSingleCell ? DomModifier.normal(editor, col) : DomModifier.ifTruthy(editor, col)).getOr(modifier);
-        updateSimpleProps$1(modifier, colModifier, data);
+        const shouldOverrideCurrentValue = isSingleCell ? always : wasChanged;
+        const modifier = DomModifier.normal(editor, cellElm);
+        const colModifier = item.column.map(col => DomModifier.normal(editor, col)).getOr(modifier);
+        updateSimpleProps$1(modifier, colModifier, data, shouldOverrideCurrentValue);
         if (hasAdvancedCellTab(editor)) {
-          updateAdvancedProps$1(modifier, data);
+          updateAdvancedProps$1(modifier, data, shouldOverrideCurrentValue);
         }
-        if (isSingleCell) {
-          unApplyAlign(editor, cellElm);
-          unApplyVAlign(editor, cellElm);
+        if (wasChanged('halign')) {
+          setAlign(editor, cellElm, data.halign);
         }
-        if (data.halign) {
-          applyAlign(editor, cellElm, data.halign);
-        }
-        if (data.valign) {
-          applyVAlign(editor, cellElm, data.valign);
+        if (wasChanged('valign')) {
+          setVAlign(editor, cellElm, data.valign);
         }
       });
     };
@@ -2176,7 +2180,7 @@
           const styleModified = size(filter$1(modifiedData, (_value, key) => key !== 'scope' && key !== 'celltype')) > 0;
           const structureModified = has(modifiedData, 'celltype');
           if (styleModified || has(modifiedData, 'scope')) {
-            applyStyleData$1(editor, selectedCells, data);
+            applyStyleData$1(editor, selectedCells, data, curry(has, modifiedData));
           }
           if (structureModified) {
             applyStructureData$1(editor, data);
@@ -2310,26 +2314,36 @@
     ];
     const getItems$1 = editor => formChildren.concat(getClassList(editor).toArray());
 
-    const updateSimpleProps = (modifier, data) => {
-      modifier.setAttrib('class', data.class);
-      modifier.setStyle('height', addPxSuffix(data.height));
+    const updateSimpleProps = (modifier, data, shouldUpdate) => {
+      if (shouldUpdate('class')) {
+        modifier.setAttrib('class', data.class);
+      }
+      if (shouldUpdate('height')) {
+        modifier.setStyle('height', addPxSuffix(data.height));
+      }
     };
-    const updateAdvancedProps = (modifier, data) => {
-      modifier.setStyle('background-color', data.backgroundcolor);
-      modifier.setStyle('border-color', data.bordercolor);
-      modifier.setStyle('border-style', data.borderstyle);
+    const updateAdvancedProps = (modifier, data, shouldUpdate) => {
+      if (shouldUpdate('backgroundcolor')) {
+        modifier.setStyle('background-color', data.backgroundcolor);
+      }
+      if (shouldUpdate('bordercolor')) {
+        modifier.setStyle('border-color', data.bordercolor);
+      }
+      if (shouldUpdate('borderstyle')) {
+        modifier.setStyle('border-style', data.borderstyle);
+      }
     };
-    const applyStyleData = (editor, rows, data, oldData) => {
+    const applyStyleData = (editor, rows, data, wasChanged) => {
       const isSingleRow = rows.length === 1;
+      const shouldOverrideCurrentValue = isSingleRow ? always : wasChanged;
       each(rows, rowElm => {
-        const modifier = isSingleRow ? DomModifier.normal(editor, rowElm) : DomModifier.ifTruthy(editor, rowElm);
-        updateSimpleProps(modifier, data);
+        const modifier = DomModifier.normal(editor, rowElm);
+        updateSimpleProps(modifier, data, shouldOverrideCurrentValue);
         if (hasAdvancedRowTab(editor)) {
-          updateAdvancedProps(modifier, data);
+          updateAdvancedProps(modifier, data, shouldOverrideCurrentValue);
         }
-        if (data.align !== oldData.align) {
-          unApplyAlign(editor, rowElm);
-          applyAlign(editor, rowElm, data.align);
+        if (wasChanged('align')) {
+          setAlign(editor, rowElm, data.align);
         }
       });
     };
@@ -2345,7 +2359,7 @@
         const typeModified = has(modifiedData, 'type');
         const styleModified = typeModified ? size(modifiedData) > 1 : true;
         if (styleModified) {
-          applyStyleData(editor, rows, data, oldData);
+          applyStyleData(editor, rows, data, curry(has, modifiedData));
         }
         if (typeModified) {
           applyStructureData(editor, data);
@@ -2582,11 +2596,7 @@
           if (captionElm && !data.caption || !captionElm && data.caption) {
             editor.execCommand('mceTableToggleCaption');
           }
-          if (data.align === '') {
-            unApplyAlign(editor, tableElm);
-          } else {
-            applyAlign(editor, tableElm, data.align);
-          }
+          setAlign(editor, tableElm, data.align);
         }
         editor.focus();
         editor.addVisual();

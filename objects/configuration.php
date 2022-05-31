@@ -571,8 +571,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         rrmdir($cacheDir);
     }
 
-    public function getEncoderURL()
-    {
+    public function getEncoderURL($addCredentials=false){
         global $global, $getEncoderURL, $advancedCustom;
         if (!empty($global['forceEncoderURL'])) {
             return $global['forceEncoderURL'];
@@ -604,7 +603,13 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
                 //error_log("Configuration::getEncoderURL got it from cache ". json_encode($getEncoderURL));
             }
         }
-        return $getEncoderURL;
+        $return = $getEncoderURL;
+        if($addCredentials){
+            $return = addQueryStringParameter($return, 'user', User::getUserName());
+            $return = addQueryStringParameter($return, 'pass', User::getUserPass());
+            $return = addQueryStringParameter($return, 'webSiteRootURL', $global['webSiteRootURL']);
+        }
+        return $return;
     }
 
     public function setEncoderURL($encoderURL)

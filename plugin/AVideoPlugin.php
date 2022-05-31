@@ -668,6 +668,36 @@ class AVideoPlugin
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
     }
+        
+    public static function onNewVideo($videos_id){
+        if(empty($videos_id)){
+            return false;
+        }
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onNewVideo($videos_id);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
+    
+    public static function onUpdateVideo($videos_id){
+        if(empty($videos_id)){
+            return false;
+        }
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onUpdateVideo($videos_id);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
 
     public static function onEncoderReceiveImage($videos_id)
     {
