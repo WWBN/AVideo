@@ -12,6 +12,7 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 class Message implements MessageComponentInterface {
 
     protected $clients;
+    protected $totalUsersOnLives;
     protected $clientsWatchinLive;
     protected $clientsWatchVideosId;
     protected $clientsUsersId;
@@ -26,7 +27,6 @@ class Message implements MessageComponentInterface {
         $this->clientsChatRoom = [];
         //$this->loop->ad
         _log_message("Construct");
-        
     }
 
     public function onOpen(ConnectionInterface $conn) {
@@ -113,6 +113,7 @@ class Message implements MessageComponentInterface {
           unset($resourceId);
           }
          */
+        //$this->msgToResourceId('open connection', $conn->resourceId, \SocketMessageType::OPEN_CONNECTION);
         if ($client['browser'] == \SocketMessageType::TESTING) {
             _log_message("Test detected and received from ($conn->resourceId) " . PHP_EOL . "\e[1;32;40m*** SUCCESS TEST CONNECION {$json->test_msg} ***\e[0m");
             $this->msgToResourceId($json, $conn->resourceId, \SocketMessageType::TESTING);
@@ -130,7 +131,7 @@ class Message implements MessageComponentInterface {
         }
         if (!empty($json->live_key)) {
             //_log_message("msgToAllSameLive ");
-            if (\AVideoPlugin::isEnabledByName('LiveUsers') && method_exists('LiveUsers', 'getTotalUsers')) {
+            if ($this->isLiveUsersEnabled()) {
                 $live_key = object_to_array($json->live_key);
                 if (!empty($live_key['key'])) {
                     \_mysql_connect(true);
@@ -481,10 +482,53 @@ class Message implements MessageComponentInterface {
                 }
             }
         }
+        $return['LivesTotals'] = $this->getLivesTotal();
         if (!$isAdmin) {
             $SocketGetTotals = $return;
         }
         return $return;
+    }
+
+    function getLivesTotal() {
+        if (!isset($this->totalUsersOnLives) || $this->totalUsersOnLives['updated'] < strtotime('- 1 minute')) {
+
+            $stats = getStatsNotifications();
+
+            $statsList = array();
+
+            foreach ($stats as $server) {
+                if (is_array($server) || is_object($server)) {
+                    foreach ($server as $lt) {
+                        if (!empty($lt['key'])) {
+                            if ($this->isLiveUsersEnabled()) {
+                                $total_viewers = \LiveUsers::getTotalUsers($lt['key'], $lt['live_servers_id']);
+                            }
+                            $statsList[$lt['key']] = array('total_viewers' => $total_viewers);
+                        }
+                    }
+                }
+            }
+
+            $this->totalUsersOnLives = array('updated' => time(), 'statsList' => $statsList);
+        }
+
+        foreach ($this->totalUsersOnLives['statsList'] as $key => $lt) {
+            if(!empty($lt['key']) && $lt['key'] !== 'key' && isset($this->clientsWatchinLive[$lt['key']]) && is_array($this->clientsWatchinLive[$lt['key']])){
+                $this->totalUsersOnLives['statsList'][$key]['watching_now'] = count($this->clientsWatchinLive[$lt['key']]);
+            }else{
+                $this->totalUsersOnLives['statsList'][$key]['watching_now'] = 0;
+            }
+        }
+        //var_dump($this->totalUsersOnLives);
+        return $this->totalUsersOnLives;
+    }
+
+    private function isLiveUsersEnabled() {
+        global $_isLiveUsersEnabled;
+        if (!isset($_isLiveUsersEnabled)) {
+            $_isLiveUsersEnabled = \AVideoPlugin::isEnabledByName('LiveUsers') && method_exists('LiveUsers', 'getTotalUsers');
+        }
+        return $_isLiveUsersEnabled;
     }
 
     public function msgToDevice_id($msg, $yptDeviceId) {
@@ -504,7 +548,10 @@ class Message implements MessageComponentInterface {
     public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {
         _log_message("msgToAll FROM ({$from->resourceId}) {$type} Total Clients: " . count($this->clients));
         foreach ($this->clients as $key => $client) {
-            if (!empty($includeMe) || $from !== $client['conn']) {
+            if (
+                    !empty($includeMe) 
+                    //|| $from !== $client['conn']
+                    ) {
                 //_log_message("msgToAll FROM ({$from->resourceId}) TO {$key} {$type}");
                 $this->msgToResourceId($msg, $key, $type);
             }

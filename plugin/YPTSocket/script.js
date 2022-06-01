@@ -23,6 +23,7 @@ function socketConnect() {
     };
     conn.onmessage = function (e) {
         var json = JSON.parse(e.data);
+        //console.log("Socket onmessage conn.onmessage", json);
         socketResourceId = json.resourceId;
         yptSocketResponse = json;
         parseSocketResponse();

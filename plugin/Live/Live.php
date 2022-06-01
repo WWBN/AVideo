@@ -243,7 +243,7 @@ class Live extends PluginAbstract {
                 continue;
             }
             //$link = addQueryStringParameter($link, 'live_schedule', intval($value['id']));
-            $link = $link.'/ls/'.intval($value['id']).'/';
+            $link = $link . '/ls/' . intval($value['id']) . '/';
             $LiveUsersLabelLive = ($liveUsersEnabled ? getLiveUsersLabelLive($value['key'], $value['live_servers_id']) : '');
 
             $title = self::getTitleFromKey($value['key'], $value['title']);
@@ -258,7 +258,7 @@ class Live extends PluginAbstract {
             $app['Live_schedule_timezone'] = date_default_timezone_get();
             $app['scheduled_time_timezone'] = $value['timezone'];
             $app['scheduled_time'] = $value['scheduled_time'];
-            
+
             $array[] = $app;
         }
         //var_dump($rows);exit;
@@ -362,20 +362,20 @@ class Live extends PluginAbstract {
         $name = User::getNameIdentificationById($users_id);
         $comingsoon = false;
         if (!empty($startsOnDate)) {
-            
+
             preg_match('/([0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2})(.*)/', $startsOnDate, $matches);
-            
-            if(empty($matches) || empty($matches[2])){
+
+            if (empty($matches) || empty($matches[2])) {
                 $datetime = "'$startsOnDate'";
-            }else{
+            } else {
                 $datetime = "convertDateFromTimezoneToLocal('{$matches[1]}', '{$matches[2]}')";
             }
-            
+
             $startsOnDateTime = strtotime($startsOnDate);
             if ($startsOnDateTime > time()) {
                 $callback .= ';' . '$(\'.' . $uid . ' .liveNow\').attr(\'class\', \'liveNow label label-primary\');'
-                        . '$(\'.' . $uid . ' .liveNow\').text('.$datetime.');'
-                        . 'startTimerToDate('.$datetime.', \'.' . $uid . ' .liveNow\', false);';
+                        . '$(\'.' . $uid . ' .liveNow\').text(' . $datetime . ');'
+                        . 'startTimerToDate(' . $datetime . ', \'.' . $uid . ' .liveNow\', false);';
                 $comingsoon = $startsOnDateTime;
             }
         }
@@ -1240,7 +1240,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             _error_log("Live::getStatsObject: You need to install the simplexml_load_file function to be able to see the Live stats", AVideoLog::$ERROR);
             return false;
         }
-        if(!isset($global['isStatsAccessible'])){
+        if (!isset($global['isStatsAccessible'])) {
             $global['isStatsAccessible'] = array();
         }
         $name = "getStats" . DIRECTORY_SEPARATOR . "live_servers_id_{$live_servers_id}" . DIRECTORY_SEPARATOR . "getStatsObject";
@@ -1332,11 +1332,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $xml;
     }
 
-    static function isStatsAccessible($live_servers_id){
+    static function isStatsAccessible($live_servers_id) {
         global $global;
         return !empty($global['isStatsAccessible']) && !empty($global['isStatsAccessible'][$live_servers_id]);
     }
-    
+
     public function get_data($url, $timeout) {
         global $global;
         if (!IsValidURL($url)) {
@@ -1469,7 +1469,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (!empty($live_schedule_id)) {
             $url = "{$url}/ls/{$live_schedule_id}";
         }
-        
+
         if (!empty($live_index)) {
             $url .= '/' . urlencode($live_index);
         } elseif (!isset($live_index) && !empty($_REQUEST['live_index'])) {
@@ -1548,21 +1548,22 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         return $btn;
     }
-    
-    public static function unfinishAllFromStats($force_recreate = false){
+
+    public static function unfinishAllFromStats($force_recreate = false) {
         $stats = self::getStats($force_recreate);
-        
+
         foreach ($stats as $server) {
-            foreach ($server as $live) {
-                if(!empty($live->key)){
-                    $row = LiveTransmitionHistory::getLatest($live->key, @$live->live_servers_id);
-                    if(!empty($row['finished'])){
-                        LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
+            if (is_array($server) || is_object($server)) {
+                foreach ($server as $live) {
+                    if (!empty($live->key)) {
+                        $row = LiveTransmitionHistory::getLatest($live->key, @$live->live_servers_id);
+                        if (!empty($row['finished'])) {
+                            LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
+                        }
                     }
                 }
             }
         }
-        
     }
 
     public static function getStats($force_recreate = false) {
@@ -3306,12 +3307,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return false;
     }
 
-    public static function getInfo($key, $live_servers_id = null, $live_index = '', $playlists_id_live='') {
+    public static function getInfo($key, $live_servers_id = null, $live_index = '', $playlists_id_live = '') {
 
         $lso = new LiveStreamObject($key, $live_servers_id, $live_index, $playlists_id_live);
-        
-        $keyWithIndex=$lso->getKeyWithIndex();
-        $key=$lso->getKey();
+
+        $keyWithIndex = $lso->getKeyWithIndex();
+        $key = $lso->getKey();
         $array = array(
             'key' => $key,
             'keyWithIndex' => $keyWithIndex,
@@ -3340,16 +3341,16 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $array['transmission'] = $lt;
         $array['live_schedule_id'] = $lt['live_schedule_id'];
         $array['users_id'] = $lt['users_id'];
-        
+
         $otherLivesSameUser = LiveTransmitionHistory::getActiveLiveFromUser($array['users_id'], '', '', 100);
-        
+
         $array['otherLivesSameUser'] = array();
         foreach ($otherLivesSameUser as $value) {
-            if($value['key']!==$keyWithIndex){
+            if ($value['key'] !== $keyWithIndex) {
                 $array['otherLivesSameUser'][] = $value;
             }
         }
-        
+
         $lth = LiveTransmitionHistory::getLatest($keyWithIndex, $live_servers_id);
         if (empty($lth)) {
             return $array;
@@ -3363,13 +3364,13 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         if (!empty($lth['finished'])) {
             $isKeyLiveInStats = self::isKeyLiveInStats($key, $live_servers_id, $live_index);
-            if(empty($isKeyLiveInStats)){
+            if (empty($isKeyLiveInStats)) {
                 $array['isLive'] = false;
                 $array['isFinished'] = true;
                 $array['finishedDateTime'] = $lth['finished'];
                 $array['finishedSecondsAgo'] = secondsIntervalFromNow($lth['finished'], true);
                 $array['finishedHumanAgo'] = __('Finished') . ' ' . humanTimingAgo($lth['finished']);
-            }else{
+            } else {
                 LiveTransmitionHistory::unfinishFromTransmitionHistoryId($lth['id']);
             }
         }
@@ -3377,19 +3378,19 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $array['displayTime'] = '';
         if ($array['isFinished']) {
             $array['displayTime'] = $array['finishedHumanAgo'];
-            if(!empty($lt['scheduled_time'])){
+            if (!empty($lt['scheduled_time'])) {
                 $time = getTimeInTimezone($lt['scheduled_time'], $lt['timezone']);
                 $displayTime = strtotime($array['finishedDateTime']);
-                
+
                 //var_dump($time, $displayTime, $lt['scheduled_time'], $lt['timezone'], $array['finishedDateTime']);exit;
-                if($time > $displayTime){
-                    $array['displayTime'] = __('Will start in') . ' ' . humanTiming($time). ", {$lt['scheduled_time']}, {$lt['timezone']}";
+                if ($time > $displayTime) {
+                    $array['displayTime'] = __('Will start in') . ' ' . humanTiming($time) . ", {$lt['scheduled_time']}, {$lt['timezone']}";
                 }
             }
         } else if ($array['isStarded']) {
             $array['displayTime'] = $array['startedHumanAgo'];
         }
-        
+
         return $array;
     }
 
@@ -3496,9 +3497,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
             //var_dump($parts);
             $selectedEarlierOptions[] = intval($parts[3]);
         }
-        
+
         $ls = new Live_schedule($_REQUEST['live_schedule_id']);
-        
+
         $ls = new Live_schedule($live_schedule_id);
         $users_id = Live_schedule::getUsers_idOrCompany($live_schedule_id);
         $title = $ls->getTitle();
@@ -3506,11 +3507,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $date_end = '';
         $joinURL = Live::getLinkToLiveFromUsers_id($users_id);
         $joinURL = addQueryStringParameter($joinURL, 'live_schedule', $live_schedule_id);
-                
-        //        , $date_start, $selectedEarlierOptions = array(), $date_end = '', $joinURL='', $description=''
-        
-        return Scheduler::getReminderOptions($destinationURL, $title, $date_start, $selectedEarlierOptions, $date_end, $joinURL);
 
+        //        , $date_start, $selectedEarlierOptions = array(), $date_end = '', $joinURL='', $description=''
+
+        return Scheduler::getReminderOptions($destinationURL, $title, $date_start, $selectedEarlierOptions, $date_end, $joinURL);
     }
 
     public function getWatchActionButton($videos_id): string {
