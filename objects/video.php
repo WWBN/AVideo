@@ -5213,6 +5213,9 @@ if (!class_exists('Video')) {
 
         public static function checkIfIsBroken($videos_id) {
             $video = new Video('', '', $videos_id);
+            if(!empty($video->getSerie_playlists_id())){
+                return false;
+            }
             if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted) {
                 if ($video->getType() == 'audio' || $video->getType() == 'video') {
                     if (self::isMediaFileMissing($video->getFilename())) {
