@@ -30,7 +30,7 @@ if (!empty($_GET['u'])) {
 
     $info = Live::getInfo($livet['key'], $live_servers_id, $live_index);
     //var_dump($info);exit;
-    if (!$info['isLive']) {
+    if (!$info['isLive'] && empty($info['live_schedule_id'])) {
         if (!empty($info['otherLivesSameUser'])) {
             $link = LiveTransmitionHistory::getLinkToLive($info['otherLivesSameUser'][0]['id']);
             //var_dump($link, $info['otherLivesSameUser'][0]);exit;
