@@ -128,7 +128,7 @@ Go get it <a href="https://github.com/WWBN/AVideo-Encoder" target="_blank">here<
 
 <div align="center">
 <img src="https://avideo.tube/website/assets/151/images/encoder_img.png">
-<a href="https://encoder2.avideo.com/" target="_blank">View Public Encoder</a>
+<a href="https://encoder1.wwbn.net/" target="_blank">View Public Encoder</a>
 </div>
 
 # Why do I need the Encoder?
