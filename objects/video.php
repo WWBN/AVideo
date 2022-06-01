@@ -448,6 +448,9 @@ if (!class_exists('Video')) {
                 Category::clearCacheCount();
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
+                    if(empty($id)){
+                       $id = $insert_row;
+                    }
                     $this->id = $id;
 
                     // check if needs to add the video in a user group
@@ -458,7 +461,11 @@ if (!class_exists('Video')) {
                     }
                 } else {
                     $id = $this->id;
+                    if(empty($id)){
+                       $this->id = $id = $insert_row;
+                    }
                 }
+                
                 ObjectYPT::deleteCache("getItemprop{$this->id}");
                 ObjectYPT::deleteCache("getLdJson{$this->id}");
                 if (class_exists('Cache')) {
