@@ -54,6 +54,7 @@ $theme = getCurrentTheme();
 if (empty($config)) {
     $config = new Configuration();
 }
+_ob_start();
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
