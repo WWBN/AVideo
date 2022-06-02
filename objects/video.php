@@ -421,6 +421,10 @@ if (!class_exists('Video')) {
                 $saved = sqlDAL::writeSql($sql);
                 if ($saved) {
                     $insert_row = $this->id;
+                    AVideoPlugin::onUpdateVideo($insert_row);
+                    _error_log('onUpdateVideo $insert_row = '.$insert_row);
+                }else{
+                    _error_log('onUpdateVideo error $saved is empty');
                 }
             } else {
                 if(empty($this->created)){
@@ -432,12 +436,21 @@ if (!class_exists('Video')) {
 
                 //_error_log("Video::save ".$sql);
                 $insert_row = sqlDAL::writeSql($sql);
+                if(!empty($insert_row)){
+                    AVideoPlugin::onNewVideo($insert_row);
+                    _error_log('onNewVideo $insert_row = '.$insert_row);
+                }else{
+                    _error_log('onNewVideo error $insert_row is empty');
+                }
             }
             if ($insert_row) {
                 _error_log("Video::save ({$this->title}) Saved id = {$insert_row} ");
                 Category::clearCacheCount();
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
+                    if(empty($id)){
+                       $id = $insert_row;
+                    }
                     $this->id = $id;
 
                     // check if needs to add the video in a user group
@@ -448,7 +461,11 @@ if (!class_exists('Video')) {
                     }
                 } else {
                     $id = $this->id;
+                    if(empty($id)){
+                       $this->id = $id = $insert_row;
+                    }
                 }
+                
                 ObjectYPT::deleteCache("getItemprop{$this->id}");
                 ObjectYPT::deleteCache("getLdJson{$this->id}");
                 if (class_exists('Cache')) {
@@ -5196,6 +5213,9 @@ if (!class_exists('Video')) {
 
         public static function checkIfIsBroken($videos_id) {
             $video = new Video('', '', $videos_id);
+            if(!empty($video->getSerie_playlists_id())){
+                return false;
+            }
             if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted) {
                 if ($video->getType() == 'audio' || $video->getType() == 'video') {
                     if (self::isMediaFileMissing($video->getFilename())) {

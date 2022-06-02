@@ -135,6 +135,7 @@ interface SchemaSettings {
     valid_elements?: string;
     valid_styles?: string | Record<string, string>;
     verify_html?: boolean;
+    padd_empty_block_inline_children?: boolean;
 }
 interface Attribute {
     required?: boolean;
@@ -163,6 +164,7 @@ interface ElementRule {
     paddEmpty?: boolean;
     removeEmpty?: boolean;
     removeEmptyAttrs?: boolean;
+    paddInEmptyBlock?: boolean;
 }
 interface SchemaElement extends ElementRule {
     outputName?: string;

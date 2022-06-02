@@ -1,4 +1,5 @@
 <?php
+
 /**
  * https://support.google.com/adsense/answer/4455881
  * https://support.google.com/adsense/answer/1705822
@@ -9,10 +10,9 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaigns.php';
 
-class AD_Server extends PluginAbstract
-{
-    public function getTags()
-    {
+class AD_Server extends PluginAbstract {
+
+    public function getTags() {
         return [
             PluginTags::$MONETIZATION,
             PluginTags::$ADS,
@@ -21,28 +21,23 @@ class AD_Server extends PluginAbstract
         ];
     }
 
-    public function getDescription()
-    {
+    public function getDescription() {
         return "VAST Ad Server<br><small><a href='https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
     }
 
-    public function getName()
-    {
+    public function getName() {
         return "AD_Server";
     }
 
-    public function getUUID()
-    {
+    public function getUUID() {
         return "3f2a707f-3c06-4b78-90f9-a22f2fda92ef";
     }
 
-    public function getPluginVersion()
-    {
+    public function getPluginVersion() {
         return "2.0";
     }
 
-    public function getEmptyDataObject()
-    {
+    public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->start = true;
         self::addDataObjectHelper('start', 'Show Pre-Roll ads');
@@ -85,8 +80,6 @@ class AD_Server extends PluginAbstract
         $obj->showAdsOnRandomPositions = $o;
         self::addDataObjectHelper('showAdsOnRandomPositions', 'Show Ads On Positions', 'This will pick random positions to display the ads, but it will pic only the positions you have checked above. For example, if you want to have 2 random positions, but do not want to have videos on the start position, you must uncheck the start video position checkbox;');
 
-
-
         $o = new stdClass();
         $o->type = [0 => 'Do not auto add new videos on campaign'];
         $rows = VastCampaigns::getAllActive();
@@ -105,38 +98,41 @@ class AD_Server extends PluginAbstract
         return $obj;
     }
 
-    public function afterNewVideo($videos_id)
-    {
-        _error_log("AD_Server:afterNewVideo start");
-        $obj = $this->getDataObject();
-        if (!empty($obj->autoAddNewVideosInCampaignId)) {
-            $vc = new VastCampaigns($obj->autoAddNewVideosInCampaignId);
+    static function addVideoIdIntoCampaignId($videos_id, $vast_campaigns_id){
+        if (!empty($vast_campaigns_id)) {
+            $vc = new VastCampaigns($vast_campaigns_id);
             if (!empty($vc->getName())) {
                 $video = new Video("", "", $videos_id);
-                if (!empty($video->getTitle()) && !empty($obj->autoAddNewVideosInCampaignId->value)) {
+                if (!empty($video->getTitle()) && !empty($vast_campaigns_id)) {
                     _error_log("AD_Server:afterNewVideo saving");
                     $o = new VastCampaignsVideos(0);
-                    $o->setVast_campaigns_id($obj->autoAddNewVideosInCampaignId->value);
+                    $o->setVast_campaigns_id($vast_campaigns_id);
                     $o->setVideos_id($videos_id);
                     $o->setLink("");
                     $o->setAd_title($video->getTitle());
                     $o->setStatus('a');
                     $id = $o->save();
-                    _error_log("AD_Server:afterNewVideo saved {$id}");
+                    _error_log("AD_Server:addVideoIdIntoCampaignId saved {$id}");
+                    return $id;
                 } else {
-                    _error_log("AD_Server:afterNewVideo videos_id NOT found {$videos_id}");
+                    _error_log("AD_Server:addVideoIdIntoCampaignId videos_id NOT found {$videos_id}");
                 }
             } else {
-                _error_log("AD_Server:afterNewVideo autoAddNewVideosInCampaignId NOT found ". json_encode($obj->autoAddNewVideosInCampaignId));
+                _error_log("AD_Server:addVideoIdIntoCampaignId autoAddNewVideosInCampaignId NOT found " . json_encode($obj->autoAddNewVideosInCampaignId));
             }
         } else {
-            _error_log("AD_Server:afterNewVideo is disabled");
+            _error_log("AD_Server:addVideoIdIntoCampaignId is disabled");
         }
-        return true;
+        return false;
+    }
+    
+    public function afterNewVideo($videos_id) {
+        _error_log("AD_Server:afterNewVideo start");
+        $obj = $this->getDataObject();
+        return self::addVideoIdIntoCampaignId($videos_id, @$obj->autoAddNewVideosInCampaignId->value);
     }
 
-    public function canLoadAds()
-    {
+    public function canLoadAds() {
         //if (empty($_GET['videoName']) && empty($_GET['u'])) {
         $videos_id = getVideos_id();
         if (!empty($videos_id)) {
@@ -168,8 +164,7 @@ class AD_Server extends PluginAbstract
         return false;
     }
 
-    public function getHeadCode()
-    {
+    public function getHeadCode() {
         $obj = $this->getDataObject();
         if (!$this->canLoadAds()) {
             return "";
@@ -187,8 +182,7 @@ class AD_Server extends PluginAbstract
         return $css;
     }
 
-    private static function getVideoLength()
-    {
+    private static function getVideoLength() {
         $video_length = 3600; // 1 hour
         $videos_id = getVideos_id();
         $video = new Video('', '', $videos_id);
@@ -199,8 +193,7 @@ class AD_Server extends PluginAbstract
         return $video_length;
     }
 
-    public static function getVMAPSFromRequest()
-    {
+    public static function getVMAPSFromRequest() {
         if (!empty($_REQUEST['vmaps'])) {
             $vmaps = _json_decode(base64_decode($_REQUEST['vmaps']));
         } else {
@@ -211,8 +204,7 @@ class AD_Server extends PluginAbstract
         return object_to_array($vmaps);
     }
 
-    public static function addVMAPS($url, $vmaps)
-    {
+    public static function addVMAPS($url, $vmaps) {
         if (empty($vmaps)) {
             $vmaps = self::getVMAPSFromRequest();
         }
@@ -221,7 +213,7 @@ class AD_Server extends PluginAbstract
         return $vmapURL;
     }
 
-    public function afterVideoJS(){
+    public function afterVideoJS() {
         $obj = $this->getDataObject();
         if (!$this->canLoadAds()) {
             return "<!-- AD_Server canNOTLoadAds -->";
@@ -260,7 +252,7 @@ class AD_Server extends PluginAbstract
                 $vastCampaingVideos = new VastCampaignsVideos($value['VAST']['campaing']);
                 $video = new Video("", "", $vastCampaingVideos->getVideos_id());
                 if (!empty($video_length) && $value['timeOffsetSeconds'] >= $video_length) {
-                    $value['timeOffsetSeconds'] = $video_length-5;
+                    $value['timeOffsetSeconds'] = $video_length - 5;
                 }
 
                 $onPlayerReady .= "{time: {$value['timeOffsetSeconds']}, text: \"" . addcslashes($video->getTitle(), '"') . "\"},";
@@ -281,8 +273,7 @@ class AD_Server extends PluginAbstract
         return $js;
     }
 
-    private function getRandomPositions()
-    {
+    private function getRandomPositions() {
         if (empty($_GET['vmap_id'])) {
             return "";
         }
@@ -317,7 +308,6 @@ class AD_Server extends PluginAbstract
         if (empty($_SESSION['lastAdRandomPositions']) || $_SESSION['lastAdRandomPositions'] + 20 <= time()) {
             $_SESSION['lastAdRandomPositions'] = time();
 
-
             if (empty($obj->showAdsOnRandomPositions->value)) {
                 $selectedOptions = $options;
             } else {
@@ -340,8 +330,7 @@ class AD_Server extends PluginAbstract
         return $adRandomPositions;
     }
 
-    public function getVMAPs($video_length)
-    {
+    public function getVMAPs($video_length) {
         $vmaps = [];
 
         $obj = $this->getDataObject();
@@ -370,8 +359,7 @@ class AD_Server extends PluginAbstract
         return $vmaps;
     }
 
-    public function VMAPsHasVideos()
-    {
+    public function VMAPsHasVideos() {
         $vmaps = $this->getVMAPs(100);
         //var_dump($vmaps);exit;
         foreach ($vmaps as $value) {
@@ -382,15 +370,13 @@ class AD_Server extends PluginAbstract
         return true;
     }
 
-    public function showAdsNow()
-    {
+    public function showAdsNow() {
         if (!$this->VMAPsHasVideos()) {
             return false;
         }
     }
 
-    public static function getVideos()
-    {
+    public static function getVideos() {
         $campaings = VastCampaigns::getValidCampaigns();
         //var_dump($campaings);
         $videos = [];
@@ -402,44 +388,53 @@ class AD_Server extends PluginAbstract
         return ['campaigns' => $campaings, 'videos' => $videos];
     }
 
-    public static function getRandomVideo()
-    {
+    public static function getRandomVideo() {
         $result = static::getVideos();
         $videos = $result['videos'];
         shuffle($videos);
         return array_pop($videos);
     }
 
-    public static function getRandomCampaign()
-    {
+    public static function getRandomCampaign() {
         $result = static::getVideos();
         $campaing = $result['campaigns'];
         shuffle($campaing);
         return array_pop($campaing);
     }
 
-    public function getPluginMenu()
-    {
+    public function getPluginMenu() {
         global $global;
         $filename = $global['systemRootPath'] . 'plugin/AD_Server/pluginMenu.html';
         return file_get_contents($filename);
     }
 
-    public function getValidCampaignsFromVideo($videos_id)
-    {
+    public function getValidCampaignsFromVideo($videos_id) {
         return VastCampaigns::getValidCampaignsFromVideo($videos_id);
     }
+
+    public function onNewVideo($videos_id) {
+        if(!empty($_REQUEST['return_vars'])){
+            $json = json_decode($_REQUEST['return_vars']);
+            if(!empty($json) && !empty($json->callback)){
+                $callback = json_decode(base64_decode($json->callback));
+                if(!empty($callback) && !empty($callback->vast_campaigns_id)){
+                    return self::addVideoIdIntoCampaignId($videos_id, $callback->vast_campaigns_id);
+                }
+            }
+        }
+        return false;
+    }
+
 }
 
-class VMAP
-{
+class VMAP {
+
     public $timeOffset;
     public $timeOffsetSeconds;
     public $VAST;
     public $idTag = "preroll-ad";
 
-    public function __construct($time, VAST $VAST, $video_length = 0)
-    {
+    public function __construct($time, VAST $VAST, $video_length = 0) {
         if ($time === 'start') {
             $this->timeOffsetSeconds = 0;
         } elseif ($time === 'end') {
@@ -451,8 +446,7 @@ class VMAP
         $this->setTimeOffset($time);
     }
 
-    public function setTimeOffset($time)
-    {
+    public function setTimeOffset($time) {
         if (empty($time)) {
             //$time = "start";
         }
@@ -469,22 +463,21 @@ class VMAP
         $this->timeOffset = $time;
     }
 
-    private function format($seconds)
-    {
+    private function format($seconds) {
         $hours = floor($seconds / 3600);
         $mins = floor($seconds / 60 % 60);
         $secs = floor($seconds % 60);
         return sprintf('%02d:%02d:%02d.000', $hours, $mins, $secs);
     }
+
 }
 
-class VAST
-{
+class VAST {
+
     public $id;
     public $campaing;
 
-    public function __construct($id)
-    {
+    public function __construct($id) {
         $this->id = $id;
         $row = AD_Server::getRandomVideo();
         if (!empty($row)) {
@@ -493,4 +486,5 @@ class VAST
             $this->campaing = false;
         }
     }
+
 }

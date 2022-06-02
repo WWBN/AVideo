@@ -846,10 +846,16 @@ class CDNStorage {
         }
 
         $modified = filemtime($file);
-        if (time() - $modified > 300) {
-            // if is laonger than 5 min say it is not moving
-            _error_log('CDNStorage isMoving is taking too long to finish, check your connection speed or FTP errors', AVideoLog::$WARNING);
-            return false;
+        $totalTime = time() - $modified ;
+        if ($totalTime > 300) {
+            if($totalTime > 10000){
+                unlink($file);
+                return false;
+            }else{
+                // if is laonger than 5 min say it is not moving
+                _error_log("CDNStorage isMoving is taking too long to finish ({$totalTime} seconds), check your connection speed or FTP errors {$file}", AVideoLog::$WARNING);
+                return false;
+            }
         }
 
         return ['modified' => $modified, 'created' => filectime($file)];

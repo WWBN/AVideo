@@ -166,7 +166,7 @@ class Layout extends PluginAbstract {
         global $global;
         include $global['systemRootPath'] . 'plugin/Layout/fontAwesomeFAB.php';
         // Fetch variables scss file in variable
-        $font_vars = file_get_contents($global['systemRootPath'] . 'node_modules/@fortawesome/fontawesome-free/scss/_variables.scss');
+        $font_vars = file_get_contents($global['systemRootPath'] . 'node_modules/fontawesome-free/scss/_variables.scss');
 
         // Find the position of first $fa-var , as all icon class names start after that
         $pos = strpos($font_vars, '$fa-var');
@@ -202,7 +202,7 @@ class Layout extends PluginAbstract {
         global $global;
         $html = "";
         if (empty($global['getSelectSearchable'])) {
-            $html .= '<link href="'.getCDN().'view/js/select2/select2.min.css" rel="stylesheet" />';
+            $html .= '<link href="'.getURL('view/js/select2/select2.min.css').'" rel="stylesheet" />';
             $html .= '<style>
                 .select2-selection__rendered {line-height: 32px !important;}
                 .select2-selection {min-height: 34px !important;}</style>';

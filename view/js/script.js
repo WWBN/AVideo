@@ -25,6 +25,7 @@ try {
     let deferredPrompt;
     var playerCurrentTime;
     var mediaId;
+    var isDebuging = false;
     var userLang = navigator.language || navigator.userLanguage;
     /* Code sample for resize iframe on a third party page
      <iframe width="640" height="310" style="max-width: 100%;max-height: 100%; border:none;" src="..." frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="NO" >iFrame is not supported!</iframe>
@@ -71,6 +72,20 @@ try {
     console.log('Variable declaration ERROR', e);
 }
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+
+if(urlParams.has('debug')){
+    isDebuging = false;
+}
+
+function consolelog(){
+    if(isDebuging){
+        for (var item in arguments) {
+            console.log(arguments[item]);
+        }
+    }
+}
 
 $(document).mousemove(function (e) {
     mouseX = e.pageX;

@@ -137,6 +137,9 @@ class Cache extends PluginAbstract
             $cacheName = $this->getFileName();
 
             if ($this->isFirstPage()) {
+                if(isMobile()){
+                    $cacheName = "mobile_{$cacheName}";
+                }
                 $cacheName = 'firstPage' . DIRECTORY_SEPARATOR . $cacheName;
             }
 
@@ -206,6 +209,9 @@ class Cache extends PluginAbstract
             $cacheName = $this->getFileName();
 
             if ($this->isFirstPage()) {
+                if(isMobile()){
+                    $cacheName = "mobile_{$cacheName}";
+                }
                 $cacheName = 'firstPage' . DIRECTORY_SEPARATOR . $cacheName;
             }
 

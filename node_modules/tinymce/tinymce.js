@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.0.2 (2022-04-27)
+ * TinyMCE version 6.0.3 (2022-05-25)
  */
 
 (function () {
@@ -2674,6 +2674,11 @@
       items = Tools.trim(items);
       return items ? items.split(delim || ' ') : [];
     };
+    const createMap = (defaultValue, extendWith) => {
+      const value = makeMap$2(defaultValue, ' ', makeMap$2(defaultValue.toUpperCase(), ' '));
+      return extend$2(value, extendWith);
+    };
+    const getTextRootBlockElements = schema => createMap('td th li dt dd figcaption caption details summary', schema.getTextBlockElements());
     const compileSchema = type => {
       const schema = {};
       let globalAttributes, blockContent;
@@ -2928,8 +2933,7 @@
         if (!value) {
           value = mapCache[option];
           if (!value) {
-            value = makeMap$2(defaultValue, ' ', makeMap$2(defaultValue.toUpperCase(), ' '));
-            value = extend$2(value, extendWith);
+            value = createMap(defaultValue, extendWith);
             mapCache[option] = value;
           }
         } else {
@@ -2955,7 +2959,7 @@
       const moveCaretBeforeOnEnterElementsMap = createLookupTable('move_caret_before_on_enter_elements', nonEmptyOrMoveCaretBeforeOnEnter + ' table', voidElementsMap);
       const textBlockElementsMap = createLookupTable('text_block_elements', 'h1 h2 h3 h4 h5 h6 p div address pre form ' + 'blockquote center dir fieldset header footer article section hgroup aside main nav figure');
       const blockElementsMap = createLookupTable('block_elements', 'hr table tbody thead tfoot ' + 'th tr td li ol ul caption dl dt dd noscript menu isindex option ' + 'datalist select optgroup figcaption details summary', textBlockElementsMap);
-      const textInlineElementsMap = createLookupTable('text_inline_elements', 'span strong b em i font strike u var cite ' + 'dfn code mark q sup sub samp');
+      const textInlineElementsMap = createLookupTable('text_inline_elements', 'span strong b em i font s strike u var cite ' + 'dfn code mark q sup sub samp');
       each$d('script noscript iframe noframes noembed title style textarea xmp plaintext'.split(' '), name => {
         specialElements[name] = new RegExp('</' + name + '[^>]*>', 'gi');
       });
@@ -3158,7 +3162,15 @@
           const items = split$1(item, '/');
           elements[items[1]].outputName = items[0];
         });
-        each$d(split$1('ol ul sub sup blockquote span font a table tbody strong em b i'), name => {
+        each$d(textInlineElementsMap, (_val, name) => {
+          if (elements[name]) {
+            if (settings.padd_empty_block_inline_children) {
+              elements[name].paddInEmptyBlock = true;
+            }
+            elements[name].removeEmpty = true;
+          }
+        });
+        each$d(split$1('ol ul blockquote a table tbody'), name => {
           if (elements[name]) {
             elements[name].removeEmpty = true;
           }
@@ -13172,18 +13184,7 @@
     };
     const canFormatBR = (editor, format, node, parentName) => {
       if (canFormatEmptyLines(editor) && isInlineFormat(format)) {
-        const validBRParentElements = {
-          ...editor.schema.getTextBlockElements(),
-          td: {},
-          th: {},
-          li: {},
-          dt: {},
-          dd: {},
-          figcaption: {},
-          caption: {},
-          details: {},
-          summary: {}
-        };
+        const validBRParentElements = getTextRootBlockElements(editor.schema);
         const hasCaretNodeSibling = sibling(SugarElement.fromDom(node), sibling => isCaretNode(sibling.dom));
         return hasNonNullableKey(validBRParentElements, parentName) && isEmpty$2(SugarElement.fromDom(node.parentNode), false) && !hasCaretNodeSibling;
       } else {
@@ -15896,6 +15897,7 @@
       const nonEmptyElements = schema.getNonEmptyElements();
       const whitespaceElements = schema.getWhitespaceElements();
       const blockElements = extend$1(makeMap('script,style,head,html,body,title,meta,param'), schema.getBlockElements());
+      const textRootBlockElements = getTextRootBlockElements(schema);
       const allWhiteSpaceRegExp = /[ \t\r\n]+/g;
       const startWhiteSpaceRegExp = /^[ \t\r\n]+/;
       const endWhiteSpaceRegExp = /[ \t\r\n]+$/;
@@ -15906,6 +15908,17 @@
             return true;
           } else {
             node = node.parent;
+          }
+        }
+        return false;
+      };
+      const isTextRootBlockEmpty = node => {
+        let tempNode = node;
+        while (isNonNullable(tempNode)) {
+          if (tempNode.name in textRootBlockElements) {
+            return isEmpty(schema, nonEmptyElements, whitespaceElements, tempNode);
+          } else {
+            tempNode = tempNode.parent;
           }
         }
         return false;
@@ -15939,7 +15952,9 @@
           const elementRule = schema.getElementRule(node.name);
           if (validate && elementRule) {
             const isNodeEmpty = isEmpty(schema, nonEmptyElements, whitespaceElements, node);
-            if (elementRule.removeEmpty && isNodeEmpty) {
+            if (elementRule.paddInEmptyBlock && isNodeEmpty && isTextRootBlockEmpty(node)) {
+              paddEmptyNode(settings, args, blockElements, node);
+            } else if (elementRule.removeEmpty && isNodeEmpty) {
               if (blockElements[node.name]) {
                 node.remove();
               } else {
@@ -25860,7 +25875,8 @@
         valid_classes: getOption('valid_classes'),
         valid_elements: getOption('valid_elements'),
         valid_styles: getOption('valid_styles'),
-        verify_html: getOption('verify_html')
+        verify_html: getOption('verify_html'),
+        padd_empty_block_inline_children: getOption('format_empty_lines')
       });
     };
     const mkSerializerSettings = editor => {
@@ -28428,8 +28444,8 @@
       documentBaseURL: null,
       suffix: null,
       majorVersion: '6',
-      minorVersion: '0.2',
-      releaseDate: '2022-04-27',
+      minorVersion: '0.3',
+      releaseDate: '2022-05-25',
       i18n: I18n,
       activeEditor: null,
       focusedEditor: null,

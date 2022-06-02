@@ -79,6 +79,7 @@ function verifyTokenSocket($token) {
 
 class SocketMessageType {
 
+    const OPEN_CONNECTION = "OPEN_CONNECTION";
     const NEW_CONNECTION = "NEW_CONNECTION";
     const NEW_DISCONNECTION = "NEW_DISCONNECTION";
     const DEFAULT_MESSAGE = "DEFAULT_MESSAGE";
