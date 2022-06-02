@@ -5700,7 +5700,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     return $pag;
 }
 
-function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class = "row bgWhite list-group-item menusDiv", $videoLengthInSeconds = 0) {
+function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class = "row bgWhite list-group-item menusDiv", $videoLengthInSeconds = 0, $bitLyLink = '') {
     global $global, $advancedCustom;
     include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
 }

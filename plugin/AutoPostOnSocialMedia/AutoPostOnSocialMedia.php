@@ -106,7 +106,11 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
     }
 
     static function postVideo($videos_id) {
-        $url = Video::getLinkToVideo($videos_id, "", false, "permalink", $get);
+        if(AVideoPlugin::isEnabledByName('BitLy')){
+            $url = BitLy::getLink($videos_id);
+        }else{
+            $url = Video::getLinkToVideo($videos_id, "", false, "permalink", $get);
+        }
         return self::post($url);
     }
 
