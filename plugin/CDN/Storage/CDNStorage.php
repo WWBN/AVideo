@@ -708,7 +708,7 @@ class CDNStorage {
             $conn_id[$index] = ftp_connect($obj->storage_hostname);
             if (empty($conn_id[$index])) {
                 sleep(1);
-                return self::getConnID($index);
+                return self::getConnID($index,$conn_id);
             }
             // login with username and password
             $login_result = ftp_login($conn_id[$index], $obj->storage_username, $obj->storage_password);
