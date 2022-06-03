@@ -111,6 +111,7 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
         }else{
             $url = Video::getLinkToVideo($videos_id, "", false, "permalink", $get);
         }
+        _error_log("AutoPostOnSocialMedia::postVideo($videos_id) $url");
         return self::post($url);
     }
 
