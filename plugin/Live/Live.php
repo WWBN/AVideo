@@ -3378,10 +3378,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($lth)) {
             return $array;
         }
-        $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($lth['key'], $lth['live_servers_id']);
-        $isStatsAccessible = self::isStatsAccessible($lth['live_servers_id']);
+        $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($lth['key'], $live_servers_id);
+        $isStatsAccessible = self::isStatsAccessible($live_servers_id);
         if (empty($isLiveAndIsReadyFromKey) && $isStatsAccessible) {
-            _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$lth['live_servers_id']}) [{$lth['id']}]");
+            _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$live_servers_id}) [{$lth['id']}]");
             LiveTransmitionHistory::finishFromTransmitionHistoryId($lth['id']);
             $array['isLive'] = false;
         }else{
