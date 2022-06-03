@@ -1347,7 +1347,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         
         if(!isset($global['isStatsAccessible'])){
-            self::getStatsObject($live_servers_id);
+            $this->getStatsObject($live_servers_id);
         }
         
         return !empty($global['isStatsAccessible']) && !empty($global['isStatsAccessible'][$live_servers_id]);
