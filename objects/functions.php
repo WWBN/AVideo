@@ -7235,6 +7235,11 @@ function getDatabaseTimezoneName() {
     } else {
         $_getDatabaseTimezoneName = false;
     }
+    
+    if($_getDatabaseTimezoneName=='PDT'){
+        $_getDatabaseTimezoneName = 'America/Los_Angeles';
+    }
+    
     return $_getDatabaseTimezoneName;
 }
 
