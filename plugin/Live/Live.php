@@ -1473,6 +1473,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($channelName)) {
             return false;
         }
+        
+        $obj = AVideoPlugin::getDataObject('Live');
+        
+        if(empty($obj->useLiveServers)){
+           $live_servers_id = 0; 
+        }
 
         $url = "{$global['webSiteRootURL']}live/{$live_servers_id}/" . urlencode($channelName);
 
