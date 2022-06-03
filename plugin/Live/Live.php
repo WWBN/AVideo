@@ -1347,7 +1347,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         
         if(!isset($global['isStatsAccessible'])){
-            $this->getStatsObject($live_servers_id);
+            $l = AVideoPlugin::loadPlugin('Live');
+            $l->getStatsObject($live_servers_id);
         }
         
         return !empty($global['isStatsAccessible']) && !empty($global['isStatsAccessible'][$live_servers_id]);
