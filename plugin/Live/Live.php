@@ -3383,9 +3383,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($isLiveAndIsReadyFromKey) && $isStatsAccessible) {
             _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$value['live_servers_id']})");
             LiveTransmitionHistory::finishFromTransmitionHistoryId($lth['id']);
-            $array['isLive'] = true;
-        }else{
             $array['isLive'] = false;
+        }else{
+            $array['isLive'] = true;
         }
         $array['isLiveAndIsReadyFromKey'] = $isLiveAndIsReadyFromKey;
         $array['isStatsAccessible'] = $isStatsAccessible;
