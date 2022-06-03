@@ -3366,8 +3366,19 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($lth)) {
             return $array;
         }
+        $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($lth['key'], $lth['live_servers_id']);
+        $isStatsAccessible = self::isStatsAccessible($lth['live_servers_id']);
+        if (empty($isLiveAndIsReadyFromKey) && $isStatsAccessible) {
+            _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$value['live_servers_id']})");
+            LiveTransmitionHistory::finishFromTransmitionHistoryId($lth['id']);
+            $array['isLive'] = true;
+        }else{
+            $array['isLive'] = false;
+        }
+        $array['isLiveAndIsReadyFromKey'] = $isLiveAndIsReadyFromKey;
+        $array['isStatsAccessible'] = $isStatsAccessible;
+        
         $array['history'] = $lth;
-        $array['isLive'] = true;
         $array['isStarded'] = true;
         $array['startedDateTime'] = $lth['created'];
         $array['startedSecondsAgo'] = secondsIntervalFromNow($lth['created'], true);
