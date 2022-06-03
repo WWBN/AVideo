@@ -315,6 +315,7 @@ class Live extends PluginAbstract {
             $app['isLiveAndIsReadyFromKey'] = $isLiveAndIsReadyFromKey;
             $app['isStatsAccessible'] = $isStatsAccessible;
             $app['modified'] = $value['modified'];
+            $app['now'] = date('Y-m-d H:i:s');
         
             $array[] = $app;
         }
