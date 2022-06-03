@@ -87,6 +87,10 @@ function consolelog(){
     }
 }
 
+function consoleLog(){
+    return consolelog();
+}
+
 $(document).mousemove(function (e) {
     mouseX = e.pageX;
     mouseY = e.pageY;
