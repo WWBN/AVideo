@@ -1,7 +1,7 @@
 <script>
     function onlineLabelOnline(selector) {
         selector = selector.replace(/[&=]/g, '');
-        console.log("Change video to Online ", selector);
+        consoleLog("Change video to Online ", selector);
         //console.trace();
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-danger');
@@ -14,7 +14,7 @@
 
     function onlineLabelPleaseWait(selector) {
         selector = selector.replace(/[&=]/g, '');
-        //console.log("Change video to please wait");
+        consoleLog("Change video to please wait", selector);
         if (!$('#indexCol1 div.panel-heading .label-success').length) {
             isOnlineLabel = false;
         }
@@ -29,7 +29,7 @@
 
     function onlineLabelOffline(selector) {
         selector = selector.replace(/[&=]/g, '');
-        //console.log("Change video to offline");
+        consoleLog("Change video to offline", selector);
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-success');
         $(selector).addClass('label-danger');
@@ -40,7 +40,7 @@
     }
     function onlineLabelFinishing(selector) {
         selector = selector.replace(/[&=]/g, '');
-        //console.log("Change video to finishing");
+        consoleLog("Change video to finishing", selector);
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-success');
         $(selector).addClass('label-danger');
