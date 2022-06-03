@@ -1280,7 +1280,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated");
         }
 
-        $o = $this->getDataObject();
+        $o = AVideoPlugin::getDataObject('Live');
         if ($o->doNotProcessNotifications) {
             _error_log("Live::getStatsObject[$live_servers_id]: will not show notifications because you select the option doNotProcessNotifications on the live plugin ");
             $xml = new stdClass();
