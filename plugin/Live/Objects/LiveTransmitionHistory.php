@@ -411,6 +411,23 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $insert_row;
     }
     
+    
+    public static function updateModifiedTime($live_transmitions_history_id) {
+        global $global;
+        $live_transmitions_history_id = intval($live_transmitions_history_id);
+        if (empty($live_transmitions_history_id)) {
+            return false;
+        }
+        _error_log(debug_backtrace());
+        $sql = "UPDATE " . static::getTableName() . " SET modified = now() WHERE id = {$live_transmitions_history_id} ";
+
+        $insert_row = sqlDAL::writeSql($sql);
+        $global['mysqli']->commit();
+        
+        Live::unfinishAllFromStats();
+        return $insert_row;
+    }
+    
     public static function unfinishFromTransmitionHistoryId($live_transmitions_history_id) {
         global $global;
         $live_transmitions_history_id = intval($live_transmitions_history_id);
