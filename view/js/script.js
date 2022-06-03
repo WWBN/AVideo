@@ -1940,7 +1940,9 @@ function convertDBDateToLocal(dbDateString) {
         //m = moment.tz(dbDateString, _serverDBTimezone);
         m = moment.tz(dbDateString,_serverDBTimezone).local();
     }
-    return m.fromNow();
+    var fromNow = m.fromNow();
+    consolelog('convertDBDateToLocal' , dbDateString, _serverDBTimezone, fromNow);
+    return fromNow;
 }
 
 function convertDateFromTimezoneToLocal(dbDateString, timezone) {
