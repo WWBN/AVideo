@@ -1389,7 +1389,11 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             } elseif (in_array($parts['extension'], $image) || preg_match('/^(gif|jpg|webp|png|jpeg)/i', $parts['extension'])) {
                 $type = 'image';
                 if (!preg_match('/(thumb|roku)/', $resolution)) {
-                    $resolution = '';
+                    if(preg_match("/{$cleanfilename}_([0-9]+).jpg/", $source['url'], $matches)){
+                        $resolution = '_'.intval($matches[1]);
+                    }else{
+                        $resolution = '';
+                    }
                 }
             }
             $files["{$parts['extension']}{$resolution}"] = [
