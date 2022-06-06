@@ -8,7 +8,7 @@ $leaderBoardTop = getAdsLeaderBoardTop();
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
         <title><?php
-echo __('Live'), ' ', $siteTitle;
+echo __('Live'), ' | ', $siteTitle;
 ?></title>
             <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
     </head>
