@@ -1589,13 +1589,17 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
     }
 
-    public static function getStats($force_recreate = false) {
+    public static function getStats($force_recreate = false, $live_servers_id=0) {
         global $getStatsLive, $_getStats, $getStatsObject;
         if (empty($force_recreate)) {
             if (isset($getStatsLive)) {
                 //_error_log('Live::getStats: return cached result');
                 return $getStatsLive;
             }
+        }
+        
+        if(empty($live_servers_id)){
+            $live_servers_id = Live::getLiveServersIdRequest();
         }
         $obj = AVideoPlugin::getObjectData("Live");
         if (empty($obj->server_type->value)) {
@@ -1618,7 +1622,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $rows = Live_servers::getAllActive();
             $liveServers = [];
             foreach ($rows as $key => $row) {
-                $ls = new Live_servers(Live::getLiveServersIdRequest());
+                $ls = new Live_servers($live_servers_id);
                 if (!empty($row['playerServer'])) {
                     //_error_log('getStats getStats 2: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
                     $server = self::_getStats($row['id'], $force_recreate);
@@ -2288,8 +2292,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         //_error_log('getStats execute getStats: ' . __LINE__ . ' ' . __FILE__);
         //$json = getStatsNotifications($force_recreate);
         //_error_log('getStats execute getStats: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
-
-        $json = self::getStats($force_recreate);
+        
+        $json = self::getStats($force_recreate, $live_servers_id);
         _error_log('Live::isKeyLiveInStats:self::getStats ' . json_encode($json));
         //var_dump($json);
         $_isLiveFromKey[$index] = false;
