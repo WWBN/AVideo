@@ -1337,7 +1337,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $xml = simplexml_load_string($data);
         $getStatsObject[$live_servers_id] = $xml;
         ObjectYPT::setCache($name, json_encode($xml));
-        var_dump(__LINE__, $xml);
+        //var_dump(__LINE__, $xml);
         $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
         return $xml;
     }
