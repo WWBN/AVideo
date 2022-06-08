@@ -2275,9 +2275,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
             return $_isLiveFromKey[$index];
         }
 
+        _error_log("Live::isLiveFromKey($key, $live_servers_id, $live_index, $force_recreate )");
         $o = AVideoPlugin::getObjectData("Live");
         if (empty($o->server_type->value) || !empty($live_servers_id)) {
-            return LiveTransmitionHistory::isLive($key);
+            _error_log("Live::isLiveFromKey return LiveTransmitionHistory::isLive($key)");
+            return LiveTransmitionHistory::isLive($key, $live_servers_id);
         }
 
         _error_log("Live::isLiveFromKey($key, $live_servers_id, $live_index, $force_recreate )");

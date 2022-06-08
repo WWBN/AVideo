@@ -20,7 +20,6 @@ if (empty($_REQUEST['format'])) {
 
 
 $f = md5(@$_REQUEST['u'] . @$_REQUEST['live_servers_id'] . @$_REQUEST['live_index']);
-
 $cacheFileImageName = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}.{$_REQUEST['format']}";
 if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheFileImageName))) {
     $content = file_get_contents($cacheFileImageName);
@@ -41,7 +40,7 @@ if (!empty($_GET['c'])) {
     }
 }
 $livet = LiveTransmition::getFromRequest();
-//header('Content-Type: text/plain');var_dump($livet);exit;
+//header('Content-Type: text/plain');var_dump(Live::isLive($livet['users_id']), $livet);exit;
 if (!empty($_REQUEST['live_schedule']) && !empty($livet['scheduled_time']) && isTimeForFuture($livet['scheduled_time'], $livet['timezone'])) {
     $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule']);
     $uploadedPoster = $array['path'];

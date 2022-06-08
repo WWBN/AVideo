@@ -341,10 +341,10 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $rows;
     }
 
-    public static function isLive($key) {
+    public static function isLive($key, $live_servers_id=0) {
         global $global;
 
-        $row = self::getActiveLiveFromUser(0, '', $key);
+        $row = self::getActiveLiveFromUser(0, $live_servers_id, $key);
         //var_dump($key, $row);exit;
         if (empty($row)) {
             return false;
