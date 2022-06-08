@@ -378,7 +378,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res) {
+        if ($data) {
             $row = $data;
         } else {
             $row = false;
