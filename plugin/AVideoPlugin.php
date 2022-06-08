@@ -590,13 +590,14 @@ class AVideoPlugin
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
+            $dataObject = self::getDataObject($value['dirName']);
 
             if (is_object($p)) {
                 $l = $p->getLogin();
                 if (is_string($l) && file_exists($l)) { // it is a login form
                     $logins[] = $l;
                 } elseif (!empty($l->type)) { // it is a hybridauth
-                    $logins[] = ['parameters' => $l, 'loginObject' => $p, 'dirName' => $value['dirName']];
+                    $logins[] = ['parameters' => $l, 'loginObject' => $p, 'dirName' => $value['dirName'], 'dataObject'=>$dataObject];
                 }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
@@ -1100,7 +1101,7 @@ class AVideoPlugin
     {
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
-        $navBarButtons = "";
+        $navBarButtons = "<!-- Plugin::navBar Start -->";
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
@@ -1109,6 +1110,7 @@ class AVideoPlugin
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
+        $navBarButtons .= "<!-- Plugin::navBar END -->";
         return $navBarButtons;
     }
 
