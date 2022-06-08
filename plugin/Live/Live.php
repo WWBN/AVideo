@@ -2356,7 +2356,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         if (empty($_isLiveFromKey[$index])) {
             _error_log("Live::isLiveFromKey is NOT online [{$key}]");
-            _error_log(debug_backtrace());
+            //_error_log(debug_backtrace());
         } else {
             _error_log("Live::isLiveFromKey is online [{$key}]");
         }
@@ -2390,7 +2390,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $isLiveFromKey = self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate);
             $_isLiveAndIsReadyFromKey[$name] = true;
             if (empty($isLiveFromKey)) {
-                _error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats");
+                _error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id");
                 $_isLiveAndIsReadyFromKey[$name] = false;
             } else {
                 $ls = @$_REQUEST['live_servers_id'];
@@ -3335,7 +3335,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     public static function getInfo($key, $live_servers_id = null, $live_index = '', $playlists_id_live = '') {
-
+        //var_dump($live_servers_id);exit;
         $lso = new LiveStreamObject($key, $live_servers_id, $live_index, $playlists_id_live);
 
         $keyWithIndex = $lso->getKeyWithIndex();
@@ -3385,7 +3385,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($lth['key'], $live_servers_id);
         $isStatsAccessible = self::isStatsAccessible($live_servers_id);
         if (empty($isLiveAndIsReadyFromKey) && $isStatsAccessible) {
-            _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$value['key']}, {$live_servers_id}) [{$lth['id']}]");
+            _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$lth['key']}, {$live_servers_id}) [{$lth['id']}]");
             LiveTransmitionHistory::finishFromTransmitionHistoryId($lth['id']);
             $array['isLive'] = false;
         }else{
