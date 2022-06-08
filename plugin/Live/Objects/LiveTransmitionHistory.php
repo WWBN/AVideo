@@ -374,10 +374,11 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         $sql .= " ORDER BY created DESC LIMIT 1";
         //var_dump($sql, $key);exit;
-        _error_log($sql);
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
+        _error_log($sql);
+        _error_log($data);
         if ($data) {
             $row = $data;
         } else {
