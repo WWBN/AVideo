@@ -3289,7 +3289,11 @@ if (!class_exists('Video')) {
                 make_path(addLastSlash($path));
             }
             $relative = addLastSlash("videos/{$cleanVideoFilename}");
-            $url = getCDN() . "{$relative}";
+            if(preg_match('/\.vtt$/',$relative)){
+                $url = $global['webSiteRootURL'] . "{$relative}";
+            }else{
+                $url = getCDN() . "{$relative}";
+            }
             $__getPaths[$videoFilename] = ['filename' => $cleanVideoFilename, 'path' => $path, 'url' => $url, 'relative' => $relative];
             return $__getPaths[$videoFilename];
         }
