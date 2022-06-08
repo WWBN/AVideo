@@ -1623,7 +1623,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $liveServers = [];
             foreach ($rows as $key => $row) {
                 if (!empty($row['playerServer'])) {
-                    //_error_log('getStats getStats 2: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
+                    _error_log("getStats getStats: self::_getStats ".json_encode($row));
                     $server = self::_getStats($row['id'], $force_recreate);
                     $server->live_servers_id = $row['id'];
                     $server->playerServer = $row['playerServer'];
