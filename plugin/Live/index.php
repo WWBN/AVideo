@@ -27,7 +27,7 @@ if (!empty($_GET['u'])) {
     $livet = LiveTransmition::getFromRequest();
     $live_servers_id = Live::getLiveServersIdRequest();
     $live_index = @$_REQUEST['live_index'];
-
+    //var_dump($live_servers_id);exit;
     $info = Live::getInfo($livet['key'], $live_servers_id, $live_index);
     //var_dump($info);exit;
     if (!$info['isLive'] && empty($info['live_schedule_id'])) {
