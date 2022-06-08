@@ -7006,8 +7006,11 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             unset($json['applications'][$key]);
         }
     }
-
-    $json['countLiveStream'] = count($json['applications']);
+    if(!empty($json['applications']) && is_array($json['applications'])){
+        $json['countLiveStream'] = count($json['applications']);
+    }else{
+        $json['countLiveStream'] = 0;
+    }
     $json['timezone'] = date_default_timezone_get();
     $__getStatsNotifications__ = $json;
     return $json;
