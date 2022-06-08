@@ -6920,16 +6920,19 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
         //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $json = Live::getStats();
         $json = object_to_array($json);
-
+        // make sure all the applications are listed on the same array, even from different live servers
         if (empty($json['applications']) && is_array($json)) {
             $oldjson = $json;
             $json = [];
             $json['applications'] = [];
+            $json['hidden_applications'] = [];
             foreach ($oldjson as $key => $value) {
-                if (empty($value['applications'])) {
-                    continue;
+                if (!empty($value['applications'])) {
+                    $json['applications'] = array_merge($json['applications'], $value['applications']);
+                }                
+                if (!empty($value['hidden_applications'])) {
+                    $json['hidden_applications'] = array_merge($json['hidden_applications'], $value['hidden_applications']);
                 }
-                $json['applications'] = array_merge($json['applications'], $value['applications']);
                 unset($json[$key]);
             }
         }
