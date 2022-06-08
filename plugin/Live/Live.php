@@ -1271,8 +1271,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
             if (!empty($result)) {
                 //_error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "]");
-                $json = _json_decode($result);
-                $global['isStatsAccessible'][$live_servers_id] = !empty($json);
+                $json = _json_decode($result);                
                 return $json;
             }
             _error_log("Live::getStatsObject[$live_servers_id] 4: cache not found");
@@ -1288,7 +1287,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $xml->server->application = [];
             $getStatsObject[$live_servers_id] = $xml;
             ObjectYPT::setCache($name, json_encode($xml));
-            $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
             return $xml;
         }
         if (empty($o->requestStatsTimout)) {
@@ -1339,6 +1337,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $xml = simplexml_load_string($data);
         $getStatsObject[$live_servers_id] = $xml;
         ObjectYPT::setCache($name, json_encode($xml));
+        var_dump(__LINE__, $xml);
         $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
         return $xml;
     }
@@ -1911,7 +1910,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $xml->server->application[] = $application;
             }
             
-            _error_log("_getStats XML ". json_encode($xml->server));
+            //_error_log("_getStats XML ". json_encode($xml->server));
             foreach ($xml->server->application as $key => $application) {
                 //$application = self::cleanUpApplication($application);
                 if ($application->name !== $applicationName && $application->name !== 'adaptive') {
@@ -3345,6 +3344,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     public static function getInfo($key, $live_servers_id = null, $live_index = '', $playlists_id_live = '', $doNotCheckDatabase=true) {
+        global $global;
         //var_dump($live_servers_id);exit;
         $lso = new LiveStreamObject($key, $live_servers_id, $live_index, $playlists_id_live);
 
@@ -3394,6 +3394,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($lth['key'], $live_servers_id);
         $isStatsAccessible = self::isStatsAccessible($live_servers_id);
+        //var_dump('Line: '.__LINE__, 'File: '.__FILE__, $isLiveAndIsReadyFromKey, $isStatsAccessible, $global['isStatsAccessible']);exit;
         if (empty($isLiveAndIsReadyFromKey) && $isStatsAccessible) {
             _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$lth['key']}, {$live_servers_id}) [{$lth['id']}]");
             LiveTransmitionHistory::finishFromTransmitionHistoryId($lth['id']);
