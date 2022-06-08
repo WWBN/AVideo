@@ -2356,6 +2356,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         if (empty($_isLiveFromKey[$index])) {
             _error_log("Live::isLiveFromKey is NOT online [{$key}]");
+            _error_log(debug_backtrace());
         } else {
             _error_log("Live::isLiveFromKey is online [{$key}]");
         }
