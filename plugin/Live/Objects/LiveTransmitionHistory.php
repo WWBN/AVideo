@@ -379,7 +379,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         sqlDAL::close($res);
         _error_log($sql);
         _error_log($data);
-        if ($data) {
+        if (!empty($data)) {
             $row = $data;
         } else {
             $row = false;
@@ -691,7 +691,7 @@ class LiveTransmitionHistory extends ObjectYPT {
                 }
             }
         }else{
-            _error_log("LiveTransmitionHistory::save: active live NOT found ". _json_encode(array($this->key, $this->live_servers_id)));
+            _error_log("LiveTransmitionHistory::save: active live NOT found ". _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
         }
         if(empty($this->id)){
             // if is creating a new make sure all 
