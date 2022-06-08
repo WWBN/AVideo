@@ -20,7 +20,7 @@ if (!empty($_GET['c'])) {
     }
 }
 
-$livet = LiveTransmition::getFromRequest();
+$livet = LiveTransmition::getFromRequest();var_dump($livet);exit;
 setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 Live::checkIfPasswordIsGood($livet['key']);
 
@@ -98,7 +98,7 @@ if (isHTMLEmpty($sideAd)) {
     $modeYoutubeBottomClass2 = "hidden ";
 }
 // to fix the unfinished lives
-$liveInfo = Live::getInfo($livet['key'], $livet['live_servers_id']);
+$liveInfo = Live::getInfo($livet['key'], Live::getLiveServersIdRequest());
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
