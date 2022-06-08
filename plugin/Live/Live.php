@@ -2280,13 +2280,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
             return LiveTransmitionHistory::isLive($key);
         }
 
-
+        _error_log("Live::isLiveFromKey($key, $live_servers_id, $live_index, $force_recreate )");
         //_error_log('getStats execute getStats: ' . __LINE__ . ' ' . __FILE__);
         //$json = getStatsNotifications($force_recreate);
         //_error_log('getStats execute getStats: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
 
         $json = self::getStats($force_recreate);
         //_error_log('Live::isKeyLiveInStats:self::getStats ' . json_encode($json));
+        //var_dump($json);
         $_isLiveFromKey[$index] = false;
         if (!empty($json)) {
             //_error_log("Live::isLiveFromKey {$key} JSON was not empty");
@@ -2324,7 +2325,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                         }
                     }
                 }
-
+                //var_dump($item->hidden_applications);
                 if (!empty($item->hidden_applications)) {
                     $applications = $item->hidden_applications;
                     foreach ($applications as $value) {
@@ -2350,6 +2351,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 }
             }
             _error_log("Live::isLiveFromKey namesFound " . json_encode($namesFound));
+        }else{
+            _error_log("Live::isLiveFromKey Stats respond empty");
         }
         if (empty($_isLiveFromKey[$index])) {
             _error_log("Live::isLiveFromKey is NOT online [{$key}]");
