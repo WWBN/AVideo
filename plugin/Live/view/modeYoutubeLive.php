@@ -20,7 +20,8 @@ if (!empty($_GET['c'])) {
     }
 }
 
-$livet = LiveTransmition::getFromRequest();var_dump($livet);exit;
+$livet = LiveTransmition::getFromRequest();
+//var_dump($livet);exit;
 setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 Live::checkIfPasswordIsGood($livet['key']);
 
