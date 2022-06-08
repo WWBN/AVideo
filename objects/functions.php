@@ -7000,6 +7000,10 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
         $json = object_to_array($json);
     }
 
+    if(empty($json['applications'])){
+        $json['applications'] = array();
+    }
+    
     foreach ($json['applications'] as $key => $value) {
         if (!Live::isApplicationListed(@$value['key'], $listItIfIsAdminOrOwner)) {
             $json['hidden_applications'][] = $value;
