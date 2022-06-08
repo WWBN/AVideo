@@ -199,9 +199,13 @@ getCSSAnimationClassAndStyleAddWait(0.5); ?>">
                 $loginCount++;
                 $uid = uniqid();
                 $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=" . ($_GET['redirectUri'] ?? "");
+                $loginBtnLabel = "<span class=\"{$value['parameters']->icon}\"></span> {$value['parameters']->type}";  
+                if(!empty($value['dataObject']->buttonLabel)){
+                    $loginBtnLabel = $value['dataObject']->buttonLabel; 
+                }
                 ?>
                 <div class="col-md-<?php echo $columSize; ?> <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>" >
-                    <button id="login<?php echo $uid; ?>" class="<?php echo $value['parameters']->class; ?>" ><span class="<?php echo $value['parameters']->icon; ?>"></span> <?php echo $value['parameters']->type; ?></button>
+                    <button id="login<?php echo $uid; ?>" class="<?php echo $value['parameters']->class; ?>" ><?php echo $loginBtnLabel; ?></button>
                 </div>
                 <script>
                     $(document).ready(function () {
