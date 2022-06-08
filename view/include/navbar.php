@@ -70,7 +70,8 @@ if (empty($sidebarStyle)) {
     $sidebarStyle = "display: none;";
 }
 $includeDefaultNavBar = true;
-AVideoPlugin::navBar();
+_ob_start();
+echo AVideoPlugin::navBar();
 if (!$includeDefaultNavBar) {
     return false;
 }
@@ -89,7 +90,6 @@ if (!empty($_GET['avideoIframe'])) { // comes from avideoModalIframe(url) javasc
     <?php
     return false;
 }
-_ob_start();
 ?>
 <link href="<?php echo getURL('view/css/navbar.css'); ?>" rel="stylesheet" type="text/css"/>
 <?php
