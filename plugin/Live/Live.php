@@ -2259,7 +2259,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $_live_is_live[$name];
     }
 
-    public static function isKeyLiveInStats($key, $live_servers_id = 0, $live_index = '', $force_recreate = false) {
+    public static function isKeyLiveInStats($key, $live_servers_id = 0, $live_index = '', $force_recreate = false, $doNotCheckDatabase=true) {
         global $_isLiveFromKey;
         if (empty($key) || $key == '-1') {
             _error_log('Live::isKeyLiveInStats key is empty');
@@ -2277,9 +2277,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         _error_log("Live::isLiveFromKey($key, $live_servers_id, $live_index, $force_recreate )");
         $o = AVideoPlugin::getObjectData("Live");
-        if (empty($o->server_type->value) || !empty($live_servers_id)) {
-            _error_log("Live::isLiveFromKey return LiveTransmitionHistory::isLive($key)");
-            return LiveTransmitionHistory::isLive($key, $live_servers_id);
+        if($doNotCheckDatabase){
+            if (empty($o->server_type->value) || !empty($live_servers_id)) {
+                _error_log("Live::isLiveFromKey return LiveTransmitionHistory::isLive($key, $live_servers_id)");
+                return LiveTransmitionHistory::isLive($key, $live_servers_id);
+            }
         }
 
         _error_log("Live::isLiveFromKey($key, $live_servers_id, $live_index, $force_recreate )");
@@ -3336,7 +3338,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return false;
     }
 
-    public static function getInfo($key, $live_servers_id = null, $live_index = '', $playlists_id_live = '') {
+    public static function getInfo($key, $live_servers_id = null, $live_index = '', $playlists_id_live = '', $doNotCheckDatabase=true) {
         //var_dump($live_servers_id);exit;
         $lso = new LiveStreamObject($key, $live_servers_id, $live_index, $playlists_id_live);
 
@@ -3403,7 +3405,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $array['startedHumanAgo'] = __('Started') . ' ' . humanTimingAgo($lth['created']);
 
         if (!empty($lth['finished'])) {
-            $isKeyLiveInStats = self::isKeyLiveInStats($key, $live_servers_id, $live_index);
+            $isKeyLiveInStats = self::isKeyLiveInStats($key, $live_servers_id, $live_index, false, $doNotCheckDatabase);
             if (empty($isKeyLiveInStats)) {
                 $array['isLive'] = false;
                 $array['isFinished'] = true;
