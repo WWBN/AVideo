@@ -396,7 +396,8 @@ class LiveTransmitionHistory extends ObjectYPT {
     }
 
     public static function finishFromTransmitionHistoryId($live_transmitions_history_id) {
-        global $global;var_dump(debug_backtrace());exit;
+        global $global;
+        //var_dump(debug_backtrace());exit;
         $live_transmitions_history_id = intval($live_transmitions_history_id);
         if (empty($live_transmitions_history_id)) {
             return false;
