@@ -1623,7 +1623,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $liveServers = [];
             foreach ($rows as $key => $row) {
                 if (!empty($row['playerServer'])) {
-                    _error_log("getStats getStats: self::_getStats ".json_encode($row));
+                    //_error_log("getStats getStats: self::_getStats ".json_encode($row));
                     $server = self::_getStats($row['id'], $force_recreate);
                     $server->live_servers_id = $row['id'];
                     $server->playerServer = $row['playerServer'];
@@ -1910,6 +1910,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $xml->server->application = [];
                 $xml->server->application[] = $application;
             }
+            
+            _error_log("_getStats XML ". json_encode($xml->server));
             foreach ($xml->server->application as $key => $application) {
                 //$application = self::cleanUpApplication($application);
                 if ($application->name !== $applicationName && $application->name !== 'adaptive') {
@@ -1936,6 +1938,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     }
                 }
             }
+            
         }
         $obj->disableGif = $p->getDisableGifThumbs();
 
