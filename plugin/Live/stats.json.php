@@ -34,6 +34,7 @@ $json = object_to_array($json);
 // check if application is online
 if (!empty($_REQUEST['name'])) {
     $json['msg'] = 'OFFLINE';
+    $json['name'] = $_REQUEST['name'];
     if (!empty($json['applications'])) {
         foreach ($json['applications'] as $value) {
             if (!empty($value['key']) && $value['key'] == $_REQUEST['name']) {
