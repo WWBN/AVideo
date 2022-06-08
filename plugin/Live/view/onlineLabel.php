@@ -202,9 +202,6 @@ if (isMobile()) {
             data: {"name": "<?php echo $streamName; ?>"},
             type: 'post',
             success: function (response) {
-                if (avideoSocketIsActive()) {
-                    return false;
-                }
                 if (response.name == "<?php echo $streamName; ?>") {
                     if (response.msg === "ONLINE") {
                         isOnlineLabel = true;
@@ -219,9 +216,12 @@ if (isMobile()) {
                     $('.onlineApplications').text($('#availableLiveStream > div').length);
                     timeout = 15000;
                 }
-                setTimeout(function () {
-                    getStats<?php echo $liveViewStatusID; ?>();
-                }, timeout);
+                
+                if (!avideoSocketIsActive()) {
+                    setTimeout(function () {
+                        getStats<?php echo $liveViewStatusID; ?>();
+                    }, timeout);
+                }
             }
         });
     }
