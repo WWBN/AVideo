@@ -17,7 +17,7 @@ $rows = [];
 if ($res != false) {
     foreach ($fullData as $key => $row) {
         if ($row['total'] > 1) {
-            echo "Process user_id = {$row['users_id']} favorite\n";
+            echo "Process user_id = {$row['users_id']} total={$row['total']} favorite\n";
             ob_flush();
             $sql2 = "SELECT * FROM  playlists WHERE users_id = {$row['users_id']} AND status = 'favorite' ORDER BY modified ";
             $res2 = sqlDAL::readSql($sql2);
