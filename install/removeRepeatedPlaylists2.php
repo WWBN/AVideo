@@ -31,7 +31,7 @@ if ($res != false) {
                         $sql3 = "DELETE FROM playlists ";
                         echo $sql3. " = {$row2['id']}; users_id = {{$row2['users_id']}}".PHP_EOL;
                         $sql3 .= " WHERE id = ?";
-                        //sqlDAL::writeSql($sql3, "i", [$row2['id']]);
+                        sqlDAL::writeSql($sql3, "i", [$row2['id']]);
                     }
                 }
             } else {
