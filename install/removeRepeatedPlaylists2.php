@@ -29,7 +29,7 @@ if ($res != false) {
                 foreach ($fullData2 as $key2 => $row2) {
                     if ($key2 !== $totalRows-1) {
                         $sql3 = "DELETE FROM playlists ";
-                        echo $sql3. " = {$row2['id']}; users_id = {{$row2['id']}}".PHP_EOL;
+                        echo $sql3. " = {$row2['id']}; users_id = {{$row2['users_id']}}".PHP_EOL;
                         $sql3 .= " WHERE id = ?";
                         //sqlDAL::writeSql($sql3, "i", [$row2['id']]);
                     }
