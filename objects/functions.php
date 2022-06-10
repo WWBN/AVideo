@@ -1389,9 +1389,9 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             } elseif (in_array($parts['extension'], $image) || preg_match('/^(gif|jpg|webp|png|jpeg)/i', $parts['extension'])) {
                 $type = 'image';
                 if (!preg_match('/(thumb|roku)/', $resolution)) {
-                    if(preg_match("/{$cleanfilename}_([0-9]+).jpg/", $source['url'], $matches)){
-                        $resolution = '_'.intval($matches[1]);
-                    }else{
+                    if (preg_match("/{$cleanfilename}_([0-9]+).jpg/", $source['url'], $matches)) {
+                        $resolution = '_' . intval($matches[1]);
+                    } else {
                         $resolution = '';
                     }
                 }
@@ -3217,7 +3217,7 @@ function object_to_array($obj) {
 function allowOrigin() {
     global $global;
     cleanUpAccessControlHeader();
-    $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN'])?$_SERVER['HTTP_REFERER']:$_SERVER['HTTP_ORIGIN'];
+    $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
     if (empty($HTTP_ORIGIN)) {
         $server = parse_url($global['webSiteRootURL']);
         header('Access-Control-Allow-Origin: ' . $server["scheme"] . '://imasdk.googleapis.com');
@@ -3941,7 +3941,7 @@ function _mysql_connect($persistent = false) {
         if (!_mysql_is_open()) {
             //_error_log('MySQL Connect '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
-            $global['mysqli'] = new mysqli(($persistent ? 'p:' : '').$mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
+            $global['mysqli'] = new mysqli(($persistent ? 'p:' : '') . $mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
             if (isCommandLineInterface() && !empty($global['createDatabase'])) {
                 $createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
                 _error_log($createSQL);
@@ -6929,7 +6929,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             foreach ($oldjson as $key => $value) {
                 if (!empty($value['applications'])) {
                     $json['applications'] = array_merge($json['applications'], $value['applications']);
-                }                
+                }
                 if (!empty($value['hidden_applications'])) {
                     $json['hidden_applications'] = array_merge($json['hidden_applications'], $value['hidden_applications']);
                 }
@@ -7000,19 +7000,19 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
         $json = object_to_array($json);
     }
 
-    if(empty($json['applications'])){
+    if (empty($json['applications'])) {
         $json['applications'] = array();
     }
-    
+
     foreach ($json['applications'] as $key => $value) {
         if (!Live::isApplicationListed(@$value['key'], $listItIfIsAdminOrOwner)) {
             $json['hidden_applications'][] = $value;
             unset($json['applications'][$key]);
         }
     }
-    if(!empty($json['applications']) && is_array($json['applications'])){
+    if (!empty($json['applications']) && is_array($json['applications'])) {
         $json['countLiveStream'] = count($json['applications']);
-    }else{
+    } else {
         $json['countLiveStream'] = 0;
     }
     $json['timezone'] = date_default_timezone_get();
@@ -7249,11 +7249,11 @@ function getDatabaseTimezoneName() {
     } else {
         $_getDatabaseTimezoneName = false;
     }
-    
-    if($_getDatabaseTimezoneName=='PDT'){
+
+    if ($_getDatabaseTimezoneName == 'PDT') {
         $_getDatabaseTimezoneName = 'America/Los_Angeles';
     }
-    
+
     return $_getDatabaseTimezoneName;
 }
 
@@ -8288,7 +8288,7 @@ function getHamburgerButton($id = '', $type = 0, $parameters = 'class="btn btn-d
     if ($type === 'x') {
         $XOptions = array(1, 4, 6, 7, 8);
         $type = $XOptions[rand(0, 4)];
-    }else if($type === '<-'){
+    } else if ($type === '<-') {
         $XOptions = array(2, 5);
         $type = $XOptions[rand(0, 1)];
     }
@@ -8303,10 +8303,66 @@ function getHamburgerButton($id = '', $type = 0, $parameters = 'class="btn btn-d
     return getIncludeFileContent($filePath, array('type' => $type, 'id' => $id, 'parameters' => $parameters, 'startActive' => $startActive, 'invert' => $invert));
 }
 
-function getUserOnlineLabel($users_id, $class='', $style=''){
-    if(AVideoPlugin::isEnabledByName('YPTSocket')){
+function getUserOnlineLabel($users_id, $class = '', $style = '') {
+    if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         return YPTSocket::getUserOnlineLabel($users_id, $class, $style);
-    }else{
+    } else {
         return '';
     }
+}
+
+function sendToEncoder($videos_id, $downloadURL) {
+    global $config;
+    
+    $video = Video::getVideoLight($videos_id);
+    
+    $user = new User($video['users_id']);
+    
+    if (!$user->canUpload()) {
+        return false;
+    }
+    global $global;
+    $obj = new stdClass();
+    $obj->error = true;
+
+    $target = $config->getEncoderURL() . "queue";
+    $postFields = [
+        'user' => $user->getUser(),
+        'pass' => $user->getPassword(),
+        'fileURI' => $downloadURL,
+        'filename' => $video['filename'],
+        'videos_id' => $videos_id,
+        'notifyURL' => $global['webSiteRootURL'],
+    ];
+
+    if (empty($types) && AVideoPlugin::isEnabledByName("VideoHLS")) {
+        $postFields['inputAutoHLS'] = 1;
+    } elseif (!empty($types)) {
+        foreach ($types as $key => $value) {
+            $postFields[$key] = $value;
+        }
+    }
+
+    _error_log("SEND To QUEUE: ($target) " . json_encode($postFields));
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $target);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POST, 1);
+    curl_setopt($curl, CURLOPT_SAFE_UPLOAD, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    $r = curl_exec($curl);
+    $obj->response = $r;
+    if ($errno = curl_errno($curl)) {
+        $error_message = curl_strerror($errno);
+        //echo "cURL error ({$errno}):\n {$error_message}";
+        $obj->msg = "cURL error ({$errno}):\n {$error_message}";
+    } else {
+        $obj->error = false;
+    }
+    _error_log("QUEUE CURL: ($target) " . json_encode($obj));
+    curl_close($curl);
+    Configuration::deleteEncoderURLCache();
+    return $obj;
 }
