@@ -1510,8 +1510,8 @@ function getSources($fileName, $returnArray = false, $try = 0) {
             return $sources;
         } else {
             _error_log("getSources($fileName) File not found " . json_encode($video));
-            if(!is_array($sources)){
-                var_dump($sources);exit;
+            if(empty($sources)){
+                $sources = array();
             }
             $obj = new stdClass();
             $obj->type = "video/mp4";
