@@ -281,7 +281,7 @@ while($hasNewContent){
                     
                     if(!empty($value->videos->m3u8)){
                         _error_log("importVideo m3u8: {$value->videos->m3u8->url_noCDN} APIURL = $APIURL");                
-                        sendToEncoder($id, $value->videos->m3u8->url_noCDN);
+                        sendToEncoder($id, $value->videos->m3u8->url);
                         $video->setStatus(Video::$statusEncoding);
                         $video->save(false, true);
                     }
