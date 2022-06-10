@@ -8321,6 +8321,7 @@ function sendToEncoder($videos_id, $downloadURL) {
     $user = new User($video['users_id']);
     
     if (!$user->canUpload()) {
+        __error_log("sendToEncoder($videos_id, $downloadURL) user cannot upload");
         return false;
     }
     global $global;
@@ -8345,7 +8346,7 @@ function sendToEncoder($videos_id, $downloadURL) {
         }
     }
 
-    _error_log("SEND To QUEUE: ($target) " . json_encode($postFields));
+    _error_log("sendToEncoder: SEND To QUEUE: ($target) " . json_encode($postFields));
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $target);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -8363,7 +8364,7 @@ function sendToEncoder($videos_id, $downloadURL) {
     } else {
         $obj->error = false;
     }
-    _error_log("QUEUE CURL: ($target) " . json_encode($obj));
+    _error_log("sendToEncoder: QUEUE CURL: ($target) " . json_encode($obj));
     curl_close($curl);
     Configuration::deleteEncoderURLCache();
     return $obj;
