@@ -8313,14 +8313,14 @@ function getUserOnlineLabel($users_id, $class = '', $style = '') {
     }
 }
 
-function sendToEncoder($videos_id, $downloadURL) {
+function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload=false) {
     global $config;
     _error_log("sendToEncoder($videos_id, $downloadURL) start");
     $video = Video::getVideoLight($videos_id);
     
     $user = new User($video['users_id']);
     
-    if (!$user->getCanUpload()) {
+    if ($checkIfUserCanUpload && !$user->getCanUpload()) {
         _error_log("sendToEncoder:  user cannot upload users_id={$video['users_id']}=".$user->getBdId());
         return false;
     }
