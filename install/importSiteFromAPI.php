@@ -193,7 +193,7 @@ while($hasNewContent){
             }
         }else{
             _error_log("importUsers: JSON ERROR ". json_last_error_msg());
-            exit;
+            //exit;
             _error_log("importUsers: JSON ERROR {$content} ");
         }
     }else{ 
