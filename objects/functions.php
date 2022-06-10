@@ -8333,6 +8333,7 @@ function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload=false) {
         'user' => $user->getUser(),
         'pass' => $user->getPassword(),
         'fileURI' => $downloadURL,
+        'videoDownloadedLink' => $downloadURL,
         'filename' => $video['filename'],
         'videos_id' => $videos_id,
         'notifyURL' => $global['webSiteRootURL'],
