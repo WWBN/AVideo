@@ -8320,8 +8320,8 @@ function sendToEncoder($videos_id, $downloadURL) {
     
     $user = new User($video['users_id']);
     
-    if (!$user->canUpload()) {
-        _error_log("sendToEncoder:  user cannot upload");
+    if (!$user->getCanUpload()) {
+        _error_log("sendToEncoder:  user cannot upload users_id={$video['users_id']}=".$user->getBdId());
         return false;
     }
     global $global;
