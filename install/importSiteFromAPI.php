@@ -41,6 +41,7 @@ $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
 
 $siteURL = trim(@$argv[1]);
 $APISecret = trim(@$argv[2]);
+$type = trim(@$argv[3]);
 
 if(empty($siteURL) || !isValidURL($siteURL)){
     echo 'Enter a valid URL';
@@ -57,7 +58,7 @@ $current = 1;
 $hasNewContent = true;
 
 _error_log("importSite: start {$siteURL}");
-
+if($type !== 'm3u8'){
 // get categories
 while($hasNewContent){
     $APIURL = "{$siteURL}plugin/API/get.json.php?APIName=category&rowCount={$rowCount}&current={$current}&APISecret={$APISecret}";
@@ -201,7 +202,7 @@ while($hasNewContent){
     }
     
 }
-
+}
 $current = 1;
 $hasNewContent = true;
 
@@ -222,6 +223,12 @@ while($hasNewContent){
             _error_log("importVideo: JSON SUCCESS totalRows={$json->response->totalRows}");
             $hasNewContent = true;
             foreach ($json->response->rows as $key => $value) {
+                
+                if($type=='m3u8'){
+                    if(empty($value->videos->m3u8)){
+                        continue;
+                    }
+                }
                 
                 $videos_id = 0;
                 
