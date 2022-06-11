@@ -286,14 +286,19 @@ while($hasNewContent){
                         download($value->videos->mp3, $value->filename, $path);
                     }
                     
+                    $video->setStatus(Video::$statusActive);
                     if(!empty($value->videos->m3u8)){
-                        _error_log("importVideo m3u8: {$value->videos->m3u8->url_noCDN} APIURL = $APIURL");                
-                        sendToEncoder($id, $value->videos->m3u8->url);
-                        $video->setStatus(Video::$statusEncoding);
-                        $video->save(false, true);
+                        $size = getDirSize($path);   
+                        if($size < 10000){      
+                            _error_log("importVideo m3u8: {$value->videos->m3u8->url} APIURL = $APIURL ($size) ". humanFileSize($size));          
+                            sendToEncoder($id, $value->videos->m3u8->url);
+                            $video->setStatus(Video::$statusEncoding);
+                        }else{
+                            _error_log("importVideo m3u8 NOT SEND: ($size) ". humanFileSize($size));  
+                        }
+
                     }
                     
-                    $video->setStatus(Video::$statusActive);
                 }else{
                     _error_log("importVideo: ERROR Video NOT saved");
                     $video->setStatus(Video::$statusBrokenMissingFiles);
