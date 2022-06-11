@@ -289,7 +289,7 @@ while($hasNewContent){
                     $video->setStatus(Video::$statusActive);
                     if(!empty($value->videos->m3u8)){
                         $size = getDirSize($path);   
-                        if($size < 10000){      
+                        if($size < 10000000){      
                             _error_log("importVideo m3u8: {$value->videos->m3u8->url} APIURL = $APIURL ($size) ". humanFileSize($size));          
                             sendToEncoder($id, $value->videos->m3u8->url);
                             $video->setStatus(Video::$statusEncoding);
