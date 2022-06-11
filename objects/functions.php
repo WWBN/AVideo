@@ -2004,11 +2004,13 @@ function unzipDirectory($filename, $destination) {
                     make_path($path);
                     try {
                         $fp = fopen($path, "w");
-                        if (zip_entry_open($zip, $zip_entry, "r")) {
+                        if (is_resource($fp) && zip_entry_open($zip, $zip_entry, "r")) {
                             $buf = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
                             fwrite($fp, "$buf");
                             zip_entry_close($zip_entry);
                             fclose($fp);
+                        }else{
+                            _error_log('unzipDirectory could not open '.$path);
                         }
                     } catch (Exception $exc) {
                         _error_log($exc->getMessage());
