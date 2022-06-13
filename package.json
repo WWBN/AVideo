@@ -2,7 +2,7 @@
   "dependencies": {
     "animate.css": "^4.1.1",
     "chart.js": "^3.8.0",
-    "codemirror": "^5.65.5",
+    "codemirror": "^6.0.0",
     "croppie": "^2.6.5",
     "dom-walk": "^0.1.2",
     "fontawesome-free": "^1.0.4",
@@ -18,7 +18,7 @@
     "video.js": "^7.19.2",
     "videojs-contrib-ads": "^6.9.0",
     "videojs-font": "^3.2.0",
-    "videojs-ima": "^2.0.0",
+    "videojs-ima": "^2.0.1",
     "wow.js": "^1.2.2"
   }
 }
