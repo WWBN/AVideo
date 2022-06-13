@@ -201,8 +201,15 @@ class Scheduler extends PluginAbstract {
         global $global,$config;        
         //var_dump(date_default_timezone_get());exit;
         header('Content-Type: text/calendar; charset=utf-8');
-        header('Content-Disposition: attachment; filename=invite.ics');
-
+        if(empty($_REQUEST['open'])){
+            $ContentDisposition = 'attachment';
+        }else{
+            $ContentDisposition = 'inline';
+        }
+        
+        $filename = cleanURLName("{$title}-{$date_start}");
+        
+        header("Content-Disposition: {$ContentDisposition}; filename={$filename}.ics");
         $location = $config->getWebSiteTitle();
         if(!isValidURL($joinURL)){
             $joinURL = $global['webSiteRootURL'];
@@ -239,7 +246,10 @@ class Scheduler extends PluginAbstract {
         );
         $ics = new ICS($props);
         //var_dump($props);
-        echo $ics->to_string();
+        $icsString = $ics->to_string();
+        
+        header('content-length: '. strlen($icsString));
+        echo $icsString;
     }
 
 }

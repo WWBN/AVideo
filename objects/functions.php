@@ -1997,6 +1997,7 @@ function unzipDirectory($filename, $destination) {
         if ($zip) {
             while ($zip_entry = zip_read($zip)) {
                 $path = "{$destination}/" . zip_entry_name($zip_entry);
+                $path = str_replace('//', '/', $path);
                 //_error_log("unzipDirectory: fopen $path");
                 if (substr(zip_entry_name($zip_entry), -1) == '/') {
                     make_path($path);

@@ -10,6 +10,16 @@ $md5DestinationURL = md5($destinationURL);
         $ics = addQueryStringParameter($ics, 'date_end', $date_end);
         $ics = addQueryStringParameter($ics, 'joinURL', $joinURL);
         $ics = addQueryStringParameter($ics, 'description', $description);
+        //$ics = str_replace('https://','webcal://', $ics);
+        //$ics = str_replace('http://','webcal://', $ics);
+        //$ics = htmlentities($ics);
+        $icsURL = addQueryStringParameter($ics, 'reminder', 0);
+        $icsURL = addQueryStringParameter($ics, 'open', 1);
+        ?>
+        <li class="list-group-item">
+            <a href="<?php echo $icsURL; ?>" class="btn btn-default btn-block"><i class="fas fa-calendar-check"></i> <?php echo __('Add to calendar'); ?></a> 
+        </li>
+        <?php
         foreach ($earlierOptions as $key => $value) {
             $checked = '';
             if (in_array($value, $selectedEarlierOptions)) {

@@ -75,19 +75,19 @@ try {
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
-if(urlParams.has('debug')){
+if (urlParams.has('debug')) {
     isDebuging = false;
 }
 
-function consolelog(){
-    if(isDebuging){
+function consolelog() {
+    if (isDebuging) {
         for (var item in arguments) {
             console.log(arguments[item]);
         }
     }
 }
 
-function consoleLog(){
+function consoleLog() {
     return consolelog();
 }
 
@@ -1927,8 +1927,8 @@ function convertDBDateToLocal(dbDateString) {
         console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
-    
-    dbDateString = $.trim(dbDateString.replace(/[^ 0-9:-]/g,''));
+
+    dbDateString = $.trim(dbDateString.replace(/[^ 0-9:-]/g, ''));
     var m;
     if (!_serverDBTimezone) {
         getServerTime();
@@ -1938,10 +1938,10 @@ function convertDBDateToLocal(dbDateString) {
         _serverDBTimezone = $.trim(_serverDBTimezone);
         //m = moment(dbDateString).tz(_serverDBTimezone);
         //m = moment.tz(dbDateString, _serverDBTimezone);
-        m = moment.tz(dbDateString,_serverDBTimezone).local();
+        m = moment.tz(dbDateString, _serverDBTimezone).local();
     }
     var fromNow = m.fromNow();
-    consolelog('convertDBDateToLocal' , dbDateString, _serverDBTimezone, fromNow);
+    consolelog('convertDBDateToLocal', dbDateString, _serverDBTimezone, fromNow);
     return fromNow;
 }
 
@@ -1950,9 +1950,9 @@ function convertDateFromTimezoneToLocal(dbDateString, timezone) {
         console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
-    dbDateString = $.trim(dbDateString.replace(/[^ 0-9:-]/g,''));
+    dbDateString = $.trim(dbDateString.replace(/[^ 0-9:-]/g, ''));
     timezone = $.trim(timezone);
-    var m = moment.tz(dbDateString,timezone).local();
+    var m = moment.tz(dbDateString, timezone).local();
     return m.format("YYYY-MM-DD HH:mm:ss");
 }
 
@@ -2181,6 +2181,68 @@ function goToURLOrAlertError(jsonURL, data) {
     });
 }
 
+function downloadURL(url, filename) {
+    avideoToastInfo('Download start');
+    var loaded = 0;
+    var contentLength = 0;
+    fetch(url)
+            .then(response => {
+                avideoToastSuccess('Download Start');
+                const contentEncoding = response.headers.get('content-encoding');
+                const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
+                if (contentLength === null) {
+                    throw Error('Response size header unavailable');
+                }
+
+                const total = parseInt(contentLength, 10);
+                let loaded = 0;
+                return new Response(
+                        new ReadableStream({
+                            start(controller) {
+                                const reader = response.body.getReader();
+                                read();
+                                function read() {
+                                    reader.read().then(({done, value}) => {
+                                        if (done) {
+                                            controller.close();
+                                            return;
+                                        }
+                                        loaded += value.byteLength;
+                                        var percentageLoaded = Math.round(loaded / total * 100);
+                                        //console.log(percentageLoaded);
+                                        modal.setProgress(percentageLoaded);
+                                        modal.setText('Downloading ... ' + percentageLoaded + '%');
+                                        controller.enqueue(value);
+                                        read();
+                                    }).catch(error => {
+                                        console.error(error);
+                                        controller.error(error)
+                                    })
+                                }
+                            }
+                        })
+                        );
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                // the filename you want
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                modal.hidePleaseWait();
+                avideoToastSuccess('Download complete');
+            })
+            .catch(function (err) {
+                avideoAlertError('Error on download ');
+                console.log(err)
+            });
+}
+
 function downloadURLOrAlertError(jsonURL, data, filename) {
     modal.showPleaseWait();
     avideoToastInfo('Converting');
@@ -2199,65 +2261,7 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
                 if (isMobile()) {
                     document.location = response.url
                 } else {
-                    avideoToastInfo('Download start');
-                    var loaded = 0;
-                    var contentLength = 0;
-                    fetch(response.url)
-                            .then(response => {
-                                avideoToastSuccess('Download Start');
-                                const contentEncoding = response.headers.get('content-encoding');
-                                const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
-                                if (contentLength === null) {
-                                    throw Error('Response size header unavailable');
-                                }
-
-                                const total = parseInt(contentLength, 10);
-                                let loaded = 0;
-                                return new Response(
-                                        new ReadableStream({
-                                            start(controller) {
-                                                const reader = response.body.getReader();
-                                                read();
-                                                function read() {
-                                                    reader.read().then(({done, value}) => {
-                                                        if (done) {
-                                                            controller.close();
-                                                            return;
-                                                        }
-                                                        loaded += value.byteLength;
-                                                        var percentageLoaded = Math.round(loaded / total * 100);
-                                                        //console.log(percentageLoaded);
-                                                        modal.setProgress(percentageLoaded);
-                                                        modal.setText('Downloading ... ' + percentageLoaded + '%');
-                                                        controller.enqueue(value);
-                                                        read();
-                                                    }).catch(error => {
-                                                        console.error(error);
-                                                        controller.error(error)
-                                                    })
-                                                }
-                                            }
-                                        })
-                                        );
-                            })
-                            .then(response => response.blob())
-                            .then(blob => {
-                                const url = window.URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.style.display = 'none';
-                                a.href = url;
-                                // the filename you want
-                                a.download = filename;
-                                document.body.appendChild(a);
-                                a.click();
-                                window.URL.revokeObjectURL(url);
-                                modal.hidePleaseWait();
-                                avideoToastSuccess('Download complete');
-                            })
-                            .catch(function (err) {
-                                avideoAlertError('Error on download ');
-                                console.log(err)
-                            });
+                    downloadURL(response.url, filename);
                 }
             } else {
                 avideoResponse(response);
