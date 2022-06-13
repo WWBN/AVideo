@@ -17,7 +17,7 @@ $md5DestinationURL = md5($destinationURL);
         $icsURL = addQueryStringParameter($ics, 'open', 1);
         ?>
         <li class="list-group-item">
-            <a href="<?php echo $icsURL; ?>" class="btn btn-default btn-block"><i class="fas fa-calendar-check"></i> <?php echo __('Add to calendar'); ?></a> 
+            <a href="<?php echo $icsURL; ?>" class="btn btn-default btn-block"><i class="fas fa-calendar-check"></i> <?php echo __('Download reminder'); ?></a> 
         </li>
         <?php
         foreach ($earlierOptions as $key => $value) {
@@ -25,10 +25,13 @@ $md5DestinationURL = md5($destinationURL);
             if (in_array($value, $selectedEarlierOptions)) {
                 $checked = 'checked';
             }
-            $icsURL = addQueryStringParameter($ics, 'reminder', $value);
+            //$icsURL = addQueryStringParameter($ics, 'reminder', $value);
             ?>
-            <li class="list-group-item">
-                <a href="<?php echo $icsURL; ?>"><i class="fas fa-file-download" data-toggle="tooltip" title="<?php echo __('Download reminder'); ?>"></i></a> <?php echo __($key); ?>
+            <li class="list-group-item clearfix">
+                <!--
+                <a href="<?php echo $icsURL; ?>"><i class="fas fa-file-download" data-toggle="tooltip" title="<?php echo __('Download reminder'); ?>"></i></a> 
+                -->
+                <?php echo __($key); ?>
                 <div class="material-switch pull-right">
                     <input name="reminder<?php echo $value; ?>" id="reminder<?php echo $value; ?>" type="checkbox" value="<?php echo $value; ?>" class="reminder" <?php echo $checked; ?>>
                     <label for="reminder<?php echo $value; ?>" class="label-success"></label>
