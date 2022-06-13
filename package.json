@@ -18,7 +18,7 @@
     "video.js": "^7.19.2",
     "videojs-contrib-ads": "^6.9.0",
     "videojs-font": "^3.2.0",
-    "videojs-ima": "^2.0.0",
+    "videojs-ima": "^2.0.1",
     "wow.js": "^1.2.2"
   }
 }
