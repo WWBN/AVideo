@@ -95,8 +95,7 @@ class ADs extends PluginAbstract
         return file_get_contents($fileAPIName);
     }
 
-    public function getHeadCode()
-    {
+    public function getHeadCode(){
         $head = "";
         //$head .= "<script> var adsbygoogleTimeout = []; </script>";
         if (!empty($_GET['abkw'])) {
@@ -196,6 +195,9 @@ class ADs extends PluginAbstract
     public static function getAds($type)
     {
         global $global;
+        if(isBot()){
+            return false;
+        }
         $paths = self::getAdsPath($type);
 
         if (empty($paths)) {
