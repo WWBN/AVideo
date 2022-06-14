@@ -1362,6 +1362,9 @@ class AVideoPlugin
     public static function showAds($videos_id)
     {
         global $_showAds;
+        if(isBot()){
+            return false;
+        }
         if (!isset($_showAds)) {
             $_showAds = [];
         }
