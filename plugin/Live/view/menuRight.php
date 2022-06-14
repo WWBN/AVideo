@@ -49,7 +49,7 @@ if (empty($obj->hideTopButton)) {
             overflow: hidden;
         }
     </style>
-    <li class="dropdown" onclick="setTimeout(function () {
+    <li class="dropdown" id="TopLiveNotificationButton" onclick="setTimeout(function () {
                 lazyImage();
             }, 500);
             setTimeout(function () {
