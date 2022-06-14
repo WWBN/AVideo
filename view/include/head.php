@@ -206,7 +206,9 @@ if (!$config->getDisable_analytics()) {
     </script>
     <?php
 }
-echo $config->getHead();
+if(!isBot()){
+    echo $config->getHead();
+}
 echo $head;
 if (!empty($video)) {
     if (!empty($video['users_id'])) {
