@@ -156,6 +156,8 @@ if (!empty($_REQUEST['duration'])) {
     $duration = $video->getDuration();
     if (empty($duration) || $duration === 'EE:EE:EE') {
         $video->setDuration($_REQUEST['duration']);
+    }else if($_REQUEST['duration']!=='EE:EE:EE'){
+        $video->setDuration($_REQUEST['duration']);
     }
 }
 
