@@ -119,7 +119,9 @@ $socketMessage['live_servers_id'] = $_REQUEST['live_servers_id'];
 
 if (!empty($result) && !Live::isDefaultImage($result)) {
     file_put_contents($cacheFileImageName, $result);
-    im_resizeV2($cacheFileImageName, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
+    if(!file_exists($cacheFileImageNameResized)){
+        im_resizeV2($cacheFileImageName, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
+    }
     echo file_get_contents($cacheFileImageNameResized);
 } else {
     $socketMessage['key'] = $uuid;
