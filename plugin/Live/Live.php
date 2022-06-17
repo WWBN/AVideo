@@ -2295,7 +2295,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         //_error_log('getStats execute getStats: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
         
         $json = self::getStats($force_recreate);
-        _error_log("Live::isKeyLiveInStats:self::getStats " . json_encode($json));
+        //_error_log("Live::isKeyLiveInStats:self::getStats " . json_encode($json));
         //var_dump($json);
         $_isLiveFromKey[$index] = false;
         if (!empty($json)) {

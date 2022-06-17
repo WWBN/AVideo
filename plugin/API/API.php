@@ -1473,8 +1473,13 @@ class API extends PluginAbstract {
                 $meets[$key] = cleanUpRowFromDatabase($value);
                 $meets[$key]['RoomPassword'] = $RoomPassword;
             }
-
-            return new ApiObject('', false, $meets);
+            if(empty($meets)){
+                $message = _('You do not have any meetings available. you should set one first');
+            }else{
+                $message = '';
+            }
+            //var_dump($meets);
+            return new ApiObject($message, false, $meets);
         } else {
             return new ApiObject("Meet Plugin disabled");
         }
