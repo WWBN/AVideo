@@ -23,12 +23,18 @@ if (empty($_REQUEST['format'])) {
 
 $f = md5(@$_REQUEST['u'] . @$_REQUEST['live_servers_id'] . @$_REQUEST['live_index']);
 $cacheFileImageName = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}.{$_REQUEST['format']}";
+$cacheFileImageNameResized = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}_{$facebookSizeRecomendationW}X{$facebookSizeRecomendationH}.{$_REQUEST['format']}";
 if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheFileImageName))) {
-    $content = file_get_contents($cacheFileImageName);
+    if(!file_exists($cacheFileImageNameResized)){
+        im_resizeV2($cacheFileImageName, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
+    }
+    $content = file_get_contents($cacheFileImageNameResized);
     if (!empty($content)) {
         echo $content;
         exit;
     }
+}else{
+    unlink($cacheFileImageNameResized);
 }
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
@@ -47,7 +53,10 @@ if (!empty($_REQUEST['live_schedule']) && !empty($livet['scheduled_time']) && is
     $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule']);
     $uploadedPoster = $array['path'];
     header('Content-Type: image/jpg');
-    echo file_get_contents($uploadedPoster);
+    if(!file_exists($cacheFileImageNameResized)){
+        im_resizeV2($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
+    }
+    echo file_get_contents($cacheFileImageNameResized);
     _error_log('getImage: live does not start yet');
     exit;
 }
@@ -83,7 +92,10 @@ if (Live::isLiveThumbsDisabled()) {
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
     if (file_exists($uploadedPoster) && !is_dir($uploadedPoster)) {
         header('Content-Type: image/jpg');
-        echo file_get_contents($uploadedPoster);
+        if(!file_exists($cacheFileImageNameResized)){
+            im_resizeV2($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
+        }
+        echo file_get_contents($cacheFileImageNameResized);
         exit;
     }
 }
@@ -107,7 +119,8 @@ $socketMessage['live_servers_id'] = $_REQUEST['live_servers_id'];
 
 if (!empty($result) && !Live::isDefaultImage($result)) {
     file_put_contents($cacheFileImageName, $result);
-    echo $result;
+    im_resizeV2($cacheFileImageName, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
+    echo file_get_contents($cacheFileImageNameResized);
 } else {
     $socketMessage['key'] = $uuid;
     $socketMessage['autoEvalCodeOnHTML'] = "if(typeof refreshGetLiveImage == 'function'){refreshGetLiveImage('.live_{$socketMessage['live_servers_id']}_{$socketMessage['key']}');}";
@@ -131,7 +144,10 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     $content = url_get_contents($url, '', 2);
 
     if (empty($content)) {
-        echo file_get_contents($filename);
+        if(!file_exists($cacheFileImageNameResized)){
+            im_resizeV2($filename, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
+        }
+        echo file_get_contents($cacheFileImageNameResized);
     } else {
     }
 
@@ -153,9 +169,15 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     } else {
         $result = file_get_contents($filename);
         if (!Live::isDefaultImage($result)) {
-            im_resizeV2($filename, $cacheFileImageName, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
+            if(!file_exists($cacheFileImageNameResized)){
+                im_resizeV2($filename, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
+            }
+            echo file_get_contents($cacheFileImageNameResized);
+        }else{
+            echo file_get_contents($cacheFileImageName);
         }
-        echo file_get_contents($cacheFileImageName);
+        
+        
         //_error_log("Live:getImage  Get default image ");
     }
 }
