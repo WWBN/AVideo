@@ -1,4 +1,6 @@
 <?php
+$facebookSizeRecomendationW = 1200;
+$facebookSizeRecomendationH = 630;
 
 $lifetime = 300;
 
@@ -151,9 +153,9 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     } else {
         $result = file_get_contents($filename);
         if (!Live::isDefaultImage($result)) {
-            copy($filename, $cacheFileImageName);
+            im_resizeV2($filename, $cacheFileImageName, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
         }
-        echo $result;
+        echo file_get_contents($cacheFileImageName);
         //_error_log("Live:getImage  Get default image ");
     }
 }
