@@ -1,6 +1,6 @@
 <?php
-$facebookSizeRecomendationW = 640;
-$facebookSizeRecomendationH = 360;
+$facebookSizeRecomendationW = 1200;
+$facebookSizeRecomendationH = 630;
 
 $lifetime = 300;
 
