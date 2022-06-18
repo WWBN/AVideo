@@ -204,16 +204,6 @@ In production you should remove the phpmyadmin image by setting `ENABLE_PHPMYADM
 
 Also we're working on a prebuild image. So you can use the image from [Docker hub](https://hub.docker.com/r/trickert76/avideo-platform/tags).
 
-# Roadmap
-
-## Version 8.9
-
-## Version 8.10
-
-## Version 8.11
-
-## git clone
-
 After a git clone command run this
 
 composer update --prefer-dist --ignore-platform-reqs
