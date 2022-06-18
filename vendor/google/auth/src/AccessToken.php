@@ -21,6 +21,7 @@ use DateTime;
 use Exception;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Firebase\JWT\SignatureInvalidException;
 use Google\Auth\Cache\MemoryCacheItemPool;
 use Google\Auth\HttpHandler\HttpClientCache;
@@ -257,13 +258,12 @@ class AccessToken
             ]);
 
             // create an array of key IDs to certs for the JWT library
-            $keys[$cert['kid']] =  $rsa->getPublicKey();
+            $keys[$cert['kid']] = new Key($rsa->getPublicKey(), 'RS256');
         }
 
         $payload = $this->callJwtStatic('decode', [
             $token,
             $keys,
-            ['RS256']
         ]);
 
         if ($audience) {
