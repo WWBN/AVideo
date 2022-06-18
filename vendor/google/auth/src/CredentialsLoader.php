@@ -191,7 +191,7 @@ abstract class CredentialsLoader implements
      */
     public function getUpdateMetadataFunc()
     {
-        return array($this, 'updateMetadata');
+        return [$this, 'updateMetadata'];
     }
 
     /**
@@ -216,7 +216,7 @@ abstract class CredentialsLoader implements
             return $metadata;
         }
         $metadata_copy = $metadata;
-        $metadata_copy[self::AUTH_METADATA_KEY] = array('Bearer ' . $result['access_token']);
+        $metadata_copy[self::AUTH_METADATA_KEY] = ['Bearer ' . $result['access_token']];
 
         return $metadata_copy;
     }

@@ -68,7 +68,8 @@ class SysVCacheItemPool implements CacheItemPoolInterface
      *     [optional] Configuration options.
      *
      *     @type int    $variableKey The variable key for getting the data from the shared memory. **Defaults to** 1.
-     *     @type string $proj        The project identifier for ftok. This needs to be a one character string. **Defaults to** 'A'.
+     *     @type string $proj        The project identifier for ftok. This needs to be a one character string.
+     *                               **Defaults to** 'A'.
      *     @type int    $memsize     The memory size in bytes for shm_attach. **Defaults to** 10000.
      *     @type int    $perm        The permission for shm_attach. **Defaults to** 0600.
      * }
