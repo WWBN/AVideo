@@ -113,7 +113,6 @@ String.prototype.stripAccents = function () {
     returnvar = returnvar.replace(/–/g, '-');
     returnvar = returnvar.replace(/[’‘‹›‚]/g, ' ');
     returnvar = returnvar.replace(/[“”«»„]/g, ' ');
-    returnvar = returnvar.replace(/ /g, ' ');
     returnvar = returnvar.replace(/Є/g, 'YE');
     returnvar = returnvar.replace(/І/g, 'I');
     returnvar = returnvar.replace(/Ѓ/g, 'G');
