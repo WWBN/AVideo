@@ -5100,7 +5100,7 @@ if (!class_exists('Video')) {
                 $style,
                 $divID,
                 $link,
-                $title,
+                getSEOTitle($title),
                 $imgJPGLow,
                 $imgJPGHight,
                 $imgGifHTML,

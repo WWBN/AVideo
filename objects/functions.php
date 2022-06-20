@@ -8104,6 +8104,7 @@ function getMediaSession() {
     } else if (!empty($_REQUEST['key'])) {
         $MediaMetadata = Live::getMediaSession($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_schedule_id']);
     }
+    $MediaMetadata->title = getSEOTitle($MediaMetadata->title);
     return $MediaMetadata;
 }
 
