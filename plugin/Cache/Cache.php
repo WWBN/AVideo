@@ -240,7 +240,8 @@ class Cache extends PluginAbstract
             'mrss',
             '/sitemap.xml',
             'plugin/Live/verifyToken.json.php',
-            'control.json.php'
+            'control.json.php',
+            'robots.txt'
         ];
         foreach ($cacheBotWhitelist as $value) {
             if (strpos($_SERVER['REQUEST_URI'], $value) !== false) {
