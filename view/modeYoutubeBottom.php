@@ -66,9 +66,28 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8">
             <h1 itemprop="name">
-                &middot; <?php
+                <?php
                 echo $video['title'];
                 ?>
+                <small>
+                    <?php
+                    if (!empty($video['id'])) {
+                        $video['tags'] = Video::getTags($video['id']);
+                    } else {
+                        $video['tags'] = [];
+                    }
+                    foreach ($video['tags'] as $value) {
+                        if (is_array($value)) {
+                            $value = (object) $value;
+                        }
+                        if ($value->label === __("Group")) {
+                            ?>
+                            <span class="label label-<?php echo $value->type; ?>"><?php echo $value->text; ?></span>
+                            <?php
+                        }
+                    }
+                    ?>
+                </small>
             </h1>
             <?php
             if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
@@ -84,25 +103,6 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                 </div>
             <?php }
             ?>
-            <small>
-                <?php
-                if (!empty($video['id'])) {
-                    $video['tags'] = Video::getTags($video['id']);
-                } else {
-                    $video['tags'] = [];
-                }
-                foreach ($video['tags'] as $value) {
-                    if (is_array($value)) {
-                        $value = (object) $value;
-                    }
-                    if ($value->label === __("Group")) {
-                        ?>
-                        <span class="label label-<?php echo $value->type; ?>"><?php echo $value->text; ?></span>
-                        <?php
-                    }
-                }
-                ?>
-            </small>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <?php echo $video['creator']; ?>
             </div>
