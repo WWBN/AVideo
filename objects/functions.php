@@ -3542,7 +3542,7 @@ function getLdJson($videos_id) {
 
     $img = Video::getPoster($videos_id);
 
-    $description = html2plainText(empty(trim($video['description'])) ? $video['title'] : $video['description']);
+    $description = getSEODescription(empty(trim($video['description'])) ? $video['title'] : $video['description']);
     $duration = Video::getItemPropDuration($video['duration']);
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
@@ -3552,7 +3552,7 @@ function getLdJson($videos_id) {
         {
         "@context": "http://schema.org/",
         "@type": "VideoObject",
-        "name": "' . html2plainText($video['title']) . '",
+        "name": "' . getSEOTitle($video['title']) . '",
         "description": "' . $description . '",
         "thumbnailUrl": [
         "' . $img . '"
@@ -3611,12 +3611,12 @@ function getItemprop($videos_id) {
     $videos_id = $video['id'];
     $img = Video::getPoster($videos_id);
 
-    $description = html2plainText(empty(trim($video['description'])) ? $video['title'] : $video['description']);
+    $description = getSEODescription(empty(trim($video['description'])) ? $video['title'] : $video['description']);
     $duration = Video::getItemPropDuration($video['duration']);
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
     }
-    $output = '<span itemprop="name" content="' . str_replace('"', '', $video['title']) . '" />
+    $output = '<span itemprop="name" content="' . getSEOTitle($video['title']) . '" />
     <span itemprop="description" content="' . $description . '" />
     <span itemprop="thumbnailUrl" content="' . $img . '" />
     <span itemprop="uploadDate" content="' . date("Y-m-d\Th:i:s", strtotime($video['created'])) . '" />
@@ -5604,7 +5604,15 @@ function _substr($string, $start, $length = null) {
 }
 
 function getSEODescription($text){
-    return _substr(str_replace('"', '', html2plainText($text)), 0, 155);
+    $removeChars = ['|', '"'];
+    $replaceChars = ['-', ''];    
+    return _substr(str_replace($removeChars, $replaceChars, html2plainText($text)), 0, 50);
+}
+
+function getSEOTitle($text){
+    $removeChars = ['|', '"'];
+    $replaceChars = ['-', ''];    
+    return _substr(str_replace($removeChars, $replaceChars, html2plainText($text)), 0, 155);
 }
 
 function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "") {

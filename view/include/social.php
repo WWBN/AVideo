@@ -20,8 +20,7 @@ if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }
 
-$removeChars = ['|'];
-$titleSocial = str_replace($removeChars, '-', $titleSocial);
+$titleSocial = getSEOTitle($titleSocial);
 //$originalURL = $urlSocial;
 $urlSocial = urlencode($url);
 //set the $urlSocial and the $titleSocial before include this
