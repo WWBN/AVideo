@@ -238,7 +238,7 @@ require_once '../locale/function.php';
                                     </div>
                                     <div class="form-group">
                                         <label for="databaseUser">Database User</label>
-                                        <input type="text" class="form-control" id="databaseUser" placeholder="Enter Database User" value="avideo" required="required">
+                                        <input type="text" class="form-control" id="databaseUser" placeholder="Enter Database User" value="root" required="required">
                                     </div>
                                     <div class="form-group">
                                         <label for="databasePass">Database Password</label>
