@@ -373,7 +373,7 @@ class GCECredentials extends CredentialsLoader implements
             $this->hasCheckedOnGce = true;
         }
         if (!$this->isOnGce) {
-            return array();  // return an empty array with no access token
+            return [];  // return an empty array with no access token
         }
 
         $response = $this->getFromMetadata($httpHandler, $this->tokenUri);
