@@ -1454,12 +1454,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
     }
 
-    public static function getLinkToLiveFromUsers_id($users_id) {
+    public static function getLinkToLiveFromUsers_id($users_id, $live_schedule_id=0) {
         $live_servers_id = self::getCurrentLiveServersId();
-        return self::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id);
+        return self::getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id, null, $live_schedule_id);
     }
 
-    public static function getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id, $live_index = null) {
+    public static function getLinkToLiveFromUsers_idAndLiveServer($users_id, $live_servers_id, $live_index = null, $live_schedule_id=0) {
         if (empty($users_id)) {
             return false;
         }
@@ -1468,7 +1468,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($user->getChannelName())) {
             return false;
         }
-        return self::getLinkToLiveFromChannelNameAndLiveServer($user->getChannelName(), $live_servers_id, $live_index);
+        return self::getLinkToLiveFromChannelNameAndLiveServer($user->getChannelName(), $live_servers_id, $live_index, $live_schedule_id);
     }
 
     public static function getLinkToLiveFromChannelNameAndLiveServer($channelName, $live_servers_id, $live_index = null, $live_schedule_id = 0) {
@@ -3554,8 +3554,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $title = $ls->getTitle();
         $date_start = $ls->getScheduled_time();
         $date_end = '';
-        $joinURL = Live::getLinkToLiveFromUsers_id($users_id);
-        $joinURL = addQueryStringParameter($joinURL, 'live_schedule', $live_schedule_id);
+        $joinURL = Live::getLinkToLiveFromUsers_id($users_id, $live_schedule_id);
 
         //        , $date_start, $selectedEarlierOptions = array(), $date_end = '', $joinURL='', $description=''
 
