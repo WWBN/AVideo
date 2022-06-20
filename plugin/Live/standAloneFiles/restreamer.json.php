@@ -44,7 +44,7 @@ ini_set('max_execution_time', 300);
 ini_set("memory_limit", "-1");
 
 $logFileLocation = rtrim($logFileLocation, "/") . '/';
-$logFile = $logFileLocation . "ffmpeg_{users_id}_" . date("Y-m-d-h-i-s") . ".log";
+$logFile = $logFileLocation . "ffmpeg_restreamer_{users_id}_" . date("Y-m-d-h-i-s") . ".log";
 
 header('Content-Type: application/json');
 $configFile = dirname(__FILE__) . '/../../../videos/configuration.php';
