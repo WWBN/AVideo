@@ -23,13 +23,18 @@
 #accessibility-toolbar .accessibility-toolbar-toggle{
     position: absolute;
     left: -70px;
-    z-index: 1;
+    z-index: 9999;
     padding: 0;
     border-radius: 35px 0 0 35px;
+    border-right: none;
 }
 
-#accessibility-toolbar > .accessibility-toolbar-toggle:hover,
-#accessibility-toolbar.active > .accessibility-toolbar-toggle{
+#accessibility-toolbar > div.accessibility-toolbar-overlay > div.list-group > a:nth-child(1){
+    border-top-left-radius: 0;
+}
+
+#accessibility-toolbar > .accessibility-toolbar-toggle:hover .button,
+#accessibility-toolbar.active > .accessibility-toolbar-toggle .button{
     opacity: 1;
 }
 
@@ -39,7 +44,7 @@
     right: -200px;
     top: 100px;
     transition:right 0.3s ease-in-out;
-    z-index: 1;
+    z-index: 9999;
 }
 #accessibility-toolbar.active{
     right: 0;

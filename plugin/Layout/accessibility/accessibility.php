@@ -25,7 +25,10 @@ if(isIframe()){
     ?>
 </style>
 <nav id="accessibility-toolbar" role="navigation">
-    <div class="accessibility-toolbar-toggle list-group-item animate__animated animate__bounceInRight" data-toggle="tooltip" title="<?php echo __('Accessibility Tools'); ?>" data-placement="left"> 
+    <div class="accessibility-toolbar-toggle list-group-item animate__animated animate__bounceInRight" 
+         data-toggle="tooltip" 
+         title="<?php echo __('Accessibility Tools'); ?>" 
+         data-placement="left"> 
         <div class="button" onclick="$('#accessibility-toolbar').toggleClass('active');"> 
             <span class="sr-only">Open toolbar</span> 
             <i class="fas fa-universal-access fa-3x"></i>
