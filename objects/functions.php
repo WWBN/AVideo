@@ -5615,7 +5615,7 @@ function _strlen($string) {
 function getSEODescription($text, $maxChars = 250) {
     $removeChars = ['|', '"'];
     $replaceChars = ['-', ''];
-    $newText = str_replace($removeChars, $replaceChars, html2plainText($text));
+    $newText = trim(str_replace($removeChars, $replaceChars, html2plainText($text)));
     if (_strlen($string) > $maxChars) {
         return $newText;
     } else {
@@ -5626,7 +5626,7 @@ function getSEODescription($text, $maxChars = 250) {
 function getSEOTitle($text, $maxChars = 60) {
     $removeChars = ['|', '"'];
     $replaceChars = ['-', ''];
-    $newText = str_replace($removeChars, $replaceChars, html2plainText($text));
+    $newText = trim(str_replace($removeChars, $replaceChars, html2plainText($text)));
     if (_strlen($string) > $maxChars) {
         return $newText;
     } else {
