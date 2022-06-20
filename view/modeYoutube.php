@@ -311,7 +311,7 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo $_SESSION['language']; ?>" prefix="og: http://ogp.me/ns#">
     <head>
         <title><?php echo $titleTag; ?></title>
         <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
