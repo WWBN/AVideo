@@ -507,7 +507,7 @@ if (!class_exists('Video')) {
             }
             $duration_in_seconds = durationToSeconds($duration);
             if (empty($duration_in_seconds)) {
-                _error_log("Video::updateDurationInSeconds empty duration {$videos_id}, {$duration}");
+                //_error_log("Video::updateDurationInSeconds empty duration {$videos_id}, {$duration}");
                 return false;
             }
             _error_log("Video::updateDurationInSeconds update duration {$videos_id}, {$duration}, {$duration_in_seconds}");
@@ -1330,7 +1330,7 @@ if (!class_exists('Video')) {
                     if (empty($row['duration_in_seconds']) && $row['type'] !== 'article') {
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
                         if (empty($row['duration_in_seconds'])) {
-                            _error_log("Video duration_in_seconds not updated: id={$row['id']} type={$row['type']}");
+                            //_error_log("Video duration_in_seconds not updated: id={$row['id']} type={$row['type']}");
                         }
                     }
                     $row = self::getInfo($row, $getStatistcs);
