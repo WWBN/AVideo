@@ -94,9 +94,9 @@ if (!empty($_GET['avideoIframe'])) { // comes from avideoModalIframe(url) javasc
 <link href="<?php echo getURL('view/css/navbar.css'); ?>" rel="stylesheet" type="text/css"/>
 <?php
 if (!empty($customizePluginDescription)) {
-    echo "<h1 class='hidden metaDescription'>{$customizePluginDescription}</h1>";
+    echo "<span class='hidden metaDescription'>{$customizePluginDescription}</span>";
 } elseif (!empty($metaDescription)) {
-    echo "<h1 class='hidden metaDescription'>{$metaDescription}</h1>";
+    echo "<span class='hidden metaDescription'>{$metaDescription}</span>";
 }
 if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
     include $global['systemRootPath'] . 'view/include/navbarCloseButton.php';
