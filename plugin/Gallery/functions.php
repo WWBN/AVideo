@@ -290,8 +290,8 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                href="<?php echo Video::getLink($value['id'], $value['clean_title'], false, $getCN); ?>"  
                embed="<?php echo Video::getLink($value['id'], $value['clean_title'], true, $getCN); ?>" 
                alternativeLink="<?php echo @$value['alternativeLink']; ?>" 
-               title="<?php echo htmlentities($value['title']); ?>">
-                <strong class="title"><?php echo $value['title']; ?></strong>
+               title="<?php echo htmlentities(getSEOTitle($value['title'])); ?>">
+                <strong class="title"><?php echo getSEOTitle($value['title']); ?></strong>
             </a>
 
             <?php
@@ -536,8 +536,8 @@ function createGalleryLiveSection($videos) {
                href="<?php echo $video['href']; ?>"  
                embed="<?php echo $video['link']; ?>"  
                alternativeLink="<?php echo @$video['alternativeLink']; ?>"
-               title="<?php echo htmlentities($video['title']); ?>">
-                <strong class="title"><?php echo $video['title'] ?></strong>
+               title="<?php echo htmlentities(getSEOTitle($video['title'])); ?>">
+                <strong class="title"><?php echo getSEOTitle($video['title']) ?></strong>
             </a>
 
             <div class="galeryDetails" style="overflow: hidden;">

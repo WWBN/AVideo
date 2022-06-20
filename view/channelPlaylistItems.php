@@ -225,8 +225,8 @@ unset($_POST['current']);
                                     <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" style="max-height: 200px;" />
                                 </div>
                                 <div>
-                                    <a class="h6 galleryLink hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo $serie['title']; ?>">
-                                        <strong class="title"><?php echo $serie['title']; ?></strong>
+                                    <a class="h6 galleryLink hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo getSEOTitle($serie['title']); ?>">
+                                        <strong class="title"><?php echo getSEOTitle($serie['title']); ?></strong>
                                     </a>
                                     <small class="galeryDetails">
                                         <div class="galleryTags">
@@ -338,8 +338,8 @@ unset($_POST['current']);
                                 <?php }
                                 ?>
                             </a>
-                            <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>">
-                                <strong class="title"><?php echo $value['title']; ?></strong>
+                            <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo getSEOTitle($value['title']); ?>">
+                                <strong class="title"><?php echo getSEOTitle($value['title']); ?></strong>
                             </a>
                             <div class="galeryDetails" style="min-height: 60px;">
                                 <div>

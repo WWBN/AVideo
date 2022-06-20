@@ -251,8 +251,8 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                                         <?php
                                                     } ?>
                                                 </a>
-                                                <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>">
-                                                    <strong class="title"><?php echo $value['title']; ?></strong>
+                                                <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo getSEOTitle($value['title']); ?>">
+                                                    <strong class="title"><?php echo getSEOTitle($value['title']); ?></strong>
                                                 </a>
                                                 <div class="galeryDetails" style="min-height: 60px;">
                                                     <div class="galleryTags">
