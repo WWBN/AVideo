@@ -170,7 +170,7 @@ if (isHTMLEmpty($sideAd)) {
                     <div class="panel">
                         <div class="panel-body">
                             <h1 itemprop="name">
-                                <i class="fas fa-video"></i> <?php echo $t['title']; ?>
+                                <i class="fas fa-video"></i> <?php echo getSEOTitle($t['title']); ?>
                             </h1>
                             <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
                             <p><?php echo nl2br(textToLink($t['description'])); ?></p>

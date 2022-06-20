@@ -68,7 +68,7 @@ $description = getSEODescription(emptyHTML($video['description'])?$video['title'
         <div class="col-xs-8 col-sm-8 col-md-8">
             <h1 itemprop="name">
                 <?php
-                echo $video['title'];
+                echo getSEOTitle($video['title']);
                 if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                     ?>
                     <div class="btn-group" role="group" aria-label="Basic example">

@@ -1510,7 +1510,7 @@ function getSources($fileName, $returnArray = false, $try = 0) {
             return $sources;
         } else {
             _error_log("getSources($fileName) File not found " . json_encode($video));
-            if(empty($sources)){
+            if (empty($sources)) {
                 $sources = array();
             }
             $obj = new stdClass();
@@ -2010,8 +2010,8 @@ function unzipDirectory($filename, $destination) {
                             fwrite($fp, "$buf");
                             zip_entry_close($zip_entry);
                             fclose($fp);
-                        }else{
-                            _error_log('unzipDirectory could not open '.$path);
+                        } else {
+                            _error_log('unzipDirectory could not open ' . $path);
                         }
                     } catch (Exception $exc) {
                         _error_log($exc->getMessage());
@@ -5603,16 +5603,35 @@ function _substr($string, $start, $length = null) {
     }
 }
 
-function getSEODescription($text){
-    $removeChars = ['|', '"'];
-    $replaceChars = ['-', ''];    
-    return _substr(str_replace($removeChars, $replaceChars, html2plainText($text)), 0, 155);
+function _strlen($string) {
+    // make sure the name is not chunked in case of multibyte string
+    if (function_exists("mb_strlen")) {
+        return mb_strlen($string, "UTF-8");
+    } else {
+        return strlen($string);
+    }
 }
 
-function getSEOTitle($text){
+function getSEODescription($text, $maxChars = 250) {
     $removeChars = ['|', '"'];
-    $replaceChars = ['-', ''];    
-    return _substr(str_replace($removeChars, $replaceChars, html2plainText($text)), 0, 50);
+    $replaceChars = ['-', ''];
+    $newText = str_replace($removeChars, $replaceChars, html2plainText($text));
+    if (_strlen($string) > $maxChars) {
+        return $newText;
+    } else {
+        return _substr($newText, 0, $maxChars) . '...';
+    }
+}
+
+function getSEOTitle($text, $maxChars = 60) {
+    $removeChars = ['|', '"'];
+    $replaceChars = ['-', ''];
+    $newText = str_replace($removeChars, $replaceChars, html2plainText($text));
+    if (_strlen($string) > $maxChars) {
+        return $newText;
+    } else {
+        return _substr($newText, 0, $maxChars) . '...';
+    }
 }
 
 function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "") {
@@ -8332,15 +8351,15 @@ function getUserOnlineLabel($users_id, $class = '', $style = '') {
     }
 }
 
-function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload=false) {
+function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false) {
     global $config;
     _error_log("sendToEncoder($videos_id, $downloadURL) start");
     $video = Video::getVideoLight($videos_id);
-    
+
     $user = new User($video['users_id']);
-    
+
     if ($checkIfUserCanUpload && !$user->getCanUpload()) {
-        _error_log("sendToEncoder:  user cannot upload users_id={$video['users_id']}=".$user->getBdId());
+        _error_log("sendToEncoder:  user cannot upload users_id={$video['users_id']}=" . $user->getBdId());
         return false;
     }
     global $global;

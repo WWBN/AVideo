@@ -190,7 +190,7 @@ $liveInfo = Live::getInfo($livet['key'], Live::getLiveServersIdRequest());
                                     <?php
                                 }
                                 ?>
-                                <?php echo $liveTitle; ?>
+                                <?php echo getSEOTitle($liveTitle); ?>
 
                                 <small class="text-muted">
                                     <?php
