@@ -45,7 +45,7 @@ if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'no
 $twitter_site = $advancedCustom->twitter_site;
 $title = getSEOTitle($video['title']);
 $description = getSEODescription($video['description']);
-$ogURL = Video::getLinkToVideo($videos_id);
+$ogURL = Video::getLinkToVideo($videos_id, '', false,false);
 ?>
 <link rel="image_src" href="<?php echo $img; ?>" />
 <meta property="og:image" content="<?php echo $img; ?>" />
@@ -129,7 +129,7 @@ if (!empty($advancedCustom->twitter_player)) {
 }
 ?>
 <meta name="twitter:site" content="<?php echo $twitter_site; ?>" />
-<meta name="twitter:url" content="<?php echo Video::getLinkToVideo($videos_id); ?>"/>
+<meta name="twitter:url" content="<?php echo $ogURL; ?>"/>
 <meta name="twitter:title" content="<?php echo $title; ?>"/>
 <meta name="twitter:description" content="<?php echo $description; ?>"/>
 <meta name="twitter:image" content="<?php echo $img; ?>"/>
