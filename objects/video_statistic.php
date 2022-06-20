@@ -366,8 +366,16 @@ class VideoStatistic extends ObjectYPT {
         return $channels;
     }
 
-    public static function getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly, $daysLimit = 30) {
-        global $global;
+    public static function getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly, $daysLimit = 0) {
+        global $global, $advancedCustom;
+        
+        if(empty($daysLimit)){
+            if(empty($advancedCustom)){
+                $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+            }
+            $daysLimit = intval($advancedCustom->trendingOnLastDays->value);
+        }
+        
         // get unique videos ids from the requested timeframe
         $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics s "
                 . " LEFT JOIN videos v ON v.id = videos_id "

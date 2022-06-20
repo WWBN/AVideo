@@ -278,6 +278,13 @@ Allow: .css";
         $o->value = "";
         $obj->beforeNavbar = $o;
         self::addDataObjectHelper('beforeNavbar', 'Add some code before the navbar HTML');
+        
+        
+        $o = new stdClass();
+        $o->type = array(1 => __("1 Day"), 10 => __("10 Days"), 15 => __("15 Days"), 20 => __("20 Days"), 25 => __("25 Days"), 30 => __("30 Days"), 60 => __("60 Days"));
+        $o->value = 30;
+        $obj->trendingOnLastDays = $o;
+        self::addDataObjectHelper('trendingOnLastDays', 'Trending Days', 'For the result of trending videos, use the statistics contained in the last few days');
 
         return $obj;
     }
