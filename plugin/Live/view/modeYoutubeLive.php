@@ -115,7 +115,7 @@ $liveInfo = Live::getInfo($livet['key'], Live::getLiveServersIdRequest());
         <meta property="fb:app_id"             content="774958212660408" />
         <meta property="og:url"                content="<?php echo $liveUrl; ?>" />
         <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo str_replace('"', '', $liveTitle); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
+        <meta property="og:title"              content="<?php echo getSEOTitle($liveTitle); ?>" />
         <meta property="og:description"        content="<?php echo getSEODescription($liveTitle); ?>" />
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />

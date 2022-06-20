@@ -63,7 +63,7 @@ $description = getSEODescription($description);
 <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
 
 <meta property="fb:app_id"             content="774958212660408" />
-<meta property="og:title"              content="<?php echo $title; ?>" />
+<meta property="og:title"              content="<?php echo getSEOTitle($title); ?>" />
 <meta property="og:description"        content="<?php echo $description; ?>" />
 <meta property="og:url"                content="<?php echo $url; ?>" />
 <link rel="canonical" href="<?php echo $url; ?>" />

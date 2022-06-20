@@ -43,7 +43,7 @@ if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'no
     $img = $images->poster;
 }
 $twitter_site = $advancedCustom->twitter_site;
-$title = _substr(html2plainText($video['title']), 0, 55);
+$title = getSEOTitle($video['title']);
 $description = getSEODescription($video['description']);
 $ogURL = Video::getLinkToVideo($videos_id);
 ?>
