@@ -80,6 +80,7 @@ Options All -Indexes
     #VideoHLS for DRM
 
     RedirectMatch 404 /\.git    
+
     #Compatibility
     RewriteRule    ^view/js/jquery-3.5.1.min.js  node_modules/jquery/dist/jquery.min.js
     RewriteRule    ^view/js/seetalert/sweetalert.min.js  node_modules/sweetalert/dist/sweetalert.min.js
@@ -104,7 +105,9 @@ Options All -Indexes
     RewriteRule    ^liveLinkEmbed/([0-9]+).*$ plugin/LiveLinks/view/Live.php?link=$1&embed=1 [NC,L,QSA]
 
     #main Files
-    RewriteRule    ^index.php$ view/index.php    [NC,L]
+    RewriteRule    ^index.php$ view/index.php [NC,L,QSA]
+    RewriteRule    ^index.html$  view/index.php [NC,L,QSA]
+    RewriteRule    ^index.htm$  view/index.php [NC,L,QSA]
     #RewriteRule    ^index.php$ /view/index.php    [NC,L]
     #RewriteRule    ^$ view/    [NC,L]
     RewriteRule    ^bootstrap/(.+)$ view/bootstrap/$1 [NC,L]
