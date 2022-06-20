@@ -76,6 +76,11 @@ Options All -Indexes
 </ifModule>
 # END Caching
 <IfModule mod_rewrite.c>
+    RewriteCond %{HTTPS} =on
+    RewriteRule ^(.*)$ - [env=proto:https]
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^(.*)$ - [env=proto:http]
+
     RewriteEngine on
     #VideoHLS for DRM
 
@@ -106,8 +111,8 @@ Options All -Indexes
 
     #main Files
     RewriteRule    ^index.php$ view/index.php [NC,L,QSA]
-    RewriteRule    ^index.html$  view/index.php [NC,L,QSA]
-    RewriteRule    ^index.htm$  view/index.php [NC,L,QSA]
+    RewriteRule    ^index.html$  %{ENV:proto}://%{HTTP_HOST} [L,R=301,NE]
+    RewriteRule    ^index.htm$  %{ENV:proto}://%{HTTP_HOST} [L,R=301,NE]
     #RewriteRule    ^index.php$ /view/index.php    [NC,L]
     #RewriteRule    ^$ view/    [NC,L]
     RewriteRule    ^bootstrap/(.+)$ view/bootstrap/$1 [NC,L]
