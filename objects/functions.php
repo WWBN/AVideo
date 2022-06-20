@@ -3611,7 +3611,7 @@ function getItemprop($videos_id) {
     $videos_id = $video['id'];
     $img = Video::getPoster($videos_id);
 
-    $description = getSEODescription(empty(trim($video['description'])) ? $video['title'] : $video['description']);
+    $description = getSEODescription(emptyHTML($video['description']) ? $video['title'] : $video['description']);
     $duration = Video::getItemPropDuration($video['duration']);
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";

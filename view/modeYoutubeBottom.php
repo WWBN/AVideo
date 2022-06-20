@@ -41,13 +41,16 @@ if (User::hasBlockedUser($video['users_id'])) {
 
 $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
 $cdnStorageEnabled = !empty($cdnObj) && $cdnObj->enable_storage;
+
+$description = getSEODescription(emptyHTML($video['description'])?$video['title']:$video['description']);
+
 ?>
 
 
 <div class="row bgWhite list-group-item">
     <div class="row divMainVideo">
         <div class="col-xs-4 col-sm-4 col-md-4">
-            <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" />
+            <img src="<?php echo $img; ?>" alt="<?php echo getSEOTitle($video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" />
             <?php
             if (isToShowDuration($video['type'])) {
                 ?>
@@ -59,7 +62,7 @@ $cdnStorageEnabled = !empty($cdnObj) && $cdnObj->enable_storage;
             <span itemprop="contentURL" content="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>" />
             <span itemprop="embedURL" content="<?php echo Video::getLink($video['id'], $video['clean_title'], true); ?>" />
             <span itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
-            <span itemprop="description" content="<?php echo str_replace('"', '', $video['title']); ?> - <?php echo htmlentities($video['description']); ?>" />
+            <span itemprop="description" content="<?php echo $description; ?>" />
 
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8">
@@ -158,7 +161,7 @@ $cdnStorageEnabled = !empty($cdnObj) && $cdnObj->enable_storage;
 
                             if (!$cdnStorageEnabled || !preg_match('/cdn\.ypt\.me(.*)\.m3u8/i', $theLink['url'])) {
                                 $theLink['url'] = addQueryStringParameter($theLink['url'], "download", 1);
-                                $theLink['url'] = addQueryStringParameter($theLink['url'], "title", $video['title'] . "_{$key}_." . ($video['type'] === 'audio' ? 'mp3' : 'mp4'));
+                                $theLink['url'] = addQueryStringParameter($theLink['url'], "title", getSEOTitle($video['title']) . "_{$key}_." . ($video['type'] === 'audio' ? 'mp3' : 'mp4'));
 
                                 if (!$cdnStorageEnabled && $key == 'm3u8') {
                                     $name = 'MP4';
