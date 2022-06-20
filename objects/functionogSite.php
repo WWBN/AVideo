@@ -52,7 +52,7 @@ if (!empty($customizePluginDescription)) {
 } elseif (!empty($metaDescription)) {
     $description = $metaDescription;
 }
-
+$description = getSEODescription($description);
 ?>
 <link rel="image_src" href="<?php echo $img; ?>" />
 <meta property="og:image" content="<?php echo $img; ?>" />

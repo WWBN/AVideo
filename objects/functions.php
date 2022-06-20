@@ -5603,6 +5603,10 @@ function _substr($string, $start, $length = null) {
     }
 }
 
+function getSEODescription($text){
+    return _substr(str_replace('"', '', html2plainText($text)), 0, 155);
+}
+
 function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "") {
     global $global, $advancedCustom;
     if ($total < 2) {

@@ -44,7 +44,7 @@ if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'no
 }
 $twitter_site = $advancedCustom->twitter_site;
 $title = _substr(html2plainText($video['title']), 0, 55);
-$description = _substr(html2plainText($video['description']), 0, 155);
+$description = getSEODescription($video['description']);
 $ogURL = Video::getLinkToVideo($videos_id);
 ?>
 <link rel="image_src" href="<?php echo $img; ?>" />
