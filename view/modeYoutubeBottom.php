@@ -66,7 +66,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8">
             <h1 itemprop="name">
-                - <?php
+                &middot; <?php
                 echo $video['title'];
                 ?>
             </h1>
