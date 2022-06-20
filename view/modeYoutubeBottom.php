@@ -42,8 +42,7 @@ if (User::hasBlockedUser($video['users_id'])) {
 $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
 $cdnStorageEnabled = !empty($cdnObj) && $cdnObj->enable_storage;
 
-$description = getSEODescription(emptyHTML($video['description'])?$video['title']:$video['description']);
-
+$description = getSEODescription(emptyHTML($video['description']) ? $video['title'] : $video['description']);
 ?>
 
 
@@ -69,39 +68,42 @@ $description = getSEODescription(emptyHTML($video['description'])?$video['title'
             <h1 itemprop="name">
                 <?php
                 echo getSEOTitle($video['title']);
-                if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
-                    ?>
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="#" class="btn btn-primary btn-xs"  onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
-                            <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
-                        </a>
-                        <button type="button" class="btn btn-default btn-xs" onclick="avideoModalIframeFull(webSiteRootURL + 'view/videoViewsInfo.php?videos_id=<?php echo $video['id']; ?>');
-                                return false;">
-                            <i class="fa fa-eye"></i> <?php echo __("Views Info"); ?>
-                        </button>
-                    </div>
-                <?php }
                 ?>
-                <small>
-                    <?php
-                    if (!empty($video['id'])) {
-                        $video['tags'] = Video::getTags($video['id']);
-                    } else {
-                        $video['tags'] = [];
-                    }
-                    foreach ($video['tags'] as $value) {
-                        if (is_array($value)) {
-                            $value = (object) $value;
-                        }
-                        if ($value->label === __("Group")) {
-                            ?>
-                            <span class="label label-<?php echo $value->type; ?>"><?php echo $value->text; ?></span>
-                            <?php
-                        }
-                    }
-                    ?>
-                </small>
             </h1>
+            <?php
+            echo getSEOTitle($video['title']);
+            if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
+                ?>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="#" class="btn btn-primary btn-xs"  onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
+                        <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
+                    </a>
+                    <button type="button" class="btn btn-default btn-xs" onclick="avideoModalIframeFull(webSiteRootURL + 'view/videoViewsInfo.php?videos_id=<?php echo $video['id']; ?>');
+                            return false;">
+                        <i class="fa fa-eye"></i> <?php echo __("Views Info"); ?>
+                    </button>
+                </div>
+            <?php }
+            ?>
+            <small>
+                <?php
+                if (!empty($video['id'])) {
+                    $video['tags'] = Video::getTags($video['id']);
+                } else {
+                    $video['tags'] = [];
+                }
+                foreach ($video['tags'] as $value) {
+                    if (is_array($value)) {
+                        $value = (object) $value;
+                    }
+                    if ($value->label === __("Group")) {
+                        ?>
+                        <span class="label label-<?php echo $value->type; ?>"><?php echo $value->text; ?></span>
+                        <?php
+                    }
+                }
+                ?>
+            </small>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <?php echo $video['creator']; ?>
             </div>
@@ -307,11 +309,11 @@ $description = getSEODescription(emptyHTML($video['description'])?$video['title'
 }
 
 if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($video['id'])) {
-    $bitLyLink = false; 
-    if(AVideoPlugin::isEnabledByName('BitLy')){
+    $bitLyLink = false;
+    if (AVideoPlugin::isEnabledByName('BitLy')) {
         $bitLyLink = BitLy::getLink($video['id']);
     }
-    
+
     getShareMenu($video['title'], Video::getPermaLink($video['id']), Video::getURLFriendly($video['id']), Video::getLink($video['id'], $video['clean_title'], true), $img, "row bgWhite list-group-item menusDiv", parseDurationToSeconds($video['duration']), $bitLyLink);
 }
 ?>

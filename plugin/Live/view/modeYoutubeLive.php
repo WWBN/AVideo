@@ -189,9 +189,7 @@ $liveInfo = Live::getInfo($livet['key'], Live::getLiveServersIdRequest());
                                     <i class="fas fa-video"></i> 
                                     <?php
                                 }
-                                ?>
-                                <?php echo getSEOTitle($liveTitle); ?>
-
+                                ?><?php echo getSEOTitle($liveTitle); ?>
                                 <small class="text-muted">
                                     <?php
                                     echo $liveInfo['displayTime'];
