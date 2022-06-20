@@ -305,8 +305,15 @@ class VideoStatistic extends ObjectYPT {
         $this->session_id = $session_id;
     }
 
-    public static function getChannelsWithMoreViews($daysLimit = 30) {
-        global $global;
+    public static function getChannelsWithMoreViews($daysLimit = 0) {
+        global $global, $advancedCustom;
+        
+        if(empty($daysLimit)){
+            if(empty($advancedCustom)){
+                $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+            }
+            $daysLimit = intval($advancedCustom->trendingOnLastDays->value);
+        }
         $cacheName3 = "getChannelsWithMoreViews{$daysLimit}" . DIRECTORY_SEPARATOR . md5(json_encode([$_GET, $_POST]));
         $cache = ObjectYPT::getCache($cacheName3, 3600); // 1 hour cache
         if (!empty($cache)) {
@@ -442,7 +449,7 @@ class VideoStatistic extends ObjectYPT {
         return $videos;
     }
 
-    public static function getUsersIDFromChannelsWithMoreViews($daysLimit = 30) {
+    public static function getUsersIDFromChannelsWithMoreViews($daysLimit = 0) {
         $channels = self::getChannelsWithMoreViews($daysLimit);
         $users_id = [];
         foreach ($channels as $value) {
@@ -451,8 +458,15 @@ class VideoStatistic extends ObjectYPT {
         return $users_id;
     }
 
-    public static function getChannelsTotalViews($users_id, $daysLimit = 30) {
-        global $global;
+    public static function getChannelsTotalViews($users_id, $daysLimit = 0) {
+        global $global, $advancedCustom;
+        
+        if(empty($daysLimit)){
+            if(empty($advancedCustom)){
+                $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+            }
+            $daysLimit = intval($advancedCustom->trendingOnLastDays->value);
+        }
         $cacheName = "getChannelsTotalViews($users_id, $daysLimit)";
         $cache = ObjectYPT::getCache($cacheName, 3600); // 1 hour cache
         if (!empty($cache)) {
