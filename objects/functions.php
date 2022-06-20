@@ -5606,13 +5606,13 @@ function _substr($string, $start, $length = null) {
 function getSEODescription($text){
     $removeChars = ['|', '"'];
     $replaceChars = ['-', ''];    
-    return _substr(str_replace($removeChars, $replaceChars, html2plainText($text)), 0, 50);
+    return _substr(str_replace($removeChars, $replaceChars, html2plainText($text)), 0, 155);
 }
 
 function getSEOTitle($text){
     $removeChars = ['|', '"'];
     $replaceChars = ['-', ''];    
-    return _substr(str_replace($removeChars, $replaceChars, html2plainText($text)), 0, 155);
+    return _substr(str_replace($removeChars, $replaceChars, html2plainText($text)), 0, 50);
 }
 
 function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "") {
