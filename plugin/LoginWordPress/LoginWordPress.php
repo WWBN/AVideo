@@ -111,13 +111,14 @@ class LoginWordPress extends PluginAbstract {
     }
 
     static function login($user, $pass) {
+            global $global;
         if (!User::checkLoginAttempts()) {
             return User::CAPTCHA_ERROR;
         }
         $obj = AVideoPlugin::getObjectData("LoginWordPress");
         $resp = self::auth($user, $pass);
         if (!empty($resp) && !empty($resp->id)) {
-            global $global;
+            _error_log("LoginWordPresslogin: success {$user}");
             // create user if need     
             $name = $user;
             $photoURL = end($resp->avatar_urls);
@@ -135,9 +136,11 @@ class LoginWordPress extends PluginAbstract {
             $userObject->login(true, false, true);
             return User::USER_LOGGED;
         } else if ($obj->customWordPressSiteIfLoginFailTryDatabase) {
+            _error_log("LoginWordPresslogin: fail try database {$user}");
             $user = new User(0, $user, $pass);
             return $user->login(false, false, true);
         }else{
+            _error_log("LoginWordPresslogin: not found ". json_encode($resp));
             return User::USER_NOT_FOUND;
         }
     }
