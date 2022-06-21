@@ -4,6 +4,10 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
 $obj = AVideoPlugin::getObjectDataIfEnabled('LoginWordPress');
 
+if(User::isLogged()){
+    User::logoff();
+}
+
 $object = new stdClass();
 $object->isLogged = false;
 $object->isAdmin = false;
