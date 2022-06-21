@@ -115,6 +115,7 @@ class LoginWordPress extends PluginAbstract {
         if (!User::checkLoginAttempts()) {
             return User::CAPTCHA_ERROR;
         }
+        
         $obj = AVideoPlugin::getObjectData("LoginWordPress");
         $resp = self::auth($user, $pass);
         if (!empty($resp) && !empty($resp->id)) {

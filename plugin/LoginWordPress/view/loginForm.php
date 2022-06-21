@@ -95,8 +95,8 @@ getCSSAnimationClassAndStyleAddWait(0.5);
             $.ajax({
                 url: webSiteRootURL + 'plugin/LoginWordPress/view/login.json.php',
                 data: {
-                    "user": $('#WPinputUser').val(),
-                    "pass": $('#WPinputPassword').val(),
+                    "WPuser": $('#WPinputUser').val(),
+                    "WPpass": $('#WPinputPassword').val(),
                     "rememberme": $('#WPinputRememberMe').is(":checked")},
                 type: 'post',
                 success: function (response) {

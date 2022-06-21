@@ -14,7 +14,7 @@ $object->isAdmin = false;
 $object->canUpload = false;
 $object->canComment = false;
 $object->error = '';
-$resp = LoginWordPress::login($_POST['user'], $_POST['pass']);
+$resp = LoginWordPress::login($_POST['WPuser'], $_POST['WPpass']);
 if ($resp === User::USER_LOGGED) {
     $object->isLogged = User::isLogged();
     $object->isAdmin = User::isAdmin();
