@@ -45,6 +45,9 @@ class LoginWordPress extends PluginAbstract {
         $obj->customWordPressSiteIfLoginFailTryDatabase = false;
         self::addDataObjectHelper('customWordPressSiteIfLoginFailTryDatabase', 'Check the database if the wordpress login fail', "This will use your personal WP API to login with your users, this option does not require the ID and Key, this option must be your site URL, I.E. https://mywordpresssite.com/");
 
+        $obj->customWordPressSiteForgotMyPasswordURL = '';
+        $obj->customWordPressSiteSignUpURL = '';
+        
         $o = new stdClass();
         $o->type = array(0 => '-- ' . __("None")) + UserGroups::getAllUsersGroupsArray();
         $o->value = 0;

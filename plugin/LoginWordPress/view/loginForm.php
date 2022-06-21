@@ -60,7 +60,7 @@ getCSSAnimationClassAndStyleAddWait(0.5);
             </div>
             <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
                 <div class="col-xs-12 inputGroupContainer text-center">
-                    <a href="<?php echo "{$wpSite}recover-pw/"; ?>" target="_blank" class="btn btn-default btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>"  id="WPforgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></a>
+                    <a href="<?php echo $wp->customWordPressSiteForgotMyPasswordURL; ?>" target="_blank" class="btn btn-default btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>"  id="WPforgotPassword" data-toggle="tooltip" title="<?php echo __("Use this to recover your password"); ?>"><i class="fas fa-redo-alt"></i> <?php echo __("I forgot my password"); ?></a>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@ getCSSAnimationClassAndStyleAddWait(0.5);
     <div class="panel-footer">
         <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
             <div class="col-md-12">
-                <a href="<?php echo "{$wpSite}register/"; ?>"
+                <a href="<?php echo $wp->customWordPressSiteSignUpURL; ?>"
                    class="btn btn-primary btn-block" target="_blank"><i class="fas fa-plus"></i> <?php echo __("Sign up"); ?></a>
             </div>
         </div>
