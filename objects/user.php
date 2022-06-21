@@ -921,6 +921,7 @@ if (typeof gtag !== \"function\") {
 
     public function login($noPass = false, $encodedPass = false, $ignoreEmailVerification = false) {
         if (User::isLogged()) {
+            _error_log('User:login is already logged');
             return false;
         }
         global $global, $advancedCustom, $advancedCustomUser, $config;
@@ -948,7 +949,6 @@ if (typeof gtag !== \"function\") {
         }
         ObjectYPT::clearSessionCache();
         _session_start();
-        _error_log('User:login ' . $user['id']);
         // check for multiple logins attempts to prevent hacking end
         // if user is not verified
         if (empty($ignoreEmailVerification) && !empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
