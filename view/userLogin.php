@@ -56,31 +56,32 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
     <div class="hidden-xs col-sm-2 col-md-3 "></div>
     <div class="col-xs-12 col-sm-8  col-md-6">
 
-        <div class="panel panel-default <?php echo getCSSAnimationClassAndStyle();
-getCSSAnimationClassAndStyleAddWait(0.5);
-?>">
-            <div class="panel-heading">
-                <h2 class="<?php echo getCSSAnimationClassAndStyle(); ?>">
-<?php echo __('Welcome back!'); ?>
-                </h2>
-                <div class="">
-                    <?php
-                    if (!empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
-                        ?>
-                        <div class="pull-right">
-                            <a id="buttonMyNavbar" class=" btn btn-default navbar-btn" style="padding: 6px 12px; margin-right: 40px;" href="<?php echo $advancedCustomUser->userMustBeLoggedInCloseButtonURL; ?>">
-                                <i class="fas fa-times"></i>
-                            </a>
-                        </div>
+        <?php
+        if (empty($advancedCustomUser->disableNativeSignIn)) {
+            ?>
+            <div class="panel panel-default <?php
+            echo getCSSAnimationClassAndStyle();
+            getCSSAnimationClassAndStyleAddWait(0.5);
+            ?>">
+                <div class="panel-heading">
+                    <h2 class="<?php echo getCSSAnimationClassAndStyle(); ?>">
+                        <?php echo __('Welcome back!'); ?>
+                    </h2>
+                    <div class="">
                         <?php
-                    }
-                    ?>
+                        if (!empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
+                            ?>
+                            <div class="pull-right">
+                                <a id="buttonMyNavbar" class=" btn btn-default navbar-btn" style="padding: 6px 12px; margin-right: 40px;" href="<?php echo $advancedCustomUser->userMustBeLoggedInCloseButtonURL; ?>">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
                 </div>
-            </div>
-            <div class="panel-body">
-                <?php
-                if (empty($advancedCustomUser->disableNativeSignIn)) {
-                    ?>
+                <div class="panel-body">
                     <form class="form-horizontal"  id="loginForm">
                         <input type="hidden" name="redirectUri" value=""/>
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
@@ -97,13 +98,13 @@ getCSSAnimationClassAndStyleAddWait(0.5);
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
                             <label class="col-sm-4 control-label"><?php echo __("Password"); ?></label>
                             <div class="col-sm-8 inputGroupContainer">
-    <?php getInputPassword("inputPassword"); ?>
+                                <?php getInputPassword("inputPassword"); ?>
                             </div>
                         </div>
 
-                            <?php $captcha = User::getCaptchaForm(); ?>
+                        <?php $captcha = User::getCaptchaForm(); ?>
                         <div class="form-group captcha" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
-    <?php echo $captcha; ?>
+                            <?php echo $captcha; ?>
                         </div>
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
                             <div class="col-xs-4 text-right">
@@ -129,35 +130,35 @@ getCSSAnimationClassAndStyleAddWait(0.5);
                         </div>
 
                     </form>
+                </div>
+                <div class="panel-footer">
                     <?php
-                }
-                ?>
-            </div>
-            <div class="panel-footer">
-                <?php
-                if (empty($advancedCustomUser->disableNativeSignUp)) {
-                    ?>
-                    <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
-                        <div class="col-md-12">
-                            <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print $_GET['redirectUri'] ?? ""; ?>"
-                               class="btn btn-primary btn-block"><i class="fas fa-plus"></i> <?php echo __("Sign up"); ?></a>
+                    if (empty($advancedCustomUser->disableNativeSignUp)) {
+                        ?>
+                        <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
+                            <div class="col-md-12">
+                                <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print $_GET['redirectUri'] ?? ""; ?>"
+                                   class="btn btn-primary btn-block"><i class="fas fa-plus"></i> <?php echo __("Sign up"); ?></a>
+                            </div>
                         </div>
-                    </div>
-                    <?php
-                }
-                if (!empty($_REQUEST['cancelUri']) && isValidURL($_REQUEST['cancelUri'])) {
-                    ?>
-                    <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>">
-                        <div class="col-md-12">
-                            <a href="<?php echo $_REQUEST['cancelUri']; ?>"
-                               class="btn btn-link btn-block"><i class="fas fa-arrow-left"></i> <?php echo __("Cancel"); ?></a>
+                        <?php
+                    }
+                    if (!empty($_REQUEST['cancelUri']) && isValidURL($_REQUEST['cancelUri'])) {
+                        ?>
+                        <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>">
+                            <div class="col-md-12">
+                                <a href="<?php echo $_REQUEST['cancelUri']; ?>"
+                                   class="btn btn-link btn-block"><i class="fas fa-arrow-left"></i> <?php echo __("Cancel"); ?></a>
+                            </div>
                         </div>
-                    </div>
-                    <?php
-                }
-                ?>
+                        <?php
+                    }
+                    ?>
+                </div>
             </div>
-        </div>
+            <?php
+        }
+        ?>
 
 
         <?php
