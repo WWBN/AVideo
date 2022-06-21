@@ -47,13 +47,13 @@ class LoginWordPress extends PluginAbstract {
 
         $obj->customWordPressSiteForgotMyPasswordURL = '';
         $obj->customWordPressSiteSignUpURL = '';
-        
+
         $o = new stdClass();
         $o->type = array(0 => '-- ' . __("None")) + UserGroups::getAllUsersGroupsArray();
         $o->value = 0;
         $obj->autoAddNewUsersOnUserGroup = $o;
         self::addDataObjectHelper('autoAddNewUsersOnUserGroup', 'Auto add new users on UserGroup', 'When a new user is created with the your WordPress site, this user will be auto added on the selected user group');
-        
+
         $obj->globalWordpressLogin = true;
         self::addDataObjectHelper('globalWordpressLogin', 'Use the global Wordpress login', "This will use the global WordPress OAUTH2 to login, this option requires the ID and Key");
         $obj->id = "";
@@ -95,12 +95,16 @@ class LoginWordPress extends PluginAbstract {
         $base64 = base64_encode($user . ':' . $pass);
 
         $wpSite = addLastSlash($obj->customWordPressSite);
-
+        set_time_limit(0);
         $ch = curl_init($wpSite . 'wp-json/wp/v2/users/me');
         $CURLOPT_HTTPHEADER = array(
             "Authorization: Basic {$base64}",
             'Content-Type: application/json'
         );
+
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 600); //timeout in seconds
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $CURLOPT_HTTPHEADER);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -114,11 +118,11 @@ class LoginWordPress extends PluginAbstract {
     }
 
     static function login($user, $pass) {
-            global $global;
+        global $global;
         if (!User::checkLoginAttempts()) {
             return User::CAPTCHA_ERROR;
         }
-        
+
         $obj = AVideoPlugin::getObjectData("LoginWordPress");
         $resp = self::auth($user, $pass);
         if (!empty($resp) && !empty($resp->id)) {
@@ -143,10 +147,10 @@ class LoginWordPress extends PluginAbstract {
             _error_log("LoginWordPresslogin: fail try database {$user}");
             $user = new User(0, $user, $pass);
             $response = $user->login(false, false, true);
-            _error_log("LoginWordPresslogin: fail try database response: ". json_encode($response));
+            _error_log("LoginWordPresslogin: fail try database response: " . json_encode($response));
             return $response;
-        }else{
-            _error_log("LoginWordPresslogin: not found ". json_encode($resp));
+        } else {
+            _error_log("LoginWordPresslogin: not found " . json_encode($resp));
             return User::USER_NOT_FOUND;
         }
     }
