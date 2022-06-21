@@ -28,7 +28,6 @@ if (User::canStream()) {
     }
 }
 
-if (empty($obj->hideTopButton)) {
     ?>
     <style>
         .liveVideo{
@@ -48,6 +47,16 @@ if (empty($obj->hideTopButton)) {
         #availableLiveStream li a div{
             overflow: hidden;
         }
+
+        <?php
+        if (!empty($obj->hideTopButton)) {
+            ?>
+            #TopLiveNotificationButton{
+                display: none !important;
+            }
+            <?php
+        }
+        ?>
     </style>
     <li class="dropdown" id="TopLiveNotificationButton" onclick="setTimeout(function () {
                 lazyImage();
@@ -474,7 +483,4 @@ if (empty($obj->hideTopButton)) {
     ?>
         });
     </script>
-    <?php
-}
-?>
 <script src="<?php echo getURL('plugin/Live/view/live.js');?>" type="text/javascript"></script>
