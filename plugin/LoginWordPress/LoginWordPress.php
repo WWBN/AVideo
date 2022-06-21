@@ -138,7 +138,8 @@ class LoginWordPress extends PluginAbstract {
         } else if ($obj->customWordPressSiteIfLoginFailTryDatabase) {
             _error_log("LoginWordPresslogin: fail try database {$user}");
             $user = new User(0, $user, $pass);
-            return $user->login(false, false, true);
+            $response = $user->login(false, false, true);
+            _error_log("LoginWordPresslogin: fail try database response: ". json_encode($response));
         }else{
             _error_log("LoginWordPresslogin: not found ". json_encode($resp));
             return User::USER_NOT_FOUND;
