@@ -115,8 +115,9 @@ class LoginWordPress extends PluginAbstract {
 
         if(empty($data)){
             _error_log("LoginWordPresslogin: auth empty response");
+        }else{
+            _error_log("LoginWordPresslogin: auth response ".$data);
         }
-        
         $dataJSON = json_decode($data);
         return $dataJSON;
     }
