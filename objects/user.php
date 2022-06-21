@@ -267,16 +267,15 @@ if (typeof gtag !== \"function\") {
             return false;
         }
     }
-    
+
     public static function _getEmail() {
         return self::getEmail_();
     }
-    
+
     static function getEmailDb($users_id) {
         $user = self::getUserDB($users_id);
         return @$user['email'];
     }
-
 
     public function getBdId() {
         return $this->id;
@@ -650,19 +649,19 @@ if (typeof gtag !== \"function\") {
         if (empty($this->emailVerified)) {
             $this->emailVerified = 0;
         }
-        if(isset($global['emailVerified'])){
+        if (isset($global['emailVerified'])) {
             $this->emailVerified = $global['emailVerified'];
         }
-        if(isset($global['canCreateMeet'])){
+        if (isset($global['canCreateMeet'])) {
             $this->canCreateMeet = $global['canCreateMeet'];
         }
-        if(isset($global['canStream'])){
+        if (isset($global['canStream'])) {
             $this->canStream = $global['canStream'];
         }
-        if(isset($global['canUpload'])){
+        if (isset($global['canUpload'])) {
             $this->canUpload = $global['canUpload'];
         }
-        
+
         $this->emailVerified = intval($this->emailVerified);
 
         $this->is_company = $this->getIs_company();
@@ -718,7 +717,7 @@ if (typeof gtag !== \"function\") {
         } else {
             $formats = "ssssiiiisssssssi";
             $values = [$user, $password, $this->email, $name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet,
-                $status, $this->photoURL, $this->recoverPass, $channelName, $this->analyticsCode, $this->externalOptions, $this->phone,$this->emailVerified];
+                $status, $this->photoURL, $this->recoverPass, $channelName, $this->analyticsCode, $this->externalOptions, $this->phone, $this->emailVerified];
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, "
                     . " status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions, phone, is_company,emailVerified) "
                     . " VALUES (?,?,?,?,?,?,?,?, false, "
@@ -949,7 +948,7 @@ if (typeof gtag !== \"function\") {
         }
         ObjectYPT::clearSessionCache();
         _session_start();
-
+        _error_log('User:login ' . $user['id']);
         // check for multiple logins attempts to prevent hacking end
         // if user is not verified
         if (empty($ignoreEmailVerification) && !empty($user) && empty($user['isAdmin']) && empty($user['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
@@ -1222,7 +1221,7 @@ if (typeof gtag !== \"function\") {
         }
 
         $sql .= " LIMIT 1";
-        
+
         //_error_log("User::find ".$sql);
         //_error_log("User::find values ".json_encode($values));
         $res = sqlDAL::readSql($sql, $formats, $values, true);
@@ -1603,7 +1602,6 @@ if (typeof gtag !== \"function\") {
         $result = sqlDal::num_rows($res);
         sqlDAL::close($res);
 
-
         return $result;
     }
 
@@ -1781,7 +1779,6 @@ if (typeof gtag !== \"function\") {
         $res = sqlDAL::readSql($sql);
         $result = sqlDal::num_rows($res);
         sqlDAL::close($res);
-
 
         return $result;
     }
@@ -2390,7 +2387,6 @@ if (typeof gtag !== \"function\") {
 
         $stmt->send_long_data(0, $blob);
 
-
         return $stmt->execute();
     }
 
@@ -2489,7 +2485,7 @@ if (typeof gtag !== \"function\") {
         return "";
     }
 
-    public static function getAddChannelToGalleryButton($users_id) { 
+    public static function getAddChannelToGalleryButton($users_id) {
         $gallery = AVideoPlugin::isEnabledByName('Gallery');
         if (empty($gallery)) {
             return '';
@@ -2749,7 +2745,7 @@ if (typeof gtag !== \"function\") {
         $user = new User($users_id);
         $value = $user->getExternalOptions('DonationButtons');
         $json = _json_decode($value);
-        if(empty($json)){
+        if (empty($json)) {
             return array();
         }
         return $json;
@@ -2787,34 +2783,35 @@ if (typeof gtag !== \"function\") {
                      class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" alt="User Photo" />
                 <a href="<?php echo User::getChannelLink($users_id); ?>" class="btn btn-default">
                     <i class="fas fa-play-circle"></i>
-                    <?php echo User::getNameIdentificationById($users_id); ?>
+        <?php echo User::getNameIdentificationById($users_id); ?>
                 </a>
                 <div class="pull-right">
                     <?php echo User::getAddChannelToGalleryButton($users_id); ?>
                     <?php echo User::getBlockUserButton($users_id); ?>
-                    <?php echo Subscribe::getButton($users_id); ?>
-                    <?php echo CustomizeUser::getCallerButton($users_id, 'btn-xs');?>
+        <?php echo Subscribe::getButton($users_id); ?>
+                    <?php echo CustomizeUser::getCallerButton($users_id, 'btn-xs'); ?>
                 </div>
             </div>
             <div class="panel-body gallery ">
                 <div  style="margin-left: 120px;">
-                    <?php echo stripslashes(str_replace('\\\\\\\n', '<br/>', html_entity_decode($value['about']))); ?>
+        <?php echo stripslashes(str_replace('\\\\\\\n', '<br/>', html_entity_decode($value['about']))); ?>
                 </div>
 
                 <div class="clearfix" style="margin-bottom: 10px;"></div>
                 <div class="clear clearfix galeryRowElement">
-                    <?php
-                    createGallerySection($uploadedVideos, dechex(crc32($users_id)));
-                    ?>
+        <?php
+        createGallerySection($uploadedVideos, dechex(crc32($users_id)));
+        ?>
                 </div>
             </div>
             <div class="panel-footer " style="font-size: 0.8em">
                 <div class=" text-muted">
-                    <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($users_id)), " ", __("Views in the last 30 days"); ?>
+        <?php echo number_format_short(VideoStatistic::getChannelsTotalViews($users_id)), " ", __("Views in the last 30 days"); ?>
                 </div>
             </div>
         </div>
-        <?php
-    }
+                    <?php
+                }
 
-}
+            }
+            
