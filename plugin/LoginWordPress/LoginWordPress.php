@@ -140,6 +140,7 @@ class LoginWordPress extends PluginAbstract {
             $user = new User(0, $user, $pass);
             $response = $user->login(false, false, true);
             _error_log("LoginWordPresslogin: fail try database response: ". json_encode($response));
+            return $response;
         }else{
             _error_log("LoginWordPresslogin: not found ". json_encode($resp));
             return User::USER_NOT_FOUND;
