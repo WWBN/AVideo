@@ -5,7 +5,7 @@ if (empty($redirectUri)) {
     $redirectUri = $global['webSiteRootURL'];
 }
 
-$wpSite = addLastSlash($obj->customWordPressSite);
+$wpSite = addLastSlash($wp->customWordPressSite);
 ?>
 
 
