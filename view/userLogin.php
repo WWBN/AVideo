@@ -57,7 +57,8 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
     <div class="col-xs-12 col-sm-8  col-md-6">
 
         <div class="panel panel-default <?php echo getCSSAnimationClassAndStyle();
-getCSSAnimationClassAndStyleAddWait(0.5); ?>">
+getCSSAnimationClassAndStyleAddWait(0.5);
+?>">
             <div class="panel-heading">
                 <h2 class="<?php echo getCSSAnimationClassAndStyle(); ?>">
 <?php echo __('Welcome back!'); ?>
@@ -83,7 +84,7 @@ getCSSAnimationClassAndStyleAddWait(0.5); ?>">
                     <form class="form-horizontal"  id="loginForm">
                         <input type="hidden" name="redirectUri" value=""/>
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
-                            <label class="col-sm-4 control-label"><?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? __("E-mail") : __("User"); ?></label>
+                            <label class="col-sm-4 control-label"><?php echo!empty($advancedCustomUser->forceLoginToBeTheEmail) ? __("E-mail") : __("User"); ?></label>
                             <div class="col-sm-8 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -96,13 +97,13 @@ getCSSAnimationClassAndStyleAddWait(0.5); ?>">
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
                             <label class="col-sm-4 control-label"><?php echo __("Password"); ?></label>
                             <div class="col-sm-8 inputGroupContainer">
-                                <?php getInputPassword("inputPassword"); ?>
+    <?php getInputPassword("inputPassword"); ?>
                             </div>
                         </div>
 
-                        <?php $captcha = User::getCaptchaForm(); ?>
+                            <?php $captcha = User::getCaptchaForm(); ?>
                         <div class="form-group captcha" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
-                            <?php echo $captcha; ?>
+    <?php echo $captcha; ?>
                         </div>
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
                             <div class="col-xs-4 text-right">
@@ -146,7 +147,7 @@ getCSSAnimationClassAndStyleAddWait(0.5); ?>">
                 }
                 if (!empty($_REQUEST['cancelUri']) && isValidURL($_REQUEST['cancelUri'])) {
                     ?>
-                    <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
+                    <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>">
                         <div class="col-md-12">
                             <a href="<?php echo $_REQUEST['cancelUri']; ?>"
                                class="btn btn-link btn-block"><i class="fas fa-arrow-left"></i> <?php echo __("Cancel"); ?></a>
@@ -161,7 +162,6 @@ getCSSAnimationClassAndStyleAddWait(0.5); ?>">
 
         <?php
         $login = AVideoPlugin::getLogin();
-
         $totalLogins = 0;
         foreach ($login as $value) {
             if (is_string($value) && file_exists($value)) { // it is a include path for a form
@@ -171,6 +171,7 @@ getCSSAnimationClassAndStyleAddWait(0.5); ?>">
             }
         }
 
+        //var_dump($totalLogins, $login);exit;
         $columSize = 12;
         if ($totalLogins > 1) {
             switch ($totalLogins) {
@@ -199,9 +200,9 @@ getCSSAnimationClassAndStyleAddWait(0.5); ?>">
                 $loginCount++;
                 $uid = uniqid();
                 $oauthURL = "{$global['webSiteRootURL']}login?type={$value['parameters']->type}&redirectUri=" . ($_GET['redirectUri'] ?? "");
-                $loginBtnLabel = "<span class=\"{$value['parameters']->icon}\"></span> {$value['parameters']->type}";  
-                if(!empty($value['dataObject']->buttonLabel)){
-                    $loginBtnLabel = $value['dataObject']->buttonLabel; 
+                $loginBtnLabel = "<span class=\"{$value['parameters']->icon}\"></span> {$value['parameters']->type}";
+                if (!empty($value['dataObject']->buttonLabel)) {
+                    $loginBtnLabel = $value['dataObject']->buttonLabel;
                 }
                 ?>
                 <div class="col-md-<?php echo $columSize; ?> <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp'); ?>" >

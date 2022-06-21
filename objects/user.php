@@ -1834,13 +1834,14 @@ if (typeof gtag !== \"function\") {
             }
             return $userId;
         } else {
+            $userObj = new User($userId);
+            $userObj->setEmail($email);
+            $userObj->setName($name);
+            $userObj->setPhotoURL($photoURL);
             if ($emailVerified) {
-                $userObj = new User($userId);
-                if (!$userObj->getEmailVerified()) {
-                    $userObj->setEmailVerified(1);
-                    $userObj->save();
-                }
+                $userObj->setEmailVerified(1);
             }
+            $userObj->save();
         }
         return $userId;
     }

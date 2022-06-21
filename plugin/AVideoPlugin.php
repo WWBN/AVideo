@@ -598,6 +598,14 @@ class AVideoPlugin
                     $logins[] = $l;
                 } elseif (!empty($l->type)) { // it is a hybridauth
                     $logins[] = ['parameters' => $l, 'loginObject' => $p, 'dirName' => $value['dirName'], 'dataObject'=>$dataObject];
+                } elseif (is_array($l)) { // it is a hybridauth
+                    foreach ($l as $value2) {
+                        if (is_string($value2) && file_exists($value2)) { // it is a login form
+                            $logins[] = $value2;
+                        } elseif (!empty($value2->type)) { // it is a hybridauth
+                            $logins[] = ['parameters' => $value2, 'loginObject' => $p, 'dirName' => $value['dirName'], 'dataObject'=>$dataObject];
+                        }
+                    }
                 }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
