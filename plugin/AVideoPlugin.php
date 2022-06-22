@@ -70,7 +70,7 @@ class AVideoPlugin
                 $str .= $p->getHeadCode();
                 //_error_log('getHeadCode end '.$value['dirName']);
             }
-            self::YPTend("{$value['dirName']}::" . __FUNCTION__, 0.1);
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
         return $str;
     }
