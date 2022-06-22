@@ -2243,25 +2243,25 @@ if (!class_exists('Video')) {
         }
 
         public static function getResolution($file) {
-            global $videogetResolution;
+            global $videogetResolution, $global;
             if (!isset($videogetResolution)) {
                 $videogetResolution = [];
             }
             if (isset($videogetResolution[$file])) {
                 return $videogetResolution[$file];
             }
+            $videogetResolution[$file] = 0;
             if (
                     AVideoPlugin::isEnabledByName("Blackblaze_B2") ||
                     AVideoPlugin::isEnabledByName("AWS_S3") ||
                     AVideoPlugin::isEnabledByName("FTP_Storage") ||
                     AVideoPlugin::isEnabledByName("YPTStorage") || !file_exists($file)) {
-                $videogetResolution[$file] = 0;
                 return 0;
             }
             global $global;
             if (preg_match("/.m3u8$/i", $file) && AVideoPlugin::isEnabledByName('VideoHLS') && method_exists(new VideoHLS(), 'getHLSHigestResolutionFromFile')) {
                 $videogetResolution[$file] = VideoHLS::getHLSHigestResolutionFromFile($file);
-            } else {
+            } else if(empty($global['disableVideoTags'])){
                 $getID3 = new getID3();
                 $ThisFileInfo = $getID3->analyze($file);
                 $videogetResolution[$file] = intval(@$ThisFileInfo['video']['resolution_y']);
