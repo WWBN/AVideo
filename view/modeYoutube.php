@@ -6,7 +6,7 @@ $isModeYouTube = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-$TimeLogLimitMY = 0.05;
+$TimeLogLimitMY = 0.5;
 $timeLogNameMY = TimeLogStart("modeYoutube.php");
 //_error_log("modeYoutube: session_id = " . session_id() . " IP = " . getRealIpAddr());
 
@@ -315,7 +315,7 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     <head>
         <title><?php echo $titleTag; ?></title>
         <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
         <?php
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         include $global['systemRootPath'] . 'view/include/head.php';
