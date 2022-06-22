@@ -12,7 +12,7 @@ class AVideoPlugin
         $global['AVideoPluginStart'] = $time;
     }
 
-    public static function YPTend($pluginName)
+    public static function YPTend($pluginName, $timeLimit=0)
     {
         global $global;
         require_once $global['systemRootPath'] . 'objects/user.php';
@@ -21,7 +21,9 @@ class AVideoPlugin
         $time = $time[1] + $time[0];
         $finish = $time;
         $total_time = round(($finish - $global['AVideoPluginStart']), 4);
-        $timeLimit = empty($global['noDebug']) ? 0.5 : 1;
+        if(empty($timeLimit)){
+            $timeLimit = empty($global['noDebug']) ? 0.5 : 1;
+        }
         if ($total_time > $timeLimit) {
             _error_log("The plugin [{$pluginName}] takes {$total_time} seconds to complete. URL: " . getSelfURI() . " IP: " . getRealIpAddr() . ' '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 50)), AVideoLog::$WARNING);
         }
@@ -68,7 +70,7 @@ class AVideoPlugin
                 $str .= $p->getHeadCode();
                 //_error_log('getHeadCode end '.$value['dirName']);
             }
-            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__, 0.1);
         }
         return $str;
     }
