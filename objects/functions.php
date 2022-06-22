@@ -6967,10 +6967,23 @@ function getLiveVideosFromCategory($categories_id) {
             } else {
                 $m3u8 = '';
             }
+
+            $user = new User($value['users_id']);
+
             $video = array(
                 'id' => uniqid(),
-                'clean_category' => $cat->getClean_name(),
+                'isLive' => 1,
+                'categories_id' => $categories_id,
                 'description' => '',
+                'user' => $user->getUser(),
+                'email' => $user->getEmail(),
+                'isAdmin' => $user->getIsAdmin(),
+                'photoURL' => $user->getPhotoURL(),
+                'canStream' => $user->getCanStream(),
+                'canUpload' => $user->getCanUpload(),
+                'channelName' => $user->getChannelName(),
+                'emailVerified' => $user->getEmailVerified(),
+                'views_count' => 0,
                 'users_id' => $value['users_id'],
                 'type' => 'ready',
                 'title' => $value['title'],
@@ -7007,6 +7020,42 @@ function getLiveVideosFromCategory($categories_id) {
                         "resolution" => "auto"
                     )
                 ),
+                "videoLink" => "",
+                "next_videos_id" => null,
+                "isSuggested" => 0,
+                "trailer1" => "",
+                "trailer2" => "",
+                "trailer3" => "",
+                "total_seconds_watching" => 0,
+                "duration_in_seconds" => 0,
+                "likes" => 0,
+                "dislikes" => 0,
+                "users_id_company" => null,
+                "iconClass" => $cat->getIconClass(),
+                "category" => $cat->getName(),
+                "clean_category" => $cat->getClean_name(),
+                "category_description" => $cat->getDescription(),
+                "videoCreation" => date('Y-m-d H:i:s'),
+                "videoModified" => date('Y-m-d H:i:s'),
+                'descriptionHTML' => '',
+                "progress" => array(
+                    "percent" => 0,
+                    "lastVideoTime" => 0
+                ),
+                "isFavorite" => null,
+                "isWatchLater" => null,
+                "favoriteId" => null,
+                "watchLaterId" => null,
+                "total_seconds_watching_human" => "",
+                "views_count_short" => "",
+                "identification" => $user->getNameIdentificationBd(),
+                "UserPhoto" => $user->getPhotoURL(),
+                "isSubscribed" => true,
+                "subtitles" => [],
+                "comments" => [],
+                "commentsTotal" => 0,
+                "subscribers" => 1,
+                'relatedVideos' => [],
             );
 
             $videos[] = $video;
