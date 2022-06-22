@@ -1,19 +1,19 @@
 <?php
 $timeLogHead = TimeLogStart("include/head.php");
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 $head = AVideoPlugin::getHeadCode();
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 $custom = "The Best YouTube Clone Ever - AVideo";
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
 if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 if (is_object($video)) {
     $video = Video::getVideoLight($video->getId());
 }
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 $custom = [];
 
 $customizePluginDescription = '';
@@ -24,7 +24,7 @@ if (file_exists($extraPluginFile) && AVideoPlugin::isEnabledByName("Customize"))
     $custom[] = $customizePluginDescription;
 }
 
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 if (!empty($poster)) {
     $subTitle = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags($video['description']));
     $custom = [];
@@ -34,7 +34,7 @@ if (!empty($poster)) {
     }
 }
 
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 if (!empty($_GET['catName'])) {
     $category = Category::getCategoryByName($_GET['catName']);
     $description = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags($category['description']));
@@ -43,7 +43,7 @@ if (!empty($_GET['catName'])) {
     $custom[] = $category['name'];
 }
 
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 foreach ($custom as $key => $value) {
     if (empty($value)) {
         unset($custom[$key]);
@@ -65,7 +65,7 @@ $theme = getCurrentTheme();
 if (empty($config)) {
     $config = new Configuration();
 }
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 _ob_start();
 ?>
 <meta charset="utf-8">
@@ -112,7 +112,7 @@ $cssFiles[] = "view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-t
 //$cssFiles[] = "view/css/custom/{$theme}.css";
 $cssFiles = array_merge($cssFiles);
 echo combineFilesHTML($cssFiles, "css");
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 ?>
 <link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
 <link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS"/>
@@ -141,7 +141,7 @@ $cssFiles = [];
 $cssFiles[] = "view/css/main.css";
 $cssFiles = array_merge($cssFiles, AVideoPlugin::getCSSFiles());
 echo combineFilesHTML($cssFiles, "css");
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 if (isRTL()) {
     ?>
 
@@ -220,11 +220,11 @@ if (!$config->getDisable_analytics()) {
     </script>
     <?php
 }
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 if(!isBot()){
     echo $config->getHead();
 }
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 echo $head;
 if (!empty($video)) {
     if (!empty($video['users_id'])) {
@@ -233,7 +233,7 @@ if (!empty($video)) {
         unset($userAnalytics);
     }
 }
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 ogSite();
-TimeLogEnd($timeLogHead, __LINE__, $timeLogHead);
+TimeLogEnd($timeLogHead, __LINE__);
 ?>
