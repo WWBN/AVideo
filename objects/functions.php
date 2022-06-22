@@ -6990,6 +6990,7 @@ function getLiveVideosFromCategory($categories_id) {
                 'poster' => @$value['poster'],
                 'Poster' => @$value['poster'],
                 'Thumbnail' => @$value['poster'],
+                'thumbsJpgSmall' => @$value['poster'],
                 'href' => @$value['href'],
                 'link' => @$value['link'],
                 'imgGif' => @$value['imgGif'],

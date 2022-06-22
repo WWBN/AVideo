@@ -14,6 +14,11 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     $_GET['catName'] = $currentCat['clean_name'];
     $_REQUEST['rowCount'] = $obj->CategoriesRowCount * 3;
     $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+    
+    $liveVideos = getLiveVideosFromCategory($currentCat['id']);
+    if(!empty($liveVideos)){
+        $videos = array_merge($liveVideos, $videos);
+    }
     if (!empty($videos)) {
         ?>
         <div class="clear clearfix" id="Div<?php echo $currentCat['clean_name']; ?>">
