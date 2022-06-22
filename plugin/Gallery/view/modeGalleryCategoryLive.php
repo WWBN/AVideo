@@ -10,29 +10,7 @@ if (empty($galleryObj->showCategoryLiveRow)) {
     return false;
 }
 
-$stats = getStatsNotifications();
-$videos = array();
-foreach ($stats["applications"] as $key => $value) {
-    if (empty($value['categories_id']) || $currentCat['id'] != $value['categories_id']) {
-        continue;
-    }
-    $video = array(
-        'id' => uniqid(),
-        'clean_category' => $currentCat['clean_name'],
-        'description' => '',
-        'users_id' => $value['users_id'],
-        'type' => 'ready',
-        'title' => $value['title'],
-        'poster' => @$value['poster'],
-        'href' => @$value['href'],
-        'link' => @$value['link'],
-        'imgGif' => @$value['imgGif'],
-        'className' => @$value['className'],
-        'galleryCallback' => @$value['callback']
-    );
-    
-    $videos[] = $video;
-}
+$videos = getLiveVideosFromCategory($currentCat['id']);
 
 /*
   $videosL = $videosLL = $videos = array();

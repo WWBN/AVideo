@@ -149,6 +149,7 @@ class LiveLinks extends PluginAbstract {
                     '', 
                     $value['start_date']);
             $row['categories_id'] = $value['categories_id'];
+            $row['liveLinks_id'] = $value['id'];
             $array[] = $row;
             
         }

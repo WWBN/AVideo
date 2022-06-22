@@ -337,6 +337,18 @@ class API extends PluginAbstract {
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
         }
+        
+        if(!empty($_REQUEST['catName'])){
+            $currentCat = Category::getCategoryByName($_REQUEST['catName']);
+            if(!empty($currentCat)){
+                $liveVideos = getLiveVideosFromCategory($currentCat['id']);
+                if(!empty($liveVideos)){
+                    $rows = array_merge($liveVideos, $rows);
+                    $totalRows += count($liveVideos);
+                }
+            }
+        }
+        
         unsetSearch();
         $objMob = AVideoPlugin::getObjectData("MobileManager");
         $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");

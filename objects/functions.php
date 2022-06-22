@@ -3559,8 +3559,8 @@ function getLdJson($videos_id) {
         ],
         "uploadDate": "' . date("Y-m-d\Th:i:s", strtotime($video['created'])) . '",
         "duration": "' . $duration . '",
-        "contentUrl": "' . Video::getLinkToVideo($videos_id,'',false,false) . '",
-        "embedUrl": "' . Video::getLinkToVideo($videos_id,'',true,false) . '",
+        "contentUrl": "' . Video::getLinkToVideo($videos_id, '', false, false) . '",
+        "embedUrl": "' . Video::getLinkToVideo($videos_id, '', true, false) . '",
         "interactionCount": "' . $video['views_count'] . '",
         "@id": "' . Video::getPermaLink($videos_id) . '",
         "datePublished": "' . date("Y-m-d", strtotime($video['created'])) . '",
@@ -6942,6 +6942,77 @@ function deleteStatsNotifications() {
     Live::deleteStatsCache();
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     ObjectYPT::deleteCache($cacheName);
+}
+
+function getLiveVideosFromCategory($categories_id) {
+    $stats = getStatsNotifications();
+    $videos = array();
+    if (!empty($categories_id)) {
+        $cat = new Category($categories_id);
+        foreach ($stats["applications"] as $key => $value) {
+            if (empty($value['categories_id']) || $categories_id != $value['categories_id']) {
+                continue;
+            }
+            foreach ($value as $key => $value2) {
+                if (preg_match('/^html/i', $key)) {
+                    unset($value[$key]);
+                }
+            }
+            if (!empty($value['liveLinks_id'])) {
+                $ll = new LiveLinksTable($value['liveLinks_id']);
+
+                $m3u8 = $ll->getLink();
+            } else if (!empty($value['key'])) {
+                $m3u8 = Live::getM3U8File($value['key']);
+            } else {
+                $m3u8 = '';
+            }
+            $video = array(
+                'id' => uniqid(),
+                'clean_category' => $cat->getClean_name(),
+                'description' => '',
+                'users_id' => $value['users_id'],
+                'type' => 'ready',
+                'title' => $value['title'],
+                'poster' => @$value['poster'],
+                'Poster' => @$value['poster'],
+                'Thumbnail' => @$value['poster'],
+                'href' => @$value['href'],
+                'link' => @$value['link'],
+                'imgGif' => @$value['imgGif'],
+                'className' => @$value['className'],
+                'galleryCallback' => @$value['callback'],
+                'stats' => $value,
+                'embedlink' => addQueryStringParameter($value['href'], 'embed', 1),
+                'images' => array(
+                    "poster" => @$value['poster'],
+                    "posterPortrait" => @$value['poster'],
+                    "posterPortraitThumbs" => @$value['poster'],
+                    "posterPortraitThumbsSmall" => @$value['poster'],
+                    "thumbsGif" => @$value['imgGif'],
+                    "gifPortrait" => @$value['imgGif'],
+                    "thumbsJpg" => @$value['poster'],
+                    "thumbsJpgSmall" => @$value['poster'],
+                    "spectrumSource" => false,
+                    "posterLandscape" => @$value['poster'],
+                    "posterLandscapeThumbs" => @$value['poster'],
+                    "posterLandscapeThumbsSmall" => @$value['poster']
+                ),
+                'videos' => array(
+                    "m3u8" => array(
+                        "url" => $m3u8,
+                        "url_noCDN" => $m3u8,
+                        "type" => "video",
+                        "format" => "m3u8",
+                        "resolution" => "auto"
+                    )
+                ),
+            );
+
+            $videos[] = $video;
+        }
+    }
+    return $videos;
 }
 
 function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner = true) {

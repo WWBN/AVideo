@@ -258,6 +258,7 @@ class Live extends PluginAbstract {
             $app['Live_schedule_timezone'] = date_default_timezone_get();
             $app['scheduled_time_timezone'] = $value['timezone'];
             $app['scheduled_time'] = $value['scheduled_time'];
+            $app['live_schedule_id'] = $value['id'];
 
             $array[] = $app;
         }
