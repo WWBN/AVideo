@@ -7067,17 +7067,20 @@ function getLiveVideosFromCategory($categories_id) {
 
 function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner = true) {
     global $__getStatsNotifications__;
+    $isLiveEnabled = AVideoPlugin::isEnabledByName('Live');
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     unset($_POST['sort']);
     if ($force_recreate) {
-        Live::deleteStatsCache();
+        if($isLiveEnabled){
+            Live::deleteStatsCache();
+        }
     } else {
         if (!empty($__getStatsNotifications__)) {
             return $__getStatsNotifications__;
         }
         $json = ObjectYPT::getCache($cacheName, 0, true);
     }
-    if (AVideoPlugin::isEnabledByName('Live') && (empty($json) || !empty($json->error) || !isset($json->error)) ){
+    if ($isLiveEnabled && (empty($json) || !empty($json->error) || !isset($json->error))) {
         //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $json = Live::getStats();
         $json = object_to_array($json);
