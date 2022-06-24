@@ -39,6 +39,11 @@ $percentloadavg = percentloadavg();
 if($percentloadavg[0]<0.5){
     //return ;
 }
+
+if (!empty($_SERVER['HTTP_USER_AGENT']) && preg_match("/AVideo(.*)/", $_SERVER['HTTP_USER_AGENT'])) {
+    return ;
+}
+
 $ip = uniqid();
 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip = $_SERVER['HTTP_CLIENT_IP'];

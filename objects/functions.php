@@ -2758,7 +2758,7 @@ function isAVideoEncoder($user_agent = "") {
         return false;
     }
     global $AVideoEncoder_UA;
-    if (preg_match("/{$AVideoEncoder_UA}(.*)/", $_SERVER["HTTP_USER_AGENT"], $match)) {
+    if (preg_match("/{$AVideoEncoder_UA}(.*)/", $user_agent, $match)) {
         $url = trim($match[1]);
         if (!empty($url)) {
             return $url;
