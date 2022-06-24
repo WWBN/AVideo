@@ -1,6 +1,6 @@
 <?php
 
-function captcha($largura,$altura,$tamanho_fonte,$quantidade_letras){
+function captcha($largura,$altura,$quantidade_letras){
     $imagem = imagecreate($largura,$altura); // define a largura e a altura da imagem
     $fonte = "../objects/monof55.ttf"; //voce deve ter essa ou outra fonte de sua preferencia em sua pasta
     $preto  = imagecolorallocate($imagem,0,0,0); // define a cor preta
@@ -9,6 +9,7 @@ function captcha($largura,$altura,$tamanho_fonte,$quantidade_letras){
     $palavra = substr(str_shuffle("AaBbCcDdEeFfGgHhIiJjKkLlMmNnPpQqRrSsTtUuVvYyXxWwZz23456789"),0,($quantidade_letras));
     $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
     for($i = 1; $i <= $quantidade_letras; $i++){
+        $tamanho_fonte = rand(12,18);
         imagettftext($imagem,$tamanho_fonte,rand(-25,25),($tamanho_fonte*$i),
         ($tamanho_fonte + 10),$branco,$fonte,substr($palavra,($i-1),1));
         // atribui as letras a imagem
@@ -47,9 +48,8 @@ if(!empty($_GET['captcha'])){
 
     $largura = 250; // recebe a largura
     $altura = 50; // recebe a altura
-    $tamanho_fonte = 16; // recebe o tamanho da fonte
     $quantidade_letras = 6; // recebe a quantidade de letras que o captcha terá
-    captcha($largura,$altura,$tamanho_fonte,$quantidade_letras);
+    captcha($largura,$altura,$quantidade_letras);
     // executa a funcao captcha passando os parametros recebidos
     exit;
 }else if(!empty($_GET['validate'])){
@@ -57,7 +57,7 @@ if(!empty($_GET['captcha'])){
         $_SESSION['captcha_validated'];
     }else{
         echo "<h1>Wrong captcha</h1>";
-        echo "<a href='/'>Return</a>";
+        echo "<a href='?return=1'>Return</a>";
     }
     exit;
 }
