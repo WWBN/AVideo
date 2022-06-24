@@ -38,7 +38,7 @@ function percentloadavg(){
 $percentloadavg = percentloadavg();
 
 if($percentloadavg[0]<0.5){
-return ;
+//return ;
 }
 
 session_start(); // inicial a sessao
