@@ -9,7 +9,7 @@ function captcha($largura,$altura,$quantidade_letras){
     $palavra = substr(str_shuffle("AaBbCcDdEeFfGgHhIiJjKkLlMmNnPpQqRrSsTtUuVvYyXxWwZz23456789"),0,($quantidade_letras));
     $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
     for($i = 1; $i <= $quantidade_letras; $i++){
-        $tamanho_fonte = rand(12,18);
+        $tamanho_fonte = rand(14,20);
         imagettftext($imagem,$tamanho_fonte,rand(-25,25),($tamanho_fonte*$i),
         ($tamanho_fonte + 10),$branco,$fonte,substr($palavra,($i-1),1));
         // atribui as letras a imagem
@@ -46,7 +46,7 @@ if(!empty($_GET['captcha'])){
    header("Content-type: image/jpeg"); // define o tipo do arquivo
 
 
-    $largura = 250; // recebe a largura
+    $largura = 100; // recebe a largura
     $altura = 50; // recebe a altura
     $quantidade_letras = 6; // recebe a quantidade de letras que o captcha terá
     captcha($largura,$altura,$quantidade_letras);
