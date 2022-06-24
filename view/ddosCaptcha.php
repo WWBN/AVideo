@@ -1,7 +1,7 @@
 <?php
 
 function captcha($maxFontSize, $quantidade_letras){
-    $altura = $maxFontSize*3;
+    $altura = $maxFontSize*2;
     $largura = ($maxFontSize*$quantidade_letras)+$altura;
     $imagem = imagecreate($largura,$altura); // define a largura e a altura da imagem
     $fonte = "../objects/monof55.ttf"; //voce deve ter essa ou outra fonte de sua preferencia em sua pasta
