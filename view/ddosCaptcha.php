@@ -56,7 +56,7 @@ if(!empty($_GET['captcha'])){
     // executa a funcao captcha passando os parametros recebidos
     exit;
 }else if(!empty($_GET['validate'])){
-    if ($_POST["palavra"] == $_SESSION["palavra"]){
+    if (strtolower($_POST["palavra"]) == strtolower($_SESSION["palavra"])){
         $_SESSION['captcha_validated'];
     }else{
         echo "<h1>Wrong captcha</h1>";
