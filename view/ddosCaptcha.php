@@ -2,7 +2,7 @@
 
 function captcha($largura,$altura,$tamanho_fonte,$quantidade_letras){
     $imagem = imagecreate($largura,$altura); // define a largura e a altura da imagem
-    $fonte = "arial.ttf"; //voce deve ter essa ou outra fonte de sua preferencia em sua pasta
+    $fonte = "../objects/monof55.ttf"; //voce deve ter essa ou outra fonte de sua preferencia em sua pasta
     $preto  = imagecolorallocate($imagem,0,0,0); // define a cor preta
     $branco = imagecolorallocate($imagem,255,255,255); // define a cor branca
 
@@ -71,8 +71,8 @@ if(!empty($_GET['captcha'])){
     <script src="view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <body class="">
        <div class=""container>
-<img src="#?captcha=1">
-<form action="#?validate=1" name="form" method="post">
+<img src="?captcha=1">
+<form action="?validate=1" name="form" method="post">
    <input type="text" name="text"  />
    <input type="submit" value="Validate Captcha" />
 </form>
