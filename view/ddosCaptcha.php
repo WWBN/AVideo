@@ -73,7 +73,8 @@ if(!empty($_GET['captcha'])){
     <script src="view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <body class="">
        <div class=""container>
-            <img src="?captcha=1">
+           <img src="videos/userPhoto/logo.png" class="img img-responsive "><br>
+            <img src="?captcha=1" class="img img-responsive ">
             <form action="?validate=1" name="form" method="post" >
             <input type="text" name="palavra" class="form-control"  />
             <input type="submit" value="Validate Captcha" class="btn btn-primary" />
