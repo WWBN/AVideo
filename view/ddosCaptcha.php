@@ -1,6 +1,9 @@
 <?php
 
-function captcha($largura,$altura,$quantidade_letras){
+function captcha($maxFontSize, $quantidade_letras){
+    
+    $largura = ($maxFontSize*$quantidade_letras)+$quantidade_letras;
+    $altura = $maxFontSize+10;
     $imagem = imagecreate($largura,$altura); // define a largura e a altura da imagem
     $fonte = "../objects/monof55.ttf"; //voce deve ter essa ou outra fonte de sua preferencia em sua pasta
     $preto  = imagecolorallocate($imagem,0,0,0); // define a cor preta
@@ -9,8 +12,8 @@ function captcha($largura,$altura,$quantidade_letras){
     $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
     for($i = 1; $i <= $quantidade_letras; $i++){
         $branco = imagecolorallocate($imagem,rand(200,255),rand(200,255),rand(200,255)); // define a cor branca
-        $tamanho_fonte = rand(18,28);
-        imagettftext($imagem,$tamanho_fonte,rand(-25,25),($tamanho_fonte*$i),
+        $tamanho_fonte = rand(18,$maxFontSize);
+        imagettftext($imagem,$tamanho_fonte,rand(-25,25),($maxFontSize*$i),
         ($tamanho_fonte + 10),$branco,$fonte,substr($palavra,($i-1),1));
         // atribui as letras a imagem
     }
@@ -46,10 +49,9 @@ if(!empty($_GET['captcha'])){
    header("Content-type: image/jpeg"); // define o tipo do arquivo
 
 
-    $largura = 100; // recebe a largura
-    $altura = 50; // recebe a altura
+    $maxFontSize = 28;
     $quantidade_letras = 6; // recebe a quantidade de letras que o captcha terá
-    captcha($largura,$altura,$quantidade_letras);
+    captcha($maxFontSize, $quantidade_letras);
     // executa a funcao captcha passando os parametros recebidos
     exit;
 }else if(!empty($_GET['validate'])){
