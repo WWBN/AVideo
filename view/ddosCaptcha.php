@@ -39,7 +39,15 @@ $percentloadavg = percentloadavg();
 if($percentloadavg[0]<0.5){
     //return ;
 }
-
+$ip = uniqid();
+if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+    $ip = $_SERVER['HTTP_CLIENT_IP'];
+} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+} else {
+    $ip = $_SERVER['REMOTE_ADDR'];
+}
+session_name(md5($ip));
 session_start(); // inicial a sessao
 if(!empty($_SESSION['captcha_validated'])){
     session_write_close();
