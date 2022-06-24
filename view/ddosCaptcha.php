@@ -1,7 +1,7 @@
 <?php
 
 function captcha($maxFontSize, $quantidade_letras){
-    $altura = $maxFontSize*2;
+    $altura = $maxFontSize*3;
     $largura = ($maxFontSize*$quantidade_letras)+$altura;
     $imagem = imagecreate($largura,$altura); // define a largura e a altura da imagem
     $fonte = "../objects/monof55.ttf"; //voce deve ter essa ou outra fonte de sua preferencia em sua pasta
@@ -35,7 +35,9 @@ function percentloadavg(){
     return $sys_getloadavg;
 }
 
-if(percentloadavg()<0.5){
+$percentloadavg = percentloadavg();
+
+if($percentloadavg<0.5){
 return ;
 }
 
@@ -77,6 +79,9 @@ if(!empty($_GET['captcha'])){
    <input type="text" name="text"  />
    <input type="submit" value="Validate Captcha" />
 </form>
+<?php
+echo $percentloadavg;
+?>
        </div>
         <script>
             $(document).ready(function () {
