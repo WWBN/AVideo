@@ -37,7 +37,7 @@ function percentloadavg(){
 
 $percentloadavg = percentloadavg();
 
-if($percentloadavg<0.5){
+if($percentloadavg[0]<0.5){
 return ;
 }
 
@@ -80,7 +80,7 @@ if(!empty($_GET['captcha'])){
    <input type="submit" value="Validate Captcha" />
 </form>
 <?php
-echo $percentloadavg;
+var_dump($percentloadavg);
 ?>
        </div>
         <script>
