@@ -79,7 +79,7 @@ if(!empty($_GET['captcha'])){
             <input type="submit" value="Validate Captcha" class="btn btn-primary" />
             </form>
             <?php
-            var_dump($percentloadavg);
+            //var_dump($percentloadavg);
             ?>
        </div>
         <script>
