@@ -37,7 +37,7 @@ function percentloadavg(){
 $percentloadavg = percentloadavg();
 
 if($percentloadavg[0]<0.5){
-    //return ;
+    return ;
 }
 
 if (!empty($_SERVER['HTTP_USER_AGENT']) && preg_match("/AVideo(.*)/", $_SERVER['HTTP_USER_AGENT'])) {
@@ -67,9 +67,9 @@ if(!empty($_GET['captcha'])){
     exit;
 }else if(!empty($_GET['validate'])){
     if (strtolower($_POST["palavra"]) == strtolower($_SESSION["palavra"])){
-        echo "<h1>Correct captcha</h1>";
-        echo "<a href='?return=1'>Return</a>";
         $_SESSION['captcha_validated'] = 1;
+        session_write_close();
+        return ;
     }else{
         echo "<h1>Wrong captcha</h1>";
         echo "<a href='?return=1'>Return</a>";
