@@ -96,7 +96,9 @@ class LoginWordPress extends PluginAbstract {
 
         $wpSite = addLastSlash($obj->customWordPressSite);
         set_time_limit(0);
-        $ch = curl_init($wpSite . 'wp-json/wp/v2/users/me');
+        $WPAPI = $wpSite . 'wp-json/wp/v2/users/me';
+
+        $ch = curl_init($WPAPI);
         $CURLOPT_HTTPHEADER = array(
             "Authorization: Basic {$base64}",
             'Content-Type: application/json'
@@ -113,6 +115,7 @@ class LoginWordPress extends PluginAbstract {
         $info = curl_getinfo($ch);
         curl_close($ch);
 
+        _error_log("LoginWordPresslogin: {$WPAPI} ");
         if(empty($data)){
             _error_log("LoginWordPresslogin: auth empty response ".json_encode($info));
         }else{
