@@ -2284,7 +2284,7 @@ function checkFFMPEGProgress(FFMpegProgress) {
             if (typeof response.progress.progress !== 'undefined') {
                 var text = 'Converting ...';
                 if (typeof response.progress.progress !== 'undefined') {
-                    text += response.progress.progress + ' ';
+                    text += response.progress.progress + '% ';
                 }
                 if (typeof response.progress.remainTimeHuman !== 'undefined') {
                     text += response.progress.remainTimeHuman + ' ';
