@@ -2282,7 +2282,7 @@ function checkFFMPEGProgress(FFMpegProgress) {
         success: function (response) {
             console.log(response);
             setTimeout(function () {
-                if (typeof response.progress.progress !== 'undefined' && response.progress.progress !== 100) {
+                if (typeof response.progress.progress !== 'undefined') {
                     modal.setText('Converting... ' + response.progress.progress + '% ' + response.progress.remainTimeHuman);
                     if (response.progress.progress !== 100) {
                         modal.setText('Converting... ' + response.progress.progress + '% ' + response.progress.remainTimeHuman);
