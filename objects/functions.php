@@ -7070,7 +7070,7 @@ function getLiveVideosFromCategory($categories_id) {
                         "name" => $cat->getName()
                     )
                 ],
-                "videoTagsObject" => array('Starring' => array(), 'Language' => array("English"), 'Release_Date' => array(date('Y')), 'Running_Time' => array(0), 'Genres' => array($cat->getName())),
+                "videoTagsObject" => array('Starring' => array(), 'Language' => array("English"), 'Release_Date' => array(date('Y')), 'Running_Time' => array('0'), 'Genres' => array($cat->getName())),
                 'descriptionHTML' => '',
                 "progress" => array(
                     "percent" => 0,
