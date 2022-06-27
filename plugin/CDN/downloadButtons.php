@@ -93,7 +93,7 @@ if (count($downloadOptions) == 1) {
             ?>
             <script>
                 $(function () {
-                    _goToURLOrAlertError('<?php echo $lastURL; ?>', '<?php echo $lastFormat; ?>');
+                    _goToURLOrAlertError('<?php echo $lastURL; ?>', '<?php echo $progress; ?>', '<?php echo $lastFormat; ?>');
                 });
             </script>
             <?php
