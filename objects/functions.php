@@ -8603,13 +8603,15 @@ function parseFFMPEGProgress($progressFilename) {
     preg_match("/Input[a-z0-9 #,]+from '([^']+)':/", $content, $matches);
     if (!empty($matches[1])) {
         $path_parts = pathinfo($matches[1]);
-        $obj->from = $path_parts['extension'];
+        $partsExtension = explode('?', $path_parts['extension']);
+        $obj->from = $partsExtension[0];
     }
 
     preg_match("/Output[a-z0-9 #,]+to '([^']+)':/", $content, $matches);
     if (!empty($matches[1])) {
         $path_parts = pathinfo($matches[1]);
-        $obj->to = $path_parts['extension'];
+        $partsExtension = explode('?', $path_parts['extension']);
+        $obj->to = $partsExtension[0];
     }
 
     return $obj;
