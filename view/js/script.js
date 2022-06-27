@@ -2274,7 +2274,7 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
 }
 
 function checkFFMPEGProgress(FFMpegProgress) {
-    if(empty(FFMpegProgress)){
+    if (empty(FFMpegProgress)) {
         return false;
     }
     $.ajax({
@@ -2282,9 +2282,11 @@ function checkFFMPEGProgress(FFMpegProgress) {
         success: function (response) {
             console.log(response);
             setTimeout(function () {
-                if(typeof response.progress.progress !== 'undefined' && response.progress.progress!==100){
-                    checkFFMPEGProgress(FFMpegProgress);
-                    modal.setText('Converting... '+response.progress.progress+'% '+response.progress.remainTimeHuman);
+                if (typeof response.progress.progress !== 'undefined' && response.progress.progress !== 100) {
+                    modal.setText('Converting... ' + response.progress.progress + '% ' + response.progress.remainTimeHuman);
+                    if (response.progress.progress !== 100) {
+                        modal.setText('Converting... ' + response.progress.progress + '% ' + response.progress.remainTimeHuman);
+                    }
                 }
             }, 1000);
         }
