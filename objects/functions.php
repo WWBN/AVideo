@@ -7049,7 +7049,7 @@ function getLiveVideosFromCategory($categories_id) {
                 "groups" => array(),
                 "tags" => array(),
                 "videoTags" => array(),
-                "videoTagsObject" => new stdClass(),
+                "videoTagsObject" => array('Starring'=> array(),'Language'=>array("English"),'Release_Date'=>array(date('Y')),'Running_Time'=> '', 'Genres'=> array($cat->getName())),
                 'descriptionHTML' => '',
                 "progress" => array(
                     "percent" => 0,
