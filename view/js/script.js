@@ -2283,10 +2283,15 @@ function checkFFMPEGProgress(FFMpegProgress) {
             console.log(response);
             setTimeout(function () {
                 if (typeof response.progress.progress !== 'undefined') {
-                    modal.setText('Converting... ' + response.progress.progress + '% ' + response.progress.remainTimeHuman);
-                    if (response.progress.progress !== 100) {
-                        modal.setText('Converting... ' + response.progress.progress + '% ' + response.progress.remainTimeHuman);
+                    var text = 'Converting ...';
+                    if (typeof response.progress.progress !== 'undefined') {
+                        text += response.progress.progress+' ';
                     }
+                    if (typeof response.progress.remainTimeHuman !== 'undefined') {
+                        text += response.progress.remainTimeHuman+' ';
+                    }
+                    modal.setText(text);
+                    
                 }
             }, 1000);
         }
