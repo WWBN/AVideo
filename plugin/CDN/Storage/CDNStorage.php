@@ -1113,6 +1113,8 @@ class CDNStorage {
                 $progressFile = $localFile.'.log';
                 $command .= " 1> \"{$progressFile}\" 2>&1";
                 _error_log('convertCDNHLSVideoToDownlaod: download from CDN ' . $command);
+                session_write_close();
+                _mysql_close();
                 exec($command, $output);
                 _error_log('convertCDNHLSVideoToDownlaod: download from CDN output: ' . json_encode($output));
             }
