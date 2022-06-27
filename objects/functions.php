@@ -6971,11 +6971,12 @@ function getLiveVideosFromCategory($categories_id) {
             $user = new User($value['users_id']);
 
             $video = array(
-                'id' => uniqid(),
+                'id' => -1,
                 'isLive' => 1,
                 'categories_id' => $categories_id,
                 'description' => '',
                 'user' => $user->getUser(),
+                'name' => $user->getName(),
                 'email' => $user->getEmail(),
                 'isAdmin' => $user->getIsAdmin(),
                 'photoURL' => $user->getPhotoURL(),
