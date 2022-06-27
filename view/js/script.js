@@ -2253,7 +2253,7 @@ function downloadURLOrAlertError(jsonURL, data, filename, progress) {
                 console.log(response);
             }
         });
-    });
+    },1000);
     $.ajax({
         url: jsonURL,
         method: 'POST',
