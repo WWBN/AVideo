@@ -1117,7 +1117,7 @@ class CDNStorage {
                 _mysql_close();
                 exec($command, $output);
                 _session_start();
-                mysql_connect();
+                _mysql_connect();
                 _error_log('convertCDNHLSVideoToDownlaod: download from CDN output: ' . json_encode($output));
             }
             if (!file_exists($localFile)) {
