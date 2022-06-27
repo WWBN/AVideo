@@ -2282,8 +2282,9 @@ function checkFFMPEGProgress(FFMpegProgress) {
         success: function (response) {
             console.log(response);
             setTimeout(function () {
-                if(response.progress.progress!==100){
+                if(typeof response.progress.progress !== 'undefined' && response.progress.progress!==100){
                     checkFFMPEGProgress(FFMpegProgress);
+                    modal.setText('Converting... '+response.progress.progress+'% '+response.progress.remainTimeHuman);
                 }
             }, 1000);
         }
