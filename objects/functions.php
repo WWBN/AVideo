@@ -6987,9 +6987,9 @@ function getLiveVideosFromCategory($categories_id) {
                 'users_id' => $value['users_id'],
                 'type' => 'ready',
                 'title' => $value['title'],
+                'clean_title' => cleanURLName($value['title']),
+                'filename' => uniqid(),
                 'poster' => @$value['poster'],
-                'Poster' => @$value['poster'],
-                'Thumbnail' => @$value['poster'],
                 'thumbsJpgSmall' => @$value['poster'],
                 'href' => @$value['href'],
                 'link' => @$value['link'],
@@ -7001,6 +7001,7 @@ function getLiveVideosFromCategory($categories_id) {
                 'images' => array(
                     "poster" => @$value['poster'],
                     "posterPortrait" => @$value['poster'],
+                    "posterPortraitPath" => @$value['poster'],
                     "posterPortraitThumbs" => @$value['poster'],
                     "posterPortraitThumbsSmall" => @$value['poster'],
                     "thumbsGif" => @$value['imgGif'],
@@ -7009,11 +7010,14 @@ function getLiveVideosFromCategory($categories_id) {
                     "thumbsJpgSmall" => @$value['poster'],
                     "spectrumSource" => false,
                     "posterLandscape" => @$value['poster'],
+                    "posterLandscapePath" => @$value['poster'],
                     "posterLandscapeThumbs" => @$value['poster'],
                     "posterLandscapeThumbsSmall" => @$value['poster']
                 ),
                 'videos' => array(
                     "m3u8" => array(
+                        "filename" => uniqid(),
+                        "path" => $m3u8,
                         "url" => $m3u8,
                         "url_noCDN" => $m3u8,
                         "type" => "video",
@@ -7021,6 +7025,9 @@ function getLiveVideosFromCategory($categories_id) {
                         "resolution" => "auto"
                     )
                 ),
+                'Poster' => @$value['poster'],
+                'Thumbnail' => @$value['poster'],
+                'createdHumanTiming' => 'Live',
                 "videoLink" => "",
                 "next_videos_id" => null,
                 "isSuggested" => 0,
@@ -7028,6 +7035,8 @@ function getLiveVideosFromCategory($categories_id) {
                 "trailer2" => "",
                 "trailer3" => "",
                 "total_seconds_watching" => 0,
+                "duration" => 'Live',
+                "type" => 'Live',
                 "duration_in_seconds" => 0,
                 "likes" => 0,
                 "dislikes" => 0,
@@ -7038,6 +7047,10 @@ function getLiveVideosFromCategory($categories_id) {
                 "category_description" => $cat->getDescription(),
                 "videoCreation" => date('Y-m-d H:i:s'),
                 "videoModified" => date('Y-m-d H:i:s'),
+                "groups" => array(),
+                "tags" => array(),
+                "videoTags" => array(),
+                "videoTagsObject" => new stdClass(),
                 'descriptionHTML' => '',
                 "progress" => array(
                     "percent" => 0,
@@ -7053,6 +7066,7 @@ function getLiveVideosFromCategory($categories_id) {
                 "UserPhoto" => $user->getPhotoURL(),
                 "isSubscribed" => true,
                 "subtitles" => [],
+                "subtitlesSRT" => [],
                 "comments" => [],
                 "commentsTotal" => 0,
                 "subscribers" => 1,
