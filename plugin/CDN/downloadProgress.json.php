@@ -59,6 +59,6 @@ $resp->error = false;
 //var_dump($url);exit;
 _error_log('download from CDN ' . json_encode($progress));
 
-$resp->progress = $url;
+$resp->progress = $progress;
 
 die(json_encode($resp));
