@@ -7036,7 +7036,7 @@ function getLiveVideosFromCategory($categories_id) {
                 "total_seconds_watching" => 0,
                 "duration" => 'Live',
                 "type" => 'Live',
-                "duration_in_seconds" => 99999,
+                "duration_in_seconds" => 0,
                 "likes" => 0,
                 "dislikes" => 0,
                 "users_id_company" => null,
@@ -7091,6 +7091,15 @@ function getLiveVideosFromCategory($categories_id) {
                 "commentsTotal" => 0,
                 "subscribers" => 1,
                 'relatedVideos' => [],
+                "wwbnURL" => @$value['href'],
+                "wwbnEmbedURL" => addQueryStringParameter($value['href'], 'embed', 1),
+                "wwbnImgThumbnail" => @$value['poster'],
+                "wwbnImgPoster" => @$value['poster'],
+                "wwbnTitle" => $value['title'],
+                "wwbnDescription" => '',
+                "wwbnChannelURL" => $user->getChannelLink(),
+                "wwbnImgChannel" => $user->getPhoto(),
+                "wwbnType" => "live",
             );
 
             $videos[] = $video;
