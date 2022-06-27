@@ -1111,7 +1111,7 @@ class CDNStorage {
                     $command = get_ffmpeg() . " -i \"{$m3u8File}\" -c copy \"{$localFile}\"";
                 }
                 $progressFile = $localFile.'.log';
-                $command .= " > \"{$progressFile}\"";
+                $command .= " 1> \"{$progressFile}\" 2>&1";
                 _error_log('convertCDNHLSVideoToDownlaod: download from CDN ' . $command);
                 exec($command, $output);
                 _error_log('convertCDNHLSVideoToDownlaod: download from CDN output: ' . json_encode($output));
