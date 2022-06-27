@@ -2243,17 +2243,10 @@ function downloadURL(url, filename) {
 }
 
 var downloadURLOrAlertErrorInterval;
-function downloadURLOrAlertError(jsonURL, data, filename, progress) {
+function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
     modal.showPleaseWait();
     avideoToastInfo('Converting');
-    downloadURLOrAlertErrorInterval = setInterval(function(){
-        $.ajax({
-            url: progress,
-            success: function (response) {
-                console.log(response);
-            }
-        });
-    },1000);
+    checkFFMPEGProgress(FFMpegProgress);
     $.ajax({
         url: jsonURL,
         method: 'POST',
@@ -2276,6 +2269,21 @@ function downloadURLOrAlertError(jsonURL, data, filename, progress) {
                 avideoResponse(response);
                 modal.hidePleaseWait();
             }
+        }
+    });
+}
+
+function checkFFMPEGProgress(FFMpegProgress) {
+    if(empty(FFMpegProgress)){
+        return false;
+    }
+    $.ajax({
+        url: FFMpegProgress,
+        success: function (response) {
+            console.log(response);
+            setTimeout(function () {
+                checkFFMPEGProgress(FFMpegProgress)
+            }, 1000);
         }
     });
 }
