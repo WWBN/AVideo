@@ -2282,7 +2282,9 @@ function checkFFMPEGProgress(FFMpegProgress) {
         success: function (response) {
             console.log(response);
             setTimeout(function () {
-                checkFFMPEGProgress(FFMpegProgress)
+                if(response.progress.progress!==100){
+                    checkFFMPEGProgress(FFMpegProgress);
+                }
             }, 1000);
         }
     });
