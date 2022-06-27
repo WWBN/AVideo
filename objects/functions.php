@@ -7036,7 +7036,7 @@ function getLiveVideosFromCategory($categories_id) {
                 "total_seconds_watching" => 0,
                 "duration" => 'Live',
                 "type" => 'Live',
-                "duration_in_seconds" => 0,
+                "duration_in_seconds" => 99999,
                 "likes" => 0,
                 "dislikes" => 0,
                 "users_id_company" => null,
