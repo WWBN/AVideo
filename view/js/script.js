@@ -2281,19 +2281,21 @@ function checkFFMPEGProgress(FFMpegProgress) {
         url: FFMpegProgress,
         success: function (response) {
             console.log(response);
-            setTimeout(function () {
+            if (typeof response.progress.progress !== 'undefined') {
+                var text = 'Converting ...';
                 if (typeof response.progress.progress !== 'undefined') {
-                    var text = 'Converting ...';
-                    if (typeof response.progress.progress !== 'undefined') {
-                        text += response.progress.progress+' ';
-                    }
-                    if (typeof response.progress.remainTimeHuman !== 'undefined') {
-                        text += response.progress.remainTimeHuman+' ';
-                    }
-                    modal.setText(text);
-                    
+                    text += response.progress.progress + ' ';
                 }
-            }, 1000);
+                if (typeof response.progress.remainTimeHuman !== 'undefined') {
+                    text += response.progress.remainTimeHuman + ' ';
+                }
+                modal.setText(text);
+                if (response.progress.progress !== 100) {
+                    setTimeout(function () {
+                        checkFFMPEGProgress(FFMpegProgress);
+                    }, 1000);
+                }
+            }
         }
     });
 }
