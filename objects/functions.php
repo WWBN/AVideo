@@ -7017,7 +7017,6 @@ function getLiveVideosFromCategory($categories_id) {
                 ),
                 'videos' => array(
                     "m3u8" => array(
-                        "filename" => uniqid(),
                         "path" => $m3u8,
                         "url" => $m3u8,
                         "url_noCDN" => $m3u8,
