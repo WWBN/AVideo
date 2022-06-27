@@ -6971,7 +6971,7 @@ function getLiveVideosFromCategory($categories_id) {
             $user = new User($value['users_id']);
 
             $video = array(
-                'id' => -1,
+                'id' => uniqid(),
                 'isLive' => 1,
                 'categories_id' => $categories_id,
                 'description' => '',
