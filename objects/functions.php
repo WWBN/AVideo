@@ -6989,7 +6989,6 @@ function getLiveVideosFromCategory($categories_id) {
                 'type' => 'ready',
                 'title' => $value['title'],
                 'clean_title' => cleanURLName($value['title']),
-                'filename' => uniqid(),
                 'poster' => @$value['poster'],
                 'thumbsJpgSmall' => @$value['poster'],
                 'href' => @$value['href'],
@@ -7017,7 +7016,6 @@ function getLiveVideosFromCategory($categories_id) {
                 ),
                 'videos' => array(
                     "m3u8" => array(
-                        "path" => $m3u8,
                         "url" => $m3u8,
                         "url_noCDN" => $m3u8,
                         "type" => "video",
@@ -7076,6 +7074,7 @@ function getLiveVideosFromCategory($categories_id) {
             $videos[] = $video;
         }
     }
+    //var_dump($videos);exit;
     return $videos;
 }
 
