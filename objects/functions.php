@@ -6985,7 +6985,7 @@ function getLiveVideosFromCategory($categories_id) {
                 'channelName' => $user->getChannelName(),
                 'emailVerified' => $user->getEmailVerified(),
                 'views_count' => 0,
-                'rrating'=> "",
+                'rrating' => "",
                 'users_id' => $value['users_id'],
                 'type' => 'ready',
                 'title' => $value['title'],
@@ -7048,8 +7048,29 @@ function getLiveVideosFromCategory($categories_id) {
                 "videoModified" => date('Y-m-d H:i:s'),
                 "groups" => array(),
                 "tags" => array(),
-                "videoTags" => array(),
-                "videoTagsObject" => array('Starring'=> array(),'Language'=>array("English"),'Release_Date'=>array(date('Y')),'Running_Time'=> array(''), 'Genres'=> array($cat->getName())),
+                "videoTags" => [
+                    array(
+                        "type_name" => "Starring",
+                        "name" => ""
+                    ),
+                    array(
+                        "type_name" => "Language",
+                        "name" => "English"
+                    ),
+                    array(
+                        "type_name" => "Release_Date",
+                        "name" => date('Y')
+                    ),
+                    array(
+                        "type_name" => "Running_Time",
+                        "name" => ""
+                    ),
+                    array(
+                        "type_name" => "Genres",
+                        "name" => $cat->getName()
+                    )
+                ],
+                "videoTagsObject" => array('Starring' => array(), 'Language' => array("English"), 'Release_Date' => array(date('Y')), 'Running_Time' => array(''), 'Genres' => array($cat->getName())),
                 'descriptionHTML' => '',
                 "progress" => array(
                     "percent" => 0,
