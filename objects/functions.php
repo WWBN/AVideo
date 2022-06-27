@@ -6985,6 +6985,7 @@ function getLiveVideosFromCategory($categories_id) {
                 'channelName' => $user->getChannelName(),
                 'emailVerified' => $user->getEmailVerified(),
                 'views_count' => 0,
+                'rrating'=> "",
                 'users_id' => $value['users_id'],
                 'type' => 'ready',
                 'title' => $value['title'],
