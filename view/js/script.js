@@ -2242,14 +2242,24 @@ function downloadURL(url, filename) {
             });
 }
 
-function downloadURLOrAlertError(jsonURL, data, filename) {
+var downloadURLOrAlertErrorInterval;
+function downloadURLOrAlertError(jsonURL, data, filename, progress) {
     modal.showPleaseWait();
     avideoToastInfo('Converting');
+    downloadURLOrAlertErrorInterval = setInterval(function(){
+        $.ajax({
+            url: progress,
+            success: function (response) {
+                console.log(response);
+            }
+        });
+    });
     $.ajax({
         url: jsonURL,
         method: 'POST',
         data: data,
         success: function (response) {
+            clearInterval(downloadURLOrAlertErrorInterval);
             if (response.error) {
                 avideoAlertError(response.msg);
                 modal.hidePleaseWait();

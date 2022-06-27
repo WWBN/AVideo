@@ -277,7 +277,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                     }
                     if (preg_match('/\.json/i', $theLink['url'])) {
                         ?>
-                        <button type="button" onclick="downloadURLOrAlertError('<?php echo $theLink['url']; ?>', {}, '<?php echo $video['clean_title']; ?>.<?php echo strtolower($theLink['name']); ?>');" 
+                        <button type="button" onclick="downloadURLOrAlertError('<?php echo $theLink['url']; ?>', {}, '<?php echo $video['clean_title']; ?>.<?php echo strtolower($theLink['name']); ?>','<?php echo $theLink['progress']; ?>');" 
                                 class="btn btn-default" target="_blank">
                             <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
                         </button>

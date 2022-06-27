@@ -7071,7 +7071,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     unset($_POST['sort']);
     if ($force_recreate) {
-        if($isLiveEnabled){
+        if ($isLiveEnabled) {
             Live::deleteStatsCache();
         }
     } else {
@@ -8531,5 +8531,86 @@ function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false) 
     _error_log("sendToEncoder: QUEUE CURL: ($target) " . json_encode($obj));
     curl_close($curl);
     Configuration::deleteEncoderURLCache();
+    return $obj;
+}
+
+function parseFFMPEGProgress($progressFilename) {
+    //get duration of source
+    $obj = new stdClass();
+
+    $obj->duration = 0;
+    $obj->currentTime = 0;
+    $obj->progress = 0;
+    $obj->from = '';
+    $obj->to = '';
+    if (!file_exists($progressFilename)) {
+        return $obj;
+    }
+
+    $content = url_get_contents($progressFilename);
+    if (empty($content)) {
+        return $obj;
+    }
+    //var_dump($content);exit;
+    preg_match("/Duration: (.*?), start:/", $content, $matches);
+    if (!empty($matches[1])) {
+
+        $rawDuration = $matches[1];
+
+        //rawDuration is in 00:00:00.00 format. This converts it to seconds.
+        $ar = array_reverse(explode(":", $rawDuration));
+        $duration = floatval($ar[0]);
+        if (!empty($ar[1])) {
+            $duration += intval($ar[1]) * 60;
+        }
+        if (!empty($ar[2])) {
+            $duration += intval($ar[2]) * 60 * 60;
+        }
+
+        //get the time in the file that is already encoded
+        preg_match_all("/time=(.*?) bitrate/", $content, $matches);
+
+        $rawTime = array_pop($matches);
+
+        //this is needed if there is more than one match
+        if (is_array($rawTime)) {
+            $rawTime = array_pop($rawTime);
+        }
+
+        //rawTime is in 00:00:00.00 format. This converts it to seconds.
+        $ar = array_reverse(explode(":", $rawTime));
+        $time = floatval($ar[0]);
+        if (!empty($ar[1])) {
+            $time += intval($ar[1]) * 60;
+        }
+        if (!empty($ar[2])) {
+            $time += intval($ar[2]) * 60 * 60;
+        }
+
+        if (!empty($duration)) {
+            //calculate the progress
+            $progress = round(($time / $duration) * 100);
+        } else {
+            $progress = 'undefined';
+        }
+        $obj->duration = $duration;
+        $obj->currentTime = $time;
+        $obj->remainTime = ($obj->duration - $time);
+        $obj->remainTimeHuman = secondsToVideoTime($obj->remainTime);
+        $obj->progress = $progress;
+    }
+
+    preg_match("/Input[a-z0-9 #,]+from '([^']+)':/", $content, $matches);
+    if (!empty($matches[1])) {
+        $path_parts = pathinfo($matches[1]);
+        $obj->from = $path_parts['extension'];
+    }
+
+    preg_match("/Output[a-z0-9 #,]+to '([^']+)':/", $content, $matches);
+    if (!empty($matches[1])) {
+        $path_parts = pathinfo($matches[1]);
+        $obj->to = $path_parts['extension'];
+    }
+
     return $obj;
 }

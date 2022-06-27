@@ -1134,5 +1134,15 @@ class CDNStorage {
         unlink($localFileLock);
         return $returnURL;
     }
+    
+    public static function convertCDNHLSVideoToDownlaodProgress($videos_id, $format = 'mp4') {
+        $format = strtolower($format);
+        $video = new Video('', '', $videos_id);
+        $filename = $video->getFilename();        
+        $progressFile = getVideosDir() . "{$filename}/index.{$format}.log";
+        return parseFFMPEGProgress($progressFile);        
+    }
 
+    
+    
 }
