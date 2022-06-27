@@ -57,7 +57,7 @@ if(empty($progress)){
 }
 $resp->error = false;
 //var_dump($url);exit;
-_error_log('download from CDN ' . $progress);
+_error_log('download from CDN ' . json_encode($progress));
 
 $resp->progress = $url;
 
