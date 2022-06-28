@@ -6969,13 +6969,14 @@ function getLiveVideosFromCategory($categories_id) {
             }
 
             $user = new User($value['users_id']);
-
+            
             $video = array(
-                'id' => uniqid(),
+                'id' => intval(rand(999999,9999999)),
                 'isLive' => 1,
                 'categories_id' => $categories_id,
                 'description' => '',
                 'user' => $user->getUser(),
+                'name' => $user->getName(),
                 'email' => $user->getEmail(),
                 'isAdmin' => $user->getIsAdmin(),
                 'photoURL' => $user->getPhotoURL(),
@@ -6984,12 +6985,12 @@ function getLiveVideosFromCategory($categories_id) {
                 'channelName' => $user->getChannelName(),
                 'emailVerified' => $user->getEmailVerified(),
                 'views_count' => 0,
+                'rrating' => "",
                 'users_id' => $value['users_id'],
                 'type' => 'ready',
                 'title' => $value['title'],
+                'clean_title' => cleanURLName($value['title']),
                 'poster' => @$value['poster'],
-                'Poster' => @$value['poster'],
-                'Thumbnail' => @$value['poster'],
                 'thumbsJpgSmall' => @$value['poster'],
                 'href' => @$value['href'],
                 'link' => @$value['link'],
@@ -7001,6 +7002,7 @@ function getLiveVideosFromCategory($categories_id) {
                 'images' => array(
                     "poster" => @$value['poster'],
                     "posterPortrait" => @$value['poster'],
+                    "posterPortraitPath" => @$value['poster'],
                     "posterPortraitThumbs" => @$value['poster'],
                     "posterPortraitThumbsSmall" => @$value['poster'],
                     "thumbsGif" => @$value['imgGif'],
@@ -7009,6 +7011,7 @@ function getLiveVideosFromCategory($categories_id) {
                     "thumbsJpgSmall" => @$value['poster'],
                     "spectrumSource" => false,
                     "posterLandscape" => @$value['poster'],
+                    "posterLandscapePath" => @$value['poster'],
                     "posterLandscapeThumbs" => @$value['poster'],
                     "posterLandscapeThumbsSmall" => @$value['poster']
                 ),
@@ -7021,6 +7024,9 @@ function getLiveVideosFromCategory($categories_id) {
                         "resolution" => "auto"
                     )
                 ),
+                'Poster' => @$value['poster'],
+                'Thumbnail' => @$value['poster'],
+                'createdHumanTiming' => 'Live',
                 "videoLink" => "",
                 "next_videos_id" => null,
                 "isSuggested" => 0,
@@ -7028,6 +7034,8 @@ function getLiveVideosFromCategory($categories_id) {
                 "trailer2" => "",
                 "trailer3" => "",
                 "total_seconds_watching" => 0,
+                "duration" => 'Live',
+                "type" => 'Live',
                 "duration_in_seconds" => 0,
                 "likes" => 0,
                 "dislikes" => 0,
@@ -7038,6 +7046,31 @@ function getLiveVideosFromCategory($categories_id) {
                 "category_description" => $cat->getDescription(),
                 "videoCreation" => date('Y-m-d H:i:s'),
                 "videoModified" => date('Y-m-d H:i:s'),
+                "groups" => array(),
+                "tags" => array(),
+                "videoTags" => [
+                    array(
+                        "type_name" => "Starring",
+                        "name" => ""
+                    ),
+                    array(
+                        "type_name" => "Language",
+                        "name" => "English"
+                    ),
+                    array(
+                        "type_name" => "Release_Date",
+                        "name" => date('Y')
+                    ),
+                    array(
+                        "type_name" => "Running_Time",
+                        "name" => ""
+                    ),
+                    array(
+                        "type_name" => "Genres",
+                        "name" => $cat->getName()
+                    )
+                ],
+                "videoTagsObject" => array('Starring' => array(), 'Language' => array("English"), 'Release_Date' => array(date('Y')), 'Running_Time' => array('0'), 'Genres' => array($cat->getName())),
                 'descriptionHTML' => '',
                 "progress" => array(
                     "percent" => 0,
@@ -7053,15 +7086,26 @@ function getLiveVideosFromCategory($categories_id) {
                 "UserPhoto" => $user->getPhotoURL(),
                 "isSubscribed" => true,
                 "subtitles" => [],
+                "subtitlesSRT" => [],
                 "comments" => [],
                 "commentsTotal" => 0,
                 "subscribers" => 1,
                 'relatedVideos' => [],
+                "wwbnURL" => @$value['href'],
+                "wwbnEmbedURL" => addQueryStringParameter($value['href'], 'embed', 1),
+                "wwbnImgThumbnail" => @$value['poster'],
+                "wwbnImgPoster" => @$value['poster'],
+                "wwbnTitle" => $value['title'],
+                "wwbnDescription" => '',
+                "wwbnChannelURL" => $user->getChannelLink(),
+                "wwbnImgChannel" => $user->getPhoto(),
+                "wwbnType" => "live",
             );
 
             $videos[] = $video;
         }
     }
+    //var_dump($videos);exit;
     return $videos;
 }
 
@@ -7071,7 +7115,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     unset($_POST['sort']);
     if ($force_recreate) {
-        if($isLiveEnabled){
+        if ($isLiveEnabled) {
             Live::deleteStatsCache();
         }
     } else {
@@ -8531,5 +8575,88 @@ function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false) 
     _error_log("sendToEncoder: QUEUE CURL: ($target) " . json_encode($obj));
     curl_close($curl);
     Configuration::deleteEncoderURLCache();
+    return $obj;
+}
+
+function parseFFMPEGProgress($progressFilename) {
+    //get duration of source
+    $obj = new stdClass();
+
+    $obj->duration = 0;
+    $obj->currentTime = 0;
+    $obj->progress = 0;
+    $obj->from = '';
+    $obj->to = '';
+    if (!file_exists($progressFilename)) {
+        return $obj;
+    }
+
+    $content = url_get_contents($progressFilename);
+    if (empty($content)) {
+        return $obj;
+    }
+    //var_dump($content);exit;
+    preg_match("/Duration: (.*?), start:/", $content, $matches);
+    if (!empty($matches[1])) {
+
+        $rawDuration = $matches[1];
+
+        //rawDuration is in 00:00:00.00 format. This converts it to seconds.
+        $ar = array_reverse(explode(":", $rawDuration));
+        $duration = floatval($ar[0]);
+        if (!empty($ar[1])) {
+            $duration += intval($ar[1]) * 60;
+        }
+        if (!empty($ar[2])) {
+            $duration += intval($ar[2]) * 60 * 60;
+        }
+
+        //get the time in the file that is already encoded
+        preg_match_all("/time=(.*?) bitrate/", $content, $matches);
+
+        $rawTime = array_pop($matches);
+
+        //this is needed if there is more than one match
+        if (is_array($rawTime)) {
+            $rawTime = array_pop($rawTime);
+        }
+
+        //rawTime is in 00:00:00.00 format. This converts it to seconds.
+        $ar = array_reverse(explode(":", $rawTime));
+        $time = floatval($ar[0]);
+        if (!empty($ar[1])) {
+            $time += intval($ar[1]) * 60;
+        }
+        if (!empty($ar[2])) {
+            $time += intval($ar[2]) * 60 * 60;
+        }
+
+        if (!empty($duration)) {
+            //calculate the progress
+            $progress = round(($time / $duration) * 100);
+        } else {
+            $progress = 'undefined';
+        }
+        $obj->duration = $duration;
+        $obj->currentTime = $time;
+        $obj->remainTime = ($obj->duration - $time);
+        $obj->remainTimeHuman = secondsToVideoTime($obj->remainTime);
+        $obj->progress = $progress;
+    }
+
+    preg_match("/Input[a-z0-9 #,]+from '([^']+)':/", $content, $matches);
+    if (!empty($matches[1])) {
+        $path_parts = pathinfo($matches[1]);
+        $partsExtension = explode('?', $path_parts['extension']);
+        $obj->from = $partsExtension[0];
+    }
+
+    preg_match("/Output[a-z0-9 #,]+to '([^']+)':/", $content, $matches);
+    if (!empty($matches[1])) {
+        $path_parts = pathinfo($matches[1]);
+        $partsExtension = explode('?', $path_parts['extension']);
+        $obj->to = $partsExtension[0];
+    }
+
     return $obj;
 }

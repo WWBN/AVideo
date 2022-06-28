@@ -1110,8 +1110,14 @@ class CDNStorage {
                 } else {
                     $command = get_ffmpeg() . " -i \"{$m3u8File}\" -c copy \"{$localFile}\"";
                 }
+                $progressFile = $localFile.'.log';
+                $command .= " 1> \"{$progressFile}\" 2>&1";
                 _error_log('convertCDNHLSVideoToDownlaod: download from CDN ' . $command);
+                session_write_close();
+                _mysql_close();
                 exec($command, $output);
+                _session_start();
+                _mysql_connect();
                 _error_log('convertCDNHLSVideoToDownlaod: download from CDN output: ' . json_encode($output));
             }
             if (!file_exists($localFile)) {
@@ -1132,5 +1138,15 @@ class CDNStorage {
         unlink($localFileLock);
         return $returnURL;
     }
+    
+    public static function convertCDNHLSVideoToDownlaodProgress($videos_id, $format = 'mp4') {
+        $format = strtolower($format);
+        $video = new Video('', '', $videos_id);
+        $filename = $video->getFilename();        
+        $progressFile = getVideosDir() . "{$filename}/index.{$format}.log";
+        return parseFFMPEGProgress($progressFile);        
+    }
 
+    
+    
 }

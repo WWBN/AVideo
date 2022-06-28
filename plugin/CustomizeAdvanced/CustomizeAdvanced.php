@@ -286,6 +286,20 @@ Allow: .css";
         $obj->trendingOnLastDays = $o;
         self::addDataObjectHelper('trendingOnLastDays', 'Trending Days', 'For the result of trending videos, use the statistics contained in the last few days');
 
+        
+        $o = new stdClass();
+        $o->type = array(
+            'titleAZ' => __("Title (A-Z)"), 
+            'titleZA' => __("Title (Z-A)"), 
+            'newest' => __("Date added (newest)"), 
+            'oldest' => __("Date added (oldest)"), 
+            'popular' => __("Most popular"), 
+            'views_count' => __("Most watched")
+            );
+        $o->value = 'newest';
+        $obj->sortVideoListByDefault = $o;
+        self::addDataObjectHelper('sortVideoListByDefault', 'Sort Video List By Default');
+        
         return $obj;
     }
     

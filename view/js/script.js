@@ -2242,14 +2242,17 @@ function downloadURL(url, filename) {
             });
 }
 
-function downloadURLOrAlertError(jsonURL, data, filename) {
+var downloadURLOrAlertErrorInterval;
+function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
     modal.showPleaseWait();
     avideoToastInfo('Converting');
+    checkFFMPEGProgress(FFMpegProgress);
     $.ajax({
         url: jsonURL,
         method: 'POST',
         data: data,
         success: function (response) {
+            clearInterval(downloadURLOrAlertErrorInterval);
             if (response.error) {
                 avideoAlertError(response.msg);
                 modal.hidePleaseWait();
@@ -2265,6 +2268,31 @@ function downloadURLOrAlertError(jsonURL, data, filename) {
             } else {
                 avideoResponse(response);
                 modal.hidePleaseWait();
+            }
+        }
+    });
+}
+
+function checkFFMPEGProgress(FFMpegProgress) {
+    if (empty(FFMpegProgress)) {
+        return false;
+    }
+    $.ajax({
+        url: FFMpegProgress,
+        success: function (response) {
+            console.log(response);
+            if (typeof response.progress.progress !== 'undefined') {
+                var text = 'Converting ...';
+                if (typeof response.progress.progress !== 'undefined') {
+                    text += response.progress.progress + '% ';
+                    modal.setProgress(response.progress.progress);
+                }
+                modal.setText(text);
+                if (response.progress.progress !== 100) {
+                    setTimeout(function () {
+                        checkFFMPEGProgress(FFMpegProgress);
+                    }, 1000);
+                }
             }
         }
     });

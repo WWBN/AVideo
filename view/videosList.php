@@ -41,16 +41,56 @@ if ($_REQUEST['rowCount'] <= 0 || $_REQUEST['rowCount'] > 100) {
     $_REQUEST['rowCount'] = 10;
 }
 
-if (empty($_POST['sort'])) {
-    if (!empty($_SESSION['sort'])) {
-        $_POST['sort'] = $_SESSION['sort'];
-    } else {
-        $_POST['sort']['created'] = 'desc';
+$sortBy = $advancedCustom->sortVideoListByDefault->value;
+if (empty($_POST['sort']) && !empty($_SESSION['sort'])) {
+    $_POST['sort'] = $_SESSION['sort'];
+}
+if (!empty($_POST['sort'])) {
+    if (!empty($_POST['sort']['title'])) {
+        if (strtolower($_POST['sort']['title']) == 'asc') {
+            $sortBy = 'titleAZ';
+        } else if (strtolower($_POST['sort']['title']) == 'desc') {
+            $sortBy = 'titleZA';
+        }
+    } else if (!empty($_POST['sort']['created'])) {
+        if (strtolower($_POST['sort']['created']) == 'asc') {
+            $sortBy = 'newest';
+        } else if (strtolower($_POST['sort']['created']) == 'desc') {
+            $sortBy = 'oldest';
+        }
+    } else if (!empty($_POST['sort']['likes'])) {
+        $sortBy = 'popular';
+    } else if (!empty($_POST['sort']['views_count'])) {
+        $sortBy = 'views_count';
+    }
+} else {
+    $_POST['sort'] = array();
+    switch ($sortBy) {
+        case 'titleAZ':
+            $_POST['sort']['title'] = 'asc';
+            break;
+        case 'titleZA':
+            $_POST['sort']['title'] = 'desc';
+            break;
+        case 'newest':
+            $_POST['sort']['created'] = 'asc';
+            break;
+        case 'oldest':
+            $_POST['sort']['created'] = 'desc';
+            break;
+        case 'popular':
+            $_POST['sort']['likes'] = 1;
+            break;
+        case 'views_count':
+            $_POST['sort']['views_count'] = 1;
+            break;
     }
 }
+
 $_SESSION['rowCount'] = $_REQUEST['rowCount'];
 $_SESSION['sort'] = $_POST['sort'];
 
+//var_dump($sortBy, $_POST['sort'], strtolower($_POST['sort']['created']) == 'desc');
 
 TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
 $videos = Video::getAllVideos("viewableNotUnlisted");
@@ -73,7 +113,7 @@ $get = ['channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']];
 if (!empty($_GET['channelName']) && empty($advancedCustomUser->hideRemoveChannelFromModeYoutube)) {
     $user = User::getChannelOwner($_GET['channelName']);
     //var_dump($user);exit;
-?>
+    ?>
     <div class="col-md-12" style="padding: 15px; margin: 5px 0; background-image: url(<?php echo $global['webSiteRootURL'], User::getBackgroundURLFromUserID($user['id']); ?>); background-size: cover;"  >
         <img src="<?php echo User::getPhoto($user['id']); ?>" class="img img-responsive img-circle" style="max-width: 60px;" alt="User Photo"/>
         <div style="position: absolute; right: 5px; top: 5px;">
@@ -91,17 +131,18 @@ TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
 ?>
 <div class="col-md-8 col-sm-12 " style="position: relative; z-index: 2;" >
     <select class="form-control" id="sortBy" >
-        <option value="titleAZ" data-icon="glyphicon-sort-by-attributes" <?php echo (!empty($_POST['sort']['title']) && strtolower($_POST['sort']['title']) == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Title (A-Z)"); ?></option>
-        <option value="titleZA" data-icon="glyphicon-sort-by-attributes-alt" <?php echo (!empty($_POST['sort']['title']) && strtolower($_POST['sort']['title']) == 'desc') ? "selected='selected'" : "" ?>> <?php echo __("Title (Z-A)"); ?></option>
-        <option value="newest" data-icon="glyphicon-sort-by-attributes" <?php echo (empty($_POST['sort']) || (!empty($_POST['sort']['created']) && strtolower($_POST['sort']['created'])) == 'desc') ? "selected='selected'" : "" ?>> <?php echo __("Date added (newest)"); ?></option>
-        <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" <?php echo (!empty($_POST['sort']['created']) && strtolower($_POST['sort']['created']) == 'asc') ? "selected='selected'" : "" ?>> <?php echo __("Date added (oldest)"); ?></option>
-        <option value="popular" data-icon="glyphicon-thumbs-up"  <?php echo (!empty($_POST['sort']['likes'])) ? "selected='selected'" : "" ?>> <?php echo __("Most popular"); ?></option>
+        <option value="titleAZ" data-icon="glyphicon-sort-by-attributes" <?php echo ($sortBy == 'titleAZ') ? "selected='selected'" : "" ?>> <?php echo __("Title (A-Z)"); ?></option>
+        <option value="titleZA" data-icon="glyphicon-sort-by-attributes-alt" <?php echo ($sortBy == 'titleZA') ? "selected='selected'" : "" ?>> <?php echo __("Title (Z-A)"); ?></option>
+        <option value="newest" data-icon="glyphicon-sort-by-attributes" <?php echo ($sortBy == 'newest') ? "selected='selected'" : "" ?>> <?php echo __("Date added (newest)"); ?></option>
+        <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" <?php echo ($sortBy == 'oldest') ? "selected='selected'" : "" ?>> <?php echo __("Date added (oldest)"); ?></option>
+        <option value="popular" data-icon="glyphicon-thumbs-up"  <?php echo ($sortBy == 'popular') ? "selected='selected'" : "" ?>> <?php echo __("Most popular"); ?></option>
         <?php
         if (empty($advancedCustom->doNotDisplayViews)) {
             ?>
-            <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count'])) ? "selected='selected'" : "" ?>> <?php echo __("Most watched"); ?></option>
-        <?php
-        } ?>
+            <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo ($sortBy == 'views_count') ? "selected='selected'" : "" ?>> <?php echo __("Most watched"); ?></option>
+            <?php
+        }
+        ?>
     </select>
 </div>
 <div class="col-md-4 col-sm-12" style="position: relative; z-index: 2;">
@@ -184,14 +225,14 @@ if (!empty($videoName) && !empty($video['id'])) {
             var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>video/<?php echo addslashes($videoName); ?>' + page + query;
     <?php
 } elseif (!empty($_GET['evideo'])) {
-        ?>
+    ?>
                     var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>evideo/<?php echo $_GET['evideo']; ?>';
     <?php
-    } else {
-        ?>
+} else {
+    ?>
                             var url = '<?php echo $global['webSiteRootURL'], addslashes($catLink); ?>';
     <?php
-    }
+}
 ?>
                         var urlList = "<?php echo $global['webSiteRootURL']; ?>videosList/<?php echo addslashes($catLink); ?>video/<?php echo addslashes($videoName); ?>" + page + query;
 
