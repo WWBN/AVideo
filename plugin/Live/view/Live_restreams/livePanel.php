@@ -133,7 +133,20 @@ if (!User::canStream()) {
                 {
                     "data": "name", 
                     render: function (data, type, row) {
-                        console.log(data, type, row);
+                        if(!empty(data.parameters)){
+                            var json = JSON.parse(data.parameters);
+                            if(!empty(json->facebook)){
+                                var url = "https://restream.ypt.me/get.php";
+                                var name = "theRestreamerGetPopUp";
+                                var params = {title: $('#title').val(), description: $('#description').val(), parameters: data.parameters};
+                                var strWindowFeatures = "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800";
+                                restreamWin = openWindowWithPost(url, name, params, strWindowFeatures);
+                            }else if(!empty(json->youtube)){
+                                
+                            }else if(!empty(json->twitch)){
+                                
+                            }
+                        }
                         return data;
                     } 
                 },
