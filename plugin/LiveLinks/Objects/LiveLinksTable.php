@@ -52,7 +52,7 @@ class LiveLinksTable extends ObjectYPT {
     }
 
     function getLink() {
-        return str_replace('$amp;', '&', $this->link);
+        return str_replace('&amp;', '&', $this->link);
     }
 
     function getStart_date() {
@@ -135,7 +135,7 @@ class LiveLinksTable extends ObjectYPT {
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row['user_groups'] = self::getUserGorups($row['id']);
-                $row['link'] = str_replace('$amp;', '&', $row['link']);
+                $row['link'] = str_replace('&amp;', '&', $row['link']);
                 $rows[] = $row;
             }
         } else {
