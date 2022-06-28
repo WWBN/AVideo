@@ -96,6 +96,7 @@ class LiveLinks extends PluginAbstract {
         $rows = array();
         if ($res) {
             while ($row = $res->fetch_assoc()) {
+                $row['link'] = str_replace('$amp;', '&', $row['link']);
                 $rows[] = $row;
             }
         } else {
@@ -344,6 +345,7 @@ class LiveLinks extends PluginAbstract {
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
+                $row['link'] = str_replace('$amp;', '&', $row['link']);
                 if (empty($otherInfo)) {
                     $otherInfo = array();
                     $otherInfo['category'] = xss_esc_back($row['category']);
