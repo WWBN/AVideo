@@ -159,8 +159,8 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                         <a class="h6 galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $videoRow['id']; ?>" 
                                            href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
                                            embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
-                                           title="<?php echo $videoRow['title']; ?>">
-                                            <strong><?php echo $videoRow['title']; ?></strong>
+                                           title="<?php echo htmlentities(getSEOTitle($videoRow['title'], 75)); ?>">
+                                            <strong><?php echo getSEOTitle($videoRow['title']); ?></strong>
                                         </a>
                                         <div class="descriptionArea">
                                             <div class="descriptionAreaPreContent">
