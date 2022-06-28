@@ -19,6 +19,8 @@ if (empty($_GET['users_id'])) {
     $rows = Live_restreams::getAllFromUser($_GET['users_id'], "");
 }
 
-
+foreach ($rows as $key => $value) {
+    $rows[$key]['stream_key_short'] = getSEOTitle($value['stream_key'],20);
+}
 ?>
 {"data": <?php echo json_encode($rows); ?>}

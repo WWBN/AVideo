@@ -131,7 +131,7 @@ if (!User::canStream()) {
                 {"data": "id"},
                 {"data": "name"},
                 {"data": "status"},
-                {"data": "stream_key"},
+                {"data": "stream_key_short"},
                 {
                     sortable: false,
                     data: null,
