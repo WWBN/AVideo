@@ -133,16 +133,15 @@ if (!User::canStream()) {
                 {
                     "data": "name", 
                     render: function (data, type, row) {
-                        console.log('Live_restreamstableVar row', row.parameters);
+                        //console.log('Live_restreamstableVar row', row.parameters);
                         if(!empty(row.parameters)){
                             var json = JSON.parse(row.parameters);
-                            console.log('Live_restreamstableVar parameters', json);
+                            //console.log('Live_restreamstableVar parameters', json);
                             if(!empty(json['restream.ypt.me'])){
                                 var obj = json['restream.ypt.me'];
-                                console.log('Live_restreamstableVar obj', obj);
-
-                                
-                                onclick = "openWindowWithPost('https://restream.ypt.me/get.php', 'theRestreamerGetPopUp', {title: $('#title').val(), description: $('#description').val(), parameters: "+JSON.stringify(obj)+"}, 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800');";
+                                //console.log('Live_restreamstableVar obj', obj);
+                                var onclick = "openWindowWithPost('https://restream.ypt.me/get.php', 'theRestreamerGetPopUp', {title: $('#title').val(), description: $('#description').val(), parameters: "+JSON.stringify(obj)+"}, 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800');";
+                                console.log('Live_restreamstableVar onclick', onclick);
                                 return '<a href="#" onclick="'+onclick+'">'+data+'</a>';
                             }
 
