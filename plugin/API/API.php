@@ -732,7 +732,7 @@ class API extends PluginAbstract {
                 $obj->livestream["latestLives"][] = $value;
             }
             
-            $rows = Live_schedule::getAllActiveLimit($users_id);
+            $rows = Live_schedule::getAllActiveLimit($parameters['users_id']);
 
             foreach ($rows as $value) {
                 $obj->livestream["scheduledLives"][] = $value;
