@@ -130,7 +130,13 @@ if (!User::canStream()) {
             "ajax": webSiteRootURL + "plugin/Live/view/Live_restreams/list.json.php?users_id=<?php echo User::getId(); ?>",
             "columns": [
                 {"data": "id"},
-                {"data": "name"},
+                {
+                    "data": "name", 
+                    render: function (data, type, row) {
+                        console.log(data, type, row);
+                        return data;
+                    } 
+                },
                 {"data": "status"},
                 {"data": "stream_key_short"},
                 {
