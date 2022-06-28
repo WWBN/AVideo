@@ -133,8 +133,8 @@ if (!User::canStream()) {
                 {
                     "data": "name", 
                     render: function (data, type, row) {
-                        console.log('Live_restreamstableVar row', row);
-                        if(!empty(data.parameters)){
+                        console.log('Live_restreamstableVar row', row.parameters);
+                        if(!empty(row.parameters)){
                             var json = JSON.parse(row.parameters);
                             console.log('Live_restreamstableVar parameters', json);
                             if(!empty(json['restream.ypt.me'])){
