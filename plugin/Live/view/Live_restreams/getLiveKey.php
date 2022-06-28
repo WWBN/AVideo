@@ -55,7 +55,7 @@ $restreamerURL = 'https://restream.ypt.me/';
     }
 
     function saveRestreamer(stream_key, stream_url, name, parameters) {
-        console.log('saveRestreamer', stream_key, stream_url, name);
+        console.log('saveRestreamer', stream_key, stream_url, name, parameters);
         restreamPopupOpened = 0;
         modal.hidePleaseWait();
         if (empty(stream_url)) {
