@@ -2346,6 +2346,28 @@ function combineFilesHTML($filesArray, $extension = "js", $doNotCombine = false)
     }
 }
 
+function getTagIfExists($relativePath){
+    global $global;
+    $relativePath = str_replace('\\', '/', $relativePath);
+    $file = "{$global['systemRootPath']}{$relativePath}";
+    if(file_exists($file)){
+        $url = getURL($relativePath);
+    }else if(isValidURL($file)){
+        $url = $file;
+    }else{
+        return '';
+    }
+    $ext = pathinfo($relativePath, PATHINFO_EXTENSION);
+    if ($ext == "js") {
+        return '<script src="' . $url . '" type="text/javascript"></script>';
+    } else if ($ext == "css") {
+        return '<link href="' . $url . '" rel="stylesheet" type="text/css"/>';
+    }else{
+        return '<img src="' . $url . '" alt=""/>';
+    }
+
+}
+
 function local_get_contents($path) {
     if (function_exists('fopen')) {
         $myfile = fopen($path, "r") or die("Unable to open file! [{$path}]");
