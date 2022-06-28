@@ -306,7 +306,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                href="<?php echo $href; ?>"  
                embed="<?php echo $embed; ?>" 
                alternativeLink="<?php echo @$value['alternativeLink']; ?>" 
-               title="<?php echo htmlentities(getSEOTitle($value['title'], 75)); ?>">
+               title="<?php echo htmlentities(getSEOTitle($value['title'], 200)); ?>">
                 <strong class="title"><?php echo getSEOTitle($value['title']); ?></strong>
             </a>
 
