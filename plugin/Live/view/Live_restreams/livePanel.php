@@ -20,6 +20,7 @@ if (!User::canStream()) {
                 <form id="panelLive_restreamsForm">
                     <div class="row">
                         <input type="hidden" name="id" id="Live_restreamsid" value="" >
+                        
                         <div class="form-group col-sm-6">
                             <label for="Live_restreamsname"><?php echo __("Name"); ?>:</label>
                             <input type="text" id="Live_restreamsname" name="name" class="form-control input-sm" placeholder="<?php echo __("Name"); ?>" required="true">

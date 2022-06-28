@@ -30,7 +30,7 @@ $restreamerURL = 'https://restream.ypt.me/';
     eventer(messageEvent, function (e) {
         console.log('EventListener restreamer', e.data);
         if (e.data.stream_key && e.data.name) {
-            saveRestreamer(e.data.stream_key, e.data.stream_url, e.data.name);
+            saveRestreamer(e.data.stream_key, e.data.stream_url, e.data.name, e.data.parameters);
         }
     }, false);
 
@@ -54,7 +54,7 @@ $restreamerURL = 'https://restream.ypt.me/';
         }, 200);
     }
 
-    function saveRestreamer(stream_key, stream_url, name) {
+    function saveRestreamer(stream_key, stream_url, name, parameters) {
         console.log('saveRestreamer', stream_key, stream_url, name);
         restreamPopupOpened = 0;
         modal.hidePleaseWait();
@@ -65,6 +65,7 @@ $restreamerURL = 'https://restream.ypt.me/';
             $('#Live_restreamsstatus').val('a');
             $('#Live_restreamsstream_url').val(stream_url);
             $('#Live_restreamsstream_key').val(stream_key);
+            $('#Live_restreamsparameters').val(parameters);
             $('#panelLive_restreamsForm').submit();
         }
         restreamWin.close();
