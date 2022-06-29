@@ -58,7 +58,7 @@ if(empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})){
     
     $response = postVariables($url, $array, false);
 }
-
+_error_log('Restreamer get live keys '.json_encode($response));
 echo $response;
 
 ?>
