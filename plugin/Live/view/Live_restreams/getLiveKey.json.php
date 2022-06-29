@@ -1,5 +1,7 @@
 <?php
 require_once '../../../../videos/configuration.php';
+
+_error_log('Restreamer get live keys start '.json_encode($_REQUEST));
 if(!AVideoPlugin::isEnabledByName('Live')){
     forbiddenPage('Live plugin is disabled', true);
 }
