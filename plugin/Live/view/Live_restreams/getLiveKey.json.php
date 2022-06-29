@@ -21,7 +21,7 @@ if($Live_restreams->getUsers_id() !==User::getId() && !User::isAdmin() && !isCom
 }
 
 $parameters = $Live_restreams->getParameters();
-if(empty($parameters))){
+if(empty($parameters)){
     forbiddenPage('Restream parameters not present');
 }
 
