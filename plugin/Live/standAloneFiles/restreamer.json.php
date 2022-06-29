@@ -67,6 +67,22 @@ if (!$isCommandLine) { // not command line
     $request = file_get_contents("php://input");
     error_log("Restreamer.json.php php://input {$request}");
     $robj = json_decode($request);
+
+    if(!empty($robj->restreamsIds)){
+        foreach($robj->restreamsIds as $key => $live_restreams_id){
+            $content = file_get_contents("{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?live_restreams_id={$live_restreams_id}");
+            if(!empty($content)){
+                $json = json_decode($content);
+                if(!empty($json) && $json->error === false){
+                    if(!empty($json->stream_key) && !empty($json->stream_url)){
+                        $newRestreamsDestination = "{$json->stream_url}{$json->stream_key}";
+                        error_log("Restreamer.json.php from {$robj->restreamsDestinations[$key]} to {$newRestreamsDestination}");
+                        $robj->restreamsDestinations[$key] = "{$json->stream_url}{$json->stream_key}";
+                    }
+                }
+            }
+        }
+    }
 } else {
     $robj = new stdClass();
     $robj->token = '';
