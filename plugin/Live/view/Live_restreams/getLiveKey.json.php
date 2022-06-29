@@ -40,7 +40,7 @@ if(!empty($_REQUEST['live_schedule_id'])){
     }
 }
 
-$response = postVariables($url, $array);
+$response = postVariables($url, $array, false);
 
 echo $response;
 
