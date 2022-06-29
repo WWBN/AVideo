@@ -3910,7 +3910,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10) {
         @curl_setopt($ch, CURLOPT_HEADER, true);  // we want headers
         @curl_setopt($ch, CURLOPT_NOBODY, true);  // we don't need body
     } else {
-        curl_setopt($curl, CURLOPT_USERAGENT, getSelfUserAgent());
+        curl_setopt($ch, CURLOPT_USERAGENT, getSelfUserAgent());
     }
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout); //The number of seconds to wait while trying to connect. Use 0 to wait indefinitely.
     curl_setopt($ch, CURLOPT_TIMEOUT, $timeout + 1); //The maximum number of seconds to allow cURL functions to execute.
