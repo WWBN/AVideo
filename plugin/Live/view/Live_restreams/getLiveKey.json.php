@@ -20,13 +20,18 @@ if($Live_restreams->getUsers_id() !==User::getId() && !User::isAdmin() && !isCom
     forbiddenPage('You have no access to this restream');
 }
 
+$parameters = $Live_restreams->getParameters();
+if(empty($parameters) || empty($parameters->{'restream.ypt.me'})){
+    forbiddenPage('Restream parameters not present');
+}
+
 $lt = LiveTransmition::getFromDbByUser($Live_restreams->getUsers_id());
 
 $url = 'https://restream.ypt.me/get.php';
 $array = array(
     'title'=> $lt['title'],
     'description'=> $lt['description'],
-    'parameters64'=> base64_encode($Live_restreams->getParameters()),
+    'parameters64'=> base64_encode($parameters->{'restream.ypt.me'}),
 );
 
 if(!empty($_REQUEST['live_schedule_id'])){
