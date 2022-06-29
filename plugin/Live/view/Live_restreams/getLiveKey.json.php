@@ -1,28 +1,28 @@
 <?php
 require_once '../../../../videos/configuration.php';
 if(!AVideoPlugin::isEnabledByName('Live')){
-    forbiddenPage('Live plugin is disabled');
+    forbiddenPage('Live plugin is disabled', true);
 }
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
 header('Content-Type: application/json');
 
 if(empty($_REQUEST['live_restreams_id'])){
-    forbiddenPage('live_restreams_id cannot be empty');
+    forbiddenPage('live_restreams_id cannot be empty', true);
 }
 
 $Live_restreams = new Live_restreams($_REQUEST['live_restreams_id']);
 
 if(empty($Live_restreams->getName())){
-    forbiddenPage('Name not found for live_restreams_id='.$_REQUEST['live_restreams_id']);
+    forbiddenPage('Name not found for live_restreams_id='.$_REQUEST['live_restreams_id'], true);
 }
 
 if($Live_restreams->getUsers_id() !==User::getId() && !User::isAdmin() && !isCommandLineInterface()){
-    forbiddenPage('You have no access to this restream');
+    forbiddenPage('You have no access to this restream', true);
 }
 
 $parameters = $Live_restreams->getParameters();
 if(empty($parameters)){
-    forbiddenPage('Restream parameters not present');
+    forbiddenPage('Restream parameters not present', true);
 }
 
 $parametersJson = json_decode($parameters);
