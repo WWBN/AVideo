@@ -21,7 +21,12 @@ if($Live_restreams->getUsers_id() !==User::getId() && !User::isAdmin() && !isCom
 }
 
 $parameters = $Live_restreams->getParameters();
-if(empty($parameters) || empty($parameters->{'restream.ypt.me'})){
+if(empty($parameters))){
+    forbiddenPage('Restream parameters not present');
+}
+
+$parametersJson = json_decode($parameters);
+if(empty($parametersJson) || empty($parametersJson->${'restream.ypt.me'})){
     forbiddenPage('Restream parameters not present');
 }
 
@@ -31,7 +36,7 @@ $url = 'https://restream.ypt.me/get.php';
 $array = array(
     'title'=> $lt['title'],
     'description'=> $lt['description'],
-    'parameters64'=> base64_encode($parameters->{'restream.ypt.me'}),
+    'parameters64'=> base64_encode($parametersJson->${'restream.ypt.me'}),
 );
 
 if(!empty($_REQUEST['live_schedule_id'])){
