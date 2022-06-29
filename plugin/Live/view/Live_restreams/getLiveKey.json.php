@@ -26,7 +26,7 @@ if(empty($parameters)){
 }
 
 $parametersJson = json_decode($parameters);
-if(empty($parametersJson) || empty($parametersJson->${'restream.ypt.me'})){
+if(empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})){
     forbiddenPage('Restream parameters not present');
 }
 
@@ -36,7 +36,7 @@ $url = 'https://restream.ypt.me/get.php';
 $array = array(
     'title'=> $lt['title'],
     'description'=> $lt['description'],
-    'parameters64'=> base64_encode($parametersJson->${'restream.ypt.me'}),
+    'parameters64'=> base64_encode($parametersJson->{'restream.ypt.me'}),
 );
 
 if(!empty($_REQUEST['live_schedule_id'])){
