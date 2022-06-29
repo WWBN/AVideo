@@ -69,9 +69,9 @@ if (!$isCommandLine) { // not command line
     error_log("Restreamer.json.php php://input {$request}");
     $robj = json_decode($request);
 
-    if(!empty($robj->restreamsIds)){
-        foreach($robj->restreamsIds as $key => $live_restreams_id){
-            $content = file_get_contents("{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?live_restreams_id={$live_restreams_id}");
+    if(!empty($robj->restreamsToken)){
+        foreach($robj->restreamsToken as $key => $token){
+            $content = file_get_contents("{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?token={$token}");
             if(!empty($content)){
                 $json = json_decode($content);
                 if(!empty($json) && $json->error === false){

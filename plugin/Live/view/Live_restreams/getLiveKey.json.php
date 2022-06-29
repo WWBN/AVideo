@@ -8,6 +8,12 @@ if(!AVideoPlugin::isEnabledByName('Live')){
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
 header('Content-Type: application/json');
 
+$byPassPermissionCheck = false;
+if(!empty($_REQUEST['token'])){
+    $_REQUEST['live_restreams_id'] = intval(decryptString($_REQUEST['token']));
+    $byPassPermissionCheck = true;
+}
+
 if(empty($_REQUEST['live_restreams_id'])){
     forbiddenPage('live_restreams_id cannot be empty', true);
 }
@@ -18,7 +24,7 @@ if(empty($Live_restreams->getName())){
     forbiddenPage('Name not found for live_restreams_id='.$_REQUEST['live_restreams_id'], true);
 }
 
-if($Live_restreams->getUsers_id() !==User::getId() && !User::isAdmin() && !isCommandLineInterface()){
+if(!$byPassPermissionCheck && $Live_restreams->getUsers_id() !==User::getId() && !User::isAdmin() && !isCommandLineInterface()){
     forbiddenPage('You have no access to this restream', true);
 }
 

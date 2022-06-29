@@ -2869,7 +2869,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         foreach ($rows as $value) {
             $value['stream_url'] = addLastSlash($value['stream_url']);
             $obj->restreamsDestinations[] = "{$value['stream_url']}{$value['stream_key']}";
-            $obj->restreamsIds[] = $value['id'];
+            $obj->restreamsToken[] = encryptString($value['id']);
         }
         return $obj;
     }
