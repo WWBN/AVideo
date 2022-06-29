@@ -27,30 +27,37 @@ if(empty($parameters)){
 
 $parametersJson = json_decode($parameters);
 if(empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})){
-    forbiddenPage('Restream parameters not present');
-}
+    $response = new stdClass();
+    $response->error = false;
+    $response->msg = '';
+    $response->stream_key = $Live_restreams->getStream_key();
+    $response->stream_url = $Live_restreams->getStream_url();
+    $response->provider = 'Local';
+    $response->subtitle = $Live_restreams->getName();
+    $response->http_code = 200;
+}else{
+    $lt = LiveTransmition::getFromDbByUser($Live_restreams->getUsers_id());
 
-$lt = LiveTransmition::getFromDbByUser($Live_restreams->getUsers_id());
-
-$url = 'https://restream.ypt.me/get.php';
-$array = array(
-    'title'=> $lt['title'],
-    'description'=> $lt['description'],
-    'parameters64'=> base64_encode(json_encode($parametersJson->{'restream.ypt.me'})),
-);
-
-if(!empty($_REQUEST['live_schedule_id'])){
-    $ls = new live_schedule($_REQUEST['live_schedule_id']);
-
-    if(!empty($ls->getTitle())){
-        $array['title'] = $ls->getTitle();
+    $url = 'https://restream.ypt.me/get.php';
+    $array = array(
+        'title'=> $lt['title'],
+        'description'=> $lt['description'],
+        'parameters64'=> base64_encode(json_encode($parametersJson->{'restream.ypt.me'})),
+    );
+    
+    if(!empty($_REQUEST['live_schedule_id'])){
+        $ls = new live_schedule($_REQUEST['live_schedule_id']);
+    
+        if(!empty($ls->getTitle())){
+            $array['title'] = $ls->getTitle();
+        }
+        if(!empty($ls->getDescription())){
+            $array['description'] = $ls->getDescription();
+        }
     }
-    if(!empty($ls->getDescription())){
-        $array['description'] = $ls->getDescription();
-    }
+    
+    $response = postVariables($url, $array, false);
 }
-
-$response = postVariables($url, $array, false);
 
 echo $response;
 
