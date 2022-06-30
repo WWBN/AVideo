@@ -7,6 +7,10 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isLogged()) {
     gotToLoginAndComeBackHere('');
 }
+$users_id = User::getId();
+if(User::isAdmin() && !empty($_REQUEST['users_id'])){
+    $users_id = $_REQUEST['users_id'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -80,7 +84,7 @@ if (!User::isLogged()) {
                 <div class="panel-body">
                     <div class="row">
                         <?php
-                        $pl = PlayList::getAllFromUser(User::getId(), false);
+                        $pl = PlayList::getAllFromUser($users_id, false);
                         $count = 0;
                         foreach ($pl as $value) {
                             $count++;
