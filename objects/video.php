@@ -804,6 +804,8 @@ if (!class_exists('Video')) {
                 } else {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
+            } else if(!empty($_REQUEST['videoType']) && in_array($_REQUEST['videoType'], self::$typeOptions)){
+                $sql .= " AND v.type = '{$_REQUEST['videoType']}' ";
             }
 
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
