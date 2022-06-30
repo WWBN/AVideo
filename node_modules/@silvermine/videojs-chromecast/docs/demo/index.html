@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset=utf-8 />
+   <title>silvermine-videojs-chromecast Demo</title>
+   <link href="https://unpkg.com/video.js@6.1.0/dist/video-js.css" rel="stylesheet">
+   <script src="https://unpkg.com/video.js@6.1.0/dist/video.js"></script>
+   <script src="../../dist/silvermine-videojs-chromecast.min.js"></script>
+   <link href="../../dist/silvermine-videojs-chromecast.css" rel="stylesheet">
+   <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+</head>
+<body>
+   <h1>Demo of <code>silvermine-videojs-chromecast</code></h1>
+
+   <video id="video_1" class="video-js vjs-default-skin" controls preload="auto" data-setup='{ "fluid": "true" }'>
+      <source src="http://www.caminandes.com/download/03_caminandes_llamigos_1080p.mp4" type="video/mp4">
+   </video>
+
+   <script>
+      var options;
+
+      options = {
+         techOrder: [ 'chromecast', 'html5' ],
+      };
+
+      videojs('video_1', options, function() {
+         var player = this;
+
+         player.chromecast();
+      });
+   </script>
+
+</body>
+</html>

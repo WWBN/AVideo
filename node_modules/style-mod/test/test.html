@@ -1,0 +1,17 @@
+<!doctype html>
+<meta charset=utf8>
+<script>var exports = {}</script>
+<script src="../dist/style-mod.js"></script>
+
+<p>Hello</p>
+
+<script>
+let mod = new StyleModule({
+  one: {color: "green"},
+  two: {textDecoration: "underline",
+        "&:hover": {textDecoration: "overline"}}
+})
+StyleModule.mount(document, mod)
+document.body.className = mod.one
+document.querySelector("p").className = mod.two
+</script>

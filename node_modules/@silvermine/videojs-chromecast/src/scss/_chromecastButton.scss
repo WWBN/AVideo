@@ -1,0 +1,32 @@
+// Images
+$icon-chromecast--default: 'images/ic_cast_white_24dp.png' !default;
+$icon-chromecast--hover: 'images/ic_cast_white_24dp.png' !default;
+$icon-chromecast-casting: 'images/ic_cast_connected_white_24dp.png' !default;
+$icon-chromecast-casting--hover: 'images/ic_cast_connected_white_24dp.png' !default;
+
+// Sizes
+$chromecast-icon-size: 12px !default;
+
+.vjs-chromecast-button {
+   .vjs-icon-placeholder {
+      background: url($icon-chromecast--default) center center no-repeat;
+      background-size: contain;
+      display: inline-block;
+      width: $chromecast-icon-size;
+      height: $chromecast-icon-size;
+   }
+   &:hover {
+      cursor: pointer;
+      .vjs-icon-placeholder {
+         background-image: url($icon-chromecast--hover);
+      }
+   }
+   &.vjs-chromecast-casting-state {
+      .vjs-icon-placeholder {
+         background-image: url($icon-chromecast-casting);
+      }
+      &:hover .vjs-icon-placeholder {
+         background-image: url($icon-chromecast-casting--hover);
+      }
+   }
+}
