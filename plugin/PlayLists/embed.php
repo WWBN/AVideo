@@ -25,10 +25,13 @@ $pl = new PlayList($_GET['playlists_id']);
 $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 
 $playListData = array();
+$playListData_videos_id = array();
 $collectionsList = PlayList::showPlayListSelector($playList);
 $videoStartSeconds = array();
 
 $users_id = User::getId();
+
+$new_playlist_index = 0;
 
 foreach ($playList as $key => $value) {
     $oldValue = $value;
@@ -36,6 +39,10 @@ foreach ($playList as $key => $value) {
     if (!User::isAdmin() && !Video::userGroupAndVideoGroupMatch($users_id, $value['videos_id'])) {
         unset($playList[$key]);
         continue;
+    }
+    
+    if($key == $playlist_index){
+        $new_playlist_index = count($playListData)-1;
     }
 
     if ($oldValue['type'] === 'serie' && !empty($oldValue['serie_playlists_id'])) {
@@ -69,6 +76,7 @@ foreach ($playList as $key => $value) {
             }
 
             $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList subPlaylistCollection-{$oldValue['serie_playlists_id']}");
+            $playListData_videos_id[] = $value['id'];
         }
     } else {
         $sources = getVideosURL($value['filename']);
@@ -104,6 +112,7 @@ foreach ($playList as $key => $value) {
             $videoStartSeconds = parseDurationToSeconds(@$externalOptions->videoStartSeconds);
         }
         $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList ", $subtitleTracks);
+        $playListData_videos_id[] = $value['id'];
     }
 }
 
@@ -116,8 +125,8 @@ $title = $pl->getName();
 
 if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
     setVideos_id($serie['id']);
-} else if (!empty($playList[$playlist_index])) {
-    setVideos_id($playList[$playlist_index]['id']);
+} else if (!empty($playListData_videos_id[$playlist_index])) {
+    setVideos_id($playListData_videos_id[$playlist_index]['id']);
 }
 $_REQUEST['hideAutoplaySwitch'] = 1;
 //var_dump($playListData);exit;
