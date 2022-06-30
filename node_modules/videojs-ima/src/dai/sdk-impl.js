@@ -20,7 +20,8 @@
  /**
   * Implementation of the IMA DAI SDK for the plugin.
   *
-  * @param {DaiController!} daiController Reference to the parent DAI controller.
+  * @param {DaiController!} daiController Reference to the parent DAI
+  * controller.
   *
   * @constructor
   * @struct
@@ -132,7 +133,6 @@ SdkImpl.prototype.initImaDai = function() {
  */
 SdkImpl.prototype.onAddTrack = function(event) {
   const track = event.track;
-  console.log('TRACK', track);
   if (track.kind === 'metadata') {
     track.mode = 'hidden';
     track.oncuechange = (e) => {
@@ -207,13 +207,11 @@ SdkImpl.prototype.onStreamPause = function() {
       this.loadUrl(event.getStreamData().url);
       break;
     case google.ima.dai.api.StreamEvent.Type.ERROR:
-      const errorMessage = event.getStreamData().errorMessage;
-      window.console.warn('Error loading stream, attempting to play backup stream. '
-        + errorMessage);
+      window.console.warn('Error loading stream, attempting to play backup ' +
+        'stream. ' + event.getStreamData().errorMessage);
       this.daiController.onErrorLoadingAds(event);
-      const fallbackUrl = this.daiController.getSettings().fallbackStreamUrl;
-      if (fallbackUrl) {
-        this.loadurl(fallbackUrl);
+      if (this.daiController.getSettings().fallbackStreamUrl) {
+        this.loadurl(this.daiController.getSettings().fallbackStreamUrl);
       }
       break;
     case google.ima.dai.api.StreamEvent.Type.AD_BREAK_STARTED:
@@ -225,8 +223,8 @@ SdkImpl.prototype.onStreamPause = function() {
       this.isAdBreak = false;
       this.adUiDiv.style.display = 'none';
       this.daiController.onAdBreakEnd();
-      const currentTime = this.vjsPlayer.currentTime();
-      if (this.snapForwardTime && this.snapForwardTime > currentTime) {
+      if (this.snapForwardTime && this.snapForwardTime >
+          this.vjsPlayer.currentTime()) {
         this.vjsPlayer.currentTime(this.snapForwardTime);
         this.snapForwardTime = 0;
       }
@@ -250,7 +248,8 @@ SdkImpl.prototype.loadUrl = function(streamUrl) {
 
     const bookmarkTime = this.daiController.getSettings().bookmarkTime;
     if (bookmarkTime) {
-      const startTime = this.streamManager.streamTimeForContentTime(bookmarkTime);
+      const startTime =
+          this.streamManager.streamTimeForContentTime(bookmarkTime);
       // Seeking on load triggers the onSeekEnd event, so treat this seek as
       // if it's snapback. Without this, resuming at a bookmark kicks you
       // back to the ad before the bookmark.
@@ -285,7 +284,8 @@ SdkImpl.prototype.requestStream = function() {
     streamRequest.authKey = this.daiController.getSettings().authKey;
   }
   if (this.daiController.getSettings().adTagParameters) {
-    streamRequest.adTagParameters = this.daiController.getSettings().adTagParameters;
+    streamRequest.adTagParameters =
+        this.daiController.getSettings().adTagParameters;
   }
   if (this.daiController.getSettings().streamActivityMonitorId) {
     streamRequest.streamActivityMonitorId =
@@ -336,7 +336,8 @@ SdkImpl.prototype.onPlayerDisposed = function() {
 
 /**
  * Returns the instance of the StreamManager.
- * @return {google.ima.StreamManager!} The StreamManager being used by the plugin.
+ * @return {google.ima.StreamManager!} The StreamManager being used by the
+ * plugin.
  */
 SdkImpl.prototype.getStreamManager = function() {
   return this.StreamManager;

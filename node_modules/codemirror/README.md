@@ -1,47 +1,20 @@
-# CodeMirror
+# codemirror [![NPM version](https://img.shields.io/npm/v/codemirror)](https://www.npmjs.org/package/codemirror)
 
-[![Build Status](https://github.com/codemirror/codemirror/workflows/main/badge.svg)](https://github.com/codemirror/codemirror/actions)
-[![NPM version](https://img.shields.io/npm/v/codemirror.svg)](https://www.npmjs.org/package/codemirror)
+[ [**WEBSITE**](https://codemirror.net/6/) | [**DOCS**](https://codemirror.net/6/docs/ref/#codemirror) | [**ISSUES**](https://github.com/codemirror/codemirror.next/issues) | [**FORUM**](https://discuss.codemirror.net/c/next/) | [**CHANGELOG**](https://github.com/codemirror/basic-setup/blob/main/CHANGELOG.md) ]
 
-CodeMirror is a versatile text editor implemented in JavaScript for
-the browser. It is specialized for editing code, and comes with over
-100 language modes and various addons that implement more advanced
-editing functionality. Every language comes with fully-featured code
-and syntax highlighting to help with reading and editing complex code.
+This package provides an example configuration for the
+[CodeMirror](https://codemirror.net/6/) code editor. The actual editor
+is implemented in the various packages under the `@codemirror` scope,
+which this package depends on.
 
-A rich programming API and a CSS theming system are available for
-customizing CodeMirror to fit your application, and extending it with
-new functionality.
+The [project page](https://codemirror.net/6/) has more information, a
+number of [examples](https://codemirror.net/6/examples/) and the
+[documentation](https://codemirror.net/6/docs/).
 
-You can find more information (and the
-[manual](https://codemirror.net/doc/manual.html)) on the [project
-page](https://codemirror.net). For questions and discussion, use the
-[discussion forum](https://discuss.codemirror.net/).
+This code is released under an
+[MIT license](https://github.com/codemirror/basic-setup/tree/main/LICENSE).
 
-See
-[CONTRIBUTING.md](https://github.com/codemirror/CodeMirror/blob/master/CONTRIBUTING.md)
-for contributing guidelines.
-
-The CodeMirror community aims to be welcoming to everybody. We use the
-[Contributor Covenant
-(1.1)](http://contributor-covenant.org/version/1/1/0/) as our code of
-conduct.
-
-### Installation
-
-Either get the [zip file](https://codemirror.net/codemirror.zip) with
-the latest version, or make sure you have [Node](https://nodejs.org/)
-installed and run:
-
-    npm install codemirror
-
-**NOTE**: This is the source repository for the library, and not the
-distribution channel. Cloning it is not the recommended way to install
-the library, and will in fact not work unless you also run the build
-step.
-
-### Quickstart
-
-To build the project, make sure you have Node.js installed (at least version 6)
-and then `npm install`. To run, just open `index.html` in your
-browser (you don't need to run a webserver). Run the tests with `npm test`.
+We aim to be an inclusive, welcoming community. To make that explicit,
+we have a [code of
+conduct](http://contributor-covenant.org/version/1/1/0/) that applies
+to communication around the project.

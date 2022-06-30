@@ -257,7 +257,8 @@ DaiController.prototype.addEventListener = function(event, callback) {
 
 /**
  * Returns the instance of the StreamManager.
- * @return {google.ima.StreamManager!} The StreamManager being used by the plugin.
+ * @return {google.ima.StreamManager!} The StreamManager being used by the
+ * plugin.
  */
 DaiController.prototype.getStreamManager = function() {
   return this.sdkImpl.getStreamManager();
@@ -272,7 +273,8 @@ DaiController.prototype.getPlayerId = function() {
 };
 
 /**
- * @return {boolean} true if we expect that the stream will autoplay. false otherwise.
+ * @return {boolean} true if we expect that the stream will autoplay. false
+ * otherwise.
  */
 DaiController.prototype.streamWillAutoplay = function() {
   if (this.settings.streamWillAutoplay !== undefined) {

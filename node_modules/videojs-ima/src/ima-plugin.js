@@ -234,11 +234,9 @@ const ImaDaiPlugin = function(player, options) {
   }.bind(this);
 
   /**
-   * Adds an EventListener to the StreamManager. For a list of available events,
-   * see
-   * https://developers.google.com/interactive-media-ads/docs/sdks/html5/dai/reference/js/StreamEvent
-   * @param {google.ima.StreamEvent.Type} event The StreamEvent.Type for which to
-   *     listen.
+   * Adds an EventListener to the StreamManager.
+   * @param {google.ima.StreamEvent.Type} event The StreamEvent.Type for which
+   * to listen.
    * @param {callback} callback The method to call when the event is fired.
    */
    this.addEventListener = function(event, callback) {
@@ -247,19 +245,33 @@ const ImaDaiPlugin = function(player, options) {
 
   /**
    * Returns the instance of the StreamManager.
-   * @return {google.ima.StreamManager} The StreamManager being used by the plugin.
+   * @return {google.ima.StreamManager} The StreamManager being used by the
+   * plugin.
    */
    this.getStreamManager = function() {
     return this.controller.getStreamManager();
   }.bind(this);
-}
+};
 
+/**
+ * Initializes the plugin for client-side ads.
+ * @param {Object} options Plugin option set on initiation.
+ */
 const init = function(options) {
   /* eslint no-invalid-this: 'off' */
   this.ima = new ImaPlugin(this, options);
 };
 
+/**
+ * LiveStream class used for DAI live streams.
+ */
 class LiveStream {
+  /**
+   * LiveStream class constructor used for DAI live streams.
+   * @param {string} streamFormat stream format, plugin currently supports only
+   * 'hls' streams.
+   * @param {string} assetKey live stream's asset key.
+   */
   constructor(streamFormat, assetKey) {
     streamFormat = streamFormat.toLowerCase();
     if (streamFormat !== 'hls' && streamFormat !== 'dash') {
@@ -278,7 +290,17 @@ class LiveStream {
   }
 }
 
+/**
+ * VodStream class used for DAI VOD streams.
+ */
 class VodStream {
+  /**
+   * VodStream class constructor used for DAI VOD streams.
+   * @param {string} streamFormat stream format, plugin currently supports only
+   * 'hls' streams.
+   * @param {string} cmsId VOD stream's CMS ID.
+   * @param {string} videoId VOD stream's video ID.
+   */
   constructor(streamFormat, cmsId, videoId) {
     streamFormat = streamFormat.toLowerCase();
     if (streamFormat !== 'hls' && streamFormat !== 'dash') {
@@ -291,7 +313,7 @@ class VodStream {
     } else if (typeof cmsId !== 'string') {
       window.console.error('cmsId error: value must be string.');
       return;
-    } else if(typeof videoId !== 'string') {
+    } else if (typeof videoId !== 'string') {
       window.console.error('videoId error: value must be string.');
       return;
     }
@@ -302,6 +324,12 @@ class VodStream {
   }
 }
 
+/**
+ * Initializes the plugin for DAI ads.
+ * @param {Object} stream Accepts either an instance of the LiveStream or
+ * VodStream classes.
+ * @param {Object} options Plugin option set on initiation.
+ */
 const initDai = function(stream, options) {
   if (stream instanceof LiveStream) {
     options.streamType = 'live';
@@ -311,7 +339,9 @@ const initDai = function(stream, options) {
     options.cmsId = stream.cmsId;
     options.videoId = stream.videoId;
   } else {
-    window.console.error('initDai() first parameter must be an instance of LiveStream or VodStream.');
+    window.console.error(
+      'initDai() first parameter must be an instance of LiveStream or ' +
+      'VodStream.');
     return;
   }
 
@@ -327,5 +357,5 @@ registerPlugin('imaDai', initDai);
 export default ImaPlugin;
 export {
   VodStream,
-  LiveStream
-}
+  LiveStream,
+};

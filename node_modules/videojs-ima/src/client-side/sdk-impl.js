@@ -663,7 +663,6 @@ SdkImpl.prototype.onPlayerResize = function(width, height) {
   if (this.adsManager) {
     this.adsManagerDimensions.width = width;
     this.adsManagerDimensions.height = height;
-    /* global google */
     /* eslint no-undef: 'error' */
     this.adsManager.resize(width, height, google.ima.ViewMode.NORMAL);
   }
