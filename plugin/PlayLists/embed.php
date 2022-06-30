@@ -125,8 +125,8 @@ $title = $pl->getName();
 
 if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
     setVideos_id($serie['id']);
-} else if (!empty($playListData_videos_id[$playlist_index])) {
-    setVideos_id($playListData_videos_id[$playlist_index]['id']);
+} else if (!empty($playListData_videos_id[$new_playlist_index])) {
+    setVideos_id($playListData_videos_id[$new_playlist_index]['id']);
 }
 $_REQUEST['hideAutoplaySwitch'] = 1;
 //var_dump($playListData);exit;
@@ -367,11 +367,11 @@ $str = "
                 updatePLSources(index);
             });
             player.playlistUi();";
-if (!empty($playlist_index)) {
-    $str .= 'player.playlist.currentItem(' . $playlist_index . ');';
+if (!empty($new_playlist_index)) {
+    $str .= 'player.playlist.currentItem(' . $new_playlist_index . ');';
 }
 $str .= "if (typeof embed_playerPlaylist[0] !== 'undefined') {
-                    updatePLSources({$playlist_index});
+                    updatePLSources({$new_playlist_index});
                 }
                 $('.vjs-playlist-item ').click(function () {
                     var index = player.playlist.currentIndex();
