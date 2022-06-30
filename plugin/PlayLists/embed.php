@@ -42,7 +42,7 @@ foreach ($playList as $key => $value) {
     }
     
     if($key == $playlist_index){
-        $new_playlist_index = count($playListData)-1;
+        $new_playlist_index = count($playListData);
     }
 
     if ($oldValue['type'] === 'serie' && !empty($oldValue['serie_playlists_id'])) {
