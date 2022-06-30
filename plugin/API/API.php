@@ -366,7 +366,7 @@ class API extends PluginAbstract {
             }
             $images = Video::getImageFromFilename($rows[$key]['filename'], $rows[$key]['type']);
             $rows[$key]['images'] = $images;
-            if ($rows[$key]['type'] == 'linkVideo') {
+            if ($rows[$key]['type'] !== 'linkVideo') {
                 $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
             } else {
                 $extension = getExtension($rows[$key]['videoLink']);
