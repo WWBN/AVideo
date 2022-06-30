@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `rotation` SMALLINT NULL DEFAULT 0,
   `zoom` FLOAT NULL DEFAULT 1,
   `youtubeId` VARCHAR(45) NULL,
-  `videoLink` VARCHAR(255) NULL,
+  `videoLink` TEXT NULL,
   `next_videos_id` INT NULL,
   `isSuggested` INT(1) NOT NULL DEFAULT 0,
   `trailer1` VARCHAR(255) NULL DEFAULT NULL,
