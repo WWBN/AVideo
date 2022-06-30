@@ -42,7 +42,7 @@ if (!empty($_POST['videoLink'])) {
     $path_parts = pathinfo($_POST['videoLink']);
     //$extension = strtolower(@$path_parts["extension"]);
     $filebasename = explode('?', $path_parts['basename']);
-    $extension = pathinfo($filebasename[0], PATHINFO_EXTENSION);
+    $extension = getExtension($_POST['videoLink']);
     //var_dump($path_parts, $extension);exit;
     if (empty($_POST['id']) && !(in_array($extension, $audioLinks) || in_array($extension, $videoLinks))) {
         $getLinkInfo = $config->getEncoderURL() . "getLinkInfo/" . base64_encode($_POST['videoLink']);

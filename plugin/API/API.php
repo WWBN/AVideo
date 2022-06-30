@@ -338,18 +338,18 @@ class API extends PluginAbstract {
             $rows = Video::getAllVideos();
             $totalRows = Video::getTotalVideos();
         }
-        
-        if(!empty($_REQUEST['catName'])){
+
+        if (!empty($_REQUEST['catName'])) {
             $currentCat = Category::getCategoryByName($_REQUEST['catName']);
-            if(!empty($currentCat)){
+            if (!empty($currentCat)) {
                 $liveVideos = getLiveVideosFromCategory($currentCat['id']);
-                if(!empty($liveVideos)){
+                if (!empty($liveVideos)) {
                     $rows = array_merge($liveVideos, $rows);
                     $totalRows += count($liveVideos);
                 }
             }
         }
-        
+
         unsetSearch();
         $objMob = AVideoPlugin::getObjectData("MobileManager");
         $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
@@ -366,7 +366,27 @@ class API extends PluginAbstract {
             }
             $images = Video::getImageFromFilename($rows[$key]['filename'], $rows[$key]['type']);
             $rows[$key]['images'] = $images;
-            $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
+            if ($rows[$key]['type'] == 'linkVideo') {
+                $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
+            } else {
+                $extension = getExtension($rows[$key]['videoLink']);
+                if ($extension == 'mp4') {
+                    $rows[$key]['videos'] = array(
+                        'mp4' => array(
+                            '720' => $rows[$key]['videoLink']
+                        )
+                    );
+                } else if ($extension == 'm3u8') {
+                    $rows[$key]['videos'] = array('m3u8' => array(
+                            'url' => $rows[$key]['videoLink'],
+                            'url_noCDN' => $rows[$key]['videoLink'],
+                            'type' => 'video',
+                            'format' => 'm3u8',
+                            'resolution' => 'auto',
+                        )
+                    );
+                }
+            }
             if (empty($rows[$key]['videos'])) {
                 $rows[$key]['videos'] = new stdClass();
             }
@@ -519,7 +539,7 @@ class API extends PluginAbstract {
                 $obj = new Comment($parameters['comment'], $parameters['videos_id']);
                 $obj->setComments_id_pai($parameters['comments_id']);
             }
-            $objResponse =  new stdClass();
+            $objResponse = new stdClass();
             $objResponse->comments_id = $obj->save();
             $objResponse->videos_id = $parameters['videos_id'];
             return new ApiObject("", !$objResponse->comments_id, $objResponse);
@@ -527,8 +547,7 @@ class API extends PluginAbstract {
             return new ApiObject("Video ID is required");
         }
     }
-    
-    
+
     /**
      * @param type $parameters
      * 'comment' String with the comment
@@ -551,13 +570,13 @@ class API extends PluginAbstract {
             } elseif (!User::canComment()) {
                 return new ApiObject("Access denied");
             }
-            
-            if(!User::canWatchVideo($parameters['videos_id'])){
-                 return new ApiObject("Cannot watch video");
+
+            if (!User::canWatchVideo($parameters['videos_id'])) {
+                return new ApiObject("Cannot watch video");
             }
-            
+
             require_once $global['systemRootPath'] . 'objects/comment.php';
-            
+
             $_POST['sort']['created'] = "desc";
             $obj = Comment::getAllComments($parameters['videos_id']);
             $obj = Comment::addExtraInfo($obj);
@@ -699,12 +718,12 @@ class API extends PluginAbstract {
             $p = AVideoPlugin::loadPlugin("Live");
 
             $obj->user = User::getUserFromID($user->getBdId());
-            
+
             unset($obj->user['externalOptions']);
             unset($obj->user['extra_info']);
-            
+
             $obj->user['DonationButtons'] = _json_decode($obj->user['DonationButtons']);
-            
+
             $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
             $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
             $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
@@ -715,7 +734,7 @@ class API extends PluginAbstract {
             $obj->livestream["latestLives"] = array();
             $obj->livestream["scheduledLives"] = array();
 
-            $rows = LiveTransmitionHistory::getActiveLiveFromUser($parameters['users_id'], '','', 100);
+            $rows = LiveTransmitionHistory::getActiveLiveFromUser($parameters['users_id'], '', '', 100);
 
             foreach ($rows as $value) {
                 $value['live_transmitions_history_id'] = $value['id'];
@@ -732,7 +751,7 @@ class API extends PluginAbstract {
                 $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
                 $obj->livestream["latestLives"][] = $value;
             }
-            
+
             $rows = Live_schedule::getAllActiveLimit($parameters['users_id']);
 
             foreach ($rows as $value) {
@@ -1475,20 +1494,19 @@ class API extends PluginAbstract {
 
             $meets = Meet_schedule::getAllFromUsersId(User::getId(), $time, true, false);
 
-            
             $dataObj = $this->getDataObject();
             foreach ($meets as $key => $value) {
                 $RoomPassword = '';
                 if ($dataObj->APISecret === @$_GET['APISecret'] || Meet::isModerator($value['id']) || Meet::canJoinMeet($value['id'])) {
                     $RoomPassword = $value['password'];
-                } 
-                
+                }
+
                 $meets[$key] = cleanUpRowFromDatabase($value);
                 $meets[$key]['RoomPassword'] = $RoomPassword;
             }
-            if(empty($meets)){
+            if (empty($meets)) {
                 $message = _('You do not have any meetings available. you should set one first');
-            }else{
+            } else {
                 $message = '';
             }
             //var_dump($meets);

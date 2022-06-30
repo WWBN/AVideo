@@ -8682,3 +8682,10 @@ function parseFFMPEGProgress($progressFilename) {
 
     return $obj;
 }
+
+function getExtension($link){
+    $path_parts = pathinfo($link);
+    //$extension = strtolower(@$path_parts["extension"]);
+    $filebasename = explode('?', $path_parts['basename']);
+    return pathinfo($filebasename[0], PATHINFO_EXTENSION);
+}
