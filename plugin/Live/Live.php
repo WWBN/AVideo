@@ -2867,8 +2867,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         $rows = Live_restreams::getAllFromUser($lth->getUsers_id());
         foreach ($rows as $value) {
-            $value['stream_url'] = rtrim($value['stream_url'], "/") . '/';
+            $value['stream_url'] = addLastSlash($value['stream_url']);
             $obj->restreamsDestinations[] = "{$value['stream_url']}{$value['stream_key']}";
+            $obj->restreamsToken[] = encryptString($value['id']);
         }
         return $obj;
     }

@@ -138,11 +138,7 @@ if (!User::canStream()) {
                             var json = JSON.parse(row.parameters);
                             //console.log('Live_restreamstableVar parameters', json);
                             if(!empty(json['restream.ypt.me'])){
-                                var obj = json['restream.ypt.me'];
-                                //console.log('Live_restreamstableVar obj', obj);
-                                var onclick = "openWindowWithPost('https://restream.ypt.me/get.php', 'theRestreamerGetPopUp', {title: $('#title').val(), description: $('#description').val(), parameters64: '"+btoa(JSON.stringify(obj))+"'}, 'directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800');";
-                                console.log('Live_restreamstableVar onclick', onclick);
-                                return '<a href="#" onclick="'+onclick+'">'+data+'</a>';
+                                return '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/getLiveKey.json.php?live_restreams_id='+row.id+'" target="_blank">'+data+'</a>';
                             }
 
                         }
