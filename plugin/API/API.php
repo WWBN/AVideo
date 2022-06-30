@@ -299,6 +299,7 @@ class API extends PluginAbstract {
      * ['tags_id' the ID of the tag you want to filter]
      * ['catName' the clean_APIName of the category you want to filter]
      * ['channelName' the channelName of the videos you want to filter]
+     * ['videoType' the type of the video, the valid options are 'audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser']
      * ['is_serie' if is 0 return only videos, if is 1 return only series, if is not set, return all]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&catName=default&rowCount=10
      * @return \ApiObject

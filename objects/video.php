@@ -1187,6 +1187,8 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.type != 'article' ";
             }else if(!empty($type)){
                 $sql .= " AND v.type = '{$type}' ";
+            }else if(!empty($_REQUEST['videoType']) && in_array($_REQUEST['videoType'], self::$typeOptions)){
+                $sql .= " AND v.type = '{$_REQUEST['videoType']}' ";
             }
 
             if ($status == "viewable") {
