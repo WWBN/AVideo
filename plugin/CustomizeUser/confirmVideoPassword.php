@@ -22,7 +22,7 @@ $ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false)
         <meta property="og:url"                content="<?php echo $ogURL; ?>" />
         <meta property="og:type"               content="video.other" />
         <meta property="og:title"              content="<?php echo getSEOTitle($video['title']); ?>" />
-        <meta property="og:description"        content="<?php echo getSEODescription(!empty($custom) ? $custom : $video['title']); ?>" />
+        <meta property="og:description"        content="<?php echo getSEODescription($video['title']); ?>" />
         <meta property="og:image"              content="<?php echo $img; ?>" />
         <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
         <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
