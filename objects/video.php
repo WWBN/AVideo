@@ -3533,7 +3533,7 @@ if (!class_exists('Video')) {
             ObjectYPT::setCache($cacheName, $return);
             return $return;
         }
-
+        
         public static function getHigestResolution($filename) {
             global $global;
             $filename = self::getCleanFilenameFromFile($filename);

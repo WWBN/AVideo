@@ -8689,3 +8689,18 @@ function getExtension($link){
     $filebasename = explode('?', $path_parts['basename']);
     return pathinfo($filebasename[0], PATHINFO_EXTENSION);
 }
+
+/**
+ * It return true in case the $html_string is a string 'false' (good for post/get variables check)
+ * It also return true in case it is an empty HTML
+ * @param type $html_string
+ * @return boolean
+ */
+function _empty($html_string){
+    if(is_string($html_string)){
+        if(strtolower($html_string) == 'false'){
+            return true;
+        }
+    }
+    return emptyHTML($html_string);
+}

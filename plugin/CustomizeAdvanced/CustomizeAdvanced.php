@@ -476,6 +476,46 @@ Allow: .css";
         Video::updateFilesize($videos_id);
         return true;
     }
+    
+    
+    
+    public static function getManagerVideosAddNew() {
+        return '"doNotShowAdsOnThisVideo": $("#doNotShowAdsOnThisVideo").is(":checked"),';
+    }
+
+    public static function getManagerVideosEdit() {
+        global $global;
+        $filename = $global['systemRootPath'] . 'plugin/CustomizeAdvanced/getManagerVideosEdit.js';
+        return file_get_contents($filename);
+    }
+
+    public static function getManagerVideosEditField() {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/managerVideosEdit.php';
+        return '';
+    }
+
+    public static function saveVideosAddNew($post, $videos_id) {
+        return self::setDoNotShowAds($videos_id, !_empty($post['doNotShowAdsOnThisVideo']));
+    }
+    
+    public static function setDoNotShowAds($videos_id, $doNotShowAdsOnThisVideo) {
+        $video = new Video('', '', $videos_id);
+        $externalOptions = _json_decode($video->getExternalOptions());
+        $externalOptions->doNotShowAdsOnThisVideo = $doNotShowAdsOnThisVideo;
+        $video->setExternalOptions(json_encode($externalOptions));
+        return $video->save();
+    }
+
+    public static function getDoNotShowAds($videos_id): bool {
+        $video = new Video('', '', $videos_id);
+        $externalOptions = _json_decode($video->getExternalOptions());
+        return !empty($externalOptions->doNotShowAdsOnThisVideo);
+    }
+    
+    public function showAds($videos_id): bool {
+        return !self::getDoNotShowAds($videos_id);
+    }
 
 }
 
@@ -540,7 +580,7 @@ class SocialMedias {
     function setOnclick($onclick): void {
         $this->onclick = $onclick;
     }
-
+    
 }
 
 $global['social_medias'] = array(
