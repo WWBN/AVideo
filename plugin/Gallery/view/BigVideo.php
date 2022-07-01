@@ -160,7 +160,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                            href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
                                            embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
                                            title="<?php echo htmlentities(getSEOTitle($videoRow['title'], 200)); ?>">
-                                            <strong><?php echo getSEOTitle($videoRow['title']); ?></strong>
+                                            <h2><?php echo getSEOTitle($videoRow['title']); ?></h2>
                                         </a>
                                         <div class="descriptionArea">
                                             <div class="descriptionAreaPreContent">
