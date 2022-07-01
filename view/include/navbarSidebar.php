@@ -61,8 +61,6 @@
                         <hr>
                     </li>
                     <li>
-                        <h2 class="text-danger"><?php echo __("My Menu"); ?></h2>
-
                         <?php
                         if (!$advancedCustomUser->disableSignOutButton) {
                             ?>
@@ -90,7 +88,7 @@
                             <img src="<?php echo User::getPhoto(); ?>" style="max-width: 55px;"  class="img img-thumbnail img-responsive img-circle"/>
                         </div>
                         <div  style="margin-left: 80px;">
-                            <h2><?php echo User::getName(); ?></h2>
+                            <strong class="text-danger"><?php echo User::getName(); ?></strong>
                             <div><small><?php echo User::getMail(); ?></small></div>
 
                         </div>
@@ -208,7 +206,7 @@
                     <hr>
                 </li>
                 <li>
-                    <h2 class="text-danger"><?php echo __("Admin Menu"); ?></h2>
+                    <strong class="text-danger"><?php echo __("Admin Menu"); ?></strong>
                     <ul  class="nav navbar" style="margin-bottom: 10px;">
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'admin/');
@@ -358,7 +356,7 @@
                 if (count($menus)) {
                     ?>
                     <hr>
-                    <h2 class="text-danger"><?php echo __("Extra Permissions"); ?></h2>
+                    <strong class="text-danger"><?php echo __("Extra Permissions"); ?></strong>
                     <ul  class="nav navbar" style="margin-bottom: 10px;">
                         <?php eval(implode(" ", $menus)); ?>
                     </ul>
@@ -405,7 +403,7 @@
                     <hr>
                 </li>
                 <li>
-                    <h3 class="text-danger"><?php echo __("Channels"); ?></h3>
+                    <strong class="text-danger"><?php echo __("Channels"); ?></strong>
                 </li>
                 <li>
                     <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'channels');
@@ -422,12 +420,12 @@
             </li>
             <!-- categories -->
             <li>
-                <h3>
+                <strong>
                     <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'listCategories');
                                     return false;" class="text-danger">
                         <?php echo __($advancedCustom->CategoryLabel); ?>
                     </a>
-                </h3>
+                </strong>
             </li>
             <?php
             $_rowCount = getRowCount();

@@ -48,7 +48,7 @@ if (empty($advancedCustomUser->doNotShowRightProfile) && (User::isLogged() || em
                                     <img src="<?php echo User::getPhoto(); ?>" style="max-width: 50px;"  class="img img-responsive img-circle" alt="User Photo"/>
                                 </div>
                                 <div  class="pull-left"  >
-                                    <h2><?php echo User::getNameIdentification(); ?></h2>
+                                    <strong class="text-danger"><?php echo User::getNameIdentification(); ?></strong>
                                     <div style="white-space: nowrap;
                                          overflow: hidden;
                                          text-overflow: ellipsis; margin: 0 5px;"><small><?php echo User::getMail(); ?></small></div>
