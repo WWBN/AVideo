@@ -33,7 +33,8 @@ $crc = uniqid();
                     </div>
                 </div>
             <?php } else { ?>
-                <h5><?php echo __("Want to watch this again later?"); ?></h5>
+                <strong><?php echo __("Want to watch this again later?"); ?></strong>
+                <br>
                 <?php echo __("Sign in to add this video to a playlist."); ?>
                 <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary">
                     <span class="fas fa-sign-in-alt"></span>
