@@ -500,6 +500,9 @@ Allow: .css";
     }
     
     public static function setDoNotShowAds($videos_id, $doNotShowAdsOnThisVideo) {
+        if (!Permissions::canAdminVideos()) {
+            return false;
+        }
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
         $externalOptions->doNotShowAdsOnThisVideo = $doNotShowAdsOnThisVideo;
