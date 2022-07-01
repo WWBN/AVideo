@@ -244,10 +244,9 @@ if (!empty($videoName) && !empty($video['id'])) {
                                 sortBy = $('#sortBy').val();
                                 console.log(sortBy);
                                 if (sortBy == 'newest') {
-                                    sortBy = {'created': 'desc'};
-                                } else
-                                if (sortBy == 'oldest') {
                                     sortBy = {'created': 'asc'};
+                                } else if (sortBy == 'oldest') {
+                                    sortBy = {'created': 'desc'};
                                 } else if (sortBy == 'views_count') {
                                     sortBy = {'views_count': 'desc'};
                                 } else if (sortBy == 'titleAZ') {
