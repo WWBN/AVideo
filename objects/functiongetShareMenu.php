@@ -59,25 +59,25 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
                     ?>
                 </div>
                 <div class="tab-pane" id="tabEmbed">
-                    <h4><i class="fas fa-share-square"></i> <?php echo __("Embed"); ?> (Iframe): <?php getButtontCopyToClipboard('textAreaEmbed'); ?></h4>
+                    <strong><i class="fas fa-share-square"></i> <?php echo __("Embed"); ?> (Iframe): <?php getButtontCopyToClipboard('textAreaEmbed'); ?></strong>
                     <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%" rows="5" id="textAreaEmbed" readonly="readonly"><?php
                         $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
                         echo htmlentities($code);
                         ?>
                     </textarea>
-                    <h4><i class="fas fa-share-square"></i> <?php echo __("Embed"); ?> (Object): <?php getButtontCopyToClipboard('textAreaEmbedObject'); ?></h4>
+                    <strong><i class="fas fa-share-square"></i> <?php echo __("Embed"); ?> (Object): <?php getButtontCopyToClipboard('textAreaEmbedObject'); ?></strong>
                     <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%" rows="5" id="textAreaEmbedObject" readonly="readonly"><?php
                         $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplateObject);
                         echo htmlentities($code);
                         ?>
                     </textarea>
-                    <h4><i class="fas fa-share-square"></i> <?php echo __("Link"); ?> (HTML): <?php getButtontCopyToClipboard('textAreaHTML'); ?></h4>
+                    <strong><i class="fas fa-share-square"></i> <?php echo __("Link"); ?> (HTML): <?php getButtontCopyToClipboard('textAreaHTML'); ?></strong>
                     <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%" rows="5" id="textAreaHTML" readonly="readonly"><?php
                         $code = str_replace($search, $replace, $advancedCustom->htmlCodeTemplate);
                         echo htmlentities($code);
                         ?>
                     </textarea>
-                    <h4><i class="fas fa-share-square"></i> <?php echo __("Link"); ?> (BBCode): <?php getButtontCopyToClipboard('textAreaBBCode'); ?></h4>
+                    <strong><i class="fas fa-share-square"></i> <?php echo __("Link"); ?> (BBCode): <?php getButtontCopyToClipboard('textAreaBBCode'); ?></strong>
                     <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%" rows="5" id="textAreaBBCode" readonly="readonly"><?php
                         $code = str_replace($search, $replace, $advancedCustom->BBCodeTemplate);
                         echo htmlentities($code);
