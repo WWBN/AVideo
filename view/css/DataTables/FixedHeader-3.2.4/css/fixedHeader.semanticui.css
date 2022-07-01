@@ -1,0 +1,13 @@
+table.fixedHeader-floating {
+  border-bottom-width: 0 !important;
+}
+
+table.fixedHeader-locked {
+  position: absolute !important;
+}
+
+@media print {
+  table.fixedHeader-floating {
+    display: none;
+  }
+}
