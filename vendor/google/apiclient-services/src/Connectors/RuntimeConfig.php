@@ -42,10 +42,6 @@ class RuntimeConfig extends \Google\Model
   /**
    * @var string
    */
-  public $name;
-  /**
-   * @var string
-   */
   public $runtimeEndpoint;
   /**
    * @var string
@@ -129,20 +125,6 @@ class RuntimeConfig extends \Google\Model
   public function getLocationId()
   {
     return $this->locationId;
-  }
-  /**
-   * @param string
-   */
-  public function setName($name)
-  {
-    $this->name = $name;
-  }
-  /**
-   * @return string
-   */
-  public function getName()
-  {
-    return $this->name;
   }
   /**
    * @param string

@@ -17,14 +17,10 @@
 
 namespace Google\Service\BeyondCorp\Resource;
 
-use Google\Service\BeyondCorp\GoogleCloudBeyondcorpAppconnectionsV1alphaAppConnection;
-use Google\Service\BeyondCorp\GoogleCloudBeyondcorpAppconnectionsV1alphaListAppConnectionsResponse;
-use Google\Service\BeyondCorp\GoogleCloudBeyondcorpAppconnectionsV1alphaResolveAppConnectionsResponse;
 use Google\Service\BeyondCorp\GoogleIamV1Policy;
 use Google\Service\BeyondCorp\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\BeyondCorp\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\BeyondCorp\GoogleIamV1TestIamPermissionsResponse;
-use Google\Service\BeyondCorp\GoogleLongrunningOperation;
 
 /**
  * The "appConnections" collection of methods.
@@ -36,83 +32,6 @@ use Google\Service\BeyondCorp\GoogleLongrunningOperation;
  */
 class ProjectsLocationsAppConnections extends \Google\Service\Resource
 {
-  /**
-   * Creates a new AppConnection in a given project and location.
-   * (appConnections.create)
-   *
-   * @param string $parent Required. The resource project name of the
-   * AppConnection location using the form:
-   * `projects/{project_id}/locations/{location_id}`
-   * @param GoogleCloudBeyondcorpAppconnectionsV1alphaAppConnection $postBody
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string appConnectionId Optional. User-settable AppConnection
-   * resource ID. * Must start with a letter. * Must contain between 4-63
-   * characters from (/a-z-/). * Must end with a number or a letter.
-   * @opt_param string requestId Optional. An optional request ID to identify
-   * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes since the first
-   * request. For example, consider a situation where you make an initial request
-   * and t he request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
-   * (00000000-0000-0000-0000-000000000000).
-   * @opt_param bool validateOnly Optional. If set, validates request by executing
-   * a dry-run which would not alter the resource in any way.
-   * @return GoogleLongrunningOperation
-   */
-  public function create($parent, GoogleCloudBeyondcorpAppconnectionsV1alphaAppConnection $postBody, $optParams = [])
-  {
-    $params = ['parent' => $parent, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('create', [$params], GoogleLongrunningOperation::class);
-  }
-  /**
-   * Deletes a single AppConnection. (appConnections.delete)
-   *
-   * @param string $name Required. BeyondCorp Connector name using the form: `proj
-   * ects/{project_id}/locations/{location_id}/appConnections/{app_connection_id}`
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string requestId Optional. An optional request ID to identify
-   * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes after the first
-   * request. For example, consider a situation where you make an initial request
-   * and t he request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
-   * (00000000-0000-0000-0000-000000000000).
-   * @opt_param bool validateOnly Optional. If set, validates request by executing
-   * a dry-run which would not alter the resource in any way.
-   * @return GoogleLongrunningOperation
-   */
-  public function delete($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('delete', [$params], GoogleLongrunningOperation::class);
-  }
-  /**
-   * Gets details of a single AppConnection. (appConnections.get)
-   *
-   * @param string $name Required. BeyondCorp AppConnection name using the form: `
-   * projects/{project_id}/locations/{location_id}/appConnections/{app_connection_
-   * id}`
-   * @param array $optParams Optional parameters.
-   * @return GoogleCloudBeyondcorpAppconnectionsV1alphaAppConnection
-   */
-  public function get($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], GoogleCloudBeyondcorpAppconnectionsV1alphaAppConnection::class);
-  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set. (appConnections.getIamPolicy)
@@ -142,97 +61,6 @@ class ProjectsLocationsAppConnections extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
-  }
-  /**
-   * Lists AppConnections in a given project and location.
-   * (appConnections.listProjectsLocationsAppConnections)
-   *
-   * @param string $parent Required. The resource name of the AppConnection
-   * location using the form: `projects/{project_id}/locations/{location_id}`
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string filter Optional. A filter specifying constraints of a list
-   * operation.
-   * @opt_param string orderBy Optional. Specifies the ordering of results. See
-   * [Sorting
-   * order](https://cloud.google.com/apis/design/design_patterns#sorting_order)
-   * for more information.
-   * @opt_param int pageSize Optional. The maximum number of items to return. If
-   * not specified, a default value of 50 will be used by the service. Regardless
-   * of the page_size value, the response may include a partial list and a caller
-   * should only rely on response's next_page_token to determine if there are more
-   * instances left to be queried.
-   * @opt_param string pageToken Optional. The next_page_token value returned from
-   * a previous ListAppConnectionsRequest, if any.
-   * @return GoogleCloudBeyondcorpAppconnectionsV1alphaListAppConnectionsResponse
-   */
-  public function listProjectsLocationsAppConnections($parent, $optParams = [])
-  {
-    $params = ['parent' => $parent];
-    $params = array_merge($params, $optParams);
-    return $this->call('list', [$params], GoogleCloudBeyondcorpAppconnectionsV1alphaListAppConnectionsResponse::class);
-  }
-  /**
-   * Updates the parameters of a single AppConnection. (appConnections.patch)
-   *
-   * @param string $name Required. Unique resource name of the AppConnection. The
-   * name is ignored when creating a AppConnection.
-   * @param GoogleCloudBeyondcorpAppconnectionsV1alphaAppConnection $postBody
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param bool allowMissing Optional. If set as true, will create the
-   * resource if it is not found.
-   * @opt_param string requestId Optional. An optional request ID to identify
-   * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes since the first
-   * request. For example, consider a situation where you make an initial request
-   * and t he request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
-   * (00000000-0000-0000-0000-000000000000).
-   * @opt_param string updateMask Required. Mask of fields to update. At least one
-   * path must be supplied in this field. The elements of the repeated paths field
-   * may only include these fields from [BeyondCorp.AppConnection]: * `labels` *
-   * `display_name` * `application_endpoint` * `connectors`
-   * @opt_param bool validateOnly Optional. If set, validates request by executing
-   * a dry-run which would not alter the resource in any way.
-   * @return GoogleLongrunningOperation
-   */
-  public function patch($name, GoogleCloudBeyondcorpAppconnectionsV1alphaAppConnection $postBody, $optParams = [])
-  {
-    $params = ['name' => $name, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
-  }
-  /**
-   * Resolves AppConnections details for a given AppConnector. An internal method
-   * called by a connector to find AppConnections to connect to.
-   * (appConnections.resolve)
-   *
-   * @param string $parent Required. The resource name of the AppConnection
-   * location using the form: `projects/{project_id}/locations/{location_id}`
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string appConnectorId Required. BeyondCorp Connector name of the
-   * connector associated with those AppConnections using the form: `projects/{pro
-   * ject_id}/locations/{location_id}/appConnectors/{app_connector_id}`
-   * @opt_param int pageSize Optional. The maximum number of items to return. If
-   * not specified, a default value of 50 will be used by the service. Regardless
-   * of the page_size value, the response may include a partial list and a caller
-   * should only rely on response's next_page_token to determine if there are more
-   * instances left to be queried.
-   * @opt_param string pageToken Optional. The next_page_token value returned from
-   * a previous ResolveAppConnectionsResponse, if any.
-   * @return GoogleCloudBeyondcorpAppconnectionsV1alphaResolveAppConnectionsResponse
-   */
-  public function resolve($parent, $optParams = [])
-  {
-    $params = ['parent' => $parent];
-    $params = array_merge($params, $optParams);
-    return $this->call('resolve', [$params], GoogleCloudBeyondcorpAppconnectionsV1alphaResolveAppConnectionsResponse::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

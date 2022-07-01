@@ -77,6 +77,9 @@ class ServerRequest implements ServerRequestInterface
         return $this->uploadedFiles;
     }
 
+    /**
+     * @return static
+     */
     public function withUploadedFiles(array $uploadedFiles)
     {
         $new = clone $this;
@@ -90,6 +93,9 @@ class ServerRequest implements ServerRequestInterface
         return $this->cookieParams;
     }
 
+    /**
+     * @return static
+     */
     public function withCookieParams(array $cookies)
     {
         $new = clone $this;
@@ -103,6 +109,9 @@ class ServerRequest implements ServerRequestInterface
         return $this->queryParams;
     }
 
+    /**
+     * @return static
+     */
     public function withQueryParams(array $query)
     {
         $new = clone $this;
@@ -111,11 +120,17 @@ class ServerRequest implements ServerRequestInterface
         return $new;
     }
 
+    /**
+     * @return array|object|null
+     */
     public function getParsedBody()
     {
         return $this->parsedBody;
     }
 
+    /**
+     * @return static
+     */
     public function withParsedBody($data)
     {
         if (!\is_array($data) && !\is_object($data) && null !== $data) {

@@ -34,6 +34,9 @@ use Google\Client;
  */
 class CloudIdentity extends \Google\Service
 {
+  /** Private Service: https://www.googleapis.com/auth/cloud-identity. */
+  const CLOUD_IDENTITY =
+      "https://www.googleapis.com/auth/cloud-identity";
   /** Private Service: https://www.googleapis.com/auth/cloud-identity.devices. */
   const CLOUD_IDENTITY_DEVICES =
       "https://www.googleapis.com/auth/cloud-identity.devices";
