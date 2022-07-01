@@ -13,7 +13,7 @@ foreach ($menu as $key => $value) {
     ?>
     <li>
         <hr>
-        <h3 class="text-danger">
+        <strong class="text-danger">
             <?php
             if (!empty($value['icon'])) {
                 ?>
@@ -22,7 +22,7 @@ foreach ($menu as $key => $value) {
             }
             ?>
             <?php echo __($value['menuName']); ?>
-        </h3>
+        </strong>
     </li>
     <?php
     $menuItems = MenuItem::getAllFromMenu($value['id'], true);
