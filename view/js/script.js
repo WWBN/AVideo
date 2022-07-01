@@ -1289,11 +1289,22 @@ function avideoAlert(title, msg, type) {
 function avideoAlertOnce(title, msg, type, uid) {
     var cookieName = 'avideoAlertOnce' + uid;
     if (!Cookies.set(cookieName)) {
-        Cookies.set(cookieName, 1, {
-            path: '/',
-            expires: 365
+        var span = document.createElement("span");
+        span.innerHTML = msg;
+        swal({
+            title: title,
+            content: span,
+            icon: type,
+            closeOnClickOutside: false,
+            closeModal: true
+        }).then(okay => {
+            if (okay) {
+                Cookies.set(cookieName, 1, {
+                    path: '/',
+                    expires: 365
+                });
+            }
         });
-        return avideoAlert(title, msg, type);
     }
 }
 
