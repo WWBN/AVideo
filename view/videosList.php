@@ -53,9 +53,9 @@ if (!empty($_POST['sort'])) {
             $sortBy = 'titleZA';
         }
     } else if (!empty($_POST['sort']['created'])) {
-        if (strtolower($_POST['sort']['created']) == 'asc') {
+        if (strtolower($_POST['sort']['created']) == 'desc') {
             $sortBy = 'newest';
-        } else if (strtolower($_POST['sort']['created']) == 'desc') {
+        } else if (strtolower($_POST['sort']['created']) == 'asc') {
             $sortBy = 'oldest';
         }
     } else if (!empty($_POST['sort']['likes'])) {
@@ -73,10 +73,10 @@ if (!empty($_POST['sort'])) {
             $_POST['sort']['title'] = 'desc';
             break;
         case 'newest':
-            $_POST['sort']['created'] = 'asc';
+            $_POST['sort']['created'] = 'desc';
             break;
         case 'oldest':
-            $_POST['sort']['created'] = 'desc';
+            $_POST['sort']['created'] = 'asc';
             break;
         case 'popular':
             $_POST['sort']['likes'] = 1;
@@ -244,9 +244,9 @@ if (!empty($videoName) && !empty($video['id'])) {
                                 sortBy = $('#sortBy').val();
                                 console.log(sortBy);
                                 if (sortBy == 'newest') {
-                                    sortBy = {'created': 'asc'};
-                                } else if (sortBy == 'oldest') {
                                     sortBy = {'created': 'desc'};
+                                } else if (sortBy == 'oldest') {
+                                    sortBy = {'created': 'asc'};
                                 } else if (sortBy == 'views_count') {
                                     sortBy = {'views_count': 'desc'};
                                 } else if (sortBy == 'titleAZ') {
