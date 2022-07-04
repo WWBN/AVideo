@@ -50,7 +50,7 @@ services:
     image: "mariadb:latest"
     restart: "unless-stopped"
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: yes
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_INITDB_SKIP_TZINFO: 1
       MYSQL_DATABASE: "avideo"
       MYSQL_USER: "avideo"
