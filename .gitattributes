@@ -3,8 +3,8 @@
 # Refer to:
 # https://help.github.com/articles/dealing-with-line-endings/
 
-*.yaml eol=lf
-*.yml eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
 
 # Refer to:
 # https://github.com/github/linguist
