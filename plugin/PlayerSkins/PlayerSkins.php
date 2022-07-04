@@ -334,7 +334,11 @@ class PlayerSkins extends PluginAbstract {
 
         include $global['systemRootPath'] . 'plugin/PlayerSkins/mediaSession.php';
         PlayerSkins::addOnPlayerReady('if(typeof updateMediaSessionMetadata === "function"){updateMediaSessionMetadata();}');
-
+        
+        if(isVideo()){
+           $js .= "<script src=\"" . getURL('plugin/PlayerSkins/offlineVideo.js') . "\"></script>";
+        }
+        
         return $js;
     }
 
