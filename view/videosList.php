@@ -41,54 +41,50 @@ if ($_REQUEST['rowCount'] <= 0 || $_REQUEST['rowCount'] > 100) {
     $_REQUEST['rowCount'] = 10;
 }
 
+$sortOptions = array(
+    array('key' => 'title', 'order' => 'asc', 'sortBy' => 'titleAZ', 'label' => __("Title (A-Z)"), 'data-icon' => 'glyphicon-sort-by-attributes'),
+    array('key' => 'title', 'order' => 'desc', 'sortBy' => 'titleZA', 'label' => __("Title (Z-A)"), 'data-icon' => 'glyphicon-sort-by-attributes-alt'),
+    array('key' => 'created', 'order' => 'desc', 'sortBy' => 'newest', 'label' => __("Date added (newest)"), 'data-icon' => 'glyphicon-sort-by-attributes'),
+    array('key' => 'created', 'order' => 'asc', 'sortBy' => 'oldest', 'label' => __("Date added (oldest)"), 'data-icon' => 'glyphicon-sort-by-attributes-alt'),
+    array('key' => 'likes', 'order' => 'desc', 'sortBy' => 'popular', 'label' => __("Most popular"), 'data-icon' => 'glyphicon-thumbs-up'),
+    array('key' => 'suggested', 'order' => 'desc', 'sortBy' => 'suggested', 'label' => __("Suggested"), 'data-icon' => 'glyphicon-star'),
+);
+
+if (empty($advancedCustom->doNotDisplayViews)) {
+    $sortOptions[] = array('key' => 'views_count', 'order' => 'desc', 'sortBy' => 'views_count', 'label' => __("Most watched"), 'data-icon' => 'glyphicon-eye-open');
+}
+
 $sortBy = $advancedCustom->sortVideoListByDefault->value;
 if (empty($_POST['sort']) && !empty($_SESSION['sort'])) {
     $_POST['sort'] = $_SESSION['sort'];
 }
 if (!empty($_POST['sort'])) {
-    if (!empty($_POST['sort']['title'])) {
-        if (strtolower($_POST['sort']['title']) == 'asc') {
-            $sortBy = 'titleAZ';
-        } else if (strtolower($_POST['sort']['title']) == 'desc') {
-            $sortBy = 'titleZA';
+    foreach ($sortOptions as $value) {
+        if (!empty($_POST['sort'][$value['key']])) {
+            $order = strtolower($_POST['sort'][$value['key']]);
+            if ($order === strtolower($value['order'])) {
+                $sortBy = $value['sortBy'];
+                break;
+            }
         }
-    } else if (!empty($_POST['sort']['created'])) {
-        if (strtolower($_POST['sort']['created']) == 'desc') {
-            $sortBy = 'newest';
-        } else if (strtolower($_POST['sort']['created']) == 'asc') {
-            $sortBy = 'oldest';
-        }
-    } else if (!empty($_POST['sort']['likes'])) {
-        $sortBy = 'popular';
-    } else if (!empty($_POST['sort']['views_count'])) {
-        $sortBy = 'views_count';
     }
 } else {
     $_POST['sort'] = array();
-    switch ($sortBy) {
-        case 'titleAZ':
-            $_POST['sort']['title'] = 'asc';
+    foreach ($sortOptions as $value) {
+        $sortBy = strtolower($sortBy);
+        if ($sortBy === strtolower($value['order'])) {
+            $_POST['sort'][$value['key']] = $value['order'];
             break;
-        case 'titleZA':
-            $_POST['sort']['title'] = 'desc';
-            break;
-        case 'newest':
-            $_POST['sort']['created'] = 'desc';
-            break;
-        case 'oldest':
-            $_POST['sort']['created'] = 'asc';
-            break;
-        case 'popular':
-            $_POST['sort']['likes'] = 1;
-            break;
-        case 'views_count':
-            $_POST['sort']['views_count'] = 1;
-            break;
+        }
     }
 }
 
 $_SESSION['rowCount'] = $_REQUEST['rowCount'];
 $_SESSION['sort'] = $_POST['sort'];
+
+if(!empty($_POST['sort']['undefined'])){
+    unset($_POST['sort']['undefined']);
+}
 
 //var_dump($sortBy, $_POST['sort'], strtolower($_POST['sort']['created']) == 'desc');
 
@@ -129,17 +125,19 @@ if (empty($video['id'])) {
 }
 TimeLogEnd($timeLogNameVL, __LINE__, $TimeLogLimitVL);
 ?>
-<div class="col-md-8 col-sm-12 " style="position: relative; z-index: 2;" >
+<div class="col-md-8 col-sm-12 " style="position: relative; z-index: 10;" >
     <select class="form-control" id="sortBy" >
-        <option value="titleAZ" data-icon="glyphicon-sort-by-attributes" <?php echo ($sortBy == 'titleAZ') ? "selected='selected'" : "" ?>> <?php echo __("Title (A-Z)"); ?></option>
-        <option value="titleZA" data-icon="glyphicon-sort-by-attributes-alt" <?php echo ($sortBy == 'titleZA') ? "selected='selected'" : "" ?>> <?php echo __("Title (Z-A)"); ?></option>
-        <option value="newest" data-icon="glyphicon-sort-by-attributes" <?php echo ($sortBy == 'newest') ? "selected='selected'" : "" ?>> <?php echo __("Date added (newest)"); ?></option>
-        <option value="oldest" data-icon="glyphicon-sort-by-attributes-alt" <?php echo ($sortBy == 'oldest') ? "selected='selected'" : "" ?>> <?php echo __("Date added (oldest)"); ?></option>
-        <option value="popular" data-icon="glyphicon-thumbs-up"  <?php echo ($sortBy == 'popular') ? "selected='selected'" : "" ?>> <?php echo __("Most popular"); ?></option>
         <?php
-        if (empty($advancedCustom->doNotDisplayViews)) {
+        foreach ($sortOptions as $value) {
             ?>
-            <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo ($sortBy == 'views_count') ? "selected='selected'" : "" ?>> <?php echo __("Most watched"); ?></option>
+            <option 
+                value="<?php echo $value['sortBy']; ?>" 
+                data-icon="<?php echo $value['data-icon']; ?>" 
+                order="<?php echo $value['order']; ?>" 
+                key="<?php echo $value['key']; ?>" 
+                <?php echo ($sortBy === $value['sortBy']) ? "selected='selected'" : "" ?>> 
+                    <?php echo $value['label']; ?>
+            </option>
             <?php
         }
         ?>
@@ -241,21 +239,14 @@ if (!empty($videoName) && !empty($video['id'])) {
                                 $('.pages').slideUp();
                                 $('#pageLoader').fadeIn();
                                 rowCount = $('#rowCount').val();
-                                sortBy = $('#sortBy').val();
+                                
+                                var key = $('#sortBy option:selected').attr('key');
+                                var order = $('#sortBy option:selected').attr('order');
+                                
+                                eval("sortBy = {'"+key+"': '"+order+"'};");
+        
                                 console.log(sortBy);
-                                if (sortBy == 'newest') {
-                                    sortBy = {'created': 'desc'};
-                                } else if (sortBy == 'oldest') {
-                                    sortBy = {'created': 'asc'};
-                                } else if (sortBy == 'views_count') {
-                                    sortBy = {'views_count': 'desc'};
-                                } else if (sortBy == 'titleAZ') {
-                                    sortBy = {'title': 'asc'};
-                                } else if (sortBy == 'titleZA') {
-                                    sortBy = {'title': 'desc'};
-                                } else {
-                                    sortBy = {'likes': 'desc'};
-                                }
+        
                                 $.ajax({
                                     type: "POST",
                                     url: urlList,

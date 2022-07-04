@@ -294,7 +294,8 @@ Allow: .css";
             'newest' => __("Date added (newest)"), 
             'oldest' => __("Date added (oldest)"), 
             'popular' => __("Most popular"), 
-            'views_count' => __("Most watched")
+            'views_count' => __("Most watched"), 
+            'suggested' => __("Suggested")
             );
         $o->value = 'newest';
         $obj->sortVideoListByDefault = $o;
