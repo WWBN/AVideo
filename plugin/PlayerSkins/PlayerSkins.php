@@ -337,6 +337,7 @@ class PlayerSkins extends PluginAbstract {
         
         if(isVideo()){
             $js .= "<script>const offlineVideoDbName = 'videos_offlineDb_".User::getId()."';</script>";
+           $js .= "<script src=\"" . getURL('node_modules/dexie/dist/dexie.min.js') . "\"></script>";
            $js .= "<script src=\"" . getURL('plugin/PlayerSkins/offlineVideo.js') . "\"></script>";
         }
         
@@ -489,7 +490,8 @@ class PlayerSkins extends PluginAbstract {
         $js .= "}
         player.ready(function () {";
         
-        if(isAndroid()){
+        // this is here because for some reason videos on the storage only works if it loads dinamically on android devices only
+        if(isMobile()){
             $js .= "player.src(player.currentSources());";
         }
         if(empty($_REQUEST['mute'])){
