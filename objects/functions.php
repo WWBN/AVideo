@@ -2750,6 +2750,15 @@ function isMobile($userAgent = null, $httpHeaders = null) {
     return $detect->isMobile($userAgent, $httpHeaders);
 }
 
+
+function isAndroid() {
+    global $global;
+    require_once $global['systemRootPath'] . 'objects/Mobile_Detect.php';
+    $detect = new Mobile_Detect();
+
+    return $detect->is('AndroidOS');
+}
+
 function isChannelPage() {
     return strpos($_SERVER["SCRIPT_NAME"], 'view/channel.php') !== false;
 }

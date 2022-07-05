@@ -350,7 +350,6 @@ class PlayerSkins extends PluginAbstract {
         $dataSetup = array();
 
         $dataSetup[] = "errorDisplay: false";
-        $dataSetup[] = "html5: {hls: {overrideNative: true},nativeAudioTracks: false,nativeVideoTracks: false}";
         if (isVideoPlayerHasProgressBar() && !empty($obj->playbackRates)) {
             $dataSetup[] = "'playbackRates':{$obj->playbackRates}";
         }
@@ -364,8 +363,6 @@ class PlayerSkins extends PluginAbstract {
                 $dataSetup[] = "sources:[{type: \"video/vimeo\", src: \"{$video['videoLink']}\"}]";
                 $dataSetup[] = "vimeo:{customVars: {wmode: \"transparent\", origin: \"{$global['webSiteRootURL']}\"}}";
             }
-        }else{
-            
         }
 
         $pluginsDataSetup = AVideoPlugin::dataSetup();
@@ -492,6 +489,9 @@ class PlayerSkins extends PluginAbstract {
         $js .= "}
         player.ready(function () {";
         
+        if(isAndroid()){
+            $js .= "player.src(player.currentSources());";
+        }
         if(empty($_REQUEST['mute'])){
             $play = "playerPlayIfAutoPlay({$currentTime});";
             
