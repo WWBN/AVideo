@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.0.3 (2022-05-25)
+ * TinyMCE version 6.1.0 (2022-06-29)
  */
 
 (function () {
@@ -2887,7 +2887,10 @@
       };
       const updateValue = () => {
         const valueElement = obsoleted;
-        definition.value.filter(value => value !== get$6(valueElement)).each(value => set$5(valueElement, value));
+        const value = definition.value.getOrUndefined();
+        if (value !== get$6(valueElement)) {
+          set$5(valueElement, value !== null && value !== void 0 ? value : '');
+        }
       };
       updateAttrs();
       updateClasses();
@@ -6116,13 +6119,12 @@
           inSet(TAB)
         ]), goBackwards),
         rule(inSet(TAB), goForwards),
-        rule(inSet(ESCAPE), exit),
         rule(and([
           isNotShift,
           inSet(ENTER)
         ]), execute)
       ]);
-      const getKeyupRules = constant$1([]);
+      const getKeyupRules = constant$1([rule(inSet(ESCAPE), exit)]);
       return typical(schema, NoState.init, getKeydownRules, getKeyupRules, () => Optional.some(focusIn));
     };
 
@@ -6298,10 +6300,12 @@
         isNotShift,
         inSet(TAB)
       ]), handleTab),
-      rule(inSet(ESCAPE), doEscape$1),
       rule(inSet(SPACE.concat(ENTER)), execute$3)
     ]);
-    const getKeyupRules$4 = constant$1([rule(inSet(SPACE), stopEventForFirefox)]);
+    const getKeyupRules$4 = constant$1([
+      rule(inSet(ESCAPE), doEscape$1),
+      rule(inSet(SPACE), stopEventForFirefox)
+    ]);
     var FlatgridType = typical(schema$u, flatgrid$1, getKeydownRules$4, getKeyupRules$4, () => Optional.some(focusIn$3));
 
     const horizontal = (container, selector, current, delta) => {
@@ -6347,11 +6351,13 @@
         rule(inSet(westMovers), doMove$1(west$1(moveLeft$2, moveRight$2))),
         rule(inSet(eastMovers), doMove$1(east$1(moveLeft$2, moveRight$2))),
         rule(inSet(ENTER), execute$2),
-        rule(inSet(SPACE), execute$2),
-        rule(inSet(ESCAPE), doEscape)
+        rule(inSet(SPACE), execute$2)
       ];
     };
-    const getKeyupRules$3 = constant$1([rule(inSet(SPACE), stopEventForFirefox)]);
+    const getKeyupRules$3 = constant$1([
+      rule(inSet(SPACE), stopEventForFirefox),
+      rule(inSet(ESCAPE), doEscape)
+    ]);
     var FlowType = typical(schema$t, NoState.init, getKeydownRules$3, getKeyupRules$3, () => Optional.some(focusIn$2));
 
     const toCell = (matrix, rowIndex, columnIndex) => Optional.from(matrix[rowIndex]).bind(row => Optional.from(row[columnIndex]).map(cell => ({
@@ -6507,10 +6513,12 @@
       rule(inSet(DOWN), specialInfo.onDown),
       rule(inSet(LEFT), specialInfo.onLeft),
       rule(inSet(RIGHT), specialInfo.onRight),
-      rule(inSet(SPACE), specialInfo.onSpace),
+      rule(inSet(SPACE), specialInfo.onSpace)
+    ];
+    const getKeyupRules = (component, simulatedEvent, specialInfo) => [
+      ...specialInfo.stopSpaceKeyup ? [rule(inSet(SPACE), stopEventForFirefox)] : [],
       rule(inSet(ESCAPE), specialInfo.onEscape)
     ];
-    const getKeyupRules = (component, simulatedEvent, specialInfo) => specialInfo.stopSpaceKeyup ? [rule(inSet(SPACE), stopEventForFirefox)] : [];
     var SpecialType = typical(schema$q, NoState.init, getKeydownRules, getKeyupRules, specialInfo => specialInfo.focusIn);
 
     const acyclic = AcyclicType.schema();
@@ -6741,22 +6749,23 @@
         }
       });
     };
+    const set$2 = (component, toggleConfig, toggleState, state) => {
+      const initialState = toggleState.get();
+      toggleState.set(state);
+      updateClass(component, toggleConfig, toggleState);
+      updateAriaState(component, toggleConfig, toggleState);
+      if (initialState !== state) {
+        toggleConfig.onToggled(component, state);
+      }
+    };
     const toggle$2 = (component, toggleConfig, toggleState) => {
       set$2(component, toggleConfig, toggleState, !toggleState.get());
     };
     const on = (component, toggleConfig, toggleState) => {
-      toggleState.set(true);
-      updateClass(component, toggleConfig, toggleState);
-      updateAriaState(component, toggleConfig, toggleState);
+      set$2(component, toggleConfig, toggleState, true);
     };
     const off = (component, toggleConfig, toggleState) => {
-      toggleState.set(false);
-      updateClass(component, toggleConfig, toggleState);
-      updateAriaState(component, toggleConfig, toggleState);
-    };
-    const set$2 = (component, toggleConfig, toggleState, state) => {
-      const action = state ? on : off;
-      action(component, toggleConfig, toggleState);
+      set$2(component, toggleConfig, toggleState, false);
     };
     const isOn = (component, toggleConfig, toggleState) => toggleState.get();
     const onLoad = (component, toggleConfig, toggleState) => {
@@ -6809,6 +6818,7 @@
       defaulted('selected', false),
       option$3('toggleClass'),
       defaulted('toggleOnExecute', true),
+      onHandler('onToggled'),
       defaultedOf('aria', { mode: 'none' }, choose$1('mode', {
         pressed: [
           defaulted('syncWithExpanded', false),
@@ -6854,6 +6864,7 @@
 
     const hoverEvent = 'alloy.item-hover';
     const focusEvent = 'alloy.item-focus';
+    const toggledEvent = 'alloy.item-toggled';
     const onHover = item => {
       if (search(item.element).isNone() || Focusing.isFocused(item)) {
         if (!Focusing.isFocused(item)) {
@@ -6865,25 +6876,40 @@
     const onFocus$1 = item => {
       emitWith(item, focusEvent, { item });
     };
+    const onToggled = (item, state) => {
+      emitWith(item, toggledEvent, {
+        item,
+        state
+      });
+    };
     const hover = constant$1(hoverEvent);
     const focus$1 = constant$1(focusEvent);
+    const toggled = constant$1(toggledEvent);
 
+    const getItemRole = detail => detail.toggling.map(toggling => toggling.exclusive ? 'menuitemradio' : 'menuitemcheckbox').getOr('menuitem');
+    const getTogglingSpec = tConfig => ({
+      aria: { mode: 'checked' },
+      ...filter$1(tConfig, (_value, name) => name !== 'exclusive'),
+      onToggled: (component, state) => {
+        if (isFunction(tConfig.onToggled)) {
+          tConfig.onToggled(component, state);
+        }
+        onToggled(component, state);
+      }
+    });
     const builder$2 = detail => ({
       dom: detail.dom,
       domModification: {
         ...detail.domModification,
         attributes: {
-          'role': detail.toggling.isSome() ? 'menuitemcheckbox' : 'menuitem',
+          'role': getItemRole(detail),
           ...detail.domModification.attributes,
           'aria-haspopup': detail.hasSubmenu,
           ...detail.hasSubmenu ? { 'aria-expanded': false } : {}
         }
       },
       behaviours: SketchBehaviours.augment(detail.itemBehaviours, [
-        detail.toggling.fold(Toggling.revoke, tConfig => Toggling.config({
-          aria: { mode: 'checked' },
-          ...tConfig
-        })),
+        detail.toggling.fold(Toggling.revoke, tConfig => Toggling.config(getTogglingSpec(tConfig))),
         Focusing.config({
           ignore: detail.ignoreFocus,
           stopMousedown: detail.ignoreFocus,
@@ -7128,6 +7154,16 @@
 
     const focus = constant$1('alloy.menu-focus');
 
+    const deselectOtherRadioItems = (menu, item) => {
+      const checkedRadioItems = descendants(menu.element, '[role="menuitemradio"][aria-checked="true"]');
+      each$1(checkedRadioItems, ele => {
+        if (!eq(ele, item.element)) {
+          menu.getSystem().getByDom(ele).each(c => {
+            Toggling.off(c);
+          });
+        }
+      });
+    };
     const make$7 = (detail, components, _spec, _externals) => ({
       uid: detail.uid,
       dom: detail.dom,
@@ -7162,6 +7198,12 @@
         run$1(hover(), (menu, simulatedEvent) => {
           const item = simulatedEvent.event.item;
           Highlighting.highlight(menu, item);
+        }),
+        run$1(toggled(), (menu, simulatedEvent) => {
+          const {item, state} = simulatedEvent.event;
+          if (state && get$f(item.element, 'role') === 'menuitemradio') {
+            deselectOtherRadioItems(menu, item);
+          }
         })
       ]),
       components,
@@ -7610,6 +7652,7 @@
         data: menuSpec.data,
         markers: menuSpec.menu.markers,
         highlightImmediately: menuSpec.menu.highlightImmediately,
+        fakeFocus: menuSpec.menu.fakeFocus,
         onEscape: () => {
           Sandboxing.close(menuSandbox);
           detail.onEscape.map(handler => handler(menuSandbox));
@@ -8369,6 +8412,7 @@
         processor: value => value === 'both' || isBoolean(value),
         default: !global$5.deviceType.isTouch()
       });
+      registerOption('sidebar_show', { processor: 'string' });
     };
     const isReadOnly = option$2('readonly');
     const getHeightOption = option$2('height');
@@ -8403,6 +8447,7 @@
     const useBranding = option$2('branding');
     const getResize = option$2('resize');
     const getPasteAsText = option$2('paste_as_text');
+    const getSidebarShow = option$2('sidebar_show');
     const isSkinDisabled = editor => editor.options.get('skin') === false;
     const isMenubarEnabled = editor => editor.options.get('menubar') !== false;
     const getSkinUrl = editor => {
@@ -8515,7 +8560,8 @@
         useElementPath: useElementPath,
         useBranding: useBranding,
         getResize: getResize,
-        getPasteAsText: getPasteAsText
+        getPasteAsText: getPasteAsText,
+        getSidebarShow: getSidebarShow
     });
 
     const autocompleteSelector = '[data-mce-autocompleter]';
@@ -8526,7 +8572,7 @@
       const redirectKeyToItem = (item, e) => {
         emitWith(item, keydown(), { raw: e });
       };
-      const getItem = () => api.getView().bind(Highlighting.getHighlighted);
+      const getItem = () => api.getMenu().bind(Highlighting.getHighlighted);
       editor.on('keydown', e => {
         const keyCode = e.which;
         if (!api.isActive()) {
@@ -8538,7 +8584,7 @@
             e.preventDefault();
           } else if (keyCode === 40) {
             getItem().fold(() => {
-              api.getView().each(Highlighting.highlightFirst);
+              api.getMenu().each(Highlighting.highlightFirst);
             }, item => {
               redirectKeyToItem(item, e);
             });
@@ -9689,7 +9735,8 @@
         toggling: {
           toggleClass: tickedClass,
           toggleOnExecute: false,
-          selected: spec.active
+          selected: spec.active,
+          exclusive: true
         }
       });
     };
@@ -10603,27 +10650,23 @@
       return createPartial(value, hasIcons, alloyItems, 1, 'normal');
     };
     const createTieredDataFrom = partialMenu => tieredMenu.singleData(partialMenu.value, partialMenu);
-    const createMenuFrom = (partialMenu, columns, focusMode, presets) => {
-      const focusManager = focusMode === FocusMode.ContentFocus ? highlights() : dom$2();
+    const createInlineMenuFrom = (partialMenu, columns, focusMode, presets) => {
       const movement = deriveMenuMovement(columns, presets);
       const menuMarkers = markers(presets);
       return {
-        dom: partialMenu.dom,
-        components: partialMenu.components,
-        items: partialMenu.items,
-        value: partialMenu.value,
-        markers: {
-          selectedItem: menuMarkers.selectedItem,
-          item: menuMarkers.item
-        },
-        movement,
-        fakeFocus: focusMode === FocusMode.ContentFocus,
-        focusManager,
-        menuBehaviours: SimpleBehaviours.unnamedEvents(columns !== 'auto' ? [] : [runOnAttached((comp, _se) => {
-            detectSize(comp, 4, menuMarkers.item).each(({numColumns, numRows}) => {
-              Keying.setGridSize(comp, numRows, numColumns);
-            });
-          })])
+        data: createTieredDataFrom({
+          ...partialMenu,
+          movement,
+          menuBehaviours: SimpleBehaviours.unnamedEvents(columns !== 'auto' ? [] : [runOnAttached((comp, _se) => {
+              detectSize(comp, 4, menuMarkers.item).each(({numColumns, numRows}) => {
+                Keying.setGridSize(comp, numRows, numColumns);
+              });
+            })])
+        }),
+        menu: {
+          markers: markers(presets),
+          fakeFocus: focusMode === FocusMode.ContentFocus
+        }
       };
     };
 
@@ -10654,6 +10697,9 @@
           InlineView.hide(autocompleter);
         }
       };
+      const getMenu = () => InlineView.getContent(autocompleter).bind(tmenu => {
+        return get$h(tmenu.components(), 0);
+      });
       const cancelIfNecessary = () => editor.execCommand('mceAutocompleterClose');
       const getCombinedItems = matches => {
         const columns = findMap(matches, m => Optional.from(m.columns)).getOr(1);
@@ -10679,15 +10725,15 @@
       const display = (lookupData, items) => {
         findIn(SugarElement.fromDom(editor.getBody())).each(element => {
           const columns = findMap(lookupData, ld => Optional.from(ld.columns)).getOr(1);
-          InlineView.showAt(autocompleter, Menu.sketch(createMenuFrom(createPartialMenuWithAlloyItems('autocompleter-value', true, items, columns, 'normal'), columns, FocusMode.ContentFocus, 'normal')), {
+          InlineView.showMenuAt(autocompleter, {
             anchor: {
               type: 'node',
               root: SugarElement.fromDom(editor.getBody()),
               node: Optional.from(element)
             }
-          });
-          InlineView.getContent(autocompleter).each(Highlighting.highlightFirst);
+          }, createInlineMenuFrom(createPartialMenuWithAlloyItems('autocompleter-value', true, items, columns, 'normal'), columns, FocusMode.ContentFocus, 'normal'));
         });
+        getMenu().each(Highlighting.highlightFirst);
       };
       const updateDisplay = lookupData => {
         const combinedItems = getCombinedItems(lookupData);
@@ -10713,7 +10759,7 @@
         isMenuOpen,
         isActive,
         isProcessingAction: processingAction.get,
-        getView: () => InlineView.getContent(autocompleter)
+        getMenu
       };
       AutocompleterEditorEvents.setup(autocompleterUiApi, editor);
     };
@@ -14007,6 +14053,8 @@
     };
     const renderIFrame = (spec, providersBackstage, initialData) => {
       const isSandbox = spec.sandboxed;
+      const isTransparent = spec.transparent;
+      const baseClass = 'tox-dialog__iframe';
       const attributes = {
         ...spec.label.map(title => ({ title })).getOr({}),
         ...initialData.map(html => ({ srcdoc: html })).getOr({}),
@@ -14018,7 +14066,11 @@
         uid: newSpec.uid,
         dom: {
           tag: 'iframe',
-          attributes
+          attributes,
+          classes: isTransparent ? [baseClass] : [
+            baseClass,
+            `${ baseClass }--opaque`
+          ]
         },
         behaviours: derive$1([
           Tabstopping.config({}),
@@ -17690,7 +17742,6 @@
     const doImmediateShrink = (component, slideConfig, slideState, _calculatedSize) => {
       slideState.setCollapsed();
       set$8(component.element, getDimensionProperty(slideConfig), getDimension(slideConfig, component.element));
-      reflow(component.element);
       disableTransitions(component, slideConfig);
       setShrunk(component, slideConfig);
       slideConfig.onStartShrink(component);
@@ -17771,6 +17822,16 @@
       const f = slideState.isExpanded() ? doStartSmartShrink : doStartGrow;
       f(component, slideConfig, slideState);
     };
+    const immediateGrow = (component, slideConfig, slideState) => {
+      if (!slideState.isExpanded()) {
+        setGrown(component, slideConfig);
+        set$8(component.element, getDimensionProperty(slideConfig), getDimension(slideConfig, component.element));
+        disableTransitions(component, slideConfig);
+        slideState.setExpanded();
+        slideConfig.onStartGrow(component);
+        slideConfig.onGrown(component);
+      }
+    };
 
     var SlidingApis = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -17784,7 +17845,8 @@
         isShrinking: isShrinking,
         isTransitioning: isTransitioning,
         toggleGrow: toggleGrow,
-        disableTransitions: disableTransitions
+        disableTransitions: disableTransitions,
+        immediateGrow: immediateGrow
     });
 
     const exhibit = (base, slideConfig, _slideState) => {
@@ -18024,9 +18086,19 @@
       components: makePanels(parts, panelConfigs),
       slotBehaviours: SimpleBehaviours.unnamedEvents([runOnAttached(slotContainer => SlotContainer.hideAllSlots(slotContainer))])
     }));
-    const setSidebar = (sidebar, panelConfigs) => {
+    const setSidebar = (sidebar, panelConfigs, showSidebar) => {
       const optSlider = Composing.getCurrent(sidebar);
-      optSlider.each(slider => Replacing.set(slider, [makeSidebar(panelConfigs)]));
+      optSlider.each(slider => {
+        Replacing.set(slider, [makeSidebar(panelConfigs)]);
+        const configKey = showSidebar === null || showSidebar === void 0 ? void 0 : showSidebar.toLowerCase();
+        if (isString(showSidebar) && has$2(panelConfigs, configKey)) {
+          Composing.getCurrent(slider).each(slotContainer => {
+            SlotContainer.showSlot(slotContainer, configKey);
+            Sliding.immediateGrow(slider);
+            remove$6(slider.element, 'width');
+          });
+        }
+      });
     };
     const toggleSidebar = (sidebar, name) => {
       const optSlider = Composing.getCurrent(sidebar);
@@ -19054,8 +19126,8 @@
         getSocket: comp => {
           return parts$a.getPart(comp, detail, 'socket');
         },
-        setSidebar: (comp, panelConfigs) => {
-          parts$a.getPart(comp, detail, 'sidebar').each(sidebar => setSidebar(sidebar, panelConfigs));
+        setSidebar: (comp, panelConfigs, showSidebar) => {
+          parts$a.getPart(comp, detail, 'sidebar').each(sidebar => setSidebar(sidebar, panelConfigs, showSidebar));
         },
         toggleSidebar: (comp, name) => {
           parts$a.getPart(comp, detail, 'sidebar').each(sidebar => toggleSidebar(sidebar, name));
@@ -19236,8 +19308,8 @@
         getSocket: (apis, comp) => {
           return apis.getSocket(comp);
         },
-        setSidebar: (apis, comp, panelConfigs) => {
-          apis.setSidebar(comp, panelConfigs);
+        setSidebar: (apis, comp, panelConfigs, showSidebar) => {
+          apis.setSidebar(comp, panelConfigs, showSidebar);
         },
         toggleSidebar: (apis, comp, name) => {
           apis.toggleSidebar(comp, name);
@@ -20605,7 +20677,7 @@
         setToolbar(editor, uiComponents, rawUiConfig, backstage);
         lastToolbarWidth.set(editor.getWin().innerWidth);
         OuterContainer.setMenubar(outerContainer, identifyMenus(editor, rawUiConfig));
-        OuterContainer.setSidebar(outerContainer, rawUiConfig.sidebar);
+        OuterContainer.setSidebar(outerContainer, rawUiConfig.sidebar, getSidebarShow(editor));
         setupEvents$1(editor, uiComponents);
       });
       const socket = OuterContainer.getSocket(outerContainer).getOrDie('Could not find expected socket element');
@@ -24155,7 +24227,10 @@
     ];
     const htmlPanelSchema = objOf(htmlPanelFields);
 
-    const iframeFields = formComponentWithLabelFields.concat([defaultedBoolean('sandboxed', true)]);
+    const iframeFields = formComponentWithLabelFields.concat([
+      defaultedBoolean('sandboxed', true),
+      defaultedBoolean('transparent', true)
+    ]);
     const iframeSchema = objOf(iframeFields);
     const iframeDataProcessor = string;
 

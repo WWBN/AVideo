@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.0.3 (2022-05-25)
+ * TinyMCE version 6.1.0 (2022-06-29)
  */
 
 (function () {
@@ -3447,10 +3447,11 @@
       if (index > 0 && index < grid[0].cells.length) {
         each$2(grid, row => {
           const prevCell = row.cells[index - 1];
-          const current = row.cells[index];
-          const isToReplace = comparator(current.element, prevCell.element);
-          if (isToReplace) {
-            mutateCell(row, index, elementnew(substitution(), true, current.isLocked));
+          let offset = 0;
+          const substitute = substitution();
+          while (row.cells.length > index + offset && comparator(prevCell.element, row.cells[index + offset].element)) {
+            mutateCell(row, index + offset, elementnew(substitute, true, row.cells[index + offset].isLocked));
+            offset++;
           }
         });
       }
@@ -4601,20 +4602,41 @@
     };
 
     const option = name => editor => editor.options.get(name);
-    const determineDefaultTableStyles = (editor, defaultStyles) => {
+    const defaultWidth = '100%';
+    const getPixelForcedWidth = editor => {
       var _a;
-      if (isTablePixelsForced(editor)) {
-        const dom = editor.dom;
-        const parentBlock = (_a = dom.getParent(editor.selection.getStart(), dom.isBlock)) !== null && _a !== void 0 ? _a : editor.getBody();
-        const contentWidth = getInner(SugarElement.fromDom(parentBlock));
+      const dom = editor.dom;
+      const parentBlock = (_a = dom.getParent(editor.selection.getStart(), dom.isBlock)) !== null && _a !== void 0 ? _a : editor.getBody();
+      return getInner(SugarElement.fromDom(parentBlock)) + 'px';
+    };
+    const determineDefaultTableStyles = (editor, defaultStyles) => {
+      if (isTableResponsiveForced(editor) || !shouldStyleWithCss(editor)) {
+        return defaultStyles;
+      } else if (isTablePixelsForced(editor)) {
         return {
           ...defaultStyles,
-          width: contentWidth + 'px'
+          width: getPixelForcedWidth(editor)
         };
-      } else if (isTableResponsiveForced(editor)) {
-        return filter$1(defaultStyles, (_value, key) => key !== 'width');
       } else {
-        return defaultStyles;
+        return {
+          ...defaultStyles,
+          width: defaultWidth
+        };
+      }
+    };
+    const determineDefaultTableAttributes = (editor, defaultAttributes) => {
+      if (isTableResponsiveForced(editor) || shouldStyleWithCss(editor)) {
+        return defaultAttributes;
+      } else if (isTablePixelsForced(editor)) {
+        return {
+          ...defaultAttributes,
+          width: getPixelForcedWidth(editor)
+        };
+      } else {
+        return {
+          ...defaultAttributes,
+          width: defaultWidth
+        };
       }
     };
     const register = editor => {
@@ -4652,10 +4674,7 @@
       });
       registerOption('table_default_styles', {
         processor: 'object',
-        default: {
-          'border-collapse': 'collapse',
-          'width': '100%'
-        }
+        default: { 'border-collapse': 'collapse' }
       });
       registerOption('table_column_resizing', {
         processor: value => {
@@ -4677,6 +4696,10 @@
         processor: 'boolean',
         default: true
       });
+      registerOption('table_style_by_css', {
+        processor: 'boolean',
+        default: true
+      });
     };
     const getTableCloneElements = editor => {
       return Optional.from(editor.options.get('table_clone_elements'));
@@ -4694,7 +4717,12 @@
     const isTablePixelsForced = editor => getTableSizingMode(editor) === 'fixed';
     const isTableResponsiveForced = editor => getTableSizingMode(editor) === 'responsive';
     const hasTableResizeBars = option('table_resize_bars');
-    const getTableDefaultAttributes = option('table_default_attributes');
+    const shouldStyleWithCss = option('table_style_by_css');
+    const getTableDefaultAttributes = editor => {
+      const options = editor.options;
+      const defaultAttributes = options.get('table_default_attributes');
+      return options.isSet('table_default_attributes') ? defaultAttributes : determineDefaultTableAttributes(editor, defaultAttributes);
+    };
     const getTableDefaultStyles = editor => {
       const options = editor.options;
       const defaultStyles = options.get('table_default_styles');
@@ -4837,9 +4865,14 @@
         set$2(element, property, Math.min(value, currentColspan));
       }
     };
+    const isColInRange = (minColRange, maxColRange) => cell => {
+      const endCol = cell.column + cell.colspan - 1;
+      const startCol = cell.column;
+      return endCol >= minColRange && startCol < maxColRange;
+    };
     const generateColGroup = (house, minColRange, maxColRange) => {
       if (Warehouse.hasColumns(house)) {
-        const colsToCopy = filter$2(Warehouse.justColumns(house), col => col.column >= minColRange && col.column < maxColRange);
+        const colsToCopy = filter$2(Warehouse.justColumns(house), isColInRange(minColRange, maxColRange));
         const copiedCols = map$1(colsToCopy, c => {
           const clonedCol = deep(c.element);
           constrainSpan(clonedCol, 'span', maxColRange - minColRange);
@@ -4853,7 +4886,7 @@
       }
     };
     const generateRows = (house, minColRange, maxColRange) => map$1(house.all, row => {
-      const cellsToCopy = filter$2(row.cells, cell => cell.column >= minColRange && cell.column < maxColRange);
+      const cellsToCopy = filter$2(row.cells, isColInRange(minColRange, maxColRange));
       const copiedCells = map$1(cellsToCopy, cell => {
         const clonedCell = deep(cell.element);
         constrainSpan(clonedCell, 'colspan', maxColRange - minColRange);

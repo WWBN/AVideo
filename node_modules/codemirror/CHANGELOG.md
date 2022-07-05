@@ -1,3 +1,9 @@
+## 6.0.1 (2022-06-30)
+
+### Bug fixes
+
+Work around limitations in tree-shaking software that prevented `basicSetup` from being removed when unused.
+
 ## 6.0.0 (2022-06-08)
 
 ### Breaking changes

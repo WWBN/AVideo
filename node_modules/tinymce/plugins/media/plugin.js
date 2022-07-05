@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.0.3 (2022-05-25)
+ * TinyMCE version 6.1.0 (2022-06-29)
  */
 
 (function () {
@@ -179,6 +179,7 @@
       const registerOption = editor.options.register;
       registerOption('audio_template_callback', { processor: 'function' });
       registerOption('video_template_callback', { processor: 'function' });
+      registerOption('iframe_template_callback', { processor: 'function' });
       registerOption('media_live_embeds', {
         processor: 'boolean',
         default: true
@@ -203,6 +204,7 @@
     };
     const getAudioTemplateCallback = option('audio_template_callback');
     const getVideoTemplateCallback = option('video_template_callback');
+    const getIframeTemplateCallback = option('iframe_template_callback');
     const hasLiveEmbeds = option('media_live_embeds');
     const shouldFilterHtml = option('media_filter_html');
     const getUrlResolver = option('media_url_resolver');
@@ -486,9 +488,13 @@
       }
     };
 
-    const getIframeHtml = data => {
-      const allowFullscreen = data.allowfullscreen ? ' allowFullscreen="1"' : '';
-      return '<iframe src="' + data.source + '" width="' + data.width + '" height="' + data.height + '"' + allowFullscreen + '></iframe>';
+    const getIframeHtml = (data, iframeTemplateCallback) => {
+      if (iframeTemplateCallback) {
+        return iframeTemplateCallback(data);
+      } else {
+        const allowFullscreen = data.allowfullscreen ? ' allowFullscreen="1"' : '';
+        return '<iframe src="' + data.source + '" width="' + data.width + '" height="' + data.height + '"' + allowFullscreen + '></iframe>';
+      }
     };
     const getFlashHtml = data => {
       let html = '<object data="' + data.source + '" width="' + data.width + '" height="' + data.height + '" type="application/x-shockwave-flash">';
@@ -547,13 +553,14 @@
       } else {
         const audioTemplateCallback = getAudioTemplateCallback(editor);
         const videoTemplateCallback = getVideoTemplateCallback(editor);
+        const iframeTemplateCallback = getIframeTemplateCallback(editor);
         data.width = data.width || '300';
         data.height = data.height || '150';
         global$5.each(data, (value, key) => {
           data[key] = editor.dom.encode('' + value);
         });
         if (data.type === 'iframe') {
-          return getIframeHtml(data);
+          return getIframeHtml(data, iframeTemplateCallback);
         } else if (data.sourcemime === 'application/x-shockwave-flash') {
           return getFlashHtml(data);
         } else if (data.sourcemime.indexOf('audio') !== -1) {

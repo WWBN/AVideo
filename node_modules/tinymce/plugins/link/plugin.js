@@ -1,13 +1,11 @@
 /**
- * TinyMCE version 6.0.3 (2022-05-25)
+ * TinyMCE version 6.1.0 (2022-06-29)
  */
 
 (function () {
     'use strict';
 
     var global$5 = tinymce.util.Tools.resolve('tinymce.PluginManager');
-
-    var global$4 = tinymce.util.Tools.resolve('tinymce.util.VK');
 
     const hasProto = (v, constructor, predicate) => {
       var _a;
@@ -289,7 +287,7 @@
     const allowUnsafeLinkTarget = option('allow_unsafe_link_target');
     const useQuickLink = option('link_quicklink');
 
-    var global$3 = tinymce.util.Tools.resolve('tinymce.util.Tools');
+    var global$4 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     const getValue = item => isString(item.value) ? item.value : '';
     const getText = item => {
@@ -303,7 +301,7 @@
     };
     const sanitizeList = (list, extractValue) => {
       const out = [];
-      global$3.each(list, item => {
+      global$4.each(list, item => {
         const text = getText(item);
         if (item.menu !== undefined) {
           const items = sanitizeList(item.menu, extractValue);
@@ -364,9 +362,9 @@
     const has = (obj, key) => hasOwnProperty.call(obj, key);
     const hasNonNullableKey = (obj, key) => has(obj, key) && obj[key] !== undefined && obj[key] !== null;
 
-    var global$2 = tinymce.util.Tools.resolve('tinymce.dom.TreeWalker');
+    var global$3 = tinymce.util.Tools.resolve('tinymce.dom.TreeWalker');
 
-    var global$1 = tinymce.util.Tools.resolve('tinymce.util.URI');
+    var global$2 = tinymce.util.Tools.resolve('tinymce.util.URI');
 
     const isAnchor = elm => elm && elm.nodeName.toLowerCase() === 'a';
     const isLink = elm => isAnchor(elm) && !!getHref(elm);
@@ -375,7 +373,7 @@
         return [];
       } else {
         const contents = rng.cloneContents();
-        const walker = new global$2(contents.firstChild, contents);
+        const walker = new global$3(contents.firstChild, contents);
         const elements = [];
         let current = contents.firstChild;
         do {
@@ -394,12 +392,12 @@
     const applyRelTargetRules = (rel, isUnsafe) => {
       const rules = ['noopener'];
       const rels = rel ? rel.split(/\s+/) : [];
-      const toString = rels => global$3.trim(rels.sort().join(' '));
+      const toString = rels => global$4.trim(rels.sort().join(' '));
       const addTargetRules = rels => {
         rels = removeTargetRules(rels);
         return rels.length > 0 ? rels.concat(rules) : rules;
       };
-      const removeTargetRules = rels => rels.filter(val => global$3.inArray(rules, val) === -1);
+      const removeTargetRules = rels => rels.filter(val => global$4.inArray(rules, val) === -1);
       const newRels = isUnsafe ? addTargetRules(rels) : removeTargetRules(rels);
       return newRels.length > 0 ? toString(newRels) : '';
     };
@@ -416,7 +414,7 @@
       const text = anchorElm ? anchorElm.innerText || anchorElm.textContent : selection.getContent({ format: 'text' });
       return trimCaretContainers(text);
     };
-    const hasLinks = elements => global$3.grep(elements, isLink).length > 0;
+    const hasLinks = elements => global$4.grep(elements, isLink).length > 0;
     const hasLinksInSelection = rng => collectNodesInRange(rng, isLink).length > 0;
     const isOnlyTextSelected = editor => {
       const inlineTextElements = editor.schema.getTextInlineElements();
@@ -550,7 +548,7 @@
       const href = data.href;
       return {
         ...data,
-        href: global$1.isDomSafe(href, 'a', uriOptions) ? href : ''
+        href: global$2.isDomSafe(href, 'a', uriOptions) ? href : ''
       };
     };
     const link = (editor, attachState, data) => {
@@ -656,11 +654,11 @@
       getDelta
     };
 
-    var global = tinymce.util.Tools.resolve('tinymce.util.Delay');
+    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Delay');
 
     const delayedConfirm = (editor, message, callback) => {
       const rng = editor.selection.getRng();
-      global.setEditorTimeout(editor, () => {
+      global$1.setEditorTimeout(editor, () => {
         editor.windowManager.confirm(message, state => {
           editor.selection.setRng(rng);
           callback(state);
@@ -947,6 +945,18 @@
       });
     };
 
+    const register = editor => {
+      editor.addCommand('mceLink', (_ui, value) => {
+        if ((value === null || value === void 0 ? void 0 : value.dialog) === true || !useQuickLink(editor)) {
+          open$1(editor);
+        } else {
+          editor.dispatch('contexttoolbar-show', { toolbarKey: 'quicklink' });
+        }
+      });
+    };
+
+    var global = tinymce.util.Tools.resolve('tinymce.util.VK');
+
     const appendClickRemove = (link, evt) => {
       document.body.appendChild(link);
       link.dispatchEvent(evt);
@@ -981,7 +991,7 @@
       }
     };
     const openDialog = editor => () => {
-      open$1(editor);
+      editor.execCommand('mceLink', false, { dialog: true });
     };
     const gotoSelectedLink = editor => () => {
       gotoLink(editor, getSelectedLink(editor));
@@ -989,16 +999,18 @@
     const setupGotoLinks = editor => {
       editor.on('click', e => {
         const link = getLink(editor, e.target);
-        if (link && global$4.metaKeyPressed(e)) {
+        if (link && global.metaKeyPressed(e)) {
           e.preventDefault();
           gotoLink(editor, link);
         }
       });
       editor.on('keydown', e => {
-        const link = getSelectedLink(editor);
-        if (link && e.keyCode === 13 && hasOnlyAltModifier(e)) {
-          e.preventDefault();
-          gotoLink(editor, link);
+        if (!e.isDefaultPrevented() && e.keyCode === 13 && hasOnlyAltModifier(e)) {
+          const link = getSelectedLink(editor);
+          if (link) {
+            e.preventDefault();
+            gotoLink(editor, link);
+          }
         }
       });
     };
@@ -1021,16 +1033,6 @@
       const parents = editor.dom.getParents(editor.selection.getStart());
       api.setEnabled(hasLinks$1(parents));
       return toggleState(editor, e => api.setEnabled(hasLinks$1(e.parents)));
-    };
-
-    const register = editor => {
-      editor.addCommand('mceLink', () => {
-        if (useQuickLink(editor)) {
-          editor.dispatch('contexttoolbar-show', { toolbarKey: 'quicklink' });
-        } else {
-          openDialog(editor)();
-        }
-      });
     };
 
     const setup = editor => {

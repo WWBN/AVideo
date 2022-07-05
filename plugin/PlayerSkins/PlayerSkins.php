@@ -336,6 +336,7 @@ class PlayerSkins extends PluginAbstract {
         PlayerSkins::addOnPlayerReady('if(typeof updateMediaSessionMetadata === "function"){updateMediaSessionMetadata();}');
         
         if(isVideo()){
+            $js .= "<script>const offlineVideoDbName = 'videos_offlineDb_".User::getId()."';</script>";
            $js .= "<script src=\"" . getURL('plugin/PlayerSkins/offlineVideo.js') . "\"></script>";
         }
         

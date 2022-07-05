@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.0.3 (2022-05-25)
+ * TinyMCE version 6.1.0 (2022-06-29)
  */
 
 (function () {
@@ -257,6 +257,10 @@
       return r;
     };
 
+    const is$2 = (lhs, rhs, comparator = tripleEquals) => lhs.exists(left => comparator(left, rhs));
+    const equals = (lhs, rhs, comparator = tripleEquals) => lift2(lhs, rhs, comparator).getOr(lhs.isNone() && rhs.isNone());
+    const lift2 = (oa, ob, f) => oa.isSome() && ob.isSome() ? Optional.some(f(oa.getOrDie(), ob.getOrDie())) : Optional.none();
+
     const ELEMENT = 1;
 
     const fromHtml = (html, scope) => {
@@ -295,7 +299,7 @@
       fromPoint
     };
 
-    const is$2 = (element, selector) => {
+    const is$1 = (element, selector) => {
       const dom = element.dom;
       if (dom.nodeType !== ELEMENT) {
         return false;
@@ -321,7 +325,17 @@
       const d2 = e2.dom;
       return d1 === d2 ? false : d1.contains(d2);
     };
-    const is$1 = is$2;
+    const is = is$1;
+
+    var ClosestOrAncestor = (is, ancestor, scope, a, isRoot) => {
+      if (is(scope, a)) {
+        return Optional.some(scope);
+      } else if (isFunction(isRoot) && isRoot(scope)) {
+        return Optional.none();
+      } else {
+        return ancestor(scope, a, isRoot);
+      }
+    };
 
     typeof window !== 'undefined' ? window : Function('return this;')();
 
@@ -343,6 +357,25 @@
     };
     const firstChild = element => child(element, 0);
     const lastChild = element => child(element, element.dom.childNodes.length - 1);
+
+    const ancestor = (scope, predicate, isRoot) => {
+      let element = scope.dom;
+      const stop = isFunction(isRoot) ? isRoot : never;
+      while (element.parentNode) {
+        element = element.parentNode;
+        const el = SugarElement.fromDom(element);
+        if (predicate(el)) {
+          return Optional.some(el);
+        } else if (stop(el)) {
+          break;
+        }
+      }
+      return Optional.none();
+    };
+    const closest = (scope, predicate, isRoot) => {
+      const is = (s, test) => test(s);
+      return ClosestOrAncestor(is, ancestor, scope, predicate, isRoot);
+    };
 
     const before$1 = (marker, element) => {
       const parent$1 = parent(marker);
@@ -626,12 +659,18 @@
       return outRng;
     };
 
+    const listNames = [
+      'OL',
+      'UL',
+      'DL'
+    ];
+    const listSelector = listNames.join(',');
     const getParentList = (editor, node) => {
       const selectionStart = node || editor.selection.getStart(true);
-      return editor.dom.getParent(selectionStart, 'OL,UL,DL', getClosestListRootElm(editor, selectionStart));
+      return editor.dom.getParent(selectionStart, listSelector, getClosestListHost(editor, selectionStart));
     };
     const isParentListSelected = (parentList, selectedBlocks) => parentList && selectedBlocks.length === 1 && selectedBlocks[0] === parentList;
-    const findSubLists = parentList => filter$1(parentList.querySelectorAll('ol,ul,dl'), isListNode);
+    const findSubLists = parentList => filter$1(parentList.querySelectorAll(listSelector), isListNode);
     const getSelectedSubLists = editor => {
       const parentList = getParentList(editor);
       const selectedBlocks = editor.selection.getSelectedBlocks();
@@ -645,7 +684,7 @@
     };
     const findParentListItemsNodes = (editor, elms) => {
       const listItemsElms = global$1.map(elms, elm => {
-        const parentLi = editor.dom.getParent(elm, 'li,dd,dt', getClosestListRootElm(editor, elm));
+        const parentLi = editor.dom.getParent(elm, 'li,dd,dt', getClosestListHost(editor, elm));
         return parentLi ? parentLi : elm;
       });
       return unique(listItemsElms);
@@ -655,12 +694,18 @@
       return filter$1(findParentListItemsNodes(editor, selectedBlocks), isListItemNode);
     };
     const getSelectedDlItems = editor => filter$1(getSelectedListItems(editor), isDlItemNode);
-    const getClosestListRootElm = (editor, elm) => {
+    const getClosestEditingHost = (editor, elm) => {
       const parentTableCell = editor.dom.getParents(elm, 'TD,TH');
       return parentTableCell.length > 0 ? parentTableCell[0] : editor.getBody();
     };
+    const isListHost = (schema, node) => !isListNode(node) && !isListItemNode(node) && exists(listNames, listName => schema.isValidChild(node.nodeName, listName));
+    const getClosestListHost = (editor, elm) => {
+      const parentBlocks = editor.dom.getParents(elm, editor.dom.isBlock);
+      const parentBlock = find(parentBlocks, elm => isListHost(editor.schema, elm));
+      return parentBlock.getOr(editor.getBody());
+    };
     const findLastParentListNode = (editor, elm) => {
-      const parentLists = editor.dom.getParents(elm, 'ol,ul', getClosestListRootElm(editor, elm));
+      const parentLists = editor.dom.getParents(elm, 'ol,ul', getClosestListHost(editor, elm));
       return last(parentLists);
     };
     const getSelectedLists = editor => {
@@ -676,9 +721,6 @@
       const listRoots = map(lists, list => findLastParentListNode(editor, list).getOr(list));
       return unique(listRoots);
     };
-
-    const is = (lhs, rhs, comparator = tripleEquals) => lhs.exists(left => comparator(left, rhs));
-    const lift2 = (oa, ob, f) => oa.isSome() && ob.isSome() ? Optional.some(f(oa.getOrDie(), ob.getOrDie())) : Optional.none();
 
     const fromElements = (elements, scope) => {
       const doc = scope || document;
@@ -790,7 +832,7 @@
       return head(cast).map(segment => segment.list);
     };
 
-    const isList = el => is$1(el, 'OL,UL');
+    const isList = el => is(el, 'OL,UL');
     const hasFirstChildList = el => firstChild(el).exists(isList);
     const hasLastChildList = el => lastChild(el).exists(isList);
 
@@ -1139,7 +1181,7 @@
     const applyList = (editor, listName, detail) => {
       const rng = editor.selection.getRng();
       let listItemName = 'LI';
-      const root = getClosestListRootElm(editor, editor.selection.getStart(true));
+      const root = getClosestListHost(editor, editor.selection.getStart(true));
       const dom = editor.dom;
       if (dom.getContentEditable(editor.selection.getNode()) === 'false') {
         return;
@@ -1320,7 +1362,8 @@
           walker.next();
         }
       }
-      while (node = walker[isForward ? 'next' : 'prev2']()) {
+      const walkFn = isForward ? walker.next.bind(walker) : walker.prev2.bind(walker);
+      while (node = walkFn()) {
         if (node.nodeName === 'LI' && !node.hasChildNodes()) {
           return node;
         }
@@ -1409,7 +1452,7 @@
     const backspaceDeleteFromListToListCaret = (editor, isForward) => {
       const dom = editor.dom, selection = editor.selection;
       const selectionStartElm = selection.getStart();
-      const root = getClosestListRootElm(editor, selectionStartElm);
+      const root = getClosestEditingHost(editor, selectionStartElm);
       const li = dom.getParent(selection.getStart(), 'LI', root);
       if (li) {
         const ul = li.parentNode;
@@ -1452,12 +1495,23 @@
     const backspaceDeleteIntoListCaret = (editor, isForward) => {
       const dom = editor.dom;
       const selectionStartElm = editor.selection.getStart();
-      const root = getClosestListRootElm(editor, selectionStartElm);
+      const root = getClosestEditingHost(editor, selectionStartElm);
       const block = dom.getParent(selectionStartElm, dom.isBlock, root);
       if (block && dom.isEmpty(block)) {
         const rng = normalizeRange(editor.selection.getRng());
         const otherLi = dom.getParent(findNextCaretContainer(editor, rng, isForward, root), 'LI', root);
         if (otherLi) {
+          const findValidElement = element => contains$1([
+            'td',
+            'th',
+            'caption'
+          ], name(element));
+          const findRoot = node => node.dom === root;
+          const otherLiCell = closest(SugarElement.fromDom(otherLi), findValidElement, findRoot);
+          const caretCell = closest(SugarElement.fromDom(rng.startContainer), findValidElement, findRoot);
+          if (!equals(otherLiCell, caretCell, eq)) {
+            return false;
+          }
           editor.undoManager.transact(() => {
             removeBlock(dom, block, root);
             mergeWithAdjacentLists(dom, otherLi.parentNode);
@@ -1472,11 +1526,14 @@
     const backspaceDeleteCaret = (editor, isForward) => {
       return backspaceDeleteFromListToListCaret(editor, isForward) || backspaceDeleteIntoListCaret(editor, isForward);
     };
-    const backspaceDeleteRange = editor => {
+    const hasListSelection = editor => {
       const selectionStartElm = editor.selection.getStart();
-      const root = getClosestListRootElm(editor, selectionStartElm);
+      const root = getClosestEditingHost(editor, selectionStartElm);
       const startListParent = editor.dom.getParent(selectionStartElm, 'LI,DT,DD', root);
-      if (startListParent || getSelectedListItems(editor).length > 0) {
+      return startListParent || getSelectedListItems(editor).length > 0;
+    };
+    const backspaceDeleteRange = editor => {
+      if (hasListSelection(editor)) {
         editor.undoManager.transact(() => {
           editor.execCommand('Delete');
           normalizeLists(editor.dom, editor.getBody());
@@ -1489,6 +1546,12 @@
       return editor.selection.isCollapsed() ? backspaceDeleteCaret(editor, isForward) : backspaceDeleteRange(editor);
     };
     const setup$1 = editor => {
+      editor.on('ExecCommand', e => {
+        const cmd = e.command.toLowerCase();
+        if ((cmd === 'delete' || cmd === 'forwarddelete') && hasListSelection(editor)) {
+          normalizeLists(editor.dom, editor.getBody());
+        }
+      });
       editor.on('keydown', e => {
         if (e.keyCode === global$3.BACKSPACE) {
           if (backspaceDelete(editor, false)) {
@@ -1584,9 +1647,9 @@
     };
     const parseDetail = detail => {
       const start = parseInt(detail.start, 10);
-      if (is(detail.listStyleType, 'upper-alpha')) {
+      if (is$2(detail.listStyleType, 'upper-alpha')) {
         return composeAlphabeticBase26(start);
-      } else if (is(detail.listStyleType, 'lower-alpha')) {
+      } else if (is$2(detail.listStyleType, 'lower-alpha')) {
         return composeAlphabeticBase26(start).toLowerCase();
       } else {
         return detail.start;

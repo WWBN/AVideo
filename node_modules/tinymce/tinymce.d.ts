@@ -1,13 +1,16 @@
 interface StringPathBookmark {
     start: string;
     end?: string;
+    forward?: boolean;
 }
 interface RangeBookmark {
     rng: Range;
+    forward?: boolean;
 }
 interface IdBookmark {
     id: string;
     keep?: boolean;
+    forward?: boolean;
 }
 interface IndexBookmark {
     name: string;
@@ -17,6 +20,7 @@ interface PathBookmark {
     start: number[];
     end?: number[];
     isFakeCaret?: boolean;
+    forward?: boolean;
 }
 declare type Bookmark = StringPathBookmark | RangeBookmark | IdBookmark | IndexBookmark | PathBookmark;
 declare type NormalizedEvent<E, T = any> = E & {
@@ -112,6 +116,7 @@ interface UndoManager {
     data: UndoLevel[];
     typing: boolean;
     add: (level?: UndoLevel, event?: EditorEvent<any>) => UndoLevel;
+    dispatchChange: () => void;
     beforeChange: () => void;
     undo: () => UndoLevel;
     redo: () => UndoLevel;
@@ -289,7 +294,10 @@ interface BlobInfo {
     uri: () => string | undefined;
 }
 interface BlobCache {
-    create: (o: string | BlobInfoData, blob?: Blob, base64?: string, name?: string, filename?: string) => BlobInfo;
+    create: {
+        (o: BlobInfoData): BlobInfo;
+        (id: string, blob: Blob, base64: string, name?: string, filename?: string): BlobInfo;
+    };
     add: (blobInfo: BlobInfo) => void;
     get: (id: string) => BlobInfo | undefined;
     getByUri: (blobUri: string) => BlobInfo | undefined;
@@ -510,6 +518,7 @@ interface HtmlPanelSpec {
 interface IframeSpec extends FormComponentWithLabelSpec {
     type: 'iframe';
     sandboxed?: boolean;
+    transparent?: boolean;
 }
 interface ImagePreviewSpec extends FormComponentSpec {
     type: 'imagepreview';
@@ -1206,6 +1215,10 @@ interface RemoveInlineFormat extends Inline, CommonRemoveFormat<RemoveInlineForm
 }
 interface RemoveSelectorFormat extends Selector, CommonRemoveFormat<RemoveSelectorFormat> {
 }
+interface Filter<C extends Function> {
+    name: string;
+    callbacks: C[];
+}
 interface ParserArgs {
     getInner?: boolean | number;
     forced_root_block?: boolean | string;
@@ -1217,9 +1230,7 @@ interface ParserArgs {
     [key: string]: any;
 }
 declare type ParserFilterCallback = (nodes: AstNode[], name: string, args: ParserArgs) => void;
-interface ParserFilter {
-    name: string;
-    callbacks: ParserFilterCallback[];
+interface ParserFilter extends Filter<ParserFilterCallback> {
 }
 interface DomParserSettings {
     allow_html_data_urls?: boolean;
@@ -1243,10 +1254,12 @@ interface DomParserSettings {
 }
 interface DomParser {
     schema: Schema;
-    addAttributeFilter: (name: string, callback: (nodes: AstNode[], name: string, args: ParserArgs) => void) => void;
+    addAttributeFilter: (name: string, callback: ParserFilterCallback) => void;
     getAttributeFilters: () => ParserFilter[];
-    addNodeFilter: (name: string, callback: (nodes: AstNode[], name: string, args: ParserArgs) => void) => void;
+    removeAttributeFilter: (name: string, callback?: ParserFilterCallback) => void;
+    addNodeFilter: (name: string, callback: ParserFilterCallback) => void;
     getNodeFilters: () => ParserFilter[];
+    removeNodeFilter: (name: string, callback?: ParserFilterCallback) => void;
     parse: (html: string, args?: ParserArgs) => AstNode;
 }
 interface StyleSheetLoaderSettings {
@@ -1655,7 +1668,7 @@ interface BaseEditorOptions {
     element_format?: 'xhtml' | 'html';
     elementpath?: boolean;
     encoding?: string;
-    end_container_on_empty_block?: boolean;
+    end_container_on_empty_block?: boolean | string;
     entities?: string;
     entity_encoding?: EntityEncoding;
     extended_valid_elements?: string;
@@ -1717,6 +1730,7 @@ interface BaseEditorOptions {
     min_width?: number;
     model?: string;
     model_url?: string;
+    newline_behavior?: 'block' | 'linebreak' | 'invert' | 'default';
     no_newline_selector?: string;
     noneditable_class?: string;
     noneditable_regexp?: RegExp | RegExp[];
@@ -1747,6 +1761,7 @@ interface BaseEditorOptions {
     schema?: SchemaType;
     selector?: string;
     setup?: SetupCallback;
+    sidebar_show?: string;
     skin?: boolean | string;
     skin_url?: string;
     smart_paste?: boolean;
@@ -2049,10 +2064,12 @@ interface DomSerializerSettings extends DomParserSettings, WriterSettings, Schem
 }
 interface DomSerializerImpl {
     schema: Schema;
-    addNodeFilter: (name: string, callback: (nodes: AstNode[], name: string, args: ParserArgs) => void) => void;
-    addAttributeFilter: (name: string, callback: (nodes: AstNode[], name: string, args: ParserArgs) => void) => void;
+    addNodeFilter: (name: string, callback: ParserFilterCallback) => void;
+    addAttributeFilter: (name: string, callback: ParserFilterCallback) => void;
     getNodeFilters: () => ParserFilter[];
     getAttributeFilters: () => ParserFilter[];
+    removeNodeFilter: (name: string, callback?: ParserFilterCallback) => void;
+    removeAttributeFilter: (name: string, callback?: ParserFilterCallback) => void;
     serialize: {
         (node: Element, parserArgs: {
             format: 'tree';
@@ -2625,10 +2642,10 @@ declare class DomTreeWalker {
     private readonly rootNode;
     private node;
     constructor(startNode: Node, rootNode: Node);
-    current(): Node;
-    next(shallow?: boolean): Node;
-    prev(shallow?: boolean): Node;
-    prev2(shallow?: boolean): Node;
+    current(): Node | undefined;
+    next(shallow?: boolean): Node | undefined;
+    prev(shallow?: boolean): Node | undefined;
+    prev2(shallow?: boolean): Node | undefined;
     private findSibling;
     private findPreviousNode;
 }

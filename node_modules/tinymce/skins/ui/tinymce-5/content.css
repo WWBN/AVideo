@@ -21,11 +21,28 @@
 .mce-content-body .mce-item-anchor[data-mce-selected] {
   outline-offset: 1px;
 }
-.tox-comments-visible .tox-comment {
-  background-color: #fff0b7;
+.tox-comments-visible .tox-comment[contenteditable="false"]:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment img:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment > audio:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment > video:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment span.mce-preview-object:not([data-mce-selected]) {
+  outline: 3px solid #ffe89d;
 }
-.tox-comments-visible .tox-comment[data-mce-annotation-active="true"]:not([data-mce-selected="inline-boundary"]) {
-  background-color: #ffe168;
+.tox-comments-visible .tox-comment[contenteditable="false"][data-mce-annotation-active="true"]:not([data-mce-selected]) {
+  outline: 3px solid #fed635;
+}
+.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] img:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] > audio:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] > video:not([data-mce-selected]),
+.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"] span.mce-preview-object:not([data-mce-selected]) {
+  outline: 3px solid #fed635;
+}
+.tox-comments-visible span.tox-comment:not([data-mce-selected]) {
+  background-color: #ffe89d;
+  outline: none;
+}
+.tox-comments-visible span.tox-comment[data-mce-annotation-active="true"]:not([data-mce-selected="inline-boundary"]) {
+  background-color: #fed635;
 }
 .tox-checklist > li:not(.tox-checklist--hidden) {
   list-style: none;
@@ -525,10 +542,10 @@ pre[class*="language-"] {
     border-color: rgba(0, 84, 180, 0.7);
   }
 }
-.mce-content-body img::-moz-selection {
+.mce-content-body img[data-mce-selected]::-moz-selection {
   background: none;
 }
-.mce-content-body img::selection {
+.mce-content-body img[data-mce-selected]::selection {
   background: none;
 }
 .ephox-snooker-resizer-bar {

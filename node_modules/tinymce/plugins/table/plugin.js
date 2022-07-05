@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.0.3 (2022-05-25)
+ * TinyMCE version 6.1.0 (2022-06-29)
  */
 
 (function () {
@@ -939,20 +939,41 @@
         value: type.toLowerCase()
       };
     });
-    const determineDefaultStyles = (editor, defaultStyles) => {
+    const defaultWidth = '100%';
+    const getPixelForcedWidth = editor => {
       var _a;
-      if (isPixelsForced(editor)) {
-        const dom = editor.dom;
-        const parentBlock = (_a = dom.getParent(editor.selection.getStart(), dom.isBlock)) !== null && _a !== void 0 ? _a : editor.getBody();
-        const contentWidth = getInner(SugarElement.fromDom(parentBlock));
+      const dom = editor.dom;
+      const parentBlock = (_a = dom.getParent(editor.selection.getStart(), dom.isBlock)) !== null && _a !== void 0 ? _a : editor.getBody();
+      return getInner(SugarElement.fromDom(parentBlock)) + 'px';
+    };
+    const determineDefaultStyles = (editor, defaultStyles) => {
+      if (isResponsiveForced(editor) || !shouldStyleWithCss(editor)) {
+        return defaultStyles;
+      } else if (isPixelsForced(editor)) {
         return {
           ...defaultStyles,
-          width: contentWidth + 'px'
+          width: getPixelForcedWidth(editor)
         };
-      } else if (isResponsiveForced(editor)) {
-        return filter$1(defaultStyles, (_value, key) => key !== 'width');
       } else {
-        return defaultStyles;
+        return {
+          ...defaultStyles,
+          width: defaultWidth
+        };
+      }
+    };
+    const determineDefaultAttributes = (editor, defaultAttributes) => {
+      if (isResponsiveForced(editor) || shouldStyleWithCss(editor)) {
+        return defaultAttributes;
+      } else if (isPixelsForced(editor)) {
+        return {
+          ...defaultAttributes,
+          width: getPixelForcedWidth(editor)
+        };
+      } else {
+        return {
+          ...defaultAttributes,
+          width: defaultWidth
+        };
       }
     };
     const option = name => editor => editor.options.get(name);
@@ -986,10 +1007,6 @@
         processor: 'boolean',
         default: !global$1.deviceType.isTouch()
       });
-      registerOption('table_style_by_css', {
-        processor: 'boolean',
-        default: true
-      });
       registerOption('table_cell_class_list', {
         processor: 'object[]',
         default: []
@@ -1018,7 +1035,6 @@
     const getTableSizingMode = option('table_sizing_mode');
     const getTableBorderWidths = option('table_border_widths');
     const getTableBorderStyles = option('table_border_styles');
-    const getDefaultAttributes = option('table_default_attributes');
     const hasAdvancedCellTab = option('table_cell_advtab');
     const hasAdvancedRowTab = option('table_row_advtab');
     const hasAdvancedTableTab = option('table_advtab');
@@ -1037,6 +1053,11 @@
       const options = editor.options;
       const defaultStyles = options.get('table_default_styles');
       return options.isSet('table_default_styles') ? defaultStyles : determineDefaultStyles(editor, defaultStyles);
+    };
+    const getDefaultAttributes = editor => {
+      const options = editor.options;
+      const defaultAttributes = options.get('table_default_attributes');
+      return options.isSet('table_default_attributes') ? defaultAttributes : determineDefaultAttributes(editor, defaultAttributes);
     };
 
     const getNodeName = elm => elm.nodeName.toLowerCase();
@@ -2534,10 +2555,10 @@
       const styles = {};
       attrs.class = data.class;
       styles.height = addPxSuffix(data.height);
-      if (dom.getAttrib(tableElm, 'width') && !shouldStyleWithCss(editor)) {
-        attrs.width = removePxSuffix(data.width);
-      } else {
+      if (shouldStyleWithCss(editor)) {
         styles.width = addPxSuffix(data.width);
+      } else if (dom.getAttrib(tableElm, 'width')) {
+        attrs.width = removePxSuffix(data.width);
       }
       if (shouldStyleWithCss(editor)) {
         styles['border-width'] = addPxSuffix(data.border);
