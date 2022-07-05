@@ -422,6 +422,7 @@ class PlayerSkins extends PluginAbstract {
         originalVideo = $('#mainVideo').clone();
         /* prepareStartPlayerJS_onPlayerReady = " . count($prepareStartPlayerJS_onPlayerReady) . ", prepareStartPlayerJS_getDataSetup = " . count($prepareStartPlayerJS_getDataSetup) . " */
         if (typeof player === 'undefined' && $('#mainVideo').length) {
+            videojs.options.hls.overrideNative = true;
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
             ";
         if (!empty($IMAADTag) && isVideoPlayerHasProgressBar()) {
