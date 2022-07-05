@@ -350,6 +350,7 @@ class PlayerSkins extends PluginAbstract {
         $dataSetup = array();
 
         $dataSetup[] = "errorDisplay: false";
+        $dataSetup[] = "html5: {hls: {overrideNative: true},nativeAudioTracks: false,nativeVideoTracks: false}";
         if (isVideoPlayerHasProgressBar() && !empty($obj->playbackRates)) {
             $dataSetup[] = "'playbackRates':{$obj->playbackRates}";
         }
@@ -363,6 +364,8 @@ class PlayerSkins extends PluginAbstract {
                 $dataSetup[] = "sources:[{type: \"video/vimeo\", src: \"{$video['videoLink']}\"}]";
                 $dataSetup[] = "vimeo:{customVars: {wmode: \"transparent\", origin: \"{$global['webSiteRootURL']}\"}}";
             }
+        }else{
+            
         }
 
         $pluginsDataSetup = AVideoPlugin::dataSetup();
@@ -422,7 +425,6 @@ class PlayerSkins extends PluginAbstract {
         originalVideo = $('#mainVideo').clone();
         /* prepareStartPlayerJS_onPlayerReady = " . count($prepareStartPlayerJS_onPlayerReady) . ", prepareStartPlayerJS_getDataSetup = " . count($prepareStartPlayerJS_getDataSetup) . " */
         if (typeof player === 'undefined' && $('#mainVideo').length) {
-            videojs.options.hls.overrideNative = true;
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
             ";
         if (!empty($IMAADTag) && isVideoPlayerHasProgressBar()) {
