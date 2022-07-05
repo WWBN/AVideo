@@ -3179,7 +3179,7 @@ if (!class_exists('Video')) {
                         $f = "{$paths['relative']}{$filename}{$type}";
                     }
                     $source['url'] = CDNStorage::getURL($f) . "{$token}";
-                    $source['url'] = addQueryStringParameter($source['url'], 'cache', uniqid());
+                    //$source['url'] = addQueryStringParameter($source['url'], 'cache', uniqid());
                     $source['url_noCDN'] = $source['url'];
                 } elseif (!empty($yptStorage) && !empty($site) && $isValidType && $fsize < 20) {
                     $siteURL = getCDNOrURL($site->getUrl(), 'CDN_YPTStorage', $video['sites_id']);
