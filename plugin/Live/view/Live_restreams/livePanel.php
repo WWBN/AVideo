@@ -80,7 +80,7 @@ if (!User::canStream()) {
     </div>
     <div class="panel-footer">
         <?php
-        if(!empty($global['developer_mode'])){
+        if(!empty($global['developer_mode']) || (!empty($global['developer_mode_admin_only']) && User::isAdmin())){
             include $global['systemRootPath'].'plugin/Live/view/Live_restreams/getLiveKey.php';
         }
         ?>
