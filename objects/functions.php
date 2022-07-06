@@ -2873,7 +2873,7 @@ function forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo(){
     global $global;
     if(empty($global['bypassSameDomainCheck']) && !requestComesFromSameDomainAsMyAVideo()){
         _error_log('forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo: '. json_encode(debug_backtrace()), AVideoLog::$SECURITY);
-        forbiddenPage('The request must come from same domain', true);
+        forbiddenPage('Invalid Request '. getRealIpAddr(), true);
     }
 }
 
