@@ -232,9 +232,13 @@ if (!$searchForVideosNow) {
     }
     function videosListDidNotSearchForVideos(){
         var rowCount = Cookies.get(loadVideosListPagerowCount);
+        if(!empty(rowCount)){
+            $('#rowCount').val(rowCount);
+        }
         var sortBy = Cookies.get(loadVideosListPagesortBy);
-        $('#sortBy').val(sortBy).trigger('change');
-        $('#rowCount').val(rowCount);
+        if(!empty(sortBy)){
+            $('#sortBy').val(sortBy).trigger('change');
+        }
         loadVideosListPage(1);
     }
 </script>
