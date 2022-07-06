@@ -3960,7 +3960,9 @@ function _session_start(array $options = []) {
                 //_error_log("captcha: session_id changed to " . $_GET['PHPSESSID']);
             }
             unset($_GET['PHPSESSID']);
-            return @session_start($options);
+            $session = @session_start($options);
+            session_regenerate_id();
+            return $session;
         } elseif (session_status() == PHP_SESSION_NONE) {
             return @session_start($options);
         }
