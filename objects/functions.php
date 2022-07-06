@@ -3951,7 +3951,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10) {
 
 function _session_start(array $options = []) {
     try {
-        if (!empty($_GET['PHPSESSID'])) {
+        if (!empty($_GET['PHPSESSID']) && !User::isLogged()) {
             if ($_GET['PHPSESSID'] !== session_id()) {
                 if (session_status() !== PHP_SESSION_NONE) {
                     @session_write_close();
