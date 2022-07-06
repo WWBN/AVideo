@@ -4958,6 +4958,10 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly=true) {
     if (str_starts_with($str, '/') || str_starts_with($str, '../') || preg_match("/^[a-z]:.*/i", $str)) {
         if($insideCacheOrTmpDirOnly){
             $vroot = realpath($str);
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            if($ext == 'php'){
+                return false;
+            }
             if (str_starts_with($vroot, getTmpDir()) || str_starts_with($vroot, $global['systemRootPath'])) {
                 return true;
             }
