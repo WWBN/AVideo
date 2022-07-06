@@ -2865,7 +2865,8 @@ function requestComesFromSameDomainAsMyAVideo() {
 }
 
 function forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo(){
-    if(!requestComesFromSameDomainAsMyAVideo()){
+    global $global;
+    if(empty($global['bypassSameDomainCheck']) && !requestComesFromSameDomainAsMyAVideo()){
         forbiddenPage('The request must come from same domain', true);
     }
 }
