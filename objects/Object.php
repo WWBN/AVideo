@@ -281,7 +281,10 @@ abstract class ObjectYPT implements ObjectInterface
             _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
             return false;
         }
-        forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo();
+        
+        if(!self::ignoreTableSecurityCheck()){            
+            forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo();
+        }
         global $global;
         $fieldsName = $this->getAllFields();
         if (!empty($this->id)) {
@@ -368,7 +371,9 @@ abstract class ObjectYPT implements ObjectInterface
     {
         global $global;
         if (!empty($this->id)) {
-            forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo();
+            if(!self::ignoreTableSecurityCheck()){            
+                forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo();
+            }
             $sql = "DELETE FROM " . static::getTableName() . " ";
             $sql .= " WHERE id = ?";
             $global['lastQuery'] = $sql;
@@ -379,6 +384,13 @@ abstract class ObjectYPT implements ObjectInterface
         return false;
     }
 
+    private static function ignoreTableSecurityCheck(){
+        
+        $ignoreArray = array('CachesInDB');
+        return in_array(static::getTableName(),$ignoreArray );
+        
+    }
+    
     public static function shouldUseDatabase($content)
     {
         global $advancedCustom, $global;
