@@ -109,7 +109,12 @@ class CustomizeUser extends PluginAbstract {
 
         $obj->forceLoginToBeTheEmail = false;
         $obj->emailMustBeUnique = false;
-
+        
+        $o = new stdClass();
+        $o->type = "textarea";
+        $o->value = "";
+        $obj->messageReplaceWelcomeBackLoginBox = $o;
+        
         // added on 2019-02-11
         $o = new stdClass();
         $o->type = "textarea";
