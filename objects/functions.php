@@ -6071,7 +6071,7 @@ function _setcookie($cookieName, $value, $expires = 0) {
             'path' => '/',
             'domain' => getDomain(),
             'secure' => true,
-            'httponly' => false,
+            'httponly' => true,
             'samesite' => 'None'
         ];
         return setcookie($cookieName, $value, $cookie_options);
