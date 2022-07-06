@@ -41,6 +41,11 @@ if (empty($_REQUEST['rowCount']) && empty($_SESSION['rowCount'])) {
 }
 
 $jsonRowCountArray = _json_decode($advancedCustom->videosListRowCount);
+
+if(empty($jsonRowCountArray) || !is_array($jsonRowCountArray)){
+    $jsonRowCountArray = array(10,20,30,40,50);
+}
+
 if (!in_array($_SESSION['rowCount'], $jsonRowCountArray)) {
     $_SESSION['rowCount'] = $jsonRowCountArray[0];
 }
