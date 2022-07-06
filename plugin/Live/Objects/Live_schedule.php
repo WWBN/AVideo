@@ -334,6 +334,7 @@ class Live_schedule extends ObjectYPT
 
     public function save()
     {
+        global $global;
         if (empty($this->live_servers_id)) {
             $this->live_servers_id = 'NULL';
         }
@@ -357,6 +358,8 @@ class Live_schedule extends ObjectYPT
         if (empty($this->key)) {
             $this->key = uniqid();
         }
+
+        $this->description = $global['mysqli']->real_escape_string($this->description);
 
         $this->_setTimeZone(date_default_timezone_get());
 

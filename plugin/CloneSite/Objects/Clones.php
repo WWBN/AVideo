@@ -108,12 +108,16 @@ class Clones extends ObjectYPT
 
     public function save()
     {
+        global $global;
         if (empty($this->status)) {
             $this->status = 'i';
         }
         if (empty($this->last_clone_request)) {
             $this->last_clone_request = 'null';
         }
+
+        $this->key = $global['mysqli']->real_escape_string($this->key);
+        $this->url = $global['mysqli']->real_escape_string($this->url);
         return parent::save();
     }
 
