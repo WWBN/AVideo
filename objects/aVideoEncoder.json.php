@@ -120,7 +120,7 @@ if (!empty($_FILES['video']['error'])) {
     }
 }
 
-if (empty($_FILES['video']['tmp_name']) && !empty($_POST['chunkFile'])) {
+if (empty($_FILES['video']['tmp_name']) && isValidURLOrPath($_POST['chunkFile'])) {
     $_FILES['video']['tmp_name'] = $_POST['chunkFile'];
 }
 

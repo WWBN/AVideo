@@ -2405,7 +2405,9 @@ function isValidM3U8Link($url, $timeout = 3) {
 
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-
+    if(!isValidURLOrPath($url)){
+        return false;
+    }
     if ($debug) {
         _error_log("url_get_contents: Start $url, $ctx, $timeout " . getSelfURI() . " " . getRealIpAddr() . " " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     }
@@ -4945,19 +4947,23 @@ function isValidURL($url) {
     return false;
 }
 
-function isValidURLOrPath($str) {
+function isValidURLOrPath($str, $insideCacheOrTmpDirOnly=true) {
     //var_dump(empty($url), !is_string($url), preg_match("/^http.*/", $url), filter_var($url, FILTER_VALIDATE_URL));
     if (empty($str) || !is_string($str)) {
         return false;
     }
-    if (str_starts_with($str, '/')) {
-        return true;
-    }
-    if (preg_match("/^[a-z]:.*/i", $str)) {
-        return true;
-    }
     if (isValidURL($str)) {
         return true;
+    }
+    if (str_starts_with($str, '/') || str_starts_with($str, '../') || preg_match("/^[a-z]:.*/i", $str)) {
+        if($insideCacheOrTmpDirOnly){
+            $vroot = realpath($str);
+            if (str_starts_with($vroot, getTmpDir()) || str_starts_with($vroot, $global['systemRootPath'])) {
+                return true;
+            }
+        }else{
+            return true;
+        }
     }
     return false;
 }
