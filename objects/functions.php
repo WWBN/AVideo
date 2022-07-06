@@ -1991,6 +1991,8 @@ function unzipDirectory($filename, $destination) {
     sleep(2);
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 7200); // 2 hours
+    $filename = escapeshellarg($filename);
+    $destination = escapeshellarg($destination);
     $cmd = "unzip -: {$filename} -d {$destination}" . "  2>&1";
     _error_log("unzipDirectory: {$cmd}");
     exec($cmd, $output, $return_val);
@@ -5134,6 +5136,9 @@ function wget($url, $filename, $debug = false) {
         wgetRemoveLock($url);
         return false;
     }
+
+    $filename = escapeshellarg($filename);
+    $url = escapeshellarg($url);
     $cmd = "wget --tries=1 {$url} -O {$filename} --no-check-certificate";
     if ($debug) {
         _error_log("wget Start ({$cmd}) ");
