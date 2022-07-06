@@ -386,7 +386,7 @@ abstract class ObjectYPT implements ObjectInterface
 
     private static function ignoreTableSecurityCheck(){
         
-        $ignoreArray = array('CachesInDB');
+        $ignoreArray = array('CachesInDB', 'plugins');
         return in_array(static::getTableName(),$ignoreArray );
         
     }
