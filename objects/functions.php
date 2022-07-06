@@ -504,6 +504,8 @@ function setSiteSendMessage(&$mail) {
             $mail->Debugoutput = function ($str, $level) {
                 _error_log("SMTP ERROR $level; message: $str", AVideoLog::$ERROR);
             };
+            
+            _error_log("Debug enable on the SMTP Email");
         }
         $mail->SMTPOptions = [
             'ssl' => [
@@ -523,6 +525,8 @@ function setSiteSendMessage(&$mail) {
         _error_log("Sending SendMail Email");
         $mail->isSendmail();
     }
+    // do not let the system hang on email send
+    session_write_close();
 }
 
 function array_iunique($array) {
