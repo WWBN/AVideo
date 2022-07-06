@@ -14,9 +14,17 @@ echo getCSSAnimationClassAndStyle();
 getCSSAnimationClassAndStyleAddWait(0.5);
 ?>">
     <div class="panel-heading">
-        <h2 class="<?php echo getCSSAnimationClassAndStyle(); ?>">
-            <?php echo __('Welcome back!'); ?>
-        </h2>
+        <?php
+        if (emptyHTML($advancedCustomUser->messageReplaceWelcomeBackLoginBox->value)) {
+            ?>
+            <h2 class="<?php echo getCSSAnimationClassAndStyle(); ?>">
+                <?php echo __('Welcome back!'); ?>
+            </h2>
+            <?php
+        }else{
+            echo $advancedCustomUser->messageReplaceWelcomeBackLoginBox->value;
+        }
+        ?>
     </div>
     <div class="panel-body">
         <form class="form-horizontal"  id="WordPressloginForm">
