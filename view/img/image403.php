@@ -3,6 +3,7 @@ header('HTTP/1.0 403 Forbidden');
 if (empty($_REQUEST['403ErrorMsg'])) {
     $_REQUEST['403ErrorMsg'] = __("You are not allowed to enter here");
 }
+$_REQUEST['403ErrorMsg'] = htmlentities(strip_tags($_REQUEST['403ErrorMsg']));
 $_REQUEST['403ErrorMsg'] = "<h1>{$_REQUEST['403ErrorMsg']}</h1>";
 if (class_exists("User") && !User::isLogged()) {
     $_REQUEST['403ErrorMsg'] .= '<h2><a target="_blank" href="' . $global['webSiteRootURL'] . 'user">' . __("Login") . '</a></h2>';
