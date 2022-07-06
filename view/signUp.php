@@ -25,6 +25,10 @@ $siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'redirectUri', $red
 if (isValidURL(@$_GET['siteRedirectUri'])) {
     $siteRedirectUri = $_GET['siteRedirectUri'];
 }
+
+if(!empty($advancedCustomUser->afterSignUpGoToURL) && isValidURL($advancedCustomUser->afterSignUpGoToURL)){
+    $siteRedirectUri = $advancedCustomUser->afterSignUpGoToURL;
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
