@@ -5,7 +5,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 $securityFilter = ['error', 'msg', 'info', 'warning', 'success','toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
 $securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount'];
 $securityRemoveSingleQuotes = ['search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password'];
-$securityRemoveNonChars = ['resolution', 'format', 'videoDirectory', 'jump'];
+$securityRemoveNonChars = ['resolution', 'format', 'videoDirectory', 'jump', 'chunkFile'];
 $filterURL = ['videoURL', 'siteURL', 'redirectUri', 'encoderURL'];
 
 if (!empty($_FILES)) {
@@ -51,11 +51,11 @@ foreach ($scanVars as $value) {
     foreach ($securityRemoveNonChars as $value) {
         if (!empty($scanThis[$value])) {
             if (is_string($scanThis[$value])) {
-                $scanThis[$value] = str_replace('/[^a-z0-9./]/i', '', trim($scanThis[$value]));
+                $scanThis[$value] = str_replace('/[^a-z0-9./_-]/i', '', trim($scanThis[$value]));
             } elseif (is_array($scanThis[$value])) {
                 foreach ($scanThis[$value] as $key => $value2) {
                     if (is_string($scanThis[$value][$key])) {
-                        $scanThis[$value][$key] = str_replace('/[^a-z0-9./]/i', '', trim($scanThis[$value][$key]));
+                        $scanThis[$value][$key] = str_replace('/[^a-z0-9./_-]/i', '', trim($scanThis[$value][$key]));
                     }
                 }
             }
