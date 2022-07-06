@@ -2253,7 +2253,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $lh = LiveTransmitionHistory::getActiveLiveFromUser($users_id, $live_servers_id, '');
         if (empty($lh)) {
-            _error_log("Live::isLive we could not found any active livestream for user $users_id, $live_servers_id");
+            //_error_log("Live::isLive we could not found any active livestream for user $users_id, $live_servers_id");
             return false;
         }
         $key = $lh['key'];
@@ -2710,7 +2710,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $poster = self::getOfflineImage(false);
         }
         if (empty($lh)) {
-            _error_log("getPoster empty activity");
+            //_error_log("getPoster empty activity");
             $_getPoster[$index] = $poster;
             return $_getPoster[$index];
         }
