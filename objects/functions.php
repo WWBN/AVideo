@@ -2871,7 +2871,7 @@ function requestComesFromSameDomainAsMyAVideo() {
 
 function forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo(){
     global $global;
-    if(empty($global['bypassSameDomainCheck']) && !requestComesFromSameDomainAsMyAVideo()){
+    if(empty($global['bypassSameDomainCheck']) && !isCommandLineInterface() && !requestComesFromSameDomainAsMyAVideo()){
         _error_log('forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo: '. json_encode(debug_backtrace()), AVideoLog::$SECURITY);
         forbiddenPage('Invalid Request '. getRealIpAddr(), true);
     }
