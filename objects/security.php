@@ -5,7 +5,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 $securityFilter = ['error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
 $securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount'];
 $securityRemoveSingleQuotes = ['search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password'];
-$securityRemoveNonChars = ['resolution', 'format', 'videoDirectory'];
+$securityRemoveNonChars = ['resolution', 'format', 'videoDirectory', 'jump'];
 $filterURL = ['videoURL', 'siteURL', 'redirectUri', 'encoderURL'];
 
 if (!empty($_FILES)) {
