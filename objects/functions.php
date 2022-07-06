@@ -5731,38 +5731,46 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     }
     if (!$isInfiniteScroll) {
         if ($page > 1) {
+            $pageLinkNum = 1;
+            $pageBackLinkNum = $page - 1;
             if (preg_match("/\{page\}/", $link, $match)) {
-                $pageLink = str_replace("{page}", 1, $link);
-                $pageBackLink = str_replace("{page}", $page - 1, $link);
+                $pageLink = str_replace("{page}", $pageLinkNum, $link);
+                $pageBackLink = str_replace("{page}", $pageBackLinkNum, $link);
             } else {
-                $pageLink = addQueryStringParameter($link, 'current', 1);
-                $pageBackLink = addQueryStringParameter($link, 'current', $page - 1);
+                $pageLink = addQueryStringParameter($link, 'current', $pageLinkNum);
+                $pageBackLink = addQueryStringParameter($link, 'current', $pageBackLinkNum);
             }
             if ($start > ($page - 1)) {
-                $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
+                $pag .= PHP_EOL . '<li class="page-item"><a pageNum="'.$pageLinkNum.'" class="page-link backLink1" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
             }
-            $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
+            $pag .= PHP_EOL . '<li class="page-item"><a pageNum="'.$pageBackLinkNum.'" class="page-link backLink2" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
         }
         for ($i = $start; $i <= $end; $i++) {
             if ($i == $page) {
                 $pag .= PHP_EOL . ' <li class="page-item active"><span class="page-link"> ' . $i . ' <span class="sr-only">(current)</span></span></li>';
             } else {
-                $pageLink = str_replace("{page}", $i, $link);
-                $pag .= PHP_EOL . ' <li class="page-item"><a class="page-link" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
+                if (preg_match("/\{page\}/", $link, $match)) {
+                    $pageLink = str_replace("{page}", $i, $link);
+                } else {
+                    $pageLink = addQueryStringParameter($link, 'current', $i);
+                }
+                $pag .= PHP_EOL . ' <li class="page-item"><a pageNum="'.$i.'"class="page-link pageLink1" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
             }
         }
     }
     if ($page < $total) {
+        $pageLinkNum = $total;
+        $pageForwardLinkNum = $page + 1;
         if (preg_match("/\{page\}/", $link, $match)) {
-            $pageLink = str_replace("{page}", $total, $link);
-            $pageForwardLink = str_replace("{page}", $page + 1, $link);
+            $pageLink = str_replace("{page}", $pageLinkNum, $link);
+            $pageForwardLink = str_replace("{page}", $pageForwardLinkNum, $link);
         } else {
-            $pageLink = addQueryStringParameter($link, 'current', $total);
-            $pageForwardLink = addQueryStringParameter($link, 'current', $page + 1);
+            $pageLink = addQueryStringParameter($link, 'current', $pageLinkNum);
+            $pageForwardLink = addQueryStringParameter($link, 'current', $pageForwardLinkNum);
         }
-        $pag .= PHP_EOL . '<li class="page-item"><a class="page-link pagination__next' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
+        $pag .= PHP_EOL . '<li class="page-item"><a pageNum="'.$pageForwardLinkNum.'" class="page-link pagination__next  pageLink2' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
         if ($total > ($end + 1)) {
-            $pag .= PHP_EOL . '<li class="page-item"><a class="page-link" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
+            $pag .= PHP_EOL . '<li class="page-item"><a pageNum="'.$pageLinkNum.'" class="page-link  pageLink3" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
         }
     }
     $pag .= PHP_EOL . '</ul></nav> ';

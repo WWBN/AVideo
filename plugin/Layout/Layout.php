@@ -200,6 +200,9 @@ class Layout extends PluginAbstract {
 
     static function getSelectSearchable($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder='') {
         global $global;
+        if(empty($id)){
+            $id = $name;
+        }
         $html = "";
         if (empty($global['getSelectSearchable'])) {
             $html .= '<link href="'.getURL('view/js/select2/select2.min.css').'" rel="stylesheet" />';
@@ -218,8 +221,10 @@ class Layout extends PluginAbstract {
             $selectedString = "";
             if (is_array($value)) { // need this because of the category icons
                 $_value = $value[1];
+                $_parameters = @$value[2];
                 $_text = $value[0];
             } else {
+                $_parameters = '';
                 $_value = $key;
                 $_text = $value;
             }
@@ -227,7 +232,7 @@ class Layout extends PluginAbstract {
                 $selectedString = "selected";
             }
             $html .= '<option value="' . $_value . '" ' . 
-                    $selectedString . '>' . 
+                    $selectedString . ' '.$_parameters.'>' . 
                     $_text . '</option>';
         }
         $html .= '</select>';
@@ -243,6 +248,27 @@ class Layout extends PluginAbstract {
         return $html;
     }
 
+    static function getSelectSearchableHTML($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder='') {
+        global $global;
+        if(empty($id)){
+            $id = $name;
+        }
+        $html = self::getSelectSearchable($optionsArray, $name, $selected, $id, $class, $placeholder, $templatePlaceholder);
+        
+        $html .= "<script>function getSelectformatStateResult{$name} (state) {
+                                    if (!state.id) {
+                                      return state.text;
+                                    }
+                                    var \$state = $(
+                                      '<span><i class=\"' + state.id + '\"></i>'+
+                                      state.text + '</span>'
+                                    );
+                                    return \$state;
+                                  };";
+        $html .= '$(document).ready(function() {$(\'#' . $id . '\').select2({templateSelection: getSelectformatStateResult'.$name.', templateResult: getSelectformatStateResult'.$name.',width: \'100%\'});});</script>';
+        return $html;
+    }
+    
     static function getIconsSelect($name, $selected = "", $id = "", $class = "") {
         global $getIconsSelect;
         $getIconsSelect = 1;
