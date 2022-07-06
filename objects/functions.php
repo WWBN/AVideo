@@ -504,7 +504,7 @@ function setSiteSendMessage(&$mail) {
             $mail->Debugoutput = function ($str, $level) {
                 _error_log("SMTP ERROR $level; message: $str", AVideoLog::$ERROR);
             };
-            
+
             _error_log("Debug enable on the SMTP Email");
         }
         $mail->SMTPOptions = [
@@ -2352,15 +2352,15 @@ function combineFilesHTML($filesArray, $extension = "js", $doNotCombine = false)
     }
 }
 
-function getTagIfExists($relativePath){
+function getTagIfExists($relativePath) {
     global $global;
     $relativePath = str_replace('\\', '/', $relativePath);
     $file = "{$global['systemRootPath']}{$relativePath}";
-    if(file_exists($file)){
+    if (file_exists($file)) {
         $url = getURL($relativePath);
-    }else if(isValidURL($file)){
+    } else if (isValidURL($file)) {
         $url = $file;
-    }else{
+    } else {
         return '';
     }
     $ext = pathinfo($relativePath, PATHINFO_EXTENSION);
@@ -2368,10 +2368,9 @@ function getTagIfExists($relativePath){
         return '<script src="' . $url . '" type="text/javascript"></script>';
     } else if ($ext == "css") {
         return '<link href="' . $url . '" rel="stylesheet" type="text/css"/>';
-    }else{
+    } else {
         return '<img src="' . $url . '" alt=""/>';
     }
-
 }
 
 function local_get_contents($path) {
@@ -2405,7 +2404,7 @@ function isValidM3U8Link($url, $timeout = 3) {
 
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
-    if(!isValidURLOrPath($url)){
+    if (!isValidURLOrPath($url)) {
         return false;
     }
     if ($debug) {
@@ -2759,7 +2758,6 @@ function isMobile($userAgent = null, $httpHeaders = null) {
     return $detect->isMobile($userAgent, $httpHeaders);
 }
 
-
 function isAndroid() {
     global $global;
     require_once $global['systemRootPath'] . 'objects/Mobile_Detect.php';
@@ -2869,11 +2867,11 @@ function requestComesFromSameDomainAsMyAVideo() {
     return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN()) || isFromCDN($url);
 }
 
-function forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo(){
+function forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo($logMsg = '') {
     global $global;
-    if(empty($global['bypassSameDomainCheck']) && !isCommandLineInterface() && !requestComesFromSameDomainAsMyAVideo()){
-        _error_log('forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo: '. json_encode(debug_backtrace()), AVideoLog::$SECURITY);
-        forbiddenPage('Invalid Request '. getRealIpAddr(), true);
+    if (empty($global['bypassSameDomainCheck']) && !isCommandLineInterface() && !requestComesFromSameDomainAsMyAVideo()) {
+        _error_log('forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo: ' . json_encode($logMsg) . ' ' . json_encode(debug_backtrace()), AVideoLog::$SECURITY);
+        forbiddenPage('Invalid Request ' . getRealIpAddr(), true);
     }
 }
 
@@ -4948,7 +4946,7 @@ function isValidURL($url) {
     return false;
 }
 
-function isValidURLOrPath($str, $insideCacheOrTmpDirOnly=true) {
+function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
     //var_dump(empty($url), !is_string($url), preg_match("/^http.*/", $url), filter_var($url, FILTER_VALIDATE_URL));
     if (empty($str) || !is_string($str)) {
         return false;
@@ -4957,16 +4955,16 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly=true) {
         return true;
     }
     if (str_starts_with($str, '/') || str_starts_with($str, '../') || preg_match("/^[a-z]:.*/i", $str)) {
-        if($insideCacheOrTmpDirOnly){
+        if ($insideCacheOrTmpDirOnly) {
             $vroot = realpath($str);
             $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
-            if($ext == 'php'){
+            if ($ext == 'php') {
                 return false;
             }
             if (str_starts_with($vroot, getTmpDir()) || str_starts_with($vroot, $global['systemRootPath'])) {
                 return true;
             }
-        }else{
+        } else {
             return true;
         }
     }
@@ -5767,9 +5765,9 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
                 $pageBackLink = addQueryStringParameter($link, 'current', $pageBackLinkNum);
             }
             if ($start > ($page - 1)) {
-                $pag .= PHP_EOL . '<li class="page-item"><a pageNum="'.$pageLinkNum.'" class="page-link backLink1" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
+                $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageLinkNum . '" class="page-link backLink1" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
             }
-            $pag .= PHP_EOL . '<li class="page-item"><a pageNum="'.$pageBackLinkNum.'" class="page-link backLink2" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
+            $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageBackLinkNum . '" class="page-link backLink2" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
         }
         for ($i = $start; $i <= $end; $i++) {
             if ($i == $page) {
@@ -5780,7 +5778,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
                 } else {
                     $pageLink = addQueryStringParameter($link, 'current', $i);
                 }
-                $pag .= PHP_EOL . ' <li class="page-item"><a pageNum="'.$i.'"class="page-link pageLink1" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
+                $pag .= PHP_EOL . ' <li class="page-item"><a pageNum="' . $i . '"class="page-link pageLink1" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
             }
         }
     }
@@ -5794,9 +5792,9 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
             $pageLink = addQueryStringParameter($link, 'current', $pageLinkNum);
             $pageForwardLink = addQueryStringParameter($link, 'current', $pageForwardLinkNum);
         }
-        $pag .= PHP_EOL . '<li class="page-item"><a pageNum="'.$pageForwardLinkNum.'" class="page-link pagination__next  pageLink2' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
+        $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageForwardLinkNum . '" class="page-link pagination__next  pageLink2' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
         if ($total > ($end + 1)) {
-            $pag .= PHP_EOL . '<li class="page-item"><a pageNum="'.$pageLinkNum.'" class="page-link  pageLink3" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
+            $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageLinkNum . '" class="page-link  pageLink3" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
         }
     }
     $pag .= PHP_EOL . '</ul></nav> ';
@@ -7038,9 +7036,9 @@ function getLiveVideosFromCategory($categories_id) {
             }
 
             $user = new User($value['users_id']);
-            
+
             $video = array(
-                'id' => intval(rand(999999,9999999)),
+                'id' => intval(rand(999999, 9999999)),
                 'isLive' => 1,
                 'categories_id' => $categories_id,
                 'description' => '',
@@ -8730,7 +8728,7 @@ function parseFFMPEGProgress($progressFilename) {
     return $obj;
 }
 
-function getExtension($link){
+function getExtension($link) {
     $path_parts = pathinfo($link);
     //$extension = strtolower(@$path_parts["extension"]);
     $filebasename = explode('?', $path_parts['basename']);
@@ -8743,9 +8741,9 @@ function getExtension($link){
  * @param type $html_string
  * @return boolean
  */
-function _empty($html_string){
-    if(is_string($html_string)){
-        if(strtolower($html_string) == 'false'){
+function _empty($html_string) {
+    if (is_string($html_string)) {
+        if (strtolower($html_string) == 'false') {
             return true;
         }
     }
