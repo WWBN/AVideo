@@ -349,7 +349,8 @@ if (!class_exists('Video')) {
                 $catDefault = Category::getCategoryDefault();
                 $this->categories_id = $catDefault['id'];
             }
-            $this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
+            //$this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
+            $this->title = ($global['mysqli']->real_escape_string($this->title));
             $this->description = ($global['mysqli']->real_escape_string($this->description));
 
             if (forbiddenWords($this->title) || forbiddenWords($this->description)) {
