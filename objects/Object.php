@@ -281,6 +281,7 @@ abstract class ObjectYPT implements ObjectInterface
             _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
             return false;
         }
+        forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo();
         global $global;
         $fieldsName = $this->getAllFields();
         if (!empty($this->id)) {
@@ -367,6 +368,7 @@ abstract class ObjectYPT implements ObjectInterface
     {
         global $global;
         if (!empty($this->id)) {
+            forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo();
             $sql = "DELETE FROM " . static::getTableName() . " ";
             $sql .= " WHERE id = ?";
             $global['lastQuery'] = $sql;

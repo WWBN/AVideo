@@ -15,10 +15,7 @@ if (!User::isLogged()) {
     die(json_encode($obj));
 }
 
-if(requestComesFromSameDomainAsMyAVideo()){
-    $obj->msg = __("Request is not from the same domain");
-    die(json_encode($obj));
-}
+forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo();
 
 $_REQUEST["do_not_login"]=1;
 require_once $global['systemRootPath'] . 'objects/user.php';

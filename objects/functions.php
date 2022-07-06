@@ -2864,6 +2864,12 @@ function requestComesFromSameDomainAsMyAVideo() {
     return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN()) || isFromCDN($url);
 }
 
+function forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo(){
+    if(!requestComesFromSameDomainAsMyAVideo()){
+        forbiddenPage('The request must come from same domain', true);
+    }
+}
+
 function requestComesFromSafePlace() {
     return (requestComesFromSameDomainAsMyAVideo() || isAVideo());
 }
