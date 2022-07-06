@@ -1991,7 +1991,7 @@ function unzipDirectory($filename, $destination) {
     sleep(2);
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 7200); // 2 hours
-    $cmd = "unzip {$filename} -d {$destination}" . "  2>&1";
+    $cmd = "unzip -: {$filename} -d {$destination}" . "  2>&1";
     _error_log("unzipDirectory: {$cmd}");
     exec($cmd, $output, $return_val);
     if ($return_val !== 0 && function_exists("zip_open")) {
