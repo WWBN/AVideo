@@ -65,7 +65,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
             ?>">
                 <div class="panel-heading">
                     <?php
-                    if (emptyHTML($advancedCustomUser->messageReplaceWelcomeBackLoginBox)) {
+                    if (emptyHTML($advancedCustomUser->messageReplaceWelcomeBackLoginBox->value)) {
                         ?>
                         <h2 class="<?php echo getCSSAnimationClassAndStyle(); ?>">
                             <?php echo __('Welcome back!'); ?>
@@ -85,7 +85,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                         </div>
                         <?php
                     }else{
-                        echo $advancedCustomUser->messageReplaceWelcomeBackLoginBox;
+                        echo $advancedCustomUser->messageReplaceWelcomeBackLoginBox->value;
                     }
                     ?>
                 </div>
