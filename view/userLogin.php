@@ -64,22 +64,30 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
             getCSSAnimationClassAndStyleAddWait(0.5);
             ?>">
                 <div class="panel-heading">
-                    <h2 class="<?php echo getCSSAnimationClassAndStyle(); ?>">
-                        <?php echo __('Welcome back!'); ?>
-                    </h2>
-                    <div class="">
-                        <?php
-                        if (!empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
-                            ?>
-                            <div class="pull-right">
-                                <a id="buttonMyNavbar" class=" btn btn-default navbar-btn" style="padding: 6px 12px; margin-right: 40px;" href="<?php echo $advancedCustomUser->userMustBeLoggedInCloseButtonURL; ?>">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </div>
-                            <?php
-                        }
+                    <?php
+                    if (emptyHTML($advancedCustomUser->messageReplaceWelcomeBackLoginBox)) {
                         ?>
-                    </div>
+                        <h2 class="<?php echo getCSSAnimationClassAndStyle(); ?>">
+                            <?php echo __('Welcome back!'); ?>
+                        </h2>
+                        <div class="">
+                            <?php
+                            if (!empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
+                                ?>
+                                <div class="pull-right">
+                                    <a id="buttonMyNavbar" class=" btn btn-default navbar-btn" style="padding: 6px 12px; margin-right: 40px;" href="<?php echo $advancedCustomUser->userMustBeLoggedInCloseButtonURL; ?>">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                        <?php
+                    }else{
+                        echo $advancedCustomUser->messageReplaceWelcomeBackLoginBox;
+                    }
+                    ?>
                 </div>
                 <div class="panel-body">
                     <form class="form-horizontal"  id="loginForm">
