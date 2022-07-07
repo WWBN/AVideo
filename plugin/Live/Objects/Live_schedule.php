@@ -358,7 +358,7 @@ class Live_schedule extends ObjectYPT
             $this->key = uniqid();
         }
 
-        $this->description = $global['mysqli']->real_escape_string($this->description);
+        $this->description = ($this->description);
 
         $this->_setTimeZone(date_default_timezone_get());
 

@@ -3040,7 +3040,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
 
         if (!empty($_GET['catName'])) {
-            $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+            $catName = ($_GET['catName']);
             $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name =  '{$catName}' ))";
         }
 

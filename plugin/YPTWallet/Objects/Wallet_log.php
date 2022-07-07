@@ -171,8 +171,8 @@ class WalletLog extends ObjectYPT {
 
     function save() {
         global $global;
-        $this->description = $global['mysqli']->real_escape_string($this->description);
-        $this->information = $global['mysqli']->real_escape_string($this->information);
+        $this->description = ($this->description);
+        $this->information = ($this->information);
         return parent::save();
     }
 

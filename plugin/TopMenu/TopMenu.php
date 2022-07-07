@@ -91,7 +91,7 @@ class TopMenu extends PluginAbstract {
     public function getidBySeoUrl($menuSeoUrlItem) {
         global $global;
         $sql="select id from topMenu_items where menuSeoUrlItem= ?"; 
-        $res=sqlDal::readSql($sql, "s", array($global['mysqli']->real_escape_string($menuSeoUrlItem)));
+        $res=sqlDal::readSql($sql, "s", array(($menuSeoUrlItem)));
         $menuId=sqlDAL::fetchAssoc($res);
         if(!isset($menuId['id']))
         return false;

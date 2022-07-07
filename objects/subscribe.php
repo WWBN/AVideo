@@ -6,8 +6,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-class Subscribe
-{
+class Subscribe extends ObjectYPT{
     private $id;
     private $email;
     private $status;
@@ -31,7 +30,7 @@ class Subscribe
         }
     }
 
-    private function load($id)
+    public function load($id)
     {
         $obj = self::getSubscribe($id);
         if (empty($obj)) {
@@ -433,4 +432,9 @@ class Subscribe
     {
         $this->users_id = $users_id;
     }
+
+    public static function getTableName() {
+        return 'subscribes';
+    }
+
 }

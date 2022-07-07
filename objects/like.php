@@ -59,7 +59,7 @@ class Like
         $this->like = $like;
     }
 
-    private function load()
+    public function load()
     {
         $like = $this->getLike();
         if (empty($like)) {

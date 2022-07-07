@@ -75,7 +75,7 @@ class LiveTransmition extends ObjectYPT
     public function setTitle($title)
     {
         global $global;
-        //$title = $global['mysqli']->real_escape_string($title);
+        //$title = ($title);
         $this->title = xss_esc($title);
     }
 
@@ -107,7 +107,7 @@ class LiveTransmition extends ObjectYPT
     public function setDescription($description)
     {
         global $global;
-        //$description = $global['mysqli']->real_escape_string($description);
+        //$description = ($description);
         $this->description = xss_esc($description);
     }
 
@@ -204,7 +204,7 @@ class LiveTransmition extends ObjectYPT
     {
         global $global;
         _mysql_connect();
-        $userName = $global['mysqli']->real_escape_string($userName);
+        $userName = ($userName);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", [$userName], true);
         $data = sqlDAL::fetchAssoc($res);
@@ -224,7 +224,7 @@ class LiveTransmition extends ObjectYPT
     {
         global $global;
         _mysql_connect();
-        $channelName = $global['mysqli']->real_escape_string($channelName);
+        $channelName = ($channelName);
         $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", [$channelName], true);
         $data = sqlDAL::fetchAssoc($res);

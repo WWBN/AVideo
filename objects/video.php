@@ -19,50 +19,50 @@ require_once $global['systemRootPath'] . 'objects/Object.php';
 
 if (!class_exists('Video')) {
 
-    class Video {
+    class Video  extends ObjectYPT {
 
-        private $id;
-        private $title;
-        private $clean_title;
-        private $filename;
-        private $description;
-        private $views_count;
-        private $status;
-        private $duration;
-        private $users_id;
-        private $categories_id;
-        private $old_categories_id;
-        private $type;
-        private $rotation;
-        private $zoom;
-        private $videoDownloadedLink;
-        private $videoLink;
-        private $next_videos_id;
-        private $isSuggested;
+        protected $id;
+        protected $title;
+        protected $clean_title;
+        protected $filename;
+        protected $description;
+        protected $views_count;
+        protected $status;
+        protected $duration;
+        protected $users_id;
+        protected $categories_id;
+        protected $old_categories_id;
+        protected $type;
+        protected $rotation;
+        protected $zoom;
+        protected $videoDownloadedLink;
+        protected $videoLink;
+        protected $next_videos_id;
+        protected $isSuggested;
         public static $types = ['webm', 'mp4', 'mp3', 'ogg', 'pdf', 'jpg', 'jpeg', 'gif', 'png', 'webp', 'zip'];
-        private $videoGroups;
-        private $trailer1;
-        private $trailer2;
-        private $trailer3;
-        private $rate;
-        private $can_download;
-        private $can_share;
-        private $only_for_paid;
-        private $rrating;
-        private $externalOptions;
-        private $sites_id;
-        private $serie_playlists_id;
-        private $video_password;
-        private $encoderURL;
-        private $filepath;
-        private $filesize;
-        private $live_transmitions_history_id;
-        private $total_seconds_watching;
-        private $duration_in_seconds;
-        private $likes;
-        private $dislikes;
-        private $users_id_company;
-        private $created;
+        protected $videoGroups;
+        protected $trailer1;
+        protected $trailer2;
+        protected $trailer3;
+        protected $rate;
+        protected $can_download;
+        protected $can_share;
+        protected $only_for_paid;
+        protected $rrating;
+        protected $externalOptions;
+        protected $sites_id;
+        protected $serie_playlists_id;
+        protected $video_password;
+        protected $encoderURL;
+        protected $filepath;
+        protected $filesize;
+        protected $live_transmitions_history_id;
+        protected $total_seconds_watching;
+        protected $duration_in_seconds;
+        protected $likes;
+        protected $dislikes;
+        protected $users_id_company;
+        protected $created;
         public static $statusDesc = [
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -102,7 +102,7 @@ if (!class_exists('Video')) {
         public static $statusBrokenMissingFiles = 'b';
         public static $rratingOptions = ['', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma'];
         //ver 3.4
-        private $youtubeId;
+        protected $youtubeId;
         public static $typeOptions = ['audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser'];
         public static $searchFieldsNames = ['v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename'];
         public static $searchFieldsNamesLabels = ['Video Title', 'Video Description', 'Channel Name', 'Channel Description', 'Video ID', 'Video Filename'];
@@ -349,9 +349,9 @@ if (!class_exists('Video')) {
                 $catDefault = Category::getCategoryDefault();
                 $this->categories_id = $catDefault['id'];
             }
-            //$this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
-            $this->title = ($global['mysqli']->real_escape_string(safeString($this->title)));
-            $this->description = ($global['mysqli']->real_escape_string($this->description));
+            //$this->setTitle((trim($this->title)));
+            $this->title = ((safeString($this->title)));
+            $this->description = (($this->description));
 
             if (forbiddenWords($this->title) || forbiddenWords($this->description)) {
                 return false;
@@ -412,31 +412,16 @@ if (!class_exists('Video')) {
                     header('Content-Type: application/json');
                     die('{"error":"3 ' . __("Permission denied") . '"}');
                 }
-                $sql = "UPDATE videos SET title = '{$this->title}',clean_title = '{$this->clean_title}',"
-                        . " filename = '{$this->filename}', categories_id = '{$this->categories_id}', status = '{$this->status}',"
-                        . " description = '{$this->description}', duration = '{$this->duration}', type = '{$this->type}', videoDownloadedLink = '{$this->videoDownloadedLink}', youtubeId = '{$this->youtubeId}', videoLink = '{$this->videoLink}', next_videos_id = {$this->next_videos_id}, isSuggested = {$this->isSuggested}, users_id = {$this->users_id}, "
-                        . " trailer1 = '{$this->trailer1}', trailer2 = '{$this->trailer2}', trailer3 = '{$this->trailer3}', rate = '{$this->rate}', can_download = '{$this->can_download}', can_share = '{$this->can_share}', only_for_paid = '{$this->only_for_paid}', rrating = '{$this->rrating}', externalOptions = '{$this->externalOptions}', sites_id = {$this->sites_id}, serie_playlists_id = {$this->serie_playlists_id} ,live_transmitions_history_id = {$this->live_transmitions_history_id} , video_password = '{$this->video_password}', "
-                        . " encoderURL = '{$this->encoderURL}', filepath = '{$this->filepath}' , filesize = '{$this->filesize}' , duration_in_seconds = '{$this->duration_in_seconds}' , modified = now(), users_id_company = ".(empty($this->users_id_company)?'NULL':intval($this->users_id_company))." "
-                        . " WHERE id = {$this->id}";
-
-                $saved = sqlDAL::writeSql($sql);
-                if ($saved) {
-                    $insert_row = $this->id;
+                
+                $insert_row = parent::save();
+                if ($insert_row) {
                     AVideoPlugin::onUpdateVideo($insert_row);
                     _error_log('onUpdateVideo $insert_row = '.$insert_row);
                 }else{
                     _error_log('onUpdateVideo error $saved is empty');
                 }
             } else {
-                if(empty($this->created)){
-                    $this->created = 'now()';
-                }
-                $sql = "INSERT INTO videos "
-                        . "(duration_in_seconds, title,clean_title, filename, users_id, categories_id, status, description, duration,type,videoDownloadedLink, next_videos_id, created, modified, videoLink, can_download, can_share, only_for_paid, rrating, externalOptions, sites_id, serie_playlists_id,live_transmitions_history_id, video_password, encoderURL, filepath , filesize, users_id_company) values "
-                        . "('{$this->duration_in_seconds}','{$this->title}','{$this->clean_title}', '{$this->filename}', {$this->users_id},{$this->categories_id}, '{$this->status}', '{$this->description}', '{$this->duration}', '{$this->type}', '{$this->videoDownloadedLink}', {$this->next_videos_id},{$this->created}, now(), '{$this->videoLink}', '{$this->can_download}', '{$this->can_share}','{$this->only_for_paid}', '{$this->rrating}', '$this->externalOptions', {$this->sites_id}, {$this->serie_playlists_id},{$this->live_transmitions_history_id}, '{$this->video_password}', '{$this->encoderURL}', '{$this->filepath}', '{$this->filesize}', ".(empty($this->users_id_company)?'NULL':intval($this->users_id_company)).")";
-
-                //_error_log("Video::save ".$sql);
-                $insert_row = sqlDAL::writeSql($sql);
+                $insert_row = parent::save();
                 if(!empty($insert_row)){
                     AVideoPlugin::onNewVideo($insert_row);
                     _error_log('onNewVideo $insert_row = '.$insert_row);
@@ -444,6 +429,7 @@ if (!class_exists('Video')) {
                     _error_log('onNewVideo error $insert_row is empty');
                 }
             }
+            //var_dump($this->title, $insert_row);exit;
             if ($insert_row) {
                 _error_log("Video::save ({$this->title}) Saved id = {$insert_row} ");
                 Category::clearCacheCount();
@@ -512,8 +498,10 @@ if (!class_exists('Video')) {
                 return false;
             }
             _error_log("Video::updateDurationInSeconds update duration {$videos_id}, {$duration}, {$duration_in_seconds}");
-            $sql = "UPDATE videos SET duration_in_seconds = '{$duration_in_seconds}' , modified = now() WHERE id = {$videos_id}";
-            $saved = sqlDAL::writeSql($sql);
+            $formats = 'si';
+            $values = [$duration_in_seconds, $videos_id];
+            $sql = "UPDATE videos SET duration_in_seconds = ? , modified = now() WHERE id = ?";
+            $saved = sqlDAL::writeSql($sql, $formats, $values);
             self::clearCache($videos_id);
             return $duration_in_seconds;
         }
@@ -663,8 +651,10 @@ if (!class_exists('Video')) {
 
             if (!empty($this->id)) {
                 global $global;
-                $sql = "UPDATE videos SET rotation = '{$saneRotation}', modified = now() WHERE id = {$this->id} ";
-                $res = sqlDAL::writeSql($sql);
+                $sql = "UPDATE videos SET rotation = ?, modified = now() WHERE id = ? ";
+                $formats = 'si';
+                $values = [$saneRotation, $this->id];
+                $res = sqlDAL::writeSql($sql, $formats, $values);
                 if ($global['mysqli']->errno !== 0) {
                     die('Error on update Rotation: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
@@ -689,8 +679,10 @@ if (!class_exists('Video')) {
 
             if (!empty($this->id)) {
                 global $global;
-                $sql = "UPDATE videos SET zoom = '{$saneZoom}', modified = now() WHERE id = {$this->id} ";
-                $res = sqlDAL::writeSql($sql);
+                $sql = "UPDATE videos SET zoom = ?, modified = now() WHERE id = ? ";
+                $formats = 'si';
+                $values = [$saneZoom, $this->id];
+                $res = sqlDAL::writeSql($sql, $formats, $values);
                 if ($global['mysqli']->errno !== 0) {
                     die('Error on update Zoom: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
@@ -826,7 +818,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_GET['catName'])) {
-                $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+                $catName = ($_GET['catName']);
                 $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
             }
 
@@ -1231,7 +1223,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_GET['catName'])) {
-                $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+                $catName = ($_GET['catName']);
                 $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
             }
 
@@ -1752,7 +1744,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_GET['catName'])) {
-                $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+                $catName = ($_GET['catName']);
                 $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
             }
 
@@ -4881,7 +4873,7 @@ if (!class_exists('Video')) {
 
         private static function getFullTextSearch($columnsArray, $search, $connection = "OR") {
             global $global;
-            $search = $global['mysqli']->real_escape_string(xss_esc($search));
+            $search = (xss_esc($search));
             $search = str_replace('&quot;', '"', $search);
             if (empty($columnsArray) || empty($search)) {
                 return "";
@@ -5292,6 +5284,10 @@ if (!class_exists('Video')) {
             }
 
             return !$found;
+        }
+
+        public static function getTableName() {
+            return 'videos';
         }
 
     }

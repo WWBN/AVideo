@@ -24,6 +24,14 @@ if (!function_exists('xss_esc')) {
         if (empty($text)) {
             return "";
         }
+        if(!is_string($text)){
+            if(is_array($text)){
+                foreach ($text as $key => $value) {
+                    $text[$key] = xss_esc($value);
+                }
+            }
+            return $text;
+        }
         $result = @htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
         if (empty($result)) {
             $result = str_replace(['"', "'", "\\"], ["", "", ""], strip_tags($text));
@@ -2000,7 +2008,7 @@ function unzipDirectory($filename, $destination) {
     sleep(2);
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 7200); // 2 hours
-    $filename = escapeshellarg($filename);
+    $filename = escapeshellarg(safeString($filename,true));
     $destination = escapeshellarg($destination);
     $cmd = "unzip -: {$filename} -d {$destination}" . "  2>&1";
     _error_log("unzipDirectory: {$cmd}");
@@ -2039,7 +2047,7 @@ function unzipDirectory($filename, $destination) {
         }
     } else {
         _error_log("unzipDirectory: Success {$destination}");
-    }
+    }    
     @unlink($filename);
 }
 
@@ -2414,6 +2422,7 @@ function isValidM3U8Link($url, $timeout = 3) {
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if (!isValidURLOrPath($url)) {
+        _error_log('url_get_contents Cannot download '.$url);
         return false;
     }
     if ($debug) {
@@ -3398,6 +3407,7 @@ function rrmdir($dir) {
 
 function rrmdirCommandLine($dir, $async = false) {
     if (is_dir($dir)) {
+        $dir = escapeshellarg($dir);
         if (isWindows()) {
             $command = ('rd /s /q ' . $dir);
         } else {
@@ -5010,12 +5020,13 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
     }
     if (str_starts_with($str, '/') || str_starts_with($str, '../') || preg_match("/^[a-z]:.*/i", $str)) {
         if ($insideCacheOrTmpDirOnly) {
-            $vroot = realpath($str);
-            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+            $absolutePath = realpath($str);
+            $ext = strtolower(pathinfo($absolutePath, PATHINFO_EXTENSION));
             if ($ext == 'php') {
                 return false;
             }
-            if (str_starts_with($vroot, getTmpDir()) || str_starts_with($vroot, $global['systemRootPath'])) {
+            $cacheDir = "{$global['systemRootPath']}videos/cache/";
+            if (str_starts_with($absolutePath, getTmpDir()) || str_starts_with($absolutePath, $cacheDir)) {
                 return true;
             }
         } else {
@@ -5181,7 +5192,7 @@ function reloadSearchVar() {
 }
 
 function wget($url, $filename, $debug = false) {
-    if (empty($url) || $url == "php://input" || !preg_match("/^http/", $url)) {
+    if (empty($url) || $url == "php://input" || !isValidURL($url)) {
         return false;
     }
     if ($lockfilename = wgetIsLocked($url)) {
@@ -6216,6 +6227,9 @@ function setToastMessage($msg) {
 }
 
 function showAlertMessage() {
+    if(!requestComesFromSafePlace()){
+        return false;
+    }
     if (!empty($_SESSION['YPTalertMessage'])) {
         foreach ($_SESSION['YPTalertMessage'] as $value) {
             if (!empty($value[0])) {
@@ -6229,17 +6243,21 @@ function showAlertMessage() {
         unset($_SESSION['YPTalertMessage']);
     }
 
-    $joinString = ['error', 'msg', 'success'];
+    $joinString = ['error', 'msg', 'success', 'toast'];
     foreach ($joinString as $value) {
-        if (!empty($_GET[$value]) && is_array($_GET[$value])) {
-            $_GET[$value] = array_unique($_GET[$value]);
-            $newStr = [];
-            foreach ($_GET[$value] as $value2) {
-                if (!empty($value2)) {
-                    $newStr[] = $value2;
+        if (!empty($_GET[$value]) ) {
+            if (is_array($_GET[$value])) {
+                $_GET[$value] = array_unique($_GET[$value]);
+                $newStr = [];
+                foreach ($_GET[$value] as $value2) {
+                    if (!empty($value2)) {
+                        $newStr[] = $value2;
+                    }
                 }
+                $_GET[$value] = implode("<br>", $newStr);
+            }else{
+                $_GET[$value] = $_GET[$value];
             }
-            $_GET[$value] = implode("<br>", $newStr);
         }
     }
 
@@ -6290,7 +6308,7 @@ function showAlertMessage() {
             }
 
             echo '$.toast({
-                    text: "' . $value . '",
+                    text: "' . strip_tags($value, $allowable_tags) . '",
                     hideAfter: ' . $hideAfter . '   // in milli seconds
                 });console.log("Toast Hide after ' . $hideAfter . '");';
         }
@@ -8802,4 +8820,24 @@ function _empty($html_string) {
         }
     }
     return emptyHTML($html_string);
+}
+
+function adminSecurityCheck($force=false){
+    if(empty($force)){
+        if(!empty($_SESSION['adminSecurityCheck'])){
+            return false;
+        }
+        if(!User::isAdmin()){
+            return false;
+        }
+    }
+    global $global;
+    $videosHtaccessFile = getVideosDir().'.htaccess';
+    if(!file_exists($videosHtaccessFile)){
+        $bytes = copy("{$global['systemRootPath']}objects/htaccess_for_videos.conf",$videosHtaccessFile);
+        _error_log("adminSecurityCheck: file created {$videosHtaccessFile} {$bytes} bytes");
+    }
+    _session_start();
+    $_SESSION['adminSecurityCheck'] = time();
+    return true;
 }

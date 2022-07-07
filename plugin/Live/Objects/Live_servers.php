@@ -239,7 +239,7 @@ class Live_servers extends ObjectYPT
         $host = trim($rtmpHostURI);
         $parts = parse_url($host);
         $host = "rtmp://{$parts["host"]}{$parts["path"]}";
-        $host = $global['mysqli']->real_escape_string($host);
+        $host = ($host);
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE rtmp_server LIKE '%{$host}%' AND status = 'a' ";
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);

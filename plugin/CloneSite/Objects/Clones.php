@@ -55,8 +55,10 @@ class Clones extends ObjectYPT
         }
     }
 
-    public function loadFromURL($url)
-    {
+    public function loadFromURL($url){
+        if(!isValidURL($url)){
+            return false;
+        }
         $row = self::getFromURL($url);
         if (empty($row)) {
             return false;
@@ -73,7 +75,10 @@ class Clones extends ObjectYPT
         $resp->canClone = false;
         $resp->clone = null;
         $resp->msg = "";
-
+        if(!isValidURL($url)){
+            $resp->msg = "Invalid URL";
+            return $resp;
+        }
         $clone = new Clones(0);
         $clone->loadFromURL($url);
         if (empty($clone->getId())) {
@@ -115,9 +120,11 @@ class Clones extends ObjectYPT
         if (empty($this->last_clone_request)) {
             $this->last_clone_request = 'null';
         }
-
-        $this->key = $global['mysqli']->real_escape_string($this->key);
-        $this->url = $global['mysqli']->real_escape_string($this->url);
+        if(!isValidURL($this->url)){
+            return false;
+        }
+        $this->key = safeString($this->key, true);
+        $this->url = $this->url;
         return parent::save();
     }
 
@@ -151,9 +158,10 @@ class Clones extends ObjectYPT
         $this->id = $id;
     }
 
-    public function setUrl($url)
-    {
-        $this->url = $url;
+    public function setUrl($url){
+        if(isValidURL($url)){
+            $this->url = $url;
+        }
     }
 
     public function setStatus($status)
@@ -163,7 +171,7 @@ class Clones extends ObjectYPT
 
     public function setKey($key)
     {
-        $this->key = $key;
+        $this->key = safeString($key);
     }
 
     public function setLast_clone_request($last_clone_request)

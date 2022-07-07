@@ -1,6 +1,5 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/functions.php';
-
 // filter some security here
 $securityFilter = ['jump','videoDownloadedLink','duration','error', 'msg', 'info', 'warning', 'success','toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
 $securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount'];

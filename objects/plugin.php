@@ -427,7 +427,7 @@ class Plugin extends ObjectYPT
     public static function deleteByUUID($uuid)
     {
         global $global;
-        $uuid = $global['mysqli']->real_escape_string($uuid);
+        $uuid = ($uuid);
         if (!empty($uuid)) {
             _error_log("Plugin:deleteByUUID {$uuid}");
             $sql = "DELETE FROM " . static::getTableName() . " ";
@@ -442,7 +442,7 @@ class Plugin extends ObjectYPT
     public static function deleteByName($name)
     {
         global $global;
-        $name = $global['mysqli']->real_escape_string($name);
+        $name = ($name);
         if (!empty($name)) {
             _error_log("Plugin:deleteByName {$name}");
             $sql = "DELETE FROM " . static::getTableName() . " ";
@@ -482,7 +482,7 @@ class Plugin extends ObjectYPT
             return false;
         }
         global $global;
-        $this->object_data = $global['mysqli']->real_escape_string($this->object_data);
+        $this->object_data = ($this->object_data);
         if (empty($this->object_data)) {
             $this->object_data = 'null';
         }

@@ -174,7 +174,7 @@ class PayPalYPT_log extends ObjectYPT
     public function save()
     {
         global $global;
-        $this->json = $global['mysqli']->real_escape_string($this->json);
+        $this->json = ($this->json);
 
         return parent::save();
     }

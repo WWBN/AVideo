@@ -123,7 +123,7 @@ class VideoStatistic extends ObjectYPT {
 
         $this->seconds_watching_video = intval($this->seconds_watching_video);
 
-        $this->json = $global['mysqli']->real_escape_string($this->json);
+        $this->json = ($this->json);
 
         return parent::save();
     }

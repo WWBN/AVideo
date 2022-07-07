@@ -102,7 +102,7 @@ class Scheduler_commands extends ObjectYPT {
         global $global;
         if(!is_string($parameters)){
             $parameters = _json_encode($parameters);
-            $parameters = $global['mysqli']->real_escape_string($parameters);
+            $parameters = ($parameters);
         }
         
         $this->parameters = $parameters;
@@ -158,7 +158,7 @@ class Scheduler_commands extends ObjectYPT {
     function setExecuted($callbackResponse) {
         if (!is_string($callbackResponse)) {
             $callbackResponse = json_encode($callbackResponse);
-            $callbackResponse = $global['mysqli']->real_escape_string($callbackResponse);
+            $callbackResponse = ($callbackResponse);
         }
         $this->setExecuted_in(date('Y-m-d H:i:s'));
         $this->setCallbackResponse($callbackResponse);

@@ -60,7 +60,7 @@ class Comment
         return $this->videos_id;
     }
 
-    private function load($id)
+    public function load($id)
     {
         $row = $this->getComment($id);
         if (empty($row)) {
@@ -80,7 +80,7 @@ class Comment
             die('{"error":"'.__("Permission denied").'"}');
         }
         //$this->comment = htmlentities($this->comment);
-        $this->comment = $global['mysqli']->real_escape_string($this->comment);
+        $this->comment = ($this->comment);
 
         if (empty($this->comment)) {
             return false;

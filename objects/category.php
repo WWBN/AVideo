@@ -98,7 +98,7 @@ class Category {
         }
     }
 
-    private function load($id) {
+    public function load($id) {
         $row = self::getCategory($id);
         if (empty($row)) {
             return false;

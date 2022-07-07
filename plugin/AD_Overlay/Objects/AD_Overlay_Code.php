@@ -85,7 +85,7 @@ class AD_Overlay_Code extends ObjectYPT {
         //$data = htmlentities($data);
 
         // mysql escape string   
-        $data = $global['mysqli']->real_escape_string($data);
+        $data = ($data);
 
         return $data;
     }

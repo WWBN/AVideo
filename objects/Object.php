@@ -3,7 +3,6 @@ interface ObjectInterface
 {
     public static function getTableName();
 
-    public static function getSearchFieldsNames();
 }
 
 $tableExists = [];
@@ -19,8 +18,12 @@ abstract class ObjectYPT implements ObjectInterface
             $this->load($id);
         }
     }
+    
+    public static function getSearchFieldsNames(){
+        return array();
+    }
 
-    protected function load($id)
+    public function load($id)
     {
         $row = self::getFromDb($id);
         if (empty($row)) {
@@ -165,8 +168,8 @@ abstract class ObjectYPT implements ObjectInterface
         if (!empty($_POST['sort'])) {
             $orderBy = [];
             foreach ($_POST['sort'] as $key => $value) {
-                $key = $global['mysqli']->real_escape_string($key);
-                //$value = $global['mysqli']->real_escape_string($value);
+                $key = ($key);
+                //$value = ($value);
                 $direction = "ASC";
                 if (strtoupper($value) === "DESC") {
                     $direction = "DESC";
@@ -253,7 +256,7 @@ abstract class ObjectYPT implements ObjectInterface
         }
         if (!empty($_GET['q'])) {
             global $global;
-            $search = $global['mysqli']->real_escape_string(xss_esc($_GET['q']));
+            $search = (xss_esc($_GET['q']));
 
             $like = [];
             $searchFields = static::getSearchFieldsNames();
@@ -287,10 +290,13 @@ abstract class ObjectYPT implements ObjectInterface
         }
         global $global;
         $fieldsName = $this->getAllFields();
+        $formats = '';
+        $values = array();
         if (!empty($this->id)) {
             $sql = "UPDATE " . static::getTableName() . " SET ";
             $fields = [];
             foreach ($fieldsName as $value) {
+                //$escapedValue = $global['mysqli']->real_escape_string($this->$value);
                 if (strtolower($value) == 'created') {
                     // do nothing
                 } elseif (strtolower($value) == 'modified') {
@@ -299,17 +305,21 @@ abstract class ObjectYPT implements ObjectInterface
                     if (empty($this->$value)) {
                         $this->$value = date_default_timezone_get();
                     }
-                    $fields[] = " `{$value}` = '{$this->$value}' ";
-                } elseif (is_numeric($this->$value)) {
-                    $fields[] = " `{$value}` = {$this->$value} ";
+                    $formats .= 's';
+                    $values[] = $this->$value;
+                    $fields[] = " `{$value}` = ? ";
                 } elseif (!isset($this->$value) || strtolower($this->$value) == 'null') {
                     $fields[] = " `{$value}` = NULL ";
                 } else {
-                    $fields[] = " `{$value}` = '{$this->$value}' ";
+                    $formats .= 's';
+                    $values[] = $this->$value;
+                    $fields[] = " `{$value}` = ? ";
                 }
             }
             $sql .= implode(", ", $fields);
-            $sql .= " WHERE id = {$this->id}";
+            $formats .= 'i';
+            $values[] = $this->id;
+            $sql .= " WHERE id = ?";
         } else {
             $sql = "INSERT INTO " . static::getTableName() . " ( ";
             $sql .= "`" . implode("`,`", $fieldsName) . "` )";
@@ -321,20 +331,25 @@ abstract class ObjectYPT implements ObjectInterface
                     if (empty($this->$value)) {
                         $this->$value = date_default_timezone_get();
                     }
-                    $fields[] = " '{$this->$value}' ";
+                    $formats .= 's';
+                    $values[] = $this->$value;
+                    $fields[] = " ? ";
                 } elseif (!isset($this->$value) || (is_string($this->$value) && strtolower($this->$value) == 'null')) {
                     $fields[] = " NULL ";
                 } elseif (is_string($this->$value) || is_numeric($this->$value)) {
-                    $fields[] = " '{$this->$value}' ";
+                    $formats .= 's';
+                    $values[] = $this->$value;
+                    $fields[] = " ? ";
                 } else {
                     $fields[] = " NULL ";
                 }
             }
             $sql .= " VALUES (" . implode(", ", $fields) . ")";
         }
-        //if(static::getTableName() == 'Scheduler_commands'){ echo $sql;var_dump($this->parameters);exit;}
-        //echo $sql;var_dump($this->parameters);exit;
-        $insert_row = sqlDAL::writeSql($sql);
+        //var_dump(static::getTableName(), $sql, $values);
+        //if(static::getTableName() == 'videos'){ echo $sql;var_dump($values);exit;}return false;
+        //echo $sql;var_dump($values);exit;
+        $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 
         if ($insert_row) {
             if (empty($this->id)) {

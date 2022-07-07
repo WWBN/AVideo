@@ -93,13 +93,13 @@ class LiveTransmitionHistory extends ObjectYPT {
         global $global;
         $Char = "&zwnj;";
         $title = str_replace($Char, '', $title);
-        $title = $global['mysqli']->real_escape_string($title);
+        $title = ($title);
         $this->title = $title;
     }
 
     public function setDescription($description) {
         global $global;
-        $description = $global['mysqli']->real_escape_string($description);
+        $description = ($description);
         $this->description = $description;
     }
 
@@ -354,7 +354,7 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public static function getLatest($key, $live_servers_id = null, $active=false) {
         global $global;
-        $key = $global['mysqli']->real_escape_string($key);
+        $key = ($key);
 
         if (empty($key)) {
             return false;

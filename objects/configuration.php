@@ -5,42 +5,42 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
+require_once $global['systemRootPath'] . 'objects/Object.php';
 
-class Configuration
-{
-    private $id;
-    private $video_resolution;
-    private $webSiteTitle;
-    private $language;
-    private $contactEmail;
-    private $users_id;
-    private $version;
-    private $authCanUploadVideos;
-    private $authCanViewChart;
-    private $authCanComment;
-    private $head;
-    private $logo;
-    private $logo_small;
-    private $adsense;
-    private $mode;
+class Configuration extends ObjectYPT{
+    protected $id;
+    protected $video_resolution;
+    protected $webSiteTitle;
+    protected $language;
+    protected $contactEmail;
+    protected $users_id;
+    protected $version;
+    protected $authCanUploadVideos;
+    protected $authCanViewChart;
+    protected $authCanComment;
+    protected $head;
+    protected $logo;
+    protected $logo_small;
+    protected $adsense;
+    protected $mode;
     // version 2.7
-    private $disable_analytics;
-    private $disable_youtubeupload;
-    private $allow_download;
-    private $session_timeout;
-    private $autoplay;
+    protected $disable_analytics;
+    protected $disable_youtubeupload;
+    protected $allow_download;
+    protected $session_timeout;
+    protected $autoplay;
     // version 3.1
-    private $theme;
+    protected $theme;
     //version 3.3
-    private $smtp;
-    private $smtpAuth;
-    private $smtpSecure;
-    private $smtpHost;
-    private $smtpUsername;
-    private $smtpPassword;
-    private $smtpPort;
+    protected $smtp;
+    protected $smtpAuth;
+    protected $smtpSecure;
+    protected $smtpHost;
+    protected $smtpUsername;
+    protected $smtpPassword;
+    protected $smtpPort;
     // version 4
-    private $encoderURL;
+    protected $encoderURL;
 
     public function __construct($video_resolution = "")
     {
@@ -50,29 +50,13 @@ class Configuration
         }
     }
 
-    public function load()
+    public function load($id='')
     {
         global $global;
-        _mysql_connect();
-        $sql = "SELECT * FROM configurations WHERE id = 1 LIMIT 1";
-        //echo $sql;exit;
-        // add true because I was not getting the SMTP configuration on function setSiteSendMessage(&$mail)
-        $res = sqlDAL::readSql($sql, '', [], true);
-        $result = sqlDAL::fetchAssoc($res);
-        sqlDAL::close($res);
-        if ($res && !empty($result)) {
-            $config = $result;
-            //var_dump($config);exit;
-            foreach ($config as $key => $value) {
-                $this->$key = $value;
-            }
-        } else {
-            return false;
-        }
+        return parent::load(1);
     }
 
-    public function save()
-    {
+    public function save(){
         global $global;
         if (!User::isAdmin()) {
             header('Content-Type: application/json');
@@ -82,38 +66,7 @@ class Configuration
 
         ObjectYPT::deleteCache("getEncoderURL");
 
-        $sql = "UPDATE configurations SET "
-                . "video_resolution = '{$this->video_resolution}',"
-                . "webSiteTitle = '{$this->webSiteTitle}',"
-                . "language = '{$this->language}',"
-                . "contactEmail = '{$this->contactEmail}',"
-                . "users_id = '{$this->users_id}',  "
-                . "authCanUploadVideos = '{$this->authCanUploadVideos}',"
-                . "authCanViewChart = '{$this->authCanViewChart}',"
-                . "authCanComment = '{$this->authCanComment}',"
-                . "encoderURL = '{$global['mysqli']->real_escape_string($this->_getEncoderURL())}',"
-                . "head = '{$global['mysqli']->real_escape_string($this->getHead())}',"
-                . "adsense = '{$global['mysqli']->real_escape_string($this->getAdsense())}',"
-                . "mode = '{$this->getMode()}',"
-                . "logo = '{$global['mysqli']->real_escape_string($this->getLogo())}',"
-                . "logo_small = '{$global['mysqli']->real_escape_string($this->getLogo_small())}',"
-                . "disable_analytics = '{$this->getDisable_analytics()}',"
-                . "disable_youtubeupload = '{$this->getDisable_youtubeupload()}',"
-                . "allow_download = '{$this->getAllow_download()}',"
-                . "session_timeout = '{$this->getSession_timeout()}',"
-                . "autoplay = '{$this->getAutoplay()}',"
-                . "theme = '{$global['mysqli']->real_escape_string($this->getTheme())}',"
-                . "smtp = '{$this->getSmtp()}',"
-                . "smtpAuth = '{$this->getSmtpAuth()}',"
-                . "smtpSecure = '{$global['mysqli']->real_escape_string($this->getSmtpSecure())}',"
-                . "smtpHost = '{$global['mysqli']->real_escape_string($this->getSmtpHost())}',"
-                . "smtpUsername = '{$global['mysqli']->real_escape_string($this->getSmtpUsername())}',"
-                . "smtpPort = '{$global['mysqli']->real_escape_string($this->getSmtpPort())}',"
-                . "smtpPassword = '{$global['mysqli']->real_escape_string($this->getSmtpPassword())}'"
-                . " WHERE id = 1";
-
-
-        return sqlDAL::writeSql($sql);
+        return parent::save();
     }
 
     public function getVideo_resolution()
@@ -624,4 +577,9 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         }
         return " " . PAGE_TITLE_SEPARATOR . " ";
     }
+
+    public static function getTableName() {
+        return 'configurations';
+    }
+
 }

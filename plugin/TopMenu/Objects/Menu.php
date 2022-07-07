@@ -124,7 +124,7 @@ class Menu extends ObjectYPT {
             $this->menuSeoUrl=$this->menuName;
         }
         
-        $this->menuSeoUrl=$global['mysqli']->real_escape_string(preg_replace('/[^a-z0-9]+/', '_', strtolower($this->menuSeoUrl)));
+        $this->menuSeoUrl=(preg_replace('/[^a-z0-9]+/', '_', strtolower($this->menuSeoUrl)));
         
         return parent::save();
     }

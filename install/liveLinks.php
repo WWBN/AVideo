@@ -8,7 +8,7 @@ if (!isCommandLineInterface()) {
 
 AVideoPlugin::loadPlugin("Live");
 
-$channelName = $global['mysqli']->real_escape_string($channelName);
+$channelName = ($channelName);
 $sql = "SELECT lt.*, u.* FROM users u LEFT JOIN live_transmitions lt ON users_id = u.id "
         . " WHERE canStream = 1 AND status = 'a' ORDER BY public DESC LIMIT 20";
 $res = sqlDAL::readSql($sql);

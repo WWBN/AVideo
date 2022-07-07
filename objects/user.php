@@ -220,7 +220,7 @@ if (typeof gtag !== \"function\") {
         return $eo[$id];
     }
 
-    private function load($id) {
+    public function load($id) {
         $id = intval($id);
         if (empty($id)) {
             return false;
