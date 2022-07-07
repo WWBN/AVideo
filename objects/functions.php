@@ -5028,7 +5028,7 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
             if ($ext == 'php') {
                 return false;
             }
-            $cacheDir = "{$global['systemRootPath']}videos/cache/";
+            $cacheDir = "{$global['systemRootPath']}videos/";
             if (str_starts_with($absolutePath, getTmpDir()) || str_starts_with($absolutePath, $cacheDir)) {
                 return true;
             }
