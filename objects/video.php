@@ -118,7 +118,7 @@ if (!class_exists('Video')) {
                 $this->setTitle($title);
             }
             if (!empty($filename)) {
-                $this->filename = $filename;
+                $this->filename = safeString($filename, true);
             }
         }
         
@@ -306,7 +306,7 @@ if (!class_exists('Video')) {
                 $this->title = uniqid();
             }
 
-            $this->clean_title = substr($this->clean_title, 0, 187);
+            $this->clean_title = _substr(safeString($this->clean_title), 0, 187);
 
             if (empty($this->clean_title)) {
                 $this->setClean_title($this->title);
@@ -350,7 +350,7 @@ if (!class_exists('Video')) {
                 $this->categories_id = $catDefault['id'];
             }
             //$this->setTitle($global['mysqli']->real_escape_string(trim($this->title)));
-            $this->title = ($global['mysqli']->real_escape_string($this->title));
+            $this->title = ($global['mysqli']->real_escape_string(safeString($this->title)));
             $this->description = ($global['mysqli']->real_escape_string($this->description));
 
             if (forbiddenWords($this->title) || forbiddenWords($this->description)) {
@@ -564,6 +564,7 @@ if (!class_exists('Video')) {
         }
 
         public function setClean_title($clean_title) {
+            $clean_title = strip_tags($clean_title);
             if (preg_match("/video-automatically-booked/i", $clean_title) && !empty($this->clean_title)) {
                 return false;
             }
@@ -2776,7 +2777,7 @@ if (!class_exists('Video')) {
 
         public static function fixCleanTitle($clean_title, $count, $videoId, $original_title = "") {
             global $global;
-
+            $clean_title = safeString($clean_title);
             if (empty($original_title)) {
                 $original_title = $clean_title;
             }
@@ -2993,15 +2994,16 @@ if (!class_exists('Video')) {
             if ($title === "Video automatically booked" && !empty($this->title)) {
                 return false;
             }
-            $new_title = str_replace(['"', "\\"], ["''", ""], strip_tags($title));
+            $new_title = str_replace(['"', "\\"], ["''", ""], safeString($title));
             if (strlen($new_title) > 190) {
-                $new_title = substr($new_title, 0, 187) . '...';
+                $new_title = _substr($new_title, 0, 187) . '...';
             }
             AVideoPlugin::onVideoSetTitle($this->id, $this->title, $new_title);
             $this->title = $new_title;
         }
 
         public function setFilename($filename, $force = false) {
+            $filename = safeString($filename, true);
             if ($force || empty($this->filename)) {
                 AVideoPlugin::onVideoSetFilename($this->id, $this->filename, $filename, $force);
                 $this->filename = $filename;
@@ -5029,7 +5031,7 @@ if (!class_exists('Video')) {
                 $link = addQueryStringParameter($link, 'page', $_GET['page']);
             }
 
-            $title = $value['title'];
+            $title = safeString($value['title']);
 
             $images = Video::getImageFromFilename($value['filename'], $value['type']);
 

@@ -368,6 +368,15 @@ function cleanString($text) {
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }
 
+function safeString($text, $strict=false){
+    if($strict){
+        $text = trim(xss_esc(preg_replace('/[^a-z0-9. _-]/i', '', strip_tags($text))));
+    }else{
+        $text = trim(preg_replace('/[^a-z0-9:. _\'"()-]/i', '', strip_tags($text)));
+    }
+    return $text;
+}
+
 function cleanURLName($name) {
     $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]%"\/\\\\ ]+/', '-', trim(strtolower(cleanString($name))));
     return trim(preg_replace('/[\x00-\x1F\x7F\xD7\xE0]/u', '', $name), "-");
@@ -5730,7 +5739,7 @@ function getSEODescription($text, $maxChars = 250) {
 function getSEOTitle($text, $maxChars = 60) {
     $removeChars = ['|', '"'];
     $replaceChars = ['-', ''];
-    $newText = trim(str_replace($removeChars, $replaceChars, html2plainText($text)));
+    $newText = trim(str_replace($removeChars, $replaceChars, safeString($text)));
     if (_strlen($newText) < $maxChars) {
         return $newText;
     } else {
