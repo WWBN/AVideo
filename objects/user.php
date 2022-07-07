@@ -1367,7 +1367,7 @@ if (typeof gtag !== \"function\") {
         $obj = new stdClass();
         $obj->u = $users_id;
         $obj->v = strtotime($valid);
-        $user = self::getUserDb($obj->users_id);        
+        $user = self::getUserDb($users_id);        
         $obj->p = $user['password'];
         return '_user_hash_'.encryptString($obj);
     }
