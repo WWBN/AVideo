@@ -960,15 +960,20 @@ if (typeof gtag !== \"function\") {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
             $rememberme = 0;
+            
             if ((!empty($_POST['rememberme']) && $_POST['rememberme'] == "true") || !empty($_COOKIE['rememberme'])) {
-                $expires = strtotime("+ 1 year");
+                $valid='+ 1 year';
+                $expires = strtotime($valid);
                 $rememberme = 1;
+                $passhash = self::getUserHash($user['id'], $valid);
             } else {
+                $valid='+ 1 day';
                 $expires = 0;
+                $passhash = self::getUserHash($user['id'], $valid);
             }
             _setcookie("rememberme", $rememberme, $expires);
             _setcookie("user", $user['user'], $expires);
-            _setcookie("pass", $user['password'], $expires);
+            _setcookie("pass", $passhash, $expires);
 
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
@@ -1371,7 +1376,7 @@ if (typeof gtag !== \"function\") {
         return '_user_hash_'.encryptString($obj);
     }
     
-    static function getPasswordFromUserHash($hash) {
+    static function getPasswordFromUserHashIfTheItIsValid($hash) {
         if(!preg_match('/^_user_hash_/', $hash)){
             return false;
         }
@@ -1379,24 +1384,24 @@ if (typeof gtag !== \"function\") {
         
         $json = decryptString($string);
         if(empty($json)){
-            _error_log('getPasswordFromUserHash: string not decrypted '.$hash);
+            _error_log('getPasswordFromUserHashIfTheItIsValid: string not decrypted '.$hash);
             return false;
         }
         
         $obj = json_decode($json);
         
         if(empty($obj)){
-            _error_log('getPasswordFromUserHash: json not decoded ');
+            _error_log('getPasswordFromUserHashIfTheItIsValid: json not decoded ');
             return false;
         }
         
         if($obj->v < time()){
-            _error_log('getPasswordFromUserHash: hash expired ');
+            _error_log('getPasswordFromUserHashIfTheItIsValid: hash expired ');
             return false;
         }
         
         if(empty($obj->u)){
-            _error_log('getPasswordFromUserHash: user is empty ');
+            _error_log('getPasswordFromUserHashIfTheItIsValid: user is empty ');
             return false;
         }
         
@@ -1405,7 +1410,7 @@ if (typeof gtag !== \"function\") {
         if($user['password'] === $obj->p){
             return $user['password'];
         }
-        _error_log("getPasswordFromUserHash: password does not match [{$user['password']}] === [{$obj->p}]");
+        _error_log("getPasswordFromUserHashIfTheItIsValid: password does not match [{$user['password']}] === [{$obj->p}]");
         return false;
     }
 

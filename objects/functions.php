@@ -2730,7 +2730,7 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
     $isValid = $passwordSalted === $hash || $passwordUnSalted === $hash;
     
     if(!$isValid){
-        $passwordFromHash = User::getPasswordFromUserHash($password);
+        $passwordFromHash = User::getPasswordFromUserHashIfTheItIsValid($password);
         $isValid = $passwordFromHash === $hash;
     }
     
