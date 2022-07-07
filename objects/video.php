@@ -759,6 +759,10 @@ if (!class_exists('Video')) {
                 return false;
             }
             $status = str_replace("'", "", $status);
+            if($status === 'suggested'){
+                $suggestedOnly = true;
+                $status = '';
+            }
             $id = intval($id);
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
@@ -861,18 +865,24 @@ if (!class_exists('Video')) {
             // replace random based on this
             $firstClauseLimit = '';
             if (empty($id)) {
+                if ($suggestedOnly) {
+                    $sql .= " AND v.isSuggested = 1 ";
+                }
                 if (empty($random) && !empty($_GET['videoName'])) {
                     $sql .= " AND v.clean_title = '{$_GET['videoName']}' ";
                 } elseif (!empty($random)) {
                     $sql .= " AND v.id != {$random} ";
-                    $rand = rand(0, self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly));
-                    $rand = ($rand - 2) < 0 ? 0 : $rand - 2;
-                    $firstClauseLimit = "$rand, ";
+                    $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
+                    $rand = rand(0, $numRows-1);
+                    //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
+                    $firstClauseLimit = "$rand, "; 
+                    //var_dump($rand, $numRows);
                     //$sql .= " ORDER BY RAND() ";
                 } elseif ($suggestedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
                     $sql .= " AND v.isSuggested = 1 ";
-                    $rand = rand(0, self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly));
-                    $rand = ($rand - 2) < 0 ? 0 : $rand - 2;
+                    $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
+                    $rand = rand(0, $numRows-1);
+                    //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
                     $firstClauseLimit = "$rand, ";
                     //$sql .= " ORDER BY RAND() ";
                 } elseif (!empty($_GET['v']) && is_numeric($_GET['v'])) {
@@ -1116,7 +1126,10 @@ if (!class_exists('Video')) {
                 }
             }
             $status = str_replace("'", "", $status);
-
+            if($status === 'suggested'){
+                $suggestedOnly = true;
+                $status = '';
+            }
             $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
@@ -1580,6 +1593,10 @@ if (!class_exists('Video')) {
                 return false;
             }
             $status = str_replace("'", "", $status);
+            if($status === 'suggested'){
+                $suggestedOnly = true;
+                $status = '';
+            }
             $sql = "SELECT v.* "
                     . " FROM videos as v "
                     . " WHERE 1=1 ";
@@ -1664,6 +1681,10 @@ if (!class_exists('Video')) {
                 $suggestedOnly = true;
             }
             $status = str_replace("'", "", $status);
+            if($status === 'suggested'){
+                $suggestedOnly = true;
+                $status = '';
+            }
             $cn = '';
             if (!empty($_GET['catName'])) {
                 $cn .= ", c.clean_name as cn";
@@ -1783,6 +1804,7 @@ if (!class_exists('Video')) {
             $res = sqlDAL::readSql($sql);
             $numRows = sqlDal::num_rows($res);
             sqlDAL::close($res);
+            //var_dump($numRows, $sql);
 
             // if there is a search, and there is no data and is inside a channel try again without a channel
             if (!empty($_GET['search']) && empty($numRows) && !empty($_GET['channelName'])) {
@@ -2854,8 +2876,8 @@ if (!class_exists('Video')) {
             return self::isOwner($videos_id, $users_id);
         }
 
-        public static function getRandom($excludeVideoId = false) {
-            return static::getVideo("", "viewable", false, $excludeVideoId);
+        public static function getRandom($excludeVideoId = false, $status = "viewable") {
+            return static::getVideo("", $status, false, $excludeVideoId);
         }
 
         public static function getVideoQueryFileter() {

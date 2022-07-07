@@ -176,7 +176,11 @@ if (!empty($evideo)) {
             $modeYouTubeTimeLog['Code part 1.5'] = microtime(true) - $modeYouTubeTime;
             $modeYouTubeTime = microtime(true);
             if (!empty($video['id'])) {
-                $autoPlayVideo = Video::getRandom($video['id']);
+                $autoPlayVideo = Video::getRandom($video['id'], 'suggested');
+                //var_dump($autoPlayVideo['id']);exit;
+                if (empty($autoPlayVideo['id'])) {
+                    $autoPlayVideo = Video::getRandom($video['id']);
+                }
             }
             //}
         }
