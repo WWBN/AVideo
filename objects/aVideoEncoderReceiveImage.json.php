@@ -44,7 +44,7 @@ $destination_local = "{$paths['path']}{$videoFileName}";
 _error_log("ReceiveImage: videoFilename = [$videoFileName] destination_local = {$destination_local} Encoder receiving post " . json_encode($_FILES));
 
 $obj->jpgDest = "{$destination_local}.jpg";
-if (isValidURLOrPath($_REQUEST['downloadURL_image'])) {
+if (isValidURL($_REQUEST['downloadURL_image'])) {
     $content = url_get_contents($_REQUEST['downloadURL_image']);
     $obj->jpgDestSize = _file_put_contents($obj->jpgDest, $content);
     _error_log("ReceiveImage: download {$_REQUEST['downloadURL_image']} to {$obj->jpgDest} ". humanFileSize($obj->jpgDestSize));
