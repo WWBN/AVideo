@@ -8839,6 +8839,7 @@ function adminSecurityCheck($force=false){
     $originalHtaccessFile = "{$global['systemRootPath']}objects/htaccess_for_videos.conf";
     $videosHtaccessFileVersion = getHtaccessForVideoVersion($videosHtaccessFile);
     $originalHtaccessFileVersion = getHtaccessForVideoVersion($originalHtaccessFile);
+    _error_log("adminSecurityCheck: videos.htaccess new version = {$originalHtaccessFileVersion} old version = {$videosHtaccessFileVersion}");
     if (version_compare($videosHtaccessFileVersion, $originalHtaccessFileVersion, '<')) {
         unlink($videosHtaccessFile);
         _error_log("adminSecurityCheck: file deleted new version = {$originalHtaccessFileVersion} old version = {$videosHtaccessFileVersion}");
