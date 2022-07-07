@@ -1357,7 +1357,6 @@ if (typeof gtag !== \"function\") {
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user !== false) {
-            $user['passhash'] = self::getUserHash($user['id']);
             return $user;
         }
         return false;
