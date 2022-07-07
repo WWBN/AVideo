@@ -5805,7 +5805,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
             $pageLink = addQueryStringParameter($link, 'current', $pageLinkNum);
             $pageForwardLink = addQueryStringParameter($link, 'current', $pageForwardLinkNum);
         }
-        $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageForwardLinkNum . '" class="page-link pagination__next  pageLink2' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
+        $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageForwardLinkNum . '" class="page-link  pageLink2 pagination__next' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
         if ($total > ($end + 1)) {
             $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageLinkNum . '" class="page-link  pageLink3" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
         }
