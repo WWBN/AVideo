@@ -1380,7 +1380,7 @@ if (typeof gtag !== \"function\") {
         
         $json = decryptString($string);
         if(empty($json)){
-            _error_log('getPasswordFromUserHash: string not decrypted ');
+            _error_log('getPasswordFromUserHash: string not decrypted '.$hash);
             return false;
         }
         
