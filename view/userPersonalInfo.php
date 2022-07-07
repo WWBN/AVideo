@@ -145,7 +145,7 @@
             }).then(function (resp) {
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo $global['webSiteRootURL']; ?>objects/userUpdatePersonal.json.php",
+                    url: webSiteRootURL+"objects/userUpdatePersonal.json.php",
                     data: {
                         imgBase64: resp,
                         first_name: $('#first_name').val(),
@@ -177,7 +177,7 @@
             });
 
             uploadCropDocument = $('#documentImage').croppie({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/userDocument.png.php?users_id=<?php echo User::getId(); ?>',
+                url: webSiteRootURL+'objects/userDocument.png.php?users_id=<?php echo User::getId(); ?>',
                             enableExif: true,
                             enforceBoundary: false,
                             mouseWheelZoom: false,

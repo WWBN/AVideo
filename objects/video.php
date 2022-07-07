@@ -873,6 +873,9 @@ if (!class_exists('Video')) {
                 } elseif (!empty($random)) {
                     $sql .= " AND v.id != {$random} ";
                     $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
+                    if($numRows<1){
+                        $numRows = 1;
+                    }
                     $rand = rand(0, $numRows-1);
                     //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
                     $firstClauseLimit = "$rand, "; 
@@ -881,6 +884,9 @@ if (!class_exists('Video')) {
                 } elseif ($suggestedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
                     $sql .= " AND v.isSuggested = 1 ";
                     $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
+                    if($numRows<1){
+                        $numRows = 1;
+                    }
                     $rand = rand(0, $numRows-1);
                     //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
                     $firstClauseLimit = "$rand, ";

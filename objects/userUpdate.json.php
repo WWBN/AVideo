@@ -15,7 +15,7 @@ if (!User::isLogged()) {
     die(json_encode($obj));
 }
 
-forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo();
+forbidIfIsUntrustedRequest();
 
 $_REQUEST["do_not_login"]=1;
 require_once $global['systemRootPath'] . 'objects/user.php';

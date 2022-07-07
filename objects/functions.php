@@ -2880,22 +2880,25 @@ function requestComesFromSameDomainAsMyAVideo() {
     return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN()) || isFromCDN($url);
 }
 
-function forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo($logMsg = '') {
+function forbidIfIsUntrustedRequest($logMsg = '', $approveAVideoUserAgent=true) {
     global $global;
-    if (requestDoesNotComesFromSameDomainAsMyAVideo($logMsg)) {
+    if (isUntrustedRequest($logMsg, $approveAVideoUserAgent)) {
         forbiddenPage('Invalid Request ' . getRealIpAddr(), true);
     }
 }
 
-function requestDoesNotComesFromSameDomainAsMyAVideo($logMsg = '') {
+function isUntrustedRequest($logMsg = '', $approveAVideoUserAgent=true) {
     global $global;
-    if (
-        empty($global['bypassSameDomainCheck']) && 
-        !isCommandLineInterface() && 
-        !requestComesFromSameDomainAsMyAVideo() &&
-        !isAVideoUserAgent()) {
-        _error_log('requestDoesNotComesFromSameDomainAsMyAVideo: ' . json_encode($logMsg), AVideoLog::$SECURITY);
-        return true;
+    if(!empty($global['bypassSameDomainCheck']) || isCommandLineInterface()){
+        return false;
+    }
+    if (!requestComesFromSameDomainAsMyAVideo()) {
+        if($approveAVideoUserAgent && isAVideoUserAgent()){
+            return false;
+        }else{
+            _error_log('isUntrustedRequest: ' . json_encode($logMsg), AVideoLog::$SECURITY);
+            return true;
+        }
     }
     return false;
 }

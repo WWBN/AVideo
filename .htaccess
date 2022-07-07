@@ -202,7 +202,7 @@ Options All -Indexes
     #manager user
     RewriteRule    ^users$ view/managerUsers.php    [NC,L]
     RewriteRule    ^users.json$ objects/users.json.php    [NC,L]
-    RewriteRule    ^updateUser$ objects/userUpdate.json.php    [NC,L]
+    #RewriteRule    ^updateUser$ objects/userUpdate.json.php    [NC,L]
     RewriteRule    ^savePhoto$ objects/userSavePhoto.php    [NC,L]
     RewriteRule    ^saveBackground$ objects/userSaveBackground.php    [NC,L]
     RewriteRule    ^addNewUser$ objects/userAddNew.json.php    [NC,L]

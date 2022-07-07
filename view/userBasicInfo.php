@@ -198,7 +198,6 @@
         </div>
     </div>
 
-
     <!-- Button -->
     <div class="form-group">
         <hr>
@@ -219,9 +218,8 @@
         }
 
         function updateUserFormSubmit() {
-
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/userUpdate.json.php?do_not_login=1',
+                url: webSiteRootURL+'objects/userUpdate.json.php?do_not_login=1',
                 data: {
                     "user": $('#inputUser').val(),
                     "pass": $('#inputPassword').val(),

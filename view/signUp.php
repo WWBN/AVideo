@@ -311,7 +311,7 @@ if(!empty($advancedCustomUser->afterSignUpGoToURL) && isValidURL($advancedCustom
                 $(document).ready(function () {
 
                     $('#btnReloadCapcha').click(function () {
-                        $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?PHPSESSID=<?php echo session_id(); ?>&' + Math.random());
+                        $('#captcha').attr('src', webSiteRootURL+'captcha?PHPSESSID=<?php echo session_id(); ?>&' + Math.random());
                         $('#captchaText').val('');
                     });
 

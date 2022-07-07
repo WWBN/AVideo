@@ -123,9 +123,8 @@ class API extends PluginAbstract {
         $obj = ObjectYPT::getCache($name, 3600);
         if (empty($obj)) {
             $obj = $this->startResponseObject($parameters);
-            $dataObj = $this->getDataObject();
             if (!empty($parameters['plugin_name'])) {
-                if ($dataObj->APISecret === @$_GET['APISecret']) {
+                if (self::isAPISecretValid()) {
                     $obj->response = AVideoPlugin::getDataObject($parameters['plugin_name']);
                 } else {
                     return new ApiObject("APISecret is required");
@@ -273,8 +272,7 @@ class API extends PluginAbstract {
         global $global;
         $obj = $this->startResponseObject($parameters);
         $obj->videos_id = $parameters['videos_id'];
-        $dataObj = $this->getDataObject();
-        if ($dataObj->APISecret !== @$parameters['APISecret']) {
+        if (self::isAPISecretValid()) {
             if (!User::canWatchVideoWithAds($obj->videos_id)) {
                 return new ApiObject("You cannot watch this video");
             }
@@ -318,17 +316,16 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
         if (!empty($parameters['videos_id'])) {
             $status = "viewable";
             $ignoreGroup = false;
-            if ($dataObj->APISecret === @$_GET['APISecret']) {
+            if (self::isAPISecretValid()) {
                 $status = "";
                 $ignoreGroup = true;
             }
             $rows = [Video::getVideo($parameters['videos_id'], $status, $ignoreGroup)];
             $totalRows = empty($rows) ? 0 : 1;
-        } elseif ($dataObj->APISecret === @$_GET['APISecret']) {
+        } elseif (self::isAPISecretValid()) {
             $rows = Video::getAllVideos("viewable", false, true);
             $totalRows = Video::getTotalVideos("viewable", false, true);
         } elseif (!empty($parameters['clean_title'])) {
@@ -462,8 +459,7 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
-        if ($dataObj->APISecret === @$_GET['APISecret']) {
+        if (self::isAPISecretValid()) {
             $totalRows = Video::getTotalVideos("viewable", false, true);
         } else {
             $totalRows = Video::getTotalVideos();
@@ -487,12 +483,11 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
         if (!empty($parameters['videos_id'])) {
             if (!User::canUpload()) {
                 return new ApiObject("Access denied");
             }
-            if (!empty($_GET['APISecret']) && $dataObj->APISecret !== $_GET['APISecret']) {
+            if (!empty($_REQUEST['APISecret']) && !self::isAPISecretValid()) {
                 return new ApiObject("Secret does not match");
             }
             $obj = new Video("", "", $parameters['videos_id']);
@@ -520,9 +515,8 @@ class API extends PluginAbstract {
     public function set_api_comment($parameters) {
         global $global;
         $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
         if (!empty($parameters['videos_id'])) {
-            if (!empty($_GET['APISecret']) && $dataObj->APISecret !== $_GET['APISecret']) {
+            if (!empty($_REQUEST['APISecret']) && !self::isAPISecretValid()) {
                 return new ApiObject("Secret does not match");
             } elseif (!User::canComment()) {
                 return new ApiObject("Access denied");
@@ -563,9 +557,8 @@ class API extends PluginAbstract {
     public function get_api_comment($parameters) {
         global $global;
         $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
         if (!empty($parameters['videos_id'])) {
-            if (!empty($_GET['APISecret']) && $dataObj->APISecret !== $_GET['APISecret']) {
+            if (!empty($_REQUEST['APISecret']) && !self::isAPISecretValid()) {
                 return new ApiObject("Secret does not match");
             } elseif (!User::canComment()) {
                 return new ApiObject("Access denied");
@@ -601,12 +594,11 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
         if (!empty($parameters['videos_id'])) {
             if (!User::canUpload()) {
                 return new ApiObject("Access denied");
             }
-            if (!empty($_GET['APISecret']) && $dataObj->APISecret !== $_GET['APISecret']) {
+            if (!empty($_REQUEST['APISecret']) && !self::isAPISecretValid()) {
                 return new ApiObject("Secret does not match");
             }
             $obj = new Video("", "", $parameters['videos_id']);
@@ -657,10 +649,9 @@ class API extends PluginAbstract {
         if (empty($parameters['title']) && !isset($parameters['public'])) {
             return new ApiObject("Invalid parameters");
         }
-        $dataObj = $this->getDataObject();
-        if ($dataObj->APISecret === @$_GET['APISecret'] || User::isLogged()) {
+        if (self::isAPISecretValid() || User::isLogged()) {
             if (!empty($parameters['users_id'])) {
-                if ($dataObj->APISecret !== @$_GET['APISecret']) {
+                if (!self::isAPISecretValid()) {
                     $parameters['users_id'] = User::getId();
                 }
             } else {
@@ -701,10 +692,9 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
-        if ($dataObj->APISecret === @$_GET['APISecret'] || User::isLogged()) {
+        if (self::isAPISecretValid() || User::isLogged()) {
             if (!empty($parameters['users_id'])) {
-                if ($dataObj->APISecret !== @$_GET['APISecret']) {
+                if (!self::isAPISecretValid()) {
                     $parameters['users_id'] = User::getId();
                 }
             } else {
@@ -778,8 +768,7 @@ class API extends PluginAbstract {
     public function get_api_users_list($parameters) {
         global $global;
         $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
-        if ($dataObj->APISecret === $_GET['APISecret']) {
+        if (self::isAPISecretValid()) {
             $status = '';
             if (!empty($_GET['status'])) {
                 if ($_GET['status'] === 'i') {
@@ -816,8 +805,7 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
-        if ($dataObj->APISecret === @$_GET['APISecret']) {
+        if (self::isAPISecretValid()) {
             $rows = Video::getAllVideos("viewable", false, true);
             $totalRows = Video::getTotalVideos("viewable", false, true);
         } elseif (!empty($parameters['videos_id'])) {
@@ -909,8 +897,7 @@ class API extends PluginAbstract {
         $subscribers = ObjectYPT::getCache($name, 3600);
         if (empty($subscribers)) {
             $obj = $this->startResponseObject($parameters);
-            $dataObj = $this->getDataObject();
-            if ($dataObj->APISecret !== @$_GET['APISecret']) {
+            if (self::isAPISecretValid()) {
                 return new ApiObject("Invalid APISecret");
             }
             if (empty($parameters['users_id'])) {
@@ -1455,9 +1442,7 @@ class API extends PluginAbstract {
     public function set_api_userImages($parameters) {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
-        // $obj = $this->startResponseObject($parameters);
-        $dataObj = $this->getDataObject();
-        if ($dataObj->APISecret === @$_GET['APISecret']) {
+        if (self::isAPISecretValid()) {
             $user = new User("", $parameters['user'], false);
             if (empty($user->getUser())) {
                 return new ApiObject("User Not defined");
@@ -1494,10 +1479,9 @@ class API extends PluginAbstract {
 
             $meets = Meet_schedule::getAllFromUsersId(User::getId(), $time, true, false);
 
-            $dataObj = $this->getDataObject();
             foreach ($meets as $key => $value) {
                 $RoomPassword = '';
-                if ($dataObj->APISecret === @$_GET['APISecret'] || Meet::isModerator($value['id']) || Meet::canJoinMeet($value['id'])) {
+                if (self::isAPISecretValid() || Meet::isModerator($value['id']) || Meet::canJoinMeet($value['id'])) {
                     $RoomPassword = $value['password'];
                 }
 
@@ -1547,6 +1531,18 @@ class API extends PluginAbstract {
             return new ApiObject("Meet Plugin disabled");
         }
         exit;
+    }
+    
+    private static function isAPISecretValid(){
+        global $global;
+        if(!empty($_REQUEST['APISecret'])){
+            $dataObj = AVideoPlugin::getDataObject('API');
+            if(trim($dataObj->APISecret) === trim($_REQUEST['APISecret'])){
+                $global['bypassSameDomainCheck'] = 1;
+                return true;
+            }
+        }
+        return false;
     }
 
 }

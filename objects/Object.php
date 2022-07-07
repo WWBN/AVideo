@@ -282,7 +282,7 @@ abstract class ObjectYPT implements ObjectInterface
             return false;
         }
         
-        if(!self::ignoreTableSecurityCheck() && requestDoesNotComesFromSameDomainAsMyAVideo("SAVE " . static::getTableName())){            
+        if(!self::ignoreTableSecurityCheck() && isUntrustedRequest("SAVE " . static::getTableName())){            
             return false;
         }
         global $global;
@@ -372,7 +372,7 @@ abstract class ObjectYPT implements ObjectInterface
         global $global;
         if (!empty($this->id)) {
 
-            if(!self::ignoreTableSecurityCheck() && requestDoesNotComesFromSameDomainAsMyAVideo("DELETE " . static::getTableName())){            
+            if(!self::ignoreTableSecurityCheck() && isUntrustedRequest("DELETE " . static::getTableName())){            
                 return false;
             }
             $sql = "DELETE FROM " . static::getTableName() . " ";
