@@ -1380,20 +1380,24 @@ if (typeof gtag !== \"function\") {
         
         $json = decryptString($string);
         if(empty($json)){
+            _error_log('getPasswordFromUserHash: string not decrypted ');
             return false;
         }
         
         $obj = json_decode($json);
         
         if(empty($obj)){
+            _error_log('getPasswordFromUserHash: json not decoded ');
             return false;
         }
         
         if($obj->v < time()){
+            _error_log('getPasswordFromUserHash: hash expired ');
             return false;
         }
         
         if(empty($obj->u)){
+            _error_log('getPasswordFromUserHash: user is empty ');
             return false;
         }
         
@@ -1402,6 +1406,7 @@ if (typeof gtag !== \"function\") {
         if($user['password'] === $obj->p){
             return $user['password'];
         }
+        _error_log('getPasswordFromUserHash: password does not match ');
         return false;
     }
 
