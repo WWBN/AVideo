@@ -64,14 +64,4 @@ if (!empty($obj->showMarkers)) {
                 fixAdSize();
             }, 100);
         });
-
-        function fixAdSize() {
-            ad_container = $('#mainVideo_ima-ad-container');
-            if (ad_container.length) {
-                height = ad_container.css('height');
-                width = ad_container.css('width');
-                $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'height': height});
-                $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'width': width});
-            }
-        }
 </script>
