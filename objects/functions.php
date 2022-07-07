@@ -8836,11 +8836,26 @@ function adminSecurityCheck($force=false){
     }
     global $global;
     $videosHtaccessFile = getVideosDir().'.htaccess';
+    $originalHtaccessFile = "{$global['systemRootPath']}objects/htaccess_for_videos.conf";
+    $videosHtaccessFileVersion = getHtaccessForVideoVersion($videosHtaccessFile);
+    $originalHtaccessFileVersion = getHtaccessForVideoVersion($originalHtaccessFile);
+    if (version_compare($videosHtaccessFileVersion, $originalHtaccessFileVersion, '<')) {
+        unlink($videosHtaccessFile);
+        _error_log("adminSecurityCheck: file deleted new version = {$originalHtaccessFileVersion} old version = {$videosHtaccessFileVersion}");
+    }
     if(!file_exists($videosHtaccessFile)){
-        $bytes = copy("{$global['systemRootPath']}objects/htaccess_for_videos.conf",$videosHtaccessFile);
+        $bytes = copy($originalHtaccessFile,$videosHtaccessFile);
         _error_log("adminSecurityCheck: file created {$videosHtaccessFile} {$bytes} bytes");
     }
     _session_start();
     $_SESSION['adminSecurityCheck'] = time();
     return true;
+}
+
+function getHtaccessForVideoVersion($videosHtaccessFile){
+    $f = fopen($videosHtaccessFile, 'r');
+    $line = fgets($f);
+    fclose($f);
+    preg_match('/# version +([0-9.]+)/i', $line, $matches);
+    return @$matches[1];
 }
