@@ -222,8 +222,7 @@ class Live_schedule extends ObjectYPT
         $this->key = $key;
     }
 
-    public function setUsers_id($users_id)
-    {
+    public function setUsers_id($users_id){
         $this->users_id = intval($users_id);
     }
 

@@ -2903,6 +2903,23 @@ function isUntrustedRequest($logMsg = '', $approveAVideoUserAgent=true) {
     return false;
 }
 
+function forbidIfItIsNotMyUsersId($users_id, $logMsg = '') {
+    if (itIsNotMyUsersId($users_id, $logMsg)) {
+        forbiddenPage('It is not your user ' . getRealIpAddr(), true);
+    }
+}
+
+function itIsNotMyUsersId($users_id, $logMsg = '') {
+    $users_id = intval($users_id);
+    if(empty($users_id)){
+       return false; 
+    }
+    if(!User::isLogged()){
+        return true; 
+    }
+    return User::getId() == $users_id;
+}
+
 function requestComesFromSafePlace() {
     return (requestComesFromSameDomainAsMyAVideo() || isAVideo());
 }

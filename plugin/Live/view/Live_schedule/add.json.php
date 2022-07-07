@@ -26,6 +26,8 @@ if (empty($_POST['scheduled_time'])) {
 }
 
 $o = new Live_schedule(@$_POST['id']);
+forbidIfItIsNotMyUsersId($o->getUsers_id());
+
 $o->setTitle($_POST['title']);
 $o->setDescription($_POST['description']);
 //$o->setKey($_POST['key']);
