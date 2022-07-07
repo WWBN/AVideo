@@ -2718,7 +2718,20 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
         $passwordUnSalted = $password;
     }
     //_error_log("passwordSalted = $passwordSalted,  hash=$hash, passwordUnSalted=$passwordUnSalted");
-    return $passwordSalted === $hash || $passwordUnSalted === $hash || $password === $hash;
+    $isValid = $passwordSalted === $hash || $passwordUnSalted === $hash;
+    
+    if(!$isValid){
+        $passwordFromHash = User::getPasswordFromUserHash($password);
+        $isValid = $passwordFromHash === $hash;
+    }
+    
+    if(!$isValid){
+        if($password === $hash){
+            _error_log('encryptPasswordVerify: this is a deprecated password, this will stop to work soon '.json_encode(debug_backtrace()), AVideoLog::$SECURITY);
+            return true;
+        }
+    }
+    return $isValid;
 }
 
 function encryptPasswordV2($uniqueSalt, $password, $noSalt = false) {

@@ -443,9 +443,10 @@ if (typeof gtag !== \"function\") {
         return '';
     }
 
-    public static function getUserPass() {
+    public static function getUserPass() { 
         if (self::isLogged()) {
-            return $_SESSION['user']['password'];
+            //return $_SESSION['user']['password'];
+            return $_SESSION['user']['passhash'];
         } else {
             return false;
         }
@@ -1239,6 +1240,7 @@ if (typeof gtag !== \"function\") {
                 }
             }
             $user = $result;
+            $user['passhash'] = self::getUserHash($user['id']);
         } else {
             _error_log("Password check new hash user not found");
             //check if is the old password style
@@ -1294,6 +1296,7 @@ if (typeof gtag !== \"function\") {
                 $result['password'] = $u->getPassword();
             }
             $user = $result;
+            $user['passhash'] = self::getUserHash($user['id']);
         } else {
             $user = false;
         }
@@ -1317,6 +1320,7 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if ($res) {
             $user = $result;
+            $user['passhash'] = self::getUserHash($user['id']);
         } else {
             $user = false;
         }
@@ -1335,6 +1339,7 @@ if (typeof gtag !== \"function\") {
         sqlDAL::close($res);
         if ($res !== false) {
             $user = $result;
+            $user['passhash'] = self::getUserHash($user['id']);
         } else {
             $user = false;
         }
@@ -1352,9 +1357,48 @@ if (typeof gtag !== \"function\") {
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user !== false) {
+            $user['passhash'] = self::getUserHash($user['id']);
             return $user;
         }
         return false;
+    }
+    
+    private static function getUserHash($users_id, $valid='+7 days') {
+        $obj = new stdClass();
+        $obj->users_id = $users_id;
+        $obj->valid = strtotime($valid);
+        
+        return '_user_hash_'.encryptString($obj);
+    }
+    
+    static function getPasswordFromUserHash($hash) {
+        if(!preg_match('/^_user_hash_/', $hash)){
+            return false;
+        }
+        $string = str_replace('_user_hash_', '',$hash );
+        
+        $json = decryptString($string);
+        if(empty($json)){
+            return false;
+        }
+        
+        $obj = json_decode($json);
+        
+        if(empty($obj)){
+            return false;
+        }
+        
+        if($obj->valid < time()){
+            return false;
+        }
+        
+        if(empty($obj->users_id)){
+            return false;
+        }
+        
+        $user = self::getUserDb($obj->users_id);
+        
+        return $user['password'];
     }
 
     private static function getUserDbFromUser($user) {
