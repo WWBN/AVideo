@@ -1365,9 +1365,10 @@ if (typeof gtag !== \"function\") {
     
     private static function getUserHash($users_id, $valid='+7 days') {
         $obj = new stdClass();
-        $obj->users_id = $users_id;
-        $obj->valid = strtotime($valid);
-        
+        $obj->u = $users_id;
+        $obj->v = strtotime($valid);
+        $user = self::getUserDb($obj->users_id);        
+        $obj->p = $user['password'];
         return '_user_hash_'.encryptString($obj);
     }
     
@@ -1388,17 +1389,20 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         
-        if($obj->valid < time()){
+        if($obj->v < time()){
             return false;
         }
         
-        if(empty($obj->users_id)){
+        if(empty($obj->u)){
             return false;
         }
         
-        $user = self::getUserDb($obj->users_id);
+        $user = self::getUserDb($obj->u);
         
-        return $user['password'];
+        if($user['password'] === $obj->p){
+            return $user['password'];
+        }
+        return false;
     }
 
     private static function getUserDbFromUser($user) {
