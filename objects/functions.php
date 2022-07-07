@@ -2889,7 +2889,11 @@ function forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo($logMsg = '') {
 
 function requestDoesNotComesFromSameDomainAsMyAVideo($logMsg = '') {
     global $global;
-    if (empty($global['bypassSameDomainCheck']) && !isCommandLineInterface() && !requestComesFromSameDomainAsMyAVideo()) {
+    if (
+        empty($global['bypassSameDomainCheck']) && 
+        !isCommandLineInterface() && 
+        !requestComesFromSameDomainAsMyAVideo() &&
+        !isAVideoUserAgent()) {
         _error_log('requestDoesNotComesFromSameDomainAsMyAVideo: ' . json_encode($logMsg), AVideoLog::$SECURITY);
         return true;
     }
