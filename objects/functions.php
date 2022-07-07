@@ -5015,6 +5015,9 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
     if (empty($str) || !is_string($str)) {
         return false;
     }
+    if (strtolower(trim($str)) === 'php://input') {
+        return true;
+    }
     if (isValidURL($str)) {
         return true;
     }
