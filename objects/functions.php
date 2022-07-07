@@ -2882,10 +2882,18 @@ function requestComesFromSameDomainAsMyAVideo() {
 
 function forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo($logMsg = '') {
     global $global;
-    if (empty($global['bypassSameDomainCheck']) && !isCommandLineInterface() && !requestComesFromSameDomainAsMyAVideo()) {
-        _error_log('forbidIfRequestDoesNotComesFromSameDomainAsMyAVideo: ' . json_encode($logMsg) . ' ' . json_encode(debug_backtrace()), AVideoLog::$SECURITY);
+    if (requestDoesNotComesFromSameDomainAsMyAVideo($logMsg)) {
         forbiddenPage('Invalid Request ' . getRealIpAddr(), true);
     }
+}
+
+function requestDoesNotComesFromSameDomainAsMyAVideo($logMsg = '') {
+    global $global;
+    if (empty($global['bypassSameDomainCheck']) && !isCommandLineInterface() && !requestComesFromSameDomainAsMyAVideo()) {
+        _error_log('requestDoesNotComesFromSameDomainAsMyAVideo: ' . json_encode($logMsg), AVideoLog::$SECURITY);
+        return true;
+    }
+    return false;
 }
 
 function requestComesFromSafePlace() {
