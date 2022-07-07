@@ -1406,7 +1406,7 @@ if (typeof gtag !== \"function\") {
         if($user['password'] === $obj->p){
             return $user['password'];
         }
-        _error_log('getPasswordFromUserHash: password does not match ');
+        _error_log("getPasswordFromUserHash: password does not match [{$user['password']}] === [{$obj->p}]");
         return false;
     }
 
