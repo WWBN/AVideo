@@ -24,8 +24,8 @@ if (!function_exists('xss_esc')) {
         if (empty($text)) {
             return "";
         }
-        if(!is_string($text)){
-            if(is_array($text)){
+        if (!is_string($text)) {
+            if (is_array($text)) {
                 foreach ($text as $key => $value) {
                     $text[$key] = xss_esc($value);
                 }
@@ -376,10 +376,10 @@ function cleanString($text) {
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }
 
-function safeString($text, $strict=false){
-    if($strict){
+function safeString($text, $strict = false) {
+    if ($strict) {
         $text = trim(xss_esc(preg_replace('/[^a-z0-9. _-]/i', '', strip_tags($text))));
-    }else{
+    } else {
         $text = trim(preg_replace('/[^a-z0-9:. _\'"()-]/i', '', strip_tags($text)));
     }
     return $text;
@@ -2008,7 +2008,7 @@ function unzipDirectory($filename, $destination) {
     sleep(2);
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 7200); // 2 hours
-    $filename = escapeshellarg(safeString($filename,true));
+    $filename = escapeshellarg(safeString($filename, true));
     $destination = escapeshellarg($destination);
     $cmd = "unzip -: {$filename} -d {$destination}" . "  2>&1";
     _error_log("unzipDirectory: {$cmd}");
@@ -2047,7 +2047,7 @@ function unzipDirectory($filename, $destination) {
         }
     } else {
         _error_log("unzipDirectory: Success {$destination}");
-    }    
+    }
     @unlink($filename);
 }
 
@@ -2422,7 +2422,7 @@ function isValidM3U8Link($url, $timeout = 3) {
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if (!isValidURLOrPath($url)) {
-        _error_log('url_get_contents Cannot download '.$url);
+        _error_log('url_get_contents Cannot download ' . $url);
         return false;
     }
     if ($debug) {
@@ -2737,15 +2737,15 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
     }
     //_error_log("passwordSalted = $passwordSalted,  hash=$hash, passwordUnSalted=$passwordUnSalted");
     $isValid = $passwordSalted === $hash || $passwordUnSalted === $hash;
-    
-    if(!$isValid){
+
+    if (!$isValid) {
         $passwordFromHash = User::getPasswordFromUserHashIfTheItIsValid($password);
         $isValid = $passwordFromHash === $hash;
     }
-    
-    if(!$isValid){
-        if($password === $hash){
-            _error_log('encryptPasswordVerify: this is a deprecated password, this will stop to work soon '.json_encode(debug_backtrace()), AVideoLog::$SECURITY);
+
+    if (!$isValid) {
+        if ($password === $hash) {
+            _error_log('encryptPasswordVerify: this is a deprecated password, this will stop to work soon ' . json_encode(debug_backtrace()), AVideoLog::$SECURITY);
             return true;
         }
     }
@@ -2898,22 +2898,22 @@ function requestComesFromSameDomainAsMyAVideo() {
     return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN()) || isFromCDN($url);
 }
 
-function forbidIfIsUntrustedRequest($logMsg = '', $approveAVideoUserAgent=true) {
+function forbidIfIsUntrustedRequest($logMsg = '', $approveAVideoUserAgent = true) {
     global $global;
     if (isUntrustedRequest($logMsg, $approveAVideoUserAgent)) {
         forbiddenPage('Invalid Request ' . getRealIpAddr(), true);
     }
 }
 
-function isUntrustedRequest($logMsg = '', $approveAVideoUserAgent=true) {
+function isUntrustedRequest($logMsg = '', $approveAVideoUserAgent = true) {
     global $global;
-    if(!empty($global['bypassSameDomainCheck']) || isCommandLineInterface()){
+    if (!empty($global['bypassSameDomainCheck']) || isCommandLineInterface()) {
         return false;
     }
     if (!requestComesFromSameDomainAsMyAVideo()) {
-        if($approveAVideoUserAgent && isAVideoUserAgent()){
+        if ($approveAVideoUserAgent && isAVideoUserAgent()) {
             return false;
-        }else{
+        } else {
             _error_log('isUntrustedRequest: ' . json_encode($logMsg), AVideoLog::$SECURITY);
             return true;
         }
@@ -2929,11 +2929,11 @@ function forbidIfItIsNotMyUsersId($users_id, $logMsg = '') {
 
 function itIsNotMyUsersId($users_id, $logMsg = '') {
     $users_id = intval($users_id);
-    if(empty($users_id)){
-       return false; 
+    if (empty($users_id)) {
+        return false;
     }
-    if(!User::isLogged()){
-        return true; 
+    if (!User::isLogged()) {
+        return true;
     }
     return User::getId() == $users_id;
 }
@@ -5028,7 +5028,7 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
             $absolutePathCache = realpath($cacheDir);
             $ext = strtolower(pathinfo($absolutePath, PATHINFO_EXTENSION));
             if ($ext == 'php') {
-                _error_log('isValidURLOrPath return false (is php file) '.$str);
+                _error_log('isValidURLOrPath return false (is php file) ' . $str);
                 return false;
             }
             $cacheDir = "{$global['systemRootPath']}videos/";
@@ -5038,9 +5038,9 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
         } else {
             return true;
         }
-        _error_log('isValidURLOrPath return false not valid absolute path 1 '.$absolutePath);
-        _error_log('isValidURLOrPath return false not valid absolute path 2 '.$absolutePathTmp);
-        _error_log('isValidURLOrPath return false not valid absolute path 3 '.$absolutePathCache);
+        _error_log('isValidURLOrPath return false not valid absolute path 1 ' . $absolutePath);
+        _error_log('isValidURLOrPath return false not valid absolute path 2 ' . $absolutePathTmp);
+        _error_log('isValidURLOrPath return false not valid absolute path 3 ' . $absolutePathCache);
     }
     //_error_log('isValidURLOrPath return false '.$str);
     return false;
@@ -6237,7 +6237,7 @@ function setToastMessage($msg) {
 }
 
 function showAlertMessage() {
-    if(!requestComesFromSafePlace()){
+    if (!requestComesFromSafePlace()) {
         return false;
     }
     if (!empty($_SESSION['YPTalertMessage'])) {
@@ -6255,7 +6255,7 @@ function showAlertMessage() {
 
     $joinString = ['error', 'msg', 'success', 'toast'];
     foreach ($joinString as $value) {
-        if (!empty($_GET[$value]) ) {
+        if (!empty($_GET[$value])) {
             if (is_array($_GET[$value])) {
                 $_GET[$value] = array_unique($_GET[$value]);
                 $newStr = [];
@@ -6265,7 +6265,7 @@ function showAlertMessage() {
                     }
                 }
                 $_GET[$value] = implode("<br>", $newStr);
-            }else{
+            } else {
                 $_GET[$value] = $_GET[$value];
             }
         }
@@ -8832,17 +8832,17 @@ function _empty($html_string) {
     return emptyHTML($html_string);
 }
 
-function adminSecurityCheck($force=false){
-    if(empty($force)){
-        if(!empty($_SESSION['adminSecurityCheck'])){
+function adminSecurityCheck($force = false) {
+    if (empty($force)) {
+        if (!empty($_SESSION['adminSecurityCheck'])) {
             return false;
         }
-        if(!User::isAdmin()){
+        if (!User::isAdmin()) {
             return false;
         }
     }
     global $global;
-    $videosHtaccessFile = getVideosDir().'.htaccess';
+    $videosHtaccessFile = getVideosDir() . '.htaccess';
     $originalHtaccessFile = "{$global['systemRootPath']}objects/htaccess_for_videos.conf";
     $videosHtaccessFileVersion = getHtaccessForVideoVersion($videosHtaccessFile);
     $originalHtaccessFileVersion = getHtaccessForVideoVersion($originalHtaccessFile);
@@ -8851,8 +8851,8 @@ function adminSecurityCheck($force=false){
         unlink($videosHtaccessFile);
         _error_log("adminSecurityCheck: file deleted new version = {$originalHtaccessFileVersion} old version = {$videosHtaccessFileVersion}");
     }
-    if(!file_exists($videosHtaccessFile)){
-        $bytes = copy($originalHtaccessFile,$videosHtaccessFile);
+    if (!file_exists($videosHtaccessFile)) {
+        $bytes = copy($originalHtaccessFile, $videosHtaccessFile);
         _error_log("adminSecurityCheck: file created {$videosHtaccessFile} {$bytes} bytes");
     }
     _session_start();
@@ -8860,8 +8860,8 @@ function adminSecurityCheck($force=false){
     return true;
 }
 
-function getHtaccessForVideoVersion($videosHtaccessFile){
-    if(!file_exists($videosHtaccessFile)){
+function getHtaccessForVideoVersion($videosHtaccessFile) {
+    if (!file_exists($videosHtaccessFile)) {
         return 0;
     }
     $f = fopen($videosHtaccessFile, 'r');
@@ -8869,4 +8869,34 @@ function getHtaccessForVideoVersion($videosHtaccessFile){
     fclose($f);
     preg_match('/# version +([0-9.]+)/i', $line, $matches);
     return @$matches[1];
+}
+
+function fileIsAnValidImage($filepath) {
+    if(file_exists($filepath)){
+        if (!function_exists('exif_imagetype')) {
+            if (( list($width, $height, $type, $attr) = getimagesize($filepath) ) !== false) {
+                return $type;
+            }
+        } else {
+            return exif_imagetype($filepath);
+        }
+    }
+    return false;
+}
+
+/**
+ * return true if de file was deleted or does not exits and false if the file still present on the system
+ * @param type $filepath
+ * @return boolean
+ */
+function deleteInvalidImage($filepath) {
+    if(file_exists($filepath)){
+        if (!fileIsAnValidImage($filepath)) {
+            _error_log("deleteInvalidImage($filepath)");
+            unlink($filepath);
+            return true;
+        } 
+        return false;
+    }
+    return true;
 }

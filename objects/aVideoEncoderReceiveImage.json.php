@@ -129,6 +129,7 @@ if (!empty($_REQUEST['downloadURL_gifimage'])) {
         }
     }
 }
+
 $obj->webpDest = "{$destination_local}.webp";
 if (!empty($_REQUEST['downloadURL_webpimage'])) {
     $content = url_get_contents($_REQUEST['downloadURL_webpimage']);
@@ -153,6 +154,11 @@ if (!empty($_REQUEST['downloadURL_webpimage'])) {
         }
     }
 }
+
+$obj->jpgDest_deleteInvalidImage = deleteInvalidImage($obj->jpgDest);
+$obj->jpgSpectrumDest_deleteInvalidImage = deleteInvalidImage($obj->jpgSpectrumDest);
+$obj->gifDest_deleteInvalidImage = deleteInvalidImage($obj->gifDest);
+$obj->webpDest_deleteInvalidImage = deleteInvalidImage($obj->webpDest);
 
 if (!empty($_REQUEST['duration'])) {
     $duration = $video->getDuration();
