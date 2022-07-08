@@ -5042,7 +5042,7 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
         _error_log('isValidURLOrPath return false not valid absolute path 2 '.$absolutePathTmp);
         _error_log('isValidURLOrPath return false not valid absolute path 3 '.$absolutePathCache);
     }
-    _error_log('isValidURLOrPath return false '.$str);
+    //_error_log('isValidURLOrPath return false '.$str);
     return false;
 }
 
