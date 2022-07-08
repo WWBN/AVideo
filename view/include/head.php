@@ -1,19 +1,11 @@
 <?php
-function checkOBContent($line){
-    $ob_content = ob_get_contents();
-    _error_log('checkOBContent strlen='. strlen($ob_content).' line='.$line);
-}
-checkOBContent(__LINE__);
 $timeLogHead = TimeLogStart("include/head.php");
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-checkOBContent(__LINE__);
 TimeLogEnd($timeLogHead, __LINE__);
 $head = AVideoPlugin::getHeadCode();
-checkOBContent(__LINE__);
 TimeLogEnd($timeLogHead, __LINE__);
 $custom = "The Best YouTube Clone Ever - AVideo";
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
-checkOBContent(__LINE__);
 if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }
@@ -21,7 +13,6 @@ TimeLogEnd($timeLogHead, __LINE__);
 if (is_object($video)) {
     $video = Video::getVideoLight($video->getId());
 }
-checkOBContent(__LINE__);
 TimeLogEnd($timeLogHead, __LINE__);
 $custom = [];
 
@@ -32,7 +23,6 @@ if (file_exists($extraPluginFile) && AVideoPlugin::isEnabledByName("Customize"))
     $customizePluginDescription = $ec->getDescription();
     $custom[] = $customizePluginDescription;
 }
-checkOBContent(__LINE__);
 
 TimeLogEnd($timeLogHead, __LINE__);
 if (!empty($poster)) {
@@ -44,7 +34,6 @@ if (!empty($poster)) {
     }
 }
 
-checkOBContent(__LINE__);
 TimeLogEnd($timeLogHead, __LINE__);
 if (!empty($_GET['catName'])) {
     $category = Category::getCategoryByName($_GET['catName']);
@@ -54,7 +43,6 @@ if (!empty($_GET['catName'])) {
     $custom[] = $category['name'];
 }
 
-checkOBContent(__LINE__);
 TimeLogEnd($timeLogHead, __LINE__);
 foreach ($custom as $key => $value) {
     if (empty($value)) {
@@ -74,17 +62,13 @@ $metaDescription = getSEODescription($metaDescription);
 
 $theme = getCurrentTheme();
 
-checkOBContent(__LINE__);
 if (empty($config)) {
     $config = new Configuration();
 }
 TimeLogEnd($timeLogHead, __LINE__);
-checkOBContent(__LINE__);
-$content = _ob_get_clean();
+//$content = _ob_get_clean();
 _ob_start();
-checkOBContent(__LINE__);
 echo $content;
-checkOBContent(__LINE__);
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
