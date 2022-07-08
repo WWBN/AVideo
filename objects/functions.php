@@ -8854,6 +8854,9 @@ function adminSecurityCheck($force=false){
 }
 
 function getHtaccessForVideoVersion($videosHtaccessFile){
+    if(!file_exists($videosHtaccessFile)){
+        return 0;
+    }
     $f = fopen($videosHtaccessFile, 'r');
     $line = fgets($f);
     fclose($f);
