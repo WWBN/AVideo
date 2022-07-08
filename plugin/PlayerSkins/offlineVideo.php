@@ -124,6 +124,9 @@ $sources = getVideosURL_V2($video['filename']);
                     var elemSelector = '#videos_offline_' + video.videos_id_resolution;
                     $(elemSelector).removeClass('panel-default');
                     $(elemSelector).addClass('panel-success');
+                    
+                    var progressBarSelector = $(elemSelector).find('.progress').attr('id');
+                    changeProgressBarOfflineVideo('#'+progressBarSelector, 100);
                 });
 
             }
