@@ -62,6 +62,7 @@ async function downloadOneOfflineVideo() {
 }
 
 function changeProgressBarOfflineVideo(progressBarSelector, value){
+    value = value.toFixed(2);
     $(progressBarSelector).find('.progress-bar')
             .attr('aria-valuenow', value)
             .css('width', value+'%')
