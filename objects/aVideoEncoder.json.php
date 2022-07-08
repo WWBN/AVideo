@@ -8,7 +8,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-
+$global['bypassSameDomainCheck'] = 1;
 if (empty($_POST)) {
     $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
     _error_log($obj->msg);

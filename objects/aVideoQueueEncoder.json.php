@@ -9,6 +9,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
+$global['bypassSameDomainCheck'] = 1;
 if (!User::canUpload()) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));

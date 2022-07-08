@@ -8,6 +8,8 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
+$global['bypassSameDomainCheck'] = 1;
 /*
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

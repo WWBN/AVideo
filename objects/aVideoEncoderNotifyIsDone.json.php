@@ -11,6 +11,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
+$global['bypassSameDomainCheck'] = 1;
 $_POST['videos_id'] = intval($_POST['videos_id']);
 
 if (empty($_POST)) {
