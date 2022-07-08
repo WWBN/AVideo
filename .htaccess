@@ -84,6 +84,7 @@ Options All -Indexes
     RewriteEngine on
     #VideoHLS for DRM
 
+    RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
     RedirectMatch 404 /\.git    
 
     #Compatibility
@@ -96,8 +97,6 @@ Options All -Indexes
 
     RewriteRule    ^playLink/?$ view/modePlayLink.php    [QSA]
     RewriteRule    ^videos/([^/]+)/(.*).key$ plugin/VideoHLS/downloadProtection.php?filename=$1&key=$2    [QSA]
-
-    RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
 
     RewriteRule    ^meet/([0-9]+)/(.+)$ plugin/Meet/iframe.php?meet_schedule_id=$1&roomName=$2 [NC,L,QSA]
     RewriteRule    ^meet/([0-9]+)$ plugin/Meet/iframe.php?meet_schedule_id=$1 [NC,L,QSA]
