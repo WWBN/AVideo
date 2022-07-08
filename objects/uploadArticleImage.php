@@ -34,8 +34,8 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             $relativeDestinationDir = "articleImages" . DIRECTORY_SEPARATOR . $video->getFilename() . DIRECTORY_SEPARATOR;
         }
     }
-    if (empty($relativeDestinationDir) && Permissions::canAdminUsers()) {
-        $relativeDestinationDir = "videos" . DIRECTORY_SEPARATOR . "tmpAdminImages" . DIRECTORY_SEPARATOR . date('Ymd') . DIRECTORY_SEPARATOR;
+    if (empty($relativeDestinationDir) && User::isLogged()) {
+        $relativeDestinationDir = "videos" . DIRECTORY_SEPARATOR . "tmpImages" . DIRECTORY_SEPARATOR . date('Ymd') . DIRECTORY_SEPARATOR . 'users_id_' . User::getId() . DIRECTORY_SEPARATOR;
     }
 
     if (!empty($relativeDestinationDir)) {
@@ -50,6 +50,8 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             $obj->msg = "Error on move_file_uploaded_file(" . $_FILES['file_data']['tmp_name'] . ", " . $destinationDirFilename;
             die(json_encode($obj));
         }
+        $obj->deleteInvalidImage = deleteInvalidImage($destinationDirFilename);
+
         $obj->url = getURL($relativeDestinationDirFilename);
         $obj->error = false;
     } else {

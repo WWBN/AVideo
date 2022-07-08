@@ -22,7 +22,6 @@ $groups = UserGroups::getAllUsersGroups();
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css"/>
-        <link href="<?php echo getCDN(); ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
         <style>
             #sortable li{
                 list-style: none;
@@ -232,7 +231,10 @@ $groups = UserGroups::getAllUsersGroups();
                                                 <div id="divText" class="divType"  style="display: none;">
                                                     <div class="form-group">
                                                         <label for="text">text:</label>
-                                                        <textarea type="text" class="form-control" id="text"></textarea>
+                                                        <textarea type="text" class="form-control" id="pageText"></textarea>
+                                                        <?php
+                                                        echo getTinyMCE("pageText");
+                                                        ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -270,7 +272,6 @@ $groups = UserGroups::getAllUsersGroups();
     include $global['systemRootPath'] . 'view/include/footer.php';
     ?>
     <script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
-    <script src="<?php echo getCDN(); ?>js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.js" type="text/javascript"></script>  
     <script>
             var currentItem = [];
 
@@ -310,7 +311,7 @@ $groups = UserGroups::getAllUsersGroups();
                 $('#item_order').val("");
                 $('#item_status').val("");
                 $('#menuSeoUrlItem').val("");
-                $('iframe').contents().find('.wysihtml5-editor').html('');
+                $(tinymce.get('pageText').getBody()).html('');
                 $("#menuItemIcon").val("");
                 $("#menuItemIconMobile").val("");
                 $("#menuItemIcon").trigger('change');
@@ -348,7 +349,7 @@ $groups = UserGroups::getAllUsersGroups();
                 clearMenuItemForm();
                 $('#sortable').sortable("destroy");
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/TopMenu/menuItems.json.php',
+                    url: webSiteRootURL+'plugin/TopMenu/menuItems.json.php',
                     data: {
                         "menuId": menu_id
                     },
@@ -380,7 +381,7 @@ $groups = UserGroups::getAllUsersGroups();
                 id = $(t).parent('li').attr('itemid');
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/TopMenu/menuItemDelete.json.php',
+                    url: webSiteRootURL+'plugin/TopMenu/menuItemDelete.json.php',
                     data: {
                         "menuItemId": id
                     },
@@ -418,12 +419,12 @@ $groups = UserGroups::getAllUsersGroups();
                     $('#style').val(item.style);
                     $('#item_order').val(item.item_order);
                     $('#item_status').val(item.status);
-                    $('#text').val(item.text);
+                    $(tinymce.get('pageText').getBody()).html(item.text);
                     $('#menuSeoUrlItem').val(item.menuSeoUrlItem);
                     $("#menuItemIcon").val(item.icon);
                     $("#menuItemIconMobile").val(item.icon);
                     $("#menuItemIcon").trigger('change');
-                    $('iframe').contents().find('.wysihtml5-editor').html(item.text);
+                    $(tinymce.get('pageText').getBody()).html(item.text);
                     if (item.url.length > 0) {
                         $('#pageType').val('url');
                     } else {
@@ -462,7 +463,7 @@ $groups = UserGroups::getAllUsersGroups();
                 $('#pageType').trigger('change');
 
                 var table = $('#example').DataTable({
-                    "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/TopMenu/menus.json.php",
+                    "ajax": webSiteRootURL+"plugin/TopMenu/menus.json.php",
                     "columns": [
                         {"data": "menuName"},
                         {"data": "status"}
@@ -476,12 +477,6 @@ $groups = UserGroups::getAllUsersGroups();
                 });
                 $('#btnNewMenuItem').click(function () {
                     clearMenuItemForm();
-                });
-
-                $('#text').wysihtml5({toolbar: {
-                        "html": true,
-                        "color": true
-                    }
                 });
 
                 $('#example tbody').on('click', 'tr', function () {
@@ -549,7 +544,7 @@ $groups = UserGroups::getAllUsersGroups();
                             "style": $('#style').val(),
                             "item_order": $('#item_order').val(),
                             "item_status": $('#item_status').val(),
-                            "text": $('#pageType').val() == 'page' ? $('#text').val() : '',
+                            "text": $('#pageType').val() == 'page' ? $(tinymce.get('pageText').getBody()).html() : '',
                             "icon": $("#menuItemIcon").val(),
                             "mobileicon": $("#menuItemIconMobile").val()
                         },
