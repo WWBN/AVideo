@@ -120,6 +120,7 @@ $sources = getVideosURL_V2($video['filename']);
 
                 $('.panel').removeClass('panel-success');
                 $('.panel').addClass('panel-default');
+                changeProgressBarOfflineVideo('.progress', 0);
                 collection.each(function (video) {
                     var elemSelector = '#videos_offline_' + video.videos_id_resolution;
                     $(elemSelector).removeClass('panel-default');
