@@ -326,6 +326,8 @@ if (!class_exists('Video')) {
             } else {
                 $this->isSuggested = 1;
             }
+            
+            $this->views_count = intval($this->views_count);
 
             if (empty($this->categories_id)) {
                 $p = AVideoPlugin::loadPluginIfEnabled("PredefinedCategory");
