@@ -5029,7 +5029,7 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
                 return false;
             }
             $cacheDir = "{$global['systemRootPath']}videos/";
-            if (str_starts_with($absolutePath, getTmpDir()) || str_starts_with($absolutePath, $cacheDir)) {
+            if (str_starts_with($absolutePath, getTmpDir()) || str_starts_with($absolutePath, '/var/www/') || str_starts_with($absolutePath, $cacheDir)) {
                 return true;
             }
         } else {
