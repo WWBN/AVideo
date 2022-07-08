@@ -27,6 +27,7 @@ if (!class_exists('Video')) {
         protected $filename;
         protected $description;
         protected $views_count;
+        protected $order;
         protected $status;
         protected $duration;
         protected $users_id;
@@ -328,7 +329,8 @@ if (!class_exists('Video')) {
             }
             
             $this->views_count = intval($this->views_count);
-
+            $this->order = intval($this->order);
+            
             if (empty($this->categories_id)) {
                 $p = AVideoPlugin::loadPluginIfEnabled("PredefinedCategory");
                 $category = Category::getCategoryDefault();
