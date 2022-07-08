@@ -15,7 +15,7 @@ async function downloadOfflineVideo(source) {
             resolve(video);
         } else {
             // Fetch the videos from the network
-            return fetchVideoFromNetwork(src, type, resolution);
+            return fetchVideoFromNetwork(src, type, resolution, '');
         }
     }).catch(function (e) {
         console.log("Error: " + (e.stack || e));
@@ -61,7 +61,14 @@ async function downloadOneOfflineVideo() {
     reject(false);
 }
 
-async function fetchVideoFromNetwork(src, type, resolution) {
+function changeProgressBarOfflineVideo(progressBarSelector, value){
+    $(progressBarSelector).find('.progress-bar')
+            .attr('aria-valuenow', value)
+            .css('width', value+'%')
+            .text(value+'%');
+}
+
+async function fetchVideoFromNetwork(src, type, resolution, progressBarSelector) {
     console.log('fetching videos from network', src, type, resolution);
 
     // Step 1: start the fetch and obtain a reader
@@ -86,7 +93,9 @@ async function fetchVideoFromNetwork(src, type, resolution) {
         receivedLength += value.length;
         var percentageComplete = (receivedLength / contentLength) * 100;
         var percentageCompleteStr = percentageComplete.toFixed(2) + '%';
-
+        if(!empty(progressBarSelector)){
+            changeProgressBarOfflineVideo(progressBarSelector, percentageComplete);
+        }
         console.log(`Received ${receivedLength} of ${contentLength}  ${percentageCompleteStr}`);
     }
 

@@ -70,7 +70,7 @@ $sources = getVideosURL_V2($video['filename']);
                                     <button class="btn btn-danger"  onclick='_deleteOfflineVideo(<?php echo json_encode($matches[1]); ?>);'>
                                         <i class="fas fa-trash"></i> <?php echo __('Delete'); ?>
                                     </button>
-                                    <button class="btn btn-warning" onclick='_downloadOfflineVideo(<?php echo json_encode($value['url']); ?>, <?php echo json_encode($matches[1]); ?>);'>
+                                    <button class="btn btn-warning" onclick='_downloadOfflineVideo(<?php echo json_encode($value['url']); ?>, <?php echo json_encode($matches[1]); ?>, "downloadProgressBar<?php echo json_encode($videos_id); ?>");'>
                                         <i class="fas fa-download"></i> <?php echo __('Download'); ?>
                                     </button>
                                     <button class="btn btn-success" onclick='_updateVideo(<?php echo json_encode($videos_id); ?>);'>
@@ -82,6 +82,12 @@ $sources = getVideosURL_V2($video['filename']);
                                 </div>
                                 <div class="panel-footer">
                                     <?php echo humanFileSize(filesize($value['path'])); ?>
+                                    <div class="progress" id="downloadProgressBar<?php echo json_encode($videos_id); ?>">
+                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0;">
+                                            0%
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -121,8 +127,8 @@ $sources = getVideosURL_V2($video['filename']);
                 });
 
             }
-            async function _downloadOfflineVideo(src, resolution) {
-                return await fetchVideoFromNetwork(src, 'video/mp4', resolution).then(function (video) {
+            async function _downloadOfflineVideo(src, resolution, progressBarSelector) {
+                return await fetchVideoFromNetwork(src, 'video/mp4', resolution, progressBarSelector).then(function (video) {
                     console.log("_downloadOfflineVideo: ", video);
                     listAllOfflineVideo();
                 }).catch(function (e) {
