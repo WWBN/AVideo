@@ -2,6 +2,7 @@
 $isFirstPage = 1;
 include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
 $leaderBoardTop = getAdsLeaderBoardTop();
+_ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
