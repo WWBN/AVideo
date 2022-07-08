@@ -70,7 +70,7 @@ $sources = getVideosURL_V2($video['filename']);
                                     <button class="btn btn-danger"  onclick='_deleteOfflineVideo(<?php echo json_encode($matches[1]); ?>);'>
                                         <i class="fas fa-trash"></i> <?php echo __('Delete'); ?>
                                     </button>
-                                    <button class="btn btn-warning" onclick='_downloadOfflineVideo(<?php echo json_encode($value['url']); ?>, <?php echo json_encode($matches[1]); ?>, "downloadProgressBar<?php echo json_encode($videos_id); ?>");'>
+                                    <button class="btn btn-warning" onclick='_downloadOfflineVideo(<?php echo json_encode($value['url']); ?>, <?php echo json_encode($matches[1]); ?>, "#downloadProgressBar<?php echo json_encode($videos_id); ?>");'>
                                         <i class="fas fa-download"></i> <?php echo __('Download'); ?>
                                     </button>
                                     <button class="btn btn-success" onclick='_updateVideo(<?php echo json_encode($videos_id); ?>);'>
