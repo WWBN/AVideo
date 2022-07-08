@@ -66,7 +66,9 @@ if (empty($config)) {
     $config = new Configuration();
 }
 TimeLogEnd($timeLogHead, __LINE__);
+$content = _ob_get_clean();
 _ob_start();
+echo $content;
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
