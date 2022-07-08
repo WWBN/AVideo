@@ -124,5 +124,5 @@ if (!empty($_GET['action'])) {
         include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
         ?>
         <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
-        <script src="<?php echo getURL('view/js/js-cookie/js.cookie.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/js-cookie/dist/js.cookie.js'); ?>" type="text/javascript"></script>
 </html>

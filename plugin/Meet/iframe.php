@@ -58,7 +58,7 @@ if(!empty($_REQUEST['nameIdentification'])){
         <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
         <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
-        <script src="<?php echo getCDN(); ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
+        <script src="<?php echo getCDN(); ?>node_modules/js-cookie/dist/js.cookie.js" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
         ?>

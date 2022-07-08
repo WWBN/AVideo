@@ -110,8 +110,8 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'],
         include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
         ?>
         <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>view/js/jquery-toast/jquery.toast.min.js" type="text/javascript"></script>
+        <script src="<?php echo getCDN(); ?>node_modules/js-cookie/dist/js.cookie.js" type="text/javascript"></script>
+        <script src="<?php echo getCDN(); ?>node_modules/jquery-toast-plugin/dist/jquery.toast.min.js" type="text/javascript"></script>
         <script src="<?php echo getCDN(); ?>node_modules/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
         <script>
 <?php

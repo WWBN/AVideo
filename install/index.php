@@ -273,9 +273,9 @@ require_once '../locale/function.php';
         <script src="../view/css/flagstrap/js/jquery.flagstrap.min.js" type="text/javascript"></script>
         <script src="../view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="../node_modules/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
-        <script src="../view/js/jquery.lazy/jquery.lazy.min.js" type="text/javascript"></script>
-        <script src="../view/js/jquery.lazy/jquery.lazy.plugins.min.js" type="text/javascript"></script>
-        <script src="../view/js/js-cookie/js.cookie.js" type="text/javascript"></script>
+        <script src="../node_modules/jquery-lazy/jquery.lazy.min.js" type="text/javascript"></script>
+        <script src="../node_modules/jquery-lazy/jquery.lazy.plugins.min.js" type="text/javascript"></script>
+        <script src="../node_modules/js-cookie/dist/js.cookie.js" type="text/javascript"></script>
         <script src="../view/js/script.js" type="text/javascript"></script>
 
         <script>

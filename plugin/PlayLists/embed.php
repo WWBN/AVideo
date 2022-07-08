@@ -266,15 +266,14 @@ $_REQUEST['hideAutoplaySwitch'] = 1;
         $jsFiles = array();
         $jsFiles[] = "view/js/BootstrapMenu.min.js";
         $jsFiles[] = "node_modules/sweetalert/dist/sweetalert.min.js";
-        $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
         $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
         $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
         $jsFiles[] = "view/js/script.js";
-        $jsFiles[] = "view/js/js-cookie/js.cookie.js";
+        $jsFiles[] = "node_modules/js-cookie/dist/js.cookie.js";
         $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
-        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
-        $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
-        $jsFiles[] = "view/js/jquery-toast/jquery.toast.min.js";
+        $jsFiles[] = "node_modules/jquery-lazy/jquery.lazy.min.js";
+        $jsFiles[] = "node_modules/jquery-lazy/jquery.lazy.plugins.min.js";
+        $jsFiles[] = "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js";
         ?>
         <?php
         include $global['systemRootPath'] . 'view/include/bootstrap.js.php';

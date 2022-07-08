@@ -46,8 +46,8 @@ showAlertMessage();
     });
 </script>
 
-<script src="<?php echo getURL('view/js/jquery.lazy/jquery.lazy.min.js'); ?>" type="text/javascript"></script>
-<script src="<?php echo getURL('view/js/jquery.lazy/jquery.lazy.plugins.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/jquery-lazy/jquery.lazy.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/jquery-lazy/jquery.lazy.plugins.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/moment/moment.js'); ?>"></script>
 <?php echo getTagIfExists('node_modules/moment/locale/'. getLanguage().'.js'); ?>
 <script src="<?php echo getURL('node_modules/moment-timezone/builds/moment-timezone-with-data.min.js'); ?>"></script>
@@ -64,11 +64,10 @@ include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
 ?>
 <?php
 $jsFiles = [];
-//$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
-//$jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
+//$jsFiles[] = "node_modules/jquery-lazy/jquery.lazy.min.js";
+//$jsFiles[] = "node_modules/jquery-lazy/jquery.lazy.plugins.min.js";
 //$jsFiles[] = "view/js/script.js";
 $jsFiles[] = "node_modules/sweetalert/dist/sweetalert.min.js";
-$jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
 $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
 $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
 //$jsFiles[] = "view/js/bootstrap-toggle/bootstrap-toggle.min.js";
@@ -76,8 +75,8 @@ $jsFiles[] = "view/js/jquery.bootstrap-autohidingnavbar.min.js";
 $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
 $jsFiles[] = "view/js/webui-popover/jquery.webui-popover.min.js";
 $jsFiles[] = "view/js/bootstrap-list-filter/bootstrap-list-filter.min.js";
-$jsFiles[] = "view/js/js-cookie/js.cookie.js";
-$jsFiles[] = "view/js/jquery-toast/jquery.toast.min.js";
+$jsFiles[] = "node_modules/js-cookie/dist/js.cookie.js";
+$jsFiles[] = "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js";
 $jsFiles[] = "view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.js";
 $jsFiles[] = "view/js/BootstrapMenu.min.js";
 

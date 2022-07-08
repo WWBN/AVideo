@@ -189,7 +189,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
 
-        <link href="<?php echo getCDN(); ?>view/js/jquery-toast/jquery.toast.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>node_modules/jquery-toast-plugin/dist/jquery.toast.min.css" rel="stylesheet" type="text/css"/>
 
         <link rel="image_src" href="<?php echo $img; ?>" />
         <style>
@@ -486,15 +486,14 @@ if (User::hasBlockedUser($video['users_id'])) {
     $jsFiles = [];
     $jsFiles[] = "view/js/BootstrapMenu.min.js";
     $jsFiles[] = "node_modules/sweetalert/dist/sweetalert.min.js";
-    $jsFiles[] = "view/js/bootpag/jquery.bootpag.min.js";
     $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
     $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
     $jsFiles[] = "view/js/script.js";
-    $jsFiles[] = "view/js/js-cookie/js.cookie.js";
+    $jsFiles[] = "node_modules/js-cookie/dist/js.cookie.js";
     $jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
-    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.min.js";
-    $jsFiles[] = "view/js/jquery.lazy/jquery.lazy.plugins.min.js";
-    $jsFiles[] = "view/js/jquery-toast/jquery.toast.min.js";
+    $jsFiles[] = "node_modules/jquery-lazy/jquery.lazy.min.js";
+    $jsFiles[] = "node_modules/jquery-lazy/jquery.lazy.plugins.min.js";
+    $jsFiles[] = "node_modules/jquery-toast-plugin/dist/jquery.toast.min.js";
     ?>
     <?php
     include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
