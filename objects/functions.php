@@ -5026,6 +5026,7 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
             $absolutePath = realpath($str);
             $ext = strtolower(pathinfo($absolutePath, PATHINFO_EXTENSION));
             if ($ext == 'php') {
+                _error_log('isValidURLOrPath return false (is php file) '.$str);
                 return false;
             }
             $cacheDir = "{$global['systemRootPath']}videos/";
@@ -5035,7 +5036,11 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
         } else {
             return true;
         }
+        _error_log('isValidURLOrPath return false not valid absolute path 1 '.$absolutePath);
+        _error_log('isValidURLOrPath return false not valid absolute path 2 '.getTmpDir());
+        _error_log('isValidURLOrPath return false not valid absolute path 3 '.$cacheDir);
     }
+    _error_log('isValidURLOrPath return false '.$str);
     return false;
 }
 
