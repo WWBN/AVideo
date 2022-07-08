@@ -27,7 +27,10 @@ if (isValidURL(@$_GET['siteRedirectUri'])) {
 }
 
 if(!empty($advancedCustomUser->afterSignUpGoToURL) && isValidURL($advancedCustomUser->afterSignUpGoToURL)){
-    $siteRedirectUri = $advancedCustomUser->afterSignUpGoToURL;
+    $loginURL = "{$global['webSiteRootURL']}user";
+    $loginURL = addQueryStringParameter($loginURL, 'redirectUri', $advancedCustomUser->afterSignUpGoToURL);
+    $loginURL = addQueryStringParameter($loginURL, 'comebackhere', 1);
+    $siteRedirectUri = $loginURL;
 }
 ?>
 <!DOCTYPE html>
