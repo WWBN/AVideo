@@ -5024,21 +5024,23 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
     if (str_starts_with($str, '/') || str_starts_with($str, '../') || preg_match("/^[a-z]:.*/i", $str)) {
         if ($insideCacheOrTmpDirOnly) {
             $absolutePath = realpath($str);
+            $absolutePathTmp = realpath(getTmpDir());
+            $absolutePathCache = realpath($cacheDir);
             $ext = strtolower(pathinfo($absolutePath, PATHINFO_EXTENSION));
             if ($ext == 'php') {
                 _error_log('isValidURLOrPath return false (is php file) '.$str);
                 return false;
             }
             $cacheDir = "{$global['systemRootPath']}videos/";
-            if (str_starts_with($absolutePath, getTmpDir()) || str_starts_with($absolutePath, '/var/www/') || str_starts_with($absolutePath, $cacheDir)) {
+            if (str_starts_with($absolutePath, $absolutePathTmp) || str_starts_with($absolutePath, '/var/www/') || str_starts_with($absolutePath, $absolutePathCache)) {
                 return true;
             }
         } else {
             return true;
         }
         _error_log('isValidURLOrPath return false not valid absolute path 1 '.$absolutePath);
-        _error_log('isValidURLOrPath return false not valid absolute path 2 '.getTmpDir());
-        _error_log('isValidURLOrPath return false not valid absolute path 3 '.$cacheDir);
+        _error_log('isValidURLOrPath return false not valid absolute path 2 '.$absolutePathTmp);
+        _error_log('isValidURLOrPath return false not valid absolute path 3 '.$absolutePathCache);
     }
     _error_log('isValidURLOrPath return false '.$str);
     return false;
