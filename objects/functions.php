@@ -8404,7 +8404,8 @@ function deleteMediaSessionPosters($imagePath) {
 }
 
 function getMediaSession() {
-    $MediaMetadata = false;
+    $MediaMetadata = new stdClass();
+    $MediaMetadata->title = '';
     $videos_id = getVideos_id();
     if ($liveLink = isLiveLink()) {
         $MediaMetadata = LiveLinks::getMediaSession($liveLink);
@@ -8421,7 +8422,11 @@ function getMediaSession() {
     } else if (!empty($_REQUEST['key'])) {
         $MediaMetadata = Live::getMediaSession($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_schedule_id']);
     }
-    $MediaMetadata->title = getSEOTitle($MediaMetadata->title);
+    if(empty($MediaMetadata)){
+        $MediaMetadata->title = '';
+    }else{
+        $MediaMetadata->title = getSEOTitle($MediaMetadata->title);
+    }
     return $MediaMetadata;
 }
 
