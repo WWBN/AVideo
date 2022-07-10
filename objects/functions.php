@@ -1,6 +1,7 @@
 <?php
 $AVideoMobileAPP_UA = "AVideoMobileApp";
 $AVideoEncoder_UA = "AVideoEncoder";
+$AVideoEncoderNetwork_UA = "AVideoEncoderNetwork";
 $AVideoStreamer_UA = "AVideoStreamer";
 $AVideoStorage_UA = "AVideoStorage";
 $mysql_connect_was_closed = 1;
@@ -3045,10 +3046,10 @@ function isAVideoUserAgent($user_agent = "") {
     if (empty($user_agent)) {
         return false;
     }
-    global $AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoStreamer_UA, $AVideoStorage_UA, $global;
+    global $AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoEncoderNetwork_UA, $AVideoStreamer_UA, $AVideoStorage_UA, $global;
 
     // Lavf = ffmpeg
-    $agents = [$AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoStreamer_UA, $AVideoStorage_UA, 'Lavf'];
+    $agents = [$AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoEncoderNetwork_UA, $AVideoStreamer_UA, $AVideoStorage_UA, 'Lavf'];
 
     foreach ($agents as $value) {
         if (preg_match("/{$value}/", $_SERVER["HTTP_USER_AGENT"])) {
