@@ -1308,6 +1308,18 @@ function avideoAlertOnce(title, msg, type, uid) {
     }
 }
 
+function avideoAlertOnceForceConfirm(title, msg, type) {
+    var span = document.createElement("span");
+    span.innerHTML = msg;
+    swal({
+        title: title,
+        content: span,
+        icon: type,
+        closeOnClickOutside: false,
+        closeModal: true
+    });
+}
+
 function _avideoToast(msg, icon) {
     var options = {text: msg, hideAfter: 7000};
     if (icon) {
