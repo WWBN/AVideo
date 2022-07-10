@@ -2895,7 +2895,7 @@ function requestComesFromSameDomainAsMyAVideo() {
         $url = $_SERVER['HTTP_ORIGIN'];
     }
     //var_dump($_SERVER);exit;
-    _error_log("requestComesFromSameDomainAsMyAVideo: ({$url}) == ({$global['webSiteRootURL']})");
+    //_error_log("requestComesFromSameDomainAsMyAVideo: ({$url}) == ({$global['webSiteRootURL']})");
     return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN()) || isFromCDN($url);
 }
 
@@ -4065,6 +4065,9 @@ function _session_start(array $options = []) {
  * @return boolean
  */
 function blackListRegenerateSession() {
+    if (!requestComesFromSafePlace()) {
+        return false;
+    }
     $list = array(
         'objects/getCaptcha.php',
         'objects/userCreate.json.php',
