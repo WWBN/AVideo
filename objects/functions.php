@@ -4026,18 +4026,22 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10) {
 
 function _session_start(array $options = []) {
     try {
-        if (!empty($_GET['PHPSESSID']) && !User::isLogged()) {
-            if ($_GET['PHPSESSID'] !== session_id()) {
-                if (session_status() !== PHP_SESSION_NONE) {
-                    @session_write_close();
+        if (!empty($_GET['PHPSESSID'])) {
+            if(!User::isLogged()){
+                if ($_GET['PHPSESSID'] !== session_id()) {
+                    if (session_status() !== PHP_SESSION_NONE) {
+                        @session_write_close();
+                    }
+                    session_id($_GET['PHPSESSID']);
+                    _error_log("captcha: session_id changed to " . $_GET['PHPSESSID']);
                 }
-                session_id($_GET['PHPSESSID']);
-                //_error_log("captcha: session_id changed to " . $_GET['PHPSESSID']);
+                unset($_GET['PHPSESSID']);
+                $session = @session_start($options);
+                session_regenerate_id();
+                return $session;
+            }else{
+                _error_log("captcha: user logged we will not change the session ID PHPSESSID=" . $_GET['PHPSESSID']." session_id=". session_id());
             }
-            unset($_GET['PHPSESSID']);
-            $session = @session_start($options);
-            session_regenerate_id();
-            return $session;
         } elseif (session_status() == PHP_SESSION_NONE) {
             return @session_start($options);
         }
