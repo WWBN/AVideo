@@ -2803,3 +2803,27 @@ function fixAdSize() {
         $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'width': width});
     }
 }
+
+function videoJSRecreateSources(defaultSource){
+    if(empty(player) || empty(player.options_) || empty(player.updateSrc)){
+        return false;
+    }
+    player.options_.sources = [];
+    $("#mainVideo source").each(function (index) {
+        var source = {
+          res: $(this).attr("res"),
+          label: $(this).attr("label"),
+          type: $(this).attr("type"),
+          src: $(this).attr("src"),
+        };
+        console.log('videoJSRecreateSources', $(this), source);
+        player.options_.sources.push(source);
+    });
+    player.updateSrc(player.options_.sources);
+    if(!empty(player.currentResolution) && !empty(defaultSource)){
+        player.currentResolution(defaultSource.label, null);
+    }
+    if(!empty(fixResolutionMenu)){
+        fixResolutionMenu();
+    }
+}

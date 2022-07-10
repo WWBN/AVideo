@@ -2894,7 +2894,8 @@ function requestComesFromSameDomainAsMyAVideo() {
     } elseif (!empty($_SERVER['HTTP_ORIGIN'])) {
         $url = $_SERVER['HTTP_ORIGIN'];
     }
-    //_error_log("requestComesFromSameDomainAsMyAVideo: ({$url}) == ({$global['webSiteRootURL']})");
+    //var_dump($_SERVER);exit;
+    _error_log("requestComesFromSameDomainAsMyAVideo: ({$url}) == ({$global['webSiteRootURL']})");
     return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN()) || isFromCDN($url);
 }
 
@@ -4027,7 +4028,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10) {
 function _session_start(array $options = []) {
     try {
         if (!empty($_GET['PHPSESSID'])) {
-            if(!User::isLogged()){
+            if (!User::isLogged()) {
                 if ($_GET['PHPSESSID'] !== session_id()) {
                     if (session_status() !== PHP_SESSION_NONE) {
                         @session_write_close();
@@ -4037,10 +4038,17 @@ function _session_start(array $options = []) {
                 }
                 unset($_GET['PHPSESSID']);
                 $session = @session_start($options);
-                session_regenerate_id(true);
+
+                if (preg_match('/objects\/getCaptcha\.php/i', $_SERVER['SCRIPT_NAME'])) {
+                    $regenerateSessionId = false;
+                }
+                if (!blackListRegenerateSession()) {
+                    _error_log("captcha: session_id regenerated new  session_id=" . session_id());
+                    session_regenerate_id(true);
+                }
                 return $session;
-            }else{
-                _error_log("captcha: user logged we will not change the session ID PHPSESSID=" . $_GET['PHPSESSID']." session_id=". session_id());
+            } else {
+                _error_log("captcha: user logged we will not change the session ID PHPSESSID=" . $_GET['PHPSESSID'] . " session_id=" . session_id());
             }
         } elseif (session_status() == PHP_SESSION_NONE) {
             return @session_start($options);
@@ -4049,6 +4057,24 @@ function _session_start(array $options = []) {
         _error_log("_session_start: " . $exc->getTraceAsString());
         return false;
     }
+}
+
+/**
+ * we will not regenerate the session on this page
+ * this is necessary because of the signup from the iframe pages
+ * @return boolean
+ */
+function blackListRegenerateSession() {
+    $list = array(
+        'objects/getCaptcha.php',
+        'objects/userCreate.json.php',
+    );
+    foreach ($list as $needle) {
+        if(str_ends_with($_SERVER['SCRIPT_NAME'], $needle)){
+            return true;
+        }
+    }
+    return false;
 }
 
 function _mysql_connect($persistent = false) {
@@ -6242,6 +6268,7 @@ function setToastMessage($msg) {
 
 function showAlertMessage() {
     if (!requestComesFromSafePlace()) {
+        echo PHP_EOL, "/** showAlertMessage !requestComesFromSafePlace **/";
         return false;
     }
     if (!empty($_SESSION['YPTalertMessage'])) {
@@ -8426,9 +8453,9 @@ function getMediaSession() {
     } else if (!empty($_REQUEST['key'])) {
         $MediaMetadata = Live::getMediaSession($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_schedule_id']);
     }
-    if(empty($MediaMetadata)){
+    if (empty($MediaMetadata)) {
         $MediaMetadata->title = '';
-    }else{
+    } else {
         $MediaMetadata->title = getSEOTitle($MediaMetadata->title);
     }
     return $MediaMetadata;
@@ -8881,7 +8908,7 @@ function getHtaccessForVideoVersion($videosHtaccessFile) {
 }
 
 function fileIsAnValidImage($filepath) {
-    if(file_exists($filepath)){
+    if (file_exists($filepath)) {
         if (!function_exists('exif_imagetype')) {
             if (( list($width, $height, $type, $attr) = getimagesize($filepath) ) !== false) {
                 return $type;
@@ -8899,12 +8926,12 @@ function fileIsAnValidImage($filepath) {
  * @return boolean
  */
 function deleteInvalidImage($filepath) {
-    if(file_exists($filepath)){
+    if (file_exists($filepath)) {
         if (!fileIsAnValidImage($filepath)) {
             _error_log("deleteInvalidImage($filepath)");
             unlink($filepath);
             return true;
-        } 
+        }
         return false;
     }
     return true;

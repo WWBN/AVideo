@@ -32,6 +32,7 @@ if(!empty($advancedCustomUser->afterSignUpGoToURL) && isValidURL($advancedCustom
     $loginURL = addQueryStringParameter($loginURL, 'comebackhere', 1);
     $siteRedirectUri = $loginURL;
 }
+$siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'success', _($advancedCustomUser->signupWelcomeAlert));
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">

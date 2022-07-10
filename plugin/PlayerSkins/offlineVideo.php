@@ -16,6 +16,56 @@ if (!User::canWatchVideo($videos_id)) {
 
 $video = Video::getVideoLight($videos_id);
 $sources = getVideosURL_V2($video['filename']);
+$sourcesResolutions = array();
+$mainResolution = false;
+
+foreach ($sources as $key => $value) {
+    if (preg_match('/^mp4_([0-9]+)/', $key, $matches)) {
+        $option = array('url' => $value['url'], 'path' => $value['path'], 'resolution' => $matches[1]);
+        $sourcesResolutions[] = $option;
+        if ($option['resolution'] == 480) {
+            $mainResolution = $option;
+        }
+    }
+}
+if (empty($mainResolution) && !empty($sourcesResolutions)) {
+    $mainResolution = $sourcesResolutions[0];
+}
+
+function createOfflineDownloadPanel($option, $class = 'col-sm-6') {
+    global $videos_id;
+    ?>
+    <div class="<?php echo $class; ?>">
+        <div class="panel panel-default videos_offline_<?php echo $videos_id; ?>_<?php echo $option['resolution']; ?>">
+            <div class="panel-heading">
+                <button class="btn btn-danger"  onclick='_deleteOfflineVideo(<?php echo json_encode($option['resolution']); ?>);'>
+                    <i class="fas fa-trash"></i> <?php echo __('Delete'); ?>
+                </button>
+                <button class="btn btn-warning" onclick='_downloadOfflineVideo(<?php echo json_encode($option['url']); ?>, <?php echo json_encode($option['resolution']); ?>, "#videos_offline_<?php echo $videos_id; ?>_<?php echo $option['resolution']; ?> .progress");'>
+                    <i class="fas fa-download"></i> <?php echo __('Download'); ?>
+                </button>
+                <button class="btn btn-success" onclick='_updateVideo(<?php echo json_encode($videos_id); ?>);'>
+                    <i class="fas fa-sync"></i> <?php echo __('Renew'); ?>
+                </button>
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><?php echo __('Resolution') ?> <span class="badge"><?php echo $option['resolution']; ?></span></li>
+                    <li class="list-group-item"><?php echo __('Size') ?> <span class="badge"><?php echo humanFileSize(filesize($option['path'])); ?></span></li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0;">
+                        0%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,77 +77,72 @@ $sources = getVideosURL_V2($video['filename']);
         <title>Download Video</title>
         <?php
         //echo AVideoPlugin::getHeadCode();
-        ?>
-
-        <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <style>
+            .offlinevideos div.panel-success > div.panel-heading > button.btn.btn-warning{
+                display: none;
+            }
+            .offlinevideos div.panel-default > div.panel-heading > button.btn.btn-danger,
+            .offlinevideos div.panel-default > div.panel-heading > button.btn.btn-success{
+                display: none;
+            }
+        </style>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid">
-            <h1><?php echo $video['title']; ?></h1>
-            <h2><?php echo humanFileSize($video['filesize']); ?></h2>
+        <div class="container">
 
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-                <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
-            </ul>
-
-            <div class="tab-content">
-                <div id="home" class="tab-pane fade in active">
-                    <h3>HOME</h3>
-                    <p>Some content.</p>
+            <div class="panel panel-default">
+                <div class="panel-heading">
                 </div>
-                <div id="menu1" class="tab-pane fade">
-                    <h3>Menu 1</h3>
-                    <p>Some content in menu 1.</p>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <?php
-                foreach ($sources as $key => $value) {
-                    if (preg_match('/^mp4_([0-9]+)/', $key, $matches)) {
-                        ?>
-                        <div class="col-sm-3">
-                            <div class="panel panel-default" id="videos_offline_<?php echo $videos_id; ?>_<?php echo $matches[1]; ?>">
-                                <div class="panel-heading">
-                                    <button class="btn btn-danger"  onclick='_deleteOfflineVideo(<?php echo json_encode($matches[1]); ?>);'>
-                                        <i class="fas fa-trash"></i> <?php echo __('Delete'); ?>
-                                    </button>
-                                    <button class="btn btn-warning" onclick='_downloadOfflineVideo(<?php echo json_encode($value['url']); ?>, <?php echo json_encode($matches[1]); ?>, "#downloadProgressBar<?php echo $videos_id; ?>_<?php echo $matches[1]; ?>");'>
-                                        <i class="fas fa-download"></i> <?php echo __('Download'); ?>
-                                    </button>
-                                    <button class="btn btn-success" onclick='_updateVideo(<?php echo json_encode($videos_id); ?>);'>
-                                        <i class="fas fa-sync"></i> <?php echo __('Renew'); ?>
-                                    </button>
-                                </div>
-                                <div class="panel-body">
-                                    Resolution: <?php echo $matches[1]; ?>p<br>
-                                </div>
-                                <div class="panel-footer">
-                                    <?php echo humanFileSize(filesize($value['path'])); ?>
-                                    <div class="progress" id="downloadProgressBar<?php echo json_encode($videos_id); ?>_<?php echo $matches[1]; ?>">
-                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0;">
-                                            0%
+                <div class="panel-body offlinevideos tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#offlineVideo"><?php echo __('Offline Video'); ?></a></li>
+                        <li><a data-toggle="tab" href="#offlineVideoAdvanced"><?php echo __('Advanced'); ?></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="offlineVideo" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading clearfix">
+                                            <?php
+                                            echo Video::getVideosListItem($video['id']);
+                                            ?>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <?php echo __('Total Size') ?> <span class="badge"><?php echo humanFileSize($video['filesize']); ?></span>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-6">
+                                    <?php
+                                    createOfflineDownloadPanel($mainResolution, '');
+                                    ?>
+                                </div>
                             </div>
                         </div>
-                        <?php
-                        //var_dump($matches, $value);
-                    }
-                }
-                //var_dump($video, $sources);
-                ?>
-
+                        <div id="offlineVideoAdvanced" class="tab-pane fade">
+                            <div class="row">
+                                <?php
+                                foreach ($sourcesResolutions as $key => $option) {
+                                    createOfflineDownloadPanel($option);
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                </div>
             </div>
         </div>
 
@@ -122,12 +167,11 @@ $sources = getVideosURL_V2($video['filename']);
                 $('.panel').addClass('panel-default');
                 changeProgressBarOfflineVideo('.progress', 0);
                 collection.each(function (video) {
-                    var elemSelector = '#videos_offline_' + video.videos_id_resolution;
+                    var elemSelector = '.videos_offline_' + video.videos_id_resolution;
                     $(elemSelector).removeClass('panel-default');
                     $(elemSelector).addClass('panel-success');
-                    
-                    var progressBarSelector = $(elemSelector).find('.progress').attr('id');
-                    changeProgressBarOfflineVideo('#'+progressBarSelector, 100);
+
+                    changeProgressBarOfflineVideo(elemSelector+' .progress', 100);
                 });
 
             }
