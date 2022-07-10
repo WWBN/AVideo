@@ -4037,7 +4037,7 @@ function _session_start(array $options = []) {
                 }
                 unset($_GET['PHPSESSID']);
                 $session = @session_start($options);
-                session_regenerate_id();
+                session_regenerate_id(true);
                 return $session;
             }else{
                 _error_log("captcha: user logged we will not change the session ID PHPSESSID=" . $_GET['PHPSESSID']." session_id=". session_id());
