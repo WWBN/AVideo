@@ -1081,7 +1081,7 @@ if (typeof gtag !== \"function\") {
             if ($obj = AVideoPlugin::getDataObjectIfEnabled("LoginControl")) {
                 if (!empty($obj->singleDeviceLogin)) {
                     if (!LoginControl::isLoggedFromSameDevice()) {
-                        _error_log("user::recreateLoginFromCookie: LoginControl and the last logged device is different: " . $_COOKIE['user'] . "");
+                        //_error_log("user::recreateLoginFromCookie: LoginControl and the last logged device is different: " . $_COOKIE['user'] . "");
                         self::logoff();
                         return false;
                     }
@@ -1093,11 +1093,11 @@ if (typeof gtag !== \"function\") {
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
                 $resp = $user->login(false, true);
 
-                _error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   result: " . $resp);
+                //_error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   result: " . $resp);
                 if (0 == $resp) {
-                    _error_log("success " . $_SESSION['user']['id']);
+                    //_error_log("success " . $_SESSION['user']['id']);
                 } else {
-                    _error_log("user::recreateLoginFromCookie: do logoff: " . $_COOKIE['user'] . "   result: " . $resp);
+                    //_error_log("user::recreateLoginFromCookie: do logoff: " . $_COOKIE['user'] . "   result: " . $resp);
                     self::logoff();
                 }
             }
