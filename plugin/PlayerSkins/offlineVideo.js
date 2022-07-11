@@ -28,6 +28,9 @@ function replaceVideoSourcesPerOfflineVersion(){
 
 async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
     videos_id = parseInt(videos_id);
+    if(empty(videos_id)){
+        return false;
+    }
     videoJSRecreateSources(false);
     $('source.offline-video').remove();
     getOfflineVideo(videos_id).then(function (collection) {
