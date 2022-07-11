@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 class PlayerSkins extends PluginAbstract {
-    
+
     public function getTags() {
         return array(
             PluginTags::$FREE,
@@ -54,6 +54,7 @@ class PlayerSkins extends PluginAbstract {
         $obj->showLogoAdjustLeft = "-74px";
         $obj->showLogoAdjustTop = "-22px;";
         $obj->disableEmbedTopInfo = false;
+        $obj->disableOfflineVideos = false;
         $obj->contextMenuDisableEmbedOnly = false;
         $obj->contextMenuLoop = true;
         $obj->contextMenuCopyVideoURL = true;
@@ -61,8 +62,7 @@ class PlayerSkins extends PluginAbstract {
         $obj->contextMenuCopyEmbedCode = true;
         $obj->contextMenuShare = true;
         $obj->playerFullHeight = false;
-        
-        
+
         return $obj;
     }
 
@@ -111,7 +111,7 @@ class PlayerSkins extends PluginAbstract {
                  * 
                  */
                 $htmlMediaTag .= '<p>' . __("If you can't view this video, your browser does not support HTML5 videos") . '</p><p class="vjs-no-js">' . __("To view this video please enable JavaScript, and consider upgrading to a web browser that") . '<a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a></p></video>';
-            } else if ($vType == 'audio') {               
+            } else if ($vType == 'audio') {
                 $htmlMediaTag = '<audio playsinline webkit-playsinline="webkit-playsinline" 
                        preload="auto"
                        poster="' . $images->poster . '" controls class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" id="mainVideo">';
@@ -264,12 +264,14 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay) && empty($_REQUEST['hideAutoplaySwitch'])) {
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/autoplayButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
+            if (self::showOfflineVideo()) {
+                $css .= "<link href=\"" . getURL('plugin/PlayerSkins/offlineButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
+            }
         }
 
         $url = urlencode(getSelfURI());
         $oembed = '<link href="' . getCDN() . 'oembed/?format=json&url=' . $url . '" rel="alternate" type="application/json+oembed" />';
         $oembed .= '<link href="' . getCDN() . 'oembed/?format=xml&url=' . $url . '" rel="alternate" type="application/xml+oembed" />';
-
 
         return $js . $css . $oembed;
     }
@@ -303,7 +305,7 @@ class PlayerSkins extends PluginAbstract {
 
             if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay) && empty($_REQUEST['hideAutoplaySwitch'])) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/autoplayButton.js"));
-            }else{
+            } else {
                 if ($obj->showShareAutoplay) {
                     $js .= "<!-- PlayerSkins showShareAutoplay -->";
                 }
@@ -316,6 +318,9 @@ class PlayerSkins extends PluginAbstract {
                 if (empty($_REQUEST['hideAutoplaySwitch'])) {
                     $js .= "<!-- PlayerSkins empty(\$_REQUEST['hideAutoplaySwitch']) -->";
                 }
+            }
+            if (self::showOfflineVideo()) {
+                PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/offlineButton.js"));
             }
         }
         if (isAudio()) {
@@ -334,13 +339,15 @@ class PlayerSkins extends PluginAbstract {
 
         include $global['systemRootPath'] . 'plugin/PlayerSkins/mediaSession.php';
         PlayerSkins::addOnPlayerReady('if(typeof updateMediaSessionMetadata === "function"){updateMediaSessionMetadata();}');
-        
-        if(isVideo()){
-            $js .= "<script>const offlineVideoDbName = 'videos_offlineDb_".User::getId()."';</script>";
-           $js .= "<script src=\"" . getURL('node_modules/dexie/dist/dexie.min.js') . "\"></script>";
-           $js .= "<script src=\"" . getURL('plugin/PlayerSkins/offlineVideo.js') . "\"></script>";
+
+        if (isVideo()) {
+            $js .= "<script src=\"" . getURL('node_modules/dexie/dist/dexie.min.js') . "\"></script>";
+            if (self::showOfflineVideo()) {
+                $js .= "<script>const offlineVideoDbName = 'videos_offlineDb_" . User::getId() . "';</script>";
+                $js .= "<script src=\"" . getURL('plugin/PlayerSkins/offlineVideo.js') . "\"></script>";
+            }
         }
-        
+
         return $js;
     }
 
@@ -402,7 +409,7 @@ class PlayerSkins extends PluginAbstract {
         if (empty($currentTime) && isVideoPlayerHasProgressBar()) {
             $currentTime = self::getCurrentTime();
         }
-        
+
         if (!empty($global['doNotLoadPlayer'])) {
             return '';
         }
@@ -489,22 +496,22 @@ class PlayerSkins extends PluginAbstract {
 
         $js .= "}
         player.ready(function () {";
-        
+
         // this is here because for some reason videos on the storage only works if it loads dinamically on android devices only
-        if(isMobile()){
+        if (isMobile()) {
             $js .= "player.src(player.currentSources());";
         }
-        if(empty($_REQUEST['mute'])){
+        if (empty($_REQUEST['mute'])) {
             $play = "playerPlayIfAutoPlay({$currentTime});";
-            
+
             $js .= "
             player.persistvolume({
                 namespace: 'AVideo'
             });";
-        }else{
+        } else {
             $play = "player.volume(0);player.muted(true);playerPlayMutedIfAutoPlay({$currentTime});";
         }
-        
+
         $js .= "var err = this.error();
             if (err && err.code) {
                 $('.vjs-error-display').hide();
@@ -536,10 +543,10 @@ class PlayerSkins extends PluginAbstract {
             $videos_id = getVideos_id();
             if (!empty($videos_id)) {
                 $video = Video::getVideoLight($videos_id);
-                $progress = Video::getVideoPogressPercent($videos_id); 
+                $progress = Video::getVideoPogressPercent($videos_id);
                 if (!empty($progress) && !empty($progress['lastVideoTime'])) {
                     $currentTime = intval($progress['lastVideoTime']);
-                } else if (!empty($video['externalOptions'])) {                    
+                } else if (!empty($video['externalOptions'])) {
                     $json = _json_decode($video['externalOptions']);
                     if (!empty($json->videoStartSeconds)) {
                         $currentTime = intval(parseDurationToSeconds($json->videoStartSeconds));
@@ -681,5 +688,26 @@ class PlayerSkins extends PluginAbstract {
         }
         return array($tags);
     }
+
+    public static function showOfflineVideo() {
+        global $global;
+        $obj = AVideoPlugin::getDataObject('PlayerSkins');
+        if (!empty($obj->disableOfflineVideos)) {
+            return false;
+        }
+        if (empty($global['developer_mode'])) {
+            return false;
+        }
+        $videos_id = getVideos_id();
+
+        if (empty($videos_id)) {
+            return false;
+        }
+
+        $types = Video::getVideoTypeFromId($videos_id);
+
+        return !empty($types->mp4);
+    }
+    
 
 }

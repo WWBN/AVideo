@@ -32,7 +32,7 @@ if (empty($mainResolution) && !empty($sourcesResolutions)) {
     $mainResolution = $sourcesResolutions[0];
 }
 
-function createOfflineDownloadPanel($option, $class = 'col-sm-6') {
+function createOfflineDownloadPanel($option, $class = 'col-xs-6') {
     global $videos_id;
     ?>
     <div class="<?php echo $class; ?>">
@@ -107,7 +107,7 @@ function createOfflineDownloadPanel($option, $class = 'col-sm-6') {
                     <div class="tab-content">
                         <div id="offlineVideo" class="tab-pane fade in active">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-xs-6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading clearfix">
                                             <?php
@@ -123,7 +123,7 @@ function createOfflineDownloadPanel($option, $class = 'col-sm-6') {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-xs-6">
                                     <?php
                                     createOfflineDownloadPanel($mainResolution, '');
                                     ?>
@@ -179,6 +179,7 @@ function createOfflineDownloadPanel($option, $class = 'col-sm-6') {
                 return await fetchVideoFromNetwork(src, 'video/mp4', resolution, progressBarSelector).then(function (video) {
                     console.log("_downloadOfflineVideo: ", video);
                     listAllOfflineVideo();
+                    socketUpdateOfflineVideoSource(<?php echo json_encode($_REQUEST['socketResourceId']); ?>);
                 }).catch(function (e) {
                     console.log("_downloadOfflineVideo Error: ", e);
                 });
@@ -187,6 +188,7 @@ function createOfflineDownloadPanel($option, $class = 'col-sm-6') {
                 return deleteOfflineVideo(<?php echo $videos_id; ?>, resolution).then((video) => {
                     console.log('_deleteOfflineVideo', video);
                     listAllOfflineVideo();
+                    socketUpdateOfflineVideoSource(<?php echo json_encode($_REQUEST['socketResourceId']); ?>);
                 });
             }
         </script>

@@ -11,7 +11,6 @@ async function downloadOfflineVideo(source) {
     getOfflineVideo(mediaId, resolution).then(function (video) {
         if (video) {
             console.log('downloadOfflineVideo', video);
-            //createSourceElement(video.fileBlob, video.video_type, video.resolution);
             resolve(video);
         } else {
             // Fetch the videos from the network
@@ -23,25 +22,32 @@ async function downloadOfflineVideo(source) {
     });
 }
 
+function replaceVideoSourcesPerOfflineVersion(){
+    replaceVideoSourcesPerOfflineVersionIfExists(mediaId);
+}
+
 async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
     videos_id = parseInt(videos_id);
+    videoJSRecreateSources(false);
+    $('source.offline-video').remove();
     getOfflineVideo(videos_id).then(function (collection) {
         collection.toArray().then(function (offlineVideoSources) {
+            var firstSource = null;
             if (offlineVideoSources.length) {
                 console.log('something in the array', offlineVideoSources, offlineVideoSources.length);
                 var sources = [];
-                var firstSource = null;         
                 for (var item in offlineVideoSources) {
-                    if(typeof offlineVideoSources[item] === 'object'){
+                    if (typeof offlineVideoSources[item] === 'object') {
                         var video = offlineVideoSources[item];
                         const videoURL = URL.createObjectURL(video.fileBlob);
                         var source = {
                             src: videoURL,
                             type: video.video_type,
                             res: video.resolution,
-                            label: video.resolution+ 'p <span class="label label-warning" style="padding: 0 2px; font-size: .8em; display: inline;">(OFFLINE)</span>',
+                            class: 'offline-video',
+                            label: video.resolution + 'p <span class="label label-warning" style="padding: 0 2px; font-size: .8em; display: inline;">(OFFLINE)</span>',
                         };
-                        if(!firstSource){
+                        if (!firstSource) {
                             firstSource = source;
                         }
                         sources.push(source);
@@ -50,11 +56,10 @@ async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
                 }
                 console.log('Adding sources ', firstSource, sources);
                 player.src(sources);
-                videoJSRecreateSources(firstSource);
-                Promise.resolve(offlineVideoSources);
-            } else {
-                console.log('empty array', offlineVideoSources, offlineVideoSources.length);
-            }
+            } 
+            videoJSRecreateSources(firstSource);
+            offlineVideoButtonCheck();
+            Promise.resolve(offlineVideoSources);
         }).catch(function (e) {
             console.log("Error: " + (e.stack || e));
         });
@@ -64,27 +69,8 @@ async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
 }
 
 async function getOfflineVideo(videos_id) {
+    videos_id = parseInt(videos_id);
     return await offlineDbRequest.offline_videos.where('videos_id').equals(videos_id);
-}
-
-function getOfflineSources(videos_id) {
-    var first = false;
-    var video480 = false;
-    $("#mainVideo source").each(function (index) {
-        if (empty(first)) {
-            first = $(this);
-        }
-        var resolution = $(this).attr("res");
-        if (resolution == 480) {
-            video480 = $(this);
-        }
-    });
-    if (!empty(video480)) {
-        console.log('getOneOfflineVideoSource 480p video found', video480);
-        return video480;
-    }
-    console.log('getOneOfflineVideoSource first video found', first);
-    return first;
 }
 
 function getOneOfflineVideoSource() {
@@ -105,14 +91,6 @@ function getOneOfflineVideoSource() {
     }
     console.log('getOneOfflineVideoSource first video found', first);
     return first;
-}
-
-async function downloadOneOfflineVideo() {
-    var source = getOneOfflineVideoSource();
-    if (!empty(source)) {
-        return await downloadOfflineVideo(source);
-    }
-    reject(false);
 }
 
 function changeProgressBarOfflineVideo(progressBarSelector, value) {
@@ -155,7 +133,6 @@ async function fetchVideoFromNetwork(src, type, resolution, progressBarSelector)
     }
 
     let fileBlob = new Blob(chunks);
-    //createSourceElement(fileBlob, type, resolution);
     return await storeOfflineVideo(src, fileBlob, type, contentLength, mediaId, resolution);
 }
 
@@ -187,8 +164,100 @@ function deleteOfflineVideo(videos_id, resolution) {
 
 function createSourceElement(source) {
     var sourceElement = $('<source />', source);
+    if(!empty(source.class)){
+        $(sourceElement).addClass(source.class);
+    }
     console.log('displayVideo', source);
     $("video#mainVideo, #mainVideo_html5_api").append(sourceElement);
+}
+
+function openDownloadOfflineVideoPage() {
+    if (empty(mediaId)) {
+        return false;
+    }
+    var url = webSiteRootURL + 'plugin/PlayerSkins/offlineVideo.php';
+    url = addQueryStringParameter(url, 'videos_id', mediaId);
+    url = addQueryStringParameter(url, 'socketResourceId', socketResourceId);
+    avideoModalIframeSmall(url);
+    return true;
+}
+var offlineVideoButtonCheckTimeout;
+function offlineVideoButtonCheck() {
+    getOfflineVideo(mediaId).then(function (collection) {
+        collection.toArray().then(function (offlineVideoSources) {
+            console.log("offlineVideoButtonCheck offlineVideoSources.length: ", offlineVideoSources.length);
+            if (offlineVideoSources.length) {
+                if(isOfflineSourceSelectedToPlay()){
+                    setOfflineButton('playingOffline', false);
+                }else{
+                    setOfflineButton('readyToPlayOffline', false);
+                }
+            } else {
+                setOfflineButton('download', false);
+            }
+            clearTimeout(offlineVideoButtonCheckTimeout);
+            offlineVideoButtonCheckTimeout = setTimeout(function () {
+                offlineVideoButtonCheck();
+            }, 5000);
+        }).catch(function (e) {
+            console.log("Error offlineVideoButtonCheck 1: ", e);
+        });
+    }).catch(function (e) {
+        console.log("Error offlineVideoButtonCheck 2: ", e);
+    });
+}
+
+function isOfflineSourceSelectedToPlay() {
+    var currSource = player.currentSrc();
+    console.log("isOfflineSourceSelectedToPlay: ", currSource);
+    if (currSource.match(/^blob:http/i)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function setOfflineButton(type, showLoading) {
+    if (showLoading) {
+        offlineVideoLoading(true);
+    }
+    switch (type) {
+        case 'download':
+            avideoTooltip(".offline-button", "Download");
+            $('.offline-button').removeClass('hasOfflineVideo');
+            $('body').removeClass('playingOfflineVideo');
+            offlineVideoButtonCheck();
+            break;
+        case 'readyToPlayOffline':
+            avideoTooltip(".offline-button", "Ready to play offline");
+            $('body').removeClass('playingOfflineVideo');
+            $('.offline-button').addClass('hasOfflineVideo');
+            break;
+        case 'playingOffline':
+            avideoTooltip(".offline-button", "Playing offline");
+            $('body').addClass('playingOfflineVideo');
+            $('.offline-button').addClass('hasOfflineVideo');
+            break;
+    }
+    if (showLoading) {
+        offlineVideoLoading(false);
+    }
+}
+
+function offlineVideoLoading(active) {
+    if (active) {
+        $('.offline-button').addClass('loading');
+        $('.offline-button').addClass('fa-pulse');
+    } else {
+        $('.offline-button').removeClass('loading');
+        $('.offline-button').removeClass('fa-pulse');
+    }
+}
+
+function socketUpdateOfflineVideoSource(resourceId){
+    if(avideoSocketIsActive()){
+        sendSocketMessageToResourceId({}, 'replaceVideoSourcesPerOfflineVersion', resourceId)
+    }
 }
 
 var offlineDbRequest = new Dexie(offlineVideoDbName);
@@ -197,7 +266,7 @@ offlineDbRequest.version(1).stores({
 });
 
 $(document).ready(function () {
-    if(!empty(mediaId) && $("#mainVideo").length){
+    if (!empty(mediaId) && $("#mainVideo").length) {
         replaceVideoSourcesPerOfflineVersionIfExists(mediaId);
     }
 });

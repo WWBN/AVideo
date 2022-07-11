@@ -4564,6 +4564,17 @@ if (!class_exists('Video')) {
             $this->rrating = $rrating;
         }
 
+        public static function getVideoTypeFromId($videos_id) {
+            if(empty($videos_id)){
+                return false;
+            }
+            $video = Video::getVideoLight($videos_id);
+            if(empty($video['filename'])){
+                return false;
+            }
+            return self::getVideoType($video['filename']);
+        }
+        
         public static function getVideoType($filename) {
             global $_getVideoType;
 

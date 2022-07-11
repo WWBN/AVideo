@@ -2816,8 +2816,13 @@ function fixAdSize() {
     }
 }
 
+var videoJSRecreateSourcesTimeout;
 function videoJSRecreateSources(defaultSource){
     if(empty(player) || empty(player.options_) || empty(player.updateSrc)){
+        clearTimeout(videoJSRecreateSourcesTimeout);
+        videoJSRecreateSourcesTimeout = setTimeout(function(){
+            videoJSRecreateSources(defaultSource);
+        });
         return false;
     }
     player.options_.sources = [];
