@@ -14,6 +14,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     if (!showThis($getName)) {
         return "";
     }
+    global $contentSearchFound;
     $title = __($title);
     $getName = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($getName));
     if (!empty($_GET['showOnly'])) {
@@ -62,6 +63,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         }
 
         $total = Video::getTotalVideos($videoStatus, false, $ignoreGroup);
+        if(empty($contentSearchFound)){
+            $contentSearchFound = !empty($total);
+        }
         $totalPages = ceil($total / $_REQUEST['rowCount']);
         $page = $_GET['page'];
         if ($totalPages < $_GET['page']) {
