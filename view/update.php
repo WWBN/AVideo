@@ -13,6 +13,7 @@ if (!User::isAdmin()) {
     forbiddenPage("");
     exit;
 }
+adminSecurityCheck(true);
 // remove cache dir before the script starts to let the script recreate the javascript and css files
 if (!empty($_POST['updateFile'])) {
     $dir = Video::getStoragePath()."cache";

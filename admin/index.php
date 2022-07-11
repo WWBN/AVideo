@@ -2,11 +2,11 @@
 $vars = [];
 require_once '../videos/configuration.php';
 require_once './functions.php';
-
 if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}");
     exit;
 }
+adminSecurityCheck(true);
 $isAdminPanel = 1;
 
 class MenuAdmin
