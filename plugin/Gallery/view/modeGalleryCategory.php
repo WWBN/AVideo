@@ -51,6 +51,10 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
         if (empty($_cat['clean_name'])) {
             continue;
         }
+        global $contentSearchFound;
+        if(empty($contentSearchFound)){
+            $contentSearchFound = !empty($videos);
+        }
         ?>
         <div class="clear clearfix">
             <?php
