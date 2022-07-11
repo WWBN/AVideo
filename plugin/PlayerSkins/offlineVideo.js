@@ -42,7 +42,7 @@ async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
                 for (var item in offlineVideoSources) {
                     if (typeof offlineVideoSources[item] === 'object') {
                         var video = offlineVideoSources[item];
-                        const videoURL = URL.createObjectURL(video.fileBlob);
+                        const videoURL = window.URL.createObjectURL(video.fileBlob);
                         var source = {
                             src: videoURL,
                             type: video.video_type,
