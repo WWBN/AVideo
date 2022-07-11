@@ -1237,7 +1237,7 @@ if (typeof gtag !== \"function\") {
             if ($pass !== false) {
                 if (!encryptPasswordVerify($pass, $result['password'], $encodedPass)) {
                     if (!empty($advancedCustom) && $advancedCustom->enableOldPassHashCheck) {
-                        _error_log("Password check new hash pass does not match, trying MD5");
+                        //_error_log("Password check new hash pass does not match, trying MD5");
                         return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
                     } else {
                         return false;
@@ -1247,7 +1247,7 @@ if (typeof gtag !== \"function\") {
             $user = $result;
             $user['passhash'] = self::getUserHash($user['id']);
         } else {
-            _error_log("Password check new hash user not found");
+            //_error_log("Password check new hash user not found");
             //check if is the old password style
             $user = false;
             //$user = false;
