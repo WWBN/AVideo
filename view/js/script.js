@@ -1126,6 +1126,9 @@ function reloadVideoJS() {
     if (typeof player.currentSources === 'function') {
         var src = player.currentSources();
         player.src(src);
+        if(typeof replaceVideoSourcesPerOfflineVersion === 'function'){
+            replaceVideoSourcesPerOfflineVersion();
+        }
     }
 }
 
