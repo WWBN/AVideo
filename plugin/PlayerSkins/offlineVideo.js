@@ -185,7 +185,12 @@ function openDownloadOfflineVideoPage() {
     return true;
 }
 var offlineVideoButtonCheckTimeout;
+var offlineVideoButtonCheckIsActive = false;
 function offlineVideoButtonCheck() {
+    if(offlineVideoButtonCheckIsActive || empty(mediaId)){
+        return false;
+    }
+    offlineVideoButtonCheckIsActive = true;
     getOfflineVideo(mediaId).then(function (collection) {
         collection.toArray().then(function (offlineVideoSources) {
             console.log("offlineVideoButtonCheck offlineVideoSources.length: ", offlineVideoSources.length);
@@ -202,11 +207,14 @@ function offlineVideoButtonCheck() {
             offlineVideoButtonCheckTimeout = setTimeout(function () {
                 offlineVideoButtonCheck();
             }, 5000);
+            offlineVideoButtonCheckIsActive = false;
         }).catch(function (e) {
             console.log("Error offlineVideoButtonCheck 1: ", e);
+            offlineVideoButtonCheckIsActive = false;
         });
     }).catch(function (e) {
         console.log("Error offlineVideoButtonCheck 2: ", e);
+        offlineVideoButtonCheckIsActive = false;
     });
 }
 
