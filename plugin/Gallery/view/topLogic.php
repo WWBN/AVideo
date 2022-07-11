@@ -61,8 +61,9 @@ if(!empty($video)){
     } else {
         $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
     }
-    $contentSearchFound = false;
-	
+    if(!isset($contentSearchFound)){
+        $contentSearchFound = false;
+    }
 	//array_push($siteTitle, __("Home"));
 	
 	// don't add a prefix for SEO, it's already handled here below by the implode() func	

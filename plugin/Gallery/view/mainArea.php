@@ -145,6 +145,7 @@
             <?php echo __("We have not found any videos or audios to show"); ?>.
         </div>
         <?php
+        _error_log('contentSearchFound NOT FOUND '. json_encode(debug_backtrace()));
         include $global['systemRootPath'] . 'view/include/notfound.php';
     }
     ?>
