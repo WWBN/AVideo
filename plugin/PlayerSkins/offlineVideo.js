@@ -105,7 +105,7 @@ function changeProgressBarOfflineVideo(progressBarSelector, value) {
 }
 
 async function fetchVideoFromNetwork(src, type, resolution, progressBarSelector) {
-    console.log('fetching videos from network', src, type, resolution);
+    console.log('fetching videos from network', src, type, resolution, progressBarSelector);
 
     // Step 1: start the fetch and obtain a reader
     let response = await fetch(src);
