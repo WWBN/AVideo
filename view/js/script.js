@@ -2844,3 +2844,28 @@ function videoJSRecreateSources(defaultSource){
         fixResolutionMenu();
     }
 }
+
+/**
+ * 
+ * MEDIA_ERR_ABORTED (numeric value 1)
+MEDIA_ERR_NETWORK (numeric value 2)
+MEDIA_ERR_DECODE (numeric value 3)
+MEDIA_ERR_SRC_NOT_SUPPORTED (numeric value 4)
+MEDIA_ERR_ENCRYPTED (numeric value 5)
+ */
+var AvideoJSErrorReloadedTimes = 0;
+function AvideoJSError(code){
+    switch (code) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            if(empty(AvideoJSErrorReloadedTimes)){
+                AvideoJSErrorReloadedTimes++;
+                setTimeout(function(){
+                    reloadVideoJS();
+                },2000);
+            }
+            break;
+    }
+}

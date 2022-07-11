@@ -497,6 +497,10 @@ class PlayerSkins extends PluginAbstract {
         $js .= "}
         player.ready(function () {";
 
+        $js .= "player.on('error', () => {
+            AvideoJSError(player.error().code);
+        });";
+
         // this is here because for some reason videos on the storage only works if it loads dinamically on android devices only
         if (isMobile()) {
             $js .= "player.src(player.currentSources());";
