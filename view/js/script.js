@@ -37,7 +37,7 @@ try {
      var _iframe = document.querySelector("iframe");
      // Listen for a message from the iframe.
      eventer(messageEvent, function (e) {
-     console.log('EventListener', e.data);
+     //console.log('EventListener', e.data);
      if(e.data.height){
      _iframe.style.height = e.data.height + 'px';
      }
@@ -55,7 +55,7 @@ try {
     var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
     // Listen for a message from the iframe.
     eventer(messageEvent, function (e) {
-        //console.log('EventListener', e.data);
+        ////console.log('EventListener', e.data);
         if (e.data.getHeight) {
             var height = $('body > div.container-fluid').height();
             if (!height) {
@@ -69,7 +69,7 @@ try {
     }, false);
 
 } catch (e) {
-    console.log('Variable declaration ERROR', e);
+    //console.log('Variable declaration ERROR', e);
 }
 
 const queryString = window.location.search;
@@ -82,7 +82,7 @@ if (urlParams.has('debug')) {
 function consolelog() {
     if (isDebuging) {
         for (var item in arguments) {
-            console.log(arguments[item]);
+            //console.log(arguments[item]);
         }
     }
 }
@@ -232,7 +232,7 @@ function lazyImage() {
 
                             gif.height(element.height());
                             gif.width(element.width());
-                            //console.log('lazyImage', gif);
+                            ////console.log('lazyImage', gif);
                         }
 
                         $("#log").append("<div>Handler for .mouseover() called.</div>");
@@ -255,7 +255,7 @@ function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
             clearTimeout(promisePlayTimeout);
-            console.log("setPlayerListners: pause");
+            //console.log("setPlayerListners: pause");
             //userIsControling = true;
             clearInterval(pauseIfIsPlayinAdsInterval);
             clearInterval(_startCountPlayingTime);
@@ -269,7 +269,7 @@ function setPlayerListners() {
                     startCurrentTime = 0;
                 }, 100);
             }
-            console.log("setPlayerListners: play");
+            //console.log("setPlayerListners: play");
             //userIsControling = true;
             pauseIfIsPlayinAdsInterval = setInterval(function () {
                 pauseIfIsPlayinAds();
@@ -316,7 +316,7 @@ function changeVideoSrc(vid_obj, source) {
             player.addRemoteTextTrack(source[i]);
         }
     }
-    console.log('changeVideoSrc srcs', srcs);
+    //console.log('changeVideoSrc srcs', srcs);
     vid_obj.src(srcs);
     setTimeout(function () {
         if (autoLoad) {
@@ -329,21 +329,21 @@ function changeVideoSrc(vid_obj, source) {
 }
 
 function changeVideoSrcLoad() {
-    console.log("changeVideoSrcLoad: Try to load player");
+    //console.log("changeVideoSrcLoad: Try to load player");
     player.load();
     player.ready(function () {
-        console.log("changeVideoSrcLoad: Player ready");
+        //console.log("changeVideoSrcLoad: Player ready");
         var err = this.error();
         if (err && err.code) {
-            console.log("changeVideoSrcLoad: Load player Error");
+            //console.log("changeVideoSrcLoad: Load player Error");
             setTimeout(function () {
                 changeVideoSrcLoad();
             }, 1000);
         } else {
-            console.log("changeVideoSrcLoad: Load player Success, Play");
+            //console.log("changeVideoSrcLoad: Load player Success, Play");
             setTimeout(function () {
                 player.load();
-                console.log("changeVideoSrcLoad: Trying to play");
+                //console.log("changeVideoSrcLoad: Trying to play");
                 player.play();
             }, 1000);
         }
@@ -360,10 +360,10 @@ function reloadAds() {
         isReloadingAds = false;
     }, 500);
     clearTimeout(_reloadAdsTimeout);
-    console.log('reloadAds ');
+    //console.log('reloadAds ');
     if (playerIsReady() && player.ima) {
         try {
-            console.log('reloadAds player.ima.getAdsManager()', player.ima.getAdsManager());
+            //console.log('reloadAds player.ima.getAdsManager()', player.ima.getAdsManager());
             if (player.ima.getAdsManager()) {
                 player.ima.requestAds();
             }
@@ -372,11 +372,11 @@ function reloadAds() {
             player.ima.changeAdTag(_adTagUrl);
             setTimeout(function () {
                 player.ima.requestAds();
-                console.log('reloadAds done');
+                //console.log('reloadAds done');
             }, 2000);
             player.ima.requestAds();
         } catch (e) {
-            console.log('reloadAds ERROR', e.message);
+            //console.log('reloadAds ERROR', e.message);
         }
     } else {
         _reloadAdsTimeout = setTimeout(function () {
@@ -548,7 +548,7 @@ function _addView(videos_id, currentTime) {
     }
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', PHPSESSID);
-    console.log('_addView', videos_id, currentTime);
+    //console.log('_addView', videos_id, currentTime);
     $.ajax({
         url: url,
         method: 'POST',
@@ -570,7 +570,7 @@ function _addViewAsync() {
     if (typeof PHPSESSID == 'undefined') {
         PHPSESSID = '';
     }
-    console.log('_addViewAsync', mediaId, playerCurrentTime);
+    //console.log('_addViewAsync', mediaId, playerCurrentTime);
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', PHPSESSID);
     _addViewAsyncSent = true;
@@ -584,7 +584,7 @@ function _addViewAsync() {
         },
         async: false,
         success: function (response) {
-            console.log('_addViewAsync', response);
+            //console.log('_addViewAsync', response);
             setTimeout(function () {
                 _addViewAsyncSent = false;
             }, 2000);
@@ -611,7 +611,7 @@ function addViewFromCookie() {
             !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
         return false;
     }
-    console.log('addViewFromCookie', addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
+    //console.log('addViewFromCookie', addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', addView_PHPSESSID);
     if (mediaId == addView_videos_id) {
@@ -630,14 +630,14 @@ function addViewFromCookie() {
         async: false,
         success: function (response) {
             _addViewFromCookie_addingtime = false;
-            console.log('addViewFromCookie', response);
+            //console.log('addViewFromCookie', response);
             addViewSetCookie(false, false, false, false);
         }
     });
 }
 
 function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds_watching_video) {
-//console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video, new Error().stack);
+////console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video, new Error().stack);
     Cookies.set('addView_PHPSESSID', PHPSESSID, {
         path: '/',
         expires: 1
@@ -717,7 +717,7 @@ function playerPlay(currentTime) {
         return false;
     }
     if (currentTime) {
-        console.log("playerPlay time:", currentTime);
+        //console.log("playerPlay time:", currentTime);
     }
     if (!playerIsReady()) {
         playerPlayTimeout = setTimeout(function () {
@@ -726,11 +726,11 @@ function playerPlay(currentTime) {
         return false;
     }
     if (userIsControling) { // stops here if the user already clicked on play or pause
-        console.log("playerPlay: userIsControling");
+        //console.log("playerPlay: userIsControling");
         return true;
     }
     if (promisePlaytry <= 0) {
-        console.log("playerPlay: promisePlaytry <= 0");
+        //console.log("playerPlay: promisePlaytry <= 0");
         if (!browserPreventShowed) {
             browserPreventShowed = true;
             $.toast("Your browser prevent autoplay");
@@ -743,22 +743,22 @@ function playerPlay(currentTime) {
             setCurrentTime(currentTime);
         }
         try {
-            console.log("playerPlay: Trying to play", player);
+            //console.log("playerPlay: Trying to play", player);
             promisePlay = player.play();
             if (promisePlay !== undefined) {
                 tryToPlay(currentTime);
-                console.log("playerPlay: promise found", currentTime);
+                //console.log("playerPlay: promise found", currentTime);
                 setPlayerListners();
                 promisePlay.then(function () {
-                    console.log("playerPlay: Autoplay started", currentTime);
+                    //console.log("playerPlay: Autoplay started", currentTime);
                     userIsControling = true;
                     if (player.paused()) {
-                        console.log("The video still paused, trying to mute and play");
+                        //console.log("The video still paused, trying to mute and play");
                         if (promisePlaytry <= 10) {
-                            console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to mute and play");
+                            //console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to mute and play");
                             tryToPlayMuted(currentTime);
                         } else {
-                            console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to play again");
+                            //console.log("playerPlay: (" + promisePlaytry + ") The video still paused, trying to play again");
                             tryToPlay(currentTime);
                         }
                     } else {
@@ -771,7 +771,7 @@ function playerPlay(currentTime) {
                     if (player.networkState() === 3 && promisePlaytryNetworkFail < 5) {
                         promisePlaytry = 20;
                         promisePlaytryNetworkFail++;
-                        console.log("playerPlay: Network error detected, trying again", promisePlaytryNetworkFail);
+                        //console.log("playerPlay: Network error detected, trying again", promisePlaytryNetworkFail);
                         clearTimeout(promisePlaytryNetworkFailTimeout);
                         promisePlaytryNetworkFailTimeout = setTimeout(function () {
                             player.src(player.currentSources());
@@ -781,13 +781,13 @@ function playerPlay(currentTime) {
                     } else {
                         if (promisePlaytryNetworkFail >= 5) {
                             userIsControling = true;
-                            console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented");
+                            //console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented");
                             player.pause();
                         } else if (promisePlaytry <= 10) {
-                            console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
+                            //console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
                             tryToPlayMuted(currentTime);
                         } else {
-                            console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to play again");
+                            //console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to play again");
                             tryToPlay(currentTime);
                         }
                     }
@@ -796,11 +796,11 @@ function playerPlay(currentTime) {
                 tryToPlay(currentTime);
             }
         } catch (e) {
-            console.log("playerPlay: We could not autoplay, trying again in 1 second");
+            //console.log("playerPlay: We could not autoplay, trying again in 1 second");
             tryToPlay(currentTime);
         }
     } else {
-        console.log("playerPlay: Player is Undefined");
+        //console.log("playerPlay: Player is Undefined");
     }
 }
 
@@ -863,21 +863,21 @@ function tryToPlayMuted(currentTime) {
 
 function muteIfNotAudio() {
     if (!player.isAudio()) {
-        console.log("muteIfNotAudio: We will mute this video");
+        //console.log("muteIfNotAudio: We will mute this video");
         player.muted(true);
         return true;
     }
-    console.log("muteIfNotAudio: We will not mute an audio");
+    //console.log("muteIfNotAudio: We will not mute an audio");
     return false;
 }
 
 function muteInCookieAllow() {
     var mute = Cookies.get('muted');
     if (isALiveContent() || typeof mute === 'undefined' || (mute && mute !== "false")) {
-        console.log("muteInCookieAllow: said yes");
+        //console.log("muteInCookieAllow: said yes");
         return muteIfNotAudio();
     }
-    console.log("muteInCookieAllow: said no");
+    //console.log("muteInCookieAllow: said no");
     return false;
 }
 
@@ -902,7 +902,7 @@ function showMuteTooltip() {
         $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar', html: true});
         $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
         $("#mainVideo .vjs-volume-panel").click(function () {
-            console.log("remove unmute tooltip");
+            //console.log("remove unmute tooltip");
             $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
             $("#mainVideo .vjs-volume-panel").removeAttr("data-toggle");
             $("#mainVideo .vjs-volume-panel").removeAttr("data-placement");
@@ -929,7 +929,7 @@ function playerPlayIfAutoPlay(currentTime) {
     if (forceCurrentTime !== null) {
         currentTime = forceCurrentTime;
         forceCurrentTime = null;
-        console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
+        //console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
     }
 
     if (currentTime) {
@@ -937,12 +937,12 @@ function playerPlayIfAutoPlay(currentTime) {
     }
     if (isAutoplayEnabled()) {
         playerPlayTimeout = setTimeout(function () {
-            console.log('playerPlayIfAutoPlay true', currentTime);
+            //console.log('playerPlayIfAutoPlay true', currentTime);
             playerPlay(currentTime);
         }, 200);
         return true;
     }
-    console.log('playerPlayIfAutoPlay false', currentTime);
+    //console.log('playerPlayIfAutoPlay false', currentTime);
     //$.toast("Autoplay disabled");
     return false;
 }
@@ -954,7 +954,7 @@ function playerPlayMutedIfAutoPlay(currentTime) {
     if (forceCurrentTime !== null) {
         currentTime = forceCurrentTime;
         forceCurrentTime = null;
-        console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
+        //console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
     }
 
     if (currentTime) {
@@ -962,12 +962,12 @@ function playerPlayMutedIfAutoPlay(currentTime) {
     }
     if (isAutoplayEnabled()) {
         playerPlayTimeout = setTimeout(function () {
-            console.log('playerPlayIfAutoPlay true', currentTime);
+            //console.log('playerPlayIfAutoPlay true', currentTime);
             tryToPlayMuted(currentTime);
         }, 200);
         return true;
     }
-    console.log('playerPlayIfAutoPlay false', currentTime);
+    //console.log('playerPlayIfAutoPlay false', currentTime);
     //$.toast("Autoplay disabled");
     return false;
 }
@@ -983,31 +983,31 @@ function playNext(url) {
     } else if (isPlayNextEnabled()) {
         modal.showPleaseWait();
         if (typeof autoPlayAjax == 'undefined' || !autoPlayAjax) {
-            console.log("playNext changing location " + url);
+            //console.log("playNext changing location " + url);
             document.location = url;
         } else {
             forceCurrentTime = 0;
             setCurrentTime(0);
-            console.log("playNext ajax");
+            //console.log("playNext ajax");
             $.ajax({
                 url: webSiteRootURL + 'view/infoFromURL.php?url=' + encodeURI(url),
                 success: function (response) {
-                    console.log(response);
+                    //console.log(response);
                     if (!response || response.error) {
-                        console.log("playNext ajax fail");
+                        //console.log("playNext ajax fail");
                         if (response.url) {
                             document.location = response.url;
                         }
                     } else {
-                        console.log("playNext ajax success");
+                        //console.log("playNext ajax success");
                         $('topInfo').hide();
                         playNextURL = (typeof isEmbed !== 'undefined' && isEmbed) ? response.nextURLEmbed : response.nextURL;
-                        console.log("New playNextURL", playNextURL);
+                        //console.log("New playNextURL", playNextURL);
                         var cSource = false;
                         try {
                             cSource = changeVideoSrc(player, response.sources);
                         } catch (e) {
-                            console.log('changeVideoSrc', e.message);
+                            //console.log('changeVideoSrc', e.message);
                         }
                         if (!cSource) {
                             document.location = url;
@@ -1068,7 +1068,7 @@ function setPlayerLoop(loop) {
         return false;
     }
     if (loop) {
-        console.log("Loop ON");
+        //console.log("Loop ON");
         //$.toast("Loop ON");
         player.loop(1);
         $(".loop-button").removeClass('loop-disabled-button');
@@ -1076,7 +1076,7 @@ function setPlayerLoop(loop) {
     } else {
         $(".loop-button").addClass('loop-disabled-button');
         $(".loop-button, .loopButton").removeClass('fa-spin');
-        console.log("Loop OFF");
+        //console.log("Loop OFF");
         //$.toast("Loop OFF");
         player.loop(0);
     }
@@ -1136,21 +1136,21 @@ var initdone = false;
 var startCurrentTime = 0;
 var forceCurrentTime = null;
 function setCurrentTime(currentTime) {
-    console.log("setCurrentTime:", currentTime, forceCurrentTime);
+    //console.log("setCurrentTime:", currentTime, forceCurrentTime);
     if (forceCurrentTime !== null) {
         startCurrentTime = forceCurrentTime;
         currentTime = forceCurrentTime;
         forceCurrentTime = null;
-        console.log("forceCurrentTime:", currentTime);
+        //console.log("forceCurrentTime:", currentTime);
     } else if (startCurrentTime != currentTime) {
         startCurrentTime = currentTime;
-        console.log("setCurrentTime changed:", currentTime);
+        //console.log("setCurrentTime changed:", currentTime);
     }
-    console.log('setCurrentTime', currentTime);
+    //console.log('setCurrentTime', currentTime);
     if (typeof player !== 'undefined') {
         if (isTryingToPlay) {
             if (currentTime <= player.currentTime()) {
-                console.log('setCurrentTime is trying to play', currentTime);
+                //console.log('setCurrentTime is trying to play', currentTime);
                 return false; // if is trying to play, only update if the time is greater
             }
         }
@@ -1190,19 +1190,19 @@ function isWebRTC() {
 }
 
 function isAutoplayEnabled() {
-//console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
+////console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
     if (typeof forceautoplay !== 'undefined' && forceautoplay) {
         return true;
     } else if (isWebRTC()) {
-        console.log("isAutoplayEnabled said No because is WebRTC ");
+        //console.log("isAutoplayEnabled said No because is WebRTC ");
         return false;
     } else if (isALiveContent()) {
-//console.log("isAutoplayEnabled always autoplay live contents");
+////console.log("isAutoplayEnabled always autoplay live contents");
         return true;
     } else
     if ($("#autoplay").length && $("#autoplay").is(':visible')) {
         autoplay = $("#autoplay").is(":checked");
-        //console.log("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
+        ////console.log("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
         setAutoplay(autoplay);
         return autoplay;
     } else if (
@@ -1210,23 +1210,23 @@ function isAutoplayEnabled() {
             typeof Cookies.get('autoplay') !== 'undefined'
             ) {
         if (Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true) {
-//console.log("isAutoplayEnabled Cookie said Yes ");
+////console.log("isAutoplayEnabled Cookie said Yes ");
             setAutoplay(true);
             return true;
         } else {
-//console.log("isAutoplayEnabled Cookie said No ");
+////console.log("isAutoplayEnabled Cookie said No ");
             setAutoplay(false);
             return false;
         }
     } else {
         if (typeof autoplay !== 'undefined') {
-//console.log("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
+////console.log("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
             setAutoplay(autoplay);
             return autoplay;
         }
     }
     setAutoplay(false);
-    //console.log("isAutoplayEnabled Default is No ");
+    ////console.log("isAutoplayEnabled Default is No ");
     return false;
 }
 
@@ -1381,7 +1381,7 @@ function avideoAlertHTMLText(title, msg, type) {
 }
 
 function avideoModalIframeClose() {
-    console.log('avideoModalIframeClose');
+    //console.log('avideoModalIframeClose');
     try {
         swal.close();
     } catch (e) {
@@ -1441,9 +1441,9 @@ function avideoModalIframeFullScreenClose() {
 // this is to make sure when the use click on the back page button it will close the iframe
 window.onload = function () {
     if (typeof history.pushState === "function") {
-        console.log('history.pushState loaded');
+        ////console.log('history.pushState loaded');
         window.onpopstate = function (e) {
-            console.log('onpopstate', e.state, history.state);
+            ////console.log('onpopstate', e.state, history.state);
             avideoModalIframeFullScreenClose();
         };
     }
@@ -1455,7 +1455,7 @@ function avideoModalIframeFull(url) {
 
 function avideoAddIframeIntoElement(element, url, insideSelector) {
     url = addGetParam(url, 'avideoIframe', 1);
-    console.log('avideoAddIframeIntoElement', url, element);
+    //console.log('avideoAddIframeIntoElement', url, element);
     var html = '';
     html += '<iframe frameBorder="0" class="avideoIframeIntoElement" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
 
@@ -1470,7 +1470,7 @@ function avideoAddIframeIntoElement(element, url, insideSelector) {
 
 function avideoWindowIframe(url) {
     url = addGetParam(url, 'avideoIframe', 1);
-    console.log('avideoModalIframeWithClassName', url);
+    //console.log('avideoModalIframeWithClassName', url);
     var html = '';
     html += '<div class="panel panel-default" id="draggable" style="width: 400px; height: 200px; float: left; z-index: 9999;">';
     html += '<div class="panel-heading" style="cursor: move;">head</div>';
@@ -1500,7 +1500,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
 
     }
     url = addGetParam(url, 'avideoIframe', 1);
-    console.log('avideoModalIframeWithClassName', url, className, updateURL);
+    //console.log('avideoModalIframeWithClassName', url, className, updateURL);
     var html = '';
     html += '<div id="avideoModalIframeDiv" class="clearfix popover-title">';
 
@@ -1537,14 +1537,14 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     });
     setTimeout(function () {
         if (!isSameDomain(url)) {
-            console.log('avideoModalIframeWithClassName different domain');
+            //console.log('avideoModalIframeWithClassName different domain');
             avideoModalIframeRemove();
         } else {
             var contentLoaded = false;
             try {
                 $('#avideoModalIframe').load(function () {
                     contentLoaded = true;
-                    console.log('avideoModalIframeWithClassName content loaded 1');
+                    //console.log('avideoModalIframeWithClassName content loaded 1');
                     clearTimeout(avideoModalIframeWithClassNameTimeout);
                     avideoModalIframeRemove();
                 });
@@ -1552,20 +1552,20 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
             }
 
             if ($('#avideoModalIframe').contents().find("body").length) {
-                console.log('avideoModalIframeWithClassName content loaded 2');
+                //console.log('avideoModalIframeWithClassName content loaded 2');
                 contentLoaded = true;
             }
 
             if (contentLoaded) {
-                console.log('avideoModalIframeWithClassName content loaded 3');
+                //console.log('avideoModalIframeWithClassName content loaded 3');
                 clearTimeout(avideoModalIframeWithClassNameTimeout);
                 avideoModalIframeRemove();
             } else {
-                console.log('avideoModalIframeWithClassName content loaded 4');
+                //console.log('avideoModalIframeWithClassName content loaded 4');
                 clearTimeout(avideoModalIframeWithClassNameTimeout);
                 avideoModalIframeWithClassNameTimeout = setTimeout(function () {
                     if (!$('#avideoModalIframe').contents().find("body").length) {
-                        console.log('avideoModalIframeWithClassName content loaded 5');
+                        //console.log('avideoModalIframeWithClassName content loaded 5');
                         // is not loaded
                         url = addGetParam(url, 'avideoIframe', 0);
                         if (isSameDomain(url)) {
@@ -1624,17 +1624,17 @@ function avideoModalIframeRemove() {
             avideoModalIframeRemove();
         }, 1000);
     } else {
-        console.log('avideoModalIframeRemove');
+        //console.log('avideoModalIframeRemove');
         $('.swal-content').html('');
     }
 }
 
 function avideoResponse(response) {
-    console.log('avideoResponse', response);
+    //console.log('avideoResponse', response);
     if (typeof response === 'string') {
         response = JSON.parse(response);
     }
-    console.log('avideoResponse', response);
+    //console.log('avideoResponse', response);
     if (response.error) {
         if (!response.msg) {
             if (typeof response.error === 'string') {
@@ -1780,7 +1780,7 @@ function isURL(url) {
 }
 var startTimerInterval = [];
 function startTimer(duration, selector, prepend) {
-    //console.log('startTimer 1', duration);
+    ////console.log('startTimer 1', duration);
     clearInterval(startTimerInterval[selector]);
     var timer = duration;
     startTimerInterval[selector] = setInterval(function () {
@@ -1858,7 +1858,7 @@ var startTimerToDateTimeOut = [];
 function startTimerToDate(toDate, selector, useDBDate) {
     clearTimeout(startTimerToDateTimeOut[selector]);
     if (typeof _serverTime === 'undefined') {
-        //console.log('startTimerToDate _serverTime is undefined');
+        ////console.log('startTimerToDate _serverTime is undefined');
         getServerTime();
         startTimerToDateTimeOut[selector] = setTimeout(function () {
             startTimerToDate(toDate, selector, useDBDate)
@@ -1866,29 +1866,29 @@ function startTimerToDate(toDate, selector, useDBDate) {
         return false;
     }
     if (typeof toDate === 'string') {
-        //console.log('startTimerToDate 1 '+toDate);
+        ////console.log('startTimerToDate 1 '+toDate);
         toDate = new Date(toDate.replace(/-/g, "/"));
     }
     if (useDBDate) {
         if (typeof _serverDBTimeString !== 'undefined') {
             date2 = new Date(_serverDBTimeString.replace(/-/g, "/"));
-            //console.log('startTimerToDate 2 '+date2);
+            ////console.log('startTimerToDate 2 '+date2);
         }
     } else {
         if (typeof _serverTimeString !== 'undefined') {
             date2 = new Date(_serverTimeString.replace(/-/g, "/"));
-            //console.log('startTimerToDate 3 '+date2);
+            ////console.log('startTimerToDate 3 '+date2);
         }
     }
     if (typeof date2 === 'undefined') {
         date2 = new Date();
-        //console.log('startTimerToDate 4 '+date2);
+        ////console.log('startTimerToDate 4 '+date2);
     }
 
     var seconds = (toDate.getTime() - date2.getTime()) / 1000;
-    //console.log('startTimerToDate toDate', toDate);
-    //console.log('startTimerToDate selector', selector);
-    //console.log('startTimerToDate seconds', seconds);
+    ////console.log('startTimerToDate toDate', toDate);
+    ////console.log('startTimerToDate selector', selector);
+    ////console.log('startTimerToDate seconds', seconds);
     return startTimer(seconds, selector, toDate.toLocaleString() + '<br>');
 }
 
@@ -1921,14 +1921,14 @@ function getServerTime() {
     $.ajax({
         url: webSiteRootURL + 'objects/getTimes.json.php',
         success: function (response) {
-            console.log('getServerTime', response);
+            //console.log('getServerTime', response);
             _serverTime = response._serverTime;
             _serverDBTime = response._serverDBTime;
             _serverTimeString = response._serverTimeString;
             _serverDBTimeString = response._serverDBTimeString;
             _serverTimezone = response._serverTimezone;
             _serverDBTimezone = response._serverDBTimezone;
-            console.log('getServerTime _serverDBTimezone', _serverDBTimezone, response._serverDBTimezone);
+            //console.log('getServerTime _serverDBTimezone', _serverDBTimezone, response._serverDBTimezone);
             setInterval(function () {
                 _serverTime++;
                 _serverDBTime++;
@@ -1940,7 +1940,7 @@ function getServerTime() {
 }
 
 function clearServerTime() {
-    console.log('clearServerTime');
+    //console.log('clearServerTime');
     _serverTime = null;
     _serverDBTime = null;
     _serverTimeString = null;
@@ -1949,7 +1949,7 @@ function clearServerTime() {
 
 function convertDBDateToLocal(dbDateString) {
     if (!/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/.test(dbDateString)) {
-        console.log('convertDBDateToLocal format does not match', dbDateString);
+        //console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
 
@@ -1957,7 +1957,7 @@ function convertDBDateToLocal(dbDateString) {
     var m;
     if (!_serverDBTimezone) {
         getServerTime();
-        console.log('convertDBDateToLocal _serverDBTimezone is empty', dbDateString);
+        //console.log('convertDBDateToLocal _serverDBTimezone is empty', dbDateString);
         m = moment.tz(dbDateString);
     } else {
         _serverDBTimezone = $.trim(_serverDBTimezone);
@@ -1972,7 +1972,7 @@ function convertDBDateToLocal(dbDateString) {
 
 function convertDateFromTimezoneToLocal(dbDateString, timezone) {
     if (!/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/.test(dbDateString)) {
-        console.log('convertDBDateToLocal format does not match', dbDateString);
+        //console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
     dbDateString = $.trim(dbDateString.replace(/[^ 0-9:-]/g, ''));
@@ -2034,7 +2034,7 @@ function readFileCroppie(input, crop) {
             crop.croppie('bind', {
                 url: e.target.result
             }).then(function () {
-                console.log('jQuery bind complete');
+                //console.log('jQuery bind complete');
             });
         }
 
@@ -2045,15 +2045,15 @@ function readFileCroppie(input, crop) {
 }
 
 function getCroppie(uploadCropObject, callback, width, height) {
-    console.log('getCroppie 1', uploadCropObject);
+    //console.log('getCroppie 1', uploadCropObject);
     var ret = uploadCropObject.croppie('result', {type: 'base64', size: {width: width, height: height}, format: 'png'}).then(function (resp) {
-        //console.log('getCroppie 2 ' + callback, resp);
+        ////console.log('getCroppie 2 ' + callback, resp);
         eval(callback + "(resp);");
     }).catch(function (err) {
-        console.log('cropieError getCroppie => ' + callback, err);
+        //console.log('cropieError getCroppie => ' + callback, err);
         eval(callback + "(null);");
     });
-    console.log('getCroppie 3', ret);
+    //console.log('getCroppie 3', ret);
 }
 
 async function setToolTips() {
@@ -2155,7 +2155,7 @@ function isPlayerUserActive() {
 }
 
 eventer('beforeunload', function (e) {
-//console.log('window.addEventListener(beforeunload');
+////console.log('window.addEventListener(beforeunload');
     _addViewAsync();
 }, false);
 eventer('visibilitychange', function () {
@@ -2164,7 +2164,7 @@ eventer('visibilitychange', function () {
     }
 });
 function socketClearSessionCache(json) {
-    console.log('socketClearSessionCache', json);
+    //console.log('socketClearSessionCache', json);
     clearCache(false, 0, 1);
 }
 
@@ -2234,7 +2234,7 @@ function downloadURL(url, filename) {
                                         }
                                         loaded += value.byteLength;
                                         var percentageLoaded = Math.round(loaded / total * 100);
-                                        //console.log(percentageLoaded);
+                                        ////console.log(percentageLoaded);
                                         modal.setProgress(percentageLoaded);
                                         modal.setText('Downloading ... ' + percentageLoaded + '%');
                                         controller.enqueue(value);
@@ -2264,7 +2264,7 @@ function downloadURL(url, filename) {
             })
             .catch(function (err) {
                 avideoAlertError('Error on download ');
-                console.log(err)
+                //console.log(err)
             });
 }
 
@@ -2306,7 +2306,7 @@ function checkFFMPEGProgress(FFMpegProgress) {
     $.ajax({
         url: FFMpegProgress,
         success: function (response) {
-            console.log(response);
+            //console.log(response);
             if (typeof response.progress.progress !== 'undefined') {
                 var text = 'Converting ...';
                 if (typeof response.progress.progress !== 'undefined') {
@@ -2326,11 +2326,11 @@ function checkFFMPEGProgress(FFMpegProgress) {
 
 function startGoogleAd(selector) {
     if (isVisibleAndInViewport(selector)) {
-        console.log('startGoogleAd', selector);
+        //console.log('startGoogleAd', selector);
         try {
             (adsbygoogle = window.adsbygoogle || []).push({});
         } catch (e) {
-            console.log('startGoogleAd ERROR', selector, $(selector), e);
+            //console.log('startGoogleAd ERROR', selector, $(selector), e);
         }
 
     } else {
@@ -2363,19 +2363,19 @@ function playAudio(mp3) {
         audio.src = "data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
         audio.src = mp3;
         audioList[mp3] = audio;
-        console.log('playAudio', audioList);
-        //console.log('pling setTimeout', audio);
+        //console.log('playAudio', audioList);
+        ////console.log('pling setTimeout', audio);
         const promise = audio.play();
         if (promise !== undefined) {
-            //console.log('pling promise', promise);
+            ////console.log('pling promise', promise);
             promise.then((response) => {
-                //console.log('pling audio played', response);
+                ////console.log('pling audio played', response);
                 plingEnabled = false;
                 setTimeout(function () {
                     plingEnabled = true;
                 }, 3000);
             }).catch(error => {
-                //console.log('pling audio disabled', error);
+                ////console.log('pling audio disabled', error);
                 if (showEnableAudioMessage) {
                     showEnableAudioMessage = false;
                     avideoAlertInfo('Click here to enable audio');
@@ -2501,7 +2501,7 @@ function addAtMention(selector) {
         emojioneArea = selector;
         selector = '.emojionearea-editor';
     }
-    console.log('addAtMention(selector)', selector, emojioneArea);
+    //console.log('addAtMention(selector)', selector, emojioneArea);
     var SpaceKeyCode = ' '.charCodeAt(0);
     var AtMatcher = /^@.+/i;
     $(selector).on("keydown", function (event) {
@@ -2527,7 +2527,7 @@ function addAtMention(selector) {
                     stringStart = request.term.substring(0, pos.end);
 
                     var term = stringStart.split(/\s+/).pop();
-                    console.log('autocomplete', request.term, term, AtMatcher.test(term));
+                    //console.log('autocomplete', request.term, term, AtMatcher.test(term));
                     if (AtMatcher.test(term)) {
                         $.ajax({
                             url: webSiteRootURL + "objects/mention.json.php",
@@ -2554,7 +2554,7 @@ function addAtMention(selector) {
                     if (emojioneArea) {
                         this.value = $(emojioneArea).data("emojioneArea").getText();
                     }
-                    console.log('addAtMention', this, this.value);
+                    //console.log('addAtMention', this, this.value);
                     var pos = getCursorPos($(selector)[0]);
                     stringStart = this.value.substring(0, pos.end);
                     stringEnd = this.value.substring(pos.end);
@@ -2657,13 +2657,13 @@ $(document).ready(function () {
             },
             setProgress: function (valeur) {
                 var element = $('#pleaseWaitDialog').find('.progress');
-                console.log('showPleaseWait setProgress', element);
+                //console.log('showPleaseWait setProgress', element);
                 element.slideDown();
                 $('#pleaseWaitDialog').find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
             },
             setText: function (text) {
                 var element = $('#pleaseWaitDialog').find('h2');
-                console.log('showPleaseWait setText', element);
+                //console.log('showPleaseWait setText', element);
                 element.slideDown();
                 element.html(text);
             },
@@ -2836,7 +2836,7 @@ function videoJSRecreateSources(defaultSource){
           type: $(this).attr("type"),
           src: $(this).attr("src"),
         };
-        console.log('videoJSRecreateSources', $(this), source);
+        ////console.log('videoJSRecreateSources', $(this), source);
         player.options_.sources.push(source);
     });
     player.updateSrc(player.options_.sources);
@@ -2871,4 +2871,12 @@ function AvideoJSError(code){
             }
             break;
     }
+}
+
+function isPromise(p) {
+  if (typeof p === 'object' && typeof p.then === 'function') {
+    return true;
+  }
+
+  return false;
 }

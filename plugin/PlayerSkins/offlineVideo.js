@@ -37,48 +37,61 @@ async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
         collection.toArray().then(function (offlineVideoSources) {
             var firstSource = null;
             if (offlineVideoSources.length) {
-                console.log('something in the array', offlineVideoSources, offlineVideoSources.length);
-                var sources = [];
+                //console.log('replaceVideoSourcesPerOfflineVersionIfExists: something in the array', offlineVideoSources, offlineVideoSources.length);
+                var promises = [];
+                var promises = [];
                 for (var item in offlineVideoSources) {
                     if (typeof offlineVideoSources[item] === 'object') {
                         var video = offlineVideoSources[item];
+                        promises.push(createSourceFromBlob(video.fileBlob, video.video_type, video.resolution).then(function (source) {
+                            return source;
+                        }));
 
-                        var source = createSourceFromBlob(video.fileBlob, video.video_type, video.resolution);
-
-                        if (!firstSource) {
-                            firstSource = source;
-                        }
-                        sources.push(source);
-                        createSourceElement(source);
                     }
                 }
-                console.log('Adding sources ', firstSource, sources);
-                player.src(sources);
+                Promise.all(promises).then((sources) => {
+                    for (var item in sources) {
+                        var source = sources[item];
+                        createSourceElement(source);
+                    }
+                    player.src(sources);
+                    firstSource = sources[0];
+                    videoJSRecreateSources(firstSource);
+                    offlineVideoButtonCheck();
+                    //console.log("replaceVideoSourcesPerOfflineVersionIfExists All done", sources, firstSource);
+                }).catch((e) => {
+                    // Handle errors here
+                });
+            } else {
+                videoJSRecreateSources(firstSource);
+                offlineVideoButtonCheck();
             }
-            videoJSRecreateSources(firstSource);
-            offlineVideoButtonCheck();
-            Promise.resolve(offlineVideoSources);
+            return Promise.resolve(offlineVideoSources);
         }).catch(function (e) {
-            console.log("Error: " + (e.stack || e));
+            console.log("replaceVideoSourcesPerOfflineVersionIfExists: Error: " + (e.stack || e));
         });
     }).catch(function (e) {
-        console.log("Error: " + (e.stack || e));
+        console.log("replaceVideoSourcesPerOfflineVersionIfExists: Error: " + (e.stack || e));
     });
 }
 
-function createSourceFromBlob(blob, type, res) {
+async function createSourceFromBlob(blob, type, res) {
+    var isIOs15OrGreater = offline_iOSVersion >= 15;
     var src;
-    if(offline_iOSVersion > 15){
-        console.log('createSourceFromBlob', offline_iOSVersion);
-        src = blobToBase64(blob);
-        src = 'data:'+type+';base64,'+src;
-    }else{
+    if (isIOs15OrGreater || true) {
+        console.log('createSourceFromBlob ios confirmed 1 ', offline_iOSVersion, isIOs15OrGreater);
+        const srcB = await blobToBase64(blob);
+        console.log('createSourceFromBlob ios confirmed 2 ', srcB);
+        src = srcB.replace("application/octet-stream", type);
+    } else {
+        console.log('createSourceFromBlob NOT iOS', offline_iOSVersion, isIOs15OrGreater);
         if (window.webkitURL != null) {
             src = window.webkitURL.createObjectURL(blob);
         } else {
             src = window.URL.createObjectURL(blob);
         }
     }
+    console.log('createSourceFromBlob ', src);
     var source = {
         src: src,
         type: type,
@@ -86,7 +99,7 @@ function createSourceFromBlob(blob, type, res) {
         class: 'offline-video',
         label: res + 'p <span class="label label-warning" style="padding: 0 2px; font-size: .8em; display: inline;">(OFFLINE)</span>',
     };
-    return source;
+    return Promise.resolve(source);
 }
 
 async function blobToBase64(blob) {
@@ -125,9 +138,9 @@ function getOneOfflineVideoSource() {
 function changeProgressBarOfflineVideo(progressBarSelector, value) {
     value = value.toFixed(2);
     $(progressBarSelector).find('.progress-bar')
-        .attr('aria-valuenow', value)
-        .css('width', value + '%')
-        .text(value + '%');
+            .attr('aria-valuenow', value)
+            .css('width', value + '%')
+            .text(value + '%');
 }
 
 async function fetchVideoFromNetwork(src, type, resolution, progressBarSelector) {
@@ -145,7 +158,7 @@ async function fetchVideoFromNetwork(src, type, resolution, progressBarSelector)
     let receivedLength = 0; // received that many bytes at the moment
     let chunks = []; // array of received binary chunks (comprises the body)
     while (true) {
-        const { done, value } = await reader.read();
+        const {done, value} = await reader.read();
 
         if (done) {
             break;
@@ -192,11 +205,14 @@ function deleteOfflineVideo(videos_id, resolution) {
 }
 
 function createSourceElement(source) {
+    if(typeof source !== 'object'){
+        return false;
+    }
     var sourceElement = $('<source />', source);
     if (!empty(source.class)) {
         $(sourceElement).addClass(source.class);
     }
-    console.log('displayVideo', source);
+    //console.log('displayVideo', source);
     $("video#mainVideo, #mainVideo_html5_api").append(sourceElement);
 }
 
@@ -219,7 +235,7 @@ function offlineVideoButtonCheck() {
     offlineVideoButtonCheckIsActive = true;
     getOfflineVideo(mediaId).then(function (collection) {
         collection.toArray().then(function (offlineVideoSources) {
-            console.log("offlineVideoButtonCheck offlineVideoSources.length: ", offlineVideoSources.length);
+            //console.log("offlineVideoButtonCheck offlineVideoSources.length: ", offlineVideoSources.length);
             if (offlineVideoSources.length) {
                 if (isOfflineSourceSelectedToPlay()) {
                     setOfflineButton('playingOffline', false);
@@ -246,7 +262,7 @@ function offlineVideoButtonCheck() {
 
 function isOfflineSourceSelectedToPlay() {
     var currSource = player.currentSrc();
-    console.log("isOfflineSourceSelectedToPlay: ", currSource);
+    //console.log("isOfflineSourceSelectedToPlay: ", currSource);
     if (currSource.match(/^blob:http/i)) {
         return true;
     } else {
