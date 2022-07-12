@@ -407,9 +407,7 @@ if (!class_exists('Video')) {
                 $this->live_transmitions_history_id = 'NULL';
             }
 
-            if (empty($this->duration)) {
-                $this->duration = '00:00:00';
-            }
+            $this->duration = self::getCleanDuration($this->duration);
 
             if (empty($this->duration_in_seconds)) {
                 $this->duration_in_seconds = durationToSeconds($this->duration);
