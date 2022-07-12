@@ -378,17 +378,22 @@ function cleanString($text) {
 }
 
 function safeString($text, $strict = false) {
+    $text = strip_tags($text);
+    $text = str_replace(array('&amp;', '&lt;', '&gt;'), array('', '', ''), $text);
+    $text = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '', $text);
+    $text = preg_replace('/(&#x*[0-9A-F]+);*/iu', '', $text);
+    $text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
     if ($strict) {
-        $text = trim(xss_esc(preg_replace('/[^a-z0-9. _-]/i', '', strip_tags($text))));
-    } else {
-        $text = trim(preg_replace('/[^a-z0-9:. _\'"()-]/i', '', strip_tags($text)));
-    }
+        $text = filter_var($text, FILTER_SANITIZE_STRING);
+        //$text = cleanURLName($text);
+    } 
+    $text = trim($text);
     return $text;
 }
 
-function cleanURLName($name) {
-    $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]%"\/\\\\ ]+/', '-', trim(strtolower(cleanString($name))));
-    return trim(preg_replace('/[\x00-\x1F\x7F\xD7\xE0]/u', '', $name), "-");
+function cleanURLName($name, $replaceChar = '-') {
+    $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]%"\/\\\\ ]+/', $replaceChar, trim(strtolower(cleanString($name))));
+    return trim(preg_replace('/[\x00-\x1F\x7F\xD7\xE0]/u', $replaceChar, $name), $replaceChar);
 }
 
 /**
@@ -4074,7 +4079,7 @@ function blackListRegenerateSession() {
         'objects/userCreate.json.php',
     );
     foreach ($list as $needle) {
-        if(str_ends_with($_SERVER['SCRIPT_NAME'], $needle)){
+        if (str_ends_with($_SERVER['SCRIPT_NAME'], $needle)) {
             return true;
         }
     }
