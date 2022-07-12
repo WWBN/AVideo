@@ -42,19 +42,9 @@ async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
                 for (var item in offlineVideoSources) {
                     if (typeof offlineVideoSources[item] === 'object') {
                         var video = offlineVideoSources[item];
-                        var videoURL;
-                        if (window.webkitURL != null) {
-                            videoURL = window.webkitURL.createObjectURL(video.fileBlob);
-                        } else {
-                            videoURL = window.URL.createObjectURL(video.fileBlob);
-                        }
-                        var source = {
-                            src: videoURL,
-                            type: video.video_type,
-                            res: video.resolution,
-                            class: 'offline-video',
-                            label: video.resolution + 'p <span class="label label-warning" style="padding: 0 2px; font-size: .8em; display: inline;">(OFFLINE)</span>',
-                        };
+
+                        var source = createSourceFromBlob(video.fileBlob, video.video_type, video.resolution);
+
                         if (!firstSource) {
                             firstSource = source;
                         }
@@ -76,19 +66,24 @@ async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
     });
 }
 
-function createSourceFromBlob() {
-    var videoURL;
-    if (window.webkitURL != null) {
-        videoURL = window.webkitURL.createObjectURL(video.fileBlob);
-    } else {
-        videoURL = window.URL.createObjectURL(video.fileBlob);
+function createSourceFromBlob(blob, type, res) {
+    var src;
+    if(offline_iOSVersion > 15){
+        src = await blobToBase64(blob);
+        src = 'data:'+type+';base64,'+src;
+    }else{
+        if (window.webkitURL != null) {
+            src = window.webkitURL.createObjectURL(blob);
+        } else {
+            src = window.URL.createObjectURL(blob);
+        }
     }
     var source = {
-        src: videoURL,
-        type: video.video_type,
-        res: video.resolution,
+        src: src,
+        type: type,
+        res: res,
         class: 'offline-video',
-        label: video.resolution + 'p <span class="label label-warning" style="padding: 0 2px; font-size: .8em; display: inline;">(OFFLINE)</span>',
+        label: res + 'p <span class="label label-warning" style="padding: 0 2px; font-size: .8em; display: inline;">(OFFLINE)</span>',
     };
     return source;
 }
