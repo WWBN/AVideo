@@ -69,6 +69,7 @@ async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
 function createSourceFromBlob(blob, type, res) {
     var src;
     if(offline_iOSVersion > 15){
+        console.log('createSourceFromBlob', offline_iOSVersion);
         src = blobToBase64(blob);
         src = 'data:'+type+';base64,'+src;
     }else{
