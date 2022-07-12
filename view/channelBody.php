@@ -150,7 +150,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                     <div id="aboutAreaContent">
                         <?php
                         $about =  html_entity_decode($user->getAbout());
-                        echo addTwitterJS($about);
+                        echo $about;
                         ?>
                     </div>
                 </div>
