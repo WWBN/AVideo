@@ -8952,7 +8952,7 @@ function deleteInvalidImage($filepath) {
  * @return string
  */
 function addTwitterJS($text){
-    if(preg_match('/href=".+twitter.com\/.+ref_src=".=Tweets by/', $text)){
+    if(preg_match('/href=.+twitter.com.+ref_src=.+=Tweets/', $text)){
         if(!preg_match('/platform.twitter.com.widgets.js/', $text)){
             $text .= '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
         }
