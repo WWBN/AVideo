@@ -41,7 +41,7 @@ function createOfflineDownloadPanel($option, $class = 'col-xs-6') {
                 <button class="btn btn-danger"  onclick='_deleteOfflineVideo(<?php echo json_encode($option['resolution']); ?>);'>
                     <i class="fas fa-trash"></i> <?php echo __('Delete'); ?>
                 </button>
-                <button class="btn btn-warning" onclick='_downloadOfflineVideo(<?php echo json_encode($option['url']); ?>, <?php echo json_encode($option['resolution']); ?>, "#videos_offline_<?php echo $videos_id; ?>_<?php echo $option['resolution']; ?> .progress");'>
+                <button class="btn btn-warning" onclick='_downloadOfflineVideo(<?php echo json_encode($option['url']); ?>, <?php echo json_encode($option['resolution']); ?>, ".videos_offline_<?php echo $videos_id; ?>_<?php echo $option['resolution']; ?> .progress");'>
                     <i class="fas fa-download"></i> <?php echo __('Download'); ?>
                 </button>
                 <button class="btn btn-success" onclick='_updateVideo(<?php echo json_encode($videos_id); ?>);'>

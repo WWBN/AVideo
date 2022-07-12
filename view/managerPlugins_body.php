@@ -141,7 +141,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                                     ?>
                                     <div class="alert alert-danger">
                                         <?php echo __("You need to make the plugin dir writable before upload, run this command and refresh this page"); ?>
-                                        <pre><code>chown www-data:www-data <?php echo $dir; ?> && chmod 755 <?php echo $dir; ?></code></pre>
+                                        <pre><code>sudo chown www-data:www-data <?php echo $dir; ?> && sudo chmod 755 <?php echo $dir; ?></code></pre>
                                     </div>
                                     <?php
                                 }
