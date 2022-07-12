@@ -2,6 +2,7 @@
 
 require_once '../../videos/configuration.php';
 require_once '../AVideoPlugin.php';
+$global['bypassSameDomainCheck'] = 1;
 _error_log("on_record_done start");
 $plugin = AVideoPlugin::loadPluginIfEnabled('SendRecordedToEncoder');
 if ($plugin) {
