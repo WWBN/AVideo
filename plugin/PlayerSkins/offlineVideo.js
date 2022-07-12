@@ -22,13 +22,13 @@ async function downloadOfflineVideo(source) {
     });
 }
 
-function replaceVideoSourcesPerOfflineVersion(){
+function replaceVideoSourcesPerOfflineVersion() {
     replaceVideoSourcesPerOfflineVersionIfExists(mediaId);
 }
-
+//https://stackoverflow.com/questions/70082715/cant-play-html5-video-with-blob-source-on-ios-devices
 async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
     videos_id = parseInt(videos_id);
-    if(empty(videos_id)){
+    if (empty(videos_id)) {
         return false;
     }
     videoJSRecreateSources(false);
@@ -42,7 +42,12 @@ async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
                 for (var item in offlineVideoSources) {
                     if (typeof offlineVideoSources[item] === 'object') {
                         var video = offlineVideoSources[item];
-                        const videoURL = window.URL.createObjectURL(video.fileBlob);
+                        var videoURL;
+                        if (window.webkitURL != null) {
+                            videoURL = window.webkitURL.createObjectURL(video.fileBlob);
+                        } else {
+                            videoURL = window.URL.createObjectURL(video.fileBlob);
+                        }
                         var source = {
                             src: videoURL,
                             type: video.video_type,
@@ -59,7 +64,7 @@ async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
                 }
                 console.log('Adding sources ', firstSource, sources);
                 player.src(sources);
-            } 
+            }
             videoJSRecreateSources(firstSource);
             offlineVideoButtonCheck();
             Promise.resolve(offlineVideoSources);
@@ -68,6 +73,31 @@ async function replaceVideoSourcesPerOfflineVersionIfExists(videos_id) {
         });
     }).catch(function (e) {
         console.log("Error: " + (e.stack || e));
+    });
+}
+
+function createSourceFromBlob() {
+    var videoURL;
+    if (window.webkitURL != null) {
+        videoURL = window.webkitURL.createObjectURL(video.fileBlob);
+    } else {
+        videoURL = window.URL.createObjectURL(video.fileBlob);
+    }
+    var source = {
+        src: videoURL,
+        type: video.video_type,
+        res: video.resolution,
+        class: 'offline-video',
+        label: video.resolution + 'p <span class="label label-warning" style="padding: 0 2px; font-size: .8em; display: inline;">(OFFLINE)</span>',
+    };
+    return source;
+}
+
+async function blobToBase64(blob) {
+    return new Promise((resolve, _) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.readAsDataURL(blob);
     });
 }
 
@@ -99,9 +129,9 @@ function getOneOfflineVideoSource() {
 function changeProgressBarOfflineVideo(progressBarSelector, value) {
     value = value.toFixed(2);
     $(progressBarSelector).find('.progress-bar')
-            .attr('aria-valuenow', value)
-            .css('width', value + '%')
-            .text(value + '%');
+        .attr('aria-valuenow', value)
+        .css('width', value + '%')
+        .text(value + '%');
 }
 
 async function fetchVideoFromNetwork(src, type, resolution, progressBarSelector) {
@@ -119,7 +149,7 @@ async function fetchVideoFromNetwork(src, type, resolution, progressBarSelector)
     let receivedLength = 0; // received that many bytes at the moment
     let chunks = []; // array of received binary chunks (comprises the body)
     while (true) {
-        const {done, value} = await reader.read();
+        const { done, value } = await reader.read();
 
         if (done) {
             break;
@@ -167,7 +197,7 @@ function deleteOfflineVideo(videos_id, resolution) {
 
 function createSourceElement(source) {
     var sourceElement = $('<source />', source);
-    if(!empty(source.class)){
+    if (!empty(source.class)) {
         $(sourceElement).addClass(source.class);
     }
     console.log('displayVideo', source);
@@ -187,7 +217,7 @@ function openDownloadOfflineVideoPage() {
 var offlineVideoButtonCheckTimeout;
 var offlineVideoButtonCheckIsActive = false;
 function offlineVideoButtonCheck() {
-    if(offlineVideoButtonCheckIsActive || empty(mediaId)){
+    if (offlineVideoButtonCheckIsActive || empty(mediaId)) {
         return false;
     }
     offlineVideoButtonCheckIsActive = true;
@@ -195,9 +225,9 @@ function offlineVideoButtonCheck() {
         collection.toArray().then(function (offlineVideoSources) {
             console.log("offlineVideoButtonCheck offlineVideoSources.length: ", offlineVideoSources.length);
             if (offlineVideoSources.length) {
-                if(isOfflineSourceSelectedToPlay()){
+                if (isOfflineSourceSelectedToPlay()) {
                     setOfflineButton('playingOffline', false);
-                }else{
+                } else {
                     setOfflineButton('readyToPlayOffline', false);
                 }
             } else {
@@ -265,8 +295,8 @@ function offlineVideoLoading(active) {
     }
 }
 
-function socketUpdateOfflineVideoSource(resourceId){
-    if(avideoSocketIsActive()){
+function socketUpdateOfflineVideoSource(resourceId) {
+    if (avideoSocketIsActive()) {
         sendSocketMessageToResourceId({}, 'replaceVideoSourcesPerOfflineVersion', resourceId)
     }
 }

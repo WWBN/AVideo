@@ -343,6 +343,13 @@ class PlayerSkins extends PluginAbstract {
         if (isVideo()) {
             $js .= "<script src=\"" . getURL('node_modules/dexie/dist/dexie.min.js') . "\"></script>";
             if (self::showOfflineVideo()) {
+                $detect = new Mobile_Detect();
+                if ($detect->isiOS()) {
+                    $js .= "<script>const offlineIsIphone = ".json_encode($detect->version('iOS')).";</script>";
+                } else{
+                    $js .= "<script>const offlineIsIphone = false;</script>";
+                }
+                var_dump($detect->isiOS(), $detect->version('iOS'));exit;
                 $js .= "<script>const offlineVideoDbName = 'videos_offlineDb_" . User::getId() . "';</script>";
                 $js .= "<script src=\"" . getURL('plugin/PlayerSkins/offlineVideo.js') . "\"></script>";
             }
