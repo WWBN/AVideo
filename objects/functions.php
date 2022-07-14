@@ -7450,9 +7450,12 @@ function getSocketLiveLinksClassName($live_links_id) {
 }
 
 function getLiveUsersLabelVideo($videos_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary") {
+    global $global;
+    $label = '';
     if (AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")) {
-        return LiveUsers::getLabels(getSocketVideoClassName($videos_id), $totalViews, $viewsClass, $counterClass, 'video');
+        $label .= LiveUsers::getLabels(getSocketVideoClassName($videos_id), $totalViews, $viewsClass, $counterClass, 'video');
     }
+    return $label;
 }
 
 function getLiveUsersLabelLive($key, $live_servers_id, $viewsClass = "label label-default", $counterClass = "label label-primary") {
@@ -7919,9 +7922,26 @@ function getCDNOrURL($url, $type = 'CDN', $id = 0) {
 function replaceCDNIfNeed($url, $type = 'CDN', $id = 0) {
     $cdn = getCDN($type, $id);
     if (empty($cdn)) {
-        return $url;
+        if($type == 'CDN_B2'){
+            $obj = AVideoPlugin::getDataObject('Blackblaze_B2');           
+            if(!isValidURL($obj->CDN_Link)){
+                return $url;
+            }else{
+                $cdn = $obj->CDN_Link;
+            }
+        }else if($type == 'CDN_S3'){
+            $obj = AVideoPlugin::getDataObject('AWS_S3');           
+            if(!isValidURL($obj->CDN_Link)){
+                return $url;
+            }else{
+                $cdn = $obj->CDN_Link;
+            }
+        }
+        if (empty($cdn)) {
+            return $url;
+        }
     }
-
+ 
     return str_replace(parse_url($url, PHP_URL_HOST), parse_url($cdn, PHP_URL_HOST), $url);
 }
 
