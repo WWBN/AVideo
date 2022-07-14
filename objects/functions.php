@@ -7925,7 +7925,8 @@ function replaceCDNIfNeed($url, $type = 'CDN', $id = 0) {
         if($type == 'CDN_B2'){
             $obj = AVideoPlugin::getDataObject('Blackblaze_B2');           
             if(isValidURL($obj->CDN_Link)){
-                $cdn = $obj->CDN_Link;
+                $basename = basename($url);
+                return addLastSlash($obj->CDN_Link).$basename;
             }
         }else if($type == 'CDN_S3'){
             $obj = AVideoPlugin::getDataObject('AWS_S3');           
@@ -7937,7 +7938,7 @@ function replaceCDNIfNeed($url, $type = 'CDN', $id = 0) {
             return $url;
         }
     }
- 
+    
     return str_replace(parse_url($url, PHP_URL_HOST), parse_url($cdn, PHP_URL_HOST), $url);
 }
 
