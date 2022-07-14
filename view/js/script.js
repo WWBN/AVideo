@@ -68,6 +68,14 @@ try {
         }
     }, false);
 
+    eventer("online", function (e) {
+        console.log("You are online!");
+    }, false);
+
+    eventer("offline", function (e) {
+        console.log("Oh no, you lost your network connection.");
+    }, false);
+
 } catch (e) {
     //console.log('Variable declaration ERROR', e);
 }
@@ -1126,7 +1134,7 @@ function reloadVideoJS() {
     if (typeof player.currentSources === 'function') {
         var src = player.currentSources();
         player.src(src);
-        if(typeof replaceVideoSourcesPerOfflineVersion === 'function'){
+        if (typeof replaceVideoSourcesPerOfflineVersion === 'function') {
             replaceVideoSourcesPerOfflineVersion();
         }
     }
@@ -1291,7 +1299,7 @@ function avideoAlert(title, msg, type) {
 
 function avideoAlertOnce(title, msg, type, uid) {
     var cookieName = 'avideoAlertOnce' + uid;
-    if (!Cookies.set(cookieName)) {
+    if (!Cookies.get(cookieName)) {
         var span = document.createElement("span");
         span.innerHTML = msg;
         swal({
@@ -2819,11 +2827,15 @@ function fixAdSize() {
     }
 }
 
+/**
+ * recreate the sources from the video source tags
+ * @type type
+ */
 var videoJSRecreateSourcesTimeout;
-function videoJSRecreateSources(defaultSource){
-    if(empty(player) || empty(player.options_) || empty(player.updateSrc)){
+function videoJSRecreateSources(defaultSource) {
+    if (empty(player) || empty(player.options_) || empty(player.updateSrc)) {
         clearTimeout(videoJSRecreateSourcesTimeout);
-        videoJSRecreateSourcesTimeout = setTimeout(function(){
+        videoJSRecreateSourcesTimeout = setTimeout(function () {
             videoJSRecreateSources(defaultSource);
         });
         return false;
@@ -2831,19 +2843,19 @@ function videoJSRecreateSources(defaultSource){
     player.options_.sources = [];
     $("#mainVideo source").each(function (index) {
         var source = {
-          res: $(this).attr("res"),
-          label: $(this).attr("label"),
-          type: $(this).attr("type"),
-          src: $(this).attr("src"),
+            res: $(this).attr("res"),
+            label: $(this).attr("label"),
+            type: $(this).attr("type"),
+            src: $(this).attr("src"),
         };
         ////console.log('videoJSRecreateSources', $(this), source);
         player.options_.sources.push(source);
     });
     player.updateSrc(player.options_.sources);
-    if(!empty(player.currentResolution) && !empty(defaultSource)){
+    if (!empty(player.currentResolution) && !empty(defaultSource)) {
         player.currentResolution(defaultSource.label, null);
     }
-    if(!empty(fixResolutionMenu)){
+    if (!empty(fixResolutionMenu)) {
         fixResolutionMenu();
     }
 }
@@ -2851,32 +2863,62 @@ function videoJSRecreateSources(defaultSource){
 /**
  * 
  * MEDIA_ERR_ABORTED (numeric value 1)
-MEDIA_ERR_NETWORK (numeric value 2)
-MEDIA_ERR_DECODE (numeric value 3)
-MEDIA_ERR_SRC_NOT_SUPPORTED (numeric value 4)
-MEDIA_ERR_ENCRYPTED (numeric value 5)
+ MEDIA_ERR_NETWORK (numeric value 2)
+ MEDIA_ERR_DECODE (numeric value 3)
+ MEDIA_ERR_SRC_NOT_SUPPORTED (numeric value 4)
+ MEDIA_ERR_ENCRYPTED (numeric value 5)
  */
 var AvideoJSErrorReloadedTimes = 0;
-function AvideoJSError(code){
+function AvideoJSError(code) {
     switch (code) {
         case 1:
         case 2:
         case 3:
         case 4:
-            if(empty(AvideoJSErrorReloadedTimes)){
+            if (empty(AvideoJSErrorReloadedTimes)) {
                 AvideoJSErrorReloadedTimes++;
-                setTimeout(function(){
-                    reloadVideoJS();
-                },2000);
+                console.log('AvideoJSError reloadVideoJS in 2 sec');
+                setTimeout(function () {
+                    //reloadVideoJS();
+                }, 2000);
+            } else if (AvideoJSErrorReloadedTimes === 1) {
+                console.log('AvideoJSError reloadDefaultHTML5Player');
+                AvideoJSErrorReloadedTimes++;
+                //var sources = player.currentSources();
+                //reloadDefaultHTML5Player();
             }
             break;
     }
 }
 
-function isPromise(p) {
-  if (typeof p === 'object' && typeof p.then === 'function') {
-    return true;
-  }
+function reloadDefaultHTML5Player() {
+    var videoElement;
+    if ($('#mainVideo video').length) {
+        videoElement = $('#mainVideo video').clone();
+    } else if ($('#mainVideo').length) {
+        videoElement = $('#mainVideo').clone();
+    } else {
+        return false;
+    }
+    videoElement.attr('id', 'mainVideo');
+    videoElement.attr('controls', 'controls');
+    videoElement.removeClass('vjs-tech');
+    player.dispose();
 
-  return false;
+    $("#main-video").empty();
+    $("#main-video").append(videoElement);
+
+    player = document.getElementById("mainVideo");
+}
+
+function isPromise(p) {
+    if (typeof p === 'object' && typeof p.then === 'function') {
+        return true;
+    }
+
+    return false;
+}
+
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(find, 'g'), replace);
 }
