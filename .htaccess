@@ -54,7 +54,7 @@ Options All -Indexes
     <filesMatch "\VMAP.php$">
         Header set Access-Control-Allow-Origin: *
     </filesMatch>
-    <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf|ts|webp)$">
+    <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf|ts|webp|mp3|mp4)$">
         Header set Access-Control-Allow-Origin: *
         Header set Cache-Control "max-age=2592000, public"
     </filesMatch>
