@@ -54,6 +54,9 @@ global $global, $config, $advancedCustom, $advancedCustomUser;
 
 require_once $global['systemRootPath'] . 'objects/functions.php';
 if(isCommandLineInterface()){
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
     echo 'Include config line '.__LINE__.PHP_EOL;
 }
 if (empty($doNotConnectDatabaseIncludeConfig)) {
