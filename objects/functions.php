@@ -2403,6 +2403,15 @@ function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class
     $file = "{$global['systemRootPath']}{$relativePath}";
     $wh = '';
     if (file_exists($file)) {
+        // check if there is a thumbs
+        if(!preg_match('/_thumbsV2.jpg/', $file)){
+            $thumbs = str_replace('.jpg', '_thumbsV2.jpg', $file);
+            if(file_exists($thumbs)){
+                $file = $thumbs;
+                $relativePath = str_replace('.jpg', '_thumbsV2.jpg', $relativePath);;
+            }
+        }
+        
         $url = getURL($relativePath);
         $image_info = getimagesize($file);
         $wh = $image_info[3];
