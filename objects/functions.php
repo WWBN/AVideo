@@ -2387,8 +2387,37 @@ function getTagIfExists($relativePath) {
     } else if ($ext == "css") {
         return '<link href="' . $url . '" rel="stylesheet" type="text/css"/>';
     } else {
-        return '<img src="' . $url . '" alt=""/>';
+        return getImageTagIfExists($relativePath);
     }
+}
+
+function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class='img img-responsive', $lazyLoad=false) {
+    global $global;
+    $relativePath = str_replace('\\', '/', $relativePath);
+    $file = "{$global['systemRootPath']}{$relativePath}";
+    $wh = '';
+    if (file_exists($file)) {
+        $url = getURL($relativePath);
+        $image_info = getimagesize($file);
+        $wh = $image_info[3];
+    } else if (isValidURL($file)) {
+        $url = $file;
+    } else {
+        return '';
+    }
+    if(empty($title)){
+        $title = basename($relativePath);
+    }
+    $img = "<img style=\"{$style}\" alt=\"{$title}\" id=\"{$id}\" class=\"{$class}\" {$wh} ";
+    if($lazyLoad){
+        $loading = getURL('view/img/loading-gif.png');
+        $img .= " src=\"{$loading}\" data-src=\"{$url}\" ";
+    }else{
+        $img .= " src=\"{$url}\" ";
+    }
+    $img .= "/>";
+    
+    return $img;
 }
 
 function local_get_contents($path) {
