@@ -19,7 +19,7 @@
         <li style="width: 100%; text-align: center;">
             <a class="navbar-brand" id="mainNavbarLogo" href="<?php echo empty($advancedCustom->logoMenuBarURL) ? $global['webSiteRootURL'] : $advancedCustom->logoMenuBarURL; ?>" >
                 <img src="<?php echo getURL($config->getLogo()); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive "  width="250" height="70">
-                <h1 class="hidden"><?php echo $config->getWebSiteTitle(); ?></h1>
+                <h1 class="hidden"><?php echo __('Site:'), ' ',$config->getWebSiteTitle(); ?></h1>
             </a>
         </li>
         <?php
