@@ -1204,7 +1204,11 @@ if (!class_exists('Video')) {
                 }
             }
             
-            if(!empty($type) && $type == 'notArticle'){
+            if(!empty($type) && $type == 'notAudio'){
+                $sql .= " AND v.type != 'audio' ";
+            }else if(!empty($type) && $type == 'notArticleOrAudio'){
+                $sql .= " AND (v.type != 'article' AND v.type != 'audio') ";
+            }else if(!empty($type) && $type == 'notArticle'){
                 $sql .= " AND v.type != 'article' ";
             }else if(!empty($type)){
                 $sql .= " AND v.type = '{$type}' ";
@@ -1764,7 +1768,11 @@ if (!class_exists('Video')) {
                 }
             }
             
-            if(!empty($type) && $type == 'notArticle'){
+            if(!empty($type) && $type == 'notAudio'){
+                $sql .= " AND v.type != 'audio' ";
+            }else if(!empty($type) && $type == 'notArticleOrAudio'){
+                $sql .= " AND (v.type != 'article' AND v.type != 'audio') ";
+            }else if(!empty($type) && $type == 'notArticle'){
                 $sql .= " AND v.type != 'article' ";
             }else if(!empty($type)){
                 $sql .= " AND v.type = '{$type}' ";
@@ -3235,7 +3243,7 @@ if (!class_exists('Video')) {
                     }
                 }
                 /* need it because getDurationFromFile */
-                if ($includeS3 && ($type == ".mp4" || $type == ".webm" || $type == ".mp3" || $type == ".ogg" || $type == ".pdf" || $type == ".zip")) {
+                if ($includeS3 && preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip)$/i', $type)) {
                     if (file_exists($source['path']) && filesize($source['path']) < 1024) {
                         if (!empty($cdn_obj->enable_storage)) {
                             $source['url'] = CDNStorage::getURL("{$filename}{$type}");

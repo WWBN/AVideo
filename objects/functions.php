@@ -378,17 +378,22 @@ function cleanString($text) {
 }
 
 function safeString($text, $strict = false) {
+    $text = strip_tags($text);
+    $text = str_replace(array('&amp;', '&lt;', '&gt;'), array('', '', ''), $text);
+    $text = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '', $text);
+    $text = preg_replace('/(&#x*[0-9A-F]+);*/iu', '', $text);
+    $text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
     if ($strict) {
-        $text = trim(xss_esc(preg_replace('/[^a-z0-9. _-]/i', '', strip_tags($text))));
-    } else {
-        $text = trim(preg_replace('/[^a-z0-9:. _\'"()-]/i', '', strip_tags($text)));
-    }
+        $text = filter_var($text, FILTER_SANITIZE_STRING);
+        //$text = cleanURLName($text);
+    } 
+    $text = trim($text);
     return $text;
 }
 
-function cleanURLName($name) {
-    $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]%"\/\\\\ ]+/', '-', trim(strtolower(cleanString($name))));
-    return trim(preg_replace('/[\x00-\x1F\x7F\xD7\xE0]/u', '', $name), "-");
+function cleanURLName($name, $replaceChar = '-') {
+    $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]%"\/\\\\ ]+/', $replaceChar, trim(strtolower(cleanString($name))));
+    return trim(preg_replace('/[\x00-\x1F\x7F\xD7\xE0]/u', $replaceChar, $name), $replaceChar);
 }
 
 /**
@@ -3426,7 +3431,7 @@ function rrmdir($dir) {
         }
         if (rmdir($dir)) {
             return true;
-        } else {
+        } else if(is_dir($dir)){
             _error_log('rrmdir: could not delete folder ' . $dir);
             return false;
         }
@@ -4013,7 +4018,7 @@ function _error_log($message, $type = 0, $doNotRepeat = false) {
             break;
     }
     $str = $prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}";
-    if (isCommandLineInterface()) {
+    if (isCommandLineInterface() && empty($global['doNotPrintLogs'])) {
         echo '[' . date('Y-m-d H:i:s') . '] ' . $str . PHP_EOL;
     }
     error_log($str);
@@ -4103,7 +4108,7 @@ function blackListRegenerateSession() {
         'objects/userCreate.json.php',
     );
     foreach ($list as $needle) {
-        if(str_ends_with($_SERVER['SCRIPT_NAME'], $needle)){
+        if (str_ends_with($_SERVER['SCRIPT_NAME'], $needle)) {
             return true;
         }
     }
@@ -7474,9 +7479,12 @@ function getSocketLiveLinksClassName($live_links_id) {
 }
 
 function getLiveUsersLabelVideo($videos_id, $totalViews = null, $viewsClass = "label label-default", $counterClass = "label label-primary") {
+    global $global;
+    $label = '';
     if (AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")) {
-        return LiveUsers::getLabels(getSocketVideoClassName($videos_id), $totalViews, $viewsClass, $counterClass, 'video');
+        $label .= LiveUsers::getLabels(getSocketVideoClassName($videos_id), $totalViews, $viewsClass, $counterClass, 'video');
     }
+    return $label;
 }
 
 function getLiveUsersLabelLive($key, $live_servers_id, $viewsClass = "label label-default", $counterClass = "label label-primary") {
@@ -7942,10 +7950,28 @@ function getCDNOrURL($url, $type = 'CDN', $id = 0) {
 
 function replaceCDNIfNeed($url, $type = 'CDN', $id = 0) {
     $cdn = getCDN($type, $id);
-    if (empty($cdn)) {
-        return $url;
+    if(!empty($_GET['debug'])){
+            $obj = AVideoPlugin::getDataObject('Blackblaze_B2');
+        var_dump($url, $type, $id, $cdn, $obj->CDN_Link);exit;
     }
-
+    if (empty($cdn)) {
+        if($type == 'CDN_B2'){
+            $obj = AVideoPlugin::getDataObject('Blackblaze_B2');   
+            if(isValidURL($obj->CDN_Link)){
+                $basename = basename($url);
+                return addLastSlash($obj->CDN_Link).$basename;
+            }
+        }else if($type == 'CDN_S3'){
+            $obj = AVideoPlugin::getDataObject('AWS_S3');           
+            if(isValidURL($obj->CDN_Link)){
+                $cdn = $obj->CDN_Link;
+            }
+        }
+        if (empty($cdn)) {
+            return $url;
+        }
+    }
+    
     return str_replace(parse_url($url, PHP_URL_HOST), parse_url($cdn, PHP_URL_HOST), $url);
 }
 
@@ -8968,4 +8994,18 @@ function deleteInvalidImage($filepath) {
         return false;
     }
     return true;
+}
+ 
+/**
+ * add the twitterjs if the link is present
+ * @param string $text
+ * @return string
+ */
+function addTwitterJS($text){
+    if(preg_match('/href=.+twitter.com.+ref_src=.+/', $text)){
+        if(!preg_match('/platform.twitter.com.widgets.js/', $text)){
+            $text .= '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+        }
+    }
+    return $text;
 }

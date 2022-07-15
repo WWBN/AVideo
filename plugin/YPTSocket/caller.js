@@ -323,7 +323,7 @@ function callerCheckUser(users_id) {
         return false;
     }
     if (isUserOnline(users_id)) {
-        console.log('callerCheckUser OK', users_id, users_id_online);
+        //console.log('callerCheckUser OK', users_id, users_id_online);
         $('.caller' + users_id).show();
     } else {
         console.log('callerCheckUser NO', users_id, users_id_online);

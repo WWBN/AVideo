@@ -38,6 +38,10 @@ function __($str, $allowHTML = false) {
     return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $return);
 }
 
+function printJSString($str) {
+    echo json_encode(__($str));
+}
+
 function isRTL() {
     global $t_isRTL;
     return !empty($t_isRTL) && $t_isRTL;

@@ -2505,6 +2505,7 @@ if (typeof gtag !== \"function\") {
             if ($response) {
                 switch ($response) {
                     case self::USER_LOGGED:
+                        $global['bypassSameDomainCheck'] = 1;
                         _error_log("loginFromRequest SUCCESS {$_REQUEST['user']}");
                         break;
                     case self::USER_NOT_FOUND:

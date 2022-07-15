@@ -1,0 +1,7 @@
+.offlinevideos .isDownloading .btn,
+.offlinevideos .isDeleting .btn,
+.offlinevideos div.panel-success > div.panel-heading > button.btn.btn-warning,
+.offlinevideos div.panel-default > div.panel-heading > button.btn.btn-danger,
+.offlinevideos div.panel-default > div.panel-heading > button.btn.btn-success{
+    display: none;
+}

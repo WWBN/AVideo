@@ -80,6 +80,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->showChannelHomeTab = true;
         $obj->showChannelVideosTab = true;
         $obj->showArticlesTab = true;
+        $obj->showAudioTab = true;
         $obj->showChannelProgramsTab = true;
         $obj->showBigVideoOnChannelVideosTab = true;
         $obj->encryptPasswordsWithSalt = !isset($advancedCustom->encryptPasswordsWithSalt) ? false : $advancedCustom->encryptPasswordsWithSalt;

@@ -32,14 +32,14 @@ function expand() {
     isCompressed = false;
 }
 function toogleEC() {
-    if (isCompressed) {
+    if (!empty(isCompressed)) {
         expand();
     } else {
         compress();
     }
 }
 $(document).ready(function () {
-    if (isCompressed) {
+    if (!empty(isCompressed)) {
         compress();
     } else {
         expand();

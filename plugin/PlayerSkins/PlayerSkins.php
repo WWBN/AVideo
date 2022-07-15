@@ -341,13 +341,13 @@ class PlayerSkins extends PluginAbstract {
         PlayerSkins::addOnPlayerReady('if(typeof updateMediaSessionMetadata === "function"){updateMediaSessionMetadata();}');
 
         if (isVideo()) {
-            $js .= "<script src=\"" . getURL('node_modules/dexie/dist/dexie.min.js') . "\"></script>";
+            $js .= "<script src=\"" . getURL('node_modules/pouchdb/dist/pouchdb.min.js') . "\"></script>";
             if (self::showOfflineVideo()) {
                 $detect = new Mobile_Detect();
                 if ($detect->isiOS()) {
-                    $js .= "<script>const offline_iOSVersion = ".json_encode($detect->version('iOS', Mobile_Detect::VERSION_TYPE_FLOAT)).";</script>";
+                    $js .= "<script>var offline_iOSVersion = ".json_encode($detect->version('iOS', Mobile_Detect::VERSION_TYPE_FLOAT)).";</script>";
                 } else{
-                    $js .= "<script>const offline_iOSVersion = 0;</script>";
+                    $js .= "<script>var offline_iOSVersion = 0;</script>";
                 }
                 //var_dump($detect->isiOS(), $detect->version('iOS'));exit;
                 $js .= "<script>const offlineVideoDbName = 'videos_offlineDb_" . User::getId() . "';</script>";
@@ -364,6 +364,7 @@ class PlayerSkins extends PluginAbstract {
 
         $dataSetup = array();
 
+        //$dataSetup[] = "inactivityTimeout: 0";
         $dataSetup[] = "errorDisplay: false";
         if (isVideoPlayerHasProgressBar() && !empty($obj->playbackRates)) {
             $dataSetup[] = "'playbackRates':{$obj->playbackRates}";
@@ -716,8 +717,8 @@ class PlayerSkins extends PluginAbstract {
         }
 
         $types = Video::getVideoTypeFromId($videos_id);
-
-        return !empty($types->mp4);
+        //var_dump($types);exit;
+        return !empty($types->mp4) || !empty($types->m3u8);
     }
     
 

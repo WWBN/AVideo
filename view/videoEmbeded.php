@@ -5,6 +5,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+$global['bypassSameDomainCheck'] = 1;
 User::loginFromRequest();
 if (!empty($_GET['evideo'])) {
     $v = Video::decodeEvideo();

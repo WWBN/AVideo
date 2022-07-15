@@ -1062,8 +1062,11 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdm
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
-                                                $('#inputDescription').val(row.descriptionHTML);
-                                                tinymce.get('inputDescription').setContent(row.descriptionHTML);
+            $('#inputDescription').val(row.descriptionHTML);
+            if(!empty(tinymce.get('inputDescription'))){
+                tinymce.get('inputDescription').setContent(row.descriptionHTML);
+            }                                 
+                                                
     <?php
 } else {
     ?>
