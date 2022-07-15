@@ -13,15 +13,24 @@ if (empty($videos_id)) {
 if (!User::canWatchVideo($videos_id)) {
     forbiddenPage('you cannot watch this video');
 }
-
+$types = Video::getVideoTypeFromId($videos_id);
 $video = Video::getVideoLight($videos_id);
 $sources = getVideosURL_V2($video['filename']);
 $sourcesResolutions = array();
 $mainResolution = false;
-
 foreach ($sources as $key => $value) {
     if (preg_match('/^mp4_([0-9]+)/', $key, $matches)) {
         $option = array('url' => $value['url'], 'path' => $value['path'], 'resolution' => $matches[1]);
+        $sourcesResolutions[] = $option;
+        if ($option['resolution'] == 480) {
+            $mainResolution = $option;
+        }
+    }else if (preg_match('/^m3u8_?([0-9]+)?/', $key, $matches)) {
+        $resolution = 'auto';
+        if(!empty($matches[1])){
+            $resolution = $matches[1];
+        }
+        $option = array('url' => $value['url'], 'path' => $value['path'], 'resolution' => $resolution);
         $sourcesResolutions[] = $option;
         if ($option['resolution'] == 480) {
             $mainResolution = $option;
@@ -32,26 +41,28 @@ if (empty($mainResolution) && !empty($sourcesResolutions)) {
     $mainResolution = $sourcesResolutions[0];
 }
 
-function createOfflineDownloadPanel($option, $class = 'col-xs-6') {
-    global $videos_id;
+//var_dump($mainResolution);exit;
+function createOfflineDownloadPanel($videos_id, $option, $class = 'col-xs-6') {
     ?>
     <div class="<?php echo $class; ?>">
         <div class="panel panel-default videos_offline_<?php echo $videos_id; ?>_<?php echo $option['resolution']; ?>">
-            <div class="panel-heading">
+            <div class="panel-heading clearfix">
                 <button class="btn btn-danger"  onclick='_deleteOfflineVideo(<?php echo json_encode($option['resolution']); ?>);'>
-                    <i class="fas fa-trash"></i> <?php echo __('Delete'); ?>
+                    <i class="fas fa-trash"></i> <?php echo __('Delete'); ?> <span class="badge"><?php echo humanFileSize(filesize($option['path'])); ?></span>
                 </button>
-                <button class="btn btn-warning" onclick='_downloadOfflineVideo(<?php echo json_encode($option['url']); ?>, <?php echo json_encode($option['resolution']); ?>, ".videos_offline_<?php echo $videos_id; ?>_<?php echo $option['resolution']; ?> .progress");'>
-                    <i class="fas fa-download"></i> <?php echo __('Download'); ?>
+                <button class="btn btn-warning" onclick='_downloadOfflineVideo(<?php echo json_encode($option['url']); ?>, <?php echo json_encode($option['resolution']); ?>);'>
+                    <i class="fas fa-download"></i> <?php echo __('Download'); ?> <span class="badge"><?php echo humanFileSize(filesize($option['path'])); ?></span>
                 </button>
-                <button class="btn btn-success" onclick='_updateVideo(<?php echo json_encode($videos_id); ?>);'>
+                <button class="btn btn-success hidden" onclick='_updateVideo(<?php echo json_encode($videos_id); ?>);'>
                     <i class="fas fa-sync"></i> <?php echo __('Renew'); ?>
+                </button>
+                <button class="btn btn-primary pull-right" onclick='deleteAllOfflineDatabase();'>
+                    <i class="fas fa-times"></i> <?php echo __('Delete All'); ?>
                 </button>
             </div>
             <div class="panel-body">
                 <ul class="list-group">
                     <li class="list-group-item"><?php echo __('Resolution') ?> <span class="badge"><?php echo $option['resolution']; ?></span></li>
-                    <li class="list-group-item"><?php echo __('Size') ?> <span class="badge"><?php echo humanFileSize(filesize($option['path'])); ?></span></li>
                 </ul>
             </div>
             <div class="panel-footer">
@@ -79,15 +90,7 @@ function createOfflineDownloadPanel($option, $class = 'col-xs-6') {
         //echo AVideoPlugin::getHeadCode();
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <style>
-            .offlinevideos div.panel-success > div.panel-heading > button.btn.btn-warning{
-                display: none;
-            }
-            .offlinevideos div.panel-default > div.panel-heading > button.btn.btn-danger,
-            .offlinevideos div.panel-default > div.panel-heading > button.btn.btn-success{
-                display: none;
-            }
-        </style>
+        <link href="<?php echo getURL('plugin/PlayerSkins/offlineVideo.css'); ?>" rel="stylesheet" type="text/css"/>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
@@ -103,6 +106,7 @@ function createOfflineDownloadPanel($option, $class = 'col-xs-6') {
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#offlineVideo"><?php echo __('Offline Video'); ?></a></li>
                         <li><a data-toggle="tab" href="#offlineVideoAdvanced"><?php echo __('Advanced'); ?></a></li>
+                        <li><a data-toggle="tab" href="#offlineVideoAll"><?php echo __('All Videos'); ?></a></li>
                     </ul>
                     <div class="tab-content">
                         <div id="offlineVideo" class="tab-pane fade in active">
@@ -125,7 +129,7 @@ function createOfflineDownloadPanel($option, $class = 'col-xs-6') {
                                 </div>
                                 <div class="col-xs-6">
                                     <?php
-                                    createOfflineDownloadPanel($mainResolution, '');
+                                    createOfflineDownloadPanel($videos_id, $mainResolution, '');
                                     ?>
                                 </div>
                             </div>
@@ -134,9 +138,33 @@ function createOfflineDownloadPanel($option, $class = 'col-xs-6') {
                             <div class="row">
                                 <?php
                                 foreach ($sourcesResolutions as $key => $option) {
-                                    createOfflineDownloadPanel($option);
+                                    createOfflineDownloadPanel($videos_id, $option);
                                 }
                                 ?>
+                            </div>
+                        </div>
+                        <div id="offlineVideoAll" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 col-xs-12 bottom-border videoListItem hidden" id="offlineVideoTemplate">
+                                    <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage videoLink h6">
+                                        <div class="galleryVideo">
+                                            <a href="" class="videoLink">
+                                                <img 
+                                                    src="" 
+                                                    class="thumbsJPG img-responsive text-center" height="130" 
+                                                    style="">
+                                            </a>
+                                            <time class="duration"></time>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
+                                        <a href="" class="videoLink">
+                                            <div class="text-uppercase row">
+                                                <strong class="title"></strong>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -153,48 +181,113 @@ function createOfflineDownloadPanel($option, $class = 'col-xs-6') {
             const offlineVideoDbName = 'videos_offlineDb_<?php echo User::getId(); ?>';
             var mediaId = <?php echo $videos_id; ?>;
         </script>
-        <script src="<?php echo getURL('node_modules/dexie/dist/dexie.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/pouchdb/dist/pouchdb.min.js'); ?>" type="text/javascript"></script>
         <script src="<?php echo getURL('plugin/PlayerSkins/offlineVideo.js'); ?>" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
                 listAllOfflineVideo();
             });
-            function listAllOfflineVideo() {
+            
+            function deleteAllOfflineDatabase() {
+                createOfflineDatabase(true).then(function (resp) {
+                    listAllOfflineVideo();
+                }).catch(function (e) {
+                    console.log("deleteAllOfflineDatabase", e);
+                });
+            }
+
+            async function listAllOfflineVideoAvailable() {
+                var collection = await getAllOfflineVideoAvailable();
+
+                console.log('listAllOfflineVideoAvailable', collection);
+
+                $('#offlineVideoAll .offlineVideoAvailable').remove();
+
+                var model = $('#offlineVideoTemplate').clone();
+
+                model.attr('id', '');
+                model.removeClass('hidden');
+                model.addClass('offlineVideoAvailable');
+
+                for (var i in collection.rows) {
+                    var video = collection.rows[i].doc;
+                    if (typeof video !== 'object') {
+                        continue;
+                    }
+                    //console.log("replaceVideoSourcesPerOfflineVersionFromVideosId video: ",video);
+                    var fileBlob = await offlineVideoDBPouch.getAttachment(video._id, 'poster');
+                    var source = createImageSourceFromBlob(fileBlob, 0);
+
+                    var newVideo = $(model).clone();
+                    newVideo.find('.videoLink').attr('href', video.link);
+                    newVideo.find('.thumbsJPG').attr('src', source.src);
+                    newVideo.find('.duration').html(video.duration);
+                    newVideo.find('.title').html(video.title);
+                    $('#offlineVideoAll > .row').append(newVideo);
+                    console.log('listAllOfflineVideoAvailable video', video, newVideo);
+                }
+            }
+
+            async function listAllOfflineVideo() {
                 videos_id = <?php echo $videos_id; ?>;
-                var collection = offlineDbRequest.offline_videos.where('videos_id').equals(videos_id);
+                var collection = await getAllOfflineVideoPouch(videos_id);
+
+                console.log('listAllOfflineVideo', collection);
 
                 $('.panel').removeClass('panel-success');
                 $('.panel').addClass('panel-default');
                 changeProgressBarOfflineVideo('.progress', 0);
-                collection.each(function (video) {
-                    var elemSelector = '.videos_offline_' + video.videos_id_resolution;
-                    $(elemSelector).removeClass('panel-default');
-                    $(elemSelector).addClass('panel-success');
 
-                    changeProgressBarOfflineVideo(elemSelector+' .progress', 100);
-                });
+                for (var i in collection.rows) {
+                    var video = collection.rows[i].doc;
+                    if (typeof video !== 'object') {
+                        continue;
+                    }
+                    console.log('listAllOfflineVideo video', video);
 
+                    for (var i in video._attachments) {
+                        if (i == 'poster') {
+                            continue;
+                        }
+                        var elemSelector = '.videos_offline_' + video.videos_id + '_' + i;
+                        $(elemSelector).removeClass('panel-default');
+                        $(elemSelector).addClass('panel-success');
+                        changeProgressBarOfflineVideo(elemSelector + ' .progress', 100);
+                    }
+
+
+                }
             }
-            async function _downloadOfflineVideo(src, resolution, progressBarSelector) {
-                return await fetchVideoFromNetwork(src, 'video/mp4', resolution, progressBarSelector).then(function (video) {
+            async function _downloadOfflineVideo(src, resolution) {
+                var elemSelector = ".videos_offline_<?php echo $videos_id; ?>_" + resolution;
+                var progressBarSelector = elemSelector + " .progress";
+                $(elemSelector).addClass('isDownloading');
+                var response = await fetchVideoFromNetwork(src, 'video/mp4', resolution, progressBarSelector).then(function (video) {
                     console.log("_downloadOfflineVideo: ", video);
                     listAllOfflineVideo();
                     socketUpdateOfflineVideoSource(<?php echo json_encode($_REQUEST['socketResourceId']); ?>);
                 }).catch(function (e) {
                     console.log("_downloadOfflineVideo Error: ", e);
                 });
+                $(elemSelector).removeClass('isDownloading');
+                return response;
             }
-            function _deleteOfflineVideo(resolution) {
-                return deleteOfflineVideo(<?php echo $videos_id; ?>, resolution).then((video) => {
+            async function _deleteOfflineVideo(resolution) {
+                var elemSelector = ".videos_offline_<?php echo $videos_id; ?>_" + resolution;
+                $(elemSelector).addClass('isDeleting');
+                var response = await deleteOfflineVideoPouch(<?php echo $videos_id; ?>, resolution).then((video) => {
                     console.log('_deleteOfflineVideo', video);
                     listAllOfflineVideo();
                     socketUpdateOfflineVideoSource(<?php echo json_encode($_REQUEST['socketResourceId']); ?>);
                 });
+                $(elemSelector).removeClass('isDeleting');
+                return response;
             }
         </script>
         <?php
-        //echo AVideoPlugin::getFooterCode();
+        if(!empty($types->m3u8) && AVideoPlugin::isEnabledByName('VideoHLS')){
+            include $global['systemRootPath'].'plugin/VideoHLS/downloadHLS.php';
+        }
         ?>
-
     </body>
 </html>

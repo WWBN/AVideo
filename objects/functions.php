@@ -7921,9 +7921,13 @@ function getCDNOrURL($url, $type = 'CDN', $id = 0) {
 
 function replaceCDNIfNeed($url, $type = 'CDN', $id = 0) {
     $cdn = getCDN($type, $id);
+    if(!empty($_GET['debug'])){
+            $obj = AVideoPlugin::getDataObject('Blackblaze_B2');
+        var_dump($url, $type, $id, $cdn, $obj->CDN_Link);exit;
+    }
     if (empty($cdn)) {
         if($type == 'CDN_B2'){
-            $obj = AVideoPlugin::getDataObject('Blackblaze_B2');           
+            $obj = AVideoPlugin::getDataObject('Blackblaze_B2');   
             if(isValidURL($obj->CDN_Link)){
                 $basename = basename($url);
                 return addLastSlash($obj->CDN_Link).$basename;

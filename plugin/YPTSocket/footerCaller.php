@@ -15,7 +15,7 @@ if (empty($obj->enableCalls)) {
 $response = pluginsRequired(array('Meet', 'YPTSocket'), "Caller");
 
 if($response->error){
-    echo '<script>avideoAlertError("'.$response->msg.'");</script>';
+    echo '<script>avideoAlertOnce("Notice", "'.$response->msg.'", "info", "meetSocketAlert");</script>';
     return false;
 }
 ?>
