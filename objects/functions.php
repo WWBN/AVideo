@@ -3402,7 +3402,7 @@ function rrmdir($dir) {
         }
         if (rmdir($dir)) {
             return true;
-        } else {
+        } else if(is_dir($dir)){
             _error_log('rrmdir: could not delete folder ' . $dir);
             return false;
         }
@@ -3989,7 +3989,7 @@ function _error_log($message, $type = 0, $doNotRepeat = false) {
             break;
     }
     $str = $prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}";
-    if (isCommandLineInterface()) {
+    if (isCommandLineInterface() && empty($global['doNotPrintLogs'])) {
         echo '[' . date('Y-m-d H:i:s') . '] ' . $str . PHP_EOL;
     }
     error_log($str);
