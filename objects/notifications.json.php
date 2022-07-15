@@ -29,4 +29,8 @@ if (AVideoPlugin::loadPluginIfEnabled("Live")) {
     $obj->live = getStatsNotifications();
 }
 
+foreach ($obj->live["applications"] as $key => $value) {
+    $obj->live['applications'][$key]['title'] = strip_tags(html_entity_decode($obj->live['applications'][$key]['title']));
+}
+
 echo json_encode($obj);
