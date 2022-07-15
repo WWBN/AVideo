@@ -769,7 +769,7 @@ if (!class_exists('Video')) {
                 }
             }
             _mysql_connect();
-            $sql = "SELECT u.*, v.*, "
+            $sql = "SELECT STRAIGHT_JOIN u.*, v.*, "
                     . " nv.title as next_title,"
                     . " nv.clean_title as next_clean_title,"
                     . " nv.filename as next_filename,"
@@ -1135,7 +1135,7 @@ if (!class_exists('Video')) {
                 $suggestedOnly = true;
                 $status = '';
             }
-            $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
+            $sql = "SELECT STRAIGHT_JOIN u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
                     . " FROM videos as v "
@@ -1706,7 +1706,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            $sql = "SELECT v.users_id, v.type, v.id, v.title,v.description, c.name as category {$cn} "
+            $sql = "SELECT STRAIGHT_JOIN  v.users_id, v.type, v.id, v.title,v.description, c.name as category {$cn} "
                     . "FROM videos v "
                     . "LEFT JOIN categories c ON categories_id = c.id "
                     . " LEFT JOIN users u ON v.users_id = u.id "
@@ -3264,7 +3264,12 @@ if (!class_exists('Video')) {
                     }
                 }
                 if (!file_exists($source['path']) || ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10))) {
-                    if ($type !== "_thumbsV2.jpg" && $type !== "_thumbsSmallV2.jpg" && $type !== "_portrait_thumbsV2.jpg" && $type !== "_portrait_thumbsSmallV2.jpg") {
+                    if (
+                            $type !== "_thumbsV2.jpg" && 
+                            $type !== "_thumbsSmallV2.jpg" && 
+                            $type !== "_portrait_thumbsV2.jpg" && 
+                            $type !== "_portrait_thumbsSmallV2.jpg" && 
+                            $type !== "_thumbsV2_jpg.webp") {
                         $VideoGetSourceFile[$cacheName] = ['path' => false, 'url' => false];
                         //if($type=='.jpg'){echo '----'.PHP_EOL;var_dump($type, $source);echo '----'.PHP_EOL;};
                         //echo PHP_EOL.'---'.PHP_EOL;var_dump($source, $type, !file_exists($source['path']), ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10)));echo PHP_EOL.'+++'.PHP_EOL;
@@ -3489,7 +3494,7 @@ if (!class_exists('Video')) {
             if (preg_match('/videos[\/\\\]([^\/\\\]+)[\/\\\].*index.m3u8$/', $filename, $matches)) {
                 return $matches[1];
             }
-            $search = ['_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_spectrum', '_tvg', '.notfound'];
+            $search = ['_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2','_thumbsV2_jpg', '_spectrum', '_tvg', '.notfound'];
 
             if (!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])) {
                 $search = array_merge($search, $global['langs_codes_values_withdot']);

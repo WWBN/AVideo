@@ -487,7 +487,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     $jsFiles = [];
     $jsFiles[] = "view/js/BootstrapMenu.min.js";
     $jsFiles[] = "node_modules/sweetalert/dist/sweetalert.min.js";
-    $jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
+    //$jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
     $jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
     $jsFiles[] = "view/js/script.js";
     $jsFiles[] = "node_modules/js-cookie/dist/js.cookie.js";
