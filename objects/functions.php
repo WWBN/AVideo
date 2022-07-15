@@ -2441,7 +2441,7 @@ function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class
 
 function createWebPIfNotExists($path){
     if(!file_exists($path)){
-        return false;
+        return $path;
     }
     $extension = pathinfo($path, PATHINFO_EXTENSION);
     if($extension!=='jpg'){
