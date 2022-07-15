@@ -2399,7 +2399,6 @@ function getTagIfExists($relativePath) {
 function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class='img img-responsive', $lazyLoad=false) {
     global $global;
     $relativePath = getRelativePath($relativePath);
-    $relativePath = str_replace('\\', '/', $relativePath);
     $file = "{$global['systemRootPath']}{$relativePath}";
     $wh = '';
     if (file_exists($file)) {
@@ -2408,11 +2407,11 @@ function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class
             $thumbs = str_replace('.jpg', '_thumbsV2.jpg', $file);
             if(file_exists($thumbs)){
                 $file = $thumbs;
-                $relativePath = str_replace('.jpg', '_thumbsV2.jpg', $relativePath);;
             }
         }
+        $file = createWebPIfNotExists($file);
         
-        $url = getURL($relativePath);
+        $url = getURL(getRelativePath($file));
         $image_info = getimagesize($file);
         $wh = $image_info[3];
     } else if (isValidURL($file)) {
@@ -2438,6 +2437,22 @@ function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class
     $img .= "/>";
     
     return $img;
+}
+
+function createWebPIfNotExists($path){
+    if(!file_exists($path)){
+        return false;
+    }
+    $extension = pathinfo($path, PATHINFO_EXTENSION);
+    if($extension!=='jpg'){
+        return $path;
+    }
+    $nextGenPath = str_replace('.jpg', '_jpg.webp', $path);
+    
+    if(!file_exists($nextGenPath)){
+        convertImage($path, $nextGenPath, 70);
+    }
+    return $nextGenPath;
 }
 
 function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation='', $title='', $id=''){
@@ -2467,6 +2482,7 @@ function getRelativePath($path){
         $relativePath = $path;
     }
     $parts2 = explode('?', $relativePath);
+    $relativePath = str_replace('\\', '/', $relativePath);
     //var_dump($path, $relativePath, $parts);
     return $parts2[0];
 }
