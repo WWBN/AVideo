@@ -74,11 +74,11 @@ echo 'This script will import all videos from a specific channel to a specific u
 echo 'The final result will depend on the video type'.PHP_EOL;
 echo '- MP4 or MP3 we will also download the video'.PHP_EOL;
 echo '- All other formats we will only import the database metadata poster and images'.PHP_EOL;
-echo '- We cannot download the HLS video, so to make it work you will need to copy the video folder itseelf, do not rename the folder because we always import it with the same filename'.PHP_EOL;
+echo '- We cannot download the HLS video, so to make it work you will need to copy the video folder itself, do not rename the folder because we always import it with the same filename'.PHP_EOL;
 echo '- Embed videos should work with no problem'.PHP_EOL;
-echo 'Initially we will ask you for the URL of an AVideo channel and then we will ask you for a user id.'.PHP_EOL;
+echo 'Initially, we will ask you for the URL of an AVideo channel and then we will ask you for a user id.'.PHP_EOL;
 echo 'If you do not know the id we will offer you a search to facilitate the location'.PHP_EOL;
-echo 'The category will be the site default'.PHP_EOL;
+echo 'The category will be the site\'s default'.PHP_EOL;
 echo 'If you run the script again, we will NOT duplicate the video but we will update the metadata with the source site channel '.PHP_EOL;
 echo '****************************************Channel Import Tool****************************************'.PHP_EOL;
 echo PHP_EOL.PHP_EOL;
