@@ -53,6 +53,9 @@ ini_set('error_log', $global['logfile']);
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
 require_once $global['systemRootPath'] . 'objects/functions.php';
+if(isCommandLineInterface()){
+    echo 'Include config line '.__LINE__.PHP_EOL;
+}
 if (empty($doNotConnectDatabaseIncludeConfig)) {
     _mysql_connect();
 } else {
@@ -62,6 +65,9 @@ require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/security.php';
 
+if(isCommandLineInterface()){
+    echo 'Include config line '.__LINE__.PHP_EOL;
+}
 // for update config from old versions 2020-05-11
 if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) {
     Configuration::rewriteConfigFile();
@@ -90,11 +96,17 @@ if (empty($doNotStartSessionbaseIncludeConfig)) {
 
     session_start();
 }
+if(isCommandLineInterface()){
+    echo 'Include config line '.__LINE__.PHP_EOL;
+}
 // DDOS protection can be disabled in video/configuration.php
 if (!empty($global['enableDDOSprotection'])) {
     ddosProtection();
 }
 
+if(isCommandLineInterface()){
+    echo 'Include config line '.__LINE__.PHP_EOL;
+}
 // set the referrer for aVideo
 $url1['host'] = '';
 $global['HTTP_REFERER'] = '';
@@ -134,11 +146,17 @@ if (!empty($url1['host']) && !empty($url2['host']) && $url1['host'] !== $url2['h
 $_SESSION['LAST_HTTP_REFERER'] = $global['HTTP_REFERER'];
 //var_dump($global['HTTP_REFERER'], $url1);exit;
 
+if(isCommandLineInterface()){
+    echo 'Include config line '.__LINE__.PHP_EOL;
+}
 _ob_end_clean();
 //$output = _ob_get_clean();
 _ob_start(true);
 //echo $output;
 
+if(isCommandLineInterface()){
+    echo 'Include config line '.__LINE__.PHP_EOL;
+}
 $_SESSION['lastUpdate'] = time();
 $_SESSION['savedQuerys'] = 0;
 require_once $global['systemRootPath'] . 'objects/Object.php';
@@ -170,12 +188,18 @@ if (empty($global['avideo_resolutions'])) {
     $global['avideo_resolutions'] = [240, 360, 480, 540, 720, 1080, 1440, 2160];
 }
 
+if(isCommandLineInterface()){
+    echo 'Include config line '.__LINE__.PHP_EOL;
+}
 sort($global['avideo_resolutions']);
 if (!empty($doNotConnectDatabaseIncludeConfig)) {
     return false;
 }
 $advancedCustom = AVideoPlugin::getObjectData('CustomizeAdvanced');
 
+if(isCommandLineInterface()){
+    echo 'Include config line '.__LINE__.PHP_EOL;
+}
 if (empty($global['disableTimeFix'])) {
     /*
       $now = new DateTime();
@@ -190,12 +214,18 @@ if (empty($global['disableTimeFix'])) {
     ObjectYPT::setGlobalTimeZone();
 }
 
+if(isCommandLineInterface()){
+    echo 'Include config line '.__LINE__.PHP_EOL;
+}
 $avideoLayout = AVideoPlugin::getObjectData('Layout');
 $avideoCustomizeUser = $advancedCustomUser = AVideoPlugin::getObjectData('CustomizeUser');
 $avideoCustomize = $customizePlugin = AVideoPlugin::getObjectData('Customize');
 $avideoPermissions = $permissionsPlugin = AVideoPlugin::getObjectData('Permissions');
 $avideoPlayerSkins = AVideoPlugin::getObjectData('PlayerSkins');
 
+if(isCommandLineInterface()){
+    echo 'Include config line '.__LINE__.PHP_EOL;
+}
 if (!empty($_GET['type'])) {
     $metaDescription = " {$_GET['type']}";
 } elseif (!empty($_GET['showOnly'])) {
