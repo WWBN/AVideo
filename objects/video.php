@@ -1204,7 +1204,11 @@ if (!class_exists('Video')) {
                 }
             }
             
-            if(!empty($type) && $type == 'notArticle'){
+            if(!empty($type) && $type == 'notAudio'){
+                $sql .= " AND v.type != 'audio' ";
+            }else if(!empty($type) && $type == 'notArticleOrAudio'){
+                $sql .= " AND (v.type != 'article' AND v.type != 'audio') ";
+            }else if(!empty($type) && $type == 'notArticle'){
                 $sql .= " AND v.type != 'article' ";
             }else if(!empty($type)){
                 $sql .= " AND v.type = '{$type}' ";
@@ -1764,7 +1768,11 @@ if (!class_exists('Video')) {
                 }
             }
             
-            if(!empty($type) && $type == 'notArticle'){
+            if(!empty($type) && $type == 'notAudio'){
+                $sql .= " AND v.type != 'audio' ";
+            }else if(!empty($type) && $type == 'notArticleOrAudio'){
+                $sql .= " AND (v.type != 'article' AND v.type != 'audio') ";
+            }else if(!empty($type) && $type == 'notArticle'){
                 $sql .= " AND v.type != 'article' ";
             }else if(!empty($type)){
                 $sql .= " AND v.type = '{$type}' ";
