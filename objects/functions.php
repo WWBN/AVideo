@@ -2398,6 +2398,7 @@ function getTagIfExists($relativePath) {
 
 function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class='img img-responsive', $lazyLoad=false) {
     global $global;
+    $relativePath = getRelativePath($relativePath);
     $relativePath = str_replace('\\', '/', $relativePath);
     $file = "{$global['systemRootPath']}{$relativePath}";
     $wh = '';
@@ -2413,9 +2414,14 @@ function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class
     if(empty($title)){
         $title = basename($relativePath);
     }
+    $title = safeString($title);
     $img = "<img style=\"{$style}\" alt=\"{$title}\" id=\"{$id}\" class=\"{$class}\" {$wh} ";
     if($lazyLoad){
-        $loading = getURL('view/img/loading-gif.png');
+        if(is_string($lazyLoad)){
+            $loading = getURL('view/img/loading-gif.png');
+        }else{
+            $loading = getURL('view/img/loading-gif.png');
+        }
         $img .= " src=\"{$loading}\" data-src=\"{$url}\" ";
     }else{
         $img .= " src=\"{$url}\" ";
@@ -2423,6 +2429,37 @@ function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class
     $img .= "/>";
     
     return $img;
+}
+
+function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation='', $title='', $id=''){
+    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive').PHP_EOL;
+    if(!empty($relativePathHoverAnimation) && empty($_REQUEST['noImgGif'])){
+        $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', true).PHP_EOL;
+    }
+    return '<div class="thumbsImage">'.$img.'</div>';
+}
+
+function getRelativePath($path){
+    global $global;
+    $relativePath = '';
+    $parts = explode('view/img/', $path);
+    
+    if(!empty($parts[1])){
+        $relativePath = 'view/img/'.$parts[1];
+    }
+    if(empty($relativePath)){
+        $parts = explode('videos/', $path);
+        if(!empty($parts[1])){
+            $relativePath = 'videos/'.$parts[1];
+        }
+    }
+    
+    if(empty($relativePath)){
+        $relativePath = $path;
+    }
+    $parts2 = explode('?', $relativePath);
+    //var_dump($path, $relativePath, $parts);
+    return $parts2[0];
 }
 
 function local_get_contents($path) {
@@ -7913,6 +7950,7 @@ function getCDN($type = 'CDN', $id = 0) {
 function getURL($relativePath, $ignoreCDN = false) {
     global $global;
     $relativePath = str_replace('\\', '/', $relativePath);
+    $relativePath = getRelativePath($relativePath);
     if (!isset($_SESSION['user']['sessionCache']['getURL'])) {
         $_SESSION['user']['sessionCache']['getURL'] = [];
     }

@@ -1021,6 +1021,13 @@ li.dropdown-submenu > ul > li > a{
     min-height: 90px;
 }
 
+.thumbsImage .thumbsGIF{
+    display: none;
+}
+.thumbsImage:hover .thumbsGIF{
+    display: block;
+}
+
 .swal-modal.swal-modal-iframe {
     width: calc(100% - 150px);
     height: calc(100% - 150px);

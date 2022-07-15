@@ -498,7 +498,6 @@ function subscribeNotify(email, user_id) {
     });
 }
 function mouseEffect() {
-
     $(".thumbsImage").on("mouseenter", function () {
         var gif = $(this).find(".thumbsGIF");
         var jpg = $(this).find(".thumbsJPG");
@@ -2686,6 +2685,7 @@ $(document).ready(function () {
     setInterval(function () {
         setToolTips();
     }, 1000);
+    /*
     $(".thumbsImage").on("mouseenter", function () {
         gifId = $(this).find(".thumbsGIF").attr('id');
         $(".thumbsGIF").fadeOut();
@@ -2705,6 +2705,7 @@ $(document).ready(function () {
     $(".thumbsImage").on("mouseleave", function () {
         $(this).find(".thumbsGIF").stop(true, true).fadeOut();
     });
+    */
     lazyImage();
     $("a").each(function () {
         var location = window.location.toString()

@@ -89,10 +89,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                            $poster = isMobile() ? $images->thumbsJpg : $images->poster;
                                            ?>
                                         <div class="aspectRatio16_9">
-                                            <img src="<?php echo $images->thumbsJpgSmall; ?>" data-src="<?php echo $poster; ?>" alt="<?php echo $videoRow['title']; ?>" class="thumbsJPG img img-responsive <?php echo ($poster != $images->thumbsJpgSmall && !empty($advancedCustom->usePreloadLowResolutionImages)) ? "blur" : ""; ?>" style="height: auto; width: 100%;" id="thumbsJPG<?php echo $videoRow['id']; ?>" />
-                                            <?php if (!empty($obj->GifOnBigVideo) && !empty($imgGif)) { ?>
-                                                <img src="<?php echo getCDN(); ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $videoRow['title']; ?>" id="thumbsGIF<?php echo $videoRow['id']; ?>" class="thumbsGIF img-responsive <?php echo @$img_portrait; ?>  rotate<?php echo $videoRow['rotation']; ?>" height="130" />
-                                            <?php } ?>
+                                            <?php
+                                            $relativePathHoverAnimation = '';
+                                            if (!empty($obj->GifOnBigVideo) && !empty($imgGif)) {
+                                                $relativePathHoverAnimation = $imgGif;
+                                            }
+                                            echo getVideoImagewithHoverAnimation($poster, $relativePathHoverAnimation, $videoRow['title'], $videoRow['id']);
+                                            ?>
                                         </div>
                                         <?php
                                         if (isToShowDuration($videoRow['type'])) {

@@ -84,7 +84,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                             $backURL = $_REQUEST['getBackURL'];
                         }
                         ?>
-                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo thumbsImage fixPadding">
+                        <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo fixPadding">
                             <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $cat['clean_name']; ?>?getBackURL=<?php echo urlencode($backURL);?>" title="<?php $cat['name']; ?>">
                                 <div class="aspectRatio16_9">
                                     <?php
