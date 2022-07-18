@@ -119,16 +119,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.231.2",
+            "version": "3.231.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "9a7c2a8c4b7f95074749e1a7b575e6b4486bdcab"
+                "reference": "25f7cf72a1d7cf3075436cfbfdc4caed201df3ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9a7c2a8c4b7f95074749e1a7b575e6b4486bdcab",
-                "reference": "9a7c2a8c4b7f95074749e1a7b575e6b4486bdcab",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/25f7cf72a1d7cf3075436cfbfdc4caed201df3ec",
+                "reference": "25f7cf72a1d7cf3075436cfbfdc4caed201df3ec",
                 "shasum": ""
             },
             "require": {
@@ -205,9 +205,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.231.2"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.231.7"
             },
-            "time": "2022-07-08T18:16:11+00:00"
+            "time": "2022-07-15T18:16:42+00:00"
         },
         {
             "name": "cboden/ratchet",
@@ -775,16 +775,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.257.0",
+            "version": "v0.258.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "ae109202ee831a1fb70ba824181852e6179c848b"
+                "reference": "71eb32534aba05e373fe317c1373a9645065881c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/ae109202ee831a1fb70ba824181852e6179c848b",
-                "reference": "ae109202ee831a1fb70ba824181852e6179c848b",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/71eb32534aba05e373fe317c1373a9645065881c",
+                "reference": "71eb32534aba05e373fe317c1373a9645065881c",
                 "shasum": ""
             },
             "require": {
@@ -813,9 +813,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.257.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.258.0"
             },
-            "time": "2022-07-08T01:28:13+00:00"
+            "time": "2022-07-18T01:10:11+00:00"
         },
         {
             "name": "google/auth",
@@ -1200,16 +1200,16 @@
         },
         {
             "name": "hybridauth/hybridauth",
-            "version": "v3.8.0",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hybridauth/hybridauth.git",
-                "reference": "c76bea6638376394c74a52791dd637fef4deaf08"
+                "reference": "cda2ddac102c29872164677fe92900bfef2eb15c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hybridauth/hybridauth/zipball/c76bea6638376394c74a52791dd637fef4deaf08",
-                "reference": "c76bea6638376394c74a52791dd637fef4deaf08",
+                "url": "https://api.github.com/repos/hybridauth/hybridauth/zipball/cda2ddac102c29872164677fe92900bfef2eb15c",
+                "reference": "cda2ddac102c29872164677fe92900bfef2eb15c",
                 "shasum": ""
             },
             "require": {
@@ -1256,9 +1256,9 @@
             "support": {
                 "gitter": "https://gitter.im/hybridauth/hybridauth",
                 "issues": "https://github.com/hybridauth/hybridauth/issues",
-                "source": "https://github.com/hybridauth/hybridauth/tree/v3.8.0"
+                "source": "https://github.com/hybridauth/hybridauth/tree/v3.8.1"
             },
-            "time": "2022-04-08T09:49:25+00:00"
+            "time": "2022-07-12T07:29:28+00:00"
         },
         {
             "name": "james-heinrich/getid3",
