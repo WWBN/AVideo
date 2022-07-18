@@ -8696,7 +8696,7 @@ function doesPHPVersioHasOBBug() {
 
 //https://github.com/php/php-src/issues/8218#issuecomment-1072439915
 function _ob_end_clean() {
-    ob_end_clean();
+    @ob_end_clean();
     header_remove("Content-Encoding");
     /*
       if(!doesPHPVersioHasOBBug()){
