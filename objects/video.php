@@ -5190,7 +5190,7 @@ if (!class_exists('Video')) {
                 $video = Video::getVideoLight($videos_id);
             }
             $images = Video::getImageFromFilename($video['filename'], $video['type']);
-            //var_dump($videos_id, $images->poster, $images);
+            //var_dump($videos_id, $video, $images->poster, $images);
             $img = getVideoImagewithHoverAnimation($images->poster, $images->thumbsGif, $video['title']);
             $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
             $isserie = Video::isSerie($videos_id);
