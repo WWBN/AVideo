@@ -191,7 +191,12 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         ?>
         <div class=" <?php echo $colsClass; ?> galleryVideo fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
             <?php
-            echo Video::getVideoImagewithHoverAnimationFromVideosId($value, true, true, true);
+            $img = Video::getVideoImagewithHoverAnimationFromVideosId($value, true, true, true);
+            if(empty($img)){
+                //var_dump($value);
+            }else{
+                echo $img;
+            }
             ?>
             <?php
             if ($galeryDetails) {
