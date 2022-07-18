@@ -4435,6 +4435,8 @@ if (!class_exists('Video')) {
             // Streamlined for less coding space.
             $files = glob("{$filePath}*_thumbs*.jpg");
             $files[] = "{$filePath}_roku.jpg";
+            $files[] = "{$filePath}_thumbsV2_jpg.webp";
+            $files[] = "{$filePath}_jpg.webp";
             $totalDeleted = 0;
             foreach ($files as $file) {
                 if (file_exists($file)) {
