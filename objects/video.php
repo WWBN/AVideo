@@ -5189,7 +5189,11 @@ if (!class_exists('Video')) {
             }else{
                 $video = Video::getVideoLight($videos_id);
             }
-            $images = object_to_array(Video::getImageFromFilename($video['filename'], $video['type']));
+            if(empty($video['images'])){
+                $images = object_to_array(Video::getImageFromFilename($video['filename'], $video['type']));
+            }else{
+                $images = object_to_array($video['images']);
+            }
             //var_dump($videos_id, $video, $images);
             $img = getVideoImagewithHoverAnimation($images['poster'], $images['thumbsGif'], $video['title']);
             $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');

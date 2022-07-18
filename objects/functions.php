@@ -2427,7 +2427,7 @@ function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class
     $img = "<img style=\"{$style}\" alt=\"{$title}\" title=\"{$title}\" id=\"{$id}\" class=\"{$class}\" {$wh} ";
     if($lazyLoad){
         if(is_string($lazyLoad)){
-            $loading = getURL('view/img/loading-gif.png');
+            $loading = getURL($lazyLoad);
         }else{
             $loading = getURL('view/img/loading-gif.png');
         }
