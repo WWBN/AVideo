@@ -1,19 +1,8 @@
 
-.gallery .duration {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.6)!important;
-    padding: 3px;
-    color: #FFF;
-    top: 5px;
-    left: 25px;
-    font-size: 0.9em;
-    border-radius: 5px;
-}
 .gallery .title,
 .videosDetails .title {
     font-size: 1em;
     margin: 0;
-    padding: 5px 0 0 0;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -169,7 +158,8 @@ a.h6{
     justify-content: center;
     width: 24px;
 } 
-.galleryVideo:hover  .galleryVideoButtons{
+.galleryVideo:hover  .galleryVideoButtons,
+.thumbsImageContainer:hover  .galleryVideoButtons {
     display: block !important;
 } 
 .galleryVideo  .galleryVideoButtons  button:hover{

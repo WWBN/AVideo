@@ -49,20 +49,14 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
 <div class="row bgWhite list-group-item">
     <div class="row divMainVideo">
         <div class="col-xs-4 col-sm-4 col-md-4">
-            <img src="<?php echo $img; ?>" alt="<?php echo getSEOTitle($video['title']); ?>" class="img img-responsive <?php echo $img_portrait; ?> rotate<?php echo $video['rotation']; ?>" height="130" itemprop="thumbnail" />
             <?php
-            if (isToShowDuration($video['type'])) {
-                ?>
-                <time class="duration" itemprop="duration" datetime="<?php echo Video::getItemPropDuration($video['duration']); ?>" ><?php echo Video::getCleanDuration($video['duration']); ?></time>
-                <?php
-            }
+            echo Video::getVideoImagewithHoverAnimationFromVideosId($video['id'], true, false);
             ?>
-            <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" />
-            <span itemprop="contentURL" content="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>" />
-            <span itemprop="embedURL" content="<?php echo Video::getLink($video['id'], $video['clean_title'], true); ?>" />
-            <span itemprop="uploadDate" content="<?php echo $video['created']; ?>" />
-            <span itemprop="description" content="<?php echo $description; ?>" />
-
+            <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" ></span>
+            <span itemprop="contentURL" content="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>"></span>
+            <span itemprop="embedURL" content="<?php echo Video::getLink($video['id'], $video['clean_title'], true); ?>" ></span>
+            <span itemprop="uploadDate" content="<?php echo $video['created']; ?>"></span>
+            <span itemprop="description" content="<?php echo $description; ?>"></span>
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8">
             <h2 itemprop="name">

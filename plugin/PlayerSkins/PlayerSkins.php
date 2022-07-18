@@ -54,7 +54,6 @@ class PlayerSkins extends PluginAbstract {
         $obj->showLogoAdjustLeft = "-74px";
         $obj->showLogoAdjustTop = "-22px;";
         $obj->disableEmbedTopInfo = false;
-        $obj->disableOfflineVideos = false;
         $obj->contextMenuDisableEmbedOnly = false;
         $obj->contextMenuLoop = true;
         $obj->contextMenuCopyVideoURL = true;
@@ -264,9 +263,6 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay) && empty($_REQUEST['hideAutoplaySwitch'])) {
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/autoplayButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
-            if (self::showOfflineVideo()) {
-                $css .= "<link href=\"" . getURL('plugin/PlayerSkins/offlineButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
-            }
         }
 
         $url = urlencode(getSelfURI());
@@ -319,9 +315,6 @@ class PlayerSkins extends PluginAbstract {
                     $js .= "<!-- PlayerSkins empty(\$_REQUEST['hideAutoplaySwitch']) -->";
                 }
             }
-            if (self::showOfflineVideo()) {
-                PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/offlineButton.js"));
-            }
         }
         if (isAudio()) {
             $videos_id = getVideos_id();
@@ -338,22 +331,7 @@ class PlayerSkins extends PluginAbstract {
         }
 
         include $global['systemRootPath'] . 'plugin/PlayerSkins/mediaSession.php';
-        PlayerSkins::addOnPlayerReady('if(typeof updateMediaSessionMetadata === "function"){updateMediaSessionMetadata();}');
-
-        if (isVideo()) {
-            $js .= "<script src=\"" . getURL('node_modules/pouchdb/dist/pouchdb.min.js') . "\"></script>";
-            if (self::showOfflineVideo()) {
-                $detect = new Mobile_Detect();
-                if ($detect->isiOS()) {
-                    $js .= "<script>var offline_iOSVersion = ".json_encode($detect->version('iOS', Mobile_Detect::VERSION_TYPE_FLOAT)).";</script>";
-                } else{
-                    $js .= "<script>var offline_iOSVersion = 0;</script>";
-                }
-                //var_dump($detect->isiOS(), $detect->version('iOS'));exit;
-                $js .= "<script>const offlineVideoDbName = 'videos_offlineDb_" . User::getId() . "';</script>";
-                $js .= "<script src=\"" . getURL('plugin/PlayerSkins/offlineVideo.js') . "\"></script>";
-            }
-        }
+        PlayerSkins::addOnPlayerReady('if(typeof updateMediaSessionMetadata === "function"){updateMediaSessionMetadata();}');        
 
         return $js;
     }
@@ -699,26 +677,6 @@ class PlayerSkins extends PluginAbstract {
             ObjectYPT::setCache($name, $tags);
         }
         return array($tags);
-    }
-
-    public static function showOfflineVideo() {
-        global $global;
-        $obj = AVideoPlugin::getDataObject('PlayerSkins');
-        if (!empty($obj->disableOfflineVideos)) {
-            return false;
-        }
-        if (empty($global['developer_mode'])) {
-            return false;
-        }
-        $videos_id = getVideos_id();
-
-        if (empty($videos_id)) {
-            return false;
-        }
-
-        $types = Video::getVideoTypeFromId($videos_id);
-        //var_dump($types);exit;
-        return !empty($types->mp4) || !empty($types->m3u8);
     }
     
 

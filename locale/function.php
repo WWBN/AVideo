@@ -38,8 +38,13 @@ function __($str, $allowHTML = false) {
     return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $return);
 }
 
-function printJSString($str) {
-    echo json_encode(__($str));
+function printJSString($str, $return = false) {
+    $text = json_encode(__($str));
+    if($return){
+        return $text;
+    }else{
+        echo $text;
+    }
 }
 
 function isRTL() {

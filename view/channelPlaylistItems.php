@@ -292,52 +292,9 @@ unset($_POST['current']);
                         $class = '';
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;">
-                            <a class="aspectRatio16_9" href="<?php echo $episodeLink; ?>" title="<?php echo $value['title']; ?>" style="margin: 15px 0; overflow: visible;" >
-                                <img src="<?php echo $poster; ?>" alt="<?php echo $value['title']; ?>" class="img img-responsive <?php echo $img_portrait; ?>  rotate<?php echo $value['rotation']; ?>" />
-                                <?php
-                                if ($value['type'] !== 'pdf' && $value['type'] !== 'article' && $value['type'] !== 'serie') {
-                                    ?>
-                                    <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                                    <div class="progress" style="height: 3px; margin-bottom: 2px;">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <?php
-                                }
-                                if (User::isLogged() && !empty($program)) {
-                                    ?>
-                                    <div class="galleryVideoButtons">
-                                        <?php
-                                        //var_dump($value['isWatchLater'], $value['isFavorite']);
-                                        if ($value['isWatchLater']) {
-                                            $watchLaterBtnAddedStyle = '';
-                                            $watchLaterBtnStyle = "display: none;";
-                                        } else {
-                                            $watchLaterBtnAddedStyle = "display: none;";
-                                            $watchLaterBtnStyle = '';
-                                        }
-                                        if ($value['isFavorite']) {
-                                            $favoriteBtnAddedStyle = '';
-                                            $favoriteBtnStyle = "display: none;";
-                                        } else {
-                                            $favoriteBtnAddedStyle = "display: none;";
-                                            $favoriteBtnStyle = '';
-                                        }
-                                        ?>
-
-                                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['watchLaterId']; ?>);
-                                                                return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button>
-                                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['watchLaterId']; ?>);
-                                                                return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
-                                        <br>
-                                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['favoriteId']; ?>);
-                                                                return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>
-                                        <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['favoriteId']; ?>);
-                                                                return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?>  faa-parent animated-hover" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>
-
-                                    </div>
-                                <?php }
-                                ?>
-                            </a>
+                            <?php                            
+                                echo Video::getVideoImagewithHoverAnimationFromVideosId($value['id']);
+                            ?>
                             <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo getSEOTitle($value['title']); ?>">
                                 <strong class="title"><?php echo getSEOTitle($value['title']); ?></strong>
                             </a>

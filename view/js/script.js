@@ -1318,6 +1318,29 @@ function avideoAlertOnce(title, msg, type, uid) {
     }
 }
 
+async function avideoConfirm(msg) {
+    var span = document.createElement("span");
+    span.innerHTML = msg;
+    var response = await swal({
+        title: 'Confrim',
+        content: span,
+        icon: 'warning',
+        closeOnClickOutside: false,
+        closeModal: true,
+        buttons: {
+            cancel: "Cancel",
+            confirm: {
+                text: "Confirm",
+                value: "confirm",
+                className: "btn-danger",
+            },
+        }
+    }).then(function (value) {
+        return value=='confirm';
+    });
+    return response;
+}
+
 function avideoAlertOnceForceConfirm(title, msg, type) {
     var span = document.createElement("span");
     span.innerHTML = msg;
@@ -2686,26 +2709,26 @@ $(document).ready(function () {
         setToolTips();
     }, 1000);
     /*
-    $(".thumbsImage").on("mouseenter", function () {
-        gifId = $(this).find(".thumbsGIF").attr('id');
-        $(".thumbsGIF").fadeOut();
-        if (gifId != undefined) {
-            id = gifId.replace('thumbsGIF', '');
-            var gif = $(this).find(".thumbsGIF");
-            var jpg = $(this).find(".thumbsGIF");
-            gif.height(jpg.height());
-            gif.width(jpg.width());
-            try {
-                gif.lazy({effect: 'fadeIn'});
-            } catch (e) {
-            }
-            gif.stop(true, true).fadeIn();
-        }
-    });
-    $(".thumbsImage").on("mouseleave", function () {
-        $(this).find(".thumbsGIF").stop(true, true).fadeOut();
-    });
-    */
+     $(".thumbsImage").on("mouseenter", function () {
+     gifId = $(this).find(".thumbsGIF").attr('id');
+     $(".thumbsGIF").fadeOut();
+     if (gifId != undefined) {
+     id = gifId.replace('thumbsGIF', '');
+     var gif = $(this).find(".thumbsGIF");
+     var jpg = $(this).find(".thumbsGIF");
+     gif.height(jpg.height());
+     gif.width(jpg.width());
+     try {
+     gif.lazy({effect: 'fadeIn'});
+     } catch (e) {
+     }
+     gif.stop(true, true).fadeIn();
+     }
+     });
+     $(".thumbsImage").on("mouseleave", function () {
+     $(this).find(".thumbsGIF").stop(true, true).fadeOut();
+     });
+     */
     lazyImage();
     $("a").each(function () {
         var location = window.location.toString()
@@ -2921,5 +2944,5 @@ function isPromise(p) {
 }
 
 function replaceAll(str, find, replace) {
-  return str.replace(new RegExp(find, 'g'), replace);
+    return str.replace(new RegExp(find, 'g'), replace);
 }

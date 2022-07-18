@@ -2455,7 +2455,8 @@ function createWebPIfNotExists($path){
     return $nextGenPath;
 }
 
-function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation='', $title='', $id=''){
+function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation='', $title=''){
+    $id = uniqid();
     $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive').PHP_EOL;
     if(!empty($relativePathHoverAnimation) && empty($_REQUEST['noImgGif'])){
         $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', true).PHP_EOL;
@@ -3824,14 +3825,14 @@ function getItemprop($videos_id) {
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
     }
-    $output = '<span itemprop="name" content="' . getSEOTitle($video['title']) . '" />
-    <span itemprop="description" content="' . $description . '" />
-    <span itemprop="thumbnailUrl" content="' . $img . '" />
-    <span itemprop="uploadDate" content="' . date("Y-m-d\Th:i:s", strtotime($video['created'])) . '" />
-    <span itemprop="duration" content="' . $duration . '" />
-    <span itemprop="contentUrl" content="' . Video::getLinkToVideo($videos_id) . '" />
-    <span itemprop="embedUrl" content="' . parseVideos(Video::getLinkToVideo($videos_id)) . '" />
-    <span itemprop="interactionCount" content="' . $video['views_count'] . '" />';
+    $output = '<span itemprop="name" content="' . getSEOTitle($video['title']) . '"></span>
+    <span itemprop="description" content="' . $description . '"></span>
+    <span itemprop="thumbnailUrl" content="' . $img . '"></span>
+    <span itemprop="uploadDate" content="' . date("Y-m-d\Th:i:s", strtotime($video['created'])) . '"></span>
+    <span itemprop="duration" content="' . $duration . '"></span>
+    <span itemprop="contentUrl" content="' . Video::getLinkToVideo($videos_id) . '"></span>
+    <span itemprop="embedUrl" content="' . parseVideos(Video::getLinkToVideo($videos_id)) . '"></span>
+    <span itemprop="interactionCount" content="' . $video['views_count'] . '"></span>';
 
     ObjectYPT::setCache("getItemprop{$videos_id}", $output);
     echo $output;

@@ -17,6 +17,7 @@ body.fullscreen {
     padding: 0 !important;
     margin: 0 !important;
 }
+/*
 .videoLink > .duration, 
 time.duration{
     position: absolute;
@@ -27,6 +28,24 @@ time.duration{
     right: 5px;
     font-size: 0.9em;
     border-radius: 5px;
+}
+*/
+time.duration {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.4)!important;
+    padding: 1px 4px;
+    color: #FFF;
+    top: 5px;
+    left: 5px;
+    font-size: 12px;
+    border-radius: 5px;
+    opacity: 0.7;
+}
+.thumbsImageContainer{
+    position: relative;
+}
+.thumbsImageContainer .thumbsImage{
+    border: none;
 }
 .videoLink .glyphicon-play-circle {
     transition: all 0.3s ease-in-out;
@@ -422,16 +441,6 @@ footer ul.list-inline li {
 }
 .videosDetails {
     padding-left: 20px;
-}
-.divMainVideo .duration {
-    position: absolute;
-    background: rgba(0, 0, 0, 0.6)!important;
-    padding: 3px;
-    color: #FFF;
-    bottom: 5px;
-    right: 25px;
-    font-size: 0.9em;
-    border-radius: 5px;
 }
 .autoplay span span {
     margin: 0 5px;

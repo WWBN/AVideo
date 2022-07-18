@@ -206,117 +206,9 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         }
         ?>
         <div class=" <?php echo $colsClass; ?> galleryVideo fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
-            <a class="galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $value['id']; ?>" 
-               href="<?php echo $href; ?>"  
-               embed="<?php echo $embed; ?>"  
-               alternativeLink="<?php echo @$value['alternativeLink']; ?>"
-               title="<?php echo htmlentities($value['title']); ?>">
-                   <?php
-                   @$timesG[__LINE__] += microtime(true) - $startG;
-                   $startG = microtime(true);
-                   if (empty($value['images'])) {
-                       $images = Video::getImageFromFilename($value['filename'], $value['type']);
-                       @$timesG[__LINE__] += microtime(true) - $startG;
-                       if (!is_object($images)) {
-                           $images = new stdClass();
-                           $images->thumbsGif = "";
-                           $images->poster = "" . getCDN() . "view/img/notfound.jpg";
-                           $images->thumbsJpg = "" . getCDN() . "view/img/notfoundThumbs.jpg";
-                           $images->thumbsJpgSmall = "" . getCDN() . "view/img/notfoundThumbsSmall.jpg";
-                       }
-                       if ($value['type'] === 'serie' && !empty($value['serie_playlists_id']) && stripos($images->thumbsJpg, 'notfound') !== false) {
-                           $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
-                       }
-                   } else {
-                       $images = (Object) $value['images'];
-                   }
-
-                   $startG = microtime(true);
-                   $imgGif = $images->thumbsGif;
-                   $poster = $images->thumbsJpg;
-                   ?>
-                <div class="aspectRatio16_9">
-                    <?php
-                    $relativePathHoverAnimation = '';
-                    if (!empty($imgGif) && empty($_REQUEST['noImgGif'])) {
-                        $relativePathHoverAnimation = $imgGif;
-                    }
-                    echo getVideoImagewithHoverAnimation($images->poster, $relativePathHoverAnimation, $value['title'], $value['id']);
-                    //var_dump($images);
-                    //exit;
-                    echo AVideoPlugin::thumbsOverlay($value['id']);
-                    @$timesG[__LINE__] += microtime(true) - $startG;
-                    $startG = microtime(true);
-                    if ($galeryDetails) {
-                        if (!empty($program) && $isserie) {
-                            ?>
-                            <div class="gallerySerieOverlay">
-                                <div class="gallerySerieOverlayTotal">
-                                    <?php
-                                    $plids = PlayList::getVideosIDFromPlaylistLight($value['serie_playlists_id']);
-                                    echo count($plids);
-                                    ?>
-                                    <br><i class="fas fa-list"></i>
-                                </div>
-                                <i class="fas fa-play"></i>
-                                <?php
-                                echo __("Play All");
-                                ?>
-                            </div>
-                            <?php
-                        } else
-                        if (!empty($program) && User::isLogged()) {
-                            ?>
-                            <div class="galleryVideoButtons">
-                                <?php
-                                //var_dump($value['isWatchLater'], $value['isFavorite']);
-                                if ($value['isWatchLater']) {
-                                    $watchLaterBtnAddedStyle = "";
-                                    $watchLaterBtnStyle = "display: none;";
-                                } else {
-                                    $watchLaterBtnAddedStyle = "display: none;";
-                                    $watchLaterBtnStyle = "";
-                                }
-                                if ($value['isFavorite']) {
-                                    $favoriteBtnAddedStyle = "";
-                                    $favoriteBtnStyle = "display: none;";
-                                } else {
-                                    $favoriteBtnAddedStyle = "display: none;";
-                                    $favoriteBtnStyle = "";
-                                }
-                                ?>
-
-                                <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['watchLaterId']; ?>);return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded<?php echo $value['id']; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __("Added On Watch Later"); ?>" style="color: #4285f4;<?php echo $watchLaterBtnAddedStyle; ?>" ><i class="fas fa-check"></i></button> 
-                                <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['watchLaterId']; ?>);return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn<?php echo $value['id']; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __("Watch Later"); ?>" style="<?php echo $watchLaterBtnStyle; ?>" ><i class="fas fa-clock"></i></button>
-                                <br>
-                                <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, false, <?php echo $value['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded<?php echo $value['id']; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __("Added On Favorite"); ?>" style="color: #4285f4; <?php echo $favoriteBtnAddedStyle; ?>"><i class="fas fa-check"></i></button>  
-                                <button onclick="addVideoToPlayList(<?php echo $value['id']; ?>, true, <?php echo $value['favoriteId']; ?>);return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn<?php echo $value['id']; ?> faa-parent animated-hover" data-toggle="tooltip" data-placement="left" title="<?php echo __("Favorite"); ?>" style="<?php echo $favoriteBtnStyle; ?>" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>    
-
-                            </div>
-                            <?php
-                        }
-                    }
-                    ?>
-                </div>
-                <?php
-                if (isToShowDuration($value['type'])) {
-                    ?>
-                    <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
-                    <div class="progress" style="height: 3px; margin-bottom: 2px;">
-                        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div> 
-                    <?php
-                }
-                ?>
-            </a>
-            <a class="h6 galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $value['id']; ?>" 
-               href="<?php echo $href; ?>"  
-               embed="<?php echo $embed; ?>" 
-               alternativeLink="<?php echo @$value['alternativeLink']; ?>" 
-               title="<?php echo htmlentities(getSEOTitle($value['title'], 200)); ?>">
-                <strong class="title"><?php echo getSEOTitle($value['title']); ?></strong>
-            </a>
-
+            <?php
+            echo Video::getVideoImagewithHoverAnimationFromVideosId($value['id'], true, true, true);
+            ?>
             <?php
             if ($galeryDetails) {
                 ?>
@@ -548,7 +440,7 @@ function createGalleryLiveSection($videos) {
                 <div class="aspectRatio16_9">
                     <?php
                     $relativePathHoverAnimation = @$video['imgGif'];
-                    echo getVideoImagewithHoverAnimation($video['poster'], $relativePathHoverAnimation, $video['title'], $video['id']);
+                    echo getVideoImagewithHoverAnimation($video['poster'], $relativePathHoverAnimation, $video['title']);
                     echo $liveNow;
                     ?>
                 </div>
