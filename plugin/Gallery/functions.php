@@ -187,27 +187,11 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         }
 
         $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
-        $isserie = Video::isSerie($value['id']);
-
-        $isserieClass = "";
-        if ($isserie) {
-            $isserieClass = "isserie";
-        }
-        if (!empty($value['link'])) {
-            $href = $value['link'];
-            if (!empty($value['embedlink'])) {
-                $embed = $value['embedlink'];
-            } else {
-                $embed = addQueryStringParameter($href, 'embed', 1);
-            }
-        } else {
-            $href = Video::getLink($value['id'], $value['clean_title'], false, $getCN);
-            $embed = Video::getLink($value['id'], $value['clean_title'], true, $getCN);
-        }
+        
         ?>
         <div class=" <?php echo $colsClass; ?> galleryVideo fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
             <?php
-            echo Video::getVideoImagewithHoverAnimationFromVideosId($value['id'], true, true, true);
+            echo Video::getVideoImagewithHoverAnimationFromVideosId($value, true, true, true);
             ?>
             <?php
             if ($galeryDetails) {
