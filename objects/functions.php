@@ -2398,6 +2398,7 @@ function getTagIfExists($relativePath) {
 
 function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class='img img-responsive', $lazyLoad=false) {
     global $global;
+    $relativePathOriginal = $relativePath;
     $relativePath = getRelativePath($relativePath);
     $file = "{$global['systemRootPath']}{$relativePath}";
     $wh = '';
@@ -2414,10 +2415,10 @@ function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class
         $url = getURL(getRelativePath($file));
         $image_info = getimagesize($file);
         $wh = $image_info[3];
-    } else if (isValidURL($file)) {
-        $url = $file;
+    } else if (isValidURL($relativePathOriginal)) {
+        $url = $relativePathOriginal;
     } else {
-        return '';
+        return '<!-- invalid URL '.$relativePathOriginal.' -->';
     }
     if(empty($title)){
         $title = basename($relativePath);
