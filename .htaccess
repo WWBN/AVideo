@@ -6,6 +6,7 @@
     ExpiresByType image/gif "access plus 2592000 seconds"
     ExpiresByType image/jpeg "access plus 2592000 seconds"
     ExpiresByType image/png "access plus 2592000 seconds"
+    ExpiresByType image/webp "access plus 2592000 seconds"
     ExpiresByType text/css "access plus 604800 seconds"
     ExpiresByType text/javascript "access plus 216000 seconds"
     ExpiresByType application/x-javascript "access plus 216000 seconds"
@@ -340,7 +341,7 @@ Options All -Indexes
     </IfModule>
 
     # if image do not exists
-    RewriteCond %{REQUEST_URI} \.(jpg|jpeg|gif|png|ico)$ [NC]
+    RewriteCond %{REQUEST_URI} \.(webp|jpg|jpeg|gif|png|ico)$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule (.*)$ img/image404.php?image=$1 [NC,L]
