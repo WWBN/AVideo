@@ -5072,25 +5072,8 @@ if (!class_exists('Video')) {
 
             $title = safeString($value['title']);
 
-            $images = Video::getImageFromFilename($value['filename'], $value['type']);
 
-            if (!is_object($images)) {
-                $images = new stdClass();
-                $images->thumbsGif = '';
-                $images->poster = getCDN() . "view/img/notfound.jpg";
-                $images->thumbsJpg = getCDN() . "view/img/notfoundThumbs.jpg";
-                $images->thumbsJpgSmall = getCDN() . "view/img/notfoundThumbsSmall.jpg";
-            }
-            $imgJPGLow = $images->thumbsJpgSmall;
-            $imgJPGHight = $images->thumbsJpg;
-            $imgGif = $images->thumbsGif;
-
-            if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
-                $imgGif = $images->gifPortrait;
-                $imgJPGHight = $images->posterPortrait;
-            }
-
-            $thumbsImage = Video::getVideoImagewithHoverAnimationFromVideosId($value['id']);
+            $thumbsImage = Video::getVideoImagewithHoverAnimationFromVideosId($value);
 
             $loggedUserHTML = '';
             if (User::isLogged() && !empty($program)) {
@@ -5204,10 +5187,13 @@ if (!class_exists('Video')) {
             }
 
             if (isToShowDuration($video['type'])) {
-                $img .= "<time class=\"duration\" "
-                        . "itemprop=\"duration\" "
-                        . "datetime=\"" . Video::getItemPropDuration($video['duration']) . "\" >"
-                        . Video::getCleanDuration($video['duration']) . "</time>";
+                $duration = Video::getCleanDuration($video['duration']);
+                if($duration !='0:00:00' && $duration != 'EE:EE:EE'){
+                    $img .= "<time class=\"duration\" "
+                            . "itemprop=\"duration\" "
+                            . "datetime=\"" . Video::getItemPropDuration($video['duration']) . "\" >"
+                            . $duration . "</time>";
+                }
             }
             $progress = Video::getVideoPogressPercent($video['id']);
             $img .= "<div class=\"progress\" style=\"height: 3px; margin-bottom: 2px;\">"
