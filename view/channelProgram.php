@@ -232,9 +232,6 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                                     $name = User::getNameIdentificationById($value['users_id']);
 
-                                    $images = Video::getImageFromFilename($value['filename'], $value['type'], true);
-                                    $imgGif = $images->thumbsGif;
-                                    $poster = $images->thumbsJpg;
                                     $class = '';
                                     $style = '';
                                     if ($count > 6) {
@@ -246,7 +243,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                         <div class="panel panel-default" playListId="<?php echo $program['id']; ?>" style="min-height: 215px;">
                                             <div class="panel-body" style="overflow: hidden;">
                                                 <?php
-                                                    echo Video::getVideoImagewithHoverAnimationFromVideosId($value['id']);
+                                                    echo Video::getVideoImagewithHoverAnimationFromVideosId($value);
                                                     ?>
                                                 <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo getSEOTitle($value['title']); ?>">
                                                     <strong class="title"><?php echo getSEOTitle($value['title']); ?></strong>

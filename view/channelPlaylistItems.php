@@ -283,17 +283,12 @@ unset($_POST['current']);
                         }
                         $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/" . urlencode(cleanURLName($playlist['name'])) . "/" . cleanURLName($value['clean_title']);
                         $count++;
-                        $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                         $name = User::getNameIdentificationById($value['users_id']);
-
-                        $images = Video::getImageFromFilename($value['filename'], $value['type'], true);
-                        $imgGif = $images->thumbsGif;
-                        $poster = $images->thumbsJpg;
                         $class = '';
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;">
                             <?php                            
-                                echo Video::getVideoImagewithHoverAnimationFromVideosId($value['id']);
+                                echo Video::getVideoImagewithHoverAnimationFromVideosId($value);
                             ?>
                             <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo getSEOTitle($value['title']); ?>">
                                 <strong class="title"><?php echo getSEOTitle($value['title']); ?></strong>

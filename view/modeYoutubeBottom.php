@@ -50,7 +50,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
     <div class="row divMainVideo">
         <div class="col-xs-4 col-sm-4 col-md-4">
             <?php
-            echo Video::getVideoImagewithHoverAnimationFromVideosId($video['id'], true, false);
+            echo Video::getVideoImagewithHoverAnimationFromVideosId($video, true, false);
             ?>
             <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" ></span>
             <span itemprop="contentURL" content="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>"></span>

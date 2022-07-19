@@ -275,7 +275,7 @@ class LiveLinks extends PluginAbstract {
         }
         $status = str_replace("'", "", $status);
 
-        $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
+        $sql = "SELECT STRAIGHT_JOIN u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
                 . " FROM LiveLinks as v "
                 . " LEFT JOIN categories c ON categories_id = c.id "
                 . " LEFT JOIN users u ON v.users_id = u.id "
