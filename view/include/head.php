@@ -187,6 +187,7 @@ if (isRTL()) {
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
     var my_users_id = <?php echo intval(User::getId()); ?>;
     var my_identification = <?php echo json_encode(User::getNameIdentification()); ?>;
+    var mediaId = <?php echo json_encode(getVideos_id()); ?>;
     var player;
 </script>
 
@@ -201,7 +202,7 @@ if (isRTL()) {
     var PHPSESSID = "<?php echo session_id(); ?>";
 </script>
 <?php
-if (!$config->getDisable_analytics()) {
+if (!isOffline() && !$config->getDisable_analytics()) {
     ?>
     <script>
         // AVideo Analytics

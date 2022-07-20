@@ -88,6 +88,9 @@ Options All -Indexes
     RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
     RedirectMatch 404 /\.git    
 
+    RewriteRule    ^offline/([0-9]+)/?  view/offline.php?videos_id=$1 [NC,L,QSA]
+    RewriteRule    ^offline/?  view/offline.php [NC,L,QSA]
+
     #Compatibility
     RewriteRule    ^view/js/jquery-3.5.1.min.js  node_modules/jquery/dist/jquery.min.js
     RewriteRule    ^view/js/seetalert/sweetalert.min.js  node_modules/sweetalert/dist/sweetalert.min.js

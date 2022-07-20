@@ -4752,6 +4752,11 @@ function isVideo() {
     return !empty($isModeYouTube) || isPlayList() || isEmbed() || isLive();
 }
 
+function isOffline() {
+    global $_isOffline;
+    return !empty($_isOffline);
+}
+
 function isVideoTypeEmbed() {
     global $isVideoTypeEmbed;
 

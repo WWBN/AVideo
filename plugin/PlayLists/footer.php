@@ -2,6 +2,9 @@
     var playListsAdding = false;
     var playList = [];
     function reloadPlayLists() {
+        if(!isOnline()){
+            return false;
+        }
         //console.log('reloadPlayLists');
         $.ajax({
             url: webSiteRootURL + 'objects/playlists.json.php',

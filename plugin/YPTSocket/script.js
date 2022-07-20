@@ -10,9 +10,22 @@ function socketConnect() {
         return false;
     }
     clearTimeout(socketConnectTimeout);
+    if(!isOnline()){
+        socketConnectTimeout = setTimeout(function () {
+            socketConnect();
+        }, 1000);
+        return false;
+    }
+    
     socketConnectRequested = 1;
     var url = addGetParam(webSocketURL, 'page_title', $('<textarea />').html($(document).find("title").text()).text());
     //console.log('Trying to reconnect on socket... ');
+    if(!isValidURL(url)){
+        socketConnectTimeout = setTimeout(function () {
+            socketConnect();
+        }, 30000);
+        return false;
+    }
     conn = new WebSocket(url);    
     setSocketIconStatus('loading');
     conn.onopen = function (e) {
@@ -147,7 +160,7 @@ function sendSocketMessageToResourceId(msg, callback, resourceId) {
 }
 
 function isSocketActive() {
-    return typeof conn != 'undefined' && conn.readyState === 1;
+    return isOnline() && typeof conn != 'undefined' && conn.readyState === 1;
 }
 
 function defaultCallback(json) {
@@ -282,10 +295,19 @@ function setUserOnlineStatus(users_id){
         $('.users_id_'+users_id).addClass('offline');
     }
 }
-
+var getWebSocket;
 $(function () {
+    startSocket();
+});
+var _startSocketTimeout;
+function startSocket(){
+    clearTimeout(_startSocketTimeout);
+    if(!isOnline()){
+        _startSocketTimeout = setTimeout(function(){startSocket()},10000); 
+        return false;
+    }
     //console.log('Getting webSocketToken ...');
-    var getWebSocket = webSiteRootURL + 'plugin/YPTSocket/getWebSocket.json.php';
+    getWebSocket = webSiteRootURL + 'plugin/YPTSocket/getWebSocket.json.php';
     getWebSocket = addGetParam(getWebSocket, 'webSocketSelfURI', webSocketSelfURI);
     getWebSocket = addGetParam(getWebSocket, 'webSocketVideos_id', webSocketVideos_id);
     getWebSocket = addGetParam(getWebSocket, 'webSocketLiveKey', webSocketLiveKey);
@@ -309,4 +331,4 @@ $(function () {
         $('#socket_info_container').hide();
     }
     setInitialOnlineStatus();
-});
+}

@@ -22,10 +22,10 @@ try {
     var videoContainerDragged = false;
     var youTubeMenuIsOpened = false;
     var userIsControling = false;
-    let deferredPrompt;
     var playerCurrentTime;
     var mediaId;
     var isDebuging = false;
+    var avideoIsOnline = false;
     var userLang = navigator.language || navigator.userLanguage;
     /* Code sample for resize iframe on a third party page
      <iframe width="640" height="310" style="max-width: 100%;max-height: 100%; border:none;" src="..." frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="NO" >iFrame is not supported!</iframe>
@@ -69,13 +69,16 @@ try {
     }, false);
 
     eventer("online", function (e) {
-        console.log("You are online!");
+        avideoToastSuccess("Connected");
+        setBodyOnline();
     }, false);
 
     eventer("offline", function (e) {
-        console.log("Oh no, you lost your network connection.");
+        avideoToastError("Disconnected");
+        setBodyOnline();
     }, false);
-
+    
+    setBodyOnline();
 } catch (e) {
     //console.log('Variable declaration ERROR', e);
 }
@@ -85,6 +88,16 @@ const urlParams = new URLSearchParams(queryString);
 
 if (urlParams.has('debug')) {
     isDebuging = false;
+}
+
+function setBodyOnline(){
+    if(isOnline()){
+        $('body').removeClass('isOffline');
+        $('body').addClass('isOnline');
+    }else{
+        $('body').removeClass('isOnline');
+        $('body').addClass('isOffline');
+    }
 }
 
 function consolelog() {
@@ -390,48 +403,6 @@ function reloadAds() {
         _reloadAdsTimeout = setTimeout(function () {
             reloadAds();
         }, 200);
-    }
-}
-
-
-/**
- *
- * @param {String} str 00:00:00
- * @returns {int} int of seconds
- */
-function strToSeconds(str) {
-    var partsOfStr = str.split(':');
-    var seconds = parseInt(partsOfStr[2]);
-    seconds += parseInt(partsOfStr[1]) * 60;
-    seconds += parseInt(partsOfStr[0]) * 60 * 60;
-    return seconds;
-}
-
-/**
- *
- * @param {int} seconds
- * @param {int} level 3 = 00:00:00 2 = 00:00 1 = 00
- * @returns {String} 00:00:00
- */
-function secondsToStr(seconds, level) {
-    var hours = parseInt(seconds / (60 * 60));
-    var minutes = parseInt(seconds / (60));
-    seconds = parseInt(seconds % (60));
-    hours = hours > 9 ? hours : "0" + hours;
-    minutes = minutes > 9 ? minutes : "0" + minutes;
-    seconds = seconds > 9 ? seconds : "0" + seconds;
-    switch (level) {
-        case 3:
-            return hours + ":" + minutes + ":" + seconds;
-            break;
-        case 2:
-            return minutes + ":" + seconds;
-            break;
-        case 1:
-            return seconds;
-            break;
-        default:
-            return hours + ":" + minutes + ":" + seconds;
     }
 }
 
@@ -1336,7 +1307,7 @@ async function avideoConfirm(msg) {
             },
         }
     }).then(function (value) {
-        return value=='confirm';
+        return value == 'confirm';
     });
     return response;
 }
@@ -2800,24 +2771,7 @@ $(document).ready(function () {
     });
     checkAutoPlay();
     // Code to handle install prompt on desktop
-    eventer('beforeinstallprompt', (e) => {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        $('.A2HSInstall').show();
-        // Stash the event so it can be triggered later.
-        deferredPrompt = e;
-        var beforeinstallprompt = Cookies.get('beforeinstallprompt');
-        if (beforeinstallprompt) {
-            return false;
-        }
-        var msg = "<a href='#' onclick='A2HSInstall();'><img src='" + $('[rel="apple-touch-icon"]').attr('href') + "' class='img img-responsive pull-left' style='max-width: 20px; margin-right:5px;'> Add To Home Screen </a>";
-        var options = {text: msg, hideAfter: 20000};
-        $.toast(options);
-        Cookies.set('beforeinstallprompt', 1, {
-            path: '/',
-            expires: 365
-        });
-    });
+    
 });
 
 function openWindowWithPost(url, name, params, strWindowFeatures) {
@@ -2857,8 +2811,8 @@ function fixAdSize() {
  */
 var videoJSRecreateSourcesTimeout;
 function videoJSRecreateSources(defaultSource) {
+    clearTimeout(videoJSRecreateSourcesTimeout);
     if (empty(player) || empty(player.options_) || empty(player.updateSrc)) {
-        clearTimeout(videoJSRecreateSourcesTimeout);
         videoJSRecreateSourcesTimeout = setTimeout(function () {
             videoJSRecreateSources(defaultSource);
         });
@@ -2945,4 +2899,66 @@ function isPromise(p) {
 
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(find, 'g'), replace);
+}
+
+function getExtension(url) {
+    if (empty(url)) {
+        return false;
+    }
+    let domain = (new URL(url));
+    var extension = domain.pathname.split('.').pop().toLowerCase();
+    return extension;
+}
+
+function getMimeType(url) {
+    if (empty(url)) {
+        return false;
+    }
+    var extension = getExtension(url);
+    var type = 'text/plain';
+    if (extension === 'js') {
+        type = 'application/javascript';
+    } else if (extension === 'css') {
+        type = 'text/css';
+    } else if (extension === 'ico') {
+        type = 'image/x-icon';
+    } else if (extension === 'jpg' || extension === 'jpeg') {
+        type = 'image/jpeg';
+    } else if (extension === 'gif') {
+        type = 'image/gif';
+    } else if (extension === 'webp') {
+        type = 'image/webp';
+    } else if (extension === 'woff') {
+        type = 'font/woff';
+    } else if (extension === 'woff2') {
+        type = 'font/woff2';
+    } else if (extension === 'pdf') {
+        type = 'application/pdf';
+    } else if (extension === 'zip') {
+        type = 'application/zip';
+    }
+    return type;
+}
+
+function isValidURL(value) {
+    if (empty(value)) {
+        return false;
+    }
+    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
+}
+
+function blobToURL(blob, type) {
+    blob = blob.slice(0, blob.size, type);
+    var src;
+    if (window.webkitURL != null) {
+        src = window.webkitURL.createObjectURL(blob);
+    } else {
+        src = window.URL.createObjectURL(blob);
+    }
+    return src;
+}
+
+function isOnline(){
+    //console.log('window.navigator.onLine', window.navigator.onLine);
+    return window.navigator.onLine;
 }
