@@ -886,7 +886,7 @@ if (!class_exists('Video')) {
                     if ($numRows < 1) {
                         $numRows = 0;
                     }
-                    $rand = rand(0, $numRows - 1);
+                    $rand = rand(0, $numRows);
                     //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
                     $firstClauseLimit = "$rand, ";
                     //$sql .= " ORDER BY RAND() ";
