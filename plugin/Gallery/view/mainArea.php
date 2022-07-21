@@ -142,6 +142,7 @@
                 <span class="glyphicon glyphicon-facetime-video"></span>
                 <?php echo __("Warning"); ?>!
             </h1>
+            <!-- <?php echo basename(__FILE__); ?> -->
             <?php echo __("We have not found any videos or audios to show"); ?>.
         </div>
         <?php
