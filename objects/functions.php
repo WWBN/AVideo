@@ -1909,7 +1909,7 @@ function convertImage($originalImage, $outputImage, $quality) {
         return 0;
     }
     if ($imageTmp === false) {
-        _error_log("convertImage: could not create a resource: $originalImage, $outputImage, $quality, $ext " . json_encode(debug_backtrace()));
+        //_error_log("convertImage: could not create a resource: $originalImage, $outputImage, $quality, $ext " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         return 0;
     }
     // quality is a value from 0 (worst) to 100 (best)
@@ -4309,7 +4309,7 @@ function getUsageFromFilename($filename, $dir = "") {
     }
     $dir = addLastSlash($dir);
     $totalSize = 0;
-    _error_log("getUsageFromFilename: start {$dir}{$filename} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+    //_error_log("getUsageFromFilename: start {$dir}{$filename} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     //$files = glob("{$dir}{$filename}*");
     $paths = Video::getPaths($filename);
 
@@ -4322,7 +4322,7 @@ function getUsageFromFilename($filename, $dir = "") {
     session_write_close();
     $filesProcessed = [];
     if (empty($files)) {
-        _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        //_error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         make_path($dir);
         file_put_contents("{$dir}{$filename}.notfound", time());
         $totalSize = 10;
@@ -4333,7 +4333,7 @@ function getUsageFromFilename($filename, $dir = "") {
             }
             if (is_dir($f)) {
                 $dirSize = getDirSize($f, true);
-                _error_log("getUsageFromFilename: is Dir dirSize={$dirSize} " . humanFileSize($dirSize) . " {$f}");
+                //_error_log("getUsageFromFilename: is Dir dirSize={$dirSize} " . humanFileSize($dirSize) . " {$f}");
                 $totalSize += $dirSize;
                 $minDirSize = 4000000;
                 $isEnabled = AVideoPlugin::isEnabledByName('YPTStorage');
@@ -4343,7 +4343,7 @@ function getUsageFromFilename($filename, $dir = "") {
                     $v = Video::getVideoFromFileName($filename);
                     if (!empty($v)) {
                         $size = CDNStorage::getRemoteDirectorySize($v['id']);
-                        _error_log("getUsageFromFilename: CDNStorage found $size " . humanFileSize($size));
+                        //_error_log("getUsageFromFilename: CDNStorage found $size " . humanFileSize($size));
                         $totalSize += $size;
                     }
                 }
@@ -4351,32 +4351,32 @@ function getUsageFromFilename($filename, $dir = "") {
                     // probably the HLS file is hosted on the YPTStorage
                     $info = YPTStorage::getFileInfo($filename);
                     if (!empty($info->size)) {
-                        _error_log("getUsageFromFilename: found info on the YPTStorage " . print_r($info, true));
+                        //_error_log("getUsageFromFilename: found info on the YPTStorage " . print_r($info, true));
                         $totalSize += $info->size;
                     } else {
-                        _error_log("getUsageFromFilename: there is no info on the YPTStorage " . print_r($info, true));
+                        //_error_log("getUsageFromFilename: there is no info on the YPTStorage " . print_r($info, true));
                     }
                 } elseif ($dirSize < $minDirSize && $isEnabledS3) {
                     // probably the HLS file is hosted on the S3
                     $size = $isEnabledS3->getFilesize($filename);
                     if (!empty($size)) {
-                        _error_log("getUsageFromFilename: found info on the AWS_S3 {$filename} {$size}");
+                        //_error_log("getUsageFromFilename: found info on the AWS_S3 {$filename} {$size}");
                         $totalSize += $size;
                     } else {
-                        _error_log("getUsageFromFilename: there is no info on the AWS_S3  {$filename} {$size}");
+                        //_error_log("getUsageFromFilename: there is no info on the AWS_S3  {$filename} {$size}");
                     }
                 } else {
                     if (!($dirSize < $minDirSize)) {
-                        _error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
+                        //_error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
                     }
                     if (!$isEnabled) {
-                        _error_log("getUsageFromFilename: YPTStorage is disabled");
+                        //_error_log("getUsageFromFilename: YPTStorage is disabled");
                     }
                     if (!$isEnabledCDN) {
-                        _error_log("getUsageFromFilename: CDN Storage is disabled");
+                        //_error_log("getUsageFromFilename: CDN Storage is disabled");
                     }
                     if (!$isEnabledS3) {
-                        _error_log("getUsageFromFilename: S3 Storage is disabled");
+                        //_error_log("getUsageFromFilename: S3 Storage is disabled");
                     }
                 }
             } elseif (is_file($f)) {
@@ -4385,17 +4385,17 @@ function getUsageFromFilename($filename, $dir = "") {
                     $lockFile = $f . ".size.lock";
                     if (!file_exists($lockFile) || (time() - 600) > filemtime($lockFile)) {
                         file_put_contents($lockFile, time());
-                        _error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
+                        //_error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
                         $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
                         //$bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
                         if (!empty($aws_s3)) {
-                            _error_log("getUsageFromFilename: Get from S3");
+                            //_error_log("getUsageFromFilename: Get from S3");
                             $filesize += $aws_s3->getFilesize($filename);
                         } elseif (!empty($bb_b2)) {
                             // TODO
                         } else {
                             $urls = Video::getVideosPaths($filename, true);
-                            _error_log("getUsageFromFilename: Paths " . json_encode($urls));
+                            //_error_log("getUsageFromFilename: Paths " . json_encode($urls));
                             if (!empty($urls["m3u8"]['url'])) {
                                 $filesize += getUsageFromURL($urls["m3u8"]['url']);
                             }
@@ -4433,7 +4433,7 @@ function getUsageFromFilename($filename, $dir = "") {
                         unlink($lockFile);
                     }
                 } else {
-                    _error_log("getUsageFromFilename: {$f} is File ({$filesize})");
+                    //_error_log("getUsageFromFilename: {$f} is File ({$filesize})");
                 }
                 $totalSize += $filesize;
             }
