@@ -1287,7 +1287,7 @@ if (typeof window !== "undefined") {
     videojs.registerComponent('VRButton', videojs.extend(button, vrBtn));
 
     // Register the plugin with video.js.
-    videojs.plugin('panorama', plugin$1({
+    videojs.registerPlugin('panorama', plugin$1({
         _init: function _init(options) {
             var canvas = options.videoType !== "3dVideo" ? Canvas(component, THREE$1, {
                 getTech: getTech

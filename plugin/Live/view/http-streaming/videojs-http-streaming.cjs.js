@@ -16390,7 +16390,7 @@ videojs.options.hls = videojs.options.hls || {};
 if (videojs.registerPlugin) {
   videojs.registerPlugin('reloadSourceOnError', reloadSourceOnError);
 } else {
-  videojs.plugin('reloadSourceOnError', reloadSourceOnError);
+  videojs.registerPlugin('reloadSourceOnError', reloadSourceOnError);
 }
 
 exports.Hls = Hls$1;

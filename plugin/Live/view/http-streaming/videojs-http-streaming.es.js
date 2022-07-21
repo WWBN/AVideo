@@ -15932,7 +15932,7 @@ videojs.options.hls = videojs.options.hls || {};
 if (videojs.registerPlugin) {
   videojs.registerPlugin('reloadSourceOnError', reloadSourceOnError);
 } else {
-  videojs.plugin('reloadSourceOnError', reloadSourceOnError);
+  videojs.registerPlugin('reloadSourceOnError', reloadSourceOnError);
 }
 
 export { Hls$1 as Hls, HlsHandler, HlsSourceHandler, emeKeySystems, simpleTypeFromSourceType };
