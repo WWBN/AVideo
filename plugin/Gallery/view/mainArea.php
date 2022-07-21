@@ -151,6 +151,7 @@
         <?php
         _error_log('contentSearchFound NOT FOUND '. json_encode(debug_backtrace()));
         _error_log('contentSearchFound NOT FOUND LAST SQL '. $debugLastGetVideoSQL);
+        _error_log('contentSearchFound NOT FOUND LAST TOTAL SQL '. $lastGetTotalVideos);
         include $global['systemRootPath'] . 'view/include/notfound.php';
     }
     ?>
