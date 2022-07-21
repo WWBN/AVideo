@@ -182,12 +182,6 @@ async function getStrategy(args) {
             await processStrategyDefault(args, extension);
 
 }
-/*
- for (var i in precahedFiles) {
- //console.log('precaching',precahedFiles[i]);
- workbox.precaching.precacheAndRoute([{url: precahedFiles[i], revision: 1}]);
- }
- */
 
 workbox.routing.registerRoute(/.*/, getStrategy);
 
@@ -195,7 +189,6 @@ self.addEventListener('install', event => {
     //console.log('sw.js 1', event);
     //event.waitUntil(Promise.all([self.skipWaiting()]));
     event.waitUntil(caches.open(CACHE_NAME).then((cache) => {
-
         //return cache.addAll(precahedFiles);
         try {
             //console.log('cache.adding', i, file);
