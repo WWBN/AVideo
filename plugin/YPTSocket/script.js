@@ -3,7 +3,8 @@ var totalDevicesOnline = 0;
 var yptSocketResponse;
 
 var socketResourceId;
-var socketConnectTimeout;;
+var socketConnectTimeout;
+;
 var users_id_online = [];
 function socketConnect() {
     if (socketConnectRequested) {
@@ -11,7 +12,7 @@ function socketConnect() {
         return false;
     }
     clearTimeout(socketConnectTimeout);
-    if(!isOnline()){
+    if (!isOnline()) {
         console.log('socketConnect: Not Online');
         socketConnectRequested = 0;
         socketConnectTimeout = setTimeout(function () {
@@ -19,11 +20,11 @@ function socketConnect() {
         }, 1000);
         return false;
     }
-    
+
     socketConnectRequested = 1;
     var url = addGetParam(webSocketURL, 'page_title', $('<textarea />').html($(document).find("title").text()).text());
     //console.log('Trying to reconnect on socket... ');
-    if(!isValidURL(url)){
+    if (!isValidURL(url)) {
         socketConnectRequested = 0;
         console.log("socketConnect: Invalid URL ", url);
         socketConnectTimeout = setTimeout(function () {
@@ -31,7 +32,7 @@ function socketConnect() {
         }, 30000);
         return false;
     }
-    conn = new WebSocket(url);    
+    conn = new WebSocket(url);
     setSocketIconStatus('loading');
     conn.onopen = function (e) {
         socketConnectRequested = 0;
@@ -106,17 +107,17 @@ function onSocketClose() {
     setSocketIconStatus('disconnected');
 }
 
-function setSocketIconStatus(status){
+function setSocketIconStatus(status) {
     var selector = '.socket_info';
-    if(status=='connected'){
+    if (status == 'connected') {
         $(selector).removeClass('socket_loading');
         $(selector).removeClass('socket_disconnected');
         $(selector).addClass('socket_connected');
-    }else if(status=='disconnected'){
+    } else if (status == 'disconnected') {
         $(selector).removeClass('socket_loading');
         $(selector).addClass('socket_disconnected');
         $(selector).removeClass('socket_connected');
-    }else{
+    } else {
         $(selector).addClass('socket_loading');
         $(selector).removeClass('socket_disconnected');
         $(selector).removeClass('socket_connected');
@@ -173,23 +174,45 @@ function defaultCallback(json) {
 }
 
 var socketAutoUpdateOnHTMLTimout;
+var globalAutoUpdateOnHTML = [];
 function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
+    for (var prop in autoUpdateOnHTML) {
+        if (autoUpdateOnHTML[prop] === false) {
+            continue;
+        }
+        globalAutoUpdateOnHTML[prop] = autoUpdateOnHTML[prop];
+    }
+    //console.log('socketAutoUpdateOnHTML', globalAutoUpdateOnHTML);
+}
+
+
+function AutoUpdateOnHTMLTimer() {
+
     clearTimeout(socketAutoUpdateOnHTMLTimout);
-    socketAutoUpdateOnHTMLTimout = setTimeout(function () {
+    //console.log('globalAutoUpdateOnHTML 1', empty(globalAutoUpdateOnHTML),globalAutoUpdateOnHTML.length, globalAutoUpdateOnHTML);
+    if (!empty(globalAutoUpdateOnHTML)) {
         $('.total_on').text(0);
         $('.total_on').parent().removeClass('text-success');
         //console.log("parseSocketResponse", json.autoUpdateOnHTML);
-        for (var prop in autoUpdateOnHTML) {
-            if (autoUpdateOnHTML[prop] === false) {
+
+        var localAutoUpdateOnHTML = globalAutoUpdateOnHTML;
+        globalAutoUpdateOnHTML = [];
+        //console.log('localAutoUpdateOnHTML 1', localAutoUpdateOnHTML);
+        for (var prop in localAutoUpdateOnHTML) {
+            if (localAutoUpdateOnHTML[prop] === false) {
                 continue;
             }
-            var val = autoUpdateOnHTML[prop];
+            var val = localAutoUpdateOnHTML[prop];
             $('.' + prop).text(val);
             if (parseInt(val) > 0) {
                 $('.' + prop).parent().addClass('text-success');
             }
         }
-    }, 500);
+    }
+
+    socketAutoUpdateOnHTMLTimout = setTimeout(function () {
+        AutoUpdateOnHTMLTimer();
+    }, 2000);
 }
 
 
@@ -279,37 +302,41 @@ function socketDisconnection(json) {
 }
 
 function setInitialOnlineStatus() {
-    
-    if(!isReadyToCheckIfIsOnline()){
-        setTimeout(function(){setInitialOnlineStatus();},1000);
+    if (!isReadyToCheckIfIsOnline()) {
+        setTimeout(function () {
+            setInitialOnlineStatus();
+        }, 1000);
         return false;
     }
-    
+
     for (var users_id in users_id_online) {
         setUserOnlineStatus(users_id);
     }
     return true;
 }
 
-function setUserOnlineStatus(users_id){
-    if(isUserOnline(users_id)){
-        $('.users_id_'+users_id).removeClass('offline');
-        $('.users_id_'+users_id).addClass('online');
-    }else{
-        $('.users_id_'+users_id).removeClass('online');
-        $('.users_id_'+users_id).addClass('offline');
+function setUserOnlineStatus(users_id) {
+    if (isUserOnline(users_id)) {
+        $('.users_id_' + users_id).removeClass('offline');
+        $('.users_id_' + users_id).addClass('online');
+    } else {
+        $('.users_id_' + users_id).removeClass('online');
+        $('.users_id_' + users_id).addClass('offline');
     }
 }
 var getWebSocket;
 $(function () {
     startSocket();
+    AutoUpdateOnHTMLTimer();
 });
 var _startSocketTimeout;
-function startSocket(){
+function startSocket() {
     clearTimeout(_startSocketTimeout);
-    if(!isOnline()){
+    if (!isOnline()) {
         console.log('startSocket: Not Online');
-        _startSocketTimeout = setTimeout(function(){startSocket();},10000); 
+        _startSocketTimeout = setTimeout(function () {
+            startSocket();
+        }, 10000);
         return false;
     }
     //console.log('Getting webSocketToken ...');
