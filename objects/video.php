@@ -871,6 +871,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.clean_title = '{$_GET['videoName']}' ";
                 } elseif (!empty($random)) {
                     $sql .= " AND v.id != {$random} ";
+                    //getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '') {
                     $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
                     if ($numRows < 1) {
                         $numRows = 0;
@@ -1830,7 +1831,8 @@ if (!class_exists('Video')) {
             sqlDAL::close($res);
              * 
              */
-            
+            global $lastGetTotalVideos;
+            $lastGetTotalVideos = $sql;
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
             $numRows = intval($video['total']);
