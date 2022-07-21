@@ -3,7 +3,7 @@
     if (!empty($currentCat)) {
         include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
     }
-
+    $obj = AVideoPlugin::getObjectData("Gallery");
     if ($obj->searchOnChannels) {
         if (!empty($_REQUEST['search'])) {
             $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
