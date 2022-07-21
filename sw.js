@@ -121,14 +121,14 @@ function ruleMatches(rules, extension, request) {
                 if (!ruleIsValid) {
                     return false;
                 }
-                console.log('ruleMatches', i, rule, request.url);
+                //console.log('ruleMatches', i, rule, request.url);
             }
             if (i == 'url') {
                 ruleIsValid = request.url === rule;
                 if (!ruleIsValid) {
                     return false;
                 }
-                console.log('ruleMatches', i, rule);
+                //console.log('ruleMatches', i, rule);
             }
         }
     }
