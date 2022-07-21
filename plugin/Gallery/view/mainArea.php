@@ -135,8 +135,8 @@
         }
     }
 
-
-    if (!$contentSearchFound) {
+    global $contentSearchFound;
+    if (empty($contentSearchFound)) {
         _session_start();
         unset($_SESSION['type']);
         ?>
