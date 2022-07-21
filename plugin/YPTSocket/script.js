@@ -12,6 +12,7 @@ function socketConnect() {
     clearTimeout(socketConnectTimeout);
     if(!isOnline()){
         console.log('Not Online');
+        socketConnectRequested = 0;
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
         }, 1000);
