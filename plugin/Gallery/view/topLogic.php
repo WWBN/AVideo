@@ -40,8 +40,10 @@ if ($obj->sortReverseable) {
     $orderString = str_replace("//", "/", $orderString);
 }
 $video = Video::getVideo("", "viewable", !$obj->hidePrivateVideos, false, true);
+$debugLastGetVideoSQL = $lastGetVideoSQL;
 if (empty($video)) {
     $video = Video::getVideo("", "viewable", !$obj->hidePrivateVideos, true);
+    $debugLastGetVideoSQL = $lastGetVideoSQL;
 }
 if (empty($_GET['page'])) {
     $_GET['page'] = 1;

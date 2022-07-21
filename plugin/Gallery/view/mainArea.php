@@ -150,6 +150,7 @@
         </div>
         <?php
         _error_log('contentSearchFound NOT FOUND '. json_encode(debug_backtrace()));
+        _error_log('contentSearchFound NOT FOUND LAST SQL '. $debugLastGetVideoSQL);
         include $global['systemRootPath'] . 'view/include/notfound.php';
     }
     ?>

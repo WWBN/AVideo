@@ -753,7 +753,7 @@ if (!class_exists('Video')) {
         }
 
         public static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true) {
-            global $global, $config, $advancedCustom, $advancedCustomUser;
+            global $global, $config, $advancedCustom, $advancedCustomUser, $lastGetVideoSQL;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
@@ -900,6 +900,7 @@ if (!class_exists('Video')) {
             if (strpos($sql, 'v.id IN') === false && strpos(strtolower($sql), 'limit') === false) {
                 $sql .= " LIMIT {$firstClauseLimit}1";
             }
+            $lastGetVideoSQL = $sql;
             //echo $sql, "<br>";//exit;
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
