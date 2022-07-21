@@ -24,6 +24,7 @@ function socketConnect() {
     var url = addGetParam(webSocketURL, 'page_title', $('<textarea />').html($(document).find("title").text()).text());
     //console.log('Trying to reconnect on socket... ');
     if(!isValidURL(url)){
+        socketConnectRequested = 0;
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
         }, 30000);
@@ -32,6 +33,7 @@ function socketConnect() {
     conn = new WebSocket(url);    
     setSocketIconStatus('loading');
     conn.onopen = function (e) {
+        socketConnectRequested = 0;
         clearTimeout(socketConnectTimeout);
         console.log("Socket onopen");
         onSocketOpen();
@@ -88,7 +90,6 @@ function socketConnect() {
         }, 15000);
         onSocketClose();
     };
-
     conn.onerror = function (err) {
         socketConnectRequested = 0;
         console.error('Socket encountered error: ', err, 'Closing socket');
