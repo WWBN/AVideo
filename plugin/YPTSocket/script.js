@@ -25,6 +25,7 @@ function socketConnect() {
     //console.log('Trying to reconnect on socket... ');
     if(!isValidURL(url)){
         socketConnectRequested = 0;
+        console.log("socketConnect: Invalid URL ", url);
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
         }, 30000);
@@ -35,7 +36,7 @@ function socketConnect() {
     conn.onopen = function (e) {
         socketConnectRequested = 0;
         clearTimeout(socketConnectTimeout);
-        console.log("Socket onopen");
+        console.log("socketConnect: Socket onopen");
         onSocketOpen();
         return false;
     };
