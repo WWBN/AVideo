@@ -2818,8 +2818,14 @@ function videoJSRecreateSources(defaultSource) {
         });
         return false;
     }
-    player.options_.sources = [];
+    
+    var newSources = [];
+    
     $("#mainVideo source").each(function (index) {
+        var res = $(this).attr("res");
+        if(empty(res)){
+            res = 'auto';
+        }
         var source = {
             res: $(this).attr("res"),
             label: $(this).attr("label"),
@@ -2827,8 +2833,14 @@ function videoJSRecreateSources(defaultSource) {
             src: $(this).attr("src"),
         };
         ////console.log('videoJSRecreateSources', $(this), source);
-        player.options_.sources.push(source);
+        newSources.push(source);
     });
+    if(empty(newSources)){
+        console.log('videoJSRecreateSources: source are empty');
+        return false;
+    }
+    
+    player.options_.sources = newSources;
     player.updateSrc(player.options_.sources);
     if (!empty(player.currentResolution) && !empty(defaultSource)) {
         player.currentResolution(defaultSource.label, null);
