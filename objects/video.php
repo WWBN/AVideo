@@ -874,9 +874,10 @@ if (!class_exists('Video')) {
                     //getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '') {
                     $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
                     if ($numRows < 1) {
-                        $numRows = 0;
+                        $rand = 0;
+                    }else{
+                        $rand = rand(0, $numRows-1);
                     }
-                    $rand = rand(0, $numRows);
                     //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
                     $firstClauseLimit = "$rand, ";
                     //var_dump($rand, $numRows);
@@ -885,9 +886,10 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.isSuggested = 1 ";
                     $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
                     if ($numRows < 1) {
-                        $numRows = 0;
+                        $rand = 0;
+                    }else{
+                        $rand = rand(0, $numRows-1);
                     }
-                    $rand = rand(0, $numRows);
                     //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
                     $firstClauseLimit = "$rand, ";
                     //$sql .= " ORDER BY RAND() ";
