@@ -2441,7 +2441,7 @@ function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class
 }
 
 function createWebPIfNotExists($path){
-    if(!file_exists($path)){
+    if(version_compare(PHP_VERSION, '8.0.0') < 0 || !file_exists($path)){
         return $path;
     }
     $extension = pathinfo($path, PATHINFO_EXTENSION);
