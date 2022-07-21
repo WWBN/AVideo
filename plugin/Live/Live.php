@@ -1611,7 +1611,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
             return $servers;
         } elseif (empty($obj->useLiveServers)) {
-            _error_log("Live::getStats empty obj->useLiveServers}");
+            //_error_log("Live::getStats empty obj->useLiveServers}");
             //_error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
             $getStatsLive = self::_getStats(0, $force_recreate);
             //_error_log('Live::getStats(0) 1');
