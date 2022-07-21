@@ -4147,7 +4147,7 @@ function _session_start(array $options = []) {
                 }
                 return $session;
             } else {
-                _error_log("captcha: user logged we will not change the session ID PHPSESSID=" . $_GET['PHPSESSID'] . " session_id=" . session_id());
+                //_error_log("captcha: user logged we will not change the session ID PHPSESSID=" . $_GET['PHPSESSID'] . " session_id=" . session_id());
             }
         } elseif (session_status() == PHP_SESSION_NONE) {
             return @session_start($options);
