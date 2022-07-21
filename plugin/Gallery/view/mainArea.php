@@ -126,7 +126,7 @@
         $ob2 = _ob_get_clean();
         echo $ob;
         if (empty($contentSearchFound) && empty($ob2)) {
-            $contentSearchFound = false;
+            //$contentSearchFound = false;
         } else {
             $contentSearchFound = true;
         }
