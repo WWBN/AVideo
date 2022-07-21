@@ -1,4 +1,5 @@
 <?php
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -52,7 +53,7 @@ $totalPages = 0;
 $url = '';
 $args = '';
 $metaDescription = "";
-if(!empty($video)){
+if (!empty($video)) {
     if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
         $args = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], "?"), strlen($_SERVER['REQUEST_URI']));
     }
@@ -61,26 +62,25 @@ if(!empty($video)){
     } else {
         $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
     }
-    if(!isset($contentSearchFound)){
-        $contentSearchFound = false;
+    if (empty($contentSearchFound)) {
+        $contentSearchFound = !empty($videos);
     }
-	//array_push($siteTitle, __("Home"));
-	
-	// don't add a prefix for SEO, it's already handled here below by the implode() func	
-	$seoComplement = getSEOComplement(array(
-		"addAutoPrefix" => false,
-		"addCategory" => false
-	));
-	if (!empty($seoComplement)) {
-		array_push($siteTitle, $seoComplement);
-	}
+    //array_push($siteTitle, __("Home"));
+    // don't add a prefix for SEO, it's already handled here below by the implode() func	
+    $seoComplement = getSEOComplement(array(
+        "addAutoPrefix" => false,
+        "addCategory" => false
+    ));
+    if (!empty($seoComplement)) {
+        array_push($siteTitle, $seoComplement);
+    }
 
-	$metaDescription = $video['id'];
+    $metaDescription = $video['id'];
 } else {
-	array_push($siteTitle, __("Video Not Available"));
-	//array_push($siteTitle, __("Home"));
-	
-	$metaDescription = __("Video Not Available");
+    array_push($siteTitle, __("Video Not Available"));
+    //array_push($siteTitle, __("Home"));
+
+    $metaDescription = __("Video Not Available");
 }
 array_push($siteTitle, $config->getWebSiteTitle());
 $metaDescription .= $config->getPageTitleSeparator();
