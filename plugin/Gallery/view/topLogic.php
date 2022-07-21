@@ -62,6 +62,7 @@ if (!empty($video)) {
     } else {
         $url = $global['webSiteRootURL'] . "cat/" . $video['clean_category'] . "/page/";
     }
+    global $contentSearchFound;
     if (empty($contentSearchFound)) {
         $contentSearchFound = !empty($videos);
     }

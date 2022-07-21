@@ -26,11 +26,13 @@
                     </div>
                 </div>
                 <?php
+                global $contentSearchFound;
                 $contentSearchFound = true;
             }
         }
     }
     if (!empty($video)) {
+        global $contentSearchFound;
         $contentSearchFound = true;
         $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
         if (empty($_GET['search'])) {
@@ -125,6 +127,7 @@
         echo AVideoPlugin::getGallerySection();
         $ob2 = _ob_get_clean();
         echo $ob;
+        global $contentSearchFound;
         if (empty($contentSearchFound) && empty($ob2)) {
             //$contentSearchFound = false;
         } else {

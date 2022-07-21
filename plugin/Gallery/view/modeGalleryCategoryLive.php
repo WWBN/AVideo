@@ -24,6 +24,7 @@ $videos = getLiveVideosFromCategory($currentCat['id']);
  * 
  */
 if (!empty($videos)) {
+    global $contentSearchFound;
     $contentSearchFound = true;
     ?>
     <div class="clear clearfix">
