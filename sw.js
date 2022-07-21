@@ -2,7 +2,7 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.2/workbox
 
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
-const CACHE_NAME = 'avideo-cache-ver-1.1';
+const CACHE_NAME = 'avideo-cache-ver-1.2';
 
 const precahedFiles = [
     FALLBACK_HTML_URL,
