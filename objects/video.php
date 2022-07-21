@@ -873,7 +873,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.id != {$random} ";
                     $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
                     if ($numRows < 1) {
-                        $numRows = 1;
+                        $numRows = 0;
                     }
                     $rand = rand(0, $numRows - 1);
                     //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
@@ -884,7 +884,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.isSuggested = 1 ";
                     $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
                     if ($numRows < 1) {
-                        $numRows = 1;
+                        $numRows = 0;
                     }
                     $rand = rand(0, $numRows - 1);
                     //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
