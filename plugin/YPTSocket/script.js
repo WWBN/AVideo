@@ -182,14 +182,15 @@ function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
         }
         globalAutoUpdateOnHTML[prop] = autoUpdateOnHTML[prop];
     }
-    //console.log('socketAutoUpdateOnHTML', globalAutoUpdateOnHTML);
+    
+    //console.log('socketAutoUpdateOnHTML 1', autoUpdateOnHTML, globalAutoUpdateOnHTML);
 }
 
 
 function AutoUpdateOnHTMLTimer() {
 
     clearTimeout(socketAutoUpdateOnHTMLTimout);
-    //console.log('globalAutoUpdateOnHTML 1', empty(globalAutoUpdateOnHTML),globalAutoUpdateOnHTML.length, globalAutoUpdateOnHTML);
+    //console.log('globalAutoUpdateOnHTML 1', empty(globalAutoUpdateOnHTML), globalAutoUpdateOnHTML);
     if (!empty(globalAutoUpdateOnHTML)) {
         $('.total_on').text(0);
         $('.total_on').parent().removeClass('text-success');
