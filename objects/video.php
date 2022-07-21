@@ -876,7 +876,7 @@ if (!class_exists('Video')) {
                     if ($numRows < 2) {
                         $rand = 0;
                     }else{
-                        $rand = rand(0, $numRows-1);
+                        $rand = rand(0, $numRows);
                     }
                     //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
                     $firstClauseLimit = "$rand, ";
@@ -888,7 +888,7 @@ if (!class_exists('Video')) {
                     if ($numRows < 2) {
                         $rand = 0;
                     }else{
-                        $rand = rand(0, $numRows-1);
+                        $rand = rand(0, $numRows);
                     }
                     //$rand = ($rand - 2) < 0 ? 0 : $rand - 2;
                     $firstClauseLimit = "$rand, ";
