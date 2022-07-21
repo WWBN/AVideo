@@ -7,11 +7,12 @@ var socketConnectTimeout;;
 var users_id_online = [];
 function socketConnect() {
     if (socketConnectRequested) {
+        console.log('socketConnect: already requested');
         return false;
     }
     clearTimeout(socketConnectTimeout);
     if(!isOnline()){
-        console.log('Not Online');
+        console.log('socketConnect: Not Online');
         socketConnectRequested = 0;
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
@@ -305,7 +306,8 @@ var _startSocketTimeout;
 function startSocket(){
     clearTimeout(_startSocketTimeout);
     if(!isOnline()){
-        _startSocketTimeout = setTimeout(function(){startSocket()},10000); 
+        console.log('startSocket: Not Online');
+        _startSocketTimeout = setTimeout(function(){startSocket();},10000); 
         return false;
     }
     //console.log('Getting webSocketToken ...');
