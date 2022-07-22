@@ -160,6 +160,9 @@ async function getStrategy(args) {
     var strategiesNetworkFirst = [];
     strategiesNetworkFirst.push({extension: false, destination: 'document', url: webSiteRootURL + 'offline', fallback: false});
     strategiesNetworkFirst.push({extension: 'ts', destination: false, url: false, fallback: false});
+    strategiesNetworkFirst.push({extension: 'mp4', destination: false, url: false, fallback: false});
+    strategiesNetworkFirst.push({extension: 'mp4', destination: false, url: false, fallback: false});
+    strategiesNetworkFirst.push({extension: 'webm', destination: false, url: false, fallback: false});
 
     var strategiesCacheFirst = [];
     strategiesCacheFirst.push({extension: false, destination: 'font', url: false, fallback: false});
@@ -169,8 +172,8 @@ async function getStrategy(args) {
     strategiesStaleWhileRevalidate.push({extension: false, destination: 'style', url: false, fallback: false});
     strategiesStaleWhileRevalidate.push({extension: false, destination: 'script', url: false, fallback: false});
     strategiesStaleWhileRevalidate.push({extension: false, destination: 'image', url: false, fallback: false});
-    strategiesStaleWhileRevalidate.push({extension: false, destination: '', url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu', fallback: false});
-    strategiesStaleWhileRevalidate.push({extension: false, destination: '', url: webSiteRootURL + 'objects/playlists.json.php', fallback: false});
+    strategiesStaleWhileRevalidate.push({extension: false, destination: false, url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu', fallback: false});
+    strategiesStaleWhileRevalidate.push({extension: false, destination: false, url: webSiteRootURL + 'objects/playlists.json.php', fallback: false});
 
     let domain = (new URL(args.request.url));
     var extension = domain.pathname.split('.').pop().toLowerCase();
