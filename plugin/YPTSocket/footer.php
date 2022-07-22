@@ -1,5 +1,6 @@
 <?php
 if (isBot()) {
+    echo '<!-- isBot socket_info_container -->';
     return false;
 }
 $refl = new ReflectionClass('SocketMessageType');
