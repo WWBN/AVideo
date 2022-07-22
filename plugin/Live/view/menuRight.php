@@ -213,7 +213,7 @@ if (User::canStream()) {
                     }
                 }
 
-                if (response.applications.length) {
+                if (typeof onlineLabelOnline == 'function' && response.applications.length) {
                     //console.log('processApplicationLive 1', response.applications, response.applications.length);
                     for (i = 0; i < response.applications.length; i++) {
                         //console.log('processApplicationLive 1 title', response.applications[i].title);
