@@ -333,7 +333,7 @@ $(function () {
 var _startSocketTimeout;
 function startSocket() {
     clearTimeout(_startSocketTimeout);
-    if (!isOnline() || empty(webSiteRootURL)) {
+    if (!isOnline() || typeof webSiteRootURL == 'undefined') {
         console.log('startSocket: Not Online');
         _startSocketTimeout = setTimeout(function () {
             startSocket();
