@@ -640,6 +640,10 @@ class AVideoPlugin
                 return 1;
             } elseif ($b['name'] == 'Cache') {
                 return -1;
+            }else if ($a['name'] == 'Layout') {
+                return 1;
+            } elseif ($b['name'] == 'Layout') {
+                return -1;
             }
             return 0;
         });
