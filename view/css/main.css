@@ -129,11 +129,11 @@ footer ul.list-inline li {
 }
 .main-video {
     background-color: #000;
-    margin-bottom: 10px;    
+    margin-bottom: 10px;
 }
 .main-video{
     -webkit-transition: ease 1s; /* Safari */
-    transition: ease 1s;    
+    transition: ease 1s;
 }
 /* to fix the click on mobile */
 .rightBar div{
@@ -184,7 +184,7 @@ footer ul.list-inline li {
     }
     .panel-body, .tabbable-panel {
         padding: 5px;
-    }    
+    }
 
 }
 @media (max-width: 450px) {
@@ -573,7 +573,7 @@ nav ul.items-container {
 }
 
 nav ul.items-container .tooltip{
-    min-width: 150px; 
+    min-width: 150px;
 }
 
 nav ul.items-container,
@@ -682,27 +682,27 @@ nav ul.items-container li ul.right-menus li li {
     height: 30px;
     animation: spin 2s linear infinite;
 }
-.zoom {      
-    -webkit-transition: all 0.35s ease-in-out;    
-    -moz-transition: all 0.35s ease-in-out;    
-    transition: all 0.35s ease-in-out;     
-    cursor: -webkit-zoom-in;      
-    cursor: -moz-zoom-in;      
-    cursor: zoom-in;  
-}     
+.zoom {
+    -webkit-transition: all 0.35s ease-in-out;
+    -moz-transition: all 0.35s ease-in-out;
+    transition: all 0.35s ease-in-out;
+    cursor: -webkit-zoom-in;
+    cursor: -moz-zoom-in;
+    cursor: zoom-in;
+}
 
-.zoom:hover,  
-.zoom:active,   
+.zoom:hover,
+.zoom:active,
 .zoom:focus {
     /**adjust scale to desired size, 
     add browser prefixes**/
-    -ms-transform: scale(2.5);    
-    -moz-transform: scale(2.5);  
-    -webkit-transform: scale(2.5);  
-    -o-transform: scale(2.5);  
-    transform: scale(2.5);    
-    position:relative;      
-    z-index:100;  
+    -ms-transform: scale(2.5);
+    -moz-transform: scale(2.5);
+    -webkit-transform: scale(2.5);
+    -o-transform: scale(2.5);
+    transform: scale(2.5);
+    position:relative;
+    z-index:100;
 }
 @keyframes spin {
     0% {
@@ -832,7 +832,7 @@ img.blur{
 }
 
 .opacityBtn{
-    opacity: 0.2;   
+    opacity: 0.2;
 }
 
 .btn-group.justified, .btn-group-justified  {
@@ -847,16 +847,16 @@ img.blur{
     width: 100%;
 }
 
-#mainVideo_ima-ad-container, 
-#mainVideo_ima-ad-container:after, 
+#mainVideo_ima-ad-container,
+#mainVideo_ima-ad-container:after,
 #mainVideo_ima-ad-container:before {
     font-size: 14px !important;
     line-height: 1 !important;
 }
 
-#mainVideo_ima-ad-container .ima-play-pause-div, 
-#mainVideo_ima-ad-container .ima-mute-div, 
-#mainVideo_ima-ad-container .ima-slider-div, 
+#mainVideo_ima-ad-container .ima-play-pause-div,
+#mainVideo_ima-ad-container .ima-mute-div,
+#mainVideo_ima-ad-container .ima-slider-div,
 #mainVideo_ima-ad-container .ima-fullscreen-div {
     font-size: 1.5em !important;
     line-height: 2 !important;
@@ -911,7 +911,8 @@ img.blur{
 }
 
 #closeBtnFull{
-    opacity: 0.25; filter: alpha(opacity=25);
+    opacity: 0.25;
+    filter: alpha(opacity=25);
     -webkit-transition: opacity 0.25s ease-in-out;
     -moz-transition: opacity 0.25s ease-in-out;
     -ms-transition: opacity 0.25s ease-in-out;
@@ -922,7 +923,8 @@ img.blur{
     cursor: pointer;
 }
 #divTopBar:hover #closeBtnFull{
-    opacity: 1; filter: alpha(opacity=100);
+    opacity: 1;
+    filter: alpha(opacity=100);
 }
 #closeBtnFull i{
     text-shadow: 1px 1px rgba(255,255,255,0.7);
@@ -962,38 +964,38 @@ li.dropdown-submenu > ul > li > a{
 @keyframes socketGlow {
     from {
         color: #DFD;
-        text-shadow: 
-            0 0 1px #050, 
-            0 0 2px #070, 
-            0 0 3px #670, 
+        text-shadow:
+            0 0 1px #050,
+            0 0 2px #070,
+            0 0 3px #670,
             0 0 4px #670;
     }
     to {
         color: #FFF;
-        text-shadow: 
+        text-shadow:
             0 0 2px #020,
-            0 0 5px #090, 
-            0 0 10px #0F0, 
-            0 0 15px #BF0, 
+            0 0 5px #090,
+            0 0 10px #0F0,
+            0 0 15px #BF0,
             0 0 20px #B6FF00;
     }
 }
 @keyframes socketGlowBlue {
     from {
         color: #DDF;
-        text-shadow: 
-            0 0 1px #005, 
-            0 0 2px #007, 
-            0 0 3px #067, 
+        text-shadow:
+            0 0 1px #005,
+            0 0 2px #007,
+            0 0 3px #067,
             0 0 4px #067;
     }
     to {
         color: #FFF;
-        text-shadow: 
+        text-shadow:
             0 0 2px #002,
-            0 0 5px #009, 
-            0 0 10px #00F, 
-            0 0 15px #0BF, 
+            0 0 5px #009,
+            0 0 10px #00F,
+            0 0 15px #0BF,
             0 0 20px #00B6FF;
     }
 }
@@ -1005,19 +1007,19 @@ li.dropdown-submenu > ul > li > a{
 @keyframes glowBox {
     from {
         color: #DFD;
-        box-shadow: 
-            0 0 1px #050, 
-            0 0 2px #070, 
-            0 0 3px #670, 
+        box-shadow:
+            0 0 1px #050,
+            0 0 2px #070,
+            0 0 3px #670,
             0 0 4px #670;
     }
     to {
         color: #FFF;
-        box-shadow: 
+        box-shadow:
             0 0 2px #020,
-            0 0 5px #090, 
-            0 0 10px #0F0, 
-            0 0 15px #BF0, 
+            0 0 5px #090,
+            0 0 10px #0F0,
+            0 0 15px #BF0,
             0 0 20px #B6FF00;
     }
 }
@@ -1110,7 +1112,7 @@ li.dropdown-submenu > ul > li > a{
 
 /* sm */
 @media (max-width: 992px) {
-    .btn-group.justified.keepLabels span.hidden-sm, 
+    .btn-group.justified.keepLabels span.hidden-sm,
     .btn-group.justified.keepLabels span.hidden-xs{
         display: block !important;
         font-size: 0.8em;
@@ -1167,9 +1169,9 @@ li.dropdown-submenu > ul > li > a{
     margin: -65px 0 0 -40px;
     left: 50%;
 }
-#pleaseWaitDialog .progress, #pleaseWaitDialog h2{    
-    margin: 0 0 0 -200px;
-    width: 400px;
+#pleaseWaitDialog .progress, #pleaseWaitDialog h2{
+    margin: 0 0 0 -50%;
+    width: 100%;
     left: 50%;
 }
 #pleaseWaitDialog .progress{
@@ -1183,6 +1185,11 @@ li.dropdown-submenu > ul > li > a{
 }
 
 @media (min-width: 1200px) {
+    #pleaseWaitDialog .progress, #pleaseWaitDialog h2{
+        margin: 0 0 0 -200px;
+        width: 400px;
+        left: 50%;
+    }
     .playerFullHeight, .playerFullHeight video, .playerFullHeight audio, .playerFullHeight iframe, .playerFullHeight #mainVideo, .playerFullHeight #main-video{
         height: calc(100vh - 60px);
         width: 100%;
@@ -1202,11 +1209,11 @@ li.dropdown-submenu > ul > li > a{
 }
 
 .nav-tabs-horizontal{
-    display: -webkit-box; 
+    display: -webkit-box;
     display: -webkit-inline-box;
 }
 .scrtabs-tab-container{
-    margin: 5px 0;    
+    margin: 5px 0;
 }
 .scrtabs-tab-scroll-arrow{
     border-top: 1px solid #ddd;
@@ -1224,7 +1231,7 @@ li.dropdown-submenu > ul > li > a{
     height: 20px;
 }
 .videoCreator>img,
-.videoCreator>a, 
+.videoCreator>a,
 .videoCreator>div{
     margin: 2px 10px 2px 2px;
 }
@@ -1276,7 +1283,7 @@ a:hover{
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;    
+    height: 100%;
     z-index: 1;
 }
 
@@ -1464,32 +1471,32 @@ button.btn-sm.hamburger svg{
     display: none;
 }
 .align-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .loading-background {
-  --border-width: 3px;
-  border-radius: var(--border-width);
+    --border-width: 3px;
+    border-radius: var(--border-width);
 }
 .loading-background::after {
-  position: absolute;
-  content: "";
-  top: calc(-1 * var(--border-width));
-  left: calc(-1 * var(--border-width));
-  z-index: -1;
-  width: calc(100% + var(--border-width) * 2);
-  height: calc(100% + var(--border-width) * 2);
-  background: linear-gradient(60deg, #555, #777, #999, #AAA, #BBB, #CCC, #DDD, #FFF);
-  background-size: 300% 300%;
-  background-position: 0 50%;
-  border-radius: calc(2 * var(--border-width));
-  animation: moveGradient 4s ease-in-out infinite;
+    position: absolute;
+    content: "";
+    top: calc(-1 * var(--border-width));
+    left: calc(-1 * var(--border-width));
+    z-index: -1;
+    width: calc(100% + var(--border-width) * 2);
+    height: calc(100% + var(--border-width) * 2);
+    background: linear-gradient(60deg, #555, #777, #999, #AAA, #BBB, #CCC, #DDD, #FFF);
+    background-size: 300% 300%;
+    background-position: 0 50%;
+    border-radius: calc(2 * var(--border-width));
+    animation: moveGradient 4s ease-in-out infinite;
 }
 
 @keyframes moveGradient {
-  50% {
-    background-position: 100% 50%;
-  }
+    50% {
+        background-position: 100% 50%;
+    }
 }

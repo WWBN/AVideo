@@ -571,7 +571,7 @@ function _addViewAsync() {
 }
 
 var _addViewFromCookie_addingtime = false;
-function addViewFromCookie() {
+async function addViewFromCookie() {
     if (typeof webSiteRootURL == 'undefined') {
         return false;
     }
