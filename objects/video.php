@@ -3349,10 +3349,11 @@ if (!class_exists('Video')) {
                 return $__getPaths[$videoFilename];
             }
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
+            //var_dump($videoFilename, $path,$cleanVideoFilename);
             $videosDir = self::getStoragePath();
 
             $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
-
+            
             $path = fixPath($path);
             if ($createDir) {
                 make_path(addLastSlash($path));
@@ -3371,11 +3372,16 @@ if (!class_exists('Video')) {
             $videosDir = self::getStoragePath();
             $videoFilename = str_replace($videosDir, '', $videoFilename);
             $paths = Video::getPaths($videoFilename, $createDir);
-            if (preg_match('/index.m3u8$/', $videoFilename)) {
+            //var_dump($paths);
+            if (preg_match('/index.(m3u8|mp4)$/', $videoFilename)) {
                 $paths['path'] = rtrim($paths['path'], DIRECTORY_SEPARATOR);
+                $paths['path'] = rtrim($paths['path'], '/');
+                $videoFilename = str_replace($paths['relative'], '', $videoFilename);
                 $videoFilename = str_replace($paths['filename'], '', $videoFilename);
             }
-            return "{$paths['path']}{$videoFilename}";
+            $newPath = addLastSlash($paths['path']). "{$videoFilename}";
+            //var_dump($newPath);
+            return $newPath;
         }
 
         public static function getURLToFile($videoFilename, $createDir = false) {
@@ -3511,9 +3517,11 @@ if (!class_exists('Video')) {
             }
             $filename = fixPath($filename);
             $filename = str_replace(getVideosDir(), '', $filename);
-            if (preg_match('/videos[\/\\\]([^\/\\\]+)[\/\\\].*index.m3u8$/', $filename, $matches)) {
+            if (preg_match('/videos[\/\\\]([^\/\\\]+)[\/\\\].*index.(m3u8|mp4|mp3)$/', $filename, $matches)) {
+                //var_dump($filename, $matches);
                 return $matches[1];
             }
+            
             $search = ['_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_thumbsV2_jpg', '_spectrum', '_tvg', '.notfound'];
 
             if (!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])) {

@@ -13,9 +13,18 @@ if (empty($_GET['file'])) {
     die('GET file not found');
 }
 
-$path_parts = pathinfo($_GET['file']);
-$file = $path_parts['basename'];
-//var_dump($_GET['file'], $path_parts, $file);exit;
+if($_GET['file']=='index.mp4'){
+    $url = parse_url($_SERVER["REQUEST_URI"]);
+    $paths = Video::getPaths($url["path"]);
+    $path = "{$paths['path']}index.mp4";
+    $file = "{$paths["relative"]}index.mp4";
+    $path_parts = pathinfo($file);
+    //var_dump(__LINE__, $file, $path, $paths);
+}else{
+    $path_parts = pathinfo($_GET['file']);
+    $file = $path_parts['basename'];
+}
+//header('Content-Type: application/json');var_dump($path, $file, $paths, $url, Video::getPaths($redirectURI));exit;
 
 if ($file == "test.mp4") {
     $path = "{$global['systemRootPath']}view/xsendfile.html";
@@ -56,17 +65,21 @@ if(!empty($_REQUEST['cacheDownload'])){
 }else{
     $path = Video::getPathToFile($file);
 }
+//header('Content-Type: application/json');var_dump(__LINE__, $_SERVER["REQUEST_URI"], $file, $path);exit;
+//header('Content-Type: application/json');var_dump($advancedCustom->doNotUseXsendFile);
 if (file_exists($path)) {
+    $filesize = filesize($path);
     if (!empty($_GET['download'])) {
         if (empty($_REQUEST['cacheDownload']) && !CustomizeUser::canDownloadVideos()) {
             _error_log("downloadHLS: CustomizeUser::canDownloadVideos said NO");
             forbiddenPage("Can't download this");
         }
         if (!empty($_GET['title'])) {
-            $quoted = sprintf('"%s"', addcslashes(basename($_GET['title']), '"\\'));
+            $quoted = safeString($_GET['title'], true).".{$path_parts['extension']}";
         } else {
-            $quoted = sprintf('"%s"', addcslashes(basename($_GET['file']), '"\\'));
+            $quoted = safeString(basename($_GET['file']), true).".{$path_parts['extension']}";
         }
+        //header('Content-Type: application/json');var_dump($quoted);exit;
         header('Content-Description: File Transfer');
         header('Content-Disposition: attachment; filename=' . $quoted);
         header('Content-Transfer-Encoding: binary');
@@ -89,7 +102,10 @@ if (file_exists($path)) {
         $advancedCustom->doNotUseXsendFile = true;
     }
     header("Content-type: " . mime_content_type($path));
-    header('Content-Length: ' . filesize($path));
+    header('Content-Length: ' . $filesize);
+    //header("Content-Range: 0-".($filesize-1)."/".$filesize);
+    _error_log("downloadHLS: filesize={$filesize} {$path}");
+    //var_dump($advancedCustom->doNotUseXsendFile);exit;
     if (!empty($advancedCustom->doNotUseXsendFile)) {
         ini_set('memory_limit', filesize($path) * 1.5);
         _error_log("Your XSEND File is not enabled, it may slow down your site, file = $path", AVideoLog::$WARNING);

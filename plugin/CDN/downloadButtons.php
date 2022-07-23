@@ -15,16 +15,8 @@ $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
 if (empty($videoHLSObj)) {
     forbiddenPage('VideoHLS plugin is required for that');
 }
-$downloadOptions = array();
-$cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
-if(!empty($cdnObj) && $cdnObj->enable_storage){
-    if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
-        $downloadOptions[] = VideoHLS::getCDNDownloadLink($videos_id, 'mp4');
-    }
-    if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
-        $downloadOptions[] = VideoHLS::getCDNDownloadLink($videos_id, 'mp3');
-    }
-}
+$downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
+
 if (empty($downloadOptions)) {
     forbiddenPage('All download options on VideoHLS plugin are disabled');
 }

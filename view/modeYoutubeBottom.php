@@ -180,14 +180,8 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
 
                         $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
                         if (!empty($videoHLSObj)) {
-                            if ($cdnStorageEnabled) {
-                                if (!empty($videoHLSObj->saveMP4CopyOnCDNStorageToAllowDownload)) {
-                                    $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp4');
-                                }
-                                if (!empty($videoHLSObj->saveMP3CopyOnCDNStorageToAllowDownload)) {
-                                    $filesToDownload[] = VideoHLS::getCDNDownloadLink($video['id'], 'mp3');
-                                }
-                            }
+                            $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
+                            $filesToDownload = array_merge($filesToDownload, $downloadOptions);
                         }
 
 

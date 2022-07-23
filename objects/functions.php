@@ -386,7 +386,7 @@ function safeString($text, $strict = false) {
     if ($strict) {
         $text = filter_var($text, FILTER_SANITIZE_STRING);
         //$text = cleanURLName($text);
-    } 
+    }
     $text = trim($text);
     return $text;
 }
@@ -1332,7 +1332,9 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
         $TimeLog1 = "getVideosURL_V2($fileName) empty recreateCache";
         TimeLogStart($TimeLog1);
-        $files = object_to_array(ObjectYPT::getCache($cacheName, $lifetime, true));
+        //var_dump($cacheName, $lifetime);exit;
+        $cache = ObjectYPT::getCache($cacheName, $lifetime, true);
+        $files = object_to_array($cache);
         if (is_array($files)) {
             //_error_log("getVideosURL_V2: do NOT recreate lifetime = {$lifetime}");
             $preg_match_url = addcslashes(getCDN(), "/") . "videos";
@@ -2396,7 +2398,7 @@ function getTagIfExists($relativePath) {
     }
 }
 
-function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class='img img-responsive', $lazyLoad=false) {
+function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false) {
     global $global;
     $relativePathOriginal = $relativePath;
     $relativePath = getRelativePath($relativePath);
@@ -2404,83 +2406,83 @@ function getImageTagIfExists($relativePath, $title='', $id='', $style='', $class
     $wh = '';
     if (file_exists($file)) {
         // check if there is a thumbs
-        if(!preg_match('/_thumbsV2.jpg/', $file)){
+        if (!preg_match('/_thumbsV2.jpg/', $file)) {
             $thumbs = str_replace('.jpg', '_thumbsV2.jpg', $file);
-            if(file_exists($thumbs)){
+            if (file_exists($thumbs)) {
                 $file = $thumbs;
             }
         }
         $file = createWebPIfNotExists($file);
-        
+
         $url = getURL(getRelativePath($file));
         $image_info = getimagesize($file);
         $wh = $image_info[3];
     } else if (isValidURL($relativePathOriginal)) {
         $url = $relativePathOriginal;
     } else {
-        return '<!-- invalid URL '.$relativePathOriginal.' -->';
+        return '<!-- invalid URL ' . $relativePathOriginal . ' -->';
     }
-    if(empty($title)){
+    if (empty($title)) {
         $title = basename($relativePath);
     }
     $title = safeString($title);
     $img = "<img style=\"{$style}\" alt=\"{$title}\" title=\"{$title}\" id=\"{$id}\" class=\"{$class}\" {$wh} ";
-    if($lazyLoad){
-        if(is_string($lazyLoad)){
+    if ($lazyLoad) {
+        if (is_string($lazyLoad)) {
             $loading = getURL($lazyLoad);
-        }else{
+        } else {
             $loading = getURL('view/img/loading-gif.png');
         }
         $img .= " src=\"{$loading}\" data-src=\"{$url}\" ";
-    }else{
+    } else {
         $img .= " src=\"{$url}\" ";
     }
     $img .= "/>";
-    
+
     return $img;
 }
 
-function createWebPIfNotExists($path){
-    if(version_compare(PHP_VERSION, '8.0.0') < 0 || !file_exists($path)){
+function createWebPIfNotExists($path) {
+    if (version_compare(PHP_VERSION, '8.0.0') < 0 || !file_exists($path)) {
         return $path;
     }
     $extension = pathinfo($path, PATHINFO_EXTENSION);
-    if($extension!=='jpg'){
+    if ($extension !== 'jpg') {
         return $path;
     }
     $nextGenPath = str_replace('.jpg', '_jpg.webp', $path);
-    
-    if(!file_exists($nextGenPath)){
+
+    if (!file_exists($nextGenPath)) {
         convertImage($path, $nextGenPath, 70);
     }
     return $nextGenPath;
 }
 
-function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation='', $title=''){
+function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation = '', $title = '') {
     $id = uniqid();
-    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive').PHP_EOL;
-    if(!empty($relativePathHoverAnimation) && empty($_REQUEST['noImgGif'])){
-        $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', true).PHP_EOL;
+    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive') . PHP_EOL;
+    if (!empty($relativePathHoverAnimation) && empty($_REQUEST['noImgGif'])) {
+        $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', true) . PHP_EOL;
     }
-    return '<div class="thumbsImage">'.$img.'</div>';
+    return '<div class="thumbsImage">' . $img . '</div>';
 }
 
-function getRelativePath($path){
+function getRelativePath($path) {
     global $global;
     $relativePath = '';
     $parts = explode('view/img/', $path);
-    
-    if(!empty($parts[1])){
-        $relativePath = 'view/img/'.$parts[1];
+
+    if (!empty($parts[1])) {
+        $relativePath = 'view/img/' . $parts[1];
     }
-    if(empty($relativePath)){
+    if (empty($relativePath)) {
         $parts = explode('videos/', $path);
-        if(!empty($parts[1])){
-            $relativePath = 'videos/'.$parts[1];
+        if (!empty($parts[1])) {
+            $relativePath = 'videos/' . $parts[1];
         }
     }
-    
-    if(empty($relativePath)){
+
+    if (empty($relativePath)) {
         $relativePath = $path;
     }
     $parts2 = explode('?', $relativePath);
@@ -3495,7 +3497,7 @@ function rrmdir($dir) {
         }
         if (rmdir($dir)) {
             return true;
-        } else if(is_dir($dir)){
+        } else if (is_dir($dir)) {
             _error_log('rrmdir: could not delete folder ' . $dir);
             return false;
         }
@@ -5168,16 +5170,20 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
                 _error_log('isValidURLOrPath return false (is php file) ' . $str);
                 return false;
             }
-            $cacheDir = "{$global['systemRootPath']}videos/";
-            if (str_starts_with($absolutePath, $absolutePathTmp) || str_starts_with($absolutePath, '/var/www/') || str_starts_with($absolutePath, $absolutePathCache)) {
+            if (
+                    str_starts_with($absolutePath, $absolutePathTmp) || 
+                    str_starts_with($absolutePath, '/var/www/') || 
+                    str_starts_with($absolutePath, $absolutePathCache) || 
+                    str_starts_with($absolutePath, $global['systemRootPath']) || 
+                    str_starts_with($absolutePath, getVideosDir())) {
                 return true;
             }
         } else {
             return true;
         }
-        _error_log('isValidURLOrPath return false not valid absolute path 1 ' . $absolutePath);
-        _error_log('isValidURLOrPath return false not valid absolute path 2 ' . $absolutePathTmp);
-        _error_log('isValidURLOrPath return false not valid absolute path 3 ' . $absolutePathCache);
+        //_error_log('isValidURLOrPath return false not valid absolute path 1 ' . $absolutePath);
+        //_error_log('isValidURLOrPath return false not valid absolute path 2 ' . $absolutePathTmp);
+        //_error_log('isValidURLOrPath return false not valid absolute path 3 ' . $absolutePathCache);
     }
     //_error_log('isValidURLOrPath return false '.$str);
     return false;
@@ -5843,6 +5849,7 @@ function _json_encode($object) {
 }
 
 function _json_decode($object) {
+    global $global;
     if (empty($object)) {
         return false;
     }
@@ -6696,69 +6703,6 @@ function playHLSasMP4($filepath) {
     exit;
 }
 
-function m3u8ToMP4($input) {
-    $videosDir = getVideosDir();
-    $outputfilename = str_replace($videosDir, "", $input);
-    $parts = explode("/", $outputfilename);
-    $resolution = Video::getResolutionFromFilename($input);
-    $outputfilename = $parts[0] . "_{$resolution}_.mp4";
-    $outputpath = "{$videosDir}cache/downloads/{$outputfilename}";
-    $msg = '';
-    $error = true;
-    make_path($outputpath);
-    if (empty($outputfilename)) {
-        $msg = "downloadHLS: empty outputfilename {$outputfilename}";
-        _error_log($msg);
-        return ['error' => $error, 'msg' => $msg];
-    }
-    _error_log("downloadHLS: m3u8ToMP4($input)");
-    //var_dump(!preg_match('/^http/i', $input), filesize($input), preg_match('/.m3u8$/i', $input));
-    $ism3u8 = preg_match('/.m3u8$/i', $input);
-    if (!preg_match('/^http/i', $input) && (filesize($input) <= 10 || $ism3u8)) { // dummy file
-        $filepath = escapeshellcmd(pathToRemoteURL($input, true, true));
-        if ($ism3u8 && !preg_match('/.m3u8$/i', $filepath)) {
-            $filepath = addLastSlash($filepath) . 'index.m3u8';
-        }
-
-        $token = getToken(60);
-        $filepath = addQueryStringParameter($filepath, 'globalToken', $token);
-    } else {
-        $filepath = escapeshellcmd($input);
-    }
-
-    if (is_dir($filepath)) {
-        $filepath = addLastSlash($filepath) . 'index.m3u8';
-    }
-
-    $outputpath = escapeshellcmd($outputpath);
-    if (!file_exists($outputpath)) {
-        $command = get_ffmpeg() . " -allowed_extensions ALL -y -i \"{$filepath}\" -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
-        $msg1 = "downloadHLS: Exec Command ({$command})";
-        _error_log($msg1);
-        //var_dump($outputfilename, $command, $_GET, $filepath);exit;
-        exec($command . " 2>&1", $output, $return);
-        if (!empty($return)) {
-            $msg2 = "downloadHLS: ERROR 1 " . implode(PHP_EOL, $output);
-            _error_log($msg2);
-
-            $command = get_ffmpeg() . " -y -i \"{$filepath}\" -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$outputpath}";
-            //var_dump($outputfilename, $command, $_GET, $filepath);exit;
-            exec($command . " 2>&1", $output, $return);
-            if (!empty($return)) {
-                $msg3 = "downloadHLS: ERROR 2 " . implode(PHP_EOL, $output);
-                $finalMsg = $msg1 . PHP_EOL . $msg2 . PHP_EOL . $msg3;
-                _error_log($msg3);
-                return ['error' => $error, 'msg' => $finalMsg];
-            }
-        }
-    } else {
-        $msg = "downloadHLS: outputpath already exists ({$outputpath})";
-        _error_log($msg);
-    }
-    $error = false;
-    return ['error' => $error, 'msg' => $msg, 'path' => $outputpath, 'filename' => $outputfilename];
-}
-
 function getSocialModal($videos_id, $url = "", $title = "") {
     global $global;
     $video['id'] = $videos_id;
@@ -6884,6 +6828,123 @@ function get_ffmpeg($ignoreGPU = false) {
         $ffmpeg = "{$global['ffmpeg']}{$ffmpeg}";
     }
     return $ffmpeg . $complement;
+}
+
+function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0) {
+    $localFileLock = getVideosDir() . "{$relativeFilename}.lock";
+    if (file_exists($localFileLock)) {
+        _error_log('convertVideoFileWithFFMPEG: download from CDN There is a process running for ' . $localFile);
+        return false;
+    }
+    make_path($toFileLocation);
+    file_put_contents($localFileLock, time());
+    $fromFileLocationEscaped = escapeshellarg($fromFileLocation);
+    $toFileLocationEscaped = escapeshellarg($toFileLocation);
+
+    $format = pathinfo($toFileLocation, PATHINFO_EXTENSION);
+
+    if ($format == 'mp3') {
+        switch ($try) {
+            case 0:
+                $command = get_ffmpeg() . " -i \"{$fromFileLocation}\" -c:a libmp3lame \"{$toFileLocation}\"";
+                break;
+            default:
+                return false;
+                break;
+        }
+    } else {
+        switch ($try) {
+            case 0:
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
+                break;
+            case 1:
+                $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                break;
+            case 2:
+                $command = get_ffmpeg() . " -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                break;
+            default:
+                return false;
+                break;
+        }
+        
+    }
+    $progressFile = getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation);
+    $progressFileEscaped = escapeshellarg($progressFile);
+    $command .= " 1> {$progressFileEscaped} 2>&1";
+    _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command);
+    session_write_close();
+    _mysql_close();
+    exec($command, $output, $return);
+    _session_start();
+    _mysql_connect();
+    _error_log("convertVideoFileWithFFMPEG try[{$try}] output: " . json_encode($output));
+
+    unlink($localFileLock);
+    
+    return ['return'=> $return, 'output'=>$output, 'command'=>$command, 'fromFileLocation'=>$fromFileLocation, 'toFileLocation'=>$toFileLocation, 'progressFile'=>$progressFile];
+}
+
+function m3u8ToMP4($input) {
+    $videosDir = getVideosDir();
+    $outputfilename = str_replace($videosDir, "", $input);
+    $parts = explode("/", $outputfilename);
+    $resolution = Video::getResolutionFromFilename($input);
+    $outputfilename = $parts[0] . "_{$resolution}_.mp4";
+    $outputpath = "{$videosDir}cache/downloads/{$outputfilename}";
+    $msg = '';
+    $error = true;
+    if (empty($outputfilename)) {
+        $msg = "downloadHLS: empty outputfilename {$outputfilename}";
+        _error_log($msg);
+        return ['error' => $error, 'msg' => $msg];
+    }
+    _error_log("downloadHLS: m3u8ToMP4($input)");
+    //var_dump(!preg_match('/^http/i', $input), filesize($input), preg_match('/.m3u8$/i', $input));
+    $ism3u8 = preg_match('/.m3u8$/i', $input);
+    if (!preg_match('/^http/i', $input) && (filesize($input) <= 10 || $ism3u8)) { // dummy file
+        $filepath = pathToRemoteURL($input, true, true);
+        if ($ism3u8 && !preg_match('/.m3u8$/i', $filepath)) {
+            $filepath = addLastSlash($filepath) . 'index.m3u8';
+        }
+
+        $token = getToken(60);
+        $filepath = addQueryStringParameter($filepath, 'globalToken', $token);
+    } else {
+        $filepath = escapeshellcmd($input);
+    }
+
+    if (is_dir($filepath)) {
+        $filepath = addLastSlash($filepath) . 'index.m3u8';
+    }
+
+    if (!file_exists($outputpath)) {
+        var_dump($filepath, $outputpath);exit;
+        $return = convertVideoFileWithFFMPEG($filepath, $outputpath);
+        var_dump($return);exit;
+        if (empty($return)) {
+            $msg3 = "downloadHLS: ERROR 2 " . implode(PHP_EOL, $output);
+            $finalMsg = $msg1 . PHP_EOL . $msg2 . PHP_EOL . $msg3;
+            _error_log($msg3);
+            return ['error' => $error, 'msg' => $finalMsg];
+        }
+    } else {
+        $msg = "downloadHLS: outputpath already exists ({$outputpath})";
+        _error_log($msg);
+    }
+    $error = false;
+    return ['error' => $error, 'msg' => $msg, 'path' => $outputpath, 'filename' => $outputfilename];
+}
+
+
+function getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation) {
+    $progressFile = $toFileLocation . '.log';
+    return $progressFile;
+}
+
+function convertVideoToDownlaodProgress($toFileLocation) {
+    $progressFile = getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation);
+    return parseFFMPEGProgress($progressFile);
 }
 
 function get_php() {
@@ -8020,20 +8081,21 @@ function getCDNOrURL($url, $type = 'CDN', $id = 0) {
 
 function replaceCDNIfNeed($url, $type = 'CDN', $id = 0) {
     $cdn = getCDN($type, $id);
-    if(!empty($_GET['debug'])){
-            $obj = AVideoPlugin::getDataObject('Blackblaze_B2');
-        var_dump($url, $type, $id, $cdn, $obj->CDN_Link);exit;
+    if (!empty($_GET['debug'])) {
+        $obj = AVideoPlugin::getDataObject('Blackblaze_B2');
+        var_dump($url, $type, $id, $cdn, $obj->CDN_Link);
+        exit;
     }
     if (empty($cdn)) {
-        if($type == 'CDN_B2'){
-            $obj = AVideoPlugin::getDataObject('Blackblaze_B2');   
-            if(isValidURL($obj->CDN_Link)){
+        if ($type == 'CDN_B2') {
+            $obj = AVideoPlugin::getDataObject('Blackblaze_B2');
+            if (isValidURL($obj->CDN_Link)) {
                 $basename = basename($url);
-                return addLastSlash($obj->CDN_Link).$basename;
+                return addLastSlash($obj->CDN_Link) . $basename;
             }
-        }else if($type == 'CDN_S3'){
-            $obj = AVideoPlugin::getDataObject('AWS_S3');           
-            if(isValidURL($obj->CDN_Link)){
+        } else if ($type == 'CDN_S3') {
+            $obj = AVideoPlugin::getDataObject('AWS_S3');
+            if (isValidURL($obj->CDN_Link)) {
                 $cdn = $obj->CDN_Link;
             }
         }
@@ -8041,7 +8103,7 @@ function replaceCDNIfNeed($url, $type = 'CDN', $id = 0) {
             return $url;
         }
     }
-    
+
     return str_replace(parse_url($url, PHP_URL_HOST), parse_url($cdn, PHP_URL_HOST), $url);
 }
 
@@ -9065,15 +9127,15 @@ function deleteInvalidImage($filepath) {
     }
     return true;
 }
- 
+
 /**
  * add the twitterjs if the link is present
  * @param string $text
  * @return string
  */
-function addTwitterJS($text){
-    if(preg_match('/href=.+twitter.com.+ref_src=.+/', $text)){
-        if(!preg_match('/platform.twitter.com.widgets.js/', $text)){
+function addTwitterJS($text) {
+    if (preg_match('/href=.+twitter.com.+ref_src=.+/', $text)) {
+        if (!preg_match('/platform.twitter.com.widgets.js/', $text)) {
             $text .= '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
         }
     }

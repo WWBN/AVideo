@@ -1260,11 +1260,7 @@ function avideoAlert(title, msg, type) {
     if (typeof msg !== 'string') {
         return false;
     }
-    if (msg !== msg.replace(/<\/?[^>]+(>|$)/g, "")) {//it has HTML
-        avideoAlertHTMLText(title, msg, type);
-    } else {
-        swal(title, msg, type);
-    }
+    avideoAlertHTMLText(title, msg, type);
 }
 
 function avideoAlertOnce(title, msg, type, uid) {
@@ -1370,6 +1366,7 @@ function avideoAlertAJAX(url) {
 }
 
 function avideoAlertHTMLText(title, msg, type) {
+    var isErrorOrWarning = (type=='error' || type=='warning');
     var span = document.createElement("span");
     span.innerHTML = msg;
     swal({
@@ -1377,7 +1374,8 @@ function avideoAlertHTMLText(title, msg, type) {
         content: span,
         icon: type,
         closeModal: true,
-        buttons: type ? true : false,
+        closeOnClickOutside: !isErrorOrWarning,
+        buttons: isErrorOrWarning ? null : (empty(type)?false:true),
     });
 }
 
@@ -2208,7 +2206,8 @@ function goToURLOrAlertError(jsonURL, data) {
 }
 
 function downloadURL(url, filename) {
-    avideoToastInfo('Download start');
+    filename = clean_name(filename)+'.'+clean_name(url.split(/[#?]/)[0].split('.').pop().trim());
+    console.log('downloadURL start ', url, filename);
     var loaded = 0;
     var contentLength = 0;
     fetch(url)
@@ -2251,28 +2250,37 @@ function downloadURL(url, filename) {
             })
             .then(response => response.blob())
             .then(blob => {
-                const url = window.URL.createObjectURL(blob);
+                const urlFromBlob = window.URL.createObjectURL(blob);
+                console.log('downloadURL', url, filename, blob);
                 const a = document.createElement('a');
                 a.style.display = 'none';
-                a.href = url;
+                a.href = urlFromBlob;
                 // the filename you want
                 a.download = filename;
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
                 modal.hidePleaseWait();
-                avideoToastSuccess('Download complete');
+                avideoToastSuccess('Download complete '+filename);
             })
             .catch(function (err) {
-                avideoAlertError('Error on download ');
-                //console.log(err)
+                //avideoAlertError('Error on download ');
+                console.log(err);
+                addQueryStringParameter(url, 'download', 1);
+                addQueryStringParameter(url, 'title', filename);
+                document.location = url;
             });
 }
 
 var downloadURLOrAlertErrorInterval;
 function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
+    if(empty(jsonURL)){
+        console.log('downloadURLOrAlertError error empty jsonURL', jsonURL, data, filename, FFMpegProgress);
+        return false;
+    }
     modal.showPleaseWait();
     avideoToastInfo('Converting');
+    console.log('downloadURLOrAlertError 1', jsonURL,FFMpegProgress);
     checkFFMPEGProgress(FFMpegProgress);
     $.ajax({
         url: jsonURL,
@@ -2678,7 +2686,7 @@ $(document).ready(function () {
 
     setInterval(function () {
         setToolTips();
-    }, 1000);
+    }, 5000);
     /*
      $(".thumbsImage").on("mouseenter", function () {
      gifId = $(this).find(".thumbsGIF").attr('id');

@@ -1075,12 +1075,6 @@ class CDNStorage {
         $parts2 = explode('?', $parts1[1]);
         $relativeFilename = $parts2[0];
         $localFile = getVideosDir() . "{$relativeFilename}";
-        $localFileLock = getVideosDir() . "{$relativeFilename}.lock";
-        if(file_exists($localFileLock)){
-            _error_log('convertCDNHLSVideoToDownlaod: download from CDN There is a process running for ' . $localFile);
-            return false;
-        }
-        file_put_contents($localFileLock, time());
         //var_dump($localFile);exit;
         $returnURL = false;
         if (file_exists($localFile)) {
@@ -1105,20 +1099,7 @@ class CDNStorage {
         } else {
             //var_dump($localFile);exit;
             if (!file_exists($localFile)) {
-                if ($format == 'mp3') {
-                    $command = get_ffmpeg() . " -i \"{$m3u8File}\" -c:a libmp3lame \"{$localFile}\"";
-                } else {
-                    $command = get_ffmpeg() . " -i \"{$m3u8File}\" -c copy \"{$localFile}\"";
-                }
-                $progressFile = $localFile.'.log';
-                $command .= " 1> \"{$progressFile}\" 2>&1";
-                _error_log('convertCDNHLSVideoToDownlaod: download from CDN ' . $command);
-                session_write_close();
-                _mysql_close();
-                exec($command, $output);
-                _session_start();
-                _mysql_connect();
-                _error_log('convertCDNHLSVideoToDownlaod: download from CDN output: ' . json_encode($output));
+                $progressFile = convertVideoFileWithFFMPEG($m3u8File, $localFile);
             }
             if (!file_exists($localFile)) {
                 _error_log('convertCDNHLSVideoToDownlaod: download from CDN file not created ' . $localFile);
@@ -1135,7 +1116,6 @@ class CDNStorage {
                 }
             }
         }
-        unlink($localFileLock);
         return $returnURL;
     }
     
