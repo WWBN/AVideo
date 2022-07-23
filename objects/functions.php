@@ -7809,7 +7809,7 @@ function getDatabaseTimezoneName() {
         $_getDatabaseTimezoneName = false;
     }
 
-    if ($_getDatabaseTimezoneName == 'PDT') {
+    if ($_getDatabaseTimezoneName == 'PDT' || $_getDatabaseTimezoneName == 'PST') {
         $_getDatabaseTimezoneName = 'America/Los_Angeles';
     }else if ($_getDatabaseTimezoneName == 'EST' || $_getDatabaseTimezoneName == 'EDT') {
         $_getDatabaseTimezoneName = 'America/New_York';
