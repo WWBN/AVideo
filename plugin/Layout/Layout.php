@@ -511,13 +511,49 @@ class Layout extends PluginAbstract {
     }
 
     static function organizeHTML($html) {
+        return $html;
+        $html = self::getTagsLinkCSS($html);
+        $html = self::getTagsScript($html);
         $html = self::separeteTag($html, 'style');
         $html = self::separeteTag($html, 'script');
+        //return $html;
+        $html = str_replace('<script></script>', '', $html);
+        if (!empty(self::$tags['tagcss'])) {
+            $html = str_replace('</head>', implode(PHP_EOL, array_unique(self::$tags['tagcss'])).'</head>', $html);
+        }
+        //return $html;
         if (!empty(self::$tags['style'])) {
-            $html = str_replace('</head>', implode(PHP_EOL, array_unique(self::$tags['style'])), $html);
+            $html = str_replace('</head>', '<style>'.implode(PHP_EOL, array_unique(self::$tags['style'])).'</style></head>', $html);
+        }
+        if (!empty(self::$tags['tagscript'])) {
+            $html = str_replace('</body>', implode(PHP_EOL, array_unique(self::$tags['tagscript'])).'</body>', $html);
         }
         if (!empty(self::$tags['script'])) {
-            $html = str_replace('</body>', implode(PHP_EOL, array_unique(self::$tags['script'])), $html);
+            $html = str_replace('</body>', '<script>'.implode(PHP_EOL, array_unique(self::$tags['script'])).'</script></body>', $html);
+        }
+        return $html;
+    }
+
+    static function getTagsLinkCSS($html) {
+        preg_match_all('/<link[^>]+href=[^>]+css[^>]+>/Usi', $html, $matches);
+        if (!empty($matches)) {
+            foreach ($matches[0] as $value) {
+                self::addTag('tagcss', $value);
+                $html = str_replace($value, '', $html);
+            }
+        }
+        return $html;
+    }
+
+    static function getTagsScript($html) {
+        preg_match_all('/<script[^<]+src=[^<]+<\/script>/Usi', $html, $matches);
+        if (!empty($matches)) {
+            foreach ($matches[0] as $key => $value) {
+                if(!preg_match('/application.+json/i', $matches[1][$key])){
+                    self::addTag('tagscript', $value);
+                    $html = str_replace($value, '', $html);
+                }
+            }
         }
         return $html;
     }
@@ -525,7 +561,7 @@ class Layout extends PluginAbstract {
     static function separeteTag($html, $tag) {
         preg_match_all('/<' . $tag . '(.*)?>(.*)<\/' . $tag . '>/Usi', $html, $matches);
         if (!empty($matches)) {
-            foreach ($matches[0] as $value) {
+            foreach ($matches[2] as $value) {
                 self::addTag($tag, $value);
                 $html = str_replace($value, '', $html);
             }
