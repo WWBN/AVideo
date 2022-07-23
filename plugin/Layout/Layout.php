@@ -519,17 +519,17 @@ class Layout extends PluginAbstract {
         $html = preg_replace('/<script.*><\/script>/i', '', $html);
         //return $html;
         if (!empty(self::$tags['tagcss'])) {
-            $html = str_replace('</head>', implode(PHP_EOL, array_unique(self::$tags['tagcss'])).'</head>', $html);
+            $html = str_replace('</head>', implode('', array_unique(self::$tags['tagcss'])).'</head>', $html);
         }
         //return $html;
         if (!empty(self::$tags['style'])) {
-            $html = str_replace('</head>', '<style>'.implode(PHP_EOL, array_unique(self::$tags['style'])).'</style></head>', $html);
+            $html = str_replace('</head>', '<style>'.implode(' ', array_unique(self::$tags['style'])).'</style></head>', $html);
         }
         if (!empty(self::$tags['tagscript'])) {
-            $html = str_replace('</body>', implode(PHP_EOL, array_unique(self::$tags['tagscript'])).'</body>', $html);
+            $html = str_replace('</body>', implode('', array_unique(self::$tags['tagscript'])).'</body>', $html);
         }
         if (!empty(self::$tags['script'])) {
-            $html = str_replace('</body>', '<script>'.implode(PHP_EOL, array_unique(self::$tags['script'])).'</script></body>', $html);
+            $html = str_replace('</body>', '<script>'.implode(' ', array_unique(self::$tags['script'])).'</script></body>', $html);
         }
         $html = self::removeExtraSpacesFromHead($html);
         $html = self::removeExtraSpacesFromScript($html);
@@ -546,9 +546,11 @@ class Layout extends PluginAbstract {
     }
     
     static function removeExtraSpacesFromScript($html) {
-        preg_match('/(<script>.+<\/script>)/Usi', $html, $matches);
-        $str = preg_replace('/ +/', ' ', $matches[0]);
-        $html = str_replace($matches[0], $str, $html);
+        preg_match_all('/(<script>.+<\/script>)/Usi', $html, $matches);
+        foreach ($matches as $value) {
+            $str = preg_replace('/ +/', ' ', $value);
+            $html = str_replace($value, $str, $html);
+        }
         return $html;
     }
     

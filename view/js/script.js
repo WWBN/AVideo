@@ -2056,17 +2056,21 @@ function getCroppie(uploadCropObject, callback, width, height) {
 }
 
 async function setToolTips() {
-    if (!$('[data-toggle="tooltip"]').not('.alreadyTooltip').length) {
+    
+    var selettor = 'a[data-toggle="tooltip"],div[data-toggle="tooltip"],button[data-toggle="tooltip"],span[data-toggle="tooltip"]';
+    
+    
+    if (!$(selettor).not('.alreadyTooltip').length) {
         return false;
     }
-    $('[data-toggle="tooltip"]').not('.alreadyTooltip').tooltip({container: 'body', html: true});
-    $('[data-toggle="tooltip"]').not('.alreadyTooltip').on('click', function () {
+    $(selettor).not('.alreadyTooltip').tooltip({container: 'body', html: true});
+    $(selettor).not('.alreadyTooltip').on('click', function () {
         var t = this;
         setTimeout(function () {
             $(t).tooltip('hide');
         }, 2000);
     });
-    $('[data-toggle="tooltip"]').addClass('alreadyTooltip');
+    $(selettor).addClass('alreadyTooltip');
 }
 
 function avideoSocketIsActive() {
