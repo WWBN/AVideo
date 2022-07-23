@@ -331,7 +331,7 @@ function callerCheckUser(users_id) {
 
 function callerCheckUserTimer() {
     if(!isReadyToCheckIfIsOnline()){
-        setTimeout(function(){callerCheckUserTimer()},1000);
+        setTimeout(function(){callerCheckUserTimer();},1000);
         return false;
     }
     
@@ -340,6 +340,9 @@ function callerCheckUserTimer() {
     
     for (var i in localCallerCheckUserList) {
         var users_id = localCallerCheckUserList[i];
+        if(typeof users_id !== 'function'){
+            
+        }
         if (isUserOnline(users_id)) {
             //console.log('callerCheckUser OK', users_id, users_id_online);
             $('.caller' + users_id).show();
@@ -348,7 +351,7 @@ function callerCheckUserTimer() {
             $('.caller' + users_id).hide();
         }        
     }
-    setTimeout(function(){callerCheckUserTimer()},2000);
+    setTimeout(function(){callerCheckUserTimer();},2000);
 }
 
 function setCallBodyClass(name) {
