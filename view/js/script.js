@@ -1778,7 +1778,7 @@ function isURL(url) {
     return validURL(url);
 }
 var startTimerInterval = [];
-function startTimer(duration, selector, prepend) {
+async function startTimer(duration, selector, prepend) {
     ////console.log('startTimer 1', duration);
     clearInterval(startTimerInterval[selector]);
     var timer = duration;

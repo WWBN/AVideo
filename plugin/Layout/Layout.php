@@ -5,6 +5,8 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Layout extends PluginAbstract {
 
+    static private $tags = array();
+
     public function getTags() {
         return array(
             PluginTags::$RECOMMENDED,
@@ -119,7 +121,7 @@ class Layout extends PluginAbstract {
         $response = array();
         foreach ($files as $key => $value) {
             $name = basename($value);
-            if($name === 'index.php'){
+            if ($name === 'index.php') {
                 continue;
             }
             $name = str_replace('.php', '', $name);
@@ -177,7 +179,6 @@ class Layout extends PluginAbstract {
         // Create an array of lines
         $lines = explode("\n", $font_vars);
 
-
         $fonts_list = array();
         foreach ($lines as $line) {
             // Discard any black line or anything without :
@@ -198,14 +199,14 @@ class Layout extends PluginAbstract {
         return $fonts_list;
     }
 
-    static function getSelectSearchable($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder='') {
+    static function getSelectSearchable($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder = '') {
         global $global;
-        if(empty($id)){
+        if (empty($id)) {
             $id = $name;
         }
         $html = "";
         if (empty($global['getSelectSearchable'])) {
-            $html .= '<link href="'.getURL('view/js/select2/select2.min.css').'" rel="stylesheet" />';
+            $html .= '<link href="' . getURL('view/js/select2/select2.min.css') . '" rel="stylesheet" />';
             $html .= '<style>
                 .select2-selection__rendered {line-height: 32px !important;}
                 .select2-selection {min-height: 34px !important;}</style>';
@@ -231,30 +232,30 @@ class Layout extends PluginAbstract {
             if ($_value == $selected) {
                 $selectedString = "selected";
             }
-            $html .= '<option value="' . $_value . '" ' . 
-                    $selectedString . ' '.$_parameters.'>' . 
+            $html .= '<option value="' . $_value . '" ' .
+                    $selectedString . ' ' . $_parameters . '>' .
                     $_text . '</option>';
         }
         $html .= '</select>';
         // this is just to display something before load the select2
-        if(empty($templatePlaceholder)){
+        if (empty($templatePlaceholder)) {
             $html .= '<select class="form-control" id="deleteSelect_' . $id . '" ><option></option></select>';
-        }else{
+        } else {
             $html .= $templatePlaceholder;
         }
         $html .= '<script>$(document).ready(function() {$(\'#deleteSelect_' . $id . '\').remove();});</script>';
-        
+
         $global['getSelectSearchable'] = 1;
         return $html;
     }
 
-    static function getSelectSearchableHTML($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder='') {
+    static function getSelectSearchableHTML($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder = '') {
         global $global;
-        if(empty($id)){
+        if (empty($id)) {
             $id = $name;
         }
         $html = self::getSelectSearchable($optionsArray, $name, $selected, $id, $class, $placeholder, $templatePlaceholder);
-        
+
         $html .= "<script>function getSelectformatStateResult{$name} (state) {
                                     if (!state.id) {
                                       return state.text;
@@ -265,10 +266,10 @@ class Layout extends PluginAbstract {
                                     );
                                     return \$state;
                                   };";
-        $html .= '$(document).ready(function() {$(\'#' . $id . '\').select2({templateSelection: getSelectformatStateResult'.$name.', templateResult: getSelectformatStateResult'.$name.',width: \'100%\'});});</script>';
+        $html .= '$(document).ready(function() {$(\'#' . $id . '\').select2({templateSelection: getSelectformatStateResult' . $name . ', templateResult: getSelectformatStateResult' . $name . ',width: \'100%\'});});</script>';
         return $html;
     }
-    
+
     static function getIconsSelect($name, $selected = "", $id = "", $class = "") {
         global $getIconsSelect;
         $getIconsSelect = 1;
@@ -295,117 +296,83 @@ class Layout extends PluginAbstract {
     static function getAvilableFlags() {
         global $global;
         $flags = array();
-        include_once $global['systemRootPath'].'objects/bcp47.php'; 
+        include_once $global['systemRootPath'] . 'objects/bcp47.php';
         $files = _glob("{$global['systemRootPath']}locale", '/^[a-z]{2}(_.*)?.php$/');
         foreach ($files as $filename) {
             $filename = basename($filename);
             $fileEx = basename($filename, ".php");
-            
+
             $name = $global['bcp47'][$fileEx]['label'];
             $flag = $global['bcp47'][$fileEx]['flag'];
-            
-            $flags[$fileEx] = array(json_encode(array('text'=>$name, 'icon'=>"flagstrap-icon flagstrap-{$flag}")), $fileEx, 'val3-'.$name);
-        }
-        return $flags;
-    }
-    
-    static function getAllFlags() {
-        global $global;
-        $flags = array();
-        include_once $global['systemRootPath'].'objects/bcp47.php'; 
-        foreach ($global['bcp47'] as $key => $filename) {
-            
-            $name = $filename['label'];
-            $flag = $filename['flag'];
-            
-            $flags[$key] = array(json_encode(array('text'=>$name, 'icon'=>"flagstrap-icon flagstrap-{$flag}")), $key, 'val3-'.$name);
+
+            $flags[$fileEx] = array(json_encode(array('text' => $name, 'icon' => "flagstrap-icon flagstrap-{$flag}")), $fileEx, 'val3-' . $name);
         }
         return $flags;
     }
 
-    static function getLangsSelect($name, $selected = "", $id = "", $class = "", $flagsOnly=false, $getAll=false) {
+    static function getAllFlags() {
+        global $global;
+        $flags = array();
+        include_once $global['systemRootPath'] . 'objects/bcp47.php';
+        foreach ($global['bcp47'] as $key => $filename) {
+
+            $name = $filename['label'];
+            $flag = $filename['flag'];
+
+            $flags[$key] = array(json_encode(array('text' => $name, 'icon' => "flagstrap-icon flagstrap-{$flag}")), $key, 'val3-' . $name);
+        }
+        return $flags;
+    }
+
+    static function getLangsSelect($name, $selected = "", $id = "", $class = "", $flagsOnly = false, $getAll = false) {
         global $getLangsSelect;
         $getLangsSelect = 1;
-        if($getAll){
+        if ($getAll) {
             $flags = self::getAllFlags();
-        }else{
+        } else {
             $flags = self::getAvilableFlags();
         }
         if (empty($id)) {
             $id = uniqid();
         }
-        if($selected=='us'){
+        if ($selected == 'us') {
             $selected = 'en_US';
         }
-        
-        if(!empty($flags[$selected])){
+
+        if (!empty($flags[$selected])) {
             $selectedJson = _json_decode($flags[$selected][0]);
             $selectedJsonIcon = $selectedJson->icon;
-        }else{
+        } else {
             $selectedJsonIcon = '';
         }
-        $code = "<script>/*selected={$selected}*/function getLangSelectformatStateResult (state) {
-                                    if (!state.id) {
-                                      return state.text;
-                                    }
-                                    
-                                    if(state.text!==' -- '){
-                                       json = JSON.parse(state.text); 
-                                        var \$state = $(
-                                          '<span><i class=\"' + json.icon + '\"></i>'+
-                                          ' - ' + json.text + '</span>'
-                                        );
-                                        return \$state;
-                                    }
-                                    return state.text;
-                                  };function getLangFlagsOnlySelectformatStateResult (state) {
-                                    if (!state.id) {
-                                      return state.text;
-                                    }
-                                    
-                                    if(state.text!==' -- '){
-                                       json = JSON.parse(state.text); 
-                                        var \$state = $(
-                                          '<span data-toggle=\"tooltip\" title=\"' + json.text + '\" ><i class=\"' + json.icon + '\"></i></span>'
-                                        );
-                                        return \$state;
-                                    }
-                                    return state.text;
-                                  };</script>";
-        self::addFooterCode($code);
-        if($flagsOnly){
-            $code = '<script>$(document).ready(function() {$(\'#' . $id . '\').select2({templateSelection: getLangFlagsOnlySelectformatStateResult, templateResult: getLangFlagsOnlySelectformatStateResult,width: \'100%\'});});</script>';
-        }else{
-            $code = '<script>$(document).ready(function() {$(\'#' . $id . '\').select2({templateSelection: getLangSelectformatStateResult, templateResult: getLangSelectformatStateResult,width: \'100%\'});});</script>';
+        
+        $html = '<div class="btn-group">
+            <button type="button" class="btn btn-default  dropdown-toggle navbar-btn" data-toggle="dropdown" aria-expanded="true">
+                <i class="selectedflagicon '.$selectedJsonIcon.'"></i> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">';
+               
+        $selfURI= getSelfURI();     
+        foreach ($flags as $key => $value) {
+            $info = json_decode($value[0]);
+            $url = addQueryStringParameter($selfURI, 'lang', $key);
+            $html .= '<li class="dropdown-submenu">
+                    <a tabindex="-1" href="'.$url.'">
+                        <i class="'.$info->icon.'" aria-hidden="true"></i> '.$info->text.'</a>
+                    </li>';
         }
-        
-        self::addFooterCode($code);
-        
-        $templatePlaceholder = '<span class="select2 select2-container select2-container--default select2-container--focus" style="width: 100%;"  id="deleteSelect_' . $id . '">'
-                . '<span class="selection">'
-                . '<span class="select2-selection select2-selection--single">'
-                . '<span class="select2-selection__rendered" id="select2-navBarFlag-container" >'
-                . '<span><i class="'.$selectedJsonIcon.'"></i></span>'
-                . '</span>'
-                . '<span class="select2-selection__arrow" >'
-                . '<b></b>'
-                . '</span>'
-                . '</span>'
-                . '</span>'
-                . '<span class="dropdown-wrapper" aria-hidden="true"></span>'
-                . '</span>';
-        
-        
-        return self::getSelectSearchable($flags, $name, $selected, $id, $class . " flagSelect", true, $templatePlaceholder);
+
+        $html .= '</ul></div>';
+        return $html;
     }
-    
+
     static function getUserSelect($name, $users_id_list, $selected = "", $id = "", $class = "") {
         $elements = array();
         foreach ($users_id_list as $users_id) {
             $name = User::getNameIdentificationById($users_id);
             $photo = User::getPhoto($users_id);
             $elements[$users_id] = htmlentities("<img src='{$photo}' class='img img-responsive pull-left' style='max-height:20px;margin-top: 2px;'> {$name}");
-            if($users_id == User::getId()){
+            if ($users_id == User::getId()) {
                 $elements[$users_id] .= " (Me)";
             }
         }
@@ -481,12 +448,12 @@ class Layout extends PluginAbstract {
         $obj = $this->getDataObject();
         $content = '';
         if (!empty($global['getSelectSearchable'])) {
-            $content .= '<script src="'.getCDN().'view/js/select2/select2.min.js"></script>';
-           // $content .= '<script>$(document).ready(function() {$(\'.js-select-search\').select2();});</script>';
+            $content .= '<script src="' . getURL('view/js/select2/select2.min.js') . '"></script>';
+            // $content .= '<script>$(document).ready(function() {$(\'.js-select-search\').select2();});</script>';
         }
-        
+
         if (!empty($obj->enableAccessibility)) {
-            
+
             $file = $global['systemRootPath'] . 'plugin/Layout/accessibility/accessibility.php';
             $content .= getIncludeFileContent($file);
         }
@@ -521,26 +488,68 @@ class Layout extends PluginAbstract {
         }
         include $global['systemRootPath'] . 'plugin/Layout/menuRight.php';
     }
-    
+
     public function navBarAfter() {
         global $global;
         $obj = $this->getDataObject();
-        if(!AVideoPlugin::isEnabledByName('YouPHPFlix2') && !empty($obj->categoriesTopButtons)){
-            if(!empty($obj->categoriesTopButtonsShowOnlyOnFirstPage) && !isFirstPage()){
+        if (!AVideoPlugin::isEnabledByName('YouPHPFlix2') && !empty($obj->categoriesTopButtons)) {
+            if (!empty($obj->categoriesTopButtonsShowOnlyOnFirstPage) && !isFirstPage()) {
                 return '';
             }
             include $global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php';
         }
     }
-    
-    static function getUserAutocomplete($default_users_id=0, $id = '', $parameters = array()){
+
+    static function getUserAutocomplete($default_users_id = 0, $id = '', $parameters = array()) {
         global $global;
         $default_users_id = intval($default_users_id);
-        if(empty($id)){
-            $id = 'getUserAutocomplete_'.uniqid();
+        if (empty($id)) {
+            $id = 'getUserAutocomplete_' . uniqid();
         }
         include $global['systemRootPath'] . 'plugin/Layout/userAutocomplete.php';
         return "updateUserAutocomplete{$id}();";
+    }
+
+    static function organizeHTML($html) {
+        $html = self::separeteTag($html, 'style');
+        $html = self::separeteTag($html, 'script');
+        if (!empty(self::$tags['style'])) {
+            $html = str_replace('</head>', implode(PHP_EOL, array_unique(self::$tags['style'])), $html);
+        }
+        if (!empty(self::$tags['script'])) {
+            $html = str_replace('</body>', implode(PHP_EOL, array_unique(self::$tags['script'])), $html);
+        }
+        return $html;
+    }
+
+    static function separeteTag($html, $tag) {
+        preg_match_all('/<' . $tag . '(.*)?>(.*)<\/' . $tag . '>/Usi', $html, $matches);
+        if (!empty($matches)) {
+            foreach ($matches[0] as $value) {
+                self::addTag($tag, $value);
+                $html = str_replace($value, '', $html);
+            }
+        }
+        return $html;
+    }
+
+    static public function addTag($tag, $value) {
+        if (empty($value)) {
+            return false;
+        }
+        if (!isset(self::$tags[$tag])) {
+            self::$tags[$tag] = array();
+        }
+        self::$tags[$tag][] = $value;
+        return true;
+    }
+
+    public function getEnd() {
+        global $global;
+        $html = _ob_get_clean();
+        $html = self::organizeHTML($html);
+        _ob_start();
+        echo $html;
     }
 
 }

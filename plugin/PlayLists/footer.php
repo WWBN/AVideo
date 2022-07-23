@@ -68,7 +68,7 @@
         }
     }
 
-    function loadPlayListsResponse(response, videos_id, crc) {
+    async function loadPlayListsResponse(response, videos_id, crc) {
         //console.log('loadPlayListsResponse');
         //console.log(response, videos_id, crc);
 

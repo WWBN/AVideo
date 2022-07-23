@@ -329,7 +329,7 @@ function callerCheckUser(users_id) {
     }
 }
 
-function callerCheckUserTimer() {
+async function callerCheckUserTimer() {
     if(!isReadyToCheckIfIsOnline()){
         setTimeout(function(){callerCheckUserTimer();},1000);
         return false;

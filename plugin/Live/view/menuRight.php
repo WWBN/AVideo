@@ -203,7 +203,7 @@ if (User::canStream()) {
             });
         }
 
-        function processApplicationLive(response) {
+        async function processApplicationLive(response) {
             if (typeof response.applications !== 'undefined') {
                 var applications = response.applications;
                 response.applications = [];
@@ -261,7 +261,7 @@ if (User::canStream()) {
         }
 
         var linksToEmbedTimeout;
-        function processApplication(application) {
+        async function processApplication(application) {
             href = application.href;
             title = application.title;
             name = application.name;

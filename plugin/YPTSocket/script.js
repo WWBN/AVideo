@@ -187,7 +187,7 @@ function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
 }
 
 
-function AutoUpdateOnHTMLTimer() {
+async function AutoUpdateOnHTMLTimer() {
 
     clearTimeout(socketAutoUpdateOnHTMLTimout);
     //console.log('globalAutoUpdateOnHTML 1', empty(globalAutoUpdateOnHTML), globalAutoUpdateOnHTML);
