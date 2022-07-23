@@ -317,18 +317,38 @@ function callerDisconnection(json) {
     callerCheckUser(json.msg.users_id);
 }
 
+var callerCheckUserList = [];
 function callerCheckUser(users_id) {
-    if(!isReadyToCheckIfIsOnline()){
-        setTimeout(function(){callerCheckUser(users_id)},1000);
-        return false;
-    }
+    callerCheckUserList.push(users_id);
     if (isUserOnline(users_id)) {
         //console.log('callerCheckUser OK', users_id, users_id_online);
         $('.caller' + users_id).show();
     } else {
-        console.log('callerCheckUser NO', users_id, users_id_online);
+        //console.log('callerCheckUser NO', users_id, users_id_online);
         $('.caller' + users_id).hide();
     }
+}
+
+function callerCheckUserTimer() {
+    if(!isReadyToCheckIfIsOnline()){
+        setTimeout(function(){callerCheckUserTimer()},1000);
+        return false;
+    }
+    
+    var localCallerCheckUserList = callerCheckUserList;
+    callerCheckUserList = [];
+    
+    for (var i in localCallerCheckUserList) {
+        var users_id = localCallerCheckUserList[i];
+        if (isUserOnline(users_id)) {
+            //console.log('callerCheckUser OK', users_id, users_id_online);
+            $('.caller' + users_id).show();
+        } else {
+            //console.log('callerCheckUser NO', users_id, users_id_online);
+            $('.caller' + users_id).hide();
+        }        
+    }
+    setTimeout(function(){callerCheckUserTimer()},2000);
 }
 
 function setCallBodyClass(name) {
@@ -348,5 +368,6 @@ $(document).ready(function () {
             playCallIncomingSound();
         }
     }, 5000);
+    callerCheckUserTimer();
 
 });
