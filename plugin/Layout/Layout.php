@@ -511,13 +511,13 @@ class Layout extends PluginAbstract {
     }
 
     static function organizeHTML($html) {
-        return $html;
+        //return $html;
         $html = self::getTagsLinkCSS($html);
         $html = self::getTagsScript($html);
         $html = self::separeteTag($html, 'style');
         $html = self::separeteTag($html, 'script');
+        $html = preg_replace('/<script.*><\/script>/i', '', $html);
         //return $html;
-        $html = str_replace('<script></script>', '', $html);
         if (!empty(self::$tags['tagcss'])) {
             $html = str_replace('</head>', implode(PHP_EOL, array_unique(self::$tags['tagcss'])).'</head>', $html);
         }
@@ -531,9 +531,27 @@ class Layout extends PluginAbstract {
         if (!empty(self::$tags['script'])) {
             $html = str_replace('</body>', '<script>'.implode(PHP_EOL, array_unique(self::$tags['script'])).'</script></body>', $html);
         }
+        $html = self::removeExtraSpacesFromHead($html);
+        $html = self::removeExtraSpacesFromScript($html);
+        //echo $html;exit;
         return $html;
     }
 
+    static function removeExtraSpacesFromHead($html) {
+        preg_match('/(<head.+<\/head>)/Usi', $html, $matches);
+        $str = preg_replace('/\s+/', ' ', $matches[0]);
+        //var_dump($str);exit;
+        $html = str_replace($matches[0], $str, $html);
+        return $html;
+    }
+    
+    static function removeExtraSpacesFromScript($html) {
+        preg_match('/(<script>.+<\/script>)/Usi', $html, $matches);
+        $str = preg_replace('/ +/', ' ', $matches[0]);
+        $html = str_replace($matches[0], $str, $html);
+        return $html;
+    }
+    
     static function getTagsLinkCSS($html) {
         preg_match_all('/<link[^>]+href=[^>]+css[^>]+>/Usi', $html, $matches);
         if (!empty($matches)) {
@@ -561,9 +579,11 @@ class Layout extends PluginAbstract {
     static function separeteTag($html, $tag) {
         preg_match_all('/<' . $tag . '(.*)?>(.*)<\/' . $tag . '>/Usi', $html, $matches);
         if (!empty($matches)) {
-            foreach ($matches[2] as $value) {
-                self::addTag($tag, $value);
-                $html = str_replace($value, '', $html);
+            foreach ($matches[2] as $key => $value) {
+                if(!preg_match('/application.+json/i', $matches[0][$key])){
+                    self::addTag($tag, $value);
+                    $html = str_replace($value, '', $html);
+                }
             }
         }
         return $html;
