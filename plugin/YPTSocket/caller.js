@@ -340,8 +340,8 @@ function callerCheckUserTimer() {
     
     for (var i in localCallerCheckUserList) {
         var users_id = localCallerCheckUserList[i];
-        if(typeof users_id !== 'function'){
-            
+        if(typeof users_id == 'function'){
+            continue;
         }
         if (isUserOnline(users_id)) {
             //console.log('callerCheckUser OK', users_id, users_id_online);
