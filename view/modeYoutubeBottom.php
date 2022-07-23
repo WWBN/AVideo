@@ -179,7 +179,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                         }
 
                         $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
-                        if (!empty($videoHLSObj)) {
+                        if (!empty($videoHLSObj) && method_exists('VideoHLS', 'getMP3ANDMP4DownloadLinks')) {
                             $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
                             $filesToDownload = array_merge($filesToDownload, $downloadOptions);
                         }
