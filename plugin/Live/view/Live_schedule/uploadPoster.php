@@ -8,6 +8,7 @@ if (!User::canStream()) {
 }
 
 $live_schedule_id = intval(@$_REQUEST['live_schedule_id']);
+$live_servers_id = intval(@$_REQUEST['live_servers_id']);
 $callBackJSFunction = 'saveLivePoster';
 if (!empty($live_schedule_id)) {
     $row = new Live_schedule($live_schedule_id);
@@ -20,14 +21,14 @@ if (!empty($live_schedule_id)) {
 if (!User::canStream()) {
     forbiddenPage("You cant livestream");
 }
-$poster = Live::getPosterImage(User::getId(), @$_REQUEST['live_servers_id'], $live_schedule_id);
-//var_dump($poster, User::getId(), @$_REQUEST['live_servers_id'], $live_schedule_id);exit;
+$poster = Live::getPosterImage(User::getId(), @$live_servers_id, $live_schedule_id);
+//var_dump($poster, User::getId(), @$live_servers_id, $live_schedule_id);exit;
 $image = getURL($poster);
-$poster = Live::getPrerollPosterImage(User::getId(), @$_REQUEST['live_servers_id'], $live_schedule_id);
-//var_dump($poster, User::getId(), @$_REQUEST['live_servers_id'], $live_schedule_id, Live::$posterType_preroll);exit;
+$poster = Live::getPrerollPosterImage(User::getId(), @$live_servers_id, $live_schedule_id);
+//var_dump($poster, User::getId(), @$live_servers_id, $live_schedule_id, Live::$posterType_preroll);exit;
 $image_preroll = getURL($poster);
-$poster = Live::getPostrollPosterImage(User::getId(), @$_REQUEST['live_servers_id'], $live_schedule_id);
-//var_dump($poster, User::getId(), @$_REQUEST['live_servers_id'], $live_schedule_id);exit;
+$poster = Live::getPostrollPosterImage(User::getId(), @$live_servers_id, $live_schedule_id);
+//var_dump($poster, User::getId(), @$live_servers_id, $live_schedule_id);exit;
 $image_postroll = getURL($poster);
 
 $defaultTIme = 30;
@@ -171,6 +172,7 @@ $defaultCloseTIme = 10;
                                             liveImgCloseTimeInSeconds: $('#liveImgCloseTimeInSeconds').val(),
                                             liveImgTimeInSeconds: $('#liveImgTimeInSeconds').val(),
                                             live_schedule_id: <?php echo $live_schedule_id; ?>,
+                                            live_servers_id: <?php echo $live_servers_id; ?>,
                                             image: image,
                                         },
                                         type: 'post',
