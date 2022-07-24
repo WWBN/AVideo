@@ -2056,15 +2056,12 @@ function getCroppie(uploadCropObject, callback, width, height) {
 }
 
 async function setToolTips() {
-    
-    var selettor = 'a[data-toggle="tooltip"],div[data-toggle="tooltip"],button[data-toggle="tooltip"],span[data-toggle="tooltip"]';
-    
-    
-    if (!$(selettor).not('.alreadyTooltip').length) {
+    var selector = '[data-toggle="tooltip"]';
+    if (!$(selector).not('.alreadyTooltip').length) {
         return false;
     }
-    $(selettor).not('.alreadyTooltip').tooltip({container: 'body', html: true});
-    $(selettor).not('.alreadyTooltip').on('click', function () {
+    $(selector).not('.alreadyTooltip').tooltip({container: 'body', html: true});
+    $(selector).not('.alreadyTooltip').on('click', function () {
         var t = this;
         setTimeout(function () {
             $(t).tooltip('hide');
