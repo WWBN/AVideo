@@ -5182,6 +5182,7 @@ if (!class_exists('Video')) {
         static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false) {
             if(is_array($videos_id)){
                 $video = $videos_id;
+                $videos_id = $video['id'];
             }else{
                 $video = Video::getVideoLight($videos_id);
             }
