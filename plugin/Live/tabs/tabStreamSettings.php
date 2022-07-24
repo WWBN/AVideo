@@ -75,7 +75,12 @@ $key = $liveStreamObject->getKeyWithIndex(true);
             <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-key"></i> <?php echo __("Stream Meta Data"); ?></a>
         </li>
         <li class="">
-            <a style="cursor: pointer;" onclick="avideoModalIframe(webSiteRootURL + 'plugin/Live/view/Live_schedule/uploadPoster.php');"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a>
+            <?php
+                $url = "{$global['webSiteRootURL']}plugin/Live/view/Live_schedule/uploadPoster.php";
+                $url = addQueryStringParameter($url,'live_schedule_id',@$_REQUEST['live_schedule_id']);
+                $url = addQueryStringParameter($url,'live_servers_id',@$_REQUEST['live_servers_id']);
+            ?>
+            <a style="cursor: pointer;" onclick="avideoModalIframe('<?php echo $url; ?>');"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a>
         </li>
         <?php
         if (empty($objLive->hideUserGroups)) {
