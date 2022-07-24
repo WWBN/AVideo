@@ -173,7 +173,6 @@ async function getStrategy(args) {
     strategiesStaleWhileRevalidate.push({extension: false, destination: 'script', url: false, fallback: false});
     strategiesStaleWhileRevalidate.push({extension: false, destination: 'image', url: false, fallback: false});
     strategiesStaleWhileRevalidate.push({extension: false, destination: false, url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu', fallback: false});
-    strategiesStaleWhileRevalidate.push({extension: false, destination: false, url: webSiteRootURL + 'objects/playlists.json.php', fallback: false});
 
     let domain = (new URL(args.request.url));
     var extension = domain.pathname.split('.').pop().toLowerCase();
