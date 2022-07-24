@@ -653,7 +653,7 @@ class AVideoPlugin
             if (is_object($p)) {
                 //_error_log("{$value['dirName']}::" . __FUNCTION__);
                 if(!empty($_REQUEST['debug'])){
-                    echo "<!-- {$value['dirName']} getEnd -->";
+                    echo "<!-- {$value['dirName']} getEnd -->".PHP_EOL;
                 }
                 $p->getEnd();
             }
