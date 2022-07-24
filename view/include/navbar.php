@@ -1,4 +1,5 @@
 <?php
+_ob_start();
 if (isset($_GET['noNavbar'])) {
     _session_start();
     if (!empty($_GET['noNavbar'])) {
