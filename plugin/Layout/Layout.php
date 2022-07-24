@@ -511,6 +511,12 @@ class Layout extends PluginAbstract {
     }
 
     static function organizeHTML($html) {
+        global $global;
+        
+        if(!empty($global['doNOTOrganizeHTML'])){
+            return $html;
+        }
+        
         //return $html;
         //var_dump($html);exit;
         $html = self::getTagsLinkCSS($html);
