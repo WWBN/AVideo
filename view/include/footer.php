@@ -1,4 +1,5 @@
 <?php
+_ob_start();
 $footerjs = '';
 $fileUpdates = thereIsAnyUpdate();
 if (!empty($fileUpdates)) {
