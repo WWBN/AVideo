@@ -584,11 +584,11 @@ class Layout extends PluginAbstract {
         $reg = '/<' . $tag . '[^>]*>(.*)<\/' . $tag . '>/Usi';
         //var_dump($reg, $html);
         preg_match_all($reg, $html, $matches);
-        //var_dump($matches);
+        //var_dump($matches);exit;
         if (!empty($matches)) {
-            foreach ($matches[1] as $key => $value) {
-                if(!preg_match('/application.+json/i', $matches[0][$key])){
-                    self::addTag($tag, $value);
+            foreach ($matches[0] as $key => $value) {
+                if(!preg_match('/application.+json/i', $value)){
+                    self::addTag($tag, $matches[1][$key]);
                     $html = str_replace($value, '', $html);
                 }
             }
