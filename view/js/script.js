@@ -2067,7 +2067,7 @@ async function setToolTips() {
             $(t).tooltip('hide');
         }, 2000);
     });
-    $(selettor).addClass('alreadyTooltip');
+    $(selector).addClass('alreadyTooltip');
 }
 
 function avideoSocketIsActive() {
