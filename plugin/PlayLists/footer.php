@@ -2,7 +2,7 @@
     var playListsAdding = false;
     var playList = [];
     function reloadPlayLists() {
-        if(!isOnline()){
+        if (!isOnline()) {
             return false;
         }
         //console.log('reloadPlayLists');
@@ -95,7 +95,7 @@
             var randId = (("_" + response[i].id) + videos_id) + Math.random();
             $(".searchlist" + videos_id + crc).append('<a class="list-group-item"><i class="' + icon + '"></i> <span>'
                     + response[i].name_translated + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                    + randId + '" name="someSwitchOption' + response[i].id + videos_id + '" class="playListsVideosIds' + videos_id +' playListsIds_' + response[i].id + '_videos_id_' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
+                    + randId + '" name="someSwitchOption' + response[i].id + videos_id + '" class="playListsVideosIds' + videos_id + ' playListsIds_' + response[i].id + '_videos_id_' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
                     + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
                     + randId + '" class="label-success"></label></div></a>');
 
@@ -116,7 +116,7 @@
         //console.log('addVideoToPlayList');
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
+            url: webSiteRootURL + 'objects/playListAddVideo.json.php',
             method: 'POST',
             data: {
                 'videos_id': videos_id,

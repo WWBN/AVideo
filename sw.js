@@ -1,4 +1,4 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.2/workbox-sw.js');
+importScripts('workbox-sw.js');
 
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
