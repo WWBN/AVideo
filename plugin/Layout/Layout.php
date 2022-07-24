@@ -512,12 +512,14 @@ class Layout extends PluginAbstract {
 
     static function organizeHTML($html) {
         //return $html;
+        //var_dump($html);exit;
         $html = self::getTagsLinkCSS($html);
         $html = self::getTagsScript($html);
         $html = self::separeteTag($html, 'style');
         $html = self::separeteTag($html, 'script');
         $html = preg_replace('/<script.*><\/script>/i', '', $html);
         //return $html;
+        //var_dump(self::$tags['script']);exit;
         if (!empty(self::$tags['tagcss'])) {
             $html = str_replace('</head>', implode('', array_unique(self::$tags['tagcss'])).'</head>', $html);
         }
@@ -579,9 +581,12 @@ class Layout extends PluginAbstract {
     }
 
     static function separeteTag($html, $tag) {
-        preg_match_all('/<' . $tag . '[^>]*>(.*)<\/' . $tag . '>/Usi', $html, $matches);
+        $reg = '/<' . $tag . '[^>]*>(.*)<\/' . $tag . '>/Usi';
+        //var_dump($reg, $html);
+        preg_match_all($reg, $html, $matches);
+        //var_dump($matches);
         if (!empty($matches)) {
-            foreach ($matches[2] as $key => $value) {
+            foreach ($matches[1] as $key => $value) {
                 if(!preg_match('/application.+json/i', $matches[0][$key])){
                     self::addTag($tag, $value);
                     $html = str_replace($value, '', $html);
