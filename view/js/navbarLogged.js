@@ -114,12 +114,12 @@ function isScreeWidthCollapseSize() {
     return $('body').width() <= 767;
 }
 
-function closeLeftMenu() {
+async function closeLeftMenu() {
     var selector = '#buttonMenu svg';
     $(selector).removeClass('active');
     YPTSidebarClose();
 }
-function openLeftMenu() {
+async function openLeftMenu() {
     if (isScreeWidthCollapseSize()) {
         closeRightMenu();
         closeSearchMenu();
@@ -129,7 +129,7 @@ function openLeftMenu() {
     YPTSidebarOpen();
 }
 
-function closeRightMenu() {
+async function closeRightMenu() {
     var selector = '#buttonMyNavbar svg';
     $(selector).removeClass('active');
     $("#myNavbar").removeClass('animate__bounceInRight');
@@ -138,7 +138,7 @@ function closeRightMenu() {
         $("#myNavbar").hide();
     }, 500);
 }
-function openRightMenu() {
+async function openRightMenu() {
     if (isScreeWidthCollapseSize()) {
         closeLeftMenu();
         closeSearchMenu();
@@ -150,14 +150,14 @@ function openRightMenu() {
     $("#myNavbar").addClass('animate__animated animate__bounceInRight');
 }
 
-function closeSearchMenu() {
+async function closeSearchMenu() {
     $("#mysearch").removeClass('animate__bounceInDown');
     $("#mysearch").addClass('animate__bounceOutUp');
     setTimeout(function () {
         $("#mysearch").hide();
     }, 500);
 }
-function openSearchMenu() {
+async function openSearchMenu() {
     if (isScreeWidthCollapseSize()) {
         closeLeftMenu();
         closeRightMenu();
@@ -167,7 +167,7 @@ function openSearchMenu() {
     $("#mysearch").addClass('animate__animated animate__bounceInDown');
 }
 
-function seachFormPlayURL(url) {
+async function seachFormPlayURL(url) {
     modal.showPleaseWait();
     $.ajax({
         url: webSiteRootURL + 'view/url2Embed.json.php',
@@ -201,7 +201,7 @@ function isSearchOpen() {
 function isMyNMavbarOpen() {
     return $('#myNavbar').hasClass('animate__bounceInRight');
 }
-function YPTSidebarToggle() {
+async function YPTSidebarToggle() {
     if (YPTSidebarIsOpen()) {
         closeLeftMenu()
     } else {
@@ -211,7 +211,7 @@ function YPTSidebarToggle() {
 function YPTSidebarIsOpen() {
     return $('body').hasClass('youtube');
 }
-function YPTSidebarOpen() {
+async function YPTSidebarOpen() {
     $("#sidebar").removeClass('animate__bounceOutLeft');
     $("#sidebar").show();
     $("#sidebar").addClass('animate__animated animate__bounceInLeft');
@@ -220,7 +220,7 @@ function YPTSidebarOpen() {
     }, 500);
     youTubeMenuIsOpened = true;
 }
-function YPTSidebarClose() {
+async function YPTSidebarClose() {
     $("#sidebar").removeClass('animate__bounceInLeft');
     $("#sidebar").addClass('animate__bounceOutLeft');
     setTimeout(function () {
@@ -230,7 +230,7 @@ function YPTSidebarClose() {
     youTubeMenuIsOpened = false;
 }
 
-function YPTHidenavbar() {
+async function YPTHidenavbar() {
     if (typeof inIframe == 'undefined') {
         setTimeout(function () {
             YPTHidenavbar()

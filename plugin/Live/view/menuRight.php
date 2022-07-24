@@ -129,7 +129,7 @@ if (User::canStream()) {
     </div>
 
     <script>
-        function refreshGetLiveImage(selector) {
+        async function refreshGetLiveImage(selector) {
             $(selector).find('.thumbsImage img').each(function (index) {
                 var src = $(this).attr('src');
                 src = addGetParam(src, 'cache', Math.random());
@@ -141,7 +141,7 @@ if (User::canStream()) {
         }
 
         var _processLiveStats_processingNow = 0;
-        function processLiveStats(response) {
+        async function processLiveStats(response) {
             if(_processLiveStats_processingNow){
                 return false;
             }
@@ -256,7 +256,7 @@ if (User::canStream()) {
             availableLiveStreamEmpty();
         }
 
-        function availableLiveStreamEmpty() {
+        async function availableLiveStreamEmpty() {
             $('#availableLiveStream').empty();
         }
 
@@ -424,7 +424,7 @@ if (User::canStream()) {
             }
         }
 
-        function hideExtraVideosIfEmpty() {
+        async function hideExtraVideosIfEmpty() {
             $('#liveScheduleVideos .extraVideos').each(function (index, currentElement) {
                 var somethingIsVisible = false;
                 $(this).children('div').each(function (index2, currentElement2) {

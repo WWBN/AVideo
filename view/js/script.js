@@ -77,7 +77,7 @@ try {
         avideoToastError("Disconnected");
         setBodyOnline();
     }, false);
-    
+
     setBodyOnline();
 } catch (e) {
     //console.log('Variable declaration ERROR', e);
@@ -90,11 +90,11 @@ if (urlParams.has('debug')) {
     isDebuging = false;
 }
 
-function setBodyOnline(){
-    if(isOnline()){
+async function setBodyOnline() {
+    if (isOnline()) {
         $('body').removeClass('isOffline');
         $('body').addClass('isOnline');
-    }else{
+    } else {
         $('body').removeClass('isOnline');
         $('body').addClass('isOffline');
     }
@@ -220,7 +220,7 @@ function clean_name(str) {
 }
 
 var processing_lazyImage = false;
-function lazyImage() {
+async function lazyImage() {
     if (processing_lazyImage) {
         return false;
     }
@@ -272,7 +272,7 @@ var pleaseWaitIsINUse = false;
 var pauseIfIsPlayinAdsInterval;
 var seconds_watching_video = 0;
 var _startCountPlayingTime;
-function setPlayerListners() {
+async function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
             clearTimeout(promisePlayTimeout);
@@ -468,7 +468,7 @@ function subscribeNotify(email, user_id) {
         }
     });
 }
-function mouseEffect() {
+async function mouseEffect() {
     $(".thumbsImage").on("mouseenter", function () {
         var gif = $(this).find(".thumbsGIF");
         var jpg = $(this).find(".thumbsJPG");
@@ -614,7 +614,7 @@ async function addViewFromCookie() {
     });
 }
 
-function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds_watching_video) {
+async function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds_watching_video) {
 ////console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video, new Error().stack);
     Cookies.set('addView_PHPSESSID', PHPSESSID, {
         path: '/',
@@ -644,7 +644,7 @@ function getPlayerButtonIndex(name) {
     return children.length;
 }
 
-function copyToClipboard(text) {
+async function copyToClipboard(text) {
     $('body').append('<textarea id="elementToCopyAvideo" style="filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0; opacity: 0;position: absolute;z-index: -9999;top: 0;left: 0;pointer-events: none;"></textarea>');
     $('#elementToCopyAvideo').css({'top': mouseY, 'left': 0}).fadeIn('slow');
     $('#elementToCopyAvideo').val(text);
@@ -866,7 +866,7 @@ function playMuted(currentTime) {
     }, 200);
 }
 
-function showMuteTooltip() {
+async function showMuteTooltip() {
     if ($("#mainVideo .vjs-volume-panel").length) {
         if (!$("#mainVideo .vjs-volume-panel").is(":visible")) {
             setTimeout(function () {
@@ -1032,12 +1032,12 @@ function formatBytes(bytes, decimals) {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-function tooglePlayerLoop() {
+async function tooglePlayerLoop() {
     setPlayerLoop(!isPlayerLoop());
 }
 
 var setPlayerLoopSetTimeout;
-function setPlayerLoop(loop) {
+async function setPlayerLoop(loop) {
     clearTimeout(setPlayerLoopSetTimeout);
     if (typeof player === 'undefined' && $('#mainVideo').length) {
         setPlayerLoopSetTimeout = setTimeout(function () {
@@ -1067,7 +1067,7 @@ function setPlayerLoop(loop) {
     }
 }
 
-function setImageLoop() {
+async function setImageLoop() {
     if (isPlayerLoop()) {
         $('.loopButton').removeClass('opacityBtn');
         $('.loopButton').addClass('fa-spin');
@@ -1100,7 +1100,7 @@ function isArray(what) {
     return Object.prototype.toString.call(what) === '[object Array]';
 }
 
-function reloadVideoJS() {
+async function reloadVideoJS() {
     if (typeof player.currentSources === 'function') {
         var src = player.currentSources();
         player.src(src);
@@ -1215,7 +1215,7 @@ function setAutoplay(value) {
     });
 }
 
-function showAutoPlayVideoDiv() {
+async function showAutoPlayVideoDiv() {
     var auto = $("#autoplay").prop('checked');
     if (!auto) {
         $('#autoPlayVideoDiv').slideUp();
@@ -1234,7 +1234,7 @@ function disableAutoPlay() {
     checkAutoPlay();
 }
 
-function checkAutoPlay() {
+async function checkAutoPlay() {
     if (isAutoplayEnabled()) {
         $("#autoplay").prop('checked', true);
         $('.autoplay-button').addClass('checked');
@@ -1366,7 +1366,7 @@ function avideoAlertAJAX(url) {
 }
 
 function avideoAlertHTMLText(title, msg, type) {
-    var isErrorOrWarning = (type=='error' || type=='warning');
+    var isErrorOrWarning = (type == 'error' || type == 'warning');
     var span = document.createElement("span");
     span.innerHTML = msg;
     swal({
@@ -1375,7 +1375,7 @@ function avideoAlertHTMLText(title, msg, type) {
         icon: type,
         closeModal: true,
         closeOnClickOutside: !isErrorOrWarning,
-        buttons: isErrorOrWarning ? null : (empty(type)?false:true),
+        buttons: isErrorOrWarning ? null : (empty(type) ? false : true),
     });
 }
 
@@ -1742,7 +1742,7 @@ function tabsCategoryDocumentHeightChanged() {
     return false;
 }
 
-function checkDescriptionArea() {
+async function checkDescriptionArea() {
     $(".descriptionArea").each(function (index) {
         if ($(this).height() < $(this).find('.descriptionAreaContent').height()) {
             $(this).find('.descriptionAreaShowMoreBtn').show();
@@ -1905,7 +1905,7 @@ function createTimer(selector) {
 }
 
 var getServerTimeActive = 0;
-function getServerTime() {
+async function getServerTime() {
     if (getServerTimeActive || _serverTime) {
         return false;
     }
@@ -2168,7 +2168,7 @@ function socketClearSessionCache(json) {
     clearCache(false, 0, 1);
 }
 
-function animateChilds(selector, type, delay) {
+async function animateChilds(selector, type, delay) {
     var step = delay;
     $(selector).children().each(function () {
         var $currentElement = $(this);
@@ -2207,7 +2207,7 @@ function goToURLOrAlertError(jsonURL, data) {
 }
 
 function downloadURL(url, filename) {
-    filename = clean_name(filename)+'.'+clean_name(url.split(/[#?]/)[0].split('.').pop().trim());
+    filename = clean_name(filename) + '.' + clean_name(url.split(/[#?]/)[0].split('.').pop().trim());
     console.log('downloadURL start ', url, filename);
     var loaded = 0;
     var contentLength = 0;
@@ -2262,7 +2262,7 @@ function downloadURL(url, filename) {
                 a.click();
                 window.URL.revokeObjectURL(url);
                 modal.hidePleaseWait();
-                avideoToastSuccess('Download complete '+filename);
+                avideoToastSuccess('Download complete ' + filename);
             })
             .catch(function (err) {
                 //avideoAlertError('Error on download ');
@@ -2275,13 +2275,13 @@ function downloadURL(url, filename) {
 
 var downloadURLOrAlertErrorInterval;
 function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
-    if(empty(jsonURL)){
+    if (empty(jsonURL)) {
         console.log('downloadURLOrAlertError error empty jsonURL', jsonURL, data, filename, FFMpegProgress);
         return false;
     }
     modal.showPleaseWait();
     avideoToastInfo('Converting');
-    console.log('downloadURLOrAlertError 1', jsonURL,FFMpegProgress);
+    console.log('downloadURLOrAlertError 1', jsonURL, FFMpegProgress);
     checkFFMPEGProgress(FFMpegProgress);
     $.ajax({
         url: jsonURL,
@@ -2602,14 +2602,20 @@ function addAtMention(selector) {
             });
 }
 
-$(document).ready(function () {
-//animateChilds('#sideBarContainer > ul', 'animate__bounceInLeft', 0.05);
-//animateChilds('#uploadMenu', 'animate__bounceIn', 0.05);
-//animateChilds('#myNavbar > ul > li.dropdown > ul > div.btn-group.btn-group-justified', 'animate__bounceIn', 0.1);
-//animateChilds('#lastItemOnMenu > div.navbar-header > ul > li > div > ul', 'animate__bounceInRight', 0.05);
-//animateChilds('.gallerySectionContent, .categoriesContainerItem .clearfix', 'animate__fadeInUp', 0.05);
-//animateChilds('#videosList', 'animate__bounceInRight', 0.1);
+async function selectAElements() {
+    $("a").each(function () {
+        var location = window.location.toString()
+        var res = location.split("?");
+        pathWitoutGet = res[0];
+        if ($(this).attr("href") == window.location.pathname
+                || $(this).attr("href") == window.location
+                || $(this).attr("href") == pathWitoutGet) {
+            $(this).addClass("selected");
+        }
+    });
+}
 
+$(document).ready(function () {
     getServerTime();
     addViewFromCookie();
     checkDescriptionArea();
@@ -2631,7 +2637,7 @@ $(document).ready(function () {
                 $('.nav-tabs-horizontal').scrollingTabs('refresh');
             }
         }
-    }, 1000);
+    }, 2000);
     modal = modal || (function () {
         var pleaseWaitDiv = $("#pleaseWaitDialog");
         if (pleaseWaitDiv.length === 0) {
@@ -2688,38 +2694,8 @@ $(document).ready(function () {
     setInterval(function () {
         setToolTips();
     }, 5000);
-    /*
-     $(".thumbsImage").on("mouseenter", function () {
-     gifId = $(this).find(".thumbsGIF").attr('id');
-     $(".thumbsGIF").fadeOut();
-     if (gifId != undefined) {
-     id = gifId.replace('thumbsGIF', '');
-     var gif = $(this).find(".thumbsGIF");
-     var jpg = $(this).find(".thumbsGIF");
-     gif.height(jpg.height());
-     gif.width(jpg.width());
-     try {
-     gif.lazy({effect: 'fadeIn'});
-     } catch (e) {
-     }
-     gif.stop(true, true).fadeIn();
-     }
-     });
-     $(".thumbsImage").on("mouseleave", function () {
-     $(this).find(".thumbsGIF").stop(true, true).fadeOut();
-     });
-     */
     lazyImage();
-    $("a").each(function () {
-        var location = window.location.toString()
-        var res = location.split("?");
-        pathWitoutGet = res[0];
-        if ($(this).attr("href") == window.location.pathname
-                || $(this).attr("href") == window.location
-                || $(this).attr("href") == pathWitoutGet) {
-            $(this).addClass("selected");
-        }
-    });
+    selectAElements();
     $('#clearCache, .clearCacheButton').on('click', function (ev) {
         ev.preventDefault();
         clearCache(true, 0, 0);
@@ -2749,22 +2725,8 @@ $(document).ready(function () {
     });
     setPlayerListners();
     $('.duration:contains("00:00:00"), .duration:contains("EE:EE:EE")').hide();
-    setInterval(function () {
-        if (typeof conn != 'undefined') {
-            if (avideoSocketIsActive()) {
-                $(".socketStatus").removeClass('disconnected');
-            } else {
-                $(".socketStatus").addClass('disconnected');
-            }
-        }
-
-    }, 1000);
-    $("input.saveCookie").each(function () {
-        var mycookie = Cookies.get($(this).attr('name'));
-        if (mycookie && mycookie == "true") {
-            $(this).prop('checked', mycookie);
-        }
-    });
+    checkSocketStatus();
+    checkSavedCookies();
     $("input.saveCookie").change(function () {
         var auto = $(this).prop('checked');
         Cookies.set($(this).attr("name"), auto, {
@@ -2780,8 +2742,28 @@ $(document).ready(function () {
     });
     checkAutoPlay();
     // Code to handle install prompt on desktop
-    
+
 });
+
+async function checkSocketStatus() {
+    if (typeof conn != 'undefined') {
+        if (avideoSocketIsActive()) {
+            $(".socketStatus").removeClass('disconnected');
+        } else {
+            $(".socketStatus").addClass('disconnected');
+        }
+    }
+    setTimeout(function(){checkSocketStatus();}, 1000);
+}
+
+async function checkSavedCookies() {
+    $("input.saveCookie").each(function () {
+        var mycookie = Cookies.get($(this).attr('name'));
+        if (mycookie && mycookie == "true") {
+            $(this).prop('checked', mycookie);
+        }
+    });
+}
 
 function openWindowWithPost(url, name, params, strWindowFeatures) {
     var windowObject = window.open("about:blank", name, strWindowFeatures);
@@ -2819,7 +2801,7 @@ function fixAdSize() {
  * @type type
  */
 var videoJSRecreateSourcesTimeout;
-function videoJSRecreateSources(defaultSource) {
+async function videoJSRecreateSources(defaultSource) {
     clearTimeout(videoJSRecreateSourcesTimeout);
     if (empty(player) || empty(player.options_) || empty(player.updateSrc)) {
         videoJSRecreateSourcesTimeout = setTimeout(function () {
@@ -2827,12 +2809,12 @@ function videoJSRecreateSources(defaultSource) {
         });
         return false;
     }
-    
+
     var newSources = [];
-    
+
     $("#mainVideo source").each(function (index) {
         var res = $(this).attr("res");
-        if(empty(res)){
+        if (empty(res)) {
             res = 'auto';
         }
         var source = {
@@ -2844,11 +2826,11 @@ function videoJSRecreateSources(defaultSource) {
         ////console.log('videoJSRecreateSources', $(this), source);
         newSources.push(source);
     });
-    if(empty(newSources)){
+    if (empty(newSources)) {
         console.log('videoJSRecreateSources: source are empty');
         return false;
     }
-    
+
     player.options_.sources = newSources;
     player.updateSrc(player.options_.sources);
     if (!empty(player.currentResolution) && !empty(defaultSource)) {
@@ -2985,7 +2967,7 @@ function blobToURL(blob, type) {
     return src;
 }
 
-function isOnline(){
+function isOnline() {
     //console.log('window.navigator.onLine', window.navigator.onLine);
     return window.navigator.onLine;
 }

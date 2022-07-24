@@ -1,4 +1,10 @@
-importScripts('workbox-sw.js');
+//importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.5.2/workbox-sw.js');
+importScripts('workbox-v6.5.3/workbox-sw.js');
+
+workbox.setConfig({
+  modulePathPrefix: 'workbox-v6.5.3/',
+    debug: false
+});
 
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
@@ -35,11 +41,6 @@ const precahedFiles = [
     webSiteRootURL + 'view/bootstrap/js/bootstrap.min.js',
     webSiteRootURL + 'node_modules/sweetalert/dist/sweetalert.min.js',
 ];
-
-workbox.setConfig({
-    debug: false
-});
-
 
 const ignoreQueryStringPlugin = {
     cachedResponseWillBeUsed: async({cacheName, request, matchOptions, cachedResponse, event}) => {
