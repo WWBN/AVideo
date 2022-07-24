@@ -7813,6 +7813,8 @@ function getDatabaseTimezoneName() {
         $_getDatabaseTimezoneName = 'America/Los_Angeles';
     }else if ($_getDatabaseTimezoneName == 'EDT' || $_getDatabaseTimezoneName == 'EST') {
         $_getDatabaseTimezoneName = 'America/New_York';
+    }else if ($_getDatabaseTimezoneName == 'CDT' || $_getDatabaseTimezoneName == 'CST') {
+        $_getDatabaseTimezoneName = 'America/Chicago';
     }
 
     return $_getDatabaseTimezoneName;
