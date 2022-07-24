@@ -546,7 +546,7 @@ class Layout extends PluginAbstract {
     }
     
     static function removeExtraSpacesFromScript($html) {
-        preg_match_all('/(<script>.+<\/script>)/Usi', $html, $matches);
+        preg_match_all('/(<script[^>]*>.+<\/script>)/Usi', $html, $matches);
         foreach ($matches as $value) {
             $str = preg_replace('/ +/', ' ', $value);
             $html = str_replace($value, $str, $html);
