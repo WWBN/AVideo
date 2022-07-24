@@ -579,7 +579,7 @@ class Layout extends PluginAbstract {
     }
 
     static function separeteTag($html, $tag) {
-        preg_match_all('/<' . $tag . '(.*)?>(.*)<\/' . $tag . '>/Usi', $html, $matches);
+        preg_match_all('/<' . $tag . '[^>]*>(.*)<\/' . $tag . '>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[2] as $key => $value) {
                 if(!preg_match('/application.+json/i', $matches[0][$key])){
