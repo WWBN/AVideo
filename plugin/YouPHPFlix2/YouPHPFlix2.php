@@ -121,7 +121,7 @@ class YouPHPFlix2 extends PluginAbstract {
         
         if (!empty($obj->playVideoOnFullscreenOnIframe) && !isSerie()) {
             $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'a.galleryLink\'); } });</script>';
-            $js .= '<script>var playVideoOnFullscreen = 1</script>';
+            $js .= '<script>var playVideoOnFullscreen = 1;</script>';
         } else
         if (!empty($obj->playVideoOnFullscreen) && !isSerie()) {
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
