@@ -620,7 +620,7 @@ class Layout extends PluginAbstract {
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
                 // ignore google analitics
-                if (!preg_match('/application.+json/i', $matches[0][$key]) && !preg_match('/gatag/i', $value) && !preg_match('/<script async/i', $value)) {
+                if (!preg_match('/application.+json/i', $matches[0][$key]) && !preg_match('/gatag/i', $matches[0][$key]) && !preg_match('/<script async/i', $matches[0][$key])) {
                     $response = self::tryToReplace($value, '', $html);
                     if ($response['success']) {
                         self::addTag('tagscript', $value);
