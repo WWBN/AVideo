@@ -12,6 +12,8 @@ if (empty($isCDNEnabled)) {
     return die('Plugin disabled');
 }
 
+$alsoMoveUnlisted = intval(@$argv[1]);
+
 $_1hour = 3600;
 $_2hours = $_1hour*2;
 ob_end_flush();
@@ -27,7 +29,7 @@ sqlDAL::close($res);
 $rows = [];
 if ($res != false) {
     foreach ($fullData as $row) {
-        if ($row['status'] === Video::$statusActive) {
+        if ($row['status'] === Video::$statusActive || ($alsoMoveUnlisted && ($row['status'] === Video::$statusUnlisted || $row['status'] === Video::$statusFansOnly))) {
             exec("rm /var/www/html/AVideo/videos/{$row['filename']}/*.tgz");
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
