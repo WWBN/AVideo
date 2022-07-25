@@ -511,8 +511,8 @@ class Layout extends PluginAbstract {
     }
 
     static function organizeHTML($html) {
-        global $global;
-        
+        global $global;// add socket twice on live page
+        return $html;
         if(!empty($global['doNOTOrganizeHTML'])){
             return $html;
         }
