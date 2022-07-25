@@ -537,7 +537,7 @@ class Layout extends PluginAbstract {
             $html = str_replace('</body>', implode('', array_unique(self::$tags['tagscript'])) . '</body>', $html);
         }
         if (!empty(self::$tags['script'])) {
-            $html = str_replace('</body>', '<script>' . implode(' ', array_unique(self::$tags['script'])) . '</script></body>', $html);
+            $html = str_replace('</body>', '<script>' . implode('; ', array_unique(self::$tags['script'])) . '</script></body>', $html);
         }
         $html = self::removeExtraSpacesFromHead($html);
         $html = self::removeExtraSpacesFromScript($html);
