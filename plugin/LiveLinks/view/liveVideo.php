@@ -1,4 +1,4 @@
-<!-- Live Link -->
+<!-- Live Link <?php echo $t['id']; ?> -->
 <?php
 if ($t['id'] > 0) {
     $liveLink = LiveLinks::getSourceLink($t['id']);
