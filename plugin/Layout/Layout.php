@@ -585,7 +585,7 @@ class Layout extends PluginAbstract {
         preg_match_all('/<script[^<]+src=[^<]+<\/script>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
-                if(!preg_match('/application.+json/i', $matches[1][$key])){
+                if(!preg_match('/application.+json/i', $matches[0][$key])){
                     $response = self::tryToReplace($value, '', $html);
                     if($response['success']){
                         self::addTag('tagscript', $value);
