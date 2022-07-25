@@ -25,6 +25,8 @@ class PhotoSequence extends \Google\Collection
    */
   public $captureTimeOverride;
   public $distanceMeters;
+  protected $failureDetailsType = ProcessingFailureDetails::class;
+  protected $failureDetailsDataType = '';
   /**
    * @var string
    */
@@ -85,6 +87,20 @@ class PhotoSequence extends \Google\Collection
   public function getDistanceMeters()
   {
     return $this->distanceMeters;
+  }
+  /**
+   * @param ProcessingFailureDetails
+   */
+  public function setFailureDetails(ProcessingFailureDetails $failureDetails)
+  {
+    $this->failureDetails = $failureDetails;
+  }
+  /**
+   * @return ProcessingFailureDetails
+   */
+  public function getFailureDetails()
+  {
+    return $this->failureDetails;
   }
   /**
    * @param string

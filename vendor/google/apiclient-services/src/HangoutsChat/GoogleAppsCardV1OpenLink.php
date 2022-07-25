@@ -19,8 +19,6 @@ namespace Google\Service\HangoutsChat;
 
 class GoogleAppsCardV1OpenLink extends \Google\Model
 {
-  protected $appUriType = GoogleAppsCardV1AppUri::class;
-  protected $appUriDataType = '';
   /**
    * @var string
    */
@@ -34,20 +32,6 @@ class GoogleAppsCardV1OpenLink extends \Google\Model
    */
   public $url;
 
-  /**
-   * @param GoogleAppsCardV1AppUri
-   */
-  public function setAppUri(GoogleAppsCardV1AppUri $appUri)
-  {
-    $this->appUri = $appUri;
-  }
-  /**
-   * @return GoogleAppsCardV1AppUri
-   */
-  public function getAppUri()
-  {
-    return $this->appUri;
-  }
   /**
    * @param string
    */

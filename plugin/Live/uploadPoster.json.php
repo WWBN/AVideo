@@ -1,5 +1,4 @@
 <?php
-
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_schedule.php';
 header('Content-Type: application/json');
@@ -15,9 +14,9 @@ if (!User::canStream()) {
 }
 
 
-$live_servers_id = intval(@$_REQUEST['live_servers_id']);
-$live_schedule_id = intval(@$_REQUEST['live_schedule_id']);
-$posterType = intval(@$_REQUEST['posterType']);
+$live_servers_id = intval($_REQUEST['live_servers_id'] ?? 0);
+$live_schedule_id = intval($_REQUEST['live_schedule_id'] ?? 0);
+$posterType = intval($_REQUEST['posterType'] ?? 0);
 
 if (!empty($live_schedule_id)) {
     $row = new Live_schedule($live_schedule_id);
@@ -44,7 +43,7 @@ if(isset($_REQUEST['liveImgCloseTimeInSeconds']) && isset($_REQUEST['liveImgTime
     $o = new stdClass();
     $o->liveImgCloseTimeInSeconds = intval($_REQUEST['liveImgCloseTimeInSeconds']);
     $o->liveImgTimeInSeconds = intval($_REQUEST['liveImgTimeInSeconds']);
-    
+
     $obj->jsonFile = str_replace('.jpg', '.json', $obj->path);
     $obj->jsonFileBytes = _file_put_contents($obj->jsonFile, $o);
 }
