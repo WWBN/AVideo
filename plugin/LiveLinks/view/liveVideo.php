@@ -61,7 +61,10 @@ if (isValidM3U8Link($liveLink)) {
 
 
 $htmlMediaTag .= getLiveUsersLabelHTML();
-
-echo PlayerSkins::getMediaTag(false, $htmlMediaTag);
+if (!empty($_REQUEST['embed'])) {
+    echo $htmlMediaTag;
+} else {
+    echo PlayerSkins::getMediaTag(false, $htmlMediaTag);
+}
 ?>
 <!-- Live link finish -->
