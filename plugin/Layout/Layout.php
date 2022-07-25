@@ -619,7 +619,8 @@ class Layout extends PluginAbstract {
         preg_match_all('/<script[^<]+src=[^<]+<\/script>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
-                if (!preg_match('/application.+json/i', $matches[0][$key])) {
+                // ignore google analitics
+                if (!preg_match('/application.+json/i', $matches[0][$key]) && !preg_match('/gatag/i', $value) && !preg_match('/<script async/i', $value)) {
                     $response = self::tryToReplace($value, '', $html);
                     if ($response['success']) {
                         self::addTag('tagscript', $value);
@@ -638,7 +639,7 @@ class Layout extends PluginAbstract {
         //var_dump($matches);exit;
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
-                if (!preg_match('/application.+json/i', $value)) {
+                if (!preg_match('/application.+json/i', $value) && !preg_match('/gatag/i', $value) && !preg_match('/<script async/i', $value)) {
                     $response = self::tryToReplace($value, '', $html);
                     if ($response['success']) {
                         self::addTag($tag, $matches[1][$key]);
