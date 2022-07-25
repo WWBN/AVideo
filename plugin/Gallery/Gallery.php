@@ -177,17 +177,17 @@ class Gallery extends PluginAbstract {
 
         $js = '';
         if (!empty($obj->playVideoOnFullscreenOnIframe)) {
-            $js = '<script src="' . getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' . getURL('plugin/YouPHPFlix2/view/js/fullscreen.js') . '"></script>';
             $js .= '<script>$(function () { if(typeof linksToFullscreen === \'function\'){ linksToFullscreen(\'a.galleryLink\'); } });</script>';
         } else
         if (!empty($obj->playVideoOnFullscreen)) {
-            $js = '<script src="' . getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' . getURL('plugin/YouPHPFlix2/view/js/fullscreen.js') . '"></script>';
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
         } else
         if (!empty($obj->playVideoOnBrowserFullscreen)) {
-            $js = '<script src="' . getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+            $js = '<script src="' . getURL('plugin/YouPHPFlix2/view/js/fullscreen.js') . '"></script>';
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
-            $js .= '<script src="' . getCDN() . 'plugin/Gallery/fullscreen.js"></script>';
+            $js .= '<script src="' . getURL('plugin/Gallery/fullscreen.js') . '"></script>';
             $js .= '<script>var playVideoOnBrowserFullscreen = 1;</script>';
         }
         $js .= '<script src="'.getURL('plugin/Gallery/script.js').'" type="text/javascript"></script>';
