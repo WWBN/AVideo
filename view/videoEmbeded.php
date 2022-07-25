@@ -426,8 +426,9 @@ if (User::hasBlockedUser($video['users_id'])) {
         </script>
         <?php
     } elseif ($video['type'] == "linkVideo" || $video['type'] == "liveLink") {
+        $t = array('id'=>$_GET['link']);
         ?>
-        <!-- videoLink include liveVideo.php [<?php echo $t['id']; ?>, <?php echo $video['id']; ?>] -->
+        <!-- videoLink include liveVideo.php [<?php echo $_GET['link']; ?>] -->
         <?php
         include_once $global['systemRootPath'] . 'plugin/LiveLinks/view/liveVideo.php';
         if ($video['type'] == "liveLink") {
