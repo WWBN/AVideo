@@ -620,7 +620,7 @@ class Layout extends PluginAbstract {
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
                 // ignore google analitics
-                if (!preg_match('/application.+json/i', $matches[0][$key]) && !preg_match('/gatag/i', $matches[0][$key]) && !preg_match('/<script async/i', $matches[0][$key])) {
+                if (!self::shouldIgnoreJS($value)) {
                     $response = self::tryToReplace($value, '', $html);
                     if ($response['success']) {
                         self::addTag('tagscript', $value);
@@ -639,7 +639,7 @@ class Layout extends PluginAbstract {
         //var_dump($matches);exit;
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
-                if (!preg_match('/application.+json/i', $value) && !preg_match('/gatag/i', $value) && !preg_match('/<script async/i', $value)) {
+                if (!self::shouldIgnoreJS($value)) {
                     $response = self::tryToReplace($value, '', $html);
                     if ($response['success']) {
                         self::addTag($tag, $matches[1][$key]);
@@ -649,6 +649,13 @@ class Layout extends PluginAbstract {
             }
         }
         return $html;
+    }
+    
+    static function shouldIgnoreJS($tag) {
+        if (!preg_match('/application.+json/i', $tag) && !preg_match('/gatag/i', $tag) && !preg_match('/<script async/i', $tag)) {
+            return true;
+        }
+        return false;
     }
 
     static public function addTag($tag, $value) {
