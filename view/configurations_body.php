@@ -272,11 +272,12 @@ if (User::isAdmin()) {
                                                     <select class="form-control" id="inputLanguage" name="inputLanguage">
                                                         <?php
                                                         $selectedLang = $config->getLanguage();
-                                                        $flags = self::getAvilableFlags();
+                                                        $flags = Layout::getAvilableFlags();
+                                                        //var_dump($selectedLang, $flags);exit;
                                                         foreach ($flags as $key => $value) {
                                                             $info = json_decode($value[0]);
                                                             ?>
-                                                            <option value="<?php echo $info->icon; ?>" <?php echo ($selectedLang == $info->icon) ? "selected" : ""; ?>><?php echo $info->text; ?></option>
+                                                            <option value="<?php echo $key; ?>" <?php echo ($selectedLang == $key) ? "selected" : ""; ?>><?php echo $info->text; ?></option>
                                                         <?php
                                                     }
                                                     ?>
