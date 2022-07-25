@@ -523,7 +523,7 @@ class Layout extends PluginAbstract {
         $html = self::getTagsScript($html);
         $html = self::separeteTag($html, 'style');
         $html = self::separeteTag($html, 'script');
-        $html = preg_replace('/<script.*><\/script>/i', '', $html);
+        //$html = preg_replace('/<script.*><\/script>/i', '', $html);
         //return $html;
         //var_dump(self::$tags['script']);exit;
         if (!empty(self::$tags['tagcss'])) {
