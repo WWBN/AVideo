@@ -52,7 +52,7 @@ if (!empty($_GET['token'])) {
         $agreement = $paypal->execute();
         //_error_log("PayPalIPN V2: agreement ". print_r($agreement->getAgreementDetails()->getLastPaymentAmount()->getValue(), true));
 
-        if ($agreement->getState() !== 'Active') {
+        if (empty($agreement) || $agreement->getState() !== 'Active') {
             $obj->msg = 'The Agreement is not active yet ';
             _error_log("PayPalIPN V2: {$obj->msg} ");
             die(json_encode($obj));
