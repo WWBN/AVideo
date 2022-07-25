@@ -345,20 +345,20 @@ class Layout extends PluginAbstract {
         } else {
             $selectedJsonIcon = '';
         }
-        
+
         $html = '<div class="btn-group">
             <button type="button" class="btn btn-default  dropdown-toggle navbar-btn" data-toggle="dropdown" aria-expanded="true">
-                <i class="selectedflagicon '.$selectedJsonIcon.'"></i> <span class="caret"></span>
+                <i class="selectedflagicon ' . $selectedJsonIcon . '"></i> <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right" role="menu">';
-               
-        $selfURI= getSelfURI();     
+
+        $selfURI = getSelfURI();
         foreach ($flags as $key => $value) {
             $info = json_decode($value[0]);
             $url = addQueryStringParameter($selfURI, 'lang', $key);
             $html .= '<li class="dropdown-submenu">
-                    <a tabindex="-1" href="'.$url.'">
-                        <i class="'.$info->icon.'" aria-hidden="true"></i> '.$info->text.'</a>
+                    <a tabindex="-1" href="' . $url . '">
+                        <i class="' . $info->icon . '" aria-hidden="true"></i> ' . $info->text . '</a>
                     </li>';
         }
 
@@ -511,12 +511,12 @@ class Layout extends PluginAbstract {
     }
 
     static function organizeHTML($html) {
-        global $global;// add socket twice on live page
+        global $global; // add socket twice on live page
         //return $html;
-        if(!empty($global['doNOTOrganizeHTML'])){
+        if (!empty($global['doNOTOrganizeHTML'])) {
             return $html;
         }
-        
+
         //return $html;
         //var_dump($html);exit;
         $html = self::getTagsLinkCSS($html);
@@ -527,17 +527,17 @@ class Layout extends PluginAbstract {
         //return $html;
         //var_dump(self::$tags['script']);exit;
         if (!empty(self::$tags['tagcss'])) {
-            $html = str_replace('</head>', implode('', array_unique(self::$tags['tagcss'])).'</head>', $html);
+            $html = str_replace('</head>', implode('', array_unique(self::$tags['tagcss'])) . '</head>', $html);
         }
         //return $html;
         if (!empty(self::$tags['style'])) {
-            $html = str_replace('</head>', '<style>'.implode(' ', array_unique(self::$tags['style'])).'</style></head>', $html);
+            $html = str_replace('</head>', '<style>' . implode(' ', array_unique(self::$tags['style'])) . '</style></head>', $html);
         }
         if (!empty(self::$tags['tagscript'])) {
-            $html = str_replace('</body>', implode('', array_unique(self::$tags['tagscript'])).'</body>', $html);
+            $html = str_replace('</body>', implode('', array_unique(self::$tags['tagscript'])) . '</body>', $html);
         }
         if (!empty(self::$tags['script'])) {
-            $html = str_replace('</body>', '<script>'.implode(' ', array_unique(self::$tags['script'])).'</script></body>', $html);
+            $html = str_replace('</body>', '<script>' . implode(' ', array_unique(self::$tags['script'])) . '</script></body>', $html);
         }
         $html = self::removeExtraSpacesFromHead($html);
         $html = self::removeExtraSpacesFromScript($html);
@@ -545,11 +545,45 @@ class Layout extends PluginAbstract {
         return $html;
     }
 
-    static function tryToReplace($search, $replace, $subject){
-        $newSubject = str_replace($search, $replace, $subject);
-        return ['newSubject'=>$newSubject, 'success'=>($newSubject!==$subject)];
+    private static function tryToReplace($search, $replace, $subject) {
+        if(true || self::codeIsValid($subject)){
+            $newSubject = str_replace($search, $replace, $subject);
+            return ['newSubject' => $newSubject, 'success' => ($newSubject !== $subject)];
+        }else{
+            _error_log('organizeHTML: Invalid code: '.$subject);
+            return ['newSubject' => $subject, 'success' => false];
+        }
     }
-    
+
+    private static function codeIsValid($string) {
+        $len = strlen($string);
+        $stack = array();
+        for ($i = 0; $i < $len; $i++) {
+            switch ($string[$i]) {
+                case '{': array_push($stack, 0);
+                    break;
+                case '}':
+                    if (array_pop($stack) !== 0)
+                        return false;
+                    break;
+                case '(': array_push($stack, 0);
+                    break;
+                case ')':
+                    if (array_pop($stack) !== 0)
+                        return false;
+                    break;
+                case '[': array_push($stack, 1);
+                    break;
+                case ']':
+                    if (array_pop($stack) !== 1)
+                        return false;
+                    break;
+                default: break;
+            }
+        }
+        return (empty($stack));
+    }
+
     static function removeExtraSpacesFromHead($html) {
         preg_match('/(<head.+<\/head>)/Usi', $html, $matches);
         $str = preg_replace('/\s+/', ' ', $matches[0]);
@@ -557,7 +591,7 @@ class Layout extends PluginAbstract {
         $html = str_replace($matches[0], $str, $html);
         return $html;
     }
-    
+
     static function removeExtraSpacesFromScript($html) {
         preg_match_all('/(<script[^>]*>.+<\/script>)/Usi', $html, $matches);
         foreach ($matches as $value) {
@@ -566,13 +600,13 @@ class Layout extends PluginAbstract {
         }
         return $html;
     }
-    
+
     static function getTagsLinkCSS($html) {
         preg_match_all('/<link[^>]+href=[^>]+css[^>]+>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $value) {
                 $response = self::tryToReplace($value, '', $html);
-                if($response['success']){
+                if ($response['success']) {
                     self::addTag('tagcss', $value);
                     $html = $response['newSubject'];
                 }
@@ -585,9 +619,9 @@ class Layout extends PluginAbstract {
         preg_match_all('/<script[^<]+src=[^<]+<\/script>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
-                if(!preg_match('/application.+json/i', $matches[0][$key])){
+                if (!preg_match('/application.+json/i', $matches[0][$key])) {
                     $response = self::tryToReplace($value, '', $html);
-                    if($response['success']){
+                    if ($response['success']) {
                         self::addTag('tagscript', $value);
                         $html = $response['newSubject'];
                     }
@@ -604,9 +638,9 @@ class Layout extends PluginAbstract {
         //var_dump($matches);exit;
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
-                if(!preg_match('/application.+json/i', $value)){
+                if (!preg_match('/application.+json/i', $value)) {
                     $response = self::tryToReplace($value, '', $html);
-                    if($response['success']){
+                    if ($response['success']) {
                         self::addTag($tag, $matches[1][$key]);
                         $html = $response['newSubject'];
                     }
