@@ -35,7 +35,7 @@ AVideoPlugin::getEmbed($video['id']);
 if (empty($video)) {
     forbiddenPage("Video not found");
 }
-if ($video['status']=='i') {
+if ($video['status'] == 'i') {
     forbiddenPage("Video inactive");
 }
 if (empty($video['users_id'])) {
@@ -310,37 +310,35 @@ if (User::hasBlockedUser($video['users_id'])) {
             <i class="fas fa-user-slash fa-3x"></i><hr>
             You've blocked user (<?php echo User::getNameIdentificationById($video['users_id']) ?>)<br>
             You won't see any comments or videos from this user<hr>
-            <?php
-            echo User::getblockUserButton($video['users_id']); ?>
+            <?php echo User::getblockUserButton($video['users_id']); ?>
             <br>
             <br>
         </center>
         <?php
-        } elseif ($video['type'] == "serie") {
-            ?>
+    } elseif ($video['type'] == "serie") {
+        ?>
         <!-- serie -->
         <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
         <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php
-        echo $video['serie_playlists_id'];
-            if ($config->getAutoplay()) {
-                echo "&autoplay=1";
-            } ?>"></iframe>
+    echo $video['serie_playlists_id'];
+    if ($config->getAutoplay()) {
+        echo "&autoplay=1";
+    }
+        ?>"></iframe>
         <script>
             $(document).ready(function () {
                 addView(<?php echo $video['id']; ?>, 0);
             });
         </script>
         <?php
-        } elseif ($video['type'] == "article") {
-            ?>
+    } elseif ($video['type'] == "article") {
+        ?>
         <!-- article -->
         <div id="main-video" class="bgWhite list-group-item ypt-article" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
             <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
-                <?php
-                echo $video['title']; ?>
+                <?php echo $video['title']; ?>
             </h1>
-            <?php
-            echo Video::htmlDescription($video['description']); ?>
+            <?php echo Video::htmlDescription($video['description']); ?>
             <script>
                 $(document).ready(function () {
                     addView(<?php echo $video['id']; ?>, 0);
@@ -348,26 +346,27 @@ if (User::hasBlockedUser($video['users_id'])) {
             </script>
 
         </div>
-        <?php
-        } elseif ($video['type'] == "pdf") {
-            $sources = getVideosURLPDF($video['filename']); ?>
+    <?php
+} elseif ($video['type'] == "pdf") {
+    $sources = getVideosURLPDF($video['filename']);
+    ?>
         <!-- pdf -->
         <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
-        <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
-        echo $sources["pdf"]['url']; ?>"></iframe>
+        <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php echo $sources["pdf"]['url']; ?>"></iframe>
         <script>
             $(document).ready(function () {
                 addView(<?php echo $video['id']; ?>, 0);
             });
         </script>
-        <?php
-        } elseif ($video['type'] == "image") {
-            $sources = getVideosURLIMAGE($video['filename']); ?>
+    <?php
+} elseif ($video['type'] == "image") {
+    $sources = getVideosURLIMAGE($video['filename']);
+    ?>
         <!-- image -->
         <center style="height: 100%;">
             <img src="<?php
-            echo $sources["image"]['url']
-            ?>" class="img img-responsive"  style="height: 100%;" >
+    echo $sources["image"]['url']
+    ?>" class="img img-responsive"  style="height: 100%;" >
         </center>
         <script>
             $(document).ready(function () {
@@ -375,8 +374,9 @@ if (User::hasBlockedUser($video['users_id'])) {
             });
         </script>
         <?php
-        } elseif ($video['type'] == "zip") {
-            $sources = getVideosURLZIP($video['filename']); ?>
+    } elseif ($video['type'] == "zip") {
+        $sources = getVideosURLZIP($video['filename']);
+        ?>
         <!-- zip -->
         <div class="panel panel-default">
             <div class="panel-heading"><i class="far fa-file-archive"></i> <?php echo $video['title']; ?></div>
@@ -384,82 +384,72 @@ if (User::hasBlockedUser($video['users_id'])) {
                 <ul class="list-group">
                     <?php
                     $za = new ZipArchive();
-            $za->open($sources['zip']["path"]);
-            for ($i = 0; $i < $za->numFiles; $i++) {
-                $stat = $za->statIndex($i);
-                $fname = basename($stat['name']); ?>
+                    $za->open($sources['zip']["path"]);
+                    for ($i = 0; $i < $za->numFiles; $i++) {
+                        $stat = $za->statIndex($i);
+                        $fname = basename($stat['name']);
+                        ?>
                         <li class="list-group-item"  style="text-align: left;"><i class="<?php echo fontAwesomeClassName($fname) ?>"></i> <?php echo $fname; ?></li>
-                        <?php
-            } ?>
+                        <?php }
+                    ?>
                 </ul>
             </div>
         </div>
         <?php
-        } elseif ($video['type'] == "embed") {
-            $isVideoTypeEmbed = 1; ?>
+    } elseif ($video['type'] == "embed") {
+        $isVideoTypeEmbed = 1;
+        ?>
         <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
         <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php
         $url = parseVideos($video['videoLink']);
-            if ($autoplay) {
-                $url = addQueryStringParameter($url, 'autoplay', 1);
-            }
-            echo $url; ?>"></iframe>
+        if ($autoplay) {
+            $url = addQueryStringParameter($url, 'autoplay', 1);
+        }
+        echo $url;
+        ?>"></iframe>
         <script>
             $(document).ready(function () {
                 addView(<?php echo $video['id']; ?>, 0);
             });
         </script>
-        <?php
-        } elseif ($video['type'] == "audio" && !file_exists(Video::getPathToFile("{$video['filename']}.mp4"))) {
-            $isAudio = 1; ?>
+    <?php
+} elseif ($video['type'] == "audio" && !file_exists(Video::getPathToFile("{$video['filename']}.mp4"))) {
+    $isAudio = 1;
+    ?>
         <!-- audio -->
         <audio style="width: 100%; height: 100%;"  id="mainVideo" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainVideo"  data-setup='{ "fluid": true }'
                poster="<?php echo $poster; ?>">
-                   <?php
-                   echo getSources($video['filename']); ?>
+    <?php echo getSources($video['filename']); ?>
         </audio>
         <script>
-    <?php
-    PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
+        <?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
         </script>
         <?php
-        } elseif ($video['type'] == "linkVideo" || $video['type'] == "liveLink") {
-            ?>
-        <!-- videoLink -->
-        <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
-               class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
-            <source src="<?php echo $video['videoLink']; ?>" type="<?php echo (strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4" ?>" >
-            <?php
-            if ($video['type'] !== "liveLink" && function_exists('getVTTTracks')) {
-                echo "<!-- getVTTTracks 2 -->";
-                echo getVTTTracks($video['filename']);
-            } ?>
-            <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
-        </video>
-
+    } elseif ($video['type'] == "linkVideo" || $video['type'] == "liveLink") {
+        ?>
+        <!-- videoLink include liveVideo.php -->
         <?php
+        include_once $global['systemRootPath'] . 'plugin/LiveLinks/view/liveVideo.php';
         if ($video['type'] == "liveLink") {
             echo getLiveUsersLabelHTML();
-        } ?>
+        }
+        ?>
         <script>
-    <?php
-    PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
+        <?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
         </script>
         <?php
-        } else {
-            ?>
+    } else {
+        ?>
         <!-- else -->
         <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" playsinline webkit-playsinline poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
                class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
-                   <?php
-                   echo getSources($video['filename']); ?>
+    <?php echo getSources($video['filename']); ?>
             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
         </video>
-        <script><?php
-               PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
+        <script><?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
         </script>
         <?php
-        }
+    }
     if (empty($disableEmbedTopInfo)) {
         ?>
         <div id="topInfo" style="display: none;">
@@ -470,8 +460,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                 </div>
             </a>
             <span id="blockUserTop">
-                <?php
-                echo User::getblockUserButton($video['users_id']); ?>
+                <?php echo User::getblockUserButton($video['users_id']); ?>
             </span>
         </div>
         <?php
@@ -531,12 +520,12 @@ if (User::hasBlockedUser($video['users_id'])) {
             });
 <?php
 if ($hideProgressBarAndUnPause) {
-        ?>
+    ?>
                 player.on('pause', function () {
                     player.play();
                 });
     <?php
-    }
+}
 ?>
 
         });
