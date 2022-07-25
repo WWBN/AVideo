@@ -119,17 +119,17 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.229.1",
-            "version_normalized": "3.229.1.0",
+            "version": "3.231.12",
+            "version_normalized": "3.231.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "5cffc0b16d1f33029628586313e9cf140f18b06d"
+                "reference": "8f8742caa42b260950320c98ddc5da4926e2373d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5cffc0b16d1f33029628586313e9cf140f18b06d",
-                "reference": "5cffc0b16d1f33029628586313e9cf140f18b06d",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8f8742caa42b260950320c98ddc5da4926e2373d",
+                "reference": "8f8742caa42b260950320c98ddc5da4926e2373d",
                 "shasum": ""
             },
             "require": {
@@ -147,6 +147,7 @@
                 "andrewsville/php-token-reflection": "^1.4",
                 "aws/aws-php-sns-message-validator": "~1.0",
                 "behat/behat": "~3.0",
+                "composer/composer": "^1.10.22",
                 "doctrine/cache": "~1.4",
                 "ext-dom": "*",
                 "ext-openssl": "*",
@@ -166,7 +167,7 @@
                 "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages",
                 "ext-sockets": "To use client-side monitoring"
             },
-            "time": "2022-06-30T18:16:30+00:00",
+            "time": "2022-07-22T18:19:47+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -207,7 +208,7 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.229.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.231.12"
             },
             "install-path": "../aws/aws-sdk-php"
         },
@@ -329,17 +330,17 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.3.2",
-            "version_normalized": "1.3.2.0",
+            "version": "1.3.3",
+            "version_normalized": "1.3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "fd5dd441932a7e10ca6e5b490e272d34c8430640"
+                "reference": "30897edbfb15e784fe55587b4f73ceefd3c4d98c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/fd5dd441932a7e10ca6e5b490e272d34c8430640",
-                "reference": "fd5dd441932a7e10ca6e5b490e272d34c8430640",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/30897edbfb15e784fe55587b4f73ceefd3c4d98c",
+                "reference": "30897edbfb15e784fe55587b4f73ceefd3c4d98c",
                 "shasum": ""
             },
             "require": {
@@ -353,7 +354,7 @@
                 "symfony/phpunit-bridge": "^4.2 || ^5",
                 "symfony/process": "^2.5 || ^3.0 || ^4.0 || ^5.0 || ^6.0"
             },
-            "time": "2022-05-24T11:56:16+00:00",
+            "time": "2022-07-20T07:14:26+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -388,7 +389,7 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/ca-bundle/issues",
-                "source": "https://github.com/composer/ca-bundle/tree/1.3.2"
+                "source": "https://github.com/composer/ca-bundle/tree/1.3.3"
             },
             "funding": [
                 {
@@ -606,17 +607,17 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.2.0",
-            "version_normalized": "6.2.0.0",
+            "version": "v6.3.0",
+            "version_normalized": "6.3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "d28e6df83830252650da4623c78aaaf98fb385f3"
+                "reference": "018dfc4e1da92ad8a1b90adc4893f476a3b41cb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/d28e6df83830252650da4623c78aaaf98fb385f3",
-                "reference": "d28e6df83830252650da4623c78aaaf98fb385f3",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/018dfc4e1da92ad8a1b90adc4893f476a3b41cb8",
+                "reference": "018dfc4e1da92ad8a1b90adc4893f476a3b41cb8",
                 "shasum": ""
             },
             "require": {
@@ -633,7 +634,7 @@
             "suggest": {
                 "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
             },
-            "time": "2022-05-13T20:54:50+00:00",
+            "time": "2022-07-15T16:48:45+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -665,7 +666,7 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/v6.2.0"
+                "source": "https://github.com/firebase/php-jwt/tree/v6.3.0"
             },
             "install-path": "../firebase/php-jwt"
         },
@@ -807,17 +808,17 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.255.0",
-            "version_normalized": "0.255.0.0",
+            "version": "v0.259.0",
+            "version_normalized": "0.259.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "2b895ceb08eb106f65e975221e5d2e971cf7470e"
+                "reference": "3f68a8b8f825974bc0318b8f7268a09216d5fee1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/2b895ceb08eb106f65e975221e5d2e971cf7470e",
-                "reference": "2b895ceb08eb106f65e975221e5d2e971cf7470e",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/3f68a8b8f825974bc0318b8f7268a09216d5fee1",
+                "reference": "3f68a8b8f825974bc0318b8f7268a09216d5fee1",
                 "shasum": ""
             },
             "require": {
@@ -826,7 +827,7 @@
             "require-dev": {
                 "phpunit/phpunit": "^5.7||^8.5.13"
             },
-            "time": "2022-06-27T01:30:11+00:00",
+            "time": "2022-07-24T01:26:12+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -848,7 +849,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.255.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.259.0"
             },
             "install-path": "../google/apiclient-services"
         },
@@ -1247,17 +1248,17 @@
         },
         {
             "name": "hybridauth/hybridauth",
-            "version": "v3.8.0",
-            "version_normalized": "3.8.0.0",
+            "version": "v3.8.1",
+            "version_normalized": "3.8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hybridauth/hybridauth.git",
-                "reference": "c76bea6638376394c74a52791dd637fef4deaf08"
+                "reference": "cda2ddac102c29872164677fe92900bfef2eb15c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hybridauth/hybridauth/zipball/c76bea6638376394c74a52791dd637fef4deaf08",
-                "reference": "c76bea6638376394c74a52791dd637fef4deaf08",
+                "url": "https://api.github.com/repos/hybridauth/hybridauth/zipball/cda2ddac102c29872164677fe92900bfef2eb15c",
+                "reference": "cda2ddac102c29872164677fe92900bfef2eb15c",
                 "shasum": ""
             },
             "require": {
@@ -1271,7 +1272,7 @@
                 "firebase/php-jwt": "Needed to support Apple provider",
                 "phpseclib/phpseclib": "Needed to support Apple provider"
             },
-            "time": "2022-04-08T09:49:25+00:00",
+            "time": "2022-07-12T07:29:28+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1306,7 +1307,7 @@
             "support": {
                 "gitter": "https://gitter.im/hybridauth/hybridauth",
                 "issues": "https://github.com/hybridauth/hybridauth/issues",
-                "source": "https://github.com/hybridauth/hybridauth/tree/v3.8.0"
+                "source": "https://github.com/hybridauth/hybridauth/tree/v3.8.1"
             },
             "install-path": "../hybridauth/hybridauth"
         },
@@ -1431,17 +1432,17 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.7.0",
-            "version_normalized": "2.7.0.0",
+            "version": "2.8.0",
+            "version_normalized": "2.8.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "5579edf28aee1190a798bfa5be8bc16c563bd524"
+                "reference": "720488632c590286b88b80e62aa3d3d551ad4a50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/5579edf28aee1190a798bfa5be8bc16c563bd524",
-                "reference": "5579edf28aee1190a798bfa5be8bc16c563bd524",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/720488632c590286b88b80e62aa3d3d551ad4a50",
+                "reference": "720488632c590286b88b80e62aa3d3d551ad4a50",
                 "shasum": ""
             },
             "require": {
@@ -1461,11 +1462,10 @@
                 "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
                 "php-amqplib/php-amqplib": "~2.4 || ^3",
-                "php-console/php-console": "^3.1.3",
                 "phpspec/prophecy": "^1.15",
                 "phpstan/phpstan": "^0.12.91",
                 "phpunit/phpunit": "^8.5.14",
-                "predis/predis": "^1.1",
+                "predis/predis": "^1.1 || ^2.0",
                 "rollbar/rollbar": "^1.3 || ^2 || ^3",
                 "ruflin/elastica": "^7",
                 "swiftmailer/swiftmailer": "^5.3|^6.0",
@@ -1485,11 +1485,10 @@
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
-                "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
                 "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
-            "time": "2022-06-09T08:59:12+00:00",
+            "time": "2022-07-24T11:55:47+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1522,7 +1521,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.7.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.8.0"
             },
             "funding": [
                 {
@@ -3457,17 +3456,17 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v8.9.0",
-            "version_normalized": "8.9.0.0",
+            "version": "v8.11.0",
+            "version_normalized": "8.11.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "55a8c0ff4ac724c225b9fb33f5ce841d4c6fb65d"
+                "reference": "3b6d80aef61b0b6645177efbdb66e8feb06bce42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/55a8c0ff4ac724c225b9fb33f5ce841d4c6fb65d",
-                "reference": "55a8c0ff4ac724c225b9fb33f5ce841d4c6fb65d",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/3b6d80aef61b0b6645177efbdb66e8feb06bce42",
+                "reference": "3b6d80aef61b0b6645177efbdb66e8feb06bce42",
                 "shasum": ""
             },
             "require": {
@@ -3482,7 +3481,7 @@
                 "phpunit/phpunit": "^5.7 || ^9.0",
                 "squizlabs/php_codesniffer": "^3.3"
             },
-            "time": "2022-06-29T21:57:18+00:00",
+            "time": "2022-07-18T20:15:02+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -3514,7 +3513,7 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v8.9.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v8.11.0"
             },
             "install-path": "../stripe/stripe-php"
         },

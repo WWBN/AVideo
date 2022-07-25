@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: application/json');
 require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
@@ -15,7 +14,7 @@ if (!User::canStream()) {
     die(json_encode($obj));
 }
 
-$o = new Live_restreams(@$_POST['id']);
+$o = new Live_restreams($_POST['id'] ?? '');
 
 if (!empty($o->getUsers_id()) && !User::isAdmin() && $o->getUsers_id() != User::getId()) {
     $obj->msg = "You cant do this";
