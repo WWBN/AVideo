@@ -512,7 +512,7 @@ class Layout extends PluginAbstract {
 
     static function organizeHTML($html) {
         global $global;// add socket twice on live page
-        return $html;
+        //return $html;
         if(!empty($global['doNOTOrganizeHTML'])){
             return $html;
         }
@@ -545,6 +545,11 @@ class Layout extends PluginAbstract {
         return $html;
     }
 
+    static function tryToReplace($search, $replace, $subject){
+        $newSubject = str_replace($search, $replace, $subject);
+        return ['newSubject'=>$newSubject, 'success'=>($newSubject!==$subject)];
+    }
+    
     static function removeExtraSpacesFromHead($html) {
         preg_match('/(<head.+<\/head>)/Usi', $html, $matches);
         $str = preg_replace('/\s+/', ' ', $matches[0]);
@@ -566,8 +571,11 @@ class Layout extends PluginAbstract {
         preg_match_all('/<link[^>]+href=[^>]+css[^>]+>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $value) {
-                self::addTag('tagcss', $value);
-                $html = str_replace($value, '', $html);
+                $response = self::tryToReplace($value, '', $html);
+                if($response['success']){
+                    self::addTag('tagcss', $value);
+                    $html = $response['newSubject'];
+                }
             }
         }
         return $html;
@@ -578,8 +586,11 @@ class Layout extends PluginAbstract {
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
                 if(!preg_match('/application.+json/i', $matches[1][$key])){
-                    self::addTag('tagscript', $value);
-                    $html = str_replace($value, '', $html);
+                    $response = self::tryToReplace($value, '', $html);
+                    if($response['success']){
+                        self::addTag('tagscript', $value);
+                        $html = $response['newSubject'];
+                    }
                 }
             }
         }
@@ -594,8 +605,11 @@ class Layout extends PluginAbstract {
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
                 if(!preg_match('/application.+json/i', $value)){
-                    self::addTag($tag, $matches[1][$key]);
-                    $html = str_replace($value, '', $html);
+                    $response = self::tryToReplace($value, '', $html);
+                    if($response['success']){
+                        self::addTag($tag, $matches[1][$key]);
+                        $html = $response['newSubject'];
+                    }
                 }
             }
         }
