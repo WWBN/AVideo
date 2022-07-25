@@ -1,8 +1,10 @@
 <?php
-if (isBot()) {
+global $global;
+if (isBot() || !empty($global['doNotIncludeSocketFooter'])) {
     echo '<!-- isBot socket_info_container -->';
     return false;
 }
+$global['doNotIncludeSocketFooter'] = 1;
 $refl = new ReflectionClass('SocketMessageType');
 $obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
 if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugSocket))) {
