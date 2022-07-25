@@ -5380,7 +5380,7 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            return false;
+            return $video->getStatus() == Video::$statusBrokenMissingFiles;
         }
 
         public static function isMediaFileMissing($filename, $cacheCleared = false) {
