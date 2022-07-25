@@ -32,7 +32,7 @@ class Chromecast extends PluginAbstract {
         $css = "";
         if (isVideo()) {
             $css .= '<link href="' .getURL('node_modules/@silvermine/videojs-chromecast/dist/silvermine-videojs-chromecast.css') . '" rel="stylesheet" type="text/css"/>';
-            $css .= "<style>.vjs-chromecast-button .vjs-icon-placeholder {width: 20px;height: 20px;</style>";
+            $css .= "<style>.vjs-chromecast-button .vjs-icon-placeholder {width: 20px;height: 20px;}</style>";
         }
         return $css;
     }
