@@ -10,8 +10,8 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaigns.php';
 
-class AD_Server extends PluginAbstract {
-
+class AD_Server extends PluginAbstract
+{
     public function getTags() {
         return [
             PluginTags::$MONETIZATION,
@@ -125,7 +125,7 @@ class AD_Server extends PluginAbstract {
         }
         return false;
     }
-    
+
     public function afterNewVideo($videos_id) {
         _error_log("AD_Server:afterNewVideo start");
         $obj = $this->getDataObject();
@@ -222,7 +222,7 @@ class AD_Server extends PluginAbstract {
             return "<!-- AD_Server empty vmap_id -->";
         }
         global $global;
-        $vmap_id = @$_GET['vmap_id'];
+        $vmap_id = $_GET['vmap_id'] ?? '';
         $vmaps = self::getVMAPSFromRequest();
         $video_length = self::getVideoLength();
         $vmapURL = "{$global['webSiteRootURL']}plugin/AD_Server/VMAP.php";
@@ -424,11 +424,10 @@ class AD_Server extends PluginAbstract {
         }
         return false;
     }
-
 }
 
-class VMAP {
-
+class VMAP
+{
     public $timeOffset;
     public $timeOffsetSeconds;
     public $VAST;
@@ -469,11 +468,10 @@ class VMAP {
         $secs = floor($seconds % 60);
         return sprintf('%02d:%02d:%02d.000', $hours, $mins, $secs);
     }
-
 }
 
-class VAST {
-
+class VAST
+{
     public $id;
     public $campaing;
 
@@ -486,5 +484,4 @@ class VAST {
             $this->campaing = false;
         }
     }
-
 }

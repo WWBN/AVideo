@@ -14,4 +14,4 @@ if (!User::canStream()) {
     $total = Live_schedule::getTotal();
 }
 ?>
-{"data": <?php echo json_encode($rows); ?>, "draw": <?php echo intval(@$_REQUEST['draw']); ?>, "recordsTotal":<?php echo $total; ?>, "recordsFiltered":<?php echo $total; ?>}
+{"data": <?php echo json_encode($rows); ?>, "draw": <?php echo intval($_REQUEST['draw'] ?? 0); ?>, "recordsTotal":<?php echo $total; ?>, "recordsFiltered":<?php echo $total; ?>}

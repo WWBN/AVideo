@@ -280,7 +280,7 @@ global $Schedulecount;
                 function uploadPosterCroppie(live_schedule_id) {
                     var url = webSiteRootURL + "plugin/Live/view/Live_schedule/uploadPoster.php";
                     url = addQueryStringParameter(url,'live_schedule_id',live_schedule_id);
-                    url = addQueryStringParameter(url,'live_servers_id',<?php printJSString(@$_REQUEST['live_servers_id']); ?>);
+                    url = addQueryStringParameter(url,'live_servers_id',<?php printJSString($_REQUEST['live_servers_id'] ?? ''); ?>);
                     avideoModalIframe(url);
                 }
 
