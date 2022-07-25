@@ -125,11 +125,11 @@ class YouPHPFlix2 extends PluginAbstract {
         } else
         if (!empty($obj->playVideoOnFullscreen) && !isSerie()) {
             $js .= '<script>$(function () { if(typeof linksToEmbed === \'function\'){ linksToEmbed(\'a.galleryLink\'); } });</script>';
-            $js .= '<script>var playVideoOnFullscreen = 2</script>';
+            $js .= '<script>var playVideoOnFullscreen = 2;</script>';
         } else{
-            $js .= '<script>var playVideoOnFullscreen = false</script>';
+            $js .= '<script>var playVideoOnFullscreen = false;</script>';
         }
-        $js .= '<script src="' .getCDN() . 'plugin/YouPHPFlix2/view/js/fullscreen.js"></script>';
+        $js .= '<script src="' .getURL('plugin/YouPHPFlix2/view/js/fullscreen.js') . '"></script>';
         return $js;
     }
 
