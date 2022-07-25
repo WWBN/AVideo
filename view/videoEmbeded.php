@@ -290,6 +290,10 @@ if (User::hasBlockedUser($video['users_id'])) {
             #mainVideo > div.vjs-control-bar{
                 bottom: 0 !important;
             }
+            #main-video, #main-video iframe{
+                width: 100%;
+                height: 100%;
+            }
         </style>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
