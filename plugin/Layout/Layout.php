@@ -654,7 +654,7 @@ class Layout extends PluginAbstract {
     static function shouldIgnoreJS($tag) {
         if (
                 preg_match('/application.+json/i', $tag) ||
-                preg_match('/gatag/i', $tag) || 
+                preg_match('/function gtag\(/i', $tag) || 
                 preg_match('/<script async/i', $tag)) {
             return true;
         }
