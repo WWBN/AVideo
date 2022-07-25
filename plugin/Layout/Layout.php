@@ -516,7 +516,7 @@ class Layout extends PluginAbstract {
         if (!empty($global['doNOTOrganizeHTML'])) {
             return $html;
         }
-
+        self::$tags = array();
         //return $html;
         //var_dump($html);exit;
         $html = self::getTagsLinkCSS($html);
