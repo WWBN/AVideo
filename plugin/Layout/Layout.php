@@ -547,8 +547,8 @@ class Layout extends PluginAbstract {
 
     private static function tryToReplace($search, $replace, $subject) {
         if(true || self::codeIsValid($subject)){
-            $newSubject = str_replace($search, $replace, $subject);
-            return ['newSubject' => $newSubject, 'success' => ($newSubject !== $subject)];
+            $newSubject = str_replace($search, $replace, $subject, $count);
+            return ['newSubject' => $newSubject, 'success' => $count];
         }else{
             _error_log('organizeHTML: Invalid code: '.$subject);
             return ['newSubject' => $subject, 'success' => false];
