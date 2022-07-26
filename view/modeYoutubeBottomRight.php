@@ -7,6 +7,7 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
 
 TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
 ?>
+<!--googleoff: all-->
 <div class="col-lg-12 col-sm-12 col-xs-12 text-center">
     <?php echo getAdsSideRectangle(); ?>
 </div>
@@ -69,7 +70,6 @@ $modeYouTubeTime = microtime(true);
 <div class="extraVideos nopadding"  style="margin: 15px 0;"></div>
 <div class="clearfix"></div>
 <!-- videos List -->
-<!--googleoff: all-->
 <div id="videosList">
     <?php
     TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
@@ -79,8 +79,8 @@ $modeYouTubeTime = microtime(true);
     TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
     ?>
 </div>
-<!--googleon: all-->
 <!-- End of videos List -->
+<!--googleon: all-->
 
 <script>
     var fading = false;
