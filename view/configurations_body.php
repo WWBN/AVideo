@@ -588,12 +588,8 @@ if (User::isAdmin()) {
                         <div class="form-group">
                             <label class="col-md-2 control-label"><?php echo __("Head Code"); ?></label>
                             <div class="col-md-10">
-                                <link rel="stylesheet" href="<?php echo getCDN(); ?>node_modules/codemirrorlib/codemirror.css">
-                                <script src="<?php echo getCDN(); ?>node_modules/codemirrorlib/codemirror.js"></script>
-                                <script src="<?php echo getCDN(); ?>node_modules/codemirrormode/xml/xml.js"></script>
-                                <script src="<?php echo getCDN(); ?>node_modules/codemirrormode/css/css.js"></script>
-                                <script src="<?php echo getCDN(); ?>node_modules/codemirrormode/javascript/javascript.js"></script>
-                                <script src="<?php echo getCDN(); ?>node_modules/codemirrormode/htmlmixed/htmlmixed.js"></script>
+                                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css"></link>
+                                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js"></script>
                                 <script>
                                         (function ($) {
                                             $(document).ready(function () {
