@@ -170,8 +170,7 @@ if (User::hasBlockedUser($video['users_id'])) {
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
     <head>
-        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
-
+        <meta name="robots" content="noindex">
         <?php
         //echo AVideoPlugin::getHeadCode();
         ?>
