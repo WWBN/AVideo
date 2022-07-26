@@ -3038,7 +3038,7 @@ function itIsNotMyUsersId($users_id) {
     if (!User::isLogged()) {
         return true;
     }
-    return User::getId() == $users_id;
+    return User::getId() != $users_id;
 }
 
 function requestComesFromSafePlace() {
