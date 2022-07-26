@@ -180,12 +180,12 @@ Best regards,
     public static function getConfirmationCode($users_id, $uniqidV4)
     {
         $row = logincontrol_history::getLastLoginAttempt($users_id, $uniqidV4);
-        if (!empty($row) && ($row['status'] === logincontrol_history_status::$CONFIRMED || strtotime($row['modified']) > strtotime("-2 hours"))) {
+        if (!empty($row) && ($row['status'] === logincontrol_history_status::$CONFIRMED || strtotime($row['modified']) > strtotime("-24 hours"))) {
             return $row['confirmation_code'];
         } elseif (empty($row)) {
             _error_log("LoginControl::getConfirmationCode first login attempt $users_id, $uniqidV4");
         } else {
-            _error_log("LoginControl::getConfirmationCode confirmation code is expired $users_id, $uniqidV4");
+            _error_log("LoginControl::getConfirmationCode confirmation code is expired $users_id, $uniqidV4 ". json_encode($row));
         }
         return uniqid();
     }
