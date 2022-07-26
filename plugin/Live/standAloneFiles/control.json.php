@@ -45,7 +45,7 @@ if (!empty($_REQUEST['streamerURL'])) {
     $streamerURL = $_REQUEST['streamerURL'];
 }
 
-error_log("Control.json.php start");
+error_log("Control.json.php start ".json_encode($_REQUEST));
 
 $obj = new stdClass();
 $obj->error = true;
