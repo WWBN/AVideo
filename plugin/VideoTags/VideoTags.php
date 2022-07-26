@@ -96,6 +96,15 @@ class VideoTags extends PluginAbstract {
     static function getAllFromVideosId($videos_id) {
         return TagsHasVideos::getAllFromVideosId($videos_id);
     }
+    
+    static function getArrayFromVideosId($videos_id) {
+        $rows = TagsHasVideos::getAllFromVideosId($videos_id);
+        $array = array();
+        foreach ($rows as $value) {
+            $array[] = $value['name'];
+        }
+        return $array;
+    }
 
     static function getAllVideosIdFromTagsId($tags_id) {
         return TagsHasVideos::getAllVideosIdFromTagsId($tags_id);

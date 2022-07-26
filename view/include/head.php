@@ -69,13 +69,22 @@ TimeLogEnd($timeLogHead, __LINE__);
 //$content = _ob_get_clean();
 _ob_start();
 echo $content;
+
+$keywords = strip_tags($advancedCustom->keywords);
+if($videos_id = getVideos_id() && AVideoPlugin::isEnabledByName('VideoTags')){
+    $tags = VideoTags::getArrayFromVideosId($videos_id);
+    if(!empty($tags)){
+        $keywords .= implode(', ',$tags);
+    }
+}
+
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="<?php echo $metaDescription; ?>">
 <meta name="device_id" content="<?php echo getDeviceID(); ?>">
-<meta name="keywords" content="<?php echo str_replace('"', "", strip_tags($advancedCustom->keywords)); ?>">
+<meta name="keywords" content=<?php printJSString($keywords); ?>>
 <link rel="manifest" href="<?php echo $global['webSiteRootURL']; ?>manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $config->getFavicon(true); ?>">
 <link rel="icon" type="image/png" href="<?php echo $config->getFavicon(true); ?>">
