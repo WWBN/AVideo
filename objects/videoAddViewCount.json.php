@@ -57,7 +57,9 @@ if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
     $resp = $obj->addView();
     _session_start();
     $_SESSION['addViewCount'][$_REQUEST['id']]['time'] = strtotime("+{$seconds} seconds");
-} elseif (isset($_REQUEST['currentTime'])) {
+}
+
+if (isset($_REQUEST['currentTime'])) {
     $currentTime = intval($_REQUEST['currentTime']);
     if ($currentTime<0) {
         $currentTime = 0;
