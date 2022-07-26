@@ -2,7 +2,7 @@
 <div class="row">
     <div class="form-group col-sm-6">
         <label for="title"><?php echo __('Title'); ?></label>
-        <input type="text" class="form-control" id="title" placeholder="Enter email" value="<?php echo $title; ?>">
+        <input type="text" class="form-control" id="title" placeholder="<?php echo __('Title'); ?>" value="<?php echo $title; ?>">
     </div>
     <div class="form-group col-sm-6">
         <label for="categories_id"><?php echo __('Categories'); ?></label>
