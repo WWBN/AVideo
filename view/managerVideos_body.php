@@ -1064,7 +1064,12 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
             $('#inputDescription').val(row.descriptionHTML);
             if(!empty(tinymce.get('inputDescription'))){
-                tinymce.get('inputDescription').setContent(row.descriptionHTML);
+                try {
+                    tinymce.get('inputDescription').setContent(row.descriptionHTML);
+                } catch (e) {
+                    console.error('inputDescription', e, typeof tinymce.get('inputDescription'));
+                }
+
             }                                 
                                                 
     <?php
