@@ -7,17 +7,18 @@ if (!isset($global['systemRootPath'])) {
 if (!empty($_REQUEST['hash'])) {
     $string = decryptString($_REQUEST['hash']);
     $obj = json_decode($string);
-    $videos_id = intval($obj->videos_id);
+    $_videos_id = intval($obj->videos_id);
 } else {
-    $videos_id = intval(@$_REQUEST['videos_id']);
-    if (!Video::canEdit($videos_id)) {
+    $_videos_id = intval(@$_REQUEST['videos_id']);
+    if (!Video::canEdit($_videos_id)) {
         forbiddenPage("You cannot see this info");
     }
 }
-if (empty($videos_id)) {
+if (empty($_videos_id)) {
     forbiddenPage("Videos ID is required");
 }
-$v = new Video('', '', $videos_id);
+$v = new Video('', '', $_videos_id);
+
 //var_dump($total);exit;
 ?>
 <!DOCTYPE html>
@@ -52,10 +53,10 @@ $v = new Video('', '', $videos_id);
             <div class="panel panel-default">
                 <div class="panel-heading clearfix" id="viewInfoTitle">
                     <?php
-                    echo Video::getVideosListItem($videos_id);
+                    echo Video::getVideosListItem($_videos_id);
                     //echo $v->getTitle();
                     $obj = new stdClass();
-                    $obj->videos_id = $videos_id;
+                    $obj->videos_id = $_videos_id;
                     $hash = encryptString($obj);
                     ?>
                     <div class="btn-group" role="group" aria-label="Basic example" id="buttonsGroup">
@@ -138,13 +139,13 @@ $v = new Video('', '', $videos_id);
         <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
         <script type="text/javascript">
                             function getVideoViewsAjaxURL() {
-                                var url = webSiteRootURL + "view/videoViewsInfo.json.php?videos_id=<?php echo $videos_id; ?>&hash=<?php echo @$_REQUEST['hash']; ?>";
+                                var url = webSiteRootURL + "view/videoViewsInfo.json.php?videos_id=<?php echo $_videos_id; ?>&hash=<?php echo @$_REQUEST['hash']; ?>";
                                 url = addGetParam(url, 'created_year', $('#year').val());
                                 url = addGetParam(url, 'created_month', $('#month').val());
                                 return url;
                             }
                             function getVideoViewsCSV() {
-                                var url = webSiteRootURL + "view/videoViewsInfo.csv.php?videos_id=<?php echo $videos_id; ?>&hash=<?php echo @$_REQUEST['hash']; ?>";
+                                var url = webSiteRootURL + "view/videoViewsInfo.csv.php?videos_id=<?php echo $_videos_id; ?>&hash=<?php echo @$_REQUEST['hash']; ?>";
                                 url = addGetParam(url, 'created_year', $('#year').val());
                                 url = addGetParam(url, 'created_month', $('#month').val());
                                 document.location = url;
