@@ -76,7 +76,7 @@ if(!empty($videos_id) && AVideoPlugin::isEnabledByName('VideoTags')){
     $keywords .= ", $videos_id";
     $tags = VideoTags::getArrayFromVideosId($videos_id);
     if(!empty($tags)){
-        $keywords .= implode(', ',$tags);
+        $keywords .= ', '.implode(', ',$tags);
     }
 }
 
