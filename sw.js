@@ -60,13 +60,14 @@ const networkFallbackStrategyPlugin = {
     }
 };
 const networkWithFallbackStrategy = {networkTimeoutSeconds: 5, plugins: [networkFallbackStrategyPlugin], cacheName: CACHE_NAME};
+const showCacheIfFetchTimeout = {networkTimeoutSeconds: 5, plugins: [{fetchDidFail: async function () {return await CacheOnly.handle(args);}}], cacheName: CACHE_NAME};
 
 const CacheFirst = new workbox.strategies.CacheFirst({cacheName: CACHE_NAME});
 const NetworkFirst = new workbox.strategies.NetworkFirst({networkTimeoutSeconds: 2, cacheName: CACHE_NAME});
 const NetworkOnly = new workbox.strategies.NetworkOnly({cacheName: CACHE_NAME, plugins: [networkWithFallbackStrategy]});
 const CacheOnly = new workbox.strategies.CacheOnly({cacheName: CACHE_NAME, plugins: [ignoreQueryStringPlugin]});
 //const StaleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({cacheName: CACHE_NAME, matchOptions: {ignoreSearch: true}});
-const StaleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({cacheName: CACHE_NAME});
+const StaleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate(showCacheIfFetchTimeout);
 
 var getStrategyTypeURLs = [];
 async function getStrategyType(strategyName, args, fallback) {
