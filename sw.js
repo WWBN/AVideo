@@ -2,14 +2,14 @@
 importScripts('workbox-v6.5.3/workbox-sw.js');
 
 workbox.setConfig({
-  modulePathPrefix: 'workbox-v6.5.3/',
+    modulePathPrefix: 'workbox-v6.5.3/',
     debug: false
 });
 
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
 const CACHE_NAME = 'avideo-cache-ver-1.2';
-console.log('sw CACHE_NAME',CACHE_NAME);
+console.log('sw CACHE_NAME', CACHE_NAME);
 const precahedFiles = [
     FALLBACK_HTML_URL,
     webSiteRootURL + 'node_modules/video.js/dist/video-js.min.css',
@@ -60,7 +60,9 @@ const networkFallbackStrategyPlugin = {
     }
 };
 const networkWithFallbackStrategy = {networkTimeoutSeconds: 5, plugins: [networkFallbackStrategyPlugin], cacheName: CACHE_NAME};
-const showCacheIfFetchTimeout = {networkTimeoutSeconds: 5, plugins: [{fetchDidFail: async function () {return await CacheOnly.handle(args);}}], cacheName: CACHE_NAME};
+const showCacheIfFetchTimeout = {networkTimeoutSeconds: 5, plugins: [{fetchDidFail: async function () {
+                return await CacheOnly.handle(args);
+            }}], cacheName: CACHE_NAME};
 
 const CacheFirst = new workbox.strategies.CacheFirst({cacheName: CACHE_NAME});
 const NetworkFirst = new workbox.strategies.NetworkFirst({networkTimeoutSeconds: 2, cacheName: CACHE_NAME});
@@ -74,8 +76,8 @@ async function getStrategyType(strategyName, args, fallback) {
     if (args.request.url == webSiteRootURL) {
         console.log('getStrategyType', strategyName, args.request.url, fallback);
     }
-    
-    if(typeof getStrategyTypeURLs[args.request.url] !== 'undefined'){
+
+    if (typeof getStrategyTypeURLs[args.request.url] !== 'undefined') {
         return await CacheFirst.handle(args);
     }
     getStrategyTypeURLs[args.request.url] = args;
@@ -192,6 +194,19 @@ async function getStrategy(args) {
             await processStrategyDefault(args, extension);
 
 }
+
+// Try to cache opaque from CDN
+workbox.routing.registerRoute(
+        ({url}) => /cdn.ypt.me/.test(url.origin),
+        new CacheFirst({
+            cacheName: CACHE_NAME,
+            plugins: [
+                new CacheableResponsePlugin({
+                    statuses: [0, 200],
+                })
+            ]
+        })
+        );
 
 workbox.routing.registerRoute(/.*/, getStrategy);
 
