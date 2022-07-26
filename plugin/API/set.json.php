@@ -5,6 +5,7 @@ if (!file_exists($configFile)) {
     $path = pathinfo($scriptPath);
     $configFile = $path['dirname'] . "/" . $configFile;
 }
+$global['bypassSameDomainCheck'] = 1;
 
 require_once $configFile;
 require_once $global['systemRootPath'].'plugin/API/API.php';
