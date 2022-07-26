@@ -73,10 +73,13 @@ echo $content;
 $keywords = strip_tags($advancedCustom->keywords);
 $videos_id = getVideos_id();
 if(!empty($videos_id) && AVideoPlugin::isEnabledByName('VideoTags')){
-    $keywords .= ", $videos_id";
+    //$keywords .= ", $videos_id";
     $tags = VideoTags::getArrayFromVideosId($videos_id);
     if(!empty($tags)){
-        $keywords .= ', '.implode(', ',$tags);
+        if(!empty($keywords)){
+            $keywords .= ', ';
+        }
+        $keywords .= implode(', ',$tags);
     }
 }
 
