@@ -68,10 +68,16 @@ const CacheOnly = new workbox.strategies.CacheOnly({cacheName: CACHE_NAME, plugi
 //const StaleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({cacheName: CACHE_NAME, matchOptions: {ignoreSearch: true}});
 const StaleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({cacheName: CACHE_NAME});
 
+var getStrategyTypeURLs = [];
 async function getStrategyType(strategyName, args, fallback) {
     if (args.request.url == webSiteRootURL) {
         console.log('getStrategyType', strategyName, args.request.url, fallback);
     }
+    
+    if(typeof getStrategyTypeURLs[args.request.url] !== 'undefined'){
+        return await CacheFirst.handle(args);
+    }
+    getStrategyTypeURLs[args.request.url] = args;
     try {
         switch (strategyName) {
             case 'CacheFirst':
