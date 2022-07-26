@@ -18,6 +18,24 @@ $videos_id = $video['id'];
 $source = Video::getSourceFile($video['filename']);
 $imgw = 1024;
 $imgh = 768;
+
+switch ($video['type']) {
+    case "audio":
+    case "linkAudio":
+        $ogtype = 'music.song';
+
+        break;
+    case "pdf":
+    case "article":
+        $ogtype = 'article';
+        break;
+
+    default:
+        $ogtype = 'video.other';
+        break;
+}
+
+$ogtype = 'video.other';
 if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
     $img = $source['url'];
     $data = getimgsize($source['path']);
@@ -58,7 +76,7 @@ $ogURL = Video::getLinkToVideo($videos_id, '', false,false);
 <meta property="og:title"              content="<?php echo $title; ?>" />
 <meta property="og:description"        content="<?php echo $description; ?>" />
 <meta property="og:url"                content="<?php echo $ogURL; ?>" />
-<meta property="og:type"               content="video.other" />
+<meta property="og:type"               content="<?php echo $ogtype; ?>" />
 <link rel="canonical" href="<?php echo $ogURL; ?>" />
 
 <?php
