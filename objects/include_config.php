@@ -3,10 +3,12 @@ if (!empty($doNotIncludeConfig)) {
     error_log('AVideo includeconfig ignored');
     return false;
 }
-
+/*
 if($_SERVER["HTTP_HOST"] === 'localhost' || $_SERVER["HTTP_HOST"] === '127.0.0.1'){
     $global["webSiteRootURL"] = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].$global["webSiteRootPath"];
 }
+ * 
+ */
 
 //var_dump($_SERVER, $global);exit;
 //$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
