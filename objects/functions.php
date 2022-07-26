@@ -3024,12 +3024,13 @@ function isUntrustedRequest($logMsg = '', $approveAVideoUserAgent = true) {
 }
 
 function forbidIfItIsNotMyUsersId($users_id, $logMsg = '') {
-    if (itIsNotMyUsersId($users_id, $logMsg)) {
+    if (itIsNotMyUsersId($users_id)) {
+        _error_log("forbidIfItIsNotMyUsersId: [{$users_id}]!=[".User::getId()."] {$logMsg}");
         forbiddenPage('It is not your user ' . getRealIpAddr(), true);
     }
 }
 
-function itIsNotMyUsersId($users_id, $logMsg = '') {
+function itIsNotMyUsersId($users_id) {
     $users_id = intval($users_id);
     if (empty($users_id)) {
         return false;
