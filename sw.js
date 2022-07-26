@@ -164,13 +164,13 @@ async function getStrategy(args) {
     strategiesNetworkOnly.push({extension: false, destination: 'document', url: webSiteRootURL, fallback: true});
     strategiesNetworkOnly.push({extension: 'key', destination: false, url: false, fallback: false});
     strategiesNetworkOnly.push({extension: 'php', destination: false, url: false, fallback: false});
+    strategiesNetworkOnly.push({extension: 'ts', destination: false, url: false, fallback: false});
+    strategiesNetworkOnly.push({extension: 'mp4', destination: false, url: false, fallback: false});
+    strategiesNetworkOnly.push({extension: 'mp4', destination: false, url: false, fallback: false});
+    strategiesNetworkOnly.push({extension: 'webm', destination: false, url: false, fallback: false});
 
     var strategiesNetworkFirst = [];
     strategiesNetworkFirst.push({extension: false, destination: 'document', url: webSiteRootURL + 'offline', fallback: false});
-    strategiesNetworkFirst.push({extension: 'ts', destination: false, url: false, fallback: false});
-    strategiesNetworkFirst.push({extension: 'mp4', destination: false, url: false, fallback: false});
-    strategiesNetworkFirst.push({extension: 'mp4', destination: false, url: false, fallback: false});
-    strategiesNetworkFirst.push({extension: 'webm', destination: false, url: false, fallback: false});
 
     var strategiesCacheFirst = [];
     strategiesCacheFirst.push({extension: false, destination: 'font', url: false, fallback: false});
