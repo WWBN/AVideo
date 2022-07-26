@@ -166,7 +166,7 @@ async function getStrategy(args) {
     strategiesNetworkOnly.push({extension: 'php', destination: false, url: false, fallback: false});
     strategiesNetworkOnly.push({extension: 'ts', destination: false, url: false, fallback: false});
     strategiesNetworkOnly.push({extension: 'mp4', destination: false, url: false, fallback: false});
-    strategiesNetworkOnly.push({extension: 'mp4', destination: false, url: false, fallback: false});
+    strategiesNetworkOnly.push({extension: 'mp3', destination: false, url: false, fallback: false});
     strategiesNetworkOnly.push({extension: 'webm', destination: false, url: false, fallback: false});
 
     var strategiesNetworkFirst = [];
