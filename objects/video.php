@@ -168,10 +168,12 @@ if (!class_exists('Video')) {
             $seconds_watching = intval($seconds_watching);
 
             if (empty($seconds_watching)) {
+                _error_log("addSecondsWatching: seconds_watching is empty");
                 return false;
             }
 
             if (empty($this->id)) {
+                _error_log("addSecondsWatching: ID is empty ");
                 return false;
             }
             $sql = "UPDATE videos SET total_seconds_watching = total_seconds_watching+{$seconds_watching}, modified = now() WHERE id = ?";
