@@ -19,7 +19,11 @@ if (empty($_POST['name'])) {
     die('{"error":"'.__("Name can't be blank").'"}');
 }
 $obj = new PlayList(@$_POST['id']);
-forbidIfItIsNotMyUsersId($obj->getUsers_id());
+
+if(!empty($obj->getUsers_id())){
+    forbidIfItIsNotMyUsersId($obj->getUsers_id());
+}
+
 $obj->setName($_POST['name']);
 $obj->setStatus($_POST['status']);
 echo '{"status":"'.$obj->save().'"}';
