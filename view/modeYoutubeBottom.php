@@ -61,7 +61,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
         <div class="col-xs-8 col-sm-8 col-md-8">
             <h1 itemprop="name">
                 <?php
-                echo getSEOTitle($video['title'], 65);
+                echo getSEOTitle($video['title'], 60);
                 ?> &nbsp;
             </h1>
             <?php
