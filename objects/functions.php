@@ -5909,7 +5909,7 @@ function getSEOTitle($text, $maxChars = 60) {
     if (_strlen($newText) < $maxChars) {
         return $newText;
     } else {
-        return _substr($newText, 0, $maxChars) . '...';
+        return _substr($newText, 0, $maxChars-3) . '...';
     }
 }
 
