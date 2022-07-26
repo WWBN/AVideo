@@ -331,7 +331,7 @@ $(function () {
     AutoUpdateOnHTMLTimer();
 });
 var _startSocketTimeout;
-function startSocket() {
+async function startSocket() {
     clearTimeout(_startSocketTimeout);
     if (!isOnline() || typeof webSiteRootURL == 'undefined') {
         console.log('startSocket: Not Online');

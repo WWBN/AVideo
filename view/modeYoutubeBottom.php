@@ -59,11 +59,11 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
             <span itemprop="description" content="<?php echo $description; ?>"></span>
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8">
-            <h2 itemprop="name">
+            <h1 itemprop="name">
                 <?php
                 echo getSEOTitle($video['title'], 65);
                 ?> &nbsp;
-            </h2>
+            </h1>
             <?php
             if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                 ?>
