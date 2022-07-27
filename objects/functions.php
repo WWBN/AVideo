@@ -5035,6 +5035,10 @@ function getVideos_id() {
         $videos_id = $_REQUEST['v'];
     }
 
+    if (empty($videos_id) && !empty($_REQUEST['videos_id'])) {
+        $videos_id = $_REQUEST['videos_id'];
+    }
+    
     $videos_id = videosHashToID($videos_id);
 
     return $videos_id;

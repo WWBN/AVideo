@@ -71,10 +71,10 @@ _ob_start();
 echo $content;
 
 $keywords = strip_tags($advancedCustom->keywords);
-$videos_id = getVideos_id();
-if(!empty($videos_id) && AVideoPlugin::isEnabledByName('VideoTags')){
+$head_videos_id = getVideos_id();
+if(!empty($head_videos_id) && AVideoPlugin::isEnabledByName('VideoTags')){
     //$keywords .= ", $videos_id";
-    $tags = VideoTags::getArrayFromVideosId($videos_id);
+    $tags = VideoTags::getArrayFromVideosId($head_videos_id);
     if(!empty($tags)){
         if(!empty($keywords)){
             $keywords .= ', ';
