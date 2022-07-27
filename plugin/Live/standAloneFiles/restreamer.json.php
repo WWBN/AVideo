@@ -20,7 +20,7 @@ $logFileLocation = '/var/www/tmp/';
  * $separateRestreams if it is set to true the script will use one FFMPEG command/process for each restream, otherwise will use only one for all streams
  * all in one FFMPEG command will save you CPU and other resources, but will make harder to find issues
  */
-$separateRestreams = false;
+$separateRestreams = true;
 
 // optional you can change the default FFMPEG
 //$ffmpegBinary = '/usr/bin/ffmpeg';
