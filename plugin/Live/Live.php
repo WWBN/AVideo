@@ -3572,7 +3572,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     private static function getProcess($key) {
         exec("ps -ax 2>&1", $output, $return_var);
-        error_log("Live:getProcess ". json_encode($output));
+        //error_log("Live:getProcess ". json_encode($output));
         foreach ($output as $value) {
             error_log("Live:getProcess {$pattern}");
             $pattern = "/^([0-9]+).*ffmpeg .*" . str_replace('/', '\/', $key) . "/i";
