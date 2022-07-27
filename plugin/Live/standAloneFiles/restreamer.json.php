@@ -65,6 +65,10 @@ if ($whichffmpeg !== $ffmpegBinary) {
 
 $isCommandLine = php_sapi_name() === 'cli';
 
+function _addLastSlash($word) {
+    return $word . (hasLastSlash($word) ? "" : "/");
+}
+
 function getLiveKey($token) {
     global $streamerURL;
     $content = file_get_contents("{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?token={$token}");
@@ -72,7 +76,7 @@ function getLiveKey($token) {
         $json = json_decode($content);
         if (!empty($json) && $json->error === false) {
             if (!empty($json->stream_key) && !empty($json->stream_url)) {
-                $newRestreamsDestination = "{$json->stream_url}{$json->stream_key}";
+                $newRestreamsDestination = _addLastSlash($json->stream_url).$json->stream_key;
                 error_log("Restreamer.json.php found $newRestreamsDestination");
                 return $newRestreamsDestination;
             } else {
