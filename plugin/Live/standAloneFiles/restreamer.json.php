@@ -66,6 +66,7 @@ if ($whichffmpeg !== $ffmpegBinary) {
 $isCommandLine = php_sapi_name() === 'cli';
 
 function getLiveKey($token) {
+    global $streamerURL;
     $content = file_get_contents("{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?token={$token}");
     if (!empty($content)) {
         $json = json_decode($content);
