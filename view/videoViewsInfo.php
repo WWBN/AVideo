@@ -41,6 +41,10 @@ $v = new Video('', '', $_videos_id);
                 right:10px;
                 top: 10px;
             }
+            .videoImagesAndInfo{
+                max-width: 400px;
+                float: left;
+            }
         </style>
     </head>
 
@@ -52,13 +56,16 @@ $v = new Video('', '', $_videos_id);
             <br>
             <div class="panel panel-default">
                 <div class="panel-heading clearfix" id="viewInfoTitle">
-                    <?php
-                    echo Video::getVideosListItem($_videos_id);
-                    //echo $v->getTitle();
-                    $obj = new stdClass();
-                    $obj->videos_id = $_videos_id;
-                    $hash = encryptString($obj);
-                    ?>
+                    <div class="videoImagesAndInfo">
+                        <?php
+                        echo Video::getVideosListItem($_videos_id);
+                        //echo Video::getVideoImagewithHoverAnimationFromVideosId($_videos_id);
+                        //echo $v->getTitle();
+                        $obj = new stdClass();
+                        $obj->videos_id = $_videos_id;
+                        $hash = encryptString($obj);
+                        ?>
+                    </div>
                     <div class="btn-group" role="group" aria-label="Basic example" id="buttonsGroup">
                         <button type="button" class="btn btn-default" onclick="copyToClipboard(webSiteRootURL + 'view/videoViewsInfo.php?hash=<?php echo $hash; ?>');"><i class="fas fa-copy"></i> <?php echo __('Share link'); ?></button>
                         <button onclick="getVideoViewsCSV();" class="btn btn-primary" >
