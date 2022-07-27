@@ -158,7 +158,8 @@ if (empty($separateRestreams)) {
     error_log("Restreamer.json.php separateRestreams " . count($robj->restreamsDestinations));
     foreach ($robj->restreamsDestinations as $key => $value) {
         sleep(0.5);
-        $obj->pid[] = startRestream($robj->m3u8, [$value], str_replace(".log", "_{$key}.log", $obj->logFile));
+        $host = clearCommandURL(parse_url($robj->m3u8, PHP_URL_HOST));
+        $obj->pid[] = startRestream($robj->m3u8, [$value], str_replace(".log", "_{$key}_{$host}.log", $obj->logFile));
     }
 }
 $obj->error = false;
@@ -240,7 +241,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1)
         return startRestream($m3u8, $restreamsDestinations, $logFile, $tries + 1);
     }
     
-    error_log("Restreamer.json.php isURL200 tries={$tries} ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
+    error_log("Restreamer.json.php isURL200 tries={$tries} ");
     //sleep(5);
     /*
       $command = "ffmpeg -i {$m3u8} ";
