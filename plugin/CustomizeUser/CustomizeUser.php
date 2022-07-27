@@ -347,26 +347,33 @@ class CustomizeUser extends PluginAbstract {
         $isMyChannel = true;
         return self::getChannelButton();
     }
-
+    
     public static function canDownloadVideosFromVideo($videos_id) {
+        global $_lastCanDownloadVideosFromVideoReason;
+        $_lastCanDownloadVideosFromVideoReason = '';
         if (!CustomizeUser::canDownloadVideos()) {
+            $_lastCanDownloadVideosFromVideoReason = 'CustomizeUser::canDownloadVideos';
             return false;
         }
         $video = new Video("", "", $videos_id);
         if (empty($video)) {
+            $_lastCanDownloadVideosFromVideoReason = 'Empty video for video id '.$videos_id;
             return false;
         }
         $users_id = $video->getUsers_id();
-        if (!self::canDownloadVideosFromUser($users_id)) {
+        if (!CustomizeUser::canDownloadVideosFromUser($users_id)) {
+            $_lastCanDownloadVideosFromVideoReason = 'CustomizeUser::canDownloadVideosFromUser';
             return false;
         }
         $category = new Category($video->getCategories_id());
         if (is_object($category) && !$category->getAllow_download()) {
+            $_lastCanDownloadVideosFromVideoReason = 'Category does not allow download';
             return false;
         }
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
         if (!empty($obj->userCanAllowFilesDownloadSelectPerVideo)) {
             if (empty($video->getCan_download())) {
+                $_lastCanDownloadVideosFromVideoReason = 'userCanAllowFilesDownloadSelectPerVideo';
                 return false;
             }
         }
