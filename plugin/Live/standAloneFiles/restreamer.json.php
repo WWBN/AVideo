@@ -130,7 +130,7 @@ if (!$isCommandLine) {
 
     $content = file_get_contents($verifyTokenURL, false, stream_context_create($arrContextOptions));
 
-    error_log("Restreamer.json.php verification respond content {$content}");
+    //error_log("Restreamer.json.php verification respond content {$content}");
     $json = json_decode($content);
 
     if (empty($json)) {
@@ -144,13 +144,15 @@ if (!$isCommandLine) {
     }
 }
 
-error_log("Restreamer.json.php token is correct");
+//error_log("Restreamer.json.php token is correct");
 ignore_user_abort(true);
 ob_start();
 header("Connection: close");
 @header("Content-Length: " . ob_get_length());
 ob_end_flush();
 flush();
+    
+killIfIsRunning($robj->m3u8);
 if (empty($separateRestreams)) {
     error_log("Restreamer.json.php all in one command ");
     $obj->pid[] = startRestream($robj->m3u8, $robj->restreamsDestinations, $obj->logFile);
@@ -224,7 +226,6 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1)
     }
     $m3u8 = clearCommandURL($m3u8);
 
-    killIfIsRunning($m3u8);
     if ($tries === 1) {
         sleep(3);
     }
