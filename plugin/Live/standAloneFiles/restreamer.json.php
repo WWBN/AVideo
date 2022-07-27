@@ -160,7 +160,7 @@ if (empty($separateRestreams)) {
     error_log("Restreamer.json.php separateRestreams " . count($robj->restreamsDestinations));
     foreach ($robj->restreamsDestinations as $key => $value) {
         sleep(0.5);
-        $host = clearCommandURL(parse_url($robj->m3u8, PHP_URL_HOST));
+        $host = clearCommandURL(parse_url($value, PHP_URL_HOST));
         $obj->pid[] = startRestream($robj->m3u8, [$value], str_replace(".log", "_{$key}_{$host}.log", $obj->logFile));
     }
 }
