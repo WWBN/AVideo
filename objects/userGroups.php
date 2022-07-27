@@ -213,9 +213,8 @@ class UserGroups
 
     // for users
 
-    public static function updateUserGroups($users_id, $array_groups_id, $byPassAdmin=false, $mergeWithCurrentUserGroups=false)
-    {
-        if (!$byPassAdmin && !Permissions::canAdminUsers()) {
+    public static function updateUserGroups($users_id, $array_groups_id, $byPassAdmin=false, $mergeWithCurrentUserGroups=false){
+        if (!$byPassAdmin && !Permissions::canAdminUsers() && !isCommandLineInterface()) {
             return false;
         }
         if (!is_array($array_groups_id)) {
@@ -383,18 +382,20 @@ class UserGroups
 
     public static function updateVideoGroups($videos_id, $array_groups_id, $mergeWithCurrentUserGroups=false)
     {
-        if (!User::canUpload()) {
+        if (empty($array_groups_id) || (!isCommandLineInterface() && !User::canUpload())) {
             return false;
         }
         if (!is_array($array_groups_id)) {
-            return false;
+            $array_groups_id = array($array_groups_id);
         }
 
         if ($mergeWithCurrentUserGroups) {
             $current_user_groups = self::getVideosAndCategoriesUserGroups($videos_id);
             foreach ($current_user_groups as $value) {
                 if (!in_array($value['id'], $array_groups_id)) {
-                    $array_groups_id[] = $value['id'];
+                    if($value['isVideoUserGroup']){
+                        $array_groups_id[] = $value['id'];
+                    }
                 }
             }
         }
