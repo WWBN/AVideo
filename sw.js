@@ -195,19 +195,6 @@ async function getStrategy(args) {
 
 }
 
-// Try to cache opaque from CDN
-workbox.routing.registerRoute(
-        ({url}) => /cdn.ypt.me/.test(url.origin),
-        new CacheFirst({
-            cacheName: CACHE_NAME,
-            plugins: [
-                new CacheableResponsePlugin({
-                    statuses: [0, 200],
-                })
-            ]
-        })
-        );
-
 workbox.routing.registerRoute(/.*/, getStrategy);
 
 self.addEventListener('install', event => {
