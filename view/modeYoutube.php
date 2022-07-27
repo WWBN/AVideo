@@ -292,14 +292,14 @@ if (empty($video)) {
                 $vid->save();
                 _error_log('Missing files recovered '. $_GET['v']);
             }else{
-                videoNotFound('The video is not available 1: status='.Video::$statusDesc[$vid->getStatus()]);                
+                videoNotFound('ERROR 1: The video ID ['.$_GET['v'].'] is not available: status='.Video::$statusDesc[$vid->getStatus()]);                
             }
         }else{
-            videoNotFound('The video is not available 2: status='.Video::$statusDesc[$vid->getStatus()]);
+            videoNotFound('ERROR 2: The video ID ['.$_GET['v'].'] is not available: status='.Video::$statusDesc[$vid->getStatus()]);
         }
         
     }else{    
-        videoNotFound('The video is not available 3');
+        videoNotFound('ERROR 3: The video is not available video ID is empty');
     }
 }
 $metaDescription = " {$video['id']}";
