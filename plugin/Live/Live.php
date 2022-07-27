@@ -3570,11 +3570,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return '';
     }
 
-    public function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id) {
-        //check if there is any ffmpeg process to kill
-        self::killIfIsRunning($key);
-    }
-
     private static function getProcess($key) {
         exec("ps -ax 2>&1", $output, $return_var);
         error_log("Live:getProcess ". json_encode($output));
@@ -3588,7 +3583,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return false;
     }
 
-    private static function killIfIsRunning($key) {
+    static function killIfIsRunning($key) {
         $process = self::getProcess($key);
         error_log("Live::killIfIsRunning checking if there is a process running for {$key} ");
         if (!empty($process)) {
