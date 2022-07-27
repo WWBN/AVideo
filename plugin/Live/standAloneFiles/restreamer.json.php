@@ -66,7 +66,10 @@ if ($whichffmpeg !== $ffmpegBinary) {
 $isCommandLine = php_sapi_name() === 'cli';
 
 function _addLastSlash($word) {
-    return $word . (hasLastSlash($word) ? "" : "/");
+    return $word . (_hasLastSlash($word) ? "" : "/");
+}
+function _hasLastSlash($word) {
+    return substr($word, -1) === '/';
 }
 
 function getLiveKey($token) {
