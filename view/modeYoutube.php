@@ -292,10 +292,10 @@ if (empty($video)) {
                 $vid->save();
                 _error_log('Missing files recovered '. $_GET['v']);
             }else{
-                videoNotFound('The video is not available 1');                
+                videoNotFound('The video is not available 1: status='.Video::$statusDesc[$vid->getStatus()]);                
             }
         }else{
-            videoNotFound('The video is not available 2');
+            videoNotFound('The video is not available 2: status='.Video::$statusDesc[$vid->getStatus()]);
         }
         
     }else{    
