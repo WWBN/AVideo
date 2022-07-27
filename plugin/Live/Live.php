@@ -3589,7 +3589,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     private static function killIfIsRunning($key) {
-        $process = getProcess($key);
+        $process = self::getProcess($key);
         error_log("Live::killIfIsRunning checking if there is a process running for {$key} ");
         if (!empty($process)) {
             error_log("Live::killIfIsRunning there is a process running for {$key} " . json_encode($process));
