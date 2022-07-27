@@ -100,6 +100,9 @@ if (!User::isAdmin()) {
         <button href="" class="delete_Live_restreams btn btn-danger btn-xs">
             <i class="fa fa-trash"></i>
         </button>
+        <button href="" class="check_Live_restreams btn btn-primary btn-xs">
+            <i class="fa fa-check"></i>
+        </button>
     </div>
 </div>
 
@@ -173,6 +176,13 @@ if (!User::isAdmin()) {
                     modal.hidePleaseWait();
                 }
             });
+        });
+        $('#Live_restreamsTable').on('click', 'button.check_Live_restreams', function (e) {
+            e.preventDefault();
+            var tr = $(this).closest('tr')[0];
+            var data = Live_restreamstableVar.row(tr).data();
+            var url = webSiteRootURL+"plugin/Live/view/Live_restreams/getLiveKey.json.php?token="+data.restreamsToken;
+            avideoModalIframe(url);
         });
         $('#Live_restreamsTable').on('click', 'button.delete_Live_restreams', function (e) {
             e.preventDefault();

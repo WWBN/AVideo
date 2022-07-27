@@ -1,40 +1,41 @@
 <?php
+
 require_once '../../../../videos/configuration.php';
 
-_error_log('Restreamer get live keys start '.json_encode($_REQUEST));
-if(!AVideoPlugin::isEnabledByName('Live')){
+_error_log('Restreamer get live keys start ' . json_encode($_REQUEST));
+if (!AVideoPlugin::isEnabledByName('Live')) {
     forbiddenPage('Live plugin is disabled', true);
 }
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
 header('Content-Type: application/json');
 
 $byPassPermissionCheck = false;
-if(!empty($_REQUEST['token'])){
+if (!empty($_REQUEST['token'])) {
     $_REQUEST['live_restreams_id'] = intval(decryptString($_REQUEST['token']));
     $byPassPermissionCheck = true;
 }
 
-if(empty($_REQUEST['live_restreams_id'])){
+if (empty($_REQUEST['live_restreams_id'])) {
     forbiddenPage('live_restreams_id cannot be empty', true);
 }
 
 $Live_restreams = new Live_restreams($_REQUEST['live_restreams_id']);
 
-if(empty($Live_restreams->getName())){
-    forbiddenPage('Name not found for live_restreams_id='.$_REQUEST['live_restreams_id'], true);
+if (empty($Live_restreams->getName())) {
+    forbiddenPage('Name not found for live_restreams_id=' . $_REQUEST['live_restreams_id'], true);
 }
 
-if(!$byPassPermissionCheck && $Live_restreams->getUsers_id() !==User::getId() && !User::isAdmin() && !isCommandLineInterface()){
+if (!$byPassPermissionCheck && $Live_restreams->getUsers_id() !== User::getId() && !User::isAdmin() && !isCommandLineInterface()) {
     forbiddenPage('You have no access to this restream', true);
 }
 
 $parameters = $Live_restreams->getParameters();
-if(empty($parameters)){
+if (empty($parameters)) {
     forbiddenPage('Restream parameters not present', true);
 }
 
 $parametersJson = json_decode($parameters);
-if(empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})){
+if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
     $response = new stdClass();
     $response->error = false;
     $response->msg = '';
@@ -43,30 +44,33 @@ if(empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})){
     $response->provider = 'Local';
     $response->subtitle = $Live_restreams->getName();
     $response->http_code = 200;
-}else{
+} else {
     $lt = LiveTransmition::getFromDbByUser($Live_restreams->getUsers_id());
 
-    $url = 'https://restream.ypt.me/get.php';
+    $url = 'http://localhost/Restreamer/get.php';
+    $url = 'http://127.0.0.1/Restreamer/get.php';
+    if (empty($global['local_test_server'])) {
+        $url = 'https://restream.ypt.me/get.php';
+    }
     $array = array(
-        'title'=> $lt['title'],
-        'description'=> $lt['description'],
-        'parameters64'=> base64_encode(json_encode($parametersJson->{'restream.ypt.me'})),
+        'title' => $lt['title'],
+        'description' => $lt['description'],
+        'parameters64' => base64_encode(json_encode($parametersJson->{'restream.ypt.me'})),
     );
-    
-    if(!empty($_REQUEST['live_schedule_id'])){
+
+    if (!empty($_REQUEST['live_schedule_id'])) {
         $ls = new live_schedule($_REQUEST['live_schedule_id']);
-    
-        if(!empty($ls->getTitle())){
+
+        if (!empty($ls->getTitle())) {
             $array['title'] = $ls->getTitle();
         }
-        if(!empty($ls->getDescription())){
+        if (!empty($ls->getDescription())) {
             $array['description'] = $ls->getDescription();
         }
     }
-    
+
     $response = postVariables($url, $array, false);
 }
-_error_log('Restreamer get live keys '.json_encode($response));
+_error_log('Restreamer get live keys ' . json_encode($response));
 echo $response;
-
 ?>

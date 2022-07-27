@@ -119,6 +119,7 @@ class Live_restreams extends ObjectYPT
         $rows = [];
         if ($res != false) {
             foreach ($fullData as $row) {
+                $row['restreamsToken'] = encryptString($row['id']);
                 $rows[] = $row;
             }
         } else {

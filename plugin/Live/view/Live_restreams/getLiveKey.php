@@ -1,6 +1,9 @@
 <?php
 $restreamerURL = 'http://localhost/Restreamer/';
-$restreamerURL = 'https://restream.ypt.me/';
+$restreamerURL = 'http://127.0.0.1/Restreamer/';
+if(empty($global['local_test_server'])){
+    $restreamerURL = 'https://restream.ypt.me/';
+}
 ?>
 <button type="button" class="btn btn-default" onclick="openRestream('facebook')">
     <i class="fab fa-facebook-f"></i>
