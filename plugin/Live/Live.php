@@ -3577,9 +3577,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         exec("ps -ax 2>&1", $output, $return_var);
         //error_log("Live:getProcess ". json_encode($output));
+        $pattern = "/^([0-9]+).*ffmpeg .*" . str_replace('/', '\/', $key) . "/i";
+        error_log("Live:getProcess {$pattern}");
         foreach ($output as $value) {
-            $pattern = "/^([0-9]+).*ffmpeg .*" . str_replace('/', '\/', $key) . "/i";
-            error_log("Live:getProcess {$pattern}");
             if (preg_match($pattern, trim($value), $matches)) {
                 return $matches;
             }
