@@ -3576,12 +3576,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     private static function getProcess($key) {
-        global $ffmpegBinary;
         exec("ps -ax 2>&1", $output, $return_var);
-        //error_log("Restreamer.json.php:getProcess ". json_encode($output));
+        error_log("Live:getProcess ". json_encode($output));
         foreach ($output as $value) {
-            $pattern = "/^([0-9]+).*ffmpeg.*" . str_replace('/', '\/', $key) . "/i";
-            //error_log("Restreamer.json.php:getProcess {$pattern}");
+            error_log("Live:getProcess {$pattern}");
+            $pattern = "/^([0-9]+).*ffmpeg .*" . str_replace('/', '\/', $key) . "/i";
             if (preg_match($pattern, trim($value), $matches)) {
                 return $matches;
             }
@@ -3591,12 +3590,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     private static function killIfIsRunning($key) {
         $process = getProcess($key);
-        //error_log("Restreamer.json.php killIfIsRunning checking if there is a process running for {$m3u8} ");
+        //error_log("Live::killIfIsRunning checking if there is a process running for {$key} ");
         if (!empty($process)) {
-            error_log("killIfIsRunning there is a process running for {$key} " . json_encode($process));
+            error_log("Live::killIfIsRunning there is a process running for {$key} " . json_encode($process));
             $pid = intval($process[1]);
             if (!empty($pid)) {
-                error_log("Restreamer.json.php killIfIsRunning killing {$pid} ");
+                error_log("Live::killIfIsRunning killing {$pid} ");
                 exec("kill -9 {$pid} 2>&1", $output, $return_var);
             }
             return true;
