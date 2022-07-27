@@ -61,7 +61,7 @@ Live::deleteStatsCache(true);
 $row = LiveTransmitionHistory::getLatest($_POST['name'], $row['live_servers_id'], true);
 $insert_row = LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
 _error_log("NGINX ON Publish Done finishFromTransmitionHistoryId {$_POST['name']} id={$row['id']} key={$row['key']} live_servers_id={$row['live_servers_id']} insert_row={$insert_row}");
-Live::killIfIsRunning($array['key']);
+Live::killIfIsRunning($row['key']);
 $array = setLiveKey($row['key'], $row['live_servers_id']);
 $parameters = Live::getLiveParametersFromKey($array['key']);
 $array['cleanKey'] = $parameters['cleanKey'];

@@ -3571,11 +3571,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     private static function getProcess($key) {
+        if(empty($key)){
+            error_log("Live:getProcess key is empty");
+            return false;
+        }
         exec("ps -ax 2>&1", $output, $return_var);
         //error_log("Live:getProcess ". json_encode($output));
         foreach ($output as $value) {
-            error_log("Live:getProcess {$pattern}");
             $pattern = "/^([0-9]+).*ffmpeg .*" . str_replace('/', '\/', $key) . "/i";
+            error_log("Live:getProcess {$pattern}");
             if (preg_match($pattern, trim($value), $matches)) {
                 return $matches;
             }

@@ -342,7 +342,6 @@ function killIfIsRunning($m3u8){
     return false;
 }
 
-function replaceSlashesForPregMatch($str)
-{
+function replaceSlashesForPregMatch($str){
     return str_replace('/', '.', $str);
 }
