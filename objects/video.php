@@ -867,7 +867,7 @@ if (!class_exists('Video')) {
             $firstClauseLimit = '';
             if (empty($id)) {
                 if ($suggestedOnly) {
-                    $sql .= " AND v.isSuggested = 1 ";
+                    $sql .= " AND v.isSuggested = 1 AND v.status = '".self::$statusActive."' ";
                 }
                 if (empty($random) && !empty($_GET['videoName'])) {
                     $sql .= " AND v.clean_title = '{$_GET['videoName']}' ";
@@ -885,7 +885,7 @@ if (!class_exists('Video')) {
                     //var_dump($rand, $numRows);
                     //$sql .= " ORDER BY RAND() ";
                 } elseif ($suggestedOnly && empty($_GET['videoName']) && empty($_GET['search']) && empty($_GET['searchPhrase'])) {
-                    $sql .= " AND v.isSuggested = 1 ";
+                    $sql .= " AND v.isSuggested = 1 AND v.status = '".self::$statusActive."' ";
                     $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
                     if ($numRows <= 2) {
                         $rand = 0;
@@ -1272,7 +1272,7 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             if ($suggestedOnly) {
-                $sql .= " AND v.isSuggested = 1 ";
+                $sql .= " AND v.isSuggested = 1 AND v.status = '".self::$statusActive."' ";
                 $sql .= " ORDER BY RAND() ";
                 $sort = @$_POST['sort'];
                 unset($_POST['sort']);
@@ -1643,7 +1643,7 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             if ($suggestedOnly) {
-                $sql .= " AND v.isSuggested = 1 ";
+                $sql .= " AND v.isSuggested = 1 AND v.status = '".self::$statusActive."' ";
                 $sql .= " ORDER BY RAND() ";
             }
             if (strpos(strtolower($sql), 'limit') === false) {
@@ -1827,7 +1827,7 @@ if (!class_exists('Video')) {
             }
 
             if ($suggestedOnly) {
-                $sql .= " AND v.isSuggested = 1 ";
+                $sql .= " AND v.isSuggested = 1 AND v.status = '".self::$statusActive."' ";
             }
             /*
             $res = sqlDAL::readSql($sql);
