@@ -98,7 +98,8 @@ if (!empty($_GET['subscription_tid'])) {
                                                 if(!empty($_REQUEST['debug'])){
                                                     var_dump($value->metadata);
                                                 }
-                                                foreach ($value->metadata as $key => $value) {
+                                                $metadata = (array) $value->metadata;
+                                                foreach ($metadata as $key => $value) {
                                                     echo "<b>{$key}</b>: {$value}<br>";
                                                 }
                                                 ?>
