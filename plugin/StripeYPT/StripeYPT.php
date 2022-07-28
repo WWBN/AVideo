@@ -366,6 +366,9 @@ class StripeYPT extends PluginAbstract {
         $subscriptions = $this->getAllSubscriptions();
         $total = count($subscriptions->data);
         _error_log("StripeYPT::userHasActiveSubscriptionOnPlan($plans_id) total={$total}");
+        if(empty($total)){
+            _error_log("StripeYPT::userHasActiveSubscriptionOnPlan($plans_id) empty total ".json_encode($subscriptions->data));
+        }
         foreach ($subscriptions->data as $subscription) {
             _error_log("StripeYPT::userHasActiveSubscriptionOnPlan metadata ".json_encode($subscription->metadata));
             if($users_id == $subscription->metadata->users_id){
