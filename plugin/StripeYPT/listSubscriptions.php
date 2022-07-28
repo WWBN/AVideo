@@ -26,6 +26,8 @@ if (!empty($_GET['subscription_tid'])) {
         _error_log('listSubscription::cancel plans_id or user not found');
     }
 }
+
+$SubscriptionIsEnabled = AVideoPlugin::isEnabledByName("Subscription");
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $_SESSION['language']; ?>">
@@ -76,7 +78,7 @@ if (!empty($_GET['subscription_tid'])) {
                                     } else {
                                         $title .= "User ID Not found";
                                     }
-                                    if (AVideoPlugin::isEnabledByName("Subscription")) {
+                                    if ($SubscriptionIsEnabled) {
                                         if (!empty($plans_id)) {
                                             $plan = new SubscriptionPlansTable($plans_id);
                                             if (!empty($plan)) {
@@ -109,13 +111,6 @@ if (!empty($_GET['subscription_tid'])) {
                                             </div>
                                             <div class="panel-footer"> 
                                                 <?php
-                                                if(!empty($_REQUEST['debug'])){
-                                                    var_dump(
-                                                            $value->metadata->plans_id, 
-                                                            $value->metadata->stripe_costumer_id, 
-                                                            $value->metadata->users_id, 
-                                                            $value->metadata);
-                                                }
                                                 foreach ($value->metadata as $key => $value) {
                                                     echo "<b>{$key}</b>: ". json_encode($value)."<br>";
                                                 }
@@ -157,7 +152,7 @@ if (!empty($_GET['subscription_tid'])) {
                                     } else {
                                         $title .= "User ID Not found";
                                     }
-                                    if (AVideoPlugin::isEnabledByName("Subscription")) {
+                                    if ($SubscriptionIsEnabled) {
                                         if (!empty($plans_id)) {
                                             $plan = new SubscriptionPlansTable($plans_id);
                                             if (!empty($plan)) {
@@ -187,9 +182,6 @@ if (!empty($_GET['subscription_tid'])) {
                                             </div>
                                             <div class="panel-footer"> 
                                                 <?php
-                                                if(!empty($_REQUEST['debug'])){
-                                                    var_dump($value->metadata);
-                                                }
                                                 foreach ($value->metadata as $key => $value) {
                                                     echo "<b>{$key}</b>: ". json_encode($value)."<br>";
                                                 }
