@@ -104,7 +104,7 @@ if (!empty($_GET['subscription_tid'])) {
                                     </div>    
                                     <?php
                                     if($count%4===0){
-                                        echo '<div class="clearfix visible-sm"></div>';
+                                        echo '<div class="clearfix visible-sm visible-md visible-lg"></div>';
                                     }
                                 }
                                 ?>
@@ -162,7 +162,7 @@ if (!empty($_GET['subscription_tid'])) {
                                     </div>    
                                     <?php
                                     if($count%4===0){
-                                        echo '<div class="clearfix visible-sm"></div>';
+                                        echo '<div class="clearfix visible-sm visible-md visible-lg"></div>';
                                     }
                                 }
                                 ?>
