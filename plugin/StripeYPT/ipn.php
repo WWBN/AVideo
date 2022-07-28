@@ -7,6 +7,7 @@ if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../../';
 }
 require_once $global['systemRootPath'] . 'videos/configuration.php';
+$global['bypassSameDomainCheck'] = 1;
 require_once $global['systemRootPath'] . 'objects/user.php';
 //_error_log("StripeIPN Start");
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
