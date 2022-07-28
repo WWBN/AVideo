@@ -103,7 +103,7 @@ if (!empty($_GET['subscription_tid'])) {
                                         </div>
                                     </div>    
                                     <?php
-                                    if($count%3){
+                                    if($count%4){
                                         echo '<div class="clearfix visible-sm"></div>';
                                     }
                                 }
@@ -161,7 +161,7 @@ if (!empty($_GET['subscription_tid'])) {
                                         </div>
                                     </div>    
                                     <?php
-                                    if($count%3){
+                                    if($count%4){
                                         echo '<div class="clearfix visible-sm"></div>';
                                     }
                                 }
