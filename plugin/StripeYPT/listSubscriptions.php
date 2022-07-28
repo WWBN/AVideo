@@ -96,7 +96,7 @@ if (!empty($_GET['subscription_tid'])) {
                                             <div class="panel-footer"> 
                                                 <?php
                                                 if(!empty($_REQUEST['debug'])){
-                                                    var_dump($value);
+                                                    var_dump($value->metadata);
                                                 }
                                                 foreach ($value->metadata as $key => $value) {
                                                     echo "<b>{$key}</b>: {$value}<br>";
@@ -166,7 +166,7 @@ if (!empty($_GET['subscription_tid'])) {
                                             <div class="panel-footer"> 
                                                 <?php
                                                 if(!empty($_REQUEST['debug'])){
-                                                    var_dump($value);
+                                                    var_dump($value->metadata);
                                                 }
                                                 foreach ($value->metadata as $key => $value) {
                                                     echo "<b>{$key}</b>: {$value}<br>";
