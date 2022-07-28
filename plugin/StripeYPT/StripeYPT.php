@@ -378,6 +378,10 @@ class StripeYPT extends PluginAbstract {
             _error_log("setUpSubscription: User not logged");
             return false;
         }
+        if (empty($plans_id)) {
+            _error_log("setUpSubscription: plans_id is empty");
+            return false;
+        }
         $subs = new SubscriptionPlansTable($plans_id);
         $obj = AVideoPlugin::getObjectData('YPTWallet');
 
