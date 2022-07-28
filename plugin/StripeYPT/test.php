@@ -35,7 +35,7 @@ $SubscriptionIsEnabled = AVideoPlugin::isEnabledByName("Subscription");
                 <div class="panel-footer">
                     <?php
                     if(!empty($_REQUEST['payload'])){
-                        $obj = StripeYPT::getMetadataOrFromSubscription($_REQUEST['payload']);
+                        $obj = StripeYPT::getMetadataOrFromSubscription(json_decode($_REQUEST['payload']));
                         var_dump($obj);
                     }
                     ?>
