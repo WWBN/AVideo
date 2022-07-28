@@ -9,6 +9,8 @@ $filter_users_id = User::getId();
 
 if (User::isAdmin()) {
     $filter_users_id = 0;
+}else{
+    $_REQUEST['users_id'] = $filter_users_id;
 }
 $stripe = AVideoPlugin::loadPlugin("StripeYPT");
 
