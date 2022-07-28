@@ -61,7 +61,7 @@ $SubscriptionIsEnabled = AVideoPlugin::isEnabledByName("Subscription");
                                     $count++;
                                     $users_id = $value->metadata->users_id;
                                     $plans_id = $value->metadata->plans_id;
-
+                                    $message = array();
                                     if(!empty($filter_users_id) && $filter_users_id !=$users_id){
                                         continue;
                                     }
@@ -86,6 +86,8 @@ $SubscriptionIsEnabled = AVideoPlugin::isEnabledByName("Subscription");
                                                 $row = SubscriptionTable::getSubscription($users_id, $plans_id);
                                                 if (!empty($row)) {
                                                     $buttonClass = "success";
+                                                }else{
+                                                    $message[] = "Could not find a subscription for user {$users_id},{$plans_id} ";
                                                 }
                                             }
                                         } else {
