@@ -89,7 +89,13 @@ if (!empty($_GET['subscription_tid'])) {
                                             <div class="panel-body"><?php echo $body; ?></div>
                                             <div class="panel-footer"> 
                                                 <a class="btn btn-sm btn-xs btn-<?php echo $buttonClass; ?> btn-block" 
-                                                   href="<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/listSubscriptions.php?subscription_tid=<?php echo $value->id; ?>&plans_id=<?php echo $plans_id; ?>&users_id=<?php echo $users_id; ?>" >Cancel</a></div>
+                                                   href="<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/listSubscriptions.php?subscription_tid=<?php echo $value->id; ?>&plans_id=<?php echo $plans_id; ?>&users_id=<?php echo $users_id; ?>" >Cancel</a>
+                                            </div>
+                                            <div class="panel-footer"> 
+                                                <?php
+                                                echo json_encode($value->metadata);
+                                                ?>
+                                            </div>
                                         </div>
                                     </div>    
                                     <?php
