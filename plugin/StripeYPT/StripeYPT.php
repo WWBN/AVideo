@@ -70,13 +70,17 @@ class StripeYPT extends PluginAbstract {
     }
 
     function start() {
+        self::_start();
+    }
+    
+    static function _start() {
         global $global;
-        $obj = $this->getDataObject();
+        $obj = AVideoPlugin::getDataObject('StripeYPT');
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
-        $this->getWebhook();
+        self::getWebhook();
     }
 
-    function getWebhook() {
+    static function getWebhook() {
         global $global;
         $webhooks = \Stripe\WebhookEndpoint::all(["limit" => 20]);
         $notify_url = "{$global['webSiteRootURL']}plugin/StripeYPT/ipn.php";
@@ -96,26 +100,26 @@ class StripeYPT extends PluginAbstract {
         ]);
     }
 
-    public function getIntent($total = '1.00', $currency = "USD", $description = "", $metadata=array(), $customer="", $future_usage="") {
+    public function getIntent($total = '1.00', $currency = "USD", $description = "", $metadata = array(), $customer = "", $future_usage = "") {
         global $global, $config;
         $this->start();
         $total = number_format(floatval($total), 2, "", "");
         $users_id = User::getId();
-        if(empty($description)){
+        if (empty($description)) {
             $description = $config->getWebSiteTitle() . " Payment";
         }
         $parameters = [
-                        'amount' => $total,
-                        'currency' => $currency,
-                        'description' => $description,
-                        'metadata' => $metadata,
-                        'receipt_email'=> User::getEmail_(),
-                        //'confirm'=> true
-            ];
-        if(!empty($customer)){
+            'amount' => $total,
+            'currency' => $currency,
+            'description' => $description,
+            'metadata' => $metadata,
+            'receipt_email' => User::getEmail_(),
+                //'confirm'=> true
+        ];
+        if (!empty($customer)) {
             $parameters['customer'] = $customer;
         }
-        if(!empty($customer)){
+        if (!empty($customer)) {
             $parameters['setup_future_usage'] = $future_usage;
         }
         _error_log("StripeYPT::getIntent $total , $currency, $description");
@@ -278,7 +282,7 @@ class StripeYPT extends PluginAbstract {
                     ],
                     'nickname' => $name,
                     'amount' => self::removeDot($total),
-                    'metadata'=>array('users_id'=> User::getId(), 'recurrent'=> 1)
+                    'metadata' => array('users_id' => User::getId(), 'recurrent' => 1)
         ]);
     }
 
@@ -312,11 +316,39 @@ class StripeYPT extends PluginAbstract {
         $users_id = User::getId();
         $obj = AVideoPlugin::getObjectData('StripeYPT');
         \Stripe\Stripe::setApiKey($obj->Restrictedkey);
-        
+
         /*
-        $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
-        if(!empty($costumer->subscriptions)){
-            foreach ($costumer->subscriptions->data as $value) {
+          $costumer = \Stripe\Customer::retrieve($stripe_costumer_id);
+          if(!empty($costumer->subscriptions)){
+          foreach ($costumer->subscriptions->data as $value) {
+          $subscription = \Stripe\Subscription::retrieve($value->id);
+          if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
+          //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
+          return $subscription;
+          }
+          }
+          }
+
+          _error_log("StripeYPT::getSubscriptions We could not find the subscription trying to expand $stripe_costumer_id, $plans_id " . json_encode($costumer));
+
+          $costumer = \Stripe\Customer::retrieve($stripe_costumer_id,['expand' => ['subscriptions']]);
+          if(!empty($costumer->subscriptions)){
+          foreach ($costumer->subscriptions->data as $value) {
+          $subscription = \Stripe\Subscription::retrieve($value->id);
+          if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
+          //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
+          return $subscription;
+          }
+          }
+          }
+
+          _error_log("StripeYPT::getSubscriptions We could not find the subscription trying to list from subscription $stripe_costumer_id, $plans_id " . json_encode($costumer));
+
+         */
+        // I guess only this is enought 
+        $subscriptions = \Stripe\Subscription::all(['customer' => $stripe_costumer_id, 'status' => 'active']);
+        if (!empty($subscriptions)) {
+            foreach ($subscriptions->data as $value) {
                 $subscription = \Stripe\Subscription::retrieve($value->id);
                 if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
                     //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
@@ -324,55 +356,27 @@ class StripeYPT extends PluginAbstract {
                 }
             }
         }
-        
-        _error_log("StripeYPT::getSubscriptions We could not find the subscription trying to expand $stripe_costumer_id, $plans_id " . json_encode($costumer));
-        
-        $costumer = \Stripe\Customer::retrieve($stripe_costumer_id,['expand' => ['subscriptions']]);
-        if(!empty($costumer->subscriptions)){
-            foreach ($costumer->subscriptions->data as $value) {
-                $subscription = \Stripe\Subscription::retrieve($value->id);
-                if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
-                    //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
-                    return $subscription;
-                }
-            }      
-        }
-        
-        _error_log("StripeYPT::getSubscriptions We could not find the subscription trying to list from subscription $stripe_costumer_id, $plans_id " . json_encode($costumer));
-        
-        */
-        // I guess only this is enought 
-        $subscriptions = \Stripe\Subscription::all(['customer'=>$stripe_costumer_id, 'status'=>'active']);
-        if(!empty($subscriptions)){
-            foreach ($subscriptions->data as $value) {
-                $subscription = \Stripe\Subscription::retrieve($value->id);
-                if ($subscription->metadata->users_id == $users_id && $subscription->metadata->plans_id == $plans_id) {
-                    //_error_log("StripeYPT::getSubscriptions $stripe_costumer_id, $plans_id " . json_encode($subscription));
-                    return $subscription;
-                }
-            }    
-        }
-        
+
         _error_log("StripeYPT::getSubscriptions ERROR $stripe_costumer_id, $plans_id " . json_encode($subscriptions));
         return false;
     }
-    
-    function userHasActiveSubscriptionOnPlan($plans_id){
+
+    function userHasActiveSubscriptionOnPlan($plans_id) {
         $users_id = User::getId();
-        if(empty($users_id)){
+        if (empty($users_id)) {
             _error_log("StripeYPT::userHasActiveSubscriptionOnPlan($plans_id) users id is empty");
             return false;
         }
         $subscriptions = $this->getAllSubscriptions();
         $total = count($subscriptions->data);
         _error_log("StripeYPT::userHasActiveSubscriptionOnPlan($plans_id) total={$total}");
-        if(empty($total)){
-            _error_log("StripeYPT::userHasActiveSubscriptionOnPlan($plans_id) empty total ".json_encode($subscriptions->data));
+        if (empty($total)) {
+            _error_log("StripeYPT::userHasActiveSubscriptionOnPlan($plans_id) empty total " . json_encode($subscriptions->data));
         }
         foreach ($subscriptions->data as $subscription) {
-            _error_log("StripeYPT::userHasActiveSubscriptionOnPlan metadata ".json_encode($subscription->metadata));
-            if($users_id == $subscription->metadata->users_id){
-                if($plans_id == $subscription->metadata->plans_id){
+            _error_log("StripeYPT::userHasActiveSubscriptionOnPlan metadata " . json_encode($subscription->metadata));
+            if ($users_id == $subscription->metadata->users_id) {
+                if ($plans_id == $subscription->metadata->plans_id) {
                     return $subscription;
                 }
             }
@@ -398,12 +402,12 @@ class StripeYPT extends PluginAbstract {
         }
         $subscription = $this->userHasActiveSubscriptionOnPlan($plans_id);
         if (!empty($subscription)) {
-            _error_log("setUpSubscription: the user already have an active subscription for this plan ". json_encode($subscription));
+            _error_log("setUpSubscription: the user already have an active subscription for this plan " . json_encode($subscription));
             return false;
-        }else{
+        } else {
             _error_log("setUpSubscription: the user does not have any active subscription for this plan [{$plans_id}]");
         }
-        
+
         // check costumer
         $sub = Subscription::getOrCreateStripeSubscription(User::getId(), $plans_id);
 
@@ -472,21 +476,21 @@ class StripeYPT extends PluginAbstract {
         return $Subscription;
     }
 
-    static function getAmountPaidFromPayload($payload){
+    static function getAmountPaidFromPayload($payload) {
         $amount = "000";
-        if(!empty($payload->data->object->amount_paid)){
+        if (!empty($payload->data->object->amount_paid)) {
             $amount = $payload->data->object->amount_paid;
-        }else if(!empty($payload->data->object->amount_captured)){
+        } else if (!empty($payload->data->object->amount_captured)) {
             $amount = $payload->data->object->amount_captured;
         }
-        if(empty($amount)){
-            _error_log("Stripe:getAmountPaidFromPayload is empty ". json_encode($payload), AVideoLog::$ERROR);
-        }else{
+        if (empty($amount)) {
+            _error_log("Stripe:getAmountPaidFromPayload is empty " . json_encode($payload), AVideoLog::$ERROR);
+        } else {
             _error_log("Stripe:getAmountPaidFromPayload {$amount} ");
         }
         return self::addDot($amount);
     }
-    
+
     function processSubscriptionIPN($payload) {
         if (!is_object($payload) || empty($payload->data->object->customer)) {
             _error_log("processSubscriptionIPN: ERROR", AVideoLog::$ERROR);
@@ -495,14 +499,14 @@ class StripeYPT extends PluginAbstract {
         $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
         //$plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
         $metadata = self::getMetadata($payload);
-        if(empty($metadata)){
-            _error_log("processSubscriptionIPN: ERROR Metadata not found ". json_encode($payload), AVideoLog::$ERROR);
+        if (empty($metadata)) {
+            _error_log("processSubscriptionIPN: ERROR Metadata not found " . json_encode($payload), AVideoLog::$ERROR);
             return false;
         }
-        
-        $plan = Subscription::getOrCreateStripeSubscription($metadata['users_id'],$metadata['plans_id'], $payload->data->object->customer);
-        
-        if(!empty($plan)){
+
+        $plan = Subscription::getOrCreateStripeSubscription($metadata['users_id'], $metadata['plans_id'], $payload->data->object->customer);
+
+        if (!empty($plan)) {
             $payment_amount = self::getAmountPaidFromPayload($payload);
             $users_id = @$plan['users_id'];
             $plans_id = @$plan['subscriptions_plans_id'];
@@ -510,48 +514,78 @@ class StripeYPT extends PluginAbstract {
                 $pluginS->addBalance($users_id, $payment_amount, "Stripe recurrent: " . $payload->data->object->description, json_encode($payload));
                 if (!empty($plans_id)) {
                     $obj = Subscription::renew($users_id, $plans_id);
-                    if(!empty($obj->error)){
-                        _error_log("processSubscriptionIPN: ERROR Subscription::renew ". json_encode($obj), AVideoLog::$ERROR);
+                    if (!empty($obj->error)) {
+                        _error_log("processSubscriptionIPN: ERROR Subscription::renew " . json_encode($obj), AVideoLog::$ERROR);
                     }
-                }else{
+                } else {
                     _error_log("processSubscriptionIPN: ERROR plans_id not found", AVideoLog::$ERROR);
                 }
-            }else{
+            } else {
                 _error_log("processSubscriptionIPN: ERROR User not found", AVideoLog::$ERROR);
             }
-        }else{
+        } else {
             _error_log("processSubscriptionIPN: ERROR Plan not found", AVideoLog::$ERROR);
         }
     }
-    
+
     /**
      * Return plans an users id
      * @param type $payload
      */
-    static function getMetadata($payload){
+    static function getMetadata($payload) {
         foreach ($payload as $value) {
-            if(empty($value->users_id) && empty($value->plans_id)){
-                if(is_object($value) || is_array($value)){                    
+            if (empty($value->users_id) && empty($value->plans_id)) {
+                if (is_object($value) || is_array($value)) {
                     $obj = self::getMetadata($value);
-                    if(!empty($obj)){
+                    if (!empty($obj)) {
                         return $obj;
                     }
                 }
-            }else{
-                return array("users_id"=>$value->users_id, "plans_id"=>$value->plans_id);
+            } else {
+                return array("users_id" => $value->users_id, "plans_id" => $value->plans_id);
             }
         }
         return false;
     }
-    
-    static function isSinglePayment($payload){
+
+    static function getSubscriptionId($payload) {
+        foreach ($payload as $value) {
+            if (empty($value->subscription) && (is_object($value) || is_array($value))) {
+                $obj = self::getSubscriptionId($value);
+                if (!empty($obj)) {
+                    return $obj;
+                }
+            } else if(!empty($value->subscription)){
+                if (preg_match('/^sub_/', $value->subscription)) {
+                    return $value->subscription;
+                }
+            }
+        }
+        return false;
+    }
+
+    static function getMetadataOrFromSubscription($payload) {
+        $obj = self::getMetadata($payload);
+        if(empty($obj)){
+            _error_log('getMetadataOrFromSubscription not found, try from subscription ID');
+            $subscription_id = self::getSubscriptionId($payload);
+            _error_log('getMetadataOrFromSubscription subscription_id found '.$subscription_id);
+            $subscription = self::retrieveSubscriptions($subscription_id);
+            if(!empty($subscription)){
+                $obj = self::getMetadata($subscription->metadata);
+            }
+        }
+        return $obj;
+    }
+
+    static function isSinglePayment($payload) {
         return $payload->type == "charge.succeeded" && !empty($payload->data->object->metadata->singlePayment);
     }
-    
-    static function isSubscriptionPayment($payload){
+
+    static function isSubscriptionPayment($payload) {
         return ($payload->type == "invoice.payment_succeeded" && !empty($payload->data->object->customer)) || $payload->type == "charge.succeeded" && empty($payload->data->object->metadata->singlePayment);
     }
-    
+
     function processSinglePaymentIPN($payload) {
         if (!is_object($payload)) {
             return false;
@@ -572,19 +606,19 @@ class StripeYPT extends PluginAbstract {
         global $global;
         $this->start();
         $limit = 1000;
-        if(!empty($_REQUEST['debug'])){
+        if (!empty($_REQUEST['debug'])) {
             $limit = 8;
         }
-        
+
         $subscriptions = \Stripe\Subscription::all(['limit' => $limit, 'status' => $status]);
-        
+
         while (empty($_REQUEST['debug']) && $subscriptions->has_more) {
-            _error_log('getAllSubscriptions: has more, total now='.count($subscriptions->data));
-            $new_subscriptions = \Stripe\Subscription::all(['limit' => $limit, 'status' => $status, 'starting_after'=>end($subscriptions->data)->id]);
+            _error_log('getAllSubscriptions: has more, total now=' . count($subscriptions->data));
+            $new_subscriptions = \Stripe\Subscription::all(['limit' => $limit, 'status' => $status, 'starting_after' => end($subscriptions->data)->id]);
             $subscriptions->has_more = $new_subscriptions->has_more;
             $subscriptions->data = array_merge($subscriptions->data, $new_subscriptions->data);
         }
-        
+
         return $subscriptions;
     }
 
@@ -596,6 +630,17 @@ class StripeYPT extends PluginAbstract {
         global $global;
         try {
             $this->start();
+            $sub = \Stripe\Subscription::retrieve($id);
+            $response = $sub->cancel();
+            return $response;
+        } catch (Exception $exc) {
+            return false;
+        }
+    }
+
+    static function retrieveSubscriptions($id) {
+        try {
+            self::_start();
             $sub = \Stripe\Subscription::retrieve($id);
             $response = $sub->cancel();
             return $response;
