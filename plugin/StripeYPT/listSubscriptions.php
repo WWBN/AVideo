@@ -96,7 +96,11 @@ if (!empty($_GET['subscription_tid'])) {
                                             <div class="panel-footer"> 
                                                 <?php
                                                 if(!empty($_REQUEST['debug'])){
-                                                    var_dump($value->metadata);
+                                                    var_dump(
+                                                            $value->metadata->plans_id, 
+                                                            $value->metadata->stripe_costumer_id, 
+                                                            $value->metadata->users_id, 
+                                                            $value->metadata);
                                                 }
                                                 foreach ($value->metadata as $key => $value) {
                                                     echo "<b>{$key}</b>: ". json_encode($value)."<br>";
