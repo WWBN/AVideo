@@ -356,6 +356,22 @@ class StripeYPT extends PluginAbstract {
         _error_log("StripeYPT::getSubscriptions ERROR $stripe_costumer_id, $plans_id " . json_encode($subscriptions));
         return false;
     }
+    
+    function userHasActiveSubscriptionOnPlan($plans_id){
+        $users_id = User::getId();
+        if(empty($users_id)){
+            return false;
+        }
+        $subscriptions = $this->getAllSubscriptions();
+        foreach ($subscriptions->data as $subscription) {
+            if($users_id == $subscription->metadata->users_id){
+                if($plans_id == $subscription->metadata->plans_id){
+                    return $subscription;
+                }
+            }
+        }
+        return false;
+    }
 
     public function setUpSubscription($plans_id, $stripeToken) {
         if (!User::isLogged()) {
@@ -369,6 +385,12 @@ class StripeYPT extends PluginAbstract {
             _error_log("setUpSubscription: Plan not found");
             return false;
         }
+        $subscription = $this->userHasActiveSubscriptionOnPlan($plans_id);
+        if (!empty($subscription)) {
+            _error_log("setUpSubscription: the user already have an active subscription for this plan ". json_encode($subscription));
+            return false;
+        }
+        
         // check costumer
         $sub = Subscription::getOrCreateStripeSubscription(User::getId(), $plans_id);
 
