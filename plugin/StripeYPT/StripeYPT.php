@@ -400,6 +400,8 @@ class StripeYPT extends PluginAbstract {
         if (!empty($subscription)) {
             _error_log("setUpSubscription: the user already have an active subscription for this plan ". json_encode($subscription));
             return false;
+        }else{
+            _error_log("setUpSubscription: the user does not have any active subscription for this plan [{$plans_id}]");
         }
         
         // check costumer
@@ -464,8 +466,9 @@ class StripeYPT extends PluginAbstract {
             $parameters['trial_end'] = $trial;
         }
 
+        _error_log("setUpSubscription: parameters " . json_encode($parameters));
         $Subscription = \Stripe\Subscription::create($parameters);
-        //_error_log("setUpSubscription: result " . json_encode($Subscription));
+        _error_log("setUpSubscription: result " . json_encode($Subscription));
         return $Subscription;
     }
 
@@ -586,8 +589,8 @@ class StripeYPT extends PluginAbstract {
     }
 
     function cancelSubscriptions($id) {
-        if (!User::isAdmin()) {
-            _error_log("cancelSubscriptions: User not admin");
+        if (!User::isLogged()) {
+            _error_log("cancelSubscriptions: must login");
             return false;
         }
         global $global;
