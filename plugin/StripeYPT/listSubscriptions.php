@@ -98,9 +98,8 @@ if (!empty($_GET['subscription_tid'])) {
                                                 if(!empty($_REQUEST['debug'])){
                                                     var_dump($value->metadata);
                                                 }
-                                                $metadata = (array) $value->metadata;
-                                                foreach ($metadata as $key => $value) {
-                                                    echo "<b>{$key}</b>: {$value}<br>";
+                                                foreach ($value->metadata as $key => $value) {
+                                                    echo "<b>{$key}</b>: ". json_encode($value)."<br>";
                                                 }
                                                 ?>
                                             </div>
@@ -169,9 +168,8 @@ if (!empty($_GET['subscription_tid'])) {
                                                 if(!empty($_REQUEST['debug'])){
                                                     var_dump($value->metadata);
                                                 }
-                                                $metadata = (array) $value->metadata;
-                                                foreach ($metadata as $key => $value) {
-                                                    echo "<b>{$key}</b>: {$value}<br>";
+                                                foreach ($value->metadata as $key => $value) {
+                                                    echo "<b>{$key}</b>: ". json_encode($value)."<br>";
                                                 }
                                                 ?>
                                             </div>
