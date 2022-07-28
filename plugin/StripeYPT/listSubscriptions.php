@@ -59,7 +59,7 @@ if (!empty($_GET['subscription_tid'])) {
                                     if (!empty($users_id)) {
                                         $user = new User($users_id);
                                         if (!empty($user)) {
-                                            $title .= $user->getNameIdentification() . " (" . $user->getEmail() . ")";
+                                            $title .= $user->getNameIdentificationBd() . " (" . $user->getEmail() . ")";
                                         }
                                     } else {
                                         $title .= "User ID Not found";
@@ -157,7 +157,16 @@ if (!empty($_GET['subscription_tid'])) {
                                         <div class="panel panel-default">
                                             <div class="panel-heading"><?php echo $count; ?> <?php echo $title; ?></div>
                                             <div class="panel-body"><?php echo $body; ?></div>
-                                            <div class="panel-footer"> <a class="btn btn-sm btn-xs btn-<?php echo $buttonClass; ?> btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/listSubscriptions.php?subscription_tid=<?php echo $value->id; ?>" >Cancel</a></div>
+                                            <div class="panel-footer"> 
+                                                <a class="btn btn-sm btn-xs btn-<?php echo $buttonClass; ?> btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/listSubscriptions.php?subscription_tid=<?php echo $value->id; ?>" >Cancel</a>
+                                            </div>
+                                            <div class="panel-footer"> 
+                                                <?php
+                                                foreach ($value->metadata as $key => $value) {
+                                                    echo "<b>{$key}</b>: {$value}<br>";
+                                                }
+                                                ?>
+                                            </div>
                                         </div>
                                     </div>    
                                     <?php
