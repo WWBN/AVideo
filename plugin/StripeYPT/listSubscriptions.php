@@ -1,8 +1,14 @@
 <?php
 require_once '../../videos/configuration.php';
-if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage this plugin"));
-    exit;
+
+if(!User::isLogged()){
+    gotToLoginAndComeBackHere('Please login first');
+}
+
+$filter_users_id = User::getId();
+
+if (User::isAdmin()) {
+    $filter_users_id = 0;
 }
 $stripe = AVideoPlugin::loadPlugin("StripeYPT");
 
@@ -52,6 +58,10 @@ if (!empty($_GET['subscription_tid'])) {
                                     $users_id = $value->metadata->users_id;
                                     $plans_id = $value->metadata->plans_id;
 
+                                    if(!empty($filter_users_id) && $filter_users_id !=$users_id){
+                                        continue;
+                                    }
+                                    
                                     $title = "";
                                     $body = "";
                                     $buttonClass = "danger";
@@ -127,6 +137,10 @@ if (!empty($_GET['subscription_tid'])) {
                                     $users_id = $value->metadata->users_id;
                                     $plans_id = $value->metadata->plans_id;
 
+                                    if(!empty($filter_users_id) && $filter_users_id !=$users_id){
+                                        continue;
+                                    }
+                                    
                                     $title = "";
                                     $body = "";
                                     $buttonClass = "danger";
