@@ -95,6 +95,9 @@ if (!empty($_GET['subscription_tid'])) {
                                             </div>
                                             <div class="panel-footer"> 
                                                 <?php
+                                                if(empty($_REQUEST['debug']) && empty($value->metadata)){
+                                                    var_dump($value);
+                                                }
                                                 foreach ($value->metadata as $key => $value) {
                                                     echo "<b>{$key}</b>: {$value}<br>";
                                                 }
