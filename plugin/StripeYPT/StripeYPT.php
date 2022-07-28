@@ -360,10 +360,14 @@ class StripeYPT extends PluginAbstract {
     function userHasActiveSubscriptionOnPlan($plans_id){
         $users_id = User::getId();
         if(empty($users_id)){
+            _error_log("StripeYPT::userHasActiveSubscriptionOnPlan($plans_id) users id is empty");
             return false;
         }
         $subscriptions = $this->getAllSubscriptions();
+        $total = count($subscriptions->data);
+        _error_log("StripeYPT::userHasActiveSubscriptionOnPlan($plans_id) total={$total}");
         foreach ($subscriptions->data as $subscription) {
+            _error_log("StripeYPT::userHasActiveSubscriptionOnPlan metadata ".json_encode($subscription->metadata));
             if($users_id == $subscription->metadata->users_id){
                 if($plans_id == $subscription->metadata->plans_id){
                     return $subscription;
