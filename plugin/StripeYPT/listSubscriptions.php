@@ -45,8 +45,10 @@ if (!empty($_GET['subscription_tid'])) {
                         <div id="active" class="tab-pane fade in active">
                             <div class="row">   
                                 <?php
+                                $count = 0;
                                 $subs = $stripe->getAllSubscriptions();
                                 foreach ($subs->data as $value) {
+                                    $count++;
                                     $users_id = $value->metadata->users_id;
                                     $plans_id = $value->metadata->plans_id;
 
@@ -57,7 +59,7 @@ if (!empty($_GET['subscription_tid'])) {
                                     if (!empty($users_id)) {
                                         $user = new User($users_id);
                                         if (!empty($user)) {
-                                            $title .= $user->getName() . " (" . $user->getEmail() . ")";
+                                            $title .= $user->getNameIdentification() . " (" . $user->getEmail() . ")";
                                         }
                                     } else {
                                         $title .= "User ID Not found";
@@ -85,7 +87,7 @@ if (!empty($_GET['subscription_tid'])) {
                                     ?>
                                     <div class="col-sm-3">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"><?php echo $title; ?></div>
+                                            <div class="panel-heading"><?php echo $count; ?> <?php echo $title; ?></div>
                                             <div class="panel-body"><?php echo $body; ?></div>
                                             <div class="panel-footer"> 
                                                 <a class="btn btn-sm btn-xs btn-<?php echo $buttonClass; ?> btn-block" 
@@ -93,7 +95,9 @@ if (!empty($_GET['subscription_tid'])) {
                                             </div>
                                             <div class="panel-footer"> 
                                                 <?php
-                                                echo json_encode($value->metadata);
+                                                foreach ($value->metadata as $key => $value) {
+                                                    echo "<b>{$key}</b>: {$value}<br>";
+                                                }
                                                 ?>
                                             </div>
                                         </div>
@@ -106,8 +110,10 @@ if (!empty($_GET['subscription_tid'])) {
                         <div id="trial" class="tab-pane fade">
                             <div class="row">  
                                 <?php
+                                $count = 0;
                                 $subs = $stripe->getAllSubscriptions('trialing');
                                 foreach ($subs->data as $value) {
+                                    $count++;
                                     $users_id = $value->metadata->users_id;
                                     $plans_id = $value->metadata->plans_id;
 
@@ -146,7 +152,7 @@ if (!empty($_GET['subscription_tid'])) {
                                     ?>
                                     <div class="col-sm-3">
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"><?php echo $title; ?></div>
+                                            <div class="panel-heading"><?php echo $count; ?> <?php echo $title; ?></div>
                                             <div class="panel-body"><?php echo $body; ?></div>
                                             <div class="panel-footer"> <a class="btn btn-sm btn-xs btn-<?php echo $buttonClass; ?> btn-block" href="<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/listSubscriptions.php?subscription_tid=<?php echo $value->id; ?>" >Cancel</a></div>
                                         </div>
