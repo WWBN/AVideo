@@ -568,7 +568,16 @@ class StripeYPT extends PluginAbstract {
         }
         global $global;
         $this->start();
-        return \Stripe\Subscription::all(['limit' => 1000, 'status' => $status]);
+        
+        $subscriptions = \Stripe\Subscription::all(['limit' => 1000, 'status' => $status]);
+        
+        while ($subscriptions->has_more) {
+            $new_subscriptions = \Stripe\Subscription::all(['limit' => 1000, 'status' => $status, 'starting_after'=>end($subscriptions->data)->id]);
+            $subscriptions->has_more = $new_subscriptions->has_more;
+            $subscriptions->data = array_merge($subscriptions->data, $new_subscriptions->data);
+        }
+        
+        return $subscriptions;
     }
 
     function cancelSubscriptions($id) {
