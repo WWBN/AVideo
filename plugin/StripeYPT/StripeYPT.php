@@ -571,7 +571,7 @@ class StripeYPT extends PluginAbstract {
         
         $subscriptions = \Stripe\Subscription::all(['limit' => 1000, 'status' => $status]);
         
-        while ($subscriptions->has_more) {
+        while (false && $subscriptions->has_more) {
             _error_log('getAllSubscriptions: has more, total now='.count($subscriptions->data));
             $new_subscriptions = \Stripe\Subscription::all(['limit' => 1000, 'status' => $status, 'starting_after'=>end($subscriptions->data)->id]);
             $subscriptions->has_more = $new_subscriptions->has_more;
