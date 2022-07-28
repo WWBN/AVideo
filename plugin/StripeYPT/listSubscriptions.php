@@ -92,7 +92,7 @@ if (!empty($_GET['subscription_tid'])) {
                                     }
                                     $body .= "<b>Created in:</b> " . date("Y-m-d", $value->created);
                                     $body .= "<br><b>users_id:</b> " . $users_id;
-                                    $body .= "<br><b>plans_id:</b> " . plans_id;
+                                    $body .= "<br><b>plans_id:</b> " . $plans_id;
                                     foreach ($value->items->data as $value2) {
                                         $body .= "<br><b>Plan:</b> " . $value2->plan->nickname;
                                         $body .= "<br><b>Value:</b> " . StripeYPT::addDot($value2->plan->amount) . " " . $value2->plan->currency;
