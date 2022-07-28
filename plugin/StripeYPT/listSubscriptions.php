@@ -112,7 +112,7 @@ if (!empty($_GET['subscription_tid'])) {
                                     if (!empty($users_id)) {
                                         $user = new User($users_id);
                                         if (!empty($user)) {
-                                            $title .= $user->getName() . " (" . $user->getEmail() . ")";
+                                            $title .= $user->getNameIdentificationBd() . " (" . $user->getEmail() . ")";
                                         }
                                     } else {
                                         $title .= "User ID Not found";
