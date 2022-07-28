@@ -25,7 +25,7 @@ $SubscriptionIsEnabled = AVideoPlugin::isEnabledByName("Subscription");
                 <div class="panel-heading">
                 </div>
                 <div class="panel-body">
-                    <form action="#">
+                    <form action="#" method="post">
                         <textarea name="payload" style="width: 100%; min-height: 500px;">
                             
                         </textarea>
