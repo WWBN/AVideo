@@ -570,7 +570,7 @@ class StripeYPT extends PluginAbstract {
         $this->start();
         $limit = 1000;
         if(!empty($_REQUEST['debug'])){
-            $limit = 10;
+            $limit = 8;
         }
         
         $subscriptions = \Stripe\Subscription::all(['limit' => $limit, 'status' => $status]);
