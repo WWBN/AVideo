@@ -6,7 +6,7 @@ if (empty($_REQUEST['403ErrorMsg'])) {
 $_REQUEST['403ErrorMsg'] = htmlentities(strip_tags($_REQUEST['403ErrorMsg']));
 $_REQUEST['403ErrorMsg'] = "<h1>{$_REQUEST['403ErrorMsg']}</h1>";
 if (class_exists("User") && !User::isLogged()) {
-    $_REQUEST['403ErrorMsg'] .= '<h2><a target="_blank" href="' . $global['webSiteRootURL'] . 'user">' . __("Login") . '</a></h2>';
+    $_REQUEST['403ErrorMsg'] .= '<h2><a target="_blank" href="' . $global['webSiteRootURL'] . 'user" id="loginLink"><i class="fas fa-sign-in-alt"></i> ' . __("Login") . '</a></h2>';
 }
 ?>
 <style>
@@ -99,4 +99,8 @@ if (class_exists("User") && !User::isLogged()) {
         root.style.setProperty("--mouse-x", x);
         root.style.setProperty("--mouse-y", y);
     });
+    $(document).ready(function () {
+        $('#loginLink').attr('target', '');
+    });
+
 </script>

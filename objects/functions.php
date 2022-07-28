@@ -6357,6 +6357,9 @@ function isIframe() {
     }
     return true;
 }
+function inIframe() {
+    return isIframe();
+}
 
 function getCredentialsURL() {
     global $global;

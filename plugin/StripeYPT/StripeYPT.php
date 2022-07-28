@@ -498,7 +498,7 @@ class StripeYPT extends PluginAbstract {
         }
         $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
         //$plan = Subscription::getFromStripeCostumerId($payload->data->object->customer);
-        $metadata = self::getMetadata($payload);
+        $metadata = self::getMetadataOrFromSubscription($payload);
         if (empty($metadata)) {
             _error_log("processSubscriptionIPN: ERROR Metadata not found " . json_encode($payload), AVideoLog::$ERROR);
             return false;
