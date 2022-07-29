@@ -629,7 +629,7 @@ class StripeYPT extends PluginAbstract {
         }
         global $global;
         $this->start();
-        $limit = 1000;
+        $limit = 100;
         if (!empty($_REQUEST['debug'])) {
             $limit = 8;
         }
