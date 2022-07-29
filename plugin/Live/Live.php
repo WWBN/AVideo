@@ -2921,7 +2921,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $httpCode = curl_getinfo($ch , CURLINFO_HTTP_CODE);
             $output = curl_exec($ch);
             if (empty($output)) {
-                _error_log("Live:sendRestream ERROR {$obj->restreamerURL} httpCode={$httpCode} " . curl_error($ch));
+                _error_log("Live:sendRestream ERROR {$obj->restreamerURL} httpCode={$httpCode} {$data_string} " . curl_error($ch) .' output='. json_encode($output) );
                 curl_close($ch);
                 return false;
             }
