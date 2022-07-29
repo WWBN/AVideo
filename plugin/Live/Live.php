@@ -2893,14 +2893,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 _error_log("Live:sendRestream object is empty");
                 return false;
             }
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30); 
-            curl_setopt($ch, CURLOPT_TIMEOUT, 10); //timeout in seconds
             set_time_limit(30);
 
             $data_string = json_encode($obj);
             _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
             //open connection
             $ch = curl_init();
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30); 
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10); //timeout in seconds
             //set the url, number of POST vars, POST data
             curl_setopt($ch, CURLOPT_URL, $obj->restreamerURL);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
