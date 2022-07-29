@@ -367,7 +367,7 @@ class StripeYPT extends PluginAbstract {
             _error_log("StripeYPT::userHasActiveSubscriptionOnPlan($plans_id) users id is empty");
             return false;
         }
-        $subscriptions = $this->getAllSubscriptions();
+        $subscriptions = $this->getAllSubscriptionsSearch($users_id, $plans_id);
         $total = count($subscriptions->data);
         _error_log("StripeYPT::userHasActiveSubscriptionOnPlan($plans_id) total={$total}");
         if (empty($total)) {
@@ -618,6 +618,31 @@ class StripeYPT extends PluginAbstract {
             $subscriptions->has_more = $new_subscriptions->has_more;
             $subscriptions->data = array_merge($subscriptions->data, $new_subscriptions->data);
         }
+
+        return $subscriptions;
+    }
+    
+    function getAllSubscriptionsSearch($users_id, $plans_id) {
+        if (!User::isLogged()) {
+            _error_log("getAllSubscriptions: User not logged");
+            return false;
+        }
+        global $global;
+        $this->start();
+        $limit = 1000;
+        if (!empty($_REQUEST['debug'])) {
+            $limit = 8;
+        }
+        
+        $metadataquery = '';
+        if(!empty($users_id)){
+            $metadataquery .= " AND metadata['users_id']:'{$users_id}'";
+        }
+        if(!empty($plans_id)){
+            $metadataquery .= " AND metadata['plans_id']:'{$plans_id}'";
+        }
+
+        $subscriptions = \Stripe\Subscription::search(['limit' => $limit, 'query' => "status:'active' {$metadataquery}"]);
 
         return $subscriptions;
     }

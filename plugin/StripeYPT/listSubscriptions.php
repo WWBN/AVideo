@@ -9,8 +9,10 @@ $filter_users_id = User::getId();
 
 if (User::isAdmin()) {
     $filter_users_id = 0;
+    $subs = $stripe->getAllSubscriptions();
 }else{
     $_REQUEST['users_id'] = $filter_users_id;
+    $subs = $stripe->getAllSubscriptionsSearch($filter_users_id, 0);
 }
 $stripe = AVideoPlugin::loadPlugin("StripeYPT");
 
@@ -56,7 +58,6 @@ $SubscriptionIsEnabled = AVideoPlugin::isEnabledByName("Subscription");
                             <div class="row">   
                                 <?php
                                 $count = 0;
-                                $subs = $stripe->getAllSubscriptions();
                                 foreach ($subs->data as $value) {
                                     $count++;
                                     $users_id = $value->metadata->users_id;
