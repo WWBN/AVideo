@@ -1,7 +1,8 @@
 <?php
-if(isBot()){
+if(!empty($removeVideoList)){
     return false;
 }
+
 $TimeLogLimitMYBR = 0.01;
 $timeLogNameMYBR = TimeLogStart("modeYoutubeBottomRight.php");
 if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {

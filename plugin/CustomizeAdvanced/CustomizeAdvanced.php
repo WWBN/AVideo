@@ -196,6 +196,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->showPrivateVideosOnSitemap = false;
         $obj->enableOldPassHashCheck = true;
         $obj->disableHTMLDescription = false;
+        $obj->disableShowMOreLessDescription = false;
         $obj->disableVideoSwap = false;
         $obj->makeSwapVideosOnlyForAdmin = false;
         $obj->disableCopyEmbed = false;
@@ -287,6 +288,7 @@ Allow: .css";
         self::addDataObjectHelper('trendingOnLastDays', 'Trending Days', 'For the result of trending videos, use the statistics contained in the last few days');
 
         
+        $obj->removeVideoList = false;
         $o = new stdClass();
         $o->type = array(
             'titleAZ' => __("Title (A-Z)"), 
@@ -323,6 +325,14 @@ Allow: .css";
 
     public function getModeYouTube($videos_id) {
         global $global, $config;
+        
+        $redirectVideo = self::getRedirectVideo($videos_id);
+        //var_dump($redirectVideo);exit;
+        if(!empty($redirectVideo) && !empty($redirectVideo->code) && isValidURL($redirectVideo->url) && getSelfURI() !== $redirectVideo->url){
+            header("Location: {$redirectVideo->url}", true, $redirectVideo->code);
+            exit;
+        }
+        
         $obj = $this->getDataObject();
         $video = Video::getVideo($videos_id, "viewable", true);
         if (!empty($video['rrating']) && empty($_GET['rrating'])) {
@@ -479,10 +489,10 @@ Allow: .css";
         return true;
     }
     
-    
-    
     public static function getManagerVideosAddNew() {
-        return '"doNotShowAdsOnThisVideo": $("#doNotShowAdsOnThisVideo").is(":checked"),';
+        global $global;
+        $filename = $global['systemRootPath'] . 'plugin/CustomizeAdvanced/getManagerVideosAddNew.js';
+        return file_get_contents($filename);
     }
 
     public static function getManagerVideosEdit() {
@@ -498,7 +508,8 @@ Allow: .css";
     }
 
     public static function saveVideosAddNew($post, $videos_id) {
-        return self::setDoNotShowAds($videos_id, !_empty($post['doNotShowAdsOnThisVideo']));
+        self::setDoNotShowAds($videos_id, !_empty($post['doNotShowAdsOnThisVideo']));
+        self::setRedirectVideo($videos_id, @$post['redirectVideoCode'], @$post['redirectVideoURL']);
     }
     
     public static function setDoNotShowAds($videos_id, $doNotShowAdsOnThisVideo) {
@@ -516,6 +527,23 @@ Allow: .css";
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
         return !empty($externalOptions->doNotShowAdsOnThisVideo);
+    }
+    
+    public static function setRedirectVideo($videos_id, $code, $url) {
+        if (!Permissions::canAdminVideos()) {
+            return false;
+        }
+        $video = new Video('', '', $videos_id);
+        $externalOptions = _json_decode($video->getExternalOptions());
+        $externalOptions->redirectVideo = array('code'=>$code, 'url'=>$url);
+        $video->setExternalOptions(json_encode($externalOptions));
+        return $video->save();
+    }
+
+    public static function getRedirectVideo($videos_id) {
+        $video = new Video('', '', $videos_id);
+        $externalOptions = _json_decode($video->getExternalOptions());
+        return @$externalOptions->redirectVideo;
     }
     
     public function showAds($videos_id): bool {

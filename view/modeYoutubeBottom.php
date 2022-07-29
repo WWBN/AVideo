@@ -265,7 +265,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                     }
                     if (preg_match('/\.json/i', $theLink['url'])) {
                         ?>
-                        <button type="button" onclick="downloadURLOrAlertError('<?php echo $theLink['url']; ?>', {}, '<?php echo $video['clean_title']; ?>.<?php echo strtolower($theLink['name']); ?>','<?php echo $theLink['progress']; ?>');" 
+                        <button type="button" onclick="downloadURLOrAlertError('<?php echo $theLink['url']; ?>', {}, '<?php echo $video['clean_title']; ?>.<?php echo strtolower($theLink['name']); ?>', '<?php echo $theLink['progress']; ?>');" 
                                 class="btn btn-default" target="_blank">
                             <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
                         </button>
@@ -322,15 +322,23 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
                 ?>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="description">
-                    <div class="descriptionAreaPreContent">
-                        <div class="descriptionAreaContent">
-                            <?php echo Video::htmlDescription($video['description']); ?>
+                    <?php
+                    if (empty($advancedCustom->disableShowMOreLessDescription)) {
+                        ?>
+                        <div class="descriptionAreaPreContent">
+                            <div class="descriptionAreaContent">
+                                <?php echo Video::htmlDescription($video['description']); ?>
+                            </div>
                         </div>
-                    </div>
-                    <button onclick="$(this).closest('.descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default descriptionAreaShowMoreBtn" style="display: none; ">
-                        <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
-                        <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
-                    </button>
+                        <button onclick="$(this).closest('.descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default descriptionAreaShowMoreBtn" style="display: none; ">
+                            <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
+                            <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
+                        </button>
+                        <?php
+                    } else {
+                        echo Video::htmlDescription($video['description']);
+                    }
+                    ?>
                 </div>
                 <?php
             }
