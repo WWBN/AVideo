@@ -77,4 +77,5 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
     _error_log('Restreamer get live keys 2 ' . $response);
     echo $response;
 }
+ exit;
 ?>
