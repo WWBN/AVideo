@@ -180,17 +180,19 @@ $userCredentials = User::loginFromRequestToGet();
                                         modal.hidePleaseWait();
                                         if ($("#whenNew").val() == "1") {
                                             var url = response.link;
+                                            var text = '';
+                                            text += '<p>'+<?php printJSString('To invite users to your meeting'); ?>+'</p>';
+                                            text += '<ol style="text-align: left;">';
+                                            text += '<li>'+<?php printJSString('Select Copy Invitation'); ?>+' <i class="fa fa-copy"></i></li>';
+                                            text += '<li>'+<?php printJSString('Send Invitation url to guests'); ?>+'</li>';
+                                            text += '<li>'+<?php printJSString('Join meeting'); ?>+'</li>';
+                                            text += '</ol>';
                                             var span = document.createElement("span");
-                                            span.innerHTML = '<p>'+<?php printJSString('To invite users to your meeting'); ?>+'</p>';
-                                            span.innerHTML += '<ol>';
-                                            span.innerHTML += '<li>'+<?php printJSString('Select Copy Invitation'); ?>+' <i class="fa fa-copy"></i></li>';
-                                            span.innerHTML += '<li>'+<?php printJSString('Send Invitation url to guests'); ?>+'</li>';
-                                            span.innerHTML += '<li>'+<?php printJSString('Join meeting'); ?>+'</li>';
-                                            span.innerHTML += '</ol>';
+                                            span.innerHTML += text;
                                             swal({
                                                 title: <?php printJSString('Congratulations'); ?>,
                                                 content: span,
-                                                icon: 'Success',
+                                                icon: 'success',
                                                 closeOnClickOutside: false,
                                                 closeModal: true,
                                                 buttons: {
