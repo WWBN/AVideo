@@ -7,6 +7,7 @@ if(!User::isLogged()){
 
 $filter_users_id = User::getId();
 
+$stripe = AVideoPlugin::loadPlugin("StripeYPT");
 if (User::isAdmin()) {
     $filter_users_id = 0;
     $subs = $stripe->getAllSubscriptions();
@@ -14,7 +15,6 @@ if (User::isAdmin()) {
     $_REQUEST['users_id'] = $filter_users_id;
     $subs = $stripe->getAllSubscriptionsSearch($filter_users_id, 0);
 }
-$stripe = AVideoPlugin::loadPlugin("StripeYPT");
 
 if (!empty($_GET['subscription_tid'])) {
     $response = $stripe->cancelSubscriptions($_GET['subscription_tid']);
