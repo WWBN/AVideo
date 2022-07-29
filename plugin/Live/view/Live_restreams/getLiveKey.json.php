@@ -45,6 +45,9 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
     $response->provider = 'Local';
     $response->subtitle = $Live_restreams->getName();
     $response->http_code = 200;
+    $json = json_encode($response);
+    _error_log('Restreamer get live keys 1 ' . $json);
+    echo $json;
 } else {
     $lt = LiveTransmition::getFromDbByUser($Live_restreams->getUsers_id());
 
@@ -71,7 +74,7 @@ if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
     }
 
     $response = postVariables($url, $array, false);
+    _error_log('Restreamer get live keys ' . $response);
+    echo $response;
 }
-_error_log('Restreamer get live keys ' . json_encode($response));
-echo $response;
 ?>
