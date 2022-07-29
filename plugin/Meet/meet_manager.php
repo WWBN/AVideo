@@ -163,6 +163,21 @@ $userCredentials = User::loginFromRequestToGet();
                                         modal.hidePleaseWait();
                                     } else {
                                         avideoToastSuccess('Saved');
+                                        try {
+                                            Meet_schedule2today1tableVar.ajax.reload();
+                                        } catch (e) {
+                                        }
+                                        try {
+                                            Meet_schedule2upcoming1tableVar.ajax.reload();
+                                        } catch (e) {
+                                        }
+                                        try {
+                                            Meet_schedule2past1tableVar.ajax.reload();
+                                        } catch (e) {
+                                        }
+
+                                        clearMeetForm(true);
+                                        modal.hidePleaseWait();
                                         if ($("#whenNew").val() == "1") {
                                             var url = response.link;
                                             var span = document.createElement("span");
@@ -182,26 +197,10 @@ $userCredentials = User::loginFromRequestToGet();
                                                     },
                                                 }
                                             }).then(function (value) {
-                                                if(value == 'confirm'){
+                                                if (value == 'confirm') {
                                                     document.location = url;
                                                 }
                                             });
-                                        } else {
-                                            try {
-                                                Meet_schedule2today1tableVar.ajax.reload();
-                                            } catch (e) {
-                                            }
-                                            try {
-                                                Meet_schedule2upcoming1tableVar.ajax.reload();
-                                            } catch (e) {
-                                            }
-                                            try {
-                                                Meet_schedule2past1tableVar.ajax.reload();
-                                            } catch (e) {
-                                            }
-
-                                            clearMeetForm(true);
-                                            modal.hidePleaseWait();
                                         }
                                     }
                                 }
