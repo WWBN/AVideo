@@ -198,6 +198,7 @@ $userCredentials = User::loginFromRequestToGet();
                                                 }
                                             }).then(function (value) {
                                                 if (value == 'confirm') {
+                                                    modal.showPleaseWait();
                                                     document.location = url;
                                                 }
                                             });
