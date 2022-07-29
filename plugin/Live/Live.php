@@ -2908,7 +2908,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
             //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   
+            curl_setopt($ch, CURLOPT_AUTOREFERER, true); 
+            curl_setopt($ch, CURLOPT_VERBOSE, 1);
             curl_setopt(
                     $ch,
                     CURLOPT_HTTPHEADER,
