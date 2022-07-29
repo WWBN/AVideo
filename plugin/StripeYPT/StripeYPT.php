@@ -599,8 +599,8 @@ class StripeYPT extends PluginAbstract {
     }
 
     function getAllSubscriptions($status = 'active') {
-        if (!User::isLogged()) {
-            _error_log("getAllSubscriptions: User not logged");
+        if (!User::isAdmin()) {
+            _error_log("getAllSubscriptions: User not admin");
             return false;
         }
         global $global;
