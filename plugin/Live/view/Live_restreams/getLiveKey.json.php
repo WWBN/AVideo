@@ -31,10 +31,11 @@ if (!$byPassPermissionCheck && $Live_restreams->getUsers_id() !== User::getId() 
 
 $parameters = $Live_restreams->getParameters();
 if (empty($parameters)) {
-    forbiddenPage('Restream parameters not present', true);
+    _error_log('Restream parameters not present', true);
+}else{
+    $parametersJson = json_decode($parameters);
 }
 
-$parametersJson = json_decode($parameters);
 if (empty($parametersJson) || empty($parametersJson->{'restream.ypt.me'})) {
     $response = new stdClass();
     $response->error = false;
