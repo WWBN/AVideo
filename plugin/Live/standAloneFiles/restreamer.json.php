@@ -169,7 +169,7 @@ if (!$isCommandLine) {
     }
 }
 
-//error_log("Restreamer.json.php token is correct");
+error_log("Restreamer.json.php token is correct logFile=".$obj->logFile);
 ignore_user_abort(true);
 ob_start();
 header("Connection: close");
