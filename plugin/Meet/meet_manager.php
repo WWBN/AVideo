@@ -181,17 +181,22 @@ $userCredentials = User::loginFromRequestToGet();
                                         if ($("#whenNew").val() == "1") {
                                             var url = response.link;
                                             var span = document.createElement("span");
-                                            span.innerHTML = <?php printJSString('Join Meting?'); ?>;
+                                            span.innerHTML = '<p>'+<?php printJSString('To invite users to your meeting'); ?>+'</p>';
+                                            span.innerHTML += '<ol>';
+                                            span.innerHTML += '<li>'+<?php printJSString('Select Copy Invitation'); ?>+' <i class="fa fa-copy"></i></li>';
+                                            span.innerHTML += '<li>'+<?php printJSString('Send Invitation url to guests'); ?>+'</li>';
+                                            span.innerHTML += '<li>'+<?php printJSString('Join meeting'); ?>+'</li>';
+                                            span.innerHTML += '</ol>';
                                             swal({
-                                                title: 'Confrim',
+                                                title: <?php printJSString('Congratulations'); ?>,
                                                 content: span,
                                                 icon: 'Success',
                                                 closeOnClickOutside: false,
                                                 closeModal: true,
                                                 buttons: {
-                                                    cancel: <?php printJSString('No'); ?>,
+                                                    cancel: <?php printJSString('Invite Users'); ?>,
                                                     confirm: {
-                                                        text: <?php printJSString('Yes'); ?>,
+                                                        text: <?php printJSString('Join now'); ?>,
                                                         value: "confirm",
                                                         className: "btn-success",
                                                     },
