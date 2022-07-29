@@ -110,14 +110,14 @@ $userCredentials = User::loginFromRequestToGet();
 
                 <div class="tab-content">
                     <div id="mToday" class="tab-pane fade in active" style="padding: 10px;" url="<?php
-                            echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=today&manageMeetings=1&'.$userCredentials;
-                            ?>"><div class="loader"></div></div>
+                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=today&manageMeetings=1&' . $userCredentials;
+                    ?>"><div class="loader"></div></div>
                     <div id="mUpcoming" class="tab-pane fade" style="padding: 10px;" url="<?php
-                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=upcoming&manageMeetings=1&'.$userCredentials;
-                            ?>"><div class="loader"></div></div>
+                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=upcoming&manageMeetings=1&' . $userCredentials;
+                    ?>"><div class="loader"></div></div>
                     <div id="mPast" class="tab-pane fade" style="padding: 10px;" url="<?php
-                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=past&manageMeetings=1&'.$userCredentials;
-                            ?>"><div class="loader"></div></div>
+                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_scheduled.php?meet_scheduled=past&manageMeetings=1&' . $userCredentials;
+                    ?>"><div class="loader"></div></div>
                 </div>
             </div>
         </div>
@@ -155,69 +155,95 @@ $userCredentials = User::loginFromRequestToGet();
             modal.showPleaseWait();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/Meet/saveMeet.json.php?<?php echo $userCredentials; ?>',
-                data: $('#formMeetManager').serialize(),
-                type: 'post',
-                success: function (response) {
-                    if (response.error) {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                        modal.hidePleaseWait();
-                    } else {
-                        if ($("#whenNew").val() == "1") {
-                            var url = response.link;
-                            //url = addGetParam(url, 'user', '<?php echo User::getUserName(); ?>');
-                            //url = addGetParam(url, 'pass', '<?php echo User::getUserPass(); ?>');
-                            //url = addGetParam(url, 'encoded', 1);
-                            document.location = url;
-                        } else {
-                            avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
-                            try {Meet_schedule2today1tableVar.ajax.reload();} catch (e) {}
-                            try {Meet_schedule2upcoming1tableVar.ajax.reload();} catch (e) {}
-                            try {Meet_schedule2past1tableVar.ajax.reload();} catch (e) {}
+                                data: $('#formMeetManager').serialize(),
+                                type: 'post',
+                                success: function (response) {
+                                    if (response.error) {
+                                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                        modal.hidePleaseWait();
+                                    } else {
+                                        avideoToastSuccess('Saved');
+                                        if ($("#whenNew").val() == "1") {
+                                            var url = response.link;
+                                            var span = document.createElement("span");
+                                            span.innerHTML = <?php printJSString('Join Meting?'); ?>;
+                                            swal({
+                                                title: 'Confrim',
+                                                content: span,
+                                                icon: 'Success',
+                                                closeOnClickOutside: false,
+                                                closeModal: true,
+                                                buttons: {
+                                                    cancel: <?php printJSString('No'); ?>,
+                                                    confirm: {
+                                                        text: <?php printJSString('Yes'); ?>,
+                                                        value: "confirm",
+                                                        className: "btn-success",
+                                                    },
+                                                }
+                                            }).then(function (value) {
+                                                if(value == 'confirm'){
+                                                    document.location = url;
+                                                }
+                                            });
+                                        } else {
+                                            try {
+                                                Meet_schedule2today1tableVar.ajax.reload();
+                                            } catch (e) {
+                                            }
+                                            try {
+                                                Meet_schedule2upcoming1tableVar.ajax.reload();
+                                            } catch (e) {
+                                            }
+                                            try {
+                                                Meet_schedule2past1tableVar.ajax.reload();
+                                            } catch (e) {
+                                            }
 
-                            clearMeetForm(true);
-                            modal.hidePleaseWait();
-                        }
-                    }
-                }
-            });
-        });
+                                            clearMeetForm(true);
+                                            modal.hidePleaseWait();
+                                        }
+                                    }
+                                }
+                            });
+                        });
 
-        $('#Meet_schedule2starts').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
-        $('#publicNew').change(function () {
-            if ($(this).val() == '0') {
-                $(".publicNewOption").slideDown();
-            } else {
-                $(".publicNewOption").slideUp();
-            }
-        });
-        $('#whenNew').change(function () {
-            if ($(this).val() == '1') {
-                $(".whenNewOption").slideUp();
-            } else {
-                $(".whenNewOption").slideDown();
-            }
-        });
+                        $('#Meet_schedule2starts').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
+                        $('#publicNew').change(function () {
+                            if ($(this).val() == '0') {
+                                $(".publicNewOption").slideDown();
+                            } else {
+                                $(".publicNewOption").slideUp();
+                            }
+                        });
+                        $('#whenNew').change(function () {
+                            if ($(this).val() == '1') {
+                                $(".whenNewOption").slideUp();
+                            } else {
+                                $(".whenNewOption").slideDown();
+                            }
+                        });
 
-        $('#publicNew, #whenNew').trigger("change");
+                        $('#publicNew, #whenNew').trigger("change");
 
 
-        $('#manageTabs .nav-tabs a').click(function (e) {
-            var now_tab = e.target // activated tab
+                        $('#manageTabs .nav-tabs a').click(function (e) {
+                            var now_tab = e.target // activated tab
 
-            // get the div's id
-            var divid = $(now_tab).attr('href').substr(1);
-            var url = $("#" + divid).attr('url');
-            $("#" + divid).attr('url', '');
-            if (url) {
-                $.ajax({
-                    url: url,
-                    success: function (response) {
-                        $("#" + divid).html(response);
-                    }
-                });
-            }
-        });
-        $('#manageTabs .nav-tabs a').first().trigger("click");
+                            // get the div's id
+                            var divid = $(now_tab).attr('href').substr(1);
+                            var url = $("#" + divid).attr('url');
+                            $("#" + divid).attr('url', '');
+                            if (url) {
+                                $.ajax({
+                                    url: url,
+                                    success: function (response) {
+                                        $("#" + divid).html(response);
+                                    }
+                                });
+                            }
+                        });
+                        $('#manageTabs .nav-tabs a').first().trigger("click");
 
-    });
+                    });
 </script>
