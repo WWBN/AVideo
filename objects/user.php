@@ -922,7 +922,7 @@ if (typeof gtag !== \"function\") {
 
     public function login($noPass = false, $encodedPass = false, $ignoreEmailVerification = false) {
         if (User::isLogged()) {
-            _error_log('User:login is already logged '.json_encode($_SESSION['user']));
+            _error_log('User:login is already logged '.json_encode($_SESSION['user']['id']));
             return self::USER_LOGGED;
         }
         global $global, $advancedCustom, $advancedCustomUser, $config;
