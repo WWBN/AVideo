@@ -8,7 +8,7 @@ workbox.setConfig({
 
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
-const CACHE_NAME = 'avideo-cache-ver-1.3';
+const CACHE_NAME = 'avideo-cache-ver-1.4';
 console.log('sw CACHE_NAME', CACHE_NAME);
 const precahedFiles = [
     FALLBACK_HTML_URL,
@@ -67,6 +67,7 @@ const showCacheIfFetchTimeout = {networkTimeoutSeconds: 5, plugins: [{fetchDidFa
 const CacheFirst = new workbox.strategies.CacheFirst({cacheName: CACHE_NAME});
 const NetworkFirst = new workbox.strategies.NetworkFirst({networkTimeoutSeconds: 2, cacheName: CACHE_NAME});
 const NetworkOnly = new workbox.strategies.NetworkOnly({cacheName: CACHE_NAME, plugins: [networkWithFallbackStrategy]});
+const NetworkOnlyRaw = new workbox.strategies.NetworkOnly({cacheName: CACHE_NAME});
 const CacheOnly = new workbox.strategies.CacheOnly({cacheName: CACHE_NAME, plugins: [ignoreQueryStringPlugin]});
 //const StaleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({cacheName: CACHE_NAME, matchOptions: {ignoreSearch: true}});
 const StaleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate(showCacheIfFetchTimeout);
@@ -93,7 +94,12 @@ async function getStrategyType(strategyName, args, fallback) {
                 break;
             case 'NetworkOnly':
                 //console.log('getStrategyType',strategyName, args.request.url, fallback);
-                return await NetworkOnly.handle(args);
+                return await NetworkOnlyRaw.handle(args);
+                //return await NetworkOnly.handle(args);
+                break;
+            case 'NetworkOnlyRaw':
+                //console.log('getStrategyType',strategyName, args.request.url, fallback);
+                return await NetworkOnlyRaw.handle(args);
                 break;
             case 'CacheOnly':
                 //console.log('getStrategyType',strategyName, args.request.url, fallback);
