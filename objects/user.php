@@ -1068,10 +1068,11 @@ if (typeof gtag !== \"function\") {
         $justLogoff = true;
         $isLogged = false;
         _session_start();
-        ObjectYPT::deleteAllSessionCache();
         _unsetcookie('rememberme');
         _unsetcookie('user');
         _unsetcookie('pass');
+        session_regenerate_id(true);
+        ObjectYPT::deleteAllSessionCache();
         unset($_SESSION['user']);
         _error_log('user:logoff');
         session_write_close();
