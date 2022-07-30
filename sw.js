@@ -201,7 +201,7 @@ async function getStrategy(args) {
 
 }
 
-workbox.routing.registerRoute(/.*/, getStrategy);
+//workbox.routing.registerRoute(/.*/, getStrategy);
 
 self.addEventListener('install', event => {
     //console.log('sw.js 1', event);
