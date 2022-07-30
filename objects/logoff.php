@@ -12,7 +12,7 @@ if (!empty($advancedCustomUser->afterLogoffGoToMyChannel)) {
 } else {
     $redirectUri = $global['webSiteRootURL'];
 }
-
+_session_start();
 User::logoff();
 Category::clearCacheCount();
 header("location: {$redirectUri}");
