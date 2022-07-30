@@ -1633,7 +1633,7 @@ class AVideoPlugin
             return false;
         }
         $name = "getVideoTags{$videos_id}";
-        _error_log("deleteVideoTags {$name}");
+        //_error_log("deleteVideoTags {$name}");
         return Cache::deleteCache($name);
     }
 
