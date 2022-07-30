@@ -1074,7 +1074,6 @@ if (typeof gtag !== \"function\") {
         unset($_SESSION['user']);
         _error_log('user:logoff');
         session_write_close();
-        _session_start();
     }
 
     private static function recreateLoginFromCookie() {
