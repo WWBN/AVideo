@@ -284,6 +284,7 @@ if (typeof gtag !== \"function\") {
     public static function updateSessionInfo() {
         if (self::isLogged()) {
             $user = self::getUserDb($_SESSION['user']['id']);
+            _error_log('user updateSessionInfo login');
             $_SESSION['user'] = $user;
         }
     }
