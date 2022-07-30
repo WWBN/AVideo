@@ -195,6 +195,7 @@ if (empty($_POST['user']) || empty($_POST['pass'])) {
 $user = new User(0, $_POST['user'], $_POST['pass']);
 
 _error_log("login.json.php trying to login");
+_session_start();
 $resp = $user->login(false, @$_POST['encodedPass']);
 _error_log("login.json.php login respond something");
 TimeLogEnd($timeLog, __LINE__);
