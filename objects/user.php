@@ -1063,8 +1063,9 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function logoff() {
-        global $global, $justLogoff;
+        global $global, $justLogoff, $isLogged;
         $justLogoff = true;
+        $isLogged = false;
         _session_start();
         ObjectYPT::deleteAllSessionCache();
         _unsetcookie('rememberme');
