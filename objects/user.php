@@ -1069,6 +1069,7 @@ if (typeof gtag !== \"function\") {
         _unsetcookie('user');
         _unsetcookie('pass');
         unset($_SESSION['user']);
+        _error_log('user:logoff');
     }
 
     private static function recreateLoginFromCookie() {
