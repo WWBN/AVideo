@@ -3783,7 +3783,7 @@ class LiveStreamObject {
             $key = $parts[0] . "-{$forceIndex}";
         }
         $url = addLastSlash($this->getRTMPLinkWithOutKey()) . $key;
-        _error_log("getRTMPLink: {$url}");
+        //_error_log("getRTMPLink: {$url}");
         return $url;
     }
 
