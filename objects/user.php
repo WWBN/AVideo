@@ -922,8 +922,8 @@ if (typeof gtag !== \"function\") {
 
     public function login($noPass = false, $encodedPass = false, $ignoreEmailVerification = false) {
         if (User::isLogged()) {
-            _error_log('User:login is already logged');
-            //return self::USER_LOGGED;
+            _error_log('User:login is already logged '.json_encode($this));
+            return self::USER_LOGGED;
         }
         global $global, $advancedCustom, $advancedCustomUser, $config;
 
