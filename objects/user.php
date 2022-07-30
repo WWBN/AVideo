@@ -1092,7 +1092,7 @@ if (typeof gtag !== \"function\") {
                 $user->setPassword($_COOKIE['pass'], true);
                 //  $dbuser = self::getUserDbFromUser($_COOKIE['user']);
                 $resp = $user->login(false, true);
- .
+ 
                 //_error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   result: " $resp);
                 if (0 == $resp) {
                     _error_log("user::recreateLoginFromCookie: do cookie-login: " . $_COOKIE['user'] . "   id: " . $_SESSION['user']['id']);
