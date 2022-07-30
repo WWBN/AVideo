@@ -332,6 +332,7 @@ TimeLogEnd($timeLog, __LINE__);
 $json = _json_encode($object);
 //_error_log("login.json.php complete");
 //header("Content-length: " . strlen($json));
-_error_log('login.json.php is done');
+_error_log('login.json.php is done '.User::getId());
+session_write_close();
 echo $json;
 exit;
