@@ -1710,7 +1710,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
 }
 
 function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
-    _error_log("im_resizeV2: $file_src, $file_dest, $wd, $hd, $q");
+    //_error_log("im_resizeV2: $file_src, $file_dest, $wd, $hd, $q");
     $newImage = im_resize($file_src, $file_dest, $wd, $hd, 100);
     if (!$newImage) {
         return false;

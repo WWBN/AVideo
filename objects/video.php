@@ -424,7 +424,7 @@ if (!class_exists('Video')) {
                 $insert_row = parent::save();
                 if ($insert_row) {
                     AVideoPlugin::onUpdateVideo($insert_row);
-                    _error_log('onUpdateVideo $insert_row = ' . $insert_row);
+                    //_error_log('onUpdateVideo $insert_row = ' . $insert_row);
                 } else {
                     _error_log('onUpdateVideo error $saved is empty');
                 }
@@ -3684,7 +3684,7 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            _error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 3 FROM database " . $return['resolution'] . ' - ' . $v['path']); //exit;
+            //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 3 FROM database " . $return['resolution'] . ' - ' . $v['path']); //exit;
             //if($filename=='video_210916143432_c426'){var_dump(1, $filename, $return);exit;}
             $video->setVideoHigestResolution($return['resolution']);
             TimeLogEnd($name0, __LINE__);
@@ -4504,7 +4504,7 @@ if (!class_exists('Video')) {
         }
 
         public static function clearCache($videos_id) {
-            _error_log("Video:clearCache($videos_id)");
+            //_error_log("Video:clearCache($videos_id)");
             $video = new Video("", "", $videos_id);
             $filename = $video->getFilename();
             if (empty($filename)) {
@@ -4545,7 +4545,7 @@ if (!class_exists('Video')) {
             if ($fileName == '.zip') {
                 return false;
             }
-            _error_log("Video:clearCacheFromFilename($fileName)");
+            //_error_log("Video:clearCacheFromFilename($fileName)");
             $video = self::getVideoFromFileNameLight($fileName);
             if (empty($video['id'])) {
                 return false;
