@@ -922,7 +922,7 @@ if (typeof gtag !== \"function\") {
 
     public function login($noPass = false, $encodedPass = false, $ignoreEmailVerification = false) {
         if (User::isLogged()) {
-            _error_log('User:login is already logged '.json_encode($this));
+            _error_log('User:login is already logged '.json_encode($_SESSION['user']));
             return self::USER_LOGGED;
         }
         global $global, $advancedCustom, $advancedCustomUser, $config;
@@ -978,6 +978,8 @@ if (typeof gtag !== \"function\") {
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
             session_write_close();
+
+            _error_log('User:login finish '.json_encode($_SESSION['user']['id']));
             return self::USER_LOGGED;
         } else {
             unset($_SESSION['user']);
