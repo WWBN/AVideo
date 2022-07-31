@@ -35,7 +35,7 @@ if(!isSameDomain($global['webSiteRootURL'], $_POST['redirectUri'])){
 }
 _error_log("Start Login Request redirectUri=" . $_POST['redirectUri']);
 
-User::logoff();
+//User::logoff();
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
