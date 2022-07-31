@@ -1071,7 +1071,7 @@ if (typeof gtag !== \"function\") {
         _unsetcookie('rememberme');
         _unsetcookie('user');
         _unsetcookie('pass');
-        session_regenerate_id(true);
+        //session_regenerate_id(true);
         ObjectYPT::deleteAllSessionCache();
         unset($_SESSION['user']);
         _error_log('user:logoff');
