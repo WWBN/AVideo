@@ -19,7 +19,7 @@
     "moment-timezone": "^0.5.34",
     "pouchdb": "^7.3.0",
     "sweetalert": "^2.1.2",
-    "tinymce": "^6.1.0",
+    "tinymce": "^6.1.2",
     "tinymce-langs": "^1.0.0",
     "video.js": "^7.20.1",
     "videojs-contrib-ads": "^6.9.0",
