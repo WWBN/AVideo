@@ -18,7 +18,7 @@ if (!file_exists($tmpFile)) {
     die('sendSiteEmailAsync file do not exists '.$tmpFile);
 }
 $json = _json_decode(file_get_contents($tmpFile));
-unlink($tmpFile);
+//unlink($tmpFile);
 if (empty($json)) {
     _error_log('sendSiteEmailAsync: ERROR JSON invalid');
     die('sendSiteEmailAsync JSON invalid');
@@ -27,5 +27,6 @@ $to = ($json->to);
 $subject = ($json->subject);
 $message = ($json->message);
 
+_error_log('sendSiteEmailAsync: JSON decode totalEmails='.count($to));
 sendSiteEmail($to, $subject, $message);
 _error_log('sendSiteEmailAsync: Complete');

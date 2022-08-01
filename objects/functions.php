@@ -592,7 +592,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     
     $total = count($to);
     if($total == 1){
-        $debug = $total;
+        $debug = $to[0];
     }else{
         $debug = "count={$total}";
     }
