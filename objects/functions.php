@@ -647,16 +647,16 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
                 foreach ($piece as $value) {
                     $totalCount++;
                     $count++;
-                    _error_log("sendSiteEmail::addBCC [{$count}] {$value}");
+                    //_error_log("sendSiteEmail::addBCC [{$count}] {$value}");
                     $mail->addBCC($value);
                 }
-                _error_log("sendSiteEmail::sending now count=[{$count}] [{$totalCount}/{$totalEmails}]");
+                //_error_log("sendSiteEmail::sending now count=[{$count}] [{$totalCount}/{$totalEmails}]");
 
                 $resp = $mail->send();
                 if (!$resp) {
-                    _error_log("sendSiteEmail Error Info: {$mail->ErrorInfo}");
+                    _error_log("sendSiteEmail Error Info: {$mail->ErrorInfo} count=[{$count}] [{$totalCount}/{$totalEmails}]");
                 } else {
-                    _error_log("sendSiteEmail Success Info: $subject " . json_encode($to));
+                    _error_log("sendSiteEmail Success Info: count=[{$count}] [{$totalCount}/{$totalEmails}]");
                 }
             }
             
