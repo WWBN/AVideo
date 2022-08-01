@@ -578,6 +578,9 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     if (empty($to)) {
         return false;
     }
+    if (is_object($to)) {
+        $to = object_to_array($to);
+    }
     if (!is_array($to)) {
         $to = [$to];
     }
