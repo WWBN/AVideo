@@ -94,7 +94,7 @@ async function getStrategyType(strategyName, args, fallback) {
                 break;
             case 'NetworkOnly':
                 //console.log('getStrategyType',strategyName, args.request.url, fallback);
-                return await NetworkOnlyRaw.handle(args);
+                return await NetworkOnly.handle(args);
                 //return await NetworkOnly.handle(args);
                 break;
             case 'NetworkOnlyRaw':
@@ -105,9 +105,13 @@ async function getStrategyType(strategyName, args, fallback) {
                 //console.log('getStrategyType',strategyName, args.request.url, fallback);
                 return await CacheOnly.handle(args);
                 break;
-            default:
+            case 'StaleWhileRevalidate':
                 //console.log('getStrategyType',strategyName, args.request.url, fallback);
                 return await StaleWhileRevalidate.handle(args);
+                break;
+            default:
+                //console.log('getStrategyType',strategyName, args.request.url, fallback);
+                return await NetworkOnlyRaw.handle(args);
                 break;
         }
     } catch (e) {
@@ -164,18 +168,20 @@ async function processStrategy(strategy, args, extension, strategyName) {
 }
 async function processStrategyDefault(args, extension) {
     //console.log('processStrategyDefault', extension, args.request.destination, args.request.url);
-    return await StaleWhileRevalidate.handle(args);
+    return await NetworkOnlyRaw.handle(args);
 }
 
 async function getStrategy(args) {
     var strategiesNetworkOnly = [];
     strategiesNetworkOnly.push({extension: false, destination: 'document', url: webSiteRootURL, fallback: true});
-    strategiesNetworkOnly.push({extension: 'key', destination: false, url: false, fallback: false});
-    strategiesNetworkOnly.push({extension: 'php', destination: false, url: false, fallback: false});
-    strategiesNetworkOnly.push({extension: 'ts', destination: false, url: false, fallback: false});
-    strategiesNetworkOnly.push({extension: 'mp4', destination: false, url: false, fallback: false});
-    strategiesNetworkOnly.push({extension: 'mp3', destination: false, url: false, fallback: false});
-    strategiesNetworkOnly.push({extension: 'webm', destination: false, url: false, fallback: false});
+    
+    var strategiesNetworkOnlyRaw = [];
+    strategiesNetworkOnlyRaw.push({extension: 'key', destination: false, url: false, fallback: false});
+    strategiesNetworkOnlyRaw.push({extension: 'php', destination: false, url: false, fallback: false});
+    strategiesNetworkOnlyRaw.push({extension: 'ts', destination: false, url: false, fallback: false});
+    strategiesNetworkOnlyRaw.push({extension: 'mp4', destination: false, url: false, fallback: false});
+    strategiesNetworkOnlyRaw.push({extension: 'mp3', destination: false, url: false, fallback: false});
+    strategiesNetworkOnlyRaw.push({extension: 'webm', destination: false, url: false, fallback: false});
 
     var strategiesNetworkFirst = [];
     strategiesNetworkFirst.push({extension: false, destination: 'document', url: webSiteRootURL + 'offline', fallback: false});
@@ -193,10 +199,11 @@ async function getStrategy(args) {
     let domain = (new URL(args.request.url));
     var extension = domain.pathname.split('.').pop().toLowerCase();
     //console.log('getStrategy', extension, args);
-    return await processStrategy(strategiesCacheFirst, args, extension, 'CacheFirst') ||
-            await processStrategy(strategiesStaleWhileRevalidate, args, extension, 'StaleWhileRevalidate') ||
-            await processStrategy(strategiesNetworkFirst, args, extension, 'NetworkFirst') ||
+    return  await processStrategy(strategiesNetworkOnlyRaw, args, extension, 'NetworkOnlyRaw') ||
             await processStrategy(strategiesNetworkOnly, args, extension, 'NetworkOnly') ||
+            await processStrategy(strategiesNetworkFirst, args, extension, 'NetworkFirst') ||
+            await processStrategy(strategiesCacheFirst, args, extension, 'CacheFirst') ||
+            await processStrategy(strategiesStaleWhileRevalidate, args, extension, 'StaleWhileRevalidate') ||
             await processStrategyDefault(args, extension);
 
 }

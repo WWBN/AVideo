@@ -196,6 +196,7 @@ class Subscribe extends ObjectYPT{
                     if (in_array($row['email'], $emails)) {
                         //continue;
                     }
+                    //$value['notify'] = 
                     $emails[] = $row['email'];
                     $row['identification'] = User::getNameIdentificationById($row['subscriber_id']);
                     if ($row['identification'] === __("Unknown User")) {

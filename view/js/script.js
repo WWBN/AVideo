@@ -1494,6 +1494,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         showURL = url;
     }
     try {
+        console.log('avideoModalIframeWithClassName window.history.pushState showURL', showURL);
         window.history.pushState("", "", showURL);
     } catch (e) {
 
@@ -1530,6 +1531,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         onClose: avideoModalIframeRemove
     }).then(() => {
         if (avideoModalIframeFullScreenOriginalURL) {
+            //console.log('avideoModalIframeWithClassName window.history.pushState avideoModalIframeFullScreenOriginalURL', avideoModalIframeFullScreenOriginalURL);
             window.history.pushState("", "", avideoModalIframeFullScreenOriginalURL);
             avideoModalIframeFullScreenOriginalURL = false;
         }

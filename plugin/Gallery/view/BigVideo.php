@@ -98,7 +98,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                             echo __("Play All");
                                             ?>
                                         </div>
-                                        <?php }
+                                    <?php }
                                     ?>
                                 </div>
                                 <div class="<?php echo $colClass2; ?>">
@@ -179,16 +179,14 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                 </a>
                                             </div>
                                             <?php if (Video::canEdit($videoRow['id'])) { ?>
-                                                <div>
-                                                    <a href="#" onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $videoRow['id']; ?>');return false;"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
-                                                </div>
+                                                <button type="button" class="btn-link" onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $videoRow['id']; ?>');return false;">
+                                                    <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
+                                                </button>
                                             <?php } ?>
                                             <?php if (!empty($videoRow['trailer1'])) { ?>
-                                                <div>
-                                                    <span onclick="showTrailer('<?php echo parseVideos($videoRow['trailer1'], 1); ?>'); return false;" class="cursorPointer" >
+                                                <button type="button" class="btn-link" onclick="showTrailer('<?php echo parseVideos($videoRow['trailer1'], 1); ?>'); return false;" class="cursorPointer" >
                                                         <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
-                                                    </span>
-                                                </div>
+                                                </button>
                                             <?php }
                                             ?>
                                             <?php

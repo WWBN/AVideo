@@ -187,14 +187,13 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         }
 
         $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
-        
         ?>
         <div class=" <?php echo $colsClass; ?> galleryVideo fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
             <?php
             $img = Video::getVideoImagewithHoverAnimationFromVideosId($value, true, true, true);
-            if(empty($img)){
+            if (empty($img)) {
                 //var_dump($value);
-            }else{
+            } else {
                 echo $img;
             }
             ?>
@@ -266,28 +265,23 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                             $duid = uniqid();
                             $titleAlert = str_replace(array('"', "'"), array('``', "`"), $value['title']);
                             ?>
-                            <div>
-                                <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"videoDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#videoDescriptionAlertContent<?php echo $duid; ?>").html($("#videoDescription<?php echo $duid; ?>").html());return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-md hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
+                            <button type="button" class="btn-link" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"videoDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#videoDescriptionAlertContent<?php echo $duid; ?>").html($("#videoDescription<?php echo $duid; ?>").html());return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-md hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
                                 <div id="videoDescription<?php echo $duid; ?>" style="display: none;"><?php echo $desc; ?></div>
-                            </div>
+                            </button>
                             <?php
                         }
                     }
                     ?>
                     <?php if (Video::canEdit($value['id'])) { ?>
-                        <div>
-                            <a href="#" onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $value['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
-                                <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
-                            </a>
-                        </div>
+                        <button type="button" class="btn-link" onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $value['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
+                            <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
+                        </button>
                     <?php }
                     ?>
                     <?php if (!empty($value['trailer1'])) { ?>
-                        <div>
-                            <span onclick="showTrailer('<?php echo parseVideos($value['trailer1'], 1); ?>'); return false;" class="cursorPointer" >
-                                <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
-                            </span>
-                        </div>
+                        <button type="button" class="btn-link" onclick="showTrailer('<?php echo parseVideos($value['trailer1'], 1); ?>'); return false;" class="cursorPointer" >
+                            <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
+                        </button>
                     <?php }
                     ?>
                     <?php

@@ -6,8 +6,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-class UserGroups
-{
+class UserGroups{
     private $id;
     private $group_name;
 
