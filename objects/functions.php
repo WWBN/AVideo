@@ -589,7 +589,15 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
     $message = createEmailMessageFromTemplate($message);
-    _error_log("sendSiteEmail [" . count($to) . "] {$subject}");
+    
+    $total = count($to);
+    if($total == 1){
+        $debug = $to;
+    }else{
+        $debug = "count={$total}";
+    }
+    
+    _error_log("sendSiteEmail [{$debug}] {$subject}");
     global $config, $global;
     //require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
     if (empty($fromEmail)) {
@@ -661,8 +669,8 @@ function sendSiteEmailAsync($to, $subject, $message) {
     file_put_contents($tmpFile, _json_encode($content));
     //outputAndContinueInBackground();
     $command = "php {$global['systemRootPath']}objects/sendSiteEmailAsync.php '$tmpFile'";
-
-    _error_log("sendSiteEmailAsync start  ($command)");
+    $totalEmails = count($to);
+    _error_log("sendSiteEmailAsync start [totalEmails={$totalEmails}] ($command)");
     $pid = execAsync($command);
     _error_log("sendSiteEmailAsync end {$pid}");
     return $pid;
