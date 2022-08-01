@@ -592,7 +592,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     
     $total = count($to);
     if($total == 1){
-        $debug = $to;
+        $debug = $total;
     }else{
         $debug = "count={$total}";
     }
@@ -631,6 +631,9 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
 
             $to = array_iunique($to);
             $pieces = partition($to, $size);
+            $totalEmails = count($to);
+            $totalCount = 0;
+            _error_log("sendSiteEmail::sending totalEmails=[{$totalEmails}]");
             foreach ($pieces as $piece) {
                 $mail = new \PHPMailer\PHPMailer\PHPMailer();
                 setSiteSendMessage($mail);
@@ -639,10 +642,12 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
                 $mail->msgHTML($message);
                 $count = 0;
                 foreach ($piece as $value) {
+                    $totalCount++;
                     $count++;
                     _error_log("sendSiteEmail::addBCC [{$count}] {$value}");
                     $mail->addBCC($value);
                 }
+                _error_log("sendSiteEmail::sending now count=[{$count}] [{$totalCount}/{$totalEmails}]");
 
                 $resp = $mail->send();
                 if (!$resp) {
@@ -651,6 +656,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
                     _error_log("sendSiteEmail Success Info: $subject " . json_encode($to));
                 }
             }
+            
         }
         //Set the subject line
         return $resp;
