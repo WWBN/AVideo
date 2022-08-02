@@ -2911,24 +2911,34 @@ Click <a href=\"{link}\">here</a> to join our live.";
             _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
             //open connection
             $ch = curl_init();
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30); 
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10); //timeout in seconds
+            //set the url, number of POST vars, POST data
             curl_setopt($ch, CURLOPT_URL, $obj->restreamerURL);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+            curl_setopt($ch, CURLOPT_POSTREDIR, 3);
             curl_setopt($ch, CURLOPT_POST, 1);
             //curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
             //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);   
-            curl_setopt($ch, CURLOPT_VERBOSE, 1);          
-            curl_setopt($ch, CURLOPT_HEADER, 0);
-            curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-            curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 100); 
-            curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   
+            curl_setopt($ch, CURLOPT_AUTOREFERER, true); 
+            curl_setopt($ch, CURLOPT_VERBOSE, 1);
+            curl_setopt(
+                    $ch,
+                    CURLOPT_HTTPHEADER,
+                    [
+                        'Content-Type: application/json',
+                        'Content-Length: ' . strlen($data_string),]
+            );
+            $info = curl_getinfo($ch);
+            $output = curl_exec($ch);
             curl_close($ch);
-            _error_log("Live:sendRestream done");
-            return $json;
+            _error_log('Live:sendRestream complete ' . json_encode(array($info, $output)));
+            return true;
         } catch (Exception $exc) {
             _error_log("Live:sendRestream " . $exc->getTraceAsString());
             return false;
