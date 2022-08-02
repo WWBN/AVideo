@@ -7659,7 +7659,7 @@ function getLiveUsersLabelLiveLinks($liveLinks_id, $totalViews = null, $viewsCla
 }
 
 function getLiveUsersLabel($viewsClass = "label label-default", $counterClass = "label label-primary") {
-    if (AVideoPlugin::isEnabledByName('LiveUsers')) {
+    if (empty($_REQUEST['disableLiveUsers']) && AVideoPlugin::isEnabledByName('LiveUsers')) {
         $live = isLive();
         if (!empty($live)) {
             if (!empty($live['key'])) {
