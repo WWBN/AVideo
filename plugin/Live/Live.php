@@ -2927,6 +2927,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 100); 
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             curl_close($ch);
+            _error_log("Live:sendRestream done");
             return $json;
         } catch (Exception $exc) {
             _error_log("Live:sendRestream " . $exc->getTraceAsString());
