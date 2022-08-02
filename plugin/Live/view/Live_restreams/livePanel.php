@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 if (!Live::canRestream()) {
-    forbiddenPage(__("You can not do this"));
+    return false;
 }
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo getURL('view/css/DataTables/datatables.min.css'); ?>"/>
