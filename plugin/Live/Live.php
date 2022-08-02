@@ -2923,7 +2923,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             curl_setopt($ch, CURLOPT_VERBOSE, 1);          
             curl_setopt($ch, CURLOPT_HEADER, 0);
             curl_setopt($ch, CURLOPT_FORBID_REUSE, true);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
             curl_setopt($ch, CURLOPT_DNS_CACHE_TIMEOUT, 100); 
             curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
             curl_close($ch);
