@@ -174,6 +174,7 @@ if (!$isCommandLine) {
 }
 $robj->logFile = $obj->logFile;
 
+error_log("Restreamer.json.php starting async ");
 Loop::run(function () {
     global $robj;
     runRestream($robj->m3u8, $robj->restreamsDestinations, $robj->logFile)->onResolve(function (Throwable $error = null, $result = null) {
