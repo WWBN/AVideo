@@ -3639,7 +3639,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if($obj->whoCanRestream->value === self::CAN_RESTREAM_All_USERS){
             return true;
         }
-        return Permissions::hasPermission(VideoOffline::PERMISSION_CAN_RESTREAM,'Live');
+        return Permissions::hasPermission(self::PERMISSION_CAN_RESTREAM,'Live');
     }
 
 }
