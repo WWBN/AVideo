@@ -1,5 +1,6 @@
 <?php
-
+use Amp\Deferred;
+use Amp\Loop;
 //pkill -9 -f "rw_timeout.*6196bac40f89f" //When -f is set, the full command line is used for pattern matching.
 /**
  * This file intent to restream your lives, you can copy this file in any server with FFMPEG
@@ -68,6 +69,7 @@ $isCommandLine = php_sapi_name() === 'cli';
 function _addLastSlash($word) {
     return $word . (_hasLastSlash($word) ? "" : "/");
 }
+
 function _hasLastSlash($word) {
     return substr($word, -1) === '/';
 }
@@ -79,7 +81,7 @@ function getLiveKey($token) {
         $json = json_decode($content);
         if (!empty($json) && $json->error === false) {
             if (!empty($json->stream_key) && !empty($json->stream_url)) {
-                $newRestreamsDestination = _addLastSlash($json->stream_url).$json->stream_key;
+                $newRestreamsDestination = _addLastSlash($json->stream_url) . $json->stream_key;
                 error_log("Restreamer.json.php found $newRestreamsDestination");
                 return $newRestreamsDestination;
             } else {
@@ -98,15 +100,15 @@ if (!$isCommandLine) { // not command line
     if (!empty($robj->restreamsToken)) {
         foreach ($robj->restreamsToken as $key => $token) {
             $newRestreamsDestination = getLiveKey($token);
-            if(empty($newRestreamsDestination)){
+            if (empty($newRestreamsDestination)) {
                 error_log("Restreamer.json.php ERROR try again in 3 seconds");
                 sleep(3);
                 $newRestreamsDestination = getLiveKey($token);
             }
-            if(empty($newRestreamsDestination)){
+            if (empty($newRestreamsDestination)) {
                 error_log("Restreamer.json.php ERROR ");
                 unset($robj->restreamsDestinations[$key]);
-            }else{
+            } else {
                 $robj->restreamsDestinations[$key] = $newRestreamsDestination;
             }
         }
@@ -117,6 +119,8 @@ if (!$isCommandLine) { // not command line
     $robj->m3u8 = $argv[1];
     $robj->restreamsDestinations = [$argv[2]];
     $robj->users_id = 'commandline';
+    $robj->logFile = @$argv[3];
+    
 }
 
 $obj = new stdClass();
@@ -168,31 +172,40 @@ if (!$isCommandLine) {
         die(json_encode($obj));
     }
 }
+$robj->logFile = $obj->logFile;
 
-error_log("Restreamer.json.php token is correct logFile=".$obj->logFile);
-ignore_user_abort(true);
-ob_start();
-header("Connection: close");
-@header("Content-Length: " . ob_get_length());
-ob_end_flush();
-flush();
+Loop::run(function () {
+    global $robj;
+    runRestream($robj->m3u8, $robj->restreamsDestinations, $robj->logFile)->onResolve(function (Throwable $error = null, $result = null) {
+        if ($error) {
+            error_log("Restreamer.json.php runRestream: asyncOperation1 fail -> " . $error->getMessage());
+        } else {
+            error_log("Restreamer.json.php runRestream: asyncOperation1 result -> " . json_encode($result));
+        }        
+    });
+});
 
-killIfIsRunning($robj->m3u8);
-if (empty($separateRestreams)) {
-    error_log("Restreamer.json.php all in one command ");
-    $obj->pid[] = startRestream($robj->m3u8, $robj->restreamsDestinations, $obj->logFile);
-} else {
-    error_log("Restreamer.json.php separateRestreams " . count($robj->restreamsDestinations));
-    foreach ($robj->restreamsDestinations as $key => $value) {
-        sleep(0.5);
-        $host = clearCommandURL(parse_url($value, PHP_URL_HOST));
-        $obj->pid[] = startRestream($robj->m3u8, [$value], str_replace(".log", "_{$key}_{$host}.log", $obj->logFile));
-    }
-}
-$obj->error = false;
-
-error_log("Restreamer.json.php finish " . json_encode($obj));
 die(json_encode($obj));
+
+function runRestream($m3u8, $restreamsDestinations, $logFile) {
+    global $separateRestreams;
+    killIfIsRunning($m3u8);
+    $pid = array();
+    $deferred = new Deferred();
+    if (empty($separateRestreams)) {
+        error_log("Restreamer.json.php runRestream all in one command ");
+        $pid[] = startRestream($m3u8, $restreamsDestinations, $logFile);
+    } else {
+        error_log("Restreamer.json.php runRestream separateRestreams " . count($restreamsDestinations));
+        foreach ($restreamsDestinations as $key => $value) {
+            sleep(5);
+            $host = clearCommandURL(parse_url($value, PHP_URL_HOST));
+            $pid[] = startRestream($m3u8, [$value], str_replace(".log", "_{$key}_{$host}.log", $logFile));
+        }
+    }
+    $deferred->resolve($pid);
+    return $deferred->promise();
+}
 
 function clearCommandURL($url) {
     return preg_replace('/[^0-9a-z:.\/_&?=-]/i', "", $url);
