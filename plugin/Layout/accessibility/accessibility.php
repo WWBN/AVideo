@@ -38,35 +38,35 @@ if(isIframe()){
         <div class="list-group">            
             <a href="#" class="list-group-item" action="increase-text"> 
                 <i class="fas fa-search-plus"></i>
-                <span class="accessibility-toolbar-text">Increase Text</span> 
+                <span class="accessibility-toolbar-text"><?php echo __('Increase Text'); ?></span> 
             </a>
             <a href="#" class="list-group-item" action="decrease-text"> 
                 <i class="fas fa-search-minus"></i>
-                <span class="accessibility-toolbar-text">Decrease Text</span> 
+                <span class="accessibility-toolbar-text"><?php echo __('Decrease Text'); ?></span> 
             </a>
             <a href="#"  class="list-group-item" action="grayscale">
                 <i class="fas fa-palette"></i>
-                <span class="accessibility-toolbar-text">Grayscale</span> 
+                <span class="accessibility-toolbar-text"><?php echo __('Grayscale'); ?></span> 
             </a>
             <a href="#"  class="list-group-item" action="high-contrast">
                 <i class="fas fa-adjust"></i>
-                <span class="accessibility-toolbar-text">High Contrast</span> 
+                <span class="accessibility-toolbar-text"><?php echo __('High Contrast'); ?></span> 
             </a>
             <a href="#"  class="list-group-item" action="negative-contrast">
                 <i class="fas fa-minus-circle"></i>
-                <span class="accessibility-toolbar-text">Negative Contrast</span> 
+                <span class="accessibility-toolbar-text"><?php echo __('Negative Contrast'); ?></span> 
             </a>
             <a href="#"  class="list-group-item" action="links-underline">
                 <i class="fas fa-underline"></i>
-                <span class="accessibility-toolbar-text">Links Underline</span> 
+                <span class="accessibility-toolbar-text"><?php echo __('Links Underline'); ?></span> 
             </a>
             <a href="#"  class="list-group-item" action="readable-font">
                 <i class="fas fa-font"></i>
-                <span class="accessibility-toolbar-text">Readable Font</span> 
+                <span class="accessibility-toolbar-text"><?php echo __('Readable Font'); ?></span> 
             </a>
             <a href="#"  class="list-group-item" action="reset">
                 <i class="fas fa-power-off"></i>
-                <span class="accessibility-toolbar-text">Reset</span> 
+                <span class="accessibility-toolbar-text"><?php echo __('Reset'); ?></span> 
             </a>
             </ul>
         </div>
