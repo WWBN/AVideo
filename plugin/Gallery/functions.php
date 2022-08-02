@@ -188,7 +188,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
 
         $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
         ?>
-        <div class=" <?php echo $colsClass; ?> galleryVideo fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
+        <div class=" <?php echo $colsClass; ?> galleryVideo galleryVideo<?php echo $value['id']; ?> fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
             <?php
             $img = Video::getVideoImagewithHoverAnimationFromVideosId($value, true, true, true);
             if (empty($img)) {
@@ -414,7 +414,7 @@ function createGalleryLiveSection($videos) {
     bottom: 5px;
     right: 5px;">' . __("LIVE NOW") . '</span>';
         ?>
-        <div class=" <?php echo $colsClass; ?> galleryVideo fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
+        <div class=" <?php echo $colsClass; ?> galleryVideo galleryVideo<?php echo $video['id']; ?> fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
             <a class="galleryLink" videos_id="<?php echo $video['id']; ?>" 
                href="<?php echo $video['href']; ?>"  
                embed="<?php echo $video['link']; ?>"  

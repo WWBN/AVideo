@@ -25,6 +25,10 @@ class InstanceConfig extends \Google\Collection
    */
   public $displayName;
   /**
+   * @var string
+   */
+  public $freeInstanceAvailability;
+  /**
    * @var string[]
    */
   public $leaderOptions;
@@ -48,6 +52,20 @@ class InstanceConfig extends \Google\Collection
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param string
+   */
+  public function setFreeInstanceAvailability($freeInstanceAvailability)
+  {
+    $this->freeInstanceAvailability = $freeInstanceAvailability;
+  }
+  /**
+   * @return string
+   */
+  public function getFreeInstanceAvailability()
+  {
+    return $this->freeInstanceAvailability;
   }
   /**
    * @param string[]

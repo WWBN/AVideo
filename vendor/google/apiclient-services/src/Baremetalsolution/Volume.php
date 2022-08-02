@@ -58,6 +58,10 @@ class Volume extends \Google\Model
   /**
    * @var string
    */
+  public $protocol;
+  /**
+   * @var string
+   */
   public $remainingSpaceGib;
   /**
    * @var string
@@ -211,6 +215,20 @@ class Volume extends \Google\Model
   public function getPod()
   {
     return $this->pod;
+  }
+  /**
+   * @param string
+   */
+  public function setProtocol($protocol)
+  {
+    $this->protocol = $protocol;
+  }
+  /**
+   * @return string
+   */
+  public function getProtocol()
+  {
+    return $this->protocol;
   }
   /**
    * @param string

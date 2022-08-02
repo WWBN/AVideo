@@ -24,6 +24,10 @@ class GoogleCloudDocumentaiUiv1beta3ImportDocumentsMetadata extends \Google\Coll
   protected $commonMetadataDataType = '';
   protected $individualImportStatusesType = GoogleCloudDocumentaiUiv1beta3ImportDocumentsMetadataIndividualImportStatus::class;
   protected $individualImportStatusesDataType = 'array';
+  /**
+   * @var int
+   */
+  public $totalDocumentCount;
 
   /**
    * @param GoogleCloudDocumentaiUiv1beta3CommonOperationMetadata
@@ -52,6 +56,20 @@ class GoogleCloudDocumentaiUiv1beta3ImportDocumentsMetadata extends \Google\Coll
   public function getIndividualImportStatuses()
   {
     return $this->individualImportStatuses;
+  }
+  /**
+   * @param int
+   */
+  public function setTotalDocumentCount($totalDocumentCount)
+  {
+    $this->totalDocumentCount = $totalDocumentCount;
+  }
+  /**
+   * @return int
+   */
+  public function getTotalDocumentCount()
+  {
+    return $this->totalDocumentCount;
   }
 }
 

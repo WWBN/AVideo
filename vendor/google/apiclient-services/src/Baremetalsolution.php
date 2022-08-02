@@ -134,7 +134,17 @@ class Baremetalsolution extends \Google\Service
         'instances',
         [
           'methods' => [
-            'detachLun' => [
+            'create' => [
+              'path' => 'v2/{+parent}/instances',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'detachLun' => [
               'path' => 'v2/{+instance}:detachLun',
               'httpMethod' => 'POST',
               'parameters' => [

@@ -2426,13 +2426,15 @@ function empty(data) {
     var type = typeof (data);
     if (type == 'undefined' || data === null) {
         return true;
-    } else if (type == 'number') {
+    } else if (type === 'function') {
+        return false;
+    } else if (type === 'number') {
         return data == 0;
-    } else if (type == 'boolean') {
+    } else if (type === 'boolean') {
         return !data;
-    } else if (type == 'string') {
+    } else if (type === 'string') {
         return /^[\s]*$/.test(data);
-    } else if (type != 'undefined') {
+    } else if (type !== 'undefined') {
         return Object.keys(data).length == 0;
     }
     for (var i in data) {
@@ -2805,10 +2807,11 @@ function fixAdSize() {
 var videoJSRecreateSourcesTimeout;
 async function videoJSRecreateSources(defaultSource) {
     clearTimeout(videoJSRecreateSourcesTimeout);
-    if (empty(player) || empty(player.options_) || empty(player.updateSrc)) {
+    if (empty(player) || empty(player.options_)) {
         videoJSRecreateSourcesTimeout = setTimeout(function () {
             videoJSRecreateSources(defaultSource);
-        });
+        },1000);
+        console.log('videoJSRecreateSources player is empty');
         return false;
     }
 
@@ -2834,7 +2837,9 @@ async function videoJSRecreateSources(defaultSource) {
     }
 
     player.options_.sources = newSources;
-    player.updateSrc(player.options_.sources);
+    if(!empty(player.updateSrc)){
+        player.updateSrc(player.options_.sources);
+    }
     if (!empty(player.currentResolution) && !empty(defaultSource)) {
         player.currentResolution(defaultSource.label, null);
     }

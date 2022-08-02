@@ -57,5 +57,6 @@ return array(
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
     'BackblazeB2\\' => array($vendorDir . '/gliterd/backblaze-b2/src'),
     'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
+    'Amp\\' => array($vendorDir . '/amphp/amp/lib'),
     'Abraham\\TwitterOAuth\\' => array($vendorDir . '/abraham/twitteroauth/src'),
 );

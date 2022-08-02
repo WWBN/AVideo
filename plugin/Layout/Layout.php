@@ -534,6 +534,7 @@ class Layout extends PluginAbstract {
             $html = str_replace('</head>', '<style>' . implode(' ', array_unique(self::$tags['style'])) . '</style></head>', $html);
         }
         if (!empty(self::$tags['tagscript'])) {
+            usort(self::$tags['tagscript'], "_sortJS"); 
             $html = str_replace('</body>', implode('', array_unique(self::$tags['tagscript'])) . '</body>', $html);
         }
         if (!empty(self::$tags['script'])) {
@@ -680,4 +681,15 @@ class Layout extends PluginAbstract {
         echo $html;
     }
 
+}
+
+function _sortJS($a, $b){   
+    if (preg_match('/jquery(.min)?.js/i', $a)) {
+        return -1;
+    }
+    if (preg_match('/jquery(.min)?.js/i', $b)) {
+        return 1;
+    }
+    
+    return 0;
 }
