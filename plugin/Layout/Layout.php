@@ -690,6 +690,12 @@ function _sortJS($a, $b){
     if (preg_match('/jquery(.min)?.js/i', $b)) {
         return 1;
     }
+    if (preg_match('/node_modules.video.js.dist.video/i', $a)) {
+        return -1;
+    }
+    if (preg_match('/node_modules.video.js.dist.video/i', $b)) {
+        return 1;
+    }
     
     return 0;
 }
