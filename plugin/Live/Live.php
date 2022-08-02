@@ -3633,10 +3633,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
     static function canRestream(){
         $canStream = User::canStream();
         if(empty($canStream)){
+            //_error_log('user cannot stream');
             return false;
         }
         $obj = AVideoPlugin::getDataObject('Live');
-        if(empty($obj->disableRestream)){
+        if(!empty($obj->disableRestream)){
+            //_error_log('disableRestream is active');
             return false;
         }
         if($obj->whoCanRestream->value === self::CAN_RESTREAM_All_USERS){
