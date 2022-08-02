@@ -3636,6 +3636,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
             return false;
         }
         $obj = AVideoPlugin::getDataObject('Live');
+        if(empty($obj->disableRestream)){
+            return false;
+        }
         if($obj->whoCanRestream->value === self::CAN_RESTREAM_All_USERS){
             return true;
         }
