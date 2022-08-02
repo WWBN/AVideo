@@ -57,7 +57,7 @@ if (file_exists($configFile)) {
     include_once $configFile;
     $streamerURL = $global['webSiteRootURL'];
 }
-
+require_once __DIR__ . "/../../../vendor/autoload.php";
 error_log("Restreamer.json.php start {$streamerURL}");
 $whichffmpeg = whichffmpeg();
 if ($whichffmpeg !== $ffmpegBinary) {
