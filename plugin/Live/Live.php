@@ -22,6 +22,10 @@ class Live extends PluginAbstract {
     public static $posterType_regular = 0;
     public static $posterType_preroll = 1;
     public static $posterType_postroll = 2;
+    
+    const PERMISSION_CAN_RESTREAM= 0;
+    const CAN_RESTREAM_All_USERS= 0;
+    const CAN_RESTREAM_ONLY_SELECTED_USERGROUPS = 1;
 
     public function getTags() {
         return [
@@ -474,6 +478,14 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('controlServer', 'Control Server');
         $obj->disableRestream = false;
         self::addDataObjectHelper('disableRestream', 'Disable Restream', 'If you check this, we will not send requests to your Restreamer URL');
+        
+        $o = new stdClass();
+        $o->type = array(self::CAN_RESTREAM_All_USERS=>('All Users'), self::CAN_RESTREAM_ONLY_SELECTED_USERGROUPS=>('Selected user groups'));
+        $o->value = self::CAN_RESTREAM_All_USERS;
+        $obj->whoCanRestream = $o;
+        self::addDataObjectHelper('whoCanRestream', 'Who can Restream');
+        
+        
         $obj->disableDVR = false;
         self::addDataObjectHelper('disableDVR', 'Disable DVR', 'Enable or disable the DVR Feature, you can control the DVR length in your nginx.conf on the parameter hls_playlist_length');
         $obj->disableGifThumbs = false;
@@ -3609,6 +3621,21 @@ Click <a href=\"{link}\">here</a> to join our live.";
             //error_log("Restreamer.json.php killIfIsRunning there is not a process running for {$m3u8} ");
         }
         return false;
+    }
+    
+    
+    function getPermissionsOptions(){
+        $permissions = array();
+        $permissions[] = new PluginPermissionOption(self::PERMISSION_CAN_RESTREAM, __("Can Restream"), __("Can restream live videos"), 'Live');
+        return $permissions;
+    }
+    
+    static function canDownloadVideo(){
+        $obj = AVideoPlugin::getDataObject('Live');
+        if($obj->whoCanRestream->value === self::CAN_RESTREAM_All_USERS){
+            return true;
+        }
+        return Permissions::hasPermission(VideoOffline::PERMISSION_CAN_RESTREAM,'Live');
     }
 
 }
