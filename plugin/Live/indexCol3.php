@@ -9,7 +9,7 @@ if (!empty($obj->experimentalWebcam)) {
     <ul class="nav nav-tabs">
         <?php
         $active = 'active';
-        if (empty($obj->disableRestream)) {
+        if (Live::canRestream()) {
             ?>
             <li class="<?php echo $active; ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Live stream to other platforms simultaneously"); ?>"><a data-toggle="tab" href="#tabRestream"><i class="fas fa-sync"></i> <?php echo __("Restream"); ?></a> </li>
             <?php
@@ -32,7 +32,7 @@ if (!empty($obj->experimentalWebcam)) {
     <div class="tab-content">
         <?php
         $active = 'in active';
-        if (empty($obj->disableRestream)) {
+        if (Live::canRestream()) {
             ?>
             <div id="tabRestream" class="tab-pane fade <?php echo $active; ?>"> 
                 <?php include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/livePanel.php'; ?>
