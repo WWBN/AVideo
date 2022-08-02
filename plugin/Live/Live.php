@@ -3633,18 +3633,20 @@ Click <a href=\"{link}\">here</a> to join our live.";
     static function canRestream(){
         $canStream = User::canStream();
         if(empty($canStream)){
-            _error_log('user cannot stream');
+            _error_log('Live::canRestream: user cannot stream');
             return false;
         }
         $obj = AVideoPlugin::getDataObject('Live');
         if(!empty($obj->disableRestream)){
-            _error_log('disableRestream is active');
+            _error_log('Live::canRestream: disableRestream is active');
             return false;
         }
         if($obj->whoCanRestream->value === self::CAN_RESTREAM_All_USERS){
             return true;
         }
-        return Permissions::hasPermission(self::PERMISSION_CAN_RESTREAM,'Live');
+        $permission = Permissions::hasPermission(self::PERMISSION_CAN_RESTREAM,'Live');
+        _error_log('Live::canRestream: permission is '. json_encode($permission));
+        return $permission;
     }
 
 }
