@@ -3630,7 +3630,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $permissions;
     }
     
-    static function canDownloadVideo(){
+    static function canRestream(){
+        $canStream = User::canStream();
+        if(empty($canStream)){
+            return false;
+        }
         $obj = AVideoPlugin::getDataObject('Live');
         if($obj->whoCanRestream->value === self::CAN_RESTREAM_All_USERS){
             return true;

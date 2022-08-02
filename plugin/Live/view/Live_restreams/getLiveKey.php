@@ -4,6 +4,10 @@ $restreamerURL = 'http://127.0.0.1/Restreamer/';
 if(empty($global['local_test_server'])){
     $restreamerURL = 'https://restream.ypt.me/';
 }
+
+if (!Live::canRestream()) {
+    return false;
+}
 ?>
 <button type="button" class="btn btn-default" onclick="openRestream('facebook')">
     <i class="fab fa-facebook-f"></i>

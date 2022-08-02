@@ -6,6 +6,10 @@ _error_log('Restreamer get live keys start ' . json_encode($_REQUEST));
 if (!AVideoPlugin::isEnabledByName('Live')) {
     forbiddenPage('Live plugin is disabled', true);
 }
+
+if (!Live::canRestream()) {
+    forbiddenPage(__("You can not do this"));
+}
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
 header('Content-Type: application/json');
 

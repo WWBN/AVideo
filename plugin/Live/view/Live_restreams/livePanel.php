@@ -3,9 +3,8 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
-if (!User::canStream()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
-    exit;
+if (!Live::canRestream()) {
+    forbiddenPage(__("You can not do this"));
 }
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo getURL('view/css/DataTables/datatables.min.css'); ?>"/>
