@@ -3631,9 +3631,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
     
     static function canRestream(){
+        if (!empty($_REQUEST['token'])) {
+            $live_restreams_id = intval(decryptString($_REQUEST['token']));
+            if(!empty($live_restreams_id)){
+                return true;
+            }
+        }
         $canStream = User::canStream();
         if(empty($canStream)){
-            _error_log('Live::canRestream: user cannot stream');
+            _error_log('Live::canRestream: user cannot restream');
             return false;
         }
         $obj = AVideoPlugin::getDataObject('Live');
