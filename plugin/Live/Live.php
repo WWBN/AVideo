@@ -3634,6 +3634,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (!empty($_REQUEST['token'])) {
             $live_restreams_id = intval(decryptString($_REQUEST['token']));
             if(!empty($live_restreams_id)){
+                _error_log('Live::canRestream: canRestream by pass '.$live_restreams_id);
                 return true;
             }
         }
