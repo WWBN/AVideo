@@ -185,7 +185,8 @@ Loop::run(function () {
         }        
     });
 });
-
+error_log("Restreamer.json.php finish async ");
+$robj->error = false;
 die(json_encode($obj));
 
 function runRestream($m3u8, $restreamsDestinations, $logFile) {
