@@ -173,7 +173,9 @@ if (!$isCommandLine) {
     }
 }
 $robj->logFile = $obj->logFile;
-mysql_close();
+if(function_exists('_mysql_close')){
+    _mysql_close();
+}
 session_write_close();
 error_log("Restreamer.json.php starting async ");
 Loop::run(function () {
