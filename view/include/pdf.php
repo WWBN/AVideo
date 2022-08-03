@@ -20,7 +20,7 @@ $sources = getVideosURLPDF($video['filename']);
                 <?php
                 $url = $sources["pdf"]['url'];
                 ?>
-                <iframe id="pdfIframe" class="embed-responsive-item" scrolling="no" allowfullscreen="true" type="application/pdf" ></iframe>
+                <iframe id="pdfIframe" class="embed-responsive-item" scrolling="no" allowfullscreen="true" type="application/pdf" src="<?php echo $url; ?>"></iframe>
                 <script>
                     $(document).ready(function () {
                         addView(<?php echo $video['id']; ?>, 0);
@@ -28,7 +28,6 @@ $sources = getVideosURLPDF($video['filename']);
                         $('#pdfIframe').load(function(){
                             checkIfPDFWasConvertedIntoImage();
                         });
-                        $('#pdfIframe').attr('src', '<?php echo $url; ?>');    
                     });
                     function checkIfPDFWasConvertedIntoImage(){
                         var iframe = $('#pdfIframe');
