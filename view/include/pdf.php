@@ -17,7 +17,7 @@ $sources = getVideosURLPDF($video['filename']);
             </div>
             <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <div id="main-video" class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="<?php
+                <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" type="application/pdf" src="<?php
                 echo $sources["pdf"]['url']
                 ?>"></iframe>
                 <script>
