@@ -592,14 +592,14 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
     $message = createEmailMessageFromTemplate($message);
-    
+
     $total = count($to);
-    if($total == 1){
+    if ($total == 1) {
         $debug = $to[0];
-    }else{
+    } else {
         $debug = "count={$total}";
     }
-    
+
     _error_log("sendSiteEmail [{$debug}] {$subject}");
     global $config, $global;
     //require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
@@ -659,7 +659,6 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
                     _error_log("sendSiteEmail Success Info: count=[{$count}] [{$totalCount}/{$totalEmails}]");
                 }
             }
-            
         }
         //Set the subject line
         return $resp;
@@ -3042,7 +3041,7 @@ function isUntrustedRequest($logMsg = '', $approveAVideoUserAgent = true) {
 
 function forbidIfItIsNotMyUsersId($users_id, $logMsg = '') {
     if (itIsNotMyUsersId($users_id)) {
-        _error_log("forbidIfItIsNotMyUsersId: [{$users_id}]!=[".User::getId()."] {$logMsg}");
+        _error_log("forbidIfItIsNotMyUsersId: [{$users_id}]!=[" . User::getId() . "] {$logMsg}");
         forbiddenPage('It is not your user ' . getRealIpAddr(), true);
     }
 }
@@ -4201,12 +4200,12 @@ function blackListRegenerateSession() {
 
 function _mysql_connect($persistent = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
-    
+
     // added because of this https://github.com/WWBN/AVideo/issues/6956
-    if(!isset($global['STRAIGHT_JOIN'])){
+    if (!isset($global['STRAIGHT_JOIN'])) {
         $global['STRAIGHT_JOIN'] = 'STRAIGHT_JOIN';
     }
-    
+
     $checkValues = array('mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase');
 
     foreach ($checkValues as $value) {
@@ -5060,7 +5059,7 @@ function getVideos_id() {
     if (empty($videos_id) && !empty($_REQUEST['videos_id'])) {
         $videos_id = $_REQUEST['videos_id'];
     }
-    
+
     $videos_id = videosHashToID($videos_id);
 
     return $videos_id;
@@ -5198,10 +5197,10 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
                 return false;
             }
             if (
-                    str_starts_with($absolutePath, $absolutePathTmp) || 
-                    str_starts_with($absolutePath, '/var/www/') || 
-                    str_starts_with($absolutePath, $absolutePathCache) || 
-                    str_starts_with($absolutePath, $global['systemRootPath']) || 
+                    str_starts_with($absolutePath, $absolutePathTmp) ||
+                    str_starts_with($absolutePath, '/var/www/') ||
+                    str_starts_with($absolutePath, $absolutePathCache) ||
+                    str_starts_with($absolutePath, $global['systemRootPath']) ||
                     str_starts_with($absolutePath, getVideosDir())) {
                 return true;
             }
@@ -5935,7 +5934,7 @@ function getSEOTitle($text, $maxChars = 60) {
     if (_strlen($newText) < $maxChars) {
         return $newText;
     } else {
-        return _substr($newText, 0, $maxChars-3) . '...';
+        return _substr($newText, 0, $maxChars - 3) . '...';
     }
 }
 
@@ -6379,6 +6378,7 @@ function isIframe() {
     }
     return true;
 }
+
 function inIframe() {
     return isIframe();
 }
@@ -6897,7 +6897,6 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
                 return false;
                 break;
         }
-        
     }
     $progressFile = getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation);
     $progressFileEscaped = escapeshellarg($progressFile);
@@ -6911,8 +6910,8 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
     _error_log("convertVideoFileWithFFMPEG try[{$try}] output: " . json_encode($output));
 
     unlink($localFileLock);
-    
-    return ['return'=> $return, 'output'=>$output, 'command'=>$command, 'fromFileLocation'=>$fromFileLocation, 'toFileLocation'=>$toFileLocation, 'progressFile'=>$progressFile];
+
+    return ['return' => $return, 'output' => $output, 'command' => $command, 'fromFileLocation' => $fromFileLocation, 'toFileLocation' => $toFileLocation, 'progressFile' => $progressFile];
 }
 
 function m3u8ToMP4($input) {
@@ -6949,9 +6948,11 @@ function m3u8ToMP4($input) {
     }
 
     if (!file_exists($outputpath)) {
-        var_dump($filepath, $outputpath);exit;
+        var_dump($filepath, $outputpath);
+        exit;
         $return = convertVideoFileWithFFMPEG($filepath, $outputpath);
-        var_dump($return);exit;
+        var_dump($return);
+        exit;
         if (empty($return)) {
             $msg3 = "downloadHLS: ERROR 2 " . implode(PHP_EOL, $output);
             $finalMsg = $msg1 . PHP_EOL . $msg2 . PHP_EOL . $msg3;
@@ -6965,7 +6966,6 @@ function m3u8ToMP4($input) {
     $error = false;
     return ['error' => $error, 'msg' => $msg, 'path' => $outputpath, 'filename' => $outputfilename];
 }
-
 
 function getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation) {
     $progressFile = $toFileLocation . '.log';
@@ -7841,11 +7841,11 @@ function getDatabaseTimezoneName() {
 
     if ($_getDatabaseTimezoneName == 'PDT' || $_getDatabaseTimezoneName == 'PST') {
         $_getDatabaseTimezoneName = 'America/Los_Angeles';
-    }else if ($_getDatabaseTimezoneName == 'EDT' || $_getDatabaseTimezoneName == 'EST') {
+    } else if ($_getDatabaseTimezoneName == 'EDT' || $_getDatabaseTimezoneName == 'EST') {
         $_getDatabaseTimezoneName = 'America/New_York';
-    }else if ($_getDatabaseTimezoneName == 'CDT' || $_getDatabaseTimezoneName == 'CST') {
+    } else if ($_getDatabaseTimezoneName == 'CDT' || $_getDatabaseTimezoneName == 'CST') {
         $_getDatabaseTimezoneName = 'America/Chicago';
-    }else if ($_getDatabaseTimezoneName == 'CEST') {
+    } else if ($_getDatabaseTimezoneName == 'CEST') {
         $_getDatabaseTimezoneName = 'Europe/Madrid';
     }
 
@@ -9176,4 +9176,15 @@ function addTwitterJS($text) {
         }
     }
     return $text;
+}
+
+function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type) {
+    $downloadOptions = array();
+    if ($video['type'] == "video" || $video['type'] == "audio") {
+        $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
+        if (!empty($videoHLSObj) && method_exists('VideoHLS', 'getMP3ANDMP4DownloadLinks')) {
+            $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
+        }
+    }
+    return $downloadOptions;
 }
