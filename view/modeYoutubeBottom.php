@@ -129,14 +129,16 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                         <?php
                     }
                     $filesToDownload = [];
-                    if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
-                        if ($video['type'] == "zip") {
-                            $files = getVideosURLZIP($video['filename']);
-                        } else if ($video['type'] == "pdf") {
-                            $files = getVideosURLPDF($video['filename']);;
-                        } else {
-                            $files = getVideosURL($video['filename']);
-                        }//var_dump($files);exit;
+                    $files = array();
+                    $canDownloadFiles = CustomizeUser::canDownloadVideosFromVideo($video['id']);
+                    if ($video['type'] == "zip") {
+                        $files = getVideosURLZIP($video['filename']);
+                    } else if ($video['type'] == "pdf") {
+                        $files = getVideosURLPDF($video['filename']);;
+                    } else if($canDownloadFiles) {
+                        $files = getVideosURL($video['filename']);
+                    }
+                    if (!empty($files)) {
                         $downloadMP3Link = array();
                         $downloadMP4Link = array();
                         foreach ($files as $key => $theLink) {
@@ -180,9 +182,9 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                             }
                         }
                         
-                        
-                        $filesToDownload = array_merge($filesToDownload, getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video['type']));
-
+                        if($canDownloadFiles){
+                            $filesToDownload = array_merge($filesToDownload, getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video['type']));
+                        }
 
                         if (!empty($filesToDownload)) {
                             ?>
