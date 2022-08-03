@@ -17,13 +17,29 @@ $sources = getVideosURLPDF($video['filename']);
             </div>
             <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <div id="main-video" class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" type="application/pdf" src="<?php
-                echo $sources["pdf"]['url']
-                ?>"></iframe>
+                <?php
+                $url = $sources["pdf"]['url'];
+                ?>
+                <iframe id="pdfIframe" class="embed-responsive-item" scrolling="no" allowfullscreen="true" type="application/pdf" src="<?php echo $url; ?>"></iframe>
                 <script>
                     $(document).ready(function () {
                         addView(<?php echo $video['id']; ?>, 0);
+                        
+                        $('#pdfIframe').load(function(){
+                            checkIfPDFWasConvertedIntoImage();
+                        });
                     });
+                    function checkIfPDFWasConvertedIntoImage(){
+                        var iframe $('#pdfIframe');
+                        var iframeContent iframe.contents();
+                        if($('body > img', iframeContent).length){
+                            var oldurl = iframe.attr('src');
+                            var newurl = 'https://docs.google.com/viewerng/viewer?embedded=true';
+                            vewurl = addQueryStringParameter(newurl, 'url', oldurl);
+                            iframe.attr('oldsrc', oldurl);
+                            iframe.attr('src', newurl);
+                        }
+                    }
                 </script>
 
             </div>
