@@ -30,8 +30,8 @@ $sources = getVideosURLPDF($video['filename']);
                         });
                     });
                     function checkIfPDFWasConvertedIntoImage(){
-                        var iframe $('#pdfIframe');
-                        var iframeContent iframe.contents();
+                        var iframe = $('#pdfIframe');
+                        var iframeContent = iframe.contents();
                         if($('body > img', iframeContent).length){
                             var oldurl = iframe.attr('src');
                             var newurl = 'https://docs.google.com/viewerng/viewer?embedded=true';
