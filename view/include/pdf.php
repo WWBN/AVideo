@@ -35,8 +35,8 @@ $sources = getVideosURLPDF($video['filename']);
                         if($('body > img', iframeContent).length){
                             var oldurl = iframe.attr('src');
                             var newurl = 'https://docs.google.com/viewerng/viewer?embedded=true';
-                            console.log('checkIfPDFWasConvertedIntoImage load new URL',newurl);
                             vewurl = addQueryStringParameter(newurl, 'url', oldurl);
+                            console.log('checkIfPDFWasConvertedIntoImage load new URL',newurl, oldurl);
                             iframe.attr('oldsrc', oldurl);
                             iframe.attr('src', newurl);
                         }
