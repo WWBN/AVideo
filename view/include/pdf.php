@@ -39,7 +39,7 @@ $sources = getVideosURLPDF($video['filename']);
                                 oldurl = parts[0];
                             }
                             var newurl = 'https://docs.google.com/viewerng/viewer?embedded=true';
-                            vewurl = addQueryStringParameter(newurl, 'url', oldurl);
+                            newurl = addQueryStringParameter(newurl, 'url', oldurl);
                             console.log('checkIfPDFWasConvertedIntoImage load new URL',newurl, oldurl);
                             iframe.attr('oldsrc', oldurl);
                             iframe.attr('src', newurl);
