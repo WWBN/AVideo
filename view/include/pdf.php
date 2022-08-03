@@ -25,7 +25,7 @@ $sources = getVideosURLPDF($video['filename']);
                     $(document).ready(function () {
                         addView(<?php echo $video['id']; ?>, 0);
                         
-                        $('#pdfIframe').load(function(){
+                        $('#pdfIframe').on('load', function(){
                             checkIfPDFWasConvertedIntoImage();
                         });
                     });
