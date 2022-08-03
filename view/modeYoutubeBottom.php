@@ -255,7 +255,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
     ?>
 </div>
 
-<?php if (!empty($filesToDownload) && CustomizeUser::canDownloadVideosFromVideo($video['id'])) { ?>
+<?php if (!empty($filesToDownload)) { ?>
     <div class="row bgWhite list-group-item menusDiv" id="downloadDiv">
         <div class="tabbable-panel">
             <div class="list-group list-group-horizontal">
