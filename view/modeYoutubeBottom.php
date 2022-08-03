@@ -132,6 +132,8 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                     if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
                         if ($video['type'] == "zip") {
                             $files = getVideosURLZIP($video['filename']);
+                        } else if ($video['type'] == "pdf") {
+                            $files = getVideosURLPDF($video['filename']);;
                         } else {
                             $files = getVideosURL($video['filename']);
                         }//var_dump($files);exit;
@@ -177,11 +179,12 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                                 $filesToDownload[] = ['name' => $name, 'url' => $theLink['url']];
                             }
                         }
-
-                        $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
-                        if (!empty($videoHLSObj) && method_exists('VideoHLS', 'getMP3ANDMP4DownloadLinks')) {
-                            $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
-                            $filesToDownload = array_merge($filesToDownload, $downloadOptions);
+                        if($video['type'] == "video" || $video['type'] == "audio" ){
+                            $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
+                            if (!empty($videoHLSObj) && method_exists('VideoHLS', 'getMP3ANDMP4DownloadLinks')) {
+                                $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
+                                $filesToDownload = array_merge($filesToDownload, $downloadOptions);
+                            }
                         }
 
 
