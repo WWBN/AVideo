@@ -15,7 +15,8 @@ $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
 if (empty($videoHLSObj)) {
     forbiddenPage('VideoHLS plugin is required for that');
 }
-$downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
+
+$downloadOptions = getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video['type']);
 
 if (empty($downloadOptions)) {
     forbiddenPage('All download options on VideoHLS plugin are disabled');
