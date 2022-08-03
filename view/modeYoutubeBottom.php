@@ -179,13 +179,9 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                                 $filesToDownload[] = ['name' => $name, 'url' => $theLink['url']];
                             }
                         }
-                        if($video['type'] == "video" || $video['type'] == "audio" ){
-                            $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
-                            if (!empty($videoHLSObj) && method_exists('VideoHLS', 'getMP3ANDMP4DownloadLinks')) {
-                                $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
-                                $filesToDownload = array_merge($filesToDownload, $downloadOptions);
-                            }
-                        }
+                        
+                        
+                        $filesToDownload = array_merge($filesToDownload, getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video['type']));
 
 
                         if (!empty($filesToDownload)) {
