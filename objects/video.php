@@ -771,7 +771,7 @@ if (!class_exists('Video')) {
                 }
             }
             _mysql_connect();
-            $sql = "SELECT STRAIGHT_JOIN u.*, v.*, "
+            $sql = "SELECT {$global['STRAIGHT_JOIN']} u.*, v.*, "
                     . " nv.title as next_title,"
                     . " nv.clean_title as next_clean_title,"
                     . " nv.filename as next_filename,"
@@ -1141,7 +1141,7 @@ if (!class_exists('Video')) {
                 $suggestedOnly = true;
                 $status = '';
             }
-            $sql = "SELECT STRAIGHT_JOIN u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
+            $sql = "SELECT {$global['STRAIGHT_JOIN']} u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
                     . " FROM videos as v "

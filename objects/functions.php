@@ -4201,7 +4201,11 @@ function blackListRegenerateSession() {
 
 function _mysql_connect($persistent = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
-
+    
+    if(!isset($global['STRAIGHT_JOIN'])){
+        $global['STRAIGHT_JOIN'] = 'STRAIGHT_JOIN';
+    }
+    
     $checkValues = array('mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase');
 
     foreach ($checkValues as $value) {
