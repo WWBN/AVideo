@@ -322,8 +322,22 @@ if (!class_exists('Video')) {
 
             if (empty($this->type) || !in_array($this->type, self::$typeOptions)) {
                 $this->type = 'video';
+            }else if(!empty($this->id) && $this->type == 'linkVideo'){
+                // chek if it has no media 
+                $types = Video::getVideoTypeFromId($this->id);
+                if(!empty($types)){
+                    if($types->mp4 || $types->webm || $types->m3u8 ){
+                        $this->type = 'video';
+                    }else 
+                    if($types->pdf){
+                        $this->type = 'pdf';
+                    }else 
+                    if($types->mp3){
+                        $this->type = 'audio';
+                    }
+                }
             }
-
+            //var_dump($this->id, $this->type);exit;
             if (empty($this->isSuggested)) {
                 $this->isSuggested = 0;
             } else {

@@ -2978,3 +2978,8 @@ function isOnline() {
     //console.log('window.navigator.onLine', window.navigator.onLine);
     return window.navigator.onLine;
 }
+
+function notifyInputIfIsOutOfBounds(selector, min_length, max_lenght){
+    var text = $(selector).val();
+    
+}
