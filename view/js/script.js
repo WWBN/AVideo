@@ -2981,12 +2981,15 @@ function isOnline() {
     return window.navigator.onLine;
 }
 var notifyInputIfIsOutOfBounds_removeClassTImeout;
+var notifyInputIfIsOutOfBounds_animateClassTImeout;
 function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
+    clearTimeout(notifyInputIfIsOutOfBounds_removeClassTImeout);
+    clearTimeout(notifyInputIfIsOutOfBounds_animateClassTImeout);
     var text = $(selector).val();
     var parent = $(selector).parent();
     var animationInfo = 'animate__headShake';
-    var animationError = 'animate__headShake';
-    var animationWarning = 'animate__flash';
+    var animationError = 'animate__shakeX';
+    var animationWarning = 'animate__headShake';
     parent.removeClass('has-error');
     parent.removeClass('has-warning');
     parent.removeClass('has-info');
@@ -3013,27 +3016,34 @@ function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
             $(selector).val(text);
             icon = '<i class="fas fa-exclamation-triangle"></i>';
             parent.addClass('has-info');
-            $(selector).addClass(animationInfo);
+            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function(){
+                $(selector).addClass(animationInfo);
+            },500);
         }else if(text.length < min_length || !isRequired){
             icon = '<i class="fas fa-exclamation-circle"></i>';
             parent.addClass('has-warning');
-            $(selector).addClass(animationWarning);
+            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function(){
+                $(selector).addClass(animationWarning);
+            },500);
         }else{
             icon = '<i class="fas fa-exclamation-circle"></i>';
             parent.addClass('has-error');
             feedbackIcon = 'fas fa-times';
-            $(selector).addClass(animationError);
+            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function(){
+                $(selector).addClass(animationError);
+            },500);
         }
         feedback = '<i class="'+feedbackIcon+' form-control-feedback" style="right:15px;"></i>';
     } else {
         console.log('notifyInputIfIsOutOfBounds', text.length, force_length);
         if(!empty(force_length) && text.length == force_length){
-            $(selector).addClass(animationInfo);
+            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function(){
+                $(selector).addClass(animationInfo);
+            },500);
         }
         icon = '<i class="fas fa-check-circle"></i>';
         parent.addClass('has-success');
     }
-    clearTimeout(notifyInputIfIsOutOfBounds_removeClassTImeout);
     notifyInputIfIsOutOfBounds_removeClassTImeout = setTimeout(function(){
         $(selector).removeClass(animationInfo);
         $(selector).removeClass(animationError);
