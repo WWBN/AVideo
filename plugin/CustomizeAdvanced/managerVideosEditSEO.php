@@ -1,7 +1,7 @@
 <div class="row">
 
     <div class="col-md-6">
-        <label class="control-label" for="inputShortSummary" ><?php echo __("Short summary"); ?> (H2)</label>
+        <label class="control-label" for="inputShortSummary" ><?php echo __("Short summary"); ?> <abbr title="H2 tags">(H2)<abbr></label>
         <textarea id="inputShortSummary" class="form-control" placeholder="<?php echo __("Short summary"); ?>"></textarea>
     </div>
     <div class="col-md-6">
@@ -35,7 +35,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        setupFormElement('#inputTitle', 35, 45, true, true);
+        setupFormElement('#inputTitle', 35, 65, true, true);
         setupFormElement('#inputShortSummary', 70, 320, true, false);
         setupFormElement('#inputMetaDescription', 70, 320, true, false);
     });

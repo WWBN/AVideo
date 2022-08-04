@@ -52,19 +52,12 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
             <?php
             echo Video::getVideoImagewithHoverAnimationFromVideosId($video, true, false);
             ?>
-            <span itemprop="thumbnailUrl" content="<?php echo $img; ?>" ></span>
-            <span itemprop="contentURL" content="<?php echo Video::getLink($video['id'], $video['clean_title']); ?>"></span>
-            <span itemprop="embedURL" content="<?php echo Video::getLink($video['id'], $video['clean_title'], true); ?>" ></span>
-            <span itemprop="uploadDate" content="<?php echo $video['created']; ?>"></span>
-            <span itemprop="description" content="<?php echo $description; ?>"></span>
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8">
-            <h1 itemprop="name">
-                <?php
-                echo getSEOTitle($video['title'], 65);
-                ?> &nbsp;
-            </h1>
             <?php
+            
+            $tags = Video::getSeoTags($video['id']);
+            echo $tags['body'];
             if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                 ?>
                 <div class="btn-group" role="group" aria-label="Basic example">

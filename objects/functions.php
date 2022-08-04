@@ -5920,10 +5920,10 @@ function getSEODescription($text, $maxChars = 250) {
     $removeChars = ['|', '"'];
     $replaceChars = ['-', ''];
     $newText = trim(str_replace($removeChars, $replaceChars, html2plainText($text)));
-    if (_strlen($string) > $maxChars) {
+    if (_strlen($string) < $maxChars) {
         return $newText;
     } else {
-        return _substr($newText, 0, $maxChars) . '...';
+        return _substr($newText, 0, $maxChars - 3) . '...';
     }
 }
 
@@ -8569,6 +8569,10 @@ function defaultIsPortrait() {
     }
 
     return $_defaultIsPortrait;
+}
+
+function defaultIsLandscape(){
+    return !defaultIsPortrait();
 }
 
 function isDummyFile($filePath) {

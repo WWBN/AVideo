@@ -72,15 +72,9 @@ echo $content;
 
 $keywords = strip_tags($advancedCustom->keywords);
 $head_videos_id = getVideos_id();
-if(!empty($head_videos_id) && AVideoPlugin::isEnabledByName('VideoTags')){
-    //$keywords .= ", $videos_id";
-    $tags = VideoTags::getArrayFromVideosId($head_videos_id);
-    if(!empty($tags)){
-        if(!empty($keywords)){
-            $keywords .= ', ';
-        }
-        $keywords .= implode(', ',$tags);
-    }
+if(!empty($head_videos_id)){
+    $tags = Video::getSeoTags($head_videos_id);
+    echo $tags['head'];
 }
 
 ?>

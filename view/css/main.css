@@ -1496,6 +1496,20 @@ button.btn-sm.hamburger svg{
     animation: moveGradient 4s ease-in-out infinite;
 }
 
+.SeoTags{
+    margin: 15px 0;
+}
+.SeoTags h1, .SeoTags h2{
+    margin: 10px 0;
+    padding: 0;
+}
+.SeoTags h1{
+    font-weight: bold;
+}
+.SeoTags h2{
+    font-size: 1em;
+}
+
 @keyframes moveGradient {
     50% {
         background-position: 100% 50%;

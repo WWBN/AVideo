@@ -2980,7 +2980,7 @@ function isOnline() {
     //console.log('window.navigator.onLine', window.navigator.onLine);
     return window.navigator.onLine;
 }
-
+var notifyInputIfIsOutOfBounds_removeClassTImeout;
 function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
     var text = $(selector).val();
     var parent = $(selector).parent();
@@ -3001,14 +3001,14 @@ function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
     var isRequired = min_length == 0 || !empty($(selector).attr('required'));
     var icon = '';
     var feedback = '';
+    var force_length = parseInt($(selector).attr('maxlength'));
     
     if (text.length == 0 && !isRequired) {
 
     } else if (isTextOutOfBounds(text, min_length, max_length, isRequired)) {
-        var force_length = parseInt($(selector).attr('maxlength'));
         var feedbackIcon = 'fas fa-exclamation';
         parent.addClass('has-feedback');
-        if(!empty(force_length) && text.length > force_length){
+        if(!empty(force_length) && text.length >= force_length){
             text = text.substr(0, force_length);
             $(selector).val(text);
             icon = '<i class="fas fa-exclamation-triangle"></i>';
@@ -3026,9 +3026,19 @@ function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
         }
         feedback = '<i class="'+feedbackIcon+' form-control-feedback" style="right:15px;"></i>';
     } else {
+        console.log('notifyInputIfIsOutOfBounds', text.length, force_length);
+        if(!empty(force_length) && text.length == force_length){
+            $(selector).addClass(animationInfo);
+        }
         icon = '<i class="fas fa-check-circle"></i>';
         parent.addClass('has-success');
     }
+    clearTimeout(notifyInputIfIsOutOfBounds_removeClassTImeout);
+    notifyInputIfIsOutOfBounds_removeClassTImeout = setTimeout(function(){
+        $(selector).removeClass(animationInfo);
+        $(selector).removeClass(animationError);
+        $(selector).removeClass(animationWarning);
+    },1000);
     parent.append(feedback + '<small class="help-block">' + icon + ' ' + text.length + ' characters of ' + min_length + '-' + max_length + ' recommended</small>');
 }
 
