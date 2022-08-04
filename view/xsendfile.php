@@ -104,7 +104,7 @@ if (file_exists($path)) {
     header("Content-type: " . mime_content_type($path));
     header('Content-Length: ' . $filesize);
     //header("Content-Range: 0-".($filesize-1)."/".$filesize);
-    _error_log("downloadHLS: filesize={$filesize} {$path}");
+    //_error_log("downloadHLS: filesize={$filesize} {$path}");
     //var_dump($advancedCustom->doNotUseXsendFile);exit;
     if (!empty($advancedCustom->doNotUseXsendFile)) {
         ini_set('memory_limit', filesize($path) * 1.5);
