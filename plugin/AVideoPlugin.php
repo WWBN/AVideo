@@ -1712,7 +1712,7 @@ class AVideoPlugin
         return $r;
     }
 
-    public static function getManagerVideosEditField()
+    public static function getManagerVideosEditField($type='Advanced')
     {
         $plugins = Plugin::getAllEnabled();
         $r = "";
@@ -1720,7 +1720,7 @@ class AVideoPlugin
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $r .= $p->getManagerVideosEditField();
+                $r .= $p->getManagerVideosEditField($type);
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }

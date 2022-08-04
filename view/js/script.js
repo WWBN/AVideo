@@ -2757,7 +2757,9 @@ async function checkSocketStatus() {
             $(".socketStatus").addClass('disconnected');
         }
     }
-    setTimeout(function(){checkSocketStatus();}, 1000);
+    setTimeout(function () {
+        checkSocketStatus();
+    }, 1000);
 }
 
 async function checkSavedCookies() {
@@ -2810,7 +2812,7 @@ async function videoJSRecreateSources(defaultSource) {
     if (empty(player) || empty(player.options_)) {
         videoJSRecreateSourcesTimeout = setTimeout(function () {
             videoJSRecreateSources(defaultSource);
-        },1000);
+        }, 1000);
         console.log('videoJSRecreateSources player is empty');
         return false;
     }
@@ -2837,7 +2839,7 @@ async function videoJSRecreateSources(defaultSource) {
     }
 
     player.options_.sources = newSources;
-    if(!empty(player.updateSrc)){
+    if (!empty(player.updateSrc)) {
         player.updateSrc(player.options_.sources);
     }
     if (!empty(player.currentResolution) && !empty(defaultSource)) {
@@ -2979,7 +2981,93 @@ function isOnline() {
     return window.navigator.onLine;
 }
 
-function notifyInputIfIsOutOfBounds(selector, min_length, max_lenght){
+function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
     var text = $(selector).val();
+    var parent = $(selector).parent();
+    var animationInfo = 'animate__headShake';
+    var animationError = 'animate__headShake';
+    var animationWarning = 'animate__flash';
+    parent.removeClass('has-error');
+    parent.removeClass('has-warning');
+    parent.removeClass('has-info');
+    parent.removeClass('has-success');
+    parent.removeClass('has-feedback');
+    $(selector).removeClass(animationInfo);
+    $(selector).removeClass(animationError);
+    $(selector).removeClass(animationWarning);
+    $(selector).addClass('animate__animated');
+    parent.find('.help-block').remove();
+    parent.find('.form-control-feedback').remove();
+    var isRequired = min_length == 0 || !empty($(selector).attr('required'));
+    var icon = '';
+    var feedback = '';
     
+    if (text.length == 0 && !isRequired) {
+
+    } else if (isTextOutOfBounds(text, min_length, max_length, isRequired)) {
+        var force_length = parseInt($(selector).attr('maxlength'));
+        var feedbackIcon = 'fas fa-exclamation';
+        parent.addClass('has-feedback');
+        if(!empty(force_length) && text.length > force_length){
+            text = text.substr(0, force_length);
+            $(selector).val(text);
+            icon = '<i class="fas fa-exclamation-triangle"></i>';
+            parent.addClass('has-info');
+            $(selector).addClass(animationInfo);
+        }else if(text.length < min_length || !isRequired){
+            icon = '<i class="fas fa-exclamation-circle"></i>';
+            parent.addClass('has-warning');
+            $(selector).addClass(animationWarning);
+        }else{
+            icon = '<i class="fas fa-exclamation-circle"></i>';
+            parent.addClass('has-error');
+            feedbackIcon = 'fas fa-times';
+            $(selector).addClass(animationError);
+        }
+        feedback = '<i class="'+feedbackIcon+' form-control-feedback" style="right:15px;"></i>';
+    } else {
+        icon = '<i class="fas fa-check-circle"></i>';
+        parent.addClass('has-success');
+    }
+    parent.append(feedback + '<small class="help-block">' + icon + ' ' + text.length + ' characters of ' + min_length + '-' + max_length + ' recommended</small>');
+}
+
+function setupFormElement(selector, min_length, max_length, force_length, isRequired) {
+    $(selector).attr('min_length', min_length);
+    $(selector).attr('max_length', max_length);
+    if (!isRequired) {
+        $(selector).removeAttr('required');
+    } else {
+        $(selector).attr('required', 'required');
+    }
+    if(force_length){
+        $(selector).attr('maxlength', max_length);
+        $(selector).attr('minlength', min_length); 
+    }
+    $(selector).keyup(function () {
+        notifyInputIfIsOutOfBounds('#' + $(this).attr('id'), $(this).attr('min_length'), $(this).attr('max_length'));
+    });
+}
+
+function isTextOutOfBounds(text, min_length, max_length, isRequired) {
+    //console.log('isTextOutOfBounds', text, min_length, max_length, allow_null);
+    if (empty(text)) {
+        if (!empty(min_length) && isRequired) {
+            //console.log('isTextOutOfBounds 1');
+            return true;
+        } else {
+            //console.log('isTextOutOfBounds 2');
+            return false;
+        }
+    }
+    if (text.length < min_length) {
+        //console.log('isTextOutOfBounds 3');
+        return true;
+    }
+    if (text.length > max_length) {
+        //console.log('isTextOutOfBounds 4');
+        return true;
+    }
+    //console.log('isTextOutOfBounds 5');
+    return false;
 }

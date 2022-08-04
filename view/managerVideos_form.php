@@ -1,3 +1,8 @@
+<style>
+    .modal-content div.row > div{
+        padding-bottom: 15px;
+    }
+</style>
 <div class="modal-dialog" role="document">
     <div class="modal-content">
 
@@ -27,7 +32,7 @@
                             <li class="active uploadFile"><a data-toggle="tab" href="#pmedia"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></a></li>
                             <li><a data-toggle="tab" href="#pimages"><i class="far fa-image"></i> <?php echo __("Images"); ?></a></li>
                             <li><a data-toggle="tab" href="#pmetadata"><i class="fas fa-info-circle"></i> <?php echo __("Meta Data"); ?></a></li>
-                            <li><a data-toggle="tab" href="#padvancedMetaData"><i class="fas fa-cog"></i> SEO</a></li>
+                            <li><a data-toggle="tab" href="#pSEO"><i class="fab fa-searchengin"></i> SEO</a></li>
                             <li><a data-toggle="tab" href="#pPrivacy"><i class="fas fa-user-lock"></i> <?php echo __("Privacy"); ?></a></li>
                             <li><a data-toggle="tab" href="#padvanced"><i class="fas fa-cog"></i> <?php echo __("Advanced"); ?></a></li>
                             <?php
@@ -98,17 +103,14 @@
                                         }
                                         ?>
                                         <div class="<?php echo $divCol1; ?>">
-                                            <label for="inputTitle"><?php echo __("Title"); ?></label>
+                                            <label class="control-label" for="inputTitle"><?php echo __("Title"); ?></label>
                                             <input type="text" id="inputTitle" class="form-control" placeholder="<?php echo __("Title"); ?>" required>
-                                            <small class="text-muted">
-                                                Recommended: 35-65 characters
-                                            </small>
                                         </div>
                                         <div class="<?php echo $divCol2; ?>">
                                             <?php
                                             if ($showCategory) {
                                                 ?>
-                                                <label for="inputCategory" ><?php echo __("Category"); ?></label>
+                                                <label class="control-label" for="inputCategory" ><?php echo __("Category"); ?></label>
                                                 <select class="form-control last" id="inputCategory" required>
                                                     <?php
                                                     foreach ($categories as $value) {
@@ -122,53 +124,25 @@
                                         </div>
                                     </div>
                                 </div>
-                                <label for="inputDescription" ><?php echo __("Description"); ?></label>
+                                <label class="control-label" for="inputDescription" ><?php echo __("Description"); ?></label>
                                 <textarea id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required></textarea>
                             </div>
-                            
-                            <div id="padvancedMetaData" class="tab-pane fade">
+
+                            <div id="pSEO" class="tab-pane fade">
                                 <div class="row">
                                     <div class="col-md-12 titles">
-                                        <label for="inputCleanTitle" ><?php echo __("Clean Title"); ?></label>
+                                        <label class="control-label" for="inputCleanTitle" ><?php echo __("Clean Title"); ?></label>
                                         <input type="text" id="inputCleanTitle" class="form-control" placeholder="<?php echo __("Clean Title"); ?>" required>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="inputShortSummary" ><?php echo __("Short summary"); ?> (H2)</label>
-                                        <textarea id="inputShortSummary" class="form-control" placeholder="<?php echo __("Short summary"); ?>"></textarea>
-                                        <small class="text-muted"><?php echo __("Recommended: 70-320 characters"); ?></small>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="inputMetaDescription" ><?php echo __("Meta Description"); ?> </label>
-                                        <textarea id="inputMetaDescription" class="form-control" placeholder="<?php echo __("Meta Description"); ?>"></textarea>
-                                        <small class="text-muted"><?php echo __("Recommended: 70-320 characters"); ?></small>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <hr>
-                                    <div class="col-xs-12">
-                                        <div class="alert alert-info">
-                                            <strong><?php echo __('SEO Tips');?> </strong><br>
-                                            <p>
-                                                <strong><?php echo __('Clean Title');?> </strong><br>
-                                                SEO best practices use hyphens between words because this tells the search engines and users where the breaks between words are and they are so much easier to read than one all the words smashed together. <br>
-                                                Eliminate stop words (the, and, or, of, a, an, to, for, etc.) do not need to be in your URL. Remove these words from your URL to make it shorter and more readable. You can see in the URL of this post that I removed the word “for” because it’s shorter and easier to read and remember.
-                                            </p>
-                                            <p>
-                                                <strong><?php echo __('Short summary');?> </strong><br>
-                                                Usually, Short summary (H2 tags) are longer than titles (H1 tags) because that they describe the subheadings regarding your video title.<br>
-                                                It's always better to make H2 tags short and H1 tags shorter and to the point, also don't stuff it with unnecessary words because that will negatively affect your SEO.
-                                            </p>
-                                            <p>
-                                                <strong><?php echo __('Meta Description');?> </strong><br>
-                                                The meta description is a snippet of up to about 155 characters – a tag in HTML – which summarizes a page’s content. <br>
-                                                Search engines show it in search results mostly when the searched-for phrase is within the description. So optimizing it is crucial for on-page SEO.
-                                            </p>
-                                            
-                                        </div>
-                                        
-                                    </div>
                                 </div>
+                                <?php
+                                echo AVideoPlugin::getManagerVideosEditField('SEO');
+                                ?>
                             </div>
                             <div id="pPrivacy" class="tab-pane fade">
+                                <?php
+                                echo AVideoPlugin::getManagerVideosEditField('Privacy');
+                                ?>
                                 <div class="row" >
                                     <div class="col-md-12" >
                                         <ul class="list-group">
@@ -200,7 +174,7 @@
                                             if (!empty($advancedCustomUser->userCanProtectVideosWithPassword) || Permissions::canAdminVideos()) {
                                                 ?>
                                                 <li class="list-group-item">
-                                                    <label for="inputVideoPassword"><?php echo __("Password Protected"); ?></label>
+                                                    <label class="control-label" for="inputVideoPassword"><?php echo __("Password Protected"); ?></label>
                                                     <input type="text" id="inputVideoPassword" class="form-control" placeholder="<?php echo __("Password"); ?>" >
                                                 </li>
                                                 <?php
@@ -237,12 +211,12 @@
                                                         <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
                                                         <span class="label label-default categoryGroupSwitchInline"><?php echo __('Category User Group'); ?></span>
                                                         <div class="material-switch pull-right videoGroupSwitch">
-                                                            <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups"/>
-                                                            <label for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
+                                                            <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups" />
+                                                            <label class="control-label" for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
                                                         </div>
                                                         <div class="material-switch pull-right categoryGroupSwitch" >
                                                             <input id="categoryGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="categoryGroups"/>
-                                                            <label for="categoryGroup<?php echo $value['id']; ?>" class="label-default"></label>
+                                                            <label class="control-label" for="categoryGroup<?php echo $value['id']; ?>" class="label-default"></label>
                                                         </div>
                                                     </li>
                                                     <?php
@@ -257,12 +231,12 @@
                             <div id="padvanced" class="tab-pane fade">
 
                                 <?php
-                                echo AVideoPlugin::getManagerVideosEditField();
+                                echo AVideoPlugin::getManagerVideosEditField('Advanced');
                                 ?>
                                 <div class="row">
                                     <div class="col-md-6">
 
-                                        <label for="inputRrating" ><?php echo __("R Rating"); ?></label>
+                                        <label class="control-label" for="inputRrating" ><?php echo __("R Rating"); ?></label>
                                         <select class="form-control last" id="inputRrating">
                                             <?php
                                             foreach (Video::$rratingOptions as $value) {
@@ -286,12 +260,12 @@
                                                 $users_id_list[] = $value['users_id_affiliate'];
                                             }
 
-                                            echo '<label for="users_id_company" >' . __("Media Owner") . '</label>';
+                                            echo '<label class="control-label" for="users_id_company" >' . __("Media Owner") . '</label>';
                                             echo Layout::getUserSelect('inputUserOwner', $users_id_list, "", 'inputUserOwner_id', '');
                                         } else {
                                             ?>
                                             <div class="row" <?php if (empty($advancedCustomUser->userCanChangeVideoOwner) && !Permissions::canAdminVideos()) { ?> style="display: none;" <?php } ?>>
-                                                <label for="inputUserOwner_id" ><?php echo __("Media Owner"); ?></label>
+                                                <label class="control-label" for="inputUserOwner_id" ><?php echo __("Media Owner"); ?></label>
                                                 <?php
                                                 $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'inputUserOwner_id', array());
                                                 ?>
@@ -306,7 +280,7 @@
                                             foreach ($myAffiliation as $value) {
                                                 $users_id_list[] = $value['users_id_company'];
                                             }
-                                            echo '<label for="users_id_company" >' . __("Company") . '</label>';
+                                            echo '<label class="control-label" for="users_id_company" >' . __("Company") . '</label>';
                                             echo Layout::getUserSelect('users_id_company', $users_id_list, "", 'users_id_company', '');
                                         }
                                         ?>
@@ -339,14 +313,14 @@
                                     </div>
                                     <div class="col-md-6">
 
-                                        <label for="inputTrailer"><?php echo __("Embed URL for trailer"); ?></label>
+                                        <label class="control-label" for="inputTrailer"><?php echo __("Embed URL for trailer"); ?></label>
                                         <input type="text" id="inputTrailer" class="form-control" placeholder="<?php echo __("Embed URL for trailer"); ?>" required>
 
                                     </div>
                                     <div class="col-md-6">
 
                                         <div>
-                                            <label for="videoStartSecond" ><?php echo __("Start video at"); ?></label>
+                                            <label class="control-label" for="videoStartSecond" ><?php echo __("Start video at"); ?></label>
                                             <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
                                         </div>
                                     </div>
@@ -355,7 +329,7 @@
                                         if (Permissions::canAdminVideos()) {
                                             ?>
                                             <div>
-                                                <label for="videoStartSecond" ><?php echo __("Video Views"); ?></label>
+                                                <label class="control-label" for="videoStartSecond" ><?php echo __("Video Views"); ?></label>
                                                 <input type="number" step="1" id="views_count" class="form-control externalOptions" >
                                             </div>
                                             <?php
@@ -411,11 +385,11 @@
 
             </div>
             <div id="videoLinkContent">
-                <label for="videoLink" ><?php echo __("Video Link"); ?></label>
+                <label class="control-label" for="videoLink" ><?php echo __("Video Link"); ?></label>
                 <input type="text" id="videoLink" class="form-control" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
             </div>
         </div>
-F
+        F
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-7 col-sm-9">
@@ -433,4 +407,3 @@ F
         </div>
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
-

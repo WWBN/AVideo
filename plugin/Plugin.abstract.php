@@ -525,7 +525,7 @@ abstract class PluginAbstract {
         return "";
     }
 
-    public static function getManagerVideosEditField() {
+    public static function getManagerVideosEditField($type='Advanced') {
         return "";
     }
 

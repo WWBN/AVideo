@@ -501,15 +501,20 @@ Allow: .css";
         return file_get_contents($filename);
     }
 
-    public static function getManagerVideosEditField() {
+    public static function getManagerVideosEditField($type='Advanced') {
         global $global;
-        include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/managerVideosEdit.php';
+        if($type == 'Advanced'){
+            include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/managerVideosEdit.php';
+        }else if($type == 'SEO'){
+            include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/managerVideosEditSEO.php';
+        }
         return '';
     }
 
     public static function saveVideosAddNew($post, $videos_id) {
         self::setDoNotShowAds($videos_id, !_empty($post['doNotShowAdsOnThisVideo']));
         self::setRedirectVideo($videos_id, @$post['redirectVideoCode'], @$post['redirectVideoURL']);
+        self::setShortSummaryAndMetaDescriptionVideo($videos_id,@$post['ShortSummary'], @$post['MetaDescription']);
     }
     
     public static function setDoNotShowAds($videos_id, $doNotShowAdsOnThisVideo) {
@@ -544,6 +549,23 @@ Allow: .css";
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
         return @$externalOptions->redirectVideo;
+    }
+    
+     public static function setShortSummaryAndMetaDescriptionVideo($videos_id, $ShortSummary, $MetaDescription) {
+        if (!Video::canEdit($videos_id)) {
+            return false;
+        }
+        $video = new Video('', '', $videos_id);
+        $externalOptions = _json_decode($video->getExternalOptions());
+        $externalOptions->SEO = array('ShortSummary'=>$ShortSummary, 'MetaDescription'=>$MetaDescription);
+        $video->setExternalOptions(json_encode($externalOptions));
+        return $video->save();
+    }
+
+    public static function getShortSummaryAndMetaDescriptionVideo($videos_id) {
+        $video = new Video('', '', $videos_id);
+        $externalOptions = _json_decode($video->getExternalOptions());
+        return @$externalOptions->SEO;
     }
     
     public function showAds($videos_id): bool {

@@ -249,8 +249,10 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         return self::getManagerVideosReset().$js;
     }
     
-    public static function getManagerVideosEditField(){
-        return self::getTagsInputs();
+    public static function getManagerVideosEditField($type='Advanced'){
+        if($type == 'SEO'){
+            return self::getTagsInputs();
+        }
     }
     
     public static function getManagerVideosJavaScripts(){

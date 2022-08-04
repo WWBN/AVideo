@@ -1,3 +1,5 @@
 "doNotShowAdsOnThisVideo": $("#doNotShowAdsOnThisVideo").is(":checked"),
 "redirectVideoCode": $("#redirectVideoCode").val(),
 "redirectVideoURL": $("#redirectVideoURL").val(),
+"MetaDescription": $("#inputMetaDescription").val(),
+"ShortSummary": $("#inputShortSummary").val(),
