@@ -527,18 +527,18 @@ class Layout extends PluginAbstract {
         //return $html;
         //var_dump(self::$tags['script']);exit;
         if (!empty(self::$tags['tagcss'])) {
-            $html = str_replace('</head>', implode('', array_unique(self::$tags['tagcss'])) . '</head>', $html);
+            $html = str_replace('</head>', PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['tagcss'])) . '</head>', $html);
         }
         //return $html;
         if (!empty(self::$tags['style'])) {
-            $html = str_replace('</head>', '<style>' . implode(' ', array_unique(self::$tags['style'])) . '</style></head>', $html);
+            $html = str_replace('</head>', '<style>' . PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['style'])) . '</style></head>', $html);
         }
         if (!empty(self::$tags['tagscript'])) {
             usort(self::$tags['tagscript'], "_sortJS"); 
-            $html = str_replace('</body>', implode('', array_unique(self::$tags['tagscript'])) . '</body>', $html);
+            $html = str_replace('</body>', PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['tagscript'])) . '</body>', $html);
         }
         if (!empty(self::$tags['script'])) {
-            $html = str_replace('</body>', '<script>' . implode('; ', array_unique(self::$tags['script'])) . '</script></body>', $html);
+            $html = str_replace('</body>', '<script>' . PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['script'])) . '</script></body>', $html);
         }
         $html = self::removeExtraSpacesFromHead($html);
         $html = self::removeExtraSpacesFromScript($html);
@@ -587,7 +587,8 @@ class Layout extends PluginAbstract {
 
     static function removeExtraSpacesFromHead($html) {
         preg_match('/(<head.+<\/head>)/Usi', $html, $matches);
-        $str = preg_replace('/\s+/', ' ', $matches[0]);
+        $str = preg_replace('/[ \t]+/', ' ', $matches[0]);
+        $str = preg_replace('/\n\s*\n+/', PHP_EOL, $matches[0]);
         //var_dump($str);exit;
         $html = str_replace($matches[0], $str, $html);
         return $html;
@@ -617,7 +618,7 @@ class Layout extends PluginAbstract {
     }
 
     static function getTagsScript($html) {
-        preg_match_all('/<script[^<]+src=[^<]+<\/script>/Usi', $html, $matches);
+        preg_match_all('/<script[^<]* src=[^<]+<\/script>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
                 // ignore google analitics
@@ -684,6 +685,7 @@ class Layout extends PluginAbstract {
 }
 
 function _sortJS($a, $b){   
+    // make it first
     if (preg_match('/jquery(.min)?.js/i', $a)) {
         return -1;
     }
@@ -695,6 +697,27 @@ function _sortJS($a, $b){
     }
     if (preg_match('/node_modules.video.js.dist.video/i', $b)) {
         return 1;
+    }
+    // must come right after video js
+    if (preg_match('/videojs-contrib-ads/i', $a)) {
+        return -1;
+    }
+    if (preg_match('/videojs-contrib-ads/i', $b)) {
+        return 1;
+    }
+    if (preg_match('/videojs-ima/i', $a)) {
+        return -1;
+    }
+    if (preg_match('/videojs-ima/i', $b)) {
+        return 1;
+    }
+    
+    // make it last
+    if (preg_match('/js.script.js/i', $a)) {
+        return 1;
+    }
+    if (preg_match('/js.script.js/i', $b)) {
+        return -1;
     }
     
     return 0;

@@ -1715,7 +1715,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
     }
 
     if (!$saved) {
-        _error_log('saving failed');
+        _error_log("im_resize: saving failed $file_src, $file_dest");
     }
 
     imagedestroy($dest);

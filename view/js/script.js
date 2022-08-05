@@ -103,7 +103,7 @@ async function setBodyOnline() {
 function consolelog() {
     if (isDebuging) {
         for (var item in arguments) {
-            //console.log(arguments[item]);
+            console.log(arguments[item]);
         }
     }
 }
@@ -1168,19 +1168,19 @@ function isWebRTC() {
 }
 
 function isAutoplayEnabled() {
-////console.log("Cookies.get('autoplay')", Cookies.get('autoplay'));
+    consoleLog("Cookies.get('autoplay')", Cookies.get('autoplay'));
     if (typeof forceautoplay !== 'undefined' && forceautoplay) {
         return true;
     } else if (isWebRTC()) {
-        //console.log("isAutoplayEnabled said No because is WebRTC ");
+        consoleLog("isAutoplayEnabled said No because is WebRTC ");
         return false;
     } else if (isALiveContent()) {
-////console.log("isAutoplayEnabled always autoplay live contents");
+        consoleLog("isAutoplayEnabled always autoplay live contents");
         return true;
     } else
-    if ($("#autoplay").length && $("#autoplay").is(':visible')) {
+    if ($("#autoplay").length) {
         autoplay = $("#autoplay").is(":checked");
-        ////console.log("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
+        consoleLog("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
         setAutoplay(autoplay);
         return autoplay;
     } else if (
@@ -1188,23 +1188,23 @@ function isAutoplayEnabled() {
             typeof Cookies.get('autoplay') !== 'undefined'
             ) {
         if (Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true) {
-////console.log("isAutoplayEnabled Cookie said Yes ");
+            consoleLog("isAutoplayEnabled Cookie said Yes ");
             setAutoplay(true);
             return true;
         } else {
-////console.log("isAutoplayEnabled Cookie said No ");
+            consoleLog("isAutoplayEnabled Cookie said No ");
             setAutoplay(false);
             return false;
         }
     } else {
         if (typeof autoplay !== 'undefined') {
-////console.log("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
+            consoleLog("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
             setAutoplay(autoplay);
             return autoplay;
         }
     }
     setAutoplay(false);
-    ////console.log("isAutoplayEnabled Default is No ");
+    consoleLog("isAutoplayEnabled Default is No ");
     return false;
 }
 
@@ -2062,14 +2062,22 @@ async function setToolTips() {
     if (!$(selector).not('.alreadyTooltip').length) {
         return false;
     }
-    $(selector).not('.alreadyTooltip').tooltip({container: 'body', html: true});
-    $(selector).not('.alreadyTooltip').on('click', function () {
-        var t = this;
-        setTimeout(function () {
-            $(t).tooltip('hide');
-        }, 2000);
-    });
-    $(selector).addClass('alreadyTooltip');
+    try {
+        $(selector).not('.alreadyTooltip').tooltip({container: 'body', html: true});
+        $(selector).not('.alreadyTooltip').on('click', function () {
+            var t = this;
+            setTimeout(function () {
+                $(t).tooltip('hide');
+            }, 2000);
+        });
+        $(selector).addClass('alreadyTooltip');
+    } catch (e) {
+        console.log('setToolTips', e);
+        setTimeout(function(){
+            setToolTips();
+        },1000);
+    }
+
 }
 
 function avideoSocketIsActive() {

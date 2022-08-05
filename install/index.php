@@ -270,7 +270,6 @@ require_once '../locale/function.php';
         <?php
         } ?>
         <script src="../view/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="../view/css/flagstrap/js/jquery.flagstrap.min.js" type="text/javascript"></script>
         <script src="../view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js" type="text/javascript"></script>
         <script src="../node_modules/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
         <script src="../node_modules/jquery-lazy/jquery.lazy.min.js" type="text/javascript"></script>
