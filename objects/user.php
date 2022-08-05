@@ -1074,6 +1074,7 @@ if (typeof gtag !== \"function\") {
         //session_regenerate_id(true);
         ObjectYPT::deleteAllSessionCache();
         unset($_SESSION['user']);
+        unset($_SESSION['swapUser']);
         _error_log('user:logoff');
         session_write_close();
     }
@@ -2876,6 +2877,37 @@ if (typeof gtag !== \"function\") {
             </div>
         </div>
                     <?php
+                }
+                
+                static function swapUser($users_id){ 
+                    if(!Permissions::canAdminUsers()){
+                        return false;
+                    }
+                    _session_start();
+                    $_SESSION['swapUser'] = $_SESSION['user'];
+                    $user = self::getUserDb($users_id);
+                    //var_dump($users_id, $user);exit;
+                    _error_log("swapUser {$users_id}");
+                    $_SESSION['user'] = $user;
+                    return $_SESSION['user']['id'];
+                }
+                
+                static function cancelSwapUser(){
+                    if(!self::isSwapBackActive()){
+                        return false;
+                    }
+                    _session_start();
+                    $_SESSION['user'] = $_SESSION['swapUser'];
+                    unset($_SESSION['swapUser']);
+                    return $_SESSION['user']['id'];
+                }
+                
+                
+                static function isSwapBackActive(){
+                    if(empty($_SESSION['swapUser'])){
+                        return false;
+                    }
+                    return $_SESSION['swapUser']['id'];
                 }
 
             }

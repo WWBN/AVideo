@@ -54,6 +54,15 @@
                 </li>
                 <?php
             }
+            if (User::isSwapBackActive()) {
+                ?>
+                <li>
+                    <button type="button" class="btn btn-success btn-block" onclick="swapUser(0);" >
+                        <i class="fas fa-backspace"></i> <i class="fas fa-user-friends"></i> <?php echo __("Back to"); ?> <?php echo User::getNameIdentificationById(User::isSwapBackActive()); ?>
+                    </button>
+                </li> 
+                <?php
+            }
             if (empty($advancedCustomUser->doNotShowLeftProfile)) {
                 if (User::isLogged()) {
                     ?>
@@ -110,7 +119,7 @@
                         <li>
                             <div>
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'mvideos');
-                                                            return false;" class="btn btn-success btn-block" style="border-radius: 0;">
+                                                    return false;" class="btn btn-success btn-block" style="border-radius: 0;">
                                     <span class="glyphicon glyphicon-film"></span>
                                     <span class="glyphicon glyphicon-headphones"></span>
                                     <?php echo __("My videos"); ?>
@@ -123,7 +132,7 @@
 
                         <div>
                             <a href="#" onclick="avideoModalIframeFull('<?php echo User::getChannelLink(); ?>');
-                                                    return false;" class="btn btn-danger btn-block" style="border-radius: 0;">
+                                            return false;" class="btn btn-danger btn-block" style="border-radius: 0;">
                                 <span class="fas fa-play-circle"></span>
                                 <?php echo __($advancedCustomUser->MyChannelLabel); ?>
                             </a>
@@ -138,7 +147,7 @@
                         <li>
                             <div>
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'charts');
-                                                            return false;" class="btn btn-default btn-block" style="border-radius: 0;">
+                                                    return false;" class="btn btn-default btn-block" style="border-radius: 0;">
                                     <span class="fas fa-tachometer-alt"></span>
                                     <?php echo __("Dashboard"); ?>
                                 </a>
@@ -151,7 +160,7 @@
                         <li>
                             <div>
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'subscribes');
-                                                            return false;" class="btn btn-default btn-block" style="border-radius: 0">
+                                                    return false;" class="btn btn-default btn-block" style="border-radius: 0">
                                     <span class="fa fa-check"></span>
                                     <?php echo __("My Subscribers"); ?>
                                 </a>
@@ -164,7 +173,7 @@
                             <li>
                                 <div>
                                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'categories');
-                                                                    return false;" class="btn btn-default btn-block" style="border-radius: 0;">
+                                                            return false;" class="btn btn-default btn-block" style="border-radius: 0;">
                                         <span class="glyphicon glyphicon-list"></span>
                                         <?php echo __($advancedCustom->CategoryLabel); ?>
                                     </a>
@@ -175,7 +184,7 @@
                         <li>
                             <div>
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'comments');
-                                                            return false;" class="btn btn-default btn-block" style="border-radius: 0 0 4px 4px;">
+                                                    return false;" class="btn btn-default btn-block" style="border-radius: 0 0 4px 4px;">
                                     <span class="fa fa-comment"></span>
                                     <?php echo __("Comments"); ?>
                                 </a>
@@ -210,35 +219,35 @@
                     <ul  class="nav navbar" style="margin-bottom: 10px;">
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'admin/');
-                                                return false;">
+                                        return false;">
                                 <i class="fas fa-star"></i>
                                 <?php echo __("Admin Panel"); ?>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'users');
-                                                return false;">
+                                        return false;">
                                 <span class="glyphicon glyphicon-user"></span>
                                 <?php echo __("Users"); ?>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'usersGroups');
-                                                return false;">
+                                        return false;">
                                 <span class="fa fa-users"></span>
                                 <?php echo __("Users Groups"); ?>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'categories');
-                                                return false;">
+                                        return false;">
                                 <span class="glyphicon glyphicon-list"></span>
                                 <?php echo __($advancedCustom->CategoryLabel); ?>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'update');
-                                                return false;">
+                                        return false;">
                                 <span class="glyphicon glyphicon-refresh"></span>
                                 <?php echo __("Update version"); ?>
                                 <?php
@@ -249,7 +258,7 @@
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'siteConfigurations');
-                                                return false;">
+                                        return false;">
                                 <span class="glyphicon glyphicon-cog"></span>
                                 <?php echo __("Site Configurations"); ?>
                             </a>
@@ -264,7 +273,7 @@
                         -->
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'plugins');
-                                                return false;">
+                                        return false;">
                                 <i class="fas fa-puzzle-piece"></i>
                                 <?php echo __("Plugins"); ?>
                             </a>
@@ -281,7 +290,7 @@
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'i/log');
-                                                return false;" class="">
+                                        return false;" class="">
                                 <i class="fas fa-clipboard-list"></i> <?php echo __("Log file"); ?>
                             </a>
                         </li>
@@ -407,7 +416,7 @@
                 </li>
                 <li>
                     <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'channels');
-                                        return false;">
+                                return false;">
                         <i class="fa fa-search"></i>
                         <?php echo __("Browse Channels"); ?>
                     </a>
@@ -422,7 +431,7 @@
             <li>
                 <strong>
                     <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'listCategories');
-                                    return false;" class="text-danger">
+                            return false;" class="text-danger">
                         <?php echo __($advancedCustom->CategoryLabel); ?>
                     </a>
                 </strong>
@@ -521,7 +530,7 @@
                 ?>
                 <li class="nav-item A2HSInstall" style="display: none;">
                     <a class="nav-link" href="#" onclick="A2HSInstall();
-                                        return false;">
+                                return false;">
                         <i class="fas fa-arrow-alt-circle-down"></i>
                         <?php echo __("Install"); ?>
                     </a>
@@ -532,7 +541,7 @@
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'playLink');
-                                        return false;">
+                                return false;">
                         <i class="fas fa-play-circle"></i>
                         <?php echo __("Play a Link"); ?>
                     </a>
@@ -543,7 +552,7 @@
                 ?>
                 <li>
                     <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'help');
-                                        return false;">
+                                return false;">
                         <span class="glyphicon glyphicon-question-sign"></span>
                         <?php echo __("Help"); ?>
                     </a>
@@ -555,7 +564,7 @@
                 ?>
                 <li>
                     <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'about');
-                                        return false;">
+                                return false;">
                         <span class="glyphicon glyphicon-info-sign"></span>
                         <?php echo __("About"); ?>
                     </a>
@@ -567,7 +576,7 @@
                 ?>
                 <li>
                     <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'contact');
-                                        return false;">
+                                return false;">
                         <span class="glyphicon glyphicon-comment"></span>
                         <?php echo __("Contact"); ?>
                     </a>
