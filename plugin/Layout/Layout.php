@@ -704,25 +704,31 @@ function _sortJS($a, $b){
     if (preg_match('/\/js\/bootstrap\.min\.js/', $b)) {
         return 1;
     }
-    if (preg_match('/node_modules.video.js.dist.video/i', $a)) {
+    
+    // videojs
+    if (preg_match('/video\.?js/i', $a) || preg_match('/video\.?js/i', $b)) {
+        if (preg_match('/node_modules.video.js.dist.video/i', $a)) {
         return -1;
-    }
-    if (preg_match('/node_modules.video.js.dist.video/i', $b)) {
+        }
+        if (preg_match('/node_modules.video.js.dist.video/i', $b)) {
+            return 1;
+        }
+        // must come right after video js
+        if (preg_match('/videojs-contrib-ads/i', $a)) {
+            return -1;
+        }
+        if (preg_match('/videojs-contrib-ads/i', $b)) {
+            return 1;
+        }
+        if (preg_match('/videojs-ima/i', $a)) {
+            return -1;
+        }
+        if (preg_match('/videojs-ima/i', $b)) {
+            return 1;
+        }
         return 1;
     }
-    // must come right after video js
-    if (preg_match('/videojs-contrib-ads/i', $a)) {
-        return -1;
-    }
-    if (preg_match('/videojs-contrib-ads/i', $b)) {
-        return 1;
-    }
-    if (preg_match('/videojs-ima/i', $a)) {
-        return -1;
-    }
-    if (preg_match('/videojs-ima/i', $b)) {
-        return 1;
-    }
+    
     
     // make it last
     if (preg_match('/js.script.js/i', $a)) {
