@@ -351,7 +351,8 @@ class UserGroups{
         global $global;
 
         if (self::getVideoGroupsViewId($videos_id, $users_groups_id)) {
-            return false;
+            // the video is already on this group
+            return true;
         }
 
         $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES (?,?)";
