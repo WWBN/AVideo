@@ -593,7 +593,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdm
                                         type: 'post',
                                         success: function (response) {
                                             modal.hidePleaseWait();
-                                            if (!response.error) {
+                                            if (response.error) {
                                                 avideoAlertError(response.msg);
                                             } else {
                                                 avideoToastSuccess('Saved');
