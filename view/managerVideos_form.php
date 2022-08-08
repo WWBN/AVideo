@@ -212,11 +212,11 @@
                                                         <span class="label label-default categoryGroupSwitchInline"><?php echo __('Category User Group'); ?></span>
                                                         <div class="material-switch pull-right videoGroupSwitch">
                                                             <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups" />
-                                                            <label class="control-label" for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
+                                                            <label for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
                                                         </div>
                                                         <div class="material-switch pull-right categoryGroupSwitch" >
                                                             <input id="categoryGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="categoryGroups"/>
-                                                            <label class="control-label" for="categoryGroup<?php echo $value['id']; ?>" class="label-default"></label>
+                                                            <label for="categoryGroup<?php echo $value['id']; ?>" class="label-default"></label>
                                                         </div>
                                                     </li>
                                                     <?php
