@@ -738,5 +738,13 @@ function _sortJS($a, $b){
         return -1;
     }
     
+    // moment timezone must be after moment
+    if (preg_match('/\/moment-timezone\//', $a) && preg_match('/\/moment\//', $b)) {
+        return 1;
+    }
+    if (preg_match('/\/moment\//', $b) && preg_match('/\/moment-timezone\//', $a)) {
+        return -1;
+    }
+    
     return 0;
 }
