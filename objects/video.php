@@ -477,9 +477,10 @@ if (!class_exists('Video')) {
 
                 ObjectYPT::deleteCache("getItemprop{$this->id}");
                 ObjectYPT::deleteCache("getLdJson{$this->id}");
-                if (class_exists('Cache')) {
-                    Cache::deleteCache("getVideoTags{$this->id}");
+                if (!class_exists('Cache')) {
+                    AVideoPlugin::loadPlugin('Cache');
                 }
+                Cache::deleteCache("getVideoTags{$this->id}");
                 self::deleteTagsAsync($this->id);
                 if ($updateVideoGroups) {
                     require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -2766,9 +2767,11 @@ if (!class_exists('Video')) {
             }
 
             $name = "getVideoTags{$video_id}";
-            if (class_exists('Cache')) {
-                Cache::deleteCache($name);
+            
+            if (!class_exists('Cache')) {
+                AVideoPlugin::loadPlugin('Cache');
             }
+            Cache::deleteCache($name);
             _session_start();
             unset($_SESSION['getVideoTags'][$video_id]);
             $path = getCacheDir() . "getTagsAsync/";
