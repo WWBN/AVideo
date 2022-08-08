@@ -719,6 +719,12 @@ function _sortJS($a, $b){
     if (preg_match('/js.script.js/i', $b)) {
         return -1;
     }
+    if (preg_match('/\/plugin\//', $a)) {
+        return 1;
+    }
+    if (preg_match('/\/plugin\//', $b)) {
+        return -1;
+    }
     
     return 0;
 }
