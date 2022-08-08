@@ -588,14 +588,15 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdm
                                     modal.showPleaseWait();
                                     var vals = getSelectedVideos();
                                     $.ajax({
-                                        url: '<?php echo $global['webSiteRootURL']; ?>objects/userGroupSave.json.php',
+                                        url: webSiteRootURL+'objects/userGroupSave.json.php',
                                         data: {"id": vals, "users_groups_id": users_groups_id, "add": add},
                                         type: 'post',
                                         success: function (response) {
                                             modal.hidePleaseWait();
-                                            if (!response.status) {
-                                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                            if (!response.error) {
+                                                avideoAlertError(response.msg);
                                             } else {
+                                                avideoToastSuccess('Saved');
                                                 $("#grid").bootgrid('reload');
                                             }
                                         }
