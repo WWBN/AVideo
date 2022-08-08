@@ -19,7 +19,7 @@ $obj->users_groups_id = $_POST['users_groups_id'];
 $obj->add = $_POST['add'];
 
 foreach ($obj->videos_ids as $videos_id) {
-    if (Video::canEdit($videos_id)) {
+    if (!Video::canEdit($videos_id)) {
         forbiddenPage('You can not Manage This Video');
     }
     if (!empty($obj->add)) {
