@@ -746,11 +746,14 @@ function _sortJS($a, $b){
         return -1;
     }    
     // lazy plugin must be after lazy
-    if (preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $a) && preg_match('/\/jquery\.lazy\.min\.js/', $b)) {
+    if(preg_match('/jquery\.lazy/', $a) || preg_match('/\/jquery\.lazy/', $b)){
+        if (preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $a) && preg_match('/\/jquery\.lazy\.min\.js/', $b)) {
+            return 1;
+        }
+        if (preg_match('/\/jquery\.lazy\.min\.js/', $b) && preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $a)) {
+            return -1;
+        }
         return 1;
-    }
-    if (preg_match('/\/jquery\.lazy\.min\.js/', $b) && preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $a)) {
-        return -1;
     }
     
     return 0;
