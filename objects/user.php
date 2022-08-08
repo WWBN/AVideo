@@ -604,7 +604,7 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function getMail() {
-        self::getEmail_();
+        return self::getEmail_();
     }
 
     public function save($updateUserGroups = false) {
