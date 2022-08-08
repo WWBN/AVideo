@@ -23,10 +23,10 @@ foreach ($obj->videos_ids as $videos_id) {
         forbiddenPage('You can not Manage This Video');
     }
     if (!empty($obj->add)) {
-        UserGroups::addVideoGroups($videos_id, $obj->users_groups_id);
+        $obj->addResponse = UserGroups::addVideoGroups($videos_id, $obj->users_groups_id);
     } else {
-        UserGroups::deleteVideoGroups($videos_id, $obj->users_groups_id);
+        $obj->delResponse = UserGroups::deleteVideoGroups($videos_id, $obj->users_groups_id);
     }
-    $resp = true;
+    $obj->error = false;
 }
 die(json_encode($obj));
