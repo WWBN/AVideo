@@ -5633,6 +5633,9 @@ function _file_put_contents($filename, $data, $flags = 0, $context = null) {
 }
 
 function html2plainText($html) {
+    if(!is_string($html)){
+        return '';
+    }
     $text = strip_tags($html);
     $text = str_replace(['\\', "\n", "\r", '"'], ['', ' ', ' ', ''], trim($text));
     return $text;
