@@ -345,7 +345,7 @@ class UserGroups{
 
     public static function addVideoGroups($videos_id, $users_groups_id)
     {
-        if (!User::canUpload()) {
+        if (!Video::canEdit($videos_id)) {
             return false;
         }
         global $global;
@@ -366,7 +366,7 @@ class UserGroups{
 
     public static function deleteVideoGroups($videos_id, $users_groups_id)
     {
-        if (!User::canUpload()) {
+        if (!Video::canEdit($videos_id)) {
             return false;
         }
 
