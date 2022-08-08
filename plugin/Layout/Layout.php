@@ -698,10 +698,10 @@ function _sortJS($a, $b){
     if (preg_match('/jquery-ui/i', $b)) {
         return 1;
     }
-    if (preg_match('/\/js\/bootstrap/', $a)) {
+    if (preg_match('/\/js\/bootstrap\.min\.js/', $a)) {
         return -1;
     }
-    if (preg_match('/\/js\/bootstrap/', $b)) {
+    if (preg_match('/\/js\/bootstrap\.min\.js/', $b)) {
         return 1;
     }
     if (preg_match('/node_modules.video.js.dist.video/i', $a)) {
