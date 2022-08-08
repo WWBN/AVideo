@@ -24,9 +24,11 @@ foreach ($obj->videos_ids as $videos_id) {
     }
     if (!empty($obj->add)) {
         $obj->addResponse = UserGroups::addVideoGroups($videos_id, $obj->users_groups_id);
+        $obj->error = empty($obj->addResponse);
     } else {
         $obj->delResponse = UserGroups::deleteVideoGroups($videos_id, $obj->users_groups_id);
+        $obj->error = empty($obj->delResponse);
     }
-    $obj->error = false;
+    
 }
 die(json_encode($obj));
