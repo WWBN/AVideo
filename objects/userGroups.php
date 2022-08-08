@@ -460,13 +460,13 @@ class UserGroups{
         return $arr;
     }
     
-    public static function getVideosAndCategoriesUserGroups($videos_id){
+    public static function getVideosAndCategoriesUserGroups($videos_id, $force = false){
         global $_getVideosAndCategoriesUserGroups;
         
         if(!isset($_getVideosAndCategoriesUserGroups)){
             $_getVideosAndCategoriesUserGroups = array();
         }
-        if(!isset($_getVideosAndCategoriesUserGroups[$videos_id])){
+        if(!empty($force) || !isset($_getVideosAndCategoriesUserGroups[$videos_id])){
             $videosug = self::getVideoGroups($videos_id);
             $categoriessug = self::getCategoriesGroups($videos_id);
             $response = array();
@@ -489,8 +489,8 @@ class UserGroups{
         return $_getVideosAndCategoriesUserGroups[$videos_id];
     }
 
-    private static function deleteGroupsFromVideo($videos_id){
-        if (!User::canUpload()) {
+    static function deleteGroupsFromVideo($videos_id){
+        if (!Video::canEdit($videos_id)) {
             return false;
         }
 

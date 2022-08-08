@@ -112,7 +112,14 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canMode
 }
 
 if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canModerateVideos()) {
-    $obj->setVideoGroups(empty($_POST['videoGroups']) ? [] : $_POST['videoGroups']);
+    if(_empty($_REQUEST['public'])){
+        $obj->setVideoGroups(empty($_POST['videoGroups']) ? [] : $_POST['videoGroups']);
+    }else if(!empty($obj->getId())){
+        UserGroups::deleteGroupsFromVideo($obj->getId());
+        $obj->setVideoGroups([]);
+        unset($_getVideosAndCategoriesUserGroups[$obj->getId()]);
+        //var_dump($obj->getId(), Video::getUserGroups($obj->getId()));exit;
+    }
 }
 
 $externalOptions = new stdClass();
