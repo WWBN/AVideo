@@ -345,6 +345,7 @@ class UserGroups{
 
     public static function addVideoGroups($videos_id, $users_groups_id)
     {
+        global $_getVideosAndCategoriesUserGroups;
         if (!Video::canEdit($videos_id)) {
             return false;
         }
@@ -361,12 +362,14 @@ class UserGroups{
 
         if ($response) {
             Video::clearCache($videos_id);
+            unset($_getVideosAndCategoriesUserGroups[$videos_id]);
         }
         return $response;
     }
 
     public static function deleteVideoGroups($videos_id, $users_groups_id)
     {
+        global $_getVideosAndCategoriesUserGroups;
         if (!Video::canEdit($videos_id)) {
             return false;
         }
@@ -376,6 +379,7 @@ class UserGroups{
 
         if ($response) {
             Video::clearCache($videos_id);
+            unset($_getVideosAndCategoriesUserGroups[$videos_id]);
         }
         return $response;
     }
@@ -495,12 +499,14 @@ class UserGroups{
             return false;
         }
 
-        global $global;
+        global $global, $_getVideosAndCategoriesUserGroups;
         if (!empty($videos_id)) {
             $sql = "DELETE FROM videos_group_view WHERE videos_id = ?";
         } else {
             return false;
         }
+        
+        unset($_getVideosAndCategoriesUserGroups[$videos_id]);
         return sqlDAL::writeSql($sql, "i", [$videos_id]);
     }
 }

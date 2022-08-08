@@ -117,7 +117,6 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canMod
     }else if(!empty($obj->getId())){
         UserGroups::deleteGroupsFromVideo($obj->getId());
         $obj->setVideoGroups([]);
-        unset($_getVideosAndCategoriesUserGroups[$obj->getId()]);
         //var_dump($obj->getId(), Video::getUserGroups($obj->getId()));exit;
     }
 }

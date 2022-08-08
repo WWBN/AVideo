@@ -2475,9 +2475,11 @@ if (!class_exists('Video')) {
         }
 
         public function setVideoGroups($userGroups) {
+            global $_getVideosAndCategoriesUserGroups;
             if (is_array($userGroups)) {
                 AVideoPlugin::onVideoSetVideoGroups($this->id, $this->videoGroups, $userGroups);
                 $this->videoGroups = $userGroups;
+                unset($_getVideosAndCategoriesUserGroups[$this->id]);
             }
         }
 
