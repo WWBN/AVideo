@@ -750,7 +750,7 @@ function _sortJS($a, $b){
         if (preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $a) && preg_match('/\/jquery\.lazy\.min\.js/', $b)) {
             return 1;
         }
-        if (preg_match('/\/jquery\.lazy\.min\.js/', $b) && preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $a)) {
+        if (preg_match('/\/jquery\.lazy\.min\.js/', $a) && preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $b)) {
             return -1;
         }
         return 1;
