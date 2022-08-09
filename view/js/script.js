@@ -2650,6 +2650,7 @@ $(document).ready(function () {
             }
         }
     }, 2000);
+    var hidePleaseWaitTimeout;
     modal = modal || (function () {
         var pleaseWaitDiv = $("#pleaseWaitDialog");
         if (pleaseWaitDiv.length === 0) {
@@ -2663,6 +2664,7 @@ $(document).ready(function () {
             showPleaseWait: function () {
                 if (pleaseWaitIsINUse) {
                     console.log('showPleaseWait is in use');
+                    clearTimeout(hidePleaseWaitTimeout);
                     return false;
                 }
                 pleaseWaitIsINUse = true;
@@ -2675,15 +2677,18 @@ $(document).ready(function () {
                 pleaseWaitDiv.modal();
             },
             hidePleaseWait: function () {
-                setTimeout(function () {
-                    $('#pleaseWaitDialog').addClass('loaded');
-                }, showPleaseWaitTimeOut / 2);
-                setTimeout(function () {
-                    pleaseWaitDiv.modal('hide');
-                }, showPleaseWaitTimeOut); // wait for loader animation
-                setTimeout(function () {
-                    pleaseWaitIsINUse = false;
-                }, showPleaseWaitTimeOut+1000);
+                clearTimeout(hidePleaseWaitTimeout);
+                hidePleaseWaitTimeout = setTimeout(function(){
+                    setTimeout(function () {
+                        $('#pleaseWaitDialog').addClass('loaded');
+                    }, showPleaseWaitTimeOut / 2);
+                    setTimeout(function () {
+                        pleaseWaitDiv.modal('hide');
+                    }, showPleaseWaitTimeOut); // wait for loader animation
+                    setTimeout(function () {
+                        pleaseWaitIsINUse = false;
+                    }, showPleaseWaitTimeOut+1000);
+                }, 500);
             },
             setProgress: function (valeur) {
                 var element = $('#pleaseWaitDialog').find('.progress');
