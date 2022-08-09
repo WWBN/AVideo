@@ -2683,7 +2683,7 @@ $(document).ready(function () {
                 }, showPleaseWaitTimeOut); // wait for loader animation
                 setTimeout(function () {
                     pleaseWaitIsINUse = false;
-                }, showPleaseWaitTimeOut+500);
+                }, showPleaseWaitTimeOut+1000);
             },
             setProgress: function (valeur) {
                 var element = $('#pleaseWaitDialog').find('.progress');
