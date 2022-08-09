@@ -2662,26 +2662,28 @@ $(document).ready(function () {
         return {
             showPleaseWait: function () {
                 if (pleaseWaitIsINUse) {
+                    console.log('showPleaseWait is in use');
                     return false;
                 }
+                pleaseWaitIsINUse = true;
                 $('#pleaseWaitDialog').removeClass('loaded');
                 $('#pleaseWaitDialog').find('.progress').hide();
                 this.setText('Processing...');
                 $('#pleaseWaitDialog').find('h2').hide();
                 this.setProgress(0);
                 $('#pleaseWaitDialog').find('.progress').hide();
-                pleaseWaitIsINUse = true;
                 pleaseWaitDiv.modal();
             },
             hidePleaseWait: function () {
                 setTimeout(function () {
                     $('#pleaseWaitDialog').addClass('loaded');
-                    ;
                 }, showPleaseWaitTimeOut / 2);
                 setTimeout(function () {
                     pleaseWaitDiv.modal('hide');
                 }, showPleaseWaitTimeOut); // wait for loader animation
-                pleaseWaitIsINUse = false;
+                setTimeout(function () {
+                    pleaseWaitIsINUse = false;
+                }, showPleaseWaitTimeOut+500);
             },
             setProgress: function (valeur) {
                 var element = $('#pleaseWaitDialog').find('.progress');
