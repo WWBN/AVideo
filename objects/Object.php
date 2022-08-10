@@ -456,7 +456,7 @@ abstract class ObjectYPT implements ObjectInterface
         }
 
         $cachefile = self::getCacheFileName($name);
-        //make_path($cachefile);
+        make_path($cachefile);
 
         $bytes = @file_put_contents($cachefile, $content);
         self::setSessionCache($name, $value);
