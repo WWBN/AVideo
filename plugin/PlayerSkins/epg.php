@@ -208,7 +208,9 @@ $Date = date('Y-m-d');
 $minutes = getDurationInMinutes(date('Y-d-m 00:00:00'), date('Y-d-m H:i:s'));
 $positionNow = ($minuteSize * $minutes) + $timeLineElementSize;
 
-$bgColors = array('#feceea', '#fef1d2', '#a9fdd8', '#d7f8ff', '#cec5fa');
+//$bgColors = array('#feceea', '#fef1d2', '#a9fdd8', '#d7f8ff', '#cec5fa');
+
+$bgColors = array('#333', '#777', '#999', '#BBB');
 
 //var_dump($minuteSize, $minutes,$positionNow);exit;
 ?><!DOCTYPE html>
