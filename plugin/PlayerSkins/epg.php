@@ -324,7 +324,7 @@ $bgColors = array('#feceea', '#fef1d2', '#a9fdd8', '#d7f8ff', '#cec5fa');
             foreach ($bgColors as $key => $value) {
                 $n = $key + 1;
                 echo "div.programs > div.list > div:nth-child({$n}n){"
-                . "background-color: {$value}77;"
+                . "background-color: {$value}EE;"
                 . "color: #FFF;"
                 //. "font-weight: bolder;"
                 . "text-shadow: 1px 1px 5px {$value},"
