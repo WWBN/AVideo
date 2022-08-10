@@ -148,7 +148,7 @@ function createEPG($channel) {
     $firstProgram = $channel['epgData'][0];
 
     $class = '';
-    if ($this_videos_id == $videos_id) {
+    if (!empty($this_videos_id) && $this_videos_id == $videos_id) {
         $class = 'active';
     }
     //var_dump($channel);exit;
