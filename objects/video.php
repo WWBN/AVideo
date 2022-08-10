@@ -5541,7 +5541,7 @@ if (!class_exists('Video')) {
 
         static public function getAllActiveEPGs() {
             global $config;
-            $sql = "SELECT * FROM `videos` WHERE epg_link IS NOT NULL AND epg_link != '';";
+            $sql = "SELECT * FROM `videos` WHERE status = '".Video::$statusActive."' AND epg_link IS NOT NULL AND epg_link != '';";
             $res = sqlDAL::readSql($sql);
             $fullResult2 = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
