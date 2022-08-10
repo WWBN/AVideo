@@ -737,6 +737,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdm
                                     isArticle = 0;
                                     if ((row.type === 'embed') || (row.type === 'linkVideo') || (row.type === 'linkAudio')) {
                                         $('#videoLink').val(row.videoLink);
+                                        $('#epg_link').val(row.epg_link);
                                         $('#videoLinkType').val(row.type);
                                     } else {
                                         $('#videoLinkContent').slideUp();
@@ -1003,6 +1004,7 @@ echo AVideoPlugin::getManagerVideosAddNew();
                                                 "trailer1": $('#inputTrailer').val(),
                                                 "video_password": $('#inputVideoPassword').val(),
                                                 "videoLink": $('#videoLink').val(),
+                                                "epg_link": $('#epg_link').val(),
                                                 "videoLinkType": $('#videoLinkType').val(),
                                                 "clean_title": $('#inputCleanTitle').val(),
 <?php
@@ -1157,6 +1159,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                 $('#videoIsAdControl, #videoExtraDetails, #videoLinkContent').slideUp();
                                 $('#postersImage').slideDown();
                                 $('#videoLink').val('');
+                                $('#epg_link').val('');
                                 $('#videoStartSecond').val('00:00:00');
                                 $('#videoLinkType').val("article");
 <?php
@@ -1407,6 +1410,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                     $('#postersImage, #videoIsAdControl, .titles').slideUp();
                                     $('#videoLinkContent').slideDown();
                                     $('#videoLink').val('');
+                                    $('#epg_link').val('');
                                     $('#videoStartSecond').val('00:00:00');
                                     $('#videoLinkType').val("linkVideo");
 <?php

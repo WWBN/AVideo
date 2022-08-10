@@ -10,8 +10,8 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaigns.php';
 
-class AD_Server extends PluginAbstract
-{
+class AD_Server extends PluginAbstract {
+
     public function getTags() {
         return [
             PluginTags::$MONETIZATION,
@@ -98,7 +98,7 @@ class AD_Server extends PluginAbstract
         return $obj;
     }
 
-    static function addVideoIdIntoCampaignId($videos_id, $vast_campaigns_id){
+    static function addVideoIdIntoCampaignId($videos_id, $vast_campaigns_id) {
         if (!empty($vast_campaigns_id)) {
             $vc = new VastCampaigns($vast_campaigns_id);
             if (!empty($vc->getName())) {
@@ -175,9 +175,6 @@ class AD_Server extends PluginAbstract
         $css = '<link href="' . getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.css') . '" rel="stylesheet" type="text/css"/>'
                 . '<link href="' . getURL('node_modules/videojs-ima/dist/videojs.ima.css') . '" rel="stylesheet" type="text/css"/>';
 
-        if (!empty($obj->showMarkers)) {
-            $css .= '<link href="' . getCDN() . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';
-        }
         $css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
         return $css;
     }
@@ -232,44 +229,26 @@ class AD_Server extends PluginAbstract
         $vmapURL = self::addVMAPS($vmapURL, $vmaps);
         //var_dump($vmapURL, $vmaps);exit;
         PlayerSkins::setIMAADTag($vmapURL);
-        $onPlayerReady = "";
 
         if (!empty($obj->showMarkers)) {
-            $onPlayerReady .= "
-                    player.markers({
-                        markerStyle: {
-                            'width': '5px',
-                            'background-color': 'yellow'
-                        },
-                        markerTip: {
-                            display: true,
-                            text: function (marker) {
-                                return marker.text;
-                            }
-                        },
-                        markers: [";
+            $rows = array();
             foreach ($vmaps as $value) {
                 $vastCampaingVideos = new VastCampaignsVideos($value['VAST']['campaing']);
                 $video = new Video("", "", $vastCampaingVideos->getVideos_id());
                 if (!empty($video_length) && $value['timeOffsetSeconds'] >= $video_length) {
                     $value['timeOffsetSeconds'] = $video_length - 5;
                 }
-
-                $onPlayerReady .= "{time: {$value['timeOffsetSeconds']}, text: \"" . addcslashes($video->getTitle(), '"') . "\"},";
+                $rows[] = array('timeInSeconds' => $value['timeOffsetSeconds'], 'name' => $video->getTitle());
             }
-            $onPlayerReady .= "]});";
+
+            PlayerSkins::createMarker($rows);
         }
 
-
-        PlayerSkins::getStartPlayerJS($onPlayerReady);
         $js = '';
         $js .= '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
         $js .= '<script src="' . getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.min.js') . '" type="text/javascript"></script>';
         $js .= '<script src="' . getURL('node_modules/videojs-ima/dist/videojs.ima.min.js') . '" type="text/javascript"></script>';
 
-        if (!empty($obj->showMarkers)) {
-            $js .= '<script src="' . getURL('plugin/AD_Server/videojs-markers/videojs-markers.js') . '"></script>';
-        }
         return $js;
     }
 
@@ -413,21 +392,22 @@ class AD_Server extends PluginAbstract
     }
 
     public function onNewVideo($videos_id) {
-        if(!empty($_REQUEST['return_vars'])){
+        if (!empty($_REQUEST['return_vars'])) {
             $json = json_decode($_REQUEST['return_vars']);
-            if(!empty($json) && !empty($json->callback)){
+            if (!empty($json) && !empty($json->callback)) {
                 $callback = json_decode(base64_decode($json->callback));
-                if(!empty($callback) && !empty($callback->vast_campaigns_id)){
+                if (!empty($callback) && !empty($callback->vast_campaigns_id)) {
                     return self::addVideoIdIntoCampaignId($videos_id, $callback->vast_campaigns_id);
                 }
             }
         }
         return false;
     }
+
 }
 
-class VMAP
-{
+class VMAP {
+
     public $timeOffset;
     public $timeOffsetSeconds;
     public $VAST;
@@ -468,10 +448,11 @@ class VMAP
         $secs = floor($seconds % 60);
         return sprintf('%02d:%02d:%02d.000', $hours, $mins, $secs);
     }
+
 }
 
-class VAST
-{
+class VAST {
+
     public $id;
     public $campaing;
 
@@ -484,4 +465,5 @@ class VAST
             $this->campaing = false;
         }
     }
+
 }

@@ -1620,6 +1620,11 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
     if (empty($file_dest)) {
         return false;
     }
+    
+    if(preg_match('/notfound_/', $file_dest)){
+        return false;
+    }
+    
     if (!file_exists($file_src)) {
         _error_log("im_resize: Source not found: {$file_src}");
         return false;

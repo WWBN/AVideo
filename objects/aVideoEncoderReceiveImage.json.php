@@ -24,7 +24,7 @@ if (empty($_POST)) {
 
 useVideoHashOrLogin();
 if (!User::canUpload()) {
-    $obj->msg = __("Permission denied to receive a file: " . json_encode($_POST));
+    $obj->msg = __("Permission denied to receive a image: " . json_encode($_POST));
     _error_log("ReceiveImage: " . $obj->msg);
     die(json_encode($obj));
 }

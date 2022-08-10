@@ -527,6 +527,7 @@ class Layout extends PluginAbstract {
         //return $html;
         //var_dump(self::$tags['script']);exit;
         if (!empty(self::$tags['tagcss'])) {
+            self::$tags['tagcss'] = self::removeDuplicated(self::$tags['tagcss']);
             $html = str_replace('</head>', PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['tagcss'])) . '</head>', $html);
         }
         //return $html;
@@ -534,6 +535,7 @@ class Layout extends PluginAbstract {
             $html = str_replace('</head>', '<style>' . PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['style'])) . '</style></head>', $html);
         }
         if (!empty(self::$tags['tagscript'])) {
+            self::$tags['tagscript'] = self::removeDuplicated(self::$tags['tagscript']);
             usort(self::$tags['tagscript'], "_sortJS"); 
             $html = str_replace('</body>', PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['tagscript'])) . '</body>', $html);
         }
@@ -680,6 +682,31 @@ class Layout extends PluginAbstract {
         $html = self::organizeHTML($html);
         _ob_start();
         echo $html;
+    }
+
+    static private function removeDuplicated($list) {
+        $cleanList = array();
+        $srcList = array();
+        foreach ($list as $key => $value) {
+            preg_match('/<script.+src=["\']([^"\']+)["\']/i', $value, $matches);
+            if(!empty($matches[1])){
+                if(!in_array($matches[1], $srcList)){
+                    $cleanList[] = $value;
+                    $srcList[] = $matches[1];
+                }
+            }else{
+                preg_match('/<link.+href=["\']([^"\']+)["\']/i', $value, $matches);
+                if(!empty($matches[1])){
+                    if(!in_array($matches[1], $srcList)){
+                        $cleanList[] = $value;
+                        $srcList[] = $matches[1];
+                    }
+                }
+            }
+        }
+        //var_dump($srcList);exit;
+        return $cleanList;
+        
     }
 
 }

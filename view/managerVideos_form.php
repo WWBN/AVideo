@@ -385,11 +385,18 @@
 
             </div>
             <div id="videoLinkContent">
-                <label class="control-label" for="videoLink" ><?php echo __("Video Link"); ?></label>
-                <input type="text" id="videoLink" class="form-control" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="control-label" for="videoLink" ><?php echo __("Video Link"); ?></label>
+                        <input type="text" id="videoLink" class="form-control" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="control-label" for="epg_link" ><?php echo __("EMP XML Link"); ?></label>
+                        <input type="url" id="epg_link" class="form-control" placeholder="<?php echo __("EMP XML Link"); ?>">
+                    </div>
+                </div>
             </div>
         </div>
-        F
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-7 col-sm-9">

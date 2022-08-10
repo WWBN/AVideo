@@ -5,6 +5,8 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 class PlayerSkins extends PluginAbstract {
 
+    static public $hasMarks = false;
+
     public function getTags() {
         return array(
             PluginTags::$FREE,
@@ -264,6 +266,10 @@ class PlayerSkins extends PluginAbstract {
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/autoplayButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
         }
+        $videos_id = getVideos_id();
+        if (!empty($videos_id) && Video::getEPG($videos_id)) {
+            $css .= "<link href=\"" . getURL('plugin/PlayerSkins/epgButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
+        }
 
         $url = urlencode(getSelfURI());
         $oembed = '<link href="' . getCDN() . 'oembed/?format=json&url=' . $url . '" rel="alternate" type="application/json+oembed" />';
@@ -315,6 +321,10 @@ class PlayerSkins extends PluginAbstract {
                     $js .= "<!-- PlayerSkins empty(\$_REQUEST['hideAutoplaySwitch']) -->";
                 }
             }
+            $videos_id = getVideos_id();
+            if (!empty($videos_id) && Video::getEPG($videos_id)) {
+                PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/epgButton.js"));
+            }
         }
         if (isAudio()) {
             $videos_id = getVideos_id();
@@ -331,7 +341,12 @@ class PlayerSkins extends PluginAbstract {
         }
 
         include $global['systemRootPath'] . 'plugin/PlayerSkins/mediaSession.php';
-        PlayerSkins::addOnPlayerReady('if(typeof updateMediaSessionMetadata === "function"){updateMediaSessionMetadata();}');        
+        PlayerSkins::addOnPlayerReady('if(typeof updateMediaSessionMetadata === "function"){updateMediaSessionMetadata();}');
+
+        if (self::$hasMarks) {
+            $js .= '<link href="' . getURL('plugin/AD_Server/videojs-markers/videojs.markers.css') . '" rel="stylesheet" type="text/css"/>';
+            $js .= '<script src="' . getURL('plugin/AD_Server/videojs-markers/videojs-markers.js') . '"></script>';
+        }
 
         return $js;
     }
@@ -678,6 +693,62 @@ class PlayerSkins extends PluginAbstract {
         }
         return array($tags);
     }
+
+    /**
+     * 
+     * @param type $markersList array(array('timeInSeconds'=>10,'name'=>'abc'),array('timeInSeconds'=>20,'name'=>'abc20'),array('timeInSeconds'=>25,'name'=>'abc25')....);
+     * @param type $width
+     * @param type $color
+     */
+    public static function createMarker($markersList, $width = 10, $color = 'yellow') {
+        global $global;
+
+        $bt = debug_backtrace();
+        $file = str_replace($global['systemRootPath'], '', $bt[0]['file']);
+
+        $onPlayerReady .= " /* {$file} */
+                player.markers({markerStyle: {
+                    'width': '{$width}px',
+                    'background-color': '{$color}'
+                },
+                markerTip: {
+                    display: true,
+                    text: function (marker) {
+                        return marker.text;
+                    }
+                },
+                markers: ";
+        $markers = array();
+        $addedSomething = false;
+        foreach ($markersList as $value) {
+            $obj = new stdClass();
+            $obj->time = $value['timeInSeconds'];
+            $obj->text = $value['name'];
+            if (empty($obj->text)) {
+                continue;
+            }
+            $addedSomething = true;
+            $markers[] = $obj;
+        }
+
+        $onPlayerReady .= json_encode($markers);
+        $onPlayerReady .= "});";
+        if ($addedSomething) {
+            self::$hasMarks = true;
+            PlayerSkins::getStartPlayerJS($onPlayerReady);
+        }
+    }
     
+    
+    
+    public function getWatchActionButton($videos_id) {
+        global $global, $video;
+        include $global['systemRootPath'] . 'plugin/PlayerSkins/actionButton.php';
+    }
+    
+    public function getGalleryActionButton($videos_id) {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/PlayerSkins/actionButtonGallery.php';
+    }
 
 }

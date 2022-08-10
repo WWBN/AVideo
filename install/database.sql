@@ -181,6 +181,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `likes` INT(11) NULL DEFAULT NULL,
   `dislikes` INT(11) NULL DEFAULT NULL,
   `users_id_company` INT(11) NULL DEFAULT NULL,
+  `epg_link` VARCHAR(400) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_videos_users1_idx` (`users_id_company` ASC),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
@@ -197,6 +198,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `videos_dislikes_index` (`dislikes` ASC),
   INDEX `fk_videos_live_transmitions_history1_idx` (`live_transmitions_history_id` ASC),
   INDEX `total_sec_watchinindex` (`total_seconds_watching` ASC),
+  INDEX `index_epg_link` (`epg_link` ASC), 
   FULLTEXT INDEX `index17vname` (`title`),
   FULLTEXT INDEX `index18vdesc` (`description`),
   CONSTRAINT `fk_videos_sites1`

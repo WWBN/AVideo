@@ -1421,6 +1421,10 @@ function avideoModalIframeFullScreen(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-full', true);
 }
 
+function avideoModalIframeFullTransparent(url) {
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-full-transparent', false);
+}
+
 function avideoModalIframeFullScreenClose() {
     if (typeof swal === 'function') {
         $('.swal-overlay iframe').attr('src', 'about:blank');
@@ -1566,7 +1570,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
                 clearTimeout(avideoModalIframeWithClassNameTimeout);
                 avideoModalIframeWithClassNameTimeout = setTimeout(function () {
                     if (!$('#avideoModalIframe').contents().find("body").length) {
-                        //console.log('avideoModalIframeWithClassName content loaded 5');
+                        console.log('avideoModalIframeWithClassName content NOT loaded');
                         // is not loaded
                         url = addGetParam(url, 'avideoIframe', 0);
                         if (isSameDomain(url)) {
@@ -1608,6 +1612,8 @@ function avideoModalIframeIsVisible() {
         modal = $('.swal-modal-iframe-large');
     } else if ($('.swal-modal-iframe-full').length) {
         modal = $('.swal-modal-iframe-full');
+    }  else if ($('.swal-modal-iframe-full-transparent').length) {
+        modal = $('.swal-modal-iframe-full-transparent');
     } else {
         modal = $('.swal-modal-iframe');
     }

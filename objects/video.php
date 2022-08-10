@@ -64,6 +64,7 @@ if (!class_exists('Video')) {
         protected $dislikes;
         protected $users_id_company;
         protected $created;
+        protected $epg_link;
         public static $statusDesc = [
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -571,7 +572,7 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            return [$videoFound, audioFound];
+            return [$videoFound, $audioFound];
         }
 
         public function setClean_title($clean_title) {
@@ -2767,7 +2768,7 @@ if (!class_exists('Video')) {
             }
 
             $name = "getVideoTags{$video_id}";
-            
+
             if (!class_exists('Cache')) {
                 AVideoPlugin::loadPlugin('Cache');
             }
@@ -4205,13 +4206,13 @@ if (!class_exists('Video')) {
                 $return->posterPortraitPath = "{$path['path']}{$path['filename']}_portrait.jpg";
                 $return->posterPortrait = "{$path['url']}{$path['filename']}_portrait.jpg";
             }
-            
-            if(defaultIsLandscape()){
-                $return->default = array('url'=>$return->posterLandscape, 'path'=>$return->posterLandscapePath);
-            }else{
-                $return->default = array('url'=>$return->posterPortrait, 'path'=>$return->posterPortraitPath);
+
+            if (defaultIsLandscape()) {
+                $return->default = array('url' => $return->posterLandscape, 'path' => $return->posterLandscapePath);
+            } else {
+                $return->default = array('url' => $return->posterPortrait, 'path' => $return->posterPortraitPath);
             }
-            
+
             return $return;
         }
 
@@ -5443,15 +5444,15 @@ if (!class_exists('Video')) {
 
         static function getSeoTags($videos_id) {
             global $advancedCustom, $_getSeoTags;
-            
-            if(!isset($_getSeoTags)){
+
+            if (!isset($_getSeoTags)) {
                 $_getSeoTags = array();
             }
-            
-            if(!empty($_getSeoTags[$videos_id])){
+
+            if (!empty($_getSeoTags[$videos_id])) {
                 return $_getSeoTags[$videos_id];
             }
-            
+
             $video = new Video('', '', $videos_id);
 
             $H1_title = getSEOTitle($video->getTitle());
@@ -5468,19 +5469,19 @@ if (!class_exists('Video')) {
             }
 
             $keywords = strip_tags($advancedCustom->keywords);
-            if(AVideoPlugin::isEnabledByName('VideoTags')){
+            if (AVideoPlugin::isEnabledByName('VideoTags')) {
                 //$keywords .= ", $videos_id";
                 $tags = VideoTags::getArrayFromVideosId($videos_id);
-                if(!empty($tags)){
-                    if(!empty($keywords)){
+                if (!empty($tags)) {
+                    if (!empty($keywords)) {
                         $keywords .= ', ';
                     }
-                    $keywords .= implode(', ',$tags);
+                    $keywords .= implode(', ', $tags);
                 }
             }
-            
+
             $image = Video::getImageFromID($videos_id);
-            
+
             $tags = array(
                 'h1' => $H1_title,
                 'h2' => $H2_Short_summary,
@@ -5498,38 +5499,98 @@ if (!class_exists('Video')) {
                 'uploadDate' => $video->getCreated(),
                 'description' => $MetaDescription
             );
-            
+
             $head = '';
             foreach ($meta as $key => $value) {
-                if(empty($value)){
+                if (empty($value)) {
                     continue;
                 }
-                $head .= '<meta name="'.$key.'" content='. printJSString($value, true).'>';
+                $head .= '<meta name="' . $key . '" content=' . printJSString($value, true) . '>';
             }
             $body = '<div class="SeoTags" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">';
             foreach ($tags as $key => $value) {
-                if(empty($value)){
+                if (empty($value)) {
                     continue;
                 }
                 $body .= "<{$key}>{$value}</{$key}>";
             }
-            
+
             foreach ($itemprops as $key => $value) {
-                if(empty($value)){
+                if (empty($value)) {
                     continue;
                 }
-                $body .= "<span itemprop=\"{$key}\" content=".printJSString($value, true)."></span>";
+                $body .= "<span itemprop=\"{$key}\" content=" . printJSString($value, true) . "></span>";
             }
             $body .= '</div>';
             $response = array();
-            $response['assets'] = array('tags'=>$tags, 'meta'=>$meta, 'itemprops'=>$itemprops);
+            $response['assets'] = array('tags' => $tags, 'meta' => $meta, 'itemprops' => $itemprops);
             $response['head'] = $head;
             $response['body'] = $body;
             $_getSeoTags[$videos_id] = $response;
             //var_dump($_getSeoTags);exit;
             return $_getSeoTags[$videos_id];
-            
+        }
 
+        public function getEpg_link() {
+            return $this->epg_link;
+        }
+
+        public function setEpg_link($epg_link): void {
+            $this->epg_link = $epg_link;
+        }
+
+        static public function getAllActiveEPGs() {
+            global $config;
+            $sql = "SELECT * FROM `videos` WHERE epg_link IS NOT NULL AND epg_link != '';";
+            $res = sqlDAL::readSql($sql);
+            $fullResult2 = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
+
+            $rows = [];
+            if ($res !== false) {
+                foreach ($fullResult2 as $row) {
+                    $rows[] = $row;
+                }
+            } else {
+                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            }
+            return $rows;
+        }
+        
+        static public function getEPG($videos_id) {
+            global $config, $_getEPG;
+            
+            if(!isset($_getEPG)){
+                $_getEPG = array();
+            }
+            
+            if(!isset($_getEPG[$videos_id])){            
+                $sql = "SELECT * FROM `videos` WHERE id = ? AND epg_link IS NOT NULL AND epg_link != ''";
+                $res = sqlDAL::readSql($sql, 'i', array($videos_id));
+
+                $video = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
+                if(empty($video) || !isValidURL($video['epg_link'])){
+                    $_getEPG[$videos_id] = false;
+                }else{
+                    $_getEPG[$videos_id] = $video['epg_link'];
+                }
+            }
+            return $_getEPG[$videos_id];
+        }
+        
+        
+        
+        static public function getEPGLink($videos_id) {
+            global $global;
+            $epg = self::getEPG($videos_id);
+            if(!empty($epg)){
+                $url = $global['webSiteRootURL'].'plugin/PlayerSkins/epg.php';
+                $url = addQueryStringParameter($url, 'videos_id', $videos_id);
+                return $url;
+            }else{
+                return false;
+            }
         }
 
     }

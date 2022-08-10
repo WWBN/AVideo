@@ -23,16 +23,6 @@ class Bookmark extends PluginAbstract {
         $filename = $global['systemRootPath'] . 'plugin/Bookmark/pluginMenu.html';
         return file_get_contents($filename);
     }
-    
-    
-    public function getHeadCode() {        
-        if(empty($_GET['videoName'])){
-            return false;
-        }
-        global $global;
-        $css = '<link href="' .getCDN() . 'plugin/AD_Server/videojs-markers/videojs.markers.css" rel="stylesheet" type="text/css"/>';
-        return $css;
-    }
 
     public function getFooterCode() {
         if(empty($_GET['videoName'])){

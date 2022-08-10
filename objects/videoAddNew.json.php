@@ -71,6 +71,9 @@ if (!empty($_POST['videoLink'])) {
         $_POST['videoLinkType'] = "linkVideo";
     }
     $obj->setVideoLink($_POST['videoLink']);
+    if(empty($_POST['epg_link']) || isValidURL($_POST['epg_link'])){
+        $obj->setEpg_link($_POST['epg_link']);
+    }
 
     if (in_array($extension, $audioLinks) || in_array($extension, $videoLinks)) {
         if (in_array($extension, $audioLinks)) {

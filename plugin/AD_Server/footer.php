@@ -7,39 +7,7 @@
     var options = {id: 'mainVideo', adTagUrl: '<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/VMAP.php?video_length=<?php echo $video_length ?>&vmap_id=<?php echo $vmap_id ?>&random=<?php echo uniqid(); ?>'};
         player.ima(options);
         $(document).ready(function () {
-<?php
-if (!empty($obj->showMarkers)) {
-?>
-                $.getScript("<?php echo $global['webSiteRootURL'] ?>plugin/AD_Server/videojs-markers/videojs-markers.js", function (data, textStatus, jqxhr) {
 
-                    if (typeof player == 'undefined') {
-                        player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
-                    }
-                    player.markers({
-                        markerStyle: {
-                            'width': '5px',
-                            'background-color': 'yellow'
-                        },
-                        markerTip: {
-                            display: true,
-                            text: function (marker) {
-                                return marker.text;
-                            }
-                        },
-                        markers: [
-    <?php
-    foreach ($vmaps as $value) {
-        $vastCampaingVideos = new VastCampaignsVideos($value->VAST->campaing);
-        $video = new Video("", "", $vastCampaingVideos->getVideos_id()); ?>
-                                {time: <?php echo $value->timeOffsetSeconds; ?>, text: "<?php echo addcslashes($video->getTitle(), '"'); ?>"},
-        <?php
-    } ?>
-                        ]
-                    });
-                });
-    <?php
-}
-?>
             // Remove controls from the player on iPad to stop native controls from stealing
             // our click
             var contentPlayer = document.getElementById('content_video_html5_api');
@@ -65,3 +33,16 @@ if (!empty($obj->showMarkers)) {
             }, 100);
         });
 </script>
+<?php
+if (!empty($obj->showMarkers)) {
+
+    $rows = array();
+    foreach ($vmaps as $value) {
+        $vastCampaingVideos = new VastCampaignsVideos($value->VAST->campaing);
+        $video = new Video("", "", $vastCampaingVideos->getVideos_id());
+        $rows[] = array('timeInSeconds'=>$value->timeOffsetSeconds,'name'=>$video->getTitle());
+    }
+
+    PlayerSkins::createMarker($rows);
+}
+?>
