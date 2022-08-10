@@ -85,8 +85,10 @@ foreach ($epgs as $epg) {
     } else {
         $channelsList = object_to_array($programData);
         foreach ($channelsList as $program) {
-            setMinDate($program['start']);
-            setMaxDate($program['stop']);
+            foreach ($program["epgData"] as $epg) {
+                setMinDate($epg['start']);
+                setMaxDate($epg['stop']);
+            }
         }
     }
 }
