@@ -15,7 +15,7 @@ foreach ($videos as $video) {
     $epgs[] = $video;
 }
 //var_dump($epgs);exit;
-$fontSize = 14;
+$fontSize = 16;
 $timeLineElementMinutes = 30;
 $timeLineElementSize = 200;
 $paddingSize = 10;
