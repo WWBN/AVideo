@@ -1527,3 +1527,6 @@ button.btn-sm.hamburger svg{
         background-position: 100% 50%;
     }
 }
+.bootgrid-footer ul.pagination > li{
+  cursor: pointer;  
+}
