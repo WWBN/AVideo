@@ -1556,7 +1556,7 @@ if (Permissions::canAdminVideos()) {
                                 }
 
                                 var grid = $("#grid").bootgrid({
-                                    padding:10,
+                                    padding:4,
                                     labels: {
                                         noResults: "<?php echo __("No results found!"); ?>",
                                         all: "<?php echo __("All"); ?>",
