@@ -341,7 +341,7 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
             <div class="timeline">
                 <div class="list">
                     <?php
-                    $lastStopDate = $epgData->channelsMaxDate;
+                    $lastStopDate = $maxDate;
                     //var_dump($lastStopDate);exit;
                     $maxDate = 0;
                     $count = 0;
@@ -384,7 +384,7 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
             </div>
             <div id="programsList">
                 <?php
-                foreach ($epgData->channels as $channel) {
+                foreach ($channelsList as $channel) {
                     createEPG($channel);
                 }
                 ?>
@@ -395,36 +395,35 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
         <script src="<?php echo getURL('view/bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
-            setPositionNow();
-            setInterval(function () {
-            setPositionNow();
-            }, 1000);
-            $(window).scroll(function () {
-            $('div.header').css({
-            'left': $(this).scrollLeft()
-            });
-            $('#positionNow, div.timeline').css({
-            'top': $(this).scrollTop()
-            });
-            });
-            setTimeout(function () {
-            //$(document).scrollLeft($('#positionNow').position().left -<?php echo $timeLineElementSize + 50; ?>);
-            $('html, body').animate({
-            scrollLeft: ($('#positionNow').position().left -<?php echo $timeLineElementSize + 50; ?>),
-<?php
-if (!empty($videos_id)) {
-    ?>
-                scrollTop: (($("#video_<?php echo $videos_id; ?>").offset().top) - 100)
-    <?php
-}
-?>
-            }, 1000);
-            }, 200);
-            });
-            function setPositionNow(){
-            var left = parseFloat($('#positionNow').css("left"));
-            var newLeft = (left +<?php echo $secondSize; ?>);
-            $('#positionNow').css("left", newLeft + 'px');
+                setPositionNow();
+                setInterval(function () {
+                    setPositionNow();
+                }, 1000);
+                $(window).scroll(function () {
+                    $('div.header').css({
+                        'left': $(this).scrollLeft()
+                    });
+                    $('#positionNow, div.timeline').css({
+                        'top': $(this).scrollTop()
+                    });
+                });
+                setTimeout(function () {
+                    //$(document).scrollLeft($('#positionNow').position().left -<?php echo $timeLineElementSize + 50; ?>);
+                    $('html, body').animate({
+                        scrollLeft: ($('#positionNow').position().left -<?php echo $timeLineElementSize + 50; ?>),
+                        <?php
+                        if (!empty($videos_id)) {
+                            echo "scrollTop: (($(\"#video_{$videos_id}\").offset().top) - 100)";
+                        }
+                        ?>
+                    }, 1000);
+                }, 200);
+            }
+            );
+            function setPositionNow() {
+                var left = parseFloat($('#positionNow').css("left"));
+                var newLeft = (left +<?php echo $secondSize; ?>);
+                $('#positionNow').css("left", newLeft + 'px');
             }
         </script>
     </body>
