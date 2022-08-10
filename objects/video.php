@@ -5583,14 +5583,17 @@ if (!class_exists('Video')) {
         
         static public function getEPGLink($videos_id) {
             global $global;
-            $epg = self::getEPG($videos_id);
-            if(!empty($epg)){
-                $url = $global['webSiteRootURL'].'plugin/PlayerSkins/epg.php';
-                $url = addQueryStringParameter($url, 'videos_id', $videos_id);
-                return $url;
-            }else{
-                return false;
+            $url = $global['webSiteRootURL'].'plugin/PlayerSkins/epg.php';
+            if(!empty($videos_id)){
+                $epg = self::getEPG($videos_id);
+                if(!empty($epg)){
+                    $url = addQueryStringParameter($url, 'videos_id', $videos_id);
+                    return $url;
+                }else{
+                    return false;
+                }
             }
+            return $url;
         }
 
     }
