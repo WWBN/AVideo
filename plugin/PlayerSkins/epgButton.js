@@ -5,7 +5,7 @@ var EPGButton = videojs.extend(Button, {
     constructor: function () {
         Button.apply(this, arguments);
         this.addClass('EPG-button');
-        this.controlText("EPG");
+        this.controlText("TV Guide");
         setTimeout(function(){avideoTooltip(".EPG-button","EPG");},1000);
     },
     handleClick: function () {
