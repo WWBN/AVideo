@@ -235,7 +235,7 @@ $bgColors = array('#222222','#333333', '#444444', '#555555');
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                background-color: #000000AA;
+                background-color: #000000;
                 color: #FFF;
                 cursor: pointer;
             }
