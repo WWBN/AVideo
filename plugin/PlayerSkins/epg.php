@@ -84,6 +84,10 @@ foreach ($epgs as $epg) {
         }
     } else {
         $channelsList = object_to_array($programData);
+        foreach ($channelsList as $program) {
+            setMinDate($program['start']);
+            setMaxDate($program['stop']);
+        }
     }
 }
 usort($channelsList, "cmpChannels");
