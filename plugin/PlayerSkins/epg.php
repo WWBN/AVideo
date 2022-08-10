@@ -16,10 +16,16 @@ foreach ($videos as $video) {
 }
 //var_dump($epgs);exit;
 $fontSize = 18;
+
 $timeLineElementMinutes = 30;
 $timeLineElementSize = 200;
 $paddingSize = 10;
 $minimumWidth = 50;
+
+if(isMobile()){
+    $timeLineElementSize = 150;
+    $fontSize = 12;
+}
 
 $minuteSize = $timeLineElementSize / $timeLineElementMinutes;
 $secondSize = $minuteSize / 60;
