@@ -34,7 +34,7 @@ $cacheName = 'epg';
 
 $forceRecreate = false;
 
-$epgData = ObjectYPT::getCache($cacheName, 3600); // 1 hour
+$epgData = ObjectYPT::getCache($cacheName); // 1 hour
 
 $channelsList = array();
 if ($forceRecreate || empty($epgData) || empty($epgData->channels)) {
