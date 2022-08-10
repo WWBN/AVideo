@@ -6,7 +6,7 @@ var EPGButton = videojs.extend(Button, {
         Button.apply(this, arguments);
         this.addClass('EPG-button');
         this.controlText("TV Guide");
-        setTimeout(function(){avideoTooltip(".EPG-button","EPG");},1000);
+        setTimeout(function(){avideoTooltip(".EPG-button","TV Guide");},1000);
     },
     handleClick: function () {
         var url = webSiteRootURL+'plugin/PlayerSkins/epg.php';
