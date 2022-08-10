@@ -15,7 +15,7 @@ foreach ($videos as $video) {
     $epgs[] = $video;
 }
 //var_dump($epgs);exit;
-$fontSize = 16;
+$fontSize = 18;
 $timeLineElementMinutes = 30;
 $timeLineElementSize = 200;
 $paddingSize = 10;
@@ -210,7 +210,7 @@ $positionNow = ($minuteSize * $minutes) + $timeLineElementSize;
 
 //$bgColors = array('#feceea', '#fef1d2', '#a9fdd8', '#d7f8ff', '#cec5fa');
 
-$bgColors = array('#333', '#777', '#999', '#BBB');
+$bgColors = array('#222222','#333333', '#444444', '#555555');
 
 //var_dump($minuteSize, $minutes,$positionNow);exit;
 ?><!DOCTYPE html>
@@ -231,7 +231,7 @@ $bgColors = array('#333', '#777', '#999', '#BBB');
                 text-align: center;
                 align-content: center;
                 overflow: hidden;
-                height: <?php echo ($fontSize * 3) - 2; ?>px;
+                height: <?php echo ($fontSize * 4) - 2; ?>px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -239,7 +239,8 @@ $bgColors = array('#333', '#777', '#999', '#BBB');
                 color: #FFF;
                 cursor: pointer;
             }
-            div.timeline > div.list > div{
+            div.timeline > div.list > div,
+            .programs > div.list > div{
                 border-right: solid #777 1px;
                 display:grid;
             }
@@ -277,7 +278,7 @@ $bgColors = array('#333', '#777', '#999', '#BBB');
             }
             .timeline, #programsList, .programs{
                 position: relative;
-                height: <?php echo ($fontSize * 3); ?>px;
+                height: <?php echo ($fontSize * 4); ?>px;
                 margin: 0;
             }
             body > div.container-fluid{
@@ -326,7 +327,7 @@ $bgColors = array('#333', '#777', '#999', '#BBB');
             foreach ($bgColors as $key => $value) {
                 $n = $key + 1;
                 echo "div.programs > div.list > div:nth-child({$n}n){"
-                . "background-color: {$value}EE;"
+                . "background-color: {$value};"
                 . "color: #FFF;"
                 //. "font-weight: bolder;"
                 . "text-shadow: 1px 1px 5px {$value},"
