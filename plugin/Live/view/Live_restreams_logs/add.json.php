@@ -15,7 +15,7 @@ if(empty($_POST['responseToken'])){
     _error_log("restreamer log add.json.php php://input {$request}");
     $robj = json_decode($request);
     foreach ($robj as $key => $value) {
-        $_POST[$key] = $value;
+        $_POST[$key] = object_to_array($value);
     }
 }
 
@@ -27,8 +27,6 @@ if(empty($string)){
 }
 
 $token = json_decode($string);
-
-$token = object_to_array($token);
 
 if(!User::isAdmin()){
     if(empty($token->users_id)){
