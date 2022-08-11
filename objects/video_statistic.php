@@ -708,5 +708,29 @@ class VideoStatistic extends ObjectYPT {
 
         return $rows;
     }
+    public static function getSecondsWatchedFromVideos_id($videos_id) {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
 
+        $videos_id = intval($videos_id);
+
+        if (empty($videos_id)) {
+            return false;
+        }
+
+        $sql = "SELECT seconds_watching_video FROM  " . static::getTableName() . " WHERE videos_id=$videos_id ";
+
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $total = 0;
+        if ($res !== false) {
+            foreach ($fullData as $row) {
+                $total += intval($row['seconds_watching_video']);
+            }
+        }
+        return $total;
+    }
 }
