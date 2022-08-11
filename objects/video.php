@@ -177,9 +177,12 @@ if (!class_exists('Video')) {
                 _error_log("addSecondsWatching: ID is empty ");
                 return false;
             }
-            $sql = "UPDATE videos SET total_seconds_watching = total_seconds_watching+{$seconds_watching}, modified = now() WHERE id = ?";
+            
+            $newTotal = intval($this->total_seconds_watching)+$seconds_watching;
+            
+            $sql = "UPDATE videos SET total_seconds_watching = ?, modified = now() WHERE id = ?";
             _error_log("addSecondsWatching: " . $sql . "={$this->id}");
-            return sqlDAL::writeSql($sql, "i", [$this->id]);
+            return sqlDAL::writeSql($sql, "ii", [$newTotal, $this->id]);
         }
 
         public function updateViewsCount($total) {
