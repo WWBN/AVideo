@@ -2225,7 +2225,7 @@ if (!class_exists('Video')) {
                 $configPuri->set('Cache.SerializerPath', getCacheDir());
                 $purifier = new HTMLPurifier($configPuri);
                 if (empty($articleObj->allowAttributes)) {
-                    $configPuri->set('HTML.AllowedAttributes', ['a.href', 'a.target', 'a.title', 'a.title', 'img.src', 'img.width', 'img.height']); // remove all attributes except a.href
+                    $configPuri->set('HTML.AllowedAttributes', ['a.href', 'a.target', 'a.title', 'a.title', 'img.src', 'img.width', 'img.height', 'span.style']); // remove all attributes except a.href
                     $configPuri->set('Attr.AllowedFrameTargets', ['_blank']);
                 }
                 if (empty($articleObj->allowAttributes)) {
