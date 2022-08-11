@@ -61,6 +61,7 @@ if(!empty($_REQUEST['logFile'])){
     $obj->modified = filemtime($logFile);
     $obj->seconds = $obj->modified-$obj->created;
     $obj->isActive = time()-$obj->modified < 5;
+    echo json_encode($obj);
     exit;
 }
 
