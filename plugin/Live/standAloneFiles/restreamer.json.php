@@ -49,9 +49,24 @@ ini_set('max_execution_time', 300);
 ini_set("memory_limit", "-1");
 
 $logFileLocation = rtrim($logFileLocation, "/") . '/';
-$logFile = $logFileLocation . "ffmpeg_restreamer_{users_id}_" . date("Y-m-d-h-i-s") . ".log";
 
 header('Content-Type: application/json');
+if(!empty($_REQUEST['logFile'])){
+    $obj = new stdClass();
+    $obj->logName = str_replace($logFileLocation, '', $_REQUEST['logFile']);
+    $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
+    $logFile = $logFileLocation . $obj->logName;
+    $obj->content = file_get_contents($logFile);
+    $obj->created = filectime($logFile);
+    $obj->modified = filemtime($logFile);
+    $obj->seconds = $obj->modified-$obj->created;
+    $obj->isActive = time()-$obj->modified < 5;
+    exit;
+}
+
+
+$logFile = $logFileLocation . "ffmpeg_restreamer_{users_id}_" . date("Y-m-d-h-i-s") . ".log";
+
 $configFile = dirname(__FILE__) . '/../../../videos/configuration.php';
 
 if (file_exists($configFile)) {
