@@ -28,6 +28,8 @@ if(empty($string)){
 
 $token = json_decode($string);
 
+$token = object_to_array($token);
+
 if(!User::isAdmin()){
     if(empty($token->users_id)){
         forbiddenPage('Invalid token');
