@@ -115,8 +115,6 @@ if (!$isCommandLine) { // not command line
     $robj = json_decode($request);
 
     if (!empty($robj->restreamsToken)) {
-        $robj->restreamsToken = _object_to_array($robj->restreamsToken);
-        $robj->restreamsDestinations = _object_to_array($robj->restreamsDestinations);
         foreach ($robj->restreamsToken as $key => $token) {
             $newRestreamsDestination = getLiveKey($token);
             if (empty($newRestreamsDestination)) {
@@ -141,8 +139,6 @@ if (!$isCommandLine) { // not command line
     $robj->logFile = @$argv[3];
     $robj->responseToken = '';
 }
-
-$robj->restreamsDestinations = [$argv[2]];
 
 $obj = new stdClass();
 $obj->error = true;
