@@ -9,10 +9,21 @@ $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('Live');
       
+
+if(empty($_POST['responseToken'])){
+    $request = file_get_contents("php://input");
+    error_log("restreamer log add.json.php php://input {$request}");
+    $robj = json_decode($request);
+    foreach ($robj as $key => $value) {
+        $_POST[$key] = $value;
+    }
+}
+
 $token = decryptString($_POST['responseToken']);
 
 if(!User::isAdmin()){
     if(empty($token->users_id)){
+        
         forbiddenPage('Invalid token');
     }
     if($token->time < strtotime('-10 minutes')){
