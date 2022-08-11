@@ -29,7 +29,6 @@ if (!User::isAdmin()) {
                                     <th><?php echo __("Destinations"); ?></th>
                                     <th><?php echo __("LogFile"); ?></th>
                                     <th><?php echo __("Json"); ?></th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -40,7 +39,6 @@ if (!User::isAdmin()) {
                                     <th><?php echo __("Destinations"); ?></th>
                                     <th><?php echo __("LogFile"); ?></th>
                                     <th><?php echo __("Json"); ?></th>
-                                    <th></th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -99,12 +97,7 @@ if (!User::isAdmin()) {
                 {"data": "m3u8"},
                 {"data": "destinations"},
                 {"data": "logFile"},
-                {"data": "json"},
-                {
-                    sortable: false,
-                    data: null,
-                    defaultContent: $('#Live_restreams_logsbtnModelLinks').html()
-                }
+                {"data": "json"}
             ],
             select: true,
         });
