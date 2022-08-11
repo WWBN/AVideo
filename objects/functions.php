@@ -1620,11 +1620,11 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
     if (empty($file_dest)) {
         return false;
     }
-    
-    if(preg_match('/notfound_/', $file_dest)){
+
+    if (preg_match('/notfound_/', $file_dest)) {
         return false;
     }
-    
+
     if (!file_exists($file_src)) {
         _error_log("im_resize: Source not found: {$file_src}");
         return false;
@@ -3311,15 +3311,15 @@ function siteMap() {
             <priority>0.80</priority>
         </url>
         ';
-
-    $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
-    _error_log("siteMap: rowCount {$_REQUEST['rowCount']} ");
-    $_POST['sort']['modified'] = "DESC";
-    TimeLogStart("siteMap getAllUsersThatHasVideos");
-    $users = User::getAllUsersThatHasVideos(true);
-    _error_log("siteMap: getAllUsers " . count($users));
-    foreach ($users as $value) {
-        $xml .= '
+    if (empty($_REQUEST['catName'])) {
+        $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
+        _error_log("siteMap: rowCount {$_REQUEST['rowCount']} ");
+        $_POST['sort']['modified'] = "DESC";
+        TimeLogStart("siteMap getAllUsersThatHasVideos");
+        $users = User::getAllUsersThatHasVideos(true);
+        _error_log("siteMap: getAllUsers " . count($users));
+        foreach ($users as $value) {
+            $xml .= '
             <url>
                 <loc>' . User::getChannelLink($value['id']) . '</loc>
                 <lastmod>' . $date . '</lastmod>
@@ -3327,18 +3327,18 @@ function siteMap() {
                 <priority>0.90</priority>
             </url>
             ';
-    }
-    TimeLogEnd("siteMap getAllUsersThatHasVideos", __LINE__, 0.5);
-    TimeLogStart("siteMap getAllCategories");
-    $xml .= '
+        }
+        TimeLogEnd("siteMap getAllUsersThatHasVideos", __LINE__, 0.5);
+        TimeLogStart("siteMap getAllCategories");
+        $xml .= '
         <!-- Categories -->
         ';
-    $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
-    $_POST['sort']['modified'] = "DESC";
-    $rows = Category::getAllCategories();
-    _error_log("siteMap: getAllCategories " . count($rows));
-    foreach ($rows as $value) {
-        $xml .= '
+        $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
+        $_POST['sort']['modified'] = "DESC";
+        $rows = Category::getAllCategories();
+        _error_log("siteMap: getAllCategories " . count($rows));
+        foreach ($rows as $value) {
+            $xml .= '
             <url>
                 <loc>' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '</loc>
                 <lastmod>' . $date . '</lastmod>
@@ -3346,8 +3346,11 @@ function siteMap() {
                 <priority>0.80</priority>
             </url>
             ';
+        }
+        TimeLogEnd("siteMap getAllCategories", __LINE__, 0.5);
     }
-    TimeLogEnd("siteMap getAllCategories", __LINE__, 0.5);
+
+
     TimeLogStart("siteMap getAllVideos");
     $xml .= '<!-- Videos -->';
     $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
@@ -5638,7 +5641,7 @@ function _file_put_contents($filename, $data, $flags = 0, $context = null) {
 }
 
 function html2plainText($html) {
-    if(!is_string($html)){
+    if (!is_string($html)) {
         return '';
     }
     $text = strip_tags($html);
@@ -8574,7 +8577,7 @@ function defaultIsPortrait() {
     return $_defaultIsPortrait;
 }
 
-function defaultIsLandscape(){
+function defaultIsLandscape() {
     return !defaultIsPortrait();
 }
 
