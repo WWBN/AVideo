@@ -4668,7 +4668,7 @@ function decompressString($string) {
 }
 
 function encryptString($string) {
-    if (is_object($string)) {
+    if (is_object($string) || is_array($string)) {
         $string = json_encode($string);
     }
     return encrypt_decrypt($string, 'encrypt');
