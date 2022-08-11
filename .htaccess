@@ -329,6 +329,7 @@ Options All -Indexes
     RewriteRule    ^notifications.json$ objects/notifications.json.php    [NC,L]
 
     RewriteRule    ^sitemap.xml$ view/sitemap.xml.php    [NC,L]
+    RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/sitemap.xml$ view/sitemap.xml.php?catName=$1    [NC,L]
     RewriteRule    ^robots.txt$ view/robots.txt.php    [NC,L]
     RewriteRule    ^manifest.json$ view/manifest.json.php    [NC,L]
 
