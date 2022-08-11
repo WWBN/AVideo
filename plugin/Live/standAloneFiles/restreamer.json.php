@@ -272,10 +272,10 @@ function notifyStreamer($robj) {
         $info = curl_getinfo($ch);
         $output = curl_exec($ch);
         curl_close($ch);
-        _error_log('Restreamer.json.php notifyStreamer complete ' . json_encode(array($info, $output)));
+        error_log('Restreamer.json.php notifyStreamer complete ' . json_encode(array($info, $output)));
         return true;
     } catch (Exception $exc) {
-        _error_log("Restreamer.json.php notifyStreamer ERROR " . $exc->getTraceAsString());
+        error_log("Restreamer.json.php notifyStreamer ERROR " . $exc->getTraceAsString());
     }
     return false;
 }
