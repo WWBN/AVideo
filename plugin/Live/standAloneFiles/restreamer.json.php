@@ -240,7 +240,6 @@ function notifyStreamer($robj) {
                     'restreamsDestinations' => $restreamsDestinations,
                     'logFile' => $logFile,
                     'users_id' => $users_id,
-                    'json' => $robj,
                     'responseToken' => $responseToken,
                     'restreamerURL' => $restreamerURL,)
         );
