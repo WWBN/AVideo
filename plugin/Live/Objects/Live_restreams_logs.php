@@ -42,6 +42,8 @@ class Live_restreams_logs extends ObjectYPT {
     function setRestreamer($restreamer) {
         if(isValidURL($restreamer)){
             $this->restreamer = $restreamer;
+        }else{
+            _error_log("setRestreamer($restreamer) invalid URL");
         }
     } 
  
