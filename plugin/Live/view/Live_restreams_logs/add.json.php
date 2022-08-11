@@ -12,18 +12,24 @@ $plugin = AVideoPlugin::loadPluginIfEnabled('Live');
 
 if(empty($_POST['responseToken'])){
     $request = file_get_contents("php://input");
-    error_log("restreamer log add.json.php php://input {$request}");
+    _error_log("restreamer log add.json.php php://input {$request}");
     $robj = json_decode($request);
     foreach ($robj as $key => $value) {
         $_POST[$key] = $value;
     }
 }
 
-$token = decryptString($_POST['responseToken']);
+$string = decryptString($_POST['responseToken']);
+
+if(empty($string)){
+   forbiddenPage('Invalid responseToken');
+   _error_log("Invalid responseToken {$_POST['responseToken']}");
+}
+
+$token = json_decode($string);
 
 if(!User::isAdmin()){
     if(empty($token->users_id)){
-        
         forbiddenPage('Invalid token');
     }
     if($token->time < strtotime('-10 minutes')){
@@ -36,7 +42,7 @@ $o->setRestreamer($_POST['restreamer']);
 $o->setM3u8($_POST['m3u8']);
 $o->setDestinations($_POST['destinations']);
 $o->setLogFile($_POST['logFile']);
-$o->setUsers_id($_POST['users_id']);
+$o->setUsers_id($token->users_id);
 $o->setJson($_POST['json']);
 
 if($id = $o->save()){
