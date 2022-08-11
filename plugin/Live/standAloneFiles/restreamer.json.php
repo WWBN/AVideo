@@ -225,7 +225,7 @@ function notifyStreamer($robj) {
     try {
         $timeLimit = 10;
         set_time_limit($timeLimit);
-        
+
         $m3u8 = $robj->m3u8;
         $restreamsDestinations = $robj->restreamsDestinations;
         $logFile = $robj->logFile;
@@ -322,7 +322,7 @@ function make_path($path) {
     return $created;
 }
 
-function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
+function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1) {
     global $ffmpegBinary;
     if (empty($restreamsDestinations)) {
         error_log("Restreamer.json.php ERROR empty restreamsDestinations");
@@ -343,10 +343,10 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
         }
         error_log("Restreamer.json.php URL ($m3u8) is NOT ready. trying again ({$tries})");
         sleep($tries);
-        return startRestream($m3u8, $restreamsDestinations, $logFile, $tries + 1);
+        return startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries + 1);
     }
 
-    error_log("Restreamer.json.php isURL200 tries={$tries} ");
+    error_log("Restreamer.json.php isURL200 tries= " . json_encode($tries));
     //sleep(5);
     /*
       $command = "ffmpeg -i {$m3u8} ";
