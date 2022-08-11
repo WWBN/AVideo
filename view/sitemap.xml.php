@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
-$name = "sitemap.xml";
+$name = "sitemap.xml".md5(json_encode($_GET));
 $lifetime = 43200;
 
 $sitemap = ObjectYPT::getCache($name, $lifetime);
