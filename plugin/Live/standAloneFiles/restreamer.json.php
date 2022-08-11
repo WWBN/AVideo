@@ -206,17 +206,15 @@ function runRestream($robj) {
     $deferred = new Deferred();
     if (empty($separateRestreams)) {
         error_log("Restreamer.json.php runRestream all in one command ");
-        $pid[] = startRestream($m3u8, $restreamsDestinations, $logFile);
+        $pid[] = startRestream($m3u8, $restreamsDestinations, $logFile, $robj);
     } else {
         error_log("Restreamer.json.php runRestream separateRestreams " . count($restreamsDestinations));
         foreach ($restreamsDestinations as $key => $value) {
             sleep(5);
             $host = clearCommandURL(parse_url($value, PHP_URL_HOST));
-            $pid[] = startRestream($m3u8, [$value], str_replace(".log", "_{$key}_{$host}.log", $logFile));
+            $pid[] = startRestream($m3u8, [$value], str_replace(".log", "_{$key}_{$host}.log", $logFile), $robj);
         }
     }
-    $robj->pid = $pid;
-    notifyStreamer($robj);
     $deferred->resolve($pid);
     return $deferred->promise();
 }
@@ -386,6 +384,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $tries = 1) {
         exec('nohup ' . $command . '  2>> ' . $logFile . ' > /dev/null &');
         error_log("Restreamer.json.php startRestream finish");
     }
+    $robj->logFile = $logFile;
+    notifyStreamer($robj);
     return true;
 }
 
