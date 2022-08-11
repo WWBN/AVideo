@@ -65,6 +65,7 @@ $title = getSEOTitle($video['title']);
 $description = getSEODescription($video['description']);
 $ogURL = Video::getLinkToVideo($videos_id, '', false,false);
 ?>
+<meta http-equiv="last-modified" content="<?php echo date('Y-m-d', strtotime($video['modified'])); ?>">
 <link rel="image_src" href="<?php echo $img; ?>" />
 <meta property="og:image" content="<?php echo $img; ?>" />
 <meta property="og:image:secure_url" content="<?php echo $img; ?>" />
