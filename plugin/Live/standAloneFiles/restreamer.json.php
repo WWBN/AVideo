@@ -1,6 +1,8 @@
 <?php
+
 use Amp\Deferred;
 use Amp\Loop;
+
 //pkill -9 -f "rw_timeout.*6196bac40f89f" //When -f is set, the full command line is used for pattern matching.
 /**
  * This file intent to restream your lives, you can copy this file in any server with FFMPEG
@@ -120,7 +122,7 @@ if (!$isCommandLine) { // not command line
     $robj->restreamsDestinations = [$argv[2]];
     $robj->users_id = 'commandline';
     $robj->logFile = @$argv[3];
-    
+    $robj->responseToken = '';
 }
 
 $obj = new stdClass();
@@ -173,26 +175,31 @@ if (!$isCommandLine) {
     }
 }
 $robj->logFile = $obj->logFile;
-if(function_exists('_mysql_close')){
+if (function_exists('_mysql_close')) {
     _mysql_close();
 }
 session_write_close();
 error_log("Restreamer.json.php starting async ");
 Loop::run(function () {
     global $robj;
-    runRestream($robj->m3u8, $robj->restreamsDestinations, $robj->logFile)->onResolve(function (Throwable $error = null, $result = null) {
+    runRestream($robj)->onResolve(function (Throwable $error = null, $result = null) {
         if ($error) {
             error_log("Restreamer.json.php runRestream: asyncOperation1 fail -> " . $error->getMessage());
         } else {
             error_log("Restreamer.json.php runRestream: asyncOperation1 result -> " . json_encode($result));
-        }        
+        }
     });
 });
 error_log("Restreamer.json.php finish async ");
 $robj->error = false;
 die(json_encode($obj));
 
-function runRestream($m3u8, $restreamsDestinations, $logFile) {
+function runRestream($robj) {
+    $m3u8 = $robj->m3u8;
+    $restreamsDestinations = $robj->restreamsDestinations;
+    $logFile = $robj->logFile;
+    $users_id = $robj->users_id;
+    $responseToken = $robj->responseToken;
     global $separateRestreams;
     killIfIsRunning($m3u8);
     $pid = array();
@@ -210,6 +217,65 @@ function runRestream($m3u8, $restreamsDestinations, $logFile) {
     }
     $deferred->resolve($pid);
     return $deferred->promise();
+}
+
+function notifyStreamer($robj) {
+    global $streamerURL;
+    $restreamerURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    try {
+        $timeLimit = 10;
+        set_time_limit($timeLimit);
+        
+        $m3u8 = $robj->m3u8;
+        $restreamsDestinations = $robj->restreamsDestinations;
+        $logFile = $robj->logFile;
+        $users_id = $robj->users_id;
+        $responseToken = $robj->responseToken;
+
+        $data_string = json_encode(
+                array(
+                    'm3u8' => $m3u8,
+                    'restreamsDestinations' => $restreamsDestinations,
+                    'logFile' => $logFile,
+                    'users_id' => $users_id,
+                    'json' => $robj,
+                    'responseToken' => $responseToken,
+                    'restreamerURL' => $restreamerURL,)
+        );
+        error_log("Restreamer.json.php notifyStreamer {$data_string}");
+        //open connection
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeLimit);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeLimit / 2); //timeout in seconds
+        //set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, "{$streamerURL}plugin/Live/view/Live_restreams_logs/add.json.php");
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_POSTREDIR, 3);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        //curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, true);
+        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER,
+                [
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($data_string),
+                ]
+        );
+        $info = curl_getinfo($ch);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        _error_log('Restreamer.json.php notifyStreamer complete ' . json_encode(array($info, $output)));
+        return true;
+    } catch (Exception $exc) {
+        _error_log("Restreamer.json.php notifyStreamer ERROR " . $exc->getTraceAsString());
+    }
+    return false;
 }
 
 function clearCommandURL($url) {

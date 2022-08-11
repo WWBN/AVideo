@@ -7,6 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHis
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmitionHistoryLog.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_servers.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams.php';
+require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_restreams_logs.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_schedule.php';
 
 $getStatsObject = [];
@@ -64,7 +65,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "10.5";
+        return "11.0";
     }
 
     public function updateScript() {
@@ -198,6 +199,14 @@ class Live extends PluginAbstract {
         }
         if (AVideoPlugin::compareVersion($this->getName(), "10.5") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV10.5.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+            LiveTransmitionHistory::finishALL();
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "11.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV11.0.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
@@ -2906,7 +2915,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 return false;
             }
             set_time_limit(30);
-
+            
+            $obj->responseToken = encryptString(array('users_id'=>$obj->users_id,'time'=>time()));
+            
             $data_string = json_encode($obj);
             _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
             //open connection
