@@ -215,6 +215,8 @@ function runRestream($robj) {
             $pid[] = startRestream($m3u8, [$value], str_replace(".log", "_{$key}_{$host}.log", $logFile));
         }
     }
+    $robj->pid = $pid;
+    notifyStreamer($robj);
     $deferred->resolve($pid);
     return $deferred->promise();
 }
