@@ -40,7 +40,7 @@ if(!User::isAdmin()){
 $o = new Live_restreams_logs(@$_POST['id']);
 $o->setRestreamer($_POST['restreamerURL']);
 $o->setM3u8($_POST['m3u8']);
-$o->setDestinations(json_encode($_POST['restreamsDestinations'])0;
+$o->setDestinations(json_encode($_POST['restreamsDestinations']));
 $o->setLogFile($_POST['logFile']);
 $o->setUsers_id($token->users_id);
 $o->setJson(json_encode($_POST));
