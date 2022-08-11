@@ -56,12 +56,10 @@ if(!empty($_REQUEST['logFile'])){
     $obj->logName = str_replace($logFileLocation, '', $_REQUEST['logFile']);
     $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
     $logFile = $logFileLocation . $obj->logName;
-    $obj->created = filectime($logFile);
     $obj->modified = filemtime($logFile);
-    $obj->seconds = $obj->modified-$obj->created;
     $obj->time = time();
     $obj->isActive = $obj->time-$obj->modified < 5;
-    $obj->content = file_get_contents($logFile);
+    //$obj->content = file_get_contents($logFile);
     echo json_encode($obj);
     exit;
 }
