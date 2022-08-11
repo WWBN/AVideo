@@ -61,13 +61,16 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
             if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                 ?>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <a href="#" class="btn btn-primary btn-xs"  onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
+                    <button type="button" class="btn btn-primary btn-xs"  onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
                         <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
-                    </a>
+                    </button>
                     <button type="button" class="btn btn-default btn-xs" onclick="avideoModalIframeFull(webSiteRootURL + 'view/videoViewsInfo.php?videos_id=<?php echo $video['id']; ?>');
                             return false;">
-                        <i class="fa fa-eye"></i> <?php echo __("Views Info"); ?>
+                        <i class="fa fa-eye"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Views Info"); ?></span>
                     </button>
+                    <?php
+                        echo Layout::getSuggestedButton($video['id']);
+                    ?>
                 </div>
             <?php }
             ?>

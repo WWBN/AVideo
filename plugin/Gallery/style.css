@@ -68,9 +68,6 @@ h3.galleryTitle{
 
 .galeryDetails div{
     float: left;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     padding-right: 5px;
     margin: 2px 0;
 }
@@ -164,7 +161,16 @@ a.h6{
 } 
 .galleryVideo  .galleryVideoButtons  button:hover{
     opacity: 1;
-} 
+}
+.galleryVideo  .galleryVideoButtons div.dropdown .dropdown-menu{
+    margin: -20px auto auto -160px;
+}
+.galleryVideo div.galleryVideoButtons > div > ul > li > button{
+    opacity: 1;
+    display: inline-block;
+    width: 100%;
+}
+
 
 .gallerySerieOverlay{
     position: absolute; 

@@ -273,4 +273,11 @@ class Gallery extends PluginAbstract {
         return !empty($obj->{$parameterName});
     }
 
+    static function getVideoDropdownMenu($videos_id) {
+        global $global;
+        $varsArray = array('videos_id' => $videos_id);
+        $filePath = $global['systemRootPath'] . 'plugin/Gallery/view/videoDropDownMenu.php';
+        return getIncludeFileContent($filePath, $varsArray);
+    }
+
 }

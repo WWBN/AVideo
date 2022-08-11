@@ -176,7 +176,7 @@ function createEPG($channel) {
                     $left = ($minuteSize * $minutesSinceZeroTime) + $timeLineElementSize;
                     $width = ($minuteSize * $minutes);
                     $_stopTime = strtotime($program['stop']);
-                    $class = '';
+                    $pclass = '';
                     if ($width <= $minimumWidth) {
                         $text = "<!-- too small $width -->";
                     } else {
@@ -185,9 +185,9 @@ function createEPG($channel) {
                         $text = "{$program['title']}<div><small class=\"duration\">{$minutes} Min</small></div>";
                     }
                     if ($_stopTime < $nowTime) {
-                        $class = 'finished';
+                        $pclass = 'finished';
                     }
-                    echo "<div style=\"width: {$width}px; left: {$left}px;\" start=\"{$program['start']}\" stop=\"{$program['stop']}\" minutes=\"{$minutes}\" minutesSinceZeroTime=\"{$minutesSinceZeroTime}\" class=\"{$class}\">"
+                    echo "<div style=\"width: {$width}px; left: {$left}px;\" start=\"{$program['start']}\" stop=\"{$program['stop']}\" minutes=\"{$minutes}\" minutesSinceZeroTime=\"{$minutesSinceZeroTime}\" class=\"{$pclass}\">"
                     . "{$text}"
                     . "</div>";
                 }

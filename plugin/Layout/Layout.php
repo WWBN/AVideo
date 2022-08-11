@@ -708,6 +708,19 @@ class Layout extends PluginAbstract {
         return $cleanList;
         
     }
+    
+    static function getSuggestedButton($videos_id, $class='btn btn-xs'){
+        global $global;
+        if(empty($videos_id)){
+            return '';
+        }
+        if(!Permissions::canAdminVideos()){
+            return '';
+        }
+        $varsArray = array('videos_id'=>$videos_id, 'class'=>$class);
+        $filePath = $global['systemRootPath'] . 'plugin/Layout/suggestedButton.php';
+        return getIncludeFileContent($filePath, $varsArray);
+    }
 
 }
 

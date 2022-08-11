@@ -521,6 +521,16 @@ img.rotate-90 {
     display: none !important;
 }
 
+.suggestBtn .btnText{
+   display: none;
+}
+.suggestBtn.isNotSuggested .suggestText{
+    display: inline-block;
+}
+.suggestBtn.isSuggested .unsuggestText{
+    display: inline-block;
+}
+
 .profileBg {
     padding: 20px;
     height: 27vw;

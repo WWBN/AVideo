@@ -2005,16 +2005,10 @@ if (Permissions::canAdminVideos()) {
                                             var row_index = $(this).closest('tr').index();
                                             var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                             var isSuggested = $(this).hasClass('unsuggest');
-                                            modal.showPleaseWait();
-                                            $.ajax({
-                                                url: webSiteRootURL + 'objects/videoSuggest.php',
-                                                data: {"id": row.id, "isSuggested": isSuggested},
-                                                type: 'post',
-                                                success: function (response) {
-                                                    $("#grid").bootgrid("reload");
-                                                    modal.hidePleaseWait();
-                                                }
-                                            });
+                                            
+                                            setVideoSuggested(row.id, isSuggested).then((data) => {
+                                                $("#grid").bootgrid("reload");
+                                            }).catch((error) => {console.log(error)});
                                         });
                                         grid.find(".command-editlikes").on("click", function (e) {
                                             var row_index = $(this).closest('tr').index();

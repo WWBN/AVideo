@@ -5276,6 +5276,9 @@ if (!class_exists('Video')) {
                     $favoriteBtnAddedStyle = "display: none;";
                     $favoriteBtnStyle = "";
                 }
+
+                $galleryDropDownMenu = Gallery::getVideoDropdownMenu($videos_id);
+
                 $galleryVideoButtons .= '
                 <div class="galleryVideoButtons">
                     <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Watch Later", true) . ' style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> 
@@ -5283,6 +5286,8 @@ if (!class_exists('Video')) {
                     <br>
                     <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Favorite", true) . ' style="color: #4285f4; ' . $favoriteBtnAddedStyle . '"><i class="fas fa-check"></i></button>  
                     <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="left" title=' . printJSString("Favorite", true) . ' style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>    
+                    <br>
+                    '.$galleryDropDownMenu.'
                 </div>';
             }
             $href = Video::getLink($video['id'], $video['clean_title']);
@@ -5541,7 +5546,7 @@ if (!class_exists('Video')) {
 
         static public function getAllActiveEPGs() {
             global $config;
-            $sql = "SELECT * FROM `videos` WHERE status = '".Video::$statusActive."' AND epg_link IS NOT NULL AND epg_link != '';";
+            $sql = "SELECT * FROM `videos` WHERE status = '" . Video::$statusActive . "' AND epg_link IS NOT NULL AND epg_link != '';";
             $res = sqlDAL::readSql($sql);
             $fullResult2 = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
@@ -5556,40 +5561,38 @@ if (!class_exists('Video')) {
             }
             return $rows;
         }
-        
+
         static public function getEPG($videos_id) {
             global $config, $_getEPG;
-            
-            if(!isset($_getEPG)){
+
+            if (!isset($_getEPG)) {
                 $_getEPG = array();
             }
-            
-            if(!isset($_getEPG[$videos_id])){            
+
+            if (!isset($_getEPG[$videos_id])) {
                 $sql = "SELECT * FROM `videos` WHERE id = ? AND epg_link IS NOT NULL AND epg_link != ''";
                 $res = sqlDAL::readSql($sql, 'i', array($videos_id));
 
                 $video = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
-                if(empty($video) || !isValidURL($video['epg_link'])){
+                if (empty($video) || !isValidURL($video['epg_link'])) {
                     $_getEPG[$videos_id] = false;
-                }else{
+                } else {
                     $_getEPG[$videos_id] = $video['epg_link'];
                 }
             }
             return $_getEPG[$videos_id];
         }
-        
-        
-        
+
         static public function getEPGLink($videos_id) {
             global $global;
-            $url = $global['webSiteRootURL'].'plugin/PlayerSkins/epg.php';
-            if(!empty($videos_id)){
+            $url = $global['webSiteRootURL'] . 'plugin/PlayerSkins/epg.php';
+            if (!empty($videos_id)) {
                 $epg = self::getEPG($videos_id);
-                if(!empty($epg)){
+                if (!empty($epg)) {
                     $url = addQueryStringParameter($url, 'videos_id', $videos_id);
                     return $url;
-                }else{
+                } else {
                     return false;
                 }
             }

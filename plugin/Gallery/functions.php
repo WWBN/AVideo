@@ -200,8 +200,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
             <?php
             if ($galeryDetails) {
                 ?>
-
-                <div class="galeryDetails" style="overflow: hidden;">
+                <div class="galeryDetails">
                     <div class="galleryTags">
                         <!-- category tags -->
                         <?php
@@ -257,33 +256,6 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                             <?php echo $name; ?>
                         </a>
                     </div>
-                    <?php
-                    if ((!empty($value['description'])) && !empty($obj->Description)) {
-                        //$desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($value['description']))));
-                        $desc = nl2br(trim($value['description']));
-                        if (!isHTMLEmpty($desc)) {
-                            $duid = uniqid();
-                            $titleAlert = str_replace(array('"', "'"), array('``', "`"), $value['title']);
-                            ?>
-                            <button type="button" class="btn-link" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" id=\"videoDescriptionAlertContent<?php echo $duid; ?>\" ></div>", "");$("#videoDescriptionAlertContent<?php echo $duid; ?>").html($("#videoDescription<?php echo $duid; ?>").html());return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-md hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
-                                <div id="videoDescription<?php echo $duid; ?>" style="display: none;"><?php echo $desc; ?></div>
-                            </button>
-                            <?php
-                        }
-                    }
-                    ?>
-                    <?php if (Video::canEdit($value['id'])) { ?>
-                        <button type="button" class="btn-link" onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $value['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
-                            <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
-                        </button>
-                    <?php }
-                    ?>
-                    <?php if (!empty($value['trailer1'])) { ?>
-                        <button type="button" class="btn-link" onclick="showTrailer('<?php echo parseVideos($value['trailer1'], 1); ?>'); return false;" class="cursorPointer" >
-                            <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
-                        </button>
-                    <?php }
-                    ?>
                     <?php
                     echo AVideoPlugin::getGalleryActionButton($value['id']);
                     ?>
@@ -436,7 +408,7 @@ function createGalleryLiveSection($videos) {
                 <strong class="title"><?php echo getSEOTitle($video['title']) ?></strong>
             </a>
 
-            <div class="galeryDetails" style="overflow: hidden;">
+            <div class="galeryDetails">
                 <div class="galleryTags">
                     <?php if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) { ?>
                         <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>">

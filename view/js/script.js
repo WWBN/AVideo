@@ -1612,7 +1612,7 @@ function avideoModalIframeIsVisible() {
         modal = $('.swal-modal-iframe-large');
     } else if ($('.swal-modal-iframe-full').length) {
         modal = $('.swal-modal-iframe-full');
-    }  else if ($('.swal-modal-iframe-full-transparent').length) {
+    } else if ($('.swal-modal-iframe-full-transparent').length) {
         modal = $('.swal-modal-iframe-full-transparent');
     } else {
         modal = $('.swal-modal-iframe');
@@ -2079,9 +2079,9 @@ async function setToolTips() {
         $(selector).addClass('alreadyTooltip');
     } catch (e) {
         console.log('setToolTips', e);
-        setTimeout(function(){
+        setTimeout(function () {
             setToolTips();
-        },1000);
+        }, 1000);
     }
 
 }
@@ -2684,7 +2684,7 @@ $(document).ready(function () {
             },
             hidePleaseWait: function () {
                 clearTimeout(hidePleaseWaitTimeout);
-                hidePleaseWaitTimeout = setTimeout(function(){
+                hidePleaseWaitTimeout = setTimeout(function () {
                     setTimeout(function () {
                         $('#pleaseWaitDialog').addClass('loaded');
                     }, showPleaseWaitTimeOut / 2);
@@ -2693,7 +2693,7 @@ $(document).ready(function () {
                     }, showPleaseWaitTimeOut); // wait for loader animation
                     setTimeout(function () {
                         pleaseWaitIsINUse = false;
-                    }, showPleaseWaitTimeOut+1000);
+                    }, showPleaseWaitTimeOut + 1000);
                 }, 500);
             },
             setProgress: function (valeur) {
@@ -3026,50 +3026,50 @@ function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
     var icon = '';
     var feedback = '';
     var force_length = parseInt($(selector).attr('maxlength'));
-    
+
     if (text.length == 0 && !isRequired) {
 
     } else if (isTextOutOfBounds(text, min_length, max_length, isRequired)) {
         var feedbackIcon = 'fas fa-exclamation';
         parent.addClass('has-feedback');
-        if(!empty(force_length) && text.length >= force_length){
+        if (!empty(force_length) && text.length >= force_length) {
             text = text.substr(0, force_length);
             $(selector).val(text);
             icon = '<i class="fas fa-exclamation-triangle"></i>';
             parent.addClass('has-info');
-            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function(){
+            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function () {
                 $(selector).addClass(animationInfo);
-            },500);
-        }else if(text.length < min_length || !isRequired){
+            }, 500);
+        } else if (text.length < min_length || !isRequired) {
             icon = '<i class="fas fa-exclamation-circle"></i>';
             parent.addClass('has-warning');
-            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function(){
+            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function () {
                 $(selector).addClass(animationWarning);
-            },500);
-        }else{
+            }, 500);
+        } else {
             icon = '<i class="fas fa-exclamation-circle"></i>';
             parent.addClass('has-error');
             feedbackIcon = 'fas fa-times';
-            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function(){
+            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function () {
                 $(selector).addClass(animationError);
-            },500);
+            }, 500);
         }
-        feedback = '<i class="'+feedbackIcon+' form-control-feedback" style="right:15px;"></i>';
+        feedback = '<i class="' + feedbackIcon + ' form-control-feedback" style="right:15px;"></i>';
     } else {
         console.log('notifyInputIfIsOutOfBounds', text.length, force_length);
-        if(!empty(force_length) && text.length == force_length){
-            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function(){
+        if (!empty(force_length) && text.length == force_length) {
+            notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function () {
                 $(selector).addClass(animationInfo);
-            },500);
+            }, 500);
         }
         icon = '<i class="fas fa-check-circle"></i>';
         parent.addClass('has-success');
     }
-    notifyInputIfIsOutOfBounds_removeClassTImeout = setTimeout(function(){
+    notifyInputIfIsOutOfBounds_removeClassTImeout = setTimeout(function () {
         $(selector).removeClass(animationInfo);
         $(selector).removeClass(animationError);
         $(selector).removeClass(animationWarning);
-    },1000);
+    }, 1000);
     parent.append(feedback + '<small class="help-block">' + icon + ' ' + text.length + ' characters of ' + min_length + '-' + max_length + ' recommended</small>');
 }
 
@@ -3081,9 +3081,9 @@ function setupFormElement(selector, min_length, max_length, force_length, isRequ
     } else {
         $(selector).attr('required', 'required');
     }
-    if(force_length){
+    if (force_length) {
         $(selector).attr('maxlength', max_length);
-        $(selector).attr('minlength', min_length); 
+        $(selector).attr('minlength', min_length);
     }
     $(selector).keyup(function () {
         notifyInputIfIsOutOfBounds('#' + $(this).attr('id'), $(this).attr('min_length'), $(this).attr('max_length'));
@@ -3111,4 +3111,44 @@ function isTextOutOfBounds(text, min_length, max_length, isRequired) {
     }
     //console.log('isTextOutOfBounds 5');
     return false;
+}
+
+/**
+ * Usage: setVideoSuggested(videos_id, isSuggested).then((data) => {...}).catch((error) => {console.log(error)});
+ * @param {type} videos_id
+ * @param {type} isSuggested
+ * @returns {Promise}
+ */
+async function setVideoSuggested(videos_id, isSuggested) {
+    modal.showPleaseWait();
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: webSiteRootURL + 'objects/videoSuggest.php',
+            data: {"id": videos_id, "isSuggested": isSuggested},
+            type: 'post',
+            success: function (data) {
+                modal.hidePleaseWait();
+                avideoResponse(data);
+                resolve(data)
+            },
+            error: function (error) {
+                modal.hidePleaseWait();
+                reject(error)
+            },
+        })
+    })
+}
+
+function toogleVideoSuggested(btn){
+    var videos_id = $(btn).attr('videos_id');
+    var isSuggested = $(btn).hasClass('isSuggested');
+    setVideoSuggested(videos_id, !isSuggested).then((data) => {
+        if(!isSuggested){
+            $(btn).removeClass('isNotSuggested btn-default');
+            $(btn).addClass('isSuggested btn-warning');
+        }else{
+            $(btn).addClass('isNotSuggested btn-default');
+            $(btn).removeClass('isSuggested btn-warning');
+        }
+    }).catch((error) => {console.log(error)});
 }
