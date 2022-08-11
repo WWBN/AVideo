@@ -56,7 +56,7 @@ class Live_restreams_logs extends ObjectYPT {
     } 
  
     function setLogFile($logFile) {
-        $logFile = preg_replace('/[^a-z0-9/_-]/i', '', $logFile);
+        //$logFile = preg_replace('/[^a-z0-9/_.-]/i', '', $logFile);
         $this->logFile = $logFile;
     } 
  
