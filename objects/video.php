@@ -2227,8 +2227,6 @@ if (!class_exists('Video')) {
                 if (empty($articleObj->allowAttributes)) {
                     $configPuri->set('HTML.AllowedAttributes', ['a.href', 'a.target', 'a.title', 'a.title', 'img.src', 'img.width', 'img.height', 'span.style']); // remove all attributes except a.href
                     $configPuri->set('Attr.AllowedFrameTargets', ['_blank']);
-                }
-                if (empty($articleObj->allowAttributes)) {
                     $configPuri->set('CSS.AllowedProperties', []); // remove all CSS
                 }
                 $configPuri->set('AutoFormat.RemoveEmpty', true); // remove empty elements

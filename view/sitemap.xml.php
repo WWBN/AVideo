@@ -5,7 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 
 $name = "sitemap.xml".md5(json_encode($_GET));
-$lifetime = 43200;
+$lifetime = 43200; // 12 hours
 
 $sitemap = ObjectYPT::getCache($name, $lifetime);
 $videosDir = getVideosDir();
