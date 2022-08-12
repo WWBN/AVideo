@@ -272,7 +272,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             setTimeout(function(){
                 $('.'+className).slideUp();
                 $('.onlineApplications').val($('.onlineApplications').val()-1);
-            },expires_in_seconds);
+            },expires_in_seconds*1000);
         }
     }
 
