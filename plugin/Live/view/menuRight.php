@@ -263,13 +263,15 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     async function availableLiveStreamEmpty() {
         $('#availableLiveStream').empty();
     }
-
+    var hideWhenExpireClasses = [];
     function hideWhenExpire(application){
-        if (!empty(application.expires)) {
+        var className = application.className;
+        if (!empty(application.expires) && !in_array(className, hideWhenExpireClasses)) {
             var expires_in_seconds = application.expires - _serverTime;
-            var className = application.className;
             console.log('hideWhenExpire', expires_in_seconds, className);
+            hideWhenExpireClasses.push(className);
             setTimeout(function(){
+                console.log('hideWhenExpire now', className);
                 $('.'+className).slideUp();
                 $('.onlineApplications').val($('.onlineApplications').val()-1);
             },expires_in_seconds*1000);
