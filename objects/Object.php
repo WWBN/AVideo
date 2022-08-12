@@ -440,7 +440,7 @@ abstract class ObjectYPT implements ObjectInterface
         return false;
     }
 
-    public static function setCache($name, $value)
+    public static function setCache($name, $value, $addSubDirs=true)
     {
         if ($content = self::shouldUseDatabase($value)) {
             return Cache::_setCache($name, $content);
@@ -455,7 +455,7 @@ abstract class ObjectYPT implements ObjectInterface
             return false;
         }
 
-        $cachefile = self::getCacheFileName($name);
+        $cachefile = self::getCacheFileName($name, true, $addSubDirs);
         make_path($cachefile);
 
         $bytes = @file_put_contents($cachefile, $content);
@@ -482,7 +482,7 @@ abstract class ObjectYPT implements ObjectInterface
      * @param type $lifetime, if is = 0 it is unlimited
      * @return type
      */
-    public static function getCache($name, $lifetime = 60, $ignoreSessionCache = false)
+    public static function getCache($name, $lifetime = 60, $ignoreSessionCache = false, $addSubDirs=true)
     {
         global $global;
         if (!empty($global['ignoreAllCache'])) {
@@ -505,7 +505,7 @@ abstract class ObjectYPT implements ObjectInterface
             $getCachesProcessed = [];
         }
         //if($name=='getVideosURL_V2video_220721204450_v21b7'){var_dump($name);exit;}
-        $cachefile = self::getCacheFileName($name, false);
+        $cachefile = self::getCacheFileName($name, false, $addSubDirs);
         //if($name=='getVideosURL_V2video_220721204450_v21b7'){var_dump($cachefile);exit;}//exit;
         self::setLastUsedCacheFile($cachefile);
         //_error_log('getCache: cachefile '.$cachefile);
@@ -592,7 +592,7 @@ abstract class ObjectYPT implements ObjectInterface
         return ['file' => $_lastCacheFile, 'mode' => $_lastCacheMode];
     }
 
-    public static function deleteCache($name)
+    public static function deleteCache($name, $addSubDirs=true)
     {
         if (empty($name)) {
             return false;
@@ -606,7 +606,7 @@ abstract class ObjectYPT implements ObjectInterface
         global $__getAVideoCache;
         unset($__getAVideoCache);
         //_error_log('deleteCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-        $cachefile = self::getCacheFileName($name, false);
+        $cachefile = self::getCacheFileName($name, false, $addSubDirs);
         @unlink($cachefile);
         self::deleteSessionCache($name);
         ObjectYPT::deleteCacheFromPattern($name);
@@ -669,7 +669,7 @@ abstract class ObjectYPT implements ObjectInterface
         return true;
     }
 
-    public static function getCacheDir($filename = '', $createDir=true)
+    public static function getCacheDir($filename = '', $createDir=true, $addSubDirs=true)
     {
         global $_getCacheDir, $global;
 
@@ -684,7 +684,6 @@ abstract class ObjectYPT implements ObjectInterface
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
-        $addSubDirs = true;
         if(str_starts_with($filename, '/') || str_ends_with($filename, '/')){
             $addSubDirs = false;
         }
@@ -727,10 +726,10 @@ abstract class ObjectYPT implements ObjectInterface
         return $tmpDir;
     }
 
-    public static function getCacheFileName($name, $createDir=true)
+    public static function getCacheFileName($name, $createDir=true, $addSubDirs=true)
     {
         global $global;
-        $tmpDir = self::getCacheDir($name, $createDir);
+        $tmpDir = self::getCacheDir($name, $createDir, $addSubDirs);
         $uniqueHash = md5($name . $global['salt']); // add salt for security reasons
         return $tmpDir . $uniqueHash . '.cache';
     }
