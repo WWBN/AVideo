@@ -442,7 +442,7 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function setCache($name, $value, $addSubDirs=true)
     {
-        if ($content = self::shouldUseDatabase($value)) {
+        if (!self::isToSaveInASubDir($name) && $content = self::shouldUseDatabase($value)) {
             return Cache::_setCache($name, $content);
         }
 
@@ -669,6 +669,10 @@ abstract class ObjectYPT implements ObjectInterface
         return true;
     }
 
+    private static function isToSaveInASubDir($filename){
+        return str_starts_with($filename, '/') || str_ends_with($filename, '/');
+    }
+    
     public static function getCacheDir($filename = '', $createDir=true, $addSubDirs=true)
     {
         global $_getCacheDir, $global;
@@ -684,7 +688,7 @@ abstract class ObjectYPT implements ObjectInterface
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
-        if(str_starts_with($filename, '/') || str_ends_with($filename, '/')){
+        if(self::isToSaveInASubDir($filename)){
             $addSubDirs = false;
             $filename = trim($filename, '/');
         }
