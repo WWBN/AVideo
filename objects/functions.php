@@ -3319,7 +3319,7 @@ function siteMap() {
         </url>
         ';
     if (empty($_REQUEST['catName'])) {
-        $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
+        $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
         _error_log("siteMap: rowCount {$_REQUEST['rowCount']} ");
         $_POST['sort']['modified'] = "DESC";
         TimeLogStart("siteMap getAllUsersThatHasVideos");
@@ -3340,7 +3340,7 @@ function siteMap() {
         TimeLogEnd("siteMap getAllUsersThatHasVideos", __LINE__, 0.5);
         TimeLogStart("siteMap getAllCategories");
         $xml .= PHP_EOL.'<!-- Categories -->'.PHP_EOL;
-        $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
+        $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
         $_POST['sort']['modified'] = "DESC";
         $rows = Category::getAllCategories();
         _error_log("siteMap: getAllCategories " . count($rows));
@@ -3362,7 +3362,7 @@ function siteMap() {
 
     TimeLogStart("siteMap getAllVideos");
     $xml .= '<!-- Videos -->';
-    $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
+    $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideosLight(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
     _error_log("siteMap: getAllVideos " . count($rows));
