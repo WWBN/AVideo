@@ -20,7 +20,9 @@ if (!Permissions::canModerateVideos()) {
 $videos = Video::getAllVideosLight("", false, true, false);
 
 foreach ($videos as $value) {
-    Video::updateFilesize($value['id']);
+    if($video['type']=='video' || $video['type']=='audio'){
+        Video::updateFilesize($value['id']);
+    }
 }
 
 $obj->error = false;

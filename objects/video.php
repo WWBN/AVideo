@@ -1564,6 +1564,9 @@ if (!class_exists('Video')) {
 
         public static function updateFilesizeFromFilename($filename) {
             $value = Video::getVideoFromFileNameLight($filename);
+            if($video['type']!=='video' && $video['type']!=='audio'){
+                return false;
+            }
             return self::updateFilesize($value['id']);
         }
 
@@ -1579,7 +1582,11 @@ if (!class_exists('Video')) {
             TimeLogStart("Video::updateFilesize {$videos_id}");
             ini_set('max_execution_time', 300); // 5
             set_time_limit(300);
-            $video = new Video("", "", $videos_id);
+            $video = new Video("", "", $videos_id);            
+            $_type = $video->getType();
+            if ($_type !== 'video' && $_type !== 'audio' ){
+                return false;
+            }
             $filename = $video->getFilename();
             if (empty($filename)) {
                 //_error_log("updateFilesize: Not updated, this filetype is ".$video->getType());
@@ -1696,7 +1703,9 @@ if (!class_exists('Video')) {
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
                     }
                     if (empty($row['filesize'])) {
-                        $row['filesize'] = Video::updateFilesize($row['id']);
+                        if($video['type']=='video' || $video['type']=='audio'){
+                            $row['filesize'] = Video::updateFilesize($row['id']);
+                        }
                     }
                     $videos[] = $row;
                 }
