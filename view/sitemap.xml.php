@@ -33,6 +33,6 @@ if (empty($sitemap)) {
     $sitemap .= "<!-- cached -->";
 }
 $sitemap_end = microtime(true) - $sitemap_start;
-$sitemap .= "<!-- Created in ". seconds2human($sitemap_end)." -->";
+$sitemap .= "<!-- Created in {$sitemap_end} [". seconds2human($sitemap_end)."] -->";
 echo $sitemap;
 exit;
