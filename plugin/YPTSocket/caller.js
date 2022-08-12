@@ -122,10 +122,10 @@ function hangUpCall(json) {
     } else {
         users_id = json.to_users_id;
     }
-    if (typeof callerToast[users_id] == 'object' && typeof callerToast[users_id].close == 'function') {
+    if (isCallerToastActive(users_id)) {
         console.log('hangUpCall callerToast', users_id);
         shouldHangUpCall = 1;
-        callerToast[users_id].close();
+        closeCallerToast(users_id);
     } else if ($('body').hasClass('calling')) {
         avideoToastWarning('Hangup');
         console.log('hangUpCall page', users_id);
@@ -143,7 +143,7 @@ function finishCall(json) {
     } else {
         users_id = json.to_users_id;
     }
-    if (typeof callerToast[users_id] == 'object') {
+    if (isCallerToastActive(users_id)) {
         console.log('finishCall', users_id);
         sendSocketMessageToUser(json, 'hangUpCall', users_id);
         var obj = {users_id: users_id, shouldHangUpCall: 0};
@@ -162,7 +162,7 @@ function acceptCall(json) {
         avideoToastError('The is not online anymore');
         return false;
     }
-    if (typeof callerToast[users_id] == 'object' && typeof callerToast[users_id].close == 'function') {
+    if (isCallerToastActive(users_id)) {
         console.log('acceptCall', users_id);
         var obj = {users_id: users_id, shouldHangUpCall: 0};
         hideCall(obj);
@@ -188,8 +188,8 @@ function hideCall(obj) {
     console.log('hideCall', obj);
     users_id = obj.users_id;
     shouldHangUpCall = obj.shouldHangUpCall;
-    if (typeof callerToast[users_id] == 'object' && typeof callerToast[users_id].close == 'function') {
-        callerToast[users_id].close();
+    if (isCallerToastActive(users_id)) {
+        closeCallerToast(users_id);
     }
     setTimeout(function () {
         shouldHangUpCall = 1;
@@ -198,7 +198,7 @@ function hideCall(obj) {
 
 function callAccepted(json) {
     users_id = json.to_users_id;
-    if (typeof callerToast[users_id] == 'object' && typeof callerToast[users_id].close == 'function') {
+    if (isCallerToastActive(users_id)) {
         console.log('callAccepted callerToast', users_id);
         obj = {users_id: users_id, shouldHangUpCall: 0};
         hideCall(obj);
@@ -366,6 +366,19 @@ function setCallBodyClass(name) {
     $('body').removeClass('callActive');
     //$('body').removeClass('callerUserOffline');
     $('body').addClass(name);
+}
+
+function isCallerToastActive(users_id){
+    return typeof callerToast[users_id] == 'object' && (typeof callerToast[users_id].close == 'function' || typeof callerToast[users_id].reset == 'function');
+}
+
+function closeCallerToast(users_id){
+    if(typeof callerToast[users_id].reset == 'function'){
+        callerToast[users_id].reset();
+    }
+    if(typeof callerToast[users_id].close == 'function'){
+        callerToast[users_id].close();
+    }
 }
 
 $(document).ready(function () {
