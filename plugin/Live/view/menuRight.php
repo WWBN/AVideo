@@ -218,10 +218,10 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
                 //console.log('processApplicationLive 1', response.applications, response.applications.length);
                 for (i = 0; i < response.applications.length; i++) {
                     //console.log('processApplicationLive 1 title', response.applications[i].title);
-                    processApplication(response.applications[i]);
                     if (!empty(response.applications[i].expires) && response.applications[i].expires < _serverTime) {
                         return false;
                     }
+                    processApplication(response.applications[i]);
                     if (!response.applications[i].comingsoon) {
                         if (typeof response.applications[i].live_cleanKey !== 'undefined') {
                             selector = '.liveViewStatusClass_' + response.applications[i].live_cleanKey;
@@ -264,6 +264,15 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         $('#availableLiveStream').empty();
     }
 
+    function hideWhenExpire(application){
+        if (!empty(application.expires_in_seconds) && application.expires_in_seconds>0) {
+            var className = application.className;
+            setTimeout(function(){
+                $('.'+className).slideUp();
+            },application.expires_in_seconds);
+        }
+    }
+
     var linksToEmbedTimeout;
     async function processApplication(application) {
         href = application.href;
@@ -275,7 +284,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         if (!empty(application.expires) && application.expires < _serverTime) {
             return false;
         }
-
+        hideWhenExpire(application);
         if (application && typeof application.key == 'string') {
             key = application.key.replace(/[&=]/g, '');
         } else {
@@ -331,10 +340,7 @@ if (isVideo()) {
 <?php }
 ?>
             var id = $(html).attr('id').replace(/[&=]/g, '');
-
-            if (!empty(application.expires) && application.expires < _serverTime) {
-                return false;
-            }
+            
             if ($('#' + id).length) {
                 //console.log('processApplication key found', id);
                 return false;
