@@ -3266,6 +3266,11 @@ function siteMap() {
     ini_set('max_execution_time', 0);
     @session_write_close();
     global $global, $advancedCustom;
+    
+    $totalCategories = 0;
+    $totalChannels = 0;
+    $totalVideos = 0;
+    
     $global['disableVideoTags'] = 1;
     $date = date('Y-m-d\TH:i:s') . "+00:00";
     $xml = '<?xml version="1.0" encoding="UTF-8"?>
@@ -3319,6 +3324,7 @@ function siteMap() {
         $users = User::getAllUsersThatHasVideos(true);
         _error_log("siteMap: getAllUsers " . count($users));
         foreach ($users as $value) {
+            $totalChannels++;
             $xml .= '
             <url>
                 <loc>' . User::getChannelLink($value['id']) . '</loc>
@@ -3328,16 +3334,16 @@ function siteMap() {
             </url>
             ';
         }
+        $xml .= PHP_EOL.'<!-- Channels END total='.$totalChannels.' -->'.PHP_EOL;
         TimeLogEnd("siteMap getAllUsersThatHasVideos", __LINE__, 0.5);
         TimeLogStart("siteMap getAllCategories");
-        $xml .= '
-        <!-- Categories -->
-        ';
+        $xml .= PHP_EOL.'<!-- Categories -->'.PHP_EOL;
         $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
         $_POST['sort']['modified'] = "DESC";
         $rows = Category::getAllCategories();
         _error_log("siteMap: getAllCategories " . count($rows));
         foreach ($rows as $value) {
+            $totalCategories++;
             $xml .= '
             <url>
                 <loc>' . $global['webSiteRootURL'] . 'cat/' . $value['clean_name'] . '</loc>
@@ -3347,6 +3353,7 @@ function siteMap() {
             </url>
             ';
         }
+        $xml .= PHP_EOL.'<!-- Categories END total='.$totalCategories.' -->'.PHP_EOL;
         TimeLogEnd("siteMap getAllCategories", __LINE__, 0.5);
     }
 
@@ -3355,9 +3362,10 @@ function siteMap() {
     $xml .= '<!-- Videos -->';
     $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
-    $rows = Video::getAllVideos(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
+    $rows = Video::getAllVideosLight(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
     _error_log("siteMap: getAllVideos " . count($rows));
     foreach ($rows as $video) {
+        $totalVideos++;
         $videos_id = $video['id'];
 
         TimeLogStart("siteMap Video::getPoster $videos_id");
@@ -3409,6 +3417,7 @@ function siteMap() {
             ';
     }
     TimeLogEnd("siteMap getAllVideos", __LINE__, 0.5);
+    $xml .= PHP_EOL.'<!-- Videos END total='.$totalCategories.' -->'.PHP_EOL;
     $xml .= '</urlset> ';
     _error_log("siteMap: done ");
     $newXML1 = preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xml);
