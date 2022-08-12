@@ -3,7 +3,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-
+$sitemap_start = microtime(true);
 $name = "sitemap.xml".md5(json_encode($_GET));
 $lifetime = 43200; // 12 hours
 
@@ -32,5 +32,7 @@ if (empty($sitemap)) {
 } else {
     $sitemap .= "<!-- cached -->";
 }
+$sitemap_end = microtime(true) - $sitemap_start;
+$sitemap .= "<!-- Created in ". seconds2human($sitemap_end)." -->";
 echo $sitemap;
 exit;
