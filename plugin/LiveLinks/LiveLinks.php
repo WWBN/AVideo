@@ -148,7 +148,7 @@ class LiveLinks extends PluginAbstract {
                     $label, 
                     'liveLink_'.$value['id'], 
                     '', 
-                    $value['start_date']);
+                    convertFromDefaultTimezoneTimeToMyTimezone($value['start_date']));
             $row['categories_id'] = $value['categories_id'];
             $row['liveLinks_id'] = $value['id'];
             $array[] = $row;
