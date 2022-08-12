@@ -31,7 +31,8 @@ if (!empty($_GET['link'])) {
     $t['description'] = $liveLink->getDescription();
 
     AVideoPlugin::getModeLiveLink($liveLink->getId());
-    $toTime = strtotime($liveLink->getStart_date());
+    $date = convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getStart_date());
+    $toTime = strtotime($date);
 } else {
     $isLiveLink = uniqid();
     $uuid = $isLiveLink;
