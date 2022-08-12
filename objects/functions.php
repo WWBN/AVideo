@@ -8461,6 +8461,26 @@ function convertFromMyTimeTOMySQL($date) {
     return ObjectYPT::clientTimezoneToDatabaseTimezone($date);
 }
 
+function convertFromMyTimeTODefaultTimezoneTime($date) {
+    global $advancedCustom;
+    return convertDateFromToTimezone($date, date_default_timezone_get(), $advancedCustom->timeZone->value);
+}
+
+function convertDateFromToTimezone($date, $fromTimezone, $toTimezone){
+    if (!preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $date)) {
+            return $date;
+        }
+        $currentTimezone = date_default_timezone_get();
+        date_default_timezone_set($fromTimezone);
+        $time = strtotime($date);
+        date_default_timezone_set($toTimezone);
+
+        $newDate = date('Y-m-d H:i:s', $time);
+
+        date_default_timezone_set($currentTimezone);
+        return $newDate;
+}
+
 function getTimestampFromTimezone($date, $fromTimezone) {
     $date = new DateTime($date, new DateTimeZone($fromTimezone));
     return $date->getTimestamp();
