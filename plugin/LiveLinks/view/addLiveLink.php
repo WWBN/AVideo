@@ -19,6 +19,11 @@ if(!$plugin->canAddLinks()){
 
 if(!empty($_POST['start_date'])){
     //$_POST['start_date'] = conver
+    $_POST['start_date'] = convertFromMyTimeTOMySQL($_POST['start_date']);
+}
+if(!empty($_POST['end_date'])){
+    //$_POST['start_date'] = conver
+    $_POST['end_date'] = convertFromMyTimeTOMySQL($_POST['end_date']);
 }
 
 $o = new LiveLinksTable(@$_POST['linkId']);
