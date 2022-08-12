@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `livelinks_has_users_groups` (
   INDEX `fk_livelinks_has_users_groups_livelinks1_idx` (`livelinks_id` ASC),
   CONSTRAINT `fk_livelinks_has_users_groups_livelinks1`
     FOREIGN KEY (`livelinks_id`)
-    REFERENCES `livelinks` (`id`)
+    REFERENCES `LiveLinks` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_livelinks_has_users_groups_users_groups1`
