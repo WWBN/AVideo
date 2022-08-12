@@ -688,30 +688,31 @@ abstract class ObjectYPT implements ObjectInterface
             $addSubDirs = false;
         }
         $filename = self::cleanCacheName($filename);
-        if (!empty($filename) && $addSubDirs) {
+        if (!empty($filename)) {
             $tmpDir .= $filename . DIRECTORY_SEPARATOR;
+            if($addSubDirs){
+                $domain = getDomain();
+                // make sure you separete http and https cache
+                $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
 
-            $domain = getDomain();
-            // make sure you separete http and https cache
-            $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
+                $tmpDir .= "{$protocol}_{$domain}" . DIRECTORY_SEPARATOR;
 
-            $tmpDir .= "{$protocol}_{$domain}" . DIRECTORY_SEPARATOR;
-
-            if (class_exists("User_Location")) {
-                $loc = User_Location::getThisUserLocation();
-                if (!empty($loc) && !empty($loc['country_code']) && $loc['country_code'] !== '-') {
-                    $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
+                if (class_exists("User_Location")) {
+                    $loc = User_Location::getThisUserLocation();
+                    if (!empty($loc) && !empty($loc['country_code']) && $loc['country_code'] !== '-') {
+                        $tmpDir .= $loc['country_code'] . DIRECTORY_SEPARATOR;
+                    }
                 }
-            }
 
-            if (User::isLogged()) {
-                if (User::isAdmin()) {
-                    $tmpDir .= 'admin_' . md5("admin" . $global['salt']) . DIRECTORY_SEPARATOR;
+                if (User::isLogged()) {
+                    if (User::isAdmin()) {
+                        $tmpDir .= 'admin_' . md5("admin" . $global['salt']) . DIRECTORY_SEPARATOR;
+                    } else {
+                        $tmpDir .= 'user_' . md5("user" . $global['salt']) . DIRECTORY_SEPARATOR;
+                    }
                 } else {
-                    $tmpDir .= 'user_' . md5("user" . $global['salt']) . DIRECTORY_SEPARATOR;
+                    $tmpDir .= 'notlogged_' . md5("notlogged" . $global['salt']) . DIRECTORY_SEPARATOR;
                 }
-            } else {
-                $tmpDir .= 'notlogged_' . md5("notlogged" . $global['salt']) . DIRECTORY_SEPARATOR;
             }
         }
         $tmpDir = fixPath($tmpDir);
