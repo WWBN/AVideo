@@ -73,12 +73,15 @@ if (!empty($endTime)) {
     ?>
     <script>
         $(document).ready(function () {
+            var endInSeconds = <?php echo $endInSeconds*1000; ?>;
+            console.log('live will finish in', endInSeconds);
             setTimeout(function () {
+                console.log('live finish now');
                 $('main-video').remove();
                 avideoConfirm('Live Finished').then(function (value) {
                     document.location = webSiteRootURL;
                 });
-            }, <?php echo $endInSeconds*1000; ?>);
+            }, endInSeconds*1000);
         });
     </script>
     <?php
