@@ -195,6 +195,11 @@ class LiveLinksTable extends ObjectYPT {
             return false;
         }
         
+        if(empty($this->id)){
+            _error_log("Id for table " . static::getTableName() . " not defined for add", AVideoLog::$ERROR);
+            return false;
+        }
+        
         if(!is_array($usergroups_ids)){
             $usergroups_ids = array($usergroups_ids);
         }
@@ -203,7 +208,6 @@ class LiveLinksTable extends ObjectYPT {
             sqlDAL::writeSql($sql, "ii", array($this->id, $value));
         }
         
-        _error_log("Id for table " . static::getTableName() . " not defined for deletion", AVideoLog::$ERROR);
         return true;
     }
     
