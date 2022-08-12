@@ -265,11 +265,12 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     }
 
     function hideWhenExpire(application){
-        if (!empty(application.expires_in_seconds) && application.expires_in_seconds>0) {
+        if (!empty(application.expires)) {
+            var expires_in_seconds = application.expires - _serverTime;
             var className = application.className;
             setTimeout(function(){
                 $('.'+className).slideUp();
-            },application.expires_in_seconds);
+            },expires_in_seconds);
         }
     }
 
