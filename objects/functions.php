@@ -8462,19 +8462,24 @@ function convertFromMyTimeTOMySQL($date) {
 }
 
 function convertFromMyTimeTODefaultTimezoneTime($date) {
-    global $advancedCustom;
-    if (empty($advancedCustom)) {
-        $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
-    }
-    return convertDateFromToTimezone($date, date_default_timezone_get(), $advancedCustom->timeZone->value);
+    return convertDateFromToTimezone($date, date_default_timezone_get(), getDefaultTimezone());
 }
 
 function convertFromDefaultTimezoneTimeToMyTimezone($date) {
-    global $advancedCustom;
+    return convertDateFromToTimezone($date, getDefaultTimezone(), date_default_timezone_get());
+}
+
+function getDefaultTimezone(){
+    global $advancedCustom, $_getDefaultTimezone;
+    if(!empty($_getDefaultTimezone)){
+        return $_getDefaultTimezone;
+    }
     if (empty($advancedCustom)) {
         $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
     }
-    return convertDateFromToTimezone($date, $advancedCustom->timeZone->value, date_default_timezone_get());
+    $timeZOnesOptions = object_to_array($advancedCustom->timeZone->type);
+    $_getDefaultTimezone = $timeZOnesOptions[$advancedCustom->timeZone->value];
+    return $_getDefaultTimezone;
 }
 
 function convertDateFromToTimezone($date, $fromTimezone, $toTimezone) {
