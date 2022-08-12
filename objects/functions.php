@@ -3417,7 +3417,7 @@ function siteMap() {
             ';
     }
     TimeLogEnd("siteMap getAllVideos", __LINE__, 0.5);
-    $xml .= PHP_EOL.'<!-- Videos END total='.$totalCategories.' -->'.PHP_EOL;
+    $xml .= PHP_EOL.'<!-- Videos END total='.$totalVideos.' -->'.PHP_EOL;
     $xml .= '</urlset> ';
     _error_log("siteMap: done ");
     $newXML1 = preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xml);
