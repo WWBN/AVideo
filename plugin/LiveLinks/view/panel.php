@@ -3,9 +3,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fas fa-link"></i> <?php echo __("Add an external Live Link"); ?>
-        <span class="badge">1- <?php echo getDefaultTimezone(); ?></span>
-        <span class="badge">2- <?php echo $_COOKIE['timezone']; ?></span>
-        <span class="badge">2- <?php echo date_default_timezone_get(); ?></span>
     </div>
     <div class="panel-body"> 
         <div class="row">
