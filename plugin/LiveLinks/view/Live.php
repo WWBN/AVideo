@@ -32,7 +32,6 @@ if (!empty($_GET['link'])) {
     AVideoPlugin::getModeLiveLink($liveLink->getId());
     $date = convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getStart_date());
     $toTime = strtotime($date);
-    $endTime = strtotime(convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getEnd_date()));
 } else {
     $isLiveLink = uniqid();
     $uuid = $isLiveLink;
@@ -229,23 +228,6 @@ if (isHTMLEmpty($sideAd)) {
         <?php
         if (!empty($p)) {
             $p->getChat($uuid);
-        }
-        ?>
-        <?php
-        if (!empty($endTime)) {
-            $endInSeconds = $endTime - time();
-            ?>
-            <script>
-                $(document).ready(function () {
-                    setTimeout(function () {
-                        $('main-video').remove();
-                        avideoConfirm('Live Finished').then(function (value) {
-                            document.location = webSiteRootURL;
-                        });
-                    }, <?php echo $endInSeconds*1000; ?>);
-                });
-            </script>
-            <?php
         }
         ?>
     </body>
