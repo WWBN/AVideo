@@ -73,7 +73,7 @@ if (!empty($endTime)) {
     ?>
     <script>
         $(document).ready(function () {
-            var endInSeconds = <?php echo $endInSeconds*1000; ?>;
+            var endInSeconds = <?php echo $endInSeconds; ?>;
             console.log('live will finish in', endInSeconds);
             setTimeout(function () {
                 console.log('live finish now');
