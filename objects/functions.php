@@ -8457,6 +8457,10 @@ function convertToMyTimezone($date, $fromTimezone) {
     return date('Y-m-d H:i:s', $time);
 }
 
+function convertFromMyTimeTOMySQL($date) {
+    return ObjectYPT::clientTimezoneToDatabaseTimezone($date);
+}
+
 function getTimestampFromTimezone($date, $fromTimezone) {
     $date = new DateTime($date, new DateTimeZone($fromTimezone));
     return $date->getTimestamp();
