@@ -322,6 +322,10 @@ if (User::canStream()) {
         <?php }
     ?>
                 var id = $(html).attr('id').replace(/[&=]/g, '');
+                
+                if(!empty(application.expires) && application.expires < _serverTime){
+                    return false;
+                }
                 if ($('#' + id).length) {
                     //console.log('processApplication key found', id);
                     return false;
