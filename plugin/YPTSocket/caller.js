@@ -175,7 +175,12 @@ function acceptCall(json) {
             sendSocketMessageToUser(obj, 'hideCall', my_users_id);
         }, 1000);
     } else {
-        console.log('acceptCall ERROR', users_id);
+        if(typeof callerToast[users_id] !== 'object'){
+            console.log('acceptCall ERROR callerToast[users_id] !== object', users_id);
+        }
+        if(typeof callerToast[users_id].close !== 'function'){
+            console.log('typeof callerToast[users_id].close !== function', users_id);            
+        }
     }
 }
 
