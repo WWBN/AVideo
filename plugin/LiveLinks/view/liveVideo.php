@@ -8,6 +8,9 @@ if ($t['id'] > 0) {
     if($endInSeconds<0){
         forbiddenPage('Live Finished');
     }
+    if(!LiveLinks::userCanWatch(User::getId(), $t['id'])){
+        forbiddenPage('Live is private');
+    }
 } else {
     $liveLink = $t['link'];
 }
