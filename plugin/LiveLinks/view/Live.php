@@ -14,7 +14,6 @@ if (empty($plugin)) {
 }
 
 $_GET['link'] = intval($_GET['link']);
-
 if (!empty($_GET['link'])) {
     $liveLink = new LiveLinksTable($_GET['link']);
 
@@ -33,6 +32,7 @@ if (!empty($_GET['link'])) {
     AVideoPlugin::getModeLiveLink($liveLink->getId());
     $date = convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getStart_date());
     $toTime = strtotime($date);
+    $endTime = strtotime(convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getEnd_date()));
 } else {
     $isLiveLink = uniqid();
     $uuid = $isLiveLink;
@@ -68,8 +68,8 @@ $poster = $img = LiveLinks::getImage($t['id']);
 $imgw = 400;
 $imgh = 255;
 
-if(isAVideoMobileApp()){
-   $_GET['embed'] = 1; 
+if (isAVideoMobileApp()) {
+    $_GET['embed'] = 1;
 }
 
 if (!empty($_GET['embed'])) {
@@ -96,7 +96,6 @@ if (isHTMLEmpty($sideAd)) {
         <title><?php echo $t['title'] . $config->getPageTitleSeparator() . __("Live Links") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.min.js'); ?>" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getCDN(); ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -173,7 +172,7 @@ if (isHTMLEmpty($sideAd)) {
                             <h1 itemprop="name"><i class="fas fa-video"></i> <?php echo getSEOTitle($t['title']); ?></h1>
                             <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
                             <p><?php echo nl2br(textToLink($t['description'])); ?></p>
-                            
+
                             <div class="row">
                                 <div class="col-md-12 watch8-action-buttons text-muted">
                                     <?php if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) { ?>
@@ -232,9 +231,23 @@ if (isHTMLEmpty($sideAd)) {
             $p->getChat($uuid);
         }
         ?>
-        <script src="<?php echo getCDN(); ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
-
+        <?php
+        if (!empty($endTime)) {
+            $endInSeconds = $endTime - time();
+            ?>
+            <script>
+                $(document).ready(function () {
+                    setTimeout(function () {
+                        $('main-video').remove();
+                        avideoConfirm('Live Finished').then(function (value) {
+                            document.location = webSiteRootURL;
+                        });
+                    }, <?php echo $endInSeconds*1000; ?>);
+                });
+            </script>
+            <?php
+        }
+        ?>
     </body>
 </html>
 
