@@ -327,7 +327,7 @@ if (User::canStream()) {
                     return false;
                 }
                 //console.log('processApplication key NOT found', id);
-                if (application.comingsoon && application.comingsoon > <?php echo time(); ?>) {
+                if (application.comingsoon && application.comingsoon > _serverTime) {
                     ////console.log('application.comingsoon 2', application.comingsoon, application.method);
                     $('#liveScheduleVideos .extraVideos').append(html);
                     $('#liveScheduleVideos').slideDown();
