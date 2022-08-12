@@ -403,7 +403,7 @@ class LiveLinks extends PluginAbstract {
     }
 
     static function userCanWatch($users_id, $livelinks_id) {
-        if (empty($users_id) || empty($livelinks_id)) {
+        if (empty($livelinks_id)) {
             return false;
         }
 
@@ -419,6 +419,10 @@ class LiveLinks extends PluginAbstract {
         $user_groups_ids = LiveLinksTable::getUserGorupsIds($livelinks_id);
         if (empty($user_groups_ids)) {
             return true;
+        }
+        
+        if (empty($users_id)) {
+            return false;
         }
 
         return LiveLinksTable::userGroupsMatch($livelinks_id, $users_id);
