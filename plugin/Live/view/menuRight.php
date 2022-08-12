@@ -273,7 +273,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             setTimeout(function(){
                 console.log('hideWhenExpire now', className);
                 $('.'+className).slideUp();
-                $('.onlineApplications').val($('.onlineApplications').val()-1);
+                $('.onlineApplications').text($('.onlineApplications').text()-1);
             },expires_in_seconds*1000);
         }
     }
