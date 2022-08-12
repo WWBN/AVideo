@@ -268,8 +268,10 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         if (!empty(application.expires)) {
             var expires_in_seconds = application.expires - _serverTime;
             var className = application.className;
+            console.log('hideWhenExpire', expires_in_seconds, className);
             setTimeout(function(){
                 $('.'+className).slideUp();
+                $('.onlineApplications').val($('.onlineApplications').val()-1);
             },expires_in_seconds);
         }
     }
