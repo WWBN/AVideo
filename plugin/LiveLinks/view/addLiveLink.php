@@ -25,7 +25,7 @@ if(!empty($_POST['start_date'])){
 }
 if(!empty($_POST['end_date'])){
     //$_POST['start_date'] = conver
-    $_POST['end_date'] = convertFromMyTimeTOMySQL($_POST['end_date']);
+    $_POST['end_date'] = convertFromMyTimeTODefaultTimezoneTime($_POST['end_date']);
 }
 
 $obj->start_date_new = $_POST['start_date'];
