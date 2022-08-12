@@ -5544,7 +5544,7 @@ if (!class_exists('Video')) {
                 if (empty($value)) {
                     continue;
                 }
-                $body .= "<span itemprop=\"{$key}\" content=" . printJSString($value, true) . "></span>";
+                $body .= "<span itemprop=\"{$key}\" content=\"" . $value . "\"></span>";
             }
             $body .= '</div>';
             $response = array();
