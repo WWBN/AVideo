@@ -8,6 +8,7 @@ $obj->error = true;
 $obj->msg = "";
 $obj->date = date('Y-m-d H:i:s');
 $obj->mysqlDate = ObjectYPT::getNowFromDB();
+$obj->convertedDate = ObjectYPT::clientTimezoneToDatabaseTimezone($obj->date);
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('LiveLinks');
 
