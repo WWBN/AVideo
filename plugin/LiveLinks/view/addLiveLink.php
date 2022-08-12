@@ -6,12 +6,18 @@ require_once $global['systemRootPath'] . 'plugin/LiveLinks/Objects/LiveLinksTabl
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
+$obj->date = date('Y-m-d H:i:s');
+$obj->mysqlDate = ObjectYPT::getNowFromDB();
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('LiveLinks');
 
 if(!$plugin->canAddLinks()){
     $obj->msg = "You cant add links";
     die(json_encode($obj));
+}
+
+if(!empty($_POST['start_date'])){
+    //$_POST['start_date'] = conver
 }
 
 $o = new LiveLinksTable(@$_POST['linkId']);
