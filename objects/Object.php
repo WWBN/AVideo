@@ -686,6 +686,7 @@ abstract class ObjectYPT implements ObjectInterface
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
         if(str_starts_with($filename, '/') || str_ends_with($filename, '/')){
             $addSubDirs = false;
+            $filename = trim($filename, '/');
         }
         $filename = self::cleanCacheName($filename);
         if (!empty($filename)) {
