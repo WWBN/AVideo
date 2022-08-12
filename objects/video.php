@@ -1638,9 +1638,13 @@ if (!class_exists('Video')) {
                 $suggestedOnly = true;
                 $status = '';
             }
-            $sql = "SELECT v.* "
-                    . " FROM videos as v "
-                    . " WHERE 1=1 ";
+            $sql = "SELECT v.* FROM videos as v ";
+            
+            if (!empty($_REQUEST['catName'])) {
+                $sql .= " LEFT JOIN categories c ON categories_id = c.id ";
+            }
+            
+            $sql .= " WHERE 1=1 ";
             $blockedUsers = self::getBlockedUsersIdsArray();
             if (!empty($blockedUsers)) {
                 $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
@@ -1667,6 +1671,10 @@ if (!class_exists('Video')) {
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND (v.users_id = '{$user['id']}' OR v.users_id_company = '{$user['id']}')";
+            }
+            if (!empty($_REQUEST['catName'])) {
+                $catName = ($_REQUEST['catName']);
+                $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
             }
             $sql .= AVideoPlugin::getVideoWhereClause();
 
