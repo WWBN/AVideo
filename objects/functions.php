@@ -1653,7 +1653,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
         _error_log("im_resize: Function does not exists: {$icfunc}");
         return false;
     }
-    if(!file_exists($file_src)){
+    if (!file_exists($file_src)) {
         return false;
     }
     $imgSize = getimagesize($file_src);
@@ -3268,11 +3268,11 @@ function siteMap() {
     ini_set('max_execution_time', 0);
     @session_write_close();
     global $global, $advancedCustom;
-    
+
     $totalCategories = 0;
     $totalChannels = 0;
     $totalVideos = 0;
-    
+
     $global['disableVideoTags'] = 1;
     $date = date('Y-m-d\TH:i:s') . "+00:00";
     $xml = '<?xml version="1.0" encoding="UTF-8"?>
@@ -3336,10 +3336,10 @@ function siteMap() {
             </url>
             ';
         }
-        $xml .= PHP_EOL.'<!-- Channels END total='.$totalChannels.' -->'.PHP_EOL;
+        $xml .= PHP_EOL . '<!-- Channels END total=' . $totalChannels . ' -->' . PHP_EOL;
         TimeLogEnd("siteMap getAllUsersThatHasVideos", __LINE__, 0.5);
         TimeLogStart("siteMap getAllCategories");
-        $xml .= PHP_EOL.'<!-- Categories -->'.PHP_EOL;
+        $xml .= PHP_EOL . '<!-- Categories -->' . PHP_EOL;
         $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
         $_POST['sort']['modified'] = "DESC";
         $rows = Category::getAllCategories();
@@ -3355,7 +3355,7 @@ function siteMap() {
             </url>
             ';
         }
-        $xml .= PHP_EOL.'<!-- Categories END total='.$totalCategories.' -->'.PHP_EOL;
+        $xml .= PHP_EOL . '<!-- Categories END total=' . $totalCategories . ' -->' . PHP_EOL;
         TimeLogEnd("siteMap getAllCategories", __LINE__, 0.5);
     }
 
@@ -3419,7 +3419,7 @@ function siteMap() {
             ';
     }
     TimeLogEnd("siteMap getAllVideos", __LINE__, 0.5);
-    $xml .= PHP_EOL.'<!-- Videos END total='.$totalVideos.' -->'.PHP_EOL;
+    $xml .= PHP_EOL . '<!-- Videos END total=' . $totalVideos . ' -->' . PHP_EOL;
     $xml .= '</urlset> ';
     _error_log("siteMap: done ");
     $newXML1 = preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $xml);
@@ -8463,27 +8463,33 @@ function convertFromMyTimeTOMySQL($date) {
 
 function convertFromMyTimeTODefaultTimezoneTime($date) {
     global $advancedCustom;
+    if (empty($advancedCustom)) {
+        $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+    }
     return convertDateFromToTimezone($date, date_default_timezone_get(), $advancedCustom->timeZone->value);
 }
 
 function convertFromDefaultTimezoneTimeToMyTimezone($date) {
     global $advancedCustom;
+    if (empty($advancedCustom)) {
+        $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+    }
     return convertDateFromToTimezone($date, $advancedCustom->timeZone->value, date_default_timezone_get());
 }
 
-function convertDateFromToTimezone($date, $fromTimezone, $toTimezone){
+function convertDateFromToTimezone($date, $fromTimezone, $toTimezone) {
     if (!preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $date)) {
-            return $date;
-        }
-        $currentTimezone = date_default_timezone_get();
-        date_default_timezone_set($fromTimezone);
-        $time = strtotime($date);
-        date_default_timezone_set($toTimezone);
+        return $date;
+    }
+    $currentTimezone = date_default_timezone_get();
+    date_default_timezone_set($fromTimezone);
+    $time = strtotime($date);
+    date_default_timezone_set($toTimezone);
 
-        $newDate = date('Y-m-d H:i:s', $time);
+    $newDate = date('Y-m-d H:i:s', $time);
 
-        date_default_timezone_set($currentTimezone);
-        return $newDate;
+    date_default_timezone_set($currentTimezone);
+    return $newDate;
 }
 
 function getTimestampFromTimezone($date, $fromTimezone) {
