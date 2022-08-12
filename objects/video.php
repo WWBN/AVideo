@@ -5544,7 +5544,7 @@ if (!class_exists('Video')) {
                 if (empty($value)) {
                     continue;
                 }
-                $body .= "<span itemprop=\"{$key}\" content=\"" . $value . "\"></span>";
+                $body .= "<span itemprop=\"{$key}\" content=\"" . str_replace('"', '', $value) . "\"></span>";
             }
             $body .= '</div>';
             $response = array();
