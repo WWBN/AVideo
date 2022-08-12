@@ -4,6 +4,10 @@ if ($t['id'] > 0) {
     $liveLink = LiveLinks::getSourceLink($t['id']);
     $liveLinkObj = new LiveLinksTable($t['id']);
     $endTime = strtotime(convertFromDefaultTimezoneTimeToMyTimezone($liveLinkObj->getEnd_date()));
+    $endInSeconds = $endTime - time();
+    if($endInSeconds<0){
+        forbiddenPage('Live Finished');
+    }
 } else {
     $liveLink = $t['link'];
 }
@@ -68,8 +72,7 @@ if (!empty($_REQUEST['embed'])) {
 } else {
     echo PlayerSkins::getMediaTag(false, $htmlMediaTag);
 }
-if (!empty($endTime)) {
-    $endInSeconds = $endTime - time();
+if (!empty($endInSeconds)) {
     ?>
     <script>
         $(document).ready(function () {
