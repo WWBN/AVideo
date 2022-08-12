@@ -8466,6 +8466,11 @@ function convertFromMyTimeTODefaultTimezoneTime($date) {
     return convertDateFromToTimezone($date, date_default_timezone_get(), $advancedCustom->timeZone->value);
 }
 
+function convertFromDefaultTimezoneTimeToMyTimezone($date) {
+    global $advancedCustom;
+    return convertDateFromToTimezone($date, $advancedCustom->timeZone->value, date_default_timezone_get());
+}
+
 function convertDateFromToTimezone($date, $fromTimezone, $toTimezone){
     if (!preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $date)) {
             return $date;
