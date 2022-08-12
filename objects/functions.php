@@ -8487,7 +8487,7 @@ function convertDateFromToTimezone($date, $fromTimezone, $toTimezone) {
         _error_log("convertDateFromToTimezone ERROR ($date, $fromTimezone, $toTimezone)");
         return $date;
     }
-    _error_log("convertDateFromToTimezone($date, $fromTimezone, $toTimezone)");
+    //_error_log("convertDateFromToTimezone($date, $fromTimezone, $toTimezone)");
     $currentTimezone = date_default_timezone_get();
     date_default_timezone_set($fromTimezone);
     $time = strtotime($date);
