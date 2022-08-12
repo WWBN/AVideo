@@ -8479,6 +8479,7 @@ function convertFromDefaultTimezoneTimeToMyTimezone($date) {
 
 function convertDateFromToTimezone($date, $fromTimezone, $toTimezone) {
     if (!preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/', $date)) {
+        _error_log("convertDateFromToTimezone ERROR ($date, $fromTimezone, $toTimezone)");
         return $date;
     }
     _error_log("convertDateFromToTimezone($date, $fromTimezone, $toTimezone)");
