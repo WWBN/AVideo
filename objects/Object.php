@@ -684,9 +684,12 @@ abstract class ObjectYPT implements ObjectInterface
         $tmpDir = getTmpDir();
         $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
         $tmpDir .= "YPTObjectCache" . DIRECTORY_SEPARATOR;
-
+        $addSubDirs = true;
+        if(str_starts_with($filename, '/') || str_ends_with($filename, '/')){
+            $addSubDirs = false;
+        }
         $filename = self::cleanCacheName($filename);
-        if (!empty($filename) && !str_starts_with($filename, '/') && !str_ends_with($filename, '/')) {
+        if (!empty($filename) && $addSubDirs) {
             $tmpDir .= $filename . DIRECTORY_SEPARATOR;
 
             $domain = getDomain();
