@@ -153,9 +153,8 @@ class LiveLinks extends PluginAbstract {
             $row['liveLinks_id'] = $value['id'];
             $row['start_date'] = $value['start_date'];
             $row['end_date'] = $value['end_date'];
-            if(!empty($value['end_date'])){
-                $row['expires'] = strtotime(convertFromDefaultTimezoneTimeToMyTimezone($value['end_date']));
-            }
+            $row['end_date_my_timezone'] = convertFromDefaultTimezoneTimeToMyTimezone($value['end_date']);
+            $row['expires'] = strtotime($row['end_date_my_timezone']);
             $array[] = $row;
             
         }
