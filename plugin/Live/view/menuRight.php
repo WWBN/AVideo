@@ -266,7 +266,8 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     var hideWhenExpireClasses = [];
     function hideWhenExpire(application){
         var className = application.className;
-        if (!empty(application.expires) && !in_array(className, hideWhenExpireClasses)) {
+        // 604.800 = 1 WEEK
+        if (!empty(application.expires) && application.expires < 604800 && !in_array(className, hideWhenExpireClasses)) {
             var expires_in_seconds = application.expires - _serverTime;
             console.log('hideWhenExpire', expires_in_seconds, className);
             hideWhenExpireClasses.push(className);
