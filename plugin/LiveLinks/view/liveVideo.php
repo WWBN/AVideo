@@ -75,7 +75,7 @@ if (!empty($_REQUEST['embed'])) {
 } else {
     echo PlayerSkins::getMediaTag(false, $htmlMediaTag);
 }
-if (!empty($endInSeconds)) {
+if (!empty($endInSeconds) && $endInSeconds < 604800) { //1 week
     ?>
     <script>
         $(document).ready(function () {
