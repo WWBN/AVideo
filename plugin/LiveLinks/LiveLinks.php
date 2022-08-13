@@ -151,7 +151,11 @@ class LiveLinks extends PluginAbstract {
                     convertFromDefaultTimezoneTimeToMyTimezone($value['start_date']));
             $row['categories_id'] = $value['categories_id'];
             $row['liveLinks_id'] = $value['id'];
-            $row['expires'] = strtotime(convertFromDefaultTimezoneTimeToMyTimezone($value['end_date']));
+            $row['start_date'] = $value['start_date'];
+            $row['end_date'] = $value['end_date'];
+            if(!empty($value['end_date'])){
+                $row['expires'] = strtotime(convertFromDefaultTimezoneTimeToMyTimezone($value['end_date']));
+            }
             $array[] = $row;
             
         }
