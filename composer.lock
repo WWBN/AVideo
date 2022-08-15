@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e173dcdd0498b17c759ff02e242d2b0",
+    "content-hash": "727a796a171b460f46c5b8ce390fdb0c",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -208,16 +208,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.231.17",
+            "version": "3.233.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d377e1b62b40a4d9e5d9c9387db7c539f28cb6df"
+                "reference": "1eeac24f921f146b7cef5beb61375d7852df7cf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d377e1b62b40a4d9e5d9c9387db7c539f28cb6df",
-                "reference": "d377e1b62b40a4d9e5d9c9387db7c539f28cb6df",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/1eeac24f921f146b7cef5beb61375d7852df7cf8",
+                "reference": "1eeac24f921f146b7cef5beb61375d7852df7cf8",
                 "shasum": ""
             },
             "require": {
@@ -294,9 +294,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.231.17"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.233.1"
             },
-            "time": "2022-07-29T18:17:57+00:00"
+            "time": "2022-08-12T18:18:34+00:00"
         },
         {
             "name": "cboden/ratchet",
@@ -864,16 +864,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.260.0",
+            "version": "v0.262.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "8c519ddfd2458fda02dc10d10b142973e578516a"
+                "reference": "c2e1408ba2b9e31df2d1c0b136f3247e8818874d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/8c519ddfd2458fda02dc10d10b142973e578516a",
-                "reference": "8c519ddfd2458fda02dc10d10b142973e578516a",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/c2e1408ba2b9e31df2d1c0b136f3247e8818874d",
+                "reference": "c2e1408ba2b9e31df2d1c0b136f3247e8818874d",
                 "shasum": ""
             },
             "require": {
@@ -902,9 +902,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.260.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.262.0"
             },
-            "time": "2022-07-31T00:58:12+00:00"
+            "time": "2022-08-14T01:06:11+00:00"
         },
         {
             "name": "google/auth",
@@ -3401,16 +3401,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v8.12.0",
+            "version": "v9.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "1b7b1ea75c744b8a9f55a0942112f8e822a6a482"
+                "reference": "5dd4a247b56e5006ffe877e3749eb800d936dd19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/1b7b1ea75c744b8a9f55a0942112f8e822a6a482",
-                "reference": "1b7b1ea75c744b8a9f55a0942112f8e822a6a482",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/5dd4a247b56e5006ffe877e3749eb800d936dd19",
+                "reference": "5dd4a247b56e5006ffe877e3749eb800d936dd19",
                 "shasum": ""
             },
             "require": {
@@ -3455,9 +3455,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v8.12.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v9.1.0"
             },
-            "time": "2022-07-25T14:42:34+00:00"
+            "time": "2022-08-11T21:31:43+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
