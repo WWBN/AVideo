@@ -441,6 +441,7 @@ class API extends PluginAbstract {
         }
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;
+        //var_dump($obj->rows );exit;
         ObjectYPT::setCache($cacheName, $obj);
         return new ApiObject("", false, $obj);
     }
