@@ -17,7 +17,7 @@
         <div class="form-group <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'share', 0.1); ?>">
             <label for="embedStream"><i class="fa fa-code"></i> <?php echo __("Embed Stream"); ?>:</label>
             <?php
-            getInputCopyToClipboard('embedStream', '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $liveStreamObject->getURLEmbed() . '" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>');
+            getInputCopyToClipboard('embedStream', '<iframe width="640" height="480" style="max-width: 100%;max-height: 100%;" src="' . $liveStreamObject->getURLEmbed() . '" frameborder="0" '.Video::$iframeAllowAttributes.' ></iframe>');
             ?>
         </div>
     </div>

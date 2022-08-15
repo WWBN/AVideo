@@ -41,7 +41,7 @@ if (isValidM3U8Link($liveLink)) {
         $htmlMediaTag = "<!-- Embed liveLink {$liveLink} -->";
         $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
         $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
-        $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="' . $url . '"></iframe>';
+        $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
         $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
         $htmlMediaTag .= '</div>';
     } else {
@@ -58,14 +58,6 @@ if (isValidM3U8Link($liveLink)) {
         $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
         $htmlMediaTag .= '<script>var player;$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
     }
-
-    /*
-      $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
-      $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
-      $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" allowfullscreen="true" src="' . $url . '"></iframe>';
-      $htmlMediaTag .= '</div>';
-     * 
-     */
 }
 
 
