@@ -39,6 +39,11 @@ if (empty($advancedCustom)) {
     }
     ?>
 </footer>
+<?php
+if(isBot()){
+    return false;
+}
+?>
 <script>
     $(function () {
 <?php
