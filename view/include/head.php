@@ -94,7 +94,7 @@ if(!empty($head_videos_id)){
 include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
 if (empty($advancedCustom->disableAnimations)) {
     ?>
-    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet"  type="text/css" />
+    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet"  type="text/css"  media="print" onload="this.media='all'"/>
     <?php
 }
 ?>
