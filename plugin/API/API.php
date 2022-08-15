@@ -336,7 +336,7 @@ class API extends PluginAbstract {
             $totalRows = Video::getTotalVideos();
         }
 
-        if (!empty($_REQUEST['catName'])) {
+        if (!empty($_REQUEST['catName']) && empty($parameters['videos_id'])) {
             $currentCat = Category::getCategoryByName($_REQUEST['catName']);
             if (!empty($currentCat)) {
                 $liveVideos = getLiveVideosFromCategory($currentCat['id']);
