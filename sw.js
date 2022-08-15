@@ -37,6 +37,7 @@ const precahedFiles = [
     webSiteRootURL + 'node_modules/jquery-lazy/jquery.lazy.plugins.min.js',
     webSiteRootURL + 'node_modules/moment/moment.js',
     webSiteRootURL + 'view/js/script.js',
+    webSiteRootURL + 'node_modules/jquery-ui-dist/jquery-ui.min.css',
     webSiteRootURL + 'node_modules/jquery-ui-dist/jquery-ui.min.js',
     webSiteRootURL + 'view/bootstrap/js/bootstrap.min.js',
     webSiteRootURL + 'node_modules/sweetalert/dist/sweetalert.min.js',
