@@ -318,7 +318,7 @@ class LiveTransmitionHistory extends ObjectYPT {
             $sql .= " AND (users_id = $users_id OR users_id_company = $users_id)  ";
         }
         if(!empty($onlyActive)){
-            $sql .= " AND (finished IS NULL OR finished = '') ";
+            $sql .= " AND (finished IS NULL) ";
         }
         
         if($onlyWithViewers){
