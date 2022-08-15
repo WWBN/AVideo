@@ -406,6 +406,10 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         error_log("Restreamer.json.php startRestream ERROR empty restreamsDestinations");
         return false;
     }
+    
+    $m3u8 = addQueryStringParameter($m3u8, 'live_restreams_id', $robj->live_restreams_id);
+    $m3u8 = addQueryStringParameter($m3u8, 'liveTransmitionHistory_id', $robj->liveTransmitionHistory_id);
+    
     $m3u8 = clearCommandURL($m3u8);
 
     if ($tries === 1) {
@@ -498,19 +502,18 @@ function getProcess($robj) {
     $liveTransmitionHistory_id = intval($robj->liveTransmitionHistory_id);
     $live_restreams_id = intval($robj->live_restreams_id);
 
-    $pregPart1 = $pregPart2 = '[0-9]+';
     if (!empty($live_restreams_id)) {
-        $pregPart1 = $live_restreams_id;
+        $m3u8 .= ".*live_restreams_id={$live_restreams_id}";
     }
     if (!empty($liveTransmitionHistory_id)) {
-        $pregPart2 = $liveTransmitionHistory_id;
+        $m3u8 .= ".*liveTransmitionHistory_id={$liveTransmitionHistory_id}";
     }
 
     global $ffmpegBinary;
     exec("ps -ax 2>&1", $output, $return_var);
     //error_log("Restreamer.json.php:getProcess ". json_encode($output)); 	ffmpeg_restreamer_1_2022-08-15-07-33-52_18_27_.log
     foreach ($output as $value) {
-        $pattern = "/^([0-9]+).*" . replaceSlashesForPregMatch($ffmpegBinary) . ".*" . replaceSlashesForPregMatch($m3u8) . ".*ffmpeg_restreamer_.*_{$pregPart1}_{$pregPart2}_.log.*/i";
+        $pattern = "/^([0-9]+).*" . replaceSlashesForPregMatch($ffmpegBinary) . ".*" . replaceSlashesForPregMatch($m3u8) . "/i";
         //error_log("Restreamer.json.php:getProcess {$pattern}");
         if (preg_match($pattern, trim($value), $matches)) {
             return $matches;
