@@ -407,8 +407,8 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         return false;
     }
     
-    $m3u8 = addQueryStringParameter($m3u8, 'live_restreams_id', $robj->live_restreams_id);
-    $m3u8 = addQueryStringParameter($m3u8, 'liveTransmitionHistory_id', $robj->liveTransmitionHistory_id);
+    $m3u8 = _addQueryStringParameter($m3u8, 'live_restreams_id', $robj->live_restreams_id);
+    $m3u8 = _addQueryStringParameter($m3u8, 'liveTransmitionHistory_id', $robj->liveTransmitionHistory_id);
     
     $m3u8 = clearCommandURL($m3u8);
 
@@ -558,4 +558,30 @@ function _object_to_array($obj) {
     else {
         return $obj;
     }
+}
+function _addQueryStringParameter($url, $varname, $value) {
+    $parsedUrl = parse_url($url);
+    if (empty($parsedUrl['host'])) {
+        return "";
+    }
+    $query = [];
+
+    if (isset($parsedUrl['query'])) {
+        parse_str($parsedUrl['query'], $query);
+    }
+    $query[$varname] = $value;
+    $path = $parsedUrl['path'] ?? '';
+    $query = !empty($query) ? '?' . http_build_query($query) : '';
+
+    $port = '';
+    if (!empty($parsedUrl['port']) && $parsedUrl['port'] != '80') {
+        $port = ":{$parsedUrl['port']}";
+    }
+
+    if (empty($parsedUrl['scheme'])) {
+        $scheme = '';
+    } else {
+        $scheme = "{$parsedUrl['scheme']}:";
+    }
+    return $scheme . '//' . $parsedUrl['host'] . $port . $path . $query;
 }
