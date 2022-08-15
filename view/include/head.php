@@ -89,8 +89,20 @@ if(!empty($head_videos_id)){
 <link rel="icon" type="image/png" href="<?php echo $config->getFavicon(true); ?>">
 <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
 <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
-<link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media='all'"/>
+
+<link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
 <?php
+if(!isBot()){
+?>
+<link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css'); ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media='all'"/>
+<link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media='all'"/>
+<?php
+}
 include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
 if (empty($advancedCustom->disableAnimations)) {
     ?>
@@ -98,13 +110,6 @@ if (empty($advancedCustom->disableAnimations)) {
     <?php
 }
 ?>
-<link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media='all'"/>
-<link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo getURL('view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css'); ?>" rel="stylesheet" type="text/css"/>
 <?php
 $cssFiles = [];
 //$cssFiles[] = "view/js/seetalert/sweetalert.css";
