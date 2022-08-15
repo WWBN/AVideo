@@ -477,7 +477,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     }
 
     $(document).ready(function () {
-        if (!avideoSocketIsActive()) {
+        if (typeof avideoSocketIsActive == 'function' && !avideoSocketIsActive()) {
             availableLiveStreamIsLoading();
             getStatsMenu(true);
         }
