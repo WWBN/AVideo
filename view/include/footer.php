@@ -46,10 +46,9 @@ showAlertMessage();
 ?>
     });
 </script>
-
 <script src="<?php echo getURL('node_modules/jquery-lazy/jquery.lazy.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/jquery-lazy/jquery.lazy.plugins.min.js'); ?>" type="text/javascript"></script>
-<script src="<?php echo getURL('node_modules/moment/moment.js'); ?>"></script>
+<script src="<?php echo getURL('node_modules/moment/min/moment.min.js'); ?>"></script>
 <?php echo getTagIfExists('node_modules/moment/locale/'. getLanguage().'.js'); ?>
 <script src="<?php echo getURL('node_modules/moment-timezone/builds/moment-timezone-with-data.min.js'); ?>"></script>
 <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
