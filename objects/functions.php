@@ -2709,13 +2709,26 @@ function thereIsAnyRemoteUpdate() {
 }
 
 function UTF8encode($data) {
+    if(emptyHTML($data)){
+        return $data;
+    }
     global $advancedCustom, $global;
 
     if (!empty($advancedCustom->utf8Encode)) {
-        return utf8_encode($data);
+        $newData = utf8_encode($data);
+        if(!empty($newData)){
+            return $newData;
+        }else{
+            return $data;
+        }
     }
     if (!empty($advancedCustom->utf8Decode)) {
-        return utf8_decode($data);
+        $newData = utf8_decode($data);
+        if(!empty($newData)){
+            return $newData;
+        }else{
+            return $data;
+        }
     }
     return $data;
 }
