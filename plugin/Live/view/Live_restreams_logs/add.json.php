@@ -37,13 +37,16 @@ if(!User::isAdmin()){
     }
 }
 
+_error_log('add.json.php restream log POST '.json_encode($_POST));
+_error_log('add.json.php restream log token '.json_encode($token));
+
 $o = new Live_restreams_logs(@$_POST['id']);
 $o->setRestreamer($_POST['restreamerURL']);
 $o->setM3u8($_POST['m3u8']);
-$o->setDestinations(json_encode($_POST['restreamsDestinations']));
 $o->setLogFile($_POST['logFile']);
-$o->setUsers_id($token->users_id);
 $o->setJson(json_encode($_POST));
+$o->setLive_transmitions_history_id($token->liveTransmitionHistory_id);
+$o->setLive_restreams_id($_POST['live_restreams_id']);
 
 if($id = $o->save()){
     $obj->error = false;

@@ -24,23 +24,33 @@ if (!User::isAdmin()) {
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <!--
                                     <th><?php echo __("Restreamer"); ?></th>
                                     <th><?php echo __("M3u8"); ?></th>
-                                    <th><?php echo __("Destinations"); ?></th>
+                                    -->
                                     <th><?php echo __("LogFile"); ?></th>
+                                    <th><?php echo __("live_transmitions_history_id"); ?></th>
+                                    <th><?php echo __("live_restreams_id"); ?></th>
+                                    <!--
                                     <th><?php echo __("Json"); ?></th>
-                                    <th><?php echo __("users_id"); ?></th>
+                                    -->
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
                                     <th>#</th>
+                                    <!--
                                     <th><?php echo __("Restreamer"); ?></th>
                                     <th><?php echo __("M3u8"); ?></th>
-                                    <th><?php echo __("Destinations"); ?></th>
+                                    -->
                                     <th><?php echo __("LogFile"); ?></th>
+                                    <th><?php echo __("live_transmitions_history_id"); ?></th>
+                                    <th><?php echo __("live_restreams_id"); ?></th>
+                                    <!--
                                     <th><?php echo __("Json"); ?></th>
-                                    <th><?php echo __("users_id"); ?></th>
+                                    -->
+                                    <th></th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -52,9 +62,6 @@ if (!User::isAdmin()) {
 </div>
 <div id="Live_restreams_logsbtnModelLinks" style="display: none;">
     <div class="btn-group pull-right">
-        <button href="" class="edit_Live_restreams_logs btn btn-default btn-xs">
-            <i class="fa fa-edit"></i>
-        </button>
         <button href="" class="delete_Live_restreams_logs btn btn-danger btn-xs">
             <i class="fa fa-trash"></i>
         </button>
@@ -65,17 +72,60 @@ if (!User::isAdmin()) {
     $(document).ready(function () {
         var Live_restreams_logstableVar = $('#Live_restreams_logsTable').DataTable({
             serverSide: true,
-            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams_logs/list.json.php",
+            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Live/View/Live_restreams_logs/list.json.php",
             "columns": [
                 {"data": "id"},
-                {"data": "restreamer"},
-                {"data": "m3u8"},
-                {"data": "destinations"},
-                {"data": "logFile"},
-                {"data": "json"},
-                {"data": "users_id"}
+                //{"data": "restreamer"},
+                //{"data": "m3u8"},
+                {
+                    "data": "logFile",
+                    render: function (data, type, row) {
+                        var url = webSiteRootURL+'plugin/Live/standAloneFiles/restreamer.json.php';
+                        url = addQueryStringParameter(url, 'logFile', row.logFile);
+                        return '<a href="' + url + '" target="_blank">' + data + '</a>';
+                    }
+                },
+                {"data": "live_transmitions_history_id"},
+                {"data": "live_restreams_id"},
+                //{"data": "json"},
+                {
+                    sortable: false,
+                    data: null,
+                    defaultContent: $('#Live_restreams_logsbtnModelLinks').html()
+                }
             ],
             select: true,
+        });
+        $('#Live_restreams_logsTable').on('click', 'button.delete_Live_restreams_logs', function (e) {
+            e.preventDefault();
+            var tr = $(this).closest('tr')[0];
+            var data = Live_restreams_logstableVar.row(tr).data();
+            swal({
+                title: "<?php echo __("Are you sure?"); ?>",
+                text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                    .then(function (willDelete) {
+                        if (willDelete) {
+                            modal.showPleaseWait();
+                            $.ajax({
+                                type: "POST",
+                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/View/Live_restreams_logs/delete.json.php",
+                                data: data
+
+                            }).done(function (resposta) {
+                                if (resposta.error) {
+                                    avideoAlertError(resposta.msg);
+                                }
+                                Live_restreams_logstableVar.ajax.reload();
+                                modal.hidePleaseWait();
+                            });
+                        } else {
+
+                        }
+                    });
         });
     });
 </script>

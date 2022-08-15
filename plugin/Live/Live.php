@@ -65,7 +65,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "11.0";
+        return "11.1";
     }
 
     public function updateScript() {
@@ -205,8 +205,8 @@ class Live extends PluginAbstract {
             }
             LiveTransmitionHistory::finishALL();
         }
-        if (AVideoPlugin::compareVersion($this->getName(), "11.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV11.0.sql');
+        if (AVideoPlugin::compareVersion($this->getName(), "11.1") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV11.1.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
@@ -2901,9 +2901,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return self::sendRestream($obj);
     }
 
-    public static function restream($liveTransmitionHistory_id) {
-        outputAndContinueInBackground();
+    public static function restream($liveTransmitionHistory_id, $test=false) {
+        if(empty($test)){
+            outputAndContinueInBackground();
+        }
         $obj = self::getRestreamObject($liveTransmitionHistory_id);
+        if($test){
+            $obj->test = 1;
+        }
         return self::sendRestream($obj);
     }
 
@@ -2916,7 +2921,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
             set_time_limit(30);
             
-            $obj->responseToken = encryptString(array('users_id'=>$obj->users_id,'time'=>time()));
+            $obj->responseToken = encryptString(array('users_id'=>$obj->users_id,'time'=>time(), 'liveTransmitionHistory_id'=>$obj->liveTransmitionHistory_id));
             
             $data_string = json_encode($obj);
             _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
@@ -2948,7 +2953,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $info = curl_getinfo($ch);
             $output = curl_exec($ch);
             curl_close($ch);
-            _error_log('Live:sendRestream complete ' . json_encode(array($info, $output)));
+            _error_log('Live:sendRestream complete ' . json_encode(array($output)));
             return true;
         } catch (Exception $exc) {
             _error_log("Live:sendRestream " . $exc->getTraceAsString());

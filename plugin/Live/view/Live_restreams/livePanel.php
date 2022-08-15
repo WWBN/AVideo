@@ -19,7 +19,7 @@ if (!Live::canRestream()) {
                 <form id="panelLive_restreamsForm">
                     <div class="row">
                         <input type="hidden" name="id" id="Live_restreamsid" value="" >
-                        
+
                         <div class="form-group col-sm-6">
                             <label for="Live_restreamsname"><?php echo __("Name"); ?>:</label>
                             <input type="text" id="Live_restreamsname" name="name" class="form-control input-sm" placeholder="<?php echo __("Name"); ?>" required="true">
@@ -79,10 +79,18 @@ if (!Live::canRestream()) {
     </div>
     <div class="panel-footer">
         <?php
-        if(!empty($global['developer_mode']) || (!empty($global['developer_mode_admin_only']) && User::isAdmin())){
-            include $global['systemRootPath'].'plugin/Live/view/Live_restreams/getLiveKey.php';
+        if (!empty($global['developer_mode']) || (!empty($global['developer_mode_admin_only']) && User::isAdmin())) {
+            include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/getLiveKey.php';
         }
         ?>
+        <button type="button" class="btn btn-info pull-right" onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/view/Live_restreams_logs/');">
+            <i class="fas fa-check"></i>
+            Restreamer Logs
+        </button>
+        <button type="button" class="btn btn-primary pull-right" onclick="testRestreamer();">
+            <i class="fas fa-check"></i>
+            Test Restreamer
+        </button>
     </div>
 </div>
 <div id="Live_restreamsbtnModelLinks" style="display: none;">
@@ -97,130 +105,142 @@ if (!Live::canRestream()) {
 </div>
 <script type="text/javascript" src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>"></script>
 <script type="text/javascript">
-    function clearLive_restreamsForm() {
-        $('#Live_restreamsid').val('');
-        $('#Live_restreamsname').val('');
-        $('#Live_restreamsstream_url').val('');
-        $('#Live_restreamsstream_key').val('');
-        $('#Live_restreamsstatus').val('');
-        $('#Live_restreamsparameters').val('');
-        $('#Live_restreamsusers_id').val('');
-    }
-    $(document).ready(function () {
-        $('#addLive_restreamsBtn').click(function () {
-            $.ajax({
-                url: webSiteRootURL + 'plugin/Live/view/addLive_restreamsVideo.php',
-                data: $('#panelLive_restreamsForm').serialize(),
-                type: 'post',
-                success: function (response) {
-                    if (response.error) {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                    } else {
-                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
-                        $("#panelLive_restreamsForm").trigger("reset");
+
+            function testRestreamer() {
+                modal.showPleaseWait();
+                $.ajax({
+                    url: webSiteRootURL + 'plugin/Live/testRestreamer.json.php',
+                    success: function (response) {
+                        avideoResponse(response);
+                        modal.hidePleaseWait();
                     }
-                    clearLive_restreamsForm();
-                    tableVideos.ajax.reload();
-                    modal.hidePleaseWait();
-                }
-            });
-        });
-        var Live_restreamstableVar = $('#Live_restreamsTable').DataTable({
-            "ajax": webSiteRootURL + "plugin/Live/view/Live_restreams/list.json.php?users_id=<?php echo User::getId(); ?>",
-            "columns": [
-                {"data": "id"},
-                {
-                    "data": "name", 
-                    render: function (data, type, row) {
-                        //console.log('Live_restreamstableVar row', row.parameters);
-                        if(!empty(row.parameters)){
-                            var json = JSON.parse(row.parameters);
-                            //console.log('Live_restreamstableVar parameters', json);
-                            if(!empty(json['restream.ypt.me'])){
-                                return '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/getLiveKey.json.php?live_restreams_id='+row.id+'" target="_blank">'+data+'</a>';
+                });
+            }
+
+            function clearLive_restreamsForm() {
+                $('#Live_restreamsid').val('');
+                $('#Live_restreamsname').val('');
+                $('#Live_restreamsstream_url').val('');
+                $('#Live_restreamsstream_key').val('');
+                $('#Live_restreamsstatus').val('');
+                $('#Live_restreamsparameters').val('');
+                $('#Live_restreamsusers_id').val('');
+            }
+            $(document).ready(function () {
+                $('#addLive_restreamsBtn').click(function () {
+                    $.ajax({
+                        url: webSiteRootURL + 'plugin/Live/view/addLive_restreamsVideo.php',
+                        data: $('#panelLive_restreamsForm').serialize(),
+                        type: 'post',
+                        success: function (response) {
+                            if (response.error) {
+                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                            } else {
+                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                                $("#panelLive_restreamsForm").trigger("reset");
                             }
-
-                        }
-                        return data;
-                    } 
-                },
-                {"data": "status"},
-                {"data": "stream_key_short"},
-                {
-                    sortable: false,
-                    data: null,
-                    defaultContent: $('#Live_restreamsbtnModelLinks').html()
-                }
-            ],
-            select: true,
-        });
-        $('#newLive_restreams').on('click', function (e) {
-            e.preventDefault();
-            $('#panelLive_restreamsForm').trigger("reset");
-            $('#Live_restreamsid').val('');
-        });
-        $('#panelLive_restreamsForm').on('submit', function (e) {
-            e.preventDefault();
-            modal.showPleaseWait();
-            $.ajax({
-                url: webSiteRootURL + 'plugin/Live/view/Live_restreams/add.json.php',
-                data: $('#panelLive_restreamsForm').serialize(),
-                type: 'post',
-                success: function (response) {
-                    if (response.error) {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                    } else {
-                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
-                        $("#panelLive_restreamsForm").trigger("reset");
-                    }
-                    Live_restreamstableVar.ajax.reload();
-                    $('#Live_restreamsid').val('');
-                    modal.hidePleaseWait();
-                }
-            });
-        });
-        $('#Live_restreamsTable').on('click', 'button.delete_Live_restreams', function (e) {
-            e.preventDefault();
-            var tr = $(this).closest('tr')[0];
-            var data = Live_restreamstableVar.row(tr).data();
-            swal({
-                title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                    .then(function (willDelete) {
-                        if (willDelete) {
-                            modal.showPleaseWait();
-                            $.ajax({
-                                type: "POST",
-                                url: webSiteRootURL + "plugin/Live/view/Live_restreams/delete.json.php",
-                                data: data
-
-                            }).done(function (resposta) {
-                                if (resposta.error) {
-                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
-                                }
-                                Live_restreamstableVar.ajax.reload();
-                                modal.hidePleaseWait();
-                            });
-                        } else {
-
+                            clearLive_restreamsForm();
+                            tableVideos.ajax.reload();
+                            modal.hidePleaseWait();
                         }
                     });
-        });
-        $('#Live_restreamsTable').on('click', 'button.edit_Live_restreams', function (e) {
-            e.preventDefault();
-            var tr = $(this).closest('tr')[0];
-            var data = Live_restreamstableVar.row(tr).data();
-            $('#Live_restreamsid').val(data.id);
-            $('#Live_restreamsname').val(data.name);
-            $('#Live_restreamsstream_url').val(data.stream_url);
-            $('#Live_restreamsstream_key').val(data.stream_key);
-            $('#Live_restreamsstatus').val(data.status);
-            $('#Live_restreamsparameters').val(data.parameters);
-            $('#Live_restreamsusers_id').val(data.users_id);
-        });
-    });
+                });
+                var Live_restreamstableVar = $('#Live_restreamsTable').DataTable({
+                    "ajax": webSiteRootURL + "plugin/Live/view/Live_restreams/list.json.php?users_id=<?php echo User::getId(); ?>",
+                    "columns": [
+                        {"data": "id"},
+                        {
+                            "data": "name",
+                            render: function (data, type, row) {
+                                //console.log('Live_restreamstableVar row', row.parameters);
+                                if (!empty(row.parameters)) {
+                                    var json = JSON.parse(row.parameters);
+                                    //console.log('Live_restreamstableVar parameters', json);
+                                    if (!empty(json['restream.ypt.me'])) {
+                                        return '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/getLiveKey.json.php?live_restreams_id=' + row.id + '" target="_blank">' + data + '</a>';
+                                    }
+
+                                }
+                                return data;
+                            }
+                        },
+                        {"data": "status"},
+                        {"data": "stream_key_short"},
+                        {
+                            sortable: false,
+                            data: null,
+                            defaultContent: $('#Live_restreamsbtnModelLinks').html()
+                        }
+                    ],
+                    select: true,
+                });
+                $('#newLive_restreams').on('click', function (e) {
+                    e.preventDefault();
+                    $('#panelLive_restreamsForm').trigger("reset");
+                    $('#Live_restreamsid').val('');
+                });
+                $('#panelLive_restreamsForm').on('submit', function (e) {
+                    e.preventDefault();
+                    modal.showPleaseWait();
+                    $.ajax({
+                        url: webSiteRootURL + 'plugin/Live/view/Live_restreams/add.json.php',
+                        data: $('#panelLive_restreamsForm').serialize(),
+                        type: 'post',
+                        success: function (response) {
+                            if (response.error) {
+                                avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                            } else {
+                                avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                                $("#panelLive_restreamsForm").trigger("reset");
+                            }
+                            Live_restreamstableVar.ajax.reload();
+                            $('#Live_restreamsid').val('');
+                            modal.hidePleaseWait();
+                        }
+                    });
+                });
+                $('#Live_restreamsTable').on('click', 'button.delete_Live_restreams', function (e) {
+                    e.preventDefault();
+                    var tr = $(this).closest('tr')[0];
+                    var data = Live_restreamstableVar.row(tr).data();
+                    swal({
+                        title: "<?php echo __("Are you sure?"); ?>",
+                        text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                            .then(function (willDelete) {
+                                if (willDelete) {
+                                    modal.showPleaseWait();
+                                    $.ajax({
+                                        type: "POST",
+                                        url: webSiteRootURL + "plugin/Live/view/Live_restreams/delete.json.php",
+                                        data: data
+
+                                    }).done(function (resposta) {
+                                        if (resposta.error) {
+                                            avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                                        }
+                                        Live_restreamstableVar.ajax.reload();
+                                        modal.hidePleaseWait();
+                                    });
+                                } else {
+
+                                }
+                            });
+                });
+                $('#Live_restreamsTable').on('click', 'button.edit_Live_restreams', function (e) {
+                    e.preventDefault();
+                    var tr = $(this).closest('tr')[0];
+                    var data = Live_restreamstableVar.row(tr).data();
+                    $('#Live_restreamsid').val(data.id);
+                    $('#Live_restreamsname').val(data.name);
+                    $('#Live_restreamsstream_url').val(data.stream_url);
+                    $('#Live_restreamsstream_key').val(data.stream_key);
+                    $('#Live_restreamsstatus').val(data.status);
+                    $('#Live_restreamsparameters').val(data.parameters);
+                    $('#Live_restreamsusers_id').val(data.users_id);
+                });
+            });
 </script>

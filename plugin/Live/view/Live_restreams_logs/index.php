@@ -1,7 +1,7 @@
 <?php
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
-    require_once '../../videos/configuration.php';
+    require_once '../../../../videos/configuration.php';
 }
 if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
@@ -15,13 +15,13 @@ if (!User::isAdmin()) {
         <title><?php echo $config->getWebSiteTitle(); ?>  :: Live</title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
-        include $global['systemRootPath'] . 'plugin/Live/view/{$classname}/index_head.php';
+        include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams_logs/index_head.php';
         ?>
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
-        include $global['systemRootPath'] . 'plugin/Live/view/{$classname}/index_body.php';
+        include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams_logs/index_body.php';
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
