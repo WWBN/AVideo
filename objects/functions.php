@@ -9264,3 +9264,8 @@ function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type) {
     }
     return $downloadOptions;
 }
+
+function isOnDeveloperMode(){
+    global $global;
+    return (!empty($global['developer_mode']) || (!empty($global['developer_mode_admin_only']) && User::isAdmin()));
+}
