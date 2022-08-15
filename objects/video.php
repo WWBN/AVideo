@@ -5231,7 +5231,7 @@ if (!class_exists('Video')) {
             return $btnHTML;
         }
 
-        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false) {
+        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false, $preloadImage=false) {
             if (empty($videos_id)) {
                 return '';
             }
@@ -5247,7 +5247,7 @@ if (!class_exists('Video')) {
                 $images = object_to_array($video['images']);
             }
             //var_dump($videos_id, $video, $images);
-            $img = getVideoImagewithHoverAnimation($images['poster'], $images['thumbsGif'], $video['title']);
+            $img = getVideoImagewithHoverAnimation($images['poster'], $images['thumbsGif'], $video['title'], $preloadImage);
             $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
             $isserie = Video::isSerie($videos_id);
             $isserieClass = "";

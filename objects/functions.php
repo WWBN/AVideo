@@ -2421,7 +2421,7 @@ function getTagIfExists($relativePath) {
     }
 }
 
-function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false) {
+function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false, $preloadImage=false) {
     global $global;
     $relativePathOriginal = $relativePath;
     $relativePath = getRelativePath($relativePath);
@@ -2450,7 +2450,7 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
     }
     $title = safeString($title);
     $img = "<img style=\"{$style}\" alt=\"{$title}\" title=\"{$title}\" id=\"{$id}\" class=\"{$class}\" {$wh} ";
-    if ($lazyLoad) {
+    if (empty($preloadImage) && $lazyLoad) {
         if (is_string($lazyLoad)) {
             $loading = getURL($lazyLoad);
         } else {
@@ -2461,7 +2461,9 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
         $img .= " src=\"{$url}\" ";
     }
     $img .= "/>";
-
+    if($preloadImage){
+        $img = "<link rel=\"prefetch\" href=\"{$url}\" />".$img;
+    }
     return $img;
 }
 
@@ -2481,9 +2483,10 @@ function createWebPIfNotExists($path) {
     return $nextGenPath;
 }
 
-function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation = '', $title = '') {
+function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation = '', $title = '', $preloadImage=false) {
     $id = uniqid();
-    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive') . PHP_EOL;
+    //getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false, $preloadImage=false)
+    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive', false, true) . PHP_EOL;
     if (!empty($relativePathHoverAnimation) && empty($_REQUEST['noImgGif'])) {
         $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', true) . PHP_EOL;
     }
