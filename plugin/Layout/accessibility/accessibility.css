@@ -19,14 +19,28 @@
     opacity: 0.5;
     transition:all 0.2s linear;
     width: 70px;
+    display: none;
 }
+#accessibility-toolbar:hover > .accessibility-toolbar-toggle > .button,
+#accessibility-toolbar.active > .accessibility-toolbar-toggle .button{
+    display: block;
+}
+#accessibility-toolbar:hover > .accessibility-toolbar-toggle > .fa-angle-left,
+#accessibility-toolbar.active > .accessibility-toolbar-toggle .fa-angle-left{
+    display: none;
+}
+
 #accessibility-toolbar .accessibility-toolbar-toggle{
     position: absolute;
-    left: -70px;
+    left: -20px;
     z-index: 9999;
     padding: 0;
     border-radius: 35px 0 0 35px;
     border-right: none;
+}
+#accessibility-toolbar:hover > .accessibility-toolbar-toggle,
+#accessibility-toolbar.active > .accessibility-toolbar-toggle{
+    left: -70px;
 }
 
 #accessibility-toolbar > div.accessibility-toolbar-overlay > div.list-group > a:nth-child(1){

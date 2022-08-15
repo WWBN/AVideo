@@ -1,35 +1,36 @@
 <?php
-if(isIframe()){
+if (isIframe()) {
     return false;
 }
 ?>
 <link href="<?php echo getURL('plugin/Layout/accessibility/accessibility.css'); ?>" rel="stylesheet" type="text/css"/>
 <style>
-    <?php
-    for($i=150;$i<=300;$i+=10){
-        ?>
-            .accessibility-fontsize-<?php echo $i; ?>, 
-            .accessibility-fontsize-<?php echo $i; ?> h1, 
-            .accessibility-fontsize-<?php echo $i; ?> h2, 
-            .accessibility-fontsize-<?php echo $i; ?> h3, 
-            .accessibility-fontsize-<?php echo $i; ?> h4, 
-            .accessibility-fontsize-<?php echo $i; ?> h5, 
-            .accessibility-fontsize-<?php echo $i; ?> h6,
-            .accessibility-fontsize-<?php echo $i; ?> .gallery .title, 
-            .accessibility-fontsize-<?php echo $i; ?> .videosDetails .title{
-                font-size: <?php echo $i; ?>% !important;
-                max-height: none;
-            }
-        <?php
-    }
+<?php
+for ($i = 150; $i <= 300; $i += 10) {
     ?>
+        .accessibility-fontsize-<?php echo $i; ?>,
+        .accessibility-fontsize-<?php echo $i; ?> h1,
+        .accessibility-fontsize-<?php echo $i; ?> h2,
+        .accessibility-fontsize-<?php echo $i; ?> h3,
+        .accessibility-fontsize-<?php echo $i; ?> h4,
+        .accessibility-fontsize-<?php echo $i; ?> h5,
+        .accessibility-fontsize-<?php echo $i; ?> h6,
+        .accessibility-fontsize-<?php echo $i; ?> .gallery .title,
+        .accessibility-fontsize-<?php echo $i; ?> .videosDetails .title{
+            font-size: <?php echo $i; ?>% !important;
+            max-height: none;
+        }
+    <?php
+}
+?>
 </style>
-<nav id="accessibility-toolbar" role="navigation">
+<nav id="accessibility-toolbar" role="navigation" style="display: none;">
     <div class="accessibility-toolbar-toggle list-group-item animate__animated animate__bounceInRight" 
          data-toggle="tooltip" 
          title="<?php echo __('Accessibility Tools'); ?>" 
          data-placement="left"> 
-        <div class="button" onclick="$('#accessibility-toolbar').toggleClass('active');"> 
+        <i class="fas fa-angle-left fa-3x animate__animated animate__bounceIn"></i>
+        <div class="button animate__animated animate__bounceIn" onclick="toogleAccessibility();"> 
             <span class="sr-only">Open toolbar</span> 
             <i class="fas fa-universal-access fa-3x"></i>
         </div>
@@ -73,6 +74,7 @@ if(isIframe()){
 </nav>
 <script>
     var currentFontsize = 100;
+    var accessibilityJustDrag = false;
     $(function () {
         $('.accessibility-toolbar-overlay a').click(function (event) {
             event.preventDefault();
@@ -123,7 +125,42 @@ if(isIframe()){
                     break;
             }
         });
+        $("#accessibility-toolbar").draggable({
+            axis: "y",
+            containment: 'window',
+            scroll: false,
+            start: function () {
+                accessibilityJustDrag=true;;
+            },
+            stop: function () {
+                $("#accessibility-toolbar").css("left", "");
+                setCookie('accessibility-toolbar-top', $("#accessibility-toolbar").position().top, 30);
+                setTimeout(function(){accessibilityJustDrag=false;},200);
+            }
+        });
+        setAccessibilityTop();
     });
+    
+    function toogleAccessibility(){
+        if(accessibilityJustDrag){
+            return false;
+        }
+        $('#accessibility-toolbar').toggleClass('active');
+    }
+    
+    function setAccessibilityTop(){
+        if(typeof getCookie !== 'function'){
+            setTimeout(function(){setAccessibilityTop();},500);
+            return false;
+        }
+        
+        var accessibilityTop = getCookie('accessibility-toolbar-top');
+        if(!empty(accessibilityTop)){
+            console.log('setAccessibilityTop', accessibilityTop);
+            $("#accessibility-toolbar").css("top", accessibilityTop+'px');
+        }
+        $("#accessibility-toolbar").show();
+    }
 
     function setFontSize(num) {
         if (num < 100) {

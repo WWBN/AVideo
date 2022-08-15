@@ -3139,3 +3139,16 @@ function toogleVideoSuggested(btn){
         }
     }).catch((error) => {console.log(error)});
 }
+
+
+// Cookie functions stolen from w3schools
+function setCookie(cname, cvalue, exdays) {
+    Cookies.set(cname, cvalue, {
+        path: '/',
+        expires: exdays
+    });
+}
+
+function getCookie(cname) {
+    return Cookies.get(cname);
+}
