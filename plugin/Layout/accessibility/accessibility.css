@@ -16,10 +16,12 @@
     padding: 5px;
     font-size: 18px;
     line-height: 1.3333333;
-    opacity: 0.5;
     transition:all 0.2s linear;
     width: 70px;
     display: none;
+}
+#accessibility-toolbar > .accessibility-toolbar-toggle > .fa-angle-left{
+    margin: 10px;
 }
 #accessibility-toolbar:hover > .accessibility-toolbar-toggle > .button,
 #accessibility-toolbar.active > .accessibility-toolbar-toggle .button{
@@ -32,15 +34,17 @@
 
 #accessibility-toolbar .accessibility-toolbar-toggle{
     position: absolute;
-    left: -20px;
+    left: -35px;
     z-index: 9999;
     padding: 0;
     border-radius: 35px 0 0 35px;
     border-right: none;
+    opacity: 0.5;
 }
 #accessibility-toolbar:hover > .accessibility-toolbar-toggle,
 #accessibility-toolbar.active > .accessibility-toolbar-toggle{
     left: -70px;
+    opacity: 1;
 }
 
 #accessibility-toolbar > div.accessibility-toolbar-overlay > div.list-group > a:nth-child(1){
