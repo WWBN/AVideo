@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/Bookmark/Objects/BookmarkTable.
 class Bookmark extends PluginAbstract {
 
     public function getDescription() {
-        return "Save all insert, update and delete queries for audit";
+        return "You can add bookmarks to indicate points of interest in a video or audio clip.";
     }
 
     public function getName() {
