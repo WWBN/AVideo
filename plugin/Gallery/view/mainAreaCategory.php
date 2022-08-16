@@ -20,10 +20,11 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
         $contentSearchFound = !empty($videos);
     }
     $currPage = getCurrentPage();
-    if($currPage<2){
-        $liveVideos = getLiveVideosFromCategory($currentCat['id']);
-        if(!empty($liveVideos)){
-            $videos = array_merge($liveVideos, $videos);
+    global $categoryLiveVideos;
+    if(empty($categoryLiveVideos) && $currPage<2){
+        $categoryLiveVideos = getLiveVideosFromCategory($currentCat['id']);
+        if(!empty($categoryLiveVideos)){
+            $videos = array_merge($categoryLiveVideos, $videos);
         }
     }
     if (!empty($videos)) {
