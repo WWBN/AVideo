@@ -152,161 +152,16 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
     $countCols = 0;
     $obj = AVideoPlugin::getObjectData("Gallery");
     $zindex = 1000;
-    $startG = microtime(true);
     $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
-    foreach ($videos as $value) {
-
-        // that meas auto generate the channelName
-        if (empty($get) && !empty($obj->filterUserChannel)) {
-            $getCN = array('channelName' => $value['channelName'], 'catName' => @$_GET['catName']);
-        } else {
-            $getCN = $get;
-        }
-
-        $img_portrait = (@$value['rotation'] === "90" || @$value['rotation'] === "270") ? "img-portrait" : "";
-        $nameId = User::getNameIdentificationById($value['users_id']);
-        $name = $nameId . " " . User::getEmailVerifiedIcon($value['users_id']);
-        // make a row each 6 cols
-        if ($countCols % $obj->screenColsLarge === 0) {
-            echo '<div class="clearfix "></div>';
+    foreach ($videos as $video) {
+        if(!empty($video['isLive'])){
+            createGalleryLiveSectionVideo($video, $zindex);
+        }else{
+            createGallerySectionVideo($video, $crc, $get, $ignoreAds, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall, $galeryDetails, $zindex);
         }
 
         $countCols++;
-
-        if (!empty($screenColsLarge)) {
-            $obj->screenColsLarge = $screenColsLarge;
-        }
-        if (!empty($screenColsMedium)) {
-            $obj->screenColsMedium = $screenColsMedium;
-        }
-        if (!empty($screenColsSmall)) {
-            $obj->screenColsSmall = $screenColsSmall;
-        }
-        if (!empty($screenColsXSmall)) {
-            $obj->screenColsXSmall = $screenColsXSmall;
-        }
-
-        $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
-        ?>
-        <div class=" <?php echo $colsClass; ?> galleryVideo galleryVideo<?php echo $value['id']; ?> fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
-            <?php
-            $img = Video::getVideoImagewithHoverAnimationFromVideosId($value, true, true, true);
-            if (empty($img)) {
-                //var_dump($value);
-            } else {
-                echo $img;
-            }
-            ?>
-            <?php
-            if ($galeryDetails) {
-                ?>
-                <div class="galeryDetails">
-                    <div class="galleryTags">
-                        <!-- category tags -->
-                        <?php
-                        if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) {
-                            $iconClass = 'fas fa-folder';
-                            if (!empty($value['iconClass'])) {
-                                $iconClass = $value['iconClass'];
-                            }
-                            $icon = '<i class="' . $iconClass . '"></i>';
-                            ?>
-                            <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>" 
-                               data-toggle="tooltip" title="<?php echo htmlentities($icon . ' ' . $value['category']); ?>"  data-html="true">
-                                   <?php
-                                   echo $icon;
-                                   ?>
-                            </a>
-                        <?php } ?>
-                        <!-- plugins tags -->
-                        <?php
-                        @$timesG[__LINE__] += microtime(true) - $startG;
-                        $startG = microtime(true);
-                        if (!empty($obj->showTags)) {
-                            echo implode('', Video::getTagsHTMLLabelArray($value['id']));
-                        }
-                        @$timesG[__LINE__] += microtime(true) - $startG;
-                        $startG = microtime(true);
-                        ?>
-                    </div>
-                    <?php
-                    if (empty($advancedCustom->doNotDisplayViews)) {
-                        if (AVideoPlugin::isEnabledByName('LiveUsers')) {
-                            echo getLiveUsersLabelVideo($value['id'], $value['views_count'], "", "");
-                        } else {
-                            ?>
-                            <div>
-                                <i class="fa fa-eye"></i>
-                                <span itemprop="interactionCount">
-                                    <?php echo number_format($value['views_count'], 0); ?> <?php echo __("Views"); ?>
-                                </span>
-                            </div>
-                            <?php
-                        }
-                    }
-                    $humanTiming = humanTiming(strtotime($value['videoCreation'])) . " " . __('ago');
-                    ?>
-                    <div data-toggle="tooltip" title="<?php echo $humanTiming; ?>">
-                        <i class="far fa-clock"></i>
-                        <?php echo $humanTiming; ?>
-                    </div>
-                    <div>
-                        <a href="<?php echo User::getChannelLink($value['users_id']); ?>" data-toggle="tooltip" title="<?php echo $nameId; ?>">
-                            <i class="fa fa-user"></i>
-                            <?php echo $name; ?>
-                        </a>
-                    </div>
-                    <?php
-                    echo AVideoPlugin::getGalleryActionButton($value['id']);
-                    ?>
-                </div>
-                <?php
-                @$timesG[__LINE__] += microtime(true) - $startG;
-                $startG = microtime(true);
-                if (CustomizeUser::canDownloadVideosFromVideo($value['id'])) {
-
-                    @$timesG[__LINE__] += microtime(true) - $startG;
-                    $startG = microtime(true);
-                    $files = getVideosURL($value['filename']);
-                    @$timesG[__LINE__] += microtime(true) - $startG;
-                    $startG = microtime(true);
-                    if (!empty($files['mp4']) || !empty($files['mp3'])) {
-                        ?>
-
-                        <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
-                            <button type="button" class="btn btn-default btn-sm btn-xs btn-block"  data-toggle="dropdown">
-                                <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                                <?php
-                                //var_dump($files);exit;
-                                foreach ($files as $key => $theLink) {
-                                    if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') || $key == "m3u8") {
-                                        continue;
-                                    }
-                                    $path_parts = pathinfo($theLink['filename']);
-                                    ?>
-                                    <li>
-                                        <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($value['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
-                                            <?php echo __("Download"); ?> <?php echo $key; ?>
-                                        </a>
-                                    </li>
-                                <?php }
-                                ?>
-                            </ul>
-                        </div>
-                        <?php
-                    }
-                }
-                @$timesG[__LINE__] += microtime(true) - $startG;
-                $startG = microtime(true);
-                //getLdJson($value['id']);
-                //getItemprop($value['id']);
-            }
-            ?>
-        </div>
-
-        <?php
+        $zindex--;
         if ($countCols > 1) {
             if ($countCols % $obj->screenColsLarge === 0) {
                 echo "<div class='clearfix hidden-md hidden-sm hidden-xs'></div>";
@@ -330,21 +185,150 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         }
         ?>
     </div>
-    <!--
-    createGallerySection
-    <?php
-    $timesG[__LINE__] = microtime(true) - $startG;
-    $startG = microtime(true);
-    foreach ($timesG as $key => $value) {
-        echo "Line: {$key
-        } -> {$value
-        }\n";
-    }
-    ?>
-    -->
     <?php
     unset($_POST['disableAddTo']);
     return $countCols;
+}
+
+function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true, $zindex=1000) {
+    global $global, $config, $obj, $advancedCustom, $advancedCustomUser;
+    $countCols = 0;
+    $obj = AVideoPlugin::getObjectData("Gallery");
+    // that meas auto generate the channelName
+    if (empty($get) && !empty($obj->filterUserChannel)) {
+        $getCN = array('channelName' => $video['channelName'], 'catName' => @$_GET['catName']);
+    } else {
+        $getCN = $get;
+    }
+
+    $img_portrait = (@$video['rotation'] === "90" || @$video['rotation'] === "270") ? "img-portrait" : "";
+    $nameId = User::getNameIdentificationById($video['users_id']);
+    $name = $nameId . " " . User::getEmailVerifiedIcon($video['users_id']);
+
+
+    if (!empty($screenColsLarge)) {
+        $obj->screenColsLarge = $screenColsLarge;
+    }
+    if (!empty($screenColsMedium)) {
+        $obj->screenColsMedium = $screenColsMedium;
+    }
+    if (!empty($screenColsSmall)) {
+        $obj->screenColsSmall = $screenColsSmall;
+    }
+    if (!empty($screenColsXSmall)) {
+        $obj->screenColsXSmall = $screenColsXSmall;
+    }
+
+    $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
+    ?>
+    <!-- createGallerySection -->
+    <div class=" <?php echo $colsClass; ?> galleryVideo galleryVideo<?php echo $video['id']; ?> fixPadding" style="z-index: <?php echo $zindex; ?>; min-height: 175px;">
+        <?php
+        $img = Video::getVideoImagewithHoverAnimationFromVideosId($video, true, true, true);
+        if (empty($img)) {
+            //var_dump($video);
+        } else {
+            echo $img;
+        }
+        ?>
+        <?php
+        if ($galeryDetails) {
+            ?>
+            <div class="galeryDetails">
+                <div class="galleryTags">
+                    <!-- category tags -->
+                    <?php
+                    if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) {
+                        $iconClass = 'fas fa-folder';
+                        if (!empty($video['iconClass'])) {
+                            $iconClass = $video['iconClass'];
+                        }
+                        $icon = '<i class="' . $iconClass . '"></i>';
+                        ?>
+                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>" 
+                           data-toggle="tooltip" title="<?php echo htmlentities($icon . ' ' . $video['category']); ?>"  data-html="true">
+                               <?php
+                               echo $icon;
+                               ?>
+                        </a>
+                    <?php } ?>
+                    <!-- plugins tags -->
+                    <?php
+                    if (!empty($obj->showTags)) {
+                        echo implode('', Video::getTagsHTMLLabelArray($video['id']));
+                    }
+                    ?>
+                </div>
+                <?php
+                if (empty($advancedCustom->doNotDisplayViews)) {
+                    if (AVideoPlugin::isEnabledByName('LiveUsers')) {
+                        echo getLiveUsersLabelVideo($video['id'], $video['views_count'], "", "");
+                    } else {
+                        ?>
+                        <div>
+                            <i class="fa fa-eye"></i>
+                            <span itemprop="interactionCount">
+                                <?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?>
+                            </span>
+                        </div>
+                        <?php
+                    }
+                }
+                $humanTiming = humanTiming(strtotime($video['videoCreation'])) . " " . __('ago');
+                ?>
+                <div data-toggle="tooltip" title="<?php echo $humanTiming; ?>">
+                    <i class="far fa-clock"></i>
+                    <?php echo $humanTiming; ?>
+                </div>
+                <div>
+                    <a href="<?php echo User::getChannelLink($video['users_id']); ?>" data-toggle="tooltip" title="<?php echo $nameId; ?>">
+                        <i class="fa fa-user"></i>
+                        <?php echo $name; ?>
+                    </a>
+                </div>
+                <?php
+                echo AVideoPlugin::getGalleryActionButton($video['id']);
+                ?>
+            </div>
+            <?php
+            if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
+
+                $files = getVideosURL($video['filename']);
+                if (!empty($files['mp4']) || !empty($files['mp3'])) {
+                    ?>
+
+                    <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
+                        <button type="button" class="btn btn-default btn-sm btn-xs btn-block"  data-toggle="dropdown">
+                            <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                            <?php
+                            //var_dump($files);exit;
+                            foreach ($files as $key => $theLink) {
+                                if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') || $key == "m3u8") {
+                                    continue;
+                                }
+                                $path_parts = pathinfo($theLink['filename']);
+                                ?>
+                                <li>
+                                    <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
+                                        <?php echo __("Download"); ?> <?php echo $key; ?>
+                                    </a>
+                                </li>
+                            <?php }
+                            ?>
+                        </ul>
+                    </div>
+                    <?php
+                }
+            }
+            //getLdJson($video['id']);
+            //getItemprop($video['id']);
+        }
+        ?>
+    </div>
+
+    <?php
 }
 
 function createGalleryLiveSection($videos) {
@@ -355,97 +339,14 @@ function createGalleryLiveSection($videos) {
     $zindex = 1000;
     $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
     foreach ($videos as $video) {
+
+        createGalleryLiveSectionVideo($video, $zindex);
+
         $name = User::getNameIdentificationById($video['users_id']);
         $name .= " " . User::getEmailVerifiedIcon($video['users_id']);
-        // make a row each 6 cols
-        if ($countCols % $obj->screenColsLarge === 0) {
-            echo '<div class="clearfix "></div>';
-        }
 
         $countCols++;
-
-        if (!empty($screenColsLarge)) {
-            $obj->screenColsLarge = $screenColsLarge;
-        }
-        if (!empty($screenColsMedium)) {
-            $obj->screenColsMedium = $screenColsMedium;
-        }
-        if (!empty($screenColsSmall)) {
-            $obj->screenColsSmall = $screenColsSmall;
-        }
-        if (!empty($screenColsXSmall)) {
-            $obj->screenColsXSmall = $screenColsXSmall;
-        }
-        $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
-
-        if (!empty($video['className'])) {
-            $colsClass .= " {$video['className']}";
-        }
-
-        $liveNow = '<span class="label label-danger liveNow faa-flash faa-slow animated" style="position: absolute;
-    bottom: 5px;
-    right: 5px;">' . __("LIVE NOW") . '</span>';
-        ?>
-        <div class=" <?php echo $colsClass; ?> galleryVideo galleryVideo<?php echo $video['id']; ?> fixPadding" style="z-index: <?php echo $zindex--; ?>; min-height: 175px;">
-            <a class="galleryLink" videos_id="<?php echo $video['id']; ?>" 
-               href="<?php echo $video['href']; ?>"  
-               embed="<?php echo $video['link']; ?>"  
-               alternativeLink="<?php echo @$video['alternativeLink']; ?>"
-               title="<?php echo htmlentities($video['title']); ?>">
-                <div class="aspectRatio16_9">
-                    <?php
-                    $relativePathHoverAnimation = @$video['imgGif'];
-                    echo getVideoImagewithHoverAnimation($video['poster'], $relativePathHoverAnimation, $video['title']);
-                    echo $liveNow;
-                    ?>
-                </div>
-            </a>
-            <a class="h6 galleryLink" videos_id="<?php echo $video['id']; ?>" 
-               href="<?php echo $video['href']; ?>"  
-               embed="<?php echo $video['link']; ?>"  
-               alternativeLink="<?php echo @$video['alternativeLink']; ?>"
-               title="<?php echo htmlentities(getSEOTitle($video['title'])); ?>">
-                <strong class="title"><?php echo getSEOTitle($video['title']) ?></strong>
-            </a>
-
-            <div class="galeryDetails">
-                <div class="galleryTags">
-                    <?php if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) { ?>
-                        <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>">
-                            <?php
-                            if (!empty($video['iconClass'])) {
-                                ?>
-                                <i class="<?php echo $video['iconClass']; ?>"></i>
-                                <?php
-                            }
-                            ?>
-                            <?php echo $video['category']; ?>
-                        </a>
-                    <?php } ?>
-                </div>
-                <div>
-                    <i class="fa fa-user"></i>
-                    <a href="<?php echo User::getChannelLink($video['users_id']); ?>">
-                        <?php echo $name; ?>
-                    </a>
-                </div>
-                <?php
-                if ((!empty($video['description'])) && !empty($obj->Description)) {
-                    $desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($video['description']))));
-                    if (!isHTMLEmpty($desc)) {
-                        $titleAlert = str_replace(array('"', "'"), array('``', "`"), $video['title']);
-                        ?>
-                        <div>
-                            <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>", "info");return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-md hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
-                        </div>
-                        <?php
-                    }
-                }
-                ?>
-            </div>
-        </div>
-
-        <?php
+        $zindex--;
         if ($countCols > 1) {
             if ($countCols % $obj->screenColsLarge === 0) {
                 echo "<div class='clearfix hidden-md hidden-sm hidden-xs'></div>";
@@ -476,6 +377,84 @@ function createGalleryLiveSection($videos) {
     <?php
     unset($_POST['disableAddTo']);
     return $countCols;
+}
+
+function createGalleryLiveSectionVideo($video, $zindex) {
+    global $global, $config, $obj, $advancedCustom, $advancedCustomUser;
+    $obj = AVideoPlugin::getObjectData("Gallery");
+    $name = User::getNameIdentificationById($video['users_id']);
+    $name .= " " . User::getEmailVerifiedIcon($video['users_id']);
+
+    $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
+
+    if (!empty($video['className'])) {
+        $colsClass .= " {$video['className']}";
+    }
+
+    $liveNow = '<span class="label label-danger liveNow faa-flash faa-slow animated" style="position: absolute;
+    bottom: 5px;
+    right: 5px;">' . __("LIVE NOW") . '</span>';
+    ?>
+    <!-- createGalleryLiveSection -->
+    <div class=" <?php echo $colsClass; ?> galleryVideo galleryVideo<?php echo $video['id']; ?> fixPadding" style="z-index: <?php echo $zindex; ?>; min-height: 175px;">
+        <a class="galleryLink" videos_id="<?php echo $video['id']; ?>" 
+           href="<?php echo $video['href']; ?>"  
+           embed="<?php echo $video['link']; ?>"  
+           alternativeLink="<?php echo @$video['alternativeLink']; ?>"
+           title="<?php echo htmlentities($video['title']); ?>">
+            <div class="aspectRatio16_9">
+                <?php
+                $relativePathHoverAnimation = @$video['imgGif'];
+                echo getVideoImagewithHoverAnimation($video['poster'], $relativePathHoverAnimation, $video['title']);
+                echo $liveNow;
+                ?>
+            </div>
+        </a>
+        <a class="h6 galleryLink" videos_id="<?php echo $video['id']; ?>" 
+           href="<?php echo $video['href']; ?>"  
+           embed="<?php echo $video['link']; ?>"  
+           alternativeLink="<?php echo @$video['alternativeLink']; ?>"
+           title="<?php echo htmlentities(getSEOTitle($video['title'])); ?>">
+            <strong class="title"><?php echo getSEOTitle($video['title']) ?></strong>
+        </a>
+
+        <div class="galeryDetails">
+            <div class="galleryTags">
+                <?php if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) { ?>
+                    <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>">
+                        <?php
+                        if (!empty($video['iconClass'])) {
+                            ?>
+                            <i class="<?php echo $video['iconClass']; ?>"></i>
+                            <?php
+                        }
+                        ?>
+                        <?php echo $video['category']; ?>
+                    </a>
+                <?php } ?>
+            </div>
+            <div>
+                <i class="fa fa-user"></i>
+                <a href="<?php echo User::getChannelLink($video['users_id']); ?>">
+                    <?php echo $name; ?>
+                </a>
+            </div>
+            <?php
+            if ((!empty($video['description'])) && !empty($obj->Description)) {
+                $desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($video['description']))));
+                if (!isHTMLEmpty($desc)) {
+                    $titleAlert = str_replace(array('"', "'"), array('``', "`"), $video['title']);
+                    ?>
+                    <div>
+                        <a href="#" onclick='avideoAlert("<?php echo $titleAlert; ?>", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\"><?php echo $desc; ?></div>", "info");return false;' data-toggle="tooltip" title="<?php echo __("Description"); ?>"><i class="far fa-file-alt"></i> <span  class="hidden-md hidden-sm hidden-xs"><?php echo __("Description"); ?></span></a>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
+        </div>
+    </div>
+    <?php
 }
 
 function createChannelItem($users_id, $photoURL = "", $identification = "", $rowCount = 12) {
