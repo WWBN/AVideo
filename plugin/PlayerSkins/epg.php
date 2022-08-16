@@ -1,6 +1,8 @@
 <?php
 require_once '../../videos/configuration.php';
 
+$_start = microtime(true);
+
 require_once $global['systemRootPath'] . 'objects/EpgParser.php';
 
 $epgs = array();
@@ -200,8 +202,8 @@ function createEPG($channel) {
 
 $Date = date('Y-m-d');
 
-$minutes = getDurationInMinutes(date('Y-d-m 00:00:00'), date('Y-d-m H:i:s'));
-$positionNow = ($minuteSize * $minutes) + $timeLineElementSize;
+$minutesSince0Time = getDurationInMinutes(date('Y-d-m 00:00:00'), date('Y-d-m H:i:s'));
+$positionNow = ($minuteSize * $minutesSince0Time) + $timeLineElementSize;
 
 //$bgColors = array('#feceea', '#fef1d2', '#a9fdd8', '#d7f8ff', '#cec5fa');
 
@@ -439,3 +441,8 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
 </html>
 <!-- <?php echo date('Y-m-d H:i:s'); ?> -->
 <!-- <?php echo date_default_timezone_get(); ?> -->
+<!-- minutesSince0Time=<?php echo $minutesSince0Time; ?> -->
+<?php
+$_end = microtime(true) - $start;
+?>
+<!-- seconds to complete=<?php echo $_end; ?> -->
