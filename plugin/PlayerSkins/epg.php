@@ -25,6 +25,7 @@ $paddingSize = 10;
 $minimumWidth = 80;
 $minimumWidth1Dot = 50;
 $minimumWidthHide = 30;
+$minimumSmallFont = $timeLineElementSize;
 
 if (isMobile()) {
     $timeLineElementSize = 150;
@@ -164,7 +165,7 @@ function setMinDate($date) {
 }
 
 function createEPG($channel) {
-    global $minuteSize, $Date, $minimumWidth,$minimumWidthHide,$minimumWidth1Dot, $videos_id;
+    global $minuteSize, $Date, $minimumSmallFont, $minimumWidth,$minimumWidthHide,$minimumWidth1Dot, $videos_id;
     $channel = object_to_array($channel);
     $displayname = $channel['display-name'];
     $channelId = $channel['id'];
@@ -203,7 +204,9 @@ function createEPG($channel) {
                     }else if($width <= $minimumWidth1Dot){
                         $text = "<abbr title=\"{$program['title']}\">.</abbr>";
                     }else if ($width <= $minimumWidth) {
-                        $text = "<abbr title=\"{$program['title']}\">...</abbr>";
+                        $text = "<abbr title=\"{$program['title']}\"><small class=\"duration\">{$minutes} Min</small></abbr>";
+                    } else if ($width <= $minimumSmallFont) {
+                        $text = "<small class=\"small-font\">{$program['title']}<div><small class=\"duration\">{$minutes} Min</small></div></small>";
                     } else {
                         $startTime = date('m-d H:i', strtotime($program['start']));
                         $stopTime = date('m-d H:i', $_stopTime);
@@ -241,6 +244,9 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
 
         <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <style>
+            *{
+                text-transform: uppercase;
+            }
             body{
                 background-color: #000000AA;
                 font-size: <?php echo $fontSize; ?>px;
@@ -307,6 +313,7 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
             }
             .duration{
                 font-size: 0.8em;
+                opacity: 0.7;
             }
             .programs{
                 opacity: 0.7;
