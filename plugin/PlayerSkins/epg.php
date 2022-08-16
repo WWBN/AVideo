@@ -23,6 +23,7 @@ $timeLineElementMinutes = 30;
 $timeLineElementSize = 200;
 $paddingSize = 10;
 $minimumWidth = 80;
+$minimumWidthHide = 30;
 
 if (isMobile()) {
     $timeLineElementSize = 150;
@@ -196,8 +197,9 @@ function createEPG($channel) {
                     $width = ($minuteSize * $minutes);
                     $_stopTime = strtotime($program['stop']);
                     $pclass = '';
-                    if ($width <= $minimumWidth) {
+                    if($width <= $minimumWidthHide){
                         $text = "<!-- too small $width -->";
+                    }else if ($width <= $minimumWidth) {
                         $text = "<abbr title=\"{$program['title']}\">...</abbr>";
                     } else {
                         $startTime = date('m-d H:i', strtotime($program['start']));
