@@ -39,6 +39,8 @@ $forceRecreate = false;
 $cacheName = '/channelsList_' . md5(json_encode($_GET));
 $channelsList = ObjectYPT::getCache($cacheName, 3600); // 1 hour
 
+$_30DaysFromNow = strtotime('+30 days');
+
 if (empty($channelsList)) {
     $channelsList = array();
     foreach ($epgs as $epg) {
@@ -64,6 +66,11 @@ if (empty($channelsList)) {
                     $channels[$key]['epgData'] = array();
                     foreach ($epgData as $key2 => $program) {
                         if ($program['channel'] != $value['id']) {
+                            continue;
+                        }
+                        $timeWillStart = strtotime($program['start']);
+                        if($timeWillStart>$_30DaysFromNow){
+                            unset($epgData[$key2]);
                             continue;
                         }
                         $minutes = getDurationInMinutes(date('Y-m-d 00:00:00'), $program['stop']);
