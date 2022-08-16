@@ -198,7 +198,7 @@ function createEPG($channel) {
                     $_stopTime = strtotime($program['stop']);
                     $pclass = '';
                     if($width <= $minimumWidthHide){
-                        $text = "<!-- too small $width -->";
+                        $text = "<abbr title=\"{$program['title']}\">.</abbr>";
                     }else if ($width <= $minimumWidth) {
                         $text = "<abbr title=\"{$program['title']}\">...</abbr>";
                     } else {
