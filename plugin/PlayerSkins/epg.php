@@ -18,19 +18,19 @@ foreach ($videos as $video) {
 }
 //var_dump($epgs);exit;
 $fontSize = 18;
-
-$timeLineElementMinutes = 30;
-$timeLineElementSize = 200;
-$paddingSize = 10;
-$minimumWidth = 80;
-$minimumWidth1Dot = 50;
-$minimumWidthHide = 30;
-$minimumSmallFont = $timeLineElementSize;
+$timeLineElementSize = 300;
 
 if (isMobile()) {
     $timeLineElementSize = 150;
     $fontSize = 12;
 }
+
+$timeLineElementMinutes = 30;
+$paddingSize = 10;
+$minimumWidth = 80;
+$minimumWidth1Dot = 50;
+$minimumWidthHide = 30;
+$minimumSmallFont = $timeLineElementSize;
 
 $minuteSize = $timeLineElementSize / $timeLineElementMinutes;
 $secondSize = $minuteSize / 60;
