@@ -576,6 +576,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     global $advancedCustom;
     $resp = false;
     if (empty($to)) {
+        _error_log('sendSiteEmail: ERROR: to is empty');
         return false;
     }
     if (is_object($to)) {
