@@ -5,7 +5,8 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
         $_GET['page'] = 1;
     }
     $_REQUEST['current'] = $_GET['page'];
-
+    
+    echo '<!-- '.basename(__FILE__).' -->';
 
     include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
     unset($_POST['sort']);
@@ -18,9 +19,12 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     if(empty($contentSearchFound)){
         $contentSearchFound = !empty($videos);
     }
-    $liveVideos = getLiveVideosFromCategory($currentCat['id']);
-    if(!empty($liveVideos)){
-        $videos = array_merge($liveVideos, $videos);
+    $currPage = getCurrentPage();
+    if($currPage<2){
+        $liveVideos = getLiveVideosFromCategory($currentCat['id']);
+        if(!empty($liveVideos)){
+            $videos = array_merge($liveVideos, $videos);
+        }
     }
     if (!empty($videos)) {
         ?>
