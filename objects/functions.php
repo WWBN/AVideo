@@ -7392,7 +7392,7 @@ function getLiveVideosFromCategory($categories_id) {
                 'id' => intval(rand(999999, 9999999)),
                 'isLive' => 1,
                 'categories_id' => $categories_id,
-                'description' => '',
+                'description' => $description,
                 'user' => $user->getUser(),
                 'name' => $user->getName(),
                 'email' => $user->getEmail(),
