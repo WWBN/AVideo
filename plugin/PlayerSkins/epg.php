@@ -163,7 +163,7 @@ function setMinDate($date) {
 }
 
 function createEPG($channel) {
-    global $minuteSize, $Date, $minimumWidth, $videos_id;
+    global $minuteSize, $Date, $minimumWidth,$minimumWidthHide, $videos_id;
     $channel = object_to_array($channel);
     $displayname = $channel['display-name'];
     $channelId = $channel['id'];
