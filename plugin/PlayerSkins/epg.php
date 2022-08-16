@@ -36,65 +36,72 @@ $cacheName = 'epg';
 
 $forceRecreate = false;
 
-$channelsList = array();
-foreach ($epgs as $epg) {
-    $videos_id = $epg['id'];
-    $programCacheName = '/program_' . md5($epg['epg_link']);
-    $timeout = random_int(21600, 43200); //6 to 12 hours
-    $programData = ObjectYPT::getCache($programCacheName, $timeout);
-    if ($forceRecreate || empty($programData)) {
-        _error_log("EPG program expired creating again videos_id={$videos_id} " . $programCacheName);
-        //var_dump($epg['epg_link']);exit;
-        $Parser = new \buibr\xmlepg\EpgParser();
-        $Parser->setURL($epg['epg_link']);
-        $Parser->temp_dir = getCacheDir();
-        try {
-            $Parser->parseURL();
-            $epgData = $Parser->getEpgdata();
-            $channels = $Parser->getChannels();
-            //var_dump($channels, $epgData);
-            //$Parser->setTargetTimeZone('Europe/Skopje');
-            // $Parser->setChannelfilter('prosiebenmaxx.de'); //optional
-            // $Parser->setIgnoreDescr('Keine Details verfügbar.'); //optional
-            foreach ($channels as $key => $value) {
-                $channels[$key]['epgData'] = array();
-                foreach ($epgData as $key2 => $program) {
-                    if ($program['channel'] != $value['id']) {
-                        continue;
+$cacheName = '/channelsList_' . md5(json_encode($_GET));
+$channelsList = ObjectYPT::getCache($cacheName, 3600); // 1 hour
+
+if (empty($channelsList)) {
+    $channelsList = array();
+    foreach ($epgs as $epg) {
+        $videos_id = $epg['id'];
+        $programCacheName = '/program_' . md5($epg['epg_link']);
+        $timeout = random_int(21600, 43200); //6 to 12 hours
+        $programData = ObjectYPT::getCache($programCacheName, $timeout);
+        if ($forceRecreate || empty($programData)) {
+            _error_log("EPG program expired creating again videos_id={$videos_id} " . $programCacheName);
+            //var_dump($epg['epg_link']);exit;
+            $Parser = new \buibr\xmlepg\EpgParser();
+            $Parser->setURL($epg['epg_link']);
+            $Parser->temp_dir = getCacheDir();
+            try {
+                $Parser->parseURL();
+                $epgData = $Parser->getEpgdata();
+                $channels = $Parser->getChannels();
+                //var_dump($channels, $epgData);
+                //$Parser->setTargetTimeZone('Europe/Skopje');
+                // $Parser->setChannelfilter('prosiebenmaxx.de'); //optional
+                // $Parser->setIgnoreDescr('Keine Details verfügbar.'); //optional
+                foreach ($channels as $key => $value) {
+                    $channels[$key]['epgData'] = array();
+                    foreach ($epgData as $key2 => $program) {
+                        if ($program['channel'] != $value['id']) {
+                            continue;
+                        }
+                        $minutes = getDurationInMinutes(date('Y-m-d 00:00:00'), $program['stop']);
+                        //var_dump(date('Y-m-d 00:00:00'), $program['stop'], $minutes);
+                        if ($minutes > 0) {
+                            $channels[$key]['epgData'][] = $program;
+                            setMinDate($program['start']);
+                            setMaxDate($program['stop']);
+                        }
+                        unset($epgData[$key2]);
                     }
-                    $minutes = getDurationInMinutes(date('Y-m-d 00:00:00'), $program['stop']);
-                    //var_dump(date('Y-m-d 00:00:00'), $program['stop'], $minutes);
-                    if ($minutes > 0) {
-                        $channels[$key]['epgData'][] = $program;
-                        setMinDate($program['start']);
-                        setMaxDate($program['stop']);
+                    //var_dump($channels[$key]);
+                    if (!empty($channels[$key])) {
+                        usort($channels[$key]['epgData'], "cmpPrograms");
+                        $channels[$key]['videos_id'] = $videos_id;
+                        $channelsList[] = $channels[$key];
+                        //var_dump($channelsList[0]);exit;
                     }
-                    unset($epgData[$key2]);
                 }
-                //var_dump($channels[$key]);
-                if (!empty($channels[$key])) {
-                    usort($channels[$key]['epgData'], "cmpPrograms");
-                    $channels[$key]['videos_id'] = $videos_id;
-                    $channelsList[] = $channels[$key];
-                    //var_dump($channelsList[0]);exit;
-                }
+                $file = ObjectYPT::setCache($programCacheName, $channelsList);
+                _error_log("EPG program cache created videos_id={$videos_id} " . json_encode($file));
+            } catch (Exception $e) {
+                throw new \RuntimeException($e);
             }
-            $file = ObjectYPT::setCache($programCacheName, $channelsList);
-            _error_log("EPG program cache created videos_id={$videos_id} " . json_encode($file));
-        } catch (Exception $e) {
-            throw new \RuntimeException($e);
-        }
-    } else {
-        $channelsList = object_to_array($programData);
-        foreach ($channelsList as $program) {
-            foreach ($program["epgData"] as $epg) {
-                setMinDate($epg['start']);
-                setMaxDate($epg['stop']);
+        } else {
+            $channelsList = object_to_array($programData);
+            foreach ($channelsList as $program) {
+                foreach ($program["epgData"] as $epg) {
+                    setMinDate($epg['start']);
+                    setMaxDate($epg['stop']);
+                }
             }
         }
     }
+    usort($channelsList, "cmpChannels");
+} else {
+    $channelsList = object_to_array($channelsList);
 }
-usort($channelsList, "cmpChannels");
 
 //var_dump($epgData);exit;
 //var_dump($channelsList);exit;
@@ -114,7 +121,7 @@ function cmpChannels($a, $b) {
 function getDurationInMinutes($start, $stop) {
     $timeStart = strtotime($start);
     $timeStop = strtotime($stop);
-    //var_dump(date('Y-m-d H:i:s',$timeStart), date('Y-m-d H:i:s',$timeStop));
+    //var_dump(date('Y-m-d H:i:s',$timeStart), date('Y-m-d H:i:s',$timeStop), $start, $stop);
     $seconds = $timeStop - $timeStart;
 
     $minutes = intval($seconds / 60);
@@ -159,9 +166,12 @@ function createEPG($channel) {
     if (!empty($this_videos_id) && $this_videos_id == $videos_id) {
         $class = 'active';
     }
+    
+    $link = Video::getLinkToVideo($this_videos_id);
+    
     //var_dump($channel);exit;
     ?>
-    <a href="<?php echo Video::getLinkToVideo($this_videos_id); ?>" target="_top">
+    <a href="<?php echo $link; ?>" target="_top">
         <div class="programs <?php echo $class; ?>" id="video_<?php echo $this_videos_id; ?>" >
             <div class="header">
                 <?php echo $displayname; ?>
@@ -202,7 +212,8 @@ function createEPG($channel) {
 
 $Date = date('Y-m-d');
 
-$minutesSince0Time = getDurationInMinutes(date('Y-d-m 00:00:00'), date('Y-d-m H:i:s'));
+$minutesSince0Time = getDurationInMinutes(date('Y-m-d 00:00:00'), date('Y-m-d H:i:s'));
+//var_dump(date('Y-m-d 00:00:00'), date('Y-m-d H:i:s'), $minutesSince0Time);exit;
 $positionNow = ($minuteSize * $minutesSince0Time) + $timeLineElementSize;
 
 //$bgColors = array('#feceea', '#fef1d2', '#a9fdd8', '#d7f8ff', '#cec5fa');
@@ -320,24 +331,24 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
                         0 0 20px #B6FF00;
                 }
             }
-            <?php
-            foreach ($bgColors as $key => $value) {
-                $n = $key + 1;
-                echo "div.programs > div.list > div:nth-child({$n}n){"
-                . "background-color: {$value};"
-                . "color: #FFF;"
-                //. "font-weight: bolder;"
-                . "text-shadow: 1px 1px 5px {$value},"
-                . "2px 0 5px #000,"
-                . "0 2px 5px #000,"
-                . "-2px -2px 5px #000, "
-                . "-2px 0 5px #000, "
-                . "0 -2px 5px #000, "
-                . "-2px -2px 5px #000, "
-                . "2px 2px 5px #000;"
-                . "}";
-            }
-            ?>
+<?php
+foreach ($bgColors as $key => $value) {
+    $n = $key + 1;
+    echo "div.programs > div.list > div:nth-child({$n}n){"
+    . "background-color: {$value};"
+    . "color: #FFF;"
+    //. "font-weight: bolder;"
+    . "text-shadow: 1px 1px 5px {$value},"
+    . "2px 0 5px #000,"
+    . "0 2px 5px #000,"
+    . "-2px -2px 5px #000, "
+    . "-2px 0 5px #000, "
+    . "0 -2px 5px #000, "
+    . "-2px -2px 5px #000, "
+    . "2px 2px 5px #000;"
+    . "}";
+}
+?>
             .finished{
                 opacity: 0.4;
                 background-color: #00000077 !important;
@@ -426,14 +437,14 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
                 $('#positionNow').css("left", newLeft + 'px');
             }
 
-            function goToPositionNow(){
+            function goToPositionNow() {
                 $('html, body').animate({
                     scrollLeft: ($('#positionNow').position().left -<?php echo $timeLineElementSize + 50; ?>),
-                    <?php
-                    if (!empty($videos_id)) {
-                        echo "scrollTop: (($(\"#video_{$videos_id}\").offset().top) - 100)";
-                    }
-                    ?>
+<?php
+if (!empty($videos_id)) {
+    echo "scrollTop: (($(\"#video_{$videos_id}\").offset().top) - 100)";
+}
+?>
                 }, 1000);
             }
         </script>
