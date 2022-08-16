@@ -403,14 +403,19 @@ foreach ($bgColors as $key => $value) {
             </div>
             <div id="programsList">
                 <?php
+                $cstartTotal = microtime(true);
                 foreach ($channelsList as $key => $channel) {
                     $cstart = microtime(true);
                     createEPG($channel);
                     $cend = microtime(true)-$cstart;
                     echo PHP_EOL."<!-- {$key}=>{$cend} seconds -->".PHP_EOL;
                 }
+                $cendTotal = microtime(true)-$cstartTotal;
                 ?>
             </div>
+            <?php
+                echo PHP_EOL."<!-- programsListTotal=>{$cendTotal} seconds -->".PHP_EOL;
+            ?>
         </div>
         <div id="positionNow" style="left: <?php echo $positionNow; ?>px;"></div>
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
