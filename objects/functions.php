@@ -590,6 +590,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
         $advancedCustom = AVideoPlugin::loadPlugin("CustomizeAdvanced");
     }
 
+    _error_log('sendSiteEmail: subject= '.$subject));
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
     $message = createEmailMessageFromTemplate($message);
@@ -613,6 +614,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     $webSiteTitle = $config->getWebSiteTitle();
     try {
         if (!is_array($to)) {
+            _error_log('sendSiteEmail: send single email '.$to);
             $mail = new \PHPMailer\PHPMailer\PHPMailer();
             setSiteSendMessage($mail);
             $mail->setFrom($fromEmail, $fromName);
