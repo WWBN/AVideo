@@ -39,7 +39,7 @@ $forceRecreate = false;
 $cacheName = '/channelsList_' . md5(json_encode($_GET));
 $channelsList = ObjectYPT::getCache($cacheName, 3600); // 1 hour
 
-$_MaxDaysFromNow = strtotime('+7 days');
+$_MaxDaysFromNow = strtotime('+2 days');
 
 if ($forceRecreate || empty($channelsList)) {
     $channelsList = array();
