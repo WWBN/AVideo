@@ -39,7 +39,7 @@ $forceRecreate = false;
 $cacheName = '/channelsList_' . md5(json_encode($_GET));
 $channelsList = ObjectYPT::getCache($cacheName, 3600); // 1 hour
 
-$_30DaysFromNow = strtotime('+15 days');
+$_MaxDaysFromNow = strtotime('+15 days');
 
 if ($forceRecreate || empty($channelsList)) {
     $channelsList = array();
@@ -69,7 +69,7 @@ if ($forceRecreate || empty($channelsList)) {
                             continue;
                         }
                         $timeWillStart = strtotime($program['start']);
-                        if($timeWillStart>$_30DaysFromNow){
+                        if($timeWillStart>$_MaxDaysFromNow){
                             unset($epgData[$key2]);
                             continue;
                         }
