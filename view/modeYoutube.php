@@ -54,8 +54,12 @@ if (!empty($evideo)) {
         unset($_SESSION['type']);
     }
     session_write_close();
-
+    
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+    if(empty($_GET['playlist_id']) && !empty($_GET['playlists_id'])){
+        $_GET['playlist_id'] = $_GET['playlists_id'];
+    }
+    
     if (!empty($_GET['playlist_id'])) {
         $isSerie = 1;
         if (preg_match("/^[0-9]+$/", $_GET['playlist_id'])) {

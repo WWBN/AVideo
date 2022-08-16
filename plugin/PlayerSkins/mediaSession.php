@@ -73,9 +73,11 @@ if (empty($MediaMetadata)) {
         key = 0;
         live_servers_id = 0;
         live_schedule_id = 0;
-        if (player.playlist) {
+        if (!empty(player.playlist) && typeof playerPlaylist !== 'undefined' && !empty(playerPlaylist)) {
             index = player.playlist.currentIndex();
-            videos_id = playerPlaylist[index].videos_id;
+            if(!empty(playerPlaylist[index])){
+                videos_id = playerPlaylist[index].videos_id;
+            }
         } else if (mediaId) {
             videos_id = mediaId;
         } else if (isLive) {

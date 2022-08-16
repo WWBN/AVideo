@@ -100,7 +100,7 @@ class PlayLists extends PluginAbstract {
         $css = '<link href="' . getURL('plugin/PlayLists/style.css') . '" rel="stylesheet" type="text/css"/>';
         $css .= '<style>.epgProgress.progress-bar-primary{opacity: 0.5;}.epgProgress:hover{opacity: 1.0;}.epgProgressText{border-right: 1px solid #FFF; height:100%;}</style>';
 
-        if (!empty(getPlaylists_id())) {
+        if (!empty(getPlaylists_id()) && isEmbed()) {
             $css .= "<link href=\"" . getURL('plugin/PlayLists/playerButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
         }
 
@@ -128,7 +128,7 @@ class PlayLists extends PluginAbstract {
             }
         }
 
-        if (!empty(getPlaylists_id())) {
+        if (!empty(getPlaylists_id()) && isEmbed()) {
             PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayLists/playerButton.js"));
         }
         

@@ -32,7 +32,7 @@ $restreamers = Live_restreams::getAllFromUser(User::getId());
             <th>Title</th>
             <th>Key</th>
             <th>Started</th>
-            <th data-toggle="tooltip" title="<?php echo __('Max at same time'); ?>">Max</th>
+            <th><abbr title="<?php echo __('Max at same time'); ?>">Max</abbr></th>
             <th>Total</th>
             <th></th>
         </tr>
