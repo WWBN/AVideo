@@ -2,7 +2,22 @@
 require_once '../../videos/configuration.php';
 
 $_start = microtime(true);
+$fontSize = 18;
+$timeLineElementSize = 300;
 
+if (isMobile()) {
+    $timeLineElementSize = 150;
+    $fontSize = 12;
+}
+
+$cacheNameEpgPage = '/epgPage_'.$timeLineElementSize . md5(json_encode($_GET));
+$content = ObjectYPT::getCache($cacheNameEpgPage, 3600); // 1 hour
+if(!empty($content)){
+    echo $content;
+    $_end = microtime(true) - $_start;
+    echo '<!-- pageCache='.$_end.' -->';
+    exit;
+}
 require_once $global['systemRootPath'] . 'objects/EpgParser.php';
 
 $epgs = array();
@@ -16,15 +31,6 @@ foreach ($videos as $video) {
     }
     $epgs[] = $video;
 }
-//var_dump($epgs);exit;
-$fontSize = 18;
-$timeLineElementSize = 300;
-
-if (isMobile()) {
-    $timeLineElementSize = 150;
-    $fontSize = 12;
-}
-
 $timeLineElementMinutes = 30;
 $paddingSize = 10;
 $minimumWidth = 80;
@@ -238,7 +244,7 @@ $positionNow = ($minuteSize * $minutesSince0Time) + $timeLineElementSize;
 //$bgColors = array('#feceea', '#fef1d2', '#a9fdd8', '#d7f8ff', '#cec5fa');
 
 $bgColors = array('#222222', '#333333', '#444444', '#555555');
-
+_ob_start();
 //var_dump($minuteSize, $minutes,$positionNow);exit;
 ?><!DOCTYPE html>
 <html>
@@ -489,3 +495,8 @@ $_end = microtime(true) - $_start;
 ?>
 <!-- seconds to complete=<?php echo $_end; ?> -->
 <!-- videos_id=<?php echo $videos_id; ?> -->
+<?php
+$content = _ob_get_clean();
+ObjectYPT::setCache($cacheNameEpgPage, $content); // 1 hour
+echo $content;
+?>
