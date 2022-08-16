@@ -100,7 +100,7 @@ if (empty($channelsList)) {
     }
     usort($channelsList, "cmpChannels");
 } else {
-    $channelsList = object_to_array($channelsList);
+    //$channelsList = object_to_array($channelsList);
 }
 
 //var_dump($epgData);exit;
