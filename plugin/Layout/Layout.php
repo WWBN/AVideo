@@ -606,7 +606,7 @@ class Layout extends PluginAbstract {
     }
 
     static function getTagsLinkCSS($html) {
-        preg_match_all('/<link[^>]+href=[^>]+css[^>]+>/Usi', $html, $matches);
+        preg_match_all('/<link[^>]+href=[^>]+>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $value) {
                 $response = self::tryToReplace($value, '', $html);

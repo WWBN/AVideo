@@ -153,7 +153,7 @@ class VideoLogoOverlay extends PluginAbstract {
         if (isWebRTC()) {
             return '';
         }
-        return "<link href=\"{$global['webSiteRootURL']}plugin/VideoLogoOverlay/style.css\" rel=\"stylesheet\" type=\"text/css\"/>";
+        return "<link href=\"{$global['webSiteRootURL']}plugin/VideoLogoOverlay/style.css\" rel=\"stylesheet\" type=\"text/css\"  media=\"print\" onload=\"this.media='all'\"/>";
     }
 
 }

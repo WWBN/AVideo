@@ -58,5 +58,5 @@ if (!empty($_REQUEST['roku'])) {
 
 function feedText($text)
 {
-    return str_replace(['&&'], ['&'], str_replace(['&','<','>'], ['&amp;','&lt;','&gt;'], (strip_tags(br2nl($text)))));
+    return trim(str_replace(['&&'], ['&'], str_replace(['&nbsp;','&','<','>'], [' ','&amp;','&lt;','&gt;'], (strip_tags(br2nl($text))))));
 }

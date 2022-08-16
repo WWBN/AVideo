@@ -20,7 +20,7 @@ $sources = getVideosURLPDF($video['filename']);
                 <?php
                 $url = $sources["pdf"]['url'];
                 ?>
-                <iframe id="pdfIframe" class="embed-responsive-item" scrolling="no" allowfullscreen="true" type="application/pdf" src="<?php echo $url; ?>"></iframe>
+                <iframe id="pdfIframe" class="embed-responsive-item" scrolling="no" <?php echo Video::$iframeAllowAttributes; ?> type="application/pdf" src="<?php echo $url; ?>"></iframe>
                 <script>
                     $(document).ready(function () {
                         addView(<?php echo $video['id']; ?>, 0);

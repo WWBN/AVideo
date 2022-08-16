@@ -27,27 +27,6 @@ try {
     var isDebuging = false;
     var avideoIsOnline = false;
     var userLang = navigator.language || navigator.userLanguage;
-    /* Code sample for resize iframe on a third party page
-     <iframe width="640" height="310" style="max-width: 100%;max-height: 100%; border:none;" src="..." frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="NO" >iFrame is not supported!</iframe>
-     <script>
-     // Create browser compatible event handler.
-     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-     var eventer = window[eventMethod];
-     var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-     var _iframe = document.querySelector("iframe");
-     // Listen for a message from the iframe.
-     eventer(messageEvent, function (e) {
-     //console.log('EventListener', e.data);
-     if(e.data.height){
-     _iframe.style.height = e.data.height + 'px';
-     }
-     },false);
-     
-     setInterval(function(){
-     _iframe.contentWindow.postMessage({getHeight: 1}, "*");
-     },1000);
-     </script>
-     */
 
     // Create browser compatible event handler.
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
@@ -1523,7 +1502,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         html += '<img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;">';
     }
     html += '</div>';
-    html += '<iframe id="avideoModalIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
+    html += '<iframe id="avideoModalIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  '+iframeAllowAttributes+' ></iframe>';
     var span = document.createElement("span");
     span.innerHTML = html;
     $('.swal-overlay').show();
@@ -3159,4 +3138,17 @@ function toogleVideoSuggested(btn){
             $(btn).removeClass('isSuggested btn-warning');
         }
     }).catch((error) => {console.log(error)});
+}
+
+
+// Cookie functions stolen from w3schools
+function setCookie(cname, cvalue, exdays) {
+    Cookies.set(cname, cvalue, {
+        path: '/',
+        expires: exdays
+    });
+}
+
+function getCookie(cname) {
+    return Cookies.get(cname);
 }

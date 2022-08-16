@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../videos/configuration.php';
+require_once '../../../../videos/configuration.php';
 
 header('Content-Type: application/json');
 
@@ -25,7 +25,7 @@ $lth->setDomain('localhost');
 $lth->setUsers_id(User::getId());
 $lth->setLive_servers_id(0);
 $obj->liveTransmitionHistory_id = $lth->save();
-$obj->restream = Live::restream($obj->liveTransmitionHistory_id, true);
+$obj->restream = Live::restream($obj->liveTransmitionHistory_id, 0, true);
 
 $obj->error = false;
 die(json_encode($obj));

@@ -2901,11 +2901,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return self::sendRestream($obj);
     }
 
-    public static function restream($liveTransmitionHistory_id, $test=false) {
+    public static function restream($liveTransmitionHistory_id, $live_restreams_id=0, $test=false) {
         if(empty($test)){
             outputAndContinueInBackground();
         }
         $obj = self::getRestreamObject($liveTransmitionHistory_id);
+        $obj->live_restreams_id = $live_restreams_id;
         if($test){
             $obj->test = 1;
         }

@@ -12,7 +12,7 @@
 </style>
 <iframe width="100%" height="100%" style="display: none;" 
         src="" 
-        frameborder="0" allowfullscreen="allowfullscreen" allow="autoplay" scrolling="no" id="videoIFrame">iFrame is not supported!</iframe>
+        frameborder="0" <?php echo Video::$iframeAllowAttributes; ?> scrolling="no" id="videoIFrame">iFrame is not supported!</iframe>
 
 <script>
     var isIframe = true;

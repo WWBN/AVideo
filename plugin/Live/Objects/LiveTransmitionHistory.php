@@ -306,7 +306,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $this->live_servers_id = intval($live_servers_id);
     }
 
-    public static function getAllFromUser($users_id=0, $onlyWithViewers=false) {
+    public static function getAllFromUser($users_id=0, $onlyWithViewers=false, $onlyActive=false) {
         global $global;
         $users_id = intval($users_id);
         $sql = "SELECT *, "
@@ -315,7 +315,10 @@ class LiveTransmitionHistory extends ObjectYPT {
                 . " WHERE 1=1 ";
         
         if(!empty($users_id)){
-            $sql .= " AND users_id = $users_id ";
+            $sql .= " AND (users_id = $users_id OR users_id_company = $users_id)  ";
+        }
+        if(!empty($onlyActive)){
+            $sql .= " AND (finished IS NULL) ";
         }
         
         if($onlyWithViewers){
@@ -339,6 +342,10 @@ class LiveTransmitionHistory extends ObjectYPT {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
+    }
+    
+    public static function getAllActiveFromUser($users_id=0) {
+        return self::getAllFromUser($users_id, false, true);
     }
 
     public static function isLive($key, $live_servers_id=0) {

@@ -109,6 +109,8 @@ if (!class_exists('Video')) {
         public static $searchFieldsNames = ['v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename'];
         public static $searchFieldsNamesLabels = ['Video Title', 'Video Description', 'Channel Name', 'Channel Description', 'Video ID', 'Video Filename'];
 
+        public static $iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
+        
         public function __construct($title = "", $filename = "", $id = 0) {
             global $global;
             $this->rotation = 0;
@@ -1160,7 +1162,8 @@ if (!class_exists('Video')) {
                 $suggestedOnly = true;
                 $status = '';
             }
-            $sql = "SELECT STRAIGHT_JOIN  u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
+            $sql = "SELECT STRAIGHT_JOIN  u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description,"
+                    . " v.created as videoCreation, v.modified as videoModified "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
                     . " FROM videos as v "
@@ -5228,7 +5231,7 @@ if (!class_exists('Video')) {
             return $btnHTML;
         }
 
-        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false) {
+        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false, $preloadImage=false) {
             if (empty($videos_id)) {
                 return '';
             }
@@ -5244,7 +5247,7 @@ if (!class_exists('Video')) {
                 $images = object_to_array($video['images']);
             }
             //var_dump($videos_id, $video, $images);
-            $img = getVideoImagewithHoverAnimation($images['poster'], $images['thumbsGif'], $video['title']);
+            $img = getVideoImagewithHoverAnimation($images['poster'], $images['thumbsGif'], $video['title'], $preloadImage);
             $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
             $isserie = Video::isSerie($videos_id);
             $isserieClass = "";
