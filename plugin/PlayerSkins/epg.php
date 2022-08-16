@@ -437,3 +437,5 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
         </script>
     </body>
 </html>
+<!-- <?php echo date('Y-m-d H:i:s'); ?> -->
+<!-- <?php echo date_default_timezone_get(); ?> -->
