@@ -7372,12 +7372,16 @@ function getLiveVideosFromCategory($categories_id) {
                     unset($value[$key]);
                 }
             }
+            $description = '';
             if (!empty($value['liveLinks_id'])) {
                 $ll = new LiveLinksTable($value['liveLinks_id']);
 
                 $m3u8 = $ll->getLink();
+                $description = $ll->getDescription();
             } else if (!empty($value['key'])) {
                 $m3u8 = Live::getM3U8File($value['key']);
+                $lt = LiveTransmition::getFromKey($value['key']);
+                $description = $lt['description'];
             } else {
                 $m3u8 = '';
             }
