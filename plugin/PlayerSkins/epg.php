@@ -414,22 +414,25 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
                     });
                 });
                 setTimeout(function () {
-                    //$(document).scrollLeft($('#positionNow').position().left -<?php echo $timeLineElementSize + 50; ?>);
-                    $('html, body').animate({
-                        scrollLeft: ($('#positionNow').position().left -<?php echo $timeLineElementSize + 50; ?>),
-                        <?php
-                        if (!empty($videos_id)) {
-                            echo "scrollTop: (($(\"#video_{$videos_id}\").offset().top) - 100)";
-                        }
-                        ?>
-                    }, 1000);
-                }, 200);
+                    goToPositionNow();
+                }, 1000);
             }
             );
             function setPositionNow() {
                 var left = parseFloat($('#positionNow').css("left"));
                 var newLeft = (left +<?php echo $secondSize; ?>);
                 $('#positionNow').css("left", newLeft + 'px');
+            }
+
+            function goToPositionNow(){
+                $('html, body').animate({
+                    scrollLeft: ($('#positionNow').position().left -<?php echo $timeLineElementSize + 50; ?>),
+                    <?php
+                    if (!empty($videos_id)) {
+                        echo "scrollTop: (($(\"#video_{$videos_id}\").offset().top) - 100)";
+                    }
+                    ?>
+                }, 1000);
             }
         </script>
     </body>
