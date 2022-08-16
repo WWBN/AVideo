@@ -47,12 +47,12 @@ $_MaxDaysFromNow = strtotime('+24 hours');
 if ($forceRecreate || empty($channelsList)) {
     $channelsList = array();
     foreach ($epgs as $epg) {
-        $videos_id = $epg['id'];
+        $this_videos_id = $epg['id'];
         $programCacheName = '/program_' . md5($epg['epg_link']);
         $timeout = random_int(21600, 43200); //6 to 12 hours
         $programData = ObjectYPT::getCache($programCacheName, $timeout);
         if ($forceRecreate || empty($programData)) {
-            _error_log("EPG program expired creating again videos_id={$videos_id} " . $programCacheName);
+            _error_log("EPG program expired creating again videos_id={$this_videos_id} " . $programCacheName);
             //var_dump($epg['epg_link']);exit;
             $Parser = new \buibr\xmlepg\EpgParser();
             $Parser->setURL($epg['epg_link']);
@@ -88,13 +88,13 @@ if ($forceRecreate || empty($channelsList)) {
                     //var_dump($channels[$key]);
                     if (!empty($channels[$key])) {
                         usort($channels[$key]['epgData'], "cmpPrograms");
-                        $channels[$key]['videos_id'] = $videos_id;
+                        $channels[$key]['videos_id'] = $this_videos_id;
                         $channelsList[] = $channels[$key];
                         //var_dump($channelsList[0]);exit;
                     }
                 }
                 $file = ObjectYPT::setCache($programCacheName, $channelsList);
-                _error_log("EPG program cache created videos_id={$videos_id} " . json_encode($file));
+                _error_log("EPG program cache created videos_id={$this_videos_id} " . json_encode($file));
             } catch (Exception $e) {
                 throw new \RuntimeException($e);
             }
