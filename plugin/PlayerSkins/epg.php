@@ -23,6 +23,7 @@ $timeLineElementMinutes = 30;
 $timeLineElementSize = 200;
 $paddingSize = 10;
 $minimumWidth = 80;
+$minimumWidth1Dot = 50;
 $minimumWidthHide = 30;
 
 if (isMobile()) {
@@ -163,7 +164,7 @@ function setMinDate($date) {
 }
 
 function createEPG($channel) {
-    global $minuteSize, $Date, $minimumWidth,$minimumWidthHide, $videos_id;
+    global $minuteSize, $Date, $minimumWidth,$minimumWidthHide,$minimumWidth1Dot, $videos_id;
     $channel = object_to_array($channel);
     $displayname = $channel['display-name'];
     $channelId = $channel['id'];
@@ -198,6 +199,8 @@ function createEPG($channel) {
                     $_stopTime = strtotime($program['stop']);
                     $pclass = '';
                     if($width <= $minimumWidthHide){
+                        $text = '';
+                    }else if($width <= $minimumWidth1Dot){
                         $text = "<abbr title=\"{$program['title']}\">.</abbr>";
                     }else if ($width <= $minimumWidth) {
                         $text = "<abbr title=\"{$program['title']}\">...</abbr>";
