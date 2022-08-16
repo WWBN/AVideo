@@ -403,8 +403,11 @@ foreach ($bgColors as $key => $value) {
             </div>
             <div id="programsList">
                 <?php
-                foreach ($channelsList as $channel) {
+                foreach ($channelsList as $key => $channel) {
+                    $cstart = microtime(true);
                     createEPG($channel);
+                    $cend = microtime(true)-$cstart;
+                    echo PHP_EOL."<!-- {$key}=>{$cend} seconds -->".PHP_EOL;
                 }
                 ?>
             </div>
