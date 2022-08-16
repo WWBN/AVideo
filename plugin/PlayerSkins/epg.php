@@ -41,7 +41,7 @@ $channelsList = ObjectYPT::getCache($cacheName, 3600); // 1 hour
 
 $_30DaysFromNow = strtotime('+30 days');
 
-if (empty($channelsList)) {
+if ($forceRecreate || empty($channelsList)) {
     $channelsList = array();
     foreach ($epgs as $epg) {
         $videos_id = $epg['id'];
