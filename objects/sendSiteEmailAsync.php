@@ -1,7 +1,7 @@
 <?php
 //streamer config
 require_once dirname(__FILE__) . '/../videos/configuration.php';
-
+ob_end_flush();
 _error_log('sendSiteEmailAsync: Start');
 if (!isCommandLineInterface()) {
     _error_log('sendSiteEmailAsync: ERROR: command line only');
