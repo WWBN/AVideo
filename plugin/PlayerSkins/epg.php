@@ -443,6 +443,6 @@ $bgColors = array('#222222', '#333333', '#444444', '#555555');
 <!-- <?php echo date_default_timezone_get(); ?> -->
 <!-- minutesSince0Time=<?php echo $minutesSince0Time; ?> -->
 <?php
-$_end = microtime(true) - $start;
+$_end = microtime(true) - $_start;
 ?>
 <!-- seconds to complete=<?php echo $_end; ?> -->
