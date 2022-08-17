@@ -11,7 +11,7 @@ if (isMobile()) {
 }
 
 $cacheNameEpgPage = 'epgPage_'.$timeLineElementSize . md5(json_encode($_GET));
-$content = ObjectYPT::getCache($cacheNameEpgPage, 3600); // 1 hour
+$content = ObjectYPT::getCache($cacheNameEpgPage, 60); // 1 minute
 if(!empty($content)){
     echo $content;
     $_end = microtime(true) - $_start;
