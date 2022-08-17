@@ -10,8 +10,8 @@ if (isMobile()) {
     $fontSize = 12;
 }
 
-$cacheNameEpgPage = '/epgPage_'.$timeLineElementSize . md5(json_encode($_GET));
-$content = ObjectYPT::getCache($cacheNameEpgPage, 60); // 1 minute
+$cacheNameEpgPage = 'epgPage_'.$timeLineElementSize . md5(json_encode($_GET));
+$content = ObjectYPT::getCache($cacheNameEpgPage, 3600); // 1 hour
 if(!empty($content)){
     echo $content;
     $_end = microtime(true) - $_start;
@@ -55,7 +55,7 @@ if ($forceRecreate || empty($channelsList)) {
     foreach ($epgs as $epg) {
         $this_videos_id = $epg['id'];
         $programCacheName = '/program_' . md5($epg['epg_link']);
-        $timeout = random_int(21600, 43200); //6 to 12 hours
+        $timeout = random_int(3600, 21600); //1 to 6 hours
         $programData = ObjectYPT::getCache($programCacheName, $timeout);
         if ($forceRecreate || empty($programData)) {
             _error_log("EPG program expired creating again videos_id={$this_videos_id} " . $programCacheName);
