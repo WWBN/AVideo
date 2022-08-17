@@ -203,8 +203,8 @@ function createEPG($channel) {
                     if ($minutesSinceZeroTime < 0) {
                         continue;
                     }
-                    /*
                     $_stopTime = strtotime($program['stop']);
+                    /*
                     if($_stopTime<$nowTime){
                         continue;
                     }
