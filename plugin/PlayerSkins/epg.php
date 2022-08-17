@@ -95,6 +95,9 @@ if ($forceRecreate || empty($channelsList)) {
                     if (!empty($channels[$key])) {
                         usort($channels[$key]['epgData'], "cmpPrograms");
                         $channels[$key]['videos_id'] = $this_videos_id;
+                        if(!empty($epg['title'])){
+                            $channels[$key]['display-name'] = safeString($epg['title']);
+                        }
                         $channelsList[] = $channels[$key];
                         //var_dump($channelsList[0]);exit;
                     }
