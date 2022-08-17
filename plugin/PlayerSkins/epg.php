@@ -405,7 +405,9 @@ foreach ($bgColors as $key => $value) {
                         for ($i = 0; $i < 24; $i++) {
                             $hour = $i;
                             $amPm = 'AM';
-                            if ($i >= 12) {
+                            if ($i === 12) {
+                                $amPm = 'PM';
+                            }else if ($i > 12) {
                                 $hour = $i - 12;
                                 $amPm = 'PM';
                             }
