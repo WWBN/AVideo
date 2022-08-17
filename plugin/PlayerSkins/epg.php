@@ -203,10 +203,13 @@ function createEPG($channel) {
                     if ($minutesSinceZeroTime < 0) {
                         continue;
                     }
+                    /*
                     $_stopTime = strtotime($program['stop']);
                     if($_stopTime<$nowTime){
                         continue;
                     }
+                     * 
+                     */
                     $minutes = getDurationInMinutes($program['start'], $program['stop']);
                     $left = ($minuteSize * $minutesSinceZeroTime) + $timeLineElementSize;
                     $width = ($minuteSize * $minutes);
