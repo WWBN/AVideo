@@ -7876,7 +7876,7 @@ function getSystemTimezone() {
         $cmd = 'cat /etc/timezone';
     }
     
-    $_getDatabaseTimezoneName = trim(preg_replace('/[^a-z0-9_-]+/i', '', shell_exec($cmd)));
+    $_getDatabaseTimezoneName = trim(preg_replace('/[^a-z0-9_-]+/si', '', shell_exec($cmd)));
 
     return $_getDatabaseTimezoneName;
 }
