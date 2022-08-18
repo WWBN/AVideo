@@ -192,8 +192,8 @@ if (isRTL()) {
     var _serverDBTime = "<?php echo getDatabaseTime(); ?>";
     var _serverTimeString = "<?php echo date('Y-m-d H:i:s'); ?>";
     var _serverDBTimeString = "<?php echo date('Y-m-d H:i:s', getDatabaseTime()); ?>";
-    var _serverTimezone = "<?php echo date_default_timezone_get(); ?>";
-    var _serverSystemTimezone = "<?php echo getSystemTimezone(); ?>";
+    var _serverTimezone = <?php echo json_encode(date_default_timezone_get()); ?>;
+    var _serverSystemTimezone = <?php json_encode(getSystemTimezone()); ?>;
     var avideoModalIframeFullScreenCloseButton = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 2, 'class="btn btn-default pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
     var avideoModalIframeFullScreenCloseButtonSmall = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 4, 'class="btn btn-default btn-sm pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
     var PHPSESSID = "<?php echo session_id(); ?>";
