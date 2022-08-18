@@ -22,7 +22,7 @@ function getTemplateFromArray(itemsArray) {
 }
 
 function addTemplateFromArray(itemsArray) {
-    if(typeof itemsArray === 'function'){
+    if (typeof itemsArray === 'function') {
         return false;
     }
     //console.log('addTemplateFromArray', itemsArray);
@@ -30,15 +30,15 @@ function addTemplateFromArray(itemsArray) {
         return false;
     }
     var template = getTemplateFromArray(itemsArray);
-    
+
     var priority = 6;
-    if(!isNaN(itemsArray.priority)){
+    if (!isNaN(itemsArray.priority)) {
         priority = itemsArray.priority;
     }
-    if(empty(priority)){
+    if (empty(priority)) {
         priority = 6;
     }
-    var selector = '#topMenuUserNotifications ul .list-group .priority'+priority;
+    var selector = '#topMenuUserNotifications ul .list-group .priority' + priority;
     console.log('addTemplateFromArray prepend', selector);
     $(selector).prepend(template);
     return true;
@@ -123,6 +123,7 @@ function updateUserNotificationCount() {
                 countToOrRevesrse(selector, total);
                 $(selector).show();
             }, 1);
+            createFilterButtons();
         }
     }, 500);
 }
@@ -138,7 +139,7 @@ async function getUserNotification() {
             } else {
                 for (var item in response.notifications) {
                     var itemsArray = response.notifications[item];
-                    if(typeof itemsArray === 'function'){
+                    if (typeof itemsArray === 'function') {
                         continue;
                     }
                     addTemplateFromArray(itemsArray);
@@ -164,16 +165,86 @@ function deleteUserNotification(id, t) {
                 avideoAlertError(response.msg);
             } else {
                 //avideoToastSuccess(response.msg);
-                setTimeout(function(){
+                setTimeout(function () {
                     $(t).parent().remove();
                     updateUserNotificationCount();
-                },500);
+                }, 500);
             }
         }
     });
 }
 
-function deleteAllNotifications(){
+function getCountNotificationIcons() {
+    var selector = '#topMenuUserNotifications > ul .list-group .icon i';
+    var iconsCountList = [];
+    $(selector).each(function (index) {
+        var className = $(this).attr('class');
+        var classNameType = $(this).parent().attr('class');
+
+        classNameType = classNameType.replace("icon bg-", "");
+
+        var id = $(this).closest('div.userNotifications').attr('id');
+        var listIndex = className + classNameType;
+        //console.log('getCountNotificationIcons class', listIndex);
+        if (empty(iconsCountList[listIndex])) {
+            iconsCountList[listIndex] = [];
+        }
+        iconsCountList[listIndex].push([id, classNameType, className]);
+    });
+    //console.log('getCountNotificationIcons finish', iconsCountList);
+    return iconsCountList;
+}
+
+function createFilterButtons() {
+
+    var icons = getCountNotificationIcons();
+    var buttons = '<div class="btn-group btn-group-justified">';
+
+    var count = 0;
+    for (var i in icons) {
+        var icon = icons[i];
+        if (typeof icon == 'function') {
+            continue;
+        }
+        count++;
+        var id = 'uNotfFilter_' + count;
+        //buttons += '<button class="btn btn-'+icon[0][1]+' btn-sm" onclick=""><i class="'+icon[0][2]+'"></i> <span class="badge">'+icon.length+'</span></button>';
+        buttons += '<input type="checkbox" value="' + icon[0][2] + '" id="' + id + '" class="hidden check-with-label" checked><label for="' + id + '" class="btn btn-' + icon[0][1] + ' label-for-check"><i class="' + icon[0][2] + '"></i> <span class="badge">' + icon.length + '</span></label>';
+    }
+    buttons += '</div>';
+
+    $('#userNotificationsFilterButtons').empty();
+    $('#userNotificationsFilterButtons').append(buttons);
+    setCheckboxOnChange();
+}
+
+function getCheckedFilterButtons() {
+    var iconsList = {};
+    var selector = '#userNotificationsFilterButtons .check-with-label:checked';
+    $(selector).each(function (index) {
+        var val = $(this).val();
+        iconsList[val] = val;
+    });
+    return iconsList;
+}
+
+function setCheckboxOnChange() {
+    $('.check-with-label').on('change', function () {
+        var iconsList = getCheckedFilterButtons();
+        var selector = '#topMenuUserNotifications > ul .list-group .icon i';
+        $(selector).each(function (index) {
+            var parent = $(this).closest('div.userNotifications');
+            var className = $(this).attr('class');
+            if(empty(iconsList[className])){
+                $(parent).slideUp();
+            }else{
+                $(parent).slideDown();
+            }
+        });
+    });
+}
+
+function deleteAllNotifications() {
     animateChilds('#topMenuUserNotifications .dropdown-menu .list-group .canDelete', 'animate__flipOutX', 0.05);
     var url = webSiteRootURL + 'plugin/UserNotifications/View/User_notifications/delete.json.php';
     $.ajax({
@@ -184,10 +255,10 @@ function deleteAllNotifications(){
                 avideoAlertError(response.msg);
             } else {
                 //avideoToastSuccess(response.msg);
-                setTimeout(function(){
+                setTimeout(function () {
                     $('#topMenuUserNotifications .dropdown-menu .list-group .canDelete').remove();
                     updateUserNotificationCount();
-                },500);
+                }, 500);
             }
         }
     });

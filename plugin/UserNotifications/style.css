@@ -48,6 +48,13 @@
 #topMenuUserNotifications .dropdown-menu .list-group .priority > div{
     position: relative;
 }
+.check-with-label + .label-for-check {
+  opacity: 0.5;
+}
+.check-with-label:checked + .label-for-check {
+  opacity: 1;
+}
+
 @media (max-width: 767px) {
     #topMenuUserNotifications .dropdown-menu .list-group{
         max-height: calc(100vh - 300px);

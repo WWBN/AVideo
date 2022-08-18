@@ -11,6 +11,9 @@
             echo AVideoPlugin::getUserNotificationButton();
             ?>
         </div>
+        <div id="userNotificationsFilterButtons">
+            
+        </div>
         <div class="list-group">
         <?php
         for($i=1;$i<=10;$i++){
