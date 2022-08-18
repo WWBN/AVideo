@@ -1772,6 +1772,78 @@ function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
     return $saved;
 }
 
+function scaleUpAndMantainAspectRatioFinalSizes($new_w, $old_w, $new_h, $old_h){
+    
+    if($new_w<$new_h){
+        $aspectRatio = $new_w/$old_w;
+        $aspectRatio2 = $new_h/$old_h;
+    }else{
+        $aspectRatio = $new_h/$old_h;
+        $aspectRatio2 = $new_w/$old_w;
+    }
+    
+    $thumb_w = $old_w*$aspectRatio;
+    $thumb_h = $old_h* $aspectRatio;
+    
+    if($thumb_w>$new_w || $thumb_h>$new_h){
+        //var_dump($thumb_w, $thumb_h);
+        $thumb_w = $old_w*$aspectRatio2;
+        $thumb_h = $old_h* $aspectRatio2;
+    }
+    return array('w'=>$thumb_w, 'h'=>$thumb_h);
+}
+
+function scaleUpImage($file_src, $file_dest, $wd, $hd) {
+    $path = $file_src;
+    $newWidth = $wd;
+    $newHeight = $hd;
+    $new_thumb_loc = $file_dest;
+
+    $mime = getimagesize($path);
+
+    if ($mime['mime'] == 'image/png') {
+        $src_img = imagecreatefrompng($path);
+    }
+    if ($mime['mime'] == 'image/jpg') {
+        $src_img = imagecreatefromjpeg($path);
+    }
+    if ($mime['mime'] == 'image/jpeg') {
+        $src_img = imagecreatefromjpeg($path);
+    }
+    if ($mime['mime'] == 'image/pjpeg') {
+        $src_img = imagecreatefromjpeg($path);
+    }
+    
+    $old_x = imageSX($src_img);
+    $old_y = imageSY($src_img);
+    
+    $sizes = scaleUpAndMantainAspectRatioFinalSizes($wd, $old_x, $hd, $old_y);   
+    
+    $thumb_w = $sizes['w'];
+    $thumb_h = $sizes['h'];
+    
+    $dst_img = ImageCreateTrueColor($thumb_w, $thumb_h);
+
+    imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $thumb_w, $thumb_h, $old_x, $old_y);
+
+    if ($mime['mime'] == 'image/png') {
+        $result = imagepng($dst_img, $new_thumb_loc, 8);
+    }
+    if ($mime['mime'] == 'image/jpg') {
+        $result = imagejpeg($dst_img, $new_thumb_loc, 80);
+    }
+    if ($mime['mime'] == 'image/jpeg') {
+        $result = imagejpeg($dst_img, $new_thumb_loc, 80);
+    }
+    if ($mime['mime'] == 'image/pjpeg') {
+        $result = imagejpeg($dst_img, $new_thumb_loc, 80);
+    }
+
+    imagedestroy($dst_img);
+    imagedestroy($src_img);
+    return $result;
+}
+
 function im_resizePNG($file_src, $file_dest, $wd, $hd) {
     $srcImage = imagecreatefrompng($file_src);
     $ws = imagesx($srcImage);
@@ -3743,10 +3815,10 @@ function convertImageToOG($source, $destination) {
 }
 
 function convertImageToRoku($source, $destination) {
-    return convertImageIfNotExists($source, $destination, 1280, 720);
+    return convertImageIfNotExists($source, $destination, 1280, 720, true);
 }
 
-function convertImageIfNotExists($source, $destination, $width, $height) {
+function convertImageIfNotExists($source, $destination, $width, $height, $scaleUp = true) {
     if (empty($source)) {
         _error_log("convertImageToRoku: source image is empty");
         return false;
@@ -3764,6 +3836,9 @@ function convertImageIfNotExists($source, $destination, $width, $height) {
             $tmpDir = getTmpDir();
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
+            if($scaleUp){
+                scaleUpImage($fileConverted, $fileConverted, $width, $height);
+            }
             im_resizeV2($fileConverted, $destination, $width, $height, 100);
             @unlink($fileConverted);
         } catch (Exception $exc) {
@@ -7856,13 +7931,13 @@ function getSystemTimezone() {
     if (isset($_getSystemTimezoneName)) {
         return $_getSystemTimezoneName;
     }
-    
-    if(isWindows()){
+
+    if (isWindows()) {
         $cmd = 'tzutil /g';
-    }else{
+    } else {
         $cmd = 'cat /etc/timezone';
     }
-    
+
     $_getDatabaseTimezoneName = trim(preg_replace('/[^a-z0-9_ \/-]+/si', '', shell_exec($cmd)));
 
     return $_getDatabaseTimezoneName;
