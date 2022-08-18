@@ -712,7 +712,7 @@ class API extends PluginAbstract {
 
             unset($obj->user['externalOptions']);
             unset($obj->user['extra_info']);
-
+            $obj->user['canStream'] = $obj->user['canStream'] || $obj->user['isAdmin'];
             $obj->user['DonationButtons'] = _json_decode($obj->user['DonationButtons']);
 
             $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
