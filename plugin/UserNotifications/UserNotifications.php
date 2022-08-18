@@ -246,7 +246,7 @@ class UserNotifications extends PluginAbstract {
     
     public function getUserNotificationButton() {
         ?>
-            <button class="btn btn-default btn-sm" onclick="deleteAllNotifications();" data-toggle="tooltip" title="<?php echo __('Delete All Notifications') ?>" >
+            <button class="btn btn-default btn-sm hideWhenHasNothingToDelete" onclick="deleteAllNotifications();" data-toggle="tooltip" title="<?php echo __('Delete All Notifications') ?>" >
                 <i class="fas fa-trash"></i> <span class="hidden-sm hidden-xs"><?php echo __('Delete All'); ?></span>
             </button>
         <?php

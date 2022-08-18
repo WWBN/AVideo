@@ -1,11 +1,15 @@
 <!-- right menu start -->
-<li class="dropdown" id="topMenuUserNotifications" data-toggle="tooltip" title="<?php echo __('Notifications'); ?>" data-placement="bottom">    
-    <a href="#" class="faa-parent animated-hover btn btn-default btn-light navbar-btn" data-toggle="dropdown" data-toggle="tooltip" title="<?php echo __('Notifications'); ?>" data-placement="bottom" >
-        <i class="fas fa-bell faa-ring"></i>
+<li class="dropdown hasNothingToDelete hasNothingToShow" id="topMenuUserNotifications">    
+    <a href="#" class="faa-parent animated-hover btn btn-default btn-light navbar-btn hideWhenHasNothingToShow" data-toggle="dropdown" >
+        <i class="fas fa-bell faa-ring" data-toggle="tooltip" title="<?php echo __('Notifications'); ?>" data-placement="bottom" ></i>
         <span class="badge animate_animated animate__bounceIn">0</span>
-        <b class="caret"></b>
     </a>
-    <ul class="dropdown-menu dropdown-menu-right">
+    <div class="hideWhenHasSomethingToShow">
+        <a href="#" class="btn btn-default btn-light navbar-btn" data-toggle="dropdown" >
+            <i class="fas fa-bell-slash text-muted" data-toggle="tooltip" title="<?php echo __('There is no notifications'); ?>" data-placement="bottom" ></i>
+        </a>
+    </div>
+    <ul class="dropdown-menu dropdown-menu-right hideWhenHasNothingToShow">
         <div class="btn-group btn-group-justified">
             <?php
             echo AVideoPlugin::getUserNotificationButton();

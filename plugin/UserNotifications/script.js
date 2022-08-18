@@ -112,11 +112,13 @@ function updateUserNotificationCount() {
         var valueNow = parseInt($('#topMenuUserNotifications  a > span.badge-notify').text());
         var total = $('#topMenuUserNotifications > ul .list-group a').length;
         if (total <= 0) {
-            $('#topMenuUserNotifications .dropdown-menu').addClass('hidden');
+            $('#topMenuUserNotifications').addClass('hasNothingToShow');
+            $('#topMenuUserNotifications').removeClass('hasSomethingToShow');
             $('#topMenuUserNotifications > a > span.badge').removeClass('badge-notify');
             $('#topMenuUserNotifications > a > span.badge').text(0);
         } else if (total != valueNow) {
-            $('#topMenuUserNotifications .dropdown-menu').removeClass('hidden');
+            $('#topMenuUserNotifications').removeClass('hasNothingToShow');
+            $('#topMenuUserNotifications').addClass('hasSomethingToShow');
             $('#topMenuUserNotifications > a > span.badge').addClass('badge-notify');
             animateChilds('#topMenuUserNotifications .dropdown-menu .list-group .priority', 'animate__bounceInRight', 0.05);
             $('#topMenuUserNotifications > a > span.badge').hide();
@@ -126,6 +128,7 @@ function updateUserNotificationCount() {
                 $(selector).show();
             }, 1);
             createFilterButtons();
+            checkIfCanDeleteNotifications();
         }
     }, 500);
 }
@@ -230,6 +233,17 @@ function getCheckedFilterButtons() {
         iconsList[val] = val;
     });
     return iconsList;
+}
+
+function checkIfCanDeleteNotifications() {
+    var selector = '#topMenuUserNotifications .userNotifications.canDelete';
+    if ($(selector).length) {
+        $('#topMenuUserNotifications').removeClass('hasNothingToDelete');
+        $('#topMenuUserNotifications').addClass('hasSomethingToDelete');
+    } else {
+        $('#topMenuUserNotifications').removeClass('hasSomethingToDelete');
+        $('#topMenuUserNotifications').addClass('hasNothingToDelete');
+    }
 }
 
 function setCheckboxOnChange() {

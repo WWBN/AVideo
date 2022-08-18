@@ -1,5 +1,18 @@
+#topMenuUserNotifications > a > span.badge{
+    position: absolute;
+    top: 28px;
+    left: 24px;
+    z-index: 10;
+}
+
 #topMenuUserNotifications span.badge-notify{
     background:red;
+}
+
+#topMenuUserNotifications.hasNothingToShow .hideWhenHasNothingToShow,
+#topMenuUserNotifications.hasSomethingToShow .hideWhenHasSomethingToShow,
+#topMenuUserNotifications.hasNothingToDelete .hideWhenHasNothingToDelete{
+    display: none;
 }
 
 #topMenuUserNotifications .dropdown-menu .list-group{
@@ -48,6 +61,7 @@
 #topMenuUserNotifications .dropdown-menu .list-group .priority > div{
     position: relative;
 }
+
 .check-with-label + .label-for-check {
   opacity: 0.5;
 }
