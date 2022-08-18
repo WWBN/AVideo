@@ -1,4 +1,5 @@
 <?php
+
 $time_start = microtime(true);
 $config = '../../videos/configuration.php';
 session_write_close();
@@ -35,12 +36,12 @@ if (empty($objClone)) {
 
 if (empty($objClone->cloneSiteURL)) {
     $resp->msg = "Your Clone Site URL is empty, please click on the Edit parameters buttons and place an AVideo URL";
-    _error_log("{$resp->msg} (".json_encode($objClone).")");
+    _error_log("{$resp->msg} (" . json_encode($objClone) . ")");
     $log->add("Clone: {$resp->msg}");
     die(json_encode($resp));
 }
 
-$objClone->cloneSiteURL = rtrim($objClone->cloneSiteURL, "/").'/';
+$objClone->cloneSiteURL = rtrim($objClone->cloneSiteURL, "/") . '/';
 $objCloneOriginal = $objClone;
 $argv[1] = preg_replace("/[^A-Za-z0-9 ]/", '', @$argv[1]);
 
@@ -54,7 +55,7 @@ if (empty($objClone) || empty($argv[1]) || $objClone->myKey !== $argv[1]) {
 }
 
 $videosSite = "{$objClone->cloneSiteURL}videos/";
-$videosDir = Video::getStoragePath()."";
+$videosDir = Video::getStoragePath() . "";
 $clonesDir = "{$videosDir}cache/clones/";
 $photosDir = "{$videosDir}userPhoto/";
 $photosSite = "{$videosSite}userPhoto/";
@@ -108,7 +109,12 @@ $log->add("Clone (3 of {$totalSteps}): Overwriting our database with the server 
 $cmd = "mysql -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} < {$clonesDir}{$json->sqlFile}";
 exec($cmd . " 2>&1", $output, $return_val);
 if ($return_val !== 0) {
-    $log->add("Clone Error: " . print_r($output, true));
+    $log->add("Clone Error try aagain: " . end($output));
+    $cmd2 = "sudo sed -i 's/COLLATE=utf8mb4_0900_ai_ci/COLLATE=utf8_general_ci/g' {$clonesDir}{$json->sqlFile} ";
+    exec($cmd2 . " 2>&1", $output2, $return_val2);
+    if ($return_val2 !== 0) {
+        $log->add("Clone Error: " . print_r($output, true));
+    }
 }
 $log->add("Clone: Great! we overwrite it with success.");
 
@@ -162,7 +168,7 @@ if (empty($objClone->useRsync)) {
     if (empty($port)) {
         $port = 22;
     }
-    $rsync = "sshpass -p '{password}' rsync -av -e 'ssh  -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$objClone->cloneSiteSSHIP}:{$json->videosDir} ". Video::getStoragePath()." --log-file='{$log->file}' ";
+    $rsync = "sshpass -p '{password}' rsync -av -e 'ssh  -p {$port} -o StrictHostKeyChecking=no' --exclude '*.php' --exclude 'cache' --exclude '*.sql' --exclude '*.log' {$objClone->cloneSiteSSHUser}@{$objClone->cloneSiteSSHIP}:{$json->videosDir} " . Video::getStoragePath() . " --log-file='{$log->file}' ";
     $cmd = str_replace("{password}", $objClone->cloneSiteSSHPassword->value, $rsync);
     $log->add("Clone (4 of {$totalSteps}): execute rsync ({$rsync})");
 
