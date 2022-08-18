@@ -111,15 +111,17 @@ function updateUserNotificationCount() {
     _updateUserNotificationCountTimeout = setTimeout(function () {
         var valueNow = parseInt($('#topMenuUserNotifications  a > span.badge-notify').text());
         var total = $('#topMenuUserNotifications > ul .list-group a').length;
-        if (total != valueNow) {
-            //Avoid dropdown menu close on click inside
-            $(document).on('click', '#topMenuUserNotifications .dropdown-menu', function (e) {
-                e.stopPropagation();
-            });
+        if (total <= 0) {
+            $('#topMenuUserNotifications .dropdown-menu').addClass('hidden');
+            $('#topMenuUserNotifications > a > span.badge').removeClass('badge-notify');
+            $('#topMenuUserNotifications > a > span.badge').text(0);
+        } else if (total != valueNow) {
+            $('#topMenuUserNotifications .dropdown-menu').removeClass('hidden');
+            $('#topMenuUserNotifications > a > span.badge').addClass('badge-notify');
             animateChilds('#topMenuUserNotifications .dropdown-menu .list-group .priority', 'animate__bounceInRight', 0.05);
-            $('#topMenuUserNotifications  a > span.badge-notify').hide();
+            $('#topMenuUserNotifications > a > span.badge').hide();
             setTimeout(function () {
-                var selector = '#topMenuUserNotifications  a > span.badge-notify';
+                var selector = '#topMenuUserNotifications > a > span.badge';
                 countToOrRevesrse(selector, total);
                 $(selector).show();
             }, 1);
@@ -214,7 +216,7 @@ function createFilterButtons() {
     buttons += '</div>';
 
     $('#userNotificationsFilterButtons').empty();
-    if(count>1){
+    if (count > 1) {
         $('#userNotificationsFilterButtons').append(buttons);
         setCheckboxOnChange();
     }
@@ -237,9 +239,9 @@ function setCheckboxOnChange() {
         $(selector).each(function (index) {
             var parent = $(this).closest('div.userNotifications');
             var className = $(this).attr('class');
-            if(empty(iconsList[className])){
+            if (empty(iconsList[className])) {
                 $(parent).slideUp();
-            }else{
+            } else {
                 $(parent).slideDown();
             }
         });
@@ -267,5 +269,9 @@ function deleteAllNotifications() {
 }
 
 $(document).ready(function () {
+    //Avoid dropdown menu close on click inside
+    $(document).on('click', '#topMenuUserNotifications .dropdown-menu', function (e) {
+        e.stopPropagation();
+    });
     getUserNotification();
 });
