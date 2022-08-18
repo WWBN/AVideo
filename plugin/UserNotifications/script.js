@@ -214,8 +214,10 @@ function createFilterButtons() {
     buttons += '</div>';
 
     $('#userNotificationsFilterButtons').empty();
-    $('#userNotificationsFilterButtons').append(buttons);
-    setCheckboxOnChange();
+    if(count>1){
+        $('#userNotificationsFilterButtons').append(buttons);
+        setCheckboxOnChange();
+    }
 }
 
 function getCheckedFilterButtons() {
