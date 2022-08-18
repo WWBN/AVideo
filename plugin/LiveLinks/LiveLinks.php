@@ -138,17 +138,24 @@ class LiveLinks extends PluginAbstract {
                         
             $label = ($liveUsers ? getLiveUsersLabelLiveLinks($value['id']) : '');
             //var_dump( self::getPosterToLiveFromId($value['id']),$value['id'] );exit;
-            $row = Live::getLiveApplicationModelArray(
-                    $value['users_id'], 
-                    $value['title'], 
-                    self::getLinkToLiveFromId($value['id']), 
-                    self::getPosterToLiveFromId($value['id']),
-                    self::getPosterToLiveFromId($value['id'], 'webp'), 
-                    'LiveLink', 
-                    $label, 
-                    'liveLink_'.$value['id'], 
-                    '', 
-                    convertFromDefaultTimezoneTimeToMyTimezone($value['start_date']));
+            
+            $array = array(
+                'users_id'=>$value['users_id'],
+                'title'=>$value['title'],
+                'link'=>self::getLinkToLiveFromId($value['id']),
+                'imgJPG'=>self::getPosterToLiveFromId($value['id']),
+                'imgGIF'=>self::getPosterToLiveFromId($value['id'], 'webp'),
+                'type'=>'LiveLink',
+                'LiveUsersLabelLive'=>$label,
+                'uid'=>'liveLink_'.$value['id'],
+                'callback'=>'',
+                'startsOnDate'=>convertFromDefaultTimezoneTimeToMyTimezone($value['start_date']),
+                'class'=>'',
+                'description'=>$value['description']
+            );
+            
+            $row = Live::getLiveApplicationModelArray($array);
+            //var_dump($row);exit;
             $row['categories_id'] = $value['categories_id'];
             $row['liveLinks_id'] = $value['id'];
             $row['start_date'] = $value['start_date'];

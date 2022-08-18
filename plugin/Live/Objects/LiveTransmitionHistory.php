@@ -187,7 +187,23 @@ class LiveTransmitionHistory extends ObjectYPT {
         $uid = "{$type}_{$liveTransmitionHistory_id}";
         $title = Live::getTitleFromKey($key, $title);
         //getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive='', $uid ='', $callback='', $startsOnDate='', $class='')
-        $obj = Live::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive, $uid, '', '', "live_{$key}");
+                
+        $array = array(
+            'users_id'=>$users_id,
+            'title'=>$title,
+            'link'=>$link,
+            'imgJPG'=>$imgJPG,
+            'imgGIF'=>$imgGIF,
+            'type'=>$type,
+            'LiveUsersLabelLive'=>$LiveUsersLabelLive,
+            'uid'=>$uid,
+            'callback'=>'',
+            'startsOnDate'=>'',
+            'class'=>"live_{$key}",
+            'description'=>$lth->getDescription()
+        );
+        
+        $obj = Live::getLiveApplicationModelArray($array);
         $obj['key'] = $key;
         $obj['live_transmitions_history_id'] = $liveTransmitionHistory_id;
         $obj['isPrivate'] = self::isPrivate($liveTransmitionHistory_id);

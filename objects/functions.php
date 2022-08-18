@@ -7594,7 +7594,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             $applications = array();
             foreach ($json['applications'] as $key => $value) {
                 // remove duplicated
-                if (in_array($value['href'], $applications)) {
+                if (!is_array($value) || empty($value['href']) || in_array($value['href'], $applications)) {
                     unset($json['applications'][$key]);
                     continue;
                 }
@@ -7603,19 +7603,6 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                     $u = User::getFromUsername($value['user']);
                     $json['applications'][$key]['users_id'] = $u['id'];
                 }
-                /*
-                 * It was creating a duplicated records
-                  if (!empty($json['applications'][$key]['key']) && $json['applications'][$key]["type"] === "live") {
-                  // make sure it is online
-                  $lth = new LiveTransmitionHistory();
-                  $lth->setTitle($json['applications'][$key]['title']);
-                  $lth->setKey($json['applications'][$key]['key']);
-                  $lth->setUsers_id($json['applications'][$key]['users_id']);
-                  $lth->setLive_servers_id($json['applications'][$key]['live_servers_id']);
-                  $json['applications'][$key]['live_transmitions_history_id'] = $lth->save();
-                  }
-                 * 
-                 */
             }
         }
         $cache = ObjectYPT::setCache($cacheName, $json);

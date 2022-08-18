@@ -2417,6 +2417,12 @@ class YouPHPTubePlugin extends AVideoPlugin
 }     
 
 function getLiveApplicationArrayCMP($a, $b) {
-    //var_dump($a['title'],$a['comingsoon'], $b['title'],$b['comingsoon'], $a['comingsoon'] - $b['comingsoon']);
+    if(empty($a['comingsoon'])){
+        return -1;
+    }
+    if(empty($b['comingsoon'])){
+        return 1;
+    }
+    //var_dump($a['comingsoon'],$b['comingsoon'], $a['comingsoon'] - $b['comingsoon']);
     return $a['comingsoon'] - $b['comingsoon'];
 }

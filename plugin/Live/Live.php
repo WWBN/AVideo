@@ -261,8 +261,23 @@ class Live extends PluginAbstract {
             $title = self::getTitleFromKey($value['key'], $value['title']);
 
             $users_id = Live_schedule::getUsers_idOrCompany($value['id']);
+        
+            $_array = array(
+                'users_id'=>$users_id,
+                'title'=>$title,
+                'link'=>$link,
+                'imgJPG'=>Live_schedule::getPosterURL($value['id']),
+                'imgGIF'=>'',
+                'type'=>'scheduleLive',
+                'LiveUsersLabelLive'=>$LiveUsersLabelLive,
+                'uid'=>'LiveSchedule_' . $value['id'],
+                'callback'=>$callback,
+                'startsOnDate'=>"{$value['scheduled_time']} {$value['timezone']}",
+                'class'=>'live_' . $value['key'],
+                'description'=>$value['description']
+            );
 
-            $app = self::getLiveApplicationModelArray($users_id, $title, $link, Live_schedule::getPosterURL($value['id']), '', 'scheduleLive', $LiveUsersLabelLive, 'LiveSchedule_' . $value['id'], $callback, "{$value['scheduled_time']} {$value['timezone']}", 'live_' . $value['key']);
+            $app = self::getLiveApplicationModelArray($_array);
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
             $app['isPrivate'] = false;
@@ -271,10 +286,10 @@ class Live extends PluginAbstract {
             $app['scheduled_time_timezone'] = $value['timezone'];
             $app['scheduled_time'] = $value['scheduled_time'];
             $app['live_schedule_id'] = $value['id'];
-
+            //var_dump($app);exit;
             $array[] = $app;
         }
-        //var_dump($rows);exit;
+        //var_dump(count($array), $rows);exit;
 
         $rows = LiveTransmitionHistory::getActiveLives();
         $currentLives = array();
@@ -319,8 +334,23 @@ class Live extends PluginAbstract {
             $title = self::getTitleFromKey($value['key'], $value['title']);
 
             $users_id = LiveTransmitionHistory::getUsers_idOrCompany($value['id']);
-
-            $app = self::getLiveApplicationModelArray($users_id, $title, $link, self::getPoster($value['users_id'], $value['live_servers_id']), '', 'LiveDB', $LiveUsersLabelLive, 'LiveObject_' . $value['id'], '', '', "live_{$value['key']}");
+            
+            $array = array(
+                'users_id'=>$users_id,
+                'title'=>$title,
+                'link'=>$link,
+                'imgJPG'=> self::getPoster($value['users_id'], $value['live_servers_id']),
+                'imgGIF'=> '',
+                'type'=>'LiveDB',
+                'LiveUsersLabelLive'=>$LiveUsersLabelLive,
+                'uid'=>'LiveObject_'.$value['id'],
+                'callback'=>'',
+                'startsOnDate'=>'',
+                'class'=>"live_{$value['key']}",
+                'description'=>$value['description']
+            );
+            
+            $app = self::getLiveApplicationModelArray($array);
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
             $app['live_transmitions_history_id'] = $value['id'];
@@ -339,9 +369,9 @@ class Live extends PluginAbstract {
         return $array;
     }
 
-    public static function getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, $type, $LiveUsersLabelLive = '', $uid = '', $callback = '', $startsOnDate = '', $class = '') {
+    public static function getLiveApplicationModelArray($array) {
         global $global, $_getLiveApplicationModelArray_counter, $_getLiveApplicationModelArray;
-
+        
         if (!isset($_getLiveApplicationModelArray)) {
             $_getLiveApplicationModelArray = [];
         }
@@ -352,6 +382,40 @@ class Live extends PluginAbstract {
 
         if (empty($_getLiveApplicationModelArray_counter)) {
             $_getLiveApplicationModelArray_counter = 0;
+        }
+        
+        $expectedValues = array(
+            'users_id',
+            'title',
+            'link',
+            'imgJPG',
+            'imgGIF',
+            'type',
+            'LiveUsersLabelLive',
+            'uid',
+            'callback',
+            'startsOnDate',
+            'class',
+            'description'
+        );
+        
+        $argsArray = array();
+        
+        $arg_list = func_get_args();
+        if(count($arg_list)>1){
+            foreach ($arg_list as $key => $value) {
+                $argsArray[$expectedValues[$key]] = $value;
+            }
+        }else{
+            $argsArray = $array;
+        }
+        
+        foreach ($expectedValues as $value) {
+            if(isset($argsArray[$value])){
+                eval('$'.$value.' = $argsArray[$value];');
+            }else{
+                eval('$'.$value.' = false;');
+            }
         }
 
         $uid = str_replace(['&', '='], '', $uid);
@@ -442,6 +506,7 @@ class Live extends PluginAbstract {
             'categories_id' => intval($lt['categories_id']),
             'className' => $uid,
             'comingsoon' => $comingsoon,
+            'description' => $description,
             'timezone' => date_default_timezone_get(),
         ];
 
@@ -2042,6 +2107,24 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
                 $users_id = LiveTransmition::getUsers_idOrCompanyFromKey($value->name);
 
+                /*
+                $array = array(
+                    'users_id'=>$users_id,
+                    'title'=>$title,
+                    'link'=>$link,
+                    'imgJPG'=> $imgJPG,
+                    'imgGIF'=> $imgGIF,
+                    'type'=>'live',
+                    'LiveUsersLabelLive'=>$LiveUsersLabelLive,
+                    'uid'=>$uid,
+                    'callback'=>'',
+                    'startsOnDate'=>'',
+                    'class'=>'live_' . $value->name,
+                    'description'=>''
+                );
+                 * 
+                 */
+                
                 $app = self::getLiveApplicationModelArray($users_id, $title, $link, $imgJPG, $imgGIF, 'live', $LiveUsersLabelLive, $uid, '', $uid, 'live_' . $value->name);
                 $app['live_servers_id'] = $live_servers_id;
                 $app['key'] = $value->name;
