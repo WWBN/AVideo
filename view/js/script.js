@@ -1955,6 +1955,7 @@ async function getServerTime() {
             _serverDBTimeString = response._serverDBTimeString;
             _serverTimezone = response._serverTimezone;
             _serverDBTimezone = response._serverDBTimezone;
+            _serverSystemTimezone = response._serverSystemTimezone;
             //console.log('getServerTime _serverDBTimezone', _serverDBTimezone, response._serverDBTimezone);
             setInterval(function () {
                 _serverTime++;

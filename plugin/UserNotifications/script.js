@@ -12,7 +12,7 @@ function getTemplateFromArray(itemsArray) {
         } else if (search == 'element_class' && !empty(itemsArray.id)) {
             replace += " UserNotificationsJS_" + itemsArray.id;
         } else if (search == 'created') {
-            m = moment.tz(itemsArray.created, itemsArray.timezone).local();
+            m = moment.tz(itemsArray.created, _serverSystemTimezone).local();
             replace = m.fromNow();
         }
         template = template.replace(new RegExp('{' + search + '}', 'g'), replace);

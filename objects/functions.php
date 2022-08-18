@@ -7864,6 +7864,23 @@ function getDatabaseTime() {
     return $_getDatabaseTime;
 }
 
+function getSystemTimezone() {
+    global $global, $_getSystemTimezoneName;
+    if (isset($_getSystemTimezoneName)) {
+        return $_getSystemTimezoneName;
+    }
+    
+    if(isWindows()){
+        $cmd = 'tzutil /g';
+    }else{
+        $cmd = 'cat /etc/timezone';
+    }
+    
+    $_getDatabaseTimezoneName = shell_exec($cmd);
+
+    return $_getDatabaseTimezoneName;
+}
+
 function getDatabaseTimezoneName() {
     global $global, $_getDatabaseTimezoneName;
     if (isset($_getDatabaseTimezoneName)) {
