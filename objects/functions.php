@@ -590,7 +590,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
         $advancedCustom = AVideoPlugin::loadPlugin("CustomizeAdvanced");
     }
 
-    _error_log('sendSiteEmail: subject= '.$subject);
+    _error_log('sendSiteEmail: subject= ' . $subject);
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
     $message = createEmailMessageFromTemplate($message);
@@ -614,7 +614,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     $webSiteTitle = $config->getWebSiteTitle();
     try {
         if (!is_array($to)) {
-            _error_log('sendSiteEmail: send single email '.$to);
+            _error_log('sendSiteEmail: send single email ' . $to);
             $mail = new \PHPMailer\PHPMailer\PHPMailer();
             setSiteSendMessage($mail);
             $mail->setFrom($fromEmail, $fromName);
@@ -2424,7 +2424,7 @@ function getTagIfExists($relativePath) {
     }
 }
 
-function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false, $preloadImage=false) {
+function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false, $preloadImage = false) {
     global $global;
     $relativePathOriginal = $relativePath;
     $relativePath = getRelativePath($relativePath);
@@ -2464,8 +2464,8 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
         $img .= " src=\"{$url}\" ";
     }
     $img .= "/>";
-    if($preloadImage){
-        $img = "<link rel=\"prefetch\" href=\"{$url}\" />".$img;
+    if ($preloadImage) {
+        $img = "<link rel=\"prefetch\" href=\"{$url}\" />" . $img;
     }
     return $img;
 }
@@ -2486,7 +2486,7 @@ function createWebPIfNotExists($path) {
     return $nextGenPath;
 }
 
-function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation = '', $title = '', $preloadImage=false) {
+function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimation = '', $title = '', $preloadImage = false) {
     $id = uniqid();
     //getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false, $preloadImage=false)
     $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive', false, true) . PHP_EOL;
@@ -2715,24 +2715,24 @@ function thereIsAnyRemoteUpdate() {
 }
 
 function UTF8encode($data) {
-    if(emptyHTML($data)){
+    if (emptyHTML($data)) {
         return $data;
     }
     global $advancedCustom, $global;
 
     if (!empty($advancedCustom->utf8Encode)) {
         $newData = utf8_encode($data);
-        if(!empty($newData)){
+        if (!empty($newData)) {
             return $newData;
-        }else{
+        } else {
             return $data;
         }
     }
     if (!empty($advancedCustom->utf8Decode)) {
         $newData = utf8_decode($data);
-        if(!empty($newData)){
+        if (!empty($newData)) {
             return $newData;
-        }else{
+        } else {
             return $data;
         }
     }
@@ -8492,9 +8492,9 @@ function convertFromDefaultTimezoneTimeToMyTimezone($date) {
     return convertDateFromToTimezone($date, getDefaultTimezone(), date_default_timezone_get());
 }
 
-function getDefaultTimezone(){
+function getDefaultTimezone() {
     global $advancedCustom, $_getDefaultTimezone;
-    if(!empty($_getDefaultTimezone)){
+    if (!empty($_getDefaultTimezone)) {
         return $_getDefaultTimezone;
     }
     if (empty($advancedCustom)) {
@@ -9275,7 +9275,13 @@ function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type) {
     return $downloadOptions;
 }
 
-function isOnDeveloperMode(){
+function isOnDeveloperMode() {
     global $global;
     return (!empty($global['developer_mode']) || (!empty($global['developer_mode_admin_only']) && User::isAdmin()));
+}
+
+function setDefaultSort($defaultSortColumn, $defaultSortOrder) {
+    if (empty($_REQUEST['sort']) && empty($_GET['sort']) && empty($_POST['sort']) && empty($_GET['order'][0]['dir'])) {
+        $_POST['sort'][$defaultSortColumn] = $defaultSortOrder;
+    }
 }

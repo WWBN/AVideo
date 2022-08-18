@@ -68,7 +68,7 @@ class TopMenu extends PluginAbstract {
 
     public function getHeadCode() {
         global $global;
-        $css = '<link href="' .getCDN() . 'plugin/TopMenu/style.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' .getURL('plugin/TopMenu/style.css') . '" rel="stylesheet" type="text/css"/>';
         return $css;
     }
     

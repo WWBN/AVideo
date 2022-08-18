@@ -41,8 +41,10 @@ class Like
             }
             if ($like==1) {
                 Video::updateLikesDislikes($videos_id, 'likes', '+1');
+                AVideoPlugin::onVideoLikeDislike($videos_id,$this->users_id, true);
             } elseif ($like==-1) {
                 Video::updateLikesDislikes($videos_id, 'dislikes', '+1');
+                AVideoPlugin::onVideoLikeDislike($videos_id,$this->users_id, false);
             }
         }
         //exit;

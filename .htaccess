@@ -155,6 +155,7 @@ Options All -Indexes
 
 
     #for the video name
+    RewriteRule    ^video/([0-9]+)/poster.png$ view/videoGetPoster.php?videos_id=$1    [QSA]
     RewriteRule    ^video/([0-9]+)/?$ view/?v=$1 [QSA]
     RewriteRule    ^video/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?videoName=$1    [QSA]
     RewriteRule    ^video/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?videoName=$1&page=$2    [QSA]

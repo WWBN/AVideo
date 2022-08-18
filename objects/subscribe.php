@@ -72,9 +72,18 @@ class Subscribe extends ObjectYPT{
         if (!empty($this->id)) {
             $sql = "UPDATE subscribes SET status = '{$this->status}',  notify = '{$this->notify}',ip = '" . getRealIpAddr() . "', modified = now() WHERE id = {$this->id}";
         } else {
-            $sql = "INSERT INTO subscribes ( users_id, email,status,ip, created, modified, subscriber_users_id) VALUES ('{$this->users_id}','{$this->email}', 'a', '" . getRealIpAddr() . "',now(), now(), '$this->subscriber_users_id')";
+            $this->status = 'a';
+            $sql = "INSERT INTO subscribes ( users_id, email,status,ip, created, modified, subscriber_users_id) VALUES ('{$this->users_id}','{$this->email}', '{$this->status}', '" . getRealIpAddr() . "',now(), now(), '$this->subscriber_users_id')";
         }
-        return sqlDAL::writeSql($sql);
+        $saved = sqlDAL::writeSql($sql);
+        if($saved){
+            //var_dump($saved, $this->status);exit;
+            if($this->status == 'a'){
+                AVideoPlugin::onNewSubscription($this->users_id, $this->subscriber_users_id);
+            }
+        }
+        
+        return $saved;
     }
 
     public static function getSubscribe($id)

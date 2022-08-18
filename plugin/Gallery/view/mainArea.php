@@ -121,6 +121,7 @@
             }
         }
     } else {
+        echo '<!-- '.basename(__FILE__).' -->';
         include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
         $ob = _ob_get_clean();
         _ob_start();

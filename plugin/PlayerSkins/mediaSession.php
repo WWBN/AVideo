@@ -73,17 +73,28 @@ if (empty($MediaMetadata)) {
         key = 0;
         live_servers_id = 0;
         live_schedule_id = 0;
-        if (!empty(player.playlist) && typeof playerPlaylist !== 'undefined' && !empty(playerPlaylist)) {
+
+        if (typeof player.playlist == 'function') {
+            if (typeof playerPlaylist == 'undefined') {
+                playerPlaylist = player.playlist();
+                console.log('updateMediaSessionMetadata playerPlaylist was undefined', playerPlaylist);
+            }
+        }
+
+        if (typeof player.playlist == 'function' && typeof playerPlaylist !== 'undefined' && !empty(playerPlaylist)) {
             index = player.playlist.currentIndex();
-            if(!empty(playerPlaylist[index])){
+            if (!empty(playerPlaylist[index])) {
                 videos_id = playerPlaylist[index].videos_id;
+                console.log('updateMediaSessionMetadata playerPlaylist[index].videos_id', videos_id);
             }
         } else if (mediaId) {
             videos_id = mediaId;
+            console.log('updateMediaSessionMetadata mediaId', mediaId);
         } else if (isLive) {
             key = isLive.key;
             live_servers_id = isLive.live_servers_id;
             live_schedule_id = isLive.live_schedule_id;
+            console.log('updateMediaSessionMetadata isLive', key);
         }
         if (videos_id) {
             console.log('updateMediaSessionMetadata', videos_id);
@@ -97,6 +108,7 @@ if (empty($MediaMetadata)) {
                     'live_schedule_id': live_schedule_id,
                 },
                 success: function (response) {
+                    console.log('updateMediaSessionMetadata response', response);
                     navigator.mediaSession.metadata = new MediaMetadata(response);
                 }
             });

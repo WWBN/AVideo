@@ -688,6 +688,36 @@ class AVideoPlugin
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
     }
+    
+    public static function onVideoLikeDislike($videos_id, $users_id, $isLike){
+        if(empty($videos_id)){
+            return false;
+        }
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onVideoLikeDislike($videos_id, $users_id, $isLike);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
+    
+    public static function onNewSubscription($users_id, $subscriber_users_id){
+        if(empty($subscriber_users_id) || empty($users_id)){
+            return false;
+        }
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onNewSubscription($users_id, $subscriber_users_id);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
         
     public static function onNewVideo($videos_id){
         if(empty($videos_id)){
@@ -808,6 +838,18 @@ class AVideoPlugin
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->getChannelButton();
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
+    
+    public static function getUserNotificationButton(){
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->getUserNotificationButton();
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
@@ -2326,6 +2368,7 @@ class AVideoPlugin
                 'PlayerSkins', // PlayerSkins
                 'Permissions', // Permissions
                 'Scheduler', // Permissions
+                'UserNotifications', 
             ];
         } else {
             return [
@@ -2335,6 +2378,7 @@ class AVideoPlugin
                 'e9a568e6-ef61-4dcc-aad0-0109e9be8e36', // PlayerSkins
                 'Permissions-5ee8405eaaa16', // Permissions
                 'Scheduler-5ee8405eaaa16', // Permissions
+                'UserNotifications-5ee8405eaaa16', // Permissions
             ];
         }
     }

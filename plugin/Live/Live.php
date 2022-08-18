@@ -1,5 +1,4 @@
 <?php
-
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
@@ -23,9 +22,9 @@ class Live extends PluginAbstract {
     public static $posterType_regular = 0;
     public static $posterType_preroll = 1;
     public static $posterType_postroll = 2;
-    
-    const PERMISSION_CAN_RESTREAM= 0;
-    const CAN_RESTREAM_All_USERS= 0;
+
+    const PERMISSION_CAN_RESTREAM = 0;
+    const CAN_RESTREAM_All_USERS = 0;
     const CAN_RESTREAM_ONLY_SELECTED_USERGROUPS = 1;
 
     public function getTags() {
@@ -487,14 +486,13 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('controlServer', 'Control Server');
         $obj->disableRestream = false;
         self::addDataObjectHelper('disableRestream', 'Disable Restream', 'If you check this, we will not send requests to your Restreamer URL');
-        
+
         $o = new stdClass();
-        $o->type = array(self::CAN_RESTREAM_All_USERS=>('All Users'), self::CAN_RESTREAM_ONLY_SELECTED_USERGROUPS=>('Selected user groups'));
+        $o->type = array(self::CAN_RESTREAM_All_USERS => ('All Users'), self::CAN_RESTREAM_ONLY_SELECTED_USERGROUPS => ('Selected user groups'));
         $o->value = self::CAN_RESTREAM_All_USERS;
         $obj->whoCanRestream = $o;
         self::addDataObjectHelper('whoCanRestream', 'Who can Restream');
-        
-        
+
         $obj->disableDVR = false;
         self::addDataObjectHelper('disableDVR', 'Disable DVR', 'Enable or disable the DVR Feature, you can control the DVR length in your nginx.conf on the parameter hls_playlist_length');
         $obj->disableGifThumbs = false;
@@ -2901,13 +2899,13 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return self::sendRestream($obj);
     }
 
-    public static function restream($liveTransmitionHistory_id, $live_restreams_id=0, $test=false) {
-        if(empty($test)){
+    public static function restream($liveTransmitionHistory_id, $live_restreams_id = 0, $test = false) {
+        if (empty($test)) {
             outputAndContinueInBackground();
         }
         $obj = self::getRestreamObject($liveTransmitionHistory_id);
         $obj->live_restreams_id = $live_restreams_id;
-        if($test){
+        if ($test) {
             $obj->test = 1;
         }
         return self::sendRestream($obj);
@@ -2921,14 +2919,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 return false;
             }
             set_time_limit(30);
-            
-            $obj->responseToken = encryptString(array('users_id'=>$obj->users_id,'time'=>time(), 'liveTransmitionHistory_id'=>$obj->liveTransmitionHistory_id));
-            
+
+            $obj->responseToken = encryptString(array('users_id' => $obj->users_id, 'time' => time(), 'liveTransmitionHistory_id' => $obj->liveTransmitionHistory_id));
+
             $data_string = json_encode($obj);
             _error_log("Live:sendRestream ({$obj->restreamerURL}) {$data_string} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
             //open connection
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30); 
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
             curl_setopt($ch, CURLOPT_TIMEOUT, 10); //timeout in seconds
             //set the url, number of POST vars, POST data
             curl_setopt($ch, CURLOPT_URL, $obj->restreamerURL);
@@ -2941,8 +2939,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
             //curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   
-            curl_setopt($ch, CURLOPT_AUTOREFERER, true); 
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_AUTOREFERER, true);
             curl_setopt($ch, CURLOPT_VERBOSE, 1);
             curl_setopt(
                     $ch,
@@ -3597,7 +3595,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     private static function getProcess($key) {
-        if(empty($key)){
+        if (empty($key)) {
             error_log("Live:getProcess key is empty");
             return false;
         }
@@ -3629,38 +3627,58 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         return false;
     }
-    
-    
-    function getPermissionsOptions(){
+
+    function getPermissionsOptions() {
         $permissions = array();
         $permissions[] = new PluginPermissionOption(self::PERMISSION_CAN_RESTREAM, __("Can Restream"), __("Can restream live videos"), 'Live');
         return $permissions;
     }
-    
-    static function canRestream(){
+
+    static function canRestream() {
         if (!empty($_REQUEST['token'])) {
             $live_restreams_id = intval(decryptString($_REQUEST['token']));
-            if(!empty($live_restreams_id)){
-                _error_log('Live::canRestream: canRestream by pass '.$live_restreams_id);
+            if (!empty($live_restreams_id)) {
+                _error_log('Live::canRestream: canRestream by pass ' . $live_restreams_id);
                 return true;
             }
         }
         $canStream = User::canStream();
-        if(empty($canStream)){
+        if (empty($canStream)) {
             _error_log('Live::canRestream: user cannot restream');
             return false;
         }
         $obj = AVideoPlugin::getDataObject('Live');
-        if(!empty($obj->disableRestream)){
+        if (!empty($obj->disableRestream)) {
             _error_log('Live::canRestream: disableRestream is active');
             return false;
         }
-        if($obj->whoCanRestream->value === self::CAN_RESTREAM_All_USERS){
+        if ($obj->whoCanRestream->value === self::CAN_RESTREAM_All_USERS) {
             return true;
         }
-        $permission = Permissions::hasPermission(self::PERMISSION_CAN_RESTREAM,'Live');
-        _error_log('Live::canRestream: permission is '. json_encode($permission));
+        $permission = Permissions::hasPermission(self::PERMISSION_CAN_RESTREAM, 'Live');
+        _error_log('Live::canRestream: permission is ' . json_encode($permission));
         return $permission;
+    }
+
+    public static function _getUserNotificationButton() {
+        if (Live::canStreamWithWebRTC()) {
+            ?>
+            <button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
+                <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($buttonTitle); ?></span>
+            </button>
+            <?php
+        }
+        if (Live::canScheduleLive()) {
+            ?>
+            <button class="btn btn-primary btn-sm" onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>" >
+                <i class="far fa-calendar"></i> <span class="hidden-sm hidden-xs"><?php echo __('Schedule'); ?></span>
+            </button>
+        <?php
+        }
+    }
+    
+    public function getUserNotificationButton() {
+        self::_getUserNotificationButton();
     }
 
 }

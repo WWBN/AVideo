@@ -1,0 +1,56 @@
+#topMenuUserNotifications span.badge-notify{
+    background:red;
+}
+
+#topMenuUserNotifications .dropdown-menu .list-group{
+    min-width: 360px;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+#topMenuUserNotifications .dropdown-menu img{
+    max-width: 100px;
+    height: 60px;
+    margin: 10px 0 0 10px;
+}
+
+#topMenuUserNotifications > ul .list-group a {
+    padding: 5px;
+}
+
+#topMenuUserNotifications > ul .list-group a > div > div.media-body > strong{
+    white-space: nowrap;
+    
+}
+#topMenuUserNotifications .icon{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    padding: 2px 4px;
+    border-radius: 20px;
+    opacity: 0.8;
+}
+#topMenuUserNotifications .dropdown-menu .list-group .deleteBtn{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border-width: 0;
+    display: none;
+    opacity: 0.5;
+    background-color: transparent;
+}
+#topMenuUserNotifications .dropdown-menu .list-group .deleteBtn:hover{
+    opacity: 1;
+}
+#topMenuUserNotifications .dropdown-menu .list-group div.canDelete:hover .deleteBtn{
+    display: inline-block;
+}
+#topMenuUserNotifications .dropdown-menu .list-group .priority > div{
+    position: relative;
+}
+@media (max-width: 767px) {
+    #topMenuUserNotifications .dropdown-menu .list-group{
+        max-height: calc(100vh - 300px);
+    }
+
+}

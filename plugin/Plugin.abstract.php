@@ -235,6 +235,14 @@ abstract class PluginAbstract {
         return false;
     }
     
+    public function onVideoLikeDislike($videos_id, $users_id, $isLike) {
+        return false;
+    }
+    
+    public function onNewSubscription($users_id, $subscriber_users_id) {
+        return false;
+    }
+    
     public function afterDonation($from_users_id, $how_much, $videos_id, $users_id, $extraParameters) {
         return false;
     }
@@ -295,6 +303,10 @@ abstract class PluginAbstract {
     }
 
     public function getChannelButton() {
+        return "";
+    }
+
+    public function getUserNotificationButton() {
         return "";
     }
 

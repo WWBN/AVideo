@@ -39,6 +39,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
         $_GET['catName'] = $_cat['clean_name'];
         if (!empty($liveobj) && empty($liveobj->doNotShowLiveOnCategoryList)) {
             $currentCat = $_cat;
+            echo '<!-- '.basename(__FILE__).' -->';
             include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
         }
         unset($_POST['sort']);

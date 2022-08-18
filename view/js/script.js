@@ -1690,6 +1690,22 @@ function pauseIfIsPlayinAds() { // look like the mobile does not know if is play
     }
 }
 
+function countToOrRevesrse(selector, total){
+    var text = $(selector).text();
+    if (isNaN(text)) {
+        current = 0;
+    } else {
+        current = parseInt(text);
+    }
+    total = parseInt(total);
+    
+    if(current<=total){
+        countTo(selector, total);
+    }else{
+        countToReverse(selector, total);
+    }
+}
+
 function countTo(selector, total) {
     var text = $(selector).text();
     if (isNaN(text)) {
@@ -1712,6 +1728,31 @@ function countTo(selector, total) {
     var timeout = (500 / rest);
     setTimeout(function () {
         countTo(selector, total);
+    }, timeout);
+}
+
+function countToReverse(selector, total) {
+    var text = $(selector).text();
+    if (isNaN(text)) {
+        return false;
+    } else {
+        current = parseInt(text);
+    }
+    total = parseInt(total);
+    if (!total || current <= total) {
+        $(selector).removeClass('loading');
+        return;
+    }
+    var rest = (current-total);
+    var step = parseInt(rest / 100);
+    if (step < 1) {
+        step = 1;
+    }
+    current -= step;
+    $(selector).text(current);
+    var timeout = (500 / rest);
+    setTimeout(function () {
+        countToReverse(selector, total);
     }, timeout);
 }
 
@@ -1938,7 +1979,7 @@ function convertDBDateToLocal(dbDateString) {
         //console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
-
+    checkMoment();
     dbDateString = $.trim(dbDateString.replace(/[^ 0-9:-]/g, ''));
     var m;
     if (!_serverDBTimezone) {
@@ -1961,10 +2002,20 @@ function convertDateFromTimezoneToLocal(dbDateString, timezone) {
         //console.log('convertDBDateToLocal format does not match', dbDateString);
         return dbDateString;
     }
+    checkMoment();
     dbDateString = $.trim(dbDateString.replace(/[^ 0-9:-]/g, ''));
     timezone = $.trim(timezone);
     var m = moment.tz(dbDateString, timezone).local();
     return m.format("YYYY-MM-DD HH:mm:ss");
+}
+
+function checkMoment(){
+    /*
+    while(typeof moment === 'undefined' || moment.tz !== 'function'){
+        console.log('checkMoment Waiting moment.tz to load');
+        delay(1);
+    }
+    */
 }
 
 function addGetParam(_url, _key, _value) {
@@ -2967,7 +3018,7 @@ function isValidURL(value) {
     if (/^(ws|wss):\/\//i.test(value)) {
         return true;
     }
-    if (/^(https?|ftp):\/\/localhost/i.test(value)) {
+    if (/^(https?|ftp):\/\//i.test(value)) {
         return true;
     }
     return /^(?:(?:(?:https?|ftp|ws|wss):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
@@ -3151,4 +3202,8 @@ function setCookie(cname, cvalue, exdays) {
 
 function getCookie(cname) {
     return Cookies.get(cname);
+}
+
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
 }
