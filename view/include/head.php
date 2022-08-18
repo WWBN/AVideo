@@ -50,16 +50,6 @@ foreach ($custom as $key => $value) {
     }
 }
 
-if (!empty($metaDescription)) {
-    $metaDescription = implode(" - ", $custom) . " - {$metaDescription}";
-} else {
-    $metaDescription = implode(" - ", $custom);
-}
-// for SEO to not rise an error of duplicated title or description of same pages with and without last slash
-$metaDescription .= getSEOComplement(["addAutoPrefix" => false]);
-
-$metaDescription = getSEODescription($metaDescription);
-
 $theme = getCurrentTheme();
 
 if (empty($config)) {
@@ -72,16 +62,14 @@ echo $content;
 
 $keywords = strip_tags($advancedCustom->keywords);
 $head_videos_id = getVideos_id();
-if(!empty($head_videos_id)){
+if (!empty($head_videos_id)) {
     $tags = Video::getSeoTags($head_videos_id);
     echo $tags['head'];
 }
-
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="<?php echo $metaDescription; ?>">
 <meta name="device_id" content="<?php echo getDeviceID(); ?>">
 <meta name="keywords" content=<?php printJSString($keywords); ?>>
 <link rel="manifest" href="<?php echo $global['webSiteRootURL']; ?>manifest.json">
@@ -92,20 +80,31 @@ if(!empty($head_videos_id)){
 
 <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
 <?php
-if(!isBot()){
-?>
-<link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media='all'"/>
-<link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media='all'"/>
-<link href="<?php echo getURL('view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media='all'"/>
-<link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media='all'"/>
-<link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css" onload="this.media='all'"/>
-<link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media='all'"/>
-<link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media='all'"/>
-<?php
+if (!isBot()) {
+    ?>
+    <link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'"/>
+    <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'"/>
+    <link href="<?php echo getURL('view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'"/>
+    <link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'"/>
+    <link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'"/>
+    <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'"/>
+    <link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'"/>
+    <?php
+}
+if (!isVideo()) {
+    if (!empty($metaDescription)) {
+        $metaDescription = implode(" - ", $custom) . " - {$metaDescription}";
+    } else {
+        $metaDescription = implode(" - ", $custom);
+    }
+    // for SEO to not rise an error of duplicated title or description of same pages with and without last slash
+    $metaDescription .= getSEOComplement(["addAutoPrefix" => false]);
+    $metaDescription = getSEODescription($metaDescription);
+    echo '<meta name="description" content="' . $metaDescription . '">';
 }
 if (empty($advancedCustom->disableAnimations)) {
     ?>
-    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet"  type="text/css"  media="print" onload="this.media='all'"/>
+    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet"  type="text/css"  media="print" onload="this.media = 'all'"/>
     <?php
 }
 include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
@@ -138,7 +137,6 @@ if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exis
 ?>
 <link href="<?php echo getURL('view/css/main.css'); ?>" rel="stylesheet" type="text/css"/>    
 <?php
-
 TimeLogEnd($timeLogHead, __LINE__);
 if (isRTL()) {
     ?>
@@ -198,9 +196,9 @@ if (isRTL()) {
     var avideoModalIframeFullScreenCloseButtonSmall = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 4, 'class="btn btn-default btn-sm pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
     var PHPSESSID = "<?php echo session_id(); ?>";
 </script>
-<?php
-if (!isOffline() && !$config->getDisable_analytics()) {
-    ?>
+    <?php
+    if (!isOffline() && !$config->getDisable_analytics()) {
+        ?>
     <script>
         // AVideo Analytics
         (function (i, s, o, g, r, a, m) {
@@ -221,7 +219,7 @@ if (!isOffline() && !$config->getDisable_analytics()) {
     <?php
 }
 TimeLogEnd($timeLogHead, __LINE__);
-if(!isBot()){
+if (!isBot()) {
     echo $config->getHead();
 }
 TimeLogEnd($timeLogHead, __LINE__);
