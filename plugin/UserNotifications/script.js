@@ -209,7 +209,7 @@ function createFilterButtons() {
         count++;
         var id = 'uNotfFilter_' + count;
         //buttons += '<button class="btn btn-'+icon[0][1]+' btn-sm" onclick=""><i class="'+icon[0][2]+'"></i> <span class="badge">'+icon.length+'</span></button>';
-        buttons += '<input type="checkbox" value="' + icon[0][2] + '" id="' + id + '" class="hidden check-with-label" checked><label for="' + id + '" class="btn btn-' + icon[0][1] + ' label-for-check"><i class="' + icon[0][2] + '"></i> <span class="badge">' + icon.length + '</span></label>';
+        buttons += '<input type="checkbox" value="' + icon[0][2] + '" id="' + id + '" class="hidden check-with-label" checked><label for="' + id + '" class="btn btn-' + icon[0][1] + ' btn-xs label-for-check"><i class="' + icon[0][2] + '"></i> <span class="badge">' + icon.length + '</span></label>';
     }
     buttons += '</div>';
 
