@@ -14,6 +14,8 @@ function getTemplateFromArray(itemsArray) {
         } else if (search == 'created') {
             m = moment.tz(itemsArray.created, _serverSystemTimezone).local();
             replace = m.fromNow();
+        } else if (search == 'href' && !empty(replace) && !isValidURL(replace)) {
+            replace = webSiteRootURL+replace;
         }
         template = template.replace(new RegExp('{' + search + '}', 'g'), replace);
     }
