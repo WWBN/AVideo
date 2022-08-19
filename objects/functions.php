@@ -7373,7 +7373,9 @@ function getPIDUsingPort($port) {
                     $pid = intval($matches[1]);
                     return $pid;
                 }
-            }
+            }else if (preg_match('/lsof: not found/i', $value)) {
+                    die('Please install lsof running this command: "sudo apt-get install lsof"');
+                }
         }
     }
     return false;
