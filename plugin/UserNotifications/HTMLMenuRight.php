@@ -6,7 +6,7 @@
     </a>
     <div class="hideWhenHasSomethingToShow">
         <a href="#" class="btn btn-default btn-light navbar-btn" data-toggle="dropdown" >
-            <i class="fas fa-bell-slash text-muted" data-toggle="tooltip" title="<?php echo __('There is no notifications'); ?>" data-placement="bottom" ></i>
+            <i class="fas fa-bell-slash text-muted" data-toggle="tooltip" title="<?php echo __('There are no notifications'); ?>" data-placement="bottom" ></i>
         </a>
     </div>
     <ul class="dropdown-menu dropdown-menu-right hideWhenHasNothingToShow">
