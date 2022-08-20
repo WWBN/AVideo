@@ -8796,7 +8796,7 @@ function forbiddenPageIfCannotEmbed($videos_id) {
 
 function getMediaSessionPosters($imagePath) {
     global $global;
-    if (empty($imagePath)) {
+    if (empty($imagePath) || !file_exists($imagePath)) {
         return false;
     }
     $sizes = array(96, 128, 192, 256, 384, 512);
