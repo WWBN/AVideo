@@ -1827,6 +1827,11 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd) {
         $src_img = imagecreatefromjpeg($path);
     }
     
+    if(empty($src_img)){
+        _error_log("scaleUpImage error, we could not convert it ". json_encode($mime));
+        return false;
+    }
+    
     $old_x = imageSX($src_img);
     $old_y = imageSY($src_img);
     
