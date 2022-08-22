@@ -7081,7 +7081,7 @@ function m3u8ToMP4($input) {
     }
 
     if (!file_exists($outputpath)) {
-        var_dump($filepath, $outputpath);
+        var_dump('m3u8ToMP4 !file_exists', $filepath, $outputpath);
         exit;
         $return = convertVideoFileWithFFMPEG($filepath, $outputpath);
         var_dump($return);
