@@ -14,6 +14,10 @@ if(!User::isAdmin()){
     die(json_encode($obj));
 }
 
+if(empty($_POST['element_id'])){
+    $_POST['element_id'] = 'automatic_id_'.uniqid();
+}
+
 $o = new User_notifications(@$_POST['id']);
 $o->setMsg($_POST['msg']);
 $o->setTitle($_POST['title']);
