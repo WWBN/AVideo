@@ -12,7 +12,7 @@ $metaDescription = $title = getSEOTitle($video['title']);
 $ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Confirm Rating") . $config->getPageTitleSeparator() . $title; ?></title>
         <?php

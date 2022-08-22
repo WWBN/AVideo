@@ -12,7 +12,7 @@ $obj = $plugin->getDataObject();
 $options = _json_decode($obj->addFundsOptions);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Add Funds") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

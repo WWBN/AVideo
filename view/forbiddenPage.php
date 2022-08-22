@@ -4,7 +4,7 @@ $config = new Configuration();
 $global['isForbidden'] = true;
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Forbidden") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

@@ -6,7 +6,7 @@ if (!isset($global['systemRootPath'])) {
 $metaDescription = "Themes Page";
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("About") . getSEOComplement() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

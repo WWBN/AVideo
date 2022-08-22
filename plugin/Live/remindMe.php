@@ -16,7 +16,7 @@ $liveImg = Live_schedule::getPosterURL($_REQUEST['live_schedule_id']);
 $liveInfo = Live::getInfo($ls->getKey(), $ls->getLive_servers_id());
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title>Remind me</title>
         <?php

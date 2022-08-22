@@ -35,7 +35,7 @@ if(!empty($advancedCustomUser->afterSignUpGoToURL) && isValidURL($advancedCustom
 $siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'success', _($advancedCustomUser->signupWelcomeAlert));
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Sign Up") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

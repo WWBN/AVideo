@@ -191,7 +191,7 @@ switch ($_GET['page']) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <?php
         echo getHTMLTitle(__("Administration"));

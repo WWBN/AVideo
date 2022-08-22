@@ -22,7 +22,7 @@ $location = IP2Location::getLocation($ip);
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title>Test IP</title>
         <?php

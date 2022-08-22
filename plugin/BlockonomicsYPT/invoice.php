@@ -12,7 +12,7 @@ $order_id = $plugin->setUpPayment($_GET['value']);
 $order = new BlockonomicsOrder($order_id);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <?php 
         echo getHTMLTitle( __("Invoice"));

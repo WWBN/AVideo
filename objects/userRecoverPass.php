@@ -60,7 +60,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 } else {
     ?>
     <!DOCTYPE html>
-    <html lang="<?php echo $_SESSION['language']; ?>">
+    <html lang="<?php echo getLanguage(); ?>">
         <head>
             <?php echo getHTMLTitle(__("Recover Password")); ?>
             <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>

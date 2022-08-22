@@ -14,7 +14,7 @@ foreach (glob($dir . '*.css') as $file) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';

@@ -21,7 +21,7 @@ if (!empty($_POST['updateFile'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Update AVideo System") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

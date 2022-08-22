@@ -6,7 +6,7 @@ if (!isset($global['systemRootPath'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Dashboard") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

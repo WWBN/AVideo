@@ -22,7 +22,7 @@ if (!User::isAdmin() || !empty($global['disableAdvancedConfigurations'])) {
 $vars = listAllWordsToTranslate();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <?php
         echo getHTMLTitle(__("Translate AVideo"));

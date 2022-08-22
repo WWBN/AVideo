@@ -11,7 +11,7 @@ if (empty($users_id)) {
 $pass = User::getProfilePassword($users_id);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Set Password"); ?></title>
         <?php

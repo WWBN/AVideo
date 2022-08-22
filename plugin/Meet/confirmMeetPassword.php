@@ -13,7 +13,7 @@ $img = User::getBackgroundURLFromUserID($meet->getUsers_id());
 $photo = User::getPhoto($meet->getUsers_id());
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Confirm Meet Password") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

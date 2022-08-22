@@ -11,7 +11,7 @@ $imgh = 720;
 $ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Confirm Password") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

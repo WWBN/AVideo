@@ -8,7 +8,7 @@ if (empty($plugin) || !$plugin->canAddLinks()) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Live Links") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

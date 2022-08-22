@@ -32,7 +32,7 @@ if ($bgSize[0] < 2048) {
 $metaDescription = " Channel - {$_GET['channelName']}";
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo @$_GET['channelName'] . $config->getPageTitleSeparator() . __("Channel") . getSEOComplement() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

@@ -168,7 +168,7 @@ if (User::hasBlockedUser($video['users_id'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <meta name="robots" content="noindex">
         <?php

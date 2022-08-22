@@ -12,7 +12,7 @@ $video = Video::getVideo($_GET['videos_id'], "", true);
 $poster = Video::getPathToFile("{$video['filename']}.jpg");
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <?php 
         echo getHTMLTitle( __("Bookmark Editor"));

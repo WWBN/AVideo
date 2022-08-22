@@ -27,7 +27,7 @@ $video['views_count'] = 0;
 $video['filename'] = '';
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __('Video Not Found'); ?></title>
         <link href="<?php echo getCDN(); ?>plugin/Gallery/style.css" rel="stylesheet" type="text/css"/>

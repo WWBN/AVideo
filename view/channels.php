@@ -32,7 +32,7 @@ $totalPages = ceil($totalChannels / $_REQUEST['rowCount']);
 $metaDescription = __("Channels");
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Channels") . getSEOComplement() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

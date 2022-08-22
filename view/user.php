@@ -18,7 +18,7 @@ foreach ($tags as $value) {
 //$advancedCustom = _json_decode($json_file);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("My Account") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

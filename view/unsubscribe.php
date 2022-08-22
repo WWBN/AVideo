@@ -24,7 +24,7 @@ $subscribe->save();
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Unsubscribe"); ?></title>
         <?php

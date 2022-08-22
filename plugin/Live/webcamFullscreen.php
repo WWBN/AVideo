@@ -37,7 +37,7 @@ $streamName = $liveStreamObject->getKeyWithIndex($forceIndex, true);
 $controls = Live::getAllControlls($streamName);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

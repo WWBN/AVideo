@@ -32,7 +32,7 @@ if (!empty($_GET['subscription_tid'])) {
 $SubscriptionIsEnabled = AVideoPlugin::isEnabledByName("Subscription");
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Stripe Subscription") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

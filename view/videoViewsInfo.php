@@ -22,7 +22,7 @@ $v = new Video('', '', $_videos_id);
 //var_dump($total);exit;
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title>Videos View info</title>
         <?php

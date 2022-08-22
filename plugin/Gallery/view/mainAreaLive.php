@@ -5,7 +5,7 @@ include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
 $leaderBoardTop = getAdsLeaderBoardTop();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php
 echo __("Live") . getSEOComplement() . $config->getPageTitleSeparator() . $config->getWebSiteTitle();

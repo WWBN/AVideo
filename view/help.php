@@ -6,7 +6,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Help") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

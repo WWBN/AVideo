@@ -5,7 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <?php
         echo getHTMLTitle(['Categories']);

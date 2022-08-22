@@ -16,7 +16,7 @@ if (!empty($_GET['users_id'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("History") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

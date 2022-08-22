@@ -12,7 +12,7 @@ if (!User::isAdmin()) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <?php
         echo getHTMLTitle(__("Clone Site"));

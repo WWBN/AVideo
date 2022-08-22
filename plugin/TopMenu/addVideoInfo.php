@@ -100,7 +100,7 @@ function createMenuSaveForm($menu) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo $config->getWebSiteTitle(); ?>  :: Set Info</title>
         <?php

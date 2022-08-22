@@ -61,7 +61,7 @@ if (empty($iframeURL)) {
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo $titleTag . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

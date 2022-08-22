@@ -15,7 +15,7 @@ if (empty($_REQUEST['videos_id'])) {
 $video = Video::getVideoLight($_REQUEST['videos_id']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title>Edit Likes</title>
         <?php

@@ -12,7 +12,7 @@ $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Support Author") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

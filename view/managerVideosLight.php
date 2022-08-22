@@ -20,7 +20,7 @@ $description = $video->getDescription();
 $categories_id = $video->getCategories_id();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Edit Video"); ?></title>
         <?php

@@ -15,7 +15,7 @@ array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $catego
 $groups = UserGroups::getAllUsersGroups();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Top Menu") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
