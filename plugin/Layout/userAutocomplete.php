@@ -12,24 +12,25 @@ if (empty($name)) {
     $user_image = getURL('view/img/userSilhouette.jpg');
     $default_users_id = 0;
 }
-
 ?>
-<div class="col-md-2">
-    <img id="user-img<?php echo $id; ?>" src="<?php echo $user_image; ?>" class="img img-responsive img-circle" style="max-height: 60px;" alt="User Photo">
+<div class="clearfix"></div>
+<div class="col-xs-2 text-center" style="padding-right: 2px;">
+    <img id="user-img<?php echo $id; ?>" src="<?php echo $user_image; ?>" class="img img-responsive " style="max-height: 50px; margin-bottom: 5px; display: inline-flex;" alt="User Photo">
 </div>
-<div class="col-md-10">
+<div class="col-xs-10" style="padding-left: 2px;">
     <input id="user<?php echo $id; ?>" placeholder="<?php echo __("User"); ?>" class="form-control" name="user<?php echo $id; ?>" value="<?php echo $name; ?>">
     <input type="hidden" id="<?php echo $id; ?>" value="<?php echo $default_users_id; ?>" name="<?php echo $id; ?>">
 </div>
+<div class="clearfix"></div>
 <script>
     function updateUserAutocomplete<?php echo $id; ?>() {
         var data = <?php echo _json_encode((object) $parameters); ?>;
         data.users_id = $('#<?php echo $id; ?>').val();
         var users_id = data.users_id;
-        console.log('updateUserAutocomplete<?php echo $id; ?>', data.users_id );
+        console.log('updateUserAutocomplete<?php echo $id; ?>', data.users_id);
         resetUserAutocomplete<?php echo $id; ?>();
         if (data.users_id && data.users_id !== '0') {
-            if(typeof modal === 'object'){
+            if (typeof modal === 'object') {
                 modal.showPleaseWait();
             }
             $.ajax({
@@ -43,7 +44,7 @@ if (empty($name)) {
                         var photoURL = data.rows[0].photo
                         $("#user-img<?php echo $id; ?>").attr("src", photoURL);
                     }
-                    if(typeof modal === 'object'){
+                    if (typeof modal === 'object') {
                         modal.hidePleaseWait();
                     }
                 }
@@ -59,7 +60,6 @@ if (empty($name)) {
     }
 
     $(document).ready(function () {
-
 
         $("#<?php echo $id; ?>").change(function () {
             updateUserAutocomplete<?php echo $id; ?>();
@@ -98,7 +98,7 @@ if (empty($name)) {
                 return false;
             }
         }).autocomplete("instance")._renderItem = function (ul, item) {
-            return $("<li>").append("<div>["+item.id+"] " + item.creator + "</div>").appendTo(ul);
+            return $("<li>").append("<div> " + item.creator + "</div>").appendTo(ul);
         };
     });
 </script>

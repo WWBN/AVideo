@@ -111,13 +111,13 @@ exec($cmd . " 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     $log->add("Clone Error try again: " . end($output));
     $cmd2 = "sed -i 's/COLLATE=utf8mb4_0900_ai_ci/ /g' {$clonesDir}{$json->sqlFile} ";
-    $log->add("Clone try again  command: {$cmd2}");
+    $log->add("Clone try again this command: {$cmd2}");
     exec($cmd2 . " 2>&1", $output2, $return_val2);
     if ($return_val2 !== 0) {
         $log->add("Clone Error: " . print_r($output2, true));
     }
     $cmd2 = "sed -i 's/COLLATE utf8mb4_0900_ai_ci/ /g' {$clonesDir}{$json->sqlFile} ";
-    $log->add("Clone try again  command: {$cmd2}");
+    $log->add("and also this command: {$cmd2}");
     exec($cmd2 . " 2>&1", $output2, $return_val2);
     if ($return_val2 !== 0) {
         $log->add("Clone Error: " . end($output2));

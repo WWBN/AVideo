@@ -5158,14 +5158,14 @@ if (!class_exists('Video')) {
                     $favoriteBtnAddedStyle = "display: none;";
                     $favoriteBtnStyle = '';
                 }
-                $loggedUserHTML = '<div class="galleryVideoButtons">';
+                $loggedUserHTML = '<!-- getVideosListItem --><div class="galleryVideoButtons">';
                 $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', false, ' . $value['watchLaterId'] . ');return false;" '
                         . 'class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $value['id'] . '" '
                         . 'title="' . __("Added On Watch Later") . '" style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> ';
-                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', true, ' . $value['watchLaterId'] . ');return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn' . $value['id'] . '" title="' . __("Watch Later") . '" style="' . $watchLaterBtnStyle . '" ><i class="fas fa-clock"></i></button>';
+                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', true, ' . $value['watchLaterId'] . ');return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn' . $value['id'] . '" title=' . printJSString('Watch Later', true) . ' style="' . $watchLaterBtnStyle . '" ><i class="fas fa-clock"></i></button>';
                 $loggedUserHTML .= '<br>';
-                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', false, ' . $value['favoriteId'] . ');return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded' . $value['id'] . '" title="' . __("Added On Favorite") . '" style="color: #4285f4; ' . $favoriteBtnAddedStyle . '"><i class="fas fa-check"></i></button>  ';
-                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', true, ' . $value['favoriteId'] . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $value['id'] . '" title="' . __("Favorite") . '" style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart" ></i></button>    ';
+                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', false, ' . $value['favoriteId'] . ');return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded' . $value['id'] . '" title=' . printJSString('Added On Favorite', true) . ' style="color: #4285f4; ' . $favoriteBtnAddedStyle . '"><i class="fas fa-check"></i></button>  ';
+                $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', true, ' . $value['favoriteId'] . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $value['id'] . '" title=' . printJSString('Favorite', true) . ' style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart" ></i></button>    ';
                 $loggedUserHTML .= '</div>';
             }
             $progress = self::getVideoPogressPercent($value['id']);
@@ -5303,7 +5303,7 @@ if (!class_exists('Video')) {
                 $galleryDropDownMenu = Gallery::getVideoDropdownMenu($videos_id);
 
                 $galleryVideoButtons .= '
-                <div class="galleryVideoButtons">
+                <!-- getVideoImagewithHoverAnimationFromVideosId --><div class="galleryVideoButtons">
                     <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Watch Later", true) . ' style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> 
                     <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Watch Later", true) . ' style="' . $watchLaterBtnStyle . '" ><i class="fas fa-clock"></i></button>
                     <br>

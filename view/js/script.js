@@ -3095,7 +3095,7 @@ function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
         }
         feedback = '<i class="' + feedbackIcon + ' form-control-feedback" style="right:15px;"></i>';
     } else {
-        console.log('notifyInputIfIsOutOfBounds', text.length, force_length);
+        //console.log('notifyInputIfIsOutOfBounds', text.length, force_length);
         if (!empty(force_length) && text.length == force_length) {
             notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function () {
                 $(selector).addClass(animationInfo);

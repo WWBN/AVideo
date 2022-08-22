@@ -2,8 +2,8 @@
 require_once __DIR__.'/../../../videos/configuration.php';
 $video = Video::getVideoLight($videos_id);
 ?>
-<div class="dropdown">
-    <button class="btn btn-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+<div class="dropdown btn-dark text-center" >
+    <button class="btn btn-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" title=<?php printJSString('More Options', true); ?>>
         <i class="fas fa-ellipsis-v"></i>
     </button>
     <ul class="dropdown-menu">

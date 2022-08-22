@@ -30,7 +30,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = '';
-
+$obj->replyed_to = 0;
 if (!User::canComment()) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
@@ -102,12 +102,6 @@ if (empty($_REQUEST['video']) && !empty($_REQUEST['comments_id'])) {
     $_REQUEST['video'] = $c->getVideos_id();
 }
 
-$isSpam = isCommentASpam($_REQUEST['comment'], $_REQUEST['video']);
-if ($isSpam->error) {
-    $obj->msg = $isSpam->msg;
-    die(json_encode($obj));
-}
-
 if (!empty($_REQUEST['id'])) {
     $_REQUEST['id'] = intval($_REQUEST['id']);
     if (Comment::userCanEditComment($_REQUEST['id'])) {
@@ -115,13 +109,24 @@ if (!empty($_REQUEST['id'])) {
         $objC->setComment($_REQUEST['comment']);
     }
 } else {
+    $isSpam = isCommentASpam($_REQUEST['comment'], $_REQUEST['video']);
+    if ($isSpam->error) {
+        $obj->msg = $isSpam->msg;
+        die(json_encode($obj));
+    }
     $objC = new Comment($_REQUEST['comment'], $_REQUEST['video']);
     $objC->setComments_id_pai($_REQUEST['comments_id']);
+    if(!empty($_REQUEST['comments_id'])){
+        $obj->replyed_to = intval($_REQUEST['comments_id']);
+    }
 }
 
 $obj->comments_id = $objC->save();
 if (!empty($obj->comments_id)) {
     $obj->error = false;
+    $obj->comment = Comment::getComment($obj->comments_id);
+    $obj->comment = Comment::addExtraInfo2($obj->comment);
+    
     $obj->msg = __("Your comment has been saved!");
 } else {
     $obj->msg = __("Your comment has NOT been saved!");
