@@ -138,7 +138,7 @@ class UserNotifications extends PluginAbstract {
         $image = "user/{$users_id}/foto.png";
         $href = Video::getLinkToVideo($videos_id);
         $videoTitle = safeString($video->getTitle());
-        $msg = "{$identification} " . $msg . ': ' . $videoTitle;
+        $msg = "<strong>{$identification}</strong> " . $msg . ': ' . $videoTitle;
         $element_id = "{$element_id}_{$videos_id}_{$users_id}";
 
         return self::createNotification($title, $msg, $to_users_id, $image, $href, $type, $element_id, $icon);
@@ -187,7 +187,7 @@ class UserNotifications extends PluginAbstract {
         $videoTitle = safeString($video->getTitle());
         $title = __('You have a new response');
         $identification = User::getNameIdentificationById($users_id);
-        $msg = $identification. ' '.__('respond your comment on video').': '.$videoTitle;
+        $msg = '<strong>'.$identification. '</strong> '.__('respond your comment on video on video').': '.$videoTitle;
         $type = self::type_success;
         $element_id = "UserNotificationResponse_{$comments_id}_{$to_users_id}_{$users_id}_{$videos_id}";
         $image = "user/{$users_id}/foto.png";
@@ -202,15 +202,17 @@ class UserNotifications extends PluginAbstract {
         $type = self::type_success;
         $element_id = "UserNotificationSubscription_{$users_id}_{$subscriber_users_id}";
         $identification = User::getNameIdentificationById($subscriber_users_id);
-        $msg = $identification. ' '.__('subscribe to you');
+        $msg = '<strong>'.$identification. '</strong> '.__('subscribe to your channel');
         $image = "user/{$subscriber_users_id}/foto.png";
-        $href = 'subscribes';
-        $msg = "{$identification} " . $msg . ': ' . $videoTitle;
+        $href = User::getChannelLink($subscriber_users_id);
         $icon = 'fas fa-user-check';
         return self::createNotification($title, $msg, $users_id, $image, $href, $type, $element_id, $icon);
     }
     
     public function createNotification($title, $msg = '', $to_users_id = 0, $image = '', $href = '', $type = '', $element_id = '', $icon = '', $element_class = '', $onclick = '', $priority = '') {
+        if($to_users_id == User::getId()){
+            return false;
+        }
         $element_class .= ' canDelete';
         $o = new User_notifications();
         $o->setMsg($msg);
