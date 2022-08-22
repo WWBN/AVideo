@@ -7,7 +7,7 @@
         <h4 class="media-heading">
             <a href="{channelLink}">{identification}</a> 
             <small><i>{humanTiming}</i></small>
-            <i class="fas fa-thumbtack pull-right hideIfIsUnpinned"></i>
+            <i class="fas fa-thumbtack pull-right hideIfIsUnpinned" onclick="pinComment({id});" style="cursor: pointer;"></i>
         </h4>
         <p>{commentWithLinks}</p>
         <div class="btn-group pull-right commentsButtonsGroup">
