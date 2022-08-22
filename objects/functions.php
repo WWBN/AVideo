@@ -888,6 +888,14 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         $site = $matches[1];
         $id = $matches[2];
         return $site . '/evideoEmbed/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
+    } elseif (strpos($link, '/fb.watch/') !== false) {
+        //extract the ID
+        preg_match('/\/\/(www\.)?fb.watch\/([^\/]+)/', $link, $matches);
+        $url = 'https://www.facebook.com/plugins/video.php';
+        $url = addQueryStringParameter($url, 'href', $link);
+        $url = addQueryStringParameter($url, 'show_text', $showinfo?'true':'false');
+        $url = addQueryStringParameter($url, 't', $time);
+        return $url;
     } elseif (strpos($link, '/video/') !== false) {
         //extract the ID
         preg_match('/(http.+)\/video\/([a-zA-Z0-9_-]+)($|\/)/i', $link, $matches);
@@ -1794,6 +1802,11 @@ function scaleUpAndMantainAspectRatioFinalSizes($new_w, $old_w, $new_h, $old_h){
 }
 
 function scaleUpImage($file_src, $file_dest, $wd, $hd) {
+    
+    if(!file_exists($file_src)){
+        return false;
+    }
+    
     $path = $file_src;
     $newWidth = $wd;
     $newHeight = $hd;
