@@ -4,19 +4,23 @@
         <img src="{photo}" class="media-object">
     </div>
     <div class="media-body">
-        <h4 class="media-heading"><i class="fas fa-thumbtack hideIfIsUnpinned"></i> <a href="{channelLink}">{identification}</a> <small><i>{humanTiming}</i></small></h4>
+        <h4 class="media-heading">
+            <a href="{channelLink}">{identification}</a> 
+            <small><i>{humanTiming}</i></small>
+            <i class="fas fa-thumbtack pull-right hideIfIsUnpinned"></i>
+        </h4>
         <p>{commentWithLinks}</p>
         <div class="btn-group pull-right commentsButtonsGroup">
             <button class="btn btn-default no-outline reply btn-xs hideIfCanNotComment" onclick="popupCommentTextarea({id}, '');"><i class="fas fa-reply"></i> {replyText}</button>
             <button onclick="saveCommentLikeDislike({id}, 1);" 
                     class="faa-parent animated-hover btn btn-default no-outline btn-xs commentLikeDislikeBtn commentLikeBtn hideIfremoveThumbsUpAndDown hideIfUserNotLogged">
                 <i class="fas fa-thumbs-up faa-bounce"></i>
-                <small>{likes}</small>
+                <small class="totalLikes{likes}">{likes}</small>
             </button>
             <button onclick="saveCommentLikeDislike({id}, -1);" 
                     class="faa-parent animated-hover btn btn-default no-outline btn-xs commentLikeDislikeBtn commentDislikeBtn hideIfremoveThumbsUpAndDown hideIfUserNotLogged">
                 <i class="fas fa-thumbs-down faa-bounce faa-reverse"></i>
-                <small>{dislikes}</small>
+                <small class="totalDislikes{dislikes}">{dislikes}</small>
             </button>
             <button class="btn btn-default no-outline btn-xs hideIfremoveThumbsUpAndDown hideIfUserLogged">
                 <i class="fas fa-thumbs-up"></i>
@@ -27,11 +31,13 @@
                 <i class="fas fa-thumbs-down"></i>
                 <small>{dislikes}</small>
             </button>
-            <button class="btn btn-default no-outline allReplies btn-xs viewAllReplies" onclick="getComments({id});">
-                {viewAllRepliesText} (<span class="total_replies">{total_replies}</span>) <i class="fa fa-chevron-down" aria-hidden="true"></i>
-            </button>
-            <button class="btn btn-default no-outline allReplies btn-xs hideAllReplies" style="display: none">
-                {hideRepliesText} <i class="fa fa-chevron-up" aria-hidden="true"></i>
+            <button class="btn btn-default no-outline allReplies btn-xs isNotOpen" onclick="toogleReplies({id}, this);">
+                <span class="hideIfIsOpen">
+                    {viewAllRepliesText} (<span class="total_replies">{total_replies}</span>) <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                </span>
+                <span class="hideIfIsNotOpen">
+                    {hideRepliesText} (<span class="total_replies">{total_replies}</span>) <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                </span>                
             </button>
             <button class="btn btn-default no-outline pin btn-xs hideIfUserCanNotAdminComment hideIfIsResponse" onclick="pinComment({id});">
                 <span class="hideIfIsPinned">
@@ -48,6 +54,6 @@
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
         </div>
-        <div class="repliesArea"></div>
+        <div class="repliesArea isNotOpen"></div>
     </div>
 </div>

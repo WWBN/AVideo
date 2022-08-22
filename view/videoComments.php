@@ -35,9 +35,10 @@ if (User::canSeeCommentTextarea()) {
             background-color: #88888810;
         }
         #commentsArea .media .media-left{
-            margin-left: 5px;;
+            margin-left: 5px;
+            ;
         }
-        
+
         #commentsArea.removeThumbsUpAndDown .hideIfremoveThumbsUpAndDown,
         #commentsArea.canNotComment .hideIfCanNotComment,
         #commentsArea.canComment .hideIfcanComment,
@@ -47,7 +48,11 @@ if (User::canSeeCommentTextarea()) {
         #commentsArea.userLogged .hideIfUserLogged,
         #commentsArea .isNotPinned .hideIfIsUnpinned,
         #commentsArea .isPinned .hideIfIsPinned,
-        #commentsArea .isResponse .hideIfIsResponse{
+        #commentsArea .isResponse .hideIfIsResponse,
+        #commentsArea .totalLikes0,
+        #commentsArea .totalDislikes0,
+        #commentsArea .isOpen > .hideIfIsOpen,
+        #commentsArea .isNotOpen > .hideIfIsNotOpen{
             display: none;
         }
         #commentsArea > .media > div.media-body .repliesArea{
@@ -156,13 +161,13 @@ if (User::canSeeCommentTextarea()) {
             template = template.replace(new RegExp('{likes}', 'g'), 0);
             template = template.replace(new RegExp('{dislikes}', 'g'), 0);
             template = template.replace(new RegExp('{myVote}', 'g'), 'myVote0');
-            
-            if(!empty(itemsArray.comments_id_pai)){
+
+            if (!empty(itemsArray.comments_id_pai)) {
                 template = template.replace(new RegExp('{isResponse}', 'g'), 'isResponse');
-            }else{
+            } else {
                 template = template.replace(new RegExp('{isResponse}', 'g'), 'isNotResponse');
             }
-            
+
             return template;
         }
 
@@ -189,6 +194,25 @@ if (User::canSeeCommentTextarea()) {
             }
             return true;
         }
+
+
+        function toogleReplies(comments_id, t) {
+            var selector = '#comment_' + comments_id + ' > div.media-body > div.repliesArea ';
+            if ($(selector).is(':empty')) {
+                getComments(comments_id);
+            }
+            
+            if ($(t).hasClass('isOpen')) {
+                $(t).removeClass('isOpen');
+                $(t).addClass('isNotOpen');
+                $(selector).slideUp();
+            }else{
+                $(t).removeClass('isNotOpen');
+                $(t).addClass('isOpen');
+                $(selector).slideDown();
+            }
+        }
+
 
         function getComments(comments_id) {
             var url = webSiteRootURL + 'objects/comments.json.php';
@@ -254,6 +278,7 @@ if (User::canSeeCommentTextarea()) {
             $.ajax({
                 url: url,
                 success: function (response) {
+                    modal.hidePleaseWait();
                     if (response.error) {
                         avideoAlertError(response.msg);
                     } else {
@@ -264,7 +289,6 @@ if (User::canSeeCommentTextarea()) {
                             popupCommentTextarea(id, response.rows[0].commentPlain);
                         }
                     }
-                    modal.showPleaseWait();
                 }
             });
 
@@ -318,15 +342,21 @@ if (User::canSeeCommentTextarea()) {
 
         function saveCommentLikeDislike(comments_id, like) {
             $.ajax({
-                url: webSiteRootURL+'objects/comments_like.json.php?like='+like,
+                url: webSiteRootURL + 'objects/comments_like.json.php?like=' + like,
                 method: 'POST',
                 data: {'comments_id': comments_id},
                 success: function (response) {
                     var selector = '#comment_' + comments_id;
                     $(selector).removeClass("myVote0 myVote1 myVote-1");
-                    $(selector).addClass('myVote'+response.myVote);
-                    $(selector+" .commentLikeBtn > small").text(response.likes);
-                    $(selector+" .commentDislikeBtn > small").text(response.dislikes);
+                    $(selector).addClass('myVote' + response.myVote);
+                    $(selector + " .commentLikeBtn > small").attr('class', '');
+                    $(selector + " .commentDislikeBtn > small").attr('class', '');
+
+                    $(selector + " .commentLikeBtn > small").addClass('totalLikes' + response.likes);
+                    $(selector + " .commentDislikeBtn > small").addClass('totalDislikes' + response.dislikes);
+
+                    $(selector + " .commentLikeBtn > small").text(response.likes);
+                    $(selector + " .commentDislikeBtn > small").text(response.dislikes);
                 }
             });
         }
