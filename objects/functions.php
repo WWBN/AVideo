@@ -7081,16 +7081,18 @@ function m3u8ToMP4($input) {
     }
 
     if (!file_exists($outputpath)) {
-        var_dump('m3u8ToMP4 !file_exists', $filepath, $outputpath);
-        exit;
+        //var_dump('m3u8ToMP4 !file_exists', $filepath, $outputpath);
+        //exit;
         $return = convertVideoFileWithFFMPEG($filepath, $outputpath);
-        var_dump($return);
-        exit;
+        //var_dump($return);
+        //exit;
         if (empty($return)) {
             $msg3 = "downloadHLS: ERROR 2 " . implode(PHP_EOL, $output);
             $finalMsg = $msg1 . PHP_EOL . $msg2 . PHP_EOL . $msg3;
             _error_log($msg3);
             return ['error' => $error, 'msg' => $finalMsg];
+        }else{
+            return $return;
         }
     } else {
         $msg = "downloadHLS: outputpath already exists ({$outputpath})";
