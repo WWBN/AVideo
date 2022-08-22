@@ -55,7 +55,7 @@ class BookmarkTable extends ObjectYPT {
     static function getAllFromVideo($videos_id) {
         global $global;
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE videos_id = ? ";
-        $sql .= self::getSqlFromPost();
+        //$sql .= self::getSqlFromPost();
         $res = sqlDAL::readSql($sql,"i",array($videos_id)); 
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
