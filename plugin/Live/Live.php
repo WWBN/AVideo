@@ -335,7 +335,7 @@ class Live extends PluginAbstract {
 
             $users_id = LiveTransmitionHistory::getUsers_idOrCompany($value['id']);
             
-            $array = array(
+            $_array = array(
                 'users_id'=>$users_id,
                 'title'=>$title,
                 'link'=>$link,
@@ -350,7 +350,7 @@ class Live extends PluginAbstract {
                 'description'=>$value['description']
             );
             
-            $app = self::getLiveApplicationModelArray($array);
+            $app = self::getLiveApplicationModelArray($_array);
             $app['live_servers_id'] = $value['live_servers_id'];
             $app['key'] = $value['key'];
             $app['live_transmitions_history_id'] = $value['id'];
