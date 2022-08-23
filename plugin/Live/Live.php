@@ -680,7 +680,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $css .= '<link href="' . getURL('plugin/YouPHPFlix2/view/css/fullscreen.css') . '" rel="stylesheet" type="text/css"/>';
                 $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
             }
-            $js .= '<script>var playLiveInFullScreen = true</script>';
+            $js .= '<script>var playLiveInFullScreen = true;</script>';
             $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
         }
 
