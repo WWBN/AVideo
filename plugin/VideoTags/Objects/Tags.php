@@ -107,7 +107,11 @@ class Tags extends ObjectYPT {
             if(empty($tagsArray[$value->type_name])){
                 $tagsArray[$value->type_name] = array();
             }
-            $tagsArray[$value->type_name][] = $value->name;
+            if($value->name === '-'){
+                $tagsArray[$value->type_name][] = null;
+            }else{
+                $tagsArray[$value->type_name][] = $value->name;
+            }
         }
         return empty($tagsArray)?(new stdClass()):$tagsArray;
     }
