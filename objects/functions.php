@@ -1826,6 +1826,9 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd) {
     if ($mime['mime'] == 'image/pjpeg') {
         $src_img = imagecreatefromjpeg($path);
     }
+    if ($mime['mime'] == 'image/webp') {
+        $src_img = imagecreatefromwebp($path);
+    }
     
     if(empty($src_img)){
         _error_log("scaleUpImage error, we could not convert it ". json_encode($mime));
@@ -1855,6 +1858,9 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd) {
     }
     if ($mime['mime'] == 'image/pjpeg') {
         $result = imagejpeg($dst_img, $new_thumb_loc, 80);
+    }
+    if ($mime['mime'] == 'image/webp') {
+        $result = imagewebp($dst_img, $new_thumb_loc, 80);
     }
 
     imagedestroy($dst_img);
