@@ -16,12 +16,12 @@ if (empty($videoHLSObj)) {
     forbiddenPage('VideoHLS plugin is required for that');
 }
 
+$video = Video::getVideoLight($videos_id);
 $downloadOptions = getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video['type']);
 
 if (empty($downloadOptions)) {
     forbiddenPage('All download options on VideoHLS plugin are disabled');
 }
-$video = Video::getVideoLight($videos_id);
 $height = 'calc(50vh - 50px)';
 if (count($downloadOptions) == 1) {
     $height = 'calc(100vh - 50px)';
