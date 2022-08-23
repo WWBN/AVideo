@@ -202,6 +202,9 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
             $tags = TagsHasVideos::getAllFromVideosIdAndTagsTypesId($videos_id, $type['id']);
             $strT = "";
             foreach ($tags as $value) {
+                if(empty($value['name']) || $value['name']==='-'){
+                    continue;
+                }
                 $tooltip = "1 " . __("Video");
                 if ($value['total'] > 1) {
                     $tooltip = "{$value['total']} " . __("Videos");
