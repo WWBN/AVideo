@@ -186,6 +186,19 @@ class API extends PluginAbstract {
             $photoBg = Category::getCategoryBackgroundPath($value['id']);
             $link = $global['webSiteRootURL'] . 'cat/' . $value['clean_name'];
             
+            if (!empty($value['fullTotal_videos'])) {
+                $video = Category::getLatestVideoFromCategory($value['id'], true, true);
+                $images = Video::getImageFromID($video['id']);
+                $image = $images->poster;
+            } elseif (!empty($value['fullTotal_lives'])) {
+                $live = Category::getLatestLiveFromCategory($value['id'], true, true);
+                $image = Live::getImage($live['users_id'], $live['live_servers_id']);
+            } elseif (!empty($value['fullTotal_livelinks'])) {
+                $liveLinks = Category::getLatestLiveLinksFromCategory($value['id'], true, true);
+                $image = LiveLinks::getImage($liveLinks['id']);
+            }
+                    
+            $rows[$key]['image'] = $image;
             $rows[$key]['totalVideosOnChilds'] = $totalVideosOnChilds;
             $rows[$key]['childs'] = $childs;
             $rows[$key]['photo'] = $photo;
