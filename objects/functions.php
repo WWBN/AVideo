@@ -9377,7 +9377,7 @@ function addTwitterJS($text) {
 
 function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type) {
     $downloadOptions = array();
-    if ($video['type'] == "video" || $video['type'] == "audio") {
+    if ($video_type == "video" || $video_type == "audio") {
         $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
         if (!empty($videoHLSObj) && method_exists('VideoHLS', 'getMP3ANDMP4DownloadLinks')) {
             $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
