@@ -179,6 +179,19 @@ class API extends PluginAbstract {
         require_once $global['systemRootPath'] . 'objects/category.php';
         $obj = $this->startResponseObject($parameters);
         $rows = Category::getAllCategories();
+        foreach ($rows as $key => $value) {
+            $totalVideosOnChilds = Category::getTotalFromChildCategory($value['id']);
+            $childs = Category::getChildCategories($value['id']);
+            $photo = Category::getCategoryPhotoPath($value['id']);
+            $photoBg = Category::getCategoryBackgroundPath($value['id']);
+            $link = $global['webSiteRootURL'] . 'cat/' . $value['clean_name'];
+            
+            $rows[$key]['totalVideosOnChilds'] = $totalVideosOnChilds;
+            $rows[$key]['childs'] = $childs;
+            $rows[$key]['photo'] = $photo;
+            $rows[$key]['photoBg'] = $photoBg;
+            $rows[$key]['link'] = $link;
+        }
         //array_multisort(array_column($rows, 'hierarchyAndName'), SORT_ASC, $rows);
         $totalRows = Category::getTotalCategories();
         $obj->totalRows = $totalRows;
