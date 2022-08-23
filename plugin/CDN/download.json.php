@@ -52,7 +52,7 @@ ini_set('max_execution_time', 7200);
 $url = CDNStorage::convertCDNHLSVideoToDownlaod($json->videos_id, $json->format);
 
 if(empty($url)){
-    $resp->msg = ("Error on get download URL for videos_id={$json->videos_id}, format={$json->format}");
+    $resp->msg = ("CDN/download.json.php Error on get download URL for videos_id={$json->videos_id}, format={$json->format}");
     die(json_encode($resp));
 }
 $resp->error = false;
