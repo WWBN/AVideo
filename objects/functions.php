@@ -9381,7 +9381,11 @@ function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type) {
         $videoHLSObj = AVideoPlugin::getDataObjectIfEnabled('VideoHLS');
         if (!empty($videoHLSObj) && method_exists('VideoHLS', 'getMP3ANDMP4DownloadLinks')) {
             $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
+        }else{
+            _error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid plugin");
         }
+    }else{
+        _error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid vidreo type");
     }
     return $downloadOptions;
 }
