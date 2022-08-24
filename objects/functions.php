@@ -7028,10 +7028,6 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
         }
         
         switch ($try) {
-            case 'offline':
-                //$command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -vcodec libx265 -crf 28  {$toFileLocationEscaped}";
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -crf 30 {$toFileLocationEscaped}";
-                break;
             case 0:
                 $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
                 break;
@@ -7040,6 +7036,10 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
                 break;
             case 2:
                 $command = get_ffmpeg() . " -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                break;
+            case 'offline':
+                //$command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -vcodec libx265 -crf 28  {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -crf 30 {$toFileLocationEscaped}";
                 break;
             default:
                 return false;
