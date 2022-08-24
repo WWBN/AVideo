@@ -77,19 +77,7 @@ if (User::canStream()) {
             ?>
             <div class="btn-group btn-group-justified" style="padding: 5px;">
                 <?php
-                if (Live::canStreamWithWebRTC()) {
-                    ?>
-                    <button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
-                        <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($buttonTitle); ?></span>
-                    </button>
-                    <?php
-                }
-                if (Live::canScheduleLive()) {
-                    ?>
-                    <button class="btn btn-primary btn-sm" onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/view/Live_schedule/panelIndex.php');" data-toggle="tooltip" title="<?php echo __('Schedule') ?>" >
-                        <i class="far fa-calendar"></i> <span class="hidden-sm hidden-xs"><?php echo __('Schedule'); ?></span>
-                    </button>
-                <?php }
+                Live::_getUserNotificationButton();
                 ?>
             </div>
         <?php }
@@ -360,6 +348,8 @@ if (isVideo()) {
                 $('#liveVideos .extraVideos').prepend(html);
                 $('#liveVideos').slideDown();
             }
+            processUserNotificationFromApplication(application);
+            
             setTimeout(function () {
                 lazyImage();
             }, 1000);
@@ -383,6 +373,17 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         if (application.users && typeof application.users.views !== 'undefined') {
             $('.views_on_total_on_live_' + application.users.transmition_key + '_' + application.users.live_servers_id).text(application.users.views);
         }
+    }
+    
+    function processUserNotificationFromApplication(application){
+        var itemsArray = {};
+        itemsArray.image = application.poster;
+        itemsArray.title = application.title;
+        itemsArray.href = application.href;
+        itemsArray.element_class = application.className;
+        itemsArray.element_id = application.className;
+        itemsArray.html = '<span class="label label-danger liveNow faa-flash faa-slow animated" style="display:inline-block; float:right;">LIVE NOW</span>';
+        addTemplateFromArray(itemsArray);
     }
 
     function socketLiveONCallback(json) {

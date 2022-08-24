@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.1.0 (2022-06-29)
+ * TinyMCE version 6.1.2 (2022-07-29)
  */
 
 (function () {
@@ -2239,6 +2239,79 @@
     const isZwsp$1 = char => char === zeroWidth;
     const removeZwsp = s => s.replace(/\uFEFF/g, '');
 
+    const descendants$1 = (scope, predicate) => {
+      let result = [];
+      each$f(children(scope), x => {
+        if (predicate(x)) {
+          result = result.concat([x]);
+        }
+        result = result.concat(descendants$1(x, predicate));
+      });
+      return result;
+    };
+
+    const descendants = (scope, selector) => all(selector, scope);
+
+    const NodeValue = (is, name) => {
+      const get = element => {
+        if (!is(element)) {
+          throw new Error('Can only get ' + name + ' value of a ' + name + ' node');
+        }
+        return getOption(element).getOr('');
+      };
+      const getOption = element => is(element) ? Optional.from(element.dom.nodeValue) : Optional.none();
+      const set = (element, value) => {
+        if (!is(element)) {
+          throw new Error('Can only set raw ' + name + ' value of a ' + name + ' node');
+        }
+        element.dom.nodeValue = value;
+      };
+      return {
+        get,
+        getOption,
+        set
+      };
+    };
+
+    const api$1 = NodeValue(isText$a, 'text');
+    const get$3 = element => api$1.get(element);
+    const getOption = element => api$1.getOption(element);
+
+    const getLastChildren$1 = elm => {
+      const children = [];
+      let rawNode = elm.dom;
+      while (rawNode) {
+        children.push(SugarElement.fromDom(rawNode));
+        rawNode = rawNode.lastChild;
+      }
+      return children;
+    };
+    const removeTrailingBr = elm => {
+      const allBrs = descendants(elm, 'br');
+      const brs = filter$6(getLastChildren$1(elm).slice(-1), isBr$5);
+      if (allBrs.length === brs.length) {
+        each$f(brs, remove$6);
+      }
+    };
+    const createPaddingBr = () => {
+      const br = SugarElement.fromTag('br');
+      set$2(br, 'data-mce-bogus', '1');
+      return br;
+    };
+    const fillWithPaddingBr = elm => {
+      empty(elm);
+      append$1(elm, createPaddingBr());
+    };
+    const trimBlockTrailingBr = elm => {
+      lastChild(elm).each(lastChild => {
+        prevSibling(lastChild).each(lastChildPrevSibling => {
+          if (isBlock$2(elm) && isBr$5(lastChild) && isBlock$2(lastChildPrevSibling)) {
+            remove$6(lastChild);
+          }
+        });
+      });
+    };
+
     const ZWSP$1 = zeroWidth;
     const isZwsp = isZwsp$1;
     const trim$1 = removeZwsp;
@@ -2302,17 +2375,12 @@
       }
       return container.data.charAt(pos.offset() - 1) === ZWSP$1 || pos.isAtEnd() && isCaretContainerInline(container.nextSibling);
     };
-    const createBogusBr = () => {
-      const br = document.createElement('br');
-      br.setAttribute('data-mce-bogus', '1');
-      return br;
-    };
     const insertBlock = (blockName, node, before) => {
       const doc = node.ownerDocument;
       const blockNode = doc.createElement(blockName);
       blockNode.setAttribute('data-mce-caret', before ? 'before' : 'after');
       blockNode.setAttribute('data-mce-bogus', 'all');
-      blockNode.appendChild(createBogusBr());
+      blockNode.appendChild(createPaddingBr().dom);
       const parentNode = node.parentNode;
       if (!before) {
         if (node.nextSibling) {
@@ -5036,19 +5104,6 @@
         throttle
       };
     };
-
-    const descendants$1 = (scope, predicate) => {
-      let result = [];
-      each$f(children(scope), x => {
-        if (predicate(x)) {
-          result = result.concat([x]);
-        }
-        result = result.concat(descendants$1(x, predicate));
-      });
-      return result;
-    };
-
-    const descendants = (scope, selector) => all(selector, scope);
 
     const annotation = constant('mce-annotation');
     const dataAnnotation = constant('data-mce-annotation');
@@ -8461,21 +8516,21 @@
         return [node].concat(getFirstChildren(child));
       });
     };
-    const getLastChildren$1 = node => {
+    const getLastChildren = node => {
       return lastChild(node).fold(constant([node]), child => {
         if (name(child) === 'br') {
           return prevSibling(child).map(sibling => {
-            return [node].concat(getLastChildren$1(sibling));
+            return [node].concat(getLastChildren(sibling));
           }).getOr([]);
         } else {
-          return [node].concat(getLastChildren$1(child));
+          return [node].concat(getLastChildren(child));
         }
       });
     };
     const hasAllContentsSelected = (elm, rng) => {
       return lift2(getStartNode(rng), getEndNode(rng), (startNode, endNode) => {
         const start = find$2(getFirstChildren(elm), curry(eq, startNode));
-        const end = find$2(getLastChildren$1(elm), curry(eq, endNode));
+        const end = find$2(getLastChildren(elm), curry(eq, endNode));
         return start.isSome() && end.isSome();
       }).getOr(false);
     };
@@ -8539,31 +8594,6 @@
       executor(bookmark);
       selection.moveToBookmark(bookmark);
     };
-
-    const NodeValue = (is, name) => {
-      const get = element => {
-        if (!is(element)) {
-          throw new Error('Can only get ' + name + ' value of a ' + name + ' node');
-        }
-        return getOption(element).getOr('');
-      };
-      const getOption = element => is(element) ? Optional.from(element.dom.nodeValue) : Optional.none();
-      const set = (element, value) => {
-        if (!is(element)) {
-          throw new Error('Can only set raw ' + name + ' value of a ' + name + ' node');
-        }
-        element.dom.nodeValue = value;
-      };
-      return {
-        get,
-        getOption,
-        set
-      };
-    };
-
-    const api$1 = NodeValue(isText$a, 'text');
-    const get$3 = element => api$1.get(element);
-    const getOption = element => api$1.getOption(element);
 
     const validBlocks = [
       'pre[class*=language-][contenteditable="false"]',
@@ -11103,36 +11133,6 @@
     const isBeforeContentEditableFalse = matchesElementPosition(true, isCefNode);
     const isAfterContentEditableFalse = matchesElementPosition(false, isCefNode);
 
-    const getLastChildren = elm => {
-      const children = [];
-      let rawNode = elm.dom;
-      while (rawNode) {
-        children.push(SugarElement.fromDom(rawNode));
-        rawNode = rawNode.lastChild;
-      }
-      return children;
-    };
-    const removeTrailingBr = elm => {
-      const allBrs = descendants(elm, 'br');
-      const brs = filter$6(getLastChildren(elm).slice(-1), isBr$5);
-      if (allBrs.length === brs.length) {
-        each$f(brs, remove$6);
-      }
-    };
-    const fillWithPaddingBr = elm => {
-      empty(elm);
-      append$1(elm, SugarElement.fromHtml('<br data-mce-bogus="1">'));
-    };
-    const trimBlockTrailingBr = elm => {
-      lastChild(elm).each(lastChild => {
-        prevSibling(lastChild).each(lastChildPrevSibling => {
-          if (isBlock$2(elm) && isBr$5(lastChild) && isBlock$2(lastChildPrevSibling)) {
-            remove$6(lastChild);
-          }
-        });
-      });
-    };
-
     const dropLast = xs => xs.slice(0, -1);
     const parentsUntil = (start, root, predicate) => {
       if (contains(root, start)) {
@@ -11478,15 +11478,9 @@
         return Optional.none();
       }
     };
-    const placeCaretInEmptyBody = editor => {
-      const body = editor.getBody();
-      const node = body.firstChild && editor.dom.isBlock(body.firstChild) ? body.firstChild : body;
-      editor.selection.setCursorLocation(node, 0);
-    };
-    const paddEmptyBody = editor => {
+    const paddEmptyBody = (editor, moveSelection = true) => {
       if (editor.dom.isEmpty(editor.getBody())) {
-        editor.setContent('');
-        placeCaretInEmptyBody(editor);
+        editor.setContent('', { no_selection: !moveSelection });
       }
     };
     const willDeleteLastPositionInElement = (forward, fromPos, elm) => lift2(firstPositionIn(elm), lastPositionIn(elm), (firstPos, lastPos) => {
@@ -11504,10 +11498,13 @@
       return child.bind(freefallRtl).orThunk(() => Optional.some(root));
     };
     const deleteRangeContents = (editor, rng, root, moveSelection = true) => {
+      var _a;
       rng.deleteContents();
       const lastNode = freefallRtl(root).getOr(root);
-      const lastBlock = SugarElement.fromDom(editor.dom.getParent(lastNode.dom, editor.dom.isBlock));
-      if (isEmpty$2(lastBlock)) {
+      const lastBlock = SugarElement.fromDom((_a = editor.dom.getParent(lastNode.dom, editor.dom.isBlock)) !== null && _a !== void 0 ? _a : root.dom);
+      if (lastBlock.dom === editor.getBody()) {
+        paddEmptyBody(editor, moveSelection);
+      } else if (isEmpty$2(lastBlock)) {
         fillWithPaddingBr(lastBlock);
         if (moveSelection) {
           editor.selection.setCursorLocation(lastBlock.dom, 0);
@@ -12135,14 +12132,22 @@
       return insertMiddle(liTarget, liElms, rootNode, rng);
     };
 
-    const wrappedElements = ['pre'];
-    const shouldPasteContentOnly = (fragment, parentNode) => {
+    const mergeableWrappedElements = ['pre'];
+    const shouldPasteContentOnly = (dom, fragment, parentNode, root) => {
+      var _a;
       const firstNode = fragment.firstChild;
-      const isAFlattenableTag = contains$2(wrappedElements, firstNode.name);
-      const isPastingInTheSameTag = firstNode.name === parentNode.tagName.toLowerCase();
-      const lastNode = fragment.lastChild.attr('data-mce-type') === 'bookmark' ? fragment.lastChild.prev : fragment.lastChild;
-      const isCopingOnlyOneTag = firstNode === lastNode;
-      return isCopingOnlyOneTag && isAFlattenableTag && isPastingInTheSameTag;
+      const lastNode = fragment.lastChild;
+      const last = lastNode.attr('data-mce-type') === 'bookmark' ? lastNode.prev : lastNode;
+      const isPastingSingleElement = firstNode === last;
+      const isWrappedElement = contains$2(mergeableWrappedElements, firstNode.name);
+      if (isPastingSingleElement && isWrappedElement) {
+        const isContentEditable = firstNode.attr('contenteditable') !== 'false';
+        const isPastingInTheSameBlockTag = ((_a = dom.getParent(parentNode, dom.isBlock)) === null || _a === void 0 ? void 0 : _a.nodeName.toLowerCase()) === firstNode.name;
+        const isPastingInContentEditable = Optional.from(getContentEditableRoot$1(root, parentNode)).forall(isContentEditableTrue$5);
+        return isContentEditable && isPastingInTheSameBlockTag && isPastingInContentEditable;
+      } else {
+        return false;
+      }
     };
     const isTableCell$1 = isTableCell$5;
     const isTableCellContentSelected = (dom, rng, cell) => {
@@ -12273,6 +12278,7 @@
       }
     };
     const insertHtmlAtCaret = (editor, value, details) => {
+      var _a;
       let parentNode;
       let rng, node;
       const selection = editor.selection;
@@ -12311,8 +12317,8 @@
         selection.setRng(rng);
         return value;
       }
-      if (details.paste === true && shouldPasteContentOnly(fragment, parentNode)) {
-        fragment.firstChild.unwrap();
+      if (details.paste === true && shouldPasteContentOnly(dom, fragment, parentNode, editor.getBody())) {
+        (_a = fragment.firstChild) === null || _a === void 0 ? void 0 : _a.unwrap();
       }
       markFragmentElements(fragment);
       node = fragment.lastChild;
@@ -16044,6 +16050,7 @@
     };
     const setupPurify = (settings, schema) => {
       const purify$1 = purify();
+      const specialElements = schema.getSpecialElements();
       const validate = settings.validate;
       let uid = 0;
       purify$1.addHook('uponSanitizeElement', (ele, evt) => {
@@ -16056,6 +16063,7 @@
           return;
         }
         const element = SugarElement.fromDom(ele);
+        const lcTagName = tagName.toLowerCase();
         const isInternalElement = has$1(element, internalElementAttr);
         const bogus = get$9(element, 'data-mce-bogus');
         if (!isInternalElement && isString(bogus)) {
@@ -16066,9 +16074,13 @@
           }
           return;
         }
-        const rule = schema.getElementRule(tagName.toLowerCase());
+        const rule = schema.getElementRule(lcTagName);
         if (validate && !rule) {
-          unwrap(element);
+          if (has$2(specialElements, lcTagName)) {
+            remove$6(element);
+          } else {
+            unwrap(element);
+          }
           return;
         } else {
           evt.allowedTags[tagName] = true;
@@ -16090,7 +16102,7 @@
             unwrap(element);
             return;
           }
-          if (rule.outputName && rule.outputName !== tagName.toLowerCase()) {
+          if (rule.outputName && rule.outputName !== lcTagName) {
             mutate(element, rule.outputName);
           }
         }
@@ -21246,6 +21258,7 @@
       }
       return false;
     };
+    const createRootBlock = editor => editor.dom.create(getForcedRootBlock(editor), getForcedRootBlockAttrs(editor));
     const addRootBlocks = editor => {
       const dom = editor.dom, selection = editor.selection;
       const schema = editor.schema, blockElements = schema.getBlockElements();
@@ -21276,7 +21289,7 @@
             continue;
           }
           if (!rootBlockNode) {
-            rootBlockNode = dom.create(forcedRootBlock, getForcedRootBlockAttrs(editor));
+            rootBlockNode = createRootBlock(editor);
             node.parentNode.insertBefore(rootBlockNode, node);
             wrapped = true;
           }
@@ -21294,6 +21307,16 @@
         selection.setRng(rng);
         editor.nodeChanged();
       }
+    };
+    const insertEmptyLine = (editor, root, insertBlock) => {
+      const block = SugarElement.fromDom(createRootBlock(editor));
+      const br = createPaddingBr();
+      append$1(block, br);
+      insertBlock(root, block);
+      const rng = document.createRange();
+      rng.setStartBefore(br.dom);
+      rng.setEndBefore(br.dom);
+      return rng;
     };
     const setup$n = editor => {
       editor.on('NodeChange', curry(addRootBlocks, editor));
@@ -21475,27 +21498,6 @@
     });
 
     const isTarget = node => contains$2(['figcaption'], name(node));
-    const rangeBefore = target => {
-      const rng = document.createRange();
-      rng.setStartBefore(target.dom);
-      rng.setEndBefore(target.dom);
-      return rng;
-    };
-    const insertElement = (root, elm, forward) => {
-      if (forward) {
-        append$1(root, elm);
-      } else {
-        prepend(root, elm);
-      }
-    };
-    const insertEmptyLine = (root, forward, blockName, attrs) => {
-      const block = SugarElement.fromTag(blockName);
-      const br = SugarElement.fromTag('br');
-      setAll$1(block, attrs);
-      append$1(block, br);
-      insertElement(root, block, forward);
-      return rangeBefore(br);
-    };
     const getClosestTargetBlock = (pos, root) => {
       const isRoot = curry(eq, root);
       return closest$4(SugarElement.fromDom(pos.container()), isBlock$2, isRoot).filter(isTarget);
@@ -21504,11 +21506,10 @@
     const moveCaretToNewEmptyLine = (editor, forward) => {
       const root = SugarElement.fromDom(editor.getBody());
       const pos = CaretPosition.fromRangeStart(editor.selection.getRng());
-      const rootBlock = getForcedRootBlock(editor);
-      const rootBlockAttrs = getForcedRootBlockAttrs(editor);
       return getClosestTargetBlock(pos, root).exists(() => {
         if (isAtFirstOrLastLine(root, forward, pos)) {
-          const rng = insertEmptyLine(root, forward, rootBlock, rootBlockAttrs);
+          const insertFn = forward ? append$1 : prepend;
+          const rng = insertEmptyLine(editor, root, insertFn);
           editor.selection.setRng(rng);
           return true;
         } else {
@@ -21739,22 +21740,12 @@
     const getClosestBelowPosition = (root, table, start) => findClosestPositionInBelowCell(table, start).orThunk(() => head(start.getClientRects()).bind(rect => findClosestHorizontalPositionFromPoint(getPositionsBelow(root, CaretPosition.after(table)), rect.left))).getOr(CaretPosition.after(table));
     const getTable = (previous, pos) => {
       const node = pos.getNode(previous);
-      return isElement$6(node) && node.nodeName === 'TABLE' ? Optional.some(node) : Optional.none();
+      return isTable$3(node) ? Optional.some(node) : Optional.none();
     };
     const renderBlock = (down, editor, table) => {
-      const forcedRootBlock = getForcedRootBlock(editor);
       editor.undoManager.transact(() => {
-        const element = SugarElement.fromTag(forcedRootBlock);
-        setAll$1(element, getForcedRootBlockAttrs(editor));
-        append$1(element, SugarElement.fromTag('br'));
-        if (down) {
-          after$4(SugarElement.fromDom(table), element);
-        } else {
-          before$3(SugarElement.fromDom(table), element);
-        }
-        const rng = editor.dom.createRng();
-        rng.setStart(element.dom, 0);
-        rng.setEnd(element.dom, 0);
+        const insertFn = down ? after$4 : before$3;
+        const rng = insertEmptyLine(editor, SugarElement.fromDom(table), insertFn);
         moveToRange(editor, rng);
       });
     };
@@ -26514,7 +26505,14 @@
           editor.contentDocument = iframe.contentDocument;
           contentBodyLoaded(editor);
         });
-        iframe.srcdoc = editor.iframeHTML;
+        if (Env.browser.isFirefox()) {
+          const doc = editor.getDoc();
+          doc.open();
+          doc.write(editor.iframeHTML);
+          doc.close();
+        } else {
+          iframe.srcdoc = editor.iframeHTML;
+        }
       } else {
         contentBodyLoaded(editor);
       }
@@ -28791,8 +28789,8 @@
       documentBaseURL: null,
       suffix: null,
       majorVersion: '6',
-      minorVersion: '1.0',
-      releaseDate: '2022-06-29',
+      minorVersion: '1.2',
+      releaseDate: '2022-07-29',
       i18n: I18n,
       activeEditor: null,
       focusedEditor: null,

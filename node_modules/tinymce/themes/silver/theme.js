@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.1.0 (2022-06-29)
+ * TinyMCE version 6.1.2 (2022-07-29)
  */
 
 (function () {
@@ -18034,6 +18034,7 @@
             buttonApi.setActive(isActive());
           },
           onSetup: buttonApi => {
+            buttonApi.setActive(isActive());
             const handleToggle = () => buttonApi.setActive(isActive());
             editor.on('ToggleSidebar', handleToggle);
             return () => {
@@ -20674,10 +20675,10 @@
       attachSystemAfter(eTargetNode, uiComponents.mothership);
       attachSystem(uiRoot, uiComponents.uiMothership);
       editor.on('PostRender', () => {
+        OuterContainer.setSidebar(outerContainer, rawUiConfig.sidebar, getSidebarShow(editor));
         setToolbar(editor, uiComponents, rawUiConfig, backstage);
         lastToolbarWidth.set(editor.getWin().innerWidth);
         OuterContainer.setMenubar(outerContainer, identifyMenus(editor, rawUiConfig));
-        OuterContainer.setSidebar(outerContainer, rawUiConfig.sidebar, getSidebarShow(editor));
         setupEvents$1(editor, uiComponents);
       });
       const socket = OuterContainer.getSocket(outerContainer).getOrDie('Could not find expected socket element');

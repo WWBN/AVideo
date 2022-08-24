@@ -7022,7 +7022,16 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
                 break;
         }
     } else {
+        
+        if($try === 0 && preg_match('/_offline\.mp4/', $toFileLocation)){
+            $try = 'offline';
+        }
+        
         switch ($try) {
+            case 'offline':
+                //$command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -vcodec libx265 -crf 28  {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -crf 30 -r 20 {$toFileLocationEscaped}";
+                break;
             case 0:
                 $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
                 break;

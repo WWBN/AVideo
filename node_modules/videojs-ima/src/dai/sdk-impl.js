@@ -280,8 +280,8 @@ SdkImpl.prototype.requestStream = function() {
   if (this.daiController.getSettings().apiKey) {
     streamRequest.apiKey = this.daiController.getSettings().apiKey;
   }
-  if (this.daiController.getSettings().authKey) {
-    streamRequest.authKey = this.daiController.getSettings().authKey;
+  if (this.daiController.getSettings().authToken) {
+    streamRequest.authToken = this.daiController.getSettings().authToken;
   }
   if (this.daiController.getSettings().adTagParameters) {
     streamRequest.adTagParameters =

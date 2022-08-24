@@ -247,7 +247,6 @@ async function lazyImage() {
 }
 
 lazyImage();
-var pleaseWaitIsINUse = false;
 var pauseIfIsPlayinAdsInterval;
 var seconds_watching_video = 0;
 var _startCountPlayingTime;
@@ -1147,8 +1146,10 @@ function isWebRTC() {
 }
 
 function isAutoplayEnabled() {
-    consoleLog("Cookies.get('autoplay')", Cookies.get('autoplay'));
-    if (typeof forceautoplay !== 'undefined' && forceautoplay) {
+    //consoleLog("Cookies.get('autoplay')", Cookies.get('autoplay'));
+    if (typeof forceNotautoplay !== 'undefined' && forceNotautoplay) {
+        return false;
+    } else if (typeof forceautoplay !== 'undefined' && forceautoplay) {
         return true;
     } else if (isWebRTC()) {
         consoleLog("isAutoplayEnabled said No because is WebRTC ");
@@ -2672,6 +2673,72 @@ async function selectAElements() {
     });
 }
 
+var hidePleaseWaitTimeout = {};
+var pleaseWaitIsINUse = {};
+var pleaseNextIndex = 0;
+function getPleaseWait(){
+    return (function () {
+        var index = pleaseNextIndex;
+        pleaseNextIndex++;
+        var selector = "#pleaseWaitDialog_"+index;
+        var pleaseWaitDiv = $(selector);
+        if (pleaseWaitDiv.length === 0) {
+            console.log('getPleaseWait', index);
+            if (typeof avideoLoader == 'undefined') {
+                avideoLoader = '';
+            }
+            pleaseWaitDiv = $('<div id="pleaseWaitDialog_'+index+'" class="pleaseWaitDialog modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
+        }
+
+        return {
+            showPleaseWait: function () {
+                if (!empty(pleaseWaitIsINUse[index])) {
+                    console.log('showPleaseWait is in use', index, new Error().stack);
+                    return false;
+                }
+                pleaseWaitIsINUse[index] = true;
+                $(selector).removeClass('loaded');
+                $(selector).find('.progress').hide();
+                this.setText('Processing...');
+                $(selector).find('h2').hide();
+                this.setProgress(0);
+                $(selector).find('.progress').hide();
+                pleaseWaitDiv.modal();
+            },
+            hidePleaseWait: function () {
+                clearTimeout(hidePleaseWaitTimeout[index]);
+                hidePleaseWaitTimeout[index] = setTimeout(function () {
+                    setTimeout(function () {
+                        $(selector).addClass('loaded');
+                    }, showPleaseWaitTimeOut / 2);
+                    setTimeout(function () {
+                        pleaseWaitDiv.modal('hide');
+                    }, showPleaseWaitTimeOut); // wait for loader animation
+                    setTimeout(function () {
+                        pleaseWaitIsINUse[index] = false;
+                    }, showPleaseWaitTimeOut + 1000);
+                }, 500);
+            },
+            setProgress: function (valeur) {
+                var progressSelector = selector+' .progress';
+                //console.log('showPleaseWait setProgress', progressSelector);
+                $(progressSelector).slideDown();
+                $(selector).find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
+            },
+            setText: function (text) {
+                var textSelector = selector+' h2';
+                //console.log('showPleaseWait setText', textSelector);
+                $(textSelector).slideDown();
+                $(textSelector).html(text);
+            },
+            getProgressSelector: function () {
+                var progressSelector = selector+' .progress';
+                return progressSelector;
+            },
+        };
+    })();
+}
+
 $(document).ready(function () {
     getServerTime();
     addViewFromCookie();
@@ -2695,60 +2762,7 @@ $(document).ready(function () {
             }
         }
     }, 2000);
-    var hidePleaseWaitTimeout;
-    modal = modal || (function () {
-        var pleaseWaitDiv = $("#pleaseWaitDialog");
-        if (pleaseWaitDiv.length === 0) {
-            if (typeof avideoLoader == 'undefined') {
-                avideoLoader = '';
-            }
-            pleaseWaitDiv = $('<div id="pleaseWaitDialog" class="modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
-        }
-
-        return {
-            showPleaseWait: function () {
-                if (pleaseWaitIsINUse) {
-                    console.log('showPleaseWait is in use');
-                    clearTimeout(hidePleaseWaitTimeout);
-                    return false;
-                }
-                pleaseWaitIsINUse = true;
-                $('#pleaseWaitDialog').removeClass('loaded');
-                $('#pleaseWaitDialog').find('.progress').hide();
-                this.setText('Processing...');
-                $('#pleaseWaitDialog').find('h2').hide();
-                this.setProgress(0);
-                $('#pleaseWaitDialog').find('.progress').hide();
-                pleaseWaitDiv.modal();
-            },
-            hidePleaseWait: function () {
-                clearTimeout(hidePleaseWaitTimeout);
-                hidePleaseWaitTimeout = setTimeout(function () {
-                    setTimeout(function () {
-                        $('#pleaseWaitDialog').addClass('loaded');
-                    }, showPleaseWaitTimeOut / 2);
-                    setTimeout(function () {
-                        pleaseWaitDiv.modal('hide');
-                    }, showPleaseWaitTimeOut); // wait for loader animation
-                    setTimeout(function () {
-                        pleaseWaitIsINUse = false;
-                    }, showPleaseWaitTimeOut + 1000);
-                }, 500);
-            },
-            setProgress: function (valeur) {
-                var element = $('#pleaseWaitDialog').find('.progress');
-                //console.log('showPleaseWait setProgress', element);
-                element.slideDown();
-                $('#pleaseWaitDialog').find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
-            },
-            setText: function (text) {
-                var element = $('#pleaseWaitDialog').find('h2');
-                //console.log('showPleaseWait setText', element);
-                element.slideDown();
-                element.html(text);
-            },
-        };
-    })();
+    modal = getPleaseWait();
     try {
         $('[data-toggle="popover"]').popover();
     } catch (e) {

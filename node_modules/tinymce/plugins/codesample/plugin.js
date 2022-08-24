@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.1.0 (2022-06-29)
+ * TinyMCE version 6.1.2 (2022-07-29)
  */
 
 (function () {
@@ -2363,6 +2363,7 @@
           const code = elm.textContent;
           dom.setAttrib(elm, 'class', trim(dom.getAttrib(elm, 'class')));
           dom.setAttrib(elm, 'contentEditable', null);
+          dom.setAttrib(elm, 'data-mce-highlighted', null);
           let child;
           while (child = elm.firstChild) {
             elm.removeChild(child);
@@ -2374,21 +2375,35 @@
       editor.on('SetContent', () => {
         const dom = editor.dom;
         const unprocessedCodeSamples = global.grep(dom.select('pre'), elm => {
-          return isCodeSample(elm) && elm.contentEditable !== 'false';
+          return isCodeSample(elm) && dom.getAttrib(elm, 'data-mce-highlighted') !== 'true';
         });
         if (unprocessedCodeSamples.length) {
           editor.undoManager.transact(() => {
             global.each(unprocessedCodeSamples, elm => {
+              var _a;
               global.each(dom.select('br', elm), elm => {
-                elm.parentNode.replaceChild(editor.getDoc().createTextNode('\n'), elm);
+                dom.replace(editor.getDoc().createTextNode('\n'), elm);
               });
-              elm.contentEditable = 'false';
-              elm.innerHTML = dom.encode(elm.textContent);
+              elm.innerHTML = dom.encode((_a = elm.textContent) !== null && _a !== void 0 ? _a : '');
               get(editor).highlightElement(elm);
+              dom.setAttrib(elm, 'data-mce-highlighted', true);
               elm.className = trim(elm.className);
             });
           });
         }
+      });
+      editor.on('PreInit', () => {
+        editor.parser.addNodeFilter('pre', nodes => {
+          var _a;
+          for (let i = 0, l = nodes.length; i < l; i++) {
+            const node = nodes[i];
+            const isCodeSample = ((_a = node.attr('class')) !== null && _a !== void 0 ? _a : '').indexOf('language-') !== -1;
+            if (isCodeSample) {
+              node.attr('contenteditable', 'false');
+              node.attr('data-mce-highlighted', 'false');
+            }
+          }
+        });
       });
     };
 

@@ -173,8 +173,8 @@ if (empty($global['bodyClass'])) {
 }
 $global['allowedExtension'] = ['gif', 'jpg', 'mp4', 'webm', 'mp3', 'm4a', 'ogg', 'zip', 'm3u8'];
 
-if (empty($global['avideo_resolutions'])) {
-    $global['avideo_resolutions'] = [240, 360, 480, 540, 720, 1080, 1440, 2160];
+if (empty($global['avideo_resolutions']) || !is_array($global['avideo_resolutions'])) {
+    $global['avideo_resolutions'] = [240, 360, 480, 540, 720, 1080, 1440, 2160, 'offline'];
 }
 
 sort($global['avideo_resolutions']);

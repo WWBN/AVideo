@@ -122,6 +122,13 @@ if ($forceRecreate || empty($channelsList)) {
     //$channelsList = object_to_array($channelsList);
 }
 
+
+if(!empty($_REQUEST['json'])){
+    header('Content-Type: application/json');
+    echo json_encode($channelsList);
+    exit;
+}
+
 //var_dump($epgData);exit;
 //var_dump($channelsList);exit;
 function cmpPrograms($a, $b) {

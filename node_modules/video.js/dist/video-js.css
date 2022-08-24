@@ -787,6 +787,7 @@ body.vjs-full-window {
 .vjs-audio-only-mode.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
 }
 
 .vjs-has-started.vjs-no-flex .vjs-control-bar {

@@ -228,21 +228,17 @@ SdkImpl.prototype.requestAds = function() {
   }
 
   if (this.controller.getSettings().omidMode) {
-    adsRequest.omidAccessModeRules = {};
-    const omidValues = this.controller.getSettings().omidMode;
+    window.console.warn('The additional setting `omidMode` has been removed. ' +
+                        'Use `omidVendorAccess` instead.');
+  }
 
-    if (omidValues.FULL) {
-      adsRequest.omidAccessModeRules[google.ima.OmidAccessMode.FULL] =
-        omidValues.FULL;
-    }
-    if (omidValues.DOMAIN) {
-      adsRequest.omidAccessModeRules[google.ima.OmidAccessMode.DOMAIN] =
-        omidValues.DOMAIN;
-    }
-    if (omidValues.LIMITED) {
-      adsRequest.omidAccessModeRules[google.ima.OmidAccessMode.LIMITED] =
-        omidValues.LIMITED;
-    }
+  if (this.controller.getSettings().omidVendorAccess) {
+    adsRequest.omidAccessModeRules = {};
+    const omidVendorValues = this.controller.getSettings().omidVendorAccess;
+
+    Object.keys(omidVendorValues).forEach((vendorKey) => {
+      adsRequest.omidAccessModeRules[vendorKey] = omidVendorValues[vendorKey];
+    });
   }
 
   adsRequest.linearAdSlotWidth = this.controller.getPlayerWidth();

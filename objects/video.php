@@ -3573,10 +3573,6 @@ if (!class_exists('Video')) {
                 $search = array_merge($search, $global['langs_codes_values_withdot']);
             }
 
-            if (empty($global['avideo_resolutions']) || !is_array($global['avideo_resolutions'])) {
-                $global['avideo_resolutions'] = [240, 360, 480, 540, 720, 1080, 1440, 2160];
-            }
-
             foreach ($global['avideo_resolutions'] as $value) {
                 $search[] = "_{$value}";
 
@@ -3586,7 +3582,7 @@ if (!class_exists('Video')) {
             if ($cleanName == $filename || preg_match('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', $filename)) {
                 $cleanName = preg_replace('/([a-z]+_[0-9]{12}_[a-z0-9]{4,5})_[0-9]+/', '$1', $filename);
             }
-
+            
             $path_parts = pathinfo($cleanName);
             if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
@@ -3920,6 +3916,7 @@ if (!class_exists('Video')) {
             if (!empty($source['url'])) {
                 $videos['mp3'] = $source['url'];
             }
+            //var_dump($videos);exit;
             $c = ObjectYPT::setCache($cacheName, $videos);
             //var_dump($cacheName, $c);exit;
             return $videos;

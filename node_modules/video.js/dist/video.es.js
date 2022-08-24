@@ -1,6 +1,6 @@
 /**
  * @license
- * Video.js 7.20.1 <http://videojs.com/>
+ * Video.js 7.20.2 <http://videojs.com/>
  * Copyright Brightcove, Inc. <https://www.brightcove.com/>
  * Available under Apache License Version 2.0
  * <https://github.com/videojs/video.js/blob/main/LICENSE>
@@ -32,7 +32,7 @@ import { getId3Offset } from '@videojs/vhs-utils/es/id3-helpers';
 import { detectContainerForBytes, isLikelyFmp4MediaSegment } from '@videojs/vhs-utils/es/containers';
 import { ONE_SECOND_IN_TS } from 'mux.js/lib/utils/clock';
 
-var version$5 = "7.20.1";
+var version$5 = "7.20.2";
 
 /**
  * An Object that contains lifecycle hooks as keys which point to an array
@@ -19970,7 +19970,8 @@ var Html5 = /*#__PURE__*/function (_Tech) {
 
     _this = _Tech.call(this, options, ready) || this;
     var source = options.source;
-    var crossoriginTracks = false; // Set the source if one is provided
+    var crossoriginTracks = false;
+    _this.featuresVideoFrameCallback = _this.featuresVideoFrameCallback && _this.el_.tagName === 'VIDEO'; // Set the source if one is provided
     // 1) Check if the source is new (if not, we want to keep the original so playback isn't interrupted)
     // 2) Check to see if the network state of the tag was failed at init, and if so, reset the source
     // anyway so the error gets fired.
@@ -20044,8 +20045,6 @@ var Html5 = /*#__PURE__*/function (_Tech) {
 
 
     _this.proxyWebkitFullscreen_();
-
-    _this.featuresVideoFrameCallback = _this.featuresVideoFrameCallback && _this.el_.tagName === 'VIDEO';
 
     _this.triggerReady();
 
@@ -20695,6 +20694,9 @@ var Html5 = /*#__PURE__*/function (_Tech) {
   }
   /**
    * Native requestVideoFrameCallback if supported by browser/tech, or fallback
+   * Don't use rVCF on Safari when DRM is playing, as it doesn't fire
+   * Needs to be checked later than the constructor
+   * This will be a false positive for clear sources loaded after a Fairplay source
    *
    * @param {function} cb function to call
    * @return {number} id of request
@@ -20702,7 +20704,7 @@ var Html5 = /*#__PURE__*/function (_Tech) {
   ;
 
   _proto.requestVideoFrameCallback = function requestVideoFrameCallback(cb) {
-    if (this.featuresVideoFrameCallback) {
+    if (this.featuresVideoFrameCallback && !this.el_.webkitKeys) {
       return this.el_.requestVideoFrameCallback(cb);
     }
 
@@ -20716,7 +20718,7 @@ var Html5 = /*#__PURE__*/function (_Tech) {
   ;
 
   _proto.cancelVideoFrameCallback = function cancelVideoFrameCallback(id) {
-    if (this.featuresVideoFrameCallback) {
+    if (this.featuresVideoFrameCallback && !this.el_.webkitKeys) {
       this.el_.cancelVideoFrameCallback(id);
     } else {
       _Tech.prototype.cancelVideoFrameCallback.call(this, id);

@@ -1180,11 +1180,11 @@ li.dropdown-submenu > ul > li > a{
     display: block;
 }
 
-#pleaseWaitDialog{
+.pleaseWaitDialog{
     z-index: 2001;
     background-color: #00000077;
 }
-#pleaseWaitDialog>div, #pleaseWaitDialog .progress, #pleaseWaitDialog h2{
+.pleaseWaitDialog>div, .pleaseWaitDialog .progress, .pleaseWaitDialog h2{
     margin: 0;
     position: absolute;
     top: 50%;
@@ -1192,19 +1192,19 @@ li.dropdown-submenu > ul > li > a{
     transform: translateY(-50%);
 }
 
-#pleaseWaitDialog>div{
+.pleaseWaitDialog>div{
     margin: -65px 0 0 -40px;
     left: 50%;
 }
-#pleaseWaitDialog .progress, #pleaseWaitDialog h2{
+.pleaseWaitDialog .progress, .pleaseWaitDialog h2{
     margin: 0 0 0 -50%;
     width: 100%;
     left: 50%;
 }
-#pleaseWaitDialog .progress{
+.pleaseWaitDialog .progress{
     background-color: #FFFFFF77;
 }
-#pleaseWaitDialog h2{
+.pleaseWaitDialog h2{
     margin-top: 40px;
     text-shadow: #000 1px 0 5px;
     color: #FFF;
@@ -1212,7 +1212,7 @@ li.dropdown-submenu > ul > li > a{
 }
 
 @media (min-width: 1200px) {
-    #pleaseWaitDialog .progress, #pleaseWaitDialog h2{
+    .pleaseWaitDialog .progress, .pleaseWaitDialog h2{
         margin: 0 0 0 -200px;
         width: 400px;
         left: 50%;

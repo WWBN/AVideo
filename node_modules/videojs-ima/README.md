@@ -164,7 +164,7 @@ the previous snippet. A summary of all settings follows:
 | nonLinearHeight        | number       | Desired height for non-linear ads. Defaults to 1/3 player height. |
 | nonLinearWidth         | number       | Desired width of non-linear ads. Defaults to player width. |
 | numRedirects           | number       | Maximum number of VAST redirects before the subsequent redirects will be denied and the ad load aborted. The number of redirects directly affects latency and thus user experience. This applies to all VAST wrapper ads. |
-| omidMode               | object       | Sets and enables the Open Measurement SDK(4). Accepts an object with keys 'LIMITED', 'DOMAIN', and 'FULL'. The value pair for each key should be a dictionary that maps each access mode to a regular expression that matches the URLs to include. This API is currently in open beta and requires the following feature flag to be set: `{'enableOmidBeta': true}` |
+| omidVendorAccess       | object       | Sets and enables the Open Measurement SDK(4). Accepts an object with keys corresponding to OMID verification vendors(5). The value pair for each key should be the OMID access mode(6) associated with that vendor. |
 | ppid                   | string       | Sets the publisher provided ID |
 | preventLateAdStart     | boolean      | Prevent ads from starting after the content has started if an adtimeout occurred (preroll, midroll, postroll). The default value is false
 | sessionId              | string       | Sets the [session ID](//developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.ImaSdkSettings#setSessionId) |
@@ -183,7 +183,11 @@ the previous snippet. A summary of all settings follows:
 <br />
 (4) [Open Measurement SDK guide](//developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/omsdk)
 <br />
-(5) [ImaSdkSettings.setVpaidMode](//developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.ImaSdkSettings#setVpaidMode)
+(5) [OmidVerificationVendor](//developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima#.OmidVerificationVendor)
+<br />
+(6) [OmidAccessMode](//developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima#.OmidAccessMode)
+<br />
+(7) [ImaSdkSettings.setVpaidMode](//developers.google.com/interactive-media-ads/docs/sdks/html5/client-side/reference/js/google.ima.ImaSdkSettings#setVpaidMode)
 
 ## IMA Plugin Ad Events
 The IMA Plugin fires events that can be listened for. Ad lifecycle events can be listened for by following our [Advanced Example](https://github.com/googleads/videojs-ima/blob/main/examples/advanced/ads.js). Other events are emited from the videojs player. Please see the below example to set up listeners for these events.

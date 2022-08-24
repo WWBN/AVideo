@@ -319,6 +319,9 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     }
     
     function processUserNotificationFromApplication(application){
+        if(typeof addTemplateFromArray !== 'function'){
+            
+        }
         var itemsArray = {};
         itemsArray.priority = 3;
         itemsArray.image = application.poster;
