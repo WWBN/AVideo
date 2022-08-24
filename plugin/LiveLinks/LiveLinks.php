@@ -139,7 +139,7 @@ class LiveLinks extends PluginAbstract {
             $label = ($liveUsers ? getLiveUsersLabelLiveLinks($value['id']) : '');
             //var_dump( self::getPosterToLiveFromId($value['id']),$value['id'] );exit;
             
-            $array = array(
+            $_array = array(
                 'users_id'=>$value['users_id'],
                 'title'=>$value['title'],
                 'link'=>self::getLinkToLiveFromId($value['id']),
@@ -154,7 +154,7 @@ class LiveLinks extends PluginAbstract {
                 'description'=>$value['description']
             );
             
-            $row = Live::getLiveApplicationModelArray($array);
+            $row = Live::getLiveApplicationModelArray($_array);
             //var_dump($row);exit;
             $row['categories_id'] = $value['categories_id'];
             $row['liveLinks_id'] = $value['id'];
