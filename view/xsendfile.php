@@ -116,5 +116,5 @@ if (file_exists($path)) {
     }
     die();
 } else {
-    _error_log("XSENDFILE ERROR: Not exists path={$path} file={$file}");
+    _error_log("XSENDFILE ERROR: Not exists path={$path} file={$file} ". json_encode($_GET));
 }
