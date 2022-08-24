@@ -3561,6 +3561,7 @@ if (!class_exists('Video')) {
                 return "";
             }
             $filename = fixPath($filename);
+            $filename = str_replace('index_offline', 'index', $filename);
             $filename = str_replace(getVideosDir(), '', $filename);
             if (preg_match('/videos[\/\\\]([^\/\\\]+)[\/\\\].*index.(m3u8|mp4|mp3)$/', $filename, $matches)) {
                 //var_dump($filename, $matches);

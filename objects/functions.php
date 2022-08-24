@@ -7030,7 +7030,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
         switch ($try) {
             case 'offline':
                 //$command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -vcodec libx265 -crf 28  {$toFileLocationEscaped}";
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -crf 30 -r 20 {$toFileLocationEscaped}";
+                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -crf 30 {$toFileLocationEscaped}";
                 break;
             case 0:
                 $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
