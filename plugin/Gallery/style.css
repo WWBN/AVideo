@@ -209,6 +209,7 @@ a.h6{
 }
 .galleryTags{
    margin: 0 !important;
+   display: inline-flex;
 }
 
 .isChannelToGallery .addChannelToGallery, .removeChannelFromGallery{
