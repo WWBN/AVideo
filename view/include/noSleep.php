@@ -7,18 +7,15 @@
 <script>
     var noSleep = new NoSleep();
     var noSleepVideoStarted = false;
-    function enableNoSleep() {
+    document.addEventListener('click', function enableNoSleep() {
+        document.removeEventListener('click', enableNoSleep, false);
         noSleep.enable();
-        document.removeEventListener('touchstart', enableNoSleep, false);
-    }
+    }, false);
 
     function disableNoSleep() {
         noSleep.disable();
     }
 
-// Enable wake lock.
-// (must be wrapped in a user input event handler e.g. a mouse or touch handler)
-    document.addEventListener('touchstart', enableNoSleep, false);
 
     $(document).ready(function () {
         $(document).click(function () {
