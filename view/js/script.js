@@ -2344,8 +2344,13 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
                 if (response.msg) {
                     avideoAlertInfo(response.msg);
                 }
-                if (isMobile()) {
-                    document.location = response.url
+                if (
+                        isMobile() 
+                        //|| /cdn.ypt.me/.test(response.url)
+                    ) {
+                    window.open(response.url,'_blank');
+                    avideoToastInfo('Opening file');
+                    //document.location = response.url
                 } else {
                     downloadURL(response.url, filename);
                 }

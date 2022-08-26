@@ -3193,6 +3193,13 @@ function addGlobalTokenIfSameDomain($url) {
     return addQueryStringParameter($url, 'globalToken', getToken(60));
 }
 
+function isGlobalTokenValid(){
+    if(empty($_REQUEST['globalToken'])){
+        return false;
+    }
+    return verifyToken($_REQUEST['globalToken']);
+}
+
 /**
  * Remove a query string parameter from an URL.
  *
@@ -7025,6 +7032,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
         
         if($try === 0 && preg_match('/_offline\.mp4/', $toFileLocation)){
             $try = 'offline';
+            $fromFileLocationEscaped = "\"$fromFileLocation\"";
         }
         
         switch ($try) {

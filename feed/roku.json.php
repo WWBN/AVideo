@@ -69,7 +69,6 @@ if (empty($output)) {
                 $movie->rating->ratingSource = 'MPAA';
             }
 
-
             $content = new stdClass();
             $content->dateAdded = date('c', strtotime($row['created']));
             $content->captions = [];
