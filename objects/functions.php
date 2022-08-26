@@ -9401,7 +9401,7 @@ function addTwitterJS($text) {
 function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type) {
     $downloadOptions = array();
     if(empty($videos_id)){
-        return '';
+        return array();
     }
     if(empty($video_type)){
         $video = Video::getVideoLight($videos_id);
