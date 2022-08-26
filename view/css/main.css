@@ -1200,7 +1200,6 @@ li.dropdown-submenu > ul > li > a{
     margin: 0 0 0 -50%;
     width: 100%;
     left: 50%;
-    z-index: 1;
 }
 .pleaseWaitDialog .progress{
     background-color: #FFFFFF77;
@@ -1210,6 +1209,7 @@ li.dropdown-submenu > ul > li > a{
     text-shadow: #000 1px 0 5px;
     color: #FFF;
     font-weight: bold;
+    z-index: 1;
 }
 
 @media (min-width: 1200px) {
