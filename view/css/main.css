@@ -1200,6 +1200,7 @@ li.dropdown-submenu > ul > li > a{
     margin: 0 0 0 -50%;
     width: 100%;
     left: 50%;
+    z-index: 1;
 }
 .pleaseWaitDialog .progress{
     background-color: #FFFFFF77;
