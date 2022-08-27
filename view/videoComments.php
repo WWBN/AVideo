@@ -1,5 +1,4 @@
 <?php
-$maxLen = empty($advancedCustom->commentsMaxLength) ? 200 : $advancedCustom->commentsMaxLength;
 if (User::canSeeCommentTextarea()) {
     if (!empty($advancedCustom->commentsNoIndex)) {
         echo "<!--googleoff: all-->";
@@ -80,7 +79,6 @@ if (User::canSeeCommentTextarea()) {
     <div id="commentsArea" class="<?php echo $class; ?>"></div>
     <script>
         var commentTemplate = <?php echo $commentTemplate; ?>;
-        var commentsmaxlen = <?php echo $maxLen; ?>;
 
         function popupCommentTextarea(comments_id, html) {
             var span = document.createElement("span");
