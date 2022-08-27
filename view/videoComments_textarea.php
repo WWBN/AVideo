@@ -1,6 +1,5 @@
 <?php
 if (!empty($video['id'])) {
-    $maxLen = empty($advancedCustom->commentsMaxLength) ? 200 : $advancedCustom->commentsMaxLength;
 
     $disabled = '';
     $content = '';
@@ -44,7 +43,6 @@ if (!empty($video['id'])) {
     </div>
 
     <script>
-        var commentsmaxlen = <?php echo $maxLen; ?>;
         var commentVideos_id = <?php echo intval($video['id']); ?>;
         $(document).ready(function () {
     <?php
