@@ -216,6 +216,9 @@ if (User::canSeeCommentTextarea()) {
 
         function getComments(comments_id) {
             var url = webSiteRootURL + 'objects/comments.json.php';
+            if(typeof commentVideos_id == 'undefined'){
+               commentVideos_id = 0;
+            }
             url = addQueryStringParameter(url, 'video_id', commentVideos_id);
             url = addQueryStringParameter(url, 'comments_id', comments_id);
             $.ajax({
