@@ -77,6 +77,9 @@ if ($forceRecreate || empty($channelsList)) {
     }
     $channelsList = array();
     foreach ($epgs as $epg) {
+        if (isCommandLineInterface()) {
+            _error_log('Commandline: Command line EPG line:' . __LINE__);
+        }
         $this_videos_id = $epg['id'];
         $programCacheName = '/program_' . md5($epg['epg_link']);
         $timeout = random_int(3600 * 60, $cacheTimeout * 360); //1 to 6 hours
