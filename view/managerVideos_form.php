@@ -391,8 +391,12 @@
                         <input type="text" id="videoLink" class="form-control" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
                     </div>
                     <div class="col-sm-6">
-                        <label class="control-label" for="epg_link" ><?php echo __("EPG XML Link"); ?></label>
+                        <label class="control-label" for="epg_link" ><?php echo __("EPG XML Link"); ?> </label>
                         <input type="url" id="epg_link" class="form-control" placeholder="<?php echo __("EPG XML Link"); ?>">
+                        <small>
+                            <i class="far fa-question-circle"></i>
+                            You MUST use a <a href="http://wiki.xmltv.org/index.php/XMLTVFormat" target="_blank">XMLTV File format</a>
+                        </small>
                     </div>
                 </div>
             </div>

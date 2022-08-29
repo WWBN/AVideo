@@ -24,7 +24,12 @@ class PlayerSkins extends PluginAbstract {
             $path_parts = pathinfo($file);
             $names[] = $path_parts['filename'];
         }
-        return $desc . "<code>" . implode("</code> or <code>", $names) . "</code>";
+        $desc .= $desc . "<code>" . implode("</code> or <code>", $names) . "</code>";
+        
+        $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/epg.php';
+        $desc .= "<br>auto generate cache for EPG links <code>0 * * * * php {$dir}</code>";
+        
+        return $desc;
     }
 
     public function getName() {

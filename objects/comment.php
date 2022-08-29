@@ -154,7 +154,7 @@ class Comment {
         return ($res != false) ? $result : false;
     }
 
-    public static function getAllComments($videoId = 0, $comments_id_pai = 'NULL') {
+    public static function getAllComments($videoId = 0, $comments_id_pai = 'NULL', $video_owner_users_id = 0) {
         global $global;
         $format = '';
         $values = [];
