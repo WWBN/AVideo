@@ -1430,12 +1430,14 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             if (in_array($parts['extension'], $image) && filesize($file) < 1000 && !preg_match("/Dummy File/i", file_get_contents($file))) {
                 continue;
             }
-            $resolution = '';
             if (preg_match("/{$cleanfilename}(_.+)[.]{$parts['extension']}$/", $file, $matches)) {
                 $resolution = $matches[1];
             } else {
                 preg_match('/_([^_]{0,4}).' . $parts['extension'] . '$/', $file, $matches);
                 $resolution = @$matches[1];
+            }
+            if(empty($resolution)){
+                $resolution = '';
             }
             $type = 'video';
             if (in_array($parts['extension'], $video)) {
@@ -5325,6 +5327,7 @@ function isValidURL($url) {
 }
 
 function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
+    global $global;
     //var_dump(empty($url), !is_string($url), preg_match("/^http.*/", $url), filter_var($url, FILTER_VALIDATE_URL));
     if (empty($str) || !is_string($str)) {
         return false;
@@ -5336,10 +5339,10 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
         return true;
     }
     if (str_starts_with($str, '/') || str_starts_with($str, '../') || preg_match("/^[a-z]:.*/i", $str)) {
-        if ($insideCacheOrTmpDirOnly) {
+        if ($insideCacheOrTmpDirOnly) {               
             $absolutePath = realpath($str);
             $absolutePathTmp = realpath(getTmpDir());
-            $absolutePathCache = realpath($cacheDir);
+            $absolutePathCache = realpath(getCacheDir());
             $ext = strtolower(pathinfo($absolutePath, PATHINFO_EXTENSION));
             if ($ext == 'php') {
                 _error_log('isValidURLOrPath return false (is php file) ' . $str);
@@ -7018,7 +7021,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
     $localFileLock = getCacheDir() . 'convertVideoFileWithFFMPEG_'.md5($parts[0]).".lock";    
     if (file_exists($localFileLock)) {
         $ageInSeconds = time()- filemtime($localFileLock);
-        _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds}/ download from CDN There is a process running for " . $fromFileLocation);
+        _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} download from CDN There is a process running for " . $fromFileLocation);
         return false;
     }else{
         _error_log("convertVideoFileWithFFMPEG: creating file: localFileLock: {$localFileLock} toFileLocation: {$toFileLocation}");
@@ -9257,7 +9260,9 @@ function parseFFMPEGProgress($progressFilename) {
         if (is_array($rawTime)) {
             $rawTime = array_pop($rawTime);
         }
-
+        if(empty($rawTime)){
+            $rawTime = '00:00:00.00';
+        }
         //rawTime is in 00:00:00.00 format. This converts it to seconds.
         $ar = array_reverse(explode(":", $rawTime));
         $time = floatval($ar[0]);

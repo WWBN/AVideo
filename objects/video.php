@@ -1714,7 +1714,7 @@ if (!class_exists('Video')) {
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
                     }
                     if (empty($row['filesize'])) {
-                        if($video['type']=='video' || $video['type']=='audio'){
+                        if($row['type']=='video' || $row['type']=='audio'){
                             $row['filesize'] = Video::updateFilesize($row['id']);
                         }
                     }
