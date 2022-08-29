@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'../../videos/configuration.php';
+require_once __DIR__.'/../../videos/configuration.php';
 
 $_start = microtime(true);
 $fontSize = 18;
