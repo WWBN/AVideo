@@ -149,6 +149,10 @@ function getLiveKey($token) {
 
 if (!$isCommandLine) { // not command line
     $request = file_get_contents("php://input");
+    if (empty($request)) {
+        error_log("***Restreamer.json.php there is no info for this stream");
+        die('something went wrong');
+    }
     error_log("Restreamer.json.php php://input {$request}");
     $robj = json_decode($request);
     if (!empty($robj->test)) {
