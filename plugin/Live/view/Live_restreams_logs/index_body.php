@@ -80,7 +80,7 @@ if (!User::isAdmin()) {
                 {
                     "data": "logFile",
                     render: function (data, type, row) {
-                        var url = webSiteRootURL+'plugin/Live/standAloneFiles/restreamer.json.php';
+                        var url = webSiteRootURL+'plugin/Live/view/Live_restreams/getAction.json.php?action=log&live_restreams_logs_id='+row.id;
                         url = addQueryStringParameter(url, 'logFile', row.logFile);
                         return '<a href="' + url + '" target="_blank">' + data + '</a>';
                     }
