@@ -12,6 +12,7 @@ if (isMobile()) {
 
 $cacheTimeout = 60;
 if(isCommandLineInterface()){
+    _error_log('Command line EPG');
     $cacheTimeout = 0; // ignore cache if is command line
 }
 
