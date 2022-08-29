@@ -86,17 +86,11 @@ if ($forceRecreate || empty($channelsList)) {
                 $Parser->parseURL();
                 $epgData = $Parser->getEpgdata();
                 $channels = $Parser->getChannels();
-                if (isCommandLineInterface()) {
-                    _error_log("Commandline: parsing {$epg['epg_link']} done Command line EPG line:" . __LINE__);
-                }
                 //var_dump($channels, $epgData);
                 //$Parser->setTargetTimeZone('Europe/Skopje');
                 // $Parser->setChannelfilter('prosiebenmaxx.de'); //optional
                 // $Parser->setIgnoreDescr('Keine Details verfügbar.'); //optional
                 foreach ($channels as $key => $value) {
-                    if (isCommandLineInterface()) {
-                        _error_log("Commandline: Command line EPG key:{$key} line: " . __LINE__);
-                    }
                     $channels[$key]['epgData'] = array();
                     foreach ($epgData as $key2 => $program) {
                         if ($program['channel'] != $value['id']) {
@@ -125,9 +119,6 @@ if ($forceRecreate || empty($channelsList)) {
                         }
                         $channelsList[] = $channels[$key];
                         //var_dump($channelsList[0]);exit;
-                    }
-                    if (isCommandLineInterface()) {
-                        _error_log("Commandline: Command line EPG key:{$key} done line: " . __LINE__);
                     }
                 }
                 $file = ObjectYPT::setCache($programCacheName, $channelsList);
