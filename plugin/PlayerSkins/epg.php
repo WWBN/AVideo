@@ -58,7 +58,7 @@ if (empty($forceRecreate)) {
     $channelsList = ObjectYPT::getCache($cacheName, $cacheTimeou * 120);
 }
 $_MaxDaysFromNow = strtotime('+24 hours');
-
+$errorMessages = [];
 if ($forceRecreate || empty($channelsList)) {
     if (isCommandLineInterface()) {
         _error_log('Commandline: Command line EPG line: ' . __LINE__);
@@ -133,7 +133,9 @@ if ($forceRecreate || empty($channelsList)) {
                 _error_log("EPG program cache created videos_id={$this_videos_id} " . json_encode($file));
             } catch (Exception $e) {
                 $error = new \RuntimeException($e);
-                _error_log("EPG program ERROR {$epg['epg_link']} videos_id={$this_videos_id} ". $error->getMessage());
+                $eMessage = "{$epg['title']}: videos_id={$this_videos_id} epg_link={$epg['epg_link']} ".$error->getMessage();
+                $errorMessages[] = $eMessage;
+                _error_log("EPG program ERROR ". $eMessage);
             }
         } else {
             $channelsList = object_to_array($programData);
