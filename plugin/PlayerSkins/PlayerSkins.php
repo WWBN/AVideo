@@ -27,7 +27,7 @@ class PlayerSkins extends PluginAbstract {
         $desc .= $desc . "<code>" . implode("</code> or <code>", $names) . "</code>";
         
         $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/epg.php';
-        $desc .= "<br>auto generate cache for EPG links <code>0 * * * * php {$dir}</code>";
+        $desc .= "<br>crontab for auto generate cache for EPG links <code>0 * * * * php {$dir}</code>";
         
         return $desc;
     }
