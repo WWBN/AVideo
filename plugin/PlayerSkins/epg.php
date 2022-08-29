@@ -13,7 +13,7 @@ if (isMobile()) {
 $cacheTimeout = 60;
 if(isCommandLineInterface()){
     _error_log('Command line EPG');
-    $cacheTimeout = 0; // ignore cache if is command line
+    $cacheTimeout = 1; // ignore cache if is command line
 }
 
 $cacheNameEpgPage = 'epgPage_'.$timeLineElementSize . md5(json_encode($_GET));
