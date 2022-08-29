@@ -10,6 +10,11 @@ if (isMobile()) {
     $fontSize = 12;
 }
 
+$cacheTimeout = 60;
+if(isCommandLineInterface()){
+    $cacheTimeout = 0; // ignore cache if is command line
+}
+
 $cacheNameEpgPage = 'epgPage_'.$timeLineElementSize . md5(json_encode($_GET));
 $content = ObjectYPT::getCache($cacheNameEpgPage, $cacheTimeout); // 1 minute
 if(!empty($content)){
@@ -44,12 +49,6 @@ $secondSize = $minuteSize / 60;
 $cacheName = 'epg';
 
 $forceRecreate = false;
-
-$cacheTimeout = 60;
-if(isCommandLineInterface()){
-    $cacheTimeout = 0; // ignore cache if is command line
-}
-
 
 $cacheName = '/channelsList_' . md5(json_encode($_GET));
 $channelsList = ObjectYPT::getCache($cacheName, $cacheTimeou*120);
