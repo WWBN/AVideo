@@ -160,6 +160,7 @@ if ($forceRecreate || empty($channelsList)) {
 
 if(isCommandLineInterface()){
     _error_log('Commandline: EPG done line: ' . __LINE__);
+    echo PHP_EOL.implode(PHP_EOL, $errorMessages).PHP_EOL;
     exit;
 }
 
