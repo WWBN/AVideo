@@ -50,7 +50,7 @@ foreach ($videos as $video) {
     $epgs[] = $video;
 }
 if (isCommandLineInterface()) {
-    _error_log('Commandline: Command line EPG line:' . __LINE__);
+    _error_log('Commandline: Command line EPG line: ' . __LINE__);
 }
 $timeLineElementMinutes = 30;
 $paddingSize = 10;
@@ -72,7 +72,8 @@ $_MaxDaysFromNow = strtotime('+24 hours');
 
 if ($forceRecreate || empty($channelsList)) {
     if (isCommandLineInterface()) {
-        _error_log('Commandline: Command line EPG line:' . __LINE__);
+        _error_log('Commandline: Command line EPG line: ' . __LINE__);
+        _error_log('Commandline: Command line EPG epgs count: ' . count($epgs));
     }
     $channelsList = array();
     foreach ($epgs as $epg) {
@@ -81,6 +82,9 @@ if ($forceRecreate || empty($channelsList)) {
         $timeout = random_int(3600 * 60, $cacheTimeout * 360); //1 to 6 hours
         if (empty($forceRecreate)) {
             $programData = ObjectYPT::getCache($programCacheName, $timeout);
+        }
+        if (isCommandLineInterface()) {
+            _error_log('Commandline: Command line EPG line:' . __LINE__);
         }
         if ($forceRecreate || empty($programData)) {
             _error_log("EPG program expired creating again videos_id={$this_videos_id} " . $programCacheName);
@@ -141,6 +145,9 @@ if ($forceRecreate || empty($channelsList)) {
                 }
             }
         }
+    }
+    if (isCommandLineInterface()) {
+        _error_log('Commandline: Command line EPG line:' . __LINE__);
     }
     usort($channelsList, "cmpChannels");
 } else {
