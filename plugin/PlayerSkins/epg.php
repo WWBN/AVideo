@@ -22,21 +22,12 @@ if (empty($forceRecreate)) {
     $content = ObjectYPT::getCache($cacheNameEpgPage, $cacheTimeout); // 1 minute
 }
 if (!empty($content)) {
-    if (isCommandLineInterface()) {
-        _error_log('Commandline: Command line EPG line:' . __LINE__);
-    }
     echo $content;
     $_end = microtime(true) - $_start;
     echo '<!-- pageCache=' . $_end . ' -->';
     exit;
 }
-if (isCommandLineInterface()) {
-    _error_log('Commandline: Command line EPG line:' . __LINE__);
-}
 require_once $global['systemRootPath'] . 'objects/EpgParser.php';
-if (isCommandLineInterface()) {
-    _error_log('Commandline: Command line EPG line:' . __LINE__);
-}
 
 $epgs = array();
 $minDate = strtotime('+1 year');
@@ -48,9 +39,6 @@ foreach ($videos as $video) {
         continue;
     }
     $epgs[] = $video;
-}
-if (isCommandLineInterface()) {
-    _error_log('Commandline: Command line EPG line: ' . __LINE__);
 }
 $timeLineElementMinutes = 30;
 $paddingSize = 10;
@@ -79,15 +67,9 @@ if ($forceRecreate || empty($channelsList)) {
     foreach ($epgs as $epg) {
         $this_videos_id = $epg['id'];
         $programCacheName = '/program_' . md5($epg['epg_link']);
-        $timeout = random_int(3600 * 60, $cacheTimeout * 360); //1 to 6 hours
-        if (isCommandLineInterface()) {
-            _error_log('Commandline: Command line EPG line:' . __LINE__. ' '. json_encode(array($programCacheName, $timeout)));
-        }
+        $timeout = random_int(($cacheTimeout * 60), ($cacheTimeout * 360)); //1 to 6 hours
         if (empty($forceRecreate)) {
             $programData = ObjectYPT::getCache($programCacheName, $timeout);
-        }
-        if (isCommandLineInterface()) {
-            _error_log('Commandline: Command line EPG line:' . __LINE__);
         }
         if ($forceRecreate || empty($programData)) {
             _error_log("EPG program expired creating again videos_id={$this_videos_id} " . $programCacheName);
@@ -160,10 +142,6 @@ if ($forceRecreate || empty($channelsList)) {
     //$channelsList = object_to_array($channelsList);
 }
 
-
-if (isCommandLineInterface()) {
-    _error_log('Commandline: Command line EPG line:' . __LINE__);
-}
 if (!empty($_REQUEST['json']) || isCommandLineInterface()) {
     header('Content-Type: application/json');
     echo json_encode($channelsList);
