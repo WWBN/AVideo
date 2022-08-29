@@ -79,9 +79,15 @@ if ($forceRecreate || empty($channelsList)) {
             $Parser->setURL($epg['epg_link']);
             $Parser->temp_dir = getCacheDir();
             try {
+                if (isCommandLineInterface()) {
+                    _error_log("Commandline: parsing {$epg['epg_link']} Command line EPG line:" . __LINE__);
+                }
                 $Parser->parseURL();
                 $epgData = $Parser->getEpgdata();
                 $channels = $Parser->getChannels();
+                if (isCommandLineInterface()) {
+                    _error_log("Commandline: parsing {$epg['epg_link']} done Command line EPG line:" . __LINE__);
+                }
                 //var_dump($channels, $epgData);
                 //$Parser->setTargetTimeZone('Europe/Skopje');
                 // $Parser->setChannelfilter('prosiebenmaxx.de'); //optional
