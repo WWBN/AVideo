@@ -87,6 +87,9 @@ if ($forceRecreate || empty($channelsList)) {
                 // $Parser->setChannelfilter('prosiebenmaxx.de'); //optional
                 // $Parser->setIgnoreDescr('Keine Details verfügbar.'); //optional
                 foreach ($channels as $key => $value) {
+                    if (isCommandLineInterface()) {
+                        _error_log("Commandline: Command line EPG key:{$key} line: " . __LINE__);
+                    }
                     $channels[$key]['epgData'] = array();
                     foreach ($epgData as $key2 => $program) {
                         if ($program['channel'] != $value['id']) {
@@ -116,6 +119,9 @@ if ($forceRecreate || empty($channelsList)) {
                         $channelsList[] = $channels[$key];
                         //var_dump($channelsList[0]);exit;
                     }
+                    if (isCommandLineInterface()) {
+                        _error_log("Commandline: Command line EPG key:{$key} done line: " . __LINE__);
+                    }
                 }
                 $file = ObjectYPT::setCache($programCacheName, $channelsList);
                 _error_log("EPG program cache created videos_id={$this_videos_id} " . json_encode($file));
@@ -143,7 +149,12 @@ if ($forceRecreate || empty($channelsList)) {
     //$channelsList = object_to_array($channelsList);
 }
 
-if (!empty($_REQUEST['json']) || isCommandLineInterface()) {
+if(isCommandLineInterface()){
+    _error_log('Commandline: EPG done line: ' . __LINE__);
+    exit;
+}
+
+if (!empty($_REQUEST['json'])) {
     header('Content-Type: application/json');
     echo json_encode($channelsList);
     exit;
