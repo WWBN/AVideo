@@ -72,7 +72,7 @@ if (!User::isAdmin()) {
     $(document).ready(function () {
         var Live_restreams_logstableVar = $('#Live_restreams_logsTable').DataTable({
             serverSide: true,
-            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Live/View/Live_restreams_logs/list.json.php",
+            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams_logs/list.json.php",
             "columns": [
                 {"data": "id"},
                 //{"data": "restreamer"},
@@ -112,7 +112,7 @@ if (!User::isAdmin()) {
                             modal.showPleaseWait();
                             $.ajax({
                                 type: "POST",
-                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/View/Live_restreams_logs/delete.json.php",
+                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams_logs/delete.json.php",
                                 data: data
 
                             }).done(function (resposta) {
