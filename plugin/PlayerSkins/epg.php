@@ -11,13 +11,16 @@ if (isMobile()) {
 }
 
 $cacheTimeout = 60;
+$forceRecreate = false;
 if(isCommandLineInterface()){
-    _error_log('Command line EPG');
-    $cacheTimeout = 1; // ignore cache if is command line
+    _error_log('Commandline: Command line EPG');
+    $forceRecreate = true;
 }
 
 $cacheNameEpgPage = 'epgPage_'.$timeLineElementSize . md5(json_encode($_GET));
-$content = ObjectYPT::getCache($cacheNameEpgPage, $cacheTimeout); // 1 minute
+if(empty($forceRecreate)){
+    $content = ObjectYPT::getCache($cacheNameEpgPage, $cacheTimeout); // 1 minute
+}
 if(!empty($content)){
     echo $content;
     $_end = microtime(true) - $_start;
@@ -49,11 +52,10 @@ $secondSize = $minuteSize / 60;
 
 $cacheName = 'epg';
 
-$forceRecreate = false;
-
 $cacheName = '/channelsList_' . md5(json_encode($_GET));
-$channelsList = ObjectYPT::getCache($cacheName, $cacheTimeou*120);
-
+if(empty($forceRecreate)){
+    $channelsList = ObjectYPT::getCache($cacheName, $cacheTimeou*120);
+}
 $_MaxDaysFromNow = strtotime('+24 hours');
 
 if ($forceRecreate || empty($channelsList)) {
@@ -62,7 +64,9 @@ if ($forceRecreate || empty($channelsList)) {
         $this_videos_id = $epg['id'];
         $programCacheName = '/program_' . md5($epg['epg_link']);
         $timeout = random_int(3600*60, $cacheTimeout*360); //1 to 6 hours
-        $programData = ObjectYPT::getCache($programCacheName, $timeout);
+        if(empty($forceRecreate)){
+            $programData = ObjectYPT::getCache($programCacheName, $timeout);
+        }
         if ($forceRecreate || empty($programData)) {
             _error_log("EPG program expired creating again videos_id={$this_videos_id} " . $programCacheName);
             //var_dump($epg['epg_link']);exit;
@@ -125,6 +129,10 @@ if ($forceRecreate || empty($channelsList)) {
     }
     usort($channelsList, "cmpChannels");
 } else {
+    
+    if(isCommandLineInterface()){
+        _error_log('Commandline: EPG cache detected line: '.__LINE__);
+    }
     //$channelsList = object_to_array($channelsList);
 }
 
