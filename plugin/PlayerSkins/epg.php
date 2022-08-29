@@ -134,9 +134,9 @@ if ($forceRecreate || empty($channelsList)) {
                 _error_log("EPG program cache created videos_id={$this_videos_id} " . json_encode($file));
             } catch (Exception $e) {
                 $error = new \RuntimeException($e);
-                $eMessage = "{$epg['title']}: videos_id={$this_videos_id} epg_link={$epg['epg_link']} ".$error->getMessage();
+                $eMessage = "{$epg['title']}: videos_id={$this_videos_id} epg_link={$epg['epg_link']} ";
                 $errorMessages[] = $eMessage;
-                _error_log("EPG program ERROR ". $eMessage);
+                _error_log("EPG program ERROR ". $eMessage.' '.$error->getMessage());
             }
         } else {
             $channelsList = object_to_array($programData);
