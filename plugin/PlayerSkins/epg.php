@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/../../videos/configuration.php';
+require_once __DIR__ . '/../../videos/configuration.php';
 
 $_start = microtime(true);
 $fontSize = 18;
@@ -12,22 +12,31 @@ if (isMobile()) {
 
 $cacheTimeout = 60;
 $forceRecreate = false;
-if(isCommandLineInterface()){
+if (isCommandLineInterface()) {
     _error_log('Commandline: Command line EPG');
     $forceRecreate = true;
 }
 
-$cacheNameEpgPage = 'epgPage_'.$timeLineElementSize . md5(json_encode($_GET));
-if(empty($forceRecreate)){
+$cacheNameEpgPage = 'epgPage_' . $timeLineElementSize . md5(json_encode($_GET));
+if (empty($forceRecreate)) {
     $content = ObjectYPT::getCache($cacheNameEpgPage, $cacheTimeout); // 1 minute
 }
-if(!empty($content)){
+if (!empty($content)) {
+    if (isCommandLineInterface()) {
+        _error_log('Commandline: Command line EPG line:' . __LINE__);
+    }
     echo $content;
     $_end = microtime(true) - $_start;
-    echo '<!-- pageCache='.$_end.' -->';
+    echo '<!-- pageCache=' . $_end . ' -->';
     exit;
 }
+if (isCommandLineInterface()) {
+    _error_log('Commandline: Command line EPG line:' . __LINE__);
+}
 require_once $global['systemRootPath'] . 'objects/EpgParser.php';
+if (isCommandLineInterface()) {
+    _error_log('Commandline: Command line EPG line:' . __LINE__);
+}
 
 $epgs = array();
 $minDate = strtotime('+1 year');
@@ -39,6 +48,9 @@ foreach ($videos as $video) {
         continue;
     }
     $epgs[] = $video;
+}
+if (isCommandLineInterface()) {
+    _error_log('Commandline: Command line EPG line:' . __LINE__);
 }
 $timeLineElementMinutes = 30;
 $paddingSize = 10;
@@ -53,18 +65,21 @@ $secondSize = $minuteSize / 60;
 $cacheName = 'epg';
 
 $cacheName = '/channelsList_' . md5(json_encode($_GET));
-if(empty($forceRecreate)){
-    $channelsList = ObjectYPT::getCache($cacheName, $cacheTimeou*120);
+if (empty($forceRecreate)) {
+    $channelsList = ObjectYPT::getCache($cacheName, $cacheTimeou * 120);
 }
 $_MaxDaysFromNow = strtotime('+24 hours');
 
 if ($forceRecreate || empty($channelsList)) {
+    if (isCommandLineInterface()) {
+        _error_log('Commandline: Command line EPG line:' . __LINE__);
+    }
     $channelsList = array();
     foreach ($epgs as $epg) {
         $this_videos_id = $epg['id'];
         $programCacheName = '/program_' . md5($epg['epg_link']);
-        $timeout = random_int(3600*60, $cacheTimeout*360); //1 to 6 hours
-        if(empty($forceRecreate)){
+        $timeout = random_int(3600 * 60, $cacheTimeout * 360); //1 to 6 hours
+        if (empty($forceRecreate)) {
             $programData = ObjectYPT::getCache($programCacheName, $timeout);
         }
         if ($forceRecreate || empty($programData)) {
@@ -88,7 +103,7 @@ if ($forceRecreate || empty($channelsList)) {
                             continue;
                         }
                         $timeWillStart = strtotime($program['start']);
-                        if($timeWillStart>$_MaxDaysFromNow){
+                        if ($timeWillStart > $_MaxDaysFromNow) {
                             unset($epgData[$key2]);
                             continue;
                         }
@@ -105,7 +120,7 @@ if ($forceRecreate || empty($channelsList)) {
                     if (!empty($channels[$key])) {
                         usort($channels[$key]['epgData'], "cmpPrograms");
                         $channels[$key]['videos_id'] = $this_videos_id;
-                        if(!empty($epg['title'])){
+                        if (!empty($epg['title'])) {
                             $channels[$key]['display-name'] = safeString($epg['title']);
                         }
                         $channelsList[] = $channels[$key];
@@ -129,15 +144,17 @@ if ($forceRecreate || empty($channelsList)) {
     }
     usort($channelsList, "cmpChannels");
 } else {
-    
-    if(isCommandLineInterface()){
-        _error_log('Commandline: EPG cache detected line: '.__LINE__);
+    if (isCommandLineInterface()) {
+        _error_log('Commandline: EPG cache detected line: ' . __LINE__);
     }
     //$channelsList = object_to_array($channelsList);
 }
 
 
-if(!empty($_REQUEST['json']) || isCommandLineInterface()){
+if (isCommandLineInterface()) {
+    _error_log('Commandline: Command line EPG line:' . __LINE__);
+}
+if (!empty($_REQUEST['json']) || isCommandLineInterface()) {
     header('Content-Type: application/json');
     echo json_encode($channelsList);
     exit;
@@ -195,7 +212,7 @@ function setMinDate($date) {
 }
 
 function createEPG($channel) {
-    global $minuteSize, $Date, $minimumSmallFont, $minimumWidth,$minimumWidthHide,$minimumWidth1Dot, $videos_id;
+    global $minuteSize, $Date, $minimumSmallFont, $minimumWidth, $minimumWidthHide, $minimumWidth1Dot, $videos_id;
     $channel = object_to_array($channel);
     $displayname = $channel['display-name'];
     $channelId = $channel['id'];
@@ -206,9 +223,9 @@ function createEPG($channel) {
     if (!empty($this_videos_id) && $this_videos_id == $videos_id) {
         $class = 'active';
     }
-    
+
     $link = Video::getLinkToVideo($this_videos_id);
-    
+
     //var_dump($channel);exit;
     ?>
     <a href="<?php echo $link; ?>" target="_top">
@@ -226,20 +243,20 @@ function createEPG($channel) {
                     }
                     $_stopTime = strtotime($program['stop']);
                     /*
-                    if($_stopTime<$nowTime){
-                        continue;
-                    }
+                      if($_stopTime<$nowTime){
+                      continue;
+                      }
                      * 
                      */
                     $minutes = getDurationInMinutes($program['start'], $program['stop']);
                     $left = ($minuteSize * $minutesSinceZeroTime) + $timeLineElementSize;
                     $width = ($minuteSize * $minutes);
                     $pclass = '';
-                    if($width <= $minimumWidthHide){
+                    if ($width <= $minimumWidthHide) {
                         $text = '';
-                    }else if($width <= $minimumWidth1Dot){
+                    } else if ($width <= $minimumWidth1Dot) {
                         $text = "<abbr title=\"{$program['title']}\">.</abbr>";
-                    }else if ($width <= $minimumWidth) {
+                    } else if ($width <= $minimumWidth) {
                         $text = "<abbr title=\"{$program['title']}\"><small class=\"duration\">{$minutes} Min</small></abbr>";
                     } else if ($width <= $minimumSmallFont) {
                         $text = "<small class=\"small-font\">{$program['title']}<div><small class=\"duration\">{$minutes} Min</small></div></small>";
@@ -387,24 +404,24 @@ _ob_start();
                         0 0 20px #B6FF00;
                 }
             }
-<?php
-foreach ($bgColors as $key => $value) {
-    $n = $key + 1;
-    echo "div.programs > div.list > div:nth-child({$n}n){"
-    . "background-color: {$value};"
-    . "color: #FFF;"
-    //. "font-weight: bolder;"
-    . "text-shadow: 1px 1px 5px {$value},"
-    . "2px 0 5px #000,"
-    . "0 2px 5px #000,"
-    . "-2px -2px 5px #000, "
-    . "-2px 0 5px #000, "
-    . "0 -2px 5px #000, "
-    . "-2px -2px 5px #000, "
-    . "2px 2px 5px #000;"
-    . "}";
-}
-?>
+            <?php
+            foreach ($bgColors as $key => $value) {
+                $n = $key + 1;
+                echo "div.programs > div.list > div:nth-child({$n}n){"
+                . "background-color: {$value};"
+                . "color: #FFF;"
+                //. "font-weight: bolder;"
+                . "text-shadow: 1px 1px 5px {$value},"
+                . "2px 0 5px #000,"
+                . "0 2px 5px #000,"
+                . "-2px -2px 5px #000, "
+                . "-2px 0 5px #000, "
+                . "0 -2px 5px #000, "
+                . "-2px -2px 5px #000, "
+                . "2px 2px 5px #000;"
+                . "}";
+            }
+            ?>
             .finished{
                 opacity: 0.4;
                 background-color: #00000077 !important;
@@ -428,7 +445,7 @@ foreach ($bgColors as $key => $value) {
                             $amPm = 'AM';
                             if ($i === 12) {
                                 $amPm = 'PM';
-                            }else if ($i > 12) {
+                            } else if ($i > 12) {
                                 $hour = $i - 12;
                                 $amPm = 'PM';
                             }
@@ -465,14 +482,14 @@ foreach ($bgColors as $key => $value) {
                 foreach ($channelsList as $key => $channel) {
                     $cstart = microtime(true);
                     createEPG($channel);
-                    $cend = microtime(true)-$cstart;
-                    echo PHP_EOL."<!-- {$key}=>{$cend} seconds -->".PHP_EOL;
+                    $cend = microtime(true) - $cstart;
+                    echo PHP_EOL . "<!-- {$key}=>{$cend} seconds -->" . PHP_EOL;
                 }
-                $cendTotal = microtime(true)-$cstartTotal;
+                $cendTotal = microtime(true) - $cstartTotal;
                 ?>
             </div>
             <?php
-                echo PHP_EOL."<!-- programsListTotal=>{$cendTotal} seconds -->".PHP_EOL;
+            echo PHP_EOL . "<!-- programsListTotal=>{$cendTotal} seconds -->" . PHP_EOL;
             ?>
         </div>
         <div id="positionNow" style="left: <?php echo $positionNow; ?>px;"></div>
