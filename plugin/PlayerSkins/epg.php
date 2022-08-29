@@ -13,6 +13,7 @@ if (isMobile()) {
 $cacheTimeout = 60;
 $forceRecreate = false;
 if (isCommandLineInterface()) {
+    ob_end_clean();
     _error_log('Commandline: Command line EPG');
     $forceRecreate = true;
 }
