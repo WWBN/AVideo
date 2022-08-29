@@ -9,15 +9,18 @@ if (isMobile()) {
     $timeLineElementSize = 150;
     $fontSize = 12;
 }
-ini_set('default_socket_timeout', 5);
-set_time_limit(5);
+$default_socket_timeout = 2;
 $cacheTimeout = 60;
 $forceRecreate = false;
 if (isCommandLineInterface()) {
     ob_end_clean();
     _error_log('Commandline: Command line EPG');
     $forceRecreate = true;
+    $default_socket_timeout = 5;
 }
+
+ini_set('default_socket_timeout', $default_socket_timeout);
+set_time_limit($default_socket_timeout);
 
 $cacheNameEpgPage = 'epgPage_' . $timeLineElementSize . md5(json_encode($_GET));
 if (empty($forceRecreate)) {
@@ -74,7 +77,7 @@ if ($forceRecreate || empty($channelsList)) {
             $programData = ObjectYPT::getCache($programCacheName, $timeout);
         }
         if ($forceRecreate || empty($programData)) {
-            _error_log("EPG program expired creating again videos_id={$this_videos_id} " . $programCacheName);
+            //_error_log("EPG program expired creating again videos_id={$this_videos_id} " . $programCacheName);
             //var_dump($epg['epg_link']);exit;
             $Parser = new \buibr\xmlepg\EpgParser();
             $Parser->setURL($epg['epg_link']);
