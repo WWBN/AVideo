@@ -7013,10 +7013,15 @@ function get_ffmpeg($ignoreGPU = false) {
 }
 
 function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0) {
-    $localFileLock = getVideosDir() . "{$relativeFilename}.lock";
+    
+    $parts = explode('?', $fromFileLocation);
+    $localFileLock = getCacheDir() . 'convertVideoFileWithFFMPEG_'.md5($parts[0]).".lock";    
     if (file_exists($localFileLock)) {
-        _error_log('convertVideoFileWithFFMPEG: download from CDN There is a process running for ' . $localFile);
+        $ageInSeconds = time()- filemtime($localFileLock);
+        _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds}/ download from CDN There is a process running for " . $fromFileLocation);
         return false;
+    }else{
+        _error_log("convertVideoFileWithFFMPEG: creating file: localFileLock: {$localFileLock} toFileLocation: {$toFileLocation}");
     }
     make_path($toFileLocation);
     file_put_contents($localFileLock, time());
