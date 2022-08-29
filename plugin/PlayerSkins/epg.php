@@ -132,8 +132,8 @@ if ($forceRecreate || empty($channelsList)) {
                 $file = ObjectYPT::setCache($programCacheName, $channelsList);
                 _error_log("EPG program cache created videos_id={$this_videos_id} " . json_encode($file));
             } catch (Exception $e) {
-                _error_log("EPG program ERROR {$epg['epg_link']} videos_id={$this_videos_id} ". json_encode($e));
-                throw new \RuntimeException($e);
+                $error = new \RuntimeException($e);
+                _error_log("EPG program ERROR {$epg['epg_link']} videos_id={$this_videos_id} ". $error->getMessage());
             }
         } else {
             $channelsList = object_to_array($programData);
