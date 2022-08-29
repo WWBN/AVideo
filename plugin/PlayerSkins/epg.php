@@ -9,7 +9,8 @@ if (isMobile()) {
     $timeLineElementSize = 150;
     $fontSize = 12;
 }
-
+ini_set('default_socket_timeout', 5);
+set_time_limit(5);
 $cacheTimeout = 60;
 $forceRecreate = false;
 if (isCommandLineInterface()) {
