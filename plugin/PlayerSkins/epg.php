@@ -9,14 +9,14 @@ if (isMobile()) {
     $timeLineElementSize = 150;
     $fontSize = 12;
 }
-$default_socket_timeout = 2;
+$default_socket_timeout = 4;
 $cacheTimeout = 60;
 $forceRecreate = false;
 if (isCommandLineInterface()) {
     ob_end_clean();
     _error_log('Commandline: Command line EPG');
     $forceRecreate = true;
-    $default_socket_timeout = 5;
+    $default_socket_timeout = 10;
 }
 
 ini_set('default_socket_timeout', $default_socket_timeout);
