@@ -83,7 +83,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 $obj->modified = filemtime($logFile);
                 $obj->time = time();
                 $obj->secondsAgo = $obj->time - $obj->modified;
-                $obj->isActive = $obj->secondsAgo < 5;
+                $obj->isActive = $obj->secondsAgo < 10;
                 echo json_encode($obj);
                 exit;
                 break;
