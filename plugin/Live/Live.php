@@ -3718,6 +3718,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     static function canRestream() {
+        if(User::isAdmin()){
+            return true;
+        }
         if (!empty($_REQUEST['token'])) {
             $live_restreams_id = intval(decryptString($_REQUEST['token']));
             if (!empty($live_restreams_id)) {
