@@ -519,14 +519,15 @@ function getProcess($robj) {
     global $ffmpegBinary;
     exec("ps -ax 2>&1", $output, $return_var);
     //error_log("Restreamer.json.php:getProcess ". json_encode($output)); 
+    $pattern = "/^([0-9]+).*" . replaceSlashesForPregMatch($ffmpegBinary) . ".*" . replaceSlashesForPregMatch($m3u8) . "/i";
     foreach ($output as $value) {
-        $pattern = "/^([0-9]+).*" . replaceSlashesForPregMatch($ffmpegBinary) . ".*" . replaceSlashesForPregMatch($m3u8) . "/i";
         //error_log("Restreamer.json.php:getProcess {$pattern}");
         if (preg_match($pattern, trim($value), $matches)) {
             error_log("Restreamer.json.php:getProcess found ". json_encode($value)); 
             return $matches;
         }
     }
+    error_log("Restreamer.json.php:getProcess NOT found ". json_encode($m3u8)); 
     return false;
 }
 
