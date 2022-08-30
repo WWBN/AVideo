@@ -7204,6 +7204,7 @@ function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
     }
     if (!file_exists($filename) || filesize($filename) < 1000) {
         $fileName = getFilenameFromPath($filename);
+        //var_dump($fileName);exit;
         if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
             $source = $yptStorage->getAddress("{$fileName}");
             $url = $source['url'];
@@ -7227,6 +7228,7 @@ function pathToRemoteURL($filename, $forceHTTP = false, $ignoreCDN = false) {
             } elseif ($ftp = AVideoPlugin::loadPluginIfEnabled("FTP_Storage")) {
                 $source = $ftp->getAddress("{$fileName}");
                 $url = $source['url'];
+                //var_dump($source,$fileName, $filename);exit;
                 if (empty($ignoreCDN)) {
                     $url = replaceCDNIfNeed($url, 'CDN_FTP');
                 } elseif (!empty($source['url_noCDN'])) {
