@@ -41,6 +41,7 @@ function addTemplateFromArray(itemsArray) {
         priority = 6;
     }
     var selector = '#topMenuUserNotifications ul .list-group .priority' + priority;
+    console.log('addTemplateFromArray prepend', selector);
     try {
         $(selector).prepend(template);
     } catch (e) {
@@ -97,7 +98,7 @@ function userNotification(itemsArray, toast, customTitle) {
 }
 
 function socketUserNotificationCallback(json) {
-
+    console.log('socketUserNotificationCallback 1', json);
     var toast = false;
     var customTitle = false;
     if (!empty(json.toast)) {
@@ -107,7 +108,7 @@ function socketUserNotificationCallback(json) {
         customTitle = json.customTitle;
     }
 
-    console.log('socketUserNotificationCallback', json, toast, customTitle);
+    console.log('socketUserNotificationCallback 2', toast, customTitle);
     userNotification(json, toast, customTitle);
 }
 
@@ -117,6 +118,7 @@ function updateUserNotificationCount() {
     _updateUserNotificationCountTimeout = setTimeout(function () {
         var valueNow = parseInt($('#topMenuUserNotifications  a > span.badge-notify').text());
         var total = $('#topMenuUserNotifications > ul .list-group a').length;
+        console.log('updateUserNotificationCount 2', total);
         if (total <= 0) {
             $('#topMenuUserNotifications').addClass('hasNothingToShow');
             $('#topMenuUserNotifications').removeClass('hasSomethingToShow');
