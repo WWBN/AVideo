@@ -3227,3 +3227,22 @@ function getCookie(cname) {
 function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
+
+function arrayToTemplate(itemsArray, template) {
+    if (typeof itemsArray == 'function') {
+        return '';
+    }
+    if(typeof template !== 'string'){
+        console.error('arrayToTemplate', typeof template, template);
+        return '';
+    }
+    for (var search in itemsArray) {
+        var replace = itemsArray[search];
+        if (typeof replace == 'function') {
+            continue;
+        }
+        template = template.replace(new RegExp('{' + search + '}', 'g'), replace);
+    }
+    template = template.replace(new RegExp('{[^\}]}', 'g'), '');
+    return template;
+}

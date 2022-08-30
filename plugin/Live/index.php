@@ -349,3 +349,4 @@ echo PlayerSkins::getStartPlayerJS("", "", true);
         </script>
     </body>
 </html>
+<?php include_once $global['systemRootPath'] . 'objects/include_end.php'; ?>

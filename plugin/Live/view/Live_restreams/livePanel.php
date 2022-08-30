@@ -49,9 +49,9 @@ if (!Live::canRestream()) {
         }
         ?>
         <div class="btn-group pull-right">
-            <button type="button" class="btn btn-info " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/view/Live_restreams_logs/');">
-                <i class="fas fa-clipboard-list"></i>
-                <?php echo __('Logs'); ?>
+            <button type="button" class="btn btn-info " onclick="getActiveLives();">
+                <i class="fas fa-sync faa-spin"></i>
+                <?php echo __('Reload'); ?>
             </button>
             <button type="button" class="btn btn-primary" onclick="testRestreamer();">
                 <i class="fas fa-check"></i>

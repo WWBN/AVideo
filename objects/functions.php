@@ -7022,7 +7022,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
     $ageInSeconds = time()- @filemtime($localFileLock);   
     if($ageInSeconds>60){
         _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} too long without change, unlock it " . $fromFileLocation);
-        unlink($localFileLock);
+        @unlink($localFileLock);
     }else if (file_exists($localFileLock)) {
         _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} download from CDN There is a process running for " . $fromFileLocation);
         return false;

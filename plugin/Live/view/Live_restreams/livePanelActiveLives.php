@@ -6,19 +6,16 @@ if (!isset($global['systemRootPath'])) {
 if (!Live::canRestream()) {
     return false;
 }
-
-$lives = LiveTransmitionHistory::getAllActiveFromUser();
-$restreamers = Live_restreams::getAllFromUser(User::getId());
-//var_dump($lives);
 ?>
 <style>
-    #livesRestreamList .livesRestreamStatus .showWhenActive,
-    #livesRestreamList .livesRestreamStatus.active .hideWhenActive{
+    #livesRestreamList .livesRestreamStatus.inactive .hideWhenInactive,
+    #livesRestreamList .livesRestreamStatus.active .hideWhenActive,
+    #livesRestreamList .livesRestreamStatus.loading .hideWhenLoading{
         display: none;
     }
 
     #livesRestreamList .livesRestreamStatus.active .showWhenActive{
-        display: inline-block;
+        display: inline-flex;
     }
 </style>
 <table class="table table-hover" id="livesRestreamList">
@@ -38,52 +35,17 @@ $restreamers = Live_restreams::getAllFromUser(User::getId());
         </tr>
     </thead>
     <tbody>
-        <?php
-        foreach ($lives as $key => $value) {
-            //var_dump($value);
-            ?>
-            <tr>
-                <td><?php echo $value['id'] ?></td>
-                <td><?php echo $value['title'] ?></td>
-                <td><?php echo $value['key'] ?></td>
-                <td><?php echo convertFromDefaultTimezoneTimeToMyTimezone($value['created']); ?></td>
-                <td><?php echo $value['max_viewers_sametime'] ?></td>
-                <td><?php echo $value['total_viewers'] ?></td>
-                <td>
-                    <?php
-                    foreach ($restreamers as $restream) {
-                        $log = Live_restreams_logs::getLatest($value['id'], $restream['id']);
-                        $restreamsClass = '';
-                        $live_restreams_logs_id = 0;
-                        if (!empty($log)) {
-                            $live_restreams_logs_id = $log['id'];
-                            $restreamsClass = 'active';
-                        }
-                        ?>
-                        <div class="livesRestreamStatus <?php echo $restreamsClass; ?>">
-                            <div class="btn-group showWhenActive">
-                                <button class="btn btn-primary" onclick="getAction('log', <?php echo $live_restreams_logs_id ?>);">
-                                    <i class="fas fa-sync faa-spin animated"></i>
-                                </button>
-                                <button class="btn btn-danger" onclick="getAction('stop', <?php echo $live_restreams_logs_id; ?>);">
-                                    <i class="fas fa-stop"></i>
-                                </button>
-                            </div>
-                            <button class="btn btn-success hideWhenActive" onclick="getAction('start', <?php echo $live_restreams_logs_id; ?>);">
-                                <i class="fas fa-play"></i>
-                            </button>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                </td>
-            </tr>
-            <?php
-        }
-        ?>
     </tbody>
 </table>
 <script>
+
+    var activeLiveTemplate = <?php echo json_encode(file_get_contents($global['systemRootPath'] . 'plugin/Live/view/getActiveLives.template.html')); ?>;
+    var activeLiveRestreamTemplate = <?php echo json_encode(file_get_contents($global['systemRootPath'] . 'plugin/Live/view/getActiveLivesRestreams.template.html')); ?>;
+
+    $(document).ready(function () {
+        getActiveLives();
+    });
+
     function getAction(action, live_restreams_logs_id) {
         var url = webSiteRootURL + 'plugin/Live/view/Live_restreams/getAction.json.php';
         url = addQueryStringParameter(url, 'action', action);
@@ -104,5 +66,103 @@ $restreamers = Live_restreams::getAllFromUser(User::getId());
                 }
             }
         });
+    }
+
+
+    function getActiveLives() {
+        var url = webSiteRootURL + 'plugin/Live/view/getActiveLives.json.php';
+        //modal.showPleaseWait();
+        $.ajax({
+            url: url,
+            success: function (response) {
+                console.log('getActiveLives', response);
+                //modal.hidePleaseWait();
+                if (response.error) {
+                    avideoAlertError(response.msg);
+                } else {
+                    activeLivesToTable(response.lives);
+                    loadIfRestreamIsActive();
+                }
+            }
+        });
+    }
+
+    function activeLivesToTable(lives) {
+        var liveTemplate = activeLiveTemplate;
+        var restreamTemplate = activeLiveRestreamTemplate;
+        $('#livesRestreamList tbody').empty();
+        //console.log('activeLivesToTable', lives);   
+        for (var i in lives) {
+            var live = lives[i];
+            if (typeof live == 'function') {
+                continue;
+            }
+            //console.log('activeLivesToTable restream_log', live.restream_log);   
+            var restream = '';
+            for (var j in live.restream_log) {
+                var itemsArray = live.restream_log[j];
+                if (typeof itemsArray == 'function') {
+                    continue;
+                }
+                //console.log('activeLivesToTable live', itemsArray);   
+                restream += arrayToTemplate(itemsArray, restreamTemplate);
+            }
+            //console.log('activeLivesToTable restreams', restream);
+            live['restream'] = restream;
+            live['class'] = '';
+            liveHTML = arrayToTemplate(live, liveTemplate);
+            $('#livesRestreamList tbody').append(liveHTML);
+        }
+    }
+
+    function loadIfRestreamIsActive() {
+        $(".livesRestreamStatus").each(function (index) {
+            var live_restreams_logs_id = $(this).attr('live_restreams_logs_id');
+            checkIfRestreamIsActive(live_restreams_logs_id);
+        });
+    }
+    
+    var checkIfRestreamIsActiveTimeout = [];
+    function checkIfRestreamIsActive(live_restreams_logs_id) {
+        clearTimeout(checkIfRestreamIsActiveTimeout[live_restreams_logs_id]);
+        setRestreamLogLoading(live_restreams_logs_id);
+        var url = webSiteRootURL + 'plugin/Live/view/getRestream.json.php';
+        url = addQueryStringParameter(url, 'live_restreams_logs_id', live_restreams_logs_id);
+        $.ajax({
+            url: url,
+            success: function (response) {
+                //console.log('checkIfRestreamIsActive', response);
+                if (response.error) {
+                    avideoAlertError(response.msg);
+                } else {
+                    if(response.log.error){
+                        avideoAlertError('Log error');
+                    }else{
+                        if(response.log.isActive){
+                            setRestreamLogActive(live_restreams_logs_id);
+                        }else{
+                            setRestreamLogInactive(live_restreams_logs_id);
+                        }
+                    }
+                }
+                checkIfRestreamIsActiveTimeout[live_restreams_logs_id] = setTimeout(function(){checkIfRestreamIsActive(live_restreams_logs_id);},10000);
+            }
+        });
+        
+        function setRestreamLogLoading(live_restreams_logs_id){
+            $(".livesRestreamStatus_"+live_restreams_logs_id).removeClass('active');
+            $(".livesRestreamStatus_"+live_restreams_logs_id).removeClass('inactive');
+            $(".livesRestreamStatus_"+live_restreams_logs_id).addClass('loading');
+        }
+        function setRestreamLogActive(live_restreams_logs_id){
+            $(".livesRestreamStatus_"+live_restreams_logs_id).addClass('active');
+            $(".livesRestreamStatus_"+live_restreams_logs_id).removeClass('inactive');
+            $(".livesRestreamStatus_"+live_restreams_logs_id).removeClass('loading');
+        }
+        function setRestreamLogInactive(live_restreams_logs_id){
+            $(".livesRestreamStatus_"+live_restreams_logs_id).removeClass('active');
+            $(".livesRestreamStatus_"+live_restreams_logs_id).addClass('inactive');
+            $(".livesRestreamStatus_"+live_restreams_logs_id).removeClass('loading');
+        }
     }
 </script>

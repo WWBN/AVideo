@@ -514,6 +514,7 @@ class Layout extends PluginAbstract {
         global $global; // add socket twice on live page
         //return $html;
         if (!empty($global['doNOTOrganizeHTML'])) {
+            //var_dump('doNOTOrganizeHTML');exit;
             return $html;
         }
         self::$tags = array();

@@ -1,0 +1,11 @@
+<div class="loading livesRestreamStatus livesRestreamStatus_{id} {class}" live_restreams_logs_id="{id}">
+    <button class="btn btn-primary hideWhenInactive hideWhenActive" onclick="getAction('log', {id});">
+        <i class="fas fa-sync faa-spin animated"></i>
+    </button>
+    <button class="btn btn-danger hideWhenInactive hideWhenLoading" onclick="getAction('stop', {id});">
+        <i class="fas fa-stop"></i>
+    </button>
+    <button class="btn btn-success hideWhenActive hideWhenLoading" onclick="getAction('start', {id});">
+        <i class="fas fa-play"></i>
+    </button>
+</div>

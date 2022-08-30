@@ -60,6 +60,7 @@ function cleanUpTemplate(template) {
 }
 
 function userNotification(itemsArray, toast, customTitle) {
+    console.log('UserNotification::userNotification',itemsArray, toast, customTitle);
     addTemplateFromArray(itemsArray);
 
     var title = itemsArray.title;

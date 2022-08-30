@@ -25,9 +25,7 @@ if (empty($obj->live_restreams_logs_id)) {
 $lrl = new Live_restreams_logs($obj->live_restreams_logs_id);
 
 $obj->action = @$_REQUEST['action'];
-$url = $lrl->getRestreamer();
-$url = addQueryStringParameter($url, 'tokenForAction', Live_restreams_logs::getToken($obj->action, $obj->live_restreams_logs_id));
-$obj->url = $url;
+$obj->url = Live_restreams_logs::getURL($obj->live_restreams_logs_id, $obj->action);
 $obj->response = url_get_contents($url);
 $obj->json = json_decode($obj->response);
 if (empty($obj->json)) {
