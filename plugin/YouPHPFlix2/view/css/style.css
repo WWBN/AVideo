@@ -238,6 +238,9 @@ iframe{
 .carousel-cell {
     height: 100%;
 }
+.carousel-cell:hover {
+    z-index: 1;
+}
 
 /* fade in image when loaded */
 .carousel-cell-image {
