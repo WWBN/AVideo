@@ -527,7 +527,7 @@ function getProcess($robj) {
             return $matches;
         }
     }
-    error_log("Restreamer.json.php:getProcess NOT found ". json_encode($m3u8)); 
+    error_log("Restreamer.json.php:getProcess NOT found {$pattern}"); 
     return false;
 }
 
