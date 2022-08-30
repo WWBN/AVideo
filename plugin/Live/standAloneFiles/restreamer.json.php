@@ -74,7 +74,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
     //var_dump($json);exit;
     if(!empty($json) && isset($json->error) && empty($json->error)){
         $obj->error = false;
-        
+        error_log("Restreamer.json.php token verified ".json_encode($json));
         switch ($json->action) {
             case 'log':
                 $obj->logName = str_replace($logFileLocation, '', $json->logFile);
@@ -518,11 +518,12 @@ function getProcess($robj) {
 
     global $ffmpegBinary;
     exec("ps -ax 2>&1", $output, $return_var);
-    //error_log("Restreamer.json.php:getProcess ". json_encode($output)); 	ffmpeg_restreamer_1_2022-08-15-07-33-52_18_27_.log
+    error_log("Restreamer.json.php:getProcess ". json_encode($output)); 
     foreach ($output as $value) {
         $pattern = "/^([0-9]+).*" . replaceSlashesForPregMatch($ffmpegBinary) . ".*" . replaceSlashesForPregMatch($m3u8) . "/i";
         //error_log("Restreamer.json.php:getProcess {$pattern}");
         if (preg_match($pattern, trim($value), $matches)) {
+            error_log("Restreamer.json.php:getProcess found ". json_encode($value)); 
             return $matches;
         }
     }
