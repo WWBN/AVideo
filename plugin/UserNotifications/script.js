@@ -41,8 +41,11 @@ function addTemplateFromArray(itemsArray) {
         priority = 6;
     }
     var selector = '#topMenuUserNotifications ul .list-group .priority' + priority;
-    console.log('addTemplateFromArray prepend', selector);
-    $(selector).prepend(template);
+    try {
+        $(selector).prepend(template);
+    } catch (e) {
+        console.log('addTemplateFromArray prepend error', selector, e);
+    }
     return true;
 }
 
