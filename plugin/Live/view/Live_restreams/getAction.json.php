@@ -26,7 +26,7 @@ $lrl = new Live_restreams_logs($obj->live_restreams_logs_id);
 
 $obj->action = @$_REQUEST['action'];
 $obj->url = Live_restreams_logs::getURL($obj->live_restreams_logs_id, $obj->action);
-$obj->response = url_get_contents($url);
+$obj->response = url_get_contents($obj->url);
 $obj->json = json_decode($obj->response);
 if (empty($obj->json)) {
     $obj->responseFrom = 'Streamer/GetAction/Restreamer[Empty]';
