@@ -15,7 +15,7 @@ function getTemplateFromArray(itemsArray) {
             m = moment.tz(itemsArray.created, _serverSystemTimezone).local();
             replace = m.fromNow();
         } else if (search == 'href' && !empty(replace) && !isValidURL(replace)) {
-            replace = webSiteRootURL+replace;
+            replace = webSiteRootURL + replace;
         }
         template = template.replace(new RegExp('{' + search + '}', 'g'), replace);
     }
@@ -65,7 +65,7 @@ function cleanUpTemplate(template) {
 }
 
 function userNotification(itemsArray, toast, customTitle) {
-    console.log('UserNotification::userNotification',itemsArray, toast, customTitle);
+    console.log('UserNotification::userNotification', itemsArray, toast, customTitle);
     addTemplateFromArray(itemsArray);
 
     var title = itemsArray.title;
@@ -118,7 +118,7 @@ function updateUserNotificationCount() {
     _updateUserNotificationCountTimeout = setTimeout(function () {
         var valueNow = parseInt($('#topMenuUserNotifications  a > span.badge-notify').text());
         var total = $('#topMenuUserNotifications > ul .list-group a').length;
-        console.log('updateUserNotificationCount 2', total);
+        console.log('updateUserNotificationCount', total);
         if (total <= 0) {
             $('#topMenuUserNotifications').addClass('hasNothingToShow');
             $('#topMenuUserNotifications').removeClass('hasSomethingToShow');
