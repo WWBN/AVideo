@@ -20,7 +20,8 @@ if (isCommandLineInterface()) {
 }
 
 ini_set('default_socket_timeout', $default_socket_timeout);
-set_time_limit($default_socket_timeout);
+set_time_limit($default_socket_timeout*100);
+ini_set('max_execution_time', $default_socket_timeout*100);
 
 $cacheNameEpgPage = 'epgPage_' . $timeLineElementSize . md5(json_encode($_GET));
 if (empty($forceRecreate)) {
