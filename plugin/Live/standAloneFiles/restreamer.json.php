@@ -518,7 +518,7 @@ function getProcess($robj) {
 
     global $ffmpegBinary;
     exec("ps -ax 2>&1", $output, $return_var);
-    error_log("Restreamer.json.php:getProcess ". json_encode($output)); 
+    //error_log("Restreamer.json.php:getProcess ". json_encode($output)); 
     foreach ($output as $value) {
         $pattern = "/^([0-9]+).*" . replaceSlashesForPregMatch($ffmpegBinary) . ".*" . replaceSlashesForPregMatch($m3u8) . "/i";
         //error_log("Restreamer.json.php:getProcess {$pattern}");
