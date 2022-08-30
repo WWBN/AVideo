@@ -397,6 +397,9 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         if (isInLive(json)) {
             showImage('postrollPoster', json.cleanKey);
         }
+        if(typeof updateUserNotificationCount == 'function'){
+            updateUserNotificationCount();    
+        }
     }
 
     async function hideExtraVideosIfEmpty() {
