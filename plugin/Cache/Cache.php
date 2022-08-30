@@ -103,7 +103,9 @@ class Cache extends PluginAbstract
                 $dir = $location['country_code'] . "/";
             }
         }
-
+        if($this->isFirstPage()){
+            $dir .= (isMobile()?'mobile':'desktop').'/';
+        }
         return $dir . User::getId() . "_{$compl}" . md5(@$_SESSION['channelName'] . $_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : '') . (@$_SESSION['language']) . '.cache';
     }
 
