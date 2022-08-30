@@ -29,7 +29,7 @@
 
     function onlineLabelOffline(selector) {
         selector = selector.replace(/[&=]/g, '');
-        console.log("Change video to offline", selector);
+        //console.log("Change video to offline", selector);
         console.trace();
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-success');
