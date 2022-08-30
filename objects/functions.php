@@ -7050,25 +7050,22 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
         if($try === 0 && preg_match('/_offline\.mp4/', $toFileLocation)){
             $try = 'offline';
             $fromFileLocationEscaped = "\"$fromFileLocation\"";
-        }
-        
-        switch ($try) {
-            case 0:
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
-                break;
-            case 1:
-                $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
-                break;
-            case 2:
-                $command = get_ffmpeg() . " -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
-                break;
-            case 'offline':
-                //$command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -vcodec libx265 -crf 28  {$toFileLocationEscaped}";
-                $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -crf 30 {$toFileLocationEscaped}";
-                break;
-            default:
-                return false;
-                break;
+            $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -crf 30 {$toFileLocationEscaped}";
+        }else{        
+            switch ($try) {
+                case 0:
+                    $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
+                    break;
+                case 1:
+                    $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                    break;
+                case 2:
+                    $command = get_ffmpeg() . " -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                    break;
+                default:
+                    return false;
+                    break;
+            }
         }
     }
     $progressFile = getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation);
