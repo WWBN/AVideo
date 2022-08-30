@@ -73,7 +73,7 @@ if ($forceRecreate || empty($channelsList)) {
     foreach ($epgs as $epg) {
         $this_videos_id = $epg['id'];
         $programCacheName = '/program_' . md5($epg['epg_link']);
-        $timeout = random_int(($cacheTimeout * 60), ($cacheTimeout * 360)); //1 to 6 hours
+        $timeout = random_int(($cacheTimeout * 7200), ($cacheTimeout * 10080)); //5 to 7 days
         if (empty($forceRecreate)) {
             $programData = ObjectYPT::getCache($programCacheName, $timeout);
         }
