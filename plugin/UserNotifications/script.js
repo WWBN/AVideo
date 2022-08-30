@@ -44,6 +44,7 @@ function addTemplateFromArray(itemsArray) {
     console.log('addTemplateFromArray prepend', selector);
     try {
         $(selector).prepend(template);
+        updateUserNotificationCount();
     } catch (e) {
         console.log('addTemplateFromArray prepend error', selector, e);
     }
@@ -94,7 +95,6 @@ function userNotification(itemsArray, toast, customTitle) {
                 break;
         }
     }
-    updateUserNotificationCount();
 }
 
 function socketUserNotificationCallback(json) {
