@@ -349,7 +349,8 @@ class API extends PluginAbstract {
                 $status = "";
                 $ignoreGroup = true;
             }
-            $rows = [Video::getVideo($parameters['videos_id'], $status, $ignoreGroup)];
+            //              getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true)
+            $rows = [Video::getVideo($parameters['videos_id'], $status, $ignoreGroup, false, false, true)];
             $totalRows = empty($rows) ? 0 : 1;
         } elseif (self::isAPISecretValid()) {
             $rows = Video::getAllVideos("viewable", false, true);
