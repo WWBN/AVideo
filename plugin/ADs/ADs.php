@@ -146,6 +146,7 @@ class ADs extends PluginAbstract
             $adCode = str_replace("(adsbygoogle = window.adsbygoogle || []).push({});", "$(function () {startGoogleAd('#adContainer{$uid}');});", trim($adCode));
             $adCode = "<div style='min-width:250px;min-height:90px;' id='adContainer{$uid}'>{$adCode}</div>";
         }
+        $adCode = str_replace("<script", "<script doNotSepareteTag ", trim($adCode));
         return $adCode;
     }
 
