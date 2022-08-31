@@ -1850,7 +1850,7 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd) {
     }
     
     if(empty($src_img)){
-        _error_log("scaleUpImage error, we could not convert it ". json_encode($mime));
+        _error_log("scaleUpImage error, we could not convert it [". json_encode($mime)."] " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         return false;
     }
     
