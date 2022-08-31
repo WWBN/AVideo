@@ -19,6 +19,17 @@ function forbiddenWords($text) {
     return false;
 }
 
+/**
+ * str_starts_with wasn't introduced until PHP8. Polyfill provided in order to
+ * maintain compatibility between AVideo and older PHP versions.
+ * @link https://www.php.net/str_starts_with
+ */
+if (!function_exists('str_starts_with')) {
+    function str_starts_with(string $Haystack, string $Needle): bool {
+        return substr($Haystack, 0, strlen($Needle)) === $Needle;
+    }
+}
+
 if (!function_exists('xss_esc')) {
 
     function xss_esc($text) {
