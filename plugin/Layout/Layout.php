@@ -660,7 +660,8 @@ class Layout extends PluginAbstract {
         if (
                 preg_match('/application.+json/i', $tag) ||
                 preg_match('/function gtag\(/i', $tag) || 
-                preg_match('/<script async/i', $tag)) {
+                preg_match('/<script async/i', $tag) || 
+                preg_match('/doNotSepareteTag/i', $tag)) {
             return true;
         }
         return false;
