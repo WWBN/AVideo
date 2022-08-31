@@ -5348,13 +5348,18 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
                 _error_log('isValidURLOrPath return false (is php file) ' . $str);
                 return false;
             }
-            if (
-                    str_starts_with($absolutePath, $absolutePathTmp) ||
-                    str_starts_with($absolutePath, '/var/www/') ||
-                    str_starts_with($absolutePath, $absolutePathCache) ||
-                    str_starts_with($absolutePath, $global['systemRootPath']) ||
-                    str_starts_with($absolutePath, getVideosDir())) {
-                return true;
+            
+            $pathsToCheck = array($absolutePath, $str);
+            
+            foreach ($pathsToCheck as $value) {            
+                if (
+                        str_starts_with($value, $absolutePathTmp) ||
+                        str_starts_with($value, '/var/www/') ||
+                        str_starts_with($value, $absolutePathCache) ||
+                        str_starts_with($value, $global['systemRootPath']) ||
+                        str_starts_with($value, getVideosDir())) {
+                    return true;
+                }
             }
         } else {
             return true;
