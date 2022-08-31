@@ -202,7 +202,7 @@ class UserNotifications extends PluginAbstract {
         $type = self::type_success;
         $element_id = "UserNotificationSubscription_{$users_id}_{$subscriber_users_id}";
         $identification = User::getNameIdentificationById($subscriber_users_id);
-        $msg = '<strong>'.$identification. '</strong> '.__('subscribe to your channel');
+        $msg = '<strong>'.$identification. '</strong> '.__('subscribed to your channel');
         $image = "user/{$subscriber_users_id}/foto.png";
         $href = User::getChannelLink($subscriber_users_id);
         $icon = 'fas fa-user-check';
