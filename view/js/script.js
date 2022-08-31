@@ -2105,7 +2105,11 @@ async function setToolTips() {
         $(selector).not('.alreadyTooltip').on('click', function () {
             var t = this;
             setTimeout(function () {
-                $(t).tooltip('hide');
+                try {
+                    $(t).tooltip('hide');
+                } catch (e) {
+                    
+                }
             }, 2000);
         });
         $(selector).addClass('alreadyTooltip');
