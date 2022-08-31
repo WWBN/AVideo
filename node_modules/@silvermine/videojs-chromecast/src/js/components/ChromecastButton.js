@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * The ChromecastButton module contains both the ChromecastButton class definition and
  * the function used to register the button as a Video.js Component.

@@ -42231,7 +42231,7 @@ module.exports = {
     abr: true,
     skip_ua: ['firefox', 'safari', {
       name: 'chrome',
-      version: '69.0'
+      version: '75.0'
     }, {
       name: 'chrome',
       version: '79.0'

@@ -1,5 +1,3 @@
-'use strict';
-
 function doesUserAgentContainString(str) {
    return typeof window.navigator.userAgent === 'string' && window.navigator.userAgent.indexOf(str) >= 0;
 }

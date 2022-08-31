@@ -1,0 +1,7 @@
+defaults
+> 0.05%
+not dead
+not safari < 9
+not ios < 9
+not op_mini all
+not android < 4.4

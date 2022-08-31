@@ -163,5 +163,5 @@ function setLanguage($lang) {
 }
 
 function getLanguage(){
-    return strtolower(str_replace('_', '-', $_SESSION['language']));
+    return strtolower(str_replace('_', '-', $_SESSION['language']));exit;
 }

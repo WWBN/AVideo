@@ -12,7 +12,7 @@
 <body>
    <h1>Demo of <code>silvermine-videojs-chromecast</code></h1>
 
-   <video id="video_1" class="video-js vjs-default-skin" controls preload="auto" data-setup='{ "fluid": "true" }'>
+   <video id="video_1" class="video-js vjs-default-skin" controls preload="auto">
       <source src="http://www.caminandes.com/download/03_caminandes_llamigos_1080p.mp4" type="video/mp4">
    </video>
 
@@ -20,6 +20,7 @@
       var options;
 
       options = {
+         fluid: true,
          techOrder: [ 'chromecast', 'html5' ],
       };
 

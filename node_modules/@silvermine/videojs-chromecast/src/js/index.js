@@ -1,6 +1,4 @@
 /* eslint-disable global-require */
-'use strict';
-
 var preloadWebComponents = require('./preloadWebComponents'),
     createChromecastButton = require('./components/ChromecastButton'),
     createChromecastTech = require('./tech/ChromecastTech'),

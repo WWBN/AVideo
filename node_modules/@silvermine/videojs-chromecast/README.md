@@ -53,21 +53,21 @@ at `window.videojs` and will throw an error if it does not exist.
 
 ### Initialization options
 
-* **`preloadWebComponents`** (default: `false`) - The Chromecast framework relies on the
-  `webcomponents.js` polyfill when a browser does not have `document.registerElement` in
-  order to create the `<google-cast-button>` custom component (which is not used by this
-  plugin).  If you are using jQuery, this polyfill must be loaded and initialized before
-  jQuery is initialized. Unfortunately, the Chromecast framework loads the
-  `webcomponents.js` polyfill via a dynamically created `<script>` tag. This causes a race
-  condition (see #17). Also, including `webcomponents.js` anywhere on the page will break
-  jQuery's fix for bubbling some events to `document` (e.g. `onchange` events for
-  `<select>`, see #21).  Setting `preloadWebComponents` to `true` will "fix" these 2
-  problems by (1) making this plugin add the `webcomponents` polyfill synchronously when
-  the polyfill is needed and (2) using the `webcomponents-lite.js` version as it does not
-  include the shadow DOM polyfills, but still provides the `registerElement` polyfill that
-  the Chromecast framework needs. If you use the `preloadWebComponents: true` option, you
-  should make sure that this plugin is loaded before jQuery. Then include the Chromecast
-  framework after this plugin as you normally would.
+   * **`preloadWebComponents`** (default: `false`) - The Chromecast framework relies on the
+    `webcomponents.js` polyfill when a browser does not have `document.registerElement` in
+     order to create the `<google-cast-button>` custom component (which is not used by this
+     plugin).  If you are using jQuery, this polyfill must be loaded and initialized before
+     jQuery is initialized. Unfortunately, the Chromecast framework loads the
+     `webcomponents.js` polyfill via a dynamically created `<script>` tag. This causes a race
+     condition (see #17). Also, including `webcomponents.js` anywhere on the page will break
+     jQuery's fix for bubbling some events to `document` (e.g. `onchange` events for
+     `<select>`, see #21).  Setting `preloadWebComponents` to `true` will "fix" these 2
+     problems by (1) making this plugin add the `webcomponents` polyfill synchronously when
+     the polyfill is needed and (2) using the `webcomponents-lite.js` version as it does not
+     include the shadow DOM polyfills, but still provides the `registerElement` polyfill that
+     the Chromecast framework needs. If you use the `preloadWebComponents: true` option, you
+     should make sure that this plugin is loaded before jQuery. Then include the Chromecast
+     framework after this plugin as you normally would.
 
   **Note:** There is a caveat to using the `preloadWebComponents` setting.
   Because the Chromecast plugin uses the shadow DOM to create the
@@ -150,36 +150,38 @@ player.chromecast(); // initializes the Chromecast plugin
 #### Configuration options
 
 ##### Plugin configuration
-* **`plugins.chromecast.receiverAppID`** - the string ID of a custom [Chromecast receiver
-  app][cast-receiver] to use. Defaults to the [default Media Receiver ID][def-cast-id].
-* **`plugins.chromecast.addButtonToControlBar`** - a `boolean` flag that tells the plugin
-  whether or not it should automatically add the Chromecast button to the Video.js
-  player's control bar component. Defaults to `true`.
-* **`plugins.chromecast.buttonPositionIndex`** - a zero-based number specifying the index
-  of the Chromecast button among the control bar's child components (if
-  `addButtonToControlBar` is set to `true`). By default the Chromecast Button is added as
-  the last child of the control bar. A value less than 0 puts the button at the specified
-  position from the end of the control bar. Note that it's likely not all child components
-  of the control bar are visible.
+
+   * **`plugins.chromecast.receiverAppID`** - the string ID of a custom [Chromecast receiver
+     app][cast-receiver] to use. Defaults to the [default Media Receiver ID][def-cast-id].
+   * **`plugins.chromecast.addButtonToControlBar`** - a `boolean` flag that tells the plugin
+     whether or not it should automatically add the Chromecast button to the Video.js
+     player's control bar component. Defaults to `true`.
+   * **`plugins.chromecast.buttonPositionIndex`** - a zero-based number specifying the index
+     of the Chromecast button among the control bar's child components (if
+     `addButtonToControlBar` is set to `true`). By default the Chromecast Button is added as
+     the last child of the control bar. A value less than 0 puts the button at the specified
+     position from the end of the control bar. Note that it's likely not all child components
+     of the control bar are visible.
 
 ##### Chromecast Tech configuration
-* **`chromecast.requestTitleFn`** - a function that this plugin calls when it needs a
-  string that will be the title shown in the UI that is shown when a Chromecast session is
-  active and connected. When the this plugin calls the `requestTitleFn`, it passes it the
-  [current `source` object][player-source] and expects a string in return. If nothing is
-  returned or if this option is not defined, no title will be shown.
-* **`chromecast.requestSubtitleFn`** - a function that this plugin calls when it needs a
-  string that will be the sub-title shown in the UI that is shown when a Chromecast
-  session is active and connected. When the this plugin calls the `requestSubtitleFn`, it
-  passes it the [current `source` object][player-source] and expects a string in return.
-  If nothing is returned or if this option is not defined, no sub-title will be shown.
-* **`chromecast.requestCustomDataFn`** - a function that this plugin calls when it needs an
-  object that contains custom information necessary for a Chromecast receiver app when a
-  session is active and connected. When the this plugin calls the `requestCustomDataFn`, it
-  passes it the [current `source` object][player-source] and expects an object in return.
-  If nothing is returned or if this option is not defined, no custom data will be sent.
-  This option is intended to be used with a [custom receiver][custom-receiver] application
-  to extend its default capabilities.
+
+   * **`chromecast.requestTitleFn`** - a function that this plugin calls when it needs a
+     string that will be the title shown in the UI that is shown when a Chromecast session
+     is active and connected. When the this plugin calls the `requestTitleFn`, it passes it
+     the [current `source` object][player-source] and expects a string in return. If nothing
+     is returned or if this option is not defined, no title will be shown.
+   * **`chromecast.requestSubtitleFn`** - a function that this plugin calls when it needs a
+     string that will be the sub-title shown in the UI that is shown when a Chromecast
+     session is active and connected. When the this plugin calls the `requestSubtitleFn`, it
+     passes it the [current `source` object][player-source] and expects a string in return.
+     If nothing is returned or if this option is not defined, no sub-title will be shown.
+   * **`chromecast.requestCustomDataFn`** - a function that this plugin calls when it needs
+     an object that contains custom information necessary for a Chromecast receiver app when
+     a session is active and connected. When the this plugin calls the `requestCustomDataFn`,
+     it passes it the [current `source` object][player-source] and expects an object in return.
+     If nothing is returned or if this option is not defined, no custom data will be sent.
+     This option is intended to be used with a [custom receiver][custom-receiver] application
+     to extend its default capabilities.
 
 Here is an example configuration object that makes full use of all required and optional
 configuration:
@@ -267,30 +269,30 @@ file in your project's SCSS:
 Optionally, you can override the SCSS variables that contain the paths to the icon
 image files:
 
-* **`$icon-chromecast--default`** - the path to the icon image that is displayed when the
-  Chromecast button is in its normal, default state. Defaults to
-  `"images/ic_cast_white_24dp.png"`.
-* **`$icon-chromecast--hover`** - the path to the icon image that is displayed when the
-  user hovers over the Chromecast button when it is in its normal, default state. Defaults
-  to `"images/ic_cast_white_24dp.png"`.
-* **`$icon-chromecast-casting`** - the path to the icon image that is displayed when the
-  Chromecast button is in the "casting" state (when a Chromecast session is active and
-  connected). Defaults to `"images/ic_cast_connected_white_24dp.png"`.
-* **`$icon-chromecast-casting--hover`** - the path to the icon image that is displayed
-  when the user hovers over the Chromecast button when it is in the "casting" state (when
-  a Chromecast session is active and connected). Defaults to
-  `"images/ic_cast_connected_white_24dp.png"`.
-* **`$chromecast-icon-size`** - the width and height of the icon (the button and icon is a
-  square). Defaults to `12px`.
-* **`$chromecast-title-font-size`** - the font size of the title on the screen that is
-  shown while a Chromecast session is active and connected. Defaults to `22px`.
-* **`$chromecast-subtitle-font-size`** - the font size of the sub-title on the screen
-  that is shown while a Chromecast session is active and connected. Defaults to `18px`.
-* **`$chromecast-poster-width`** - the width of the poster image on the screen that that
-  is shown while a Chromecast session is active and connected. Defaults to `100px`.
-* **`$chromecast-poster-max-height`** - the maximum height of the poster image on the
-  screen that is shown while a Chromecast session is active and connected. Defaults to
-  `180px`.
+   * **`$icon-chromecast--default`** - the path to the icon image that is displayed when the
+     Chromecast button is in its normal, default state. Defaults to
+     `"images/ic_cast_white_24dp.png"`.
+   * **`$icon-chromecast--hover`** - the path to the icon image that is displayed when the
+     user hovers over the Chromecast button when it is in its normal, default state. Defaults
+     to `"images/ic_cast_white_24dp.png"`.
+   * **`$icon-chromecast-casting`** - the path to the icon image that is displayed when the
+     Chromecast button is in the "casting" state (when a Chromecast session is active and
+     connected). Defaults to `"images/ic_cast_connected_white_24dp.png"`.
+   * **`$icon-chromecast-casting--hover`** - the path to the icon image that is displayed
+     when the user hovers over the Chromecast button when it is in the "casting" state (when
+     a Chromecast session is active and connected). Defaults to
+     `"images/ic_cast_connected_white_24dp.png"`.
+   * **`$chromecast-icon-size`** - the width and height of the icon (the button and icon is
+     a square). Defaults to `12px`.
+   * **`$chromecast-title-font-size`** - the font size of the title on the screen that is
+     shown while a Chromecast session is active and connected. Defaults to `22px`.
+   * **`$chromecast-subtitle-font-size`** - the font size of the sub-title on the screen
+     that is shown while a Chromecast session is active and connected. Defaults to `18px`.
+   * **`$chromecast-poster-width`** - the width of the poster image on the screen that that
+     is shown while a Chromecast session is active and connected. Defaults to `100px`.
+   * **`$chromecast-poster-max-height`** - the maximum height of the poster image on the
+     screen that is shown while a Chromecast session is active and connected.
+     Defaults to `180px`.
 
 
 #### Images
@@ -302,10 +304,19 @@ plugin's CSS is located. If, for example, your CSS is located at
 `https://example.com/plugins/silvermine-videojs-chromecast.css`, then the plugin's images
 should be located at `https://example.com/plugins/images/`.
 
-In addition the the `ic_cast_white_24dp.png` icon image that is used as the default icon for
+In addition, the `ic_cast_white_24dp.png` icon image that is used as the default icon for
 all four button states ("default", "default + hover", "casting", "casting + hover"), the `images`
 folder contains grey, black, and blue versions of the icons.
 
+
+### Events
+
+   *`chromecastConnected`: Triggers when Chromecast connected
+   *`chromecastDisconnected`: Triggers when Chromecast disconnected
+   *`chromecastDevicesAvailable`: Triggers on state change when Chromecast devices are available
+   *`chromecastDevicesUnavailable`: Triggers on state change when Chromecast devices are unavailable
+   *`chromecastRequested`: Triggers when the user has requested Chromecast playback using this
+     plugin's Chromecast button
 
 ## How do I contribute?
 

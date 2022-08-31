@@ -1,5 +1,3 @@
-'use strict';
-
 var ChromecastSessionManager = require('../chromecast/ChromecastSessionManager'),
     ChromecastTechUI = require('./ChromecastTechUI'),
     SESSION_TIMEOUT = 10 * 1000, // milliseconds
@@ -743,8 +741,8 @@ module.exports = function(videojs) {
 
    // Required for Video.js Tech implementations.
    // TODO Consider a more comprehensive check based on mimetype.
-   ChromecastTechImpl.canPlaySource = ChromecastSessionManager.isChromecastConnected.bind(ChromecastSessionManager);
-   ChromecastTechImpl.isSupported = ChromecastSessionManager.isChromecastConnected.bind(ChromecastSessionManager);
+   ChromecastTechImpl.canPlaySource = () => { return ChromecastSessionManager.isChromecastConnected(); };
+   ChromecastTechImpl.isSupported = () => { return ChromecastSessionManager.isChromecastConnected(); };
 
    ChromecastTechImpl.prototype.featuresVolumeControl = true;
    ChromecastTechImpl.prototype.featuresPlaybackRate = false;
