@@ -5179,41 +5179,99 @@ function URLsAreSameVideo($url1, $url2) {
     return $videos_id1 === $videos_id2;
 }
 
-function getVideos_id() {
+function getVideos_id($returnPlaylistVideosIDIfIsSerie = false) {
     global $_getVideos_id;
     $videos_id = false;
     if (isset($_getVideos_id) && is_int($_getVideos_id)) {
-        return $_getVideos_id;
-    }
-    if (isVideo()) {
-        $videos_id = getVideoIDFromURL(getSelfURI());
-        if (empty($videos_id) && !empty($_REQUEST['videoName'])) {
-            $video = Video::getVideoFromCleanTitle($_REQUEST['videoName']);
+        $videos_id = $_getVideos_id;
+    }else{
+        if (isVideo()) {
+            $videos_id = getVideoIDFromURL(getSelfURI());
+            if (empty($videos_id) && !empty($_REQUEST['videoName'])) {
+                $video = Video::getVideoFromCleanTitle($_REQUEST['videoName']);
+                if (!empty($video)) {
+                    $videos_id = $video['id'];
+                }
+            }
+            setVideos_id($videos_id);
+        }
+        if (empty($videos_id) && !empty($_REQUEST['playlists_id'])) {
+            AVideoPlugin::loadPlugin('PlayLists');
+            $video = PlayLists::isPlayListASerie($_REQUEST['playlists_id']);
             if (!empty($video)) {
                 $videos_id = $video['id'];
             }
         }
-        setVideos_id($videos_id);
+
+        if (empty($videos_id) && !empty($_REQUEST['v'])) {
+            $videos_id = $_REQUEST['v'];
+        }
+
+        if (empty($videos_id) && !empty($_REQUEST['videos_id'])) {
+            $videos_id = $_REQUEST['videos_id'];
+        }
+
+        $videos_id = videosHashToID($videos_id);
     }
-    if (empty($videos_id) && !empty($_REQUEST['playlists_id'])) {
-        AVideoPlugin::loadPlugin('PlayLists');
-        $video = PlayLists::isPlayListASerie($_REQUEST['playlists_id']);
-        if (!empty($video)) {
-            $videos_id = $video['id'];
+    if($returnPlaylistVideosIDIfIsSerie && !empty($videos_id)){
+        if(isPlayList()){
+            $videos_id = getPlayListCurrentVideosId();
+            //var_dump($videos_id);exit;
         }
     }
-
-    if (empty($videos_id) && !empty($_REQUEST['v'])) {
-        $videos_id = $_REQUEST['v'];
-    }
-
-    if (empty($videos_id) && !empty($_REQUEST['videos_id'])) {
-        $videos_id = $_REQUEST['videos_id'];
-    }
-
-    $videos_id = videosHashToID($videos_id);
-
     return $videos_id;
+}
+
+function getPlayListIndex(){
+    global $__playlistIndex;
+    if(empty($__playlistIndex) && !empty($_REQUEST['playlist_index'])){
+        $__playlistIndex = intval($_REQUEST['playlist_index']);
+    }
+    return intval($__playlistIndex);
+}
+
+function getPlayListData(){
+    global $playListData;
+    if(empty($playListData)){
+        $playListData = array();
+    }
+    return $playListData;
+}
+
+function getPlayListDataVideosId(){
+    $playListData_videos_id = array();
+    foreach (getPlayListData() as $value) {
+        $playListData_videos_id[] = $value->getVideos_id();
+    }
+    return $playListData_videos_id;
+}
+
+function getPlayListCurrentVideo($setVideos_id = true){
+    $videos_id = getPlayListCurrentVideosId($setVideos_id);
+    if(empty($videos_id)){
+        return false;
+    }
+    $video = Video::getVideo($videos_id);
+    return $video;
+}
+
+function getPlayListCurrentVideosId($setVideos_id = true){
+    $playListData = getPlayListData();
+    $playlist_index = getPlayListIndex();
+    if(empty($playListData[$playlist_index])){
+        //var_dump($playlist_index, $playListData);
+        return false;
+    }
+    $videos_id = $playListData[$playlist_index]->getVideos_id();
+    if($setVideos_id){
+        setVideos_id($videos_id);
+    }
+    return $videos_id;
+}
+
+function setPlayListIndex($index){
+    global $__playlistIndex;
+    $__playlistIndex = intval($index);
 }
 
 function setVideos_id($videos_id) {
