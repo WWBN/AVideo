@@ -1502,6 +1502,10 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         html += avideoModalIframeFullScreenCloseButton;
         html += '<img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;">';
     }
+    
+    if(typeof iframeAllowAttributes  == 'undefined'){
+        iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
+    }
     html += '</div>';
     html += '<iframe id="avideoModalIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  '+iframeAllowAttributes+' ></iframe>';
     var span = document.createElement("span");
