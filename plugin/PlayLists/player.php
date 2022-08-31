@@ -61,14 +61,13 @@ foreach ($playList as $key => $value) {
 
 $video = PlayLists::isPlayListASerie($_GET['playlists_id']);
 
-$playlist_index = intval(@$_REQUEST['playlist_index']);
+$playlist_index = getPlayListIndex();
 
 if (!empty($video['id'])) {
     AVideoPlugin::getEmbed($video['id']);
     setVideos_id($video['id']);
 } else if (!empty($playListData[$playlist_index])) {
-    setVideos_id($playListData[$playlist_index]->getVideos_id());
-    $video = Video::getVideo($playListData[$playlist_index]->getVideos_id());
+    $video = getPlayListCurrentVideo();
 }
 
 if(empty($playListData)){

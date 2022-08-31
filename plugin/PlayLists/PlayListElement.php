@@ -11,7 +11,7 @@ class PlayListElement {
         $this->sources = $playListSource;
         $this->thumbnail = $playListThumbnail;
         $this->poster = $poster;
-        $this->videoStartSeconds = $videoStartSeconds;
+        $this->videoStartSeconds = intval($videoStartSeconds);
         $this->created = strtotime($created);
         $this->likes = $likes;
         $this->views = $views;
