@@ -241,6 +241,7 @@ if (!$isCommandLine) {
     }
 }
 $robj->logFile = $obj->logFile;
+//var_dump($robj);exit;
 if (function_exists('_mysql_close')) {
     _mysql_close();
 }

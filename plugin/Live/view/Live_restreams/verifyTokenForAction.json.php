@@ -41,8 +41,8 @@ switch ($token->action) {
         $obj->m3u8 = $lrl->getM3u8();
         $obj->liveTransmitionHistory_id = $lrl->getLive_transmitions_history_id();
         $obj->live_restreams_id = $lrl->getLive_restreams_id();
-        $obj->restreamsToken = array(encryptString($obj->live_restreams_id));
-        $obj->restreamsDestinations = array($lr->getName());
+        $obj->restreamsToken = array($obj->live_restreams_id=>encryptString($obj->live_restreams_id));
+        $obj->restreamsDestinations = array($obj->live_restreams_id=>$lr->getName());
         $obj->users_id = $lr->getUsers_id();
         $obj->token = encryptString(array('users_id' => $obj->users_id, 'time' => time(), 'liveTransmitionHistory_id' => $obj->liveTransmitionHistory_id, 'live_restreams_id' => $obj->live_restreams_id));        
         $obj->responseToken = $obj->token;
