@@ -111,6 +111,7 @@ class Live_restreams_logs extends ObjectYPT {
             $url = Live::getRestreamer();
         }
         if(!isValidURL($url)){
+            _error_log("Invalid restreamer URL {$url}, $live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id, $action");
             return false;
         }
         
