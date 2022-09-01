@@ -35,9 +35,12 @@ if (empty($url)) {
     $obj->error = false;
     $obj->log = false;
 } else {
-    $obj->log = json_decode(url_get_contents($url));
+    $content = url_get_contents($url);
+    $obj->log = json_decode($content);
     if (!empty($obj->log)) {
         $obj->error = false;
+    }else{
+        _error_log("Restream URL content error {$url} {$content}");
     }
 }
 
