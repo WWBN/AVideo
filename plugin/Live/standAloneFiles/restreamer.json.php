@@ -133,24 +133,35 @@ function _hasLastSlash($word) {
 
 function getLiveKey($token) {
     global $streamerURL, $isATest;
+    
+    $obj = new stdClass();
+    $obj->error = true;
+    $obj->msg = '';
+    $obj->newRestreamsDestination = '';
+    $obj->content = '';
+    
     if ($isATest) {
-        return false;
+        return $obj;
     }
-    $content = file_get_contents("{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?token={$token}");
-    if (!empty($content)) {
-        $json = json_decode($content);
+    $obj->content = file_get_contents("{$streamerURL}plugin/Live/view/Live_restreams/getLiveKey.json.php?token={$token}");
+    if (!empty($obj->content)) {
+        $json = json_decode($obj->content);
         if (!empty($json) && $json->error === false) {
             if (!empty($json->stream_key) && !empty($json->stream_url)) {
                 $newRestreamsDestination = _addLastSlash($json->stream_url) . $json->stream_key;
-                error_log("Restreamer.json.php found $newRestreamsDestination");
-                return $newRestreamsDestination;
-            } else {
-                error_log("Restreamer.json.php get keys error {$content}");
-            }
+                error_log("Restreamer.json.php getLiveKey found $newRestreamsDestination");
+                $obj->newRestreamsDestination = $newRestreamsDestination;
+                $obj->error = false;
+            } 
+        }else if(!empty($json->rawData)){
+            $rawData = json_decode($json->rawData);
+            $obj->msg = $rawData->message;
         }
     }
-    return false;
+    return $obj;
 }
+
+$errorMessages = array();
 
 if (!$isCommandLine) { // not command line
     if(empty($robj)){
@@ -171,13 +182,20 @@ if (!$isCommandLine) { // not command line
             //var_dump($robj->restreamsToken, $robj->restreamsDestinations);exit;
             if (empty($isATest)) {
                 foreach ($robj->restreamsToken as $key => $token) {
-                    $newRestreamsDestination = getLiveKey($token);
-                    //var_dump($newRestreamsDestination);exit;
-                    if (empty($newRestreamsDestination)) {
+                    
+                    $liveKey = getLiveKey($token);                    
+                    if(empty($liveKey->error)){
+                        $newRestreamsDestination = $liveKey->newRestreamsDestination;
+                    }else{
                         error_log("Restreamer.json.php ERROR try again in 3 seconds");
                         sleep(3);
-                        $newRestreamsDestination = getLiveKey($token);
+                        $liveKey = getLiveKey($token);                    
+                        if(empty($liveKey->error)){
+                            $newRestreamsDestination = $liveKey->newRestreamsDestination;
+                            $errorMessages[] = $liveKey->msg;
+                        }
                     }
+                    
                     if (empty($newRestreamsDestination)) {
                         error_log("Restreamer.json.php ERROR ");
                         unset($robj->restreamsDestinations[$key]);
@@ -203,7 +221,7 @@ if (empty($robj)) {
 
 $obj = new stdClass();
 $obj->error = true;
-$obj->msg = "";
+$obj->msg = implode(PHP_EOL, $errorMessages);
 $obj->streamerURL = $streamerURL;
 $obj->type = $robj->type;
 $obj->token = $robj->token;
