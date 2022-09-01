@@ -42,7 +42,7 @@ switch ($token->action) {
         $obj->liveTransmitionHistory_id = $lrl->getLive_transmitions_history_id();
         $obj->live_restreams_id = $lrl->getLive_restreams_id();
         $obj->restreamsToken = array(encryptString($obj->live_restreams_id));
-        $obj->restreamsDestinations = array('Start live_restreams_logs_id:'.$token->live_restreams_logs_id);
+        $obj->restreamsDestinations = array($lr->getName());
         $obj->users_id = $lr->getUsers_id();
         $obj->token = encryptString(array('users_id' => $obj->users_id, 'time' => time(), 'liveTransmitionHistory_id' => $obj->liveTransmitionHistory_id, 'live_restreams_id' => $obj->live_restreams_id));        
         $obj->responseToken = $obj->token;

@@ -142,29 +142,26 @@ function getLiveKey($token) {
     return false;
 }
 
-if (!$isCommandLine && empty($robj)) { // not command line
-    $request = file_get_contents("php://input");
-    /*
-      if (empty($request)) {
-      error_log("***Restreamer.json.php there is no info for this stream");
-      die('something went wrong');
-      }
-     * 
-     */
-    error_log("Restreamer.json.php php://input {$request}");
-    $robj = json_decode($request);
+if (!$isCommandLine) { // not command line
+    if(empty($robj)){
+        $request = file_get_contents("php://input");
+        error_log("Restreamer.json.php php://input {$request}");
+        $robj = json_decode($request);
+    }
     if (!empty($robj)) {
         $robj->type = 'decoded from request';
         if (!empty($robj->test)) {
             $isATest = true;
             error_log("***Restreamer.json.php this is a test");
         }
+        //var_dump($robj->restreamsToken);exit;
         if (!empty($robj->restreamsToken)) {
             $robj->restreamsToken = _object_to_array($robj->restreamsToken);
             $robj->restreamsDestinations = _object_to_array($robj->restreamsDestinations);
             if (empty($isATest)) {
                 foreach ($robj->restreamsToken as $key => $token) {
                     $newRestreamsDestination = getLiveKey($token);
+                    //var_dump($newRestreamsDestination);exit;
                     if (empty($newRestreamsDestination)) {
                         error_log("Restreamer.json.php ERROR try again in 3 seconds");
                         sleep(3);
@@ -181,7 +178,7 @@ if (!$isCommandLine && empty($robj)) { // not command line
         }
     }
 }
-
+//var_dump($isATest, $robj);exit;
 if (empty($robj)) {
     $robj = new stdClass();
     $robj->type = 'empty';
