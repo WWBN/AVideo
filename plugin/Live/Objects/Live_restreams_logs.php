@@ -22,7 +22,8 @@ class Live_restreams_logs extends ObjectYPT {
         if(!isValidURL($restreamer)){
             return false;
         }
-        $this->restreamer = $restreamer;
+        $parts = explode('?', $restreamer);
+        $this->restreamer = $parts[0];
     } 
  
     function setM3u8($m3u8) {
