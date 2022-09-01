@@ -192,6 +192,7 @@ if (!$isCommandLine) { // not command line
                         $liveKey = getLiveKey($token);                    
                         if(empty($liveKey->error)){
                             $newRestreamsDestination = $liveKey->newRestreamsDestination;
+                        }else{                            
                             $errorMessages[] = $liveKey->msg;
                         }
                     }
