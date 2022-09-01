@@ -27,9 +27,9 @@ $obj->action = $token->action;
 
 $obj->error = false;
 $lrl = new Live_restreams_logs($token->live_restreams_logs_id);
+$obj->logFile = $lrl->getLogFile();
 switch ($token->action) {
     case 'log':
-        $obj->logFile = $lrl->getLogFile();
         break;
     case 'stop':
         $obj->m3u8 = $lrl->getM3u8();
