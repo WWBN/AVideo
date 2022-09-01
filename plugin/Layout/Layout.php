@@ -747,6 +747,12 @@ function _sortJS($a, $b){
     if (preg_match('/\/js\/bootstrap\.min\.js/', $b)) {
         return 1;
     }
+    if (preg_match('/js.cookie.js/i', $a)) {
+        return -1;
+    }
+    if (preg_match('/js.cookie.js/i', $b)) {
+        return 1;
+    }
     
     // videojs
     if (preg_match('/video\.?js/i', $a) || preg_match('/video\.?js/i', $b)) {
@@ -793,7 +799,13 @@ function _sortJS($a, $b){
     }
     if (preg_match('/\/moment\//', $b) && preg_match('/\/moment-timezone\//', $a)) {
         return -1;
-    }    
+    }
+    if (preg_match('/\/moment.min.js/', $a) && preg_match('/\/moment\/locale/', $b)) {
+        return -1;
+    }
+    if (preg_match('/\/moment.min.js/', $b) && preg_match('/\/moment\/locale/', $a)) {
+        return 1;
+    }
     // lazy plugin must be after lazy
     if(preg_match('/jquery\.lazy/', $a) || preg_match('/\/jquery\.lazy/', $b)){
         if (preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $a) && preg_match('/\/jquery\.lazy\.min\.js/', $b)) {
