@@ -366,7 +366,7 @@ function postToURL($url, $data_string, $timeLimit = 10) {
         $output = curl_exec($ch);
         curl_close($ch);
         set_time_limit($global_timeLimit);
-        var_dump($url, $data_string, $output);//exit;
+        //var_dump($url, $data_string, $output);//exit;
         return json_decode($output);
     } catch (Exception $exc) {
         error_log("Restreamer.json.php postToURL ERROR " . $exc->getTraceAsString());
