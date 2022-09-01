@@ -116,6 +116,18 @@ class Live_restreams_logs extends ObjectYPT {
         return $url;
     }
     
+    
+    static function getURLFromTransmitionAndRestream($live_transmitions_history_id, $live_restreams_id, $action='log'){
+        $latest = self::getLatest($live_transmitions_history_id, $live_restreams_id);
+        if(empty($latest)){
+            $live_restreams_logs_id = 0;
+        }else{
+            $live_restreams_logs_id = $latest['id'];
+        }
+        return self::getURL($live_restreams_logs_id, $action);
+        
+    }
+    
     static function getToken($action, $live_restreams_logs_id){
         $obj = new stdClass();
         $obj->action = $action;

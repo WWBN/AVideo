@@ -23,12 +23,19 @@ $lives = LiveTransmitionHistory::getAllActiveFromUser();
 $restreamers = Live_restreams::getAllFromUser(User::getId());
 
 foreach ($lives as $key => $value) {
-    $lives[$key]['restream_log'] = array();
+    $lives[$key]['restream'] = array();
     foreach ($restreamers as $restream) {
         $log = Live_restreams_logs::getLatest($value['id'], $restream['id']);
-        if (!empty($log)) {
-            $lives[$key]['restream_log'][] = $log;
+        if(empty($log)){
+            $log = array();
         }
+        $restream['log'] = $log;
+        
+        foreach ($log as $log_key => $log_value) {
+            $restream['log_'.$log_key] = $log_value;
+        }
+        
+        $lives[$key]['restream'][] = $restream;
     }
 }
 

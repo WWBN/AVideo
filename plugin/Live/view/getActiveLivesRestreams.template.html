@@ -1,11 +1,17 @@
-<div class="loading livesRestreamStatus livesRestreamStatus_{id} {class}" live_restreams_logs_id="{id}">
-    <button class="btn btn-primary hideWhenInactive hideWhenActive">
-        <i class="fas fa-sync faa-spin animated"></i>
+<div class="loading livesRestreamStatus livesRestreamStatus_{live_restream_id} {class}" 
+     live_restreams_logs_id="{log_id}"
+     restreams_id="{id}"
+     live_transmitions_history_id="{live_transmitions_history_id}">
+    <button class="btn btn-default btn-block hideWhenInactive hideWhenActive hideWhenLoading hideWhenHasLog">
+        <i class="fas fa-ban"></i> Error on start it<br><small>{name}</small>
     </button>
-    <button class="btn btn-danger hideWhenInactive hideWhenLoading" onclick="getAction('stop', {id});">
-        <i class="fas fa-stop"></i>
+    <button class="btn btn-primary btn-block hideWhenInactive hideWhenActive hideWhenHasNoLog">
+        <i class="fas fa-sync faa-spin animated"></i> Loading<br><small>{name}</small>
     </button>
-    <button class="btn btn-success hideWhenActive hideWhenLoading" onclick="getAction('start', {id});">
-        <i class="fas fa-play"></i>
+    <button class="btn btn-danger btn-block hideWhenInactive hideWhenLoading hideWhenHasNoLog" onclick="getAction('stop', {live_transmitions_history_id}, {id});">
+        <i class="fas fa-stop"></i> Stop<br><small>{name}</small>
+    </button>
+    <button class="btn btn-success btn-block hideWhenActive hideWhenLoading hideWhenHasNoLog" onclick="getAction('start', {live_transmitions_history_id}, {id});">
+        <i class="fas fa-play"></i> Start<br><small>{name}</small>
     </button>
 </div>

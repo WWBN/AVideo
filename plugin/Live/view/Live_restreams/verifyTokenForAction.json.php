@@ -38,13 +38,14 @@ switch ($token->action) {
         break;
     case 'start':
         $lr = new Live_restreams($lrl->getLive_restreams_id());
-
         $obj->m3u8 = $lrl->getM3u8();
         $obj->liveTransmitionHistory_id = $lrl->getLive_transmitions_history_id();
         $obj->live_restreams_id = $lrl->getLive_restreams_id();
-        $obj->token = encryptString($obj->live_restreams_id);
+        $obj->restreamsToken = array(encryptString($obj->live_restreams_id));
+        $obj->restreamsDestinations = array('Start live_restreams_logs_id:'.$token->live_restreams_logs_id);
         $obj->users_id = $lr->getUsers_id();
-        $obj->responseToken = encryptString(array('users_id' => $obj->users_id, 'time' => time(), 'liveTransmitionHistory_id' => $obj->liveTransmitionHistory_id));
+        $obj->token = encryptString(array('users_id' => $obj->users_id, 'time' => time(), 'liveTransmitionHistory_id' => $obj->liveTransmitionHistory_id, 'live_restreams_id' => $obj->live_restreams_id));        
+        $obj->responseToken = $obj->token;
         break;
     default :
         $obj->error = true;

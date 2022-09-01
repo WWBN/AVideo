@@ -9,38 +9,18 @@ if (!Live::canRestream()) {
 ?>
 <div class="panel panel-default">
     <div class="panel-heading tabbable-line">
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#restreamsForm"> <i class="fas fa-sync"></i> <?php echo __('Restreams'); ?></a></li>
-            
-            <?php
-            if (isOnDeveloperMode()) {
+        <?php
+        if (isOnDeveloperMode()) {
             ?>
-            <li><a data-toggle="tab" href="#restreamsActive"><i class="fas fa-wifi"></i> <?php echo __('Active Lives'); ?></a></li>
+            <i class="fas fa-wifi"></i> <?php echo __('Active Lives'); ?>
             <?php
-            }
-            ?>
-        </ul>
+        }
+        ?>
     </div>
     <div class="panel-body">
-        
-        <div class="tab-content">
-            <div id="restreamsForm" class="tab-pane fade in active">
-                <?php
-                include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/livePanelForm.php';
-                ?>
-            </div>
-            <?php
-            if (isOnDeveloperMode()) {
-            ?>
-            <div id="restreamsActive" class="tab-pane fade">
-                <?php
-                include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/livePanelActiveLives.php';
-                ?>
-            </div>
-            <?php
-            }
-            ?>
-        </div>
+        <?php
+        include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/livePanelForm.php';
+        ?>
     </div>
     <div class="panel-footer">
         <?php
@@ -49,13 +29,13 @@ if (!Live::canRestream()) {
         }
         ?>
         <div class="btn-group pull-right">
-            <button type="button" class="btn btn-info " onclick="getActiveLives();">
-                <i class="fas fa-sync faa-spin"></i>
-                <?php echo __('Reload'); ?>
-            </button>
             <button type="button" class="btn btn-primary" onclick="testRestreamer();">
                 <i class="fas fa-check"></i>
                 <?php echo __('Test'); ?>
+            </button>
+            <button type="button" class="btn btn-success" onclick="avideoModalIframe(webSiteRootURL+'plugin/Live/view/Live_restreams/activeLives.php');">
+                <i class="fas fa-wifi"></i>
+                <?php echo __('Active Lives'); ?>
             </button>
         </div>
     </div>

@@ -41,11 +41,12 @@ if (!file_exists($ffmpegBinary)) {
     }
 }
 
-ini_set("memory_limit", -1);
+$global_timeLimit = 300;
 
-ini_set('default_socket_timeout', 300);
-set_time_limit(300);
-ini_set('max_execution_time', 300);
+ini_set("memory_limit", -1);
+ini_set('default_socket_timeout', $global_timeLimit);
+set_time_limit($global_timeLimit);
+ini_set('max_execution_time', $global_timeLimit);
 ini_set("memory_limit", "-1");
 
 $logFileLocation = rtrim($logFileLocation, "/") . '/';
@@ -72,9 +73,9 @@ if (!empty($_REQUEST['tokenForAction'])) {
     $obj->msg = '';
     $json = verifyTokenForAction($_REQUEST['tokenForAction']);
     //var_dump($json);exit;
-    if(!empty($json) && isset($json->error) && empty($json->error)){
+    if (!empty($json) && isset($json->error) && empty($json->error)) {
         $obj->error = false;
-        error_log("Restreamer.json.php token verified ".json_encode($json));
+        error_log("Restreamer.json.php token verified " . json_encode($json));
         switch ($json->action) {
             case 'log':
                 $obj->logName = str_replace($logFileLocation, '', $json->logFile);
@@ -93,18 +94,12 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 exit;
                 break;
             case 'start':
-                $robj = new stdClass();
-                $robj->token = '';
-                $robj->m3u8 = $json->m3u8;
-                $robj->restreamsToken = [$json->token];
-                $robj->restreamsDestinations = [''];
-                $robj->users_id = $json->users_id;
-                $robj->responseToken = $json->responseToken;
+                $robj = $json;
+                $robj->type = 'start';
                 break;
         }
-        
-    }else{
-        $obj->msg = 'ERROR on verifyTokenForAction: '. $json->msg;
+    } else {
+        $obj->msg = 'ERROR on verifyTokenForAction: ' . $json->msg;
         die(json_encode($obj));
     }
 }
@@ -147,43 +142,49 @@ function getLiveKey($token) {
     return false;
 }
 
-if (!$isCommandLine) { // not command line
+if (!$isCommandLine && empty($robj)) { // not command line
     $request = file_get_contents("php://input");
     /*
-    if (empty($request)) {
-        error_log("***Restreamer.json.php there is no info for this stream");
-        die('something went wrong');
-    }
+      if (empty($request)) {
+      error_log("***Restreamer.json.php there is no info for this stream");
+      die('something went wrong');
+      }
      * 
      */
     error_log("Restreamer.json.php php://input {$request}");
     $robj = json_decode($request);
-    if (!empty($robj->test)) {
-        $isATest = true;
-        error_log("***Restreamer.json.php this is a test");
-    }
-    if (!empty($robj->restreamsToken)) {
-        $robj->restreamsToken = _object_to_array($robj->restreamsToken);
-        $robj->restreamsDestinations = _object_to_array($robj->restreamsDestinations);
-        if (empty($isATest)) {
-            foreach ($robj->restreamsToken as $key => $token) {
-                $newRestreamsDestination = getLiveKey($token);
-                if (empty($newRestreamsDestination)) {
-                    error_log("Restreamer.json.php ERROR try again in 3 seconds");
-                    sleep(3);
+    if (!empty($robj)) {
+        $robj->type = 'decoded from request';
+        if (!empty($robj->test)) {
+            $isATest = true;
+            error_log("***Restreamer.json.php this is a test");
+        }
+        if (!empty($robj->restreamsToken)) {
+            $robj->restreamsToken = _object_to_array($robj->restreamsToken);
+            $robj->restreamsDestinations = _object_to_array($robj->restreamsDestinations);
+            if (empty($isATest)) {
+                foreach ($robj->restreamsToken as $key => $token) {
                     $newRestreamsDestination = getLiveKey($token);
-                }
-                if (empty($newRestreamsDestination)) {
-                    error_log("Restreamer.json.php ERROR ");
-                    unset($robj->restreamsDestinations[$key]);
-                } else {
-                    $robj->restreamsDestinations[$key] = $newRestreamsDestination;
+                    if (empty($newRestreamsDestination)) {
+                        error_log("Restreamer.json.php ERROR try again in 3 seconds");
+                        sleep(3);
+                        $newRestreamsDestination = getLiveKey($token);
+                    }
+                    if (empty($newRestreamsDestination)) {
+                        error_log("Restreamer.json.php ERROR ");
+                        unset($robj->restreamsDestinations[$key]);
+                    } else {
+                        $robj->restreamsDestinations[$key] = $newRestreamsDestination;
+                    }
                 }
             }
         }
     }
-} else {
+}
+
+if (empty($robj)) {
     $robj = new stdClass();
+    $robj->type = 'empty';
     $robj->token = '';
     $robj->m3u8 = $argv[1];
     $robj->restreamsDestinations = [$argv[2]];
@@ -196,6 +197,7 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
 $obj->streamerURL = $streamerURL;
+$obj->type = $robj->type;
 $obj->token = $robj->token;
 $obj->pid = [];
 $obj->logFile = str_replace('{users_id}', $robj->users_id, $logFile);
@@ -312,10 +314,9 @@ function notifyStreamer($robj) {
     return postToURL($url, $data_string);
 }
 
-
 function verifyTokenForAction($token) {
     global $streamerURL;
-    $data_string = json_encode(array('token' => $token));    
+    $data_string = json_encode(array('token' => $token));
     error_log("Restreamer.json.php verifyTokenForAction {$data_string}");
 
     $url = "{$streamerURL}plugin/Live/view/Live_restreams/verifyTokenForAction.json.php";
@@ -324,6 +325,7 @@ function verifyTokenForAction($token) {
 }
 
 function postToURL($url, $data_string, $timeLimit = 10) {
+    global $global_timeLimit;
     try {
         set_time_limit($timeLimit);
         //open connection
@@ -354,11 +356,13 @@ function postToURL($url, $data_string, $timeLimit = 10) {
         //$info = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $output = curl_exec($ch);
         curl_close($ch);
+        set_time_limit($global_timeLimit);
         //var_dump($output);exit;
         return json_decode($output);
     } catch (Exception $exc) {
         error_log("Restreamer.json.php postToURL ERROR " . $exc->getTraceAsString());
     }
+    set_time_limit($global_timeLimit);
     return false;
 }
 
@@ -367,7 +371,8 @@ function clearCommandURL($url) {
 }
 
 function isURL200($url, $forceRecheck = false) {
-
+    global $global_timeLimit;
+    set_time_limit(5);
     //error_log("isURL200 checking URL {$url}");
     $headers = @get_headers($url);
     if (!is_array($headers)) {
@@ -387,6 +392,7 @@ function isURL200($url, $forceRecheck = false) {
             //_error_log('isURL200: '.$value);
         }
     }
+    set_time_limit($global_timeLimit);
 
     return $result;
 }
@@ -413,10 +419,10 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         error_log("Restreamer.json.php startRestream ERROR empty restreamsDestinations");
         return false;
     }
-    
+
     $m3u8 = _addQueryStringParameter($m3u8, 'live_restreams_id', $robj->live_restreams_id);
     $m3u8 = _addQueryStringParameter($m3u8, 'liveTransmitionHistory_id', $robj->liveTransmitionHistory_id);
-    
+
     $m3u8 = clearCommandURL($m3u8);
 
     if ($tries === 1) {
@@ -523,11 +529,11 @@ function getProcess($robj) {
     foreach ($output as $value) {
         //error_log("Restreamer.json.php:getProcess {$pattern}");
         if (preg_match($pattern, trim($value), $matches)) {
-            error_log("Restreamer.json.php:getProcess found ". json_encode($value)); 
+            error_log("Restreamer.json.php:getProcess found " . json_encode($value));
             return $matches;
         }
     }
-    error_log("Restreamer.json.php:getProcess NOT found {$pattern}"); 
+    error_log("Restreamer.json.php:getProcess NOT found {$pattern}");
     return false;
 }
 
@@ -568,6 +574,7 @@ function _object_to_array($obj) {
         return $obj;
     }
 }
+
 function _addQueryStringParameter($url, $varname, $value) {
     $parsedUrl = parse_url($url);
     if (empty($parsedUrl['host'])) {

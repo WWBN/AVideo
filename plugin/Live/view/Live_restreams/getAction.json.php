@@ -17,15 +17,24 @@ if (!Live::canRestream()) {
     forbiddenPage(__("You can not do this"));
 }
 
-$obj->live_restreams_logs_id = @$_REQUEST['live_restreams_logs_id'];
+$obj->live_restreams_logs_id = intval(@$_REQUEST['live_restreams_logs_id']);
+$obj->live_transmitions_history_id = intval(@$_REQUEST['live_transmitions_history_id']);
+$obj->live_restreams_id = intval(@$_REQUEST['live_restreams_id']);
+$obj->action = @$_REQUEST['action'];
+
 if (empty($obj->live_restreams_logs_id)) {
-    forbiddenPage(__("live_restreams_logs_id is empty"));
+    if (!empty($obj->live_transmitions_history_id) && !empty($obj->live_restreams_id)) {
+        
+    } else {
+        forbiddenPage(__("ids are empty"));
+    }
+} else {
+    $lrl = new Live_restreams_logs($obj->live_restreams_logs_id);
+    $obj->live_transmitions_history_id = $lrl->getLive_transmitions_history_id();
+    $obj->live_restreams_id = $lrl->getLive_restreams_id();
 }
 
-$lrl = new Live_restreams_logs($obj->live_restreams_logs_id);
-
-$obj->action = @$_REQUEST['action'];
-$obj->url = Live_restreams_logs::getURL($obj->live_restreams_logs_id, $obj->action);
+$obj->url = Live_restreams_logs::getURLFromTransmitionAndRestream($obj->live_transmitions_history_id, $obj->live_restreams_id, $obj->action);
 $obj->response = url_get_contents($obj->url);
 $obj->json = json_decode($obj->response);
 if (empty($obj->json)) {
@@ -33,9 +42,9 @@ if (empty($obj->json)) {
     $obj->msg = $obj->response;
 } else {
     $obj->responseFrom = 'Streamer/GetAction/Restreamer';
-    if(empty(!$obj->json->error)){
+    if (empty(!$obj->json->error)) {
         $obj->msg = $obj->json->msg;
-    }else{        
+    } else {
         $obj->error = false;
     }
 }
