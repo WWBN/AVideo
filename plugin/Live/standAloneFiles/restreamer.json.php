@@ -197,7 +197,7 @@ if (!$isCommandLine) { // not command line
                     }
                     
                     if (empty($newRestreamsDestination)) {
-                        error_log("Restreamer.json.php ERROR ");
+                        error_log("Restreamer.json.php ERROR ". json_encode($liveKey));
                         unset($robj->restreamsDestinations[$key]);
                     } else {
                         $robj->restreamsDestinations[$key] = $newRestreamsDestination;
