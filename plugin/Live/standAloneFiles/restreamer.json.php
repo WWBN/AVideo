@@ -81,7 +81,7 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 $obj->logName = str_replace($logFileLocation, '', $json->logFile);
                 $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
                 $logFile = $logFileLocation . $obj->logName;
-                $obj->modified = filemtime($logFile);
+                $obj->modified = @filemtime($logFile);
                 $obj->time = time();
                 $obj->secondsAgo = $obj->time - $obj->modified;
                 $obj->isActive = $obj->secondsAgo < 10;
