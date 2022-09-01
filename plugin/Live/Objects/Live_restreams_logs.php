@@ -103,11 +103,14 @@ class Live_restreams_logs extends ObjectYPT {
     }
     
     static function getURL($live_restreams_logs_id, $action='log'){
-        $rlog = new Live_restreams_logs($live_restreams_logs_id);
-        
-        $restreamer = $rlog->getRestreamer();
-        if(!isValidURL($restreamer)){
-            return false;
+        if(!empty($live_restreams_logs_id)){
+            $rlog = new Live_restreams_logs($live_restreams_logs_id);
+            $restreamer = $rlog->getRestreamer();
+            if(!isValidURL($restreamer)){
+                return false;
+            }
+        }else{
+            $restreamer = Live::getRestreamer();
         }
         
         $url = $restreamer;
