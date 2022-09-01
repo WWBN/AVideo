@@ -229,7 +229,8 @@ $obj->pid = [];
 $obj->logFile = str_replace('{users_id}', $robj->users_id, $logFile);
 
 if (empty($robj->restreamsDestinations) || !is_array($robj->restreamsDestinations)) {
-    $obj->msg = "There are no restreams Destinations";
+    $errorMessages[] = "There are no restreams Destinations";
+    $obj->msg = implode(PHP_EOL, $errorMessages);
     error_log("Restreamer.json.php ERROR {$obj->msg}");
     die(json_encode($obj));
 }
@@ -238,7 +239,8 @@ error_log("Restreamer.json.php Found " . count($robj->restreamsDestinations) . "
 if (!$isCommandLine) {
     // check the token
     if (empty($obj->token)) {
-        $obj->msg = "Token is empty";
+    $errorMessages[] = "Token is empty";
+    $obj->msg = implode(PHP_EOL, $errorMessages);
         error_log("Restreamer.json.php ERROR {$obj->msg}");
         die(json_encode($obj));
     }
@@ -260,11 +262,13 @@ if (!$isCommandLine) {
     $json = json_decode($content);
 
     if (empty($json)) {
-        $obj->msg = "Could not verify token";
+    $errorMessages[] = "Could not verify token";
+    $obj->msg = implode(PHP_EOL, $errorMessages);
         error_log("Restreamer.json.php empty json ERROR {$obj->msg} ({$verifyTokenURL}) ");
         die(json_encode($obj));
     } elseif (!empty($json->error)) {
-        $obj->msg = "Token is invalid";
+    $errorMessages[] = "Token is invalid";
+    $obj->msg = implode(PHP_EOL, $errorMessages);
         error_log("Restreamer.json.php json error ERROR {$obj->msg} ({$verifyTokenURL}) " . json_encode($json));
         die(json_encode($obj));
     }
