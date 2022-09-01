@@ -102,7 +102,7 @@ class Live_restreams_logs extends ObjectYPT {
         
     }
     
-    static function getURL($live_restreams_logs_id, $action='log'){
+    static function getURL($live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id, $action='log'){
         if(!empty($live_restreams_logs_id)){
             $rlog = new Live_restreams_logs($live_restreams_logs_id);
             $url = $rlog->getRestreamer();
@@ -114,7 +114,7 @@ class Live_restreams_logs extends ObjectYPT {
             return false;
         }
         
-        $url = addQueryStringParameter($url, 'tokenForAction', self::getToken($action, $live_restreams_logs_id));
+        $url = addQueryStringParameter($url, 'tokenForAction', self::getToken($action, $live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id));
         
         return $url;
     }
@@ -127,14 +127,16 @@ class Live_restreams_logs extends ObjectYPT {
         }else{
             $live_restreams_logs_id = $latest['id'];
         }
-        return self::getURL($live_restreams_logs_id, $action);
+        return self::getURL($live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id, $action);
         
     }
     
-    static function getToken($action, $live_restreams_logs_id){
+    static function getToken($action, $live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id){
         $obj = new stdClass();
         $obj->action = $action;
         $obj->live_restreams_logs_id = $live_restreams_logs_id;
+        $obj->live_transmitions_history_id = $live_transmitions_history_id;
+        $obj->live_restreams_id = $live_restreams_id;
         $obj->time = time();
         
         $string = encryptString(json_encode($obj));

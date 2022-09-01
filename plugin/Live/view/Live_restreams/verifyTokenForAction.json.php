@@ -26,26 +26,33 @@ if (empty($token)) {
 $obj->action = $token->action;
 
 $obj->error = false;
-$lrl = new Live_restreams_logs($token->live_restreams_logs_id);
-$obj->logFile = $lrl->getLogFile();
+if(!empty($token->live_restreams_logs_id)){
+    $lrl = new Live_restreams_logs($token->live_restreams_logs_id);
+    $obj->logFile = $lrl->getLogFile();
+    $obj->liveTransmitionHistory_id = $lrl->getLive_transmitions_history_id();
+    $obj->live_restreams_id = $lrl->getLive_restreams_id();
+    $obj->m3u8 = $lrl->getM3u8();
+}else{
+    $lr = new Live_restreams($obj->live_restreams_id);
+    $lhistory = new LiveTransmitionHistory($token->live_transmitions_history_id);
+    $obj->logFile = '';
+    $obj->liveTransmitionHistory_id = $token->live_transmitions_history_id;
+    $obj->live_restreams_id = $token->live_restreams_id;
+    //getM3U8File($uuid, $doNotProtect = false, $ignoreCDN = false)
+    $obj->m3u8 = Live::getM3U8File($lhistory->getKey(), true, true);
+    $obj->users_id = $lr->getUsers_id();
+    $obj->restreamsDestinations = array($obj->live_restreams_id=>$lr->getName());
+    $obj->restreamsToken = array($obj->live_restreams_id=>encryptString($obj->live_restreams_id));
+    $obj->token = encryptString(array('users_id' => $obj->users_id, 'time' => time(), 'liveTransmitionHistory_id' => $obj->liveTransmitionHistory_id, 'live_restreams_id' => $obj->live_restreams_id));        
+    $obj->responseToken = $obj->token;
+}
+
 switch ($token->action) {
     case 'log':
         break;
     case 'stop':
-        $obj->m3u8 = $lrl->getM3u8();
-        $obj->liveTransmitionHistory_id = $lrl->getLive_transmitions_history_id();
-        $obj->live_restreams_id = $lrl->getLive_restreams_id();
         break;
     case 'start':
-        $lr = new Live_restreams($lrl->getLive_restreams_id());
-        $obj->m3u8 = $lrl->getM3u8();
-        $obj->liveTransmitionHistory_id = $lrl->getLive_transmitions_history_id();
-        $obj->live_restreams_id = $lrl->getLive_restreams_id();
-        $obj->restreamsToken = array($obj->live_restreams_id=>encryptString($obj->live_restreams_id));
-        $obj->restreamsDestinations = array($obj->live_restreams_id=>$lr->getName());
-        $obj->users_id = $lr->getUsers_id();
-        $obj->token = encryptString(array('users_id' => $obj->users_id, 'time' => time(), 'liveTransmitionHistory_id' => $obj->liveTransmitionHistory_id, 'live_restreams_id' => $obj->live_restreams_id));        
-        $obj->responseToken = $obj->token;
         break;
     default :
         $obj->error = true;

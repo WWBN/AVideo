@@ -18,7 +18,7 @@ if (!empty($_REQUEST['token'])) {
     $_REQUEST['live_restreams_id'] = intval(decryptString($_REQUEST['token']));
     $byPassPermissionCheck = true;
 }
-
+//var_dump($_REQUEST['token'], decryptString($_REQUEST['token']));exit;
 if (empty($_REQUEST['live_restreams_id'])) {
     forbiddenPage('live_restreams_id cannot be empty', true);
 }

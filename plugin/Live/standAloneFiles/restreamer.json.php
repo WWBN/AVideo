@@ -103,6 +103,12 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 break;
         }
     } else {
+        if(empty($json)){
+            $error = '';
+        }else{
+            $error = $json->msg;
+        }
+        //var_dump(!empty($json), isset($json->error), empty($json->error), $json, $_REQUEST['tokenForAction']);exit;
         $obj->msg = 'ERROR on verifyTokenForAction: ' . $json->msg;
         die(json_encode($obj));
     }
@@ -162,6 +168,7 @@ if (!$isCommandLine) { // not command line
         if (!empty($robj->restreamsToken)) {
             $robj->restreamsToken = _object_to_array($robj->restreamsToken);
             $robj->restreamsDestinations = _object_to_array($robj->restreamsDestinations);
+            //var_dump($robj->restreamsToken, $robj->restreamsDestinations);exit;
             if (empty($isATest)) {
                 foreach ($robj->restreamsToken as $key => $token) {
                     $newRestreamsDestination = getLiveKey($token);
@@ -322,7 +329,7 @@ function verifyTokenForAction($token) {
     error_log("Restreamer.json.php verifyTokenForAction {$data_string}");
 
     $url = "{$streamerURL}plugin/Live/view/Live_restreams/verifyTokenForAction.json.php";
-    //var_dump($url);exit;
+    //var_dump($url);//exit;
     return postToURL($url, $data_string);
 }
 
@@ -359,7 +366,7 @@ function postToURL($url, $data_string, $timeLimit = 10) {
         $output = curl_exec($ch);
         curl_close($ch);
         set_time_limit($global_timeLimit);
-        //var_dump($output);exit;
+        var_dump($url, $data_string, $output);//exit;
         return json_decode($output);
     } catch (Exception $exc) {
         error_log("Restreamer.json.php postToURL ERROR " . $exc->getTraceAsString());
