@@ -565,7 +565,7 @@ class Live extends PluginAbstract {
         $obj->disableLiveThumbs = false;
         self::addDataObjectHelper('disableLiveThumbs', 'Disable Live thumbnails', 'This option will disable the çive image extraction and will use the user static image, it will save some hardware capacity from your encoder and may speedup your page');
         $obj->hideTopButton = false;
-        self::addDataObjectHelper('hideTopButton', 'Hide Top Button', 'This will hide the "Go Live" button on the top menu bar');
+        self::addDataObjectHelper('hideTopButton', 'Hide Top Button', 'This will hide the "Live Settings" button on the top menu bar');
         $obj->hideUserGroups = false;
         $obj->hideShare = false;
         $obj->hideAdvancedStreamKeys = false;
@@ -587,9 +587,9 @@ class Live extends PluginAbstract {
         $obj->limitLiveOnVideosList = 12;
         self::addDataObjectHelper('limitLiveOnVideosList', 'Videos List Limit', 'This will limit the maximum of videos that you will see in the Videos page');
         $obj->doNotShowGoLiveButton = false;
-        self::addDataObjectHelper('doNotShowGoLiveButton', 'Hide Top Go live Button', 'This will hide the "Go Live" button on the top menu bar');
+        self::addDataObjectHelper('doNotShowGoLiveButton', 'Hide Top Live Settings Button', 'This will hide the "Go Live" button on the top menu bar');
         $obj->doNotShowGoLiveButtonOnUploadMenu = false;
-        self::addDataObjectHelper('doNotShowGoLiveButtonOnUploadMenu', 'Hide Go live Button on Upload Menu', 'This will hide the "Go Live" button on the right upload menu bar');
+        self::addDataObjectHelper('doNotShowGoLiveButtonOnUploadMenu', 'Hide Live Settings Button on Upload Menu', 'This will hide the "Live Settings" button on the right upload menu bar');
         $obj->doNotProcessNotifications = false;
         self::addDataObjectHelper('doNotProcessNotifications', 'Do not show notifications', 'Do not show the notification on the top bar');
         $obj->useLiveServers = false;
@@ -3749,7 +3749,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function _getUserNotificationButton() {
         if (Live::canStreamWithWebRTC()) {
             ?>
-            <button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title="<?php echo __('Go Live') ?>" >
+<button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title=<?php printJSString($buttonTitle); ?> >
                 <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($buttonTitle); ?></span>
             </button>
             <?php
