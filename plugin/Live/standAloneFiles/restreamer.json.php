@@ -90,6 +90,10 @@ if (!empty($_REQUEST['tokenForAction'])) {
                 break;
             case 'stop':
                 $obj->killIfIsRunning = killIfIsRunning($json);
+                $obj->logName = str_replace($logFileLocation, '', $json->logFile);
+                $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
+                $logFile = $logFileLocation . $obj->logName;
+                unlink($logFile);
                 echo json_encode($obj);
                 exit;
                 break;

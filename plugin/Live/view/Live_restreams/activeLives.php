@@ -102,6 +102,7 @@ if (!Live::canRestream()) {
                                 eval(response.eval);
                             }
                         }
+                        getActiveLives();
                     }
                 });
             }
