@@ -147,9 +147,9 @@ if (!$isCommandLine) { // not command line
         $request = file_get_contents("php://input");
         error_log("Restreamer.json.php php://input {$request}");
         $robj = json_decode($request);
+        $robj->type = 'decoded from request';
     }
     if (!empty($robj)) {
-        $robj->type = 'decoded from request';
         if (!empty($robj->test)) {
             $isATest = true;
             error_log("***Restreamer.json.php this is a test");
@@ -257,7 +257,7 @@ Loop::run(function () {
     });
 });
 error_log("Restreamer.json.php finish async ");
-$robj->error = false;
+$obj->error = false;
 die(json_encode($obj));
 
 function runRestream($robj) {
