@@ -105,16 +105,15 @@ class Live_restreams_logs extends ObjectYPT {
     static function getURL($live_restreams_logs_id, $action='log'){
         if(!empty($live_restreams_logs_id)){
             $rlog = new Live_restreams_logs($live_restreams_logs_id);
-            $restreamer = $rlog->getRestreamer();
-            if(!isValidURL($restreamer)){
-                return false;
-            }
+            $url = $rlog->getRestreamer();
+            $url = addQueryStringParameter($url, 'logFile', $rlog->getLogFile());
         }else{
-            $restreamer = Live::getRestreamer();
+            $url = Live::getRestreamer();
+        }
+        if(!isValidURL($url)){
+            return false;
         }
         
-        $url = $restreamer;
-        $url = addQueryStringParameter($url, 'logFile', $rlog->getLogFile());
         $url = addQueryStringParameter($url, 'tokenForAction', self::getToken($action, $live_restreams_logs_id));
         
         return $url;
