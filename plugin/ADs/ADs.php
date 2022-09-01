@@ -100,7 +100,7 @@ class ADs extends PluginAbstract
         //$head .= "<script> var adsbygoogleTimeout = []; </script>";
         if (!empty($_GET['abkw'])) {
             $abkw = preg_replace('/[^a-zA-Z0-9_ ,-]/', '', $_GET['abkw']);
-            $head .= "<script> window.abkw = '{$abkw}'; </script>";
+            $head .= "<script doNotSepareteTag> window.abkw = '{$abkw}'; </script>";
             return $head;
         }
         $obj = $this->getDataObject();
