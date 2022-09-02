@@ -5565,6 +5565,10 @@ function getCurrentPage() {
     return 1;
 }
 
+function setCurrentPage($current) {
+    $_REQUEST['current'] = intval($current);
+}
+
 function getRowCount($default = 1000) {
     global $global;
     if (!empty($_REQUEST['rowCount'])) {

@@ -9,14 +9,14 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
 
-setRowCount(100);
+setRowCount(10);
 
 //setDefaultSort('id', 'DESC');
 if(empty($_REQUEST['id'])){
     if(empty($_POST['sort'])){
        $_POST['sort'] = array();
        $_POST['sort']['pin'] = 'ASC';
-       $_POST['sort']['id'] = 'ASC';
+       $_POST['sort']['id'] = 'DESC';
     }
     $comments = Comment::getAllComments($_REQUEST['video_id'], @$_REQUEST['comments_id']);
     $total = Comment::getTotalComments($_REQUEST['video_id'], @$_REQUEST['comments_id']);

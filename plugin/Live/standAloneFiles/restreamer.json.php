@@ -231,7 +231,7 @@ $obj->logFile = str_replace('{users_id}', $robj->users_id, $logFile);
 
 if (empty($robj->restreamsDestinations) || !is_array($robj->restreamsDestinations)) {
     $errorMessages[] = "There are no restreams Destinations";
-    $obj->msg = implode(PHP_EOL, $errorMessages);
+    $obj->msg = implode('<br>', $errorMessages);
     error_log("Restreamer.json.php ERROR {$obj->msg}");
     die(json_encode($obj));
 }

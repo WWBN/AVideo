@@ -571,7 +571,7 @@ async function addViewFromCookie() {
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
     url = addGetParam(url, 'PHPSESSID', addView_PHPSESSID);
     if (mediaId == addView_videos_id) {
-        // it is the same video, play at the last momment
+        // it is the same video, play at the last moment
         forceCurrentTime = addView_playerCurrentTime;
     }
 

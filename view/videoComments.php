@@ -20,6 +20,11 @@ if (User::canSeeCommentTextarea()) {
     } else {
         $class .= ' userLogged';
     }
+    if (empty(getVideos_id())) {
+        $class .= ' noVideosId';
+    } else {
+        $class .= ' withVideosId';
+    }
     ?>
     <style>
         #commentsArea{
@@ -52,7 +57,8 @@ if (User::canSeeCommentTextarea()) {
         #commentsArea .totalLikes0,
         #commentsArea .totalDislikes0,
         #commentsArea .isOpen > .hideIfIsOpen,
-        #commentsArea .isNotOpen > .hideIfIsNotOpen{
+        #commentsArea .isNotOpen > .hideIfIsNotOpen,
+        #commentsArea.noVideosId .hideIfNoVideosId {
             display: none;
         }
         #commentsArea > .media > div.media-body .repliesArea{
@@ -77,6 +83,9 @@ if (User::canSeeCommentTextarea()) {
         }
     </style>
     <div id="commentsArea" class="<?php echo $class; ?>"></div>
+    <center>
+        <button class="btn btn-link" onclick="getComments(0, lastLoadedPage+1);" id="commentLoadMoreBtn"> <?php echo __('Load More'); ?></button>
+    </center>
     <script>
         var commentTemplate = <?php echo $commentTemplate; ?>;
 
@@ -171,7 +180,7 @@ if (User::canSeeCommentTextarea()) {
             return template;
         }
 
-        function addComment(itemsArray, comments_id) {
+        function addComment(itemsArray, comments_id, append) {
             if (typeof itemsArray === 'function') {
                 return false;
             }
@@ -190,7 +199,12 @@ if (User::canSeeCommentTextarea()) {
                 var html = $(object).find(element).html();
                 $(element).html(html);
             } else {
-                $(selector).prepend(template);
+                if(append){
+                    $(selector).append(template);
+                }else{
+                    $(selector).prepend(template);
+                }
+                
             }
             return true;
         }
@@ -199,7 +213,7 @@ if (User::canSeeCommentTextarea()) {
         function toogleReplies(comments_id, t) {
             var selector = '#comment_' + comments_id + ' > div.media-body > div.repliesArea ';
             if ($(selector).is(':empty')) {
-                getComments(comments_id);
+                getComments(comments_id, 1);
             }
             
             if ($(t).hasClass('isOpen')) {
@@ -213,14 +227,16 @@ if (User::canSeeCommentTextarea()) {
             }
         }
 
-
-        function getComments(comments_id) {
+        var lastLoadedPage;
+        function getComments(comments_id, page) {
             var url = webSiteRootURL + 'objects/comments.json.php';
             if(typeof commentVideos_id == 'undefined'){
                commentVideos_id = 0;
             }
             url = addQueryStringParameter(url, 'video_id', commentVideos_id);
             url = addQueryStringParameter(url, 'comments_id', comments_id);
+            url = addQueryStringParameter(url, 'current', page);
+            lastLoadedPage = page;
             $.ajax({
                 url: url,
                 success: function (response) {
@@ -230,11 +246,20 @@ if (User::canSeeCommentTextarea()) {
                         var selector = '#commentsArea ';
                         if (!empty(comments_id)) {
                             selector = '#comment_' + comments_id + ' > div.media-body > div.repliesArea ';
+                        }else{
+                            if(empty(response.rows)){
+                                if(page>1){
+                                    avideoToastInfo('Finished');
+                                }
+                                $('#commentLoadMoreBtn').fadeOut();    
+                            }
                         }
-                        $(selector).empty();
+                        if(page<=1){
+                            $(selector).empty();
+                        }
                         for (var i in response.rows) {
                             var row = response.rows[i];
-                            addComment(row, comments_id);
+                            addComment(row, comments_id, true);
                         }
                     }
                 }
@@ -315,7 +340,7 @@ if (User::canSeeCommentTextarea()) {
                         avideoResponse(response);
                         if (!response.error) {
                             if (!empty(response.comment)) {
-                                addComment(response.comment, response.replyed_to);
+                                addComment(response.comment, response.replyed_to, false);
                             }
                         }
                         modal.hidePleaseWait();
@@ -336,7 +361,7 @@ if (User::canSeeCommentTextarea()) {
                 success: function (response) {
                     avideoResponse(response);
                     if (!response.error) {
-                        getComments(0);
+                        getComments(0, 1);
                     }
                     modal.hidePleaseWait();
                 }
@@ -370,7 +395,7 @@ if (User::canSeeCommentTextarea()) {
         }
 
         $(document).ready(function () {
-            getComments(0);
+            getComments(0, 1);
         });
     </script>
     <?php
