@@ -11,7 +11,7 @@ function getTemplateFromArray(itemsArray) {
             replace = webSiteRootURL + replace;
         } else if (search == 'element_class' && !empty(itemsArray.id)) {
             replace += " UserNotificationsJS_" + itemsArray.id;
-        } else if (search == 'created') {
+        } else if (search == 'created' && typeof _serverSystemTimezone !== 'undefined') {
             m = moment.tz(itemsArray.created, _serverSystemTimezone).local();
             replace = m.fromNow();
         } else if (search == 'href' && !empty(replace) && !isValidURL(replace)) {

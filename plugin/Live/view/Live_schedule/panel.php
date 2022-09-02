@@ -134,7 +134,7 @@ global $Schedulecount;
             <?php
             if (Live::canStreamWithWebRTC()) {
                 ?>
-            <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title=<?php printJSString($objScheduleLive->button_title); ?> >
+                <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title=<?php printJSString($objScheduleLive->button_title); ?> >
                     <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class=""><?php echo __($objScheduleLive->button_title); ?></span>
                 </button>
                 <?php
@@ -170,7 +170,7 @@ global $Schedulecount;
                     }
                     modal.showPleaseWait();
                     var data = $("#Schedule_form").serialize();
-                    data += '&users_id_company='+$('#users_id_company').val();
+                    data += '&users_id_company=' + $('#users_id_company').val();
                     //console.log('saveSchedule', data);
                     $.ajax({
                         type: "POST",
@@ -245,7 +245,7 @@ global $Schedulecount;
                     $("#Schedule_status").val(schedule.status);
                     $("#scheduled_time").val(schedule.scheduled_time);
                     $("#scheduled_password").val(schedule.scheduled_password);
-                    $("#Schedule_live_servers_id").val(schedule.live_servers_id?schedule.live_servers_id:0);
+                    $("#Schedule_live_servers_id").val(schedule.live_servers_id ? schedule.live_servers_id : 0);
                     $("#users_id_company").val(schedule.users_id_company).trigger('change');
                     $("#Schedule_description").val(schedule.description);
                 }
@@ -279,8 +279,8 @@ global $Schedulecount;
 
                 function uploadPosterCroppie(live_schedule_id) {
                     var url = webSiteRootURL + "plugin/Live/view/Live_schedule/uploadPoster.php";
-                    url = addQueryStringParameter(url,'live_schedule_id',live_schedule_id);
-                    url = addQueryStringParameter(url,'live_servers_id',<?php printJSString($_REQUEST['live_servers_id'] ?? ''); ?>);
+                    url = addQueryStringParameter(url, 'live_schedule_id', live_schedule_id);
+                    url = addQueryStringParameter(url, 'live_servers_id',<?php printJSString($_REQUEST['live_servers_id'] ?? ''); ?>);
                     avideoModalIframe(url);
                 }
 

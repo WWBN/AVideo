@@ -48,7 +48,10 @@ $controls = Live::getAllControlls($streamName);
         <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getURL('plugin/Live/webRTC.css'); ?>" rel="stylesheet" type="text/css"/>
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
+        <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('view/css/main.css'); ?>" rel="stylesheet" type="text/css"/>
         <?php
+        include $global['systemRootPath'] . 'view/include/moment.js.php';
         include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
         ?>
         <style>
@@ -123,9 +126,10 @@ $controls = Live::getAllControlls($streamName);
             ?>
         </div>
         <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>node_modules/js-cookie/dist/js.cookie.js" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>node_modules/jquery-toast-plugin/dist/jquery.toast.min.js" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>node_modules/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/js-cookie/dist/js.cookie.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/sweetalert/dist/sweetalert.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
         <!-- getFooterCode start -->
         <?php
         echo AVideoPlugin::getFooterCode();
