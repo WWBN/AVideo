@@ -1043,9 +1043,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 }
                 return '<!-- SendRecordedToEncoder::getSaveDVRButton -->' . SendRecordedToEncoder::getSaveDVRButton($key, $live_servers_id, $class);
                 break;
-            case "save_the_momment":
+            case "save_the_moment":
                 $obj2 = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
-                if (empty($obj2) || empty($obj2->saveTheMommentEnable)) {
+                if (empty($obj2) || empty($obj2->saveTheMomentEnable)) {
                     return '<!-- SendRecordedToEncoder saveDVREnable is not present -->';
                 }
                 if ($obj->controllButtonsShowOnlyToAdmin_save_dvr && !User::isAdmin()) {
@@ -1055,11 +1055,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     return '<!-- User Cannot record -->';
                 }
                 $class .= 'btn btn-warning ';
-                return '<!-- SendRecordedToEncoder::getSaveTheMommentButton -->' . SendRecordedToEncoder::getSaveTheMommentButton($key, $live_servers_id, $class);
+                return '<!-- SendRecordedToEncoder::getsaveTheMomentButton -->' . SendRecordedToEncoder::getsaveTheMomentButton($key, $live_servers_id, $class);
                 break;
-            case "download_the_momment":
+            case "download_the_moment":
                 $obj2 = AVideoPlugin::getDataObjectIfEnabled('SendRecordedToEncoder');
-                if (empty($obj2) || empty($obj2->downloadTheMommentEnable)) {
+                if (empty($obj2) || empty($obj2->downloadTheMomentEnable)) {
                     return '<!-- SendRecordedToEncoder saveDVREnable is not present -->';
                 }
                 if ($obj->controllButtonsShowOnlyToAdmin_save_dvr && !User::isAdmin()) {
@@ -1069,7 +1069,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     return '<!-- User Cannot record -->';
                 }
                 $class .= 'btn btn-info ';
-                return '<!-- SendRecordedToEncoder::getSaveTheMommentButton -->' . SendRecordedToEncoder::getDownloadTheMommentButton($key, $live_servers_id, $class);
+                return '<!-- SendRecordedToEncoder::getsaveTheMomentButton -->' . SendRecordedToEncoder::getdownloadTheMomentButton($key, $live_servers_id, $class);
                 break;
             default:
                 return '';
@@ -1124,8 +1124,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $btn = "<div class=\"btn-group justified recordLiveControlsDiv keepLabels\" style=\"display: none;\" id=\"liveControls\">";
         //$btn .= self::getButton("drop_publisher", $live_transmition_id, $live_servers_id);
         $btn .= self::getButton("save_dvr", $key, $live_servers_id, $iconsOnly, '', $btnClass);
-        $btn .= self::getButton("save_the_momment", $key, $live_servers_id, $iconsOnly, '', $btnClass);
-        $btn .= self::getButton("download_the_momment", $key, $live_servers_id, $iconsOnly, '', $btnClass);
+        $btn .= self::getButton("save_the_moment", $key, $live_servers_id, $iconsOnly, '', $btnClass);
+        $btn .= self::getButton("download_the_moment", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= self::getButton("drop_publisher_reset_key", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= self::getButton("record_start", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= self::getButton("record_stop", $key, $live_servers_id, $iconsOnly, '', $btnClass);
@@ -3747,10 +3747,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     public static function _getUserNotificationButton() {
+        $obj = AVideoPlugin::getDataObject('Live');
         if (Live::canStreamWithWebRTC()) {
             ?>
-<button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title=<?php printJSString($buttonTitle); ?> >
-                <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($buttonTitle); ?></span>
+            <button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title=<?php printJSString($obj->button_title); ?> >
+                <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __($obj->button_title); ?></span>
             </button>
             <?php
         }
