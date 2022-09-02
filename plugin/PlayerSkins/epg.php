@@ -10,7 +10,6 @@ if (isMobile()) {
     $fontSize = 12;
 }
 $default_socket_timeout = 4;
-$cacheTimeout = 60;
 $forceRecreate = false;
 if (isCommandLineInterface()) {
     ob_end_clean();
@@ -25,7 +24,7 @@ ini_set('max_execution_time', $default_socket_timeout*100);
 
 $cacheNameEpgPage = 'epgPage_' . $timeLineElementSize . md5(json_encode($_GET));
 if (empty($forceRecreate)) {
-    $content = ObjectYPT::getCache($cacheNameEpgPage, $cacheTimeout); // 1 minute
+    $content = getEPGCache($cacheNameEpgPage); // 1 minute
 }
 if (!empty($content)) {
     echo $content;
@@ -60,8 +59,12 @@ $cacheName = 'epg';
 
 $cacheName = '/channelsList_' . md5(json_encode($_GET));
 if (empty($forceRecreate)) {
-    $channelsList = ObjectYPT::getCache($cacheName, $cacheTimeou * 120);
+    $channelsList = getEPGCache($cacheName);
+    if(!empty($channelsList)){
+        $channelsList = json_decode($channelsList);
+    }
 }
+//var_dump($cacheName, $channelsList);exit;
 $_MaxDaysFromNow = strtotime('+24 hours');
 $errorMessages = [];
 if ($forceRecreate || empty($channelsList)) {
@@ -73,9 +76,11 @@ if ($forceRecreate || empty($channelsList)) {
     foreach ($epgs as $epg) {
         $this_videos_id = $epg['id'];
         $programCacheName = '/program_' . md5($epg['epg_link']);
-        $timeout = random_int(($cacheTimeout * 7200), ($cacheTimeout * 10080)); //5 to 7 days
         if (empty($forceRecreate)) {
-            $programData = ObjectYPT::getCache($programCacheName, $timeout);
+            $programData = getEPGCache($programCacheName);
+            if(!empty($programData)){
+                $programData = json_decode($programData);
+            }
         }
         if ($forceRecreate || empty($programData)) {
             //_error_log("EPG program expired creating again videos_id={$this_videos_id} " . $programCacheName);
@@ -121,11 +126,12 @@ if ($forceRecreate || empty($channelsList)) {
                         if (!empty($epg['title'])) {
                             $channels[$key]['display-name'] = safeString($epg['title']);
                         }
+                        //var_dump($forceRecreate, $channelsList);
                         $channelsList[] = $channels[$key];
                         //var_dump($channelsList[0]);exit;
                     }
                 }
-                $file = ObjectYPT::setCache($programCacheName, $channelsList);
+                $file = setEPGCache($programCacheName, $channelsList);
                 _error_log("EPG program cache created videos_id={$this_videos_id} " . json_encode($file));
             } catch (Exception $e) {
                 $error = new \RuntimeException($e);
@@ -152,12 +158,38 @@ if ($forceRecreate || empty($channelsList)) {
         _error_log('Commandline: EPG cache detected line: ' . __LINE__);
     }
     //$channelsList = object_to_array($channelsList);
+    //$channelsList = json_decode($channelsList);
 }
 
 if(isCommandLineInterface()){
     _error_log('Commandline: EPG done line: ' . __LINE__);
     echo PHP_EOL.implode(PHP_EOL, $errorMessages).PHP_EOL;
     exit;
+}
+
+function getEPGCacheFolder(){
+    $videos_dir = getVideosDir();
+    $path = "{$videos_dir}EPGCache".DIRECTORY_SEPARATOR;
+    return $path;
+}
+
+function setEPGCache($name, $content){
+    if(!is_string($content)){
+        $content = json_encode($content);
+    }
+    $path = getEPGCacheFolder();
+    make_path($path);
+    $filename = $path.md5($name).'.cache';
+    //var_dump($path, $filename);exit;
+    return file_put_contents($filename, $content);
+}
+
+function getEPGCache($name){
+    $path = getEPGCacheFolder();
+    make_path($path);
+    $filename = $path.md5($name).'.cache';
+    //var_dump($filename);
+    return file_get_contents($filename);
 }
 
 if (!empty($_REQUEST['json'])) {
@@ -549,6 +581,6 @@ $_end = microtime(true) - $_start;
 <!-- videos_id=<?php echo $videos_id; ?> -->
 <?php
 $content = _ob_get_clean();
-ObjectYPT::setCache($cacheNameEpgPage, $content); // 1 hour
+setEPGCache($cacheNameEpgPage, $content); // 1 hour
 echo $content;
 ?>
