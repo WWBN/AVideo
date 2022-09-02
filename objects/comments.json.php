@@ -8,6 +8,9 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
+
+setRowCount(100);
+
 //setDefaultSort('id', 'DESC');
 if(empty($_REQUEST['id'])){
     if(empty($_POST['sort'])){

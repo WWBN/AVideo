@@ -5585,6 +5585,10 @@ function getRowCount($default = 1000) {
     return (!empty($defaultN) && $defaultN > 0) ? $defaultN : $default;
 }
 
+function setRowCount($rowCount) {
+    $_REQUEST['rowCount'] = intval($rowCount);
+}
+
 function getSearchVar() {
     if (!empty($_REQUEST['search'])) {
         return $_REQUEST['search'];
