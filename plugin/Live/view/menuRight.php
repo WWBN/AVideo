@@ -319,8 +319,13 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
     }
     
     function processUserNotificationFromApplication(application){
+        <?php
+        if($obj->doNotProcessNotifications){
+            echo 'return false;';
+        }
+        ?>
         if(typeof addTemplateFromArray !== 'function'){
-            
+            return false;
         }
         var itemsArray = {};
         itemsArray.priority = 3;
