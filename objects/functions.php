@@ -3757,81 +3757,107 @@ function ddosProtection() {
 
 function getAdsLeaderBoardBigVideo() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+    $adCode = '';
     if (!empty($ad)) {
         if (isMobile()) {
-            return ADs::giveGoogleATimeout($ad->leaderBoardBigVideoMobile->value);
+            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardBigVideoMobile->value);
+            $adCode = ADs::addLabel($adCode, $ad->leaderBoardBigVideoMobileLabel);
         } else {
-            return ADs::giveGoogleATimeout($ad->leaderBoardBigVideo->value);
+            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardBigVideo->value);
+            $adCode = ADs::addLabel($adCode, $ad->leaderBoardBigVideoLabel);
         }
     }
+    return $adCode;
 }
 
 function getAdsLeaderBoardTop() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+    $adCode = '';
     if (!empty($ad)) {
         if (isMobile()) {
-            return ADs::giveGoogleATimeout($ad->leaderBoardTopMobile->value);
+            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardTopMobile->value);
+            $adCode = ADs::addLabel($adCode, $ad->leaderBoardTopMobileLabel);
         } else {
-            return ADs::giveGoogleATimeout($ad->leaderBoardTop->value);
+            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardTop->value);
+            $adCode = ADs::addLabel($adCode, $ad->leaderBoardTopLabel);
         }
-    } else {
-        return false;
-    }
+    } 
+    return $adCode;
 }
 
 function getAdsChannelLeaderBoardTop() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+    $adCode = '';
     if (!empty($ad)) {
         if (isMobile()) {
-            return ADs::giveGoogleATimeout($ad->channelLeaderBoardTopMobile->value);
+            $adCode = ADs::giveGoogleATimeout($ad->channelLeaderBoardTopMobile->value);
+            $adCode = ADs::addLabel($adCode, $ad->channelLeaderBoardTopMobileLabel);
         } else {
-            return ADs::giveGoogleATimeout($ad->channelLeaderBoardTop->value);
+            $adCode = ADs::giveGoogleATimeout($ad->channelLeaderBoardTop->value);
+            $adCode = ADs::addLabel($adCode, $ad->channelLeaderBoardTopLabel);
         }
     }
+    return $adCode;
 }
 
 function getAdsLeaderBoardTop2() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+    $adCode = '';
     if (!empty($ad)) {
         if (isMobile()) {
-            return ADs::giveGoogleATimeout($ad->leaderBoardTopMobile2->value);
+            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardTopMobile2->value);
+            $adCode = ADs::addLabel($adCode, $ad->leaderBoardTopMobile2Label);
         } else {
-            return ADs::giveGoogleATimeout($ad->leaderBoardTop2->value);
+            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardTop2->value);
+            $adCode = ADs::addLabel($adCode, $ad->leaderBoardTop2Label);
         }
     }
+    return $adCode;
 }
 
 function getAdsLeaderBoardMiddle() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+    $adCode = '';
     if (!empty($ad)) {
         if (isMobile()) {
-            return ADs::giveGoogleATimeout($ad->leaderBoardMiddleMobile->value);
+            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardMiddleMobile->value);
+            $adCode = ADs::addLabel($adCode, $ad->leaderBoardMiddleMobileLabel);
         } else {
-            return ADs::giveGoogleATimeout($ad->leaderBoardMiddle->value);
+            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardMiddle->value);
+            $adCode = ADs::addLabel($adCode, $ad->leaderBoardMiddleLabel);
         }
     }
+    return $adCode;
 }
 
 function getAdsLeaderBoardFooter() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+    $adCode = '';
     if (!empty($ad)) {
         if (isMobile()) {
-            return ADs::giveGoogleATimeout($ad->leaderBoardFooterMobile->value);
+            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardFooterMobile->value);
+            $adCode = ADs::addLabel($adCode, $ad->leaderBoardFooterMobileLabel);
         } else {
-            return ADs::giveGoogleATimeout($ad->leaderBoardFooter->value);
+            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardFooter->value);
+            $adCode = ADs::addLabel($adCode, $ad->leaderBoardFooterLabel);
         }
     }
+    return $adCode;
 }
 
 function getAdsSideRectangle() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+    $adCode = '';
     if (!empty($ad)) {
         if (isMobile()) {
-            return ADs::giveGoogleATimeout($ad->sideRectangle->value);
+            $adCode = ADs::giveGoogleATimeout($ad->sideRectangle->value);
+            $adCode = ADs::addLabel($adCode, $ad->sideRectangleLabel);
         } else {
-            return ADs::giveGoogleATimeout($ad->sideRectangle->value);
+            $adCode = ADs::giveGoogleATimeout($ad->sideRectangle->value);
+            $adCode = ADs::addLabel($adCode, $ad->sideRectangleLabel);
         }
     }
+    return $adCode;
 }
 
 function isToHidePrivateVideos() {
