@@ -20,7 +20,7 @@ if ($simpleMode) {
         function image_upload_handler<?php echo $tinyMCEuid; ?>(blobInfo, success, failure) {
             avideoToastError('Image upload disabled');
         }
-        var tinyMCEplugins<?php echo $tinyMCEuid; ?> = 'code print preview autolink fullscreen link hr pagebreak nonbreaking anchor wordcount help ';
+        var tinyMCEplugins<?php echo $tinyMCEuid; ?> = 'code preview autolink fullscreen link pagebreak nonbreaking anchor wordcount help ';
         var tinyMCEtoolbar<?php echo $tinyMCEuid; ?> = 'fullscreen | styleselect align bold italic strikethrough underline | link | numlist bullist | removeformat | code';
         var tinyMCEmenubar<?php echo $tinyMCEuid; ?> = '';
     <?php
