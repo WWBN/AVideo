@@ -203,12 +203,12 @@ $global['doNotLoadPlayer'] = 1;
                         }
                         if (Live::canStreamWithMeet()) {
                             ?>
-                            <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Meet/');" class="btn btn-default pull-right"><i class="fas fa-comments"></i> <?php echo __("Meet"); ?></button>
+                            <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Meet/');" class="btn btn-default pull-right"><i class="fas fa-comments"></i> <?php echo __("Start a Live Stream Meeting"); ?></button>
                             <?php
                         }
                         if (Live::canStreamWithWebRTC()) {
                             ?>
-                            <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?avideoIframe=1');" class="btn btn-default pull-right"><i class="fas fa-camera"></i> <?php echo __("Webcam"); ?></button>
+                            <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?avideoIframe=1');" class="btn btn-default pull-right"><i class="fas fa-camera"></i> <?php echo __("GO Live With Webcam"); ?></button>
                             <?php
                         }
                         if (empty($activeServerFound)) {
