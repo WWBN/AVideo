@@ -68,8 +68,17 @@ class PlayerSkins extends PluginAbstract {
         $obj->contextMenuCopyEmbedCode = true;
         $obj->contextMenuShare = true;
         $obj->playerFullHeight = false;
+        $obj->playsinline = true;
 
         return $obj;
+    }
+    
+    static function getPlaysinline(){
+        $obj = AVideoPlugin::getObjectData('PlayerSkins');
+        if($obj->playsinline){
+            return ' playsinline webkit-playsinline="webkit-playsinline" ';
+        }
+        return '';
     }
 
     static function getMediaTag($filename, $htmlMediaTag = false) {
@@ -93,7 +102,7 @@ class PlayerSkins extends PluginAbstract {
             }
             $images = Video::getImageFromFilename($filename);
             if ($vType == 'video') {
-                $htmlMediaTag = '<video playsinline webkit-playsinline="webkit-playsinline" '
+                $htmlMediaTag = '<video '.self::getPlaysinline()
                         . 'preload="auto" poster="' . $images->poster . '" controls 
                         class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered vjs-16-9" id="mainVideo">';
                 if ($video['type'] == "video") {
@@ -118,7 +127,7 @@ class PlayerSkins extends PluginAbstract {
                  */
                 $htmlMediaTag .= '<p>' . __("If you can't view this video, your browser does not support HTML5 videos") . '</p><p class="vjs-no-js">' . __("To view this video please enable JavaScript, and consider upgrading to a web browser that") . '<a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a></p></video>';
             } else if ($vType == 'audio') {
-                $htmlMediaTag = '<audio playsinline webkit-playsinline="webkit-playsinline" 
+                $htmlMediaTag = '<audio '.self::getPlaysinline().'
                        preload="auto"
                        poster="' . $images->poster . '" controls class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" id="mainVideo">';
                 if ($video['type'] == "audio") {
@@ -147,7 +156,7 @@ class PlayerSkins extends PluginAbstract {
                         $url = addQueryStringParameter($url, 'autoplay', 1);
                     }
                     $htmlMediaTag = "<!-- Embed Link {$video['title']} {$video['filename']} -->";
-                    $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
+                    $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
                     $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
                     $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
                     $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
@@ -162,7 +171,7 @@ class PlayerSkins extends PluginAbstract {
                     $_GET['isMediaPlaySite'] = $video['id'];
                     PlayerSkins::playerJSCodeOnLoad($video['id'], @$video['url']);
                     $htmlMediaTag = "<!-- Embed Link YoutubeIntegration {$video['title']} {$video['filename']} -->";
-                    $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
+                    $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
                     $htmlMediaTag .= '<script>var player;mediaId = ' . $video['id'] . ';$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
                 }
             } else if ($vType == 'serie') {
@@ -173,7 +182,7 @@ class PlayerSkins extends PluginAbstract {
                 $link = addQueryStringParameter($link, 'playlist_index', @$_REQUEST['playlist_index']);
 
                 $htmlMediaTag = "<!-- Serie {$video['title']} {$video['filename']} -->";
-                $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
+                $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
                 $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $link . '"></iframe>';
                 $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
             }
