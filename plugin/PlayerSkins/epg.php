@@ -10,6 +10,7 @@ if (isMobile()) {
     $fontSize = 12;
 }
 $default_socket_timeout = 4;
+$cacheTimeout = 60;
 $forceRecreate = false;
 if (isCommandLineInterface()) {
     ob_end_clean();
@@ -21,10 +22,10 @@ if (isCommandLineInterface()) {
 ini_set('default_socket_timeout', $default_socket_timeout);
 set_time_limit($default_socket_timeout * 100);
 ini_set('max_execution_time', $default_socket_timeout * 100);
-/*
+
 $cacheNameEpgPage = 'epgPage_' . $timeLineElementSize . md5(json_encode($_GET));
 if (empty($forceRecreate)) {
-    $content = getEPGCache($cacheNameEpgPage); // 1 minute
+    $content = ObjectYPT::getCache($cacheNameEpgPage, $cacheTimeout); // 1 minute
 }
 if (!empty($content)) {
     echo $content;
@@ -32,8 +33,6 @@ if (!empty($content)) {
     echo '<!-- pageCache=' . $_end . ' -->';
     exit;
 }
- * 
- */
 require_once $global['systemRootPath'] . 'objects/EpgParser.php';
 
 $epgs = array();
@@ -585,8 +584,7 @@ $_end = microtime(true) - $_start;
 <!-- seconds to complete=<?php echo $_end; ?> -->
 <!-- videos_id=<?php echo $videos_id; ?> -->
 <?php
-exit;
 $content = _ob_get_clean();
-setEPGCache($cacheNameEpgPage, $content); // 1 hour
+ObjectYPT::setCache($cacheNameEpgPage, $content); // 1 hour
 echo $content;
 ?>
