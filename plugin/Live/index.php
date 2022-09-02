@@ -208,7 +208,7 @@ $global['doNotLoadPlayer'] = 1;
                         }
                         if (Live::canStreamWithWebRTC()) {
                             ?>
-                            <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?avideoIframe=1');" class="btn btn-default pull-right"><i class="fas fa-camera"></i> <?php echo __("GO Live With Webcam"); ?></button>
+                            <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?avideoIframe=1');" class="btn btn-default pull-right"><i class="fas fa-camera"></i> <?php echo __("Go Live With Webcam"); ?></button>
                             <?php
                         }
                         if (empty($activeServerFound)) {
