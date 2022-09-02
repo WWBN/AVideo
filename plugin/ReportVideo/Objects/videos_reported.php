@@ -150,7 +150,7 @@ class VideosReported extends ObjectYPT {
     
     public function delete() {
         $deleted = parent::delete();
-        if($deleted){
+        if($deleted && class_exists('Cache')){
             Cache::deleteFirstPageCache();
         }
         return $deleted;
