@@ -15,7 +15,7 @@ setRowCount(10);
 if(empty($_REQUEST['id'])){
     if(empty($_POST['sort'])){
        $_POST['sort'] = array();
-       $_POST['sort']['pin'] = 'ASC';
+       $_POST['sort']['pin'] = 'DESC';
        $_POST['sort']['id'] = 'DESC';
     }
     $comments = Comment::getAllComments($_REQUEST['video_id'], @$_REQUEST['comments_id']);
