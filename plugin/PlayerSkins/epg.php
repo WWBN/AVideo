@@ -19,8 +19,8 @@ if (isCommandLineInterface()) {
 }
 
 ini_set('default_socket_timeout', $default_socket_timeout);
-set_time_limit($default_socket_timeout*100);
-ini_set('max_execution_time', $default_socket_timeout*100);
+set_time_limit($default_socket_timeout * 100);
+ini_set('max_execution_time', $default_socket_timeout * 100);
 
 $cacheNameEpgPage = 'epgPage_' . $timeLineElementSize . md5(json_encode($_GET));
 if (empty($forceRecreate)) {
@@ -60,7 +60,7 @@ $cacheName = 'epg';
 $cacheName = '/channelsList_' . md5(json_encode($_GET));
 if (empty($forceRecreate)) {
     $channelsList = getEPGCache($cacheName);
-    if(!empty($channelsList)){
+    if (!empty($channelsList)) {
         $channelsList = json_decode($channelsList);
     }
 }
@@ -78,7 +78,7 @@ if ($forceRecreate || empty($channelsList)) {
         $programCacheName = '/program_' . md5($epg['epg_link']);
         if (empty($forceRecreate)) {
             $programData = getEPGCache($programCacheName);
-            if(!empty($programData)){
+            if (!empty($programData)) {
                 $programData = json_decode($programData);
             }
         }
@@ -137,7 +137,7 @@ if ($forceRecreate || empty($channelsList)) {
                 $error = new \RuntimeException($e);
                 $eMessage = "{$epg['title']}: videos_id={$this_videos_id} epg_link={$epg['epg_link']} ";
                 $errorMessages[] = $eMessage;
-                _error_log("EPG program ERROR ". $eMessage.' '.$error->getMessage());
+                _error_log("EPG program ERROR " . $eMessage . ' ' . $error->getMessage());
             }
         } else {
             $channelsList = object_to_array($programData);
@@ -161,33 +161,36 @@ if ($forceRecreate || empty($channelsList)) {
     //$channelsList = json_decode($channelsList);
 }
 
-if(isCommandLineInterface()){
+if (isCommandLineInterface()) {
     _error_log('Commandline: EPG done line: ' . __LINE__);
-    echo PHP_EOL.implode(PHP_EOL, $errorMessages).PHP_EOL;
+    echo PHP_EOL . implode(PHP_EOL, $errorMessages) . PHP_EOL;
     exit;
 }
 
-function getEPGCacheFolder(){
+function getEPGCacheFolder() {
     $videos_dir = getVideosDir();
-    $path = "{$videos_dir}EPGCache".DIRECTORY_SEPARATOR;
+    $path = "{$videos_dir}EPGCache" . DIRECTORY_SEPARATOR;
     return $path;
 }
 
-function setEPGCache($name, $content){
-    if(!is_string($content)){
+function setEPGCache($name, $content) {
+    if (!is_string($content)) {
         $content = json_encode($content);
     }
     $path = getEPGCacheFolder();
     make_path($path);
-    $filename = $path.md5($name).'.cache';
+    $filename = $path . md5($name) . '.cache';
     //var_dump($path, $filename);exit;
     return file_put_contents($filename, $content);
 }
 
-function getEPGCache($name){
+function getEPGCache($name) {
     $path = getEPGCacheFolder();
     make_path($path);
-    $filename = $path.md5($name).'.cache';
+    $filename = $path . md5($name) . '.cache';
+    if (time() - filemtime($filename) > 86400) { // older than 24 hours
+        return false;
+    }
     //var_dump($filename);
     return file_get_contents($filename);
 }
