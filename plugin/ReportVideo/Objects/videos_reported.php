@@ -141,7 +141,7 @@ class VideosReported extends ObjectYPT {
         }
 
         $saved = parent::save();
-        if($saved){
+        if($saved && class_exists('Cache')){
             Cache::deleteFirstPageCache();
         }
         return $saved;
