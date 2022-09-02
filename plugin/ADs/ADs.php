@@ -149,6 +149,14 @@ class ADs extends PluginAbstract
         $adCode = str_replace("<script", "<script doNotSepareteTag ", trim($adCode));
         return $adCode;
     }
+    
+    
+    public static function addLabel($adCode, $label){
+        if(!empty($label) && User::isAdmin()){
+            $adCode = "<span data-toggle=\"tooltip\" title=\"{$label}\">{$adCode}</span>";
+        }
+        return $adCode;
+    }
 
     public function showAds($videos_id)
     {
