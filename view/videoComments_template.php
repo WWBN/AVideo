@@ -53,6 +53,9 @@
             <button class="btn btn-default no-outline btn-xs delete hideIfUserCanNotAdminComment" onclick="deleteComment({id})">
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
+            <button class="btn btn-default no-outline btn-xs hideIfHasVideosId" onclick="document.location=webSiteRootURL+'video/{videos_id}#comment_{id}'">
+                <i class="fas fa-external-link-square-alt"></i> Go to video
+            </button>
         </div>
         <div class="repliesArea isNotOpen"></div>
     </div>

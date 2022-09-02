@@ -247,7 +247,7 @@ if (User::canSeeCommentTextarea()) {
                         if (!empty(comments_id)) {
                             selector = '#comment_' + comments_id + ' > div.media-body > div.repliesArea ';
                         }else{
-                            if(empty(response.rows)){
+                            if(empty(response.rows) || response.total < response.rowCount){
                                 if(page>1){
                                     avideoToastInfo('Finished');
                                 }
