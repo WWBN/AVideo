@@ -315,7 +315,7 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
                 </div>
                 <?php
             }
-            if (empty($advancedCustom->showVideoDownloadedLink) && isValidURL($video['videoDownloadedLink'])) {
+            if (!empty($advancedCustom->showVideoDownloadedLink) && isValidURL($video['videoDownloadedLink'])) {
                 $parse = parse_url($video['videoDownloadedLink']);
                 $domain = str_replace('www.', '', $parse['host']);
                 ?>
