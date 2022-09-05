@@ -2885,7 +2885,7 @@ if (typeof gtag !== \"function\") {
                     }
                     _session_start();
                     $_SESSION['swapUser'] = $_SESSION['user'];
-                    $user = self::getUserDb($users_id);
+                    $user = self::getUserFromID($users_id);
                     //var_dump($users_id, $user);exit;
                     _error_log("swapUser {$users_id}");
                     $_SESSION['user'] = $user;

@@ -304,6 +304,10 @@ Allow: .css";
         $obj->sortVideoListByDefault = $o;
         self::addDataObjectHelper('sortVideoListByDefault', 'Sort Video List By Default');
         
+        $obj->showVideoDownloadedLink = false;
+        self::addDataObjectHelper('showVideoDownloadedLink', 'Show video Downloaded Link', 'Show the video source URL above the video description');
+        
+        
         return $obj;
     }
     

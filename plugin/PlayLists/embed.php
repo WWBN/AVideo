@@ -214,7 +214,7 @@ $_REQUEST['hideAutoplaySwitch'] = 1;
     </head>
 
     <body>
-        <video style="width: 100%; height: 100%;" playsinline
+        <video style="width: 100%; height: 100%;" <?php echo PlayerSkins::getPlaysinline(); ?>
         <?php if ($config->getAutoplay() && false) { // disable it for now     ?>
                    autoplay="true"
                    muted="muted"

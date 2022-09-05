@@ -20,7 +20,7 @@ $sources = getVideosURLPDF($video['filename']);
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <div id="main-video" class="bgWhite list-group-item ypt-article">
                 <h1 style="font-size: 1.5em; font-weight: bold; text-transform: uppercase; border-bottom: #CCC solid 1px;">
                     <?php

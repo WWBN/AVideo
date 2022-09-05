@@ -132,7 +132,7 @@ if (!empty($video['id'])) {
                             </div>
                             <div id="main-video" class="embed-responsive embed-responsive-16by9">
 
-                                <video playsinline
+                                <video <?php echo PlayerSkins::getPlaysinline(); ?>
                                 <?php if ($config->getAutoplay() && false) { // disable it for now    ?>
                                            autoplay="true"
                                            muted="muted"

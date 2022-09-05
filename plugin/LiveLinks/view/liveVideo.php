@@ -23,7 +23,7 @@ if (!empty($advancedCustom->disableYoutubePlayerIntegration) || isMobile()) {
 $video['videoLink'] = $liveLink;
 if (isValidM3U8Link($liveLink)) {
 
-    $htmlMediaTag = '<video poster="' . $posterURL . '" controls playsinline webkit-playsinline="webkit-playsinline" 
+    $htmlMediaTag = '<video poster="' . $posterURL . '" controls '.PlayerSkins::getPlaysinline().'
                        class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered liveVideo vjs-16-9" 
                        id="mainVideo">
                     <source src="' . $liveLink . '" type="application/x-mpegURL">
@@ -39,7 +39,7 @@ if (isValidM3U8Link($liveLink)) {
             $url = addQueryStringParameter($url, 'autoplay', 1);
         }
         $htmlMediaTag = "<!-- Embed liveLink {$liveLink} -->";
-        $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
+        $htmlMediaTag .= '<video '.PlayerSkins::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
         $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
         $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
         $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
@@ -55,7 +55,7 @@ if (isValidM3U8Link($liveLink)) {
         //PlayerSkins::playerJSCodeOnLoad($video['id'], @$video['url']);
         //PlayerSkins::getStartPlayerJS('');
         $htmlMediaTag = "<!-- Embed liveLink YoutubeIntegration {$liveLink} -->";
-        $htmlMediaTag .= '<video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
+        $htmlMediaTag .= '<video '.PlayerSkins::getPlaysinline().' id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
         $htmlMediaTag .= '<script>var player;$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
     }
 }

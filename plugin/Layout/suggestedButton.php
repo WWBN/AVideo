@@ -9,7 +9,6 @@ if (empty($video->getIsSuggested())) {
         class="suggestBtn <?php echo $_class; ?> <?php echo $class; ?>"  
         onclick="toogleVideoSuggested($(this));return false;"
         videos_id="<?php echo $videos_id; ?>" >
-    <span class="hidden-md hidden-sm hidden-xs">
-        <span class="unsuggestText btnText"><i class="fas fa-star"></i> <?php echo __("Unsuggest it"); ?></span>
-        <span class="suggestText btnText"><i class="far fa-star"></i> <?php echo __("Suggest it"); ?></span></span>
+        <span class="unsuggestText btnText"><i class="fas fa-star"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Unsuggest it"); ?></span></span>
+        <span class="suggestText btnText"><i class="far fa-star"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Suggest it"); ?></span></span>
 </button>

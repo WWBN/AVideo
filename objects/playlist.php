@@ -27,8 +27,22 @@ class PlayList extends ObjectYPT {
 
     protected static function getFromDbFromName($name) {
         global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  name = ? users_id = " . User::getId() . " LIMIT 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  name = ? AND users_id = " . User::getId() . " LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", [$name]);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
+    }
+
+    static function getFromDbFromId($id) {
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = ? AND users_id = " . User::getId() . " LIMIT 1";
+        $res = sqlDAL::readSql($sql, "i", [$id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {

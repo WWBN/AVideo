@@ -71,7 +71,7 @@ class VideosReported extends ObjectYPT {
             return array();
         }
         
-        $sql = "SELECT reported_users_id FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1";
+        $sql = "SELECT reported_users_id FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1000";
 
         $res = sqlDAL::readSql($sql,"i",array($users_id));
         $fullData = sqlDAL::fetchAllAssoc($res);

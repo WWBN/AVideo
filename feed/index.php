@@ -39,10 +39,18 @@ $rows = ObjectYPT::getCache($cacheName, 0);
 if (empty($rows)) {
     // send $_GET['catName'] to be able to filter by category
     $sort = @$_POST['sort'];
-    if(empty($_POST['sort'])){
-        $_POST['sort'] = array('created'=>'DESC');
+    if(empty($_REQUEST['program_id'])){
+        if(empty($_POST['sort'])){
+            $_POST['sort'] = array('created'=>'DESC');
+        }
+        $rows = Video::getAllVideos("viewable", $showOnlyLoggedUserVideos);
+    }else{
+        unset($_POST['sort']);
+        $videosArrayId = PlayList::getVideosIdFromPlaylist($_REQUEST['program_id']);
+        $rows = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+        $rows = PlayList::sortVideos($rows, $videosArrayId);
+        //var_dump($videosArrayId);foreach ($rows as $value) {var_dump($value['id']);}exit;
     }
-    $rows = Video::getAllVideos("viewable", $showOnlyLoggedUserVideos);
     $_POST['sort'] = $sort;
     ObjectYPT::setCache($cacheName, $rows);
 } else {
@@ -56,7 +64,6 @@ if (!empty($_REQUEST['roku'])) {
     include $global['systemRootPath'] . 'feed/mrss.php';
 }
 
-function feedText($text)
-{
+function feedText($text){
     return trim(str_replace(['&&'], ['&'], str_replace(['&nbsp;','&','<','>'], [' ','&amp;','&lt;','&gt;'], (strip_tags(br2nl($text))))));
 }
