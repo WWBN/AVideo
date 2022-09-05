@@ -264,6 +264,7 @@ class ReportVideo extends PluginAbstract
         $users_id = intval($users_id);
         // check if this user already report this video
         $reportedUsersId = VideosReported::getAllReportedUsersIdFromUser($users_id);
+//        /var_dump($reportedUsersId);exit;
         return in_array($reported_users_id, $reportedUsersId);
     }
 

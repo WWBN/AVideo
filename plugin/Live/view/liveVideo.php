@@ -7,7 +7,7 @@ $isLive = 1;
 ?>
 <!-- Live -->
 <?php
-$htmlMediaTag = '<video poster="' . $posterURL . '" controls playsinline webkit-playsinline="webkit-playsinline" 
+$htmlMediaTag = '<video poster="' . $posterURL . '" controls '.PlayerSkins::getPlaysinline().' 
                        class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered liveVideo vjs-16-9" 
                        id="mainVideo">
                     <source src="' . Live::getM3U8File($uuid) . '" type="application/x-mpegURL">
