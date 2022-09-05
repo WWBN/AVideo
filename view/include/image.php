@@ -14,7 +14,7 @@ $sources = getVideosURLIMAGE($video['filename']);
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <center>
                 <img src="<?php
                 echo $sources["image"]['url']

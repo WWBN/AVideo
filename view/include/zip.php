@@ -14,7 +14,7 @@ $sources = getVideosURLZIP($video['filename']);
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <center>
                 <div class="panel panel-default">
                     <div class="panel-heading"><i class="far fa-file-archive"></i> <?php echo $video['title']; ?></div>

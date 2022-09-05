@@ -97,5 +97,5 @@ include $global['systemRootPath'] . 'view/include/video.min.js.php';
     function focusVideo() {
         $('#mainVideo').focus();
     }
-    player = videojs('mainVideo', {errorDisplay: false, html5: {nativeAudioTracks: false, nativeVideoTracks: false, hls: {overrideNative: true}}, liveui: true});
+    player = videojs('mainVideo', {errorDisplay: false, html5: {nativeAudioTracks: false, nativeVideoTracks: false, vhs: {overrideNative: true}}, liveui: true});
 </script>
