@@ -55,7 +55,6 @@ unset($_POST['current']);
         if ($current == 1) {
             echo "<div class='alert alert-warning'><i class=\"fas fa-exclamation-triangle\"></i> " . __('Sorry you do not have anything available') . "</div>";
         }
-
         die("</div>");
     }
     $playListsObj = AVideoPlugin::getObjectData("PlayLists");
@@ -108,7 +107,6 @@ unset($_POST['current']);
         $startC = microtime(true);
         //_error_log("channelPlaylist videosP2: ".json_encode($videosP));
         //_error_log("channelPlaylist videosArrayId: ".json_encode($videosArrayId));
-        $playListButtons = AVideoPlugin::getPlayListButtons($playlist['id']);
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
         $countSuccess++;
@@ -120,90 +118,9 @@ unset($_POST['current']);
                 <strong style="font-size: 1.1em;" class="playlistName">
                     <?php echo __($playlist['name']); ?> (<?php echo secondsToDuration($totalDuration); ?>)
                 </strong>
-
                 <?php
-                if (!empty($videosArrayId)) {
-                    $link = PlayLists::getLink($playlist['id']);
-                    ?>
-                    <a href="<?php echo $link; ?>" class="btn btn-xs btn-default playAll hrefLink" ><span class="fa fa-play"></span> <?php echo __("Play All"); ?></a><?php echo $playListButtons; ?>
-                    <?php
-                }
-                echo PlayLists::getPlayLiveButton($playlist['id']);
+                PlayLists::getPLButtons($playlist['id']);
                 ?>
-                <div class="pull-right btn-group" style="display: inline-flex;">
-                    <?php
-                    if ($isMyChannel) {
-                        echo PlayLists::getShowOnTVSwitch($playlist['id']);
-                        if ($playlist['status'] != "favorite" && $playlist['status'] != "watch_later") {
-                            if (AVideoPlugin::isEnabledByName("PlayLists")) {
-                                ?>
-                                <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedCode<?php echo $playlist['id']; ?>').val()); setTextEmbedCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedText"><?php echo __("Copy embed code"); ?></span></button>
-                                <input type="hidden" id="playListEmbedCode<?php echo $playlist['id']; ?>" value='<?php
-                                $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/embed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
-                                echo($code);
-                                ?>'/>
-                                <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedGallery<?php echo $playlist['id']; ?>').val()); setTextGalleryCopied();" ><span class="fa fa-copy"></span> <span id="btnEmbedGalleryText"><?php echo __("Copy embed Gallery"); ?></span></button>
-                                <input type="hidden" id="playListEmbedGallery<?php echo $playlist['id']; ?>" value='<?php
-                                $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/playerEmbed.php?playlists_id={$playlist['id']}", $advancedCustom->embedCodeTemplate);
-                                echo($code);
-                                ?>'/>
-                                       <?php
-                                   }
-                                   if (User::canUpload()) {
-                                       ?>
-                                <button class="btn btn-xs btn-info seriePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-film"></i> <?php echo __("Serie"); ?></button>
-
-                                <div id="seriePlaylistModal" class="modal fade" tabindex="-1" role="dialog" >
-                                    <div class="modal-dialog" role="document" style="width: 90%; margin: auto;">
-                                        <div class="modal-content">
-                                            <div class="modal-body">
-                                                <iframe style="width: 100%; height: 80vh;" src="about:blank">
-
-                                                </iframe>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal-dialog -->
-                                </div><!-- /.modal -->
-                                <script>
-                                    $(function () {
-                                        $('.seriePlaylist').click(function () {
-                                            $($('#seriePlaylistModal').find('iframe')[0]).attr('src', 'about:blank');
-                                            var playlist_id = $(this).attr('playlist_id');
-                                            $($('#seriePlaylistModal').find('iframe')[0]).attr('src', '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/playListToSerie.php?playlist_id=' + playlist_id);
-                                            $('#seriePlaylistModal').modal();
-                                            //$('#seriePlaylistModal').modal('hide');
-                                        });
-                                    });
-                                </script>
-                            <?php }
-                            ?>
-                            <button class="btn btn-xs btn-danger deletePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-trash"></i> <?php echo __("Delete"); ?></button>
-                            <button class="btn btn-xs btn-primary renamePlaylist" playlist_id="<?php echo $playlist['id']; ?>" ><i class="fas fa-edit"></i> <?php echo __("Rename"); ?></button>
-                            <button class="btn btn-xs btn-default statusPlaylist statusPlaylist<?php echo $playlist['id']; ?>" playlist_id="<?php echo $playlist['id']; ?>" style="" >
-                                <span class="fa fa-lock" id="statusPrivate<?php echo $playlist['id']; ?>" style="color: red; <?php
-                                if ($playlist['status'] !== 'private') {
-                                    echo ' display: none;';
-                                }
-                                ?> " ></span>
-                                <span class="fa fa-globe" id="statusPublic<?php echo $playlist['id']; ?>" style="color: green; <?php
-                                if ($playlist['status'] !== 'public') {
-                                    echo ' display: none;';
-                                }
-                                ?>"></span>
-                                <span class="fa fa-eye-slash" id="statusUnlisted<?php echo $playlist['id']; ?>" style="color: gray;   <?php
-                                if ($playlist['status'] !== 'unlisted') {
-                                    echo ' display: none;';
-                                }
-                                ?>"></span>
-                            </button>
-                            <?php
-                        }
-                    }
-                    ?>
-                    <a class="btn btn-xs btn-default" href="<?php echo $global['webSiteRootURL']; ?>viewProgram/<?php echo $playlist['id']; ?>/<?php echo urlencode(cleanURLName($playlist['name'])); ?>/">
-                        <?php echo __('More'); ?> <i class="fas fa-ellipsis-h"></i>
-                    </a>
-                </div>
             </div>
 
             <?php

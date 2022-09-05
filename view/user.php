@@ -24,11 +24,11 @@ foreach ($tags as $value) {
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo getCDN(); ?>node_modules/croppie/croppie.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo getCDN(); ?>node_modules/croppie/croppie.min.js" type="text/javascript"></script>
-        <link href="<?php echo getCDN(); ?>view/js/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo getCDN(); ?>view/js/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
-        <link href="<?php echo getCDN(); ?>view/css/bodyFadein.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/croppie/croppie.css'); ?>" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo getURL('node_modules/croppie/croppie.min.js'); ?>" type="text/javascript"></script>
+        <link href="<?php echo getURL('view/js/bootstrap-fileinput/css/fileinput.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo getURL('view/js/bootstrap-fileinput/js/fileinput.min.js'); ?>" type="text/javascript"></script>
+        <link href="<?php echo getURL('view/css/bodyFadein.css'); ?>" rel="stylesheet" type="text/css"/>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
@@ -94,14 +94,14 @@ foreach ($tags as $value) {
         ?>
         <script>
             $(document).ready(function () {
-<?php
-if (!empty($_REQUEST['tab'])) {
-    $tab = preg_replace('/[^a-z0-9_-]/i', '', $_REQUEST['tab']);
-    ?>
-                    $('#userTabsPanel a[href="#<?php echo $tab; ?>"]').trigger('click');
-    <?php
-}
-?>
+                <?php
+                if (!empty($_REQUEST['tab'])) {
+                    $tab = preg_replace('/[^a-z0-9_-]/i', '', $_REQUEST['tab']);
+                    ?>
+                        $('#userTabsPanel a[href="#<?php echo $tab; ?>"]').trigger('click');
+                    <?php
+                }
+                ?>
             });
         </script>
     </body>

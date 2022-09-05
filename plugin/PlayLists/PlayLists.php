@@ -131,7 +131,7 @@ class PlayLists extends PluginAbstract {
         if (!empty(getPlaylists_id()) && isEmbed()) {
             PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayLists/playerButton.js"));
         }
-        
+
         return $js;
     }
 
@@ -255,7 +255,7 @@ class PlayLists extends PluginAbstract {
         }
     }
 
-    static function getLink($playlists_id, $embed = false, $playlist_index=null) {
+    static function getLink($playlists_id, $embed = false, $playlist_index = null) {
         global $global;
         $obj = AVideoPlugin::getObjectData("PlayLists");
         if ($embed) {
@@ -267,7 +267,7 @@ class PlayLists extends PluginAbstract {
                 $url = $global['webSiteRootURL'] . "program/" . $playlists_id;
             }
         }
-        if(isset($playlist_index)){
+        if (isset($playlist_index)) {
             $url = addQueryStringParameter($url, 'playlist_index', $playlist_index);
         }
         return $url;
@@ -428,7 +428,7 @@ class PlayLists extends PluginAbstract {
                 $img = $images["path"];
                 im_resizeV2($img, $tvg_logo_path, 150, 150, 80);
             }
-            
+
             $tvg_logo_url = Video::getURLToFile($tvg_logo);
             return $tvg_logo_url;
         } else {
@@ -758,6 +758,47 @@ class PlayLists extends PluginAbstract {
         global $global;
         return '';
         //return '<a href="plugin/PlayLists/View/editor.php" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Schedule</a>';
+    }
+
+    public static function setAutoAddPlaylist($users_id, $playlists_id) {
+        $playlists_id = intval($playlists_id);
+        $user = new User($users_id);
+        $paramName = 'autoadd_playlist';
+        return $user->addExternalOptions($paramName, $playlists_id);
+    }
+
+    public static function getAutoAddPlaylist($users_id) {
+        $user = new User($users_id);
+        $paramName = 'autoadd_playlist';
+        return $user->getExternalOption($paramName);
+    }
+
+    public static function getPLButtons($playlists_id, $showMore = true) {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/PlayLists/View/getPlaylistButtons.php';
+    }
+
+    public function getMyAccount($users_id) {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/PlayLists/getMyAccount.php';
+    }
+
+    public function onNewVideo($videos_id) {
+        if (empty($videos_id)) {
+            return false;
+        }
+        $video = new Video('', '', $videos_id);
+        $users_id = $video->getUsers_id();
+        $playlists_id = PlayLists::getAutoAddPlaylist($users_id);
+        if (!empty($playlists_id)) {
+            return self::addVideo($videos_id, $playlists_id);
+        }
+        return false;
+    }
+
+    static public function addVideo($videos_id, $playlists_id, $add = true, $order = 0) {
+        $pl = new PlayList($playlists_id);
+        return $pl->addVideo($videos_id, $add, $order);
     }
 
 }
