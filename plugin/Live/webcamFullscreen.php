@@ -3,7 +3,7 @@ $isWebRTC = 1;
 require_once '../../videos/configuration.php';
 
 if (!Live::canStreamWithWebRTC()) {
-    forbiddenPage('You cannot stream');
+    gotToLoginAndComeBackHere('You cannot stream');
 }
 
 $lObj = AVideoPlugin::getDataObject('Live');
