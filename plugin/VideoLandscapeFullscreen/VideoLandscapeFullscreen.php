@@ -31,7 +31,7 @@ class VideoLandscapeFullscreen extends PluginAbstract {
         self::addDataObjectHelper('enterOnRotate', 'Enter on Rotate', "Enter fullscreen mode on rotating the device in landscape");
         $obj->alwaysInLandscapeMode = true;
         self::addDataObjectHelper('alwaysInLandscapeMode', 'Always in Landscape Mode', "Always enter fullscreen in landscape mode even when device is in portrait mode (works on chromium, firefox, and ie >= 11");
-        $obj->iOS = true;
+        $obj->iOS = false;
         self::addDataObjectHelper('iOS', 'iOS', "Whether to use fake fullscreen on iOS (needed for displaying player controls instead of system controls)");
         return $obj;
     }
