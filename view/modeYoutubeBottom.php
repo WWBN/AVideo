@@ -315,6 +315,21 @@ if ($video['type'] !== 'notfound' && CustomizeUser::canShareVideosFromVideo($vid
                 </div>
                 <?php
             }
+            if (empty($advancedCustom->showVideoSource) && isValidURL($video['videoDownloadedLink'])) {
+                $parse = parse_url($video['videoDownloadedLink']);
+                $domain = str_replace('www.', '', $parse['host']);
+                ?>
+                <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Source"); ?>:</strong></div>
+                <div class="col-xs-8 col-sm-10 col-lg-10 descriptionArea" itemprop="source">
+                    <a class="btn btn-xs btn-default" href="<?php echo $video['videoDownloadedLink']; ?>" target="_blank" rel="nofollow">
+                        <i class="fas fa-external-link-alt"></i>
+                        <?php
+                        echo $domain;
+                        ?>
+                    </a>
+                </div>
+                <?php
+            }
             if ($video['type'] !== 'notfound' && $video['type'] !== 'article' && !isHTMLEmpty($video['description'])) {
                 ?>
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Description"); ?>:</strong></div>
