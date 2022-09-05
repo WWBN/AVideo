@@ -488,10 +488,12 @@ class CustomizeUser extends PluginAbstract {
         $obj = $this->getDataObject();
         $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
         if (empty($global['ignoreUserMustBeLoggedIn']) && !isBot() && !empty($obj->userMustBeLoggedIn) &&
-                ($thisScriptFile["basename"] === 'index.php' ||
+                (isVideoOrAudioNotEmbed() ||
+                $thisScriptFile["basename"] === 'index.php' ||
                 $thisScriptFile["basename"] === "channel.php" ||
                 $thisScriptFile["basename"] === "channels.php" ||
-                $thisScriptFile["basename"] === "trending.php") &&
+                $thisScriptFile["basename"] === "trending.php" ||
+                $thisScriptFile["basename"] === "player.php") &&
                 !User::isLogged()) {
             _error_log("CustomizeUser::userMustBeLoggedIn basename: {$thisScriptFile["basename"]}");
             gotToLoginAndComeBackHere('');
