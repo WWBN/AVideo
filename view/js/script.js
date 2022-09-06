@@ -1114,13 +1114,18 @@ function setCurrentTime(currentTime) {
         initdone = false;
         // wait for video metadata to load, then set time 
         player.on("loadedmetadata", function () {
+            console.log('setCurrentTime loadedmetadata', currentTime);
             player.currentTime(currentTime);
         });
         // iPhone/iPad need to play first, then set the time
         // events: https://www.w3.org/TR/html5/embedded-content-0.html#mediaevents
         player.on("canplaythrough", function () {
             if (!initdone) {
-                player.currentTime(currentTime);
+                console.log('setCurrentTime canplaythrough will set time', currentTime);
+                setTimeout(function(){
+                    console.log('setCurrentTime canplaythrough', currentTime);
+                    player.currentTime(currentTime);
+                },1000);
                 initdone = true;
             }
         });
