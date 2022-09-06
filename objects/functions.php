@@ -9569,13 +9569,13 @@ function setDefaultSort($defaultSortColumn, $defaultSortOrder) {
 function getWordOrIcon($word){
     $word = trim($word);
     if(preg_match('/facebook/i', $word)){
-        return '<i class="fa fa-facebook" data-toggle="tooltip" title="'.$word.'"></i>';
+        return '<i class="fab fa-facebook" data-toggle="tooltip" title="'.$word.'"></i>';
     }
     if(preg_match('/youtube|youtu.be/i', $word)){
-        return '<i class="fa fa-youtube" data-toggle="tooltip" title="'.$word.'"></i>';
+        return '<i class="fab fa-youtube" data-toggle="tooltip" title="'.$word.'"></i>';
     }
     if(preg_match('/twitch/i', $word)){
-        return '<i class="fa fa-twitch" data-toggle="tooltip" title="'.$word.'"></i>';
+        return '<i class="fab fa-twitch" data-toggle="tooltip" title="'.$word.'"></i>';
     }
     return $word;
     
