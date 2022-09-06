@@ -125,7 +125,7 @@ if (!Live::canRestream()) {
                 },
                 {"data": "status"},
                 {"data": "stream_key_short"},
-                {"data": "expired"},
+                {"data": "valid"},
                 {
                     sortable: false,
                     data: null,
