@@ -109,7 +109,7 @@ if (!Live::canRestream()) {
             "columns": [
                 {"data": "id"},
                 {
-                    "data": "name",
+                    "data": "display_name",
                     render: function (data, type, row) {
                         //console.log('Live_restreamstableVar row', row.parameters);
                         if (!empty(row.parameters)) {
