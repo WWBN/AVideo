@@ -145,9 +145,9 @@ if (!Live::canRestream()) {
                 type: 'post',
                 success: function (response) {
                     if (response.error) {
-                        avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                        avideoAlertError(response.msg);
                     } else {
-                        avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
+                        avideoToastSuccess(response.msg);
                         $("#panelLive_restreamsForm").trigger("reset");
                     }
                     Live_restreamstableVar.ajax.reload();
