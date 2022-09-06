@@ -9565,3 +9565,18 @@ function setDefaultSort($defaultSortColumn, $defaultSortOrder) {
         $_POST['sort'][$defaultSortColumn] = $defaultSortOrder;
     }
 }
+
+function getWordOrIcon($word){
+    
+    if(preg_match('/facebook/i', $word)){
+        return '<i class="fa fa-facebook" data-toggle="tooltip" title="'.$word.'"></i>';
+    }
+    if(preg_match('/youtube|youtu.be/i', $word)){
+        return '<i class="fa fa-youtube" data-toggle="tooltip" title="'.$word.'"></i>';
+    }
+    if(preg_match('/twitch/i', $word)){
+        return '<i class="fa fa-twitch" data-toggle="tooltip" title="'.$word.'"></i>';
+    }
+    return $word;
+    
+}

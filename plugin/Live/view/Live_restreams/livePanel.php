@@ -9,13 +9,6 @@ if (!Live::canRestream()) {
 ?>
 <div class="panel panel-default">
     <div class="panel-heading tabbable-line">
-        <?php
-        if (isOnDeveloperMode()) {
-            ?>
-            <i class="fas fa-wifi"></i> <?php echo __('Active Lives'); ?>
-            <?php
-        }
-        ?>
     </div>
     <div class="panel-body">
         <?php
