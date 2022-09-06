@@ -179,6 +179,7 @@ if (!$isCommandLine) { // not command line
         if (!empty($robj->restreamsToken)) {
             $robj->restreamsToken = _object_to_array($robj->restreamsToken);
             $robj->restreamsDestinations = _object_to_array($robj->restreamsDestinations);
+            error_log("***Restreamer.json.php using restreamsToken ". json_encode($robj->restreamsToken));
             //var_dump($robj->restreamsToken, $robj->restreamsDestinations);exit;
             if (empty($isATest)) {
                 foreach ($robj->restreamsToken as $key => $token) {
