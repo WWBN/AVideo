@@ -123,6 +123,7 @@ class Live_restreams extends ObjectYPT {
         $obj->expires_at = false;
         $obj->msg = '';
         $obj->parameters = false;
+        $obj->willAutoRenew = false;
         if (empty($parameters['restream.ypt.me'])) {
             $obj->msg = 'Not a restreamer object';
             return $obj;
@@ -132,6 +133,7 @@ class Live_restreams extends ObjectYPT {
                 if (!empty($value['expires_at'])) {
                     $obj->expires_at = $value['expires_at'];
                     $obj->isExpired = $obj->expires_at < $obj->now;
+                    $obj->willAutoRenew = !empty($value['refresh_token']);
                     return $obj;
                 }
             }
