@@ -141,7 +141,10 @@ class VideosReported extends ObjectYPT {
         }
 
         $saved = parent::save();
-        if($saved && class_exists('Cache')){
+        if($saved){
+            if(!class_exists('Cache')){
+                AVideoPlugin::loadPlugin('Cache');
+            }
             Cache::deleteFirstPageCache();
         }
         return $saved;
@@ -150,7 +153,11 @@ class VideosReported extends ObjectYPT {
     
     public function delete() {
         $deleted = parent::delete();
-        if($deleted && class_exists('Cache')){
+        if($deleted){
+
+            if(!class_exists('Cache')){
+                AVideoPlugin::loadPlugin('Cache');
+            }
             Cache::deleteFirstPageCache();
         }
         return $deleted;
