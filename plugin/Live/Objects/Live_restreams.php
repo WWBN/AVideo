@@ -103,7 +103,7 @@ class Live_restreams extends ObjectYPT {
                 $row['restreamsToken'] = encryptString($row['id']);
                 $row['display_name'] = getWordOrIcon($row['name'], 'fa-2x');
                 $row['token_expired'] = self::checkIfTokenIsExpired($row['parameters']);
-                $row['expired'] = $row['token_expired']->isExpired?__('Expired'):__('Not expired');
+                $row['valid'] = $row['token_expired']->needToRevalidate?'<i class="fas fa-check"></i>':'<i class="fas fa-times"></i>';
                 $rows[] = $row;
             }
         } else {
@@ -132,8 +132,9 @@ class Live_restreams extends ObjectYPT {
             foreach ($obj->parameters as $value) {
                 if (!empty($value['expires_at'])) {
                     $obj->expires_at = $value['expires_at'];
-                    $obj->isExpired = $obj->expires_at < $obj->now;
                     $obj->willAutoRenew = !empty($value['refresh_token']);
+                    $obj->isExpired = $obj->expires_at < $obj->now;
+                    $obj->needToRevalidate = $obj->isExpired && !$obj->willAutoRenew;
                     return $obj;
                 }
             }

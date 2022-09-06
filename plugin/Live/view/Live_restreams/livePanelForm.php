@@ -56,7 +56,7 @@ if (!Live::canRestream()) {
                     <th><?php echo __("Name"); ?></th>
                     <th><?php echo __("Status"); ?></th>
                     <th><?php echo __("Key"); ?></th>
-                    <th><?php echo __("Expired"); ?></th>
+                    <th><?php echo __("Valid"); ?></th>
                     <th></th>
                 </tr>
             </thead>
@@ -66,7 +66,7 @@ if (!Live::canRestream()) {
                     <th><?php echo __("Name"); ?></th>
                     <th><?php echo __("Status"); ?></th>
                     <th><?php echo __("Key"); ?></th>
-                    <th><?php echo __("Expired"); ?></th>
+                    <th><?php echo __("Valid"); ?></th>
                     <th></th>
                 </tr>
             </tfoot>
