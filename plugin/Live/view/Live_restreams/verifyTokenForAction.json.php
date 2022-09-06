@@ -34,6 +34,8 @@ if(!empty($token->live_restreams_logs_id)){
     $obj->liveTransmitionHistory_id = $lrl->getLive_transmitions_history_id();
     $obj->live_restreams_id = $lrl->getLive_restreams_id();
     $obj->m3u8 = $lrl->getM3u8();
+    $lr = new Live_restreams($lrl->getLive_restreams_id());
+    $obj->users_id = $lr->getUsers_id();
 }else{
     $lr = new Live_restreams($obj->live_restreams_id);
     $lhistory = new LiveTransmitionHistory($token->live_transmitions_history_id);
