@@ -9567,7 +9567,7 @@ function setDefaultSort($defaultSortColumn, $defaultSortOrder) {
 }
 
 function getWordOrIcon($word){
-    
+    $word = trim($word);
     if(preg_match('/facebook/i', $word)){
         return '<i class="fa fa-facebook" data-toggle="tooltip" title="'.$word.'"></i>';
     }
