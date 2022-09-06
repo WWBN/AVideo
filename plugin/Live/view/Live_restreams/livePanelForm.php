@@ -56,6 +56,7 @@ if (!Live::canRestream()) {
                     <th><?php echo __("Name"); ?></th>
                     <th><?php echo __("Status"); ?></th>
                     <th><?php echo __("Key"); ?></th>
+                    <th><?php echo __("Expired"); ?></th>
                     <th></th>
                 </tr>
             </thead>
@@ -65,6 +66,7 @@ if (!Live::canRestream()) {
                     <th><?php echo __("Name"); ?></th>
                     <th><?php echo __("Status"); ?></th>
                     <th><?php echo __("Key"); ?></th>
+                    <th><?php echo __("Expired"); ?></th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -123,6 +125,7 @@ if (!Live::canRestream()) {
                 },
                 {"data": "status"},
                 {"data": "stream_key_short"},
+                {"data": "expired"},
                 {
                     sortable: false,
                     data: null,
