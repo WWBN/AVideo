@@ -1114,7 +1114,7 @@ function setCurrentTime(currentTime) {
         initdone = false;
         // wait for video metadata to load, then set time 
         player.on("loadedmetadata", function () {
-            console.log('setCurrentTime loadedmetadata', currentTime);
+            //console.log('setCurrentTime loadedmetadata', currentTime);
             //player.currentTime(currentTime);
         });
         // iPhone/iPad need to play first, then set the time
