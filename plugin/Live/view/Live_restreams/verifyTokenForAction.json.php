@@ -24,6 +24,7 @@ if (empty($token)) {
 }
 //var_dump($token);exit;
 $obj->action = $token->action;
+$obj->token = $_REQUEST['token'];
 
 $obj->error = false;
 if(!empty($token->live_restreams_logs_id)){

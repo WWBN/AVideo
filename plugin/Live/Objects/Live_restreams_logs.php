@@ -132,13 +132,14 @@ class Live_restreams_logs extends ObjectYPT {
         
     }
     
-    static function getToken($action, $live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id){
+    static function getToken($action, $live_transmitions_history_id, $live_restreams_id, $live_restreams_logs_id, $users_id=0){
         $obj = new stdClass();
         $obj->action = $action;
         $obj->live_restreams_logs_id = $live_restreams_logs_id;
         $obj->live_transmitions_history_id = $live_transmitions_history_id;
         $obj->live_restreams_id = $live_restreams_id;
         $obj->time = time();
+        $obj->users_id = empty($users_id)?User::getId():$users_id;
         
         $string = encryptString(json_encode($obj));
         return $string;
