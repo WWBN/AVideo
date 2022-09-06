@@ -1,4 +1,5 @@
 <?php
+global $advancedCustom;
 if (empty($playlists_id)) {
     echo 'empty playlist id';
     return '';
