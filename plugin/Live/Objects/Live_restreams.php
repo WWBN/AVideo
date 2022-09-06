@@ -120,7 +120,7 @@ class Live_restreams extends ObjectYPT
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row['restreamsToken'] = encryptString($row['id']);
-                $row['display_name'] = getWordOrIcon($row['name']);
+                $row['display_name'] = getWordOrIcon($row['name'], 'fa-2x');
                 $rows[] = $row;
             }
         } else {
