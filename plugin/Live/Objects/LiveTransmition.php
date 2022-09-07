@@ -165,7 +165,7 @@ class LiveTransmition extends ObjectYPT
             return $row;
         }
         $l = new LiveTransmition(0);
-        $l->setTitle("Empty Title");
+        $l->setTitle("I am Live");
         $l->setDescription("");
         $l->setKey(uniqid());
         $l->setCategories_id(1);
