@@ -1,0 +1,45 @@
+body {
+	font-family: sans-serif;
+	background: hsl(0, 0%, 90%);
+	margin: 0;
+}
+pre {
+	margin: 0;
+}
+a {
+	color: hsl(210, 100%, 40%);
+	font-weight: bold;
+	text-decoration: none;
+	transition: .25s;
+
+	&:hover,
+	&:focus {
+		color: hsl(250, 100%, 20%);
+	}
+}
+
+%clearfix {
+	&::before,
+	&::after {
+		content: " ";
+		display: table;
+	}
+	&::after {
+		clear: both;
+	}
+}
+
+.container {
+	max-width: 60rem;
+	margin: auto;
+}
+
+.site-footer {
+	background: white;
+	padding: 25px;
+	border-radius: 3px 3px 0 0;
+}
+
+
+@import "index";
+@import "examples";

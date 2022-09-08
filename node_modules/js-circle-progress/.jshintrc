@@ -1,0 +1,12 @@
+{
+	"browser": true,
+	"bitwise": true,
+	"eqeqeq": true,
+	"eqnull": true,
+	"latedef": true,
+	"noarg": true,
+	"undef": true,
+	"unused": true,
+	"globalstrict": true,
+	"esversion": 6
+}

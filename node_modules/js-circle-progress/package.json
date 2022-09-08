@@ -1,0 +1,40 @@
+{
+	"name": "js-circle-progress",
+	"version": "0.2.4",
+	"description": "Responsive, accessible, animated, stylable with CSS circular progress bar available as plain (vanilla) JS and jQuery plugin.",
+	"keywords": [
+		"progressbar",
+		"jquery-plugin"
+	],
+	"author": {
+		"name": "Tigran Sargsyan",
+		"email": "tigran.sn@gmail.com",
+		"url": "https://github.com/tigrr"
+	},
+	"homepage": "https://tigrr.github.io/circle-progress/",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/tigrr/circle-progress.git"
+	},
+	"bugs": {
+		"url": "https://github.com/tigrr/circle-progress/issues"
+	},
+	"license": "MIT",
+	"main": "dist/circle-progress.js",
+	"scripts": {
+		"build": "grunt build"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.11.4",
+		"@babel/preset-env": "^7.11.0",
+		"grunt": "^1.3.0",
+		"grunt-babel": "^8.0.0",
+		"grunt-contrib-clean": "^2.0.0",
+		"grunt-contrib-concat": "^1.0.1",
+		"grunt-contrib-copy": "^1.0.0",
+		"grunt-contrib-uglify": "^5.0.0",
+		"grunt-contrib-watch": "^1.1.0",
+		"load-grunt-tasks": "^5.1.0",
+		"time-grunt": "^2.0.0"
+	}
+}
