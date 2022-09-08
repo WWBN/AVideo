@@ -135,6 +135,7 @@ $global['doNotLoadPlayer'] = 1;
                 width:  -webkit-fill-available;
             }
             <?php
+            /*
             if (AVideoPlugin::isEnabledByName('Chat2')) {
                 ?>
                 @media (max-width: 769px) {
@@ -144,6 +145,8 @@ $global['doNotLoadPlayer'] = 1;
                 }
                 <?php
             }
+             * 
+             */
             ?>
         </style>
     </head>
@@ -210,7 +213,7 @@ $global['doNotLoadPlayer'] = 1;
                         }
                         if (Live::canStreamWithWebRTC()) {
                             ?>
-                            <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?avideoIframe=1');" class="btn btn-default pull-right">
+                            <button onclick="avideoModalIframeFullScreen(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?avideoIframe=1');" class="btn btn-default pull-right" data-toggle="tooltip" title=<?php printJSString(__("Go Live With Webcam")); ?>>
                                 <i class="fas fa-camera"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Go Live With Webcam"); ?></span><span class="hidden-lg"><?php echo __("Webcam"); ?></span>
                             </button>
                             <?php

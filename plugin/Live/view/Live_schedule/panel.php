@@ -134,8 +134,8 @@ global $Schedulecount;
             <?php
             if (Live::canStreamWithWebRTC()) {
                 ?>
-                <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title=<?php printJSString($objScheduleLive->button_title); ?> >
-                    <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class=""><?php echo __($objScheduleLive->button_title); ?></span>
+                <button class="btn btn-default faa-parent animated-hover " onclick="avideoModalIframeLarge(webSiteRootURL + 'plugin/Live/webcamFullscreen.php?live_schedule_id=' + $(this).attr('schedule_id'));" data-toggle="tooltip" title=<?php printJSString(__("Go Live With Webcam")); ?> >
+                    <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class=""><?php echo __("Go Live With Webcam"); ?></span>
                 </button>
                 <?php
             }

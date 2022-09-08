@@ -20,7 +20,7 @@ $global['isForbidden'] = true;
         ?>
         <div class="container">
             <?php
-            include $global['systemRootPath'] . 'view/img/image403.php';
+            //include $global['systemRootPath'] . 'view/img/image403.php';
             if (!empty($unlockPassword)) {
                 ?>
                 <form method="post" action="#">
@@ -28,11 +28,10 @@ $global['isForbidden'] = true;
                         <div class="col-sm-8">
                             <?php
                             $value = '';
-                            if (!empty($_REQUEST['unlockPassword'])) {
-                                $value = $_REQUEST['unlockPassword'];
-                            }
-                            echo getInputPassword('unlockPassword', 'class="form-control" value="' . $value . '"', __('Unlock Password')); 
-                            ?>
+                if (!empty($_REQUEST['unlockPassword'])) {
+                    $value = $_REQUEST['unlockPassword'];
+                }
+                echo getInputPassword('unlockPassword', 'class="form-control" value="' . $value . '"', __('Unlock Password')); ?>
                         </div>
                         <div class="col-sm-4">
                             <button class="btn btn-success btn-block" type="submit"><i class="fas fa-lock-open"></i> <?php echo __('Unlock'); ?></button>

@@ -1,5 +1,4 @@
 <?php
-header('HTTP/1.0 403 Forbidden');
 if (empty($_REQUEST['403ErrorMsg'])) {
     $_REQUEST['403ErrorMsg'] = __("You are not allowed to enter here");
 }

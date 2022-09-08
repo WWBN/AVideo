@@ -6335,7 +6335,7 @@ function getSharePopupButton($videos_id, $url = "", $title = "") {
     include $global['systemRootPath'] . 'view/include/socialModal.php';
 }
 
-function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '', $namespace = '') {
+function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '', $namespace = '', $pageCode = '403 Forbidden') {
     global $global;
     if (!empty($unlockPassword)) {
         if (empty($namespace)) {
@@ -6368,6 +6368,7 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
             break;
         }
     }
+    header('HTTP/1.0 '.$pageCode);
     if (empty($unlockPassword) && preg_match('/json/i', $contentType)) {
         header("Content-Type: application/json");
         $obj = new stdClass();
