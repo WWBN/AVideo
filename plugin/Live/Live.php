@@ -3750,8 +3750,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $obj = AVideoPlugin::getDataObject('Live');
         if (Live::canStreamWithWebRTC()) {
             ?>
-            <button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title=<?php printJSString(__("Go Live With Webcam")); ?> >
-                <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __("Go Live With Webcam"); ?></span>
+            <button class="btn btn-default btn-sm faa-parent animated-hover " onclick="avideoModalIframeFull(webSiteRootURL + 'plugin/Live/webcamFullscreen.php');" data-toggle="tooltip" title=<?php printJSString(__("Webcam")); ?> >
+                <i class="fas fa-circle faa-flash" style="color:red;"></i> <span class="hidden-sm hidden-xs"><?php echo __("Webcam"); ?></span>
             </button>
             <?php
         }
