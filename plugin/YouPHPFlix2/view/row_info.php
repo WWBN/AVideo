@@ -1,5 +1,5 @@
 <!-- row_info start -->
-<h4 class="infoDetails">
+<div class="infoDetails">
     <?php
     if (!empty($value['rate'])) {
         ?>
@@ -53,7 +53,7 @@
         include $global['systemRootPath'] . 'view/rrating/notRated.php';
     }
     ?>
-</h4>
+</div>
 <div class="row">
     <?php
     if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {

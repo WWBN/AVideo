@@ -10,7 +10,7 @@ if (!empty($ads1)) {
 ?>
 
 <h2 class="infoTitle" style=""><?php echo $video['title']; ?></h2>
-<h4 class="infoDetails">
+<div class="infoDetails">
     <?php
     if (!empty($video['rate'])) {
         ?>
@@ -66,4 +66,4 @@ if (!empty($ads1)) {
         include $global['systemRootPath'] . 'view/rrating/notRated.php';
     }
     ?>
-</h4>
+</div>
