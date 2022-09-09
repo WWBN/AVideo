@@ -18,7 +18,7 @@ if (isCommandLineInterface()) {
     $forceRecreate = true;
     $default_socket_timeout = 10;
 }
-
+$forceRecreate = true;
 ini_set('default_socket_timeout', $default_socket_timeout);
 set_time_limit($default_socket_timeout * 100);
 ini_set('max_execution_time', $default_socket_timeout * 100);
@@ -124,6 +124,8 @@ if ($forceRecreate || empty($channelsList)) {
                     if (!empty($channels[$key])) {
                         usort($channels[$key]['epgData'], "cmpPrograms");
                         $channels[$key]['videos_id'] = $this_videos_id;
+                        $channels[$key]['description'] = $epg['description'];
+                        $channels[$key]['images'] = Video::getImageFromID($this_videos_id);
                         if (!empty($epg['title'])) {
                             $channels[$key]['display-name'] = safeString($epg['title']);
                         }
