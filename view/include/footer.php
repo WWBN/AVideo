@@ -46,6 +46,7 @@ if(isBot()){
 ?>
 <script>
     $(function () {
+        /** showAlertMessage **/
 <?php
 showAlertMessage();
 ?>
