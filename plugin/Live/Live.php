@@ -376,10 +376,6 @@ class Live extends PluginAbstract {
             $_getLiveApplicationModelArray = [];
         }
 
-        if (!empty($_getLiveApplicationModelArray[$uid])) {
-            return $_getLiveApplicationModelArray[$uid];
-        }
-
         if (empty($_getLiveApplicationModelArray_counter)) {
             $_getLiveApplicationModelArray_counter = 0;
         }
