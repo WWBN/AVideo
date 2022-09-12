@@ -6383,6 +6383,7 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
         die(json_encode($obj));
     } else {
         if(empty($unlockPassword) && !User::isLogged()){
+            $message .= ', '.__('please login');
             gotToLoginAndComeBackHere($message);
         }else{
             header("Content-Type: text/html");
