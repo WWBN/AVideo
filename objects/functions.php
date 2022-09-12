@@ -6686,11 +6686,11 @@ function setToastMessage($msg) {
 }
 
 function showAlertMessage() {
-    if (!requestComesFromSafePlace()) {
-        echo PHP_EOL, "/** showAlertMessage !requestComesFromSafePlace [".getRefferOrOrigin()."] **/";
-        return false;
-    }
+    $check = ['error', 'msg', 'success', 'toast'];
     if (!empty($_SESSION['YPTalertMessage'])) {
+        foreach ($check as $value) {
+            $_GET[$value] = array();
+        }
         foreach ($_SESSION['YPTalertMessage'] as $value) {
             if (!empty($value[0])) {
                 if (empty($_GET[$value[1]])) {
@@ -6701,9 +6701,14 @@ function showAlertMessage() {
         }
         _session_start();
         unset($_SESSION['YPTalertMessage']);
+    }else{
+        if (!requestComesFromSafePlace()) {
+            echo PHP_EOL, "/** showAlertMessage !requestComesFromSafePlace [".getRefferOrOrigin()."] **/";
+            return false;
+        }
     }
 
-    $joinString = ['error', 'msg', 'success', 'toast'];
+    $joinString = $check;
     foreach ($joinString as $value) {
         if (!empty($_GET[$value])) {
             if (is_array($_GET[$value])) {
@@ -6720,8 +6725,7 @@ function showAlertMessage() {
             }
         }
     }
-
-    $check = ['error', 'msg', 'success', 'toast'];
+    
     foreach ($check as $value) {
         if (!empty($_GET[$value])) {
             if (is_array($_GET[$value])) {
