@@ -864,16 +864,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.264.0",
+            "version": "v0.266.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "28c4208ee0b7f4d5f4704c043414b5644351280c"
+                "reference": "27ead5edc8ba4a17ddd211ad03216c313a57411f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/28c4208ee0b7f4d5f4704c043414b5644351280c",
-                "reference": "28c4208ee0b7f4d5f4704c043414b5644351280c",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/27ead5edc8ba4a17ddd211ad03216c313a57411f",
+                "reference": "27ead5edc8ba4a17ddd211ad03216c313a57411f",
                 "shasum": ""
             },
             "require": {
@@ -902,22 +902,22 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.264.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.266.0"
             },
-            "time": "2022-08-29T01:10:13+00:00"
+            "time": "2022-09-12T01:28:14+00:00"
         },
         {
             "name": "google/auth",
-            "version": "v1.21.1",
+            "version": "v1.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-auth-library-php.git",
-                "reference": "aa3b9ca29258ac6347ce3c8937a2418c5d78f840"
+                "reference": "da4037df770027c8f7163595a29ec434f705f8b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/aa3b9ca29258ac6347ce3c8937a2418c5d78f840",
-                "reference": "aa3b9ca29258ac6347ce3c8937a2418c5d78f840",
+                "url": "https://api.github.com/repos/googleapis/google-auth-library-php/zipball/da4037df770027c8f7163595a29ec434f705f8b1",
+                "reference": "da4037df770027c8f7163595a29ec434f705f8b1",
                 "shasum": ""
             },
             "require": {
@@ -960,9 +960,9 @@
             "support": {
                 "docs": "https://googleapis.github.io/google-auth-library-php/main/",
                 "issues": "https://github.com/googleapis/google-auth-library-php/issues",
-                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.21.1"
+                "source": "https://github.com/googleapis/google-auth-library-php/tree/v1.22.0"
             },
-            "time": "2022-05-16T19:34:15+00:00"
+            "time": "2022-09-01T17:07:07+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -3409,16 +3409,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v9.4.0",
+            "version": "v9.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "a759cccb477ed8acad7c379d45fc8be5bc69636e"
+                "reference": "e3ea7f8ea7d6e96ef4253e3c5290d548fb89835c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/a759cccb477ed8acad7c379d45fc8be5bc69636e",
-                "reference": "a759cccb477ed8acad7c379d45fc8be5bc69636e",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/e3ea7f8ea7d6e96ef4253e3c5290d548fb89835c",
+                "reference": "e3ea7f8ea7d6e96ef4253e3c5290d548fb89835c",
                 "shasum": ""
             },
             "require": {
@@ -3464,9 +3464,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v9.4.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v9.5.0"
             },
-            "time": "2022-08-26T17:25:01+00:00"
+            "time": "2022-09-06T21:09:15+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
