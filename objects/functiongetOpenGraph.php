@@ -63,7 +63,8 @@ if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'no
 $twitter_site = $advancedCustom->twitter_site;
 $title = getSEOTitle($video['title']);
 $description = getSEODescription($video['description']);
-$ogURL = Video::getLinkToVideo($videos_id, '', false,false);
+$ogURL = Video::getLink($video['id'], $video['clean_title']);
+//$ogURL = Video::getLinkToVideo($videos_id, '', false,false);
 $modifiedDate = date('Y-m-d', strtotime($video['modified']));
 ?>
 <meta http-equiv="last-modified" content="<?php echo $modifiedDate; ?>">
