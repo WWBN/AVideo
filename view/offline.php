@@ -6,6 +6,6 @@ if(file_exists($offlineFile)){
     require_once $offlineFile;
     exit;
 }else{
-    forbiddenPage('This feature requires the VideoOffline plugin');
+    //forbiddenPage('This feature requires the VideoOffline plugin');
 }
 ?>
