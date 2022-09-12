@@ -3146,14 +3146,19 @@ function isSameDomainAsMyAVideo($url) {
     return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN());
 }
 
-function requestComesFromSameDomainAsMyAVideo() {
-    global $global;
+function getRefferOrOrigin(){
     $url = '';
     if (!empty($_SERVER['HTTP_REFERER'])) {
         $url = $_SERVER['HTTP_REFERER'];
     } elseif (!empty($_SERVER['HTTP_ORIGIN'])) {
         $url = $_SERVER['HTTP_ORIGIN'];
     }
+    return $url;
+}
+
+function requestComesFromSameDomainAsMyAVideo() {
+    global $global;
+    $url = getRefferOrOrigin();
     //var_dump($_SERVER);exit;
     //_error_log("requestComesFromSameDomainAsMyAVideo: ({$url}) == ({$global['webSiteRootURL']})");
     return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN()) || isFromCDN($url);
@@ -6682,7 +6687,7 @@ function setToastMessage($msg) {
 
 function showAlertMessage() {
     if (!requestComesFromSafePlace()) {
-        echo PHP_EOL, "/** showAlertMessage !requestComesFromSafePlace **/";
+        echo PHP_EOL, "/** showAlertMessage !requestComesFromSafePlace [".getRefferOrOrigin()."] **/";
         return false;
     }
     if (!empty($_SESSION['YPTalertMessage'])) {
