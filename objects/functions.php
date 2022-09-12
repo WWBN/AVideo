@@ -6377,8 +6377,12 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
         $obj->forbiddenPage = true;
         die(json_encode($obj));
     } else {
-        header("Content-Type: text/html");
-        include $global['systemRootPath'] . 'view/forbiddenPage.php';
+        if(!User::isLogged()){
+            gotToLoginAndComeBackHere($message);
+        }else{
+            header("Content-Type: text/html");
+            include $global['systemRootPath'] . 'view/forbiddenPage.php';
+        }
     }
     exit;
 }
