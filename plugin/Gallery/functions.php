@@ -191,7 +191,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
 }
 
 function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true, $zindex=1000) {
-    global $global, $config, $obj, $advancedCustom, $advancedCustomUser;
+    global $global, $config, $obj, $advancedCustom, $advancedCustomUser, $_lastCanDownloadVideosFromVideoReason;
     $countCols = 0;
     $obj = AVideoPlugin::getObjectData("Gallery");
     // that meas auto generate the channelName
@@ -320,7 +320,11 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                         </ul>
                     </div>
                     <?php
+                }else{
+                    echo "<!-- canDownloadVideosFromVideo you can only download MP3 or MP4 -->";
                 }
+            }else{
+                echo "<!-- canDownloadVideosFromVideo {$_lastCanDownloadVideosFromVideoReason} -->";
             }
             //getLdJson($video['id']);
             //getItemprop($video['id']);
