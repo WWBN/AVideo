@@ -219,8 +219,14 @@ if(empty(\$global['webSiteRootPath'])){
 require_once \$global['systemRootPath'].'objects/include_config.php';
 ";
 
+$videosDir = $_POST['systemRootPath'].'videos/';
+
+if(!is_dir($videosDir)){
+    mkdir($videosDir, 0777, true);
+}
+
 error_log("Installation: ".__LINE__);
-$fp = fopen($_POST['systemRootPath'] . "videos/configuration.php", "wb");
+$fp = fopen("{$videosDir}configuration.php", "wb");
 fwrite($fp, $content);
 fclose($fp);
 error_log("Installation: ".__LINE__);
