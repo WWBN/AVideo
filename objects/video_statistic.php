@@ -383,10 +383,12 @@ class VideoStatistic extends ObjectYPT {
             $daysLimit = intval($advancedCustom->trendingOnLastDays->value);
         }
         
+        $dateDaysLimit = date('Y-m-d H:i:s', strtotime("-{$daysLimit} days"));
+        
         // get unique videos ids from the requested timeframe
         $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics s "
                 . " LEFT JOIN videos v ON v.id = videos_id "
-                . " WHERE DATE(s.`when`) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) ";
+                . " WHERE DATE(s.`when`) >= DATE_SUB(DATE(NOW()), INTERVAL {$daysLimit} DAY) v.created > '{$dateDaysLimit}' ";
 
         if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
             $sql .= " AND v.users_id = '" . User::getId() . "'";
