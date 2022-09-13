@@ -70,10 +70,13 @@ function runLoop() {
 }
 
 Loop::run(function () {
+    $promises = [];
     _error_log("download: runLoop 1 ");
-    Worker\enqueueCallable('runLoop');
+    $promises[] = Worker\enqueueCallable('runLoop');
     _error_log("download: runLoop 2 ");
-    Worker\enqueueCallable('runLoop');
+    $promises[] = Worker\enqueueCallable('runLoop');
+    $responses = Promise\wait(Promise\all($promises));
+    var_dump($responses);
 });
 
 echo "StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;
