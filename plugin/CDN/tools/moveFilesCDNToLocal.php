@@ -60,7 +60,7 @@ function runLoop() {
     if (empty($videos_id)) {
         return false;
     }
-    download($videos_id)->onResolve(function (Throwable $error = null, $response = null) use ($info) {
+    download($videos_id)->onResolve(function (Throwable $error = null, $response = null) {
         if ($error) {
             _error_log("download: asyncOperation1 fail -> " . $error->getMessage());
         } else {
