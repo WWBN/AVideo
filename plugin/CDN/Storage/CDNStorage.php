@@ -607,7 +607,7 @@ class CDNStorage {
             }
             if(!empty($value['local'])){
                $filesize = filesize($value['local']['local_path']);
-                if (!$value['isLocal']) {
+                if ($value['isLocal']) {
                     _error_log("CDNStorage::get Local {$value['local']['local_path']} {$filesize} ");
                     if ($filesize > $value['remote']['remote_filesize']) {
                         _error_log("CDNStorage::get Local filesize is too big");
@@ -620,7 +620,7 @@ class CDNStorage {
                         $totalFilesize += $value['remote']['remote_filesize'];
                     }
                 } else {
-                    _error_log("CDNStorage::get not valid local file " . json_encode($value['remote']));
+                    _error_log("CDNStorage::get not valid remote file " . json_encode($value['remote']));
                 } 
             }else{
                 $filesToDownload[] = $value['remote']['local_path'];
