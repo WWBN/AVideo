@@ -1,5 +1,8 @@
 <?php
 
+use Amp\Parallel\Worker;
+use Amp\Promise;
+
 use Amp\Deferred;
 use Amp\Loop;
 
@@ -70,8 +73,6 @@ function runLoop() {
 Loop::run(function () {
      _error_log("download: runLoop 1 ");
     runLoop();
-});
-Loop::run(function () {
      _error_log("download: runLoop 2 ");
     runLoop();
 });
