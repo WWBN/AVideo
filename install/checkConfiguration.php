@@ -103,12 +103,14 @@ if ($_POST['createTables'] > 0) {
 error_log("Installation: ".__LINE__);
 
 $sql = "DELETE FROM users WHERE id = 1 ";
-if ($mysqli->query($sql) !== true) {
+
+
+try {
+    $mysqli->query($sql);
+} catch (Exception $exc) {
     $obj->error = "Error deleting user: " . $mysqli->error;
     echo json_encode($obj);
-    exit;
 }
-
 
 error_log("Installation: ".__LINE__);
 $sql = "INSERT INTO users (id, user, email, password, created, modified, isAdmin) VALUES (1, 'admin', '" . $_POST['contactEmail'] . "', '" . md5($_POST['systemAdminPass']) . "', now(), now(), true)";
