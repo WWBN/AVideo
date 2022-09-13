@@ -1320,7 +1320,7 @@ if (!class_exists('Video')) {
                     $ids[] = $row['id'];
                 }
                 
-                $daysLimit = getTrendingLimits();
+                $daysLimit = getTrendingLimit();
                 
                 if (!empty($ids)) {
                     $sql .= " ORDER BY FIND_IN_SET(v.id, '" . implode(",", $ids) . "') DESC, likes DESC ";
