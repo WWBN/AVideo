@@ -71,9 +71,9 @@ function runLoop() {
 
 Loop::run(function () {
     _error_log("download: runLoop 1 ");
-    Worker\enqueueCallable(runLoop());
+    Worker\enqueueCallable('runLoop');
     _error_log("download: runLoop 2 ");
-    Worker\enqueueCallable(runLoop());
+    Worker\enqueueCallable('runLoop');
 });
 
 echo "StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;
