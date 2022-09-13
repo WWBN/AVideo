@@ -605,7 +605,7 @@ class CDNStorage {
         $conn_id = array();
         $connID = self::getConnID(0, $conn_id);
         
-        $total = count($filePath);
+        $total = count($list);
         $count = 0;
         
         foreach ($list as $filePath => $value) {
