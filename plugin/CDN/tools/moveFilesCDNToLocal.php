@@ -45,7 +45,8 @@ foreach ($sites_id_to_move as $key => $value) {
     echo "{$key}/{$total} Start move {$value}" . PHP_EOL;
     $startF = microtime(true);
     
-    $response = CDNStorage::get($value, 4);
+    //$response = CDNStorage::get($value, 4);
+    $response = CDNStorage::ftp_get($value);
     if (empty($response)) {
         echo "{$key}/{$total} ERROR " . PHP_EOL;
     } else {
