@@ -600,6 +600,11 @@ class CDNStorage {
         $filesToDownload = [];
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
+        
+        $fileDownloadCount = 0;
+        $conn_id = array();
+        $connID = self::getConnID(0, $conn_id);
+        
         foreach ($list as $filePath => $value) {
             //var_dump($value);exit;
             if (empty($value)) {
@@ -611,49 +616,33 @@ class CDNStorage {
                     _error_log("CDNStorage::get Local {$value['local']['local_path']} {$filesize} ");
                     if ($filesize > $value['remote']['remote_filesize']) {
                         _error_log("CDNStorage::get Local filesize is too big");
+                        continue;
                     } elseif ($value['remote']['remote_filesize'] < 20) {
                         _error_log("CDNStorage::get remote filesize is too small");
+                        continue;
                     } elseif ($filesize == $value['remote']['remote_filesize']) {
                         _error_log("CDNStorage::get same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
-                    } else {
-                        $filesToDownload[] = $value['remote']['local_path'];
-                        $totalFilesize += $value['remote']['remote_filesize'];
-                    }
+                        continue;
+                    } 
+                } 
+            } 
+            
+            $local_file = $value['remote']['local_path'];
+            //_error_log("CDNStorage::get:download 1 {$i} Start {$file}");
+            if (!empty($local_file)) {
+                $remote_file = '/' . CDNStorage::filenameToRemotePath($local_path, false);
+                if (ftp_get($connID, $local_file, $remote_file, FTP_BINARY)) {
+                    $fileDownloadCount++;
+                    $totalBytesTransferred += filesize($local_file);
+                    _error_log("CDNStorage::ftp_get success {$remote_file}");
                 } else {
-                    $filesToDownload[] = $value['remote']['local_path'];
-                    $totalFilesize += $value['remote']['remote_filesize'];
+                    _error_log("CDNStorage::ftp_get ERROR {$remote_file}");
                 }
-            } else {
-                $filesToDownload[] = $value['remote']['local_path'];
-                $totalFilesize += $value['remote']['remote_filesize'];
             }
         }
         if (empty($filesToDownload)) {
             _error_log("CDNStorage::get videos_id={$videos_id} There is no file to download ");
             return false;
-        }
-
-        $totalFiles = count($filesToDownload);
-
-        _error_log("CDNStorage::get videos_id={$videos_id} totalSameTime=$totalSameTime totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
-
-        $conn_id = [];
-        $ret = [];
-        $fileDownloadCount = 0;
-        $conn_id = array();
-        $connID = self::getConnID(0, $conn_id);
-
-        $local_file = array_shift($filesToDownload);
-        //_error_log("CDNStorage::get:download 1 {$i} Start {$file}");
-        if (!empty($local_file)) {
-            $remote_file = '/' . CDNStorage::filenameToRemotePath($local_path, false);
-            if (ftp_get($connID, $local_file, $remote_file, FTP_BINARY)) {
-                $fileDownloadCount++;
-                $totalBytesTransferred += filesize($local_file);
-                _error_log("CDNStorage::ftp_get success {$remote_file}");
-            } else {
-                _error_log("CDNStorage::ftp_get ERROR {$remote_file}");
-            }
         }
 
         return ['filesCopied' => $fileDownloadCount, 'totalBytesTransferred' => $totalBytesTransferred];
