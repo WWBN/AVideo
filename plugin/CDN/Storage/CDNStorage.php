@@ -759,7 +759,7 @@ class CDNStorage {
         $fp = fopen($local_path, 'w');
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
         $ret[$index] = ftp_nb_fget($connID, $fp, $remote_file, FTP_BINARY);
-        //_error_log("CDNStorage::put:uploadToCDNStorage SUCCESS [$index] {$remote_file} " . json_encode($_uploadInfo[$index]));
+        _error_log("CDNStorage::get:downloadFromCDNStorage SUCCESS [$index] {$remote_file} " . json_encode($_uploadInfo[$index]));
         return true;
     }
 
