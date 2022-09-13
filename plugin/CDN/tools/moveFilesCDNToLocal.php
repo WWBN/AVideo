@@ -69,10 +69,11 @@ function runLoop() {
 
 Loop::run(function () {
     runLoop();
-    runLoop();
-    runLoop();
+});
+Loop::run(function () {
     runLoop();
 });
+
 
 echo "StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;
 echo PHP_EOL . " Done! " . PHP_EOL;
