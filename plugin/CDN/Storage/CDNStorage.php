@@ -596,7 +596,7 @@ class CDNStorage {
     public static function get($videos_id, $totalSameTime) {
         global $_downloadInfo;
         $list = self::getFilesListBoth($videos_id);
-        var_dump($list);exit;
+        //var_dump($list);exit;
         $filesToDownload = [];
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
