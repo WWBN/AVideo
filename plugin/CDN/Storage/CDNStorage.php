@@ -663,9 +663,12 @@ class CDNStorage {
                 }
                 if ($r == FTP_MOREDATA) {
                     // Continue downloading...
+                    _error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading. [$key] ");
                     $ret[$key] = ftp_nb_continue($conn_id[$key]);
                     $continue = true;
                 }
+                _error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading 2. [$key] ");
+                    
                 if ($r == FTP_FINISHED) {
                     $end = microtime(true) - $_downloadInfo[$key]['microtime'];
                     $filesize = $_downloadInfo[$key]['filesize'];
@@ -735,7 +738,7 @@ class CDNStorage {
             $_uploadInfo = [];
         }
         if (empty($local_path)) {
-            _error_log("CDNStorage::downloadFromCDNStorage error empty local file name {$local_path}");
+            _error_log("CDNStorage::downloadFromCDNStorage empty local file name {$local_path}");
             //return false;
         }
 
