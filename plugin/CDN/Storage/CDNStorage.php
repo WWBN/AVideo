@@ -14,10 +14,10 @@ class CDNStorage {
         return self::getStorageClient();
     }
 
-    public static function getStorageClient($try=0) {
+    public static function getStorageClient($try = 0) {
         $obj = AVideoPlugin::getDataObject('CDN');
-        if(empty($obj->storage_hostname)){
-           die('CDNStorage storage_hostname is empty ');
+        if (empty($obj->storage_hostname)) {
+            die('CDNStorage storage_hostname is empty ');
         }
         $CDNstorage = new \FtpClient\FtpClient();
         try {
@@ -27,13 +27,13 @@ class CDNStorage {
         } catch (Exception $exc) {
             _error_log("FTP:getClient fail try={$try} ($obj->storage_hostname) ($obj->storage_username), ($obj->storage_password) " . $exc->getMessage());
             $try++;
-            if($try<5){
+            if ($try < 5) {
                 sleep($try);
                 return self::getStorageClient($try);
-            }else if($try==5 && isCommandLineInterface()){
+            } else if ($try == 5 && isCommandLineInterface()) {
                 sleep(30);
                 return self::getStorageClient($try);
-            }else{
+            } else {
                 die('CDNStorage FTP Error ' . $exc->getMessage());
             }
         }
@@ -602,11 +602,11 @@ class CDNStorage {
         $totalBytesTransferred = 0;
         foreach ($list as $filePath => $value) {
             //var_dump($value);exit;
-            if(empty($value)){
+            if (empty($value)) {
                 continue;
             }
-            if(!empty($value['local'])){
-               $filesize = filesize($value['local']['local_path']);
+            if (!empty($value['local'])) {
+                $filesize = filesize($value['local']['local_path']);
                 if ($value['isLocal']) {
                     _error_log("CDNStorage::get Local {$value['local']['local_path']} {$filesize} ");
                     if ($filesize > $value['remote']['remote_filesize']) {
@@ -616,13 +616,14 @@ class CDNStorage {
                     } elseif ($filesize == $value['remote']['remote_filesize']) {
                         _error_log("CDNStorage::get same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
                     } else {
-                        $filesToDownload[] = $value['local']['local_path'];
+                        $filesToDownload[] = $value['remote']['local_path'];
                         $totalFilesize += $value['remote']['remote_filesize'];
                     }
                 } else {
-                    _error_log("CDNStorage::get not valid remote file " . json_encode($value['remote']));
-                } 
-            }else{
+                    $filesToDownload[] = $value['remote']['local_path'];
+                    $totalFilesize += $value['remote']['remote_filesize'];
+                }
+            } else {
                 $filesToDownload[] = $value['remote']['local_path'];
                 $totalFilesize += $value['remote']['remote_filesize'];
             }
@@ -668,12 +669,11 @@ class CDNStorage {
                         $ret[$key] = ftp_nb_continue($conn_id[$key]);
                         $continue = true;
                     } catch (Exception $exc) {
-                        _error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage ERROR . [$key] ".$exc->getMessage());
+                        _error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage ERROR . [$key] " . $exc->getMessage());
                     }
-
                 }
                 //_error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading 2. [$key] ");
-                    
+
                 if ($r == FTP_FINISHED) {
                     $end = microtime(true) - $_downloadInfo[$key]['microtime'];
                     $filesize = $_downloadInfo[$key]['filesize'];
@@ -726,7 +726,7 @@ class CDNStorage {
             $conn_id[$index] = ftp_connect($obj->storage_hostname);
             if (empty($conn_id[$index])) {
                 sleep(1);
-                return self::getConnID($index,$conn_id);
+                return self::getConnID($index, $conn_id);
             }
             // login with username and password
             $login_result = ftp_login($conn_id[$index], $obj->storage_username, $obj->storage_password);
@@ -761,7 +761,7 @@ class CDNStorage {
             _error_log("CDNStorage::downloadFromCDNStorage error {$remote_file} filesize is too small {$filesize}");
             return false;
         }
-        
+
         $localFilesize = @filesize($local_path);
         if (file_exists($local_path) && $localFilesize > 20 && $localFilesize >= $filesize) {
             _error_log("CDNStorage::downloadFromCDNStorage error file already exists {$local_path}");
@@ -864,12 +864,12 @@ class CDNStorage {
         }
 
         $modified = filemtime($file);
-        $totalTime = time() - $modified ;
+        $totalTime = time() - $modified;
         if ($totalTime > 300) {
-            if($totalTime > 10000){
+            if ($totalTime > 10000) {
                 unlink($file);
                 return false;
-            }else{
+            } else {
                 // if is laonger than 5 min say it is not moving
                 _error_log("CDNStorage isMoving is taking too long to finish ({$totalTime} seconds), check your connection speed or FTP errors {$file}", AVideoLog::$WARNING);
                 return false;
@@ -1046,12 +1046,12 @@ class CDNStorage {
         $index = "file#{$remote_filename}";
         preg_match('/ ([0-9]+) [a-zA-z]+ [0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}/', $list[$index], $matches);
         $filesize = $matches[1];
-        if(empty($filesize)){
+        if (empty($filesize)) {
             $file_exists_on_cdn[$remote_filename] = false;
-        }else{
+        } else {
             $file_exists_on_cdn[$remote_filename] = isset($list[$index]);
         }
-        _error_log("file_exists_on_cdn($remote_filename) ({$filesize}) {$list[$index]} - ". json_encode($file_exists_on_cdn[$remote_filename]));
+        _error_log("file_exists_on_cdn($remote_filename) ({$filesize}) {$list[$index]} - " . json_encode($file_exists_on_cdn[$remote_filename]));
         //var_dump($matches, $list[$index]);exit;
         return $file_exists_on_cdn[$remote_filename];
     }
@@ -1069,14 +1069,14 @@ class CDNStorage {
             if (preg_match('/cdn\.ypt\.me(.*)' . $filename . '\/index\.m3u8/i', $theLink['url'])) {
                 $m3u8File = $theLink['url'];
                 break;
-            }else if (preg_match('/cdn\.ypt\.me(.*)' . $filename . '\/.*.mp4/i', $theLink['url'])) {
+            } else if (preg_match('/cdn\.ypt\.me(.*)' . $filename . '\/.*.mp4/i', $theLink['url'])) {
                 $mp4File = $theLink['url'];
                 break;
             }
         }
 
-        if (empty($m3u8File)) {       
-            if(!empty($mp4File)){
+        if (empty($m3u8File)) {
+            if (!empty($mp4File)) {
                 return $mp4File;
             }
             _error_log('convertCDNHLSVideoToDownlaod: m3u8 not found ');
@@ -1087,7 +1087,7 @@ class CDNStorage {
         $parts1 = explode('cdn.ypt.me/', $url);
         $url = addQueryStringParameter($url, 'download', 1);
         if (empty($parts1[1])) {
-            _error_log('convertCDNHLSVideoToDownlaod: Invalid filename '.$url);
+            _error_log('convertCDNHLSVideoToDownlaod: Invalid filename ' . $url);
             return false;
         }
         $parts2 = explode('?', $parts1[1]);
@@ -1108,7 +1108,7 @@ class CDNStorage {
             $file_exists = CDNStorage::file_exists_on_cdn($relativeFilename);
             if (!$file_exists && isDummyFile($localFile)) {
                 unlink($localFile);
-            }else if($file_exists && !isDummyFile($localFile)){
+            } else if ($file_exists && !isDummyFile($localFile)) {
                 self::createDummy($localFile);
             }
         }
@@ -1123,9 +1123,9 @@ class CDNStorage {
                 _error_log('convertCDNHLSVideoToDownlaod: download from CDN file not created ' . $localFile);
             } else {
                 $filesize = filesize($localFile);
-                if(empty($filesize) || isDummyFile($localFile)){
+                if (empty($filesize) || isDummyFile($localFile)) {
                     unlink($localFile);
-                }else if(!isDummyFile($localFile)){
+                } else if (!isDummyFile($localFile)) {
                     _error_log('convertCDNHLSVideoToDownlaod: Upload file to CDN ' . $localFile);
                     $client = CDNStorage::getStorageClient();
                     $client->put($relativeFilename, $localFile);
@@ -1136,15 +1136,13 @@ class CDNStorage {
         }
         return $returnURL;
     }
-    
+
     public static function convertCDNHLSVideoToDownlaodProgress($videos_id, $format = 'mp4') {
         $format = strtolower($format);
         $video = new Video('', '', $videos_id);
-        $filename = $video->getFilename();        
+        $filename = $video->getFilename();
         $progressFile = getVideosDir() . "{$filename}/index.{$format}.log";
-        return parseFFMPEGProgress($progressFile);        
+        return parseFFMPEGProgress($progressFile);
     }
 
-    
-    
 }
