@@ -68,9 +68,11 @@ function runLoop() {
 }
 
 Loop::run(function () {
+     _error_log("download: runLoop 1 ");
     runLoop();
 });
 Loop::run(function () {
+     _error_log("download: runLoop 2 ");
     runLoop();
 });
 
