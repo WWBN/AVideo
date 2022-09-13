@@ -2,6 +2,7 @@
 
 use Amp\Parallel\Worker;
 use Amp\Promise;
+
 use Amp\Deferred;
 use Amp\Loop;
 
@@ -59,7 +60,7 @@ function runLoop() {
     if (empty($videos_id)) {
         return false;
     }
-    download($videos_id)->onResolve(function (Throwable $error = null, $response = null) {
+    download($videos_id)->onResolve(function (Throwable $error = null, $response = null) use ($info) {
         if ($error) {
             _error_log("download: asyncOperation1 fail -> " . $error->getMessage());
         } else {
@@ -69,17 +70,13 @@ function runLoop() {
     });
 }
 
-$promises = [];
-_error_log("download: runLoop 1 ");
-$promises[] = Worker\enqueueCallable('runLoop');
-_error_log("download: runLoop 2 ");
-$promises[] = Worker\enqueueCallable('runLoop');
-$responses = Promise\wait(Promise\all($promises));
-var_dump($responses);
-
 Loop::run(function () {
-    
+     _error_log("download: runLoop 1 ");
+    runLoop();
+     _error_log("download: runLoop 2 ");
+    runLoop();
 });
+
 
 echo "StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;
 echo PHP_EOL . " Done! " . PHP_EOL;
