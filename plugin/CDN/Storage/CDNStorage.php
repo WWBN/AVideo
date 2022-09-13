@@ -617,7 +617,7 @@ class CDNStorage {
             if (!empty($value['local'])) {
                 $filesize = filesize($value['local']['local_path']);
                 if ($value['isLocal']) {
-                    _error_log("CDNStorage::get Local {$value['local']['local_path']} {$filesize} ");
+                    //_error_log("CDNStorage::get Local {$value['local']['local_path']} {$filesize} ");
                     if ($filesize > $value['remote']['remote_filesize']) {
                         _error_log("CDNStorage::get Local filesize is too big");
                         continue;
@@ -632,7 +632,7 @@ class CDNStorage {
             } 
             
             $local_file = $value['remote']['local_path'];
-            _error_log("CDNStorage::get:download Start {$remote_file} ". humanFileSize($value['remote']['remote_filesize']));
+            _error_log("CDNStorage::get:download Start {$local_file} ". humanFileSize($value['remote']['remote_filesize']));
             if (!empty($local_file)) {
                 $remote_file = '/' . CDNStorage::filenameToRemotePath($local_file, false);
                 if (ftp_get($connID, $local_file, $remote_file, FTP_BINARY)) {
