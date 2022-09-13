@@ -640,13 +640,14 @@ class CDNStorage {
                     $fileDownloadCount++;
                     $thisFilesize = filesize($local_file);
                     $seconds = intval(microtime(true)-$start);
-                    $mbps = humanFileSize($thisFilesize/$seconds).'s';
+                    $bytesPerSecond = $thisFilesize/$seconds;
+                    $mbps = humanFileSize($bytesPerSecond).'s';
                     $totalBytesTransferred += $thisFilesize;
                     $remainingFiles = $total-$count;
                     $eta = $remainingFiles*$seconds;
                     $eta_string = secondsToDuration($eta);
                     $totalVideosLeft = count($videos_id_to_move);
-                    _error_log("CDNStorage::ftp_get[{$totalVideosLeft}|{$count}/{$total}] success ETA $eta_string $mbps {$remote_file} ". humanFileSize($thisFilesize));
+                    _error_log("CDNStorage::ftp_get[{$totalVideosLeft}|{$count}/{$total}] success ETA $eta_string $mbps [$bytesPerSecond] {$remote_file} ". humanFileSize($thisFilesize));
                 } else {
                     _error_log("CDNStorage::ftp_get[{$totalVideosLeft}|{$count}/{$total}] ERROR {$remote_file}");
                 }
