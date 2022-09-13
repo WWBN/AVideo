@@ -143,7 +143,7 @@ class CDNStorage {
         } catch (Exception $exc) {
             $list = [];
         }
-        var_dump($list);exit;
+        //var_dump($list);exit;
         $files = [];
         foreach ($list as $key => $value) {
             $parts1 = explode('#', $key);
