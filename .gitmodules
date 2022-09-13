@@ -1,0 +1,3 @@
+[submodule "view/js/jquery-dialogextend"] 
+  path = view/js/jquery-dialogextend 
+  url = git://github.com/ROMB/jquery-dialogextend.git
