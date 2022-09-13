@@ -632,7 +632,7 @@ class CDNStorage {
             } 
             
             $local_file = $value['remote']['local_path'];
-            _error_log("CDNStorage::get:download Start {$local_file} ". humanFileSize($value['remote']['remote_filesize']));
+            //_error_log("CDNStorage::get:download Start {$local_file} ". humanFileSize($value['remote']['remote_filesize']));
             if (!empty($local_file)) {
                 $remote_file = '/' . CDNStorage::filenameToRemotePath($local_file, false);
                 $start = microtime(true);
