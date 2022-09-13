@@ -1,5 +1,8 @@
 <?php
 
+use Amp\Deferred;
+use Amp\Loop;
+
 $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
 
