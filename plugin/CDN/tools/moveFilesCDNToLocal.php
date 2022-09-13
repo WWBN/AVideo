@@ -1,4 +1,5 @@
 <?php
+
 $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
 
@@ -27,7 +28,7 @@ $count = 0;
 $countStatusNotActive = 0;
 $countMoved = 0;
 
-$sites_id_to_move = [];
+$videos_id_to_move = [];
 
 foreach ($videos as $key => $value) {
     $count++;
@@ -36,27 +37,39 @@ foreach ($videos as $key => $value) {
         echo "sites_id is empty {$value['sites_id']}" . PHP_EOL;
         continue;
     }
-    $sites_id_to_move[] = $value['id'];
+    $videos_id_to_move[] = $value['id'];
     echo "{$key}/{$total} added to move {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
 }
 
-$total = count($sites_id_to_move);
-foreach ($sites_id_to_move as $key => $value) {
-    echo "{$key}/{$total} Start move {$value}" . PHP_EOL;
-    $startF = microtime(true);
-    
-    //$response = CDNStorage::get($value, 4);
-    $response = CDNStorage::ftp_get($value);
-    if (empty($response)) {
-        echo "{$key}/{$total} ERROR " . PHP_EOL;
-    } else {
-        $endF = microtime(true) - $startF;
-        $ETA = ($total - $key + 1) * $endF;
-        $ps = humanFileSize($response['totalBytesTransferred'] / ($endF));
-        echo "{$key}/{$total} Moved done {$value} filesCopied={$response['filesCopied']} totalBytesTransferred=" . humanFileSize($response['totalBytesTransferred']) . " in " . secondsToDuration($endF) . " ETA: " . secondsToDuration($ETA) . " " . $ps . 'ps' . PHP_EOL;
-    }
-    exit;
+function download($videos_id) {
+    $deferred = new Deferred();
+    $response = $response = CDNStorage::ftp_get($videos_id);
+    $deferred->resolve($response);
+    return $deferred->promise();
 }
+
+function runLoop() {
+    global $videos_id_to_move;
+    $videos_id = array_shift($videos_id_to_move);
+    if (empty($videos_id)) {
+        return false;
+    }
+    download($videos_id)->onResolve(function (Throwable $error = null, $response = null) use ($info) {
+        if ($error) {
+            _error_log("download: asyncOperation1 fail -> " . $error->getMessage());
+        } else {
+            _error_log("download: asyncOperation1 result -> " . json_encode($response));
+        }
+        runLoop();
+    });
+}
+
+Loop::run(function () {
+    runLoop();
+    runLoop();
+    runLoop();
+    runLoop();
+});
 
 echo "StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;
 echo PHP_EOL . " Done! " . PHP_EOL;

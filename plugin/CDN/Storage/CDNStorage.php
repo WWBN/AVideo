@@ -632,7 +632,7 @@ class CDNStorage {
             } 
             
             $local_file = $value['remote']['local_path'];
-            //_error_log("CDNStorage::get:download 1 {$i} Start {$file}");
+            _error_log("CDNStorage::get:download Start {$remote_file} ". humanFileSize($value['remote']['remote_filesize']));
             if (!empty($local_file)) {
                 $remote_file = '/' . CDNStorage::filenameToRemotePath($local_file, false);
                 if (ftp_get($connID, $local_file, $remote_file, FTP_BINARY)) {
