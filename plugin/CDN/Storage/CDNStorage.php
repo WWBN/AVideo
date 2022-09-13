@@ -736,7 +736,7 @@ class CDNStorage {
         }
         if (empty($local_path)) {
             _error_log("CDNStorage::downloadFromCDNStorage error empty local file name {$local_path}");
-            return false;
+            //return false;
         }
 
         //_error_log("CDNStorage::put:uploadToCDNStorage " . __LINE__);
