@@ -42,7 +42,7 @@ foreach ($videos as $key => $value) {
 
 $total = count($sites_id_to_move);
 foreach ($sites_id_to_move as $key => $value) {
-    echo "{$key}/{$total} Start move {$value} onlyExtension={$onlyExtension}" . PHP_EOL;
+    echo "{$key}/{$total} Start move {$value}" . PHP_EOL;
     $startF = microtime(true);
     
     $response = CDNStorage::get($value, 4);

@@ -600,6 +600,7 @@ class CDNStorage {
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
         foreach ($list as $value) {
+            var_dump($value);exit;
             $filesize = filesize($value['local']['local_path']);
             if (!$value['isLocal']) {
                 _error_log("CDNStorage::get Local {$value['local']['local_path']} {$filesize} ");
