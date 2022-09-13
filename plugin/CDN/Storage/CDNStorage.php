@@ -663,7 +663,7 @@ class CDNStorage {
                 }
                 if ($r == FTP_MOREDATA) {
                     // Continue downloading...
-                    //_error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading. [$key] ");
+                    _error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading. [$key] [$r] ");
                     try {
                         $ret[$key] = ftp_nb_continue($conn_id[$key]);
                         $continue = true;
