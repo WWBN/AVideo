@@ -556,7 +556,7 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
                 //error_log("Configuration::getEncoderURL got it from cache ". json_encode($getEncoderURL));
             }
         }
-        $return = $getEncoderURL;
+        $return = addLastSlash($getEncoderURL);
         if($addCredentials){
             $return = addQueryStringParameter($return, 'user', User::getUserName());
             $return = addQueryStringParameter($return, 'pass', User::getUserPass());
