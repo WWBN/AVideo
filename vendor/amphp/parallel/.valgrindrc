@@ -1,0 +1,4 @@
+--error-limit=no
+--trace-children=yes
+--track-fds=yes
+--undef-value-errors=no

@@ -1,0 +1,42 @@
+{
+    "name": "amphp/serialization",
+    "description": "Serialization tools for IPC and data storage in PHP.",
+    "keywords": [
+        "asynchronous",
+        "async",
+        "serialization",
+        "serialize"
+    ],
+    "homepage": "https://github.com/amphp/serialization",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aaron Piotrowski",
+            "email": "aaron@trowski.com"
+        },
+        {
+            "name": "Niklas Keller",
+            "email": "me@kelunik.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9 || ^8 || ^7",
+        "amphp/php-cs-fixer-config": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Amp\\Serialization\\": "src"
+        },
+        "files": [
+            "src/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Amp\\Serialization\\Test\\": "test"
+        }
+    }
+}

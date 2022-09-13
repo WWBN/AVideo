@@ -102,6 +102,22 @@ class SettingsSearchapplications extends \Google\Service\Resource
     return $this->call('list', [$params], ListSearchApplicationsResponse::class);
   }
   /**
+   * Updates a search application. **Note:** This API requires an admin account to
+   * execute. (searchapplications.patch)
+   *
+   * @param string $name The name of the Search Application. Format:
+   * searchapplications/{application_id}.
+   * @param SearchApplication $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function patch($name, SearchApplication $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Operation::class);
+  }
+  /**
    * Resets a search application to default settings. This will return an empty
    * response. **Note:** This API requires an admin account to execute.
    * (searchapplications.reset)

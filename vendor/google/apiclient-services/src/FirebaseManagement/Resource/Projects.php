@@ -208,6 +208,9 @@ class Projects extends \Google\Service\Resource
    * @opt_param string pageToken Token returned from a previous call to
    * `ListFirebaseProjects` indicating where in the set of Projects to resume
    * listing.
+   * @opt_param bool showDeleted Optional. Controls whether Projects in the
+   * DELETED state should be returned in the response. If not specified, only
+   * `ACTIVE` Projects will be returned.
    * @return ListFirebaseProjectsResponse
    */
   public function listProjects($optParams = [])
@@ -231,9 +234,13 @@ class Projects extends \Google\Service\Resource
    * @param FirebaseProject $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask Specifies which fields to update. If this list
-   * is empty, then no state will be updated. Note that the fields `name`,
-   * `projectId`, and `projectNumber` are all immutable.
+   * @opt_param string updateMask Specifies which fields of the FirebaseProject to
+   * update. Note that the following fields are immutable: `name`, `project_id`,
+   * and `project_number`. To update `state`, use any of the following Google
+   * Cloud endpoints: [`projects.delete`](https://cloud.google.com/resource-
+   * manager/reference/rest/v1/projects/delete) or
+   * [`projects.undelete`](https://cloud.google.com/resource-
+   * manager/reference/rest/v1/projects/undelete)
    * @return FirebaseProject
    */
   public function patch($name, FirebaseProject $postBody, $optParams = [])
@@ -309,7 +316,7 @@ class Projects extends \Google\Service\Resource
    * @opt_param string pageToken Token returned from a previous call to
    * `SearchFirebaseApps` indicating where in the set of Apps to resume listing.
    * @opt_param bool showDeleted Controls whether Apps in the DELETED state should
-   * be returned. Defaults to false.
+   * be returned. If not specified, only `ACTIVE` Apps will be returned.
    * @return SearchFirebaseAppsResponse
    */
   public function searchApps($parent, $optParams = [])

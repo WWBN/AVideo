@@ -82,6 +82,8 @@ class JobStatistics2 extends \Google\Collection
   protected $schemaDataType = '';
   protected $searchStatisticsType = SearchStatistics::class;
   protected $searchStatisticsDataType = '';
+  protected $sparkStatisticsType = SparkStatistics::class;
+  protected $sparkStatisticsDataType = '';
   /**
    * @var string
    */
@@ -432,6 +434,20 @@ class JobStatistics2 extends \Google\Collection
   public function getSearchStatistics()
   {
     return $this->searchStatistics;
+  }
+  /**
+   * @param SparkStatistics
+   */
+  public function setSparkStatistics(SparkStatistics $sparkStatistics)
+  {
+    $this->sparkStatistics = $sparkStatistics;
+  }
+  /**
+   * @return SparkStatistics
+   */
+  public function getSparkStatistics()
+  {
+    return $this->sparkStatistics;
   }
   /**
    * @param string

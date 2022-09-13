@@ -1063,6 +1063,7 @@ li.dropdown-submenu > ul > li > a{
 .swal-modal.swal-modal-iframe-small .swal-content,
 .swal-modal.swal-modal-iframe-large .swal-content,
 .swal-modal.swal-modal-iframe-full .swal-content,
+.swal-modal.swal-modal-iframe-full-with-minimize .swal-content,
 .swal-modal.swal-modal-iframe-full-transparent .swal-content{
     width: 100%;
     height: 100%;
@@ -1072,6 +1073,7 @@ li.dropdown-submenu > ul > li > a{
 .swal-modal.swal-modal-iframe-small iframe,
 .swal-modal.swal-modal-iframe-large iframe,
 .swal-modal.swal-modal-iframe-full iframe,
+.swal-modal.swal-modal-iframe-full-with-minimize iframe,
 .swal-modal.swal-modal-iframe-full-transparent iframe{
     width: 100%;
     height: calc(100% - 50px);
@@ -1103,6 +1105,7 @@ li.dropdown-submenu > ul > li > a{
     max-height: 100%;
 }
 .swal-modal-iframe-full,
+.swal-modal-iframe-full-with-minimize,
 .swal-modal-iframe-full-transparent {
     margin: 0;
     position: fixed;
@@ -1114,6 +1117,7 @@ li.dropdown-submenu > ul > li > a{
     max-height: 100%;
 }
 .swal-modal.swal-modal-iframe-full iframe,
+.swal-modal.swal-modal-iframe-full-with-minimize iframe,
 .swal-modal.swal-modal-iframe-full-transparent iframe{
     height: 100%;
 }
@@ -1125,6 +1129,7 @@ li.dropdown-submenu > ul > li > a{
 }
 
 .swal-modal-iframe-full #avideoModalIframeDiv,
+.swal-modal-iframe-full-with-minimize #avideoModalIframeDiv,
 .swal-modal-iframe-full-transparent #avideoModalIframeDiv{
     display: block;
     margin: 0;
@@ -1132,9 +1137,40 @@ li.dropdown-submenu > ul > li > a{
 
 .swal-modal.swal-modal-iframe-large .swal-content,
 .swal-modal.swal-modal-iframe-full .swal-content,
+.swal-modal.swal-modal-iframe-full-with-minimize .swal-content,
 .swal-modal-iframe-full-transparent .swal-content{
     padding: 0;
     margin: 0;
+}
+
+.swal-modal-iframe-full-with-maximize-btn{
+    display: none;
+}
+
+.swal-offline-video-compress #avideoModalIframeDiv{
+    padding-inline-start: 0;
+}
+
+.swal-offline-video-compress .swal-modal-iframe-full-with-minimize-btn{
+    display: none;
+}
+
+.swal-offline-video-compress .swal-modal-iframe-full-with-maximize-btn{
+    display: inline-block;
+}
+
+.swal-offline-video-compress,
+.swal-offline-video-compress .swal-modal{
+    width: 300px;
+    height: 300px;
+    right: 0;
+    position: fixed;
+    bottom: 0;
+    top: auto;
+    left: auto;
+}
+.swal-offline-video-compress .swal-modal-logo{
+    display: none;
 }
 
 /* sm */

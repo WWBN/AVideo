@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpdoc>
+    <title>Amp</title>
+    <parser>
+        <target>build/docs</target>
+        <encoding>utf8</encoding>
+    </parser>
+    <transformer>
+        <target>build/docs</target>
+    </transformer>
+    <logging>
+        <level>warn</level>
+        <paths>
+            <default>build/log/docs/{DATE}.log</default>
+        </paths>
+    </logging>
+    <transformations>
+        <template name="responsive"/>
+    </transformations>
+    <files>
+        <directory>src</directory>
+    </files>
+</phpdoc>

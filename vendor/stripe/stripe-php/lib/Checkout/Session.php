@@ -20,8 +20,8 @@ namespace Stripe\Checkout;
  * You can create a Checkout Session on your server and pass its ID to the client
  * to begin Checkout.
  *
- * Related guide: <a href="https://stripe.com/docs/payments/checkout/api">Checkout
- * Server Quickstart</a>.
+ * Related guide: <a href="https://stripe.com/docs/checkout/quickstart">Checkout
+ * Quickstart</a>.
  *
  * @property string $id Unique identifier for the object. Used to pass to <code>redirectToCheckout</code> in Stripe.js.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -48,16 +48,17 @@ namespace Stripe\Checkout;
  * @property string $mode The mode of the Checkout Session.
  * @property null|string|\Stripe\PaymentIntent $payment_intent The ID of the PaymentIntent for Checkout Sessions in <code>payment</code> mode.
  * @property null|string|\Stripe\PaymentLink $payment_link The ID of the Payment Link that created this Session.
+ * @property null|string $payment_method_collection Configure whether a Checkout Session should collect a payment method.
  * @property null|\Stripe\StripeObject $payment_method_options Payment-method-specific configuration for the PaymentIntent or SetupIntent of this CheckoutSession.
  * @property string[] $payment_method_types A list of the types of payment methods (e.g. card) this Checkout Session is allowed to accept.
  * @property string $payment_status The payment status of the Checkout Session, one of <code>paid</code>, <code>unpaid</code>, or <code>no_payment_required</code>. You can use this value to decide when to fulfill your customer's order.
  * @property \Stripe\StripeObject $phone_number_collection
  * @property null|string $recovered_from The ID of the original expired Checkout Session that triggered the recovery flow.
  * @property null|string|\Stripe\SetupIntent $setup_intent The ID of the SetupIntent for Checkout Sessions in <code>setup</code> mode.
- * @property null|\Stripe\StripeObject $shipping Shipping information for this Checkout Session.
  * @property null|\Stripe\StripeObject $shipping_address_collection When set, provides configuration for Checkout to collect a shipping address from a customer.
+ * @property null|\Stripe\StripeObject $shipping_cost The details of the customer cost of shipping, including the customer chosen ShippingRate.
+ * @property null|\Stripe\StripeObject $shipping_details Shipping information for this Checkout Session.
  * @property \Stripe\StripeObject[] $shipping_options The shipping rate options applied to this Session.
- * @property null|string|\Stripe\ShippingRate $shipping_rate The ID of the ShippingRate for Checkout Sessions in <code>payment</code> mode.
  * @property null|string $status The status of the Checkout Session, one of <code>open</code>, <code>complete</code>, or <code>expired</code>.
  * @property null|string $submit_type Describes the type of transaction being performed by Checkout in order to customize relevant text on the page, such as the submit button. <code>submit_type</code> can only be specified on Checkout Sessions in <code>payment</code> mode, but not Checkout Sessions in <code>subscription</code> or <code>setup</code> mode.
  * @property null|string|\Stripe\Subscription $subscription The ID of the subscription for Checkout Sessions in <code>subscription</code> mode.
@@ -72,7 +73,6 @@ class Session extends \Stripe\ApiResource
 
     use \Stripe\ApiOperations\All;
     use \Stripe\ApiOperations\Create;
-    use \Stripe\ApiOperations\NestedResource;
     use \Stripe\ApiOperations\Retrieve;
 
     const BILLING_ADDRESS_COLLECTION_AUTO = 'auto';
@@ -84,6 +84,9 @@ class Session extends \Stripe\ApiResource
     const MODE_PAYMENT = 'payment';
     const MODE_SETUP = 'setup';
     const MODE_SUBSCRIPTION = 'subscription';
+
+    const PAYMENT_METHOD_COLLECTION_ALWAYS = 'always';
+    const PAYMENT_METHOD_COLLECTION_IF_REQUIRED = 'if_required';
 
     const PAYMENT_STATUS_NO_PAYMENT_REQUIRED = 'no_payment_required';
     const PAYMENT_STATUS_PAID = 'paid';
@@ -115,19 +118,22 @@ class Session extends \Stripe\ApiResource
         return $this;
     }
 
-    const PATH_LINE_ITEMS = '/line_items';
-
     /**
-     * @param string $id the ID of the session on which to retrieve the items
+     * @param string $id
      * @param null|array $params
      * @param null|array|string $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\LineItem> the list of items
+     * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
      */
     public static function allLineItems($id, $params = null, $opts = null)
     {
-        return self::_allNestedResources($id, static::PATH_LINE_ITEMS, $params, $opts);
+        $url = static::resourceUrl($id) . '/line_items';
+        list($response, $opts) = static::_staticRequest('get', $url, $params, $opts);
+        $obj = \Stripe\Util\Util::convertToStripeObject($response->json, $opts);
+        $obj->setLastResponse($response);
+
+        return $obj;
     }
 }

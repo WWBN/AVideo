@@ -71,6 +71,8 @@ class Rollout extends \Google\Model
    * @var string[]
    */
   public $labels;
+  protected $metadataType = Metadata::class;
+  protected $metadataDataType = '';
   /**
    * @var string
    */
@@ -269,6 +271,20 @@ class Rollout extends \Google\Model
   public function getLabels()
   {
     return $this->labels;
+  }
+  /**
+   * @param Metadata
+   */
+  public function setMetadata(Metadata $metadata)
+  {
+    $this->metadata = $metadata;
+  }
+  /**
+   * @return Metadata
+   */
+  public function getMetadata()
+  {
+    return $this->metadata;
   }
   /**
    * @param string

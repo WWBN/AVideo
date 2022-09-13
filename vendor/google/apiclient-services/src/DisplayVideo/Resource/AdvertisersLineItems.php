@@ -125,7 +125,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
    *
    * @param string $advertiserId The ID of the advertiser this line item belongs
    * to.
-   * @param string $lineItemId The ID of the line item we need to fetch.
+   * @param string $lineItemId The ID of the line item to delete.
    * @param array $optParams Optional parameters.
    * @return DisplayvideoEmpty
    */

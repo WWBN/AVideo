@@ -43,6 +43,7 @@
         "norkunas/onesignal-php-api": "^2.7",
         "stripe/stripe-php": "^9.1",
         "symfony/translation": "^5.3",
-        "amphp/amp": "^2.6"
+        "amphp/amp": "^2.6",
+        "amphp/parallel": "^1.4"
     }
 }

@@ -61,7 +61,9 @@ class PropertiesAudiences extends \Google\Service\Resource
     return $this->call('create', [$params], GoogleAnalyticsAdminV1alphaAudience::class);
   }
   /**
-   * Lookup for a single Audience. (audiences.get)
+   * Lookup for a single Audience. Audiences created before 2020 may not be
+   * supported. Default audiences will not show filter definitions.
+   * (audiences.get)
    *
    * @param string $name Required. The name of the Audience to get. Example
    * format: properties/1234/audiences/5678
@@ -75,7 +77,9 @@ class PropertiesAudiences extends \Google\Service\Resource
     return $this->call('get', [$params], GoogleAnalyticsAdminV1alphaAudience::class);
   }
   /**
-   * Lists Audiences on a property. (audiences.listPropertiesAudiences)
+   * Lists Audiences on a property. Audiences created before 2020 may not be
+   * supported. Default audiences will not show filter definitions.
+   * (audiences.listPropertiesAudiences)
    *
    * @param string $parent Required. Example format: properties/1234
    * @param array $optParams Optional parameters.

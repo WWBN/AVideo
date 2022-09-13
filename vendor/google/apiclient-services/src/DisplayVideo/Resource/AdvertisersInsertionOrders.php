@@ -97,8 +97,7 @@ class AdvertisersInsertionOrders extends \Google\Service\Resource
    *
    * @param string $advertiserId The ID of the advertiser this insertion order
    * belongs to.
-   * @param string $insertionOrderId The ID of the insertion order we need to
-   * delete.
+   * @param string $insertionOrderId The ID of the insertion order to delete.
    * @param array $optParams Optional parameters.
    * @return DisplayvideoEmpty
    */

@@ -38,6 +38,7 @@ class CloudBuild extends \Google\Service
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
 
+  public $githubDotComWebhook;
   public $locations;
   public $operations;
   public $projects_builds;
@@ -69,6 +70,25 @@ class CloudBuild extends \Google\Service
     $this->version = 'v1';
     $this->serviceName = 'cloudbuild';
 
+    $this->githubDotComWebhook = new CloudBuild\Resource\GithubDotComWebhook(
+        $this,
+        $this->serviceName,
+        'githubDotComWebhook',
+        [
+          'methods' => [
+            'receive' => [
+              'path' => 'v1/githubDotComWebhook:receive',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'webhookKey' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->locations = new CloudBuild\Resource\Locations(
         $this,
         $this->serviceName,

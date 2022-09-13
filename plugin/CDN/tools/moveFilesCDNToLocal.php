@@ -59,7 +59,7 @@ function runLoop() {
     if (empty($videos_id)) {
         return false;
     }
-    download($videos_id)->onResolve(function (Throwable $error = null, $response = null) use ($info) {
+    download($videos_id)->onResolve(function (Throwable $error = null, $response = null) {
         if ($error) {
             _error_log("download: asyncOperation1 fail -> " . $error->getMessage());
         } else {
@@ -71,9 +71,9 @@ function runLoop() {
 
 Loop::run(function () {
     _error_log("download: runLoop 1 ");
-    Amp\call(runLoop());
+    Worker\enqueueCallable(runLoop());
     _error_log("download: runLoop 2 ");
-    Amp\call(runLoop());
+    Worker\enqueueCallable(runLoop());
 });
 
 echo "StatusNotActive=$countStatusNotActive; Moved=$countMoved;" . PHP_EOL;

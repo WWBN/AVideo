@@ -1,0 +1,29 @@
+kramdown:
+  input: GFM
+  toc_levels: 2..3
+
+baseurl: "/sync"
+layouts_dir: ".shared/layout"
+includes_dir: ".shared/includes"
+
+exclude: ["Gemfile", "Gemfile.lock", "README.md", "vendor"]
+safe: true
+
+repository: amphp/sync
+gems:
+ - "jekyll-github-metadata"
+ - "jekyll-relative-links"
+
+defaults:
+ - scope:
+     path: ""
+     type: "pages"
+   values:
+     layout: "docs"
+
+shared_asset_path: "/sync/asset"
+
+navigation:
+ - mutex
+ - semaphore
+ - concurrent-iterator

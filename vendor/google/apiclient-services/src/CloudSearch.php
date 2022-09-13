@@ -638,6 +638,20 @@ class CloudSearch extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'patch' => [
+              'path' => 'v1/settings/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'debugOptions.enableDebugging' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
             ],'update' => [
               'path' => 'v1/settings/{+name}',
               'httpMethod' => 'PUT',
@@ -705,6 +719,16 @@ class CloudSearch extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/settings/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],'reset' => [

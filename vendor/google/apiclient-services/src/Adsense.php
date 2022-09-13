@@ -85,6 +85,16 @@ class Adsense extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'getAdBlockingRecoveryTag' => [
+              'path' => 'v2/{+name}/adBlockingRecoveryTag',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'list' => [
               'path' => 'v2/accounts',
               'httpMethod' => 'GET',

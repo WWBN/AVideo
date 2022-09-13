@@ -1,0 +1,42 @@
+{
+    "name": "amphp/parser",
+    "homepage": "https://github.com/amphp/parser",
+    "description": "A generator parser to make streaming parsers simple.",
+    "support": {
+        "issues": "https://github.com/amphp/parser/issues"
+    },
+    "keywords": [
+        "stream",
+        "async",
+        "non-blocking",
+        "parser"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aaron Piotrowski",
+            "email": "aaron@trowski.com"
+        },
+        {
+            "name": "Niklas Keller",
+            "email": "me@kelunik.com"
+        }
+    ],
+    "require": {
+        "php": ">=7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6",
+        "friendsofphp/php-cs-fixer": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Amp\\Parser\\": "lib"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Amp\\Parser\\Test\\": "test"
+        }
+    }
+}

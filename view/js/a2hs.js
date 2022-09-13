@@ -1,4 +1,4 @@
-let deferredPrompt;
+var deferredPrompt;
 
 // Register service worker to control making site work offline
 function serviceWorkerRegister() {

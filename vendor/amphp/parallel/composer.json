@@ -1,0 +1,62 @@
+{
+    "name": "amphp/parallel",
+    "description": "Parallel processing component for Amp.",
+    "keywords": [
+        "asynchronous",
+        "async",
+        "concurrent",
+        "multi-threading",
+        "multi-processing"
+    ],
+    "homepage": "https://github.com/amphp/parallel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aaron Piotrowski",
+            "email": "aaron@trowski.com"
+        },
+        {
+            "name": "Stephen Coakley",
+            "email": "me@stephencoakley.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "amphp/amp": "^2",
+        "amphp/byte-stream": "^1.6.1",
+        "amphp/parser": "^1",
+        "amphp/process": "^1",
+        "amphp/serialization": "^1",
+        "amphp/sync": "^1.0.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8 || ^7",
+        "amphp/phpunit-util": "^1.1",
+        "amphp/php-cs-fixer-config": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Amp\\Parallel\\": "lib"
+        },
+        "files": [
+            "lib/Context/functions.php",
+            "lib/Sync/functions.php",
+            "lib/Worker/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Amp\\Parallel\\Example\\": "examples",
+            "Amp\\Parallel\\Test\\": "test"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs",
+            "@test"
+        ],
+        "cs": "php-cs-fixer fix -v --diff --dry-run",
+        "cs-fix": "php-cs-fixer fix -v --diff",
+        "test": "@php -dzend.assertions=1 -dassert.exception=1 ./vendor/bin/phpunit --coverage-text"
+    }
+}

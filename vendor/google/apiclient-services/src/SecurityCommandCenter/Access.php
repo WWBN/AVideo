@@ -17,8 +17,9 @@
 
 namespace Google\Service\SecurityCommandCenter;
 
-class Access extends \Google\Model
+class Access extends \Google\Collection
 {
+  protected $collection_key = 'serviceAccountDelegationInfo';
   /**
    * @var string
    */
@@ -33,6 +34,16 @@ class Access extends \Google\Model
    * @var string
    */
   public $principalEmail;
+  /**
+   * @var string
+   */
+  public $principalSubject;
+  protected $serviceAccountDelegationInfoType = ServiceAccountDelegationInfo::class;
+  protected $serviceAccountDelegationInfoDataType = 'array';
+  /**
+   * @var string
+   */
+  public $serviceAccountKeyName;
   /**
    * @var string
    */
@@ -97,6 +108,48 @@ class Access extends \Google\Model
   public function getPrincipalEmail()
   {
     return $this->principalEmail;
+  }
+  /**
+   * @param string
+   */
+  public function setPrincipalSubject($principalSubject)
+  {
+    $this->principalSubject = $principalSubject;
+  }
+  /**
+   * @return string
+   */
+  public function getPrincipalSubject()
+  {
+    return $this->principalSubject;
+  }
+  /**
+   * @param ServiceAccountDelegationInfo[]
+   */
+  public function setServiceAccountDelegationInfo($serviceAccountDelegationInfo)
+  {
+    $this->serviceAccountDelegationInfo = $serviceAccountDelegationInfo;
+  }
+  /**
+   * @return ServiceAccountDelegationInfo[]
+   */
+  public function getServiceAccountDelegationInfo()
+  {
+    return $this->serviceAccountDelegationInfo;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceAccountKeyName($serviceAccountKeyName)
+  {
+    $this->serviceAccountKeyName = $serviceAccountKeyName;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceAccountKeyName()
+  {
+    return $this->serviceAccountKeyName;
   }
   /**
    * @param string

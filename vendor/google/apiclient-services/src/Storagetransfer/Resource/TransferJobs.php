@@ -20,6 +20,7 @@ namespace Google\Service\Storagetransfer\Resource;
 use Google\Service\Storagetransfer\ListTransferJobsResponse;
 use Google\Service\Storagetransfer\Operation;
 use Google\Service\Storagetransfer\RunTransferJobRequest;
+use Google\Service\Storagetransfer\StoragetransferEmpty;
 use Google\Service\Storagetransfer\TransferJob;
 use Google\Service\Storagetransfer\UpdateTransferJobRequest;
 
@@ -45,6 +46,22 @@ class TransferJobs extends \Google\Service\Resource
     $params = ['postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('create', [$params], TransferJob::class);
+  }
+  /**
+   * Deletes a transfer job. Deleting a transfer job sets its status to DELETED.
+   * (transferJobs.delete)
+   *
+   * @param string $jobName Required. The job to delete.
+   * @param string $projectId Required. The ID of the Google Cloud project that
+   * owns the job.
+   * @param array $optParams Optional parameters.
+   * @return StoragetransferEmpty
+   */
+  public function delete($jobName, $projectId, $optParams = [])
+  {
+    $params = ['jobName' => $jobName, 'projectId' => $projectId];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], StoragetransferEmpty::class);
   }
   /**
    * Gets a transfer job. (transferJobs.get)

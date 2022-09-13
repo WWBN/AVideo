@@ -62,8 +62,8 @@ try {
     //console.log('Variable declaration ERROR', e);
 }
 
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
 
 if (urlParams.has('debug')) {
     isDebuging = false;
@@ -640,7 +640,16 @@ function nl2br(str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
+
+function inMainIframe() {
+    var mainIframe = $('iframe', window.parent.document).attr('id');
+    return mainIframe === 'mainIframe';
+}
+
 function inIframe() {
+    if (inMainIframe()) {
+        return false;
+    }
     var url = new URL(location.href);
     var avideoIframe = url.searchParams.get("avideoIframe");
     if (avideoIframe && avideoIframe !== '0' && avideoIframe !== 0) {
@@ -1403,8 +1412,24 @@ function avideoModalIframeFullScreen(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-full', true);
 }
 
+function avideoModalIframeFullWithMinimize(url) {
+    if(typeof parent.openWindow === 'function'){
+        parent.openWindow(url, iframeAllowAttributes, '');
+    }else{
+        avideoModalIframeWithClassName(url, 'swal-modal-iframe-full-with-minimize', true);
+    }
+}
+
 function avideoModalIframeFullTransparent(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-full-transparent', false);
+}
+
+function avideoModalIframeFullScreenMinimize() {
+    $('.swal-modal-iframe-full-with-minimize').closest('.swal-overlay').addClass('swal-offline-video-compress');
+}
+
+function avideoModalIframeFullScreenMaximize() {
+    $('.swal-modal-iframe-full-with-minimize').closest('.swal-overlay').removeClass('swal-offline-video-compress');
 }
 
 function avideoModalIframeFullScreenClose() {
@@ -1442,7 +1467,7 @@ function avideoAddIframeIntoElement(element, url, insideSelector) {
     url = addGetParam(url, 'avideoIframe', 1);
     //console.log('avideoAddIframeIntoElement', url, element);
     var html = '';
-    html += '<iframe frameBorder="0" class="avideoIframeIntoElement" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
+    html += '<iframe frameBorder="0" class="avideoIframeIntoElement" src="' + url + '"  ' + iframeAllowAttributes + ' ></iframe>';
 
     var insideElement = $(element);
 
@@ -1460,7 +1485,7 @@ function avideoWindowIframe(url) {
     html += '<div class="panel panel-default" id="draggable" style="width: 400px; height: 200px; float: left; z-index: 9999;">';
     html += '<div class="panel-heading" style="cursor: move;">head</div>';
     html += '<div class="panel-body" style="padding: 0;">';
-    html += '<iframe id="avideoWindowIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  allow="camera *;microphone *" ></iframe>';
+    html += '<iframe id="avideoWindowIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  ' + iframeAllowAttributes + '></iframe>';
     html += '</div>';
     html += '</div>';
     $('body').append(html);
@@ -1471,19 +1496,15 @@ function avideoWindowIframe(url) {
 
 var avideoModalIframeFullScreenOriginalURL = false;
 var avideoModalIframeWithClassNameTimeout;
+var avideoModalIframeFullScreenMinimize;
 function avideoModalIframeWithClassName(url, className, updateURL) {
+    var closeModal = true;
     showURL = document.location.href;
     if (updateURL) {
         if (!avideoModalIframeFullScreenOriginalURL) {
             avideoModalIframeFullScreenOriginalURL = document.location.href;
         }
         showURL = url;
-    }
-    try {
-        console.log('avideoModalIframeWithClassName window.history.pushState showURL', showURL);
-        window.history.pushState("", "", showURL);
-    } catch (e) {
-
     }
     url = addGetParam(url, 'avideoIframe', 1);
     //console.log('avideoModalIframeWithClassName', url, className, updateURL);
@@ -1497,25 +1518,44 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
 
         avideoModalIframeFullScreenCloseButton = avideoModalIframeFullScreenCloseButtonSmall;
     }
+    avideoModalIframeFullScreenMaximize();
+    if (className === 'swal-modal-iframe-full-with-minimize') {
+        html += '<button class="btn btn-default pull-right swal-modal-iframe-full-with-minimize-btn" onclick="avideoModalIframeFullScreenMinimize();">';
+        html += '<i class="fas fa-compress-arrows-alt"></i>';
+        html += '</button>';
+        html += '<button class="btn btn-default pull-right swal-modal-iframe-full-with-maximize-btn" onclick="avideoModalIframeFullScreenMaximize();">';
+        html += '<i class="fas fa-expand-arrows-alt"></i>';
+        html += '</button>';
+        showURL = document.location.href;
+        closeModal = false;
+    }
 
     if (inIframe()) {
         html += avideoModalIframeFullScreenCloseButtonSmall;
     } else {
         html += avideoModalIframeFullScreenCloseButton;
-        html += '<img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive " style="max-height:34px;">';
+        html += '<img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive swal-modal-logo" style="max-height:34px;">';
     }
-    
-    if(typeof iframeAllowAttributes  == 'undefined'){
+
+    if (typeof iframeAllowAttributes == 'undefined') {
         iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
     }
     html += '</div>';
-    html += '<iframe id="avideoModalIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  '+iframeAllowAttributes+' ></iframe>';
+    html += '<iframe id="avideoModalIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  ' + iframeAllowAttributes + ' ></iframe>';
+
+    try {
+        console.log('avideoModalIframeWithClassName window.history.pushState showURL', showURL);
+        window.history.pushState("", "", showURL);
+    } catch (e) {
+
+    }
+
     var span = document.createElement("span");
     span.innerHTML = html;
     $('.swal-overlay').show();
     swal({
         content: span,
-        closeModal: true,
+        closeModal: closeModal,
         buttons: false,
         className: className,
         onClose: avideoModalIframeRemove
@@ -1600,6 +1640,8 @@ function avideoModalIframeIsVisible() {
         modal = $('.swal-modal-iframe-full');
     } else if ($('.swal-modal-iframe-full-transparent').length) {
         modal = $('.swal-modal-iframe-full-transparent');
+    } else if ($('.swal-modal-iframe-full-with-minimize').length) {
+        modal = $('.swal-modal-iframe-full-with-minimize');
     } else {
         modal = $('.swal-modal-iframe');
     }
@@ -1697,7 +1739,7 @@ function pauseIfIsPlayinAds() { // look like the mobile does not know if is play
     }
 }
 
-function countToOrRevesrse(selector, total){
+function countToOrRevesrse(selector, total) {
     var text = $(selector).text();
     if (isNaN(text)) {
         current = 0;
@@ -1705,10 +1747,10 @@ function countToOrRevesrse(selector, total){
         current = parseInt(text);
     }
     total = parseInt(total);
-    
-    if(current<=total){
+
+    if (current <= total) {
         countTo(selector, total);
-    }else{
+    } else {
         countToReverse(selector, total);
     }
 }
@@ -1750,7 +1792,7 @@ function countToReverse(selector, total) {
         $(selector).removeClass('loading');
         return;
     }
-    var rest = (current-total);
+    var rest = (current - total);
     var step = parseInt(rest / 100);
     if (step < 1) {
         step = 1;
@@ -2017,13 +2059,13 @@ function convertDateFromTimezoneToLocal(dbDateString, timezone) {
     return m.format("YYYY-MM-DD HH:mm:ss");
 }
 
-function checkMoment(){
+function checkMoment() {
     /*
-    while(typeof moment === 'undefined' || moment.tz !== 'function'){
-        console.log('checkMoment Waiting moment.tz to load');
-        delay(1);
-    }
-    */
+     while(typeof moment === 'undefined' || moment.tz !== 'function'){
+     console.log('checkMoment Waiting moment.tz to load');
+     delay(1);
+     }
+     */
 }
 
 function addGetParam(_url, _key, _value) {
@@ -2114,7 +2156,7 @@ async function setToolTips() {
                 try {
                     $(t).tooltip('hide');
                 } catch (e) {
-                    
+
                 }
             }, 2000);
         });
@@ -2355,10 +2397,10 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
                     avideoAlertInfo(response.msg);
                 }
                 if (
-                        isMobile() 
+                        isMobile()
                         //|| /cdn.ypt.me/.test(response.url)
-                    ) {
-                    window.open(response.url,'_blank');
+                        ) {
+                    window.open(response.url, '_blank');
                     avideoToastInfo('Opening file');
                     //document.location = response.url
                 } else {
@@ -2508,8 +2550,9 @@ function empty(data) {
 
 function in_array(needle, haystack) {
     var length = haystack.length;
-    for(var i = 0; i < length; i++) {
-        if(haystack[i] == needle) return true;
+    for (var i = 0; i < length; i++) {
+        if (haystack[i] == needle)
+            return true;
     }
     return false;
 }
@@ -2691,18 +2734,18 @@ async function selectAElements() {
 var hidePleaseWaitTimeout = {};
 var pleaseWaitIsINUse = {};
 var pleaseNextIndex = 0;
-function getPleaseWait(){
+function getPleaseWait() {
     return (function () {
         var index = pleaseNextIndex;
         pleaseNextIndex++;
-        var selector = "#pleaseWaitDialog_"+index;
+        var selector = "#pleaseWaitDialog_" + index;
         var pleaseWaitDiv = $(selector);
         if (pleaseWaitDiv.length === 0) {
             console.log('getPleaseWait', index);
             if (typeof avideoLoader == 'undefined') {
                 avideoLoader = '';
             }
-            pleaseWaitDiv = $('<div id="pleaseWaitDialog_'+index+'" class="pleaseWaitDialog modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
+            pleaseWaitDiv = $('<div id="pleaseWaitDialog_' + index + '" class="pleaseWaitDialog modal fade"  data-backdrop="static" data-keyboard="false">' + avideoLoader + '<h2 style="display:none;">Processing...</h2><div class="progress" style="display:none;"><div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>').appendTo('body');
         }
 
         return {
@@ -2735,19 +2778,19 @@ function getPleaseWait(){
                 }, 500);
             },
             setProgress: function (valeur) {
-                var progressSelector = selector+' .progress';
+                var progressSelector = selector + ' .progress';
                 //console.log('showPleaseWait setProgress', progressSelector);
                 $(progressSelector).slideDown();
                 $(selector).find('.progress-bar').css('width', valeur + '%').attr('aria-valuenow', valeur);
             },
             setText: function (text) {
-                var textSelector = selector+' h2';
+                var textSelector = selector + ' h2';
                 //console.log('showPleaseWait setText', textSelector);
                 $(textSelector).slideDown();
                 $(textSelector).html(text);
             },
             getProgressSelector: function () {
-                var progressSelector = selector+' .progress';
+                var progressSelector = selector + ' .progress';
                 return progressSelector;
             },
         };
@@ -2835,6 +2878,7 @@ $(document).ready(function () {
     });
     checkAutoPlay();
     // Code to handle install prompt on desktop
+    aHrefToAjax();
 
 });
 
@@ -3207,18 +3251,20 @@ async function setVideoSuggested(videos_id, isSuggested) {
     })
 }
 
-function toogleVideoSuggested(btn){
+function toogleVideoSuggested(btn) {
     var videos_id = $(btn).attr('videos_id');
     var isSuggested = $(btn).hasClass('isSuggested');
     setVideoSuggested(videos_id, !isSuggested).then((data) => {
-        if(!isSuggested){
+        if (!isSuggested) {
             $(btn).removeClass('isNotSuggested btn-default');
             $(btn).addClass('isSuggested btn-warning');
-        }else{
+        } else {
             $(btn).addClass('isNotSuggested btn-default');
             $(btn).removeClass('isSuggested btn-warning');
         }
-    }).catch((error) => {console.log(error)});
+    }).catch((error) => {
+        console.log(error)
+    });
 }
 
 
@@ -3235,14 +3281,14 @@ function getCookie(cname) {
 }
 
 function delay(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
+    return new Promise(resolve => setTimeout(resolve, time));
 }
 
 function arrayToTemplate(itemsArray, template) {
     if (typeof itemsArray == 'function') {
         return '';
     }
-    if(typeof template !== 'string'){
+    if (typeof template !== 'string') {
         console.error('arrayToTemplate', typeof template, template);
         return '';
     }
@@ -3255,4 +3301,105 @@ function arrayToTemplate(itemsArray, template) {
     }
     template = template.replace(new RegExp('{[^\}]}', 'g'), '');
     return template;
+}
+
+function avideoLoadPage(url) {
+    console.log('avideoLoadPage', url);
+    window.history.pushState("", "", url);
+    modal.showPleaseWait();
+    $.ajax({
+        url: url,
+        success: function (data) {
+            var parser = new DOMParser();
+            var htmlDoc = parser.parseFromString(data, "text/html");
+            $('body').fadeOut('fast', function () {
+                var head = $(htmlDoc).find('head');
+                var scriptsToAdd = $(htmlDoc).find('body script');
+                var selector = 'body > .container-fluid, body > .container';
+                $('head').html(head);
+                $(selector).html($(htmlDoc).find(selector).html());
+                addScripts(scriptsToAdd);
+                var footerCode = $(htmlDoc).find('#pluginFooterCode').html();
+                $('head').html(head);
+                $('#pluginFooterCode').html(footerCode);
+            });
+        }
+    });
+}
+
+function avideoLoadPage2(url) {
+    console.log('avideoLoadPage', url);
+    window.history.pushState("", "", url);
+    modal.showPleaseWait();
+    $.ajax({
+        url: url,
+        success: function (data) {
+            var parser = new DOMParser();
+            var htmlDoc = parser.parseFromString(data, "text/html");
+
+            $('body').fadeOut('fast', function () {
+                var bodyElement = $(htmlDoc).find('body');
+                var head = $(htmlDoc).find('head').html();
+                var body = bodyElement.html();
+                var _class = bodyElement.attr('class');
+                var id = bodyElement.attr('id');
+                var style = bodyElement.attr('style');
+                $('head').html(head);
+                $('body').attr('class', _class);
+                $('body').attr('id', id);
+                $('body').attr('style', style);
+                $('body').html(body);
+                $('#pluginFooterCode').fadeIn('slow', function () {
+                    modal.hidePleaseWait();
+                });
+            });
+        }
+    });
+}
+
+
+function aHrefToAjax() {
+    return false;
+    $('a').click(function (evt) {
+        var target = $(this).attr('target');
+        if (empty(target)) {
+            var url = $(this).attr('href');
+            if (isValidURL(url)) {
+                evt.preventDefault();
+                avideoLoadPage(url);
+                return false;
+            }
+        }
+    });
+}
+
+function addScripts(scriptsToAdd) {
+    var localScripts = $("script");
+    for (index in scriptsToAdd) {
+        var script = scriptsToAdd[index];
+        if (typeof script === 'object') {
+            var src = $(script).attr('src');
+            console.log(typeof script, typeof $(script));
+            if (empty(src)) {
+                try {
+                    $('body').append(script);
+                } catch (e) {
+                    
+                }
+            } else {
+                var scriptFound = false;
+                localScripts.each(function () {
+                    var _src = $(this).attr('src');
+                    
+                    if (src === _src) {
+                        scriptFound = true;
+                        return false;
+                    }
+                });
+                if (!scriptFound) {
+                    $('<script src="' + src + '" type="text/javascript"></script>').appendTo(document.body);
+                }
+            }
+        }
+    }
 }

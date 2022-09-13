@@ -1,0 +1,46 @@
+{
+    "name": "amphp/sync",
+    "description": "Mutex, Semaphore, and other synchronization tools for Amp.",
+    "keywords": [
+        "asynchronous",
+        "async",
+        "mutex",
+        "semaphore",
+        "synchronization"
+    ],
+    "homepage": "https://github.com/amphp/sync",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aaron Piotrowski",
+            "email": "aaron@trowski.com"
+        },
+        {
+            "name": "Stephen Coakley",
+            "email": "me@stephencoakley.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "amphp/amp": "^2.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9 || ^8 || ^7",
+        "amphp/phpunit-util": "^1.1",
+        "amphp/php-cs-fixer-config": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Amp\\Sync\\": "src"
+        },
+        "files": [
+            "src/functions.php",
+            "src/ConcurrentIterator/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Amp\\Sync\\Test\\": "test"
+        }
+    }
+}
