@@ -592,8 +592,7 @@ class CDNStorage {
         }
         return ['filesCopied' => $fileUploadCount, 'totalBytesTransferred' => $totalBytesTransferred];
     }
-    
-    
+
     public static function ftp_get($videos_id) {
         global $_downloadInfo;
         $list = self::getFilesListBoth($videos_id);
@@ -643,24 +642,20 @@ class CDNStorage {
         $fileDownloadCount = 0;
         $conn_id = array();
         $connID = self::getConnID(0, $conn_id);
-        
-        for ($i = 0; $i < $totalSameTime; $i++) {
-            $local_file = array_shift($filesToDownload);
-            //_error_log("CDNStorage::get:download 1 {$i} Start {$file}");
-            if (empty($local_file)) {
-                continue;
-            }
+
+        $local_file = array_shift($filesToDownload);
+        //_error_log("CDNStorage::get:download 1 {$i} Start {$file}");
+        if (!empty($local_file)) {
             $remote_file = '/' . CDNStorage::filenameToRemotePath($local_path, false);
-            if(ftp_get($connID, $local_file, $remote_file, FTP_BINARY)){
+            if (ftp_get($connID, $local_file, $remote_file, FTP_BINARY)) {
                 $fileDownloadCount++;
-                $totalBytesTransferred+= filesize($local_file);
+                $totalBytesTransferred += filesize($local_file);
                 _error_log("CDNStorage::ftp_get success {$remote_file}");
-            }else{
+            } else {
                 _error_log("CDNStorage::ftp_get ERROR {$remote_file}");
             }
-            
         }
-        
+
         return ['filesCopied' => $fileDownloadCount, 'totalBytesTransferred' => $totalBytesTransferred];
     }
 
@@ -735,7 +730,7 @@ class CDNStorage {
                 }
                 if ($r == FTP_MOREDATA) {
                     // Continue downloading...
-                    _error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading. [$key] [$r] ".count($conn_id));
+                    _error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading. [$key] [$r] " . count($conn_id));
                     try {
                         $ret[$key] = ftp_nb_continue($conn_id[$key]);
                         $continue = true;
