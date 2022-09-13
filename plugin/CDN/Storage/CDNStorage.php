@@ -653,7 +653,7 @@ class CDNStorage {
                 _error_log("CDNStorage::get:download 1 {$i} error {$file}");
             }
         }
-        //_error_log("CDNStorage::get confirmed " . count($ret));
+        _error_log("CDNStorage::get confirmed " . count($ret));
         $continue = true;
         while ($continue) {
             $continue = false;
@@ -753,8 +753,8 @@ class CDNStorage {
             _error_log("CDNStorage::downloadFromCDNStorage error {$remote_file} filesize is too small {$filesize}");
             return false;
         }
-
-        $localFilesize = filesize($local_path);
+        
+        $localFilesize = @filesize($local_path);
         if (file_exists($local_path) && $localFilesize > 20 && $localFilesize >= $filesize) {
             _error_log("CDNStorage::downloadFromCDNStorage error file already exists {$local_path}");
             return false;
