@@ -57,12 +57,6 @@ return array(
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
     'BackblazeB2\\' => array($vendorDir . '/gliterd/backblaze-b2/src'),
     'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
-    'Amp\\Sync\\' => array($vendorDir . '/amphp/sync/src'),
-    'Amp\\Serialization\\' => array($vendorDir . '/amphp/serialization/src'),
-    'Amp\\Process\\' => array($vendorDir . '/amphp/process/lib'),
-    'Amp\\Parser\\' => array($vendorDir . '/amphp/parser/lib'),
-    'Amp\\Parallel\\' => array($vendorDir . '/amphp/parallel/lib'),
-    'Amp\\ByteStream\\' => array($vendorDir . '/amphp/byte-stream/lib'),
     'Amp\\' => array($vendorDir . '/amphp/amp/lib'),
     'Abraham\\TwitterOAuth\\' => array($vendorDir . '/abraham/twitteroauth/src'),
 );

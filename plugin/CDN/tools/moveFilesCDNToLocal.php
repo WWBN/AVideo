@@ -1,6 +1,6 @@
 <?php
 
-use Amp\Parallel\Worker;
+//use Amp\Parallel\Worker;
 use Amp\Promise;
 
 use Amp\Deferred;
