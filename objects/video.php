@@ -1319,6 +1319,9 @@ if (!class_exists('Video')) {
                 foreach ($rows as $row) {
                     $ids[] = $row['id'];
                 }
+                
+                $daysLimit = getTrendingLimits();
+                
                 if (!empty($ids)) {
                     $sql .= " ORDER BY FIND_IN_SET(v.id, '" . implode(",", $ids) . "') DESC, likes DESC ";
                 } else {
