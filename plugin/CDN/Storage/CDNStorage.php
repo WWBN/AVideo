@@ -167,7 +167,7 @@ class CDNStorage {
                 'local_path' => $local_path,
                 'remote_path' => $remote_path,
                 'local_url' => "{$global['webSiteRootURL']}videos/{$relative}",
-                'remote_utl' => "https://{$pz}{$relative}",
+                'remote_url' => "https://{$pz}{$relative}",
                 'relative' => $relative,
                 'local_filesize' => $local_filesize,
                 'remote_filesize' => $remote_filesize,
@@ -221,7 +221,7 @@ class CDNStorage {
             'local_path' => $local_path,
             'remote_path' => $remote_path,
             'local_url' => "{$global['webSiteRootURL']}videos/{$relative}",
-            'remote_utl' => "https://{$pz}{$relative}",
+            'remote_url' => "https://{$pz}{$relative}",
             'relative' => $relative,
             'local_filesize' => $local_filesize,];
         return $file;
@@ -600,26 +600,31 @@ class CDNStorage {
         $filesToDownload = [];
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
-        foreach ($list as $value) {
+        foreach ($list as $filePath => $value) {
             //var_dump($value);exit;
-            if(empty($value) || empty($value['local'])){
+            if(empty($value)){
                 continue;
             }
-            $filesize = filesize($value['local']['local_path']);
-            if (!$value['isLocal']) {
-                _error_log("CDNStorage::get Local {$value['local']['local_path']} {$filesize} ");
-                if ($filesize > $value['remote']['remote_filesize']) {
-                    _error_log("CDNStorage::get Local filesize is too big");
-                } elseif ($value['remote']['remote_filesize'] < 20) {
-                    _error_log("CDNStorage::get remote filesize is too small");
-                } elseif ($filesize == $value['remote']['remote_filesize']) {
-                    _error_log("CDNStorage::get same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
+            if(!empty($value['local'])){
+               $filesize = filesize($value['local']['local_path']);
+                if (!$value['isLocal']) {
+                    _error_log("CDNStorage::get Local {$value['local']['local_path']} {$filesize} ");
+                    if ($filesize > $value['remote']['remote_filesize']) {
+                        _error_log("CDNStorage::get Local filesize is too big");
+                    } elseif ($value['remote']['remote_filesize'] < 20) {
+                        _error_log("CDNStorage::get remote filesize is too small");
+                    } elseif ($filesize == $value['remote']['remote_filesize']) {
+                        _error_log("CDNStorage::get same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
+                    } else {
+                        $filesToDownload[] = $value['local']['local_path'];
+                        $totalFilesize += $value['remote']['remote_filesize'];
+                    }
                 } else {
-                    $filesToDownload[] = $value['local']['local_path'];
-                    $totalFilesize += $value['remote']['remote_filesize'];
-                }
-            } else {
-                _error_log("CDNStorage::get not valid local file " . json_encode($value['remote']));
+                    _error_log("CDNStorage::get not valid local file " . json_encode($value['remote']));
+                } 
+            }else{
+                $filesToDownload[] = $value['remote']['local_path'];
+                $totalFilesize += $value['remote']['remote_filesize'];
             }
         }
         if (empty($filesToDownload)) {
