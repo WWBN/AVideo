@@ -641,6 +641,12 @@ class CDNStorage {
                     $thisFilesize = filesize($local_file);
                     $seconds = intval(microtime(true)-$start);
                     $bytesPerSecond = $thisFilesize/$seconds;
+                    if($bytesPerSecond<200000){
+                        _error_log("CDNStorage::get too slow reconnect");
+                        ftp_close($connID);
+                        unset($conn_id[0]);
+                        $connID = self::getConnID(0, $conn_id);
+                    }
                     $mbps = humanFileSize($bytesPerSecond).'s';
                     $totalBytesTransferred += $thisFilesize;
                     $remainingFiles = $total-$count;
