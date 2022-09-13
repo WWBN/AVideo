@@ -86,10 +86,13 @@ if ($_POST['createTables'] > 0) {
         if (substr(trim($line), -1, 1) == ';') {
             // Perform the query
             //error_log("Installation: ".$templine);
-            if (!$mysqli->query($templine)) {
+            try {
+                $mysqli->query($templine);
+            } catch (Exception $exc) {
                 error_log("Installation: SQL ERROR ".$mysqli->error);
                 $obj->error = ('Error performing query \'<strong>' . $templine . '\': ' . $mysqli->error . '<br /><br />');
             }
+
             // Reset temp variable to empty
             $templine = '';
         }
