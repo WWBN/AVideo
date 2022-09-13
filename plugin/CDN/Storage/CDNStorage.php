@@ -663,11 +663,16 @@ class CDNStorage {
                 }
                 if ($r == FTP_MOREDATA) {
                     // Continue downloading...
-                    _error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading. [$key] ");
-                    $ret[$key] = ftp_nb_continue($conn_id[$key]);
-                    $continue = true;
+                    //_error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading. [$key] ");
+                    try {
+                        $ret[$key] = ftp_nb_continue($conn_id[$key]);
+                        $continue = true;
+                    } catch (Exception $exc) {
+                        _error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage ERROR . [$key] ".$exc->getMessage());
+                    }
+
                 }
-                _error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading 2. [$key] ");
+                //_error_log(date('Y-m-d H:i:s') . " CDNStorage::get:downloadToCDNStorage Continue downloading 2. [$key] ");
                     
                 if ($r == FTP_FINISHED) {
                     $end = microtime(true) - $_downloadInfo[$key]['microtime'];
