@@ -594,7 +594,7 @@ class CDNStorage {
     }
 
     public static function ftp_get($videos_id) {
-        global $_downloadInfo;
+        global $_downloadInfo, $videos_id_to_move;
         $list = self::getFilesListBoth($videos_id);
         //var_dump($list);exit;
         $filesToDownload = [];
@@ -645,9 +645,10 @@ class CDNStorage {
                     $remainingFiles = $total-$count;
                     $eta = $remainingFiles*$seconds;
                     $eta_string = secondsToDuration($eta);
-                    _error_log("CDNStorage::ftp_get[{$count}/{$total}] success ETA $eta_string $mbps {$remote_file} ". humanFileSize($thisFilesize));
+                    $totalVideosLeft = count($videos_id_to_move);
+                    _error_log("CDNStorage::ftp_get[{$totalVideosLeft}|{$count}/{$total}] success ETA $eta_string $mbps {$remote_file} ". humanFileSize($thisFilesize));
                 } else {
-                    _error_log("CDNStorage::ftp_get[{$count}/{$total}] ERROR {$remote_file}");
+                    _error_log("CDNStorage::ftp_get[{$totalVideosLeft}|{$count}/{$total}] ERROR {$remote_file}");
                 }
             }
         }
