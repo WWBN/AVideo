@@ -3531,6 +3531,7 @@ function siteMap() {
 
         TimeLogStart("siteMap Video::getLink $videos_id");
         $loc = Video::getLink($video['id'], $video['clean_title']);
+        //$loc = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false);
         TimeLogEnd("siteMap Video::getLink $videos_id", __LINE__, 0.5);
         $title = strip_tags($video['title']);
         $description = _substr(strip_tags(br2nl($description)), 0, 2048);
@@ -5568,6 +5569,21 @@ function getCurrentPage() {
         }
     }
     return 1;
+}
+
+function getTrendingLimit(){
+    global $advancedCustom;
+    if(empty($advancedCustom)){
+        $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+    }
+    $daysLimit = intval($advancedCustom->trendingOnLastDays->value);
+    return $daysLimit;
+}
+
+function getTrendingLimitDate(){
+    $daysLimit = getTrendingLimit();
+    $dateDaysLimit = date('Y-m-d H:i:s', strtotime("-{$daysLimit} days"));
+    return $dateDaysLimit;
 }
 
 function setCurrentPage($current) {
