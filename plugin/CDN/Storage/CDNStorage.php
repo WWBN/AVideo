@@ -605,7 +605,11 @@ class CDNStorage {
         $conn_id = array();
         $connID = self::getConnID(0, $conn_id);
         
+        $total = count($filePath);
+        $count = 0;
+        
         foreach ($list as $filePath => $value) {
+            $count++;
             //var_dump($value);exit;
             if (empty($value)) {
                 continue;
@@ -634,9 +638,9 @@ class CDNStorage {
                 if (ftp_get($connID, $local_file, $remote_file, FTP_BINARY)) {
                     $fileDownloadCount++;
                     $totalBytesTransferred += filesize($local_file);
-                    _error_log("CDNStorage::ftp_get success {$remote_file}");
+                    _error_log("CDNStorage::ftp_get[{$count}/{$total}] success {$remote_file}");
                 } else {
-                    _error_log("CDNStorage::ftp_get ERROR {$remote_file}");
+                    _error_log("CDNStorage::ftp_get[{$count}/{$total}] ERROR {$remote_file}");
                 }
             }
         }
