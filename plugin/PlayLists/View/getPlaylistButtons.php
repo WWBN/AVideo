@@ -75,6 +75,7 @@ if ($isMyChannel) {
                 </button>
                 <input type="hidden" id="playListEmbedCode<?php echo $program['id']; ?>" value='<?php
                 $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/embed.php?playlists_id={$program['id']}", $advancedCustom->embedCodeTemplate);
+                $code = str_replace("{videoLengthInSeconds}", 0, $code);
                 echo($code);
                 ?>'/>
                 <button class="btn btn-xs btn-default" onclick="copyToClipboard($('#playListEmbedGallery<?php echo $program['id']; ?>').val()); setTextGalleryCopied();" data-toggle="tooltip" title="<?php echo __("Copy Embed code"); ?>">
@@ -82,6 +83,7 @@ if ($isMyChannel) {
                 </button>
                 <input type="hidden" id="playListEmbedGallery<?php echo $program['id']; ?>" value='<?php
                 $code = str_replace("{embedURL}", "{$global['webSiteRootURL']}plugin/PlayLists/playerEmbed.php?playlists_id={$program['id']}", $advancedCustom->embedCodeTemplate);
+                $code = str_replace("{videoLengthInSeconds}", 0, $code);
                 echo($code);
                 ?>'/>
                        <?php
