@@ -64,7 +64,7 @@ $userCredentials = User::loginFromRequestToGet();
                     $_POST = $p;
                     foreach ($list as $value) {
                         $count++;
-                        echo '<li class="list-group-item">#' . $count . " - " . $value['topic'] . ' <span class="badge">' . $value['created'] . '</span><br><small class="text-muted">' . $value['user_agent'] . '</small></li>';
+                        echo '<li class="list-group-item">#' . $count . " - [{$value['id']}]" . $value['topic'] . ' <span class="badge">' . $value['created'] . '</span><br><small class="text-muted">' . $value['user_agent'] . '</small></li>';
                     }
                     ?>
                 </ul>
