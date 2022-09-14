@@ -17,9 +17,7 @@ if (!Live::canRestream()) {
     </div>
     <div class="panel-footer">
         <?php
-        if (isOnDeveloperMode()) {
-            include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/getLiveKey.php';
-        }
+        include $global['systemRootPath'] . 'plugin/Live/view/Live_restreams/getLiveKey.php';
         ?>
         <div class="btn-group pull-right">
             <button type="button" class="btn btn-primary" onclick="testRestreamer();">
