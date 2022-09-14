@@ -100,10 +100,21 @@ if (empty($output)) {
         $itemIds[] = $value->id;
     }
     
-    $categoryName = trim(@$_REQUEST["catName"]);  // 1. LETS USE THE CATEGORY NAME INSTEAD OF 'ALL'
-    $playlistName = ucwords(str_replace("-", " ", $categoryName));
-    if(empty($categoryName) || empty($playlistName)){
+    $categoryName = 'All';
+    $playlistName = 'all';
+    if(!empty($_REQUEST['program_id'])){
+        $program = new PlayList($_REQUEST['program_id']);
+        $categoryName = trim($program->getName()); 
+        $playlistName = ucwords(str_replace("-", " ", $categoryName));
+    }else if(!empty($_REQUEST['catName'])){
+        $categoryName = trim(@$_REQUEST["catName"]);  // 1. LETS USE THE CATEGORY NAME INSTEAD OF 'ALL'
+        $playlistName = ucwords(str_replace("-", " ", $categoryName));
+    }
+    
+    if(empty($categoryName)){
         $categoryName = 'All';
+    }
+    if(empty($playlistName)){
         $playlistName = 'all';
     }
         
