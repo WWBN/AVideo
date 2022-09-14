@@ -102,7 +102,7 @@ if (empty($output)) {
     
     $categoryName = trim(@$_REQUEST["catName"]);  // 1. LETS USE THE CATEGORY NAME INSTEAD OF 'ALL'
     $playlistName = ucwords(str_replace("-", " ", $categoryName));
-    if(empty($categoryName)){
+    if(empty($categoryName) || empty($playlistName)){
         $categoryName = 'All';
         $playlistName = 'all';
     }
