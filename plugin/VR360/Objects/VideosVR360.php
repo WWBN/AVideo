@@ -43,6 +43,9 @@ class VideosVR360 extends ObjectYPT {
 
     static protected function getFromVideoDb($videos_id) {
         global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
         $videos_id = intval($videos_id);
         $sql = "SELECT * FROM ".static::getTableName()." WHERE  videos_id = $videos_id LIMIT 1";
         $res = $global['mysqli']->query($sql);
