@@ -56,6 +56,9 @@ if (empty($output)) {
             $movie->id = 'video_'.$row['id'];
             $movie->title = UTF8encode($row['title']);
             $movie->longDescription = _substr(strip_tags(br2nl(UTF8encode($row['description']))), 0, 490);
+            if(empty($movie->longDescription)){
+                $movie->longDescription = $movie->title;
+            }            
             $movie->shortDescription = _substr($movie->longDescription, 0, 200);
             $movie->thumbnail = Video::getRokuImage($row['id']);
             $movie->tags = [_substr(UTF8encode($row['category']), 0, 20)];
