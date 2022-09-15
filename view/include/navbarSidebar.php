@@ -8,7 +8,7 @@
                 <li>
 
                     <div>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-primary btn-block  " style="border-radius: 4px 4px 0 0;">
+                        <a href="<?php echo getHomePageURL(); ?>" class="btn btn-primary btn-block  " style="border-radius: 4px 4px 0 0;">
                             <span class="fa fa-home"></span>
                             <?php echo __("Home"); ?>
                         </a>

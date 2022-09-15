@@ -1642,6 +1642,30 @@ function getimgsize($file_src) {
     return $size;
 }
 
+function getImageFormat($file) {
+    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+    if ($extension === 'jpg') {
+        $format = 'jpeg';
+    } else {
+        $size = getimgsize($file);
+        if ($size === false) {
+            return false;
+        }
+
+        if (empty($size['mime']) || $size['mime'] == 'image/pjpeg') {
+            $size['mime'] = 'image/jpeg';
+        }
+        //var_dump($file_src, $size);exit;
+        $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
+        $extension = $format;
+        if (empty($format)) {
+            $format = 'jpeg';
+            $extension = 'jpg';
+        }
+    }
+    return array('format' => $format, 'extension' => $extension);
+}
+
 function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
     if (empty($file_dest)) {
         return false;
@@ -1655,26 +1679,9 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
         _error_log("im_resize: Source not found: {$file_src}");
         return false;
     }
-    $size = getimgsize($file_src);
-    if ($size === false) {
-        _error_log("im_resize: Could not get image size: {$file_src}");
-        return false;
-    }
-
-    if (empty($size['mime']) || $size['mime'] == 'image/pjpeg') {
-        $size['mime'] = 'image/jpeg';
-    }
-
-    $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
-    if (empty($format)) {
-        $format = 'jpeg';
-    }
-    $destformat = strtolower(substr($file_dest, -4));
-    if (empty($destformat)) {
-        _error_log("destformat not found {$file_dest}");
-        $destformat = ".jpg";
-    }
-    $icfunc = "imagecreatefrom" . $format;
+    $format = getImageFormat($file_src);
+    $destformat = strtolower(pathinfo($file_dest, PATHINFO_EXTENSION));
+    $icfunc = "imagecreatefrom" . $format['format'];
     if (!function_exists($icfunc)) {
         _error_log("im_resize: Function does not exists: {$icfunc}");
         return false;
@@ -1688,6 +1695,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
         return false;
     }
     try {
+        //var_dump($file_src, $icfunc);
         $src = $icfunc($file_src);
     } catch (Exception $exc) {
         _error_log("im_resize: ($file_src) " . $exc->getMessage());
@@ -1745,12 +1753,14 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
 
     imagecopyresampled($dest, $src, 0, 0, ($ws - $wc) / 2, ($hs - $hc) / 2, $wd, $hd, $wc, $hc);
     $saved = false;
-    if ($destformat == '.png') {
+    if ($destformat == 'png') {
         $saved = imagepng($dest, $file_dest);
-    }
-
-    if ($destformat == '.jpg') {
+    }else if ($destformat == 'jpg') {
         $saved = imagejpeg($dest, $file_dest, $q);
+    }else if ($destformat == 'webp') {
+        $saved = imagewebp($dest, $file_dest, $q);
+    }else if ($destformat == 'gif') {
+        $saved = imagegif($dest, $file_dest);
     }
 
     if (!$saved) {
@@ -3146,7 +3156,7 @@ function isSameDomainAsMyAVideo($url) {
     return isSameDomain($url, $global['webSiteRootURL']) || isSameDomain($url, getCDN());
 }
 
-function getRefferOrOrigin(){
+function getRefferOrOrigin() {
     $url = '';
     if (!empty($_SERVER['HTTP_REFERER'])) {
         $url = $_SERVER['HTTP_REFERER'];
@@ -3787,7 +3797,7 @@ function getAdsLeaderBoardTop() {
             $adCode = ADs::giveGoogleATimeout($ad->leaderBoardTop->value);
             $adCode = ADs::addLabel($adCode, $ad->leaderBoardTopLabel);
         }
-    } 
+    }
     return $adCode;
 }
 
@@ -5571,16 +5581,16 @@ function getCurrentPage() {
     return 1;
 }
 
-function getTrendingLimit(){
+function getTrendingLimit() {
     global $advancedCustom;
-    if(empty($advancedCustom)){
+    if (empty($advancedCustom)) {
         $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
     }
     $daysLimit = intval($advancedCustom->trendingOnLastDays->value);
     return $daysLimit;
 }
 
-function getTrendingLimitDate(){
+function getTrendingLimitDate() {
     $daysLimit = getTrendingLimit();
     $dateDaysLimit = date('Y-m-d H:i:s', strtotime("-{$daysLimit} days"));
     return $dateDaysLimit;
@@ -6389,7 +6399,7 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
             break;
         }
     }
-    header('HTTP/1.0 '.$pageCode);
+    header('HTTP/1.0 ' . $pageCode);
     if (empty($unlockPassword) && preg_match('/json/i', $contentType)) {
         header("Content-Type: application/json");
         $obj = new stdClass();
@@ -6398,10 +6408,10 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
         $obj->forbiddenPage = true;
         die(json_encode($obj));
     } else {
-        if(empty($unlockPassword) && !User::isLogged()){
-            $message .= ', '.__('please login');
+        if (empty($unlockPassword) && !User::isLogged()) {
+            $message .= ', ' . __('please login');
             gotToLoginAndComeBackHere($message);
-        }else{
+        } else {
             header("Content-Type: text/html");
             include $global['systemRootPath'] . 'view/forbiddenPage.php';
         }
@@ -6719,9 +6729,9 @@ function showAlertMessage() {
         }
         _session_start();
         unset($_SESSION['YPTalertMessage']);
-    }else{
+    } else {
         if (!requestComesFromSafePlace()) {
-            echo PHP_EOL, "/** showAlertMessage !requestComesFromSafePlace [".getRefferOrOrigin()."] **/";
+            echo PHP_EOL, "/** showAlertMessage !requestComesFromSafePlace [" . getRefferOrOrigin() . "] **/";
             return false;
         }
     }
@@ -6743,7 +6753,7 @@ function showAlertMessage() {
             }
         }
     }
-    
+
     foreach ($check as $value) {
         if (!empty($_GET[$value])) {
             if (is_array($_GET[$value])) {
@@ -7469,11 +7479,11 @@ function sendSocketMessage($msg, $callbackJSFunction = "", $users_id = "-1", $se
         try {
             $obj = YPTSocket::send($msg, $callbackJSFunction, $users_id, $send_to_uri_pattern);
         } catch (Exception $exc) {
-            if($try<3){
+            if ($try < 3) {
                 sleep(1);
                 _error_log("sendSocketMessage try agaion [$try]" . $exc->getMessage());
-                $obj = sendSocketMessage($msg, $callbackJSFunction, $users_id, $send_to_uri_pattern, $try+1);
-            }else{
+                $obj = sendSocketMessage($msg, $callbackJSFunction, $users_id, $send_to_uri_pattern, $try + 1);
+            } else {
                 $obj = new stdClass();
                 $obj->error = true;
                 $obj->msg = $exc->getMessage();
@@ -9598,17 +9608,21 @@ function setDefaultSort($defaultSortColumn, $defaultSortOrder) {
     }
 }
 
-function getWordOrIcon($word, $class=''){
+function getWordOrIcon($word, $class = '') {
     $word = trim($word);
-    if(preg_match('/facebook/i', $word)){
-        return '<i class="fab fa-facebook '.$class.'" data-toggle="tooltip" title="'.$word.'"></i>';
+    if (preg_match('/facebook/i', $word)) {
+        return '<i class="fab fa-facebook ' . $class . '" data-toggle="tooltip" title="' . $word . '"></i>';
     }
-    if(preg_match('/youtube|youtu.be/i', $word)){
-        return '<i class="fab fa-youtube '.$class.'" data-toggle="tooltip" title="'.$word.'"></i>';
+    if (preg_match('/youtube|youtu.be/i', $word)) {
+        return '<i class="fab fa-youtube ' . $class . '" data-toggle="tooltip" title="' . $word . '"></i>';
     }
-    if(preg_match('/twitch/i', $word)){
-        return '<i class="fab fa-twitch '.$class.'" data-toggle="tooltip" title="'.$word.'"></i>';
+    if (preg_match('/twitch/i', $word)) {
+        return '<i class="fab fa-twitch ' . $class . '" data-toggle="tooltip" title="' . $word . '"></i>';
     }
     return $word;
-    
+}
+
+function getHomePageURL() {
+    global $global;
+    return "{$global['webSiteRootURL']}site/";
 }

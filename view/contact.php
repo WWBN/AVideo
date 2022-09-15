@@ -38,7 +38,7 @@ $metaDescription = " Contact Form";
                                 <h2><?php echo __("Your message has been sent!"); ?></h2>
                             </div>
                         </div>
-                        <a class="btn btn-success btn-block" href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Go back to the main page"); ?></a>
+                        <a class="btn btn-success btn-block" href="<?php echo getHomePageURL(); ?>"><?php echo __("Go back to the main page"); ?></a>
                     </div>
                     <form class="well form-horizontal" action=" " method="post"  id="contact_form">
                         <input type="hidden" name="contactForm" value="1"/>

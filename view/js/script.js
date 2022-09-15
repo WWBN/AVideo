@@ -27,7 +27,8 @@ try {
     var isDebuging = false;
     var avideoIsOnline = false;
     var userLang = navigator.language || navigator.userLanguage;
-
+    var iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
+    
     // Create browser compatible event handler.
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
     var eventer = window[eventMethod];
@@ -1392,6 +1393,24 @@ function avideoModalIframeCloseToastSuccess(msg) {
     window.parent.avideoToastSuccess(msg);
 }
 
+function avideoDialog(url, maximize) {
+    if(typeof parent.openWindow === 'function'){
+        url = addGetParam(url, 'avideoIframe', 1);
+        parent.openWindow(url, iframeAllowAttributes, '', maximize);
+    }else{
+        avideoModalIframeFullScreen(url);
+    }
+}
+
+function avideoDialogWithPost(url, params) {
+    if(typeof parent.openWindowWithPost === 'function'){
+        parent.openWindowWithPost(url, iframeAllowAttributes, params);
+    }else{
+        var strWindowFeatures = "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800";
+        openWindowWithPost(url, 'avideoDialogWithPost', params, strWindowFeatures);
+    }
+}
+
 function avideoModalIframe(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe', false);
 }
@@ -1414,7 +1433,7 @@ function avideoModalIframeFullScreen(url) {
 
 function avideoModalIframeFullWithMinimize(url) {
     if(typeof parent.openWindow === 'function'){
-        parent.openWindow(url, iframeAllowAttributes, '');
+        parent.openWindow(url, iframeAllowAttributes, '', true);
     }else{
         avideoModalIframeWithClassName(url, 'swal-modal-iframe-full-with-minimize', true);
     }
@@ -1537,9 +1556,6 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
         html += '<img src="' + webSiteRootURL + 'videos/userPhoto/logo.png" class="img img-responsive swal-modal-logo" style="max-height:34px;">';
     }
 
-    if (typeof iframeAllowAttributes == 'undefined') {
-        iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
-    }
     html += '</div>';
     html += '<iframe id="avideoModalIframe" frameBorder="0" class="animate__animated animate__bounceInDown" src="' + url + '"  ' + iframeAllowAttributes + ' ></iframe>';
 

@@ -73,7 +73,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     }
 } else if (!empty($_GET['showOnly'])) {
     ?>
-    <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __("Go Back"); ?></a>
+    <a href="<?php echo getHomePageURL(); ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __("Go Back"); ?></a>
     <?php
 } else {
     $ads1 = getAdsLeaderBoardTop();

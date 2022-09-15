@@ -651,7 +651,7 @@ class CDNStorage {
                     }else{
                         $bytesPerSecond = 0;
                     }
-                    $mbps = humanFileSize($bytesPerSecond).'s';
+                    $mbps = humanFileSize($bytesPerSecond).'ps';
                     $totalBytesTransferred += $thisFilesize;
                     $remainingFiles = $total-$count;
                     $eta = $remainingFiles*$seconds;

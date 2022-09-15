@@ -105,7 +105,7 @@ $global['ignoreChat2'] = 1;
                                                 <button type="submit" class="btn btn-success btn-block"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></button>
                                             </div>
                                             <div class="col-md-6">
-                                                <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-danger  btn-block"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></a>
+                                                <a href="<?php echo getHomePageURL(); ?>" class="btn btn-danger  btn-block"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></a>
                                             </div>
                                         </div>
                                     </form>

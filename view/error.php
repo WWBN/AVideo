@@ -510,7 +510,7 @@ header("HTTP/1.0 404 Not Found");
                 </div>
 
                 <div id="navigation">
-                    <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>"><?php echo __("Home"); ?></a>
+                    <a class="navigation" href="<?php echo getHomePageURL(); ?>"><?php echo __("Home"); ?></a>
                     <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>about"><?php echo __("About Us"); ?></a>
                     <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>sitemap.xml"><?php echo __("Site Map"); ?></a>
                     <a class="navigation" href="<?php echo $global['webSiteRootURL']; ?>contact"><?php echo __("Contact"); ?></a>

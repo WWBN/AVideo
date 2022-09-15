@@ -79,7 +79,7 @@ $ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false)
 
                     <div class="modal-footer" >
                         <a href="<?php echo $_SERVER['REQUEST_URI'],strpos($_SERVER['REQUEST_URI'], "?")===false?"?":"&"; ?>rrating=1" class="btn btn-success pull-right"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></a>
-                        <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-danger pull-right"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></a>
+                        <a href="<?php echo getHomePageURL(); ?>" class="btn btn-danger pull-right"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></a>
                     </div>
                 </div>
 

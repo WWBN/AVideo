@@ -18,15 +18,14 @@ if (empty($advancedCustom->openEncoderInIFrame) || !isSameDomainAsMyAVideo($conf
     }
     if (empty($advancedCustom->doNotShowEncoderButton)) {
         if (!empty($config->getEncoderURL())) {
+            
+            $params = new stdClass();
+            $params->webSiteRootURL = $global['webSiteRootURL'];
+            $params->user = User::getUserName();
+            $params->pass = User::getUserPass();
             ?>
             <li>
-                <form id="formEncoder" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder"  autocomplete="off" >
-                    <input type="hidden" name="webSiteRootURL" value="<?php echo $global['webSiteRootURL']; ?>"  autocomplete="off"  />
-                    <input type="hidden" name="user" value="<?php echo User::getUserName(); ?>"  autocomplete="off"  />
-                    <input type="hidden" name="pass" value="<?php echo User::getUserPass(); ?>"  autocomplete="off"  />
-                </form>
-                <a href="#" onclick="$('#formEncoder').submit();
-                        return false;"  data-toggle="tooltip" title="<?php echo __("Upload a file or download it from the Internet"); ?>" data-placement="left"
+                <a href="#" onclick='avideoDialogWithPost("<?php echo $config->getEncoderURL(); ?>", <?php echo json_encode($params); ?>);return false;'  data-toggle="tooltip" title="<?php echo __("Upload a file or download it from the Internet"); ?>" data-placement="left"
                     class="faa-parent animated-hover" >
                     <span class="fas fa-cog faa-spin"></span> <?php echo empty($advancedCustom->encoderButtonLabel) ? __("Encode video and audio") : __($advancedCustom->encoderButtonLabel); ?>
                 </a>

@@ -31,7 +31,7 @@ require_once '../locale/function.php';
                     <span class="glyphicon glyphicon-ok-circle"></span>
                     Your system is installed, remove the <code><?php echo $global['systemRootPath']; ?>install</code> directory to continue
                     <hr>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-success btn-lg center-block">Go to the main page</a>
+                    <a href="<?php echo getHomePageURL(); ?>" class="btn btn-success btn-lg center-block">Go to the main page</a>
                 </h3>
             </div>
             <?php

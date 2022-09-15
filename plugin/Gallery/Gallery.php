@@ -167,11 +167,7 @@ class Gallery extends PluginAbstract {
     public function getFirstPage() {
         global $global;
         if (!AVideoPlugin::isEnabledByName("YouPHPFlix2")) {
-            if(false && empty($_REQUEST['inMainIframe']) && !inIframe()){
-                return $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryIframe.php';
-            }else{
-                return $global['systemRootPath'] . 'plugin/Gallery/view/modeGallery.php';
-            }
+            return $global['systemRootPath'] . 'plugin/Gallery/view/modeGallery.php';
         }
     }
 
