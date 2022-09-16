@@ -5594,7 +5594,7 @@ if (!class_exists('Video')) {
             }
 
             if (!isset($_getEPG[$videos_id])) {
-                $sql = "SELECT * FROM `videos` WHERE id = ? AND epg_link IS NOT NULL AND epg_link != ''";
+                $sql = "SELECT * FROM `videos` WHERE id = ? AND `type` = 'linkVideo' AND epg_link IS NOT NULL AND epg_link != ''";
                 $res = sqlDAL::readSql($sql, 'i', array($videos_id));
 
                 $video = sqlDAL::fetchAssoc($res);
