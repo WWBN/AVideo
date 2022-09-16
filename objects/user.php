@@ -973,6 +973,7 @@ if (typeof gtag !== \"function\") {
                 $passhash = self::getUserHash($user['id'], $valid);
             }
             _setcookie("rememberme", $rememberme, $expires);
+            _setcookie("users_id", $user['id'], $expires);
             _setcookie("user", $user['user'], $expires);
             _setcookie("pass", $passhash, $expires);
 
