@@ -14,5 +14,14 @@ if (!empty($advancedCustomUser->afterLogoffGoToMyChannel)) {
 }
 User::logoff();
 Category::clearCacheCount();
-header("location: {$redirectUri}");
-exit;
+//header("location: {$redirectUri}");
+//exit;
+?>
+<script>
+caches.keys().then(cacheNames => {
+  cacheNames.forEach(cacheName => {
+    caches.delete(cacheName);
+  });
+  document.location = '<?php echo $redirectUri; ?>';
+});
+</script>
