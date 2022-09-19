@@ -202,10 +202,11 @@ async function getStrategy(args) {
     strategiesNetworkOnlyRaw.push({extension: 'mp3', destination: false, url: false, fallback: false});
     strategiesNetworkOnlyRaw.push({extension: 'webm', destination: false, url: false, fallback: false});
     strategiesNetworkOnlyRaw.push({extension: false, destination: 'iframe', url: false, fallback: false});
+    strategiesNetworkOnlyRaw.push({extension: false, destination: 'document', url: webSiteRootURL, fallback: false});
 
     var strategiesNetworkFirst = [];
     strategiesNetworkFirst.push({extension: false, destination: 'document', url: webSiteRootURL + 'offline', fallback: false});
-    strategiesNetworkFirst.push({extension: false, destination: 'document', url: webSiteRootURL, fallback: false});
+    //strategiesNetworkFirst.push({extension: false, destination: 'document', url: webSiteRootURL, fallback: false});
 
     var strategiesCacheFirst = [];
     strategiesCacheFirst.push({extension: false, destination: 'font', url: false, fallback: false});
