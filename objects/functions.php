@@ -1643,26 +1643,40 @@ function getimgsize($file_src) {
 }
 
 function getImageFormat($file) {
-    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-    if ($extension === 'jpg') {
-        $format = 'jpeg';
-    } else {
-        $size = getimgsize($file);
-        if ($size === false) {
-            return false;
-        }
+    $size = getimgsize($file);
+    if ($size === false) {
+        return false;
+    }
 
-        if (empty($size['mime']) || $size['mime'] == 'image/pjpeg') {
-            $size['mime'] = 'image/jpeg';
-        }
-        //var_dump($file_src, $size);exit;
-        $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
-        $extension = $format;
-        if (empty($format)) {
+    if (empty($size['mime']) || $size['mime'] == 'image/pjpeg') {
+        $size['mime'] = 'image/jpeg';
+    }
+    //var_dump($file_src, $size);exit;
+    $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
+    $extension = $format;
+    if (empty($format)) {
+        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        if ($extension === 'jpg') {
             $format = 'jpeg';
-            $extension = 'jpg';
+        } else {
+            $size = getimgsize($file);
+            if ($size === false) {
+                return false;
+            }
+
+            if (empty($size['mime']) || $size['mime'] == 'image/pjpeg') {
+                $size['mime'] = 'image/jpeg';
+            }
+            //var_dump($file_src, $size);exit;
+            $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
+            $extension = $format;
+            if (empty($format)) {
+                $format = 'jpeg';
+                $extension = 'jpg';
+            }
         }
     }
+    
     return array('format' => $format, 'extension' => $extension);
 }
 
@@ -1755,11 +1769,11 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
     $saved = false;
     if ($destformat == 'png') {
         $saved = imagepng($dest, $file_dest);
-    }else if ($destformat == 'jpg') {
+    } else if ($destformat == 'jpg') {
         $saved = imagejpeg($dest, $file_dest, $q);
-    }else if ($destformat == 'webp') {
+    } else if ($destformat == 'webp') {
         $saved = imagewebp($dest, $file_dest, $q);
-    }else if ($destformat == 'gif') {
+    } else if ($destformat == 'gif') {
         $saved = imagegif($dest, $file_dest);
     }
 
@@ -6676,8 +6690,8 @@ function isIframe() {
     if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe') {
         return true;
     }
-    
-    $pattern = '/'. str_replace('/', '\\/', $global['webSiteRootURL']).'((view|site)\/?)?/';
+
+    $pattern = '/' . str_replace('/', '\\/', $global['webSiteRootURL']) . '((view|site)\/?)?/';
     if (empty($_SERVER['HTTP_REFERER']) || preg_match($pattern, $_SERVER['HTTP_REFERER'])) {
         return false;
     }
@@ -9627,18 +9641,18 @@ function getWordOrIcon($word, $class = '') {
 
 function getHomePageURL() {
     global $global;
-    if(useIframe()){
+    if (useIframe()) {
         return "{$global['webSiteRootURL']}site/";
-    }else{
+    } else {
         return "{$global['webSiteRootURL']}";
-    }    
+    }
 }
 
-function useIframe(){
+function useIframe() {
     return false && isOnDeveloperMode() && !isBot();
 }
 
-function getIframePaths(){
+function getIframePaths() {
     global $global;
     $modeYoutube = false;
     if (!empty($_GET['videoName']) || !empty($_GET['v']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName']) || !empty($_GET['evideo'])) {
@@ -9648,12 +9662,12 @@ function getIframePaths(){
         $relativeSRC = 'view/index_firstPage.php';
     }
     $url = "{$global['webSiteRootURL']}{$relativeSRC}";
-    if($modeYoutube && !empty($_GET['v'])){
-        if(!empty($_GET['v'])){
-            $url = "{$global['webSiteRootURL']}video/".$_GET['v'].'/';
+    if ($modeYoutube && !empty($_GET['v'])) {
+        if (!empty($_GET['v'])) {
+            $url = "{$global['webSiteRootURL']}video/" . $_GET['v'] . '/';
             unset($_GET['v']);
-            if(!empty($_GET['videoName'])){
-                $url .= urlencode($_GET['videoName']).'/';
+            if (!empty($_GET['videoName'])) {
+                $url .= urlencode($_GET['videoName']) . '/';
                 unset($_GET['videoName']);
             }
         }
@@ -9663,7 +9677,6 @@ function getIframePaths(){
     foreach ($_GET as $key => $value) {
         $url = addQueryStringParameter($url, $key, $value);
     }
-    
-    return array('relative'=>$relativeSRC, 'url'=>$url, 'path'=>"{$global['systemRootPath']}{$relativeSRC}", 'modeYoutube'=>$modeYoutube);
 
+    return array('relative' => $relativeSRC, 'url' => $url, 'path' => "{$global['systemRootPath']}{$relativeSRC}", 'modeYoutube' => $modeYoutube);
 }
