@@ -1,26 +1,43 @@
 <?php
-include dirname(__FILE__) . '/../view/firstPage.php';exit;
-
+//include dirname(__FILE__) . '/../view/firstPage.php';exit;
 //var_dump($_SERVER);exit;
 $configFile = dirname(__FILE__) . '/../videos/configuration.php';
-$doNotIncludeConfig = 1;
+//$doNotIncludeConfig = 1;
 require_once $configFile;
-require_once "{$global['systemRootPath']}objects/functions.php";
-if (isIframe()) {
-    include "{$global['systemRootPath']}view/firstPage.php";
+//require_once "{$global['systemRootPath']}objects/functions.php";
+
+$paths = getIframePaths();
+//var_dump(!useIframe(), isIframe());exit;
+if (!useIframe() || isIframe() || !empty($_REQUEST['inMainIframe'])) {
+    include $paths['path'];
     exit;
 }
+
+$postURL = $paths['url'];
+
+$postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
+//var_dump($postURL, $_REQUEST['inMainIframe']);exit;
 //var_dump($_SERVER);exit;
 ?><!DOCTYPE html>
 <html>
     <head>
+        <script class="doNotSepareteTag" src="<?php echo getURL('view/js/swRegister.js'); ?>" type="text/javascript"></script>
+        <title>Loading...</title>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+            function isASubIFrame() {
+                return document.location.ancestorOrigins.length > 0 && typeof parent.isASubIFrame === 'function';
+            }
+            if (isASubIFrame()) {
+                console.log('isASubIFrame', window.parent.document.location, document.location);
+                window.parent.document.location = document.location;
+                
+            }
         </script>
-        <title>Loading...</title>
-        <link rel="shortcut icon" href="<?php echo $global['webSiteRootURL']; ?>videos/favicon.ico" sizes="16x16,24x24,32x32,48x48,144x144">
-        <link href="<?php echo $global['webSiteRootURL']; ?>node_modules/jquery-ui-dist/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>node_modules/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="shortcut icon" href="<?php echo getURL('videos/favicon.ico'); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
+        <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <style>
             html{
                 overflow: auto;
@@ -59,53 +76,146 @@ if (isIframe()) {
             width="100%" 
             height="100%" 
             scrolling="auto"
-            src="<?php echo $global['webSiteRootURL']; ?>site" id="mainIframe"></iframe>
-        <script src="<?php echo $global['webSiteRootURL']; ?>node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>node_modules/jquery-ui-dist/jquery-ui.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-dialogextend/build/jquery.dialogextend.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>node_modules/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>node_modules/js-cookie/dist/js.cookie.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>node_modules/jquery-toast-plugin/dist/jquery.toast.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
+            src="<?php echo getURL('view\index_loading.html'); ?>" id="mainIframe" name="mainIframe"></iframe>
+            <form action="<?php echo $postURL; ?>" method="post" target="mainIframe" style="display: none;" id="mainIframeForm">
+            <?php
+            foreach ($_POST as $key => $value) {
+                echo "<input type='hidden' name='{$key}' value=". json_encode($value)." />";
+            }
+            ?>
+            </form>
+        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
+        <script src="<?php echo getURL('view/bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/js/jquery-dialogextend/build/jquery.dialogextend.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/sweetalert/dist/sweetalert.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/js-cookie/dist/js.cookie.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('view/js/a2hs.js'); ?>" type="text/javascript"></script>
         <script>
-
-
-            function iframeURLChange(iframe, callback) {
-                var unloadHandler = function () {
-                    // Timeout needed because the URL changes immediately after
-                    // the `unload` event is dispatched.
-                    setTimeout(function () {
-                        console.log('iframe 1', iframe, iframe.contentWindow.location.href, iframe.contentDocument.title);
-                        callback(iframe.contentWindow.location.href, iframe.contentDocument.title);
-                    }, 1000);
+            var avideoLoader = <?php echo json_encode(file_get_contents($global['systemRootPath'] . 'plugin/Layout/loaders/avideo.html'), JSON_UNESCAPED_UNICODE); ?>;
+            function attachOnload() {
+                var iframe = document.getElementById("mainIframe");
+                var onLoadHandler = function () {
+                    console.log('onLoadHandler');
                 };
-
-                function attachUnload() {
-                    // Remove the unloadHandler in case it was already attached.
-                    // Otherwise, the change will be dispatched twice.
-                    iframe.contentWindow.removeEventListener("unload", unloadHandler);
-                    iframe.contentWindow.addEventListener("unload", unloadHandler);
-                }
-
-                iframe.addEventListener("load", attachUnload);
-                attachUnload();
+                iframe.contentWindow.removeEventListener("load", onLoadHandler);
+                iframe.contentWindow.addEventListener("load", onLoadHandler);
             }
 
-            iframeURLChange(document.getElementById("mainIframe"), function (src, title) {
-                console.log("URL changed 1:", src, title);
-                document.title = title;
+            function attachOnBeforeUnload() {
+                var iframe = document.getElementById("mainIframe");
+                var onBeforeUnloadHandler = function () {
+                    console.log('onBeforeUnloadHandler');
+                    modal.showPleaseWait();
+                };
+                iframe.contentWindow.removeEventListener("beforeunload", onBeforeUnloadHandler);
+                iframe.contentWindow.addEventListener("beforeunload", onBeforeUnloadHandler);
+            }
 
-                if (src === webSiteRootURL + 'site' || src === webSiteRootURL + 'site/') {
-                    src = webSiteRootURL;
+            function attachUnload() {
+                var iframe = document.getElementById("mainIframe");
+                var onUnLoadHandler = function () {
+                    console.log('onUnLoadHandler');
+                    iframeLoadIsDone();
+                };
+                iframe.contentWindow.removeEventListener("unload", onUnLoadHandler);
+                iframe.contentWindow.addEventListener("unload", onUnLoadHandler);
+            }
+
+            attachUnload();
+            attachOnload();
+            attachOnBeforeUnload();
+            var iframeLoadIsDoneTimeout;
+            function iframeLoadIsDone() {
+                clearTimeout(iframeLoadIsDoneTimeout);
+                var iframe = document.getElementById("mainIframe");
+                if (!iframe.contentDocument) {
+                    iframeLoadIsDoneTimeout = setTimeout(function () {
+                        iframeLoadIsDone();
+                    }, 500);
+                } else {
+                    iframeLoadIsDoneTimeout = setTimeout(function () {
+                        updatePageFromIframe();
+                        console.log('reset Handler');
+                        attachUnload();
+                        attachOnload();
+                        attachOnBeforeUnload();
+                    }, 500);
+                    modal.hidePleaseWait();
                 }
+            }
 
+            function getIframeTitle() {
+                return document.getElementById("mainIframe").contentDocument.title;
+            }
+            function getIframeSRC() {
+                if (empty(document.getElementById("mainIframe").contentDocument)) {
+                    return document.getElementById("mainIframe").src;
+                } else {
+                    return document.getElementById("mainIframe").contentDocument.location.href;
+                }
+            }
+
+            function setIframeSRC(src) {
+                return document.getElementById("mainIframe").src = src;
+            }
+
+            var updatePageFromIframeTimeout;
+            function updatePageFromIframe() {
+                clearTimeout(updatePageFromIframeTimeout);
+                var title = getIframeTitle();
+                var src = getIframeSRC();
+                updatePage(title, src);
+                //updatePageFromIframeTimeout = setTimeout(function(){updatePageFromIframe();}, 2000);
+            }
+
+            function updatePage(title, src) {
+                updatePageTitle(title);
+                updatePageSRC(src);
+            }
+            function updatePageTitle(title) {
+                document.title = title;
+            }
+            function updatePageSRC(src) {
+                var iframeSRC = getIframeSRC();
+                if (src == 'about:blank') {
+                    return false;
+                }
+                var mainPages = ['site', 'site/', 'view/index_firstPage.php'];
+                
+                for (var i in mainPages) {
+                    var page = mainPages[i];
+                    if(typeof page !== 'string'){
+                       continue;
+                    }
+                    eval('var pattern = /'+webSiteRootURL.replaceAll('/', '\\/')+page.replace('/', '\\/')+'.*/');
+                    if(pattern.test(src)){
+                        src = webSiteRootURL;
+                    }
+                    if(pattern.test(iframeSRC)){
+                        iframeSRC = webSiteRootURL;
+                    }
+                }
+                
+                if (src !== iframeSRC) {
+                    setIframeSRC(src);
+                }
+                src.replace(/inMainIframe=1&?/g, '');
+                console.log('updatePageSRC', src, iframeSRC);
                 window.history.pushState("", "", src);
-            });
+
+                if (typeof parent.updatePageSRC == 'funciton') {
+                    console.log('parent updatePageSRC', src);
+                    parent.updatePageSRC(src);
+                }
+            }
 
             function getDialogWidth() {
                 var suggestedMinimumSize = 800;
                 var x = $(window).width();
-                var suggestedSize = x-100;
+                var suggestedSize = x - 100;
                 if (suggestedSize > suggestedMinimumSize) {
                     x = suggestedSize;
                 }
@@ -115,7 +225,7 @@ if (isIframe()) {
             function getDialogHeight() {
                 var suggestedMinimumSize = 600;
                 var x = $(window).height();
-                var suggestedSize = x-100;
+                var suggestedSize = x - 100;
                 if (suggestedSize > suggestedMinimumSize) {
                     x = suggestedSize;
                 }
@@ -150,24 +260,23 @@ if (isIframe()) {
                     "closable": true,
                     "maximizable": true,
                     "minimizable": true,
-                    "collapsable": true,
+                    //"collapsable": true,
                     "dblclick": "collapse",
                     "titlebar": "transparent",
                     "minimizeLocation": "right",
-                    "icons": {                        
-                        close: "ui-icon-circle-close",
-                        //close: "far fa-times-circle",
-                        "maximize": "ui-icon-circle-plus",
-                        "minimize": "ui-icon-circle-minus",
+                    "icons": {
+                        close: "ui-icon-close",
+                        "maximize": "ui-icon-plus",
+                        "minimize": "ui-icon-minus",
                         "collapse": "ui-icon-triangle-1-s",
-                        "restore": "ui-icon-bullet"
+                        "restore": "ui-icon-triangle-1-n"
                     }
                 });
                 if (maximize) {
                     $(dialogSelector).dialogExtend("maximize");
                 }
                 function iframeURLChange2(iframe, selector, callback) {
-                    var unloadHandler = function () {
+                    var onUnLoadHandler = function () {
                         // Timeout needed because the URL changes immediately after
                         // the `unload` event is dispatched.
                         setTimeout(function () {
@@ -179,10 +288,10 @@ if (isIframe()) {
                     };
 
                     function attachUnload() {
-                        // Remove the unloadHandler in case it was already attached.
+                        // Remove the onLoadHandler in case it was already attached.
                         // Otherwise, the change will be dispatched twice.
-                        iframe.contentWindow.removeEventListener("unload", unloadHandler);
-                        iframe.contentWindow.addEventListener("unload", unloadHandler);
+                        iframe.contentWindow.removeEventListener("unload", onUnLoadHandler);
+                        iframe.contentWindow.addEventListener("unload", onUnLoadHandler);
                     }
 
                     iframe.addEventListener("load", attachUnload);
@@ -219,7 +328,29 @@ if (isIframe()) {
                 document.body.removeChild(form);
             }
 
+            function avideoLoadPage(url) {
+                modal.showPleaseWait();
+
+                /*
+                 var iframe = $('#mainIframe').clone();
+                 $('#mainIframe').attr('id', 'oldMainIframe');
+                 $(iframe).css({display:'none'});
+                 $('body').append(iframe);
+                 
+                 var oldMainIframe = $('#oldMainIframe');
+                 if(oldMainIframe.length){
+                 $(oldMainIframe).slideUp('fast', function () {
+                 $(oldMainIframe).remove();
+                 });
+                 $('#mainIframe').slideDown();
+                 }
+                 */
+
+                setIframeSRC(url);
+            }
+
             $(document).ready(function () {
+                $('#mainIframeForm').submit();
                 //$("#window").draggable({handle: ".panel-heading", containment: "body"});
                 //$("#window").resizable();      
             });

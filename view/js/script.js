@@ -28,7 +28,7 @@ try {
     var avideoIsOnline = false;
     var userLang = navigator.language || navigator.userLanguage;
     var iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
-    
+
     // Create browser compatible event handler.
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
     var eventer = window[eventMethod];
@@ -247,7 +247,6 @@ async function lazyImage() {
     processing_lazyImage = false;
 }
 
-lazyImage();
 var pauseIfIsPlayinAdsInterval;
 var seconds_watching_video = 0;
 var _startCountPlayingTime;
@@ -643,8 +642,20 @@ function nl2br(str, is_xhtml) {
 }
 
 function inMainIframe() {
-    var mainIframe = $('iframe', window.parent.document).attr('id');
-    return mainIframe === 'mainIframe';
+    var response = false;
+    if (window.self !== window.top) {
+        var mainIframe = $('iframe', window.parent.document).attr('id');
+        response = mainIframe === 'mainIframe';
+    }
+    return response;
+}
+
+function redirectIfIsNotInIframe() {
+    if (!inMainIframe() && (document.location.href === webSiteRootURL + 'site' || document.location.href === webSiteRootURL + 'site/')) {
+        document.location = webSiteRootURL;
+        return true;
+    }
+    return false;
 }
 
 function inIframe() {
@@ -1394,20 +1405,19 @@ function avideoModalIframeCloseToastSuccess(msg) {
 }
 
 function avideoDialog(url, maximize) {
-    if(typeof parent.openWindow === 'function'){
+    if (typeof parent.openWindow === 'function') {
         url = addGetParam(url, 'avideoIframe', 1);
         parent.openWindow(url, iframeAllowAttributes, '', maximize);
-    }else{
+    } else {
         avideoModalIframeFullScreen(url);
     }
 }
 
 function avideoDialogWithPost(url, params) {
-    if(typeof parent.openWindowWithPost === 'function'){
+    if (typeof parent.openWindowWithPost === 'function') {
         parent.openWindowWithPost(url, iframeAllowAttributes, params);
-    }else{
-        var strWindowFeatures = "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800";
-        openWindowWithPost(url, 'avideoDialogWithPost', params, strWindowFeatures);
+    } else {
+        openWindowWithPost(url, 'avideoDialogWithPost', params, '');
     }
 }
 
@@ -1432,9 +1442,9 @@ function avideoModalIframeFullScreen(url) {
 }
 
 function avideoModalIframeFullWithMinimize(url) {
-    if(typeof parent.openWindow === 'function'){
+    if (typeof parent.openWindow === 'function') {
         parent.openWindow(url, iframeAllowAttributes, '', true);
-    }else{
+    } else {
         avideoModalIframeWithClassName(url, 'swal-modal-iframe-full-with-minimize', true);
     }
 }
@@ -1561,7 +1571,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
 
     try {
         console.log('avideoModalIframeWithClassName window.history.pushState showURL', showURL);
-        window.history.pushState("", "", showURL);
+        avideoPushState(showURL);
     } catch (e) {
 
     }
@@ -1578,7 +1588,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     }).then(() => {
         if (avideoModalIframeFullScreenOriginalURL) {
             //console.log('avideoModalIframeWithClassName window.history.pushState avideoModalIframeFullScreenOriginalURL', avideoModalIframeFullScreenOriginalURL);
-            window.history.pushState("", "", avideoModalIframeFullScreenOriginalURL);
+            avideoPushState(avideoModalIframeFullScreenOriginalURL);
             avideoModalIframeFullScreenOriginalURL = false;
         }
     });
@@ -1623,6 +1633,14 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
             }
         }
     }, 1000);
+}
+
+function avideoPushState(url) {
+    window.history.pushState("", "", url);
+    if (typeof parent.updatePageSRC == 'funciton') {
+        console.log('avideoPushState', url);
+        parent.updatePageSRC(url);
+    }
 }
 
 function checkIframeLoaded(id) {
@@ -2733,7 +2751,7 @@ function addAtMention(selector) {
                 position: {collision: "flip"}
             });
 }
-
+/*
 async function selectAElements() {
     $("a").each(function () {
         var location = window.location.toString()
@@ -2745,7 +2763,7 @@ async function selectAElements() {
             $(this).addClass("selected");
         }
     });
-}
+}*/
 
 var hidePleaseWaitTimeout = {};
 var pleaseWaitIsINUse = {};
@@ -2814,6 +2832,9 @@ function getPleaseWait() {
 }
 
 $(document).ready(function () {
+    if (redirectIfIsNotInIframe()) {
+        return false;
+    }
     getServerTime();
     addViewFromCookie();
     checkDescriptionArea();
@@ -2847,7 +2868,8 @@ $(document).ready(function () {
         setToolTips();
     }, 5000);
     lazyImage();
-    selectAElements();
+    //aHrefToAjax();
+    //selectAElements();
     $('#clearCache, .clearCacheButton').on('click', function (ev) {
         ev.preventDefault();
         clearCache(true, 0, 0);
@@ -2894,7 +2916,7 @@ $(document).ready(function () {
     });
     checkAutoPlay();
     // Code to handle install prompt on desktop
-    aHrefToAjax();
+    //aHrefToAjax();
 
 });
 
@@ -2921,7 +2943,15 @@ async function checkSavedCookies() {
 }
 
 function openWindowWithPost(url, name, params, strWindowFeatures) {
+    if(empty(strWindowFeatures)){
+        strWindowFeatures = "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800";
+    }
     var windowObject = window.open("about:blank", name, strWindowFeatures);
+    postFormToTarget(url, name, params);
+    return windowObject;
+}
+
+function postFormToTarget(url, name, params) {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", url);
@@ -2938,7 +2968,6 @@ function openWindowWithPost(url, name, params, strWindowFeatures) {
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-    return windowObject;
 }
 
 function fixAdSize() {
@@ -3318,11 +3347,25 @@ function arrayToTemplate(itemsArray, template) {
     template = template.replace(new RegExp('{[^\}]}', 'g'), '');
     return template;
 }
-
+/*
 function avideoLoadPage(url) {
     console.log('avideoLoadPage', url);
-    window.history.pushState("", "", url);
-    modal.showPleaseWait();
+    avideoPushState(url);
+    if (inMainIframe()) {
+        parent.avideoLoadPage(url);
+    } else {
+        document.location = url;
+    }
+}
+
+function avideoLoadPage3(url) {
+    console.log('avideoLoadPage3', url);
+    avideoPushState(url);
+    if (inMainIframe()) {
+        parent.modal.showPleaseWait();
+    } else {
+        modal.showPleaseWait();
+    }
     $.ajax({
         url: url,
         success: function (data) {
@@ -3330,14 +3373,23 @@ function avideoLoadPage(url) {
             var htmlDoc = parser.parseFromString(data, "text/html");
             $('body').fadeOut('fast', function () {
                 var head = $(htmlDoc).find('head');
-                var scriptsToAdd = $(htmlDoc).find('body script');
+                $('head').html(head.html());
                 var selector = 'body > .container-fluid, body > .container';
-                $('head').html(head);
-                $(selector).html($(htmlDoc).find(selector).html());
+                var container = $(htmlDoc).find(selector).html();
+                $(selector).html(container);
+                var scriptsToAdd = $(htmlDoc).find('body script');
                 addScripts(scriptsToAdd);
                 var footerCode = $(htmlDoc).find('#pluginFooterCode').html();
-                $('head').html(head);
                 $('#pluginFooterCode').html(footerCode);
+                $('body').fadeIn('fast', function () {
+                    if (inMainIframe()) {
+                        parent.modal.hidePleaseWait();
+                        parent.updatePageFromIframe();
+                    } else {
+                        modal.hidePleaseWait();
+                    }
+                    //aHrefToAjax();
+                });
             });
         }
     });
@@ -3345,7 +3397,7 @@ function avideoLoadPage(url) {
 
 function avideoLoadPage2(url) {
     console.log('avideoLoadPage', url);
-    window.history.pushState("", "", url);
+    avideoPushState(url);
     modal.showPleaseWait();
     $.ajax({
         url: url,
@@ -3374,10 +3426,14 @@ function avideoLoadPage2(url) {
 }
 
 
-function aHrefToAjax() {
-    return false;
+async function aHrefToAjax() {
+    if(typeof useIframe === 'undefined' || !useIframe){
+        return false;
+    }
+    $('a.aHrefToAjax').off('click');
     $('a').click(function (evt) {
         var target = $(this).attr('target');
+        $(this).addClass('aHrefToAjax');
         if (empty(target)) {
             var url = $(this).attr('href');
             if (isValidURL(url)) {
@@ -3400,13 +3456,13 @@ function addScripts(scriptsToAdd) {
                 try {
                     $('body').append(script);
                 } catch (e) {
-                    
+
                 }
             } else {
                 var scriptFound = false;
                 localScripts.each(function () {
                     var _src = $(this).attr('src');
-                    
+
                     if (src === _src) {
                         scriptFound = true;
                         return false;
@@ -3419,3 +3475,4 @@ function addScripts(scriptsToAdd) {
         }
     }
 }
+ * */

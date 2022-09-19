@@ -8,8 +8,8 @@ workbox.setConfig({
 
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
-const CACHE_NAME = 'avideo-cache-ver-1.4';
-console.log('sw CACHE_NAME', CACHE_NAME);
+const CACHE_NAME = 'avideo-cache-ver-1.5';
+console.log('sw strategy CACHE_NAME', CACHE_NAME);
 const precahedFiles = [
     FALLBACK_HTML_URL,
     webSiteRootURL + 'node_modules/video.js/dist/video-js.min.css',
@@ -75,10 +75,6 @@ const StaleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate(showCac
 
 var getStrategyTypeURLs = [];
 async function getStrategyType(strategyName, args, fallback) {
-    if (args.request.url == webSiteRootURL) {
-        console.log('getStrategyType', strategyName, args.request.url, fallback);
-    }
-
     if (typeof getStrategyTypeURLs[args.request.url] !== 'undefined') {
         return await CacheFirst.handle(args);
     }
@@ -124,9 +120,18 @@ async function getStrategyType(strategyName, args, fallback) {
     }
 }
 
+function shouldShowLog(request, extension) {
+    if (request.destination !== 'script' && request.destination !== 'style' && request.destination !== 'image' && extension !== 'webp' && extension !== 'woff2' && extension !== 'png') {
+        return true;
+    }
+    return false;
+}
+
 function ruleMatches(rules, extension, request) {
     var ruleIsValid = true;
-    //console.log('ruleMatches start', extension, request.url);
+    if (shouldShowLog(request, extension)) {
+        //console.log('strategy ruleMatches start', extension, request.url);
+    }
     for (var i in rules) {
         var rule = rules[i];
         if (rule) {
@@ -135,25 +140,33 @@ function ruleMatches(rules, extension, request) {
                 if (!ruleIsValid) {
                     return false;
                 }
-                //console.log('ruleMatches', i);
+                if (shouldShowLog(request, extension)) {
+                    console.log('strategy ruleMatches', i, extension);
+                }
             }
             if (i == 'destination') {
                 ruleIsValid = request.destination === rule;
                 if (!ruleIsValid) {
                     return false;
                 }
-                //console.log('ruleMatches', i, rule, request.url);
+                if (shouldShowLog(request, extension)) {
+                    console.log('strategy ruleMatches', i, rule, request.url);
+                }
             }
             if (i == 'url') {
                 ruleIsValid = request.url === rule;
                 if (!ruleIsValid) {
                     return false;
                 }
-                //console.log('ruleMatches', i, rule);
+                if (shouldShowLog(request, extension)) {
+                    console.log('strategy ruleMatches', i, rule);
+                }
             }
         }
     }
-    //console.log('ruleMatches end');
+    if (shouldShowLog(request, extension)) {
+        //console.log('strategy ruleMatches end');
+    }
     return ruleIsValid;
 }
 
@@ -161,7 +174,9 @@ async function processStrategy(strategy, args, extension, strategyName) {
     for (var i in strategy) {
         var rules = strategy[i];
         if (ruleMatches(rules, extension, args.request)) {
-            //console.log('processStrategy', args.request.url, extension, strategyName);
+            if (shouldShowLog(args.request, extension)) {
+                console.log('processStrategy', args.request.url, extension, strategyName);
+            }
             return await getStrategyType(strategyName, args, rules.fallback);
         }
     }
@@ -174,8 +189,11 @@ async function processStrategyDefault(args, extension) {
 
 async function getStrategy(args) {
     var strategiesNetworkOnly = [];
-    strategiesNetworkOnly.push({extension: false, destination: 'document', url: webSiteRootURL, fallback: true});
-    
+    strategiesNetworkOnly.push({extension: false, destination: false, url: webSiteRootURL, fallback: true});
+    strategiesNetworkOnly.push({extension: false, destination: false, url: webSiteRootURL + 'site', fallback: true});
+    strategiesNetworkOnly.push({extension: false, destination: false, url: webSiteRootURL + 'site/', fallback: true});
+    strategiesNetworkOnly.push({extension: false, destination: false, url: webSiteRootURL + 'objects/getTimes.json.php', fallback: true});
+
     var strategiesNetworkOnlyRaw = [];
     strategiesNetworkOnlyRaw.push({extension: 'key', destination: false, url: false, fallback: false});
     strategiesNetworkOnlyRaw.push({extension: 'php', destination: false, url: false, fallback: false});
@@ -183,9 +201,11 @@ async function getStrategy(args) {
     strategiesNetworkOnlyRaw.push({extension: 'mp4', destination: false, url: false, fallback: false});
     strategiesNetworkOnlyRaw.push({extension: 'mp3', destination: false, url: false, fallback: false});
     strategiesNetworkOnlyRaw.push({extension: 'webm', destination: false, url: false, fallback: false});
+    strategiesNetworkOnlyRaw.push({extension: false, destination: 'iframe', url: false, fallback: false});
 
     var strategiesNetworkFirst = [];
     strategiesNetworkFirst.push({extension: false, destination: 'document', url: webSiteRootURL + 'offline', fallback: false});
+    strategiesNetworkFirst.push({extension: false, destination: 'document', url: webSiteRootURL, fallback: false});
 
     var strategiesCacheFirst = [];
     strategiesCacheFirst.push({extension: false, destination: 'font', url: false, fallback: false});
@@ -195,13 +215,19 @@ async function getStrategy(args) {
     strategiesStaleWhileRevalidate.push({extension: false, destination: 'style', url: false, fallback: false});
     strategiesStaleWhileRevalidate.push({extension: false, destination: 'script', url: false, fallback: false});
     strategiesStaleWhileRevalidate.push({extension: false, destination: 'image', url: false, fallback: false});
+    strategiesStaleWhileRevalidate.push({extension: 'webp', destination: false, url: false, fallback: false});
+    strategiesStaleWhileRevalidate.push({extension: 'woff2', destination: false, url: false, fallback: false});
+    strategiesStaleWhileRevalidate.push({extension: 'png', destination: false, url: false, fallback: false});
     strategiesStaleWhileRevalidate.push({extension: false, destination: false, url: webSiteRootURL + 'plugin/Live/stats.json.php?Menu', fallback: false});
 
     let domain = (new URL(args.request.url));
     var extension = domain.pathname.split('.').pop().toLowerCase();
-    //console.log('getStrategy', extension, args);
-    return  await processStrategy(strategiesNetworkOnlyRaw, args, extension, 'NetworkOnlyRaw') ||
-            await processStrategy(strategiesNetworkOnly, args, extension, 'NetworkOnly') ||
+    if (shouldShowLog(args.request, extension)) {
+        //console.log('getStrategy', 'extension=', extension, 'destination=', args.request.destination, 'url=', args.request.url);
+    }
+    //return await NetworkOnlyRaw.handle(args);
+    return  await processStrategy(strategiesNetworkOnly, args, extension, 'NetworkOnly') ||
+            await processStrategy(strategiesNetworkOnlyRaw, args, extension, 'NetworkOnlyRaw') ||
             await processStrategy(strategiesNetworkFirst, args, extension, 'NetworkFirst') ||
             await processStrategy(strategiesCacheFirst, args, extension, 'CacheFirst') ||
             await processStrategy(strategiesStaleWhileRevalidate, args, extension, 'StaleWhileRevalidate') ||
@@ -209,7 +235,7 @@ async function getStrategy(args) {
 
 }
 
-//workbox.routing.registerRoute(/.*/, getStrategy);
+workbox.routing.registerRoute(/.*/, getStrategy);
 
 self.addEventListener('install', event => {
     //console.log('sw.js 1', event);

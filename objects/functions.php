@@ -5214,9 +5214,10 @@ function getSelfURI() {
         $http = 'https';
     }
 
-    $queryStringWithoutError = preg_replace("/error=[^&]*/", "", @$_SERVER['QUERY_STRING']);
+    $queryString = preg_replace("/error=[^&]*/", "", @$_SERVER['QUERY_STRING']);
+    $queryString = preg_replace("/inMainIframe=[^&]*/", "", $queryString);
     $phpselfWithoutIndex = preg_replace("/index.php/", "", @$_SERVER['PHP_SELF']);
-    $url = $http . "://$_SERVER[HTTP_HOST]$phpselfWithoutIndex?$queryStringWithoutError";
+    $url = $http . "://$_SERVER[HTTP_HOST]$phpselfWithoutIndex?$queryString";
     $url = rtrim($url, '?');
     return $url;
 }
@@ -6675,7 +6676,9 @@ function isIframe() {
     if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe') {
         return true;
     }
-    if (empty($_SERVER['HTTP_REFERER']) || $_SERVER['HTTP_REFERER'] == $global['webSiteRootURL'] || str_replace('view/', '', getSelfURI()) == $global['webSiteRootURL']) {
+    
+    $pattern = '/'. str_replace('/', '\\/', $global['webSiteRootURL']).'((view|site)\/?)?/';
+    if (empty($_SERVER['HTTP_REFERER']) || preg_match($pattern, $_SERVER['HTTP_REFERER'])) {
         return false;
     }
     return true;
@@ -9624,5 +9627,40 @@ function getWordOrIcon($word, $class = '') {
 
 function getHomePageURL() {
     global $global;
+    //return "{$global['webSiteRootURL']}";
     return "{$global['webSiteRootURL']}site/";
+}
+
+function useIframe(){
+    return isOnDeveloperMode() && !isBot();
+}
+
+function getIframePaths(){
+    global $global;
+    $modeYoutube = false;
+    if (!empty($_GET['videoName']) || !empty($_GET['v']) || !empty($_GET['playlist_id']) || !empty($_GET['liveVideoName']) || !empty($_GET['evideo'])) {
+        $modeYoutube = true;
+        $relativeSRC = 'view/modeYoutube.php';
+    } else {
+        $relativeSRC = 'view/index_firstPage.php';
+    }
+    $url = "{$global['webSiteRootURL']}{$relativeSRC}";
+    if($modeYoutube && !empty($_GET['v'])){
+        if(!empty($_GET['v'])){
+            $url = "{$global['webSiteRootURL']}video/".$_GET['v'].'/';
+            unset($_GET['v']);
+            if(!empty($_GET['videoName'])){
+                $url .= urlencode($_GET['videoName']).'/';
+                unset($_GET['videoName']);
+            }
+        }
+    }
+    unset($_GET['inMainIframe']);
+
+    foreach ($_GET as $key => $value) {
+        $url = addQueryStringParameter($url, $key, $value);
+    }
+    
+    return array('relative'=>$relativeSRC, 'url'=>$url, 'path'=>"{$global['systemRootPath']}{$relativeSRC}", 'modeYoutube'=>$modeYoutube);
+
 }

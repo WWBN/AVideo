@@ -9,7 +9,16 @@ if (!isset($global['systemRootPath'])) {
 $TimeLogLimitMY = 0.5;
 $timeLogNameMY = TimeLogStart("modeYoutube.php");
 //_error_log("modeYoutube: session_id = " . session_id() . " IP = " . getRealIpAddr());
-
+/*
+if (useIframe() && !isIframe() && empty($_REQUEST['inMainIframe'])) {
+    $paths = getIframePaths();
+    //var_dump($paths);exit;
+    header('Location: '.$paths['url']);
+    exit;
+}
+ * 
+ */
+//var_dump(__LINE__, __FILE__);exit;
 if (!empty($_GET['evideo'])) {
     $v = Video::decodeEvideo();
     $evideo = $v['evideo'];
@@ -54,12 +63,12 @@ if (!empty($evideo)) {
         unset($_SESSION['type']);
     }
     session_write_close();
-    
+
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-    if(empty($_GET['playlist_id']) && !empty($_GET['playlists_id'])){
+    if (empty($_GET['playlist_id']) && !empty($_GET['playlists_id'])) {
         $_GET['playlist_id'] = $_GET['playlists_id'];
     }
-    
+
     if (!empty($_GET['playlist_id'])) {
         $isSerie = 1;
         if (preg_match("/^[0-9]+$/", $_GET['playlist_id'])) {
@@ -288,21 +297,20 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 
 // video not found
 if (empty($video)) {
-    if(!empty($_GET['v'])){
+    if (!empty($_GET['v'])) {
         $vid = new Video('', '', $_GET['v']);
-        if($vid->getStatus()===Video::$statusBrokenMissingFiles){            
+        if ($vid->getStatus() === Video::$statusBrokenMissingFiles) {
             if (!Video::isMediaFileMissing($vid->getFilename())) {
                 $vid->setStatus(Video::$statusActive);
                 $vid->save();
-                _error_log('Missing files recovered '. $_GET['v']);
-            }else{
-                videoNotFound('ERROR 1: The video ID ['.$_GET['v'].'] is not available: status='.Video::$statusDesc[$vid->getStatus()]);                
+                _error_log('Missing files recovered ' . $_GET['v']);
+            } else {
+                videoNotFound('ERROR 1: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()]);
             }
-        }else{
-            videoNotFound('ERROR 2: The video ID ['.$_GET['v'].'] is not available: status='.Video::$statusDesc[$vid->getStatus()]);
+        } else {
+            videoNotFound('ERROR 2: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()]);
         }
-        
-    }else{    
+    } else {
         videoNotFound('ERROR 3: The video is not available video ID is empty');
     }
 }
@@ -377,8 +385,8 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
                     <span class="glyphicon glyphicon-facetime-video"></span> 
                     <strong><?php echo __("Attention"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText->value) ? __("We have not found any videos or audios to show") : $advancedCustom->videoNotFoundText->value; ?>.
                 </div>
-            <?php
-            } ?>
+                <?php }
+            ?>
         </div>
         <?php
         include $global['systemRootPath'] . 'view/include/video.min.js.php';

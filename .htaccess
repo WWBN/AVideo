@@ -114,7 +114,7 @@ Options All -Indexes
 
     #main Files
     RewriteRule    ^index.php$ view/index.php [NC,L,QSA]
-    RewriteRule    ^site/?$ view/firstPage.php [NC,L,QSA]
+    RewriteRule    ^site/?$ view/index_firstPage.php [NC,L,QSA]
     RewriteRule    ^index.html$  %{ENV:proto}://%{HTTP_HOST} [L,R=301,NE]
     RewriteRule    ^index.htm$  %{ENV:proto}://%{HTTP_HOST} [L,R=301,NE]
     #RewriteRule    ^index.php$ /view/index.php    [NC,L]

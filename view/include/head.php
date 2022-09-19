@@ -67,6 +67,7 @@ if (!empty($head_videos_id)) {
     echo $tags['head'];
 }
 ?>
+<script class="doNotSepareteTag" src="<?php echo getURL('view/js/swRegister.js'); ?>" type="text/javascript"></script>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -177,7 +178,8 @@ if (isRTL()) {
 }
 ?>
 <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
-<script>
+<script class="doNotSepareteTag">
+    var useIframe = <?php echo json_encode(useIframe()); ?>;
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
     var my_users_id = <?php echo intval(User::getId()); ?>;
     var my_identification = <?php echo json_encode(User::getNameIdentification()); ?>;

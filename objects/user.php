@@ -259,7 +259,15 @@ if (typeof gtag !== \"function\") {
             return false;
         }
     }
-
+    
+    static function getCookieUsersId() {
+        if (empty($_COOKIE['users_id'])) {
+            return 0;
+        } else {
+            return intval($_COOKIE['users_id']);
+        }
+    }
+    
     public static function getEmail_() {
         if (self::isLogged()) {
             return $_SESSION['user']['email'];
@@ -1072,6 +1080,7 @@ if (typeof gtag !== \"function\") {
         _unsetcookie('rememberme');
         _unsetcookie('user');
         _unsetcookie('pass');
+        _unsetcookie('users_id');
         //session_regenerate_id(true);
         ObjectYPT::deleteAllSessionCache();
         unset($_SESSION['user']);
