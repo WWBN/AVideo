@@ -52,8 +52,6 @@ if (!empty($_GET['playlist_name']) && empty($_GET['playlist_id'])) {
 }
 require_once $global['systemRootPath'].'plugin/AVideoPlugin.php';
 $firstPage = AVideoPlugin::getFirstPage();
-require $firstPage;
-
 if (empty($firstPage)) {
     require $global['systemRootPath'].'view/modeYoutube.php';
 } else {
