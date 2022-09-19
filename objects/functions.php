@@ -9632,7 +9632,7 @@ function getHomePageURL() {
 }
 
 function useIframe(){
-    return isOnDeveloperMode() && !isBot();
+    return false && isOnDeveloperMode() && !isBot();
 }
 
 function getIframePaths(){
