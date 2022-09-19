@@ -9627,8 +9627,11 @@ function getWordOrIcon($word, $class = '') {
 
 function getHomePageURL() {
     global $global;
-    //return "{$global['webSiteRootURL']}";
-    return "{$global['webSiteRootURL']}site/";
+    if(useIframe()){
+        return "{$global['webSiteRootURL']}site/";
+    }else{
+        return "{$global['webSiteRootURL']}";
+    }    
 }
 
 function useIframe(){
