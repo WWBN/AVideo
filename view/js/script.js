@@ -650,14 +650,6 @@ function inMainIframe() {
     return response;
 }
 
-function redirectIfIsNotInIframe() {
-    if (!inMainIframe() && (document.location.href === webSiteRootURL + 'site' || document.location.href === webSiteRootURL + 'site/')) {
-        document.location = webSiteRootURL;
-        return true;
-    }
-    return false;
-}
-
 function inIframe() {
     if (inMainIframe()) {
         return false;
@@ -2832,9 +2824,6 @@ function getPleaseWait() {
 }
 
 $(document).ready(function () {
-    if (redirectIfIsNotInIframe()) {
-        return false;
-    }
     getServerTime();
     addViewFromCookie();
     checkDescriptionArea();
