@@ -65,7 +65,7 @@ foreach($byPassCaptcha as $regExp){
 }
 
 $ignoreLog = array('/view/xsendfile.php');
-if(!in_array($_SERVER['PHP_SELF'], $ignoreLog)){
+if(!in_array($_SERVER['PHP_SELF'], $ignoreLog) || preg_match('/(bot|spider|crawl)/i', $_SERVER['HTTP_USER_AGENT'])){
     error_log("AVideo captcha {$ip} PHP_SELF={$_SERVER['PHP_SELF']} HTTP_USER_AGENT={$ua}");
 }
 
