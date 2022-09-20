@@ -59,6 +59,7 @@ $byPassCaptcha = array('/Live.on_/');
 
 foreach($byPassCaptcha as $regExp){
     if(preg_match($regExp, $_SERVER['PHP_SELF'])){
+        error_log("AVideo ignore captcha {$ip} PHP_SELF={$_SERVER['PHP_SELF']}");
         return;
     }
 }
