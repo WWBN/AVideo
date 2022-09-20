@@ -52,6 +52,9 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
 } else {
     $ip = $_SERVER['REMOTE_ADDR'];
 }
+
+error_log("AVideo captcha {$ip} PHP_SELF={$_SERVER['PHP_SELF']}");
+
 session_name(md5($ip));
 session_start(); // inicial a sessao
 if(!empty($_SESSION['captcha_validated'])){
