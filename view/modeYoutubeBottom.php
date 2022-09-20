@@ -145,7 +145,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                             }
                             $keyFound = false;
                             foreach ($notAllowedKeys as $notAllowedKey) {
-                                if (preg_match("/{$notAllowedKey}/", $key)) {
+                                if (preg_match("/{$notAllowedKey}/i", $key)) {
                                     $keyFound = true;
                                     break;
                                 }
