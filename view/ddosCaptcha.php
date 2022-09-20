@@ -53,7 +53,10 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip = $_SERVER['REMOTE_ADDR'];
 }
 
-error_log("AVideo captcha {$ip} PHP_SELF={$_SERVER['PHP_SELF']} HTTP_USER_AGENT={$_SERVER['HTTP_USER_AGENT']}");
+$ignoreLog = array('/view/xsendfile.php');
+if(!in_array($_SERVER['PHP_SELF'], $ignoreLog)){
+    error_log("AVideo captcha {$ip} PHP_SELF={$_SERVER['PHP_SELF']} HTTP_USER_AGENT={$_SERVER['HTTP_USER_AGENT']}");
+}
 
 session_name(md5($ip));
 session_start(); // inicial a sessao
