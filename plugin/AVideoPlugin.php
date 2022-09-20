@@ -632,8 +632,7 @@ class AVideoPlugin
         }
     }
 
-    public static function getEnd()
-    {
+    public static function getEnd(){
         $plugins = Plugin::getAllEnabled();
         usort($plugins, function ($a, $b) {
             if ($a['name'] == 'Cache') {
@@ -651,7 +650,9 @@ class AVideoPlugin
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                //_error_log("{$value['dirName']}::" . __FUNCTION__);
+                $func = "{$value['dirName']}::" . __FUNCTION__;
+                //echo $func.PHP_EOL;
+                //_error_log($func);
                 if(!empty($_REQUEST['debug'])){
                     echo "<!-- {$value['dirName']} getEnd -->".PHP_EOL;
                 }

@@ -527,6 +527,7 @@ class Layout extends PluginAbstract {
         //$html = preg_replace('/<script.*><\/script>/i', '', $html);
         //return $html;
         //var_dump(self::$tags['script']);exit;
+        //var_dump(self::$tags['tagscript']);exit;
         if (!empty(self::$tags['tagcss'])) {
             self::$tags['tagcss'] = self::removeDuplicated(self::$tags['tagcss']);
             $html = str_replace('</head>', PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['tagcss'])) . '</head>', $html);

@@ -117,12 +117,14 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                             <div id="sortable<?php echo $program['id']; ?>" style="list-style: none;">
                                 <?php
                                 $count = 0;
+                                $realCount = 0;
                                 foreach ($videosP as $value) {
                                     $episodeLink = "{$global['webSiteRootURL']}program/{$program['id']}/{$count}";
                                     $count++;
                                     if (empty($value['created'])) {
                                         continue;
                                     }
+                                    $realCount++;
                                     $img_portrait = ($value['rotation'] === "90" || $value['rotation'] === "270") ? "img-portrait" : "";
                                     $name = User::getNameIdentificationById($value['users_id']);
 
@@ -210,13 +212,13 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                         </div>
                                     </li>
                                     <?php
-                                    if ($count % 6 === 0) {
+                                    if ($realCount % 6 === 0) {
                                         echo '<div class="clearfix hidden-md hidden-sm hidden-xs"></div>';
                                     }
-                                    if ($count % 3 === 0) {
+                                    if ($realCount % 3 === 0) {
                                         echo '<div class="clearfix hidden-lg hidden-xs"></div>';
                                     }
-                                    if ($count % 2 === 0) {
+                                    if ($realCount % 2 === 0) {
                                         echo '<div class="clearfix hidden-md hidden-sm hidden-lg"></div>';
                                     }
                                 }
@@ -250,59 +252,6 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
             $_GET['channelName'] = $channelName;
             ?>
 
-            <div class="modal fade" id="videoSearchModal" role="dialog">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-body">
-
-                            <div class="panel panle-default">
-                                <div class="panel-heading">
-                                    <ul class="nav nav-tabs">
-                                        <li class="active"><a data-toggle="tab" href="#addSeries"><i class="fas fa-list"></i> <?php echo __('Series'); ?></a></li>
-                                        <li><a data-toggle="tab" href="#addVideos"><i class="fas fa-video"></i> <?php echo __('Videos'); ?></a></li>
-                                    </ul>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="tab-content">
-                                        <div id="addSeries" class="tab-pane fade in active">
-                                            <form id="serieSearch-form" name="search-form" action="<?php echo $global['webSiteRootURL'] . ''; ?>" method="get">
-                                                <div id="custom-search-input">
-                                                    <div class="input-group col-md-12">
-                                                        <input type="search" name="searchPhrase" id="serieSearch-input" class="form-control input-lg" placeholder="<?php echo __('Search Serie'); ?>" value="">
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-info btn-lg" type="submit">
-                                                                <i class="fas fa-search"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            <hr>
-                                            <div id="searchSerieResult"></div>
-                                        </div>
-                                        <div id="addVideos" class="tab-pane fade">
-                                            <form id="videoSearch-form" name="search-form" action="<?php echo $global['webSiteRootURL'] . ''; ?>" method="get">
-                                                <div id="custom-search-input">
-                                                    <div class="input-group col-md-12">
-                                                        <input type="search" name="searchPhrase" id="videoSearch-input" class="form-control input-lg" placeholder="<?php echo __('Search Videos'); ?>" value="">
-                                                        <span class="input-group-btn">
-                                                            <button class="btn btn-info btn-lg" type="submit">
-                                                                <i class="fas fa-search"></i>
-                                                            </button>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                            <hr>
-                                            <div id="searchVideoResult"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <script>
 
                 var timoutembed;
@@ -535,74 +484,5 @@ if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-
-        <script>
-            var currentSerieVideos_id = 0;
-            var videoWasAdded = false;
-
-            function openVideoSearch(videos_id) {
-                currentSerieVideos_id = videos_id;
-                $('#videoSearchModal').modal();
-            }
-
-            $(document).ready(function () {
-
-                $('#videoSearch-form').submit(function (event) {
-                    event.preventDefault();
-                    videoSearch(0);
-                });
-
-                $('#serieSearch-form').submit(function (event) {
-                    event.preventDefault();
-                    videoSearch(1);
-                });
-
-                $('#videoSearchModal').on('hidden.bs.modal', function () {
-                    if (videoWasAdded) {
-                        modal.showPleaseWait();
-                        location.reload();
-                    }
-                });
-
-            });
-
-            function videoSearch(is_serie) {
-                modal.showPleaseWait();
-                var searchPhrase = $('#videoSearch-input').val();
-                if (is_serie) {
-                    searchPhrase = $('#serieSearch-input').val();
-                }
-                $.ajax({
-                    url: webSiteRootURL + 'plugin/API/get.json.php?APIName=video&rowCount=10&is_serie=' + is_serie + '&searchPhrase=' + searchPhrase,
-                    success: function (response) {
-                        console.log(response);
-                        var resultId = '#searchVideoResult';
-                        if (is_serie) {
-                            resultId = '#searchSerieResult';
-                        }
-                        $(resultId).empty();
-                        var rows = response.response.rows;
-                        for (var i in rows) {
-                            if (typeof rows[i] !== 'object') {
-                                continue;
-                            }
-                            if (rows[i].id == currentSerieVideos_id) {
-                                continue;
-                            }
-                            var html = '<button type="button" class="btn btn-default btn-block"  data-toggle="tooltip" title="<?php echo __('Add To Serie'); ?>" onclick="addToSerie(<?php echo $program['id']; ?>, ' + rows[i].id + ');" id="videos_id_' + rows[i].id + '_playlists_id_<?php echo $program['id']; ?>" ><i class="fas fa-plus"></i> ' + rows[i].title + '</button>';
-                            $(resultId).append(html);
-                        }
-                        modal.hidePleaseWait();
-                    }
-                });
-            }
-
-            function addToSerie(playlists_id, videos_id) {
-                addVideoToPlayList(videos_id, true, playlists_id);
-                $('#videos_id_' + videos_id + '_playlists_id_' + playlists_id).fadeOut();
-                videoWasAdded = true;
-            }
-
-        </script>
     </body>
 </html>

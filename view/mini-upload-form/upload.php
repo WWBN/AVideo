@@ -119,7 +119,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $obj->filename = $filename;
         $obj->duration = $duration;
         $obj->videos_id = $id;
-
+        //var_dump($obj->videos_id);exit;
         if ($extension !== "jpg" && $video->getType() == "image") {
             sleep(1); // to make sure the file will be available
             $file = $video->getFilename();

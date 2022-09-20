@@ -24,6 +24,20 @@ class API extends PluginAbstract {
         return "1apicbec-91db-4357-bb10-ee08b0913778";
     }
 
+    private static function addRowInfo($obj){
+        if(!isset($obj->current)){
+            $obj->current = getCurrentPage();
+        }
+        $obj->hasMore = true;
+        if(count($obj->rows) < $obj->rowCount){
+            $obj->hasMore = false;
+        }
+        if($obj->current*$obj->rowCount >= $obj->totalRows){
+            $obj->hasMore = false;
+        }
+        return $obj;
+    }
+    
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
@@ -468,6 +482,7 @@ class API extends PluginAbstract {
         }
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;
+        $obj = self::addRowInfo($obj);
         //var_dump($obj->rows );exit;
         ObjectYPT::setCache($cacheName, $obj);
         return new ApiObject("", false, $obj);

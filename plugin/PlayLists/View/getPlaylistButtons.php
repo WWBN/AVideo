@@ -139,6 +139,7 @@ if ($isMyChannel) {
                 ?>"  data-toggle="tooltip" title="<?php echo __('This playlist is unlisted, click to make it private'); ?>" ></span>
             </button>
             <?php
+            include_once $global['systemRootPath'] . 'plugin/PlayLists/addVideoModal.php';
         }
         if ($showMore) {
             ?>
