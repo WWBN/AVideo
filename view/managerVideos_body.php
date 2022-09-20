@@ -181,7 +181,7 @@ if (!empty($_GET['iframe'])) {
             $secondsTotal = getSecondsTotalVideosLength();
             $seconds = $secondsTotal % 60;
             $minutes = ($secondsTotal - $seconds) / 60;
-            $totalVideos = humanFileSize(Video::getTotalVideosFromUser(User::getId()));
+            $totalVideos = (Video::getTotalVideosFromUser(User::getId()));
             $totalVideosSize = humanFileSize(Video::getTotalVideosSizeFromUser(User::getId()));
             printf(__("You are hosting %d videos total, %d minutes and %d seconds and consuming %s of disk"), $totalVideos, $minutes, $seconds, $totalVideosSize);
             ?>
