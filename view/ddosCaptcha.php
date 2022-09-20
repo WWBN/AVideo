@@ -53,7 +53,7 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip = $_SERVER['REMOTE_ADDR'];
 }
 
-error_log("AVideo captcha {$ip} PHP_SELF={$_SERVER['PHP_SELF']}");
+error_log("AVideo captcha {$ip} PHP_SELF={$_SERVER['PHP_SELF']} HTTP_USER_AGENT={$_SERVER['HTTP_USER_AGENT']}");
 
 session_name(md5($ip));
 session_start(); // inicial a sessao
