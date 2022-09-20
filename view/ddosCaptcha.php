@@ -55,7 +55,10 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
     $ip = $_SERVER['REMOTE_ADDR'];
 }
 
-$byPassCaptcha = array('/Live.on_/');
+$byPassCaptcha = array(
+    '/Live.on_/',
+    '/objects.aVideoEncoder/',
+    );
 
 foreach($byPassCaptcha as $regExp){
     if(preg_match($regExp, $_SERVER['PHP_SELF'])){
