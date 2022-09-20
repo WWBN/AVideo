@@ -139,9 +139,9 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                         $downloadMP4Link = array();
                         foreach ($files as $key => $theLink) {
                             //$notAllowedKeys = array('m3u8');
-                            $notAllowedKeys = [];
+                            $notAllowedKeys = ['log'];
                             if (empty($advancedCustom->showImageDownloadOption)) {
-                                $notAllowedKeys = array_merge($notAllowedKeys, ['jpg', 'gif', 'webp', 'pjpg', 'log']);
+                                $notAllowedKeys = array_merge($notAllowedKeys, ['jpg', 'gif', 'webp', 'pjpg']);
                             }
                             $keyFound = false;
                             foreach ($notAllowedKeys as $notAllowedKey) {
