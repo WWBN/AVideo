@@ -156,7 +156,11 @@ if(!empty($_REQUEST['users_id_company'])){
 if ($advancedCustomUser->userCanChangeVideoOwner || Permissions::canModerateVideos() || Users_affiliations::isUserAffiliateOrCompanyToEachOther($obj->getUsers_id(), $_POST['users_id'])) {
     $obj->setUsers_id($_POST['users_id']);
 }
-
+if (Permissions::canAdminVideos()) {
+    if(!empty($_REQUEST['created'])){
+        $obj->setCreated($_REQUEST['created']);
+    }
+}
 TimeLogEnd(__FILE__, __LINE__);
 $resp = $obj->save(true);
 // if is a new embed video
@@ -164,7 +168,7 @@ if (empty($_POST['id']) && ($obj->getType() == 'embed' || $obj->getType() == 'li
     AVideoPlugin::afterNewVideo($resp);
 }
 
-if (User::isAdmin()) {
+if (Permissions::canAdminVideos()) {
     $obj->updateViewsCount($_REQUEST['views_count']);
 }
 

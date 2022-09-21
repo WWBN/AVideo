@@ -3243,44 +3243,54 @@ function setupFormElement(selector, min_length, max_length, force_length, isRequ
 
 var notifyInputIfIsWrongFormat_removeClassTImeout;
 var notifyInputIfIsWrongFormat_animateClassTImeout;
-function notifyInputIfIsWrongFormat(_this) {
+function notifyInputIfIsWrongFormat(_this, isValid) {
     clearTimeout(notifyInputIfIsWrongFormat_removeClassTImeout);
     clearTimeout(notifyInputIfIsWrongFormat_animateClassTImeout);
     var text = $(_this).val();
     var parent = $(_this).parent();
     var animationError = 'animate__shakeX';
+    var feedback = '';
     parent.removeClass('has-error');
     parent.removeClass('has-success');
     $(_this).removeClass(animationError);
     $(_this).addClass('animate__animated');
     parent.find('.help-block').remove();
     parent.find('.form-control-feedback').remove();
-    text = text.replace(/[^0-9: -]/g,'');
-    var regExp = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]) (0[0-9]|1[0-9]|2[1-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9]))/;
-    if (!regExp.test(text)) {
-        var feedbackIcon = 'fas fa-times';
-        icon = '<i class="fas fa-exclamation-circle"></i>';
+    if (!isValid) {
+        feedbackIcon = 'fas fa-times';
         parent.addClass('has-error');
-        notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function () {
+        notifyInputIfIsWrongFormat_animateClassTImeout = setTimeout(function () {
             $(_this).addClass(animationError);
         }, 1000);
-        feedback = '<i class="' + feedbackIcon + ' form-control-feedback" style="right:15px;"></i>';
     } else {
-        icon = '<i class="fas fa-check-circle"></i>';
+        feedbackIcon = 'fas fa-check';
         parent.addClass('has-success');
     }
-    console.log('notifyInputIfIsWrongFormat',icon, parent );
-    notifyInputIfIsOutOfBounds_removeClassTImeout = setTimeout(function () {
+    feedback = '<i class="' + feedbackIcon + ' form-control-feedback" style="top: 25px;right:15px;"></i>';
+    notifyInputIfIsWrongFormat_removeClassTImeout = setTimeout(function () {
         $(_this).removeClass(animationError);
     }, 1000);
-    parent.append(feedback + '<small class="help-block">' + icon + ' Wrong date, please use format YYYY-mm-dd hh:mm:ss</small>');
+    parent.append(feedback);
     $(_this).val(text);
 }
 
 function setupMySQLInput(selector) {
-    $(selector).keyup(function () {
-        notifyInputIfIsWrongFormat($(this));
-    });
+    if(typeof $(selector).inputmask !== 'function'){
+        addScript(webSiteRootURL+'node_modules/inputmask/dist/jquery.inputmask.min.js');
+        setTimeout(function(){
+            setupMySQLInput(selector);
+        }, 1000);
+        return false;
+    }
+    $(selector).inputmask({
+        mask: "9999-99-99 99:99:99",
+        onincomplete: function(buffer, opts) {
+          notifyInputIfIsWrongFormat($(this), false);
+        },
+        oncomplete: function(buffer, opts) {
+          notifyInputIfIsWrongFormat($(this), true);
+        }
+    }); 
 }
 
 function isTextOutOfBounds(text, min_length, max_length, isRequired) {
@@ -3480,7 +3490,7 @@ async function aHrefToAjax() {
         }
     });
 }
- * */
+
 function addScripts(scriptsToAdd) {
     var localScripts = $("script");
     for (index in scriptsToAdd) {
@@ -3508,6 +3518,28 @@ function addScripts(scriptsToAdd) {
                     $('<script src="' + src + '" type="text/javascript"></script>').appendTo(document.body);
                 }
             }
+        }
+    }
+}
+ * */
+
+function addScript(src) {
+    if (!empty(src)) {
+        var localScripts = $("script");
+        var scriptFound = false;
+        localScripts.each(function () {
+            var _src = $(this).attr('src');
+
+            if (src === _src) {
+                scriptFound = true;
+                return false;
+            }
+        });
+        if (!scriptFound) {
+            console.log('addScript', src);
+            $('<script src="' + src + '" type="text/javascript"></script>').appendTo(document.body);
+        }else{
+            console.log('addScript already added ', src);
         }
     }
 }

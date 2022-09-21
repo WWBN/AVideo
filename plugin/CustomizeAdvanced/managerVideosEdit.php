@@ -18,6 +18,7 @@ if (Permissions::canAdminVideos()) {
         <div class="col-sm-3">
             <label for="created"><?php echo __("Created date and time"); ?></label>
             <input type="text" id="created" class="form-control" placeholder="<?php echo __("YYYY-MM-DD HH:MM:SS"); ?>">
+            <small>YYYY-MM-DD hh:mm:ss</small>
         </div>
         <script>
             $(document).ready(function () {

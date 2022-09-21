@@ -750,6 +750,7 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdm
                                     $('#inputVideoPassword').val(row.video_password);
                                     $('#inputTrailer').val(row.trailer1);
                                     $('#inputCleanTitle').val(row.clean_title);
+                                    $('#created').val(row.created);
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
@@ -1007,6 +1008,7 @@ echo AVideoPlugin::getManagerVideosAddNew();
                                                     "epg_link": $('#epg_link').val(),
                                                     "videoLinkType": $('#videoLinkType').val(),
                                                     "clean_title": $('#inputCleanTitle').val(),
+                                                    "created": $('#created').val(),
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
@@ -1077,8 +1079,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                     $('#inputTrailer').val("");
                                     $('#inputVideoPassword').val("");
                                     $('#inputCleanTitle').val("");
+                                    $('#created').val("");
                                     $('#inputDescription').val("");
                                     $('#videoLinkType').val("");
+                                    $('#videoLink').val('');
+                                    $('#epg_link').val('');
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
@@ -1137,6 +1142,7 @@ echo AVideoPlugin::getManagerVideosReset();
                                     $('#inputVideoPassword').val("");
                                     $('#inputCleanTitle').val("");
                                     $('#inputDescription').val("");
+                                    $('#created').val("");
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
@@ -1390,6 +1396,7 @@ if (!empty($row)) {
                                         $('#inputVideoPassword').val("");
                                         $('#inputCleanTitle').val("");
                                         $('#inputDescription').val("");
+                                        $('#created').val("");
 <?php
 if (empty($advancedCustom->disableHTMLDescription)) {
     ?>
