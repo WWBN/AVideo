@@ -210,20 +210,20 @@ if (!User::isAdmin()) {
     </div>
 
     <div id="btnModelLinks" style="display: none;">
-        <button href="" class="editor_add_video btn btn-success btn-xs btn-block">
+        <button class="editor_add_video btn btn-success btn-xs btn-block">
             <i class="fa fa-video"></i> Add Video
         </button>
         <div class="btn-group pull-right">
             <button href="" class="editor_chart btn btn-info btn-xs">
                 <i class="fas fa-chart-area "></i>
             </button>
-            <button href="" class="editor_link btn btn-default btn-xs">
+            <button class="editor_link btn btn-default btn-xs">
                 <i class="fa fa-link"></i>
             </button>
-            <button href="" class="editor_edit_link btn btn-default btn-xs">
+            <button class="editor_edit_link btn btn-default btn-xs">
                 <i class="fa fa-edit"></i>
             </button>
-            <button href="" class="editor_delete_link btn btn-danger btn-xs">
+            <button class="editor_delete_link btn btn-danger btn-xs">
                 <i class="fa fa-trash"></i>
             </button>
         </div>
@@ -234,6 +234,7 @@ if (!User::isAdmin()) {
 <script src="<?php echo getURL('node_modules/chart.js/dist/chart.min.js'); ?>" type="text/javascript"></script>
 
 <script type="text/javascript">
+    var tableLinks;
     var videoUploadModalinterval;
     function clearVideoForm() {
         $('#inputVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>view/img/notfound.jpg");
@@ -448,7 +449,7 @@ if (!User::isAdmin()) {
             
         });
 
-        var tableLinks = $('#campaignTable').DataTable({
+        tableLinks = $('#campaignTable').DataTable({
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/campaigns.json.php",
             "columns": [
                 {"data": "id"},
@@ -592,7 +593,10 @@ if (!empty($ad_server_location)) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = tableLinks.row(tr).data();
-            document.location = '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_id=' + data.id;
+            var url = webSiteRootURL+'plugin/AD_Server/VAST.php?campaign_id=' + data.id;
+            console.log('campaignTable',url, data);
+            openWindow(webSiteRootURL+'plugin/AD_Server/VAST.php?campaign_id=' + data.id);
+            //document.location = webSiteRootURL+'plugin/AD_Server/VAST.php?campaign_id=' + data.id;
 
         });
     });

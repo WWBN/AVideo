@@ -2931,6 +2931,11 @@ async function checkSavedCookies() {
     });
 }
 
+function openWindow(url) {
+    var windowObject = window.open(url, '_blank').focus();
+    return windowObject;
+}
+
 function openWindowWithPost(url, name, params, strWindowFeatures) {
     if(empty(strWindowFeatures)){
         strWindowFeatures = "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,resizable=no,height=600,width=800";
