@@ -67,7 +67,7 @@
             }
         }
     }
-
+    var listGroupItemTemplate = <?php echo json_encode(file_get_contents($global['systemRootPath'] . 'plugin/PlayLists/listGroupItemTemplate.html')); ?>;
     async function loadPlayListsResponse(response, videos_id, crc) {
         //console.log('loadPlayListsResponse');
         //console.log(response, videos_id, crc);
@@ -93,11 +93,18 @@
                 }
             }
             var randId = (("_" + response[i].id) + videos_id) + Math.random();
-            $(".searchlist" + videos_id + crc).append('<a class="list-group-item"><i class="' + icon + '"></i> <span>'
-                    + response[i].name_translated + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                    + randId + '" name="someSwitchOption' + response[i].id + videos_id + '" class="playListsVideosIds' + videos_id + ' playListsIds_' + response[i].id + '_videos_id_' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
-                    + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
-                    + randId + '" class="label-success"></label></div></a>');
+            
+            var itemsArray = {};
+            itemsArray.icon = icon;
+            itemsArray.id = response[i].id;
+            itemsArray.name_translated = response[i].name_translated;
+            itemsArray.response_id = response[i].id + '' + videos_id;
+            itemsArray.checked = checked;
+            itemsArray.videos_id = videos_id;
+            itemsArray.randId = randId;
+            
+            $(".searchlist" + videos_id + crc).append(arrayToTemplate(itemsArray, listGroupItemTemplate));
+            
 
         }
         $('.searchlist' + videos_id + crc).btsListFilter('#searchinput' + videos_id + crc, {itemChild: 'span'});

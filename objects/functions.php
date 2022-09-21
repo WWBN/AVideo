@@ -3348,7 +3348,7 @@ function isAVideoUserAgent($user_agent = "") {
     $agents = [$AVideoMobileAPP_UA, $AVideoEncoder_UA, $AVideoEncoderNetwork_UA, $AVideoStreamer_UA, $AVideoStorage_UA, 'Lavf'];
 
     foreach ($agents as $value) {
-        if (preg_match("/{$value}/", $_SERVER["HTTP_USER_AGENT"])) {
+        if (preg_match("/{$value}/", $user_agent)) {
             return true;
         }
     }

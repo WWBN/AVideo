@@ -642,6 +642,13 @@ nav ul.items-container li ul.right-menus li li {
     height: 100%;
     overflow-x: hidden;
 }
+
+.playListIsLive .fas{
+    -webkit-animation: flash 2s ease infinite;
+    animation: flash 2s ease infinite;
+    color: red;
+}
+
 .playlist-nav .navbar {
     padding: 0;
     max-height: none;

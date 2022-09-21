@@ -17,7 +17,6 @@ $crc = uniqid();
                     </div>
                 </form>
                 <div>
-                    <hr>
                     <div class="form-group">
                         <input id="playListName<?php echo $videos_id . $crc; ?>" class="form-control" placeholder="<?php echo __("Create a New"); ?> <?php echo $obj->name; ?>"  >
                     </div>
