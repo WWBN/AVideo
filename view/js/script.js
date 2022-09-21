@@ -3241,6 +3241,48 @@ function setupFormElement(selector, min_length, max_length, force_length, isRequ
     });
 }
 
+var notifyInputIfIsWrongFormat_removeClassTImeout;
+var notifyInputIfIsWrongFormat_animateClassTImeout;
+function notifyInputIfIsWrongFormat(_this) {
+    clearTimeout(notifyInputIfIsWrongFormat_removeClassTImeout);
+    clearTimeout(notifyInputIfIsWrongFormat_animateClassTImeout);
+    var text = $(_this).val();
+    var parent = $(_this).parent();
+    var animationError = 'animate__shakeX';
+    parent.removeClass('has-error');
+    parent.removeClass('has-success');
+    $(_this).removeClass(animationError);
+    $(_this).addClass('animate__animated');
+    parent.find('.help-block').remove();
+    parent.find('.form-control-feedback').remove();
+    text = text.replace(/[^0-9: -]/g,'');
+    var regExp = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]) (0[0-9]|1[0-9]|2[1-4]):(0[0-9]|[1-5][0-9]):(0[0-9]|[1-5][0-9]))/;
+    if (!regExp.test(text)) {
+        var feedbackIcon = 'fas fa-times';
+        icon = '<i class="fas fa-exclamation-circle"></i>';
+        parent.addClass('has-error');
+        notifyInputIfIsOutOfBounds_animateClassTImeout = setTimeout(function () {
+            $(_this).addClass(animationError);
+        }, 1000);
+        feedback = '<i class="' + feedbackIcon + ' form-control-feedback" style="right:15px;"></i>';
+    } else {
+        icon = '<i class="fas fa-check-circle"></i>';
+        parent.addClass('has-success');
+    }
+    console.log('notifyInputIfIsWrongFormat',icon, parent );
+    notifyInputIfIsOutOfBounds_removeClassTImeout = setTimeout(function () {
+        $(_this).removeClass(animationError);
+    }, 1000);
+    parent.append(feedback + '<small class="help-block">' + icon + ' Wrong date, please use format YYYY-mm-dd hh:mm:ss</small>');
+    $(_this).val(text);
+}
+
+function setupMySQLInput(selector) {
+    $(selector).keyup(function () {
+        notifyInputIfIsWrongFormat($(this));
+    });
+}
+
 function isTextOutOfBounds(text, min_length, max_length, isRequired) {
     //console.log('isTextOutOfBounds', text, min_length, max_length, allow_null);
     if (empty(text)) {
@@ -3438,7 +3480,7 @@ async function aHrefToAjax() {
         }
     });
 }
-
+ * */
 function addScripts(scriptsToAdd) {
     var localScripts = $("script");
     for (index in scriptsToAdd) {
@@ -3469,4 +3511,3 @@ function addScripts(scriptsToAdd) {
         }
     }
 }
- * */

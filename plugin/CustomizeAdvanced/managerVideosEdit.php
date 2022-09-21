@@ -2,7 +2,7 @@
 if (Permissions::canAdminVideos()) {
     ?>
     <br>
-    <div class="clearfix"></div>
+    <div class="clearfix"></div>       
     <ul class="list-group">
         <li class="list-group-item"> 
             <i class="fas fa-photo-video"></i>
@@ -15,8 +15,16 @@ if (Permissions::canAdminVideos()) {
     </ul>
     <div class="clearfix"></div>
     <div class="row">
-        <div class="col-sm-4">
-
+        <div class="col-sm-3">
+            <label for="created"><?php echo __("Created date and time"); ?></label>
+            <input type="text" id="created" class="form-control" placeholder="<?php echo __("YYYY-MM-DD HH:MM:SS"); ?>">
+        </div>
+        <script>
+            $(document).ready(function () {
+                setupMySQLInput('#created');
+            });
+        </script>
+        <div class="col-sm-3">
             <label for="redirectVideoCode" ><?php echo __("Redirect video code"); ?></label>
             <select class="form-control last" id="redirectVideoCode" >
                 <option value='0'><?php echo __('Do not redirect'); ?></option>
@@ -25,7 +33,7 @@ if (Permissions::canAdminVideos()) {
                 <option value='308'>(308) <?php echo __('Permanent Redirect'); ?></option>
             </select>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-6">
             <label for="redirectVideoURL"><?php echo __("Redirect URL"); ?></label>
             <input type="url" id="redirectVideoURL" class="form-control" placeholder="<?php echo __("Redirect URL"); ?>">
 

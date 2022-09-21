@@ -147,8 +147,8 @@ function parseOptions(input, callback, keyValueDelim, groupDelim) {
     if (kv.length !== 2) {
       continue;
     }
-    var k = kv[0];
-    var v = kv[1];
+    var k = kv[0].trim();
+    var v = kv[1].trim();
     callback(k, v);
   }
 }

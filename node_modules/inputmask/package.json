@@ -1,0 +1,60 @@
+{
+  "name": "inputmask",
+  "version": "5.0.7",
+  "description": "Inputmask is a javascript library which creates an input mask.  Inputmask can run against vanilla javascript, jQuery and jqlite.",
+  "main": "dist/inputmask.js",
+  "files": [
+    "bundle.js",
+    "dist/",
+    "lib/"
+  ],
+  "scripts": {
+    "start": "webpack --progress --watch --config-name main --config webpack.config.js",
+    "jquery": "webpack --progress --watch --config-name jquery --config webpack.config.js",
+    "test": "grunt validate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RobinHerbots/Inputmask.git"
+  },
+  "keywords": [
+    "form",
+    "input",
+    "inputmask",
+    "jquery",
+    "jquery-plugin",
+    "mask",
+    "plugins"
+  ],
+  "author": {
+    "name": "Robin Herbots",
+    "url": "https://github.com/RobinHerbots"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RobinHerbots/Inputmask/issues"
+  },
+  "homepage": "https://github.com/RobinHerbots/Inputmask",
+  "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-typescript": "^7.16.5",
+    "@robinherbots/grunt-available-tasks": "^0.6.4",
+    "@robinherbots/grunt-nuget": "^0.3.2",
+    "babel-loader": "^8.2.3",
+    "grunt": "^1.4.1",
+    "grunt-bump": "^0.8.0",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-eslint": "^24.0.0",
+    "grunt-release": "^0.14.0",
+    "grunt-webpack": "^5.0.0",
+    "jquery": "^3.6.0",
+    "load-grunt-tasks": "^5.1.0",
+    "lodash": "^4.17.21",
+    "qunit": "^2.17.2",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1"
+  }
+}
