@@ -81,11 +81,12 @@ $videosCounter = 0;
             $timeLog2 = __FILE__ . " - Category {$value['clean_name']}";
             TimeLogStart($timeLog2);
             $oldCatName = @$_GET['catName'];
+            $_GET['catName'] = $value['clean_name'];
+            /*
             if (!empty($_GET['catName']) && $value['clean_name'] !== $_GET['catName']) {
                 continue;
-            } else {
-                $_GET['catName'] = $value['clean_name'];
             }
+            */
             unset($_POST['sort']);
             $_POST['sort']['v.created'] = "DESC";
             $_POST['sort']['likes'] = "DESC";
