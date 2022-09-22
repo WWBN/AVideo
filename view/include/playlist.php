@@ -46,7 +46,7 @@ if (!empty($videoSerie)) {
                         echo $playlist->getName();
                         ?>
                         (<?php
-                        echo User::getNameIdentificationById($playlist->getUsers_id());
+                        echo User::getNameIdentificationById($users_id);
                         ?>)
                     </h3>
                     <small>
