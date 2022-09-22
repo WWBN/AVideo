@@ -59,7 +59,12 @@ $videosCounter = 0;
         $_REQUEST['rowCount'] = 2;
         if (!empty($_REQUEST['catName'])) {
             $hideTitle = 1;
-            $categories = array(Category::getCategoryByName($_REQUEST['catName']));
+            $category = Category::getCategoryByName($_REQUEST['catName']);
+            $categories = array($category);
+            $childs = Category::getChildCategories($category['id']);
+            foreach ($childs as $child) {
+                $categories[] = $child;
+            }
         } else {
             $categories = Category::getAllCategories(false, true);
             $_REQUEST['current'] = 1;
