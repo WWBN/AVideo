@@ -59,12 +59,7 @@ $videosCounter = 0;
         $_REQUEST['rowCount'] = 2;
         if (!empty($_REQUEST['catName'])) {
             $hideTitle = 1;
-            $category = Category::getCategoryByName($_REQUEST['catName']);
-            $categories = array($category);
-            $childs = Category::getChildCategories($category['id']);
-            foreach ($childs as $child) {
-                $categories[] = $child;
-            }
+            $categories = array(Category::getCategoryByName($_REQUEST['catName']));
         } else {
             $categories = Category::getAllCategories(false, true);
             $_REQUEST['current'] = 1;
@@ -81,12 +76,11 @@ $videosCounter = 0;
             $timeLog2 = __FILE__ . " - Category {$value['clean_name']}";
             TimeLogStart($timeLog2);
             $oldCatName = @$_GET['catName'];
-            $_GET['catName'] = $value['clean_name'];
-            /*
             if (!empty($_GET['catName']) && $value['clean_name'] !== $_GET['catName']) {
                 continue;
+            } else {
+                $_GET['catName'] = $value['clean_name'];
             }
-            */
             unset($_POST['sort']);
             $_POST['sort']['v.created'] = "DESC";
             $_POST['sort']['likes'] = "DESC";
