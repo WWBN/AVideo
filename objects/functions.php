@@ -7172,7 +7172,7 @@ function saveCroppieImage($destination, $postIndex = "imgBase64") {
 function get_ffmpeg($ignoreGPU = false) {
     global $global;
     $complement = '';
-    //$complement = ' -user_agent "'.getSelfUserAgent("FFMPEG").'" ';
+    $complement = ' -user_agent "'.getSelfUserAgent().'" ';
     //return 'ffmpeg -headers "User-Agent: '.getSelfUserAgent("FFMPEG").'" ';
     $ffmpeg = 'ffmpeg  ';
     if (empty($ignoreGPU) && !empty($global['ffmpegGPU'])) {
