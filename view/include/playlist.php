@@ -13,7 +13,10 @@ $videoSerie = Video::getVideoFromSeriePlayListsId($playlist_id);
 
 $_REQUEST['rowCount'] = $rowCount;
 
+$users_id = $playlist->getUsers_id();
+
 if (!empty($videoSerie)) {
+    $users_id = $videoSerie['users_id'];
     $playListObject = AVideoPlugin::getObjectData("PlayLists");
     $videoSerie = Video::getVideo($videoSerie["id"], "", true);
     if (!empty($playListObject->showTrailerInThePlayList) && !empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== false) {
