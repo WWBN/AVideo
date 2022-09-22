@@ -107,7 +107,7 @@
             
 
         }
-        $('.searchlist' + videos_id + crc).btsListFilter('#searchinput' + videos_id + crc, {itemChild: 'span'});
+        $('.searchlist' + videos_id + crc).btsListFilter('#searchinput' + videos_id + crc, {itemChild: '.nameSearch'});
         $('.playListsVideosIds' + videos_id).change(function () {
             if (playListsAdding) {
                 return false;
