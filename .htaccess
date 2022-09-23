@@ -259,6 +259,7 @@ Options All -Indexes
     RewriteRule    ^removePlaylist/?$ objects/playlistRemove.php    [NC,L]
     RewriteRule    ^renamePlaylist/?$ objects/playlistRename.php    [NC,L]
     RewriteRule    ^sortPlaylist/?$ objects/playlistSort.php    [NC,L]
+    RewriteRule    ^rss/?$ feed/index.php   [QSA]
     RewriteRule    ^mrss/?$ feed/index.php?mrss=1   [QSA]
     RewriteRule    ^roku.json$ feed/index.php?roku=1   [QSA]
     RewriteRule    ^channel/([^/]+)/roku.json$ feed/index.php?channelName=$1&roku=1    [QSA]
