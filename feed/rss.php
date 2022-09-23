@@ -20,6 +20,7 @@ if (empty($feed)) {
             <link><?php echo $link; ?></link>
             <sy:updatePeriod>hourly</sy:updatePeriod>
             <sy:updateFrequency>1</sy:updateFrequency>
+            <author><?php echo $author; ?></author>
 
             <image>
             <title><?php echo feedText($title); ?></title>

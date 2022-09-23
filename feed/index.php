@@ -12,6 +12,7 @@ $_REQUEST['rowCount'] = getRowCount();
 $showOnlyLoggedUserVideos = false;
 $title = $config->getWebSiteTitle();
 $link = $global['webSiteRootURL'];
+$author = $config->getContactEmail();
 $logo = getURL("videos/userPhoto/logo.png");
 $description = '';
 
@@ -27,6 +28,7 @@ if (!empty($_GET['channelName'])) {
     $showOnlyLoggedUserVideos = $user['id'];
     $title = User::getNameIdentificationById($user['id']);
     $about = User::getDescriptionById($user['id'], true);
+    $author = $user['email'];
     if(!isHTMLEmpty($about)){
         $description = $about;
     }
