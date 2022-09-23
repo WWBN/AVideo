@@ -67,6 +67,7 @@ class YouPHPFlix2 extends PluginAbstract {
         $obj->titleLabelCSS = "";
         $obj->hidePlayButtonIfCannotWatch = false;
         $obj->doNotShowSeriesInfoOnMainPage = false;
+        $obj->useGalleryModeOnCategory = true;
         return $obj;
     }
 
@@ -80,6 +81,13 @@ class YouPHPFlix2 extends PluginAbstract {
     public function getFirstPage(){
         global $global;
 
+        if(!empty($_GET['catName'])){
+            $obj = $this->getDataObject();
+            if($obj->useGalleryModeOnCategory){
+                return $global['systemRootPath'] . 'plugin/Gallery/view/modeGallery.php';
+            }
+        }
+        
         return $global['systemRootPath'].'plugin/YouPHPFlix2/view/modeFlix.php';
     }
 

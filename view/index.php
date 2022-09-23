@@ -16,6 +16,7 @@ if (!useIframe() || isIframe() || !empty($_REQUEST['inMainIframe'])) {
 $postURL = $paths['url'];
 
 $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
+//var_dump($_GET);exit;
 //var_dump($postURL, $_REQUEST['inMainIframe']);exit;
 //var_dump($_SERVER);exit;
 ?><!DOCTYPE html>

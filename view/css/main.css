@@ -1587,3 +1587,19 @@ button.btn-sm.hamburger svg{
 .bootgrid-footer ul.pagination > li{
   cursor: pointer;  
 }
+.subCategoryName{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    border-radius: 15px;
+    background-color: #000000DD; 
+    color: white; 
+    position: absolute; 
+    margin-left: 10%; 
+    width: 80% !important; 
+    bottom: 40% !important; 
+    opacity: 0.8 !important; 
+    text-align: center;
+    padding: 5px;
+}

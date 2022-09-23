@@ -7185,6 +7185,14 @@ function get_ffmpeg($ignoreGPU = false) {
     return $ffmpeg . $complement;
 }
 
+function removeUserAgentIfNotURL($cmd){
+    if(!preg_match('/ -i "?https?:/', $cmd)){
+        $cmd = preg_replace('/-user_agent "[^"]+"/', '', $cmd);
+    }    
+    return $cmd;
+}
+
+
 function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0) {
 
     $parts = explode('?', $fromFileLocation);
@@ -7241,6 +7249,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
     $progressFile = getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation);
     $progressFileEscaped = escapeshellarg($progressFile);
     $command .= " 1> {$progressFileEscaped} 2>&1";
+    $command = removeUserAgentIfNotURL($command);
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command);
     session_write_close();
     _mysql_close();

@@ -1,4 +1,5 @@
 <?php
+//var_dump($_GET);exit;
 global $global, $config;
 $modeYouTubeTime = microtime(true);
 $isChannel = 1; // still workaround, for gallery-functions, please let it there.
@@ -146,6 +147,7 @@ if (!empty($evideo)) {
 
         if (empty($video) && !empty($_REQUEST['v'])) {
             $video = Video::getVideo($_REQUEST['v'], "viewable", false, false, false, true);
+            //var_dump($_GET, $video);exit;
             //var_dump('Line: '.__LINE__, $_REQUEST['v'], $video);exit;
         }
 

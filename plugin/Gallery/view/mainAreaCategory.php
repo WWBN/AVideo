@@ -34,7 +34,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
             if (canPrintCategoryTitle($currentCat['name'])) {
                 ?>
                 <h3 class="galleryTitle">
-                    <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $currentCat['clean_name']; ?>">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $currentCat['clean_name']; ?>">
                         <i class="<?php echo $currentCat['iconClass']; ?>"></i> <?php echo $currentCat['name']; ?>
                     </a>
                     <?php

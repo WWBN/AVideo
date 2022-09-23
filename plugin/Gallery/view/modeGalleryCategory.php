@@ -62,7 +62,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
             if (canPrintCategoryTitle($_cat['name'])) {
                 ?>
                 <h3 class="galleryTitle">
-                    <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $_cat['clean_name']; ?>">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $_cat['clean_name']; ?>">
                         <i class="<?php echo $_cat['iconClass']; ?>"></i> <?php echo $_cat['name']; ?>
                     </a>
                 </h3>

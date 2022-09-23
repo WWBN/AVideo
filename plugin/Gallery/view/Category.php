@@ -52,10 +52,12 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
             <?php
         }
         if ((!empty($childCategories)) && ((($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1")))) {
+            $obj->BigVideo = false;
             ?>         
             <div class="clear clearfix">
-                <h3 class="galleryTitle"><i class="glyphicon glyphicon-download"></i>
-                    <?php echo __("Sub-Category-Gallery"); ?>
+                <h3 class="galleryTitle">
+                    <i class="fas fa-plus"></i>
+                    <?php echo __('More'); ?>
                     <span class="badge"><?php echo count($childCategories); ?></span>
                 </h3>
                 <div class="row">
@@ -125,7 +127,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                                         </span>
                                     <?php } ?>
                                 </div>
-                                <div data-toggle="tooltip" title="<?php echo $cat['name']; ?>" class="tile__title" style="border-radius: 10px; background-color: black; color: white; position: absolute; margin-left: 10%; width: 80% !important; bottom: 40% !important; opacity: 0.8 !important; text-align: center;">
+                                <div data-toggle="tooltip" title="<?php echo $cat['name']; ?>" class="subCategoryName">
                                     <?php echo $cat['name']; ?>
                                 </div>
                             </a>

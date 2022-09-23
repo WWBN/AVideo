@@ -29,7 +29,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         if (canPrintCategoryTitle($title)) {
             ?>
             <h3 class="galleryTitle">
-                <a class="btn-default" href="<?php echo $global['webSiteRootURL']; ?>?showOnly=<?php echo $getName; ?>">
+                <a href="<?php echo $global['webSiteRootURL']; ?>?showOnly=<?php echo $getName; ?>">
                     <i class="<?php echo $icon; ?>"></i>
                     <?php
                     if (empty($_GET[$getName])) {
