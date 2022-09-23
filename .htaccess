@@ -151,6 +151,7 @@ Options All -Indexes
     #for the category name
     RewriteRule    ^cat/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/?catName=$1    [NC,L,QSA]
     RewriteRule    ^cat/([^!#$&'()*+,\/:;=?@[\]]+)/page/([0-9]+)/?$ view/?catName=$1&page=$2    [NC,L,QSA]
+    RewriteRule    ^c/([0-9]+)/([^/]+)?$ view/?catId=$1&catName=$2    [QSA]
 
     RewriteRule    ^tag/([0-9-]+)(.*)?$ view/?tags_id=$1    [NC,L,QSA]
 
