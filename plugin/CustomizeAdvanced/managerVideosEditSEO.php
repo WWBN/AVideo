@@ -35,7 +35,7 @@
 </div>
 <script>
     $(document).ready(function () {
-        setupFormElement('#inputTitle', 35, 65, true, true);
+        setupFormElement('#inputTitle', 35, 65, false, true);
         setupFormElement('#inputShortSummary', 70, 320, true, false);
         setupFormElement('#inputMetaDescription', 70, 320, true, false);
     });
