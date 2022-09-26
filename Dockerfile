@@ -45,7 +45,6 @@ RUN apt install -y --no-install-recommends \
       libimage-exiftool-perl \
       libapache2-mod-xsendfile \
       libapache2-mod-php \
-      python \
       build-essential \
       make \
       libpcre3 \
