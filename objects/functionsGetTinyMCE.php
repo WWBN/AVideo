@@ -5,7 +5,7 @@ if (empty($tinyMCELibs)) {
     $tinyMCELibs = 1;
     ?>
     <script type="text/javascript" src="<?php echo getURL('node_modules/tinymce/tinymce.min.js'); ?>"></script>
-    <style>.tox-statusbar__branding{
+    <style>.tox-statusbar__branding, .tox-promotion{
             display:none !important;
         }</style>
     <?php
