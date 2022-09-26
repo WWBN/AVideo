@@ -31,38 +31,19 @@ ENV MAIN_LANGUAGE en_US
 RUN apt update
 
 # Install dependencies
-RUN apt install -y --no-install-recommends \
-      systemctl \
-      apt-transport-https \
-      lsb-release \
-      logrotate \
-      git \
-      unzip \
-      curl \
-      wget && \
-    apt install -y \
-      ffmpeg \
-      libimage-exiftool-perl \
-      libapache2-mod-xsendfile \
-      libapache2-mod-php7.4 \
-      build-essential \
-      make \
-      libpcre3 \
-      libpcre3-dev \
-      libssl-dev \
-      python3-pip \ 
-      php7.4 \
-      php7.4-common \
-      php7.4-cli \
-      php7.4-json \
-      php7.4-mbstring \
-      php7.4-curl \
-      php7.4-mysql \
-      php7.4-bcmath \
-      php7.4-xml \
-      php7.4-gd \
-      php7.4-zip \
-      php7.4-intl
+RUN apt-get update -y && apt-get upgrade -y \
+      && apt install -y --no-install-recommends ca-certificates apt-transport-https software-properties-common curl \
+      && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp \
+      && chmod a+rx /usr/local/bin/yt-dlp \
+      && apt install -y --no-install-recommends sshpass nano net-tools curl apache2 php8.1 libapache2-mod-php8.1 php8.1-mysql php8.1-curl php8.1-gd php8.1-intl \
+      php-zip mysql-client ffmpeg git libimage-exiftool-perl libapache2-mod-xsendfile -y  && a2enmod xsendfile && cd /var/www/html \
+      && git clone https://github.com/WWBN/AVideo.git \
+      && apt install -y --no-install-recommends && curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl  \
+      && chmod a+rx /usr/local/bin/youtube-dl && apt install -y --no-install-recommends build-essential libpcre3 libpcre3-dev libssl-dev php8.1-xml -y  \
+      && a2enmod rewrite && chown www-data:www-data /var/www/html/AVideo/plugin && chmod 755 /var/www/html/AVideo/plugin  \
+      && apt install -y --no-install-recommends unzip -y && apt install -y --no-install-recommends htop python3-pip  \
+      && pip3 install youtube-dl && pip3 install --upgrade youtube-dl && a2enmod expires  \
+      && a2enmod headers  
 
 COPY deploy/apache/avideo.conf /etc/apache2/sites-enabled/000-default.conf
 COPY deploy/apache/phpmyadmin.conf /etc/apache2/conf-available/phpmyadmin.conf
@@ -99,8 +80,8 @@ RUN chmod 755 /usr/local/bin/docker-entrypoint && \
     chown -R www-data:www-data /var/www/html/AVideo && \
     cd /var/www/html/AVideo/plugin/User_Location/install && \
     unzip install.zip && \
-    sed -i 's/^post_max_size.*$/post_max_size = 100M/' /etc/php/7.4/apache2/php.ini && \
-    sed -i 's/^upload_max_filesize.*$/upload_max_filesize = 100M/' /etc/php/7.4/apache2/php.ini && \
+    sed -i 's/^post_max_size.*$/post_max_size = 10G/' /etc/php/8.1/apache2/php.ini && \
+    sed -i 's/^upload_max_filesize.*$/upload_max_filesize = 10G/' /etc/php/8.1/apache2/php.ini && \
     a2enmod rewrite expires headers ssl xsendfile
 
 VOLUME /var/www/tmp
