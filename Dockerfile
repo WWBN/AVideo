@@ -44,7 +44,7 @@ RUN apt install -y --no-install-recommends \
       ffmpeg \
       libimage-exiftool-perl \
       libapache2-mod-xsendfile \
-      libapache2-mod-php7.4 \
+      libapache2-mod-php \
       python \
       build-essential \
       make \
@@ -52,18 +52,18 @@ RUN apt install -y --no-install-recommends \
       libpcre3-dev \
       libssl-dev \
       python3-pip \ 
-      php7.4 \
-      php7.4-common \
-      php7.4-cli \
-      php7.4-json \
-      php7.4-mbstring \
-      php7.4-curl \
-      php7.4-mysql \
-      php7.4-bcmath \
-      php7.4-xml \
-      php7.4-gd \
-      php7.4-zip \
-      php7.4-intl
+      php \
+      php-common \
+      php-cli \
+      php-json \
+      php-mbstring \
+      php-curl \
+      php-mysql \
+      php-bcmath \
+      php-xml \
+      php-gd \
+      php-zip \
+      php-intl
 
 COPY deploy/apache/avideo.conf /etc/apache2/sites-enabled/000-default.conf
 COPY deploy/apache/phpmyadmin.conf /etc/apache2/conf-available/phpmyadmin.conf
