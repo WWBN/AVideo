@@ -54,16 +54,21 @@ class VastCampaignsVideos extends ObjectYPT
         return $row;
     }
 
-    public static function getRandomCampainVideo($vast_campaigns_id)
-    {
+    public static function getRandomCampainVideo($vast_campaigns_id){
         global $global;
         $vast_campaigns_id = intval($vast_campaigns_id);
         if (empty($vast_campaigns_id)) {
             $campaings = VastCampaigns::getValidCampaigns();
             if (empty($campaings[0])) {
+                _error_log("getRandomCampainVideo empty campaings");
                 return false;
             }
-            $vast_campaigns_id = $campaings[0]['id'];
+            $max = count($campaings)-1;
+            if($max<0){
+                $max = 0;
+            }
+            $random_index = random_int(0, $max);
+            $vast_campaigns_id = $campaings[$random_index]['id'];
         }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  vast_campaigns_id = ? ORDER BY RAND() LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
@@ -113,7 +118,9 @@ class VastCampaignsVideos extends ObjectYPT
     {
         global $global;
 
-        $sql = "SELECT v.*, c.* from " . static::getTableName() . " c LEFT JOIN videos v ON v.id = videos_id WHERE vast_campaigns_id = ? AND c.status = 'a' ";
+        $sql = "SELECT v.*, c.* from " . static::getTableName() . " c 
+         LEFT JOIN videos v ON v.id = videos_id 
+         WHERE vast_campaigns_id = ? AND c.status = 'a' ";
 
         $res = sqlDAL::readSql($sql, "i", [$vast_campaigns_id]);
         $rows = sqlDAL::fetchAllAssoc($res);
