@@ -654,6 +654,7 @@ class AVideoPlugin
                 //echo $func.PHP_EOL;
                 //_error_log($func);
                 if(!empty($_REQUEST['debug'])){
+                    _error_log("Debug {$value['dirName']} getEnd ");
                     echo "<!-- {$value['dirName']} getEnd -->".PHP_EOL;
                 }
                 $p->getEnd();
