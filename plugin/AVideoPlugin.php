@@ -1149,8 +1149,10 @@ class AVideoPlugin
         return $navBarButtons;
     }
 
-    public static function navBarProfileButtons()
-    {
+    public static function navBarProfileButtons(){
+        if(self::isDebuging(__FUNCTION__)){
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
+        }
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "";
@@ -1191,8 +1193,10 @@ class AVideoPlugin
         return $navBarButtons;
     }
 
-    public static function navBarAfter()
-    {
+    public static function navBarAfter(){
+        if(self::isDebuging(__FUNCTION__)){
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
+        }
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "";
