@@ -58,7 +58,7 @@ class AVideoPlugin
     }
 
     public static function getHeadCode(){
-        if(!empty($_REQUEST['debug_getHeadCode'])){
+        if(self::isDebuging(__FUNCTION__)){
             return '';
         }
         $plugins = Plugin::getAllEnabled();
@@ -169,7 +169,7 @@ class AVideoPlugin
     }
 
     public static function getFooterCode(){
-        if(!empty($_REQUEST['debug_getFooterCode'])){
+        if(self::isDebuging(__FUNCTION__)){
             return '';
         }
         $plugins = Plugin::getAllEnabled();
@@ -636,7 +636,7 @@ class AVideoPlugin
     }
 
     public static function getEnd(){
-        if(!empty($_REQUEST['debug_getEnd'])){
+        if(self::isDebuging(__FUNCTION__)){
             return '';
         }
         $plugins = Plugin::getAllEnabled();
@@ -659,7 +659,7 @@ class AVideoPlugin
                 $func = "{$value['dirName']}::" . __FUNCTION__;
                 //echo $func.PHP_EOL;
                 //_error_log($func);
-                if(!empty($_REQUEST['debug'])){
+                if(!empty($_REQUEST['debugcomment'])){
                     _error_log("Debug {$value['dirName']} getEnd ");
                     echo "<!-- {$value['dirName']} getEnd -->".PHP_EOL;
                 }
@@ -1164,9 +1164,16 @@ class AVideoPlugin
         }
         return $navBarButtons;
     }
+    
+    private static function isDebuging($name){
+        if(!empty($_REQUEST['debug_'.$name]) || !empty($_REQUEST['debug'])){
+            return true;
+        }
+        return false;
+    }
 
     public static function navBar(){
-        if(!empty($_REQUEST['debug_navBar'])){
+        if(self::isDebuging(__FUNCTION__)){
             return '';
         }
         $plugins = Plugin::getAllEnabled();
