@@ -682,6 +682,10 @@ class Layout extends PluginAbstract {
 
     public function getEnd() {
         global $global;
+        if(!empty($global['layoutend'])){
+            return false;
+        }
+        $global['layoutend'] = 1;
         $html = _ob_get_clean();
         $html = self::organizeHTML($html);
         ob_clean();
