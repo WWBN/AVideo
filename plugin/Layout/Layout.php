@@ -500,6 +500,7 @@ class Layout extends PluginAbstract {
                 $content = getIncludeFileContent($global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php');
             }
         }
+        return $content;
     }
 
     static function getUserAutocomplete($default_users_id = 0, $id = '', $parameters = array()) {
