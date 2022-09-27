@@ -59,7 +59,7 @@ class AVideoPlugin
 
     public static function getHeadCode(){
         if(self::isDebuging(__FUNCTION__)){
-            return '';
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
         }
         $plugins = Plugin::getAllEnabled();
         $str = "";
@@ -170,7 +170,7 @@ class AVideoPlugin
 
     public static function getFooterCode(){
         if(self::isDebuging(__FUNCTION__)){
-            return '';
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
         }
         $plugins = Plugin::getAllEnabled();
         $str = "";
@@ -637,7 +637,7 @@ class AVideoPlugin
 
     public static function getEnd(){
         if(self::isDebuging(__FUNCTION__)){
-            return '';
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
         }
         $plugins = Plugin::getAllEnabled();
         usort($plugins, function ($a, $b) {
@@ -1174,7 +1174,7 @@ class AVideoPlugin
 
     public static function navBar(){
         if(self::isDebuging(__FUNCTION__)){
-            return '';
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
         }
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
