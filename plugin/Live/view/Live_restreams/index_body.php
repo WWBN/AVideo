@@ -62,7 +62,7 @@ if (!User::isAdmin()) {
                 <div class="panel panel-default ">
                     <div class="panel-heading"><i class="fas fa-edit"></i> <?php echo __("Edit"); ?></div>
                     <div class="panel-body">
-                        <table id="Live_restreamsTable" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
+                        <table id="Live_restreamsTable2" class="display table table-bordered table-responsive table-striped table-hover table-condensed" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -135,7 +135,7 @@ if (!User::isAdmin()) {
                 }
             });
         });
-        var Live_restreamstableVar = $('#Live_restreamsTable').DataTable({
+        var Live_restreamstableVar = $('#Live_restreamsTable2').DataTable({
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_restreams/list.json.php",
             "columns": [
                 {"data": "id"},
@@ -177,14 +177,14 @@ if (!User::isAdmin()) {
                 }
             });
         });
-        $('#Live_restreamsTable').on('click', 'button.check_Live_restreams', function (e) {
+        $('#Live_restreamsTable2').on('click', 'button.check_Live_restreams', function (e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Live_restreamstableVar.row(tr).data();
             var url = webSiteRootURL+"plugin/Live/view/Live_restreams/getLiveKey.json.php?token="+data.restreamsToken;
             avideoModalIframe(url);
         });
-        $('#Live_restreamsTable').on('click', 'button.delete_Live_restreams', function (e) {
+        $('#Live_restreamsTable2').on('click', 'button.delete_Live_restreams', function (e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Live_restreamstableVar.row(tr).data();
@@ -215,7 +215,7 @@ if (!User::isAdmin()) {
                         }
                     });
         });
-        $('#Live_restreamsTable').on('click', 'button.edit_Live_restreams', function (e) {
+        $('#Live_restreamsTable2').on('click', 'button.edit_Live_restreams', function (e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Live_restreamstableVar.row(tr).data();
