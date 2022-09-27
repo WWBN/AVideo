@@ -57,8 +57,10 @@ class AVideoPlugin
         return false;
     }
 
-    public static function getHeadCode()
-    {
+    public static function getHeadCode(){
+        if(!empty($_REQUEST['debug_getHeadCode'])){
+            return '';
+        }
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
@@ -75,8 +77,7 @@ class AVideoPlugin
         return $str;
     }
 
-    public static function getChartTabs()
-    {
+    public static function getChartTabs(){
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
@@ -167,8 +168,10 @@ class AVideoPlugin
         return $str;
     }
 
-    public static function getFooterCode()
-    {
+    public static function getFooterCode(){
+        if(!empty($_REQUEST['debug_getFooterCode'])){
+            return '';
+        }
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
@@ -633,6 +636,9 @@ class AVideoPlugin
     }
 
     public static function getEnd(){
+        if(!empty($_REQUEST['debug_getEnd'])){
+            return '';
+        }
         $plugins = Plugin::getAllEnabled();
         usort($plugins, function ($a, $b) {
             if ($a['name'] == 'Cache') {
@@ -1128,8 +1134,7 @@ class AVideoPlugin
         return $js;
     }
 
-    public static function navBarButtons()
-    {
+    public static function navBarButtons(){
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "";
@@ -1160,8 +1165,10 @@ class AVideoPlugin
         return $navBarButtons;
     }
 
-    public static function navBar()
-    {
+    public static function navBar(){
+        if(!empty($_REQUEST['debug_navBar'])){
+            return '';
+        }
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "<!-- Plugin::navBar Start -->";
