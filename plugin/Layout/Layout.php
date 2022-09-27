@@ -492,11 +492,13 @@ class Layout extends PluginAbstract {
     public function navBarAfter() {
         global $global;
         $obj = $this->getDataObject();
+        $content = '';
         if (!AVideoPlugin::isEnabledByName('YouPHPFlix2') && !empty($obj->categoriesTopButtons)) {
             if (!empty($obj->categoriesTopButtonsShowOnlyOnFirstPage) && !isFirstPage()) {
-                return '';
+                
+            }else{
+                $content = getIncludeFileContent($global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php');
             }
-            include $global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php';
         }
     }
 
