@@ -691,7 +691,7 @@ class Layout extends PluginAbstract {
         $global['layoutend'] = 1;
         $html = _ob_get_clean();
         $html = self::organizeHTML($html);
-        _ob_clean();
+        //_ob_clean();
         _ob_start();
         echo '<!-- Layout organizeHTML start -->'.PHP_EOL.$html.PHP_EOL.'<!-- Layout organizeHTML END -->';
     }
