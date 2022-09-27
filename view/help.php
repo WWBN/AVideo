@@ -112,3 +112,6 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         </script>
     </body>
 </html>
+<?php
+include $global['systemRootPath'].'objects/include_end.php';
+?>

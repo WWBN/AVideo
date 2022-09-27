@@ -516,9 +516,13 @@ class Layout extends PluginAbstract {
     static function organizeHTML($html) {
         global $global; // add socket twice on live page
         //return $html;
-        if (!empty($global['doNOTOrganizeHTML']) || !empty($_REQUEST['debug'])) {
+        if (!empty($global['doNOTOrganizeHTML'])) {
             //var_dump('doNOTOrganizeHTML');exit;
-            return $html;
+            return $html.PHP_EOL.'<!-- Layout::organizeHTML doNOTOrganizeHTML -->';
+        }
+        if (!empty($_REQUEST['debug'])) {
+            //var_dump('doNOTOrganizeHTML');exit;
+            return $html.PHP_EOL.'<!-- Layout::organizeHTML debug -->';
         }
         self::$tags = array();
         //return $html;
@@ -685,10 +689,6 @@ class Layout extends PluginAbstract {
 
     public function getEnd() {
         global $global;
-        if(!empty($global['layoutend'])){
-            return false;
-        }
-        $global['layoutend'] = 1;
         $html = _ob_get_clean();
         $html = self::organizeHTML($html);
         //_ob_clean();

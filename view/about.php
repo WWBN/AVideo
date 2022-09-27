@@ -77,3 +77,6 @@ $metaDescription = "About Page";
         </script>
     </body>
 </html>
+<?php
+include $global['systemRootPath'].'objects/include_end.php';
+?>

@@ -35,7 +35,7 @@ if (!$ms->canManageSchedule()) {
 
 $obj->error = false;
 
-ob_end_clean();
+_ob_end_clean();
 _ob_start();
 
 

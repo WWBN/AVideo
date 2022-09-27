@@ -103,13 +103,34 @@ class Live_restreams extends ObjectYPT {
                 $row['restreamsToken'] = encryptString($row['id']);
                 $row['display_name'] = getWordOrIcon($row['name'], 'fa-2x');
                 $row['token_expired'] = self::checkIfTokenIsExpired($row['parameters']);
-                $row['valid'] = $row['token_expired']->needToRevalidate?'<i class="fas fa-times"></i>':'<i class="fas fa-check"></i>';
+                $row['provider'] = self::getProviderName($row['parameters']);
+                if ($row['token_expired']->needToRevalidate) {
+                    $row['revalidateButton'] = '<button class="btn btn-primary btn-xs" onclick="openRestream(\''.$row['provider'].'\');"><i class="fas fa-sync"></i> '.__("Revalidate").'</button>';
+                } else {
+                    $row['revalidateButton'] = '<i class="fas fa-check text-success"></i>';
+                }
                 $rows[] = $row;
             }
         } else {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
+    }
+
+    private static function getProviderName($parameters) {
+        if (is_string($parameters)) {
+            $parameters = object_to_array(json_decode($parameters));
+        }
+
+        if (!empty($parameters['restream.ypt.me'])) {
+            foreach ($parameters['restream.ypt.me'] as $key => $value) {
+                if (preg_match('/(youtube|facebook|twitch)/i', $key)) {
+                    return $key;
+                }
+            }
+        }
+
+        return false;
     }
 
     private static function checkIfTokenIsExpired($parameters) {
@@ -140,6 +161,7 @@ class Live_restreams extends ObjectYPT {
             }
         }
         $obj->isExpired = true;
+
         return $obj;
     }
 
