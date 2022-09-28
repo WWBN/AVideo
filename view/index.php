@@ -3,7 +3,15 @@
 //var_dump($_SERVER);exit;
 $configFile = dirname(__FILE__) . '/../videos/configuration.php';
 //$doNotIncludeConfig = 1;
-require_once $configFile;
+if (file_exists($configFile)) {
+    require_once $configFile;
+} else {
+    if (!file_exists('../install/index.php')) {
+        forbiddenPage("No Configuration and no Installation");
+    }
+    header("Location: install/index.php");
+    exit;
+}
 //require_once "{$global['systemRootPath']}objects/functions.php";
 
 $paths = getIframePaths();
@@ -32,7 +40,7 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
             if (isASubIFrame()) {
                 console.log('isASubIFrame', window.parent.document.location, document.location);
                 window.parent.document.location = document.location;
-                
+
             }
         </script>
         <link rel="shortcut icon" href="<?php echo getURL('videos/favicon.ico'); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
@@ -78,13 +86,13 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
             height="100%" 
             scrolling="auto"
             src="<?php echo getURL('view\index_loading.html'); ?>" id="mainIframe" name="mainIframe"></iframe>
-            <form action="<?php echo $postURL; ?>" method="post" target="mainIframe" style="display: none;" id="mainIframeForm">
+        <form action="<?php echo $postURL; ?>" method="post" target="mainIframe" style="display: none;" id="mainIframeForm">
             <?php
             foreach ($_POST as $key => $value) {
-                echo "<input type='hidden' name='{$key}' value=". json_encode($value)." />";
+                echo "<input type='hidden' name='{$key}' value=" . json_encode($value) . " />";
             }
             ?>
-            </form>
+        </form>
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
         <script src="<?php echo getURL('view/bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
         <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
@@ -185,21 +193,21 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
                     return false;
                 }
                 var mainPages = ['site', 'site/', 'view/index_firstPage.php'];
-                
+
                 for (var i in mainPages) {
                     var page = mainPages[i];
-                    if(typeof page !== 'string'){
-                       continue;
+                    if (typeof page !== 'string') {
+                        continue;
                     }
-                    eval('var pattern = /'+webSiteRootURL.replaceAll('/', '\\/')+page.replace('/', '\\/')+'.*/');
-                    if(pattern.test(src)){
+                    eval('var pattern = /' + webSiteRootURL.replaceAll('/', '\\/') + page.replace('/', '\\/') + '.*/');
+                    if (pattern.test(src)) {
                         src = webSiteRootURL;
                     }
-                    if(pattern.test(iframeSRC)){
+                    if (pattern.test(iframeSRC)) {
                         iframeSRC = webSiteRootURL;
                     }
                 }
-                
+
                 if (src !== iframeSRC) {
                     setIframeSRC(src);
                 }
