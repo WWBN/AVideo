@@ -36,6 +36,10 @@ if (!empty($_GET['channelName'])) {
     $logo = User::getPhoto($user['id']);
 }
 
+if(empty($description)){
+    $description = $title;
+}
+
 $cacheName = "feedCache".json_encode($_GET);
 $rows = ObjectYPT::getCache($cacheName, 0);
 if (empty($rows)) {
