@@ -1434,7 +1434,7 @@ function avideoModalIframeFullScreen(url) {
 }
 
 function avideoModalIframeFullWithMinimize(url) {
-    if (typeof parent.openWindow === 'function') {
+    if (false && typeof parent.openWindow === 'function') {
         parent.openWindow(url, iframeAllowAttributes, '', true);
     } else {
         avideoModalIframeWithClassName(url, 'swal-modal-iframe-full-with-minimize', true);

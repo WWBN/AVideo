@@ -1,3 +1,5 @@
+
+<link rel="stylesheet" type="text/css" href="<?php echo getURL('view/css/DataTables/datatables.min.css'); ?>"/>
 <div id="<?php echo $tabId; ?>" class="tab-pane fade in" style="padding: 10px 0;">
 
     <div class="panel panel-default">
@@ -73,6 +75,7 @@
     </div>
 </div>
 
+<script src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>" type="text/javascript"></script>
 <script type="text/javascript">
     var Users_affiliationstableVar;
     function clearUsers_affiliationsForm() {

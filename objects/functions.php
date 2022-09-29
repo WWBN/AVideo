@@ -3647,7 +3647,7 @@ function object_to_array($obj) {
 function allowOrigin() {
     global $global;
     cleanUpAccessControlHeader();
-    $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
+    $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? @$_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
     if (empty($HTTP_ORIGIN)) {
         $server = parse_url($global['webSiteRootURL']);
         header('Access-Control-Allow-Origin: ' . $server["scheme"] . '://imasdk.googleapis.com');
@@ -9195,14 +9195,14 @@ function getIncludeFileContentV2($filePath, $varsArray = array()) {
     }
     _ob_start();
     $__out = ob_get_contents();
-    ob_clean();
+    _ob_clean();
     $basename = basename($filePath);
     $return = "<!-- {$basename} start -->";
     include $filePath;
     _ob_start();
     $return .= ob_get_contents();
     $return .= "<!-- {$basename} end -->";
-    ob_clean();
+    _ob_clean();
     echo $__out;
     return $return;
 }
@@ -9227,6 +9227,10 @@ function _ob_end_clean() {
       header_remove("Content-Encoding");
       }
      */
+}
+function _ob_clean() {
+    @ob_clean();
+    header_remove("Content-Encoding");
 }
 
 function pluginsRequired($arrayPluginName, $featureName = '') {

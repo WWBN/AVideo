@@ -13,7 +13,7 @@ $default_socket_timeout = 4;
 $cacheTimeout = 60;
 $forceRecreate = false;
 if (isCommandLineInterface()) {
-    ob_end_clean();
+    _ob_end_clean();
     _error_log('Commandline: Command line EPG');
     $forceRecreate = true;
     $default_socket_timeout = 10;

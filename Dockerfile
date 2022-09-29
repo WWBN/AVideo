@@ -9,7 +9,6 @@ LABEL maintainer="TRW <trw@acoby.de>" \
       org.label-schema.vendor="WWBN"
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG VERSION_ENCODER=3.7
 
 ENV DB_MYSQL_HOST database
 ENV DB_MYSQL_PORT 3306
@@ -76,7 +75,7 @@ RUN chmod 755 /usr/local/bin/docker-entrypoint && \
     pip3 install youtube-dl && \
     cd /var/www/html/AVideo && \
     git config --global advice.detachedHead false && \
-    git clone -b $VERSION_ENCODER --depth 1 https://github.com/WWBN/AVideo-Encoder.git Encoder && \
+    git clone https://github.com/WWBN/AVideo-Encoder.git Encoder && \
     chown -R www-data:www-data /var/www/html/AVideo && \
     cd /var/www/html/AVideo/plugin/User_Location/install && \
     unzip install.zip && \

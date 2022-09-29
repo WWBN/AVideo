@@ -57,8 +57,10 @@ class AVideoPlugin
         return false;
     }
 
-    public static function getHeadCode()
-    {
+    public static function getHeadCode(){
+        if(self::isDebuging(__FUNCTION__)){
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
+        }
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
@@ -75,8 +77,7 @@ class AVideoPlugin
         return $str;
     }
 
-    public static function getChartTabs()
-    {
+    public static function getChartTabs(){
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
@@ -167,8 +168,10 @@ class AVideoPlugin
         return $str;
     }
 
-    public static function getFooterCode()
-    {
+    public static function getFooterCode(){
+        if(self::isDebuging(__FUNCTION__)){
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
+        }
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
@@ -633,6 +636,9 @@ class AVideoPlugin
     }
 
     public static function getEnd(){
+        if(self::isDebuging(__FUNCTION__)){
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
+        }
         $plugins = Plugin::getAllEnabled();
         usort($plugins, function ($a, $b) {
             if ($a['name'] == 'Cache') {
@@ -653,7 +659,8 @@ class AVideoPlugin
                 $func = "{$value['dirName']}::" . __FUNCTION__;
                 //echo $func.PHP_EOL;
                 //_error_log($func);
-                if(!empty($_REQUEST['debug'])){
+                if(!empty($_REQUEST['debugcomment'])){
+                    _error_log("Debug {$value['dirName']} getEnd ");
                     echo "<!-- {$value['dirName']} getEnd -->".PHP_EOL;
                 }
                 $p->getEnd();
@@ -1127,8 +1134,7 @@ class AVideoPlugin
         return $js;
     }
 
-    public static function navBarButtons()
-    {
+    public static function navBarButtons(){
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "";
@@ -1143,8 +1149,10 @@ class AVideoPlugin
         return $navBarButtons;
     }
 
-    public static function navBarProfileButtons()
-    {
+    public static function navBarProfileButtons(){
+        if(self::isDebuging(__FUNCTION__)){
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
+        }
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "";
@@ -1158,9 +1166,18 @@ class AVideoPlugin
         }
         return $navBarButtons;
     }
+    
+    private static function isDebuging($name){
+        if(!empty($_REQUEST['debug_'.$name]) || !empty($_REQUEST['debug'])){
+            return true;
+        }
+        return false;
+    }
 
-    public static function navBar()
-    {
+    public static function navBar(){
+        if(self::isDebuging(__FUNCTION__)){
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
+        }
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "<!-- Plugin::navBar Start -->";
@@ -1176,8 +1193,10 @@ class AVideoPlugin
         return $navBarButtons;
     }
 
-    public static function navBarAfter()
-    {
+    public static function navBarAfter(){
+        if(self::isDebuging(__FUNCTION__)){
+            return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
+        }
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "";

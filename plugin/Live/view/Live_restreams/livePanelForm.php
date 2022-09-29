@@ -75,10 +75,10 @@ if (!Live::canRestream()) {
 </div>
 <div id="Live_restreamsbtnModelLinks" style="display: none;">
     <div class="btn-group pull-right">
-        <button href="" class="edit_Live_restreams btn btn-default btn-xs">
+        <button class="edit_Live_restreams btn btn-default btn-xs">
             <i class="fa fa-edit"></i>
         </button>
-        <button href="" class="delete_Live_restreams btn btn-danger btn-xs">
+        <button class="delete_Live_restreams btn btn-danger btn-xs">
             <i class="fa fa-trash"></i>
         </button>
     </div>
@@ -125,7 +125,7 @@ if (!Live::canRestream()) {
                 },
                 {"data": "status"},
                 {"data": "stream_key_short"},
-                {"data": "valid"},
+                {"data": "revalidateButton"},
                 {
                     sortable: false,
                     data: null,

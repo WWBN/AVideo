@@ -492,12 +492,15 @@ class Layout extends PluginAbstract {
     public function navBarAfter() {
         global $global;
         $obj = $this->getDataObject();
+        $content = '';
         if (!AVideoPlugin::isEnabledByName('YouPHPFlix2') && !empty($obj->categoriesTopButtons)) {
             if (!empty($obj->categoriesTopButtonsShowOnlyOnFirstPage) && !isFirstPage()) {
-                return '';
+                
+            }else{
+                $content = getIncludeFileContent($global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php');
             }
-            include $global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php';
         }
+        return $content;
     }
 
     static function getUserAutocomplete($default_users_id = 0, $id = '', $parameters = array()) {
@@ -515,7 +518,11 @@ class Layout extends PluginAbstract {
         //return $html;
         if (!empty($global['doNOTOrganizeHTML'])) {
             //var_dump('doNOTOrganizeHTML');exit;
-            return $html;
+            return $html.PHP_EOL.'<!-- Layout::organizeHTML doNOTOrganizeHTML -->';
+        }
+        if (!empty($_REQUEST['debug'])) {
+            //var_dump('doNOTOrganizeHTML');exit;
+            return $html.PHP_EOL.'<!-- Layout::organizeHTML debug -->';
         }
         self::$tags = array();
         //return $html;
@@ -684,8 +691,9 @@ class Layout extends PluginAbstract {
         global $global;
         $html = _ob_get_clean();
         $html = self::organizeHTML($html);
+        //_ob_clean();
         _ob_start();
-        echo $html;
+        echo '<!-- Layout organizeHTML start -->'.PHP_EOL.$html.PHP_EOL.'<!-- Layout organizeHTML END -->';
     }
 
     static private function removeDuplicated($list) {

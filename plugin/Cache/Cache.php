@@ -149,7 +149,9 @@ class Cache extends PluginAbstract
             if ($isBot && $lifetime < 3600) {
                 $lifetime = 3600;
             }
-            $firstPageCache = ObjectYPT::getCache($cacheName, $lifetime, true);
+            if(empty($_REQUEST['debug_cache'])){
+                $firstPageCache = ObjectYPT::getCache($cacheName, $lifetime, true);
+            }
             if (!empty($firstPageCache) && strtolower($firstPageCache) != 'false') {
                 if ($isBot && $_SERVER['REQUEST_URI'] !== '/login') {
                     //_error_log("Bot Detected, showing the cache ({$_SERVER['REQUEST_URI']}) FROM: {$_SERVER['REMOTE_ADDR']} Browser: {$_SERVER['HTTP_USER_AGENT']}");
