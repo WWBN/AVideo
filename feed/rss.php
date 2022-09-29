@@ -12,7 +12,8 @@ if (empty($feed)) {
          xmlns:dc="http://purl.org/dc/elements/1.1/"
          xmlns:atom="http://www.w3.org/2005/Atom"
          xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-         xmlns:slash="http://purl.org/rss/1.0/modules/slash/">
+         xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+         xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" >
         <channel>
             <atom:link href="<?php echo $global['webSiteRootURL'] . ltrim($_SERVER["REQUEST_URI"], "/"); ?>" rel="self" type="application/rss+xml" />
             <title><?php echo feedText($title); ?></title>
@@ -21,6 +22,14 @@ if (empty($feed)) {
             <sy:updatePeriod>hourly</sy:updatePeriod>
             <sy:updateFrequency>1</sy:updateFrequency>
             <author><?php echo $author; ?></author>
+            <itunes:owner>
+                <itunes:name>
+                <![CDATA[ <?php echo $title; ?> ]]>
+                </itunes:name>
+                <itunes:email>
+                <![CDATA[ <?php echo $author; ?> ]]>
+                </itunes:email>
+            </itunes:owner>
 
             <image>
             <title><?php echo feedText($title); ?></title>
