@@ -50,16 +50,9 @@ if (empty($rows)) {
     } else {
         unset($_POST['sort']);
         $playlists_id = intval($_REQUEST['program_id']);
-        $pl = new PlayList($playlists_id);
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
         $rows = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
         $rows = PlayList::sortVideos($rows, $videosArrayId);
-        $title = PlayLists::getNameOrSerieTitle($playlists_id);
-        $link = PlayLists::getLink($playlists_id);
-        $users_id = $pl->getUsers_id();
-        $author = User::getEmailDb($users_id);
-        $description = PlayLists::getDescriptionIfIsSerie($playlists_id);
-        //var_dump($videosArrayId);foreach ($rows as $value) {var_dump($value['id']);}exit;
     }
     $_POST['sort'] = $sort;
     ObjectYPT::setCache($cacheName, $rows);
