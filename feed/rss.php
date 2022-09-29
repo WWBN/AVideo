@@ -16,28 +16,31 @@ if (empty($feed)) {
          xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" >
         <channel>
             <atom:link href="<?php echo $global['webSiteRootURL'] . ltrim($_SERVER["REQUEST_URI"], "/"); ?>" rel="self" type="application/rss+xml" />
-            <title><?php echo feedText($title); ?></title>
-            <description><?php echo feedText($description); ?></description>
+            <title><![CDATA[ <?php echo feedText($title); ?> ]]></title>
+            <description><![CDATA[ <?php echo feedText($description); ?> ]]></description>
             <link><?php echo $link; ?></link>
             <sy:updatePeriod>hourly</sy:updatePeriod>
             <sy:updateFrequency>1</sy:updateFrequency>
-            <author><?php echo $author; ?></author>
+            <author><![CDATA[ <?php echo $author; ?> ]]></author>
+
+            <itunes:author><![CDATA[ <?php echo $author; ?> ]]></itunes:author>
+            <itunes:summary><![CDATA[ <?php echo feedText($description); ?> ]]></itunes:summary>
             <itunes:owner>
                 <itunes:name>
-                <![CDATA[ <?php echo $title; ?> ]]>
+                    <![CDATA[ <?php echo $title; ?> ]]>
                 </itunes:name>
                 <itunes:email>
-                <![CDATA[ <?php echo $author; ?> ]]>
+                    <![CDATA[ <?php echo $author; ?> ]]>
                 </itunes:email>
             </itunes:owner>
 
             <image>
-            <title><?php echo feedText($title); ?></title>
+            <title><![CDATA[ <?php echo feedText($title); ?> ]]></title>
             <url><?php echo $logo; ?></url>
             <link><?php echo $link; ?></link>
             <width>144</width>
             <height>40</height>
-            <description>AVideo version rss</description>
+            <description>RSS</description>
             </image>
 
             <?php
@@ -56,8 +59,8 @@ if (empty($feed)) {
                     }
                 } ?>
                 <item>
-                    <title><?php echo feedText($row['title']); ?></title>
-                    <description><?php echo feedText($row['description']); ?></description>
+                    <title><![CDATA[ <?php echo feedText($row['title']); ?> ]]></title>
+                    <description><![CDATA[ <?php echo feedText($row['description']); ?> ]]></description>
                     <link> <?php echo Video::getLink($row['id'], $row['clean_title']); ?></link>
                     <?php echo $enclosure; ?>
                     <pubDate><?php echo date('r', strtotime($row['created'])); ?></pubDate>
