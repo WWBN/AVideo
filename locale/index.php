@@ -47,50 +47,61 @@ $vars = listAllWordsToTranslate();
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-sm-8">
-                            <?php
-                            echo Layout::getLangsSelect('inputLanguage', '', 'navBarFlag2', '', false, true);
-                            ?>
-                        </div>
-                        <div class="col-sm-4">
                             <button class="btn btn-success btn-block " id="btnSaveFile" disabled><i class="fas fa-save"></i> <?php echo __("Save File"); ?></button>
                         </div>
-                    </div>
-                    <script>
-                        $(function () {
-                            $("#navBarFlag2").change(function () {
-                                var value = $(this).val();
-                                var tb1 = $('#originalWords');
-                                var tb2 = $('#translatedCode');
-                                console.log('Changed language');
-                                console.log(value);
-                                $.ajax({
-                                    url: 'index.php?getLanguage=' + value,
-                                    dataType: 'json'
-                                }).done(function (data) {
-                                    console.log("Found existing translation!");
-                                    var arrayOfLines = $('#originalWords').val().split('\n');
-                                    $.each(arrayOfLines, function (index, item) {
-                                        if (data.hasOwnProperty(item)) {
-                                            $('#translatedCode').append(data[item] + '\n');
-                                        } else {
-                                            $('#translatedCode').append('\n');
-                                        }
-                                    });
+                        <div class="col-sm-4">
+                            <div class="navbar-lang-btn">
+                                <?php
+                                if ($lang == 'en') {
+                                    $lang = 'en_US';
+                                }
+                                echo Layout::getLangsSelect('selectFlag', $lang, 'selectFlag', 'btn-block', true);
+                                //var_dump($lang);exit;
+                                ?>
+                            </div>
+                            <script>
+                                $(function () {
+                                    $("#div_selectFlag a").click(function (event) {
+                                        event.preventDefault();
+                                        var value = $(this).attr('value');
+                                        var tb1 = $('#originalWords');
+                                        var tb2 = $('#translatedCode');
+                                        var tb3 = $('#arrayCode');
+                                        console.log('Changed language');
+                                        console.log(value);
+                                        $.ajax({
+                                            url: 'index.php?getLanguage=' + value,
+                                            dataType: 'json'
+                                        }).done(function (data) {
+                                            console.log("Found existing translation!");
+                                            var arrayOfLines = $('#originalWords').val().split('\n');
+                                            $('#translatedCode').empty();
+                                            $.each(arrayOfLines, function (index, item) {
+                                                if (data.hasOwnProperty(item)) {
+                                                    $('#translatedCode').append(data[item] + '\n');
+                                                } else {
+                                                    $('#translatedCode').append('\n');
+                                                }
+                                            });
+                                            $('#translatedCode').trigger('keyup');
+                                            tb1.scroll(function () {
+                                                tb2.scrollTop(tb1.scrollTop());
+                                            });
+                                            
+                                            tb2.scroll(function () {
+                                                tb3.scrollTop(tb2.scrollTop());
+                                            });
+                                        }).fail(function () {
+                                            console.log("New translation");
+                                            tb1.scroll(function () {
 
-                                    tb1.scroll(function () {
-                                        tb2.scrollTop(tb1.scrollTop());
-                                    });
-
-
-                                }).fail(function () {
-                                    console.log("New translation");
-                                    tb1.scroll(function () {
-
+                                            });
+                                        });
                                     });
                                 });
-                            });
-                        });
-                    </script>
+                            </script>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="panel-body">
@@ -111,7 +122,9 @@ $vars = listAllWordsToTranslate();
                         <div class="col-lg-4 col-md-12">
                             <h3><?php echo __("Translated Array"); ?></h3>
 
-                            <textarea placeholder="<?php echo __("Translated Array"); ?>" class="form-control"  id="arrayCode" rows="20" readonly="readonly"></textarea>
+                            <textarea placeholder="<?php echo __("Translated Array"); ?>" class="form-control"  id="arrayCode" rows="20" readonly="readonly"
+                                      style="white-space: pre;overflow-wrap: normal;overflow-x: scroll;"
+                                      ></textarea>
                         </div>
 
                     </div>
@@ -165,7 +178,7 @@ $vars = listAllWordsToTranslate();
                     modal.showPleaseWait();
                     $.ajax({
                         url: 'save.php',
-                        data: {"flag": $("select[name='country2']").val(), "code": $('#arrayCode').val()},
+                        data: {"flag": $("#selectFlag").val(), "code": $('#arrayCode').val()},
                         type: 'post',
                         success: function (response) {
                             if (response.status === "1") {
