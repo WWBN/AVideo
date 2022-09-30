@@ -423,6 +423,7 @@ abstract class ObjectYPT implements ObjectInterface
             'live_transmitions_history', 
             'logincontrol_history', 
             'wallet',
+            'audit', 
             'wallet_log', 
             'live_restreams_logs',
             'clone_SitesAllowed');
