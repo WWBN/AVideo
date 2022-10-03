@@ -54,9 +54,12 @@ if ($seconds_watching_video<0) {
 
 $obj2->seconds_watching_video = $seconds_watching_video;
 if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
+    //_error_log("videos_statistics addView {$_REQUEST['id']} ".json_encode($_SESSION['addViewCount']));
     $resp = $obj->addView();
     _session_start();
     $_SESSION['addViewCount'][$_REQUEST['id']]['time'] = strtotime("+{$seconds} seconds");
+}else{
+    //_error_log("videos_statistics addView OK {$_REQUEST['id']} ".json_encode($_SESSION['addViewCount']));
 }
 
 if (isset($_REQUEST['currentTime'])) {

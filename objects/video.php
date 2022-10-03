@@ -150,6 +150,12 @@ if (!class_exists('Video')) {
             if (empty($this->id)) {
                 return false;
             }
+            
+            $lastStatistic = self::getLastStatistics($this->id, User::getId());
+            if(!empty($lastStatistic)){
+                return false;
+            }
+            
             $sql = "UPDATE videos SET views_count = views_count+1, modified = now() WHERE id = ?";
 
             $insert_row = sqlDAL::writeSql($sql, "i", [$this->id]);
@@ -4629,9 +4635,9 @@ if (!class_exists('Video')) {
 
         public static function getVideoPogressPercent($videos_id, $users_id = 0) {
             $lastVideoTime = self::getVideoPogress($videos_id, $users_id);
-
+            
             if (empty($lastVideoTime)) {
-                return ['percent' => 0, 'lastVideoTime' => 0];
+                return ['percent' => 0, 'lastVideoTime' => 0, 'msg' => 'empty LastVideoTime'];
             }
 
             // start incremental search and save
@@ -4647,14 +4653,15 @@ if (!class_exists('Video')) {
             $duration = parseDurationToSeconds($row['duration']);
 
             if (empty($duration)) {
-                return ['percent' => 0, 'lastVideoTime' => 0];
+                return ['percent' => 0, 'lastVideoTime' => 0, 'msg' => 'empty duration'];
             }
 
             if ($lastVideoTime > $duration) {
-                return ['percent' => 100, 'lastVideoTime' => $lastVideoTime];
+                return ['percent' => 100, 'lastVideoTime' => $lastVideoTime, 'msg' => 'LastVideoTime > duration'];
             }
 
-            return ['percent' => ($lastVideoTime / $duration) * 100, 'lastVideoTime' => $lastVideoTime];
+            //var_dump(__LINE__, $videos_id,  $users_id, $lastVideoTime, ['percent' => ($lastVideoTime / $duration) * 100, 'lastVideoTime' => $lastVideoTime]);exit;
+            return ['percent' => ($lastVideoTime / $duration) * 100, 'lastVideoTime' => $lastVideoTime, 'duration'=>$duration];
         }
 
         public function getRrating() {
@@ -5273,7 +5280,8 @@ if (!class_exists('Video')) {
                 }
             }
             $progress = Video::getVideoPogressPercent($video['id']);
-            $img .= "<div class=\"progress\" style=\"height: 3px; margin-bottom: 2px;\">"
+            //var_dump($video['id'], $progress);
+            $img .= "<div class=\"progress\">"
                     . "<div class=\"progress-bar progress-bar-danger\" role=\"progressbar\" "
                     . "style=\"width: {$progress['percent']}%;\" "
                     . "aria-valuenow=\"{$progress['percent']}\" "

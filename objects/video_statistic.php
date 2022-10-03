@@ -63,7 +63,7 @@ class VideoStatistic extends ObjectYPT {
                 . "(`when`,ip, users_id, videos_id, lastVideoTime, created, modified, session_id) values "
                 . "(now(),?," . $userId . ",?,{$lastVideoTime},now(),now(),'" . session_id() . "')";
         $insert_row = sqlDAL::writeSql($sql, "si", [getRealIpAddr(), $videos_id]);
-
+        //if($videos_id==4){_error_log($sql);}
         if (!empty($global['mysqli']->insert_id)) {
             return $global['mysqli']->insert_id;
         } else {
@@ -96,7 +96,7 @@ class VideoStatistic extends ObjectYPT {
             //$totalVideoSeconds = timeToSeconds($hms);
             //Video::addViewPercent();
         }
-
+        //if($videos_id==4){ _error_log("updateStatistic $videos_id, $users_id, $lastVideoTime, $seconds_watching_video ".json_encode($lastStatistic));}
         $id = $vs->save();
         /*
           if(!empty($id)){
@@ -124,19 +124,27 @@ class VideoStatistic extends ObjectYPT {
         $this->seconds_watching_video = intval($this->seconds_watching_video);
 
         $this->json = ($this->json);
-
+        
+        if(empty($this->id)){
+            $row = self::getLastStatistics($$this->videos_id, $this->users_id);
+            if(!empty($row)){
+                $this->id = $row['id'];
+            }
+        }
+        
         return parent::save();
     }
 
     public static function getLastStatistics($videos_id, $users_id = 0) {
         if (!empty($users_id)) {
-            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND users_id = ? ORDER BY id DESC LIMIT 1 ";
-            $res = sqlDAL::readSql($sql, 'ii', [$videos_id, $users_id], true);
+            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND (users_id = ? OR session_id = ?) ORDER BY id DESC LIMIT 1 ";
+            $res = sqlDAL::readSql($sql, 'iis', [$videos_id, $users_id, session_id()], true);
         } else {
             $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND session_id = ? ORDER BY id DESC LIMIT 1 ";
             $res = sqlDAL::readSql($sql, 'is', [$videos_id, session_id()], true);
         }
         $result = sqlDAL::fetchAssoc($res);
+        //if($videos_id==4){_error_log($sql." $videos_id, $users_id, ".session_id().' => '. json_encode($result));}
         sqlDAL::close($res);
         if (!empty($result)) {
             return $result;
@@ -146,6 +154,7 @@ class VideoStatistic extends ObjectYPT {
 
     public static function getLastVideoTimeFromVideo($videos_id, $users_id) {
         $row = self::getLastStatistics($videos_id, $users_id);
+        //var_dump($row);
         if (empty($row)) {
             return 0;
         }
