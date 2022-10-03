@@ -151,7 +151,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             
-            $lastStatistic = self::getLastStatistics($this->id, User::getId());
+            $lastStatistic = VideoStatistic::getLastStatistics($this->id, User::getId());
             if(!empty($lastStatistic)){
                 return false;
             }

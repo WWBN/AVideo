@@ -48,6 +48,12 @@ time.duration {
 .thumbsImageContainer .thumbsImage{
     border: none;
 }
+.thumbsImageContainer .progress{
+    height: 4px;
+    z-index: 1;
+    top: -4px;
+}
+}
 .videoLink .glyphicon-play-circle {
     transition: all 0.3s ease-in-out;
     top: 50%;
