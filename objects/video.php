@@ -792,7 +792,7 @@ if (!class_exists('Video')) {
                 }
             }
             _mysql_connect();
-            $sql = "SELECT STRAIGHT_JOIN  u.*, v.*, "
+            $sql = "SELECT STRAIGHT_JOIN  u.*, u.externalOptions as userExternalOptions, v.*, "
                     . " nv.title as next_title,"
                     . " nv.clean_title as next_clean_title,"
                     . " nv.filename as next_filename,"
@@ -1162,7 +1162,7 @@ if (!class_exists('Video')) {
                 $suggestedOnly = true;
                 $status = '';
             }
-            $sql = "SELECT STRAIGHT_JOIN  u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description,"
+            $sql = "SELECT STRAIGHT_JOIN  u.*, u.externalOptions as userExternalOptions, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description,"
                     . " v.created as videoCreation, v.modified as videoModified "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
@@ -1433,6 +1433,9 @@ if (!class_exists('Video')) {
                 }
                 if (empty($obj['externalOptions'])) {
                     $obj['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
+                }                
+                if (!empty($obj['userExternalOptions']) && is_string($obj['userExternalOptions'])) {
+                    $obj['userExternalOptions'] = User::decodeExternalOption($obj['userExternalOptions']);
                 }
                 $obj = cleanUpRowFromDatabase($obj);
                 return $obj;
@@ -1502,6 +1505,10 @@ if (!class_exists('Video')) {
             if (empty($row['externalOptions'])) {
                 $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
             }
+            if (!empty($row['userExternalOptions']) && is_string($row['userExternalOptions'])) {
+                $row['userExternalOptions'] = User::decodeExternalOption($row['userExternalOptions']);
+            }
+            //var_dump($row['userExternalOptions']);exit;
             $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             ObjectYPT::setCache($name, $row);

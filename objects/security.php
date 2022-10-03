@@ -4,6 +4,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 $securityFilter = ['jump','videoDownloadedLink','duration','error', 'msg', 'info', 'warning', 'success','toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
 $securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount'];
 $securityRemoveSingleQuotes = ['search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password'];
+$securityRemoveNonCharsStrict = ['APIName','APIPlugin'];
 $securityRemoveNonChars = ['resolution', 'format', 'videoDirectory', 'chunkFile'];
 $filterURL = ['videoURL', 'siteURL', 'redirectUri', 'encoderURL'];
 
@@ -50,11 +51,25 @@ foreach ($scanVars as $value) {
     foreach ($securityRemoveNonChars as $value) {
         if (!empty($scanThis[$value])) {
             if (is_string($scanThis[$value])) {
-                $scanThis[$value] = str_replace('/[^a-z0-9./_-]/i', '', trim($scanThis[$value]));
+                $scanThis[$value] = preg_replace('/[^a-z0-9./_-]/i', '', trim($scanThis[$value]));
             } elseif (is_array($scanThis[$value])) {
                 foreach ($scanThis[$value] as $key => $value2) {
                     if (is_string($scanThis[$value][$key])) {
-                        $scanThis[$value][$key] = str_replace('/[^a-z0-9./_-]/i', '', trim($scanThis[$value][$key]));
+                        $scanThis[$value][$key] = preg_replace('/[^a-z0-9./_-]/i', '', trim($scanThis[$value][$key]));
+                    }
+                }
+            }
+        }
+    }
+    
+    foreach ($securityRemoveNonCharsStrict as $value) {
+        if (!empty($scanThis[$value])) {
+            if (is_string($scanThis[$value])) {
+                $scanThis[$value] = preg_replace('/[^a-z0-9_]/i', '', trim($scanThis[$value]));
+            } elseif (is_array($scanThis[$value])) {
+                foreach ($scanThis[$value] as $key => $value2) {
+                    if (is_string($scanThis[$value][$key])) {
+                        $scanThis[$value][$key] = preg_replace('/[^a-z0-9_]/i', '', trim($scanThis[$value][$key]));
                     }
                 }
             }

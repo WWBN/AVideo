@@ -324,7 +324,7 @@ class Layout extends PluginAbstract {
         return $flags;
     }
 
-    static function getLangsSelect($name, $selected = "", $id = "", $class = "", $flagsOnly = false, $getAll = false) {
+    static function getLangsSelect($name, $selected = "", $id = "", $class = "navbar-btn", $flagsOnly = false, $getAll = false) {
         global $getLangsSelect;
         $getLangsSelect = 1;
         if ($getAll) {
@@ -346,19 +346,20 @@ class Layout extends PluginAbstract {
             $selectedJsonIcon = '';
         }
 
-        $html = '<div class="btn-group">
-            <button type="button" class="btn btn-default  dropdown-toggle navbar-btn" data-toggle="dropdown" aria-expanded="true">
-                <i class="selectedflagicon ' . $selectedJsonIcon . '"></i> <span class="caret"></span>
+        $html = '<div class="btn-group" id="div_'.$id.'">
+            <input type="hidden" name="'.$name.'" value="'.$selected.'" id="'.$id.'"/>
+            <button type="button" class="btn btn-default dropdown-toggle ' . $class . '" data-toggle="dropdown" aria-expanded="true">
+                <span class="flag"><i class="selectedflagicon ' . $selectedJsonIcon . '"></i></span> <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu dropdown-menu-right" role="menu">';
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" role="menu">';
 
         $selfURI = getSelfURI();
         foreach ($flags as $key => $value) {
             $info = json_decode($value[0]);
             $url = addQueryStringParameter($selfURI, 'lang', $key);
             $html .= '<li class="dropdown-submenu">
-                    <a tabindex="-1" href="' . $url . '">
-                        <i class="' . $info->icon . '" aria-hidden="true"></i> ' . $info->text . '</a>
+                    <a tabindex="-1" href="' . $url . '" value="' . $key . '" onclick="$(\'#div_'.$id.' > button > span.flag\').html($(this).find(\'span.flag\').html());$(\'input[name='.$name.']\').val(\''.$key.'\');">
+                        <span class="flag"><i class="' . $info->icon . '" aria-hidden="true"></i></span> ' . $info->text . '</a>
                     </li>';
         }
 
@@ -496,7 +497,7 @@ class Layout extends PluginAbstract {
         if (!AVideoPlugin::isEnabledByName('YouPHPFlix2') && !empty($obj->categoriesTopButtons)) {
             if (!empty($obj->categoriesTopButtonsShowOnlyOnFirstPage) && !isFirstPage()) {
                 
-            }else{
+            } else {
                 $content = getIncludeFileContent($global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php');
             }
         }
@@ -518,11 +519,11 @@ class Layout extends PluginAbstract {
         //return $html;
         if (!empty($global['doNOTOrganizeHTML'])) {
             //var_dump('doNOTOrganizeHTML');exit;
-            return $html.PHP_EOL.'<!-- Layout::organizeHTML doNOTOrganizeHTML -->';
+            return $html . PHP_EOL . '<!-- Layout::organizeHTML doNOTOrganizeHTML -->';
         }
         if (!empty($_REQUEST['debug'])) {
             //var_dump('doNOTOrganizeHTML');exit;
-            return $html.PHP_EOL.'<!-- Layout::organizeHTML debug -->';
+            return $html . PHP_EOL . '<!-- Layout::organizeHTML debug -->';
         }
         self::$tags = array();
         //return $html;
@@ -537,19 +538,19 @@ class Layout extends PluginAbstract {
         //var_dump(self::$tags['tagscript']);exit;
         if (!empty(self::$tags['tagcss'])) {
             self::$tags['tagcss'] = self::removeDuplicated(self::$tags['tagcss']);
-            $html = str_replace('</head>', PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['tagcss'])) . '</head>', $html);
+            $html = str_replace('</head>', PHP_EOL . implode(PHP_EOL, array_unique(self::$tags['tagcss'])) . '</head>', $html);
         }
         //return $html;
         if (!empty(self::$tags['style'])) {
-            $html = str_replace('</head>', '<style>' . PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['style'])) . '</style></head>', $html);
+            $html = str_replace('</head>', '<style>' . PHP_EOL . implode(PHP_EOL, array_unique(self::$tags['style'])) . '</style></head>', $html);
         }
         if (!empty(self::$tags['tagscript'])) {
             self::$tags['tagscript'] = self::removeDuplicated(self::$tags['tagscript']);
-            usort(self::$tags['tagscript'], "_sortJS"); 
-            $html = str_replace('</body>', PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['tagscript'])) . '</body>', $html);
+            usort(self::$tags['tagscript'], "_sortJS");
+            $html = str_replace('</body>', PHP_EOL . implode(PHP_EOL, array_unique(self::$tags['tagscript'])) . '</body>', $html);
         }
         if (!empty(self::$tags['script'])) {
-            $html = str_replace('</body>', '<script>' . PHP_EOL.implode(PHP_EOL, array_unique(self::$tags['script'])) . '</script></body>', $html);
+            $html = str_replace('</body>', '<script>' . PHP_EOL . implode(PHP_EOL, array_unique(self::$tags['script'])) . '</script></body>', $html);
         }
         $html = self::removeExtraSpacesFromHead($html);
         $html = self::removeExtraSpacesFromScript($html);
@@ -558,11 +559,11 @@ class Layout extends PluginAbstract {
     }
 
     private static function tryToReplace($search, $replace, $subject) {
-        if(true || self::codeIsValid($subject)){
+        if (true || self::codeIsValid($subject)) {
             $newSubject = str_replace($search, $replace, $subject, $count);
             return ['newSubject' => $newSubject, 'success' => $count];
-        }else{
-            _error_log('organizeHTML: Invalid code: '.$subject);
+        } else {
+            _error_log('organizeHTML: Invalid code: ' . $subject);
             return ['newSubject' => $subject, 'success' => false];
         }
     }
@@ -663,13 +664,13 @@ class Layout extends PluginAbstract {
         }
         return $html;
     }
-    
+
     static function shouldIgnoreJS($tag) {
         if (
                 preg_match('/application.+json/i', $tag) ||
-                preg_match('/function gtag\(/i', $tag) || 
-                preg_match('/<script async/i', $tag) || 
-                preg_match('/doNotSepareteTag/', $tag) || 
+                preg_match('/function gtag\(/i', $tag) ||
+                preg_match('/<script async/i', $tag) ||
+                preg_match('/doNotSepareteTag/', $tag) ||
                 preg_match('/document\.write/', $tag)) {
             return true;
         }
@@ -693,7 +694,7 @@ class Layout extends PluginAbstract {
         $html = self::organizeHTML($html);
         //_ob_clean();
         _ob_start();
-        echo '<!-- Layout organizeHTML start -->'.PHP_EOL.$html.PHP_EOL.'<!-- Layout organizeHTML END -->';
+        echo '<!-- Layout organizeHTML start -->' . PHP_EOL . $html . PHP_EOL . '<!-- Layout organizeHTML END -->';
     }
 
     static private function removeDuplicated($list) {
@@ -701,15 +702,15 @@ class Layout extends PluginAbstract {
         $srcList = array();
         foreach ($list as $key => $value) {
             preg_match('/<script.+src=["\']([^"\']+)["\']/i', $value, $matches);
-            if(!empty($matches[1])){
-                if(!in_array($matches[1], $srcList)){
+            if (!empty($matches[1])) {
+                if (!in_array($matches[1], $srcList)) {
                     $cleanList[] = $value;
                     $srcList[] = $matches[1];
                 }
-            }else{
+            } else {
                 preg_match('/<link.+href=["\']([^"\']+)["\']/i', $value, $matches);
-                if(!empty($matches[1])){
-                    if(!in_array($matches[1], $srcList)){
+                if (!empty($matches[1])) {
+                    if (!in_array($matches[1], $srcList)) {
                         $cleanList[] = $value;
                         $srcList[] = $matches[1];
                     }
@@ -718,25 +719,24 @@ class Layout extends PluginAbstract {
         }
         //var_dump($srcList);exit;
         return $cleanList;
-        
     }
-    
-    static function getSuggestedButton($videos_id, $class='btn btn-xs'){
+
+    static function getSuggestedButton($videos_id, $class = 'btn btn-xs') {
         global $global;
-        if(empty($videos_id)){
+        if (empty($videos_id)) {
             return '';
         }
-        if(!Permissions::canAdminVideos()){
+        if (!Permissions::canAdminVideos()) {
             return '';
         }
-        $varsArray = array('videos_id'=>$videos_id, 'class'=>$class);
+        $varsArray = array('videos_id' => $videos_id, 'class' => $class);
         $filePath = $global['systemRootPath'] . 'plugin/Layout/suggestedButton.php';
         return getIncludeFileContent($filePath, $varsArray);
     }
 
 }
 
-function _sortJS($a, $b){   
+function _sortJS($a, $b) {
     // make it first
     if (preg_match('/jquery(.min)?.js/i', $a)) {
         return -1;
@@ -762,11 +762,11 @@ function _sortJS($a, $b){
     if (preg_match('/js.cookie.js/i', $b)) {
         return 1;
     }
-    
+
     // videojs
     if (preg_match('/video\.?js/i', $a) || preg_match('/video\.?js/i', $b)) {
         if (preg_match('/node_modules.video.js.dist.video/i', $a)) {
-        return -1;
+            return -1;
         }
         if (preg_match('/node_modules.video.js.dist.video/i', $b)) {
             return 1;
@@ -786,8 +786,8 @@ function _sortJS($a, $b){
         }
         return 1;
     }
-    
-    
+
+
     // make it last
     if (preg_match('/js.script.js/i', $a)) {
         return 1;
@@ -801,7 +801,7 @@ function _sortJS($a, $b){
     if (preg_match('/\/plugin\//', $b)) {
         return -1;
     }
-    
+
     // moment timezone must be after moment
     if (preg_match('/\/moment-timezone\//', $a) && preg_match('/\/moment\//', $b)) {
         return 1;
@@ -816,7 +816,7 @@ function _sortJS($a, $b){
         return 1;
     }
     // lazy plugin must be after lazy
-    if(preg_match('/jquery\.lazy/', $a) || preg_match('/\/jquery\.lazy/', $b)){
+    if (preg_match('/jquery\.lazy/', $a) || preg_match('/\/jquery\.lazy/', $b)) {
         if (preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $a) || preg_match('/\/jquery\.lazy\.min\.js/', $b)) {
             return 1;
         }
@@ -824,6 +824,6 @@ function _sortJS($a, $b){
             return -1;
         }
     }
-    
+
     return 0;
 }

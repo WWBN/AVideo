@@ -169,8 +169,28 @@ class User_notifications extends ObjectYPT {
     public function save() {
         if (empty($this->element_id)) {
             $this->element_id = 'automatic_id_' . uniqid();
+        }else{
+            if(self::elementIdExists($this->element_id)){
+                return false;
+            }
         }
         return parent::save();
+    }
+    
+    
+    static function elementIdExists($element_id){
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  element_id = ? LIMIT 1";
+        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
+        $res = sqlDAL::readSql($sql, "s", [$element_id], true);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
     }
 
 }

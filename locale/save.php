@@ -12,8 +12,12 @@ if (!User::isAdmin() || !empty($global['disableAdvancedConfigurations'])) {
     $obj->error = __("Permission denied");
     die(json_encode($obj));
 }
-
-$dir = "{$global['systemRootPath']}locale/";
+if(empty($_REQUEST['custom'])){
+    $dir = "{$global['systemRootPath']}locale/";
+}else{
+    $dir = "{$global['systemRootPath']}videos/locale/";
+    make_path($dir);
+}
 if (!is_writable($dir) && !isWindows()) {
     $obj->status = 0;
     $obj->error = sprintf(__("Your %slocale dir is not writable"), $global['systemRootPath']);

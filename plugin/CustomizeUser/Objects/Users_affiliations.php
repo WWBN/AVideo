@@ -162,20 +162,28 @@ class Users_affiliations extends ObjectYPT {
         if (empty($this->affiliate_agree_date) || $this->affiliate_agree_date == '0000-00-00 00:00:00' || $this->affiliate_agree_date == 'NULL') {
             $this->affiliate_agree_date = null;
         }
-
+        $icon = 'fas fa-user-friends';
+        $href = "{$global['webSiteRootURL']}user?tab=tabAffiliation";
         //var_dump($this);exit;
         if (!empty($this->id) && empty($this->company_agree_date) && empty($this->affiliate_agree_date)) {
             _error_log('Affiliation: both dates are empty, delete ' . $this->id);
             return self::deleteFromID($this->id);
         } else if (!empty($this->company_agree_date) && !empty($this->affiliate_agree_date)) {
             _error_log('Affiliation: both dates are NOT empty, make it active ' . $this->id);
+            // $this->users_id_company $this->users_id_affiliate
             $this->status = 'a';
+            $title = __('Affiliation Confirmed');
+            $type = UserNotifications::type_success;
+            $msg = __('Affiliation approved');
         } else {
             _error_log('Affiliation: one date is empty ' . $this->id . " company_agree_date={$this->company_agree_date} affiliate_agree_date={$this->affiliate_agree_date}");
             $this->status = 'i';
+            $title = __('Affiliation Updated');
+            $type = UserNotifications::type_warning;
+            $msg = __('You have a new affiliation request');
         }
-        
-        if (empty($this->company_agree_date) || $this->company_agree_date == '0000-00-00 00:00:00' ) {
+
+        if (empty($this->company_agree_date) || $this->company_agree_date == '0000-00-00 00:00:00') {
             $this->company_agree_date = 'NULL';
         }
         if (empty($this->affiliate_agree_date) || $this->affiliate_agree_date == '0000-00-00 00:00:00') {
@@ -188,8 +196,22 @@ class Users_affiliations extends ObjectYPT {
         if (empty($this->users_id_company)) {
             $this->users_id_company = 'NULL';
         }
-        
-        return parent::save();
+
+        $id = parent::save();
+        if (!empty($id)) {
+
+            $sendTo = array(array($this->users_id_company, $this->users_id_affiliate), array($this->users_id_affiliate, $this->users_id_company));
+
+            foreach ($sendTo as $key => $value) {
+                $identification = User::getNameIdentificationById($value[0]);
+                $image = "user/{$value[0]}/foto.png";
+                $element_id = "affiliation_a{$value[0]}_b{$value[1]}_{$this->modified}";
+                $to_users_id = $value[1];
+                $msg .= " <strong>{$identification}</strong> ";
+                UserNotifications::createNotification($title, $msg, $to_users_id, $image, $href, $type, $element_id, $icon);
+            }
+        }
+        return $id;
     }
 
     static public function deleteFromID($id) {

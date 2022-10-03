@@ -517,6 +517,7 @@ Allow: .css";
     }
 
     public static function saveVideosAddNew($post, $videos_id) {
+        self::setDoNotShowAdsOnChannel($videos_id, !_empty($post['doNotShowAdsOnThisChannel']));
         self::setDoNotShowAds($videos_id, !_empty($post['doNotShowAdsOnThisVideo']));
         self::setRedirectVideo($videos_id, @$post['redirectVideoCode'], @$post['redirectVideoURL']);
         self::setShortSummaryAndMetaDescriptionVideo($videos_id,@$post['ShortSummary'], @$post['MetaDescription']);
@@ -532,11 +533,32 @@ Allow: .css";
         $video->setExternalOptions(json_encode($externalOptions));
         return $video->save();
     }
+    
+    public static function setDoNotShowAdsOnChannel($videos_id, $doNotShowAdsOnThisChannel) {
+        if (!Permissions::canAdminVideos()) {
+            return false;
+        }
+        $video = new Video('', '', $videos_id);
+        $users_id = $video->getUsers_id();
+        $user = new User($users_id);
+        $externalOptions = object_to_array(_json_decode(User::decodeExternalOption($user->_getExternalOptions())));
+        $externalOptions['doNotShowAdsOnThisChannel'] = $doNotShowAdsOnThisChannel;
+        $user->setExternalOptions(json_encode($externalOptions));
+        return $user->save();
+    }
 
     public static function getDoNotShowAds($videos_id): bool {
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
         return !empty($externalOptions->doNotShowAdsOnThisVideo);
+    }
+    
+    public static function getDoNotShowAdsChannel($videos_id): bool {
+        $video = new Video('', '', $videos_id);
+        $users_id = $video->getUsers_id();
+        $user = new User($users_id);
+        $externalOptions = object_to_array(_json_decode(User::decodeExternalOption($user->_getExternalOptions())));
+        return !empty($externalOptions['doNotShowAdsOnThisChannel']);
     }
     
     public static function setRedirectVideo($videos_id, $code, $url) {
@@ -574,7 +596,7 @@ Allow: .css";
     }
     
     public function showAds($videos_id): bool {
-        return !self::getDoNotShowAds($videos_id);
+        return !self::getDoNotShowAdsChannel($videos_id) && !self::getDoNotShowAds($videos_id);
     }
 
 }

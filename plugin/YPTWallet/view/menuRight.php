@@ -23,7 +23,7 @@ $balance = $plugin->getBalance(User::getId());
             <?php
         }
         ?>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+        <ul class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" role="menu">
             <?php
             if ($obj->enableAutomaticAddFundsPage) {
                 ?>

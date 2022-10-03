@@ -512,7 +512,7 @@ class CustomizeUser extends PluginAbstract {
         $p = AVideoPlugin::loadPlugin("CustomizeUser");
         $obj = $p->getDataObject();
         $btn = '';
-        if (!empty($obj->enableExtraInfo)) {
+        if (!empty(self::showExtraInfo())) {
             $btn .= '<li><a data-toggle="tab" href="#tabExtraInfo' . $p->getUUID() . '">' . __('Extra Info') . '</a></li>';
         }
         if ($obj->allowWalletDirectTransferDonation && $obj->UsersCanCustomizeWalletDirectTransferDonation) {
@@ -532,13 +532,33 @@ class CustomizeUser extends PluginAbstract {
         }
         return $btn;
     }
+    
+    public static function showExtraInfo(){
+        global $_showExtraInfo;
+        if(!isset($_showExtraInfo)){
+            $p = AVideoPlugin::loadPlugin("CustomizeUser");
+            $obj = $p->getDataObject();
+            $_showExtraInfo = false;
+            if($obj->enableExtraInfo){
+                $_showExtraInfo = true;
+            }
+            if(!$_showExtraInfo && !$obj->disableCompanySignUp){
+                $rows = Users_extra_info::getAll();
+                $_showExtraInfo = !empty($rows);
+            }
+            if(!$_showExtraInfo && $obj->enableAffiliation){
+                $_showExtraInfo = true;
+            }
+        }
+        return $_showExtraInfo;
+    }
 
     public static function profileTabContent($users_id) {
         global $global;
         $p = AVideoPlugin::loadPlugin("CustomizeUser");
         $obj = $p->getDataObject();
         $btn = '';
-        if (!empty($obj->enableExtraInfo)) {
+        if (!empty(self::showExtraInfo())) {
             $tabId = 'tabExtraInfo' . $p->getUUID();
             include $global['systemRootPath'] . 'plugin/CustomizeUser/View/tabExtraInfo.php';
         }
@@ -561,7 +581,7 @@ class CustomizeUser extends PluginAbstract {
         $obj = $p->getDataObject();
         $btn = '';
         if (Permissions::canAdminUsers()) {
-            if (empty(!$obj->enableExtraInfo)) {
+            if (self::showExtraInfo()) {
                 $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoAlertAJAXHTML(webSiteRootURL+\\\'plugin/CustomizeUser/View/extraInfo.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Show Extra Info') . '"><i class="fas fa-info"></i> ' . __('Extra Info') . '</button>';
             }
             $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CustomizeUser/setSubscribers.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('This will add a fake number of subscribers on the user subscribe button') . '"><i class="fas fa-plus"></i> ' . __('Subscribers') . '</button>';
@@ -612,7 +632,7 @@ class CustomizeUser extends PluginAbstract {
         }
         return array();
     }
-
+    /*
     static function getNotifications() {
         global $global, $customUser_getNotifications;
         $return = array();
@@ -622,6 +642,8 @@ class CustomizeUser extends PluginAbstract {
         
         return $return;
     }
+     * 
+     */
     
     static function getAffiliationNotifications() {
         global $global, $customUser_getAffiliationNotifications;

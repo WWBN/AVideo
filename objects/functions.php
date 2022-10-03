@@ -8249,10 +8249,11 @@ function listAllWordsToTranslate() {
         if (preg_match('/vendor.*$/', $dir)) {
             return $vars;
         }
+        //echo $dir.'<br>';
         if ($handle = opendir($dir)) {
             while (false !== ($entry = readdir($handle))) {
                 if ($entry !== '.' && $entry !== '..') {
-                    $filename = $dir . '/' . $entry;
+                    $filename = ($dir) .DIRECTORY_SEPARATOR. $entry;
                     if (is_dir($filename)) {
                         $vars = listAll($filename);
                     } elseif (preg_match("/\.php$/", $entry)) {
@@ -8276,7 +8277,12 @@ function listAllWordsToTranslate() {
         return $vars;
     }
 
-    $vars = listAll($global['systemRootPath']);
+    $vars1 = listAll($global['systemRootPath'].'plugins');
+    $vars2 = listAll($global['systemRootPath'].'view');
+    $vars3 = listAll($global['systemRootPath'].'objects');
+    
+    $vars = array_merge($vars1, $vars2, $vars3);
+    
     sort($vars);
     ObjectYPT::setCache($cacheName, $vars);
     return $vars;

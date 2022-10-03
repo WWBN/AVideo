@@ -1,5 +1,6 @@
 <?php
-$notifications = CustomizeUser::getNotifications();
+$notifications = array();
+//$notifications = CustomizeUser::getNotifications();
 ?>
 <!-- CustomizeUser Footer -->
 <script>

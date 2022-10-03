@@ -8,7 +8,7 @@
         if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && User::isVerified()) || (isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && !$advancedCustomUser->onlyVerifiedEmailCanUpload) || !isset($advancedCustomUser->onlyVerifiedEmailCanUpload)) {
             echo '<!-- navbar line ' . __LINE__ . '-->';
             ?>
-            <ul class="dropdown-menu dropdown-menu-right" role="menu" id="uploadMenu">
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-arrow " role="menu" id="uploadMenu">
                 <?php
                 include $global['systemRootPath'] . 'view/include/navbarEncoder.php';
                 if (empty($advancedCustom->doNotShowUploadMP4Button)) {
@@ -55,7 +55,7 @@
         } else {
             echo '<!-- navbar line ' . __LINE__ . '-->';
             ?>
-            <ul class="dropdown-menu dropdown-menu-right" role="menu" id="uploadMenu">
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-arrow " role="menu" id="uploadMenu">
                 <li>
                     <a  href="" >
                         <span class="fa fa-exclamation faa-flash animated"></span> <?php echo __("Only verified users can upload"); ?>

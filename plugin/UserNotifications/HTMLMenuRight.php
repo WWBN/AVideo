@@ -9,7 +9,7 @@
             <i class="fas fa-bell-slash text-muted" data-toggle="tooltip" title="<?php echo __('There are no notifications'); ?>" data-placement="bottom" ></i>
         </a>
     </div>
-    <ul class="dropdown-menu dropdown-menu-right hideWhenHasNothingToShow">
+    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-arrow hideWhenHasNothingToShow">
         <div class="btn-group btn-group-justified">
             <?php
             echo AVideoPlugin::getUserNotificationButton();

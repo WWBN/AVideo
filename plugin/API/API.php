@@ -3,6 +3,7 @@
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
+
 class API extends PluginAbstract {
 
     public function getTags() {
@@ -41,7 +42,7 @@ class API extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        $obj->APISecret = md5($global['systemRootPath']);
+        $obj->APISecret = md5($global['salt'].$global['systemRootPath'].'API');
         return $obj;
     }
 
@@ -65,12 +66,20 @@ class API extends PluginAbstract {
                 $user = new User("", $parameters['user'], $parameters['password']);
                 $user->login(false, @$parameters['encodedPass']);
             }
-            $APIName = $parameters['APIName'];
+            
             if (method_exists($this, "set_api_$APIName")) {
                 $str = "\$object = \$this->set_api_$APIName(\$parameters);";
                 eval($str);
             } else {
-                $object = new ApiObject();
+                $method = "API_set_{$parameters['APIName']}";
+                if (!empty($parameters['APIPlugin']) &&
+                        AVideoPlugin::isEnabledByName($parameters['APIPlugin']) && 
+                        method_exists($parameters['APIPlugin'], $method)) {
+                    $str = "\$object = {$parameters['APIPlugin']}::{$method}(\$parameters);";
+                    eval($str);
+                } else {
+                    $object = new ApiObject();
+                }
             }
         }
         return $object;
@@ -95,7 +104,15 @@ class API extends PluginAbstract {
                 $str = "\$object = \$this->get_api_$APIName(\$parameters);";
                 eval($str);
             } else {
-                $object = new ApiObject();
+                $method = "API_get_{$parameters['APIName']}";
+                if (!empty($parameters['APIPlugin']) &&
+                        AVideoPlugin::isEnabledByName($parameters['APIPlugin']) && 
+                        method_exists($parameters['APIPlugin'], $method)) {
+                    $str = "\$object = {$parameters['APIPlugin']}::{$method}(\$parameters);";
+                    eval($str);
+                } else {
+                    $object = new ApiObject();
+                }
             }
         }
         return $object;
@@ -1576,7 +1593,7 @@ class API extends PluginAbstract {
         exit;
     }
     
-    private static function isAPISecretValid(){
+    public static function isAPISecretValid(){
         global $global;
         if(!empty($_REQUEST['APISecret'])){
             $dataObj = AVideoPlugin::getDataObject('API');

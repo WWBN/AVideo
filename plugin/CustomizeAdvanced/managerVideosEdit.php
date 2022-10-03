@@ -6,6 +6,14 @@ if (Permissions::canAdminVideos()) {
     <ul class="list-group">
         <li class="list-group-item"> 
             <i class="fas fa-photo-video"></i>
+            <?php echo __('Do NOT Show Video Ads on this channel'); ?>  
+            <div class="material-switch pull-right">
+                <input id="doNotShowAdsOnThisChannel" type="checkbox" value="">
+                <label for="doNotShowAdsOnThisChannel" class="label-danger"></label>
+            </div>
+        </li>
+        <li class="list-group-item"> 
+            <i class="fas fa-photo-video"></i>
             <?php echo __('Do NOT Show Video Ads on this video'); ?>  
             <div class="material-switch pull-right">
                 <input id="doNotShowAdsOnThisVideo" type="checkbox" value="">

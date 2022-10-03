@@ -1,4 +1,5 @@
 $("#doNotShowAdsOnThisVideo").prop("checked", false);
+$("#doNotShowAdsOnThisChannel").prop("checked", false);
 $("#redirectVideoCode").val(0);
 $("#redirectVideoURL").val('');
 $("#inputMetaDescription").val('');
@@ -25,4 +26,13 @@ if (typeof row.externalOptions !== 'undefined' && row.externalOptions) {
         $("#inputShortSummary").val('');
     }
     $("#inputMetaDescription, #inputShortSummary").trigger('keyup');
+}
+
+if (typeof row.userExternalOptions !== 'undefined' && row.userExternalOptions) {
+    
+    var json = JSON.parse(row.userExternalOptions);
+    
+    if(json.doNotShowAdsOnThisChannel){
+        $("#doNotShowAdsOnThisChannel").prop("checked", true);
+    }
 }

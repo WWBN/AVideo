@@ -190,7 +190,7 @@ if (typeof gtag !== \"function\") {
     }
 
     public function addExternalOptions($id, $value) {
-        $eo = unserialize(base64_decode($this->externalOptions));
+        $eo = User::decodeExternalOption($this->externalOptions);
         if (!is_array($eo)) {
             $eo = [];
         }
@@ -200,7 +200,7 @@ if (typeof gtag !== \"function\") {
     }
 
     public function removeExternalOptions($id) {
-        $eo = unserialize(base64_decode($this->externalOptions));
+        $eo = User::decodeExternalOption($this->externalOptions);
         unset($eo[$id]);
         $this->setExternalOptions($eo);
         return $this->save();
@@ -213,7 +213,7 @@ if (typeof gtag !== \"function\") {
     }
 
     public function getExternalOption($id) {
-        $eo = unserialize(base64_decode($this->externalOptions));
+        $eo = User::decodeExternalOption($this->externalOptions);
         if (empty($eo[$id])) {
             return null;
         }
@@ -1173,7 +1173,7 @@ if (typeof gtag !== \"function\") {
 
     public static function externalOptions($id) {
         if (!empty($_SESSION['user']['externalOptions'])) {
-            $externalOptions = unserialize(base64_decode($_SESSION['user']['externalOptions']));
+            $externalOptions = User::decodeExternalOption($_SESSION['user']['externalOptions']);
             if (isset($externalOptions[$id])) {
                 if ($externalOptions[$id] == "true") {
                     $externalOptions[$id] = true;
@@ -1193,12 +1193,16 @@ if (typeof gtag !== \"function\") {
         }
         return self::externalOptionsFromUserID($this->id, $id);
     }
+    
+    public function _getExternalOptions() {
+        return $this->externalOptions;
+    }
 
     public static function externalOptionsFromUserID($users_id, $id) {
         $user = self::findById($users_id);
         if ($user) {
             if (!is_null($user['externalOptions'])) {
-                $externalOptions = unserialize(base64_decode($user['externalOptions']));
+                $externalOptions = User::decodeExternalOption($user['externalOptions']);
                 if (is_array($externalOptions) && sizeof($externalOptions) > 0) {
                     //var_dump($externalOptions);
                     foreach ($externalOptions as $k => $v) {
@@ -1466,7 +1470,7 @@ if (typeof gtag !== \"function\") {
             $user['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $user['name']);
             $user['isEmailVerified'] = $user['emailVerified'];
             if (!is_null($user['externalOptions'])) {
-                $externalOptions = unserialize(base64_decode($user['externalOptions']));
+                $externalOptions = User::decodeExternalOption($user['externalOptions']);
                 if (is_array($externalOptions) && sizeof($externalOptions) > 0) {
                     foreach ($externalOptions as $k => $v) {
                         if ($v == "true") {
@@ -1756,6 +1760,13 @@ if (typeof gtag !== \"function\") {
 
         return $user;
     }
+    
+    public static function decodeExternalOption($externalOptions){
+        if(is_string($externalOptions)){
+            $externalOptions = unserialize(base64_decode($externalOptions));
+        }
+        return $externalOptions;
+    }
 
     private static function getUserInfoFromRow($row) {
         $row['groups'] = UserGroups::getUserGroups($row['id']);
@@ -1766,7 +1777,7 @@ if (typeof gtag !== \"function\") {
         $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
         $row['isEmailVerified'] = $row['emailVerified'];
         if (!is_null($row['externalOptions'])) {
-            $externalOptions = unserialize(base64_decode($row['externalOptions']));
+            $externalOptions = self::decodeExternalOption($row['externalOptions']);
             if (is_array($externalOptions) && sizeof($externalOptions) > 0) {
                 foreach ($externalOptions as $k => $v) {
                     if ($v == "true") {

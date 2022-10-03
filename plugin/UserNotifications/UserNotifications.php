@@ -209,7 +209,7 @@ class UserNotifications extends PluginAbstract {
         return self::createNotification($title, $msg, $users_id, $image, $href, $type, $element_id, $icon);
     }
     
-    public function createNotification($title, $msg = '', $to_users_id = 0, $image = '', $href = '', $type = '', $element_id = '', $icon = '', $element_class = '', $onclick = '', $priority = '') {
+    public static function createNotification($title, $msg = '', $to_users_id = 0, $image = '', $href = '', $type = '', $element_id = '', $icon = '', $element_class = '', $onclick = '', $priority = '') {
         if($to_users_id == User::getId()){
             return false;
         }

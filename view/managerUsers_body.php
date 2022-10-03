@@ -7,7 +7,7 @@ $users_tabs[] = array('selector' => 'gridAdmin', 'queryString' => '?isAdmin=1', 
 
 if (empty($advancedCustomUser->disableCompanySignUp)) {
     $users_tabs[] = array('selector' => 'companyAdmin', 'queryString' => '?isCompany=1', 'icon' => 'fas fa-building', 'title' => 'Company Users', 'active' => '', 'userGroupID' => 0);
-    $users_tabs[] = array('selector' => 'companyApAdmin', 'queryString' => '?isCompany=0', 'icon' => 'fas fa-building', 'title' => 'Company Waiting Approval', 'active' => '', 'userGroupID' => 0);
+    $users_tabs[] = array('selector' => 'companyApAdmin', 'queryString' => '?isCompany=2', 'icon' => 'fas fa-building', 'title' => 'Company Waiting Approval', 'active' => '', 'userGroupID' => 0);
 }
 
 foreach ($userGroups as $value) {
