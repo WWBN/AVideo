@@ -51,11 +51,11 @@ foreach ($scanVars as $value) {
     foreach ($securityRemoveNonChars as $value) {
         if (!empty($scanThis[$value])) {
             if (is_string($scanThis[$value])) {
-                $scanThis[$value] = preg_replace('/[^a-z0-9./_-]/i', '', trim($scanThis[$value]));
+                $scanThis[$value] = preg_replace('/[^a-z0-9.\/_-]/i', '', trim($scanThis[$value]));
             } elseif (is_array($scanThis[$value])) {
                 foreach ($scanThis[$value] as $key => $value2) {
                     if (is_string($scanThis[$value][$key])) {
-                        $scanThis[$value][$key] = preg_replace('/[^a-z0-9./_-]/i', '', trim($scanThis[$value][$key]));
+                        $scanThis[$value][$key] = preg_replace('/[^a-z0-9.\/_-]/i', '', trim($scanThis[$value][$key]));
                     }
                 }
             }
