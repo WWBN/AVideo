@@ -30,9 +30,14 @@ if (typeof row.externalOptions !== 'undefined' && row.externalOptions) {
 
 if (typeof row.userExternalOptions !== 'undefined' && row.userExternalOptions) {
     
-    var json = JSON.parse(row.userExternalOptions);
-    
-    if(json.doNotShowAdsOnThisChannel){
-        $("#doNotShowAdsOnThisChannel").prop("checked", true);
+    try {
+        var json = JSON.parse(row.userExternalOptions);
+
+        if(json.doNotShowAdsOnThisChannel){
+            $("#doNotShowAdsOnThisChannel").prop("checked", true);
+        }
+    } catch (e) {
+        
     }
+
 }
