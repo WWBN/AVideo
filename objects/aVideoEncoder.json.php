@@ -16,8 +16,7 @@ if (empty($_POST)) {
 }
 _error_log("aVideoEncoder.json: start");
 if (empty($_POST['format']) || !in_array($_POST['format'], $global['allowedExtension'])) {
-    _error_log("aVideoEncoder.json: Extension not allowed File " . __FILE__ . ": " . json_encode($_POST));
-    die();
+    $_POST['format'] = 'mp4';
 }
 if (!isset($_REQUEST['encodedPass'])) {
     $_REQUEST['encodedPass'] = 1;
