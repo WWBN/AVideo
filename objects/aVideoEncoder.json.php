@@ -1,6 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
 
@@ -8,16 +6,24 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+
+header('Content-Type: application/json');
+allowOrigin();
+
 $global['bypassSameDomainCheck'] = 1;
 if (empty($_POST)) {
     $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
     _error_log($obj->msg);
     die(json_encode($obj));
 }
+//_error_log("aVideoEncoder.json: start");
 _error_log("aVideoEncoder.json: start");
-if (empty($_POST['format']) || !in_array($_POST['format'], $global['allowedExtension'])) {
-    $_POST['format'] = 'mp4';
+if (empty($_REQUEST['format']) || !in_array($_REQUEST['format'], $global['allowedExtension'])) {
+    $obj->msg = "aVideoEncoder.json: Extension not allowed File {$_REQUEST['format']}";
+    _error_log($obj->msg. ": " . json_encode($_REQUEST));
+    die(json_encode($obj));
 }
+
 if (!isset($_REQUEST['encodedPass'])) {
     $_REQUEST['encodedPass'] = 1;
 }
