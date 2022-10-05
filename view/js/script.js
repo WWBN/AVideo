@@ -631,8 +631,13 @@ function nl2br(str, is_xhtml) {
 function inMainIframe() {
     var response = false;
     if (window.self !== window.top) {
-        var mainIframe = $('iframe', window.parent.document).attr('id');
-        response = mainIframe === 'mainIframe';
+        try {
+            var mainIframe = $('iframe', window.parent.document).attr('id');
+            response = mainIframe === 'mainIframe';
+        } catch (e) {
+            
+        }
+
     }
     return response;
 }
