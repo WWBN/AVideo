@@ -10,12 +10,15 @@ if (!PlayList::canSee($_GET['playlists_id'], User::getId())) {
     forbiddenPage(_('You cannot see this playlist'));
 }
 $global['doNotLoadPlayer'] = 1;
+/*
 $video = PlayLists::isPlayListASerie($_GET['playlists_id']);
 if (!empty($video)) {
     $video = Video::getVideo($video['id']);
     include $global['systemRootPath'] . 'view/modeYoutube.php';
     exit;
 }
+ * 
+ */
 
 $playListObj = new PlayList($_GET['playlists_id']);
 
