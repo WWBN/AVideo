@@ -243,7 +243,7 @@ $_REQUEST['hideAutoplaySwitch'] = 1;
         include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
         ?>
         <?php
-        echo combineFilesHTML($jsFiles);
+        echo combineFilesHTML($jsFiles, 'js', true);
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
         ?>
         <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
