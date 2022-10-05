@@ -1479,7 +1479,7 @@ function avideoAddIframeIntoElement(element, url, insideSelector) {
 
     var insideElement = $(element);
 
-    if (insideSelector) {
+    if (!empty(insideSelector)) {
         insideElement = $(element).find(insideSelector);
     }
 
