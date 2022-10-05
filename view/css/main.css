@@ -52,6 +52,7 @@ time.duration {
     height: 5px;
     z-index: 1;
     top: -6px;
+    border-radius: unset;
 }
 
 .videoLink .glyphicon-play-circle {
