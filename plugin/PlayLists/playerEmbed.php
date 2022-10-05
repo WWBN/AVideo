@@ -97,7 +97,7 @@ foreach ($playList as $key => $value) {
                    url = addGetParam(url, 'showinfo', 0);
                    url = addGetParam(url, 'autoplay', 1);
                    console.log('$(\'.galleryVideo a\').click open', url);
-                   avideoAddIframeIntoElement(this, url, '.thumbsImage');
+                   avideoAddIframeIntoElement(this, url, '');
                });
             });
         </script>
