@@ -69,7 +69,6 @@ foreach ($playList as $key => $value) {
     <body class="<?php echo $global['bodyClass']; ?>" style="padding: 5px;">
         <div class="container-fluid " style="overflow: hidden;">
             <div class="gallery">
-                
             <?php
             if (!empty($playList)) {
                 //createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true)
@@ -86,7 +85,7 @@ foreach ($playList as $key => $value) {
         ?>
         <script>
             $(document).ready(function () {
-               $('.galleryLink').click(function(event){
+               $('.galleryLink a').click(function(event){
                    event.preventDefault();
                    //avideoModalIframeFull($(this).attr('alternativeLink'));
                    var url = $(this).attr('embed');
