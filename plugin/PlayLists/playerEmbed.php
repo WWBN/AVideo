@@ -85,7 +85,7 @@ foreach ($playList as $key => $value) {
         ?>
         <script>
             $(document).ready(function () {
-               $('.galleryLink a').click(function(event){
+               $('.galleryVideo a').click(function(event){
                    event.preventDefault();
                    //avideoModalIframeFull($(this).attr('alternativeLink'));
                    var url = $(this).attr('embed');
