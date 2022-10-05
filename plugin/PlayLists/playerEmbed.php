@@ -90,12 +90,13 @@ foreach ($playList as $key => $value) {
                    //avideoModalIframeFull($(this).attr('alternativeLink'));
                    var url = $(this).attr('embed');
                    if(empty(url)){  
-                       console.log('does not have embed');
+                       console.log('$(\'.galleryVideo a\').click does not have embed');
                        url = $(this).attr('href');
                    }       
                    url = addGetParam(url, 'controls', -1);
                    url = addGetParam(url, 'showinfo', 0);
                    url = addGetParam(url, 'autoplay', 1);
+                   console.log('$(\'.galleryVideo a\').click open', url);
                    avideoAddIframeIntoElement(this, url, '.aspectRatio16_9');
                });
             });
