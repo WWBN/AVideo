@@ -49,11 +49,11 @@ time.duration {
     border: none;
 }
 .thumbsImageContainer .progress{
-    height: 4px;
+    height: 5px;
     z-index: 1;
-    top: -4px;
+    top: -6px;
 }
-}
+
 .videoLink .glyphicon-play-circle {
     transition: all 0.3s ease-in-out;
     top: 50%;
@@ -806,6 +806,11 @@ img.blur{
     height: 8px;
     background-color: rgba(100,100,100,0.01);
     overflow: hidden;
+}
+
+::-webkit-scrollbar:hover, ::-webkit-scrollbar:active{
+    width: 16px;
+    background-color: rgba(100,100,100,0.1);
 }
 
 ::-webkit-scrollbar-thumb
