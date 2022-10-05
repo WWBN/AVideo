@@ -51,7 +51,7 @@ time.duration {
 .thumbsImageContainer .progress{
     height: 5px;
     z-index: 1;
-    top: -6px;
+    top: -5px;
     border-radius: unset;
 }
 
