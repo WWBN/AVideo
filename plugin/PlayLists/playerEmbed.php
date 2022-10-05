@@ -86,9 +86,12 @@ foreach ($playList as $key => $value) {
         <script>
             $(document).ready(function () {
                $('.galleryLink a').click(function(event){
-                   event.preventDefault();
                    //avideoModalIframeFull($(this).attr('alternativeLink'));
                    var url = $(this).attr('embed');
+                   if(empty(url)){  
+                       return false;
+                   }       
+                   event.preventDefault();
                    url = addGetParam(url, 'controls', -1);
                    url = addGetParam(url, 'showinfo', 0);
                    url = addGetParam(url, 'autoplay', 1);
