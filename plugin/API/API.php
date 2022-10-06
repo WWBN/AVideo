@@ -66,7 +66,7 @@ class API extends PluginAbstract {
                 $user = new User("", $parameters['user'], $parameters['password']);
                 $user->login(false, @$parameters['encodedPass']);
             }
-            
+            $APIName = $parameters['APIName'];
             if (method_exists($this, "set_api_$APIName")) {
                 $str = "\$object = \$this->set_api_$APIName(\$parameters);";
                 eval($str);
