@@ -58,6 +58,7 @@ class Gallery extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
+        $obj->MainContainerFluid = true;
         $obj->hidePrivateVideos = false;
         $obj->BigVideo = true;
         $obj->useSuggestedVideosAsCarouselInBigVideo = true;
@@ -278,6 +279,20 @@ class Gallery extends PluginAbstract {
         $varsArray = array('videos_id' => $videos_id);
         $filePath = $global['systemRootPath'] . 'plugin/Gallery/view/videoDropDownMenu.php';
         return getIncludeFileContent($filePath, $varsArray);
+    }
+
+    static function getContaierClass($addClass='') {
+        global $global, $objGallery;
+        if(!isset($objGallery)){
+            $objGallery = AVideoPlugin::getObjectData('Gallery');
+        }
+        
+        $class = 'container gallery';
+        if($objGallery->MainContainerFluid){
+            $class = 'container-fluid gallery';
+        }
+        
+        return $class." {$addClass}";
     }
 
 }

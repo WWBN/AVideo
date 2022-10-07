@@ -15,7 +15,7 @@ _ob_start();
 
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
-        <div class="container-fluid gallery avideoLoadPage">
+        <div class="<?php echo Gallery::getContaierClass('avideoLoadPage'); ?>">
             <?php
             if(!empty($leaderBoardTop)){
                 echo '<!-- leaderBoardTop start --><div class="row text-center" style="padding: 10px;">'.$leaderBoardTop.'</div><!-- leaderBoardTop end -->';
@@ -23,14 +23,12 @@ _ob_start();
                 echo '<!-- getAdsLeaderBoardTop is empty -->';
             }
             ?>
-            <div class="col-lg-10 col-lg-offset-1">
-                <div class="panel panel-default">
-                    <div class="panel-body" style="overflow: hidden;">
-                        <?php
-                    include $global['systemRootPath'] . 'view/include/categoryTop.php';
-                    include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
-                    ?>
-                    </div>
+            <div class="panel panel-default">
+                <div class="panel-body" style="overflow: hidden;">
+                    <?php
+                include $global['systemRootPath'] . 'view/include/categoryTop.php';
+                include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
+                ?>
                 </div>
             </div>
         </div>
