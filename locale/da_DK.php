@@ -1523,7 +1523,6 @@ $t['Bookmark Editor'] = 'Bogmærkeditor';
 $t['Bookmark'] = 'Bogmærke';
 $t['Bookmarks'] = 'Bogmærker';
 $t['Bubbles Only'] = 'Kun bobler';
-$t['Buy More Storage'] = 'Køb mere lagerplads';
 $t['Buy PPV'] = 'Køb PPV';
 $t['Buy Storage'] = 'Køb opbevaring';
 $t['Buy'] = 'Købe';
