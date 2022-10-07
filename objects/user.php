@@ -2849,12 +2849,13 @@ if (typeof gtag !== \"function\") {
 
     static function getChannelPanel($users_id) {
         $u = new User($users_id);
+        $objGallery = AVideoPlugin::getObjectData("Gallery");
         $get = ['channelName' => $u->getChannelName()];
         $current = getCurrentPage();
         $rowCount = getRowCount();
         $sort = $_POST['sort'];
         $_POST['current'] = 1;
-        $_REQUEST['rowCount'] = 6;
+        $_REQUEST['rowCount'] = $objGallery->screenColsLarge;
         $_POST['sort']['created'] = "DESC";
         $uploadedVideos = Video::getAllVideos("viewable", $users_id);
         $_POST['current'] = $current;
