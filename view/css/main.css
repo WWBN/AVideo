@@ -1640,3 +1640,6 @@ button.btn-sm.hamburger svg{
     text-align: center;
     padding: 5px;
 }
+.mainArea .galleryVideo {
+    margin-bottom: 3em;
+}
