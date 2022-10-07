@@ -18,6 +18,7 @@ if (User::isAdmin()) {
 }
 
 require_once 'subscribe.php';
+setRowCount(10000);
 header('Content-Type: application/json');
 $Subscribes = Subscribe::getAllSubscribes($user_id);
 
