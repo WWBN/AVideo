@@ -126,7 +126,7 @@ class VideoStatistic extends ObjectYPT {
         $this->json = ($this->json);
         
         if(empty($this->id)){
-            $row = self::getLastStatistics($$this->videos_id, $this->users_id);
+            $row = self::getLastStatistics($this->videos_id, $this->users_id);
             if(!empty($row)){
                 $this->id = $row['id'];
             }
