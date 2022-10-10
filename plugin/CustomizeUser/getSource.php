@@ -1,13 +1,17 @@
 <?php
 require_once '../../videos/configuration.php';
-if (!User::isAdmin()) {
-    forbiddenPage("Must be admin");
+if (!User::canUpload()) {
+    forbiddenPage("Permission denied");
 }
 
 $videos_id = intval($_REQUEST['videos_id']);
 
 if (empty($videos_id)) {
     forbiddenPage("Empty videos ID");
+}
+
+if (!Video::canEdit($videos_id)) {
+    forbiddenPage("Cannot edit video {$videos_id}");
 }
 
 $sources = Video::getVideosPathsFromID($videos_id);
