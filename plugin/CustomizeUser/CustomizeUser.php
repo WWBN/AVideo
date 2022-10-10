@@ -505,7 +505,14 @@ class CustomizeUser extends PluginAbstract {
 
     public function getPluginMenu() {
         global $global;
-        return '<button onclick="avideoModalIframe(webSiteRootURL +\'plugin/CustomizeUser/View/editor.php\');" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';
+        $filePath = $global['systemRootPath'] . 'plugin/CustomizeUser/pluginMenu.php';
+        return getIncludeFileContent($filePath);
+    }
+    
+    public function getVideosManagerListButton() {
+        global $global;
+        $filePath = $global['systemRootPath'] . 'plugin/CustomizeUser/videosManagerListButton.php';
+        return trim(preg_replace('/\s+/', ' ', getIncludeFileContent($filePath)));
     }
 
     public static function profileTabName($users_id) {
