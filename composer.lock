@@ -208,16 +208,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.237.1",
+            "version": "3.238.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4667dd4b863a8686417e0d2a50da8682d8b68bb5"
+                "reference": "14fb64c934614ea5a52c9931189f687f30b6ba3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4667dd4b863a8686417e0d2a50da8682d8b68bb5",
-                "reference": "4667dd4b863a8686417e0d2a50da8682d8b68bb5",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/14fb64c934614ea5a52c9931189f687f30b6ba3b",
+                "reference": "14fb64c934614ea5a52c9931189f687f30b6ba3b",
                 "shasum": ""
             },
             "require": {
@@ -296,9 +296,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.237.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.238.3"
             },
-            "time": "2022-09-30T18:15:04+00:00"
+            "time": "2022-10-07T18:16:40+00:00"
         },
         {
             "name": "cboden/ratchet",
@@ -746,16 +746,16 @@
         },
         {
             "name": "gliterd/backblaze-b2",
-            "version": "1.5.2",
+            "version": "1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gliterd/backblaze-b2.git",
-                "reference": "be02bed19a4ce8d8eace32c58ad04742292ceae8"
+                "reference": "3abcf1ae5b093199c230d4ad82d64fb16ea4fd1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gliterd/backblaze-b2/zipball/be02bed19a4ce8d8eace32c58ad04742292ceae8",
-                "reference": "be02bed19a4ce8d8eace32c58ad04742292ceae8",
+                "url": "https://api.github.com/repos/gliterd/backblaze-b2/zipball/3abcf1ae5b093199c230d4ad82d64fb16ea4fd1a",
+                "reference": "3abcf1ae5b093199c230d4ad82d64fb16ea4fd1a",
                 "shasum": ""
             },
             "require": {
@@ -800,9 +800,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gliterd/backblaze-b2/issues",
-                "source": "https://github.com/gliterd/backblaze-b2/tree/1.5.2"
+                "source": "https://github.com/gliterd/backblaze-b2/tree/1.5.4"
             },
-            "time": "2022-02-25T01:01:07+00:00"
+            "time": "2022-10-10T02:26:17+00:00"
         },
         {
             "name": "google/apiclient",
@@ -876,16 +876,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.269.0",
+            "version": "v0.270.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "01431ddcc1d0fd418b3a0dc4b4d99d7c3b94082f"
+                "reference": "902b415a7ab92ccb50e2b7dda334a3497c8bc3da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/01431ddcc1d0fd418b3a0dc4b4d99d7c3b94082f",
-                "reference": "01431ddcc1d0fd418b3a0dc4b4d99d7c3b94082f",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/902b415a7ab92ccb50e2b7dda334a3497c8bc3da",
+                "reference": "902b415a7ab92ccb50e2b7dda334a3497c8bc3da",
                 "shasum": ""
             },
             "require": {
@@ -914,9 +914,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.269.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.270.0"
             },
-            "time": "2022-10-02T00:58:14+00:00"
+            "time": "2022-10-08T01:14:15+00:00"
         },
         {
             "name": "google/auth",
@@ -1647,16 +1647,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.59.1",
+            "version": "2.62.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "a9000603ea337c8df16cc41f8b6be95a65f4d0f5"
+                "reference": "01bc4cdefe98ef58d1f9cb31bdbbddddf2a88f7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/a9000603ea337c8df16cc41f8b6be95a65f4d0f5",
-                "reference": "a9000603ea337c8df16cc41f8b6be95a65f4d0f5",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/01bc4cdefe98ef58d1f9cb31bdbbddddf2a88f7a",
+                "reference": "01bc4cdefe98ef58d1f9cb31bdbbddddf2a88f7a",
                 "shasum": ""
             },
             "require": {
@@ -1745,7 +1745,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-29T21:43:55+00:00"
+            "time": "2022-09-02T07:48:13+00:00"
         },
         {
             "name": "norkunas/onesignal-php-api",
@@ -2148,16 +2148,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.6.4",
+            "version": "v6.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "a94fdebaea6bd17f51be0c2373ab80d3d681269b"
+                "reference": "8b6386d7417526d1ea4da9edb70b8352f7543627"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/a94fdebaea6bd17f51be0c2373ab80d3d681269b",
-                "reference": "a94fdebaea6bd17f51be0c2373ab80d3d681269b",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/8b6386d7417526d1ea4da9edb70b8352f7543627",
+                "reference": "8b6386d7417526d1ea4da9edb70b8352f7543627",
                 "shasum": ""
             },
             "require": {
@@ -2181,8 +2181,8 @@
                 "hayageek/oauth2-yahoo": "Needed for Yahoo XOAUTH2 authentication",
                 "league/oauth2-google": "Needed for Google XOAUTH2 authentication",
                 "psr/log": "For optional PSR-3 debug logging",
-                "stevenmaguire/oauth2-microsoft": "Needed for Microsoft XOAUTH2 authentication",
-                "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
+                "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)",
+                "thenetworg/oauth2-azure": "Needed for Microsoft XOAUTH2 authentication"
             },
             "type": "library",
             "autoload": {
@@ -2214,7 +2214,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.4"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.5"
             },
             "funding": [
                 {
@@ -2222,7 +2222,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-22T09:22:00+00:00"
+            "time": "2022-10-07T12:23:10+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
