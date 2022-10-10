@@ -746,16 +746,16 @@
         },
         {
             "name": "gliterd/backblaze-b2",
-            "version": "1.5.2",
+            "version": "1.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gliterd/backblaze-b2.git",
-                "reference": "be02bed19a4ce8d8eace32c58ad04742292ceae8"
+                "reference": "3abcf1ae5b093199c230d4ad82d64fb16ea4fd1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gliterd/backblaze-b2/zipball/be02bed19a4ce8d8eace32c58ad04742292ceae8",
-                "reference": "be02bed19a4ce8d8eace32c58ad04742292ceae8",
+                "url": "https://api.github.com/repos/gliterd/backblaze-b2/zipball/3abcf1ae5b093199c230d4ad82d64fb16ea4fd1a",
+                "reference": "3abcf1ae5b093199c230d4ad82d64fb16ea4fd1a",
                 "shasum": ""
             },
             "require": {
@@ -800,9 +800,9 @@
             ],
             "support": {
                 "issues": "https://github.com/gliterd/backblaze-b2/issues",
-                "source": "https://github.com/gliterd/backblaze-b2/tree/1.5.2"
+                "source": "https://github.com/gliterd/backblaze-b2/tree/1.5.4"
             },
-            "time": "2022-02-25T01:01:07+00:00"
+            "time": "2022-10-10T02:26:17+00:00"
         },
         {
             "name": "google/apiclient",
@@ -1647,16 +1647,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.59.1",
+            "version": "2.62.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "a9000603ea337c8df16cc41f8b6be95a65f4d0f5"
+                "reference": "01bc4cdefe98ef58d1f9cb31bdbbddddf2a88f7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/a9000603ea337c8df16cc41f8b6be95a65f4d0f5",
-                "reference": "a9000603ea337c8df16cc41f8b6be95a65f4d0f5",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/01bc4cdefe98ef58d1f9cb31bdbbddddf2a88f7a",
+                "reference": "01bc4cdefe98ef58d1f9cb31bdbbddddf2a88f7a",
                 "shasum": ""
             },
             "require": {
@@ -1745,7 +1745,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-06-29T21:43:55+00:00"
+            "time": "2022-09-02T07:48:13+00:00"
         },
         {
             "name": "norkunas/onesignal-php-api",
