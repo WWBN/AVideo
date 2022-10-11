@@ -108,9 +108,8 @@ if (!class_exists('Video')) {
         public static $typeOptions = ['audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser'];
         public static $searchFieldsNames = ['v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename'];
         public static $searchFieldsNamesLabels = ['Video Title', 'Video Description', 'Channel Name', 'Channel Description', 'Video ID', 'Video Filename'];
-
         public static $iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
-        
+
         public function __construct($title = "", $filename = "", $id = 0) {
             global $global;
             $this->rotation = 0;
@@ -150,12 +149,12 @@ if (!class_exists('Video')) {
             if (empty($this->id)) {
                 return false;
             }
-            
+
             $lastStatistic = VideoStatistic::getLastStatistics($this->id, User::getId());
-            if(!empty($lastStatistic)){
+            if (!empty($lastStatistic)) {
                 return false;
             }
-            
+
             $sql = "UPDATE videos SET views_count = views_count+1, modified = now() WHERE id = ?";
 
             $insert_row = sqlDAL::writeSql($sql, "i", [$this->id]);
@@ -185,9 +184,9 @@ if (!class_exists('Video')) {
                 //_error_log("addSecondsWatching: ID is empty ");
                 return false;
             }
-            
-            $newTotal = intval($this->total_seconds_watching)+$seconds_watching;
-            
+
+            $newTotal = intval($this->total_seconds_watching) + $seconds_watching;
+
             $sql = "UPDATE videos SET total_seconds_watching = ?, modified = now() WHERE id = ?";
             //_error_log("addSecondsWatching: " . $sql . "={$this->id}");
             return sqlDAL::writeSql($sql, "ii", [$newTotal, $this->id]);
@@ -1325,9 +1324,9 @@ if (!class_exists('Video')) {
                 foreach ($rows as $row) {
                     $ids[] = $row['id'];
                 }
-                
+
                 $daysLimit = getTrendingLimit();
-                
+
                 if (!empty($ids)) {
                     $sql .= " ORDER BY FIND_IN_SET(v.id, '" . implode(",", $ids) . "') DESC, likes DESC ";
                 } else {
@@ -1439,7 +1438,7 @@ if (!class_exists('Video')) {
                 }
                 if (empty($obj['externalOptions'])) {
                     $obj['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
-                }                
+                }
                 if (!empty($obj['userExternalOptions']) && is_string($obj['userExternalOptions'])) {
                     $obj['userExternalOptions'] = User::decodeExternalOption($obj['userExternalOptions']);
                 }
@@ -1583,7 +1582,7 @@ if (!class_exists('Video')) {
 
         public static function updateFilesizeFromFilename($filename) {
             $value = Video::getVideoFromFileNameLight($filename);
-            if($video['type']!=='video' && $video['type']!=='audio'){
+            if ($video['type'] !== 'video' && $video['type'] !== 'audio') {
                 return false;
             }
             return self::updateFilesize($value['id']);
@@ -1601,9 +1600,9 @@ if (!class_exists('Video')) {
             TimeLogStart("Video::updateFilesize {$videos_id}");
             ini_set('max_execution_time', 300); // 5
             set_time_limit(300);
-            $video = new Video("", "", $videos_id);            
+            $video = new Video("", "", $videos_id);
             $_type = $video->getType();
-            if ($_type !== 'video' && $_type !== 'audio' ){
+            if ($_type !== 'video' && $_type !== 'audio') {
                 return false;
             }
             $filename = $video->getFilename();
@@ -1658,11 +1657,11 @@ if (!class_exists('Video')) {
                 $status = '';
             }
             $sql = "SELECT v.* FROM videos as v ";
-            
+
             if (!empty($_REQUEST['catName'])) {
                 $sql .= " LEFT JOIN categories c ON categories_id = c.id ";
             }
-            
+
             $sql .= " WHERE 1=1 ";
             $blockedUsers = self::getBlockedUsersIdsArray();
             if (!empty($blockedUsers)) {
@@ -1730,7 +1729,7 @@ if (!class_exists('Video')) {
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
                     }
                     if (empty($row['filesize'])) {
-                        if($row['type']=='video' || $row['type']=='audio'){
+                        if ($row['type'] == 'video' || $row['type'] == 'audio') {
                             $row['filesize'] = Video::updateFilesize($row['id']);
                         }
                     }
@@ -2559,7 +2558,11 @@ if (!class_exists('Video')) {
             $tags = Video::getTags($video_id);
             $_getTagsHTMLLabelArray[$video_id] = [];
             foreach ($tags as $value2) {
-                if (empty($value2->label) || ($value2->label !== __("Paid Content") && $value2->label !== __("Group") && $value2->label !== __("Plugin"))) {
+                if (empty($value2->label) || empty($value2->text)) {
+                    continue;
+                }
+                $valid_tags = array(__("Paid Content"), __("Group"), __("Plugin"), __("Rating"));
+                if (!in_array($value2->label, $valid_tags)) {
                     continue;
                 }
 
@@ -2571,8 +2574,8 @@ if (!class_exists('Video')) {
                     }
                     $tooltip = '  data-toggle="tooltip" title="' . htmlentities($icon . ' ' . $value2->tooltip) . '" data-html="true"';
                 }
-
-                $_getTagsHTMLLabelArray[$video_id][] = '<span class="label label-' . $value2->type . '" ' . $tooltip . '>' . $value2->text . '</span>';
+                $class = preg_replace('/[^a-z0-9]/i', '_', $value2->label);
+                $_getTagsHTMLLabelArray[$video_id][] = '<span class="label label-' . $value2->type . ' videoLabel'.$class.'" ' . $tooltip . '>' . $value2->text . '</span>';
             }
             return $_getTagsHTMLLabelArray[$video_id];
         }
@@ -2612,9 +2615,11 @@ if (!class_exists('Video')) {
                         $objTag->text = '<i class="fas fa-lock"></i>';
                         $objTag->tooltip = $advancedCustom->paidOnlyLabel;
                     } else {
+                        /*
                         $objTag->type = "success";
                         $objTag->text = '<i class="fas fa-lock-open"></i>';
                         $objTag->tooltip = $advancedCustom->paidOnlyFreeLabel;
+                         */
                     }
                 } else {
                     $ppv = AVideoPlugin::getObjectDataIfEnabled("PayPerView");
@@ -2645,9 +2650,11 @@ if (!class_exists('Video')) {
                         $objTag->text = '<i class="fas fa-lock"></i>';
                         $objTag->tooltip = __("Private");
                     } else {
+                        /*
                         $objTag->type = "success";
                         $objTag->text = '<i class="fas fa-lock-open"></i>';
                         $objTag->tooltip = $advancedCustom->paidOnlyFreeLabel;
+                         */
                     }
                 }
                 $tags[] = $objTag;
@@ -2783,6 +2790,16 @@ if (!class_exists('Video')) {
                 }
             }
             TimeLogEnd("video::getTags_ source $video_id, $type", __LINE__, 0.5);
+
+            if (!empty($video->getRrating())) {
+                $objTag = new stdClass();
+                $objTag->label = __("Rating");
+                $objTag->type = "primary";
+                $objTag->text = strtoupper($video->getRrating());
+                $objTag->tooltip = __("Rating");
+                $tags[] = $objTag;
+                //var_dump($tags);exit;
+            }
 
             TimeLogStart("video::getTags_ AVideoPlugin::getVideoTags $video_id", __LINE__, 0.5);
             $array2 = AVideoPlugin::getVideoTags($video_id);
@@ -3599,7 +3616,7 @@ if (!class_exists('Video')) {
             if ($cleanName == $filename || preg_match('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', $filename)) {
                 $cleanName = preg_replace('/([a-z]+_[0-9]{12}_[a-z0-9]{4,5})_[0-9]+/', '$1', $filename);
             }
-            
+
             $path_parts = pathinfo($cleanName);
             if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
@@ -4635,7 +4652,7 @@ if (!class_exists('Video')) {
 
         public static function getVideoPogressPercent($videos_id, $users_id = 0) {
             $lastVideoTime = self::getVideoPogress($videos_id, $users_id);
-            
+
             if (empty($lastVideoTime)) {
                 return ['percent' => 0, 'lastVideoTime' => 0, 'msg' => 'empty LastVideoTime'];
             }
@@ -4661,11 +4678,22 @@ if (!class_exists('Video')) {
             }
 
             //var_dump(__LINE__, $videos_id,  $users_id, $lastVideoTime, ['percent' => ($lastVideoTime / $duration) * 100, 'lastVideoTime' => $lastVideoTime]);exit;
-            return ['percent' => ($lastVideoTime / $duration) * 100, 'lastVideoTime' => $lastVideoTime, 'duration'=>$duration];
+            return ['percent' => ($lastVideoTime / $duration) * 100, 'lastVideoTime' => $lastVideoTime, 'duration' => $duration];
         }
 
         public function getRrating() {
             return $this->rrating;
+        }
+
+        public function getRratingHTML() {
+            global $global;
+            if (!empty($this->rrating)) {
+                $filePath = $global['systemRootPath'] . 'view/rrating/rating-' . $this->rrating . '.php';
+                if (file_exists($filePath)) {
+                    return getIncludeFileContent($filePath);
+                }
+            }
+            return '';
         }
 
         public function setRrating($rrating) {
@@ -5246,7 +5274,7 @@ if (!class_exists('Video')) {
             return $btnHTML;
         }
 
-        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false, $preloadImage=false) {
+        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false, $preloadImage = false) {
             if (empty($videos_id)) {
                 return '';
             }
@@ -5326,7 +5354,7 @@ if (!class_exists('Video')) {
                     <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Favorite", true) . ' style="color: #4285f4; ' . $favoriteBtnAddedStyle . '"><i class="fas fa-check"></i></button>  
                     <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="left" title=' . printJSString("Favorite", true) . ' style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>    
                     <br>
-                    '.$galleryDropDownMenu.'
+                    ' . $galleryDropDownMenu . '
                 </div>';
             }
             $href = Video::getLink($video['id'], $video['clean_title']);
