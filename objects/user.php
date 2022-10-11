@@ -2871,7 +2871,7 @@ if (typeof gtag !== \"function\") {
                      class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" alt="User Photo" />
                 <a href="<?php echo User::getChannelLink($users_id); ?>" class="btn btn-default">
                     <i class="fas fa-play-circle"></i>
-        <?php echo User::getNameIdentificationById($users_id); ?>
+                    <?php echo User::getNameIdentificationById($users_id); ?>
                 </a>
                 <div class="pull-right">
                     <?php echo User::getAddChannelToGalleryButton($users_id); ?>

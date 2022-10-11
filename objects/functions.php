@@ -4415,6 +4415,7 @@ function blackListRegenerateSession() {
     $list = array(
         'objects/getCaptcha.php',
         'objects/userCreate.json.php',
+        'objects/videoAddViewCount.json.php',
     );
     foreach ($list as $needle) {
         if (str_ends_with($_SERVER['SCRIPT_NAME'], $needle)) {

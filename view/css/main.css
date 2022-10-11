@@ -803,15 +803,10 @@ img.blur{
 
 ::-webkit-scrollbar
 {
-    width: 8px;
+    width: 12px;
     height: 8px;
     background-color: rgba(100,100,100,0.01);
     overflow: hidden;
-}
-
-::-webkit-scrollbar:hover, ::-webkit-scrollbar:active{
-    width: 16px;
-    background-color: rgba(100,100,100,0.1);
 }
 
 ::-webkit-scrollbar-thumb
