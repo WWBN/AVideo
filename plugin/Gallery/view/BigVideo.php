@@ -183,12 +183,6 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                     <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
                                                 </button>
                                             <?php } ?>
-                                            <?php if (!empty($videoRow['trailer1'])) { ?>
-                                                <button type="button" class="btn-link" onclick="showTrailer('<?php echo parseVideos($videoRow['trailer1'], 1); ?>'); return false;" class="cursorPointer" >
-                                                        <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
-                                                </button>
-                                            <?php }
-                                            ?>
                                             <?php
                                             echo AVideoPlugin::getGalleryActionButton($videoRow['id']);
                                             ?>

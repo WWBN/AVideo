@@ -23,15 +23,6 @@ $video = Video::getVideoLight($videos_id);
             }
         }
         ?>
-        <?php if (!empty($video['trailer1'])) { ?>
-            <li>
-                <button type="button" class="btn btn-dark" onclick="showTrailer('<?php echo parseVideos($video['trailer1'], 1); ?>'); return false;" class="cursorPointer" >
-                    <i class="fa fa-video"></i> <?php echo __("Trailer"); ?>
-                </button>
-
-            </li>
-        <?php }
-        ?>
         <?php if (Video::canEdit($video['id'])) { ?>
             <li>
                 <button type="button" class="btn btn-dark" onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">

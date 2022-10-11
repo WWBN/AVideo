@@ -333,13 +333,13 @@ footer ul.list-inline li {
 }
 
 .no-outline {
-    border: 0;
+    border: 0 !important;
+    border-color: transparent !important;
 }
 .no-outline:focus,
 .no-outline:active,
 .no-outline:hover {
-    background-color: transparent;
-    color: #000;
+    /*color: #000;*/
 }
 #showMore {
     padding: 20px;
