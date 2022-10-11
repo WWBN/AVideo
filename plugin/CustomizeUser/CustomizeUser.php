@@ -537,6 +537,7 @@ class CustomizeUser extends PluginAbstract {
             
             $btn .= '<li><a data-toggle="tab" href="#tabAffiliation">' . __('Affiliations') . ' '.$totalNotifications.'</a></li>';
         }
+        $btn .= '<li><a onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/CustomizeUser/confirmDeleteUser.php?users_id='.$users_id.'\');return false;" style="cursor: pointer;"><i class="fas fa-trash"></i> ' . __('Delete My User') . '</a></li>';
         return $btn;
     }
     
@@ -588,6 +589,7 @@ class CustomizeUser extends PluginAbstract {
         $obj = $p->getDataObject();
         $btn = '';
         if (Permissions::canAdminUsers()) {
+            $btn .= '<button type="button" class="btn btn-danger btn-sm btn-xs btn-block" onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CustomizeUser/confirmDeleteUser.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Delete User') . '"><i class="fas fa-trash"></i> ' . __('Delete') . '</button>';
             if (self::showExtraInfo()) {
                 $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoAlertAJAXHTML(webSiteRootURL+\\\'plugin/CustomizeUser/View/extraInfo.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Show Extra Info') . '"><i class="fas fa-info"></i> ' . __('Extra Info') . '</button>';
             }

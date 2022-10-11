@@ -32,7 +32,7 @@ class Captcha
         //$letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnPpQqRrSsTtUuVvYyXxWwZz23456789';
         $letters = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnPpQqRrSsTtUuVvYyXxWwZz23456789';
         $palavra = substr(str_shuffle($letters), 0, ($this->quantidade_letras));
-        if (User::isAdmin()) {
+        if (User::isAdmin() && empty($_REQUEST['forceCaptcha'])) {
             $palavra = "admin";
         }
         _session_start();
@@ -57,7 +57,7 @@ class Captcha
 
     public static function validation($word)
     {
-        if (User::isAdmin()) {
+        if (User::isAdmin() && $_SESSION["palavra"] === 'admin') {
             return true;
         }
         _session_start();

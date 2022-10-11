@@ -50,7 +50,7 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid nopadding">
+        <div class="container-fluid">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="far fa-comments"></i> <?php echo __("Meeting"); ?> 
