@@ -146,7 +146,7 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
     } else {
         for($i=0;$i<1;$i++){
         ?>
-        <div class="loadingVideosList col-lg-12 col-sm-12 col-xs-12 bottom-border videoListItem <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
+        <div class="loadingVideosList col-lg-12 col-sm-12 col-xs-12 bottom-border videoListItem videoList-PHP <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage videoLink h6">
                 <div class="galleryVideo loading-background">
                     <img src="<?php echo getURL('view/img/video-placeholder.png'); ?>" alt="Loading"  class="thumbsJPG img-responsive text-center" height="130" />

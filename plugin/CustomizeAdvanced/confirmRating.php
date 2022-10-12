@@ -9,7 +9,7 @@ if (!empty($images->posterPortrait) && strpos($images->posterPortrait, 'notfound
 $imgw = 1280;
 $imgh = 720;
 $metaDescription = $title = getSEOTitle($video['title']);
-$ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false);
+$ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false, false);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">
@@ -34,7 +34,7 @@ $ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false)
                 padding-top: 0;
             }
             footer{
-                display: none;   
+                display: none;
             }
             #bg{
                 position: fixed;
@@ -60,25 +60,30 @@ $ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false)
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Title: <?php echo $video['title']; ?></h4>
+                        <h2 class="modal-title">
+                            <?php echo $video['title']; ?>
+                        </h2>
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-2">
+                                <img src="<?php echo getURL('view/rrating/rating-' . $video['rrating'] . '.png'); ?>" class="img img-responsive" />
+                            </div>
+                            <div class="col-sm-4">
                                 <img src="<?php echo $img; ?>" class="img img-responsive"/>
                             </div>
                             <div class="col-sm-6">
                                 <center>
-                                <?php
-                                    include $global['systemRootPath'] . 'view/rrating/rating-'.$video['rrating'].'_text.php';
-                                ?>
+                                    <?php
+                                    include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '_text.php';
+                                    ?>
                                 </center>
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer" >
-                        <a href="<?php echo $_SERVER['REQUEST_URI'],strpos($_SERVER['REQUEST_URI'], "?")===false?"?":"&"; ?>rrating=1" class="btn btn-success pull-right"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></a>
+                        <a href="<?php echo $_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], "?") === false ? "?" : "&"; ?>rrating=1" class="btn btn-success pull-right"><i class="fas fa-check-circle"></i> <?php echo __("Confirm"); ?></a>
                         <a href="<?php echo getHomePageURL(); ?>" class="btn btn-danger pull-right"><i class="fas fa-times-circle"></i> <?php echo __("Cancel"); ?></a>
                     </div>
                 </div>

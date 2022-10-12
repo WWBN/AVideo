@@ -39,6 +39,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     return false;
 }
 
+$objGallery = AVideoPlugin::getObjectData("Gallery");
 $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
 $cdnStorageEnabled = !empty($cdnObj) && $cdnObj->enable_storage;
 
@@ -52,47 +53,34 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
             <?php
             echo Video::getVideoImagewithHoverAnimationFromVideosId($video, true, false);
             ?>
+            
+            <!-- modeYouTubeBottom plugins tags -->
+            <?php
+            echo Video::getTagsHTMLLabelIfEnable($video['id']);
+            ?>
+            <!-- modeYouTubeBottom end plugins tags -->
         </div>
         <div class="col-xs-8 col-sm-8 col-md-8">
             <?php
-            
-            $tags = Video::getSeoTags($video['id']);
-            echo $tags['body'];
             if (!empty($video['id']) && Video::showYoutubeModeOptions() && Video::canEdit($video['id'])) {
                 ?>
-                <div class="btn-group" role="group" aria-label="Basic example">
+                <div class="btn-group pull-right" role="group" aria-label="Botttom Buttons">
                     <button type="button" class="btn btn-primary btn-xs"  onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $video['id']; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Edit Video"); ?>">
                         <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
                     </button>
                     <button type="button" class="btn btn-default btn-xs" onclick="avideoModalIframeFull(webSiteRootURL + 'view/videoViewsInfo.php?videos_id=<?php echo $video['id']; ?>');
-                            return false;">
+                                return false;">
                         <i class="fa fa-eye"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Views Info"); ?></span>
                     </button>
                     <?php
-                        echo Layout::getSuggestedButton($video['id']);
+                    echo Layout::getSuggestedButton($video['id']);
                     ?>
                 </div>
-            <?php }
-            ?>
-            <small>
                 <?php
-                if (!empty($video['id'])) {
-                    $video['tags'] = Video::getTags($video['id']);
-                } else {
-                    $video['tags'] = [];
-                }
-                foreach ($video['tags'] as $value) {
-                    if (is_array($value)) {
-                        $value = (object) $value;
-                    }
-                    if ($value->label === __("Group")) {
-                        ?>
-                        <span class="label label-<?php echo $value->type; ?>"><?php echo $value->text; ?></span>
-                        <?php
-                    }
-                }
-                ?>
-            </small>
+            }
+            $tags = Video::getSeoTags($video['id']);
+            echo $tags['body'];
+            ?>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <?php echo $video['creator']; ?>
             </div>
@@ -130,8 +118,9 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                     if ($video['type'] == "zip") {
                         $files = getVideosURLZIP($video['filename']);
                     } else if ($video['type'] == "pdf") {
-                        $files = getVideosURLPDF($video['filename']);;
-                    } else if($canDownloadFiles) {
+                        $files = getVideosURLPDF($video['filename']);
+                        ;
+                    } else if ($canDownloadFiles) {
                         $files = getVideosURL($video['filename']);
                     }
                     if (!empty($files)) {
@@ -177,8 +166,8 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                                 $filesToDownload[] = ['name' => $name, 'url' => $theLink['url']];
                             }
                         }
-                        
-                        if($canDownloadFiles){
+
+                        if ($canDownloadFiles) {
                             $filesToDownload = array_merge($filesToDownload, getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video['type']));
                         }
 

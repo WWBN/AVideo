@@ -66,7 +66,7 @@ $v = new Video('', '', $_videos_id);
                         $hash = encryptString($obj);
                         ?>
                     </div>
-                    <div class="btn-group" role="group" aria-label="Basic example" id="buttonsGroup">
+                    <div class="btn-group" role="group" aria-label="video views info Buttons" id="buttonsGroup">
                         <button type="button" class="btn btn-default" onclick="copyToClipboard(webSiteRootURL + 'view/videoViewsInfo.php?hash=<?php echo $hash; ?>');"><i class="fas fa-copy"></i> <?php echo __('Share link'); ?></button>
                         <button onclick="getVideoViewsCSV();" class="btn btn-primary" >
                             <i class="fas fa-file-csv"></i> <?php echo __('CSV File'); ?>

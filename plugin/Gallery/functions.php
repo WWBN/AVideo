@@ -208,9 +208,7 @@ function getLabelTags($video) {
     <?php } ?>
     <!-- plugins tags -->
     <?php
-    if (!empty($obj->showTags)) {
-        echo implode('', Video::getTagsHTMLLabelArray($video['id']));
-    }
+    echo implode('', Video::getTagsHTMLLabelIfEnable($video['id']));
     ?>
     <!-- end plugins tags -->
     <?php

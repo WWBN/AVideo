@@ -2544,6 +2544,18 @@ if (!class_exists('Video')) {
             $videos_getTags[$name] = self::getTags_($video_id, $type);
             return $videos_getTags[$name];
         }
+        
+        public static function getTagsHTMLLabelIfEnable($videos_id) {
+            global $objGallery;
+            $return = '<!-- Gallery->showTags not enabled videos_id '.$videos_id.' -->';
+            if(empty($objGallery)){
+                $objGallery = AVideoPlugin::getObjectData("Gallery");
+            }
+            if (!empty($objGallery->showTags)) {
+                $return = implode('', Video::getTagsHTMLLabelArray($videos_id));
+            }
+            return $return;
+        }
 
         public static function getTagsHTMLLabelArray($video_id) {
             global $_getTagsHTMLLabelArray;
@@ -2793,11 +2805,13 @@ if (!class_exists('Video')) {
             TimeLogEnd("video::getTags_ source $video_id, $type", __LINE__, 0.5);
 
             if (!empty($video->getRrating())) {
+                $rating = $video->getRrating();
                 $objTag = new stdClass();
                 $objTag->label = __("Rating");
-                $objTag->type = "primary";
-                $objTag->text = strtoupper($video->getRrating());
-                $objTag->tooltip = __("Rating");
+                $objTag->type = "default";
+                $objTag->text = strtoupper($rating);
+                $objTag->tooltip = __(Video::$rratingOptionsText[$rating]);
+                $objTag->tooltipIcon = "[{$objTag->text}]";
                 $tags[] = $objTag;
                 //var_dump($tags);exit;
             }
@@ -5218,15 +5232,8 @@ if (!class_exists('Video')) {
             $categoryLink = $category->getLink();
             $categoryIcon = $category->getIconClass();
             $category = $category->getName();
-            $tagsHTML = '';
-            $tagsWhitelist = [__("Paid Content"), __("Group"), __("Plugin")];
-            if (!empty($objGallery->showTags) && !empty($value['tags']) && is_array($value['tags'])) {
-                foreach ($value['tags'] as $value2) {
-                    if (!empty($value2->label) && in_array($value2->label, $tagsWhitelist)) {
-                        $tagsHTML .= '<span class="label label-' . $value2->type . '">' . $value2->text . '</span>';
-                    }
-                }
-            }
+            $tagsHTML = Video::getTagsHTMLLabelIfEnable($value['id']);
+            //var_dump($value['id'], $tagsHTML);exit;
             $viewsHTML = '';
 
             if (empty($advancedCustom->doNotDisplayViews)) {
@@ -5237,7 +5244,6 @@ if (!class_exists('Video')) {
                 }
             }
             $creator = self::getCreatorHTML($value['users_id'], '', true);
-
             $search = [
                 '{style}',
                 '{divID}',

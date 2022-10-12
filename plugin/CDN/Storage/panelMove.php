@@ -3,7 +3,7 @@
         <?php echo $video['title']; ?>
     </div>
     <div class="panel-body">
-        <div class="btn-group btn-group-justified" role="group" aria-label="Basic example">
+        <div class="btn-group btn-group-justified" role="group" aria-label="panelMove Buttons">
             <?php
             $totalL = $totalR = $totalFileSizeR = $totalFileSizeL = 0;
             $list = CDNStorage::getFilesListBoth($videos_id);
