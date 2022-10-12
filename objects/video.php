@@ -103,6 +103,7 @@ if (!class_exists('Video')) {
         public static $statusFansOnly = 'f';
         public static $statusBrokenMissingFiles = 'b';
         public static $rratingOptions = ['', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma'];
+        public static $rratingOptionsText = ['g'=>'General Audience', 'pg'=>'Parental Guidance Suggested', 'pg-13'=>'Parental Strongly Cautioned', 'r'=>'Restricted', 'nc-17'=>'No One 17 and Under Admitted', 'ma'=>'Mature Audience'];
         //ver 3.4
         protected $youtubeId;
         public static $typeOptions = ['audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser'];
