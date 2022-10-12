@@ -155,7 +155,7 @@ function humanTimingAgo($time, $precision = 0, $useDatabaseTime = true) {
     if (empty($time)) {
         return __("Now");
     }
-    return secondsToHumanTiming($time, $precision) . " " . __("ago");
+    return sprintf(__('ago'), secondsToHumanTiming($time, $precision));
 }
 
 function humanTimingAfterwards($time, $precision = 0, $useDatabaseTime = true) {
@@ -166,7 +166,7 @@ function humanTimingAfterwards($time, $precision = 0, $useDatabaseTime = true) {
     if (empty($time)) {
         return __("Now");
     } elseif ($time > 0) {
-        return secondsToHumanTiming($time, $precision) . ' ' . __('Ago');
+        return sprintf(__('Ago'), secondsToHumanTiming($time, $precision));
     }
     return __('Coming in') . ' ' . secondsToHumanTiming($time, $precision);
 }
