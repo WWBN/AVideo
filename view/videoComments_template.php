@@ -1,11 +1,14 @@
 <div class="clearfix"></div>
-<div class="animate__animated animate__flipInX media {userCanAdminComment} {userCanEditComment} {myVote} {pin} {isResponse}" id="comment_{id}">
+<div class="animate__animated animate__flipInX media {isAResponse} {userCanAdminComment} {userCanEditComment} {myVote} {pin} {isResponse}" id="comment_{id}">
     <div class="media-left">
         <img src="{photo}" class="media-object">
     </div>
     <div class="media-body">
+        <h3 class="media-heading hideIfHasVideosId">
+            <a href="{videoLink}"><i class="fas fa-video"></i> {videoTitle}</a> 
+        </h3>
         <h4 class="media-heading">
-            <a href="{channelLink}">{identification}</a> 
+            <a href="{channelLink}"><i class="fas fa-user"></i> {identification}</a> 
             <small><i>{humanTiming}</i></small>
             <i class="fas fa-thumbtack pull-right hideIfIsUnpinned" onclick="pinComment({id});" style="cursor: pointer;"></i>
         </h4>

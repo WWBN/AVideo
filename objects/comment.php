@@ -202,6 +202,12 @@ class Comment {
             $values[] = $comments_id_pai;
         }
 
+        if (!empty($video_owner_users_id)) {
+            $sql .= " AND v.users_id = ? ";
+            $format .= "i";
+            $values[] = $video_owner_users_id;
+        }
+
         $sql .= BootGrid::getSqlFromPost(['name']);
         //var_dump($sql);exit;
         $res = sqlDAL::readSql($sql, $format, $values);

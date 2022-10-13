@@ -598,6 +598,11 @@ Allow: .css";
     public function showAds($videos_id): bool {
         return !self::getDoNotShowAdsChannel($videos_id) && !self::getDoNotShowAds($videos_id);
     }
+    
+    public function getGalleryActionButton($videos_id) {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/actionButtonGallery.php';
+    }
 
 }
 

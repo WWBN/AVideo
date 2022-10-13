@@ -1,6 +1,7 @@
 <?php
 $video = new Video('', '', $videos_id);
 if(!isValidURL($video->getTrailer1())){
+    echo '<!-- invalid trailer URL -->';
     return false;
 }
 ?>

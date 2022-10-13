@@ -294,10 +294,5 @@ class Gallery extends PluginAbstract {
         
         return $class." {$addClass}";
     }
-    
-    public function getGalleryActionButton($videos_id) {
-        global $global;
-        include $global['systemRootPath'] . 'plugin/Gallery/actionButtonGallery.php';
-    }
 
 }

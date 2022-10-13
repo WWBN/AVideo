@@ -41,7 +41,6 @@ if (User::canSeeCommentTextarea()) {
         }
         #commentsArea .media .media-left{
             margin-left: 5px;
-            ;
         }
 
         #commentsArea.removeThumbsUpAndDown .hideIfremoveThumbsUpAndDown,
@@ -58,7 +57,8 @@ if (User::canSeeCommentTextarea()) {
         #commentsArea .totalDislikes0,
         #commentsArea .isOpen > .hideIfIsOpen,
         #commentsArea .isNotOpen > .hideIfIsNotOpen,
-        #commentsArea.noVideosId .hideIfNoVideosId {
+        #commentsArea.noVideosId .hideIfNoVideosId,
+        #commentsArea.withVideosId .hideIfHasVideosId{
             display: none;
         }
         #commentsArea > .media > div.media-body .repliesArea{
@@ -80,6 +80,9 @@ if (User::canSeeCommentTextarea()) {
         }
         #commentsArea > .media .media-body:hover > .commentsButtonsGroup{
             opacity: 1;
+        }
+        #commentsArea .isAResponse{
+            margin-left: 20px;
         }
     </style>
     <div id="commentsArea" class="<?php echo $class; ?>"></div>
@@ -184,7 +187,15 @@ if (User::canSeeCommentTextarea()) {
             if (typeof itemsArray === 'function') {
                 return false;
             }
-
+            if(!empty(itemsArray.comments_id_pai)){
+                itemsArray.isAResponse = 'isAResponse';
+            }else{
+                itemsArray.isAResponse = 'isNotAResponse';
+            }
+            
+            itemsArray.videoLink = itemsArray.video.link;
+            itemsArray.videoTitle = itemsArray.video.title;
+            
             var template = getCommentTemplate(itemsArray);
 
             var selector = '#commentsArea ';
@@ -259,6 +270,10 @@ if (User::canSeeCommentTextarea()) {
                         }
                         for (var i in response.rows) {
                             var row = response.rows[i];
+                            if(typeof row === 'function'){
+                                continue;
+                            }
+                            //console.log('getComments', comments_id, page, typeof row);
                             addComment(row, comments_id, true);
                         }
                     }
