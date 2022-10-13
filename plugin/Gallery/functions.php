@@ -208,7 +208,7 @@ function getLabelTags($video) {
     <?php } ?>
     <!-- plugins tags -->
     <?php
-    echo implode('', Video::getTagsHTMLLabelIfEnable($video['id']));
+    echo Video::getTagsHTMLLabelIfEnable($video['id']);
     ?>
     <!-- end plugins tags -->
     <?php
