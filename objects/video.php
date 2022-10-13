@@ -5360,9 +5360,15 @@ if (!class_exists('Video')) {
                     <br>
                     <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Favorite", true) . ' style="color: #4285f4; ' . $favoriteBtnAddedStyle . '"><i class="fas fa-check"></i></button>  
                     <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="left" title=' . printJSString("Favorite", true) . ' style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>    
-                    <br>
-                    ' . $galleryDropDownMenu . '
-                </div>';
+                    <br>';
+                
+                if(Video::canEdit($videos_id)){
+                    $galleryVideoButtons .= '
+                    <button onclick="avideoModalIframe(webSiteRootURL + \'view/managerVideosLight.php?image=1&avideoIframe=1&videos_id=' . $videos_id . '\');return false;" class="btn btn-dark btn-xs" data-toggle="tooltip" data-placement="left" title=' . printJSString("Edit Thumbnail", true) . '><i class="fas fa-edit"></i></button>  
+                    <br>';
+                }
+                
+                $galleryVideoButtons .= $galleryDropDownMenu . '</div>';
             }
             $href = Video::getLink($video['id'], $video['clean_title']);
             $embed = Video::getLink($video['id'], $video['clean_title'], true);

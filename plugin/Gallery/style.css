@@ -148,21 +148,22 @@ a.h6{
     display: none;
     
 }
-.galleryVideo  .galleryVideoButtons button{
+.galleryVideoButtons button{
     opacity: 0.5;
     display: inline-grid;
-    padding: 2px;
+    padding: 5px 1px;
     justify-content: center;
     width: 24px;
+    margin: 1px 0;
 } 
 .galleryVideo:hover  .galleryVideoButtons,
 .thumbsImageContainer:hover  .galleryVideoButtons {
     display: block !important;
 } 
-.galleryVideo  .galleryVideoButtons  button:hover{
+.galleryVideoButtons button:hover{
     opacity: 1;
 }
-.galleryVideo  .galleryVideoButtons div.dropdown .dropdown-menu{
+.galleryVideoButtons  div.dropdown .dropdown-menu{
     margin: -20px auto auto -160px;
 }
 .galleryVideo div.galleryVideoButtons > div > ul > li > button{
