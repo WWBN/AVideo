@@ -93,8 +93,8 @@ $groups = $trans->getGroups();
 //check if channel name exists
 $channelName = User::getUserChannelName();
 if (empty($channelName)) {
-    $channelName = uniqid();
     $user = new User($users_id);
+    $channelName = $user->getUser();
     $user->setChannelName($channelName);
     $user->save();
 }
