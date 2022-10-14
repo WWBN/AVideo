@@ -13,7 +13,7 @@ class OptionsTest extends PluginAbstract {
     }
     public function getDescription() {
         global $global;
-        return "Salmple object for new features <br />Author: <a href='https://github.com/Criptos' target='_blank' > Criptos</a>";
+        return "Sample object for new features <br />Author: <a href='https://github.com/Criptos' target='_blank' > Criptos</a>";
     }
 
     public function getName() {
