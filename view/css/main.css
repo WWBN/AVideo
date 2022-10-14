@@ -181,6 +181,11 @@ footer ul.list-inline li {
 .panel, #mainNavBar, #sidebar, .swal-modal{
     box-shadow: 0 1px 8px 0 rgb(0 0 0 / 8%);
 }
+
+#mainNavBar .dropdown-menu{
+    max-height: calc(100vh - 80px);
+    overflow: auto;
+}
 .panel{
     margin-top: 10px;
 }

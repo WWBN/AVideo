@@ -357,7 +357,13 @@ class Layout extends PluginAbstract {
         foreach ($flags as $key => $value) {
             $info = json_decode($value[0]);
             $url = addQueryStringParameter($selfURI, 'lang', $key);
-            $html .= '<li class="dropdown-submenu">
+            
+            $active = '';
+            if($selectedJsonIcon === $info->icon){
+                $active = 'active';
+            }
+            
+            $html .= '<li class="dropdown-submenu '.$active.'">
                     <a tabindex="-1" href="' . $url . '" value="' . $key . '" onclick="$(\'#div_'.$id.' > button > span.flag\').html($(this).find(\'span.flag\').html());$(\'input[name='.$name.']\').val(\''.$key.'\');">
                         <span class="flag"><i class="' . $info->icon . '" aria-hidden="true"></i></span> ' . $info->text . '</a>
                     </li>';
