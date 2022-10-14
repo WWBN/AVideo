@@ -483,7 +483,7 @@ var addViewBeaconTimeout;
 var _addViewCheck = false;
 function addView(videos_id, currentTime) {
     addViewSetCookie(PHPSESSID, videos_id, currentTime, seconds_watching_video);
-    if(_addViewCheck){
+    if (_addViewCheck) {
         return false;
     }
     if (last_videos_id == videos_id && last_currentTime == currentTime) {
@@ -507,7 +507,7 @@ function _addView(videos_id, currentTime, seconds_watching_video) {
         PHPSESSID = '';
     }
     var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
-    if(empty(PHPSESSID)){
+    if (empty(PHPSESSID)) {
         return false;
     }
     url = addGetParam(url, 'PHPSESSID', PHPSESSID);
@@ -570,7 +570,7 @@ async function addViewFromCookie() {
         // it is the same video, play at the last moment
         forceCurrentTime = addView_playerCurrentTime;
     }
-    
+
     _addView(addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video)
     setTimeout(function () {
         _addViewFromCookie_addingtime = false;
@@ -635,7 +635,7 @@ function inMainIframe() {
             var mainIframe = $('iframe', window.parent.document).attr('id');
             response = mainIframe === 'mainIframe';
         } catch (e) {
-            
+
         }
 
     }
@@ -2132,6 +2132,35 @@ function removeDuplicatedGetParam(_url) {
     return _url.replace(queryParam, newQueryParamString);
 }
 
+function removeGetParam(_url, parameter) {
+    var queryParam = _url.replace(/^[^?]+\?/, '');
+    if (queryParam == '') {
+        return _url;
+    }
+    var params = queryParam.split('&'),
+            results = {};
+    for (var i = 0; i < params.length; i++) {
+        var temp = params[i].split('='),
+                key = temp[0],
+                val = temp[1];
+        if (key !== parameter) {
+            results[key] = val;
+        }
+    }
+
+    var newQueryParam = [];
+    for (var key in results) {
+        newQueryParam.push(key + '=' + results[key]);
+    }
+
+    var newQueryParamString = newQueryParam.join('&');
+    queryParam = '?' + queryParam;
+    if (!empty(newQueryParamString)) {
+        newQueryParamString = '?' + newQueryParamString;
+    }
+    return _url.replace(queryParam, newQueryParamString);
+}
+
 function readFileCroppie(input, crop) {
     if ($(input)[0].files && $(input)[0].files[0]) {
         var reader = new FileReader();
@@ -2899,7 +2928,40 @@ $(document).ready(function () {
     // Code to handle install prompt on desktop
     //aHrefToAjax();
 
+    _alertFromGet('error');
+    _alertFromGet('msg');
+    _alertFromGet('success');
+    _alertFromGet('toast');
+
 });
+
+async function _alertFromGet(type) {
+    if (urlParams.has(type)) {
+        var msg = urlParams.get(type);
+        var div = document.createElement("div");
+        div.innerHTML = msg;
+        var text = div.textContent || div.innerText || "";
+        if (!empty(text)) {
+            switch (type) {
+                case 'error':
+                    avideoAlertError(text);
+                    break;
+                case 'msg':
+                    avideoAlertInfo(text);
+                    break;
+                case 'success':
+                    avideoAlertSuccess(text);
+                    break;
+                case 'toast':
+                    avideoToast(text);
+                    break;
+            }
+            var url = removeGetParam(window.location.href, type);
+            window.history.pushState({}, document.title, url);
+        }
+    }
+}
+
 
 async function checkSocketStatus() {
     if (typeof conn != 'undefined') {

@@ -47,9 +47,9 @@ if(isBot()){
 <script>
     $(function () {
         /** showAlertMessage **/
-<?php
-showAlertMessage();
-?>
+        <?php
+        showAlertMessage();
+        ?>
     });
 </script>
 <script src="<?php echo getURL('node_modules/jquery-lazy/jquery.lazy.min.js'); ?>" type="text/javascript"></script>

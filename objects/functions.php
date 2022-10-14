@@ -6734,16 +6734,19 @@ function setToastMessage($msg) {
 
 function showAlertMessage() {
     $check = ['error', 'msg', 'success', 'toast'];
+    
+    $newAlerts = array();
+    
     if (!empty($_SESSION['YPTalertMessage'])) {
         foreach ($check as $value) {
-            $_GET[$value] = array();
+            $newAlerts[$value] = array();
         }
         foreach ($_SESSION['YPTalertMessage'] as $value) {
             if (!empty($value[0])) {
-                if (empty($_GET[$value[1]])) {
-                    $_GET[$value[1]] = [];
+                if (empty($newAlerts[$value[1]])) {
+                    $newAlerts[$value[1]] = [];
                 }
-                $_GET[$value[1]][] = $value[0];
+                $newAlerts[$value[1]][] = $value[0];
             }
         }
         _session_start();
@@ -6757,58 +6760,58 @@ function showAlertMessage() {
 
     $joinString = $check;
     foreach ($joinString as $value) {
-        if (!empty($_GET[$value])) {
-            if (is_array($_GET[$value])) {
-                $_GET[$value] = array_unique($_GET[$value]);
+        if (!empty($newAlerts[$value])) {
+            if (is_array($newAlerts[$value])) {
+                $newAlerts[$value] = array_unique($newAlerts[$value]);
                 $newStr = [];
-                foreach ($_GET[$value] as $value2) {
+                foreach ($newAlerts[$value] as $value2) {
                     if (!empty($value2)) {
                         $newStr[] = $value2;
                     }
                 }
-                $_GET[$value] = implode("<br>", $newStr);
+                $newAlerts[$value] = implode("<br>", $newStr);
             } else {
-                $_GET[$value] = $_GET[$value];
+                $newAlerts[$value] = $newAlerts[$value];
             }
         }
     }
 
     foreach ($check as $value) {
-        if (!empty($_GET[$value])) {
-            if (is_array($_GET[$value])) {
+        if (!empty($newAlerts[$value])) {
+            if (is_array($newAlerts[$value])) {
                 $newStr = [];
-                foreach ($_GET[$value] as $key => $value2) {
+                foreach ($newAlerts[$value] as $key => $value2) {
                     $value2 = str_replace('"', "''", $value2);
                     if (!empty($value2)) {
                         $newStr[] = $value2;
                     }
                 }
-                $_GET[$value] = $newStr;
+                $newAlerts[$value] = $newStr;
             } else {
-                $_GET[$value] = str_replace('"', "''", $_GET[$value]);
+                $newAlerts[$value] = str_replace('"', "''", $newAlerts[$value]);
             }
         }
     }
     echo "/** showAlertMessage **/", PHP_EOL;
-    if (!empty($_GET['error'])) {
-        echo 'avideoAlertError("' . $_GET['error'] . '");';
+    if (!empty($newAlerts['error'])) {
+        echo 'avideoAlertError("' . $newAlerts['error'] . '");';
         echo 'window.history.pushState({}, document.title, "' . getSelfURI() . '");';
     }
-    if (!empty($_GET['msg'])) {
-        echo 'avideoAlertInfo("' . $_GET['msg'] . '");';
+    if (!empty($newAlerts['msg'])) {
+        echo 'avideoAlertInfo("' . $newAlerts['msg'] . '");';
         echo 'window.history.pushState({}, document.title, "' . getSelfURI() . '");';
     }
-    if (!empty($_GET['success'])) {
-        echo 'avideoAlertSuccess("' . $_GET['success'] . '");';
+    if (!empty($newAlerts['success'])) {
+        echo 'avideoAlertSuccess("' . $newAlerts['success'] . '");';
         echo 'window.history.pushState({}, document.title, "' . getSelfURI() . '");';
     }
-    if (!empty($_GET['toast'])) {
-        if (!is_array($_GET['toast'])) {
-            $_GET['toast'] = [$_GET['toast']];
+    if (!empty($newAlerts['toast'])) {
+        if (!is_array($newAlerts['toast'])) {
+            $newAlerts['toast'] = [$newAlerts['toast']];
         } else {
-            $_GET['toast'] = array_unique($_GET['toast']);
+            $newAlerts['toast'] = array_unique($newAlerts['toast']);
         }
-        foreach ($_GET['toast'] as $key => $value) {
+        foreach ($newAlerts['toast'] as $key => $value) {
             $hideAfter = strlen(strip_tags($value)) * 150;
 
             if ($hideAfter < 3000) {
