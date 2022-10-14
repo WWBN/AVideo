@@ -5216,7 +5216,7 @@ if (!class_exists('Video')) {
                     $favoriteBtnAddedStyle = "display: none;";
                     $favoriteBtnStyle = '';
                 }
-                $loggedUserHTML = '<!-- getVideosListItem --><div class="galleryVideoButtons">';
+                $loggedUserHTML = '<!-- getVideosListItem --><div class="galleryVideoButtons '.getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0).'">';
                 $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', false, ' . $value['watchLaterId'] . ');return false;" '
                         . 'class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $value['id'] . '" '
                         . 'title="' . __("Added On Watch Later") . '" style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> ';
@@ -5354,7 +5354,7 @@ if (!class_exists('Video')) {
                 $galleryDropDownMenu = Gallery::getVideoDropdownMenu($videos_id);
 
                 $galleryVideoButtons .= '
-                <!-- getVideoImagewithHoverAnimationFromVideosId --><div class="galleryVideoButtons">
+                <!-- getVideoImagewithHoverAnimationFromVideosId --><div class="galleryVideoButtons '.getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0).'">
                     <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Watch Later", true) . ' style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> 
                     <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Watch Later", true) . ' style="' . $watchLaterBtnStyle . '" ><i class="fas fa-clock"></i></button>
                     <br>

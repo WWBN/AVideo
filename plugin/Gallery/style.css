@@ -149,7 +149,7 @@ a.h6{
     
 }
 .galleryVideoButtons button{
-    opacity: 0.5;
+    opacity: 0.7;
     display: inline-grid;
     padding: 5px 1px;
     justify-content: center;
@@ -157,10 +157,16 @@ a.h6{
     margin: 1px 0;
 } 
 .galleryVideo:hover  .galleryVideoButtons,
-.thumbsImageContainer:hover  .galleryVideoButtons {
+.thumbsImageContainer:hover  .galleryVideoButtons,
+.galleryVideo:active  .galleryVideoButtons,
+.thumbsImageContainer:active  .galleryVideoButtons,
+.galleryVideo:focus  .galleryVideoButtons,
+.thumbsImageContainer:focus  .galleryVideoButtons {
     display: block !important;
 } 
-.galleryVideoButtons button:hover{
+.galleryVideoButtons button:hover,
+.galleryVideoButtons button:active,
+.galleryVideoButtons button:focus{
     opacity: 1;
 }
 .galleryVideoButtons  div.dropdown .dropdown-menu{
