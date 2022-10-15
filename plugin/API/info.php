@@ -47,11 +47,13 @@ $obj = AVideoPlugin::getObjectData("API");
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             $p = AVideoPlugin::loadPlugin($value['dirName']);
-            $class_methods = get_class_methods($value['dirName']);
-            $reflector = new ReflectionClass($value['dirName']);
-            foreach ($class_methods as $key => $method[0]) {
-                if (preg_match("/API_(get|set)_(.*)/", $method[0], $matches)) {
-                    $methodsList[] = array($method[0], $reflector, $matches[1], $matches[2], $value['dirName']);
+            if(class_exists($value['dirName'])){
+                $class_methods = get_class_methods($value['dirName']);
+                $reflector = new ReflectionClass($value['dirName']);
+                foreach ($class_methods as $key => $method[0]) {
+                    if (preg_match("/API_(get|set)_(.*)/", $method[0], $matches)) {
+                        $methodsList[] = array($method[0], $reflector, $matches[1], $matches[2], $value['dirName']);
+                    }
                 }
             }
         }
