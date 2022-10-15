@@ -3734,7 +3734,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             _error_log('Live::canRestream: disableRestream is active');
             return false;
         }
-        if ($obj->whoCanRestream->value === self::CAN_RESTREAM_All_USERS) {
+        if ($obj->whoCanRestream->value == self::CAN_RESTREAM_All_USERS) {
             return true;
         }
         $permission = Permissions::hasPermission(self::PERMISSION_CAN_RESTREAM, 'Live');
