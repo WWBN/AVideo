@@ -208,16 +208,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.238.3",
+            "version": "3.238.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "14fb64c934614ea5a52c9931189f687f30b6ba3b"
+                "reference": "2f5440652fa7a6f20a1bb15926dd8248c24c733c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/14fb64c934614ea5a52c9931189f687f30b6ba3b",
-                "reference": "14fb64c934614ea5a52c9931189f687f30b6ba3b",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2f5440652fa7a6f20a1bb15926dd8248c24c733c",
+                "reference": "2f5440652fa7a6f20a1bb15926dd8248c24c733c",
                 "shasum": ""
             },
             "require": {
@@ -296,9 +296,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.238.3"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.238.5"
             },
-            "time": "2022-10-07T18:16:40+00:00"
+            "time": "2022-10-14T18:15:06+00:00"
         },
         {
             "name": "cboden/ratchet",
