@@ -245,6 +245,8 @@ $object->canStream = User::canStream();
 $object->redirectUri = @$_POST['redirectUri'];
 $object->embedChatUrl = '';
 $object->embedChatUrlMobile = '';
+
+_error_log("login.json.php check chat2");
 if (AVideoPlugin::isEnabledByName('Chat2') && method_exists('Chat2', 'getChatRoomLink')) {
     $object->embedChatUrl = Chat2::getChatRoomLink(User::getId(), 1, 1, 0, true);
     $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrl, 'mobileMode', 1);
@@ -253,6 +255,7 @@ if (AVideoPlugin::isEnabledByName('Chat2') && method_exists('Chat2', 'getChatRoo
 }
 //_error_log("login.json.php setup object done");
 
+_error_log("login.json.php check redirect");
 if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRootURL'])) {
     if (!empty($advancedCustomUser->afterLoginGoToMyChannel)) {
         $object->redirectUri = User::getChannelLink();
@@ -261,6 +264,7 @@ if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRoo
     }
 }
 
+_error_log("login.json.php userCanNotChangeCategory");
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     //_error_log("login.json.php get categories");
     $object->categories = Category::getAllCategories(true);
@@ -272,6 +276,7 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
 }
 //_error_log("login.json.php get user groups");
 TimeLogEnd($timeLog, __LINE__);
+_error_log("login.json.php getAllUsersGroups");
 $object->userGroups = UserGroups::getAllUsersGroups();
 TimeLogEnd($timeLog, __LINE__);
 $object->streamServerURL = '';
@@ -280,7 +285,7 @@ if ($object->isLogged) {
     $timeLog2 = __FILE__ . "::Is Logged ";
     TimeLogStart($timeLog2);
 
-    //_error_log("login.json.php get Live");
+    _error_log("login.json.php get Live");
     $p = AVideoPlugin::loadPluginIfEnabled("Live");
     if (!empty($p)) {
         require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
@@ -295,7 +300,7 @@ if ($object->isLogged) {
         _error_log('login.json.php live plugin is disabled');
     }
     TimeLogEnd($timeLog2, __LINE__);
-    //_error_log("login.json.php get MobileManager");
+    _error_log("login.json.php get MobileManager");
     $p = AVideoPlugin::loadPluginIfEnabled("MobileManager");
     if (!empty($p)) {
         $object->streamer = _json_decode(url_get_contents($global['webSiteRootURL'] . "objects/status.json.php"));
@@ -303,19 +308,19 @@ if ($object->isLogged) {
         $object->encoder = $config->getEncoderURL();
     }
     TimeLogEnd($timeLog2, __LINE__);
-    //_error_log("login.json.php get VideoHLS");
+    _error_log("login.json.php get VideoHLS");
     $p = AVideoPlugin::loadPluginIfEnabled("VideoHLS");
     if (!empty($p)) {
         $object->videoHLS = true;
     }
     TimeLogEnd($timeLog2, __LINE__);
-    //_error_log("login.json.php get Subscriptions");
+    _error_log("login.json.php get Subscriptions");
     $p = AVideoPlugin::loadPluginIfEnabled("Subscription");
     if (!empty($p)) {
         $object->Subscription = Subscription::getAllFromUser($object->id);
     }
     TimeLogEnd($timeLog2, __LINE__);
-    //_error_log("login.json.php get PayPerView");
+    _error_log("login.json.php get PayPerView");
     $p = AVideoPlugin::loadPluginIfEnabled("PayPerView");
     if (!empty($p) && class_exists('PayPerView')) {
         $object->PayPerView = PayPerView::getAllPPVFromUser($object->id);
@@ -328,9 +333,9 @@ if ($object->isLogged) {
 $object->PHPSESSID = session_id();
 
 TimeLogEnd($timeLog, __LINE__);
-//_error_log("login.json.php almost complete");
+_error_log("login.json.php almost complete");
 $json = _json_encode($object);
-//_error_log("login.json.php complete");
+_error_log("login.json.php complete");
 //header("Content-length: " . strlen($json));
 _error_log('login.json.php is done '.User::getId());
 session_write_close();
