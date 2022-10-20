@@ -389,7 +389,7 @@ class Category {
             $sql .= ")";
         }
         if ($sameUserGroupAsMe) {
-
+            _error_log('getAllCategories getUserGroups');
             $users_groups = UserGroups::getUserGroups($sameUserGroupAsMe);
 
             $users_groups_id = array(0);
@@ -415,9 +415,13 @@ class Category {
         $sql .= BootGrid::getSqlFromPost(['name'], "", " ORDER BY `order`, name ASC ");
         //echo $sql;exit;
         $cacheName = 'category/' . md5($sql);
+
+        _error_log('getAllCategories getCache');
         $category = object_to_array(ObjectYPT::getCache($cacheName, 36000));
         if (empty($category)) {
             $res = sqlDAL::readSql($sql);
+
+            _error_log('getAllCategories respond');
             $fullResult = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $category = [];
@@ -440,6 +444,8 @@ class Category {
                     $row['description_html'] = textToLink(htmlentities($row['description']));
                     $category[] = $row;
                 }
+
+                _error_log('getAllCategories setCache');
                 //$category = $res->fetch_all(MYSQLI_ASSOC);
                 ObjectYPT::setCache($cacheName, $category);
             } else {
@@ -447,6 +453,7 @@ class Category {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
         }
+        _error_log('getAllCategories return');
         return $category;
     }
 
