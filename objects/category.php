@@ -476,7 +476,9 @@ class Category {
         sqlDAL::close($res);
         if ($result) {
             $hierarchyArray[] = $result;
-            return self::getHierarchyArray($result['parentId'], $hierarchyArray);
+            if($result['parentId'] != $categories_id){
+                return self::getHierarchyArray($result['parentId'], $hierarchyArray);
+            }
         }
         return $hierarchyArray;
     }
