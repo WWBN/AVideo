@@ -268,6 +268,7 @@ if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRoo
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     _error_log("login.json.php get categories");
     $object->categories = Category::getAllCategories(true);
+    _error_log("login.json.php get categories done");
     if (is_array($object->categories)) {
         array_multisort(array_column($object->categories, 'hierarchyAndName'), SORT_ASC, $object->categories);
     }
