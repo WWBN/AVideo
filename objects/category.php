@@ -427,7 +427,10 @@ class Category {
             $category = [];
             if ($res) {
                 foreach ($fullResult as $row) {
+
+                    _error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $totals = self::getTotalFromCategory($row['id']);
+                    _error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
 
                     $row['name'] = $row['name'];
@@ -436,11 +439,17 @@ class Category {
                     $row['fullTotal_videos'] = $fullTotals['videos'];
                     $row['fullTotal_lives'] = $fullTotals['lives'];
                     $row['fullTotal_livelinks'] = $fullTotals['livelinks'];
+                    _error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $row['owner'] = User::getNameIdentificationById(@$row['users_id']);
+                    _error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $row['canEdit'] = self::userCanEditCategory($row['id']);
+                    _error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $row['canAddVideo'] = self::userCanAddInCategory($row['id']);
+                    _error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $row['hierarchy'] = self::getHierarchyString($row['parentId']);
+                    _error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $row['hierarchyAndName'] = $row['hierarchy'] . __($row['name']);
+                    _error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $row['description_html'] = textToLink(htmlentities($row['description']));
                     $category[] = $row;
                 }
