@@ -1053,8 +1053,15 @@ class AVideoPlugin
      *
      * @return type return a list of IDs of the user groups
      */
-    public static function getDynamicUserGroupsId($users_id)
-    {
+    public static function getDynamicUserGroupsId($users_id){
+        global $__getDynamicUserGroupsId;
+        if(!isset($__getDynamicUserGroupsId)){
+            $__getDynamicUserGroupsId = array();
+        }
+
+        if(!isset($__getDynamicUserGroupsId[$users_id])){
+            return $__getDynamicUserGroupsId[$users_id];
+        }
         $plugins = Plugin::getAllEnabled();
         $array = [];
         foreach ($plugins as $value) {
@@ -1067,6 +1074,7 @@ class AVideoPlugin
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
+        $__getDynamicUserGroupsId[$users_id] = $array;
         return $array;
     }
 
