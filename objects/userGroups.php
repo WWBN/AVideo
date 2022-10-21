@@ -299,7 +299,7 @@ class UserGroups{
                 if (in_array($row['id'], $doNotRepeat)) {
                     continue;
                 }
-                if (in_array($row['id'], $ids)) {
+                if (is_array($ids) && in_array($row['id'], $ids)) {
                     $row['isDynamic'] = 1;
                 } else {
                     $row['isDynamic'] = 0;
