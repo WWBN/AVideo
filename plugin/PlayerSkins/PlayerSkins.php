@@ -148,14 +148,22 @@ class PlayerSkins extends PluginAbstract {
                     $disableYoutubeIntegration = true;
                 }
                 $_GET['isEmbedded'] = "";
-                if (($disableYoutubeIntegration) || ((strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false) && (strpos($video['videoLink'], "vimeo.com") == false))) {
+                if (
+                    ($disableYoutubeIntegration) 
+                    || 
+                    (
+                        (strpos($video['videoLink'], "youtu.be") == false) 
+                        && (strpos($video['videoLink'], "youtube.com") == false) 
+                        //&& (strpos($video['videoLink'], "vimeo.com") == false)
+                    )
+                    ) {
                     $_GET['isEmbedded'] = "e";
                     $isVideoTypeEmbed = 1;
                     $url = parseVideos($video['videoLink']);
                     if ($config->getAutoplay()) {
                         $url = addQueryStringParameter($url, 'autoplay', 1);
                     }
-                    $htmlMediaTag = "<!-- Embed Link {$video['title']} {$video['filename']} -->";
+                    $htmlMediaTag = "<!-- Embed Link 1 {$video['title']} {$video['filename']} -->";
                     $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
                     $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
                     $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
@@ -170,7 +178,7 @@ class PlayerSkins extends PluginAbstract {
                     }
                     $_GET['isMediaPlaySite'] = $video['id'];
                     PlayerSkins::playerJSCodeOnLoad($video['id'], @$video['url']);
-                    $htmlMediaTag = "<!-- Embed Link YoutubeIntegration {$video['title']} {$video['filename']} -->";
+                    $htmlMediaTag = "<!-- Embed Link 2 YoutubeIntegration {$video['title']} {$video['filename']} -->";
                     $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
                     $htmlMediaTag .= '<script>var player;mediaId = ' . $video['id'] . ';$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
                 }
