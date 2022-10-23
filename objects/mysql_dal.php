@@ -175,6 +175,12 @@ class sqlDAL {
                         return false;
                     }
                 }
+
+                if(empty($stmt)){
+                    log_error("[sqlDAL::readSql] (stmt) is empty {$preparedStatement} with formats {$formats}");
+                    return false;
+                }
+
                 if (!sqlDAL::eval_mysql_bind($stmt, $formats, $values)) {
                     log_error("[sqlDAL::readSql] (mysqlnd) eval_mysql_bind failed: values and params in stmt don't match {$preparedStatement} with formats {$formats}");
                     return false;
