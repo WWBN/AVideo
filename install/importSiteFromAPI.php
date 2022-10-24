@@ -82,7 +82,7 @@ $hasNewContent = true;
 _error_log("importSite: start {$siteURL} imported_users_id=$imported_users_id imported_categories_id=$imported_categories_id total_to_import=$total_to_import");
 //exit;
 if ($type !== 'm3u8') {
-    if (empty($imported_categories_id)) {
+    if (empty($imported_categories_id) || $imported_categories_id < 0) {
         // get categories
         while ($hasNewContent) {
             $APIURL = "{$siteURL}plugin/API/get.json.php?APIName=category&rowCount={$rowCount}&current={$current}&APISecret={$APISecret}";
@@ -276,7 +276,7 @@ while ($hasNewContent) {
                     $users_id = $imported_users_id;
                 }
 
-                if (empty($imported_categories_id)) {
+                if (empty($imported_categories_id) || $imported_categories_id < 0) {
                     $cat = Category::getCategoryByName($value->clean_name);
                     $categories_id = $cat['id'];
                 } else {
