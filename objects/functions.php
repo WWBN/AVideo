@@ -2233,7 +2233,7 @@ function make_path($path) {
     }
     if (!is_dir($path)) {
         //if(preg_match('/getvideoinfo/i', $path)){var_dump(debug_backtrace());}
-        if (preg_match('/cache/i', $path)) {
+        if (preg_match('/cache/i', $path) || isCommandLineInterface()) {
             $mode = 0777;
         } else {
             $mode = 0755;
