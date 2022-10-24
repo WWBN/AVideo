@@ -2192,7 +2192,7 @@ function unzipDirectory($filename, $destination) {
         // try to unzip using PHP
         _error_log("unzipDirectory: TRY to use PHP {$filename}");
         $zip = zip_open($filename);
-        if ($zip) {
+        if ($zip && is_resource($zip)) {
             while ($zip_entry = zip_read($zip)) {
                 $path = "{$destination}/" . zip_entry_name($zip_entry);
                 $path = str_replace('//', '/', $path);
