@@ -329,7 +329,9 @@ while ($hasNewContent) {
                     }
                     $total_imported++;
                     if (!empty($total_to_import) && $total_to_import > 0 && $total_imported >= $total_to_import) {
-                        _error_log("importVideo completed: total_imported=$total_imported > total_to_import=$total_to_import ");
+                        _error_log("importVideo completed: total_imported=$total_imported >= total_to_import=$total_to_import ");
+                    }else{
+                        _error_log("importVideo continue: total_imported=$total_imported < total_to_import=$total_to_import ");
                     }
                 } else {
                     _error_log("importVideo: ERROR Video NOT saved");
