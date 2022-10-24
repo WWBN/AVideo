@@ -13,6 +13,8 @@ if (empty($isCDNEnabled)) {
 }
 
 $alsoMoveUnlisted = intval(@$argv[1]);
+// $alsoMoveUnlisted = 1 also unlisted
+// $alsoMoveUnlisted = 2 also inactive
 
 $_1hour = 3600;
 $_2hours = $_1hour*2;
@@ -29,7 +31,7 @@ sqlDAL::close($res);
 $rows = [];
 if ($res != false) {
     foreach ($fullData as $row) {
-        if ($row['status'] === Video::$statusActive || ($alsoMoveUnlisted && ($row['status'] === Video::$statusUnlisted || $row['status'] === Video::$statusFansOnly))) {
+        if ($row['status'] === Video::$statusActive || ($alsoMoveUnlisted && ($row['status'] === Video::$statusUnlisted || $row['status'] === Video::$statusFansOnly)) || $alsoMoveUnlisted == 2) {
             exec("rm /var/www/html/AVideo/videos/{$row['filename']}/*.tgz");
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
