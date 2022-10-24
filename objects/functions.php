@@ -2233,12 +2233,7 @@ function make_path($path) {
     }
     if (!is_dir($path)) {
         //if(preg_match('/getvideoinfo/i', $path)){var_dump(debug_backtrace());}
-        if (preg_match('/cache/i', $path) || isCommandLineInterface()) {
-            $mode = 0777;
-        } else {
-            $mode = 0755;
-        }
-        $created = mkdir($path, $mode, true);
+        $created = mkdir($path, 0777, true);
         /*
           if (!$created) {
           _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -2247,6 +2242,13 @@ function make_path($path) {
     } else {
         $created = true;
     }
+    
+    if (preg_match('/cache/i', $path) || isCommandLineInterface()) {
+        $mode = 0777;
+    } else {
+        $mode = 0755;
+    }
+    chmod ("/arquivo/diretorio", $mode);
     return $created;
 }
 
