@@ -2248,7 +2248,7 @@ function make_path($path) {
     } else {
         $mode = 0755;
     }
-    chmod ("/arquivo/diretorio", $mode);
+    chmod ($path, $mode);
     return $created;
 }
 
