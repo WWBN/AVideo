@@ -36,10 +36,10 @@
             </button>
             <button class="btn btn-default no-outline allReplies btn-xs isNotOpen hideIfNoVideosId" onclick="toogleReplies({id}, this);">
                 <span class="hideIfIsOpen">
-                    {viewAllRepliesText} (<span class="total_replies">{total_replies}</span>) <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    {viewAllRepliesText} <span class="total_replies badge">{total_replies}</span> <i class="fa fa-chevron-down" aria-hidden="true"></i>
                 </span>
                 <span class="hideIfIsNotOpen">
-                    {hideRepliesText} (<span class="total_replies">{total_replies}</span>) <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                    {hideRepliesText} <i class="fa fa-chevron-up" aria-hidden="true"></i>
                 </span>                
             </button>
             <button class="btn btn-default no-outline pin btn-xs hideIfUserCanNotAdminComment hideIfIsResponse" onclick="pinComment({id});">

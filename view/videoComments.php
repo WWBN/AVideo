@@ -84,6 +84,15 @@ if (User::canSeeCommentTextarea()) {
         #commentsArea .isAResponse{
             margin-left: 20px;
         }
+        
+        #commentsArea > .media .media .isAResponse{
+            margin-left: 10px;
+        }
+        
+        #commentsArea > .media .media .media .isAResponse{
+            margin-left: 5px;
+        }
+        
     </style>
     <div id="commentsArea" class="<?php echo $class; ?>"></div>
     <center>
@@ -360,6 +369,7 @@ if (User::canSeeCommentTextarea()) {
                         }
                         modal.hidePleaseWait();
                         $('#comment, #popupCommentTextarea').html('');
+                        $('#comment, #popupCommentTextarea').val('');
                     }
                 });
             } else {

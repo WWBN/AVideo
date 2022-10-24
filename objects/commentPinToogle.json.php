@@ -16,13 +16,14 @@ if (empty($obj->comments_id)) {
     forbiddenPage('comments_id is required');
 }
 
-if (!User::isAdmin()) {
-    forbiddenPage('Permission denied');
+require_once 'comment.php';
+$objC = new Comment('', '', $obj->comments_id);
+$obj->videos_id = $objC->getVideos_id();
+
+if (!Video::canEdit($obj->videos_id)) {
+    forbiddenPage('Cannot edit videos');
 }
 
-require_once 'comment.php';
-
-$objC = new Comment('', '', $obj->comments_id);
 $obj->old_pin_value = $objC->getPin();
 $obj->new_pin_value = intval(!$obj->old_pin_value);
 $objC->setPin($obj->new_pin_value);
