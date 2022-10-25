@@ -5280,7 +5280,7 @@ if (!class_exists('Video')) {
             return $btnHTML;
         }
 
-        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false, $preloadImage = false) {
+        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false, $preloadImage = false, $doNotUseAnimatedGif = false) {
             if (empty($videos_id)) {
                 return '';
             }

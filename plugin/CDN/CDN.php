@@ -46,6 +46,8 @@ class CDN extends PluginAbstract
     {
         global $global, $config;
         $obj = new stdClass();
+        $obj->enable_cdn = true;
+        self::addDataObjectHelper('enable_cdn', 'Enable CDN', "If you disable the CDN and you still have a storage, your storage will be used as a backup for the videos only, you wtill need a database backup");
         $obj->key = "";
         $obj->CDN = "";
         $obj->CDN_S3 = "";
@@ -59,6 +61,7 @@ class CDN extends PluginAbstract
         $obj->enable_storage = false;
         $obj->storage_autoupload_new_videos = true;
         $obj->storage_users_can_choose_storage = true;
+        $obj->storage_keep_original_files = false;
         $obj->storage_username = "";
         $obj->storage_password = "";
         $obj->storage_hostname = "";
@@ -75,8 +78,7 @@ class CDN extends PluginAbstract
         return $btn;
     }
 
-    public function getPluginMenu()
-    {
+    public function getPluginMenu(){
         global $global;
         $fileAPIName = $global['systemRootPath'] . 'plugin/CDN/pluginMenu.html';
         $content = file_get_contents($fileAPIName);
@@ -95,6 +97,7 @@ class CDN extends PluginAbstract
         }
         return $cdnMenu.$storageMenu;
     }
+   
 
     /**
      *
@@ -102,10 +105,13 @@ class CDN extends PluginAbstract
      * @param type $id the ID of the URL in case the CDN is an array
      * @return boolean
      */
-    public static function getURL($type = 'CDN', $id = 0)
-    {
+    public static function getURL($type = 'CDN', $id = 0){
         $obj = AVideoPlugin::getObjectData('CDN');
-
+        
+        if(empty($obj->enable_cdn)){
+            return false;
+        }
+        
         if (empty($obj->{$type})) {
             return false;
         }
