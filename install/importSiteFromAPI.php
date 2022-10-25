@@ -291,12 +291,11 @@ while ($hasNewContent) {
                 $video->setUsers_id($users_id);
                 $video->setStatus(Video::$statusTranfering);
                 $video->setCategories_id($categories_id);
-                $video->setCreated($value->created);
 
                 _error_log("importVideo: Saving video");
                 $id = $video->save(false, true);
                 if ($id) {
-                    _error_log("importVideo: Video saved {$id}");
+                    _error_log("importVideo: Video saved {$id} categories_id=$categories_id created=$value->created");
                     $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
                     make_path($path);
 
