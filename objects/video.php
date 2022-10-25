@@ -5296,7 +5296,7 @@ if (!class_exists('Video')) {
                 $images = object_to_array($video['images']);
             }
             //var_dump($videos_id, $video, $images);
-            $img = getVideoImagewithHoverAnimation($images['poster'], $images['thumbsGif'], $video['title'], $preloadImage);
+            $img = getVideoImagewithHoverAnimation($images['poster'], $images['thumbsGif'], $video['title'], $preloadImage, $doNotUseAnimatedGif);
             $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
             $isserie = Video::isSerie($videos_id);
             $isserieClass = "";
