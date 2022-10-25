@@ -887,7 +887,15 @@ class CDNStorage {
     }
 
     public static function createDummyFiles($videos_id) {
+        
+        $obj = AVideoPlugin::getObjectData('CDN');
+        
+        if(!empty($obj->storage_keep_original_files)){
+            return 0;
+        }
+        
         $msg = "createDummyFiles($videos_id) ";
+        
         self::addToLog($videos_id, $msg);
         global $_getFilesListBoth, $_getFilesListRemote, $_getFilesList_CDNSTORAGE;
         unset($_getFilesListBoth);
