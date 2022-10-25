@@ -325,7 +325,9 @@ while ($hasNewContent) {
                             _error_log("importVideo m3u8 NOT SEND: ($size) " . humanFileSize($size));
                         }
                     }
-                    $total_imported++;
+                    if(empty($videos_id)){
+                        $total_imported++;
+                    }
                     if (!empty($total_to_import) && $total_to_import > 0 && $total_imported >= $total_to_import) {
                         _error_log("importVideo completed: total_imported=$total_imported >= total_to_import=$total_to_import ");
                         $hasNewContent = false;
