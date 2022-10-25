@@ -300,7 +300,7 @@ abstract class ObjectYPT implements ObjectInterface
                 if (strtolower($value) == 'created') {
                     //var_dump($this->created);exit;
                     if(!empty($this->created) && (User::isAdmin() || isCommandLineInterface())){
-                        $this->created = str_replace('/[^0-9: \/-]/', '', $this->created);
+                        $this->created = preg_replace('/[^0-9: \/-]/', '', $this->created);
                         $formats .= 's';
                         $values[] = $this->created;
                         $fields[] = " `{$value}` = ? ";
@@ -331,14 +331,18 @@ abstract class ObjectYPT implements ObjectInterface
             $sql .= "`" . implode("`,`", $fieldsName) . "` )";
             $fields = [];
             foreach ($fieldsName as $value) {
-                if (is_string($value) && (strtolower($value) == 'created' || strtolower($value) == 'modified')) {
-                    if(empty($this->created) || (!User::isAdmin() && !isCommandLineInterface())){
-                        $fields[] = " now() ";
+                if (is_string($value) && (strtolower($value) == 'created' || strtolower($value) == 'modified')) {                    
+                    if (strtolower($value) == 'created') {
+                        if(empty($this->created) || (!User::isAdmin() && !isCommandLineInterface())){
+                            $fields[] = " now() ";
+                        }else{
+                            $this->created = preg_replace('/[^0-9: \/-]/', '', $this->created);
+                            $formats .= 's';
+                            $values[] = $this->created;
+                            $fields[] = " ? ";
+                        }
                     }else{
-                        $this->created = str_replace('/[^0-9: \/-]/', '', $this->created);
-                        $formats .= 's';
-                        $values[] = $this->created;
-                        $fields[] = " ? ";
+                        $fields[] = " now() ";
                     }
                 } elseif (is_string($value) && strtolower($value) == 'timezone') {
                     if (empty($this->$value)) {
