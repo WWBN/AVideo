@@ -1107,7 +1107,7 @@ class CDNStorage {
         if (empty($file)) {
             return false;
         }
-        return unlink($file);
+        return @unlink($file);
     }
 
     public static function file_get_contents($remote_filename) {
