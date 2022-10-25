@@ -6,6 +6,14 @@
  * if does not pass categories id it will also import categories
  * 
  */
+
+$siteURL = trim(@$argv[1]);
+$APISecret = trim(@$argv[2]);
+$imported_users_id = intval(@$argv[3]);
+$imported_categories_id = intval(@$argv[4]);
+$total_to_import = intval(@$argv[5]);
+$type = trim(@$argv[6]);
+
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -46,16 +54,6 @@ ini_set('max_execution_time', 360000);
 
 $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
 
-$siteURL = trim(@$argv[1]);
-$APISecret = trim(@$argv[2]);
-
-$imported_users_id = intval(@$argv[3]);
-$imported_categories_id = intval(@$argv[4]);
-
-$total_to_import = intval(@$argv[5]);
-
-$type = trim(@$argv[6]);
-
 while (empty($siteURL) || !isValidURL($siteURL)) {
     $siteURL = readline('Enter a valid URL: ');
 }
@@ -73,7 +71,6 @@ if (empty($imported_categories_id)) {
 if (empty($total_to_import)) {
     $total_to_import = (int) readline('How many videos do you want to import? type 0 to import all: ');
 }
-
 
 $rowCount = 50;
 $current = 1;
@@ -318,7 +315,7 @@ while ($hasNewContent) {
                     }
 
                     $video->setStatus(Video::$statusActive);
-                    if (!empty($value->videos->m3u8)) {
+                    if (!empty($value->videos->m3u8) && empty($videos_id)) {
                         $size = getDirSize($path);
                         if ($size < 10000000) {
                             _error_log("importVideo m3u8: {$value->videos->m3u8->url} APIURL = $APIURL ($size) " . humanFileSize($size));
