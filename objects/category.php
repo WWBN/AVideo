@@ -504,6 +504,9 @@ class Category {
         if (empty($categories_id)) {
             return false;
         }
+        if(isCommandLineInterface()){
+            return true;
+        }
         if (empty($users_id)) {
             $users_id = User::getId();
         }
