@@ -295,7 +295,7 @@ while ($hasNewContent) {
                 _error_log("importVideo: Saving video");
                 $id = $video->save(false, true);
                 if ($id) {
-                    _error_log("importVideo: Video saved {$id} categories_id=$categories_id created=$value->created");
+                    _error_log("importVideo: Video saved {$id} categories_id=$categories_id ($value->clean_name) created=$value->created");
                     $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
                     make_path($path);
 
