@@ -274,7 +274,7 @@ while ($hasNewContent) {
                 }
 
                 if (empty($imported_categories_id) || $imported_categories_id < 0) {
-                    $cat = Category::getCategoryByName($value->clean_name);
+                    $cat = Category::getCategoryByName($value->clean_category);
                     $categories_id = $cat['id'];
                 } else {
                     $categories_id = $imported_categories_id;
@@ -295,7 +295,7 @@ while ($hasNewContent) {
                 _error_log("importVideo: Saving video");
                 $id = $video->save(false, true);
                 if ($id) {
-                    _error_log("importVideo: Video saved {$id} categories_id=$categories_id ($value->clean_name) created=$value->created");
+                    _error_log("importVideo: Video saved {$id} categories_id=$categories_id ($value->clean_category) created=$value->created");
                     $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
                     make_path($path);
 
