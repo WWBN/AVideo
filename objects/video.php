@@ -443,8 +443,7 @@ if (!class_exists('Video')) {
 
             if (!empty($this->id)) {
                 if (!$this->userCanManageVideo() && !$allowOfflineUser && !Permissions::canModerateVideos()) {
-                    header('Content-Type: application/json');
-                    die('{"error":"3 ' . __("Permission denied") . '"}');
+                    forbiddenPage('Permission denied');
                 }
 
                 $insert_row = parent::save();
