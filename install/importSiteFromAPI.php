@@ -294,6 +294,7 @@ while ($hasNewContent) {
                 $video->setUsers_id($users_id);
                 $video->setStatus(Video::$statusTranfering);
                 $video->setCategories_id($categories_id);
+                $video->setCreated($value->created);
 
                 _error_log("importVideo: Saving video");
                 $id = $video->save(false, true);
