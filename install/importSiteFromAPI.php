@@ -6,6 +6,14 @@
  * if does not pass categories id it will also import categories
  * 
  */
+
+$siteURL = trim(@$argv[1]);
+$APISecret = trim(@$argv[2]);
+$imported_users_id = intval(@$argv[3]);
+$imported_categories_id = intval(@$argv[4]);
+$total_to_import = intval(@$argv[5]);
+$type = trim(@$argv[6]);
+
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -46,16 +54,6 @@ ini_set('max_execution_time', 360000);
 
 $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
 
-$siteURL = trim(@$argv[1]);
-$APISecret = trim(@$argv[2]);
-
-$imported_users_id = intval(@$argv[3]);
-$imported_categories_id = intval(@$argv[4]);
-
-$total_to_import = intval(@$argv[5]);
-
-$type = trim(@$argv[6]);
-
 while (empty($siteURL) || !isValidURL($siteURL)) {
     $siteURL = readline('Enter a valid URL: ');
 }
@@ -73,7 +71,6 @@ if (empty($imported_categories_id)) {
 if (empty($total_to_import)) {
     $total_to_import = (int) readline('How many videos do you want to import? type 0 to import all: ');
 }
-
 
 $rowCount = 50;
 $current = 1;
@@ -277,7 +274,7 @@ while ($hasNewContent) {
                 }
 
                 if (empty($imported_categories_id) || $imported_categories_id < 0) {
-                    $cat = Category::getCategoryByName($value->clean_name);
+                    $cat = Category::getCategoryByName($value->clean_category);
                     $categories_id = $cat['id'];
                 } else {
                     $categories_id = $imported_categories_id;
@@ -294,12 +291,11 @@ while ($hasNewContent) {
                 $video->setUsers_id($users_id);
                 $video->setStatus(Video::$statusTranfering);
                 $video->setCategories_id($categories_id);
-                $video->setCreated($value->created);
 
                 _error_log("importVideo: Saving video");
                 $id = $video->save(false, true);
                 if ($id) {
-                    _error_log("importVideo: Video saved {$id}");
+                    _error_log("importVideo: Video saved {$id} categories_id=$categories_id ($value->clean_category) created=$value->created");
                     $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
                     make_path($path);
 
@@ -321,14 +317,18 @@ while ($hasNewContent) {
                     if (!empty($value->videos->m3u8)) {
                         $size = getDirSize($path);
                         if ($size < 10000000) {
-                            _error_log("importVideo m3u8: {$value->videos->m3u8->url} APIURL = $APIURL ($size) " . humanFileSize($size));
-                            sendToEncoder($id, $value->videos->m3u8->url);
+                            if(empty($videos_id)){
+                                _error_log("importVideo m3u8: {$value->videos->m3u8->url} APIURL = $APIURL ($size) " . humanFileSize($size));
+                                sendToEncoder($id, $value->videos->m3u8->url);
+                            }
                             $video->setStatus(Video::$statusEncoding);
                         } else {
                             _error_log("importVideo m3u8 NOT SEND: ($size) " . humanFileSize($size));
                         }
                     }
-                    $total_imported++;
+                    if(empty($videos_id)){
+                        $total_imported++;
+                    }
                     if (!empty($total_to_import) && $total_to_import > 0 && $total_imported >= $total_to_import) {
                         _error_log("importVideo completed: total_imported=$total_imported >= total_to_import=$total_to_import ");
                         $hasNewContent = false;

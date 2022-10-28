@@ -36,9 +36,14 @@ if ($res != false) {
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
             if (empty($last)) {
+                echo "videos_id = {$row['id']} empty local files {$row['status']} ". PHP_EOL;
                 continue;
             }
             if ($last['acumulativeFilesize']<10000) {
+                echo "videos_id = {$row['id']} too small size status={$row['status']} {$last['acumulativeFilesize']} ". humanFileSize($last['acumulativeFilesize']). PHP_EOL;
+                if($last['acumulativeFilesize']<50){
+                   CDNStorage::deleteLog($row['id']); 
+                }
                 //echo "SKIP videos_id = {$row['id']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
             } else {
                 if (CDNStorage::isMoving($row['id'])) {

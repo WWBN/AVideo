@@ -443,8 +443,7 @@ if (!class_exists('Video')) {
 
             if (!empty($this->id)) {
                 if (!$this->userCanManageVideo() && !$allowOfflineUser && !Permissions::canModerateVideos()) {
-                    header('Content-Type: application/json');
-                    die('{"error":"3 ' . __("Permission denied") . '"}');
+                    forbiddenPage('Permission denied');
                 }
 
                 $insert_row = parent::save();
@@ -5281,7 +5280,7 @@ if (!class_exists('Video')) {
             return $btnHTML;
         }
 
-        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false, $preloadImage = false) {
+        static function getVideoImagewithHoverAnimationFromVideosId($videos_id, $addThumbOverlay = true, $addLink = true, $galeryDetails = false, $preloadImage = false, $doNotUseAnimatedGif = false) {
             if (empty($videos_id)) {
                 return '';
             }
@@ -5297,7 +5296,7 @@ if (!class_exists('Video')) {
                 $images = object_to_array($video['images']);
             }
             //var_dump($videos_id, $video, $images);
-            $img = getVideoImagewithHoverAnimation($images['poster'], $images['thumbsGif'], $video['title'], $preloadImage);
+            $img = getVideoImagewithHoverAnimation($images['poster'], $images['thumbsGif'], $video['title'], $preloadImage, $doNotUseAnimatedGif);
             $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
             $isserie = Video::isSerie($videos_id);
             $isserieClass = "";

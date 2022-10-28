@@ -80,7 +80,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             <div class="row thumbsImage">
                                 <div class="<?php echo $colClass1; ?>">
                                     <?php
-                                    echo Video::getVideoImagewithHoverAnimationFromVideosId($videoRow, true, true, false, true);
+                                    echo Video::getVideoImagewithHoverAnimationFromVideosId($videoRow, true, true, false, true, empty($obj->GifOnBigVideo));
                                     ?>
                                     <?php
                                     if (!empty($program) && $videoRow['type'] == 'serie' && !empty($videoRow['serie_playlists_id'])) {
