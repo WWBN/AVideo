@@ -3,6 +3,7 @@
 //header("Content-Type: application/rss+xml; charset=UTF8");
 
 
+$global['ignoreUserMustBeLoggedIn'] = 1;
 require_once '../videos/configuration.php';
 require_once '../objects/video.php';
 $global['ignoreUserMustBeLoggedIn'] = 1;
