@@ -1059,7 +1059,7 @@ class AVideoPlugin
             $__getDynamicUserGroupsId = array();
         }
 
-        if(!isset($__getDynamicUserGroupsId[$users_id])){
+        if(isset($__getDynamicUserGroupsId[$users_id])){
             return $__getDynamicUserGroupsId[$users_id];
         }
         $plugins = Plugin::getAllEnabled();
