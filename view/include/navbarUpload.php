@@ -11,10 +11,12 @@
             <ul class="dropdown-menu dropdown-menu-right dropdown-menu-arrow " role="menu" id="uploadMenu">
                 <?php
                 include $global['systemRootPath'] . 'view/include/navbarEncoder.php';
-                if (empty($advancedCustom->doNotShowUploadMP4Button)) {
+                //var_dump(CustomizeAdvanced::showDirectUploadButton());exit;
+                if (CustomizeAdvanced::showDirectUploadButton()) {
                     ?>
                     <li>
-                        <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'mvideos?upload=1');return false;" data-toggle="tooltip" title="<?php echo __("Upload files without encode"); ?>" 
+                        <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'mvideos?upload=1');return false;" data-toggle="tooltip" 
+                           title="<?php echo __("Upload files without encode"), ' ', implode(', ',CustomizeAdvanced::directUploadFiletypes()); ?>" 
                            data-placement="left" class="faa-parent animated-hover" >
                             <span class="fas fa-upload faa-bounce"></span> <?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?>
                         </a>

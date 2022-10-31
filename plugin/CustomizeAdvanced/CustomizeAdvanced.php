@@ -42,6 +42,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->uploadButtonDropdownText = "";
         $obj->encoderNetworkLabel = "";
         $obj->doNotShowUploadMP4Button = true;
+        self::addDataObjectHelper('doNotShowUploadMP4Button', 'Disable direct upload', __('Users will not be able to directly upload, only use the encoder'));
         $obj->disablePDFUpload = false;
         $obj->disableImageUpload = false;
         $obj->disableZipUpload = true;
@@ -310,6 +311,48 @@ Allow: .css";
         
         return $obj;
     }
+    
+    static function showDirectUploadButton(){
+        global $_showDirectUploadButton;        
+        if(!isset($_showDirectUploadButton)){        
+            $obj = AVideoPlugin::getDataObject('CustomizeAdvanced');
+            if(empty($obj->doNotShowUploadMP4Button)){
+                if(!empty(self::directUploadFiletypes())){
+                    $_showDirectUploadButton = true;
+                }else{
+                    $_showDirectUploadButton = false;
+                }
+            }else{               
+                $_showDirectUploadButton = false;
+            }
+        }
+        return $_showDirectUploadButton;
+    }
+    
+    static function directUploadFiletypes(){
+        global $_directUploadFiletypes;        
+        if(!isset($_directUploadFiletypes)){  
+            $_directUploadFiletypes = array();
+            $obj = AVideoPlugin::getDataObject('CustomizeAdvanced');
+            if(empty($obj->disablePDFUpload)){
+                $_directUploadFiletypes[] = 'pdf';
+            }
+            if(empty($obj->disableImageUpload)){
+                $_directUploadFiletypes[] = 'images';
+            }
+            if(empty($obj->disableZipUpload)){
+                $_directUploadFiletypes[] = 'zip';
+            }
+            if(empty($obj->disableMP4Upload)){
+                $_directUploadFiletypes[] = 'mp4';
+            }
+            if(empty($obj->disableMP3Upload)){
+                $_directUploadFiletypes[] = 'mp3';
+            }
+        }
+        return $_directUploadFiletypes;
+    }
+    
     
     public function navBar() {
         $obj = $this->getDataObject();

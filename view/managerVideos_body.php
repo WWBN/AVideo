@@ -144,9 +144,10 @@ if (!empty($_GET['iframe'])) {
                             </a>
                             <?php
                         }
-                        if (empty($advancedCustom->doNotShowUploadMP4Button)) {
+                        if (CustomizeAdvanced::showDirectUploadButton()) {
                             ?>
-                            <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4">
+                            <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4"  data-toggle="tooltip" 
+                            title="<?php echo __("Upload files without encode"), ' ', implode(', ',CustomizeAdvanced::directUploadFiletypes()); ?>" >
                                 <span class="fa fa-upload"></span>
                                 <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></span>
                             </button>

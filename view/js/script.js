@@ -3278,6 +3278,79 @@ function notifyInputIfIsOutOfBounds(selector, min_length, max_length) {
     parent.append(feedback + '<small class="help-block">' + icon + ' ' + text.length + ' characters of ' + min_length + '-' + max_length + ' recommended</small>');
 }
 
+function passStrengthCheck(selector) {
+    var minLen = 6;
+    var pass = $(selector).val();
+
+    var strength = 0;
+    var strengthMsg = [];
+    if (pass.length > minLen) {
+        strength++;
+    } else {
+        strengthMsg.push('Min length ' + minLen);
+    }
+    if (/[a-z]+/.test(pass)) {
+        strength++;
+    } else {
+        strengthMsg.push('Lower case letters');
+    }
+    if (/[A-Z]+/.test(pass)) {
+        strength++;
+    } else {
+        strengthMsg.push('Upper case letters');
+    }
+    if (/[0-9]+/.test(pass)) {
+        strength++;
+    } else {
+        strengthMsg.push('Numbers');
+    }
+    if (/[^a-z0-9]+/i.test(pass)) {
+        strength++;
+    } else {
+        strengthMsg.push('Special chars');
+    }
+    return {strength: strength, strengthMsg: strengthMsg};
+}
+
+function passStrengthCheckInput(selector) {
+    var strengthCheck = passStrengthCheck(selector);
+    var msg = strengthCheck.strengthMsg;
+    var parent = $(selector).parent();
+    parent.removeClass('has-error');
+    parent.removeClass('has-warning');
+    parent.removeClass('has-success');
+    avideoTooltip(selector, '');
+    var pass = $(selector).val();
+    if (empty(pass)) {
+        return false;
+    }
+    switch (strengthCheck.strength) {
+        case 0:
+        case 1:
+        case 2:
+            parent.addClass('has-error');
+            break;
+        case 3:
+        case 4:
+            parent.addClass('has-warning');
+            break;
+        case 5:
+            parent.addClass('has-success');
+            break;
+    }
+    if (!empty(msg)) {
+        var text = msg.join(', ');
+        avideoTooltip(selector, 'Strength: ' + text);
+    }
+    return true;
+}
+
+function passStrengthCheckInputKeyUp(selector) {
+    $(selector).keyup(function () {
+        passStrengthCheckInput('#' + $(this).attr('id'));
+    });
+}
+
 function setupFormElement(selector, min_length, max_length, force_length, isRequired) {
     $(selector).attr('min_length', min_length);
     $(selector).attr('max_length', max_length);
