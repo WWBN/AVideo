@@ -916,11 +916,18 @@ if (typeof gtag !== \"function\") {
         global $global;
         if (!empty($this->id)) {
             
-            $sql = "DELETE FROM live_transmitions WHERE users_id = ?";
-            try {
-                sqlDAL::writeSql($sql, "i", [$this->id]);
-            } catch (Exception $exc) {
-                
+            $arrayTables = array(
+                'live_transmitions',
+                'users_login_history',
+            );
+            
+            foreach ($arrayTables as $value) {
+                $sql = "DELETE FROM {$value} WHERE users_id = ?";
+                try {
+                    sqlDAL::writeSql($sql, "i", [$this->id]);
+                } catch (Exception $exc) {
+
+                }
             }
 
             $sql = "DELETE FROM users WHERE id = ?";
