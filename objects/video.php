@@ -2282,16 +2282,19 @@ if (!class_exists('Video')) {
             }
             if (empty($advancedCustom->disableHTMLDescription)) {
                 $articleObj = AVideoPlugin::getObjectData('Articles');
-                $configPuri = HTMLPurifier_Config::createDefault();
-                $configPuri->set('Cache.SerializerPath', getCacheDir());
-                $purifier = new HTMLPurifier($configPuri);
-                if (empty($articleObj->allowAttributes)) {
-                    $configPuri->set('HTML.AllowedAttributes', ['a.href', 'a.target', 'a.title', 'a.title', 'img.src', 'img.width', 'img.height', 'span.style']); // remove all attributes except a.href
-                    $configPuri->set('Attr.AllowedFrameTargets', ['_blank']);
-                    $configPuri->set('CSS.AllowedProperties', []); // remove all CSS
+                if(empty($articleObj->allowAllTags)){
+                    $configPuri = HTMLPurifier_Config::createDefault();
+                    $configPuri->set('Cache.SerializerPath', getCacheDir());
+                    $purifier = new HTMLPurifier($configPuri);
+                    if (empty($articleObj->allowAttributes)) {
+                        $configPuri->set('HTML.AllowedAttributes', ['a.href', 'a.target', 'a.title', 'a.title', 'img.src', 'img.width', 'img.height', 'span.style']); // remove all attributes except a.href
+                        $configPuri->set('Attr.AllowedFrameTargets', ['_blank']);
+                        $configPuri->set('CSS.AllowedProperties', []); // remove all CSS
+                    }
+                    $configPuri->set('AutoFormat.RemoveEmpty', true); // remove empty elements
+                    $pure = $purifier->purify($description);
                 }
-                $configPuri->set('AutoFormat.RemoveEmpty', true); // remove empty elements
-                $pure = $purifier->purify($description);
+                
                 $parts = explode("<body>", $pure);
                 if (!empty($parts[1])) {
                     $parts = explode("</body>", $parts[1]);
