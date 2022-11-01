@@ -34,7 +34,7 @@ if(empty($rows[$userGroup])){
 
 if (!empty($userGroup)) {
     
-    $videos = Video::getAllVideosLight('');
+    $videos = Video::getAllVideosLight('', false, true);
     
     foreach ($videos as $value) {
         if($remove){
