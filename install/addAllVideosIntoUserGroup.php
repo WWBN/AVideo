@@ -12,17 +12,17 @@ if(empty($rows)){
     die('You do not have any user group');
 }
 
-foreach ($rows as $key => $value) {
-    echo "[$key] {$value}".PHP_EOL;
-}
-$_REQUEST['rowCount'] = 999999;
-
-
 echo "Do you want to remove instead of add the video into the usergroup? (yes/no)".PHP_EOL;
 ob_flush();
 $remove = trim(readline(""));
 
 $remove = strtolower($remove) == 'yes';
+
+foreach ($rows as $key => $value) {
+    echo "[$key] {$value}".PHP_EOL;
+}
+$_REQUEST['rowCount'] = 999999;
+
 
 echo "Enter the user group number or press enter to skip:".PHP_EOL;
 ob_flush();
