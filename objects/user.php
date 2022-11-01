@@ -919,6 +919,7 @@ if (typeof gtag !== \"function\") {
             $arrayTables = array(
                 'live_transmitions',
                 'users_login_history',
+                'audit',
             );
             
             foreach ($arrayTables as $value) {
