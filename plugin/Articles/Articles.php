@@ -33,6 +33,7 @@ class Articles extends PluginAbstract {
         $obj = new stdClass();
         $obj->allowAttributes = false;
         $obj->allowCSS = false;
+        $obj->allowAllTags = false;
         return $obj;
     }
 
