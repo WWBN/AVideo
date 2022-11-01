@@ -21,8 +21,8 @@ $remove = strtolower($remove) == 'yes';
 foreach ($rows as $key => $value) {
     echo "[$key] {$value}".PHP_EOL;
 }
-$_REQUEST['rowCount'] = 999999;
 
+$global['limitForUnlimitedVideos'] = $global['rowCount'] = $_REQUEST['rowCount'] = 999999;
 
 echo "Enter the user group number or press enter to skip:".PHP_EOL;
 ob_flush();
@@ -39,15 +39,15 @@ if (!empty($userGroup)) {
     foreach ($videos as $value) {
         if($remove){
             if(UserGroups::deleteVideoGroups($value['id'], $userGroup)){
-                echo "Success: removed video [{$value['id']}] {$value['title']} :". json_encode($addToUG).PHP_EOL;
+                echo "Success: removed video [{$value['id']}] {$value['title']} :".PHP_EOL;
             }else{
-                echo "**ERROR: removing video [{$value['id']}] {$value['title']} :". json_encode($addToUG).PHP_EOL;
+                echo "**ERROR: removing video [{$value['id']}] {$value['title']} :".PHP_EOL;
             }
         }else{
             if(UserGroups::updateVideoGroups($value['id'], $userGroup, true)){
-                echo "Success: saved video [{$value['id']}] {$value['title']} :". json_encode($addToUG).PHP_EOL;
+                echo "Success: saved video [{$value['id']}] {$value['title']} :".PHP_EOL;
             }else{
-                echo "**ERROR: saving video [{$value['id']}] {$value['title']} :". json_encode($addToUG).PHP_EOL;
+                echo "**ERROR: saving video [{$value['id']}] {$value['title']} :".PHP_EOL;
             }
         }
     }
