@@ -2293,6 +2293,8 @@ if (!class_exists('Video')) {
                     }
                     $configPuri->set('AutoFormat.RemoveEmpty', true); // remove empty elements
                     $pure = $purifier->purify($description);
+                }else{
+                    $pure = trim($description);
                 }
                 
                 $parts = explode("<body>", $pure);
