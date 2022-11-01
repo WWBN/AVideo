@@ -379,7 +379,7 @@ class UserGroups{
     public static function deleteVideoGroups($videos_id, $users_groups_id)
     {
         global $_getVideosAndCategoriesUserGroups;
-        if (!Video::canEdit($videos_id)) {
+        if (!Video::canEdit($videos_id) && !isCommandLineInterface()) {
             return false;
         }
 
