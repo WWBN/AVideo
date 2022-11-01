@@ -65,6 +65,8 @@ if (!class_exists('Video')) {
         protected $users_id_company;
         protected $created;
         protected $epg_link;
+        protected $publish_datetime;
+        protected $notification_datetime;
         public static $statusDesc = [
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -126,6 +128,22 @@ if (!class_exists('Video')) {
             }
         }
 
+        public function getPublish_datetime() {
+            return $this->publish_datetime;
+        }
+
+        public function getNotification_datetime() {
+            return $this->notification_datetime;
+        }
+
+        public function setPublish_datetime($publish_datetime): void {
+            $this->publish_datetime = $publish_datetime;
+        }
+
+        public function setNotification_datetime($notification_datetime): void {
+            $this->notification_datetime = $notification_datetime;
+        }
+        
         public function getCreated() {
             return $this->created;
         }
@@ -433,6 +451,12 @@ if (!class_exists('Video')) {
 
             if (empty($this->live_transmitions_history_id)) {
                 $this->live_transmitions_history_id = 'NULL';
+            }
+            if (empty($this->publish_datetime)) {
+                $this->publish_datetime = 'NULL';
+            }
+            if (empty($this->notification_datetime)) {
+                $this->notification_datetime = 'NULL';
             }
 
             $this->duration = self::getCleanDuration($this->duration);
