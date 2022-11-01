@@ -920,6 +920,7 @@ if (typeof gtag !== \"function\") {
                 'live_transmitions',
                 'users_login_history',
                 'audit',
+                'ppvlive_purchases',
             );
             
             foreach ($arrayTables as $value) {
