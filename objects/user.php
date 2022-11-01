@@ -921,6 +921,7 @@ if (typeof gtag !== \"function\") {
                 'users_login_history',
                 'audit',
                 'ppvlive_purchases',
+                'wallet_log',
                 'wallet',
             );
             
