@@ -1676,7 +1676,7 @@ function getImageFormat($file) {
             }
         }
     }
-    
+
     return array('format' => $format, 'extension' => $extension);
 }
 
@@ -2242,13 +2242,13 @@ function make_path($path) {
     } else {
         $created = true;
     }
-    
+
     if (preg_match('/cache/i', $path) || isCommandLineInterface()) {
         $mode = 0777;
     } else {
         $mode = 0755;
     }
-    chmod ($path, $mode);
+    chmod($path, $mode);
     return $created;
 }
 
@@ -6736,9 +6736,9 @@ function setToastMessage($msg) {
 
 function showAlertMessage() {
     $check = ['error', 'msg', 'success', 'toast'];
-    
+
     $newAlerts = array();
-    
+
     if (!empty($_SESSION['YPTalertMessage'])) {
         foreach ($check as $value) {
             $newAlerts[$value] = array();
@@ -7178,25 +7178,27 @@ function saveCroppieImage($destination, $postIndex = "imgBase64") {
 
 function get_ffmpeg($ignoreGPU = false) {
     global $global;
-    $complement = ' -user_agent "'.getSelfUserAgent().'" ';
+    $complement = ' -user_agent "' . getSelfUserAgent() . '" ';
     //return 'ffmpeg -headers "User-Agent: '.getSelfUserAgent("FFMPEG").'" ';
     $ffmpeg = 'ffmpeg ';
     if (empty($ignoreGPU) && !empty($global['ffmpegGPU'])) {
         $ffmpeg .= ' --enable-nvenc ';
     }
     if (!empty($global['ffmpeg'])) {
+        _error_log('get_ffmpeg $global[ffmpeg] detected ' . $global['ffmpeg']);
         $ffmpeg = "{$global['ffmpeg']}{$ffmpeg}";
+    } else {
+        _error_log('get_ffmpeg default ' . $ffmpeg . $complement);
     }
     return $ffmpeg . $complement;
 }
 
-function removeUserAgentIfNotURL($cmd){
-    if(!preg_match('/ -i "?https?:/', $cmd)){
+function removeUserAgentIfNotURL($cmd) {
+    if (!preg_match('/ -i "?https?:/', $cmd)) {
         $cmd = preg_replace('/-user_agent "[^"]+"/', '', $cmd);
-    }    
+    }
     return $cmd;
 }
-
 
 function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0) {
 
@@ -8258,7 +8260,7 @@ function listAllWordsToTranslate() {
         if ($handle = opendir($dir)) {
             while (false !== ($entry = readdir($handle))) {
                 if ($entry !== '.' && $entry !== '..') {
-                    $filename = ($dir) .DIRECTORY_SEPARATOR. $entry;
+                    $filename = ($dir) . DIRECTORY_SEPARATOR . $entry;
                     if (is_dir($filename)) {
                         $vars = listAll($filename);
                     } elseif (preg_match("/\.php$/", $entry)) {
@@ -8282,12 +8284,12 @@ function listAllWordsToTranslate() {
         return $vars;
     }
 
-    $vars1 = listAll($global['systemRootPath'].'plugins');
-    $vars2 = listAll($global['systemRootPath'].'view');
-    $vars3 = listAll($global['systemRootPath'].'objects');
-    
+    $vars1 = listAll($global['systemRootPath'] . 'plugins');
+    $vars2 = listAll($global['systemRootPath'] . 'view');
+    $vars3 = listAll($global['systemRootPath'] . 'objects');
+
     $vars = array_merge($vars1, $vars2, $vars3);
-    
+
     sort($vars);
     ObjectYPT::setCache($cacheName, $vars);
     return $vars;
@@ -9239,6 +9241,7 @@ function _ob_end_clean() {
       }
      */
 }
+
 function _ob_clean() {
     @ob_clean();
     header_remove("Content-Encoding");
