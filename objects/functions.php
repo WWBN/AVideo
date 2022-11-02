@@ -7194,7 +7194,7 @@ function get_ffmpeg($ignoreGPU = false) {
 }
 
 function removeUserAgentIfNotURL($cmd) {
-    if (!preg_match('/ -i "?https?:/', $cmd)) {
+    if (!preg_match('/ -i [\'"]?https?:/', $cmd)) {
         $cmd = preg_replace('/-user_agent "[^"]+"/', '', $cmd);
     }
     return $cmd;
