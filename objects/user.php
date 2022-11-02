@@ -917,7 +917,6 @@ if (typeof gtag !== \"function\") {
         if (!empty($this->id)) {
             
             $arrayTables = array(
-                'live_transmition_history_log',
                 'live_transmitions',
                 'users_login_history',
                 'audit',
