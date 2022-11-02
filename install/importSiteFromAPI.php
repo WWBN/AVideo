@@ -124,7 +124,6 @@ if ($type !== 'm3u8') {
                             _error_log("importCategory: saved {$id}");
                         } else {
                             _error_log("importCategory: ERROR NOT saved");
-                            $video->setStatus(Video::$statusBrokenMissingFiles);
                         }
                         //exit;
                     }
@@ -289,14 +288,26 @@ while ($hasNewContent) {
                 $video->setDuration_in_seconds($value->duration_in_seconds);
                 $video->setDescription($value->description);
                 $video->setUsers_id($users_id);
-                $video->setStatus(Video::$statusTranfering);
                 $video->setCategories_id($categories_id);
+                
+                $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
+                $size = getDirSize($path);
+                if ($size < 10000000) {
+                    if(empty($videos_id)){
+                        $video->setStatus(Video::$statusTranfering);
+                        _error_log("importVideo status: transfering ($size) " . humanFileSize($size));
+                    }else{
+                        _error_log("importVideo status: else ($size) " . humanFileSize($size));
+                    }
+                }
+                if(empty($videos_id)){
+                    $video->setStatus(Video::$statusTranfering);
+                }
 
                 _error_log("importVideo: Saving video");
                 $id = $video->save(false, true);
                 if ($id) {
                     _error_log("importVideo: Video saved {$id} categories_id=$categories_id ($value->clean_category) created=$value->created");
-                    $path = getVideosDir() . $value->filename . DIRECTORY_SEPARATOR;
                     make_path($path);
 
                     // download images
@@ -315,13 +326,15 @@ while ($hasNewContent) {
 
                     $video->setStatus(Video::$statusActive);
                     if (!empty($value->videos->m3u8)) {
-                        $size = getDirSize($path);
                         if ($size < 10000000) {
                             if(empty($videos_id)){
                                 _error_log("importVideo m3u8: {$value->videos->m3u8->url} APIURL = $APIURL ($size) " . humanFileSize($size));
                                 sendToEncoder($id, $value->videos->m3u8->url);
                             }
-                            $video->setStatus(Video::$statusEncoding);
+                            
+                            if(empty($videos_id)){
+                                $video->setStatus(Video::$statusEncoding);
+                            }
                         } else {
                             _error_log("importVideo m3u8 NOT SEND: ($size) " . humanFileSize($size));
                         }
