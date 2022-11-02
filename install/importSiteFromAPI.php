@@ -297,6 +297,9 @@ while ($hasNewContent) {
                         $video->setStatus(Video::$statusTranfering);
                         _error_log("importVideo status: transfering ($size) " . humanFileSize($size));
                     }else{
+                        if ($size > 1000000) {
+                            $video->setStatus(Video::$statusActive);
+                        }
                         _error_log("importVideo status: else ($size) " . humanFileSize($size));
                     }
                 }
