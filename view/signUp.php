@@ -163,7 +163,7 @@ $siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'success', _($advan
                                         if (empty($advancedCustomUser->disableCompanySignUp)) {
                                             $extra_info_fields = Users_extra_info::getAllActive(0, true);
                                             echo '<!-- Show CompanySignUp -->';
-                                            echo '<input id="is_company" name="is_company" type="hidden" value="' . User::$is_company_status_WAITINGAPPROVAL . '" >';
+                                            echo '<input id="is_company" name="is_company" type="hidden" value="0" >';
                                         } else {
                                             $extra_info_fields = Users_extra_info::getAllActive();
                                             echo '<!-- DO NOT Show CompanySignUp -->';
