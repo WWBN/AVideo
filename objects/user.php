@@ -918,6 +918,7 @@ if (typeof gtag !== \"function\") {
             
             $arrayTables = array(
                 'live_transmitions',
+                'live_transmition_history_log',
                 'users_login_history',
                 'audit',
                 'ppvlive_purchases',
