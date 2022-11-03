@@ -509,7 +509,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             $command = "{$ffmpegBinary} -re -rw_timeout 15000000 -y -i \"{$m3u8}\" -max_muxing_queue_size 1024 "
             . "-c:a copy -ac 1 -ar 44100 -b:a 128k "
             . "-vcodec libx264 -pix_fmt yuv420p "
-            . "-vf scale=1080:-1 -r '.$global_fps.' -g 60 -tune zerolatency -f flv -maxrate '.$global_maxbitrate.'k -preset veryfast -f flv \"{$restreamsDestinations[0]}\"";
+            . "-vf scale=1080:-1 -r {$global_fps} -g 60 -tune zerolatency -f flv -maxrate {$global_maxbitrate}k -preset veryfast -f flv \"{$restreamsDestinations[0]}\"";
         }
     }
     if (empty($command) || !preg_match("/-f flv/i", $command)) {
