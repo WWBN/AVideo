@@ -500,8 +500,9 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
                     . '-c:a copy -ac 1 -ar 44100 -b:a 128k '
                     . '-vcodec libx264 '
                     . '-pix_fmt yuv420p '
-                    . '-vf scale=1080:-1 -r '.$global_fps.' -g 60 '
-                    //. '-tune zerolatency '
+                    . '-vf scale=-1:1080 '
+                    . '-r '.$global_fps.' -g 60 '
+                    . '-tune zerolatency '
                     . '-f flv -maxrate '.$global_maxbitrate.'k -preset veryfast -f flv "' . $value . '" ';
         }
     } else {
@@ -513,8 +514,9 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             . "-c:a copy -ac 1 -ar 44100 -b:a 128k "
             . "-vcodec libx264 "
             . "-pix_fmt yuv420p "
-            . "-vf scale=1080:-1 -r {$global_fps} -g 60 "
-            //. "-tune zerolatency "
+            . "-vf scale=-1:1080 "
+            . "-r {$global_fps} -g 60 "
+            . "-tune zerolatency "
             . "-f flv -maxrate {$global_maxbitrate}k -preset veryfast -f flv \"{$restreamsDestinations[0]}\"";
         }
     }
