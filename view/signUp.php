@@ -278,7 +278,7 @@ $siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'success', _($advan
                     }
 
                     // Password doesn't match
-                    if (!pass1.match(/[0-9a-z]+/i)) {
+                    if (!$('#inputPassword').val().match(/[0-9a-z]+/i)) {
                         $('#inputPassword').closest('.input-group').addClass(errorClass);
                         avideoAlertError("<?php echo __("Your password cannot be blank"); ?>");
                         return false;
