@@ -92,7 +92,6 @@ class CustomizeUser extends PluginAbstract {
         $obj->disableNativeSignIn = !isset($advancedCustom->disableNativeSignIn) ? false : $advancedCustom->disableNativeSignIn;
         $obj->disablePersonalInfo = !isset($advancedCustom->disablePersonalInfo) ? true : $advancedCustom->disablePersonalInfo;
 
-
         $o = new stdClass();
         $o->type = [0 => '-- ' . __("None"), 1 => '-- ' . __("Random")] + self::getBGAnimationArray();
         $o->value = 1;
@@ -106,12 +105,12 @@ class CustomizeUser extends PluginAbstract {
 
         $obj->forceLoginToBeTheEmail = false;
         $obj->emailMustBeUnique = false;
-        
+
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "";
         $obj->messageReplaceWelcomeBackLoginBox = $o;
-        
+
         // added on 2019-02-11
         $o = new stdClass();
         $o->type = "textarea";
@@ -140,7 +139,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->afterLogoffGoToURL = "";
         $obj->afterSignUpGoToURL = "";
         $obj->signupWelcomeAlert = "You are welcome and an even bigger thank you for registering";
-        
+
         $obj->allowDonationLink = false;
         $obj->donationButtonLabel = __('Donation');
         $obj->allowWalletDirectTransferDonation = false;
@@ -175,15 +174,15 @@ class CustomizeUser extends PluginAbstract {
 
         return $obj;
     }
-    
-    static function getCallerButton($users_id, $class=''){
+
+    static function getCallerButton($users_id, $class = '') {
         global $global;
         $users_id = intval($users_id);
-        $varsArray = array('users_id' => $users_id, 'class'=>$class);
+        $varsArray = array('users_id' => $users_id, 'class' => $class);
         $filePath = $global['systemRootPath'] . 'plugin/CustomizeUser/View/channelCall.php';
         return getIncludeFileContent($filePath, $varsArray);
     }
-    
+
     public static function isChannelCallEnabled() {
         $obj = AVideoPlugin::getDataObjectIfEnabled('CustomizeUser');
         if (!empty($obj->enableChannelCalls)) {
@@ -347,7 +346,7 @@ class CustomizeUser extends PluginAbstract {
         $isMyChannel = true;
         return self::getChannelButton();
     }
-    
+
     public static function canDownloadVideosFromVideo($videos_id) {
         global $_lastCanDownloadVideosFromVideoReason;
         $_lastCanDownloadVideosFromVideoReason = '';
@@ -357,7 +356,7 @@ class CustomizeUser extends PluginAbstract {
         }
         $video = new Video("", "", $videos_id);
         if (empty($video)) {
-            $_lastCanDownloadVideosFromVideoReason = 'Empty video for video id '.$videos_id;
+            $_lastCanDownloadVideosFromVideoReason = 'Empty video for video id ' . $videos_id;
             return false;
         }
         $users_id = $video->getUsers_id();
@@ -434,30 +433,37 @@ class CustomizeUser extends PluginAbstract {
         if (empty($videos_id)) {
             return false;
         }
-        $cansee = User::canWatchVideoWithAds($videos_id);
-        $obj = $this->getDataObject();
-        if (!$cansee) {
-            $resp = Video::canVideoBePurchased($videos_id);
-            if (!empty($resp) && $resp->canVideoBePurchased && isValidURL($resp->buyURL)) {
-                header("Location: {$resp->buyURL}");
-                exit;
-            } else {
-                forbiddenPage(__("Sorry, this video is private"));
-            }
-            /*
-              if (!AVideoPlugin::isEnabled('Gallery') && !AVideoPlugin::isEnabled('YouPHPFlix2') && !AVideoPlugin::isEnabled('YouTube')) {
-              header("Location: {$global['webSiteRootURL']}user?msg=" . urlencode(__("Sorry, this video is private")));
-              } else {
-              header("Location: {$global['webSiteRootURL']}?msg=" . urlencode(__("Sorry, this video is private")));
-              }
-              exit;
-             *
-             */
-        } elseif ($obj->userCanProtectVideosWithPassword) {
-            if (!$this->videoPasswordIsGood($videos_id)) {
-                $video = Video::getVideoLight($videos_id);
-                include "{$global['systemRootPath']}plugin/CustomizeUser/confirmVideoPassword.php";
-                exit;
+
+        $svd = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
+        if (!empty($svd) && $this->isWhiteListed()) {
+            _error_log("CustomizeUser::getModeYouTube this video is embed and whitelisted, we will by pass the security check");
+            return true;
+        } else {
+            $cansee = User::canWatchVideoWithAds($videos_id);
+            $obj = $this->getDataObject();
+            if (!$cansee) {
+                $resp = Video::canVideoBePurchased($videos_id);
+                if (!empty($resp) && $resp->canVideoBePurchased && isValidURL($resp->buyURL)) {
+                    header("Location: {$resp->buyURL}");
+                    exit;
+                } else {
+                    forbiddenPage(__("Sorry, this video is private"));
+                }
+                /*
+                  if (!AVideoPlugin::isEnabled('Gallery') && !AVideoPlugin::isEnabled('YouPHPFlix2') && !AVideoPlugin::isEnabled('YouTube')) {
+                  header("Location: {$global['webSiteRootURL']}user?msg=" . urlencode(__("Sorry, this video is private")));
+                  } else {
+                  header("Location: {$global['webSiteRootURL']}?msg=" . urlencode(__("Sorry, this video is private")));
+                  }
+                  exit;
+                 *
+                 */
+            } elseif ($obj->userCanProtectVideosWithPassword) {
+                if (!$this->videoPasswordIsGood($videos_id)) {
+                    $video = Video::getVideoLight($videos_id);
+                    include "{$global['systemRootPath']}plugin/CustomizeUser/confirmVideoPassword.php";
+                    exit;
+                }
             }
         }
     }
@@ -508,7 +514,7 @@ class CustomizeUser extends PluginAbstract {
         $filePath = $global['systemRootPath'] . 'plugin/CustomizeUser/pluginMenu.php';
         return getIncludeFileContent($filePath);
     }
-    
+
     public function getVideosManagerListButton() {
         global $global;
         $filePath = $global['systemRootPath'] . 'plugin/CustomizeUser/videosManagerListButton.php';
@@ -528,33 +534,33 @@ class CustomizeUser extends PluginAbstract {
         if ($obj->enableAffiliation) {
             $notifications = self::getAffiliationNotifications();
             $totalNotifications = count($notifications);
-            
-            if(!empty($totalNotifications)){
-                $totalNotifications = '<span class="badge badge-danger">'.count($notifications).'</span>';
-            }else{
+
+            if (!empty($totalNotifications)) {
+                $totalNotifications = '<span class="badge badge-danger">' . count($notifications) . '</span>';
+            } else {
                 $totalNotifications = '';
             }
-            
-            $btn .= '<li><a data-toggle="tab" href="#tabAffiliation">' . __('Affiliations') . ' '.$totalNotifications.'</a></li>';
+
+            $btn .= '<li><a data-toggle="tab" href="#tabAffiliation">' . __('Affiliations') . ' ' . $totalNotifications . '</a></li>';
         }
-        $btn .= '<li><a onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/CustomizeUser/confirmDeleteUser.php?users_id='.$users_id.'\');return false;" style="cursor: pointer;"><i class="fas fa-trash"></i> ' . __('Delete my account') . '</a></li>';
+        $btn .= '<li><a onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/CustomizeUser/confirmDeleteUser.php?users_id=' . $users_id . '\');return false;" style="cursor: pointer;"><i class="fas fa-trash"></i> ' . __('Delete my account') . '</a></li>';
         return $btn;
     }
-    
-    public static function showExtraInfo(){
+
+    public static function showExtraInfo() {
         global $_showExtraInfo;
-        if(!isset($_showExtraInfo)){
+        if (!isset($_showExtraInfo)) {
             $p = AVideoPlugin::loadPlugin("CustomizeUser");
             $obj = $p->getDataObject();
             $_showExtraInfo = false;
-            if($obj->enableExtraInfo){
+            if ($obj->enableExtraInfo) {
                 $_showExtraInfo = true;
             }
-            if(!$_showExtraInfo && !$obj->disableCompanySignUp){
+            if (!$_showExtraInfo && !$obj->disableCompanySignUp) {
                 $rows = Users_extra_info::getAll();
                 $_showExtraInfo = !empty($rows);
             }
-            if(!$_showExtraInfo && $obj->enableAffiliation){
+            if (!$_showExtraInfo && $obj->enableAffiliation) {
                 $_showExtraInfo = true;
             }
         }
@@ -576,7 +582,7 @@ class CustomizeUser extends PluginAbstract {
         }
 
         if ($obj->enableAffiliation) {
-            $tabId = 'tabAffiliation' ;
+            $tabId = 'tabAffiliation';
             include $global['systemRootPath'] . 'plugin/CustomizeUser/View/tabAffiliation.php';
         }
 
@@ -600,7 +606,7 @@ class CustomizeUser extends PluginAbstract {
             $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/CustomizeUser/setPassword.php?users_id=\'+ row.id + \'\\\');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Channel Password') . '"><i class="fas fa-lock"></i> ' . __('Password') . '</button>';
             $btn .= '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block" onclick="swapUser(\'+ row.id + \');" data-row-id="right"  data-toggle="tooltip" data-placement="left" title="' . __('Use this user') . '"><i class="fas fa-user-friends"></i> ' . __('Use this user') . '</button>';
         }
-        
+
         return $btn;
     }
 
@@ -641,28 +647,29 @@ class CustomizeUser extends PluginAbstract {
         }
         return array();
     }
+
     /*
-    static function getNotifications() {
-        global $global, $customUser_getNotifications;
-        $return = array();
-        
-        $affiliation = self::getAffiliationNotifications();
-        $return = array_merge($return, $affiliation);
-        
-        return $return;
-    }
+      static function getNotifications() {
+      global $global, $customUser_getNotifications;
+      $return = array();
+
+      $affiliation = self::getAffiliationNotifications();
+      $return = array_merge($return, $affiliation);
+
+      return $return;
+      }
      * 
      */
-    
+
     static function getAffiliationNotifications() {
         global $global, $customUser_getAffiliationNotifications;
         $return = array();
         if (User::isLogged()) {
             $users_id = User::getId();
-            if(!isset($customUser_getAffiliationNotifications)){
+            if (!isset($customUser_getAffiliationNotifications)) {
                 $customUser_getAffiliationNotifications = array();
             }
-            if(!isset($customUser_getAffiliationNotifications[$users_id])){
+            if (!isset($customUser_getAffiliationNotifications[$users_id])) {
                 $obj = AVideoPlugin::getObjectData('CustomizeUser');
                 if ($obj->enableAffiliation) {
                     $isACompany = User::isACompany();
@@ -678,22 +685,21 @@ class CustomizeUser extends PluginAbstract {
                             $value['users_id'] = $users_id;
 
                             $value['js'] = 'avideoAlertOnce('
-                                    . '"'.__('You have a new affiliation request').'",'
-                                    . "\"<a href='{$global['webSiteRootURL']}user?tab=tabAffiliation'>".__('Please click here').'</a>", "info", "'.$value['id'].$value['modified'].'");';
+                                    . '"' . __('You have a new affiliation request') . '",'
+                                    . "\"<a href='{$global['webSiteRootURL']}user?tab=tabAffiliation'>" . __('Please click here') . '</a>", "info", "' . $value['id'] . $value['modified'] . '");';
 
                             $return[] = $value;
                         }
                     }
                 }
                 $customUser_getAffiliationNotifications[$users_id] = $return;
-            }else{
+            } else {
                 $return = $customUser_getAffiliationNotifications[$users_id];
             }
-            
         }
         return $return;
     }
-    
+
     public function getFooterCode(): string {
         global $global;
         include $global['systemRootPath'] . 'plugin/CustomizeUser/View/footer.php';
