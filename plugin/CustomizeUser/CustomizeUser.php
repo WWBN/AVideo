@@ -435,35 +435,38 @@ class CustomizeUser extends PluginAbstract {
         }
 
         $svd = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-        if (!empty($svd) && $svd->isWhiteListed()) {
-            _error_log("CustomizeUser::getModeYouTube this video is embed and whitelisted, we will by pass the security check");
-            return true;
-        } else {
-            $cansee = User::canWatchVideoWithAds($videos_id);
-            $obj = $this->getDataObject();
-            if (!$cansee) {
-                $resp = Video::canVideoBePurchased($videos_id);
-                if (!empty($resp) && $resp->canVideoBePurchased && isValidURL($resp->buyURL)) {
-                    header("Location: {$resp->buyURL}");
-                    exit;
-                } else {
-                    forbiddenPage(__("Sorry, this video is private"));
-                }
-                /*
-                  if (!AVideoPlugin::isEnabled('Gallery') && !AVideoPlugin::isEnabled('YouPHPFlix2') && !AVideoPlugin::isEnabled('YouTube')) {
-                  header("Location: {$global['webSiteRootURL']}user?msg=" . urlencode(__("Sorry, this video is private")));
-                  } else {
-                  header("Location: {$global['webSiteRootURL']}?msg=" . urlencode(__("Sorry, this video is private")));
-                  }
-                  exit;
-                 *
-                 */
-            } elseif ($obj->userCanProtectVideosWithPassword) {
-                if (!$this->videoPasswordIsGood($videos_id)) {
-                    $video = Video::getVideoLight($videos_id);
-                    include "{$global['systemRootPath']}plugin/CustomizeUser/confirmVideoPassword.php";
-                    exit;
-                }
+        if (!empty($svd)) {
+            if ($svd->isWhiteListed()) {
+                _error_log("CustomizeUser::getModeYouTube this video is embed and whitelisted, we will by pass the security check");
+                return true;
+            } else {
+                _error_log("CustomizeUser::getModeYouTube this video is NOT whitelisted, [{$_SERVER['HTTP_REFERER']}]");
+            }
+        }
+        $cansee = User::canWatchVideoWithAds($videos_id);
+        $obj = $this->getDataObject();
+        if (!$cansee) {
+            $resp = Video::canVideoBePurchased($videos_id);
+            if (!empty($resp) && $resp->canVideoBePurchased && isValidURL($resp->buyURL)) {
+                header("Location: {$resp->buyURL}");
+                exit;
+            } else {
+                forbiddenPage(__("Sorry, this video is private"));
+            }
+            /*
+              if (!AVideoPlugin::isEnabled('Gallery') && !AVideoPlugin::isEnabled('YouPHPFlix2') && !AVideoPlugin::isEnabled('YouTube')) {
+              header("Location: {$global['webSiteRootURL']}user?msg=" . urlencode(__("Sorry, this video is private")));
+              } else {
+              header("Location: {$global['webSiteRootURL']}?msg=" . urlencode(__("Sorry, this video is private")));
+              }
+              exit;
+             *
+             */
+        } elseif ($obj->userCanProtectVideosWithPassword) {
+            if (!$this->videoPasswordIsGood($videos_id)) {
+                $video = Video::getVideoLight($videos_id);
+                include "{$global['systemRootPath']}plugin/CustomizeUser/confirmVideoPassword.php";
+                exit;
             }
         }
     }
