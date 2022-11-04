@@ -435,7 +435,7 @@ class CustomizeUser extends PluginAbstract {
         }
 
         $svd = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-        if (!empty($svd) && $this->isWhiteListed()) {
+        if (!empty($svd) && $svd->isWhiteListed()) {
             _error_log("CustomizeUser::getModeYouTube this video is embed and whitelisted, we will by pass the security check");
             return true;
         } else {
