@@ -2581,8 +2581,9 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
                 $file = $thumbs;
             }
         }
-        $file = createWebPIfNotExists($file);
-
+        if(get_browser_name() !== 'Safari'){
+            $file = createWebPIfNotExists($file);
+        }
         $url = getURL(getRelativePath($file));
         $image_info = getimagesize($file);
         $wh = $image_info[3];
