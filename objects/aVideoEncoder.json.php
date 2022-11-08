@@ -1,9 +1,9 @@
 <?php
-
+/*
 error_log("avideoencoder REQUEST 1: " . json_encode($_REQUEST));
 error_log("avideoencoder POST 1: " . json_encode($_POST));
 error_log("avideoencoder GET 1: " . json_encode($_GET));
-
+*/
 $obj = new stdClass();
 $obj->error = true;
 
@@ -11,11 +11,11 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-
+/*
 _error_log("REQUEST: " . json_encode($_REQUEST));
 _error_log("POST: " . json_encode($_POST));
 _error_log("GET: " . json_encode($_GET));
-
+*/
 header('Content-Type: application/json');
 allowOrigin();
 
