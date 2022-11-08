@@ -7,6 +7,10 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
+_error_log("REQUEST: " . json_encode($_REQUEST));
+_error_log("POST: " . json_encode($_POST));
+_error_log("GET: " . json_encode($_GET));
+
 header('Content-Type: application/json');
 allowOrigin();
 
@@ -19,7 +23,7 @@ if (empty($_POST)) {
 //_error_log("aVideoEncoder.json: start");
 _error_log("aVideoEncoder.json: start");
 if (empty($_REQUEST['format']) || !in_array($_REQUEST['format'], $global['allowedExtension'])) {
-    $obj->msg = "aVideoEncoder.json: Extension not allowed File {$_REQUEST['format']}";
+    $obj->msg = "aVideoEncoder.json: ERROR Extension not allowed File {$_REQUEST['format']}";
     _error_log($obj->msg. ": " . json_encode($_REQUEST));
     die(json_encode($obj));
 }
