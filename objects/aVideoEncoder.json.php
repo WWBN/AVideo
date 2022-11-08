@@ -1,4 +1,9 @@
 <?php
+
+error_log("REQUEST 1: " . json_encode($_REQUEST));
+error_log("POST 1: " . json_encode($_POST));
+error_log("GET 1: " . json_encode($_GET));
+
 $obj = new stdClass();
 $obj->error = true;
 
