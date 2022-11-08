@@ -1,6 +1,6 @@
 <?php
 //var_dump($_GET);exit;
-global $global, $config;
+global $global, $config, $isEmbed;
 $modeYouTubeTime = microtime(true);
 $isChannel = 1; // still workaround, for gallery-functions, please let it there.
 $isModeYouTube = 1;

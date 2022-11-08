@@ -647,6 +647,11 @@ Allow: .css";
         include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/actionButtonGallery.php';
     }
 
+    public function getWatchActionButton($videos_id) {
+        global $global, $video;
+        include $global['systemRootPath'] . 'plugin/CustomizeAdvanced/actionButton.php';
+    }
+
 }
 
 class SocialMedias {

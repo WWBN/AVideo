@@ -216,6 +216,9 @@ $p->save();
 echo json_encode($json);
 $log->add("Clone: Complete, Database, {$total} Videos and {$total2} Photos");
 
+$cmd = "chmod -R 777 {$videosDir}";
+exec($cmd);    
+    
 $time_end = microtime(true);
 //dividing with 60 will give the execution time in minutes otherwise seconds
 $execution_time = ($time_end - $time_start);
