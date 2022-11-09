@@ -59,6 +59,11 @@ if (empty($global['logfile'])) {
 ini_set('error_log', $global['logfile']);
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
+
+if (empty($global['mysqli_charset'])) {
+    $global['mysqli_charset'] = 'latin1';
+}
+
 require_once $global['systemRootPath'] . 'objects/functions.php';
 if (empty($doNotConnectDatabaseIncludeConfig)) {
     _mysql_connect();
