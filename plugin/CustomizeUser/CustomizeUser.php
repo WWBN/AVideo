@@ -174,7 +174,7 @@ class CustomizeUser extends PluginAbstract {
 
         return $obj;
     }
-
+    
     static function getCallerButton($users_id, $class = '') {
         global $global;
         $users_id = intval($users_id);
@@ -299,6 +299,7 @@ class CustomizeUser extends PluginAbstract {
     }
 
     public function getMyAccount($users_id) {
+        global $global;
         $objcu = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
 
         if (!empty($objcu) && !empty($objcu->userCanAllowFilesDownload)) {
@@ -315,6 +316,8 @@ class CustomizeUser extends PluginAbstract {
             self::getSwitchUserCanAllowFilesShare($users_id);
             echo '</div></div>';
         }
+        
+        include $global['systemRootPath'] . 'plugin/CustomizeUser/getMyAccount.php';
     }
 
     public function getChannelButton() {

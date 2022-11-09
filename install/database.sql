@@ -131,34 +131,31 @@ CREATE TABLE IF NOT EXISTS `sites` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
--- -----------------------------------------------------
--- Table `videos`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `videos` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(190) NOT NULL,
   `clean_title` VARCHAR(190) NOT NULL,
-  `description` TEXT NULL,
-  `views_count` INT NOT NULL DEFAULT 0,
+  `description` TEXT NULL DEFAULT NULL,
+  `views_count` INT(11) NOT NULL DEFAULT 0,
   `views_count_25` INT(11) NULL DEFAULT 0,
   `views_count_50` INT(11) NULL DEFAULT 0,
   `views_count_75` INT(11) NULL DEFAULT 0,
   `views_count_100` INT(11) NULL DEFAULT 0,
-  `status` VARCHAR(16) NOT NULL DEFAULT 'e' ,
+  `status` VARCHAR(16) NOT NULL DEFAULT 'e',
   `created` DATETIME NOT NULL,
   `modified` DATETIME NOT NULL,
-  `users_id` INT NOT NULL,
-  `categories_id` INT NOT NULL,
+  `users_id` INT(11) NOT NULL,
+  `categories_id` INT(11) NOT NULL,
   `filename` VARCHAR(255) NOT NULL,
   `duration` VARCHAR(15) NOT NULL,
   `type` ENUM('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'zip') NOT NULL DEFAULT 'video',
-  `videoDownloadedLink` VARCHAR(255) NULL,
-  `order` INT UNSIGNED NOT NULL DEFAULT 1,
-  `rotation` SMALLINT NULL DEFAULT 0,
+  `videoDownloadedLink` VARCHAR(255) NULL DEFAULT NULL,
+  `order` INT(10) UNSIGNED NOT NULL DEFAULT 1,
+  `rotation` SMALLINT(6) NULL DEFAULT 0,
   `zoom` FLOAT NULL DEFAULT 1,
-  `youtubeId` VARCHAR(45) NULL,
-  `videoLink` TEXT NULL,
-  `next_videos_id` INT NULL,
+  `youtubeId` VARCHAR(45) NULL DEFAULT NULL,
+  `videoLink` TEXT NULL DEFAULT NULL,
+  `next_videos_id` INT(11) NULL DEFAULT NULL,
   `isSuggested` INT(1) NOT NULL DEFAULT 0,
   `trailer1` VARCHAR(255) NULL DEFAULT NULL,
   `trailer2` VARCHAR(255) NULL DEFAULT NULL,
@@ -170,37 +167,56 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `externalOptions` TEXT NULL DEFAULT NULL,
   `only_for_paid` TINYINT(1) NULL DEFAULT NULL,
   `serie_playlists_id` INT(11) NULL DEFAULT NULL,
-  `sites_id` INT(11) NULL,
+  `sites_id` INT(11) NULL DEFAULT NULL,
   `video_password` VARCHAR(45) NULL DEFAULT NULL,
   `encoderURL` VARCHAR(255) NULL DEFAULT NULL,
   `filepath` VARCHAR(255) NULL DEFAULT NULL,
   `filesize` BIGINT(19) UNSIGNED NULL DEFAULT 0,
   `live_transmitions_history_id` INT(11) NULL DEFAULT NULL,
-  `total_seconds_watching` INT(11) NULL DEFAULT 0,
-  `duration_in_seconds` INT NULL DEFAULT NULL,
-  `likes` INT(11) NULL DEFAULT NULL,
-  `dislikes` INT(11) NULL DEFAULT NULL,
-  `users_id_company` INT(11) NULL DEFAULT NULL,
-  `epg_link` VARCHAR(400) NULL DEFAULT NULL,
+  `total_seconds_watching` INT NULL DEFAULT 0,
+  `duration_in_seconds` INT NULL,
+  `likes` INT NULL,
+  `dislikes` INT NULL,
+  `users_id_company` INT(11) NULL,
+  `epg_link` VARCHAR(400) NULL,
+  `publish_datetime` DATETIME NULL,
+  `notification_datetime` DATETIME NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_videos_users1_idx` (`users_id_company` ASC),
+  UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
   INDEX `fk_videos_categories1_idx` (`categories_id` ASC),
-  UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
   INDEX `index5` (`order` ASC),
   INDEX `fk_videos_videos1_idx` (`next_videos_id` ASC),
   INDEX `fk_videos_sites1_idx` (`sites_id` ASC),
   INDEX `clean_title_INDEX` (`clean_title` ASC),
   INDEX `video_filename_INDEX` (`filename` ASC),
   INDEX `video_status_idx` (`status` ASC),
-  INDEX `video_type_idx` (`type` ASC) ,
-  INDEX `videos_likes_index` (`likes` ASC),
-  INDEX `videos_dislikes_index` (`dislikes` ASC),
+  INDEX `video_type_idx` (`type` ASC),
+  INDEX `fk_videos_playlists1` (`serie_playlists_id` ASC),
+  INDEX `videos_status_index` (`status` ASC),
+  INDEX `is_suggested_index` (`isSuggested` ASC),
+  INDEX `views_count_index` (`views_count` ASC),
+  INDEX `filename_index` (`filename` ASC),
   INDEX `fk_videos_live_transmitions_history1_idx` (`live_transmitions_history_id` ASC),
-  INDEX `total_sec_watchinindex` (`total_seconds_watching` ASC),
-  INDEX `index_epg_link` (`epg_link` ASC), 
   FULLTEXT INDEX `index17vname` (`title`),
   FULLTEXT INDEX `index18vdesc` (`description`),
+  INDEX `total_sec_watchinindex` (`total_seconds_watching` ASC),
+  INDEX `videos_likes_index` (`likes` ASC),
+  INDEX `videos_dislikes_index` (`dislikes` ASC),
+  INDEX `fk_videos_users1_idx` (`users_id_company` ASC),
+  INDEX `index_epg_link` (`epg_link` ASC),
+  INDEX `index25_publish` (`publish_datetime` ASC),
+  INDEX `index26_publish` (`notification_datetime` ASC),
+  CONSTRAINT `fk_videos_categories1`
+    FOREIGN KEY (`categories_id`)
+    REFERENCES `categories` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_videos_playlists1`
+    FOREIGN KEY (`serie_playlists_id`)
+    REFERENCES `playlists` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_videos_sites1`
     FOREIGN KEY (`sites_id`)
     REFERENCES `sites` (`id`)
@@ -211,26 +227,16 @@ CREATE TABLE IF NOT EXISTS `videos` (
     REFERENCES `users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_videos_categories1`
-    FOREIGN KEY (`categories_id`)
-    REFERENCES `categories` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_videos_videos1`
     FOREIGN KEY (`next_videos_id`)
     REFERENCES `videos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-CONSTRAINT `fk_videos_playlists1`
-  FOREIGN KEY (`serie_playlists_id`)
-  REFERENCES `playlists` (`id`)
-  ON DELETE CASCADE
-  ON UPDATE CASCADE,
- CONSTRAINT `fk_videos_users1`
-  FOREIGN KEY (`users_id_company`)
-  REFERENCES `users` (`id`)
-  ON DELETE SET NULL
-  ON UPDATE SET NULL)
+  CONSTRAINT `fk_videos_users1`
+    FOREIGN KEY (`users_id_company`)
+    REFERENCES `users` (`id`)
+    ON DELETE SET NULL
+    ON UPDATE SET NULL)
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `videos_metadata` (

@@ -917,6 +917,7 @@ if (typeof gtag !== \"function\") {
         if (!empty($this->id)) {
             
             $arrayTables = array(
+                //'live_transmition_history_log',
                 'live_transmitions',
                 'users_login_history',
                 'audit',
@@ -2829,14 +2830,32 @@ if (typeof gtag !== \"function\") {
         return $user->addExternalOptions('ExtraSubscribers', intval($value));
     }
 
-    public static function getProfilePassword($users_id) {
+    public static function getProfilePassword($users_id='') {
         global $config;
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
         if (empty($obj)) {
             return false;
         }
+        if(empty($users_id)){
+            $users_id = User::getId();
+        }
         $user = new User($users_id);
         $value = $user->getExternalOptions('ProfilePassword');
+        return $value;
+    }
+    
+    
+    public static function getWebsite($users_id='') {
+        global $config;
+        $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if (empty($obj)) {
+            return false;
+        }
+        if(empty($users_id)){
+            $users_id = User::getId();
+        }
+        $user = new User($users_id);
+        $value = $user->getExternalOptions('userWebsite');
         return $value;
     }
 
@@ -2849,9 +2868,12 @@ if (typeof gtag !== \"function\") {
         return $user->addExternalOptions('ProfilePassword', preg_replace('/[^0-9a-z]/i', '', $value));
     }
 
-    public static function getDonationButtons($users_id) {
+    public static function getDonationButtons($users_id='') {
         global $config;
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
+        if(empty($users_id)){
+            $users_id = User::getId();
+        }
         if (empty($obj) || empty($users_id)) {
             return false;
         }
