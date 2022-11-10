@@ -33,7 +33,7 @@ if (!empty($_GET['users_id'])) {
     } else {
         $msg = __("Email verification error");
         _error_log('Email verification 3 '.$msg);
-        header("Location: {$global['webSiteRootURL']}?error={$msg}");
+        header("Location: {$global['webSiteRootURL']}user?error={$msg}");
         exit;
     }
 }
