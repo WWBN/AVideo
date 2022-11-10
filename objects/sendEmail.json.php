@@ -8,6 +8,9 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/captcha.php';
 $config = new Configuration();
 $valid = Captcha::validation(@$_POST['captcha']);
+if(User::isAdmin()){
+    $valid = true;
+}
 $obj = new stdClass();
 $obj->error = '';
 if ($valid) {
