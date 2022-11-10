@@ -4,6 +4,7 @@ $global['ignoreUserMustBeLoggedIn'] = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+_error_log('Email verification starts');
 require_once $global['systemRootPath'] . 'objects/user.php';
 $obj = new stdClass();
 $obj->error = true;
