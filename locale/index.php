@@ -12,7 +12,16 @@ if (isset($_GET['getLanguage'])) {
             $t[$key] = $key;
         }
     }
-    echo json_encode($t);
+    
+    if(!empty($_REQUEST['print'])){
+        header('Content-Type: text/plain');
+        foreach ($t as $key => $value) {
+            echo $value.PHP_EOL;
+        }
+    }else{
+        header('Content-Type: application/json');
+        echo json_encode($t);
+    }
     exit;
 }
 
