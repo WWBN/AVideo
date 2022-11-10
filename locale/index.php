@@ -7,6 +7,11 @@ if (isset($_GET['getLanguage'])) {
     }
 
     require_once($lngFile);
+    foreach ($t as $key => $value) {
+        if(empty($value)){
+            $t[$key] = $key;
+        }
+    }
     echo json_encode($t);
     exit;
 }

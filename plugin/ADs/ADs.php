@@ -201,8 +201,7 @@ class ADs extends PluginAbstract
         return ['fileName' => $fileName, 'path' => $paths['path'] . $fileName . '.png', 'url' => $paths['url'] . $fileName . '.png', 'txt' => $paths['path'] . $fileName . '.txt'];
     }
 
-    public static function getAds($type)
-    {
+    public static function getAds($type) {
         global $global;
         if(isBot()){
             return false;
@@ -225,7 +224,13 @@ class ADs extends PluginAbstract
             if(empty($fileName)){
                 continue;
             }
-            $return[] = ['type' => $type, 'fileName' => $fileName, 'url' => file_get_contents($videosDir . "{$fileName}.txt"), 'imageURL' => $videosURL . "{$fileName}.png", 'imagePath' => $value];
+            $return[] = [
+                'type' => $type, 
+                'fileName' => $fileName, 
+                'url' => file_get_contents($videosDir . "{$fileName}.txt"), 
+                'imageURL' => $videosURL . "{$fileName}.png", 
+                'imagePath' => $value
+            ];
             $fileName = '';
         }
 
@@ -335,5 +340,16 @@ class ADs extends PluginAbstract
         $o->value = self::getAdsHTML($type);
         $p = new ADs();
         return $p->updateParameter($type, $o);
+    }
+    
+    public function getUserOptions() {
+        $obj = $this->getDataObject();
+        $userOptions = [];
+        $userOptions["Can have custom ads"] = "CanHaveCustomAds";
+        return $userOptions;
+    }
+    
+    static public function canHaveCustomAds() {
+        return User::externalOptionsFromUserID(User::getId(), "CanHaveCustomAds");
     }
 }

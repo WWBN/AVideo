@@ -45,7 +45,8 @@ if (empty($obj)) {
                                 $active = 'active';
                                 foreach (ADs::$AdsPositions as $key => $value) {
                                     echo '<li class="' . $active . '">'
-                                    . '<a onclick="restartForm' . $value[0] . '()" data-toggle="tab" href="#adsTabs' . $key . '">' . ADs::getLabel($value[0]) . '</a>'
+                                    . '<a onclick="restartForm' . $value[0] . '()" data-toggle="tab" href="#adsTabs' . $key . '">' 
+                                    . ADs::getLabel($value[0]) . '</a>'
                                     . '</li>';
                                     $active = '';
                                 }
@@ -74,7 +75,8 @@ if (empty($obj)) {
                                                     <div class="form-group">                   
                                                         <?php
                                                         $croppie1 = getCroppie(__("Upload Image") . ' ' . $value[0], "setImage_" . $value[0], $width, $height);
-                                    echo $croppie1['html']; ?>
+                                                        echo $croppie1['html']; 
+                                                        ?>
                                                     </div> 
                                                     <div class="form-group">
                                                         <label for="inputAdsURL<?php echo $value[0]; ?>"><?php echo __("URL"); ?></label>
@@ -88,18 +90,22 @@ if (empty($obj)) {
                                                     <?php
                                                     $adsList = ADs::getAds($value[0]);
 
-                                    foreach ($adsList as $item) {
-                                        ?>
+                                                    foreach ($adsList as $item) {
+                                                        ?>
                                                         <li class="list-group-item clearfix" id="<?php echo $item["fileName"]; ?>" >
                                                             <img src="<?php echo $item["imageURL"]; ?>" 
                                                                  class="img img-responsive pull-left" 
                                                                  style="max-height: 60px; max-width: 150px; margin-right: 10px;">
                                                                  <?php
                                                                  echo $item["url"]; ?>
-                                                            <button class="btn btn-sm btn-danger pull-right" onclick="deleteAdsImage('<?php echo $item["type"]; ?>', '<?php echo $item["fileName"]; ?>')"><i class="fas fa-trash"></i></button>
+                                                            <button class="btn btn-sm btn-danger pull-right" 
+                                                                    onclick="deleteAdsImage('<?php echo $item["type"]; ?>', '<?php echo $item["fileName"]; ?>')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
                                                         </li>
                                                         <?php
-                                    } ?>
+                                                    } 
+                                                    ?>
                                                 </ul>
                                             </div>
                                         </div>
@@ -108,8 +114,9 @@ if (empty($obj)) {
                                         $('#adsTabs<?php echo $key; ?> form').submit(function (evt) {
                                             evt.preventDefault();
                                             setTimeout(function () {
-    <?php
-    echo $croppie1['getCroppieFunction']; ?>
+                                            <?php
+                                            echo $croppie1['getCroppieFunction']; 
+                                            ?>
                                             }, 500);
                                             return false;
                                         });
@@ -119,7 +126,7 @@ if (empty($obj)) {
                                         }
 
                                         function restartForm<?php echo $value[0]; ?>() {
-    <?php echo $croppie1['restartCroppie'] . "('".getCDN()."view/img/transparent1px.png');"; ?>
+                                            <?php echo $croppie1['restartCroppie'] . "('".getCDN()."view/img/transparent1px.png');"; ?>
                                             $('#inputAdsURL<?php echo $value[0]; ?>').val('');
                                         }
 
@@ -184,7 +191,10 @@ if (empty($obj)) {
                 }
                 
                 function addNewImage(response){
-                    var html = '<li class="list-group-item clearfix"  id="'+response.fileName+'"  ><img src="'+response.imageURL+'" class="img img-responsive pull-left" style="max-height: 60px; max-width: 150px; margin-right: 10px;">'+response.url+'<button class="btn btn-sm btn-danger pull-right" onclick="deleteAdsImage(\''+response.type+'\',\''+response.fileName+'\')"><i class="fas fa-trash"></i></button></li>';
+                    var html = '<li class="list-group-item clearfix"  id="'+response.fileName+'"  >'
+                            +'<img src="'+response.imageURL+'" class="img img-responsive pull-left" style="max-height: 60px; max-width: 150px; margin-right: 10px;">'
+                            +response.url+'<button class="btn btn-sm btn-danger pull-right" onclick="deleteAdsImage(\''
+                            +response.type+'\',\''+response.fileName+'\')"><i class="fas fa-trash"></i></button></li>';
                     $('#list-group-'+response.type).append(html);
                 }
             </script>

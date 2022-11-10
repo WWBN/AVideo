@@ -8263,8 +8263,10 @@ function listAllWordsToTranslate() {
                 if ($entry !== '.' && $entry !== '..') {
                     $filename = ($dir) . DIRECTORY_SEPARATOR . $entry;
                     if (is_dir($filename)) {
-                        $vars = listAll($filename);
+                        $vars_dir = listAll($filename);
+                        $vars = array_merge($vars, $vars_dir);
                     } elseif (preg_match("/\.php$/", $entry)) {
+                        //echo $entry.PHP_EOL;
                         $data = file_get_contents($filename);
                         $regex = '/__\(["\']{1}(.*)["\']{1}\)/U';
                         preg_match_all(
@@ -8272,21 +8274,21 @@ function listAllWordsToTranslate() {
                                 $data,
                                 $matches
                         );
-
                         foreach ($matches[0] as $key => $value) {
                             $vars[$matches[1][$key]] = $matches[1][$key];
                         }
                     }
                 }
             }
-
             closedir($handle);
         }
         return $vars;
     }
 
-    $vars1 = listAll($global['systemRootPath'] . 'plugins');
+    $vars1 = listAll($global['systemRootPath'] . 'plugin');
+    //var_dump($vars1);exit;
     $vars2 = listAll($global['systemRootPath'] . 'view');
+    //var_dump($vars2);exit;
     $vars3 = listAll($global['systemRootPath'] . 'objects');
 
     $vars = array_merge($vars1, $vars2, $vars3);
