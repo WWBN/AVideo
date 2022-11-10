@@ -61,7 +61,7 @@ global $global, $config, $advancedCustom, $advancedCustomUser;
 
 
 if (empty($global['mysqli_charset'])) {
-    $global['mysqli_charset'] = 'latin1';
+    //$global['mysqli_charset'] = 'latin1';
 }
 
 require_once $global['systemRootPath'] . 'objects/functions.php';
