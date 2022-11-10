@@ -21,15 +21,20 @@ if (!empty($_GET['users_id'])) {
     } else {
         $obj->msg = __("Already verified");
     }
+    _error_log('Email verification 1 '.$obj->msg);
 } elseif (!empty($_GET['code'])) {
     $result = User::verifyCode($_GET['code']);
 
     if ($result) {
         $msg = __("Email Verified");
+        _error_log('Email verification 2 '.$msg);
         header("Location: {$global['webSiteRootURL']}?success={$msg}");
+        exit;
     } else {
         $msg = __("Email verification error");
+        _error_log('Email verification 3 '.$msg);
         header("Location: {$global['webSiteRootURL']}?error={$msg}");
+        exit;
     }
 }
 
