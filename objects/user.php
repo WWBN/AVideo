@@ -2361,13 +2361,21 @@ if (typeof gtag !== \"function\") {
         $obj = static::decodeVerificationCode($code);
         $salt = hash('sha256', $global['salt']);
         if ($salt !== $obj->salt) {
+            _error_log('verifyCode salt is wrong');
             return false;
         }
         $user = new User($obj->users_id);
         $recoverPass = $user->getRecoverPass();
         if ($recoverPass == $obj->recoverPass) {
             $user->setEmailVerified(1);
-            return $user->save();
+            $users_id = $user->save();
+            if(empty($users_id)){
+                _error_log('verifyCode could not save user');
+            }else{
+                _error_log('verifyCode user save');
+            }
+        }else{
+            _error_log('verifyCode wrong recover pass');
         }
         return false;
     }
