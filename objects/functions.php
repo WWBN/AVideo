@@ -138,9 +138,14 @@ function get_max_file_size() {
     return humanFileSize(file_upload_max_size());
 }
 
-function humanTiming($time, $precision = 0, $useDatabaseTime = true) {
+function humanTiming($time, $precision = 0, $useDatabaseTime = true, $addAgo = false) {
     $time = secondsIntervalFromNow($time, $useDatabaseTime);
-    return secondsToHumanTiming($time, $precision);
+    
+    if($addAgo){
+        $addAgo = $time - time();
+    }
+    
+    return secondsToHumanTiming($time, $precision, $addAgo);
 }
 
 /**
@@ -171,7 +176,7 @@ function humanTimingAfterwards($time, $precision = 0, $useDatabaseTime = true) {
     return __('Coming in') . ' ' . secondsToHumanTiming($time, $precision);
 }
 
-function secondsToHumanTiming($time, $precision = 0) {
+function secondsToHumanTiming($time, $precision = 0, $addAgo = false) {
     if (empty($time)) {
         return __("Now");
     }
@@ -223,8 +228,15 @@ function secondsToHumanTiming($time, $precision = 0) {
                 $text .= ' ' . secondsToHumanTiming($rest, $precision - 1);
             }
         }
+        
+        $return = $numberOfUnits . ' ' . $text;
+        
+        if(!empty($addAgo) && $addAgo<0){
+            $return = sprintf(__('%s Ago'), $return);
+        }
+        
+        return $return;
 
-        return $numberOfUnits . ' ' . $text;
     }
 }
 

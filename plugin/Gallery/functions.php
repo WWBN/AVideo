@@ -280,7 +280,7 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                         <?php
                     }
                 }
-                $humanTiming = humanTiming(strtotime($video['videoCreation'])) . " " . __('ago');
+                $humanTiming = humanTiming(strtotime($video['videoCreation']), 0, true,true);
                 ?>
                 <div data-toggle="tooltip" class="videoHumanTime" title="<?php echo $humanTiming; ?>">
                     <i class="far fa-clock"></i>

@@ -168,7 +168,7 @@ unset($_POST['current']);
                                             ?>
                                         </div>
                                         <i class="far fa-clock"></i>
-                                        <?php echo humanTiming(strtotime($serie['created'])), " ", __('ago'); ?>
+                                        <?php echo humanTiming(strtotime($serie['created']), 0, true,true); ?>
 
                                         <?php
                                         if (!empty($serie['trailer1'])) {
@@ -237,7 +237,7 @@ unset($_POST['current']);
 
                                 <div>
                                     <i class="far fa-clock"></i>
-                                    <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
+                                    <?php echo humanTiming(strtotime($value['videoCreation']), 0, true,true); ?>
                                 </div>
                                 <div>
                                     <i class="fa fa-user"></i>

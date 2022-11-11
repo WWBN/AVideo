@@ -116,7 +116,7 @@ $metaDescription = __("Trending");
                                         } ?>
                                         <div>
                                             <i class="far fa-clock"></i>
-                                            <?php echo humanTiming(strtotime($value['videoCreation'])), " ", __('ago'); ?>
+                                            <?php echo humanTiming(strtotime($value['videoCreation']), 0, true,true); ?>
                                         </div>
                                         <div>
                                             <a href="<?php echo User::getChannelLink($value['users_id']); ?>">

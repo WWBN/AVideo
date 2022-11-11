@@ -170,7 +170,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                             ?>
                                             <div>
                                                 <i class="far fa-clock"></i>
-                                                <?php echo humanTiming(strtotime($videoRow['videoCreation'])), " ", __('ago'); ?>
+                                                <?php echo humanTiming(strtotime($videoRow['videoCreation']), 0, true,true); ?>
                                             </div>
                                             <div>
                                                 <a href="<?php echo User::getChannelLink($videoRow['users_id']); ?>">
