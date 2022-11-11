@@ -2,8 +2,7 @@
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
-class ADs extends PluginAbstract
-{
+class ADs extends PluginAbstract{
     public static $AdsPositions = [
         ['leaderBoardBigVideo', 1],
         ['leaderBoardTop', 0],
@@ -18,8 +17,7 @@ class ADs extends PluginAbstract
         ['leaderBoardMiddleMobile', 1],
     ];
 
-    public function getTags()
-    {
+    public function getTags() {
         return [
             PluginTags::$MONETIZATION,
             PluginTags::$ADS,
@@ -77,8 +75,8 @@ class ADs extends PluginAbstract
 
             eval("\$obj->$value[0]Width = {$width};");
             eval("\$obj->$value[0]Height = {$height};");
-            
             eval("\$obj->$value[0]Label = '{$value[0]}';");
+            eval("\$obj->$value[0]AllowUserToModify = true;");
         }
 
         $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
@@ -351,5 +349,10 @@ class ADs extends PluginAbstract
     
     static public function canHaveCustomAds() {
         return User::externalOptionsFromUserID(User::getId(), "CanHaveCustomAds");
+    }
+    
+    public function navBarButtons() {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/ADs/navBarButtons.php';
     }
 }

@@ -3,10 +3,6 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
-if (!User::isAdmin()) {
-    gotToLoginAndComeBackHere(__("You can not do this"));
-    exit;
-}
 
 require_once $global['systemRootPath'] . 'plugin/API/API.php';
 $obj = AVideoPlugin::getObjectDataIfEnabled("ADs");
@@ -14,6 +10,16 @@ if (empty($obj)) {
     forbiddenPage(__("The plugin is disabled"));
     exit;
 }
+
+$is_admin = User::isAdmin();
+
+if (empty($is_admin) && !ADs::canHaveCustomAds()) {
+    gotToLoginAndComeBackHere(__("You can not do this"));
+    exit;
+}
+
+$is_regular_user = empty($is_admin);
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">
@@ -44,6 +50,11 @@ if (empty($obj)) {
                                 <?php
                                 $active = 'active';
                                 foreach (ADs::$AdsPositions as $key => $value) {
+                                    eval("\$AllowUserToModify = \$obj->$value[0]AllowUserToModify;");
+                                    if($is_regular_user && empty($AllowUserToModify) ){
+                                        continue;
+                                    }
+                                    
                                     echo '<li class="' . $active . '">'
                                     . '<a onclick="restartForm' . $value[0] . '()" data-toggle="tab" href="#adsTabs' . $key . '">' 
                                     . ADs::getLabel($value[0]) . '</a>'
@@ -60,6 +71,10 @@ if (empty($obj)) {
                                 <?php
                                 $active = ' in active';
                                 foreach (ADs::$AdsPositions as $key => $value) {
+                                    eval("\$AllowUserToModify = \$obj->$value[0]AllowUserToModify;");
+                                    if($is_regular_user && empty($AllowUserToModify) ){
+                                        continue;
+                                    }
                                     $size = ADs::getSize($value[0]);
 
                                     $width = $size['width'];
