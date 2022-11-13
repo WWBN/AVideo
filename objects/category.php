@@ -416,7 +416,7 @@ class Category {
         //echo $sql;exit;
         $cacheName = 'category/' . md5($sql);
 
-        _error_log('getAllCategories getCache');
+        //_error_log('getAllCategories getCache');
         $category = object_to_array(ObjectYPT::getCache($cacheName, 36000));
         if (empty($category)) {
             $res = sqlDAL::readSql($sql);
@@ -462,7 +462,7 @@ class Category {
                 die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
         }
-        _error_log('getAllCategories return');
+        //_error_log('getAllCategories return');
         return $category;
     }
 
