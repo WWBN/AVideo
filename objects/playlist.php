@@ -27,6 +27,9 @@ class PlayList extends ObjectYPT {
 
     protected static function getFromDbFromName($name) {
         global $global;
+        if(!User::isLogged()){
+            return false;
+        }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  name = ? AND users_id = " . User::getId() . " LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", [$name]);
         $data = sqlDAL::fetchAssoc($res);
@@ -41,6 +44,9 @@ class PlayList extends ObjectYPT {
 
     static function getFromDbFromId($id) {
         global $global;
+        if(!User::isLogged()){
+            return false;
+        }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = ? AND users_id = " . User::getId() . " LIMIT 1";
         $res = sqlDAL::readSql($sql, "i", [$id]);
         $data = sqlDAL::fetchAssoc($res);
