@@ -1,13 +1,14 @@
 <?php
-if (VideoOffline::canDownloadVideo()) {
+if (ADs::canHaveCustomAds()) {
     ?>
     <li>
         <div>
             <a href="#"  
-               class="btn btn-warning btn-block"   
+               class="btn btn-default btn-block"   
                style="border-radius: 0;"
-               onclick="avideoModalIframeFull(webSiteRootURL+'offline');return false;">
-                <i class="fas fa-play-circle"></i> <?php echo __('Offline Videos'); ?>
+               onclick="avideoModalIframeFull(webSiteRootURL+'plugin/ADs/editor.php?customAds=1');return false;">
+                <i class="fas fa-image"></i>
+                <?php echo __('Custom ADs'); ?>
             </a>
         </div>
     </li>      

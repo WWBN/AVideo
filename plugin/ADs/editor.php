@@ -18,7 +18,11 @@ if (empty($is_admin) && !ADs::canHaveCustomAds()) {
     exit;
 }
 
-$is_regular_user = empty($is_admin);
+$is_regular_user = empty($is_admin) || !empty($_REQUEST['customAds']);
+
+if($is_regular_user){
+    $is_regular_user = User::getId();
+}
 
 ?>
 <!DOCTYPE html>
@@ -30,6 +34,9 @@ $is_regular_user = empty($is_admin);
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
+        <script>
+            var is_regular_user = <?php echo json_encode($is_regular_user); ?>;
+        </script>
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
@@ -39,7 +46,9 @@ $is_regular_user = empty($is_admin);
             <br>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <?php echo __('Edit Ads'); ?>
+                    <?php
+                    echo __('Edit Ads');
+                    ?>
                 </div>
                 <div class="panel-body">
 
@@ -51,12 +60,12 @@ $is_regular_user = empty($is_admin);
                                 $active = 'active';
                                 foreach (ADs::$AdsPositions as $key => $value) {
                                     eval("\$AllowUserToModify = \$obj->$value[0]AllowUserToModify;");
-                                    if($is_regular_user && empty($AllowUserToModify) ){
+                                    if ($is_regular_user && empty($AllowUserToModify)) {
                                         continue;
                                     }
-                                    
+
                                     echo '<li class="' . $active . '">'
-                                    . '<a onclick="restartForm' . $value[0] . '()" data-toggle="tab" href="#adsTabs' . $key . '">' 
+                                    . '<a onclick="restartForm' . $value[0] . '()" data-toggle="tab" href="#adsTabs' . $key . '">'
                                     . ADs::getLabel($value[0]) . '</a>'
                                     . '</li>';
                                     $active = '';
@@ -72,13 +81,14 @@ $is_regular_user = empty($is_admin);
                                 $active = ' in active';
                                 foreach (ADs::$AdsPositions as $key => $value) {
                                     eval("\$AllowUserToModify = \$obj->$value[0]AllowUserToModify;");
-                                    if($is_regular_user && empty($AllowUserToModify) ){
+                                    if ($is_regular_user && empty($AllowUserToModify)) {
                                         continue;
                                     }
                                     $size = ADs::getSize($value[0]);
 
                                     $width = $size['width'];
-                                    $height = $size['height']; ?>
+                                    $height = $size['height'];
+                                    ?>
                                     <div id="adsTabs<?php echo $key; ?>" class="tab-pane fade <?php echo $active; ?>">
 
                                         <div class="panel panel-default">
@@ -90,7 +100,7 @@ $is_regular_user = empty($is_admin);
                                                     <div class="form-group">                   
                                                         <?php
                                                         $croppie1 = getCroppie(__("Upload Image") . ' ' . $value[0], "setImage_" . $value[0], $width, $height);
-                                                        echo $croppie1['html']; 
+                                                        echo $croppie1['html'];
                                                         ?>
                                                     </div> 
                                                     <div class="form-group">
@@ -103,23 +113,22 @@ $is_regular_user = empty($is_admin);
                                             <div class="panel-footer">
                                                 <ul class="list-group" id="list-group-<?php echo $value[0]; ?>">
                                                     <?php
-                                                    $adsList = ADs::getAds($value[0]);
-
+                                                    $adsList = ADs::getAds($value[0], $is_regular_user);
+                                                    //var_dump($is_regular_user, $adsList);exit;
                                                     foreach ($adsList as $item) {
                                                         ?>
                                                         <li class="list-group-item clearfix" id="<?php echo $item["fileName"]; ?>" >
                                                             <img src="<?php echo $item["imageURL"]; ?>" 
                                                                  class="img img-responsive pull-left" 
                                                                  style="max-height: 60px; max-width: 150px; margin-right: 10px;">
-                                                                 <?php
-                                                                 echo $item["url"]; ?>
+                                                                 <?php echo $item["url"]; ?>
                                                             <button class="btn btn-sm btn-danger pull-right" 
                                                                     onclick="deleteAdsImage('<?php echo $item["type"]; ?>', '<?php echo $item["fileName"]; ?>')">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
                                                         </li>
                                                         <?php
-                                                    } 
+                                                    }
                                                     ?>
                                                 </ul>
                                             </div>
@@ -129,9 +138,9 @@ $is_regular_user = empty($is_admin);
                                         $('#adsTabs<?php echo $key; ?> form').submit(function (evt) {
                                             evt.preventDefault();
                                             setTimeout(function () {
-                                            <?php
-                                            echo $croppie1['getCroppieFunction']; 
-                                            ?>
+                                                <?php
+                                                echo $croppie1['getCroppieFunction'];
+                                                ?>
                                             }, 500);
                                             return false;
                                         });
@@ -141,7 +150,7 @@ $is_regular_user = empty($is_admin);
                                         }
 
                                         function restartForm<?php echo $value[0]; ?>() {
-                                            <?php echo $croppie1['restartCroppie'] . "('".getCDN()."view/img/transparent1px.png');"; ?>
+                                            <?php echo $croppie1['restartCroppie'] . "('" . getCDN() . "view/img/transparent1px.png');"; ?>
                                             $('#inputAdsURL<?php echo $value[0]; ?>').val('');
                                         }
 
@@ -164,11 +173,12 @@ $is_regular_user = empty($is_admin);
                 function saveAdsImage(image, type, url) {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL'] . "plugin/ADs/saveImage.json.php"; ?>',
+                        url: webSiteRootURL + 'plugin/ADs/saveImage.json.php',
                         data: {
                             type: type,
                             url: url,
-                            image: image
+                            image: image,
+                            is_regular_user: is_regular_user
                         },
                         type: 'post',
                         success: function (response) {
@@ -183,20 +193,21 @@ $is_regular_user = empty($is_admin);
                         }
                     });
                 }
-                
-                function deleteAdsImage(type, fileName){
+
+                function deleteAdsImage(type, fileName) {
                     modal.showPleaseWait();
                     $.ajax({
-                        url: '<?php echo $global['webSiteRootURL'] . "plugin/ADs/deleteImage.json.php"; ?>',
+                        url: webSiteRootURL + 'plugin/ADs/deleteImage.json.php',
                         data: {
                             type: type,
-                            fileName: fileName
+                            fileName: fileName,
+                            is_regular_user: is_regular_user
                         },
                         type: 'post',
                         success: function (response) {
                             if (!response.error) {
                                 avideoToastSuccess("<?php echo __("Ads deleted!"); ?>");
-                                $('#'+fileName).slideUp();
+                                $('#' + fileName).slideUp();
                             } else {
                                 avideoAlertError(response.msg);
                             }
@@ -204,13 +215,13 @@ $is_regular_user = empty($is_admin);
                         }
                     });
                 }
-                
-                function addNewImage(response){
-                    var html = '<li class="list-group-item clearfix"  id="'+response.fileName+'"  >'
-                            +'<img src="'+response.imageURL+'" class="img img-responsive pull-left" style="max-height: 60px; max-width: 150px; margin-right: 10px;">'
-                            +response.url+'<button class="btn btn-sm btn-danger pull-right" onclick="deleteAdsImage(\''
-                            +response.type+'\',\''+response.fileName+'\')"><i class="fas fa-trash"></i></button></li>';
-                    $('#list-group-'+response.type).append(html);
+
+                function addNewImage(response) {
+                    var html = '<li class="list-group-item clearfix"  id="' + response.fileName + '"  >'
+                            + '<img src="' + response.imageURL + '" class="img img-responsive pull-left" style="max-height: 60px; max-width: 150px; margin-right: 10px;">'
+                            + response.url + '<button class="btn btn-sm btn-danger pull-right" onclick="deleteAdsImage(\''
+                            + response.type + '\',\'' + response.fileName + '\')"><i class="fas fa-trash"></i></button></li>';
+                    $('#list-group-' + response.type).append(html);
                 }
             </script>
         </div>
