@@ -875,8 +875,9 @@ if (typeof gtag !== \"function\") {
                 }
             }
         }
-
-        _error_log("User::canWatchVideo The user " . User::getId() . " is not on any of the user groups ({$videos_id}) " . json_encode($rows));
+        if(isVideo()){
+            _error_log("User::canWatchVideo The user " . User::getId() . " is not on any in the user groups ({$videos_id}) " . json_encode($rows));
+        }
         self::setCacheWatchVideo($cacheName, false);
         return false;
     }
