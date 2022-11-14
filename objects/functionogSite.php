@@ -46,14 +46,17 @@ if (empty($customizePluginDescription)) {
 
 if (empty($description)) {
     $description = $title;
-}
-if (!empty($customizePluginDescription)) {
-    $description = $customizePluginDescription;
-} elseif (!empty($metaDescription)) {
-    $description = $metaDescription;
+    if (!empty($customizePluginDescription)) {
+        echo PHP_EOL."<!-- OpenGraph description from customizePluginDescription -->".PHP_EOL;
+        $description = $customizePluginDescription;
+    } elseif (!empty($metaDescription)) {
+        echo PHP_EOL."<!-- OpenGraph description from metaDescription -->".PHP_EOL;
+        $description = $metaDescription;
+    }
 }
 $description = getSEODescription($description);
 ?>
+<!-- og from <?php echo basename(__FILE__); ?> -->
 <link rel="image_src" href="<?php echo $img; ?>" />
 <meta property="og:image" content="<?php echo $img; ?>" />
 <meta property="og:image:url" content="<?php echo $img; ?>" />
