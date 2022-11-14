@@ -42,7 +42,7 @@ if (empty($advancedCustomUser->doNotShowRightProfile) && (User::isLogged() || em
                             }
                         </script>
                         <?php echo '<!-- navbar line ' . __LINE__ . '-->'; ?>
-                        <ul class="dropdown-menu dropdown-menu-right <?php echo getCSSAnimationClassAndStyle('animate__bounceInRight', 'rightProfileButton', 0); ?>" >
+                        <ul class="dropdown-menu dropdown-menu-right <?php echo getCSSAnimationClassAndStyle('animate__bounceInRight', 'rightProfileButton', 0); ?> overflow:visible;" >
                             <li style="padding: 10px 10px 0 10px; min-height: 60px;" class="clearfix">
                                 <img src="<?php echo User::getPhoto(); ?>" style="max-width: 50px; max-height: 50px; margin: 0 5px 0 0;"  class="img img-responsive img-circle pull-left" alt="User Photo"/>
                                 <div  class="pull-left"  >
