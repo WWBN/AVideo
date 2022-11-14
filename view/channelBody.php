@@ -70,6 +70,10 @@ $get = ['channelName' => $_GET['channelName']];
 $palyListsObj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
 TimeLogEnd($timeLog, __LINE__);
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
+
+if($advancedCustomUser->showChannelLiveTab){
+    $liveVideos = getLiveVideosFromUsers_id($user_id);
+}
 ?>
 
 <style>
@@ -195,6 +199,19 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                         <ul class="nav nav-tabs">
                             <?php
                             $active = "active";
+                            if (!empty($liveVideos)) {
+                                if (!empty($_GET['current'])) { // means you are paging the Videos tab
+                                    $active = '';
+                                }
+                                ?>
+                                <li class="nav-item <?php echo $active; ?>">
+                                    <a class="nav-link " href="#channelLive" data-toggle="tab" aria-expanded="false">
+                                        <i class="fas fa-broadcast-tower"></i> <?php echo strtoupper(__("Live Now")); ?>
+                                    </a>
+                                </li>
+                                <?php
+                                $active = '';
+                            }
                             if ($advancedCustomUser->showChannelHomeTab) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = '';
@@ -265,6 +282,23 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
                         <div class="tab-content clearfix">
                             <?php
                             $active = "active fade in";
+                            if(!empty($liveVideos)){
+                                if (!empty($_GET['current'])) { // means you are paging the Videos tab
+                                    $active = '';
+                                }
+                                ?>
+                                <div class="tab-pane  <?php echo $active; ?>" id="channelLive" >
+                                    <?php
+                                    //createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true)
+                                    //var_dump($screenColsLarge, $screenColsMedium);exit;
+                                    //createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true)
+                                    createGallerySection($liveVideos);
+                                    ?>
+                                </div>
+                                <?php
+                                $active = "fade";
+                            }
+                            
                             if ($advancedCustomUser->showChannelHomeTab) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = '';

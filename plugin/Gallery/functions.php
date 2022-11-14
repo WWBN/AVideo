@@ -153,9 +153,44 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
     $obj = AVideoPlugin::getObjectData("Gallery");
     $zindex = 1000;
     $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
+    
+    $videoCount = count($videos);
+    $screenColsLarge = 0;
+    $screenColsMedium = 0;
+    $screenColsSmall = 0;
+    $screenColsXSmall = 0;
+    if($videoCount < 5){
+        switch ($videoCount) {
+            case 4:
+                $screenColsLarge = 4;
+                $screenColsMedium = 4;
+                $screenColsSmall = 2;
+                $screenColsXSmall = 1;
+                break;
+            case 3:
+                $screenColsLarge = 4;
+                $screenColsMedium = 4;
+                $screenColsSmall = 2;
+                $screenColsXSmall = 1;
+                break;
+            case 2:
+                $screenColsLarge = 2;
+                $screenColsMedium = 2;
+                $screenColsSmall = 2;
+                $screenColsXSmall = 1;
+                break;
+            case 1:
+                $screenColsLarge = 2;
+                $screenColsMedium = 2;
+                $screenColsSmall = 1;
+                $screenColsXSmall = 1;
+                break;
+        }
+    }
+    //var_dump($screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
     foreach ($videos as $video) {
         if (!empty($video['isLive'])) {
-            createGalleryLiveSectionVideo($video, $zindex);
+            createGalleryLiveSectionVideo($video, $zindex, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
         } else {
             createGallerySectionVideo($video, $crc, $get, $ignoreAds, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall, $galeryDetails, $zindex);
         }
@@ -214,12 +249,36 @@ function getLabelTags($video) {
     <?php
 }
 
+function getGalleryColsCSSClass($screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0){
+    global $objGallery;
+    $objGallery = AVideoPlugin::getObjectData("Gallery");    
+    $objGalleryScreenColsLarge = $objGallery->screenColsLarge;
+    $objGalleryScreenColsMedium = $objGallery->screenColsMedium;
+    $objGalleryScreenColsSmall = $objGallery->screenColsSmall;
+    $objGalleryScreenColsXSmall = $objGallery->screenColsXSmall;
+    
+    if (!empty($screenColsLarge)) {
+        $objGalleryScreenColsLarge = $screenColsLarge;
+    }
+    if (!empty($screenColsMedium)) {
+        $objGalleryScreenColsMedium = $screenColsMedium;
+    }
+    if (!empty($screenColsSmall)) {
+        $objGalleryScreenColsSmall = $screenColsSmall;
+    }
+    if (!empty($screenColsXSmall)) {
+        $objGalleryScreenColsXSmall = $screenColsXSmall;
+    }
+    $colsClass = "col-lg-" . (12 / $objGalleryScreenColsLarge) . " col-md-" . (12 / $objGalleryScreenColsMedium) . " col-sm-" . (12 / $objGalleryScreenColsSmall) . " col-xs-" . (12 / $objGalleryScreenColsXSmall);
+    return $colsClass;
+}
+
 function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true, $zindex = 1000) {
-    global $global, $config, $obj, $advancedCustom, $advancedCustomUser, $_lastCanDownloadVideosFromVideoReason;
+    global $global, $config, $advancedCustom, $advancedCustomUser, $_lastCanDownloadVideosFromVideoReason;
     $countCols = 0;
-    $obj = AVideoPlugin::getObjectData("Gallery");
+    $objGallery = AVideoPlugin::getObjectData("Gallery");
     // that meas auto generate the channelName
-    if (empty($get) && !empty($obj->filterUserChannel)) {
+    if (empty($get) && !empty($objGallery->filterUserChannel)) {
         $getCN = array('channelName' => $video['channelName'], 'catName' => @$_GET['catName']);
     } else {
         $getCN = $get;
@@ -228,21 +287,9 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
     $img_portrait = (@$video['rotation'] === "90" || @$video['rotation'] === "270") ? "img-portrait" : "";
     $nameId = User::getNameIdentificationById($video['users_id']);
     $name = $nameId . " " . User::getEmailVerifiedIcon($video['users_id']);
-
-    if (!empty($screenColsLarge)) {
-        $obj->screenColsLarge = $screenColsLarge;
-    }
-    if (!empty($screenColsMedium)) {
-        $obj->screenColsMedium = $screenColsMedium;
-    }
-    if (!empty($screenColsSmall)) {
-        $obj->screenColsSmall = $screenColsSmall;
-    }
-    if (!empty($screenColsXSmall)) {
-        $obj->screenColsXSmall = $screenColsXSmall;
-    }
-
-    $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
+    
+    
+    $colsClass = getGalleryColsCSSClass($screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
     ?>
     <!-- createGallerySection -->
     <div class=" <?php echo $colsClass; ?> galleryVideo galleryVideo<?php echo $video['id']; ?> fixPadding" style="z-index: <?php echo $zindex; ?>; min-height: 175px;">
@@ -389,13 +436,13 @@ function createGalleryLiveSection($videos) {
     return $countCols;
 }
 
-function createGalleryLiveSectionVideo($video, $zindex) {
-    global $global, $config, $obj, $advancedCustom, $advancedCustomUser;
-    $obj = AVideoPlugin::getObjectData("Gallery");
+function createGalleryLiveSectionVideo($video, $zindex, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0) {
+    global $global, $config, $objGallery, $advancedCustom, $advancedCustomUser;
+    $objGallery = AVideoPlugin::getObjectData("Gallery");
     $name = User::getNameIdentificationById($video['users_id']);
     $name .= " " . User::getEmailVerifiedIcon($video['users_id']);
 
-    $colsClass = "col-lg-" . (12 / $obj->screenColsLarge) . " col-md-" . (12 / $obj->screenColsMedium) . " col-sm-" . (12 / $obj->screenColsSmall) . " col-xs-" . (12 / $obj->screenColsXSmall);
+    $colsClass = getGalleryColsCSSClass($screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);;
 
     if (!empty($video['className'])) {
         $colsClass .= " {$video['className']}";
@@ -430,7 +477,7 @@ function createGalleryLiveSectionVideo($video, $zindex) {
 
         <div class="galeryDetails">
             <div class="galleryTags">
-                <?php if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) { ?>
+                <?php if (empty($_GET['catName']) && !empty($objGallery->showCategoryTag)) { ?>
                     <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>">
                         <?php
                         if (!empty($video['iconClass'])) {
@@ -450,7 +497,7 @@ function createGalleryLiveSectionVideo($video, $zindex) {
                 </a>
             </div>
             <?php
-            if ((!empty($video['description'])) && !empty($obj->Description)) {
+            if ((!empty($video['description'])) && !empty($objGallery->Description)) {
                 $desc = str_replace(array('"', "'", "#", "/", "\\"), array('``', "`", "", "", ""), preg_replace("/\r|\n/", " ", nl2br(trim($video['description']))));
                 if (!isHTMLEmpty($desc)) {
                     $titleAlert = str_replace(array('"', "'"), array('``', "`"), $video['title']);

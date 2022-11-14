@@ -77,6 +77,7 @@ class CustomizeUser extends PluginAbstract {
         self::addDataObjectHelper('doNotIdentifyByUserName', 'Do NOT identify user by Username', 'The identification order will be: <br>1. Name<br>2. email<br>3. Username<br>4. Channel Name');
         $obj->hideRemoveChannelFromModeYoutube = !isset($advancedCustom->hideRemoveChannelFromModeYoutube) ? false : $advancedCustom->hideRemoveChannelFromModeYoutube;
         $obj->showChannelBannerOnModeYoutube = !isset($advancedCustom->showChannelBannerOnModeYoutube) ? false : $advancedCustom->showChannelBannerOnModeYoutube;
+        $obj->showChannelLiveTab = true;
         $obj->showChannelHomeTab = true;
         $obj->showChannelVideosTab = true;
         $obj->showArticlesTab = true;

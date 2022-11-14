@@ -140,11 +140,11 @@ function get_max_file_size() {
 
 function humanTiming($time, $precision = 0, $useDatabaseTime = true, $addAgo = false) {
     $time = secondsIntervalFromNow($time, $useDatabaseTime);
-    
-    if($addAgo){
+
+    if ($addAgo) {
         $addAgo = $time - time();
     }
-    
+
     return secondsToHumanTiming($time, $precision, $addAgo);
 }
 
@@ -228,15 +228,14 @@ function secondsToHumanTiming($time, $precision = 0, $addAgo = false) {
                 $text .= ' ' . secondsToHumanTiming($rest, $precision - 1);
             }
         }
-        
+
         $return = $numberOfUnits . ' ' . $text;
-        
-        if(!empty($addAgo) && $addAgo<0){
+
+        if (!empty($addAgo) && $addAgo < 0) {
             $return = sprintf(__('%s Ago'), $return);
         }
-        
-        return $return;
 
+        return $return;
     }
 }
 
@@ -2593,7 +2592,7 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
                 $file = $thumbs;
             }
         }
-        if(get_browser_name() !== 'Safari'){
+        if (get_browser_name() !== 'Safari') {
             $file = createWebPIfNotExists($file);
         }
         $url = getURL(getRelativePath($file));
@@ -3805,13 +3804,7 @@ function getAdsLeaderBoardBigVideo() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     $adCode = '';
     if (!empty($ad)) {
-        if (isMobile()) {
-            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardBigVideoMobile->value);
-            $adCode = ADs::addLabel($adCode, $ad->leaderBoardBigVideoMobileLabel);
-        } else {
-            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardBigVideo->value);
-            $adCode = ADs::addLabel($adCode, $ad->leaderBoardBigVideoLabel);
-        }
+        $adCode = ADs::getAdsCode('leaderBoardBigVideo');
     }
     return $adCode;
 }
@@ -3820,13 +3813,7 @@ function getAdsLeaderBoardTop() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     $adCode = '';
     if (!empty($ad)) {
-        if (isMobile()) {
-            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardTopMobile->value);
-            $adCode = ADs::addLabel($adCode, $ad->leaderBoardTopMobileLabel);
-        } else {
-            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardTop->value);
-            $adCode = ADs::addLabel($adCode, $ad->leaderBoardTopLabel);
-        }
+        $adCode = ADs::getAdsCode('leaderBoardTop');
     }
     return $adCode;
 }
@@ -3835,13 +3822,7 @@ function getAdsChannelLeaderBoardTop() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     $adCode = '';
     if (!empty($ad)) {
-        if (isMobile()) {
-            $adCode = ADs::giveGoogleATimeout($ad->channelLeaderBoardTopMobile->value);
-            $adCode = ADs::addLabel($adCode, $ad->channelLeaderBoardTopMobileLabel);
-        } else {
-            $adCode = ADs::giveGoogleATimeout($ad->channelLeaderBoardTop->value);
-            $adCode = ADs::addLabel($adCode, $ad->channelLeaderBoardTopLabel);
-        }
+        $adCode = ADs::getAdsCode('channelLeaderBoardTop');
     }
     return $adCode;
 }
@@ -3850,13 +3831,7 @@ function getAdsLeaderBoardTop2() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     $adCode = '';
     if (!empty($ad)) {
-        if (isMobile()) {
-            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardTopMobile2->value);
-            $adCode = ADs::addLabel($adCode, $ad->leaderBoardTopMobile2Label);
-        } else {
-            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardTop2->value);
-            $adCode = ADs::addLabel($adCode, $ad->leaderBoardTop2Label);
-        }
+        $adCode = ADs::getAdsCode('leaderBoardTop2');
     }
     return $adCode;
 }
@@ -3865,13 +3840,7 @@ function getAdsLeaderBoardMiddle() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     $adCode = '';
     if (!empty($ad)) {
-        if (isMobile()) {
-            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardMiddleMobile->value);
-            $adCode = ADs::addLabel($adCode, $ad->leaderBoardMiddleMobileLabel);
-        } else {
-            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardMiddle->value);
-            $adCode = ADs::addLabel($adCode, $ad->leaderBoardMiddleLabel);
-        }
+        $adCode = ADs::getAdsCode('leaderBoardMiddle');
     }
     return $adCode;
 }
@@ -3880,13 +3849,7 @@ function getAdsLeaderBoardFooter() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     $adCode = '';
     if (!empty($ad)) {
-        if (isMobile()) {
-            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardFooterMobile->value);
-            $adCode = ADs::addLabel($adCode, $ad->leaderBoardFooterMobileLabel);
-        } else {
-            $adCode = ADs::giveGoogleATimeout($ad->leaderBoardFooter->value);
-            $adCode = ADs::addLabel($adCode, $ad->leaderBoardFooterLabel);
-        }
+        $adCode = ADs::getAdsCode('leaderBoardFooter');
     }
     return $adCode;
 }
@@ -3895,13 +3858,7 @@ function getAdsSideRectangle() {
     $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
     $adCode = '';
     if (!empty($ad)) {
-        if (isMobile()) {
-            $adCode = ADs::giveGoogleATimeout($ad->sideRectangle->value);
-            $adCode = ADs::addLabel($adCode, $ad->sideRectangleLabel);
-        } else {
-            $adCode = ADs::giveGoogleATimeout($ad->sideRectangle->value);
-            $adCode = ADs::addLabel($adCode, $ad->sideRectangleLabel);
-        }
+        $adCode = ADs::getAdsCode('sideRectangle');
     }
     return $adCode;
 }
@@ -7709,169 +7666,187 @@ function deleteStatsNotifications() {
     ObjectYPT::deleteCache($cacheName);
 }
 
+function getLiveVideosFromUsers_id($users_id) {
+    $videos = array();
+    if (!empty($users_id)) {
+        $stats = getStatsNotifications();
+        foreach ($stats["applications"] as $key => $value) {
+            if (empty($value['users_id']) || $users_id != $value['users_id']) {
+                continue;
+            }
+            $videos[] = getLiveVideosObject($value);
+        }
+    }
+    //var_dump($videos);exit;
+    return $videos;
+}
+
+function getLiveVideosObject($application) {
+    foreach ($application as $key => $application2) {
+        if (preg_match('/^html/i', $key)) {
+            unset($application[$key]);
+        }
+    }
+    $description = '';
+    if (!empty($application['liveLinks_id'])) {
+        $ll = new LiveLinksTable($application['liveLinks_id']);
+
+        $m3u8 = $ll->getLink();
+        $description = $ll->getDescription();
+    } else if (!empty($application['key'])) {
+        $m3u8 = Live::getM3U8File($application['key']);
+        $lt = LiveTransmition::getFromKey($application['key']);
+        $description = $lt['description'];
+    } else {
+        $m3u8 = '';
+    }
+
+    $user = new User($application['users_id']);
+    $cat = new Category($application['categories_id']);
+    $video = array(
+        'id' => intval(rand(999999, 9999999)),
+        'isLive' => 1,
+        'categories_id' => $application['categories_id'],
+        'description' => $description,
+        'user' => $user->getUser(),
+        'name' => $user->getName(),
+        'email' => $user->getEmail(),
+        'isAdmin' => $user->getIsAdmin(),
+        'photoURL' => $user->getPhotoURL(),
+        'canStream' => $user->getCanStream(),
+        'canUpload' => $user->getCanUpload(),
+        'channelName' => $user->getChannelName(),
+        'emailVerified' => $user->getEmailVerified(),
+        'views_count' => 0,
+        'rrating' => "",
+        'users_id' => $application['users_id'],
+        'type' => 'ready',
+        'title' => $application['title'],
+        'clean_title' => cleanURLName($application['title']),
+        'poster' => @$application['poster'],
+        'thumbsJpgSmall' => @$application['poster'],
+        'href' => @$application['href'],
+        'link' => @$application['link'],
+        'imgGif' => @$application['imgGif'],
+        'className' => @$application['className'],
+        'galleryCallback' => @$application['callback'],
+        'stats' => $application,
+        'embedlink' => addQueryStringParameter($application['href'], 'embed', 1),
+        'images' => array(
+            "poster" => @$application['poster'],
+            "posterPortrait" => @$application['poster'],
+            "posterPortraitPath" => @$application['poster'],
+            "posterPortraitThumbs" => @$application['poster'],
+            "posterPortraitThumbsSmall" => @$application['poster'],
+            "thumbsGif" => @$application['imgGif'],
+            "gifPortrait" => @$application['imgGif'],
+            "thumbsJpg" => @$application['poster'],
+            "thumbsJpgSmall" => @$application['poster'],
+            "spectrumSource" => false,
+            "posterLandscape" => @$application['poster'],
+            "posterLandscapePath" => @$application['poster'],
+            "posterLandscapeThumbs" => @$application['poster'],
+            "posterLandscapeThumbsSmall" => @$application['poster']
+        ),
+        'videos' => array(
+            "m3u8" => array(
+                "url" => $m3u8,
+                "url_noCDN" => $m3u8,
+                "type" => "video",
+                "format" => "m3u8",
+                "resolution" => "auto"
+            )
+        ),
+        'Poster' => @$application['poster'],
+        'Thumbnail' => @$application['poster'],
+        'createdHumanTiming' => 'Live',
+        "videoLink" => "",
+        "next_videos_id" => null,
+        "isSuggested" => 0,
+        "trailer1" => "",
+        "trailer2" => "",
+        "trailer3" => "",
+        "total_seconds_watching" => 0,
+        "duration" => 'Live',
+        "type" => 'Live',
+        "duration_in_seconds" => 0,
+        "likes" => 0,
+        "dislikes" => 0,
+        "users_id_company" => null,
+        "iconClass" => $cat->getIconClass(),
+        "category" => $cat->getName(),
+        "clean_category" => $cat->getClean_name(),
+        "category_description" => $cat->getDescription(),
+        "videoCreation" => date('Y-m-d H:i:s'),
+        "videoModified" => date('Y-m-d H:i:s'),
+        "groups" => array(),
+        "tags" => array(),
+        "videoTags" => [
+            array(
+                "type_name" => "Starring",
+                "name" => ""
+            ),
+            array(
+                "type_name" => "Language",
+                "name" => "English"
+            ),
+            array(
+                "type_name" => "Release_Date",
+                "name" => date('Y')
+            ),
+            array(
+                "type_name" => "Running_Time",
+                "name" => ""
+            ),
+            array(
+                "type_name" => "Genres",
+                "name" => $cat->getName()
+            )
+        ],
+        "videoTagsObject" => array('Starring' => array(), 'Language' => array("English"), 'Release_Date' => array(date('Y')), 'Running_Time' => array('0'), 'Genres' => array($cat->getName())),
+        'descriptionHTML' => '',
+        "progress" => array(
+            "percent" => 0,
+            "lastVideoTime" => 0
+        ),
+        "isFavorite" => null,
+        "isWatchLater" => null,
+        "favoriteId" => null,
+        "watchLaterId" => null,
+        "total_seconds_watching_human" => "",
+        "views_count_short" => "",
+        "identification" => $user->getNameIdentificationBd(),
+        "UserPhoto" => $user->getPhotoURL(),
+        "isSubscribed" => true,
+        "subtitles" => [],
+        "subtitlesSRT" => [],
+        "comments" => [],
+        "commentsTotal" => 0,
+        "subscribers" => 1,
+        'relatedVideos' => [],
+        "wwbnURL" => @$application['href'],
+        "wwbnEmbedURL" => addQueryStringParameter($application['href'], 'embed', 1),
+        "wwbnImgThumbnail" => @$application['poster'],
+        "wwbnImgPoster" => @$application['poster'],
+        "wwbnTitle" => $application['title'],
+        "wwbnDescription" => '',
+        "wwbnChannelURL" => $user->getChannelLink(),
+        "wwbnImgChannel" => $user->getPhoto(),
+        "wwbnType" => "live",
+    );
+    //var_dump($videos);exit;
+    return $video;
+}
+
 function getLiveVideosFromCategory($categories_id) {
     $stats = getStatsNotifications();
     $videos = array();
     if (!empty($categories_id)) {
-        $cat = new Category($categories_id);
         foreach ($stats["applications"] as $key => $value) {
             if (empty($value['categories_id']) || $categories_id != $value['categories_id']) {
                 continue;
-            }
-            foreach ($value as $key => $value2) {
-                if (preg_match('/^html/i', $key)) {
-                    unset($value[$key]);
-                }
-            }
-            $description = '';
-            if (!empty($value['liveLinks_id'])) {
-                $ll = new LiveLinksTable($value['liveLinks_id']);
-
-                $m3u8 = $ll->getLink();
-                $description = $ll->getDescription();
-            } else if (!empty($value['key'])) {
-                $m3u8 = Live::getM3U8File($value['key']);
-                $lt = LiveTransmition::getFromKey($value['key']);
-                $description = $lt['description'];
-            } else {
-                $m3u8 = '';
-            }
-
-            $user = new User($value['users_id']);
-
-            $video = array(
-                'id' => intval(rand(999999, 9999999)),
-                'isLive' => 1,
-                'categories_id' => $categories_id,
-                'description' => $description,
-                'user' => $user->getUser(),
-                'name' => $user->getName(),
-                'email' => $user->getEmail(),
-                'isAdmin' => $user->getIsAdmin(),
-                'photoURL' => $user->getPhotoURL(),
-                'canStream' => $user->getCanStream(),
-                'canUpload' => $user->getCanUpload(),
-                'channelName' => $user->getChannelName(),
-                'emailVerified' => $user->getEmailVerified(),
-                'views_count' => 0,
-                'rrating' => "",
-                'users_id' => $value['users_id'],
-                'type' => 'ready',
-                'title' => $value['title'],
-                'clean_title' => cleanURLName($value['title']),
-                'poster' => @$value['poster'],
-                'thumbsJpgSmall' => @$value['poster'],
-                'href' => @$value['href'],
-                'link' => @$value['link'],
-                'imgGif' => @$value['imgGif'],
-                'className' => @$value['className'],
-                'galleryCallback' => @$value['callback'],
-                'stats' => $value,
-                'embedlink' => addQueryStringParameter($value['href'], 'embed', 1),
-                'images' => array(
-                    "poster" => @$value['poster'],
-                    "posterPortrait" => @$value['poster'],
-                    "posterPortraitPath" => @$value['poster'],
-                    "posterPortraitThumbs" => @$value['poster'],
-                    "posterPortraitThumbsSmall" => @$value['poster'],
-                    "thumbsGif" => @$value['imgGif'],
-                    "gifPortrait" => @$value['imgGif'],
-                    "thumbsJpg" => @$value['poster'],
-                    "thumbsJpgSmall" => @$value['poster'],
-                    "spectrumSource" => false,
-                    "posterLandscape" => @$value['poster'],
-                    "posterLandscapePath" => @$value['poster'],
-                    "posterLandscapeThumbs" => @$value['poster'],
-                    "posterLandscapeThumbsSmall" => @$value['poster']
-                ),
-                'videos' => array(
-                    "m3u8" => array(
-                        "url" => $m3u8,
-                        "url_noCDN" => $m3u8,
-                        "type" => "video",
-                        "format" => "m3u8",
-                        "resolution" => "auto"
-                    )
-                ),
-                'Poster' => @$value['poster'],
-                'Thumbnail' => @$value['poster'],
-                'createdHumanTiming' => 'Live',
-                "videoLink" => "",
-                "next_videos_id" => null,
-                "isSuggested" => 0,
-                "trailer1" => "",
-                "trailer2" => "",
-                "trailer3" => "",
-                "total_seconds_watching" => 0,
-                "duration" => 'Live',
-                "type" => 'Live',
-                "duration_in_seconds" => 0,
-                "likes" => 0,
-                "dislikes" => 0,
-                "users_id_company" => null,
-                "iconClass" => $cat->getIconClass(),
-                "category" => $cat->getName(),
-                "clean_category" => $cat->getClean_name(),
-                "category_description" => $cat->getDescription(),
-                "videoCreation" => date('Y-m-d H:i:s'),
-                "videoModified" => date('Y-m-d H:i:s'),
-                "groups" => array(),
-                "tags" => array(),
-                "videoTags" => [
-                    array(
-                        "type_name" => "Starring",
-                        "name" => ""
-                    ),
-                    array(
-                        "type_name" => "Language",
-                        "name" => "English"
-                    ),
-                    array(
-                        "type_name" => "Release_Date",
-                        "name" => date('Y')
-                    ),
-                    array(
-                        "type_name" => "Running_Time",
-                        "name" => ""
-                    ),
-                    array(
-                        "type_name" => "Genres",
-                        "name" => $cat->getName()
-                    )
-                ],
-                "videoTagsObject" => array('Starring' => array(), 'Language' => array("English"), 'Release_Date' => array(date('Y')), 'Running_Time' => array('0'), 'Genres' => array($cat->getName())),
-                'descriptionHTML' => '',
-                "progress" => array(
-                    "percent" => 0,
-                    "lastVideoTime" => 0
-                ),
-                "isFavorite" => null,
-                "isWatchLater" => null,
-                "favoriteId" => null,
-                "watchLaterId" => null,
-                "total_seconds_watching_human" => "",
-                "views_count_short" => "",
-                "identification" => $user->getNameIdentificationBd(),
-                "UserPhoto" => $user->getPhotoURL(),
-                "isSubscribed" => true,
-                "subtitles" => [],
-                "subtitlesSRT" => [],
-                "comments" => [],
-                "commentsTotal" => 0,
-                "subscribers" => 1,
-                'relatedVideos' => [],
-                "wwbnURL" => @$value['href'],
-                "wwbnEmbedURL" => addQueryStringParameter($value['href'], 'embed', 1),
-                "wwbnImgThumbnail" => @$value['poster'],
-                "wwbnImgPoster" => @$value['poster'],
-                "wwbnTitle" => $value['title'],
-                "wwbnDescription" => '',
-                "wwbnChannelURL" => $user->getChannelLink(),
-                "wwbnImgChannel" => $user->getPhoto(),
-                "wwbnType" => "live",
-            );
-
-            $videos[] = $video;
+            }            
+            $videos[] = getLiveVideosObject($value);
         }
     }
     //var_dump($videos);exit;

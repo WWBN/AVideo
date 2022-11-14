@@ -79,6 +79,10 @@ try {
     } else if (StripeYPT::isSinglePayment($payloadObj)) {
         _error_log("StripeIPN: ** SinglePayment **");
         $stripe->processSinglePaymentIPN($payloadObj);
+    } else if (StripeYPT::isSubscriptionCanceled($payloadObj)) {
+        _error_log("StripeIPN: ** isSubscriptionCanceled **");
+        // TODO suspend / cancel subscription
+        //$stripe->processSinglePaymentIPN($payloadObj);
     } else {
         //_error_log("StripeIPN: something went wrong: {$payload}" , AVideoLog::$ERROR );
     }

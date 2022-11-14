@@ -45,7 +45,7 @@ TimeLogStart($timeLog3);
             $cssClass = "posterPortrait";
         }
         ?>
-    <div class="carousel-cell <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'flix') ?>" >
+        <div class="carousel-cell <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'flix') ?>" >
             <div class="tile">
                 <div class="slide thumbsImage _<?php echo $uidOriginal; ?>" crc="<?php echo $uid; ?>" 
                      uidOriginal="<?php echo $uidOriginal; ?>"

@@ -67,6 +67,7 @@ $ogURL = Video::getLink($video['id'], $video['clean_title']);
 //$ogURL = Video::getLinkToVideo($videos_id, '', false,false);
 $modifiedDate = date('Y-m-d', strtotime($video['modified']));
 ?>
+<!-- og from <?php echo basename(__FILE__); ?> -->
 <meta http-equiv="last-modified" content="<?php echo $modifiedDate; ?>">
 <meta name="revised" content="<?php echo $modifiedDate; ?>" />
 <link rel="image_src" href="<?php echo $img; ?>" />
@@ -75,7 +76,6 @@ $modifiedDate = date('Y-m-d', strtotime($video['modified']));
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
 <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
-
 <meta property="fb:app_id"             content="774958212660408" />
 <meta property="og:title"              content="<?php echo $title; ?>" />
 <meta property="og:description"        content="<?php echo $description; ?>" />
