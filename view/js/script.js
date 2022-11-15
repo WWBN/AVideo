@@ -2651,10 +2651,10 @@ function getCursorPos(input) {
 
 function isUserOnline(users_id) {
     users_id = parseInt(users_id);
-    if (empty(users_id_online)) {
+    if (typeof users_id_online === 'undefined' || empty(users_id_online)) {
         return false;
     }
-    if (empty(users_id_online[users_id])) {
+    if (typeof users_id_online[users_id] === 'undefined' || empty(users_id_online[users_id])) {
         return false;
     }
     if (empty(users_id_online[users_id].resourceId)) {
