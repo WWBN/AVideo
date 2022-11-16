@@ -48,6 +48,34 @@ class ADs extends PluginAbstract{
         return "1.1";
     }
 
+    public static function getDataObjectAdvanced() {
+        return array(
+            'leaderBoardBigVideo',
+            'leaderBoardBigVideoLabel',
+            'leaderBoardTop',
+            'leaderBoardTopLabel',
+            'leaderBoardTop2',
+            'leaderBoardTop2Label',
+            'channelLeaderBoardTop',
+            'channelLeaderBoardTopLabel',
+            'leaderBoardMiddle',
+            'leaderBoardMiddleLabel',
+            'sideRectangle',
+            'sideRectangleLabel',
+            'leaderBoardBigVideoMobile',
+            'leaderBoardBigVideoMobileLabel',
+            'leaderBoardTopMobile',
+            'leaderBoardTopMobileLabel',
+            'leaderBoardTopMobile2',
+            'leaderBoardTopMobile2Label',
+            'channelLeaderBoardTopMobile',
+            'channelLeaderBoardTopMobileLabel',
+            'leaderBoardMiddleMobile',
+            'leaderBoardMiddleMobileLabel',
+            'tags3rdParty',
+            );
+    }
+    
     public function getEmptyDataObject()
     {
         global $global, $config;

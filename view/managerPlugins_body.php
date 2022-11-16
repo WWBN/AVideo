@@ -27,6 +27,13 @@ $uuidJSCondition = implode(" && ", $rowId);
         height: 1.75em;
         line-height: 1.75;
     }
+    #jsonElements .is_deprecated, #jsonElements .is_experimental , #jsonElements .is_advanced {
+        display: none;
+        padding: 5px;
+    }
+    #jsonElements .is_deprecated.forceShow, #jsonElements .is_experimental.forceShow, #jsonElements .is_advanced.forceShow {
+        display: block;
+    }
 </style>
 <div class="container-fluid">
     <div class="panel panel-default">
@@ -92,6 +99,25 @@ $uuidJSCondition = implode(" && ", $rowId);
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a data-toggle="tab" href="#visual">Visual</a></li>
                                             <li><a data-toggle="tab" href="#code">Code</a></li>
+                                            <li class="pull-right">
+                                                <label>
+                                                    <input type="checkbox" id="is_advanced" onclick="tooglePluginForceShow(this);">
+                                                    <?php echo __('Show Advanced Options'); ?>
+                                                    <span class="badge">0</span>
+                                                </label>
+                                                <div class="clearfix"></div>
+                                                <label>
+                                                    <input type="checkbox" id="is_deprecated" onclick="tooglePluginForceShow(this);">
+                                                    <?php echo __('Show Deprecated Options'); ?>
+                                                    <span class="badge">0</span>
+                                                </label>
+                                                <div class="clearfix"></div>
+                                                <label>
+                                                    <input type="checkbox" id="is_experimental" onclick="tooglePluginForceShow(this);">
+                                                    <?php echo __('Show Experimental Options'); ?>
+                                                    <span class="badge">0</span>
+                                                </label>
+                                            </li>
                                         </ul>
                                         <div class="tab-content">
                                             <div id="visual" class="tab-pane fade in active">
@@ -383,7 +409,18 @@ $uuidJSCondition = implode(" && ", $rowId);
             $(t).find('i').removeClass('fa-minus');
         }
     }
-
+    
+    
+    function tooglePluginForceShow(t) {
+        var id = $(t).attr('id');
+        var selector = '#jsonElements .'+id;
+        if ($(t).is(":checked")) {
+            $(selector).addClass('forceShow');
+            avideoTooltip(selector, id.replace('_', ' ').toUpperCase());
+        } else {
+            $(selector).removeClass('forceShow');
+        }
+    }
 
     function pluginPermissionsBtn(plugins_id) {
         modal.showPleaseWait();
@@ -548,7 +585,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                 var json = JSON.stringify(row.data_object);
                 //console.log(json);
                 //console.log(row.data_object);
-                jsonToForm(row.data_object, row.data_object_helper);
+                jsonToForm(row.data_object, row.data_object_helper, row.data_object_info);
                 $('#inputData').val(json);
                 $('#pluginsFormModal').modal();
             });

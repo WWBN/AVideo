@@ -39,6 +39,63 @@ class YPTWallet extends PluginAbstract
     {
         return "4.0";
     }
+    
+    
+    public static function getDataObjectAdvanced() {
+        return array(
+            'decimalPrecision',
+            'wallet_button_title',
+            'add_funds_text',
+            'add_funds_success_success',
+            'add_funds_success_cancel',
+            'add_funds_success_fail',
+            'transfer_funds_text',
+            'transfer_funds_success_success',
+            'transfer_funds_success_fail',
+            'withdraw_funds_text',
+            'withdraw_funds_success_success',
+            'withdraw_funds_success_fail',
+            'virtual_currency',
+            'virtual_currency_symbol',
+            'virtual_currency_exchange_rate',
+            'virtual_currency_decimalPrecision',
+            'virtual_currency_enable',
+            'showWalletOnlyToAdmin',
+            'showWalletOnProfile',
+            'showWalletOnTopMenu',
+            'CryptoWalletName',
+            'CryptoWalletEnabled',
+            'hideConfiguration',
+            'manualAddFundsMenuTitle',
+            'manualAddFundsPageButton',
+            'manualAddFundsNotifyEmail',
+            'manualAddFundsMenuTitle',
+            'manualWithdrawFundsMenuTitle',
+            'manualWithdrawFundsPageButton',
+            'manualWithdrawFundsNotifyEmail',
+            'enableAutomaticAddFundsPage',
+            'enableManualAddFundsPage',
+            'enableManualWithdrawFundsPage',
+            'enableAutoWithdrawFundsPagePaypal',
+            'manualWithdrawFundsTransferToUserId',
+            'manualAddFundsTransferFromUserId'
+            );
+    }
+    
+    public static function getDataObjectDeprecated() {
+        return array(
+            'RedirectURL', 
+            'CancelURL',
+            );
+    }
+    
+    
+    public static function getDataObjectExperimental() {
+        return array(
+            'enablePlugin_YPTWalletRazorPay',
+            'enablePlugin_YPTWalletBlockonomics'
+        );
+    }
 
     public function getEmptyDataObject()
     {
