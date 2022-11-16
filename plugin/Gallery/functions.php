@@ -174,14 +174,14 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 $screenColsXSmall = 1;
                 break;
             case 2:
-                $screenColsLarge = 4;
-                $screenColsMedium = 4;
+                $screenColsLarge = 3;
+                $screenColsMedium = 3;
                 $screenColsSmall = 2;
                 $screenColsXSmall = 1;
                 break;
             case 1:
-                $screenColsLarge = 4;
-                $screenColsMedium = 4;
+                $screenColsLarge = 3;
+                $screenColsMedium = 3;
                 $screenColsSmall = 1;
                 $screenColsXSmall = 1;
                 break;
