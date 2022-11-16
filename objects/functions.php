@@ -8370,9 +8370,11 @@ function idToHash($id) {
     if (!empty($global['useLongHash'])) {
         $base = 2;
         $cipher_algo = 'des';
+        $iv = 'abcdef12';
     } else {
         $base = 32;
         $cipher_algo = 'rc4';
+        $iv = '';
     }
     if (empty($global['salt'])) {
         $global['salt'] = '11234567890abcdef';
@@ -8400,15 +8402,16 @@ function hashToID($hash) {
     if (!empty($global['useLongHash'])) {
         $base = 2;
         $cipher_algo = 'des';
+        $iv = 'abcdef12';
     } else {
         $base = 32;
         $cipher_algo = 'rc4';
+        $iv = '';
     }
-    $iv = hex2bin("6578616d706c65206865782064617461");
     //$hash = str_pad($hash,  4, "=");
     $hash = str_replace(['_', '-', '.'], ['/', '+', '='], $hash);
     //$hash = base64_decode($hash);
-    $decrypt = openssl_decrypt(($hash), $cipher_algo, $global['salt'], 0, $iv);
+    $decrypt = @openssl_decrypt(($hash), $cipher_algo, $global['salt'], 0, $iv);
     $decrypt = base_convert($decrypt, $base, 10);
     return intval($decrypt);
 }
