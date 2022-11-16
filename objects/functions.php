@@ -8356,6 +8356,44 @@ function fixPath($path, $addLastSlash = false) {
     return $path;
 }
 
+
+function getHashMethodsAndInfo(){
+    global $global, $_getHashMethod;
+    
+    if(empty($_getHashMethod)){    
+        if (empty($global['salt'])) {
+            $global['salt'] = '11234567890abcdef';
+        }
+        $saltMD5 = md5($global['salt']);
+        if (!empty($global['useLongHash'])) {
+            $base = 2;
+            $cipher_algo = 'des';
+        } else {
+            $base = 32;
+            $cipher_algo = 'rc4';
+        }
+        $cipher_methods = openssl_get_cipher_methods();
+        if(!in_array($cipher_algo, $cipher_methods)){
+            $base = 32;
+            $cipher_algo = $cipher_methods[0];
+        }
+
+        $ivlen  = openssl_cipher_iv_length($cipher_algo);
+        if(function_exists('openssl_cipher_key_length')){
+            $keylen = openssl_cipher_key_length($cipher_algo);
+        }else{
+            $keylen = $ivlen;
+        }
+
+        $iv = substr($saltMD5, 0, $ivlen);
+        $key = substr($saltMD5, 0, $keylen);
+
+        $_getHashMethod = array('cipher_algo'=>$cipher_algo, 'iv'=>$iv, 'key'=>$key, 'base'=>$base);
+
+    }
+    return $_getHashMethod;
+}
+
 function idToHash($id) {
     global $global, $_idToHash;
 
@@ -8366,21 +8404,18 @@ function idToHash($id) {
     if (!empty($_idToHash[$id])) {
         return $_idToHash[$id];
     }
-
-    if (!empty($global['useLongHash'])) {
-        $base = 2;
-        $cipher_algo = 'des';
-        $iv = 'abcdef12';
-    } else {
-        $base = 32;
-        $cipher_algo = 'rc4';
-        $iv = '';
-    }
+    
+    $MethodsAndInfo = getHashMethodsAndInfo();
+    $cipher_algo = $MethodsAndInfo['cipher_algo'];
+    $iv = $MethodsAndInfo['iv'];
+    $key = $MethodsAndInfo['key'];
+    $base = $MethodsAndInfo['base'];
+    
     if (empty($global['salt'])) {
         $global['salt'] = '11234567890abcdef';
     }
     $idConverted = base_convert($id, 10, $base);
-    $hash = (@openssl_encrypt($idConverted, $cipher_algo, $global['salt'], 0, $iv));
+    $hash = (@openssl_encrypt($idConverted, $cipher_algo, $key, 0, $iv));
     //$hash = preg_replace('/^([+]+)/', '', $hash);
     $hash = preg_replace('/(=+)$/', '', $hash);
     $hash = str_replace(['/', '+', '='], ['_', '-', '.'], $hash);
@@ -8398,19 +8433,16 @@ function idToHash($id) {
 
 function hashToID($hash) {
     global $global;
-    if (!empty($global['useLongHash'])) {
-        $base = 2;
-        $cipher_algo = 'des';
-        $iv = 'abcdef12';
-    } else {
-        $base = 32;
-        $cipher_algo = 'rc4';
-        $iv = '';
-    }
-    //$hash = str_pad($hash,  4, "=");
     $hash = str_replace(['_', '-', '.'], ['/', '+', '='], $hash);
+    
+    $MethodsAndInfo = getHashMethodsAndInfo();
+    $cipher_algo = $MethodsAndInfo['cipher_algo'];
+    $iv = $MethodsAndInfo['iv'];
+    $key = $MethodsAndInfo['key'];
+    $base = $MethodsAndInfo['base'];
+    
     //$hash = base64_decode($hash);
-    $decrypt = @openssl_decrypt(($hash), $cipher_algo, $global['salt'], 0, $iv);
+    $decrypt = @openssl_decrypt($hash, $cipher_algo, $key, 0, $iv);
     $decrypt = base_convert($decrypt, $base, 10);
     return intval($decrypt);
 }
