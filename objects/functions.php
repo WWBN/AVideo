@@ -8384,7 +8384,7 @@ function idToHash($id) {
     $hash = preg_replace('/(=+)$/', '', $hash);
     $hash = str_replace(['/', '+', '='], ['_', '-', '.'], $hash);
     if(empty($hash)){
-        _error_log('idToHash error: '.openssl_error_string().PHP_EOL. json_encode(array('id'=>$id, 'cipher_algo'=>$cipher_algo, 'base'=>$base, 'idConverted'=>$idConverted, 'hash'=>$hash)));
+        _error_log('idToHash error: '.openssl_error_string().PHP_EOL. json_encode(array('id'=>$id, 'cipher_algo'=>$cipher_algo, 'base'=>$base, 'idConverted'=>$idConverted, 'hash'=>$hash, 'iv'=>$iv)));
         if(!empty($global['useLongHash'])){
             $global['useLongHash'] = 0;
             return idToHash($id);
