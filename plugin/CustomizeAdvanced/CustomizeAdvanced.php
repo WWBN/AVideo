@@ -29,7 +29,140 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getPluginVersion() {
         return "1.0";
     }
-
+    
+    public static function getDataObjectDeprecated() {
+        return array(
+            'EnableMinifyJS',
+            'usePreloadLowResolutionImages',
+            );
+    }
+    
+    public static function getDataObjectExperimental() {
+        return array(
+            'autoPlayAjax',
+            'useFFMPEGToGenerateThumbs',
+        );
+    }
+    
+    public static function getDataObjectAdvanced() {
+        return array(
+            'useVideoIDOnSEOLinks',
+            'logoMenuBarURL',
+            'encoderNetwork',
+            'useEncoderNetworkRecomendation',
+            'doNotShowEncoderNetwork',
+            'doNotShowUploadButton',
+            'uploadButtonDropdownIcon',
+            'uploadButtonDropdownText',
+            'encoderNetworkLabel',
+            'doNotShowUploadMP4Button',
+            'disablePDFUpload',
+            'disableImageUpload',
+            'disableZipUpload',
+            'disableMP4Upload',
+            'disableMP3Upload',
+            'uploadMP4ButtonLabel',
+            'doNotShowImportMP4Button',
+            'importMP4ButtonLabel',
+            'doNotShowEncoderButton',
+            'encoderButtonLabel',
+            'doNotShowEmbedButton',
+            'embedBackgroundColor',
+            'embedButtonLabel',
+            'embedCodeTemplate',
+            'embedCodeTemplateObject',
+            'htmlCodeTemplate',
+            'BBCodeTemplate',
+            'embedControls',
+            'embedAutoplay',
+            'embedLoop',
+            'embedStartMuted',
+            'embedShowinfo',
+            'doNotShowEncoderHLS',
+            'doNotShowEncoderResolutionLow',
+            'doNotShowEncoderResolutionSD',
+            'doNotShowEncoderResolutionHD',
+            'openEncoderInIFrame',
+            'showOnlyEncoderAutomaticResolutions',
+            'doNotShowEncoderAutomaticHLS',
+            'doNotShowEncoderAutomaticMP4',
+            'doNotShowEncoderAutomaticWebm',
+            'doNotShowEncoderAutomaticAudio',
+            'saveOriginalVideoResolution',
+            'doNotShowExtractAudio',
+            'doNotShowCreateVideoSpectrum',
+            'doNotShowLeftMenuAudioAndVideoButtons',
+            'doNotShowWebsiteOnContactForm',
+            'doNotUseXsendFile',
+            'disableAnimatedGif',
+            'doNotShowCreateVideoSpectrum',
+            'disableShareAndPlaylist',
+            'disableShareOnly',
+            'disableEmailSharing',
+            'splitBulkEmailSend',
+            'commentsMaxLength',
+            'commentsNoIndex',
+            'disableYoutubePlayerIntegration',
+            'utf8Encode',
+            'utf8Decode',
+            'menuBarHTMLCode',
+            'underMenuBarHTMLCode',
+            'footerHTMLCode',
+            'signInOnRight',
+            'signInOnLeft',
+            'forceCategory',
+            'showCategoryTopImages',
+            'disablePlayLink',
+            'disableAnimations',
+            'disableNavbar',
+            'disableNavBarInsideIframe',
+            'autoHideNavbar',
+            'autoHideNavbarInSeconds',
+            'videosCDN',
+            'thumbsWidthPortrait',
+            'thumbsHeightPortrait',
+            'thumbsWidthLandscape',
+            'thumbsHeightLandscape',
+            'showImageDownloadOption',
+            'doNotDisplayCategoryLeftMenu',
+            'doNotDisplayCategory',
+            'showShareMenuOpenByDefault',
+            'doNotShowLeftHomeButton',
+            'doNotShowLeftTrendingButton',
+            'CategoryLabel',
+            'ShowAllVideosOnCategory',
+            'hideCategoryVideosCount',
+            'hideEditAdvancedFromVideosManager',
+            'paidOnlyUsersTellWhatVideoIs',
+            'paidOnlyShowLabels',
+            'paidOnlyLabel',
+            'paidOnlyFreeLabel',
+            'removeSubscribeButton',
+            'siteMapRowsLimit',
+            'siteMapUTF8Fix',
+            'showPrivateVideosOnSitemap',
+            'enableOldPassHashCheck',
+            'disableShowMOreLessDescription',
+            'disableVideoSwap',
+            'makeSwapVideosOnlyForAdmin',
+            'videosManegerRowCount',
+            'videosListRowCount',
+            'videosManegerBulkActionButtons',
+            'twitter_site',
+            'twitter_player',
+            'twitter_summary_large_image',
+            'footerStyle',
+            'doNotAllowEncoderOverwriteStatus',
+            'doNotAllowUpdateVideoId',
+            'doNotSaveCacheOnFilesystem',
+            'beforeNavbar',
+            'trendingOnLastDays',
+            'removeVideoList',
+            'sortVideoListByDefault',
+            'showVideoDownloadedLink',
+            );
+    }
+    
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
@@ -90,6 +223,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->makeVideosInactiveAfterEncode = false;
         $obj->makeVideosUnlistedAfterEncode = false;
         $obj->usePermalinks = false;
+        self::addDataObjectHelper('usePermalinks', 'Do not show video title on URL', 'This option is not good for SEO, but makes the URL clear');
         $obj->useVideoIDOnSEOLinks = true;
         $obj->disableAnimatedGif = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
@@ -182,6 +316,8 @@ class CustomizeAdvanced extends PluginAbstract {
 
         //ver 7.1
         $obj->paidOnlyUsersTellWhatVideoIs = false;
+        self::addDataObjectHelper('paidOnlyUsersTellWhatVideoIs', 'Only Paid Users Can see option', 'This will create an option on videos manager to only let paid users to see this video');
+        
         $obj->paidOnlyShowLabels = false;
         $obj->paidOnlyLabel = "Premium";
         $obj->paidOnlyFreeLabel = "Free";
