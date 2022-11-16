@@ -8382,6 +8382,10 @@ function idToHash($id) {
     //$hash = preg_replace('/^([+]+)/', '', $hash);
     $hash = preg_replace('/(=+)$/', '', $hash);
     $hash = str_replace(['/', '+', '='], ['_', '-', '.'], $hash);
+    if(empty($hash) && !empty($global['useLongHash'])){
+        $global['useLongHash'] = 0;
+        return idToHash($id);
+    }
     //return base64_encode($hash);
     $_idToHash[$id] = $hash;
     return $hash;
