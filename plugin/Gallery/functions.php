@@ -168,20 +168,20 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
                 $screenColsXSmall = 1;
                 break;
             case 3:
+                $screenColsLarge = 3;
+                $screenColsMedium = 3;
+                $screenColsSmall = 2;
+                $screenColsXSmall = 1;
+                break;
+            case 2:
                 $screenColsLarge = 4;
                 $screenColsMedium = 4;
                 $screenColsSmall = 2;
                 $screenColsXSmall = 1;
                 break;
-            case 2:
-                $screenColsLarge = 2;
-                $screenColsMedium = 2;
-                $screenColsSmall = 2;
-                $screenColsXSmall = 1;
-                break;
             case 1:
-                $screenColsLarge = 2;
-                $screenColsMedium = 2;
+                $screenColsLarge = 4;
+                $screenColsMedium = 4;
                 $screenColsSmall = 1;
                 $screenColsXSmall = 1;
                 break;
@@ -251,7 +251,9 @@ function getLabelTags($video) {
 
 function getGalleryColsCSSClass($screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0){
     global $objGallery;
-    $objGallery = AVideoPlugin::getObjectData("Gallery");    
+    if(empty($objGallery)){
+        $objGallery = AVideoPlugin::getObjectData("Gallery");    
+    }
     $objGalleryScreenColsLarge = $objGallery->screenColsLarge;
     $objGalleryScreenColsMedium = $objGallery->screenColsMedium;
     $objGalleryScreenColsSmall = $objGallery->screenColsSmall;
@@ -442,7 +444,7 @@ function createGalleryLiveSectionVideo($video, $zindex, $screenColsLarge = 0, $s
     $name = User::getNameIdentificationById($video['users_id']);
     $name .= " " . User::getEmailVerifiedIcon($video['users_id']);
 
-    $colsClass = getGalleryColsCSSClass($screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);;
+    $colsClass = getGalleryColsCSSClass($screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
 
     if (!empty($video['className'])) {
         $colsClass .= " {$video['className']}";
