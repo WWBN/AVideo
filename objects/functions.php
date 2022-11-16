@@ -8383,7 +8383,7 @@ function idToHash($id) {
     $hash = preg_replace('/(=+)$/', '', $hash);
     $hash = str_replace(['/', '+', '='], ['_', '-', '.'], $hash);
     if(empty($hash)){
-        _error_log('idToHash error: '. json_encode(array($id, $cipher_algo, $base, $idConverted, $hash)));
+        _error_log('idToHash error: '. json_encode(array('id'=>$id, 'cipher_algo'=>$cipher_algo, 'base'=>$base, 'idConverted'=>$idConverted, 'hash'=>$hash)));
         if(!empty($global['useLongHash'])){
             $global['useLongHash'] = 0;
             return idToHash($id);
