@@ -8382,10 +8382,12 @@ function idToHash($id) {
     //$hash = preg_replace('/^([+]+)/', '', $hash);
     $hash = preg_replace('/(=+)$/', '', $hash);
     $hash = str_replace(['/', '+', '='], ['_', '-', '.'], $hash);
-    if(empty($hash) && !empty($global['useLongHash'])){
+    if(empty($hash)){
         _error_log('idToHash error: '. json_encode(array($id, $cipher_algo, $base, $idConverted, $hash)));
-        $global['useLongHash'] = 0;
-        return idToHash($id);
+        if(!empty($global['useLongHash'])){
+            $global['useLongHash'] = 0;
+            return idToHash($id);
+        }
     }
     //return base64_encode($hash);
     $_idToHash[$id] = $hash;
