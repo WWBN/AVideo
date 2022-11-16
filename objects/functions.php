@@ -8377,7 +8377,7 @@ function idToHash($id) {
     if (empty($global['salt'])) {
         $global['salt'] = '11234567890abcdef';
     }
-    $iv = hex2bin('abcdefg123456789');
+    $iv = hex2bin("6578616d706c65206865782064617461");
     $idConverted = base_convert($id, 10, $base);
     $hash = (@openssl_encrypt($idConverted, $cipher_algo, $global['salt'], 0, $iv));
     //$hash = preg_replace('/^([+]+)/', '', $hash);
@@ -8404,7 +8404,7 @@ function hashToID($hash) {
         $base = 32;
         $cipher_algo = 'rc4';
     }
-    $iv = hex2bin('abcdefg123456789');
+    $iv = hex2bin("6578616d706c65206865782064617461");
     //$hash = str_pad($hash,  4, "=");
     $hash = str_replace(['_', '-', '.'], ['/', '+', '='], $hash);
     //$hash = base64_decode($hash);
