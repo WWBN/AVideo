@@ -6103,6 +6103,9 @@ function examineJSONError($object) {
 
 function _json_encode_utf8($object) {
     $object = object_to_array($object);
+    if(!is_array($object)){
+        return false;
+    }
     $objectEncoded = $object;
     array_walk_recursive($objectEncoded, function (&$item) {
         if (is_string($item)) {
