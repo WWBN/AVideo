@@ -1486,7 +1486,8 @@ if (typeof gtag !== \"function\") {
             $advancedCustomUser->forceLoginToBeTheEmail && 
             $advancedCustomUser->emailMustBeUnique && 
             filter_var($user, FILTER_VALIDATE_EMAIL)) {
-            $sql = " OR email = ? ";
+            _error_log("getUserDbFromUser will also check the email {$user} ");
+            $sql .= " OR email = ? ";
             $formats .= 's';
             $values[] = $user;
         }
