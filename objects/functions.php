@@ -6132,6 +6132,14 @@ function _json_encode($object) {
     $json = json_encode($object);
     $errors = array();
     if (empty($json) && json_last_error()) {
+        if(preg_match('/Malformed UTF-8 characters/i', json_last_error_msg())){
+            $json = _json_encode_utf8($object);
+            if(!empty($json)){
+                $_json_encode_force_utf8 = 1;
+                return $json;
+            }
+        }
+        
         $errors[] = "_json_encode: Error 1 Found: " . json_last_error_msg();
         //_error_log("_json_encode: Error 1 Found: " . json_last_error_msg());
         $object = object_to_array($object);
