@@ -1469,12 +1469,27 @@ if (typeof gtag !== \"function\") {
     }
 
     private static function getUserDbFromUser($user) {
-        global $global;
+        global $global, $advancedCustomUser;
         if (empty($user)) {
             return false;
         }
-        $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "s", [$user]);
+        $formats = "";
+        $values = [];
+        $sql = "SELECT * FROM users WHERE user = ? ";
+        $formats .= 's';
+        $values[] = $user;
+
+        if (
+            $advancedCustomUser->forceLoginToBeTheEmail && 
+            $advancedCustomUser->emailMustBeUnique && 
+            filter_var($user, FILTER_VALIDATE_EMAIL)) {
+            $sql = " OR email = ? ";
+            $formats .= 's';
+            $values[] = $user;
+        }
+
+        $sql .= " LIMIT 1";
+        $res = sqlDAL::readSql($sql, $formats, $values);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($user !== false) {
