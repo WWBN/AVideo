@@ -6101,13 +6101,34 @@ function examineJSONError($object) {
     return false;
 }
 
+function _json_encode_utf8($object) {
+    $object = object_to_array($object);
+    $objectEncoded = $object;
+    array_walk_recursive($objectEncoded, function (&$item) {
+        if (is_string($item)) {
+            $item = utf8_encode($item);
+        }
+    });
+    $json = json_encode($objectEncoded);
+    return $json;
+}
+
 function _json_encode($object) {
+    global $_json_encode_force_utf8;
     if (empty($object)) {
         return false;
     }
     if (is_string($object)) {
         return $object;
     }
+    
+    if(!empty($_json_encode_force_utf8)){
+        $json = _json_encode_utf8($object);
+        if(!empty($json)){
+            return $json;
+        }
+    }
+    
     $json = json_encode($object);
     $errors = array();
     if (empty($json) && json_last_error()) {
@@ -6124,13 +6145,7 @@ function _json_encode($object) {
                 foreach ($errors as $value) {
                     _error_log($value);
                 }
-                $objectEncoded = $object;
-                array_walk_recursive($objectEncoded, function (&$item) {
-                    if (is_string($item)) {
-                        $item = utf8_encode($item);
-                    }
-                });
-                $json = json_encode($objectEncoded);
+                $json = _json_encode_utf8($object);
                 if (empty($json) && json_last_error()) {
                     _error_log("_json_encode: Error 4 Found: " . json_last_error_msg());
                     $json = json_encode($objectEncoded, JSON_UNESCAPED_UNICODE);
@@ -6160,6 +6175,8 @@ function _json_encode($object) {
                             }
                         }
                     }
+                }else{
+                    $_json_encode_force_utf8 = 1;
                 }
             }
         }
