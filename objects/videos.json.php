@@ -97,5 +97,5 @@ $obj->rows = $videos;
 $obj->status = $status;
 $obj->process_duration = microtime(true)-$start;
 
-die(json_encode($obj));
+die(_json_encode($obj));
 exit;
