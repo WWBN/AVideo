@@ -42,6 +42,22 @@ class CDN extends PluginAbstract
         return "2.0";
     }
 
+    public static function getDataObjectAdvanced() {
+        return array(
+            'key',
+            'CDN',
+            'CDN_S3',
+            'CDN_B2',
+            'CDN_FTP',
+            'CDN_YPTStorage',
+            'CDN_Live',
+            'CDN_LiveServers',
+            'storage_username',
+            'storage_password',
+            'storage_hostname',
+            );
+    }
+    
     public function getEmptyDataObject()
     {
         global $global, $config;

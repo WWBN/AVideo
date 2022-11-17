@@ -34,7 +34,7 @@ class AD_Server extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";
+        return "2.2";
     }
 
     public function getEmptyDataObject() {
@@ -133,6 +133,9 @@ class AD_Server extends PluginAbstract {
     }
 
     public function canLoadAds() {
+        if(AVideoPlugin::isEnabledByName('GoogleAds_IMA')){
+            return false;
+        }
         //if (empty($_GET['videoName']) && empty($_GET['u'])) {
         $videos_id = getVideos_id();
         if (!empty($videos_id)) {
@@ -390,7 +393,23 @@ class AD_Server extends PluginAbstract {
     public function getValidCampaignsFromVideo($videos_id) {
         return VastCampaigns::getValidCampaignsFromVideo($videos_id);
     }
-
+    
+    
+    public static function getVASTLinks($videos_id=0) {
+        global $global;
+        $campaings = VastCampaigns::getValidCampaigns();
+        $vastURI = "{$global['webSiteRootURL']}plugin/AD_Server/VAST.php";
+        if(!empty($videos_id)){
+            $vastURI = addQueryStringParameter($vastURI, 'videos_id', $videos_id);
+        }
+        $vastLinks = [];
+        foreach ($campaings as $key => $value) {
+            $AdTagURI = addQueryStringParameter($vastURI, 'campaign_id', $value['id']);
+            $vastLinks[] = $AdTagURI;
+        }
+        return $vastLinks;
+    }
+    
     public function onNewVideo($videos_id) {
         if (!empty($_REQUEST['return_vars'])) {
             $json = json_decode($_REQUEST['return_vars']);

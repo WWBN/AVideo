@@ -3668,6 +3668,8 @@ function allowOrigin() {
     } else {
         header("Access-Control-Allow-Origin: " . $HTTP_ORIGIN);
     }
+    header('Access-Control-Allow-Private-Network: true');
+    header('Access-Control-Request-Private-Network: true');
     //header("Access-Control-Allow-Credentials: true");
     header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT");
     header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");

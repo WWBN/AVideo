@@ -227,13 +227,19 @@ if(User::isAdmin() && !empty($_REQUEST['users_id'])){
                                                                         echo $row['title'];
                                                                         ?>
                                                                     </div>
-                                                                    <button type="button" class="btn btn-default btn-xs pull-right"   data-toggle="tooltip" title="<?php echo __('Remove Video'); ?>"  onclick="removeFromSerie(<?php echo $value["id"]; ?>, <?php echo $row["id"]; ?>);" >
+                                                                    <button type="button" class="btn btn-default btn-xs pull-right"   
+                                                                            data-toggle="tooltip" title="<?php echo __('Remove Video'); ?>"  
+                                                                            onclick="removeFromSerie(<?php echo $value["id"]; ?>, <?php echo $row["id"]; ?>);" >
                                                                         <i class="fas fa-trash"></i>
                                                                     </button>
-                                                                    <button type="button" class="btn btn-default btn-xs pull-right"   data-toggle="tooltip" title="<?php echo __('Play Video'); ?>"  onclick="avideoModalIframe('<?php echo Video::getPermaLink($row["id"], true); ?>');" >
+                                                                    <button type="button" class="btn btn-default btn-xs pull-right"   
+                                                                            data-toggle="tooltip" title="<?php echo __('Play Video'); ?>"  
+                                                                            onclick="avideoModalIframe('<?php echo Video::getPermaLink($row["id"], true); ?>');" >
                                                                         <i class="fas fa-play"></i>
                                                                     </button>
-                                                                    <button type="button" class="btn btn-default btn-xs pull-right"   data-toggle="tooltip" title="<?php echo __('Edit Video'); ?>"  onclick="avideoModalIframe(webSiteRootURL+'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $row['id']; ?>');" >
+                                                                    <button type="button" class="btn btn-default btn-xs pull-right"   
+                                                                            data-toggle="tooltip" title="<?php echo __('Edit Video'); ?>"  
+                                                                            onclick="avideoModalIframe(webSiteRootURL+'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $row['id']; ?>');" >
                                                                         <i class="fas fa-edit"></i>
                                                                     </button>
                                                                 </li>
