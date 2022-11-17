@@ -195,7 +195,7 @@ if (empty($_POST['user']) || empty($_POST['pass'])) {
     die(json_encode($object));
 }
 $user = new User(0, $_POST['user'], $_POST['pass']);
-if(empty($user)){
+if(!empty($user)){
     _error_log("login.json.php user found");
 }else{
     _error_log("login.json.php user not found");

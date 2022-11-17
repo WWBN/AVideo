@@ -1262,7 +1262,7 @@ if (typeof gtag !== \"function\") {
     }
 
     private function find($user, $pass, $mustBeactive = false, $encodedPass = false) {
-        global $global, $advancedCustom;
+        global $global, $advancedCustom, $advancedCustomUser;
         $formats = '';
         $values = [];
         $sql = "SELECT * FROM users WHERE user = ? ";
@@ -1274,6 +1274,15 @@ if (typeof gtag !== \"function\") {
             $formats .= "s";
             $values[] = trim($user);
             $sql .= " OR user = ? ";
+        }
+
+        if (
+            $advancedCustomUser->forceLoginToBeTheEmail && 
+            $advancedCustomUser->emailMustBeUnique && 
+            filter_var($user, FILTER_VALIDATE_EMAIL)) {
+                $formats .= "s";
+                $values[] = trim($user);
+                $sql .= " OR email = ? ";
         }
 
         if ($mustBeactive) {
