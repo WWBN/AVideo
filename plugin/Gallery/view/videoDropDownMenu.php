@@ -10,27 +10,27 @@ if ((!empty($video['description'])) && !empty($obj->Description)) {
         $duid = uniqid();
         $titleAlert = str_replace(array('"', "'"), array('``', "`"), $video['title']);
         $descTitle = __("Description");
-        $lis[] = <<<STR
-            <button type="button" class="btn btn-dark" 
-                onclick='avideoAlert("$titleAlert", "<div style=\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\" 
-                id=\"videoDescriptionAlertContent$duid\" ></div>", "");$("#videoDescriptionAlertContent$duid").html($("#videoDescription$duid").html());return false;' 
-                data-toggle="tooltip" title="$descTitle"><i class="far fa-file-alt"></i> 
-                <span  class="hidden-md hidden-sm hidden-xs">$descTitle</span></a>
-                <div id="videoDescription$duid" style="display: none;">$desc</div>
+        $lis[] = "
+            <button type=\button\" class=\"btn btn-dark\" 
+                onclick='avideoAlert(\"$titleAlert\", \"<div style=\\\"max-height: 300px; overflow-y: scroll;overflow-x: hidden;\\\" 
+                id=\\\"videoDescriptionAlertContent$duid\\\" ></div>\", \"\");$(\"#videoDescriptionAlertContent$duid\").html($(\"#videoDescription$duid\").html());return false;' 
+                data-toggle=\"tooltip\" title=\"$descTitle\"><i class=\"far fa-file-alt\"></i> 
+                <span  class=\"hidden-md hidden-sm hidden-xs\">$descTitle</span></a>
+                <div id=\"videoDescription$duid\" style=\"display: none;\">$desc</div>
             </button>
-        STR;
+        ";
     }
 }
-if (Video::canEdit($video[id])) {
-    $descTitle = __("Edit Video");
-    $lis[] = <<<STR
-            <button type="button" 
-                class="btn btn-dark" onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id={$video['id']}');return false;" 
-                data-toggle="tooltip" title="$descTitle">
-                <i class="fa fa-edit"></i>
-                <span class="hidden-md hidden-sm hidden-xs">$descTitle</span>
+if (Video::canEdit($video['id'])) {
+    $descTitle = __('Edit Video');
+    $lis[] = "
+            <button type=\"button\" 
+                class=\"btn btn-dark\" onclick=\"avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id={$video['id']}');return false;\" 
+                data-toggle=\"tooltip\" title=\"$descTitle\">
+                <i class=\"fa fa-edit\"></i>
+                <span class=\"hidden-md hidden-sm hidden-xs\">$descTitle</span>
             </button>
-        STR;
+        ";
     $suggestedBTN = Layout::getSuggestedButton($video['id'], 'btn btn-dark');
     if (!empty($suggestedBTN)) {
         $lis[] = $suggestedBTN;
