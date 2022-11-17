@@ -73,17 +73,17 @@ function jsonToForm(json, helper, info) {
         if(isPluginParameterDeprecated(i, info)){
             $(div).addClass('is_deprecated');
             $(div).addClass('bg-danger');
-            $(div).addClass('text-danger');
+            //$(div).addClass('text-danger');
         }
         if(isPluginParameterExperimental(i, info)){
             $(div).addClass('is_experimental');
             $(div).addClass('bg-warning');
-            $(div).addClass('text-warning');
+            //$(div).addClass('text-warning');
         }
         if(isPluginParameterAdvanced(i, info)){
             $(div).addClass('is_advanced');
             $(div).addClass('bg-info');
-            $(div).addClass('text-info');
+            //$(div).addClass('text-info');
         }
         
         $('#jsonElements').append(div);
