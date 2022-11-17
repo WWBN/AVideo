@@ -6109,15 +6109,21 @@ function _json_encode($object) {
         return $object;
     }
     $json = json_encode($object);
+    $errors = array();
     if (empty($json) && json_last_error()) {
+        $errors[] = "_json_encode: Error 1 Found: " . json_last_error_msg();
         //_error_log("_json_encode: Error 1 Found: " . json_last_error_msg());
         $object = object_to_array($object);
         $json = json_encode($object);
         if (empty($json) && json_last_error()) {
+            $errors[] = "_json_encode: Error 2 Found: " . json_last_error_msg();
             //_error_log("_json_encode: Error 2 Found: " . json_last_error_msg());
             $json = json_encode($object, JSON_UNESCAPED_UNICODE);
             if (json_last_error()) {
-                _error_log("_json_encode: Error 3 Found: {$object} " . json_last_error_msg() . PHP_EOL . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+                $errors[] = "_json_encode: Error 3 Found: {$object} " . json_last_error_msg() . PHP_EOL . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
+                foreach ($errors as $value) {
+                    _error_log($value);
+                }
                 $objectEncoded = $object;
                 array_walk_recursive($objectEncoded, function (&$item) {
                     if (is_string($item)) {
