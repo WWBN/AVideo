@@ -21,7 +21,7 @@ if ((!empty($video['description'])) && !empty($obj->Description)) {
         STR;
     }
 }
-if (Video::canEdit($video['id'])) {
+if (Video::canEdit($video[id])) {
     $descTitle = __("Edit Video");
     $lis[] = <<<STR
             <button type="button" 
