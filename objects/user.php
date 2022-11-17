@@ -1473,6 +1473,9 @@ if (typeof gtag !== \"function\") {
         if (empty($user)) {
             return false;
         }
+        if (empty($advancedCustomUser)) {
+            $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
+        }
         $formats = "";
         $values = [];
         $sql = "SELECT * FROM users WHERE user = ? ";
