@@ -18,6 +18,30 @@
 Version History
 ===============
 
+1.9.22: [2022-09-29] James Heinrich :: 1.9.22-202207161647
+	* bugfix #387 fails to detect h265 video codec (QuickTime)
+	* bugfix #385 Quicktime extended atom size
+	* bugfix #378 AAC bitrate cache warning
+	* bugfix #376 simplexml_load_string improvments
+	* bugfix #374 MOD improved SoundTracker support
+	* bugfix #371 fragmented MP4 unsupported warning
+	* bugfix #369 fix remote URLs pattern
+	* bugfix #366 change @error-suppress to isset (quicktime)
+	* bugfix #365 ZIP array offset on value of type int
+	* bugfix #364 add support for ANIMEXTS1.0 in GIF files
+	* bugfix #363 ASF improve support of Header Extension Object data
+	* bugfix #362 version update for ramsey/composer-install
+	* bugfix #359 MPEG-2 aspect ratio divide-by-zero
+	* bugfix #358 free format mp3 bitrate
+	* bugfix #355 undefined array key in ID3v2 chapters
+	* bugfix #352 avoid false detection of Musepack format
+	* bugfix #351 Incorrect length passed to fread on a flac file
+	* bugfix #348 more targeted usage of clearstatcache calls
+	* bugfix #347 fixed reported by PHPStan v0.12.99
+	* bugfix QuickTime support 'ID32' frame (ID3v2 inside QT)
+	* bugfix fix various PHP 8.1 issues
+	* bugfix PDF prevent undefined index
+
 1.9.21: [2021-09-22] James Heinrich :: 1.9.21-202109171300
 	» add support for RIFF.guan
 	¤ add ID3v1 genres 148-191
@@ -1320,7 +1344,7 @@ Version History
          into the files where they are actually used.
        Renamed getid3.functions.php to getid3.lib.php
        Moved getid3.rgad.php functions into getid3_lib
-       Moved getid3.getimagesize.php functions ingo getid3_lib
+       Moved getid3.getimagesize.php funcitons ingo getid3_lib
    ¤ Moved getid3.ogginfo.php into ogg module
    ¤ Combined GetTagOnly() and GetAllFileInfo() in method analyze
    ¤ Removed redundant and unuseful root keys

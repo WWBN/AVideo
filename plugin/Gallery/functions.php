@@ -226,6 +226,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
 }
 
 function getLabelTags($video) {
+    global $global;
     $obj = AVideoPlugin::getObjectData("Gallery");
     if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) {
         $iconClass = 'fas fa-folder';

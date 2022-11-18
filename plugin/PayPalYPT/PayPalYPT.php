@@ -262,12 +262,12 @@ class PayPalYPT extends PluginAbstract {
             } catch (PayPal\Exception\PayPalConnectionException $ex) {
                 _error_log("PayPal Error createBillingPlan 1: " . $ex->getData());
             } catch (Exception $ex) {
-                _error_log("PayPal Error createBillingPlan 2: " . $ex->getData());
+                _error_log("PayPal Error createBillingPlan 2: " . $ex->getMessage());
             }
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
             _error_log("PayPal Error createBillingPlan 3: " . $ex->getData());
         } catch (Exception $ex) {
-            _error_log("PayPal Error createBillingPlan 4: " . $ex->getData());
+            _error_log("PayPal Error createBillingPlan 4: " . $ex->getMessage());
         }
         return false;
     }
@@ -351,7 +351,7 @@ class PayPalYPT extends PluginAbstract {
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
             _error_log("PayPal Error createBillingPlan 5: startDate: {$startDate} " . $ex->getData());
         } catch (Exception $ex) {
-            _error_log("PayPal Error createBillingPlan 6: startDate: {$startDate} " . $ex->getData());
+            _error_log("PayPal Error createBillingPlan 6: startDate: {$startDate} " . $ex->getMessage());
         }
         return false;
     }
@@ -402,7 +402,7 @@ class PayPalYPT extends PluginAbstract {
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
             _error_log("setUpSubscriptionV2: PayPal Error createBillingPlan 5: startDate: {$startDate} " . $ex->getData());
         } catch (Exception $ex) {
-            _error_log("setUpSubscriptionV2: PayPal Error createBillingPlan 6: startDate: {$startDate} " . $ex->getData());
+            _error_log("setUpSubscriptionV2: PayPal Error createBillingPlan 6: startDate: {$startDate} " . $ex->getMessage());
         }
         return false;
     }
@@ -495,12 +495,12 @@ class PayPalYPT extends PluginAbstract {
             } catch (PayPal\Exception\PayPalConnectionException $ex) {
                 _error_log("createBillingPlanV2: PayPal Error createBillingPlan 1: " . $ex->getData());
             } catch (Exception $ex) {
-                _error_log("createBillingPlanV2: PayPal Error createBillingPlan 2: " . $ex->getData());
+                _error_log("createBillingPlanV2: PayPal Error createBillingPlan 2: " . $ex->getMessage());
             }
         } catch (PayPal\Exception\PayPalConnectionException $ex) {
             _error_log("createBillingPlanV2: PayPal Error createBillingPlan 3: " . $ex->getData());
         } catch (Exception $ex) {
-            _error_log("createBillingPlanV2: PayPal Error createBillingPlan 4: " . $ex->getData());
+            _error_log("createBillingPlanV2: PayPal Error createBillingPlan 4: " . $ex->getMessage());
         }
         return false;
     }
@@ -639,7 +639,7 @@ class PayPalYPT extends PluginAbstract {
 
             return Plan::get($createdPlan->getId(), $apiContext);
         } catch (Exception $ex) {
-            _error_log("PayPal Error updateBillingPlan: " . $ex->getData());
+            _error_log("PayPal Error updateBillingPlan: " . $ex->getMessage());
         }
         return false;
     }
@@ -662,11 +662,7 @@ class PayPalYPT extends PluginAbstract {
             $get_magic_quotes_exists = true;
         }
         foreach ($myPost as $key => $value) {
-            if ($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) {
-                $value = urlencode(stripslashes($value));
-            } else {
-                $value = urlencode($value);
-            }
+            $value = urlencode($value);
             $req .= "&$key=$value";
         }
 
@@ -803,7 +799,7 @@ class PayPalYPT extends PluginAbstract {
         }
 
         if (empty($receiver_email)) {
-            $obj->msg = "PayPal::Payout The user {$users_id_to_be_paid} does not have a paypal receiver email";
+            $obj->msg = "PayPal::Payout The user does not have a paypal receiver email";
             _error_log($obj->msg);
             return $obj;
         }
@@ -840,7 +836,7 @@ class PayPalYPT extends PluginAbstract {
                 $obj->error = false;
             }
             return $obj;
-        } catch (HttpException $e) {
+        } catch (\PayPalHttp\HttpException $e) {
             $msg = '';
             //Parse failure response
             $msg .= $e->getMessage() . PHP_EOL;
@@ -859,7 +855,7 @@ class PayPalYPT extends PluginAbstract {
             $request = new PaypalPayoutsSDK\Payouts\PayoutsGetRequest($payout_batch_id);
             $client = PayPalClient::client();
             return $client->execute($request);
-        } catch (HttpException $e) {
+        } catch (\PayPalHttp\HttpException $e) {
             $msg = '';
             //Parse failure response
             $msg .= $e->getMessage() . PHP_EOL;
@@ -867,6 +863,7 @@ class PayPalYPT extends PluginAbstract {
             $msg .= $error->message . PHP_EOL;
             $msg .= $error->name . PHP_EOL;
             $msg .= $error->debug_id . PHP_EOL;
+            $obj = new stdClass();
             $obj->msg = 'PayPal::PayoutInfo ' . $msg;
             _error_log($obj->msg);
         }
@@ -915,7 +912,7 @@ class PayPalYPT extends PluginAbstract {
             }
             return self::createWebhook();
         } catch (Exception $ex) {
-            _error_log("List all webhooks " . $ex->getMessage() . jaon_encode($webhookId));
+            _error_log("List all webhooks " . $ex->getMessage());
             return false;
         }
         return false;
@@ -976,7 +973,7 @@ class PayPalYPT extends PluginAbstract {
                 $webhook->delete($apiContext);
             }
         } catch (Exception $ex) {
-            _error_log("Deleted all Webhooks " . $ex->getMessage() . jaon_encode($output));
+            _error_log("Deleted all Webhooks " . $ex->getMessage());
             return false;
         }
         return true;

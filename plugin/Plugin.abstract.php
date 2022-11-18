@@ -230,6 +230,9 @@ abstract class PluginAbstract {
             return false;
         }
         eval("\$array = {$name}::getDataObject{$type}();");
+        /**
+         * @var array $array
+         */
         return in_array($parameter_name, $array);
     }
 

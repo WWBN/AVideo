@@ -68,6 +68,11 @@ class UserGroups{
             $values = [$this->group_name];
         }
         if (sqlDAL::writeSql($sql, $formats, $values)) {
+            /**
+             * 
+             * @var array $global
+             * @var object $global['mysqli'] 
+             */
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
             } else {
@@ -131,7 +136,7 @@ class UserGroups{
             //$category = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $arr = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $arr;
     }
@@ -152,7 +157,7 @@ class UserGroups{
             //$category = $res->fetch_all(MYSQLI_ASSOC);
         } else {
             $arr = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $arr;
     }
@@ -310,7 +315,7 @@ class UserGroups{
             }
         } else {
             $arr = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         $__getUserGroups[$users_id] = $arr;
         return $arr;
@@ -366,7 +371,6 @@ class UserGroups{
         }
 
         $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES (?,?)";
-        $value = intval($value);
         $response = sqlDAL::writeSql($sql, "ii", [$videos_id,$users_groups_id]);
 
         if ($response) {
@@ -443,7 +447,7 @@ class UserGroups{
             }
         } else {
             $arr = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $arr;
     }
@@ -469,7 +473,7 @@ class UserGroups{
             }
         } else {
             $arr = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $arr;
     }

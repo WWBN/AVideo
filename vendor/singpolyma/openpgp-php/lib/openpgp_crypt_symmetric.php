@@ -1,10 +1,10 @@
 <?php
 
-use phpseclib\Crypt\AES as Crypt_AES;
-use phpseclib\Crypt\Blowfish as Crypt_Blowfish;
-use phpseclib\Crypt\TripleDES as Crypt_TripleDES;
-use phpseclib\Crypt\Twofish as Crypt_Twofish;
-use phpseclib\Crypt\Random;
+use phpseclib3\Crypt\AES as Crypt_AES;
+use phpseclib3\Crypt\Blowfish as Crypt_Blowfish;
+use phpseclib3\Crypt\TripleDES as Crypt_TripleDES;
+use phpseclib3\Crypt\Twofish as Crypt_Twofish;
+use phpseclib3\Crypt\Random;
 
 require_once dirname(__FILE__).'/openpgp.php';
 @include_once dirname(__FILE__).'/openpgp_crypt_rsa.php';
@@ -34,8 +34,7 @@ class OpenPGP_Crypt_Symmetric {
       if($pass instanceof OpenPGP_PublicKeyPacket) {
         if(!in_array($pass->algorithm, array(1,2,3))) throw new Exception("Only RSA keys are supported.");
         $crypt_rsa = new OpenPGP_Crypt_RSA($pass);
-        $rsa = $crypt_rsa->public_key();
-        $rsa->setEncryptionMode(CRYPT_RSA_ENCRYPTION_PKCS1);
+        $rsa = $crypt_rsa->public_key()->withPadding(CRYPT_RSA_ENCRYPTION_PKCS1 | CRYPT_RSA_SIGNATURE_PKCS1);
         $esk = $rsa->encrypt(chr($symmetric_algorithm) . $key . pack('n', self::checksum($key)));
         $esk = pack('n', OpenPGP::bitlength($esk)) . $esk;
         array_unshift($encrypted, new OpenPGP_AsymmetricSessionKeyPacket($pass->algorithm, $pass->fingerprint(), $esk));
@@ -171,12 +170,16 @@ class OpenPGP_Crypt_Symmetric {
 
   public static function getCipher($algo) {
     $cipher = NULL;
+
+    // https://datatracker.ietf.org/doc/html/rfc4880#section-13.9
+    // "   1.  The feedback register (FR) is set to the IV, which is all zeros."
     switch($algo) {
     case NULL:
       case 0:
         throw new Exception("Data is already unencrypted");
       case 2:
-        $cipher = new Crypt_TripleDES(Crypt_TripleDES::MODE_CFB);
+        $cipher = new Crypt_TripleDES('cfb');
+        $cipher->setIV(str_repeat(pack('x'), 8));
         $key_bytes = 24;
         $key_block_bytes = 8;
         break;
@@ -188,34 +191,37 @@ class OpenPGP_Crypt_Symmetric {
         }
         break;
       case 4:
-        $cipher = new Crypt_Blowfish(Crypt_Blowfish::MODE_CFB);
+        $cipher = new Crypt_Blowfish('cfb');
+        $cipher->setIV(str_repeat(pack('x'), 8));
         $key_bytes = 16;
         $key_block_bytes = 8;
         break;
       case 7:
-        $cipher = new Crypt_AES(Crypt_AES::MODE_CFB);
+        $cipher = new Crypt_AES('cfb');
         $cipher->setKeyLength(128);
+        $cipher->setIV(str_repeat(pack('x'), 16));
         break;
       case 8:
-        $cipher = new Crypt_AES(Crypt_AES::MODE_CFB);
+        $cipher = new Crypt_AES('cfb');
         $cipher->setKeyLength(192);
+        $cipher->setIV(str_repeat(pack('x'), 16));
         break;
       case 9:
-        $cipher = new Crypt_AES(Crypt_AES::MODE_CFB);
+        $cipher = new Crypt_AES('cfb');
         $cipher->setKeyLength(256);
+        $cipher->setIV(str_repeat(pack('x'), 16));
         break;
       case 10:
-        $cipher = new Crypt_Twofish(Crypt_Twofish::MODE_CFB);
-        if(method_exists($cipher, 'setKeyLength')) {
-          $cipher->setKeyLength(256);
-        } else {
-          $cipher = NULL;
-        }
+        $cipher = new Crypt_Twofish('cfb');
+        $cipher->setIV(str_repeat(pack('x'), 16));
+        $key_bytes = 32;
         break;
     }
     if(!$cipher) return array(NULL, NULL, NULL); // Unsupported cipher
-    if(!isset($key_bytes)) $key_bytes = isset($cipher->key_size)?$cipher->key_size:$cipher->key_length;
-    if(!isset($key_block_bytes)) $key_block_bytes = $cipher->block_size;
+
+
+    if(!isset($key_bytes)) $key_bytes = $cipher->getKeyLength() >> 3;
+    if(!isset($key_block_bytes)) $key_block_bytes = $cipher->getBlockLengthInBytes();
     return array($cipher, $key_bytes, $key_block_bytes);
   }
 

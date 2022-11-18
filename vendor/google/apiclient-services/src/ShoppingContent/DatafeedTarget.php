@@ -19,7 +19,7 @@ namespace Google\Service\ShoppingContent;
 
 class DatafeedTarget extends \Google\Collection
 {
-  protected $collection_key = 'includedDestinations';
+  protected $collection_key = 'targetCountries';
   /**
    * @var string
    */
@@ -29,6 +29,10 @@ class DatafeedTarget extends \Google\Collection
    */
   public $excludedDestinations;
   /**
+   * @var string
+   */
+  public $feedLabel;
+  /**
    * @var string[]
    */
   public $includedDestinations;
@@ -36,6 +40,10 @@ class DatafeedTarget extends \Google\Collection
    * @var string
    */
   public $language;
+  /**
+   * @var string[]
+   */
+  public $targetCountries;
 
   /**
    * @param string
@@ -66,6 +74,20 @@ class DatafeedTarget extends \Google\Collection
     return $this->excludedDestinations;
   }
   /**
+   * @param string
+   */
+  public function setFeedLabel($feedLabel)
+  {
+    $this->feedLabel = $feedLabel;
+  }
+  /**
+   * @return string
+   */
+  public function getFeedLabel()
+  {
+    return $this->feedLabel;
+  }
+  /**
    * @param string[]
    */
   public function setIncludedDestinations($includedDestinations)
@@ -92,6 +114,20 @@ class DatafeedTarget extends \Google\Collection
   public function getLanguage()
   {
     return $this->language;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTargetCountries($targetCountries)
+  {
+    $this->targetCountries = $targetCountries;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTargetCountries()
+  {
+    return $this->targetCountries;
   }
 }
 

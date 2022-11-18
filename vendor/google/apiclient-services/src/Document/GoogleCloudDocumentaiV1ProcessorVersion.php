@@ -29,6 +29,8 @@ class GoogleCloudDocumentaiV1ProcessorVersion extends \Google\Model
    * @var string
    */
   public $displayName;
+  protected $documentSchemaType = GoogleCloudDocumentaiV1DocumentSchema::class;
+  protected $documentSchemaDataType = '';
   /**
    * @var bool
    */
@@ -91,6 +93,20 @@ class GoogleCloudDocumentaiV1ProcessorVersion extends \Google\Model
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param GoogleCloudDocumentaiV1DocumentSchema
+   */
+  public function setDocumentSchema(GoogleCloudDocumentaiV1DocumentSchema $documentSchema)
+  {
+    $this->documentSchema = $documentSchema;
+  }
+  /**
+   * @return GoogleCloudDocumentaiV1DocumentSchema
+   */
+  public function getDocumentSchema()
+  {
+    return $this->documentSchema;
   }
   /**
    * @param bool

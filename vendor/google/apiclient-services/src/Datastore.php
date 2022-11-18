@@ -148,6 +148,16 @@ class Datastore extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'runAggregationQuery' => [
+              'path' => 'v1/projects/{projectId}:runAggregationQuery',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'projectId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'runQuery' => [
               'path' => 'v1/projects/{projectId}:runQuery',
               'httpMethod' => 'POST',

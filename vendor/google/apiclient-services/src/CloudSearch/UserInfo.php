@@ -22,6 +22,10 @@ class UserInfo extends \Google\Model
   /**
    * @var string
    */
+  public $driveNotificationAvatarUrl;
+  /**
+   * @var string
+   */
   public $updaterCountDisplayType;
   /**
    * @var int
@@ -42,6 +46,20 @@ class UserInfo extends \Google\Model
   protected $updaterToShowUserIdType = UserId::class;
   protected $updaterToShowUserIdDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setDriveNotificationAvatarUrl($driveNotificationAvatarUrl)
+  {
+    $this->driveNotificationAvatarUrl = $driveNotificationAvatarUrl;
+  }
+  /**
+   * @return string
+   */
+  public function getDriveNotificationAvatarUrl()
+  {
+    return $this->driveNotificationAvatarUrl;
+  }
   /**
    * @param string
    */

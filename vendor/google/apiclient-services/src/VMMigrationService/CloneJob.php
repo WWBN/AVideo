@@ -17,8 +17,9 @@
 
 namespace Google\Service\VMMigrationService;
 
-class CloneJob extends \Google\Model
+class CloneJob extends \Google\Collection
 {
+  protected $collection_key = 'steps';
   protected $computeEngineTargetDetailsType = ComputeEngineTargetDetails::class;
   protected $computeEngineTargetDetailsDataType = '';
   /**
@@ -43,6 +44,8 @@ class CloneJob extends \Google\Model
    * @var string
    */
   public $stateTime;
+  protected $stepsType = CloneStep::class;
+  protected $stepsDataType = 'array';
 
   /**
    * @param ComputeEngineTargetDetails
@@ -141,6 +144,20 @@ class CloneJob extends \Google\Model
   public function getStateTime()
   {
     return $this->stateTime;
+  }
+  /**
+   * @param CloneStep[]
+   */
+  public function setSteps($steps)
+  {
+    $this->steps = $steps;
+  }
+  /**
+   * @return CloneStep[]
+   */
+  public function getSteps()
+  {
+    return $this->steps;
   }
 }
 

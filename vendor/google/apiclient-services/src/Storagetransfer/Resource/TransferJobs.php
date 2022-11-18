@@ -118,10 +118,9 @@ class TransferJobs extends \Google\Service\Resource
     return $this->call('patch', [$params], TransferJob::class);
   }
   /**
-   * Attempts to start a new TransferOperation for the current TransferJob. A
-   * TransferJob has a maximum of one active TransferOperation. If this method is
-   * called while a TransferOperation is active, an error will be returned.
-   * (transferJobs.run)
+   * Starts a new operation for the specified transfer job. A `TransferJob` has a
+   * maximum of one active `TransferOperation`. If this method is called while a
+   * `TransferOperation` is active, an error is returned. (transferJobs.run)
    *
    * @param string $jobName Required. The name of the transfer job.
    * @param RunTransferJobRequest $postBody

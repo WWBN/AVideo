@@ -26,6 +26,10 @@ class DeviceClaim extends \Google\Model
   /**
    * @var string
    */
+  public $googleWorkspaceCustomerId;
+  /**
+   * @var string
+   */
   public $ownerCompanyId;
   /**
    * @var string
@@ -57,6 +61,20 @@ class DeviceClaim extends \Google\Model
   public function getAdditionalService()
   {
     return $this->additionalService;
+  }
+  /**
+   * @param string
+   */
+  public function setGoogleWorkspaceCustomerId($googleWorkspaceCustomerId)
+  {
+    $this->googleWorkspaceCustomerId = $googleWorkspaceCustomerId;
+  }
+  /**
+   * @return string
+   */
+  public function getGoogleWorkspaceCustomerId()
+  {
+    return $this->googleWorkspaceCustomerId;
   }
   /**
    * @param string

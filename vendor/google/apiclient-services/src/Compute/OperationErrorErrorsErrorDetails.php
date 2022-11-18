@@ -25,6 +25,8 @@ class OperationErrorErrorsErrorDetails extends \Google\Model
   protected $helpDataType = '';
   protected $localizedMessageType = LocalizedMessage::class;
   protected $localizedMessageDataType = '';
+  protected $quotaInfoType = QuotaExceededInfo::class;
+  protected $quotaInfoDataType = '';
 
   /**
    * @param ErrorInfo
@@ -67,6 +69,20 @@ class OperationErrorErrorsErrorDetails extends \Google\Model
   public function getLocalizedMessage()
   {
     return $this->localizedMessage;
+  }
+  /**
+   * @param QuotaExceededInfo
+   */
+  public function setQuotaInfo(QuotaExceededInfo $quotaInfo)
+  {
+    $this->quotaInfo = $quotaInfo;
+  }
+  /**
+   * @return QuotaExceededInfo
+   */
+  public function getQuotaInfo()
+  {
+    return $this->quotaInfo;
   }
 }
 

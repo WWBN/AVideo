@@ -52,6 +52,10 @@ class Access extends \Google\Collection
    * @var string
    */
   public $userAgentFamily;
+  /**
+   * @var string
+   */
+  public $userName;
 
   /**
    * @param string
@@ -178,6 +182,20 @@ class Access extends \Google\Collection
   public function getUserAgentFamily()
   {
     return $this->userAgentFamily;
+  }
+  /**
+   * @param string
+   */
+  public function setUserName($userName)
+  {
+    $this->userName = $userName;
+  }
+  /**
+   * @return string
+   */
+  public function getUserName()
+  {
+    return $this->userName;
   }
 }
 

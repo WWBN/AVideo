@@ -22,6 +22,10 @@ class CloudSqlConnectionProfile extends \Google\Model
   /**
    * @var string
    */
+  public $additionalPublicIp;
+  /**
+   * @var string
+   */
   public $cloudSqlId;
   /**
    * @var string
@@ -34,6 +38,20 @@ class CloudSqlConnectionProfile extends \Google\Model
   protected $settingsType = CloudSqlSettings::class;
   protected $settingsDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setAdditionalPublicIp($additionalPublicIp)
+  {
+    $this->additionalPublicIp = $additionalPublicIp;
+  }
+  /**
+   * @return string
+   */
+  public function getAdditionalPublicIp()
+  {
+    return $this->additionalPublicIp;
+  }
   /**
    * @param string
    */

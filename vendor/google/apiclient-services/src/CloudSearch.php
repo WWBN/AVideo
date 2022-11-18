@@ -651,6 +651,10 @@ class CloudSearch extends \Google\Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'update' => [
               'path' => 'v1/settings/{+name}',
@@ -730,6 +734,10 @@ class CloudSearch extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'reset' => [
               'path' => 'v1/settings/{+name}:reset',
@@ -749,6 +757,10 @@ class CloudSearch extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

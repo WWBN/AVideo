@@ -44,6 +44,10 @@ class PrivateClusterConfig extends \Google\Model
   /**
    * @var string
    */
+  public $privateEndpointSubnetwork;
+  /**
+   * @var string
+   */
   public $publicEndpoint;
 
   /**
@@ -129,6 +133,20 @@ class PrivateClusterConfig extends \Google\Model
   public function getPrivateEndpoint()
   {
     return $this->privateEndpoint;
+  }
+  /**
+   * @param string
+   */
+  public function setPrivateEndpointSubnetwork($privateEndpointSubnetwork)
+  {
+    $this->privateEndpointSubnetwork = $privateEndpointSubnetwork;
+  }
+  /**
+   * @return string
+   */
+  public function getPrivateEndpointSubnetwork()
+  {
+    return $this->privateEndpointSubnetwork;
   }
   /**
    * @param string

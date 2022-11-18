@@ -98,7 +98,7 @@ class PlayList extends ObjectYPT {
      * @param type $publicOnly
      * @param type $userId if not present check session
      * @param type $isVideoIdPresent pass the ID of the video checking
-     * @return boolean
+     * @return array
      */
     public static function getAllFromUser($userId, $publicOnly = true, $status = false, $playlists_id = 0, $try = 0, $includeSeries = false) {
         global $global, $config, $refreshCacheFromPlaylist;
@@ -203,7 +203,8 @@ class PlayList extends ObjectYPT {
                 array_unshift($rows, $watch_later);
             }
         } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            $rows = array();
         }
         return $rows;
     }
@@ -267,7 +268,8 @@ class PlayList extends ObjectYPT {
                 $rows[] = $row;
             }
         } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            $rows = array();
         }
         return $rows;
     }
@@ -378,7 +380,8 @@ class PlayList extends ObjectYPT {
                 $rows[] = $row;
             }
         } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            $rows = array();
         }
         $getVideosIDFromPlaylistLight[$playlists_id] = $rows;
         return $rows;
@@ -445,7 +448,8 @@ class PlayList extends ObjectYPT {
 
                 $cache = self::setCache($cacheName, $rows);
             } else {
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                $rows = array();
             }
         } else {
             $rows = object_to_array($rows);
@@ -732,6 +736,9 @@ class PlayList extends ObjectYPT {
         return $this->users_id;
     }
 
+    /**
+     * @return string
+     */
     public function getStatus() {
         return $this->status;
     }
@@ -811,7 +818,8 @@ class PlayList extends ObjectYPT {
                 $rows[] = $row;
             }
         } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            $rows = array();
         }
         return $rows;
     }

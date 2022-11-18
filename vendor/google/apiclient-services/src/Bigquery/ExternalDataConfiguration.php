@@ -54,6 +54,14 @@ class ExternalDataConfiguration extends \Google\Collection
    * @var int
    */
   public $maxBadRecords;
+  /**
+   * @var string
+   */
+  public $metadataCacheMode;
+  /**
+   * @var string
+   */
+  public $objectMetadata;
   protected $parquetOptionsType = ParquetOptions::class;
   protected $parquetOptionsDataType = '';
   /**
@@ -224,6 +232,34 @@ class ExternalDataConfiguration extends \Google\Collection
   public function getMaxBadRecords()
   {
     return $this->maxBadRecords;
+  }
+  /**
+   * @param string
+   */
+  public function setMetadataCacheMode($metadataCacheMode)
+  {
+    $this->metadataCacheMode = $metadataCacheMode;
+  }
+  /**
+   * @return string
+   */
+  public function getMetadataCacheMode()
+  {
+    return $this->metadataCacheMode;
+  }
+  /**
+   * @param string
+   */
+  public function setObjectMetadata($objectMetadata)
+  {
+    $this->objectMetadata = $objectMetadata;
+  }
+  /**
+   * @return string
+   */
+  public function getObjectMetadata()
+  {
+    return $this->objectMetadata;
   }
   /**
    * @param ParquetOptions

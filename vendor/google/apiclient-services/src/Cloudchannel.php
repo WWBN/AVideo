@@ -39,6 +39,9 @@ class Cloudchannel extends \Google\Service
   /** Manage users on your domain. */
   const APPS_ORDER =
       "https://www.googleapis.com/auth/apps.order";
+  /** View usage reports for your G Suite domain. */
+  const APPS_REPORTS_USAGE_READONLY =
+      "https://www.googleapis.com/auth/apps.reports.usage.readonly";
 
   public $accounts;
   public $accounts_channelPartnerLinks;
@@ -48,6 +51,8 @@ class Cloudchannel extends \Google\Service
   public $accounts_customers_customerRepricingConfigs;
   public $accounts_customers_entitlements;
   public $accounts_offers;
+  public $accounts_reportJobs;
+  public $accounts_reports;
   public $operations;
   public $products;
   public $products_skus;
@@ -784,6 +789,68 @@ class Cloudchannel extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->accounts_reportJobs = new Cloudchannel\Resource\AccountsReportJobs(
+        $this,
+        $this->serviceName,
+        'reportJobs',
+        [
+          'methods' => [
+            'fetchReportResults' => [
+              'path' => 'v1/{+reportJob}:fetchReportResults',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'reportJob' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->accounts_reports = new Cloudchannel\Resource\AccountsReports(
+        $this,
+        $this->serviceName,
+        'reports',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+parent}/reports',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'run' => [
+              'path' => 'v1/{+name}:run',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],

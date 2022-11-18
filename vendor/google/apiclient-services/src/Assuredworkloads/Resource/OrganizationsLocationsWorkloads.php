@@ -78,8 +78,8 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
    * Gets Assured Workload associated with a CRM Node (workloads.get)
    *
    * @param string $name Required. The resource name of the Workload to fetch.
-   * This is the workloads's relative path in the API, formatted as "organizations
-   * /{organization_id}/locations/{location_id}/workloads/{workload_id}". For
+   * This is the workload's relative path in the API, formatted as "organizations/
+   * {organization_id}/locations/{location_id}/workloads/{workload_id}". For
    * example, "organizations/123/locations/us-east1/workloads/assured-workload-1".
    * @param array $optParams Optional parameters.
    * @return GoogleCloudAssuredworkloadsV1Workload

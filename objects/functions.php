@@ -4437,6 +4437,23 @@ function _mysql_connect($persistent = false) {
     }
 }
 
+function _mysql_commit() {
+    global $global;
+    if (_mysql_is_open()) {
+        try{
+            /**
+             * 
+             * @var array $global
+             * @var object $global['mysqli'] 
+             */
+            @$global['mysqli']->commit();
+        }catch(Exception $exc){
+
+        }
+        //$global['mysqli'] = false;
+    }
+}
+
 function _mysql_close() {
     global $global, $mysql_connect_was_closed;
     if (_mysql_is_open()) {

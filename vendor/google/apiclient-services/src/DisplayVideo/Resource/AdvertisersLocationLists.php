@@ -81,7 +81,7 @@ class AdvertisersLocationLists extends \Google\Service\Resource
    * are: * `locationListId` (default) * `displayName` The default sorting order
    * is ascending. To specify descending order for a field, a suffix "desc" should
    * be added to the field name. Example: `displayName desc`.
-   * @opt_param int pageSize Requested page size. Must be between `1` and `100`.
+   * @opt_param int pageSize Requested page size. Must be between `1` and `200`.
    * Defaults to `100` if not set. Returns error code `INVALID_ARGUMENT` if an
    * invalid value is specified.
    * @opt_param string pageToken A token identifying a page of results the server

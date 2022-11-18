@@ -21,6 +21,8 @@ class GooglePrivacyDlpV2ExclusionRule extends \Google\Model
 {
   protected $dictionaryType = GooglePrivacyDlpV2Dictionary::class;
   protected $dictionaryDataType = '';
+  protected $excludeByHotwordType = GooglePrivacyDlpV2ExcludeByHotword::class;
+  protected $excludeByHotwordDataType = '';
   protected $excludeInfoTypesType = GooglePrivacyDlpV2ExcludeInfoTypes::class;
   protected $excludeInfoTypesDataType = '';
   /**
@@ -43,6 +45,20 @@ class GooglePrivacyDlpV2ExclusionRule extends \Google\Model
   public function getDictionary()
   {
     return $this->dictionary;
+  }
+  /**
+   * @param GooglePrivacyDlpV2ExcludeByHotword
+   */
+  public function setExcludeByHotword(GooglePrivacyDlpV2ExcludeByHotword $excludeByHotword)
+  {
+    $this->excludeByHotword = $excludeByHotword;
+  }
+  /**
+   * @return GooglePrivacyDlpV2ExcludeByHotword
+   */
+  public function getExcludeByHotword()
+  {
+    return $this->excludeByHotword;
   }
   /**
    * @param GooglePrivacyDlpV2ExcludeInfoTypes

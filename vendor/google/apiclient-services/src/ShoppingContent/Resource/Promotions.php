@@ -31,7 +31,10 @@ class Promotions extends \Google\Service\Resource
 {
   /**
    * Inserts a promotion for your Merchant Center account. If the promotion
-   * already exists, then it updates the promotion instead. (promotions.create)
+   * already exists, then it updates the promotion instead. To [end or delete]
+   * (https://developers.google.com/shopping-
+   * content/guides/promotions#end_a_promotion) a promotion update the time period
+   * of the promotion to a time that has already passed. (promotions.create)
    *
    * @param string $merchantId Required. The ID of the account that contains the
    * collection.

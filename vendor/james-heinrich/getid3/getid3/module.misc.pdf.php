@@ -85,7 +85,7 @@ class getid3_pdf extends getid3_handler
 							// "free" object means "deleted", ignore
 							continue;
 						}
-						if (($maxObjLengths[$objectNumber] > 0) && ($maxObjLengths[$objectNumber] < $this->getid3->option_fread_buffer_size)) {
+						if (!empty($maxObjLengths[$objectNumber]) && ($maxObjLengths[$objectNumber] < $this->getid3->option_fread_buffer_size)) {
 							// ignore object that are zero-size or >32kB, they are unlikely to contain information we're interested in
 							$this->fseek($offset);
 							$objBlob = $this->fread($maxObjLengths[$objectNumber]);

@@ -729,6 +729,14 @@ class CloudRetail extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'prebuiltRule' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'rawJson' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'uri' => [
                   'location' => 'query',
                   'type' => 'string',

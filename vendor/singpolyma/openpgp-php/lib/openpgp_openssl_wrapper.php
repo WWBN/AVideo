@@ -14,6 +14,15 @@ if(function_exists('openssl_encrypt')) {
       $this->iv = str_repeat("\0", 8);
     }
 
+    function getBlockLengthInBytes()
+    {
+        return $this->block_size;
+    }
+
+    function getKeyLength() {
+        return $this->key_size << 3;
+    }
+
     function setKey($key) {
       $this->key = $key;
     }

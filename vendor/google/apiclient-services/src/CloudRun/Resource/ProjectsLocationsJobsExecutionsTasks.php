@@ -45,7 +45,7 @@ class ProjectsLocationsJobsExecutionsTasks extends \Google\Service\Resource
     return $this->call('get', [$params], GoogleCloudRunV2Task::class);
   }
   /**
-   * List Tasks from an Execution of a Job.
+   * Lists Tasks from an Execution of a Job.
    * (tasks.listProjectsLocationsJobsExecutionsTasks)
    *
    * @param string $parent Required. The Execution from which the Tasks should be

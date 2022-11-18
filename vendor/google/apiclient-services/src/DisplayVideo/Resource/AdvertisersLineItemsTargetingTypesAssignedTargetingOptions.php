@@ -35,9 +35,8 @@ class AdvertisersLineItemsTargetingTypesAssignedTargetingOptions extends \Google
    * Assigns a targeting option to a line item. Returns the assigned targeting
    * option if successful. Requests to this endpoint cannot be made concurrently
    * with the following requests updating the same line item: *
-   * BulkEditLineItemAssignedTargetingOptions * UpdateLineItem *
-   * CreateLineItemAssignedTargetingOption * DeleteLineItemAssignedTargetingOption
-   * (assignedTargetingOptions.create)
+   * BulkEditAssignedTargetingOptions * BulkUpdate * UpdateLineItem *
+   * DeleteLineItemAssignedTargetingOption (assignedTargetingOptions.create)
    *
    * @param string $advertiserId Required. The ID of the advertiser the line item
    * belongs to.
@@ -58,8 +57,8 @@ class AdvertisersLineItemsTargetingTypesAssignedTargetingOptions extends \Google
   /**
    * Deletes an assigned targeting option from a line item. Requests to this
    * endpoint cannot be made concurrently with the following requests updating the
-   * same line item: * BulkEditLineItemAssignedTargetingOptions * UpdateLineItem *
-   * CreateLineItemAssignedTargetingOption * DeleteLineItemAssignedTargetingOption
+   * same line item: * BulkEditAssignedTargetingOptions * BulkUpdate *
+   * UpdateLineItem * CreateLineItemAssignedTargetingOption
    * (assignedTargetingOptions.delete)
    *
    * @param string $advertiserId Required. The ID of the advertiser the line item

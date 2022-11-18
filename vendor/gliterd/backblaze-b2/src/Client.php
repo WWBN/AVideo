@@ -231,7 +231,10 @@ class Client
             $response['contentSha1'],
             $response['contentLength'],
             $response['contentType'],
-            $response['fileInfo']
+            $response['fileInfo'],
+            $response['bucketId'],
+            $response['action'],
+            $response['uploadTimestamp']
         );
     }
 
@@ -380,7 +383,7 @@ class Client
             foreach ($response['files'] as $file) {
                 // if we have a file name set, only retrieve information if the file name matches
                 if (!$fileName || ($fileName === $file['fileName'])) {
-                    $files[] = new File($file['fileId'], $file['fileName'], null, $file['size']);
+                    $files[] = new File($file['fileId'], $file['fileName'], $file['contentSha1'], $file['size'], $file['contentType'], $file['fileInfo'], $file['bucketId'], $file['action'], $file['uploadTimestamp']);
                 }
             }
 

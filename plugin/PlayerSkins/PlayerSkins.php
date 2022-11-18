@@ -308,7 +308,7 @@ class PlayerSkins extends PluginAbstract {
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
         if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
-            if (empty($obj->showLoopButton) && empty($playerSkinsObj->contextMenuLoop)) {
+            if (empty($obj->showLoopButton) && empty($obj->contextMenuLoop)) {
                 $js .= "<script>setPlayerLoop(false);</script>";
             }
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
@@ -730,7 +730,7 @@ class PlayerSkins extends PluginAbstract {
 
         $bt = debug_backtrace();
         $file = str_replace($global['systemRootPath'], '', $bt[0]['file']);
-
+        $onPlayerReady = '';
         $onPlayerReady .= " /* {$file} */
                 player.markers({markerStyle: {
                     'width': '{$width}px',

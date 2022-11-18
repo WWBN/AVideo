@@ -19,11 +19,15 @@ namespace Google\Service\AndroidProvisioningPartner;
 
 class FindDevicesByOwnerRequest extends \Google\Collection
 {
-  protected $collection_key = 'customerId';
+  protected $collection_key = 'googleWorkspaceCustomerId';
   /**
    * @var string[]
    */
   public $customerId;
+  /**
+   * @var string[]
+   */
+  public $googleWorkspaceCustomerId;
   /**
    * @var string
    */
@@ -50,6 +54,20 @@ class FindDevicesByOwnerRequest extends \Google\Collection
   public function getCustomerId()
   {
     return $this->customerId;
+  }
+  /**
+   * @param string[]
+   */
+  public function setGoogleWorkspaceCustomerId($googleWorkspaceCustomerId)
+  {
+    $this->googleWorkspaceCustomerId = $googleWorkspaceCustomerId;
+  }
+  /**
+   * @return string[]
+   */
+  public function getGoogleWorkspaceCustomerId()
+  {
+    return $this->googleWorkspaceCustomerId;
   }
   /**
    * @param string

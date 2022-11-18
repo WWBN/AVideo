@@ -24,6 +24,14 @@ class CallSettings extends \Google\Model
    */
   public $accessLock;
   /**
+   * @var string
+   */
+  public $accessType;
+  /**
+   * @var bool
+   */
+  public $allowJoiningBeforeHost;
+  /**
    * @var bool
    */
   public $attendanceReportEnabled;
@@ -50,10 +58,6 @@ class CallSettings extends \Google\Model
   /**
    * @var bool
    */
-  public $projectDinoEnabled;
-  /**
-   * @var bool
-   */
   public $reactionsLock;
   /**
    * @var bool
@@ -73,6 +77,34 @@ class CallSettings extends \Google\Model
   public function getAccessLock()
   {
     return $this->accessLock;
+  }
+  /**
+   * @param string
+   */
+  public function setAccessType($accessType)
+  {
+    $this->accessType = $accessType;
+  }
+  /**
+   * @return string
+   */
+  public function getAccessType()
+  {
+    return $this->accessType;
+  }
+  /**
+   * @param bool
+   */
+  public function setAllowJoiningBeforeHost($allowJoiningBeforeHost)
+  {
+    $this->allowJoiningBeforeHost = $allowJoiningBeforeHost;
+  }
+  /**
+   * @return bool
+   */
+  public function getAllowJoiningBeforeHost()
+  {
+    return $this->allowJoiningBeforeHost;
   }
   /**
    * @param bool
@@ -157,20 +189,6 @@ class CallSettings extends \Google\Model
   public function getPresentLock()
   {
     return $this->presentLock;
-  }
-  /**
-   * @param bool
-   */
-  public function setProjectDinoEnabled($projectDinoEnabled)
-  {
-    $this->projectDinoEnabled = $projectDinoEnabled;
-  }
-  /**
-   * @return bool
-   */
-  public function getProjectDinoEnabled()
-  {
-    return $this->projectDinoEnabled;
   }
   /**
    * @param bool

@@ -114,7 +114,7 @@ class ResponsePolicies extends \Google\Service\Resource
    * (responsePolicies.patch)
    *
    * @param string $project Identifies the project addressed by this request.
-   * @param string $responsePolicy User assigned name of the Respones Policy
+   * @param string $responsePolicy User assigned name of the response policy
    * addressed by this request.
    * @param ResponsePolicy $postBody
    * @param array $optParams Optional parameters.

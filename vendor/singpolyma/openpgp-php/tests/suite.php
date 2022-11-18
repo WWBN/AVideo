@@ -374,6 +374,14 @@ class Serialization extends TestCase {
   public function testSymmetricNoMDC() {
     $this->oneSerialization("symmetric-no-mdc.gpg");
   }
+
+  public function tested25519_public() {
+    $this->oneSerialization("ed25519.public_key");
+  }
+
+  public function tested25519_secret() {
+    $this->oneSerialization("ed25519.secret_key");
+  }
 }
 
 class Fingerprint extends TestCase {
@@ -405,6 +413,10 @@ class Fingerprint extends TestCase {
   public function test000082006public_key() {
     $this->oneFingerprint("000082-006.public_key", "589D7E6884A9235BBE821D35BD7BA7BC5547FD09");
   }
+
+  public function tested25519() {
+    $this->oneFingerprint("ed25519.public_key", "88771946427EC2E24569C1D86208BE2B78C27E94");
+  }
 }
 
 class Signature extends TestCase {
@@ -423,5 +435,17 @@ class Signature extends TestCase {
 
   public function test000083002sig() {
     $this->oneIssuer("000083-002.sig", "BD7BA7BC5547FD09");
+  }
+}
+
+class Armor extends TestCase {
+  public function testRoundTrip() {
+    $bytes = "abcd\0\xff";
+    $this->assertEquals($bytes, OpenPGP::unarmor(OpenPGP::enarmor($bytes), 'MESSAGE'));
+  }
+
+  public function testInvalidBase64() {
+    $input = OpenPGP::header('MESSAGE') . "\n\nY~WJjZAD/\n=PE3Q\n" . OpenPGP::footer('MESSAGE');
+    $this->assertEquals(false, OpenPGP::unarmor($input, 'MESSAGE'));
   }
 }

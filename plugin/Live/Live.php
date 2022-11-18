@@ -380,6 +380,19 @@ class Live extends PluginAbstract {
             $_getLiveApplicationModelArray_counter = 0;
         }
 
+        $users_id = '';
+        $title = '';
+        $link = '';
+        $imgJPG = '';
+        $imgGIF = '';
+        $type = '';
+        $LiveUsersLabelLive = '';
+        $uid = '';
+        $callback = '';
+        $startsOnDate = '';
+        $class = '';
+        $description = '';
+
         $expectedValues = array(
             'users_id',
             'title',
@@ -1378,16 +1391,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
         }
         return $o->stats;
-    }
-
-    public function getChat($uuid) {
-        global $global;
-        //check if LiveChat Plugin is available
-        $filename = $global['systemRootPath'] . 'plugin/LiveChat/LiveChat.php';
-        if (file_exists($filename)) {
-            require_once $filename;
-            LiveChat::includeChatPanel($uuid);
-        }
     }
 
     public function getStatsObject($live_servers_id = 0, $force_recreate = false, $tries = 0) {
@@ -2709,7 +2712,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function getPrerollPosterImage($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0) {
         return self::getPosterImage($users_id, $live_servers_id, $live_schedule_id, self::$posterType_preroll);
     }
-
+    /**
+     * @return object
+     */
     public static function getPrerollPosterImageTimes($users_id = 0, $live_servers_id = 0, $live_schedule_id = 0) {
         global $global;
         $path = self::getPrerollPosterImage($users_id, $live_servers_id, $live_schedule_id);
@@ -2897,10 +2902,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
             return $_getPoster[$index];
         }
-    }
-
-    public static function getPosterFromKey($key, $live_servers_id, $live_index = '') {
-        $key = self::getLatestKeyFromUser($users_id);
     }
 
     public static function getOfflineImage($includeURL = true) {
@@ -3281,8 +3282,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
             //$videos = $res->fetch_all(MYSQLI_ASSOC);
         } else {
-            $videos = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $videos;
     }
@@ -3531,7 +3531,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
             'live_servers_id' => $live_servers_id,
             'live_index' => $live_index,
             'playlists_id_live' => $playlists_id_live,
-            'playlists_id_live' => $keyWithIndex,
             'history' => false,
             'isLive' => false,
             'isFinished' => false,
@@ -3737,7 +3736,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public function getWatchActionButton($videos_id): string {
         $isLive = isLive();
         if (!empty($isLive['live_schedule'])) {
-            return '<button class="btn btn-default no-outline" onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/Live/remindMe.php?live_schedule_id=' . $isLive['live_schedule'] . '\');"><i class="fas fa-bell"></i> ' . __('Remind Me') . '</button>';
+            return '<button class="btn btn-default no-outline" onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/Live/remindMe.php?live_schedule_id=' . 
+            $isLive['live_schedule'] . '\');"><i class="fas fa-bell"></i> ' . __('Remind Me') . '</button>';
         }
         return '';
     }
@@ -3882,7 +3882,9 @@ class LiveStreamObject {
         $this->key = $parts['cleanKey'];
         $this->live_index = preg_replace('/[^0-9a-z]/i', '', $this->live_index);
     }
-
+    /**
+     * @return string
+     */
     public function getKey() {
         return $this->key;
     }

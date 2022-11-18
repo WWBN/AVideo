@@ -32,8 +32,8 @@ use Google\Service\CloudResourceManager\TagBinding;
 class TagBindings extends \Google\Service\Resource
 {
   /**
-   * Creates a TagBinding between a TagValue and a cloud resource (currently
-   * project, folder, or organization). (tagBindings.create)
+   * Creates a TagBinding between a TagValue and a Google Cloud resource.
+   * (tagBindings.create)
    *
    * @param TagBinding $postBody
    * @param array $optParams Optional parameters.
@@ -64,7 +64,7 @@ class TagBindings extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Lists the TagBindings for the given cloud resource, as specified with
+   * Lists the TagBindings for the given Google Cloud resource, as specified with
    * `parent`. NOTE: The `parent` field is expected to be a full resource name:
    * https://cloud.google.com/apis/design/resource_names#full_resource_name
    * (tagBindings.listTagBindings)
@@ -73,12 +73,10 @@ class TagBindings extends \Google\Service\Resource
    *
    * @opt_param int pageSize Optional. The maximum number of TagBindings to return
    * in the response. The server allows a maximum of 300 TagBindings to return. If
-   * unspecified, the server will use 100 as the default. Currently this api
-   * returns unpaginated response and `page_size` is ignored.
+   * unspecified, the server will use 100 as the default.
    * @opt_param string pageToken Optional. A pagination token returned from a
    * previous call to `ListTagBindings` that indicates where this listing should
-   * continue from. Currently this api returns unpaginated response and
-   * `page_token` is ignored.
+   * continue from.
    * @opt_param string parent Required. The full resource name of a resource for
    * which you want to list existing TagBindings. E.g.
    * "//cloudresourcemanager.googleapis.com/projects/123"

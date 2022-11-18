@@ -52,6 +52,10 @@ class UrlMetadata extends \Google\Model
   /**
    * @var string
    */
+  public $linkType;
+  /**
+   * @var string
+   */
   public $mimeType;
   protected $redirectUrlType = SafeUrlProto::class;
   protected $redirectUrlDataType = '';
@@ -69,6 +73,10 @@ class UrlMetadata extends \Google\Model
   public $title;
   protected $urlType = SafeUrlProto::class;
   protected $urlDataType = '';
+  /**
+   * @var string
+   */
+  public $urlSource;
 
   /**
    * @param string
@@ -185,6 +193,20 @@ class UrlMetadata extends \Google\Model
   /**
    * @param string
    */
+  public function setLinkType($linkType)
+  {
+    $this->linkType = $linkType;
+  }
+  /**
+   * @return string
+   */
+  public function getLinkType()
+  {
+    return $this->linkType;
+  }
+  /**
+   * @param string
+   */
   public function setMimeType($mimeType)
   {
     $this->mimeType = $mimeType;
@@ -265,6 +287,20 @@ class UrlMetadata extends \Google\Model
   public function getUrl()
   {
     return $this->url;
+  }
+  /**
+   * @param string
+   */
+  public function setUrlSource($urlSource)
+  {
+    $this->urlSource = $urlSource;
+  }
+  /**
+   * @return string
+   */
+  public function getUrlSource()
+  {
+    return $this->urlSource;
   }
 }
 

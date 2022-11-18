@@ -28,6 +28,8 @@ class GoogleCloudDocumentaiV1beta2DocumentPageTable extends \Google\Collection
   protected $headerRowsDataType = 'array';
   protected $layoutType = GoogleCloudDocumentaiV1beta2DocumentPageLayout::class;
   protected $layoutDataType = '';
+  protected $provenanceType = GoogleCloudDocumentaiV1beta2DocumentProvenance::class;
+  protected $provenanceDataType = '';
 
   /**
    * @param GoogleCloudDocumentaiV1beta2DocumentPageTableTableRow[]
@@ -84,6 +86,20 @@ class GoogleCloudDocumentaiV1beta2DocumentPageTable extends \Google\Collection
   public function getLayout()
   {
     return $this->layout;
+  }
+  /**
+   * @param GoogleCloudDocumentaiV1beta2DocumentProvenance
+   */
+  public function setProvenance(GoogleCloudDocumentaiV1beta2DocumentProvenance $provenance)
+  {
+    $this->provenance = $provenance;
+  }
+  /**
+   * @return GoogleCloudDocumentaiV1beta2DocumentProvenance
+   */
+  public function getProvenance()
+  {
+    return $this->provenance;
   }
 }
 

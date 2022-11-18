@@ -12,6 +12,15 @@ if(function_exists('mcrypt_encrypt') && defined('MCRYPT_MODE_CFB')) {
       $this->iv = str_repeat("\0", mcrypt_get_iv_size($cipher, 'ncfb'));
     }
 
+    function getBlockLengthInBytes()
+    {
+        return $this->block_size;
+    }
+
+    function getKeyLength() {
+        return $this->key_size << 3;
+    }
+
     function setKey($key) {
       $this->key = $key;
     }

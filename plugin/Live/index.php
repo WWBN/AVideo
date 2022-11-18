@@ -263,9 +263,6 @@ $global['doNotLoadPlayer'] = 1;
 
         </div>
         <?php
-        $p->getChat($trasnmition['key']);
-        ?>
-        <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script>

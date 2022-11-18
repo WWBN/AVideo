@@ -64,6 +64,11 @@ class VideoStatistic extends ObjectYPT {
                 . "(now(),?," . $userId . ",?,{$lastVideoTime},now(),now(),'" . session_id() . "')";
         $insert_row = sqlDAL::writeSql($sql, "si", [getRealIpAddr(), $videos_id]);
         //if($videos_id==4){_error_log($sql);}
+        /**
+         * 
+         * @var array $global
+         * @var object $global['mysqli'] 
+         */
         if (!empty($global['mysqli']->insert_id)) {
             return $global['mysqli']->insert_id;
         } else {
@@ -513,7 +518,6 @@ class VideoStatistic extends ObjectYPT {
         if (!empty($result2)) {
             return intval($result2['total']);
         }
-        ObjectYPT::setCache($cacheName, $result);
         return 0;
     }
 
@@ -601,7 +605,8 @@ class VideoStatistic extends ObjectYPT {
                 $rows[] = $row;
             }
         } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            $rows = array();
         }
         return $rows;
     }
@@ -665,7 +670,7 @@ class VideoStatistic extends ObjectYPT {
         $rows = array();
         if ($res != false) {
             $totalViews = 0;
-            $totalWatchingTIme = 0;
+            $totalWatchingTime = 0;
             foreach ($fullData as $row) {
                 $sql = "SELECT count(s.videos_id) total_views, sum(seconds_watching_video) as seconds_watching_video FROM  " . static::getTableName() . " s WHERE 1=1 ";
 
@@ -704,8 +709,6 @@ class VideoStatistic extends ObjectYPT {
                         $row2['seconds_watching_video_human2'] = seconds2human($row2['seconds_watching_video']);
                         $row2['totalViews'] = $totalViews;
                         $row2['totalWatchingTime'] = $totalWatchingTime;
-                        $row2['totalWatchingTimeHuman'] = $totalWatchingTimeHuman;
-                        $row2['totalWatchingTimeHuman2'] = $totalWatchingTimeHuman2;
 
                         $rows[] = array_merge($row, $row2);
                     }

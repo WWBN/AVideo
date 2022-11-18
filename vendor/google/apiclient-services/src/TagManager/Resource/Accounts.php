@@ -49,6 +49,8 @@ class Accounts extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool includeGoogleTags Also retrieve accounts associated with
+   * Google Tag when true.
    * @opt_param string pageToken Continuation token for fetching the next page of
    * results.
    * @return ListAccountsResponse
@@ -62,7 +64,7 @@ class Accounts extends \Google\Service\Resource
   /**
    * Updates a GTM Account. (accounts.update)
    *
-   * @param string $path GTM Accounts's API relative path. Example:
+   * @param string $path GTM Account's API relative path. Example:
    * accounts/{account_id}
    * @param Account $postBody
    * @param array $optParams Optional parameters.

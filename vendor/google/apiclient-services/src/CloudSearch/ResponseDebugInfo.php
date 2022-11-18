@@ -17,32 +17,13 @@
 
 namespace Google\Service\CloudSearch;
 
-class ResponseDebugInfo extends \Google\Collection
+class ResponseDebugInfo extends \Google\Model
 {
-  protected $collection_key = 'enabledExperiments';
-  /**
-   * @var int[]
-   */
-  public $enabledExperiments;
   /**
    * @var string
    */
   public $formattedDebugInfo;
 
-  /**
-   * @param int[]
-   */
-  public function setEnabledExperiments($enabledExperiments)
-  {
-    $this->enabledExperiments = $enabledExperiments;
-  }
-  /**
-   * @return int[]
-   */
-  public function getEnabledExperiments()
-  {
-    return $this->enabledExperiments;
-  }
   /**
    * @param string
    */

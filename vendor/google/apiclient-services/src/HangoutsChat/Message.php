@@ -37,6 +37,10 @@ class Message extends \Google\Collection
   /**
    * @var string
    */
+  public $clientAssignedMessageId;
+  /**
+   * @var string
+   */
   public $createTime;
   /**
    * @var string
@@ -64,6 +68,10 @@ class Message extends \Google\Collection
   public $text;
   protected $threadType = Thread::class;
   protected $threadDataType = '';
+  /**
+   * @var bool
+   */
+  public $threadReply;
 
   /**
    * @param ActionResponse
@@ -148,6 +156,20 @@ class Message extends \Google\Collection
   public function getCardsV2()
   {
     return $this->cardsV2;
+  }
+  /**
+   * @param string
+   */
+  public function setClientAssignedMessageId($clientAssignedMessageId)
+  {
+    $this->clientAssignedMessageId = $clientAssignedMessageId;
+  }
+  /**
+   * @return string
+   */
+  public function getClientAssignedMessageId()
+  {
+    return $this->clientAssignedMessageId;
   }
   /**
    * @param string
@@ -288,6 +310,20 @@ class Message extends \Google\Collection
   public function getThread()
   {
     return $this->thread;
+  }
+  /**
+   * @param bool
+   */
+  public function setThreadReply($threadReply)
+  {
+    $this->threadReply = $threadReply;
+  }
+  /**
+   * @return bool
+   */
+  public function getThreadReply()
+  {
+    return $this->threadReply;
   }
 }
 

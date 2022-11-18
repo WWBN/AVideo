@@ -40,6 +40,10 @@ class Backup extends \Google\Model
   /**
    * @var string
    */
+  public $sourceBackup;
+  /**
+   * @var string
+   */
   public $sourceTable;
   /**
    * @var string
@@ -119,6 +123,20 @@ class Backup extends \Google\Model
   public function getSizeBytes()
   {
     return $this->sizeBytes;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceBackup($sourceBackup)
+  {
+    $this->sourceBackup = $sourceBackup;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceBackup()
+  {
+    return $this->sourceBackup;
   }
   /**
    * @param string

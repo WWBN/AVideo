@@ -25,6 +25,8 @@ class Advertiser extends \Google\Model
    * @var string
    */
   public $advertiserId;
+  protected $billingConfigType = AdvertiserBillingConfig::class;
+  protected $billingConfigDataType = '';
   protected $creativeConfigType = AdvertiserCreativeConfig::class;
   protected $creativeConfigDataType = '';
   protected $dataAccessConfigType = AdvertiserDataAccessConfig::class;
@@ -87,6 +89,20 @@ class Advertiser extends \Google\Model
   public function getAdvertiserId()
   {
     return $this->advertiserId;
+  }
+  /**
+   * @param AdvertiserBillingConfig
+   */
+  public function setBillingConfig(AdvertiserBillingConfig $billingConfig)
+  {
+    $this->billingConfig = $billingConfig;
+  }
+  /**
+   * @return AdvertiserBillingConfig
+   */
+  public function getBillingConfig()
+  {
+    return $this->billingConfig;
   }
   /**
    * @param AdvertiserCreativeConfig

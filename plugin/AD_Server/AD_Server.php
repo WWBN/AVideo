@@ -118,7 +118,7 @@ class AD_Server extends PluginAbstract {
                     _error_log("AD_Server:addVideoIdIntoCampaignId videos_id NOT found {$videos_id}");
                 }
             } else {
-                _error_log("AD_Server:addVideoIdIntoCampaignId autoAddNewVideosInCampaignId NOT found " . json_encode($obj->autoAddNewVideosInCampaignId));
+                _error_log("AD_Server:addVideoIdIntoCampaignId autoAddNewVideosInCampaignId NOT found ");
             }
         } else {
             _error_log("AD_Server:addVideoIdIntoCampaignId is disabled");

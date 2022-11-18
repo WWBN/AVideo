@@ -24,6 +24,10 @@ class Table extends \Google\Model
   protected $columnFamiliesType = ColumnFamily::class;
   protected $columnFamiliesDataType = 'map';
   /**
+   * @var bool
+   */
+  public $deletionProtection;
+  /**
    * @var string
    */
   public $granularity;
@@ -33,6 +37,8 @@ class Table extends \Google\Model
   public $name;
   protected $restoreInfoType = RestoreInfo::class;
   protected $restoreInfoDataType = '';
+  protected $statsType = TableStats::class;
+  protected $statsDataType = '';
 
   /**
    * @param ClusterState[]
@@ -61,6 +67,20 @@ class Table extends \Google\Model
   public function getColumnFamilies()
   {
     return $this->columnFamilies;
+  }
+  /**
+   * @param bool
+   */
+  public function setDeletionProtection($deletionProtection)
+  {
+    $this->deletionProtection = $deletionProtection;
+  }
+  /**
+   * @return bool
+   */
+  public function getDeletionProtection()
+  {
+    return $this->deletionProtection;
   }
   /**
    * @param string
@@ -103,6 +123,20 @@ class Table extends \Google\Model
   public function getRestoreInfo()
   {
     return $this->restoreInfo;
+  }
+  /**
+   * @param TableStats
+   */
+  public function setStats(TableStats $stats)
+  {
+    $this->stats = $stats;
+  }
+  /**
+   * @return TableStats
+   */
+  public function getStats()
+  {
+    return $this->stats;
   }
 }
 

@@ -17,11 +17,11 @@
 
 namespace Google\Service\ChromePolicy\Resource;
 
-use Google\Service\ChromePolicy\GoogleChromePolicyV1BatchDeleteGroupPoliciesRequest;
-use Google\Service\ChromePolicy\GoogleChromePolicyV1BatchModifyGroupPoliciesRequest;
-use Google\Service\ChromePolicy\GoogleChromePolicyV1ListGroupPriorityOrderingRequest;
-use Google\Service\ChromePolicy\GoogleChromePolicyV1ListGroupPriorityOrderingResponse;
-use Google\Service\ChromePolicy\GoogleChromePolicyV1UpdateGroupPriorityOrderingRequest;
+use Google\Service\ChromePolicy\GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest;
+use Google\Service\ChromePolicy\GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest;
+use Google\Service\ChromePolicy\GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest;
+use Google\Service\ChromePolicy\GoogleChromePolicyVersionsV1ListGroupPriorityOrderingResponse;
+use Google\Service\ChromePolicy\GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest;
 use Google\Service\ChromePolicy\GoogleProtobufEmpty;
 
 /**
@@ -44,11 +44,11 @@ class CustomersPoliciesGroups extends \Google\Service\Resource
    *
    * @param string $customer ID of the Google Workspace account or literal
    * "my_customer" for the customer associated to the request.
-   * @param GoogleChromePolicyV1BatchDeleteGroupPoliciesRequest $postBody
+   * @param GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
    */
-  public function batchDelete($customer, GoogleChromePolicyV1BatchDeleteGroupPoliciesRequest $postBody, $optParams = [])
+  public function batchDelete($customer, GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest $postBody, $optParams = [])
   {
     $params = ['customer' => $customer, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -64,11 +64,11 @@ class CustomersPoliciesGroups extends \Google\Service\Resource
    *
    * @param string $customer ID of the Google Workspace account or literal
    * "my_customer" for the customer associated to the request.
-   * @param GoogleChromePolicyV1BatchModifyGroupPoliciesRequest $postBody
+   * @param GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
    */
-  public function batchModify($customer, GoogleChromePolicyV1BatchModifyGroupPoliciesRequest $postBody, $optParams = [])
+  public function batchModify($customer, GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest $postBody, $optParams = [])
   {
     $params = ['customer' => $customer, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -82,15 +82,15 @@ class CustomersPoliciesGroups extends \Google\Service\Resource
    *
    * @param string $customer Required. ID of the Google Workspace account or
    * literal "my_customer" for the customer associated to the request.
-   * @param GoogleChromePolicyV1ListGroupPriorityOrderingRequest $postBody
+   * @param GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleChromePolicyV1ListGroupPriorityOrderingResponse
+   * @return GoogleChromePolicyVersionsV1ListGroupPriorityOrderingResponse
    */
-  public function listGroupPriorityOrdering($customer, GoogleChromePolicyV1ListGroupPriorityOrderingRequest $postBody, $optParams = [])
+  public function listGroupPriorityOrdering($customer, GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest $postBody, $optParams = [])
   {
     $params = ['customer' => $customer, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('listGroupPriorityOrdering', [$params], GoogleChromePolicyV1ListGroupPriorityOrderingResponse::class);
+    return $this->call('listGroupPriorityOrdering', [$params], GoogleChromePolicyVersionsV1ListGroupPriorityOrderingResponse::class);
   }
   /**
    * Update a group priority ordering for an app. The target app must be supplied
@@ -100,11 +100,11 @@ class CustomersPoliciesGroups extends \Google\Service\Resource
    *
    * @param string $customer Required. ID of the Google Workspace account or
    * literal "my_customer" for the customer associated to the request.
-   * @param GoogleChromePolicyV1UpdateGroupPriorityOrderingRequest $postBody
+   * @param GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
    */
-  public function updateGroupPriorityOrdering($customer, GoogleChromePolicyV1UpdateGroupPriorityOrderingRequest $postBody, $optParams = [])
+  public function updateGroupPriorityOrdering($customer, GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest $postBody, $optParams = [])
   {
     $params = ['customer' => $customer, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);

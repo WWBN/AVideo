@@ -112,7 +112,7 @@ class Users_affiliations extends ObjectYPT {
                 $rows[] = $row;
             }
         } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -142,7 +142,7 @@ class Users_affiliations extends ObjectYPT {
     }
 
     public function save() {
-
+        global $global;
         if (empty($this->id) && !empty($this->users_id_company) && !empty($this->users_id_affiliate)) {
             $row = self::getAll($this->users_id_company, $this->users_id_affiliate);
             //var_dump($row);

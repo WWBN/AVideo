@@ -2117,6 +2117,9 @@ if (typeof gtag !== \"function\") {
         return $userId;
     }
 
+    /**
+     * @return string
+     */
     public function getRecoverPass()
     {
         return $this->recoverPass;
@@ -2496,18 +2499,21 @@ if (typeof gtag !== \"function\") {
             _error_log("sendVerificationLink: Email already sent, we will wait 30 min  {$users_id}");
             return true;
         }
-        $config = new Configuration();
-        $code = urlencode(static::createVerificationCode($users_id));
-        //Create a new PHPMailer instance
-        if (!is_object($config)) {
-            _error_log("sendVerificationLink: config is not a object " . json_encode($config));
-            return false;
-        }
-        $contactEmail = $config->getContactEmail();
-        $webSiteTitle = $config->getWebSiteTitle();
-        $email = '';
-        $email = $user->getEmail();
         try {
+            $config = new Configuration();
+            $code = urlencode(static::createVerificationCode($users_id));
+            //Create a new PHPMailer instance
+            if (!is_object($config)) {
+                _error_log("sendVerificationLink: config is not a object " . json_encode($config));
+                return false;
+            }
+            $contactEmail = $config->getContactEmail();
+            $webSiteTitle = $config->getWebSiteTitle();
+            /**
+             * @var string $email 
+             */
+            $email = '';
+            $email = $user->getEmail();
             $mail = new \PHPMailer\PHPMailer\PHPMailer();
             setSiteSendMessage($mail);
             //$mail->SMTPDebug = 4;

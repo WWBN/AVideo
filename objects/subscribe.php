@@ -163,7 +163,7 @@ class Subscribe extends ObjectYPT{
      * return all subscribers that has subscribe to an user channel
      * @global type $global
      * @param type $user_id
-     * @return boolean
+     * @return array
      */
     public static function getAllSubscribes($user_id = "", $status = "a", $verifiedOnly = false)
     {
@@ -217,11 +217,10 @@ class Subscribe extends ObjectYPT{
                     $subscribe[] = $row;
                 }
                 //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
+                ObjectYPT::setCache($cacheName, $subscribe);
             } else {
-                $subscribe = false;
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
-            ObjectYPT::setCache($cacheName, $subscribe);
         } else {
             $subscribe = object_to_array($subscribe);
         }
@@ -290,10 +289,7 @@ class Subscribe extends ObjectYPT{
                 $subscribe[] = $row;
             }
             //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
-        } else {
-            $subscribe = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $subscribe;
     }
 

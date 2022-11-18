@@ -92,6 +92,12 @@ class LiveLinks extends PluginAbstract {
 
         $sql .= " ORDER BY start_date ";
         //echo $sql;//exit;
+        
+        /**
+         * 
+         * @var array $global
+         * @var object $global['mysqli'] 
+         */
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
@@ -211,7 +217,11 @@ class LiveLinks extends PluginAbstract {
 
         return $js . $css;
     }
-
+    /**
+     * @param int $id
+     * @param boolean $embed
+     * @return string
+     */
     public static function getLinkToLiveFromId($id, $embed = false) {
         return self::getLink($id, $embed);
     }
@@ -390,8 +400,7 @@ class LiveLinks extends PluginAbstract {
             }
             //$videos = $res->fetch_all(MYSQLI_ASSOC);
         } else {
-            $videos = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $videos;
     }
@@ -472,11 +481,11 @@ class LiveLinks extends PluginAbstract {
         $ll = new LiveLinks($id);
         $posters = array();
         //var_dump($posters);exit;
-        $category = Category::getCategory($lt['categories_id']);
+        $category = Category::getCategory($ll['categories_id']);
         $MediaMetadata = new stdClass();
 
-        $MediaMetadata->title = $lt['title'];
-        $MediaMetadata->artist = User::getNameIdentificationById($lt['users_id']);
+        $MediaMetadata->title = $ll['title'];
+        $MediaMetadata->artist = User::getNameIdentificationById($ll['users_id']);
         $MediaMetadata->album = $category['name'];
         $MediaMetadata->artwork = array();
         foreach ($posters as $key => $value) {

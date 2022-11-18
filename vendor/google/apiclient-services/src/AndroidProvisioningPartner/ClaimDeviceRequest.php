@@ -30,7 +30,19 @@ class ClaimDeviceRequest extends \Google\Model
   /**
    * @var string
    */
+  public $googleWorkspaceCustomerId;
+  /**
+   * @var string
+   */
+  public $preProvisioningToken;
+  /**
+   * @var string
+   */
   public $sectionType;
+  /**
+   * @var string
+   */
+  public $simlockProfileId;
 
   /**
    * @param string
@@ -77,6 +89,34 @@ class ClaimDeviceRequest extends \Google\Model
   /**
    * @param string
    */
+  public function setGoogleWorkspaceCustomerId($googleWorkspaceCustomerId)
+  {
+    $this->googleWorkspaceCustomerId = $googleWorkspaceCustomerId;
+  }
+  /**
+   * @return string
+   */
+  public function getGoogleWorkspaceCustomerId()
+  {
+    return $this->googleWorkspaceCustomerId;
+  }
+  /**
+   * @param string
+   */
+  public function setPreProvisioningToken($preProvisioningToken)
+  {
+    $this->preProvisioningToken = $preProvisioningToken;
+  }
+  /**
+   * @return string
+   */
+  public function getPreProvisioningToken()
+  {
+    return $this->preProvisioningToken;
+  }
+  /**
+   * @param string
+   */
   public function setSectionType($sectionType)
   {
     $this->sectionType = $sectionType;
@@ -87,6 +127,20 @@ class ClaimDeviceRequest extends \Google\Model
   public function getSectionType()
   {
     return $this->sectionType;
+  }
+  /**
+   * @param string
+   */
+  public function setSimlockProfileId($simlockProfileId)
+  {
+    $this->simlockProfileId = $simlockProfileId;
+  }
+  /**
+   * @return string
+   */
+  public function getSimlockProfileId()
+  {
+    return $this->simlockProfileId;
   }
 }
 

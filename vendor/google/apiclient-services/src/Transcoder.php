@@ -24,7 +24,7 @@ use Google\Client;
  *
  * <p>
  * This API converts video files into formats suitable for consumer
- * distribution.</p>
+ * distribution. For more information, see the Transcoder API overview.</p>
  *
  * <p>
  * For more information about this service, see the API

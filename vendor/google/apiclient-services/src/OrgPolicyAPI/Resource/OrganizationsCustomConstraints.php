@@ -114,6 +114,8 @@ class OrganizationsCustomConstraints extends \Google\Service\Resource
    * the organization. Format of the name should be *
    * `organizations/{organization_id}/customConstraints/{custom_constraint_id}`
    * Example : "organizations/123/customConstraints/custom.createOnlyE2TypeVms"
+   * The max length is 70 characters and the min length is 1. Note that the prefix
+   * "organizations/{organization_id}/customConstraints/" is not counted.
    * @param GoogleCloudOrgpolicyV2CustomConstraint $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudOrgpolicyV2CustomConstraint

@@ -7,8 +7,10 @@
  */
 
 // From http://phpseclib.sourceforge.net/
-use phpseclib\Crypt\RSA as Crypt_RSA;
-use phpseclib\Math\BigInteger as Math_BigInteger;
+use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Crypt\RSA as Crypt_RSA;
+use phpseclib3\Crypt\RSA\PublicKey;
+use phpseclib3\Math\BigInteger as Math_BigInteger;
 
 define('CRYPT_RSA_ENCRYPTION_PKCS1', Crypt_RSA::ENCRYPTION_PKCS1);
 define('CRYPT_RSA_SIGNATURE_PKCS1', Crypt_RSA::SIGNATURE_PKCS1);
@@ -61,7 +63,7 @@ class OpenPGP_Crypt_RSA {
       $verifier = function($m, $s) use($self) {
         $key = $self->public_key($s->issuer());
         if(!$key) return false;
-        $key->setHash(strtolower($s->hash_algorithm_name()));
+        $key = $key->withHash(strtolower($s->hash_algorithm_name()));
         return $key->verify($m, reset($s->data));
       };
     } else {
@@ -75,7 +77,7 @@ class OpenPGP_Crypt_RSA {
           $key = $packet->public_key($s->issuer());
         }
         if(!$key) return false;
-        $key->setHash(strtolower($s->hash_algorithm_name()));
+        $key = $key->withHash(strtolower($s->hash_algorithm_name()));
         return $key->verify($m, reset($s->data));
       };
     }
@@ -123,7 +125,7 @@ class OpenPGP_Crypt_RSA {
       if(!$keyid) $keyid = substr($key->key()->fingerprint, -16, 16);
       $key = $key->private_key($keyid);
     }
-    $key->setHash(strtolower($hash));
+    $key = $key->withHash(strtolower($hash));
 
     $sig = new OpenPGP_SignaturePacket($message, 'RSA', strtoupper($hash));
     $sig->hashed_subpackets[] = new OpenPGP_SignaturePacket_IssuerPacket($keyid);
@@ -145,7 +147,7 @@ class OpenPGP_Crypt_RSA {
     if(!$key || !$packet) return NULL; // Missing some data
 
     if(!$keyid) $keyid = substr($this->key->fingerprint, -16);
-    $key->setHash(strtolower($hash));
+    $key = $key->withHash(strtolower($hash));
 
     $sig = NULL;
     foreach($packet as $p) {
@@ -211,8 +213,13 @@ class OpenPGP_Crypt_RSA {
   }
 
   static function try_decrypt_session($key, $edata) {
-    $key->setEncryptionMode(CRYPT_RSA_ENCRYPTION_PKCS1);
-    $data = @$key->decrypt($edata);
+    $key = $key->withPadding(CRYPT_RSA_ENCRYPTION_PKCS1 | CRYPT_RSA_SIGNATURE_PKCS1);
+    try {
+        $data = $key->decrypt($edata);
+    } catch (\RuntimeException $e) {
+        return NULL;
+    }
+
     if(!$data) return NULL;
     $sk = substr($data, 1, strlen($data)-3);
     $chk = unpack('n', substr($data, -2));
@@ -228,43 +235,53 @@ class OpenPGP_Crypt_RSA {
   }
 
   static function crypt_rsa_key($mod, $exp, $hash='SHA256') {
-    $rsa = new Crypt_RSA();
-    $rsa->setSignatureMode(CRYPT_RSA_SIGNATURE_PKCS1);
-    $rsa->setHash(strtolower($hash));
-    $rsa->modulus = new Math_BigInteger($mod, 256);
-    $rsa->k = strlen($rsa->modulus->toBytes());
-    $rsa->exponent = new Math_BigInteger($exp, 256);
-    $rsa->setPublicKey();
-    return $rsa;
+    return Crypt_RSA::loadPublicKey([
+        'e' => new Math_BigInteger($exp, 256),
+        'n' => new Math_BigInteger($mod, 256),
+    ])
+        ->withPadding(CRYPT_RSA_SIGNATURE_PKCS1 | CRYPT_RSA_ENCRYPTION_PKCS1)
+        ->withHash(strtolower($hash));
   }
 
   static function convert_key($packet, $private=false) {
     if(!is_object($packet)) $packet = OpenPGP_Message::parse($packet);
     if($packet instanceof OpenPGP_Message) $packet = $packet[0];
 
-    $mod = $packet->key['n'];
     $exp = $packet->key['e'];
     if($private) $exp = $packet->key['d'];
     if(!$exp) return NULL; // Packet doesn't have needed data
 
-    $rsa = self::crypt_rsa_key($mod, $exp);
+    /**
+     * @see https://github.com/phpseclib/phpseclib/issues/1113
+     * Primes and coefficients now use BigIntegers.
+     **/
 
     if($private) {
-        /**
-         * @see https://github.com/phpseclib/phpseclib/issues/1113
-         * Primes and coefficients now use BigIntegers.
-         **/
-        //set the primes
-        if($packet->key['p'] && $packet->key['q'])
-            $rsa->primes = array(
-                1 => new Math_BigInteger($packet->key['p'], 256),
-                2 => new Math_BigInteger($packet->key['q'], 256)
-            );
-        // set the coefficients
-        if($packet->key['u']) $rsa->coefficients = array(2 => new Math_BigInteger($packet->key['u'], 256));
-    }
+        // Invert p and q to make u work out as q'
+        $rawKey = [
+            'e' => new Math_BigInteger($packet->key['e'], 256),
+            'n' => new Math_BigInteger($packet->key['n'], 256),
+            'd' => new Math_BigInteger($packet->key['d'], 256),
+            'q' => new Math_BigInteger($packet->key['p'], 256),
+            'p' => new Math_BigInteger($packet->key['q'], 256),
+        ];
+        if (array_key_exists('u', $packet->key)) {
+            // possible keys for 'u': https://github.com/phpseclib/phpseclib/blob/master/phpseclib/Crypt/RSA/Formats/Keys/Raw.php#L108
+            $rawKey['inerseq'] = new Math_BigInteger($packet->key['u'], 256);
+        }
 
-    return $rsa;
+        return publickeyloader::loadPrivateKey($rawKey)
+            ->withPadding(CRYPT_RSA_SIGNATURE_PKCS1 | CRYPT_RSA_ENCRYPTION_PKCS1)
+            ->withHash('sha256');
+    } else {
+
+        return publickeyloader::loadPublicKey([
+            'e' => new Math_BigInteger($packet->key['e'], 256),
+            'n' => new Math_BigInteger($packet->key['n'], 256),
+        ])
+            ->withPadding(CRYPT_RSA_SIGNATURE_PKCS1 | CRYPT_RSA_ENCRYPTION_PKCS1)
+            ->withHash('sha256');
+    }
   }
 
   static function convert_public_key($packet) {

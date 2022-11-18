@@ -42,7 +42,8 @@ class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource
    * (osPolicyAssignments.create)
    *
    * @param string $parent Required. The parent resource name in the form:
-   * projects/{project}/locations/{location}
+   * projects/{project}/locations/{location}. Note: Specify the zone of your VMs
+   * as the location.
    * @param OSPolicyAssignment $postBody
    * @param array $optParams Optional parameters.
    *

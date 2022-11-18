@@ -35,6 +35,8 @@ class GoogleCloudContactcenterinsightsV1CallAnnotation extends \Google\Model
   protected $intentMatchDataDataType = '';
   protected $interruptionDataType = GoogleCloudContactcenterinsightsV1InterruptionData::class;
   protected $interruptionDataDataType = '';
+  protected $issueMatchDataType = GoogleCloudContactcenterinsightsV1IssueMatchData::class;
+  protected $issueMatchDataDataType = '';
   protected $phraseMatchDataType = GoogleCloudContactcenterinsightsV1PhraseMatchData::class;
   protected $phraseMatchDataDataType = '';
   protected $sentimentDataType = GoogleCloudContactcenterinsightsV1SentimentData::class;
@@ -139,6 +141,20 @@ class GoogleCloudContactcenterinsightsV1CallAnnotation extends \Google\Model
   public function getInterruptionData()
   {
     return $this->interruptionData;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1IssueMatchData
+   */
+  public function setIssueMatchData(GoogleCloudContactcenterinsightsV1IssueMatchData $issueMatchData)
+  {
+    $this->issueMatchData = $issueMatchData;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1IssueMatchData
+   */
+  public function getIssueMatchData()
+  {
+    return $this->issueMatchData;
   }
   /**
    * @param GoogleCloudContactcenterinsightsV1PhraseMatchData

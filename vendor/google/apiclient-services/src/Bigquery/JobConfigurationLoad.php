@@ -41,6 +41,10 @@ class JobConfigurationLoad extends \Google\Collection
    */
   public $createDisposition;
   /**
+   * @var bool
+   */
+  public $createSession;
+  /**
    * @var string[]
    */
   public $decimalTargetTypes;
@@ -216,6 +220,20 @@ class JobConfigurationLoad extends \Google\Collection
   public function getCreateDisposition()
   {
     return $this->createDisposition;
+  }
+  /**
+   * @param bool
+   */
+  public function setCreateSession($createSession)
+  {
+    $this->createSession = $createSession;
+  }
+  /**
+   * @return bool
+   */
+  public function getCreateSession()
+  {
+    return $this->createSession;
   }
   /**
    * @param string[]

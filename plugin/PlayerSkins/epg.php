@@ -304,6 +304,9 @@ function createEPG($channel) {
                      * 
                      */
                     $minutes = getDurationInMinutes($program['start'], $program['stop']);
+                    /**
+                     * @var int $timeLineElementSize
+                     */
                     $left = ($minuteSize * $minutesSinceZeroTime) + $timeLineElementSize;
                     $width = ($minuteSize * $minutes);
                     $pclass = '';
@@ -345,6 +348,11 @@ $positionNow = ($minuteSize * $minutesSince0Time) + $timeLineElementSize;
 $bgColors = array('#222222', '#333333', '#444444', '#555555');
 _ob_start();
 //var_dump($minuteSize, $minutes,$positionNow);exit;
+$animateJson = '{scrollLeft: $(\'#positionNow\').position().left - '.($timeLineElementSize + 50);
+if (!empty($videos_id)) {
+    $animateJson .= ', scrollTop: ($(\'#video_'.$videos_id.'\').offset().top) - 100';
+}
+$animateJson .= '}';
 ?><!DOCTYPE html>
 <html>
     <head>
@@ -576,14 +584,7 @@ _ob_start();
             }
 
             function goToPositionNow() {
-                $('html, body').animate({
-                    scrollLeft: ($('#positionNow').position().left -<?php echo $timeLineElementSize + 50; ?>),
-<?php
-if (!empty($videos_id)) {
-    echo "scrollTop: (($(\"#video_{$videos_id}\").offset().top) - 100)";
-}
-?>
-                }, 1000);
+                $('html, body').animate(<?php echo $animateJson; ?>, 1000);
             }
         </script>
     </body>

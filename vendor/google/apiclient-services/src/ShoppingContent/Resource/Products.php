@@ -132,9 +132,9 @@ class Products extends \Google\Service\Resource
    * @opt_param string updateMask The comma-separated list of product attributes
    * to be updated. Example: `"title,salePrice"`. Attributes specified in the
    * update mask without a value specified in the body will be deleted from the
-   * product. Only top-level product attributes can be updated. If not defined,
-   * product attributes with set values will be updated and other attributes will
-   * stay unchanged.
+   * product. *You must specify the update mask to delete attributes.* Only top-
+   * level product attributes can be updated. If not defined, product attributes
+   * with set values will be updated and other attributes will stay unchanged.
    * @return Product
    */
   public function update($merchantId, $productId, Product $postBody, $optParams = [])

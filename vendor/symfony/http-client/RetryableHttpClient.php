@@ -60,7 +60,7 @@ class RetryableHttpClient implements HttpClientInterface, ResetInterface
         return new AsyncResponse($this->client, $method, $url, $options, function (ChunkInterface $chunk, AsyncContext $context) use ($method, $url, $options, &$retryCount, &$content, &$firstChunk) {
             $exception = null;
             try {
-                if ($chunk->isTimeout() || null !== $chunk->getInformationalStatus() || $context->getInfo('canceled')) {
+                if ($context->getInfo('canceled') || $chunk->isTimeout() || null !== $chunk->getInformationalStatus()) {
                     yield $chunk;
 
                     return;
@@ -118,6 +118,8 @@ class RetryableHttpClient implements HttpClientInterface, ResetInterface
 
             $delay = $this->getDelayFromHeader($context->getHeaders()) ?? $this->strategy->getDelay($context, !$exception && $chunk->isLast() ? $content : null, $exception);
             ++$retryCount;
+            $content = '';
+            $firstChunk = null;
 
             $this->logger->info('Try #{count} after {delay}ms'.($exception ? ': '.$exception->getMessage() : ', status code: '.$context->getStatusCode()), [
                 'count' => $retryCount,
@@ -138,7 +140,7 @@ class RetryableHttpClient implements HttpClientInterface, ResetInterface
     {
         if (null !== $after = $headers['retry-after'][0] ?? null) {
             if (is_numeric($after)) {
-                return (int) $after * 1000;
+                return (int) ($after * 1000);
             }
 
             if (false !== $time = strtotime($after)) {

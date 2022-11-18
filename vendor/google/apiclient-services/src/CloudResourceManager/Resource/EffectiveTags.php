@@ -30,8 +30,8 @@ use Google\Service\CloudResourceManager\ListEffectiveTagsResponse;
 class EffectiveTags extends \Google\Service\Resource
 {
   /**
-   * Return a list of effective tags for the given cloud resource, as specified in
-   * `parent`. (effectiveTags.listEffectiveTags)
+   * Return a list of effective tags for the given Google Cloud resource, as
+   * specified in `parent`. (effectiveTags.listEffectiveTags)
    *
    * @param array $optParams Optional parameters.
    *

@@ -28,6 +28,8 @@ class ClusterUpdate extends \Google\Collection
   protected $desiredBinaryAuthorizationDataType = '';
   protected $desiredClusterAutoscalingType = ClusterAutoscaling::class;
   protected $desiredClusterAutoscalingDataType = '';
+  protected $desiredCostManagementConfigType = CostManagementConfig::class;
+  protected $desiredCostManagementConfigDataType = '';
   protected $desiredDatabaseEncryptionType = DatabaseEncryption::class;
   protected $desiredDatabaseEncryptionDataType = '';
   /**
@@ -38,6 +40,12 @@ class ClusterUpdate extends \Google\Collection
   protected $desiredDefaultSnatStatusDataType = '';
   protected $desiredDnsConfigType = DNSConfig::class;
   protected $desiredDnsConfigDataType = '';
+  /**
+   * @var bool
+   */
+  public $desiredEnablePrivateEndpoint;
+  protected $desiredGatewayApiConfigType = GatewayAPIConfig::class;
+  protected $desiredGatewayApiConfigDataType = '';
   protected $desiredGcfsConfigType = GcfsConfig::class;
   protected $desiredGcfsConfigDataType = '';
   protected $desiredIdentityServiceConfigType = IdentityServiceConfig::class;
@@ -82,6 +90,8 @@ class ClusterUpdate extends \Google\Collection
    * @var string
    */
   public $desiredNodePoolId;
+  protected $desiredNodePoolLoggingConfigType = NodePoolLoggingConfig::class;
+  protected $desiredNodePoolLoggingConfigDataType = '';
   /**
    * @var string
    */
@@ -164,6 +174,20 @@ class ClusterUpdate extends \Google\Collection
     return $this->desiredClusterAutoscaling;
   }
   /**
+   * @param CostManagementConfig
+   */
+  public function setDesiredCostManagementConfig(CostManagementConfig $desiredCostManagementConfig)
+  {
+    $this->desiredCostManagementConfig = $desiredCostManagementConfig;
+  }
+  /**
+   * @return CostManagementConfig
+   */
+  public function getDesiredCostManagementConfig()
+  {
+    return $this->desiredCostManagementConfig;
+  }
+  /**
    * @param DatabaseEncryption
    */
   public function setDesiredDatabaseEncryption(DatabaseEncryption $desiredDatabaseEncryption)
@@ -218,6 +242,34 @@ class ClusterUpdate extends \Google\Collection
   public function getDesiredDnsConfig()
   {
     return $this->desiredDnsConfig;
+  }
+  /**
+   * @param bool
+   */
+  public function setDesiredEnablePrivateEndpoint($desiredEnablePrivateEndpoint)
+  {
+    $this->desiredEnablePrivateEndpoint = $desiredEnablePrivateEndpoint;
+  }
+  /**
+   * @return bool
+   */
+  public function getDesiredEnablePrivateEndpoint()
+  {
+    return $this->desiredEnablePrivateEndpoint;
+  }
+  /**
+   * @param GatewayAPIConfig
+   */
+  public function setDesiredGatewayApiConfig(GatewayAPIConfig $desiredGatewayApiConfig)
+  {
+    $this->desiredGatewayApiConfig = $desiredGatewayApiConfig;
+  }
+  /**
+   * @return GatewayAPIConfig
+   */
+  public function getDesiredGatewayApiConfig()
+  {
+    return $this->desiredGatewayApiConfig;
   }
   /**
    * @param GcfsConfig
@@ -442,6 +494,20 @@ class ClusterUpdate extends \Google\Collection
   public function getDesiredNodePoolId()
   {
     return $this->desiredNodePoolId;
+  }
+  /**
+   * @param NodePoolLoggingConfig
+   */
+  public function setDesiredNodePoolLoggingConfig(NodePoolLoggingConfig $desiredNodePoolLoggingConfig)
+  {
+    $this->desiredNodePoolLoggingConfig = $desiredNodePoolLoggingConfig;
+  }
+  /**
+   * @return NodePoolLoggingConfig
+   */
+  public function getDesiredNodePoolLoggingConfig()
+  {
+    return $this->desiredNodePoolLoggingConfig;
   }
   /**
    * @param string

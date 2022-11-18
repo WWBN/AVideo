@@ -34,6 +34,10 @@ class DatafeedstatusesCustomBatchRequestEntry extends \Google\Model
   /**
    * @var string
    */
+  public $feedLabel;
+  /**
+   * @var string
+   */
   public $language;
   /**
    * @var string
@@ -85,6 +89,20 @@ class DatafeedstatusesCustomBatchRequestEntry extends \Google\Model
   public function getDatafeedId()
   {
     return $this->datafeedId;
+  }
+  /**
+   * @param string
+   */
+  public function setFeedLabel($feedLabel)
+  {
+    $this->feedLabel = $feedLabel;
+  }
+  /**
+   * @return string
+   */
+  public function getFeedLabel()
+  {
+    return $this->feedLabel;
   }
   /**
    * @param string

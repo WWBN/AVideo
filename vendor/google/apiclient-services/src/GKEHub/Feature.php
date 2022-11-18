@@ -41,6 +41,10 @@ class Feature extends \Google\Model
   public $name;
   protected $resourceStateType = FeatureResourceState::class;
   protected $resourceStateDataType = '';
+  protected $scopeSpecsType = ScopeFeatureSpec::class;
+  protected $scopeSpecsDataType = 'map';
+  protected $scopeStatesType = ScopeFeatureState::class;
+  protected $scopeStatesDataType = 'map';
   protected $specType = CommonFeatureSpec::class;
   protected $specDataType = '';
   protected $stateType = CommonFeatureState::class;
@@ -147,6 +151,34 @@ class Feature extends \Google\Model
   public function getResourceState()
   {
     return $this->resourceState;
+  }
+  /**
+   * @param ScopeFeatureSpec[]
+   */
+  public function setScopeSpecs($scopeSpecs)
+  {
+    $this->scopeSpecs = $scopeSpecs;
+  }
+  /**
+   * @return ScopeFeatureSpec[]
+   */
+  public function getScopeSpecs()
+  {
+    return $this->scopeSpecs;
+  }
+  /**
+   * @param ScopeFeatureState[]
+   */
+  public function setScopeStates($scopeStates)
+  {
+    $this->scopeStates = $scopeStates;
+  }
+  /**
+   * @return ScopeFeatureState[]
+   */
+  public function getScopeStates()
+  {
+    return $this->scopeStates;
   }
   /**
    * @param CommonFeatureSpec

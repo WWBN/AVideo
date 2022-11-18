@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<psalm useDocblockTypes="true">
+    <projectFiles>
+        <directory name="src" />
+        <directory name="tests/" />
+    </projectFiles>
+
+    <fileExtensions>
+        <extension name=".php" />
+    </fileExtensions>
+
+    <issueHandlers>
+        <!-- This hides a number of errors that we don't really care about. -->
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <directory name="tests/" />
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+    </issueHandlers>
+</psalm>

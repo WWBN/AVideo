@@ -26,6 +26,10 @@ class LinkedRouterApplianceInstances extends \Google\Collection
    * @var bool
    */
   public $siteToSiteDataTransfer;
+  /**
+   * @var string
+   */
+  public $vpcNetwork;
 
   /**
    * @param RouterApplianceInstance[]
@@ -54,6 +58,20 @@ class LinkedRouterApplianceInstances extends \Google\Collection
   public function getSiteToSiteDataTransfer()
   {
     return $this->siteToSiteDataTransfer;
+  }
+  /**
+   * @param string
+   */
+  public function setVpcNetwork($vpcNetwork)
+  {
+    $this->vpcNetwork = $vpcNetwork;
+  }
+  /**
+   * @return string
+   */
+  public function getVpcNetwork()
+  {
+    return $this->vpcNetwork;
   }
 }
 

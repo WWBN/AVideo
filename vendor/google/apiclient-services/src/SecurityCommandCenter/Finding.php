@@ -60,6 +60,8 @@ class Finding extends \Google\Collection
    * @var string
    */
   public $externalUri;
+  protected $filesType = SecuritycenterFile::class;
+  protected $filesDataType = 'array';
   /**
    * @var string
    */
@@ -96,6 +98,10 @@ class Finding extends \Google\Collection
    * @var string
    */
   public $parent;
+  /**
+   * @var string
+   */
+  public $parentDisplayName;
   protected $processesType = Process::class;
   protected $processesDataType = 'array';
   /**
@@ -316,6 +322,20 @@ class Finding extends \Google\Collection
     return $this->externalUri;
   }
   /**
+   * @param SecuritycenterFile[]
+   */
+  public function setFiles($files)
+  {
+    $this->files = $files;
+  }
+  /**
+   * @return SecuritycenterFile[]
+   */
+  public function getFiles()
+  {
+    return $this->files;
+  }
+  /**
    * @param string
    */
   public function setFindingClass($findingClass)
@@ -468,6 +488,20 @@ class Finding extends \Google\Collection
   public function getParent()
   {
     return $this->parent;
+  }
+  /**
+   * @param string
+   */
+  public function setParentDisplayName($parentDisplayName)
+  {
+    $this->parentDisplayName = $parentDisplayName;
+  }
+  /**
+   * @return string
+   */
+  public function getParentDisplayName()
+  {
+    return $this->parentDisplayName;
   }
   /**
    * @param Process[]
