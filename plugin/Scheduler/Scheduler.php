@@ -185,10 +185,10 @@ class Scheduler extends PluginAbstract {
     /**
      * 
      * @global type $global
-     * @param type $title
-     * @param type $description
-     * @param type $date_start
-     * @param type $date_end
+     * @param string $title
+     * @param string $description
+     * @param string $date_start
+     * @param string $date_end
      * 
      *  description - string description of the event.
         dtend - date/time stamp designating the end of the event. You can use either a DateTime object or a PHP datetime format string (e.g. "now + 1 hour").

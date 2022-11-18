@@ -95,9 +95,9 @@ class PlayList extends ObjectYPT {
     /**
      *
      * @global type $global
-     * @param type $publicOnly
-     * @param type $userId if not present check session
-     * @param type $isVideoIdPresent pass the ID of the video checking
+     * @param string $publicOnly
+     * @param string $userId if not present check session
+     * @param string $isVideoIdPresent pass the ID of the video checking
      * @return array
      */
     public static function getAllFromUser($userId, $publicOnly = true, $status = false, $playlists_id = 0, $try = 0, $includeSeries = false) {
@@ -212,9 +212,9 @@ class PlayList extends ObjectYPT {
     /**
      *
      * @global type $global
-     * @param type $publicOnly
-     * @param type $userId if not present check session
-     * @param type $isVideoIdPresent pass the ID of the video checking
+     * @param string $publicOnly
+     * @param string $userId if not present check session
+     * @param string $isVideoIdPresent pass the ID of the video checking
      * @return boolean
      */
     public static function getAllFromUserLight($userId, $publicOnly = true, $status = false, $playlists_id = 0, $onlyWithVideos = false, $includeSeries = false) {
@@ -666,7 +666,7 @@ class PlayList extends ObjectYPT {
 
     /**
      * This is just to fix errors from the update 6.4 to 6.5, where empty playlists were created before the update
-     * @return type
+     * @return string
      */
     private function clearEmptyLists() {
         $sql = "DELETE FROM " . static::getTableName() . " WHERE status = ''";

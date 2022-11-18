@@ -378,7 +378,7 @@ abstract class PluginAbstract {
 
     /**
      * 
-     * @return type array(array("key"=>'live key', "users"=>false, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>''));
+     * @return string array(array("key"=>'live key', "users"=>false, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>''));
      */
     public function getLiveApplicationArray() {
         return array();
@@ -422,7 +422,7 @@ abstract class PluginAbstract {
 
     /**
      * Loads a channel before display the channel page, usefull to create customized channel pages
-     * @param type $user is an database array from channels owner
+     * @param string $user is an database array from channels owner
      * @return boolean
      */
     public function getChannel($user_id, $user) {
@@ -431,7 +431,7 @@ abstract class PluginAbstract {
 
     /**
      * 
-     * @return type return a list of IDs of the user groups
+     * @return string return a list of IDs of the user groups
      */
     public function getDynamicUserGroupsId($users_id) {
         return array();
@@ -492,7 +492,7 @@ abstract class PluginAbstract {
 
     /**
      * 
-     * @param type $users_id
+     * @param string $users_id
      * @return 0 = I dont know, -1 = can not upload, 1 = can upload
      */
     public function userCanUpload($users_id) {
@@ -501,8 +501,8 @@ abstract class PluginAbstract {
 
     /**
      * 
-     * @param type $users_id
-     * @param type $videos_id
+     * @param string $users_id
+     * @param string $videos_id
      * @return 0 = I dont know, -1 = can not watch, 1 = can watch
      */
     public function userCanWatchVideo($users_id, $videos_id) {
@@ -511,8 +511,8 @@ abstract class PluginAbstract {
 
     /**
      * 
-     * @param type $users_id
-     * @param type $videos_id
+     * @param string $users_id
+     * @param string $videos_id
      * @return 0 = I dont know, -1 = can not watch, 1 = can watch
      */
     public function userCanWatchVideoWithAds($users_id, $videos_id) {

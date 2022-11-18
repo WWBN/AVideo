@@ -1051,7 +1051,7 @@ class AVideoPlugin
 
     /**
      *
-     * @return type return a list of IDs of the user groups
+     * @return string return a list of IDs of the user groups
      */
     public static function getDynamicUserGroupsId($users_id){
         global $__getDynamicUserGroupsId;
@@ -1256,9 +1256,9 @@ class AVideoPlugin
 
     /**
      *
-     * @param type $name
-     * @param type $version
-     * @return type
+     * @param string $name
+     * @param string $version
+     * @return string
      * -1 if your plugin is lower,
      * 0 if they are equal, and
      * 1 if your plugin is greater.
@@ -1511,7 +1511,7 @@ class AVideoPlugin
     /**
      * In case some plugin needs to play a video that is not allowed for some reason.
      * A plugin can replace the getVideo method from the youtubeMode page
-     * @return type
+     * @return string
      */
     public static function getVideo()
     {

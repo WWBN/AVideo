@@ -142,7 +142,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'plugin_name' The plugin name that you want to retrieve the parameters
      * 'APISecret' to list all videos
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&rowCount=3&APISecret={APISecret}
@@ -169,7 +169,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * This will check if the provided UserAgent/Headers comes from a mobile
      * Returns true if any type of mobile device detected, including special ones
      * PHP Sample code: "plugin/API/{getOrSet}.json.php?APIName={APIName}&userAgent=".urlencode($_SERVER["HTTP_USER_AGENT"])."&httpHeaders=".urlencode(json_encode(getallheaders()))
@@ -196,7 +196,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * ['sort' database sort column]
      * ['rowCount' max numbers of rows]
      * ['current' current page]
@@ -244,7 +244,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'APISecret' to list all videos
      * 'playlists_id' the program id
      * 'index' the position of the video
@@ -319,7 +319,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'APISecret' to list all videos
      * 'videos_id' the video id
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&APISecret={APISecret}
@@ -343,7 +343,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * ['APISecret' to list all videos]
      * ['sort' database sort column]
      * ['videos_id' the video id (will return only 1 or 0 video)]
@@ -506,7 +506,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * ['APISecret' to list all videos]
      * ['searchPhrase' to search on the categories]
      * ['tags_id' the ID of the tag you want to filter]
@@ -531,7 +531,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'videos_id' the video id that will be deleted
      * ['APISecret' if passed will not require user and pass]
      * ['user' username of the user that will like the video]
@@ -562,7 +562,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'comment' String with the comment
      * 'videos_id' the video that will receive the comment
      * ['id' the comment id if you will edit some]
@@ -603,7 +603,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'comment' String with the comment
      * 'videos_id' the video that will retreive the comments
      * ['APISecret' if passed will not require user and pass]
@@ -640,7 +640,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'videos_id' the video id that will be deleted
      * 'title' the video title
      * 'status' the video status
@@ -680,7 +680,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
      * @return \ApiObject
      */
@@ -692,7 +692,7 @@ class API extends PluginAbstract {
 
     /**
      * Return a user livestream information
-     * @param type $parameters
+     * @param string $parameters
      * ['title' Livestream title]
      * ['public' 1 = live is listed; 0 = not listed]
      * ['APISecret' if passed will not require user and pass]
@@ -740,7 +740,7 @@ class API extends PluginAbstract {
 
     /**
      * Return a user livestream information
-     * @param type $parameters
+     * @param string $parameters
      * ['APISecret' if passed will not require user and pass]
      * ['users_id' the user ID]
      * ['user' username if does not have the APISecret]
@@ -816,7 +816,7 @@ class API extends PluginAbstract {
 
     /**
      * Return a users list
-     * @param type $parameters
+     * @param string $parameters
      * 'APISecret' is required for this call
      * ['rowCount' max numbers of rows]
      * ['current' current page]
@@ -847,7 +847,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * ['APISecret' to list all videos]
      * ['sort' database sort column]
      * ['videos_id' the video id (will return only 1 or 0 video)]
@@ -892,7 +892,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * Return all channels on this site
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
      * @return \ApiObject
@@ -916,7 +916,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * Return all Programs (Playlists) on this site
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
      * @return \ApiObject
@@ -944,7 +944,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * Return all Subscribers from an user
      * 'users_id' users ID
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?users_id=1&APIName={APIName}&APISecret={APISecret}
@@ -971,7 +971,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * Return all categories on this site
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
      * @return \ApiObject
@@ -996,7 +996,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'videos_id' the video ID what you want to get the likes
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1
      * @return \ApiObject
@@ -1011,7 +1011,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters (all parameters are mandatories)
+     * @param string $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
      * 'user' username of the user that will like the video
      * 'pass' password  of the user that will like the video
@@ -1023,7 +1023,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters (all parameters are mandatories)
+     * @param string $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
      * 'user' username of the user that will like the video
      * 'pass' password  of the user that will like the video
@@ -1035,7 +1035,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters (all parameters are mandatories)
+     * @param string $parameters (all parameters are mandatories)
      * 'videos_id' the video ID what you want to send the like
      * 'user' username of the user that will like the video
      * 'pass' password  of the user that will like the video
@@ -1048,12 +1048,12 @@ class API extends PluginAbstract {
 
     /**
      *
-     * @param type $parameters
+     * @param string $parameters
      * 'user' username of the user
      * 'pass' password  of the user
      * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function get_api_signIn($parameters) {
         global $global;
@@ -1064,7 +1064,7 @@ class API extends PluginAbstract {
 
     /**
      *
-     * @param type $parameters
+     * @param string $parameters
      * 'user' username of the user
      * 'pass' password  of the user
      * 'email' email of the user
@@ -1075,7 +1075,7 @@ class API extends PluginAbstract {
      * ['canUpload' 1 = Can upload files]
      * 'APISecret' mandatory for security reasons
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&user=admin&pass=123&email=me@mysite.com&name=Yeshua
-     * @return type
+     * @return string
      */
     public function set_api_signUp($parameters) {
         global $global;
@@ -1116,7 +1116,7 @@ class API extends PluginAbstract {
 
     /**
      * If you do not pass the user and password, it will always show ads, if you pass it the script will check if will display ads or not
-     * @param type $parameters
+     * @param string $parameters
      * 'videos_id' the video id to calculate the ads length
      * ['optionalAdTagUrl' a tag number 1 or 2 or 3 or 4 to use another tag, if do not pass it will use the default tag]
      * ['user' username of the user]
@@ -1124,7 +1124,7 @@ class API extends PluginAbstract {
      * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
      * @example for XML response: {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2
      * @example for JSON response: {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2&json=1
-     * @return type
+     * @return string
      */
     public function get_api_vmap($parameters) {
         global $global;
@@ -1135,14 +1135,14 @@ class API extends PluginAbstract {
 
     /**
      * If you do not pass the user and password, it will always show ads, if you pass it the script will check if will display ads or not
-     * @param type $parameters
+     * @param string $parameters
      * 'videos_id' the video id to calculate the ads length
      * ['optionalAdTagUrl' a tag number 1 or 2 or 3 or 4 to use another tag, if do not pass it will use the default tag]
      * ['user' username of the user]
      * ['pass' password  of the user]
      * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&optionalAdTagUrl=2
-     * @return type
+     * @return string
      */
     public function get_api_vast($parameters) {
         global $global;
@@ -1154,11 +1154,11 @@ class API extends PluginAbstract {
 
     /**
      * Return the location based on the provided IP
-     * @param type $parameters
+     * @param string $parameters
      * 'APISecret' mandatory for security reasons
      * 'ip' Ip to verify
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&ip=2.20.147.123
-     * @return type
+     * @return string
      */
     public function get_api_IP2Location($parameters) {
         global $global;
@@ -1179,12 +1179,12 @@ class API extends PluginAbstract {
 
     /**
      * Return all favorites from a user
-     * @param type $parameters
+     * @param string $parameters
      * 'user' username of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function get_api_favorite($parameters) {
         $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
@@ -1212,26 +1212,26 @@ class API extends PluginAbstract {
 
     /**
      * add a video into a user favorite play list
-     * @param type $parameters
+     * @param string $parameters
      * 'videos_id' the video id that you want to add
      * 'user' username of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function set_api_favorite($parameters) {
         $this->favorite($parameters, true);
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'videos_id' the video id that you want to remove
      * 'user' username of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function set_api_removeFavorite($parameters) {
         $this->favorite($parameters, false);
@@ -1255,12 +1255,12 @@ class API extends PluginAbstract {
 
     /**
      * Return all watch_later from a user
-     * @param type $parameters
+     * @param string $parameters
      * 'user' username of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function get_api_watch_later($parameters) {
         $plugin = AVideoPlugin::loadPluginIfEnabled("PlayLists");
@@ -1293,26 +1293,26 @@ class API extends PluginAbstract {
 
     /**
      * add a video into a user watch_later play list
-     * @param type $parameters
+     * @param string $parameters
      * 'videos_id' the video id that you want to add
      * 'user' username of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function set_api_watch_later($parameters) {
         $this->watch_later($parameters, true);
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'videos_id' the video id that you want to remove
      * 'user' username of the user
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=3&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function set_api_removeWatch_later($parameters) {
         $this->watch_later($parameters, false);
@@ -1335,7 +1335,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * Try this API <a href="../Chat2/api.html">here</a>
      * 'message' the message for the chat
      * ['users_id'] User's ID to what this message will be sent to (send the users_id or room_users_id)
@@ -1345,7 +1345,7 @@ class API extends PluginAbstract {
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&message=HelloWorld&users_id=2&room_users_id=4&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function set_api_chat2_message($parameters) {
         global $global;
@@ -1364,7 +1364,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * The sample here will return 10 messages
      * Try this API <a href="../Chat2/api.html">here</a>
      * ['to_users_id'] User's ID where this message was private sent to
@@ -1375,7 +1375,7 @@ class API extends PluginAbstract {
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&greater_then_id=88&lower_then_id=98&to_users_id=2&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function get_api_chat2_chat($parameters) {
         global $global;
@@ -1404,7 +1404,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * The sample here will return 10 messages id greater then 88 and lower then 98
      * Try this API <a href="../Chat2/api.html">here</a>
      * ['room_users_id'] User's ID (channel) where this message was public sent to
@@ -1415,7 +1415,7 @@ class API extends PluginAbstract {
      * 'pass' password  of the user
      * 'encodedPass' tell the script id the password submitted  is raw or encrypted
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&greater_then_id=88&lower_then_id=98&room_users_id=2&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function get_api_chat2_room($parameters) {
         global $global;
@@ -1449,10 +1449,10 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * Return available locales translations
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
-     * @return type
+     * @return string
      */
     public function get_api_locales($parameters) {
         global $global, $config;
@@ -1464,11 +1464,11 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * 'language' specify what translation array the API should return, for example cn = chinese
      * Return available locales translations
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&language=cn
-     * @return type
+     * @return string
      */
     public function get_api_locale($parameters) {
         global $global, $config;
@@ -1491,7 +1491,7 @@ class API extends PluginAbstract {
     }
 
     /**
-     * @param type $parameters
+     * @param string $parameters
      * ['APISecret' mandatory for security reasons - required]
      * ['user' username of the user - required]
      * ['backgroundImg' URL path of the image - optional]
@@ -1519,13 +1519,13 @@ class API extends PluginAbstract {
 
     /**
      *
-     * @param type $parameters
+     * @param string $parameters
      * 'user' username of the user
      * 'pass' password  of the user
      * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
      * ['time' default is today but the options are [today|upcoming|past]]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
-     * @return type
+     * @return string
      */
     public function get_api_meet($parameters) {
         global $global;
@@ -1563,7 +1563,7 @@ class API extends PluginAbstract {
 
     /**
      *
-     * @param type $parameters
+     * @param string $parameters
      * 'user' username of the user
      * 'pass' password  of the user
      * 'RoomTopic' The meet title
@@ -1575,7 +1575,7 @@ class API extends PluginAbstract {
      * ['RoomPasswordNew' the meet password]
      * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true&RoomTopic=APITestMeet
-     * @return type
+     * @return string
      */
     public function set_api_meet($parameters) {
         global $global;

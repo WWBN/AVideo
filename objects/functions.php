@@ -141,10 +141,10 @@ function humanTiming($time, $precision = 0, $useDatabaseTime = true, $addAgo = f
 
 /**
  *
- * @param type $time
- * @param type $precision
- * @param type $useDatabaseTime good if you are checking the created time
- * @return type
+ * @param string $time
+ * @param string $precision
+ * @param string $useDatabaseTime good if you are checking the created time
+ * @return string
  */
 function humanTimingAgo($time, $precision = 0, $useDatabaseTime = true) {
     $time = secondsIntervalFromNow($time, $useDatabaseTime);
@@ -522,7 +522,7 @@ function secondsToDuration($seconds) {
 /**
  *
  * @global type $global
- * @param type $mail
+ * @param string $mail
  * call it before send mail to let AVideo decide the method
  */
 function setSiteSendMessage(\PHPMailer\PHPMailer\PHPMailer &$mail) {
@@ -1591,8 +1591,8 @@ function getSources($fileName, $returnArray = false, $try = 0) {
 
 /**
  *
- * @param type $file_src
- * @return typeget image size with cache
+ * @param string $file_src
+ * @return stringget image size with cache
  */
 function getimgsize($file_src) {
     global $_getimagesize;
@@ -2260,9 +2260,9 @@ function make_path($path) {
 
 /**
  * for security clean all non secure files from directory
- * @param type $dir
- * @param type $allowedExtensions
- * @return type
+ * @param string $dir
+ * @param string $allowedExtensions
+ * @return string
  */
 function cleanDirectory($dir, $allowedExtensions = ['key', 'm3u8', 'ts', 'vtt', 'jpg', 'gif', 'mp3', 'webm', 'webp']) {
     $ffs = scandir($dir);
@@ -2936,9 +2936,9 @@ function isBot() {
 
 /**
  * A function that could get me the last N lines of a log file.
- * @param type $filepath
- * @param type $lines
- * @param type $adaptive
+ * @param string $filepath
+ * @param string $lines
+ * @param string $adaptive
  * @return boolean
  */
 function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false) {
@@ -6993,7 +6993,7 @@ function getServerClock() {
 /**
  * Xsendfile and FFMPEG are required for this feature
  * @global type $global
- * @param type $filepath
+ * @param string $filepath
  * @return boolean
  */
 function downloadHLS($filepath) {
@@ -8514,8 +8514,8 @@ function videosHashToID($hash_of_videos_id) {
  * @global type $advancedCustom
  * @global type $global
  * @global type $_getCDNURL
- * @param type $type enum(CDN, CDN_S3,CDN_B2,CDN_FTP,CDN_YPTStorage,CDN_Live,CDN_LiveServers)
- * @param type $id the ID of the URL in case the CDN is an array
+ * @param string $type enum(CDN, CDN_S3,CDN_B2,CDN_FTP,CDN_YPTStorage,CDN_Live,CDN_LiveServers)
+ * @param string $id the ID of the URL in case the CDN is an array
  * @return \type
  */
 function getCDN($type = 'CDN', $id = 0) {
@@ -8873,9 +8873,9 @@ function seconds2human($ss) {
 
 /**
  * convert a time in a timezone into my time
- * @param type $time
- * @param type $timezone
- * @return type
+ * @param string $time
+ * @param string $timezone
+ * @return string
  */
 function getTimeInTimezone($time, $timezone) {
     if (!is_numeric($time)) {
@@ -9407,8 +9407,8 @@ function getValidCrontabLines() {
 
 /**
  * 
- * @param type $strOrArray 
- * @return type return an array with the valid emails. 
+ * @param string $strOrArray 
+ * @return string return an array with the valid emails. 
  */
 function is_email($strOrArray) {
     if (empty($strOrArray)) {
@@ -9432,10 +9432,10 @@ function is_email($strOrArray) {
 /**
  * https://codepen.io/ainalem/pen/LJYRxz
  * @global type $global
- * @param type $id
- * @param type $type 1 to 8 [1=x, 2=<-, 3=close, 4=x, 5=<-, 6=x, 7=x, 8=x]
- * @param type $parameters
- * @return type
+ * @param string $id
+ * @param string $type 1 to 8 [1=x, 2=<-, 3=close, 4=x, 5=<-, 6=x, 7=x, 8=x]
+ * @param string $parameters
+ * @return string
  */
 function getHamburgerButton($id = '', $type = 0, $parameters = 'class="btn btn-default hamburger"', $startActive = false, $invert = false) {
     global $global;
@@ -9618,7 +9618,7 @@ function getExtension($link) {
 /**
  * It return true in case the $html_string is a string 'false' (good for post/get variables check)
  * It also return true in case it is an empty HTML
- * @param type $html_string
+ * @param string $html_string
  * @return boolean
  */
 function _empty($html_string) {
@@ -9684,7 +9684,7 @@ function fileIsAnValidImage($filepath) {
 
 /**
  * return true if de file was deleted or does not exits and false if the file still present on the system
- * @param type $filepath
+ * @param string $filepath
  * @return boolean
  */
 function deleteInvalidImage($filepath) {

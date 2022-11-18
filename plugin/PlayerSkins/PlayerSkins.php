@@ -721,9 +721,9 @@ class PlayerSkins extends PluginAbstract {
 
     /**
      * 
-     * @param type $markersList array(array('timeInSeconds'=>10,'name'=>'abc'),array('timeInSeconds'=>20,'name'=>'abc20'),array('timeInSeconds'=>25,'name'=>'abc25')....);
-     * @param type $width
-     * @param type $color
+     * @param array $markersList array(array('timeInSeconds'=>10,'name'=>'abc'),array('timeInSeconds'=>20,'name'=>'abc20'),array('timeInSeconds'=>25,'name'=>'abc25')....);
+     * @param int $width
+     * @param string $color
      */
     public static function createMarker($markersList, $width = 10, $color = 'yellow') {
         global $global;

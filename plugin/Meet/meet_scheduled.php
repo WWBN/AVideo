@@ -166,7 +166,7 @@ if (!User::canCreateMeet()) {
                                  * Public = 2
                                  * Logged Users Only = 1
                                  * Specific User Groups = 0
-                                 * @return type
+                                 * @return string
                                  */
                                 sortable: false,
                                 data: 'public',

@@ -1189,10 +1189,10 @@ if (!class_exists('Video')) {
         /**
          *
          * @global type $global
-         * @param type $status
-         * @param type $showOnlyLoggedUserVideos you may pass an user ID to filter results
-         * @param type $ignoreGroup
-         * @param type $videosArrayId an array with videos to return (for filter only)
+         * @param string $status
+         * @param string $showOnlyLoggedUserVideos you may pass an user ID to filter results
+         * @param string $ignoreGroup
+         * @param string $videosArrayId an array with videos to return (for filter only)
          * @return array
          */
         public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '') {
@@ -1701,7 +1701,7 @@ if (!class_exists('Video')) {
          * Same as getAllVideos() method but a lighter query
          * @global type $global
          * @global type $config
-         * @param type $showOnlyLoggedUserVideos
+         * @param string $showOnlyLoggedUserVideos
          * @return boolean
          */
         public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false) {
@@ -2545,7 +2545,7 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @param type $user_id
+         * @param string $user_id
          * text
          * label Default Primary Success Info Warning Danger
          */
@@ -2940,8 +2940,8 @@ if (!class_exists('Video')) {
         /**
          *
          * @global type $global
-         * @param type $videos_id
-         * @param type $users_id if is empty will use the logged user
+         * @param string $videos_id
+         * @param string $users_id if is empty will use the logged user
          * @return boolean
          */
         public static function isOwner($videos_id, $users_id = 0, $checkAffiliate = true) {
@@ -2971,8 +2971,8 @@ if (!class_exists('Video')) {
         /**
          *
          * @global type $global
-         * @param type $videos_id
-         * @param type $users_id if is empty will use the logged user
+         * @param string $videos_id
+         * @param string $users_id if is empty will use the logged user
          * @return boolean
          */
         public static function getOwner($videos_id) {
@@ -2994,8 +2994,8 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @param type $videos_id
-         * @param type $users_id if is empty will use the logged user
+         * @param string $videos_id
+         * @param string $users_id if is empty will use the logged user
          * @return boolean
          */
         public static function canEdit($videos_id, $users_id = 0) {
@@ -3255,9 +3255,9 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @param type $filename
-         * @param type $type
-         * @return type .jpg .gif .webp _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
+         * @param string $filename
+         * @param string $type
+         * @return string .jpg .gif .webp _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
          */
         public static function getSourceFile($filename, $type = ".jpg", $includeS3 = false) {
             global $global, $advancedCustom, $videosPaths, $VideoGetSourceFile;
@@ -4376,10 +4376,10 @@ if (!class_exists('Video')) {
         /**
          *
          * @global type $global
-         * @param type $videos_id
-         * @param type $clean_title
-         * @param type $embed
-         * @param type $type URLFriendly or permalink
+         * @param string $videos_id
+         * @param string $clean_title
+         * @param string $embed
+         * @param string $type URLFriendly or permalink
          * @return String a web link
          */
         public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly", $get = [], $ignoreChannelname = false) {
@@ -4821,7 +4821,7 @@ if (!class_exists('Video')) {
 
         /**
          * Based on Roku Type
-         * @param type $filename
+         * @param string $filename
          * @return string
          */
         public static function getVideoTypeText($filename) {
@@ -5469,9 +5469,9 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @param type $videos_id
-         * @param type $type [like or dislike]
-         * @param type $value
+         * @param string $videos_id
+         * @param string $type [like or dislike]
+         * @param string $value
          * @return boolean
          *
          * automatic = will get from like table

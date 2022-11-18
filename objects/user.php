@@ -1417,10 +1417,10 @@ if (typeof gtag !== \"function\") {
     /**
      * this is the deprecated function, with week password
      * @global type $global
-     * @param type $user
-     * @param type $pass
-     * @param type $mustBeactive
-     * @param type $encodedPass
+     * @param string $user
+     * @param string $pass
+     * @param string $mustBeactive
+     * @param string $encodedPass
      * @return boolean
      */
     private function find_Old($user, $pass, $mustBeactive = false, $encodedPass = false)
@@ -2267,7 +2267,7 @@ if (typeof gtag !== \"function\") {
 
     /**
      *
-     * @param type $user_id
+     * @param string $user_id
      * text
      * label Default Primary Success Info Warning Danger
      */
@@ -2413,7 +2413,7 @@ if (typeof gtag !== \"function\") {
 
     /**
      *
-     * @param type $channelName
+     * @param string $channelName
      * @return boolean return true is is unique
      */
     public function setChannelName($channelName)

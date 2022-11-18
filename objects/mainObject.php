@@ -3,7 +3,7 @@ class Main
 {
     /**
      * receive a YYYY-MM-DD
-     * @param type $brDate
+     * @param string $brDate
      * @return String dd/mm/yyyy
      */
     public static function dateMySQLToBrString($mySqlDate)
@@ -27,7 +27,7 @@ class Main
 
     /**
      * receive a DD/MM/YYYY
-     * @param type $mySqlDate
+     * @param string $mySqlDate
      * @return String YYYY-mm-dd
      */
     public static function dateBrStringToMySQL($date)

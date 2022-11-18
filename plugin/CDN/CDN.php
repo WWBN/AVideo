@@ -117,8 +117,8 @@ class CDN extends PluginAbstract
 
     /**
      *
-     * @param type $type enum(CDN, CDN_S3,CDN_B2,CDN_YPTStorage,CDN_Live,CDN_LiveServers)
-     * @param type $id the ID of the URL in case the CDN is an array
+     * @param string $type enum(CDN, CDN_S3,CDN_B2,CDN_YPTStorage,CDN_Live,CDN_LiveServers)
+     * @param string $id the ID of the URL in case the CDN is an array
      * @return boolean
      */
     public static function getURL($type = 'CDN', $id = 0){

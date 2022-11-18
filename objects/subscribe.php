@@ -162,7 +162,7 @@ class Subscribe extends ObjectYPT{
     /**
      * return all subscribers that has subscribe to an user channel
      * @global type $global
-     * @param type $user_id
+     * @param string $user_id
      * @return array
      */
     public static function getAllSubscribes($user_id = "", $status = "a", $verifiedOnly = false)
@@ -230,7 +230,7 @@ class Subscribe extends ObjectYPT{
     /**
      * return all channels that a user has subscribed
      * @global type $global
-     * @param type $user_id
+     * @param string $user_id
      * @return boolean
      */
     public static function getSubscribedChannels($user_id, $limit = 0, $page = 0)

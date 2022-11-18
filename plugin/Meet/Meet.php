@@ -448,7 +448,7 @@ Passcode: {password}
          * Public = 2
          * Logged Users Only = 1
          * Specific User Groups = 0
-         * @return type
+         * @return string
          */
         $time = secondsIntervalFromNow($meet->getStarts(), $meet->getTimezone());
         if (empty($meet->getStarts()) || $time>0) {
