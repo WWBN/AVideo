@@ -25,6 +25,7 @@ class Category {
     private $order;
     private $suggested;
 
+
     public function getSuggested() {
         return empty($this->suggested) ? 0 : 1;
     }
@@ -110,7 +111,7 @@ class Category {
     }
 
     public function loadSelfCategory() {
-        $this->load($this->getId());
+        $this->load($this->id);
     }
 
     public function save($allowOfflineUser = false) {
@@ -176,7 +177,8 @@ class Category {
             }
             return $id;
         } else {
-            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            return false;
         }
     }
 
@@ -343,8 +345,8 @@ class Category {
     }
 
     public static function deleteCategoryCache() {
-        ObjectYPT::deleteALLCache();
-        _error_log("deleteCategoryCache: {$cacheDir} = " . json_encode($rrmdir));
+        return ObjectYPT::deleteALLCache();
+        //_error_log("deleteCategoryCache: {$cacheDir} = " . json_encode($rrmdir));
     }
 
     public static function getAllCategories($filterCanAddVideoOnly = false, $onlyWithVideos = false, $onlySuggested = false, $sameUserGroupAsMe = false) {
@@ -460,7 +462,7 @@ class Category {
                 ObjectYPT::setCache($cacheName, $category);
             } else {
                 $category = false;
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
         }
         //_error_log('getAllCategories return');
@@ -586,7 +588,7 @@ class Category {
             }
         } else {
             $category = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $category;
     }

@@ -6,17 +6,8 @@ $AVideoStreamer_UA = "AVideoStreamer";
 $AVideoStorage_UA = "AVideoStorage";
 $mysql_connect_was_closed = 1;
 
-function forbiddenWords($text) {
-    global $global;
-    if (empty($global['forbiddenWords'])) {
-        return false;
-    }
-    foreach ($global['forbiddenWords'] as $value) {
-        if (preg_match("/{$value}/i", $text)) {
-            return true;
-        }
-    }
-    return false;
+if(!isset($global) || !is_array($global)){
+    $global = array();
 }
 
 /**
@@ -534,8 +525,11 @@ function secondsToDuration($seconds) {
  * @param type $mail
  * call it before send mail to let AVideo decide the method
  */
-function setSiteSendMessage(&$mail) {
+function setSiteSendMessage(\PHPMailer\PHPMailer\PHPMailer &$mail) {
     global $global;
+    if(empty($mail)){
+        $mail = new \PHPMailer\PHPMailer\PHPMailer();
+    }
     if (empty($_POST["comment"])) {
         $_POST["comment"] = '';
     }
@@ -545,7 +539,7 @@ function setSiteSendMessage(&$mail) {
     if ($config->getSmtp()) {
         _error_log("Sending SMTP Email");
         $mail->CharSet = 'UTF-8';
-        $mail->IsSMTP(); // enable SMTP
+        $mail->isSMTP(); // enable SMTP
         if (!empty($_POST) && $_POST["comment"] == "Test of comment" && User::isAdmin()) {
             $mail->SMTPDebug = 3;
             $mail->Debugoutput = function ($str, $level) {
@@ -689,8 +683,6 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
         }
         //Set the subject line
         return $resp;
-    } catch (phpmailerException $e) {
-        _error_log($e->errorMessage()); //Pretty error messages from PHPMailer
     } catch (Exception $e) {
         _error_log($e->getMessage()); //Boring error messages from anything else!
     }
@@ -749,11 +741,9 @@ function sendEmailToSiteOwner($subject, $message) {
         if (!$resp) {
             _error_log("sendEmailToSiteOwner Error Info: {$mail->ErrorInfo}");
         } else {
-            _error_log("sendEmailToSiteOwner Success Info: $subject " . json_encode($to));
+            _error_log("sendEmailToSiteOwner Success Info: $subject " );
         }
         return $resp;
-    } catch (phpmailerException $e) {
-        _error_log($e->errorMessage()); //Pretty error messages from PHPMailer
     } catch (Exception $e) {
         _error_log($e->getMessage()); //Boring error messages from anything else!
     }
@@ -770,7 +760,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         // retrieve the video url
         $anchorRegex = '/src="(.*)?"/isU';
         $results = [];
-        if (preg_match($anchorRegex, $video, $results)) {
+        if (preg_match($anchorRegex, $videoString, $results)) {
             $link = trim($results[1]);
         }
     } else {
@@ -1037,15 +1027,6 @@ function cacheExpirationTime() {
         $cacheExpirationTime = @$obj->cacheTimeInSeconds;
     }
     return intval($cacheExpirationTime);
-}
-
-/**
- * Tell whether a file should recreate a cache, based on its time and the plugin's token expiration.
- * @param type $filename
- * @return boolean
- */
-function recreateCache($filename) {
-    return (!file_exists($filename) || time() - filemtime($filename) > minimumExpirationTime());
 }
 
 function _getImagesURL($fileName, $type) {
@@ -1957,10 +1938,24 @@ function im_resizeV3($file_src, $file_dest, $wd, $hd) {
     _error_log("im_resizeV3: $file_src, $file_dest, $wd, $hd");
     // This tries to preserve the aspect ratio of the thumb while letterboxing it in
     // The same way that the encoder now does.
+    $ffmpeg = '';
     eval('$ffmpeg ="ffmpeg -i {$file_src} -filter_complex \"scale=(iw*sar)*min({$wd}/(iw*sar)\,{$hd}/ih):ih*min({$wd}/(iw*sar)\,{$hd}/ih), pad={$wd}:{$hd}:({$wd}-iw*min({$wd}/iw\,{$hd}/ih))/2:({$hd}-ih*min({$wd}/iw\,{$hd}/ih))/2\" -sws_flags lanczos -qscale:v 2 {$file_dest}";');
     exec($ffmpeg . " < /dev/null 2>&1", $output, $return_val);
 }
 
+if(false){
+    class Imagick{
+        const FILTER_BOX = 1;
+        function getImageFormat(){return '';}
+        function coalesceImages(){return new Imagick();}
+        function nextImage(){return true;}
+        function resizeImage(){}
+        function deconstructImages(){return new Imagick();}
+        function clear(){}
+        function destroy(){}
+        function writeImages(){}
+    }
+}
 function im_resize_gif($file_src, $file_dest, $max_width, $max_height) {
     if (class_exists('Imagick')) {
         $imagick = new Imagick($file_src);
@@ -2298,16 +2293,19 @@ function decideFile_put_contentsToVideos($tmp_name, $filename) {
     $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
     $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
     if (!empty($bb_b2)) {
-        $bb_b2->move_uploaded_file($tmp_name, $filename);
+        return $bb_b2->move_uploaded_file($tmp_name, $filename);
     } elseif (!empty($aws_s3)) {
-        $aws_s3->move_uploaded_file($tmp_name, $filename);
+        return $aws_s3->move_uploaded_file($tmp_name, $filename);
     } elseif (!empty($ftp)) {
-        $ftp->move_uploaded_file($tmp_name, $filename);
+        return $ftp->move_uploaded_file($tmp_name, $filename);
     } else {
         $path = Video::getPathToFile($filename);
         if (!move_uploaded_file($tmp_name, $path)) {
-            $obj->msg = "Error on move_uploaded_file({$tmp_name}, {$filename})";
-            die(json_encode($obj));
+            $msg = "Error on move_uploaded_file({$tmp_name}, {$filename})";
+            _error_log($msg);
+            return false;
+        }else{
+            return true;
         }
     }
 }
@@ -3552,6 +3550,9 @@ function siteMap() {
     $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideosLight(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
+    if(empty($rows) || !is_array($rows)){
+        $rows = array();
+    }
     _error_log("siteMap: getAllVideos " . count($rows));
     foreach ($rows as $video) {
         $totalVideos++;
@@ -4198,7 +4199,7 @@ function get_browser_name($user_agent = "") {
  *
  */
 function isOldChromeVersion() {
-    $global;
+    global $global;
     if (empty($_SERVER['HTTP_USER_AGENT'])) {
         return false;
     }
@@ -4441,8 +4442,17 @@ function _mysql_close() {
     if (_mysql_is_open()) {
         //_error_log('MySQL Closed '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $mysql_connect_was_closed = 1;
-        @$global['mysqli']->close();
-        $global['mysqli'] = false;
+        try{
+            /**
+             * 
+             * @var array $global
+             * @var object $global['mysqli'] 
+             */
+            @$global['mysqli']->close();
+        }catch(Exception $exc){
+
+        }
+        //$global['mysqli'] = false;
     }
 }
 
@@ -4669,7 +4679,8 @@ function getUsageFromFilename($filename, $dir = "") {
  * @param $url - The location of the remote file to download. Cannot
  * be null or empty.
  *
- * @return The size of the file referenced by $url, or false if the size
+ * @return int 
+ * return The size of the file referenced by $url, or false if the size
  * could not be determined.
  */
 function getUsageFromURL($url) {
@@ -6152,45 +6163,21 @@ function _json_encode($object) {
             //_error_log("_json_encode: Error 2 Found: " . json_last_error_msg());
             $json = json_encode($object, JSON_UNESCAPED_UNICODE);
             if (json_last_error()) {
-                $errors[] = "_json_encode: Error 3 Found: {$object} " . json_last_error_msg() . PHP_EOL . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
-                foreach ($errors as $value) {
-                    _error_log($value);
-                }
+                $errors[] = "_json_encode: Error 3 Found: {$object} " . json_last_error_msg();
                 $json = _json_encode_utf8($object);
                 if (empty($json) && json_last_error()) {
-                    _error_log("_json_encode: Error 4 Found: " . json_last_error_msg());
-                    $json = json_encode($objectEncoded, JSON_UNESCAPED_UNICODE);
-                    if (json_last_error()) {
-                        _error_log("_json_encode: Error 5 Found: " . json_last_error_msg());
-                        $objectDecoded = $object;
-                        array_walk_recursive($objectDecoded, function (&$item) {
-                            if (is_string($item)) {
-                                $item = utf8_decode($item);
-                            }
-                        });
-                        $json = json_encode($objectDecoded);
-                        if (empty($json) && json_last_error()) {
-                            _error_log("_json_encode: Error 6 Found: " . json_last_error_msg());
-                            $json = json_encode($objectDecoded, JSON_UNESCAPED_UNICODE);
-                            if (empty($json) && json_last_error()) {
-                                _error_log("_json_encode: Error 7 Found: " . json_last_error_msg());
-                                array_walk_recursive($objectDecoded, function (&$item) {
-                                    if (is_string($item)) {
-                                        $item = cleanString($item);
-                                    }
-                                });
-                                $json = json_encode($users);
-                                if (json_last_error()) {
-                                    _error_log("_json_encode: Error 8 Found: " . json_last_error_msg());
-                                }
-                            }
-                        }
-                    }
+                    $errors[] = "_json_encode: Error 4 Found: " . json_last_error_msg();
                 }else{
                     $_json_encode_force_utf8 = 1;
                 }
             }
         }
+    }
+    if(empty($json) && !empty($errors)){
+        foreach ($errors as $value) {
+            _error_log($value);
+        }
+        _error_log(json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     }
     return $json;
 }
@@ -6241,7 +6228,7 @@ function getSEODescription($text, $maxChars = 250) {
     $removeChars = ['|', '"'];
     $replaceChars = ['-', ''];
     $newText = trim(str_replace($removeChars, $replaceChars, html2plainText($text)));
-    if (_strlen($string) < $maxChars) {
+    if (_strlen($newText) < $maxChars) {
         return $newText;
     } else {
         return _substr($newText, 0, $maxChars - 3) . '...';
@@ -6414,7 +6401,7 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
     if ($logMessage) {
         _error_log($message);
     }
-
+    $contentType = '';
     $headers = headers_list(); // get list of headers
     foreach ($headers as $header) { // iterate over that list of headers
         if (stripos($header, 'Content-Type:') !== FALSE) { // if the current header hasthe String "Content-Type" in it
@@ -6830,7 +6817,7 @@ function showAlertMessage() {
             }
 
             echo '$.toast({
-                    text: "' . strip_tags($value, $allowable_tags) . '",
+                    text: "' . strip_tags($value) . '",
                     hideAfter: ' . $hideAfter . '   // in milli seconds
                 });console.log("Toast Hide after ' . $hideAfter . '");';
         }
@@ -7316,8 +7303,8 @@ function m3u8ToMP4($input) {
         //var_dump($return);
         //exit;
         if (empty($return)) {
-            $msg3 = "downloadHLS: ERROR 2 " . implode(PHP_EOL, $output);
-            $finalMsg = $msg1 . PHP_EOL . $msg2 . PHP_EOL . $msg3;
+            $msg3 = "downloadHLS: ERROR 2 ";
+            $finalMsg = $msg . PHP_EOL . $msg3;
             _error_log($msg3);
             return ['error' => $error, 'msg' => $finalMsg];
         } else {
@@ -8079,7 +8066,7 @@ function getLiveUsersLabelHTML($viewsClass = "label label-default", $counterClas
         return '';
     }
     $_getLiveUsersLabelHTML = 1;
-
+    $htmlMediaTag = '';
     $htmlMediaTag .= '<div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="liveUsersLabel">';
     $htmlMediaTag .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php', array('viewsClass' => $viewsClass, 'counterClass' => $counterClass));
     $htmlMediaTag .= getLiveUsersLabel($viewsClass, $counterClass);
@@ -8392,6 +8379,11 @@ function fixPath($path, $addLastSlash = false) {
     return $path;
 }
 
+if(false){
+    function openssl_cipher_key_length(){
+        return 0;
+    }
+}
 
 function getHashMethodsAndInfo(){
     global $global, $_getHashMethod;
@@ -8768,12 +8760,22 @@ function optimizeJS($html) {
 function mysqlBeginTransaction() {
     global $global;
     _error_log('Begin transaction ' . getSelfURI());
+    /**
+     * 
+     * @var array $global
+     * @var object $global['mysqli'] 
+     */
     $global['mysqli']->autocommit(false);
 }
 
 function mysqlRollback() {
     global $global;
     _error_log('Rollback transaction ' . getSelfURI(), AVideoLog::$ERROR);
+    /**
+     * 
+     * @var array $global
+     * @var object $global['mysqli'] 
+     */
     $global['mysqli']->rollback();
     $global['mysqli']->autocommit(true);
 }
@@ -8781,6 +8783,11 @@ function mysqlRollback() {
 function mysqlCommit() {
     global $global;
     _error_log('Commit transaction ' . getSelfURI());
+    /**
+     * 
+     * @var array $global
+     * @var object $global['mysqli'] 
+     */
     $global['mysqli']->commit();
     $global['mysqli']->autocommit(true);
 }
@@ -9062,7 +9069,8 @@ function defaultIsPortrait() {
 
     if (!isset($_defaultIsPortrait)) {
         $_defaultIsPortrait = false;
-        if ($obj = AVideoPlugin::getDataObjectIfEnabled('YouPHPFlix2') && empty($obj->landscapePosters)) {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('YouPHPFlix2');
+        if (!empty($obj) && empty($obj->landscapePosters)) {
             $_defaultIsPortrait = true;
         }
     }

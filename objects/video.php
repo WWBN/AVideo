@@ -186,7 +186,8 @@ if (!class_exists('Video')) {
                 AVideoPlugin::addView($this->id, $this->views_count);
                 return $obj;
             }
-            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            return false;
         }
 
         public function addSecondsWatching($seconds_watching) {
@@ -227,7 +228,8 @@ if (!class_exists('Video')) {
             if ($insert_row) {
                 return $insert_row;
             }
-            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            return false;
         }
 
         public function addViewPercent($percent = 25) {
@@ -245,7 +247,8 @@ if (!class_exists('Video')) {
             if ($insert_row) {
                 return true;
             }
-            die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            return false;
         }
 
         // allow users to count a view again in case it is refreshed
@@ -403,10 +406,6 @@ if (!class_exists('Video')) {
             $this->title = ((safeString($this->title)));
             $this->description = (($this->description));
 
-            if (forbiddenWords($this->title) || forbiddenWords($this->description)) {
-                return false;
-            }
-
             if (empty($this->users_id)) {
                 $this->users_id = User::getId();
             }
@@ -486,6 +485,11 @@ if (!class_exists('Video')) {
                     _error_log('onNewVideo error $insert_row is empty');
                 }
             }
+            /**
+             * 
+             * @var array $global
+             * @var object $global['mysqli'] 
+             */
             //var_dump($this->title, $insert_row);exit;
             if ($insert_row) {
                 _error_log("Video::save ({$this->title}) Saved id = {$insert_row} ");
@@ -531,6 +535,11 @@ if (!class_exists('Video')) {
                 self::clearCache($this->id);
                 return $id;
             }
+            /**
+             * 
+             * @var array $global
+             * @var object $global['mysqli'] 
+             */
             _error_log('Video::save Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
             return false;
         }
@@ -650,6 +659,11 @@ if (!class_exists('Video')) {
                     _error_log("Video::setStatus({$status}) NOT found ", AVideoLog::$WARNING);
                     return false;
                 }
+                /**
+                 * 
+                 * @var array $global
+                 * @var object $global['mysqli'] 
+                 */
                 _error_log("Video::setStatus({$status}) " . json_encode(debug_backtrace()), AVideoLog::$WARNING);
                 $sql = "UPDATE videos SET status = ?, modified = now() WHERE id = ? ";
                 $res = sqlDAL::writeSql($sql, 'si', [$status, $this->id]);
@@ -713,6 +727,12 @@ if (!class_exists('Video')) {
                 $formats = 'si';
                 $values = [$saneRotation, $this->id];
                 $res = sqlDAL::writeSql($sql, $formats, $values);
+
+                /**
+                 * 
+                 * @var array $global
+                 * @var object $global['mysqli'] 
+                 */
                 if ($global['mysqli']->errno !== 0) {
                     die('Error on update Rotation: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
@@ -741,6 +761,11 @@ if (!class_exists('Video')) {
                 $formats = 'si';
                 $values = [$saneZoom, $this->id];
                 $res = sqlDAL::writeSql($sql, $formats, $values);
+                /**
+                 * 
+                 * @var array $global
+                 * @var object $global['mysqli'] 
+                 */
                 if ($global['mysqli']->errno !== 0) {
                     die('Error on update Zoom: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 }
@@ -1124,6 +1149,11 @@ if (!class_exists('Video')) {
             if (empty($video)) {
                 return false;
             }
+            /**
+             * 
+             * @var array $global
+             * @var object $global['mysqli'] 
+             */
             $sql = "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='a' AND (categories_id = {$video['categories_id']} ";
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 $sql .= " OR (";
@@ -1170,12 +1200,11 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('11.7')) {
                 return false;
             }
-            if ($dirh) {
-                while (($dirElement = readdir($dirh)) !== false) {
-                    
-                }
-                closedir($dirh);
-            }
+            /**
+             * 
+             * @var array $global
+             * @var object $global['mysqli'] 
+             */
             if (!empty($_POST['sort']['suggested'])) {
                 $suggestedOnly = true;
             }
@@ -1673,7 +1702,7 @@ if (!class_exists('Video')) {
         public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
-                return false;
+                return array();
             }
             $status = str_replace("'", "", $status);
             if ($status === 'suggested') {
@@ -1761,8 +1790,8 @@ if (!class_exists('Video')) {
                 }
                 //$videos = $res->fetch_all(MYSQLI_ASSOC);
             } else {
-                $videos = false;
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                $videos = array();
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return $videos;
         }

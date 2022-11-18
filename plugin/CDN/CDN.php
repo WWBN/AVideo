@@ -182,8 +182,8 @@ class CDN extends PluginAbstract
             } elseif (!empty($plugin->region)) {
                 $CDN_S3 = "https://{$bucket_name}.s3-accesspoint.{$region}.amazonaws.com";
             }
-            if (!empty($resp->CDN_S3)) {
-                $CDN_S3 = addLastSlash($resp->CDN_S3);
+            if (!empty($CDN_S3)) {
+                $CDN_S3 = addLastSlash($CDN_S3);
             }
         }
         return $CDN_S3;
@@ -196,8 +196,8 @@ class CDN extends PluginAbstract
         if (!empty($plugin)) {
             $b2 = new Blackblaze_B2();
             $CDN_B2 = $b2->getEndpoint();
-            if (!empty($resp->CDN_B2)) {
-                $CDN_B2 = addLastSlash($resp->CDN_B2);
+            if (!empty($CDN_B2)) {
+                $CDN_B2 = addLastSlash($CDN_B2);
             }
         }
         return $CDN_B2;

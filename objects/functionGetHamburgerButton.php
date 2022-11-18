@@ -7,7 +7,7 @@ if ($startActive) {
 if ($invert) {
     
     if(preg_match('/style=["\']/', $parameters)){
-        $parameters = str_replace(array('style="','style=\''), array('style="transform: scale(-1,1);', 'style=\'transform: scale(-1,1);'));
+        $parameters = str_replace(array('style="','style=\''), array('style="transform: scale(-1,1);', 'style=\'transform: scale(-1,1);'), $parameters );
     }else{
         $parameters .= 'style="transform: scale(-1,1);"';
     }
