@@ -320,10 +320,6 @@ function check_memory_limit() {
     return ($recomended_size <= $max_size);
 }
 
-function check_mysqlnd() {
-    return function_exists('mysqli_fetch_all');
-}
-
 function base64DataToImage($imgBase64) {
     $img = $imgBase64;
     $img = str_replace('data:image/png;base64,', '', $img);
@@ -2287,29 +2283,6 @@ function cleanDirectory($dir, $allowedExtensions = ['key', 'm3u8', 'ts', 'vtt', 
     }
 }
 
-function decideFile_put_contentsToVideos($tmp_name, $filename) {
-    global $global;
-    $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
-    $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
-    $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
-    if (!empty($bb_b2)) {
-        return $bb_b2->move_uploaded_file($tmp_name, $filename);
-    } elseif (!empty($aws_s3)) {
-        return $aws_s3->move_uploaded_file($tmp_name, $filename);
-    } elseif (!empty($ftp)) {
-        return $ftp->move_uploaded_file($tmp_name, $filename);
-    } else {
-        $path = Video::getPathToFile($filename);
-        if (!move_uploaded_file($tmp_name, $path)) {
-            $msg = "Error on move_uploaded_file({$tmp_name}, {$filename})";
-            _error_log($msg);
-            return false;
-        }else{
-            return true;
-        }
-    }
-}
-
 function isAnyStorageEnabled() {
     if ($yptStorage = AVideoPlugin::loadPluginIfEnabled("YPTStorage")) {
         return true;
@@ -3048,32 +3021,6 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
     return $isValid;
 }
 
-function encryptPasswordV2($uniqueSalt, $password, $noSalt = false) {
-    global $advancedCustom, $global, $advancedCustomUser;
-    if (!empty($advancedCustomUser->encryptPasswordsWithSalt) && !empty($global['salt']) && empty($noSalt)) {
-        $password .= $global['salt'];
-    }
-    $password .= md5($uniqueSalt);
-    return md5(hash("whirlpool", sha1($password)));
-}
-
-function encryptPasswordVerifyV2($uniqueSalt, $password, $hash, $encodedPass = false) {
-    global $advancedCustom, $global;
-    if (!$encodedPass || $encodedPass === 'false') {
-        //_error_log("encryptPasswordVerify: encrypt");
-        $passwordSalted = encryptPasswordV2($uniqueSalt, $password);
-        // in case you enable the salt later
-        $passwordUnSalted = encryptPasswordV2($uniqueSalt, $password, true);
-    } else {
-        //_error_log("encryptPasswordVerify: do not encrypt");
-        $passwordSalted = $password;
-        // in case you enable the salt later
-        $passwordUnSalted = $password;
-    }
-    //_error_log("passwordSalted = $passwordSalted,  hash=$hash, passwordUnSalted=$passwordUnSalted");
-    return $passwordSalted === $hash || $passwordUnSalted === $hash || $password === $hash;
-}
-
 function isMobile($userAgent = null, $httpHeaders = null) {
     if (empty($userAgent) && empty($_SERVER["HTTP_USER_AGENT"])) {
         return false;
@@ -3299,6 +3246,10 @@ function removeQueryStringParameter($url, $varname) {
  * @return string
  */
 function addQueryStringParameter($url, $varname, $value) {
+    if($value === null || $value === ''){
+        return removeQueryStringParameter($url, $varname);
+    }
+
     $parsedUrl = parse_url($url);
     if (empty($parsedUrl['host'])) {
         return "";

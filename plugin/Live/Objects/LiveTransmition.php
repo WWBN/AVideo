@@ -57,6 +57,10 @@ class LiveTransmition extends ObjectYPT
         return $this->categories_id;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function getKey()
     {
         return $this->key;
@@ -355,9 +359,7 @@ class LiveTransmition extends ObjectYPT
             foreach ($fullData as $row) {
                 $rows[] = $row["users_groups_id"];
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 

@@ -2616,7 +2616,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         return ['key' => $parts[0], 'playlists_id' => $parts[1]];
     }
-
+    /**
+     * @return string
+     */
     public static function getLiveKey($users_id) {
         $lt = new LiveTransmition(0);
         $lt->loadByUser($users_id);
