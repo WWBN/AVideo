@@ -144,7 +144,10 @@ class Live_servers extends ObjectYPT
     {
         return intval($this->protectLive);
     }
-
+    /**
+     * 
+     * @return string
+     */
     public function getGetRemoteFile()
     {
         return $this->getRemoteFile;
@@ -222,9 +225,7 @@ class Live_servers extends ObjectYPT
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         $liveServersgetAllActive = $rows;
         return $rows;
     }

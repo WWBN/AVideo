@@ -1334,7 +1334,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($live_servers_id) || !empty($obj->useLiveServers)) {
             $ls = new Live_servers($live_servers_id);
             $url = $ls->getGetRemoteFile();
-            if (IsValidURL($url)) {
+            if (isValidURL($url)) {
                 return $url;
             }
         }

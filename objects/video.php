@@ -743,7 +743,10 @@ if (!class_exists('Video')) {
         public function getRotation() {
             return $this->rotation;
         }
-
+        /**
+         * 
+         * @return int
+         */
         public function getUsers_id() {
             return $this->users_id;
         }
