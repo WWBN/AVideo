@@ -39,7 +39,7 @@ class ReportVideo extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "2.2";
+        return "2.3";
     }
 
     public function updateScript()
