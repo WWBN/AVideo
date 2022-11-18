@@ -50,14 +50,15 @@ class Cache extends PluginAbstract
         return $obj;
     }
 
-    public function getCacheDir($ignoreFirstPage = true)
-    {
+    public function getCacheDir($ignoreFirstPage = true){
         global $global;
         $obj = $this->getDataObject();
         if (!$ignoreFirstPage && $this->isFirstPage()) {
             $obj->cacheDir .= "firstPage" . DIRECTORY_SEPARATOR;
-        }
-        if (User::isLogged()) {
+            if (User::isLogged()) {
+                $obj->cacheDir .= 'users_id_' . md5(User::getId() . $global['salt']) . DIRECTORY_SEPARATOR;
+            }
+        }else if (User::isLogged()) {
             if (User::isAdmin()) {
                 $obj->cacheDir .= 'admin_' . md5("admin" . $global['salt']) . DIRECTORY_SEPARATOR;
             } else {
@@ -76,12 +77,11 @@ class Cache extends PluginAbstract
             }
         }
 
-
         return $obj->cacheDir;
     }
 
-    private function getFileName()
-    {
+    private function getFileName(){
+        global $global;
         if (empty($_SERVER['REQUEST_URI'])) {
             $_SERVER['REQUEST_URI'] = "";
         }
@@ -100,11 +100,11 @@ class Cache extends PluginAbstract
         if (!empty($plugin)) {
             $location = User_Location::getThisUserLocation();
             if (!empty($location['country_code'])) {
-                $dir = $location['country_code'] . "/";
+                $dir = $location['country_code'] . DIRECTORY_SEPARATOR;
             }
         }
         if($this->isFirstPage()){
-            $dir .= (isMobile()?'mobile':'desktop').'/';
+            $dir .= (isMobile()?'mobile':'desktop').DIRECTORY_SEPARATOR;
         }
         return $dir . User::getId() . "_{$compl}" . md5(@$_SESSION['channelName'] . $_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : '') . (@$_SESSION['language']) . '.cache';
     }
