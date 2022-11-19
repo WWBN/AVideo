@@ -1416,7 +1416,7 @@ if (typeof gtag !== \"function\") {
 
     /**
      * this is the deprecated function, with week password
-     * @global type $global
+     * @global array $global
      * @param string $user
      * @param string $pass
      * @param string $mustBeactive

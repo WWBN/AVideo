@@ -161,7 +161,7 @@ class Subscribe extends ObjectYPT{
 
     /**
      * return all subscribers that has subscribe to an user channel
-     * @global type $global
+     * @global array $global
      * @param string $user_id
      * @return array
      */
@@ -229,7 +229,7 @@ class Subscribe extends ObjectYPT{
 
     /**
      * return all channels that a user has subscribed
-     * @global type $global
+     * @global array $global
      * @param string $user_id
      * @return boolean
      */

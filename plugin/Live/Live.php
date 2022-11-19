@@ -1294,7 +1294,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function getPlayerServer($ignoreCDN = false) {
         $obj = AVideoPlugin::getObjectData("Live");
-
+        /**
+         * @var string $url
+         */
         $url = $obj->playerServer;
         if (empty($ignoreCDN)) {
             $url = getCDNOrURL($url, 'CDN_Live');
@@ -3726,6 +3728,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $ls = new Live_schedule($live_schedule_id);
         $users_id = Live_schedule::getUsers_idOrCompany($live_schedule_id);
         $title = $ls->getTitle();
+        /**
+         * @var string $date_start
+         */
         $date_start = $ls->getScheduled_time();
         $date_end = '';
         $joinURL = Live::getLinkToLiveFromUsers_id($users_id, $live_schedule_id);

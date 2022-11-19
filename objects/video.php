@@ -1191,7 +1191,7 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @global type $global
+         * @global array $global
          * @param string $status
          * @param string $showOnlyLoggedUserVideos you may pass an user ID to filter results
          * @param string $ignoreGroup
@@ -1702,10 +1702,10 @@ if (!class_exists('Video')) {
 
         /**
          * Same as getAllVideos() method but a lighter query
-         * @global type $global
+         * @global array $global
          * @global type $config
          * @param string $showOnlyLoggedUserVideos
-         * @return boolean
+         * @return array
          */
         public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false) {
             global $global, $config;
@@ -2942,7 +2942,7 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @global type $global
+         * @global array $global
          * @param string $videos_id
          * @param string $users_id if is empty will use the logged user
          * @return boolean
@@ -2973,7 +2973,7 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @global type $global
+         * @global array $global
          * @param string $videos_id
          * @param string $users_id if is empty will use the logged user
          * @return boolean
@@ -4378,7 +4378,7 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @global type $global
+         * @global array $global
          * @param string $videos_id
          * @param string $clean_title
          * @param string $embed

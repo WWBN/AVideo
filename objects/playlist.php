@@ -94,7 +94,7 @@ class PlayList extends ObjectYPT {
 
     /**
      *
-     * @global type $global
+     * @global array $global
      * @param string $publicOnly
      * @param string $userId if not present check session
      * @param string $isVideoIdPresent pass the ID of the video checking
@@ -211,7 +211,7 @@ class PlayList extends ObjectYPT {
 
     /**
      *
-     * @global type $global
+     * @global array $global
      * @param string $publicOnly
      * @param string $userId if not present check session
      * @param string $isVideoIdPresent pass the ID of the video checking

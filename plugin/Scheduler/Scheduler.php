@@ -184,7 +184,7 @@ class Scheduler extends PluginAbstract {
 
     /**
      * 
-     * @global type $global
+     * @global array $global
      * @param string $title
      * @param string $description
      * @param string $date_start

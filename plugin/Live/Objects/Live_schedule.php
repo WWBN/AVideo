@@ -53,9 +53,7 @@ class Live_schedule extends ObjectYPT
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            _error_log($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 
@@ -74,9 +72,7 @@ class Live_schedule extends ObjectYPT
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            _error_log($sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 
@@ -158,8 +154,6 @@ class Live_schedule extends ObjectYPT
 
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -196,9 +190,7 @@ class Live_schedule extends ObjectYPT
                 $row['serverURL'] = Live::getServerURL($row['key'], $row['users_id']);
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 
@@ -295,7 +287,10 @@ class Live_schedule extends ObjectYPT
     {
         return intval($this->live_servers_id);
     }
-
+    /**
+     * 
+     * @return string
+     */
     public function getScheduled_time()
     {
         return $this->scheduled_time;
@@ -357,8 +352,6 @@ class Live_schedule extends ObjectYPT
         if (empty($this->key)) {
             $this->key = uniqid();
         }
-
-        $this->description = ($this->description);
 
         $this->_setTimeZone(date_default_timezone_get());
 

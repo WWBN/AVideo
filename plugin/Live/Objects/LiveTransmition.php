@@ -208,7 +208,6 @@ class LiveTransmition extends ObjectYPT
     {
         global $global;
         _mysql_connect();
-        $userName = ($userName);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", [$userName], true);
         $data = sqlDAL::fetchAssoc($res);
@@ -228,7 +227,6 @@ class LiveTransmition extends ObjectYPT
     {
         global $global;
         _mysql_connect();
-        $channelName = ($channelName);
         $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", [$channelName], true);
         $data = sqlDAL::fetchAssoc($res);

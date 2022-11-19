@@ -124,7 +124,7 @@ if (empty($output)) {
     $obj->playlists = [['name' => $playlistName, 'itemIds'=>$itemIds]];
     $obj->categories = [['name' => $categoryName, 'playlistName' => $playlistName, 'order' => 'most_recent']];
 
-    $output = _json_encode($obj, JSON_UNESCAPED_UNICODE);
+    $output = _json_encode($obj);
     if (empty($output) && json_last_error()) {
         $output = json_encode(json_last_error_msg());
         var_dump($obj);

@@ -99,13 +99,11 @@ class LiveTransmitionHistory extends ObjectYPT {
         global $global;
         $Char = "&zwnj;";
         $title = str_replace($Char, '', $title);
-        $title = ($title);
         $this->title = $title;
     }
 
     public function setDescription($description) {
         global $global;
-        $description = ($description);
         $this->description = $description;
     }
 
@@ -163,7 +161,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     /**
      * 
      * @param int $liveTransmitionHistory_id
-     * @return object
+     * @return array
      */
     public static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
@@ -392,7 +390,6 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public static function getLatest($key, $live_servers_id = null, $active=false) {
         global $global;
-        $key = ($key);
 
         if (empty($key)) {
             return false;
