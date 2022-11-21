@@ -478,14 +478,14 @@ class LiveLinks extends PluginAbstract {
     }
     
     public static function getMediaSession($id) {
-        $ll = new LiveLinks($id);
+        $ll = new LiveLinksTable($id);
         $posters = array();
         //var_dump($posters);exit;
-        $category = Category::getCategory($ll['categories_id']);
+        $category = Category::getCategory($ll->getCategories_id());
         $MediaMetadata = new stdClass();
 
-        $MediaMetadata->title = $ll['title'];
-        $MediaMetadata->artist = User::getNameIdentificationById($ll['users_id']);
+        $MediaMetadata->title = $ll->getTitle();
+        $MediaMetadata->artist = User::getNameIdentificationById($ll->getUsers_id());
         $MediaMetadata->album = $category['name'];
         $MediaMetadata->artwork = array();
         foreach ($posters as $key => $value) {
