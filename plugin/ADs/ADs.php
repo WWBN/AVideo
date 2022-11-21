@@ -28,8 +28,10 @@ class ADs extends PluginAbstract{
     public function getDescription()
     {
         $txt = "Handle the ads system, like Adsense or similar";
-        //$help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AD_Overlay-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         $help = "";
+        $help .= "<br><small><a href='https://github.com/WWBN/AVideo/wiki/ADs-plugin' target='__blank'>"
+                . "<i class='fas fa-question-circle'></i> Help</a></small>";
+        
         return $txt . $help;
     }
 
@@ -281,14 +283,15 @@ class ADs extends PluginAbstract{
         eval("\$label = \$ad->{$type}Label;");
         $label = "{$label} [$users_id] [{$type}]";
         if(!empty($users_id) && self::canHaveCustomAds($users_id)){
-            $adCode = self::getAdsHTML($type, $users_id);
+            $array = self::getAdsHTML($type); 
+            $adCode = $array['html'];
         }
         
         if(empty($adCode)){
             eval("\$adCode = \$ad->{$type}->value;");
         }
 
-        return ['adCode'=>$adCode, 'label'=>$label];
+        return ['adCode'=>$adCode, 'label'=>$label, 'paths'=>$array['paths']];
     }
     
     
@@ -395,7 +398,7 @@ class ADs extends PluginAbstract{
             $html .= "<div class='alert alert-warning'>{$type} ADs Area</div>";
         }
         $html .= "</div></div>";
-        return $html;
+        return array('html'=>$html, 'paths'=>$paths);
     }
 
     public function getFooterCode()
@@ -409,11 +412,11 @@ class ADs extends PluginAbstract{
         return $js;
     }
 
-    public static function saveAdsHTML($type)
-    {
+    public static function saveAdsHTML($type) {
         $o = new stdClass();
         $o->type = "textarea";
-        $o->value = self::getAdsHTML($type);
+        $array = self::getAdsHTML($type);                
+        $o->value = $array['html'];
         $p = new ADs();
         return $p->updateParameter($type, $o);
     }

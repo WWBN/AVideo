@@ -479,6 +479,11 @@ class LiveLinks extends PluginAbstract {
     
     public static function getMediaSession($id) {
         $ll = new LiveLinksTable($id);
+        
+        if(empty($ll->getUsers_id())){
+            return false;
+        }
+        
         $posters = array();
         //var_dump($posters);exit;
         $category = Category::getCategory($ll->getCategories_id());
@@ -488,9 +493,15 @@ class LiveLinks extends PluginAbstract {
         $MediaMetadata->artist = User::getNameIdentificationById($ll->getUsers_id());
         $MediaMetadata->album = $category['name'];
         $MediaMetadata->artwork = array();
+        
+        $poster = LiveLinks::getImage($id);
+        $MediaMetadata->artwork[] = array('src' => $poster, 'sizes' => "512x512", 'type' => 'image/jpg');
+        /*
         foreach ($posters as $key => $value) {
             $MediaMetadata->artwork[] = array('src' => $value['url'], 'sizes' => "{$key}x{$key}", 'type' => 'image/jpg');
         }
+         * 
+         */
         return $MediaMetadata;
     }
 

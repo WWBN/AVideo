@@ -408,6 +408,10 @@ class API extends PluginAbstract {
         unsetSearch();
         $objMob = AVideoPlugin::getObjectData("MobileManager");
         $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
+        
+        // check if there are custom ads for this video
+        $objAds = AVideoPlugin::getDataObjectIfEnabled('ADs');
+        
         foreach ($rows as $key => $value) {
             if (is_object($value)) {
                 $value = object_to_array($value);
@@ -496,6 +500,15 @@ class API extends PluginAbstract {
             //$rows[$key]['wwbnProgramURL'] = $rows[$key]['pageUrl'];
             $rows[$key]['wwbnType'] = $rows[$key]['type'];
             $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
+            
+            $rows[$key]['adsImages'] = array();
+            if(!empty($objAds)){
+                foreach (ADs::$AdsPositions as $value) {
+                    $type = $value[0];
+                    $rows[$key]['adsImages'][] = array('type'=>$type, 'assets'=>ADs::getAdsFromVideosId($type, $rows[$key]['id']));
+                }
+            }
+            
         }
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;
