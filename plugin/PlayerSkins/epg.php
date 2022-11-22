@@ -75,9 +75,12 @@ if ($forceRecreate || empty($channelsList)) {
         _error_log('Commandline: Command line EPG epgs count: ' . count($epgs));
     }
     $channelsList = array();
+    $totalEPGs = count($epgs);
+    $countEPGsProgress = 0;
     foreach ($epgs as $epg) {
         $this_videos_id = $epg['id'];
         $programCacheName = '/program_' . md5($epg['epg_link']);
+        $countEPGsProgress++;
         if (empty($forceRecreate)) {
             $programData = getEPGCache($programCacheName);
             if (!empty($programData)) {
@@ -92,7 +95,7 @@ if ($forceRecreate || empty($channelsList)) {
             $Parser->temp_dir = getCacheDir();
             try {
                 if (isCommandLineInterface()) {
-                    _error_log("Commandline: parsing {$epg['epg_link']} Command line EPG line:" . __LINE__);
+                    _error_log("Commandline: [{$countEPGsProgress}/{$totalEPGs}] parsing {$epg['epg_link']} Command line EPG line:" . __LINE__);
                 }
                 $Parser->parseURL();
                 $epgData = $Parser->getEpgdata();
