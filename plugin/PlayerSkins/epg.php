@@ -44,6 +44,7 @@ foreach ($videos as $video) {
     if ($video['status'] !== Video::$statusActive || !isValidURL($video['epg_link'])) {
         continue;
     }
+    //if($video['id']=='3847'){        var_dump($video['status']);exit;}
     $epgs[] = $video;
 }
 $timeLineElementMinutes = 30;
