@@ -3,7 +3,6 @@
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
-
 class API extends PluginAbstract {
 
     public function getTags() {
@@ -25,24 +24,24 @@ class API extends PluginAbstract {
         return "1apicbec-91db-4357-bb10-ee08b0913778";
     }
 
-    private static function addRowInfo($obj){
-        if(!isset($obj->current)){
+    private static function addRowInfo($obj) {
+        if (!isset($obj->current)) {
             $obj->current = getCurrentPage();
         }
         $obj->hasMore = true;
-        if(count($obj->rows) < $obj->rowCount){
+        if (count($obj->rows) < $obj->rowCount) {
             $obj->hasMore = false;
         }
-        if($obj->current*$obj->rowCount >= $obj->totalRows){
+        if ($obj->current * $obj->rowCount >= $obj->totalRows) {
             $obj->hasMore = false;
         }
         return $obj;
     }
-    
+
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
-        $obj->APISecret = md5($global['salt'].$global['systemRootPath'].'API');
+        $obj->APISecret = md5($global['salt'] . $global['systemRootPath'] . 'API');
         return $obj;
     }
 
@@ -73,7 +72,7 @@ class API extends PluginAbstract {
             } else {
                 $method = "API_set_{$parameters['APIName']}";
                 if (!empty($parameters['APIPlugin']) &&
-                        AVideoPlugin::isEnabledByName($parameters['APIPlugin']) && 
+                        AVideoPlugin::isEnabledByName($parameters['APIPlugin']) &&
                         method_exists($parameters['APIPlugin'], $method)) {
                     $str = "\$object = {$parameters['APIPlugin']}::{$method}(\$parameters);";
                     eval($str);
@@ -106,7 +105,7 @@ class API extends PluginAbstract {
             } else {
                 $method = "API_get_{$parameters['APIName']}";
                 if (!empty($parameters['APIPlugin']) &&
-                        AVideoPlugin::isEnabledByName($parameters['APIPlugin']) && 
+                        AVideoPlugin::isEnabledByName($parameters['APIPlugin']) &&
                         method_exists($parameters['APIPlugin'], $method)) {
                     $str = "\$object = {$parameters['APIPlugin']}::{$method}(\$parameters);";
                     eval($str);
@@ -216,7 +215,7 @@ class API extends PluginAbstract {
             $photo = Category::getCategoryPhotoPath($value['id']);
             $photoBg = Category::getCategoryBackgroundPath($value['id']);
             $link = $global['webSiteRootURL'] . 'cat/' . $value['clean_name'];
-            
+
             if (!empty($value['fullTotal_videos'])) {
                 $video = Category::getLatestVideoFromCategory($value['id'], true, true);
                 $images = Video::getImageFromID($video['id']);
@@ -228,7 +227,7 @@ class API extends PluginAbstract {
                 $liveLinks = Category::getLatestLiveLinksFromCategory($value['id'], true, true);
                 $image = LiveLinks::getImage($liveLinks['id']);
             }
-                    
+
             $rows[$key]['image'] = $image;
             $rows[$key]['totalVideosOnChilds'] = $totalVideosOnChilds;
             $rows[$key]['childs'] = $childs;
@@ -360,13 +359,15 @@ class API extends PluginAbstract {
      * @return \ApiObject
      */
     public function get_api_video($parameters) {
+        $start = microtime(true);
         $rowCount = getRowCount();
         if ($rowCount > 100) {
             // use 1 hour cache
             $cacheName = 'get_api_video' . md5(json_encode($parameters) . json_encode($_GET));
             $obj = ObjectYPT::getCache($cacheName, 3600);
             if (!empty($obj)) {
-                return new ApiObject("Cached response", false, $obj);
+                $end = microtime(true) - $start;
+                return new ApiObject("Cached response in {$end} seconds", false, $obj);
             }
         }
 
@@ -408,10 +409,10 @@ class API extends PluginAbstract {
         unsetSearch();
         $objMob = AVideoPlugin::getObjectData("MobileManager");
         $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
-        
+
         // check if there are custom ads for this video
         $objAds = AVideoPlugin::getDataObjectIfEnabled('ADs');
-        
+
         foreach ($rows as $key => $value) {
             if (is_object($value)) {
                 $value = object_to_array($value);
@@ -500,15 +501,14 @@ class API extends PluginAbstract {
             //$rows[$key]['wwbnProgramURL'] = $rows[$key]['pageUrl'];
             $rows[$key]['wwbnType'] = $rows[$key]['type'];
             $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
-            
+
             $rows[$key]['adsImages'] = array();
-            if(!empty($objAds)){
+            if (!empty($objAds)) {
                 foreach (ADs::$AdsPositions as $value) {
                     $type = $value[0];
-                    $rows[$key]['adsImages'][] = array('type'=>$type, 'assets'=>ADs::getAdsFromVideosId($type, $rows[$key]['id']));
+                    $rows[$key]['adsImages'][] = array('type' => $type, 'assets' => ADs::getAdsFromVideosId($type, $rows[$key]['id']));
                 }
             }
-            
         }
         $obj->totalRows = $totalRows;
         $obj->rows = $rows;
@@ -765,66 +765,62 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
-        if (self::isAPISecretValid() || User::isLogged()) {
-            if (!empty($parameters['users_id'])) {
-                if (!self::isAPISecretValid()) {
-                    $parameters['users_id'] = User::getId();
-                }
-            } else {
+        if (!empty($parameters['users_id'])) {
+            if (!self::isAPISecretValid()) {
                 $parameters['users_id'] = User::getId();
             }
-
-            $user = new User($parameters['users_id']);
-            if (empty($user->getUser())) {
-                return new ApiObject("User Not defined");
-            }
-            $p = AVideoPlugin::loadPlugin("Live");
-
-            $obj->user = User::getUserFromID($user->getBdId());
-
-            unset($obj->user['externalOptions']);
-            unset($obj->user['extra_info']);
-            $obj->user['canStream'] = $obj->user['canStream'] || $obj->user['isAdmin'];
-            $obj->user['DonationButtons'] = _json_decode($obj->user['DonationButtons']);
-
-            $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
-            $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
-            $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
-            $obj->livestream["poster"] = $global['webSiteRootURL'] . $p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
-            $obj->livestream["joinURL"] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
-
-            $obj->livestream["activeLives"] = array();
-            $obj->livestream["latestLives"] = array();
-            $obj->livestream["scheduledLives"] = array();
-
-            $rows = LiveTransmitionHistory::getActiveLiveFromUser($parameters['users_id'], '', '', 100);
-
-            foreach ($rows as $value) {
-                $value['live_transmitions_history_id'] = $value['id'];
-                $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
-                $value['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
-                $value['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
-                $obj->livestream["activeLives"][] = $value;
-            }
-
-            $rows = LiveTransmitionHistory::getLastsLiveHistoriesFromUser($parameters['users_id'], 5, true);
-
-            foreach ($rows as $value) {
-                $value['live_transmitions_history_id'] = $value['id'];
-                $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
-                $obj->livestream["latestLives"][] = $value;
-            }
-
-            $rows = Live_schedule::getAllActiveLimit($parameters['users_id']);
-
-            foreach ($rows as $value) {
-                $obj->livestream["scheduledLives"][] = $value;
-            }
-
-            return new ApiObject("", false, $obj);
         } else {
-            return new ApiObject("API Secret is not valid");
+            $parameters['users_id'] = User::getId();
         }
+
+        $user = new User($parameters['users_id']);
+        if (empty($user->getUser())) {
+            return new ApiObject("User Not defined");
+        }
+        $p = AVideoPlugin::loadPlugin("Live");
+
+        $obj->user = User::getUserFromID($user->getBdId());
+
+        unset($obj->user['externalOptions']);
+        unset($obj->user['extra_info']);
+        $obj->user['canStream'] = $obj->user['canStream'] || $obj->user['isAdmin'];
+        $obj->user['DonationButtons'] = _json_decode($obj->user['DonationButtons']);
+
+        $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
+        $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
+        $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
+        $obj->livestream["poster"] = $global['webSiteRootURL'] . $p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
+        $obj->livestream["joinURL"] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
+
+        $obj->livestream["activeLives"] = array();
+        $obj->livestream["latestLives"] = array();
+        $obj->livestream["scheduledLives"] = array();
+
+        $rows = LiveTransmitionHistory::getActiveLiveFromUser($parameters['users_id'], '', '', 100);
+
+        foreach ($rows as $value) {
+            $value['live_transmitions_history_id'] = $value['id'];
+            $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
+            $value['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
+            $value['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
+            $obj->livestream["activeLives"][] = $value;
+        }
+
+        $rows = LiveTransmitionHistory::getLastsLiveHistoriesFromUser($parameters['users_id'], 5, true);
+
+        foreach ($rows as $value) {
+            $value['live_transmitions_history_id'] = $value['id'];
+            $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
+            $obj->livestream["latestLives"][] = $value;
+        }
+
+        $rows = Live_schedule::getAllActiveLimit($parameters['users_id']);
+
+        foreach ($rows as $value) {
+            $obj->livestream["scheduledLives"][] = $value;
+        }
+
+        return new ApiObject("", false, $obj);
     }
 
     /**
@@ -1605,12 +1601,12 @@ class API extends PluginAbstract {
         }
         exit;
     }
-    
-    public static function isAPISecretValid(){
+
+    public static function isAPISecretValid() {
         global $global;
-        if(!empty($_REQUEST['APISecret'])){
+        if (!empty($_REQUEST['APISecret'])) {
             $dataObj = AVideoPlugin::getDataObject('API');
-            if(trim($dataObj->APISecret) === trim($_REQUEST['APISecret'])){
+            if (trim($dataObj->APISecret) === trim($_REQUEST['APISecret'])) {
                 $global['bypassSameDomainCheck'] = 1;
                 return true;
             }
