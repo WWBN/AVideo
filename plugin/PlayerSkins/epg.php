@@ -101,11 +101,17 @@ if ($forceRecreate || empty($channelsList)) {
                 // $Parser->setChannelfilter('prosiebenmaxx.de'); //optional
                 // $Parser->setIgnoreDescr('Keine Details verfügbar.'); //optional
                 foreach ($channels as $key => $value) {
+                    $usedStartDate = array();
                     $channels[$key]['epgData'] = array();
                     foreach ($epgData as $key2 => $program) {
                         if ($program['channel'] != $value['id']) {
                             continue;
                         }
+                        // do not process the same start date
+                        if(in_array($program['start'], $usedStartDate)){
+                            continue;
+                        }
+                        $usedStartDate[] = $program['start'];
                         $timeWillStart = strtotime($program['start']);
                         if ($timeWillStart > $_MaxDaysFromNow) {
                             unset($epgData[$key2]);
