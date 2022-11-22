@@ -41,7 +41,7 @@ $maxDate = 0;
 $videos_id = intval(@$_REQUEST['videos_id']);
 $videos = Video::getAllActiveEPGs();
 foreach ($videos as $video) {
-    if ($videos['status'] !== Video::$statusActive || !isValidURL($video['epg_link'])) {
+    if ($video['status'] !== Video::$statusActive || !isValidURL($video['epg_link'])) {
         continue;
     }
     $epgs[] = $video;
