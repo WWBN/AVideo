@@ -6431,10 +6431,10 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
 define('E_FATAL', E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR |
         E_COMPILE_ERROR | E_RECOVERABLE_ERROR);
 if (!isCommandLineInterface() && !isAVideoEncoder()) {
-    register_shutdown_function('avidoeShutdown');
+    register_shutdown_function('avideoShutdown');
 }
 
-function avidoeShutdown() {
+function avideoShutdown() {
     global $global;
     $error = error_get_last();
     if ($error && ($error['type'] & E_FATAL)) {
