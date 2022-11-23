@@ -1612,7 +1612,7 @@ $t['YouTube Data API Overview'] = 'YouTube Data API Overview';
 $t['YouTube Data API'] = 'YouTube Data API';
 $t["You've blocked user "] = "You've blocked user ";
 $t["You've unsubscribed"] = "You've unsubscribed";
-$t['Your User  ID'] = 'Your User  ID';
+$t['Your User ID'] = 'Your User ID';
 $t["Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploadedto your <a href='https://www.youtube.com/my_videos' class='btn btn-default'target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br>"] = "Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploadedto your <a href='https://www.youtube.com/my_videos' class='btn btn-default'target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br>";
 $t['Youtube'] = 'Youtube';
 $t['Zionism'] = 'Zionism';
