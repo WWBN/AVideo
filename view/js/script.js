@@ -3670,3 +3670,11 @@ function addScript(src) {
         }
     }
 }
+
+function getUser(){
+    var url = webSiteRootURL+'plugin/API/get.json.php?APIName=user';
+    return $.ajax({
+        url: url,
+        async: false
+    }).responseText;
+}
