@@ -94,6 +94,8 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
             365 => __("12 Months"));
         $o->value = 365;
         $obj->postARandomVideoFromLastDays = $o;
+        
+        $obj->debugMode = true;
 
         return $obj;
     }
@@ -122,6 +124,9 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
         if($obj->TwitterEnable){
             $connection = new TwitterOAuth($obj->TwitterAPIKey, $obj->TwitterAPIKeySecret, $obj->TwitterAccessToken, $obj->TwitterAccessTokenSecret);
             $post_tweets = $connection->post("statuses/update", ["status" => $msg]);
+            if($obj->debugMode){
+                _error_log(json_encode($post_tweets), AVideoLog::$DEBUG);
+            }
         }
 
         return $post_tweets;
