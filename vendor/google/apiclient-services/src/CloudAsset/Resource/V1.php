@@ -404,10 +404,10 @@ class V1 extends \Google\Service\Resource
    * Add " DESC" after the field name to indicate descending order. Redundant
    * space characters are ignored. Example: "location DESC, name". Only singular
    * primitive fields in the response are sortable: * name * assetType * project *
-   * displayName * description * location * kmsKey * createTime * updateTime *
-   * state * parentFullResourceName * parentAssetType All the other fields such as
-   * repeated fields (e.g., `networkTags`), map fields (e.g., `labels`) and struct
-   * fields (e.g., `additionalAttributes`) are not supported.
+   * displayName * description * location * createTime * updateTime * state *
+   * parentFullResourceName * parentAssetType All the other fields such as
+   * repeated fields (e.g., `networkTags`, `kmsKeys`), map fields (e.g., `labels`)
+   * and struct fields (e.g., `additionalAttributes`) are not supported.
    * @opt_param int pageSize Optional. The page size for search result pagination.
    * Page size is capped at 500 even if a larger value is given. If set to zero,
    * server will pick an appropriate default. Returned results may be fewer than
@@ -431,10 +431,13 @@ class V1 extends \Google\Service\Resource
    * that have a label "env" and its value is "prod". * `labels.env:*` to find
    * Cloud resources that have a label "env". * `kmsKey:key` to find Cloud
    * resources encrypted with a customer-managed encryption key whose name
-   * contains the word "key". * `relationships:instance-group-1` to find Cloud
-   * resources that have relationships with "instance-group-1" in the related
-   * resource name. * `relationships:INSTANCE_TO_INSTANCEGROUP` to find compute
-   * instances that have relationships of type "INSTANCE_TO_INSTANCEGROUP". *
+   * contains "key" as a word. This field is deprecated. Please use the `kmsKeys`
+   * field to retrieve KMS key information. * `kmsKeys:key` to find Cloud
+   * resources encrypted with customer-managed encryption keys whose name contains
+   * the word "key". * `relationships:instance-group-1` to find Cloud resources
+   * that have relationships with "instance-group-1" in the related resource name.
+   * * `relationships:INSTANCE_TO_INSTANCEGROUP` to find compute instances that
+   * have relationships of type "INSTANCE_TO_INSTANCEGROUP". *
    * `relationships.INSTANCE_TO_INSTANCEGROUP:instance-group-1` to find compute
    * instances that have relationships with "instance-group-1" in the compute
    * instance group resource name, for relationship type
@@ -459,11 +462,13 @@ class V1 extends \Google\Service\Resource
    * `"name,versionedResources"`. The read_mask paths must be valid field paths
    * listed but not limited to (both snake_case and camelCase are supported): *
    * name * assetType * project * displayName * description * location * tagKeys *
-   * tagValues * tagValueIds * labels * networkTags * kmsKey * createTime *
-   * updateTime * state * additionalAttributes * versionedResources If read_mask
-   * is not specified, all fields except versionedResources will be returned. If
-   * only '*' is specified, all fields including versionedResources will be
-   * returned. Any invalid field path will trigger INVALID_ARGUMENT error.
+   * tagValues * tagValueIds * labels * networkTags * kmsKey (This field is
+   * deprecated. Please use the `kmsKeys` field to retrieve KMS key information.)
+   * * kmsKeys * createTime * updateTime * state * additionalAttributes *
+   * versionedResources If read_mask is not specified, all fields except
+   * versionedResources will be returned. If only '*' is specified, all fields
+   * including versionedResources will be returned. Any invalid field path will
+   * trigger INVALID_ARGUMENT error.
    * @return SearchAllResourcesResponse
    */
   public function searchAllResources($scope, $optParams = [])

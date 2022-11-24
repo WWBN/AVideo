@@ -32,6 +32,8 @@ use Google\Service\Datastore\ReserveIdsRequest;
 use Google\Service\Datastore\ReserveIdsResponse;
 use Google\Service\Datastore\RollbackRequest;
 use Google\Service\Datastore\RollbackResponse;
+use Google\Service\Datastore\RunAggregationQueryRequest;
+use Google\Service\Datastore\RunAggregationQueryResponse;
 use Google\Service\Datastore\RunQueryRequest;
 use Google\Service\Datastore\RunQueryResponse;
 
@@ -178,6 +180,21 @@ class Projects extends \Google\Service\Resource
     $params = ['projectId' => $projectId, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('rollback', [$params], RollbackResponse::class);
+  }
+  /**
+   * Runs an aggregation query. (projects.runAggregationQuery)
+   *
+   * @param string $projectId Required. The ID of the project against which to
+   * make the request.
+   * @param RunAggregationQueryRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return RunAggregationQueryResponse
+   */
+  public function runAggregationQuery($projectId, RunAggregationQueryRequest $postBody, $optParams = [])
+  {
+    $params = ['projectId' => $projectId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('runAggregationQuery', [$params], RunAggregationQueryResponse::class);
   }
   /**
    * Queries for entities. (projects.runQuery)

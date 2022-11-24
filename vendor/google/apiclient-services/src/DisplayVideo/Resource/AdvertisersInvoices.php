@@ -45,7 +45,7 @@ class AdvertisersInvoices extends \Google\Service\Resource
    * @opt_param string loiSapinInvoiceType Select type of invoice to retrieve for
    * Loi Sapin advertisers. Only applicable to Loi Sapin advertisers. Will be
    * ignored otherwise.
-   * @opt_param int pageSize Requested page size. Must be between `1` and `100`.
+   * @opt_param int pageSize Requested page size. Must be between `1` and `200`.
    * If unspecified will default to `100`. Returns error code `INVALID_ARGUMENT`
    * if an invalid value is specified.
    * @opt_param string pageToken A token identifying a page of results the server

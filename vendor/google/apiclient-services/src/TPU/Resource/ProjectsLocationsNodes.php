@@ -17,10 +17,11 @@
 
 namespace Google\Service\TPU\Resource;
 
+use Google\Service\TPU\GetGuestAttributesRequest;
+use Google\Service\TPU\GetGuestAttributesResponse;
 use Google\Service\TPU\ListNodesResponse;
 use Google\Service\TPU\Node;
 use Google\Service\TPU\Operation;
-use Google\Service\TPU\ReimageNodeRequest;
 use Google\Service\TPU\StartNodeRequest;
 use Google\Service\TPU\StopNodeRequest;
 
@@ -77,6 +78,20 @@ class ProjectsLocationsNodes extends \Google\Service\Resource
     return $this->call('get', [$params], Node::class);
   }
   /**
+   * Retrieves the guest attributes for the node. (nodes.getGuestAttributes)
+   *
+   * @param string $name Required. The resource name.
+   * @param GetGuestAttributesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GetGuestAttributesResponse
+   */
+  public function getGuestAttributes($name, GetGuestAttributesRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('getGuestAttributes', [$params], GetGuestAttributesResponse::class);
+  }
+  /**
    * Lists nodes. (nodes.listProjectsLocationsNodes)
    *
    * @param string $parent Required. The parent resource name.
@@ -94,18 +109,22 @@ class ProjectsLocationsNodes extends \Google\Service\Resource
     return $this->call('list', [$params], ListNodesResponse::class);
   }
   /**
-   * Reimages a node's OS. (nodes.reimage)
+   * Updates the configurations of a node. (nodes.patch)
    *
-   * @param string $name The resource name.
-   * @param ReimageNodeRequest $postBody
+   * @param string $name Output only. Immutable. The name of the TPU.
+   * @param Node $postBody
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. Mask of fields from Node to update.
+   * Supported fields: [description, tags, labels, metadata,
+   * network_config.enable_external_ips].
    * @return Operation
    */
-  public function reimage($name, ReimageNodeRequest $postBody, $optParams = [])
+  public function patch($name, Node $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('reimage', [$params], Operation::class);
+    return $this->call('patch', [$params], Operation::class);
   }
   /**
    * Starts a node. (nodes.start)
@@ -122,7 +141,7 @@ class ProjectsLocationsNodes extends \Google\Service\Resource
     return $this->call('start', [$params], Operation::class);
   }
   /**
-   * Stops a node, this operation is only available with single TPU nodes.
+   * Stops a node. This operation is only available with single TPU nodes.
    * (nodes.stop)
    *
    * @param string $name The resource name.

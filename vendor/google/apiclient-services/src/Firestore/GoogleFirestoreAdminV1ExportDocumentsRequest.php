@@ -19,11 +19,15 @@ namespace Google\Service\Firestore;
 
 class GoogleFirestoreAdminV1ExportDocumentsRequest extends \Google\Collection
 {
-  protected $collection_key = 'collectionIds';
+  protected $collection_key = 'namespaceIds';
   /**
    * @var string[]
    */
   public $collectionIds;
+  /**
+   * @var string[]
+   */
+  public $namespaceIds;
   /**
    * @var string
    */
@@ -42,6 +46,20 @@ class GoogleFirestoreAdminV1ExportDocumentsRequest extends \Google\Collection
   public function getCollectionIds()
   {
     return $this->collectionIds;
+  }
+  /**
+   * @param string[]
+   */
+  public function setNamespaceIds($namespaceIds)
+  {
+    $this->namespaceIds = $namespaceIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getNamespaceIds()
+  {
+    return $this->namespaceIds;
   }
   /**
    * @param string

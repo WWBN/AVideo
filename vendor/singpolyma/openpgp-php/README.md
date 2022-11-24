@@ -46,6 +46,7 @@ Users
 OpenPGP.php is currently being used in the following projects:
 
 * <https://wordpress.org/plugins/wp-pgp-encrypted-emails/>
+* [Passbolt API](https://github.com/passbolt/passbolt_api)
 
 Download
 --------

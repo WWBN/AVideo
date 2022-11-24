@@ -615,7 +615,7 @@ echo 'average_File_bitrate = '.number_format(array_sum($vbr_bitrates) / count($v
 			2 => array(0, 1, 1.3333, 1.7778, 2.2100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 		);
 		$ratio = (float) (isset($lookup[$mpeg_version][$rawaspectratio]) ? $lookup[$mpeg_version][$rawaspectratio] : 0);
-		if ($mpeg_version == 2 && $ratio != 1) {
+		if ($mpeg_version == 2 && $ratio != 1 && $width != 0) {
 			// Calculate pixel aspect ratio from MPEG-2 display aspect ratio
 			$ratio = $ratio * $height / $width;
 		}

@@ -1416,11 +1416,11 @@ if (typeof gtag !== \"function\") {
 
     /**
      * this is the deprecated function, with week password
-     * @global type $global
-     * @param type $user
-     * @param type $pass
-     * @param type $mustBeactive
-     * @param type $encodedPass
+     * @global array $global
+     * @param string $user
+     * @param string $pass
+     * @param string $mustBeactive
+     * @param string $encodedPass
      * @return boolean
      */
     private function find_Old($user, $pass, $mustBeactive = false, $encodedPass = false)
@@ -2117,6 +2117,9 @@ if (typeof gtag !== \"function\") {
         return $userId;
     }
 
+    /**
+     * @return string
+     */
     public function getRecoverPass()
     {
         return $this->recoverPass;
@@ -2264,7 +2267,7 @@ if (typeof gtag !== \"function\") {
 
     /**
      *
-     * @param type $user_id
+     * @param string $user_id
      * text
      * label Default Primary Success Info Warning Danger
      */
@@ -2410,7 +2413,7 @@ if (typeof gtag !== \"function\") {
 
     /**
      *
-     * @param type $channelName
+     * @param string $channelName
      * @return boolean return true is is unique
      */
     public function setChannelName($channelName)
@@ -2496,18 +2499,21 @@ if (typeof gtag !== \"function\") {
             _error_log("sendVerificationLink: Email already sent, we will wait 30 min  {$users_id}");
             return true;
         }
-        $config = new Configuration();
-        $code = urlencode(static::createVerificationCode($users_id));
-        //Create a new PHPMailer instance
-        if (!is_object($config)) {
-            _error_log("sendVerificationLink: config is not a object " . json_encode($config));
-            return false;
-        }
-        $contactEmail = $config->getContactEmail();
-        $webSiteTitle = $config->getWebSiteTitle();
-        $email = '';
-        $email = $user->getEmail();
         try {
+            $config = new Configuration();
+            $code = urlencode(static::createVerificationCode($users_id));
+            //Create a new PHPMailer instance
+            if (!is_object($config)) {
+                _error_log("sendVerificationLink: config is not a object " . json_encode($config));
+                return false;
+            }
+            $contactEmail = $config->getContactEmail();
+            $webSiteTitle = $config->getWebSiteTitle();
+            /**
+             * @var string $email 
+             */
+            $email = '';
+            $email = $user->getEmail();
             $mail = new \PHPMailer\PHPMailer\PHPMailer();
             setSiteSendMessage($mail);
             //$mail->SMTPDebug = 4;

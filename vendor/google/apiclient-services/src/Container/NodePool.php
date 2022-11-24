@@ -48,6 +48,8 @@ class NodePool extends \Google\Collection
   public $name;
   protected $networkConfigType = NodeNetworkConfig::class;
   protected $networkConfigDataType = '';
+  protected $placementPolicyType = PlacementPolicy::class;
+  protected $placementPolicyDataType = '';
   /**
    * @var int
    */
@@ -212,6 +214,20 @@ class NodePool extends \Google\Collection
   public function getNetworkConfig()
   {
     return $this->networkConfig;
+  }
+  /**
+   * @param PlacementPolicy
+   */
+  public function setPlacementPolicy(PlacementPolicy $placementPolicy)
+  {
+    $this->placementPolicy = $placementPolicy;
+  }
+  /**
+   * @return PlacementPolicy
+   */
+  public function getPlacementPolicy()
+  {
+    return $this->placementPolicy;
   }
   /**
    * @param int

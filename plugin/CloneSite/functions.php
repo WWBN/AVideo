@@ -27,9 +27,9 @@ function getCloneFilesInfo($dir, $subdir = "", $extensionsToCopy = ['mp4', 'webm
 
 /**
  *
- * @param type $serverArray a Json with the server files retrieve from getCloneFilesInfo function
- * @param type $clientArray a Json with the client files retrieve from getCloneFilesInfo function
- * @return type a Json with the new files
+ * @param string $serverArray a Json with the server files retrieve from getCloneFilesInfo function
+ * @param string $clientArray a Json with the client files retrieve from getCloneFilesInfo function
+ * @return string a Json with the new files
  */
 function detectNewFiles($serverArray, $clientArray)
 {

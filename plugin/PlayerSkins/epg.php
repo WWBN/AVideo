@@ -41,9 +41,10 @@ $maxDate = 0;
 $videos_id = intval(@$_REQUEST['videos_id']);
 $videos = Video::getAllActiveEPGs();
 foreach ($videos as $video) {
-    if (!isValidURL($video['epg_link'])) {
+    if ($video['status'] !== Video::$statusActive || !isValidURL($video['epg_link'])) {
         continue;
     }
+    //if($video['id']=='3847'){        var_dump($video['status']);exit;}
     $epgs[] = $video;
 }
 $timeLineElementMinutes = 30;
@@ -74,9 +75,12 @@ if ($forceRecreate || empty($channelsList)) {
         _error_log('Commandline: Command line EPG epgs count: ' . count($epgs));
     }
     $channelsList = array();
+    $totalEPGs = count($epgs);
+    $countEPGsProgress = 0;
     foreach ($epgs as $epg) {
         $this_videos_id = $epg['id'];
         $programCacheName = '/program_' . md5($epg['epg_link']);
+        $countEPGsProgress++;
         if (empty($forceRecreate)) {
             $programData = getEPGCache($programCacheName);
             if (!empty($programData)) {
@@ -91,7 +95,7 @@ if ($forceRecreate || empty($channelsList)) {
             $Parser->temp_dir = getCacheDir();
             try {
                 if (isCommandLineInterface()) {
-                    _error_log("Commandline: parsing {$epg['epg_link']} Command line EPG line:" . __LINE__);
+                    _error_log("Commandline: [{$countEPGsProgress}/{$totalEPGs}] parsing {$epg['epg_link']} Command line EPG line:" . __LINE__);
                 }
                 $Parser->parseURL();
                 $epgData = $Parser->getEpgdata();
@@ -101,11 +105,17 @@ if ($forceRecreate || empty($channelsList)) {
                 // $Parser->setChannelfilter('prosiebenmaxx.de'); //optional
                 // $Parser->setIgnoreDescr('Keine Details verfügbar.'); //optional
                 foreach ($channels as $key => $value) {
+                    $usedStartDate = array();
                     $channels[$key]['epgData'] = array();
                     foreach ($epgData as $key2 => $program) {
                         if ($program['channel'] != $value['id']) {
                             continue;
                         }
+                        // do not process the same start date
+                        if(in_array($program['start'], $usedStartDate)){
+                            continue;
+                        }
+                        $usedStartDate[] = $program['start'];
                         $timeWillStart = strtotime($program['start']);
                         if ($timeWillStart > $_MaxDaysFromNow) {
                             unset($epgData[$key2]);
@@ -304,6 +314,9 @@ function createEPG($channel) {
                      * 
                      */
                     $minutes = getDurationInMinutes($program['start'], $program['stop']);
+                    /**
+                     * @var int $timeLineElementSize
+                     */
                     $left = ($minuteSize * $minutesSinceZeroTime) + $timeLineElementSize;
                     $width = ($minuteSize * $minutes);
                     $pclass = '';
@@ -345,6 +358,11 @@ $positionNow = ($minuteSize * $minutesSince0Time) + $timeLineElementSize;
 $bgColors = array('#222222', '#333333', '#444444', '#555555');
 _ob_start();
 //var_dump($minuteSize, $minutes,$positionNow);exit;
+$animateJson = '{scrollLeft: $(\'#positionNow\').position().left - '.($timeLineElementSize + 50);
+if (!empty($videos_id)) {
+    $animateJson .= ', scrollTop: ($(\'#video_'.$videos_id.'\').offset().top) - 100';
+}
+$animateJson .= '}';
 ?><!DOCTYPE html>
 <html>
     <head>
@@ -576,14 +594,7 @@ _ob_start();
             }
 
             function goToPositionNow() {
-                $('html, body').animate({
-                    scrollLeft: ($('#positionNow').position().left -<?php echo $timeLineElementSize + 50; ?>),
-<?php
-if (!empty($videos_id)) {
-    echo "scrollTop: (($(\"#video_{$videos_id}\").offset().top) - 100)";
-}
-?>
-                }, 1000);
+                $('html, body').animate(<?php echo $animateJson; ?>, 1000);
             }
         </script>
     </body>

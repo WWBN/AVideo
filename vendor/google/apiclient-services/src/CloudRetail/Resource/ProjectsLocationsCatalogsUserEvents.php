@@ -47,6 +47,12 @@ class ProjectsLocationsCatalogsUserEvents extends \Google\Service\Resource
    * @opt_param string ets The event timestamp in milliseconds. This prevents
    * browser caching of otherwise identical get requests. The name is abbreviated
    * to reduce the payload bytes.
+   * @opt_param string prebuiltRule The prebuilt rule name that can convert a
+   * specific type of raw_json. For example: "default_schema/v1.0"
+   * @opt_param string rawJson An arbitrary serialized JSON string that contains
+   * necessary information that can comprise a user event. When this field is
+   * specified, the user_event field will be ignored. Note: line-delimited JSON is
+   * not supported, a single JSON only.
    * @opt_param string uri The URL including cgi-parameters but excluding the hash
    * fragment with a length limit of 5,000 characters. This is often more useful
    * than the referer URL, because many browsers only send the domain for 3rd

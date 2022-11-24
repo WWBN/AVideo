@@ -27,6 +27,10 @@ class GoogleAppsCardV1Action extends \Google\Collection
   /**
    * @var string
    */
+  public $interaction;
+  /**
+   * @var string
+   */
   public $loadIndicator;
   protected $parametersType = GoogleAppsCardV1ActionParameter::class;
   protected $parametersDataType = 'array';
@@ -48,6 +52,20 @@ class GoogleAppsCardV1Action extends \Google\Collection
   public function getFunction()
   {
     return $this->function;
+  }
+  /**
+   * @param string
+   */
+  public function setInteraction($interaction)
+  {
+    $this->interaction = $interaction;
+  }
+  /**
+   * @return string
+   */
+  public function getInteraction()
+  {
+    return $this->interaction;
   }
   /**
    * @param string

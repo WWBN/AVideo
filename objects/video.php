@@ -540,7 +540,7 @@ if (!class_exists('Video')) {
              * @var array $global
              * @var object $global['mysqli'] 
              */
-            _error_log('Video::save Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
+            _error_log('Video::save Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             return false;
         }
 
@@ -743,7 +743,10 @@ if (!class_exists('Video')) {
         public function getRotation() {
             return $this->rotation;
         }
-
+        /**
+         * 
+         * @return int
+         */
         public function getUsers_id() {
             return $this->users_id;
         }
@@ -1188,17 +1191,17 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @global type $global
-         * @param type $status
-         * @param type $showOnlyLoggedUserVideos you may pass an user ID to filter results
-         * @param type $ignoreGroup
-         * @param type $videosArrayId an array with videos to return (for filter only)
-         * @return boolean
+         * @global array $global
+         * @param string $status
+         * @param string $showOnlyLoggedUserVideos you may pass an user ID to filter results
+         * @param string $ignoreGroup
+         * @param string $videosArrayId an array with videos to return (for filter only)
+         * @return array
          */
         public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '') {
             global $global, $config, $advancedCustom, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
-                return false;
+                return array();
             }
             /**
              * 
@@ -1435,6 +1438,11 @@ if (!class_exists('Video')) {
                 // for the cache on the database fast insert
 
                 TimeLogEnd($timeLogName, __LINE__, 0.2);
+                /**
+                 * 
+                 * @var array $global
+                 * @var object $global['mysqli'] 
+                 */
                 $global['mysqli']->begin_transaction();
                 foreach ($fullData as $row) {
                     if (is_null($row['likes'])) {
@@ -1634,11 +1642,11 @@ if (!class_exists('Video')) {
         }
 
         public static function updateFilesizeFromFilename($filename) {
-            $value = Video::getVideoFromFileNameLight($filename);
+            $video = Video::getVideoFromFileNameLight($filename);
             if ($video['type'] !== 'video' && $video['type'] !== 'audio') {
                 return false;
             }
-            return self::updateFilesize($value['id']);
+            return self::updateFilesize($video['id']);
         }
 
         public static function updateFilesize($videos_id) {
@@ -1694,10 +1702,10 @@ if (!class_exists('Video')) {
 
         /**
          * Same as getAllVideos() method but a lighter query
-         * @global type $global
+         * @global array $global
          * @global type $config
-         * @param type $showOnlyLoggedUserVideos
-         * @return boolean
+         * @param string $showOnlyLoggedUserVideos
+         * @return array
          */
         public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false) {
             global $global, $config;
@@ -1963,6 +1971,7 @@ if (!class_exists('Video')) {
         }
 
         static function getSearchFieldsNames() {
+            global $advancedCustomUser;
             $searchFieldsNames = self::$searchFieldsNames;
             if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                 $searchFieldsNames[] = 'u.channelName';
@@ -2158,7 +2167,7 @@ if (!class_exists('Video')) {
 
             $resp = sqlDAL::writeSql($sql, "i", [$this->id]);
             if ($resp == false) {
-                _error_log('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                //_error_log('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 return false;
             } else {
                 $this->removeVideoFiles();
@@ -2482,7 +2491,9 @@ if (!class_exists('Video')) {
         public function getFilename() {
             return $this->filename;
         }
-
+        /**
+         * return string
+         */
         public function getStatus() {
             return $this->status;
         }
@@ -2498,52 +2509,6 @@ if (!class_exists('Video')) {
         public function setVideoDownloadedLink($videoDownloadedLink) {
             AVideoPlugin::onVideoSetVideoDownloadedLink($this->id, $this->videoDownloadedLink, $videoDownloadedLink);
             $this->videoDownloadedLink = $videoDownloadedLink;
-        }
-
-        public static function isLandscape($pathFileName) {
-            global $config;
-            // get movie duration HOURS:MM:SS.MICROSECONDS
-            if (!file_exists($pathFileName)) {
-                echo '{"status":"error", "msg":"isLandscape ERROR, File (' . $pathFileName . ') Not Found"}';
-                return true;
-            }
-            eval('$cmd="' . $config->getExiftool() . '";');
-            $resp = true; // is landscape by default
-            exec($cmd . ' 2>&1', $output, $return_val);
-            if ($return_val !== 0) {
-                $resp = true;
-            } else {
-                $w = 1;
-                $h = 0;
-                $rotation = 0;
-                foreach ($output as $value) {
-                    preg_match("/Image Size.*:[^0-9]*([0-9]+x[0-9]+)/i", $value, $match);
-                    if (!empty($match)) {
-                        $parts = explode("x", $match[1]);
-                        $w = $parts[0];
-                        $h = $parts[1];
-                    }
-                    preg_match("/Rotation.*:[^0-9]*([0-9]+)/i", $value, $match);
-                    if (!empty($match)) {
-                        $rotation = $match[1];
-                    }
-                }
-                if ($rotation == 0) {
-                    if ($w > $h) {
-                        $resp = true;
-                    } else {
-                        $resp = false;
-                    }
-                } else {
-                    if ($w < $h) {
-                        $resp = true;
-                    } else {
-                        $resp = false;
-                    }
-                }
-            }
-            //var_dump($cmd, $w, $h, $rotation, $resp);exit;
-            return $resp;
         }
 
         public function userCanManageVideo() {
@@ -2583,7 +2548,7 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @param type $user_id
+         * @param string $user_id
          * text
          * label Default Primary Success Info Warning Danger
          */
@@ -2744,6 +2709,9 @@ if (!class_exists('Video')) {
             if (empty($type) || $type === "status") {
                 $objTag = new stdClass();
                 $objTag->label = __("Status");
+                /**
+                 * @var string $status
+                 */
                 $status = $video->getStatus();
                 $objTag->text = __(Video::$statusDesc[$status]);
                 switch ($status) {
@@ -2974,9 +2942,9 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @global type $global
-         * @param type $videos_id
-         * @param type $users_id if is empty will use the logged user
+         * @global array $global
+         * @param string $videos_id
+         * @param string $users_id if is empty will use the logged user
          * @return boolean
          */
         public static function isOwner($videos_id, $users_id = 0, $checkAffiliate = true) {
@@ -3005,9 +2973,9 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @global type $global
-         * @param type $videos_id
-         * @param type $users_id if is empty will use the logged user
+         * @global array $global
+         * @param string $videos_id
+         * @param string $users_id if is empty will use the logged user
          * @return boolean
          */
         public static function getOwner($videos_id) {
@@ -3022,15 +2990,15 @@ if (!class_exists('Video')) {
                 }
             } else {
                 $videos = false;
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return false;
         }
 
         /**
          *
-         * @param type $videos_id
-         * @param type $users_id if is empty will use the logged user
+         * @param string $videos_id
+         * @param string $users_id if is empty will use the logged user
          * @return boolean
          */
         public static function canEdit($videos_id, $users_id = 0) {
@@ -3290,9 +3258,9 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @param type $filename
-         * @param type $type
-         * @return type .jpg .gif .webp _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
+         * @param string $filename
+         * @param string $type
+         * @return string .jpg .gif .webp _thumbs.jpg _Low.mp4 _SD.mp4 _HD.mp4
          */
         public static function getSourceFile($filename, $type = ".jpg", $includeS3 = false) {
             global $global, $advancedCustom, $videosPaths, $VideoGetSourceFile;
@@ -3679,7 +3647,12 @@ if (!class_exists('Video')) {
             if (!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])) {
                 $search = array_merge($search, $global['langs_codes_values_withdot']);
             }
-
+            
+            /**
+             * 
+             * @var array $global
+             * @var array $global['avideo_resolutions'] 
+             */
             foreach ($global['avideo_resolutions'] as $value) {
                 $search[] = "_{$value}";
 
@@ -3888,6 +3861,11 @@ if (!class_exists('Video')) {
         public static function getHigestResolutionVideoMP4Source($filename, $includeS3 = false) {
             global $global;
             $types = ['', '_HD', '_SD', '_Low'];
+            /**
+             * 
+             * @var array $global
+             * @var array $global['avideo_resolutions'] 
+             */
             $resolutions = $global['avideo_resolutions'];
             rsort($resolutions);
             foreach ($resolutions as $value) {
@@ -3987,6 +3965,11 @@ if (!class_exists('Video')) {
 
             $types = ['', '_Low', '_SD', '_HD'];
 
+            /**
+             * 
+             * @var array $global
+             * @var array $global['avideo_resolutions'] 
+             */
             foreach ($global['avideo_resolutions'] as $value) {
                 $types[] = "_{$value}";
             }
@@ -4362,7 +4345,7 @@ if (!class_exists('Video')) {
                 }
             } else {
                 $videos = false;
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return false;
         }
@@ -4380,7 +4363,7 @@ if (!class_exists('Video')) {
                 }
             } else {
                 $videos = false;
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return false;
         }
@@ -4395,11 +4378,11 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @global type $global
-         * @param type $videos_id
-         * @param type $clean_title
-         * @param type $embed
-         * @param type $type URLFriendly or permalink
+         * @global array $global
+         * @param string $videos_id
+         * @param string $clean_title
+         * @param string $embed
+         * @param string $type URLFriendly or permalink
          * @return String a web link
          */
         public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly", $get = [], $ignoreChannelname = false) {
@@ -4841,7 +4824,7 @@ if (!class_exists('Video')) {
 
         /**
          * Based on Roku Type
-         * @param type $filename
+         * @param string $filename
          * @return string
          */
         public static function getVideoTypeText($filename) {
@@ -5122,6 +5105,11 @@ if (!class_exists('Video')) {
 
         public static function getChangeVideoStatusButton($videos_id) {
             $video = new Video('', '', $videos_id);
+            
+            /**
+             * 
+             * @var string $status
+             */
             $status = $video->getStatus();
 
             $activeBtn = '<button onclick="changeVideoStatus(' . $videos_id . ', \'u\');" style="color: #090" type="button" '
@@ -5413,7 +5401,7 @@ if (!class_exists('Video')) {
                 }
 
                 $galleryDropDownMenu = Gallery::getVideoDropdownMenu($videos_id);
-
+                $galleryVideoButtons = '';
                 $galleryVideoButtons .= '
                 <!-- getVideoImagewithHoverAnimationFromVideosId --><div class="galleryVideoButtons '.getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0).'">
                     <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Watch Later", true) . ' style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> 
@@ -5484,9 +5472,9 @@ if (!class_exists('Video')) {
 
         /**
          *
-         * @param type $videos_id
-         * @param type $type [like or dislike]
-         * @param type $value
+         * @param string $videos_id
+         * @param string $type [like or dislike]
+         * @param string $value
          * @return boolean
          *
          * automatic = will get from like table
@@ -5698,7 +5686,7 @@ if (!class_exists('Video')) {
                     $rows[] = $row;
                 }
             } else {
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return $rows;
         }

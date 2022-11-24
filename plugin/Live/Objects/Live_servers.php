@@ -114,7 +114,9 @@ class Live_servers extends ObjectYPT
     {
         return trim($this->rtmp_server);
     }
-
+    /**
+     * @return string
+     */
     public function getPlayerServer()
     {
         return $this->playerServer;
@@ -144,7 +146,10 @@ class Live_servers extends ObjectYPT
     {
         return intval($this->protectLive);
     }
-
+    /**
+     * 
+     * @return string
+     */
     public function getGetRemoteFile()
     {
         return $this->getRemoteFile;
@@ -222,9 +227,7 @@ class Live_servers extends ObjectYPT
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         $liveServersgetAllActive = $rows;
         return $rows;
     }
@@ -239,7 +242,6 @@ class Live_servers extends ObjectYPT
         $host = trim($rtmpHostURI);
         $parts = parse_url($host);
         $host = "rtmp://{$parts["host"]}{$parts["path"]}";
-        $host = ($host);
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE rtmp_server LIKE '%{$host}%' AND status = 'a' ";
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);

@@ -1,12 +1,16 @@
 <?php
-include_once dirname(__FILE__).'/../../../objects/autoload.php';
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\RSA\Formats\Keys\PKCS1;
+//error_reporting(E_ALL);
+//include_once dirname(__FILE__).'/../../../objects/autoload.php';
 //require_once dirname(__FILE__).'/../../../objects/singpolyma/openpgp-php/lib/openpgp.php';
 //require_once dirname(__FILE__).'/../../../objects/singpolyma/openpgp-php/lib/openpgp_crypt_rsa.php';
 error_reporting(0);
+//error_reporting(E_ALL);
 
-function createKeys($UserIDPacket = 'Test <test@example.com>', $password = '')
-{
-    $rsa = new \phpseclib\Crypt\RSA();
+function createKeys($UserIDPacket = 'Test <test@example.com>', $password = ''){
+    /*
+    $rsa = new \phpseclib3\Crypt\RSA();
     $k = $rsa->createKey(512);
     $rsa->loadKey($k['privatekey']);
 
@@ -18,6 +22,21 @@ function createKeys($UserIDPacket = 'Test <test@example.com>', $password = '')
         'q' => $rsa->primes[1]->toBytes(),
         'u' => $rsa->coefficients[2]->toBytes(),
     ]);
+     */
+    
+    $privateKey = RSA::createKey(512);
+    $publickey = $privateKey->getPublicKey();
+
+    $privateKeyComponents = PKCS1::load($privateKey->toString('PKCS1'));
+
+    $nkey = new OpenPGP_SecretKeyPacket(array(
+       'n' => $privateKeyComponents["modulus"]->toBytes(),
+       'e' => $privateKeyComponents["publicExponent"]->toBytes(),
+       'd' => $privateKeyComponents["privateExponent"]->toBytes(),
+       'p' => $privateKeyComponents["primes"][1]->toBytes(),
+       'q' => $privateKeyComponents["primes"][2]->toBytes(),
+       'u' => $privateKeyComponents["coefficients"][2]->toBytes()
+    ));
 
     $uid = new OpenPGP_UserIDPacket($UserIDPacket);
 

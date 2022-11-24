@@ -70,8 +70,8 @@ function getAllFlags() {
 
 /**
  * Deprecated replaced by Layout::getAvilableFlags()
- * @global type $global
- * @return type
+ * @global array $global
+ * @return array
  */
 function getEnabledLangs() {
     global $global;

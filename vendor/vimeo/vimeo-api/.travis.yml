@@ -1,0 +1,24 @@
+language: php
+
+php:
+  - '7.1'
+  - '7.2'
+  - '7.3'
+  - '7.4'
+
+cache:
+  directories:
+    - ./vendor
+
+before_install:
+  - echo "xdebug.mode = 'coverage'" > config.ini
+  - phpenv config-add config.ini
+
+install:
+  - travis_wait 30 php composer.phar install
+
+script:
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+
+after_success:
+  - travis_retry vendor/bin/coveralls -v

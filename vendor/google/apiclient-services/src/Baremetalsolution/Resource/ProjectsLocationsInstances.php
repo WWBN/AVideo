@@ -18,6 +18,8 @@
 namespace Google\Service\Baremetalsolution\Resource;
 
 use Google\Service\Baremetalsolution\DetachLunRequest;
+use Google\Service\Baremetalsolution\DisableInteractiveSerialConsoleRequest;
+use Google\Service\Baremetalsolution\EnableInteractiveSerialConsoleRequest;
 use Google\Service\Baremetalsolution\Instance;
 use Google\Service\Baremetalsolution\ListInstancesResponse;
 use Google\Service\Baremetalsolution\Operation;
@@ -62,6 +64,36 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
     $params = ['instance' => $instance, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('detachLun', [$params], Operation::class);
+  }
+  /**
+   * Disable the interactive serial console feature on an instance.
+   * (instances.disableInteractiveSerialConsole)
+   *
+   * @param string $name Required. Name of the resource.
+   * @param DisableInteractiveSerialConsoleRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function disableInteractiveSerialConsole($name, DisableInteractiveSerialConsoleRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('disableInteractiveSerialConsole', [$params], Operation::class);
+  }
+  /**
+   * Enable the interactive serial console feature on an instance.
+   * (instances.enableInteractiveSerialConsole)
+   *
+   * @param string $name Required. Name of the resource.
+   * @param EnableInteractiveSerialConsoleRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function enableInteractiveSerialConsole($name, EnableInteractiveSerialConsoleRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('enableInteractiveSerialConsole', [$params], Operation::class);
   }
   /**
    * Get details about a single server. (instances.get)

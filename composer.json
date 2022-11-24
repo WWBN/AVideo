@@ -41,8 +41,10 @@
         "symfony/http-client": "^5.3",
         "nyholm/psr7": "^1.4",
         "norkunas/onesignal-php-api": "^2.7",
-        "stripe/stripe-php": "^9.1",
+        "stripe/stripe-php": "^10.0",
         "symfony/translation": "^5.3",
-        "amphp/amp": "^2.6"
+        "amphp/amp": "^2.6",
+        "scssphp/scssphp": "^1.11",
+        "vimeo/vimeo-api": "^3.0"
     }
 }

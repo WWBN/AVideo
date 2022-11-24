@@ -196,6 +196,10 @@ if (isHTMLEmpty($sideAd)) {
                             </div>
                             <?php
                             if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) {
+                                /**
+                                 * @var string $link
+                                 * @var string $linkEmbed
+                                 */
                                 $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
                                 $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
                                 getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
@@ -223,12 +227,6 @@ if (isHTMLEmpty($sideAd)) {
         ?>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
-        ?>
-
-        <?php
-        if (!empty($p)) {
-            $p->getChat($uuid);
-        }
         ?>
     </body>
 </html>

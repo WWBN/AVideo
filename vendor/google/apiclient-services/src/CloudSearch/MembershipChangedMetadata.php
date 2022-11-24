@@ -26,10 +26,13 @@ class MembershipChangedMetadata extends \Google\Collection
   protected $affectedMembersDataType = 'array';
   protected $affectedMembershipsType = AffectedMembership::class;
   protected $affectedMembershipsDataType = 'array';
-  protected $initiatorType = UserId::class;
   protected $initiatorDataType = '';
   protected $initiatorProfileType = User::class;
   protected $initiatorProfileDataType = '';
+  /**
+   * @var string
+   */
+  public $initiatorType;
   /**
    * @var string
    */
@@ -104,6 +107,20 @@ class MembershipChangedMetadata extends \Google\Collection
   public function getInitiatorProfile()
   {
     return $this->initiatorProfile;
+  }
+  /**
+   * @param string
+   */
+  public function setInitiatorType($initiatorType)
+  {
+    $this->initiatorType = $initiatorType;
+  }
+  /**
+   * @return string
+   */
+  public function getInitiatorType()
+  {
+    return $this->initiatorType;
   }
   /**
    * @param string

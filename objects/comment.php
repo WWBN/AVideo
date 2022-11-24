@@ -79,7 +79,6 @@ class Comment {
             forbiddenPage('Permission denied');
         }
         //$this->comment = htmlentities($this->comment);
-        $this->comment = ($this->comment);
 
         if (empty($this->comment)) {
             return false;
@@ -112,6 +111,10 @@ class Comment {
                     . " (?, ?, ?, {$this->comments_id_pai}, now(), now())";
             $resp = sqlDAL::writeSql($sql, "sii", [xss_esc($this->comment), $users_id, $this->videos_id]);
         }
+        /**
+         * @var array $global
+         * @var object $global['mysqli']
+         */
         if ((empty($resp)) && ($global['mysqli']->errno != 0)) {
             die('Error (comment save) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
@@ -224,6 +227,10 @@ class Comment {
             }
             //$comment = $res->fetch_all(MYSQLI_ASSOC);
         } else {
+            /**
+             * @var array $global
+             * @var object $global['mysqli']
+             */
             $comment = false;
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }

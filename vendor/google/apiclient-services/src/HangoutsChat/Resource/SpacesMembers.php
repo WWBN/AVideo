@@ -47,7 +47,7 @@ class SpacesMembers extends \Google\Service\Resource
     return $this->call('get', [$params], Membership::class);
   }
   /**
-   * Lists human memberships in a space. Requires [service account
+   * Lists memberships in a space. Requires [service account
    * authentication](https://developers.google.com/chat/api/guides/auth/service-
    * accounts). (members.listSpacesMembers)
    *
@@ -55,11 +55,14 @@ class SpacesMembers extends \Google\Service\Resource
    * fetch a membership list. Format: spaces/{space}
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize Requested page size. The value is capped at 1000.
-   * Server may return fewer results than requested. If unspecified, server will
-   * default to 100.
-   * @opt_param string pageToken A token identifying a page of results the server
-   * should return.
+   * @opt_param int pageSize The maximum number of memberships to return. The
+   * service may return fewer than this value. If unspecified, at most 100
+   * memberships are returned. The maximum value is 1000; values above 1000 are
+   * coerced to 1000. Negative values return an INVALID_ARGUMENT error.
+   * @opt_param string pageToken A page token, received from a previous list
+   * memberships call. Provide this to retrieve the subsequent page. When
+   * paginating, all other parameters provided must match the call that provided
+   * the page token.
    * @return ListMembershipsResponse
    */
   public function listSpacesMembers($parent, $optParams = [])

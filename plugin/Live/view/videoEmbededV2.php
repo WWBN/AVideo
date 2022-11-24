@@ -67,10 +67,6 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'],
                 padding-right: 0 !important;
                 padding-left: 0 !important;
             }
-            .liveChat .messages{
-                -webkit-transition: all 1s ease; /* Safari */
-                transition: all 1s ease;
-            }
             #embedVideo-content .embed-responsive{
                 max-height: 98vh;
             }
@@ -117,20 +113,7 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'],
                 echo getAdsLeaderBoardFooter();
                 ?>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-3" style="margin: 0; padding: 0;">
-                <?php
-                $p->getChat($uuid);
-                ?>
-            </div>
         </div>
-        <script>
-            $(function () {
-                $('.liveChat .messages').css({"height": ($(window).height() - 128) + "px"});
-                window.addEventListener('resize', function () {
-                    $('.liveChat .messages').css({"height": ($(window).height() - 128) + "px"});
-                })
-            });
-        </script>
         <?php
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
         ?>

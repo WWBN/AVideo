@@ -33,6 +33,10 @@ class DatafeedStatus extends \Google\Collection
   /**
    * @var string
    */
+  public $feedLabel;
+  /**
+   * @var string
+   */
   public $itemsTotal;
   /**
    * @var string
@@ -98,6 +102,20 @@ class DatafeedStatus extends \Google\Collection
   public function getErrors()
   {
     return $this->errors;
+  }
+  /**
+   * @param string
+   */
+  public function setFeedLabel($feedLabel)
+  {
+    $this->feedLabel = $feedLabel;
+  }
+  /**
+   * @return string
+   */
+  public function getFeedLabel()
+  {
+    return $this->feedLabel;
   }
   /**
    * @param string

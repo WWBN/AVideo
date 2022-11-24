@@ -48,7 +48,9 @@ class LiveTransmitionHistory extends ObjectYPT {
     public function getDescription() {
         return $this->description;
     }
-
+    /** 
+     * @return string
+     */
     public function getKey() {
         return $this->key;
     }
@@ -60,7 +62,11 @@ class LiveTransmitionHistory extends ObjectYPT {
     public function getModified() {
         return $this->modified;
     }
-
+    
+    /**
+     * 
+     * @return int
+     */
     public function getUsers_id() {
         return $this->users_id;
     }
@@ -93,13 +99,11 @@ class LiveTransmitionHistory extends ObjectYPT {
         global $global;
         $Char = "&zwnj;";
         $title = str_replace($Char, '', $title);
-        $title = ($title);
         $this->title = $title;
     }
 
     public function setDescription($description) {
         global $global;
-        $description = ($description);
         $this->description = $description;
     }
 
@@ -154,7 +158,11 @@ class LiveTransmitionHistory extends ObjectYPT {
     function setTotal_viewers($total_viewers): void {
         $this->total_viewers = intval($total_viewers);
     }
-    
+    /**
+     * 
+     * @param int $liveTransmitionHistory_id
+     * @return array
+     */
     public static function getApplicationObject($liveTransmitionHistory_id) {
         global $global;
         $_playlists_id_live = @$_REQUEST['playlists_id_live'];
@@ -237,7 +245,9 @@ class LiveTransmitionHistory extends ObjectYPT {
     public static function getStatsAndAddApplication($liveTransmitionHistory_id) {
         $stats = getStatsNotifications();
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
-
+        /**
+         * @var string $key
+         */
         $key = $lth->getKey();
         if (!empty($stats['applications'])) {
             foreach ($stats['applications'] as $value) {
@@ -263,6 +273,9 @@ class LiveTransmitionHistory extends ObjectYPT {
                 }
             }
         }
+        /**
+         * @var object $application
+         */
         $application = self::getApplicationObject($liveTransmitionHistory_id);
         if ($application->isPrivate) {
             $stats['hidden_applications'][] = $application;
@@ -293,7 +306,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     public static function getStatsAndRemoveApplication($liveTransmitionHistory_id) {
         $stats = getStatsNotifications();
         $lth = new LiveTransmitionHistory($liveTransmitionHistory_id);
-
+        
         $key = $lth->getKey();
         foreach ($stats['applications'] as $k => $value) {
             $value = object_to_array($value);
@@ -355,7 +368,7 @@ class LiveTransmitionHistory extends ObjectYPT {
                 $rows[] = $row;
             }
         } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            ////die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -377,7 +390,6 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public static function getLatest($key, $live_servers_id = null, $active=false) {
         global $global;
-        $key = ($key);
 
         if (empty($key)) {
             return false;
@@ -430,7 +442,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE id = {$live_transmitions_history_id} ";
 
         $insert_row = sqlDAL::writeSql($sql);
-        $global['mysqli']->commit();
+        _mysql_commit();
         
         Live::unfinishAllFromStats();
         return $insert_row;
@@ -447,7 +459,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $sql = "UPDATE " . static::getTableName() . " SET modified = now() WHERE id = {$live_transmitions_history_id} ";
 
         $insert_row = sqlDAL::writeSql($sql);
-        $global['mysqli']->commit();
+        _mysql_commit();
         
         Live::unfinishAllFromStats();
         return $insert_row;
@@ -462,7 +474,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $sql = "UPDATE " . static::getTableName() . " SET finished = NULL WHERE id = {$live_transmitions_history_id} ";
 
         $insert_row = sqlDAL::writeSql($sql);
-        $global['mysqli']->commit();
+        _mysql_commit();
         return $insert_row;
     }
 
@@ -558,7 +570,7 @@ class LiveTransmitionHistory extends ObjectYPT {
                 $rows[] = $row;
             }
         } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -610,7 +622,7 @@ class LiveTransmitionHistory extends ObjectYPT {
                 $rows[] = $row;
             }
         } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -682,7 +694,7 @@ class LiveTransmitionHistory extends ObjectYPT {
                     $rows[] = $row;
                 }
             } else {
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return $rows;
         }
@@ -690,7 +702,7 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public function save() {
         global $global;
-        $global['mysqli']->commit();
+        _mysql_commit();
         /*
         $activeLive = self::getActiveLiveFromUser($this->users_id, $this->live_servers_id, $this->key);
         if(!empty($activeLive)){
@@ -734,7 +746,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         
         $id = parent::save();
         _error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-        $global['mysqli']->commit();
+        _mysql_commit();
         return $id;
     }
 

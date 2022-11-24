@@ -5,7 +5,7 @@
  * (RFC 4880).
  *
  * @package OpenPGP
- * @version 0.5.0
+ * @version 0.6.0
  * @author  Arto Bendiken <arto.bendiken@gmail.com>
  * @author  Stephen Paul Weber <singpolyma@singpolyma.net>
  * @see     http://github.com/bendiken/openpgp-php
@@ -18,7 +18,7 @@
  * @see http://tools.ietf.org/html/rfc4880
  */
 class OpenPGP {
-  const VERSION = array(0, 5, 0);
+  const VERSION = array(0, 6, 0);
 
   /**
    * @see http://tools.ietf.org/html/rfc4880#section-6
@@ -51,7 +51,8 @@ class OpenPGP {
         $pos2 = strpos($text, "-----END");
         if ($pos2 === FALSE) return NULL;
       }
-      return base64_decode($text = substr($text, $pos1, $pos2 - $pos1));
+      $text = substr($text, $pos1, $pos2 - $pos1);
+      return base64_decode($text, true);
     }
   }
 
@@ -336,7 +337,7 @@ class OpenPGP_Message implements IteratorAggregate, ArrayAccess {
 
   /**
    * Function to extract verified signatures
-   * $verifiers is an array of callbacks formatted like array('RSA' => array('SHA256' => CALLBACK)) that take two parameters: raw message and signature packet
+   * $verifiers is an array of callbacks formatted like array('RSA' => CALLBACK) or array('RSA' => array('SHA256' => CALLBACK)) that take two parameters: raw message and signature packet
    */
   function verified_signatures($verifiers) {
     $signed = $this->signatures();
@@ -347,7 +348,8 @@ class OpenPGP_Message implements IteratorAggregate, ArrayAccess {
       $vsigs = array();
 
       foreach($signatures as $sig) {
-        $verifier = $verifiers[$sig->key_algorithm_name()][$sig->hash_algorithm_name()];
+        $verifier = $verifiers[$sig->key_algorithm_name()];
+        if(is_array($verifier)) $verifier = $verifier[$sig->hash_algorithm_name()];
         if($verifier && $this->verify_one($verifier, $sign, $sig)) {
           $vsigs[] = $sig;
         }
@@ -378,24 +380,34 @@ class OpenPGP_Message implements IteratorAggregate, ArrayAccess {
 
   // IteratorAggregate interface
 
+  // function getIterator(): \Traversable { // when php 5 support is dropped
+  #[\ReturnTypeWillChange]
   function getIterator() {
     return new ArrayIterator($this->packets);
   }
 
   // ArrayAccess interface
 
+  // function offsetExists($offset): bool // when php 5 support is dropped
+  #[\ReturnTypeWillChange]
   function offsetExists($offset) {
     return isset($this->packets[$offset]);
   }
 
+  // function offsetGet($offset): mixed // when php 7.4 support is dropped
+  #[\ReturnTypeWillChange]
   function offsetGet($offset) {
     return $this->packets[$offset];
   }
 
+  // function offsetSet($offset, $value): void // when php 5 support is dropped
+  #[\ReturnTypeWillChange]
   function offsetSet($offset, $value) {
-    return is_null($offset) ? $this->packets[] = $value : $this->packets[$offset] = $value;
+    is_null($offset) ? $this->packets[] = $value : $this->packets[$offset] = $value;
   }
 
+  // function offsetUnset($offset): void // when php 5 support is dropped
+  #[\ReturnTypeWillChange]
   function offsetUnset($offset) {
     unset($this->packets[$offset]);
   }
@@ -420,7 +432,7 @@ class OpenPGP_Packet {
 
   /**
    * Parses an OpenPGP packet.
-   * 
+   *
    * Partial body lengths based on https://github.com/toofishes/python-pgpdump/blob/master/pgpdump/packet.py
    *
    * @see http://tools.ietf.org/html/rfc4880#section-4.2
@@ -558,7 +570,7 @@ class OpenPGP_Packet {
    */
   function read_unpacked($count, $format) {
     $unpacked = unpack($format, $this->read_bytes($count));
-    return reset($unpacked);
+    return is_array($unpacked) ? reset($unpacked) : NULL;
   }
 
   function read_byte() {
@@ -1376,6 +1388,9 @@ class OpenPGP_PublicKeyPacket extends OpenPGP_Packet {
         if(strtoupper($p->issuer()) == $keyid16) {
           $sigs[] = $p;
         } else {
+          if(!is_array($p->hashed_subpackets)) {
+              break;
+          }
           foreach(array_merge($p->hashed_subpackets, $p->unhashed_subpackets) as $s) {
             if($s instanceof OpenPGP_SignaturePacket_EmbeddedSignaturePacket && strtoupper($s->issuer()) == $keyid16) {
               $sigs[] = $p;
@@ -1423,7 +1438,14 @@ class OpenPGP_PublicKeyPacket extends OpenPGP_Packet {
    */
   function read_key_material() {
     foreach (self::$key_fields[$this->algorithm] as $field) {
-      $this->key[$field] = $this->read_mpi();
+      if (strlen($field) == 1) {
+        $this->key[$field] = $this->read_mpi();
+      } else if ($field == 'oid') {
+        $len = ord($this->read_byte());
+        $this->key[$field] = $this->read_bytes($len);
+      } else {
+        $this->key[$field] = ord($this->read_byte());
+      }
     }
     $this->key_id = substr($this->fingerprint(), -8);
   }
@@ -1433,8 +1455,8 @@ class OpenPGP_PublicKeyPacket extends OpenPGP_Packet {
       case 3:
         $material = array();
         foreach (self::$key_fields[$this->algorithm] as $i) {
-          $material[] = pack('n', OpenPGP::bitlength($this->key[$i]));
-          $material[] = $this->key[$i];
+            $material[] = pack('n', OpenPGP::bitlength($this->key[$i]));
+            $material[] = $this->key[$i];
         }
         return $material;
       case 4:
@@ -1445,8 +1467,15 @@ class OpenPGP_PublicKeyPacket extends OpenPGP_Packet {
         );
         $material = array();
         foreach (self::$key_fields[$this->algorithm] as $i) {
-          $material[] = pack('n', OpenPGP::bitlength($this->key[$i]));
-          $material[] = $this->key[$i];
+          if (strlen($i) == 1) {
+            $material[] = pack('n', OpenPGP::bitlength($this->key[$i]));
+            $material[] = $this->key[$i];
+          } else if ($i == 'oid') {
+            $material[] = chr(strlen($this->key[$i]));
+            $material[] = $this->key[$i];
+          } else {
+            $material[] = chr($this->key[$i]);
+          }
         }
         $material = implode('', $material);
         $head[1] = pack('n', 6 + strlen($material));
@@ -1484,9 +1513,12 @@ class OpenPGP_PublicKeyPacket extends OpenPGP_Packet {
   }
 
   static $key_fields = array(
-     1 => array('n', 'e'),           // RSA
-    16 => array('p', 'g', 'y'),      // ELG-E
-    17 => array('p', 'q', 'g', 'y'), // DSA
+     1 => array('n', 'e'),
+    16 => array('p', 'g', 'y'),
+    17 => array('p', 'q', 'g', 'y'),
+    18 => array('oid', 'p', 'len', 'future', 'hash', 'algorithm'),
+    19 => array('oid', 'p'),
+    22 => array('oid', 'p')
   );
 
   static $algorithms = array(
@@ -1497,7 +1529,8 @@ class OpenPGP_PublicKeyPacket extends OpenPGP_Packet {
       17 => 'DSA',
       18 => 'ECC',
       19 => 'ECDSA',
-      21 => 'DH'
+      21 => 'DH',
+      22 => 'EdDSA'
     );
 
 }
@@ -1547,6 +1580,9 @@ class OpenPGP_SecretKeyPacket extends OpenPGP_PublicKeyPacket {
      3 => array('d', 'p', 'q', 'u'), // RSA-S
     16 => array('x'),                // ELG-E
     17 => array('x'),                // DSA
+    18 => array('x'),                // ECDH
+    19 => array('x'),                // ECDSA
+    22 => array('x'),                // EdDSA
   );
 
   function key_from_input() {
@@ -1655,25 +1691,33 @@ class OpenPGP_CompressedDataPacket extends OpenPGP_Packet implements IteratorAgg
   }
 
   // IteratorAggregate interface
-
+  // function getIterator(): \Traversable { // when PHP 5 support is dropped
+  #[\ReturnTypeWillChange]
   function getIterator() {
     return new ArrayIterator($this->data->packets);
   }
 
   // ArrayAccess interface
-
+  // function offsetExists($offset): bool {  // when PHP 5 support is dropped
+  #[\ReturnTypeWillChange]
   function offsetExists($offset) {
     return isset($this->data[$offset]);
   }
 
+  // function offsetGet($offset): mixed { // when PHP 7 support is dropped
+  #[\ReturnTypeWillChange]
   function offsetGet($offset) {
     return $this->data[$offset];
   }
 
+  // function offsetSet($offset, $value): void { // when PHP 5 support is dropped
+  #[\ReturnTypeWillChange]
   function offsetSet($offset, $value) {
-    return is_null($offset) ? $this->data[] = $value : $this->data[$offset] = $value;
+    is_null($offset) ? $this->data[] = $value : $this->data[$offset] = $value;
   }
 
+  #[\ReturnTypeWillChange]
+  // function offsetUnset($offset): void { // PHP 5 support is dropped
   function offsetUnset($offset) {
     unset($this->data[$offset]);
   }

@@ -28,8 +28,16 @@ class QuotedMessageMetadata extends \Google\Collection
    * @var string
    */
   public $botAttachmentState;
+  /**
+   * @var string
+   */
+  public $createTimeMicros;
   protected $creatorIdType = UserId::class;
   protected $creatorIdDataType = '';
+  /**
+   * @var string
+   */
+  public $lastEditTimeMicros;
   /**
    * @var string
    */
@@ -46,6 +54,8 @@ class QuotedMessageMetadata extends \Google\Collection
    * @var string
    */
   public $textBody;
+  protected $updaterIdType = UserId::class;
+  protected $updaterIdDataType = '';
   protected $uploadMetadataType = UploadMetadata::class;
   protected $uploadMetadataDataType = 'array';
 
@@ -92,6 +102,20 @@ class QuotedMessageMetadata extends \Google\Collection
     return $this->botAttachmentState;
   }
   /**
+   * @param string
+   */
+  public function setCreateTimeMicros($createTimeMicros)
+  {
+    $this->createTimeMicros = $createTimeMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getCreateTimeMicros()
+  {
+    return $this->createTimeMicros;
+  }
+  /**
    * @param UserId
    */
   public function setCreatorId(UserId $creatorId)
@@ -104,6 +128,20 @@ class QuotedMessageMetadata extends \Google\Collection
   public function getCreatorId()
   {
     return $this->creatorId;
+  }
+  /**
+   * @param string
+   */
+  public function setLastEditTimeMicros($lastEditTimeMicros)
+  {
+    $this->lastEditTimeMicros = $lastEditTimeMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getLastEditTimeMicros()
+  {
+    return $this->lastEditTimeMicros;
   }
   /**
    * @param string
@@ -174,6 +212,20 @@ class QuotedMessageMetadata extends \Google\Collection
   public function getTextBody()
   {
     return $this->textBody;
+  }
+  /**
+   * @param UserId
+   */
+  public function setUpdaterId(UserId $updaterId)
+  {
+    $this->updaterId = $updaterId;
+  }
+  /**
+   * @return UserId
+   */
+  public function getUpdaterId()
+  {
+    return $this->updaterId;
   }
   /**
    * @param UploadMetadata[]

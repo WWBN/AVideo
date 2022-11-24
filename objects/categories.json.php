@@ -44,6 +44,7 @@ foreach ($categories as $key => $value) {
      */
 }
 if (empty($_POST['sort']) && empty($_GET['sort'])) {
-    array_multisort(array_column($categories, 'hierarchyAndName'), SORT_ASC, $categories);
+    $array_column = array_column($categories, 'hierarchyAndName');
+    array_multisort($array_column, SORT_ASC, $categories);
 }
 echo '{  "current": '.getCurrentPage().',"rowCount": '.getRowCount().', "total": '.$total.', "rows":'. _json_encode($categories).'}';

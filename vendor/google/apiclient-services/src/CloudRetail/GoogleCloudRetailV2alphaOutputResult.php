@@ -19,9 +19,11 @@ namespace Google\Service\CloudRetail;
 
 class GoogleCloudRetailV2alphaOutputResult extends \Google\Collection
 {
-  protected $collection_key = 'bigqueryResult';
+  protected $collection_key = 'gcsResult';
   protected $bigqueryResultType = GoogleCloudRetailV2alphaBigQueryOutputResult::class;
   protected $bigqueryResultDataType = 'array';
+  protected $gcsResultType = GoogleCloudRetailV2alphaGcsOutputResult::class;
+  protected $gcsResultDataType = 'array';
 
   /**
    * @param GoogleCloudRetailV2alphaBigQueryOutputResult[]
@@ -36,6 +38,20 @@ class GoogleCloudRetailV2alphaOutputResult extends \Google\Collection
   public function getBigqueryResult()
   {
     return $this->bigqueryResult;
+  }
+  /**
+   * @param GoogleCloudRetailV2alphaGcsOutputResult[]
+   */
+  public function setGcsResult($gcsResult)
+  {
+    $this->gcsResult = $gcsResult;
+  }
+  /**
+   * @return GoogleCloudRetailV2alphaGcsOutputResult[]
+   */
+  public function getGcsResult()
+  {
+    return $this->gcsResult;
   }
 }
 

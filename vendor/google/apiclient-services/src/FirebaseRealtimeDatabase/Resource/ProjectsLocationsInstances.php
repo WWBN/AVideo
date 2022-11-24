@@ -41,8 +41,9 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * might take a few minutes for billing enablement state to propagate to
    * Firebase systems. (instances.create)
    *
-   * @param string $parent The parent project for which to create a database
-   * instance, in the form: `projects/{project-number}/locations/{location-id}`.
+   * @param string $parent Required. The parent project for which to create a
+   * database instance, in the form: `projects/{project-number}/locations
+   * /{location-id}`.
    * @param DatabaseInstance $postBody
    * @param array $optParams Optional parameters.
    *
@@ -65,9 +66,9 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * recovered or re-used. The Database may only be deleted if it is already in a
    * DISABLED state. (instances.delete)
    *
-   * @param string $name The fully qualified resource name of the database
-   * instance, in the form: `projects/{project-number}/locations/{location-
-   * id}/instances/{database-id}`
+   * @param string $name Required. The fully qualified resource name of the
+   * database instance, in the form: `projects/{project-number}/locations
+   * /{location-id}/instances/{database-id}`
    * @param array $optParams Optional parameters.
    * @return DatabaseInstance
    */
@@ -83,9 +84,9 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * are denied, including view access in the Firebase console.
    * (instances.disable)
    *
-   * @param string $name The fully qualified resource name of the database
-   * instance, in the form: `projects/{project-number}/locations/{location-
-   * id}/instances/{database-id}`
+   * @param string $name Required. The fully qualified resource name of the
+   * database instance, in the form: `projects/{project-number}/locations
+   * /{location-id}/instances/{database-id}`
    * @param DisableDatabaseInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DatabaseInstance
@@ -100,13 +101,13 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * Gets the DatabaseInstance identified by the specified resource name.
    * (instances.get)
    *
-   * @param string $name The fully qualified resource name of the database
-   * instance, in the form: `projects/{project-number}/locations/{location-
-   * id}/instances/{database-id}`. `database-id` is a globally unique identifier
-   * across all parent collections. For convenience, this method allows you to
-   * supply `-` as a wildcard character in place of specific collections under
-   * `projects` and `locations`. The resulting wildcarding form of the method is:
-   * `projects/-/locations/-/instances/{database-id}`.
+   * @param string $name Required. The fully qualified resource name of the
+   * database instance, in the form: `projects/{project-number}/locations
+   * /{location-id}/instances/{database-id}`. `database-id` is a globally unique
+   * identifier across all parent collections. For convenience, this method allows
+   * you to supply `-` as a wildcard character in place of specific collections
+   * under `projects` and `locations`. The resulting wildcarding form of the
+   * method is: `projects/-/locations/-/instances/{database-id}`.
    * @param array $optParams Optional parameters.
    * @return DatabaseInstance
    */
@@ -124,7 +125,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * results may be stale by a few seconds. Use GetDatabaseInstance for consistent
    * reads. (instances.listProjectsLocationsInstances)
    *
-   * @param string $parent The parent project for which to list database
+   * @param string $parent Required. The parent project for which to list database
    * instances, in the form: `projects/{project-number}/locations/{location-id}`
    * To list across all locations, use a parent in the form: `projects/{project-
    * number}/locations/-`
@@ -152,9 +153,9 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * using DisableDatabaseInstance. The state of a successfully reenabled
    * DatabaseInstance is ACTIVE. (instances.reenable)
    *
-   * @param string $name The fully qualified resource name of the database
-   * instance, in the form: `projects/{project-number}/locations/{location-
-   * id}/instances/{database-id}`
+   * @param string $name Required. The fully qualified resource name of the
+   * database instance, in the form: `projects/{project-number}/locations
+   * /{location-id}/instances/{database-id}`
    * @param ReenableDatabaseInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DatabaseInstance
@@ -173,9 +174,9 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * DatabaseInstance in the DELETED state. Purged DatabaseInstances may not be
    * recovered. (instances.undelete)
    *
-   * @param string $name The fully qualified resource name of the database
-   * instance, in the form: `projects/{project-number}/locations/{location-
-   * id}/instances/{database-id}`
+   * @param string $name Required. The fully qualified resource name of the
+   * database instance, in the form: `projects/{project-number}/locations
+   * /{location-id}/instances/{database-id}`
    * @param UndeleteDatabaseInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DatabaseInstance

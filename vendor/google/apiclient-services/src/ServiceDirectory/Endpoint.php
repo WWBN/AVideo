@@ -39,6 +39,10 @@ class Endpoint extends \Google\Model
    * @var int
    */
   public $port;
+  /**
+   * @var string
+   */
+  public $uid;
 
   /**
    * @param string
@@ -109,6 +113,20 @@ class Endpoint extends \Google\Model
   public function getPort()
   {
     return $this->port;
+  }
+  /**
+   * @param string
+   */
+  public function setUid($uid)
+  {
+    $this->uid = $uid;
+  }
+  /**
+   * @return string
+   */
+  public function getUid()
+  {
+    return $this->uid;
   }
 }
 

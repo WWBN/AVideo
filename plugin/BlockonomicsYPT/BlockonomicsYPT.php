@@ -51,20 +51,20 @@ class BlockonomicsYPT extends PluginAbstract {
         $currency = $objWallet->currency;
         //return here if total is empty
         if (empty($total_cost)) {
-            echo $json_response = json_encode(array("error" => "Total Is Empty"));
-            return;
+            echo json_encode(array("error" => "Total Is Empty"));
+            return false;
         }
 
         if (!User::isLogged()) {
-            echo $json_response = json_encode(array("error" => "Must be logged in"));
-            return;
+            echo json_encode(array("error" => "Must be logged in"));
+            return false;
         }
 
         //Generate new address for this invoice        
         $new_address = $this->getNewAddress($obj->APIKey);
         
         if (empty($new_address)) {
-            _error_log('Blockonomics ERROR 1: ' . $contents . ' ' . json_last_error_msg(), AVideoLog::$ERROR);
+            _error_log('Blockonomics ERROR 1: ' . json_last_error_msg(), AVideoLog::$ERROR);
             return false;
         }
         

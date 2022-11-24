@@ -38,6 +38,8 @@ class Cluster extends \Google\Collection
   protected $conditionsDataType = 'array';
   protected $confidentialNodesType = ConfidentialNodes::class;
   protected $confidentialNodesDataType = '';
+  protected $costManagementConfigType = CostManagementConfig::class;
+  protected $costManagementConfigDataType = '';
   /**
    * @var string
    */
@@ -314,6 +316,20 @@ class Cluster extends \Google\Collection
   public function getConfidentialNodes()
   {
     return $this->confidentialNodes;
+  }
+  /**
+   * @param CostManagementConfig
+   */
+  public function setCostManagementConfig(CostManagementConfig $costManagementConfig)
+  {
+    $this->costManagementConfig = $costManagementConfig;
+  }
+  /**
+   * @return CostManagementConfig
+   */
+  public function getCostManagementConfig()
+  {
+    return $this->costManagementConfig;
   }
   /**
    * @param string

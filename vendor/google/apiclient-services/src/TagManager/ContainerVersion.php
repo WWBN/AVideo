@@ -54,6 +54,8 @@ class ContainerVersion extends \Google\Collection
   public $fingerprint;
   protected $folderType = Folder::class;
   protected $folderDataType = 'array';
+  protected $gtagConfigType = GtagConfig::class;
+  protected $gtagConfigDataType = 'array';
   /**
    * @var string
    */
@@ -228,6 +230,20 @@ class ContainerVersion extends \Google\Collection
   public function getFolder()
   {
     return $this->folder;
+  }
+  /**
+   * @param GtagConfig[]
+   */
+  public function setGtagConfig($gtagConfig)
+  {
+    $this->gtagConfig = $gtagConfig;
+  }
+  /**
+   * @return GtagConfig[]
+   */
+  public function getGtagConfig()
+  {
+    return $this->gtagConfig;
   }
   /**
    * @param string

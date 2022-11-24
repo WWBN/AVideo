@@ -89,7 +89,7 @@ class AdvertisersNegativeKeywordLists extends \Google\Service\Resource
    * the fetched negative keyword lists belong.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize Requested page size. Must be between `1` and `100`.
+   * @opt_param int pageSize Requested page size. Must be between `1` and `200`.
    * Defaults to `100` if not set. Returns error code `INVALID_ARGUMENT` if an
    * invalid value is specified.
    * @opt_param string pageToken A token identifying a page of results the server

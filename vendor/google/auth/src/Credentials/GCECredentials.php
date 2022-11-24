@@ -545,4 +545,20 @@ class GCECredentials extends CredentialsLoader implements
     {
         return $this->quotaProject;
     }
+
+    /**
+     * Set whether or not we've already checked the GCE environment.
+     *
+     * @param bool $isOnGce
+     *
+     * @return void
+     */
+    public function setIsOnGce($isOnGce)
+    {
+        // Implicitly set hasCheckedGce to true
+        $this->hasCheckedOnGce = true;
+
+        // Set isOnGce
+        $this->isOnGce = $isOnGce;
+    }
 }

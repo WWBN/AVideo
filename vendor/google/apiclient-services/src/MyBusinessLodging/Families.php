@@ -43,6 +43,14 @@ class Families extends \Google\Model
    * @var string
    */
   public $kidsClubException;
+  /**
+   * @var bool
+   */
+  public $kidsFriendly;
+  /**
+   * @var string
+   */
+  public $kidsFriendlyException;
 
   /**
    * @param bool
@@ -127,6 +135,34 @@ class Families extends \Google\Model
   public function getKidsClubException()
   {
     return $this->kidsClubException;
+  }
+  /**
+   * @param bool
+   */
+  public function setKidsFriendly($kidsFriendly)
+  {
+    $this->kidsFriendly = $kidsFriendly;
+  }
+  /**
+   * @return bool
+   */
+  public function getKidsFriendly()
+  {
+    return $this->kidsFriendly;
+  }
+  /**
+   * @param string
+   */
+  public function setKidsFriendlyException($kidsFriendlyException)
+  {
+    $this->kidsFriendlyException = $kidsFriendlyException;
+  }
+  /**
+   * @return string
+   */
+  public function getKidsFriendlyException()
+  {
+    return $this->kidsFriendlyException;
   }
 }
 

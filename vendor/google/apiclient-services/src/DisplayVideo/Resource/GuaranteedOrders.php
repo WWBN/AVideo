@@ -111,8 +111,8 @@ class GuaranteedOrders extends \Google\Service\Resource
    * are: * `displayName` (default) The default sorting order is ascending. To
    * specify descending order for a field, a suffix "desc" should be added to the
    * field name. For example, `displayName desc`.
-   * @opt_param int pageSize Requested page size. Must be between `1` and `100`.
-   * If unspecified or greater than `100` will default to `100`.
+   * @opt_param int pageSize Requested page size. Must be between `1` and `200`.
+   * If unspecified will default to `100`.
    * @opt_param string pageToken A token identifying a page of results the server
    * should return. Typically, this is the value of next_page_token returned from
    * the previous call to `ListGuaranteedOrders` method. If not specified, the

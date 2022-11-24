@@ -26,6 +26,10 @@ class GoogleCloudRecaptchaenterpriseV1TokenProperties extends \Google\Model
   /**
    * @var string
    */
+  public $androidPackageName;
+  /**
+   * @var string
+   */
   public $createTime;
   /**
    * @var string
@@ -35,6 +39,10 @@ class GoogleCloudRecaptchaenterpriseV1TokenProperties extends \Google\Model
    * @var string
    */
   public $invalidReason;
+  /**
+   * @var string
+   */
+  public $iosBundleId;
   /**
    * @var bool
    */
@@ -53,6 +61,20 @@ class GoogleCloudRecaptchaenterpriseV1TokenProperties extends \Google\Model
   public function getAction()
   {
     return $this->action;
+  }
+  /**
+   * @param string
+   */
+  public function setAndroidPackageName($androidPackageName)
+  {
+    $this->androidPackageName = $androidPackageName;
+  }
+  /**
+   * @return string
+   */
+  public function getAndroidPackageName()
+  {
+    return $this->androidPackageName;
   }
   /**
    * @param string
@@ -95,6 +117,20 @@ class GoogleCloudRecaptchaenterpriseV1TokenProperties extends \Google\Model
   public function getInvalidReason()
   {
     return $this->invalidReason;
+  }
+  /**
+   * @param string
+   */
+  public function setIosBundleId($iosBundleId)
+  {
+    $this->iosBundleId = $iosBundleId;
+  }
+  /**
+   * @return string
+   */
+  public function getIosBundleId()
+  {
+    return $this->iosBundleId;
   }
   /**
    * @param bool

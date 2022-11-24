@@ -55,6 +55,10 @@ class ServiceConfig extends \Google\Collection
   /**
    * @var string
    */
+  public $securityLevel;
+  /**
+   * @var string
+   */
   public $service;
   /**
    * @var string
@@ -202,6 +206,20 @@ class ServiceConfig extends \Google\Collection
   public function getSecretVolumes()
   {
     return $this->secretVolumes;
+  }
+  /**
+   * @param string
+   */
+  public function setSecurityLevel($securityLevel)
+  {
+    $this->securityLevel = $securityLevel;
+  }
+  /**
+   * @return string
+   */
+  public function getSecurityLevel()
+  {
+    return $this->securityLevel;
   }
   /**
    * @param string

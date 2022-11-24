@@ -22,6 +22,14 @@ class DeviceIdentifier extends \Google\Model
   /**
    * @var string
    */
+  public $chromeOsAttestedDeviceId;
+  /**
+   * @var string
+   */
+  public $deviceType;
+  /**
+   * @var string
+   */
   public $imei;
   /**
    * @var string
@@ -40,6 +48,34 @@ class DeviceIdentifier extends \Google\Model
    */
   public $serialNumber;
 
+  /**
+   * @param string
+   */
+  public function setChromeOsAttestedDeviceId($chromeOsAttestedDeviceId)
+  {
+    $this->chromeOsAttestedDeviceId = $chromeOsAttestedDeviceId;
+  }
+  /**
+   * @return string
+   */
+  public function getChromeOsAttestedDeviceId()
+  {
+    return $this->chromeOsAttestedDeviceId;
+  }
+  /**
+   * @param string
+   */
+  public function setDeviceType($deviceType)
+  {
+    $this->deviceType = $deviceType;
+  }
+  /**
+   * @return string
+   */
+  public function getDeviceType()
+  {
+    return $this->deviceType;
+  }
   /**
    * @param string
    */

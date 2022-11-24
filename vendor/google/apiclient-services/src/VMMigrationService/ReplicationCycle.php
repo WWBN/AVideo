@@ -17,8 +17,23 @@
 
 namespace Google\Service\VMMigrationService;
 
-class ReplicationCycle extends \Google\Model
+class ReplicationCycle extends \Google\Collection
 {
+  protected $collection_key = 'steps';
+  /**
+   * @var int
+   */
+  public $cycleNumber;
+  /**
+   * @var string
+   */
+  public $endTime;
+  protected $errorType = Status::class;
+  protected $errorDataType = '';
+  /**
+   * @var string
+   */
+  public $name;
   /**
    * @var int
    */
@@ -27,7 +42,73 @@ class ReplicationCycle extends \Google\Model
    * @var string
    */
   public $startTime;
+  /**
+   * @var string
+   */
+  public $state;
+  protected $stepsType = CycleStep::class;
+  protected $stepsDataType = 'array';
+  /**
+   * @var string
+   */
+  public $totalPauseDuration;
 
+  /**
+   * @param int
+   */
+  public function setCycleNumber($cycleNumber)
+  {
+    $this->cycleNumber = $cycleNumber;
+  }
+  /**
+   * @return int
+   */
+  public function getCycleNumber()
+  {
+    return $this->cycleNumber;
+  }
+  /**
+   * @param string
+   */
+  public function setEndTime($endTime)
+  {
+    $this->endTime = $endTime;
+  }
+  /**
+   * @return string
+   */
+  public function getEndTime()
+  {
+    return $this->endTime;
+  }
+  /**
+   * @param Status
+   */
+  public function setError(Status $error)
+  {
+    $this->error = $error;
+  }
+  /**
+   * @return Status
+   */
+  public function getError()
+  {
+    return $this->error;
+  }
+  /**
+   * @param string
+   */
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+  /**
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->name;
+  }
   /**
    * @param int
    */
@@ -55,6 +136,48 @@ class ReplicationCycle extends \Google\Model
   public function getStartTime()
   {
     return $this->startTime;
+  }
+  /**
+   * @param string
+   */
+  public function setState($state)
+  {
+    $this->state = $state;
+  }
+  /**
+   * @return string
+   */
+  public function getState()
+  {
+    return $this->state;
+  }
+  /**
+   * @param CycleStep[]
+   */
+  public function setSteps($steps)
+  {
+    $this->steps = $steps;
+  }
+  /**
+   * @return CycleStep[]
+   */
+  public function getSteps()
+  {
+    return $this->steps;
+  }
+  /**
+   * @param string
+   */
+  public function setTotalPauseDuration($totalPauseDuration)
+  {
+    $this->totalPauseDuration = $totalPauseDuration;
+  }
+  /**
+   * @return string
+   */
+  public function getTotalPauseDuration()
+  {
+    return $this->totalPauseDuration;
   }
 }
 

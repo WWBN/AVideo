@@ -327,11 +327,11 @@ class YPTWallet extends PluginAbstract
 
     /**
      *
-     * @param type $users_id
-     * @param type $value
-     * @param type $description
-     * @param type $json_data
-     * @param type $mainWallet_user_id A user ID where the money comes from and where the money goes for
+     * @param string $users_id
+     * @param string $value
+     * @param string $description
+     * @param string $json_data
+     * @param string $mainWallet_user_id A user ID where the money comes from and where the money goes for
      */
     public function addBalance($users_id, $value, $description = "", $json_data = "{}", $mainWallet_user_id = 0, $noNotExchangeValue = false)
     {
@@ -684,8 +684,8 @@ class YPTWallet extends PluginAbstract
 
     /**
      *
-     * @param type $wallet_log_id
-     * @param type $new_status
+     * @param string $wallet_log_id
+     * @param string $new_status
      * return true if balance is enought
      */
     public function processStatus($wallet_log_id, $new_status)

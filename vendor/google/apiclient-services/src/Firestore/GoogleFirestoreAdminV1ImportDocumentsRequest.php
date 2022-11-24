@@ -19,7 +19,7 @@ namespace Google\Service\Firestore;
 
 class GoogleFirestoreAdminV1ImportDocumentsRequest extends \Google\Collection
 {
-  protected $collection_key = 'collectionIds';
+  protected $collection_key = 'namespaceIds';
   /**
    * @var string[]
    */
@@ -28,6 +28,10 @@ class GoogleFirestoreAdminV1ImportDocumentsRequest extends \Google\Collection
    * @var string
    */
   public $inputUriPrefix;
+  /**
+   * @var string[]
+   */
+  public $namespaceIds;
 
   /**
    * @param string[]
@@ -56,6 +60,20 @@ class GoogleFirestoreAdminV1ImportDocumentsRequest extends \Google\Collection
   public function getInputUriPrefix()
   {
     return $this->inputUriPrefix;
+  }
+  /**
+   * @param string[]
+   */
+  public function setNamespaceIds($namespaceIds)
+  {
+    $this->namespaceIds = $namespaceIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getNamespaceIds()
+  {
+    return $this->namespaceIds;
   }
 }
 

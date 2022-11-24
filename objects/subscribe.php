@@ -161,9 +161,9 @@ class Subscribe extends ObjectYPT{
 
     /**
      * return all subscribers that has subscribe to an user channel
-     * @global type $global
-     * @param type $user_id
-     * @return boolean
+     * @global array $global
+     * @param string $user_id
+     * @return array
      */
     public static function getAllSubscribes($user_id = "", $status = "a", $verifiedOnly = false)
     {
@@ -217,11 +217,10 @@ class Subscribe extends ObjectYPT{
                     $subscribe[] = $row;
                 }
                 //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
+                ObjectYPT::setCache($cacheName, $subscribe);
             } else {
-                $subscribe = false;
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
-            ObjectYPT::setCache($cacheName, $subscribe);
         } else {
             $subscribe = object_to_array($subscribe);
         }
@@ -230,8 +229,8 @@ class Subscribe extends ObjectYPT{
 
     /**
      * return all channels that a user has subscribed
-     * @global type $global
-     * @param type $user_id
+     * @global array $global
+     * @param string $user_id
      * @return boolean
      */
     public static function getSubscribedChannels($user_id, $limit = 0, $page = 0)
@@ -290,10 +289,7 @@ class Subscribe extends ObjectYPT{
                 $subscribe[] = $row;
             }
             //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
-        } else {
-            $subscribe = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $subscribe;
     }
 

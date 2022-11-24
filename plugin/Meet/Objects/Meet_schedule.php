@@ -61,7 +61,7 @@ class Meet_schedule extends ObjectYPT {
      * Public = 2
      * Logged Users Only = 1
      * Specific User Groups = 0
-     * @return type
+     * @return string
      */
     public function setPublic($public) {
         $this->public = intval($public);
@@ -111,7 +111,7 @@ class Meet_schedule extends ObjectYPT {
      * Public = 2
      * Logged Users Only = 1
      * Specific User Groups = 0
-     * @return type
+     * @return string
      */
     public function getPublic() {
         return intval($this->public);

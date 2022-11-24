@@ -18,6 +18,7 @@
 namespace Google\Service\DisplayVideo\Resource;
 
 use Google\Service\DisplayVideo\AssignedTargetingOption;
+use Google\Service\DisplayVideo\DisplayvideoEmpty;
 use Google\Service\DisplayVideo\ListInsertionOrderAssignedTargetingOptionsResponse;
 
 /**
@@ -30,6 +31,82 @@ use Google\Service\DisplayVideo\ListInsertionOrderAssignedTargetingOptionsRespon
  */
 class AdvertisersInsertionOrdersTargetingTypesAssignedTargetingOptions extends \Google\Service\Resource
 {
+  /**
+   * Assigns a targeting option to an insertion order. Returns the assigned
+   * targeting option if successful. Supported targeting types: *
+   * `TARGETING_TYPE_AGE_RANGE` * `TARGETING_TYPE_BROWSER` *
+   * `TARGETING_TYPE_CATEGORY` * `TARGETING_TYPE_CHANNEL` *
+   * `TARGETING_TYPE_DEVICE_MAKE_MODEL` *
+   * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` *
+   * `TARGETING_TYPE_ENVIRONMENT` * `TARGETING_TYPE_GENDER` *
+   * `TARGETING_TYPE_KEYWORD` * `TARGETING_TYPE_LANGUAGE` *
+   * `TARGETING_TYPE_NEGATIVE_KEYWORD_LIST` * `TARGETING_TYPE_OPERATING_SYSTEM` *
+   * `TARGETING_TYPE_PARENTAL_STATUS` *
+   * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_VIEWABILITY`
+   * (assignedTargetingOptions.create)
+   *
+   * @param string $advertiserId Required. The ID of the advertiser the insertion
+   * order belongs to.
+   * @param string $insertionOrderId Required. The ID of the insertion order the
+   * assigned targeting option will belong to.
+   * @param string $targetingType Required. Identifies the type of this assigned
+   * targeting option. Supported targeting types: * `TARGETING_TYPE_AGE_RANGE` *
+   * `TARGETING_TYPE_BROWSER` * `TARGETING_TYPE_CATEGORY` *
+   * `TARGETING_TYPE_CHANNEL` * `TARGETING_TYPE_DEVICE_MAKE_MODEL` *
+   * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` *
+   * `TARGETING_TYPE_ENVIRONMENT` * `TARGETING_TYPE_GENDER` *
+   * `TARGETING_TYPE_KEYWORD` * `TARGETING_TYPE_LANGUAGE` *
+   * `TARGETING_TYPE_NEGATIVE_KEYWORD_LIST` * `TARGETING_TYPE_OPERATING_SYSTEM` *
+   * `TARGETING_TYPE_PARENTAL_STATUS` *
+   * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_VIEWABILITY`
+   * @param AssignedTargetingOption $postBody
+   * @param array $optParams Optional parameters.
+   * @return AssignedTargetingOption
+   */
+  public function create($advertiserId, $insertionOrderId, $targetingType, AssignedTargetingOption $postBody, $optParams = [])
+  {
+    $params = ['advertiserId' => $advertiserId, 'insertionOrderId' => $insertionOrderId, 'targetingType' => $targetingType, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], AssignedTargetingOption::class);
+  }
+  /**
+   * Deletes an assigned targeting option from an insertion order. Supported
+   * targeting types: * `TARGETING_TYPE_AGE_RANGE` * `TARGETING_TYPE_BROWSER` *
+   * `TARGETING_TYPE_CATEGORY` * `TARGETING_TYPE_CHANNEL` *
+   * `TARGETING_TYPE_DEVICE_MAKE_MODEL` *
+   * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` *
+   * `TARGETING_TYPE_ENVIRONMENT` * `TARGETING_TYPE_GENDER` *
+   * `TARGETING_TYPE_KEYWORD` * `TARGETING_TYPE_LANGUAGE` *
+   * `TARGETING_TYPE_NEGATIVE_KEYWORD_LIST` * `TARGETING_TYPE_OPERATING_SYSTEM` *
+   * `TARGETING_TYPE_PARENTAL_STATUS` *
+   * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_VIEWABILITY`
+   * (assignedTargetingOptions.delete)
+   *
+   * @param string $advertiserId Required. The ID of the advertiser the insertion
+   * order belongs to.
+   * @param string $insertionOrderId Required. The ID of the insertion order the
+   * assigned targeting option belongs to.
+   * @param string $targetingType Required. Identifies the type of this assigned
+   * targeting option. Supported targeting types: * `TARGETING_TYPE_AGE_RANGE` *
+   * `TARGETING_TYPE_BROWSER` * `TARGETING_TYPE_CATEGORY` *
+   * `TARGETING_TYPE_CHANNEL` * `TARGETING_TYPE_DEVICE_MAKE_MODEL` *
+   * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` *
+   * `TARGETING_TYPE_ENVIRONMENT` * `TARGETING_TYPE_GENDER` *
+   * `TARGETING_TYPE_KEYWORD` * `TARGETING_TYPE_LANGUAGE` *
+   * `TARGETING_TYPE_NEGATIVE_KEYWORD_LIST` * `TARGETING_TYPE_OPERATING_SYSTEM` *
+   * `TARGETING_TYPE_PARENTAL_STATUS` *
+   * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_VIEWABILITY`
+   * @param string $assignedTargetingOptionId Required. The ID of the assigned
+   * targeting option to delete.
+   * @param array $optParams Optional parameters.
+   * @return DisplayvideoEmpty
+   */
+  public function delete($advertiserId, $insertionOrderId, $targetingType, $assignedTargetingOptionId, $optParams = [])
+  {
+    $params = ['advertiserId' => $advertiserId, 'insertionOrderId' => $insertionOrderId, 'targetingType' => $targetingType, 'assignedTargetingOptionId' => $assignedTargetingOptionId];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], DisplayvideoEmpty::class);
+  }
   /**
    * Gets a single targeting option assigned to an insertion order.
    * (assignedTargetingOptions.get)

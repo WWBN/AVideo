@@ -38,11 +38,11 @@ class VolumeSnapshot extends \Google\Model
   /**
    * @var string
    */
-  public $sizeBytes;
+  public $storageVolume;
   /**
    * @var string
    */
-  public $storageVolume;
+  public $type;
 
   /**
    * @param string
@@ -103,20 +103,6 @@ class VolumeSnapshot extends \Google\Model
   /**
    * @param string
    */
-  public function setSizeBytes($sizeBytes)
-  {
-    $this->sizeBytes = $sizeBytes;
-  }
-  /**
-   * @return string
-   */
-  public function getSizeBytes()
-  {
-    return $this->sizeBytes;
-  }
-  /**
-   * @param string
-   */
   public function setStorageVolume($storageVolume)
   {
     $this->storageVolume = $storageVolume;
@@ -127,6 +113,20 @@ class VolumeSnapshot extends \Google\Model
   public function getStorageVolume()
   {
     return $this->storageVolume;
+  }
+  /**
+   * @param string
+   */
+  public function setType($type)
+  {
+    $this->type = $type;
+  }
+  /**
+   * @return string
+   */
+  public function getType()
+  {
+    return $this->type;
   }
 }
 

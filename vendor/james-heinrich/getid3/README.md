@@ -152,7 +152,15 @@ Requirements
 * at least 4MB memory for PHP. 8MB or more is highly recommended.
   12MB is required with all modules loaded.
 
+Installation
+===
+The preferred method is via [composer](https://getcomposer.org/). Follow the installation [instructions](https://getcomposer.org/doc/00-intro.md) if you do not already have composer installed.
 
+Once composer is installed, execute the following command in your project root to install this library:
+
+```
+composer require james-heinrich/getid3
+```
 
 Usage
 ===

@@ -217,15 +217,38 @@ class ProjectsInstancesTables extends \Google\Service\Resource
     return $this->call('modifyColumnFamilies', [$params], Table::class);
   }
   /**
-   * Create a new table by restoring from a completed backup. The new table must
-   * be in the same project as the instance containing the backup. The returned
-   * table long-running operation can be used to track the progress of the
-   * operation, and to cancel it. The metadata field type is RestoreTableMetadata.
-   * The response type is Table, if successful. (tables.restore)
+   * Updates a specified table. (tables.patch)
+   *
+   * @param string $name The unique name of the table. Values are of the form
+   * `projects/{project}/instances/{instance}/tables/_a-zA-Z0-9*`. Views:
+   * `NAME_ONLY`, `SCHEMA_VIEW`, `REPLICATION_VIEW`, `STATS_VIEW`, `FULL`
+   * @param Table $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The list of fields to update. A mask
+   * specifying which fields (e.g. `change_stream_config`) in the `table` field
+   * should be updated. This mask is relative to the `table` field, not to the
+   * request message. The wildcard (*) path is currently not supported. Currently
+   * UpdateTable is only supported for the following fields: *
+   * `change_stream_config` * `change_stream_config.retention_period` *
+   * `deletion_protection` If `column_families` is set in `update_mask`, it will
+   * return an UNIMPLEMENTED error.
+   * @return Operation
+   */
+  public function patch($name, Table $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * Create a new table by restoring from a completed backup. The returned table
+   * long-running operation can be used to track the progress of the operation,
+   * and to cancel it. The metadata field type is RestoreTableMetadata. The
+   * response type is Table, if successful. (tables.restore)
    *
    * @param string $parent Required. The name of the instance in which to create
-   * the restored table. This instance must be in the same project as the source
-   * backup. Values are of the form `projects//instances/`.
+   * the restored table. Values are of the form `projects//instances/`.
    * @param RestoreTableRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation

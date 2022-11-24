@@ -97,7 +97,7 @@ class Chromeosdevices extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool includeChildOrgunits Return devices from all child orgunits,
-   * as well as the specified org unit. If this is set to true 'orgUnitPath' must
+   * as well as the specified org unit. If this is set to true, 'orgUnitPath' must
    * be provided.
    * @opt_param int maxResults Maximum number of results to return.
    * @opt_param string orderBy Device property to use for sorting results.

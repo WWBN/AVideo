@@ -112,6 +112,15 @@ class SettingsDatasources extends \Google\Service\Resource
    *
    * @opt_param bool debugOptions.enableDebugging If you are asked by Google to
    * help with debugging, set this field. Otherwise, ignore this field.
+   * @opt_param string updateMask Only applies to
+   * [`settings.datasources.patch`](https://developers.google.com/cloud-
+   * search/docs/reference/rest/v1/settings.datasources/patch). Update mask to
+   * control which fields to update. Example field paths: `name`, `displayName`. *
+   * If `update_mask` is non-empty, then only the fields specified in the
+   * `update_mask` are updated. * If you specify a field in the `update_mask`, but
+   * don't specify its value in the source, that field is cleared. * If the
+   * `update_mask` is not present or empty or has the value `*`, then all fields
+   * are updated.
    * @return Operation
    */
   public function patch($name, DataSource $postBody, $optParams = [])

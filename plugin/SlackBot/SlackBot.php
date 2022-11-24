@@ -91,6 +91,7 @@ class SlackBot extends PluginAbstract
 
                 if ($slackChannel != "") {
                     //Send the message to the user as a slack bot if the slack channel was returned for the users email
+                    $paylod = new stdClass();
                     $paylod->text     = $username . " just uploaded a video\nVideo Name: " . $videoName . "\nVideo Link: " . $videoLink . "\nVideo Duration: " . $videoDuration;
                     $paylod->channel  = $slackChannel;
                     $message          = json_encode($paylod);

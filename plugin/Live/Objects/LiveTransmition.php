@@ -57,6 +57,10 @@ class LiveTransmition extends ObjectYPT
         return $this->categories_id;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function getKey()
     {
         return $this->key;
@@ -204,7 +208,6 @@ class LiveTransmition extends ObjectYPT
     {
         global $global;
         _mysql_connect();
-        $userName = ($userName);
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", [$userName], true);
         $data = sqlDAL::fetchAssoc($res);
@@ -224,7 +227,6 @@ class LiveTransmition extends ObjectYPT
     {
         global $global;
         _mysql_connect();
-        $channelName = ($channelName);
         $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "s", [$channelName], true);
         $data = sqlDAL::fetchAssoc($res);
@@ -355,9 +357,7 @@ class LiveTransmition extends ObjectYPT
             foreach ($fullData as $row) {
                 $rows[] = $row["users_groups_id"];
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 

@@ -33,23 +33,23 @@ use Google\Service\DisplayVideo\Partner;
 class Partners extends \Google\Service\Resource
 {
   /**
-   * Bulk edits targeting options under a single partner. The operation will
-   * delete the assigned targeting options provided in
+   * Edits targeting options under a single partner. The operation will delete the
+   * assigned targeting options provided in
    * BulkEditPartnerAssignedTargetingOptionsRequest.deleteRequests and then create
    * the assigned targeting options provided in
    * BulkEditPartnerAssignedTargetingOptionsRequest.createRequests .
-   * (partners.bulkEditPartnerAssignedTargetingOptions)
+   * (partners.editAssignedTargetingOptions)
    *
    * @param string $partnerId Required. The ID of the partner.
    * @param BulkEditPartnerAssignedTargetingOptionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BulkEditPartnerAssignedTargetingOptionsResponse
    */
-  public function bulkEditPartnerAssignedTargetingOptions($partnerId, BulkEditPartnerAssignedTargetingOptionsRequest $postBody, $optParams = [])
+  public function editAssignedTargetingOptions($partnerId, BulkEditPartnerAssignedTargetingOptionsRequest $postBody, $optParams = [])
   {
     $params = ['partnerId' => $partnerId, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('bulkEditPartnerAssignedTargetingOptions', [$params], BulkEditPartnerAssignedTargetingOptionsResponse::class);
+    return $this->call('editAssignedTargetingOptions', [$params], BulkEditPartnerAssignedTargetingOptionsResponse::class);
   }
   /**
    * Gets a partner. (partners.get)
@@ -82,7 +82,7 @@ class Partners extends \Google\Service\Resource
    * are: * `displayName` The default sorting order is ascending. To specify
    * descending order for a field, a suffix "desc" should be added to the field
    * name. For example, `displayName desc`.
-   * @opt_param int pageSize Requested page size. Must be between `1` and `100`.
+   * @opt_param int pageSize Requested page size. Must be between `1` and `200`.
    * If unspecified will default to `100`.
    * @opt_param string pageToken A token identifying a page of results the server
    * should return. Typically, this is the value of next_page_token returned from

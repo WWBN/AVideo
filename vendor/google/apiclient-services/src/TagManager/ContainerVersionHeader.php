@@ -50,6 +50,10 @@ class ContainerVersionHeader extends \Google\Model
   /**
    * @var string
    */
+  public $numGtagConfigs;
+  /**
+   * @var string
+   */
   public $numMacros;
   /**
    * @var string
@@ -173,6 +177,20 @@ class ContainerVersionHeader extends \Google\Model
   public function getNumCustomTemplates()
   {
     return $this->numCustomTemplates;
+  }
+  /**
+   * @param string
+   */
+  public function setNumGtagConfigs($numGtagConfigs)
+  {
+    $this->numGtagConfigs = $numGtagConfigs;
+  }
+  /**
+   * @return string
+   */
+  public function getNumGtagConfigs()
+  {
+    return $this->numGtagConfigs;
   }
   /**
    * @param string

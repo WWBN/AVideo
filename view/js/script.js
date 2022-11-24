@@ -44,7 +44,7 @@ try {
             if (!height) {
                 height = $('body').height();
             }
-            parent.postMessage({height: height}, '*');
+            parent.postMessage({ height: height }, '*');
         }
     }, false);
 
@@ -306,8 +306,8 @@ function changeVideoSrc(vid_obj, source) {
     for (i = 0; i < source.length; i++) {
         if (source[i].type) {
             if (source[i].type === "application/x-mpegURL") {
-// it is HLS cancel it
-//return false;
+                // it is HLS cancel it
+                //return false;
                 autoLoad = false;
             }
             srcs.push(source[i]);
@@ -451,7 +451,7 @@ async function mouseEffect() {
         var gif = $(this).find(".thumbsGIF");
         var jpg = $(this).find(".thumbsJPG");
         try {
-            gif.lazy({effect: 'fadeIn'});
+            gif.lazy({ effect: 'fadeIn' });
             setTimeout(function () {
                 gif.height(jpg.height());
                 gif.width(jpg.width());
@@ -558,9 +558,9 @@ async function addViewFromCookie() {
     var addView_playerCurrentTime = Cookies.get('addView_playerCurrentTime');
     var addView_seconds_watching_video = Cookies.get('addView_seconds_watching_video');
     if (!addView_PHPSESSID || addView_PHPSESSID === 'false' ||
-            !addView_videos_id || addView_videos_id === 'false' ||
-            !addView_playerCurrentTime || addView_playerCurrentTime === 'false' ||
-            !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
+        !addView_videos_id || addView_videos_id === 'false' ||
+        !addView_playerCurrentTime || addView_playerCurrentTime === 'false' ||
+        !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
         return false;
     }
     //console.log('addViewFromCookie', addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
@@ -580,7 +580,7 @@ async function addViewFromCookie() {
 }
 
 async function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds_watching_video) {
-////console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video, new Error().stack);
+    ////console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video, new Error().stack);
     Cookies.set('addView_PHPSESSID', PHPSESSID, {
         path: '/',
         expires: 1
@@ -611,7 +611,7 @@ function getPlayerButtonIndex(name) {
 
 async function copyToClipboard(text) {
     $('body').append('<textarea id="elementToCopyAvideo" style="filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0; opacity: 0;position: absolute;z-index: -9999;top: 0;left: 0;pointer-events: none;"></textarea>');
-    $('#elementToCopyAvideo').css({'top': mouseY, 'left': 0}).fadeIn('slow');
+    $('#elementToCopyAvideo').css({ 'top': mouseY, 'left': 0 }).fadeIn('slow');
     $('#elementToCopyAvideo').val(text);
     $('#elementToCopyAvideo').focus();
     $('#elementToCopyAvideo').select();
@@ -860,7 +860,7 @@ async function showMuteTooltip() {
         $("#mainVideo .vjs-volume-panel").attr("data-toggle", "tooltip");
         $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
         $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
-        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar', html: true});
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({ container: '.vjs-control-bar', html: true });
         $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
         $("#mainVideo .vjs-volume-panel").click(function () {
             //console.log("remove unmute tooltip");
@@ -1009,9 +1009,9 @@ function formatBytes(bytes, decimals) {
     if (bytes == 0)
         return '0 Bytes';
     var k = 1024,
-            dm = decimals <= 0 ? 0 : decimals || 2,
-            sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-            i = Math.floor(Math.log(bytes) / Math.log(k));
+        dm = decimals <= 0 ? 0 : decimals || 2,
+        sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+        i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
@@ -1165,31 +1165,31 @@ function isAutoplayEnabled() {
         consoleLog("isAutoplayEnabled always autoplay live contents");
         return true;
     } else
-    if ($("#autoplay").length) {
-        autoplay = $("#autoplay").is(":checked");
-        consoleLog("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
-        setAutoplay(autoplay);
-        return autoplay;
-    } else if (
-            typeof Cookies !== 'undefined' &&
-            typeof Cookies.get('autoplay') !== 'undefined'
-            ) {
-        if (Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true) {
-            consoleLog("isAutoplayEnabled Cookie said Yes ");
-            setAutoplay(true);
-            return true;
-        } else {
-            consoleLog("isAutoplayEnabled Cookie said No ");
-            setAutoplay(false);
-            return false;
-        }
-    } else {
-        if (typeof autoplay !== 'undefined') {
-            consoleLog("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
+        if ($("#autoplay").length) {
+            autoplay = $("#autoplay").is(":checked");
+            consoleLog("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
             setAutoplay(autoplay);
             return autoplay;
+        } else if (
+            typeof Cookies !== 'undefined' &&
+            typeof Cookies.get('autoplay') !== 'undefined'
+        ) {
+            if (Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true) {
+                consoleLog("isAutoplayEnabled Cookie said Yes ");
+                setAutoplay(true);
+                return true;
+            } else {
+                consoleLog("isAutoplayEnabled Cookie said No ");
+                setAutoplay(false);
+                return false;
+            }
+        } else {
+            if (typeof autoplay !== 'undefined') {
+                consoleLog("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
+                setAutoplay(autoplay);
+                return autoplay;
+            }
         }
-    }
     setAutoplay(false);
     consoleLog("isAutoplayEnabled Default is No ");
     return false;
@@ -1308,7 +1308,7 @@ function avideoAlertOnceForceConfirm(title, msg, type) {
 }
 
 function _avideoToast(msg, icon) {
-    var options = {text: msg, hideAfter: 7000};
+    var options = { text: msg, hideAfter: 7000 };
     if (icon) {
         options.icon = icon;
     }
@@ -1502,7 +1502,7 @@ function avideoWindowIframe(url) {
     html += '</div>';
     html += '</div>';
     $('body').append(html);
-    $("#draggable").draggable({handle: ".panel-heading", containment: "parent"});
+    $("#draggable").draggable({ handle: ".panel-heading", containment: "parent" });
     //$( "div, p" ).disableSelection();
     $("#draggable").resizable();
 }
@@ -1628,12 +1628,12 @@ function avideoPushState(url) {
 }
 
 function checkIframeLoaded(id) {
-// Get a handle to the iframe element
+    // Get a handle to the iframe element
     var iframe = document.getElementById(id);
     var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
     // Check if loading is complete
     if (iframeDoc.readyState == 'complete') {
-//iframe.contentWindow.alert("Hello");
+        //iframe.contentWindow.alert("Hello");
         iframe.contentWindow.onload = function () {
             alert("I am loaded");
         };
@@ -1642,7 +1642,7 @@ function checkIframeLoaded(id) {
         return;
     }
 
-// If we are here, it is not loaded. Set things up so we check   the status again in 100 milliseconds
+    // If we are here, it is not loaded. Set things up so we check   the status again in 100 milliseconds
     window.setTimeout(checkIframeLoaded, 100);
 }
 
@@ -1730,7 +1730,7 @@ function avideoTooltip(selector, text) {
     $(selector).attr('title', text);
     $(selector).attr('data-toggle', 'tooltip');
     $(selector).attr('data-original-title', text);
-    $(selector).tooltip({html: true});
+    $(selector).tooltip({ html: true });
 }
 
 function fixAdSize() {
@@ -1738,8 +1738,8 @@ function fixAdSize() {
     if (ad_container.length) {
         height = ad_container.css('height');
         width = ad_container.css('width');
-        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'height': height});
-        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'width': width});
+        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({ 'height': height });
+        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({ 'width': width });
     }
 }
 
@@ -1861,11 +1861,11 @@ function clearCache(showPleaseWait, FirstPage, sessionOnly) {
 
 function validURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-            '(\\:\\d+)?(\\/[-a-z\\d%_.~+:]*)*' + // port and path
-            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+:]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return !!pattern.test(str);
 }
 
@@ -2116,11 +2116,11 @@ function removeDuplicatedGetParam(_url) {
         return _url;
     }
     var params = queryParam.split('&'),
-            results = {};
+        results = {};
     for (var i = 0; i < params.length; i++) {
         var temp = params[i].split('='),
-                key = temp[0],
-                val = temp[1];
+            key = temp[0],
+            val = temp[1];
         results[key] = val;
     }
 
@@ -2138,11 +2138,11 @@ function removeGetParam(_url, parameter) {
         return _url;
     }
     var params = queryParam.split('&'),
-            results = {};
+        results = {};
     for (var i = 0; i < params.length; i++) {
         var temp = params[i].split('='),
-                key = temp[0],
-                val = temp[1];
+            key = temp[0],
+            val = temp[1];
         if (key !== parameter) {
             results[key] = val;
         }
@@ -2180,7 +2180,7 @@ function readFileCroppie(input, crop) {
 
 function getCroppie(uploadCropObject, callback, width, height) {
     //console.log('getCroppie 1', uploadCropObject);
-    var ret = uploadCropObject.croppie('result', {type: 'base64', size: {width: width, height: height}, format: 'png'}).then(function (resp) {
+    var ret = uploadCropObject.croppie('result', { type: 'base64', size: { width: width, height: height }, format: 'png' }).then(function (resp) {
         ////console.log('getCroppie 2 ' + callback, resp);
         eval(callback + "(resp);");
     }).catch(function (err) {
@@ -2196,7 +2196,7 @@ async function setToolTips() {
         return false;
     }
     try {
-        $(selector).not('.alreadyTooltip').tooltip({container: 'body', html: true});
+        $(selector).not('.alreadyTooltip').tooltip({ container: 'body', html: true });
         $(selector).not('.alreadyTooltip').on('click', function () {
             var t = this;
             setTimeout(function () {
@@ -2228,17 +2228,17 @@ function avideoSocketIsActive() {
 function isMediaSiteURL(url) {
     if (validURL(url)) {
         if (url.match(/youtube/i) ||
-                url.match(/youtu\.be/i) ||
-                url.match(/vimeo/i) ||
-                url.match(/dailymotion/i) ||
-                url.match(/metacafe/i) ||
-                url.match(/vid\.me/i) ||
-                url.match(/rutube\.ru/i) ||
-                url.match(/ok\.ru/i) ||
-                url.match(/streamable/i) ||
-                url.match(/twitch/i) ||
-                url.match(/evideoEmbed/i) ||
-                url.match(/videoEmbeded/i)) {
+            url.match(/youtu\.be/i) ||
+            url.match(/vimeo/i) ||
+            url.match(/dailymotion/i) ||
+            url.match(/metacafe/i) ||
+            url.match(/vid\.me/i) ||
+            url.match(/rutube\.ru/i) ||
+            url.match(/ok\.ru/i) ||
+            url.match(/streamable/i) ||
+            url.match(/twitch/i) ||
+            url.match(/evideoEmbed/i) ||
+            url.match(/videoEmbeded/i)) {
             return true;
         }
     }
@@ -2255,7 +2255,7 @@ function changeVideoStatus(videos_id, status) {
     modal.showPleaseWait();
     $.ajax({
         url: webSiteRootURL + 'objects/videoStatus.json.php',
-        data: {"id": [videos_id], "status": status},
+        data: { "id": [videos_id], "status": status },
         type: 'post',
         success: function (response) {
             modal.hidePleaseWait();
@@ -2302,7 +2302,7 @@ function isPlayerUserActive() {
 }
 
 eventer('beforeunload', function (e) {
-////console.log('window.addEventListener(beforeunload');
+    ////console.log('window.addEventListener(beforeunload');
     _addViewAsync();
 }, false);
 eventer('visibilitychange', function () {
@@ -2359,65 +2359,65 @@ function downloadURL(url, filename) {
     var loaded = 0;
     var contentLength = 0;
     fetch(url)
-            .then(response => {
-                avideoToastSuccess('Download Start');
-                const contentEncoding = response.headers.get('content-encoding');
-                const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
-                if (contentLength === null) {
-                    throw Error('Response size header unavailable');
-                }
+        .then(response => {
+            avideoToastSuccess('Download Start');
+            const contentEncoding = response.headers.get('content-encoding');
+            const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
+            if (contentLength === null) {
+                throw Error('Response size header unavailable');
+            }
 
-                const total = parseInt(contentLength, 10);
-                let loaded = 0;
-                return new Response(
-                        new ReadableStream({
-                            start(controller) {
-                                const reader = response.body.getReader();
-                                read();
-                                function read() {
-                                    reader.read().then(({done, value}) => {
-                                        if (done) {
-                                            controller.close();
-                                            return;
-                                        }
-                                        loaded += value.byteLength;
-                                        var percentageLoaded = Math.round(loaded / total * 100);
-                                        ////console.log(percentageLoaded);
-                                        modal.setProgress(percentageLoaded);
-                                        modal.setText('Downloading ... ' + percentageLoaded + '%');
-                                        controller.enqueue(value);
-                                        read();
-                                    }).catch(error => {
-                                        console.error(error);
-                                        controller.error(error)
-                                    })
+            const total = parseInt(contentLength, 10);
+            let loaded = 0;
+            return new Response(
+                new ReadableStream({
+                    start(controller) {
+                        const reader = response.body.getReader();
+                        read();
+                        function read() {
+                            reader.read().then(({ done, value }) => {
+                                if (done) {
+                                    controller.close();
+                                    return;
                                 }
-                            }
-                        })
-                        );
-            })
-            .then(response => response.blob())
-            .then(blob => {
-                const urlFromBlob = window.URL.createObjectURL(blob);
-                console.log('downloadURL', url, filename, blob);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = urlFromBlob;
-                // the filename you want
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                modal.hidePleaseWait();
-                avideoToastSuccess('Download complete ' + filename);
-            })
-            .catch(function (err) {
-                //avideoAlertError('Error on download ');
-                console.log(err);
-                addQueryStringParameter(url, 'download', 1);
-                addQueryStringParameter(url, 'title', filename);
-                document.location = url;
-            });
+                                loaded += value.byteLength;
+                                var percentageLoaded = Math.round(loaded / total * 100);
+                                ////console.log(percentageLoaded);
+                                modal.setProgress(percentageLoaded);
+                                modal.setText('Downloading ... ' + percentageLoaded + '%');
+                                controller.enqueue(value);
+                                read();
+                            }).catch(error => {
+                                console.error(error);
+                                controller.error(error)
+                            })
+                        }
+                    }
+                })
+            );
+        })
+        .then(response => response.blob())
+        .then(blob => {
+            const urlFromBlob = window.URL.createObjectURL(blob);
+            console.log('downloadURL', url, filename, blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = urlFromBlob;
+            // the filename you want
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            modal.hidePleaseWait();
+            avideoToastSuccess('Download complete ' + filename);
+        })
+        .catch(function (err) {
+            //avideoAlertError('Error on download ');
+            console.log(err);
+            addQueryStringParameter(url, 'download', 1);
+            addQueryStringParameter(url, 'title', filename);
+            document.location = url;
+        });
 }
 
 var downloadURLOrAlertErrorInterval;
@@ -2444,9 +2444,9 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
                     avideoAlertInfo(response.msg);
                 }
                 if (
-                        isMobile()
-                        //|| /cdn.ypt.me/.test(response.url)
-                        ) {
+                    isMobile()
+                    //|| /cdn.ypt.me/.test(response.url)
+                ) {
                     window.open(response.url, '_blank');
                     avideoToastInfo('Opening file');
                     //document.location = response.url
@@ -2633,7 +2633,7 @@ function getCursorPos(input) {
                 len++;
             }
             rng.setEndPoint("StartToStart", input.createTextRange());
-            for (var pos = {start: 0, end: len}; rng.compareEndPoints("EndToStart", rng) > 0; rng.moveEnd("character", -1)) {
+            for (var pos = { start: 0, end: len }; rng.compareEndPoints("EndToStart", rng) > 0; rng.moveEnd("character", -1)) {
                 pos.start++;
                 pos.end++;
             }
@@ -2680,10 +2680,10 @@ function addAtMention(selector) {
     $(selector).on("keydown", function (event) {
         if (!$(this).autocomplete("instance").menu.active) {
             if (
-                    event.keyCode === SpaceKeyCode ||
-                    event.keyCode === $.ui.keyCode.TAB ||
-                    event.keyCode === $.ui.keyCode.ENTER ||
-                    event.keyCode === $.ui.keyCode.ESCAPE) {
+                event.keyCode === SpaceKeyCode ||
+                event.keyCode === $.ui.keyCode.TAB ||
+                event.keyCode === $.ui.keyCode.ENTER ||
+                event.keyCode === $.ui.keyCode.ESCAPE) {
                 $(this).autocomplete("close");
             }
         } else {
@@ -2692,77 +2692,77 @@ function addAtMention(selector) {
             }
         }
     })
-            .autocomplete({
-                minLength: 2,
-                source: function (request, response) {
+        .autocomplete({
+            minLength: 2,
+            source: function (request, response) {
 
-                    var pos = getCursorPos($(selector)[0]);
-                    stringStart = request.term.substring(0, pos.end);
+                var pos = getCursorPos($(selector)[0]);
+                stringStart = request.term.substring(0, pos.end);
 
-                    var term = stringStart.split(/\s+/).pop();
-                    //console.log('autocomplete', request.term, term, AtMatcher.test(term));
-                    if (AtMatcher.test(term)) {
-                        $.ajax({
-                            url: webSiteRootURL + "objects/mention.json.php",
-                            data: {
-                                term: term
-                            },
-                            success: function (data) {
-                                response(data);
-                            }
-                        });
-                    } else {
-                        return false;
-                    }
-                },
-                focus: function () {
-                    // prevent value inserted on focus
+                var term = stringStart.split(/\s+/).pop();
+                //console.log('autocomplete', request.term, term, AtMatcher.test(term));
+                if (AtMatcher.test(term)) {
+                    $.ajax({
+                        url: webSiteRootURL + "objects/mention.json.php",
+                        data: {
+                            term: term
+                        },
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                } else {
                     return false;
-                },
-                select: function (event, ui) {
-                    addAtMentionActive = true;
+                }
+            },
+            focus: function () {
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function (event, ui) {
+                addAtMentionActive = true;
+                setTimeout(function () {
+                    addAtMentionActive = false;
+                }, 200);
+                if (emojioneArea) {
+                    this.value = $(emojioneArea).data("emojioneArea").getText();
+                }
+                //console.log('addAtMention', this, this.value);
+                var pos = getCursorPos($(selector)[0]);
+                stringStart = this.value.substring(0, pos.end);
+                stringEnd = this.value.substring(pos.end);
+
+                var terms = stringStart.split(/\s+/);
+                // remove the current input
+                var word = terms.pop();
+                // add the selected item
+                //terms.push('@' + ui.item.value);
+                // add placeholder to get the comma-and-space at the end
+                //terms.push("");
+                replace = '@' + ui.item.value;
+
+                this.value = replaceLast(word, '@' + ui.item.value, stringStart) + stringEnd;
+                if (emojioneArea) {
+                    $(emojioneArea).data("emojioneArea").setText(this.value);
                     setTimeout(function () {
-                        addAtMentionActive = false;
-                    }, 200);
-                    if (emojioneArea) {
-                        this.value = $(emojioneArea).data("emojioneArea").getText();
-                    }
-                    //console.log('addAtMention', this, this.value);
-                    var pos = getCursorPos($(selector)[0]);
-                    stringStart = this.value.substring(0, pos.end);
-                    stringEnd = this.value.substring(pos.end);
-
-                    var terms = stringStart.split(/\s+/);
-                    // remove the current input
-                    var word = terms.pop();
-                    // add the selected item
-                    //terms.push('@' + ui.item.value);
-                    // add placeholder to get the comma-and-space at the end
-                    //terms.push("");
-                    replace = '@' + ui.item.value;
-
-                    this.value = replaceLast(word, '@' + ui.item.value, stringStart) + stringEnd;
-                    if (emojioneArea) {
-                        $(emojioneArea).data("emojioneArea").setText(this.value);
-                        setTimeout(function () {
-                            contentEditableElement = document.getElementsByClassName("emojionearea-editor")[0];
-                            range = document.createRange();//Create a range (a range is a like the selection but invisible)
-                            range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
-                            range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
-                            selection = window.getSelection();//get the selection object (allows you to change selection)
-                            selection.removeAllRanges();//remove any selections already made
-                            selection.addRange(range);//make the range you have just created the visible selection
-                        }, 50);
-                    }
-                    return false;
-                },
-                create: function () {
-                    $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
-                        return $('<li>' + item.label + '</li>').appendTo(ul); // customize your HTML
-                    };
-                },
-                position: {collision: "flip"}
-            });
+                        contentEditableElement = document.getElementsByClassName("emojionearea-editor")[0];
+                        range = document.createRange();//Create a range (a range is a like the selection but invisible)
+                        range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
+                        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+                        selection = window.getSelection();//get the selection object (allows you to change selection)
+                        selection.removeAllRanges();//remove any selections already made
+                        selection.addRange(range);//make the range you have just created the visible selection
+                    }, 50);
+                }
+                return false;
+            },
+            create: function () {
+                $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+                    return $('<li>' + item.label + '</li>').appendTo(ul); // customize your HTML
+                };
+            },
+            position: { collision: "flip" }
+        });
 }
 /*
  async function selectAElements() {
@@ -3023,8 +3023,8 @@ function fixAdSize() {
     if (ad_container.length) {
         height = ad_container.css('height');
         width = ad_container.css('width');
-        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'height': height});
-        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'width': width});
+        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({ 'height': height });
+        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({ 'width': width });
     }
 }
 
@@ -3309,7 +3309,7 @@ function passStrengthCheck(selector) {
     } else {
         strengthMsg.push('Special chars');
     }
-    return {strength: strength, strengthMsg: strengthMsg};
+    return { strength: strength, strengthMsg: strengthMsg };
 }
 
 function passStrengthCheckInput(selector) {
@@ -3454,7 +3454,7 @@ async function setVideoSuggested(videos_id, isSuggested) {
     return new Promise((resolve, reject) => {
         $.ajax({
             url: webSiteRootURL + 'objects/videoSuggest.php',
-            data: {"id": videos_id, "isSuggested": isSuggested},
+            data: { "id": videos_id, "isSuggested": isSuggested },
             type: 'post',
             success: function (data) {
                 modal.hidePleaseWait();
@@ -3671,13 +3671,20 @@ function addScript(src) {
     }
 }
 
-function avideoLogoff(){
+function avideoLogoff() {
     sendAVideoMobileLiveStreamerMessage('logoff', '');
-    document.location = webSiteRootURL+'logoff';
+    document.location = webSiteRootURL + 'logoff';
 }
 
-function sendAVideoMobileLiveStreamerMessage(type, value){
-    if(window.AVideoMobileLiveStreamer){
-        window.AVideoMobileLiveStreamer.postMessage({type:type, value:value});
+function sendAVideoMobileLiveStreamerMessage(type, value) {
+    if (window.AVideoMobileLiveStreamer) {
+        window.AVideoMobileLiveStreamer.postMessage({ type: type, value: value });
     }
+}
+function getUser() {
+    var url = webSiteRootURL + 'plugin/API/get.json.php?APIName=user';
+    return $.ajax({
+        url: url,
+        async: false
+    }).responseText;
 }

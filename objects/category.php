@@ -181,7 +181,14 @@ class Category {
             return false;
         }
     }
-
+    /**
+     * 
+     * @param string $clean_title
+     * @param int $count
+     * @param int $id
+     * @param string $original_title
+     * @return string
+     */
     public static function fixCleanTitle($clean_title, $count, $id, $original_title = "") {
         global $global;
 

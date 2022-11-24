@@ -52,18 +52,12 @@ if ($isMyChannel) {
             <li><a href="<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php?playlist_id=<?php echo $program['id']; ?>&sort=4"><i class="fas fa-sort-numeric-down-alt"></i> <?php echo __("Created Date"); ?> Desc 9-0</a></li>
         </ul>
     </div>
-    <div class="dropdown" style="display: inline-block;">
-        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-            <i class="fas fa-rss-square"></i> 
-            <span class="hidden-xs hidden-sm"><?php echo __("Feed"); ?></span>
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-            <li><a href="<?php echo $global['webSiteRootURL']; ?>feed/?program_id=<?php echo $program['id']; ?>" target="_blank">RSS</a></li>
-            <li><a href="<?php echo $global['webSiteRootURL']; ?>mrss/?program_id=<?php echo $program['id']; ?>" target="_blank">MRSS</a></li>
-            <li><a href="<?php echo $global['webSiteRootURL']; ?>roku.json?program_id=<?php echo $program['id']; ?>" target="_blank">Roku</a></li>
-        </ul>
-    </div>
+    <?php 
+    $rss =  "{$global['webSiteRootURL']}feed/?program_id={$program['id']}";
+    $mrss =  "{$global['webSiteRootURL']}mrss/?program_id={$program['id']}";
+    $roku =  "{$global['webSiteRootURL']}roku.json/?program_id={$program['id']}";
+    echo getFeedButton($rss, $mrss, $roku);
+    ?>
     <div class="pull-right btn-group"  style="display: inline-flex;">
         <?php
         echo PlayLists::getShowOnTVSwitch($program['id']);

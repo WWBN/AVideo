@@ -22,6 +22,10 @@ class UserName extends \Google\Model
   /**
    * @var string
    */
+  public $displayName;
+  /**
+   * @var string
+   */
   public $familyName;
   /**
    * @var string
@@ -32,6 +36,20 @@ class UserName extends \Google\Model
    */
   public $givenName;
 
+  /**
+   * @param string
+   */
+  public function setDisplayName($displayName)
+  {
+    $this->displayName = $displayName;
+  }
+  /**
+   * @return string
+   */
+  public function getDisplayName()
+  {
+    return $this->displayName;
+  }
   /**
    * @param string
    */

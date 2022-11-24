@@ -110,6 +110,10 @@ class JobStatistics2 extends \Google\Collection
    * @var string
    */
   public $totalSlotMs;
+  /**
+   * @var string
+   */
+  public $transferredBytes;
   protected $undeclaredQueryParametersType = QueryParameter::class;
   protected $undeclaredQueryParametersDataType = 'array';
 
@@ -546,6 +550,20 @@ class JobStatistics2 extends \Google\Collection
   public function getTotalSlotMs()
   {
     return $this->totalSlotMs;
+  }
+  /**
+   * @param string
+   */
+  public function setTransferredBytes($transferredBytes)
+  {
+    $this->transferredBytes = $transferredBytes;
+  }
+  /**
+   * @return string
+   */
+  public function getTransferredBytes()
+  {
+    return $this->transferredBytes;
   }
   /**
    * @param QueryParameter[]

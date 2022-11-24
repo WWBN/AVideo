@@ -6,7 +6,7 @@ $AVideoStreamer_UA = "AVideoStreamer";
 $AVideoStorage_UA = "AVideoStorage";
 $mysql_connect_was_closed = 1;
 
-if(!isset($global) || !is_array($global)){
+if (!isset($global) || !is_array($global)) {
     $global = array();
 }
 
@@ -141,10 +141,10 @@ function humanTiming($time, $precision = 0, $useDatabaseTime = true, $addAgo = f
 
 /**
  *
- * @param type $time
- * @param type $precision
- * @param type $useDatabaseTime good if you are checking the created time
- * @return type
+ * @param string $time
+ * @param string $precision
+ * @param string $useDatabaseTime good if you are checking the created time
+ * @return string
  */
 function humanTimingAgo($time, $precision = 0, $useDatabaseTime = true) {
     $time = secondsIntervalFromNow($time, $useDatabaseTime);
@@ -318,10 +318,6 @@ function check_memory_limit() {
     $max_size = parse_size(ini_get('memory_limit'));
     $recomended_size = parse_size('512M');
     return ($recomended_size <= $max_size);
-}
-
-function check_mysqlnd() {
-    return function_exists('mysqli_fetch_all');
 }
 
 function base64DataToImage($imgBase64) {
@@ -521,13 +517,13 @@ function secondsToDuration($seconds) {
 
 /**
  *
- * @global type $global
- * @param type $mail
+ * @global array $global
+ * @param string $mail
  * call it before send mail to let AVideo decide the method
  */
 function setSiteSendMessage(\PHPMailer\PHPMailer\PHPMailer &$mail) {
     global $global;
-    if(empty($mail)){
+    if (empty($mail)) {
         $mail = new \PHPMailer\PHPMailer\PHPMailer();
     }
     if (empty($_POST["comment"])) {
@@ -741,7 +737,7 @@ function sendEmailToSiteOwner($subject, $message) {
         if (!$resp) {
             _error_log("sendEmailToSiteOwner Error Info: {$mail->ErrorInfo}");
         } else {
-            _error_log("sendEmailToSiteOwner Success Info: $subject " );
+            _error_log("sendEmailToSiteOwner Success Info: $subject ");
         }
         return $resp;
     } catch (Exception $e) {
@@ -1591,8 +1587,8 @@ function getSources($fileName, $returnArray = false, $try = 0) {
 
 /**
  *
- * @param type $file_src
- * @return typeget image size with cache
+ * @param string $file_src
+ * @return array get image size with cache
  */
 function getimgsize($file_src) {
     global $_getimagesize;
@@ -1943,19 +1939,48 @@ function im_resizeV3($file_src, $file_dest, $wd, $hd) {
     exec($ffmpeg . " < /dev/null 2>&1", $output, $return_val);
 }
 
-if(false){
-    class Imagick{
+if (false) {
+
+    class Imagick {
+
         const FILTER_BOX = 1;
-        function getImageFormat(){return '';}
-        function coalesceImages(){return new Imagick();}
-        function nextImage(){return true;}
-        function resizeImage(){}
-        function deconstructImages(){return new Imagick();}
-        function clear(){}
-        function destroy(){}
-        function writeImages(){}
+
+        function getImageFormat() {
+            return '';
+        }
+
+        function coalesceImages() {
+            return new Imagick();
+        }
+
+        function nextImage() {
+            return true;
+        }
+
+        function resizeImage() {
+            
+        }
+
+        function deconstructImages() {
+            return new Imagick();
+        }
+
+        function clear() {
+            
+        }
+
+        function destroy() {
+            
+        }
+
+        function writeImages() {
+            
+        }
+
     }
+
 }
+
 function im_resize_gif($file_src, $file_dest, $max_width, $max_height) {
     if (class_exists('Imagick')) {
         $imagick = new Imagick($file_src);
@@ -2260,9 +2285,9 @@ function make_path($path) {
 
 /**
  * for security clean all non secure files from directory
- * @param type $dir
- * @param type $allowedExtensions
- * @return type
+ * @param string $dir
+ * @param string $allowedExtensions
+ * @return string
  */
 function cleanDirectory($dir, $allowedExtensions = ['key', 'm3u8', 'ts', 'vtt', 'jpg', 'gif', 'mp3', 'webm', 'webp']) {
     $ffs = scandir($dir);
@@ -2283,29 +2308,6 @@ function cleanDirectory($dir, $allowedExtensions = ['key', 'm3u8', 'ts', 'vtt', 
         $path_parts = pathinfo($current);
         if (!empty($path_parts['extension']) && !in_array($path_parts['extension'], $allowedExtensions)) {
             unlink($current);
-        }
-    }
-}
-
-function decideFile_put_contentsToVideos($tmp_name, $filename) {
-    global $global;
-    $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
-    $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
-    $ftp = AVideoPlugin::loadPluginIfEnabled('FTP_Storage');
-    if (!empty($bb_b2)) {
-        return $bb_b2->move_uploaded_file($tmp_name, $filename);
-    } elseif (!empty($aws_s3)) {
-        return $aws_s3->move_uploaded_file($tmp_name, $filename);
-    } elseif (!empty($ftp)) {
-        return $ftp->move_uploaded_file($tmp_name, $filename);
-    } else {
-        $path = Video::getPathToFile($filename);
-        if (!move_uploaded_file($tmp_name, $path)) {
-            $msg = "Error on move_uploaded_file({$tmp_name}, {$filename})";
-            _error_log($msg);
-            return false;
-        }else{
-            return true;
         }
     }
 }
@@ -2936,9 +2938,9 @@ function isBot() {
 
 /**
  * A function that could get me the last N lines of a log file.
- * @param type $filepath
- * @param type $lines
- * @param type $adaptive
+ * @param string $filepath
+ * @param string $lines
+ * @param string $adaptive
  * @return boolean
  */
 function tail($filepath, $lines = 1, $adaptive = true, $returnArray = false) {
@@ -3046,32 +3048,6 @@ function encryptPasswordVerify($password, $hash, $encodedPass = false) {
         }
     }
     return $isValid;
-}
-
-function encryptPasswordV2($uniqueSalt, $password, $noSalt = false) {
-    global $advancedCustom, $global, $advancedCustomUser;
-    if (!empty($advancedCustomUser->encryptPasswordsWithSalt) && !empty($global['salt']) && empty($noSalt)) {
-        $password .= $global['salt'];
-    }
-    $password .= md5($uniqueSalt);
-    return md5(hash("whirlpool", sha1($password)));
-}
-
-function encryptPasswordVerifyV2($uniqueSalt, $password, $hash, $encodedPass = false) {
-    global $advancedCustom, $global;
-    if (!$encodedPass || $encodedPass === 'false') {
-        //_error_log("encryptPasswordVerify: encrypt");
-        $passwordSalted = encryptPasswordV2($uniqueSalt, $password);
-        // in case you enable the salt later
-        $passwordUnSalted = encryptPasswordV2($uniqueSalt, $password, true);
-    } else {
-        //_error_log("encryptPasswordVerify: do not encrypt");
-        $passwordSalted = $password;
-        // in case you enable the salt later
-        $passwordUnSalted = $password;
-    }
-    //_error_log("passwordSalted = $passwordSalted,  hash=$hash, passwordUnSalted=$passwordUnSalted");
-    return $passwordSalted === $hash || $passwordUnSalted === $hash || $password === $hash;
 }
 
 function isMobile($userAgent = null, $httpHeaders = null) {
@@ -3299,6 +3275,10 @@ function removeQueryStringParameter($url, $varname) {
  * @return string
  */
 function addQueryStringParameter($url, $varname, $value) {
+    if ($value === null || $value === '') {
+        return removeQueryStringParameter($url, $varname);
+    }
+
     $parsedUrl = parse_url($url);
     if (empty($parsedUrl['host'])) {
         return "";
@@ -3550,7 +3530,7 @@ function siteMap() {
     $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideosLight(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
-    if(empty($rows) || !is_array($rows)){
+    if (empty($rows) || !is_array($rows)) {
         $rows = array();
     }
     _error_log("siteMap: getAllVideos " . count($rows));
@@ -4437,20 +4417,37 @@ function _mysql_connect($persistent = false) {
     }
 }
 
+function _mysql_commit() {
+    global $global;
+    if (_mysql_is_open()) {
+        try {
+            /**
+             * 
+             * @var array $global
+             * @var object $global['mysqli'] 
+             */
+            @$global['mysqli']->commit();
+        } catch (Exception $exc) {
+            
+        }
+        //$global['mysqli'] = false;
+    }
+}
+
 function _mysql_close() {
     global $global, $mysql_connect_was_closed;
     if (_mysql_is_open()) {
         //_error_log('MySQL Closed '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $mysql_connect_was_closed = 1;
-        try{
+        try {
             /**
              * 
              * @var array $global
              * @var object $global['mysqli'] 
              */
             @$global['mysqli']->close();
-        }catch(Exception $exc){
-
+        } catch (Exception $exc) {
+            
         }
         //$global['mysqli'] = false;
     }
@@ -6114,7 +6111,7 @@ function examineJSONError($object) {
 
 function _json_encode_utf8($object) {
     $object = object_to_array($object);
-    if(!is_array($object)){
+    if (!is_array($object)) {
         return false;
     }
     $objectEncoded = $object;
@@ -6135,25 +6132,25 @@ function _json_encode($object) {
     if (is_string($object)) {
         return $object;
     }
-    
-    if(!empty($_json_encode_force_utf8)){
+
+    if (!empty($_json_encode_force_utf8)) {
         $json = _json_encode_utf8($object);
-        if(!empty($json)){
+        if (!empty($json)) {
             return $json;
         }
     }
-    
+
     $json = json_encode($object);
     $errors = array();
     if (empty($json) && json_last_error()) {
-        if(preg_match('/Malformed UTF-8 characters/i', json_last_error_msg())){
+        if (preg_match('/Malformed UTF-8 characters/i', json_last_error_msg())) {
             $json = _json_encode_utf8($object);
-            if(!empty($json)){
+            if (!empty($json)) {
                 $_json_encode_force_utf8 = 1;
                 return $json;
             }
         }
-        
+
         $errors[] = "_json_encode: Error 1 Found: " . json_last_error_msg();
         //_error_log("_json_encode: Error 1 Found: " . json_last_error_msg());
         $object = object_to_array($object);
@@ -6167,13 +6164,13 @@ function _json_encode($object) {
                 $json = _json_encode_utf8($object);
                 if (empty($json) && json_last_error()) {
                     $errors[] = "_json_encode: Error 4 Found: " . json_last_error_msg();
-                }else{
+                } else {
                     $_json_encode_force_utf8 = 1;
                 }
             }
         }
     }
-    if(empty($json) && !empty($errors)){
+    if (empty($json) && !empty($errors)) {
         foreach ($errors as $value) {
             _error_log($value);
         }
@@ -6434,10 +6431,10 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
 define('E_FATAL', E_ERROR | E_USER_ERROR | E_PARSE | E_CORE_ERROR |
         E_COMPILE_ERROR | E_RECOVERABLE_ERROR);
 if (!isCommandLineInterface() && !isAVideoEncoder()) {
-    register_shutdown_function('avidoeShutdown');
+    register_shutdown_function('avideoShutdown');
 }
 
-function avidoeShutdown() {
+function avideoShutdown() {
     global $global;
     $error = error_get_last();
     if ($error && ($error['type'] & E_FATAL)) {
@@ -6671,7 +6668,7 @@ function _unsetcookie($cookieName) {
 
 /**
  * This function is not 100% but try to tell if the site is in an iFrame
- * @global type $global
+ * @global array $global
  * @return boolean
  */
 function isIframeInDifferentDomain() {
@@ -6975,8 +6972,8 @@ function getServerClock() {
 
 /**
  * Xsendfile and FFMPEG are required for this feature
- * @global type $global
- * @param type $filepath
+ * @global array $global
+ * @param string $filepath
  * @return boolean
  */
 function downloadHLS($filepath) {
@@ -7868,7 +7865,7 @@ function getLiveVideosFromCategory($categories_id) {
         foreach ($stats["applications"] as $key => $value) {
             if (empty($value['categories_id']) || $categories_id != $value['categories_id']) {
                 continue;
-            }            
+            }
             $videos[] = getLiveVideosObject($value);
         }
     }
@@ -8379,16 +8376,18 @@ function fixPath($path, $addLastSlash = false) {
     return $path;
 }
 
-if(false){
-    function openssl_cipher_key_length(){
+if (false) {
+
+    function openssl_cipher_key_length() {
         return 0;
     }
+
 }
 
-function getHashMethodsAndInfo(){
+function getHashMethodsAndInfo() {
     global $global, $_getHashMethod;
-    
-    if(empty($_getHashMethod)){    
+
+    if (empty($_getHashMethod)) {
         if (empty($global['salt'])) {
             $global['salt'] = '11234567890abcdef';
         }
@@ -8401,23 +8400,22 @@ function getHashMethodsAndInfo(){
             $cipher_algo = 'rc4';
         }
         $cipher_methods = openssl_get_cipher_methods();
-        if(!in_array($cipher_algo, $cipher_methods)){
+        if (!in_array($cipher_algo, $cipher_methods)) {
             $base = 32;
             $cipher_algo = $cipher_methods[0];
         }
 
-        $ivlen  = openssl_cipher_iv_length($cipher_algo);
-        if(function_exists('openssl_cipher_key_length')){
+        $ivlen = openssl_cipher_iv_length($cipher_algo);
+        if (function_exists('openssl_cipher_key_length')) {
             $keylen = openssl_cipher_key_length($cipher_algo);
-        }else{
+        } else {
             $keylen = $ivlen;
         }
 
         $iv = substr($saltMD5, 0, $ivlen);
         $key = substr($saltMD5, 0, $keylen);
 
-        $_getHashMethod = array('cipher_algo'=>$cipher_algo, 'iv'=>$iv, 'key'=>$key, 'base'=>$base);
-
+        $_getHashMethod = array('cipher_algo' => $cipher_algo, 'iv' => $iv, 'key' => $key, 'base' => $base);
     }
     return $_getHashMethod;
 }
@@ -8432,13 +8430,13 @@ function idToHash($id) {
     if (!empty($_idToHash[$id])) {
         return $_idToHash[$id];
     }
-    
+
     $MethodsAndInfo = getHashMethodsAndInfo();
     $cipher_algo = $MethodsAndInfo['cipher_algo'];
     $iv = $MethodsAndInfo['iv'];
     $key = $MethodsAndInfo['key'];
     $base = $MethodsAndInfo['base'];
-    
+
     if (empty($global['salt'])) {
         $global['salt'] = '11234567890abcdef';
     }
@@ -8447,9 +8445,9 @@ function idToHash($id) {
     //$hash = preg_replace('/^([+]+)/', '', $hash);
     $hash = preg_replace('/(=+)$/', '', $hash);
     $hash = str_replace(['/', '+', '='], ['_', '-', '.'], $hash);
-    if(empty($hash)){
-        _error_log('idToHash error: '.openssl_error_string().PHP_EOL. json_encode(array('id'=>$id, 'cipher_algo'=>$cipher_algo, 'base'=>$base, 'idConverted'=>$idConverted, 'hash'=>$hash, 'iv'=>$iv)));
-        if(!empty($global['useLongHash'])){
+    if (empty($hash)) {
+        _error_log('idToHash error: ' . openssl_error_string() . PHP_EOL . json_encode(array('id' => $id, 'cipher_algo' => $cipher_algo, 'base' => $base, 'idConverted' => $idConverted, 'hash' => $hash, 'iv' => $iv)));
+        if (!empty($global['useLongHash'])) {
             $global['useLongHash'] = 0;
             return idToHash($id);
         }
@@ -8462,13 +8460,13 @@ function idToHash($id) {
 function hashToID($hash) {
     global $global;
     $hash = str_replace(['_', '-', '.'], ['/', '+', '='], $hash);
-    
+
     $MethodsAndInfo = getHashMethodsAndInfo();
     $cipher_algo = $MethodsAndInfo['cipher_algo'];
     $iv = $MethodsAndInfo['iv'];
     $key = $MethodsAndInfo['key'];
     $base = $MethodsAndInfo['base'];
-    
+
     //$hash = base64_decode($hash);
     $decrypt = @openssl_decrypt($hash, $cipher_algo, $key, 0, $iv);
     $decrypt = base_convert($decrypt, $base, 10);
@@ -8495,10 +8493,10 @@ function videosHashToID($hash_of_videos_id) {
 /**
  *
  * @global type $advancedCustom
- * @global type $global
+ * @global array $global
  * @global type $_getCDNURL
- * @param type $type enum(CDN, CDN_S3,CDN_B2,CDN_FTP,CDN_YPTStorage,CDN_Live,CDN_LiveServers)
- * @param type $id the ID of the URL in case the CDN is an array
+ * @param string $type enum(CDN, CDN_S3,CDN_B2,CDN_FTP,CDN_YPTStorage,CDN_Live,CDN_LiveServers)
+ * @param string $id the ID of the URL in case the CDN is an array
  * @return \type
  */
 function getCDN($type = 'CDN', $id = 0) {
@@ -8856,9 +8854,9 @@ function seconds2human($ss) {
 
 /**
  * convert a time in a timezone into my time
- * @param type $time
- * @param type $timezone
- * @return type
+ * @param string $time
+ * @param string $timezone
+ * @return string
  */
 function getTimeInTimezone($time, $timezone) {
     if (!is_numeric($time)) {
@@ -9390,8 +9388,8 @@ function getValidCrontabLines() {
 
 /**
  * 
- * @param type $strOrArray 
- * @return type return an array with the valid emails. 
+ * @param string $strOrArray 
+ * @return string return an array with the valid emails. 
  */
 function is_email($strOrArray) {
     if (empty($strOrArray)) {
@@ -9414,11 +9412,11 @@ function is_email($strOrArray) {
 
 /**
  * https://codepen.io/ainalem/pen/LJYRxz
- * @global type $global
- * @param type $id
- * @param type $type 1 to 8 [1=x, 2=<-, 3=close, 4=x, 5=<-, 6=x, 7=x, 8=x]
- * @param type $parameters
- * @return type
+ * @global array $global
+ * @param string $id
+ * @param string $type 1 to 8 [1=x, 2=<-, 3=close, 4=x, 5=<-, 6=x, 7=x, 8=x]
+ * @param string $parameters
+ * @return string
  */
 function getHamburgerButton($id = '', $type = 0, $parameters = 'class="btn btn-default hamburger"', $startActive = false, $invert = false) {
     global $global;
@@ -9601,7 +9599,7 @@ function getExtension($link) {
 /**
  * It return true in case the $html_string is a string 'false' (good for post/get variables check)
  * It also return true in case it is an empty HTML
- * @param type $html_string
+ * @param string $html_string
  * @return boolean
  */
 function _empty($html_string) {
@@ -9667,7 +9665,7 @@ function fileIsAnValidImage($filepath) {
 
 /**
  * return true if de file was deleted or does not exits and false if the file still present on the system
- * @param type $filepath
+ * @param string $filepath
  * @return boolean
  */
 function deleteInvalidImage($filepath) {
@@ -9784,4 +9782,25 @@ function getIframePaths() {
     }
 
     return array('relative' => $relativeSRC, 'url' => $url, 'path' => "{$global['systemRootPath']}{$relativeSRC}", 'modeYoutube' => $modeYoutube);
+}
+
+function getFeedButton($rss, $mrss, $roku) {
+    $buttons = '<div class="dropdown feedDropdown" style="display: inline-block;" data-toggle="tooltip" title="' . __("Feed") . '">
+        <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+            <i class="fas fa-rss-square"></i> 
+            <span class="hidden-xs hidden-sm">' . __("Feed") . '</span>
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">';
+    if (isValidURL($rss)) {
+        $buttons .= '<li><a href="' . $rss . '" target="_blank">RSS</a></li>';
+    }
+    if (isValidURL($mrss)) {
+        $buttons .= '<li><a href="' . $mrss . '" target="_blank">MRSS</a></li>';
+    }
+    if (isValidURL($roku)) {
+        $buttons .= '<li><a href="' . $roku . '" target="_blank">Roku</a></li>';
+    }
+    $buttons .= '</ul></div>';
+    return $buttons;
 }

@@ -32,7 +32,7 @@ use Google\Service\CloudRun\GoogleLongrunningOperation;
 class ProjectsLocationsServicesRevisions extends \Google\Service\Resource
 {
   /**
-   * Delete a Revision. (revisions.delete)
+   * Deletes a Revision. (revisions.delete)
    *
    * @param string $name Required. The name of the Revision to delete. Format: pro
    * jects/{project}/locations/{location}/services/{service}/revisions/{revision}
@@ -65,7 +65,7 @@ class ProjectsLocationsServicesRevisions extends \Google\Service\Resource
     return $this->call('get', [$params], GoogleCloudRunV2Revision::class);
   }
   /**
-   * List Revisions from a given Service, or from a given location.
+   * Lists Revisions from a given Service, or from a given location.
    * (revisions.listProjectsLocationsServicesRevisions)
    *
    * @param string $parent Required. The Service from which the Revisions should

@@ -55,10 +55,11 @@ class ProjectsLocationsCatalogs extends \Google\Service\Resource
    * [guidelines](https://cloud.google.com/retail/docs/completion-overview
    * #generated-completion-dataset).
    * @opt_param string deviceType The device type context for completion
-   * suggestions. It is useful to apply different suggestions on different device
-   * types, e.g. `DESKTOP`, `MOBILE`. If it is empty, the suggestions are across
-   * all device types. Supported formats: * `UNKNOWN_DEVICE_TYPE` * `DESKTOP` *
-   * `MOBILE` * A customized string starts with `OTHER_`, e.g. `OTHER_IPHONE`.
+   * suggestions. We recommend that you leave this field empty. It can apply
+   * different suggestions on different device types, e.g. `DESKTOP`, `MOBILE`. If
+   * it is empty, the suggestions are across all device types. Supported formats:
+   * * `UNKNOWN_DEVICE_TYPE` * `DESKTOP` * `MOBILE` * A customized string starts
+   * with `OTHER_`, e.g. `OTHER_IPHONE`.
    * @opt_param string languageCodes Note that this field applies for `user-data`
    * dataset only. For requests with `cloud-retail` dataset, setting this field
    * has no effect. The language filters applied to the output suggestions. If

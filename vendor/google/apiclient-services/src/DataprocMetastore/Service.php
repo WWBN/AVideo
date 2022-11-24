@@ -75,6 +75,8 @@ class Service extends \Google\Model
    * @var string
    */
   public $stateMessage;
+  protected $telemetryConfigType = TelemetryConfig::class;
+  protected $telemetryConfigDataType = '';
   /**
    * @var string
    */
@@ -325,6 +327,20 @@ class Service extends \Google\Model
   public function getStateMessage()
   {
     return $this->stateMessage;
+  }
+  /**
+   * @param TelemetryConfig
+   */
+  public function setTelemetryConfig(TelemetryConfig $telemetryConfig)
+  {
+    $this->telemetryConfig = $telemetryConfig;
+  }
+  /**
+   * @return TelemetryConfig
+   */
+  public function getTelemetryConfig()
+  {
+    return $this->telemetryConfig;
   }
   /**
    * @param string

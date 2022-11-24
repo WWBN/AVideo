@@ -34,7 +34,9 @@ use Google\Service\AndroidManagement\Operation;
 class EnterprisesDevices extends \Google\Service\Resource
 {
   /**
-   * Deletes a device. This operation wipes the device. (devices.delete)
+   * Deletes a device. This operation wipes the device. Deleted devices do not
+   * show up in enterprises.devices.list calls and a 404 is returned from
+   * enterprises.devices.get. (devices.delete)
    *
    * @param string $name The name of the device in the form
    * enterprises/{enterpriseId}/devices/{deviceId}.
@@ -55,7 +57,7 @@ class EnterprisesDevices extends \Google\Service\Resource
     return $this->call('delete', [$params], AndroidmanagementEmpty::class);
   }
   /**
-   * Gets a device. (devices.get)
+   * Gets a device. Deleted devices will respond with a 404 error. (devices.get)
    *
    * @param string $name The name of the device in the form
    * enterprises/{enterpriseId}/devices/{deviceId}.
@@ -86,7 +88,8 @@ class EnterprisesDevices extends \Google\Service\Resource
     return $this->call('issueCommand', [$params], Operation::class);
   }
   /**
-   * Lists devices for a given enterprise. (devices.listEnterprisesDevices)
+   * Lists devices for a given enterprise. Deleted devices are not returned in the
+   * response. (devices.listEnterprisesDevices)
    *
    * @param string $parent The name of the enterprise in the form
    * enterprises/{enterpriseId}.

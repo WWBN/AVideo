@@ -20,10 +20,28 @@ namespace Google\Service\Container;
 class LinuxNodeConfig extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $cgroupMode;
+  /**
    * @var string[]
    */
   public $sysctls;
 
+  /**
+   * @param string
+   */
+  public function setCgroupMode($cgroupMode)
+  {
+    $this->cgroupMode = $cgroupMode;
+  }
+  /**
+   * @return string
+   */
+  public function getCgroupMode()
+  {
+    return $this->cgroupMode;
+  }
   /**
    * @param string[]
    */

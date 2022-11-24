@@ -32,10 +32,11 @@ use Google\Service\CloudRun\GoogleLongrunningOperation;
 class ProjectsLocationsJobsExecutions extends \Google\Service\Resource
 {
   /**
-   * Delete an Execution. (executions.delete)
+   * Deletes an Execution. (executions.delete)
    *
    * @param string $name Required. The name of the Execution to delete. Format:
-   * projects/{project}/locations/{location}/jobs/{job}/executions/{execution}
+   * projects/{project}/locations/{location}/jobs/{job}/executions/{execution},
+   * where {project} can be project id or number.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string etag A system-generated fingerprint for this version of the
@@ -51,10 +52,11 @@ class ProjectsLocationsJobsExecutions extends \Google\Service\Resource
     return $this->call('delete', [$params], GoogleLongrunningOperation::class);
   }
   /**
-   * Gets information about a Execution. (executions.get)
+   * Gets information about an Execution. (executions.get)
    *
    * @param string $name Required. The full name of the Execution. Format:
-   * projects/{project}/locations/{location}/jobs/{job}/executions/{execution}
+   * projects/{project}/locations/{location}/jobs/{job}/executions/{execution},
+   * where {project} can be project id or number.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRunV2Execution
    */
@@ -65,11 +67,12 @@ class ProjectsLocationsJobsExecutions extends \Google\Service\Resource
     return $this->call('get', [$params], GoogleCloudRunV2Execution::class);
   }
   /**
-   * List Executions from a Job. (executions.listProjectsLocationsJobsExecutions)
+   * Lists Executions from a Job. (executions.listProjectsLocationsJobsExecutions)
    *
    * @param string $parent Required. The Execution from which the Executions
    * should be listed. To list all Executions across Jobs, use "-" instead of Job
-   * name. Format: projects/{project}/locations/{location}/jobs/{job}
+   * name. Format: projects/{project}/locations/{location}/jobs/{job}, where
+   * {project} can be project id or number.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Maximum number of Executions to return in this call.

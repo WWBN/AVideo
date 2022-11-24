@@ -26,6 +26,10 @@ class Roster extends \Google\Model
   protected $idType = RosterId::class;
   protected $idDataType = '';
   /**
+   * @var bool
+   */
+  public $isMembershipVisibleToCaller;
+  /**
    * @var int
    */
   public $membershipCount;
@@ -71,6 +75,20 @@ class Roster extends \Google\Model
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsMembershipVisibleToCaller($isMembershipVisibleToCaller)
+  {
+    $this->isMembershipVisibleToCaller = $isMembershipVisibleToCaller;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsMembershipVisibleToCaller()
+  {
+    return $this->isMembershipVisibleToCaller;
   }
   /**
    * @param int

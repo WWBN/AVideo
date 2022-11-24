@@ -26,6 +26,10 @@ class RegionalTaxRateInfo extends \Google\Model
   /**
    * @var string
    */
+  public $streamingTaxType;
+  /**
+   * @var string
+   */
   public $taxTier;
 
   /**
@@ -41,6 +45,20 @@ class RegionalTaxRateInfo extends \Google\Model
   public function getEligibleForStreamingServiceTaxRate()
   {
     return $this->eligibleForStreamingServiceTaxRate;
+  }
+  /**
+   * @param string
+   */
+  public function setStreamingTaxType($streamingTaxType)
+  {
+    $this->streamingTaxType = $streamingTaxType;
+  }
+  /**
+   * @return string
+   */
+  public function getStreamingTaxType()
+  {
+    return $this->streamingTaxType;
   }
   /**
    * @param string

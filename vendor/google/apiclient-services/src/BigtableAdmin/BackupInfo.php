@@ -30,6 +30,10 @@ class BackupInfo extends \Google\Model
   /**
    * @var string
    */
+  public $sourceBackup;
+  /**
+   * @var string
+   */
   public $sourceTable;
   /**
    * @var string
@@ -63,6 +67,20 @@ class BackupInfo extends \Google\Model
   public function getEndTime()
   {
     return $this->endTime;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceBackup($sourceBackup)
+  {
+    $this->sourceBackup = $sourceBackup;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceBackup()
+  {
+    return $this->sourceBackup;
   }
   /**
    * @param string

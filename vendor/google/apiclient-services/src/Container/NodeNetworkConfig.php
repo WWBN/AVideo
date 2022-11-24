@@ -23,6 +23,10 @@ class NodeNetworkConfig extends \Google\Model
    * @var bool
    */
   public $createPodRange;
+  /**
+   * @var bool
+   */
+  public $enablePrivateNodes;
   protected $networkPerformanceConfigType = NetworkPerformanceConfig::class;
   protected $networkPerformanceConfigDataType = '';
   /**
@@ -47,6 +51,20 @@ class NodeNetworkConfig extends \Google\Model
   public function getCreatePodRange()
   {
     return $this->createPodRange;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnablePrivateNodes($enablePrivateNodes)
+  {
+    $this->enablePrivateNodes = $enablePrivateNodes;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnablePrivateNodes()
+  {
+    return $this->enablePrivateNodes;
   }
   /**
    * @param NetworkPerformanceConfig

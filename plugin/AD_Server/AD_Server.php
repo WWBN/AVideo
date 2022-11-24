@@ -22,7 +22,7 @@ class AD_Server extends PluginAbstract {
     }
 
     public function getDescription() {
-        return "VAST Ad Server<br><small><a href='https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $desc = "VAST Ad Server<br><small><a href='https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
     }
 
     public function getName() {
@@ -118,7 +118,7 @@ class AD_Server extends PluginAbstract {
                     _error_log("AD_Server:addVideoIdIntoCampaignId videos_id NOT found {$videos_id}");
                 }
             } else {
-                _error_log("AD_Server:addVideoIdIntoCampaignId autoAddNewVideosInCampaignId NOT found " . json_encode($obj->autoAddNewVideosInCampaignId));
+                _error_log("AD_Server:addVideoIdIntoCampaignId autoAddNewVideosInCampaignId NOT found ");
             }
         } else {
             _error_log("AD_Server:addVideoIdIntoCampaignId is disabled");

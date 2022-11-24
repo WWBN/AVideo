@@ -17,6 +17,8 @@
 
 namespace Google\Service\TPU\Resource;
 
+use Google\Service\TPU\GenerateServiceIdentityRequest;
+use Google\Service\TPU\GenerateServiceIdentityResponse;
 use Google\Service\TPU\ListLocationsResponse;
 use Google\Service\TPU\Location;
 
@@ -30,6 +32,21 @@ use Google\Service\TPU\Location;
  */
 class ProjectsLocations extends \Google\Service\Resource
 {
+  /**
+   * Generates the Cloud TPU service identity for the project.
+   * (locations.generateServiceIdentity)
+   *
+   * @param string $parent Required. The parent resource name.
+   * @param GenerateServiceIdentityRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GenerateServiceIdentityResponse
+   */
+  public function generateServiceIdentity($parent, GenerateServiceIdentityRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('generateServiceIdentity', [$params], GenerateServiceIdentityResponse::class);
+  }
   /**
    * Gets information about a location. (locations.get)
    *

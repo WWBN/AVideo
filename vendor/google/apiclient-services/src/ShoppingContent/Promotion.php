@@ -19,7 +19,7 @@ namespace Google\Service\ShoppingContent;
 
 class Promotion extends \Google\Collection
 {
-  protected $collection_key = 'shippingServiceNames';
+  protected $collection_key = 'storeCodeExclusion';
   /**
    * @var string[]
    */
@@ -139,6 +139,10 @@ class Promotion extends \Google\Collection
    */
   public $promotionId;
   /**
+   * @var string
+   */
+  public $promotionUrl;
+  /**
    * @var string[]
    */
   public $redemptionChannel;
@@ -146,6 +150,18 @@ class Promotion extends \Google\Collection
    * @var string[]
    */
   public $shippingServiceNames;
+  /**
+   * @var string
+   */
+  public $storeApplicability;
+  /**
+   * @var string[]
+   */
+  public $storeCode;
+  /**
+   * @var string[]
+   */
+  public $storeCodeExclusion;
   /**
    * @var string
    */
@@ -614,6 +630,20 @@ class Promotion extends \Google\Collection
     return $this->promotionId;
   }
   /**
+   * @param string
+   */
+  public function setPromotionUrl($promotionUrl)
+  {
+    $this->promotionUrl = $promotionUrl;
+  }
+  /**
+   * @return string
+   */
+  public function getPromotionUrl()
+  {
+    return $this->promotionUrl;
+  }
+  /**
    * @param string[]
    */
   public function setRedemptionChannel($redemptionChannel)
@@ -640,6 +670,48 @@ class Promotion extends \Google\Collection
   public function getShippingServiceNames()
   {
     return $this->shippingServiceNames;
+  }
+  /**
+   * @param string
+   */
+  public function setStoreApplicability($storeApplicability)
+  {
+    $this->storeApplicability = $storeApplicability;
+  }
+  /**
+   * @return string
+   */
+  public function getStoreApplicability()
+  {
+    return $this->storeApplicability;
+  }
+  /**
+   * @param string[]
+   */
+  public function setStoreCode($storeCode)
+  {
+    $this->storeCode = $storeCode;
+  }
+  /**
+   * @return string[]
+   */
+  public function getStoreCode()
+  {
+    return $this->storeCode;
+  }
+  /**
+   * @param string[]
+   */
+  public function setStoreCodeExclusion($storeCodeExclusion)
+  {
+    $this->storeCodeExclusion = $storeCodeExclusion;
+  }
+  /**
+   * @return string[]
+   */
+  public function getStoreCodeExclusion()
+  {
+    return $this->storeCodeExclusion;
   }
   /**
    * @param string

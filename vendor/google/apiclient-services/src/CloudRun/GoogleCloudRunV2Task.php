@@ -79,10 +79,6 @@ class GoogleCloudRunV2Task extends \Google\Collection
   protected $lastAttemptResultType = GoogleCloudRunV2TaskAttemptResult::class;
   protected $lastAttemptResultDataType = '';
   /**
-   * @var string
-   */
-  public $launchStage;
-  /**
    * @var int
    */
   public $maxRetries;
@@ -350,20 +346,6 @@ class GoogleCloudRunV2Task extends \Google\Collection
   public function getLastAttemptResult()
   {
     return $this->lastAttemptResult;
-  }
-  /**
-   * @param string
-   */
-  public function setLaunchStage($launchStage)
-  {
-    $this->launchStage = $launchStage;
-  }
-  /**
-   * @return string
-   */
-  public function getLaunchStage()
-  {
-    return $this->launchStage;
   }
   /**
    * @param int

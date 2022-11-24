@@ -21,6 +21,8 @@ class AppsDynamiteSharedOnClick extends \Google\Model
 {
   protected $actionType = AppsDynamiteSharedAction::class;
   protected $actionDataType = '';
+  protected $hostAppActionType = HostAppActionMarkup::class;
+  protected $hostAppActionDataType = '';
   protected $openDynamicLinkActionType = AppsDynamiteSharedAction::class;
   protected $openDynamicLinkActionDataType = '';
   protected $openLinkType = AppsDynamiteSharedOpenLink::class;
@@ -39,6 +41,20 @@ class AppsDynamiteSharedOnClick extends \Google\Model
   public function getAction()
   {
     return $this->action;
+  }
+  /**
+   * @param HostAppActionMarkup
+   */
+  public function setHostAppAction(HostAppActionMarkup $hostAppAction)
+  {
+    $this->hostAppAction = $hostAppAction;
+  }
+  /**
+   * @return HostAppActionMarkup
+   */
+  public function getHostAppAction()
+  {
+    return $this->hostAppAction;
   }
   /**
    * @param AppsDynamiteSharedAction

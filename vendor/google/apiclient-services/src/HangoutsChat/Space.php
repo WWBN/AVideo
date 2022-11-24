@@ -34,6 +34,10 @@ class Space extends \Google\Model
   protected $spaceDetailsType = SpaceDetails::class;
   protected $spaceDetailsDataType = '';
   /**
+   * @var string
+   */
+  public $spaceThreadingState;
+  /**
    * @var bool
    */
   public $threaded;
@@ -97,6 +101,20 @@ class Space extends \Google\Model
   public function getSpaceDetails()
   {
     return $this->spaceDetails;
+  }
+  /**
+   * @param string
+   */
+  public function setSpaceThreadingState($spaceThreadingState)
+  {
+    $this->spaceThreadingState = $spaceThreadingState;
+  }
+  /**
+   * @return string
+   */
+  public function getSpaceThreadingState()
+  {
+    return $this->spaceThreadingState;
   }
   /**
    * @param bool

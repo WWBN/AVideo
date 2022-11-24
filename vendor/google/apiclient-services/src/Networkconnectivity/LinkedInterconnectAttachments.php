@@ -28,6 +28,10 @@ class LinkedInterconnectAttachments extends \Google\Collection
    * @var string[]
    */
   public $uris;
+  /**
+   * @var string
+   */
+  public $vpcNetwork;
 
   /**
    * @param bool
@@ -56,6 +60,20 @@ class LinkedInterconnectAttachments extends \Google\Collection
   public function getUris()
   {
     return $this->uris;
+  }
+  /**
+   * @param string
+   */
+  public function setVpcNetwork($vpcNetwork)
+  {
+    $this->vpcNetwork = $vpcNetwork;
+  }
+  /**
+   * @return string
+   */
+  public function getVpcNetwork()
+  {
+    return $this->vpcNetwork;
   }
 }
 

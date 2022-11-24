@@ -39,15 +39,16 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * Creates a new Service in a given project and location. (services.create)
    *
    * @param string $parent Required. The location and project in which this
-   * service should be created. Format:
-   * projects/{projectnumber}/locations/{location} Only lowercase, digits, and
-   * hyphens; must begin with letter, and may not end with hyphen; must contain
-   * fewer than 50 characters.
+   * service should be created. Format: projects/{project}/locations/{location},
+   * where {project} can be project id or number. Only lowercase characters,
+   * digits, and hyphens.
    * @param GoogleCloudRunV2Service $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string serviceId Required. The unique identifier for the Service.
-   * The name of the service becomes {parent}/services/{service_id}.
+   * It must begin with letter, and cannot end with hyphen; must contain fewer
+   * than 50 characters. The name of the service becomes
+   * {parent}/services/{service_id}.
    * @opt_param bool validateOnly Indicates that the request should be validated
    * and default values populated, without persisting the request or creating any
    * resources.
@@ -64,7 +65,8 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * will delete all revisions. (services.delete)
    *
    * @param string $name Required. The full name of the Service. Format:
-   * projects/{projectnumber}/locations/{location}/services/{service}
+   * projects/{project}/locations/{location}/services/{service}, where {project}
+   * can be project id or number.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string etag A system-generated fingerprint for this version of the
@@ -83,7 +85,8 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * Gets information about a Service. (services.get)
    *
    * @param string $name Required. The full name of the Service. Format:
-   * projects/{projectnumber}/locations/{location}/services/{service}
+   * projects/{project}/locations/{location}/services/{service}, where {project}
+   * can be project id or number.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRunV2Service
    */
@@ -94,8 +97,8 @@ class ProjectsLocationsServices extends \Google\Service\Resource
     return $this->call('get', [$params], GoogleCloudRunV2Service::class);
   }
   /**
-   * Get the IAM Access Control policy currently in effect for the given Cloud Run
-   * Service. This result does not include any inherited policies.
+   * Gets the IAM Access Control policy currently in effect for the given Cloud
+   * Run Service. This result does not include any inherited policies.
    * (services.getIamPolicy)
    *
    * @param string $resource REQUIRED: The resource for which the policy is being
@@ -125,11 +128,12 @@ class ProjectsLocationsServices extends \Google\Service\Resource
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
   }
   /**
-   * List Services. (services.listProjectsLocationsServices)
+   * Lists Services. (services.listProjectsLocationsServices)
    *
    * @param string $parent Required. The location and project to list resources
-   * on. Location must be a valid GCP region, and may not be the "-" wildcard.
-   * Format: projects/{projectnumber}/locations/{location}
+   * on. Location must be a valid GCP region, and cannot be the "-" wildcard.
+   * Format: projects/{project}/locations/{location}, where {project} can be
+   * project id or number.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Maximum number of Services to return in this call.

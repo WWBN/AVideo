@@ -28,8 +28,10 @@ class GoogleCloudDatacatalogV1ColumnSchema extends \Google\Collection
    * @var string
    */
   public $description;
-  protected $lookerColumnSpecType = GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec::class;
-  protected $lookerColumnSpecDataType = '';
+  /**
+   * @var string
+   */
+  public $gcRule;
   /**
    * @var string
    */
@@ -70,18 +72,18 @@ class GoogleCloudDatacatalogV1ColumnSchema extends \Google\Collection
     return $this->description;
   }
   /**
-   * @param GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec
+   * @param string
    */
-  public function setLookerColumnSpec(GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec $lookerColumnSpec)
+  public function setGcRule($gcRule)
   {
-    $this->lookerColumnSpec = $lookerColumnSpec;
+    $this->gcRule = $gcRule;
   }
   /**
-   * @return GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec
+   * @return string
    */
-  public function getLookerColumnSpec()
+  public function getGcRule()
   {
-    return $this->lookerColumnSpec;
+    return $this->gcRule;
   }
   /**
    * @param string

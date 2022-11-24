@@ -106,7 +106,7 @@ class BiddersPublisherConnections extends \Google\Service\Resource
    * sorted by `createTime`. Example: 'createTime DESC'.
    * @opt_param int pageSize Requested page size. The server may return fewer
    * results than requested (due to timeout constraint) even if more are available
-   * via another call. If unspecified, the server will pick an appropriate
+   * through another call. If unspecified, the server will pick an appropriate
    * default. Acceptable values are 1 to 5000, inclusive.
    * @opt_param string pageToken A token identifying a page of results the server
    * should return. Typically, this is the value of

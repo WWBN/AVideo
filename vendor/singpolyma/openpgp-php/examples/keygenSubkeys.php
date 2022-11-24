@@ -1,5 +1,8 @@
 <?php
 
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\RSA\Formats\Keys\PKCS1;
+
 @include_once dirname(__FILE__).'/../vendor/autoload.php';
 require_once dirname(__FILE__).'/../lib/openpgp.php';
 require_once dirname(__FILE__).'/../lib/openpgp_crypt_rsa.php';
@@ -8,18 +11,16 @@ require_once dirname(__FILE__).'/../lib/openpgp_crypt_rsa.php';
 $key_length = 512;
 
 // Generate a master signing key
-
-$rsa = new \phpseclib\Crypt\RSA();
-$k = $rsa->createKey($key_length);
-$rsa->loadKey($k['privatekey']);
+$privateKey = RSA::createKey(512);
+$privateKeyComponents = PKCS1::load($privateKey->toString('PKCS1'));
 
 $nkey = new OpenPGP_SecretKeyPacket(array(
-	'n' => $rsa->modulus->toBytes(),
-	'e' => $rsa->publicExponent->toBytes(),
-	'd' => $rsa->exponent->toBytes(),
-	'p' => $rsa->primes[2]->toBytes(),
-	'q' => $rsa->primes[1]->toBytes(),
-	'u' => $rsa->coefficients[2]->toBytes()
+   'n' => $privateKeyComponents["modulus"]->toBytes(),
+   'e' => $privateKeyComponents["publicExponent"]->toBytes(),
+   'd' => $privateKeyComponents["privateExponent"]->toBytes(),
+   'p' => $privateKeyComponents["primes"][1]->toBytes(),
+   'q' => $privateKeyComponents["primes"][2]->toBytes(),
+   'u' => $privateKeyComponents["coefficients"][2]->toBytes()
 ));
 
 // Start assembling packets for our eventual OpenPGP_Message
@@ -28,7 +29,7 @@ $packets = array($nkey);
 $wkey = new OpenPGP_Crypt_RSA($nkey);
 $fingerprint = $wkey->key()->fingerprint;
 $key = $wkey->private_key();
-$key->setHash('sha256');
+$key = $key->withHash('sha256');
 $keyid = substr($fingerprint, -16);
 
 // Add multiple UID packets and signatures
@@ -54,17 +55,16 @@ foreach($uids as $uid) {
 
 // Generate an encryption subkey
 
-$rsa_subkey = new \phpseclib\Crypt\RSA();
-$sub_k = $rsa_subkey->createKey($key_length);
-$rsa_subkey->loadKey($sub_k['privatekey']);
+$rsa_subkey = RSA::createKey(512);
+$privateKeyComponents = PKCS1::load($rsa_subkey->toString('PKCS1'));
 
-$subkey = new OpenPGP_SecretSubkeyPacket(array(
-	'n' => $rsa_subkey->modulus->toBytes(),
-	'e' => $rsa_subkey->publicExponent->toBytes(),
-	'd' => $rsa_subkey->exponent->toBytes(),
-	'p' => $rsa_subkey->primes[2]->toBytes(),
-	'q' => $rsa_subkey->primes[1]->toBytes(),
-	'u' => $rsa_subkey->coefficients[2]->toBytes()
+$subkey = new OpenPGP_SecretKeyPacket(array(
+   'n' => $privateKeyComponents["modulus"]->toBytes(),
+   'e' => $privateKeyComponents["publicExponent"]->toBytes(),
+   'd' => $privateKeyComponents["privateExponent"]->toBytes(),
+   'p' => $privateKeyComponents["primes"][2]->toBytes(),
+   'q' => $privateKeyComponents["primes"][1]->toBytes(),
+   'u' => $privateKeyComponents["coefficients"][2]->toBytes()
 ));
 
 // Append the encryption subkey
