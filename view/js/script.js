@@ -3681,6 +3681,7 @@ function sendAVideoMobileLiveStreamerMessage(type, value) {
         window.AVideoMobileLiveStreamer.postMessage({ type: type, value: value });
     }
 }
+
 function getUser() {
     var url = webSiteRootURL + 'plugin/API/get.json.php?APIName=user';
     return $.ajax({
