@@ -3670,3 +3670,14 @@ function addScript(src) {
         }
     }
 }
+
+function avideoLogoff(){
+    sendAVideoMobileLiveStreamerMessage('logoff', '');
+    document.location = webSiteRootURL+'logoff';
+}
+
+function sendAVideoMobileLiveStreamerMessage(type, value){
+    if(window.AVideoMobileLiveStreamer){
+        window.AVideoMobileLiveStreamer.postMessage({type:type, value:value});
+    }
+}

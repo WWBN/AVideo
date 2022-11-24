@@ -4,7 +4,7 @@ if (!empty($advancedCustomUser->signInOnRight)) {
         if (!$advancedCustomUser->disableSignOutButton) {
             ?>
             <li>
-                <a class="btn navbar-btn btn-default"  href="<?php echo $global['webSiteRootURL']; ?>logoff">
+                <a class="btn navbar-btn btn-default" href="#" onclick="avideoLogoff();" >
                     <?php
                     if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
                         ?>

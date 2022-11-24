@@ -74,7 +74,7 @@
                         if (!$advancedCustomUser->disableSignOutButton) {
                             ?>
                             <div>
-                                <a href="<?php echo $global['webSiteRootURL']; ?>logoff" class="btn btn-default btn-block" >
+                                <a href="#" onclick="avideoLogoff();" class="btn btn-default btn-block" >
                                     <?php
                                     if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
                                         ?>
