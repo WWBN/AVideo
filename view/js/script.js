@@ -3677,7 +3677,7 @@ function avideoLogoff() {
 }
 
 function sendAVideoMobileLiveStreamerMessage(type, value) {
-    if (window.AVideoMobileLiveStreamer) {
+    if (typeof window.AVideoMobileLiveStreamer !== 'undefined') {
         window.AVideoMobileLiveStreamer.postMessage({ type: type, value: value });
     }
 }
