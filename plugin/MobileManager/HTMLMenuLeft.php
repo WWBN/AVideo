@@ -1,4 +1,7 @@
 <?php
+if(!isOnDeveloperMode()){
+    return false;
+}
 $obj = AVideoPlugin::getObjectDataIfEnabled('MobileManager');
 $url = 'http://192.168.1.4/youphptube.com/mobile/qrcode/';
 $url = addQueryStringParameter($url, 'site', $global['webSiteRootURL']);
