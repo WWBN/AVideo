@@ -50,7 +50,7 @@ if (empty($fileName)) {
 }
 
 
-$paths = ADs::getAdsPath($type);
+$paths = ADs::getAdsPath($type, @$_REQUEST['is_regular_user']);
 
 $files = _glob($paths['path'], "/{$fileName}/");
 foreach ($files as $value) {
