@@ -8478,20 +8478,25 @@ function hashToID($hash) {
     return intval($decrypt);
 }
 
-
+/**
+ * Deprecated function
+ * @global type $global
+ * @param type $hash
+ * @return type
+ */
 function hashToID_old($hash) {
     global $global;
     if (!empty($global['useLongHash'])) {
         $base = 2;
         $cipher_algo = 'des';
-        $iv = 'abcdef12';
     } else {
         $base = 32;
         $cipher_algo = 'rc4';
-        $iv = '';
     }
+    //$hash = str_pad($hash,  4, "=");
     $hash = str_replace(['_', '-', '.'], ['/', '+', '='], $hash);
-    $decrypt = @openssl_decrypt(($hash), $cipher_algo, $global['salt'], 0, $iv);
+    //$hash = base64_decode($hash);
+    $decrypt = openssl_decrypt(($hash), $cipher_algo, $global['salt']);
     $decrypt = base_convert($decrypt, $base, 10);
     return intval($decrypt);
 }
