@@ -8458,6 +8458,7 @@ function idToHash($id) {
 }
 
 function hashToID($hash) {
+    //return hashToID_old($hash);
     global $global;
     $hash = str_replace(['_', '-', '.'], ['/', '+', '='], $hash);
     //var_dump($_GET, $hash);
