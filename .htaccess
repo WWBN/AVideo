@@ -155,6 +155,11 @@ Options All -Indexes
 
     RewriteRule    ^tag/([0-9-]+)(.*)?$ view/?tags_id=$1    [NC,L,QSA]
 
+    #video id harder to guess
+    RewriteRule    ^v/(.[0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+/)?$ view/modeYoutube.php?v=$1    [QSA]
+    RewriteRule    ^video/(.[0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+/)?$ view/modeYoutube.php?v=$1    [QSA]
+    RewriteRule    ^videoEmbeded/(.[0-9a-zA-Z_.-]+)/?([^!#$&'()*,\/:;=?@[\]]+/)? view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule    ^vEmbed/(.[0-9a-zA-Z_.-]+)/?([^!#$&'()*,\/:;=?@[\]]+/)?$ view/videoEmbeded.php?v=$1    [QSA]
 
     #for the video name
     RewriteRule    ^video/([0-9]+)/poster.png$ view/videoGetPoster.php?videos_id=$1    [QSA]
