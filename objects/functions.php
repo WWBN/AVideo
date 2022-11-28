@@ -8458,9 +8458,10 @@ function idToHash($id) {
 }
 
 function hashToID($hash) {
+    //return hashToID_old($hash);
     global $global;
     $hash = str_replace(['_', '-', '.'], ['/', '+', '='], $hash);
-
+    //var_dump($_GET, $hash);
     $MethodsAndInfo = getHashMethodsAndInfo();
     $cipher_algo = $MethodsAndInfo['cipher_algo'];
     $iv = $MethodsAndInfo['iv'];
@@ -8469,6 +8470,34 @@ function hashToID($hash) {
 
     //$hash = base64_decode($hash);
     $decrypt = @openssl_decrypt($hash, $cipher_algo, $key, 0, $iv);
+    $decrypt = base_convert($decrypt, $base, 10);    
+    //var_dump($decrypt);exit;
+    if(empty($decrypt) || !is_numeric($decrypt)){
+        return hashToID_old($hash);
+    }
+    
+    return intval($decrypt);
+}
+
+/**
+ * Deprecated function
+ * @global type $global
+ * @param type $hash
+ * @return type
+ */
+function hashToID_old($hash) {
+    global $global;
+    if (!empty($global['useLongHash'])) {
+        $base = 2;
+        $cipher_algo = 'des';
+    } else {
+        $base = 32;
+        $cipher_algo = 'rc4';
+    }
+    //$hash = str_pad($hash,  4, "=");
+    $hash = str_replace(['_', '-', '.'], ['/', '+', '='], $hash);
+    //$hash = base64_decode($hash);
+    $decrypt = openssl_decrypt(($hash), $cipher_algo, $global['salt']);
     $decrypt = base_convert($decrypt, $base, 10);
     return intval($decrypt);
 }
