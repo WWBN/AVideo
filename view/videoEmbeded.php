@@ -37,7 +37,7 @@ if (empty($video)) {
     if(User::isAdmin()){
         $msg = "{$msg} ". json_encode($_GET);
     }
-    forbiddenPage("Video not found");
+    forbiddenPage($msg);
 }
 if ($video['status'] == 'i') {
     forbiddenPage("Video inactive");
