@@ -8460,7 +8460,7 @@ function idToHash($id) {
 function hashToID($hash) {
     global $global;
     $hash = str_replace(['_', '-', '.'], ['/', '+', '='], $hash);
-
+    //var_dump($_GET, $hash);
     $MethodsAndInfo = getHashMethodsAndInfo();
     $cipher_algo = $MethodsAndInfo['cipher_algo'];
     $iv = $MethodsAndInfo['iv'];
@@ -8469,7 +8469,8 @@ function hashToID($hash) {
 
     //$hash = base64_decode($hash);
     $decrypt = @openssl_decrypt($hash, $cipher_algo, $key, 0, $iv);
-    $decrypt = base_convert($decrypt, $base, 10);
+    $decrypt = base_convert($decrypt, $base, 10);    
+    //var_dump($decrypt);exit;
     return intval($decrypt);
 }
 
