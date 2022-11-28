@@ -8471,6 +8471,28 @@ function hashToID($hash) {
     $decrypt = @openssl_decrypt($hash, $cipher_algo, $key, 0, $iv);
     $decrypt = base_convert($decrypt, $base, 10);    
     //var_dump($decrypt);exit;
+    if(!is_numeric($decrypt)){
+        return hashToID_old($hash);
+    }
+    
+    return intval($decrypt);
+}
+
+
+function hashToID_old($hash) {
+    global $global;
+    if (!empty($global['useLongHash'])) {
+        $base = 2;
+        $cipher_algo = 'des';
+        $iv = 'abcdef12';
+    } else {
+        $base = 32;
+        $cipher_algo = 'rc4';
+        $iv = '';
+    }
+    $hash = str_replace(['_', '-', '.'], ['/', '+', '='], $hash);
+    $decrypt = @openssl_decrypt(($hash), $cipher_algo, $global['salt'], 0, $iv);
+    $decrypt = base_convert($decrypt, $base, 10);
     return intval($decrypt);
 }
 
