@@ -11,8 +11,8 @@ if($_SERVER["HTTP_HOST"] === 'localhost' || $_SERVER["HTTP_HOST"] === '127.0.0.1
  */
 
 //var_dump($_SERVER, $global);exit;
-//$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
-//$global['stopBotsWhiteList'] = array('google','bing','yahoo','yandex','twitter');
+//$global['stopBotsList'] = array('headless', 'bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
+//$global['stopBotsWhiteList'] = array('facebook','google','bing','yahoo','yandex','twitter');
 if (!empty($global['stopBotsList']) && is_array($global['stopBotsList'])) {
     foreach ($global['stopBotsList'] as $value) {
         if (empty($_SERVER['HTTP_USER_AGENT'])) {

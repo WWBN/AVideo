@@ -8415,7 +8415,7 @@ function getHashMethodsAndInfo() {
         $iv = substr($saltMD5, 0, $ivlen);
         $key = substr($saltMD5, 0, $keylen);
 
-        $_getHashMethod = array('cipher_algo' => $cipher_algo, 'iv' => $iv, 'key' => $key, 'base' => $base);
+        $_getHashMethod = array('cipher_algo' => $cipher_algo, 'iv' => $iv, 'key' => $key, 'base' => $base, 'salt' => $global['salt']);
     }
     return $_getHashMethod;
 }
@@ -8437,9 +8437,6 @@ function idToHash($id) {
     $key = $MethodsAndInfo['key'];
     $base = $MethodsAndInfo['base'];
 
-    if (empty($global['salt'])) {
-        $global['salt'] = '11234567890abcdef';
-    }
     $idConverted = base_convert($id, 10, $base);
     $hash = (@openssl_encrypt($idConverted, $cipher_algo, $key, 0, $iv));
     //$hash = preg_replace('/^([+]+)/', '', $hash);

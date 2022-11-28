@@ -221,8 +221,8 @@ if(empty(\$global['webSiteRootPath'])){
 \$mysqlPass = '{$_POST['databasePass']}';
 \$mysqlDatabase = '{$_POST['databaseName']}';
 
-//\$global['stopBotsList'] = array('bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
-//\$global['stopBotsWhiteList'] = array('google','bing','yahoo','yandex','twitter');
+//\$global['stopBotsList'] = array('headless', 'bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
+//\$global['stopBotsWhiteList'] = array('facebook','google','bing','yahoo','yandex','twitter');
 
 /**
  * Do NOT change from here
