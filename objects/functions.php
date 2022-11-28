@@ -8472,7 +8472,7 @@ function hashToID($hash) {
     $decrypt = @openssl_decrypt($hash, $cipher_algo, $key, 0, $iv);
     $decrypt = base_convert($decrypt, $base, 10);    
     //var_dump($decrypt);exit;
-    if(!is_numeric($decrypt)){
+    if(empty($decrypt) || !is_numeric($decrypt)){
         return hashToID_old($hash);
     }
     
