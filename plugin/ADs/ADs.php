@@ -250,6 +250,7 @@ class ADs extends PluginAbstract{
         foreach ($files as $value) {
             $fileName = str_replace($paths['path'], '', $value);
             $fileName = str_replace('.png', '', $fileName);
+            $fileName = str_replace('\\', '', $fileName);
             if(empty($fileName)){
                 continue;
             }
@@ -282,10 +283,9 @@ class ADs extends PluginAbstract{
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
         eval("\$label = \$ad->{$type}Label;");
         $label = "{$label} [$users_id] [{$type}]";
-        if(!empty($users_id) && self::canHaveCustomAds($users_id)){
-            $array = self::getAdsHTML($type); 
-            $adCode = $array['html'];
-        }
+        
+        $array = self::getAdsHTML($type, $users_id); 
+        $adCode = $array['html'];
         
         if(empty($adCode)){
             eval("\$adCode = \$ad->{$type}->value;");
@@ -413,11 +413,12 @@ class ADs extends PluginAbstract{
     }
 
     public static function saveAdsHTML($type) {
+        $p = new ADs();
+        return $p->updateParameter($type, '');
         $o = new stdClass();
         $o->type = "textarea";
         $array = self::getAdsHTML($type);                
         $o->value = $array['html'];
-        $p = new ADs();
         return $p->updateParameter($type, $o);
     }
     
