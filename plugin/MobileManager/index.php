@@ -73,7 +73,7 @@ if (User::isLogged()) {
         </style>
     </head>
 
-    <body style="background-color: red;">
+    <body style="background-color: transparent;">
         <?php
         echo $html;
         ?>
