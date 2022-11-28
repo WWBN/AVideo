@@ -9,10 +9,11 @@ $result = new stdClass();
 $result->error = true;
 $result->msg = '';
 
+$is_admin = User::isAdmin();
 
-if (!User::isAdmin()) {
-    $result->msg = __("You can not do this");
-    die(json_encode($result));
+if (empty($is_admin) && !ADs::canHaveCustomAds()) {
+    gotToLoginAndComeBackHere(__("You can not do this"));
+    exit;
 }
 
 require_once $global['systemRootPath'] . 'plugin/API/API.php';
