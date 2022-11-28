@@ -33,6 +33,10 @@ Video::unsetAddView($video['id']);
 AVideoPlugin::getEmbed($video['id']);
 
 if (empty($video)) {
+    $msg = 'Video not found';
+    if(User::isAdmin()){
+        $msg = "{$msg} ". json_encode($_GET);
+    }
     forbiddenPage("Video not found");
 }
 if ($video['status'] == 'i') {
