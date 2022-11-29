@@ -70,10 +70,14 @@ if (urlParams.has('debug')) {
     isDebuging = false;
 }
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+function replaceAll(str, match, replacement){
+   return str.replace(new RegExp(escapeRegExp(match), 'g'), ()=>replacement);
+}
 if(typeof String.prototype.replaceAll === "undefined") {
-    String.prototype.replaceAll = function(match, replace) {
-       return this.replace(new RegExp(match, 'g'), () => replace);
-    }
+    String.prototype.replaceAll = replaceAll
 }
 
 async function setBodyOnline() {
