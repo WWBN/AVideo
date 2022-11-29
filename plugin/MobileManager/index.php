@@ -24,7 +24,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     if (AVideoPlugin::isEnabledByName('Chat2')) {
         $lt = Live::getLiveTransmitionObjectFromUsers_id($users_id);;
         $room_users_id = $users_id;
-        $live_transmitions_history_id = $lt['id'];
+        $live_transmitions_history_id = $lt->getId();
         $iframe = 1;
         $noFade = 1;
         $bubblesOnly = 1;
