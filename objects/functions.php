@@ -6681,6 +6681,10 @@ function isIframeInDifferentDomain() {
 
 function isIframe() {
     global $global;
+    if(!empty($global['isIframe'])){
+        return true;
+    }
+    
     if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe') {
         return true;
     }

@@ -1,6 +1,7 @@
 <?php
 global $global, $config;
-
+$global['isIframe'] = 1;
+$isEmbed = 1;
 // is online
 // recorder
 // live users
@@ -10,9 +11,10 @@ if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';
     require_once $configFile;
 }
-User::loginFromRequest();
 $html = '';
-if (User::isLogged()) {
+if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
+    User::loginFromRequest();
+}else if (User::isLogged()) {
     $users_id = User::getId();
     if (AVideoPlugin::isEnabledByName('Chat2')) {
         $room_users_id = $users_id;
