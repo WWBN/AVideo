@@ -327,7 +327,7 @@
     // this is really just unicodeToShortname() but I opted for the shorthand name to match toImage()
     ns.toShort = function(str) {
         var find = ns.unicodeCharRegex();
-        str = ns.replaceAll(str, find);
+        str = replaceAll(str, find);
         return  str;
     };
 
