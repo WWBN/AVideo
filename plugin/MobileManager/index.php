@@ -22,9 +22,9 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
 } else if (User::isLogged()) {
     $users_id = User::getId();
     if (AVideoPlugin::isEnabledByName('Chat2')) {
-        $lt = Live::getLiveTransmitionObjectFromUsers_id($users_id);;
+        $latest = LiveTransmitionHistory::getLatestFromUser($users_id);
         $room_users_id = $users_id;
-        $live_transmitions_history_id = $lt->getId();
+        $live_transmitions_history_id = $latest['id'];
         $iframe = 1;
         $noFade = 1;
         $bubblesOnly = 1;
