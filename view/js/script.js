@@ -70,6 +70,12 @@ if (urlParams.has('debug')) {
     isDebuging = false;
 }
 
+if(typeof String.prototype.replaceAll === "undefined") {
+    String.prototype.replaceAll = function(match, replace) {
+       return this.replace(new RegExp(match, 'g'), () => replace);
+    }
+}
+
 async function setBodyOnline() {
     if (isOnline()) {
         $('body').removeClass('isOffline');
