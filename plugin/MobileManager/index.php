@@ -14,6 +14,12 @@ if (!isset($global['systemRootPath'])) {
 $html = '';
 if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
     User::loginFromRequest();
+    $html .= 'loginFromRequest ';
+    if(User::isLogged()){
+        $html .= 'is Logged ';
+    }else{
+        $html .= 'is NOT Logged ';
+    }
 }else if (User::isLogged()) {
     $users_id = User::getId();
     if (AVideoPlugin::isEnabledByName('Chat2')) {
