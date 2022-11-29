@@ -1071,7 +1071,7 @@ if (typeof gtag !== \"function\") {
             $this->setLastLogin($_SESSION['user']['id']);
             $rememberme = 0;
 
-            if ((!empty($_POST['rememberme']) && $_POST['rememberme'] == "true") || !empty($_COOKIE['rememberme'])) {
+            if ((!empty($_REQUEST['rememberme']) && $_REQUEST['rememberme'] == "true") || !empty($_COOKIE['rememberme'])) {
                 $valid = '+ 1 year';
                 $expires = strtotime($valid);
                 $rememberme = 1;
