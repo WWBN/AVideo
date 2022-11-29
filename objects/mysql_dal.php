@@ -114,12 +114,15 @@ class sqlDAL {
 
         if ($stmt->errno !== 0) {
             log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
+            /*
             if(empty($global['mysqli_charset']) && preg_match('/collation utf8/', $stmt->error)){
                 $global['mysqli_charset'] = 'latin1';
                 _mysql_close();
                 _mysql_connect();
                 return self::writeSql($preparedStatement, $formats, $values);
             }
+             * 
+             */
             
             $stmt->close();            
             return false;
