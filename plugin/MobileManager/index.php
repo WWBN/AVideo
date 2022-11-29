@@ -78,7 +78,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <style>
-            #accessibility-toolbar, footer{
+            #accessibility-toolbar, footer, #socket_info_container{
                 display: none !important;
             }
             body {
