@@ -199,7 +199,7 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
                     if (typeof page !== 'string') {
                         continue;
                     }
-                    eval('var pattern = /' + webSiteRootURL.replaceAll('/', '\\/') + page.replace('/', '\\/') + '.*/');
+                    eval('var pattern = /' + replaceAll('/', '\\/') + page.replace('/', '\\/') + '.*/');
                     if (pattern.test(src)) {
                         src = webSiteRootURL;
                     }
