@@ -3,7 +3,7 @@ if (empty($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
-if (empty($video) && !empty($_GET['videos_id'])) {
+if ((empty($video) || !is_array($video) ) && !empty($_GET['videos_id'])) {
     $video = Video::getVideo(intval($_GET['videos_id']), "viewable", true, false, true, true);
     $video['creator'] = Video::getCreatorHTML($video['users_id'], '<div class="clearfix"></div><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small>');
     $source = Video::getSourceFile($video['filename']);
@@ -32,7 +32,7 @@ if (empty($video) && !empty($_GET['videos_id'])) {
         $imgh = $data[1];
     }
 }
-if (empty($video['created'])) {
+if (empty($video['created']) || !is_array($video)) {
     return false;
 }
 if (User::hasBlockedUser($video['users_id'])) {
