@@ -1,7 +1,6 @@
 <?php
 global $global, $config;
 $global['isIframe'] = 1;
-$isEmbed = 1;
 // is online
 // recorder
 // live users
@@ -12,15 +11,15 @@ if (!isset($global['systemRootPath'])) {
     require_once $configFile;
 }
 $html = '';
-if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
+if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     User::loginFromRequest();
     $html .= 'loginFromRequest ';
-    if(User::isLogged()){
+    if (User::isLogged()) {
         $html .= 'is Logged ';
-    }else{
+    } else {
         $html .= 'is NOT Logged ';
     }
-}else if (User::isLogged()) {
+} else if (User::isLogged()) {
     $users_id = User::getId();
     if (AVideoPlugin::isEnabledByName('Chat2')) {
         $room_users_id = $users_id;
@@ -63,6 +62,13 @@ if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
         //include "{$global['systemRootPath']}plugin/Chat2/index.php";
         //return false;
     }
+}else{
+    $html .= 'nothing to do ';
+    if (User::isLogged()) {
+        $html .= 'is Logged ';
+    } else {
+        $html .= 'is NOT Logged ';
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -88,5 +94,10 @@ if(!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])){
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
+        <script>
+            window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
+                window.flutter_inappwebview.callHandler('AVideoMobileLiveStreamer', 'Loaded app');
+            });
+        </script>
     </body>
 </html>
