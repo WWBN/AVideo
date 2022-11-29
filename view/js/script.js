@@ -70,10 +70,13 @@ if (urlParams.has('debug')) {
     isDebuging = false;
 }
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
 if(typeof String.prototype.replaceAll === "undefined") {
     console.log('replaceAll is undefined');
     String.prototype.replaceAll = function(match, _replace) {
-       return this.replace(new RegExp(match, 'g'), _replace);
+       return this.replace(new RegExp(escapeRegExp(match), 'g'), _replace);
     }
 }
 
