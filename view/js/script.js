@@ -77,6 +77,7 @@ function replaceAll(str, match, replacement){
    return str.replace(new RegExp(escapeRegExp(match), 'g'), replacement);
 }
 if(typeof String.prototype.replaceAll === "undefined") {
+    console.log('replaceAll is undefined');
     String.prototype.replaceAll = replaceAll
 }
 
