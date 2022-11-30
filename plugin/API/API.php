@@ -786,13 +786,12 @@ class API extends PluginAbstract {
         $obj->user['canStream'] = $obj->user['canStream'] || $obj->user['isAdmin'];
         $obj->user['DonationButtons'] = _json_decode($obj->user['DonationButtons']);
 
-        $obj->livestream = LiveTransmition::getFromDbByUser($user->getBdId());
+        $obj->livestream = LiveTransmition::createTransmitionIfNeed($user->getBdId());
         $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
         $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
         $obj->livestream["poster"] = $global['webSiteRootURL'] . $p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
         $obj->livestream["joinURL"] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
 
-        $obj->livestream["info"] = LiveTransmition::createTransmitionIfNeed($user->getBdId());
         $obj->livestream["activeLives"] = array();
         $obj->livestream["latestLives"] = array();
         $obj->livestream["scheduledLives"] = array();
