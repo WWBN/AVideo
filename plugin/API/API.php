@@ -792,6 +792,7 @@ class API extends PluginAbstract {
         $obj->livestream["poster"] = $global['webSiteRootURL'] . $p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
         $obj->livestream["joinURL"] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
 
+        $obj->livestream["info"] = LiveTransmition::createTransmitionIfNeed($user->getBdId());
         $obj->livestream["activeLives"] = array();
         $obj->livestream["latestLives"] = array();
         $obj->livestream["scheduledLives"] = array();
