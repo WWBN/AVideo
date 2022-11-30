@@ -286,11 +286,6 @@ $siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'success', _($advan
                         avideoAlertError("<?php echo __("Your password does not match!"); ?>");
                         return false;
                     }
-                    if (!$('#captchaText').val().match(/^[0-9a-z]{5}$/i)) {
-                        $('#captchaText').closest('.input-group').addClass(errorClass);
-                        avideoAlertError("<?php echo __("The captcha is wrong"); ?>");
-                        return false;
-                    }
                     if ($('#inputEmail').is(":visible") && !isEmailValid($('#inputEmail').val())) {
                         if (!isEmailValid($('#inputUser').val())) {
                             $('#inputEmail').closest('.input-group').addClass(errorClass);
