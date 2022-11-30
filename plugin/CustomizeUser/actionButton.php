@@ -91,7 +91,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                                 ?>
                                 <div class="form-group" id="donationCaptcha<?php echo $uid; ?>">
                                     <div class="col-md-12 ">
-                                        <?php echo $captcha; ?>
+                                        <?php echo $captcha['content']; ?>
                                     </div>
                                 </div>
                             <?php }
@@ -107,7 +107,7 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
         <script>
 
             function openDonationMoodal<?php echo $uid; ?>() {
-                $('#btnReloadCapcha<?php echo $uid; ?>').trigger('click');
+                <?php echo $captcha['btnReloadCapcha']; ?>
                 $('#donationModal<?php echo $uid; ?>').modal();
                 $('#donationValue<?php echo $uid; ?>').focus();
                 setTimeout(function () {
@@ -124,11 +124,11 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         "videos_id": <?php echo intval(@$video['id']); ?>,
                         "users_id": <?php echo intval(@$video['users_id']); ?>,
                         "live_transmitions_history_id": <?php echo intval(@$_REQUEST['live_transmitions_history_id']); ?>,
-                        "captcha": $('#captchaText<?php echo $uid; ?>').val()
+                        "captcha": <?php echo $captcha['captchaText']; ?>
                     },
                     type: 'post',
                     success: function (response) {
-                        $("#btnReloadCapcha<?php echo $uid; ?>").trigger('click');
+                        <?php echo $captcha['btnReloadCapcha']; ?>
                         modal.hidePleaseWait();
                         if (response.error) {
                             avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
@@ -150,11 +150,11 @@ if ($obj->allowWalletDirectTransferDonation && !empty($video['users_id']) && cla
                         "videos_id": <?php echo intval(@$video['id']); ?>,
                         "users_id": <?php echo intval(@$video['users_id']); ?>,
                         "live_transmitions_history_id": <?php echo intval(@$_REQUEST['live_transmitions_history_id']); ?>,
-                        "captcha": $('#captchaText<?php echo $uid; ?>').val()
+                        "captcha": <?php echo $captcha['captchaText']; ?>
                     },
                     type: 'post',
                     success: function (response) {
-                        $("#btnReloadCapcha<?php echo $uid; ?>").trigger('click');
+                        <?php echo $captcha['btnReloadCapcha']; ?>
                         modal.hidePleaseWait();
                         if (response.error) {
                             avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");

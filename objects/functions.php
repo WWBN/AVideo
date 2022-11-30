@@ -6366,6 +6366,16 @@ function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class 
     include $global['systemRootPath'] . 'objects/functiongetShareMenu.php';
 }
 
+function getCaptcha($uid = "", $forceCaptcha = false) {
+    global $global;
+    if(empty($uid)){
+        $uid = "capcha_" . uniqid();
+    }
+    $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functiongetCaptcha.php', array('uid' => $uid, 'forceCaptcha'=>$forceCaptcha));
+    $parts = explode('<script>', $contents);
+    return array('content'=>$contents, 'btnReloadCapcha'=>"$('#btnReload{$uid}').trigger('click');", 'captchaText'=>"$('#{$uid}Text').val()", 'html'=>$parts[0], 'script'=>str_replace('</script>', '',$parts[1]));
+}
+
 function getSharePopupButton($videos_id, $url = "", $title = "") {
     global $global, $advancedCustom;
     if ($advancedCustom->disableShareOnly || $advancedCustom->disableShareAndPlaylist) {
@@ -6681,10 +6691,10 @@ function isIframeInDifferentDomain() {
 
 function isIframe() {
     global $global;
-    if(!empty($global['isIframe'])){
+    if (!empty($global['isIframe'])) {
         return true;
     }
-    
+
     if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'iframe') {
         return true;
     }
@@ -8471,12 +8481,12 @@ function hashToID($hash) {
 
     //$hash = base64_decode($hash);
     $decrypt = @openssl_decrypt($hash, $cipher_algo, $key, 0, $iv);
-    $decrypt = base_convert($decrypt, $base, 10);    
+    $decrypt = base_convert($decrypt, $base, 10);
     //var_dump($decrypt);exit;
-    if(empty($decrypt) || !is_numeric($decrypt)){
+    if (empty($decrypt) || !is_numeric($decrypt)) {
         return hashToID_old($hash);
     }
-    
+
     return intval($decrypt);
 }
 

@@ -84,11 +84,10 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha" id="captcha"></span>
-                                            <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                                            <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
-                                        </div>
+                                            <?php
+                                               $capcha = getCaptcha();
+                                               echo $capcha['content'];
+                                            ?>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -120,11 +119,6 @@ $obj = AVideoPlugin::getObjectDataIfEnabled("YPTWallet");
         ?>
         <script>
             $(document).ready(function () {
-                $('#btnReloadCapcha').click(function () {
-                    $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
-                    $('#captchaText').val('');
-                });
-
                 $('#transferNow').click(function () {
 
                             swal({

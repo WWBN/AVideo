@@ -98,11 +98,10 @@ $metaDescription = " Contact Form";
                             <div class="form-group">
                                 <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
                                 <div class="col-md-4 inputGroupContainer">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?<?php echo time(); ?>" id="captcha"></span>
-                                        <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                                        <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
-                                    </div>
+                                    <?php
+                                    $capcha = getCaptcha();
+                                    echo $capcha['content'];
+                                    ?>
                                 </div>
                             </div>
                             <!-- Button -->
@@ -128,11 +127,6 @@ $metaDescription = " Contact Form";
     <script>
         $(document).ready(function () {
 
-            $('#btnReloadCapcha').click(function () {
-                $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
-                $('#captchaText').val('');
-            });
-
             $('#contact_form').submit(function (evt) {
                 evt.preventDefault();
                 modal.showPleaseWait();
@@ -150,7 +144,7 @@ $metaDescription = " Contact Form";
                         } else {
                             avideoAlert("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
                         }
-                        $('#btnReloadCapcha').trigger('click');
+<?php echo $capcha['btnReloadCapcha']; ?>
                     }
                 });
                 return false;

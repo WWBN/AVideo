@@ -74,7 +74,7 @@ $videos = Video::getAllVideosLight('', $users_id);
                     $captcha = User::getCaptchaForm($uid, true);
                     ?>
                     <div class="form-group" id="captchaDeleteUser">
-                        <?php echo $captcha; ?>
+                        <?php echo $captcha['content']; ?>
                     </div>
                 </div>
                 <div class="panel-footer">

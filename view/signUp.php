@@ -202,11 +202,10 @@ $siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'success', _($advan
                                         <div class="row form-group <?php echo getCSSAnimationClassAndStyle(); ?>">
                                             <label class="col-sm-4 control-label hidden-xs" for="captchaText"><?php echo __("Type the code"); ?></label>
                                             <div class="col-sm-8 inputGroupContainer captcha">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?PHPSESSID=<?php echo session_id(); ?>&<?php echo time(); ?>" id="captcha"></span>
-                                                    <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                                                    <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
-                                                </div>
+                                            <?php
+                                               $capcha = getCaptcha();
+                                               echo $capcha['content'];
+                                            ?>
                                             </div>
                                         </div>
                                     </form>
@@ -323,13 +322,7 @@ $siteRedirectUri = addQueryStringParameter($siteRedirectUri, 'success', _($advan
                     return true;
                 }
 
-                $(document).ready(function () {
-
-                    $('#btnReloadCapcha').click(function () {
-                        $('#captcha').attr('src', webSiteRootURL+'captcha?PHPSESSID=<?php echo session_id(); ?>&' + Math.random());
-                        $('#captchaText').val('');
-                    });
-                    
+                $(document).ready(function () {                    
                     $('#inputPasswordConfirm').keyup(function () {
                         checkIfPasswordsMatch();
                     });

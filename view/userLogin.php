@@ -112,7 +112,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
 
                         <?php $captcha = User::getCaptchaForm(); ?>
                         <div class="form-group captcha" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
-                            <?php echo $captcha; ?>
+                            <?php echo $captcha['content']; ?>
                         </div>
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
                             <div class="col-xs-4 text-right">
@@ -293,7 +293,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
             loginFormActive();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
-                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": $('#captchaText').val(), "redirectUri": "<?php print $_GET['redirectUri'] ?? ""; ?>"},
+                data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": <?php echo $captcha['captchaText']; ?>, "redirectUri": "<?php print $_GET['redirectUri'] ?? ""; ?>"},
                 type: 'post',
                 success: function (response) {
                     if (!response.isLogged) {
@@ -304,7 +304,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                             avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your user or password is wrong!"); ?>", "error");
                         }
                         if (response.isCaptchaNeed) {
-                            $("#btnReloadCapcha").trigger('click');
+                            <?php echo $captcha['btnReloadCapcha']; ?>
                             $('#captchaForm').slideDown();
                         }
                         loginFormReset();
@@ -323,13 +323,14 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
             _forgotPass();
         });
     });
+    <?php $captcha2 = User::getCaptchaForm(); ?>
     function _forgotPass() {
         var user = $('#inputUser').val();
         if (!user) {
             avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("You need to inform what is your user!"); ?>", "error");
             return false;
         }
-        var capcha = '<span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?<?php echo time(); ?>" id="captcha"></span><span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span><input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText2">';
+        var capcha = <?php echo json_encode($captcha2['html']); ?>;
         var span = document.createElement("span");
         span.innerHTML = "<?php echo __("We will send you a link, to your e-mail, to recover your password!"); ?>" + capcha;
         swal({
@@ -344,7 +345,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                 modal.showPleaseWait();
                 $.ajax({
                     url: '<?php echo $global['webSiteRootURL']; ?>objects/userRecoverPass.php',
-                    data: {"user": $('#inputUser').val(), "captcha": $('#captchaText2').val()},
+                    data: {"user": $('#inputUser').val(), "captcha": <?php echo $captcha2['captchaText']; ?>},
                     type: 'post',
                     success: function (response) {
                         if (response.error) {
@@ -357,9 +358,6 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                 });
             }
         });
-        $('#btnReloadCapcha').click(function () {
-            $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
-            $('#captchaText').val('');
-        });
+        eval(<?php echo json_encode($captcha2['script']); ?>);
     }
 </script>

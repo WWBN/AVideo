@@ -1150,30 +1150,10 @@ if (typeof gtag !== \"function\") {
         return "";
     }
 
-    public static function getCaptchaForm($uid = "", $forceCaptcha = false)
-    {
-        global $global;
-
-        $url = "{$global['webSiteRootURL']}captcha";
-        if ($forceCaptcha) {
-            $url = addQueryStringParameter($url, 'forceCaptcha', 1);
-        }
-
-        return '<div class="input-group">'
-            . '<span class="input-group-addon"><img src="' . $url . '" id="captcha' . $uid . '"></span>
-                    <span class="input-group-addon"><span class="btn btn-xs btn-success btnReloadCapcha" id="btnReloadCapcha' . $uid . '"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                    <input name="captcha" placeholder="' . __("Type the code") . '" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText' . $uid . '">
-                </div>
-                <script>
-                $(document).ready(function () {
-                    $("#btnReloadCapcha' . $uid . '").click(function () {
-                        var url = "' . $url . '";
-                        url = addQueryStringParameter(url, "cache", Math.random());
-                        $("#captcha' . $uid . '").attr("src", url);
-                        $("#captchaText' . $uid . '").val("");
-                    });
-                });
-                </script>';
+    public static function getCaptchaForm($uid = "", $forceCaptcha = false){
+        global $global;        
+        $capcha = getCaptcha($uid, $forceCaptcha);        
+        return $capcha;
     }
 
     private function setLastLogin($user_id)
