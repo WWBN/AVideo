@@ -2527,8 +2527,7 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
-    public static function verifyCode($code)
-    {
+    public static function verifyCode($code){
         global $global;
         $obj = static::decodeVerificationCode($code);
         $salt = hash('sha256', $global['salt']);
@@ -2545,6 +2544,7 @@ if (typeof gtag !== \"function\") {
                 _error_log('verifyCode could not save user');
             } else {
                 _error_log('verifyCode user save');
+                return true;
             }
         } else {
             _error_log('verifyCode wrong recover pass');
