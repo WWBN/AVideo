@@ -4,39 +4,39 @@ header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 
 allowOrigin();
-$obj = AVideoPlugin::getObjectData("MobileManager");
+$objMM = AVideoPlugin::getObjectData("MobileManager");
 
 $customizeUser = AVideoPlugin::getDataObject('CustomizeUser');
-$obj->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
+$objMM->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
 
 $chat2 = AVideoPlugin::getDataObjectIfEnabled('Chat2');
 if(!empty($chat2)){
-    $obj->chat2ShowOnLive = $chat2->showOnLive;
-    $obj->chat2ShowOnUserVideos = $chat2->showOnUserVideos;
+    $objMM->chat2ShowOnLive = $chat2->showOnLive;
+    $objMM->chat2ShowOnUserVideos = $chat2->showOnUserVideos;
 }else{
-    $obj->chat2ShowOnLive = false;
-    $obj->chat2ShowOnUserVideos = false;
+    $objMM->chat2ShowOnLive = false;
+    $objMM->chat2ShowOnUserVideos = false;
 }
 
-$obj->logo = getURL($config->getLogo());
-$obj->favicon = $config->getFavicon(true);
-$obj->title = $config->getWebSiteTitle();
-$obj->version = $config->getVersion();
-$obj->EULA = nl2br($obj->EULA->value);
-$obj->EULA = nl2br($obj->EULA->value);
-$obj->YPTSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
-$obj->language = $config->getLanguage();
-@include_once "{$global['systemRootPath']}locale/{$obj->language}.php";
-$obj->translations = $t;
-if (!empty($obj->YPTSocket)) {
+$objMM->logo = getURL($config->getLogo());
+$objMM->favicon = $config->getFavicon(true);
+$objMM->title = $config->getWebSiteTitle();
+$objMM->version = $config->getVersion();
+$objMM->EULA_original = $objMM->EULA->value;
+$objMM->EULA = nl2br($objMM->EULA->value);
+$objMM->YPTSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
+$objMM->language = $config->getLanguage();
+@include_once "{$global['systemRootPath']}locale/{$objMM->language}.php";
+$objMM->translations = $t;
+if (!empty($objMM->YPTSocket)) {
     $refl = new ReflectionClass('SocketMessageType');
-    $obj->webSocketTypes = json_encode($refl->getConstants());
-    $obj->webSocketURL = addQueryStringParameter(YPTSocket::getWebSocketURL(true), 'page_title', 'Mobile APP');
+    $objMM->webSocketTypes = json_encode($refl->getConstants());
+    $objMM->webSocketURL = addQueryStringParameter(YPTSocket::getWebSocketURL(true), 'page_title', 'Mobile APP');
 }
-$obj->tabMenuItems = [];
-$obj->leftMenuItems = [];
-$obj->tabMenuItemsInABrowser = [];
-$obj->leftMenuItemsInABrowser = [];
+$objMM->tabMenuItems = [];
+$objMM->leftMenuItems = [];
+$objMM->tabMenuItemsInABrowser = [];
+$objMM->leftMenuItemsInABrowser = [];
 if (AVideoPlugin::isEnabledByName("TopMenu")) {
     if (empty($_POST['sort'])) {
         $_POST['sort'] = ['item_order'=>"ASC"];
@@ -45,14 +45,14 @@ if (AVideoPlugin::isEnabledByName("TopMenu")) {
     foreach ($tabMenu as $key => $value) {
         $menuItems = MenuItem::getAllFromMenu($value['id'], true);
         foreach ($menuItems as $value2) {
-            $obj->tabMenuItems[] = $value2;
+            $objMM->tabMenuItems[] = $value2;
         }
     }
     $tabMenu = Menu::getAllActive(Menu::$typeMobileLeftMenu);
     foreach ($tabMenu as $key => $value) {
         $menuItems = MenuItem::getAllFromMenu($value['id'], true);
         foreach ($menuItems as $value2) {
-            $obj->leftMenuItems[] = $value2;
+            $objMM->leftMenuItems[] = $value2;
         }
     }
     $tabMenu = Menu::getAllActive(Menu::$typeMobileTabMenuInABrowser);
@@ -60,7 +60,7 @@ if (AVideoPlugin::isEnabledByName("TopMenu")) {
         $menuItems = MenuItem::getAllFromMenu($value['id'], true);
         foreach ($menuItems as $value2) {
             $value2['target'] = '_blank';
-            $obj->tabMenuItems[] = $value2;
+            $objMM->tabMenuItems[] = $value2;
         }
     }
     $tabMenu = Menu::getAllActive(Menu::$typeMobileLeftMenuInABrowser);
@@ -68,8 +68,8 @@ if (AVideoPlugin::isEnabledByName("TopMenu")) {
         $menuItems = MenuItem::getAllFromMenu($value['id'], true);
         foreach ($menuItems as $value2) {
             $value2['target'] = '_blank';
-            $obj->leftMenuItems[] = $value2;
+            $objMM->leftMenuItems[] = $value2;
         }
     }
 }
-echo json_encode($obj);
+echo json_encode($objMM);
