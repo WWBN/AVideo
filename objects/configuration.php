@@ -196,31 +196,27 @@ class Configuration extends ObjectYPT{
         $url = false;
         if (!$getPNG) {
             $file = $global['systemRootPath'] . "videos/favicon.ico";
-            $url = getCDN()."videos/favicon.ico";
+            $url = getURL('videos/favicon.ico');
             if (!file_exists($file)) {
                 $file = $global['systemRootPath'] . "view/img/favicon.ico";
-                $url = getCDN()."view/img/favicon.ico";
+                $url = getURL("view/img/favicon.ico");
             }
         }
         if (empty($url) || !file_exists($file)) {
             $file = $global['systemRootPath'] . "videos/favicon.png";
-            $url = getCDN()."videos/favicon.png";
+            $url = getURL("videos/favicon.png");
             if (!file_exists($file)) {
                 $file = $global['systemRootPath'] . "view/img/favicon.png";
-                $url = getCDN()."view/img/favicon.png";
+                $url = getURL("view/img/favicon.png");
             }
         }
         return ['file' => $file, 'url' => $url];
     }
 
-    public function getFavicon($getPNG = false, $getTime = true)
+    public function getFavicon($getPNG = false)
     {
         $return = self::_getFavicon($getPNG);
-        if ($getTime) {
-            return $return['url'] . "?" . filemtime($return['file']);
-        } else {
-            return $return['url'];
-        }
+        return $return['url'];
     }
 
     public static function getOGImage()

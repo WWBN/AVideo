@@ -1624,6 +1624,7 @@ class ApiObject {
 
     public function __construct($message = "api not started or not found", $error = true, $response = []) {
         $this->error = $error;
+        $this->msg = $message;
         $this->message = $message;
         $this->response = $response;
         $this->users_id = User::getId();

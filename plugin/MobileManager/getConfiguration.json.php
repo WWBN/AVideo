@@ -18,6 +18,11 @@ if(!empty($chat2)){
     $obj->chat2ShowOnUserVideos = false;
 }
 
+$obj->logo = getURL($config->getLogo());
+$obj->favicon = $config->getFavicon(true);
+$obj->title = $config->getWebSiteTitle();
+$obj->version = $config->getVersion();
+$obj->EULA = nl2br($obj->EULA->value);
 $obj->EULA = nl2br($obj->EULA->value);
 $obj->YPTSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
 $obj->language = $config->getLanguage();

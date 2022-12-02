@@ -6373,7 +6373,12 @@ function getCaptcha($uid = "", $forceCaptcha = false) {
     }
     $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functiongetCaptcha.php', array('uid' => $uid, 'forceCaptcha'=>$forceCaptcha));
     $parts = explode('<script>', $contents);
-    return array('content'=>$contents, 'btnReloadCapcha'=>"$('#btnReload{$uid}').trigger('click');", 'captchaText'=>"$('#{$uid}Text').val()", 'html'=>$parts[0], 'script'=>str_replace('</script>', '',$parts[1]));
+    return array(
+        'content'=>$contents, 
+        'btnReloadCapcha'=>"$('#btnReload{$uid}').trigger('click');", 
+        'captchaText'=>"$('#{$uid}Text').val()", 
+        'html'=>$parts[0], 
+        'script'=>str_replace('</script>', '',$parts[1]));
 }
 
 function getSharePopupButton($videos_id, $url = "", $title = "") {
