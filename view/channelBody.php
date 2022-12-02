@@ -1,4 +1,5 @@
 <?php
+global $global;
 $isMyChannel = false;
 if (User::isLogged() && $user_id == User::getId()) {
     $isMyChannel = true;
@@ -9,6 +10,8 @@ if ($user->getBdId() != $user_id) {
     header("Location: {$global['webSiteRootURL']}channels");
     exit;
 }
+
+$global['isChannel'] = $user_id;
 
 $_GET['channelName'] = $user->getChannelName();
 $timeLog = __FILE__ . " - channelName: {$_GET['channelName']}";
