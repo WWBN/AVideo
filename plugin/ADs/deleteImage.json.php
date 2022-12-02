@@ -31,7 +31,7 @@ if (empty($type)) {
 
 $typeFound = false;
 foreach (ADs::$AdsPositions as $key => $value) {
-    if ($type===$value[0]) {
+    if ($type === $value[0]) {
         $typeFound = true;
         break;
     }
@@ -49,6 +49,9 @@ if (empty($fileName)) {
     die(json_encode($result));
 }
 
+if (_empty($_REQUEST['is_regular_user'])) {
+    $_REQUEST['is_regular_user'] = false;
+}
 
 $paths = ADs::getAdsPath($type, @$_REQUEST['is_regular_user']);
 
