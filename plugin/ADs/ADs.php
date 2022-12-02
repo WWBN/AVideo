@@ -278,7 +278,13 @@ class ADs extends PluginAbstract{
             $videos_id = getVideos_id();
         }
         
-        $users_id = Video::getOwner($videos_id);
+        if(!empty($videos_id)){
+            $users_id = Video::getOwner($videos_id);
+        }else if(!empty($global['isChannel'])){
+            $users_id = $global['isChannel'];
+        }else{
+            $users_id = 0;
+        }
         
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
         eval("\$label = \$ad->{$type}Label;");
