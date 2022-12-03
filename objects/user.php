@@ -971,7 +971,8 @@ if (typeof gtag !== \"function\") {
             //_error_log("User::userCanWatchVideoWithAds (can) " . User::getId() . " " . $videos_id);
             return true;
         }
-        if (isVideo()) {
+
+        if (!empty($_REQUEST['debug']) && isVideo()) {
             _error_log("User::userCanWatchVideoWithAds (No can not) " . User::getId() . " " . $videos_id);
         }
 
@@ -979,7 +980,8 @@ if (typeof gtag !== \"function\") {
             //_error_log("User::canWatchVideo (can) " . $videos_id);
             return true;
         }
-        if (isVideo()) {
+
+        if (!empty($_REQUEST['debug']) && isVideo()) {
             _error_log("User::canWatchVideo (No can not) " . $videos_id);
         }
 
@@ -1150,9 +1152,10 @@ if (typeof gtag !== \"function\") {
         return "";
     }
 
-    public static function getCaptchaForm($uid = "", $forceCaptcha = false){
-        global $global;        
-        $capcha = getCaptcha($uid, $forceCaptcha);        
+    public static function getCaptchaForm($uid = "", $forceCaptcha = false)
+    {
+        global $global;
+        $capcha = getCaptcha($uid, $forceCaptcha);
         return $capcha;
     }
 
@@ -2527,7 +2530,8 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
-    public static function verifyCode($code){
+    public static function verifyCode($code)
+    {
         global $global;
         $obj = static::decodeVerificationCode($code);
         $salt = hash('sha256', $global['salt']);
