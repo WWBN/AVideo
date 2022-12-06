@@ -55,7 +55,7 @@ if ($isMyChannel) {
     <?php 
     $rss =  "{$global['webSiteRootURL']}feed/?program_id={$program['id']}";
     $mrss =  "{$global['webSiteRootURL']}mrss/?program_id={$program['id']}";
-    $roku =  "{$global['webSiteRootURL']}roku.json/?program_id={$program['id']}";
+    $roku =  "{$global['webSiteRootURL']}roku.json?program_id={$program['id']}";
     echo getFeedButton($rss, $mrss, $roku);
     ?>
     <div class="pull-right btn-group"  style="display: inline-flex;">
