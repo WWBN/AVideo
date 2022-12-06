@@ -22,6 +22,9 @@ if (!$isCompressed) {
     </div>
     <?php
 }
+if(is_object($video)){
+    $video = Video::getVideoLight($video->getId());
+}
 TimeLogEnd($timeLogNameMYB, __LINE__, $TimeLogLimitMYB);
 if (!empty($video['id'])) {
     TimeLogEnd($timeLogNameMYB, __LINE__, $TimeLogLimitMYB);
