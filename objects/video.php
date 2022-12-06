@@ -2356,6 +2356,21 @@ if (!class_exists('Video')) {
 
         public function setCategories_id($categories_id) {
             if (!Category::userCanAddInCategory($categories_id)) {
+                $reason = 'unknown';
+                if(!empty($categories_id)){
+                    $users_id = User::getId();
+                    if(!empty($users_id)){
+                        $cat = new Category($categories_id);
+                        if (!empty($cat->getPrivate()) && $users_id == $cat->getUsers_id()) {
+                            $reason = 'The category is private and belong to users_id '.$cat->getUsers_id();
+                        }
+                    }else{
+                        $reason = 'users_id is empty';
+                    }
+                }else{
+                    $reason = 'categories_id is empty';
+                }
+                _error_log("The users_id {$users_id} cannot add in the categories_id {$categories_id} reason: ");
                 return false;
             }
 
