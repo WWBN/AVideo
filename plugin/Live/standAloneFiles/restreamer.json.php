@@ -497,7 +497,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             }
             $value = clearCommandURL($value);
             $command .= ' -max_muxing_queue_size 1024 '
-                    . '-bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k '
+                    . '-c:a copy -bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k '
                     . '-vcodec libx264 '
                     . '-pix_fmt yuv420p '
                     . '-vf scale=-1:1080 '
@@ -511,7 +511,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         } else {
             //$command = "ffmpeg -re -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
             $command = "{$ffmpegBinary} -re -rw_timeout 15000000 -y -i \"{$m3u8}\" -max_muxing_queue_size 1024 "
-            . "-bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k "
+            . "-c:a copy -bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k "
             . "-vcodec libx264 "
             . "-pix_fmt yuv420p "
             . "-vf scale=-1:1080 "
