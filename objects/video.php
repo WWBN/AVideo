@@ -2355,7 +2355,7 @@ if (!class_exists('Video')) {
         }
 
         public function setCategories_id($categories_id) {
-            if (!Category::userCanAddInCategory($categories_id)) {
+            if (!User::isAdmin() && !Category::userCanAddInCategory($categories_id)) {
                 $reason = 'unknown';
                 if(!empty($categories_id)){
                     $users_id = User::getId();
