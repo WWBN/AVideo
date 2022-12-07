@@ -19,11 +19,15 @@ error_reporting(E_ALL);
 require_once $global['systemRootPath'] . 'plugin/YPTSocket/db.php';
 
 if (function_exists('pdo_drivers') && in_array("sqlite", pdo_drivers())) {
-    _error_log("Socket server SQLLite loading");
-    require_once $global['systemRootPath'] . 'plugin/YPTSocket/MessageSQLLite.php';
+    _error_log("Socket server SQLite loading");
+    require_once $global['systemRootPath'] . 'plugin/YPTSocket/MessageSQLite.php';
 } else {
-    _error_log("Socket server For better performance install PDO SQLLite in your PHP");
+    _error_log("Socket server For better performance install PDO SQLite in your PHP");
     _error_log("sudo apt-get install php-sqlite");
+    _error_log("after that in your php.ini file to uncomment this line:");
+    _error_log(";extension=pdo_sqlite.so");
+    
+
     require_once $global['systemRootPath'] . 'plugin/YPTSocket/Message.php';
 }
 
