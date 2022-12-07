@@ -17,8 +17,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 function riseSQLiteError(){
-    _error_log("Socket server For better performance install PDO SQLite in your PHP");
-    echo ("sudo apt-get install php-sqlite").PHP_EOL;
+    _error_log("Socket server For better performance install PDO SQLite in your PHP", AVideoLog::$ERROR);
+    echo ("sudo apt-get install php-sqlite3").PHP_EOL;
     echo ("after that in your php.ini (".php_ini_loaded_file().") file to uncomment this line:").PHP_EOL;
     echo (";extension=pdo_sqlite.so").PHP_EOL;
 }
