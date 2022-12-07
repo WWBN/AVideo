@@ -16,6 +16,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     User::loginFromRequest();
     $users_id = User::getId();
     $user = User::getUserFromID($users_id);
+    $user['request'] = $_REQUEST;
     echo json_encode($user);
     exit;
 } else if (User::isLogged()) {
