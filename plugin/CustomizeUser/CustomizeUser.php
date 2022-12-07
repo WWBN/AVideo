@@ -53,7 +53,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->userCanNotChangeUserGroup = false;
 
         $o = new stdClass();
-        $o->type = [0 => __("Default")] + UserGroups::getAllUsersGroupsArray();
+        $o->type = array_merge([0 => __("Default")], UserGroups::getAllUsersGroupsArray());
         $o->value = 0;
         $obj->userDefaultUserGroup = $o;
         $obj->userMustBeLoggedIn = !isset($advancedCustom->userMustBeLoggedIn) ? false : $advancedCustom->userMustBeLoggedIn;
