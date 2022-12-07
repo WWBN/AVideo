@@ -16,18 +16,19 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once $global['systemRootPath'] . 'plugin/YPTSocket/db.php';
-
-if (function_exists('pdo_drivers') && in_array("sqlite", pdo_drivers())) {
-    _error_log("Socket server SQLite loading");
-    require_once $global['systemRootPath'] . 'plugin/YPTSocket/MessageSQLite.php';
-} else {
+function riseSQLiteError(){
     _error_log("Socket server For better performance install PDO SQLite in your PHP");
     _error_log("sudo apt-get install php-sqlite");
     _error_log("after that in your php.ini file to uncomment this line:");
     _error_log(";extension=pdo_sqlite.so");
-    
+}
 
+if (function_exists('pdo_drivers') && in_array("sqlite", pdo_drivers())) {
+    _error_log("Socket server SQLite loading");
+    require_once $global['systemRootPath'] . 'plugin/YPTSocket/db.php';
+    require_once $global['systemRootPath'] . 'plugin/YPTSocket/MessageSQLite.php';
+} else {
+    riseSQLiteError();
     require_once $global['systemRootPath'] . 'plugin/YPTSocket/Message.php';
 }
 

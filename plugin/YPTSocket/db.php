@@ -1,5 +1,10 @@
 <?php
-$db = new PDO('sqlite::memory:');
+try {
+    $db = new PDO('sqlite::memory:');
+} catch (Exception $exc) {
+    riseSQLiteError();
+    echo $exc->getTraceAsString();
+}
 
 $schema = file_get_contents($global['systemRootPath'] . 'plugin/YPTSocket/sql.sql');
 
