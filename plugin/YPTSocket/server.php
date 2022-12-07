@@ -18,9 +18,9 @@ error_reporting(E_ALL);
 
 function riseSQLiteError(){
     _error_log("Socket server For better performance install PDO SQLite in your PHP");
-    _error_log("sudo apt-get install php-sqlite");
-    _error_log("after that in your php.ini file to uncomment this line:");
-    _error_log(";extension=pdo_sqlite.so");
+    echo ("sudo apt-get install php-sqlite").PHP_EOL;
+    echo ("after that in your php.ini file to uncomment this line:").PHP_EOL;
+    echo (";extension=pdo_sqlite.so").PHP_EOL;
 }
 
 if (function_exists('pdo_drivers') && in_array("sqlite", pdo_drivers())) {
