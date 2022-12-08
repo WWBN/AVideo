@@ -12,13 +12,13 @@ if (!isset($global['systemRootPath'])) {
 }
 $html = '';
 if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
-    header('Content-Type: application/json');
     User::loginFromRequest();
-    $users_id = User::getId();
-    $user = User::getUserFromID($users_id);
-    $user['request'] = $_REQUEST;
-    echo json_encode($user);
-    exit;
+    $html .= 'loginFromRequest ';
+    if (User::isLogged()) {
+        $html .= 'is Logged ';
+    } else {
+        $html .= 'is NOT Logged ';
+    }
 } else if (User::isLogged()) {
     $users_id = User::getId();
     if (AVideoPlugin::isEnabledByName('Chat2')) {
