@@ -306,6 +306,10 @@ class ADs extends PluginAbstract
         if (empty($adCode)) {
             eval("\$adCode = \$ad->{$type}->value;");
         }
+        if (empty($adCode)) {
+            $array = self::getAdsHTML($type);
+            $adCode = $array['html'];
+        }
 
         return ['adCode' => $adCode, 'label' => $label, 'paths' => $array['paths']];
     }
