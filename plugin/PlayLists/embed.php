@@ -132,6 +132,11 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
 }
 $_REQUEST['hideAutoplaySwitch'] = 1;
 //var_dump($playListData_videos_id);exit;
+
+$pl_index = getPlayListIndex();
+$str = file_get_contents($global['systemRootPath'] . 'plugin/PlayLists/getStartPlayerJS.js');
+$str = str_replace('{$pl_index}', $pl_index, $str);
+PlayerSkins::getStartPlayerJS($str);
 ?>
 
 <!DOCTYPE html>
@@ -206,6 +211,9 @@ $_REQUEST['hideAutoplaySwitch'] = 1;
                 right: 0;
                 z-index: 1;
             }
+            .vjs-playlist .vjs-playlist-duration{
+                display: unset !important;
+            }
         </style>
 
         <?php
@@ -259,27 +267,27 @@ $_REQUEST['hideAutoplaySwitch'] = 1;
             var originalPlayerPlaylist = embed_playerPlaylist;
             var updatePLSourcesTimeout;
             var isPlayListPlaying = 0;
-                        
-            function setCurrentPlaylitItemVideoStartSeconds(videoStartSeconds){
-                if(typeof embed_playerPlaylist[player.playlist.currentIndex()] !== 'undefined'){
+
+            function setCurrentPlaylitItemVideoStartSeconds(videoStartSeconds) {
+                if (typeof embed_playerPlaylist[player.playlist.currentIndex()] !== 'undefined') {
                     embed_playerPlaylist[player.playlist.currentIndex()].videoStartSeconds = videoStartSeconds;
                 }
             }
-            
-            function addViewOnCurrentPlaylitItem(currentTime){
+
+            function addViewOnCurrentPlaylitItem(currentTime) {
                 var videos_id = getCurrentPlaylitItemVideosId();
-                if(videos_id){
+                if (videos_id) {
                     addView(videos_id, currentTime);
                 }
             }
-            
-            function getCurrentPlaylitItemVideosId(){
-                if(typeof embed_playerPlaylist[player.playlist.currentIndex()] !== 'undefined' && !empty(embed_playerPlaylist[player.playlist.currentIndex()].videos_id)){
+
+            function getCurrentPlaylitItemVideosId() {
+                if (typeof embed_playerPlaylist[player.playlist.currentIndex()] !== 'undefined' && !empty(embed_playerPlaylist[player.playlist.currentIndex()].videos_id)) {
                     return embed_playerPlaylist[player.playlist.currentIndex()].videos_id;
                 }
                 return 0;
             }
-            
+
             function updatePLSources(_index) {
                 if (_index < 0) {
                     _index = 0;
@@ -323,52 +331,6 @@ $_REQUEST['hideAutoplaySwitch'] = 1;
                     return false;
                 }
             }
-
-<?php
-$str = "
-            player.playlist(embed_playerPlaylist);
-            player.playlist.autoadvance(0);
-            player.on('play', function () {
-                addViewOnCurrentPlaylitItem(0);
-            });
-            player.on('ended', function(){ 
-                setCurrentPlaylitItemVideoStartSeconds(0);
-            });
-            player.on('timeupdate', function () {
-                var time = Math.round(player.currentTime());
-                if (time >= 5) {
-                    setCurrentPlaylitItemVideoStartSeconds(time);
-                    if (time % 5 === 0) {
-                        addViewOnCurrentPlaylitItem(time);
-                    }
-                }
-                
-            });
-            player.on('playlistchange', function() {
-                console.log('event playlistchange');
-            });
-            player.on('duringplaylistchange', function() {
-                console.log('event duringplaylistchange');
-            });
-            player.on('playlistitem', function() {
-                var index = player.playlist.currentIndex();
-                updatePLSources(index);
-                mediaId = getCurrentPlaylitItemVideosId(); 
-                console.log('event playlistitem ', index, mediaId);
-            });
-            player.playlistUi();";
-if (!empty(getPlayListIndex())) {
-    $str .= 'player.playlist.currentItem(' . getPlayListIndex() . ');';
-}
-$str .= "if (typeof embed_playerPlaylist[0] !== 'undefined') {
-                    updatePLSources(".getPlayListIndex().");
-                }
-                $('.vjs-playlist-item ').click(function () {
-                    var index = player.playlist.currentIndex();
-                    updatePLSources(index);
-                });";
-PlayerSkins::getStartPlayerJS($str);
-?>
         </script>
         <?php
         echo AVideoPlugin::afterVideoJS();
