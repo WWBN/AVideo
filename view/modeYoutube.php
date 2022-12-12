@@ -66,10 +66,11 @@ if (!empty($evideo)) {
     session_write_close();
 
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-    if (empty($_GET['playlist_id']) && !empty($_GET['playlists_id'])) {
+    if (empty($_GET['playlist_id']) && !empty($_GET['playlist_name'])) {
+        $_GET['playlist_id'] = $_GET['playlist_name'];
+    }else if (empty($_GET['playlist_id']) && !empty($_GET['playlists_id'])) {
         $_GET['playlist_id'] = $_GET['playlists_id'];
     }
-
     if (!empty($_GET['playlist_id'])) {
         $isSerie = 1;
         if (preg_match("/^[0-9]+$/", $_GET['playlist_id'])) {
@@ -87,6 +88,7 @@ if (!empty($evideo)) {
         }
 
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist_id);
+                
         if (empty($videosArrayId)) {
             videoNotFound(__('Playlist is empty or does not exist'));
         }
@@ -210,6 +212,7 @@ if (!empty($evideo)) {
         }
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     }
+    
     $modeYouTubeTimeLog['Code part 2'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
     if (!empty($video)) {

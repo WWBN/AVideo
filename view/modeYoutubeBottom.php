@@ -62,7 +62,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                     <i class="fa fa-edit"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Edit Video"); ?></span>
                 </button>
                 <button type="button" class="btn btn-default btn-xs" onclick="avideoModalIframeFull(webSiteRootURL + 'view/videoViewsInfo.php?videos_id=<?php echo $video['id']; ?>');
-                            return false;">
+                        return false;">
                     <i class="fa fa-eye"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Views Info"); ?></span>
                 </button>
                 <?php

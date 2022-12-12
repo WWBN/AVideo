@@ -1,4 +1,5 @@
 <?php
+$AVideoMobileAPPLivestreamer_UA = "AVideoMobileAppLiveStreamer";
 $AVideoMobileAPP_UA = "AVideoMobileApp";
 $AVideoEncoder_UA = "AVideoEncoder";
 $AVideoEncoderNetwork_UA = "AVideoEncoderNetwork";
