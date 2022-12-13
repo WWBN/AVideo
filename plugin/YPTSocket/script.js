@@ -48,11 +48,11 @@ function socketConnect() {
         yptSocketResponse = json;
         parseSocketResponse();
         if (json.type == webSocketTypes.ON_VIDEO_MSG) {
-            //console.log("Socket onmessage ON_VIDEO_MSG", json);
+            console.log("Socket onmessage ON_VIDEO_MSG", json);
             $('.videoUsersOnline, .videoUsersOnline_' + json.videos_id).text(json.total);
         }
         if (json.type == webSocketTypes.ON_LIVE_MSG && typeof json.is_live !== 'undefined') {
-            //console.log("Socket onmessage ON_LIVE_MSG", json);
+            console.log("Socket onmessage ON_LIVE_MSG", json);
             var selector = '#liveViewStatusID_' + json.live_key.key + '_' + json.live_key.live_servers_id;
             if (json.is_live) {
                 onlineLabelOnline(selector);
