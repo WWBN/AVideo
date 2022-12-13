@@ -100,7 +100,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             
             .liveUsersLabel, #LiveUsersLabelLive{
                 position: fixed;
-                top: 80px !important;
+                top: 100px !important;
             }
             .liveUsersLabel{
                 left: 20px !important;
