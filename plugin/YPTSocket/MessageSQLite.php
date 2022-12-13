@@ -92,7 +92,7 @@ class Message implements MessageComponentInterface {
         $client['os'] = $client['client']->os;
         $client['data'] = $json;
         
-        var_dump($client['liveLink'], $live_key);
+        //var_dump($client['liveLink'], $live_key);
         
         $this->setClient($conn, $client);
         dbInsertConnection($client);
