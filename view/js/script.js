@@ -2798,7 +2798,7 @@ function getPleaseWait() {
         var selector = "#pleaseWaitDialog_" + index;
         var pleaseWaitDiv = $(selector);
         if (pleaseWaitDiv.length === 0) {
-            console.log('getPleaseWait', index);
+            //console.log('getPleaseWait', index);
             if (typeof avideoLoader == 'undefined') {
                 avideoLoader = '';
             }

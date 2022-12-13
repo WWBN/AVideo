@@ -1,4 +1,5 @@
 <?php
+
 try {
     $db = new PDO('sqlite::memory:');
 } catch (Exception $exc) {
@@ -14,7 +15,7 @@ $db->sqliteCreateFunction('regexp_like', 'preg_match', 2);
 
 $ignoreColumns = array('conn');
 
-//`resourceId`, `users_id`, `room_users_id`, `videos_id`, `live_key`, `isAdmin`, `user_name`, `browser`, `yptDeviceId`, `client`, `selfURI`, `isCommandLine`, `pageTitle`, `ip`, `location`, `data`
+//`resourceId`, `users_id`, `room_users_id`, `videos_id`, `live_key`, `isAdmin`, `user_name`, `browser`, `yptDeviceId`, `client`, `selfURI`, `isCommandLine`, `page_title`, `ip`, `location`, `data`
 function dbInsertConnection($array) {
     global $db, $ignoreColumns;
     $columns = array();
@@ -59,7 +60,7 @@ function dbInsertConnection($array) {
         $count = 0;
         foreach ($holders as $key => $value) {
             $count++;
-            echo "{$count} => {$value} => {$values[$key]}".PHP_EOL;
+            echo "{$count} => {$value} => {$values[$key]}" . PHP_EOL;
         }
         echo PHP_EOL;
         echo $exc->getTraceAsString();
@@ -70,7 +71,6 @@ function dbInsertConnection($array) {
         return false;
     }
 }
-
 
 function dbGetRowFromResourcesId($resourceId) {
     global $db;
@@ -158,7 +158,7 @@ function dbGetAllResourceIdFromSelfURI($selfURI) {
     global $db;
     $sql = "SELECT resourceId FROM `connections` "
             . " WHERE regexp_like('{$selfURI}', selfURI) ";
-    echo $sql.PHP_EOL;
+    echo $sql . PHP_EOL;
     $sth = $db->prepare($sql);
     $sth->execute();
     $result = $sth->fetchAll();
@@ -181,6 +181,68 @@ function dbGetAllResourcesIdFromLive($live_key, $live_servers_id) {
     $sth = $db->prepare($sql);
     $sth->execute();
     return $sth->fetchAll();
+}
+
+function dbGetDBTotals() {
+    global $db;
+    $users_uri = array();
+    $sql = "SELECT * "
+            . "FROM `connections` "
+            . "WHERE selfURI IS NOT NULL AND selfURI != '' ORDER BY selfURI ";
+    $sth = $db->prepare($sql);
+    $sth->execute();
+    $rows = $sth->fetchAll();
+    $videos = array();
+    foreach ($rows as $client) {
+        $index = md5($client['selfURI']);
+        if (!isset($users_uri[$index])) {
+            $users_uri[$index] = array();
+        }
+        if (!isset($users_uri[$index][$client['yptDeviceId']])) {
+            $users_uri[$index][$client['yptDeviceId']] = array();
+        }
+        if (!isset($users_uri[$index][$client['yptDeviceId']][$client['users_id']])) {
+            $users_uri[$index][$client['yptDeviceId']][$client['users_id']] = array();
+        }
+        
+        $location = false;
+        if(!empty($client['location'])){
+            $location = array('country_code'=>$client['country_code'], 'country_name'=>$client['country_name']);
+        }
+        
+        $users_uri[$index][$client['yptDeviceId']][$client['users_id']] = array('resourceId' => $client['resourceId'],
+            'users_id' => $client['users_id'],
+            'room_users_id' => $client['room_users_id'],
+            'videos_id' => $client['videos_id'],
+            'live_key_servers_id' => $client['live_key_servers_id'],
+            'liveLink' => $client['liveLink'],
+            'isAdmin' => $client['isAdmin'],
+            'live_key' => $client['live_key'],
+            'live_servers_id' => $client['live_servers_id'],
+            'user_name' => $client['user_name'],
+            'browser' => $client['browser'],
+            'yptDeviceId' => $client['yptDeviceId'],
+            'client' => $client['client'],
+            'selfURI' => $client['selfURI'],
+            'isCommandLine' => $client['isCommandLine'],
+            'page_title' => $client['page_title'],
+            'os' => $client['os'],
+            'country_code' => $client['country_code'],
+            'country_name' => $client['country_name'],
+            'ip' => $client['ip'],
+            'location' => $location,
+            'client' => array('browser'=>$client['browser'], 'os'=>$client['os']));
+        
+        if(!empty($client['videos_id'])){
+            $videoIndex = "total_on_videos_id_{$client['videos_id']}";
+            if(empty($videos[$videoIndex])){
+                $videos[$videoIndex] = 0;
+            }
+            $videos[$videoIndex]++;
+        }
+    }
+
+    return array('users_uri'=>$users_uri, 'videos'=>$videos);
 }
 
 function dbGetTotalUniqueDevices() {

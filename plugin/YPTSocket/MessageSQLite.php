@@ -5,6 +5,7 @@ namespace Socket;
 use React\EventLoop\Loop;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+use Amp\Loop as AMPLoop;
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
@@ -12,6 +13,18 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 class Message implements MessageComponentInterface {
 
     protected $clients;
+    protected $clientsLoggedConnections = 0;
+    protected $clientsInVideos = array();
+    protected $clientsInLives = array();
+    protected $clientsInLivesLinks = array();
+    protected $clientsInChatsRooms = array();
+    protected $itemsToCheck = array(
+        array('parameter' => 'clientsLoggedConnections', 'index' => 'users_id', 'class_prefix'=>''),
+        array('parameter' => 'clientsInVideos', 'index' => 'videos_id', 'class_prefix'=>'total_on_videos_id_'),
+        array('parameter' => 'clientsInLives', 'index' => 'live_key_servers_id', 'class_prefix'=>'total_on_live_'),
+        array('parameter' => 'clientsInLivesLinks', 'index' => 'liveLink', 'class_prefix'=>'total_on_live_links_id_'),
+        array('parameter' => 'clientsInChatsRooms', 'index' => 'room_users_id', 'class_prefix'=>'')
+    );
 
     public function __construct() {
         //$this->loop->ad
@@ -35,25 +48,25 @@ class Message implements MessageComponentInterface {
             _log_message("Invalid websocket token ");
             return false;
         }
-        $this->clients[$conn->resourceId] = $conn;
+
         $live_key = object_to_array(@$json->live_key);
-        if(empty($live_key)){
-            $live_key = new \stdClass();
-            $live_key->key = '';
-            $live_key->live_servers_id = 0;
-            $live_key->liveLink = '';
+        if (empty($live_key)) {
+            $live_key = array();
+            $live_key['key'] = '';
+            $live_key['live_servers_id'] = 0;
+            $live_key['liveLink'] = '';
         }
-        
+        //var_dump($live_key);
         $client = array();
         $client['resourceId'] = intval($conn->resourceId);
         $client['users_id'] = intval($json->from_users_id);
         $client['room_users_id'] = intval(@$json->room_users_id);
         $client['videos_id'] = intval($json->videos_id);
-        $client['live_key_servers_id'] = "{$live_key->key}_{$live_key->live_servers_id}";
-        $client['liveLink'] = $live_key->liveLink;
+        $client['live_key_servers_id'] = "{$live_key['key']}_{$live_key['live_servers_id']}";
+        $client['liveLink'] = $live_key['liveLink'];
         $client['isAdmin'] = $json->isAdmin;
-        $client['live_key'] = $live_key->key;
-        $client['live_servers_id'] = intval($live_key->live_servers_id);
+        $client['live_key'] = $live_key['key'];
+        $client['live_servers_id'] = intval($live_key['live_servers_id']);
         $client['user_name'] = $json->user_name;
         $client['browser'] = $json->browser;
         $client['yptDeviceId'] = $json->yptDeviceId;
@@ -64,11 +77,24 @@ class Message implements MessageComponentInterface {
             $client['selfURI'] = $json->selfURI;
         }
         $client['isCommandLine'] = @$wsocketGetVars['isCommandLine'];
-        $client['pageTitle'] = @utf8_encode(@$wsocketGetVars['page_title']);
+        $client['page_title'] = @utf8_encode(@$wsocketGetVars['page_title']);
         $client['ip'] = $json->ip;
-        $client['location'] = $json->location;
+        if (!empty($json->location)) {
+            $client['location'] = $json->location->country_name;
+            $client['country_name'] = $json->location->country_name;
+            $client['country_code'] = $json->location->country_code;
+        } else {
+            $client['location'] = 0;
+            $client['country_name'] = 0;
+            $client['country_code'] = 0;
+        }
+        $client['browser'] = $client['client']->browser;
+        $client['os'] = $client['client']->os;
         $client['data'] = $json;
-
+        
+        var_dump($client['liveLink'], $live_key);
+        
+        $this->setClient($conn, $client);
         dbInsertConnection($client);
 
         if ($client['browser'] == \SocketMessageType::TESTING) {
@@ -80,19 +106,89 @@ class Message implements MessageComponentInterface {
         } else {
             //_log_message("NOT shouldPropagateInfo ");
         }
-        $end = number_format(microtime(true)-$start, 4);
+        $end = number_format(microtime(true) - $start, 4);
         _log_message("Connection opened in {$end} seconds");
     }
 
     public function onClose(ConnectionInterface $conn) {
         global $onMessageSentTo, $SocketGetTotals;
         $client = dbGetRowFromResourcesId($conn->resourceId);
+        _log_message("onClose {$conn->resourceId} before deleted");
         dbDeleteConnection($conn->resourceId);
-        unset($this->clients[$conn->resourceId]);
+        _log_message("onClose {$conn->resourceId} has deleted");
+        $this->unsetClient($conn, $client);
         if ($this->shouldPropagateInfo($client)) {
-            $this->msgToAll($conn, array('users_id' => $client['users_id']), \SocketMessageType::NEW_DISCONNECTION);
+            $this->msgToAll($conn, array('users_id' => $client['users_id'], 'disconnected'=>$conn->resourceId), \SocketMessageType::NEW_DISCONNECTION);
         }
         _log_message("Connection {$conn->resourceId} has disconnected");
+    }
+
+    protected function setClient(ConnectionInterface $conn, $client) {
+        $this->clients[$conn->resourceId] = $conn;
+        foreach ($this->itemsToCheck as $value) {
+            if (!empty($client[$value['index']])) {
+                if (!is_array($this->{$value['parameter']})) {
+                    $this->{$value['parameter']} = array();
+                }
+                if (empty($this->{$value['parameter']}[$client[$value['index']]])) {
+                    $this->{$value['parameter']}[$client[$value['index']]] = 1;
+                } else {
+                    $this->{$value['parameter']}[$client[$value['index']]]++;
+                }
+            }
+        }
+    }
+
+    protected function unsetClient(ConnectionInterface $conn, $client) {
+        unset($this->clients[$conn->resourceId]);
+
+        foreach ($this->itemsToCheck as $value) {
+            if (!empty($client[$value['index']])) {
+                if (!is_array($this->{$value['parameter']})) {
+                    $this->{$value['parameter']} = array();
+                } else {
+                    $this->{$value['parameter']}[$client[$value['index']]]--;
+                    if ($this->{$value['parameter']}[$client[$value['index']]] <= 0) {
+                        unset($this->{$value['parameter']}[$client[$value['index']]]);
+                    }
+                }
+            }
+        }
+    }
+
+    function getTotalFromVars() {
+        $totals = array();
+        
+        foreach ($this->itemsToCheck as $value) {
+            if(!empty($value['class_prefix'])){
+                foreach ($this->{$value['parameter']} as $key2 => $value2) {
+                    if(empty($key2) || $key2 === '_0' || $key2 === '_'){
+                        continue;
+                    }
+                    $index = "{$value['class_prefix']}{$key2}";
+                    $totals[$index] = $value2;
+                }
+            }
+        }
+        
+        return $totals;
+    }
+
+    public function getTotals() {
+        //$getTotals = dbGetDBTotals();
+        $totals = array();
+        $totals['total_devices_online'] = dbGetTotalUniqueDevices();
+        $totals['total_users_online'] = dbGetTotalUniqueUsers();
+        //$totals['class_to_update'] = dbGetTotalUniqueDevices();
+        //$totals['users_uri'] = $getTotals['users_uri'];
+        $totals['LivesTotals'] = $this->getLivesTotal();
+
+        //$getTotals = dbGetDBTotals();
+        $getTotalFromVars = $this->getTotalFromVars();
+
+        $totals = array_merge($totals, $getTotalFromVars);
+        //var_dump($totals);
+        return $totals;
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
@@ -145,12 +241,12 @@ class Message implements MessageComponentInterface {
         return true;
     }
 
-    public function msgToResourceId($msg, $resourceId, $type = "") {
+    public function msgToResourceId($msg, $resourceId, $type = "", $totals = array()) {
         global $onMessageSentTo, $SocketDataObj;
-        if(empty($resourceId)){
+        if (empty($resourceId)) {
             return false;
         }
-        
+
         $row = dbGetRowFromResourcesId($resourceId);
 
         if (empty($row)) {
@@ -201,7 +297,10 @@ class Message implements MessageComponentInterface {
         $obj['webSocketServerVersion'] = $SocketDataObj->serverVersion;
         $obj['isAdmin'] = $row['isAdmin'];
 
-        $return = $this->getTotals();
+        if (empty($totals)) {
+            $totals = $this->getTotals();
+        }
+        $return = $totals;
 
         $info = array(
             'webSocketServerVersion' => $SocketDataObj->serverVersion,
@@ -209,9 +308,10 @@ class Message implements MessageComponentInterface {
             'socket_resourceId' => $resourceId,
         );
 
-        $obj['autoUpdateOnHTML'] = array_merge($info, $return);
+        $autoUpdateOnHTML = array_merge($info, $return);
+        $obj['autoUpdateOnHTML'] = $autoUpdateOnHTML;
 
-        $obj['users_uri'] = $return['users_uri'];
+        //$obj['users_uri'] = $return['users_uri'];
         $obj['resourceId'] = $resourceId;
         $obj['users_id_online'] = dbGetUniqueUsers();
 
@@ -259,21 +359,12 @@ class Message implements MessageComponentInterface {
         }
         $count = 0;
         $rows = dbGetAllResourceIdFromSelfURI($pattern);
+        $totals = $this->getTotals();
         foreach ($rows as $row) {
             $count++;
-            $this->msgToResourceId($msg, $row['resourceId'], $type);
+            $this->msgToResourceId($msg, $row['resourceId'], $type, $totals);
         }
         _log_message("msgToSelfURI: sent to ($count) clients pattern={$pattern} {$type}");
-    }
-
-    public function getTotals() {
-        $totals = array();
-        $totals['total_devices_online'] = dbGetTotalUniqueDevices();
-        $totals['total_users_online'] = dbGetTotalUniqueUsers();
-        $totals['class_to_update'] = dbGetTotalUniqueDevices();
-        $totals['users_uri'] = dbGetTotalUniqueDevices();
-        $totals['LivesTotals'] = $this->getLivesTotal();
-        return $totals;
     }
 
     function getLivesTotal() {
@@ -305,11 +396,14 @@ class Message implements MessageComponentInterface {
     public function msgToAll(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {
         $start = microtime(true);
         $rows = dbGetAll();
+
+        $totals = $this->getTotals();
+
         foreach ($rows as $key => $client) {
-            $this->msgToResourceId($msg, $client['resourceId'], $type);
+            $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
         }
-        $end = number_format(microtime(true)-$start, 4);
-        _log_message("msgToAll FROM ({$from->resourceId}) {$type} Total Clients: " . count($rows)." in {$end} seconds");
+        $end = number_format(microtime(true) - $start, 4);
+        _log_message("msgToAll FROM ({$from->resourceId}) {$type} Total Clients: " . count($rows) . " in {$end} seconds");
     }
 
     public function msgToAllSameVideo($videos_id, $msg) {
@@ -320,8 +414,9 @@ class Message implements MessageComponentInterface {
             $this->msgToArray($msg);
         }
         _log_message("msgToAllSameVideo: {$videos_id}");
+        $totals = $this->getTotals();
         foreach (dbGetAllResourcesIdFromVideosId($videos_id) as $client) {
-            $this->msgToResourceId($msg, $client['resourceId'], \SocketMessageType::ON_VIDEO_MSG);
+            $this->msgToResourceId($msg, $client['resourceId'], \SocketMessageType::ON_VIDEO_MSG, $totals);
         }
     }
 
@@ -329,12 +424,21 @@ class Message implements MessageComponentInterface {
         if (empty($live_key)) {
             return false;
         }
-                
+
         if (!is_array($msg)) {
             $this->msgToArray($msg);
         }
-        
+
         $rows = dbGetAllResourcesIdFromLive($live_key, $live_servers_id);
+        $return = $this->getTotals();
+
+        $info = array(
+            'webSocketServerVersion' => $SocketDataObj->serverVersion,
+            'socket_users_id' => $users_id,
+            'socket_resourceId' => $resourceId,
+        );
+
+        $autoUpdateOnHTML = array_merge($info, $return);
         foreach ($rows as $value) {
             $this->msgToResourceId($msg, $value['resourceId'], \SocketMessageType::ON_LIVE_MSG);
         }

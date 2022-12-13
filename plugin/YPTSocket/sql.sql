@@ -14,7 +14,10 @@ CREATE TABLE IF NOT EXISTS `connections` (
     `client` TEXT NULL,
     `selfURI` VARCHAR(255) NULL,
     `isCommandLine` TINYINT NULL,
-    `pageTitle` VARCHAR(255) NULL,
+    `page_title` VARCHAR(255) NULL,
+    `os` VARCHAR(255) NULL,
+    `country_code` VARCHAR(255) NULL,
+    `country_name` VARCHAR(255) NULL,
     `ip` VARCHAR(45) NULL,
     `location` VARCHAR(45) NULL,
     `data` TEXT NULL
@@ -25,3 +28,4 @@ CREATE INDEX `index_videos_id` ON connections (videos_id);
 CREATE INDEX `index_live_key_servers_id` ON connections (live_key_servers_id);
 CREATE INDEX `index_liveLink` ON connections (liveLink);
 CREATE INDEX `index_isAdmin` ON connections (isAdmin);
+CREATE INDEX `index_selfURI` ON connections (selfURI);

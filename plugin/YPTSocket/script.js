@@ -8,12 +8,12 @@ var socketConnectTimeout;
 var users_id_online = [];
 function socketConnect() {
     if (socketConnectRequested) {
-        console.log('socketConnect: already requested');
+        //console.log('socketConnect: already requested');
         return false;
     }
     clearTimeout(socketConnectTimeout);
     if (!isOnline()) {
-        console.log('socketConnect: Not Online');
+        //console.log('socketConnect: Not Online');
         socketConnectRequested = 0;
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
@@ -23,10 +23,10 @@ function socketConnect() {
 
     socketConnectRequested = 1;
     var url = addGetParam(webSocketURL, 'page_title', $('<textarea />').html($(document).find("title").text()).text());
-    //console.log('Trying to reconnect on socket... ');
+    ////console.log('Trying to reconnect on socket... ');
     if (!isValidURL(url)) {
         socketConnectRequested = 0;
-        console.log("socketConnect: Invalid URL ", url);
+        //console.log("socketConnect: Invalid URL ", url);
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
         }, 30000);
@@ -37,7 +37,7 @@ function socketConnect() {
     conn.onopen = function (e) {
         socketConnectRequested = 0;
         clearTimeout(socketConnectTimeout);
-        console.log("socketConnect: Socket onopen");
+        //console.log("socketConnect: Socket onopen");
         onSocketOpen();
         return false;
     };
@@ -48,11 +48,11 @@ function socketConnect() {
         yptSocketResponse = json;
         parseSocketResponse();
         if (json.type == webSocketTypes.ON_VIDEO_MSG) {
-            console.log("Socket onmessage ON_VIDEO_MSG", json);
+            //console.log("Socket onmessage ON_VIDEO_MSG", json);
             $('.videoUsersOnline, .videoUsersOnline_' + json.videos_id).text(json.total);
         }
         if (json.type == webSocketTypes.ON_LIVE_MSG && typeof json.is_live !== 'undefined') {
-            console.log("Socket onmessage ON_LIVE_MSG", json);
+            //console.log("Socket onmessage ON_LIVE_MSG", json);
             var selector = '#liveViewStatusID_' + json.live_key.key + '_' + json.live_key.live_servers_id;
             if (json.is_live) {
                 onlineLabelOnline(selector);
@@ -61,24 +61,24 @@ function socketConnect() {
             }
         }
         if (json.type == webSocketTypes.NEW_CONNECTION) {
-            //console.log("Socket onmessage NEW_CONNECTION", json);
+            console.log("Socket onmessage NEW_CONNECTION", json);
             if (typeof onUserSocketConnect === 'function') {
                 onUserSocketConnect(json);
             }
         } else if (json.type == webSocketTypes.NEW_DISCONNECTION) {
-            //console.log("Socket onmessage NEW_DISCONNECTION", json);
+            console.log("Socket onmessage NEW_DISCONNECTION", json);
             if (typeof onUserSocketDisconnect === 'function') {
                 onUserSocketDisconnect(json);
             }
         } else {
             var myfunc;
             if (json.callback) {
-                console.log("Socket onmessage json.callback ", json.resourceId, json.callback);
+                //console.log("Socket onmessage json.callback ", json.resourceId, json.callback);
                 var code = "if(typeof " + json.callback + " == 'function'){myfunc = " + json.callback + ";}else{myfunc = defaultCallback;}";
-                //console.log(code);
+                ////console.log(code);
                 eval(code);
             } else {
-                console.log("onmessage: callback not found", json);
+                //console.log("onmessage: callback not found", json);
                 myfunc = defaultCallback;
             }
             myfunc(json.msg);
@@ -86,7 +86,7 @@ function socketConnect() {
     };
     conn.onclose = function (e) {
         socketConnectRequested = 0;
-        console.log('Socket is closed. Reconnect will be attempted in 15 seconds.', e.reason);
+        //console.log('Socket is closed. Reconnect will be attempted in 15 seconds.', e.reason);
         socketConnectTimeout = setTimeout(function () {
             socketConnect();
         }, 15000);
@@ -136,7 +136,7 @@ function sendSocketMessageToUser(msg, callback, to_users_id) {
     if (conn.readyState === 1) {
         conn.send(JSON.stringify({msg: msg, webSocketToken: webSocketToken, callback: callback, to_users_id: to_users_id}));
     } else {
-        console.log('Socket not ready send message in 1 second');
+        //console.log('Socket not ready send message in 1 second');
         setTimeout(function () {
             sendSocketMessageToUser(msg, to_users_id, callback);
         }, 1000);
@@ -147,7 +147,7 @@ function sendSocketMessageToUser(msg, callback, to_users_id) {
     if (conn.readyState === 1) {
         conn.send(JSON.stringify({msg: msg, webSocketToken: webSocketToken, callback: callback, to_users_id: to_users_id}));
     } else {
-        console.log('Socket not ready send message in 1 second');
+        //console.log('Socket not ready send message in 1 second');
         setTimeout(function () {
             sendSocketMessageToUser(msg, to_users_id, callback);
         }, 1000);
@@ -158,7 +158,7 @@ function sendSocketMessageToResourceId(msg, callback, resourceId) {
     if (conn.readyState === 1) {
         conn.send(JSON.stringify({msg: msg, webSocketToken: webSocketToken, callback: callback, resourceId: resourceId}));
     } else {
-        console.log('Socket not ready send message in 1 second');
+        //console.log('Socket not ready send message in 1 second');
         setTimeout(function () {
             sendSocketMessageToUser(msg, to_users_id, callback);
         }, 1000);
@@ -170,46 +170,58 @@ function isSocketActive() {
 }
 
 function defaultCallback(json) {
-    //console.log('defaultCallback', json);
+    ////console.log('defaultCallback', json);
 }
 
 var socketAutoUpdateOnHTMLTimout;
 var globalAutoUpdateOnHTML = [];
 function socketAutoUpdateOnHTML(autoUpdateOnHTML) {
+    globalAutoUpdateOnHTML = [];
     for (var prop in autoUpdateOnHTML) {
         if (autoUpdateOnHTML[prop] === false) {
             continue;
         }
+        if (typeof autoUpdateOnHTML[prop] !== 'string' && typeof autoUpdateOnHTML[prop] !== 'number') {
+            continue;
+        }
+        ////console.log('socketAutoUpdateOnHTML 1', prop, globalAutoUpdateOnHTML[prop], autoUpdateOnHTML[prop]);
         globalAutoUpdateOnHTML[prop] = autoUpdateOnHTML[prop];
     }
     
-    //console.log('socketAutoUpdateOnHTML 1', autoUpdateOnHTML, globalAutoUpdateOnHTML);
+    ////console.log('socketAutoUpdateOnHTML 1', autoUpdateOnHTML, globalAutoUpdateOnHTML);
 }
 
 
 async function AutoUpdateOnHTMLTimer() {
-
+    var localAutoUpdateOnHTML = [];
     clearTimeout(socketAutoUpdateOnHTMLTimout);
-    //console.log('globalAutoUpdateOnHTML 1', empty(globalAutoUpdateOnHTML), globalAutoUpdateOnHTML);
+    ////console.log('AutoUpdateOnHTMLTimer 1', empty(globalAutoUpdateOnHTML), globalAutoUpdateOnHTML);
     if (!empty(globalAutoUpdateOnHTML)) {
         $('.total_on').text(0);
         $('.total_on').parent().removeClass('text-success');
-        //console.log("parseSocketResponse", json.autoUpdateOnHTML);
+        ////console.log("AutoUpdateOnHTMLTimer 2", $('.total_on'), globalAutoUpdateOnHTML);
 
-        var localAutoUpdateOnHTML = globalAutoUpdateOnHTML;
+        localAutoUpdateOnHTML = globalAutoUpdateOnHTML;
         globalAutoUpdateOnHTML = [];
-        //console.log('localAutoUpdateOnHTML 1', localAutoUpdateOnHTML);
+        //console.log('AutoUpdateOnHTMLTimer localAutoUpdateOnHTML 1', globalAutoUpdateOnHTML, localAutoUpdateOnHTML);
         for (var prop in localAutoUpdateOnHTML) {
             if (localAutoUpdateOnHTML[prop] === false) {
                 continue;
             }
             var val = localAutoUpdateOnHTML[prop];
-            $('.' + prop).text(val);
-            if (parseInt(val) > 0) {
-                $('.' + prop).parent().addClass('text-success');
+            if(typeof val == 'string' || typeof val == 'number'){
+                ////console.log('AutoUpdateOnHTMLTimer 3', prop, val, $('.' + prop).text());
+                $('.' + prop).text(val);
+                //console.log('AutoUpdateOnHTMLTimer 4', prop, val, $('.' + prop).text());
+                if (parseInt(val) > 0) {
+                    $('.' + prop).parent().addClass('text-success');
+                }
             }
         }
+    }else{        
+        globalAutoUpdateOnHTML = [];
     }
+    localAutoUpdateOnHTML = [];
 
     socketAutoUpdateOnHTMLTimout = setTimeout(function () {
         AutoUpdateOnHTMLTimer();
@@ -219,10 +231,11 @@ async function AutoUpdateOnHTMLTimer() {
 
 function parseSocketResponse() {
     json = yptSocketResponse;
-    if (typeof json === 'undefined') {
+    yptSocketResponse = false;
+    if (typeof json === 'undefined' || json === false) {
         return false;
     }
-    //console.log("parseSocketResponse", json);
+    ////console.log("parseSocketResponse", json);console.trace();
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
         if (typeof avideoToastWarning == 'function') {
             avideoToastWarning("Please restart your socket server. You are running (v" + json.webSocketServerVersion + ") and your client is expecting (v" + webSocketServerVersion + ")");
@@ -236,7 +249,7 @@ function parseSocketResponse() {
     }
 
     if (json && typeof json.msg.autoEvalCodeOnHTML !== 'undefined') {
-        //console.log("autoEvalCodeOnHTML", json.msg.autoEvalCodeOnHTML);
+        ////console.log("autoEvalCodeOnHTML", json.msg.autoEvalCodeOnHTML);
         eval(json.msg.autoEvalCodeOnHTML);
     }
 
@@ -274,8 +287,10 @@ function parseSocketResponse() {
                     if (json.ResourceID == json.users_uri[prop][prop2][prop3].resourceId) {
                         text += '<stcong>(YOU)</strong>';
                     }
+                    ////console.log(json.users_uri[prop][prop2][prop3], json.users_uri[prop][prop2][prop3].client);
                     text = ' ' + json.users_uri[prop][prop2][prop3].page_title;
-                    text += '<br><small>(' + json.users_uri[prop][prop2][prop3].client.browser + ' - ' + json.users_uri[prop][prop2][prop3].client.os + ') ' + json.users_uri[prop][prop2][prop3].ip + '</small>';
+                    text += '<br><small>(' + json.users_uri[prop][prop2][prop3].client.browser + ' - ' + json.users_uri[prop][prop2][prop3].client.os + ') ' 
+                            + json.users_uri[prop][prop2][prop3].ip + '</small>';
                     if (json.users_uri[prop][prop2][prop3].location) {
                         text += '<br><i class="flagstrap-icon flagstrap-' + json.users_uri[prop][prop2][prop3].location.country_code + '" style="margin-right: 10px;"></i>';
                         text += ' ' + json.users_uri[prop][prop2][prop3].location.country_name;
@@ -334,13 +349,13 @@ var _startSocketTimeout;
 async function startSocket() {
     clearTimeout(_startSocketTimeout);
     if (!isOnline() || typeof webSiteRootURL == 'undefined') {
-        console.log('startSocket: Not Online');
+        //console.log('startSocket: Not Online');
         _startSocketTimeout = setTimeout(function () {
             startSocket();
         }, 10000);
         return false;
     }
-    //console.log('Getting webSocketToken ...');
+    ////console.log('Getting webSocketToken ...');
     getWebSocket = webSiteRootURL + 'plugin/YPTSocket/getWebSocket.json.php';
     getWebSocket = addGetParam(getWebSocket, 'webSocketSelfURI', webSocketSelfURI);
     getWebSocket = addGetParam(getWebSocket, 'webSocketVideos_id', webSocketVideos_id);
@@ -349,12 +364,12 @@ async function startSocket() {
         url: getWebSocket,
         success: function (response) {
             if (response.error) {
-                console.log('Getting webSocketToken ERROR ' + response.msg);
+                //console.log('Getting webSocketToken ERROR ' + response.msg);
                 if (typeof avideoToastError == 'function') {
                     avideoToastError(response.msg);
                 }
             } else {
-                //console.log('Getting webSocketToken SUCCESS ', response);
+                ////console.log('Getting webSocketToken SUCCESS ', response);
                 webSocketToken = response.webSocketToken;
                 webSocketURL = response.webSocketURL;
                 socketConnect();

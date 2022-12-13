@@ -1,17 +1,17 @@
 <?php
 
 use React\EventLoop\Loop;
+use React\Async\async;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use Socket\Message;
-
 //use React\Socket\Server as Reactor;
 if(empty($_SERVER['HTTP_HOST'])){
     $_SERVER['HTTP_HOST'] = 'localhost';
 }
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-
+_ob_end_clean();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -23,6 +23,7 @@ function riseSQLiteError(){
     echo (";extension=pdo_sqlite.so").PHP_EOL;
 }
 
+$loop = React\EventLoop\Loop::get();
 if (function_exists('pdo_drivers') && in_array("sqlite", pdo_drivers())) {
     _error_log("Socket server SQLite loading");
     require_once $global['systemRootPath'] . 'plugin/YPTSocket/db.php';
@@ -87,7 +88,6 @@ if (strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) {
     }
     echo "DO NOT CLOSE THIS TERMINAL " . PHP_EOL;
 
-    $loop = React\EventLoop\Loop::get();
 
     $webSock = new React\Socket\Server($SocketDataObj->uri . ':' . $SocketDataObj->port, $loop);
     $webSock = new React\Socket\SecureServer($webSock, $loop, $parameters);
@@ -99,5 +99,6 @@ if (strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) {
             ),
             $webSock
     );
+    
     $loop->run();
 }

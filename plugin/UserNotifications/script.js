@@ -41,12 +41,12 @@ function addTemplateFromArray(itemsArray) {
         priority = 6;
     }
     var selector = '#topMenuUserNotifications ul .list-group .priority' + priority;
-    console.log('addTemplateFromArray prepend', selector);
+    //console.log('addTemplateFromArray prepend', selector);
     try {
         $(selector).prepend(template);
         updateUserNotificationCount();
     } catch (e) {
-        console.log('addTemplateFromArray prepend error', selector, e);
+        //console.log('addTemplateFromArray prepend error', selector, e);
     }
     return true;
 }
@@ -118,7 +118,7 @@ function updateUserNotificationCount() {
     _updateUserNotificationCountTimeout = setTimeout(function () {
         var valueNow = parseInt($('#topMenuUserNotifications  a > span.badge-notify').text());
         var total = $('#topMenuUserNotifications > ul .list-group a').length;
-        console.log('updateUserNotificationCount', total);
+        //console.log('updateUserNotificationCount', total);
         if (total <= 0) {
             $('#topMenuUserNotifications').addClass('hasNothingToShow');
             $('#topMenuUserNotifications').removeClass('hasSomethingToShow');
