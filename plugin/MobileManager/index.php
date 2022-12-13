@@ -21,9 +21,13 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     }
 } else if (User::isLogged()) {
     $users_id = User::getId();
+    $livet = LiveTransmition::createTransmitionIfNeed($users_id); 
+    $_REQUEST['live_transmitions_id'] = $livet['id'];
+    $getLiveKey = setLiveKey($livet['key'], $livet['live_servers_id'], $livet['live_index']);
+    //var_dump($livet, $getLiveKey, isLive());exit;
     if (AVideoPlugin::isEnabledByName('Chat2')) {
-        $latest = LiveTransmitionHistory::getLatestFromUser($users_id);
         $room_users_id = $users_id;
+        $latest = LiveTransmitionHistory::getLatestFromUser($users_id);
         $live_transmitions_history_id = $latest['id'];
         $iframe = 1;
         $noFade = 1;
@@ -63,7 +67,15 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
         //include "{$global['systemRootPath']}plugin/Chat2/index.php";
         //return false;
     }
-}else{
+    if (AVideoPlugin::isEnabledByName('LiveUsers')) {
+        $html .= getLiveUsersLabelHTML();
+        $html .= '<div id="LiveUsersLabelLive">'.getLiveUsersLabelLive($livet['key'], $livet['live_servers_id']).'</div>';
+        //$html .= '<div id="LiveUsersLabelLive">'.getLiveUsersLabelLive($lt['key'], $lt['live_servers_id']).'</div>';
+        //$html .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Live/view/menuRight.php');
+        
+        //var_dump($lt);exit;
+    }
+} else {
     $html .= 'nothing to do ';
     if (User::isLogged()) {
         $html .= 'is Logged ';
@@ -85,12 +97,31 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             body {
                 padding: 0;
             }
+            
+            .liveUsersLabel, #LiveUsersLabelLive{
+                position: fixed;
+                top: 80px !important;
+            }
+            .liveUsersLabel{
+                left: 20px !important;
+            }
+            #LiveUsersLabelLive{
+                left: 80px !important;
+            }
+            #recorderToEncoderActionButtons{
+                position: absolute;
+                top: 0;
+            }
         </style>
     </head>
 
     <body style="background-color: transparent;">
         <?php
         echo $html;
+        if(AVideoPlugin::isEnabledByName('SendRecordedToEncoder')){
+            include $global['systemRootPath'] . 'plugin/SendRecordedToEncoder/actionButtonLive.php';
+            
+        }
         ?>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';

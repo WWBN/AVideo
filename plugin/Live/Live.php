@@ -3901,17 +3901,23 @@ class LiveStreamObject {
             if (is_string($forceIndexIfEnabled) || is_int($forceIndexIfEnabled)) {
                 $this->live_index = $forceIndexIfEnabled;
             } else {
-                $objLive = AVideoPlugin::getDataObject("Live");
-                if (!empty($objLive->allowMultipleLivesPerUser)) {
-                    if (empty($allowOnlineIndex)) {
-                        $this->live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
-                    } else {
-                        $this->live_index = LiveTransmitionHistory::getLatestIndexFromKey($this->key);
-                    }
-                }
+                $this->live_index = $this->getIndex($allowOnlineIndex);
             }
         }
         return Live::getLiveKeyFromRequest($this->key, $this->live_index, $this->playlists_id_live);
+    }    
+
+    public function getIndex($allowOnlineIndex = false) {
+        $objLive = AVideoPlugin::getDataObject("Live");
+        $live_index = '';
+        if (!empty($objLive->allowMultipleLivesPerUser)) {
+            if (empty($allowOnlineIndex)) {
+                $live_index = Live::getLatestValidNotOnlineLiveIndex($this->key);
+            } else {
+                $live_index = LiveTransmitionHistory::getLatestIndexFromKey($this->key);
+            }
+        }
+        return $live_index;
     }
 
     public function getLive_servers_id() {
