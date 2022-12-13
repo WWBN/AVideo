@@ -235,7 +235,8 @@ function parseSocketResponse() {
     if (typeof json === 'undefined' || json === false) {
         return false;
     }
-    ////console.log("parseSocketResponse", json);console.trace();
+    console.log("parseSocketResponse", json);
+    //console.trace();
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
         if (typeof avideoToastWarning == 'function') {
             avideoToastWarning("Please restart your socket server. You are running (v" + json.webSocketServerVersion + ") and your client is expecting (v" + webSocketServerVersion + ")");
