@@ -20,6 +20,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 $obj = new stdClass();
 
+$obj->id = getPlatformId();
 $obj->title = $config->getWebSiteTitle();
 $obj->url = $global['webSiteRootURL'];
 $obj->language = $config->getLanguage();
