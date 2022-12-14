@@ -232,7 +232,7 @@ class Message implements MessageComponentInterface {
     }
 
     private function shouldPropagateInfo($row) {
-        if (preg_match('/^unknowDevice.*/', $row['yptDeviceId'])) {
+        if (!empty($row['yptDeviceId']) && preg_match('/^unknowDevice.*/', $row['yptDeviceId'])) {
             return false;
         }
         if (!empty($row['isCommandLine'])) {
