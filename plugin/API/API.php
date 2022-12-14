@@ -176,7 +176,7 @@ class API extends PluginAbstract {
     public function get_api_id($parameters) {
         global $global;
         $obj = $this->startResponseObject($parameters);
-        $obj->id = base_convert(md5(encryptString($global['salt'] . 'AVideo')), 16, 36);
+        $obj->id = getPlatformId();
         return new ApiObject("", false, $obj);
     }
 

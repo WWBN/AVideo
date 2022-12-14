@@ -9850,3 +9850,8 @@ function getFeedButton($rss, $mrss, $roku) {
     $buttons .= '</ul></div>';
     return $buttons;
 }
+
+function getPlatformId() {
+    global $global;
+    return base_convert(md5(encryptString($global['salt'] . 'AVideo')), 16, 36);
+}
