@@ -61,4 +61,8 @@ if (empty($_GET['version'])) {
 $obj->totalVideosResponse = is_array($obj->videos)?count($obj->videos):0;
 $json = json_encode($obj);
 _file_put_contents($cachedFile, $json);
-echo $json;
+if(empty($json)){
+    echo 'ERROR';
+}else{
+    echo $json;
+}
