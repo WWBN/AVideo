@@ -169,6 +169,18 @@ class API extends PluginAbstract {
 
     /**
      * @param string $parameters
+     * Returns the site unique ID
+     * @return \ApiObject
+     */
+    public function get_api_id($parameters) {
+        global $global;
+        $obj = $this->startResponseObject($parameters);
+        $obj->id = md5($global['salt'] . 'AVideo');
+        return new ApiObject("", false, $obj);
+    }
+
+    /**
+     * @param string $parameters
      * This will check if the provided UserAgent/Headers comes from a mobile
      * Returns true if any type of mobile device detected, including special ones
      * PHP Sample code: "plugin/API/{getOrSet}.json.php?APIName={APIName}&userAgent=".urlencode($_SERVER["HTTP_USER_AGENT"])."&httpHeaders=".urlencode(json_encode(getallheaders()))
