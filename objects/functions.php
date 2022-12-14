@@ -1456,16 +1456,21 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                     }
                 }
             }
-            $files["{$parts['extension']}{$resolution}"] = [
+            
+            $_file = [
                 'filename' => "{$parts['filename']}.{$parts['extension']}",
                 'path' => $file,
                 'url' => $source['url'],
                 'url_noCDN' => @$source['url_noCDN'],
                 'type' => $type,
                 'format' => strtolower($parts['extension']),
-            ];
+            ];            
+                
+            $files["{$parts['extension']}{$resolution}"] = $_file;
         }
-
+        foreach ($files as $key => $_file) {
+            $files[$key] = AVideoPlugin::modifyURL($_file);
+        }
         TimeLogEnd($timeName, __LINE__);
         ObjectYPT::setCache($cacheName, $files);
     }

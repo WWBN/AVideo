@@ -2344,6 +2344,30 @@ class AVideoPlugin
         }
         return;
     }
+    
+    /**
+     * @param type $file = [
+                'filename' => "{$parts['filename']}.{$parts['extension']}",
+                'path' => $file,
+                'url' => $source['url'],
+                'url_noCDN' => @$source['url_noCDN'],
+                'type' => $type,
+                'format' => strtolower($parts['extension']),
+            ]
+     * @return $file
+     */
+    public static function modifyURL($file){
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $file = $p->modifyURL($file);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return $file;
+    }
 
     public static function onVideoSetExternalOptions($video_id, $oldValue, $newValue)
     {

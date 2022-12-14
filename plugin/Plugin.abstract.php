@@ -766,6 +766,21 @@ abstract class PluginAbstract {
     function onVideoSetRrating($video_id, $oldValue, $newValue) {
         
     }
+    
+    /**
+     * @param type $file = [
+                'filename' => "{$parts['filename']}.{$parts['extension']}",
+                'path' => $file,
+                'url' => $source['url'],
+                'url_noCDN' => @$source['url_noCDN'],
+                'type' => $type,
+                'format' => strtolower($parts['extension']),
+            ]
+     * @return $file
+     */
+    function modifyURL($file) {
+        return $file;
+    }
 
     function onVideoSetExternalOptions($video_id, $oldValue, $newValue) {
         
