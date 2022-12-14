@@ -170,6 +170,7 @@ class API extends PluginAbstract {
     /**
      * @param string $parameters
      * Returns the site unique ID
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
      * @return \ApiObject
      */
     public function get_api_id($parameters) {
