@@ -29,6 +29,11 @@ $obj->date = date("Y-m-d H:i:s");
 $obj->MySQLDate = getMySQLDate();
 $obj->version = $config->getVersion();
 $obj->plugins = Plugin::getAvailablePluginsBasic();
+///getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '')
+$obj->totalVideos = Video::getTotalVideos('', false, true, true);
+$obj->totalUsers = User::getTotalUsers(true, 'a');
+$obj->totalChannels = Channel::getTotalChannels();;
+$obj->plugins = Plugin::getAvailablePluginsBasic();
 if (empty($_GET['version'])) {
     $obj->videos = [];
     //$_GET['modified'] = "2018-03-13 15:46:57";
