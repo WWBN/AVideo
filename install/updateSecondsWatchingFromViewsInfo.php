@@ -14,7 +14,7 @@ foreach ($videos as $value) {
     $newTotal = VideoStatistic::getSecondsWatchedFromVideos_id($value['id']);
     if($newTotal>$value['total_seconds_watching']){
         $sql = "UPDATE videos SET total_seconds_watching = ?, modified = now() WHERE id = ?";
-        sqlDAL::writeSql($sql, "ii", [$newTotal, $value['id']]);
+        sqlDAL::writeSql($sql, "ii", [intval($newTotal), intval($value['id'])]);
         echo "{$count}/{$total} SUCCESS $newTotal>{$value['total_seconds_watching']}".PHP_EOL;
     }else{        
         echo "{$count}/{$total} SKIPP   $newTotal>{$value['total_seconds_watching']}".PHP_EOL;
