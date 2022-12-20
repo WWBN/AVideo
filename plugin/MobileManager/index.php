@@ -100,7 +100,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             
             .liveUsersLabel, #LiveUsersLabelLive{
                 position: fixed;
-                top: 100px !important;
+                top: 10px !important;
             }
             .liveUsersLabel{
                 left: 20px !important;
@@ -110,7 +110,9 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             }
             #recorderToEncoderActionButtons{
                 position: absolute;
-                top: 0;
+                top: 30px;
+                left: 0;
+                width: 100%;
             }
         </style>
     </head>
