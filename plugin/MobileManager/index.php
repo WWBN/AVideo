@@ -69,7 +69,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     }
     if (AVideoPlugin::isEnabledByName('LiveUsers')) {
         $html .= getLiveUsersLabelHTML();
-        $html .= '<div id="LiveUsersLabelLive">'.getLiveUsersLabelLive($livet['key'], $livet['live_servers_id']).'</div>';
+        //$html .= '<div id="LiveUsersLabelLive">'.getLiveUsersLabelLive($livet['key'], $livet['live_servers_id']).'</div>';
         //$html .= '<div id="LiveUsersLabelLive">'.getLiveUsersLabelLive($lt['key'], $lt['live_servers_id']).'</div>';
         //$html .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Live/view/menuRight.php');
         
