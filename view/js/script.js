@@ -3681,9 +3681,11 @@ function addScript(src) {
     }
 }
 
-function avideoLogoff() {
+function avideoLogoff(redirect) {
     sendAVideoMobileLiveStreamerMessage('logoff', '');
-    document.location = webSiteRootURL + 'logoff';
+    if(redirect){
+        document.location = webSiteRootURL + 'logoff';
+    }
 }
 
 function sendAVideoMobileLiveStreamerMessage(type, value) {
