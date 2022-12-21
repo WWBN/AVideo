@@ -802,9 +802,9 @@ class API extends PluginAbstract {
         $obj->livestream = LiveTransmition::createTransmitionIfNeed($user->getBdId());
         $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
         $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
+        $obj->livestream["server_v2"] = Live::getRTMPLinkWithOutKey($user->getBdId());
         $obj->livestream["poster"] = $global['webSiteRootURL'] . $p->getPosterImage($user->getBdId(), $obj->livestream["live_servers_id"]);
         $obj->livestream["joinURL"] = Live::getLinkToLiveFromUsers_idAndLiveServer($user->getBdId(), $obj->livestream["live_servers_id"]);
-        $obj->livestream["joinURL_v2"] = Live::getRTMPLinkWithOutKey($user->getBdId());
 
         $obj->livestream["activeLives"] = array();
         $obj->livestream["latestLives"] = array();
