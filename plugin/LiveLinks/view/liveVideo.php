@@ -42,7 +42,7 @@ if (isValidM3U8Link($liveLink)) {
         $htmlMediaTag .= '<video '.PlayerSkins::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
         $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
         $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
-        $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
+        $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . intval($video['id']) . ', 0);});</script>';
         $htmlMediaTag .= '</div>';
     } else {
         // youtube!
