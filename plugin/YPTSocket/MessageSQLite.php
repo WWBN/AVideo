@@ -178,7 +178,8 @@ class Message implements MessageComponentInterface {
         //$getTotals = dbGetDBTotals();
         $totals = array();
         $totals['total_devices_online'] = dbGetTotalUniqueDevices();
-        $totals['total_users_online'] = dbGetTotalUniqueUsers();
+        $totals['total_users_online'] = dbGetTotalConnections();
+        $totals['total_users_unique_users'] = dbGetTotalUniqueUsers();
         //$totals['class_to_update'] = dbGetTotalUniqueDevices();
         //$totals['users_uri'] = $getTotals['users_uri'];
         $totals['LivesTotals'] = $this->getLivesTotal();
