@@ -256,6 +256,15 @@ function dbGetTotalUniqueDevices() {
     return $result['total'];
 }
 
+function dbGetTotalConnections() {
+    global $db;
+    $sql = "SELECT count(id) "
+            . "FROM `connections` ";
+    $sth = $db->prepare($sql);
+    $sth->execute();
+    return $sth->fetchAll();
+}
+
 function dbGetUniqueUsers() {
     global $db;
     $sql = "SELECT distinct(users_id) "
