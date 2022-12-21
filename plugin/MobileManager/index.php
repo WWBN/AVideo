@@ -98,19 +98,16 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
                 padding: 0;
             }
             
-            .liveUsersLabel, #LiveUsersLabelLive{
+            .liveUsersLabel{
                 position: fixed;
                 top: 10px !important;
             }
             .liveUsersLabel{
                 left: 20px !important;
             }
-            #LiveUsersLabelLive{
-                left: 80px !important;
-            }
             #recorderToEncoderActionButtons{
                 position: absolute;
-                top: 30px;
+                top: 40px;
                 left: 0;
                 width: 100%;
             }
