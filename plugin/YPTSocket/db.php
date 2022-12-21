@@ -258,7 +258,7 @@ function dbGetTotalUniqueDevices() {
 
 function dbGetTotalConnections() {
     global $db;
-    $sql = "SELECT count(id) as total "
+    $sql = "SELECT count(resourceId) as total "
             . "FROM `connections` ";
     $sth = $db->prepare($sql);
     $sth->execute();
