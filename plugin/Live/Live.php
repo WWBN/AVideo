@@ -1214,7 +1214,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                         if (isOnlineLabel || $('.liveOnlineLabel.label-success').length) {
                             $('body').addClass('isLiveOnline');
                             $('#liveControls').slideDown();
-                        } else 
+                        } else {
                             $('body').removeClass('isLiveOnline');
                             $('#liveControls').slideUp();
                         }
