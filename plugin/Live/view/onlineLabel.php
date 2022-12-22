@@ -24,50 +24,9 @@ if (isLiveLink() || Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id,
 ?>
 <script src="<?php echo getURL('plugin/Live/view/live.js');?>" type="text/javascript"></script>
 <script>
-
-        function socketLiveONCallback(json) {
-            if (typeof onlineLabelOnline == 'function') {
-                selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
-                onlineLabelOnline(selector);
-                selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
-                onlineLabelOnline(selector);
-                selector = '.liveViewStatusClass_' + json.cleanKey;
-                ////console.log('socketLiveOFFCallback 3', selector);
-                onlineLabelOnline(selector);
-            }
-
-            // update the chat if the history changes
-            var IframeClass = ".yptchat2IframeClass_" + json.key + "_" + json.live_servers_id;
-            if ($(IframeClass).length) {
-                var src = $(IframeClass).attr('src');
-                if (src) {
-                    avideoToast('Loading new chat');
-                    var newSRC = addGetParam(src, 'live_transmitions_history_id', json.live_transmitions_history_id);
-                    $(IframeClass).attr('src', newSRC);
-                }
-            }
-            if(isInLive(json)){
-                playerPlay();
-                showImage('prerollPoster', json.cleanKey);
-            }
-        }
-        function socketLiveOFFCallback(json) {
-            if (typeof onlineLabelOffline == 'function') {
-                selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
-                ////console.log('socketLiveOFFCallback 2', selector);
-                onlineLabelOffline(selector);
-                selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
-                ////console.log('socketLiveOFFCallback 3', selector);
-                onlineLabelOffline(selector);
-                selector = '.liveViewStatusClass_' + json.cleanKey;
-                ////console.log('socketLiveOFFCallback 3', selector);
-                onlineLabelOffline(selector);
-            }
-            
-            if(isInLive(json)){
-                showImage('postrollPoster', json.cleanKey);
-            }
-        }
+    <?php
+    echo file_get_contents("{$global['systemRootPath']}plugin/Live/socket.js");
+    ?>
         
         
     function isOfflineVideo() {
