@@ -6,11 +6,9 @@ function socketLiveONCallback(json) {
 
     if (typeof onlineLabelOnline == 'function') {
         selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
-        onlineLabelOnline(selector);
-        selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
-        onlineLabelOnline(selector);
-        selector = '.liveViewStatusClass_' + json.cleanKey;
-        ////console.log('socketLiveOFFCallback 3', selector);
+        selector += ', .liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+        selector += ', .liveViewStatusClass_' + json.cleanKey;
+        console.log('socketLiveONCallback ', selector);
         onlineLabelOnline(selector);
     }
 
@@ -40,13 +38,9 @@ function socketLiveOFFCallback(json) {
     });
     if (typeof onlineLabelOffline == 'function') {
         selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
-        ////console.log('socketLiveOFFCallback 2', selector);
-        onlineLabelOffline(selector);
-        selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
-        ////console.log('socketLiveOFFCallback 3', selector);
-        onlineLabelOffline(selector);
-        selector = '.liveViewStatusClass_' + json.cleanKey;
-        ////console.log('socketLiveOFFCallback 3', selector);
+        selector += ', .liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
+        selector += ', .liveViewStatusClass_' + json.cleanKey;
+        console.log('socketLiveOFFCallback', selector);
         onlineLabelOffline(selector);
     }
     setTimeout(function () {
