@@ -137,6 +137,8 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
                     var url = addGetParam(window.location.href, 'live_transmitions_history_id', json.live_transmitions_history_id);
                     url = addGetParam(url, 'key', json.key);
                     url = addGetParam(url, 'live_servers_id', json.live_servers_id);
+                    url = addGetParam(url, 'live_schedule', json.live_schedule);
+                    url = addGetParam(url, 'live_index', json.live_index);
                     document.location = url;
                 }
             }
