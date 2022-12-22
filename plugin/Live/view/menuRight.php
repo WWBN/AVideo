@@ -341,7 +341,7 @@ if ($obj->doNotProcessNotifications) {
     }
 
 <?php
-echo file_get_contents("{$global['systemRootPath']}plugin/Live/view/socket.js");
+include_once("{$global['systemRootPath']}plugin/Live/view/socket.js");
 ?>
 
     async function hideExtraVideosIfEmpty() {
