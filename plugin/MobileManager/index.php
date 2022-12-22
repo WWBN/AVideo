@@ -11,7 +11,7 @@ if (!isset($global['systemRootPath'])) {
     require_once $configFile;
 }
 
-if(!empty($_REQUEST['key'])){
+if (!empty($_REQUEST['key'])) {
     $isLive = 1;
     setLiveKey($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_index']);
 }
@@ -27,23 +27,21 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     }
 } else if (User::isLogged()) {
     $users_id = User::getId();
-    $livet = LiveTransmition::createTransmitionIfNeed($users_id); 
-    $_REQUEST['live_transmitions_id'] = $livet['id'];
-    $getLiveKey = setLiveKey($livet['key'], $livet['live_servers_id'], $livet['live_index']);
-    //var_dump($livet, $getLiveKey, isLive());exit;
-    if (AVideoPlugin::isEnabledByName('Chat2')) {
-        $room_users_id = $users_id;
-        $latest = LiveTransmitionHistory::getLatestFromUser($users_id);
-        $live_transmitions_history_id = $latest['id'];
-        $iframe = 1;
-        $noFade = 1;
-        $bubblesOnly = 1;
-        $getLogin = 1;
-        $addChatTextBox = 1;
+    if (isLive()) {
+        //var_dump($livet, $getLiveKey, isLive());exit;
+        if (AVideoPlugin::isEnabledByName('Chat2')) {
+            $room_users_id = $users_id;
+            $latest = LiveTransmitionHistory::getLatestFromUser($users_id);
+            $live_transmitions_history_id = $latest['id'];
+            $iframe = 1;
+            $noFade = 1;
+            $bubblesOnly = 1;
+            $getLogin = 1;
+            $addChatTextBox = 1;
 
-        $iframeURL = Chat2::getChatRoomLinkWithParameters($room_users_id, $live_transmitions_history_id, $iframe, $noFade, $bubblesOnly, $getLogin, $addChatTextBox);
+            $iframeURL = Chat2::getChatRoomLinkWithParameters($room_users_id, $live_transmitions_history_id, $iframe, $noFade, $bubblesOnly, $getLogin, $addChatTextBox);
 
-        $html = '<iframe 
+            $html = '<iframe 
         id="yptchat2Iframe"
         src="' . $iframeURL . '" 
         frameborder="0" scrolling="no" title="chat widget" 
@@ -70,16 +68,16 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
         display: block; 
         height: 100vh;"></iframe>';
 
-        //include "{$global['systemRootPath']}plugin/Chat2/index.php";
-        //return false;
-    }
-    if (AVideoPlugin::isEnabledByName('LiveUsers')) {
-        $html .= getLiveUsersLabelHTML();
-        //$html .= '<div id="LiveUsersLabelLive">'.getLiveUsersLabelLive($livet['key'], $livet['live_servers_id']).'</div>';
-        //$html .= '<div id="LiveUsersLabelLive">'.getLiveUsersLabelLive($lt['key'], $lt['live_servers_id']).'</div>';
-        //$html .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Live/view/menuRight.php');
-        
-        //var_dump($lt);exit;
+            //include "{$global['systemRootPath']}plugin/Chat2/index.php";
+            //return false;
+        }
+        if (AVideoPlugin::isEnabledByName('LiveUsers')) {
+            $html .= getLiveUsersLabelHTML();
+            //$html .= '<div id="LiveUsersLabelLive">'.getLiveUsersLabelLive($livet['key'], $livet['live_servers_id']).'</div>';
+            //$html .= '<div id="LiveUsersLabelLive">'.getLiveUsersLabelLive($lt['key'], $lt['live_servers_id']).'</div>';
+            //$html .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Live/view/menuRight.php');
+            //var_dump($lt);exit;
+        }
     }
 } else {
     $html .= 'nothing to do ';
@@ -103,7 +101,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             body {
                 padding: 0;
             }
-            
+
             .liveUsersLabel{
                 position: fixed;
                 top: 10px !important;
@@ -123,8 +121,8 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     <body style="background-color: transparent;">
         <?php
         echo $html;
-        if(AVideoPlugin::isEnabledByName('SendRecordedToEncoder')){
-            include $global['systemRootPath'] . 'plugin/SendRecordedToEncoder/actionButtonLive.php';            
+        if (AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
+            include $global['systemRootPath'] . 'plugin/SendRecordedToEncoder/actionButtonLive.php';
         }
         ?>
         <?php
@@ -134,7 +132,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
                 window.flutter_inappwebview.callHandler('AVideoMobileLiveStreamer', 'Loaded app');
             });
-            
+
             function socketLiveONCallback(json) {
                 console.log('socketLiveONCallback MobileManager', json);
                 if ((json.users_id == '<?php echo User::getId(); ?>' && json.live_transmitions_history_id) || (!empty(json.key) && json.key == '<?php echo @$_REQUEST['key']; ?>')) {
