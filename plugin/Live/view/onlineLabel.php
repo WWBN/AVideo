@@ -25,7 +25,7 @@ if (isLiveLink() || Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id,
 <script src="<?php echo getURL('plugin/Live/view/live.js');?>" type="text/javascript"></script>
 <script>
     <?php
-    echo file_get_contents("{$global['systemRootPath']}plugin/Live/socket.js");
+    echo file_get_contents("{$global['systemRootPath']}plugin/Live/view/socket.js");
     ?>
         
         
