@@ -173,7 +173,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `filepath` VARCHAR(255) NULL DEFAULT NULL,
   `filesize` BIGINT(19) UNSIGNED NULL DEFAULT 0,
   `live_transmitions_history_id` INT(11) NULL DEFAULT NULL,
-  `total_seconds_watching` INT NULL DEFAULT 0,
+  `total_seconds_watching` BIGINT(19) UNSIGNED NULL DEFAULT 0,
   `duration_in_seconds` INT NULL,
   `likes` INT NULL,
   `dislikes` INT NULL,
