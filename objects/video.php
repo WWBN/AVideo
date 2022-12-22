@@ -209,7 +209,13 @@ if (!class_exists('Video')) {
 
             $sql = "UPDATE videos SET total_seconds_watching = ?, modified = now() WHERE id = ?";
             //_error_log("addSecondsWatching: " . $sql . "={$this->id}");
-            return sqlDAL::writeSql($sql, "ii", [intval($newTotal), intval($this->id)]);
+            try {
+                return sqlDAL::writeSql($sql, "ii", [intval($newTotal), intval($this->id)]);
+            } catch (Exception $exc) {
+                
+                _error_log("UPDATE videos SET total_seconds_watching = ?, modified = now() WHERE id = ? ". json_encode([intval($newTotal), intval($this->id)]));
+            }
+
         }
 
         public function updateViewsCount($total) {
