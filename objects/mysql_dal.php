@@ -110,7 +110,7 @@ class sqlDAL {
         } catch (Exception $exc) {
             log_error($exc->getTraceAsString());
             log_error('Error in writeSql stmt->execute: ' . $preparedStatement);
-            if (preg_match('/addSecondsWatching/', $preparedStatement)) {
+            if (preg_match('/total_seconds_watching/', $preparedStatement)) {
                 log_error('Error in writeSql values: ' . json_encode($values));
             }
         }
