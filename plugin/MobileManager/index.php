@@ -116,6 +116,10 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
 
     <body style="background-color: transparent;">
         <?php
+        foreach ($_REQUEST as $key => $value) {
+            echo "<br>$key => $value";
+        }
+        echo '<hr>';
         echo $html;
         if(AVideoPlugin::isEnabledByName('SendRecordedToEncoder')){
             include $global['systemRootPath'] . 'plugin/SendRecordedToEncoder/actionButtonLive.php';
