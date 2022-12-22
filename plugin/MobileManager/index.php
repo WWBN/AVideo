@@ -129,6 +129,17 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
                 window.flutter_inappwebview.callHandler('AVideoMobileLiveStreamer', 'Loaded app');
             });
+            
+            function socketLiveONCallback(json) {
+                console.log('socketLiveONCallback MobileManager', json);
+                if ((json.users_id == '<?php echo User::getId(); ?>' && json.live_transmitions_history_id) || (!empty(json.key) && json.key == '<?php echo @$_REQUEST['key']; ?>')) {
+                    modal.showPleaseWait();
+                    var url = addGetParam(window.location.href, 'live_transmitions_history_id', json.live_transmitions_history_id);
+                    url = addGetParam(url, 'key', json.key);
+                    url = addGetParam(url, 'live_servers_id', json.live_servers_id);
+                    document.location = url;
+                }
+            }
         </script>
     </body>
 </html>
