@@ -170,16 +170,19 @@ class LiveTransmition extends ObjectYPT
         }
         $row = static::getFromDbByUser($user_id);
         if ($row) {
-            return $row;
+            $row['just_created'] = false;
+        }else{
+            $l = new LiveTransmition(0);
+            $l->setTitle("I am Live");
+            $l->setDescription("");
+            $l->setKey(uniqid());
+            $l->setCategories_id(1);
+            $l->setUsers_id($user_id);
+            $l->save();
+            $row = static::getFromDbByUser($user_id);
+            $row['just_created'] = true;
         }
-        $l = new LiveTransmition(0);
-        $l->setTitle("I am Live");
-        $l->setDescription("");
-        $l->setKey(uniqid());
-        $l->setCategories_id(1);
-        $l->setUsers_id($user_id);
-        $l->save();
-        return static::getFromDbByUser($user_id);
+        return $row;
     }
 
     public static function resetTransmitionKey($user_id)
