@@ -10,6 +10,11 @@ if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';
     require_once $configFile;
 }
+
+if(!empty($_REQUEST['key'])){
+    setLiveKey($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_index']);
+}
+
 $html = '';
 if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     User::loginFromRequest();
