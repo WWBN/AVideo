@@ -2097,7 +2097,7 @@ function checkMoment() {
 }
 
 function addGetParam(_url, _key, _value) {
-    if (typeof _url !== 'string' || _url == 'undefined') {
+    if (typeof _url !== 'string' || _value == 'undefined') {
         return false;
     }
     var param = _key + '=' + escape(_value);
