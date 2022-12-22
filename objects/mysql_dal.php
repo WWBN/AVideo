@@ -110,21 +110,24 @@ class sqlDAL {
         } catch (Exception $exc) {
             log_error($exc->getTraceAsString());
             log_error('Error in writeSql stmt->execute: ' . $preparedStatement);
+            if (preg_match('/addSecondsWatching/', $preparedStatement)) {
+                log_error('Error in writeSql values: ' . json_encode($values));
+            }
         }
 
         if ($stmt->errno !== 0) {
-            log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
+            //log_error('Error in writeSql : (' . $stmt->errno . ') ' . $stmt->error . ", SQL-CMD:" . $preparedStatement);
             /*
-            if(empty($global['mysqli_charset']) && preg_match('/collation utf8/', $stmt->error)){
-                $global['mysqli_charset'] = 'latin1';
-                _mysql_close();
-                _mysql_connect();
-                return self::writeSql($preparedStatement, $formats, $values);
-            }
+              if(empty($global['mysqli_charset']) && preg_match('/collation utf8/', $stmt->error)){
+              $global['mysqli_charset'] = 'latin1';
+              _mysql_close();
+              _mysql_connect();
+              return self::writeSql($preparedStatement, $formats, $values);
+              }
              * 
              */
-            
-            $stmt->close();            
+
+            $stmt->close();
             return false;
         }
         $iid = @$global['mysqli']->insert_id;
@@ -186,7 +189,7 @@ class sqlDAL {
                     }
                 }
 
-                if(empty($stmt)){
+                if (empty($stmt)) {
                     log_error("[sqlDAL::readSql] (stmt) is empty {$preparedStatement} with formats {$formats}");
                     return false;
                 }
