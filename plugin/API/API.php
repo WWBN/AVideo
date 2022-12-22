@@ -800,6 +800,7 @@ class API extends PluginAbstract {
         $obj->user['DonationButtons'] = _json_decode($obj->user['DonationButtons']);
 
         $obj->livestream = LiveTransmition::createTransmitionIfNeed($user->getBdId());
+        $obj->livestream["users_id"] = $user->getBdId();
         $obj->livestream["live_servers_id"] = Live::getCurrentLiveServersId();
         $obj->livestream["server"] = $p->getServer($obj->livestream["live_servers_id"]) . "?p=" . $user->getPassword();
         $obj->livestream["server_v2"] = Live::getRTMPLinkWithOutKey($user->getBdId());
