@@ -121,6 +121,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
 
     <body style="background-color: transparent;">
         <?php
+        var_dump(isLive());
         foreach ($_REQUEST as $key => $value) {
             echo "<br>$key => $value";
         }
