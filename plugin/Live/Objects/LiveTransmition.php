@@ -169,7 +169,7 @@ class LiveTransmition extends ObjectYPT
             return false;
         }
         $row = static::getFromDbByUser($user_id);
-        if ($row) {
+        if ($row && !empty($row['key'])) {
             $row['just_created'] = false;
         }else{
             $l = new LiveTransmition(0);
