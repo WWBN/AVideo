@@ -12,6 +12,7 @@ if (!isset($global['systemRootPath'])) {
 }
 
 if(!empty($_REQUEST['key'])){
+    $isLive = 1;
     setLiveKey($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_index']);
 }
 
@@ -121,15 +122,9 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
 
     <body style="background-color: transparent;">
         <?php
-        var_dump(isLive());
-        foreach ($_REQUEST as $key => $value) {
-            echo "<br>$key => $value";
-        }
-        echo '<hr>';
         echo $html;
         if(AVideoPlugin::isEnabledByName('SendRecordedToEncoder')){
-            include $global['systemRootPath'] . 'plugin/SendRecordedToEncoder/actionButtonLive.php';
-            
+            include $global['systemRootPath'] . 'plugin/SendRecordedToEncoder/actionButtonLive.php';            
         }
         ?>
         <?php
