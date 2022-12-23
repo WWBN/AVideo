@@ -189,11 +189,9 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `fk_videos_videos1_idx` (`next_videos_id` ASC),
   INDEX `fk_videos_sites1_idx` (`sites_id` ASC),
   INDEX `clean_title_INDEX` (`clean_title` ASC),
-  INDEX `video_filename_INDEX` (`filename` ASC),
   INDEX `video_status_idx` (`status` ASC),
   INDEX `video_type_idx` (`type` ASC),
   INDEX `fk_videos_playlists1` (`serie_playlists_id` ASC),
-  INDEX `videos_status_index` (`status` ASC),
   INDEX `is_suggested_index` (`isSuggested` ASC),
   INDEX `views_count_index` (`views_count` ASC),
   INDEX `filename_index` (`filename` ASC),
@@ -627,12 +625,6 @@ ALTER TABLE `category_type_cache`
 
 ALTER TABLE `plugins`
 ADD INDEX `plugin_status` (`status` ASC);
-
-ALTER TABLE `videos`
-ADD INDEX `videos_status_index` (`status` ASC),
-ADD INDEX `is_suggested_index` (`isSuggested` ASC),
-ADD INDEX `views_count_index` (`views_count` ASC),
-ADD INDEX `filename_index` (`filename` ASC);
 
 COMMIT;
 
