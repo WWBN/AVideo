@@ -11,14 +11,29 @@ if (!isset($global['systemRootPath'])) {
     require_once $configFile;
 }
 
+
+$bodyClass = '';
+$key = '';
+$live_servers_id = '';
+$live_index = '';
 $users_id = User::getId();
 if (!empty($_REQUEST['key'])) {
-    $isLive = 1;
-    setLiveKey($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_index']);
+    $key = $_REQUEST['key'];
+    $live_servers_id = @$_REQUEST['live_servers_id'];
+    $live_index = @$_REQUEST['live_index'];
 } else if (User::isLogged()) {
-    $isLive = 1;
     $lth = LiveTransmitionHistory::getLatestFromUser($users_id);
-    setLiveKey($lth['key'], $lth['live_servers_id'], $lth['live_index']);
+    $key = $lth['key'];
+    $live_servers_id = $lth['live_servers_id'];
+    $live_index = $lth['live_index'];
+}
+
+if (!empty($key)) {
+    $isLive = 1;
+    setLiveKey($key, $live_servers_id, $live_index);
+    if (!empty(LiveTransmitionHistory::isLive($key, $live_servers_id))) {
+        $bodyClass = 'isLiveOnline';
+    }
 }
 
 $html = '';
@@ -123,7 +138,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
         </style>
     </head>
 
-    <body style="background-color: transparent;">
+    <body style="background-color: transparent; <?php echo $bodyClass; ?>">
         <?php
         echo $html;
         if (AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
