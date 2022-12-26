@@ -16,6 +16,7 @@ if (!empty($_REQUEST['key'])) {
     $isLive = 1;
     setLiveKey($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_index']);
 }else if (User::isLogged()){
+    $isLive = 1;
     $lth = LiveTransmitionHistory::getLatestFromUser($users_id);
     setLiveKey($lth['key'], $lth['live_servers_id'], $lth['live_index']);
 }
