@@ -15,7 +15,7 @@ $users_id = User::getId();
 if (!empty($_REQUEST['key'])) {
     $isLive = 1;
     setLiveKey($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_index']);
-}else if (User::isLogged()){
+} else if (User::isLogged()) {
     $isLive = 1;
     $lth = LiveTransmitionHistory::getLatestFromUser($users_id);
     setLiveKey($lth['key'], $lth['live_servers_id'], $lth['live_index']);
@@ -34,16 +34,16 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     if (isLive()) {
         //var_dump($livet, $getLiveKey, isLive());exit;
         if (AVideoPlugin::isEnabledByName('Chat2')) {
-            $room_users_id = $users_id;
-            $latest = LiveTransmitionHistory::getLatestFromUser($users_id);
-            $live_transmitions_history_id = $latest['id'];
-            $iframe = 1;
-            $noFade = 1;
-            $bubblesOnly = 1;
-            $getLogin = 1;
-            $addChatTextBox = 1;
 
-            $iframeURL = Chat2::getChatRoomLinkWithParameters($room_users_id, $live_transmitions_history_id, $iframe, $noFade, $bubblesOnly, $getLogin, $addChatTextBox);
+            $chat = new ChatIframeOptions();
+            $chat->set_room_users_id($users_id);
+            $chat->set_live_transmitions_history_id($latest['id']);
+            $chat->set_iframe(1);
+            $chat->set_noFade(1);
+            $chat->set_bubblesOnly(1);
+            $chat->set_addChatTextBox(1);
+            $chat->set_doNotAllowUsersSendMessagesToEachOther(1);
+            $iframeURL = $chat->getURL(true);
 
             $html = '<iframe 
         id="yptchat2Iframe"
