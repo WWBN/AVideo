@@ -1783,6 +1783,8 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
 }
 
 function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
+    return scaleUpImage($file_src, $file_dest, $wd, $hd);
+    
     //_error_log("im_resizeV2: $file_src, $file_dest, $wd, $hd, $q");
     $newImage = im_resize($file_src, $file_dest, $wd, $hd, 100);
     if (!$newImage) {
