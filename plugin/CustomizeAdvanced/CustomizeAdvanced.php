@@ -34,13 +34,13 @@ class CustomizeAdvanced extends PluginAbstract {
         return array(
             'EnableMinifyJS',
             'usePreloadLowResolutionImages',
+            'useFFMPEGToGenerateThumbs',
             );
     }
     
     public static function getDataObjectExperimental() {
         return array(
             'autoPlayAjax',
-            'useFFMPEGToGenerateThumbs',
         );
     }
     

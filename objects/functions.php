@@ -1783,7 +1783,6 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
 }
 
 function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
-    return scaleUpImage($file_src, $file_dest, $wd, $hd);
     
     //_error_log("im_resizeV2: $file_src, $file_dest, $wd, $hd, $q");
     $newImage = im_resize($file_src, $file_dest, $wd, $hd, 100);
@@ -1880,7 +1879,15 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd) {
     $old_y = imageSY($src_img);
 
     $sizes = scaleUpAndMantainAspectRatioFinalSizes($wd, $old_x, $hd, $old_y);
-
+    /*
+    if($wd!==200){
+        echo "<h1>Original</h1>X={$old_x} Y={$old_y}";
+        echo "<h1>Destination</h1>X={$wd} Y={$hd}";
+        echo '<h1>Results</h1>';
+        var_dump($sizes);exit;
+    }
+     * 
+     */
     $thumb_w = $sizes['w'];
     $thumb_h = $sizes['h'];
 
@@ -3899,7 +3906,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
         _error_log("convertImageToRoku: source does not exists");
         return false;
     }
-    if (file_exists($destination)) {
+    if (file_exists($destination) && filesize($destination) > 1024) {
         $sizes = getimagesize($destination);
         if ($sizes[0] < $width || $sizes[1] < $height) {
             _error_log("convertImageIfNotExists: file is smaller " . json_encode($sizes));
