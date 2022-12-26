@@ -43,6 +43,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             $chat->set_bubblesOnly(1);
             $chat->set_addChatTextBox(1);
             $chat->set_doNotAllowUsersSendMessagesToEachOther(1);
+            $chat->set_hideBubbleButtons(1);
             $iframeURL = $chat->getURL(true);
 
             $html = '<iframe 
