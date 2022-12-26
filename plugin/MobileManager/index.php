@@ -11,9 +11,13 @@ if (!isset($global['systemRootPath'])) {
     require_once $configFile;
 }
 
+$users_id = User::getId();
 if (!empty($_REQUEST['key'])) {
     $isLive = 1;
     setLiveKey($_REQUEST['key'], @$_REQUEST['live_servers_id'], @$_REQUEST['live_index']);
+}else if (User::isLogged()){
+    $lth = LiveTransmitionHistory::getLatestFromUser($users_id);
+    setLiveKey($lth['key'], $lth['live_servers_id'], $lth['live_index']);
 }
 
 $html = '';
@@ -26,7 +30,6 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
         $html .= 'is NOT Logged ';
     }
 } else if (User::isLogged()) {
-    $users_id = User::getId();
     if (isLive()) {
         //var_dump($livet, $getLiveKey, isLive());exit;
         if (AVideoPlugin::isEnabledByName('Chat2')) {
