@@ -1906,6 +1906,7 @@ $t['Notifications'] = '';
 $t['Offline'] = '';
 $t['Offline Video'] = 'Vídeo offline';
 $t['Offline Videos'] = 'Vídeos offlines';
+$t['Watch Offline'] = 'Assistir Offline';
 $t['On the right site, you find various symbols'] = 'No site certo, você encontra vários símbolos';
 $t['Onclick'] = '';
 $t['One per line'] = '';
