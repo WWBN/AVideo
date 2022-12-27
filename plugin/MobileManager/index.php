@@ -135,6 +135,17 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
                 left: 0;
                 width: 100%;
             }
+            .showWhenClosed, #closeRecorderButtons{
+                display: none;
+            }
+            #recorderToEncoderActionButtons.closed .recordLiveControlsDiv,
+            #recorderToEncoderActionButtons.closed .hideWhenClosed{
+                display: none !important;
+            }
+            #recorderToEncoderActionButtons.closed .showWhenClosed, 
+            .isLiveOnline #closeRecorderButtons{
+                display: inline-block !important;
+            }
         </style>
     </head>
 
@@ -142,7 +153,9 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
         <?php
         echo $html;
         if (AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
+            echo '<!-- SendRecordedToEncoder start -->';
             include $global['systemRootPath'] . 'plugin/SendRecordedToEncoder/actionButtonLive.php';
+            echo '<!-- SendRecordedToEncoder end -->';
         }
         ?>
         <?php
