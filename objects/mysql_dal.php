@@ -19,12 +19,18 @@
  * Internal used class
  */
 
-class iimysqli_result {
+/**
+ * 
+ * @var array $global
+ * @var object $global['mysqli'] 
+ */
+
+class iimysqli_result
+{
 
     public $stmt;
     public $nCols;
     public $fields;
-
 }
 
 global $disableMysqlNdMethods;
@@ -36,9 +42,11 @@ $disableMysqlNdMethods = false;
  * It wouldn't be possible without Daan on https://stackoverflow.com/questions/31562359/workaround-for-mysqlnd-missing-driver
  */
 
-class sqlDAL {
+class sqlDAL
+{
 
-    public static function executeFile($filename) {
+    public static function executeFile($filename)
+    {
         global $global;
         $templine = '';
         // Read in entire file
@@ -55,6 +63,12 @@ class sqlDAL {
             // If it has a semicolon at the end, it's the end of the query
             if (substr(trim($line), -1, 1) == ';') {
                 // Perform the query
+
+                /**
+                 * 
+                 * @var array $global
+                 * @var object $global['mysqli'] 
+                 */
                 if (!$global['mysqli']->query($templine)) {
                     _error_log('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />', AVideoLog::$ERROR);
                 }
@@ -72,7 +86,8 @@ class sqlDAL {
      * @return boolean                   true on success, false on fail
      */
 
-    public static function writeSql($preparedStatement, $formats = "", $values = []) {
+    public static function writeSql($preparedStatement, $formats = "", $values = [])
+    {
         global $global, $disableMysqlNdMethods;
         if (empty($preparedStatement)) {
             return false;
@@ -94,10 +109,15 @@ class sqlDAL {
             _mysql_connect();
         }
 
+        /**
+         * 
+         * @var array $global
+         * @var object $global['mysqli'] 
+         */
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error .
-                    " preparedStatement = " . json_encode($preparedStatement) .
-                    " formats = " . json_encode($formats));
+                " preparedStatement = " . json_encode($preparedStatement) .
+                " formats = " . json_encode($formats));
             return false;
         }
         //var_dump($preparedStatement, $formats, $values);exit;
@@ -109,8 +129,8 @@ class sqlDAL {
             $stmt->execute();
         } catch (Exception $exc) {
             log_error($exc->getTraceAsString());
-            log_error('Error in writeSql stmt->execute: ' . $preparedStatement);
-            if (preg_match('/total_seconds_watching/', $preparedStatement)) {
+            log_error('Error in writeSql stmt->execute: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
+            if (preg_match('/playlists_has_videos/', $preparedStatement)) {
                 log_error('Error in writeSql values: ' . json_encode($values));
             }
         }
@@ -149,7 +169,8 @@ class sqlDAL {
      * @return Object                    Depend if mysqlnd is active or not, a object, but always false on fail
      */
 
-    public static function readSql($preparedStatement, $formats = "", $values = [], $refreshCache = false) {
+    public static function readSql($preparedStatement, $formats = "", $values = [], $refreshCache = false)
+    {
         // $refreshCache = true;
         global $global, $disableMysqlNdMethods, $readSqlCached, $crc;
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
@@ -166,17 +187,22 @@ class sqlDAL {
 
                 // When not cached
 
+                /**
+                 * 
+                 * @var array $global
+                 * @var object $global['mysqli'] 
+                 */
                 $readSqlCached[$crc] = "false";
                 _mysql_connect();
                 try {
                     $stmt = $global['mysqli']->prepare($preparedStatement);
                 } catch (Exception $exc) {
                     log_error("[sqlDAL::readSql] (mysqlnd) Prepare failed: ({$global['mysqli']->errno}) ({$global['mysqli']->error}) " .
-                            " preparedStatement = " . json_encode($preparedStatement) .
-                            " formats = " . json_encode($formats) .
-                            " values = " . json_encode($values) .
-                            " refreshCache = " . json_encode($refreshCache) .
-                            " stmt = " . json_encode($stmt));
+                        " preparedStatement = " . json_encode($preparedStatement) .
+                        " formats = " . json_encode($formats) .
+                        " values = " . json_encode($values) .
+                        " refreshCache = " . json_encode($refreshCache) .
+                        " stmt = " . json_encode($stmt));
                     //log_error("[sqlDAL::readSql] trying close and reconnect");
                     _mysql_close();
                     _mysql_connect();
@@ -247,6 +273,11 @@ class sqlDAL {
 
             // Mysqlnd-fallback
 
+            /**
+             * 
+             * @var array $global
+             * @var object $global['mysqli'] 
+             */
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                 log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . " ({$preparedStatement})");
                 return false;
@@ -275,7 +306,8 @@ class sqlDAL {
      * @param Object $result A object from sqlDAL::readSql
      */
 
-    public static function close($result) {
+    public static function close($result)
+    {
         global $disableMysqlNdMethods, $global;
         if ((!function_exists('mysqli_fetch_all')) || ($disableMysqlNdMethods !== false)) {
             if (!empty($result->stmt)) {
@@ -290,7 +322,8 @@ class sqlDAL {
      * @return int           The nr of rows
      */
 
-    public static function num_rows($res) {
+    public static function num_rows($res)
+    {
         global $global, $disableMysqlNdMethods, $crc, $num_row_cache;
         if (!isset($num_row_cache)) {
             $num_row_cache = [];
@@ -313,7 +346,8 @@ class sqlDAL {
     }
 
     // unused
-    public static function cached_num_rows($data) {
+    public static function cached_num_rows($data)
+    {
         return sizeof($data);
     }
 
@@ -323,7 +357,8 @@ class sqlDAL {
      * @return array           A array filled with all rows as a assoc array
      */
 
-    public static function fetchAllAssoc($result) {
+    public static function fetchAllAssoc($result)
+    {
         global $crc, $fetchAllAssoc_cache;
         if (!isset($fetchAllAssoc_cache)) {
             $fetchAllAssoc_cache = [];
@@ -344,7 +379,8 @@ class sqlDAL {
      * @return int           A single row in a assoc array
      */
 
-    public static function fetchAssoc($result) {
+    public static function fetchAssoc($result)
+    {
         global $global, $disableMysqlNdMethods;
         ini_set('memory_limit', '-1');
         // here, a cache is more/too difficult, because fetch gives always a next. with this kind of cache, we would give always the same.
@@ -364,7 +400,8 @@ class sqlDAL {
      * @return array           A array filled with all rows
      */
 
-    public static function fetchAllArray($result) {
+    public static function fetchAllArray($result)
+    {
         global $crc, $fetchAllArray_cache;
         if (!isset($fetchAllArray_cache)) {
             $fetchAllArray_cache = [];
@@ -388,7 +425,8 @@ class sqlDAL {
      * @return int           A single row in a array
      */
 
-    public static function fetchArray($result) {
+    public static function fetchArray($result)
+    {
         global $global, $disableMysqlNdMethods;
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
             return $result->fetch_array();
@@ -398,7 +436,8 @@ class sqlDAL {
         return false;
     }
 
-    private static function eval_mysql_bind($stmt, $formats, $values) {
+    private static function eval_mysql_bind($stmt, $formats, $values)
+    {
         if (($stmt->param_count != sizeof($values)) || ($stmt->param_count != strlen($formats))) {
             return false;
         }
@@ -416,7 +455,8 @@ class sqlDAL {
         return true;
     }
 
-    private static function iimysqli_stmt_get_result($stmt) {
+    private static function iimysqli_stmt_get_result($stmt)
+    {
         global $global;
         $metadata = mysqli_stmt_result_metadata($stmt);
         $ret = new iimysqli_result();
@@ -443,7 +483,8 @@ class sqlDAL {
         return $ret;
     }
 
-    private static function iimysqli_result_fetch_assoc(&$result) {
+    private static function iimysqli_result_fetch_assoc(&$result)
+    {
         global $global;
         $ret = [];
         $code = "return mysqli_stmt_bind_result(\$result->stmt ";
@@ -462,7 +503,8 @@ class sqlDAL {
         return $ret;
     }
 
-    private static function iimysqli_result_fetch_array(&$result) {
+    private static function iimysqli_result_fetch_array(&$result)
+    {
         $ret = [];
         $code = "return mysqli_stmt_bind_result(\$result->stmt ";
 
@@ -479,10 +521,10 @@ class sqlDAL {
         };
         return $ret;
     }
-
 }
 
-function log_error($err) {
+function log_error($err)
+{
     if (!empty($global['debug']) || isCommandLineInterface()) {
         echo $err;
     }
