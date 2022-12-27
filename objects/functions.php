@@ -3907,6 +3907,7 @@ function ddosProtection()
         'playlists.json.php',
         'playlistsFromUserVideos.json.php',
         'image404.php',
+        'downloadProtection.php',
     ];
 
     if (in_array(basename($_SERVER["SCRIPT_FILENAME"]), $whitelistedFiles)) {
