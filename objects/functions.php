@@ -1456,7 +1456,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                     }
                 }
             }
-            
+
             $_file = [
                 'filename' => "{$parts['filename']}.{$parts['extension']}",
                 'path' => $file,
@@ -1464,8 +1464,8 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 'url_noCDN' => @$source['url_noCDN'],
                 'type' => $type,
                 'format' => strtolower($parts['extension']),
-            ];            
-                
+            ];
+
             $files["{$parts['extension']}{$resolution}"] = $_file;
         }
         foreach ($files as $key => $_file) {
@@ -1783,7 +1783,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
 }
 
 function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
-    
+
     //_error_log("im_resizeV2: $file_src, $file_dest, $wd, $hd, $q");
     $newImage = im_resize($file_src, $file_dest, $wd, $hd, 100);
     if (!$newImage) {
@@ -1880,12 +1880,12 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd) {
 
     $sizes = scaleUpAndMantainAspectRatioFinalSizes($wd, $old_x, $hd, $old_y);
     /*
-    if($wd!==200){
-        echo "<h1>Original</h1>X={$old_x} Y={$old_y}";
-        echo "<h1>Destination</h1>X={$wd} Y={$hd}";
-        echo '<h1>Results</h1>';
-        var_dump($sizes);exit;
-    }
+      if($wd!==200){
+      echo "<h1>Original</h1>X={$old_x} Y={$old_y}";
+      echo "<h1>Destination</h1>X={$wd} Y={$hd}";
+      echo '<h1>Results</h1>';
+      var_dump($sizes);exit;
+      }
      * 
      */
     $thumb_w = $sizes['w'];
@@ -6383,17 +6383,17 @@ function getShareMenu($title, $permaLink, $URLFriendly, $embedURL, $img, $class 
 
 function getCaptcha($uid = "", $forceCaptcha = false) {
     global $global;
-    if(empty($uid)){
+    if (empty($uid)) {
         $uid = "capcha_" . uniqid();
     }
-    $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functiongetCaptcha.php', array('uid' => $uid, 'forceCaptcha'=>$forceCaptcha));
+    $contents = getIncludeFileContent($global['systemRootPath'] . 'objects/functiongetCaptcha.php', array('uid' => $uid, 'forceCaptcha' => $forceCaptcha));
     $parts = explode('<script>', $contents);
     return array(
-        'content'=>$contents, 
-        'btnReloadCapcha'=>"$('#btnReload{$uid}').trigger('click');", 
-        'captchaText'=>"$('#{$uid}Text').val()", 
-        'html'=>$parts[0], 
-        'script'=>str_replace('</script>', '',$parts[1]));
+        'content' => $contents,
+        'btnReloadCapcha' => "$('#btnReload{$uid}').trigger('click');",
+        'captchaText' => "$('#{$uid}Text').val()",
+        'html' => $parts[0],
+        'script' => str_replace('</script>', '', $parts[1]));
 }
 
 function getSharePopupButton($videos_id, $url = "", $title = "") {
@@ -9868,4 +9868,57 @@ function getFeedButton($rss, $mrss, $roku) {
 function getPlatformId() {
     global $global;
     return base_convert(md5(encryptString($global['salt'] . 'AVideo')), 16, 36);
+}
+
+function isSafari() {
+    global $global, $_isSafari;
+    if (!isset($_isSafari)) {
+        $_isSafari = false;
+        $os = getOS();
+        if (preg_match('/Mac|iPhone|iPod|iPad/i', $os)) {
+            require_once $global['systemRootPath'] . 'objects/Mobile_Detect.php';
+            $detect = new Mobile_Detect;
+            $_isSafari = $detect->is('Safari');
+        }
+    }
+    return $_isSafari;
+}
+
+function fixQuotes($str) {
+    $chr_map = array(
+        // Windows codepage 1252
+        "\xC2\x82" => "'", // U+0082⇒U+201A single low-9 quotation mark
+        "\xC2\x84" => '"', // U+0084⇒U+201E double low-9 quotation mark
+        "\xC2\x8B" => "'", // U+008B⇒U+2039 single left-pointing angle quotation mark
+        "\xC2\x91" => "'", // U+0091⇒U+2018 left single quotation mark
+        "\xC2\x92" => "'", // U+0092⇒U+2019 right single quotation mark
+        "\xC2\x93" => '"', // U+0093⇒U+201C left double quotation mark
+        "\xC2\x94" => '"', // U+0094⇒U+201D right double quotation mark
+        "\xC2\x9B" => "'", // U+009B⇒U+203A single right-pointing angle quotation mark
+        // Regular Unicode     // U+0022 quotation mark (")
+        // U+0027 apostrophe     (')
+        "\xC2\xAB" => '"', // U+00AB left-pointing double angle quotation mark
+        "\xC2\xBB" => '"', // U+00BB right-pointing double angle quotation mark
+        "\xE2\x80\x98" => "'", // U+2018 left single quotation mark
+        "\xE2\x80\x99" => "'", // U+2019 right single quotation mark
+        "\xE2\x80\x9A" => "'", // U+201A single low-9 quotation mark
+        "\xE2\x80\x9B" => "'", // U+201B single high-reversed-9 quotation mark
+        "\xE2\x80\x9C" => '"', // U+201C left double quotation mark
+        "\xE2\x80\x9D" => '"', // U+201D right double quotation mark
+        "\xE2\x80\x9E" => '"', // U+201E double low-9 quotation mark
+        "\xE2\x80\x9F" => '"', // U+201F double high-reversed-9 quotation mark
+        "\xE2\x80\xB9" => "'", // U+2039 single left-pointing angle quotation mark
+        "\xE2\x80\xBA" => "'", // U+203A single right-pointing angle quotation mark
+    );
+    $chr = array_keys($chr_map); // but: for efficiency you should
+    $rpl = array_values($chr_map); // pre-calculate these two arrays
+    $str = str_replace($chr, $rpl, html_entity_decode($str, ENT_QUOTES, "UTF-8"));
+    return $str;
+}
+
+function fixQuotesIfSafari($str){    
+    if(!isSafari()){
+        return $str;
+    }
+    return fixQuotes($str);
 }
