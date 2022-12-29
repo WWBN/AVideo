@@ -17,35 +17,33 @@ $key = '';
 $live_servers_id = '';
 $live_index = '';
 $users_id = User::getId();
-if (!empty($_REQUEST['key'])) {
-    $key = $_REQUEST['key'];
-    $live_servers_id = @$_REQUEST['live_servers_id'];
-    $live_index = @$_REQUEST['live_index'];
-} else if (User::isLogged()) {
-    $lth = LiveTransmitionHistory::getLatestFromUser($users_id);
-    $key = $lth['key'];
-    $live_servers_id = $lth['live_servers_id'];
-    $live_index = $lth['live_index'];
-}
 
-if (!empty($key)) {
-    $isLive = 1;
-    setLiveKey($key, $live_servers_id, $live_index);
-    if (!empty(LiveTransmitionHistory::isLive($key, $live_servers_id))) {
-        $bodyClass = 'isLiveOnline';
-    }
+if (!empty($_REQUEST['logoff'])) {
+    User::logoff();
 }
-
 $html = '';
 if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     User::loginFromRequest();
-    $html .= 'loginFromRequest ';
-    if (User::isLogged()) {
-        $html .= 'is Logged ';
-    } else {
-        $html .= 'is NOT Logged ';
+} 
+if (User::isLogged()) {
+    if (!empty($_REQUEST['key'])) {
+        $key = $_REQUEST['key'];
+        $live_servers_id = @$_REQUEST['live_servers_id'];
+        $live_index = @$_REQUEST['live_index'];
+    } else if (User::isLogged()) {
+        $lth = LiveTransmitionHistory::getLatestFromUser($users_id);
+        $key = $lth['key'];
+        $live_servers_id = $lth['live_servers_id'];
+        $live_index = $lth['live_index'];
     }
-} else if (User::isLogged()) {
+
+    if (!empty($key)) {
+        $isLive = 1;
+        setLiveKey($key, $live_servers_id, $live_index);
+        if (!empty(LiveTransmitionHistory::isLive($key, $live_servers_id))) {
+            $bodyClass = 'isLiveOnline';
+        }
+    }
     if (isLive()) {
         //var_dump($livet, $getLiveKey, isLive());exit;
         if (AVideoPlugin::isEnabledByName('Chat2')) {
@@ -98,14 +96,16 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             //$html .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Live/view/menuRight.php');
             //var_dump($lt);exit;
         }
+        
+        if (AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
+            $html .= '<!-- SendRecordedToEncoder start -->';
+            $html .= getIncludeFileContent($global['systemRootPath'] . 'plugin/SendRecordedToEncoder/actionButtonLive.php');
+            $html .= '<!-- SendRecordedToEncoder end -->';
+        }
     }
 } else {
-    $html .= 'nothing to do ';
-    if (User::isLogged()) {
-        $html .= 'is Logged ';
-    } else {
-        $html .= 'is NOT Logged ';
-    }
+    header("Location: {$global['webSiteRootURL']}plugin/MobileManager/loginPage.php");
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -142,7 +142,7 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
             #recorderToEncoderActionButtons.closed .hideWhenClosed{
                 display: none !important;
             }
-            #recorderToEncoderActionButtons.closed .showWhenClosed, 
+            #recorderToEncoderActionButtons.closed .showWhenClosed,
             .isLiveOnline #closeRecorderButtons{
                 display: inline-block !important;
             }
@@ -152,20 +152,11 @@ if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
     <body style="background-color: transparent; <?php echo $bodyClass; ?>">
         <?php
         echo $html;
-        if (AVideoPlugin::isEnabledByName('SendRecordedToEncoder')) {
-            echo '<!-- SendRecordedToEncoder start -->';
-            include $global['systemRootPath'] . 'plugin/SendRecordedToEncoder/actionButtonLive.php';
-            echo '<!-- SendRecordedToEncoder end -->';
-        }
         ?>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script>
-            window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
-                window.flutter_inappwebview.callHandler('AVideoMobileLiveStreamer', 'Loaded app');
-            });
-
             function socketLiveONCallback(json) {
                 console.log('socketLiveONCallback MobileManager', json);
                 if ((json.users_id == '<?php echo User::getId(); ?>' && json.live_transmitions_history_id) || (!empty(json.key) && json.key == '<?php echo @$_REQUEST['key']; ?>')) {

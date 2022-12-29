@@ -9302,7 +9302,7 @@ function getIncludeFileContent($filePath, $varsArray = array()) {
 function getIncludeFileContentV1($filePath, $varsArray = array()) {
     global $global, $config;
     foreach ($varsArray as $key => $value) {
-        $$key = $value;
+        eval("\${$key} = \$value;");
     }
     /*
       if(doesPHPVersioHasOBBug()){

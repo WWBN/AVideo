@@ -1195,6 +1195,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     public static function getAllControlls($key, $live_servers_id = 0, $iconsOnly = false, $btnClass = '') {
+        global $global;
         if (!Live::canManageLiveFromLiveKey($key, User::getId())) {
             return '';
         }
@@ -1208,20 +1209,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $btn .= self::getButton("record_start", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= self::getButton("record_stop", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= "</div>";
-        $btn .= "<script>
-                $(document).ready(function () {
-                    setInterval(function () {
-                        if (isOnlineLabel || $('.liveOnlineLabel.label-success').length) {
-                            $('body').addClass('isLiveOnline');
-                            $('#liveControls').slideDown();
-                        } else {
-                            $('body').removeClass('isLiveOnline');
-                            $('#liveControls').slideUp();
-                        }
-                    }, 1000);
-
-                });
-            </script>";
+        $btn .= "<script src=\"{$global['webSiteRootURL']}plugin/Live/view/isOnlineLabel.js\"></script>";
 
         return $btn;
     }
