@@ -2834,9 +2834,8 @@ function copy_remotefile_if_local_is_smaller($url, $destination){
         }
     }
     $content = url_get_contents($url);
-    _error_log('copy_remotefile_if_local_is_smaller url_get_contents = ' . strlen($content));
-    return file_put_contents($destination, $content);
-    
+    _error_log('copy_remotefile_if_local_is_smaller url_get_contents = ' . humanFileSize(strlen($content)));
+    return file_put_contents($destination, $content); 
 }
 
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false)
