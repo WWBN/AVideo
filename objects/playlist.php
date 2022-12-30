@@ -710,7 +710,7 @@ class PlayList extends ObjectYPT
         $videos_id = intval($videos_id);
         $order = intval($order);
 
-        if (empty($this->id) || $videos_id) {
+        if (empty($this->id) || empty($videos_id)) {
             return false;
         }
 
