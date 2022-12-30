@@ -68,7 +68,7 @@ foreach ($videos as $key => $value) {
         CDNStorage::put($value['id'], 4);
         CDNStorage::createDummyFiles($value['id']);
     }
-    $end = $start - microtime(true);
+    $end = microtime(true)-$start;
     echo "*** id={$value['id']} Finished in ". seconds2human($end)." ETA=".seconds2human($end*($total-$count))." ***" . PHP_EOL;
     
 }
