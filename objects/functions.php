@@ -4926,7 +4926,7 @@ function getUsageFromURL($url)
     }
 
     if ($data) {
-        _error_log("getUsageFromURL: response header " . $data);
+        //_error_log("getUsageFromURL: response header " . $data);
         $content_length = "unknown";
         $status = "unknown";
 
