@@ -793,6 +793,10 @@ abstract class PluginAbstract {
     function onVideoSetSerie_playlists_id($video_id, $oldValue, $newValue) {
         
     }
+    
+    function getMobileHomePageURL() {
+       return false;
+    }
 
     function updateParameter($parameterName, $newValue) {
         $pluginDO = $this->getDataObject();

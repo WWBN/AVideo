@@ -2410,6 +2410,23 @@ class AVideoPlugin
         }
         return;
     }
+    
+    public static function getMobileHomePageURL()
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $url = $p->getMobileHomePageURL();
+                if(isValidURL($url)){
+                    return $url;
+                }
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+        return false;
+    }
 
     public static function getPluginsOnByDefault($getUUID = true)
     {

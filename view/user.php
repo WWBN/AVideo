@@ -30,7 +30,14 @@ if (User::isLogged()) {
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
         <div class="container-fluid">
-            <?php include $global['systemRootPath'] . 'view/userLogin.php'; ?>
+            <?php 
+            if(User::isLogged()){
+                include $global['systemRootPath'] . 'view/userBody.php'; 
+            }else{
+                include $global['systemRootPath'] . 'view/userLogin.php'; 
+            }
+            
+            ?>
         </div><!--/.container-->
 
         <?php

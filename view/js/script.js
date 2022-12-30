@@ -3710,7 +3710,8 @@ async function sendAVideoMobileLiveStreamerMessage(type, value){
             }, 1000);
         }
     } else {
-        console.log('sendAVideoMobileLiveStreamerMessage error', type, value);
+        //window.parent.postMessage({type: type, value: value}, '*');
+        window.top.postMessage({type: type, value: value}, '*');
     }
 }
 window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
