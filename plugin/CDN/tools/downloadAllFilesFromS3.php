@@ -40,7 +40,7 @@ foreach ($videos as $key => $value) {
     foreach (glob($destination . '*.{mp3,mp4,webm}', GLOB_BRACE) as $file) {
         $filesize = filesize($file);
         $filesizeHuman = humanFileSize($filesize);
-        echo "*** {$count}/{$total} checking [{$value['id']}] {$value['title']} {$file} [$filesizeHuman]" . PHP_EOL;
+        echo PHP_EOL."*** {$count}/{$total} checking [{$value['id']}] {$value['title']} {$file} [$filesizeHuman]" . PHP_EOL;
         if ($filesize && isDummyFile($file)) {
             echo "{$count}/{$total} Downloading [{$value['id']}] {$value['title']}" . PHP_EOL;
             $filename = basename($file);
@@ -61,6 +61,14 @@ foreach ($videos as $key => $value) {
             echo "{$count}/{$total} Not Dummy [{$value['id']}] {$value['title']} $file " . PHP_EOL;
         }
     }
+    if (CDNStorage::isMoving($value['id'])) {
+        echo "videos_id = {$value['id']} {$value['title']} Is moving ". PHP_EOL;
+    } else {
+        echo "videos_id = {$value['id']} {$value['title']} moving {$value['sites_id']} " . PHP_EOL;
+        CDNStorage::put($value['id'], 4);
+        CDNStorage::createDummyFiles($value['id']);
+    }
+    
 }
 
 echo "{$count}/{$total} END" . PHP_EOL;
