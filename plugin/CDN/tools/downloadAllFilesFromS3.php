@@ -33,7 +33,7 @@ echo "{$count}/{$total} Start" . PHP_EOL;
 
 foreach ($videos as $key => $value) {
     $count++;
-
+    $start = microtime(true);
     echo PHP_EOL.PHP_EOL."{$count}/{$total} checking [{$value['id']}] {$value['title']}" . PHP_EOL;
     $destination = Video::getPathToFile($value['filename'], true);
 
@@ -68,6 +68,8 @@ foreach ($videos as $key => $value) {
         CDNStorage::put($value['id'], 4);
         CDNStorage::createDummyFiles($value['id']);
     }
+    $end = $start - microtime(true);
+    echo "*** id={$value['id']} Finished in ". seconds2human($end)." ETA=".seconds2human($end*($total-$count))." ***" . PHP_EOL;
     
 }
 
