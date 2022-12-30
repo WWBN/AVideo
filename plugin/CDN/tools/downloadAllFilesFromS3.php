@@ -34,13 +34,13 @@ echo "{$count}/{$total} Start" . PHP_EOL;
 foreach ($videos as $key => $value) {
     $count++;
 
-    echo "{$count}/{$total} checking [{$value['id']}] {$value['title']}" . PHP_EOL;
+    echo PHP_EOL.PHP_EOL."{$count}/{$total} checking [{$value['id']}] {$value['title']}" . PHP_EOL;
     $destination = Video::getPathToFile($value['filename'], true);
 
     foreach (glob($destination . '*.{mp3,mp4,webm}', GLOB_BRACE) as $file) {
         $filesize = filesize($file);
         $filesizeHuman = humanFileSize($filesize);
-        echo "{$count}/{$total} checking [{$value['id']}] {$value['title']} {$file} [$filesizeHuman]" . PHP_EOL;
+        echo "*** {$count}/{$total} checking [{$value['id']}] {$value['title']} {$file} [$filesizeHuman]" . PHP_EOL;
         if ($filesize && isDummyFile($file)) {
             echo "{$count}/{$total} Downloading [{$value['id']}] {$value['title']}" . PHP_EOL;
             $filename = basename($file);
