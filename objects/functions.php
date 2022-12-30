@@ -2824,6 +2824,21 @@ function isValidM3U8Link($url, $timeout = 3)
     return false;
 }
 
+function copy_remotefile_if_local_is_smaller($url, $destination){
+    if(file_exists($destination)){
+        $size = filesize($destination);
+        $remote_size = getUsageFromURL($url);
+        if($size>=$remote_size){
+            _error_log('copy_remotefile_if_local_is_smaller same size ' . $url);
+            return $remote_size;
+        }
+    }
+    $content = url_get_contents($url);
+    _error_log('copy_remotefile_if_local_is_smaller url_get_contents = ' . strlen($content));
+    return file_put_contents($destination, $content);
+    
+}
+
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;

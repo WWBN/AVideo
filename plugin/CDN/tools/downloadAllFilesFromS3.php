@@ -38,18 +38,24 @@ foreach ($videos as $key => $value) {
     $destination = Video::getPathToFile($value['filename'], true);
 
     foreach (glob($destination . '*.{mp3,mp4,webm}', GLOB_BRACE) as $file) {
-        $filesize =  filesize($file);
-        $filesizeHuman =  humanFileSize($filesize);
+        $filesize = filesize($file);
+        $filesizeHuman = humanFileSize($filesize);
         echo "{$count}/{$total} checking [{$value['id']}] {$value['title']} {$file} [$filesizeHuman]" . PHP_EOL;
         if ($filesize && isDummyFile($file)) {
             echo "{$count}/{$total} Downloading [{$value['id']}] {$value['title']}" . PHP_EOL;
             $filename = basename($file);
-            if ($S3->copy_from_s3($filename, $file)) {
-                $filesize =  filesize($file);
-                $filesizeHuman =  humanFileSize($filesize);
-                echo "{$count}/{$total} SUCCESS [{$value['id']}] {$value['title']} [$filesizeHuman]" . PHP_EOL;
-            } else {
-                echo "{$count}/{$total} FAIL [{$value['id']}] {$value['title']}" . PHP_EOL;
+            $url = $S3->getURL($filename);
+            if ($result = copy_remotefile_if_local_is_smaller($url, $file)) {
+                echo "{$count}/{$total} SUCCESS 1 [{$value['id']}] {$value['title']} ". humanFileSize($result) . PHP_EOL;
+            } else { 
+                echo "{$count}/{$total} FAIL 1, try again [{$value['id']}] {$value['title']} " . PHP_EOL;
+                if ($S3->copy_from_s3($filename, $file)) {
+                    $filesize = filesize($file);
+                    $filesizeHuman = humanFileSize($filesize);
+                    echo "{$count}/{$total} SUCCESS 2 [{$value['id']}] {$value['title']} [$filesizeHuman]" . PHP_EOL;
+                } else {
+                    echo "{$count}/{$total} FAIL 2 [{$value['id']}] {$value['title']}" . PHP_EOL;
+                }
             }
         } else {
             echo "{$count}/{$total} Not Dummy [{$value['id']}] {$value['title']} $file " . PHP_EOL;
