@@ -24,7 +24,12 @@ ini_set('max_execution_time', $_2hours);
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id DESC ";
+$sort = @$argv[1];
+if(strtolower($sort) !== 'asc'){
+    $sort = 'DESC';
+}
+
+$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id $sort ";
 $res = sqlDAL::readSql($sql);
 $fullData = sqlDAL::fetchAllAssoc($res);
 sqlDAL::close($res);
