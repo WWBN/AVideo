@@ -542,7 +542,12 @@ class CDNStorage {
                     }
                     if ($r == FTP_MOREDATA) {
                         // Continue uploading...
-                        $ret[$key] = ftp_nb_continue($conn_id[$key]);
+                        try {
+                            $ret[$key] = ftp_nb_continue($conn_id[$key]);
+                        } catch (Exception $exc) {
+                            _error_log("CDNStorage::put:upload ftp_nb_continue error ".$exc->getMessage());
+                        }
+
                         $continue = true;
                     }
                     if ($r == FTP_FINISHED) {
