@@ -805,9 +805,10 @@ class CDNStorage {
 
     private static function getConnID($index, &$conn_id) {
         if (empty($conn_id[$index])) {
+            $timeout = 180;
             $obj = AVideoPlugin::getDataObject('CDN');
-            $conn_id[$index] = ftp_connect($obj->storage_hostname);
-            ftp_set_option($conn_id[$index], FTP_TIMEOUT_SEC, 10);
+            $conn_id[$index] = ftp_connect($obj->storage_hostname, 21, $timeout);
+            ftp_set_option($conn_id[$index], FTP_TIMEOUT_SEC, $timeout);
             if (empty($conn_id[$index])) {
                 sleep(1);
                 return self::getConnID($index, $conn_id);
