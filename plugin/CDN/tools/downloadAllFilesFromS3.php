@@ -41,7 +41,6 @@ foreach ($videos as $key => $value) {
     foreach (glob($destination . '*.{mp3,mp4,webm}', GLOB_BRACE) as $file) {
         $filesize = filesize($file);
         $filesizeHuman = humanFileSize($filesize);        
-        echo PHP_EOL."*** {$count}/{$total} checking [{$value['id']}] {$value['title']} {$file} [$filesizeHuman]" . PHP_EOL;
         if ($filesize && isDummyFile($file)) {
             $filename = basename($file);
             $url = $S3->getURL($filename);
