@@ -43,7 +43,6 @@ foreach ($videos as $key => $value) {
         $filesizeHuman = humanFileSize($filesize);        
         echo PHP_EOL."*** {$count}/{$total} checking [{$value['id']}] {$value['title']} {$file} [$filesizeHuman]" . PHP_EOL;
         if ($filesize && isDummyFile($file)) {
-            echo "{$count}/{$total} Downloading [{$value['id']}] {$value['title']}" . PHP_EOL;
             $filename = basename($file);
             $url = $S3->getURL($filename);
             
@@ -53,6 +52,8 @@ foreach ($videos as $key => $value) {
             if($filesizeCDN >= $remote_size){
                 echo "{$count}/{$total} Downloading canceled, size is the same or bigger ".humanFileSize($filesizeCDN)." >= ".humanFileSize($remote_size) . PHP_EOL;
                 continue;
+            }else{
+                echo "{$count}/{$total} Downloading ".humanFileSize($filesizeCDN)." >= ".humanFileSize($remote_size) ." [{$value['id']}] {$value['title']}" . PHP_EOL;
             }
             
             if ($result = copy_remotefile_if_local_is_smaller($url, $file)) {
