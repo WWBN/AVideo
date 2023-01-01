@@ -55,10 +55,10 @@ foreach ($videos as $key => $value) {
             $relative = str_replace($path, '', $file);
             $filesizeCDN = $client->size($relative);
             if($filesizeCDN >= $remote_size){
-                echo "{$count}/{$total} Downloading canceled, size is the same or bigger ".humanFileSize($filesizeCDN)." >= ".humanFileSize($remote_size) . PHP_EOL;
+                echo "{$count}/{$total} Downloading canceled, size is the same or bigger ".humanFileSize($filesizeCDN)." >= ".humanFileSize($remote_size)." {$filename}". PHP_EOL;
                 continue;
             }else{
-                echo "{$count}/{$total} Downloading ".humanFileSize($filesizeCDN)." >= ".humanFileSize($remote_size) ." [{$value['id']}] {$value['title']}" . PHP_EOL;
+                echo "{$count}/{$total} Downloading ".humanFileSize($filesizeCDN)." >= ".humanFileSize($remote_size) ." [{$value['id']}] {$value['title']} {$filename}" . PHP_EOL;
             }
             
             if ($result = copy_remotefile_if_local_is_smaller($url, $file)) {
