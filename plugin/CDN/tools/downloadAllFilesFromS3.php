@@ -40,14 +40,21 @@ foreach ($videos as $key => $value) {
 
     foreach (glob($destination . '*.{mp3,mp4,webm}', GLOB_BRACE) as $file) {
         $filesize = filesize($file);
-        $filesizeHuman = humanFileSize($filesize);
-        $relative = str_replace($path, '', $file);
-        $filesizeCDN = $client->size($relative);
+        $filesizeHuman = humanFileSize($filesize);        
         echo PHP_EOL."*** {$count}/{$total} checking [{$value['id']}] {$value['title']} {$file} [$filesizeHuman]" . PHP_EOL;
         if ($filesize && isDummyFile($file)) {
             echo "{$count}/{$total} Downloading [{$value['id']}] {$value['title']}" . PHP_EOL;
             $filename = basename($file);
             $url = $S3->getURL($filename);
+            
+            $remote_size = getUsageFromURL($url);
+            $relative = str_replace($path, '', $file);
+            $filesizeCDN = $client->size($relative);
+            if($filesizeCDN >= $remote_size){
+                echo "{$count}/{$total} Downloading canceled, size is the same or bigger ".humanFileSize($filesizeCDN)." >= ".humanFileSize($remote_size) . PHP_EOL;
+                continue;
+            }
+            
             if ($result = copy_remotefile_if_local_is_smaller($url, $file)) {
                 echo "{$count}/{$total} SUCCESS 1 [{$value['id']}] {$value['title']} ". humanFileSize($result) . PHP_EOL;
             } else { 
