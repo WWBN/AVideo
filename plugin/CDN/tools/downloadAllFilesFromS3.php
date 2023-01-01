@@ -30,6 +30,7 @@ $count = 0;
 $total = count($videos);
 
 echo "{$count}/{$total} Start" . PHP_EOL;
+$client = CDNStorage::getStorageClient();
 
 foreach ($videos as $key => $value) {
     $count++;
@@ -40,6 +41,8 @@ foreach ($videos as $key => $value) {
     foreach (glob($destination . '*.{mp3,mp4,webm}', GLOB_BRACE) as $file) {
         $filesize = filesize($file);
         $filesizeHuman = humanFileSize($filesize);
+        $relative = str_replace($path, '', $file);
+        $filesizeCDN = $client->size($relative);
         echo PHP_EOL."*** {$count}/{$total} checking [{$value['id']}] {$value['title']} {$file} [$filesizeHuman]" . PHP_EOL;
         if ($filesize && isDummyFile($file)) {
             echo "{$count}/{$total} Downloading [{$value['id']}] {$value['title']}" . PHP_EOL;
