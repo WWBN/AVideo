@@ -277,16 +277,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.255.3",
+            "version": "3.255.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "0530f0679d7b4809c9500c2332a4d7e9f770f47a"
+                "reference": "50585058d65fd676ba689783c437d341b1198554"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0530f0679d7b4809c9500c2332a4d7e9f770f47a",
-                "reference": "0530f0679d7b4809c9500c2332a4d7e9f770f47a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/50585058d65fd676ba689783c437d341b1198554",
+                "reference": "50585058d65fd676ba689783c437d341b1198554",
                 "shasum": ""
             },
             "require": {
@@ -365,9 +365,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.255.3"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.255.7"
             },
-            "time": "2022-12-23T19:26:27+00:00"
+            "time": "2022-12-30T19:22:02+00:00"
         },
         {
             "name": "brick/math",
@@ -1005,7 +1005,7 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.280.0",
+            "version": "v0.281.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
@@ -1043,7 +1043,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.280.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.281.0"
             },
             "time": "2022-12-24T01:38:12+00:00"
         },
@@ -4440,16 +4440,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v5.4.16",
+            "version": "v5.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "0f43af12a27733a060b92396b7bde84a4376da0a"
+                "reference": "772129f800fc0bfaa6bd40c40934d544f0957d30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/0f43af12a27733a060b92396b7bde84a4376da0a",
-                "reference": "0f43af12a27733a060b92396b7bde84a4376da0a",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/772129f800fc0bfaa6bd40c40934d544f0957d30",
+                "reference": "772129f800fc0bfaa6bd40c40934d544f0957d30",
                 "shasum": ""
             },
             "require": {
@@ -4507,7 +4507,7 @@
             "description": "Provides powerful methods to fetch HTTP resources synchronously or asynchronously",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v5.4.16"
+                "source": "https://github.com/symfony/http-client/tree/v5.4.17"
             },
             "funding": [
                 {
@@ -4523,7 +4523,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-09T11:27:39+00:00"
+            "time": "2022-12-13T11:07:37+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
