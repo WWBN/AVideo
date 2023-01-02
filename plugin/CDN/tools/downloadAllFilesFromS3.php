@@ -24,15 +24,25 @@ set_time_limit(1200);
 ini_set('max_execution_time', 1200);
 
 $global['rowCount'] = $global['limitForUnlimitedVideos'] = 999999;
+//$videos = Video::getAllVideosLight("", false, true, false);
+
 $path = getVideosDir();
-$videos = Video::getAllVideosLight("", false, true, false);
+
+$startInIndex = intval(@$argv[1]);
+if($startInIndex < 0){
+    $sort = 'DESC';
+}
+
+$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id $sort ";
+$res = sqlDAL::readSql($sql);
+$videos = sqlDAL::fetchAllAssoc($res);
+sqlDAL::close($res);
+
 $count = 0;
 $total = count($videos);
 
 echo "{$count}/{$total} Start" . PHP_EOL;
 $client = CDNStorage::getStorageClient();
-
-$startInIndex = intval(@$argv[1]);
 
 foreach ($videos as $key => $value) {
     $count++;
