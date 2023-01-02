@@ -588,7 +588,7 @@ class PlayList extends ObjectYPT
         $favorite = self::getIdFromUser($users_id, "favorite");
         if (empty($favorite)) {
             $pl = new PlayList(0);
-            $pl->setName("Favorite");
+            $pl->setName("Favorites");
             $pl->setUsers_id($users_id);
             $pl->setStatus("favorite");
             $pl->save();
