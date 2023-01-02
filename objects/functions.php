@@ -4531,7 +4531,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
 function _session_start(array $options = [])
 {
     try {
-        if (!empty($_GET['PHPSESSID'])) {
+        if (!_empty($_GET['PHPSESSID'])) {
             if (!User::isLogged()) {
                 if ($_GET['PHPSESSID'] !== session_id()) {
                     if (session_status() !== PHP_SESSION_NONE) {
@@ -9466,6 +9466,9 @@ function getCSSAnimationClassAndStyleAddWait($delay, $loaderSequenceName = 'defa
 
 function getCSSAnimationClassAndStyle($type = 'animate__flipInX', $loaderSequenceName = 'default', $delay = 0.1)
 {
+    if(isAVideoMobileApp()){
+        return false;
+    }
     $array = getCSSAnimation($type, $loaderSequenceName, $delay);
     return "{$array['class']}\" style=\"{$array['style']}";
 }
@@ -9784,11 +9787,11 @@ function getIncludeFileContentV1($filePath, $varsArray = array())
     }
     //_ob_start();
     $basename = basename($filePath);
-    $return = "<!-- {$basename} start -->";
+    //$return = "<!-- {$basename} start -->";
     include $filePath;
     _ob_start();
-    $returnOB = _ob_get_clean();
-    $return .= "{$returnOB}<!-- {$basename} end -->";
+    $return .= _ob_get_clean();
+    //$return .= "<!-- {$basename} end -->";
     echo $__out;
     return $return;
 }

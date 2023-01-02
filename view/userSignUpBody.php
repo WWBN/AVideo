@@ -190,9 +190,15 @@ getCSSAnimationClassAndStyleAddWait(0.5);
         <button class="btn btn-primary btn-block btn-lg <?php echo getCSSAnimationClassAndStyle(); ?>" onclick="$('#updateUserForm').submit();" ><i class="fas fa-user-plus"></i> <?php echo __("Sign Up"); ?></button>
         <?php
         if (!empty($redirectUri)) {
-            ?>
-            <a href="<?php echo $redirectUri; ?>" class="btn btn-default btn-block btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>" ><i class="fas fa-times"></i> <?php echo __("Cancel"); ?></a>
-            <?php
+            if (isAVideoMobileApp()) {
+                ?>
+                <button onclick="sendAVideoMobileLiveStreamerMessage('pop', {title:'', description:''});" class="btn btn-default btn-block btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>" ><i class="fas fa-times"></i> <?php echo __("Cancel"); ?></button>
+                <?php
+            } else {
+                ?>
+                <a href="<?php echo $redirectUri; ?>" class="btn btn-default btn-block btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>" ><i class="fas fa-times"></i> <?php echo __("Cancel"); ?></a>
+                <?php
+            }
         }
         ?>
     </div>
@@ -302,7 +308,13 @@ getCSSAnimationClassAndStyleAddWait(0.5);
                     success: function (response) {
                         avideoResponse(response);
                         if (!response.error) {
-                            window.location.href = '<?php echo $siteRedirectUri; ?>';
+<?php
+if (isAVideoMobileApp()) {
+    echo "sendAVideoMobileLiveStreamerMessage('pop',  {title:'Success', description:''});";
+} else {
+    echo "window.location.href = '{$siteRedirectUri}';";
+}
+?>
                         } else {
                             modal.hidePleaseWait();
                         }

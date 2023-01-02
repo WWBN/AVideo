@@ -37,7 +37,7 @@ class Captcha
         }
         _session_start();
         $_SESSION["palavra"] = $palavra; // atribui para a sessao a palavra gerada
-        //_error_log("getCaptchaImage: ".$palavra." - session_name ". session_name()." session_id: ". session_id());
+        _error_log("getCaptchaImage: ".$palavra." - session_name ". session_name()." session_id: ". session_id());
         for ($i = 1; $i <= $this->quantidade_letras; $i++) {
             imagettftext(
                 $imagem,

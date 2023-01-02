@@ -476,7 +476,7 @@ class CDNStorage {
 
         return ['filesCopied' => $filesCopied, 'totalBytesTransferred' => $totalBytesTransferred];
     }
-
+    
     public static function put($videos_id, $totalSameTime, $onlyExtension = '') {
         global $_uploadInfo;
         if (empty($videos_id)) {
