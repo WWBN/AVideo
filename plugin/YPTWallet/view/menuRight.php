@@ -6,7 +6,7 @@ $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
 $balance = $plugin->getBalance(User::getId());
 ?>
-<li style="z-index:20;">
+<li style="z-index:20;list-style-type: none;" class="wallet-li">
     <?php
     if (!empty($profileTab)) {
         ?>
