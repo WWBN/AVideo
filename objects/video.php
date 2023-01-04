@@ -1713,7 +1713,7 @@ if (!class_exists('Video')) {
          * @param string $showOnlyLoggedUserVideos
          * @return array
          */
-        public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false) {
+        public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false, $type = '') {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return array();
@@ -1762,7 +1762,9 @@ if (!class_exists('Video')) {
                 $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
             }
             $sql .= AVideoPlugin::getVideoWhereClause();
-
+            if(!empty($type)){
+                $sql .= " AND v.type = '" . $type . "' ";
+            }
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
                 $sql .= " ORDER BY RAND() ";
@@ -1775,7 +1777,7 @@ if (!class_exists('Video')) {
                     $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
                 }
             }
-            //echo $sql;
+            //echo $sql;exit;
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
 
