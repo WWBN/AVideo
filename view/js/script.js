@@ -45,6 +45,14 @@ try {
                 height = $('body').height();
             }
             parent.postMessage({height: height}, '*');
+        }else if (e.data.play) {
+            var currentTime = e.data.play.currentTime;
+            var muted = !empty(e.data.play.muted);
+            if(!muted){
+                playerPlay(currentTime);
+            }else{
+                tryToPlayMuted(currentTime);
+            }
         }
     }, false);
 
