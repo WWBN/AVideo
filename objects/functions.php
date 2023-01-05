@@ -4493,8 +4493,9 @@ function _mysql_close() {
 function _mysql_is_open() {
     global $global, $mysql_connect_was_closed;
     try {
+        
         //if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
-        if (!empty($global['mysqli']) && is_object($global['mysqli']) && empty($mysql_connect_was_closed)) {
+        if (!empty($global['mysqli']) && is_object($global['mysqli']) && empty($mysql_connect_was_closed) && is_resource($global['mysqli']) && get_resource_type($global['mysqli'])==='mysql link') {
             return true;
         }
     } catch (Exception $exc) {
