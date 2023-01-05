@@ -105,7 +105,7 @@ class sqlDAL
             }
         }
 
-        if (!is_object($global['mysqli'])) {
+        if (!_mysql_is_open()) {
             _mysql_connect();
         }
 

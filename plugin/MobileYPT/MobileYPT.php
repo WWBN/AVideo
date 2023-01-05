@@ -40,6 +40,7 @@ class MobileYPT extends PluginAbstract {
         $obj->doNotAllowAnonimusAccess = false;
         $obj->doNotAllowUpload = false;
         $obj->hideCreateAccount = false;
+        $obj->approvalMode = false;
         $o = new stdClass();
         $o->type = "textarea";
         $o->value = "This Software must be used for Good, never Evil. There is no tolerance for objectionable content or abusive users. It is expressly forbidden to use this app to build porn sites, violence, racism or anything else that affects human integrity or denigrates the image of anyone.\n"
@@ -48,7 +49,7 @@ class MobileYPT extends PluginAbstract {
         $obj->EULA = $o;
 
         $obj->enableLivePublisher = true;
-        $obj->enableAudioPlayer = true;
+        $obj->enablePlayLists = true;
 
         return $obj;
     }

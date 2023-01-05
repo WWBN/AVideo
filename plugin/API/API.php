@@ -373,10 +373,6 @@ class API extends PluginAbstract {
      */
     public function get_api_suggested_programs($parameters) {
         $playlists = AVideoPlugin::loadPlugin("PlayLists");
-        $videos = PlayList::getSuggested();
-        if (empty($videos)) {
-            return new ApiObject("This API list only suggested active series, check if your serie is not unlisted", true, $parameters);
-        }
         //var_dump($videos);exit;
         $config = new Configuration();
         $users_id = User::getId();
@@ -391,6 +387,7 @@ class API extends PluginAbstract {
         $_POST['sort']['created'] = 'DESC';
         $obj->videos = PlayList::getVideosIDFromPlaylistLight(0);
         $list[] = $obj;
+        $videos = PlayList::getSuggested();
         foreach ($videos as $value) {
                 $videosArrayId = PlayList::getVideosIdFromPlaylist($value['serie_playlists_id']);
                 if (empty($videosArrayId) || $value['status'] == "favorite" || $value['status'] == "watch_later") {
