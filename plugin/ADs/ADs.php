@@ -381,7 +381,8 @@ class ADs extends PluginAbstract
         if ($size['isSquare']) {
             $width = $size['width'];
             $height = $size['height'];
-            $style = "width: {$width}px; height: {$height}px;";
+            //Removed because it bugged in the mobile top
+            //$style = "width: {$width}px; height: {$height}px;";
         }
 
 
