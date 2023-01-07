@@ -41,7 +41,7 @@ if (empty($lis)) {
 }
 ?>
 <div class="dropdown text-center" >
-    <button class="btn btn-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" title=<?php printJSString('More Options', true); ?>>
+    <button class="btn btn-dark btn-xs dropdown-toggle" type="button" data-toggle="dropdown" title=<?php printJSString('More Options'); ?>>
         <i class="fas fa-ellipsis-v"></i>
     </button>
     <ul class="dropdown-menu btn-dark ">
