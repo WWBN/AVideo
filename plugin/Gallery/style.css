@@ -153,7 +153,7 @@ a.h6{
     display: inline-grid;
     padding: 5px 1px;
     justify-content: center;
-    width: 24px;
+    width: 100%;
     margin: 1px 0;
 } 
 .galleryVideo:hover  .galleryVideoButtons,
