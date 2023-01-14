@@ -9,9 +9,6 @@ $tableExists = [];
 abstract class ObjectYPT implements ObjectInterface
 {
     protected $fieldsName = [];
-    protected $id;
-    protected $created;
-    protected $modified;
 
     public function __construct($id = "")
     {
