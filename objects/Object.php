@@ -359,6 +359,9 @@ abstract class ObjectYPT implements ObjectInterface
             }
             $sql .= " VALUES (" . implode(", ", $fields) . ")";
         }
+        if(static::getTableName() == 'plugins'){
+            _error_log("Plugin updated {$this->name}:". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        }
         //var_dump(static::getTableName(), $sql, $values);
         //if(static::getTableName() == 'videos'){ echo $sql;var_dump($values);exit;}return false;
         //echo $sql;var_dump($values);exit;
