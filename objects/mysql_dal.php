@@ -105,6 +105,10 @@ class sqlDAL
             }
         }
 
+        if(preg_match('/^update plugins/i', $preparedStatement)){
+            _error_log("Plugin updated {$preparedStatement}:". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        }
+        
         if (!_mysql_is_open()) {
             _mysql_connect();
         }
