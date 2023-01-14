@@ -720,10 +720,7 @@ Allow: .css";
         $video = new Video('', '', $videos_id);
         $users_id = $video->getUsers_id();
         $user = new User($users_id);
-        $externalOptions = object_to_array(_json_decode(User::decodeExternalOption($user->_getExternalOptions())));
-        $externalOptions['doNotShowAdsOnThisChannel'] = $doNotShowAdsOnThisChannel;
-        $user->setExternalOptions(json_encode($externalOptions));
-        return $user->save();
+        return $user->addExternalOptions('doNotShowAdsOnThisChannel', $doNotShowAdsOnThisChannel);
     }
 
     public static function getDoNotShowAds($videos_id): bool {
