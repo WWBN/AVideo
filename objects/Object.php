@@ -286,6 +286,10 @@ abstract class ObjectYPT implements ObjectInterface
         }
         global $global;
         $fieldsName = $this->getAllFields();
+        if (empty($fieldsName)) {
+            _error_log("Save error, table " . static::getTableName() . " MySQL Error", AVideoLog::$ERROR);
+            return false;
+        }
         $formats = '';
         $values = array();
         if (!empty($this->id)) {
