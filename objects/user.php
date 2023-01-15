@@ -788,6 +788,7 @@ if (typeof gtag !== \"function\") {
                 . " channelName = ?, emailVerified = ? , analyticsCode = ?, externalOptions = ? , "
                 . " first_name = ? , last_name = ? , address = ? , zip_code = ? , country = ? , region = ? , city = ? , donationLink = ? , phone = ? , is_company = " . (empty($this->is_company) ? 'NULL' : intval($this->is_company)) . ", "
                 . " modified = now() WHERE id = ?";
+            //var_dump(__LINE__, debug_backtrace());exit;
         } else {
             $formats = "ssssiiiisssssssi";
             $values = [
