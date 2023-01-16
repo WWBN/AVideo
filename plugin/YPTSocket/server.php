@@ -6,6 +6,9 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use Socket\Message;
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 //use React\Socket\Server as Reactor;
 if(empty($_SERVER['HTTP_HOST'])){
     $_SERVER['HTTP_HOST'] = 'localhost';
