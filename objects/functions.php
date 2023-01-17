@@ -4516,6 +4516,9 @@ function remove_utf8_bom($text) {
 
 function getCacheDir() {
     $p = AVideoPlugin::loadPlugin("Cache");
+    if(empty($p)){
+        return addLastSlash(sys_get_temp_dir());
+    }
     return $p->getCacheDir();
 }
 
@@ -6260,7 +6263,7 @@ function _strlen($string) {
     }
 }
 
-function getSEODescription($text, $maxChars = 250) {
+function getSEODescription($text, $maxChars = 320) {
     $removeChars = ['|', '"'];
     $replaceChars = ['-', ''];
     $newText = trim(str_replace($removeChars, $replaceChars, html2plainText($text)));
@@ -8707,7 +8710,7 @@ function replaceCDNIfNeed($url, $type = 'CDN', $id = 0) {
 }
 
 function isIPPrivate($ip) {
-    if ($ip == '192.168.1.4') {
+    if ($ip == '192.168.0.2') {
         return false;
     }
     if (!filter_var($ip, FILTER_VALIDATE_IP)) {
