@@ -636,7 +636,9 @@ abstract class ObjectYPT implements ObjectInterface
             AVideoPlugin::loadPlugin('Cache');
         }
 
-        Cache::deleteCache($name);
+        if (class_exists('Cache')) {
+            Cache::deleteCache($name);
+        }
 
         global $__getAVideoCache;
         unset($__getAVideoCache);

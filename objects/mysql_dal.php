@@ -165,6 +165,12 @@ class sqlDAL
         }
     }
 
+    
+    static function wasSTMTError(){
+        global $wasSTMTError;
+        return $wasSTMTError;
+    }
+    
     /*
      * For Sql like SELECT. This method needs to be closed anyway. If you start another readSql, while the old is open, it will fail.
      * @param string $preparedStatement  The Sql-command
@@ -176,7 +182,8 @@ class sqlDAL
     public static function readSql($preparedStatement, $formats = "", $values = [], $refreshCache = false)
     {
         // $refreshCache = true;
-        global $global, $disableMysqlNdMethods, $readSqlCached, $crc;
+        global $global, $disableMysqlNdMethods, $readSqlCached, $crc, $wasSTMTError;
+        $wasSTMTError = false;
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         $crc = (md5($preparedStatement . implode($values)));
 
@@ -221,6 +228,7 @@ class sqlDAL
 
                 if (empty($stmt)) {
                     log_error("[sqlDAL::readSql] (stmt) is empty {$preparedStatement} with formats {$formats}");
+                    $wasSTMTError = true;
                     return false;
                 }
 
