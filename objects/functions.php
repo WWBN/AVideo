@@ -5605,7 +5605,7 @@ function getSEOComplement($parameters = []) {
     return $txt;
 }
 
-function checkDoNOTOrganizeHTML() {
+function doNOTOrganizeHTMLIfIsPagination() {
     global $global;
     $page = getCurrentPage();
     if ($page > 1) {
