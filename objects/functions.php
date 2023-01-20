@@ -4493,9 +4493,9 @@ function _mysql_close() {
 function _mysql_is_open() {
     global $global, $mysql_connect_was_closed;
     try {
-        
+
         //if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
-        if (!empty($global['mysqli']) && is_object($global['mysqli']) && empty($mysql_connect_was_closed) && isset($global['mysqli']->server_info) && is_resource($global['mysqli']) && get_resource_type($global['mysqli'])==='mysql link') {
+        if (!empty($global['mysqli']) && is_object($global['mysqli']) && empty($mysql_connect_was_closed) && isset($global['mysqli']->server_info) && is_resource($global['mysqli']) && get_resource_type($global['mysqli']) === 'mysql link') {
             return true;
         }
     } catch (Exception $exc) {
@@ -4516,7 +4516,7 @@ function remove_utf8_bom($text) {
 
 function getCacheDir() {
     $p = AVideoPlugin::loadPlugin("Cache");
-    if(empty($p)){
+    if (empty($p)) {
         return addLastSlash(sys_get_temp_dir());
     }
     return $p->getCacheDir();
@@ -5605,6 +5605,14 @@ function getSEOComplement($parameters = []) {
     return $txt;
 }
 
+function checkDoNOTOrganizeHTML() {
+    global $global;
+    $page = getCurrentPage();
+    if ($page > 1) {
+        $global['doNOTOrganizeHTML'] = 1;
+    }
+}
+
 function getCurrentPage() {
     if (!empty($_REQUEST['current'])) {
         return intval($_REQUEST['current']);
@@ -5618,6 +5626,8 @@ function getCurrentPage() {
         if (!empty($start) && !empty($length)) {
             return floor($start / $length) + 1;
         }
+    } elseif (!empty($_GET['page'])) {
+        return intval($_GET['page']);
     }
     return 1;
 }

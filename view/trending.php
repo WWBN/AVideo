@@ -5,10 +5,6 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
-if(!empty($_GET['current']) && $_GET['current'] > 1){
-   $global['doNOTOrganizeHTML'] = 1; 
-}
-
 if (!empty($_GET['type'])) {
     if ($_GET['type'] == 'audio') {
         $_SESSION['type'] = 'audio';
