@@ -518,7 +518,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
             error_log("Restreamer.json.php startRestream ERROR #2 FFMPEG openssl is not enabled, ignoring {$restreamsDestinations[0]} ");
         } else {
             
-            if(preg_match("/facebook.com/i", $value)){
+            if(preg_match("/facebook.com/i", $restreamsDestinations[0])){
                 $audioConfig = '-c:a copy -bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k ';
             }else{
                 $audioConfig = '-c:a copy ';
