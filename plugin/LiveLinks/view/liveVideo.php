@@ -1,8 +1,6 @@
 <!-- Live Link <?php echo $t['id']; ?> -->
 <?php
-if(!AVideoPlugin::isEnabledByName('LiveLinks')){
-    return;
-}
+AVideoPlugin::loadPlugin('LiveLinks');
 if ($t['id'] > 0) {
     $liveLink = LiveLinks::getSourceLink($t['id']);
     $liveLinkObj = new LiveLinksTable($t['id']);
