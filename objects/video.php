@@ -926,7 +926,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                $_POST['searchPhrase'] = str_replace('&quot;', '"', $_POST['searchPhrase']);
+                $_POST['searchPhrase'] = strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
                 $searchFieldsNames = self::getSearchFieldsNames();
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
