@@ -926,7 +926,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                $_POST['searchPhrase'] = strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
+                $_POST['searchPhrase'] = mb_strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
                 $searchFieldsNames = self::getSearchFieldsNames();
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
@@ -987,7 +987,7 @@ if (!class_exists('Video')) {
                     $sql .= " ORDER BY v.Created DESC ";
                 }
             }
-            if (strpos($sql, 'v.id IN') === false && strpos(strtolower($sql), 'limit') === false) {
+            if (strpos($sql, 'v.id IN') === false && strpos(mb_strtolower($sql), 'limit') === false) {
                 $sql .= " LIMIT {$firstClauseLimit}1";
             }
             $lastGetVideoSQL = $sql;
@@ -1343,7 +1343,7 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_POST['searchPhrase'])) {
-                $_POST['searchPhrase'] = strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
+                $_POST['searchPhrase'] = mb_strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
                 $searchFieldsNames = self::getSearchFieldsNames();
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
@@ -1368,7 +1368,7 @@ if (!class_exists('Video')) {
                 $sort = @$_POST['sort'];
                 unset($_POST['sort']);
                 $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
-                if (strpos(strtolower($sql), 'limit') === false) {
+                if (strpos(mb_strtolower($sql), 'limit') === false) {
                     $sql .= " LIMIT 60 ";
                 }
                 $_POST['sort'] = $sort;
@@ -1398,7 +1398,7 @@ if (!class_exists('Video')) {
                 }
                 $sql .= ObjectYPT::getSqlLimit();
             }
-            if (strpos(strtolower($sql), 'limit') === false) {
+            if (strpos(mb_strtolower($sql), 'limit') === false) {
                 if (!empty($_GET['limitOnceToOne'])) {
                     $sql .= " LIMIT 1";
                     unset($_GET['limitOnceToOne']);
@@ -1771,7 +1771,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
                 $sql .= " ORDER BY RAND() ";
             }
-            if (strpos(strtolower($sql), 'limit') === false) {
+            if (strpos(mb_strtolower($sql), 'limit') === false) {
                 if (empty($global['limitForUnlimitedVideos'])) {
                     $global['limitForUnlimitedVideos'] = empty($global['rowCount']) ? 1000 : $global['rowCount'];
                 }
@@ -1937,7 +1937,7 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             if (!empty($_POST['searchPhrase'])) {
-                $_POST['searchPhrase'] = strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
+                $_POST['searchPhrase'] = mb_strtolower(str_replace('&quot;', '"', $_POST['searchPhrase']));
                 $searchFieldsNames = self::getSearchFieldsNames();
                 if (AVideoPlugin::isEnabledByName("VideoTags")) {
                     $sql .= " AND (";
@@ -3560,7 +3560,7 @@ if (!class_exists('Video')) {
                 $prefix = 'v';
             }
             $date = date('ymdHis', $time);
-            $videoFilename = strtolower("{$prefix}_{$date}_v{$uid}");
+            $videoFilename = mb_strtolower("{$prefix}_{$date}_v{$uid}");
             return self::getPaths($videoFilename);
         }
 
@@ -4750,7 +4750,7 @@ if (!class_exists('Video')) {
         }
 
         public function setRrating($rrating) {
-            $rrating = strtolower($rrating);
+            $rrating = mb_strtolower($rrating);
             if (!in_array($rrating, self::$rratingOptions)) {
                 $rrating = '';
             }
@@ -5013,7 +5013,7 @@ if (!class_exists('Video')) {
                 $video['rotation'] = 0;
                 $video['videoLink'] = $evideo->videoLink;
                 $video['title'] = $evideo->title;
-                $video['clean_title'] = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\] ]+/', '-', trim(strtolower(cleanString($evideo->title))));
+                $video['clean_title'] = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\] ]+/', '-', trim(mb_strtolower(cleanString($evideo->title))));
                 if (empty($evideo->description) && !empty($evideo->videos_id)) {
                     $divId = uniqid();
                     $video['description'] = '<div id="' . $divId . '"></div>
@@ -5084,7 +5084,7 @@ if (!class_exists('Video')) {
             global $global;
             $search = (xss_esc($search));
             $search = str_replace('&quot;', '"', $search);
-            $search = strtolower($search);
+            $search = mb_strtolower($search);
             if (empty($columnsArray) || empty($search)) {
                 return "";
             }
@@ -5498,7 +5498,7 @@ if (!class_exists('Video')) {
                 return false;
             }
 
-            if (strtolower($type) == 'likes') {
+            if (mb_strtolower($type) == 'likes') {
                 $type = 'likes';
             } else {
                 $type = 'dislikes';
