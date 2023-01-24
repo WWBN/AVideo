@@ -317,6 +317,9 @@ $percent = 90;
         }
         $url = addQueryStringParameter($url, 'tags_id', intval(@$_GET['tags_id']));
         $url = addQueryStringParameter($url, 'current', 1);
+        if(!empty($_REQUEST['search'])){
+            $url = addQueryStringParameter($url, 'search', $_REQUEST['search']);
+        }
         ?>
         <div id="categoriesContainer"></div>
         <p class="pagination infiniteScrollPagination">
