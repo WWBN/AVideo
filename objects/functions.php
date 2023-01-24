@@ -5676,17 +5676,17 @@ function setRowCount($rowCount) {
 }
 
 function getSearchVar() {
+    $search = '';
     if (!empty($_REQUEST['search'])) {
-        return $_REQUEST['search'];
+        $search = $_REQUEST['search'];
     } elseif (!empty($_REQUEST['q'])) {
-        return $_REQUEST['q'];
+        $search = $_REQUEST['q'];
+    }else if (!empty($_REQUEST['searchPhrase'])) {
+        $search = $_REQUEST['searchPhrase'];
+    } else if (!empty($_REQUEST['search']['value'])) {
+        $search = $_REQUEST['search']['value'];
     }
-    if (!empty($_REQUEST['searchPhrase'])) {
-        return $_REQUEST['searchPhrase'];
-    } elseif (!empty($_REQUEST['search']['value'])) {
-        return $_REQUEST['search']['value'];
-    }
-    return "";
+    return strtolower($search);
 }
 
 $cleanSearchHistory = '';
