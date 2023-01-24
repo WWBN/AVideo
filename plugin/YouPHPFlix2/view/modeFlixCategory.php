@@ -56,7 +56,12 @@ $videosCounter = 0;
             unset($_POST['searchPhrase']);
         }
         unset($_POST['sort']);
-        $_REQUEST['rowCount'] = 2;
+
+        if (!empty($_REQUEST['search'])) {
+            $_REQUEST['rowCount'] = 1000;
+        } else {
+            $_REQUEST['rowCount'] = 2;
+        }
         if (!empty($_REQUEST['catName'])) {
             $hideTitle = 1;
             $categories = array(Category::getCategoryByName($_REQUEST['catName']));
@@ -126,7 +131,7 @@ $videosCounter = 0;
         }
     }
     TimeLogEnd($timeLog, __LINE__);
-    if(empty($videosCounter)){
+    if (empty($videosCounter)) {
         echo "</div>";
         return false;
     }
@@ -136,7 +141,23 @@ $videosCounter = 0;
     </script>
 </div>
 <p class="pagination">
-    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?current=<?php echo count($categories) ? $_REQUEST['current'] + 1 : $_REQUEST['current']; ?>&rrating=<?php echo @$_GET['rrating']; ?>"></a>
+    <?php
+    $url = "{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/modeFlixCategory.php";
+    if (!empty($_GET['catName'])) {
+        $url = addQueryStringParameter($url, 'catName', $_GET['catName']);
+    }
+    $search = getSearchVar();
+    if (!empty($search)) {
+        $url = addQueryStringParameter($url, 'search', $search);
+    }
+    $url = addQueryStringParameter($url, 'rrating', @$_GET['rrating']);
+    $url = addQueryStringParameter($url, 'tags_id', intval(@$_GET['tags_id']));
+    $url = addQueryStringParameter($url, 'current', count($categories) ? $_REQUEST['current'] + 1 : $_REQUEST['current']);
+    if (!empty($_REQUEST['search'])) {
+        $url = addQueryStringParameter($url, 'search', $_REQUEST['search']);
+    }
+    ?>
+    <a class="pagination__next" href="<?php echo $url; ?>"></a>
 </p>
 <?php
 $cache = _ob_get_clean();
