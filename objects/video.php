@@ -5084,6 +5084,7 @@ if (!class_exists('Video')) {
             global $global;
             $search = (xss_esc($search));
             $search = str_replace('&quot;', '"', $search);
+            $search = strtolower($search);
             if (empty($columnsArray) || empty($search)) {
                 return "";
             }
