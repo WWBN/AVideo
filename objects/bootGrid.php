@@ -58,7 +58,7 @@ class BootGrid
 
         if (!empty($_POST['searchPhrase'])) {
             global $global;
-            $search = (xss_esc($_POST['searchPhrase']));
+            $search = strtolower(xss_esc($_POST['searchPhrase']));
             $search = str_replace('&quot;', '"', $search);
             $like = [];
             foreach ($searchFieldsNames as $value) {
