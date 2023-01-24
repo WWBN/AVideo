@@ -404,7 +404,7 @@ function safeString($text, $strict = false) {
 }
 
 function cleanURLName($name, $replaceChar = '-') {
-    $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]%"\/\\\\ ]+/', $replaceChar, trim(strtolower(cleanString($name))));
+    $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]%"\/\\\\ ]+/', $replaceChar, trim(mb_strtolower(cleanString($name))));
     return trim(preg_replace('/[\x00-\x1F\x7F\xD7\xE0]/u', $replaceChar, $name), $replaceChar);
 }
 
@@ -568,7 +568,7 @@ function setSiteSendMessage(\PHPMailer\PHPMailer\PHPMailer &$mail) {
 }
 
 function array_iunique($array) {
-    return array_intersect_key($array, array_unique(array_map("strtolower", $array)));
+    return array_intersect_key($array, array_unique(array_map("mb_strtolower", $array)));
 }
 
 function partition(array $list, $totalItens) {
@@ -1468,7 +1468,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
                 'url' => $source['url'],
                 'url_noCDN' => @$source['url_noCDN'],
                 'type' => $type,
-                'format' => strtolower($parts['extension']),
+                'format' => mb_strtolower($parts['extension']),
             ];
 
             $files["{$parts['extension']}{$resolution}"] = $_file;
@@ -1651,10 +1651,10 @@ function getImageFormat($file) {
         $size['mime'] = 'image/jpeg';
     }
     //var_dump($file_src, $size);exit;
-    $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
+    $format = mb_strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
     $extension = $format;
     if (empty($format)) {
-        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+        $extension = mb_strtolower(pathinfo($file, PATHINFO_EXTENSION));
         if ($extension === 'jpg') {
             $format = 'jpeg';
         } else {
@@ -1667,7 +1667,7 @@ function getImageFormat($file) {
                 $size['mime'] = 'image/jpeg';
             }
             //var_dump($file_src, $size);exit;
-            $format = strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
+            $format = mb_strtolower(substr($size['mime'], strpos($size['mime'], '/') + 1));
             $extension = $format;
             if (empty($format)) {
                 $format = 'jpeg';
@@ -1693,7 +1693,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
         return false;
     }
     $format = getImageFormat($file_src);
-    $destformat = strtolower(pathinfo($file_dest, PATHINFO_EXTENSION));
+    $destformat = mb_strtolower(pathinfo($file_dest, PATHINFO_EXTENSION));
     $icfunc = "imagecreatefrom" . $format['format'];
     if (!function_exists($icfunc)) {
         _error_log("im_resize: Function does not exists: {$icfunc}");
@@ -2025,7 +2025,7 @@ function im_resize_gif($file_src, $file_dest, $max_width, $max_height) {
 function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
     $fn = $file_src;
 
-    $extension = strtolower(pathinfo($file_dest, PATHINFO_EXTENSION));
+    $extension = mb_strtolower(pathinfo($file_dest, PATHINFO_EXTENSION));
 
     if ($extension == 'gif') {
         im_resize_gif($file_src, $file_dest, $max_width, $max_height);
@@ -2097,8 +2097,8 @@ function convertImage($originalImage, $outputImage, $quality) {
         $imagetype = exif_imagetype($originalImage);
     }
 
-    $ext = strtolower(pathinfo($originalImage, PATHINFO_EXTENSION));
-    $extOutput = strtolower(pathinfo($outputImage, PATHINFO_EXTENSION));
+    $ext = mb_strtolower(pathinfo($originalImage, PATHINFO_EXTENSION));
+    $extOutput = mb_strtolower(pathinfo($outputImage, PATHINFO_EXTENSION));
 
     if ($ext == $extOutput) {
         return copy($originalImage, $outputImage);
@@ -2942,7 +2942,7 @@ function isBot() {
     }
     $_isBot = false;
     // User lowercase string for comparison.
-    $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+    $user_agent = mb_strtolower($_SERVER['HTTP_USER_AGENT']);
     // A list of some common words used only for bots and crawlers.
     $bot_identifiers = [
         'bot',
@@ -4124,7 +4124,7 @@ function get_browser_name($user_agent = "") {
         return 'Unknow';
     }
     // Make case insensitive.
-    $t = strtolower($user_agent);
+    $t = mb_strtolower($user_agent);
 
     // If the string *starts* with the string, strpos returns 0 (i.e., FALSE). Do a ghetto hack and start with a space.
     // "[strpos()] may return Boolean FALSE, but may also return a non-Boolean value which evaluates to FALSE."
@@ -5485,7 +5485,7 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
     if (empty($str) || !is_string($str)) {
         return false;
     }
-    if (strtolower(trim($str)) === 'php://input') {
+    if (mb_strtolower(trim($str)) === 'php://input') {
         return true;
     }
     if (isValidURL($str)) {
@@ -5496,7 +5496,7 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
             $absolutePath = realpath($str);
             $absolutePathTmp = realpath(getTmpDir());
             $absolutePathCache = realpath(getCacheDir());
-            $ext = strtolower(pathinfo($absolutePath, PATHINFO_EXTENSION));
+            $ext = mb_strtolower(pathinfo($absolutePath, PATHINFO_EXTENSION));
             if ($ext == 'php') {
                 _error_log('isValidURLOrPath return false (is php file) ' . $str);
                 return false;
@@ -5539,7 +5539,7 @@ function URLHasLastSlash() {
 }
 
 function ucname($str) {
-    $str = ucwords(strtolower($str));
+    $str = ucwords(mb_strtolower($str));
 
     foreach (['\'', '-'] as $delim) {
         if (strpos($str, $delim) !== false) {
@@ -5580,7 +5580,7 @@ function getSEOComplement($parameters = []) {
 
     if (!empty($_GET['type'])) {
         $type = $_GET['type'];
-        if (empty($allowedTypes) || in_array(strtolower($type), $allowedTypes)) {
+        if (empty($allowedTypes) || in_array(mb_strtolower($type), $allowedTypes)) {
             array_push($parts, __(ucname($type)));
         }
     }
@@ -5686,7 +5686,7 @@ function getSearchVar() {
     } else if (!empty($_REQUEST['search']['value'])) {
         $search = $_REQUEST['search']['value'];
     }
-    return strtolower($search);
+    return mb_strtolower($search);
 }
 
 $cleanSearchHistory = '';
@@ -7223,7 +7223,7 @@ function saveCroppieImage($destination, $postIndex = "imgBase64") {
 
     $path_parts = pathinfo($destination);
     $tmpDestination = $destination;
-    $extension = strtolower($path_parts['extension']);
+    $extension = mb_strtolower($path_parts['extension']);
     if ($extension !== 'png') {
         $tmpDestination = $destination . '.png';
     }
@@ -8811,7 +8811,7 @@ function optimizeCSS($html) {
     $pattern = '/((<(link)[^>]*(stylesheet|css)[^>]*\/>)|(<(style)[^>]*>([^<]+)<\/style>))/i';
     preg_match_all($pattern, $html, $matches);
     foreach ($matches[3] as $key => $type) {
-        if (strtolower($type) == 'link') {
+        if (mb_strtolower($type) == 'link') {
             $linkTag = $matches[0][$key];
             $pattern = '/href=.(http[^"\']+)/i';
             preg_match($pattern, $linkTag, $href);
@@ -9724,7 +9724,7 @@ function parseFFMPEGProgress($progressFilename) {
 
 function getExtension($link) {
     $path_parts = pathinfo($link);
-    //$extension = strtolower(@$path_parts["extension"]);
+    //$extension = mb_strtolower(@$path_parts["extension"]);
     $filebasename = explode('?', $path_parts['basename']);
     return pathinfo($filebasename[0], PATHINFO_EXTENSION);
 }
@@ -9740,7 +9740,7 @@ function _empty($html_string) {
         return true;
     }
     if (is_string($html_string)) {
-        if (strtolower($html_string) == 'false') {
+        if (mb_strtolower($html_string) == 'false') {
             return true;
         }
     }
