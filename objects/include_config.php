@@ -38,6 +38,11 @@ try {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
+    $urandom = '/dev/urandom';
+    if(file_exists($urandom)){ //https://stackoverflow.com/a/138748/2478180
+        ini_set("session.entropy_file", $urandom);
+        ini_set("session.entropy_length", "512");
+    }
     require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
     ini_set('display_errors', 0);
     ini_set('display_startup_errors', 0);
