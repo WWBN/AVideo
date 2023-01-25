@@ -66,14 +66,6 @@ if (!empty($head_videos_id)) {
     $tags = Video::getSeoTags($head_videos_id);
     echo $tags['head'];
 }
-echo '<!-- session.entropy_length = '.ini_get("session.entropy_length").' -->';
-$urandom = '/dev/urandom';
-if(file_exists($urandom)){
-    echo '<!-- file exists -->';
-}
-if(preg_match('/Ubuntu/i', $_SERVER["SERVER_SOFTWARE"])){
-    echo '<!-- ubuntu -->';
-}
 ?>
 <script class="doNotSepareteTag" src="<?php echo getURL('view/js/swRegister.js'); ?>" type="text/javascript"></script>
 <meta charset="utf-8">
