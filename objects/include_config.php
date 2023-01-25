@@ -38,7 +38,7 @@ try {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
-    if(preg_match('/ubuntu/', $_SERVER["SERVER_SOFTWARE"])){ //https://stackoverflow.com/a/138748/2478180
+    if(preg_match('/ubuntu/i', $_SERVER["SERVER_SOFTWARE"])){ //https://stackoverflow.com/a/138748/2478180
         $urandom = '/dev/urandom';
         ini_set("session.entropy_file", $urandom);
         ini_set("session.entropy_length", "512");
