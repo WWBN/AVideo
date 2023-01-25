@@ -66,6 +66,7 @@ if (!empty($head_videos_id)) {
     $tags = Video::getSeoTags($head_videos_id);
     echo $tags['head'];
 }
+echo '<!-- session.entropy_length = '.ini_get("session.entropy_length").' -->';
 ?>
 <script class="doNotSepareteTag" src="<?php echo getURL('view/js/swRegister.js'); ?>" type="text/javascript"></script>
 <meta charset="utf-8">
