@@ -71,6 +71,9 @@ $urandom = '/dev/urandom';
 if(file_exists($urandom)){
     echo '<!-- file exists -->';
 }
+if(preg_match('/ubuntu/', $_SERVER["SERVER_SOFTWARE"])){
+    echo '<!-- ubuntu -->';
+}
 ?>
 <script class="doNotSepareteTag" src="<?php echo getURL('view/js/swRegister.js'); ?>" type="text/javascript"></script>
 <meta charset="utf-8">
