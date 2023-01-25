@@ -494,6 +494,9 @@ function parseSecondsToDuration($seconds) {
 }
 
 function parseDurationToSeconds($str) {
+    if ($str == "00:00:00") {
+        return 0;
+    }
     if (is_numeric($str)) {
         return intval($str);
     }
