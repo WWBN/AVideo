@@ -71,7 +71,7 @@ $urandom = '/dev/urandom';
 if(file_exists($urandom)){
     echo '<!-- file exists -->';
 }
-if(preg_match('/ubuntu/', $_SERVER["SERVER_SOFTWARE"])){
+if(preg_match('/Ubuntu/i', $_SERVER["SERVER_SOFTWARE"])){
     echo '<!-- ubuntu -->';
 }
 ?>
