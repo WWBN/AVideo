@@ -1683,8 +1683,10 @@ class AVideoPlugin
                     $TimeLog = "AVideoPlugin::getVideoTags($videos_id) {$value['dirName']} ";
                     TimeLogStart($TimeLog);
                     $p = static::loadPlugin($value['dirName']);
+                    TimeLogEnd($TimeLog, __LINE__, 0.1);
                     if (is_object($p)) {
                         $array = array_merge($array, $p->getVideoTags($videos_id));
+                        TimeLogEnd($TimeLog, __LINE__, 0.1);
                     }
                     TimeLogEnd($TimeLog, __LINE__);
                 }

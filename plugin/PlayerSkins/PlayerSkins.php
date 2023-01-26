@@ -701,6 +701,7 @@ class PlayerSkins extends PluginAbstract {
             //_error_log("Cache not found $name");
             $video = new Video("", "", $videos_id);
             $fileName = $video->getFilename();
+            //_error_log("getVideoTags($videos_id) $fileName ".$video->getType());
             $resolution = Video::getHigestResolution($fileName);
             $obj = new stdClass();
             if (empty($resolution) || empty($resolution['resolution_text'])) {

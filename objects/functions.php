@@ -3922,11 +3922,11 @@ function convertImageToRoku($source, $destination) {
 
 function convertImageIfNotExists($source, $destination, $width, $height, $scaleUp = true) {
     if (empty($source)) {
-        _error_log("convertImageToRoku: source image is empty");
+        _error_log("convertImageIfNotExists: source image is empty");
         return false;
     }
     if (!file_exists($source)) {
-        _error_log("convertImageToRoku: source does not exists");
+        _error_log("convertImageIfNotExists: source does not exists");
         return false;
     }
     if (file_exists($destination) && filesize($destination) > 1024) {

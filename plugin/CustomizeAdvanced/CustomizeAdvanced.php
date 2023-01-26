@@ -35,6 +35,8 @@ class CustomizeAdvanced extends PluginAbstract {
             'EnableMinifyJS',
             'usePreloadLowResolutionImages',
             'useFFMPEGToGenerateThumbs',
+            'makeVideosInactiveAfterEncode',
+            'makeVideosUnlistedAfterEncode',
             );
     }
     
@@ -164,7 +166,7 @@ class CustomizeAdvanced extends PluginAbstract {
     }
     
     public function getEmptyDataObject() {
-        global $global;
+        global $global, $statusThatTheUserCanUpdate, $advancedCustom;
         $obj = new stdClass();
         $obj->logoMenuBarURL = "";
         $obj->encoderNetwork = "https://network.wwbn.net/";
@@ -222,6 +224,27 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotUseXsendFile = false;
         $obj->makeVideosInactiveAfterEncode = false;
         $obj->makeVideosUnlistedAfterEncode = false;
+        
+        $o = new stdClass();
+        $o->type = array();
+        foreach ($statusThatTheUserCanUpdate as $value) {
+            $statusIndex = $value[0];
+            $statusColor = $value[1];
+            $o->type[$statusIndex] = Video::$statusDesc[$statusIndex];
+        }
+        
+        $dbObject = PluginAbstract::getObjectDataFromDatabase($this->getUUID());
+        
+        if (!empty($dbObject->makeVideosInactiveAfterEncode)) {
+            $o->value = Video::$statusInactive;
+        } elseif (!empty($dbObject->makeVideosUnlistedAfterEncode)) {
+            $o->value = Video::$statusUnlisted;
+        }else{
+            $o->value = Video::$statusActive;
+        }
+        $obj->defaultVideoStatus = $o;
+        self::addDataObjectHelper('defaultVideoStatus', 'Default video status', 'When you submit a video that will be the default status');
+        
         $obj->usePermalinks = false;
         self::addDataObjectHelper('usePermalinks', 'Do not show video title on URL', 'This option is not good for SEO, but makes the URL clear');
         $obj->useVideoIDOnSEOLinks = true;

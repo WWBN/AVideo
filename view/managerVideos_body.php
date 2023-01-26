@@ -147,7 +147,7 @@ if (!empty($_GET['iframe'])) {
                         if (CustomizeAdvanced::showDirectUploadButton()) {
                             ?>
                             <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4"  data-toggle="tooltip" 
-                            title="<?php echo __("Upload files without encode"), ' ', implode(', ',CustomizeAdvanced::directUploadFiletypes()); ?>" >
+                                    title="<?php echo __("Upload files without encode"), ' ', implode(', ', CustomizeAdvanced::directUploadFiletypes()); ?>" >
                                 <span class="fa fa-upload"></span>
                                 <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></span>
                             </button>
@@ -241,12 +241,14 @@ if (!empty($_GET['iframe'])) {
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                             <i class="far fa-eye"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Status'); ?></span> <span class="caret"></span></button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#" onclick="changeStatus('a'); return false;"><i class="fas fa-eye"></i> <?php echo __('Active'); ?></a></li>
-                            <li><a href="#" onclick="changeStatus('i'); return false;"><i class="fas fa-eye-slash"></i></span> <?php echo __('Inactive'); ?></a></li>
-                            <li><a href="#" onclick="changeStatus('u'); return false;"><i class="fas fa-eye" style="color: #BBB;"></i> <?php echo __('Unlisted'); ?></a></li>
-                            <!--
-                            <li><a href="#" onclick="changeStatus('p'); return false;"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <?php echo __('Private'); ?></a></li>
-                            -->
+                            <?php
+                            foreach ($statusThatTheUserCanUpdate as $value) {
+                                $statusIndex = $value[0];
+                                $statusColor = $value[1];
+                                echo "<li><a href=\"#\" onclick=\"changeStatus('" . $statusIndex . "'); return false;\" style=\"color: {$statusColor}\">"
+                                . Video::$statusIcons[$statusIndex] .' '. __(Video::$statusDesc[$statusIndex]) . "</a></li>";
+                            }
+                            ?>
                         </ul>
                     </div>
                     <?php
@@ -326,15 +328,14 @@ if (!empty($_GET['iframe'])) {
                                 $('#grid').bootgrid('reload');
                                 return false;"><?php echo __('All'); ?></a></li>
                             <?php
-                            $showOnly = ['a', 'i', 'e', 't', 'u', 'b'];
                             if (AVideoPlugin::isEnabled('FansSubscriptions')) {
-                                $showOnly[] = 'f';
+                                $statusSearchFilter[] = Video::$statusFansOnly;
                             }
                             if (AVideoPlugin::isEnabled('SendRecordedToEncoder')) {
-                                $showOnly[] = 'r';
+                                $statusSearchFilter[] = Video::$statusRecording;
                             }
                             foreach (Video::$statusDesc as $key => $value) {
-                                if (!in_array($key, $showOnly)) {
+                                if (!in_array($key, $statusSearchFilter)) {
                                     continue;
                                 }
                                 $text = Video::$statusIcons[$key] . ' ' . __($value);
@@ -1595,10 +1596,24 @@ if (empty($advancedCustom->disableCopyEmbed)) {
 
                                                 var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                                                 var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Delete")); ?>"><i class="fa fa-trash"></i></button>';
-                                                var activeBtn = '<button style="color: #090" type="button" class="btn btn-default btn-xs command-active"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is Active and Listed, click here to unlist it")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
-                                                var inactiveBtn = '<button style="color: #A00" type="button" class="btn btn-default btn-xs command-inactive"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is inactive, click here to activate it")); ?>"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
-                                                var unlistedBtn = '<button style="color: #BBB" type="button" class="btn btn-default btn-xs command-unlisted"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is unlisted, click here to inactivate it")); ?>"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
-                                                var fansOnlyBtn = '<button style="color: #FFD700" type="button" class="btn btn-default btn-xs command-fansOnly"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("This video is for fans Only, click here to toogle it")); ?>" onclick="avideoAjax(webSiteRootURL+\'plugin/FansSubscriptions/toogleFansOnly.json.php?videos_id=' + row.id + '\', {});"><i class="fas fa-star" aria-hidden="true"></i></button>';
+
+<?php
+$totalStatusButtons = count($statusThatTheUserCanUpdate);
+foreach ($statusThatTheUserCanUpdate as $key => $value) {
+    $index = $key+1;
+    if ($index > $totalStatusButtons - 1) {
+        $index = 0;
+    }
+    $nextStatus = $statusThatTheUserCanUpdate[$index][0];
+    $format = __("This video is %s, click here to make it %s");
+    $statusIndex = $value[0];
+    $statusColor = $value[1];
+    $tooltip = sprintf($format, Video::$statusDesc[$statusIndex], Video::$statusDesc[$nextStatus]);
+
+    echo "var statusBtn_{$statusIndex} = '<button type=\"button\" style=\"color: {$statusColor}\" class=\"btn btn-default btn-xs command-statusBtn\"  data-row-id=\"' + row.id + '\" nextStatus=\"{$nextStatus}\"  data-toggle=\"tooltip\" title=" . printJSString($tooltip, true) . ">" . str_replace("'", '"', Video::$statusIcons[$statusIndex]) . "</button>';";
+}
+?>
+
                                                 var status;
                                                 var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButton(); ?>';
                                                 var download = '';
@@ -1654,20 +1669,11 @@ if (Permissions::canAdminVideos()) {
                                                     download += '<button type="button" class="btn btn-default btn-xs btn-block" onclick="whyICannotDownload(' + row.id + ');"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download disabled")); ?>"><span class="fa-stack" style="font-size: 0.8em;"><i class="fa fa-download fa-stack-1x"></i><i class="fas fa-ban fa-stack-2x" style="color:Tomato"></i></span></button>';
     <?php
 }
-?>
 
-                                                if (row.status == "i") {
-                                                    status = inactiveBtn;
-                                                } else if (row.status == "a" || row.status == "k") {
-                                                    status = activeBtn;
-                                                } else if (row.status == "u") {
-                                                    status = unlistedBtn;
-                                                } else if (row.status == "f") {
-                                                    status = fansOnlyBtn;
-                                                } else if (row.status == "x") {
-                                                    return editBtn + deleteBtn;
-                                                } else if (row.status == "d") {
-                                                    return editBtn + deleteBtn;
+$ifCondition = 'row.status == "' . implode('" || row.status == "', $statusThatShowTheCompleteMenu) . '"';
+?>
+                                                if (<?php echo $ifCondition; ?>) {
+                                                    eval('status = statusBtn_' + row.status + ';');
                                                 } else {
                                                     return editBtn + deleteBtn;
                                                 }
@@ -1920,50 +1926,9 @@ if (AVideoPlugin::isEnabledByName('PlayLists')) {
                                                     modal.hidePleaseWait();
                                                 }
                                             });
-                                        })
-                                                .end().find(".command-unlisted").on("click", function (e) {
-                                            var row_index = $(this).closest('tr').index();
-                                            var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                                            modal.showPleaseWait();
-                                            $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
-                                                data: {"id": row.id, "status": "i"},
-                                                type: 'post',
-                                                success: function (response) {
-                                                    $("#grid").bootgrid("reload");
-                                                    modal.hidePleaseWait();
-                                                }
-                                            });
-                                        })
-                                                .end().find(".command-active").on("click", function (e) {
-                                            var row_index = $(this).closest('tr').index();
-                                            var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                                            modal.showPleaseWait();
-                                            $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
-                                                data: {"id": row.id, "status": "u"},
-                                                type: 'post',
-                                                success: function (response) {
-                                                    $("#grid").bootgrid("reload");
-                                                    modal.hidePleaseWait();
-                                                }
-                                            });
-                                        })
-                                                .end().find(".command-inactive").on("click", function (e) {
-                                            var row_index = $(this).closest('tr').index();
-                                            var row = $("#grid").bootgrid("getCurrentRows")[row_index];
-                                            modal.showPleaseWait();
-                                            $.ajax({
-                                                url: '<?php echo $global['webSiteRootURL']; ?>objects/videoStatus.json.php',
-                                                data: {"id": row.id, "status": "a"},
-                                                type: 'post',
-                                                success: function (response) {
-                                                    $("#grid").bootgrid("reload");
-                                                    modal.hidePleaseWait();
-                                                }
-                                            });
-                                        })
-                                                .end().find(".command-rotate").on("click", function (e) {
+                                        }).end().find(".command-statusBtn").on("click", function (e) {
+                                            toggleVideoStatus(this);
+                                        }).end().find(".command-rotate").on("click", function (e) {
                                             var row_index = $(this).closest('tr').index();
                                             var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                                             modal.showPleaseWait();
@@ -2072,5 +2037,20 @@ if (!empty($_GET['link'])) {
                                 });
                                 function whyICannotDownload(videos_id) {
                                     avideoAlertAJAXHTML(webSiteRootURL + "view/downloadChecker.php?videos_id=" + videos_id);
+                                }
+                                function toggleVideoStatus(t) {
+                                    var row_index = $(t).closest('tr').index();
+                                    var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                                    var nextStatus=  $(t).attr('nextStatus');
+                                    modal.showPleaseWait();
+                                    $.ajax({
+                                        url: webSiteRootURL + 'objects/videoStatus.json.php',
+                                        data: {"id": row.id, "status": nextStatus},
+                                        type: 'post',
+                                        success: function (response) {
+                                            $("#grid").bootgrid("reload");
+                                            modal.hidePleaseWait();
+                                        }
+                                    });
                                 }
 </script>

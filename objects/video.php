@@ -76,6 +76,7 @@ if (!class_exists('Video')) {
             'd' => 'Downloading',
             't' => 'Transferring',
             'u' => 'Unlisted',
+            's' => 'Unlisted but Searchable',
             'r' => 'Recording',
             'f' => 'FansOnly',
             'b' => 'Broken Missing files'
@@ -89,6 +90,7 @@ if (!class_exists('Video')) {
             'd' => '<i class=\'fas fa-download\'></i>',
             't' => '<i class=\'fas fa-sync\'></i>',
             'u' => '<i class=\'fas fa-eye\' style=\'color: #BBB;\'></i>',
+            's' => '<i class=\'fas fa-search\' style=\'color: #BBB;\'></i>',
             'r' => '<i class=\'fas fa-circle\'></i>',
             'f' => '<i class=\'fas fa-star\'></i>',
             'b' => '<i class=\'fas fa-times\'></i>'
@@ -101,6 +103,7 @@ if (!class_exists('Video')) {
         public static $statusDownloading = 'd';
         public static $statusTranfering = 't';
         public static $statusUnlisted = 'u';
+        public static $statusUnlistedButSearchable = 's';
         public static $statusRecording = 'r';
         public static $statusFansOnly = 'f';
         public static $statusBrokenMissingFiles = 'b';
@@ -702,11 +705,7 @@ if (!class_exists('Video')) {
                         return $this->setStatus(Video::$statusActiveAndEncoding);
                     } else {
                         if ($this->getTitle() !== "Video automatically booked") {
-                            if (!empty($advancedCustom->makeVideosInactiveAfterEncode)) {
-                                return $this->setStatus(Video::$statusInactive);
-                            } elseif (!empty($advancedCustom->makeVideosUnlistedAfterEncode)) {
-                                return $this->setStatus(Video::$statusUnlisted);
-                            }
+                            return $this->setStatus($advancedCustom->defaultVideoStatus);
                         } else {
                             return $this->setStatus(Video::$statusInactive);
                         }
@@ -1446,6 +1445,9 @@ if (!class_exists('Video')) {
                 // for the cache on the database fast insert
 
                 TimeLogEnd($timeLogName, __LINE__, 0.2);
+                
+                $allowedDurationTypes = array('video', 'audio');
+                
                 /**
                  * 
                  * @var array $global
@@ -1454,18 +1456,24 @@ if (!class_exists('Video')) {
                 $global['mysqli']->begin_transaction();
                 foreach ($fullData as $row) {
                     if (is_null($row['likes'])) {
+                        _error_log("Video::updateLikesDislikes: id={$row['id']}");
                         $row['likes'] = self::updateLikesDislikes($row['id'], 'likes');
                     }
                     if (is_null($row['dislikes'])) {
+                        _error_log("Video::updateLikesDislikes: id={$row['id']}");
                         $row['dislikes'] = self::updateLikesDislikes($row['id'], 'dislikes');
                     }
-                    if (empty($row['duration_in_seconds']) && $row['type'] !== 'article') {
+                    
+                    if (empty($row['duration_in_seconds']) && in_array($row['type'], $allowedDurationTypes)) {
+                        _error_log("Video::duration_in_seconds: id={$row['id']} {$row['duration']} {$row['type']}");
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
                         if (empty($row['duration_in_seconds'])) {
                             //_error_log("Video duration_in_seconds not updated: id={$row['id']} type={$row['type']}");
                         }
                     }
+                    TimeLogStart("video::getInfo");
                     $row = self::getInfo($row, $getStatistcs);
+                    TimeLogEnd("video::getInfo", __LINE__);
                     $videos[] = $row;
                 }
                 $global['mysqli']->commit();
@@ -1541,9 +1549,13 @@ if (!class_exists('Video')) {
             if (empty($otherInfo)) {
                 $otherInfo = [];
                 $otherInfo['category'] = xss_esc_back($row['category']);
+                //TimeLogStart("video::otherInfo");
                 $otherInfo['groups'] = UserGroups::getVideosAndCategoriesUserGroups($row['id']);
+                //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 $otherInfo['tags'] = self::getTags($row['id']);
+                //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 $cached = ObjectYPT::setCache($otherInfocachename, $otherInfo);
+                //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 //_error_log("video::getInfo cache " . json_encode($cached));
             }
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
@@ -2051,9 +2063,15 @@ if (!class_exists('Video')) {
         }
 
         public static function getViewableStatus($showUnlisted = false) {
-            $viewable = ['a', 'k', 'f'];
+            $viewable = [Video::$statusActive, Video::$statusActiveAndEncoding, Video::$statusFansOnly];
             if ($showUnlisted) {
-                $viewable[] = "u";
+                $viewable[] = Video::$statusUnlisted;
+                $viewable[] = Video::$statusUnlistedButSearchable;
+            } else {
+                $search = getSearchVar();
+                if(!empty($search)){
+                    $viewable[] = Video::$statusUnlistedButSearchable;
+                }
             }
             /*
              * Cannot do that otherwise it will list videos on the list videos menu
@@ -2642,7 +2660,7 @@ if (!class_exists('Video')) {
 
         public static function getTags_($video_id, $type = "") {
             global $advancedCustom, $advancedCustomUser, $getTags_;
-
+            $tolerance = 0.3;
             if (!isset($getTags_)) {
                 $getTags_ = [];
             }
@@ -2720,7 +2738,7 @@ if (!class_exists('Video')) {
                 $tags[] = $objTag;
                 $objTag = new stdClass();
             }
-            TimeLogEnd("video::getTags_ new Video $video_id, $type", __LINE__, 0.5);
+            TimeLogEnd("video::getTags_ new Video $video_id, $type", __LINE__, $tolerance);
 
             /**
               a = active
@@ -2758,6 +2776,9 @@ if (!class_exists('Video')) {
                     case Video::$statusUnlisted:
                         $objTag->type = "info";
                         break;
+                    case Video::$statusUnlistedButSearchable:
+                        $objTag->type = "info";
+                        break;
                     case Video::$statusRecording:
                         $objTag->type = "danger isRecording isRecordingIcon";
                         break;
@@ -2769,7 +2790,7 @@ if (!class_exists('Video')) {
                 $tags[] = $objTag;
                 $objTag = new stdClass();
             }
-            TimeLogEnd("video::getTags_ status $video_id, $type", __LINE__, 0.5);
+            TimeLogEnd("video::getTags_ status $video_id, $type", __LINE__, $tolerance);
 
             TimeLogStart("video::getTags_ userGroups $video_id, $type");
             if (empty($type) || $type === "userGroups") {
@@ -2809,7 +2830,7 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            TimeLogEnd("video::getTags_ userGroups $video_id, $type", __LINE__, 0.5);
+            TimeLogEnd("video::getTags_ userGroups $video_id, $type", __LINE__, $tolerance);
 
             TimeLogStart("video::getTags_ category $video_id, $type");
             if (empty($type) || $type === "category") {
@@ -2832,7 +2853,7 @@ if (!class_exists('Video')) {
                     $objTag = new stdClass();
                 }
             }
-            TimeLogEnd("video::getTags_ category $video_id, $type", __LINE__, 0.5);
+            TimeLogEnd("video::getTags_ category $video_id, $type", __LINE__, $tolerance);
 
             TimeLogStart("video::getTags_ source $video_id, $type");
             if (empty($type) || $type === "source") {
@@ -2852,7 +2873,7 @@ if (!class_exists('Video')) {
                     $objTag = new stdClass();
                 }
             }
-            TimeLogEnd("video::getTags_ source $video_id, $type", __LINE__, 0.5);
+            TimeLogEnd("video::getTags_ source $video_id, $type", __LINE__, $tolerance);
 
             if (!empty($video->getRrating())) {
                 $rating = $video->getRrating();
@@ -2866,15 +2887,15 @@ if (!class_exists('Video')) {
                 //var_dump($tags);exit;
             }
 
-            TimeLogStart("video::getTags_ AVideoPlugin::getVideoTags $video_id", __LINE__, 0.5);
+            TimeLogStart("video::getTags_ AVideoPlugin::getVideoTags $video_id", __LINE__, $tolerance);
             $array2 = AVideoPlugin::getVideoTags($video_id);
             if (is_array($array2)) {
                 $tags = array_merge($tags, $array2);
             }
-            TimeLogEnd("video::getTags_ AVideoPlugin::getVideoTags $video_id", __LINE__, 0.5);
+            TimeLogEnd("video::getTags_ AVideoPlugin::getVideoTags $video_id", __LINE__, $tolerance);
             //var_dump($tags);
 
-            TimeLogEnd("video::getTags_ $video_id, $type", __LINE__, 0.5);
+            TimeLogEnd("video::getTags_ $video_id, $type", __LINE__, $tolerance*2);
             $_REQUEST['current'] = $currentPage;
             $_REQUEST['rowCount'] = $rowCount;
             $getTags_[$index] = $tags;
@@ -3757,9 +3778,9 @@ if (!class_exists('Video')) {
         public static function getHigestResolution($filename) {
             global $global;
             $filename = self::getCleanFilenameFromFile($filename);
-
+            
             $return = [];
-
+            
             $cacheName = "getHigestResolution($filename)";
             $return = ObjectYPT::getSessionCache($cacheName, 0);
             if (!empty($return)) {
@@ -3777,7 +3798,7 @@ if (!class_exists('Video')) {
             if ($v['type'] !== 'video') {
                 return [];
             }
-            if ($v['status'] !== self::$statusActive && $v['status'] !== self::$statusUnlisted) {
+            if ($v['status'] !== self::$statusActive && $v['status'] !== self::$statusUnlisted && $v['status'] !== self::$statusUnlistedButSearchable) {
                 return [];
             }
             $video = new Video('', '', $v['id']);
@@ -3785,17 +3806,16 @@ if (!class_exists('Video')) {
                 return [];
             }
             $HigestResolution = $video->getVideoHigestResolution();
-            //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 1 FROM database $HigestResolution");
             if (!empty($HigestResolution)) {
-                //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 2 FROM database $HigestResolution");
+                //_error_log("getHigestResolution($filename) 1 {$HigestResolution} ".$video->getType());                
                 $resolution = $HigestResolution;
-
                 $return['resolution'] = $resolution;
                 $return['resolution_text'] = getResolutionText($return['resolution']);
                 $return['resolution_label'] = getResolutionLabel($return['resolution']);
                 $return['resolution_string'] = trim($resolution . "p {$return['resolution_label']}");
                 return $return;
             } else {
+                //_error_log("getHigestResolution($filename) 2 ".$video->getType());
                 $validFileExtensions = ['webm', 'mp4', 'm3u8'];
                 $sources = getVideosURL_V2($filename);
                 if (!is_array($sources)) {
@@ -5099,6 +5119,7 @@ if (!class_exists('Video')) {
         }
 
         public static function getChangeVideoStatusButton($videos_id) {
+            global $statusThatTheUserCanUpdate;
             $video = new Video('', '', $videos_id);
             
             /**
@@ -5107,14 +5128,25 @@ if (!class_exists('Video')) {
              */
             $status = $video->getStatus();
 
-            $activeBtn = '<button onclick="changeVideoStatus(' . $videos_id . ', \'u\');" style="color: #090" type="button" '
-                    . 'class="btn btn-default btn-xs getChangeVideoStatusButton_a" data-toggle="tooltip" title="' . str_replace("'", "\\'", __("This video is Active and Listed, click here to unlist it")) . '"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
-            $inactiveBtn = '<button onclick="changeVideoStatus(' . $videos_id . ', \'a\');" style="color: #A00" type="button" '
-                    . 'class="btn btn-default btn-xs getChangeVideoStatusButton_i"  data-toggle="tooltip" title="' . str_replace("'", "\\'", __("This video is inactive, click here to activate it")) . '"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></button>';
-            $unlistedBtn = '<button onclick="changeVideoStatus(' . $videos_id . ', \'i\');" style="color: #BBB" type="button" '
-                    . 'class="btn btn-default btn-xs getChangeVideoStatusButton_u"  data-toggle="tooltip" title="' . str_replace("'", "\\'", __("This video is unlisted, click here to inactivate it")) . '"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button>';
+            $buttons = array();
+            $totalStatusButtons = count($statusThatTheUserCanUpdate);
+            foreach ($statusThatTheUserCanUpdate as $key => $value) {
+                $index = $key+1;
+                if ($index > $totalStatusButtons - 1) {
+                    $index = 0;
+                }
+                $nextStatus = $statusThatTheUserCanUpdate[$index][0];
+                $format = __("This video is %s, click here to make it %s");
+                $statusIndex = $value[0];
+                $statusColor = $value[1];
+                $tooltip = sprintf($format, Video::$statusDesc[$statusIndex], Video::$statusDesc[$nextStatus]);
 
-            return "<span class='getChangeVideoStatusButton getChangeVideoStatusButton_{$videos_id} status_{$status}'>{$activeBtn}{$inactiveBtn}{$unlistedBtn}</span>";
+                $buttons[] = "<button type=\"button\" style=\"color: {$statusColor}\" class=\"btn btn-default btn-xs getChangeVideoStatusButton_{$statusIndex}\"  onclick=\"changeVideoStatus({$videos_id}, '{$nextStatus}');return false\"  "
+                . "type=\"button\" nextStatus=\"{$nextStatus}\"  data-toggle=\"tooltip\" title=" . printJSString($tooltip, true) . ">" 
+                . str_replace("'", '"', Video::$statusIcons[$statusIndex]) . "</button>";
+            }
+            
+            return "<span class='getChangeVideoStatusButton getChangeVideoStatusButton_{$videos_id} status_{$status}'>".implode('',$buttons)."</span>";
         }
 
         public static function canVideoBePurchased($videos_id) {
@@ -5531,7 +5563,7 @@ if (!class_exists('Video')) {
             if (!empty($video->getSerie_playlists_id())) {
                 return false;
             }
-            if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted) {
+            if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted || $video->getStatus() == Video::$statusUnlistedButSearchable) {
                 if ($video->getType() == 'audio' || $video->getType() == 'video') {
                     if (self::isMediaFileMissing($video->getFilename())) {
                         _error_log("Video::checkIfIsBroken($videos_id) true " . $video->getFilename());
@@ -5733,3 +5765,29 @@ if (!class_exists('Video')) {
 if (!empty($_GET['v']) && empty($_GET['videoName'])) {
     $_GET['videoName'] = Video::get_clean_title($_GET['v']);
 }
+
+$statusThatShowTheCompleteMenu = array(
+    Video::$statusActive,
+    Video::$statusInactive,
+    Video::$statusActiveAndEncoding,
+    Video::$statusUnlistedButSearchable,
+    Video::$statusUnlisted,
+    Video::$statusFansOnly,
+);
+
+$statusSearchFilter = array(
+    Video::$statusActive,
+    Video::$statusInactive,
+    Video::$statusEncoding,
+    Video::$statusTranfering,
+    Video::$statusUnlisted,
+    Video::$statusUnlistedButSearchable,
+    Video::$statusBrokenMissingFiles,
+);
+
+$statusThatTheUserCanUpdate = array(
+    array(Video::$statusActive, '#0A0'),
+    array(Video::$statusInactive, '#B00'),
+    array(Video::$statusUnlisted, '#AAA'),
+    array(Video::$statusUnlistedButSearchable, '#BBB'),
+);

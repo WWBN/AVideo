@@ -2289,6 +2289,7 @@ function changeVideoStatus(videos_id, status) {
                     $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_a');
                     $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_u');
                     $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_i');
+                    $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_s');
                     $(".getChangeVideoStatusButton_" + videos_id).addClass('status_' + response.status[item].status);
                 }
 
@@ -2299,13 +2300,21 @@ function changeVideoStatus(videos_id, status) {
 }
 
 function avideoAjax(url, data) {
-    modal.showPleaseWait();
+    avideoAjax2(url, data, true);
+}
+
+function avideoAjax2(url, data, pleaseWait) {
+    if(pleaseWait){
+        modal.showPleaseWait();
+    }
     $.ajax({
         url: url,
         data: data,
         type: 'post',
         success: function (response) {
-            modal.hidePleaseWait();
+            if(pleaseWait){
+                modal.hidePleaseWait();
+            }
             if (response.error) {
                 avideoAlertError(response.msg);
             } else {

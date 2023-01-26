@@ -1259,6 +1259,9 @@ li.dropdown-submenu > ul > li > a{
 .getChangeVideoStatusButton.status_u button.getChangeVideoStatusButton_u{
     display: block;
 }
+.getChangeVideoStatusButton.status_s button.getChangeVideoStatusButton_s{
+    display: block;
+}
 
 .pleaseWaitDialog{
     z-index: 2001;

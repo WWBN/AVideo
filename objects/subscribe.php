@@ -7,13 +7,13 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class Subscribe extends ObjectYPT{
-    private $id;
-    private $email;
-    private $status;
-    private $ip;
-    private $users_id;
-    private $notify;
-    private $subscriber_users_id;
+    protected $id;
+    protected $email;
+    protected $status;
+    protected $ip;
+    protected $users_id;
+    protected $notify;
+    protected $subscriber_users_id;
 
     public function __construct($id, $email = "", $user_id = "", $subscriber_users_id = "")
     {
@@ -42,7 +42,7 @@ class Subscribe extends ObjectYPT{
         return true;
     }
 
-    private function loadFromEmail($email, $user_id, $status = "a")
+    protected function loadFromEmail($email, $user_id, $status = "a")
     {
         $obj = self::getSubscribeFromEmail($email, $user_id, $status);
         if (empty($obj)) {
@@ -54,7 +54,7 @@ class Subscribe extends ObjectYPT{
         return true;
     }
 
-    private function loadFromId($subscriber_users_id, $user_id, $status = "a")
+    protected function loadFromId($subscriber_users_id, $user_id, $status = "a")
     {
         $obj = self::getSubscribeFromID($subscriber_users_id, $user_id, $status);
         if (empty($obj)) {

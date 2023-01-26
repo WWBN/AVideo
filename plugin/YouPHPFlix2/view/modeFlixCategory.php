@@ -153,9 +153,6 @@ $videosCounter = 0;
     $url = addQueryStringParameter($url, 'rrating', @$_GET['rrating']);
     $url = addQueryStringParameter($url, 'tags_id', intval(@$_GET['tags_id']));
     $url = addQueryStringParameter($url, 'current', count($categories) ? $_REQUEST['current'] + 1 : $_REQUEST['current']);
-    if (!empty($_REQUEST['search'])) {
-        $url = addQueryStringParameter($url, 'search', $_REQUEST['search']);
-    }
     ?>
     <a class="pagination__next" href="<?php echo $url; ?>"></a>
 </p>

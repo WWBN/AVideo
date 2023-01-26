@@ -5,6 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 class Sites extends ObjectYPT
 {
+    protected $id;
     protected $name;
     protected $url;
     protected $status;
