@@ -1425,7 +1425,10 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         TimeLogStart($timeName);
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
-
+            
+            if($parts['extension'] == 'log'){
+                continue;
+            }
             if ($parts['filename'] == 'index') {
                 $parts['filename'] = str_replace(Video::getPathToFile($parts['dirname']), '', $parts['dirname']);
             }
@@ -1494,10 +1497,15 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
 
 //Returns < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
 function sortVideosURL($a, $b) {
-    if ($a['type'] == 'video') {
+    if ($a['type'] == 'video' && $b['type'] == 'video') {
         $aRes = getResolutionFromFilename($a['filename']);
         $bRes = getResolutionFromFilename($b['filename']);
         return $aRes - $bRes;
+    }
+    if ($a['type'] == 'video') {
+        return -1;
+    }else if ($b['type'] == 'video') {
+        return 1;
     }
 
     return 0;
@@ -2458,31 +2466,34 @@ function mime_content_type_per_filename($filename) {
         'odt' => 'application/vnd.oasis.opendocument.text',
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
     ];
-    if (filter_var($filename, FILTER_VALIDATE_URL) === false) {
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-    } else {
-        $ext = pathinfo(parse_url($filename, PHP_URL_PATH), PATHINFO_EXTENSION);
-    }
+    if(!empty($filename)){
+        if (filter_var($filename, FILTER_VALIDATE_URL) === false) {
+            $ext = pathinfo($filename, PATHINFO_EXTENSION);
+        } else {
+            $ext = pathinfo(parse_url($filename, PHP_URL_PATH), PATHINFO_EXTENSION);
+        }
 
-    if ($ext === 'mp4' || $ext === 'webm') {
-        $securePlugin = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-        if (!empty($securePlugin)) {
-            if (method_exists($securePlugin, "useEncoderWatrermarkFromFileName") && $securePlugin->useEncoderWatrermarkFromFileName($filename)) {
-                return "application/x-mpegURL";
+        if ($ext === 'mp4' || $ext === 'webm') {
+            $securePlugin = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
+            if (!empty($securePlugin)) {
+                if (method_exists($securePlugin, "useEncoderWatrermarkFromFileName") && $securePlugin->useEncoderWatrermarkFromFileName($filename)) {
+                    return "application/x-mpegURL";
+                }
+            }
+        }
+
+        if (array_key_exists($ext, $mime_types)) {
+            return $mime_types[$ext];
+        } elseif (function_exists('finfo_open')) {
+            $finfo = finfo_open(FILEINFO_MIME);
+            if(!empty($finfo)){
+                $mimetype = finfo_file($finfo, $filename);
+                finfo_close($finfo);
+                return $mimetype;
             }
         }
     }
-
-    if (array_key_exists($ext, $mime_types)) {
-        return $mime_types[$ext];
-    } elseif (function_exists('finfo_open')) {
-        $finfo = finfo_open(FILEINFO_MIME);
-        $mimetype = finfo_file($finfo, $filename);
-        finfo_close($finfo);
-        return $mimetype;
-    } else {
-        return 'application/octet-stream';
-    }
+    return 'application/octet-stream';
 }
 
 function combineFiles($filesArray, $extension = "js") {
@@ -5482,6 +5493,44 @@ function isValidURL($url) {
     return false;
 }
 
+function isValidEmail($email) {
+    global $_email_hosts_checked;
+    if (empty($email)) {
+        return false;
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+    if(!isset($_email_hosts_checked)){
+        $_email_hosts_checked = array();
+    }
+    
+    //Get host name from email and check if it is valid
+    $email_host = array_slice(explode("@", $email), -1)[0];
+
+    if(isset($_email_hosts_checked[$email_host])){
+        return $_email_hosts_checked[$email_host];
+    }
+    
+    $_email_hosts_checked[$email_host] = true;
+    // Check if valid IP (v4 or v6). If it is we can't do a DNS lookup
+    if (!filter_var($email_host, FILTER_VALIDATE_IP, [
+                'flags' => FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE,
+            ])) {
+        //Add a dot to the end of the host name to make a fully qualified domain name
+        // and get last array element because an escaped @ is allowed in the local part (RFC 5322)
+        // Then convert to ascii (http://us.php.net/manual/en/function.idn-to-ascii.php)
+        $email_host = idn_to_ascii($email_host . '.');
+
+        //Check for MX pointers in DNS (if there are no MX pointers the domain cannot receive emails)
+        if (!checkdnsrr($email_host, "MX")) {
+            $_email_hosts_checked[$email_host] = false;
+        }
+    }
+
+    return $_email_hosts_checked[$email_host];
+}
+
 function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
     global $global;
     //var_dump(empty($url), !is_string($url), preg_match("/^http.*/", $url), filter_var($url, FILTER_VALIDATE_URL));
@@ -5684,7 +5733,7 @@ function getSearchVar() {
         $search = $_REQUEST['search'];
     } elseif (!empty($_REQUEST['q'])) {
         $search = $_REQUEST['q'];
-    }else if (!empty($_REQUEST['searchPhrase'])) {
+    } else if (!empty($_REQUEST['searchPhrase'])) {
         $search = $_REQUEST['searchPhrase'];
     } else if (!empty($_REQUEST['search']['value'])) {
         $search = $_REQUEST['search']['value'];
