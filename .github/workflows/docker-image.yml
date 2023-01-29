@@ -32,7 +32,7 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
       - run: |
-          docker build . -t sendportal:latest
+          docker build . -t avideo:latest
           docker tag avideo:latest gacontainers.azurecr.io/avideo:latest
           docker tag avideo:latest gacontainers.azurecr.io/avideo:${{ github.sha }}
           docker push gacontainers.azurecr.io/avideo:${{ github.sha }}
