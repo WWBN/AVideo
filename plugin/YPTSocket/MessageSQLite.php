@@ -113,6 +113,9 @@ class Message implements MessageComponentInterface {
     public function onClose(ConnectionInterface $conn) {
         global $onMessageSentTo, $SocketGetTotals;
         $client = dbGetRowFromResourcesId($conn->resourceId);
+        if(empty($client)){
+            $client = array('users_id'=>0);
+        }
         _log_message("onClose {$conn->resourceId} before deleted");
         dbDeleteConnection($conn->resourceId);
         _log_message("onClose {$conn->resourceId} has deleted");

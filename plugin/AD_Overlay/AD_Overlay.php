@@ -106,7 +106,7 @@ class AD_Overlay extends PluginAbstract {
         if (!empty($obj->adWidth) && !empty($obj->adHeight)) {
             $style = "width: $obj->adWidth; height: width: $obj->adHeight;";
         }
-        $css = '<link href="' .getCDN() . 'plugin/AD_Overlay/videojs-overlay/videojs-overlay.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' .getURL('plugin/AD_Overlay/videojs-overlay/videojs-overlay.css') . '" rel="stylesheet" type="text/css"/>';
 
         $css .= '<style>#adOverlay{min-width: 640px;}.video-js .vjs-overlay-background, .video-js .vjs-overlay-no-background {
     max-height: 50%;

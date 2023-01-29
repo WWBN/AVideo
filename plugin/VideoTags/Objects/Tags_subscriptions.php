@@ -87,7 +87,7 @@ class Tags_subscriptions extends ObjectYPT {
     static function getAllFromUsers_id($users_id){
         global $global;
         $users_id = intval($users_id);
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE users_id = ?";
+        $sql = "SELECT t.*, ts.* FROM " . static::getTableName() . " ts LEFT JOIN tags t ON ts.tags_id = t.id WHERE users_id = ?";
         $res = sqlDAL::readSql($sql, "i", [$users_id], true);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -105,13 +105,24 @@ class Tags_subscriptions extends ObjectYPT {
         return $rows;
     }
     
+    static function getAllFromTags_id($tags_id){
+        global $global;
+        $tags_id = intval($tags_id);
+        $sql = "SELECT u.name, u.user, u.email, ts.* FROM " . static::getTableName() . " ts LEFT JOIN users u ON ts.users_id = u.id WHERE tags_id = ?";
+        $res = sqlDAL::readSql($sql, "i", [$tags_id], true);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        return $fullData;
+    }
+    
     static function subscribe($tags_id, $users_id, $notify = 0){
         $row = self::getFromTagAndUser($tags_id, $users_id);
+        $id = 0;
         if(!empty($row)){
             // already subscribed
-            return true;
+            $id = $row['id'];
         }
-        $tag = new Tags_subscriptions(0);
+        $tag = new Tags_subscriptions($id);
         $tag->setTags_id($tags_id);
         $tag->setUsers_id($users_id);
         $tag->setNotify($notify);

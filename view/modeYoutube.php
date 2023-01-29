@@ -73,66 +73,22 @@ if (!empty($evideo)) {
     }
     if (!empty($_GET['playlist_id'])) {
         $isSerie = 1;
-        if (preg_match("/^[0-9]+$/", $_GET['playlist_id'])) {
-            $playlist_id = $_GET['playlist_id'];
-        } elseif (User::isLogged()) {
-            if ($_GET['playlist_id'] == "favorite") {
-                $playlist_id = PlayList::getFavoriteIdFromUser(User::getId());
-            } else {
-                $playlist_id = PlayList::getWatchLaterIdFromUser(User::getId());
-            }
-        }
+        
+        $plp = new PlayListPlayer(@$_GET['playlist_id'], @$_GET['playlists_tags_id']);
 
-        if (!empty($_GET['playlist_index'])) {
-            $playlist_index = $_GET['playlist_index'];
-        }
+        $playListData = $plp->getPlayListData();
+        
+        $video = $plp->getCurrentVideo();
+        $playlist_index = $plp->getIndex();
 
-        $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist_id);
-                
-        if (empty($videosArrayId)) {
-            videoNotFound(__('Playlist is empty or does not exist'));
+        if (empty($playListData)) {
+            videoNotFound('');
         }
-        $videosPlayList = Video::getAllVideos("viewable", false, false, $videosArrayId, false, true);
-        $videosPlayList = PlayList::sortVideos($videosPlayList, $videosArrayId);
-
-        $videoSerie = Video::getVideoFromSeriePlayListsId($playlist_id);
-        //var_dump($videoSerie, $videosArrayId);exit;
-        unset($_GET['playlist_id']);
-        $isPlayListTrailer = false;
-
-        $playListObject = AVideoPlugin::getObjectData("PlayLists");
-
-        if (!empty($videoSerie)) {
-            $videoSerie = Video::getVideo($videoSerie["id"], "", true);
-            if (!empty($playListObject->showTrailerInThePlayList) && !empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== false) {
-                $videoSerie["type"] = "embed";
-                $videoSerie["videoLink"] = $videoSerie["trailer1"];
-                array_unshift($videosPlayList, $videoSerie);
-                array_unshift($videosArrayId, $videoSerie['id']);
-                $isPlayListTrailer = true;
-            }
-        }
-        if (empty($playlist_index) && $isPlayListTrailer && !empty($videoSerie)) {
-            $video = $videoSerie;
-        } else {
-            $vid = new Video("", "", $videosPlayList[$playlist_index]['id']);
-            $_GET['videoName'] = $vid->getClean_title();
-            $video = Video::getVideo($videosPlayList[$playlist_index]['id'], "viewable", false, false, false, true);
-        }
-
-        if (!empty($videosPlayList[$playlist_index + 1])) {
-            $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index + 1]['id'], "viewableNotUnlisted", false, false, false, true);
-            $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/" . ($playlist_index + 1);
-        } elseif (!empty($videosPlayList[0])) {
-            $autoPlayVideo = Video::getVideo($videosPlayList[0]['id'], "viewableNotUnlisted", false, false, false, true);
-            $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/0";
-        }
-
-        if ($serie = PlayLists::isPlayListASerie($playlist_id)) {
-            setVideos_id($serie['id']);
-        } elseif (!empty($videosPlayList[$playlist_index])) {
-            setVideos_id($videosPlayList[$playlist_index]['id']);
-        }
+        
+        $videosPlayList = $plp->getVideos();
+        $autoPlayVideo = $plp->getNextVideo();
+        $playlist_id = $plp->getPlaylists_id();
+        //var_dump($video);exit;
     } else {
         $catLink = '';
         if (!empty($_GET['catName'])) {

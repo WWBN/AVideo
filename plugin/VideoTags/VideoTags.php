@@ -34,6 +34,7 @@ class VideoTags extends PluginAbstract {
         $obj->onlyAdminCanCreateTags = false;
         $obj->maxTags = 100;
         $obj->maxChars = 100;
+        $obj->disableTagsSubscriptions = false;
         return $obj;
     }
 
@@ -111,6 +112,10 @@ class VideoTags extends PluginAbstract {
     static function getAllVideosIdFromTagsId($tags_id) {
         return TagsHasVideos::getAllVideosIdFromTagsId($tags_id);
     }
+    
+    static function getAllVideosFromTagsId($tags_id) {
+        return TagsHasVideos::getAllVideosFromTagsId($tags_id);
+    }
 
     static function getTagsInputs() {
         $types = TagsTypes::getAll();
@@ -185,24 +190,60 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         return User::isAdmin();
     }
     
-    public static function getButton($tags_id){
+    
+    static function isUserSubscribed($users_id, $tags_id) {
+        global $_isUserSubscribedTags;
+        
+        if(empty($_isUserSubscribedTags)){
+            $_isUserSubscribedTags = array();
+        }
+        
+        if(!isset($_isUserSubscribedTags[$users_id])){
+            $UserSubscriptions = Tags_subscriptions::getAllFromUsers_id($users_id);
+            $_isUserSubscribedTags[$users_id] = array();
+            foreach ($UserSubscriptions as $row) {
+                $_isUserSubscribedTags[$users_id][$row['tags_id']] = $row;
+            }
+            
+        }
+        if(empty($_isUserSubscribedTags[$users_id][$tags_id])){
+            return false;
+        }
+        return $_isUserSubscribedTags[$users_id][$tags_id];
+    }
+    
+    public static function getButton($tags_id, $btnClass = 'btn-xs', $btnClassPrimary = 'btn-primary', $btnClassSuccess = 'btn-success', $btnClassDefault = 'btn-default'){
+        if(empty($tags_id)){
+            return '';
+        }
         global $global, $advancedCustom;
-
         $rowCount = getRowCount();
-        $total = Tags_subscriptions::getTotalFromTag($tags_id);
+        $total = TagsHasVideos::getTotalVideosFromTagsId($tags_id);
         $tag = new Tags($tags_id);
         $btnFile = $global['systemRootPath'] . 'plugin/VideoTags/subscribeBtnOffline.html';
 
         $notify = '';
         $email = '';
-        $subscribed = '';
-        $subscribeText = '<i class="far fa-circle"></i> '.$tag->getName();
-        $subscribedText = '<i class="far fa-check-circle"></i> '.$tag->getName();
-        $user_id = User::getId();
+        $subscribe = __("Subscribe");
+        $unsubscribe = __("Unsubscribe");
+        $tagLink = self::getTagLink($tags_id);
+        
+        $playAllLink = '#';
+        $playAllClass = 'hidden';
+        if(AVideoPlugin::isEnabledByName('PlayLists')){
+            $playAllLink = PlayLists::getTagLink($tags_id, $embed = false, $playlist_index = null);
+            $playAllClass = '';
+        }
+        
+        $subscribeText = $tag->getName();
+        $subscribedText = $tag->getName();
+        $users_id = User::getId();
+        $encryptedIdAndUser = encryptString(array('tags_id'=>$tags_id, 'users_id'=> $users_id));
+                            
         if (User::isLogged()) {
             $btnFile = $global['systemRootPath'] . 'plugin/VideoTags/subscribeBtn.html';
             $email = User::getMail();
-            $subs = Tags_subscriptions::getFromTagAndUser($tags_id, $user_id);
+            $subs = self::isUserSubscribed($users_id, $tags_id);
 
             if (!empty($subs)) {
                 if (!empty($subs['notify'])) {
@@ -216,29 +257,46 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         $signInBTN = ("<a class='btn btn-primary btn-sm btn-block' href='{$global['webSiteRootURL']}user'>".__("Sign in to subscribe to this tag")."</a>");
 
         $search = [
-            '_tags_id_',
-            '_users_id_',
+            '{btnClass}',
+            '{btnClassPrimary}',
+            '{btnClassSuccess}',
+            '{btnClassDefault}',
+            '{playAllClass}',
+            '{playAllLink}',
+            '{playAllText}',
+            '{encryptedIdAndUser}',
+            '{tags_id}',
             '{notify}',
+            '{tagLink}',
             '{tooltipStop}',
             '{tooltip}',
             '{titleOffline}',
             '{tooltipOffline}',
-            '{email}', '{total}',
-            '{subscribed}', '{subscribeText}', '{subscribedText}'
+            '{total}',
+            '{subscribe}', '{unsubscribe}', '{subscribeText}', '{subscribedText}', '{subscribed}'
         ];
-
+        
         $replace = [
+            $btnClass,
+            $btnClassPrimary,
+            $btnClassSuccess,
+            $btnClassDefault,
+            $playAllClass,
+            $playAllLink,
+            __("Play All"),
+            $encryptedIdAndUser,
             $tags_id,
-            $user_id,
             $notify,
+            $tagLink,
             __("Stop getting notified for every new video"),
             __("Click to get notified for every new video"),
             __("Want to subscribe to this tag?"),
             $signInBTN,
-            $email, $total,
-            $subscribed, $subscribeText, $subscribedText, ];
+            $total,
+            $subscribe, $unsubscribe, $subscribeText, $subscribedText, $subscribed];
 
         $btnHTML = str_replace($search, $replace, $content);
+        //echo $btnHTML;exit;
         return $btnHTML;
     }
 
@@ -277,6 +335,19 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         $strT = '<a ' . $tooltip . ' href="' . VideoTags::getTagLink($tags_id) . '" class="label label-primary">' . __($tag->getName()) . '</a> ';
         return $strT;
     }
+    
+    
+
+    static function getAllSubscribersFromVideosId($videos_id) {
+        $tags = TagsHasVideos::getAllFromVideosId($videos_id);
+        $users = array();
+        foreach ($tags as $value) {
+            $subscriptions = Tags_subscriptions::getAllFromTags_id($value['id']);
+            foreach ($subscriptions as $user) {
+                $users[] = $user;
+            }
+        }
+    }
 
     static function getLabels($videos_id, $showType = true) {
         global $global;
@@ -291,7 +362,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         $get = $_GET;
         unset($_GET);
         $types = TagsTypes::getAll();
-
+        $obj = AVideoPlugin::getDataObject('VideoTags');
         $tagsStrList = array();
         foreach ($types as $type) {
             $tags = TagsHasVideos::getAllFromVideosIdAndTagsTypesId($videos_id, $type['id']);
@@ -300,8 +371,11 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
                 if (empty($value['name']) || $value['name'] === '-') {
                     continue;
                 }
-                //$strT .= self::getTagHTMLLink($value['id'], $value['total']);
-                $strT .= self::getButton($value['tags_id']);
+                if($obj->disableTagsSubscriptions){
+                    $strT .= self::getTagHTMLLink($value['tags_id'], $value['total']);
+                }else{
+                    $strT .= self::getButton($value['tags_id']);
+                }
             }
             if (!empty($strT)) {
                 $label = "";
@@ -384,5 +458,12 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         return true;
     }
     
-
+    public function getHeadCode(): string {
+        $css = '<link href="' .getURL('plugin/VideoTags/View/style.css') . '" rel="stylesheet" type="text/css"/>';
+        return $css;
+    }
+    public function getFooterCode(){
+        $js = '<script src="' .getURL('plugin/VideoTags/View/script.js') . '" type="text/javascript"></script>';
+        return $js;
+    }
 }

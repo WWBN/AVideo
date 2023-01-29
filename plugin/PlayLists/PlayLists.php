@@ -5,6 +5,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 
 require_once $global['systemRootPath'] . 'plugin/PlayLists/Objects/Playlists_schedules.php';
+require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
 
 class PlayLists extends PluginAbstract {
 
@@ -266,6 +267,20 @@ class PlayLists extends PluginAbstract {
             } else {
                 $url = $global['webSiteRootURL'] . "program/" . $playlists_id;
             }
+        }
+        if (isset($playlist_index)) {
+            $url = addQueryStringParameter($url, 'playlist_index', $playlist_index);
+        }
+        return $url;
+    }
+
+    static function getTagLink($tags_id, $embed = false, $playlist_index = null) {
+        global $global;
+        $obj = AVideoPlugin::getObjectData("PlayLists");
+        if ($embed) {
+            $url = $global['webSiteRootURL'] . "plugin/PlayLists/embed.php?tags_id=" . $tags_id;
+        } else {
+            $url = $global['webSiteRootURL'] . "plugin/PlayLists/player.php?tags_id=" . $tags_id;
         }
         if (isset($playlist_index)) {
             $url = addQueryStringParameter($url, 'playlist_index', $playlist_index);
@@ -799,6 +814,193 @@ class PlayLists extends PluginAbstract {
     static public function addVideo($videos_id, $playlists_id, $add = true, $order = 0) {
         $pl = new PlayList($playlists_id);
         return $pl->addVideo($videos_id, $add, $order);
+    }
+
+}
+
+class PlayListPlayer {
+
+    private $name;
+    private $videos;
+    private $isAdmin;
+    private $index;
+    private $users_id;
+    private $playlists_id;
+    private $tags_id;
+    private $ObjectData;
+
+    public function getPlaylists_id() {
+        return $this->playlists_id;
+    }
+
+    public function getIndex() {
+        return $this->index;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getVideos() {
+        return $this->videos;
+    }
+
+    public function __construct($playlists_id, $tags_id, $checkPlayMode = false) {
+        $this->users_id = User::getId();
+        if (!empty($playlists_id)) {
+            if (preg_match("/^[0-9]+$/", $playlists_id)) {
+                $this->playlists_id = $playlists_id;
+            } elseif (!empty($this->users_id)) {
+                if ($playlists_id == "favorite") {
+                    $this->playlists_id = PlayList::getFavoriteIdFromUser($this->users_id);
+                } else {
+                    $this->playlists_id = PlayList::getWatchLaterIdFromUser($this->users_id);
+                }
+            }
+        }
+        $this->tags_id = $tags_id;
+        if (!empty($this->playlists_id) && !PlayList::canSee($this->playlists_id, $this->users_id)) {
+            forbiddenPage(_('You cannot see this playlist'));
+        }
+        if ($checkPlayMode) {
+            $this->checkPlayMode();
+        }
+        $this->index = getPlayListIndex();
+        $this->isAdmin = User::isAdmin();
+        $this->name = $this->_getName();
+        $this->ObjectData = AVideoPlugin::getObjectData("PlayLists");
+        $this->videos = $this->_getVideos();
+    }
+
+    private function _getName() {
+        if (!empty($this->playlists_id)) {
+            $video = PlayLists::isPlayListASerie($this->playlists_id);
+            if (!empty($video['id'])) {
+                return $video['title'];
+            } else {
+                $playListObj = new PlayList($this->playlists_id);
+                return $playListObj->getName();
+            }
+        } else if (!empty($this->tags_id)) {
+            $tag = new Tags($this->tags_id);
+            return $tag->getName();
+        }
+        return '';
+    }
+
+    private function _getVideos() {
+        $videos = array();
+        if (!empty($this->playlists_id)) {
+            $videos = PlayList::getVideosFromPlaylist($this->playlists_id);
+            /*
+              if (!empty($this->ObjectData->showTrailerInThePlayList)) {
+              $videoSerie = PlayLists::isPlayListASerie($this->playlists_id);
+              if (!empty($videoSerie['id'])) {
+              $videoSerie["type"] = "embed";
+              $videoSerie["videoLink"] = $videoSerie["trailer1"];
+              array_unshift($videos, $videoSerie);
+              }
+              }
+             * 
+             */
+        } else if (!empty($this->tags_id)) {
+            $videos = VideoTags::getAllVideosFromTagsId($this->tags_id);
+        }
+        //var_dump($this->tags_id, $videos);exit;
+        return self::fixRows($videos);
+    }
+
+    private function fixRows($playList) {
+        $videos = array();
+        foreach ($playList as $key => $value) {
+            $videos[$key] = $value;
+            if (!empty($value['videos_id'])) {
+                $videos[$key]['id'] = $value['videos_id'];
+            }
+            if (!$this->isAdmin && !Video::userGroupAndVideoGroupMatch($this->users_id, $videos[$key]['id'])) {
+                unset($videos[$key]);
+                continue;
+            }
+            if (!empty($this->playlists_id)) {
+                $videos[$key]['alternativeLink'] = PlayLists::getLink($this->playlists_id, 1, $key);
+            } else if (!empty($this->tags_id)) {
+                $videos[$key]['alternativeLink'] = PlayLists::getTagLink($this->tags_id, 1, $key);
+            } else {
+                die('error on playlist definition');
+            }
+        }
+        return array_values($videos);
+    }
+
+    public function getPlayListData() {
+        global $playListData;
+        if (!isset($playListData)) {
+            $playListData = array();
+        }
+        foreach ($this->videos as $key => $video) {
+            if ($video['type'] === 'embed') {
+                $sources[0]['type'] = 'video';
+                $sources[0]['url'] = $video["videoLink"];
+            } else {
+                $sources = getVideosURL($video['filename']);
+            }
+            $images = Video::getImageFromFilename($video['filename'], $video['type']);
+            $externalOptions = _json_decode($video['externalOptions']);
+
+            $src = new stdClass();
+            $src->src = $images->thumbsJpg;
+            $thumbnail = array($src);
+
+            $playListSources = array();
+            foreach ($sources as $value2) {
+                if ($value2['type'] !== 'video' && $value2['type'] !== 'audio' && $value2['type'] !== 'serie') {
+                    continue;
+                }
+                //var_dump($value2);
+                $playListSources[] = new playListSource($value2['url'], $video['type'] === 'embed');
+            }
+            if (empty($playListSources)) {
+                $messagesFromPlayList[] = "videos_id={$video['videos_id']} empty playlist source ";
+                continue;
+            }
+            $playListData[] = new PlayListElement($video['title'], $video['description'], $video['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), $video['cre'], $video['likes'], $video['views_count'], $video['videos_id']);
+        }
+        return $playListData;
+    }
+
+    public function getCurrentVideo() {
+        global $global;
+        $key = $this->getIndex();
+        $video = $this->videos[$key];
+        $video['url'] = $global['webSiteRootURL'] . "playlist/{$this->playlists_id}/" . ($key);
+        //$_GET['v'] = $video['id'];
+        //setVideos_id($video['id']);
+        //var_dump($key, $video, $_GET);exit;
+        return $video;
+    }
+
+    public function getNextVideo() {
+        global $global;
+        $key = $this->getIndex();
+        $autoplayIndex = $key + 1;
+        if (empty($this->videos[$autoplayIndex])) {
+            $autoplayIndex = 0;
+        }
+        $autoPlayVideo = $this->videos[$autoplayIndex];
+        $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$this->playlists_id}/" . ($autoplayIndex);
+        return $autoPlayVideo;
+    }
+
+    public function checkPlayMode() {
+        global $global;
+        if (!empty($this->playlists_id)) {
+            $video = PlayLists::isPlayListASerie($this->playlists_id);
+            if (!empty($video)) {
+                $video = Video::getVideo($video['id']);
+                include $global['systemRootPath'] . 'view/modeYoutube.php';
+                exit;
+            }
+        }
     }
 
 }

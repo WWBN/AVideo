@@ -1660,6 +1660,7 @@ class AVideoPlugin
     public static function getVideoTags($videos_id)
     {
         global $global, $advancedCustom;
+        $tolerance = 0.5;
         if (empty($videos_id) || !empty($global['disableVideoTags']) || !empty($advancedCustom->disableVideoTags)) {
             return [];
         }
@@ -1683,14 +1684,14 @@ class AVideoPlugin
                     $TimeLog = "AVideoPlugin::getVideoTags($videos_id) {$value['dirName']} ";
                     TimeLogStart($TimeLog);
                     $p = static::loadPlugin($value['dirName']);
-                    TimeLogEnd($TimeLog, __LINE__, 0.1);
+                    TimeLogEnd($TimeLog, __LINE__, $tolerance);
                     if (is_object($p)) {
                         $array = array_merge($array, $p->getVideoTags($videos_id));
-                        TimeLogEnd($TimeLog, __LINE__, 0.1);
+                        TimeLogEnd($TimeLog, __LINE__, $tolerance);
                     }
-                    TimeLogEnd($TimeLog, __LINE__);
+                    TimeLogEnd($TimeLog, __LINE__, $tolerance);
                 }
-                TimeLogEnd("AVideoPlugin::getVideoTags($videos_id)", __LINE__);
+                TimeLogEnd("AVideoPlugin::getVideoTags($videos_id)", __LINE__, $tolerance*2);
                 ObjectYPT::setCache($name, $array);
                 $_getVideoTags[$videos_id] = $array;
             } else {

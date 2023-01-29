@@ -105,6 +105,10 @@ class Gallery extends PluginAbstract {
         $obj->SubscribedChannelsRowCount = 12;
         $obj->SubscribedChannelsOrder = 7;
         
+        $obj->SubscribedTags = true;
+        $obj->SubscribedTagsRowCount = 12;
+        $obj->SubscribedTagsOrder = 7;
+        
         $obj->Categories = true;
         $obj->CategoriesCustomTitle = "";
         $obj->CategoriesRowCount = 12;

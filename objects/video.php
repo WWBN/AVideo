@@ -1195,6 +1195,28 @@ if (!class_exists('Video')) {
             return $rows;
         }
 
+        private static function startTransaction(){
+            global $global, $_video_startTransaction_started;
+            
+            if(!empty($_video_startTransaction_started)){
+                return false;
+            }
+            $_video_startTransaction_started = 1;
+            $global['mysqli']->begin_transaction();
+            return true;
+        }    
+        
+        private static function commitTransaction(){
+            global $global, $_video_startTransaction_started;
+            
+            if(empty($_video_startTransaction_started)){
+                return false;
+            }
+            $_video_startTransaction_started = 0;
+            $global['mysqli']->commit();
+            return true;
+        }       
+        
         /**
          *
          * @global array $global
@@ -1209,6 +1231,7 @@ if (!class_exists('Video')) {
             if ($config->currentVersionLowerThen('11.7')) {
                 return array();
             }
+            $tolerance = 0.5;
             /**
              * 
              * @var array $global
@@ -1453,31 +1476,36 @@ if (!class_exists('Video')) {
                  * @var array $global
                  * @var object $global['mysqli'] 
                  */
-                $global['mysqli']->begin_transaction();
-                foreach ($fullData as $row) {
+                self::startTransaction();
+                foreach ($fullData as $index => $row) {
                     if (is_null($row['likes'])) {
+                        self::startTransaction();
                         _error_log("Video::updateLikesDislikes: id={$row['id']}");
                         $row['likes'] = self::updateLikesDislikes($row['id'], 'likes');
                     }
                     if (is_null($row['dislikes'])) {
+                        self::startTransaction();
                         _error_log("Video::updateLikesDislikes: id={$row['id']}");
                         $row['dislikes'] = self::updateLikesDislikes($row['id'], 'dislikes');
                     }
                     
                     if (empty($row['duration_in_seconds']) && in_array($row['type'], $allowedDurationTypes)) {
+                        self::startTransaction();
                         _error_log("Video::duration_in_seconds: id={$row['id']} {$row['duration']} {$row['type']}");
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
                         if (empty($row['duration_in_seconds'])) {
                             //_error_log("Video duration_in_seconds not updated: id={$row['id']} type={$row['type']}");
                         }
                     }
-                    TimeLogStart("video::getInfo");
+                    $tlogName = TimeLogStart("video::getInfo index={$index} id={$row['id']} {$row['type']}");
+                    self::startTransaction();
                     $row = self::getInfo($row, $getStatistcs);
-                    TimeLogEnd("video::getInfo", __LINE__);
+                    TimeLogEnd($tlogName, __LINE__, $tolerance/2);
                     $videos[] = $row;
                 }
-                $global['mysqli']->commit();
-                TimeLogEnd($timeLogName, __LINE__, 1);
+                TimeLogEnd("video::getAllVideos foreach", __LINE__, $tolerance);
+                self::commitTransaction();
+                TimeLogEnd("video::getAllVideos foreach", __LINE__, $tolerance);
                 $rowCount = getRowCount();
                 $tolerance = $rowCount / 100;
                 if ($tolerance < 0.2) {
@@ -1495,7 +1523,7 @@ if (!class_exists('Video')) {
         }
 
         static function getInfo($row, $getStatistcs = false) {
-            $TimeLogLimit = 0.1;
+            $TimeLogLimit = 0.2;
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             $name = "_getVideoInfo_{$row['id']}";
             $cache = ObjectYPT::getCache($name, 3600);
@@ -2660,7 +2688,7 @@ if (!class_exists('Video')) {
 
         public static function getTags_($video_id, $type = "") {
             global $advancedCustom, $advancedCustomUser, $getTags_;
-            $tolerance = 0.3;
+            $tolerance = 0.5;
             if (!isset($getTags_)) {
                 $getTags_ = [];
             }
