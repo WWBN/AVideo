@@ -105,10 +105,13 @@ class sqlDAL
             }
         }
 
-        if(preg_match('/^update plugins/i', $preparedStatement) || preg_match('/^insert into plugins/i', $preparedStatement) || preg_match('/^delete from plugins/i', $preparedStatement)){
-            _error_log("Plugin updated {$preparedStatement}:". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        if (preg_match('/^update plugins/i', $preparedStatement) || preg_match('/^insert into plugins/i', $preparedStatement) || preg_match('/^delete from plugins/i', $preparedStatement)) {
+            _error_log("Plugin updated {$preparedStatement}:" . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            if (!empty($global['lockPlugins'])) {
+                return false;
+            }
         }
-        
+
         if (!_mysql_is_open()) {
             _mysql_connect();
         }
@@ -165,12 +168,13 @@ class sqlDAL
         }
     }
 
-    
-    static function wasSTMTError(){
+
+    static function wasSTMTError()
+    {
         global $wasSTMTError;
         return $wasSTMTError;
     }
-    
+
     /*
      * For Sql like SELECT. This method needs to be closed anyway. If you start another readSql, while the old is open, it will fail.
      * @param string $preparedStatement  The Sql-command
