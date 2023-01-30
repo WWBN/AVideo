@@ -47,6 +47,9 @@ sed -i 's#SERVER_NAME#'${SERVER_NAME}'#' ${CONFIG_FILE}
 sed -i 's#TLS_CERTIFICATE_FILE#'${TLS_CERTIFICATE_FILE}'#' ${CONFIG_FILE}
 sed -i 's#TLS_CERTIFICATE_KEY#'${TLS_CERTIFICATE_KEY}'#' ${CONFIG_FILE}
 sed -i 's#CONTACT_EMAIL#'${CONTACT_EMAIL}'#' ${CONFIG_FILE}
+echo "max_execution_time = ${PHP_MAX_EXECUTION_TIME}" >> /usr/local/etc/php/php.ini
+echo "memory_limit = ${PHP_MEMORY_LIMIT}" >> /usr/local/etc/php/php.ini
+
 
 if [ "_${ENABLE_PHPMYADMIN}_" = "_yes_" ]; then
   echo "Enabling local PHPMyAdmin on https://${SERVER_NAME}/phpmyadmin"
