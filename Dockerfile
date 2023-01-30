@@ -34,7 +34,7 @@ RUN apt-get update -y && apt-get upgrade -y \
       && apt install -y --no-install-recommends ca-certificates apt-transport-https software-properties-common curl \
       && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp \
       && chmod a+rx /usr/local/bin/yt-dlp \
-      && apt install -y --no-install-recommends sshpass nano net-tools curl apache2 php8.1 libapache2-mod-php8.1 php8.1-mysql php8.1-curl php8.1-gd php8.1-intl \
+      && apt install -y --no-install-recommends sshpass nano net-tools curl apache2 sendmail php8.1 libapache2-mod-php8.1 php8.1-mysql php8.1-curl php8.1-gd php8.1-intl \
       php-zip mysql-client ffmpeg git libimage-exiftool-perl libapache2-mod-xsendfile -y  && a2enmod xsendfile && cd /var/www/html \
       && git clone https://github.com/WWBN/AVideo.git \
       && apt install -y --no-install-recommends && curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl  \
