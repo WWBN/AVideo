@@ -30,7 +30,7 @@ class Scheduler extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "3.0";
+        return "4.0";
     }
 
     public function updateScript() {
@@ -84,7 +84,16 @@ class Scheduler extends PluginAbstract {
         if (!isset($_executeSchelude)) {
             $_executeSchelude = array();
         }
-        $e = new Scheduler_commands($scheduler_commands_id);
+        $e = new Scheduler_commands($scheduler_commands_id);        
+        
+        $videos_id = $e->getCallbackURL();
+        if(!empty($videos_id)){ // make it active
+            $video = new Video('', '', $videos_id);
+            $status = $video->setStatus(Video::$statusActive);
+            AVideoPlugin::onNewVideo($videos_id);
+            return $e->setExecuted($videos_id);
+        }
+        
         $callBackURL = $e->getCallbackURL();
         $callBackURL = str_replace('{webSiteRootURL}', $global['webSiteRootURL'], $callBackURL);
         if (!isValidURL($callBackURL)) {
@@ -108,6 +117,42 @@ class Scheduler extends PluginAbstract {
         return false;
     }
 
+    static function isActiveFromVideosId($videos_id){
+        return Scheduler_commands::isActiveFromVideosId($videos_id);;
+    }
+    
+    static public function addVideoToRelease($date_to_execute, $videos_id) {
+        _error_log("Scheduler::addVideoToRelease [$date_to_execute] [$videos_id]");
+        if (empty($date_to_execute)) {
+            _error_log("Scheduler::addVideoToRelease ERROR date_to_execute is empty");
+            return false;
+        }
+
+        $date_to_execute_time = _strtotime($date_to_execute);
+
+        if ($date_to_execute_time <= time()) {
+            _error_log("Scheduler::addVideoToRelease ERROR date_to_execute must be greater than now [{$date_to_execute}] " . date('Y/m/d H:i:s', $date_to_execute_time) . ' ' . date('Y/m/d H:i:s'));
+            return false;
+        }
+
+        if (empty($videos_id)) {
+            _error_log("Scheduler::addVideoToRelease ERROR videos_id is empty");
+            return false;
+        }
+        
+        $id = 0;
+        $row = Scheduler_commands::getFromVideosId($videos_id);
+        if(!empty($row)){
+            $id = $row['id'];
+        }
+        
+        $e = new Scheduler_commands($id);
+        $e->setDate_to_execute($date_to_execute);
+        $e->setVideos_id($videos_id);
+        
+        return $e->save();
+    }
+    
     static public function add($date_to_execute, $callbackURL, $parameters = '', $type = '') {
         _error_log("Scheduler::add [$date_to_execute] [$callbackURL]");
         if (empty($date_to_execute)) {

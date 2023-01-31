@@ -71,6 +71,7 @@ if (!class_exists('Video')) {
             'a' => 'Active',
             'k' => 'Active and Encoding',
             'i' => 'Inactive',
+            'h' => 'Scheduled Release Date',
             'e' => 'Encoding',
             'x' => 'Encoding Error',
             'd' => 'Downloading',
@@ -85,6 +86,7 @@ if (!class_exists('Video')) {
             'a' => '<i class=\'fas fa-eye\'></i>',
             'k' => '<i class=\'fas fa-cog\'></i>',
             'i' => '<i class=\'fas fa-eye-slash\'></i>',
+            'h' => '<i class=\'fas fa-clock\'></i>',
             'e' => '<i class=\'fas fa-cog\'></i>',
             'x' => '<i class=\'fas fa-exclamation-triangle\'></i>',
             'd' => '<i class=\'fas fa-download\'></i>',
@@ -98,6 +100,7 @@ if (!class_exists('Video')) {
         public static $statusActive = 'a';
         public static $statusActiveAndEncoding = 'k';
         public static $statusInactive = 'i';
+        public static $statusScheduledReleaseDate = 'h';
         public static $statusEncoding = 'e';
         public static $statusEncodingError = 'x';
         public static $statusDownloading = 'd';
@@ -701,17 +704,24 @@ if (!class_exists('Video')) {
                 if (!empty($_REQUEST['overrideStatus'])) {
                     return $this->setStatus($_REQUEST['overrideStatus']);
                 } else { // encoder did not provide a status
-                    if (!empty($_REQUEST['keepEncoding'])) {
-                        return $this->setStatus(Video::$statusActiveAndEncoding);
-                    } else {
-                        if ($this->getTitle() !== "Video automatically booked") {
-                            return $this->setStatus($advancedCustom->defaultVideoStatus);
+                    AVideoPlugin::loadPlugin('Scheduler');
+                    $row = Scheduler::isActiveFromVideosId($this->id);
+                    if(!empty($row)){ // there is a schedule to activate the video
+                        return $this->setStatus(Video::$statusScheduledReleaseDate);
+                    }else{
+                        if (!empty($_REQUEST['keepEncoding'])) {
+                            return $this->setStatus(Video::$statusActiveAndEncoding);
                         } else {
-                            return $this->setStatus(Video::$statusInactive);
+                            if ($this->getTitle() !== "Video automatically booked") {
+                                return $this->setStatus($advancedCustom->defaultVideoStatus);
+                            } else {
+                                return $this->setStatus(Video::$statusInactive);
+                            }
                         }
                     }
                 }
             }
+            
             return $this->setStatus($default);
         }
 
@@ -5798,6 +5808,7 @@ $statusThatShowTheCompleteMenu = array(
 $statusSearchFilter = array(
     Video::$statusActive,
     Video::$statusInactive,
+    Video::$statusScheduledReleaseDate,
     Video::$statusEncoding,
     Video::$statusTranfering,
     Video::$statusUnlisted,
