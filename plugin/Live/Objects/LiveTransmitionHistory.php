@@ -388,14 +388,13 @@ class LiveTransmitionHistory extends ObjectYPT {
         return self::getApplicationObject($row['id']);
     }
 
-    public static function getLatest($key, $live_servers_id = null, $active=false) {
+    public static function getLatest($key='', $live_servers_id = null, $active=false) {
         global $global;
 
-        if (empty($key)) {
-            return false;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE 1=1 ";
+        if (!empty($key)) {
+            $sql .= " AND `key` LIKE '{$key}%' ";
         }
-
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` LIKE '{$key}%' ";
         if (isset($live_servers_id)) {
             $sql .= " AND (live_servers_id = " . intval($live_servers_id);
 

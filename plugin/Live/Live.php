@@ -2399,6 +2399,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         return $latest['key'];
     }
+    
+    public static function getLatest() {
+        $latest = LiveTransmitionHistory::getLatest();
+        if (empty($latest)) {
+            return false;
+        }
+        return $latest;
+    }
 
     public static function isLive($users_id, $live_servers_id = 0, $live_index = '', $force_recreate = false) {
         global $_live_is_live;

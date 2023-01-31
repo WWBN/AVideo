@@ -154,5 +154,26 @@ class Tags extends ObjectYPT {
         return $rows;
     }   
     
+    public static function getAllWithSubscriptionRow($users_id)
+    {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $subSelect = " 0  as subscription ";
+        if(!empty($users_id)){
+            $subSelect = " (select id from tags_subscriptions thv WHERE thv.tags_id = t.id AND thv.users_id = {$users_id}) as subscription  ";
+        }
+        $sql = "SELECT *, {$subSelect} FROM  " . static::getTableName() . " t WHERE 1=1 ";
+        
+        $sql .= self::getSqlFromPost();
+        //echo $sql;exit;
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        return $fullData;
+        
+    }
+    
         
 }

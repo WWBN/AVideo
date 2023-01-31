@@ -41,9 +41,9 @@ if (!function_exists('xss_esc')) {
         }
         $result = @htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
         if (empty($result)) {
-            $result = str_replace(['"', "'", "\\"], ["", "", ""], strip_tags($text));
+            $result = str_replace(['"', "'", "\\", "document.", "cookie"], ["", "", "", '', ''], strip_tags($text));
         }
-        $result = str_replace(['&amp;amp;'], ['&amp;'], $result);
+        $result = str_ireplace(['&amp;amp;'], ['&amp;'], $result);
         return $result;
     }
 }

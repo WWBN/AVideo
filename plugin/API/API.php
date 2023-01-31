@@ -277,22 +277,6 @@ class API extends PluginAbstract {
             return new ApiObject("There are no videos for this playlist", true, $parameters);
         }
 
-        if (empty($parameters['index'])) {
-            $parameters['index'] = 0;
-        }
-
-        if (empty($videos[$parameters['index']])) {
-            $video = $videos[0];
-        } else {
-            $video = $videos[$parameters['index']];
-        }
-
-        $parameters['nextIndex'] = $parameters['index'] + 1;
-
-        if (empty($videos[$parameters['nextIndex']])) {
-            $parameters['nextIndex'] = 0;
-        }
-
         if (empty($parameters['playlists_id'])) {
             //return new ApiObject("Playlist ID is empty", true, $parameters);
             $_POST['sort']['created'] = 'DESC';
@@ -318,37 +302,8 @@ class API extends PluginAbstract {
             $parameters['channel_bg'] = $user->getBackground();
             $parameters['channel_link'] = $user->getChannelLink();
         }
-        $videoPath = Video::getHigherVideoPathFromID($video['id']);
-        $parameters['videos'] = $videos;
-        $parameters['modified_timestamp'] = strtotime($parameters['modified']);
-        $parameters['totalPlaylistDuration'] = 0;
-        $parameters['currentPlaylistTime'] = 0;
-        foreach ($parameters['videos'] as $key => $value) {
-            $parameters['videos'][$key]['path'] = Video::getHigherVideoPathFromID($value['id']);
-            if ($key && $key <= $parameters['index']) {
-                $parameters['currentPlaylistTime'] += durationToSeconds($parameters['videos'][$key - 1]['duration']);
-            }
-            $parameters['totalPlaylistDuration'] += durationToSeconds($parameters['videos'][$key]['duration']);
-
-            $parameters['videos'][$key]['info'] = Video::getTags($value['id']);
-            $parameters['videos'][$key]['category'] = Category::getCategory($value['categories_id']);
-            $parameters['videos'][$key]['media_session'] = Video::getMediaSession($value['id']);
-            $parameters['videos'][$key]['images'] = Video::getImageFromFilename_($value['filename'], $value['type']);
-
-            if (!empty($parameters['audioOnly'])) {
-                $parameters['videos'][$key]['mp3'] = convertVideoToMP3FileIfNotExists($value['id']);
-            }
-        }
-        if (empty($parameters['totalPlaylistDuration'])) {
-            $parameters['percentage_progress'] = 0;
-        } else {
-            $parameters['percentage_progress'] = ($parameters['currentPlaylistTime'] / $parameters['totalPlaylistDuration']) * 100;
-        }
-        $parameters['title'] = $video['title'];
-        $parameters['videos_id'] = $video['id'];
-        $parameters['path'] = $videoPath;
-        $parameters['duration'] = $video['duration'];
-        $parameters['duration_seconds'] = durationToSeconds($parameters['duration']);
+        
+        $parameters = array_merge($parameters, PlayLists::videosToPlaylist($videos, @$parameters['index'], !empty($parameters['audioOnly'])));        
 
         return new ApiObject("", false, $parameters);
     }
@@ -405,6 +360,41 @@ class API extends PluginAbstract {
             }
         return new ApiObject("", false, $list);
     }
+        
+    /**
+     * This API will return all the tags from VideoTags plugin, also will list the latest 100 videos from the tags your user is subscribed to
+     * @param string $parameters
+     * 'audioOnly' 1 or 0, this option will extract the MP3 from the video file
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return \ApiObject
+     */
+    public function get_api_tags($parameters) {
+        global $global;
+        $vtags = AVideoPlugin::loadPluginIfEnabled("VideoTags");
+        
+        if (empty($vtags)) {
+            return new ApiObject("VideoTags is disabled");
+        }
+                
+        $tags = VideoTags::getAll(User::getId());        
+        if (is_array($tags)) {
+            foreach ($tags as $key => $row) {
+                $tags[$key]['videos'] = array();
+                $tags[$key]['photo'] = $global['webSiteRootURL'].'view/img/notfound.jpg';
+                if(!empty($row['subscription'])){
+                    $videos = TagsHasVideos::getAllVideosFromTagsId($row['id']);
+                    $tags[$key]['videos'] = PlayLists::videosToPlaylist($videos, @$parameters['index'], !empty($parameters['audioOnly']));
+                    if(!empty($tags[$key]['videos'][0])){
+                        $tags[$key]['photo'] = $tags[$key]['videos'][0]['images']['poster'];
+                    }
+                }
+            }
+        }else{
+            $tags = array();
+        }
+        
+        return new ApiObject("", false, $tags);
+    }
 
     /**
      * @param string $parameters
@@ -453,10 +443,17 @@ class API extends PluginAbstract {
      */
     public function get_api_video($parameters) {
         $start = microtime(true);
-        $rowCount = getRowCount();
-        if ($rowCount > 100) {
-            // use 1 hour cache
-            $cacheName = 'get_api_video' . md5(json_encode($parameters) . json_encode($_GET));
+        
+        $cacheParameters = array('APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id');
+        
+        $cacheVars = array();
+        foreach ($cacheParameters as $value) {
+            $cacheVars[$value] = @$_REQUEST[$value];
+        }
+        
+        // use 1 hour cache
+        $cacheName = 'get_api_video' . md5(json_encode($cacheVars));
+        if(empty($parameters['videos_id'])){
             $obj = ObjectYPT::getCache($cacheName, 3600);
             if (!empty($obj)) {
                 $end = microtime(true) - $start;

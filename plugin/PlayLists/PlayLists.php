@@ -421,6 +421,64 @@ class PlayLists extends PluginAbstract {
         return $link;
     }
 
+    static function videosToPlaylist($videos, $index=0, $audioOnly=false) {
+        $parameters = array();
+        $parameters['index'] = intval($index);
+
+        while(empty($videoPath) && !empty($videos)){
+        
+            if (empty($videos[$parameters['index']])) {
+                $video = $videos[0];
+            } else {
+                $video = $videos[$parameters['index']];
+            }
+
+            $videoPath = Video::getHigherVideoPathFromID($video['id']);
+            
+            if(!empty($videoPath)){
+                $parameters['nextIndex'] = $parameters['index'] + 1;
+                if (empty($videos[$parameters['nextIndex']])) {
+                    $parameters['nextIndex'] = 0;
+                }
+                break;
+            }else{
+                unset($videos[$parameters['index']]);
+                $parameters['index']++;
+            }
+        }
+        $parameters['videos'] = array_values($videos);
+        $parameters['totalPlaylistDuration'] = 0;
+        $parameters['currentPlaylistTime'] = 0;
+        foreach ($parameters['videos'] as $key => $value) {
+            $parameters['videos'][$key]['path'] = Video::getHigherVideoPathFromID($value['id']);
+            if ($key && $key <= $parameters['index']) {
+                $parameters['currentPlaylistTime'] += durationToSeconds($parameters['videos'][$key - 1]['duration']);
+            }
+            $parameters['totalPlaylistDuration'] += durationToSeconds($parameters['videos'][$key]['duration']);
+
+            $parameters['videos'][$key]['info'] = Video::getTags($value['id']);
+            $parameters['videos'][$key]['category'] = Category::getCategory($value['categories_id']);
+            $parameters['videos'][$key]['media_session'] = Video::getMediaSession($value['id']);
+            $parameters['videos'][$key]['images'] = Video::getImageFromFilename_($value['filename'], $value['type']);
+
+            if (!empty($audioOnly)) {
+                $parameters['videos'][$key]['mp3'] = convertVideoToMP3FileIfNotExists($value['id']);
+            }
+        }
+        if (empty($parameters['totalPlaylistDuration'])) {
+            $parameters['percentage_progress'] = 0;
+        } else {
+            $parameters['percentage_progress'] = ($parameters['currentPlaylistTime'] / $parameters['totalPlaylistDuration']) * 100;
+        }
+        $parameters['title'] = $video['title'];
+        $parameters['videos_id'] = $video['id'];
+        $parameters['path'] = $videoPath;
+        $parameters['duration'] = $video['duration'];
+        $parameters['duration_seconds'] = durationToSeconds($parameters['duration']);
+        
+        return $parameters;
+    }
+    
     static function getLinkToLive($playlists_id) {
         global $global;
         $pl = new PlayList($playlists_id);

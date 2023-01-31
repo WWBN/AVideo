@@ -2768,14 +2768,6 @@ if (!class_exists('Video')) {
             }
             TimeLogEnd("video::getTags_ new Video $video_id, $type", __LINE__, $tolerance);
 
-            /**
-              a = active
-              i = inactive
-              e = encoding
-              x = encoding error
-              d = downloading
-              u = unlisted
-             */
             TimeLogStart("video::getTags_ status $video_id, $type");
             if (empty($type) || $type === "status") {
                 $objTag = new stdClass();

@@ -96,6 +96,10 @@ class VideoTags extends PluginAbstract {
         return $tag;
     }
 
+    static function getAll($users_id = 0) {
+        return Tags::getAllWithSubscriptionRow($users_id);
+    }
+    
     static function getAllFromVideosId($videos_id) {
         return TagsHasVideos::getAllFromVideosId($videos_id);
     }
