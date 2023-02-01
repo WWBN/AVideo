@@ -7096,6 +7096,12 @@ function _unsetcookie($cookieName)
     unset($_COOKIE[$cookieName]);
 }
 
+
+function _resetcookie($cookieName, $value){
+    _unsetcookie($cookieName);
+    _setcookie($cookieName, $value);
+}
+
 /**
  * This function is not 100% but try to tell if the site is in an iFrame
  * @global array $global
