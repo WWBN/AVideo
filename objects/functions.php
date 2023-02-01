@@ -4669,8 +4669,7 @@ function _mysql_connect($persistent = false)
     }
 }
 
-function _mysql_commit()
-{
+function _mysql_commit(){
     global $global;
     if (_mysql_is_open()) {
         try {
