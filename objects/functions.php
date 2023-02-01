@@ -4590,7 +4590,7 @@ function _session_regenerate_id(){
 }
 
 function debugMemmory($line){
-    global $lastDebugMemory, $lastDebugMemoryLine;
+    global $lastDebugMemory, $lastDebugMemoryLine, $global;
     if(empty($global['debugMemmory'])){
         return false;
     }
