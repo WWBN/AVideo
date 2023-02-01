@@ -4552,15 +4552,16 @@ function _session_start(array $options = [])
 {
     try {
         if (!_empty($_GET['PHPSESSID'])) {
+            $PHPSESSID = $_GET['PHPSESSID'];
+            unset($_GET['PHPSESSID']);
             if (!User::isLogged()) {
-                if ($_GET['PHPSESSID'] !== session_id()) {
+                if ($PHPSESSID !== session_id()) {
                     if (session_status() !== PHP_SESSION_NONE) {
                         @session_write_close();
                     }
-                    session_id($_GET['PHPSESSID']);
-                    _error_log("captcha: session_id changed to " . $_GET['PHPSESSID']);
+                    session_id($PHPSESSID);
+                    _error_log("captcha: session_id changed to {$PHPSESSID}");
                 }
-                unset($_GET['PHPSESSID']);
                 $session = @session_start($options);
 
                 if (preg_match('/objects\/getCaptcha\.php/i', $_SERVER['SCRIPT_NAME'])) {
@@ -4572,7 +4573,7 @@ function _session_start(array $options = [])
                 }
                 return $session;
             } else {
-                //_error_log("captcha: user logged we will not change the session ID PHPSESSID=" . $_GET['PHPSESSID'] . " session_id=" . session_id());
+                //_error_log("captcha: user logged we will not change the session ID PHPSESSID={$PHPSESSID} session_id=" . session_id());
             }
         } elseif (session_status() == PHP_SESSION_NONE) {
             return @session_start($options);
