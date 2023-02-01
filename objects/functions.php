@@ -4591,6 +4591,9 @@ function _session_regenerate_id(){
 
 function debugMemmory($line){
     global $lastDebugMemory, $lastDebugMemoryLine;
+    if(empty($global['debugMemmory'])){
+        return false;
+    }
     $memory = memory_get_usage();
     if(!isset($lastDebugMemory)){
         $lastDebugMemory = $memory;
