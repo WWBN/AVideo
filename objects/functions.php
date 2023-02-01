@@ -4658,7 +4658,7 @@ function _mysql_connect($persistent = false)
                 $global['mysqli']->set_charset($global['mysqli_charset']);
             }
             if (isCommandLineInterface()) {
-                _error_log("_mysql_connect HOST=$mysqlHost,DB=$mysqlDatabase");
+                //_error_log("_mysql_connect HOST=$mysqlHost,DB=$mysqlDatabase");
             }
         }
     } catch (Exception $exc) {
