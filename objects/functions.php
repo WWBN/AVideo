@@ -4097,6 +4097,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
         _error_log("convertImageIfNotExists: source image is empty");
         return false;
     }
+    $source = str_replace(array('_thumbsSmallV2', '_portrait'), array('',''), $source);
     if (!file_exists($source)) {
         _error_log("convertImageIfNotExists: source does not exists {$source}");
         return false;
