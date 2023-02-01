@@ -12,7 +12,7 @@ if(isBot()){
     die('Bot Not Allowed');
 }
 if (empty($_REQUEST['id'])) {
-    die('{"error":"' . __("Permission denied") . '"}');
+    die('{"error":"Permission denied"}');
 }
 if (empty($_COOKIE[$global['session_name']])) {
     die('{"error":"Cookie is disabled"}');
