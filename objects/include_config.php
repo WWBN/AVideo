@@ -9,7 +9,7 @@ if($_SERVER["HTTP_HOST"] === 'localhost' || $_SERVER["HTTP_HOST"] === '127.0.0.1
 }
  * 
  */
-
+//if(!empty($global['debugMemmory'])){return false;}
 //var_dump($_SERVER, $global);exit;
 //$global['stopBotsList'] = array('headless', 'bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
 //$global['stopBotsWhiteList'] = array('facebook','google','bing','yahoo','yandex','twitter');
@@ -89,7 +89,7 @@ $global['dont_show_us_flag'] = false;
 
 if (empty($doNotStartSessionbaseIncludeConfig)) {
     $config = new Configuration();
-    session_write_close();
+    @session_write_close();
 
     // server should keep session data for AT LEAST 1 hour
     ini_set('session.gc_maxlifetime', $config->getSession_timeout());
@@ -105,11 +105,11 @@ if (empty($doNotStartSessionbaseIncludeConfig)) {
         setcookie('key', 'value', time() + $config->getSession_timeout(), '/; SameSite=None; Secure');
     }
 
-    session_start();
-}
-// DDOS protection can be disabled in video/configuration.php
-if (!empty($global['enableDDOSprotection'])) {
-    ddosProtection();
+    _session_start();
+    // DDOS protection can be disabled in video/configuration.php
+    if (!empty($global['enableDDOSprotection'])) {
+        ddosProtection();
+    }
 }
 
 // set the referrer for aVideo
