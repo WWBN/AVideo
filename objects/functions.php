@@ -4098,7 +4098,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
         return false;
     }
     if (!file_exists($source)) {
-        _error_log("convertImageIfNotExists: source does not exists");
+        _error_log("convertImageIfNotExists: source does not exists {$source}");
         return false;
     }
     if (file_exists($destination) && filesize($destination) > 1024) {
