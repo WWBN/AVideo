@@ -1268,16 +1268,36 @@ if (typeof gtag !== \"function\") {
     }
 
     public function thisUserCanStream() {
-        global $advancedCustomUser;
+        global $advancedCustomUser, $_thisUserCanStreamReasonMessage;
+        $_thisUserCanStreamReasonMessage = '';
         if(!empty($advancedCustomUser->unverifiedEmailsCanNOTLiveStream)){
             if(!$this->isVerified()){
+                $_thisUserCanStreamReasonMessage = 'User Not verified';
                 return false;
             }
         }
         if ($this->status === 'i') {
+            $_thisUserCanStreamReasonMessage = 'User status is inactive';
             return false;
         }
-        return !empty($this->isAdmin) || !empty($this->canStream);
+        $can = !empty($this->isAdmin) || !empty($this->canStream);
+        if(empty($can)){
+            $reasons = array();
+            if(empty($this->isAdmin)){
+                $reasons[] = 'User is not admin';
+            }
+            if(empty($this->canStream)){
+                $reasons[] = 'User cannot stream';
+            }
+            $_thisUserCanStreamReasonMessage = implode(', ', $reasons);
+        }
+        return $can;
+    }
+    
+    static public function getLastUserCanStreamReason() {
+        global $_thisUserCanStreamReasonMessage;
+        
+        return $_thisUserCanStreamReasonMessage;
     }
 
     private function find($user, $pass, $mustBeactive = false, $encodedPass = false) {
