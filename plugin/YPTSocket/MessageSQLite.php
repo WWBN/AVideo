@@ -112,6 +112,9 @@ class Message implements MessageComponentInterface {
 
     public function onClose(ConnectionInterface $conn) {
         global $onMessageSentTo, $SocketGetTotals;
+        if(empty($conn)){
+            return false;
+        }
         $client = dbGetRowFromResourcesId($conn->resourceId);
         if(empty($client)){
             $client = array('users_id'=>0);
