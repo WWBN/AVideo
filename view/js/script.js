@@ -520,7 +520,12 @@ function addView(videos_id, currentTime) {
     return true;
 }
 
+var isVideoAddViewCount = false;
 function _addView(videos_id, currentTime, seconds_watching_video) {
+    if(isVideoAddViewCount){
+        return false;
+    }
+    isVideoAddViewCount = true;
     if (typeof PHPSESSID == 'undefined') {
         PHPSESSID = '';
     }
@@ -539,6 +544,7 @@ function _addView(videos_id, currentTime, seconds_watching_video) {
             seconds_watching_video: seconds_watching_video
         },
         success: function (response) {
+            isVideoAddViewCount = false;
             $('.view-count' + videos_id).text(response.countHTML);
         }
     });
