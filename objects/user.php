@@ -1271,7 +1271,7 @@ if (typeof gtag !== \"function\") {
         global $advancedCustomUser, $_thisUserCanStreamReasonMessage;
         $_thisUserCanStreamReasonMessage = '';
         if(!empty($advancedCustomUser->unverifiedEmailsCanNOTLiveStream)){
-            if(!$this->isVerified()){
+            if(empty($this->emailVerified)){
                 $_thisUserCanStreamReasonMessage = 'User Not verified';
                 return false;
             }
