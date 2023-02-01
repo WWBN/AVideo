@@ -1128,7 +1128,7 @@ if (typeof gtag !== \"function\") {
 
     private static function recreateLoginFromCookie() {
         global $justLogoff, $justTryToRecreateLoginFromCookie;
-
+        _session_start();
         if (empty($justTryToRecreateLoginFromCookie) && empty($justLogoff) && empty($_SESSION['user']['id'])) {
             $justTryToRecreateLoginFromCookie = 1;
 
