@@ -20,6 +20,7 @@ $obj->canAdminUser = Permissions::canAdminUsers();
 
 $obj->error = !(($obj->users_id_now == $obj->users_id) || !empty($obj->new_users_id));
 
+$obj->session_id = session_id();
 if(!$obj->error){
     $obj->msg = __('You are user').': '.User::getNameIdentification();
 }
