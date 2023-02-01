@@ -70,15 +70,17 @@ if (empty($global['mysqli_charset'])) {
 }
 
 require_once $global['systemRootPath'] . 'objects/functions.php';
+debugMemmory(__LINE__);
 if (empty($doNotConnectDatabaseIncludeConfig)) {
     _mysql_connect();
 } else {
     $mysql_connect_was_closed = 1;
 }
+debugMemmory(__LINE__);
 require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/security.php';
-
+debugMemmory(__LINE__);
 // for update config from old versions 2020-05-11
 if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) {
     Configuration::rewriteConfigFile();
@@ -87,7 +89,9 @@ if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) 
 $global['dont_show_us_flag'] = false;
 // this is for old versions
 
+debugMemmory(__LINE__);
 if (empty($doNotStartSessionbaseIncludeConfig)) {
+    debugMemmory(__LINE__);
     $config = new Configuration();
     session_write_close();
 
@@ -105,12 +109,16 @@ if (empty($doNotStartSessionbaseIncludeConfig)) {
         setcookie('key', 'value', time() + $config->getSession_timeout(), '/; SameSite=None; Secure');
     }
 
+    debugMemmory(__LINE__);
     session_start();
+    debugMemmory(__LINE__);
 }
+debugMemmory(__LINE__);
 // DDOS protection can be disabled in video/configuration.php
 if (!empty($global['enableDDOSprotection'])) {
     ddosProtection();
 }
+debugMemmory(__LINE__);
 
 // set the referrer for aVideo
 $url1['host'] = '';
@@ -132,6 +140,7 @@ if (!empty($_SERVER['HTTP_REFERER'])) {
         $url1 = parse_url($global['HTTP_REFERER']);
     }
 }
+debugMemmory(__LINE__);
 //var_dump($global['HTTP_REFERER']);exit;
 if (!isset($_POST['redirectUri'])) {
     $_POST['redirectUri'] = '';
@@ -151,11 +160,13 @@ if (!empty($url1['host']) && !empty($url2['host']) && $url1['host'] !== $url2['h
 $_SESSION['LAST_HTTP_REFERER'] = $global['HTTP_REFERER'];
 //var_dump($global['HTTP_REFERER'], $url1);exit;
 
+debugMemmory(__LINE__);
 _ob_end_clean();
 //$output = _ob_get_clean();
 _ob_start(true);
 //echo $output;
 
+debugMemmory(__LINE__);
 $_SESSION['lastUpdate'] = time();
 $_SESSION['savedQuerys'] = 0;
 require_once $global['systemRootPath'] . 'objects/Object.php';
@@ -165,6 +176,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
+debugMemmory(__LINE__);
 adminSecurityCheck();
 setSiteLang();
 fixSystemPath();
@@ -172,6 +184,7 @@ ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime();
 getDeviceID();
 allowOrigin();
 
+debugMemmory(__LINE__);
 $baseName = basename($_SERVER['SCRIPT_FILENAME']);
 if (empty($doNotConnectDatabaseIncludeConfig) && $baseName !== 'xsendfile.php' && class_exists('Plugin')) {
     AVideoPlugin::getStart();
@@ -193,6 +206,7 @@ if (!empty($doNotConnectDatabaseIncludeConfig)) {
 }
 $advancedCustom = AVideoPlugin::getObjectData('CustomizeAdvanced');
 
+debugMemmory(__LINE__);
 if (empty($global['disableTimeFix'])) {
     /*
       $now = new DateTime();
@@ -207,12 +221,14 @@ if (empty($global['disableTimeFix'])) {
     ObjectYPT::setGlobalTimeZone();
 }
 
+debugMemmory(__LINE__);
 $avideoLayout = AVideoPlugin::getObjectData('Layout');
 $avideoCustomizeUser = $advancedCustomUser = AVideoPlugin::getObjectData('CustomizeUser');
 $avideoCustomize = $customizePlugin = AVideoPlugin::getObjectData('Customize');
 $avideoPermissions = $permissionsPlugin = AVideoPlugin::getObjectData('Permissions');
 $avideoPlayerSkins = AVideoPlugin::getObjectData('PlayerSkins');
 
+debugMemmory(__LINE__);
 if (!empty($_GET['type'])) {
     $metaDescription = " {$_GET['type']}";
 } elseif (!empty($_GET['showOnly'])) {
