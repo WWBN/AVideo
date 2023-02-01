@@ -6,6 +6,7 @@ $obj = new stdClass();
 $obj->error = true;
 $obj->msg = '';
 $obj->users_id = intval(@$_REQUEST['users_id']);
+$obj->session_id_old = session_id();
 
 if (empty($obj->users_id)) {
     $obj->method = 'cancelSwapUser';
