@@ -4589,6 +4589,19 @@ function _session_regenerate_id(){
     _resetcookie(session_name(), session_id(), $expires);
 }
 
+function debugMemmory($line){
+    global $lastDebugMemory, $lastDebugMemoryLine;
+    $memory = memory_get_usage();
+    if(!isset($lastDebugMemory)){
+        $lastDebugMemory = $memory;
+        $lastDebugMemoryLine = $line;
+    }else{
+        $increaseB = ($memory-$lastDebugMemory);
+        $increase = humanFileSize($increaseB);
+        _error_log("debugMemmory increase: {$increase} from line $lastDebugMemoryLine to line $line [$increaseB]");
+    }
+}
+
 /**
  * we will not regenerate the session on this page
  * this is necessary because of the signup from the iframe pages
