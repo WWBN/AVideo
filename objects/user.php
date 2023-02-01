@@ -1027,7 +1027,7 @@ if (typeof gtag !== \"function\") {
 
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
-            session_regenerate_id(true);
+            _session_regenerate_id();
             session_write_close();
 
             _error_log('User:login finish ' . json_encode($_SESSION['user']['id']));

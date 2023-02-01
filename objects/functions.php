@@ -4568,7 +4568,7 @@ function _session_start(array $options = [])
                 }
                 if (!blackListRegenerateSession()) {
                     _error_log("captcha: session_id regenerated new  session_id=" . session_id());
-                    session_regenerate_id(true);
+                    _session_regenerate_id();
                 }
                 return $session;
             } else {
@@ -4581,6 +4581,11 @@ function _session_start(array $options = [])
         _error_log("_session_start: " . $exc->getTraceAsString());
         return false;
     }
+}
+
+function _session_regenerate_id(){
+    session_regenerate_id(true);
+    _setcookie(session_name(), session_id(), $expires);
 }
 
 /**
