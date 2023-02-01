@@ -4585,6 +4585,7 @@ function _session_start(array $options = [])
 
 function _session_regenerate_id(){
     session_regenerate_id(true);
+    _setcookie('PHPSESSID', session_id(), $expires);
     _setcookie(session_name(), session_id(), $expires);
 }
 
