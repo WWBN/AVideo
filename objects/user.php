@@ -1268,6 +1268,12 @@ if (typeof gtag !== \"function\") {
     }
 
     public function thisUserCanStream() {
+        global $advancedCustomUser;
+        if(!empty($advancedCustomUser->unverifiedEmailsCanNOTLiveStream)){
+            if(!$this->isVerified()){
+                return false;
+            }
+        }
         if ($this->status === 'i') {
             return false;
         }

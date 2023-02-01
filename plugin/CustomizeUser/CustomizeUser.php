@@ -68,6 +68,7 @@ class CustomizeUser extends PluginAbstract {
 
         $obj->unverifiedEmailsCanNOTLogin = !isset($advancedCustom->unverifiedEmailsCanNOTLogin) ? false : $advancedCustom->unverifiedEmailsCanNOTLogin;
         $obj->unverifiedEmailsCanNOTComment = false;
+        $obj->unverifiedEmailsCanNOTLiveStream = true;
         $obj->newUsersCanStream = !isset($advancedCustom->newUsersCanStream) ? false : $advancedCustom->newUsersCanStream;
         $obj->doNotIdentifyByName = !isset($advancedCustomUser->doNotIndentifyByName) ? false : $advancedCustomUser->doNotIndentifyByName;
         self::addDataObjectHelper('doNotIdentifyByName', 'Do NOT identify user by Name', 'The identification order will be: <br>1. Name<br>2. email<br>3. Username<br>4. Channel Name');
