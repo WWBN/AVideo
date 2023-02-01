@@ -713,7 +713,7 @@ if (!class_exists('Video')) {
                             return $this->setStatus(Video::$statusActiveAndEncoding);
                         } else {
                             if ($this->getTitle() !== "Video automatically booked") {
-                                return $this->setStatus($advancedCustom->defaultVideoStatus);
+                                return $this->setStatus($advancedCustom->defaultVideoStatus->value);
                             } else {
                                 return $this->setStatus(Video::$statusInactive);
                             }
