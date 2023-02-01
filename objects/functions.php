@@ -7060,19 +7060,22 @@ function _setcookie($cookieName, $value, $expires = 0)
         }
         $expires = time() + $config->getSession_timeout();
     }
-
+    $domain = getDomain();
     if (version_compare(phpversion(), '7.3', '>=')) {
         $cookie_options = [
             'expires' => $expires,
             'path' => '/',
-            'domain' => getDomain(),
+            'domain' => $domain,
             'secure' => true,
             'httponly' => true,
             'samesite' => 'None'
         ];
-        return setcookie($cookieName, $value, $cookie_options);
+        setcookie($cookieName, $value, $cookie_options);
+        $cookie_options['domain'] = 'www.'.$domain;
+        setcookie($cookieName, $value, $cookie_options);
     } else {
-        return setcookie($cookieName, $value, (int) $expires, "/", getDomain());
+        setcookie($cookieName, $value, (int) $expires, "/", $domain);
+        setcookie($cookieName, $value, (int) $expires, "/", 'www.'.$domain);
     }
 }
 
