@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 global $global, $config;
-$global['debugMemmory'] = 1;
+//$global['debugMemmory'] = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
