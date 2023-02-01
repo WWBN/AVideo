@@ -754,7 +754,7 @@ if (typeof gtag !== \"function\") {
         if ($insert_row) {
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
-                if (empty($global['emailVerified']) && !empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)) {
+                if (empty($global['emailVerified']) && (!empty($advancedCustomUser->unverifiedEmailsCanNOTLogin) || !empty($advancedCustomUser->sendVerificationMailAutomatic))) {
                     self::sendVerificationLink($id);
                 }
             } else {
