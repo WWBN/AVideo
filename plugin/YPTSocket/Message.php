@@ -500,10 +500,7 @@ class Message implements MessageComponentInterface {
                 if (is_array($server) || is_object($server)) {
                     foreach ($server as $lt) {
                         if (!empty($lt['key'])) {
-                            if ($this->isLiveUsersEnabled()) {
-                                $total_viewers = \LiveUsers::getTotalUsers($lt['key'], $lt['live_servers_id']);
-                            }
-                            $statsList[$lt['key']] = array('total_viewers' => $total_viewers);
+                            $statsList[$lt['key']] = ['total_viewers' => $this->isLiveUsersEnabled() ? \LiveUsers::getTotalUsers($lt['key'], $lt['live_servers_id']) : 0];
                         }
                     }
                 }
