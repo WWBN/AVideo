@@ -10,6 +10,7 @@ if($_SERVER["HTTP_HOST"] === 'localhost' || $_SERVER["HTTP_HOST"] === '127.0.0.1
  * 
  */
 //if(!empty($global['debugMemmory'])){return false;}
+//if(!empty($global['debugMemmory'])){var_dump(__LINE__);exit;}
 //var_dump($_SERVER, $global);exit;
 //$global['stopBotsList'] = array('headless', 'bot','spider','rouwler','Nuclei','MegaIndex','NetSystemsResearch','CensysInspect','slurp','crawler','curl','fetch','loader');
 //$global['stopBotsWhiteList'] = array('facebook','google','bing','yahoo','yandex','twitter');

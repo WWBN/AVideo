@@ -1,5 +1,5 @@
 <?php
-
+$global['debugMemmory'] = 1;
 use React\EventLoop\Loop;
 use React\Async\async;
 use Ratchet\Server\IoServer;
