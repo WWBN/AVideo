@@ -4601,7 +4601,8 @@ function debugMemmory($line){
     }else{
         $increaseB = ($memory-$lastDebugMemory);
         $increase = humanFileSize($increaseB);
-        _error_log("debugMemmory increase: {$increase} from line $lastDebugMemoryLine to line $line total now {$memory} [$increaseB]");
+        $total = humanFileSize($memory);
+        _error_log("debugMemmory increase: {$increase} from line $lastDebugMemoryLine to line $line total now {$total} [$increaseB]");
     }
 }
 
