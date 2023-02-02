@@ -76,7 +76,7 @@ class Meet_schedule extends ObjectYPT {
     }
 
     public function setTopic($topic) {
-        $this->topic = $topic;
+        $this->topic = xss_esc($topic);
     }
 
     public function setStarts($starts) {
