@@ -9489,8 +9489,13 @@ function getTimeInTimezone($time, $timezone)
     if (empty($timezone) || empty(date_default_timezone_get()) || $timezone == date_default_timezone_get()) {
         return $time;
     }
+    try{
+        $dateTimeZone = new DateTimeZone($timezone);
+    }catch(Exception $e){
+        return $time;
+    }
     $date = new DateTime(date('Y-m-d H:i:s', $time));
-    $date->setTimezone(new DateTimeZone($timezone));
+    $date->setTimezone($dateTimeZone);
     //$date->setTimezone(date_default_timezone_get());
     $dateString = $date->format('Y-m-d H:i:s');
     return strtotime($dateString);
