@@ -227,23 +227,23 @@
         },
         {
             "name": "aws/aws-crt-php",
-            "version": "v1.0.2",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/awslabs/aws-crt-php.git",
-                "reference": "3942776a8c99209908ee0b287746263725685732"
+                "reference": "f5c64ee7c5fce196e2519b3d9b7138649efe032d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awslabs/aws-crt-php/zipball/3942776a8c99209908ee0b287746263725685732",
-                "reference": "3942776a8c99209908ee0b287746263725685732",
+                "url": "https://api.github.com/repos/awslabs/aws-crt-php/zipball/f5c64ee7c5fce196e2519b3d9b7138649efe032d",
+                "reference": "f5c64ee7c5fce196e2519b3d9b7138649efe032d",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.5"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35|^5.4.3"
+                "phpunit/phpunit": "^4.8.35|^5.6.3"
             },
             "type": "library",
             "autoload": {
@@ -271,26 +271,26 @@
             ],
             "support": {
                 "issues": "https://github.com/awslabs/aws-crt-php/issues",
-                "source": "https://github.com/awslabs/aws-crt-php/tree/v1.0.2"
+                "source": "https://github.com/awslabs/aws-crt-php/tree/v1.0.4"
             },
-            "time": "2021-09-03T22:57:30+00:00"
+            "time": "2023-01-31T23:08:25+00:00"
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.257.10",
+            "version": "3.258.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "c1168bc3f6a6f370ff400774fdf421c57db31707"
+                "reference": "57cbc06827148d0d4d3f5dbe4b948daa20f82d70"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c1168bc3f6a6f370ff400774fdf421c57db31707",
-                "reference": "c1168bc3f6a6f370ff400774fdf421c57db31707",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/57cbc06827148d0d4d3f5dbe4b948daa20f82d70",
+                "reference": "57cbc06827148d0d4d3f5dbe4b948daa20f82d70",
                 "shasum": ""
             },
             "require": {
-                "aws/aws-crt-php": "^1.0.2",
+                "aws/aws-crt-php": "^1.0.4",
                 "ext-json": "*",
                 "ext-pcre": "*",
                 "ext-simplexml": "*",
@@ -365,9 +365,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.257.10"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.258.3"
             },
-            "time": "2023-01-27T19:23:30+00:00"
+            "time": "2023-02-03T19:25:20+00:00"
         },
         {
             "name": "brick/math",
@@ -1005,16 +1005,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.285.0",
+            "version": "v0.286.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "d8ffb976f4da1f83326d6d3f471162acd23ec5d8"
+                "reference": "4a00eb9803e01f97d96e49fd82dbb03802610def"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/d8ffb976f4da1f83326d6d3f471162acd23ec5d8",
-                "reference": "d8ffb976f4da1f83326d6d3f471162acd23ec5d8",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/4a00eb9803e01f97d96e49fd82dbb03802610def",
+                "reference": "4a00eb9803e01f97d96e49fd82dbb03802610def",
                 "shasum": ""
             },
             "require": {
@@ -1043,9 +1043,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.285.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.286.0"
             },
-            "time": "2023-01-29T01:28:14+00:00"
+            "time": "2023-02-05T01:20:11+00:00"
         },
         {
             "name": "google/auth",
@@ -1613,16 +1613,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.8.0",
+            "version": "2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "720488632c590286b88b80e62aa3d3d551ad4a50"
+                "reference": "e1c0ae1528ce313a450e5e1ad782765c4a8dd3cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/720488632c590286b88b80e62aa3d3d551ad4a50",
-                "reference": "720488632c590286b88b80e62aa3d3d551ad4a50",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/e1c0ae1528ce313a450e5e1ad782765c4a8dd3cb",
+                "reference": "e1c0ae1528ce313a450e5e1ad782765c4a8dd3cb",
                 "shasum": ""
             },
             "require": {
@@ -1637,7 +1637,7 @@
                 "doctrine/couchdb": "~1.0@dev",
                 "elasticsearch/elasticsearch": "^7 || ^8",
                 "ext-json": "*",
-                "graylog2/gelf-php": "^1.4.2",
+                "graylog2/gelf-php": "^1.4.2 || ^2@dev",
                 "guzzlehttp/guzzle": "^7.4",
                 "guzzlehttp/psr7": "^2.2",
                 "mongodb/mongodb": "^1.8",
@@ -1699,7 +1699,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.8.0"
+                "source": "https://github.com/Seldaek/monolog/tree/2.9.0"
             },
             "funding": [
                 {
@@ -1711,7 +1711,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-24T11:55:47+00:00"
+            "time": "2023-02-05T13:07:32+00:00"
         },
         {
             "name": "mtdowling/jmespath.php",
@@ -4440,16 +4440,16 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v5.4.19",
+            "version": "v5.4.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "0c22562d0601e19bd01c4480893f5438e6b12db5"
+                "reference": "b4d936b657c7952a41e89efd0ddcea51f8c90f34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/0c22562d0601e19bd01c4480893f5438e6b12db5",
-                "reference": "0c22562d0601e19bd01c4480893f5438e6b12db5",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/b4d936b657c7952a41e89efd0ddcea51f8c90f34",
+                "reference": "b4d936b657c7952a41e89efd0ddcea51f8c90f34",
                 "shasum": ""
             },
             "require": {
@@ -4507,7 +4507,7 @@
             "description": "Provides powerful methods to fetch HTTP resources synchronously or asynchronously",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v5.4.19"
+                "source": "https://github.com/symfony/http-client/tree/v5.4.20"
             },
             "funding": [
                 {
@@ -4523,7 +4523,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-12T15:47:53+00:00"
+            "time": "2023-01-25T18:32:18+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
