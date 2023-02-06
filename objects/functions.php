@@ -4673,6 +4673,7 @@ function _mysql_connect($persistent = false, $try = 0)
             return false;
         }
     }
+    return true;
 }
 
 function _mysql_commit(){
