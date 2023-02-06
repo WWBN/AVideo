@@ -79,18 +79,18 @@ if (!empty($head_videos_id)) {
 <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
 <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
 
-<link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
 if (!isBot()) {
-    ?>
-    <link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'"/>
-    <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'"/>
-    <link href="<?php echo getURL('view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'"/>
-    <link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'"/>
-    <link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'"/>
-    <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'"/>
-    <link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'"/>
-    <?php
+?>
+    <link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
+    <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
+    <link href="<?php echo getURL('view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
+    <link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
+    <link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
+    <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'" />
+    <link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'" />
+<?php
 }
 if (!isVideo()) {
     if (!empty($metaDescription)) {
@@ -104,16 +104,16 @@ if (!isVideo()) {
     echo '<meta name="description" content="' . $metaDescription . '">';
 }
 if (empty($advancedCustom->disableAnimations)) {
-    ?>
-    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet"  type="text/css"  media="print" onload="this.media = 'all'"/>
-    <?php
+?>
+    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'" />
+<?php
 }
 include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
 ?>
 <?php
 TimeLogEnd($timeLogHead, __LINE__);
 ?>
-<link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS"/>
+<link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
 <?php
 if (empty($global['userBootstrapLatest'])) {
     $filename = Video::getStoragePath() . "cache/custom.css";
@@ -136,45 +136,66 @@ if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exis
     echo '<link href="" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
 }
 ?>
-<link href="<?php echo getURL('view/css/main.css'); ?>" rel="stylesheet" type="text/css"/>    
+<link href="<?php echo getURL('view/css/main.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
 TimeLogEnd($timeLogHead, __LINE__);
 if (isRTL()) {
-    ?>
+?>
 
     <style>
-        .principalContainer, #mainContainer, #bigVideo, .mainArea, .galleryVideo, #sidebar, .navbar-header li,
-        .panel-heading, th, td, a, .panel-footer, .label {
-            direction:rtl;
-            unicode-bidi:embed;
+        .principalContainer,
+        #mainContainer,
+        #bigVideo,
+        .mainArea,
+        .galleryVideo,
+        #sidebar,
+        .navbar-header li,
+        .panel-heading,
+        th,
+        td,
+        a,
+        .panel-footer,
+        .label {
+            direction: rtl;
+            unicode-bidi: embed;
         }
-        #sidebar .nav{
+
+        #sidebar .nav {
             padding-right: 0;
         }
-        .dropdown-menu, .navbar-header li a, #sideBarContainer .btn {
+
+        .dropdown-menu,
+        .navbar-header li a,
+        #sideBarContainer .btn {
             text-align: right !important;
         }
-        .dropdown-submenu a{
+
+        .dropdown-submenu a {
             width: 100%;
         }
-        .galeryDetails div{
+
+        .galeryDetails div {
             float: right !important;
         }
-        #saveCommentBtn{
+
+        #saveCommentBtn {
             border-width: 1px;
             border-right-width: 0;
         }
+
         .pull-left {
-            float: right!important;
+            float: right !important;
         }
+
         .pull-right {
-            float: left!important;
+            float: left !important;
         }
-        .material-switch{
+
+        .material-switch {
             direction: initial;
         }
-    </style>    
-    <?php
+    </style>
+<?php
 }
 ?>
 <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
@@ -198,27 +219,9 @@ if (isRTL()) {
     var avideoModalIframeFullScreenCloseButtonSmall = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 4, 'class="btn btn-default btn-sm pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
     var PHPSESSID = "<?php echo session_id(); ?>";
 </script>
-    <?php
-    if (!isOffline() && !$config->getDisable_analytics()) {
-        ?>
-    <script>
-        // AVideo Analytics
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-        ga('create', 'UA-96597943-1', 'auto', 'aVideo');
-        ga('aVideo.send', 'pageview');
-    </script>
-    <?php
+<?php
+if (!isOffline() && !$config->getDisable_analytics()) {
+    include_once $global['systemRootPath'] . 'view/include/ga.php';
 }
 TimeLogEnd($timeLogHead, __LINE__);
 if (!isBot()) {
