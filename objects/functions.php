@@ -4631,7 +4631,7 @@ function blackListRegenerateSession()
     return false;
 }
 
-function _mysql_connect($persistent = false)
+function _mysql_connect($persistent = false, $try = 0)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
 
@@ -4662,10 +4662,16 @@ function _mysql_connect($persistent = false)
             }
         }
     } catch (Exception $exc) {
-        _error_log($exc->getTraceAsString());
-        include $global['systemRootPath'] . 'view/include/offlinePage.php';
-        exit;
-        return false;
+        if(empty($try)){
+            _error_log('Error on connect, trying again');
+            sleep(1);
+            return _mysql_connect($persistent, $try+1);
+        }else{
+            _error_log($exc->getTraceAsString());
+            include $global['systemRootPath'] . 'view/include/offlinePage.php';
+            exit;
+            return false;
+        }
     }
 }
 
