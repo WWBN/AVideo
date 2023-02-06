@@ -2400,8 +2400,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $latest['key'];
     }
     
-    public static function getLatest() {
-        $latest = LiveTransmitionHistory::getLatest();
+    public static function getLatest($active=false) {
+        $latest = LiveTransmitionHistory::getLatest('', null, $active);
         if (empty($latest)) {
             return false;
         }

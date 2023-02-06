@@ -9,7 +9,7 @@ if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
 
-$liveVideo = Live::getLatest();
+$liveVideo = Live::getLatest(true);
 if (!empty($liveVideo)) {
     setLiveKey($liveVideo['key'], $liveVideo['live_servers_id'], $liveVideo['live_index']);
     $poster = getURL(Live::getPosterImage($liveVideo['users_id'], $liveVideo['live_servers_id']));
