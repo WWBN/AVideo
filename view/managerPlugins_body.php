@@ -5,6 +5,7 @@ foreach ($uuids as $value) {
     $rowId[] = " row.uuid != '{$value}' ";
 }
 $uuidJSCondition = implode(" && ", $rowId);
+$wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
 ?>
 <style>
     td.wrapText{white-space: normal;}
@@ -464,7 +465,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                     var editBtn = '';
 
                     if (row.id && !$.isEmptyObject(row.data_object)) {
-                        editBtn = '<button type="button" class="btn btn-xs btn-default command-edit  btn-block" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <?php echo __('Edit parameters'); ?></button>';
+                        editBtn = '<button type="button" class="btn btn-xs btn-default command-edit  btn-block" data-row-id="' + row.id + '" data-pname="' + row.name + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <?php echo __('Edit parameters'); ?></button>';
                     }
                     var sqlBtn = '';
                     if (row.databaseScript && row.isPluginTablesInstalled) {
@@ -485,7 +486,7 @@ $uuidJSCondition = implode(" && ", $rowId);
                             if (row.enabled) {
                                 checked = " checked='checked' ";
                             }
-                            switchBtn = '<div class="material-small material-switch pull-left"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
+                            switchBtn = '<div class="material-small material-switch pull-left"><input name="enable' + row.uuid + '" id="enable' + row.uuid + '" type="checkbox" value="0" class="pluginSwitch" data-pname="' + row.name + '" ' + checked + ' /><label for="enable' + row.uuid + '" class="label-success"></label></div>';
                         }
 
                     } else {
@@ -567,6 +568,7 @@ $uuidJSCondition = implode(" && ", $rowId);
             grid.find(".pluginSwitch").on("change", function (e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                var this_ = $(this);
                 modal.showPleaseWait();
                 $.ajax({
                     url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
@@ -574,7 +576,18 @@ $uuidJSCondition = implode(" && ", $rowId);
                     type: 'post',
                     success: function (response) {
                         modal.hidePleaseWait();
-                        $("#grid").bootgrid('reload');
+                        if (this_.data("pname") == "WWBNIndex") {
+                            $.ajax({
+                                url: "<?= $global['webSiteRootURL']; ?>plugin/WWBNIndex/ajax.php",
+                                data: {"action": "changePluginStatus", "enabled": this_.is(":checked")},
+                                type: "post",
+                                success: function (response) {
+                                    window.location.reload();
+                                }
+                            });
+                        } else {
+                            $("#grid").bootgrid('reload');
+                        }
                     }
                 });
             });
@@ -625,6 +638,17 @@ $uuidJSCondition = implode(" && ", $rowId);
                     }
                 });
             });
+
+            if ($(".command-edit[data-pname=WWBNIndex]").length > 0) {
+                $(".command-edit[data-pname=WWBNIndex]").remove();
+            }
+            <?php 
+            if ($wwbnIndexPlugin) {
+            ?>
+            <?php    
+                include("{$global['systemRootPath']}plugin/WWBNIndex/script.php");
+            }
+            ?>
         });
         $('#savePluginBtn').click(function (evt) {
             modal.showPleaseWait();
