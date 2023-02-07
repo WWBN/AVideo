@@ -9,11 +9,29 @@ if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
 
+$objectToReturnToParentIframe = new stdClass();
+$objectToReturnToParentIframe->isLive = false;
+$objectToReturnToParentIframe->isVOD = false;
+$objectToReturnToParentIframe->title = '';
+$objectToReturnToParentIframe->posterURL = '';
+$objectToReturnToParentIframe->duration = '';
+$objectToReturnToParentIframe->views_count = 0;
+$objectToReturnToParentIframe->videoHumanTime = '';
+$objectToReturnToParentIframe->creator = '';
+
 $liveVideo = Live::getLatest(true);
 if (!empty($liveVideo)) {
     setLiveKey($liveVideo['key'], $liveVideo['live_servers_id'], $liveVideo['live_index']);
     $poster = getURL(Live::getPosterImage($liveVideo['users_id'], $liveVideo['live_servers_id']));
     $sources = "<source src=\"" . Live::getM3U8File($liveVideo['key']) . "\" type=\"application/x-mpegURL\">";
+    $objectToReturnToParentIframe->isLive = true;
+    $objectToReturnToParentIframe->title = Live::getTitleFromKey($liveVideo['key']);
+
+    $objectToReturnToParentIframe->duration = __('Live');
+    $objectToReturnToParentIframe->videoHumanTime = __('Now');
+    $objectToReturnToParentIframe->creator = User::getNameIdentificationById($liveVideo['users_id']);
+    
+    $objectToReturnToParentIframe->mediaSession = Live::getMediaSession($liveVideo['key'], $liveVideo['live_servers_id']);
 } else {
     $_POST['rowCount'] = 1;
     $videos = Video::getAllVideos();
@@ -23,7 +41,17 @@ if (!empty($liveVideo)) {
     $video = $videos[0];
     $poster = Video::getPoster($video['id']);
     $sources = getSources($video['filename']);
+    $objectToReturnToParentIframe->isVOD = true;
+    $objectToReturnToParentIframe->title = $video['title'];
+    $objectToReturnToParentIframe->duration = $video['duration'];
+    $objectToReturnToParentIframe->views_count = $video['views_count'];
+    $objectToReturnToParentIframe->videoHumanTime = humanTiming(strtotime($video['videoCreation']), 0, true, true);
+    $objectToReturnToParentIframe->creator = User::getNameIdentificationById($video['users_id']);
+    
+    $objectToReturnToParentIframe->mediaSession = Video::getMediaSession($video['id']);
 }
+$objectToReturnToParentIframe->posterURL = $poster;
+
 //var_dump($liveVideo, $video['id'], $poster, $sources);exit;
 ?>
 <!DOCTYPE html>
@@ -33,7 +61,7 @@ if (!empty($liveVideo)) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="<?php echo getCDN(); ?>view/img/favicon.ico">
-        <title><?php echo $liveTitle; ?></title>
+        <title><?php echo $objectToReturnToParentIframe->title; ?></title>
         <link href="<?php echo getURL('view/bootstrap/css/bootstrap.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
@@ -67,7 +95,7 @@ if (!empty($liveVideo)) {
             <video poster="<?php echo $poster; ?>" controls  <?php echo PlayerSkins::getPlaysinline(); ?> 
                    class="video-js vjs-default-skin vjs-big-play-centered"
                    id="mainVideo" style="width: 100%; height: 100%; position: absolute;">
-                       <?php echo $sources; ?>
+<?php echo $sources; ?>
             </video>
         </div>
 
@@ -106,6 +134,15 @@ echo PlayerSkins::getStartPlayerJS();
         showCloseButton();
         ?>  
         <!-- getFooterCode end -->
+        <script>
+            /*
+             * add this code in your parent page
+             window.addEventListener("message", function (event) {
+             console.log(event.data);
+             });
+             */
+            parent.postMessage(<?php echo _json_encode($objectToReturnToParentIframe); ?>, "*");
+        </script>
     </body>
 </html>
 
