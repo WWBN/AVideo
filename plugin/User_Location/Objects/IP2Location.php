@@ -15,7 +15,7 @@ class IP2Location extends ObjectYPT {
     }
 
     static function getLocation($ip) {
-        if(!self::isTableInstalled() || !AVideoPlugin::isEnabledByName('User_Location')){
+        if (!self::isTableInstalled() || !AVideoPlugin::isEnabledByName('User_Location')) {
             return false;
         }
         // samples
@@ -63,7 +63,7 @@ class IP2Location extends ObjectYPT {
 
     // Function to convert IP address to IP number (IPv6)
     static function Dot2LongIPv6($IPaddr) {
-        if(!function_exists("gmp_strval")){
+        if (!function_exists("gmp_strval")) {
             _error_log("To query IPV6 you must install php-gmp (apt-get install php-gmp)");
             return 0;
         }
@@ -189,6 +189,45 @@ class IP2Location extends ObjectYPT {
         }
 
         return _json_decode($content);
+    }
+
+    static function getNorthAmericaCountries() {
+        $countries = array(
+            "Antigua and Barbuda",
+            "Bahamas",
+            "Barbados",
+            "Belize",
+            "Canada",
+            "Costa Rica",
+            "Cuba",
+            "Dominica",
+            "Dominican Republic",
+            "El Salvador",
+            "Grenada",
+            "Guam",
+            "Guatemala",
+            "Haiti",
+            "Honduras",
+            "Jamaica",
+            "Marshall Islands",
+            "Mexico",
+            "Nicaragua",
+            "Northern Mariana Islands",
+            "Palau",
+            "Panama",
+            "Puerto Rico",
+            "Saint Barthelemy",
+            "Saint Kitts and Nevis",
+            "Saint Lucia",
+            "Saint Pierre and Miquelon",
+            "Saint Vincent and The Grenadines",
+            "Samoa",
+            "Trinidad and Tobago",
+            "United States",
+            "United States Minor Outlying Islands",
+            "Virgin Islands, U.S.",
+        );
+        return $countries;
     }
 
 }
