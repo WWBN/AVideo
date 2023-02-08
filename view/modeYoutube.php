@@ -79,6 +79,8 @@ if (!empty($evideo)) {
         $playListData = $plp->getPlayListData();
         
         $video = $plp->getCurrentVideo();
+        
+        $_getVideos_id = intval($video['id']);
         $playlist_index = $plp->getIndex();
 
         if (empty($playListData)) {
