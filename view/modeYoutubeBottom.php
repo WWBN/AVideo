@@ -5,7 +5,8 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 if ((empty($video) || !is_array($video) ) && !empty($_GET['videos_id'])) {
     $video = Video::getVideo(intval($_GET['videos_id']), "viewable", true, false, true, true);
-    $video['creator'] = Video::getCreatorHTML($video['users_id'], '<div class="clearfix"></div><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small>');
+    $created = !empty($video['videoCreation'])?$video['videoCreation']:$video['created'];
+    $video['creator'] = Video::getCreatorHTML($video['users_id'], '<div class="clearfix"></div><small>' . humanTiming(_strtotime($created)) . '</small>');
     $source = Video::getSourceFile($video['filename']);
     if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
         $img = $source['url'];
