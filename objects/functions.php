@@ -138,6 +138,9 @@ function get_max_file_size()
 
 function humanTiming($time, $precision = 0, $useDatabaseTime = true, $addAgo = false)
 {
+    if(empty($time)){
+        return '';
+    }
     $time = secondsIntervalFromNow($time, $useDatabaseTime);
 
     if ($addAgo) {
