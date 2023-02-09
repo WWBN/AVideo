@@ -13,7 +13,7 @@ This Software must be used for Good, never Evil. The use of this software for cr
     <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
 </center>
 
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg?style=flat-square)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg?style=flat-square)](https://php.net/)
 [![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
 
 # Demonstration Sites
