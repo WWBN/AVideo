@@ -4,7 +4,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
 
 ## Audio Video Platform
-AVideo is a term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with audio video. AVideo Platform is an Audio and Video Platform or simply "A Video Platform".
+AVideo is a term that can be interpreted in a variety of ways, but most commonly refers to anything related to video. As the name doesn't have a specific meaning, it is primarily associated with audio-video. The AVideo Platform is a platform for both audio and video content, and can also be referred to simply as "A Video Platform".
 
 * AVideo - Audio Video
 * AVideo Platform - Audio Video Platform
@@ -15,10 +15,10 @@ AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.co
 
 ## AN AVideo Platform Instance
 
-When we say a clone or copy of AVideo we mean an instance of AVideo Platform Enterprise or Open-Source and every instance of the AVideo Platform can be indexed as a network in the World Wide Broadcast Network Platform System.
+When referring to a clone or duplicate of AVideo, we are referring to either an instance of the AVideo Platform Enterprise or Open-Source version. Each instance of the AVideo Platform can be catalogued as part of the World Wide Broadcast Network Platform System..
 
 ### AVideo trademark is FREE to use
-AVideo is a registered trademark owned by WWBN/PeachWiz (World Wide Broadcast Network) the media division of PeachWiz, Inc. and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://avideo.tube/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
+AVideo is a trademark registered to WWBN/PeachWiz, the media division of PeachWiz, Inc. The trademark is closely tied to the AVideo Platform, which is offered by WWBN in both Enterprise and Open-Source versions. Distribution of the AVideo trademark is permitted in conjunction with the AVideo Platform products provided by WWBN and is governed by the terms of the GNU-GPL and CDDL open source licenses. <a href="https://avideo.tube/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
 * Word Mark:	AVIDEO
 * Translations:	"AVideo" has no meaning in any foreign language.
 * Description:	"AVideo" constitutes Audio Video.
@@ -30,9 +30,15 @@ AVideo is a registered trademark owned by WWBN/PeachWiz (World Wide Broadcast Ne
 * Registration Number:	3625659
 
 #### About the project re-brand.
- Originally the open-source version was offered as YouPHPTube, and marketed as a YouTube Clone (after the popular video sharing site), we decided to rebrand our open-source audio video platform project from YouPHPTube to <strong>AVideo Platform</strong> which constitutes <strong>Audio Video Platform</strong>. In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/marketplace/" target="_blank">youphp.tube</a>, youtube clone, clone script, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners. Follow us on <a href="https://www.facebook.com/avideo/">Facebook</a>
-#
+
+Initially, the open-source offering of our platform was known as YouPHPTube and marketed as a clone of the popular video-sharing site, YouTube. After careful consideration, we decided to rebrand our open-source audio-video platform project from YouPHPTube to AVideo Platform, which accurately reflects its purpose as an Audio-Video Platform.
+
+Please note that in some plugins, forks, versions, modules, APIs, documentation, and file names, there may be references to YouPHPTube, YouPHP.tube, YouTube Clone, Clone Script, SearchTube, AdTube, ShowTube, or Searchmercials. It's important to note that WWBN owns the trademarks for Searchmercials, SearchTube, AdTube, ShowTube, AVideo, and WWBN, among others. Any other trademarks or similarities referenced in any files, documents, wikis, plugins, code, modules, APIs, integrations, technologies, or links belong to their respective owners.
+
+Thank you for considering our platform, and we welcome you to follow us on [Facebook](https://www.facebook.com/avideo/) for the latest updates and information.
+
 # AVideo Platform Open-Source Project
+
 ## AVideo Platform Open-Source Consist of THREE main Areas:
 <img src="https://avideo.tube/website/assets/151/images/svg/balancing.svg"/>
 
