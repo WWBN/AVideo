@@ -5,9 +5,13 @@ I thank God for graciously, through His mercy, giving me all the necessary knowl
 **For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
 `Apostle Paul in Romans 11:36`
 
-**This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.**
+## Terms of Agreement for Software Installation regarding the Purpose of the software
 
-<img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
+This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.
+
+<center>
+    <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
+</center>
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg?style=flat-square)](https://php.net/)
 [![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
