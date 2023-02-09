@@ -61,11 +61,7 @@ In summary, you will need:
 
 ## Separated live server
 
-[Install Nginx](https://github.com/WWBN/AVideo/wiki/Set-up-my-own-Stream-Server)
-
-## Notice:
-
-We highly recommend you keep your instance of AVideo Platform updated to the latest release. If you have updated your instance to version 8.0, your old plugins will not work, just download and [install](https://github.com/WWBN/AVideo/wiki/How-To-Install-a-new-Plugin) them again and you should be fine.
+The live server is already provided in the installation links above, but if you want to install it separately please follow [the guide](https://github.com/WWBN/AVideo/wiki/Set-up-my-own-Stream-Server) for installation instructions
 
 # Usage
 
