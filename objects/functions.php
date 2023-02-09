@@ -1426,17 +1426,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
 
     $cacheName = "getVideosURL_V2$fileName";
     if (empty($recreateCache)) {
-        $pdf = $paths['path'] . "{$cleanfilename}.pdf";
-        $mp3 = $paths['path'] . "{$cleanfilename}.mp3";
-
-        $extraFiles = array();
-
-        if (file_exists($pdf)) {
-            $extraFiles = array_merge($extraFiles, getVideosURLPDF($fileName));
-        }
-        if (file_exists($mp3)) {
-            $extraFiles = array_merge($extraFiles, getVideosURLAudio($mp3, true));
-        }
+        
         $lifetime = maxLifetime();
 
         $TimeLog1 = "getVideosURL_V2($fileName) empty recreateCache";
@@ -1496,6 +1486,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
 
         $timeName = "getVideosURL_V2::foreach";
         TimeLogStart($timeName);
+        $isAVideo = false;
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
             
@@ -1527,6 +1518,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
             }
             $type = 'video';
             if (in_array($parts['extension'], $video)) {
+                $isAVideo = true;
                 $type = 'video';
             } elseif (in_array($parts['extension'], $audio)) {
                 $type = 'audio';
@@ -1556,9 +1548,29 @@ function getVideosURL_V2($fileName, $recreateCache = false)
             $files[$key] = AVideoPlugin::modifyURL($_file);
         }
         TimeLogEnd($timeName, __LINE__);
-        if (is_array($extraFiles)) {
-            $files = array_merge($extraFiles, $files);
+        
+        $pdf = $paths['path'] . "{$cleanfilename}.pdf";
+        $mp3 = $paths['path'] . "{$cleanfilename}.mp3";
+
+        $extraFiles = array();
+        if (file_exists($pdf)) {
+            $extraFilesPDF = getVideosURLPDF($fileName);
+            if($isAVideo){
+                unset($extraFilesPDF['jpg']);
+                unset($extraFilesPDF['pjpg']);
+            }
+            $extraFiles = array_merge($extraFiles, $extraFilesPDF);
         }
+        if (file_exists($mp3)) {
+            $extraFilesMP3 = getVideosURLAudio($mp3, true);
+            if($isAVideo){
+                unset($extraFilesMP3['jpg']);
+                unset($extraFilesMP3['pjpg']);
+            }
+            $extraFiles = array_merge($extraFiles, $extraFilesMP3);
+        }
+        $files = array_merge($extraFiles, $files);
+        
         ObjectYPT::setCache($cacheName, $files);
     }
     if (is_array($files)) {
@@ -4100,7 +4112,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
         _error_log("convertImageIfNotExists: source image is empty");
         return false;
     }
-    $source = str_replace(array('_thumbsSmallV2', '_portrait'), array('',''), $source);
+    $source = str_replace(array('_thumbsSmallV2'), array(''), $source);
     if (!file_exists($source)) {
         _error_log("convertImageIfNotExists: source does not exists {$source}");
         return false;
