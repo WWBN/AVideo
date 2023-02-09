@@ -5,7 +5,7 @@ I thank God for graciously, through His mercy, giving me all the necessary knowl
 **For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
 `Apostle Paul in Romans 11:36`
 
-## Terms of Agreement for Software Installation regarding the Purpose of the software
+## Agreement on the Purpose of Software Installation
 
 This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.
 
