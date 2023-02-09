@@ -20,7 +20,7 @@ This Software must be used for Good, never Evil. The use of this software for cr
 
 * <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
   - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
-* <a href="https://tutorials.wwbn.net/" target="_blank">AVideo Platform Gallery Demo</a>
+* <a href="https://tutorials.avideo.com/" target="_blank">AVideo Platform Gallery Demo</a>
   - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
 * <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
