@@ -1,81 +1,18 @@
+# First thing...
+
+I thank God for graciously, through His mercy, giving me all the necessary knowledge acquired throughout my life and throughout the development of this project. It is only through His grace and provision that this was possible, and I am truly grateful for His presence every step of the way.
+
+**For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
+`Apostle Paul in Romans 11:36`
+
+## This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.
+
 <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg?style=flat-square)](https://php.net/)
 [![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
 
-## Audio Video Platform
-AVideo is a term that can be interpreted in a variety of ways, but most commonly refers to anything related to video. As the name doesn't have a specific meaning, it is primarily associated with audio-video. The AVideo Platform is a platform for both audio and video content, and can also be referred to simply as "A Video Platform".
 
-* AVideo - Audio Video
-* AVideo Platform - Audio Video Platform
-* OAVP - Online Audio Video Platform
-* OVP - Online Video Platform
-
-AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://avideo.tube/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://avideo.tube/AVideo_OpenSource">Open-Source Project</a>.
-
-## AN AVideo Platform Instance
-
-When referring to a clone or duplicate of AVideo, we are referring to either an instance of the AVideo Platform Enterprise or Open-Source version. Each instance of the AVideo Platform can be catalogued as part of the World Wide Broadcast Network Platform System..
-
-### AVideo trademark is FREE to use
-AVideo is a trademark registered to WWBN/PeachWiz, the media division of PeachWiz, Inc. The trademark is closely tied to the AVideo Platform, which is offered by WWBN in both Enterprise and Open-Source versions. Distribution of the AVideo trademark is permitted in conjunction with the AVideo Platform products provided by WWBN and is governed by the terms of the GNU-GPL and CDDL open source licenses. <a href="https://avideo.tube/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
-* Word Mark:	AVIDEO
-* Translations:	"AVideo" has no meaning in any foreign language.
-* Description:	"AVideo" constitutes Audio Video.
-* Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
-* Standard Characters: Claimed
-* Mark Drawing Code:	(4) STANDARD CHARACTER MARK
-* Trademark Search Facility Classification Code:	LETS-1 A A single letter, multiples of a single letter or in combination with a design
-* Serial Number:	77450549
-* Registration Number:	3625659
-
-#### About the project re-brand.
-
-Initially, the open-source offering of our platform was known as YouPHPTube and marketed as a clone of the popular video-sharing site, YouTube. After careful consideration, we decided to rebrand our open-source audio-video platform project from YouPHPTube to AVideo Platform, which accurately reflects its purpose as an Audio-Video Platform.
-
-Please note that in some plugins, forks, versions, modules, APIs, documentation, and file names, there may be references to YouPHPTube, YouPHP.tube, YouTube Clone, Clone Script, SearchTube, AdTube, ShowTube, or Searchmercials. It's important to note that WWBN owns the trademarks for Searchmercials, SearchTube, AdTube, ShowTube, AVideo, and WWBN, among others. Any other trademarks or similarities referenced in any files, documents, wikis, plugins, code, modules, APIs, integrations, technologies, or links belong to their respective owners.
-
-Thank you for considering our platform, and we welcome you to follow us on [Facebook](https://www.facebook.com/avideo/) for the latest updates and information.
-
-# AVideo Platform Open-Source Project
-
-## AVideo Platform Open-Source Consist of THREE main Areas:
-<img src="https://avideo.tube/website/assets/151/images/svg/balancing.svg"/>
-
-#### (Management/Encoding/Storage)
-1. Management Project(s): <a href="http://git.avideo.tube/" class="" target="_blank">AVideo Platform</a>
-1. Encoding Project(s): <a href="http://git-encoder.avideo.tube/" class="" target="_blank">AVideo Encoder</a> & <a href="http://git-encoder-network.avideo.tube/" class="" target="_blank">AVideo Encoder Network</a> (Optional)
-1. Storage Project(s): <a href="http://git-storage.avideo.tube/" class="" target="_blank">AVideo Storage</a>
-
-Management life cycle is as follows; media is managed at the platform at 1, media is then uploaded to a temporary storage to be encoded at 2, then stored for broadcast at 3, then distributed to devices at 1 to be consumed.
-
-#### About AVideo Platform Open-Source
-Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. AVideo Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances throughout the world.  Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
-
-The AVideo Platform Plugin Design allows you to get exactly the solution that addresses your needs today, while ensuring that your Broadcast Network implementation can grow and expand with you as your needs evolve.
-
-<div align="center"><img src="https://avideo.tube/website/assets/151/images/open_source_banner.png"/></div>
-
-# Create Your Own Broadcast Network With AVideo Platform
-
-## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get platform innovation details, bug fixes, and contribute the continued evolution of AVideo Platform.
-
-## Along with this re-brand come a slew of value added benefits for all AVideo Platform instances.
-* Each AVideo Platform clone is considered a broadcast network
-* Each broadcast network is indexed in our World Wide Broadcast Network Platform System
-* Each broadcast network can use our ad network
-* Each broadcast network can use our Open Systems TV platform (Coming Soon)
-* Each broadcast network has channels and each channel has programs <a href="https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Channel-Programming-Documentation">Learn more</a>
-
-And more to come in 2020. Our mission is to take your video sharing site to "The Next Level" Internet TV.
-
-WWBN offers relevant and practical solutions, as well as valuable innovative technology, designed to increase the efficiency of advertising and broadcasting operations and maximize revenue opportunities for our customers and partners.
-
-### WHERE WE DELIVER
-PROFITABLE STRATEGIES - We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
-
-### To learn more about AVideo Platform visit the <a href="https://avideo.tube/" target="_blank">AVideo Platform Official Site</a>.
-### To learn more about the history of the AVideo Paroject <a href="https://wwbn.com/AVideo_Platform" target="_blank">WWBN Project Page</a>
 
 ### To see a demo select one below.
 * <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
@@ -85,20 +22,9 @@ PROFITABLE STRATEGIES - We provide companies with new business models that evolv
 * <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
 
-
-
 # Notice:
-### We highly recommend you keep your instance of AVideo Platform updated to the latest release. If you have updated your instance to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
-# First thing...
-I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible.
-
-**For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
-`Apostle Paul in Romans 11:36`
-
-## This Software must be used for Good, never Evil. It is expressly forbidden to use AVideo Platform Open-Source to build porn sites, violence, racism, terrorism, or anything else that affects human integrity or denigrates the image of anyone.
-
-## Now you can read the rest...
+## We highly recommend you keep your instance of AVideo Platform updated to the latest release. If you have updated your instance to version 8.0, your old plugins will not work, just download them again and you should be fine.
 
 ## Important Information
 
