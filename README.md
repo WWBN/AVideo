@@ -5,16 +5,15 @@ I thank God for graciously, through His mercy, giving me all the necessary knowl
 **For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
 `Apostle Paul in Romans 11:36`
 
-## This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.
+**This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.**
 
 <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg?style=flat-square)](https://php.net/)
 [![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
 
+# Demo Sites
 
-
-### To see a demo select one below.
 * <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
   - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
 * <a href="https://tutorials.wwbn.net/" target="_blank">AVideo Platform Gallery Demo</a>
@@ -22,73 +21,73 @@ I thank God for graciously, through His mercy, giving me all the necessary knowl
 * <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
   - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
 
-# Notice:
+# AVideo
 
-## We highly recommend you keep your instance of AVideo Platform updated to the latest release. If you have updated your instance to version 8.0, your old plugins will not work, just download them again and you should be fine.
+AVideo is divided into three distinct components: the streamer, the encoder, and the live server. The streamer is utilized to play and manage videos, while the encoder converts your videos into a web-compatible format. The live server, on the other hand, is used to broadcast live videos.
 
-## Important Information
+## Why do I need the Encoder?
 
-> Streamer can be installed on any Server, including Windows, but the encoder and Livestream should work fine on any Linux distribution. However we recommend Ubuntu 20.04 without any kind of control panel.
-> The problem with cPanel, Plesk, Webmin, VestaCP, etc. It's because we need full root access to install some libs, and maybe compile them. Another important point is that to make Livestream work, we need to compile Nginx and the control panels often prevent us from running the commands forcing the installation available only on your panel.
+There may be several reasons why you may consider installing the encoder, such as having a faster server compared to the public encoder server, or if you prefer a private method for encoding your videos
 
-I don´t want to read I just want you to show me how to install!!
-
-Ok, <a href="https://tutorials.wwbn.net/video/streamer-and-encoder">check this out!</a>
-
-For text-based tutorials and the manual, <a href="https://github.com/WWBN/AVideo/wiki/Admin-manual"> look here</a>.
-
-There, you can find some hints for troubleshooting as well.
-
-### AVideo Platform Mobile APP
-<a href="https://play.google.com/store/apps/details?id=platform.avideo.com">Android</a>
-
-## AVideo Platform Certified
-#### Need Help With Installation or Plugins? Feel free to ask us for help from the AVideo Platform Certified developers.
-
-<a href="https://youphp.tube/marketplace/">Daniel Neto</a>
-
-# AVideo - Streamer
-AVideo! is an video-sharing website, It is an open source solution that is freely available to everyone. With AVideo you can create your own video sharing site, AVideo will help you import and encode videos from other sites like Youtube, Vimeo, etc. and you can share directly on your website. In addition, you can use Facebook or Google login to register users on your site. The service was created in march 2017.
-
-<div align="center">
-<img src="https://avideo.tube/website/assets/151/images/who-we-are.jpg">
-<a href="http://demo.avideo.com/" target="_blank">View Demo</a>
-</div>
-
-# AVideo - Encoder
-Go get it <a href="https://github.com/WWBN/AVideo-Encoder" target="_blank">here</a>
-
-<div align="center">
-<img src="https://avideo.tube/website/assets/151/images/encoder_img.png">
-<a href="https://encoder1.wwbn.net/" target="_blank">View Public Encoder</a>
-</div>
-
-# Why do I need the Encoder?
-You may want to install the encoder for a few reasons, such as, if you have a faster server than the public encoder server (which is likely to be the case), or if you'd like a private way of encoding your videos.
-
-But, the installation is mandatory if you are using a private network. The public encoder will not have access to send the videos to your streamer site.
-
-If your server does not have a public IP or uses an IP on some of these bands:
-- 10.0.0.0/8
-- 127.0.0.0/8 (Localhost)
-- 172.16.0.0/12
-- 192.168.0.0/16
-
-Surely you need to install an encoder
+Additionally, if your server is on a private network and does not have a public IP address, or if it uses an IP address within the 10.0.0.0/8, 127.0.0.0/8 (Localhost), 172.16.0.0/12, or 192.168.0.0/16 range, it is mandatory to install an encoder in order for it to properly communicate with the streamer site.
 
 # Server Requirements
 
-In order for you to be able to run AVideo Platform, there are certain tools that need to be installed on your server. Don't worry, they are all FREE. To have a look at complete list of required tools, click the link below. https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Hardware-Requirements
+To run the AVideo Platform, it is necessary to have certain tools installed on your server. Fortunately, all of these tools are available for free. For a comprehensive list of the required tools, please refer to the following link: https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Hardware-Requirements.
 
-- PHP 7.3+
-- MySQL 5.0+
-- Apache web server 2.x (with mod_rewrite enabled)
+In summary, you will need:
 
-## Docker
+- PHP version 7.4 or higher
+- MySQL version 5.0 or higher
+- Apache web server version 2.x with mod_rewrite enabled.
+
+## Important Note: Please Avoid Using Servers with Control Panels
+
+> It is important to note that while the Streamer component can be installed on any server, including Windows, the Encoder and Livestream components are recommended to be installed on a Linux distribution, specifically Ubuntu, without any control panel.
+
+> The reason for this is that control panels such as cPanel, Plesk, Webmin, VestaCP, etc. may limit access to the root system, preventing the installation of necessary libraries and the compilation of certain software. Furthermore, the Livestream component requires the compilation of Nginx, which may not be possible with these control panels.
+
+# Installation
+
+[Video Tutorial](https://tutorials.avideo.com/video/streamer-and-encoder) (old but gives you a good idea)
+[Ubuntu 16.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-16.x-For-AVideo-Platform-version-4.x-or-newer)
+[Ubuntu 18.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-18.x-for-AVideo-Platform-version-4.x-or-newer)
+[Ubuntu 20.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-20.x-for-AVideo-Platform-version-11.x-or-newer)
+[Ubuntu 22.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-22.x-for-AVideo-Platform-version-11.x-or-newer)
+
+## Separated live server
+
+[Install Nginx](https://github.com/WWBN/AVideo/wiki/Set-up-my-own-Stream-Server)
+
+## Notice:
+
+We highly recommend you keep your instance of AVideo Platform updated to the latest release. If you have updated your instance to version 8.0, your old plugins will not work, just download and [install](https://github.com/WWBN/AVideo/wiki/How-To-Install-a-new-Plugin) them again and you should be fine.
+
+# Usage
+
+[Admin Manual](https://github.com/WWBN/AVideo/wiki/Admin-manual)
+
+# Errors and troubleshooting
+
+[Find errors](https://github.com/WWBN/AVideo/wiki/How-to-find-errors-on-AVideo-Platform)
+
+## AVideo Platform Certified
+
+### Installation help, consulting or support 
+
+For assistance with installation, consultin or plugins, our team of certified AVideo Platform developers is here to help. We would be delighted to offer you our support and expertise to ensure a smooth and successful installation.
+
+<a href="https://youphp.tube/marketplace/">Daniel Neto</a>
+
+### AVideo Platform Mobile APP
+
+<a href="https://play.google.com/store/apps/details?id=platform.avideo.com">Android</a>
+
+# Docker
 
 We've created a docker compose environment for easy development and production.
 
-### Development
+## Development
 
 Either just build the current branch by cloning the repository and run
 
