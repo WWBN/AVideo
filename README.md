@@ -16,14 +16,14 @@ This Software must be used for Good, never Evil. The use of this software for cr
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg?style=flat-square)](https://php.net/)
 [![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
 
-# Demo Sites
+# Demonstration Sites
 
-* <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
-  - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
-* <a href="https://tutorials.avideo.com/" target="_blank">AVideo Platform Gallery Demo</a>
-  - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
 * <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
-  - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
+  - We provide you with a full-access demo site sample, which includes access to the admin account. To upload and manage videos, you will need the default admin password. User: admin and Password: 123. There is also a non-admin user and password (for commenting only). User: test and Password: test."
+* <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
+  - We offer you a demonstration of the AVideo Flix Style site. On this site, you can subscribe using real money through PayPal, which will grant you access to our private videos. We have provided a test user for you to experience how the site works. User: test and Password: test.
+* <a href="https://tutorials.avideo.com/" target="_blank">AVideo Platform Gallery Demo</a>
+  - We have also provided a sample Video Gallery site, which doubles as our tutorial site. In this demonstration, you can log in, subscribe, like, dislike, and comment, but uploading videos is not allowed.
 
 # AVideo
 
