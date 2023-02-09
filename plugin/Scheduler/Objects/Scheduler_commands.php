@@ -12,7 +12,7 @@ class Scheduler_commands extends ObjectYPT {
     protected $id, $callbackURL, $parameters, $date_to_execute, $executed_in,
             $status, $callbackResponse, $timezone,
             $repeat_minute, $repeat_hour, $repeat_day_of_month, $repeat_month,
-            $repeat_day_of_week, $type, $videos;
+            $repeat_day_of_week, $type, $videos_id;
 
     static function getSearchFieldsNames() {
         return array('callbackURL', 'parameters');
@@ -205,14 +205,15 @@ class Scheduler_commands extends ObjectYPT {
         $this->timezone = $timezone;
     }
     
-    public function getVideos() {
-        return $this->videos;
+    public function getVideos_id() {
+        return $this->videos_id;
     }
 
-    public function setVideos($videos): void {
-        $this->videos = $videos;
+    public function setVideos_id($videos_id): void {
+        $this->videos_id = $videos_id;
     }
-    
+
+        
     public function save() {
         if (empty($this->date_to_execute)) {
             $this->date_to_execute = 'NULL';

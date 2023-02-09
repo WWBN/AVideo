@@ -86,12 +86,9 @@ class Scheduler extends PluginAbstract {
         }
         $e = new Scheduler_commands($scheduler_commands_id);        
         
-        $videos_id = $e->getCallbackURL();
+        $videos_id = $e->getVideos_id();
         if(!empty($videos_id)){ // make it active
-            $video = new Video('', '', $videos_id);
-            $status = $video->setStatus(Video::$statusActive);
-            AVideoPlugin::onNewVideo($videos_id);
-            return $e->setExecuted($videos_id);
+            self::releaseVideosNow($videos_id);
         }
         
         $callBackURL = $e->getCallbackURL();
@@ -296,5 +293,85 @@ class Scheduler extends PluginAbstract {
         header('content-length: '. strlen($icsString));
         echo $icsString;
     }
+    
+    
+    
+    public static function getManagerVideosAddNew() {
+        global $global;
+        $filename = $global['systemRootPath'] . 'plugin/Scheduler/getManagerVideosAddNew.js';
+        return file_get_contents($filename);
+    }
+
+    public static function getManagerVideosEdit() {
+        global $global;
+        $filename = $global['systemRootPath'] . 'plugin/Scheduler/getManagerVideosEdit.js';
+        return file_get_contents($filename);
+    }
+
+    public static function getManagerVideosEditField($type='Advanced') {
+        global $global;
+        if($type == 'Advanced'){
+            include $global['systemRootPath'] . 'plugin/Scheduler/managerVideosEdit.php';
+        }
+        return '';
+    }
+
+    public static function releaseVideosNow($videos_id) {  
+        if(empty($videos_id)){
+            return false;
+        }
+        if (!Video::canEdit($videos_id) || isCommandLineInterface()) {
+            return false;
+        }
+        
+        $video = new Video('', '', $videos_id);
+        $row = Scheduler_commands::getFromVideosId($videos_id);
+        if(!empty($row)){
+            $e = new Scheduler_commands($row['id']); 
+            $e->setExecuted($videos_id);
+        }       
+        
+        $status = $video->setStatus(Video::$statusActive);
+        AVideoPlugin::onNewVideo($videos_id);
+        return true;
+    }
+    
+    public static function saveVideosAddNew($post, $videos_id) {        
+        if(!empty($post['releaseDate'])){
+            if($post['releaseDate'] !== 'now'){
+                if($post['releaseDate'] == 'in-1-hour'){
+                    $releaseTime = strtotime('+1 hour');
+                }else{
+                    $releaseTime = _strtotime($post['releaseDateTime']);
+                }
+                $video = new Video('', '', $videos_id);
+                if($releaseTime>time()){
+                    $video->setStatus(Video::$statusScheduledReleaseDate);
+                    self::setReleaseDateTime($videos_id, $post['releaseDateTime']);
+                    self::addVideoToRelease($post['releaseDateTime'], $videos_id);
+                }else if($video->getStatus() == Video::$statusScheduledReleaseDate){
+                    self::releaseVideosNow($videos_id);
+                }
+            }
+        }
+    }
+    
+    public static function setReleaseDateTime($videos_id, $releaseDateTime) {
+        if (!Video::canEdit($videos_id)) {
+            return false;
+        }
+        $video = new Video('', '', $videos_id);
+        $externalOptions = _json_decode($video->getExternalOptions());
+        $externalOptions->releaseDateTime = $releaseDateTime;
+        $video->setExternalOptions(json_encode($externalOptions));
+        return $video->save();
+    }
+
+    public static function getReleaseDateTime($videos_id) {
+        $video = new Video('', '', $videos_id);
+        $externalOptions = _json_decode($video->getExternalOptions());
+        return @$externalOptions->releaseDateTime;
+    }
+    
 
 }
