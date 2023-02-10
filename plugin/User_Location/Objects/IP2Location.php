@@ -226,6 +226,10 @@ class IP2Location extends ObjectYPT {
             "United States",
             "United States Minor Outlying Islands",
             "Virgin Islands, U.S.",
+            "Greenland",
+            "American Samoa",
+            "Antarctica",
+            "Saint Martin (French Part)",
         );
         return $countries;
     }
