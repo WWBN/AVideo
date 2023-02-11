@@ -177,6 +177,7 @@ $obj->error = false;
 $obj->video_id = $videos_id;
 $v = new Video('', '', $videos_id);
 $obj->video_id_hash = $v->getVideoIdHash();
+$obj->releaseDate = @$_REQUEST['releaseDate'];
 
 $json = json_encode($obj);
 _error_log("ReceiveImage: Files Received for video {$videos_id}: " . $video->getTitle() . " {$json}");

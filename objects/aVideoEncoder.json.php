@@ -65,9 +65,12 @@ $obj->video_id = @$_POST['videos_id'];
 $title = $video->getTitle();
 $description = $video->getDescription();
 if (empty($title) && !empty($_POST['title'])) {
+    _error_log("aVideoEncoder.json: Title updated {$_POST['title']} ");
     $title = $video->setTitle($_POST['title']);
 } elseif (empty($title)) {
     $video->setTitle("Automatic Title");
+}else{    
+    _error_log("aVideoEncoder.json: Title not updated {$_POST['title']} ");
 }
 
 if (empty($description)) {
@@ -193,6 +196,7 @@ $obj->video_id = $video_id;
 
 $v = new Video('', '', $video_id);
 $obj->video_id_hash = $v->getVideoIdHash();
+$obj->releaseDate = @$_REQUEST['releaseDate'];
 
 _error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
 if (!empty($destinationFile)) {

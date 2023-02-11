@@ -16,5 +16,13 @@ if (session_status() !== PHP_SESSION_NONE) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once './playlist.php';
 header('Content-Type: application/json');
-$row = PlayList::getAllFromUserVideo($_POST['users_id'], $_POST['videos_id'], false);
-echo json_encode($row);
+if(is_array($_POST['videos_id'])){
+    $rows = array();
+    foreach ($_POST['videos_id'] as $value) {
+        $rows[] = array('videos_id'=>$value, 'playlists'=>PlayList::getAllFromUserVideo($_POST['users_id'], $value, false));
+    }
+    echo json_encode($rows);
+}else{
+    $row = PlayList::getAllFromUserVideo($_POST['users_id'], $_POST['videos_id'], false);
+    echo json_encode($row);
+}

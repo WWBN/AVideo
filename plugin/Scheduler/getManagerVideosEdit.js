@@ -5,7 +5,7 @@ if (typeof row.externalOptions !== 'undefined' && row.externalOptions) {
     
     var json = JSON.parse(row.externalOptions);
     
-    if(!empty(json.releaseDate)){
+    if(!empty(json.releaseDateTime)){
         $("#releaseDateTime").val(json.releaseDateTime);
     }
 }

@@ -30,7 +30,7 @@ class Scheduler extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "4.0";
+        return "4.1";
     }
 
     public function updateScript() {
@@ -44,6 +44,13 @@ class Scheduler extends PluginAbstract {
         }
         if (AVideoPlugin::compareVersion($this->getName(), "3.0") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV3.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "4.1") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.0.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
@@ -336,24 +343,37 @@ class Scheduler extends PluginAbstract {
         return true;
     }
     
-    public static function saveVideosAddNew($post, $videos_id) {        
-        if(!empty($post['releaseDate'])){
-            if($post['releaseDate'] !== 'now'){
-                if($post['releaseDate'] == 'in-1-hour'){
+    public static function saveVideosAddNew($post, $videos_id) {    
+        return self::addNewVideoToRelease($videos_id, @$post['releaseDate'], @$post['releaseDateTime']);
+    }
+    
+    public function afterNewVideo($videos_id) {
+        return self::addNewVideoToRelease($videos_id, @$_REQUEST['releaseDate'], @$_REQUEST['releaseDateTime']);
+    }
+    
+    public static function addNewVideoToRelease($videos_id, $releaseDate, $releaseDateTime='') {        
+        if(!empty($releaseDate)){
+            if($releaseDate !== 'now'){
+                if($releaseDate == 'in-1-hour'){
                     $releaseTime = strtotime('+1 hour');
+                }else if(!empty($releaseDateTime)){
+                    $releaseTime = _strtotime($releaseDateTime);
                 }else{
-                    $releaseTime = _strtotime($post['releaseDateTime']);
+                    $releaseTime = _strtotime($releaseDate);
                 }
                 $video = new Video('', '', $videos_id);
                 if($releaseTime>time()){
+                    $releaseDateTime = date('Y-m-d H:i:s', $releaseTime);
                     $video->setStatus(Video::$statusScheduledReleaseDate);
-                    self::setReleaseDateTime($videos_id, $post['releaseDateTime']);
-                    self::addVideoToRelease($post['releaseDateTime'], $videos_id);
+                    self::setReleaseDateTime($videos_id, $releaseDateTime);
+                    self::addVideoToRelease($releaseDateTime, $videos_id);
+                    return true;
                 }else if($video->getStatus() == Video::$statusScheduledReleaseDate){
                     self::releaseVideosNow($videos_id);
                 }
             }
         }
+        return false;
     }
     
     public static function setReleaseDateTime($videos_id, $releaseDateTime) {
@@ -362,6 +382,9 @@ class Scheduler extends PluginAbstract {
         }
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
+        if(empty($externalOptions)){
+            $externalOptions = new stdClass();
+        }
         $externalOptions->releaseDateTime = $releaseDateTime;
         $video->setExternalOptions(json_encode($externalOptions));
         return $video->save();

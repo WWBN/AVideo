@@ -421,8 +421,11 @@ function cleanString($text)
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }
 
-function safeString($text, $strict = false)
-{
+function safeString($text, $strict = false, $try=0){
+    if(empty($text)){
+        return '';
+    }
+    $originalText = $text;
     $text = strip_tags($text);
     $text = str_replace(array('&amp;', '&lt;', '&gt;'), array('', '', ''), $text);
     $text = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '', $text);
@@ -433,6 +436,10 @@ function safeString($text, $strict = false)
         //$text = cleanURLName($text);
     }
     $text = trim($text);
+    
+    if(empty($try) && empty($text)){
+        return safeString(utf8_encode($originalText), $strict, 1);
+    }
     return $text;
 }
 

@@ -26,6 +26,8 @@ ENV SYSTEM_ADMIN_PASSWORD password
 ENV WEBSITE_TITLE AVideo
 ENV MAIN_LANGUAGE en_US
 
+ENV HTTPS_PORT $HTTPS_PORT
+
 # Retrieve package list
 RUN apt update
 
@@ -95,7 +97,7 @@ RUN mkdir -p /var/www/html/AVideo/videos && \
 
 WORKDIR /var/www/html/AVideo/
 
-EXPOSE 443
+EXPOSE $HTTPS_PORT
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
 CMD ["apache2-foreground"]

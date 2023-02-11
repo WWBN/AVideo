@@ -4,12 +4,11 @@ services:
   web:
     build: .
     restart: "unless-stopped"
-    ports:
-      - "80:80"
-      - "443:443"
     environment:
+      HTTP_PORT: ${HTTP_PORT:-80}
+      HTTPS_PORT: ${HTTPS_PORT:-443}
       DB_MYSQL_HOST: "database"
-      DB_MYSQL_PORT: 3306
+      DB_MYSQL_PORT: ${DB_MYSQL_PORT:-3306}
       DB_MYSQL_NAME: "avideo"
       DB_MYSQL_USER: "avideo"
       DB_MYSQL_PASSWORD: "avideo"
@@ -22,6 +21,9 @@ services:
       SYSTEM_ADMIN_PASSWORD: "password"
       WEBSITE_TITLE: "AVideo"
       MAIN_LANGUAGE: "en_US"
+    ports:
+      - '${HTTP_PORT}:80'
+      - '${HTTPS_PORT}:443'
     volumes:
       - "./var/www/avideo:/var/www/avideo"
     depends_on:

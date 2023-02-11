@@ -2230,6 +2230,9 @@ class AVideoPlugin
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $p->onVideoSetTitle($video_id, $oldValue, $newValue);
+                if(!empty($newValue) && $oldValue != $newValue){                   
+                    _error_log("{$value['dirName']}::onVideoSetTitle changed title ". json_encode($oldValue). json_encode($newValue)); 
+                }
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
