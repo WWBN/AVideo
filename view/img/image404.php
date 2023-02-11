@@ -19,7 +19,7 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches) && 
     if (file_exists($jpg)) {
         $file = $jpg;
         $type = 'image/jpg';
-        header("HTTP/1.0 404 Not Found");
+        //header("HTTP/1.0 404 Not Found");
         header('Content-Type:' . $type);
         header('Content-Length: ' . filesize($file));
         _error_log("Image not found for {$imageURL} we are using {$jpg} instead ");
