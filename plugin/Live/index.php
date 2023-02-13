@@ -98,7 +98,6 @@ if (empty($channelName)) {
     $user->setChannelName($channelName);
     $user->save();
 }
-$global['ignoreChat2'] = 1;
 $col1Class = "col-md-12 col-lg-12";
 $col2Class = "hidden";
 $chat2 = AVideoPlugin::getObjectDataIfEnabled("Chat2");

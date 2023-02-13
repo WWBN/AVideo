@@ -1,5 +1,5 @@
 <?php
-if (isIframe()) {
+if (isIframe() || isConfirmationPage()) {
     return false;
 }
 ?>

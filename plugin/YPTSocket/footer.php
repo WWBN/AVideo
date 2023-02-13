@@ -1,5 +1,9 @@
 <?php
 global $global;
+if (isConfirmationPage()) {
+    echo '<!-- isConfirmationPage socket_info_container -->';
+    return false;
+}
 if (isBot()) {
     echo '<!-- isBot socket_info_container -->';
     return false;

@@ -10588,3 +10588,13 @@ function fixQuotesIfSafari($str)
     }
     return fixQuotes($str);
 }
+
+function setIsConfirmationPage(){
+    global $_isConfirmationPage;
+    $_isConfirmationPage = 1;
+}
+
+function isConfirmationPage(){
+    global $_isConfirmationPage;
+    return !empty($_isConfirmationPage);
+}
