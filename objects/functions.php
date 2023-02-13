@@ -4685,7 +4685,7 @@ function _mysql_connect($persistent = false, $try = 0)
         }
     } catch (Exception $exc) {
         if(empty($try)){
-            _error_log('Error on connect, trying again '.mysqli_connect_error());
+            _error_log('Error on connect, trying again ['.mysqli_connect_error().']');
             _mysql_close();
             sleep(5);
             return _mysql_connect($persistent, $try+1);
