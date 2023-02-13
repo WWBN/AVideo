@@ -537,6 +537,14 @@ class PlayLists extends PluginAbstract {
         return "";
     }
 
+    static function getTrailerIfIsSerie($playlists_id) {
+        $serie = self::isPlayListASerie($playlists_id);
+        if (!empty($serie)) {
+            return $serie['trailer1'];
+        }
+        return "";
+    }
+
     static function getLinkToM3U8($playlists_id, $key, $live_servers_id) {
         global $global;
         $_REQUEST['playlists_id_live'] = $playlists_id;
@@ -1031,6 +1039,10 @@ class PlayListPlayer {
         $key = $this->getIndex();
         $video = $this->videos[$key];
         $video['url'] = $global['webSiteRootURL'] . "playlist/{$this->playlists_id}/" . ($key);
+        
+        if(!isValidURL($video['trailer1'])){
+            $video['trailer1'] = PlayLists::getTrailerIfIsSerie($this->playlists_id);
+        }
         //$_GET['v'] = $video['id'];
         //setVideos_id($video['id']);
         //var_dump($key, $video, $_GET);exit;
