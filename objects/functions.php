@@ -4686,7 +4686,8 @@ function _mysql_connect($persistent = false, $try = 0)
     } catch (Exception $exc) {
         if(empty($try)){
             _error_log('Error on connect, trying again');
-            sleep(1);
+            _mysql_close();
+            sleep(5);
             return _mysql_connect($persistent, $try+1);
         }else{
             _error_log($exc->getTraceAsString());
