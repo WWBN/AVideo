@@ -93,16 +93,17 @@ export const parsedManifest = {
   playlists: [
     {
       attributes: {
-        'NAME': '1',
         'AUDIO': 'audio',
-        'SUBTITLES': 'subs',
+        'BANDWIDTH': 100000,
+        'CODECS': 'av1',
+        'FRAME-RATE': 24,
+        'NAME': '1',
+        'PROGRAM-ID': 1,
         'RESOLUTION': {
           width: 480,
           height: 200
         },
-        'CODECS': 'av1',
-        'BANDWIDTH': 100000,
-        'PROGRAM-ID': 1
+        'SUBTITLES': 'subs'
       },
       uri: '',
       endList: true,

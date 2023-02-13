@@ -406,6 +406,7 @@ export const parsedManifest = {
         'NAME': '482',
         'AUDIO': 'audio',
         'SUBTITLES': 'subs',
+        'FRAME-RATE': 23.976,
         'RESOLUTION': {
           width: 482,
           height: 270
@@ -487,6 +488,7 @@ export const parsedManifest = {
         'NAME': '720',
         'AUDIO': 'audio',
         'SUBTITLES': 'subs',
+        'FRAME-RATE': 23.976,
         'RESOLUTION': {
           width: 720,
           height: 404

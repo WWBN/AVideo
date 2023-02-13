@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2015, Salesforce.com, Inc.
+ * Copyright (c) 2015-2020, Salesforce.com, Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -29,15 +29,16 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 "use strict";
-const punycode = require("punycode");
-const urlParse = require("url").parse;
-const util = require("util");
+const punycode = require("punycode/");
+const urlParse = require("url-parse");
 const pubsuffix = require("./pubsuffix-psl");
 const Store = require("./store").Store;
 const MemoryCookieStore = require("./memstore").MemoryCookieStore;
 const pathMatch = require("./pathMatch").pathMatch;
+const validators = require("./validators.js");
 const VERSION = require("./version");
 const { fromCallback } = require("universalify");
+const { getCustomInspectSymbol } = require("./utilHelper");
 
 // From RFC6265 S4.1.1
 // note that it excludes \x3B ";"
@@ -79,6 +80,7 @@ const SAME_SITE_CONTEXT_VAL_ERR =
   'Invalid sameSiteContext option for getCookies(); expected one of "strict", "lax", or "none"';
 
 function checkSameSiteContext(value) {
+  validators.validate(validators.isNonEmptyString(value), value);
   const context = String(value).toLowerCase();
   if (context === "none" || context === "lax" || context === "strict") {
     return context;
@@ -97,7 +99,23 @@ const PrefixSecurityEnum = Object.freeze({
 // * all capturing groups converted to non-capturing -- "(?:)"
 // * support for IPv6 Scoped Literal ("%eth1") removed
 // * lowercase hexadecimal only
-var IP_REGEX_LOWERCASE =/(?:^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$)|(?:^(?:(?:[a-f\d]{1,4}:){7}(?:[a-f\d]{1,4}|:)|(?:[a-f\d]{1,4}:){6}(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|:[a-f\d]{1,4}|:)|(?:[a-f\d]{1,4}:){5}(?::(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,2}|:)|(?:[a-f\d]{1,4}:){4}(?:(?::[a-f\d]{1,4}){0,1}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,3}|:)|(?:[a-f\d]{1,4}:){3}(?:(?::[a-f\d]{1,4}){0,2}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,4}|:)|(?:[a-f\d]{1,4}:){2}(?:(?::[a-f\d]{1,4}){0,3}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,5}|:)|(?:[a-f\d]{1,4}:){1}(?:(?::[a-f\d]{1,4}){0,4}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,6}|:)|(?::(?:(?::[a-f\d]{1,4}){0,5}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,7}|:)))$)/;
+const IP_REGEX_LOWERCASE = /(?:^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$)|(?:^(?:(?:[a-f\d]{1,4}:){7}(?:[a-f\d]{1,4}|:)|(?:[a-f\d]{1,4}:){6}(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|:[a-f\d]{1,4}|:)|(?:[a-f\d]{1,4}:){5}(?::(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,2}|:)|(?:[a-f\d]{1,4}:){4}(?:(?::[a-f\d]{1,4}){0,1}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,3}|:)|(?:[a-f\d]{1,4}:){3}(?:(?::[a-f\d]{1,4}){0,2}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,4}|:)|(?:[a-f\d]{1,4}:){2}(?:(?::[a-f\d]{1,4}){0,3}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,5}|:)|(?:[a-f\d]{1,4}:){1}(?:(?::[a-f\d]{1,4}){0,4}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,6}|:)|(?::(?:(?::[a-f\d]{1,4}){0,5}:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}|(?::[a-f\d]{1,4}){1,7}|:)))$)/;
+const IP_V6_REGEX = `
+\\[?(?:
+(?:[a-fA-F\\d]{1,4}:){7}(?:[a-fA-F\\d]{1,4}|:)|
+(?:[a-fA-F\\d]{1,4}:){6}(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}|:[a-fA-F\\d]{1,4}|:)|
+(?:[a-fA-F\\d]{1,4}:){5}(?::(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}|(?::[a-fA-F\\d]{1,4}){1,2}|:)|
+(?:[a-fA-F\\d]{1,4}:){4}(?:(?::[a-fA-F\\d]{1,4}){0,1}:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}|(?::[a-fA-F\\d]{1,4}){1,3}|:)|
+(?:[a-fA-F\\d]{1,4}:){3}(?:(?::[a-fA-F\\d]{1,4}){0,2}:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}|(?::[a-fA-F\\d]{1,4}){1,4}|:)|
+(?:[a-fA-F\\d]{1,4}:){2}(?:(?::[a-fA-F\\d]{1,4}){0,3}:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}|(?::[a-fA-F\\d]{1,4}){1,5}|:)|
+(?:[a-fA-F\\d]{1,4}:){1}(?:(?::[a-fA-F\\d]{1,4}){0,4}:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}|(?::[a-fA-F\\d]{1,4}){1,6}|:)|
+(?::(?:(?::[a-fA-F\\d]{1,4}){0,5}:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]\\d|\\d)){3}|(?::[a-fA-F\\d]{1,4}){1,7}|:))
+)(?:%[0-9a-zA-Z]{1,})?\\]?
+`
+  .replace(/\s*\/\/.*$/gm, "")
+  .replace(/\n/g, "")
+  .trim();
+const IP_V6_REGEX_OBJECT = new RegExp(`^${IP_V6_REGEX}$`);
 
 /*
  * Parses a Natural number (i.e., non-negative integer) with either the
@@ -301,6 +319,7 @@ function parseDate(str) {
 }
 
 function formatDate(date) {
+  validators.validate(validators.isDate(date), date);
   return date.toUTCString();
 }
 
@@ -310,6 +329,10 @@ function canonicalDomain(str) {
     return null;
   }
   str = str.trim().replace(/^\./, ""); // S4.1.2.3 & S5.2.3: ignore leading .
+
+  if (IP_V6_REGEX_OBJECT.test(str)) {
+    str = str.replace("[", "").replace("]", "");
+  }
 
   // convert to IDN if any non-ASCII characters
   if (punycode && /[^\u0001-\u007f]/.test(str)) {
@@ -345,7 +368,7 @@ function domainMatch(str, domStr, canonicalize) {
   /* " o All of the following [three] conditions hold:" */
 
   /* "* The domain string is a suffix of the string" */
-  const idx = str.indexOf(domStr);
+  const idx = str.lastIndexOf(domStr);
   if (idx <= 0) {
     return false; // it's a non-match (-1) or prefix (0)
   }
@@ -359,7 +382,7 @@ function domainMatch(str, domStr, canonicalize) {
 
   /* "  * The last character of the string that is not included in the
    * domain string is a %x2E (".") character." */
-  if (str.substr(idx-1,1) !== '.') {
+  if (str.substr(idx - 1, 1) !== ".") {
     return false; // doesn't align on "."
   }
 
@@ -403,6 +426,7 @@ function defaultPath(path) {
 }
 
 function trimTerminator(str) {
+  if (validators.isEmptyString(str)) return str;
   for (let t = 0; t < TERMINATORS.length; t++) {
     const terminatorIdx = str.indexOf(TERMINATORS[t]);
     if (terminatorIdx !== -1) {
@@ -415,6 +439,7 @@ function trimTerminator(str) {
 
 function parseCookiePair(cookiePair, looseMode) {
   cookiePair = trimTerminator(cookiePair);
+  validators.validate(validators.isString(cookiePair), cookiePair);
 
   let firstEq = cookiePair.indexOf("=");
   if (looseMode) {
@@ -454,6 +479,11 @@ function parse(str, options) {
   if (!options || typeof options !== "object") {
     options = {};
   }
+
+  if (validators.isEmptyString(str) || !validators.isString(str)) {
+    return null;
+  }
+
   str = str.trim();
 
   // We use a regex to parse the "name-value-pair" part of S5.2
@@ -589,11 +619,11 @@ function parse(str, options) {
           case "lax":
             c.sameSite = "lax";
             break;
+          case "none":
+            c.sameSite = "none";
+            break;
           default:
-            // RFC6265bis-02 S5.3.7 step 1:
-            // "If cookie-av's attribute-value is not a case-insensitive match
-            //  for "Strict" or "Lax", ignore the "cookie-av"."
-            // This effectively sets it to 'none' from the prototype.
+            c.sameSite = undefined;
             break;
         }
         break;
@@ -616,6 +646,7 @@ function parse(str, options) {
  * @returns boolean
  */
 function isSecurePrefixConditionMet(cookie) {
+  validators.validate(validators.isObject(cookie), cookie);
   return !cookie.key.startsWith("__Secure-") || cookie.secure;
 }
 
@@ -631,6 +662,7 @@ function isSecurePrefixConditionMet(cookie) {
  * @returns boolean
  */
 function isHostPrefixConditionMet(cookie) {
+  validators.validate(validators.isObject(cookie));
   return (
     !cookie.key.startsWith("__Host-") ||
     (cookie.secure &&
@@ -652,7 +684,7 @@ function jsonParse(str) {
 }
 
 function fromJSON(str) {
-  if (!str) {
+  if (!str || validators.isEmptyString(str)) {
     return null;
   }
 
@@ -698,6 +730,8 @@ function fromJSON(str) {
  */
 
 function cookieCompare(a, b) {
+  validators.validate(validators.isObject(a), a);
+  validators.validate(validators.isObject(b), b);
   let cmp = 0;
 
   // descending for length: b CMP a
@@ -725,6 +759,7 @@ function cookieCompare(a, b) {
 // Gives the permutation of all possible pathMatch()es of a given path. The
 // array is in longest-to-shortest order.  Handy for indexing.
 function permutePath(path) {
+  validators.validate(validators.isString(path));
   if (path === "/") {
     return ["/"];
   }
@@ -772,13 +807,14 @@ const cookieDefaults = {
   pathIsDefault: null,
   creation: null,
   lastAccessed: null,
-  sameSite: "none"
+  sameSite: undefined
 };
 
 class Cookie {
   constructor(options = {}) {
-    if (util.inspect.custom) {
-      this[util.inspect.custom] = this.inspect;
+    const customInspectSymbol = getCustomInspectSymbol();
+    if (customInspectSymbol) {
+      this[customInspectSymbol] = this.inspect;
     }
 
     Object.assign(this, cookieDefaults, options);
@@ -1060,9 +1096,13 @@ class CookieJar {
     if (typeof options === "boolean") {
       options = { rejectPublicSuffixes: options };
     }
+    validators.validate(validators.isObject(options), options);
     this.rejectPublicSuffixes = options.rejectPublicSuffixes;
     this.enableLooseMode = !!options.looseMode;
-    this.allowSpecialUseDomain = !!options.allowSpecialUseDomain;
+    this.allowSpecialUseDomain =
+      typeof options.allowSpecialUseDomain === "boolean"
+        ? options.allowSpecialUseDomain
+        : true;
     this.store = store || new MemoryCookieStore();
     this.prefixSecurity = getNormalizedPrefixSecurity(options.prefixSecurity);
     this._cloneSync = syncWrap("clone");
@@ -1076,11 +1116,29 @@ class CookieJar {
   }
 
   setCookie(cookie, url, options, cb) {
+    validators.validate(validators.isNonEmptyString(url), cb, options);
     let err;
+
+    if (validators.isFunction(url)) {
+      cb = url;
+      return cb(new Error("No URL was specified"));
+    }
+
     const context = getCookieContext(url);
-    if (typeof options === "function") {
+    if (validators.isFunction(options)) {
       cb = options;
       options = {};
+    }
+
+    validators.validate(validators.isFunction(cb), cb);
+
+    if (
+      !validators.isNonEmptyString(cookie) &&
+      !validators.isObject(cookie) &&
+      cookie instanceof String &&
+      cookie.length == 0
+    ) {
+      return cb(null);
     }
 
     const host = canonicalDomain(context.hostname);
@@ -1119,8 +1177,11 @@ class CookieJar {
 
     // S5.3 step 5: public suffixes
     if (this.rejectPublicSuffixes && cookie.domain) {
-      const suffix = pubsuffix.getPublicSuffix(cookie.cdomain());
-      if (suffix == null) {
+      const suffix = pubsuffix.getPublicSuffix(cookie.cdomain(), {
+        allowSpecialUseDomain: this.allowSpecialUseDomain,
+        ignoreError: options.ignoreError
+      });
+      if (suffix == null && !IP_V6_REGEX_OBJECT.test(cookie.domain)) {
         // e.g. "com"
         err = new Error("Cookie has domain set to a public suffix");
         return cb(options.ignoreError ? null : err);
@@ -1163,7 +1224,11 @@ class CookieJar {
     }
 
     // 6252bis-02 S5.4 Step 13 & 14:
-    if (cookie.sameSite !== "none" && sameSiteContext) {
+    if (
+      cookie.sameSite !== "none" &&
+      cookie.sameSite !== undefined &&
+      sameSiteContext
+    ) {
       // "If the cookie's "same-site-flag" is not "None", and the cookie
       //  is being set from a context whose "site for cookies" is not an
       //  exact match for request-uri's host's registered domain, then
@@ -1249,11 +1314,14 @@ class CookieJar {
 
   // RFC6365 S5.4
   getCookies(url, options, cb) {
+    validators.validate(validators.isNonEmptyString(url), cb, url);
     const context = getCookieContext(url);
-    if (typeof options === "function") {
+    if (validators.isFunction(options)) {
       cb = options;
       options = {};
     }
+    validators.validate(validators.isObject(options), cb, options);
+    validators.validate(validators.isFunction(cb), cb);
 
     const host = canonicalDomain(context.hostname);
     const path = context.pathname || "/";
@@ -1369,6 +1437,7 @@ class CookieJar {
 
   getCookieString(...args) {
     const cb = args.pop();
+    validators.validate(validators.isFunction(cb), cb);
     const next = function(err, cookies) {
       if (err) {
         cb(err);
@@ -1388,6 +1457,7 @@ class CookieJar {
 
   getSetCookieStrings(...args) {
     const cb = args.pop();
+    validators.validate(validators.isFunction(cb), cb);
     const next = function(err, cookies) {
       if (err) {
         cb(err);
@@ -1405,8 +1475,9 @@ class CookieJar {
   }
 
   serialize(cb) {
+    validators.validate(validators.isFunction(cb), cb);
     let type = this.store.constructor.name;
-    if (type === "Object") {
+    if (validators.isObject(type)) {
       type = null;
     }
 
@@ -1422,6 +1493,9 @@ class CookieJar {
 
       // CookieJar configuration:
       rejectPublicSuffixes: !!this.rejectPublicSuffixes,
+      enableLooseMode: !!this.enableLooseMode,
+      allowSpecialUseDomain: !!this.allowSpecialUseDomain,
+      prefixSecurity: getNormalizedPrefixSecurity(this.prefixSecurity),
 
       // this gets filled from getAllCookies:
       cookies: []
@@ -1524,6 +1598,7 @@ class CookieJar {
   }
 
   removeAllCookies(cb) {
+    validators.validate(validators.isFunction(cb), cb);
     const store = this.store;
 
     // Check that the store implements its own removeAllCookies(). The default
@@ -1577,6 +1652,7 @@ class CookieJar {
       cb = store;
       store = null;
     }
+    validators.validate(validators.isFunction(cb), cb);
 
     let serialized;
     if (typeof strOrObj === "string") {
@@ -1588,7 +1664,12 @@ class CookieJar {
       serialized = strOrObj;
     }
 
-    const jar = new CookieJar(store, serialized.rejectPublicSuffixes);
+    const jar = new CookieJar(store, {
+      rejectPublicSuffixes: serialized.rejectPublicSuffixes,
+      looseMode: serialized.enableLooseMode,
+      allowSpecialUseDomain: serialized.allowSpecialUseDomain,
+      prefixSecurity: serialized.prefixSecurity
+    });
     jar._importCookies(serialized, err => {
       if (err) {
         return cb(err);
@@ -1600,7 +1681,10 @@ class CookieJar {
   static deserializeSync(strOrObj, store) {
     const serialized =
       typeof strOrObj === "string" ? JSON.parse(strOrObj) : strOrObj;
-    const jar = new CookieJar(store, serialized.rejectPublicSuffixes);
+    const jar = new CookieJar(store, {
+      rejectPublicSuffixes: serialized.rejectPublicSuffixes,
+      looseMode: serialized.enableLooseMode
+    });
 
     // catch this mistake early:
     if (!jar.store.synchronous) {
@@ -1669,3 +1753,4 @@ exports.permuteDomain = require("./permuteDomain").permuteDomain;
 exports.permutePath = permutePath;
 exports.canonicalDomain = canonicalDomain;
 exports.PrefixSecurityEnum = PrefixSecurityEnum;
+exports.ParameterError = validators.ParameterError;

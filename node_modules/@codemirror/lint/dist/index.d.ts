@@ -145,5 +145,13 @@ each line that has diagnostics, which can be hovered over to see
 the diagnostics.
 */
 declare function lintGutter(config?: LintGutterConfig): Extension;
+/**
+Iterate over the marked diagnostics for the given editor state,
+calling `f` for each of them. Note that, if the document changed
+since the diagnostics werecreated, the `Diagnostic` object will
+hold the original outdated position, whereas the `to` and `from`
+arguments hold the diagnostic's current position.
+*/
+declare function forEachDiagnostic(state: EditorState, f: (d: Diagnostic, from: number, to: number) => void): void;
 
-export { Action, Diagnostic, LintSource, closeLintPanel, diagnosticCount, forceLinting, lintGutter, lintKeymap, linter, nextDiagnostic, openLintPanel, setDiagnostics, setDiagnosticsEffect };
+export { Action, Diagnostic, LintSource, closeLintPanel, diagnosticCount, forEachDiagnostic, forceLinting, lintGutter, lintKeymap, linter, nextDiagnostic, openLintPanel, setDiagnostics, setDiagnosticsEffect };

@@ -1,5 +1,6 @@
 import type { Fragment } from '../loader/fragment';
 import type { Part } from '../loader/fragment';
+import type { KeyLoaderInfo } from '../loader/key-loader';
 import type { LevelDetails } from '../loader/level-details';
 import type { HlsUrlParameters } from './level';
 
@@ -21,6 +22,12 @@ export interface LoaderContext {
 export interface FragmentLoaderContext extends LoaderContext {
   frag: Fragment;
   part: Part | null;
+  resetIV?: boolean;
+}
+
+export interface KeyLoaderContext extends LoaderContext {
+  keyInfo: KeyLoaderInfo;
+  frag: Fragment;
 }
 
 export interface LoaderConfiguration {
@@ -159,8 +166,6 @@ export interface PlaylistLoaderContext extends LoaderContext {
   id: number | null;
   // track group id
   groupId: string | null;
-  // defines if the loader is handling a sidx request for the playlist
-  isSidxRequest?: boolean;
   // internal representation of a parsed m3u8 level playlist
   levelDetails?: LevelDetails;
   // Blocking playlist request delivery directives (or null id none were added to playlist url

@@ -1,4 +1,4 @@
-import { Decoration, showPanel, EditorView, ViewPlugin, hoverTooltip, logException, gutter, showTooltip, getPanel, WidgetType, GutterMarker } from '@codemirror/view';
+import { Decoration, showPanel, EditorView, ViewPlugin, logException, gutter, showTooltip, getPanel, WidgetType, hoverTooltip, GutterMarker } from '@codemirror/view';
 import { StateEffect, StateField, Facet, combineConfig, RangeSet } from '@codemirror/state';
 import elt from 'crelt';
 
@@ -189,7 +189,7 @@ A set of default key bindings for the lint functionality.
 - F8: [`nextDiagnostic`](https://codemirror.net/6/docs/ref/#lint.nextDiagnostic)
 */
 const lintKeymap = [
-    { key: "Mod-Shift-m", run: openLintPanel },
+    { key: "Mod-Shift-m", run: openLintPanel, preventDefault: true },
     { key: "F8", run: nextDiagnostic }
 ];
 const lintPlugin = /*@__PURE__*/ViewPlugin.fromClass(class {
@@ -603,8 +603,8 @@ class LintGutterMarker extends GutterMarker {
 function trackHoverOn(view, marker) {
     let mousemove = (event) => {
         let rect = marker.getBoundingClientRect();
-        if (event.clientX > rect.left - 10 /* Margin */ && event.clientX < rect.right + 10 /* Margin */ &&
-            event.clientY > rect.top - 10 /* Margin */ && event.clientY < rect.bottom + 10 /* Margin */)
+        if (event.clientX > rect.left - 10 /* Hover.Margin */ && event.clientX < rect.right + 10 /* Hover.Margin */ &&
+            event.clientY > rect.top - 10 /* Hover.Margin */ && event.clientY < rect.bottom + 10 /* Hover.Margin */)
             return;
         for (let target = event.target; target; target = target.parentNode) {
             if (target.nodeType == 1 && target.classList.contains("cm-tooltip-lint"))
@@ -707,14 +707,14 @@ const lintGutterTheme = /*@__PURE__*/EditorView.baseTheme({
     ".cm-lint-marker-warning": {
         content: /*@__PURE__*/svg(`<path fill="#fe8" stroke="#fd7" stroke-width="6" stroke-linejoin="round" d="M20 6L37 35L3 35Z"/>`),
     },
-    ".cm-lint-marker-error:before": {
+    ".cm-lint-marker-error": {
         content: /*@__PURE__*/svg(`<circle cx="20" cy="20" r="15" fill="#f87" stroke="#f43" stroke-width="6"/>`)
     },
 });
 const lintGutterConfig = /*@__PURE__*/Facet.define({
     combine(configs) {
         return combineConfig(configs, {
-            hoverTime: 300 /* Time */,
+            hoverTime: 300 /* Hover.Time */,
             markerFilter: null,
             tooltipFilter: null
         });
@@ -728,5 +728,18 @@ the diagnostics.
 function lintGutter(config = {}) {
     return [lintGutterConfig.of(config), lintGutterMarkers, lintGutterExtension, lintGutterTheme, lintGutterTooltip];
 }
+/**
+Iterate over the marked diagnostics for the given editor state,
+calling `f` for each of them. Note that, if the document changed
+since the diagnostics werecreated, the `Diagnostic` object will
+hold the original outdated position, whereas the `to` and `from`
+arguments hold the diagnostic's current position.
+*/
+function forEachDiagnostic(state, f) {
+    let lState = state.field(lintState, false);
+    if (lState && lState.diagnostics.size)
+        for (let iter = RangeSet.iter([lState.diagnostics]); iter.value; iter.next())
+            f(iter.value.spec.diagnostic, iter.from, iter.to);
+}
 
-export { closeLintPanel, diagnosticCount, forceLinting, lintGutter, lintKeymap, linter, nextDiagnostic, openLintPanel, setDiagnostics, setDiagnosticsEffect };
+export { closeLintPanel, diagnosticCount, forEachDiagnostic, forceLinting, lintGutter, lintKeymap, linter, nextDiagnostic, openLintPanel, setDiagnostics, setDiagnosticsEffect };

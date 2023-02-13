@@ -1,18 +1,15 @@
 export default function _asyncIterator(iterable) {
   var method,
-      async,
-      sync,
-      retry = 2;
-
+    async,
+    sync,
+    retry = 2;
   for ("undefined" != typeof Symbol && (async = Symbol.asyncIterator, sync = Symbol.iterator); retry--;) {
     if (async && null != (method = iterable[async])) return method.call(iterable);
     if (sync && null != (method = iterable[sync])) return new AsyncFromSyncIterator(method.call(iterable));
     async = "@@asyncIterator", sync = "@@iterator";
   }
-
   throw new TypeError("Object is not async iterable");
 }
-
 function AsyncFromSyncIterator(s) {
   function AsyncFromSyncIteratorContinuation(r) {
     if (Object(r) !== r) return Promise.reject(new TypeError(r + " is not an object."));
@@ -24,7 +21,6 @@ function AsyncFromSyncIterator(s) {
       };
     });
   }
-
   return AsyncFromSyncIterator = function AsyncFromSyncIterator(s) {
     this.s = s, this.n = s.next;
   }, AsyncFromSyncIterator.prototype = {

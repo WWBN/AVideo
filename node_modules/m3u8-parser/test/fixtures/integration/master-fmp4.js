@@ -60,7 +60,7 @@ module.exports = {
         width: 960,
         height: 540
       },
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'CLOSED-CAPTIONS': 'cc1',
       'AUDIO': 'aud1',
       'SUBTITLES': 'sub1'
@@ -76,7 +76,7 @@ module.exports = {
       'BANDWIDTH': 7976430,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64002a,mp4a.40.2',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 1080,
         width: 1920
@@ -93,7 +93,7 @@ module.exports = {
       'BANDWIDTH': 6181885,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64002a,mp4a.40.2',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 1080,
         width: 1920
@@ -110,7 +110,7 @@ module.exports = {
       'BANDWIDTH': 4682666,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64002a,mp4a.40.2',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 1080,
         width: 1920
@@ -127,7 +127,7 @@ module.exports = {
       'BANDWIDTH': 3170746,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.640020,mp4a.40.2',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 720,
         width: 1280
@@ -144,7 +144,7 @@ module.exports = {
       'BANDWIDTH': 1276223,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64001e,mp4a.40.2',
-      'FRAME-RATE': '29.970',
+      'FRAME-RATE': 29.970,
       'RESOLUTION': {
         height: 432,
         width: 768
@@ -161,7 +161,7 @@ module.exports = {
       'BANDWIDTH': 904744,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64001e,mp4a.40.2',
-      'FRAME-RATE': '29.970',
+      'FRAME-RATE': 29.970,
       'RESOLUTION': {
         height: 360,
         width: 640
@@ -178,7 +178,7 @@ module.exports = {
       'BANDWIDTH': 538201,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.640015,mp4a.40.2',
-      'FRAME-RATE': '29.970',
+      'FRAME-RATE': 29.970,
       'RESOLUTION': {
         height: 270,
         width: 480
@@ -195,7 +195,7 @@ module.exports = {
       'BANDWIDTH': 2440329,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.640020,ac-3',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 540,
         width: 960
@@ -212,7 +212,7 @@ module.exports = {
       'BANDWIDTH': 8201540,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64002a,ac-3',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 1080,
         width: 1920
@@ -229,7 +229,7 @@ module.exports = {
       'BANDWIDTH': 6406995,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64002a,ac-3',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 1080,
         width: 1920
@@ -246,7 +246,7 @@ module.exports = {
       'BANDWIDTH': 4907776,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64002a,ac-3',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 1080,
         width: 1920
@@ -263,7 +263,7 @@ module.exports = {
       'BANDWIDTH': 3395856,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.640020,ac-3',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 720,
         width: 1280
@@ -280,7 +280,7 @@ module.exports = {
       'BANDWIDTH': 1501333,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64001e,ac-3',
-      'FRAME-RATE': '29.970',
+      'FRAME-RATE': 29.970,
       'RESOLUTION': {
         height: 432,
         width: 768
@@ -297,7 +297,7 @@ module.exports = {
       'BANDWIDTH': 1129854,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64001e,ac-3',
-      'FRAME-RATE': '29.970',
+      'FRAME-RATE': 29.970,
       'RESOLUTION': {
         height: 360,
         width: 640
@@ -314,7 +314,7 @@ module.exports = {
       'BANDWIDTH': 763311,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.640015,ac-3',
-      'FRAME-RATE': '29.970',
+      'FRAME-RATE': 29.970,
       'RESOLUTION': {
         height: 270,
         width: 480
@@ -331,7 +331,7 @@ module.exports = {
       'BANDWIDTH': 2248329,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.640020,ec-3',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 540,
         width: 960
@@ -348,7 +348,7 @@ module.exports = {
       'BANDWIDTH': 8009540,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64002a,ec-3',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 1080,
         width: 1920
@@ -365,7 +365,7 @@ module.exports = {
       'BANDWIDTH': 6214995,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64002a,ec-3',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 1080,
         width: 1920
@@ -382,7 +382,7 @@ module.exports = {
       'BANDWIDTH': 4715776,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64002a,ec-3',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 1080,
         width: 1920
@@ -399,7 +399,7 @@ module.exports = {
       'BANDWIDTH': 3203856,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.640020,ec-3',
-      'FRAME-RATE': '59.940',
+      'FRAME-RATE': 59.940,
       'RESOLUTION': {
         height: 720,
         width: 1280
@@ -416,7 +416,7 @@ module.exports = {
       'BANDWIDTH': 1309333,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64001e,ec-3',
-      'FRAME-RATE': '29.970',
+      'FRAME-RATE': 29.970,
       'RESOLUTION': {
         height: 432,
         width: 768
@@ -433,7 +433,7 @@ module.exports = {
       'BANDWIDTH': 937854,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.64001e,ec-3',
-      'FRAME-RATE': '29.970',
+      'FRAME-RATE': 29.970,
       'RESOLUTION': {
         height: 360,
         width: 640
@@ -450,7 +450,7 @@ module.exports = {
       'BANDWIDTH': 571311,
       'CLOSED-CAPTIONS': 'cc1',
       'CODECS': 'avc1.640015,ec-3',
-      'FRAME-RATE': '29.970',
+      'FRAME-RATE': 29.970,
       'RESOLUTION': {
         height: 270,
         width: 480

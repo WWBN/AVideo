@@ -15,6 +15,7 @@ export const parsedManifest = {
         'AUDIO': 'audio',
         'BANDWIDTH': 449000,
         'CODECS': 'avc1.420015',
+        'FRAME-RATE': 23.976,
         'NAME': '482',
         'PROGRAM-ID': 1,
         'RESOLUTION': {

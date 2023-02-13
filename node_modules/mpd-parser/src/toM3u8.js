@@ -296,6 +296,10 @@ export const formatVideoPlaylist = ({
     segments
   };
 
+  if (attributes.frameRate) {
+    playlist.attributes['FRAME-RATE'] = attributes.frameRate;
+  }
+
   if (attributes.contentProtection) {
     playlist.contentProtection = attributes.contentProtection;
   }

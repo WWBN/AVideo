@@ -42,6 +42,7 @@ QUnit.test('playlists', function(assert) {
       codecs: 'foo;bar',
       duration: 0,
       bandwidth: 10000,
+      frameRate: 30,
       periodStart: 0,
       mimeType: 'video/mp4',
       type: 'static'
@@ -187,6 +188,7 @@ QUnit.test('playlists', function(assert) {
         BANDWIDTH: 10000,
         CODECS: 'foo;bar',
         NAME: '1',
+        ['FRAME-RATE']: 30,
         ['PROGRAM-ID']: 1,
         RESOLUTION: {
           height: 600,
