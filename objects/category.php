@@ -441,7 +441,7 @@ class Category {
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $totals = self::getTotalFromCategory($row['id']);
                     
-                    if($onlyWithVideos && empty($totals)){
+                    if($onlyWithVideos && empty($totals['total'])){
                         continue;
                     }
                     
