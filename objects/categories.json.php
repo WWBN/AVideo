@@ -53,4 +53,13 @@ if (empty($_POST['sort']) && empty($_GET['sort'])) {
     $array_column = array_column($categories, 'hierarchyAndName');
     array_multisort($array_column, SORT_ASC, $categories);
 }
-echo '{  "current": '.getCurrentPage().',"rowCount": '.getRowCount().', "total": '.$total.', "rows":'. _json_encode($categories).'}';
+
+$json = array(
+    'current'=>getCurrentPage(),
+    'rowCount'=>getRowCount(),
+    'total'=>$total,
+    'rows'=>$categories,
+    'onlyWithVideos'=>$onlyWithVideos
+);
+
+echo _json_encode($json);
