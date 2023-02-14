@@ -34,6 +34,7 @@ if (!empty($liveVideo)) {
     $objectToReturnToParentIframe->mediaSession = Live::getMediaSession($liveVideo['key'], $liveVideo['live_servers_id']);
 } else {
     $_POST['rowCount'] = 1;
+    $_POST['sort']['created'] = 'DESC';
     $videos = Video::getAllVideos();
     if (empty($videos)) {
         videoNotFound('');
