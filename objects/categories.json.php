@@ -22,7 +22,7 @@ if(!empty($_GET['user'])){
 }
 
 $categories = Category::getAllCategories(true, $onlyWithVideos, false, $sameUserGroupAsMe);
-$total = Category::getTotalCategories(true, $onlyWithVideos, false, $sameUserGroupAsMe);
+$total = Category::getTotalCategories(true, $onlyWithVideos);
 //$breaks = array('<br />', '<br>', '<br/>');
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";
@@ -61,7 +61,8 @@ $json = array(
     'rowCount'=>getRowCount(),
     'total'=>$total,
     'rows'=>$categories,
-    'onlyWithVideos'=>$onlyWithVideos
+    'onlyWithVideos'=>$onlyWithVideos,
+    'sameUserGroupAsMe'=>$sameUserGroupAsMe
 );
 
 echo _json_encode($json);
