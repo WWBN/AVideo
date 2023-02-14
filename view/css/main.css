@@ -1646,3 +1646,6 @@ button.btn-sm.hamburger svg{
 .mainArea .galleryVideo {
     margin-bottom: 3em;
 }
+.ui-menu .ui-menu-item {
+    display: grid;
+}
