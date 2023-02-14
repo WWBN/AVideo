@@ -13,8 +13,14 @@ header('Content-Type: application/json');
 
 $_REQUEST['rowCount'] = getRowCount(1000);
 $_REQUEST['current'] = getCurrentPage();
-$categories = Category::getAllCategories(true);
-$total = Category::getTotalCategories(true);
+
+$onlyWithVideos = false;
+if(isAVideoMobileApp()){
+    $onlyWithVideos = true;
+}
+
+$categories = Category::getAllCategories(true, $onlyWithVideos);
+$total = Category::getTotalCategories(true, $onlyWithVideos);
 //$breaks = array('<br />', '<br>', '<br/>');
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";
