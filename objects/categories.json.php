@@ -21,8 +21,8 @@ if(!empty($_GET['user'])){
     $sameUserGroupAsMe = true;
 }
 
-$categories = Category::getAllCategories(true, $onlyWithVideos);
-$total = Category::getTotalCategories(true, $onlyWithVideos);
+$categories = Category::getAllCategories(true, $onlyWithVideos, false, $sameUserGroupAsMe);
+$total = Category::getTotalCategories(true, $onlyWithVideos, false, $sameUserGroupAsMe);
 //$breaks = array('<br />', '<br>', '<br/>');
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";
