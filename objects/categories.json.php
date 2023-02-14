@@ -15,7 +15,7 @@ $_REQUEST['rowCount'] = getRowCount(1000);
 $_REQUEST['current'] = getCurrentPage();
 
 $onlyWithVideos = false;
-if(isAVideoMobileApp()){
+if(isAVideoMobileApp() || $_GET['user']=='null'){
     $onlyWithVideos = true;
 }
 
