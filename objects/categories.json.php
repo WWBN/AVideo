@@ -15,8 +15,10 @@ $_REQUEST['rowCount'] = getRowCount(1000);
 $_REQUEST['current'] = getCurrentPage();
 
 $onlyWithVideos = false;
-if(isAVideoMobileApp() || $_GET['user']=='null'){
+$sameUserGroupAsMe = false;
+if(!empty($_GET['user'])){
     $onlyWithVideos = true;
+    $sameUserGroupAsMe = true;
 }
 
 $categories = Category::getAllCategories(true, $onlyWithVideos);
