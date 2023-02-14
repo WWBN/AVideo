@@ -440,6 +440,11 @@ class Category {
 
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $totals = self::getTotalFromCategory($row['id']);
+                    
+                    if($onlyWithVideos && !empty($totals)){
+                        continue;
+                    }
+                    
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
 
