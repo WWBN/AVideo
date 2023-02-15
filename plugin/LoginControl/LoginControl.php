@@ -1,13 +1,13 @@
 <?php
+
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/LoginControl/Objects/logincontrol_history.php';
 require_once $global['systemRootPath'] . 'plugin/LoginControl/pgp/functions.php';
 
-class LoginControl extends PluginAbstract
-{
-    public function getTags()
-    {
+class LoginControl extends PluginAbstract {
+
+    public function getTags() {
         return [
             PluginTags::$FREE,
             PluginTags::$SECURITY,
@@ -15,8 +15,7 @@ class LoginControl extends PluginAbstract
         ];
     }
 
-    public function getDescription()
-    {
+    public function getDescription() {
         $desc = "LoginControl Plugin";
         $desc .= "<br><strong>Protect your account with 2-Factor Authentication</strong>: With 2-Factor Authentication, you add an extra layer of security to your account in case your password is stolen. After you set up 2-Step Verification, you'll sign in to your account in two steps using:
 
@@ -28,23 +27,19 @@ class LoginControl extends PluginAbstract
         return $desc;
     }
 
-    public function getName()
-    {
+    public function getName() {
         return "LoginControl";
     }
 
-    public function getUUID()
-    {
+    public function getUUID() {
         return "LoginControl-5ee8405eaaa16";
     }
 
-    public function getPluginVersion()
-    {
+    public function getPluginVersion() {
         return "3.0";
     }
 
-    public function getEmptyDataObject()
-    {
+    public function getEmptyDataObject() {
         $obj = new stdClass();
 
         $obj->singleDeviceLogin = false; // will disconnect other devices
@@ -81,16 +76,14 @@ Best regards,
         return $obj;
     }
 
-    public function getPluginMenu()
-    {
+    public function getPluginMenu() {
         global $global;
         $menu = '<button onclick="avideoModalIframe(webSiteRootURL+\'plugin/LoginControl/View/editor.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';
         $menu .= '<button onclick="avideoModalIframe(webSiteRootURL+\'plugin/LoginControl/pgp/keys.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-key"></i> PGP Tools</button>';
         return $menu;
     }
 
-    public function onUserSignIn($users_id)
-    {
+    public function onUserSignIn($users_id) {
         if (isAVideoEncoder()) {
             _error_log("Login_control::onUserSignIn Login from encoder, do not do anything");
             return false;
@@ -126,8 +119,7 @@ Best regards,
         }
     }
 
-    private static function ignore2FA($users_id = "")
-    {
+    private static function ignore2FA($users_id = "") {
         if ($url = isAVideoEncoder()) {
             _error_log("Login_control::ignore2FA is an Encoder ($url) login 2FA ignored");
             return true;
@@ -135,8 +127,7 @@ Best regards,
         return false;
     }
 
-    private static function getHiddenEmail($email)
-    {
+    private static function getHiddenEmail($email) {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return false;
         }
@@ -157,8 +148,7 @@ Best regards,
         return $hiddenemail;
     }
 
-    public static function createLog($users_id)
-    {
+    public static function createLog($users_id) {
         global $loginControlCreateLog;
         if (empty($users_id)) {
             return false;
@@ -177,21 +167,25 @@ Best regards,
         return $loginControlCreateLog;
     }
 
-    public static function getConfirmationCode($users_id, $uniqidV4)
-    {
+    public static function getConfirmationCode($users_id, $uniqidV4) {
         $row = logincontrol_history::getLastLoginAttempt($users_id, $uniqidV4);
         if (!empty($row) && ($row['status'] === logincontrol_history_status::$CONFIRMED || strtotime($row['modified']) > strtotime("-24 hours"))) {
             return $row['confirmation_code'];
         } elseif (empty($row)) {
             _error_log("LoginControl::getConfirmationCode first login attempt $users_id, $uniqidV4");
         } else {
-            _error_log("LoginControl::getConfirmationCode confirmation code is expired $users_id, $uniqidV4 ". json_encode($row));
+            _error_log("LoginControl::getConfirmationCode ERROR  $users_id, $uniqidV4");
+            if ($row['status'] === logincontrol_history_status::$CONFIRMED) {
+                _error_log("LoginControl::getConfirmationCode wrong status [{$row['status']}] ");
+            }
+            if (strtotime($row['modified']) > strtotime("-24 hours")) {
+                _error_log("LoginControl::getConfirmationCode wrong modification is too old [{$row['modified']}] ");
+            }
         }
         return uniqid();
     }
 
-    public static function is2FAEnabled($users_id)
-    {
+    public static function is2FAEnabled($users_id) {
         $obj = AVideoPlugin::getObjectDataIfEnabled("LoginControl");
         //check for 2fa
         if ($obj->enable2FA) {
@@ -201,13 +195,11 @@ Best regards,
         return false;
     }
 
-    public static function is2FAConfirmed($users_id)
-    {
+    public static function is2FAConfirmed($users_id) {
         return !empty(logincontrol_history::is2FAConfirmed($users_id, getDeviceID()));
     }
 
-    public static function getLastLoginOnDevice($users_id, $uniqidV4 = "")
-    {
+    public static function getLastLoginOnDevice($users_id, $uniqidV4 = "") {
         if (empty($uniqidV4)) {
             $uniqidV4 = getDeviceID();
         }
@@ -218,8 +210,7 @@ Best regards,
         return $row;
     }
 
-    public static function send2FAEmail($users_id)
-    {
+    public static function send2FAEmail($users_id) {
         global $config, $global;
         $obj = AVideoPlugin::getObjectDataIfEnabled("LoginControl");
 
@@ -261,8 +252,7 @@ Best regards,
         return sendSiteEmail($to, $subject, $message);
     }
 
-    private static function getConfirmationCodeHash($users_id)
-    {
+    private static function getConfirmationCodeHash($users_id) {
         if (empty($users_id)) {
             return false;
         }
@@ -283,8 +273,7 @@ Best regards,
         return encryptString(json_encode(['confirmation_code' => $confirmationCode, 'users_id' => $users_id, 'uniqidV4' => getDeviceID()]));
     }
 
-    public static function validateConfirmationCodeHash($code)
-    {
+    public static function validateConfirmationCodeHash($code) {
         if (empty($code)) {
             return false;
         }
@@ -303,8 +292,7 @@ Best regards,
         return self::confirmCode($json->users_id, $json->confirmation_code, $json->uniqidV4);
     }
 
-    public function getStart()
-    {
+    public function getStart() {
         global $global;
         if (isAVideoEncoder()) {
             _error_log("Login_control::getStart Login from encoder, do not do anything");
@@ -353,20 +341,18 @@ Best regards,
             }
         }
         if (self::challengeThisPage()) {
-            include_once $global['systemRootPath'].'plugin/LoginControl/pgp/challenge.php';
+            include_once $global['systemRootPath'] . 'plugin/LoginControl/pgp/challenge.php';
             exit;
             header("Loation: {$global['webSiteRootURL']}plugin/LoginControl/pgp/challenge.php?redirectUri=" . urlencode(getRedirectUri()));
             exit;
         }
     }
 
-    public static function getLastLogin($users_id)
-    {
+    public static function getLastLogin($users_id) {
         return logincontrol_history::getLastLogin($users_id);
     }
 
-    public static function getPreviewsLogin($users_id)
-    {
+    public static function getPreviewsLogin($users_id) {
         if (self::isUser2FAEnabled($users_id)) {
             return logincontrol_history::getPreviewsConfirmedLogin($users_id);
         } else {
@@ -374,21 +360,18 @@ Best regards,
         }
     }
 
-    public static function getLastConfirmedLogin($users_id)
-    {
+    public static function getLastConfirmedLogin($users_id) {
         return logincontrol_history::getLastConfirmedLogin($users_id);
     }
 
-    public static function isLoggedFromSameDevice()
-    {
+    public static function isLoggedFromSameDevice() {
         if (!User::isLogged()) {
             return true;
         }
         return self::isSameDeviceAsLastLogin(User::getId(), getDeviceID());
     }
 
-    public static function isSameDeviceAsLastLogin($users_id, $uniqidV4)
-    {
+    public static function isSameDeviceAsLastLogin($users_id, $uniqidV4) {
         if (self::isUser2FAEnabled($users_id)) {
             $row = self::getLastConfirmedLogin($users_id);
         } else {
@@ -405,8 +388,7 @@ Best regards,
         return false;
     }
 
-    public static function confirmCode($users_id, $code, $uniqidV4 = "")
-    {
+    public static function confirmCode($users_id, $code, $uniqidV4 = "") {
         $lastLogin = self::getLastLoginOnDevice($users_id, $uniqidV4);
         if (empty($lastLogin)) {
             return false;
@@ -422,8 +404,7 @@ Best regards,
         }
     }
 
-    public function getMyAccount($users_id)
-    {
+    public function getMyAccount($users_id) {
         global $global;
 
         $obj = AVideoPlugin::getObjectDataIfEnabled("LoginControl");
@@ -437,8 +418,7 @@ Best regards,
         }
     }
 
-    public static function isUser2FAEnabled($users_id)
-    {
+    public static function isUser2FAEnabled($users_id) {
         global $config;
         $obj = AVideoPlugin::getObjectDataIfEnabled("LoginControl");
         if (!empty($obj) && !empty($obj->enable2FA)) {
@@ -448,8 +428,7 @@ Best regards,
         return false;
     }
 
-    public static function setUser2FA($users_id, $value = true)
-    {
+    public static function setUser2FA($users_id, $value = true) {
         $obj = AVideoPlugin::getObjectDataIfEnabled("LoginControl");
         if (!empty($obj) && !empty($obj->enable2FA)) {
             $user = new User($users_id);
@@ -458,26 +437,22 @@ Best regards,
         return false;
     }
 
-    public static function getConfirmationLink($confirmation)
-    {
+    public static function getConfirmationLink($confirmation) {
         global $global;
         return "{$global['webSiteRootURL']}plugin/LoginControl/confirm.php?confirmation={$confirmation}";
     }
 
-    public static function profileTabName($users_id)
-    {
+    public static function profileTabName($users_id) {
         global $global;
         include $global['systemRootPath'] . 'plugin/LoginControl/profileTabName.php';
     }
 
-    public static function profileTabContent($users_id)
-    {
+    public static function profileTabContent($users_id) {
         global $global;
         include $global['systemRootPath'] . 'plugin/LoginControl/profileTabContent.php';
     }
 
-    public function onUserSocketConnect()
-    {
+    public function onUserSocketConnect() {
         $obj = $this->getDataObject();
         if (!User::isAdmin() && $obj->singleDeviceLogin && !preg_match('/Chat2/', $_SERVER["SCRIPT_FILENAME"])) {
             echo ' if(response.msg.users_id && response.msg.users_id == "' . User::getId() . '" && response.msg.yptDeviceId  && response.msg.yptDeviceId !== "' . getDeviceID(false) . '"){
@@ -494,8 +469,7 @@ Best regards,
         }
     }
 
-    public function updateScript()
-    {
+    public function updateScript() {
         global $global;
         //update version 2.0
         if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
@@ -508,8 +482,7 @@ Best regards,
         return true;
     }
 
-    public static function setPGPKey($users_id, $key)
-    {
+    public static function setPGPKey($users_id, $key) {
         if (empty($users_id)) {
             return false;
         }
@@ -517,8 +490,7 @@ Best regards,
         return $user->addExternalOptions('PGPKey', $key);
     }
 
-    public static function getPGPKey($users_id)
-    {
+    public static function getPGPKey($users_id) {
         if (empty($users_id)) {
             return false;
         }
@@ -526,8 +498,7 @@ Best regards,
         return $user->getExternalOption('PGPKey');
     }
 
-    public static function encryptPGPMessage($users_id, $message)
-    {
+    public static function encryptPGPMessage($users_id, $message) {
         if (empty($users_id)) {
             return false;
         }
@@ -535,8 +506,7 @@ Best regards,
         return encryptMessage($message, $key);
     }
 
-    public static function getChallenge()
-    {
+    public static function getChallenge() {
         if (!User::isLogged()) {
             return false;
         }
@@ -549,8 +519,7 @@ Best regards,
         return $encMessage["encryptedMessage"];
     }
 
-    public static function verifyChallenge($response)
-    {
+    public static function verifyChallenge($response) {
         if ($response == $_SESSION['user']['challenge']['text']) {
             _session_start();
             $_SESSION['user']['challenge']['isComplete'] = true;
@@ -559,13 +528,11 @@ Best regards,
         return false;
     }
 
-    public static function isChallengeComplete()
-    {
+    public static function isChallengeComplete() {
         return !empty($_SESSION['user']['challenge']['isComplete']);
     }
 
-    public static function userHasPGPActive($users_id)
-    {
+    public static function userHasPGPActive($users_id) {
         $obj = AVideoPlugin::getObjectData("LoginControl");
         if (!$obj->enablePGP2FA) {
             return false;
@@ -575,8 +542,7 @@ Best regards,
         return !empty($key);
     }
 
-    public static function userNeedsToChallengePGP()
-    {
+    public static function userNeedsToChallengePGP() {
         if (User::isLogged()) {
             if (self::userHasPGPActive(User::getId())) {
                 if (!self::isChallengeComplete()) {
@@ -587,8 +553,7 @@ Best regards,
         return false;
     }
 
-    public static function challengeThisPage()
-    {
+    public static function challengeThisPage() {
         if (self::userNeedsToChallengePGP()) {
             if (isVideo()) {
                 return true;
@@ -612,8 +577,7 @@ Best regards,
         return false;
     }
 
-    public function getUsersManagerListButton()
-    {
+    public function getUsersManagerListButton() {
         global $global;
         $p = AVideoPlugin::loadPlugin("LoginControl");
         $obj = $p->getDataObject();
@@ -625,4 +589,5 @@ Best regards,
         }
         return $btn;
     }
+
 }

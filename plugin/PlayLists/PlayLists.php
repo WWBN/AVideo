@@ -194,7 +194,7 @@ class PlayLists extends PluginAbstract {
         global $global, $config;
         $serie_playlists_id = intval($serie_playlists_id);
         $sql = "SELECT * FROM videos WHERE serie_playlists_id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "i", array($serie_playlists_id), true);
+        $res = sqlDAL::readSql($sql, "i", array($serie_playlists_id));
         $video = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return $video;

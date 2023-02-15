@@ -22,9 +22,14 @@ TimeLogStart($timeLog3);
         $videosCounter = 0;
     }
     foreach ($videos as $_index => $value) {
+        
+        $timeLog4Limit = 0.1;
+        $timeLog4 = "{$timeLog3} loop {$value['clean_title']}";
+        TimeLogStart($timeLog4);
         $uid = "{$uidOriginal}_{$value['id']}";
         $videosCounter++;
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
+        TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
         $ajaxLoad = '';
         if (!empty($value['serie_playlists_id'])) {
             if (empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)) {
@@ -35,6 +40,7 @@ TimeLogStart($timeLog3);
             $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
             $value['title'] = "<a href='{$link}' embed='{$linkEmbed}'>{$value['title']}</a>";
         }
+        TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
         $imgGif = $images->thumbsGif;
         $img = $images->thumbsJpg;
         $poster = $images->poster;
@@ -92,7 +98,7 @@ TimeLogStart($timeLog3);
             </div>
         </div>
         <?php
-        TimeLogEnd($timeLog3 . " Video {$value['clean_title']}", __LINE__);
+        TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
     }
     TimeLogEnd($timeLog3, __LINE__);
     ?>

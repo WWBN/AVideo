@@ -1065,7 +1065,7 @@ if (!class_exists('Video')) {
             global $global, $config;
             $id = intval($id);
             $sql = "SELECT * FROM videos WHERE id = ? LIMIT 1";
-            $res = sqlDAL::readSql($sql, 'i', [$id], true);
+            $res = sqlDAL::readSql($sql, 'i', [$id]);
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             return $video;
@@ -1080,7 +1080,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND (users_id = '$users_id' OR users_id_company  = '$users_id' )";
             }
 
-            $res = sqlDAL::readSql($sql, "", [], true);
+            $res = sqlDAL::readSql($sql, "", []);
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             return intval($video['total']);
@@ -1095,7 +1095,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND (users_id = '$users_id' OR users_id_company ='{$users_id}' )";
             }
 
-            $res = sqlDAL::readSql($sql, "", [], true);
+            $res = sqlDAL::readSql($sql, "", []);
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             return intval($video['total']);
@@ -1141,7 +1141,7 @@ if (!class_exists('Video')) {
             }
             $sql = "SELECT * FROM videos WHERE filename = ? LIMIT 1";
             //var_dump($sql, $fileName);
-            $res = sqlDAL::readSql($sql, "s", [$fileName], true);
+            $res = sqlDAL::readSql($sql, "s", [$fileName]);
             if ($res !== false) {
                 $video = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
@@ -1539,7 +1539,8 @@ if (!class_exists('Video')) {
             $TimeLogLimit = 0.2;
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             $name = "_getVideoInfo_{$row['id']}";
-            $cache = ObjectYPT::getCache($name, 3600);
+            $OneHour = 3600;
+            $cache = ObjectYPT::getCache($name, $OneHour);
             if (!empty($cache)) {
                 $externalOptions = $cache->externalOptions;
                 $obj = object_to_array($cache);
@@ -3357,12 +3358,18 @@ if (!class_exists('Video')) {
             //if (!isValidFormats($type)) {
             //return array();
             //}
-            self::_moveSourceFilesToDir($filename);
+
+            $timeLog1Limit = 0.02;
+            $timeLog1 = "getSourceFile($filename, $type, $includeS3)";
+            TimeLogStart($timeLog1);
+
+            //self::_moveSourceFilesToDir($filename);
             $paths = self::getPaths($filename);
             if ($type == '_thumbsSmallV2.jpg' && empty($advancedCustom->usePreloadLowResolutionImages)) {
                 return ['path' => $global['systemRootPath'] . 'view/img/loading-gif.png', 'url' => getCDN() . 'view/img/loading-gif.png'];
             }
 
+            TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
             $cacheName = md5($filename . $type . $includeS3);
             if (isset($VideoGetSourceFile[$cacheName]) && is_array($VideoGetSourceFile[$cacheName])) {
                 if (!preg_match("/token=/", $VideoGetSourceFile[$cacheName]['url'])) {
@@ -3377,6 +3384,7 @@ if (!class_exists('Video')) {
                     $type = ".webp";
                 }
             }
+            TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
             if (empty($videosPaths[$filename][$type][intval($includeS3)])) {
                 $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
                 $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
@@ -3403,6 +3411,7 @@ if (!class_exists('Video')) {
                 }
                 $token = '';
                 $secure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if ((preg_match("/.*\\.mp3$/", $type) || preg_match("/.*\\.mp4$/", $type) || preg_match("/.*\\.webm$/", $type) || $type == ".m3u8" || $type == ".pdf" || $type == ".zip")) {
                     $vars = [];
                     if (!empty($secure)) {
@@ -3413,6 +3422,7 @@ if (!class_exists('Video')) {
                     }
                 }
 
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
 
                 $paths = self::getPaths($filename);
 
@@ -3422,8 +3432,11 @@ if (!class_exists('Video')) {
                 if ($type == ".m3u8") {
                     $source['path'] = self::getStoragePath() . "{$filename}/index{$type}";
                 }
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 $cleanFileName = self::getCleanFilenameFromFile($filename);
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 $video = Video::getVideoFromFileNameLight($cleanFileName);
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if (empty($video)) {
                     //_error_log("Video::getSourceFile($filename, $type, $includeS3) ERROR video not found ($cleanFileName)");
                     $VideoGetSourceFile[$cacheName] = false;
@@ -3433,6 +3446,7 @@ if (!class_exists('Video')) {
                 $fsize = @filesize($source['path']);
                 $isValidType = (preg_match("/.*\\.mp3$/", $type) || preg_match("/.*\\.mp4$/", $type) || preg_match("/.*\\.webm$/", $type) || $type == ".m3u8" || $type == ".pdf" || $type == ".zip");
 
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if (!empty($video['sites_id'])) {
                     $site = new Sites($video['sites_id']);
                 }
@@ -3443,11 +3457,14 @@ if (!class_exists('Video')) {
                     } else {
                         $f = "{$paths['relative']}{$filename}{$type}";
                     }
+                    TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                     $source['url'] = CDNStorage::getURL($f) . "{$token}";
+                    TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                     //$source['url'] = addQueryStringParameter($source['url'], 'cache', uniqid());
                     $source['url_noCDN'] = $source['url'];
                 } elseif (!empty($yptStorage) && !empty($site) && $isValidType && $fsize < 20) {
                     $siteURL = getCDNOrURL($site->getUrl(), 'CDN_YPTStorage', $video['sites_id']);
+                    TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                     $source['url'] = "{$siteURL}{$paths['relative']}{$filename}{$type}{$token}";
                     $source['url_noCDN'] = $site->getUrl() . "{$paths['relative']}{$filename}{$type}{$token}";
                     if ($type == ".m3u8") {
@@ -3470,27 +3487,33 @@ if (!class_exists('Video')) {
                         $source['url_noCDN'] = "{$global['webSiteRootURL']}videos/{$filename}/index{$type}{$token}";
                     }
                 }
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 /* need it because getDurationFromFile */
                 if ($includeS3 && preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip)$/i', $type)) {
                     if (file_exists($source['path']) && filesize($source['path']) < 1024) {
                         if (!empty($cdn_obj->enable_storage)) {
                             $source['url'] = CDNStorage::getURL("{$filename}{$type}");
                             $source['url_noCDN'] = $source['url'];
+                            TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                         } elseif (!empty($aws_s3)) {
                             $source = $aws_s3->getAddress("{$filename}{$type}");
                             $source['url_noCDN'] = $source['url'];
                             $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_S3');
+                            TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                         } elseif (!empty($bb_b2)) {
                             $source = $bb_b2->getAddress("{$filename}{$type}");
                             $source['url_noCDN'] = $source['url'];
                             $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_B2');
+                            TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                         } elseif (!empty($ftp)) {
                             $source = $ftp->getAddress("{$filename}{$type}");
                             $source['url_noCDN'] = $source['url'];
                             $source['url'] = replaceCDNIfNeed($source['url'], 'CDN_FTP');
+                            TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                         }
                     }
                 }
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if (!file_exists($source['path']) || ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10))) {
                     if (
                             $type !== "_thumbsV2.jpg" &&
@@ -4206,6 +4229,10 @@ if (!class_exists('Video')) {
                     return $cache;
                 }
                 global $global, $advancedCustom;
+
+                $timeLog1Limit = 0.1;
+                $timeLog1 = "getImageFromFilename_($filename, $type)";
+                TimeLogStart($timeLog1);
                 /*
                   $name = "getImageFromFilename_{$filename}{$type}_";
                   $cached = ObjectYPT::getCache($name, 86400);//one day
@@ -4243,12 +4270,14 @@ if (!class_exists('Video')) {
                 $obj->posterLandscapeThumbs = $thumbsSource['url'];
                 $obj->posterLandscapeThumbsSmall = $thumbsSmallSource['url'];
 
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if (file_exists($gifSource['path'])) {
                     $obj->thumbsGif = $gifSource['url'];
                 }
                 if (file_exists($jpegPortraitSource['path'])) {
                     convertImageIfNotExists($jpegPortraitSource['path'], $jpegPortraitThumbs['path'], $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait, true);
                     convertImageIfNotExists($jpegPortraitThumbsSmall['path'], $jpegPortraitThumbsSmall['path'], $advancedCustom->thumbsWidthPortrait / 2, $advancedCustom->thumbsHeightPortrait / 2, true);
+                    TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 } else {
                     if ($type == "article") {
                         $obj->posterPortrait = "" . getCDN() . "view/img/article_portrait.png";
@@ -4278,11 +4307,14 @@ if (!class_exists('Video')) {
                     }
                 }
 
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if (file_exists($jpegSource['path'])) {
                     $obj->poster = $jpegSource['url'];
                     $obj->thumbsJpg = $thumbsSource['url'];
                     convertImageIfNotExists($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape, true);
                     convertImageIfNotExists($jpegSource['path'], $thumbsSmallSource['path'], $advancedCustom->thumbsWidthLandscape / 2, $advancedCustom->thumbsHeightLandscape / 2, true);
+
+                    TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 } else {
                     if ($type == "article") {
                         $obj->poster = "" . getCDN() . "view/img/article.png";
@@ -4317,6 +4349,7 @@ if (!class_exists('Video')) {
                     }
                 }
 
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if (empty($obj->thumbsJpg)) {
                     $obj->thumbsJpg = $obj->poster;
                 }
@@ -4330,6 +4363,7 @@ if (!class_exists('Video')) {
 
                 ObjectYPT::setCache($cacheFileName, $obj);
                 $_getImageFromFilename_[$cacheFileName] = $obj;
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
             }
 
             return $obj;
@@ -5039,7 +5073,7 @@ if (!class_exists('Video')) {
             global $global, $config;
             $serie_playlists_id = intval($serie_playlists_id);
             $sql = "SELECT * FROM videos WHERE serie_playlists_id = '$serie_playlists_id' LIMIT 1";
-            $res = sqlDAL::readSql($sql, "", [], true);
+            $res = sqlDAL::readSql($sql, "", []);
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             return $video;

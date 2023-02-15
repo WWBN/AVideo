@@ -59,7 +59,7 @@ class Tags_subscriptions extends ObjectYPT {
         $tags_id = intval($tags_id);
         $users_id = intval($users_id);
         $sql = "SELECT count(id) as total FROM " . static::getTableName() . " WHERE tags_id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "i", [$tags_id], true);
+        $res = sqlDAL::readSql($sql, "i", [$tags_id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -73,7 +73,7 @@ class Tags_subscriptions extends ObjectYPT {
         $tags_id = intval($tags_id);
         $users_id = intval($users_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE tags_id = ? AND users_id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "ii", [$tags_id, $users_id], true);
+        $res = sqlDAL::readSql($sql, "ii", [$tags_id, $users_id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -88,7 +88,7 @@ class Tags_subscriptions extends ObjectYPT {
         global $global;
         $users_id = intval($users_id);
         $sql = "SELECT t.*, ts.* FROM " . static::getTableName() . " ts LEFT JOIN tags t ON ts.tags_id = t.id WHERE users_id = ?";
-        $res = sqlDAL::readSql($sql, "i", [$users_id], true);
+        $res = sqlDAL::readSql($sql, "i", [$users_id]);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         return $fullData;
@@ -109,7 +109,7 @@ class Tags_subscriptions extends ObjectYPT {
         global $global;
         $tags_id = intval($tags_id);
         $sql = "SELECT u.name, u.user, u.email, ts.* FROM " . static::getTableName() . " ts LEFT JOIN users u ON ts.users_id = u.id WHERE tags_id = ?";
-        $res = sqlDAL::readSql($sql, "i", [$tags_id], true);
+        $res = sqlDAL::readSql($sql, "i", [$tags_id]);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         return $fullData;

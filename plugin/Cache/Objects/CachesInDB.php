@@ -125,7 +125,7 @@ class CachesInDB extends ObjectYPT
         global $global;
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  ishttps = ? AND loggedType = ? AND name = ? AND domain = ? AND user_location = ? LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "issss", [$ishttps, $loggedType, $name, $domain, $user_location], true);
+        $res = sqlDAL::readSql($sql, "issss", [$ishttps, $loggedType, $name, $domain, $user_location]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {

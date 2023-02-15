@@ -135,7 +135,7 @@ class Subscribe extends ObjectYPT{
             $sql .= " AND status = '{$status}' ";
         }
         $sql .= " LIMIT 1";
-        $res = sqlDAL::readSql($sql, "", [], true);
+        $res = sqlDAL::readSql($sql, "", []);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res !== false) {

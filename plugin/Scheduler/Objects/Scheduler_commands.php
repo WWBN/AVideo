@@ -39,7 +39,7 @@ class Scheduler_commands extends ObjectYPT {
         }
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  videos_id = ? LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "i", [$videos_id], true);
+        $res = sqlDAL::readSql($sql, "i", [$videos_id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {

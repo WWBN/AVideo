@@ -140,7 +140,7 @@ class Plugin extends ObjectYPT
         }
         if (empty($getPluginByName[$name])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE name = ? LIMIT 1";
-            $res = sqlDAL::readSql($sql, "s", [$name], true);
+            $res = sqlDAL::readSql($sql, "s", [$name]);
             $data = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if (!empty($data)) {

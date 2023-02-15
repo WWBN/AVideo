@@ -148,7 +148,7 @@ class LiveTransmition extends ObjectYPT
         }
         $user_id = intval($user_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "i", [$user_id], true);
+        $res = sqlDAL::readSql($sql, "i", [$user_id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
@@ -218,7 +218,7 @@ class LiveTransmition extends ObjectYPT
         global $global;
         _mysql_connect();
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "s", [$userName], true);
+        $res = sqlDAL::readSql($sql, "s", [$userName]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
@@ -237,7 +237,7 @@ class LiveTransmition extends ObjectYPT
         global $global;
         _mysql_connect();
         $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "s", [$channelName], true);
+        $res = sqlDAL::readSql($sql, "s", [$channelName]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
@@ -258,7 +258,7 @@ class LiveTransmition extends ObjectYPT
         $sql = "SELECT lt.*, ls.* FROM live_schedule ls "
                 . " LEFT JOIN " . static::getTableName() . " lt ON lt.users_id = ls.users_id "
                 . " WHERE ls.id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "i", [$live_schedule_id], true);
+        $res = sqlDAL::readSql($sql, "i", [$live_schedule_id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
