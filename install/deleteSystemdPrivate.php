@@ -9,7 +9,7 @@ if (!isCommandLineInterface()) {
 
 set_time_limit(300);
 ini_set('max_execution_time', 300);
-$glob = glob("/tmp/systemd-private-*-apache2.service-*/tmp/");
+$glob = glob("/tmp/systemd-private-*-apache2.service-*/tmp/*");
 $totalItems = count($glob);
 echo "Found total of {$totalItems} items " . PHP_EOL;
 $countItems = 0;
