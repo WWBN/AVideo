@@ -9,7 +9,7 @@ if (!isCommandLineInterface()) {
 
 set_time_limit(300);
 ini_set('max_execution_time', 300);
-$glob = glob("/tmp/systemd-private-*-apache2.service-*/tmp/*");
+$glob = glob(sys_get_temp_dir()."/*");
 $totalItems = count($glob);
 $one_day_ago = time() - (24 * 60 * 60); // timestamp of 1 day ago
 echo "Found total of {$totalItems} items " . PHP_EOL;
