@@ -10,6 +10,7 @@ if (!empty($objSecure)) {
 }
 
 $objectToReturnToParentIframe = new stdClass();
+$objectToReturnToParentIframe->videos_id = 0;
 $objectToReturnToParentIframe->isLive = false;
 $objectToReturnToParentIframe->isVOD = false;
 $objectToReturnToParentIframe->title = '';
@@ -42,6 +43,7 @@ if (!empty($liveVideo)) {
     $video = $videos[0];
     $poster = Video::getPoster($video['id']);
     $sources = getSources($video['filename']);
+    $objectToReturnToParentIframe->videos_id = intval($video['id']);
     $objectToReturnToParentIframe->isVOD = true;
     $objectToReturnToParentIframe->title = $video['title'];
     $objectToReturnToParentIframe->duration = $video['duration'];
