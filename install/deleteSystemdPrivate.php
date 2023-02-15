@@ -1,10 +1,22 @@
 <?php
+if (!php_sapi_name() === 'cli') {
+    die('Command Line only');
+}
 
-//streamer config
-require_once '../videos/configuration.php';
+function humanFileSize($size, $unit = ""){
+    if ((!$unit && $size >= 1 << 30) || $unit == "GB") {
+        return number_format($size / (1 << 30), 2) . "GB";
+    }
 
-if (!isCommandLineInterface()) {
-    return die('Command Line only');
+    if ((!$unit && $size >= 1 << 20) || $unit == "MB") {
+        return number_format($size / (1 << 20), 2) . "MB";
+    }
+
+    if ((!$unit && $size >= 1 << 10) || $unit == "KB") {
+        return number_format($size / (1 << 10), 2) . "KB";
+    }
+
+    return number_format($size) . " bytes";
 }
 
 set_time_limit(300);
