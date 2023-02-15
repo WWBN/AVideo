@@ -1,17 +1,17 @@
 <?php
-$users_tabs = array();
+$users_tabs = [];
 
-$users_tabs[] = array('selector' => 'grid', 'queryString' => '?status=a', 'icon' => 'fas fa-user', 'title' => 'Active Users', 'active' => 'active', 'userGroupID' => 0);
-$users_tabs[] = array('selector' => 'gridInactive', 'queryString' => '?status=i', 'icon' => 'fas fa-user-slash', 'title' => 'Inactive Users', 'active' => '', 'userGroupID' => 0);
-$users_tabs[] = array('selector' => 'gridAdmin', 'queryString' => '?isAdmin=1', 'icon' => 'fas fa-user-tie', 'title' => 'Admin Users', 'active' => '', 'userGroupID' => 0);
+$users_tabs[] = ['selector' => 'grid', 'queryString' => '?status=a', 'icon' => 'fas fa-user', 'title' => 'Active Users', 'active' => 'active', 'userGroupID' => 0];
+$users_tabs[] = ['selector' => 'gridInactive', 'queryString' => '?status=i', 'icon' => 'fas fa-user-slash', 'title' => 'Inactive Users', 'active' => '', 'userGroupID' => 0];
+$users_tabs[] = ['selector' => 'gridAdmin', 'queryString' => '?isAdmin=1', 'icon' => 'fas fa-user-tie', 'title' => 'Admin Users', 'active' => '', 'userGroupID' => 0];
 
 if (empty($advancedCustomUser->disableCompanySignUp)) {
-    $users_tabs[] = array('selector' => 'companyAdmin', 'queryString' => '?isCompany=1', 'icon' => 'fas fa-building', 'title' => 'Company Users', 'active' => '', 'userGroupID' => 0);
-    $users_tabs[] = array('selector' => 'companyApAdmin', 'queryString' => '?isCompany=2', 'icon' => 'fas fa-building', 'title' => 'Company Waiting Approval', 'active' => '', 'userGroupID' => 0);
+    $users_tabs[] = ['selector' => 'companyAdmin', 'queryString' => '?isCompany=1', 'icon' => 'fas fa-building', 'title' => 'Company Users', 'active' => '', 'userGroupID' => 0];
+    $users_tabs[] = ['selector' => 'companyApAdmin', 'queryString' => '?isCompany=2', 'icon' => 'fas fa-building', 'title' => 'Company Waiting Approval', 'active' => '', 'userGroupID' => 0];
 }
 
 foreach ($userGroups as $value) {
-    $users_tabs[] = array('selector' => 'userGroupGrid' . $value['id'], 'queryString' => '?status=a&user_groups_id=' . $value['id'], 'icon' => 'fas fa-users', 'title' => $value['group_name'], 'active' => '', 'userGroupID' => $value['id']);
+    $users_tabs[] = ['selector' => 'userGroupGrid' . $value['id'], 'queryString' => '?status=a&user_groups_id=' . $value['id'], 'icon' => 'fas fa-users', 'title' => $value['group_name'], 'active' => '', 'userGroupID' => $value['id']];
 }
 ?>
 <div class="panel panel-default">
@@ -68,7 +68,7 @@ foreach ($userGroups as $value) {
                                     <li><a href="#" id="filter<?php echo $value['userGroupID']; ?>_permanent" onclick="userGroupFilter(<?php echo $value['userGroupID']; ?>, 'permanent');return false;;"><i class="fas fa-lock"></i> <?php echo __('Permanent User groups'); ?></a></li>
                                 </ul>
                             </div>
-                        </div>   
+                        </div>
                         <?php
                     }
                     ?>

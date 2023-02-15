@@ -6,7 +6,7 @@ if (empty($config)) {
 
 // filter some security here
 if (!empty($_GET['lang'])) {
-    $_GET['lang'] = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($_GET['lang']));
+    $_GET['lang'] = str_replace(["'", '"', "&quot;", "&#039;"], ['', '', '', ''], xss_esc($_GET['lang']));
 }
 
 if (!empty($_GET['lang'])) {
@@ -21,7 +21,7 @@ function __($str, $allowHTML = false) {
         if (is_array($t) && function_exists('array_change_key_case') && !isCommandLineInterface()) {
             $t_insensitive = array_change_key_case($t, CASE_LOWER);
         } else {
-            $t_insensitive = array();
+            $t_insensitive = [];
         }
     }
     $return = $str;
@@ -35,7 +35,7 @@ function __($str, $allowHTML = false) {
     if ($allowHTML) {
         return $return;
     }
-    return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $return);
+    return str_replace(["'", '"', "<", '>'], ['&apos;', '&quot;', '&lt;', '&gt;'], $return);
 }
 
 function printJSString($str, $return = false) {
@@ -55,7 +55,7 @@ function isRTL() {
 function getAllFlags() {
     global $global;
     $dir = "{$global['systemRootPath']}view/css/flag-icon-css-master/flags/4x3";
-    $flags = array();
+    $flags = [];
     if ($handle = opendir($dir)) {
         while (false !== ($entry = readdir($handle))) {
             if ($entry != "." && $entry != "..") {
@@ -76,7 +76,7 @@ function getAllFlags() {
 function getEnabledLangs() {
     global $global;
     $dir = "{$global['systemRootPath']}locale";
-    $flags = array();
+    $flags = [];
     if (empty($global['dont_show_us_flag'])) {
         $flags[] = 'us';
     }
@@ -101,7 +101,7 @@ function textToLink($string, $targetBlank = false) {
 }
 
 function br2nl($html) {
-    $nl = preg_replace(array('#<br\s*/?>#i', '#<p\s*/?>#i', '#</p\s*>#i'), array("\n", "\n", ''), $html);
+    $nl = preg_replace(['#<br\s*/?>#i', '#<p\s*/?>#i', '#</p\s*>#i'], ["\n", "\n", ''], $html);
     return $nl;
 }
 

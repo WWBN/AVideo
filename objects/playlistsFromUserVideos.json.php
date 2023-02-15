@@ -17,9 +17,9 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once './playlist.php';
 header('Content-Type: application/json');
 if(is_array($_POST['videos_id'])){
-    $rows = array();
+    $rows = [];
     foreach ($_POST['videos_id'] as $value) {
-        $rows[] = array('videos_id'=>$value, 'playlists'=>PlayList::getAllFromUserVideo($_POST['users_id'], $value, false));
+        $rows[] = ['videos_id'=>$value, 'playlists'=>PlayList::getAllFromUserVideo($_POST['users_id'], $value, false)];
     }
     echo json_encode($rows);
 }else{

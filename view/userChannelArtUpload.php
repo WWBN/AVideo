@@ -31,7 +31,7 @@ $factorW = $screenWidth / $finalWidth;
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container">
-            <br>    
+            <br>
             <?php
             include $global['systemRootPath'] . 'view/userChannelArtUploadInclude.php';
             ?>

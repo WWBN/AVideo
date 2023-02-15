@@ -31,7 +31,7 @@ $global['isForbidden'] = true;
                             if (!empty($_REQUEST['unlockPassword'])) {
                                 $value = $_REQUEST['unlockPassword'];
                             }
-                            echo getInputPassword('unlockPassword', 'class="form-control" value="' . $value . '"', __('Unlock Password')); 
+                            echo getInputPassword('unlockPassword', 'class="form-control" value="' . $value . '"', __('Unlock Password'));
                             ?>
                         </div>
                         <div class="col-sm-4">

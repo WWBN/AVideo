@@ -194,7 +194,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css"/>
 
         <link rel="image_src" href="<?php echo $img; ?>" />
-        
+
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
         <style>
             body {
@@ -435,7 +435,7 @@ if (User::hasBlockedUser($video['users_id'])) {
         </script>
         <?php
     } elseif ($video['type'] == "linkVideo" || $video['type'] == "liveLink") {
-        $t = array('id'=>$_GET['link']);
+        $t = ['id'=>$_GET['link']];
         ?>
         <!-- videoLink include liveVideo.php [<?php echo $_GET['link']; ?>] -->
         <?php

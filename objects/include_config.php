@@ -7,7 +7,7 @@ if (!empty($doNotIncludeConfig)) {
 if($_SERVER["HTTP_HOST"] === 'localhost' || $_SERVER["HTTP_HOST"] === '127.0.0.1'){
     $global["webSiteRootURL"] = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].$global["webSiteRootPath"];
 }
- * 
+ *
  */
 //if(!empty($global['debugMemmory'])){return false;}
 //if(!empty($global['debugMemmory'])){var_dump(__LINE__);exit;}

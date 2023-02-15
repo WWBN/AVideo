@@ -69,7 +69,7 @@ if (empty($title) && !empty($_POST['title'])) {
     $title = $video->setTitle($_POST['title']);
 } elseif (empty($title)) {
     $video->setTitle("Automatic Title");
-}else{    
+}else{
     _error_log("aVideoEncoder.json: Title not updated {$_POST['title']} ");
 }
 

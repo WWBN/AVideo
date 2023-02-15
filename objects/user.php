@@ -12,9 +12,9 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 
 /**
- * 
+ *
  * @var array $global
- * @var object $global['mysqli'] 
+ * @var object $global['mysqli']
  */
 class User {
 
@@ -55,16 +55,16 @@ class User {
     public static $channel_artDesktopMax = 'desktop_max';
     public static $channel_artTablet = 'tablet';
     public static $channel_artDesktopMin = 'desktop_min';
-    public static $channel_art = array(
-        'TV' => array('tv', 2550, 1440),
-        'DesktopMax' => array('desktop_max', 2550, 423),
-        'tablet' => array('tablet', 1855, 423),
-        'DesktopMin' => array('desktop_min', 1546, 423)
-    );
+    public static $channel_art = [
+        'TV' => ['tv', 2550, 1440],
+        'DesktopMax' => ['desktop_max', 2550, 423],
+        'tablet' => ['tablet', 1855, 423],
+        'DesktopMin' => ['desktop_min', 1546, 423]
+    ];
     public static $is_company_status_NOTCOMPANY = 0;
     public static $is_company_status_ISACOMPANY = 1;
     public static $is_company_status_WAITINGAPPROVAL = 2;
-    public static $is_company_status = array(0 => 'Not a Company', 1 => 'Active Company', 2 => 'Company waiting for approval');
+    public static $is_company_status = [0 => 'Not a Company', 1 => 'Active Company', 2 => 'Company waiting for approval'];
 
     public function __construct($id, $user = "", $password = "") {
         if (empty($id)) {
@@ -747,9 +747,9 @@ if (typeof gtag !== \"function\") {
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 
         /**
-         * 
+         *
          * @var array $global
-         * @var object $global['mysqli'] 
+         * @var object $global['mysqli']
          */
         if ($insert_row) {
             if (empty($this->id)) {
@@ -940,20 +940,20 @@ if (typeof gtag !== \"function\") {
         global $global;
         if (!empty($this->id)) {
 
-            $arrayTables = array(
+            $arrayTables = [
                 //'live_transmition_history_log',
                 'live_transmitions',
                 'users_login_history',
                 'audit',
                 'ppvlive_purchases',
-            );
+            ];
 
             foreach ($arrayTables as $value) {
                 $sql = "DELETE FROM {$value} WHERE users_id = ?";
                 try {
                     sqlDAL::writeSql($sql, "i", [$this->id]);
                 } catch (Exception $exc) {
-                    
+
                 }
             }
 
@@ -1198,7 +1198,7 @@ if (typeof gtag !== \"function\") {
 
         if (!empty($users_id)) {
             if (!isset($_is_a_company)) {
-                $_is_a_company = array();
+                $_is_a_company = [];
             }
             if (!isset($_is_a_company[$users_id])) {
                 $user = new User($users_id);
@@ -1282,7 +1282,7 @@ if (typeof gtag !== \"function\") {
         }
         $can = !empty($this->isAdmin) || !empty($this->canStream);
         if(empty($can)){
-            $reasons = array();
+            $reasons = [];
             if(empty($this->isAdmin)){
                 $reasons[] = 'User is not admin';
             }
@@ -1293,10 +1293,10 @@ if (typeof gtag !== \"function\") {
         }
         return $can;
     }
-    
+
     static public function getLastUserCanStreamReason() {
         global $_thisUserCanStreamReasonMessage;
-        
+
         return $_thisUserCanStreamReasonMessage;
     }
 
@@ -2374,7 +2374,7 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         if (!isset($_sendVerificationLink_sent)) {
-            $_sendVerificationLink_sent = array();
+            $_sendVerificationLink_sent = [];
         }
         //Only send the verification email each 30 minutes
         if (!empty($_sendVerificationLink_sent[$users_id])) {
@@ -2398,7 +2398,7 @@ if (typeof gtag !== \"function\") {
             $contactEmail = $config->getContactEmail();
             $webSiteTitle = $config->getWebSiteTitle();
             /**
-             * @var string $email 
+             * @var string $email
              */
             $email = '';
             $email = $user->getEmail();
@@ -2468,7 +2468,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if (!isset($_createVerificationCode)) {
-            $_createVerificationCode = array();
+            $_createVerificationCode = [];
         }
 
         if (empty($_createVerificationCode[$users_id])) {
@@ -2577,9 +2577,9 @@ if (typeof gtag !== \"function\") {
         $row = self::getBlob($users_id, $type);
         $null = null;
         /**
-         * 
+         *
          * @var array $global
-         * @var object $global['mysqli'] 
+         * @var object $global['mysqli']
          */
         if (!empty($row['id'])) {
             $sql = "UPDATE users_blob SET `blob` = ? , modified = now() WHERE id = ?";
@@ -2973,7 +2973,7 @@ if (typeof gtag !== \"function\") {
         $value = $user->getExternalOptions('DonationButtons');
         $json = _json_decode($value);
         if (empty($json)) {
-            return array();
+            return [];
         }
         return $json;
     }
@@ -3065,5 +3065,4 @@ if (typeof gtag !== \"function\") {
         }
         return $_SESSION['swapUser']['id'];
     }
-
 }

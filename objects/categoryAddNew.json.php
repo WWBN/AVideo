@@ -48,7 +48,7 @@ if (!empty($obj->categories_id)) {
     $obj->image2 = saveCroppieImage($path['path'], "image2");
     $obj->image2P = $path['path'];
     _error_log('CategoryAddnew: save image 2 '.$path['path']);
-    
+
     // save usergroups
     _error_log('CategoryAddnew: save usergroups '. json_encode($obj->usergroups_ids_array));
     Category::setUsergroups($obj->categories_id, $obj->usergroups_ids_array);

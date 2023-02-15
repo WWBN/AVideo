@@ -29,6 +29,6 @@ foreach ($obj->videos_ids as $videos_id) {
         $obj->delResponse = UserGroups::deleteVideoGroups($videos_id, $obj->users_groups_id);
         $obj->error = empty($obj->delResponse);
     }
-    
+
 }
 die(json_encode($obj));

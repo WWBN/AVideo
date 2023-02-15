@@ -5,9 +5,9 @@ if ($startActive) {
     $svgClass .= ' active';
 }
 if ($invert) {
-    
+
     if(preg_match('/style=["\']/', $parameters)){
-        $parameters = str_replace(array('style="','style=\''), array('style="transform: scale(-1,1);', 'style=\'transform: scale(-1,1);'), $parameters );
+        $parameters = str_replace(['style="','style=\''], ['style="transform: scale(-1,1);', 'style=\'transform: scale(-1,1);'], $parameters );
     }else{
         $parameters .= 'style="transform: scale(-1,1);"';
     }
@@ -28,7 +28,7 @@ if ($invert) {
             <path
                 class="line bottom"
                 d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
-            </svg>    
+            </svg>
             <?php
             break;
         case '2':
@@ -43,7 +43,7 @@ if ($invert) {
             <path
                 class="line bottom"
                 d="m 70,67 h -40 c -6.5909,0 -7.763966,4.501509 -7.763966,7.511428 0,4.721448 3.376452,9.583771 13.876919,9.583771 14.786182,0 11.409257,-14.896182 9.596449,-21.970818 -1.812808,-7.074636 -15.709402,-12.124381 -15.709402,-12.124381" />
-            </svg>    
+            </svg>
             <?php
             break;
         case '3':
@@ -150,13 +150,9 @@ if ($invert) {
             <path
                 class="line bottom"
                 d="m 30,67 h 40 c 12.796276,0 15.357889,-11.717785 15.357889,-26.851538 0,-15.133752 -4.786586,-27.274118 -16.667516,-27.274118 -11.88093,0 -18.499247,6.994427 -18.435284,17.125656 l 0.252538,40" />
-            </svg>    
+            </svg>
             <?php
             break;
     }
     ?>
 </button>
-
-
-
-

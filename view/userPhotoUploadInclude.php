@@ -4,12 +4,12 @@ $finalHeight = 150;
 $screenWidth = 150;
 $caUid = 'Photo_' . uniqid();
 ?>
-<div class="form-group" id="<?php echo $caUid; ?>">   
+<div class="form-group" id="<?php echo $caUid; ?>">
     <?php
     $croppie = getCroppie(__('Profile Photo'), 'userPhotoUpload', $finalWidth, $finalHeight, $screenWidth);
     echo $croppie['html'];
     ?>
-</div>  
+</div>
 <button class="btn btn-success btn-block" type="button" onclick="<?php echo $croppie['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save Profile Photo'); ?></button>
 <?php
 

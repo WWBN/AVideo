@@ -182,7 +182,7 @@ class Category {
         }
     }
     /**
-     * 
+     *
      * @param string $clean_title
      * @param int $count
      * @param int $id
@@ -402,7 +402,7 @@ class Category {
             _error_log('getAllCategories getUserGroups');
             $users_groups = UserGroups::getUserGroups($sameUserGroupAsMe);
 
-            $users_groups_id = array(0);
+            $users_groups_id = [0];
             foreach ($users_groups as $value) {
                 $users_groups_id[] = $value['id'];
             }
@@ -440,11 +440,11 @@ class Category {
 
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $totals = self::getTotalFromCategory($row['id']);
-                    
+
                     if($onlyWithVideos && empty($totals['total'])){
                         continue;
                     }
-                    
+
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
 
@@ -978,15 +978,14 @@ class Category {
 
     public static function setUsergroups($categories_id, $usergroups_ids_array) {
         if (!is_array($usergroups_ids_array)) {
-            $usergroups_ids_array = array($usergroups_ids_array);
+            $usergroups_ids_array = [$usergroups_ids_array];
         }
         Categories_has_users_groups::deleteAllFromCategory($categories_id);
-        $return = array();
+        $return = [];
         foreach ($usergroups_ids_array as $users_groups_id) {
             $id = Categories_has_users_groups::saveUsergroup($categories_id, $users_groups_id);
             $return[] = $id;
         }
         return $return;
     }
-
 }

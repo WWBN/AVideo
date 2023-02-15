@@ -409,8 +409,8 @@ $uuidJSCondition = implode(" && ", $rowId);
             $(t).find('i').removeClass('fa-minus');
         }
     }
-    
-    
+
+
     function tooglePluginForceShow(t) {
         var id = $(t).attr('id');
         var selector = '#jsonElements .'+id;
