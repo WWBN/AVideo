@@ -78,12 +78,12 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
         </style>
     </head>
     <body>
-        <iframe 
-            frameborder="0" 
-            marginheight="0" 
-            marginwidth="0" 
-            width="100%" 
-            height="100%" 
+        <iframe
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            width="100%"
+            height="100%"
             scrolling="auto"
             src="<?php echo getURL('view\index_loading.html'); ?>" id="mainIframe" name="mainIframe"></iframe>
         <form action="<?php echo $postURL; ?>" method="post" target="mainIframe" style="display: none;" id="mainIframeForm">
@@ -345,7 +345,7 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
                  $('#mainIframe').attr('id', 'oldMainIframe');
                  $(iframe).css({display:'none'});
                  $('body').append(iframe);
-                 
+
                  var oldMainIframe = $('#oldMainIframe');
                  if(oldMainIframe.length){
                  $(oldMainIframe).slideUp('fast', function () {
@@ -361,7 +361,7 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
             $(document).ready(function () {
                 $('#mainIframeForm').submit();
                 //$("#window").draggable({handle: ".panel-heading", containment: "body"});
-                //$("#window").resizable();      
+                //$("#window").resizable();
             });
         </script>
     </body>

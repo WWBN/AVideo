@@ -11,18 +11,18 @@ if (isBot()) {
 
 $videos_id = getVideos_id();
 
-$sortOptions = array(
-    array('key' => 'title', 'order' => 'asc', 'sortBy' => 'titleAZ', 'label' => __("Title (A-Z)"), 'data-icon' => '<i class="fas fa-sort-alpha-down"></i>'),
-    array('key' => 'title', 'order' => 'desc', 'sortBy' => 'titleZA', 'label' => __("Title (Z-A)"), 'data-icon' => '<i class="fas fa-sort-alpha-down-alt"></i>'),
-    array('key' => 'created', 'order' => 'desc', 'sortBy' => 'newest', 'label' => __("Date added (newest)"), 'data-icon' => '<i class="fas fa-sort-numeric-down"></i>'),
-    array('key' => 'created', 'order' => 'asc', 'sortBy' => 'oldest', 'label' => __("Date added (oldest)"), 'data-icon' => '<i class="fas fa-sort-numeric-down"></i>'),
-    array('key' => 'likes', 'order' => 'desc', 'sortBy' => 'popular', 'label' => __("Most popular"), 'data-icon' => '<i class="far fa-thumbs-up"></i>'),
-    array('key' => 'suggested', 'order' => 'desc', 'sortBy' => 'suggested', 'label' => __("Suggested"), 'data-icon' => '<i class="fas fa-star"></i>'),
-    array('key' => 'trending', 'order' => 'desc', 'sortBy' => 'trending', 'label' => __("Trending"), 'data-icon' => '<i class="fas fa-fire"></i>'),
-);
+$sortOptions = [
+    ['key' => 'title', 'order' => 'asc', 'sortBy' => 'titleAZ', 'label' => __("Title (A-Z)"), 'data-icon' => '<i class="fas fa-sort-alpha-down"></i>'],
+    ['key' => 'title', 'order' => 'desc', 'sortBy' => 'titleZA', 'label' => __("Title (Z-A)"), 'data-icon' => '<i class="fas fa-sort-alpha-down-alt"></i>'],
+    ['key' => 'created', 'order' => 'desc', 'sortBy' => 'newest', 'label' => __("Date added (newest)"), 'data-icon' => '<i class="fas fa-sort-numeric-down"></i>'],
+    ['key' => 'created', 'order' => 'asc', 'sortBy' => 'oldest', 'label' => __("Date added (oldest)"), 'data-icon' => '<i class="fas fa-sort-numeric-down"></i>'],
+    ['key' => 'likes', 'order' => 'desc', 'sortBy' => 'popular', 'label' => __("Most popular"), 'data-icon' => '<i class="far fa-thumbs-up"></i>'],
+    ['key' => 'suggested', 'order' => 'desc', 'sortBy' => 'suggested', 'label' => __("Suggested"), 'data-icon' => '<i class="fas fa-star"></i>'],
+    ['key' => 'trending', 'order' => 'desc', 'sortBy' => 'trending', 'label' => __("Trending"), 'data-icon' => '<i class="fas fa-fire"></i>'],
+];
 
 if (empty($advancedCustom->doNotDisplayViews)) {
-    $sortOptions[] = array('key' => 'views_count', 'order' => 'desc', 'sortBy' => 'views_count', 'label' => __("Most watched"), 'data-icon' => '<i class="fas fa-eye"></i>');
+    $sortOptions[] = ['key' => 'views_count', 'order' => 'desc', 'sortBy' => 'views_count', 'label' => __("Most watched"), 'data-icon' => '<i class="fas fa-eye"></i>'];
 }
 
 $sortBy = $advancedCustom->sortVideoListByDefault->value;
@@ -43,7 +43,7 @@ if (empty($_REQUEST['rowCount']) && empty($_SESSION['rowCount'])) {
 $jsonRowCountArray = _json_decode($advancedCustom->videosListRowCount);
 
 if(empty($jsonRowCountArray) || !is_array($jsonRowCountArray)){
-    $jsonRowCountArray = array(10,20,30,40,50);
+    $jsonRowCountArray = [10,20,30,40,50];
 }
 
 if (!in_array($_SESSION['rowCount'], $jsonRowCountArray)) {
@@ -53,7 +53,7 @@ if (!in_array($_SESSION['rowCount'], $jsonRowCountArray)) {
 $_REQUEST['rowCount'] = $_SESSION['rowCount'];
 $_SESSION['sortBy'] = $sortBy;
 
-$_POST['sort'] = array();
+$_POST['sort'] = [];
 foreach ($sortOptions as $value) {
     //var_dump($sortBy, strtolower($value['sortBy']), $sortBy === strtolower($value['sortBy']));echo '<hr>';
     if ($sortBy === strtolower($value['sortBy'])) {
@@ -94,10 +94,10 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
 ?>
 <div class="col-md-8 col-sm-12 " style="position: relative; z-index: 10;" >
     <?php
-    $optionsArray = array();
+    $optionsArray = [];
     $selected = false;
     foreach ($sortOptions as $value) {
-        $optionsArray[] = array(htmlentities("{$value['data-icon']} {$value['label']}"), $value['sortBy'], 'order="' . $value['order'] . '"  key="' . $value['key'] . '"');
+        $optionsArray[] = [htmlentities("{$value['data-icon']} {$value['label']}"), $value['sortBy'], 'order="' . $value['order'] . '"  key="' . $value['key'] . '"'];
         //var_dump($sortBy, strtolower($value['sortBy']), $sortBy === strtolower($value['sortBy']));echo '<hr>';
         if ($sortBy === strtolower($value['sortBy'])) {
             $selected = $value['sortBy'];
@@ -157,11 +157,11 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
                 <div class="details row">
                     <div class="text-muted pull-right" style="display:flex;">
                         <div class="label label-default alreadyTooltip" data-toggle="tooltip" title="" style="" data-original-title="Watching Now">
-                            <i class="fa fa-eye"></i> 
+                            <i class="fa fa-eye"></i>
                             <b class=""><i class="fas fa-circle-notch fa-spin"></i></b>
                         </div>
                         <div class="label label-default alreadyTooltip" data-toggle="tooltip" title="" data-original-title="Total Views">
-                            <i class="fa fa-user"></i> 
+                            <i class="fa fa-user"></i>
                             <b class=""><i class="fas fa-circle-notch fa-spin"></i></b>
                         </div>
                     </div>

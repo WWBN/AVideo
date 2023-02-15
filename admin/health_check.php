@@ -110,7 +110,7 @@ if(_isSchedulerPresentOnCrontab()){
 }else{
     $messages['Server'][] = ["Scheduler plugin is NOT installed on your crontab, open your terminal and type 'crontab -e', than add the code: ", "* * * * * php {$global['systemRootPath']}plugin/Scheduler/run.php"];
 }
- * 
+ *
  */
 
 foreach ($linuxApps as $value) {
@@ -186,7 +186,7 @@ if (empty($verified)) {
     </div>
     <div class="panel-body">
 
-        <div class="row">    
+        <div class="row">
 
             <div class="col-lg-8 col-md-6">
                 <div class="panel panel-default">
@@ -194,7 +194,7 @@ if (empty($verified)) {
                         Server
                     </div>
                     <div class="panel-body">
-                        <div class="row">    
+                        <div class="row">
 <?php
 $count = 0;
 foreach ($messages['Server'] as $value) {
@@ -208,16 +208,16 @@ foreach ($messages['Server'] as $value) {
                                     if (!empty($value[1])) {
                                         if (preg_match('/^http/i', $value[1])) {
                                             ?>
-                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
+                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a>
                                                     <?php
                                                 } else {
                                                     ?>
-                                                    <br><code><?php echo $value[1]; ?></code> 
+                                                    <br><code><?php echo $value[1]; ?></code>
                                                     <?php
                                                 }
                                             }
                                             ?>
-                                        </div>    
+                                        </div>
                                     </div>
                                             <?php
                                         } else {
@@ -225,8 +225,8 @@ foreach ($messages['Server'] as $value) {
                                     <div class="col-lg-4 col-md-6 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
                                             <i class="fas fa-check"></i> <?php echo $value; ?>
-                                        </div>  
-                                    </div>    
+                                        </div>
+                                    </div>
                                             <?php
                                         }
                                         if ($count % 2 === 0) {
@@ -248,7 +248,7 @@ foreach ($messages['Server'] as $value) {
                         PHP
                     </div>
                     <div class="panel-body">
-                        <div class="row">    
+                        <div class="row">
 <?php
 foreach ($messages['PHP'] as $value) {
     if (is_array($value)) {
@@ -260,16 +260,16 @@ foreach ($messages['PHP'] as $value) {
                                     if (!empty($value[1])) {
                                         if (preg_match('/^http/i', $value[1])) {
                                             ?>
-                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
+                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a>
                                                     <?php
                                                 } else {
                                                     ?>
-                                                    <br><code><?php echo $value[1]; ?></code> 
+                                                    <br><code><?php echo $value[1]; ?></code>
                                                     <?php
                                                 }
                                             }
                                             ?>
-                                        </div>    
+                                        </div>
                                     </div>
                                             <?php
                                         } else {
@@ -277,8 +277,8 @@ foreach ($messages['PHP'] as $value) {
                                     <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
                                             <i class="fas fa-check"></i> <?php echo $value; ?>
-                                        </div>  
-                                    </div>    
+                                        </div>
+                                    </div>
                                             <?php
                                         }
                                     }
@@ -294,7 +294,7 @@ foreach ($messages['PHP'] as $value) {
                         Apache
                     </div>
                     <div class="panel-body">
-                        <div class="row">    
+                        <div class="row">
 <?php
 foreach ($messages['Apache'] as $value) {
     if (is_array($value)) {
@@ -306,16 +306,16 @@ foreach ($messages['Apache'] as $value) {
                                     if (!empty($value[1])) {
                                         if (preg_match('/^http/i', $value[1])) {
                                             ?>
-                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
+                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a>
                                                     <?php
                                                 } else {
                                                     ?>
-                                                    <br><code><?php echo $value[1]; ?></code> 
+                                                    <br><code><?php echo $value[1]; ?></code>
                                                     <?php
                                                 }
                                             }
                                             ?>
-                                        </div>    
+                                        </div>
                                     </div>
                                             <?php
                                         } else {
@@ -323,8 +323,8 @@ foreach ($messages['Apache'] as $value) {
                                     <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
                                             <i class="fas fa-check"></i> <?php echo $value; ?>
-                                        </div>  
-                                    </div>    
+                                        </div>
+                                    </div>
                                             <?php
                                         }
                                     }

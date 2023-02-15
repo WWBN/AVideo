@@ -204,7 +204,7 @@ class PlayList extends ObjectYPT {
             }
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            $rows = array();
+            $rows = [];
         }
         return $rows;
     }
@@ -259,7 +259,7 @@ class PlayList extends ObjectYPT {
         if ($res !== false) {
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
-                $row['videos'] = array();
+                $row['videos'] = [];
                 if ($onlyWithVideos) {
                     $row['videos'] = self::getVideosIDFromPlaylistLight($row['id']);
                     if (empty($row['videos'])) {
@@ -270,7 +270,7 @@ class PlayList extends ObjectYPT {
             }
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            $rows = array();
+            $rows = [];
         }
         return $rows;
     }
@@ -389,7 +389,7 @@ class PlayList extends ObjectYPT {
             }
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            $rows = array();
+            $rows = [];
         }
         $getVideosIDFromPlaylistLight[$playlists_id] = $rows;
         return $rows;
@@ -457,7 +457,7 @@ class PlayList extends ObjectYPT {
                 $cache = self::setCache($cacheName, $rows);
             } else {
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-                $rows = array();
+                $rows = [];
             }
         } else {
             $rows = object_to_array($rows);
@@ -840,7 +840,7 @@ class PlayList extends ObjectYPT {
             }
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            $rows = array();
+            $rows = [];
         }
         return $rows;
     }

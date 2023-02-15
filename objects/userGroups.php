@@ -278,7 +278,7 @@ class UserGroups{
         }
 
         if(!isset($__getUserGroups)){
-            $__getUserGroups = array();
+            $__getUserGroups = [];
         }
 
         if(isset($__getUserGroups[$users_id])){
@@ -403,7 +403,7 @@ class UserGroups{
             return false;
         }
         if (!is_array($array_groups_id)) {
-            $array_groups_id = array($array_groups_id);
+            $array_groups_id = [$array_groups_id];
         }
 
         if ($mergeWithCurrentUserGroups) {
@@ -482,12 +482,12 @@ class UserGroups{
         global $_getVideosAndCategoriesUserGroups;
 
         if(!isset($_getVideosAndCategoriesUserGroups)){
-            $_getVideosAndCategoriesUserGroups = array();
+            $_getVideosAndCategoriesUserGroups = [];
         }
         if(!empty($force) || !isset($_getVideosAndCategoriesUserGroups[$videos_id])){
             $videosug = self::getVideoGroups($videos_id);
             $categoriessug = self::getCategoriesGroups($videos_id);
-            $response = array();
+            $response = [];
             foreach ($videosug as $value) {
                 $value['isVideoUserGroup'] = 1;
                 $value['isCategoryUserGroup'] = 0;

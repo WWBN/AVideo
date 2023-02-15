@@ -121,7 +121,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                             <?php
                         }
                         $filesToDownload = [];
-                        $files = array();
+                        $files = [];
                         $canDownloadFiles = CustomizeUser::canDownloadVideosFromVideo($video['id']);
                         if ($video['type'] == "zip") {
                             $files = getVideosURLZIP($video['filename']);
@@ -132,8 +132,8 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                             $files = getVideosURL($video['filename']);
                         }
                         if (!empty($files)) {
-                            $downloadMP3Link = array();
-                            $downloadMP4Link = array();
+                            $downloadMP3Link = [];
+                            $downloadMP4Link = [];
                             foreach ($files as $key => $theLink) {
                                 //$notAllowedKeys = array('m3u8');
                                 $notAllowedKeys = ['log'];
@@ -260,7 +260,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                             }
                             if (preg_match('/\.json/i', $theLink['url'])) {
                                 ?>
-                                <button type="button" onclick="downloadURLOrAlertError('<?php echo $theLink['url']; ?>', {}, '<?php echo $video['clean_title']; ?>.<?php echo strtolower($theLink['name']); ?>', '<?php echo $theLink['progress']; ?>');" 
+                                <button type="button" onclick="downloadURLOrAlertError('<?php echo $theLink['url']; ?>', {}, '<?php echo $video['clean_title']; ?>.<?php echo strtolower($theLink['name']); ?>', '<?php echo $theLink['progress']; ?>');"
                                         class="btn btn-default" target="_blank">
                                     <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
                                 </button>
@@ -312,8 +312,8 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
 
                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Rating"); ?>:</strong></div>
                     <div class="col-xs-8 col-sm-10 col-lg-10">
-                        <img src="<?php echo getURL('view/rrating/rating-' . $video['rrating'] . '.png'); ?>" 
-                             class="img img-responsive zoom" 
+                        <img src="<?php echo getURL('view/rrating/rating-' . $video['rrating'] . '.png'); ?>"
+                             class="img img-responsive zoom"
                              style="width:30px;"/>
                     </div>
 

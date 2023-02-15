@@ -131,7 +131,7 @@ if (!empty($_GET['iframe'])) {
                     if (User::canUpload()) {
                         if (empty($advancedCustom->doNotShowEncoderButton)) {
                             if (!empty($config->getEncoderURL())) {
-                                
+
                             }
                             ?>
                             <form id="formEncoderVideosM" method="post" action="<?php echo $config->getEncoderURL(); ?>" target="encoder">
@@ -146,7 +146,7 @@ if (!empty($_GET['iframe'])) {
                         }
                         if (CustomizeAdvanced::showDirectUploadButton()) {
                             ?>
-                            <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4"  data-toggle="tooltip" 
+                            <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4"  data-toggle="tooltip"
                                     title="<?php echo __("Upload files without encode"), ' ', implode(', ', CustomizeAdvanced::directUploadFiletypes()); ?>" >
                                 <span class="fa fa-upload"></span>
                                 <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></span>
@@ -1244,7 +1244,7 @@ echo AVideoPlugin::getManagerVideosReset();
                              .attr("aria-valuenow", p100)
                              .text("End: " + p100 + "%");
                              }
-                             
+
                              function viewsDetailsReset() {
                              $("#videoViewFormModal .modal-title").html("Loading ... ");
                              $("#progress25 .progress-bar")
@@ -2084,23 +2084,23 @@ if (!empty($_GET['link'])) {
                                                 if (typeof response[x] !== 'object') {
                                                     continue;
                                                 }
-                                                
+
                                                 var videoResponse = response[x];
                                                 v_id = videoResponse.videos_id;
                                                 playlists = videoResponse.playlists;
-                                                
+
                                                 console.log('playlistsFromUserVideos playlists', playlists);
                                                 for (var y in playlists) {
                                                     if (typeof playlists[y] !== 'object') {
                                                         continue;
                                                     }
 
-                                                    lists += '<div class="material-small material-switch"><input onchange="saveVideoOnPlaylist(' + v_id + ', $(this).is(\':checked\'), ' 
-                                                            + playlists[y].id + ')" data-toggle="toggle" type="checkbox" id="playlistVideo' 
-                                                            + v_id + "_" + playlists[y].id + '" value="1" ' 
-                                                            + (playlists[y].isOnPlaylist ? "checked" : "") + ' videos_id="' + v_id + '" ><label for="playlistVideo' 
-                                                            + v_id + "_" 
-                                                            + playlists[y].id + '" class="label-primary"></label>  ' 
+                                                    lists += '<div class="material-small material-switch"><input onchange="saveVideoOnPlaylist(' + v_id + ', $(this).is(\':checked\'), '
+                                                            + playlists[y].id + ')" data-toggle="toggle" type="checkbox" id="playlistVideo'
+                                                            + v_id + "_" + playlists[y].id + '" value="1" '
+                                                            + (playlists[y].isOnPlaylist ? "checked" : "") + ' videos_id="' + v_id + '" ><label for="playlistVideo'
+                                                            + v_id + "_"
+                                                            + playlists[y].id + '" class="label-primary"></label>  '
                                                             + playlists[y].name_translated + '</div>';
                                                 }
                                                 console.log('playlistsFromUserVideos videoPlaylist'+v_id, lists);

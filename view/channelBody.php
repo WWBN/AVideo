@@ -40,14 +40,14 @@ $type = '';
 if($advancedCustomUser->showArticlesTab && AVideoPlugin::isEnabledByName('Articles')){
     $uploadedTotalArticles = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, 'article');
     if(!empty($uploadedTotalArticles)){
-        $uploadedArticles = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), array(), false, $showUnlisted, true, false, null, 'article');
+        $uploadedArticles = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, 'article');
     }
     $type = 'notArticle';
 }
 if($advancedCustomUser->showAudioTab){
     $uploadedTotalAudio = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, 'audio');
     if(!empty($uploadedTotalAudio)){
-        $uploadedAudio = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), array(), false, $showUnlisted, true, false, null, 'audio');
+        $uploadedAudio = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, 'audio');
     }
     //var_dump($uploadedAudio);exit;
     if(empty($type)){
@@ -57,10 +57,10 @@ if($advancedCustomUser->showAudioTab){
     }
 }
 //var_dump($uploadedArticles);exit;
-$uploadedVideos = array();
+$uploadedVideos = [];
 $uploadedTotalVideos = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, $type);
 if(!empty($uploadedTotalVideos)){
-    $uploadedVideos = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), array(), false, $showUnlisted, true, false, null, $type);
+    $uploadedVideos = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, $type);
 }
 TimeLogEnd($timeLog, __LINE__);
 $totalPages = ceil($uploadedTotalVideos / $rowCount);
@@ -309,7 +309,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 <?php
                                 $active = "fade";
                             }
-                            
+
                             if ($advancedCustomUser->showChannelHomeTab) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = '';
@@ -442,7 +442,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 <?php
                                 $active = "fade";
                             }
-                            
+
                             if (!empty($uploadedTotalAudio)) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = "";

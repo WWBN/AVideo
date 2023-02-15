@@ -606,7 +606,7 @@ class VideoStatistic extends ObjectYPT {
             }
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            $rows = array();
+            $rows = [];
         }
         return $rows;
     }
@@ -667,7 +667,7 @@ class VideoStatistic extends ObjectYPT {
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = array();
+        $rows = [];
         if ($res != false) {
             $totalViews = 0;
             $totalWatchingTime = 0;

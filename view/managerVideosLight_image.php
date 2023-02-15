@@ -29,7 +29,7 @@ echo $croppie1['html'];
 ?>
 <hr>
 <button class="btn btn-success btn-lg btn-block" onclick="closeWindowAfterImageSave=true;<?php echo $croppie1['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
-    
+
 <script>
     var closeWindowAfterImageSave = false;
     function saveVideo(image) {

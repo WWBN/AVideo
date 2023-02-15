@@ -56,13 +56,13 @@ if (empty($_POST['sort']) && empty($_GET['sort'])) {
     array_multisort($array_column, SORT_ASC, $categories);
 }
 
-$json = array(
+$json = [
     'current'=>getCurrentPage(),
     'rowCount'=>getRowCount(),
     'total'=>$total,
     'rows'=>$categories,
     'onlyWithVideos'=>$onlyWithVideos,
     'sameUserGroupAsMe'=>$sameUserGroupAsMe
-);
+];
 
 echo _json_encode($json);

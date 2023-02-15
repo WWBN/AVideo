@@ -1242,7 +1242,7 @@ if (!class_exists('Video')) {
         public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '') {
             global $global, $config, $advancedCustom, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
-                return array();
+                return [];
             }
             $tolerance = 0.5;
             /**
@@ -1482,7 +1482,7 @@ if (!class_exists('Video')) {
 
                 TimeLogEnd($timeLogName, __LINE__, 0.2);
 
-                $allowedDurationTypes = array('video', 'audio');
+                $allowedDurationTypes = ['video', 'audio'];
 
                 /**
                  *
@@ -1654,9 +1654,9 @@ if (!class_exists('Video')) {
             $MediaMetadata->title = $video['title'];
             $MediaMetadata->artist = $video['identification'];
             $MediaMetadata->album = $video['category'];
-            $MediaMetadata->artwork = array();
+            $MediaMetadata->artwork = [];
             foreach ($posters as $key => $value) {
-                $MediaMetadata->artwork[] = array('src' => $value['url'], 'sizes' => "{$key}x{$key}", 'type' => 'image/jpg');
+                $MediaMetadata->artwork[] = ['src' => $value['url'], 'sizes' => "{$key}x{$key}", 'type' => 'image/jpg'];
             }
             return $MediaMetadata;
         }
@@ -1771,7 +1771,7 @@ if (!class_exists('Video')) {
         public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false, $type = '') {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
-                return array();
+                return [];
             }
             $status = str_replace("'", "", $status);
             if ($status === 'suggested') {
@@ -1861,7 +1861,7 @@ if (!class_exists('Video')) {
                 }
                 //$videos = $res->fetch_all(MYSQLI_ASSOC);
             } else {
-                $videos = array();
+                $videos = [];
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             }
             return $videos;
@@ -2039,10 +2039,10 @@ if (!class_exists('Video')) {
             if ($advancedCustomUser->videosSearchAlsoSearchesOnChannelName) {
                 $searchFieldsNames[] = 'u.channelName';
             }
-            $newSearchFieldsNames = array();
+            $newSearchFieldsNames = [];
             if (!empty($_REQUEST['searchFieldsNames'])) {
                 if (!is_array($_REQUEST['searchFieldsNames'])) {
-                    $_REQUEST['searchFieldsNames'] = array($_REQUEST['searchFieldsNames']);
+                    $_REQUEST['searchFieldsNames'] = [$_REQUEST['searchFieldsNames']];
                 }
                 foreach ($_REQUEST['searchFieldsNames'] as $value) {
                     if (in_array($value, $searchFieldsNames)) {
@@ -2606,10 +2606,10 @@ if (!class_exists('Video')) {
             }
 
             // if you're not admin you can only manage your videos
-            $users_id = array($this->users_id, $this->users_id_company);
+            $users_id = [$this->users_id, $this->users_id_company];
             if ($advancedCustomUser->userCanChangeVideoOwner) {
                 $video = new Video("", "", $this->id); // query again to make sure the user is not changing the owner
-                $users_id = array($video->getUsers_id(), $video->getUsers_id_company());
+                $users_id = [$video->getUsers_id(), $video->getUsers_id_company()];
             }
             //var_dump(User::getId(), $users_id, $video, $this);
             if (!in_array(User::getId(), $users_id)) {
@@ -2681,7 +2681,7 @@ if (!class_exists('Video')) {
                 if (empty($value2->label) || empty($value2->text)) {
                     continue;
                 }
-                $valid_tags = array(__("Paid Content"), __("Group"), __("Plugin"), __("Rating"));
+                $valid_tags = [__("Paid Content"), __("Group"), __("Plugin"), __("Rating")];
                 if (!in_array($value2->label, $valid_tags)) {
                     continue;
                 }
@@ -2844,7 +2844,7 @@ if (!class_exists('Video')) {
 //$objTag->text = __("Public");
                     }
                 } else {
-                    $groupNames = array();
+                    $groupNames = [];
                     foreach ($groups as $value) {
                         $groupNames[] = $value['group_name'];
                     }
@@ -4376,9 +4376,9 @@ if (!class_exists('Video')) {
             }
 
             if (defaultIsLandscape()) {
-                $return->default = array('url' => $return->posterLandscape, 'path' => $return->posterLandscapePath);
+                $return->default = ['url' => $return->posterLandscape, 'path' => $return->posterLandscapePath];
             } else {
-                $return->default = array('url' => $return->posterPortrait, 'path' => $return->posterPortraitPath);
+                $return->default = ['url' => $return->posterPortrait, 'path' => $return->posterPortraitPath];
             }
 
             return $return;
@@ -5172,7 +5172,7 @@ if (!class_exists('Video')) {
              */
             $status = $video->getStatus();
 
-            $buttons = array();
+            $buttons = [];
             $totalStatusButtons = count($statusThatTheUserCanUpdate);
             foreach ($statusThatTheUserCanUpdate as $key => $value) {
                 $index = $key + 1;
@@ -5651,7 +5651,7 @@ if (!class_exists('Video')) {
             global $advancedCustom, $_getSeoTags;
 
             if (!isset($_getSeoTags)) {
-                $_getSeoTags = array();
+                $_getSeoTags = [];
             }
 
             if (!empty($_getSeoTags[$videos_id])) {
@@ -5687,23 +5687,23 @@ if (!class_exists('Video')) {
 
             $image = Video::getImageFromID($videos_id);
 
-            $tags = array(
+            $tags = [
                 'h1' => $H1_title,
                 'h2' => $H2_Short_summary,
-            );
-            $meta = array(
+            ];
+            $meta = [
                 'description' => $MetaDescription,
                 'keywords' => $keywords,
                 'author' => User::getNameIdentificationById($video->getUsers_id())
-            );
-            $itemprops = array(
+            ];
+            $itemprops = [
                 'name' => $H1_title,
                 'thumbnailUrl' => $image->default['url'],
                 'contentURL' => Video::getLink($videos_id, $video->getClean_title()),
                 'embedURL' => Video::getLink($videos_id, $video->getClean_title(), true),
                 'uploadDate' => $video->getCreated(),
                 'description' => $MetaDescription
-            );
+            ];
 
             $head = '';
             foreach ($meta as $key => $value) {
@@ -5727,8 +5727,8 @@ if (!class_exists('Video')) {
                 $body .= "<span itemprop=\"{$key}\" content=\"" . str_replace('"', '', $value) . "\"></span>";
             }
             $body .= '</div>';
-            $response = array();
-            $response['assets'] = array('tags' => $tags, 'meta' => $meta, 'itemprops' => $itemprops);
+            $response = [];
+            $response['assets'] = ['tags' => $tags, 'meta' => $meta, 'itemprops' => $itemprops];
             $response['head'] = $head;
             $response['body'] = $body;
             $_getSeoTags[$videos_id] = $response;
@@ -5769,12 +5769,12 @@ if (!class_exists('Video')) {
             global $config, $_getEPG;
 
             if (!isset($_getEPG)) {
-                $_getEPG = array();
+                $_getEPG = [];
             }
 
             if (!isset($_getEPG[$videos_id])) {
                 $sql = "SELECT * FROM `videos` WHERE id = ? AND `type` = 'linkVideo' AND epg_link IS NOT NULL AND epg_link != ''";
-                $res = sqlDAL::readSql($sql, 'i', array($videos_id));
+                $res = sqlDAL::readSql($sql, 'i', [$videos_id]);
 
                 $video = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
@@ -5810,7 +5810,7 @@ if (!empty($_GET['v']) && empty($_GET['videoName'])) {
     $_GET['videoName'] = Video::get_clean_title($_GET['v']);
 }
 
-$statusThatShowTheCompleteMenu = array(
+$statusThatShowTheCompleteMenu = [
     Video::$statusActive,
     Video::$statusInactive,
     Video::$statusScheduledReleaseDate,
@@ -5818,9 +5818,9 @@ $statusThatShowTheCompleteMenu = array(
     Video::$statusUnlistedButSearchable,
     Video::$statusUnlisted,
     Video::$statusFansOnly,
-);
+];
 
-$statusSearchFilter = array(
+$statusSearchFilter = [
     Video::$statusActive,
     Video::$statusInactive,
     Video::$statusScheduledReleaseDate,
@@ -5829,11 +5829,11 @@ $statusSearchFilter = array(
     Video::$statusUnlisted,
     Video::$statusUnlistedButSearchable,
     Video::$statusBrokenMissingFiles,
-);
+];
 
-$statusThatTheUserCanUpdate = array(
-    array(Video::$statusActive, '#0A0'),
-    array(Video::$statusInactive, '#B00'),
-    array(Video::$statusUnlisted, '#AAA'),
-    array(Video::$statusUnlistedButSearchable, '#BBB'),
-);
+$statusThatTheUserCanUpdate = [
+    [Video::$statusActive, '#0A0'],
+    [Video::$statusInactive, '#B00'],
+    [Video::$statusUnlisted, '#AAA'],
+    [Video::$statusUnlistedButSearchable, '#BBB'],
+];

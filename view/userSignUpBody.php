@@ -158,7 +158,7 @@ getCSSAnimationClassAndStyleAddWait(0.5);
                             <?php
                         }
                         ?>
-                        <div class="clearfix"></div>    
+                        <div class="clearfix"></div>
                         <?php
                     }
                     ?>

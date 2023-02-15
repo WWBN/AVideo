@@ -17,7 +17,7 @@ if (useIframe() && !isIframe() && empty($_REQUEST['inMainIframe'])) {
     header('Location: '.$paths['url']);
     exit;
 }
- * 
+ *
  */
 //var_dump(__LINE__, __FILE__);exit;
 if (!empty($_GET['evideo'])) {
@@ -73,20 +73,20 @@ if (!empty($evideo)) {
     }
     if (!empty($_GET['playlist_id'])) {
         $isSerie = 1;
-        
+
         $plp = new PlayListPlayer(@$_GET['playlist_id'], @$_GET['playlists_tags_id']);
 
         $playListData = $plp->getPlayListData();
-        
+
         $video = $plp->getCurrentVideo();
-        
+
         $_getVideos_id = intval($video['id']);
         $playlist_index = $plp->getIndex();
 
         if (empty($playListData)) {
             videoNotFound('');
         }
-        
+
         $videosPlayList = $plp->getVideos();
         $autoPlayVideo = $plp->getNextVideo();
         $playlist_id = $plp->getPlaylists_id();
@@ -170,7 +170,7 @@ if (!empty($evideo)) {
         }
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     }
-    
+
     $modeYouTubeTimeLog['Code part 2'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
     if (!empty($video)) {
@@ -345,7 +345,7 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
                 <br>
                 <br>
                 <div class="alert alert-warning">
-                    <span class="glyphicon glyphicon-facetime-video"></span> 
+                    <span class="glyphicon glyphicon-facetime-video"></span>
                     <strong><?php echo __("Attention"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText->value) ? __("We have not found any videos or audios to show") : $advancedCustom->videoNotFoundText->value; ?>.
                 </div>
                 <?php }
