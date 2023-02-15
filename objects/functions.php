@@ -308,8 +308,7 @@ function isAPPInstalled($appName)
 
 function getPathToApplication()
 {
-    $path = str_replace("install/index.php", "", $_SERVER["SCRIPT_FILENAME"]);
-    return str_replace("view/configurations.php", "", $path);
+    return str_replace(['install/index.php', 'view/configurations.php'], '', $_SERVER['SCRIPT_FILENAME']);
 }
 
 function getURLToApplication()
