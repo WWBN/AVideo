@@ -24,7 +24,7 @@ use Google\Service\AndroidPublisher\TrackCountryAvailability;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $countryavailability = $androidpublisherService->countryavailability;
+ *   $countryavailability = $androidpublisherService->edits_countryavailability;
  *  </code>
  */
 class EditsCountryavailability extends \Google\Service\Resource

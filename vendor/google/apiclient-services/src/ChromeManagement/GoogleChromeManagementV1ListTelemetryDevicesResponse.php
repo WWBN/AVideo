@@ -22,6 +22,7 @@ class GoogleChromeManagementV1ListTelemetryDevicesResponse extends \Google\Colle
   protected $collection_key = 'devices';
   protected $devicesType = GoogleChromeManagementV1TelemetryDevice::class;
   protected $devicesDataType = 'array';
+  public $devices;
   /**
    * @var string
    */

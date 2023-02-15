@@ -21,6 +21,7 @@ class GoogleCloudDatacatalogV1FieldType extends \Google\Model
 {
   protected $enumTypeType = GoogleCloudDatacatalogV1FieldTypeEnumType::class;
   protected $enumTypeDataType = '';
+  public $enumType;
   /**
    * @var string
    */

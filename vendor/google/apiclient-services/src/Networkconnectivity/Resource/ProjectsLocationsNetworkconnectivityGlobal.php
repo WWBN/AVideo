@@ -22,7 +22,7 @@ namespace Google\Service\Networkconnectivity\Resource;
  * Typical usage is:
  *  <code>
  *   $networkconnectivityService = new Google\Service\Networkconnectivity(...);
- *   $global = $networkconnectivityService->global;
+ *   $global = $networkconnectivityService->projects_locations_global;
  *  </code>
  */
 class ProjectsLocationsNetworkconnectivityGlobal extends \Google\Service\Resource

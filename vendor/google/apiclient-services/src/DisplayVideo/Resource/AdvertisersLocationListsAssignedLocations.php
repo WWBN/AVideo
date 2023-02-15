@@ -28,7 +28,7 @@ use Google\Service\DisplayVideo\ListAssignedLocationsResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $assignedLocations = $displayvideoService->assignedLocations;
+ *   $assignedLocations = $displayvideoService->advertisers_locationLists_assignedLocations;
  *  </code>
  */
 class AdvertisersLocationListsAssignedLocations extends \Google\Service\Resource

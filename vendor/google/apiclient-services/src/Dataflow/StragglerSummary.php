@@ -17,8 +17,12 @@
 
 namespace Google\Service\Dataflow;
 
-class StragglerSummary extends \Google\Model
+class StragglerSummary extends \Google\Collection
 {
+  protected $collection_key = 'recentStragglers';
+  protected $recentStragglersType = Straggler::class;
+  protected $recentStragglersDataType = 'array';
+  public $recentStragglers;
   /**
    * @var string[]
    */
@@ -28,6 +32,20 @@ class StragglerSummary extends \Google\Model
    */
   public $totalStragglerCount;
 
+  /**
+   * @param Straggler[]
+   */
+  public function setRecentStragglers($recentStragglers)
+  {
+    $this->recentStragglers = $recentStragglers;
+  }
+  /**
+   * @return Straggler[]
+   */
+  public function getRecentStragglers()
+  {
+    return $this->recentStragglers;
+  }
   /**
    * @param string[]
    */

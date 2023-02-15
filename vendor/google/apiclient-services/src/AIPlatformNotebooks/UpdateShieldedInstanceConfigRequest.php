@@ -21,6 +21,7 @@ class UpdateShieldedInstanceConfigRequest extends \Google\Model
 {
   protected $shieldedInstanceConfigType = ShieldedInstanceConfig::class;
   protected $shieldedInstanceConfigDataType = '';
+  public $shieldedInstanceConfig;
 
   /**
    * @param ShieldedInstanceConfig

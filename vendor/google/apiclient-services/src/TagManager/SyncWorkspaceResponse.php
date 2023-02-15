@@ -22,8 +22,10 @@ class SyncWorkspaceResponse extends \Google\Collection
   protected $collection_key = 'mergeConflict';
   protected $mergeConflictType = MergeConflict::class;
   protected $mergeConflictDataType = 'array';
+  public $mergeConflict;
   protected $syncStatusType = SyncStatus::class;
   protected $syncStatusDataType = '';
+  public $syncStatus;
 
   /**
    * @param MergeConflict[]

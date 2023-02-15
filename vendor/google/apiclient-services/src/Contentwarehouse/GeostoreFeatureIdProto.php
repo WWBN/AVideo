@@ -29,6 +29,7 @@ class GeostoreFeatureIdProto extends \Google\Model
   public $fprint;
   protected $temporaryDataType = Proto2BridgeMessageSet::class;
   protected $temporaryDataDataType = '';
+  public $temporaryData;
 
   /**
    * @param string

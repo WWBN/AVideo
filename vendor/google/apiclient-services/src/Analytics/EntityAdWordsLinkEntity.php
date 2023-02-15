@@ -21,6 +21,7 @@ class EntityAdWordsLinkEntity extends \Google\Model
 {
   protected $webPropertyRefType = WebPropertyRef::class;
   protected $webPropertyRefDataType = '';
+  public $webPropertyRef;
 
   /**
    * @param WebPropertyRef

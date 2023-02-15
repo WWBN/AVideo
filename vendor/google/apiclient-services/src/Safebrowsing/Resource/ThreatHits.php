@@ -17,8 +17,8 @@
 
 namespace Google\Service\Safebrowsing\Resource;
 
-use Google\Service\Safebrowsing\GoogleProtobufEmpty;
-use Google\Service\Safebrowsing\GoogleSecuritySafebrowsingV4ThreatHit;
+use Google\Service\Safebrowsing\SafebrowsingEmpty;
+use Google\Service\Safebrowsing\ThreatHit;
 
 /**
  * The "threatHits" collection of methods.
@@ -34,15 +34,15 @@ class ThreatHits extends \Google\Service\Resource
    * Reports a Safe Browsing threat list hit to Google. Only projects with
    * TRUSTED_REPORTER visibility can use this method. (threatHits.create)
    *
-   * @param GoogleSecuritySafebrowsingV4ThreatHit $postBody
+   * @param ThreatHit $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleProtobufEmpty
+   * @return SafebrowsingEmpty
    */
-  public function create(GoogleSecuritySafebrowsingV4ThreatHit $postBody, $optParams = [])
+  public function create(ThreatHit $postBody, $optParams = [])
   {
     $params = ['postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('create', [$params], GoogleProtobufEmpty::class);
+    return $this->call('create', [$params], SafebrowsingEmpty::class);
   }
 }
 

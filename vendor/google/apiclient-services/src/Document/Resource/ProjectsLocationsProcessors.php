@@ -32,7 +32,7 @@ use Google\Service\Document\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $documentaiService = new Google\Service\Document(...);
- *   $processors = $documentaiService->processors;
+ *   $processors = $documentaiService->projects_locations_processors;
  *  </code>
  */
 class ProjectsLocationsProcessors extends \Google\Service\Resource

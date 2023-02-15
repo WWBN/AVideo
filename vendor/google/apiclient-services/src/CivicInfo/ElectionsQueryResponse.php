@@ -22,6 +22,7 @@ class ElectionsQueryResponse extends \Google\Collection
   protected $collection_key = 'elections';
   protected $electionsType = Election::class;
   protected $electionsDataType = 'array';
+  public $elections;
   /**
    * @var string
    */

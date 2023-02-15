@@ -26,6 +26,7 @@ class SyncResponsePayload extends \Google\Collection
   public $agentUserId;
   protected $devicesType = Device::class;
   protected $devicesDataType = 'array';
+  public $devices;
 
   /**
    * @param string

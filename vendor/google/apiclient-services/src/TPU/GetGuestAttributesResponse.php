@@ -22,6 +22,7 @@ class GetGuestAttributesResponse extends \Google\Collection
   protected $collection_key = 'guestAttributes';
   protected $guestAttributesType = GuestAttributes::class;
   protected $guestAttributesDataType = 'array';
+  public $guestAttributes;
 
   /**
    * @param GuestAttributes[]

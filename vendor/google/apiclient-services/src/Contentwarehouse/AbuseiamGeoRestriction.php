@@ -22,6 +22,7 @@ class AbuseiamGeoRestriction extends \Google\Collection
   protected $collection_key = 'locale';
   protected $localeType = AbuseiamGeoRestrictionLocale::class;
   protected $localeDataType = 'array';
+  public $locale;
 
   /**
    * @param AbuseiamGeoRestrictionLocale[]

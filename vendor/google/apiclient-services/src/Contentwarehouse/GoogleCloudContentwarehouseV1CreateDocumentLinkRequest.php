@@ -21,8 +21,10 @@ class GoogleCloudContentwarehouseV1CreateDocumentLinkRequest extends \Google\Mod
 {
   protected $documentLinkType = GoogleCloudContentwarehouseV1DocumentLink::class;
   protected $documentLinkDataType = '';
+  public $documentLink;
   protected $requestMetadataType = GoogleCloudContentwarehouseV1RequestMetadata::class;
   protected $requestMetadataDataType = '';
+  public $requestMetadata;
 
   /**
    * @param GoogleCloudContentwarehouseV1DocumentLink

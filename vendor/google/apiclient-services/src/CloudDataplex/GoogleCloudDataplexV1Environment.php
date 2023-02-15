@@ -33,8 +33,10 @@ class GoogleCloudDataplexV1Environment extends \Google\Model
   public $displayName;
   protected $endpointsType = GoogleCloudDataplexV1EnvironmentEndpoints::class;
   protected $endpointsDataType = '';
+  public $endpoints;
   protected $infrastructureSpecType = GoogleCloudDataplexV1EnvironmentInfrastructureSpec::class;
   protected $infrastructureSpecDataType = '';
+  public $infrastructureSpec;
   /**
    * @var string[]
    */
@@ -45,8 +47,10 @@ class GoogleCloudDataplexV1Environment extends \Google\Model
   public $name;
   protected $sessionSpecType = GoogleCloudDataplexV1EnvironmentSessionSpec::class;
   protected $sessionSpecDataType = '';
+  public $sessionSpec;
   protected $sessionStatusType = GoogleCloudDataplexV1EnvironmentSessionStatus::class;
   protected $sessionStatusDataType = '';
+  public $sessionStatus;
   /**
    * @var string
    */

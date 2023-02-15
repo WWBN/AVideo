@@ -21,6 +21,7 @@ class ReplicaStatus extends \Google\Model
 {
   protected $customerManagedEncryptionType = CustomerManagedEncryptionStatus::class;
   protected $customerManagedEncryptionDataType = '';
+  public $customerManagedEncryption;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class ListDealsResponse extends \Google\Collection
   protected $collection_key = 'deals';
   protected $dealsType = Deal::class;
   protected $dealsDataType = 'array';
+  public $deals;
   /**
    * @var string
    */

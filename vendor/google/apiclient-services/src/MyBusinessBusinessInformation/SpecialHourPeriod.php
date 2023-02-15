@@ -21,16 +21,20 @@ class SpecialHourPeriod extends \Google\Model
 {
   protected $closeTimeType = TimeOfDay::class;
   protected $closeTimeDataType = '';
+  public $closeTime;
   /**
    * @var bool
    */
   public $closed;
   protected $endDateType = Date::class;
   protected $endDateDataType = '';
+  public $endDate;
   protected $openTimeType = TimeOfDay::class;
   protected $openTimeDataType = '';
+  public $openTime;
   protected $startDateType = Date::class;
   protected $startDateDataType = '';
+  public $startDate;
 
   /**
    * @param TimeOfDay

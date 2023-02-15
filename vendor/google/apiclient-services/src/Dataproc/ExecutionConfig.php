@@ -43,7 +43,15 @@ class ExecutionConfig extends \Google\Collection
   /**
    * @var string
    */
+  public $stagingBucket;
+  /**
+   * @var string
+   */
   public $subnetworkUri;
+  /**
+   * @var string
+   */
+  public $ttl;
 
   /**
    * @param string
@@ -118,6 +126,20 @@ class ExecutionConfig extends \Google\Collection
   /**
    * @param string
    */
+  public function setStagingBucket($stagingBucket)
+  {
+    $this->stagingBucket = $stagingBucket;
+  }
+  /**
+   * @return string
+   */
+  public function getStagingBucket()
+  {
+    return $this->stagingBucket;
+  }
+  /**
+   * @param string
+   */
   public function setSubnetworkUri($subnetworkUri)
   {
     $this->subnetworkUri = $subnetworkUri;
@@ -128,6 +150,20 @@ class ExecutionConfig extends \Google\Collection
   public function getSubnetworkUri()
   {
     return $this->subnetworkUri;
+  }
+  /**
+   * @param string
+   */
+  public function setTtl($ttl)
+  {
+    $this->ttl = $ttl;
+  }
+  /**
+   * @return string
+   */
+  public function getTtl()
+  {
+    return $this->ttl;
   }
 }
 

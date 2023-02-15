@@ -26,7 +26,7 @@ use Google\Service\Monitoring\ServiceLevelObjective;
  * Typical usage is:
  *  <code>
  *   $monitoringService = new Google\Service\Monitoring(...);
- *   $serviceLevelObjectives = $monitoringService->serviceLevelObjectives;
+ *   $serviceLevelObjectives = $monitoringService->services_serviceLevelObjectives;
  *  </code>
  */
 class ServicesServiceLevelObjectives extends \Google\Service\Resource

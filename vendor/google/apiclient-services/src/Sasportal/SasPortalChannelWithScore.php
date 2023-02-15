@@ -21,6 +21,7 @@ class SasPortalChannelWithScore extends \Google\Model
 {
   protected $frequencyRangeType = SasPortalFrequencyRange::class;
   protected $frequencyRangeDataType = '';
+  public $frequencyRange;
   public $score;
 
   /**

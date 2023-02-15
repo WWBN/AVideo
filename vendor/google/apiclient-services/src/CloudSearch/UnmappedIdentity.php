@@ -21,6 +21,7 @@ class UnmappedIdentity extends \Google\Model
 {
   protected $externalIdentityType = Principal::class;
   protected $externalIdentityDataType = '';
+  public $externalIdentity;
   /**
    * @var string
    */

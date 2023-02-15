@@ -22,12 +22,16 @@ class Comment extends \Google\Collection
   protected $collection_key = 'mentionedUsers';
   protected $assignmentType = Assignment::class;
   protected $assignmentDataType = '';
+  public $assignment;
   protected $mentionedUsersType = User::class;
   protected $mentionedUsersDataType = 'array';
+  public $mentionedUsers;
   protected $postType = Post::class;
   protected $postDataType = '';
+  public $post;
   protected $suggestionType = Suggestion::class;
   protected $suggestionDataType = '';
+  public $suggestion;
 
   /**
    * @param Assignment

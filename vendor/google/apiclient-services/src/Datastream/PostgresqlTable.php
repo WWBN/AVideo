@@ -22,6 +22,7 @@ class PostgresqlTable extends \Google\Collection
   protected $collection_key = 'postgresqlColumns';
   protected $postgresqlColumnsType = PostgresqlColumn::class;
   protected $postgresqlColumnsDataType = 'array';
+  public $postgresqlColumns;
   /**
    * @var string
    */

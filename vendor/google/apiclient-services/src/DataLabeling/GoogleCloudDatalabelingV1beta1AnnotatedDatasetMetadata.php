@@ -21,26 +21,37 @@ class GoogleCloudDatalabelingV1beta1AnnotatedDatasetMetadata extends \Google\Mod
 {
   protected $boundingPolyConfigType = GoogleCloudDatalabelingV1beta1BoundingPolyConfig::class;
   protected $boundingPolyConfigDataType = '';
+  public $boundingPolyConfig;
   protected $eventConfigType = GoogleCloudDatalabelingV1beta1EventConfig::class;
   protected $eventConfigDataType = '';
+  public $eventConfig;
   protected $humanAnnotationConfigType = GoogleCloudDatalabelingV1beta1HumanAnnotationConfig::class;
   protected $humanAnnotationConfigDataType = '';
+  public $humanAnnotationConfig;
   protected $imageClassificationConfigType = GoogleCloudDatalabelingV1beta1ImageClassificationConfig::class;
   protected $imageClassificationConfigDataType = '';
+  public $imageClassificationConfig;
   protected $objectDetectionConfigType = GoogleCloudDatalabelingV1beta1ObjectDetectionConfig::class;
   protected $objectDetectionConfigDataType = '';
+  public $objectDetectionConfig;
   protected $objectTrackingConfigType = GoogleCloudDatalabelingV1beta1ObjectTrackingConfig::class;
   protected $objectTrackingConfigDataType = '';
+  public $objectTrackingConfig;
   protected $polylineConfigType = GoogleCloudDatalabelingV1beta1PolylineConfig::class;
   protected $polylineConfigDataType = '';
+  public $polylineConfig;
   protected $segmentationConfigType = GoogleCloudDatalabelingV1beta1SegmentationConfig::class;
   protected $segmentationConfigDataType = '';
+  public $segmentationConfig;
   protected $textClassificationConfigType = GoogleCloudDatalabelingV1beta1TextClassificationConfig::class;
   protected $textClassificationConfigDataType = '';
+  public $textClassificationConfig;
   protected $textEntityExtractionConfigType = GoogleCloudDatalabelingV1beta1TextEntityExtractionConfig::class;
   protected $textEntityExtractionConfigDataType = '';
+  public $textEntityExtractionConfig;
   protected $videoClassificationConfigType = GoogleCloudDatalabelingV1beta1VideoClassificationConfig::class;
   protected $videoClassificationConfigDataType = '';
+  public $videoClassificationConfig;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1BoundingPolyConfig

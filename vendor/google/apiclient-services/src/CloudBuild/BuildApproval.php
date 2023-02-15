@@ -21,8 +21,10 @@ class BuildApproval extends \Google\Model
 {
   protected $configType = ApprovalConfig::class;
   protected $configDataType = '';
+  public $config;
   protected $resultType = ApprovalResult::class;
   protected $resultDataType = '';
+  public $result;
   /**
    * @var string
    */

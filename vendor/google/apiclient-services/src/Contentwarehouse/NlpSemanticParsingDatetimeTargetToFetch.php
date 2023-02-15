@@ -22,6 +22,7 @@ class NlpSemanticParsingDatetimeTargetToFetch extends \Google\Collection
   protected $collection_key = 'weekday';
   protected $eventType = NlpSemanticParsingDatetimeEvent::class;
   protected $eventDataType = '';
+  public $event;
   /**
    * @var string
    */

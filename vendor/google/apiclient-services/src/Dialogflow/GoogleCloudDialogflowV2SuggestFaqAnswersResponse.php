@@ -26,6 +26,7 @@ class GoogleCloudDialogflowV2SuggestFaqAnswersResponse extends \Google\Collectio
   public $contextSize;
   protected $faqAnswersType = GoogleCloudDialogflowV2FaqAnswer::class;
   protected $faqAnswersDataType = 'array';
+  public $faqAnswers;
   /**
    * @var string
    */

@@ -32,6 +32,7 @@ class BackendRule extends \Google\Model
    * @var string
    */
   public $jwtAudience;
+  public $minDeadline;
   public $operationDeadline;
   /**
    * @var string
@@ -95,6 +96,14 @@ class BackendRule extends \Google\Model
   public function getJwtAudience()
   {
     return $this->jwtAudience;
+  }
+  public function setMinDeadline($minDeadline)
+  {
+    $this->minDeadline = $minDeadline;
+  }
+  public function getMinDeadline()
+  {
+    return $this->minDeadline;
   }
   public function setOperationDeadline($operationDeadline)
   {

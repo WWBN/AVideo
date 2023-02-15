@@ -34,6 +34,7 @@ class Course extends \Google\Collection
   public $courseGroupEmail;
   protected $courseMaterialSetsType = CourseMaterialSet::class;
   protected $courseMaterialSetsDataType = 'array';
+  public $courseMaterialSets;
   /**
    * @var string
    */
@@ -56,6 +57,7 @@ class Course extends \Google\Collection
   public $enrollmentCode;
   protected $gradebookSettingsType = GradebookSettings::class;
   protected $gradebookSettingsDataType = '';
+  public $gradebookSettings;
   /**
    * @var bool
    */
@@ -82,6 +84,7 @@ class Course extends \Google\Collection
   public $section;
   protected $teacherFolderType = DriveFolder::class;
   protected $teacherFolderDataType = '';
+  public $teacherFolder;
   /**
    * @var string
    */

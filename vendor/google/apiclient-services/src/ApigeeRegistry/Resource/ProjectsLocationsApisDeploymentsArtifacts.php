@@ -27,7 +27,7 @@ use Google\Service\ApigeeRegistry\ListArtifactsResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeregistryService = new Google\Service\ApigeeRegistry(...);
- *   $artifacts = $apigeeregistryService->artifacts;
+ *   $artifacts = $apigeeregistryService->projects_locations_apis_deployments_artifacts;
  *  </code>
  */
 class ProjectsLocationsApisDeploymentsArtifacts extends \Google\Service\Resource

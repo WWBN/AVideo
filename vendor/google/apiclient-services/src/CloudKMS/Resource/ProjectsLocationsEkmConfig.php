@@ -27,7 +27,7 @@ use Google\Service\CloudKMS\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudkmsService = new Google\Service\CloudKMS(...);
- *   $ekmConfig = $cloudkmsService->ekmConfig;
+ *   $ekmConfig = $cloudkmsService->projects_locations_ekmConfig;
  *  </code>
  */
 class ProjectsLocationsEkmConfig extends \Google\Service\Resource

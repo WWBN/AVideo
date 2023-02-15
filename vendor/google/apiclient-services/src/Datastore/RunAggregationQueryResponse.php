@@ -21,8 +21,14 @@ class RunAggregationQueryResponse extends \Google\Model
 {
   protected $batchType = AggregationResultBatch::class;
   protected $batchDataType = '';
+  public $batch;
   protected $queryType = AggregationQuery::class;
   protected $queryDataType = '';
+  public $query;
+  /**
+   * @var string
+   */
+  public $transaction;
 
   /**
    * @param AggregationResultBatch
@@ -51,6 +57,20 @@ class RunAggregationQueryResponse extends \Google\Model
   public function getQuery()
   {
     return $this->query;
+  }
+  /**
+   * @param string
+   */
+  public function setTransaction($transaction)
+  {
+    $this->transaction = $transaction;
+  }
+  /**
+   * @return string
+   */
+  public function getTransaction()
+  {
+    return $this->transaction;
   }
 }
 

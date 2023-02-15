@@ -22,6 +22,7 @@ class ListConsentStoresResponse extends \Google\Collection
   protected $collection_key = 'consentStores';
   protected $consentStoresType = ConsentStore::class;
   protected $consentStoresDataType = 'array';
+  public $consentStores;
   /**
    * @var string
    */

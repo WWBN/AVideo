@@ -22,8 +22,10 @@ class GooglePrivacyDlpV2LDiversityConfig extends \Google\Collection
   protected $collection_key = 'quasiIds';
   protected $quasiIdsType = GooglePrivacyDlpV2FieldId::class;
   protected $quasiIdsDataType = 'array';
+  public $quasiIds;
   protected $sensitiveAttributeType = GooglePrivacyDlpV2FieldId::class;
   protected $sensitiveAttributeDataType = '';
+  public $sensitiveAttribute;
 
   /**
    * @param GooglePrivacyDlpV2FieldId[]

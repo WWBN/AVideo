@@ -22,6 +22,7 @@ class V1Beta1ImportProducerOverridesResponse extends \Google\Collection
   protected $collection_key = 'overrides';
   protected $overridesType = V1Beta1QuotaOverride::class;
   protected $overridesDataType = 'array';
+  public $overrides;
 
   /**
    * @param V1Beta1QuotaOverride[]

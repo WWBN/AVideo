@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1DeploymentChangeReport;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $deployments = $apigeeService->deployments;
+ *   $deployments = $apigeeService->organizations_environments_apis_revisions_deployments;
  *  </code>
  */
 class OrganizationsEnvironmentsApisRevisionsDeployments extends \Google\Service\Resource

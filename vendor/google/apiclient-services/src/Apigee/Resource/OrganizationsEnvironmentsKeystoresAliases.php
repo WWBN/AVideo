@@ -25,7 +25,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1Alias;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $aliases = $apigeeService->aliases;
+ *   $aliases = $apigeeService->organizations_environments_keystores_aliases;
  *  </code>
  */
 class OrganizationsEnvironmentsKeystoresAliases extends \Google\Service\Resource

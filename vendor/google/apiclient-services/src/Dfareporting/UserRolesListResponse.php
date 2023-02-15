@@ -30,6 +30,7 @@ class UserRolesListResponse extends \Google\Collection
   public $nextPageToken;
   protected $userRolesType = UserRole::class;
   protected $userRolesDataType = 'array';
+  public $userRoles;
 
   /**
    * @param string

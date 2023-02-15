@@ -22,14 +22,19 @@ class AggregateRequest extends \Google\Collection
   protected $collection_key = 'filteredDataQualityStandard';
   protected $aggregateByType = AggregateBy::class;
   protected $aggregateByDataType = 'array';
+  public $aggregateBy;
   protected $bucketByActivitySegmentType = BucketByActivity::class;
   protected $bucketByActivitySegmentDataType = '';
+  public $bucketByActivitySegment;
   protected $bucketByActivityTypeType = BucketByActivity::class;
   protected $bucketByActivityTypeDataType = '';
+  public $bucketByActivityType;
   protected $bucketBySessionType = BucketBySession::class;
   protected $bucketBySessionDataType = '';
+  public $bucketBySession;
   protected $bucketByTimeType = BucketByTime::class;
   protected $bucketByTimeDataType = '';
+  public $bucketByTime;
   /**
    * @var string
    */

@@ -25,6 +25,7 @@ class RepositoryWebrefOysterType extends \Google\Model
   public $featureType;
   protected $gconceptsType = GeostoreOntologyRawGConceptInstanceContainerProto::class;
   protected $gconceptsDataType = '';
+  public $gconcepts;
 
   /**
    * @param int

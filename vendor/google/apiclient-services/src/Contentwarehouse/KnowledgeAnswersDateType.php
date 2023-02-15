@@ -73,6 +73,7 @@ class KnowledgeAnswersDateType extends \Google\Model
   public $allowYearResolution;
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
+  public $remodelings;
   /**
    * @var string
    */

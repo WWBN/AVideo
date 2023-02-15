@@ -22,6 +22,7 @@ class GoogleCloudChannelV1Offer extends \Google\Collection
   protected $collection_key = 'priceByResources';
   protected $constraintsType = GoogleCloudChannelV1Constraints::class;
   protected $constraintsDataType = '';
+  public $constraints;
   /**
    * @var string
    */
@@ -32,18 +33,23 @@ class GoogleCloudChannelV1Offer extends \Google\Collection
   public $endTime;
   protected $marketingInfoType = GoogleCloudChannelV1MarketingInfo::class;
   protected $marketingInfoDataType = '';
+  public $marketingInfo;
   /**
    * @var string
    */
   public $name;
   protected $parameterDefinitionsType = GoogleCloudChannelV1ParameterDefinition::class;
   protected $parameterDefinitionsDataType = 'array';
+  public $parameterDefinitions;
   protected $planType = GoogleCloudChannelV1Plan::class;
   protected $planDataType = '';
+  public $plan;
   protected $priceByResourcesType = GoogleCloudChannelV1PriceByResource::class;
   protected $priceByResourcesDataType = 'array';
+  public $priceByResources;
   protected $skuType = GoogleCloudChannelV1Sku::class;
   protected $skuDataType = '';
+  public $sku;
   /**
    * @var string
    */

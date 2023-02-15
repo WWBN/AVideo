@@ -33,7 +33,7 @@ use Google\Service\ServiceDirectory\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $servicedirectoryService = new Google\Service\ServiceDirectory(...);
- *   $services = $servicedirectoryService->services;
+ *   $services = $servicedirectoryService->projects_locations_namespaces_services;
  *  </code>
  */
 class ProjectsLocationsNamespacesServices extends \Google\Service\Resource

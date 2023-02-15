@@ -30,6 +30,7 @@ class BatchUsageLogEvents extends \Google\Collection
   public $retrievalTime;
   protected $usageLogEventsType = UsageLogEvent::class;
   protected $usageLogEventsDataType = 'array';
+  public $usageLogEvents;
   /**
    * @var string
    */

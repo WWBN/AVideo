@@ -24,7 +24,7 @@ use Google\Service\PolicyAnalyzer\GoogleCloudPolicyanalyzerV1QueryActivityRespon
  * Typical usage is:
  *  <code>
  *   $policyanalyzerService = new Google\Service\PolicyAnalyzer(...);
- *   $activities = $policyanalyzerService->activities;
+ *   $activities = $policyanalyzerService->projects_locations_activityTypes_activities;
  *  </code>
  */
 class ProjectsLocationsActivityTypesActivities extends \Google\Service\Resource

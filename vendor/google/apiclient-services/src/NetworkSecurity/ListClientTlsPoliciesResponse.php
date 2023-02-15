@@ -22,6 +22,7 @@ class ListClientTlsPoliciesResponse extends \Google\Collection
   protected $collection_key = 'clientTlsPolicies';
   protected $clientTlsPoliciesType = ClientTlsPolicy::class;
   protected $clientTlsPoliciesDataType = 'array';
+  public $clientTlsPolicies;
   /**
    * @var string
    */

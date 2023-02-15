@@ -26,34 +26,45 @@ class Trigger extends \Google\Collection
   public $accountId;
   protected $autoEventFilterType = Condition::class;
   protected $autoEventFilterDataType = 'array';
+  public $autoEventFilter;
   protected $checkValidationType = Parameter::class;
   protected $checkValidationDataType = '';
+  public $checkValidation;
   /**
    * @var string
    */
   public $containerId;
   protected $continuousTimeMinMillisecondsType = Parameter::class;
   protected $continuousTimeMinMillisecondsDataType = '';
+  public $continuousTimeMinMilliseconds;
   protected $customEventFilterType = Condition::class;
   protected $customEventFilterDataType = 'array';
+  public $customEventFilter;
   protected $eventNameType = Parameter::class;
   protected $eventNameDataType = '';
+  public $eventName;
   protected $filterType = Condition::class;
   protected $filterDataType = 'array';
+  public $filter;
   /**
    * @var string
    */
   public $fingerprint;
   protected $horizontalScrollPercentageListType = Parameter::class;
   protected $horizontalScrollPercentageListDataType = '';
+  public $horizontalScrollPercentageList;
   protected $intervalType = Parameter::class;
   protected $intervalDataType = '';
+  public $interval;
   protected $intervalSecondsType = Parameter::class;
   protected $intervalSecondsDataType = '';
+  public $intervalSeconds;
   protected $limitType = Parameter::class;
   protected $limitDataType = '';
+  public $limit;
   protected $maxTimerLengthSecondsType = Parameter::class;
   protected $maxTimerLengthSecondsDataType = '';
+  public $maxTimerLengthSeconds;
   /**
    * @var string
    */
@@ -64,6 +75,7 @@ class Trigger extends \Google\Collection
   public $notes;
   protected $parameterType = Parameter::class;
   protected $parameterDataType = 'array';
+  public $parameter;
   /**
    * @var string
    */
@@ -74,12 +86,14 @@ class Trigger extends \Google\Collection
   public $path;
   protected $selectorType = Parameter::class;
   protected $selectorDataType = '';
+  public $selector;
   /**
    * @var string
    */
   public $tagManagerUrl;
   protected $totalTimeMinMillisecondsType = Parameter::class;
   protected $totalTimeMinMillisecondsDataType = '';
+  public $totalTimeMinMilliseconds;
   /**
    * @var string
    */
@@ -90,18 +104,25 @@ class Trigger extends \Google\Collection
   public $type;
   protected $uniqueTriggerIdType = Parameter::class;
   protected $uniqueTriggerIdDataType = '';
+  public $uniqueTriggerId;
   protected $verticalScrollPercentageListType = Parameter::class;
   protected $verticalScrollPercentageListDataType = '';
+  public $verticalScrollPercentageList;
   protected $visibilitySelectorType = Parameter::class;
   protected $visibilitySelectorDataType = '';
+  public $visibilitySelector;
   protected $visiblePercentageMaxType = Parameter::class;
   protected $visiblePercentageMaxDataType = '';
+  public $visiblePercentageMax;
   protected $visiblePercentageMinType = Parameter::class;
   protected $visiblePercentageMinDataType = '';
+  public $visiblePercentageMin;
   protected $waitForTagsType = Parameter::class;
   protected $waitForTagsDataType = '';
+  public $waitForTags;
   protected $waitForTagsTimeoutType = Parameter::class;
   protected $waitForTagsTimeoutDataType = '';
+  public $waitForTagsTimeout;
   /**
    * @var string
    */

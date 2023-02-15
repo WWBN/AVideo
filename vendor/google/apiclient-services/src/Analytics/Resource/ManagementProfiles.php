@@ -25,7 +25,7 @@ use Google\Service\Analytics\Profiles;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $profiles = $analyticsService->profiles;
+ *   $profiles = $analyticsService->management_profiles;
  *  </code>
  */
 class ManagementProfiles extends \Google\Service\Resource

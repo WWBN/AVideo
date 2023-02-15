@@ -21,12 +21,16 @@ class KnowledgeAnswersMarker extends \Google\Model
 {
   protected $commandType = KnowledgeAnswersMarkerCommand::class;
   protected $commandDataType = '';
+  public $command;
   protected $openQuestionType = KnowledgeAnswersMarkerOpenQuestion::class;
   protected $openQuestionDataType = '';
+  public $openQuestion;
   protected $polarQuestionType = KnowledgeAnswersMarkerPolarQuestion::class;
   protected $polarQuestionDataType = '';
+  public $polarQuestion;
   protected $stateOfAffairsType = KnowledgeAnswersMarkerStateOfAffairs::class;
   protected $stateOfAffairsDataType = '';
+  public $stateOfAffairs;
 
   /**
    * @param KnowledgeAnswersMarkerCommand

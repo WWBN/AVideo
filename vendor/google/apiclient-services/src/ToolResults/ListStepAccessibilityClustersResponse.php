@@ -22,6 +22,7 @@ class ListStepAccessibilityClustersResponse extends \Google\Collection
   protected $collection_key = 'clusters';
   protected $clustersType = SuggestionClusterProto::class;
   protected $clustersDataType = 'array';
+  public $clusters;
   /**
    * @var string
    */

@@ -33,6 +33,7 @@ class Scan extends \Google\Model
   public $name;
   protected $scanDataType = ScanData::class;
   protected $scanDataDataType = '';
+  public $scanData;
   /**
    * @var string
    */

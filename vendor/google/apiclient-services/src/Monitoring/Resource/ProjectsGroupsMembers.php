@@ -24,7 +24,7 @@ use Google\Service\Monitoring\ListGroupMembersResponse;
  * Typical usage is:
  *  <code>
  *   $monitoringService = new Google\Service\Monitoring(...);
- *   $members = $monitoringService->members;
+ *   $members = $monitoringService->projects_groups_members;
  *  </code>
  */
 class ProjectsGroupsMembers extends \Google\Service\Resource

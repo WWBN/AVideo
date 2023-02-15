@@ -25,7 +25,7 @@ use Google\Service\OSConfig\ListInventoriesResponse;
  * Typical usage is:
  *  <code>
  *   $osconfigService = new Google\Service\OSConfig(...);
- *   $inventories = $osconfigService->inventories;
+ *   $inventories = $osconfigService->projects_locations_instances_inventories;
  *  </code>
  */
 class ProjectsLocationsInstancesInventories extends \Google\Service\Resource

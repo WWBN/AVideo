@@ -21,6 +21,7 @@ class GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest extends \Google\M
 {
   protected $jobType = GoogleCloudDatalabelingV1beta1EvaluationJob::class;
   protected $jobDataType = '';
+  public $job;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1EvaluationJob

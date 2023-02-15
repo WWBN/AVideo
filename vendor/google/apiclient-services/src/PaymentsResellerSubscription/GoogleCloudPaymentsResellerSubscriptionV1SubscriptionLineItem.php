@@ -30,12 +30,17 @@ class GoogleCloudPaymentsResellerSubscriptionV1SubscriptionLineItem extends \Goo
   public $lineItemFreeTrialEndTime;
   protected $lineItemPromotionSpecsType = GoogleCloudPaymentsResellerSubscriptionV1SubscriptionPromotionSpec::class;
   protected $lineItemPromotionSpecsDataType = 'array';
+  public $lineItemPromotionSpecs;
   protected $oneTimeRecurrenceDetailsType = GoogleCloudPaymentsResellerSubscriptionV1SubscriptionLineItemOneTimeRecurrenceDetails::class;
   protected $oneTimeRecurrenceDetailsDataType = '';
+  public $oneTimeRecurrenceDetails;
   /**
    * @var string
    */
   public $product;
+  protected $productPayloadType = GoogleCloudPaymentsResellerSubscriptionV1ProductPayload::class;
+  protected $productPayloadDataType = '';
+  public $productPayload;
   /**
    * @var string
    */
@@ -114,6 +119,20 @@ class GoogleCloudPaymentsResellerSubscriptionV1SubscriptionLineItem extends \Goo
   public function getProduct()
   {
     return $this->product;
+  }
+  /**
+   * @param GoogleCloudPaymentsResellerSubscriptionV1ProductPayload
+   */
+  public function setProductPayload(GoogleCloudPaymentsResellerSubscriptionV1ProductPayload $productPayload)
+  {
+    $this->productPayload = $productPayload;
+  }
+  /**
+   * @return GoogleCloudPaymentsResellerSubscriptionV1ProductPayload
+   */
+  public function getProductPayload()
+  {
+    return $this->productPayload;
   }
   /**
    * @param string

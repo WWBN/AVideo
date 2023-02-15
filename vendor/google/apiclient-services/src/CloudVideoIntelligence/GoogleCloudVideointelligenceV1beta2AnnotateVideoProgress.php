@@ -22,6 +22,7 @@ class GoogleCloudVideointelligenceV1beta2AnnotateVideoProgress extends \Google\C
   protected $collection_key = 'annotationProgress';
   protected $annotationProgressType = GoogleCloudVideointelligenceV1beta2VideoAnnotationProgress::class;
   protected $annotationProgressDataType = 'array';
+  public $annotationProgress;
 
   /**
    * @param GoogleCloudVideointelligenceV1beta2VideoAnnotationProgress[]

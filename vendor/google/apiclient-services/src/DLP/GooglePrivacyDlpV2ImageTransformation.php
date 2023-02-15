@@ -21,12 +21,16 @@ class GooglePrivacyDlpV2ImageTransformation extends \Google\Model
 {
   protected $allInfoTypesType = GooglePrivacyDlpV2AllInfoTypes::class;
   protected $allInfoTypesDataType = '';
+  public $allInfoTypes;
   protected $allTextType = GooglePrivacyDlpV2AllText::class;
   protected $allTextDataType = '';
+  public $allText;
   protected $redactionColorType = GooglePrivacyDlpV2Color::class;
   protected $redactionColorDataType = '';
+  public $redactionColor;
   protected $selectedInfoTypesType = GooglePrivacyDlpV2SelectedInfoTypes::class;
   protected $selectedInfoTypesDataType = '';
+  public $selectedInfoTypes;
 
   /**
    * @param GooglePrivacyDlpV2AllInfoTypes

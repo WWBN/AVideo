@@ -21,6 +21,7 @@ class GoogleCloudIntegrationsV1alphaParameterMapField extends \Google\Model
 {
   protected $literalValueType = GoogleCloudIntegrationsV1alphaValueType::class;
   protected $literalValueDataType = '';
+  public $literalValue;
   /**
    * @var string
    */

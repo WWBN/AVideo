@@ -26,7 +26,7 @@ use Google\Service\CloudSearch\UpdateSchemaRequest;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $datasources = $cloudsearchService->datasources;
+ *   $datasources = $cloudsearchService->indexing_datasources;
  *  </code>
  */
 class IndexingDatasources extends \Google\Service\Resource

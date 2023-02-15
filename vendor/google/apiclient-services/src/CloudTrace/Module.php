@@ -21,8 +21,10 @@ class Module extends \Google\Model
 {
   protected $buildIdType = TruncatableString::class;
   protected $buildIdDataType = '';
+  public $buildId;
   protected $moduleType = TruncatableString::class;
   protected $moduleDataType = '';
+  public $module;
 
   /**
    * @param TruncatableString

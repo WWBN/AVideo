@@ -21,8 +21,10 @@ class SocialGraphWireProtoPeopleapiAffinityMetadata extends \Google\Model
 {
   protected $clientInteractionInfoType = SocialGraphWireProtoPeopleapiAffinityMetadataClientInteractionInfo::class;
   protected $clientInteractionInfoDataType = '';
+  public $clientInteractionInfo;
   protected $cloudDeviceDataInfoType = SocialGraphWireProtoPeopleapiAffinityMetadataCloudDeviceDataInfo::class;
   protected $cloudDeviceDataInfoDataType = '';
+  public $cloudDeviceDataInfo;
   public $cloudScore;
 
   /**

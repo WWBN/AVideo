@@ -22,44 +22,58 @@ class AppsPeopleOzExternalMergedpeopleapiPersonExtendedData extends \Google\Coll
   protected $collection_key = 'domainName';
   protected $aboutMeExtendedDataType = AppsPeopleOzExternalMergedpeopleapiAboutMeExtendedData::class;
   protected $aboutMeExtendedDataDataType = '';
+  public $aboutMeExtendedData;
   protected $appsWaldoExtendedDataType = SocialGraphWireProtoPeopleapiExtensionAppsWaldoExtendedData::class;
   protected $appsWaldoExtendedDataDataType = '';
+  public $appsWaldoExtendedData;
   protected $callerIdExtendedDataType = AppsPeopleOzExternalMergedpeopleapiCallerIdExtendedData::class;
   protected $callerIdExtendedDataDataType = '';
+  public $callerIdExtendedData;
   protected $contactsExtendedDataType = AppsPeopleOzExternalMergedpeopleapiWebContactsExtendedData::class;
   protected $contactsExtendedDataDataType = '';
+  public $contactsExtendedData;
   /**
    * @var string[]
    */
   public $domainName;
   protected $dynamiteExtendedDataType = SocialGraphWireProtoPeopleapiExtensionDynamiteExtendedData::class;
   protected $dynamiteExtendedDataDataType = '';
+  public $dynamiteExtendedData;
   protected $gpayExtendedDataType = AppsPeopleOzExternalMergedpeopleapiGPayExtendedData::class;
   protected $gpayExtendedDataDataType = '';
+  public $gpayExtendedData;
   protected $gplusExtendedDataType = AppsPeopleOzExternalMergedpeopleapiGplusExtendedData::class;
   protected $gplusExtendedDataDataType = '';
+  public $gplusExtendedData;
   protected $hangoutsExtendedDataType = AppsPeopleOzExternalMergedpeopleapiHangoutsExtendedData::class;
   protected $hangoutsExtendedDataDataType = '';
+  public $hangoutsExtendedData;
   /**
    * @var bool
    */
   public $isPlaceholder;
   protected $mapsExtendedDataType = AppsPeopleOzExternalMergedpeopleapiMapsExtendedData::class;
   protected $mapsExtendedDataDataType = '';
+  public $mapsExtendedData;
   protected $paisaExtendedDataType = SocialGraphWireProtoPeopleapiExtensionPaisaExtendedData::class;
   protected $paisaExtendedDataDataType = '';
+  public $paisaExtendedData;
   protected $peopleStackExtendedDataType = SocialGraphWireProtoPeopleapiExtensionPeopleStackExtendedData::class;
   protected $peopleStackExtendedDataDataType = '';
+  public $peopleStackExtendedData;
   protected $peopleStackPersonExtendedDataType = SocialGraphWireProtoPeopleapiExtensionPeopleStackPersonExtendedData::class;
   protected $peopleStackPersonExtendedDataDataType = '';
+  public $peopleStackPersonExtendedData;
   protected $playGamesExtendedDataType = AppsPeopleOzExternalMergedpeopleapiPlayGamesExtendedData::class;
   protected $playGamesExtendedDataDataType = '';
+  public $playGamesExtendedData;
   /**
    * @var bool
    */
   public $tlsIsPlaceholder;
   protected $youtubeExtendedDataType = AppsPeopleOzExternalMergedpeopleapiYoutubeExtendedData::class;
   protected $youtubeExtendedDataDataType = '';
+  public $youtubeExtendedData;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiAboutMeExtendedData

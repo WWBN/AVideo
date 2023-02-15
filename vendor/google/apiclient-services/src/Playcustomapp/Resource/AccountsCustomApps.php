@@ -24,7 +24,7 @@ use Google\Service\Playcustomapp\CustomApp;
  * Typical usage is:
  *  <code>
  *   $playcustomappService = new Google\Service\Playcustomapp(...);
- *   $customApps = $playcustomappService->customApps;
+ *   $customApps = $playcustomappService->accounts_customApps;
  *  </code>
  */
 class AccountsCustomApps extends \Google\Service\Resource

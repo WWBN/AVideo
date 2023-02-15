@@ -24,7 +24,7 @@ use Google\Service\CloudIot\ListDeviceConfigVersionsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudiotService = new Google\Service\CloudIot(...);
- *   $configVersions = $cloudiotService->configVersions;
+ *   $configVersions = $cloudiotService->projects_locations_registries_devices_configVersions;
  *  </code>
  */
 class ProjectsLocationsRegistriesDevicesConfigVersions extends \Google\Service\Resource

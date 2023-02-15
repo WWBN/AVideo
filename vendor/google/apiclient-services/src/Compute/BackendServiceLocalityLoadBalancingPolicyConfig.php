@@ -21,8 +21,10 @@ class BackendServiceLocalityLoadBalancingPolicyConfig extends \Google\Model
 {
   protected $customPolicyType = BackendServiceLocalityLoadBalancingPolicyConfigCustomPolicy::class;
   protected $customPolicyDataType = '';
+  public $customPolicy;
   protected $policyType = BackendServiceLocalityLoadBalancingPolicyConfigPolicy::class;
   protected $policyDataType = '';
+  public $policy;
 
   /**
    * @param BackendServiceLocalityLoadBalancingPolicyConfigCustomPolicy

@@ -21,6 +21,7 @@ class SubmitConfigSourceRequest extends \Google\Model
 {
   protected $configSourceType = ConfigSource::class;
   protected $configSourceDataType = '';
+  public $configSource;
   /**
    * @var bool
    */

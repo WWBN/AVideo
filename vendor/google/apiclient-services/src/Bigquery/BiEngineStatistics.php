@@ -23,10 +23,29 @@ class BiEngineStatistics extends \Google\Collection
   /**
    * @var string
    */
+  public $accelerationMode;
+  /**
+   * @var string
+   */
   public $biEngineMode;
   protected $biEngineReasonsType = BiEngineReason::class;
   protected $biEngineReasonsDataType = 'array';
+  public $biEngineReasons;
 
+  /**
+   * @param string
+   */
+  public function setAccelerationMode($accelerationMode)
+  {
+    $this->accelerationMode = $accelerationMode;
+  }
+  /**
+   * @return string
+   */
+  public function getAccelerationMode()
+  {
+    return $this->accelerationMode;
+  }
   /**
    * @param string
    */

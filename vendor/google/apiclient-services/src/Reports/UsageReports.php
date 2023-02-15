@@ -34,8 +34,10 @@ class UsageReports extends \Google\Collection
   public $nextPageToken;
   protected $usageReportsType = UsageReport::class;
   protected $usageReportsDataType = 'array';
+  public $usageReports;
   protected $warningsType = UsageReportsWarnings::class;
   protected $warningsDataType = 'array';
+  public $warnings;
 
   /**
    * @param string

@@ -21,12 +21,14 @@ class GooglePrivacyDlpV2InspectContentRequest extends \Google\Model
 {
   protected $inspectConfigType = GooglePrivacyDlpV2InspectConfig::class;
   protected $inspectConfigDataType = '';
+  public $inspectConfig;
   /**
    * @var string
    */
   public $inspectTemplateName;
   protected $itemType = GooglePrivacyDlpV2ContentItem::class;
   protected $itemDataType = '';
+  public $item;
   /**
    * @var string
    */

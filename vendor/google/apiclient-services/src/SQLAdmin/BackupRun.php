@@ -29,8 +29,10 @@ class BackupRun extends \Google\Model
   public $description;
   protected $diskEncryptionConfigurationType = DiskEncryptionConfiguration::class;
   protected $diskEncryptionConfigurationDataType = '';
+  public $diskEncryptionConfiguration;
   protected $diskEncryptionStatusType = DiskEncryptionStatus::class;
   protected $diskEncryptionStatusDataType = '';
+  public $diskEncryptionStatus;
   /**
    * @var string
    */
@@ -41,6 +43,7 @@ class BackupRun extends \Google\Model
   public $enqueuedTime;
   protected $errorType = OperationError::class;
   protected $errorDataType = '';
+  public $error;
   /**
    * @var string
    */

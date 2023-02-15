@@ -21,6 +21,7 @@ class UnmergeTableCellsRequest extends \Google\Model
 {
   protected $tableRangeType = TableRange::class;
   protected $tableRangeDataType = '';
+  public $tableRange;
 
   /**
    * @param TableRange

@@ -32,7 +32,7 @@ use Google\Service\Container\UpdateNodePoolRequest;
  * Typical usage is:
  *  <code>
  *   $containerService = new Google\Service\Container(...);
- *   $nodePools = $containerService->nodePools;
+ *   $nodePools = $containerService->projects_zones_clusters_nodePools;
  *  </code>
  */
 class ProjectsZonesClustersNodePools extends \Google\Service\Resource

@@ -1658,6 +1658,20 @@ class Apigee extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'getDeployedIngressConfig' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'list' => [
               'path' => 'v1/{+parent}/envgroups',
               'httpMethod' => 'GET',
@@ -1783,6 +1797,16 @@ class Apigee extends \Google\Service
                 ],
               ],
             ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getApiSecurityRuntimeConfig' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [

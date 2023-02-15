@@ -26,6 +26,7 @@ class ListMonitoredResourceDescriptorsResponse extends \Google\Collection
   public $nextPageToken;
   protected $resourceDescriptorsType = MonitoredResourceDescriptor::class;
   protected $resourceDescriptorsDataType = 'array';
+  public $resourceDescriptors;
 
   /**
    * @param string

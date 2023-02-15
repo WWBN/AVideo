@@ -30,10 +30,13 @@ class GoogleFirestoreAdminV1FieldOperationMetadata extends \Google\Collection
   public $field;
   protected $indexConfigDeltasType = GoogleFirestoreAdminV1IndexConfigDelta::class;
   protected $indexConfigDeltasDataType = 'array';
+  public $indexConfigDeltas;
   protected $progressBytesType = GoogleFirestoreAdminV1Progress::class;
   protected $progressBytesDataType = '';
+  public $progressBytes;
   protected $progressDocumentsType = GoogleFirestoreAdminV1Progress::class;
   protected $progressDocumentsDataType = '';
+  public $progressDocuments;
   /**
    * @var string
    */
@@ -44,6 +47,7 @@ class GoogleFirestoreAdminV1FieldOperationMetadata extends \Google\Collection
   public $state;
   protected $ttlConfigDeltaType = GoogleFirestoreAdminV1TtlConfigDelta::class;
   protected $ttlConfigDeltaDataType = '';
+  public $ttlConfigDelta;
 
   /**
    * @param string

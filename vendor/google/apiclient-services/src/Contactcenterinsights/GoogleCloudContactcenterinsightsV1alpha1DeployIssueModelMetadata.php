@@ -29,6 +29,7 @@ class GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelMetadata extends \
   public $endTime;
   protected $requestType = GoogleCloudContactcenterinsightsV1alpha1DeployIssueModelRequest::class;
   protected $requestDataType = '';
+  public $request;
 
   /**
    * @param string

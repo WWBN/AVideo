@@ -22,6 +22,7 @@ class FreebaseNestedStruct extends \Google\Collection
   protected $collection_key = 'propertyValue';
   protected $propertyValueType = FreebasePropertyValue::class;
   protected $propertyValueDataType = 'array';
+  public $propertyValue;
 
   /**
    * @param FreebasePropertyValue[]

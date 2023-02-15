@@ -21,8 +21,10 @@ class GoogleCloudDialogflowCxV3TestCaseError extends \Google\Model
 {
   protected $statusType = GoogleRpcStatus::class;
   protected $statusDataType = '';
+  public $status;
   protected $testCaseType = GoogleCloudDialogflowCxV3TestCase::class;
   protected $testCaseDataType = '';
+  public $testCase;
 
   /**
    * @param GoogleRpcStatus

@@ -26,6 +26,7 @@ class AddRolesRequest extends \Google\Collection
   public $consumerNetwork;
   protected $policyBindingType = PolicyBinding::class;
   protected $policyBindingDataType = 'array';
+  public $policyBinding;
 
   /**
    * @param string

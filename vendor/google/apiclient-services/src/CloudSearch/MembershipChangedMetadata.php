@@ -22,13 +22,18 @@ class MembershipChangedMetadata extends \Google\Collection
   protected $collection_key = 'affectedMemberships';
   protected $affectedMemberProfilesType = Member::class;
   protected $affectedMemberProfilesDataType = 'array';
+  public $affectedMemberProfiles;
   protected $affectedMembersType = MemberId::class;
   protected $affectedMembersDataType = 'array';
+  public $affectedMembers;
   protected $affectedMembershipsType = AffectedMembership::class;
   protected $affectedMembershipsDataType = 'array';
+  public $affectedMemberships;
   protected $initiatorDataType = '';
+  public $initiator;
   protected $initiatorProfileType = User::class;
   protected $initiatorProfileDataType = '';
+  public $initiatorProfile;
   /**
    * @var string
    */

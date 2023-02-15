@@ -22,8 +22,10 @@ class TopologyConfig extends \Google\Collection
   protected $collection_key = 'dataDiskAssignments';
   protected $computationsType = ComputationTopology::class;
   protected $computationsDataType = 'array';
+  public $computations;
   protected $dataDiskAssignmentsType = DataDiskAssignment::class;
   protected $dataDiskAssignmentsDataType = 'array';
+  public $dataDiskAssignments;
   /**
    * @var int
    */

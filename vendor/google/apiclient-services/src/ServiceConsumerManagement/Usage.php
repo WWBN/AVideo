@@ -30,6 +30,7 @@ class Usage extends \Google\Collection
   public $requirements;
   protected $rulesType = UsageRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
 
   /**
    * @param string

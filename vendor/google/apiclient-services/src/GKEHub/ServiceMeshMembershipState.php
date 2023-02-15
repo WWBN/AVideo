@@ -21,8 +21,10 @@ class ServiceMeshMembershipState extends \Google\Model
 {
   protected $controlPlaneManagementType = ServiceMeshControlPlaneManagement::class;
   protected $controlPlaneManagementDataType = '';
+  public $controlPlaneManagement;
   protected $dataPlaneManagementType = ServiceMeshDataPlaneManagement::class;
   protected $dataPlaneManagementDataType = '';
+  public $dataPlaneManagement;
 
   /**
    * @param ServiceMeshControlPlaneManagement

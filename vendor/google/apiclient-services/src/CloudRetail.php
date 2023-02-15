@@ -46,6 +46,7 @@ class CloudRetail extends \Google\Service
   public $projects_locations_catalogs_branches_products;
   public $projects_locations_catalogs_completionData;
   public $projects_locations_catalogs_controls;
+  public $projects_locations_catalogs_models;
   public $projects_locations_catalogs_operations;
   public $projects_locations_catalogs_placements;
   public $projects_locations_catalogs_servingConfigs;
@@ -522,6 +523,102 @@ class CloudRetail extends \Google\Service
           ]
         ]
     );
+    $this->projects_locations_catalogs_models = new CloudRetail\Resource\ProjectsLocationsCatalogsModels(
+        $this,
+        $this->serviceName,
+        'models',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v2/{+parent}/models',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'dryRun' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v2/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v2/{+parent}/models',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v2/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'pause' => [
+              'path' => 'v2/{+name}:pause',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'resume' => [
+              'path' => 'v2/{+name}:resume',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'tune' => [
+              'path' => 'v2/{+name}:tune',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_locations_catalogs_operations = new CloudRetail\Resource\ProjectsLocationsCatalogsOperations(
         $this,
         $this->serviceName,
@@ -784,6 +881,10 @@ class CloudRetail extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'writeAsync' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
               ],
             ],

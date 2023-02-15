@@ -22,6 +22,7 @@ class ListDnsPeeringsResponse extends \Google\Collection
   protected $collection_key = 'dnsPeerings';
   protected $dnsPeeringsType = DnsPeering::class;
   protected $dnsPeeringsDataType = 'array';
+  public $dnsPeerings;
   /**
    * @var string
    */

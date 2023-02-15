@@ -21,6 +21,7 @@ class AppsDynamiteSharedTasksAnnotationDataTaskProperties extends \Google\Model
 {
   protected $assigneeType = UserId::class;
   protected $assigneeDataType = '';
+  public $assignee;
   /**
    * @var bool
    */
@@ -35,6 +36,7 @@ class AppsDynamiteSharedTasksAnnotationDataTaskProperties extends \Google\Model
   public $description;
   protected $startDateType = Date::class;
   protected $startDateDataType = '';
+  public $startDate;
   /**
    * @var string
    */

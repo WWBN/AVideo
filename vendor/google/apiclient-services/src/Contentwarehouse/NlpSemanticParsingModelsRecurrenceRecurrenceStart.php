@@ -21,6 +21,7 @@ class NlpSemanticParsingModelsRecurrenceRecurrenceStart extends \Google\Model
 {
   protected $startDateTimeType = NlpSemanticParsingDateTimeAnnotation::class;
   protected $startDateTimeDataType = '';
+  public $startDateTime;
   /**
    * @var string
    */

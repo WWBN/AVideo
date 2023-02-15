@@ -29,7 +29,7 @@ use Google\Service\CloudKMS\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudkmsService = new Google\Service\CloudKMS(...);
- *   $importJobs = $cloudkmsService->importJobs;
+ *   $importJobs = $cloudkmsService->projects_locations_keyRings_importJobs;
  *  </code>
  */
 class ProjectsLocationsKeyRingsImportJobs extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class ListSessionsResponse extends \Google\Collection
   protected $collection_key = 'session';
   protected $deletedSessionType = Session::class;
   protected $deletedSessionDataType = 'array';
+  public $deletedSession;
   /**
    * @var bool
    */
@@ -32,6 +33,7 @@ class ListSessionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $sessionType = Session::class;
   protected $sessionDataType = 'array';
+  public $session;
 
   /**
    * @param Session[]

@@ -22,6 +22,7 @@ class IntegerList extends \Google\Collection
   protected $collection_key = 'elements';
   protected $elementsType = SplitInt64::class;
   protected $elementsDataType = 'array';
+  public $elements;
 
   /**
    * @param SplitInt64[]

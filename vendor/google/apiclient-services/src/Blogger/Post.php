@@ -22,8 +22,10 @@ class Post extends \Google\Collection
   protected $collection_key = 'labels';
   protected $authorType = PostAuthor::class;
   protected $authorDataType = '';
+  public $author;
   protected $blogType = PostBlog::class;
   protected $blogDataType = '';
+  public $blog;
   /**
    * @var string
    */
@@ -42,6 +44,7 @@ class Post extends \Google\Collection
   public $id;
   protected $imagesType = PostImages::class;
   protected $imagesDataType = 'array';
+  public $images;
   /**
    * @var string
    */
@@ -52,6 +55,7 @@ class Post extends \Google\Collection
   public $labels;
   protected $locationType = PostLocation::class;
   protected $locationDataType = '';
+  public $location;
   /**
    * @var string
    */
@@ -62,6 +66,7 @@ class Post extends \Google\Collection
   public $readerComments;
   protected $repliesType = PostReplies::class;
   protected $repliesDataType = '';
+  public $replies;
   /**
    * @var string
    */

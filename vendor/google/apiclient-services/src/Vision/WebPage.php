@@ -22,12 +22,14 @@ class WebPage extends \Google\Collection
   protected $collection_key = 'partialMatchingImages';
   protected $fullMatchingImagesType = WebImage::class;
   protected $fullMatchingImagesDataType = 'array';
+  public $fullMatchingImages;
   /**
    * @var string
    */
   public $pageTitle;
   protected $partialMatchingImagesType = WebImage::class;
   protected $partialMatchingImagesDataType = 'array';
+  public $partialMatchingImages;
   /**
    * @var float
    */

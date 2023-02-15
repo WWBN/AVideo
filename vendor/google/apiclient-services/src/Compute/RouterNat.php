@@ -42,6 +42,7 @@ class RouterNat extends \Google\Collection
   public $icmpIdleTimeoutSec;
   protected $logConfigType = RouterNatLogConfig::class;
   protected $logConfigDataType = '';
+  public $logConfig;
   /**
    * @var int
    */
@@ -64,12 +65,14 @@ class RouterNat extends \Google\Collection
   public $natIps;
   protected $rulesType = RouterNatRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
   /**
    * @var string
    */
   public $sourceSubnetworkIpRangesToNat;
   protected $subnetworksType = RouterNatSubnetworkToNat::class;
   protected $subnetworksDataType = 'array';
+  public $subnetworks;
   /**
    * @var int
    */

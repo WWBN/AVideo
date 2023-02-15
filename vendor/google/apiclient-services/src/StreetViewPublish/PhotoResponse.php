@@ -21,8 +21,10 @@ class PhotoResponse extends \Google\Model
 {
   protected $photoType = Photo::class;
   protected $photoDataType = '';
+  public $photo;
   protected $statusType = Status::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param Photo

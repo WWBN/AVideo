@@ -31,7 +31,7 @@ use Google\Service\AnalyticsHub\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $analyticshubService = new Google\Service\AnalyticsHub(...);
- *   $dataExchanges = $analyticshubService->dataExchanges;
+ *   $dataExchanges = $analyticshubService->projects_locations_dataExchanges;
  *  </code>
  */
 class ProjectsLocationsDataExchanges extends \Google\Service\Resource

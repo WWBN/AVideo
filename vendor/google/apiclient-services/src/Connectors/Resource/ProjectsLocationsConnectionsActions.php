@@ -26,7 +26,7 @@ use Google\Service\Connectors\ListActionsResponse;
  * Typical usage is:
  *  <code>
  *   $connectorsService = new Google\Service\Connectors(...);
- *   $actions = $connectorsService->actions;
+ *   $actions = $connectorsService->projects_locations_connections_actions;
  *  </code>
  */
 class ProjectsLocationsConnectionsActions extends \Google\Service\Resource

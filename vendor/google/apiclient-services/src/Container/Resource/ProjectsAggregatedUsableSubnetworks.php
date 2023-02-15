@@ -24,7 +24,7 @@ use Google\Service\Container\ListUsableSubnetworksResponse;
  * Typical usage is:
  *  <code>
  *   $containerService = new Google\Service\Container(...);
- *   $usableSubnetworks = $containerService->usableSubnetworks;
+ *   $usableSubnetworks = $containerService->projects_aggregated_usableSubnetworks;
  *  </code>
  */
 class ProjectsAggregatedUsableSubnetworks extends \Google\Service\Resource

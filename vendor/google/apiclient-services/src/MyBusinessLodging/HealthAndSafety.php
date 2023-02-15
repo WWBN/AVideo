@@ -21,14 +21,19 @@ class HealthAndSafety extends \Google\Model
 {
   protected $enhancedCleaningType = EnhancedCleaning::class;
   protected $enhancedCleaningDataType = '';
+  public $enhancedCleaning;
   protected $increasedFoodSafetyType = IncreasedFoodSafety::class;
   protected $increasedFoodSafetyDataType = '';
+  public $increasedFoodSafety;
   protected $minimizedContactType = MinimizedContact::class;
   protected $minimizedContactDataType = '';
+  public $minimizedContact;
   protected $personalProtectionType = PersonalProtection::class;
   protected $personalProtectionDataType = '';
+  public $personalProtection;
   protected $physicalDistancingType = PhysicalDistancing::class;
   protected $physicalDistancingDataType = '';
+  public $physicalDistancing;
 
   /**
    * @param EnhancedCleaning

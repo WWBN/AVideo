@@ -24,7 +24,7 @@ use Google\Service\Analytics\RealtimeData;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $realtime = $analyticsService->realtime;
+ *   $realtime = $analyticsService->data_realtime;
  *  </code>
  */
 class DataRealtime extends \Google\Service\Resource

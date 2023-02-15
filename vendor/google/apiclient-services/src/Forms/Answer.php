@@ -21,14 +21,17 @@ class Answer extends \Google\Model
 {
   protected $fileUploadAnswersType = FileUploadAnswers::class;
   protected $fileUploadAnswersDataType = '';
+  public $fileUploadAnswers;
   protected $gradeType = Grade::class;
   protected $gradeDataType = '';
+  public $grade;
   /**
    * @var string
    */
   public $questionId;
   protected $textAnswersType = TextAnswers::class;
   protected $textAnswersDataType = '';
+  public $textAnswers;
 
   /**
    * @param FileUploadAnswers

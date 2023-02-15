@@ -26,7 +26,7 @@ use Google\Service\Firebaseappcheck\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $firebaseappcheckService = new Google\Service\Firebaseappcheck(...);
- *   $debugTokens = $firebaseappcheckService->debugTokens;
+ *   $debugTokens = $firebaseappcheckService->projects_apps_debugTokens;
  *  </code>
  */
 class ProjectsAppsDebugTokens extends \Google\Service\Resource

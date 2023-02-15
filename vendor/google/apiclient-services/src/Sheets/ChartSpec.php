@@ -26,18 +26,25 @@ class ChartSpec extends \Google\Collection
   public $altText;
   protected $backgroundColorType = Color::class;
   protected $backgroundColorDataType = '';
+  public $backgroundColor;
   protected $backgroundColorStyleType = ColorStyle::class;
   protected $backgroundColorStyleDataType = '';
+  public $backgroundColorStyle;
   protected $basicChartType = BasicChartSpec::class;
   protected $basicChartDataType = '';
+  public $basicChart;
   protected $bubbleChartType = BubbleChartSpec::class;
   protected $bubbleChartDataType = '';
+  public $bubbleChart;
   protected $candlestickChartType = CandlestickChartSpec::class;
   protected $candlestickChartDataType = '';
+  public $candlestickChart;
   protected $dataSourceChartPropertiesType = DataSourceChartProperties::class;
   protected $dataSourceChartPropertiesDataType = '';
+  public $dataSourceChartProperties;
   protected $filterSpecsType = FilterSpec::class;
   protected $filterSpecsDataType = 'array';
+  public $filterSpecs;
   /**
    * @var string
    */
@@ -48,38 +55,49 @@ class ChartSpec extends \Google\Collection
   public $hiddenDimensionStrategy;
   protected $histogramChartType = HistogramChartSpec::class;
   protected $histogramChartDataType = '';
+  public $histogramChart;
   /**
    * @var bool
    */
   public $maximized;
   protected $orgChartType = OrgChartSpec::class;
   protected $orgChartDataType = '';
+  public $orgChart;
   protected $pieChartType = PieChartSpec::class;
   protected $pieChartDataType = '';
+  public $pieChart;
   protected $scorecardChartType = ScorecardChartSpec::class;
   protected $scorecardChartDataType = '';
+  public $scorecardChart;
   protected $sortSpecsType = SortSpec::class;
   protected $sortSpecsDataType = 'array';
+  public $sortSpecs;
   /**
    * @var string
    */
   public $subtitle;
   protected $subtitleTextFormatType = TextFormat::class;
   protected $subtitleTextFormatDataType = '';
+  public $subtitleTextFormat;
   protected $subtitleTextPositionType = TextPosition::class;
   protected $subtitleTextPositionDataType = '';
+  public $subtitleTextPosition;
   /**
    * @var string
    */
   public $title;
   protected $titleTextFormatType = TextFormat::class;
   protected $titleTextFormatDataType = '';
+  public $titleTextFormat;
   protected $titleTextPositionType = TextPosition::class;
   protected $titleTextPositionDataType = '';
+  public $titleTextPosition;
   protected $treemapChartType = TreemapChartSpec::class;
   protected $treemapChartDataType = '';
+  public $treemapChart;
   protected $waterfallChartType = WaterfallChartSpec::class;
   protected $waterfallChartDataType = '';
+  public $waterfallChart;
 
   /**
    * @param string

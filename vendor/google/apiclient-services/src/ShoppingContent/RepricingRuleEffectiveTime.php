@@ -22,6 +22,7 @@ class RepricingRuleEffectiveTime extends \Google\Collection
   protected $collection_key = 'fixedTimePeriods';
   protected $fixedTimePeriodsType = RepricingRuleEffectiveTimeFixedTimePeriod::class;
   protected $fixedTimePeriodsDataType = 'array';
+  public $fixedTimePeriods;
 
   /**
    * @param RepricingRuleEffectiveTimeFixedTimePeriod[]

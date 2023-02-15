@@ -22,6 +22,7 @@ class ListInternalRangesResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $internalRangesType = InternalRange::class;
   protected $internalRangesDataType = 'array';
+  public $internalRanges;
   /**
    * @var string
    */

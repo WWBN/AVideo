@@ -22,18 +22,23 @@ class GoogleCloudConnectorsV1AuthConfig extends \Google\Collection
   protected $collection_key = 'additionalVariables';
   protected $additionalVariablesType = GoogleCloudConnectorsV1ConfigVariable::class;
   protected $additionalVariablesDataType = 'array';
+  public $additionalVariables;
   /**
    * @var string
    */
   public $authType;
   protected $oauth2ClientCredentialsType = GoogleCloudConnectorsV1AuthConfigOauth2ClientCredentials::class;
   protected $oauth2ClientCredentialsDataType = '';
+  public $oauth2ClientCredentials;
   protected $oauth2JwtBearerType = GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer::class;
   protected $oauth2JwtBearerDataType = '';
+  public $oauth2JwtBearer;
   protected $sshPublicKeyType = GoogleCloudConnectorsV1AuthConfigSshPublicKey::class;
   protected $sshPublicKeyDataType = '';
+  public $sshPublicKey;
   protected $userPasswordType = GoogleCloudConnectorsV1AuthConfigUserPassword::class;
   protected $userPasswordDataType = '';
+  public $userPassword;
 
   /**
    * @param GoogleCloudConnectorsV1ConfigVariable[]

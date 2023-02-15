@@ -21,6 +21,7 @@ class LocalizedObjectAnnotation extends \Google\Model
 {
   protected $boundingPolyType = BoundingPoly::class;
   protected $boundingPolyDataType = '';
+  public $boundingPoly;
   /**
    * @var string
    */

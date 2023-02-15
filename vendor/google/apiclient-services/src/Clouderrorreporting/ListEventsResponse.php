@@ -22,6 +22,7 @@ class ListEventsResponse extends \Google\Collection
   protected $collection_key = 'errorEvents';
   protected $errorEventsType = ErrorEvent::class;
   protected $errorEventsDataType = 'array';
+  public $errorEvents;
   /**
    * @var string
    */

@@ -28,7 +28,7 @@ use Google\Service\FirebaseRealtimeDatabase\UndeleteDatabaseInstanceRequest;
  * Typical usage is:
  *  <code>
  *   $firebasedatabaseService = new Google\Service\FirebaseRealtimeDatabase(...);
- *   $instances = $firebasedatabaseService->instances;
+ *   $instances = $firebasedatabaseService->projects_locations_instances;
  *  </code>
  */
 class ProjectsLocationsInstances extends \Google\Service\Resource

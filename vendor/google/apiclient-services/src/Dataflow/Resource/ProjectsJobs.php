@@ -28,7 +28,7 @@ use Google\Service\Dataflow\SnapshotJobRequest;
  * Typical usage is:
  *  <code>
  *   $dataflowService = new Google\Service\Dataflow(...);
- *   $jobs = $dataflowService->jobs;
+ *   $jobs = $dataflowService->projects_jobs;
  *  </code>
  */
 class ProjectsJobs extends \Google\Service\Resource

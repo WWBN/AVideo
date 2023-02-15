@@ -22,10 +22,13 @@ class ConditionalFormatRule extends \Google\Collection
   protected $collection_key = 'ranges';
   protected $booleanRuleType = BooleanRule::class;
   protected $booleanRuleDataType = '';
+  public $booleanRule;
   protected $gradientRuleType = GradientRule::class;
   protected $gradientRuleDataType = '';
+  public $gradientRule;
   protected $rangesType = GridRange::class;
   protected $rangesDataType = 'array';
+  public $ranges;
 
   /**
    * @param BooleanRule

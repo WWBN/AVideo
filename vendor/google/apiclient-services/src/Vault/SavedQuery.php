@@ -33,6 +33,7 @@ class SavedQuery extends \Google\Model
   public $matterId;
   protected $queryType = Query::class;
   protected $queryDataType = '';
+  public $query;
   /**
    * @var string
    */

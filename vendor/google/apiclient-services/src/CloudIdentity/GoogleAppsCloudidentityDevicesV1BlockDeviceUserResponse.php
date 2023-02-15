@@ -21,6 +21,7 @@ class GoogleAppsCloudidentityDevicesV1BlockDeviceUserResponse extends \Google\Mo
 {
   protected $deviceUserType = GoogleAppsCloudidentityDevicesV1DeviceUser::class;
   protected $deviceUserDataType = '';
+  public $deviceUser;
 
   /**
    * @param GoogleAppsCloudidentityDevicesV1DeviceUser

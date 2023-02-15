@@ -21,14 +21,19 @@ class CorpusQuery extends \Google\Model
 {
   protected $driveQueryType = HeldDriveQuery::class;
   protected $driveQueryDataType = '';
+  public $driveQuery;
   protected $groupsQueryType = HeldGroupsQuery::class;
   protected $groupsQueryDataType = '';
+  public $groupsQuery;
   protected $hangoutsChatQueryType = HeldHangoutsChatQuery::class;
   protected $hangoutsChatQueryDataType = '';
+  public $hangoutsChatQuery;
   protected $mailQueryType = HeldMailQuery::class;
   protected $mailQueryDataType = '';
+  public $mailQuery;
   protected $voiceQueryType = HeldVoiceQuery::class;
   protected $voiceQueryDataType = '';
+  public $voiceQuery;
 
   /**
    * @param HeldDriveQuery

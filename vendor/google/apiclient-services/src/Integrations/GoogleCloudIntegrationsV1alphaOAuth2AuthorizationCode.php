@@ -21,6 +21,7 @@ class GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode extends \Google\Mode
 {
   protected $accessTokenType = GoogleCloudIntegrationsV1alphaAccessToken::class;
   protected $accessTokenDataType = '';
+  public $accessToken;
   /**
    * @var bool
    */
@@ -35,6 +36,7 @@ class GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode extends \Google\Mode
   public $authEndpoint;
   protected $authParamsType = GoogleCloudIntegrationsV1alphaParameterMap::class;
   protected $authParamsDataType = '';
+  public $authParams;
   /**
    * @var string
    */
@@ -57,6 +59,7 @@ class GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode extends \Google\Mode
   public $tokenEndpoint;
   protected $tokenParamsType = GoogleCloudIntegrationsV1alphaParameterMap::class;
   protected $tokenParamsDataType = '';
+  public $tokenParams;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaAccessToken

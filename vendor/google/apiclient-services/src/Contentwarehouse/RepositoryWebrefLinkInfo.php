@@ -30,8 +30,10 @@ class RepositoryWebrefLinkInfo extends \Google\Collection
   public $isPreferredDirection;
   protected $metadataType = RepositoryWebrefEntityLinkMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $sourceType = RepositoryWebrefEntityLinkSource::class;
   protected $sourceDataType = 'array';
+  public $source;
 
   /**
    * @param float

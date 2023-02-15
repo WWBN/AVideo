@@ -22,7 +22,7 @@ namespace Google\Service\Batch\Resource;
  * Typical usage is:
  *  <code>
  *   $batchService = new Google\Service\Batch(...);
- *   $taskGroups = $batchService->taskGroups;
+ *   $taskGroups = $batchService->projects_locations_jobs_taskGroups;
  *  </code>
  */
 class ProjectsLocationsJobsTaskGroups extends \Google\Service\Resource

@@ -26,6 +26,7 @@ class ListSubscriptionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $subscriptionsType = Subscription::class;
   protected $subscriptionsDataType = 'array';
+  public $subscriptions;
 
   /**
    * @param string

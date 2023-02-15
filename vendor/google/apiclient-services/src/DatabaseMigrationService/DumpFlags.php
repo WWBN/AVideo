@@ -22,6 +22,7 @@ class DumpFlags extends \Google\Collection
   protected $collection_key = 'dumpFlags';
   protected $dumpFlagsType = DumpFlag::class;
   protected $dumpFlagsDataType = 'array';
+  public $dumpFlags;
 
   /**
    * @param DumpFlag[]

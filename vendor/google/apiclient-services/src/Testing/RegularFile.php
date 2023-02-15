@@ -21,6 +21,7 @@ class RegularFile extends \Google\Model
 {
   protected $contentType = FileReference::class;
   protected $contentDataType = '';
+  public $content;
   /**
    * @var string
    */

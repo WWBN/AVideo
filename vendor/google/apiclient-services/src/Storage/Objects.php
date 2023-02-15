@@ -22,6 +22,7 @@ class Objects extends \Google\Collection
   protected $collection_key = 'prefixes';
   protected $itemsType = StorageObject::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

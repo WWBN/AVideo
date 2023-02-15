@@ -21,14 +21,17 @@ class NlpSemanticParsingPersonalIntelligenceEntity extends \Google\Model
 {
   protected $airlineConfigType = TravelFlightsAirlineConfig::class;
   protected $airlineConfigDataType = '';
+  public $airlineConfig;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var string
    */
   public $name;
   protected $qrefAnnotationType = NlpSemanticParsingQRefAnnotation::class;
   protected $qrefAnnotationDataType = '';
+  public $qrefAnnotation;
 
   /**
    * @param TravelFlightsAirlineConfig

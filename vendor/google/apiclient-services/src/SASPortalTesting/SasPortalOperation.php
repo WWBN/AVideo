@@ -25,6 +25,7 @@ class SasPortalOperation extends \Google\Model
   public $done;
   protected $errorType = SasPortalStatus::class;
   protected $errorDataType = '';
+  public $error;
   /**
    * @var array[]
    */

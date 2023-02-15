@@ -26,6 +26,7 @@ class ReportFooter extends \Google\Collection
   public $matchingRowCount;
   protected $warningsType = ReportWarning::class;
   protected $warningsDataType = 'array';
+  public $warnings;
 
   /**
    * @param string

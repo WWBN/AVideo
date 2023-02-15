@@ -28,7 +28,7 @@ use Google\Service\Apigee\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $instances = $apigeeService->instances;
+ *   $instances = $apigeeService->organizations_instances;
  *  </code>
  */
 class OrganizationsInstances extends \Google\Service\Resource

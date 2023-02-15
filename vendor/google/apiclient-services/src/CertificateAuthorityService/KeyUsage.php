@@ -22,10 +22,13 @@ class KeyUsage extends \Google\Collection
   protected $collection_key = 'unknownExtendedKeyUsages';
   protected $baseKeyUsageType = KeyUsageOptions::class;
   protected $baseKeyUsageDataType = '';
+  public $baseKeyUsage;
   protected $extendedKeyUsageType = ExtendedKeyUsageOptions::class;
   protected $extendedKeyUsageDataType = '';
+  public $extendedKeyUsage;
   protected $unknownExtendedKeyUsagesType = ObjectId::class;
   protected $unknownExtendedKeyUsagesDataType = 'array';
+  public $unknownExtendedKeyUsages;
 
   /**
    * @param KeyUsageOptions

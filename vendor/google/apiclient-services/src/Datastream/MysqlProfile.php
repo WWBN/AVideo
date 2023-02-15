@@ -33,6 +33,7 @@ class MysqlProfile extends \Google\Model
   public $port;
   protected $sslConfigType = MysqlSslConfig::class;
   protected $sslConfigDataType = '';
+  public $sslConfig;
   /**
    * @var string
    */

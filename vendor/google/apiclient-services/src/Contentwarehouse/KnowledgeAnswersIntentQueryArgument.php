@@ -21,20 +21,26 @@ class KnowledgeAnswersIntentQueryArgument extends \Google\Model
 {
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   protected $heuristicEvalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $heuristicEvalDataDataType = '';
+  public $heuristicEvalData;
   protected $keyType = KnowledgeAnswersMeaningSchemaSlotKey::class;
   protected $keyDataType = '';
+  public $key;
   protected $modifiersType = KnowledgeAnswersIntentModifiers::class;
   protected $modifiersDataType = '';
+  public $modifiers;
   /**
    * @var string
    */
   public $name;
   protected $signalsType = KnowledgeAnswersIntentQueryArgumentSignals::class;
   protected $signalsDataType = '';
+  public $signals;
   protected $valueType = KnowledgeAnswersIntentQueryArgumentValue::class;
   protected $valueDataType = '';
+  public $value;
 
   /**
    * @param NlpSemanticParsingAnnotationEvalData

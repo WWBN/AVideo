@@ -22,6 +22,7 @@ class ListDatabaseInstancesResponse extends \Google\Collection
   protected $collection_key = 'instances';
   protected $instancesType = DatabaseInstance::class;
   protected $instancesDataType = 'array';
+  public $instances;
   /**
    * @var string
    */

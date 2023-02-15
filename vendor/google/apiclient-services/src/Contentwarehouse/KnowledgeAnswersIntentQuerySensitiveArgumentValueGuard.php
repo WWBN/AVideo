@@ -21,6 +21,7 @@ class KnowledgeAnswersIntentQuerySensitiveArgumentValueGuard extends \Google\Mod
 {
   protected $doNotUseDebugOnlyDecryptedValueType = KnowledgeAnswersIntentQueryArgumentValue::class;
   protected $doNotUseDebugOnlyDecryptedValueDataType = '';
+  public $doNotUseDebugOnlyDecryptedValue;
   /**
    * @var string
    */

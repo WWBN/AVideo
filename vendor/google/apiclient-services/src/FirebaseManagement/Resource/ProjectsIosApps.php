@@ -29,7 +29,7 @@ use Google\Service\FirebaseManagement\UndeleteIosAppRequest;
  * Typical usage is:
  *  <code>
  *   $firebaseService = new Google\Service\FirebaseManagement(...);
- *   $iosApps = $firebaseService->iosApps;
+ *   $iosApps = $firebaseService->projects_iosApps;
  *  </code>
  */
 class ProjectsIosApps extends \Google\Service\Resource

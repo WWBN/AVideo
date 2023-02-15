@@ -24,7 +24,7 @@ use Google\Service\Ideahub\GoogleSearchIdeahubV1betaListIdeasResponse;
  * Typical usage is:
  *  <code>
  *   $ideahubService = new Google\Service\Ideahub(...);
- *   $ideas = $ideahubService->ideas;
+ *   $ideas = $ideahubService->platforms_properties_ideas;
  *  </code>
  */
 class PlatformsPropertiesIdeas extends \Google\Service\Resource

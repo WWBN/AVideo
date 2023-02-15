@@ -22,6 +22,7 @@ class DataFilterValueRange extends \Google\Collection
   protected $collection_key = 'values';
   protected $dataFilterType = DataFilter::class;
   protected $dataFilterDataType = '';
+  public $dataFilter;
   /**
    * @var string
    */

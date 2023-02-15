@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1Keystore;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $keystores = $apigeeService->keystores;
+ *   $keystores = $apigeeService->organizations_environments_keystores;
  *  </code>
  */
 class OrganizationsEnvironmentsKeystores extends \Google\Service\Resource

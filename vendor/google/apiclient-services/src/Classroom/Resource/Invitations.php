@@ -58,10 +58,11 @@ class Invitations extends \Google\Service\Resource
    * returns the following error codes: * `PERMISSION_DENIED` if the requesting
    * user is not permitted to create invitations for this course or for access
    * errors. * `NOT_FOUND` if the course or the user does not exist. *
-   * `FAILED_PRECONDITION` if the requested user's account is disabled or if the
-   * user already has this role or a role with greater permissions. *
-   * `ALREADY_EXISTS` if an invitation for the specified user and course already
-   * exists. (invitations.create)
+   * `FAILED_PRECONDITION`: * if the requested user's account is disabled. * if
+   * the user already has this role or a role with greater permissions. * for the
+   * following request errors: * IneligibleOwner * `ALREADY_EXISTS` if an
+   * invitation for the specified user and course already exists.
+   * (invitations.create)
    *
    * @param Invitation $postBody
    * @param array $optParams Optional parameters.

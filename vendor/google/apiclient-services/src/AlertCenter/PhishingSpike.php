@@ -22,14 +22,17 @@ class PhishingSpike extends \Google\Collection
   protected $collection_key = 'messages';
   protected $domainIdType = DomainId::class;
   protected $domainIdDataType = '';
+  public $domainId;
   /**
    * @var bool
    */
   public $isInternal;
   protected $maliciousEntityType = MaliciousEntity::class;
   protected $maliciousEntityDataType = '';
+  public $maliciousEntity;
   protected $messagesType = GmailMessageInfo::class;
   protected $messagesDataType = 'array';
+  public $messages;
 
   /**
    * @param DomainId

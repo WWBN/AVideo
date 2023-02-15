@@ -22,6 +22,7 @@ class GooglePrivacyDlpV2KAnonymityResult extends \Google\Collection
   protected $collection_key = 'equivalenceClassHistogramBuckets';
   protected $equivalenceClassHistogramBucketsType = GooglePrivacyDlpV2KAnonymityHistogramBucket::class;
   protected $equivalenceClassHistogramBucketsDataType = 'array';
+  public $equivalenceClassHistogramBuckets;
 
   /**
    * @param GooglePrivacyDlpV2KAnonymityHistogramBucket[]

@@ -21,12 +21,14 @@ class GoogleCloudContentwarehouseV1SetAclRequest extends \Google\Model
 {
   protected $policyType = GoogleIamV1Policy::class;
   protected $policyDataType = '';
+  public $policy;
   /**
    * @var bool
    */
   public $projectOwner;
   protected $requestMetadataType = GoogleCloudContentwarehouseV1RequestMetadata::class;
   protected $requestMetadataDataType = '';
+  public $requestMetadata;
 
   /**
    * @param GoogleIamV1Policy

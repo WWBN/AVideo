@@ -22,12 +22,14 @@ class OperationProgress extends \Google\Collection
   protected $collection_key = 'stages';
   protected $metricsType = Metric::class;
   protected $metricsDataType = 'array';
+  public $metrics;
   /**
    * @var string
    */
   public $name;
   protected $stagesType = OperationProgress::class;
   protected $stagesDataType = 'array';
+  public $stages;
   /**
    * @var string
    */

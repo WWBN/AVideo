@@ -29,8 +29,10 @@ class AppsPeopleOzExternalMergedpeopleapiFieldAclAclEntryScope extends \Google\M
   public $domainUsers;
   protected $membershipType = AppsPeopleOzExternalMergedpeopleapiFieldAclAclEntryScopeMembershipAcl::class;
   protected $membershipDataType = '';
+  public $membership;
   protected $personType = AppsPeopleOzExternalMergedpeopleapiFieldAclAclEntryScopePersonAcl::class;
   protected $personDataType = '';
+  public $person;
 
   /**
    * @param bool

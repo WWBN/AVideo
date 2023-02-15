@@ -22,7 +22,7 @@ namespace Google\Service\AdExchangeBuyerII\Resource;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $accounts = $adexchangebuyer2Service->accounts;
+ *   $accounts = $adexchangebuyer2Service->bidders_accounts;
  *  </code>
  */
 class BiddersAccounts extends \Google\Service\Resource

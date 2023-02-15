@@ -25,7 +25,7 @@ use Google\Service\ToolResults\TestCase;
  * Typical usage is:
  *  <code>
  *   $toolresultsService = new Google\Service\ToolResults(...);
- *   $testCases = $toolresultsService->testCases;
+ *   $testCases = $toolresultsService->projects_histories_executions_steps_testCases;
  *  </code>
  */
 class ProjectsHistoriesExecutionsStepsTestCases extends \Google\Service\Resource

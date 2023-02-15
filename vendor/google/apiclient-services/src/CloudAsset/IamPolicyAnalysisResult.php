@@ -22,6 +22,7 @@ class IamPolicyAnalysisResult extends \Google\Collection
   protected $collection_key = 'accessControlLists';
   protected $accessControlListsType = GoogleCloudAssetV1AccessControlList::class;
   protected $accessControlListsDataType = 'array';
+  public $accessControlLists;
   /**
    * @var string
    */
@@ -32,8 +33,10 @@ class IamPolicyAnalysisResult extends \Google\Collection
   public $fullyExplored;
   protected $iamBindingType = Binding::class;
   protected $iamBindingDataType = '';
+  public $iamBinding;
   protected $identityListType = GoogleCloudAssetV1IdentityList::class;
   protected $identityListDataType = '';
+  public $identityList;
 
   /**
    * @param GoogleCloudAssetV1AccessControlList[]

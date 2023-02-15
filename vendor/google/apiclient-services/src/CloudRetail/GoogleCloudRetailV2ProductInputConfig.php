@@ -21,10 +21,13 @@ class GoogleCloudRetailV2ProductInputConfig extends \Google\Model
 {
   protected $bigQuerySourceType = GoogleCloudRetailV2BigQuerySource::class;
   protected $bigQuerySourceDataType = '';
+  public $bigQuerySource;
   protected $gcsSourceType = GoogleCloudRetailV2GcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
   protected $productInlineSourceType = GoogleCloudRetailV2ProductInlineSource::class;
   protected $productInlineSourceDataType = '';
+  public $productInlineSource;
 
   /**
    * @param GoogleCloudRetailV2BigQuerySource

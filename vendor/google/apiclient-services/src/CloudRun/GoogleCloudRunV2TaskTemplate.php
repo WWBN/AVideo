@@ -22,6 +22,7 @@ class GoogleCloudRunV2TaskTemplate extends \Google\Collection
   protected $collection_key = 'volumes';
   protected $containersType = GoogleCloudRunV2Container::class;
   protected $containersDataType = 'array';
+  public $containers;
   /**
    * @var string
    */
@@ -44,8 +45,10 @@ class GoogleCloudRunV2TaskTemplate extends \Google\Collection
   public $timeout;
   protected $volumesType = GoogleCloudRunV2Volume::class;
   protected $volumesDataType = 'array';
+  public $volumes;
   protected $vpcAccessType = GoogleCloudRunV2VpcAccess::class;
   protected $vpcAccessDataType = '';
+  public $vpcAccess;
 
   /**
    * @param GoogleCloudRunV2Container[]

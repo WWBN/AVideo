@@ -31,7 +31,7 @@ use Google\Service\ApigeeRegistry\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeregistryService = new Google\Service\ApigeeRegistry(...);
- *   $artifacts = $apigeeregistryService->artifacts;
+ *   $artifacts = $apigeeregistryService->projects_locations_artifacts;
  *  </code>
  */
 class ProjectsLocationsArtifacts extends \Google\Service\Resource

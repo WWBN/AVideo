@@ -22,6 +22,7 @@ class ListIdentityAwareProxyClientsResponse extends \Google\Collection
   protected $collection_key = 'identityAwareProxyClients';
   protected $identityAwareProxyClientsType = IdentityAwareProxyClient::class;
   protected $identityAwareProxyClientsDataType = 'array';
+  public $identityAwareProxyClients;
   /**
    * @var string
    */

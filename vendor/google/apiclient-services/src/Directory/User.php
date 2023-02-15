@@ -134,6 +134,7 @@ class User extends \Google\Collection
   public $locations;
   protected $nameType = UserName::class;
   protected $nameDataType = '';
+  public $name;
   /**
    * @var string[]
    */

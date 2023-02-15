@@ -85,6 +85,8 @@ class Gmail extends \Google\Service
   public $users_messages;
   public $users_messages_attachments;
   public $users_settings;
+  public $users_settings_cse_identities;
+  public $users_settings_cse_keypairs;
   public $users_settings_delegates;
   public $users_settings_filters;
   public $users_settings_forwardingAddresses;
@@ -714,6 +716,187 @@ class Gmail extends \Google\Service
               'httpMethod' => 'PUT',
               'parameters' => [
                 'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->users_settings_cse_identities = new Gmail\Resource\UsersSettingsCseIdentities(
+        $this,
+        $this->serviceName,
+        'identities',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/identities',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/identities/{cseEmailAddress}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'cseEmailAddress' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/identities/{cseEmailAddress}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'cseEmailAddress' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/identities',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/identities/{emailAddress}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'emailAddress' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->users_settings_cse_keypairs = new Gmail\Resource\UsersSettingsCseKeypairs(
+        $this,
+        $this->serviceName,
+        'keypairs',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/keypairs',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'disable' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}:disable',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'keyPairId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'enable' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}:enable',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'keyPairId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'keyPairId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/keypairs',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'obliterate' => [
+              'path' => 'gmail/v1/users/{userId}/settings/cse/keypairs/{keyPairId}:obliterate',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'userId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'keyPairId' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

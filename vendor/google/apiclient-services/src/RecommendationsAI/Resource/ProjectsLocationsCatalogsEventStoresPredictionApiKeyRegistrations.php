@@ -27,7 +27,7 @@ use Google\Service\RecommendationsAI\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $recommendationengineService = new Google\Service\RecommendationsAI(...);
- *   $predictionApiKeyRegistrations = $recommendationengineService->predictionApiKeyRegistrations;
+ *   $predictionApiKeyRegistrations = $recommendationengineService->projects_locations_catalogs_eventStores_predictionApiKeyRegistrations;
  *  </code>
  */
 class ProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations extends \Google\Service\Resource

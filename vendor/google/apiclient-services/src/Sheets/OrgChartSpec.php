@@ -21,22 +21,29 @@ class OrgChartSpec extends \Google\Model
 {
   protected $labelsType = ChartData::class;
   protected $labelsDataType = '';
+  public $labels;
   protected $nodeColorType = Color::class;
   protected $nodeColorDataType = '';
+  public $nodeColor;
   protected $nodeColorStyleType = ColorStyle::class;
   protected $nodeColorStyleDataType = '';
+  public $nodeColorStyle;
   /**
    * @var string
    */
   public $nodeSize;
   protected $parentLabelsType = ChartData::class;
   protected $parentLabelsDataType = '';
+  public $parentLabels;
   protected $selectedNodeColorType = Color::class;
   protected $selectedNodeColorDataType = '';
+  public $selectedNodeColor;
   protected $selectedNodeColorStyleType = ColorStyle::class;
   protected $selectedNodeColorStyleDataType = '';
+  public $selectedNodeColorStyle;
   protected $tooltipsType = ChartData::class;
   protected $tooltipsDataType = '';
+  public $tooltips;
 
   /**
    * @param ChartData

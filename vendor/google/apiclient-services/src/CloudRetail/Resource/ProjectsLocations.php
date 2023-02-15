@@ -22,7 +22,7 @@ namespace Google\Service\CloudRetail\Resource;
  * Typical usage is:
  *  <code>
  *   $retailService = new Google\Service\CloudRetail(...);
- *   $locations = $retailService->locations;
+ *   $locations = $retailService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

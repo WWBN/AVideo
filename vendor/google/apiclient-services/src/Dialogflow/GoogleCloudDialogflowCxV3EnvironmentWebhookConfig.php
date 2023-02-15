@@ -22,6 +22,7 @@ class GoogleCloudDialogflowCxV3EnvironmentWebhookConfig extends \Google\Collecti
   protected $collection_key = 'webhookOverrides';
   protected $webhookOverridesType = GoogleCloudDialogflowCxV3Webhook::class;
   protected $webhookOverridesDataType = 'array';
+  public $webhookOverrides;
 
   /**
    * @param GoogleCloudDialogflowCxV3Webhook[]

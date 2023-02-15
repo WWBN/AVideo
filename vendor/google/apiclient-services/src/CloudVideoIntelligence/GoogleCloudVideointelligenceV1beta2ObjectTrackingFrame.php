@@ -21,6 +21,7 @@ class GoogleCloudVideointelligenceV1beta2ObjectTrackingFrame extends \Google\Mod
 {
   protected $normalizedBoundingBoxType = GoogleCloudVideointelligenceV1beta2NormalizedBoundingBox::class;
   protected $normalizedBoundingBoxDataType = '';
+  public $normalizedBoundingBox;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class GeostoreRightsStatusProto extends \Google\Collection
   protected $collection_key = 'fieldWithRights';
   protected $fieldWithRightsType = GeostoreFieldWithRightsProto::class;
   protected $fieldWithRightsDataType = 'array';
+  public $fieldWithRights;
 
   /**
    * @param GeostoreFieldWithRightsProto[]

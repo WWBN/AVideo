@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1SecurityProfile;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $securityProfiles = $apigeeService->securityProfiles;
+ *   $securityProfiles = $apigeeService->organizations_securityProfiles;
  *  </code>
  */
 class OrganizationsSecurityProfiles extends \Google\Service\Resource

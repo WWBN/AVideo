@@ -21,22 +21,29 @@ class OSPolicyResourcePackageResource extends \Google\Model
 {
   protected $aptType = OSPolicyResourcePackageResourceAPT::class;
   protected $aptDataType = '';
+  public $apt;
   protected $debType = OSPolicyResourcePackageResourceDeb::class;
   protected $debDataType = '';
+  public $deb;
   /**
    * @var string
    */
   public $desiredState;
   protected $googetType = OSPolicyResourcePackageResourceGooGet::class;
   protected $googetDataType = '';
+  public $googet;
   protected $msiType = OSPolicyResourcePackageResourceMSI::class;
   protected $msiDataType = '';
+  public $msi;
   protected $rpmType = OSPolicyResourcePackageResourceRPM::class;
   protected $rpmDataType = '';
+  public $rpm;
   protected $yumType = OSPolicyResourcePackageResourceYUM::class;
   protected $yumDataType = '';
+  public $yum;
   protected $zypperType = OSPolicyResourcePackageResourceZypper::class;
   protected $zypperDataType = '';
+  public $zypper;
 
   /**
    * @param OSPolicyResourcePackageResourceAPT

@@ -26,6 +26,10 @@ class Lun extends \Google\Model
   /**
    * @var string
    */
+  public $expireTime;
+  /**
+   * @var string
+   */
   public $id;
   /**
    * @var string
@@ -73,6 +77,20 @@ class Lun extends \Google\Model
   public function getBootLun()
   {
     return $this->bootLun;
+  }
+  /**
+   * @param string
+   */
+  public function setExpireTime($expireTime)
+  {
+    $this->expireTime = $expireTime;
+  }
+  /**
+   * @return string
+   */
+  public function getExpireTime()
+  {
+    return $this->expireTime;
   }
   /**
    * @param string

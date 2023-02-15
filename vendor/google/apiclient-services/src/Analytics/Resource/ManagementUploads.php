@@ -26,7 +26,7 @@ use Google\Service\Analytics\Uploads;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $uploads = $analyticsService->uploads;
+ *   $uploads = $analyticsService->management_uploads;
  *  </code>
  */
 class ManagementUploads extends \Google\Service\Resource

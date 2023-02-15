@@ -24,7 +24,7 @@ use Google\Service\Spanner\ListInstanceConfigOperationsResponse;
  * Typical usage is:
  *  <code>
  *   $spannerService = new Google\Service\Spanner(...);
- *   $instanceConfigOperations = $spannerService->instanceConfigOperations;
+ *   $instanceConfigOperations = $spannerService->projects_instanceConfigOperations;
  *  </code>
  */
 class ProjectsInstanceConfigOperations extends \Google\Service\Resource

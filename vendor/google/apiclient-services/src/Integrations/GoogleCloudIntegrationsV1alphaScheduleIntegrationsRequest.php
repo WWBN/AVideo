@@ -22,10 +22,13 @@ class GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest extends \Google\
   protected $collection_key = 'parameterEntries';
   protected $inputParametersType = GoogleCloudIntegrationsV1alphaValueType::class;
   protected $inputParametersDataType = 'map';
+  public $inputParameters;
   protected $parameterEntriesType = EnterpriseCrmFrontendsEventbusProtoParameterEntry::class;
   protected $parameterEntriesDataType = 'array';
+  public $parameterEntries;
   protected $parametersType = EnterpriseCrmEventbusProtoEventParameters::class;
   protected $parametersDataType = '';
+  public $parameters;
   /**
    * @var string
    */

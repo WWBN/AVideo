@@ -22,6 +22,7 @@ class GoogleIdentityStsV1AccessBoundary extends \Google\Collection
   protected $collection_key = 'accessBoundaryRules';
   protected $accessBoundaryRulesType = GoogleIdentityStsV1AccessBoundaryRule::class;
   protected $accessBoundaryRulesDataType = 'array';
+  public $accessBoundaryRules;
 
   /**
    * @param GoogleIdentityStsV1AccessBoundaryRule[]

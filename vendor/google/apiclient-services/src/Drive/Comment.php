@@ -26,6 +26,7 @@ class Comment extends \Google\Collection
   public $anchor;
   protected $authorType = User::class;
   protected $authorDataType = '';
+  public $author;
   /**
    * @var string
    */
@@ -56,8 +57,10 @@ class Comment extends \Google\Collection
   public $modifiedTime;
   protected $quotedFileContentType = CommentQuotedFileContent::class;
   protected $quotedFileContentDataType = '';
+  public $quotedFileContent;
   protected $repliesType = Reply::class;
   protected $repliesDataType = 'array';
+  public $replies;
   /**
    * @var bool
    */

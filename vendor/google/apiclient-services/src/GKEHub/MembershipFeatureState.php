@@ -21,16 +21,22 @@ class MembershipFeatureState extends \Google\Model
 {
   protected $appdevexperienceType = AppDevExperienceFeatureState::class;
   protected $appdevexperienceDataType = '';
+  public $appdevexperience;
   protected $configmanagementType = ConfigManagementMembershipState::class;
   protected $configmanagementDataType = '';
+  public $configmanagement;
   protected $fleetobservabilityType = FleetObservabilityMembershipState::class;
   protected $fleetobservabilityDataType = '';
+  public $fleetobservability;
   protected $identityserviceType = IdentityServiceMembershipState::class;
   protected $identityserviceDataType = '';
+  public $identityservice;
   protected $servicemeshType = ServiceMeshMembershipState::class;
   protected $servicemeshDataType = '';
+  public $servicemesh;
   protected $stateType = FeatureState::class;
   protected $stateDataType = '';
+  public $state;
 
   /**
    * @param AppDevExperienceFeatureState

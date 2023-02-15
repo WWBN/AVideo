@@ -27,7 +27,7 @@ use Google\Service\Cloudchannel\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $cloudchannelService = new Google\Service\Cloudchannel(...);
- *   $customers = $cloudchannelService->customers;
+ *   $customers = $cloudchannelService->accounts_channelPartnerLinks_customers;
  *  </code>
  */
 class AccountsChannelPartnerLinksCustomers extends \Google\Service\Resource

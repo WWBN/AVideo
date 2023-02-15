@@ -19,14 +19,16 @@ namespace Google\Service\DataCatalog\Resource;
 
 use Google\Service\DataCatalog\DatacatalogEmpty;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1ListTagsResponse;
+use Google\Service\DataCatalog\GoogleCloudDatacatalogV1ReconcileTagsRequest;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1Tag;
+use Google\Service\DataCatalog\Operation;
 
 /**
  * The "tags" collection of methods.
  * Typical usage is:
  *  <code>
  *   $datacatalogService = new Google\Service\DataCatalog(...);
- *   $tags = $datacatalogService->tags;
+ *   $tags = $datacatalogService->projects_locations_entryGroups_entries_tags;
  *  </code>
  */
 class ProjectsLocationsEntryGroupsEntriesTags extends \Google\Service\Resource
@@ -112,6 +114,25 @@ class ProjectsLocationsEntryGroupsEntriesTags extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], GoogleCloudDatacatalogV1Tag::class);
+  }
+  /**
+   * `ReconcileTags` creates or updates a list of tags on the entry. If the
+   * ReconcileTagsRequest.force_delete_missing parameter is set, the operation
+   * deletes tags not included in the input tag list. `ReconcileTags` returns a
+   * long-running operation resource that can be queried with
+   * Operations.GetOperation to return ReconcileTagsMetadata and a
+   * ReconcileTagsResponse message. (tags.reconcile)
+   *
+   * @param string $parent Required. Name of Entry to be tagged.
+   * @param GoogleCloudDatacatalogV1ReconcileTagsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function reconcile($parent, GoogleCloudDatacatalogV1ReconcileTagsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('reconcile', [$params], Operation::class);
   }
 }
 

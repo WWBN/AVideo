@@ -22,8 +22,10 @@ class ListJobsResponse extends \Google\Collection
   protected $collection_key = 'jobs';
   protected $jobsType = Job::class;
   protected $jobsDataType = 'array';
+  public $jobs;
   protected $metadataType = ResponseMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */

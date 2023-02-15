@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $debugsessions = $apigeeService->debugsessions;
+ *   $debugsessions = $apigeeService->organizations_environments_apis_revisions_debugsessions;
  *  </code>
  */
 class OrganizationsEnvironmentsApisRevisionsDebugsessions extends \Google\Service\Resource

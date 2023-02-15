@@ -25,6 +25,7 @@ class GoogleCloudVisionV1p1beta1InputConfig extends \Google\Model
   public $content;
   protected $gcsSourceType = GoogleCloudVisionV1p1beta1GcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
   /**
    * @var string
    */

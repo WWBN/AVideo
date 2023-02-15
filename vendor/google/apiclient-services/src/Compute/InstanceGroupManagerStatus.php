@@ -29,8 +29,10 @@ class InstanceGroupManagerStatus extends \Google\Model
   public $isStable;
   protected $statefulType = InstanceGroupManagerStatusStateful::class;
   protected $statefulDataType = '';
+  public $stateful;
   protected $versionTargetType = InstanceGroupManagerStatusVersionTarget::class;
   protected $versionTargetDataType = '';
+  public $versionTarget;
 
   /**
    * @param string

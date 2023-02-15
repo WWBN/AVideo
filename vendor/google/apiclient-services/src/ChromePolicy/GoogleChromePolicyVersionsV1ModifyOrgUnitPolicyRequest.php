@@ -21,8 +21,10 @@ class GoogleChromePolicyVersionsV1ModifyOrgUnitPolicyRequest extends \Google\Mod
 {
   protected $policyTargetKeyType = GoogleChromePolicyVersionsV1PolicyTargetKey::class;
   protected $policyTargetKeyDataType = '';
+  public $policyTargetKey;
   protected $policyValueType = GoogleChromePolicyVersionsV1PolicyValue::class;
   protected $policyValueDataType = '';
+  public $policyValue;
   /**
    * @var string
    */

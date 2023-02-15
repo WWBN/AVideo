@@ -24,7 +24,7 @@ use Google\Service\OSConfig\ListPatchJobInstanceDetailsResponse;
  * Typical usage is:
  *  <code>
  *   $osconfigService = new Google\Service\OSConfig(...);
- *   $instanceDetails = $osconfigService->instanceDetails;
+ *   $instanceDetails = $osconfigService->projects_patchJobs_instanceDetails;
  *  </code>
  */
 class ProjectsPatchJobsInstanceDetails extends \Google\Service\Resource

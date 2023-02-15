@@ -25,7 +25,7 @@ use Google\Service\Cloudchannel\GoogleCloudChannelV1FetchReportResultsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudchannelService = new Google\Service\Cloudchannel(...);
- *   $reportJobs = $cloudchannelService->reportJobs;
+ *   $reportJobs = $cloudchannelService->accounts_reportJobs;
  *  </code>
  */
 class AccountsReportJobs extends \Google\Service\Resource

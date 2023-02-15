@@ -26,7 +26,7 @@ use Google\Service\PaymentsResellerSubscription\GoogleCloudPaymentsResellerSubsc
  * Typical usage is:
  *  <code>
  *   $paymentsresellersubscriptionService = new Google\Service\PaymentsResellerSubscription(...);
- *   $promotions = $paymentsresellersubscriptionService->promotions;
+ *   $promotions = $paymentsresellersubscriptionService->partners_promotions;
  *  </code>
  */
 class PartnersPromotions extends \Google\Service\Resource

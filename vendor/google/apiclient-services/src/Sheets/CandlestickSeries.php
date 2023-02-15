@@ -21,6 +21,7 @@ class CandlestickSeries extends \Google\Model
 {
   protected $dataType = ChartData::class;
   protected $dataDataType = '';
+  public $data;
 
   /**
    * @param ChartData

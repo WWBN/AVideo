@@ -26,14 +26,17 @@ class GoogleCloudVisionV1p1beta1Block extends \Google\Collection
   public $blockType;
   protected $boundingBoxType = GoogleCloudVisionV1p1beta1BoundingPoly::class;
   protected $boundingBoxDataType = '';
+  public $boundingBox;
   /**
    * @var float
    */
   public $confidence;
   protected $paragraphsType = GoogleCloudVisionV1p1beta1Paragraph::class;
   protected $paragraphsDataType = 'array';
+  public $paragraphs;
   protected $propertyType = GoogleCloudVisionV1p1beta1TextAnnotationTextProperty::class;
   protected $propertyDataType = '';
+  public $property;
 
   /**
    * @param string

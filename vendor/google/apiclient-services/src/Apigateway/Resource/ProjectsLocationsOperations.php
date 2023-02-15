@@ -27,7 +27,7 @@ use Google\Service\Apigateway\ApigatewayOperation;
  * Typical usage is:
  *  <code>
  *   $apigatewayService = new Google\Service\Apigateway(...);
- *   $operations = $apigatewayService->operations;
+ *   $operations = $apigatewayService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

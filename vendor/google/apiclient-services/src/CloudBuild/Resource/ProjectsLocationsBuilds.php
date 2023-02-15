@@ -29,7 +29,7 @@ use Google\Service\CloudBuild\RetryBuildRequest;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $builds = $cloudbuildService->builds;
+ *   $builds = $cloudbuildService->projects_locations_builds;
  *  </code>
  */
 class ProjectsLocationsBuilds extends \Google\Service\Resource

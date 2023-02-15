@@ -26,6 +26,7 @@ class GoodocSemanticLabelContentLinkInVolumeTarget extends \Google\Model
   public $confidence;
   protected $logicalEntityType = GoodocLogicalEntity::class;
   protected $logicalEntityDataType = '';
+  public $logicalEntity;
 
   public function setConfidence($confidence)
   {

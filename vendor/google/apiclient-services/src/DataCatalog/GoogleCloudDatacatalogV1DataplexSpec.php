@@ -29,6 +29,7 @@ class GoogleCloudDatacatalogV1DataplexSpec extends \Google\Model
   public $compressionFormat;
   protected $dataFormatType = GoogleCloudDatacatalogV1PhysicalSchema::class;
   protected $dataFormatDataType = '';
+  public $dataFormat;
   /**
    * @var string
    */

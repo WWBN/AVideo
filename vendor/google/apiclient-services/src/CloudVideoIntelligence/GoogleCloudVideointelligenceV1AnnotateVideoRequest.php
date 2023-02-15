@@ -42,6 +42,7 @@ class GoogleCloudVideointelligenceV1AnnotateVideoRequest extends \Google\Collect
   public $outputUri;
   protected $videoContextType = GoogleCloudVideointelligenceV1VideoContext::class;
   protected $videoContextDataType = '';
+  public $videoContext;
 
   /**
    * @param string[]

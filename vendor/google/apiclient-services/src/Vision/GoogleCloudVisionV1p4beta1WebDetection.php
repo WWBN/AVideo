@@ -22,16 +22,22 @@ class GoogleCloudVisionV1p4beta1WebDetection extends \Google\Collection
   protected $collection_key = 'webEntities';
   protected $bestGuessLabelsType = GoogleCloudVisionV1p4beta1WebDetectionWebLabel::class;
   protected $bestGuessLabelsDataType = 'array';
+  public $bestGuessLabels;
   protected $fullMatchingImagesType = GoogleCloudVisionV1p4beta1WebDetectionWebImage::class;
   protected $fullMatchingImagesDataType = 'array';
+  public $fullMatchingImages;
   protected $pagesWithMatchingImagesType = GoogleCloudVisionV1p4beta1WebDetectionWebPage::class;
   protected $pagesWithMatchingImagesDataType = 'array';
+  public $pagesWithMatchingImages;
   protected $partialMatchingImagesType = GoogleCloudVisionV1p4beta1WebDetectionWebImage::class;
   protected $partialMatchingImagesDataType = 'array';
+  public $partialMatchingImages;
   protected $visuallySimilarImagesType = GoogleCloudVisionV1p4beta1WebDetectionWebImage::class;
   protected $visuallySimilarImagesDataType = 'array';
+  public $visuallySimilarImages;
   protected $webEntitiesType = GoogleCloudVisionV1p4beta1WebDetectionWebEntity::class;
   protected $webEntitiesDataType = 'array';
+  public $webEntities;
 
   /**
    * @param GoogleCloudVisionV1p4beta1WebDetectionWebLabel[]

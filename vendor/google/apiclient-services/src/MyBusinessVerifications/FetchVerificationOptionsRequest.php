@@ -21,6 +21,7 @@ class FetchVerificationOptionsRequest extends \Google\Model
 {
   protected $contextType = ServiceBusinessContext::class;
   protected $contextDataType = '';
+  public $context;
   /**
    * @var string
    */

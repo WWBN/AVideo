@@ -26,7 +26,7 @@ use Google\Service\Directory\Features;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $features = $adminService->features;
+ *   $features = $adminService->resources_features;
  *  </code>
  */
 class ResourcesFeatures extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class GenerateVerificationTokenResponse extends \Google\Model
 {
   protected $tokenType = VerificationToken::class;
   protected $tokenDataType = '';
+  public $token;
 
   /**
    * @param VerificationToken

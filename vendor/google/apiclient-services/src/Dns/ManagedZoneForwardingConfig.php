@@ -26,6 +26,7 @@ class ManagedZoneForwardingConfig extends \Google\Collection
   public $kind;
   protected $targetNameServersType = ManagedZoneForwardingConfigNameServerTarget::class;
   protected $targetNameServersDataType = 'array';
+  public $targetNameServers;
 
   /**
    * @param string

@@ -22,8 +22,10 @@ class TargetConfiguration extends \Google\Collection
   protected $collection_key = 'imports';
   protected $configType = ConfigFile::class;
   protected $configDataType = '';
+  public $config;
   protected $importsType = ImportFile::class;
   protected $importsDataType = 'array';
+  public $imports;
 
   /**
    * @param ConfigFile

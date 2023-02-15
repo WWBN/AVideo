@@ -21,8 +21,10 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1UploadedMavenArtifact extends \
 {
   protected $fileHashesType = ContaineranalysisGoogleDevtoolsCloudbuildV1FileHashes::class;
   protected $fileHashesDataType = '';
+  public $fileHashes;
   protected $pushTimingType = ContaineranalysisGoogleDevtoolsCloudbuildV1TimeSpan::class;
   protected $pushTimingDataType = '';
+  public $pushTiming;
   /**
    * @var string
    */

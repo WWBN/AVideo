@@ -21,12 +21,14 @@ class GooglePrivacyDlpV2ImageRedactionConfig extends \Google\Model
 {
   protected $infoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypeDataType = '';
+  public $infoType;
   /**
    * @var bool
    */
   public $redactAllText;
   protected $redactionColorType = GooglePrivacyDlpV2Color::class;
   protected $redactionColorDataType = '';
+  public $redactionColor;
 
   /**
    * @param GooglePrivacyDlpV2InfoType

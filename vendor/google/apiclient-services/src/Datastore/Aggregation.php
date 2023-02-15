@@ -25,6 +25,7 @@ class Aggregation extends \Google\Model
   public $alias;
   protected $countType = Count::class;
   protected $countDataType = '';
+  public $count;
 
   /**
    * @param string

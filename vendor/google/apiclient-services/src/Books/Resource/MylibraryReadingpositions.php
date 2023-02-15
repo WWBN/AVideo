@@ -25,7 +25,7 @@ use Google\Service\Books\ReadingPosition;
  * Typical usage is:
  *  <code>
  *   $booksService = new Google\Service\Books(...);
- *   $readingpositions = $booksService->readingpositions;
+ *   $readingpositions = $booksService->mylibrary_readingpositions;
  *  </code>
  */
 class MylibraryReadingpositions extends \Google\Service\Resource

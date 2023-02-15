@@ -21,24 +21,32 @@ class GoogleCloudIntegrationsV1alphaCredential extends \Google\Model
 {
   protected $authTokenType = GoogleCloudIntegrationsV1alphaAuthToken::class;
   protected $authTokenDataType = '';
+  public $authToken;
   /**
    * @var string
    */
   public $credentialType;
   protected $jwtType = GoogleCloudIntegrationsV1alphaJwt::class;
   protected $jwtDataType = '';
+  public $jwt;
   protected $oauth2AuthorizationCodeType = GoogleCloudIntegrationsV1alphaOAuth2AuthorizationCode::class;
   protected $oauth2AuthorizationCodeDataType = '';
+  public $oauth2AuthorizationCode;
   protected $oauth2ClientCredentialsType = GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials::class;
   protected $oauth2ClientCredentialsDataType = '';
+  public $oauth2ClientCredentials;
   protected $oauth2ResourceOwnerCredentialsType = GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials::class;
   protected $oauth2ResourceOwnerCredentialsDataType = '';
+  public $oauth2ResourceOwnerCredentials;
   protected $oidcTokenType = GoogleCloudIntegrationsV1alphaOidcToken::class;
   protected $oidcTokenDataType = '';
+  public $oidcToken;
   protected $serviceAccountCredentialsType = GoogleCloudIntegrationsV1alphaServiceAccountCredentials::class;
   protected $serviceAccountCredentialsDataType = '';
+  public $serviceAccountCredentials;
   protected $usernameAndPasswordType = GoogleCloudIntegrationsV1alphaUsernameAndPassword::class;
   protected $usernameAndPasswordDataType = '';
+  public $usernameAndPassword;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaAuthToken

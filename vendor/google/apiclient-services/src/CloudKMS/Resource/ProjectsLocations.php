@@ -27,7 +27,7 @@ use Google\Service\CloudKMS\Location;
  * Typical usage is:
  *  <code>
  *   $cloudkmsService = new Google\Service\CloudKMS(...);
- *   $locations = $cloudkmsService->locations;
+ *   $locations = $cloudkmsService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

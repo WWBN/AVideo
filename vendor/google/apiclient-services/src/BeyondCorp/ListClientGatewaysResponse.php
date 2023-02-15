@@ -22,6 +22,7 @@ class ListClientGatewaysResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $clientGatewaysType = ClientGateway::class;
   protected $clientGatewaysDataType = 'array';
+  public $clientGateways;
   /**
    * @var string
    */

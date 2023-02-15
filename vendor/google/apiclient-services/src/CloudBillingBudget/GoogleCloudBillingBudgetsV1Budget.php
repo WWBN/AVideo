@@ -22,8 +22,10 @@ class GoogleCloudBillingBudgetsV1Budget extends \Google\Collection
   protected $collection_key = 'thresholdRules';
   protected $amountType = GoogleCloudBillingBudgetsV1BudgetAmount::class;
   protected $amountDataType = '';
+  public $amount;
   protected $budgetFilterType = GoogleCloudBillingBudgetsV1Filter::class;
   protected $budgetFilterDataType = '';
+  public $budgetFilter;
   /**
    * @var string
    */
@@ -38,8 +40,10 @@ class GoogleCloudBillingBudgetsV1Budget extends \Google\Collection
   public $name;
   protected $notificationsRuleType = GoogleCloudBillingBudgetsV1NotificationsRule::class;
   protected $notificationsRuleDataType = '';
+  public $notificationsRule;
   protected $thresholdRulesType = GoogleCloudBillingBudgetsV1ThresholdRule::class;
   protected $thresholdRulesDataType = 'array';
+  public $thresholdRules;
 
   /**
    * @param GoogleCloudBillingBudgetsV1BudgetAmount

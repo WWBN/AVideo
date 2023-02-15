@@ -22,6 +22,7 @@ class PivotHeader extends \Google\Collection
   protected $collection_key = 'pivotDimensionHeaders';
   protected $pivotDimensionHeadersType = PivotDimensionHeader::class;
   protected $pivotDimensionHeadersDataType = 'array';
+  public $pivotDimensionHeaders;
   /**
    * @var int
    */

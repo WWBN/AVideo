@@ -26,7 +26,7 @@ use Google\Service\CloudRun\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $runService = new Google\Service\CloudRun(...);
- *   $executions = $runService->executions;
+ *   $executions = $runService->projects_locations_jobs_executions;
  *  </code>
  */
 class ProjectsLocationsJobsExecutions extends \Google\Service\Resource

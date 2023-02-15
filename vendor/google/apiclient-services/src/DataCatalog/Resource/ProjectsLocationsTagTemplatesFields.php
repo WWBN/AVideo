@@ -26,7 +26,7 @@ use Google\Service\DataCatalog\GoogleCloudDatacatalogV1TagTemplateField;
  * Typical usage is:
  *  <code>
  *   $datacatalogService = new Google\Service\DataCatalog(...);
- *   $fields = $datacatalogService->fields;
+ *   $fields = $datacatalogService->projects_locations_tagTemplates_fields;
  *  </code>
  */
 class ProjectsLocationsTagTemplatesFields extends \Google\Service\Resource

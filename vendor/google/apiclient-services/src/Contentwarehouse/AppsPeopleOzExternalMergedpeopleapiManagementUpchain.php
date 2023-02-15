@@ -22,8 +22,10 @@ class AppsPeopleOzExternalMergedpeopleapiManagementUpchain extends \Google\Colle
   protected $collection_key = 'indirectManager';
   protected $indirectManagerType = AppsPeopleOzExternalMergedpeopleapiManagementUpchainIndirectManager::class;
   protected $indirectManagerDataType = 'array';
+  public $indirectManager;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */

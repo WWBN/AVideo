@@ -22,6 +22,7 @@ class TimeSeries extends \Google\Collection
   protected $collection_key = 'datedValues';
   protected $datedValuesType = DatedValue::class;
   protected $datedValuesDataType = 'array';
+  public $datedValues;
 
   /**
    * @param DatedValue[]

@@ -26,6 +26,7 @@ class AttachedResource extends \Google\Collection
   public $assetType;
   protected $versionedResourcesType = VersionedResource::class;
   protected $versionedResourcesDataType = 'array';
+  public $versionedResources;
 
   /**
    * @param string

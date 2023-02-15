@@ -21,6 +21,7 @@ class DiagnoseInstanceRequest extends \Google\Model
 {
   protected $diagnosticConfigType = DiagnosticConfig::class;
   protected $diagnosticConfigDataType = '';
+  public $diagnosticConfig;
 
   /**
    * @param DiagnosticConfig

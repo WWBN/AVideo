@@ -21,6 +21,7 @@ class GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest extends \Googl
 {
   protected $bigQueryDestinationType = GoogleCloudContactcenterinsightsV1ExportInsightsDataRequestBigQueryDestination::class;
   protected $bigQueryDestinationDataType = '';
+  public $bigQueryDestination;
   /**
    * @var string
    */

@@ -25,7 +25,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1RatePlan;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $rateplans = $apigeeService->rateplans;
+ *   $rateplans = $apigeeService->organizations_apiproducts_rateplans;
  *  </code>
  */
 class OrganizationsApiproductsRateplans extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1ComputeEnvironmentScoresRequest extends \Google\Collect
   protected $collection_key = 'filters';
   protected $filtersType = GoogleCloudApigeeV1ComputeEnvironmentScoresRequestFilter::class;
   protected $filtersDataType = 'array';
+  public $filters;
   /**
    * @var int
    */
@@ -32,6 +33,7 @@ class GoogleCloudApigeeV1ComputeEnvironmentScoresRequest extends \Google\Collect
   public $pageToken;
   protected $timeRangeType = GoogleTypeInterval::class;
   protected $timeRangeDataType = '';
+  public $timeRange;
 
   /**
    * @param GoogleCloudApigeeV1ComputeEnvironmentScoresRequestFilter[]

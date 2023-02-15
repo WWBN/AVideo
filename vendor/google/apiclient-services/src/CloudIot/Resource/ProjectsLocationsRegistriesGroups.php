@@ -28,7 +28,7 @@ use Google\Service\CloudIot\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudiotService = new Google\Service\CloudIot(...);
- *   $groups = $cloudiotService->groups;
+ *   $groups = $cloudiotService->projects_locations_registries_groups;
  *  </code>
  */
 class ProjectsLocationsRegistriesGroups extends \Google\Service\Resource

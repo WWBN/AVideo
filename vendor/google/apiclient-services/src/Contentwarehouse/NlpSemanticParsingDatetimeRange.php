@@ -21,20 +21,26 @@ class NlpSemanticParsingDatetimeRange extends \Google\Model
 {
   protected $beginType = NlpSemanticParsingDatetimeAbsoluteDateTime::class;
   protected $beginDataType = '';
+  public $begin;
   protected $beginRelativeType = NlpSemanticParsingDatetimeRelativeDateTime::class;
   protected $beginRelativeDataType = '';
+  public $beginRelative;
   protected $durationType = NlpSemanticParsingDatetimeQuantity::class;
   protected $durationDataType = '';
+  public $duration;
   protected $endType = NlpSemanticParsingDatetimeAbsoluteDateTime::class;
   protected $endDataType = '';
+  public $end;
   protected $endRelativeType = NlpSemanticParsingDatetimeRelativeDateTime::class;
   protected $endRelativeDataType = '';
+  public $endRelative;
   /**
    * @var bool
    */
   public $exclusive;
   protected $finishType = NlpSemanticParsingDatetimeDateTime::class;
   protected $finishDataType = '';
+  public $finish;
   /**
    * @var string
    */
@@ -45,12 +51,14 @@ class NlpSemanticParsingDatetimeRange extends \Google\Model
   public $metadata;
   protected $propertiesType = NlpSemanticParsingDatetimeResolutionProperties::class;
   protected $propertiesDataType = '';
+  public $properties;
   /**
    * @var string
    */
   public $rangeModifier;
   protected $startType = NlpSemanticParsingDatetimeDateTime::class;
   protected $startDataType = '';
+  public $start;
   /**
    * @var string
    */

@@ -21,10 +21,13 @@ class AccountAutomaticImprovements extends \Google\Model
 {
   protected $imageImprovementsType = AccountImageImprovements::class;
   protected $imageImprovementsDataType = '';
+  public $imageImprovements;
   protected $itemUpdatesType = AccountItemUpdates::class;
   protected $itemUpdatesDataType = '';
+  public $itemUpdates;
   protected $shippingImprovementsType = AccountShippingImprovements::class;
   protected $shippingImprovementsDataType = '';
+  public $shippingImprovements;
 
   /**
    * @param AccountImageImprovements

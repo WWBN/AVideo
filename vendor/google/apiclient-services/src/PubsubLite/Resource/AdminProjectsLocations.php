@@ -22,7 +22,7 @@ namespace Google\Service\PubsubLite\Resource;
  * Typical usage is:
  *  <code>
  *   $pubsubliteService = new Google\Service\PubsubLite(...);
- *   $locations = $pubsubliteService->locations;
+ *   $locations = $pubsubliteService->admin_projects_locations;
  *  </code>
  */
 class AdminProjectsLocations extends \Google\Service\Resource

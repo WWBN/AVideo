@@ -22,6 +22,7 @@ class BatchUpdatePhotosRequest extends \Google\Collection
   protected $collection_key = 'updatePhotoRequests';
   protected $updatePhotoRequestsType = UpdatePhotoRequest::class;
   protected $updatePhotoRequestsDataType = 'array';
+  public $updatePhotoRequests;
 
   /**
    * @param UpdatePhotoRequest[]

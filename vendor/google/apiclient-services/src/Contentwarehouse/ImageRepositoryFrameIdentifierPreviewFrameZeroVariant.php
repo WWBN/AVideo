@@ -25,6 +25,7 @@ class ImageRepositoryFrameIdentifierPreviewFrameZeroVariant extends \Google\Mode
   public $previewLength;
   protected $xtagListType = ImageRepositoryApiXtagList::class;
   protected $xtagListDataType = '';
+  public $xtagList;
 
   /**
    * @param string

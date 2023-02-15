@@ -21,8 +21,10 @@ class SourceSplitRequest extends \Google\Model
 {
   protected $optionsType = SourceSplitOptions::class;
   protected $optionsDataType = '';
+  public $options;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
+  public $source;
 
   /**
    * @param SourceSplitOptions

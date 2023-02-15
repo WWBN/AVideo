@@ -25,7 +25,7 @@ use Google\Service\ToolResults\ListExecutionsResponse;
  * Typical usage is:
  *  <code>
  *   $toolresultsService = new Google\Service\ToolResults(...);
- *   $executions = $toolresultsService->executions;
+ *   $executions = $toolresultsService->projects_histories_executions;
  *  </code>
  */
 class ProjectsHistoriesExecutions extends \Google\Service\Resource

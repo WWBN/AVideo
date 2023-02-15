@@ -21,6 +21,7 @@ class AppsPeopleOzExternalMergedpeopleapiAffinity extends \Google\Model
 {
   protected $affinityMetadataType = SocialGraphWireProtoPeopleapiAffinityMetadata::class;
   protected $affinityMetadataDataType = '';
+  public $affinityMetadata;
   /**
    * @var string
    */

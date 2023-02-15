@@ -26,7 +26,7 @@ use Google\Service\Datastream\Route;
  * Typical usage is:
  *  <code>
  *   $datastreamService = new Google\Service\Datastream(...);
- *   $routes = $datastreamService->routes;
+ *   $routes = $datastreamService->projects_locations_privateConnections_routes;
  *  </code>
  */
 class ProjectsLocationsPrivateConnectionsRoutes extends \Google\Service\Resource

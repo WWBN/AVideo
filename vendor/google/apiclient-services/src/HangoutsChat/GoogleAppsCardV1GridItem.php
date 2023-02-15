@@ -25,6 +25,7 @@ class GoogleAppsCardV1GridItem extends \Google\Model
   public $id;
   protected $imageType = GoogleAppsCardV1ImageComponent::class;
   protected $imageDataType = '';
+  public $image;
   /**
    * @var string
    */
@@ -33,10 +34,6 @@ class GoogleAppsCardV1GridItem extends \Google\Model
    * @var string
    */
   public $subtitle;
-  /**
-   * @var string
-   */
-  public $textAlignment;
   /**
    * @var string
    */
@@ -97,20 +94,6 @@ class GoogleAppsCardV1GridItem extends \Google\Model
   public function getSubtitle()
   {
     return $this->subtitle;
-  }
-  /**
-   * @param string
-   */
-  public function setTextAlignment($textAlignment)
-  {
-    $this->textAlignment = $textAlignment;
-  }
-  /**
-   * @return string
-   */
-  public function getTextAlignment()
-  {
-    return $this->textAlignment;
   }
   /**
    * @param string

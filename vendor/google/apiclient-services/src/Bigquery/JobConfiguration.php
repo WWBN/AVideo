@@ -21,12 +21,14 @@ class JobConfiguration extends \Google\Model
 {
   protected $copyType = JobConfigurationTableCopy::class;
   protected $copyDataType = '';
+  public $copy;
   /**
    * @var bool
    */
   public $dryRun;
   protected $extractType = JobConfigurationExtract::class;
   protected $extractDataType = '';
+  public $extract;
   /**
    * @var string
    */
@@ -41,8 +43,10 @@ class JobConfiguration extends \Google\Model
   public $labels;
   protected $loadType = JobConfigurationLoad::class;
   protected $loadDataType = '';
+  public $load;
   protected $queryType = JobConfigurationQuery::class;
   protected $queryDataType = '';
+  public $query;
 
   /**
    * @param JobConfigurationTableCopy

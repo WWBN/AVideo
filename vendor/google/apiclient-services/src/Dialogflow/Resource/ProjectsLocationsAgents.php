@@ -31,7 +31,7 @@ use Google\Service\Dialogflow\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $agents = $dialogflowService->agents;
+ *   $agents = $dialogflowService->projects_locations_agents;
  *  </code>
  */
 class ProjectsLocationsAgents extends \Google\Service\Resource

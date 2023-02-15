@@ -21,16 +21,20 @@ class Filter extends \Google\Model
 {
   protected $betweenFilterType = BetweenFilter::class;
   protected $betweenFilterDataType = '';
+  public $betweenFilter;
   /**
    * @var string
    */
   public $fieldName;
   protected $inListFilterType = InListFilter::class;
   protected $inListFilterDataType = '';
+  public $inListFilter;
   protected $numericFilterType = NumericFilter::class;
   protected $numericFilterDataType = '';
+  public $numericFilter;
   protected $stringFilterType = StringFilter::class;
   protected $stringFilterDataType = '';
+  public $stringFilter;
 
   /**
    * @param BetweenFilter

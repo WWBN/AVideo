@@ -25,6 +25,7 @@ class OrderLineItemShippingDetails extends \Google\Model
   public $deliverByDate;
   protected $methodType = OrderLineItemShippingDetailsMethod::class;
   protected $methodDataType = '';
+  public $method;
   /**
    * @var string
    */

@@ -22,8 +22,10 @@ class GoogleCloudIntegrationsV1alphaListExecutionsResponse extends \Google\Colle
   protected $collection_key = 'executions';
   protected $executionInfosType = EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo::class;
   protected $executionInfosDataType = 'array';
+  public $executionInfos;
   protected $executionsType = GoogleCloudIntegrationsV1alphaExecution::class;
   protected $executionsDataType = 'array';
+  public $executions;
   /**
    * @var string
    */

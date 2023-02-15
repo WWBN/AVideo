@@ -26,7 +26,7 @@ use Google\Service\Appengine\Service;
  * Typical usage is:
  *  <code>
  *   $appengineService = new Google\Service\Appengine(...);
- *   $services = $appengineService->services;
+ *   $services = $appengineService->apps_services;
  *  </code>
  */
 class AppsServices extends \Google\Service\Resource

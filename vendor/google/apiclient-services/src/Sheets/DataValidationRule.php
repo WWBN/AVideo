@@ -21,6 +21,7 @@ class DataValidationRule extends \Google\Model
 {
   protected $conditionType = BooleanCondition::class;
   protected $conditionDataType = '';
+  public $condition;
   /**
    * @var string
    */

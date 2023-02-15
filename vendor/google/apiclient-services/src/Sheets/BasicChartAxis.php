@@ -21,6 +21,7 @@ class BasicChartAxis extends \Google\Model
 {
   protected $formatType = TextFormat::class;
   protected $formatDataType = '';
+  public $format;
   /**
    * @var string
    */
@@ -31,8 +32,10 @@ class BasicChartAxis extends \Google\Model
   public $title;
   protected $titleTextPositionType = TextPosition::class;
   protected $titleTextPositionDataType = '';
+  public $titleTextPosition;
   protected $viewWindowOptionsType = ChartAxisViewWindowOptions::class;
   protected $viewWindowOptionsDataType = '';
+  public $viewWindowOptions;
 
   /**
    * @param TextFormat

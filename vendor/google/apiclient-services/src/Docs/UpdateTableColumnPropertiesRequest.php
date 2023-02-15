@@ -30,8 +30,10 @@ class UpdateTableColumnPropertiesRequest extends \Google\Collection
   public $fields;
   protected $tableColumnPropertiesType = TableColumnProperties::class;
   protected $tableColumnPropertiesDataType = '';
+  public $tableColumnProperties;
   protected $tableStartLocationType = Location::class;
   protected $tableStartLocationDataType = '';
+  public $tableStartLocation;
 
   /**
    * @param int[]

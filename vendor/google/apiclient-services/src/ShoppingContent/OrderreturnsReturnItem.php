@@ -21,8 +21,10 @@ class OrderreturnsReturnItem extends \Google\Model
 {
   protected $refundType = OrderreturnsRefundOperation::class;
   protected $refundDataType = '';
+  public $refund;
   protected $rejectType = OrderreturnsRejectOperation::class;
   protected $rejectDataType = '';
+  public $reject;
   /**
    * @var string
    */

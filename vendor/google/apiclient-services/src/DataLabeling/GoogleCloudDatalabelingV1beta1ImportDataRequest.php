@@ -21,6 +21,7 @@ class GoogleCloudDatalabelingV1beta1ImportDataRequest extends \Google\Model
 {
   protected $inputConfigType = GoogleCloudDatalabelingV1beta1InputConfig::class;
   protected $inputConfigDataType = '';
+  public $inputConfig;
   /**
    * @var string
    */

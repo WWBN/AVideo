@@ -21,6 +21,7 @@ class ConsentedAppUnfurlMetadata extends \Google\Model
 {
   protected $clientSpecifiedAppIdType = UserId::class;
   protected $clientSpecifiedAppIdDataType = '';
+  public $clientSpecifiedAppId;
 
   /**
    * @param UserId

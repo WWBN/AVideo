@@ -21,8 +21,10 @@ class Sentence extends \Google\Model
 {
   protected $sentimentType = Sentiment::class;
   protected $sentimentDataType = '';
+  public $sentiment;
   protected $textType = TextSpan::class;
   protected $textDataType = '';
+  public $text;
 
   /**
    * @param Sentiment

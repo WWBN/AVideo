@@ -21,20 +21,26 @@ class AppsDynamiteSharedTasksAnnotationData extends \Google\Model
 {
   protected $assigneeChangeType = AppsDynamiteSharedTasksAnnotationDataAssigneeChange::class;
   protected $assigneeChangeDataType = '';
+  public $assigneeChange;
   protected $completionChangeType = AppsDynamiteSharedTasksAnnotationDataCompletionChange::class;
   protected $completionChangeDataType = '';
+  public $completionChange;
   protected $creationType = AppsDynamiteSharedTasksAnnotationDataCreation::class;
   protected $creationDataType = '';
+  public $creation;
   protected $deletionChangeType = AppsDynamiteSharedTasksAnnotationDataDeletionChange::class;
   protected $deletionChangeDataType = '';
+  public $deletionChange;
   /**
    * @var string
    */
   public $taskId;
   protected $taskPropertiesType = AppsDynamiteSharedTasksAnnotationDataTaskProperties::class;
   protected $taskPropertiesDataType = '';
+  public $taskProperties;
   protected $userDefinedMessageType = AppsDynamiteSharedTasksAnnotationDataUserDefinedMessage::class;
   protected $userDefinedMessageDataType = '';
+  public $userDefinedMessage;
 
   /**
    * @param AppsDynamiteSharedTasksAnnotationDataAssigneeChange

@@ -22,8 +22,10 @@ class NlpSciencelitMeshHeading extends \Google\Collection
   protected $collection_key = 'meshQualifier';
   protected $meshDescriptorType = NlpSciencelitSubjectHeading::class;
   protected $meshDescriptorDataType = '';
+  public $meshDescriptor;
   protected $meshQualifierType = NlpSciencelitSubjectHeading::class;
   protected $meshQualifierDataType = 'array';
+  public $meshQualifier;
 
   /**
    * @param NlpSciencelitSubjectHeading

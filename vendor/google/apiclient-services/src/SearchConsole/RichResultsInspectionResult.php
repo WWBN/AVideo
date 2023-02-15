@@ -22,6 +22,7 @@ class RichResultsInspectionResult extends \Google\Collection
   protected $collection_key = 'detectedItems';
   protected $detectedItemsType = DetectedItems::class;
   protected $detectedItemsDataType = 'array';
+  public $detectedItems;
   /**
    * @var string
    */

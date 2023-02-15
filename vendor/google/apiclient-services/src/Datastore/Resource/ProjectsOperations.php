@@ -26,7 +26,7 @@ use Google\Service\Datastore\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $datastoreService = new Google\Service\Datastore(...);
- *   $operations = $datastoreService->operations;
+ *   $operations = $datastoreService->projects_operations;
  *  </code>
  */
 class ProjectsOperations extends \Google\Service\Resource

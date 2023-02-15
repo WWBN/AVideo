@@ -21,8 +21,10 @@ class FinalizedDeal extends \Google\Model
 {
   protected $dealType = Deal::class;
   protected $dealDataType = '';
+  public $deal;
   protected $dealPausingInfoType = DealPausingInfo::class;
   protected $dealPausingInfoDataType = '';
+  public $dealPausingInfo;
   /**
    * @var string
    */
@@ -37,6 +39,7 @@ class FinalizedDeal extends \Google\Model
   public $readyToServe;
   protected $rtbMetricsType = RtbMetrics::class;
   protected $rtbMetricsDataType = '';
+  public $rtbMetrics;
 
   /**
    * @param Deal

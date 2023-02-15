@@ -22,6 +22,7 @@ class ClientStatusRequest extends \Google\Collection
   protected $collection_key = 'nodeMatchers';
   protected $nodeMatchersType = NodeMatcher::class;
   protected $nodeMatchersDataType = 'array';
+  public $nodeMatchers;
 
   /**
    * @param NodeMatcher[]

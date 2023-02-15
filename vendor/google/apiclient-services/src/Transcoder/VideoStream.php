@@ -21,10 +21,13 @@ class VideoStream extends \Google\Model
 {
   protected $h264Type = H264CodecSettings::class;
   protected $h264DataType = '';
+  public $h264;
   protected $h265Type = H265CodecSettings::class;
   protected $h265DataType = '';
+  public $h265;
   protected $vp9Type = Vp9CodecSettings::class;
   protected $vp9DataType = '';
+  public $vp9;
 
   /**
    * @param H264CodecSettings

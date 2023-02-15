@@ -26,12 +26,14 @@ class Category extends \Google\Collection
   public $displayName;
   protected $moreHoursTypesType = MoreHoursType::class;
   protected $moreHoursTypesDataType = 'array';
+  public $moreHoursTypes;
   /**
    * @var string
    */
   public $name;
   protected $serviceTypesType = ServiceType::class;
   protected $serviceTypesDataType = 'array';
+  public $serviceTypes;
 
   /**
    * @param string

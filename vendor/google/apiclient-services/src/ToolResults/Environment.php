@@ -22,10 +22,13 @@ class Environment extends \Google\Collection
   protected $collection_key = 'shardSummaries';
   protected $completionTimeType = Timestamp::class;
   protected $completionTimeDataType = '';
+  public $completionTime;
   protected $creationTimeType = Timestamp::class;
   protected $creationTimeDataType = '';
+  public $creationTime;
   protected $dimensionValueType = EnvironmentDimensionValueEntry::class;
   protected $dimensionValueDataType = 'array';
+  public $dimensionValue;
   /**
    * @var string
    */
@@ -36,6 +39,7 @@ class Environment extends \Google\Collection
   public $environmentId;
   protected $environmentResultType = MergedResult::class;
   protected $environmentResultDataType = '';
+  public $environmentResult;
   /**
    * @var string
    */
@@ -50,8 +54,10 @@ class Environment extends \Google\Collection
   public $projectId;
   protected $resultsStorageType = ResultsStorage::class;
   protected $resultsStorageDataType = '';
+  public $resultsStorage;
   protected $shardSummariesType = ShardSummary::class;
   protected $shardSummariesDataType = 'array';
+  public $shardSummaries;
 
   /**
    * @param Timestamp

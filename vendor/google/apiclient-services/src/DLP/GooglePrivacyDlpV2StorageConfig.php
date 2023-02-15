@@ -21,14 +21,19 @@ class GooglePrivacyDlpV2StorageConfig extends \Google\Model
 {
   protected $bigQueryOptionsType = GooglePrivacyDlpV2BigQueryOptions::class;
   protected $bigQueryOptionsDataType = '';
+  public $bigQueryOptions;
   protected $cloudStorageOptionsType = GooglePrivacyDlpV2CloudStorageOptions::class;
   protected $cloudStorageOptionsDataType = '';
+  public $cloudStorageOptions;
   protected $datastoreOptionsType = GooglePrivacyDlpV2DatastoreOptions::class;
   protected $datastoreOptionsDataType = '';
+  public $datastoreOptions;
   protected $hybridOptionsType = GooglePrivacyDlpV2HybridOptions::class;
   protected $hybridOptionsDataType = '';
+  public $hybridOptions;
   protected $timespanConfigType = GooglePrivacyDlpV2TimespanConfig::class;
   protected $timespanConfigDataType = '';
+  public $timespanConfig;
 
   /**
    * @param GooglePrivacyDlpV2BigQueryOptions

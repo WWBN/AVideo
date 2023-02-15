@@ -22,8 +22,10 @@ class MatchedValueRange extends \Google\Collection
   protected $collection_key = 'dataFilters';
   protected $dataFiltersType = DataFilter::class;
   protected $dataFiltersDataType = 'array';
+  public $dataFilters;
   protected $valueRangeType = ValueRange::class;
   protected $valueRangeDataType = '';
+  public $valueRange;
 
   /**
    * @param DataFilter[]

@@ -27,7 +27,7 @@ use Google\Service\Dataflow\ReportWorkItemStatusResponse;
  * Typical usage is:
  *  <code>
  *   $dataflowService = new Google\Service\Dataflow(...);
- *   $workItems = $dataflowService->workItems;
+ *   $workItems = $dataflowService->projects_jobs_workItems;
  *  </code>
  */
 class ProjectsJobsWorkItems extends \Google\Service\Resource

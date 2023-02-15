@@ -22,6 +22,7 @@ class AppsPeopleOzExternalMergedpeopleapiMapsExtendedData extends \Google\Collec
   protected $collection_key = 'topicExpertise';
   protected $failureType = AppsPeopleOzExternalMergedpeopleapiProductProfileFailure::class;
   protected $failureDataType = '';
+  public $failure;
   /**
    * @var string
    */

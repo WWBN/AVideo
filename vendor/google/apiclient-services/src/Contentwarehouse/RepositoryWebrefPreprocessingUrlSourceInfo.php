@@ -21,8 +21,10 @@ class RepositoryWebrefPreprocessingUrlSourceInfo extends \Google\Model
 {
   protected $deprecatedOldSchemaType = RepositoryWebrefPreprocessingUrlSourceInfoOldSchema::class;
   protected $deprecatedOldSchemaDataType = '';
+  public $deprecatedOldSchema;
   protected $newSchemaType = RepositoryWebrefPreprocessingUrlSourceInfoNewSchema::class;
   protected $newSchemaDataType = '';
+  public $newSchema;
   /**
    * @var string
    */

@@ -24,7 +24,7 @@ use Google\Service\RecaptchaEnterprise\GoogleCloudRecaptchaenterpriseV1ListRelat
  * Typical usage is:
  *  <code>
  *   $recaptchaenterpriseService = new Google\Service\RecaptchaEnterprise(...);
- *   $memberships = $recaptchaenterpriseService->memberships;
+ *   $memberships = $recaptchaenterpriseService->projects_relatedaccountgroups_memberships;
  *  </code>
  */
 class ProjectsRelatedaccountgroupsMemberships extends \Google\Service\Resource

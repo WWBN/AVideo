@@ -25,6 +25,7 @@ class TableCellProperties extends \Google\Model
   public $contentAlignment;
   protected $tableCellBackgroundFillType = TableCellBackgroundFill::class;
   protected $tableCellBackgroundFillDataType = '';
+  public $tableCellBackgroundFill;
 
   /**
    * @param string

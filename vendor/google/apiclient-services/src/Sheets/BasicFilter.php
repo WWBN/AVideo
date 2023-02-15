@@ -22,12 +22,16 @@ class BasicFilter extends \Google\Collection
   protected $collection_key = 'sortSpecs';
   protected $criteriaType = FilterCriteria::class;
   protected $criteriaDataType = 'map';
+  public $criteria;
   protected $filterSpecsType = FilterSpec::class;
   protected $filterSpecsDataType = 'array';
+  public $filterSpecs;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
   protected $sortSpecsType = SortSpec::class;
   protected $sortSpecsDataType = 'array';
+  public $sortSpecs;
 
   /**
    * @param FilterCriteria[]

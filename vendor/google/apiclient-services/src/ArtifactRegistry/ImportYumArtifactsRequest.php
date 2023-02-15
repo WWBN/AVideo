@@ -21,6 +21,7 @@ class ImportYumArtifactsRequest extends \Google\Model
 {
   protected $gcsSourceType = ImportYumArtifactsGcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
 
   /**
    * @param ImportYumArtifactsGcsSource

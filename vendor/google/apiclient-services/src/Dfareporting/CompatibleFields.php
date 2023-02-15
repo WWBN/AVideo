@@ -21,22 +21,29 @@ class CompatibleFields extends \Google\Model
 {
   protected $crossDimensionReachReportCompatibleFieldsType = CrossDimensionReachReportCompatibleFields::class;
   protected $crossDimensionReachReportCompatibleFieldsDataType = '';
+  public $crossDimensionReachReportCompatibleFields;
   protected $floodlightReportCompatibleFieldsType = FloodlightReportCompatibleFields::class;
   protected $floodlightReportCompatibleFieldsDataType = '';
+  public $floodlightReportCompatibleFields;
   /**
    * @var string
    */
   public $kind;
   protected $pathAttributionReportCompatibleFieldsType = PathReportCompatibleFields::class;
   protected $pathAttributionReportCompatibleFieldsDataType = '';
+  public $pathAttributionReportCompatibleFields;
   protected $pathReportCompatibleFieldsType = PathReportCompatibleFields::class;
   protected $pathReportCompatibleFieldsDataType = '';
+  public $pathReportCompatibleFields;
   protected $pathToConversionReportCompatibleFieldsType = PathToConversionReportCompatibleFields::class;
   protected $pathToConversionReportCompatibleFieldsDataType = '';
+  public $pathToConversionReportCompatibleFields;
   protected $reachReportCompatibleFieldsType = ReachReportCompatibleFields::class;
   protected $reachReportCompatibleFieldsDataType = '';
+  public $reachReportCompatibleFields;
   protected $reportCompatibleFieldsType = ReportCompatibleFields::class;
   protected $reportCompatibleFieldsDataType = '';
+  public $reportCompatibleFields;
 
   /**
    * @param CrossDimensionReachReportCompatibleFields

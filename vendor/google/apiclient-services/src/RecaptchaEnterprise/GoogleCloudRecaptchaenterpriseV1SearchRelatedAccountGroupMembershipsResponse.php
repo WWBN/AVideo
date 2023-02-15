@@ -26,6 +26,7 @@ class GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsRespon
   public $nextPageToken;
   protected $relatedAccountGroupMembershipsType = GoogleCloudRecaptchaenterpriseV1RelatedAccountGroupMembership::class;
   protected $relatedAccountGroupMembershipsDataType = 'array';
+  public $relatedAccountGroupMemberships;
 
   /**
    * @param string

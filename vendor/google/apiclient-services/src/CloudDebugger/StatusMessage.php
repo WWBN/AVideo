@@ -21,6 +21,7 @@ class StatusMessage extends \Google\Model
 {
   protected $descriptionType = FormatMessage::class;
   protected $descriptionDataType = '';
+  public $description;
   /**
    * @var bool
    */

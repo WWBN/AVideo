@@ -22,6 +22,7 @@ class DeviceGroup extends \Google\Collection
   protected $collection_key = 'deviceSelectors';
   protected $deviceSelectorsType = DeviceSelector::class;
   protected $deviceSelectorsDataType = 'array';
+  public $deviceSelectors;
   /**
    * @var string
    */

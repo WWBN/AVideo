@@ -22,6 +22,7 @@ class GoogleCloudDialogflowCxV3beta1FulfillmentConditionalCasesCase extends \Goo
   protected $collection_key = 'caseContent';
   protected $caseContentType = GoogleCloudDialogflowCxV3beta1FulfillmentConditionalCasesCaseCaseContent::class;
   protected $caseContentDataType = 'array';
+  public $caseContent;
   /**
    * @var string
    */

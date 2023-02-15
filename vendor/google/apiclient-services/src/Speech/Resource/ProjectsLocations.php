@@ -22,7 +22,7 @@ namespace Google\Service\Speech\Resource;
  * Typical usage is:
  *  <code>
  *   $speechService = new Google\Service\Speech(...);
- *   $locations = $speechService->locations;
+ *   $locations = $speechService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

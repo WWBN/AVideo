@@ -21,20 +21,24 @@ class AssistantDevicesPlatformProtoInlinedActionCapability extends \Google\Model
 {
   protected $alarmType = AssistantDevicesPlatformProtoAlarmCapability::class;
   protected $alarmDataType = '';
+  public $alarm;
   protected $responseLimitsType = AssistantDevicesPlatformProtoResponseLimits::class;
   protected $responseLimitsDataType = '';
+  public $responseLimits;
   /**
    * @var bool
    */
   public $supportSdkExecute;
   protected $supportedDeviceOpsType = AssistantDevicesPlatformProtoSupportedDeviceOps::class;
   protected $supportedDeviceOpsDataType = '';
+  public $supportedDeviceOps;
   /**
    * @var bool
    */
   public $supportsMultiResponse;
   protected $timerType = AssistantDevicesPlatformProtoTimerCapability::class;
   protected $timerDataType = '';
+  public $timer;
 
   /**
    * @param AssistantDevicesPlatformProtoAlarmCapability

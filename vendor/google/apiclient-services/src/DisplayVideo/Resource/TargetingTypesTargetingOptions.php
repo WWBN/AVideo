@@ -27,7 +27,7 @@ use Google\Service\DisplayVideo\TargetingOption;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $targetingOptions = $displayvideoService->targetingOptions;
+ *   $targetingOptions = $displayvideoService->targetingTypes_targetingOptions;
  *  </code>
  */
 class TargetingTypesTargetingOptions extends \Google\Service\Resource

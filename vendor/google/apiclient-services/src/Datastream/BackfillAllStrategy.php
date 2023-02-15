@@ -21,10 +21,13 @@ class BackfillAllStrategy extends \Google\Model
 {
   protected $mysqlExcludedObjectsType = MysqlRdbms::class;
   protected $mysqlExcludedObjectsDataType = '';
+  public $mysqlExcludedObjects;
   protected $oracleExcludedObjectsType = OracleRdbms::class;
   protected $oracleExcludedObjectsDataType = '';
+  public $oracleExcludedObjects;
   protected $postgresqlExcludedObjectsType = PostgresqlRdbms::class;
   protected $postgresqlExcludedObjectsDataType = '';
+  public $postgresqlExcludedObjects;
 
   /**
    * @param MysqlRdbms

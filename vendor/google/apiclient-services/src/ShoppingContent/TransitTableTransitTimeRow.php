@@ -22,6 +22,7 @@ class TransitTableTransitTimeRow extends \Google\Collection
   protected $collection_key = 'values';
   protected $valuesType = TransitTableTransitTimeRowTransitTimeValue::class;
   protected $valuesDataType = 'array';
+  public $values;
 
   /**
    * @param TransitTableTransitTimeRowTransitTimeValue[]

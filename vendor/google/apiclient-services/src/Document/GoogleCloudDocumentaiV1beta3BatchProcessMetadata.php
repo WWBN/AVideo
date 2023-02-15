@@ -26,6 +26,7 @@ class GoogleCloudDocumentaiV1beta3BatchProcessMetadata extends \Google\Collectio
   public $createTime;
   protected $individualProcessStatusesType = GoogleCloudDocumentaiV1beta3BatchProcessMetadataIndividualProcessStatus::class;
   protected $individualProcessStatusesDataType = 'array';
+  public $individualProcessStatuses;
   /**
    * @var string
    */

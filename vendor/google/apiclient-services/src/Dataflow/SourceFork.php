@@ -21,12 +21,16 @@ class SourceFork extends \Google\Model
 {
   protected $primaryType = SourceSplitShard::class;
   protected $primaryDataType = '';
+  public $primary;
   protected $primarySourceType = DerivedSource::class;
   protected $primarySourceDataType = '';
+  public $primarySource;
   protected $residualType = SourceSplitShard::class;
   protected $residualDataType = '';
+  public $residual;
   protected $residualSourceType = DerivedSource::class;
   protected $residualSourceDataType = '';
+  public $residualSource;
 
   /**
    * @param SourceSplitShard

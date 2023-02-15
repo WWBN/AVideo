@@ -33,7 +33,7 @@ use Google\Service\CloudRetail\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $retailService = new Google\Service\CloudRetail(...);
- *   $products = $retailService->products;
+ *   $products = $retailService->projects_locations_catalogs_branches_products;
  *  </code>
  */
 class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
@@ -48,9 +48,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * returned Operations will be obsolete after 1 day, and GetOperation API will
    * return NOT_FOUND afterwards. If conflicting updates are issued, the
    * Operations associated with the stale updates will not be marked as done until
-   * being obsolete. This feature is only available for users who have Retail
-   * Search enabled. Enable Retail Search on Cloud Console before using this
-   * feature. (products.addFulfillmentPlaces)
+   * being obsolete. (products.addFulfillmentPlaces)
    *
    * @param string $product Required. Full resource name of Product, such as `proj
    * ects/locations/global/catalogs/default_catalog/branches/default_branch/produc
@@ -80,9 +78,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * on local inventories. The returned Operations will be obsolete after 1 day,
    * and GetOperation API will return NOT_FOUND afterwards. If conflicting updates
    * are issued, the Operations associated with the stale updates will not be
-   * marked as done until being obsolete. This feature is only available for users
-   * who have Retail Search enabled. Enable Retail Search on Cloud Console before
-   * using this feature. (products.addLocalInventories)
+   * marked as done until being obsolete. (products.addLocalInventories)
    *
    * @param string $product Required. Full resource name of Product, such as `proj
    * ects/locations/global/catalogs/default_catalog/branches/default_branch/produc
@@ -265,9 +261,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * returned Operations will be obsolete after 1 day, and GetOperation API will
    * return NOT_FOUND afterwards. If conflicting updates are issued, the
    * Operations associated with the stale updates will not be marked as done until
-   * being obsolete. This feature is only available for users who have Retail
-   * Search enabled. Enable Retail Search on Cloud Console before using this
-   * feature. (products.removeFulfillmentPlaces)
+   * being obsolete. (products.removeFulfillmentPlaces)
    *
    * @param string $product Required. Full resource name of Product, such as `proj
    * ects/locations/global/catalogs/default_catalog/branches/default_branch/produc
@@ -295,9 +289,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * on local inventories. The returned Operations will be obsolete after 1 day,
    * and GetOperation API will return NOT_FOUND afterwards. If conflicting updates
    * are issued, the Operations associated with the stale updates will not be
-   * marked as done until being obsolete. This feature is only available for users
-   * who have Retail Search enabled. Enable Retail Search on Cloud Console before
-   * using this feature. (products.removeLocalInventories)
+   * marked as done until being obsolete. (products.removeLocalInventories)
    *
    * @param string $product Required. Full resource name of Product, such as `proj
    * ects/locations/global/catalogs/default_catalog/branches/default_branch/produc
@@ -336,9 +328,8 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * ProductService.RemoveFulfillmentPlaces. The returned Operations is obsolete
    * after one day, and the GetOperation API returns `NOT_FOUND` afterwards. If
    * conflicting updates are issued, the Operations associated with the stale
-   * updates are not marked as done until they are obsolete. This feature is only
-   * available for users who have Retail Search enabled. Enable Retail Search on
-   * Cloud Console before using this feature. (products.setInventory)
+   * updates are not marked as done until they are obsolete.
+   * (products.setInventory)
    *
    * @param string $name Immutable. Full resource name of the product, such as `pr
    * ojects/locations/global/catalogs/default_catalog/branches/default_branch/prod

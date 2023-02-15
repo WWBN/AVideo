@@ -21,10 +21,13 @@ class ThirdPartyVerifierAssignedTargetingOptionDetails extends \Google\Model
 {
   protected $adlooxType = Adloox::class;
   protected $adlooxDataType = '';
+  public $adloox;
   protected $doubleVerifyType = DoubleVerify::class;
   protected $doubleVerifyDataType = '';
+  public $doubleVerify;
   protected $integralAdScienceType = IntegralAdScience::class;
   protected $integralAdScienceDataType = '';
+  public $integralAdScience;
 
   /**
    * @param Adloox

@@ -22,8 +22,10 @@ class ObjectOptions extends \Google\Collection
   protected $collection_key = 'suggestionFilteringOperators';
   protected $displayOptionsType = ObjectDisplayOptions::class;
   protected $displayOptionsDataType = '';
+  public $displayOptions;
   protected $freshnessOptionsType = FreshnessOptions::class;
   protected $freshnessOptionsDataType = '';
+  public $freshnessOptions;
   /**
    * @var string[]
    */

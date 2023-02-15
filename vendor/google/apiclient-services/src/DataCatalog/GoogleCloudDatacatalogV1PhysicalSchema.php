@@ -21,16 +21,22 @@ class GoogleCloudDatacatalogV1PhysicalSchema extends \Google\Model
 {
   protected $avroType = GoogleCloudDatacatalogV1PhysicalSchemaAvroSchema::class;
   protected $avroDataType = '';
+  public $avro;
   protected $csvType = GoogleCloudDatacatalogV1PhysicalSchemaCsvSchema::class;
   protected $csvDataType = '';
+  public $csv;
   protected $orcType = GoogleCloudDatacatalogV1PhysicalSchemaOrcSchema::class;
   protected $orcDataType = '';
+  public $orc;
   protected $parquetType = GoogleCloudDatacatalogV1PhysicalSchemaParquetSchema::class;
   protected $parquetDataType = '';
+  public $parquet;
   protected $protobufType = GoogleCloudDatacatalogV1PhysicalSchemaProtobufSchema::class;
   protected $protobufDataType = '';
+  public $protobuf;
   protected $thriftType = GoogleCloudDatacatalogV1PhysicalSchemaThriftSchema::class;
   protected $thriftDataType = '';
+  public $thrift;
 
   /**
    * @param GoogleCloudDatacatalogV1PhysicalSchemaAvroSchema

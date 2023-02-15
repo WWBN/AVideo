@@ -21,6 +21,7 @@ class GoogleCloudSaasacceleratorManagementProvidersV1PerSliSloEligibility extend
 {
   protected $eligibilitiesType = GoogleCloudSaasacceleratorManagementProvidersV1SloEligibility::class;
   protected $eligibilitiesDataType = 'map';
+  public $eligibilities;
 
   /**
    * @param GoogleCloudSaasacceleratorManagementProvidersV1SloEligibility[]

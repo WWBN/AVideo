@@ -22,10 +22,13 @@ class VideoContentSearchMultimodalTopicFeatures extends \Google\Collection
   protected $collection_key = 'generativeTopicPredictionFeatures';
   protected $frameSimilarityIntervalType = VideoContentSearchFrameSimilarityInterval::class;
   protected $frameSimilarityIntervalDataType = 'array';
+  public $frameSimilarityInterval;
   protected $generativeTopicPredictionFeaturesType = VideoContentSearchGenerativeTopicPredictionFeatures::class;
   protected $generativeTopicPredictionFeaturesDataType = 'array';
+  public $generativeTopicPredictionFeatures;
   protected $navboostAnchorFeaturesType = VideoContentSearchNavboostAnchorFeatures::class;
   protected $navboostAnchorFeaturesDataType = '';
+  public $navboostAnchorFeatures;
   /**
    * @var string
    */

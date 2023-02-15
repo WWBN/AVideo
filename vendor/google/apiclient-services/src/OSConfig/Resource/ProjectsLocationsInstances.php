@@ -22,7 +22,7 @@ namespace Google\Service\OSConfig\Resource;
  * Typical usage is:
  *  <code>
  *   $osconfigService = new Google\Service\OSConfig(...);
- *   $instances = $osconfigService->instances;
+ *   $instances = $osconfigService->projects_locations_instances;
  *  </code>
  */
 class ProjectsLocationsInstances extends \Google\Service\Resource

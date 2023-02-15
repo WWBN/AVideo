@@ -22,6 +22,7 @@ class GoogleAppsDriveLabelsV2ListLabelsResponse extends \Google\Collection
   protected $collection_key = 'labels';
   protected $labelsType = GoogleAppsDriveLabelsV2Label::class;
   protected $labelsDataType = 'array';
+  public $labels;
   /**
    * @var string
    */

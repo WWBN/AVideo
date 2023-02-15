@@ -21,6 +21,7 @@ class InputConfig extends \Google\Model
 {
   protected $gcsSourceType = GcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
 
   /**
    * @param GcsSource

@@ -19,9 +19,27 @@ namespace Google\Service\Dialogflow;
 
 class GoogleCloudDialogflowCxV3AdvancedSettings extends \Google\Model
 {
+  protected $audioExportGcsDestinationType = GoogleCloudDialogflowCxV3GcsDestination::class;
+  protected $audioExportGcsDestinationDataType = '';
+  public $audioExportGcsDestination;
   protected $loggingSettingsType = GoogleCloudDialogflowCxV3AdvancedSettingsLoggingSettings::class;
   protected $loggingSettingsDataType = '';
+  public $loggingSettings;
 
+  /**
+   * @param GoogleCloudDialogflowCxV3GcsDestination
+   */
+  public function setAudioExportGcsDestination(GoogleCloudDialogflowCxV3GcsDestination $audioExportGcsDestination)
+  {
+    $this->audioExportGcsDestination = $audioExportGcsDestination;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3GcsDestination
+   */
+  public function getAudioExportGcsDestination()
+  {
+    return $this->audioExportGcsDestination;
+  }
   /**
    * @param GoogleCloudDialogflowCxV3AdvancedSettingsLoggingSettings
    */

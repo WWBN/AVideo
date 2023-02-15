@@ -25,7 +25,7 @@ use Google\Service\Directory\CalendarResources;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $calendars = $adminService->calendars;
+ *   $calendars = $adminService->resources_calendars;
  *  </code>
  */
 class ResourcesCalendars extends \Google\Service\Resource

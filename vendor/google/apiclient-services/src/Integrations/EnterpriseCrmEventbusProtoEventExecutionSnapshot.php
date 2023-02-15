@@ -26,8 +26,10 @@ class EnterpriseCrmEventbusProtoEventExecutionSnapshot extends \Google\Collectio
   public $checkpointTaskNumber;
   protected $conditionResultsType = EnterpriseCrmEventbusProtoConditionResult::class;
   protected $conditionResultsDataType = 'array';
+  public $conditionResults;
   protected $diffParamsType = EnterpriseCrmEventbusProtoEventParameters::class;
   protected $diffParamsDataType = '';
+  public $diffParams;
   /**
    * @var string
    */
@@ -38,8 +40,10 @@ class EnterpriseCrmEventbusProtoEventExecutionSnapshot extends \Google\Collectio
   public $eventExecutionSnapshotId;
   protected $eventExecutionSnapshotMetadataType = EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMetadata::class;
   protected $eventExecutionSnapshotMetadataDataType = '';
+  public $eventExecutionSnapshotMetadata;
   protected $eventParamsType = EnterpriseCrmEventbusProtoEventParameters::class;
   protected $eventParamsDataType = '';
+  public $eventParams;
   /**
    * @var bool
    */
@@ -50,6 +54,7 @@ class EnterpriseCrmEventbusProtoEventExecutionSnapshot extends \Google\Collectio
   public $snapshotTime;
   protected $taskExecutionDetailsType = EnterpriseCrmEventbusProtoTaskExecutionDetails::class;
   protected $taskExecutionDetailsDataType = 'array';
+  public $taskExecutionDetails;
   /**
    * @var string
    */

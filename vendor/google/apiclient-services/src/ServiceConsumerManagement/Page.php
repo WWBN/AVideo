@@ -30,6 +30,7 @@ class Page extends \Google\Collection
   public $name;
   protected $subpagesType = Page::class;
   protected $subpagesDataType = 'array';
+  public $subpages;
 
   /**
    * @param string

@@ -25,6 +25,7 @@ class GoogleCloudChannelV1ReportJob extends \Google\Model
   public $name;
   protected $reportStatusType = GoogleCloudChannelV1ReportStatus::class;
   protected $reportStatusDataType = '';
+  public $reportStatus;
 
   /**
    * @param string

@@ -22,8 +22,10 @@ class RoutersScopedList extends \Google\Collection
   protected $collection_key = 'routers';
   protected $routersType = Router::class;
   protected $routersDataType = 'array';
+  public $routers;
   protected $warningType = RoutersScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param Router[]

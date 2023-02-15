@@ -29,7 +29,7 @@ use Google\Service\FirebaseManagement\UndeleteAndroidAppRequest;
  * Typical usage is:
  *  <code>
  *   $firebaseService = new Google\Service\FirebaseManagement(...);
- *   $androidApps = $firebaseService->androidApps;
+ *   $androidApps = $firebaseService->projects_androidApps;
  *  </code>
  */
 class ProjectsAndroidApps extends \Google\Service\Resource

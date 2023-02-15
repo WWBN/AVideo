@@ -26,7 +26,7 @@ use Google\Service\Dialogflow\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $transitionRouteGroups = $dialogflowService->transitionRouteGroups;
+ *   $transitionRouteGroups = $dialogflowService->projects_locations_agents_flows_transitionRouteGroups;
  *  </code>
  */
 class ProjectsLocationsAgentsFlowsTransitionRouteGroups extends \Google\Service\Resource

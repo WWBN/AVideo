@@ -26,7 +26,7 @@ use Google\Service\Sheets\SearchDeveloperMetadataResponse;
  * Typical usage is:
  *  <code>
  *   $sheetsService = new Google\Service\Sheets(...);
- *   $developerMetadata = $sheetsService->developerMetadata;
+ *   $developerMetadata = $sheetsService->spreadsheets_developerMetadata;
  *  </code>
  */
 class SpreadsheetsDeveloperMetadata extends \Google\Service\Resource

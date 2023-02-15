@@ -22,22 +22,31 @@ class GoogleCloudVideointelligenceV1VideoContext extends \Google\Collection
   protected $collection_key = 'segments';
   protected $explicitContentDetectionConfigType = GoogleCloudVideointelligenceV1ExplicitContentDetectionConfig::class;
   protected $explicitContentDetectionConfigDataType = '';
+  public $explicitContentDetectionConfig;
   protected $faceDetectionConfigType = GoogleCloudVideointelligenceV1FaceDetectionConfig::class;
   protected $faceDetectionConfigDataType = '';
+  public $faceDetectionConfig;
   protected $labelDetectionConfigType = GoogleCloudVideointelligenceV1LabelDetectionConfig::class;
   protected $labelDetectionConfigDataType = '';
+  public $labelDetectionConfig;
   protected $objectTrackingConfigType = GoogleCloudVideointelligenceV1ObjectTrackingConfig::class;
   protected $objectTrackingConfigDataType = '';
+  public $objectTrackingConfig;
   protected $personDetectionConfigType = GoogleCloudVideointelligenceV1PersonDetectionConfig::class;
   protected $personDetectionConfigDataType = '';
+  public $personDetectionConfig;
   protected $segmentsType = GoogleCloudVideointelligenceV1VideoSegment::class;
   protected $segmentsDataType = 'array';
+  public $segments;
   protected $shotChangeDetectionConfigType = GoogleCloudVideointelligenceV1ShotChangeDetectionConfig::class;
   protected $shotChangeDetectionConfigDataType = '';
+  public $shotChangeDetectionConfig;
   protected $speechTranscriptionConfigType = GoogleCloudVideointelligenceV1SpeechTranscriptionConfig::class;
   protected $speechTranscriptionConfigDataType = '';
+  public $speechTranscriptionConfig;
   protected $textDetectionConfigType = GoogleCloudVideointelligenceV1TextDetectionConfig::class;
   protected $textDetectionConfigDataType = '';
+  public $textDetectionConfig;
 
   /**
    * @param GoogleCloudVideointelligenceV1ExplicitContentDetectionConfig

@@ -22,6 +22,7 @@ class FacetResult extends \Google\Collection
   protected $collection_key = 'buckets';
   protected $bucketsType = FacetBucket::class;
   protected $bucketsDataType = 'array';
+  public $buckets;
   /**
    * @var string
    */

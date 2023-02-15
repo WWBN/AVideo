@@ -25,7 +25,7 @@ use Google\Service\AndroidPublisher\ExpansionFilesUploadResponse;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $expansionfiles = $androidpublisherService->expansionfiles;
+ *   $expansionfiles = $androidpublisherService->edits_expansionfiles;
  *  </code>
  */
 class EditsExpansionfiles extends \Google\Service\Resource

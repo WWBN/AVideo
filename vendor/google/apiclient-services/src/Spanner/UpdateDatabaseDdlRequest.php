@@ -25,6 +25,10 @@ class UpdateDatabaseDdlRequest extends \Google\Collection
    */
   public $operationId;
   /**
+   * @var string
+   */
+  public $protoDescriptors;
+  /**
    * @var string[]
    */
   public $statements;
@@ -42,6 +46,20 @@ class UpdateDatabaseDdlRequest extends \Google\Collection
   public function getOperationId()
   {
     return $this->operationId;
+  }
+  /**
+   * @param string
+   */
+  public function setProtoDescriptors($protoDescriptors)
+  {
+    $this->protoDescriptors = $protoDescriptors;
+  }
+  /**
+   * @return string
+   */
+  public function getProtoDescriptors()
+  {
+    return $this->protoDescriptors;
   }
   /**
    * @param string[]

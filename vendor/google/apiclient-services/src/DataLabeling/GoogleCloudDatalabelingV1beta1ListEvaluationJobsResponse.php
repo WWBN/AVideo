@@ -22,6 +22,7 @@ class GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse extends \Google\C
   protected $collection_key = 'evaluationJobs';
   protected $evaluationJobsType = GoogleCloudDatalabelingV1beta1EvaluationJob::class;
   protected $evaluationJobsDataType = 'array';
+  public $evaluationJobs;
   /**
    * @var string
    */

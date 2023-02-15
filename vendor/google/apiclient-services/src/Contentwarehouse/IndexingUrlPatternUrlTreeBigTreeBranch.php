@@ -21,12 +21,14 @@ class IndexingUrlPatternUrlTreeBigTreeBranch extends \Google\Model
 {
   protected $featuresType = IndexingUrlPatternUrlTreeUrlFeatures::class;
   protected $featuresDataType = '';
+  public $features;
   /**
    * @var string
    */
   public $patternId;
   protected $payloadType = Proto2BridgeMessageSet::class;
   protected $payloadDataType = '';
+  public $payload;
 
   /**
    * @param IndexingUrlPatternUrlTreeUrlFeatures

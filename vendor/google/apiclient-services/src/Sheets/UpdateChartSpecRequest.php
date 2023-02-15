@@ -25,6 +25,7 @@ class UpdateChartSpecRequest extends \Google\Model
   public $chartId;
   protected $specType = ChartSpec::class;
   protected $specDataType = '';
+  public $spec;
 
   /**
    * @param int

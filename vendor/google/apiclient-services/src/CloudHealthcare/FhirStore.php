@@ -50,10 +50,13 @@ class FhirStore extends \Google\Collection
   public $name;
   protected $notificationConfigType = NotificationConfig::class;
   protected $notificationConfigDataType = '';
+  public $notificationConfig;
   protected $streamConfigsType = StreamConfig::class;
   protected $streamConfigsDataType = 'array';
+  public $streamConfigs;
   protected $validationConfigType = ValidationConfig::class;
   protected $validationConfigDataType = '';
+  public $validationConfig;
   /**
    * @var string
    */

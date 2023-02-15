@@ -22,6 +22,7 @@ class ListGroupStatsResponse extends \Google\Collection
   protected $collection_key = 'errorGroupStats';
   protected $errorGroupStatsType = ErrorGroupStats::class;
   protected $errorGroupStatsDataType = 'array';
+  public $errorGroupStats;
   /**
    * @var string
    */

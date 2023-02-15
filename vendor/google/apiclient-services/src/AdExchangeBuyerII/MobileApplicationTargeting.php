@@ -21,6 +21,7 @@ class MobileApplicationTargeting extends \Google\Model
 {
   protected $firstPartyTargetingType = FirstPartyMobileApplicationTargeting::class;
   protected $firstPartyTargetingDataType = '';
+  public $firstPartyTargeting;
 
   /**
    * @param FirstPartyMobileApplicationTargeting

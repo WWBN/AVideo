@@ -31,7 +31,7 @@ use Google\Service\CloudRetail\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $retailService = new Google\Service\CloudRetail(...);
- *   $catalogs = $retailService->catalogs;
+ *   $catalogs = $retailService->projects_locations_catalogs;
  *  </code>
  */
 class ProjectsLocationsCatalogs extends \Google\Service\Resource

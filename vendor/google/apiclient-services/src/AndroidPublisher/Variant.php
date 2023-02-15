@@ -21,6 +21,7 @@ class Variant extends \Google\Model
 {
   protected $deviceSpecType = DeviceSpec::class;
   protected $deviceSpecDataType = '';
+  public $deviceSpec;
   /**
    * @var string
    */

@@ -29,7 +29,7 @@ use Google\Service\ChromePolicy\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $chromepolicyService = new Google\Service\ChromePolicy(...);
- *   $groups = $chromepolicyService->groups;
+ *   $groups = $chromepolicyService->customers_policies_groups;
  *  </code>
  */
 class CustomersPoliciesGroups extends \Google\Service\Resource

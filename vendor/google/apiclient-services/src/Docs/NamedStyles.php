@@ -22,6 +22,7 @@ class NamedStyles extends \Google\Collection
   protected $collection_key = 'styles';
   protected $stylesType = NamedStyle::class;
   protected $stylesDataType = 'array';
+  public $styles;
 
   /**
    * @param NamedStyle[]

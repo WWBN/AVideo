@@ -25,7 +25,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ApiProxyRevision;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $revisions = $apigeeService->revisions;
+ *   $revisions = $apigeeService->organizations_apis_revisions;
  *  </code>
  */
 class OrganizationsApisRevisions extends \Google\Service\Resource

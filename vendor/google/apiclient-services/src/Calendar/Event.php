@@ -26,8 +26,10 @@ class Event extends \Google\Collection
   public $anyoneCanAddSelf;
   protected $attachmentsType = EventAttachment::class;
   protected $attachmentsDataType = 'array';
+  public $attachments;
   protected $attendeesType = EventAttendee::class;
   protected $attendeesDataType = 'array';
+  public $attendees;
   /**
    * @var bool
    */
@@ -38,18 +40,21 @@ class Event extends \Google\Collection
   public $colorId;
   protected $conferenceDataType = ConferenceData::class;
   protected $conferenceDataDataType = '';
+  public $conferenceData;
   /**
    * @var string
    */
   public $created;
   protected $creatorType = EventCreator::class;
   protected $creatorDataType = '';
+  public $creator;
   /**
    * @var string
    */
   public $description;
   protected $endType = EventDateTime::class;
   protected $endDataType = '';
+  public $end;
   /**
    * @var bool
    */
@@ -64,8 +69,10 @@ class Event extends \Google\Collection
   public $eventType;
   protected $extendedPropertiesType = EventExtendedProperties::class;
   protected $extendedPropertiesDataType = '';
+  public $extendedProperties;
   protected $gadgetType = EventGadget::class;
   protected $gadgetDataType = '';
+  public $gadget;
   /**
    * @var bool
    */
@@ -108,8 +115,10 @@ class Event extends \Google\Collection
   public $locked;
   protected $organizerType = EventOrganizer::class;
   protected $organizerDataType = '';
+  public $organizer;
   protected $originalStartTimeType = EventDateTime::class;
   protected $originalStartTimeDataType = '';
+  public $originalStartTime;
   /**
    * @var bool
    */
@@ -124,14 +133,17 @@ class Event extends \Google\Collection
   public $recurringEventId;
   protected $remindersType = EventReminders::class;
   protected $remindersDataType = '';
+  public $reminders;
   /**
    * @var int
    */
   public $sequence;
   protected $sourceType = EventSource::class;
   protected $sourceDataType = '';
+  public $source;
   protected $startType = EventDateTime::class;
   protected $startDataType = '';
+  public $start;
   /**
    * @var string
    */

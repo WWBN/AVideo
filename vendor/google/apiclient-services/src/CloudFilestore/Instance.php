@@ -34,6 +34,7 @@ class Instance extends \Google\Collection
   public $etag;
   protected $fileSharesType = FileShareConfig::class;
   protected $fileSharesDataType = 'array';
+  public $fileShares;
   /**
    * @var string
    */
@@ -48,6 +49,7 @@ class Instance extends \Google\Collection
   public $name;
   protected $networksType = NetworkConfig::class;
   protected $networksDataType = 'array';
+  public $networks;
   /**
    * @var bool
    */

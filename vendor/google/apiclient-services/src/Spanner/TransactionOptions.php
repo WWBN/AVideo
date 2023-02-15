@@ -21,10 +21,13 @@ class TransactionOptions extends \Google\Model
 {
   protected $partitionedDmlType = PartitionedDml::class;
   protected $partitionedDmlDataType = '';
+  public $partitionedDml;
   protected $readOnlyType = SpannerReadOnly::class;
   protected $readOnlyDataType = '';
+  public $readOnly;
   protected $readWriteType = ReadWrite::class;
   protected $readWriteDataType = '';
+  public $readWrite;
 
   /**
    * @param PartitionedDml

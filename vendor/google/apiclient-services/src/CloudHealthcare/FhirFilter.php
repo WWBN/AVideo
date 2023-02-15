@@ -21,6 +21,7 @@ class FhirFilter extends \Google\Model
 {
   protected $resourcesType = Resources::class;
   protected $resourcesDataType = '';
+  public $resources;
 
   /**
    * @param Resources

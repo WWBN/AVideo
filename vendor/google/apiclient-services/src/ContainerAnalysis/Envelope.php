@@ -30,6 +30,7 @@ class Envelope extends \Google\Collection
   public $payloadType;
   protected $signaturesType = EnvelopeSignature::class;
   protected $signaturesDataType = 'array';
+  public $signatures;
 
   /**
    * @param string

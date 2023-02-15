@@ -22,6 +22,7 @@ class GoogleChromeManagementV1CountChromeDevicesReachingAutoExpirationDateRespon
   protected $collection_key = 'deviceAueCountReports';
   protected $deviceAueCountReportsType = GoogleChromeManagementV1DeviceAueCountReport::class;
   protected $deviceAueCountReportsDataType = 'array';
+  public $deviceAueCountReports;
 
   /**
    * @param GoogleChromeManagementV1DeviceAueCountReport[]

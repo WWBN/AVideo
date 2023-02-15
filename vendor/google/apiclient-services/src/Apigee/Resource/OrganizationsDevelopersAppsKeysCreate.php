@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1DeveloperAppKey;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $create = $apigeeService->create;
+ *   $create = $apigeeService->organizations_developers_apps_keys_create;
  *  </code>
  */
 class OrganizationsDevelopersAppsKeysCreate extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class ListEndpointPoliciesResponse extends \Google\Collection
   protected $collection_key = 'endpointPolicies';
   protected $endpointPoliciesType = EndpointPolicy::class;
   protected $endpointPoliciesDataType = 'array';
+  public $endpointPolicies;
   /**
    * @var string
    */

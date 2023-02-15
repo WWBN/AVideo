@@ -22,6 +22,7 @@ class AppsDynamiteSharedOpenLinkAppUriIntent extends \Google\Collection
   protected $collection_key = 'extraData';
   protected $extraDataType = AppsDynamiteSharedOpenLinkAppUriIntentExtraData::class;
   protected $extraDataDataType = 'array';
+  public $extraData;
   /**
    * @var string
    */

@@ -26,7 +26,7 @@ use Google\Service\Logging\LoggingEmpty;
  * Typical usage is:
  *  <code>
  *   $loggingService = new Google\Service\Logging(...);
- *   $metrics = $loggingService->metrics;
+ *   $metrics = $loggingService->projects_metrics;
  *  </code>
  */
 class ProjectsMetrics extends \Google\Service\Resource

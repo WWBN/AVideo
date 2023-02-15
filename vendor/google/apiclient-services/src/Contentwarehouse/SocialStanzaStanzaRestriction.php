@@ -22,22 +22,27 @@ class SocialStanzaStanzaRestriction extends \Google\Collection
   protected $collection_key = 'deleteReason';
   protected $abuseTypesType = AbuseiamAbuseType::class;
   protected $abuseTypesDataType = 'array';
+  public $abuseTypes;
   /**
    * @var string
    */
   public $appealState;
   protected $contentRestrictionType = AbuseiamContentRestriction::class;
   protected $contentRestrictionDataType = '';
+  public $contentRestriction;
   /**
    * @var string[]
    */
   public $deleteReason;
   protected $deliveryRestrictionType = SocialStanzaDeliveryRestriction::class;
   protected $deliveryRestrictionDataType = '';
+  public $deliveryRestriction;
   protected $destinationStreamType = AppsPeopleActivityBackendDestinationStream::class;
   protected $destinationStreamDataType = '';
+  public $destinationStream;
   protected $moderationInfoType = SocialStanzaModerationInfo::class;
   protected $moderationInfoDataType = '';
+  public $moderationInfo;
   /**
    * @var string
    */

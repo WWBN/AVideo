@@ -30,6 +30,7 @@ class GoogleCloudDatalabelingV1alpha1ImportDataOperationMetadata extends \Google
   public $dataset;
   protected $partialFailuresType = GoogleRpcStatus::class;
   protected $partialFailuresDataType = 'array';
+  public $partialFailures;
 
   /**
    * @param string

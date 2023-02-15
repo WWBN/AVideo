@@ -25,8 +25,10 @@ class CopyBackupMetadata extends \Google\Model
   public $name;
   protected $progressType = OperationProgress::class;
   protected $progressDataType = '';
+  public $progress;
   protected $sourceBackupInfoType = BackupInfo::class;
   protected $sourceBackupInfoDataType = '';
+  public $sourceBackupInfo;
 
   /**
    * @param string

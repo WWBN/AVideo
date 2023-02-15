@@ -25,6 +25,7 @@ class Field extends \Google\Model
   public $name;
   protected $typeType = Type::class;
   protected $typeDataType = '';
+  public $type;
 
   /**
    * @param string

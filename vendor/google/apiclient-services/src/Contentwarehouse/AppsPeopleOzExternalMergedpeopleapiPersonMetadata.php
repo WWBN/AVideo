@@ -22,12 +22,14 @@ class AppsPeopleOzExternalMergedpeopleapiPersonMetadata extends \Google\Collecti
   protected $collection_key = 'previousPersonId';
   protected $affinityType = AppsPeopleOzExternalMergedpeopleapiAffinity::class;
   protected $affinityDataType = 'array';
+  public $affinity;
   /**
    * @var string[]
    */
   public $attribution;
   protected $bestDisplayNameType = AppsPeopleOzExternalMergedpeopleapiBestDisplayName::class;
   protected $bestDisplayNameDataType = '';
+  public $bestDisplayName;
   /**
    * @var string[]
    */
@@ -66,8 +68,10 @@ class AppsPeopleOzExternalMergedpeopleapiPersonMetadata extends \Google\Collecti
   public $deprecatedMembershipContactGroupId;
   protected $deviceContactInfoType = AppsPeopleOzExternalMergedpeopleapiDeviceContactInfo::class;
   protected $deviceContactInfoDataType = 'array';
+  public $deviceContactInfo;
   protected $identityInfoType = AppsPeopleOzExternalMergedpeopleapiIdentityInfo::class;
   protected $identityInfoDataType = '';
+  public $identityInfo;
   /**
    * @var bool
    */
@@ -106,10 +110,13 @@ class AppsPeopleOzExternalMergedpeopleapiPersonMetadata extends \Google\Collecti
   public $previousPersonId;
   protected $profileOwnerStatsType = AppsPeopleOzExternalMergedpeopleapiProfileOwnerStats::class;
   protected $profileOwnerStatsDataType = '';
+  public $profileOwnerStats;
   protected $scoringInfoType = AppsPeopleOzExternalMergedpeopleapiPersonMetadataScoringInfo::class;
   protected $scoringInfoDataType = '';
+  public $scoringInfo;
   protected $userVisibleStatsType = AppsPeopleOzExternalMergedpeopleapiUserVisibleStats::class;
   protected $userVisibleStatsDataType = '';
+  public $userVisibleStats;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiAffinity[]

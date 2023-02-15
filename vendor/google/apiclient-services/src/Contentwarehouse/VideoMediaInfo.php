@@ -22,6 +22,7 @@ class VideoMediaInfo extends \Google\Collection
   protected $collection_key = 'videoStream';
   protected $audioStreamType = VideoAudioStream::class;
   protected $audioStreamDataType = 'array';
+  public $audioStream;
   /**
    * @var int
    */
@@ -32,8 +33,10 @@ class VideoMediaInfo extends \Google\Collection
   public $fileSize;
   protected $overviewType = VideoMediaOverview::class;
   protected $overviewDataType = '';
+  public $overview;
   protected $videoStreamType = VideoVideoStream::class;
   protected $videoStreamDataType = 'array';
+  public $videoStream;
 
   /**
    * @param VideoAudioStream[]

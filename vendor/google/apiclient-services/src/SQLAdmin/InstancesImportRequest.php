@@ -21,6 +21,7 @@ class InstancesImportRequest extends \Google\Model
 {
   protected $importContextType = ImportContext::class;
   protected $importContextDataType = '';
+  public $importContext;
 
   /**
    * @param ImportContext

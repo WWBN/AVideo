@@ -21,6 +21,7 @@ class ManagedInstanceLastAttempt extends \Google\Model
 {
   protected $errorsType = ManagedInstanceLastAttemptErrors::class;
   protected $errorsDataType = '';
+  public $errors;
 
   /**
    * @param ManagedInstanceLastAttemptErrors

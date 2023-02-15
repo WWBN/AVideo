@@ -26,7 +26,7 @@ use Google\Service\Adsense\ListAdClientsResponse;
  * Typical usage is:
  *  <code>
  *   $adsenseService = new Google\Service\Adsense(...);
- *   $adclients = $adsenseService->adclients;
+ *   $adclients = $adsenseService->accounts_adclients;
  *  </code>
  */
 class AccountsAdclients extends \Google\Service\Resource

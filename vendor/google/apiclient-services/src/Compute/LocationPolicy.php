@@ -21,6 +21,7 @@ class LocationPolicy extends \Google\Model
 {
   protected $locationsType = LocationPolicyLocation::class;
   protected $locationsDataType = 'map';
+  public $locations;
   /**
    * @var string
    */

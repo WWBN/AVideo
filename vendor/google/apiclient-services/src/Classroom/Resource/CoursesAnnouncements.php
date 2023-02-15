@@ -27,7 +27,7 @@ use Google\Service\Classroom\ModifyAnnouncementAssigneesRequest;
  * Typical usage is:
  *  <code>
  *   $classroomService = new Google\Service\Classroom(...);
- *   $announcements = $classroomService->announcements;
+ *   $announcements = $classroomService->courses_announcements;
  *  </code>
  */
 class CoursesAnnouncements extends \Google\Service\Resource

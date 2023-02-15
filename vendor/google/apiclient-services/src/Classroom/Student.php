@@ -25,8 +25,10 @@ class Student extends \Google\Model
   public $courseId;
   protected $profileType = UserProfile::class;
   protected $profileDataType = '';
+  public $profile;
   protected $studentWorkFolderType = DriveFolder::class;
   protected $studentWorkFolderDataType = '';
+  public $studentWorkFolder;
   /**
    * @var string
    */

@@ -26,7 +26,7 @@ use Google\Service\CertificateManager\Operation;
  * Typical usage is:
  *  <code>
  *   $certificatemanagerService = new Google\Service\CertificateManager(...);
- *   $dnsAuthorizations = $certificatemanagerService->dnsAuthorizations;
+ *   $dnsAuthorizations = $certificatemanagerService->projects_locations_dnsAuthorizations;
  *  </code>
  */
 class ProjectsLocationsDnsAuthorizations extends \Google\Service\Resource

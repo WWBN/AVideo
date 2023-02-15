@@ -21,6 +21,7 @@ class OverlayPosition extends \Google\Model
 {
   protected $anchorCellType = GridCoordinate::class;
   protected $anchorCellDataType = '';
+  public $anchorCell;
   /**
    * @var int
    */

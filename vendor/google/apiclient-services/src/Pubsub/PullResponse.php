@@ -22,6 +22,7 @@ class PullResponse extends \Google\Collection
   protected $collection_key = 'receivedMessages';
   protected $receivedMessagesType = ReceivedMessage::class;
   protected $receivedMessagesDataType = 'array';
+  public $receivedMessages;
 
   /**
    * @param ReceivedMessage[]

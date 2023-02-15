@@ -24,7 +24,7 @@ use Google\Service\Cloudchannel\GoogleCloudChannelV1ListOffersResponse;
  * Typical usage is:
  *  <code>
  *   $cloudchannelService = new Google\Service\Cloudchannel(...);
- *   $offers = $cloudchannelService->offers;
+ *   $offers = $cloudchannelService->accounts_offers;
  *  </code>
  */
 class AccountsOffers extends \Google\Service\Resource

@@ -34,20 +34,26 @@ class GeostoreFoodMenuItemOptionProto extends \Google\Collection
   public $calories;
   protected $ingredientsType = GeostoreFoodMenuItemOptionProtoIngredient::class;
   protected $ingredientsDataType = 'array';
+  public $ingredients;
   protected $mediaType = GeostoreMediaItemProto::class;
   protected $mediaDataType = 'array';
+  public $media;
   protected $nameInfoType = GeostorePriceListNameInfoProto::class;
   protected $nameInfoDataType = 'array';
+  public $nameInfo;
   protected $nutritionFactsType = GeostorePriceInfoFoodNutritionFacts::class;
   protected $nutritionFactsDataType = '';
+  public $nutritionFacts;
   protected $portionSizeType = GeostoreFoodMenuItemOptionProtoPortionSize::class;
   protected $portionSizeDataType = '';
+  public $portionSize;
   /**
    * @var string[]
    */
   public $preparationMethods;
   protected $priceType = GeostorePriceRangeProto::class;
   protected $priceDataType = '';
+  public $price;
   /**
    * @var string[]
    */

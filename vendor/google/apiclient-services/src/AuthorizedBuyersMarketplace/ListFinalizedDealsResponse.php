@@ -22,6 +22,7 @@ class ListFinalizedDealsResponse extends \Google\Collection
   protected $collection_key = 'finalizedDeals';
   protected $finalizedDealsType = FinalizedDeal::class;
   protected $finalizedDealsDataType = 'array';
+  public $finalizedDeals;
   /**
    * @var string
    */

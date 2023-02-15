@@ -21,10 +21,13 @@ class GooglePrivacyDlpV2LargeCustomDictionaryConfig extends \Google\Model
 {
   protected $bigQueryFieldType = GooglePrivacyDlpV2BigQueryField::class;
   protected $bigQueryFieldDataType = '';
+  public $bigQueryField;
   protected $cloudStorageFileSetType = GooglePrivacyDlpV2CloudStorageFileSet::class;
   protected $cloudStorageFileSetDataType = '';
+  public $cloudStorageFileSet;
   protected $outputPathType = GooglePrivacyDlpV2CloudStoragePath::class;
   protected $outputPathDataType = '';
+  public $outputPath;
 
   /**
    * @param GooglePrivacyDlpV2BigQueryField

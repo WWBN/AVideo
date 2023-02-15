@@ -33,6 +33,7 @@ class SuperChatEvent extends \Google\Model
   public $kind;
   protected $snippetType = SuperChatEventSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
 
   /**
    * @param string

@@ -21,8 +21,10 @@ class Dictlayerdata extends \Google\Model
 {
   protected $commonType = DictlayerdataCommon::class;
   protected $commonDataType = '';
+  public $common;
   protected $dictType = DictlayerdataDict::class;
   protected $dictDataType = '';
+  public $dict;
   /**
    * @var string
    */

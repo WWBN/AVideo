@@ -22,6 +22,7 @@ class ListBuyersResponse extends \Google\Collection
   protected $collection_key = 'buyers';
   protected $buyersType = Buyer::class;
   protected $buyersDataType = 'array';
+  public $buyers;
   /**
    * @var string
    */

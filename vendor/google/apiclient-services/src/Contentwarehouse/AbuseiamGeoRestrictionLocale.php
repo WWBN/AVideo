@@ -25,6 +25,7 @@ class AbuseiamGeoRestrictionLocale extends \Google\Model
   public $location;
   protected $restrictionType = AbuseiamUserRestriction::class;
   protected $restrictionDataType = '';
+  public $restriction;
 
   /**
    * @param string

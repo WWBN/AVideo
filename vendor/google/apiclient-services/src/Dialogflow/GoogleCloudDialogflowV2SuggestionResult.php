@@ -21,12 +21,16 @@ class GoogleCloudDialogflowV2SuggestionResult extends \Google\Model
 {
   protected $errorType = GoogleRpcStatus::class;
   protected $errorDataType = '';
+  public $error;
   protected $suggestArticlesResponseType = GoogleCloudDialogflowV2SuggestArticlesResponse::class;
   protected $suggestArticlesResponseDataType = '';
+  public $suggestArticlesResponse;
   protected $suggestFaqAnswersResponseType = GoogleCloudDialogflowV2SuggestFaqAnswersResponse::class;
   protected $suggestFaqAnswersResponseDataType = '';
+  public $suggestFaqAnswersResponse;
   protected $suggestSmartRepliesResponseType = GoogleCloudDialogflowV2SuggestSmartRepliesResponse::class;
   protected $suggestSmartRepliesResponseDataType = '';
+  public $suggestSmartRepliesResponse;
 
   /**
    * @param GoogleRpcStatus

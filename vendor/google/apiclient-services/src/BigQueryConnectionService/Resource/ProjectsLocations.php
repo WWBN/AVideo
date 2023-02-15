@@ -22,7 +22,7 @@ namespace Google\Service\BigQueryConnectionService\Resource;
  * Typical usage is:
  *  <code>
  *   $bigqueryconnectionService = new Google\Service\BigQueryConnectionService(...);
- *   $locations = $bigqueryconnectionService->locations;
+ *   $locations = $bigqueryconnectionService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class Dialog extends \Google\Model
 {
   protected $bodyType = GoogleAppsCardV1Card::class;
   protected $bodyDataType = '';
+  public $body;
 
   /**
    * @param GoogleAppsCardV1Card

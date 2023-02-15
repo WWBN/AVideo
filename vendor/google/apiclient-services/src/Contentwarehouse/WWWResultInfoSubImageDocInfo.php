@@ -54,6 +54,7 @@ class WWWResultInfoSubImageDocInfo extends \Google\Collection
   public $estRelevance;
   protected $flowOutputType = ImageContentFlowProtoProd::class;
   protected $flowOutputDataType = '';
+  public $flowOutput;
   /**
    * @var int
    */

@@ -26,12 +26,14 @@ class KnowledgeAnswersIntentQueryPersonalEntity extends \Google\Collection
   public $attributeId;
   protected $entityRelationshipType = KnowledgeAnswersIntentQueryPersonalEntityEntityRelationship::class;
   protected $entityRelationshipDataType = 'array';
+  public $entityRelationship;
   /**
    * @var string
    */
   public $freebaseMid;
   protected $personalEntityChildType = KnowledgeAnswersIntentQueryPersonalEntity::class;
   protected $personalEntityChildDataType = 'array';
+  public $personalEntityChild;
 
   /**
    * @param string

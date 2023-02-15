@@ -30,6 +30,7 @@ class Schema extends \Google\Collection
   public $etag;
   protected $fieldsType = SchemaFieldSpec::class;
   protected $fieldsDataType = 'array';
+  public $fields;
   /**
    * @var string
    */

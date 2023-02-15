@@ -30,12 +30,14 @@ class GoogleCloudDocumentaiV1DocumentSchemaEntityType extends \Google\Collection
   public $displayName;
   protected $enumValuesType = GoogleCloudDocumentaiV1DocumentSchemaEntityTypeEnumValues::class;
   protected $enumValuesDataType = '';
+  public $enumValues;
   /**
    * @var string
    */
   public $name;
   protected $propertiesType = GoogleCloudDocumentaiV1DocumentSchemaEntityTypeProperty::class;
   protected $propertiesDataType = 'array';
+  public $properties;
 
   /**
    * @param string[]

@@ -22,8 +22,10 @@ class TextContent extends \Google\Collection
   protected $collection_key = 'textElements';
   protected $listsType = SlidesList::class;
   protected $listsDataType = 'map';
+  public $lists;
   protected $textElementsType = TextElement::class;
   protected $textElementsDataType = 'array';
+  public $textElements;
 
   /**
    * @param SlidesList[]

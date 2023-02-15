@@ -21,8 +21,10 @@ class Geolayerdata extends \Google\Model
 {
   protected $commonType = GeolayerdataCommon::class;
   protected $commonDataType = '';
+  public $common;
   protected $geoType = GeolayerdataGeo::class;
   protected $geoDataType = '';
+  public $geo;
   /**
    * @var string
    */

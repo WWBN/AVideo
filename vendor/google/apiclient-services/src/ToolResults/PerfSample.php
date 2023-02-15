@@ -21,6 +21,7 @@ class PerfSample extends \Google\Model
 {
   protected $sampleTimeType = Timestamp::class;
   protected $sampleTimeDataType = '';
+  public $sampleTime;
   public $value;
 
   /**

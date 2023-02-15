@@ -22,40 +22,57 @@ class ClusterConfig extends \Google\Collection
   protected $collection_key = 'initializationActions';
   protected $autoscalingConfigType = AutoscalingConfig::class;
   protected $autoscalingConfigDataType = '';
+  public $autoscalingConfig;
+  protected $auxiliaryNodeGroupsType = AuxiliaryNodeGroup::class;
+  protected $auxiliaryNodeGroupsDataType = 'array';
+  public $auxiliaryNodeGroups;
   /**
    * @var string
    */
   public $configBucket;
   protected $dataprocMetricConfigType = DataprocMetricConfig::class;
   protected $dataprocMetricConfigDataType = '';
+  public $dataprocMetricConfig;
   protected $encryptionConfigType = EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
+  public $encryptionConfig;
   protected $endpointConfigType = EndpointConfig::class;
   protected $endpointConfigDataType = '';
+  public $endpointConfig;
   protected $gceClusterConfigType = GceClusterConfig::class;
   protected $gceClusterConfigDataType = '';
+  public $gceClusterConfig;
   protected $gkeClusterConfigType = GkeClusterConfig::class;
   protected $gkeClusterConfigDataType = '';
+  public $gkeClusterConfig;
   protected $initializationActionsType = NodeInitializationAction::class;
   protected $initializationActionsDataType = 'array';
+  public $initializationActions;
   protected $lifecycleConfigType = LifecycleConfig::class;
   protected $lifecycleConfigDataType = '';
+  public $lifecycleConfig;
   protected $masterConfigType = InstanceGroupConfig::class;
   protected $masterConfigDataType = '';
+  public $masterConfig;
   protected $metastoreConfigType = MetastoreConfig::class;
   protected $metastoreConfigDataType = '';
+  public $metastoreConfig;
   protected $secondaryWorkerConfigType = InstanceGroupConfig::class;
   protected $secondaryWorkerConfigDataType = '';
+  public $secondaryWorkerConfig;
   protected $securityConfigType = SecurityConfig::class;
   protected $securityConfigDataType = '';
+  public $securityConfig;
   protected $softwareConfigType = SoftwareConfig::class;
   protected $softwareConfigDataType = '';
+  public $softwareConfig;
   /**
    * @var string
    */
   public $tempBucket;
   protected $workerConfigType = InstanceGroupConfig::class;
   protected $workerConfigDataType = '';
+  public $workerConfig;
 
   /**
    * @param AutoscalingConfig
@@ -70,6 +87,20 @@ class ClusterConfig extends \Google\Collection
   public function getAutoscalingConfig()
   {
     return $this->autoscalingConfig;
+  }
+  /**
+   * @param AuxiliaryNodeGroup[]
+   */
+  public function setAuxiliaryNodeGroups($auxiliaryNodeGroups)
+  {
+    $this->auxiliaryNodeGroups = $auxiliaryNodeGroups;
+  }
+  /**
+   * @return AuxiliaryNodeGroup[]
+   */
+  public function getAuxiliaryNodeGroups()
+  {
+    return $this->auxiliaryNodeGroups;
   }
   /**
    * @param string

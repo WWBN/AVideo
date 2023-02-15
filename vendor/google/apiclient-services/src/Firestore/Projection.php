@@ -22,6 +22,7 @@ class Projection extends \Google\Collection
   protected $collection_key = 'fields';
   protected $fieldsType = FieldReference::class;
   protected $fieldsDataType = 'array';
+  public $fields;
 
   /**
    * @param FieldReference[]

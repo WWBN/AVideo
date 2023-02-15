@@ -30,8 +30,10 @@ class NonSdkApiInsight extends \Google\Collection
   public $matcherId;
   protected $pendingGoogleUpdateInsightType = PendingGoogleUpdateInsight::class;
   protected $pendingGoogleUpdateInsightDataType = '';
+  public $pendingGoogleUpdateInsight;
   protected $upgradeInsightType = UpgradeInsight::class;
   protected $upgradeInsightDataType = '';
+  public $upgradeInsight;
 
   /**
    * @param string[]

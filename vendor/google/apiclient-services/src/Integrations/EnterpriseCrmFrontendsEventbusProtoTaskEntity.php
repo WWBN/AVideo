@@ -25,16 +25,20 @@ class EnterpriseCrmFrontendsEventbusProtoTaskEntity extends \Google\Model
   public $disabledForVpcSc;
   protected $metadataType = EnterpriseCrmEventbusProtoTaskMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $paramSpecsType = EnterpriseCrmFrontendsEventbusProtoParamSpecsMessage::class;
   protected $paramSpecsDataType = '';
+  public $paramSpecs;
   protected $statsType = EnterpriseCrmEventbusStats::class;
   protected $statsDataType = '';
+  public $stats;
   /**
    * @var string
    */
   public $taskType;
   protected $uiConfigType = EnterpriseCrmEventbusProtoTaskUiConfig::class;
   protected $uiConfigDataType = '';
+  public $uiConfig;
 
   /**
    * @param bool

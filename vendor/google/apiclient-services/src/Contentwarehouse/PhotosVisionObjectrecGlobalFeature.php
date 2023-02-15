@@ -25,8 +25,10 @@ class PhotosVisionObjectrecGlobalFeature extends \Google\Model
   public $additionalInfo;
   protected $featureVectorType = PhotosVisionObjectrecFeatureVector::class;
   protected $featureVectorDataType = '';
+  public $featureVector;
   protected $quantizedFeatureVectorType = PhotosVisionObjectrecQuantizedFeatureVector::class;
   protected $quantizedFeatureVectorDataType = '';
+  public $quantizedFeatureVector;
   /**
    * @var string
    */

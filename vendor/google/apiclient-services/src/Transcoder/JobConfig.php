@@ -22,24 +22,34 @@ class JobConfig extends \Google\Collection
   protected $collection_key = 'spriteSheets';
   protected $adBreaksType = AdBreak::class;
   protected $adBreaksDataType = 'array';
+  public $adBreaks;
   protected $editListType = EditAtom::class;
   protected $editListDataType = 'array';
+  public $editList;
   protected $elementaryStreamsType = ElementaryStream::class;
   protected $elementaryStreamsDataType = 'array';
+  public $elementaryStreams;
   protected $inputsType = Input::class;
   protected $inputsDataType = 'array';
+  public $inputs;
   protected $manifestsType = Manifest::class;
   protected $manifestsDataType = 'array';
+  public $manifests;
   protected $muxStreamsType = MuxStream::class;
   protected $muxStreamsDataType = 'array';
+  public $muxStreams;
   protected $outputType = Output::class;
   protected $outputDataType = '';
+  public $output;
   protected $overlaysType = Overlay::class;
   protected $overlaysDataType = 'array';
+  public $overlays;
   protected $pubsubDestinationType = PubsubDestination::class;
   protected $pubsubDestinationDataType = '';
+  public $pubsubDestination;
   protected $spriteSheetsType = SpriteSheet::class;
   protected $spriteSheetsDataType = 'array';
+  public $spriteSheets;
 
   /**
    * @param AdBreak[]

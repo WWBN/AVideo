@@ -34,8 +34,10 @@ class EnterpriseCrmEventbusProtoScatterResponse extends \Google\Collection
   public $isSuccessful;
   protected $responseParamsType = EnterpriseCrmEventbusProtoParameterEntry::class;
   protected $responseParamsDataType = 'array';
+  public $responseParams;
   protected $scatterElementType = EnterpriseCrmEventbusProtoParameterValueType::class;
   protected $scatterElementDataType = '';
+  public $scatterElement;
 
   /**
    * @param string

@@ -22,8 +22,10 @@ class DynamicGroupMetadata extends \Google\Collection
   protected $collection_key = 'queries';
   protected $queriesType = DynamicGroupQuery::class;
   protected $queriesDataType = 'array';
+  public $queries;
   protected $statusType = DynamicGroupStatus::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param DynamicGroupQuery[]

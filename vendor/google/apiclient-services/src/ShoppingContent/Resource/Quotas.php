@@ -30,7 +30,7 @@ use Google\Service\ShoppingContent\ListMethodQuotasResponse;
 class Quotas extends \Google\Service\Resource
 {
   /**
-   * Lists the quota limit and quota usage per method for your Merchant Center
+   * Lists the daily call quota and usage per method for your Merchant Center
    * account. (quotas.listQuotas)
    *
    * @param string $merchantId Required. The ID of the account that has quota.

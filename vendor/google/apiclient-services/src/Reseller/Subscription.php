@@ -46,18 +46,21 @@ class Subscription extends \Google\Collection
   public $kind;
   protected $planType = SubscriptionPlan::class;
   protected $planDataType = '';
+  public $plan;
   /**
    * @var string
    */
   public $purchaseOrderId;
   protected $renewalSettingsType = RenewalSettings::class;
   protected $renewalSettingsDataType = '';
+  public $renewalSettings;
   /**
    * @var string
    */
   public $resourceUiUrl;
   protected $seatsType = Seats::class;
   protected $seatsDataType = '';
+  public $seats;
   /**
    * @var string
    */
@@ -80,8 +83,10 @@ class Subscription extends \Google\Collection
   public $suspensionReasons;
   protected $transferInfoType = SubscriptionTransferInfo::class;
   protected $transferInfoDataType = '';
+  public $transferInfo;
   protected $trialSettingsType = SubscriptionTrialSettings::class;
   protected $trialSettingsDataType = '';
+  public $trialSettings;
 
   /**
    * @param string

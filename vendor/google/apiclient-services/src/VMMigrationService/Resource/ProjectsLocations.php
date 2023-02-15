@@ -25,7 +25,7 @@ use Google\Service\VMMigrationService\Location;
  * Typical usage is:
  *  <code>
  *   $vmmigrationService = new Google\Service\VMMigrationService(...);
- *   $locations = $vmmigrationService->locations;
+ *   $locations = $vmmigrationService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

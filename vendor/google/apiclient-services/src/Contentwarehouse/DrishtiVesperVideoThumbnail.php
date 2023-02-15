@@ -26,8 +26,10 @@ class DrishtiVesperVideoThumbnail extends \Google\Collection
   public $id;
   protected $movingThumbnailsType = DrishtiVesperMovingThumbnail::class;
   protected $movingThumbnailsDataType = 'array';
+  public $movingThumbnails;
   protected $thumbnailsType = DrishtiVesperThumbnail::class;
   protected $thumbnailsDataType = 'array';
+  public $thumbnails;
 
   /**
    * @param string

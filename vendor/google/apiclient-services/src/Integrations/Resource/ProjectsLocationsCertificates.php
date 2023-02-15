@@ -24,7 +24,7 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaCertificate;
  * Typical usage is:
  *  <code>
  *   $integrationsService = new Google\Service\Integrations(...);
- *   $certificates = $integrationsService->certificates;
+ *   $certificates = $integrationsService->projects_locations_certificates;
  *  </code>
  */
 class ProjectsLocationsCertificates extends \Google\Service\Resource

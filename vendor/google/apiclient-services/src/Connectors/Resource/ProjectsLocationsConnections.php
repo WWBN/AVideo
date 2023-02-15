@@ -25,7 +25,7 @@ use Google\Service\Connectors\ExecuteSqlQueryResponse;
  * Typical usage is:
  *  <code>
  *   $connectorsService = new Google\Service\Connectors(...);
- *   $connections = $connectorsService->connections;
+ *   $connections = $connectorsService->projects_locations_connections;
  *  </code>
  */
 class ProjectsLocationsConnections extends \Google\Service\Resource

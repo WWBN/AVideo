@@ -21,10 +21,13 @@ class InsertInlineImageRequest extends \Google\Model
 {
   protected $endOfSegmentLocationType = EndOfSegmentLocation::class;
   protected $endOfSegmentLocationDataType = '';
+  public $endOfSegmentLocation;
   protected $locationType = Location::class;
   protected $locationDataType = '';
+  public $location;
   protected $objectSizeType = Size::class;
   protected $objectSizeDataType = '';
+  public $objectSize;
   /**
    * @var string
    */

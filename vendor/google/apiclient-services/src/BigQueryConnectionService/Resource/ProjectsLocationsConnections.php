@@ -32,7 +32,7 @@ use Google\Service\BigQueryConnectionService\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $bigqueryconnectionService = new Google\Service\BigQueryConnectionService(...);
- *   $connections = $bigqueryconnectionService->connections;
+ *   $connections = $bigqueryconnectionService->projects_locations_connections;
  *  </code>
  */
 class ProjectsLocationsConnections extends \Google\Service\Resource

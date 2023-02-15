@@ -21,6 +21,7 @@ class AbuseDetected extends \Google\Model
 {
   protected $additionalDetailsType = EntityList::class;
   protected $additionalDetailsDataType = '';
+  public $additionalDetails;
   /**
    * @var string
    */

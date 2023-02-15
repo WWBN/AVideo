@@ -30,12 +30,14 @@ class Annotation extends \Google\Collection
   public $beforeSelectedText;
   protected $clientVersionRangesType = AnnotationClientVersionRanges::class;
   protected $clientVersionRangesDataType = '';
+  public $clientVersionRanges;
   /**
    * @var string
    */
   public $created;
   protected $currentVersionRangesType = AnnotationCurrentVersionRanges::class;
   protected $currentVersionRangesDataType = '';
+  public $currentVersionRanges;
   /**
    * @var string
    */
@@ -62,6 +64,7 @@ class Annotation extends \Google\Collection
   public $layerId;
   protected $layerSummaryType = AnnotationLayerSummary::class;
   protected $layerSummaryDataType = '';
+  public $layerSummary;
   /**
    * @var string[]
    */

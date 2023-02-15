@@ -27,7 +27,7 @@ use Google\Service\Connectors\UpdateEntitiesWithConditionsResponse;
  * Typical usage is:
  *  <code>
  *   $connectorsService = new Google\Service\Connectors(...);
- *   $entities = $connectorsService->entities;
+ *   $entities = $connectorsService->projects_locations_connections_entityTypes_entities;
  *  </code>
  */
 class ProjectsLocationsConnectionsEntityTypesEntities extends \Google\Service\Resource

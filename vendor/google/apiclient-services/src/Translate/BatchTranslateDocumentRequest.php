@@ -21,19 +21,26 @@ class BatchTranslateDocumentRequest extends \Google\Collection
 {
   protected $collection_key = 'targetLanguageCodes';
   /**
+   * @var string
+   */
+  public $customizedAttribution;
+  /**
    * @var string[]
    */
   public $formatConversions;
   protected $glossariesType = TranslateTextGlossaryConfig::class;
   protected $glossariesDataType = 'map';
+  public $glossaries;
   protected $inputConfigsType = BatchDocumentInputConfig::class;
   protected $inputConfigsDataType = 'array';
+  public $inputConfigs;
   /**
    * @var string[]
    */
   public $models;
   protected $outputConfigType = BatchDocumentOutputConfig::class;
   protected $outputConfigDataType = '';
+  public $outputConfig;
   /**
    * @var string
    */
@@ -43,6 +50,20 @@ class BatchTranslateDocumentRequest extends \Google\Collection
    */
   public $targetLanguageCodes;
 
+  /**
+   * @param string
+   */
+  public function setCustomizedAttribution($customizedAttribution)
+  {
+    $this->customizedAttribution = $customizedAttribution;
+  }
+  /**
+   * @return string
+   */
+  public function getCustomizedAttribution()
+  {
+    return $this->customizedAttribution;
+  }
   /**
    * @param string[]
    */

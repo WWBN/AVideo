@@ -26,7 +26,7 @@ use Google\Service\Dataproc\Operation;
  * Typical usage is:
  *  <code>
  *   $dataprocService = new Google\Service\Dataproc(...);
- *   $operations = $dataprocService->operations;
+ *   $operations = $dataprocService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

@@ -30,6 +30,7 @@ class SettlementreportsListResponse extends \Google\Collection
   public $nextPageToken;
   protected $resourcesType = SettlementReport::class;
   protected $resourcesDataType = 'array';
+  public $resources;
 
   /**
    * @param string

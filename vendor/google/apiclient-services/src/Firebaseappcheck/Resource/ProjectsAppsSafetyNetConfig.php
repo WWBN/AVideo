@@ -25,7 +25,7 @@ use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1SafetyNetConfig;
  * Typical usage is:
  *  <code>
  *   $firebaseappcheckService = new Google\Service\Firebaseappcheck(...);
- *   $safetyNetConfig = $firebaseappcheckService->safetyNetConfig;
+ *   $safetyNetConfig = $firebaseappcheckService->projects_apps_safetyNetConfig;
  *  </code>
  */
 class ProjectsAppsSafetyNetConfig extends \Google\Service\Resource

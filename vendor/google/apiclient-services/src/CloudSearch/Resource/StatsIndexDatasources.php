@@ -24,7 +24,7 @@ use Google\Service\CloudSearch\GetDataSourceIndexStatsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $datasources = $cloudsearchService->datasources;
+ *   $datasources = $cloudsearchService->stats_index_datasources;
  *  </code>
  */
 class StatsIndexDatasources extends \Google\Service\Resource

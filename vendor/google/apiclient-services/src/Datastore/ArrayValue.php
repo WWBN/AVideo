@@ -22,6 +22,7 @@ class ArrayValue extends \Google\Collection
   protected $collection_key = 'values';
   protected $valuesType = Value::class;
   protected $valuesDataType = 'array';
+  public $values;
 
   /**
    * @param Value[]

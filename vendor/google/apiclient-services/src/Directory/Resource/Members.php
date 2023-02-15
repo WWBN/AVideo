@@ -102,7 +102,10 @@ class Members extends \Google\Service\Resource
     return $this->call('insert', [$params], Member::class);
   }
   /**
-   * Retrieves a paginated list of all members in a group. (members.listMembers)
+   * Retrieves a paginated list of all members in a group. This method times out
+   * after 60 minutes. For more information, see [Troubleshoot error
+   * codes](https://developers.google.com/admin-sdk/directory/v1/guides
+   * /troubleshoot-error-codes). (members.listMembers)
    *
    * @param string $groupKey Identifies the group in the API request. The value
    * can be the group's email address, group alias, or the unique group ID.

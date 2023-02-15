@@ -21,6 +21,7 @@ class CloudSqlProperties extends \Google\Model
 {
   protected $credentialType = CloudSqlCredential::class;
   protected $credentialDataType = '';
+  public $credential;
   /**
    * @var string
    */

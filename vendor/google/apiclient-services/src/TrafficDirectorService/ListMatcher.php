@@ -21,6 +21,7 @@ class ListMatcher extends \Google\Model
 {
   protected $oneOfType = ValueMatcher::class;
   protected $oneOfDataType = '';
+  public $oneOf;
 
   /**
    * @param ValueMatcher

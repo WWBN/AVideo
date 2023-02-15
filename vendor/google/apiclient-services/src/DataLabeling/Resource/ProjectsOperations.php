@@ -26,7 +26,7 @@ use Google\Service\DataLabeling\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $datalabelingService = new Google\Service\DataLabeling(...);
- *   $operations = $datalabelingService->operations;
+ *   $operations = $datalabelingService->projects_operations;
  *  </code>
  */
 class ProjectsOperations extends \Google\Service\Resource

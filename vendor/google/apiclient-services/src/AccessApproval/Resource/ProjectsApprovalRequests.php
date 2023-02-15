@@ -28,7 +28,7 @@ use Google\Service\AccessApproval\ListApprovalRequestsResponse;
  * Typical usage is:
  *  <code>
  *   $accessapprovalService = new Google\Service\AccessApproval(...);
- *   $approvalRequests = $accessapprovalService->approvalRequests;
+ *   $approvalRequests = $accessapprovalService->projects_approvalRequests;
  *  </code>
  */
 class ProjectsApprovalRequests extends \Google\Service\Resource

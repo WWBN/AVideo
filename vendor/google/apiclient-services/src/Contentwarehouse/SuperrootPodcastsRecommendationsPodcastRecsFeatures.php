@@ -269,6 +269,7 @@ class SuperrootPodcastsRecommendationsPodcastRecsFeatures extends \Google\Collec
   public $trendingScorePercent;
   protected $ulpLanguageType = SuperrootPodcastsRecommendationsPodcastRecsFeaturesUserLanguage::class;
   protected $ulpLanguageDataType = 'array';
+  public $ulpLanguage;
   /**
    * @var float
    */
@@ -281,6 +282,7 @@ class SuperrootPodcastsRecommendationsPodcastRecsFeatures extends \Google\Collec
   public $userInterestsWebrefSimilarity;
   protected $userLanguageType = SuperrootPodcastsRecommendationsPodcastRecsFeaturesUserLanguage::class;
   protected $userLanguageDataType = 'array';
+  public $userLanguage;
   public $violenceScore;
   public $vulgarScore;
 

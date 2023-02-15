@@ -38,14 +38,17 @@ class GeostorePolygonProto extends \Google\Collection
   public $heightMeters;
   protected $loopType = GeostorePolyLineProto::class;
   protected $loopDataType = 'array';
+  public $loop;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
   public $shapeId;
   protected $temporaryDataType = Proto2BridgeMessageSet::class;
   protected $temporaryDataDataType = '';
+  public $temporaryData;
   /**
    * @var bool
    */

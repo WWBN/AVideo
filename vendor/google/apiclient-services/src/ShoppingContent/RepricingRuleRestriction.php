@@ -21,6 +21,7 @@ class RepricingRuleRestriction extends \Google\Model
 {
   protected $floorType = RepricingRuleRestrictionBoundary::class;
   protected $floorDataType = '';
+  public $floor;
   /**
    * @var bool
    */

@@ -22,6 +22,7 @@ class FocusBackendSecondaryContactId extends \Google\Collection
   protected $collection_key = 'contactDetailHash';
   protected $contactDetailHashType = FocusBackendContactDetailHash::class;
   protected $contactDetailHashDataType = 'array';
+  public $contactDetailHash;
   /**
    * @var string
    */

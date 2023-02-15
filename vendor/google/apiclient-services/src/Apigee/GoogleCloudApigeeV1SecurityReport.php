@@ -41,12 +41,14 @@ class GoogleCloudApigeeV1SecurityReport extends \Google\Model
   public $executionTime;
   protected $queryParamsType = GoogleCloudApigeeV1SecurityReportMetadata::class;
   protected $queryParamsDataType = '';
+  public $queryParams;
   /**
    * @var string
    */
   public $reportDefinitionId;
   protected $resultType = GoogleCloudApigeeV1SecurityReportResultMetadata::class;
   protected $resultDataType = '';
+  public $result;
   /**
    * @var string
    */

@@ -25,6 +25,7 @@ class ValueMapValEntry extends \Google\Model
   public $key;
   protected $valueType = MapValue::class;
   protected $valueDataType = '';
+  public $value;
 
   /**
    * @param string

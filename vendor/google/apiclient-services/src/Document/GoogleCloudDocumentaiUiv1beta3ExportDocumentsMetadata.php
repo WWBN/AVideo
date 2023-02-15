@@ -22,10 +22,13 @@ class GoogleCloudDocumentaiUiv1beta3ExportDocumentsMetadata extends \Google\Coll
   protected $collection_key = 'splitExportStats';
   protected $commonMetadataType = GoogleCloudDocumentaiUiv1beta3CommonOperationMetadata::class;
   protected $commonMetadataDataType = '';
+  public $commonMetadata;
   protected $individualExportStatusesType = GoogleCloudDocumentaiUiv1beta3ExportDocumentsMetadataIndividualExportStatus::class;
   protected $individualExportStatusesDataType = 'array';
+  public $individualExportStatuses;
   protected $splitExportStatsType = GoogleCloudDocumentaiUiv1beta3ExportDocumentsMetadataSplitExportStat::class;
   protected $splitExportStatsDataType = 'array';
+  public $splitExportStats;
 
   /**
    * @param GoogleCloudDocumentaiUiv1beta3CommonOperationMetadata

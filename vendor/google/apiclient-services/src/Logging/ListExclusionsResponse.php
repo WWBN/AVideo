@@ -22,6 +22,7 @@ class ListExclusionsResponse extends \Google\Collection
   protected $collection_key = 'exclusions';
   protected $exclusionsType = LogExclusion::class;
   protected $exclusionsDataType = 'array';
+  public $exclusions;
   /**
    * @var string
    */

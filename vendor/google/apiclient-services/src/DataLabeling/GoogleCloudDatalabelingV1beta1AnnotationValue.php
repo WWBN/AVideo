@@ -21,22 +21,31 @@ class GoogleCloudDatalabelingV1beta1AnnotationValue extends \Google\Model
 {
   protected $imageBoundingPolyAnnotationType = GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation::class;
   protected $imageBoundingPolyAnnotationDataType = '';
+  public $imageBoundingPolyAnnotation;
   protected $imageClassificationAnnotationType = GoogleCloudDatalabelingV1beta1ImageClassificationAnnotation::class;
   protected $imageClassificationAnnotationDataType = '';
+  public $imageClassificationAnnotation;
   protected $imagePolylineAnnotationType = GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation::class;
   protected $imagePolylineAnnotationDataType = '';
+  public $imagePolylineAnnotation;
   protected $imageSegmentationAnnotationType = GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation::class;
   protected $imageSegmentationAnnotationDataType = '';
+  public $imageSegmentationAnnotation;
   protected $textClassificationAnnotationType = GoogleCloudDatalabelingV1beta1TextClassificationAnnotation::class;
   protected $textClassificationAnnotationDataType = '';
+  public $textClassificationAnnotation;
   protected $textEntityExtractionAnnotationType = GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation::class;
   protected $textEntityExtractionAnnotationDataType = '';
+  public $textEntityExtractionAnnotation;
   protected $videoClassificationAnnotationType = GoogleCloudDatalabelingV1beta1VideoClassificationAnnotation::class;
   protected $videoClassificationAnnotationDataType = '';
+  public $videoClassificationAnnotation;
   protected $videoEventAnnotationType = GoogleCloudDatalabelingV1beta1VideoEventAnnotation::class;
   protected $videoEventAnnotationDataType = '';
+  public $videoEventAnnotation;
   protected $videoObjectTrackingAnnotationType = GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation::class;
   protected $videoObjectTrackingAnnotationDataType = '';
+  public $videoObjectTrackingAnnotation;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation

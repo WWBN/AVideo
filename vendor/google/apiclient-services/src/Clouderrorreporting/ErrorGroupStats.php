@@ -22,6 +22,7 @@ class ErrorGroupStats extends \Google\Collection
   protected $collection_key = 'timedCounts';
   protected $affectedServicesType = ServiceContext::class;
   protected $affectedServicesDataType = 'array';
+  public $affectedServices;
   /**
    * @var string
    */
@@ -36,6 +37,7 @@ class ErrorGroupStats extends \Google\Collection
   public $firstSeenTime;
   protected $groupType = ErrorGroup::class;
   protected $groupDataType = '';
+  public $group;
   /**
    * @var string
    */
@@ -46,8 +48,10 @@ class ErrorGroupStats extends \Google\Collection
   public $numAffectedServices;
   protected $representativeType = ErrorEvent::class;
   protected $representativeDataType = '';
+  public $representative;
   protected $timedCountsType = TimedCount::class;
   protected $timedCountsDataType = 'array';
+  public $timedCounts;
 
   /**
    * @param ServiceContext[]

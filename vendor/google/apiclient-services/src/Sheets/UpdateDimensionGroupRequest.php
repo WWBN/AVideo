@@ -21,6 +21,7 @@ class UpdateDimensionGroupRequest extends \Google\Model
 {
   protected $dimensionGroupType = DimensionGroup::class;
   protected $dimensionGroupDataType = '';
+  public $dimensionGroup;
   /**
    * @var string
    */

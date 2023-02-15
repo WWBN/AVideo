@@ -50,6 +50,7 @@ class HttpRoute extends \Google\Collection
   public $name;
   protected $rulesType = HttpRouteRouteRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
   /**
    * @var string
    */

@@ -21,12 +21,16 @@ class GoogleChromePolicyVersionsV1ResolvedPolicy extends \Google\Model
 {
   protected $addedSourceKeyType = GoogleChromePolicyVersionsV1PolicyTargetKey::class;
   protected $addedSourceKeyDataType = '';
+  public $addedSourceKey;
   protected $sourceKeyType = GoogleChromePolicyVersionsV1PolicyTargetKey::class;
   protected $sourceKeyDataType = '';
+  public $sourceKey;
   protected $targetKeyType = GoogleChromePolicyVersionsV1PolicyTargetKey::class;
   protected $targetKeyDataType = '';
+  public $targetKey;
   protected $valueType = GoogleChromePolicyVersionsV1PolicyValue::class;
   protected $valueDataType = '';
+  public $value;
 
   /**
    * @param GoogleChromePolicyVersionsV1PolicyTargetKey

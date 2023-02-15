@@ -22,6 +22,7 @@ class GoogleCloudVisionV1p4beta1CropHintsAnnotation extends \Google\Collection
   protected $collection_key = 'cropHints';
   protected $cropHintsType = GoogleCloudVisionV1p4beta1CropHint::class;
   protected $cropHintsDataType = 'array';
+  public $cropHints;
 
   /**
    * @param GoogleCloudVisionV1p4beta1CropHint[]

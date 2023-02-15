@@ -21,14 +21,17 @@ class UpgradeOccurrence extends \Google\Model
 {
   protected $distributionType = UpgradeDistribution::class;
   protected $distributionDataType = '';
+  public $distribution;
   /**
    * @var string
    */
   public $package;
   protected $parsedVersionType = Version::class;
   protected $parsedVersionDataType = '';
+  public $parsedVersion;
   protected $windowsUpdateType = WindowsUpdate::class;
   protected $windowsUpdateDataType = '';
+  public $windowsUpdate;
 
   /**
    * @param UpgradeDistribution

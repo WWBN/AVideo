@@ -21,8 +21,10 @@ class NodeConfigDefaults extends \Google\Model
 {
   protected $gcfsConfigType = GcfsConfig::class;
   protected $gcfsConfigDataType = '';
+  public $gcfsConfig;
   protected $loggingConfigType = NodePoolLoggingConfig::class;
   protected $loggingConfigDataType = '';
+  public $loggingConfig;
 
   /**
    * @param GcfsConfig

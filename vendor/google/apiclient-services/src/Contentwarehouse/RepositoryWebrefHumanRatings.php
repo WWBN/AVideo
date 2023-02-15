@@ -21,6 +21,7 @@ class RepositoryWebrefHumanRatings extends \Google\Model
 {
   protected $annotationRatingsType = RepositoryWebrefAnnotationRatings::class;
   protected $annotationRatingsDataType = '';
+  public $annotationRatings;
 
   /**
    * @param RepositoryWebrefAnnotationRatings

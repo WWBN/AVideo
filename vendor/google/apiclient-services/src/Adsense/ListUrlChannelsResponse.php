@@ -26,6 +26,7 @@ class ListUrlChannelsResponse extends \Google\Collection
   public $nextPageToken;
   protected $urlChannelsType = UrlChannel::class;
   protected $urlChannelsDataType = 'array';
+  public $urlChannels;
 
   /**
    * @param string

@@ -21,6 +21,7 @@ class PrivateAuctionTerms extends \Google\Model
 {
   protected $floorPriceType = Price::class;
   protected $floorPriceDataType = '';
+  public $floorPrice;
   /**
    * @var bool
    */

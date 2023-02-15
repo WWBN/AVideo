@@ -21,10 +21,13 @@ class TestSpecification extends \Google\Model
 {
   protected $androidInstrumentationTestType = AndroidInstrumentationTest::class;
   protected $androidInstrumentationTestDataType = '';
+  public $androidInstrumentationTest;
   protected $androidRoboTestType = AndroidRoboTest::class;
   protected $androidRoboTestDataType = '';
+  public $androidRoboTest;
   protected $androidTestLoopType = AndroidTestLoop::class;
   protected $androidTestLoopDataType = '';
+  public $androidTestLoop;
   /**
    * @var bool
    */
@@ -35,12 +38,16 @@ class TestSpecification extends \Google\Model
   public $disableVideoRecording;
   protected $iosTestLoopType = IosTestLoop::class;
   protected $iosTestLoopDataType = '';
+  public $iosTestLoop;
   protected $iosTestSetupType = IosTestSetup::class;
   protected $iosTestSetupDataType = '';
+  public $iosTestSetup;
   protected $iosXcTestType = IosXcTest::class;
   protected $iosXcTestDataType = '';
+  public $iosXcTest;
   protected $testSetupType = TestSetup::class;
   protected $testSetupDataType = '';
+  public $testSetup;
   /**
    * @var string
    */

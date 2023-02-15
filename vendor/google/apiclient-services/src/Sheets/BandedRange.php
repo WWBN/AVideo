@@ -25,10 +25,13 @@ class BandedRange extends \Google\Model
   public $bandedRangeId;
   protected $columnPropertiesType = BandingProperties::class;
   protected $columnPropertiesDataType = '';
+  public $columnProperties;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
   protected $rowPropertiesType = BandingProperties::class;
   protected $rowPropertiesDataType = '';
+  public $rowProperties;
 
   /**
    * @param int

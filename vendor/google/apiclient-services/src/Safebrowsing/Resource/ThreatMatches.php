@@ -17,8 +17,8 @@
 
 namespace Google\Service\Safebrowsing\Resource;
 
-use Google\Service\Safebrowsing\GoogleSecuritySafebrowsingV4FindThreatMatchesRequest;
-use Google\Service\Safebrowsing\GoogleSecuritySafebrowsingV4FindThreatMatchesResponse;
+use Google\Service\Safebrowsing\FindThreatMatchesRequest;
+use Google\Service\Safebrowsing\FindThreatMatchesResponse;
 
 /**
  * The "threatMatches" collection of methods.
@@ -34,15 +34,15 @@ class ThreatMatches extends \Google\Service\Resource
    * Finds the threat entries that match the Safe Browsing lists.
    * (threatMatches.find)
    *
-   * @param GoogleSecuritySafebrowsingV4FindThreatMatchesRequest $postBody
+   * @param FindThreatMatchesRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleSecuritySafebrowsingV4FindThreatMatchesResponse
+   * @return FindThreatMatchesResponse
    */
-  public function find(GoogleSecuritySafebrowsingV4FindThreatMatchesRequest $postBody, $optParams = [])
+  public function find(FindThreatMatchesRequest $postBody, $optParams = [])
   {
     $params = ['postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('find', [$params], GoogleSecuritySafebrowsingV4FindThreatMatchesResponse::class);
+    return $this->call('find', [$params], FindThreatMatchesResponse::class);
   }
 }
 

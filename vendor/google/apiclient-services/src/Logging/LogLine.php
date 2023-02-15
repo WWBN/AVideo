@@ -29,6 +29,7 @@ class LogLine extends \Google\Model
   public $severity;
   protected $sourceLocationType = SourceLocation::class;
   protected $sourceLocationDataType = '';
+  public $sourceLocation;
   /**
    * @var string
    */

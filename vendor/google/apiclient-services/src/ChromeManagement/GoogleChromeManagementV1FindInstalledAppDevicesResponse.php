@@ -22,6 +22,7 @@ class GoogleChromeManagementV1FindInstalledAppDevicesResponse extends \Google\Co
   protected $collection_key = 'devices';
   protected $devicesType = GoogleChromeManagementV1Device::class;
   protected $devicesDataType = 'array';
+  public $devices;
   /**
    * @var string
    */

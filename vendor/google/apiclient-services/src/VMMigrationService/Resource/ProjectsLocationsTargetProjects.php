@@ -26,7 +26,7 @@ use Google\Service\VMMigrationService\TargetProject;
  * Typical usage is:
  *  <code>
  *   $vmmigrationService = new Google\Service\VMMigrationService(...);
- *   $targetProjects = $vmmigrationService->targetProjects;
+ *   $targetProjects = $vmmigrationService->projects_locations_targetProjects;
  *  </code>
  */
 class ProjectsLocationsTargetProjects extends \Google\Service\Resource

@@ -21,10 +21,13 @@ class ConfigManagementConfigSyncState extends \Google\Model
 {
   protected $deploymentStateType = ConfigManagementConfigSyncDeploymentState::class;
   protected $deploymentStateDataType = '';
+  public $deploymentState;
   protected $syncStateType = ConfigManagementSyncState::class;
   protected $syncStateDataType = '';
+  public $syncState;
   protected $versionType = ConfigManagementConfigSyncVersion::class;
   protected $versionDataType = '';
+  public $version;
 
   /**
    * @param ConfigManagementConfigSyncDeploymentState

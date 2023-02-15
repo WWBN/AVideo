@@ -26,6 +26,7 @@ class GoogleCloudApigeeV1DeveloperAppKey extends \Google\Collection
   public $apiProducts;
   protected $attributesType = GoogleCloudApigeeV1Attribute::class;
   protected $attributesDataType = 'array';
+  public $attributes;
   /**
    * @var string
    */

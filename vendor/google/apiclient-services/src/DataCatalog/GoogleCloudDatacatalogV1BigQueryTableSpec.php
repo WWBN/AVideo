@@ -25,8 +25,10 @@ class GoogleCloudDatacatalogV1BigQueryTableSpec extends \Google\Model
   public $tableSourceType;
   protected $tableSpecType = GoogleCloudDatacatalogV1TableSpec::class;
   protected $tableSpecDataType = '';
+  public $tableSpec;
   protected $viewSpecType = GoogleCloudDatacatalogV1ViewSpec::class;
   protected $viewSpecDataType = '';
+  public $viewSpec;
 
   /**
    * @param string

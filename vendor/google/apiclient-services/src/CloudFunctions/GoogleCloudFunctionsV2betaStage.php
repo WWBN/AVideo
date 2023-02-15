@@ -42,6 +42,7 @@ class GoogleCloudFunctionsV2betaStage extends \Google\Collection
   public $state;
   protected $stateMessagesType = GoogleCloudFunctionsV2betaStateMessage::class;
   protected $stateMessagesDataType = 'array';
+  public $stateMessages;
 
   /**
    * @param string

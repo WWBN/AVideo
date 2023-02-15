@@ -24,18 +24,6 @@ class RepositoryWebrefPerDocRelevanceRating extends \Google\Model
    */
   public $contentRelevant;
   /**
-   * @var int
-   */
-  public $deprecatedItemId;
-  /**
-   * @var int
-   */
-  public $deprecatedProjectId;
-  /**
-   * @var int
-   */
-  public $deprecatedTaskId;
-  /**
    * @var string
    */
   public $displayString;
@@ -46,23 +34,11 @@ class RepositoryWebrefPerDocRelevanceRating extends \Google\Model
   /**
    * @var string
    */
-  public $itemDescription;
-  /**
-   * @var string
-   */
   public $itemId;
   /**
    * @var string
    */
-  public $language;
-  /**
-   * @var string
-   */
   public $pageIsAboutChain;
-  /**
-   * @var bool
-   */
-  public $pageNotLoaded;
   /**
    * @var string
    */
@@ -71,25 +47,13 @@ class RepositoryWebrefPerDocRelevanceRating extends \Google\Model
    * @var bool
    */
   public $raterCanUnderstandTopic;
-  public $ratingScore;
   protected $taskDetailsType = RepositoryWebrefTaskDetails::class;
   protected $taskDetailsDataType = '';
+  public $taskDetails;
   /**
    * @var string
    */
   public $taskId;
-  /**
-   * @var string
-   */
-  public $taskStatus;
-  /**
-   * @var int
-   */
-  public $taskUser;
-  /**
-   * @var int
-   */
-  public $templateId;
   /**
    * @var string
    */
@@ -108,48 +72,6 @@ class RepositoryWebrefPerDocRelevanceRating extends \Google\Model
   public function getContentRelevant()
   {
     return $this->contentRelevant;
-  }
-  /**
-   * @param int
-   */
-  public function setDeprecatedItemId($deprecatedItemId)
-  {
-    $this->deprecatedItemId = $deprecatedItemId;
-  }
-  /**
-   * @return int
-   */
-  public function getDeprecatedItemId()
-  {
-    return $this->deprecatedItemId;
-  }
-  /**
-   * @param int
-   */
-  public function setDeprecatedProjectId($deprecatedProjectId)
-  {
-    $this->deprecatedProjectId = $deprecatedProjectId;
-  }
-  /**
-   * @return int
-   */
-  public function getDeprecatedProjectId()
-  {
-    return $this->deprecatedProjectId;
-  }
-  /**
-   * @param int
-   */
-  public function setDeprecatedTaskId($deprecatedTaskId)
-  {
-    $this->deprecatedTaskId = $deprecatedTaskId;
-  }
-  /**
-   * @return int
-   */
-  public function getDeprecatedTaskId()
-  {
-    return $this->deprecatedTaskId;
   }
   /**
    * @param string
@@ -182,20 +104,6 @@ class RepositoryWebrefPerDocRelevanceRating extends \Google\Model
   /**
    * @param string
    */
-  public function setItemDescription($itemDescription)
-  {
-    $this->itemDescription = $itemDescription;
-  }
-  /**
-   * @return string
-   */
-  public function getItemDescription()
-  {
-    return $this->itemDescription;
-  }
-  /**
-   * @param string
-   */
   public function setItemId($itemId)
   {
     $this->itemId = $itemId;
@@ -210,20 +118,6 @@ class RepositoryWebrefPerDocRelevanceRating extends \Google\Model
   /**
    * @param string
    */
-  public function setLanguage($language)
-  {
-    $this->language = $language;
-  }
-  /**
-   * @return string
-   */
-  public function getLanguage()
-  {
-    return $this->language;
-  }
-  /**
-   * @param string
-   */
   public function setPageIsAboutChain($pageIsAboutChain)
   {
     $this->pageIsAboutChain = $pageIsAboutChain;
@@ -234,20 +128,6 @@ class RepositoryWebrefPerDocRelevanceRating extends \Google\Model
   public function getPageIsAboutChain()
   {
     return $this->pageIsAboutChain;
-  }
-  /**
-   * @param bool
-   */
-  public function setPageNotLoaded($pageNotLoaded)
-  {
-    $this->pageNotLoaded = $pageNotLoaded;
-  }
-  /**
-   * @return bool
-   */
-  public function getPageNotLoaded()
-  {
-    return $this->pageNotLoaded;
   }
   /**
    * @param string
@@ -277,14 +157,6 @@ class RepositoryWebrefPerDocRelevanceRating extends \Google\Model
   {
     return $this->raterCanUnderstandTopic;
   }
-  public function setRatingScore($ratingScore)
-  {
-    $this->ratingScore = $ratingScore;
-  }
-  public function getRatingScore()
-  {
-    return $this->ratingScore;
-  }
   /**
    * @param RepositoryWebrefTaskDetails
    */
@@ -312,48 +184,6 @@ class RepositoryWebrefPerDocRelevanceRating extends \Google\Model
   public function getTaskId()
   {
     return $this->taskId;
-  }
-  /**
-   * @param string
-   */
-  public function setTaskStatus($taskStatus)
-  {
-    $this->taskStatus = $taskStatus;
-  }
-  /**
-   * @return string
-   */
-  public function getTaskStatus()
-  {
-    return $this->taskStatus;
-  }
-  /**
-   * @param int
-   */
-  public function setTaskUser($taskUser)
-  {
-    $this->taskUser = $taskUser;
-  }
-  /**
-   * @return int
-   */
-  public function getTaskUser()
-  {
-    return $this->taskUser;
-  }
-  /**
-   * @param int
-   */
-  public function setTemplateId($templateId)
-  {
-    $this->templateId = $templateId;
-  }
-  /**
-   * @return int
-   */
-  public function getTemplateId()
-  {
-    return $this->templateId;
   }
   /**
    * @param string

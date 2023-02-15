@@ -25,6 +25,7 @@ class RequestMetadata extends \Google\Model
   public $allowMissingIds;
   protected $deviceInfoType = DeviceInfo::class;
   protected $deviceInfoDataType = '';
+  public $deviceInfo;
   /**
    * @var string
    */

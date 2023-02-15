@@ -25,6 +25,7 @@ class MetadataImport extends \Google\Model
   public $createTime;
   protected $databaseDumpType = DatabaseDump::class;
   protected $databaseDumpDataType = '';
+  public $databaseDump;
   /**
    * @var string
    */

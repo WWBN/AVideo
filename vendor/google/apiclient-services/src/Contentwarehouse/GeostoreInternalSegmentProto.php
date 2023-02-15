@@ -22,6 +22,7 @@ class GeostoreInternalSegmentProto extends \Google\Collection
   protected $collection_key = 'travelAllowance';
   protected $travelAllowanceType = GeostoreRestrictionProto::class;
   protected $travelAllowanceDataType = 'array';
+  public $travelAllowance;
 
   /**
    * @param GeostoreRestrictionProto[]

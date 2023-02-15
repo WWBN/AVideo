@@ -25,7 +25,7 @@ use Google\Service\CloudMemorystoreforMemcached\Location;
  * Typical usage is:
  *  <code>
  *   $memcacheService = new Google\Service\CloudMemorystoreforMemcached(...);
- *   $locations = $memcacheService->locations;
+ *   $locations = $memcacheService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

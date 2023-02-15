@@ -26,6 +26,7 @@ class BatchRunReportsResponse extends \Google\Collection
   public $kind;
   protected $reportsType = RunReportResponse::class;
   protected $reportsDataType = 'array';
+  public $reports;
 
   /**
    * @param string

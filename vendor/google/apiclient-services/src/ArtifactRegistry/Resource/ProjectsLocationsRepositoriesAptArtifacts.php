@@ -27,7 +27,7 @@ use Google\Service\ArtifactRegistry\UploadAptArtifactRequest;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $aptArtifacts = $artifactregistryService->aptArtifacts;
+ *   $aptArtifacts = $artifactregistryService->projects_locations_repositories_aptArtifacts;
  *  </code>
  */
 class ProjectsLocationsRepositoriesAptArtifacts extends \Google\Service\Resource

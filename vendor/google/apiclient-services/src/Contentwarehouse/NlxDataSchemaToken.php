@@ -21,26 +21,33 @@ class NlxDataSchemaToken extends \Google\Model
 {
   protected $bytesType = MultiscalePointerSpan::class;
   protected $bytesDataType = '';
+  public $bytes;
   protected $charactersType = MultiscalePointerSpan::class;
   protected $charactersDataType = '';
+  public $characters;
   protected $dependencyType = NlxDataSchemaTokenDependencyEdge::class;
   protected $dependencyDataType = '';
+  public $dependency;
   protected $dependencyHeadType = MultiscalePointerIndex::class;
   protected $dependencyHeadDataType = '';
+  public $dependencyHead;
   /**
    * @var string
    */
   public $dependencyLabel;
   protected $documentType = MultiscalePointerIndex::class;
   protected $documentDataType = '';
+  public $document;
   protected $paragraphType = MultiscalePointerIndex::class;
   protected $paragraphDataType = '';
+  public $paragraph;
   /**
    * @var string
    */
   public $pos;
   protected $sentenceType = MultiscalePointerIndex::class;
   protected $sentenceDataType = '';
+  public $sentence;
   /**
    * @var string
    */

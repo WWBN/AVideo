@@ -11,6 +11,8 @@
 
 namespace Predis;
 
+use Traversable;
+
 use Predis\Command\CommandInterface;
 use Predis\Command\RawCommand;
 use Predis\Command\ScriptCommand;
@@ -34,13 +36,13 @@ use Predis\Transaction\MultiExec as MultiExecTransaction;
  * abstractions are built. Internally it aggregates various other classes each
  * one with its own responsibility and scope.
  *
- * {@inheritdoc}
+ * @template-implements \IteratorAggregate<string, static>
  *
  * @author Daniele Alessandri <suppakilla@gmail.com>
  */
 class Client implements ClientInterface, \IteratorAggregate
 {
-    const VERSION = '2.0.3';
+    const VERSION = '2.1.1';
 
     /** @var OptionsInterface */
     private $options;
@@ -378,7 +380,7 @@ class Client implements ClientInterface, \IteratorAggregate
                     : $this->$initializer(null, $argv[0]);
 
             case 2:
-                list($arg0, $arg1) = $argv;
+                [$arg0, $arg1] = $argv;
 
                 return $this->$initializer($arg0, $arg1);
 
@@ -511,7 +513,7 @@ class Client implements ClientInterface, \IteratorAggregate
     }
 
     /**
-     * {@inheritdoc}
+     * @return Traversable<string, static>
      */
     #[\ReturnTypeWillChange]
     public function getIterator()
@@ -519,7 +521,7 @@ class Client implements ClientInterface, \IteratorAggregate
         $clients = array();
         $connection = $this->getConnection();
 
-        if (!$connection instanceof \Traversable) {
+        if (!$connection instanceof Traversable) {
             return new \ArrayIterator(array(
                 (string) $connection => new static($connection, $this->getOptions())
             ));

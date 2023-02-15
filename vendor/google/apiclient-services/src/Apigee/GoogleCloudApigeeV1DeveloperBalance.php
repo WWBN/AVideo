@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1DeveloperBalance extends \Google\Collection
   protected $collection_key = 'wallets';
   protected $walletsType = GoogleCloudApigeeV1DeveloperBalanceWallet::class;
   protected $walletsDataType = 'array';
+  public $wallets;
 
   /**
    * @param GoogleCloudApigeeV1DeveloperBalanceWallet[]

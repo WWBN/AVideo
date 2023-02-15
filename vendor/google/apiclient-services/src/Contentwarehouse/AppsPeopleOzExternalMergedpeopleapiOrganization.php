@@ -22,6 +22,7 @@ class AppsPeopleOzExternalMergedpeopleapiOrganization extends \Google\Collection
   protected $collection_key = 'project';
   protected $assignmentType = AppsPeopleOzExternalMergedpeopleapiOrganizationAssignment::class;
   protected $assignmentDataType = 'array';
+  public $assignment;
   /**
    * @var string
    */
@@ -48,6 +49,7 @@ class AppsPeopleOzExternalMergedpeopleapiOrganization extends \Google\Collection
   public $domain;
   protected $endCalendarDayType = GoogleTypeDate::class;
   protected $endCalendarDayDataType = '';
+  public $endCalendarDay;
   /**
    * @var string
    */
@@ -74,14 +76,17 @@ class AppsPeopleOzExternalMergedpeopleapiOrganization extends \Google\Collection
   public $location;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
   public $name;
   protected $projectType = AppsPeopleOzExternalMergedpeopleapiOrganizationProject::class;
   protected $projectDataType = 'array';
+  public $project;
   protected $startCalendarDayType = GoogleTypeDate::class;
   protected $startCalendarDayDataType = '';
+  public $startCalendarDay;
   /**
    * @var string
    */

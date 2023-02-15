@@ -22,10 +22,13 @@ class GoogleCloudRetailV2betaImportUserEventsResponse extends \Google\Collection
   protected $collection_key = 'errorSamples';
   protected $errorSamplesType = GoogleRpcStatus::class;
   protected $errorSamplesDataType = 'array';
+  public $errorSamples;
   protected $errorsConfigType = GoogleCloudRetailV2betaImportErrorsConfig::class;
   protected $errorsConfigDataType = '';
+  public $errorsConfig;
   protected $importSummaryType = GoogleCloudRetailV2betaUserEventImportSummary::class;
   protected $importSummaryDataType = '';
+  public $importSummary;
 
   /**
    * @param GoogleRpcStatus[]

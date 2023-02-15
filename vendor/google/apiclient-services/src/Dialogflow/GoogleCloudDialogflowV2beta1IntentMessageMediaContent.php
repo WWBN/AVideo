@@ -22,6 +22,7 @@ class GoogleCloudDialogflowV2beta1IntentMessageMediaContent extends \Google\Coll
   protected $collection_key = 'mediaObjects';
   protected $mediaObjectsType = GoogleCloudDialogflowV2beta1IntentMessageMediaContentResponseMediaObject::class;
   protected $mediaObjectsDataType = 'array';
+  public $mediaObjects;
   /**
    * @var string
    */

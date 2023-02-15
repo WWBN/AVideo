@@ -21,6 +21,7 @@ class Environment extends \Google\Model
 {
   protected $containerImageType = ContainerImage::class;
   protected $containerImageDataType = '';
+  public $containerImage;
   /**
    * @var string
    */
@@ -43,6 +44,7 @@ class Environment extends \Google\Model
   public $postStartupScript;
   protected $vmImageType = VmImage::class;
   protected $vmImageDataType = '';
+  public $vmImage;
 
   /**
    * @param ContainerImage

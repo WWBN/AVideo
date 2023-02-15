@@ -22,6 +22,7 @@ class Device extends \Google\Collection
   protected $collection_key = 'claims';
   protected $claimsType = DeviceClaim::class;
   protected $claimsDataType = 'array';
+  public $claims;
   /**
    * @var string
    */
@@ -32,8 +33,10 @@ class Device extends \Google\Collection
   public $deviceId;
   protected $deviceIdentifierType = DeviceIdentifier::class;
   protected $deviceIdentifierDataType = '';
+  public $deviceIdentifier;
   protected $deviceMetadataType = DeviceMetadata::class;
   protected $deviceMetadataDataType = '';
+  public $deviceMetadata;
   /**
    * @var string
    */

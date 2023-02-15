@@ -26,7 +26,7 @@ use Google\Service\Classroom\ListGuardiansResponse;
  * Typical usage is:
  *  <code>
  *   $classroomService = new Google\Service\Classroom(...);
- *   $guardians = $classroomService->guardians;
+ *   $guardians = $classroomService->userProfiles_guardians;
  *  </code>
  */
 class UserProfilesGuardians extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class AssistantApiSettingsInternalAncillaryDeviceId extends \Google\Model
 {
   protected $deviceIdType = AssistantApiCoreTypesDeviceId::class;
   protected $deviceIdDataType = '';
+  public $deviceId;
 
   /**
    * @param AssistantApiCoreTypesDeviceId

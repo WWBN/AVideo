@@ -21,8 +21,10 @@ class ConsolidationStrategy extends \Google\Model
 {
   protected $legacyType = Legacy::class;
   protected $legacyDataType = '';
+  public $legacy;
   protected $noneType = NoConsolidation::class;
   protected $noneDataType = '';
+  public $none;
 
   /**
    * @param Legacy

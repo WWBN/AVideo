@@ -22,14 +22,17 @@ class SecurityPolicy extends \Google\Collection
   protected $collection_key = 'rules';
   protected $adaptiveProtectionConfigType = SecurityPolicyAdaptiveProtectionConfig::class;
   protected $adaptiveProtectionConfigDataType = '';
+  public $adaptiveProtectionConfig;
   protected $advancedOptionsConfigType = SecurityPolicyAdvancedOptionsConfig::class;
   protected $advancedOptionsConfigDataType = '';
+  public $advancedOptionsConfig;
   /**
    * @var string
    */
   public $creationTimestamp;
   protected $ddosProtectionConfigType = SecurityPolicyDdosProtectionConfig::class;
   protected $ddosProtectionConfigDataType = '';
+  public $ddosProtectionConfig;
   /**
    * @var string
    */
@@ -52,12 +55,14 @@ class SecurityPolicy extends \Google\Collection
   public $name;
   protected $recaptchaOptionsConfigType = SecurityPolicyRecaptchaOptionsConfig::class;
   protected $recaptchaOptionsConfigDataType = '';
+  public $recaptchaOptionsConfig;
   /**
    * @var string
    */
   public $region;
   protected $rulesType = SecurityPolicyRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
   /**
    * @var string
    */

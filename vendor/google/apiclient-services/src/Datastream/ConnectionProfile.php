@@ -21,6 +21,7 @@ class ConnectionProfile extends \Google\Model
 {
   protected $bigqueryProfileType = BigQueryProfile::class;
   protected $bigqueryProfileDataType = '';
+  public $bigqueryProfile;
   /**
    * @var string
    */
@@ -31,26 +32,33 @@ class ConnectionProfile extends \Google\Model
   public $displayName;
   protected $forwardSshConnectivityType = ForwardSshTunnelConnectivity::class;
   protected $forwardSshConnectivityDataType = '';
+  public $forwardSshConnectivity;
   protected $gcsProfileType = GcsProfile::class;
   protected $gcsProfileDataType = '';
+  public $gcsProfile;
   /**
    * @var string[]
    */
   public $labels;
   protected $mysqlProfileType = MysqlProfile::class;
   protected $mysqlProfileDataType = '';
+  public $mysqlProfile;
   /**
    * @var string
    */
   public $name;
   protected $oracleProfileType = OracleProfile::class;
   protected $oracleProfileDataType = '';
+  public $oracleProfile;
   protected $postgresqlProfileType = PostgresqlProfile::class;
   protected $postgresqlProfileDataType = '';
+  public $postgresqlProfile;
   protected $privateConnectivityType = PrivateConnectivity::class;
   protected $privateConnectivityDataType = '';
+  public $privateConnectivity;
   protected $staticServiceIpConnectivityType = StaticServiceIpConnectivity::class;
   protected $staticServiceIpConnectivityDataType = '';
+  public $staticServiceIpConnectivity;
   /**
    * @var string
    */

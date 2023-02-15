@@ -22,14 +22,19 @@ class GeostoreFeatureIdForwardingsProto extends \Google\Collection
   protected $collection_key = 'inactiveDuplicate';
   protected $duplicateOfType = GeostoreFeatureIdProto::class;
   protected $duplicateOfDataType = '';
+  public $duplicateOf;
   protected $forwardedIdType = GeostoreFeatureIdProto::class;
   protected $forwardedIdDataType = '';
+  public $forwardedId;
   protected $inactiveDuplicateType = GeostoreFeatureIdProto::class;
   protected $inactiveDuplicateDataType = 'array';
+  public $inactiveDuplicate;
   protected $replacedByType = GeostoreFeatureIdListProto::class;
   protected $replacedByDataType = '';
+  public $replacedBy;
   protected $transitivelyDuplicateOfType = GeostoreFeatureIdProto::class;
   protected $transitivelyDuplicateOfDataType = '';
+  public $transitivelyDuplicateOf;
 
   /**
    * @param GeostoreFeatureIdProto

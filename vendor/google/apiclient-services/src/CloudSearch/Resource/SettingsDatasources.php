@@ -27,7 +27,7 @@ use Google\Service\CloudSearch\UpdateDataSourceRequest;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $datasources = $cloudsearchService->datasources;
+ *   $datasources = $cloudsearchService->settings_datasources;
  *  </code>
  */
 class SettingsDatasources extends \Google\Service\Resource

@@ -25,8 +25,10 @@ class BitbucketServerConnectedRepository extends \Google\Model
   public $parent;
   protected $repoType = BitbucketServerRepositoryId::class;
   protected $repoDataType = '';
+  public $repo;
   protected $statusType = Status::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param string

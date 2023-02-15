@@ -33,6 +33,7 @@ class GeostoreAttachmentsAttachmentProto extends \Google\Model
   public $comment;
   protected $messagesType = Proto2BridgeMessageSet::class;
   protected $messagesDataType = '';
+  public $messages;
   /**
    * @var string
    */

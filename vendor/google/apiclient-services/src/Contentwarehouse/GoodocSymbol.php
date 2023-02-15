@@ -28,16 +28,20 @@ class GoodocSymbol extends \Google\Collection
   ];
   protected $boxType = GoodocBoundingBox::class;
   protected $boxDataType = '';
+  public $box;
   /**
    * @var int
    */
   public $code;
   protected $labelType = GoodocLabel::class;
   protected $labelDataType = '';
+  public $label;
   protected $rotatedBoxType = GoodocRotatedBoundingBox::class;
   protected $rotatedBoxDataType = '';
+  public $rotatedBox;
   protected $symbolvariantType = GoodocSymbolSymbolVariant::class;
   protected $symbolvariantDataType = 'array';
+  public $symbolvariant;
 
   /**
    * @param GoodocBoundingBox

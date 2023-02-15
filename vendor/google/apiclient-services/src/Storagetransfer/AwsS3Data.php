@@ -21,6 +21,7 @@ class AwsS3Data extends \Google\Model
 {
   protected $awsAccessKeyType = AwsAccessKey::class;
   protected $awsAccessKeyDataType = '';
+  public $awsAccessKey;
   /**
    * @var string
    */

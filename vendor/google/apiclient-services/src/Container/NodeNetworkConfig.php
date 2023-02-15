@@ -29,6 +29,7 @@ class NodeNetworkConfig extends \Google\Model
   public $enablePrivateNodes;
   protected $networkPerformanceConfigType = NetworkPerformanceConfig::class;
   protected $networkPerformanceConfigDataType = '';
+  public $networkPerformanceConfig;
   /**
    * @var string
    */

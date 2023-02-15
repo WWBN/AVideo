@@ -26,7 +26,7 @@ use Google\Service\Appengine\Version;
  * Typical usage is:
  *  <code>
  *   $appengineService = new Google\Service\Appengine(...);
- *   $versions = $appengineService->versions;
+ *   $versions = $appengineService->apps_services_versions;
  *  </code>
  */
 class AppsServicesVersions extends \Google\Service\Resource

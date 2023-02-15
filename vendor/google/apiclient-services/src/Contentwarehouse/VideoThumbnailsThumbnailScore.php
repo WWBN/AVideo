@@ -34,6 +34,7 @@ class VideoThumbnailsThumbnailScore extends \Google\Collection
   public $denseFeatures;
   protected $denseGeneralExtraFeaturesType = DrishtiFeatureExtra::class;
   protected $denseGeneralExtraFeaturesDataType = '';
+  public $denseGeneralExtraFeatures;
   /**
    * @var bool
    */
@@ -57,6 +58,7 @@ class VideoThumbnailsThumbnailScore extends \Google\Collection
   public $score;
   protected $sparseFeaturesType = DrishtiSparseFeatureData::class;
   protected $sparseFeaturesDataType = '';
+  public $sparseFeatures;
   /**
    * @var string
    */

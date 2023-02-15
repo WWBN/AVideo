@@ -22,10 +22,13 @@ class ProductsListResponse extends \Google\Collection
   protected $collection_key = 'product';
   protected $pageInfoType = PageInfo::class;
   protected $pageInfoDataType = '';
+  public $pageInfo;
   protected $productType = Product::class;
   protected $productDataType = 'array';
+  public $product;
   protected $tokenPaginationType = TokenPagination::class;
   protected $tokenPaginationDataType = '';
+  public $tokenPagination;
 
   /**
    * @param PageInfo

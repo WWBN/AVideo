@@ -26,6 +26,7 @@ class Row extends \Google\Collection
   public $actualLabel;
   protected $entriesType = Entry::class;
   protected $entriesDataType = 'array';
+  public $entries;
 
   /**
    * @param string

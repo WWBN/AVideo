@@ -21,6 +21,7 @@ class QueryAccessibleDataRequest extends \Google\Model
 {
   protected $gcsDestinationType = GoogleCloudHealthcareV1ConsentGcsDestination::class;
   protected $gcsDestinationDataType = '';
+  public $gcsDestination;
   /**
    * @var string[]
    */

@@ -30,7 +30,7 @@ use Google\Service\AccessContextManager\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $accesscontextmanagerService = new Google\Service\AccessContextManager(...);
- *   $servicePerimeters = $accesscontextmanagerService->servicePerimeters;
+ *   $servicePerimeters = $accesscontextmanagerService->accessPolicies_servicePerimeters;
  *  </code>
  */
 class AccessPoliciesServicePerimeters extends \Google\Service\Resource
@@ -136,10 +136,11 @@ class AccessPoliciesServicePerimeters extends \Google\Service\Resource
    * storage. If a service perimeter contains errors, an error response is
    * returned for the first error encountered. (servicePerimeters.patch)
    *
-   * @param string $name Required. Resource name for the ServicePerimeter. The
-   * `short_name` component must begin with a letter and only include alphanumeric
-   * and '_'. Format:
-   * `accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}`
+   * @param string $name Resource name for the `ServicePerimeter`. Format:
+   * `accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}`. The
+   * `service_perimeter` component must begin with a letter, followed by
+   * alphanumeric characters or `_`. After you create a `ServicePerimeter`, you
+   * cannot change its `name`.
    * @param ServicePerimeter $postBody
    * @param array $optParams Optional parameters.
    *

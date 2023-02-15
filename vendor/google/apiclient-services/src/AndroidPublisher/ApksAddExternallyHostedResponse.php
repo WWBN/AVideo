@@ -21,6 +21,7 @@ class ApksAddExternallyHostedResponse extends \Google\Model
 {
   protected $externallyHostedApkType = ExternallyHostedApk::class;
   protected $externallyHostedApkDataType = '';
+  public $externallyHostedApk;
 
   /**
    * @param ExternallyHostedApk

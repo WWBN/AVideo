@@ -33,6 +33,7 @@ class GoogleCloudChannelV1Customer extends \Google\Model
   public $cloudIdentityId;
   protected $cloudIdentityInfoType = GoogleCloudChannelV1CloudIdentityInfo::class;
   protected $cloudIdentityInfoDataType = '';
+  public $cloudIdentityInfo;
   /**
    * @var string
    */
@@ -55,8 +56,10 @@ class GoogleCloudChannelV1Customer extends \Google\Model
   public $orgDisplayName;
   protected $orgPostalAddressType = GoogleTypePostalAddress::class;
   protected $orgPostalAddressDataType = '';
+  public $orgPostalAddress;
   protected $primaryContactInfoType = GoogleCloudChannelV1ContactInfo::class;
   protected $primaryContactInfoDataType = '';
+  public $primaryContactInfo;
   /**
    * @var string
    */

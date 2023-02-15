@@ -22,6 +22,7 @@ class ArimaResult extends \Google\Collection
   protected $collection_key = 'seasonalPeriods';
   protected $arimaModelInfoType = ArimaModelInfo::class;
   protected $arimaModelInfoDataType = 'array';
+  public $arimaModelInfo;
   /**
    * @var string[]
    */

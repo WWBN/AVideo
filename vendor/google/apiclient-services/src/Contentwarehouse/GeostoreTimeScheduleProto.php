@@ -22,6 +22,7 @@ class GeostoreTimeScheduleProto extends \Google\Collection
   protected $collection_key = 'component';
   protected $componentType = GeostoreTimeComponentProto::class;
   protected $componentDataType = 'array';
+  public $component;
 
   /**
    * @param GeostoreTimeComponentProto[]

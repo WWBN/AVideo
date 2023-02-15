@@ -25,7 +25,7 @@ use Google\Service\DataprocMetastore\Location;
  * Typical usage is:
  *  <code>
  *   $metastoreService = new Google\Service\DataprocMetastore(...);
- *   $locations = $metastoreService->locations;
+ *   $locations = $metastoreService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

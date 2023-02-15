@@ -22,6 +22,7 @@ class GoogleCloudDatacatalogV1ListEntriesResponse extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = GoogleCloudDatacatalogV1Entry::class;
   protected $entriesDataType = 'array';
+  public $entries;
   /**
    * @var string
    */

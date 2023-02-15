@@ -30,6 +30,7 @@ class UrlMapValidationResult extends \Google\Collection
   public $loadSucceeded;
   protected $testFailuresType = TestFailure::class;
   protected $testFailuresDataType = 'array';
+  public $testFailures;
   /**
    * @var bool
    */

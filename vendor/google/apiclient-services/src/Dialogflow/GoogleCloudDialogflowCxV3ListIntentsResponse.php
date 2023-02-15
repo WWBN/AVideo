@@ -22,6 +22,7 @@ class GoogleCloudDialogflowCxV3ListIntentsResponse extends \Google\Collection
   protected $collection_key = 'intents';
   protected $intentsType = GoogleCloudDialogflowCxV3Intent::class;
   protected $intentsDataType = 'array';
+  public $intents;
   /**
    * @var string
    */

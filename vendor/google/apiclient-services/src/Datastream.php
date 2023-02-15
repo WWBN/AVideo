@@ -321,6 +321,10 @@ class Datastream extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'force' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
                 'privateConnectionId' => [
                   'location' => 'query',
                   'type' => 'string',

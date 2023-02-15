@@ -21,6 +21,7 @@ class GoogleCloudDocumentaiV1DocumentOutputConfig extends \Google\Model
 {
   protected $gcsOutputConfigType = GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfig::class;
   protected $gcsOutputConfigDataType = '';
+  public $gcsOutputConfig;
 
   /**
    * @param GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfig

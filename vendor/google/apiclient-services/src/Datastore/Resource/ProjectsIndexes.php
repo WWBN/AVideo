@@ -26,7 +26,7 @@ use Google\Service\Datastore\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $datastoreService = new Google\Service\Datastore(...);
- *   $indexes = $datastoreService->indexes;
+ *   $indexes = $datastoreService->projects_indexes;
  *  </code>
  */
 class ProjectsIndexes extends \Google\Service\Resource

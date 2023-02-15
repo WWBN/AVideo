@@ -25,6 +25,7 @@ class Document extends \Google\Model
   public $createTime;
   protected $fieldsType = Value::class;
   protected $fieldsDataType = 'map';
+  public $fields;
   /**
    * @var string
    */

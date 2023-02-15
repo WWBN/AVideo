@@ -26,10 +26,13 @@ class QueryTimeSeriesResponse extends \Google\Collection
   public $nextPageToken;
   protected $partialErrorsType = Status::class;
   protected $partialErrorsDataType = 'array';
+  public $partialErrors;
   protected $timeSeriesDataType = TimeSeriesData::class;
   protected $timeSeriesDataDataType = 'array';
+  public $timeSeriesData;
   protected $timeSeriesDescriptorType = TimeSeriesDescriptor::class;
   protected $timeSeriesDescriptorDataType = '';
+  public $timeSeriesDescriptor;
 
   /**
    * @param string

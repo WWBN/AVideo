@@ -22,8 +22,10 @@ class ClientConfig extends \Google\Collection
   protected $collection_key = 'xdsConfig';
   protected $nodeType = Node::class;
   protected $nodeDataType = '';
+  public $node;
   protected $xdsConfigType = PerXdsConfig::class;
   protected $xdsConfigDataType = 'array';
+  public $xdsConfig;
 
   /**
    * @param Node

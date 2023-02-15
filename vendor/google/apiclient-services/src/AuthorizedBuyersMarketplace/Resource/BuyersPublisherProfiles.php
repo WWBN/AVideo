@@ -25,7 +25,7 @@ use Google\Service\AuthorizedBuyersMarketplace\PublisherProfile;
  * Typical usage is:
  *  <code>
  *   $authorizedbuyersmarketplaceService = new Google\Service\AuthorizedBuyersMarketplace(...);
- *   $publisherProfiles = $authorizedbuyersmarketplaceService->publisherProfiles;
+ *   $publisherProfiles = $authorizedbuyersmarketplaceService->buyers_publisherProfiles;
  *  </code>
  */
 class BuyersPublisherProfiles extends \Google\Service\Resource

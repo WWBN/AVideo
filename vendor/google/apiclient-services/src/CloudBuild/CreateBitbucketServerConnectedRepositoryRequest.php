@@ -21,6 +21,7 @@ class CreateBitbucketServerConnectedRepositoryRequest extends \Google\Model
 {
   protected $bitbucketServerConnectedRepositoryType = BitbucketServerConnectedRepository::class;
   protected $bitbucketServerConnectedRepositoryDataType = '';
+  public $bitbucketServerConnectedRepository;
   /**
    * @var string
    */

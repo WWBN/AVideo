@@ -24,7 +24,7 @@ use Google\Service\DataLabeling\GoogleCloudDatalabelingV1beta1SearchEvaluationsR
  * Typical usage is:
  *  <code>
  *   $datalabelingService = new Google\Service\DataLabeling(...);
- *   $evaluations = $datalabelingService->evaluations;
+ *   $evaluations = $datalabelingService->projects_evaluations;
  *  </code>
  */
 class ProjectsEvaluations extends \Google\Service\Resource

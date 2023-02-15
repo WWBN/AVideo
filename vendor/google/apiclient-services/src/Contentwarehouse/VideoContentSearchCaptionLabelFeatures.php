@@ -22,6 +22,7 @@ class VideoContentSearchCaptionLabelFeatures extends \Google\Collection
   protected $collection_key = 'alignedOcrTexts';
   protected $alignedOcrTextsType = VideoContentSearchOCRText::class;
   protected $alignedOcrTextsDataType = 'array';
+  public $alignedOcrTexts;
   /**
    * @var string
    */
@@ -36,6 +37,7 @@ class VideoContentSearchCaptionLabelFeatures extends \Google\Collection
   public $labelText;
   protected $textSimilarityFeaturesType = VideoContentSearchTextSimilarityFeatures::class;
   protected $textSimilarityFeaturesDataType = '';
+  public $textSimilarityFeatures;
   /**
    * @var string
    */

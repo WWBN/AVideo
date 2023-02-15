@@ -22,6 +22,7 @@ class GoogleCloudDialogflowCxV3TestCaseResult extends \Google\Collection
   protected $collection_key = 'conversationTurns';
   protected $conversationTurnsType = GoogleCloudDialogflowCxV3ConversationTurn::class;
   protected $conversationTurnsDataType = 'array';
+  public $conversationTurns;
   /**
    * @var string
    */

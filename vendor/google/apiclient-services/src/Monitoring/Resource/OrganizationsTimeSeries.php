@@ -24,7 +24,7 @@ use Google\Service\Monitoring\ListTimeSeriesResponse;
  * Typical usage is:
  *  <code>
  *   $monitoringService = new Google\Service\Monitoring(...);
- *   $timeSeries = $monitoringService->timeSeries;
+ *   $timeSeries = $monitoringService->organizations_timeSeries;
  *  </code>
  */
 class OrganizationsTimeSeries extends \Google\Service\Resource

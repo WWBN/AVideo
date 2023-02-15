@@ -22,6 +22,7 @@ class BulkListAdvertiserAssignedTargetingOptionsResponse extends \Google\Collect
   protected $collection_key = 'assignedTargetingOptions';
   protected $assignedTargetingOptionsType = AssignedTargetingOption::class;
   protected $assignedTargetingOptionsDataType = 'array';
+  public $assignedTargetingOptions;
   /**
    * @var string
    */

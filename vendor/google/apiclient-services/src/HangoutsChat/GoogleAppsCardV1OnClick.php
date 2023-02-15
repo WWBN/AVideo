@@ -21,12 +21,16 @@ class GoogleAppsCardV1OnClick extends \Google\Model
 {
   protected $actionType = GoogleAppsCardV1Action::class;
   protected $actionDataType = '';
+  public $action;
   protected $cardType = GoogleAppsCardV1Card::class;
   protected $cardDataType = '';
+  public $card;
   protected $openDynamicLinkActionType = GoogleAppsCardV1Action::class;
   protected $openDynamicLinkActionDataType = '';
+  public $openDynamicLinkAction;
   protected $openLinkType = GoogleAppsCardV1OpenLink::class;
   protected $openLinkDataType = '';
+  public $openLink;
 
   /**
    * @param GoogleAppsCardV1Action

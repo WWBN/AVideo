@@ -21,6 +21,7 @@ class CompanionClickThroughOverride extends \Google\Model
 {
   protected $clickThroughUrlType = ClickThroughUrl::class;
   protected $clickThroughUrlDataType = '';
+  public $clickThroughUrl;
   /**
    * @var string
    */

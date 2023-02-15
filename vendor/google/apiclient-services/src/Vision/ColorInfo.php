@@ -21,6 +21,7 @@ class ColorInfo extends \Google\Model
 {
   protected $colorType = Color::class;
   protected $colorDataType = '';
+  public $color;
   /**
    * @var float
    */

@@ -22,6 +22,7 @@ class ListBackupsResponse extends \Google\Collection
   protected $collection_key = 'backups';
   protected $backupsType = Backup::class;
   protected $backupsDataType = 'array';
+  public $backups;
   /**
    * @var string
    */

@@ -21,10 +21,13 @@ class PivotGroupRule extends \Google\Model
 {
   protected $dateTimeRuleType = DateTimeRule::class;
   protected $dateTimeRuleDataType = '';
+  public $dateTimeRule;
   protected $histogramRuleType = HistogramRule::class;
   protected $histogramRuleDataType = '';
+  public $histogramRule;
   protected $manualRuleType = ManualRule::class;
   protected $manualRuleDataType = '';
+  public $manualRule;
 
   /**
    * @param DateTimeRule

@@ -33,8 +33,10 @@ class ThirdPartyLink extends \Google\Model
   public $linkingToken;
   protected $snippetType = ThirdPartyLinkSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
   protected $statusType = ThirdPartyLinkStatus::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param string

@@ -25,6 +25,7 @@ class Reply extends \Google\Model
   public $action;
   protected $authorType = User::class;
   protected $authorDataType = '';
+  public $author;
   /**
    * @var string
    */

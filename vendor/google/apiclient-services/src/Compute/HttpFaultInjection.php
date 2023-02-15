@@ -21,8 +21,10 @@ class HttpFaultInjection extends \Google\Model
 {
   protected $abortType = HttpFaultAbort::class;
   protected $abortDataType = '';
+  public $abort;
   protected $delayType = HttpFaultDelay::class;
   protected $delayDataType = '';
+  public $delay;
 
   /**
    * @param HttpFaultAbort

@@ -25,6 +25,7 @@ class GoogleAdsHomeservicesLocalservicesV1AccountReport extends \Google\Model
   public $accountId;
   protected $aggregatorInfoType = GoogleAdsHomeservicesLocalservicesV1AggregatorInfo::class;
   protected $aggregatorInfoDataType = '';
+  public $aggregatorInfo;
   public $averageFiveStarRating;
   public $averageWeeklyBudget;
   /**

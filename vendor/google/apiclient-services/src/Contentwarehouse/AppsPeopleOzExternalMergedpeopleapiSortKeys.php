@@ -22,6 +22,7 @@ class AppsPeopleOzExternalMergedpeopleapiSortKeys extends \Google\Collection
   protected $collection_key = 'affinity';
   protected $affinityType = AppsPeopleOzExternalMergedpeopleapiAffinity::class;
   protected $affinityDataType = 'array';
+  public $affinity;
   /**
    * @var string
    */

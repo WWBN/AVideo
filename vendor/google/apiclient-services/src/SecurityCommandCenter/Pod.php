@@ -22,8 +22,10 @@ class Pod extends \Google\Collection
   protected $collection_key = 'labels';
   protected $containersType = Container::class;
   protected $containersDataType = 'array';
+  public $containers;
   protected $labelsType = Label::class;
   protected $labelsDataType = 'array';
+  public $labels;
   /**
    * @var string
    */

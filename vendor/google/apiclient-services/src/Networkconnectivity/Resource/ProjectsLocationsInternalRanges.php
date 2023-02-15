@@ -26,17 +26,17 @@ use Google\Service\Networkconnectivity\ListInternalRangesResponse;
  * Typical usage is:
  *  <code>
  *   $networkconnectivityService = new Google\Service\Networkconnectivity(...);
- *   $internalRanges = $networkconnectivityService->internalRanges;
+ *   $internalRanges = $networkconnectivityService->projects_locations_internalRanges;
  *  </code>
  */
 class ProjectsLocationsInternalRanges extends \Google\Service\Resource
 {
   /**
-   * Creates a new InternalRange in a given project and location.
+   * Creates a new internal range in a given project and location.
    * (internalRanges.create)
    *
-   * @param string $parent Required. The parent resource's name of the
-   * InternalRange.
+   * @param string $parent Required. The parent resource's name of the internal
+   * range.
    * @param InternalRange $postBody
    * @param array $optParams Optional parameters.
    *
@@ -63,9 +63,9 @@ class ProjectsLocationsInternalRanges extends \Google\Service\Resource
     return $this->call('create', [$params], GoogleLongrunningOperation::class);
   }
   /**
-   * Deletes a single InternalRange. (internalRanges.delete)
+   * Deletes a single internal range. (internalRanges.delete)
    *
-   * @param string $name Required. The name of the InternalRange to delete.
+   * @param string $name Required. The name of the internal range to delete.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string requestId Optional. An optional request ID to identify
@@ -88,7 +88,7 @@ class ProjectsLocationsInternalRanges extends \Google\Service\Resource
     return $this->call('delete', [$params], GoogleLongrunningOperation::class);
   }
   /**
-   * Gets details of a single InternalRange. (internalRanges.get)
+   * Gets details of a single internal range. (internalRanges.get)
    *
    * @param string $name Required. Name of the InternalRange to get.
    * @param array $optParams Optional parameters.
@@ -101,7 +101,7 @@ class ProjectsLocationsInternalRanges extends \Google\Service\Resource
     return $this->call('get', [$params], InternalRange::class);
   }
   /**
-   * Lists InternalRanges in a given project and location.
+   * Lists internal ranges in a given project and location.
    * (internalRanges.listProjectsLocationsInternalRanges)
    *
    * @param string $parent Required. The parent resource's name.
@@ -122,9 +122,9 @@ class ProjectsLocationsInternalRanges extends \Google\Service\Resource
     return $this->call('list', [$params], ListInternalRangesResponse::class);
   }
   /**
-   * Updates the parameters of a single InternalRange. (internalRanges.patch)
+   * Updates the parameters of a single internal range. (internalRanges.patch)
    *
-   * @param string $name Immutable. The name of a InternalRange. Format:
+   * @param string $name Immutable. The name of an internal range. Format:
    * projects/{project}/locations/{location}/internalRanges/{internal_range} See:
    * https://google.aip.dev/122#fields-representing-resource-names
    * @param InternalRange $postBody

@@ -26,6 +26,7 @@ class Roles extends \Google\Collection
   public $etag;
   protected $itemsType = Role::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

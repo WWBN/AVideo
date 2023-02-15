@@ -21,16 +21,20 @@ class Operation extends \Google\Model
 {
   protected $backupContextType = BackupContext::class;
   protected $backupContextDataType = '';
+  public $backupContext;
   /**
    * @var string
    */
   public $endTime;
   protected $errorType = OperationErrors::class;
   protected $errorDataType = '';
+  public $error;
   protected $exportContextType = ExportContext::class;
   protected $exportContextDataType = '';
+  public $exportContext;
   protected $importContextType = ImportContext::class;
   protected $importContextDataType = '';
+  public $importContext;
   /**
    * @var string
    */

@@ -26,7 +26,7 @@ use Google\Service\Dialogflow\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $entityTypes = $dialogflowService->entityTypes;
+ *   $entityTypes = $dialogflowService->projects_locations_agents_entityTypes;
  *  </code>
  */
 class ProjectsLocationsAgentsEntityTypes extends \Google\Service\Resource

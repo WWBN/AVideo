@@ -21,6 +21,7 @@ class FatalException extends \Google\Model
 {
   protected $stackTraceType = StackTrace::class;
   protected $stackTraceDataType = '';
+  public $stackTrace;
 
   /**
    * @param StackTrace

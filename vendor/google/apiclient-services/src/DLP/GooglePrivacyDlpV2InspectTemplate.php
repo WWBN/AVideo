@@ -33,6 +33,7 @@ class GooglePrivacyDlpV2InspectTemplate extends \Google\Model
   public $displayName;
   protected $inspectConfigType = GooglePrivacyDlpV2InspectConfig::class;
   protected $inspectConfigDataType = '';
+  public $inspectConfig;
   /**
    * @var string
    */

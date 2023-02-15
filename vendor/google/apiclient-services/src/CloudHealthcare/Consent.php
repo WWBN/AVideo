@@ -38,6 +38,7 @@ class Consent extends \Google\Collection
   public $name;
   protected $policiesType = GoogleCloudHealthcareV1ConsentPolicy::class;
   protected $policiesDataType = 'array';
+  public $policies;
   /**
    * @var string
    */

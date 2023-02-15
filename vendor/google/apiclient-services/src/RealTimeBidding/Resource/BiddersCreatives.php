@@ -26,7 +26,7 @@ use Google\Service\RealTimeBidding\WatchCreativesResponse;
  * Typical usage is:
  *  <code>
  *   $realtimebiddingService = new Google\Service\RealTimeBidding(...);
- *   $creatives = $realtimebiddingService->creatives;
+ *   $creatives = $realtimebiddingService->bidders_creatives;
  *  </code>
  */
 class BiddersCreatives extends \Google\Service\Resource

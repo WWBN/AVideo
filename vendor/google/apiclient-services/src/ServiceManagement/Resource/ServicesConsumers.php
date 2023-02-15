@@ -28,7 +28,7 @@ use Google\Service\ServiceManagement\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $servicemanagementService = new Google\Service\ServiceManagement(...);
- *   $consumers = $servicemanagementService->consumers;
+ *   $consumers = $servicemanagementService->services_consumers;
  *  </code>
  */
 class ServicesConsumers extends \Google\Service\Resource

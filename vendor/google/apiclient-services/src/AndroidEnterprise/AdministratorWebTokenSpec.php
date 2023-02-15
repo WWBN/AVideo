@@ -22,6 +22,7 @@ class AdministratorWebTokenSpec extends \Google\Collection
   protected $collection_key = 'permission';
   protected $managedConfigurationsType = AdministratorWebTokenSpecManagedConfigurations::class;
   protected $managedConfigurationsDataType = '';
+  public $managedConfigurations;
   /**
    * @var string
    */
@@ -32,14 +33,19 @@ class AdministratorWebTokenSpec extends \Google\Collection
   public $permission;
   protected $playSearchType = AdministratorWebTokenSpecPlaySearch::class;
   protected $playSearchDataType = '';
+  public $playSearch;
   protected $privateAppsType = AdministratorWebTokenSpecPrivateApps::class;
   protected $privateAppsDataType = '';
+  public $privateApps;
   protected $storeBuilderType = AdministratorWebTokenSpecStoreBuilder::class;
   protected $storeBuilderDataType = '';
+  public $storeBuilder;
   protected $webAppsType = AdministratorWebTokenSpecWebApps::class;
   protected $webAppsDataType = '';
+  public $webApps;
   protected $zeroTouchType = AdministratorWebTokenSpecZeroTouch::class;
   protected $zeroTouchDataType = '';
+  public $zeroTouch;
 
   /**
    * @param AdministratorWebTokenSpecManagedConfigurations

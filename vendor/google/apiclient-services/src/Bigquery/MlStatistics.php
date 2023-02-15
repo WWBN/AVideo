@@ -22,6 +22,7 @@ class MlStatistics extends \Google\Collection
   protected $collection_key = 'iterationResults';
   protected $iterationResultsType = IterationResult::class;
   protected $iterationResultsDataType = 'array';
+  public $iterationResults;
   /**
    * @var string
    */

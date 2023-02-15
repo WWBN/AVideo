@@ -22,8 +22,10 @@ class BoundingPoly extends \Google\Collection
   protected $collection_key = 'vertices';
   protected $normalizedVerticesType = NormalizedVertex::class;
   protected $normalizedVerticesDataType = 'array';
+  public $normalizedVertices;
   protected $verticesType = Vertex::class;
   protected $verticesDataType = 'array';
+  public $vertices;
 
   /**
    * @param NormalizedVertex[]

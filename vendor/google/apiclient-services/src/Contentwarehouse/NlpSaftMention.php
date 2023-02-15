@@ -22,6 +22,7 @@ class NlpSaftMention extends \Google\Model
   public $confidence;
   protected $infoType = Proto2BridgeMessageSet::class;
   protected $infoDataType = '';
+  public $info;
   /**
    * @var string
    */
@@ -32,8 +33,10 @@ class NlpSaftMention extends \Google\Model
   public $nestingRelation;
   protected $phraseType = NlpSaftPhrase::class;
   protected $phraseDataType = '';
+  public $phrase;
   protected $resolutionType = NlpSaftMentionResolution::class;
   protected $resolutionDataType = '';
+  public $resolution;
   /**
    * @var string
    */

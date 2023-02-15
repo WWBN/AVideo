@@ -21,6 +21,7 @@ class SiteVerificationWebResourceGettokenRequest extends \Google\Model
 {
   protected $siteType = SiteVerificationWebResourceGettokenRequestSite::class;
   protected $siteDataType = '';
+  public $site;
   /**
    * @var string
    */

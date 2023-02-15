@@ -21,12 +21,16 @@ class Outcome extends \Google\Model
 {
   protected $failureDetailType = FailureDetail::class;
   protected $failureDetailDataType = '';
+  public $failureDetail;
   protected $inconclusiveDetailType = InconclusiveDetail::class;
   protected $inconclusiveDetailDataType = '';
+  public $inconclusiveDetail;
   protected $skippedDetailType = SkippedDetail::class;
   protected $skippedDetailDataType = '';
+  public $skippedDetail;
   protected $successDetailType = SuccessDetail::class;
   protected $successDetailDataType = '';
+  public $successDetail;
   /**
    * @var string
    */

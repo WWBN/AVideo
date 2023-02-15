@@ -26,7 +26,7 @@ use Google\Service\Datastream\PrivateConnection;
  * Typical usage is:
  *  <code>
  *   $datastreamService = new Google\Service\Datastream(...);
- *   $privateConnections = $datastreamService->privateConnections;
+ *   $privateConnections = $datastreamService->projects_locations_privateConnections;
  *  </code>
  */
 class ProjectsLocationsPrivateConnections extends \Google\Service\Resource
@@ -40,6 +40,7 @@ class ProjectsLocationsPrivateConnections extends \Google\Service\Resource
    * @param PrivateConnection $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool force Optional. If set to true, will skip validations.
    * @opt_param string privateConnectionId Required. The private connectivity
    * identifier.
    * @opt_param string requestId Optional. A request ID to identify requests.

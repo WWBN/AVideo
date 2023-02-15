@@ -30,8 +30,10 @@ class OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance exten
   public $complianceStateReason;
   protected $configStepsType = OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceOSPolicyResourceConfigStep::class;
   protected $configStepsDataType = 'array';
+  public $configSteps;
   protected $execResourceOutputType = OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceComplianceExecResourceOutput::class;
   protected $execResourceOutputDataType = '';
+  public $execResourceOutput;
   /**
    * @var string
    */

@@ -30,6 +30,7 @@ class ListUserAssetsResponse extends \Google\Collection
   public $totalSize;
   protected $userAssetsType = UserAsset::class;
   protected $userAssetsDataType = 'array';
+  public $userAssets;
 
   /**
    * @param string

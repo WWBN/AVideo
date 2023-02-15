@@ -26,7 +26,7 @@ use Google\Service\ArtifactRegistry\Package;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $packages = $artifactregistryService->packages;
+ *   $packages = $artifactregistryService->projects_locations_repositories_packages;
  *  </code>
  */
 class ProjectsLocationsRepositoriesPackages extends \Google\Service\Resource

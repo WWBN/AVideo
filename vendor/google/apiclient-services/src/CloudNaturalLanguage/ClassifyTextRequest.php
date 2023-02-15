@@ -21,8 +21,10 @@ class ClassifyTextRequest extends \Google\Model
 {
   protected $classificationModelOptionsType = ClassificationModelOptions::class;
   protected $classificationModelOptionsDataType = '';
+  public $classificationModelOptions;
   protected $documentType = Document::class;
   protected $documentDataType = '';
+  public $document;
 
   /**
    * @param ClassificationModelOptions

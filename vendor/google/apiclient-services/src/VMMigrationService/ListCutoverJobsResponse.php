@@ -22,6 +22,7 @@ class ListCutoverJobsResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $cutoverJobsType = CutoverJob::class;
   protected $cutoverJobsDataType = 'array';
+  public $cutoverJobs;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class GoogleHomeEnterpriseSdmV1ListDevicesResponse extends \Google\Collection
   protected $collection_key = 'devices';
   protected $devicesType = GoogleHomeEnterpriseSdmV1Device::class;
   protected $devicesDataType = 'array';
+  public $devices;
   /**
    * @var string
    */

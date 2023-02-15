@@ -21,14 +21,17 @@ class YouTubeBroadcastSessionInfo extends \Google\Model
 {
   protected $broadcastStatsType = YouTubeBroadcastStats::class;
   protected $broadcastStatsDataType = '';
+  public $broadcastStats;
   protected $sessionStateInfoType = SessionStateInfo::class;
   protected $sessionStateInfoDataType = '';
+  public $sessionStateInfo;
   /**
    * @var string
    */
   public $youTubeBroadcastSessionId;
   protected $youTubeLiveBroadcastEventType = YouTubeLiveBroadcastEvent::class;
   protected $youTubeLiveBroadcastEventDataType = '';
+  public $youTubeLiveBroadcastEvent;
 
   /**
    * @param YouTubeBroadcastStats

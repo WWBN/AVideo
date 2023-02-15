@@ -34,7 +34,7 @@ use Google\Service\CloudTasks\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudtasksService = new Google\Service\CloudTasks(...);
- *   $queues = $cloudtasksService->queues;
+ *   $queues = $cloudtasksService->projects_locations_queues;
  *  </code>
  */
 class ProjectsLocationsQueues extends \Google\Service\Resource

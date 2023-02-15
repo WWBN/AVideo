@@ -22,6 +22,7 @@ class GetCustomerQueryStatsResponse extends \Google\Collection
   protected $collection_key = 'stats';
   protected $statsType = CustomerQueryStats::class;
   protected $statsDataType = 'array';
+  public $stats;
   /**
    * @var string
    */

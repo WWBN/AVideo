@@ -21,8 +21,10 @@ class GooglePrivacyDlpV2BigQueryField extends \Google\Model
 {
   protected $fieldType = GooglePrivacyDlpV2FieldId::class;
   protected $fieldDataType = '';
+  public $field;
   protected $tableType = GooglePrivacyDlpV2BigQueryTable::class;
   protected $tableDataType = '';
+  public $table;
 
   /**
    * @param GooglePrivacyDlpV2FieldId

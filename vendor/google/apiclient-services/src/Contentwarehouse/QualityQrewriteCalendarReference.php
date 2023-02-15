@@ -21,12 +21,16 @@ class QualityQrewriteCalendarReference extends \Google\Model
 {
   protected $calendarAliasType = QualityQrewriteQRewriteAccountAwareCalendarAliasWrapper::class;
   protected $calendarAliasDataType = '';
+  public $calendarAlias;
   protected $contactCalendarNameType = QualityQrewriteContactCalendarName::class;
   protected $contactCalendarNameDataType = '';
+  public $contactCalendarName;
   protected $familyCalendarAliasType = QualityQrewriteFamilyCalendarAlias::class;
   protected $familyCalendarAliasDataType = '';
+  public $familyCalendarAlias;
   protected $primaryCalendarAliasType = QualityQrewritePrimaryCalendarAlias::class;
   protected $primaryCalendarAliasDataType = '';
+  public $primaryCalendarAlias;
 
   /**
    * @param QualityQrewriteQRewriteAccountAwareCalendarAliasWrapper

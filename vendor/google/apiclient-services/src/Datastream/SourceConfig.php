@@ -21,10 +21,13 @@ class SourceConfig extends \Google\Model
 {
   protected $mysqlSourceConfigType = MysqlSourceConfig::class;
   protected $mysqlSourceConfigDataType = '';
+  public $mysqlSourceConfig;
   protected $oracleSourceConfigType = OracleSourceConfig::class;
   protected $oracleSourceConfigDataType = '';
+  public $oracleSourceConfig;
   protected $postgresqlSourceConfigType = PostgresqlSourceConfig::class;
   protected $postgresqlSourceConfigDataType = '';
+  public $postgresqlSourceConfig;
   /**
    * @var string
    */

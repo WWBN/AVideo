@@ -22,6 +22,7 @@ class GoogleAppsCloudidentityDevicesV1ListDevicesResponse extends \Google\Collec
   protected $collection_key = 'devices';
   protected $devicesType = GoogleAppsCloudidentityDevicesV1Device::class;
   protected $devicesDataType = 'array';
+  public $devices;
   /**
    * @var string
    */

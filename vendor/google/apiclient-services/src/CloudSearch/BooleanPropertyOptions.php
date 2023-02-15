@@ -21,6 +21,7 @@ class BooleanPropertyOptions extends \Google\Model
 {
   protected $operatorOptionsType = BooleanOperatorOptions::class;
   protected $operatorOptionsDataType = '';
+  public $operatorOptions;
 
   /**
    * @param BooleanOperatorOptions

@@ -21,6 +21,7 @@ class ExtraSnippetInfoResponseTidbit extends \Google\Model
 {
   protected $anchorinfoType = ExtraSnippetInfoResponseTidbitAnchorInfo::class;
   protected $anchorinfoDataType = '';
+  public $anchorinfo;
   /**
    * @var int
    */

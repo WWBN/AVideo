@@ -24,7 +24,7 @@ use Google\Service\Fitness\Dataset;
  * Typical usage is:
  *  <code>
  *   $fitnessService = new Google\Service\Fitness(...);
- *   $datasets = $fitnessService->datasets;
+ *   $datasets = $fitnessService->users_dataSources_datasets;
  *  </code>
  */
 class UsersDataSourcesDatasets extends \Google\Service\Resource

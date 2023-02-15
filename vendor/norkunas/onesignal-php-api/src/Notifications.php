@@ -6,6 +6,7 @@ namespace OneSignal;
 
 use OneSignal\Resolver\ResolverFactory;
 use ReflectionMethod;
+
 use function count;
 
 class Notifications extends AbstractApi

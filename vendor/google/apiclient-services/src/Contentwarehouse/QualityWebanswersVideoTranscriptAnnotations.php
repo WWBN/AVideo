@@ -23,6 +23,9 @@ class QualityWebanswersVideoTranscriptAnnotations extends \Google\Model
    * @var string
    */
   public $amarnaDocid;
+  protected $asrRepairType = IndexingVideosAsrTranscriptRepairAnnotation::class;
+  protected $asrRepairDataType = '';
+  public $asrRepair;
   /**
    * @var string
    */
@@ -33,12 +36,16 @@ class QualityWebanswersVideoTranscriptAnnotations extends \Google\Model
   public $punctuatedTranscript;
   protected $saftDocumentType = NlpSaftDocument::class;
   protected $saftDocumentDataType = '';
+  public $saftDocument;
   protected $saftSentenceBoundaryType = SentenceBoundaryAnnotations::class;
   protected $saftSentenceBoundaryDataType = '';
+  public $saftSentenceBoundary;
   protected $timingInfoType = QualityWebanswersVideoYouTubeCaptionTimingInfoAnnotations::class;
   protected $timingInfoDataType = '';
+  public $timingInfo;
   protected $webrefEntitiesType = RepositoryWebrefWebrefEntities::class;
   protected $webrefEntitiesDataType = '';
+  public $webrefEntities;
 
   /**
    * @param string
@@ -53,6 +60,20 @@ class QualityWebanswersVideoTranscriptAnnotations extends \Google\Model
   public function getAmarnaDocid()
   {
     return $this->amarnaDocid;
+  }
+  /**
+   * @param IndexingVideosAsrTranscriptRepairAnnotation
+   */
+  public function setAsrRepair(IndexingVideosAsrTranscriptRepairAnnotation $asrRepair)
+  {
+    $this->asrRepair = $asrRepair;
+  }
+  /**
+   * @return IndexingVideosAsrTranscriptRepairAnnotation
+   */
+  public function getAsrRepair()
+  {
+    return $this->asrRepair;
   }
   /**
    * @param string

@@ -22,6 +22,7 @@ class GoogleCloudDiscoveryengineV1betaImportUserEventsRequestInlineSource extend
   protected $collection_key = 'userEvents';
   protected $userEventsType = GoogleCloudDiscoveryengineV1betaUserEvent::class;
   protected $userEventsDataType = 'array';
+  public $userEvents;
 
   /**
    * @param GoogleCloudDiscoveryengineV1betaUserEvent[]

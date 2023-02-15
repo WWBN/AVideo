@@ -21,6 +21,7 @@ class Location extends \Google\Model
 {
   protected $addressType = PostalAddress::class;
   protected $addressDataType = '';
+  public $address;
   /**
    * @var string
    */

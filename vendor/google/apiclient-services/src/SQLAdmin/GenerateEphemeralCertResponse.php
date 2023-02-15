@@ -21,6 +21,7 @@ class GenerateEphemeralCertResponse extends \Google\Model
 {
   protected $ephemeralCertType = SslCert::class;
   protected $ephemeralCertDataType = '';
+  public $ephemeralCert;
 
   /**
    * @param SslCert

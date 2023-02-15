@@ -21,6 +21,7 @@ class ModifyPushConfigRequest extends \Google\Model
 {
   protected $pushConfigType = PushConfig::class;
   protected $pushConfigDataType = '';
+  public $pushConfig;
 
   /**
    * @param PushConfig

@@ -26,12 +26,16 @@ class GeostoreSpeedLimitProto extends \Google\Collection
   public $category;
   protected $conditionType = GeostoreRoadConditionalProto::class;
   protected $conditionDataType = 'array';
+  public $condition;
   protected $speedWithUnitType = GeostoreSpeedProto::class;
   protected $speedWithUnitDataType = '';
+  public $speedWithUnit;
   protected $unlimitedSpeedType = GeostoreUnlimitedSpeedProto::class;
   protected $unlimitedSpeedDataType = '';
+  public $unlimitedSpeed;
   protected $variableSpeedType = GeostoreVariableSpeedProto::class;
   protected $variableSpeedDataType = '';
+  public $variableSpeed;
 
   /**
    * @param string

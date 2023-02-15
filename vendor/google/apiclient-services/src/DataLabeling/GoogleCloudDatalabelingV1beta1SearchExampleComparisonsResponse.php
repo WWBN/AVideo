@@ -22,6 +22,7 @@ class GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse extends \Go
   protected $collection_key = 'exampleComparisons';
   protected $exampleComparisonsType = GoogleCloudDatalabelingV1beta1ExampleComparison::class;
   protected $exampleComparisonsDataType = 'array';
+  public $exampleComparisons;
   /**
    * @var string
    */

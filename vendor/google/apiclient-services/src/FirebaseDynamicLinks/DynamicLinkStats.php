@@ -22,6 +22,7 @@ class DynamicLinkStats extends \Google\Collection
   protected $collection_key = 'linkEventStats';
   protected $linkEventStatsType = DynamicLinkEventStat::class;
   protected $linkEventStatsDataType = 'array';
+  public $linkEventStats;
 
   /**
    * @param DynamicLinkEventStat[]

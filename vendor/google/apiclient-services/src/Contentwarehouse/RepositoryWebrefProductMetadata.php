@@ -26,6 +26,7 @@ class RepositoryWebrefProductMetadata extends \Google\Collection
   public $productLineId;
   protected $shoppingIdsType = KnowledgeAnswersIntentQueryShoppingIds::class;
   protected $shoppingIdsDataType = '';
+  public $shoppingIds;
   /**
    * @var string
    */

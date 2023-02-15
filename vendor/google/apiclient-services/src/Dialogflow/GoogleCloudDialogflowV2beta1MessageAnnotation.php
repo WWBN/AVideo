@@ -26,6 +26,7 @@ class GoogleCloudDialogflowV2beta1MessageAnnotation extends \Google\Collection
   public $containEntities;
   protected $partsType = GoogleCloudDialogflowV2beta1AnnotatedMessagePart::class;
   protected $partsDataType = 'array';
+  public $parts;
 
   /**
    * @param bool

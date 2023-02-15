@@ -22,6 +22,7 @@ class AppsDynamiteSharedSegmentedMembershipCounts extends \Google\Collection
   protected $collection_key = 'value';
   protected $valueType = AppsDynamiteSharedSegmentedMembershipCount::class;
   protected $valueDataType = 'array';
+  public $value;
 
   /**
    * @param AppsDynamiteSharedSegmentedMembershipCount[]

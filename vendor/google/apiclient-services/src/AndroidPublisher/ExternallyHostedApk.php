@@ -70,6 +70,7 @@ class ExternallyHostedApk extends \Google\Collection
   public $usesFeatures;
   protected $usesPermissionsType = UsesPermission::class;
   protected $usesPermissionsDataType = 'array';
+  public $usesPermissions;
   /**
    * @var int
    */

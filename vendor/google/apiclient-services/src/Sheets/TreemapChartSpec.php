@@ -21,12 +21,16 @@ class TreemapChartSpec extends \Google\Model
 {
   protected $colorDataType = ChartData::class;
   protected $colorDataDataType = '';
+  public $colorData;
   protected $colorScaleType = TreemapChartColorScale::class;
   protected $colorScaleDataType = '';
+  public $colorScale;
   protected $headerColorType = Color::class;
   protected $headerColorDataType = '';
+  public $headerColor;
   protected $headerColorStyleType = ColorStyle::class;
   protected $headerColorStyleDataType = '';
+  public $headerColorStyle;
   /**
    * @var bool
    */
@@ -37,6 +41,7 @@ class TreemapChartSpec extends \Google\Model
   public $hintedLevels;
   protected $labelsType = ChartData::class;
   protected $labelsDataType = '';
+  public $labels;
   /**
    * @var int
    */
@@ -45,10 +50,13 @@ class TreemapChartSpec extends \Google\Model
   public $minValue;
   protected $parentLabelsType = ChartData::class;
   protected $parentLabelsDataType = '';
+  public $parentLabels;
   protected $sizeDataType = ChartData::class;
   protected $sizeDataDataType = '';
+  public $sizeData;
   protected $textFormatType = TextFormat::class;
   protected $textFormatDataType = '';
+  public $textFormat;
 
   /**
    * @param ChartData

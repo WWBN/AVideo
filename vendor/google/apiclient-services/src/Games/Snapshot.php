@@ -21,6 +21,7 @@ class Snapshot extends \Google\Model
 {
   protected $coverImageType = SnapshotImage::class;
   protected $coverImageDataType = '';
+  public $coverImage;
   /**
    * @var string
    */

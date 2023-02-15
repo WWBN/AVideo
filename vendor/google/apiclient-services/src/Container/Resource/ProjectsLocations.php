@@ -24,7 +24,7 @@ use Google\Service\Container\ServerConfig;
  * Typical usage is:
  *  <code>
  *   $containerService = new Google\Service\Container(...);
- *   $locations = $containerService->locations;
+ *   $locations = $containerService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

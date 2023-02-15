@@ -22,6 +22,7 @@ class GoogleCloudEssentialcontactsV1ListContactsResponse extends \Google\Collect
   protected $collection_key = 'contacts';
   protected $contactsType = GoogleCloudEssentialcontactsV1Contact::class;
   protected $contactsDataType = 'array';
+  public $contacts;
   /**
    * @var string
    */

@@ -45,18 +45,21 @@ class Advertiser extends \Google\Model
   public $floodlightConfigurationId;
   protected $floodlightConfigurationIdDimensionValueType = DimensionValue::class;
   protected $floodlightConfigurationIdDimensionValueDataType = '';
+  public $floodlightConfigurationIdDimensionValue;
   /**
    * @var string
    */
   public $id;
   protected $idDimensionValueType = DimensionValue::class;
   protected $idDimensionValueDataType = '';
+  public $idDimensionValue;
   /**
    * @var string
    */
   public $kind;
   protected $measurementPartnerLinkType = MeasurementPartnerAdvertiserLink::class;
   protected $measurementPartnerLinkDataType = '';
+  public $measurementPartnerLink;
   /**
    * @var string
    */

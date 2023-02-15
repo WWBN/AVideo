@@ -21,14 +21,19 @@ class KnowledgeAnswersSensitivityInstructionIntent extends \Google\Model
 {
   protected $evalType = KnowledgeAnswersSensitivityIntentEvalPolicy::class;
   protected $evalDataType = '';
+  public $eval;
   protected $footprintsType = KnowledgeAnswersSensitivityMyActivityPolicy::class;
   protected $footprintsDataType = '';
+  public $footprints;
   protected $loggingType = KnowledgeAnswersSensitivityLoggingPolicy::class;
   protected $loggingDataType = '';
+  public $logging;
   protected $servingType = KnowledgeAnswersSensitivityServingPolicy::class;
   protected $servingDataType = '';
+  public $serving;
   protected $storageType = KnowledgeAnswersSensitivityStoragePolicy::class;
   protected $storageDataType = '';
+  public $storage;
 
   /**
    * @param KnowledgeAnswersSensitivityIntentEvalPolicy

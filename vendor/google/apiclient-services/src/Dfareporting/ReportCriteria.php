@@ -22,14 +22,19 @@ class ReportCriteria extends \Google\Collection
   protected $collection_key = 'metricNames';
   protected $activitiesType = Activities::class;
   protected $activitiesDataType = '';
+  public $activities;
   protected $customRichMediaEventsType = CustomRichMediaEvents::class;
   protected $customRichMediaEventsDataType = '';
+  public $customRichMediaEvents;
   protected $dateRangeType = DateRange::class;
   protected $dateRangeDataType = '';
+  public $dateRange;
   protected $dimensionFiltersType = DimensionValue::class;
   protected $dimensionFiltersDataType = 'array';
+  public $dimensionFilters;
   protected $dimensionsType = SortedDimension::class;
   protected $dimensionsDataType = 'array';
+  public $dimensions;
   /**
    * @var string[]
    */

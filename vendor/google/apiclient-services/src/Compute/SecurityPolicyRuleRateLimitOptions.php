@@ -25,6 +25,7 @@ class SecurityPolicyRuleRateLimitOptions extends \Google\Model
   public $banDurationSec;
   protected $banThresholdType = SecurityPolicyRuleRateLimitOptionsThreshold::class;
   protected $banThresholdDataType = '';
+  public $banThreshold;
   /**
    * @var string
    */
@@ -43,8 +44,10 @@ class SecurityPolicyRuleRateLimitOptions extends \Google\Model
   public $exceedAction;
   protected $exceedRedirectOptionsType = SecurityPolicyRuleRedirectOptions::class;
   protected $exceedRedirectOptionsDataType = '';
+  public $exceedRedirectOptions;
   protected $rateLimitThresholdType = SecurityPolicyRuleRateLimitOptionsThreshold::class;
   protected $rateLimitThresholdDataType = '';
+  public $rateLimitThreshold;
 
   /**
    * @param int

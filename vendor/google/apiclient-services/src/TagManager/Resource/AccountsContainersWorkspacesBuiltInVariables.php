@@ -26,7 +26,7 @@ use Google\Service\TagManager\RevertBuiltInVariableResponse;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $built_in_variables = $tagmanagerService->built_in_variables;
+ *   $built_in_variables = $tagmanagerService->accounts_containers_workspaces_built_in_variables;
  *  </code>
  */
 class AccountsContainersWorkspacesBuiltInVariables extends \Google\Service\Resource

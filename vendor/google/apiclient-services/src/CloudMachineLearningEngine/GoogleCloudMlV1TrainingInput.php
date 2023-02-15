@@ -30,8 +30,10 @@ class GoogleCloudMlV1TrainingInput extends \Google\Collection
   public $enableWebAccess;
   protected $encryptionConfigType = GoogleCloudMlV1EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
+  public $encryptionConfig;
   protected $evaluatorConfigType = GoogleCloudMlV1ReplicaConfig::class;
   protected $evaluatorConfigDataType = '';
+  public $evaluatorConfig;
   /**
    * @var string
    */
@@ -42,12 +44,14 @@ class GoogleCloudMlV1TrainingInput extends \Google\Collection
   public $evaluatorType;
   protected $hyperparametersType = GoogleCloudMlV1HyperparameterSpec::class;
   protected $hyperparametersDataType = '';
+  public $hyperparameters;
   /**
    * @var string
    */
   public $jobDir;
   protected $masterConfigType = GoogleCloudMlV1ReplicaConfig::class;
   protected $masterConfigDataType = '';
+  public $masterConfig;
   /**
    * @var string
    */
@@ -62,6 +66,7 @@ class GoogleCloudMlV1TrainingInput extends \Google\Collection
   public $packageUris;
   protected $parameterServerConfigType = GoogleCloudMlV1ReplicaConfig::class;
   protected $parameterServerConfigDataType = '';
+  public $parameterServerConfig;
   /**
    * @var string
    */
@@ -92,6 +97,7 @@ class GoogleCloudMlV1TrainingInput extends \Google\Collection
   public $scaleTier;
   protected $schedulingType = GoogleCloudMlV1Scheduling::class;
   protected $schedulingDataType = '';
+  public $scheduling;
   /**
    * @var string
    */
@@ -102,6 +108,7 @@ class GoogleCloudMlV1TrainingInput extends \Google\Collection
   public $useChiefInTfConfig;
   protected $workerConfigType = GoogleCloudMlV1ReplicaConfig::class;
   protected $workerConfigDataType = '';
+  public $workerConfig;
   /**
    * @var string
    */

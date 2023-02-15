@@ -22,12 +22,16 @@ class SearchResult extends \Google\Collection
   protected $collection_key = 'clusteredResults';
   protected $clusteredResultsType = SearchResult::class;
   protected $clusteredResultsDataType = 'array';
+  public $clusteredResults;
   protected $debugInfoType = ResultDebugInfo::class;
   protected $debugInfoDataType = '';
+  public $debugInfo;
   protected $metadataType = Metadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $snippetType = Snippet::class;
   protected $snippetDataType = '';
+  public $snippet;
   /**
    * @var string
    */

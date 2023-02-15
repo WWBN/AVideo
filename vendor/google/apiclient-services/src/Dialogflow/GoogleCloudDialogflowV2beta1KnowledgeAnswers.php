@@ -22,6 +22,7 @@ class GoogleCloudDialogflowV2beta1KnowledgeAnswers extends \Google\Collection
   protected $collection_key = 'answers';
   protected $answersType = GoogleCloudDialogflowV2beta1KnowledgeAnswersAnswer::class;
   protected $answersDataType = 'array';
+  public $answers;
 
   /**
    * @param GoogleCloudDialogflowV2beta1KnowledgeAnswersAnswer[]

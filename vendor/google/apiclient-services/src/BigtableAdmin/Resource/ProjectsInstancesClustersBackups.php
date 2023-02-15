@@ -33,7 +33,7 @@ use Google\Service\BigtableAdmin\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $bigtableadminService = new Google\Service\BigtableAdmin(...);
- *   $backups = $bigtableadminService->backups;
+ *   $backups = $bigtableadminService->projects_instances_clusters_backups;
  *  </code>
  */
 class ProjectsInstancesClustersBackups extends \Google\Service\Resource

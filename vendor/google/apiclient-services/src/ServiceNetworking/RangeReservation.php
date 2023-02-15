@@ -34,6 +34,7 @@ class RangeReservation extends \Google\Collection
   public $secondaryRangeIpPrefixLengths;
   protected $subnetworkCandidatesType = Subnetwork::class;
   protected $subnetworkCandidatesDataType = 'array';
+  public $subnetworkCandidates;
 
   /**
    * @param int

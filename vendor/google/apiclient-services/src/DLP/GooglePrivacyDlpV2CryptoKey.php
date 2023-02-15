@@ -21,10 +21,13 @@ class GooglePrivacyDlpV2CryptoKey extends \Google\Model
 {
   protected $kmsWrappedType = GooglePrivacyDlpV2KmsWrappedCryptoKey::class;
   protected $kmsWrappedDataType = '';
+  public $kmsWrapped;
   protected $transientType = GooglePrivacyDlpV2TransientCryptoKey::class;
   protected $transientDataType = '';
+  public $transient;
   protected $unwrappedType = GooglePrivacyDlpV2UnwrappedCryptoKey::class;
   protected $unwrappedDataType = '';
+  public $unwrapped;
 
   /**
    * @param GooglePrivacyDlpV2KmsWrappedCryptoKey

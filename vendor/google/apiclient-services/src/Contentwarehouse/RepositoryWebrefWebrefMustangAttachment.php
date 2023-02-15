@@ -38,8 +38,10 @@ class RepositoryWebrefWebrefMustangAttachment extends \Google\Collection
   public $encodedMid;
   protected $entityMetadataType = RepositoryWebrefWebrefAttachmentMetadata::class;
   protected $entityMetadataDataType = 'array';
+  public $entityMetadata;
   protected $iqlAttachmentType = KnowledgeAnswersIntentQueryIndexingIQLAttachment::class;
   protected $iqlAttachmentDataType = '';
+  public $iqlAttachment;
   /**
    * @var int[]
    */
@@ -66,6 +68,7 @@ class RepositoryWebrefWebrefMustangAttachment extends \Google\Collection
   public $unboundIntentScoreE2;
   protected $undermergedMembersType = RepositoryWebrefWebrefMustangAttachmentUndermergedMembers::class;
   protected $undermergedMembersDataType = 'array';
+  public $undermergedMembers;
 
   /**
    * @param int[]

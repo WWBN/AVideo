@@ -22,12 +22,14 @@ class ReachabilityDetails extends \Google\Collection
   protected $collection_key = 'traces';
   protected $errorType = Status::class;
   protected $errorDataType = '';
+  public $error;
   /**
    * @var string
    */
   public $result;
   protected $tracesType = Trace::class;
   protected $tracesDataType = 'array';
+  public $traces;
   /**
    * @var string
    */

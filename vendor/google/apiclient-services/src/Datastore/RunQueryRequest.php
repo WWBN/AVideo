@@ -25,12 +25,16 @@ class RunQueryRequest extends \Google\Model
   public $databaseId;
   protected $gqlQueryType = GqlQuery::class;
   protected $gqlQueryDataType = '';
+  public $gqlQuery;
   protected $partitionIdType = PartitionId::class;
   protected $partitionIdDataType = '';
+  public $partitionId;
   protected $queryType = Query::class;
   protected $queryDataType = '';
+  public $query;
   protected $readOptionsType = ReadOptions::class;
   protected $readOptionsDataType = '';
+  public $readOptions;
 
   /**
    * @param string

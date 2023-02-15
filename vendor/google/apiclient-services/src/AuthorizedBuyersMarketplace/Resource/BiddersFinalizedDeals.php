@@ -24,7 +24,7 @@ use Google\Service\AuthorizedBuyersMarketplace\ListFinalizedDealsResponse;
  * Typical usage is:
  *  <code>
  *   $authorizedbuyersmarketplaceService = new Google\Service\AuthorizedBuyersMarketplace(...);
- *   $finalizedDeals = $authorizedbuyersmarketplaceService->finalizedDeals;
+ *   $finalizedDeals = $authorizedbuyersmarketplaceService->bidders_finalizedDeals;
  *  </code>
  */
 class BiddersFinalizedDeals extends \Google\Service\Resource

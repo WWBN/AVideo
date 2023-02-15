@@ -22,6 +22,7 @@ class CustomerListConfigurationsResponse extends \Google\Collection
   protected $collection_key = 'configurations';
   protected $configurationsType = Configuration::class;
   protected $configurationsDataType = 'array';
+  public $configurations;
 
   /**
    * @param Configuration[]

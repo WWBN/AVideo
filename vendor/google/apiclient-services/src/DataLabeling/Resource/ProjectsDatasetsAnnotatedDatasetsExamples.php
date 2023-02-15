@@ -25,7 +25,7 @@ use Google\Service\DataLabeling\GoogleCloudDatalabelingV1beta1ListExamplesRespon
  * Typical usage is:
  *  <code>
  *   $datalabelingService = new Google\Service\DataLabeling(...);
- *   $examples = $datalabelingService->examples;
+ *   $examples = $datalabelingService->projects_datasets_annotatedDatasets_examples;
  *  </code>
  */
 class ProjectsDatasetsAnnotatedDatasetsExamples extends \Google\Service\Resource

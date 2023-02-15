@@ -22,8 +22,10 @@ class VideoContentSearchCaptionSpanAnchorFeatures extends \Google\Collection
   protected $collection_key = 'embeddingDistance';
   protected $dolphinFeaturesType = VideoContentSearchSpanDolphinFeatures::class;
   protected $dolphinFeaturesDataType = '';
+  public $dolphinFeatures;
   protected $dolphinScoresType = VideoContentSearchSpanDolphinScores::class;
   protected $dolphinScoresDataType = '';
+  public $dolphinScores;
   /**
    * @var float[]
    */
@@ -54,8 +56,10 @@ class VideoContentSearchCaptionSpanAnchorFeatures extends \Google\Collection
   public $saftTranscriptStartCharOffset;
   protected $spanAsrConfidenceStatsType = VideoContentSearchMetricStats::class;
   protected $spanAsrConfidenceStatsDataType = '';
+  public $spanAsrConfidenceStats;
   protected $spanDolphinScoreType = VideoContentSearchMetricStats::class;
   protected $spanDolphinScoreDataType = '';
+  public $spanDolphinScore;
   /**
    * @var int
    */

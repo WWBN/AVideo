@@ -30,20 +30,24 @@ class TravelFlightsAirlineConfig extends \Google\Collection
   public $alliance;
   protected $baggageCarryonLimitationsUrlsType = TravelFlightsNameCatalogProto::class;
   protected $baggageCarryonLimitationsUrlsDataType = '';
+  public $baggageCarryonLimitationsUrls;
   protected $baggageFeeUrlsType = TravelFlightsNameCatalogProto::class;
   protected $baggageFeeUrlsDataType = '';
+  public $baggageFeeUrls;
   /**
    * @var string
    */
   public $countryCode;
   protected $countryContactInfoType = TravelFlightsAirlineConfigCountryContactInfo::class;
   protected $countryContactInfoDataType = 'array';
+  public $countryContactInfo;
   /**
    * @var bool
    */
   public $dupFlag;
   protected $fareFamilyUrlsType = TravelFlightsNameCatalogProto::class;
   protected $fareFamilyUrlsDataType = '';
+  public $fareFamilyUrls;
   /**
    * @var string[]
    */
@@ -62,28 +66,34 @@ class TravelFlightsAirlineConfig extends \Google\Collection
   public $innovataCode;
   protected $localizedContactInfoType = TravelFlightsAirlineConfigLocalizedContactInfo::class;
   protected $localizedContactInfoDataType = 'array';
+  public $localizedContactInfo;
   /**
    * @var string
    */
   public $mid;
   protected $namesType = TravelFlightsNameCatalogProto::class;
   protected $namesDataType = '';
+  public $names;
   protected $passengerAssistanceUrlsType = TravelFlightsNameCatalogProto::class;
   protected $passengerAssistanceUrlsDataType = '';
+  public $passengerAssistanceUrls;
   /**
    * @var int
    */
   public $popularity;
   protected $shortNamesType = TravelFlightsNameCatalogProto::class;
   protected $shortNamesDataType = '';
+  public $shortNames;
   /**
    * @var string
    */
   public $type;
   protected $urlsType = TravelFlightsNameCatalogProto::class;
   protected $urlsDataType = '';
+  public $urls;
   protected $waiverSummaryUrlsType = TravelFlightsNameCatalogProto::class;
   protected $waiverSummaryUrlsDataType = '';
+  public $waiverSummaryUrls;
 
   /**
    * @param int

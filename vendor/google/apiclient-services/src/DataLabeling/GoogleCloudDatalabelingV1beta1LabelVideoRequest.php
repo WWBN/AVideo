@@ -21,18 +21,23 @@ class GoogleCloudDatalabelingV1beta1LabelVideoRequest extends \Google\Model
 {
   protected $basicConfigType = GoogleCloudDatalabelingV1beta1HumanAnnotationConfig::class;
   protected $basicConfigDataType = '';
+  public $basicConfig;
   protected $eventConfigType = GoogleCloudDatalabelingV1beta1EventConfig::class;
   protected $eventConfigDataType = '';
+  public $eventConfig;
   /**
    * @var string
    */
   public $feature;
   protected $objectDetectionConfigType = GoogleCloudDatalabelingV1beta1ObjectDetectionConfig::class;
   protected $objectDetectionConfigDataType = '';
+  public $objectDetectionConfig;
   protected $objectTrackingConfigType = GoogleCloudDatalabelingV1beta1ObjectTrackingConfig::class;
   protected $objectTrackingConfigDataType = '';
+  public $objectTrackingConfig;
   protected $videoClassificationConfigType = GoogleCloudDatalabelingV1beta1VideoClassificationConfig::class;
   protected $videoClassificationConfigDataType = '';
+  public $videoClassificationConfig;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1HumanAnnotationConfig

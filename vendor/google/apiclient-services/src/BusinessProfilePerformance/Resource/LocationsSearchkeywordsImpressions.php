@@ -22,7 +22,7 @@ namespace Google\Service\BusinessProfilePerformance\Resource;
  * Typical usage is:
  *  <code>
  *   $businessprofileperformanceService = new Google\Service\BusinessProfilePerformance(...);
- *   $impressions = $businessprofileperformanceService->impressions;
+ *   $impressions = $businessprofileperformanceService->locations_searchkeywords_impressions;
  *  </code>
  */
 class LocationsSearchkeywordsImpressions extends \Google\Service\Resource

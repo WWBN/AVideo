@@ -29,6 +29,7 @@ class Option extends \Google\Model
   public $goToSectionId;
   protected $imageType = Image::class;
   protected $imageDataType = '';
+  public $image;
   /**
    * @var bool
    */

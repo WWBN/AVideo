@@ -21,6 +21,7 @@ class GoogleCloudContentwarehouseV1GetDocumentRequest extends \Google\Model
 {
   protected $requestMetadataType = GoogleCloudContentwarehouseV1RequestMetadata::class;
   protected $requestMetadataDataType = '';
+  public $requestMetadata;
 
   /**
    * @param GoogleCloudContentwarehouseV1RequestMetadata

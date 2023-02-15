@@ -22,16 +22,20 @@ class LongRunningRecognizeResponse extends \Google\Collection
   protected $collection_key = 'results';
   protected $outputConfigType = TranscriptOutputConfig::class;
   protected $outputConfigDataType = '';
+  public $outputConfig;
   protected $outputErrorType = Status::class;
   protected $outputErrorDataType = '';
+  public $outputError;
   /**
    * @var string
    */
   public $requestId;
   protected $resultsType = SpeechRecognitionResult::class;
   protected $resultsDataType = 'array';
+  public $results;
   protected $speechAdaptationInfoType = SpeechAdaptationInfo::class;
   protected $speechAdaptationInfoDataType = '';
+  public $speechAdaptationInfo;
   /**
    * @var string
    */

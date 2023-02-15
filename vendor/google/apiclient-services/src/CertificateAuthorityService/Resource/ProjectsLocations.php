@@ -25,7 +25,7 @@ use Google\Service\CertificateAuthorityService\Location;
  * Typical usage is:
  *  <code>
  *   $privatecaService = new Google\Service\CertificateAuthorityService(...);
- *   $locations = $privatecaService->locations;
+ *   $locations = $privatecaService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

@@ -21,18 +21,21 @@ class RepositoryWebrefCategoryAnnotation extends \Google\Model
 {
   protected $browsyTopicType = RepositoryWebrefCategoryAnnotationBrowsyTopic::class;
   protected $browsyTopicDataType = '';
+  public $browsyTopic;
   /**
    * @var string
    */
   public $debugString;
   protected $hitcatType = RepositoryWebrefCategoryAnnotationHitCatSource::class;
   protected $hitcatDataType = '';
+  public $hitcat;
   /**
    * @var string
    */
   public $mid;
   protected $shoppingType = RepositoryWebrefCategoryAnnotationShoppingSignals::class;
   protected $shoppingDataType = '';
+  public $shopping;
 
   /**
    * @param RepositoryWebrefCategoryAnnotationBrowsyTopic

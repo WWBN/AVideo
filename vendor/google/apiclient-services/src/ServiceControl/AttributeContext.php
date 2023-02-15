@@ -22,22 +22,29 @@ class AttributeContext extends \Google\Collection
   protected $collection_key = 'extensions';
   protected $apiType = Api::class;
   protected $apiDataType = '';
+  public $api;
   protected $destinationType = Peer::class;
   protected $destinationDataType = '';
+  public $destination;
   /**
    * @var array[]
    */
   public $extensions;
   protected $originType = Peer::class;
   protected $originDataType = '';
+  public $origin;
   protected $requestType = Request::class;
   protected $requestDataType = '';
+  public $request;
   protected $resourceType = ServicecontrolResource::class;
   protected $resourceDataType = '';
+  public $resource;
   protected $responseType = Response::class;
   protected $responseDataType = '';
+  public $response;
   protected $sourceType = Peer::class;
   protected $sourceDataType = '';
+  public $source;
 
   /**
    * @param Api

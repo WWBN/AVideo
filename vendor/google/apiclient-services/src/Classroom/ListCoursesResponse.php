@@ -22,6 +22,7 @@ class ListCoursesResponse extends \Google\Collection
   protected $collection_key = 'courses';
   protected $coursesType = Course::class;
   protected $coursesDataType = 'array';
+  public $courses;
   /**
    * @var string
    */

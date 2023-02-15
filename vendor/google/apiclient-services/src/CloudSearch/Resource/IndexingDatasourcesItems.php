@@ -34,7 +34,7 @@ use Google\Service\CloudSearch\UploadItemRef;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $items = $cloudsearchService->items;
+ *   $items = $cloudsearchService->indexing_datasources_items;
  *  </code>
  */
 class IndexingDatasourcesItems extends \Google\Service\Resource

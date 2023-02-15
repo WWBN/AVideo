@@ -21,6 +21,7 @@ class GoogleCloudPaymentsResellerSubscriptionV1EntitleSubscriptionResponse exten
 {
   protected $subscriptionType = GoogleCloudPaymentsResellerSubscriptionV1Subscription::class;
   protected $subscriptionDataType = '';
+  public $subscription;
 
   /**
    * @param GoogleCloudPaymentsResellerSubscriptionV1Subscription

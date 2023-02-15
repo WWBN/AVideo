@@ -21,8 +21,10 @@ class Comment extends \Google\Model
 {
   protected $developerCommentType = DeveloperComment::class;
   protected $developerCommentDataType = '';
+  public $developerComment;
   protected $userCommentType = UserComment::class;
   protected $userCommentDataType = '';
+  public $userComment;
 
   /**
    * @param DeveloperComment

@@ -22,12 +22,16 @@ class GoogleCloudDocumentaiV1DocumentPageToken extends \Google\Collection
   protected $collection_key = 'detectedLanguages';
   protected $detectedBreakType = GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak::class;
   protected $detectedBreakDataType = '';
+  public $detectedBreak;
   protected $detectedLanguagesType = GoogleCloudDocumentaiV1DocumentPageDetectedLanguage::class;
   protected $detectedLanguagesDataType = 'array';
+  public $detectedLanguages;
   protected $layoutType = GoogleCloudDocumentaiV1DocumentPageLayout::class;
   protected $layoutDataType = '';
+  public $layout;
   protected $provenanceType = GoogleCloudDocumentaiV1DocumentProvenance::class;
   protected $provenanceDataType = '';
+  public $provenance;
 
   /**
    * @param GoogleCloudDocumentaiV1DocumentPageTokenDetectedBreak

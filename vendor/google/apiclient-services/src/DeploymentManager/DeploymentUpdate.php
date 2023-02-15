@@ -26,6 +26,7 @@ class DeploymentUpdate extends \Google\Collection
   public $description;
   protected $labelsType = DeploymentUpdateLabelEntry::class;
   protected $labelsDataType = 'array';
+  public $labels;
   /**
    * @var string
    */

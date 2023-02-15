@@ -21,6 +21,7 @@ class CertificateAuthorityConfig extends \Google\Model
 {
   protected $certificateAuthorityServiceConfigType = CertificateAuthorityServiceConfig::class;
   protected $certificateAuthorityServiceConfigDataType = '';
+  public $certificateAuthorityServiceConfig;
 
   /**
    * @param CertificateAuthorityServiceConfig

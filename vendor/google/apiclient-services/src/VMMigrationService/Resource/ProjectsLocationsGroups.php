@@ -28,7 +28,7 @@ use Google\Service\VMMigrationService\RemoveGroupMigrationRequest;
  * Typical usage is:
  *  <code>
  *   $vmmigrationService = new Google\Service\VMMigrationService(...);
- *   $groups = $vmmigrationService->groups;
+ *   $groups = $vmmigrationService->projects_locations_groups;
  *  </code>
  */
 class ProjectsLocationsGroups extends \Google\Service\Resource

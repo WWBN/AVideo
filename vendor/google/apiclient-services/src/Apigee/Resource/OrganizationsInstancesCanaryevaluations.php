@@ -25,7 +25,7 @@ use Google\Service\Apigee\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $canaryevaluations = $apigeeService->canaryevaluations;
+ *   $canaryevaluations = $apigeeService->organizations_instances_canaryevaluations;
  *  </code>
  */
 class OrganizationsInstancesCanaryevaluations extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class GoogleCloudContactcenterinsightsV1ListConversationsResponse extends \Googl
   protected $collection_key = 'conversations';
   protected $conversationsType = GoogleCloudContactcenterinsightsV1Conversation::class;
   protected $conversationsDataType = 'array';
+  public $conversations;
   /**
    * @var string
    */

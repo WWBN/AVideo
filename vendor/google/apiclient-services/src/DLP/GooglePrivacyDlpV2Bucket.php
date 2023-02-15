@@ -21,10 +21,13 @@ class GooglePrivacyDlpV2Bucket extends \Google\Model
 {
   protected $maxType = GooglePrivacyDlpV2Value::class;
   protected $maxDataType = '';
+  public $max;
   protected $minType = GooglePrivacyDlpV2Value::class;
   protected $minDataType = '';
+  public $min;
   protected $replacementValueType = GooglePrivacyDlpV2Value::class;
   protected $replacementValueDataType = '';
+  public $replacementValue;
 
   /**
    * @param GooglePrivacyDlpV2Value

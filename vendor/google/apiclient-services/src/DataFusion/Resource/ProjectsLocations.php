@@ -25,7 +25,7 @@ use Google\Service\DataFusion\Location;
  * Typical usage is:
  *  <code>
  *   $datafusionService = new Google\Service\DataFusion(...);
- *   $locations = $datafusionService->locations;
+ *   $locations = $datafusionService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

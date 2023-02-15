@@ -27,7 +27,7 @@ use Google\Service\DisplayVideo\ListCampaignsResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $campaigns = $displayvideoService->campaigns;
+ *   $campaigns = $displayvideoService->advertisers_campaigns;
  *  </code>
  */
 class AdvertisersCampaigns extends \Google\Service\Resource

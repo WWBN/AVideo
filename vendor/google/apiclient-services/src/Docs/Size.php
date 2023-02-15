@@ -21,8 +21,10 @@ class Size extends \Google\Model
 {
   protected $heightType = Dimension::class;
   protected $heightDataType = '';
+  public $height;
   protected $widthType = Dimension::class;
   protected $widthDataType = '';
+  public $width;
 
   /**
    * @param Dimension

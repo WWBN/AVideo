@@ -21,8 +21,10 @@ class NonBillableWinningBidStatusRow extends \Google\Model
 {
   protected $bidCountType = MetricValue::class;
   protected $bidCountDataType = '';
+  public $bidCount;
   protected $rowDimensionsType = RowDimensions::class;
   protected $rowDimensionsDataType = '';
+  public $rowDimensions;
   /**
    * @var string
    */

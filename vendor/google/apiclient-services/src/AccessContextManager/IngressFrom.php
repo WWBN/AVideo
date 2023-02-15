@@ -30,6 +30,7 @@ class IngressFrom extends \Google\Collection
   public $identityType;
   protected $sourcesType = IngressSource::class;
   protected $sourcesDataType = 'array';
+  public $sources;
 
   /**
    * @param string[]

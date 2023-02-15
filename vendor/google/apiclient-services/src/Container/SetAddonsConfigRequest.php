@@ -21,6 +21,7 @@ class SetAddonsConfigRequest extends \Google\Model
 {
   protected $addonsConfigType = AddonsConfig::class;
   protected $addonsConfigDataType = '';
+  public $addonsConfig;
   /**
    * @var string
    */

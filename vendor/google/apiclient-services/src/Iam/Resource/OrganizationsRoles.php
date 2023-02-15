@@ -27,7 +27,7 @@ use Google\Service\Iam\UndeleteRoleRequest;
  * Typical usage is:
  *  <code>
  *   $iamService = new Google\Service\Iam(...);
- *   $roles = $iamService->roles;
+ *   $roles = $iamService->organizations_roles;
  *  </code>
  */
 class OrganizationsRoles extends \Google\Service\Resource

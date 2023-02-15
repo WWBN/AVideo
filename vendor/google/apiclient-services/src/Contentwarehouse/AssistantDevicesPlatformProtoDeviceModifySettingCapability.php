@@ -21,6 +21,7 @@ class AssistantDevicesPlatformProtoDeviceModifySettingCapability extends \Google
 {
   protected $clientOpPropertyType = AssistantApiClientOpPropertiesDeviceModifySettingClientOpProperty::class;
   protected $clientOpPropertyDataType = '';
+  public $clientOpProperty;
 
   /**
    * @param AssistantApiClientOpPropertiesDeviceModifySettingClientOpProperty

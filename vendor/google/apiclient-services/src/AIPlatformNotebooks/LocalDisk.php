@@ -34,12 +34,14 @@ class LocalDisk extends \Google\Collection
   public $deviceName;
   protected $guestOsFeaturesType = RuntimeGuestOsFeature::class;
   protected $guestOsFeaturesDataType = 'array';
+  public $guestOsFeatures;
   /**
    * @var int
    */
   public $index;
   protected $initializeParamsType = LocalDiskInitializeParams::class;
   protected $initializeParamsDataType = '';
+  public $initializeParams;
   /**
    * @var string
    */

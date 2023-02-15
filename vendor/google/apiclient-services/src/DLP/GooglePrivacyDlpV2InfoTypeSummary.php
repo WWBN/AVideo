@@ -25,6 +25,7 @@ class GooglePrivacyDlpV2InfoTypeSummary extends \Google\Model
   public $estimatedPrevalence;
   protected $infoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypeDataType = '';
+  public $infoType;
 
   /**
    * @param int

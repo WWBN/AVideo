@@ -22,10 +22,13 @@ class DrishtiFeatureSetData extends \Google\Collection
   protected $collection_key = 'label';
   protected $extraType = DrishtiFeatureExtra::class;
   protected $extraDataType = 'array';
+  public $extra;
   protected $featureType = DrishtiFeatureSetDataFeatureSetElement::class;
   protected $featureDataType = 'array';
+  public $feature;
   protected $labelType = DrishtiLabelSetElement::class;
   protected $labelDataType = 'array';
+  public $label;
 
   /**
    * @param DrishtiFeatureExtra[]

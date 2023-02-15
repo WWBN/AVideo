@@ -21,14 +21,17 @@ class Token extends \Google\Model
 {
   protected $dependencyEdgeType = DependencyEdge::class;
   protected $dependencyEdgeDataType = '';
+  public $dependencyEdge;
   /**
    * @var string
    */
   public $lemma;
   protected $partOfSpeechType = PartOfSpeech::class;
   protected $partOfSpeechDataType = '';
+  public $partOfSpeech;
   protected $textType = TextSpan::class;
   protected $textDataType = '';
+  public $text;
 
   /**
    * @param DependencyEdge

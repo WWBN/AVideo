@@ -22,6 +22,7 @@ class GoogleChromeManagementV1GraphicsStatusReport extends \Google\Collection
   protected $collection_key = 'displays';
   protected $displaysType = GoogleChromeManagementV1DisplayInfo::class;
   protected $displaysDataType = 'array';
+  public $displays;
   /**
    * @var string
    */

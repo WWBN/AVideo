@@ -39,7 +39,7 @@ use Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI\Validate
  * Typical usage is:
  *  <code>
  *   $managedidentitiesService = new Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI(...);
- *   $domains = $managedidentitiesService->domains;
+ *   $domains = $managedidentitiesService->projects_locations_global_domains;
  *  </code>
  */
 class ProjectsLocationsManagedidentitiesGlobalDomains extends \Google\Service\Resource

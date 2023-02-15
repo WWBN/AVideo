@@ -21,30 +21,41 @@ class Annotation extends \Google\Model
 {
   protected $babelPlaceholderMetadataType = BabelPlaceholderMetadata::class;
   protected $babelPlaceholderMetadataDataType = '';
+  public $babelPlaceholderMetadata;
   protected $cardCapabilityMetadataType = CardCapabilityMetadata::class;
   protected $cardCapabilityMetadataDataType = '';
+  public $cardCapabilityMetadata;
   /**
    * @var string
    */
   public $chipRenderType;
   protected $consentedAppUnfurlMetadataType = ConsentedAppUnfurlMetadata::class;
   protected $consentedAppUnfurlMetadataDataType = '';
+  public $consentedAppUnfurlMetadata;
   protected $customEmojiMetadataType = CustomEmojiMetadata::class;
   protected $customEmojiMetadataDataType = '';
+  public $customEmojiMetadata;
   protected $dataLossPreventionMetadataType = DataLossPreventionMetadata::class;
   protected $dataLossPreventionMetadataDataType = '';
+  public $dataLossPreventionMetadata;
   protected $driveMetadataType = DriveMetadata::class;
   protected $driveMetadataDataType = '';
+  public $driveMetadata;
   protected $formatMetadataType = FormatMetadata::class;
   protected $formatMetadataDataType = '';
+  public $formatMetadata;
   protected $groupRetentionSettingsUpdatedType = GroupRetentionSettingsUpdatedMetaData::class;
   protected $groupRetentionSettingsUpdatedDataType = '';
+  public $groupRetentionSettingsUpdated;
   protected $gsuiteIntegrationMetadataType = GsuiteIntegrationMetadata::class;
   protected $gsuiteIntegrationMetadataDataType = '';
+  public $gsuiteIntegrationMetadata;
   protected $incomingWebhookChangedMetadataType = IncomingWebhookChangedMetadata::class;
   protected $incomingWebhookChangedMetadataDataType = '';
+  public $incomingWebhookChangedMetadata;
   protected $integrationConfigUpdatedType = IntegrationConfigUpdatedMetadata::class;
   protected $integrationConfigUpdatedDataType = '';
+  public $integrationConfigUpdated;
   /**
    * @var int
    */
@@ -55,18 +66,23 @@ class Annotation extends \Google\Model
   public $localId;
   protected $membershipChangedType = MembershipChangedMetadata::class;
   protected $membershipChangedDataType = '';
+  public $membershipChanged;
   protected $readReceiptsSettingsMetadataType = ReadReceiptsSettingsUpdatedMetadata::class;
   protected $readReceiptsSettingsMetadataDataType = '';
+  public $readReceiptsSettingsMetadata;
   protected $requiredMessageFeaturesMetadataType = RequiredMessageFeaturesMetadata::class;
   protected $requiredMessageFeaturesMetadataDataType = '';
+  public $requiredMessageFeaturesMetadata;
   protected $roomUpdatedType = RoomUpdatedMetadata::class;
   protected $roomUpdatedDataType = '';
+  public $roomUpdated;
   /**
    * @var bool
    */
   public $serverInvalidated;
   protected $slashCommandMetadataType = SlashCommandMetadata::class;
   protected $slashCommandMetadataDataType = '';
+  public $slashCommandMetadata;
   /**
    * @var int
    */
@@ -81,14 +97,19 @@ class Annotation extends \Google\Model
   public $uniqueId;
   protected $uploadMetadataType = UploadMetadata::class;
   protected $uploadMetadataDataType = '';
+  public $uploadMetadata;
   protected $urlMetadataType = UrlMetadata::class;
   protected $urlMetadataDataType = '';
+  public $urlMetadata;
   protected $userMentionMetadataType = UserMentionMetadata::class;
   protected $userMentionMetadataDataType = '';
+  public $userMentionMetadata;
   protected $videoCallMetadataType = VideoCallMetadata::class;
   protected $videoCallMetadataDataType = '';
+  public $videoCallMetadata;
   protected $youtubeMetadataType = YoutubeMetadata::class;
   protected $youtubeMetadataDataType = '';
+  public $youtubeMetadata;
 
   /**
    * @param BabelPlaceholderMetadata

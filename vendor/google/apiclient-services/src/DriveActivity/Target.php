@@ -21,12 +21,16 @@ class Target extends \Google\Model
 {
   protected $driveType = Drive::class;
   protected $driveDataType = '';
+  public $drive;
   protected $driveItemType = DriveItem::class;
   protected $driveItemDataType = '';
+  public $driveItem;
   protected $fileCommentType = FileComment::class;
   protected $fileCommentDataType = '';
+  public $fileComment;
   protected $teamDriveType = TeamDrive::class;
   protected $teamDriveDataType = '';
+  public $teamDrive;
 
   /**
    * @param Drive

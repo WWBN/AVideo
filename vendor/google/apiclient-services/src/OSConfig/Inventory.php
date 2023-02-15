@@ -21,12 +21,14 @@ class Inventory extends \Google\Model
 {
   protected $itemsType = InventoryItem::class;
   protected $itemsDataType = 'map';
+  public $items;
   /**
    * @var string
    */
   public $name;
   protected $osInfoType = InventoryOsInfo::class;
   protected $osInfoDataType = '';
+  public $osInfo;
   /**
    * @var string
    */

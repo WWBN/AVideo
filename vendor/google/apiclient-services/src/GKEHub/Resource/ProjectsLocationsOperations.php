@@ -27,7 +27,7 @@ use Google\Service\GKEHub\Operation;
  * Typical usage is:
  *  <code>
  *   $gkehubService = new Google\Service\GKEHub(...);
- *   $operations = $gkehubService->operations;
+ *   $operations = $gkehubService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

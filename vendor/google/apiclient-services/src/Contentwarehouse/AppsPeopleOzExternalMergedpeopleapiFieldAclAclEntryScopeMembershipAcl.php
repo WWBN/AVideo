@@ -21,8 +21,10 @@ class AppsPeopleOzExternalMergedpeopleapiFieldAclAclEntryScopeMembershipAcl exte
 {
   protected $circleType = AppsPeopleOzExternalMergedpeopleapiFieldAclAclEntryScopeMembershipAclCircleAcl::class;
   protected $circleDataType = '';
+  public $circle;
   protected $contactGroupType = AppsPeopleOzExternalMergedpeopleapiFieldAclAclEntryScopeMembershipAclContactGroupAcl::class;
   protected $contactGroupDataType = '';
+  public $contactGroup;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiFieldAclAclEntryScopeMembershipAclCircleAcl

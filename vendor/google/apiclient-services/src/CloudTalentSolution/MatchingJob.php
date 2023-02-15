@@ -21,8 +21,10 @@ class MatchingJob extends \Google\Model
 {
   protected $commuteInfoType = CommuteInfo::class;
   protected $commuteInfoDataType = '';
+  public $commuteInfo;
   protected $jobType = Job::class;
   protected $jobDataType = '';
+  public $job;
   /**
    * @var string
    */

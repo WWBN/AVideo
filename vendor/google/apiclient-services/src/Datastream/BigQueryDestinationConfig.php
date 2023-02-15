@@ -25,8 +25,10 @@ class BigQueryDestinationConfig extends \Google\Model
   public $dataFreshness;
   protected $singleTargetDatasetType = SingleTargetDataset::class;
   protected $singleTargetDatasetDataType = '';
+  public $singleTargetDataset;
   protected $sourceHierarchyDatasetsType = SourceHierarchyDatasets::class;
   protected $sourceHierarchyDatasetsDataType = '';
+  public $sourceHierarchyDatasets;
 
   /**
    * @param string

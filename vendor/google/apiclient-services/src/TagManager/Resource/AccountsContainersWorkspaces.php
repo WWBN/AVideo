@@ -31,7 +31,7 @@ use Google\Service\TagManager\Workspace;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $workspaces = $tagmanagerService->workspaces;
+ *   $workspaces = $tagmanagerService->accounts_containers_workspaces;
  *  </code>
  */
 class AccountsContainersWorkspaces extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class IndexingMobileVoltVoltPerDocData extends \Google\Model
 {
   protected $desktopCwvType = IndexingMobileVoltCoreWebVitals::class;
   protected $desktopCwvDataType = '';
+  public $desktopCwv;
   /**
    * @var bool
    */
@@ -31,6 +32,7 @@ class IndexingMobileVoltVoltPerDocData extends \Google\Model
   public $displayUrlIsHttps;
   protected $mobileCwvType = IndexingMobileVoltCoreWebVitals::class;
   protected $mobileCwvDataType = '';
+  public $mobileCwv;
 
   /**
    * @param IndexingMobileVoltCoreWebVitals

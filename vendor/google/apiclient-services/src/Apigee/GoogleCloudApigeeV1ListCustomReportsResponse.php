@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1ListCustomReportsResponse extends \Google\Collection
   protected $collection_key = 'qualifier';
   protected $qualifierType = GoogleCloudApigeeV1CustomReport::class;
   protected $qualifierDataType = 'array';
+  public $qualifier;
 
   /**
    * @param GoogleCloudApigeeV1CustomReport[]

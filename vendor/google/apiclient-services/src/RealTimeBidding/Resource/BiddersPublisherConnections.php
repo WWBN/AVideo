@@ -29,7 +29,7 @@ use Google\Service\RealTimeBidding\PublisherConnection;
  * Typical usage is:
  *  <code>
  *   $realtimebiddingService = new Google\Service\RealTimeBidding(...);
- *   $publisherConnections = $realtimebiddingService->publisherConnections;
+ *   $publisherConnections = $realtimebiddingService->bidders_publisherConnections;
  *  </code>
  */
 class BiddersPublisherConnections extends \Google\Service\Resource

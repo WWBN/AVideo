@@ -29,7 +29,7 @@ use Google\Service\AccessContextManager\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $accesscontextmanagerService = new Google\Service\AccessContextManager(...);
- *   $accessLevels = $accesscontextmanagerService->accessLevels;
+ *   $accessLevels = $accesscontextmanagerService->accessPolicies_accessLevels;
  *  </code>
  */
 class AccessPoliciesAccessLevels extends \Google\Service\Resource
@@ -119,11 +119,11 @@ class AccessPoliciesAccessLevels extends \Google\Service\Resource
    * lasting storage. If access levels contain errors, an error response is
    * returned for the first error encountered. (accessLevels.patch)
    *
-   * @param string $name Required. Resource name for the Access Level. The
-   * `short_name` component must begin with a letter and only include alphanumeric
-   * and '_'. Format:
-   * `accessPolicies/{access_policy}/accessLevels/{access_level}`. The maximum
-   * length of the `access_level` component is 50 characters.
+   * @param string $name Resource name for the `AccessLevel`. Format:
+   * `accessPolicies/{access_policy}/accessLevels/{access_level}`. The
+   * `access_level` component must begin with a letter, followed by alphanumeric
+   * characters or `_`. Its maximum length is 50 characters. After you create an
+   * `AccessLevel`, you cannot change its `name`.
    * @param AccessLevel $postBody
    * @param array $optParams Optional parameters.
    *

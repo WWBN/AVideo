@@ -22,8 +22,10 @@ class AggregationQuery extends \Google\Collection
   protected $collection_key = 'aggregations';
   protected $aggregationsType = Aggregation::class;
   protected $aggregationsDataType = 'array';
+  public $aggregations;
   protected $nestedQueryType = Query::class;
   protected $nestedQueryDataType = '';
+  public $nestedQuery;
 
   /**
    * @param Aggregation[]

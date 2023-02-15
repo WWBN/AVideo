@@ -24,7 +24,7 @@ use Google\Service\AndroidPublisher\SubscriptionPurchaseV2;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $subscriptionsv2 = $androidpublisherService->subscriptionsv2;
+ *   $subscriptionsv2 = $androidpublisherService->purchases_subscriptionsv2;
  *  </code>
  */
 class PurchasesSubscriptionsv2 extends \Google\Service\Resource

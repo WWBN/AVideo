@@ -21,6 +21,7 @@ class TcpCheck extends \Google\Model
 {
   protected $pingConfigType = PingConfig::class;
   protected $pingConfigDataType = '';
+  public $pingConfig;
   /**
    * @var int
    */

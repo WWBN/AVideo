@@ -25,14 +25,17 @@ class AdministrationRegion extends \Google\Collection
   ];
   protected $electionAdministrationBodyType = AdministrativeBody::class;
   protected $electionAdministrationBodyDataType = '';
+  public $electionAdministrationBody;
   protected $localJurisdictionType = AdministrationRegion::class;
   protected $localJurisdictionDataType = '';
+  public $localJurisdiction;
   /**
    * @var string
    */
   public $name;
   protected $sourcesType = Source::class;
   protected $sourcesDataType = 'array';
+  public $sources;
 
   /**
    * @param AdministrativeBody

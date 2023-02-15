@@ -30,7 +30,7 @@ use Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI\TestIamP
  * Typical usage is:
  *  <code>
  *   $managedidentitiesService = new Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI(...);
- *   $backups = $managedidentitiesService->backups;
+ *   $backups = $managedidentitiesService->projects_locations_global_domains_backups;
  *  </code>
  */
 class ProjectsLocationsManagedidentitiesGlobalDomainsBackups extends \Google\Service\Resource

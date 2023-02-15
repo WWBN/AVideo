@@ -22,6 +22,7 @@ class ListEnrollmentTokensResponse extends \Google\Collection
   protected $collection_key = 'enrollmentTokens';
   protected $enrollmentTokensType = EnrollmentToken::class;
   protected $enrollmentTokensDataType = 'array';
+  public $enrollmentTokens;
   /**
    * @var string
    */

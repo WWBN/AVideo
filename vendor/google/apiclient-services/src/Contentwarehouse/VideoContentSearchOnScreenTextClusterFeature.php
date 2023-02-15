@@ -57,16 +57,20 @@ class VideoContentSearchOnScreenTextClusterFeature extends \Google\Model
   public $countingNumberRatio;
   protected $durationMsStatsType = VideoContentSearchMetricStats::class;
   protected $durationMsStatsDataType = '';
+  public $durationMsStats;
   /**
    * @var float
    */
   public $frameSizeRatio;
   protected $logOcrTextLengthStatsType = VideoContentSearchMetricStats::class;
   protected $logOcrTextLengthStatsDataType = '';
+  public $logOcrTextLengthStats;
   protected $logTextHeightRatioStatsType = VideoContentSearchMetricStats::class;
   protected $logTextHeightRatioStatsDataType = '';
+  public $logTextHeightRatioStats;
   protected $logp1000DurationMsStatsType = VideoContentSearchMetricStats::class;
   protected $logp1000DurationMsStatsDataType = '';
+  public $logp1000DurationMsStats;
   /**
    * @var float
    */
@@ -89,14 +93,17 @@ class VideoContentSearchOnScreenTextClusterFeature extends \Google\Model
   public $medianOfAverageTextHeightRatio;
   protected $ocrAsrFeatureType = VideoContentSearchOcrAsrSetFeature::class;
   protected $ocrAsrFeatureDataType = '';
+  public $ocrAsrFeature;
   protected $ocrTextLengthStatsType = VideoContentSearchMetricStats::class;
   protected $ocrTextLengthStatsDataType = '';
+  public $ocrTextLengthStats;
   /**
    * @var float
    */
   public $stddevDurationRatio;
   protected $textHeightRatioStatsType = VideoContentSearchMetricStats::class;
   protected $textHeightRatioStatsDataType = '';
+  public $textHeightRatioStats;
 
   /**
    * @param float

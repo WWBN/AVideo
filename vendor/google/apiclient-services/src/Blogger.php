@@ -403,6 +403,10 @@ class Blogger extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'useTrash' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],'get' => [
               'path' => 'v3/blogs/{blogId}/pages/{pageId}',
@@ -654,6 +658,10 @@ class Blogger extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'useTrash' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],'get' => [
               'path' => 'v3/blogs/{blogId}/posts/{postId}',
@@ -765,6 +773,10 @@ class Blogger extends \Google\Service
                   'type' => 'string',
                 ],
                 'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'sortOption' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

@@ -21,8 +21,10 @@ class OperationManagedZoneContext extends \Google\Model
 {
   protected $newValueType = ManagedZone::class;
   protected $newValueDataType = '';
+  public $newValue;
   protected $oldValueType = ManagedZone::class;
   protected $oldValueDataType = '';
+  public $oldValue;
 
   /**
    * @param ManagedZone

@@ -22,14 +22,17 @@ class AppsPeopleOzExternalMergedpeopleapiReadOnlyProfileInfo extends \Google\Col
   protected $collection_key = 'ownerUserType';
   protected $accountEmailType = AppsPeopleOzExternalMergedpeopleapiAccountEmail::class;
   protected $accountEmailDataType = '';
+  public $accountEmail;
   /**
    * @var string[]
    */
   public $blockType;
   protected $customerInfoType = AppsPeopleOzExternalMergedpeopleapiCustomerInfo::class;
   protected $customerInfoDataType = '';
+  public $customerInfo;
   protected $domainInfoType = AppsPeopleOzExternalMergedpeopleapiReadOnlyProfileInfoDomainInfo::class;
   protected $domainInfoDataType = '';
+  public $domainInfo;
   /**
    * @var bool
    */
@@ -40,6 +43,7 @@ class AppsPeopleOzExternalMergedpeopleapiReadOnlyProfileInfo extends \Google\Col
   public $incomingBlockType;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
@@ -58,6 +62,7 @@ class AppsPeopleOzExternalMergedpeopleapiReadOnlyProfileInfo extends \Google\Col
   public $plusPageType;
   protected $profileOwnerStatsType = AppsPeopleOzExternalMergedpeopleapiProfileOwnerStats::class;
   protected $profileOwnerStatsDataType = '';
+  public $profileOwnerStats;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiAccountEmail

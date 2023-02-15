@@ -30,6 +30,7 @@ class GoogleSearchIdeahubV1betaIdea extends \Google\Collection
   public $text;
   protected $topicsType = GoogleSearchIdeahubV1betaTopic::class;
   protected $topicsDataType = 'array';
+  public $topics;
 
   /**
    * @param string

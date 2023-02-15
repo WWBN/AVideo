@@ -37,6 +37,7 @@ class PartitionQueryRequest extends \Google\Model
   public $readTime;
   protected $structuredQueryType = StructuredQuery::class;
   protected $structuredQueryDataType = '';
+  public $structuredQuery;
 
   /**
    * @param int

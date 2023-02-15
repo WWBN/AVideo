@@ -24,7 +24,7 @@ use Google\Service\AndroidProvisioningPartner\ListVendorsResponse;
  * Typical usage is:
  *  <code>
  *   $androiddeviceprovisioningService = new Google\Service\AndroidProvisioningPartner(...);
- *   $vendors = $androiddeviceprovisioningService->vendors;
+ *   $vendors = $androiddeviceprovisioningService->partners_vendors;
  *  </code>
  */
 class PartnersVendors extends \Google\Service\Resource

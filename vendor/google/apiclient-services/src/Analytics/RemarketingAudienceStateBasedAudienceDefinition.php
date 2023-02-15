@@ -21,8 +21,10 @@ class RemarketingAudienceStateBasedAudienceDefinition extends \Google\Model
 {
   protected $excludeConditionsType = RemarketingAudienceStateBasedAudienceDefinitionExcludeConditions::class;
   protected $excludeConditionsDataType = '';
+  public $excludeConditions;
   protected $includeConditionsType = IncludeConditions::class;
   protected $includeConditionsDataType = '';
+  public $includeConditions;
 
   /**
    * @param RemarketingAudienceStateBasedAudienceDefinitionExcludeConditions

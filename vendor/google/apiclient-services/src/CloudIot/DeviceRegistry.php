@@ -22,10 +22,13 @@ class DeviceRegistry extends \Google\Collection
   protected $collection_key = 'eventNotificationConfigs';
   protected $credentialsType = RegistryCredential::class;
   protected $credentialsDataType = 'array';
+  public $credentials;
   protected $eventNotificationConfigsType = EventNotificationConfig::class;
   protected $eventNotificationConfigsDataType = 'array';
+  public $eventNotificationConfigs;
   protected $httpConfigType = HttpConfig::class;
   protected $httpConfigDataType = '';
+  public $httpConfig;
   /**
    * @var string
    */
@@ -36,12 +39,14 @@ class DeviceRegistry extends \Google\Collection
   public $logLevel;
   protected $mqttConfigType = MqttConfig::class;
   protected $mqttConfigDataType = '';
+  public $mqttConfig;
   /**
    * @var string
    */
   public $name;
   protected $stateNotificationConfigType = StateNotificationConfig::class;
   protected $stateNotificationConfigDataType = '';
+  public $stateNotificationConfig;
 
   /**
    * @param RegistryCredential[]

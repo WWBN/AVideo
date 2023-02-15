@@ -21,6 +21,7 @@ class TranscriptionSessionInfo extends \Google\Model
 {
   protected $sessionStateInfoType = SessionStateInfo::class;
   protected $sessionStateInfoDataType = '';
+  public $sessionStateInfo;
   /**
    * @var string
    */

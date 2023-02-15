@@ -27,7 +27,7 @@ use Google\Service\Eventarc\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $eventarcService = new Google\Service\Eventarc(...);
- *   $operations = $eventarcService->operations;
+ *   $operations = $eventarcService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

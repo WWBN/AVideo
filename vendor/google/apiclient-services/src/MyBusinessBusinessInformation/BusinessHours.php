@@ -22,6 +22,7 @@ class BusinessHours extends \Google\Collection
   protected $collection_key = 'periods';
   protected $periodsType = TimePeriod::class;
   protected $periodsDataType = 'array';
+  public $periods;
 
   /**
    * @param TimePeriod[]

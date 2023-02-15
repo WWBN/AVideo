@@ -26,6 +26,7 @@ class GoogleCloudDatapipelinesV1ListPipelinesResponse extends \Google\Collection
   public $nextPageToken;
   protected $pipelinesType = GoogleCloudDatapipelinesV1Pipeline::class;
   protected $pipelinesDataType = 'array';
+  public $pipelines;
 
   /**
    * @param string

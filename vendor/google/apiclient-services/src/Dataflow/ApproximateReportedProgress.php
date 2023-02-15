@@ -21,11 +21,14 @@ class ApproximateReportedProgress extends \Google\Model
 {
   protected $consumedParallelismType = ReportedParallelism::class;
   protected $consumedParallelismDataType = '';
+  public $consumedParallelism;
   public $fractionConsumed;
   protected $positionType = Position::class;
   protected $positionDataType = '';
+  public $position;
   protected $remainingParallelismType = ReportedParallelism::class;
   protected $remainingParallelismDataType = '';
+  public $remainingParallelism;
 
   /**
    * @param ReportedParallelism

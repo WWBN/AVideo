@@ -22,6 +22,7 @@ class GoogleCloudDialogflowV2IntentMessageTableCardRow extends \Google\Collectio
   protected $collection_key = 'cells';
   protected $cellsType = GoogleCloudDialogflowV2IntentMessageTableCardCell::class;
   protected $cellsDataType = 'array';
+  public $cells;
   /**
    * @var bool
    */

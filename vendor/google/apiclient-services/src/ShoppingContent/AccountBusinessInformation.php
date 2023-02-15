@@ -21,8 +21,10 @@ class AccountBusinessInformation extends \Google\Model
 {
   protected $addressType = AccountAddress::class;
   protected $addressDataType = '';
+  public $address;
   protected $customerServiceType = AccountCustomerService::class;
   protected $customerServiceDataType = '';
+  public $customerService;
   /**
    * @var string
    */

@@ -21,14 +21,17 @@ class QualityActionsTimer extends \Google\Model
 {
   protected $creationTimeType = AssistantApiTimestamp::class;
   protected $creationTimeDataType = '';
+  public $creationTime;
   protected $deviceType = AssistantApiSettingsDeviceSettings::class;
   protected $deviceDataType = '';
+  public $device;
   /**
    * @var string
    */
   public $expireTime;
   protected $expireTimerTimeType = NlpSemanticParsingDatetimeDateTime::class;
   protected $expireTimerTimeDataType = '';
+  public $expireTimerTime;
   /**
    * @var string
    */
@@ -39,26 +42,33 @@ class QualityActionsTimer extends \Google\Model
   public $label;
   protected $lastUpdatedType = AssistantApiTimestamp::class;
   protected $lastUpdatedDataType = '';
+  public $lastUpdated;
   /**
    * @var string
    */
   public $originalDuration;
   protected $originalTimerDurationType = NlpSemanticParsingDatetimeDuration::class;
   protected $originalTimerDurationDataType = '';
+  public $originalTimerDuration;
   protected $providerType = AssistantApiCoreTypesProvider::class;
   protected $providerDataType = '';
+  public $provider;
   /**
    * @var string
    */
   public $remainingDuration;
   protected $remainingTimerDurationType = NlpSemanticParsingDatetimeDuration::class;
   protected $remainingTimerDurationDataType = '';
+  public $remainingTimerDuration;
   protected $ringtoneType = QualityActionsRingtone::class;
   protected $ringtoneDataType = '';
+  public $ringtone;
   protected $ringtoneTaskMetadataType = AssistantApiCoreTypesGovernedRingtoneTaskMetadata::class;
   protected $ringtoneTaskMetadataDataType = '';
+  public $ringtoneTaskMetadata;
   protected $roomType = QualityActionsRoom::class;
   protected $roomDataType = '';
+  public $room;
   /**
    * @var string
    */

@@ -30,18 +30,21 @@ class Device extends \Google\Collection
   public $customData;
   protected $deviceInfoType = DeviceInfo::class;
   protected $deviceInfoDataType = '';
+  public $deviceInfo;
   /**
    * @var string
    */
   public $id;
   protected $nameType = DeviceNames::class;
   protected $nameDataType = '';
+  public $name;
   /**
    * @var bool
    */
   public $notificationSupportedByAgent;
   protected $otherDeviceIdsType = AgentOtherDeviceId::class;
   protected $otherDeviceIdsDataType = 'array';
+  public $otherDeviceIds;
   /**
    * @var string
    */

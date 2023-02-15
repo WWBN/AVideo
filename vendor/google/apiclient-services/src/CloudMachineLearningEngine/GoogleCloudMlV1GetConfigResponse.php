@@ -21,6 +21,7 @@ class GoogleCloudMlV1GetConfigResponse extends \Google\Model
 {
   protected $configType = GoogleCloudMlV1Config::class;
   protected $configDataType = '';
+  public $config;
   /**
    * @var string
    */

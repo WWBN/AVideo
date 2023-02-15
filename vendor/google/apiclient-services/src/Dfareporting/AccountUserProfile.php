@@ -29,8 +29,10 @@ class AccountUserProfile extends \Google\Model
   public $active;
   protected $advertiserFilterType = ObjectFilter::class;
   protected $advertiserFilterDataType = '';
+  public $advertiserFilter;
   protected $campaignFilterType = ObjectFilter::class;
   protected $campaignFilterDataType = '';
+  public $campaignFilter;
   /**
    * @var string
    */
@@ -57,6 +59,7 @@ class AccountUserProfile extends \Google\Model
   public $name;
   protected $siteFilterType = ObjectFilter::class;
   protected $siteFilterDataType = '';
+  public $siteFilter;
   /**
    * @var string
    */
@@ -71,6 +74,7 @@ class AccountUserProfile extends \Google\Model
   public $userAccessType;
   protected $userRoleFilterType = ObjectFilter::class;
   protected $userRoleFilterDataType = '';
+  public $userRoleFilter;
   /**
    * @var string
    */

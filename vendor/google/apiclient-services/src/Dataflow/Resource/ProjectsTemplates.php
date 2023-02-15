@@ -28,7 +28,7 @@ use Google\Service\Dataflow\LaunchTemplateResponse;
  * Typical usage is:
  *  <code>
  *   $dataflowService = new Google\Service\Dataflow(...);
- *   $templates = $dataflowService->templates;
+ *   $templates = $dataflowService->projects_templates;
  *  </code>
  */
 class ProjectsTemplates extends \Google\Service\Resource

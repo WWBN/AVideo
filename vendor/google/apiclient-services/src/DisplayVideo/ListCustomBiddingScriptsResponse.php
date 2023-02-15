@@ -22,6 +22,7 @@ class ListCustomBiddingScriptsResponse extends \Google\Collection
   protected $collection_key = 'customBiddingScripts';
   protected $customBiddingScriptsType = CustomBiddingScript::class;
   protected $customBiddingScriptsDataType = 'array';
+  public $customBiddingScripts;
   /**
    * @var string
    */

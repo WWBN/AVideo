@@ -19,8 +19,15 @@ namespace Google\Service\NetworkManagement;
 
 class Endpoint extends \Google\Model
 {
+  protected $appEngineVersionType = AppEngineVersionEndpoint::class;
+  protected $appEngineVersionDataType = '';
+  public $appEngineVersion;
   protected $cloudFunctionType = CloudFunctionEndpoint::class;
   protected $cloudFunctionDataType = '';
+  public $cloudFunction;
+  protected $cloudRunRevisionType = CloudRunRevisionEndpoint::class;
+  protected $cloudRunRevisionDataType = '';
+  public $cloudRunRevision;
   /**
    * @var string
    */
@@ -55,6 +62,20 @@ class Endpoint extends \Google\Model
   public $projectId;
 
   /**
+   * @param AppEngineVersionEndpoint
+   */
+  public function setAppEngineVersion(AppEngineVersionEndpoint $appEngineVersion)
+  {
+    $this->appEngineVersion = $appEngineVersion;
+  }
+  /**
+   * @return AppEngineVersionEndpoint
+   */
+  public function getAppEngineVersion()
+  {
+    return $this->appEngineVersion;
+  }
+  /**
    * @param CloudFunctionEndpoint
    */
   public function setCloudFunction(CloudFunctionEndpoint $cloudFunction)
@@ -67,6 +88,20 @@ class Endpoint extends \Google\Model
   public function getCloudFunction()
   {
     return $this->cloudFunction;
+  }
+  /**
+   * @param CloudRunRevisionEndpoint
+   */
+  public function setCloudRunRevision(CloudRunRevisionEndpoint $cloudRunRevision)
+  {
+    $this->cloudRunRevision = $cloudRunRevision;
+  }
+  /**
+   * @return CloudRunRevisionEndpoint
+   */
+  public function getCloudRunRevision()
+  {
+    return $this->cloudRunRevision;
   }
   /**
    * @param string

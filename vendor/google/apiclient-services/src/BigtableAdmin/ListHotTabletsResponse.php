@@ -22,6 +22,7 @@ class ListHotTabletsResponse extends \Google\Collection
   protected $collection_key = 'hotTablets';
   protected $hotTabletsType = HotTablet::class;
   protected $hotTabletsDataType = 'array';
+  public $hotTablets;
   /**
    * @var string
    */

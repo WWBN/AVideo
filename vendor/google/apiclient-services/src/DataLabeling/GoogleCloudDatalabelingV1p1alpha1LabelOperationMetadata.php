@@ -34,34 +34,47 @@ class GoogleCloudDatalabelingV1p1alpha1LabelOperationMetadata extends \Google\Co
   public $dataset;
   protected $imageBoundingBoxDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata::class;
   protected $imageBoundingBoxDetailsDataType = '';
+  public $imageBoundingBoxDetails;
   protected $imageBoundingPolyDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingPolyOperationMetadata::class;
   protected $imageBoundingPolyDetailsDataType = '';
+  public $imageBoundingPolyDetails;
   protected $imageClassificationDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelImageClassificationOperationMetadata::class;
   protected $imageClassificationDetailsDataType = '';
+  public $imageClassificationDetails;
   protected $imageOrientedBoundingBoxDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelImageOrientedBoundingBoxOperationMetadata::class;
   protected $imageOrientedBoundingBoxDetailsDataType = '';
+  public $imageOrientedBoundingBoxDetails;
   protected $imagePolylineDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelImagePolylineOperationMetadata::class;
   protected $imagePolylineDetailsDataType = '';
+  public $imagePolylineDetails;
   protected $imageSegmentationDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelImageSegmentationOperationMetadata::class;
   protected $imageSegmentationDetailsDataType = '';
+  public $imageSegmentationDetails;
   protected $partialFailuresType = GoogleRpcStatus::class;
   protected $partialFailuresDataType = 'array';
+  public $partialFailures;
   /**
    * @var int
    */
   public $progressPercent;
   protected $textClassificationDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelTextClassificationOperationMetadata::class;
   protected $textClassificationDetailsDataType = '';
+  public $textClassificationDetails;
   protected $textEntityExtractionDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelTextEntityExtractionOperationMetadata::class;
   protected $textEntityExtractionDetailsDataType = '';
+  public $textEntityExtractionDetails;
   protected $videoClassificationDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelVideoClassificationOperationMetadata::class;
   protected $videoClassificationDetailsDataType = '';
+  public $videoClassificationDetails;
   protected $videoEventDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelVideoEventOperationMetadata::class;
   protected $videoEventDetailsDataType = '';
+  public $videoEventDetails;
   protected $videoObjectDetectionDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectDetectionOperationMetadata::class;
   protected $videoObjectDetectionDetailsDataType = '';
+  public $videoObjectDetectionDetails;
   protected $videoObjectTrackingDetailsType = GoogleCloudDatalabelingV1p1alpha1LabelVideoObjectTrackingOperationMetadata::class;
   protected $videoObjectTrackingDetailsDataType = '';
+  public $videoObjectTrackingDetails;
 
   /**
    * @param string

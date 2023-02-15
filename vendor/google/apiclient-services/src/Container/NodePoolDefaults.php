@@ -21,6 +21,7 @@ class NodePoolDefaults extends \Google\Model
 {
   protected $nodeConfigDefaultsType = NodeConfigDefaults::class;
   protected $nodeConfigDefaultsDataType = '';
+  public $nodeConfigDefaults;
 
   /**
    * @param NodeConfigDefaults

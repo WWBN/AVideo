@@ -21,6 +21,7 @@ class SwitchRuntimeRequest extends \Google\Model
 {
   protected $acceleratorConfigType = RuntimeAcceleratorConfig::class;
   protected $acceleratorConfigDataType = '';
+  public $acceleratorConfig;
   /**
    * @var string
    */

@@ -22,12 +22,14 @@ class Variable extends \Google\Collection
   protected $collection_key = 'members';
   protected $membersType = Variable::class;
   protected $membersDataType = 'array';
+  public $members;
   /**
    * @var string
    */
   public $name;
   protected $statusType = StatusMessage::class;
   protected $statusDataType = '';
+  public $status;
   /**
    * @var string
    */

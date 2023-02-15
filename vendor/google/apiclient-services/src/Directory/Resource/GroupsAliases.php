@@ -25,7 +25,7 @@ use Google\Service\Directory\Aliases;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $aliases = $adminService->aliases;
+ *   $aliases = $adminService->groups_aliases;
  *  </code>
  */
 class GroupsAliases extends \Google\Service\Resource

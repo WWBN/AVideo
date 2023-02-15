@@ -22,6 +22,7 @@ class MasterAuthorizedNetworksConfig extends \Google\Collection
   protected $collection_key = 'cidrBlocks';
   protected $cidrBlocksType = CidrBlock::class;
   protected $cidrBlocksDataType = 'array';
+  public $cidrBlocks;
   /**
    * @var bool
    */

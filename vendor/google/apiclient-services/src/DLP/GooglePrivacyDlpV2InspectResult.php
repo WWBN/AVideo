@@ -22,6 +22,7 @@ class GooglePrivacyDlpV2InspectResult extends \Google\Collection
   protected $collection_key = 'findings';
   protected $findingsType = GooglePrivacyDlpV2Finding::class;
   protected $findingsDataType = 'array';
+  public $findings;
   /**
    * @var bool
    */

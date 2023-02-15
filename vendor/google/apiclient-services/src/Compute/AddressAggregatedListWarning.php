@@ -26,6 +26,7 @@ class AddressAggregatedListWarning extends \Google\Collection
   public $code;
   protected $dataType = AddressAggregatedListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

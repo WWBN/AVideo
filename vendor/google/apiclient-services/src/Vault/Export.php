@@ -21,12 +21,14 @@ class Export extends \Google\Model
 {
   protected $cloudStorageSinkType = CloudStorageSink::class;
   protected $cloudStorageSinkDataType = '';
+  public $cloudStorageSink;
   /**
    * @var string
    */
   public $createTime;
   protected $exportOptionsType = ExportOptions::class;
   protected $exportOptionsDataType = '';
+  public $exportOptions;
   /**
    * @var string
    */
@@ -41,10 +43,13 @@ class Export extends \Google\Model
   public $name;
   protected $queryType = Query::class;
   protected $queryDataType = '';
+  public $query;
   protected $requesterType = UserInfo::class;
   protected $requesterDataType = '';
+  public $requester;
   protected $statsType = ExportStats::class;
   protected $statsDataType = '';
+  public $stats;
   /**
    * @var string
    */

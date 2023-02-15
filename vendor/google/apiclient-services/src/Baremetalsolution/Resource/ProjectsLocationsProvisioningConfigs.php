@@ -26,7 +26,7 @@ use Google\Service\Baremetalsolution\SubmitProvisioningConfigResponse;
  * Typical usage is:
  *  <code>
  *   $baremetalsolutionService = new Google\Service\Baremetalsolution(...);
- *   $provisioningConfigs = $baremetalsolutionService->provisioningConfigs;
+ *   $provisioningConfigs = $baremetalsolutionService->projects_locations_provisioningConfigs;
  *  </code>
  */
 class ProjectsLocationsProvisioningConfigs extends \Google\Service\Resource

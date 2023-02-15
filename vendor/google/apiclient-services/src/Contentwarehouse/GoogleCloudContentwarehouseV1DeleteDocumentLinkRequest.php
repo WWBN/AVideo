@@ -21,6 +21,7 @@ class GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest extends \Google\Mod
 {
   protected $requestMetadataType = GoogleCloudContentwarehouseV1RequestMetadata::class;
   protected $requestMetadataDataType = '';
+  public $requestMetadata;
 
   /**
    * @param GoogleCloudContentwarehouseV1RequestMetadata

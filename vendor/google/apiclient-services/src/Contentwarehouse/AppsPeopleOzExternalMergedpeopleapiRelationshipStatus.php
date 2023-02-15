@@ -25,6 +25,7 @@ class AppsPeopleOzExternalMergedpeopleapiRelationshipStatus extends \Google\Mode
   public $formattedType;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */

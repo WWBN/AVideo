@@ -21,12 +21,14 @@ class MembershipRole extends \Google\Model
 {
   protected $expiryDetailType = ExpiryDetail::class;
   protected $expiryDetailDataType = '';
+  public $expiryDetail;
   /**
    * @var string
    */
   public $name;
   protected $restrictionEvaluationsType = RestrictionEvaluations::class;
   protected $restrictionEvaluationsDataType = '';
+  public $restrictionEvaluations;
 
   /**
    * @param ExpiryDetail

@@ -25,7 +25,7 @@ use Google\Service\DisplayVideo\LookupInvoiceCurrencyResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $invoices = $displayvideoService->invoices;
+ *   $invoices = $displayvideoService->advertisers_invoices;
  *  </code>
  */
 class AdvertisersInvoices extends \Google\Service\Resource

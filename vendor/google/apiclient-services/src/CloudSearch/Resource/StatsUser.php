@@ -22,7 +22,7 @@ namespace Google\Service\CloudSearch\Resource;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $user = $cloudsearchService->user;
+ *   $user = $cloudsearchService->stats_user;
  *  </code>
  */
 class StatsUser extends \Google\Service\Resource

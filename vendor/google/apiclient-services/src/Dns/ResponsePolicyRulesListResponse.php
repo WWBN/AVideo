@@ -22,12 +22,14 @@ class ResponsePolicyRulesListResponse extends \Google\Collection
   protected $collection_key = 'responsePolicyRules';
   protected $headerType = ResponseHeader::class;
   protected $headerDataType = '';
+  public $header;
   /**
    * @var string
    */
   public $nextPageToken;
   protected $responsePolicyRulesType = ResponsePolicyRule::class;
   protected $responsePolicyRulesDataType = 'array';
+  public $responsePolicyRules;
 
   /**
    * @param ResponseHeader

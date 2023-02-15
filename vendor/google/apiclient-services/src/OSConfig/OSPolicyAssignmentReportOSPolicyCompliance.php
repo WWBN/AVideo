@@ -34,6 +34,7 @@ class OSPolicyAssignmentReportOSPolicyCompliance extends \Google\Collection
   public $osPolicyId;
   protected $osPolicyResourceCompliancesType = OSPolicyAssignmentReportOSPolicyComplianceOSPolicyResourceCompliance::class;
   protected $osPolicyResourceCompliancesDataType = 'array';
+  public $osPolicyResourceCompliances;
 
   /**
    * @param string

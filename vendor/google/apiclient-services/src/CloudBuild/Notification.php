@@ -25,10 +25,13 @@ class Notification extends \Google\Model
   public $filter;
   protected $httpDeliveryType = HTTPDelivery::class;
   protected $httpDeliveryDataType = '';
+  public $httpDelivery;
   protected $slackDeliveryType = SlackDelivery::class;
   protected $slackDeliveryDataType = '';
+  public $slackDelivery;
   protected $smtpDeliveryType = SMTPDelivery::class;
   protected $smtpDeliveryDataType = '';
+  public $smtpDelivery;
   /**
    * @var array[]
    */

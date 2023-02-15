@@ -21,8 +21,10 @@ class GoogleAppsCardV1CardFixedFooter extends \Google\Model
 {
   protected $primaryButtonType = GoogleAppsCardV1Button::class;
   protected $primaryButtonDataType = '';
+  public $primaryButton;
   protected $secondaryButtonType = GoogleAppsCardV1Button::class;
   protected $secondaryButtonDataType = '';
+  public $secondaryButton;
 
   /**
    * @param GoogleAppsCardV1Button

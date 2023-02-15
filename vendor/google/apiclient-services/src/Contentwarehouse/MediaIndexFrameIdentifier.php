@@ -21,6 +21,7 @@ class MediaIndexFrameIdentifier extends \Google\Model
 {
   protected $previewFrameZeroVariantType = MediaIndexFrameIdentifierPreviewFrameZeroVariant::class;
   protected $previewFrameZeroVariantDataType = '';
+  public $previewFrameZeroVariant;
   /**
    * @var int
    */

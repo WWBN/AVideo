@@ -25,7 +25,7 @@ use Google\Service\Dataflow\LaunchFlexTemplateResponse;
  * Typical usage is:
  *  <code>
  *   $dataflowService = new Google\Service\Dataflow(...);
- *   $flexTemplates = $dataflowService->flexTemplates;
+ *   $flexTemplates = $dataflowService->projects_locations_flexTemplates;
  *  </code>
  */
 class ProjectsLocationsFlexTemplates extends \Google\Service\Resource

@@ -38,6 +38,7 @@ class Version extends \Google\Collection
   public $name;
   protected $relatedTagsType = Tag::class;
   protected $relatedTagsDataType = 'array';
+  public $relatedTags;
   /**
    * @var string
    */

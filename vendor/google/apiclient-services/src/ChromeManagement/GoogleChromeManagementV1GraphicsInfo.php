@@ -21,6 +21,7 @@ class GoogleChromeManagementV1GraphicsInfo extends \Google\Model
 {
   protected $adapterInfoType = GoogleChromeManagementV1GraphicsAdapterInfo::class;
   protected $adapterInfoDataType = '';
+  public $adapterInfo;
 
   /**
    * @param GoogleChromeManagementV1GraphicsAdapterInfo

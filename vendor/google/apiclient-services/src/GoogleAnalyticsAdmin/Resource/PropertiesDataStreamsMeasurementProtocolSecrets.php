@@ -17,8 +17,8 @@
 
 namespace Google\Service\GoogleAnalyticsAdmin\Resource;
 
-use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1alphaListMeasurementProtocolSecretsResponse;
-use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret;
+use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1betaListMeasurementProtocolSecretsResponse;
+use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1betaMeasurementProtocolSecret;
 use Google\Service\GoogleAnalyticsAdmin\GoogleProtobufEmpty;
 
 /**
@@ -26,7 +26,7 @@ use Google\Service\GoogleAnalyticsAdmin\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $analyticsadminService = new Google\Service\GoogleAnalyticsAdmin(...);
- *   $measurementProtocolSecrets = $analyticsadminService->measurementProtocolSecrets;
+ *   $measurementProtocolSecrets = $analyticsadminService->properties_dataStreams_measurementProtocolSecrets;
  *  </code>
  */
 class PropertiesDataStreamsMeasurementProtocolSecrets extends \Google\Service\Resource
@@ -36,15 +36,15 @@ class PropertiesDataStreamsMeasurementProtocolSecrets extends \Google\Service\Re
    *
    * @param string $parent Required. The parent resource where this secret will be
    * created. Format: properties/{property}/dataStreams/{dataStream}
-   * @param GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret $postBody
+   * @param GoogleAnalyticsAdminV1betaMeasurementProtocolSecret $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret
+   * @return GoogleAnalyticsAdminV1betaMeasurementProtocolSecret
    */
-  public function create($parent, GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret $postBody, $optParams = [])
+  public function create($parent, GoogleAnalyticsAdminV1betaMeasurementProtocolSecret $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('create', [$params], GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret::class);
+    return $this->call('create', [$params], GoogleAnalyticsAdminV1betaMeasurementProtocolSecret::class);
   }
   /**
    * Deletes target MeasurementProtocolSecret. (measurementProtocolSecrets.delete)
@@ -69,13 +69,13 @@ class PropertiesDataStreamsMeasurementProtocolSecrets extends \Google\Service\Re
    * lookup. Format: properties/{property}/dataStreams/{dataStream}/measurementPro
    * tocolSecrets/{measurementProtocolSecret}
    * @param array $optParams Optional parameters.
-   * @return GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret
+   * @return GoogleAnalyticsAdminV1betaMeasurementProtocolSecret
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret::class);
+    return $this->call('get', [$params], GoogleAnalyticsAdminV1betaMeasurementProtocolSecret::class);
   }
   /**
    * Returns child MeasurementProtocolSecrets under the specified parent Property.
@@ -95,13 +95,13 @@ class PropertiesDataStreamsMeasurementProtocolSecrets extends \Google\Service\Re
    * subsequent page. When paginating, all other parameters provided to
    * `ListMeasurementProtocolSecrets` must match the call that provided the page
    * token.
-   * @return GoogleAnalyticsAdminV1alphaListMeasurementProtocolSecretsResponse
+   * @return GoogleAnalyticsAdminV1betaListMeasurementProtocolSecretsResponse
    */
   public function listPropertiesDataStreamsMeasurementProtocolSecrets($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
-    return $this->call('list', [$params], GoogleAnalyticsAdminV1alphaListMeasurementProtocolSecretsResponse::class);
+    return $this->call('list', [$params], GoogleAnalyticsAdminV1betaListMeasurementProtocolSecretsResponse::class);
   }
   /**
    * Updates a measurement protocol secret. (measurementProtocolSecrets.patch)
@@ -109,18 +109,18 @@ class PropertiesDataStreamsMeasurementProtocolSecrets extends \Google\Service\Re
    * @param string $name Output only. Resource name of this secret. This secret
    * may be a child of any type of stream. Format: properties/{property}/dataStrea
    * ms/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret}
-   * @param GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret $postBody
+   * @param GoogleAnalyticsAdminV1betaMeasurementProtocolSecret $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask The list of fields to be updated. Omitted fields
    * will not be updated.
-   * @return GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret
+   * @return GoogleAnalyticsAdminV1betaMeasurementProtocolSecret
    */
-  public function patch($name, GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret $postBody, $optParams = [])
+  public function patch($name, GoogleAnalyticsAdminV1betaMeasurementProtocolSecret $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('patch', [$params], GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret::class);
+    return $this->call('patch', [$params], GoogleAnalyticsAdminV1betaMeasurementProtocolSecret::class);
   }
 }
 

@@ -32,7 +32,7 @@ use Google\Service\SecretManager\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $secretmanagerService = new Google\Service\SecretManager(...);
- *   $secrets = $secretmanagerService->secrets;
+ *   $secrets = $secretmanagerService->projects_secrets;
  *  </code>
  */
 class ProjectsSecrets extends \Google\Service\Resource

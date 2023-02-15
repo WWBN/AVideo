@@ -29,6 +29,7 @@ class IndexingConverterRawRedirectInfo extends \Google\Model
   public $rawFinalTargetFromTrawler;
   protected $rawRedirectChainFromRenderingType = IndexingConverterRedirectChain::class;
   protected $rawRedirectChainFromRenderingDataType = '';
+  public $rawRedirectChainFromRendering;
   /**
    * @var int
    */

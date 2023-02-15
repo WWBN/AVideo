@@ -22,10 +22,13 @@ class CohortSpec extends \Google\Collection
   protected $collection_key = 'cohorts';
   protected $cohortReportSettingsType = CohortReportSettings::class;
   protected $cohortReportSettingsDataType = '';
+  public $cohortReportSettings;
   protected $cohortsType = Cohort::class;
   protected $cohortsDataType = 'array';
+  public $cohorts;
   protected $cohortsRangeType = CohortsRange::class;
   protected $cohortsRangeDataType = '';
+  public $cohortsRange;
 
   /**
    * @param CohortReportSettings

@@ -17,16 +17,34 @@
 
 namespace Google\Service\Texttospeech\Resource;
 
+use Google\Service\Texttospeech\Operation;
+use Google\Service\Texttospeech\SynthesizeLongAudioRequest;
+
 /**
  * The "locations" collection of methods.
  * Typical usage is:
  *  <code>
  *   $texttospeechService = new Google\Service\Texttospeech(...);
- *   $locations = $texttospeechService->locations;
+ *   $locations = $texttospeechService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource
 {
+  /**
+   * Synthesizes long form text asynchronously. (locations.synthesizeLongAudio)
+   *
+   * @param string $parent The resource states of the request in the form of
+   * `projects/locations/voices`.
+   * @param SynthesizeLongAudioRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function synthesizeLongAudio($parent, SynthesizeLongAudioRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('synthesizeLongAudio', [$params], Operation::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

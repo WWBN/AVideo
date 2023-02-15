@@ -22,14 +22,17 @@ class GoogleChatV1ContextualAddOnMarkupCard extends \Google\Collection
   protected $collection_key = 'sections';
   protected $cardActionsType = GoogleChatV1ContextualAddOnMarkupCardCardAction::class;
   protected $cardActionsDataType = 'array';
+  public $cardActions;
   protected $headerType = GoogleChatV1ContextualAddOnMarkupCardCardHeader::class;
   protected $headerDataType = '';
+  public $header;
   /**
    * @var string
    */
   public $name;
   protected $sectionsType = GoogleChatV1ContextualAddOnMarkupCardSection::class;
   protected $sectionsDataType = 'array';
+  public $sections;
 
   /**
    * @param GoogleChatV1ContextualAddOnMarkupCardCardAction[]

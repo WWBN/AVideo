@@ -21,14 +21,17 @@ class AppsPeopleOzExternalMergedpeopleapiBirthday extends \Google\Model
 {
   protected $ageDisableGracePeriodType = AppsPeopleOzExternalMergedpeopleapiBirthdayAgeDisableGracePeriod::class;
   protected $ageDisableGracePeriodDataType = '';
+  public $ageDisableGracePeriod;
   protected $birthdayDecorationType = SocialGraphApiProtoBirthdayDecoration::class;
   protected $birthdayDecorationDataType = '';
+  public $birthdayDecoration;
   /**
    * @var string
    */
   public $birthdayResolution;
   protected $calendarDayType = GoogleTypeDate::class;
   protected $calendarDayDataType = '';
+  public $calendarDay;
   /**
    * @var string
    */
@@ -39,6 +42,10 @@ class AppsPeopleOzExternalMergedpeopleapiBirthday extends \Google\Model
   public $dateMsAsNumber;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
+  protected $promptType = SocialGraphApiProtoPrompt::class;
+  protected $promptDataType = '';
+  public $prompt;
   /**
    * @var string
    */
@@ -141,6 +148,20 @@ class AppsPeopleOzExternalMergedpeopleapiBirthday extends \Google\Model
   public function getMetadata()
   {
     return $this->metadata;
+  }
+  /**
+   * @param SocialGraphApiProtoPrompt
+   */
+  public function setPrompt(SocialGraphApiProtoPrompt $prompt)
+  {
+    $this->prompt = $prompt;
+  }
+  /**
+   * @return SocialGraphApiProtoPrompt
+   */
+  public function getPrompt()
+  {
+    return $this->prompt;
   }
   /**
    * @param string

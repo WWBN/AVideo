@@ -22,16 +22,22 @@ class GoogleCloudContactcenterinsightsV1AnalysisResultCallAnalysisMetadata exten
   protected $collection_key = 'sentiments';
   protected $annotationsType = GoogleCloudContactcenterinsightsV1CallAnnotation::class;
   protected $annotationsDataType = 'array';
+  public $annotations;
   protected $entitiesType = GoogleCloudContactcenterinsightsV1Entity::class;
   protected $entitiesDataType = 'map';
+  public $entities;
   protected $intentsType = GoogleCloudContactcenterinsightsV1Intent::class;
   protected $intentsDataType = 'map';
+  public $intents;
   protected $issueModelResultType = GoogleCloudContactcenterinsightsV1IssueModelResult::class;
   protected $issueModelResultDataType = '';
+  public $issueModelResult;
   protected $phraseMatchersType = GoogleCloudContactcenterinsightsV1PhraseMatchData::class;
   protected $phraseMatchersDataType = 'map';
+  public $phraseMatchers;
   protected $sentimentsType = GoogleCloudContactcenterinsightsV1ConversationLevelSentiment::class;
   protected $sentimentsDataType = 'array';
+  public $sentiments;
 
   /**
    * @param GoogleCloudContactcenterinsightsV1CallAnnotation[]

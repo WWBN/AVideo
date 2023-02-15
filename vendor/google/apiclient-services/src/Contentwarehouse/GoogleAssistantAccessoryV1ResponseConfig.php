@@ -21,14 +21,17 @@ class GoogleAssistantAccessoryV1ResponseConfig extends \Google\Model
 {
   protected $audioOutConfigType = GoogleAssistantAccessoryV1AudioOutConfig::class;
   protected $audioOutConfigDataType = '';
+  public $audioOutConfig;
   protected $deviceConfigType = GoogleAssistantAccessoryV1DeviceConfig::class;
   protected $deviceConfigDataType = '';
+  public $deviceConfig;
   /**
    * @var string
    */
   public $deviceInteraction;
   protected $deviceStateType = GoogleAssistantAccessoryV1DeviceState::class;
   protected $deviceStateDataType = '';
+  public $deviceState;
   /**
    * @var int
    */
@@ -47,6 +50,7 @@ class GoogleAssistantAccessoryV1ResponseConfig extends \Google\Model
   public $responseType;
   protected $screenOutConfigType = GoogleAssistantAccessoryV1ScreenOutConfig::class;
   protected $screenOutConfigDataType = '';
+  public $screenOutConfig;
 
   /**
    * @param GoogleAssistantAccessoryV1AudioOutConfig

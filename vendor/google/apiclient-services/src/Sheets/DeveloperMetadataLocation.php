@@ -21,6 +21,7 @@ class DeveloperMetadataLocation extends \Google\Model
 {
   protected $dimensionRangeType = DimensionRange::class;
   protected $dimensionRangeDataType = '';
+  public $dimensionRange;
   /**
    * @var string
    */

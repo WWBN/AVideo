@@ -21,6 +21,7 @@ class EnterpriseCrmCardsTemplatesAplosSeriesListDataSeries extends \Google\Model
 {
   protected $dataType = EnterpriseCrmCardsTemplatesAplosSeriesData::class;
   protected $dataDataType = '';
+  public $data;
   /**
    * @var string
    */

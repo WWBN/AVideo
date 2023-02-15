@@ -21,8 +21,10 @@ class SocialGraphApiProtoPartialNameOptionsTwoPartNameSpec extends \Google\Model
 {
   protected $familyNameSpecType = SocialGraphApiProtoPartialNameOptionsNamePartSpec::class;
   protected $familyNameSpecDataType = '';
+  public $familyNameSpec;
   protected $givenNameSpecType = SocialGraphApiProtoPartialNameOptionsNamePartSpec::class;
   protected $givenNameSpecDataType = '';
+  public $givenNameSpec;
 
   /**
    * @param SocialGraphApiProtoPartialNameOptionsNamePartSpec

@@ -22,6 +22,7 @@ class NlpSemanticParsingDatetimeDateTime extends \Google\Collection
   protected $collection_key = 'range';
   protected $compositionElementType = NlpSemanticParsingDatetimeDateTime::class;
   protected $compositionElementDataType = '';
+  public $compositionElement;
   /**
    * @var bool
    */
@@ -32,22 +33,29 @@ class NlpSemanticParsingDatetimeDateTime extends \Google\Collection
   public $deleted8;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var string
    */
   public $groundingStage;
   protected $pointType = NlpSemanticParsingDatetimeAbsoluteDateTime::class;
   protected $pointDataType = 'array';
+  public $point;
   protected $propertiesType = NlpSemanticParsingDatetimeResolutionProperties::class;
   protected $propertiesDataType = '';
+  public $properties;
   protected $rangeType = NlpSemanticParsingDatetimeRange::class;
   protected $rangeDataType = 'array';
+  public $range;
   protected $recurrentType = NlpSemanticParsingDatetimeRecurrent::class;
   protected $recurrentDataType = '';
+  public $recurrent;
   protected $relativeType = NlpSemanticParsingDatetimeRelativeDateTime::class;
   protected $relativeDataType = '';
+  public $relative;
   protected $spanType = NlpSemanticParsingDatetimeSpan::class;
   protected $spanDataType = '';
+  public $span;
 
   /**
    * @param NlpSemanticParsingDatetimeDateTime

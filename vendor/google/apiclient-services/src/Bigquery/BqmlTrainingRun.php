@@ -22,6 +22,7 @@ class BqmlTrainingRun extends \Google\Collection
   protected $collection_key = 'iterationResults';
   protected $iterationResultsType = BqmlIterationResult::class;
   protected $iterationResultsDataType = 'array';
+  public $iterationResults;
   /**
    * @var string
    */
@@ -32,6 +33,7 @@ class BqmlTrainingRun extends \Google\Collection
   public $state;
   protected $trainingOptionsType = BqmlTrainingRunTrainingOptions::class;
   protected $trainingOptionsDataType = '';
+  public $trainingOptions;
 
   /**
    * @param BqmlIterationResult[]

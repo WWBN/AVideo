@@ -21,6 +21,7 @@ class QualityQrewriteAlternativeNameInfo extends \Google\Model
 {
   protected $matchSignalType = AssistantVerticalsCommonContactMatchSignal::class;
   protected $matchSignalDataType = '';
+  public $matchSignal;
   /**
    * @var string
    */

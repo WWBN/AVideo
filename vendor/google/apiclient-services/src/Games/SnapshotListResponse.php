@@ -22,6 +22,7 @@ class SnapshotListResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Snapshot::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

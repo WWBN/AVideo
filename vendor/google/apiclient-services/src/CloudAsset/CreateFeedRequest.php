@@ -21,6 +21,7 @@ class CreateFeedRequest extends \Google\Model
 {
   protected $feedType = Feed::class;
   protected $feedDataType = '';
+  public $feed;
   /**
    * @var string
    */

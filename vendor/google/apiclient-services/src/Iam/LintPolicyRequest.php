@@ -21,6 +21,7 @@ class LintPolicyRequest extends \Google\Model
 {
   protected $conditionType = Expr::class;
   protected $conditionDataType = '';
+  public $condition;
   /**
    * @var string
    */

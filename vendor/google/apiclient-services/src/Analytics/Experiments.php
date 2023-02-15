@@ -22,6 +22,7 @@ class Experiments extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Experiment::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var int
    */

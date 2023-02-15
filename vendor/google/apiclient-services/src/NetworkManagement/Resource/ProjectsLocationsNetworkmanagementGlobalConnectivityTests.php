@@ -31,7 +31,7 @@ use Google\Service\NetworkManagement\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $networkmanagementService = new Google\Service\NetworkManagement(...);
- *   $connectivityTests = $networkmanagementService->connectivityTests;
+ *   $connectivityTests = $networkmanagementService->projects_locations_global_connectivityTests;
  *  </code>
  */
 class ProjectsLocationsNetworkmanagementGlobalConnectivityTests extends \Google\Service\Resource

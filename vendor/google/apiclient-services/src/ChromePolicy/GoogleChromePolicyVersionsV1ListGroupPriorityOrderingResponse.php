@@ -30,6 +30,7 @@ class GoogleChromePolicyVersionsV1ListGroupPriorityOrderingResponse extends \Goo
   public $policyNamespace;
   protected $policyTargetKeyType = GoogleChromePolicyVersionsV1PolicyTargetKey::class;
   protected $policyTargetKeyDataType = '';
+  public $policyTargetKey;
 
   /**
    * @param string[]

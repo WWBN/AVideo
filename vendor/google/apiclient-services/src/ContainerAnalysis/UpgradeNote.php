@@ -22,14 +22,17 @@ class UpgradeNote extends \Google\Collection
   protected $collection_key = 'distributions';
   protected $distributionsType = UpgradeDistribution::class;
   protected $distributionsDataType = 'array';
+  public $distributions;
   /**
    * @var string
    */
   public $package;
   protected $versionType = Version::class;
   protected $versionDataType = '';
+  public $version;
   protected $windowsUpdateType = WindowsUpdate::class;
   protected $windowsUpdateDataType = '';
+  public $windowsUpdate;
 
   /**
    * @param UpgradeDistribution[]

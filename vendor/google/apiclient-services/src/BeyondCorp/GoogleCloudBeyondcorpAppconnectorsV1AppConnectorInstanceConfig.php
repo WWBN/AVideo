@@ -21,12 +21,14 @@ class GoogleCloudBeyondcorpAppconnectorsV1AppConnectorInstanceConfig extends \Go
 {
   protected $imageConfigType = GoogleCloudBeyondcorpAppconnectorsV1ImageConfig::class;
   protected $imageConfigDataType = '';
+  public $imageConfig;
   /**
    * @var array[]
    */
   public $instanceConfig;
   protected $notificationConfigType = GoogleCloudBeyondcorpAppconnectorsV1NotificationConfig::class;
   protected $notificationConfigDataType = '';
+  public $notificationConfig;
   /**
    * @var string
    */

@@ -21,6 +21,7 @@ class CloudAuditOptions extends \Google\Model
 {
   protected $authorizationLoggingOptionsType = AuthorizationLoggingOptions::class;
   protected $authorizationLoggingOptionsDataType = '';
+  public $authorizationLoggingOptions;
   /**
    * @var string
    */

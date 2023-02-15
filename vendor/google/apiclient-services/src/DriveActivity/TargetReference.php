@@ -21,10 +21,13 @@ class TargetReference extends \Google\Model
 {
   protected $driveType = DriveReference::class;
   protected $driveDataType = '';
+  public $drive;
   protected $driveItemType = DriveItemReference::class;
   protected $driveItemDataType = '';
+  public $driveItem;
   protected $teamDriveType = TeamDriveReference::class;
   protected $teamDriveDataType = '';
+  public $teamDrive;
 
   /**
    * @param DriveReference

@@ -21,12 +21,16 @@ class Inputs extends \Google\Model
 {
   protected $dateInputType = DateInput::class;
   protected $dateInputDataType = '';
+  public $dateInput;
   protected $dateTimeInputType = DateTimeInput::class;
   protected $dateTimeInputDataType = '';
+  public $dateTimeInput;
   protected $stringInputsType = StringInputs::class;
   protected $stringInputsDataType = '';
+  public $stringInputs;
   protected $timeInputType = TimeInput::class;
   protected $timeInputDataType = '';
+  public $timeInput;
 
   /**
    * @param DateInput

@@ -21,14 +21,19 @@ class KnowledgeAnswersDependencyType extends \Google\Model
 {
   protected $containerTypeType = KnowledgeAnswersContainerType::class;
   protected $containerTypeDataType = '';
+  public $containerType;
   protected $intersectTypeType = KnowledgeAnswersIntersectType::class;
   protected $intersectTypeDataType = '';
+  public $intersectType;
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
+  public $remodelings;
   protected $sameTypeType = KnowledgeAnswersSameType::class;
   protected $sameTypeDataType = '';
+  public $sameType;
   protected $unionTypeType = KnowledgeAnswersUnionType::class;
   protected $unionTypeDataType = '';
+  public $unionType;
 
   /**
    * @param KnowledgeAnswersContainerType

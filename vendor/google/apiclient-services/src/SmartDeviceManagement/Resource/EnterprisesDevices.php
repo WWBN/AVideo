@@ -27,7 +27,7 @@ use Google\Service\SmartDeviceManagement\GoogleHomeEnterpriseSdmV1ListDevicesRes
  * Typical usage is:
  *  <code>
  *   $smartdevicemanagementService = new Google\Service\SmartDeviceManagement(...);
- *   $devices = $smartdevicemanagementService->devices;
+ *   $devices = $smartdevicemanagementService->enterprises_devices;
  *  </code>
  */
 class EnterprisesDevices extends \Google\Service\Resource

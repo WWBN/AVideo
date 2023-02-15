@@ -25,7 +25,7 @@ use Google\Service\Gmail\SendAs;
  * Typical usage is:
  *  <code>
  *   $gmailService = new Google\Service\Gmail(...);
- *   $sendAs = $gmailService->sendAs;
+ *   $sendAs = $gmailService->users_settings_sendAs;
  *  </code>
  */
 class UsersSettingsSendAs extends \Google\Service\Resource

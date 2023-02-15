@@ -33,6 +33,7 @@ class GoogleChatV1WidgetMarkupImageButton extends \Google\Model
   public $name;
   protected $onClickType = GoogleChatV1WidgetMarkupOnClick::class;
   protected $onClickDataType = '';
+  public $onClick;
 
   /**
    * @param string

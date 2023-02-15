@@ -22,6 +22,7 @@ class InstanceGroupManagersListErrorsResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = InstanceManagedByIgmError::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

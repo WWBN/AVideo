@@ -22,6 +22,7 @@ class CommerceDatastoreImageDeepTags extends \Google\Collection
   protected $collection_key = 'modelOutputs';
   protected $modelOutputsType = CommerceDatastoreImageDeepTagsModelOutput::class;
   protected $modelOutputsDataType = 'array';
+  public $modelOutputs;
 
   /**
    * @param CommerceDatastoreImageDeepTagsModelOutput[]

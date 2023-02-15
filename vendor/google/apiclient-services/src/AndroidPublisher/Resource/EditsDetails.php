@@ -24,7 +24,7 @@ use Google\Service\AndroidPublisher\AppDetails;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $details = $androidpublisherService->details;
+ *   $details = $androidpublisherService->edits_details;
  *  </code>
  */
 class EditsDetails extends \Google\Service\Resource

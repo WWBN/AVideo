@@ -33,6 +33,7 @@ class GoogleCloudVideointelligenceV1VideoAnnotationProgress extends \Google\Mode
   public $progressPercent;
   protected $segmentType = GoogleCloudVideointelligenceV1VideoSegment::class;
   protected $segmentDataType = '';
+  public $segment;
   /**
    * @var string
    */

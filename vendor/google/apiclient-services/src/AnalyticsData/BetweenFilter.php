@@ -21,8 +21,10 @@ class BetweenFilter extends \Google\Model
 {
   protected $fromValueType = NumericValue::class;
   protected $fromValueDataType = '';
+  public $fromValue;
   protected $toValueType = NumericValue::class;
   protected $toValueDataType = '';
+  public $toValue;
 
   /**
    * @param NumericValue

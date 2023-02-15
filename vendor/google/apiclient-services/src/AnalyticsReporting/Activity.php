@@ -30,6 +30,7 @@ class Activity extends \Google\Collection
   public $activityType;
   protected $appviewType = ScreenviewData::class;
   protected $appviewDataType = '';
+  public $appview;
   /**
    * @var string
    */
@@ -40,12 +41,16 @@ class Activity extends \Google\Collection
   public $channelGrouping;
   protected $customDimensionType = CustomDimension::class;
   protected $customDimensionDataType = 'array';
+  public $customDimension;
   protected $ecommerceType = EcommerceData::class;
   protected $ecommerceDataType = '';
+  public $ecommerce;
   protected $eventType = EventData::class;
   protected $eventDataType = '';
+  public $event;
   protected $goalsType = GoalSetData::class;
   protected $goalsDataType = '';
+  public $goals;
   /**
    * @var string
    */
@@ -64,6 +69,7 @@ class Activity extends \Google\Collection
   public $medium;
   protected $pageviewType = PageviewData::class;
   protected $pageviewDataType = '';
+  public $pageview;
   /**
    * @var string
    */

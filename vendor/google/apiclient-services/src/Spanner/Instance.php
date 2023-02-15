@@ -38,6 +38,7 @@ class Instance extends \Google\Collection
   public $endpointUris;
   protected $freeInstanceMetadataType = FreeInstanceMetadata::class;
   protected $freeInstanceMetadataDataType = '';
+  public $freeInstanceMetadata;
   /**
    * @var string
    */

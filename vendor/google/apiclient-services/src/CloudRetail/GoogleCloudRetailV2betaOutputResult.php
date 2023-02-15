@@ -22,8 +22,10 @@ class GoogleCloudRetailV2betaOutputResult extends \Google\Collection
   protected $collection_key = 'gcsResult';
   protected $bigqueryResultType = GoogleCloudRetailV2betaBigQueryOutputResult::class;
   protected $bigqueryResultDataType = 'array';
+  public $bigqueryResult;
   protected $gcsResultType = GoogleCloudRetailV2betaGcsOutputResult::class;
   protected $gcsResultDataType = 'array';
+  public $gcsResult;
 
   /**
    * @param GoogleCloudRetailV2betaBigQueryOutputResult[]

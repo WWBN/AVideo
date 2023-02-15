@@ -22,24 +22,30 @@ class GoogleAppsDriveLabelsV2Label extends \Google\Collection
   protected $collection_key = 'fields';
   protected $appliedCapabilitiesType = GoogleAppsDriveLabelsV2LabelAppliedCapabilities::class;
   protected $appliedCapabilitiesDataType = '';
+  public $appliedCapabilities;
   protected $appliedLabelPolicyType = GoogleAppsDriveLabelsV2LabelAppliedLabelPolicy::class;
   protected $appliedLabelPolicyDataType = '';
+  public $appliedLabelPolicy;
   /**
    * @var string
    */
   public $createTime;
   protected $creatorType = GoogleAppsDriveLabelsV2UserInfo::class;
   protected $creatorDataType = '';
+  public $creator;
   /**
    * @var string
    */
   public $disableTime;
   protected $disablerType = GoogleAppsDriveLabelsV2UserInfo::class;
   protected $disablerDataType = '';
+  public $disabler;
   protected $displayHintsType = GoogleAppsDriveLabelsV2LabelDisplayHints::class;
   protected $displayHintsDataType = '';
+  public $displayHints;
   protected $fieldsType = GoogleAppsDriveLabelsV2Field::class;
   protected $fieldsDataType = 'array';
+  public $fields;
   /**
    * @var string
    */
@@ -54,32 +60,38 @@ class GoogleAppsDriveLabelsV2Label extends \Google\Collection
   public $learnMoreUri;
   protected $lifecycleType = GoogleAppsDriveLabelsV2Lifecycle::class;
   protected $lifecycleDataType = '';
+  public $lifecycle;
   protected $lockStatusType = GoogleAppsDriveLabelsV2LockStatus::class;
   protected $lockStatusDataType = '';
+  public $lockStatus;
   /**
    * @var string
    */
   public $name;
   protected $propertiesType = GoogleAppsDriveLabelsV2LabelProperties::class;
   protected $propertiesDataType = '';
+  public $properties;
   /**
    * @var string
    */
   public $publishTime;
   protected $publisherType = GoogleAppsDriveLabelsV2UserInfo::class;
   protected $publisherDataType = '';
+  public $publisher;
   /**
    * @var string
    */
   public $revisionCreateTime;
   protected $revisionCreatorType = GoogleAppsDriveLabelsV2UserInfo::class;
   protected $revisionCreatorDataType = '';
+  public $revisionCreator;
   /**
    * @var string
    */
   public $revisionId;
   protected $schemaCapabilitiesType = GoogleAppsDriveLabelsV2LabelSchemaCapabilities::class;
   protected $schemaCapabilitiesDataType = '';
+  public $schemaCapabilities;
 
   /**
    * @param GoogleAppsDriveLabelsV2LabelAppliedCapabilities

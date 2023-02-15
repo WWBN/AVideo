@@ -22,10 +22,13 @@ class GoogleCloudRecommendationengineV1beta1ImportUserEventsResponse extends \Go
   protected $collection_key = 'errorSamples';
   protected $errorSamplesType = GoogleRpcStatus::class;
   protected $errorSamplesDataType = 'array';
+  public $errorSamples;
   protected $errorsConfigType = GoogleCloudRecommendationengineV1beta1ImportErrorsConfig::class;
   protected $errorsConfigDataType = '';
+  public $errorsConfig;
   protected $importSummaryType = GoogleCloudRecommendationengineV1beta1UserEventImportSummary::class;
   protected $importSummaryDataType = '';
+  public $importSummary;
 
   /**
    * @param GoogleRpcStatus[]

@@ -37,6 +37,7 @@ class GoogleCloudMlV1Study extends \Google\Model
   public $state;
   protected $studyConfigType = GoogleCloudMlV1StudyConfig::class;
   protected $studyConfigDataType = '';
+  public $studyConfig;
 
   /**
    * @param string

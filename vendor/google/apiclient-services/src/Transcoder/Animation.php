@@ -21,10 +21,13 @@ class Animation extends \Google\Model
 {
   protected $animationEndType = AnimationEnd::class;
   protected $animationEndDataType = '';
+  public $animationEnd;
   protected $animationFadeType = AnimationFade::class;
   protected $animationFadeDataType = '';
+  public $animationFade;
   protected $animationStaticType = AnimationStatic::class;
   protected $animationStaticDataType = '';
+  public $animationStatic;
 
   /**
    * @param AnimationEnd

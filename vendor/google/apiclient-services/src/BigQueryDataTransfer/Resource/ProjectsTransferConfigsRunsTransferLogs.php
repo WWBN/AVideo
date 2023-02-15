@@ -24,7 +24,7 @@ use Google\Service\BigQueryDataTransfer\ListTransferLogsResponse;
  * Typical usage is:
  *  <code>
  *   $bigquerydatatransferService = new Google\Service\BigQueryDataTransfer(...);
- *   $transferLogs = $bigquerydatatransferService->transferLogs;
+ *   $transferLogs = $bigquerydatatransferService->projects_transferConfigs_runs_transferLogs;
  *  </code>
  */
 class ProjectsTransferConfigsRunsTransferLogs extends \Google\Service\Resource

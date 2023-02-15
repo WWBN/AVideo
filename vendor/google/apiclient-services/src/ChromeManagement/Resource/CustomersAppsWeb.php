@@ -24,7 +24,7 @@ use Google\Service\ChromeManagement\GoogleChromeManagementV1AppDetails;
  * Typical usage is:
  *  <code>
  *   $chromemanagementService = new Google\Service\ChromeManagement(...);
- *   $web = $chromemanagementService->web;
+ *   $web = $chromemanagementService->customers_apps_web;
  *  </code>
  */
 class CustomersAppsWeb extends \Google\Service\Resource

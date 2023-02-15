@@ -21,6 +21,7 @@ class GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse extends \Goog
 {
   protected $appCheckTokenType = GoogleFirebaseAppcheckV1AppCheckToken::class;
   protected $appCheckTokenDataType = '';
+  public $appCheckToken;
   /**
    * @var string
    */

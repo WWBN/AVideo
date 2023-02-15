@@ -31,7 +31,7 @@ use Google\Service\DataCatalog\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $datacatalogService = new Google\Service\DataCatalog(...);
- *   $entryGroups = $datacatalogService->entryGroups;
+ *   $entryGroups = $datacatalogService->projects_locations_entryGroups;
  *  </code>
  */
 class ProjectsLocationsEntryGroups extends \Google\Service\Resource

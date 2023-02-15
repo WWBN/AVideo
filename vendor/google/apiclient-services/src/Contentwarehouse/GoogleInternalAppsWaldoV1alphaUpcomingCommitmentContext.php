@@ -21,6 +21,7 @@ class GoogleInternalAppsWaldoV1alphaUpcomingCommitmentContext extends \Google\Mo
 {
   protected $nextCommitmentStatusType = GoogleInternalAppsWaldoV1alphaUserStatus::class;
   protected $nextCommitmentStatusDataType = '';
+  public $nextCommitmentStatus;
   /**
    * @var string
    */

@@ -22,18 +22,21 @@ class Sku extends \Google\Collection
   protected $collection_key = 'serviceRegions';
   protected $categoryType = Category::class;
   protected $categoryDataType = '';
+  public $category;
   /**
    * @var string
    */
   public $description;
   protected $geoTaxonomyType = GeoTaxonomy::class;
   protected $geoTaxonomyDataType = '';
+  public $geoTaxonomy;
   /**
    * @var string
    */
   public $name;
   protected $pricingInfoType = PricingInfo::class;
   protected $pricingInfoDataType = 'array';
+  public $pricingInfo;
   /**
    * @var string
    */

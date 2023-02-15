@@ -21,8 +21,10 @@ class SheetProperties extends \Google\Model
 {
   protected $dataSourceSheetPropertiesType = DataSourceSheetProperties::class;
   protected $dataSourceSheetPropertiesDataType = '';
+  public $dataSourceSheetProperties;
   protected $gridPropertiesType = GridProperties::class;
   protected $gridPropertiesDataType = '';
+  public $gridProperties;
   /**
    * @var bool
    */
@@ -45,8 +47,10 @@ class SheetProperties extends \Google\Model
   public $sheetType;
   protected $tabColorType = Color::class;
   protected $tabColorDataType = '';
+  public $tabColor;
   protected $tabColorStyleType = ColorStyle::class;
   protected $tabColorStyleDataType = '';
+  public $tabColorStyle;
   /**
    * @var string
    */

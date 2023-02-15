@@ -25,7 +25,7 @@ use Google\Service\ToolResults\ScreenshotCluster;
  * Typical usage is:
  *  <code>
  *   $toolresultsService = new Google\Service\ToolResults(...);
- *   $clusters = $toolresultsService->clusters;
+ *   $clusters = $toolresultsService->projects_histories_executions_clusters;
  *  </code>
  */
 class ProjectsHistoriesExecutionsClusters extends \Google\Service\Resource

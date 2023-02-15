@@ -37,6 +37,7 @@ class PushItem extends \Google\Model
   public $queue;
   protected $repositoryErrorType = RepositoryError::class;
   protected $repositoryErrorDataType = '';
+  public $repositoryError;
   /**
    * @var string
    */

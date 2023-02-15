@@ -25,7 +25,7 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListIntegrationTem
  * Typical usage is:
  *  <code>
  *   $integrationsService = new Google\Service\Integrations(...);
- *   $versions = $integrationsService->versions;
+ *   $versions = $integrationsService->projects_locations_products_integrationtemplates_versions;
  *  </code>
  */
 class ProjectsLocationsProductsIntegrationtemplatesVersions extends \Google\Service\Resource

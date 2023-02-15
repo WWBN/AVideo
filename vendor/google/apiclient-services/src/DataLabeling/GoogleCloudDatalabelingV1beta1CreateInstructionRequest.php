@@ -21,6 +21,7 @@ class GoogleCloudDatalabelingV1beta1CreateInstructionRequest extends \Google\Mod
 {
   protected $instructionType = GoogleCloudDatalabelingV1beta1Instruction::class;
   protected $instructionDataType = '';
+  public $instruction;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1Instruction

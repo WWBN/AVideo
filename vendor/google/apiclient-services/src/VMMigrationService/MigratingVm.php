@@ -20,14 +20,19 @@ namespace Google\Service\VMMigrationService;
 class MigratingVm extends \Google\Collection
 {
   protected $collection_key = 'recentCutoverJobs';
+  protected $awsSourceVmDetailsType = AwsSourceVmDetails::class;
+  protected $awsSourceVmDetailsDataType = '';
+  public $awsSourceVmDetails;
   protected $computeEngineTargetDefaultsType = ComputeEngineTargetDefaults::class;
   protected $computeEngineTargetDefaultsDataType = '';
+  public $computeEngineTargetDefaults;
   /**
    * @var string
    */
   public $createTime;
   protected $currentSyncInfoType = ReplicationCycle::class;
   protected $currentSyncInfoDataType = '';
+  public $currentSyncInfo;
   /**
    * @var string
    */
@@ -38,6 +43,7 @@ class MigratingVm extends \Google\Collection
   public $displayName;
   protected $errorType = Status::class;
   protected $errorDataType = '';
+  public $error;
   /**
    * @var string
    */
@@ -48,16 +54,20 @@ class MigratingVm extends \Google\Collection
   public $labels;
   protected $lastSyncType = ReplicationSync::class;
   protected $lastSyncDataType = '';
+  public $lastSync;
   /**
    * @var string
    */
   public $name;
   protected $policyType = SchedulePolicy::class;
   protected $policyDataType = '';
+  public $policy;
   protected $recentCloneJobsType = CloneJob::class;
   protected $recentCloneJobsDataType = 'array';
+  public $recentCloneJobs;
   protected $recentCutoverJobsType = CutoverJob::class;
   protected $recentCutoverJobsDataType = 'array';
+  public $recentCutoverJobs;
   /**
    * @var string
    */
@@ -75,6 +85,20 @@ class MigratingVm extends \Google\Collection
    */
   public $updateTime;
 
+  /**
+   * @param AwsSourceVmDetails
+   */
+  public function setAwsSourceVmDetails(AwsSourceVmDetails $awsSourceVmDetails)
+  {
+    $this->awsSourceVmDetails = $awsSourceVmDetails;
+  }
+  /**
+   * @return AwsSourceVmDetails
+   */
+  public function getAwsSourceVmDetails()
+  {
+    return $this->awsSourceVmDetails;
+  }
   /**
    * @param ComputeEngineTargetDefaults
    */

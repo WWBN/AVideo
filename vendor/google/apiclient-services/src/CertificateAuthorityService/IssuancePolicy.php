@@ -22,18 +22,23 @@ class IssuancePolicy extends \Google\Collection
   protected $collection_key = 'allowedKeyTypes';
   protected $allowedIssuanceModesType = IssuanceModes::class;
   protected $allowedIssuanceModesDataType = '';
+  public $allowedIssuanceModes;
   protected $allowedKeyTypesType = AllowedKeyType::class;
   protected $allowedKeyTypesDataType = 'array';
+  public $allowedKeyTypes;
   protected $baselineValuesType = X509Parameters::class;
   protected $baselineValuesDataType = '';
+  public $baselineValues;
   protected $identityConstraintsType = CertificateIdentityConstraints::class;
   protected $identityConstraintsDataType = '';
+  public $identityConstraints;
   /**
    * @var string
    */
   public $maximumLifetime;
   protected $passthroughExtensionsType = CertificateExtensionConstraints::class;
   protected $passthroughExtensionsDataType = '';
+  public $passthroughExtensions;
 
   /**
    * @param IssuanceModes

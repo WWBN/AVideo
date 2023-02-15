@@ -26,8 +26,10 @@ class EntitySignalsEntityClassification extends \Google\Collection
   public $entityId;
   protected $featuresType = EntitySignalsEntityFeature::class;
   protected $featuresDataType = 'array';
+  public $features;
   protected $outputType = EntitySignalsClassificationOutput::class;
   protected $outputDataType = '';
+  public $output;
 
   /**
    * @param string

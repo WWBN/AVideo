@@ -22,6 +22,7 @@ class DownloadSizeEvidence extends \Google\Collection
   protected $collection_key = 'topUrlDownloadSizeBreakdowns';
   protected $topUrlDownloadSizeBreakdownsType = UrlDownloadSize::class;
   protected $topUrlDownloadSizeBreakdownsDataType = 'array';
+  public $topUrlDownloadSizeBreakdowns;
   /**
    * @var int
    */

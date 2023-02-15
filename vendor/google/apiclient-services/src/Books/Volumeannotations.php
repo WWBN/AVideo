@@ -22,6 +22,7 @@ class Volumeannotations extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Volumeannotation::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

@@ -17,7 +17,7 @@
 
 namespace Google\Service\Safebrowsing\Resource;
 
-use Google\Service\Safebrowsing\GoogleSecuritySafebrowsingV4FindFullHashesResponse;
+use Google\Service\Safebrowsing\FindFullHashesResponse;
 
 /**
  * The "encodedFullHashes" collection of methods.
@@ -38,13 +38,13 @@ class EncodedFullHashes extends \Google\Service\Resource
    * @opt_param string clientId A client ID that (hopefully) uniquely identifies
    * the client implementation of the Safe Browsing API.
    * @opt_param string clientVersion The version of the client implementation.
-   * @return GoogleSecuritySafebrowsingV4FindFullHashesResponse
+   * @return FindFullHashesResponse
    */
   public function get($encodedRequest, $optParams = [])
   {
     $params = ['encodedRequest' => $encodedRequest];
     $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], GoogleSecuritySafebrowsingV4FindFullHashesResponse::class);
+    return $this->call('get', [$params], FindFullHashesResponse::class);
   }
 }
 

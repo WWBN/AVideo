@@ -25,7 +25,7 @@ use Google\Service\Dfareporting\FileList;
  * Typical usage is:
  *  <code>
  *   $dfareportingService = new Google\Service\Dfareporting(...);
- *   $files = $dfareportingService->files;
+ *   $files = $dfareportingService->reports_files;
  *  </code>
  */
 class ReportsFiles extends \Google\Service\Resource

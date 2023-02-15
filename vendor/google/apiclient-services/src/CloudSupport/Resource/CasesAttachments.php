@@ -24,7 +24,7 @@ use Google\Service\CloudSupport\ListAttachmentsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudsupportService = new Google\Service\CloudSupport(...);
- *   $attachments = $cloudsupportService->attachments;
+ *   $attachments = $cloudsupportService->cases_attachments;
  *  </code>
  */
 class CasesAttachments extends \Google\Service\Resource

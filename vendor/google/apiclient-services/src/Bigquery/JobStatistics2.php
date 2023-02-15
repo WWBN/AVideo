@@ -22,6 +22,7 @@ class JobStatistics2 extends \Google\Collection
   protected $collection_key = 'undeclaredQueryParameters';
   protected $biEngineStatisticsType = BiEngineStatistics::class;
   protected $biEngineStatisticsDataType = '';
+  public $biEngineStatistics;
   /**
    * @var int
    */
@@ -36,28 +37,36 @@ class JobStatistics2 extends \Google\Collection
   public $ddlAffectedRowAccessPolicyCount;
   protected $ddlDestinationTableType = TableReference::class;
   protected $ddlDestinationTableDataType = '';
+  public $ddlDestinationTable;
   /**
    * @var string
    */
   public $ddlOperationPerformed;
   protected $ddlTargetDatasetType = DatasetReference::class;
   protected $ddlTargetDatasetDataType = '';
+  public $ddlTargetDataset;
   protected $ddlTargetRoutineType = RoutineReference::class;
   protected $ddlTargetRoutineDataType = '';
+  public $ddlTargetRoutine;
   protected $ddlTargetRowAccessPolicyType = RowAccessPolicyReference::class;
   protected $ddlTargetRowAccessPolicyDataType = '';
+  public $ddlTargetRowAccessPolicy;
   protected $ddlTargetTableType = TableReference::class;
   protected $ddlTargetTableDataType = '';
+  public $ddlTargetTable;
   protected $dmlStatsType = DmlStatistics::class;
   protected $dmlStatsDataType = '';
+  public $dmlStats;
   /**
    * @var string
    */
   public $estimatedBytesProcessed;
   protected $mlStatisticsType = MlStatistics::class;
   protected $mlStatisticsDataType = '';
+  public $mlStatistics;
   protected $modelTrainingType = BigQueryModelTraining::class;
   protected $modelTrainingDataType = '';
+  public $modelTraining;
   /**
    * @var int
    */
@@ -72,24 +81,32 @@ class JobStatistics2 extends \Google\Collection
   public $numDmlAffectedRows;
   protected $queryPlanType = ExplainQueryStage::class;
   protected $queryPlanDataType = 'array';
+  public $queryPlan;
   protected $referencedRoutinesType = RoutineReference::class;
   protected $referencedRoutinesDataType = 'array';
+  public $referencedRoutines;
   protected $referencedTablesType = TableReference::class;
   protected $referencedTablesDataType = 'array';
+  public $referencedTables;
   protected $reservationUsageType = JobStatistics2ReservationUsage::class;
   protected $reservationUsageDataType = 'array';
+  public $reservationUsage;
   protected $schemaType = TableSchema::class;
   protected $schemaDataType = '';
+  public $schema;
   protected $searchStatisticsType = SearchStatistics::class;
   protected $searchStatisticsDataType = '';
+  public $searchStatistics;
   protected $sparkStatisticsType = SparkStatistics::class;
   protected $sparkStatisticsDataType = '';
+  public $sparkStatistics;
   /**
    * @var string
    */
   public $statementType;
   protected $timelineType = QueryTimelineSample::class;
   protected $timelineDataType = 'array';
+  public $timeline;
   /**
    * @var string
    */
@@ -116,6 +133,7 @@ class JobStatistics2 extends \Google\Collection
   public $transferredBytes;
   protected $undeclaredQueryParametersType = QueryParameter::class;
   protected $undeclaredQueryParametersDataType = 'array';
+  public $undeclaredQueryParameters;
 
   /**
    * @param BiEngineStatistics

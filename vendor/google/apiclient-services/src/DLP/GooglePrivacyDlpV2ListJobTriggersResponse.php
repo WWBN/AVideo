@@ -22,6 +22,7 @@ class GooglePrivacyDlpV2ListJobTriggersResponse extends \Google\Collection
   protected $collection_key = 'jobTriggers';
   protected $jobTriggersType = GooglePrivacyDlpV2JobTrigger::class;
   protected $jobTriggersDataType = 'array';
+  public $jobTriggers;
   /**
    * @var string
    */

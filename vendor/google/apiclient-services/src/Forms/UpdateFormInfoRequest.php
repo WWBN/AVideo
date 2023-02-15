@@ -21,6 +21,7 @@ class UpdateFormInfoRequest extends \Google\Model
 {
   protected $infoType = Info::class;
   protected $infoDataType = '';
+  public $info;
   /**
    * @var string
    */

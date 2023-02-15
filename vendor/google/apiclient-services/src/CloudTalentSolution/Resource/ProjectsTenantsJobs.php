@@ -32,7 +32,7 @@ use Google\Service\CloudTalentSolution\SearchJobsResponse;
  * Typical usage is:
  *  <code>
  *   $jobsService = new Google\Service\CloudTalentSolution(...);
- *   $jobs = $jobsService->jobs;
+ *   $jobs = $jobsService->projects_tenants_jobs;
  *  </code>
  */
 class ProjectsTenantsJobs extends \Google\Service\Resource

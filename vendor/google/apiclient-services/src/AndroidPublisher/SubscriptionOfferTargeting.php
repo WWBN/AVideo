@@ -21,8 +21,10 @@ class SubscriptionOfferTargeting extends \Google\Model
 {
   protected $acquisitionRuleType = AcquisitionTargetingRule::class;
   protected $acquisitionRuleDataType = '';
+  public $acquisitionRule;
   protected $upgradeRuleType = UpgradeTargetingRule::class;
   protected $upgradeRuleDataType = '';
+  public $upgradeRule;
 
   /**
    * @param AcquisitionTargetingRule

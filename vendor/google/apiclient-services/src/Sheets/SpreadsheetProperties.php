@@ -25,14 +25,17 @@ class SpreadsheetProperties extends \Google\Model
   public $autoRecalc;
   protected $defaultFormatType = CellFormat::class;
   protected $defaultFormatDataType = '';
+  public $defaultFormat;
   protected $iterativeCalculationSettingsType = IterativeCalculationSettings::class;
   protected $iterativeCalculationSettingsDataType = '';
+  public $iterativeCalculationSettings;
   /**
    * @var string
    */
   public $locale;
   protected $spreadsheetThemeType = SpreadsheetTheme::class;
   protected $spreadsheetThemeDataType = '';
+  public $spreadsheetTheme;
   /**
    * @var string
    */

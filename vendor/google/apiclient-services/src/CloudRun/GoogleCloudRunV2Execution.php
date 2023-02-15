@@ -25,11 +25,16 @@ class GoogleCloudRunV2Execution extends \Google\Collection
    */
   public $annotations;
   /**
+   * @var int
+   */
+  public $cancelledCount;
+  /**
    * @var string
    */
   public $completionTime;
   protected $conditionsType = GoogleCloudRunV2Condition::class;
   protected $conditionsDataType = 'array';
+  public $conditions;
   /**
    * @var string
    */
@@ -69,6 +74,10 @@ class GoogleCloudRunV2Execution extends \Google\Collection
   /**
    * @var string
    */
+  public $logUri;
+  /**
+   * @var string
+   */
   public $name;
   /**
    * @var string
@@ -82,6 +91,10 @@ class GoogleCloudRunV2Execution extends \Google\Collection
    * @var bool
    */
   public $reconciling;
+  /**
+   * @var int
+   */
+  public $retriedCount;
   /**
    * @var int
    */
@@ -100,6 +113,7 @@ class GoogleCloudRunV2Execution extends \Google\Collection
   public $taskCount;
   protected $templateType = GoogleCloudRunV2TaskTemplate::class;
   protected $templateDataType = '';
+  public $template;
   /**
    * @var string
    */
@@ -122,6 +136,20 @@ class GoogleCloudRunV2Execution extends \Google\Collection
   public function getAnnotations()
   {
     return $this->annotations;
+  }
+  /**
+   * @param int
+   */
+  public function setCancelledCount($cancelledCount)
+  {
+    $this->cancelledCount = $cancelledCount;
+  }
+  /**
+   * @return int
+   */
+  public function getCancelledCount()
+  {
+    return $this->cancelledCount;
   }
   /**
    * @param string
@@ -280,6 +308,20 @@ class GoogleCloudRunV2Execution extends \Google\Collection
   /**
    * @param string
    */
+  public function setLogUri($logUri)
+  {
+    $this->logUri = $logUri;
+  }
+  /**
+   * @return string
+   */
+  public function getLogUri()
+  {
+    return $this->logUri;
+  }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
@@ -332,6 +374,20 @@ class GoogleCloudRunV2Execution extends \Google\Collection
   public function getReconciling()
   {
     return $this->reconciling;
+  }
+  /**
+   * @param int
+   */
+  public function setRetriedCount($retriedCount)
+  {
+    $this->retriedCount = $retriedCount;
+  }
+  /**
+   * @return int
+   */
+  public function getRetriedCount()
+  {
+    return $this->retriedCount;
   }
   /**
    * @param int

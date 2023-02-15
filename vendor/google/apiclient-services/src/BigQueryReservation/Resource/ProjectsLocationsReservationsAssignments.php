@@ -27,7 +27,7 @@ use Google\Service\BigQueryReservation\MoveAssignmentRequest;
  * Typical usage is:
  *  <code>
  *   $bigqueryreservationService = new Google\Service\BigQueryReservation(...);
- *   $assignments = $bigqueryreservationService->assignments;
+ *   $assignments = $bigqueryreservationService->projects_locations_reservations_assignments;
  *  </code>
  */
 class ProjectsLocationsReservationsAssignments extends \Google\Service\Resource

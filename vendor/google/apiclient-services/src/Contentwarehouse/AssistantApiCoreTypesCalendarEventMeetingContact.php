@@ -38,6 +38,7 @@ class AssistantApiCoreTypesCalendarEventMeetingContact extends \Google\Collectio
   public $pinNumber;
   protected $providerType = AssistantApiCoreTypesProvider::class;
   protected $providerDataType = '';
+  public $provider;
   /**
    * @var string
    */

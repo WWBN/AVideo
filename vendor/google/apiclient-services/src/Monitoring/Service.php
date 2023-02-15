@@ -21,36 +21,48 @@ class Service extends \Google\Model
 {
   protected $appEngineType = AppEngine::class;
   protected $appEngineDataType = '';
+  public $appEngine;
   protected $basicServiceType = BasicService::class;
   protected $basicServiceDataType = '';
+  public $basicService;
   protected $cloudEndpointsType = CloudEndpoints::class;
   protected $cloudEndpointsDataType = '';
+  public $cloudEndpoints;
   protected $cloudRunType = CloudRun::class;
   protected $cloudRunDataType = '';
+  public $cloudRun;
   protected $clusterIstioType = ClusterIstio::class;
   protected $clusterIstioDataType = '';
+  public $clusterIstio;
   protected $customType = Custom::class;
   protected $customDataType = '';
+  public $custom;
   /**
    * @var string
    */
   public $displayName;
   protected $gkeNamespaceType = GkeNamespace::class;
   protected $gkeNamespaceDataType = '';
+  public $gkeNamespace;
   protected $gkeServiceType = GkeService::class;
   protected $gkeServiceDataType = '';
+  public $gkeService;
   protected $gkeWorkloadType = GkeWorkload::class;
   protected $gkeWorkloadDataType = '';
+  public $gkeWorkload;
   protected $istioCanonicalServiceType = IstioCanonicalService::class;
   protected $istioCanonicalServiceDataType = '';
+  public $istioCanonicalService;
   protected $meshIstioType = MeshIstio::class;
   protected $meshIstioDataType = '';
+  public $meshIstio;
   /**
    * @var string
    */
   public $name;
   protected $telemetryType = Telemetry::class;
   protected $telemetryDataType = '';
+  public $telemetry;
   /**
    * @var string[]
    */

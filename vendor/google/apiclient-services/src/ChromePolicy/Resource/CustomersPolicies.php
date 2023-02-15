@@ -25,7 +25,7 @@ use Google\Service\ChromePolicy\GoogleChromePolicyVersionsV1ResolveResponse;
  * Typical usage is:
  *  <code>
  *   $chromepolicyService = new Google\Service\ChromePolicy(...);
- *   $policies = $chromepolicyService->policies;
+ *   $policies = $chromepolicyService->customers_policies;
  *  </code>
  */
 class CustomersPolicies extends \Google\Service\Resource

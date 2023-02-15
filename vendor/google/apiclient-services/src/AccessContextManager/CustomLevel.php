@@ -21,6 +21,7 @@ class CustomLevel extends \Google\Model
 {
   protected $exprType = Expr::class;
   protected $exprDataType = '';
+  public $expr;
 
   /**
    * @param Expr

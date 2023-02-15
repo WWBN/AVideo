@@ -26,6 +26,7 @@ class ListUptimeCheckIpsResponse extends \Google\Collection
   public $nextPageToken;
   protected $uptimeCheckIpsType = UptimeCheckIp::class;
   protected $uptimeCheckIpsDataType = 'array';
+  public $uptimeCheckIps;
 
   /**
    * @param string

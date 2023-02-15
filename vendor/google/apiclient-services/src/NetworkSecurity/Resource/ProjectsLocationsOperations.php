@@ -27,7 +27,7 @@ use Google\Service\NetworkSecurity\Operation;
  * Typical usage is:
  *  <code>
  *   $networksecurityService = new Google\Service\NetworkSecurity(...);
- *   $operations = $networksecurityService->operations;
+ *   $operations = $networksecurityService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

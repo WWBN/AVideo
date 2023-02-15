@@ -34,7 +34,7 @@ use Google\Service\CloudKMS\UpdateCryptoKeyPrimaryVersionRequest;
  * Typical usage is:
  *  <code>
  *   $cloudkmsService = new Google\Service\CloudKMS(...);
- *   $cryptoKeys = $cloudkmsService->cryptoKeys;
+ *   $cryptoKeys = $cloudkmsService->projects_locations_keyRings_cryptoKeys;
  *  </code>
  */
 class ProjectsLocationsKeyRingsCryptoKeys extends \Google\Service\Resource

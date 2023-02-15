@@ -33,6 +33,7 @@ class Type extends \Google\Model
   public $name;
   protected $operationType = Operation::class;
   protected $operationDataType = '';
+  public $operation;
   /**
    * @var string
    */

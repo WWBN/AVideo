@@ -24,7 +24,7 @@ use Google\Service\Vision\ListProductsInProductSetResponse;
  * Typical usage is:
  *  <code>
  *   $visionService = new Google\Service\Vision(...);
- *   $products = $visionService->products;
+ *   $products = $visionService->projects_locations_productSets_products;
  *  </code>
  */
 class ProjectsLocationsProductSetsProducts extends \Google\Service\Resource

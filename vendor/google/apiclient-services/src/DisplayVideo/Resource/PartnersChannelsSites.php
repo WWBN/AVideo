@@ -30,7 +30,7 @@ use Google\Service\DisplayVideo\Site;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $sites = $displayvideoService->sites;
+ *   $sites = $displayvideoService->partners_channels_sites;
  *  </code>
  */
 class PartnersChannelsSites extends \Google\Service\Resource

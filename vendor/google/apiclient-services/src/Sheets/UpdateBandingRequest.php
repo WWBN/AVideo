@@ -21,6 +21,7 @@ class UpdateBandingRequest extends \Google\Model
 {
   protected $bandedRangeType = BandedRange::class;
   protected $bandedRangeDataType = '';
+  public $bandedRange;
   /**
    * @var string
    */

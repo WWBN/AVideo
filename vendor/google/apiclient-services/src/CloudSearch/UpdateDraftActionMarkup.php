@@ -21,14 +21,19 @@ class UpdateDraftActionMarkup extends \Google\Model
 {
   protected $updateBccRecipientsType = UpdateBccRecipients::class;
   protected $updateBccRecipientsDataType = '';
+  public $updateBccRecipients;
   protected $updateBodyType = UpdateBody::class;
   protected $updateBodyDataType = '';
+  public $updateBody;
   protected $updateCcRecipientsType = UpdateCcRecipients::class;
   protected $updateCcRecipientsDataType = '';
+  public $updateCcRecipients;
   protected $updateSubjectType = UpdateSubject::class;
   protected $updateSubjectDataType = '';
+  public $updateSubject;
   protected $updateToRecipientsType = UpdateToRecipients::class;
   protected $updateToRecipientsDataType = '';
+  public $updateToRecipients;
 
   /**
    * @param UpdateBccRecipients

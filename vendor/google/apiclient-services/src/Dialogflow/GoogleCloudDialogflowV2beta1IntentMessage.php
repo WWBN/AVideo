@@ -21,20 +21,28 @@ class GoogleCloudDialogflowV2beta1IntentMessage extends \Google\Model
 {
   protected $basicCardType = GoogleCloudDialogflowV2beta1IntentMessageBasicCard::class;
   protected $basicCardDataType = '';
+  public $basicCard;
   protected $browseCarouselCardType = GoogleCloudDialogflowV2beta1IntentMessageBrowseCarouselCard::class;
   protected $browseCarouselCardDataType = '';
+  public $browseCarouselCard;
   protected $cardType = GoogleCloudDialogflowV2beta1IntentMessageCard::class;
   protected $cardDataType = '';
+  public $card;
   protected $carouselSelectType = GoogleCloudDialogflowV2beta1IntentMessageCarouselSelect::class;
   protected $carouselSelectDataType = '';
+  public $carouselSelect;
   protected $imageType = GoogleCloudDialogflowV2beta1IntentMessageImage::class;
   protected $imageDataType = '';
+  public $image;
   protected $linkOutSuggestionType = GoogleCloudDialogflowV2beta1IntentMessageLinkOutSuggestion::class;
   protected $linkOutSuggestionDataType = '';
+  public $linkOutSuggestion;
   protected $listSelectType = GoogleCloudDialogflowV2beta1IntentMessageListSelect::class;
   protected $listSelectDataType = '';
+  public $listSelect;
   protected $mediaContentType = GoogleCloudDialogflowV2beta1IntentMessageMediaContent::class;
   protected $mediaContentDataType = '';
+  public $mediaContent;
   /**
    * @var array[]
    */
@@ -45,26 +53,37 @@ class GoogleCloudDialogflowV2beta1IntentMessage extends \Google\Model
   public $platform;
   protected $quickRepliesType = GoogleCloudDialogflowV2beta1IntentMessageQuickReplies::class;
   protected $quickRepliesDataType = '';
+  public $quickReplies;
   protected $rbmCarouselRichCardType = GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard::class;
   protected $rbmCarouselRichCardDataType = '';
+  public $rbmCarouselRichCard;
   protected $rbmStandaloneRichCardType = GoogleCloudDialogflowV2beta1IntentMessageRbmStandaloneCard::class;
   protected $rbmStandaloneRichCardDataType = '';
+  public $rbmStandaloneRichCard;
   protected $rbmTextType = GoogleCloudDialogflowV2beta1IntentMessageRbmText::class;
   protected $rbmTextDataType = '';
+  public $rbmText;
   protected $simpleResponsesType = GoogleCloudDialogflowV2beta1IntentMessageSimpleResponses::class;
   protected $simpleResponsesDataType = '';
+  public $simpleResponses;
   protected $suggestionsType = GoogleCloudDialogflowV2beta1IntentMessageSuggestions::class;
   protected $suggestionsDataType = '';
+  public $suggestions;
   protected $tableCardType = GoogleCloudDialogflowV2beta1IntentMessageTableCard::class;
   protected $tableCardDataType = '';
+  public $tableCard;
   protected $telephonyPlayAudioType = GoogleCloudDialogflowV2beta1IntentMessageTelephonyPlayAudio::class;
   protected $telephonyPlayAudioDataType = '';
+  public $telephonyPlayAudio;
   protected $telephonySynthesizeSpeechType = GoogleCloudDialogflowV2beta1IntentMessageTelephonySynthesizeSpeech::class;
   protected $telephonySynthesizeSpeechDataType = '';
+  public $telephonySynthesizeSpeech;
   protected $telephonyTransferCallType = GoogleCloudDialogflowV2beta1IntentMessageTelephonyTransferCall::class;
   protected $telephonyTransferCallDataType = '';
+  public $telephonyTransferCall;
   protected $textType = GoogleCloudDialogflowV2beta1IntentMessageText::class;
   protected $textDataType = '';
+  public $text;
 
   /**
    * @param GoogleCloudDialogflowV2beta1IntentMessageBasicCard

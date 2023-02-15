@@ -22,10 +22,13 @@ class ReviewsListResponse extends \Google\Collection
   protected $collection_key = 'reviews';
   protected $pageInfoType = PageInfo::class;
   protected $pageInfoDataType = '';
+  public $pageInfo;
   protected $reviewsType = Review::class;
   protected $reviewsDataType = 'array';
+  public $reviews;
   protected $tokenPaginationType = TokenPagination::class;
   protected $tokenPaginationDataType = '';
+  public $tokenPagination;
 
   /**
    * @param PageInfo

@@ -42,6 +42,10 @@ class GoogleCloudRetailV2CatalogAttribute extends \Google\Model
   /**
    * @var string
    */
+  public $retrievableOption;
+  /**
+   * @var string
+   */
   public $searchableOption;
   /**
    * @var string
@@ -117,6 +121,20 @@ class GoogleCloudRetailV2CatalogAttribute extends \Google\Model
   public function getKey()
   {
     return $this->key;
+  }
+  /**
+   * @param string
+   */
+  public function setRetrievableOption($retrievableOption)
+  {
+    $this->retrievableOption = $retrievableOption;
+  }
+  /**
+   * @return string
+   */
+  public function getRetrievableOption()
+  {
+    return $this->retrievableOption;
   }
   /**
    * @param string

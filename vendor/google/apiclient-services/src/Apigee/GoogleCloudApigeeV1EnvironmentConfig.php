@@ -30,16 +30,27 @@ class GoogleCloudApigeeV1EnvironmentConfig extends \Google\Collection
   public $createTime;
   protected $dataCollectorsType = GoogleCloudApigeeV1DataCollectorConfig::class;
   protected $dataCollectorsDataType = 'array';
+  public $dataCollectors;
   protected $debugMaskType = GoogleCloudApigeeV1DebugMask::class;
   protected $debugMaskDataType = '';
+  public $debugMask;
+  protected $deploymentGroupsType = GoogleCloudApigeeV1DeploymentGroupConfig::class;
+  protected $deploymentGroupsDataType = 'array';
+  public $deploymentGroups;
   protected $deploymentsType = GoogleCloudApigeeV1DeploymentConfig::class;
   protected $deploymentsDataType = 'array';
+  public $deployments;
+  /**
+   * @var string
+   */
+  public $envScopedRevisionId;
   /**
    * @var string[]
    */
   public $featureFlags;
   protected $flowhooksType = GoogleCloudApigeeV1FlowHookConfig::class;
   protected $flowhooksDataType = 'array';
+  public $flowhooks;
   /**
    * @var string
    */
@@ -50,6 +61,7 @@ class GoogleCloudApigeeV1EnvironmentConfig extends \Google\Collection
   public $gatewayConfigLocation;
   protected $keystoresType = GoogleCloudApigeeV1KeystoreConfig::class;
   protected $keystoresDataType = 'array';
+  public $keystores;
   /**
    * @var string
    */
@@ -64,8 +76,10 @@ class GoogleCloudApigeeV1EnvironmentConfig extends \Google\Collection
   public $pubsubTopic;
   protected $resourceReferencesType = GoogleCloudApigeeV1ReferenceConfig::class;
   protected $resourceReferencesDataType = 'array';
+  public $resourceReferences;
   protected $resourcesType = GoogleCloudApigeeV1ResourceConfig::class;
   protected $resourcesDataType = 'array';
+  public $resources;
   /**
    * @var string
    */
@@ -76,8 +90,10 @@ class GoogleCloudApigeeV1EnvironmentConfig extends \Google\Collection
   public $sequenceNumber;
   protected $targetsType = GoogleCloudApigeeV1TargetServerConfig::class;
   protected $targetsDataType = 'array';
+  public $targets;
   protected $traceConfigType = GoogleCloudApigeeV1RuntimeTraceConfig::class;
   protected $traceConfigDataType = '';
+  public $traceConfig;
   /**
    * @var string
    */
@@ -140,6 +156,20 @@ class GoogleCloudApigeeV1EnvironmentConfig extends \Google\Collection
     return $this->debugMask;
   }
   /**
+   * @param GoogleCloudApigeeV1DeploymentGroupConfig[]
+   */
+  public function setDeploymentGroups($deploymentGroups)
+  {
+    $this->deploymentGroups = $deploymentGroups;
+  }
+  /**
+   * @return GoogleCloudApigeeV1DeploymentGroupConfig[]
+   */
+  public function getDeploymentGroups()
+  {
+    return $this->deploymentGroups;
+  }
+  /**
    * @param GoogleCloudApigeeV1DeploymentConfig[]
    */
   public function setDeployments($deployments)
@@ -152,6 +182,20 @@ class GoogleCloudApigeeV1EnvironmentConfig extends \Google\Collection
   public function getDeployments()
   {
     return $this->deployments;
+  }
+  /**
+   * @param string
+   */
+  public function setEnvScopedRevisionId($envScopedRevisionId)
+  {
+    $this->envScopedRevisionId = $envScopedRevisionId;
+  }
+  /**
+   * @return string
+   */
+  public function getEnvScopedRevisionId()
+  {
+    return $this->envScopedRevisionId;
   }
   /**
    * @param string[]

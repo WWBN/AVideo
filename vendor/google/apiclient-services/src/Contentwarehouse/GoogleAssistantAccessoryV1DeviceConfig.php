@@ -21,8 +21,10 @@ class GoogleAssistantAccessoryV1DeviceConfig extends \Google\Model
 {
   protected $deviceBuildType = GoogleAssistantEmbeddedV1DeviceBuild::class;
   protected $deviceBuildDataType = '';
+  public $deviceBuild;
   protected $deviceModelCapabilitiesOverrideType = GoogleAssistantEmbeddedV1DeviceModelCapabilitiesOverride::class;
   protected $deviceModelCapabilitiesOverrideDataType = '';
+  public $deviceModelCapabilitiesOverride;
   /**
    * @var string
    */

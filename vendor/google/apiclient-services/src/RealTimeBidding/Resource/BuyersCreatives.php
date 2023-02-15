@@ -25,7 +25,7 @@ use Google\Service\RealTimeBidding\ListCreativesResponse;
  * Typical usage is:
  *  <code>
  *   $realtimebiddingService = new Google\Service\RealTimeBidding(...);
- *   $creatives = $realtimebiddingService->creatives;
+ *   $creatives = $realtimebiddingService->buyers_creatives;
  *  </code>
  */
 class BuyersCreatives extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class Volume extends \Google\Model
 {
   protected $accessInfoType = VolumeAccessInfo::class;
   protected $accessInfoDataType = '';
+  public $accessInfo;
   /**
    * @var string
    */
@@ -35,20 +36,26 @@ class Volume extends \Google\Model
   public $kind;
   protected $layerInfoType = VolumeLayerInfo::class;
   protected $layerInfoDataType = '';
+  public $layerInfo;
   protected $recommendedInfoType = VolumeRecommendedInfo::class;
   protected $recommendedInfoDataType = '';
+  public $recommendedInfo;
   protected $saleInfoType = VolumeSaleInfo::class;
   protected $saleInfoDataType = '';
+  public $saleInfo;
   protected $searchInfoType = VolumeSearchInfo::class;
   protected $searchInfoDataType = '';
+  public $searchInfo;
   /**
    * @var string
    */
   public $selfLink;
   protected $userInfoType = VolumeUserInfo::class;
   protected $userInfoDataType = '';
+  public $userInfo;
   protected $volumeInfoType = VolumeVolumeInfo::class;
   protected $volumeInfoDataType = '';
+  public $volumeInfo;
 
   /**
    * @param VolumeAccessInfo

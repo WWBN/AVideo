@@ -22,6 +22,7 @@ class ListInstancesResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $instancesType = Instance::class;
   protected $instancesDataType = 'array';
+  public $instances;
   /**
    * @var string
    */

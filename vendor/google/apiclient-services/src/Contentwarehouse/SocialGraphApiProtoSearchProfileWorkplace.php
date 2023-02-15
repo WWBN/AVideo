@@ -21,10 +21,13 @@ class SocialGraphApiProtoSearchProfileWorkplace extends \Google\Model
 {
   protected $companyType = SocialGraphApiProtoSearchProfileEntity::class;
   protected $companyDataType = '';
+  public $company;
   protected $endTimeType = GoogleTypeDate::class;
   protected $endTimeDataType = '';
+  public $endTime;
   protected $startTimeType = GoogleTypeDate::class;
   protected $startTimeDataType = '';
+  public $startTime;
 
   /**
    * @param SocialGraphApiProtoSearchProfileEntity

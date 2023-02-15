@@ -21,8 +21,10 @@ class TermsAndConditions extends \Google\Model
 {
   protected $contentType = UserFacingMessage::class;
   protected $contentDataType = '';
+  public $content;
   protected $headerType = UserFacingMessage::class;
   protected $headerDataType = '';
+  public $header;
 
   /**
    * @param UserFacingMessage

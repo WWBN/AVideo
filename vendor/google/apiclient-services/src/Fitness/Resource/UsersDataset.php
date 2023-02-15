@@ -25,7 +25,7 @@ use Google\Service\Fitness\AggregateResponse;
  * Typical usage is:
  *  <code>
  *   $fitnessService = new Google\Service\Fitness(...);
- *   $dataset = $fitnessService->dataset;
+ *   $dataset = $fitnessService->users_dataset;
  *  </code>
  */
 class UsersDataset extends \Google\Service\Resource

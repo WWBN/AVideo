@@ -26,7 +26,7 @@ use Google\Service\CloudBillingBudget\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $billingbudgetsService = new Google\Service\CloudBillingBudget(...);
- *   $budgets = $billingbudgetsService->budgets;
+ *   $budgets = $billingbudgetsService->billingAccounts_budgets;
  *  </code>
  */
 class BillingAccountsBudgets extends \Google\Service\Resource

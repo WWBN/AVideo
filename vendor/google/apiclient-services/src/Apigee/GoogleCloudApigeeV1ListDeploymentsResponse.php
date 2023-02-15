@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1ListDeploymentsResponse extends \Google\Collection
   protected $collection_key = 'deployments';
   protected $deploymentsType = GoogleCloudApigeeV1Deployment::class;
   protected $deploymentsDataType = 'array';
+  public $deployments;
 
   /**
    * @param GoogleCloudApigeeV1Deployment[]

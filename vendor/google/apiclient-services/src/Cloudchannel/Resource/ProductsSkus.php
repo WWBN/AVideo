@@ -24,7 +24,7 @@ use Google\Service\Cloudchannel\GoogleCloudChannelV1ListSkusResponse;
  * Typical usage is:
  *  <code>
  *   $cloudchannelService = new Google\Service\Cloudchannel(...);
- *   $skus = $cloudchannelService->skus;
+ *   $skus = $cloudchannelService->products_skus;
  *  </code>
  */
 class ProductsSkus extends \Google\Service\Resource

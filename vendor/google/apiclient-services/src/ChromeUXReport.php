@@ -61,7 +61,11 @@ class ChromeUXReport extends \Google\Service
         'records',
         [
           'methods' => [
-            'queryRecord' => [
+            'queryHistoryRecord' => [
+              'path' => 'v1/records:queryHistoryRecord',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],'queryRecord' => [
               'path' => 'v1/records:queryRecord',
               'httpMethod' => 'POST',
               'parameters' => [],

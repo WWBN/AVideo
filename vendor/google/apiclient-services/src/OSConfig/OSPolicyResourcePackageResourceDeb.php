@@ -25,6 +25,7 @@ class OSPolicyResourcePackageResourceDeb extends \Google\Model
   public $pullDeps;
   protected $sourceType = OSPolicyResourceFile::class;
   protected $sourceDataType = '';
+  public $source;
 
   /**
    * @param bool

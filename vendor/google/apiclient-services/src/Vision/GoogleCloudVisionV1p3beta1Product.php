@@ -38,6 +38,7 @@ class GoogleCloudVisionV1p3beta1Product extends \Google\Collection
   public $productCategory;
   protected $productLabelsType = GoogleCloudVisionV1p3beta1ProductKeyValue::class;
   protected $productLabelsDataType = 'array';
+  public $productLabels;
 
   /**
    * @param string

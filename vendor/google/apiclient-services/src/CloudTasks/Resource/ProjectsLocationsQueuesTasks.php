@@ -28,7 +28,7 @@ use Google\Service\CloudTasks\Task;
  * Typical usage is:
  *  <code>
  *   $cloudtasksService = new Google\Service\CloudTasks(...);
- *   $tasks = $cloudtasksService->tasks;
+ *   $tasks = $cloudtasksService->projects_locations_queues_tasks;
  *  </code>
  */
 class ProjectsLocationsQueuesTasks extends \Google\Service\Resource

@@ -22,7 +22,7 @@ namespace Google\Service\CloudHealthcare\Resource;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $services = $healthcareService->services;
+ *   $services = $healthcareService->projects_locations_services;
  *  </code>
  */
 class ProjectsLocationsServices extends \Google\Service\Resource

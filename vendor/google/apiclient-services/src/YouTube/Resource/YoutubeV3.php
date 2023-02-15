@@ -24,7 +24,7 @@ use Google\Service\YouTube\CommentThread;
  * Typical usage is:
  *  <code>
  *   $youtubeService = new Google\Service\YouTube(...);
- *   $v3 = $youtubeService->v3;
+ *   $v3 = $youtubeService->youtube_v3;
  *  </code>
  */
 class YoutubeV3 extends \Google\Service\Resource

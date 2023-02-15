@@ -33,6 +33,7 @@ class SlashCommandMetadata extends \Google\Model
   public $commandName;
   protected $idType = UserId::class;
   protected $idDataType = '';
+  public $id;
   /**
    * @var bool
    */

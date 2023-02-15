@@ -30,6 +30,7 @@ class DevicePolicy extends \Google\Collection
   public $allowedEncryptionStatuses;
   protected $osConstraintsType = OsConstraint::class;
   protected $osConstraintsDataType = 'array';
+  public $osConstraints;
   /**
    * @var bool
    */

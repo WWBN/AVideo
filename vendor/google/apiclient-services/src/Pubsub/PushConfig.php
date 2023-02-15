@@ -25,6 +25,7 @@ class PushConfig extends \Google\Model
   public $attributes;
   protected $oidcTokenType = OidcToken::class;
   protected $oidcTokenDataType = '';
+  public $oidcToken;
   /**
    * @var string
    */

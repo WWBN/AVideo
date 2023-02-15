@@ -26,6 +26,7 @@ class ListSessionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $sessionsType = Session::class;
   protected $sessionsDataType = 'array';
+  public $sessions;
 
   /**
    * @param string

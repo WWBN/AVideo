@@ -21,32 +21,42 @@ class AssistantApiCoreTypesProvider extends \Google\Model
 {
   protected $androidAppInfoType = AssistantApiCoreTypesAndroidAppInfo::class;
   protected $androidAppInfoDataType = '';
+  public $androidAppInfo;
   protected $castAppInfoType = AssistantApiCoreTypesCastAppInfo::class;
   protected $castAppInfoDataType = '';
+  public $castAppInfo;
   protected $chromeosAppInfoType = AssistantApiCoreTypesChromeOsAppInfo::class;
   protected $chromeosAppInfoDataType = '';
+  public $chromeosAppInfo;
   protected $cloudProviderInfoType = AssistantApiCoreTypesCloudProviderInfo::class;
   protected $cloudProviderInfoDataType = '';
+  public $cloudProviderInfo;
   /**
    * @var string
    */
   public $fallbackUrl;
   protected $homeAppInfoType = AssistantApiCoreTypesHomeAppInfo::class;
   protected $homeAppInfoDataType = '';
+  public $homeAppInfo;
   /**
    * @var string
    */
   public $iconImageUrl;
   protected $internalProviderInfoType = AssistantApiCoreTypesInternalProviderInfo::class;
   protected $internalProviderInfoDataType = '';
+  public $internalProviderInfo;
   protected $iosAppInfoType = AssistantApiCoreTypesIosAppInfo::class;
   protected $iosAppInfoDataType = '';
+  public $iosAppInfo;
   protected $kaiosAppInfoType = AssistantApiCoreTypesKaiOsAppInfo::class;
   protected $kaiosAppInfoDataType = '';
+  public $kaiosAppInfo;
   protected $sipProviderInfoType = AssistantApiCoreTypesSipProviderInfo::class;
   protected $sipProviderInfoDataType = '';
+  public $sipProviderInfo;
   protected $webProviderInfoType = AssistantApiCoreTypesWebProviderInfo::class;
   protected $webProviderInfoDataType = '';
+  public $webProviderInfo;
 
   /**
    * @param AssistantApiCoreTypesAndroidAppInfo

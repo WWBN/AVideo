@@ -24,7 +24,7 @@ use Google\Service\AndroidPublisher\Testers;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $testers = $androidpublisherService->testers;
+ *   $testers = $androidpublisherService->edits_testers;
  *  </code>
  */
 class EditsTesters extends \Google\Service\Resource

@@ -25,7 +25,7 @@ use Google\Service\DataLabeling\GoogleCloudDatalabelingV1beta1ListDataItemsRespo
  * Typical usage is:
  *  <code>
  *   $datalabelingService = new Google\Service\DataLabeling(...);
- *   $dataItems = $datalabelingService->dataItems;
+ *   $dataItems = $datalabelingService->projects_datasets_dataItems;
  *  </code>
  */
 class ProjectsDatasetsDataItems extends \Google\Service\Resource

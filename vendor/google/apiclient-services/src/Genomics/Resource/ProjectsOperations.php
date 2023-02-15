@@ -27,7 +27,7 @@ use Google\Service\Genomics\Operation;
  * Typical usage is:
  *  <code>
  *   $genomicsService = new Google\Service\Genomics(...);
- *   $operations = $genomicsService->operations;
+ *   $operations = $genomicsService->projects_operations;
  *  </code>
  */
 class ProjectsOperations extends \Google\Service\Resource

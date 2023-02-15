@@ -21,10 +21,13 @@ class AssistantApiDateTime extends \Google\Model
 {
   protected $dateType = AssistantApiDate::class;
   protected $dateDataType = '';
+  public $date;
   protected $timeOfDayType = AssistantApiTimeOfDay::class;
   protected $timeOfDayDataType = '';
+  public $timeOfDay;
   protected $timeZoneType = AssistantApiTimeZone::class;
   protected $timeZoneDataType = '';
+  public $timeZone;
 
   /**
    * @param AssistantApiDate

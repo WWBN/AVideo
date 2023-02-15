@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1ListKeyValueEntriesResponse extends \Google\Collection
   protected $collection_key = 'keyValueEntries';
   protected $keyValueEntriesType = GoogleCloudApigeeV1KeyValueEntry::class;
   protected $keyValueEntriesDataType = 'array';
+  public $keyValueEntries;
   /**
    * @var string
    */

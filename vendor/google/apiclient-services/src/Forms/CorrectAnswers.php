@@ -22,6 +22,7 @@ class CorrectAnswers extends \Google\Collection
   protected $collection_key = 'answers';
   protected $answersType = CorrectAnswer::class;
   protected $answersDataType = 'array';
+  public $answers;
 
   /**
    * @param CorrectAnswer[]

@@ -37,7 +37,7 @@ use Google\Service\Spanner\UpdateDatabaseDdlRequest;
  * Typical usage is:
  *  <code>
  *   $spannerService = new Google\Service\Spanner(...);
- *   $databases = $spannerService->databases;
+ *   $databases = $spannerService->projects_instances_databases;
  *  </code>
  */
 class ProjectsInstancesDatabases extends \Google\Service\Resource

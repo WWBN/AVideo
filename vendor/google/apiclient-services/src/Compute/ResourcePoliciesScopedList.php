@@ -22,8 +22,10 @@ class ResourcePoliciesScopedList extends \Google\Collection
   protected $collection_key = 'resourcePolicies';
   protected $resourcePoliciesType = ResourcePolicy::class;
   protected $resourcePoliciesDataType = 'array';
+  public $resourcePolicies;
   protected $warningType = ResourcePoliciesScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param ResourcePolicy[]

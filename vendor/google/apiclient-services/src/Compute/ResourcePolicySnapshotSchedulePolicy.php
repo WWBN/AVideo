@@ -21,10 +21,13 @@ class ResourcePolicySnapshotSchedulePolicy extends \Google\Model
 {
   protected $retentionPolicyType = ResourcePolicySnapshotSchedulePolicyRetentionPolicy::class;
   protected $retentionPolicyDataType = '';
+  public $retentionPolicy;
   protected $scheduleType = ResourcePolicySnapshotSchedulePolicySchedule::class;
   protected $scheduleDataType = '';
+  public $schedule;
   protected $snapshotPropertiesType = ResourcePolicySnapshotSchedulePolicySnapshotProperties::class;
   protected $snapshotPropertiesDataType = '';
+  public $snapshotProperties;
 
   /**
    * @param ResourcePolicySnapshotSchedulePolicyRetentionPolicy

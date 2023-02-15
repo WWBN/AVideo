@@ -26,6 +26,7 @@ class GoogleCloudApigeeV1ListDebugSessionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $sessionsType = GoogleCloudApigeeV1Session::class;
   protected $sessionsDataType = 'array';
+  public $sessions;
 
   /**
    * @param string

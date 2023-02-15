@@ -35,7 +35,7 @@ use Google\Service\Cloudchannel\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $cloudchannelService = new Google\Service\Cloudchannel(...);
- *   $entitlements = $cloudchannelService->entitlements;
+ *   $entitlements = $cloudchannelService->accounts_customers_entitlements;
  *  </code>
  */
 class AccountsCustomersEntitlements extends \Google\Service\Resource

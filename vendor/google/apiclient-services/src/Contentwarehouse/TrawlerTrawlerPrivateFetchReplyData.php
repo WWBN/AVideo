@@ -131,6 +131,10 @@ class TrawlerTrawlerPrivateFetchReplyData extends \Google\Model
    */
   public $authenticationInfo;
   /**
+   * @var bool
+   */
+  public $bypassedHostOverfull;
+  /**
    * @var int
    */
   public $cacheAcceptableAfterDate;
@@ -184,12 +188,14 @@ class TrawlerTrawlerPrivateFetchReplyData extends \Google\Model
   public $largeStoreHitLocation;
   protected $multiverseClientIdentifierType = TrawlerMultiverseClientIdentifier::class;
   protected $multiverseClientIdentifierDataType = '';
+  public $multiverseClientIdentifier;
   /**
    * @var string
    */
   public $numDroppedReplies;
   protected $originalClientParamsType = TrawlerOriginalClientParams::class;
   protected $originalClientParamsDataType = '';
+  public $originalClientParams;
   /**
    * @var string
    */
@@ -204,6 +210,7 @@ class TrawlerTrawlerPrivateFetchReplyData extends \Google\Model
   public $tier;
   protected $vpcDestinationType = TrawlerLoggedVPCDestination::class;
   protected $vpcDestinationDataType = '';
+  public $vpcDestination;
 
   /**
    * @param string
@@ -512,6 +519,20 @@ class TrawlerTrawlerPrivateFetchReplyData extends \Google\Model
   public function getAuthenticationInfo()
   {
     return $this->authenticationInfo;
+  }
+  /**
+   * @param bool
+   */
+  public function setBypassedHostOverfull($bypassedHostOverfull)
+  {
+    $this->bypassedHostOverfull = $bypassedHostOverfull;
+  }
+  /**
+   * @return bool
+   */
+  public function getBypassedHostOverfull()
+  {
+    return $this->bypassedHostOverfull;
   }
   /**
    * @param int

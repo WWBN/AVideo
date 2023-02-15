@@ -21,6 +21,7 @@ class UpsertAnswerRequest extends \Google\Model
 {
   protected $answerType = Answer::class;
   protected $answerDataType = '';
+  public $answer;
 
   /**
    * @param Answer

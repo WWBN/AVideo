@@ -25,6 +25,7 @@ class MergeTableCellsRequest extends \Google\Model
   public $objectId;
   protected $tableRangeType = TableRange::class;
   protected $tableRangeDataType = '';
+  public $tableRange;
 
   /**
    * @param string

@@ -21,6 +21,7 @@ class StatefulPolicy extends \Google\Model
 {
   protected $preservedStateType = StatefulPolicyPreservedState::class;
   protected $preservedStateDataType = '';
+  public $preservedState;
 
   /**
    * @param StatefulPolicyPreservedState

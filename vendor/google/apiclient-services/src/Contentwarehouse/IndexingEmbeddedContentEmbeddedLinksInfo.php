@@ -22,10 +22,13 @@ class IndexingEmbeddedContentEmbeddedLinksInfo extends \Google\Collection
   protected $collection_key = 'uncrawledLinkUrl';
   protected $embedderInfoType = IndexingEmbeddedContentEmbedderInfo::class;
   protected $embedderInfoDataType = '';
+  public $embedderInfo;
   protected $linkType = IndexingEmbeddedContentLinkInfo::class;
   protected $linkDataType = 'array';
+  public $link;
   protected $pageSizeInfoType = IndexingEmbeddedContentPageSizeInfo::class;
   protected $pageSizeInfoDataType = '';
+  public $pageSizeInfo;
   /**
    * @var int
    */

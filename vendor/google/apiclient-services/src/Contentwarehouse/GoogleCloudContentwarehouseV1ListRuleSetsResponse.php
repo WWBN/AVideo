@@ -26,6 +26,7 @@ class GoogleCloudContentwarehouseV1ListRuleSetsResponse extends \Google\Collecti
   public $nextPageToken;
   protected $ruleSetsType = GoogleCloudContentwarehouseV1RuleSet::class;
   protected $ruleSetsDataType = 'array';
+  public $ruleSets;
 
   /**
    * @param string

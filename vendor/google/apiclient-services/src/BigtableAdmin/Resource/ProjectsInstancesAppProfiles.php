@@ -27,7 +27,7 @@ use Google\Service\BigtableAdmin\Operation;
  * Typical usage is:
  *  <code>
  *   $bigtableadminService = new Google\Service\BigtableAdmin(...);
- *   $appProfiles = $bigtableadminService->appProfiles;
+ *   $appProfiles = $bigtableadminService->projects_instances_appProfiles;
  *  </code>
  */
 class ProjectsInstancesAppProfiles extends \Google\Service\Resource

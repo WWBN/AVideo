@@ -25,7 +25,7 @@ use Google\Service\DiscoveryEngine\GoogleCloudDiscoveryengineV1betaRecommendResp
  * Typical usage is:
  *  <code>
  *   $discoveryengineService = new Google\Service\DiscoveryEngine(...);
- *   $servingConfigs = $discoveryengineService->servingConfigs;
+ *   $servingConfigs = $discoveryengineService->projects_locations_dataStores_servingConfigs;
  *  </code>
  */
 class ProjectsLocationsDataStoresServingConfigs extends \Google\Service\Resource

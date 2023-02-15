@@ -21,6 +21,7 @@ class PhotosVisionObjectrecLocalDescriptor extends \Google\Model
 {
   protected $affineMatrixType = PhotosVisionObjectrecMatrix2D::class;
   protected $affineMatrixDataType = '';
+  public $affineMatrix;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class PhotosVisionObjectrecLocalDescriptor extends \Google\Model
   public $dataFactor;
   protected $featureVectorType = PhotosVisionObjectrecFeatureVector::class;
   protected $featureVectorDataType = '';
+  public $featureVector;
   /**
    * @var string
    */

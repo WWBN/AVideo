@@ -46,6 +46,7 @@ class BuildOptions extends \Google\Collection
   public $machineType;
   protected $poolType = PoolOption::class;
   protected $poolDataType = '';
+  public $pool;
   /**
    * @var string
    */
@@ -64,6 +65,7 @@ class BuildOptions extends \Google\Collection
   public $substitutionOption;
   protected $volumesType = Volume::class;
   protected $volumesDataType = 'array';
+  public $volumes;
   /**
    * @var string
    */

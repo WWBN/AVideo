@@ -26,6 +26,7 @@ class AddressList extends \Google\Collection
   public $id;
   protected $itemsType = Address::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class AddressList extends \Google\Collection
   public $selfLink;
   protected $warningType = AddressListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

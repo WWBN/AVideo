@@ -26,6 +26,7 @@ class PublicDelegatedPrefixAggregatedListWarning extends \Google\Collection
   public $code;
   protected $dataType = PublicDelegatedPrefixAggregatedListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

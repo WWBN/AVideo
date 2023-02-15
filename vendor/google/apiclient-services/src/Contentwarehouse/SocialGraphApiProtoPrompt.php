@@ -26,16 +26,20 @@ class SocialGraphApiProtoPrompt extends \Google\Collection
   public $activeState;
   protected $contentType = SocialGraphApiProtoPromptContent::class;
   protected $contentDataType = '';
+  public $content;
   protected $lastDismissDateType = GoogleTypeDate::class;
   protected $lastDismissDateDataType = '';
+  public $lastDismissDate;
   protected $notificationTriggersType = SocialGraphApiProtoNotificationTrigger::class;
   protected $notificationTriggersDataType = 'array';
+  public $notificationTriggers;
   /**
    * @var string
    */
   public $purpose;
   protected $recurrenceType = SocialGraphApiProtoRecurrence::class;
   protected $recurrenceDataType = '';
+  public $recurrence;
   /**
    * @var string
    */

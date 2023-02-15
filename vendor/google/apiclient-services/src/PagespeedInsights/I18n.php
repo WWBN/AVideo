@@ -21,6 +21,7 @@ class I18n extends \Google\Model
 {
   protected $rendererFormattedStringsType = RendererFormattedStrings::class;
   protected $rendererFormattedStringsDataType = '';
+  public $rendererFormattedStrings;
 
   /**
    * @param RendererFormattedStrings

@@ -29,7 +29,7 @@ use Google\Service\AuthorizedBuyersMarketplace\SendRfpRequest;
  * Typical usage is:
  *  <code>
  *   $authorizedbuyersmarketplaceService = new Google\Service\AuthorizedBuyersMarketplace(...);
- *   $proposals = $authorizedbuyersmarketplaceService->proposals;
+ *   $proposals = $authorizedbuyersmarketplaceService->buyers_proposals;
  *  </code>
  */
 class BuyersProposals extends \Google\Service\Resource

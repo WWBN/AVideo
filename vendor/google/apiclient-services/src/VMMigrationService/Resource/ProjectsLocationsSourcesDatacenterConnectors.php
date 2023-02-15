@@ -27,7 +27,7 @@ use Google\Service\VMMigrationService\UpgradeApplianceRequest;
  * Typical usage is:
  *  <code>
  *   $vmmigrationService = new Google\Service\VMMigrationService(...);
- *   $datacenterConnectors = $vmmigrationService->datacenterConnectors;
+ *   $datacenterConnectors = $vmmigrationService->projects_locations_sources_datacenterConnectors;
  *  </code>
  */
 class ProjectsLocationsSourcesDatacenterConnectors extends \Google\Service\Resource

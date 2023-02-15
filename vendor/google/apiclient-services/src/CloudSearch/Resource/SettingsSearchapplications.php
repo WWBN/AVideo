@@ -27,7 +27,7 @@ use Google\Service\CloudSearch\SearchApplication;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $searchapplications = $cloudsearchService->searchapplications;
+ *   $searchapplications = $cloudsearchService->settings_searchapplications;
  *  </code>
  */
 class SettingsSearchapplications extends \Google\Service\Resource

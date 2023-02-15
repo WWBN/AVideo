@@ -22,6 +22,7 @@ class SegmentDefinition extends \Google\Collection
   protected $collection_key = 'segmentFilters';
   protected $segmentFiltersType = SegmentFilter::class;
   protected $segmentFiltersDataType = 'array';
+  public $segmentFilters;
 
   /**
    * @param SegmentFilter[]

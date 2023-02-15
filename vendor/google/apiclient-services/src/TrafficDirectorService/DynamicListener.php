@@ -21,16 +21,20 @@ class DynamicListener extends \Google\Model
 {
   protected $activeStateType = DynamicListenerState::class;
   protected $activeStateDataType = '';
+  public $activeState;
   protected $drainingStateType = DynamicListenerState::class;
   protected $drainingStateDataType = '';
+  public $drainingState;
   protected $errorStateType = UpdateFailureState::class;
   protected $errorStateDataType = '';
+  public $errorState;
   /**
    * @var string
    */
   public $name;
   protected $warmingStateType = DynamicListenerState::class;
   protected $warmingStateDataType = '';
+  public $warmingState;
 
   /**
    * @param DynamicListenerState

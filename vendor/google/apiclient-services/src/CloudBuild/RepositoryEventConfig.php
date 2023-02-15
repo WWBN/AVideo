@@ -21,8 +21,10 @@ class RepositoryEventConfig extends \Google\Model
 {
   protected $pullRequestType = PullRequestFilter::class;
   protected $pullRequestDataType = '';
+  public $pullRequest;
   protected $pushType = PushFilter::class;
   protected $pushDataType = '';
+  public $push;
   /**
    * @var string
    */

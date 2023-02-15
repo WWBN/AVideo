@@ -46,6 +46,10 @@ class ApiVersion extends \Google\Model
   /**
    * @var string
    */
+  public $primarySpec;
+  /**
+   * @var string
+   */
   public $state;
   /**
    * @var string
@@ -135,6 +139,20 @@ class ApiVersion extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setPrimarySpec($primarySpec)
+  {
+    $this->primarySpec = $primarySpec;
+  }
+  /**
+   * @return string
+   */
+  public function getPrimarySpec()
+  {
+    return $this->primarySpec;
   }
   /**
    * @param string

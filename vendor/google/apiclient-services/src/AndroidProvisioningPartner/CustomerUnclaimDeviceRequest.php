@@ -21,6 +21,7 @@ class CustomerUnclaimDeviceRequest extends \Google\Model
 {
   protected $deviceType = DeviceReference::class;
   protected $deviceDataType = '';
+  public $device;
 
   /**
    * @param DeviceReference

@@ -25,7 +25,7 @@ use Google\Service\RecommendationsAI\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $recommendationengineService = new Google\Service\RecommendationsAI(...);
- *   $operations = $recommendationengineService->operations;
+ *   $operations = $recommendationengineService->projects_locations_catalogs_operations;
  *  </code>
  */
 class ProjectsLocationsCatalogsOperations extends \Google\Service\Resource

@@ -31,7 +31,7 @@ use Google\Service\Directory\Printer;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $printers = $adminService->printers;
+ *   $printers = $adminService->customers_chrome_printers;
  *  </code>
  */
 class CustomersChromePrinters extends \Google\Service\Resource

@@ -21,8 +21,10 @@ class GoogleCloudDataplexV1EntityCompatibilityStatus extends \Google\Model
 {
   protected $bigqueryType = GoogleCloudDataplexV1EntityCompatibilityStatusCompatibility::class;
   protected $bigqueryDataType = '';
+  public $bigquery;
   protected $hiveMetastoreType = GoogleCloudDataplexV1EntityCompatibilityStatusCompatibility::class;
   protected $hiveMetastoreDataType = '';
+  public $hiveMetastore;
 
   /**
    * @param GoogleCloudDataplexV1EntityCompatibilityStatusCompatibility

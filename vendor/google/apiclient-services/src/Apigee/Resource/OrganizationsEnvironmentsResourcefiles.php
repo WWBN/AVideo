@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ResourceFile;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $resourcefiles = $apigeeService->resourcefiles;
+ *   $resourcefiles = $apigeeService->organizations_environments_resourcefiles;
  *  </code>
  */
 class OrganizationsEnvironmentsResourcefiles extends \Google\Service\Resource

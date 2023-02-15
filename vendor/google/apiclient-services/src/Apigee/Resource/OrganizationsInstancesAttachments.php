@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $attachments = $apigeeService->attachments;
+ *   $attachments = $apigeeService->organizations_instances_attachments;
  *  </code>
  */
 class OrganizationsInstancesAttachments extends \Google\Service\Resource

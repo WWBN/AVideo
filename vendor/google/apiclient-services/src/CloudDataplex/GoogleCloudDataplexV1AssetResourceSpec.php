@@ -26,6 +26,10 @@ class GoogleCloudDataplexV1AssetResourceSpec extends \Google\Model
   /**
    * @var string
    */
+  public $readAccessMode;
+  /**
+   * @var string
+   */
   public $type;
 
   /**
@@ -41,6 +45,20 @@ class GoogleCloudDataplexV1AssetResourceSpec extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setReadAccessMode($readAccessMode)
+  {
+    $this->readAccessMode = $readAccessMode;
+  }
+  /**
+   * @return string
+   */
+  public function getReadAccessMode()
+  {
+    return $this->readAccessMode;
   }
   /**
    * @param string

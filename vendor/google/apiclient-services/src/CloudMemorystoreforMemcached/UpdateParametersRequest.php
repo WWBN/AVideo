@@ -21,6 +21,7 @@ class UpdateParametersRequest extends \Google\Model
 {
   protected $parametersType = MemcacheParameters::class;
   protected $parametersDataType = '';
+  public $parameters;
   /**
    * @var string
    */

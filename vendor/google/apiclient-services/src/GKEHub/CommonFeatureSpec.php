@@ -21,10 +21,13 @@ class CommonFeatureSpec extends \Google\Model
 {
   protected $appdevexperienceType = AppDevExperienceFeatureSpec::class;
   protected $appdevexperienceDataType = '';
+  public $appdevexperience;
   protected $fleetobservabilityType = FleetObservabilityFeatureSpec::class;
   protected $fleetobservabilityDataType = '';
+  public $fleetobservability;
   protected $multiclusteringressType = MultiClusterIngressFeatureSpec::class;
   protected $multiclusteringressDataType = '';
+  public $multiclusteringress;
 
   /**
    * @param AppDevExperienceFeatureSpec

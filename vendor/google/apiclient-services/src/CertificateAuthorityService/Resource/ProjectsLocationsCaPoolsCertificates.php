@@ -26,7 +26,7 @@ use Google\Service\CertificateAuthorityService\RevokeCertificateRequest;
  * Typical usage is:
  *  <code>
  *   $privatecaService = new Google\Service\CertificateAuthorityService(...);
- *   $certificates = $privatecaService->certificates;
+ *   $certificates = $privatecaService->projects_locations_caPools_certificates;
  *  </code>
  */
 class ProjectsLocationsCaPoolsCertificates extends \Google\Service\Resource

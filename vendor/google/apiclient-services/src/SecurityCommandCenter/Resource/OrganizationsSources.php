@@ -30,7 +30,7 @@ use Google\Service\SecurityCommandCenter\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $securitycenterService = new Google\Service\SecurityCommandCenter(...);
- *   $sources = $securitycenterService->sources;
+ *   $sources = $securitycenterService->organizations_sources;
  *  </code>
  */
 class OrganizationsSources extends \Google\Service\Resource
@@ -87,8 +87,8 @@ class OrganizationsSources extends \Google\Service\Resource
    * (sources.listOrganizationsSources)
    *
    * @param string $parent Required. Resource name of the parent of sources to
-   * list. Its format should be "organizations/[organization_id],
-   * folders/[folder_id], or projects/[project_id]".
+   * list. Its format should be "organizations/[organization_id]",
+   * "folders/[folder_id]", or "projects/[project_id]".
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of results to return in a single

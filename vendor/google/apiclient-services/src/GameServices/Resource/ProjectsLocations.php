@@ -25,7 +25,7 @@ use Google\Service\GameServices\Location;
  * Typical usage is:
  *  <code>
  *   $gameservicesService = new Google\Service\GameServices(...);
- *   $locations = $gameservicesService->locations;
+ *   $locations = $gameservicesService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

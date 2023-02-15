@@ -21,12 +21,16 @@ class GeostoreTemporaryClosureProto extends \Google\Model
 {
   protected $endAsOfDateType = GeostoreDateTimeProto::class;
   protected $endAsOfDateDataType = '';
+  public $endAsOfDate;
   protected $endDateType = GeostoreDateTimeProto::class;
   protected $endDateDataType = '';
+  public $endDate;
   protected $startAsOfDateType = GeostoreDateTimeProto::class;
   protected $startAsOfDateDataType = '';
+  public $startAsOfDate;
   protected $startDateType = GeostoreDateTimeProto::class;
   protected $startDateDataType = '';
+  public $startDate;
 
   /**
    * @param GeostoreDateTimeProto

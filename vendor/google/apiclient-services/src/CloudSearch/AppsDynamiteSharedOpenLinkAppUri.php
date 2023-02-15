@@ -21,6 +21,7 @@ class AppsDynamiteSharedOpenLinkAppUri extends \Google\Model
 {
   protected $androidIntentType = AppsDynamiteSharedOpenLinkAppUriIntent::class;
   protected $androidIntentDataType = '';
+  public $androidIntent;
   /**
    * @var string
    */

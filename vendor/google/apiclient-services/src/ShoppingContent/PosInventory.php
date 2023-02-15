@@ -37,6 +37,7 @@ class PosInventory extends \Google\Model
   public $kind;
   protected $priceType = Price::class;
   protected $priceDataType = '';
+  public $price;
   /**
    * @var string
    */

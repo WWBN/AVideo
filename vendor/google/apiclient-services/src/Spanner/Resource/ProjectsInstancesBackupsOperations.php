@@ -26,7 +26,7 @@ use Google\Service\Spanner\SpannerEmpty;
  * Typical usage is:
  *  <code>
  *   $spannerService = new Google\Service\Spanner(...);
- *   $operations = $spannerService->operations;
+ *   $operations = $spannerService->projects_instances_backups_operations;
  *  </code>
  */
 class ProjectsInstancesBackupsOperations extends \Google\Service\Resource

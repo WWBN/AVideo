@@ -26,7 +26,7 @@ use Google\Service\CloudBuild\WorkerPool;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $workerPools = $cloudbuildService->workerPools;
+ *   $workerPools = $cloudbuildService->projects_locations_workerPools;
  *  </code>
  */
 class ProjectsLocationsWorkerPools extends \Google\Service\Resource

@@ -24,7 +24,7 @@ use Google\Service\AdSenseHost\Report;
  * Typical usage is:
  *  <code>
  *   $adsensehostService = new Google\Service\AdSenseHost(...);
- *   $reports = $adsensehostService->reports;
+ *   $reports = $adsensehostService->accounts_reports;
  *  </code>
  */
 class AccountsReports extends \Google\Service\Resource

@@ -26,8 +26,10 @@ class Form extends \Google\Collection
   public $formId;
   protected $infoType = Info::class;
   protected $infoDataType = '';
+  public $info;
   protected $itemsType = Item::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -42,6 +44,7 @@ class Form extends \Google\Collection
   public $revisionId;
   protected $settingsType = FormSettings::class;
   protected $settingsDataType = '';
+  public $settings;
 
   /**
    * @param string

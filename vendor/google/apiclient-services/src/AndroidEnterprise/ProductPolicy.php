@@ -22,14 +22,17 @@ class ProductPolicy extends \Google\Collection
   protected $collection_key = 'tracks';
   protected $autoInstallPolicyType = AutoInstallPolicy::class;
   protected $autoInstallPolicyDataType = '';
+  public $autoInstallPolicy;
   /**
    * @var string
    */
   public $autoUpdateMode;
   protected $enterpriseAuthenticationAppLinkConfigsType = EnterpriseAuthenticationAppLinkConfig::class;
   protected $enterpriseAuthenticationAppLinkConfigsDataType = 'array';
+  public $enterpriseAuthenticationAppLinkConfigs;
   protected $managedConfigurationType = ManagedConfiguration::class;
   protected $managedConfigurationDataType = '';
+  public $managedConfiguration;
   /**
    * @var string
    */

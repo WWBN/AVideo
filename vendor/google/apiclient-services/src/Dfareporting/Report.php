@@ -25,10 +25,13 @@ class Report extends \Google\Model
   public $accountId;
   protected $criteriaType = ReportCriteria::class;
   protected $criteriaDataType = '';
+  public $criteria;
   protected $crossDimensionReachCriteriaType = ReportCrossDimensionReachCriteria::class;
   protected $crossDimensionReachCriteriaDataType = '';
+  public $crossDimensionReachCriteria;
   protected $deliveryType = ReportDelivery::class;
   protected $deliveryDataType = '';
+  public $delivery;
   /**
    * @var string
    */
@@ -39,6 +42,7 @@ class Report extends \Google\Model
   public $fileName;
   protected $floodlightCriteriaType = ReportFloodlightCriteria::class;
   protected $floodlightCriteriaDataType = '';
+  public $floodlightCriteria;
   /**
    * @var string
    */
@@ -65,14 +69,19 @@ class Report extends \Google\Model
   public $ownerProfileId;
   protected $pathAttributionCriteriaType = ReportPathAttributionCriteria::class;
   protected $pathAttributionCriteriaDataType = '';
+  public $pathAttributionCriteria;
   protected $pathCriteriaType = ReportPathCriteria::class;
   protected $pathCriteriaDataType = '';
+  public $pathCriteria;
   protected $pathToConversionCriteriaType = ReportPathToConversionCriteria::class;
   protected $pathToConversionCriteriaDataType = '';
+  public $pathToConversionCriteria;
   protected $reachCriteriaType = ReportReachCriteria::class;
   protected $reachCriteriaDataType = '';
+  public $reachCriteria;
   protected $scheduleType = ReportSchedule::class;
   protected $scheduleDataType = '';
+  public $schedule;
   /**
    * @var string
    */

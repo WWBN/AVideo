@@ -21,6 +21,7 @@ class InstancesRestoreBackupRequest extends \Google\Model
 {
   protected $restoreBackupContextType = RestoreBackupContext::class;
   protected $restoreBackupContextDataType = '';
+  public $restoreBackupContext;
 
   /**
    * @param RestoreBackupContext

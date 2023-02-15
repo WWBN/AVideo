@@ -22,6 +22,7 @@ class QualityRichsnippetsAppsProtosLaunchAppInfoPerDocData extends \Google\Colle
   protected $collection_key = 'app';
   protected $appType = QualityRichsnippetsAppsProtosLaunchableAppPerDocData::class;
   protected $appDataType = 'array';
+  public $app;
 
   /**
    * @param QualityRichsnippetsAppsProtosLaunchableAppPerDocData[]

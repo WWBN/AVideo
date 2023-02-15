@@ -26,7 +26,7 @@ use Google\Service\Monitoring\UptimeCheckConfig;
  * Typical usage is:
  *  <code>
  *   $monitoringService = new Google\Service\Monitoring(...);
- *   $uptimeCheckConfigs = $monitoringService->uptimeCheckConfigs;
+ *   $uptimeCheckConfigs = $monitoringService->projects_uptimeCheckConfigs;
  *  </code>
  */
 class ProjectsUptimeCheckConfigs extends \Google\Service\Resource

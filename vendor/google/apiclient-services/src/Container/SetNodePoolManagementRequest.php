@@ -25,6 +25,7 @@ class SetNodePoolManagementRequest extends \Google\Model
   public $clusterId;
   protected $managementType = NodeManagement::class;
   protected $managementDataType = '';
+  public $management;
   /**
    * @var string
    */

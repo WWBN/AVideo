@@ -21,8 +21,10 @@ class GooglePrivacyDlpV2DataProfileConfigSnapshot extends \Google\Model
 {
   protected $dataProfileJobType = GooglePrivacyDlpV2DataProfileJobConfig::class;
   protected $dataProfileJobDataType = '';
+  public $dataProfileJob;
   protected $inspectConfigType = GooglePrivacyDlpV2InspectConfig::class;
   protected $inspectConfigDataType = '';
+  public $inspectConfig;
 
   /**
    * @param GooglePrivacyDlpV2DataProfileJobConfig

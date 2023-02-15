@@ -21,6 +21,7 @@ class Apk extends \Google\Model
 {
   protected $binaryType = ApkBinary::class;
   protected $binaryDataType = '';
+  public $binary;
   /**
    * @var int
    */

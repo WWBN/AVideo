@@ -22,6 +22,7 @@ class BucketLifecycle extends \Google\Collection
   protected $collection_key = 'rule';
   protected $ruleType = BucketLifecycleRule::class;
   protected $ruleDataType = 'array';
+  public $rule;
 
   /**
    * @param BucketLifecycleRule[]

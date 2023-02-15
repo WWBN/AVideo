@@ -21,6 +21,7 @@ class RevertTemplateResponse extends \Google\Model
 {
   protected $templateType = CustomTemplate::class;
   protected $templateDataType = '';
+  public $template;
 
   /**
    * @param CustomTemplate

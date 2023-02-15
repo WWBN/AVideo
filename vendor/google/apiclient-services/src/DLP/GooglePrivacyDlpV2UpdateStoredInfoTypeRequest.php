@@ -21,6 +21,7 @@ class GooglePrivacyDlpV2UpdateStoredInfoTypeRequest extends \Google\Model
 {
   protected $configType = GooglePrivacyDlpV2StoredInfoTypeConfig::class;
   protected $configDataType = '';
+  public $config;
   /**
    * @var string
    */

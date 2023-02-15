@@ -30,6 +30,7 @@ class ResourceRecordSet extends \Google\Collection
   public $name;
   protected $routingPolicyType = RRSetRoutingPolicy::class;
   protected $routingPolicyDataType = '';
+  public $routingPolicy;
   /**
    * @var string[]
    */

@@ -22,6 +22,7 @@ class GoogleSecuritySafebrowsingV4FindThreatMatchesResponse extends \Google\Coll
   protected $collection_key = 'matches';
   protected $matchesType = GoogleSecuritySafebrowsingV4ThreatMatch::class;
   protected $matchesDataType = 'array';
+  public $matches;
 
   /**
    * @param GoogleSecuritySafebrowsingV4ThreatMatch[]

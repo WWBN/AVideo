@@ -21,12 +21,14 @@ class ContactGroupResponse extends \Google\Model
 {
   protected $contactGroupType = ContactGroup::class;
   protected $contactGroupDataType = '';
+  public $contactGroup;
   /**
    * @var string
    */
   public $requestedResourceName;
   protected $statusType = Status::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param ContactGroup

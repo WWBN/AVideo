@@ -26,6 +26,7 @@ class PlacementTag extends \Google\Collection
   public $placementId;
   protected $tagDatasType = TagData::class;
   protected $tagDatasDataType = 'array';
+  public $tagDatas;
 
   /**
    * @param string

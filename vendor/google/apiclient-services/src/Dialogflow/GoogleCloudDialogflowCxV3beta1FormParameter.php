@@ -33,6 +33,7 @@ class GoogleCloudDialogflowCxV3beta1FormParameter extends \Google\Model
   public $entityType;
   protected $fillBehaviorType = GoogleCloudDialogflowCxV3beta1FormParameterFillBehavior::class;
   protected $fillBehaviorDataType = '';
+  public $fillBehavior;
   /**
    * @var bool
    */

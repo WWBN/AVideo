@@ -30,6 +30,7 @@ class CreativeAsset extends \Google\Collection
   public $active;
   protected $additionalSizesType = Size::class;
   protected $additionalSizesDataType = 'array';
+  public $additionalSizes;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class CreativeAsset extends \Google\Collection
   public $artworkType;
   protected $assetIdentifierType = CreativeAssetId::class;
   protected $assetIdentifierDataType = '';
+  public $assetIdentifier;
   /**
    * @var int
    */
@@ -50,6 +52,7 @@ class CreativeAsset extends \Google\Collection
   public $audioSampleRate;
   protected $backupImageExitType = CreativeCustomEvent::class;
   protected $backupImageExitDataType = '';
+  public $backupImageExit;
   /**
    * @var int
    */
@@ -60,6 +63,7 @@ class CreativeAsset extends \Google\Collection
   public $childAssetType;
   protected $collapsedSizeType = Size::class;
   protected $collapsedSizeDataType = '';
+  public $collapsedSize;
   /**
    * @var string[]
    */
@@ -86,6 +90,7 @@ class CreativeAsset extends \Google\Collection
   public $durationType;
   protected $expandedDimensionType = Size::class;
   protected $expandedDimensionDataType = '';
+  public $expandedDimension;
   /**
    * @var string
    */
@@ -116,6 +121,7 @@ class CreativeAsset extends \Google\Collection
   public $id;
   protected $idDimensionValueType = DimensionValue::class;
   protected $idDimensionValueDataType = '';
+  public $idDimensionValue;
   /**
    * @var float
    */
@@ -126,6 +132,7 @@ class CreativeAsset extends \Google\Collection
   public $mimeType;
   protected $offsetType = OffsetPosition::class;
   protected $offsetDataType = '';
+  public $offset;
   /**
    * @var string
    */
@@ -140,6 +147,7 @@ class CreativeAsset extends \Google\Collection
   public $politeLoad;
   protected $positionType = OffsetPosition::class;
   protected $positionDataType = '';
+  public $position;
   /**
    * @var string
    */
@@ -166,6 +174,7 @@ class CreativeAsset extends \Google\Collection
   public $role;
   protected $sizeType = Size::class;
   protected $sizeDataType = '';
+  public $size;
   /**
    * @var bool
    */

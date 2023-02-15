@@ -25,7 +25,7 @@ use Google\Service\DisplayVideo\ListCustomBiddingScriptsResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $scripts = $displayvideoService->scripts;
+ *   $scripts = $displayvideoService->customBiddingAlgorithms_scripts;
  *  </code>
  */
 class CustomBiddingAlgorithmsScripts extends \Google\Service\Resource

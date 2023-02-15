@@ -26,14 +26,17 @@ class Block extends \Google\Collection
   public $blockType;
   protected $boundingBoxType = BoundingPoly::class;
   protected $boundingBoxDataType = '';
+  public $boundingBox;
   /**
    * @var float
    */
   public $confidence;
   protected $paragraphsType = Paragraph::class;
   protected $paragraphsDataType = 'array';
+  public $paragraphs;
   protected $propertyType = TextProperty::class;
   protected $propertyDataType = '';
+  public $property;
 
   /**
    * @param string

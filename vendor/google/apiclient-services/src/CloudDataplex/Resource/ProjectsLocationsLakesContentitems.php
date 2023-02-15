@@ -30,7 +30,7 @@ use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $contentitems = $dataplexService->contentitems;
+ *   $contentitems = $dataplexService->projects_locations_lakes_contentitems;
  *  </code>
  */
 class ProjectsLocationsLakesContentitems extends \Google\Service\Resource

@@ -25,7 +25,7 @@ use Google\Service\Analytics\Goals;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $goals = $analyticsService->goals;
+ *   $goals = $analyticsService->management_goals;
  *  </code>
  */
 class ManagementGoals extends \Google\Service\Resource

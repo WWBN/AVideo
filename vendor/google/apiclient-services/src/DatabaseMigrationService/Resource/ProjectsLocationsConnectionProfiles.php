@@ -30,7 +30,7 @@ use Google\Service\DatabaseMigrationService\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $datamigrationService = new Google\Service\DatabaseMigrationService(...);
- *   $connectionProfiles = $datamigrationService->connectionProfiles;
+ *   $connectionProfiles = $datamigrationService->projects_locations_connectionProfiles;
  *  </code>
  */
 class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
@@ -46,11 +46,17 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    *
    * @opt_param string connectionProfileId Required. The connection profile
    * identifier.
-   * @opt_param string requestId A unique id used to identify the request. If the
-   * server receives two requests with the same id, then the second request will
-   * be ignored. It is recommended to always set this value to a UUID. The id must
-   * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
-   * (-). The maximum length is 40 characters.
+   * @opt_param string requestId Optional. A unique id used to identify the
+   * request. If the server receives two requests with the same id, then the
+   * second request will be ignored. It is recommended to always set this value to
+   * a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9),
+   * underscores (_), and hyphens (-). The maximum length is 40 characters.
+   * @opt_param bool skipValidation Optional. Create the connection profile
+   * without validating it. The default is false. Only supported for Oracle
+   * connection profiles.
+   * @opt_param bool validateOnly Optional. Only validate the connection profile,
+   * but don't create any resources. The default is false. Only supported for
+   * Oracle connection profiles.
    * @return Operation
    */
   public function create($parent, ConnectionProfile $postBody, $optParams = [])
@@ -172,13 +178,19 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * @param ConnectionProfile $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string requestId A unique id used to identify the request. If the
-   * server receives two requests with the same id, then the second request will
-   * be ignored. It is recommended to always set this value to a UUID. The id must
-   * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
-   * (-). The maximum length is 40 characters.
+   * @opt_param string requestId Optional. A unique id used to identify the
+   * request. If the server receives two requests with the same id, then the
+   * second request will be ignored. It is recommended to always set this value to
+   * a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9),
+   * underscores (_), and hyphens (-). The maximum length is 40 characters.
+   * @opt_param bool skipValidation Optional. Update the connection profile
+   * without validating it. The default is false. Only supported for Oracle
+   * connection profiles.
    * @opt_param string updateMask Required. Field mask is used to specify the
    * fields to be overwritten in the connection profile resource by the update.
+   * @opt_param bool validateOnly Optional. Only validate the connection profile,
+   * but don't update any resources. The default is false. Only supported for
+   * Oracle connection profiles.
    * @return Operation
    */
   public function patch($name, ConnectionProfile $postBody, $optParams = [])

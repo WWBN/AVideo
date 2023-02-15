@@ -21,6 +21,7 @@ class AssistantVerticalsHomeautomationProtoSupportedStructureFeatures extends \G
 {
   protected $conciergeFeaturesType = AssistantVerticalsHomeautomationProtoConciergeFeatures::class;
   protected $conciergeFeaturesDataType = '';
+  public $conciergeFeatures;
 
   /**
    * @param AssistantVerticalsHomeautomationProtoConciergeFeatures

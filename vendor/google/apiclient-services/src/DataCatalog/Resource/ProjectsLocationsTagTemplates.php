@@ -30,7 +30,7 @@ use Google\Service\DataCatalog\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $datacatalogService = new Google\Service\DataCatalog(...);
- *   $tagTemplates = $datacatalogService->tagTemplates;
+ *   $tagTemplates = $datacatalogService->projects_locations_tagTemplates;
  *  </code>
  */
 class ProjectsLocationsTagTemplates extends \Google\Service\Resource

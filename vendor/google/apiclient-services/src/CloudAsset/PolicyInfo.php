@@ -25,6 +25,7 @@ class PolicyInfo extends \Google\Model
   public $attachedResource;
   protected $policyType = Policy::class;
   protected $policyDataType = '';
+  public $policy;
 
   /**
    * @param string

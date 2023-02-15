@@ -17,21 +17,81 @@
 
 namespace Google\Service\CloudDataplex\Resource;
 
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1DataAttribute;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListDataAttributesResponse;
 use Google\Service\CloudDataplex\GoogleIamV1Policy;
 use Google\Service\CloudDataplex\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
+use Google\Service\CloudDataplex\GoogleLongrunningOperation;
 
 /**
  * The "attributes" collection of methods.
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $attributes = $dataplexService->attributes;
+ *   $attributes = $dataplexService->projects_locations_dataTaxonomies_attributes;
  *  </code>
  */
 class ProjectsLocationsDataTaxonomiesAttributes extends \Google\Service\Resource
 {
+  /**
+   * Create a DataAttribute resource. (attributes.create)
+   *
+   * @param string $parent Required. The resource name of the parent data taxonomy
+   * projects/{project_number}/locations/{location_id}/dataTaxonomies/{data_taxono
+   * my_id}
+   * @param GoogleCloudDataplexV1DataAttribute $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string dataAttributeId Required. DataAttribute identifier. * Must
+   * contain only lowercase letters, numbers and hyphens. * Must start with a
+   * letter. * Must be between 1-63 characters. * Must end with a number or a
+   * letter. * Must be unique within the DataTaxonomy.
+   * @opt_param bool validateOnly Optional. Only validate the request, but do not
+   * perform mutations. The default is false.
+   * @return GoogleLongrunningOperation
+   */
+  public function create($parent, GoogleCloudDataplexV1DataAttribute $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Deletes a Data Attribute resource. (attributes.delete)
+   *
+   * @param string $name Required. The resource name of the DataAttribute: project
+   * s/{project_number}/locations/{location_id}/dataTaxonomies/{dataTaxonomy}/attr
+   * ibutes/{data_attribute_id}
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string etag Optional. If the client provided etag value does not
+   * match the current etag value, the DeleteDataAttribute method returns an
+   * ABORTED error response.
+   * @return GoogleLongrunningOperation
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Retrieves a Data Attribute resource. (attributes.get)
+   *
+   * @param string $name Required. The resource name of the dataAttribute: project
+   * s/{project_number}/locations/{location_id}/dataTaxonomies/{dataTaxonomy}/attr
+   * ibutes/{data_attribute_id}
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDataplexV1DataAttribute
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], GoogleCloudDataplexV1DataAttribute::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set. (attributes.getIamPolicy)
@@ -60,6 +120,52 @@ class ProjectsLocationsDataTaxonomiesAttributes extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
+  }
+  /**
+   * Lists Data Attribute resources in a DataTaxonomy.
+   * (attributes.listProjectsLocationsDataTaxonomiesAttributes)
+   *
+   * @param string $parent Required. The resource name of the DataTaxonomy: projec
+   * ts/{project_number}/locations/{location_id}/dataTaxonomies/{data_taxonomy_id}
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Filter request.
+   * @opt_param string orderBy Optional. Order by fields for the result.
+   * @opt_param int pageSize Optional. Maximum number of DataAttributes to return.
+   * The service may return fewer than this value. If unspecified, at most 10
+   * dataAttributes will be returned. The maximum value is 1000; values above 1000
+   * will be coerced to 1000.
+   * @opt_param string pageToken Optional. Page token received from a previous
+   * ListDataAttributes call. Provide this to retrieve the subsequent page. When
+   * paginating, all other parameters provided to ListDataAttributes must match
+   * the call that provided the page token.
+   * @return GoogleCloudDataplexV1ListDataAttributesResponse
+   */
+  public function listProjectsLocationsDataTaxonomiesAttributes($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], GoogleCloudDataplexV1ListDataAttributesResponse::class);
+  }
+  /**
+   * Updates a DataAttribute resource. (attributes.patch)
+   *
+   * @param string $name Output only. The relative resource name of the
+   * dataAttribute, of the form: projects/{project_number}/locations/{location_id}
+   * /dataTaxonomies/{dataTaxonomy}/attributes/{data_attribute_id}.
+   * @param GoogleCloudDataplexV1DataAttribute $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. Mask of fields to update.
+   * @opt_param bool validateOnly Optional. Only validate the request, but do not
+   * perform mutations. The default is false.
+   * @return GoogleLongrunningOperation
+   */
+  public function patch($name, GoogleCloudDataplexV1DataAttribute $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

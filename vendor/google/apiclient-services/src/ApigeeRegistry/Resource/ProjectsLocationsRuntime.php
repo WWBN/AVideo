@@ -27,7 +27,7 @@ use Google\Service\ApigeeRegistry\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeregistryService = new Google\Service\ApigeeRegistry(...);
- *   $runtime = $apigeeregistryService->runtime;
+ *   $runtime = $apigeeregistryService->projects_locations_runtime;
  *  </code>
  */
 class ProjectsLocationsRuntime extends \Google\Service\Resource

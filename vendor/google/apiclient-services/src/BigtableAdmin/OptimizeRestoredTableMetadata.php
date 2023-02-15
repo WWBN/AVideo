@@ -25,6 +25,7 @@ class OptimizeRestoredTableMetadata extends \Google\Model
   public $name;
   protected $progressType = OperationProgress::class;
   protected $progressDataType = '';
+  public $progress;
 
   /**
    * @param string

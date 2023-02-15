@@ -21,12 +21,16 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1SourceProvenance extends \Googl
 {
   protected $fileHashesType = ContaineranalysisGoogleDevtoolsCloudbuildV1FileHashes::class;
   protected $fileHashesDataType = 'map';
+  public $fileHashes;
   protected $resolvedRepoSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1RepoSource::class;
   protected $resolvedRepoSourceDataType = '';
+  public $resolvedRepoSource;
   protected $resolvedStorageSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSource::class;
   protected $resolvedStorageSourceDataType = '';
+  public $resolvedStorageSource;
   protected $resolvedStorageSourceManifestType = ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSourceManifest::class;
   protected $resolvedStorageSourceManifestDataType = '';
+  public $resolvedStorageSourceManifest;
 
   /**
    * @param ContaineranalysisGoogleDevtoolsCloudbuildV1FileHashes[]

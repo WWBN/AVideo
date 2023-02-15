@@ -21,8 +21,10 @@ class EnterpriseCrmEventbusProtoNotification extends \Google\Model
 {
   protected $buganizerNotificationType = EnterpriseCrmEventbusProtoBuganizerNotification::class;
   protected $buganizerNotificationDataType = '';
+  public $buganizerNotification;
   protected $emailAddressType = EnterpriseCrmEventbusProtoAddress::class;
   protected $emailAddressDataType = '';
+  public $emailAddress;
   /**
    * @var string
    */
@@ -33,6 +35,7 @@ class EnterpriseCrmEventbusProtoNotification extends \Google\Model
   public $pubsubTopic;
   protected $requestType = EnterpriseCrmEventbusProtoCustomSuspensionRequest::class;
   protected $requestDataType = '';
+  public $request;
 
   /**
    * @param EnterpriseCrmEventbusProtoBuganizerNotification

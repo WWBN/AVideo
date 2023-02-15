@@ -38,6 +38,7 @@ class HiveJob extends \Google\Collection
   public $queryFileUri;
   protected $queryListType = QueryList::class;
   protected $queryListDataType = '';
+  public $queryList;
   /**
    * @var string[]
    */

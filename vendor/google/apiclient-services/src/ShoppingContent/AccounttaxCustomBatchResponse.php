@@ -22,6 +22,7 @@ class AccounttaxCustomBatchResponse extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = AccounttaxCustomBatchResponseEntry::class;
   protected $entriesDataType = 'array';
+  public $entries;
   /**
    * @var string
    */

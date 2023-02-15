@@ -22,6 +22,7 @@ class GoogleCloudDocumentaiV1beta2DocumentPageAnchor extends \Google\Collection
   protected $collection_key = 'pageRefs';
   protected $pageRefsType = GoogleCloudDocumentaiV1beta2DocumentPageAnchorPageRef::class;
   protected $pageRefsDataType = 'array';
+  public $pageRefs;
 
   /**
    * @param GoogleCloudDocumentaiV1beta2DocumentPageAnchorPageRef[]

@@ -22,6 +22,7 @@ class TableStyle extends \Google\Collection
   protected $collection_key = 'tableColumnProperties';
   protected $tableColumnPropertiesType = TableColumnProperties::class;
   protected $tableColumnPropertiesDataType = 'array';
+  public $tableColumnProperties;
 
   /**
    * @param TableColumnProperties[]

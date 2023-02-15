@@ -22,8 +22,10 @@ class InterconnectAttachmentsScopedList extends \Google\Collection
   protected $collection_key = 'interconnectAttachments';
   protected $interconnectAttachmentsType = InterconnectAttachment::class;
   protected $interconnectAttachmentsDataType = 'array';
+  public $interconnectAttachments;
   protected $warningType = InterconnectAttachmentsScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param InterconnectAttachment[]

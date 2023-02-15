@@ -26,6 +26,7 @@ class DocumentTransform extends \Google\Collection
   public $document;
   protected $fieldTransformsType = FieldTransform::class;
   protected $fieldTransformsDataType = 'array';
+  public $fieldTransforms;
 
   /**
    * @param string

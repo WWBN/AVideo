@@ -25,8 +25,10 @@ class SearchTargetingOptionsRequest extends \Google\Model
   public $advertiserId;
   protected $businessChainSearchTermsType = BusinessChainSearchTerms::class;
   protected $businessChainSearchTermsDataType = '';
+  public $businessChainSearchTerms;
   protected $geoRegionSearchTermsType = GeoRegionSearchTerms::class;
   protected $geoRegionSearchTermsDataType = '';
+  public $geoRegionSearchTerms;
   /**
    * @var int
    */
@@ -37,6 +39,7 @@ class SearchTargetingOptionsRequest extends \Google\Model
   public $pageToken;
   protected $poiSearchTermsType = PoiSearchTerms::class;
   protected $poiSearchTermsDataType = '';
+  public $poiSearchTerms;
 
   /**
    * @param string

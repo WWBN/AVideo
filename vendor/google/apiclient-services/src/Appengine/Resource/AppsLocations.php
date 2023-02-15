@@ -25,7 +25,7 @@ use Google\Service\Appengine\Location;
  * Typical usage is:
  *  <code>
  *   $appengineService = new Google\Service\Appengine(...);
- *   $locations = $appengineService->locations;
+ *   $locations = $appengineService->apps_locations;
  *  </code>
  */
 class AppsLocations extends \Google\Service\Resource

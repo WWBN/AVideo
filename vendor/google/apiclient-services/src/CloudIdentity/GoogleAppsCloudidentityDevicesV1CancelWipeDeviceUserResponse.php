@@ -21,6 +21,7 @@ class GoogleAppsCloudidentityDevicesV1CancelWipeDeviceUserResponse extends \Goog
 {
   protected $deviceUserType = GoogleAppsCloudidentityDevicesV1DeviceUser::class;
   protected $deviceUserDataType = '';
+  public $deviceUser;
 
   /**
    * @param GoogleAppsCloudidentityDevicesV1DeviceUser

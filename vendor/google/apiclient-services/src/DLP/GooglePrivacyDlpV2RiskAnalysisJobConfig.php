@@ -22,10 +22,13 @@ class GooglePrivacyDlpV2RiskAnalysisJobConfig extends \Google\Collection
   protected $collection_key = 'actions';
   protected $actionsType = GooglePrivacyDlpV2Action::class;
   protected $actionsDataType = 'array';
+  public $actions;
   protected $privacyMetricType = GooglePrivacyDlpV2PrivacyMetric::class;
   protected $privacyMetricDataType = '';
+  public $privacyMetric;
   protected $sourceTableType = GooglePrivacyDlpV2BigQueryTable::class;
   protected $sourceTableDataType = '';
+  public $sourceTable;
 
   /**
    * @param GooglePrivacyDlpV2Action[]

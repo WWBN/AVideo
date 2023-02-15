@@ -24,7 +24,7 @@ use Google\Service\DataLabeling\GoogleCloudDatalabelingV1beta1Evaluation;
  * Typical usage is:
  *  <code>
  *   $datalabelingService = new Google\Service\DataLabeling(...);
- *   $evaluations = $datalabelingService->evaluations;
+ *   $evaluations = $datalabelingService->projects_datasets_evaluations;
  *  </code>
  */
 class ProjectsDatasetsEvaluations extends \Google\Service\Resource

@@ -22,8 +22,10 @@ class QuotedMessageMetadata extends \Google\Collection
   protected $collection_key = 'uploadMetadata';
   protected $annotationsType = Annotation::class;
   protected $annotationsDataType = 'array';
+  public $annotations;
   protected $appProfileType = AppsDynamiteSharedAppProfile::class;
   protected $appProfileDataType = '';
+  public $appProfile;
   /**
    * @var string
    */
@@ -34,6 +36,7 @@ class QuotedMessageMetadata extends \Google\Collection
   public $createTimeMicros;
   protected $creatorIdType = UserId::class;
   protected $creatorIdDataType = '';
+  public $creatorId;
   /**
    * @var string
    */
@@ -44,20 +47,24 @@ class QuotedMessageMetadata extends \Google\Collection
   public $lastUpdateTimeWhenQuotedMicros;
   protected $messageIdType = MessageId::class;
   protected $messageIdDataType = '';
+  public $messageId;
   /**
    * @var string
    */
   public $messageState;
   protected $retentionSettingsType = AppsDynamiteSharedRetentionSettings::class;
   protected $retentionSettingsDataType = '';
+  public $retentionSettings;
   /**
    * @var string
    */
   public $textBody;
   protected $updaterIdType = UserId::class;
   protected $updaterIdDataType = '';
+  public $updaterId;
   protected $uploadMetadataType = UploadMetadata::class;
   protected $uploadMetadataDataType = 'array';
+  public $uploadMetadata;
 
   /**
    * @param Annotation[]

@@ -21,6 +21,7 @@ class DriveClientActionMarkup extends \Google\Model
 {
   protected $requestFileScopeType = RequestFileScope::class;
   protected $requestFileScopeDataType = '';
+  public $requestFileScope;
 
   /**
    * @param RequestFileScope

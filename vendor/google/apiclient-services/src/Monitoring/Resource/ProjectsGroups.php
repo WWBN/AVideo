@@ -26,7 +26,7 @@ use Google\Service\Monitoring\MonitoringEmpty;
  * Typical usage is:
  *  <code>
  *   $monitoringService = new Google\Service\Monitoring(...);
- *   $groups = $monitoringService->groups;
+ *   $groups = $monitoringService->projects_groups;
  *  </code>
  */
 class ProjectsGroups extends \Google\Service\Resource

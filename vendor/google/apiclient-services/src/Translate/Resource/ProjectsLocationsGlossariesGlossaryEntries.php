@@ -26,7 +26,7 @@ use Google\Service\Translate\TranslateEmpty;
  * Typical usage is:
  *  <code>
  *   $translateService = new Google\Service\Translate(...);
- *   $glossaryEntries = $translateService->glossaryEntries;
+ *   $glossaryEntries = $translateService->projects_locations_glossaries_glossaryEntries;
  *  </code>
  */
 class ProjectsLocationsGlossariesGlossaryEntries extends \Google\Service\Resource

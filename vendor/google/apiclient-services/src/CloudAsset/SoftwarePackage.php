@@ -21,22 +21,31 @@ class SoftwarePackage extends \Google\Model
 {
   protected $aptPackageType = VersionedPackage::class;
   protected $aptPackageDataType = '';
+  public $aptPackage;
   protected $cosPackageType = VersionedPackage::class;
   protected $cosPackageDataType = '';
+  public $cosPackage;
   protected $googetPackageType = VersionedPackage::class;
   protected $googetPackageDataType = '';
+  public $googetPackage;
   protected $qfePackageType = WindowsQuickFixEngineeringPackage::class;
   protected $qfePackageDataType = '';
+  public $qfePackage;
   protected $windowsApplicationType = WindowsApplication::class;
   protected $windowsApplicationDataType = '';
+  public $windowsApplication;
   protected $wuaPackageType = WindowsUpdatePackage::class;
   protected $wuaPackageDataType = '';
+  public $wuaPackage;
   protected $yumPackageType = VersionedPackage::class;
   protected $yumPackageDataType = '';
+  public $yumPackage;
   protected $zypperPackageType = VersionedPackage::class;
   protected $zypperPackageDataType = '';
+  public $zypperPackage;
   protected $zypperPatchType = ZypperPatch::class;
   protected $zypperPatchDataType = '';
+  public $zypperPatch;
 
   /**
    * @param VersionedPackage

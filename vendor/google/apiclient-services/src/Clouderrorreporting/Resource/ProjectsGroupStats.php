@@ -24,7 +24,7 @@ use Google\Service\Clouderrorreporting\ListGroupStatsResponse;
  * Typical usage is:
  *  <code>
  *   $clouderrorreportingService = new Google\Service\Clouderrorreporting(...);
- *   $groupStats = $clouderrorreportingService->groupStats;
+ *   $groupStats = $clouderrorreportingService->projects_groupStats;
  *  </code>
  */
 class ProjectsGroupStats extends \Google\Service\Resource

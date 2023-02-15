@@ -222,6 +222,16 @@ class Baremetalsolution extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'rename' => [
+              'path' => 'v2/{+name}:rename',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'reset' => [
               'path' => 'v2/{+name}:reset',
               'httpMethod' => 'POST',
@@ -566,7 +576,17 @@ class Baremetalsolution extends \Google\Service
         'volumes',
         [
           'methods' => [
-            'get' => [
+            'evict' => [
+              'path' => 'v2/{+name}:evict',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -632,7 +652,17 @@ class Baremetalsolution extends \Google\Service
         'luns',
         [
           'methods' => [
-            'get' => [
+            'evict' => [
+              'path' => 'v2/{+name}:evict',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [

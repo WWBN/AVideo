@@ -25,8 +25,10 @@ class AdUnit extends \Google\Model
   public $code;
   protected $contentAdsSettingsType = AdUnitContentAdsSettings::class;
   protected $contentAdsSettingsDataType = '';
+  public $contentAdsSettings;
   protected $customStyleType = AdStyle::class;
   protected $customStyleDataType = '';
+  public $customStyle;
   /**
    * @var string
    */
@@ -37,6 +39,7 @@ class AdUnit extends \Google\Model
   public $kind;
   protected $mobileContentAdsSettingsType = AdUnitMobileContentAdsSettings::class;
   protected $mobileContentAdsSettingsDataType = '';
+  public $mobileContentAdsSettings;
   /**
    * @var string
    */

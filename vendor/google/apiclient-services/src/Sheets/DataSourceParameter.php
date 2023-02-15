@@ -29,6 +29,7 @@ class DataSourceParameter extends \Google\Model
   public $namedRangeId;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
 
   /**
    * @param string

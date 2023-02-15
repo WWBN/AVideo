@@ -30,7 +30,7 @@ use Google\Service\Batch\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $batchService = new Google\Service\Batch(...);
- *   $jobs = $batchService->jobs;
+ *   $jobs = $batchService->projects_locations_jobs;
  *  </code>
  */
 class ProjectsLocationsJobs extends \Google\Service\Resource

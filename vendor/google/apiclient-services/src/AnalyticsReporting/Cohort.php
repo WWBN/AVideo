@@ -21,6 +21,7 @@ class Cohort extends \Google\Model
 {
   protected $dateRangeType = DateRange::class;
   protected $dateRangeDataType = '';
+  public $dateRange;
   /**
    * @var string
    */

@@ -22,7 +22,7 @@ namespace Google\Service\Ideahub\Resource;
  * Typical usage is:
  *  <code>
  *   $ideahubService = new Google\Service\Ideahub(...);
- *   $properties = $ideahubService->properties;
+ *   $properties = $ideahubService->platforms_properties;
  *  </code>
  */
 class PlatformsProperties extends \Google\Service\Resource

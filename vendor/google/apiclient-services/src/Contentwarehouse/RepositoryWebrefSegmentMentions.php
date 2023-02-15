@@ -22,6 +22,7 @@ class RepositoryWebrefSegmentMentions extends \Google\Collection
   protected $collection_key = 'mention';
   protected $mentionType = RepositoryWebrefMention::class;
   protected $mentionDataType = 'array';
+  public $mention;
   /**
    * @var string
    */

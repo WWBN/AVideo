@@ -21,6 +21,7 @@ class TestTiming extends \Google\Model
 {
   protected $testProcessDurationType = Duration::class;
   protected $testProcessDurationDataType = '';
+  public $testProcessDuration;
 
   /**
    * @param Duration

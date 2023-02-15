@@ -22,6 +22,7 @@ class PathNode extends \Google\Collection
   protected $collection_key = 'associatedFindings';
   protected $associatedFindingsType = AssociatedFinding::class;
   protected $associatedFindingsDataType = 'array';
+  public $associatedFindings;
   /**
    * @var string
    */

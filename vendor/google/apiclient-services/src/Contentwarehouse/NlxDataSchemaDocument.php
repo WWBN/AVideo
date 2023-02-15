@@ -22,10 +22,13 @@ class NlxDataSchemaDocument extends \Google\Collection
   protected $collection_key = 'languageCode';
   protected $authorType = MultiscalePointerIndex::class;
   protected $authorDataType = 'array';
+  public $author;
   protected $bytesType = MultiscalePointerSpan::class;
   protected $bytesDataType = '';
+  public $bytes;
   protected $charactersType = MultiscalePointerSpan::class;
   protected $charactersDataType = '';
+  public $characters;
   /**
    * @var string
    */
@@ -36,18 +39,23 @@ class NlxDataSchemaDocument extends \Google\Collection
   public $languageCode;
   protected $languageSpansType = MultiscalePointerSpan::class;
   protected $languageSpansDataType = '';
+  public $languageSpans;
   protected $mentionsType = MultiscalePointerSpan::class;
   protected $mentionsDataType = '';
+  public $mentions;
   protected $paragraphsType = MultiscalePointerSpan::class;
   protected $paragraphsDataType = '';
+  public $paragraphs;
   protected $sentencesType = MultiscalePointerSpan::class;
   protected $sentencesDataType = '';
+  public $sentences;
   /**
    * @var string
    */
   public $text;
   protected $tokensType = MultiscalePointerSpan::class;
   protected $tokensDataType = '';
+  public $tokens;
   /**
    * @var string
    */

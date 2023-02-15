@@ -25,6 +25,7 @@ class Membership extends \Google\Model
   public $createTime;
   protected $memberType = User::class;
   protected $memberDataType = '';
+  public $member;
   /**
    * @var string
    */

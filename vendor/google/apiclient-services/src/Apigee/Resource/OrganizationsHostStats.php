@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1Stats;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $hostStats = $apigeeService->hostStats;
+ *   $hostStats = $apigeeService->organizations_hostStats;
  *  </code>
  */
 class OrganizationsHostStats extends \Google\Service\Resource

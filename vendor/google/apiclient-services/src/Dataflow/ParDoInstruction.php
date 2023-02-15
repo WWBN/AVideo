@@ -22,14 +22,17 @@ class ParDoInstruction extends \Google\Collection
   protected $collection_key = 'sideInputs';
   protected $inputType = InstructionInput::class;
   protected $inputDataType = '';
+  public $input;
   protected $multiOutputInfosType = MultiOutputInfo::class;
   protected $multiOutputInfosDataType = 'array';
+  public $multiOutputInfos;
   /**
    * @var int
    */
   public $numOutputs;
   protected $sideInputsType = SideInputInfo::class;
   protected $sideInputsDataType = 'array';
+  public $sideInputs;
   /**
    * @var array[]
    */

@@ -21,6 +21,7 @@ class QualityActionsAppInfoSourceData extends \Google\Model
 {
   protected $allowListSourceDataType = QualityActionsAppInfoSourceDataAllowListSourceData::class;
   protected $allowListSourceDataDataType = '';
+  public $allowListSourceData;
   /**
    * @var float
    */
@@ -35,12 +36,14 @@ class QualityActionsAppInfoSourceData extends \Google\Model
   public $isCategorical;
   protected $mediaProviderSourceDataType = QualityActionsAppInfoSourceDataMediaProviderSourceData::class;
   protected $mediaProviderSourceDataDataType = '';
+  public $mediaProviderSourceData;
   /**
    * @var string
    */
   public $source;
   protected $teleportSourceDataType = AssistantTeleportTeleportNicknameSignals::class;
   protected $teleportSourceDataDataType = '';
+  public $teleportSourceData;
 
   /**
    * @param QualityActionsAppInfoSourceDataAllowListSourceData

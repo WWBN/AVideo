@@ -30,6 +30,7 @@ class GoogleCloudContentwarehouseV1SynonymSet extends \Google\Collection
   public $name;
   protected $synonymsType = GoogleCloudContentwarehouseV1SynonymSetSynonym::class;
   protected $synonymsDataType = 'array';
+  public $synonyms;
 
   /**
    * @param string

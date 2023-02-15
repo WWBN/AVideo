@@ -22,12 +22,16 @@ class VideoContentSearchVideoAnchorSets extends \Google\Collection
   protected $collection_key = 'videoAnchors';
   protected $videoActionsType = VideoContentSearchVideoActions::class;
   protected $videoActionsDataType = '';
+  public $videoActions;
   protected $videoAnchorsType = VideoContentSearchVideoAnchors::class;
   protected $videoAnchorsDataType = 'array';
+  public $videoAnchors;
   protected $videoInfoType = VideoContentSearchVideoInfo::class;
   protected $videoInfoDataType = '';
+  public $videoInfo;
   protected $videoScoreInfoType = VideoContentSearchVideoScoreInfo::class;
   protected $videoScoreInfoDataType = '';
+  public $videoScoreInfo;
 
   /**
    * @param VideoContentSearchVideoActions

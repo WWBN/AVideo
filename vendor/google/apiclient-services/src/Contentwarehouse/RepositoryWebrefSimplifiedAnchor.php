@@ -21,8 +21,10 @@ class RepositoryWebrefSimplifiedAnchor extends \Google\Model
 {
   protected $anchorIndicesType = RepositoryWebrefAnchorIndices::class;
   protected $anchorIndicesDataType = '';
+  public $anchorIndices;
   protected $anchorTextType = RepositoryWebrefLocalizedString::class;
   protected $anchorTextDataType = '';
+  public $anchorText;
   /**
    * @var string
    */

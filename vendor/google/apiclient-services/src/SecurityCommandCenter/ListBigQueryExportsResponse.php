@@ -22,6 +22,7 @@ class ListBigQueryExportsResponse extends \Google\Collection
   protected $collection_key = 'bigQueryExports';
   protected $bigQueryExportsType = GoogleCloudSecuritycenterV1BigQueryExport::class;
   protected $bigQueryExportsDataType = 'array';
+  public $bigQueryExports;
   /**
    * @var string
    */

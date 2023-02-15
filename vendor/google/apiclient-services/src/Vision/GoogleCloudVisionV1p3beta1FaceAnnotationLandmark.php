@@ -21,6 +21,7 @@ class GoogleCloudVisionV1p3beta1FaceAnnotationLandmark extends \Google\Model
 {
   protected $positionType = GoogleCloudVisionV1p3beta1Position::class;
   protected $positionDataType = '';
+  public $position;
   /**
    * @var string
    */

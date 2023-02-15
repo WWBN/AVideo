@@ -21,6 +21,7 @@ class ImageRepositoryAmarnaSignalsBlob extends \Google\Model
 {
   protected $frameFeaturesType = DrishtiFeatureSetDataSequence::class;
   protected $frameFeaturesDataType = '';
+  public $frameFeatures;
 
   /**
    * @param DrishtiFeatureSetDataSequence

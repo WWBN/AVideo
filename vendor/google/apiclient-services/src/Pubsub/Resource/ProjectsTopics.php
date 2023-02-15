@@ -33,7 +33,7 @@ use Google\Service\Pubsub\UpdateTopicRequest;
  * Typical usage is:
  *  <code>
  *   $pubsubService = new Google\Service\Pubsub(...);
- *   $topics = $pubsubService->topics;
+ *   $topics = $pubsubService->projects_topics;
  *  </code>
  */
 class ProjectsTopics extends \Google\Service\Resource

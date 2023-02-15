@@ -22,8 +22,10 @@ class VideoContentSearchSpanDolphinScores extends \Google\Collection
   protected $collection_key = 'spanToken';
   protected $spanCandidateType = VideoContentSearchSpanDolphinScoresSpanCandidate::class;
   protected $spanCandidateDataType = 'array';
+  public $spanCandidate;
   protected $spanTokenType = VideoContentSearchSpanDolphinScoresSpanToken::class;
   protected $spanTokenDataType = 'array';
+  public $spanToken;
 
   /**
    * @param VideoContentSearchSpanDolphinScoresSpanCandidate[]

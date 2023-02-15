@@ -26,6 +26,7 @@ class JobList extends \Google\Collection
   public $etag;
   protected $jobsType = JobListJobs::class;
   protected $jobsDataType = 'array';
+  public $jobs;
   /**
    * @var string
    */

@@ -30,7 +30,7 @@ use Google\Service\SecurityCommandCenter\SetMuteRequest;
  * Typical usage is:
  *  <code>
  *   $securitycenterService = new Google\Service\SecurityCommandCenter(...);
- *   $findings = $securitycenterService->findings;
+ *   $findings = $securitycenterService->projects_sources_findings;
  *  </code>
  */
 class ProjectsSourcesFindings extends \Google\Service\Resource
@@ -177,8 +177,8 @@ class ProjectsSourcesFindings extends \Google\Service\Resource
   /**
    * Updates the mute state of a finding. (findings.setMute)
    *
-   * @param string $name Required. The relative resource name of the finding. See:
-   * https://cloud.google.com/apis/design/resource_names#relative_resource_name
+   * @param string $name Required. The [relative resource name](https://cloud.goog
+   * le.com/apis/design/resource_names#relative_resource_name) of the finding.
    * Example:
    * "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}",
    * "folders/{folder_id}/sources/{source_id}/findings/{finding_id}",
@@ -196,10 +196,12 @@ class ProjectsSourcesFindings extends \Google\Service\Resource
   /**
    * Updates the state of a finding. (findings.setState)
    *
-   * @param string $name Required. The relative resource name of the finding. See:
-   * https://cloud.google.com/apis/design/resource_names#relative_resource_name
+   * @param string $name Required. The [relative resource name](https://cloud.goog
+   * le.com/apis/design/resource_names#relative_resource_name) of the finding.
    * Example:
-   * "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}".
+   * "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}",
+   * "folders/{folder_id}/sources/{source_id}/findings/{finding_id}",
+   * "projects/{project_id}/sources/{source_id}/findings/{finding_id}".
    * @param SetFindingStateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Finding

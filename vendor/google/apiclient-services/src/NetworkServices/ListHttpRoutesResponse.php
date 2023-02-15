@@ -22,6 +22,7 @@ class ListHttpRoutesResponse extends \Google\Collection
   protected $collection_key = 'httpRoutes';
   protected $httpRoutesType = HttpRoute::class;
   protected $httpRoutesDataType = 'array';
+  public $httpRoutes;
   /**
    * @var string
    */

@@ -19,13 +19,31 @@ namespace Google\Service\ServiceControl;
 
 class CheckResponse extends \Google\Model
 {
+  protected $esfMigrationServerOverrideType = EsfMigrationServerOverride::class;
+  protected $esfMigrationServerOverrideDataType = '';
+  public $esfMigrationServerOverride;
   /**
    * @var string[]
    */
   public $headers;
   protected $statusType = Status::class;
   protected $statusDataType = '';
+  public $status;
 
+  /**
+   * @param EsfMigrationServerOverride
+   */
+  public function setEsfMigrationServerOverride(EsfMigrationServerOverride $esfMigrationServerOverride)
+  {
+    $this->esfMigrationServerOverride = $esfMigrationServerOverride;
+  }
+  /**
+   * @return EsfMigrationServerOverride
+   */
+  public function getEsfMigrationServerOverride()
+  {
+    return $this->esfMigrationServerOverride;
+  }
   /**
    * @param string[]
    */

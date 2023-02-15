@@ -25,7 +25,7 @@ use Google\Service\Slides\Thumbnail;
  * Typical usage is:
  *  <code>
  *   $slidesService = new Google\Service\Slides(...);
- *   $pages = $slidesService->pages;
+ *   $pages = $slidesService->presentations_pages;
  *  </code>
  */
 class PresentationsPages extends \Google\Service\Resource

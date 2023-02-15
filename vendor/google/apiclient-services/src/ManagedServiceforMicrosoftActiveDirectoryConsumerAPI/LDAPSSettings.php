@@ -21,6 +21,7 @@ class LDAPSSettings extends \Google\Model
 {
   protected $certificateType = Certificate::class;
   protected $certificateDataType = '';
+  public $certificate;
   /**
    * @var string
    */

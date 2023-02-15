@@ -26,7 +26,7 @@ use Google\Service\FirebaseRules\Ruleset;
  * Typical usage is:
  *  <code>
  *   $firebaserulesService = new Google\Service\FirebaseRules(...);
- *   $rulesets = $firebaserulesService->rulesets;
+ *   $rulesets = $firebaserulesService->projects_rulesets;
  *  </code>
  */
 class ProjectsRulesets extends \Google\Service\Resource

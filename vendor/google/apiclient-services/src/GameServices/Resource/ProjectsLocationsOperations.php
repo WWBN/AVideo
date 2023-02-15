@@ -27,7 +27,7 @@ use Google\Service\GameServices\Operation;
  * Typical usage is:
  *  <code>
  *   $gameservicesService = new Google\Service\GameServices(...);
- *   $operations = $gameservicesService->operations;
+ *   $operations = $gameservicesService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

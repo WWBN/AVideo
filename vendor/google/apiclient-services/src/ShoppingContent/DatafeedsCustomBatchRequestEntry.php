@@ -25,6 +25,7 @@ class DatafeedsCustomBatchRequestEntry extends \Google\Model
   public $batchId;
   protected $datafeedType = Datafeed::class;
   protected $datafeedDataType = '';
+  public $datafeed;
   /**
    * @var string
    */

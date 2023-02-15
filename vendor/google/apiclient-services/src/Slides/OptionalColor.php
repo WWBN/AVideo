@@ -21,6 +21,7 @@ class OptionalColor extends \Google\Model
 {
   protected $opaqueColorType = OpaqueColor::class;
   protected $opaqueColorDataType = '';
+  public $opaqueColor;
 
   /**
    * @param OpaqueColor

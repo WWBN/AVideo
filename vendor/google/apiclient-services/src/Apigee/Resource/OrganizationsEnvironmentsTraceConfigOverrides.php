@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $overrides = $apigeeService->overrides;
+ *   $overrides = $apigeeService->organizations_environments_traceConfig_overrides;
  *  </code>
  */
 class OrganizationsEnvironmentsTraceConfigOverrides extends \Google\Service\Resource

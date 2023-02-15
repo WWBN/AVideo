@@ -21,8 +21,10 @@ class InsertSectionBreakRequest extends \Google\Model
 {
   protected $endOfSegmentLocationType = EndOfSegmentLocation::class;
   protected $endOfSegmentLocationDataType = '';
+  public $endOfSegmentLocation;
   protected $locationType = Location::class;
   protected $locationDataType = '';
+  public $location;
   /**
    * @var string
    */

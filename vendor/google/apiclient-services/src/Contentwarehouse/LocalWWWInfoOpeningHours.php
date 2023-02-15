@@ -21,6 +21,7 @@ class LocalWWWInfoOpeningHours extends \Google\Model
 {
   protected $hoursType = GeostoreTimeScheduleProto::class;
   protected $hoursDataType = '';
+  public $hours;
   /**
    * @var string
    */

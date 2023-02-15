@@ -39,12 +39,12 @@ class LensDiscoveryStylePersonAttributes extends \Google\Model
    * @var int
    */
   public $discretizedVisualSaliencyScore;
-  protected $iconicPersonBoundingBoxType = PhotosVisionGroundtruthdbNormalizedBoundingBox::class;
-  protected $iconicPersonBoundingBoxDataType = '';
   protected $personBoundingBoxType = LensDiscoveryStyleBoundingBox::class;
   protected $personBoundingBoxDataType = '';
+  public $personBoundingBox;
   protected $personVisibilityScoresType = LensDiscoveryStylePersonAttributesPersonVisibilityScores::class;
   protected $personVisibilityScoresDataType = '';
+  public $personVisibilityScores;
   /**
    * @var string
    */
@@ -123,20 +123,6 @@ class LensDiscoveryStylePersonAttributes extends \Google\Model
   public function getDiscretizedVisualSaliencyScore()
   {
     return $this->discretizedVisualSaliencyScore;
-  }
-  /**
-   * @param PhotosVisionGroundtruthdbNormalizedBoundingBox
-   */
-  public function setIconicPersonBoundingBox(PhotosVisionGroundtruthdbNormalizedBoundingBox $iconicPersonBoundingBox)
-  {
-    $this->iconicPersonBoundingBox = $iconicPersonBoundingBox;
-  }
-  /**
-   * @return PhotosVisionGroundtruthdbNormalizedBoundingBox
-   */
-  public function getIconicPersonBoundingBox()
-  {
-    return $this->iconicPersonBoundingBox;
   }
   /**
    * @param LensDiscoveryStyleBoundingBox

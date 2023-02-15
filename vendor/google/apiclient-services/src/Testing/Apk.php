@@ -21,6 +21,7 @@ class Apk extends \Google\Model
 {
   protected $locationType = FileReference::class;
   protected $locationDataType = '';
+  public $location;
   /**
    * @var string
    */

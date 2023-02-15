@@ -25,6 +25,7 @@ class BindingDelta extends \Google\Model
   public $action;
   protected $conditionType = Expr::class;
   protected $conditionDataType = '';
+  public $condition;
   /**
    * @var string
    */

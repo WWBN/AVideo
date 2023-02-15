@@ -22,8 +22,10 @@ class AssistantApiThirdPartyActionConfig extends \Google\Collection
   protected $collection_key = 'projectConfigs';
   protected $deviceActionCapabilityType = AssistantDevicesPlatformProtoDeviceActionCapability::class;
   protected $deviceActionCapabilityDataType = '';
+  public $deviceActionCapability;
   protected $projectConfigsType = AssistantApiThirdPartyActionConfigProjectConfig::class;
   protected $projectConfigsDataType = 'array';
+  public $projectConfigs;
 
   /**
    * @param AssistantDevicesPlatformProtoDeviceActionCapability

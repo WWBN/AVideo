@@ -25,14 +25,19 @@ class ScorecardChartSpec extends \Google\Model
   public $aggregateType;
   protected $baselineValueDataType = ChartData::class;
   protected $baselineValueDataDataType = '';
+  public $baselineValueData;
   protected $baselineValueFormatType = BaselineValueFormat::class;
   protected $baselineValueFormatDataType = '';
+  public $baselineValueFormat;
   protected $customFormatOptionsType = ChartCustomNumberFormatOptions::class;
   protected $customFormatOptionsDataType = '';
+  public $customFormatOptions;
   protected $keyValueDataType = ChartData::class;
   protected $keyValueDataDataType = '';
+  public $keyValueData;
   protected $keyValueFormatType = KeyValueFormat::class;
   protected $keyValueFormatDataType = '';
+  public $keyValueFormat;
   /**
    * @var string
    */

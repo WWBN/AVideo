@@ -26,6 +26,7 @@ class BatchRunPivotReportsResponse extends \Google\Collection
   public $kind;
   protected $pivotReportsType = RunPivotReportResponse::class;
   protected $pivotReportsDataType = 'array';
+  public $pivotReports;
 
   /**
    * @param string

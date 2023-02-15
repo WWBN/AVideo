@@ -24,7 +24,7 @@ use Google\Service\PubsubLite\ListReservationTopicsResponse;
  * Typical usage is:
  *  <code>
  *   $pubsubliteService = new Google\Service\PubsubLite(...);
- *   $topics = $pubsubliteService->topics;
+ *   $topics = $pubsubliteService->admin_projects_locations_reservations_topics;
  *  </code>
  */
 class AdminProjectsLocationsReservationsTopics extends \Google\Service\Resource

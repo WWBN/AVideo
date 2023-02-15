@@ -21,12 +21,14 @@ class TransactionSelector extends \Google\Model
 {
   protected $beginType = TransactionOptions::class;
   protected $beginDataType = '';
+  public $begin;
   /**
    * @var string
    */
   public $id;
   protected $singleUseType = TransactionOptions::class;
   protected $singleUseDataType = '';
+  public $singleUse;
 
   /**
    * @param TransactionOptions

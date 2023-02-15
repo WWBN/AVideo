@@ -21,8 +21,10 @@ class PrivatePoolV1Config extends \Google\Model
 {
   protected $networkConfigType = NetworkConfig::class;
   protected $networkConfigDataType = '';
+  public $networkConfig;
   protected $workerConfigType = WorkerConfig::class;
   protected $workerConfigDataType = '';
+  public $workerConfig;
 
   /**
    * @param NetworkConfig

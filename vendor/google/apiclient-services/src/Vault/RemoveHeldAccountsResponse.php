@@ -22,6 +22,7 @@ class RemoveHeldAccountsResponse extends \Google\Collection
   protected $collection_key = 'statuses';
   protected $statusesType = Status::class;
   protected $statusesDataType = 'array';
+  public $statuses;
 
   /**
    * @param Status[]

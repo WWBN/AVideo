@@ -21,6 +21,7 @@ class GooglePrivacyDlpV2Export extends \Google\Model
 {
   protected $profileTableType = GooglePrivacyDlpV2BigQueryTable::class;
   protected $profileTableDataType = '';
+  public $profileTable;
 
   /**
    * @param GooglePrivacyDlpV2BigQueryTable

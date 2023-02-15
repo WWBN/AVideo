@@ -69,6 +69,7 @@ class LiveBroadcastContentDetails extends \Google\Model
   public $mesh;
   protected $monitorStreamType = MonitorStreamInfo::class;
   protected $monitorStreamDataType = '';
+  public $monitorStream;
   /**
    * @var string
    */

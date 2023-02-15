@@ -25,7 +25,7 @@ use Google\Service\DisplayVideo\LocationList;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $locationLists = $displayvideoService->locationLists;
+ *   $locationLists = $displayvideoService->advertisers_locationLists;
  *  </code>
  */
 class AdvertisersLocationLists extends \Google\Service\Resource

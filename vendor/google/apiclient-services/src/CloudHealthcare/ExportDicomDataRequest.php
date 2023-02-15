@@ -21,8 +21,10 @@ class ExportDicomDataRequest extends \Google\Model
 {
   protected $bigqueryDestinationType = GoogleCloudHealthcareV1DicomBigQueryDestination::class;
   protected $bigqueryDestinationDataType = '';
+  public $bigqueryDestination;
   protected $gcsDestinationType = GoogleCloudHealthcareV1DicomGcsDestination::class;
   protected $gcsDestinationDataType = '';
+  public $gcsDestination;
 
   /**
    * @param GoogleCloudHealthcareV1DicomBigQueryDestination

@@ -29,18 +29,23 @@ class ParagraphStyle extends \Google\Model
   public $direction;
   protected $indentEndType = Dimension::class;
   protected $indentEndDataType = '';
+  public $indentEnd;
   protected $indentFirstLineType = Dimension::class;
   protected $indentFirstLineDataType = '';
+  public $indentFirstLine;
   protected $indentStartType = Dimension::class;
   protected $indentStartDataType = '';
+  public $indentStart;
   /**
    * @var float
    */
   public $lineSpacing;
   protected $spaceAboveType = Dimension::class;
   protected $spaceAboveDataType = '';
+  public $spaceAbove;
   protected $spaceBelowType = Dimension::class;
   protected $spaceBelowDataType = '';
+  public $spaceBelow;
   /**
    * @var string
    */

@@ -28,7 +28,7 @@ use Google\Service\OSConfig\ResumePatchDeploymentRequest;
  * Typical usage is:
  *  <code>
  *   $osconfigService = new Google\Service\OSConfig(...);
- *   $patchDeployments = $osconfigService->patchDeployments;
+ *   $patchDeployments = $osconfigService->projects_patchDeployments;
  *  </code>
  */
 class ProjectsPatchDeployments extends \Google\Service\Resource

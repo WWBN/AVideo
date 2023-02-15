@@ -22,6 +22,7 @@ class FirstAndThirdPartyAudienceGroup extends \Google\Collection
   protected $collection_key = 'settings';
   protected $settingsType = FirstAndThirdPartyAudienceTargetingSetting::class;
   protected $settingsDataType = 'array';
+  public $settings;
 
   /**
    * @param FirstAndThirdPartyAudienceTargetingSetting[]

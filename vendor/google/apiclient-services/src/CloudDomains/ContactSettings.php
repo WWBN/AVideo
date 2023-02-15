@@ -21,14 +21,17 @@ class ContactSettings extends \Google\Model
 {
   protected $adminContactType = Contact::class;
   protected $adminContactDataType = '';
+  public $adminContact;
   /**
    * @var string
    */
   public $privacy;
   protected $registrantContactType = Contact::class;
   protected $registrantContactDataType = '';
+  public $registrantContact;
   protected $technicalContactType = Contact::class;
   protected $technicalContactDataType = '';
+  public $technicalContact;
 
   /**
    * @param Contact

@@ -22,6 +22,7 @@ class WebfontList extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Webfont::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

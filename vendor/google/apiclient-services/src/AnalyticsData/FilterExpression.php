@@ -21,12 +21,16 @@ class FilterExpression extends \Google\Model
 {
   protected $andGroupType = FilterExpressionList::class;
   protected $andGroupDataType = '';
+  public $andGroup;
   protected $filterType = Filter::class;
   protected $filterDataType = '';
+  public $filter;
   protected $notExpressionType = FilterExpression::class;
   protected $notExpressionDataType = '';
+  public $notExpression;
   protected $orGroupType = FilterExpressionList::class;
   protected $orGroupDataType = '';
+  public $orGroup;
 
   /**
    * @param FilterExpressionList

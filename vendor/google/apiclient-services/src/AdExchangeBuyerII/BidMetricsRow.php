@@ -21,20 +21,28 @@ class BidMetricsRow extends \Google\Model
 {
   protected $bidsType = MetricValue::class;
   protected $bidsDataType = '';
+  public $bids;
   protected $bidsInAuctionType = MetricValue::class;
   protected $bidsInAuctionDataType = '';
+  public $bidsInAuction;
   protected $billedImpressionsType = MetricValue::class;
   protected $billedImpressionsDataType = '';
+  public $billedImpressions;
   protected $impressionsWonType = MetricValue::class;
   protected $impressionsWonDataType = '';
+  public $impressionsWon;
   protected $measurableImpressionsType = MetricValue::class;
   protected $measurableImpressionsDataType = '';
+  public $measurableImpressions;
   protected $reachedQueriesType = MetricValue::class;
   protected $reachedQueriesDataType = '';
+  public $reachedQueries;
   protected $rowDimensionsType = RowDimensions::class;
   protected $rowDimensionsDataType = '';
+  public $rowDimensions;
   protected $viewableImpressionsType = MetricValue::class;
   protected $viewableImpressionsDataType = '';
+  public $viewableImpressions;
 
   /**
    * @param MetricValue

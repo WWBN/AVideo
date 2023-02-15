@@ -22,6 +22,7 @@ class BulkEditAssignedLocationsRequest extends \Google\Collection
   protected $collection_key = 'deletedAssignedLocations';
   protected $createdAssignedLocationsType = AssignedLocation::class;
   protected $createdAssignedLocationsDataType = 'array';
+  public $createdAssignedLocations;
   /**
    * @var string[]
    */

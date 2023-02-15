@@ -29,6 +29,7 @@ class AppsDynamiteSharedActivityFeedAnnotationDataUserInfo extends \Google\Model
   public $updaterCountToShow;
   protected $updaterToShowType = UserId::class;
   protected $updaterToShowDataType = '';
+  public $updaterToShow;
 
   /**
    * @param string

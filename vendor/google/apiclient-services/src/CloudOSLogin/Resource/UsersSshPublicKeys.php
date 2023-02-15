@@ -25,7 +25,7 @@ use Google\Service\CloudOSLogin\SshPublicKey;
  * Typical usage is:
  *  <code>
  *   $osloginService = new Google\Service\CloudOSLogin(...);
- *   $sshPublicKeys = $osloginService->sshPublicKeys;
+ *   $sshPublicKeys = $osloginService->users_sshPublicKeys;
  *  </code>
  */
 class UsersSshPublicKeys extends \Google\Service\Resource

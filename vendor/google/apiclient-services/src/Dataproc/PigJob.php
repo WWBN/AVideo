@@ -30,6 +30,7 @@ class PigJob extends \Google\Collection
   public $jarFileUris;
   protected $loggingConfigType = LoggingConfig::class;
   protected $loggingConfigDataType = '';
+  public $loggingConfig;
   /**
    * @var string[]
    */
@@ -40,6 +41,7 @@ class PigJob extends \Google\Collection
   public $queryFileUri;
   protected $queryListType = QueryList::class;
   protected $queryListDataType = '';
+  public $queryList;
   /**
    * @var string[]
    */

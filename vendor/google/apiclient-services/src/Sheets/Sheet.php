@@ -22,30 +22,43 @@ class Sheet extends \Google\Collection
   protected $collection_key = 'slicers';
   protected $bandedRangesType = BandedRange::class;
   protected $bandedRangesDataType = 'array';
+  public $bandedRanges;
   protected $basicFilterType = BasicFilter::class;
   protected $basicFilterDataType = '';
+  public $basicFilter;
   protected $chartsType = EmbeddedChart::class;
   protected $chartsDataType = 'array';
+  public $charts;
   protected $columnGroupsType = DimensionGroup::class;
   protected $columnGroupsDataType = 'array';
+  public $columnGroups;
   protected $conditionalFormatsType = ConditionalFormatRule::class;
   protected $conditionalFormatsDataType = 'array';
+  public $conditionalFormats;
   protected $dataType = GridData::class;
   protected $dataDataType = 'array';
+  public $data;
   protected $developerMetadataType = DeveloperMetadata::class;
   protected $developerMetadataDataType = 'array';
+  public $developerMetadata;
   protected $filterViewsType = FilterView::class;
   protected $filterViewsDataType = 'array';
+  public $filterViews;
   protected $mergesType = GridRange::class;
   protected $mergesDataType = 'array';
+  public $merges;
   protected $propertiesType = SheetProperties::class;
   protected $propertiesDataType = '';
+  public $properties;
   protected $protectedRangesType = ProtectedRange::class;
   protected $protectedRangesDataType = 'array';
+  public $protectedRanges;
   protected $rowGroupsType = DimensionGroup::class;
   protected $rowGroupsDataType = 'array';
+  public $rowGroups;
   protected $slicersType = Slicer::class;
   protected $slicersDataType = 'array';
+  public $slicers;
 
   /**
    * @param BandedRange[]

@@ -21,6 +21,7 @@ class SubscriptionPriceChange extends \Google\Model
 {
   protected $newPriceType = Price::class;
   protected $newPriceDataType = '';
+  public $newPrice;
   /**
    * @var int
    */

@@ -27,7 +27,7 @@ use Google\Service\ManufacturerCenter\Product;
  * Typical usage is:
  *  <code>
  *   $manufacturersService = new Google\Service\ManufacturerCenter(...);
- *   $products = $manufacturersService->products;
+ *   $products = $manufacturersService->accounts_products;
  *  </code>
  */
 class AccountsProducts extends \Google\Service\Resource

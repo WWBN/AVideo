@@ -30,7 +30,7 @@ use Google\Service\Vision\VisionEmpty;
  * Typical usage is:
  *  <code>
  *   $visionService = new Google\Service\Vision(...);
- *   $productSets = $visionService->productSets;
+ *   $productSets = $visionService->projects_locations_productSets;
  *  </code>
  */
 class ProjectsLocationsProductSets extends \Google\Service\Resource

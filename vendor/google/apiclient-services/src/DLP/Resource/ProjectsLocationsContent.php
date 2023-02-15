@@ -29,7 +29,7 @@ use Google\Service\DLP\GooglePrivacyDlpV2ReidentifyContentResponse;
  * Typical usage is:
  *  <code>
  *   $dlpService = new Google\Service\DLP(...);
- *   $content = $dlpService->content;
+ *   $content = $dlpService->projects_locations_content;
  *  </code>
  */
 class ProjectsLocationsContent extends \Google\Service\Resource

@@ -25,6 +25,7 @@ use Google\Service\AIPlatformNotebooks\ListInstancesResponse;
 use Google\Service\AIPlatformNotebooks\Operation;
 use Google\Service\AIPlatformNotebooks\Policy;
 use Google\Service\AIPlatformNotebooks\RegisterInstanceRequest;
+use Google\Service\AIPlatformNotebooks\ReportInstanceEventRequest;
 use Google\Service\AIPlatformNotebooks\ReportInstanceInfoRequest;
 use Google\Service\AIPlatformNotebooks\ResetInstanceRequest;
 use Google\Service\AIPlatformNotebooks\RollbackInstanceRequest;
@@ -48,7 +49,7 @@ use Google\Service\AIPlatformNotebooks\UpgradeInstanceRequest;
  * Typical usage is:
  *  <code>
  *   $notebooksService = new Google\Service\AIPlatformNotebooks(...);
- *   $instances = $notebooksService->instances;
+ *   $instances = $notebooksService->projects_locations_instances;
  *  </code>
  */
 class ProjectsLocationsInstances extends \Google\Service\Resource
@@ -229,6 +230,21 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('report', [$params], Operation::class);
+  }
+  /**
+   * Reports and processes an instance event. (instances.reportEvent)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param ReportInstanceEventRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function reportEvent($name, ReportInstanceEventRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('reportEvent', [$params], Operation::class);
   }
   /**
    * Resets a notebook instance. (instances.reset)

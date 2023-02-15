@@ -21,8 +21,10 @@ class ClassifierPornDocumentData extends \Google\Model
 {
   protected $classifierdataType = ClassifierPornClassifierData::class;
   protected $classifierdataDataType = '';
+  public $classifierdata;
   protected $sitedataType = ClassifierPornSiteData::class;
   protected $sitedataDataType = '';
+  public $sitedata;
 
   /**
    * @param ClassifierPornClassifierData

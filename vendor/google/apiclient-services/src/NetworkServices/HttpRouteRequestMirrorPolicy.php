@@ -21,6 +21,7 @@ class HttpRouteRequestMirrorPolicy extends \Google\Model
 {
   protected $destinationType = HttpRouteDestination::class;
   protected $destinationDataType = '';
+  public $destination;
 
   /**
    * @param HttpRouteDestination

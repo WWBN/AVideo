@@ -37,6 +37,7 @@ class AppsPeopleOzExternalMergedpeopleapiCustomSchemaField extends \Google\Model
   public $formattedType;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var bool
    */

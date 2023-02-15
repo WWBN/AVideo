@@ -24,13 +24,15 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListExecutionsResp
  * Typical usage is:
  *  <code>
  *   $integrationsService = new Google\Service\Integrations(...);
- *   $executions = $integrationsService->executions;
+ *   $executions = $integrationsService->projects_locations_integrations_executions;
  *  </code>
  */
 class ProjectsLocationsIntegrationsExecutions extends \Google\Service\Resource
 {
   /**
-   * Lists the status of the integration executions.
+   * Lists the results of all the integration executions. The response includes
+   * the same information as the [execution log](https://cloud.google.com
+   * /application-integration/docs/viewing-logs) in the Integration UI.
    * (executions.listProjectsLocationsIntegrationsExecutions)
    *
    * @param string $parent Required. The parent resource name of the integration

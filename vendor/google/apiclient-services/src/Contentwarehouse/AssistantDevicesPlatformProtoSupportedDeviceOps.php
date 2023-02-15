@@ -21,28 +21,40 @@ class AssistantDevicesPlatformProtoSupportedDeviceOps extends \Google\Model
 {
   protected $callCallType = AssistantDevicesPlatformProtoCallCallCapability::class;
   protected $callCallDataType = '';
+  public $callCall;
   protected $clientReconnectType = AssistantDevicesPlatformProtoClientReconnectCapability::class;
   protected $clientReconnectDataType = '';
+  public $clientReconnect;
   protected $deviceModifySettingType = AssistantDevicesPlatformProtoDeviceModifySettingCapability::class;
   protected $deviceModifySettingDataType = '';
+  public $deviceModifySetting;
   protected $deviceTakePhotoType = AssistantDevicesPlatformProtoDeviceTakePhotoCapability::class;
   protected $deviceTakePhotoDataType = '';
+  public $deviceTakePhoto;
   protected $mediaNextType = AssistantDevicesPlatformProtoMediaNextCapability::class;
   protected $mediaNextDataType = '';
+  public $mediaNext;
   protected $mediaPauseType = AssistantDevicesPlatformProtoMediaPauseCapability::class;
   protected $mediaPauseDataType = '';
+  public $mediaPause;
   protected $mediaPlayMediaType = AssistantDevicesPlatformProtoMediaPlayMediaCapability::class;
   protected $mediaPlayMediaDataType = '';
+  public $mediaPlayMedia;
   protected $mediaPreviousType = AssistantDevicesPlatformProtoMediaPreviousCapability::class;
   protected $mediaPreviousDataType = '';
+  public $mediaPrevious;
   protected $mediaResumeType = AssistantDevicesPlatformProtoMediaResumeCapability::class;
   protected $mediaResumeDataType = '';
+  public $mediaResume;
   protected $mediaStopType = AssistantDevicesPlatformProtoMediaStopCapability::class;
   protected $mediaStopDataType = '';
+  public $mediaStop;
   protected $providerOpenType = AssistantDevicesPlatformProtoProviderOpenCapability::class;
   protected $providerOpenDataType = '';
+  public $providerOpen;
   protected $sendChatMessageType = AssistantDevicesPlatformProtoSendChatMessageCapability::class;
   protected $sendChatMessageDataType = '';
+  public $sendChatMessage;
 
   /**
    * @param AssistantDevicesPlatformProtoCallCallCapability

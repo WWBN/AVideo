@@ -21,12 +21,14 @@ class Cluster extends \Google\Model
 {
   protected $clusterConfigType = ClusterConfig::class;
   protected $clusterConfigDataType = '';
+  public $clusterConfig;
   /**
    * @var string
    */
   public $defaultStorageType;
   protected $encryptionConfigType = EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
+  public $encryptionConfig;
   /**
    * @var string
    */

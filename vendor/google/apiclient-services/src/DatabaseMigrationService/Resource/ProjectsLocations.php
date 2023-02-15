@@ -25,7 +25,7 @@ use Google\Service\DatabaseMigrationService\Location;
  * Typical usage is:
  *  <code>
  *   $datamigrationService = new Google\Service\DatabaseMigrationService(...);
- *   $locations = $datamigrationService->locations;
+ *   $locations = $datamigrationService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

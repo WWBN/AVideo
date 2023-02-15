@@ -26,16 +26,20 @@ class ConferenceData extends \Google\Collection
   public $conferenceId;
   protected $conferenceSolutionType = ConferenceSolution::class;
   protected $conferenceSolutionDataType = '';
+  public $conferenceSolution;
   protected $createRequestType = CreateConferenceRequest::class;
   protected $createRequestDataType = '';
+  public $createRequest;
   protected $entryPointsType = EntryPoint::class;
   protected $entryPointsDataType = 'array';
+  public $entryPoints;
   /**
    * @var string
    */
   public $notes;
   protected $parametersType = ConferenceParameters::class;
   protected $parametersDataType = '';
+  public $parameters;
   /**
    * @var string
    */

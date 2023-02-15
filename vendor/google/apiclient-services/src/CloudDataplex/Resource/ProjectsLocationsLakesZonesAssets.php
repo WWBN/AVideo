@@ -30,7 +30,7 @@ use Google\Service\CloudDataplex\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $assets = $dataplexService->assets;
+ *   $assets = $dataplexService->projects_locations_lakes_zones_assets;
  *  </code>
  */
 class ProjectsLocationsLakesZonesAssets extends \Google\Service\Resource

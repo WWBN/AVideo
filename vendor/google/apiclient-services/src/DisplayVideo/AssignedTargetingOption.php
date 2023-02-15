@@ -21,110 +21,168 @@ class AssignedTargetingOption extends \Google\Model
 {
   protected $ageRangeDetailsType = AgeRangeAssignedTargetingOptionDetails::class;
   protected $ageRangeDetailsDataType = '';
+  public $ageRangeDetails;
   protected $appCategoryDetailsType = AppCategoryAssignedTargetingOptionDetails::class;
   protected $appCategoryDetailsDataType = '';
+  public $appCategoryDetails;
   protected $appDetailsType = AppAssignedTargetingOptionDetails::class;
   protected $appDetailsDataType = '';
+  public $appDetails;
   /**
    * @var string
    */
   public $assignedTargetingOptionId;
+  /**
+   * @var string
+   */
+  public $assignedTargetingOptionIdAlias;
   protected $audienceGroupDetailsType = AudienceGroupAssignedTargetingOptionDetails::class;
   protected $audienceGroupDetailsDataType = '';
+  public $audienceGroupDetails;
   protected $audioContentTypeDetailsType = AudioContentTypeAssignedTargetingOptionDetails::class;
   protected $audioContentTypeDetailsDataType = '';
+  public $audioContentTypeDetails;
   protected $authorizedSellerStatusDetailsType = AuthorizedSellerStatusAssignedTargetingOptionDetails::class;
   protected $authorizedSellerStatusDetailsDataType = '';
+  public $authorizedSellerStatusDetails;
   protected $browserDetailsType = BrowserAssignedTargetingOptionDetails::class;
   protected $browserDetailsDataType = '';
+  public $browserDetails;
   protected $businessChainDetailsType = BusinessChainAssignedTargetingOptionDetails::class;
   protected $businessChainDetailsDataType = '';
+  public $businessChainDetails;
   protected $carrierAndIspDetailsType = CarrierAndIspAssignedTargetingOptionDetails::class;
   protected $carrierAndIspDetailsDataType = '';
+  public $carrierAndIspDetails;
   protected $categoryDetailsType = CategoryAssignedTargetingOptionDetails::class;
   protected $categoryDetailsDataType = '';
+  public $categoryDetails;
   protected $channelDetailsType = ChannelAssignedTargetingOptionDetails::class;
   protected $channelDetailsDataType = '';
+  public $channelDetails;
   protected $contentDurationDetailsType = ContentDurationAssignedTargetingOptionDetails::class;
   protected $contentDurationDetailsDataType = '';
+  public $contentDurationDetails;
   protected $contentGenreDetailsType = ContentGenreAssignedTargetingOptionDetails::class;
   protected $contentGenreDetailsDataType = '';
+  public $contentGenreDetails;
   protected $contentInstreamPositionDetailsType = ContentInstreamPositionAssignedTargetingOptionDetails::class;
   protected $contentInstreamPositionDetailsDataType = '';
+  public $contentInstreamPositionDetails;
   protected $contentOutstreamPositionDetailsType = ContentOutstreamPositionAssignedTargetingOptionDetails::class;
   protected $contentOutstreamPositionDetailsDataType = '';
+  public $contentOutstreamPositionDetails;
   protected $contentStreamTypeDetailsType = ContentStreamTypeAssignedTargetingOptionDetails::class;
   protected $contentStreamTypeDetailsDataType = '';
+  public $contentStreamTypeDetails;
   protected $dayAndTimeDetailsType = DayAndTimeAssignedTargetingOptionDetails::class;
   protected $dayAndTimeDetailsDataType = '';
+  public $dayAndTimeDetails;
   protected $deviceMakeModelDetailsType = DeviceMakeModelAssignedTargetingOptionDetails::class;
   protected $deviceMakeModelDetailsDataType = '';
+  public $deviceMakeModelDetails;
   protected $deviceTypeDetailsType = DeviceTypeAssignedTargetingOptionDetails::class;
   protected $deviceTypeDetailsDataType = '';
+  public $deviceTypeDetails;
   protected $digitalContentLabelExclusionDetailsType = DigitalContentLabelAssignedTargetingOptionDetails::class;
   protected $digitalContentLabelExclusionDetailsDataType = '';
+  public $digitalContentLabelExclusionDetails;
   protected $environmentDetailsType = EnvironmentAssignedTargetingOptionDetails::class;
   protected $environmentDetailsDataType = '';
+  public $environmentDetails;
   protected $exchangeDetailsType = ExchangeAssignedTargetingOptionDetails::class;
   protected $exchangeDetailsDataType = '';
+  public $exchangeDetails;
   protected $genderDetailsType = GenderAssignedTargetingOptionDetails::class;
   protected $genderDetailsDataType = '';
+  public $genderDetails;
   protected $geoRegionDetailsType = GeoRegionAssignedTargetingOptionDetails::class;
   protected $geoRegionDetailsDataType = '';
+  public $geoRegionDetails;
   protected $householdIncomeDetailsType = HouseholdIncomeAssignedTargetingOptionDetails::class;
   protected $householdIncomeDetailsDataType = '';
+  public $householdIncomeDetails;
   /**
    * @var string
    */
   public $inheritance;
   protected $inventorySourceDetailsType = InventorySourceAssignedTargetingOptionDetails::class;
   protected $inventorySourceDetailsDataType = '';
+  public $inventorySourceDetails;
   protected $inventorySourceGroupDetailsType = InventorySourceGroupAssignedTargetingOptionDetails::class;
   protected $inventorySourceGroupDetailsDataType = '';
+  public $inventorySourceGroupDetails;
   protected $keywordDetailsType = KeywordAssignedTargetingOptionDetails::class;
   protected $keywordDetailsDataType = '';
+  public $keywordDetails;
   protected $languageDetailsType = LanguageAssignedTargetingOptionDetails::class;
   protected $languageDetailsDataType = '';
+  public $languageDetails;
   /**
    * @var string
    */
   public $name;
   protected $nativeContentPositionDetailsType = NativeContentPositionAssignedTargetingOptionDetails::class;
   protected $nativeContentPositionDetailsDataType = '';
+  public $nativeContentPositionDetails;
   protected $negativeKeywordListDetailsType = NegativeKeywordListAssignedTargetingOptionDetails::class;
   protected $negativeKeywordListDetailsDataType = '';
+  public $negativeKeywordListDetails;
   protected $omidDetailsType = OmidAssignedTargetingOptionDetails::class;
   protected $omidDetailsDataType = '';
+  public $omidDetails;
   protected $onScreenPositionDetailsType = OnScreenPositionAssignedTargetingOptionDetails::class;
   protected $onScreenPositionDetailsDataType = '';
+  public $onScreenPositionDetails;
   protected $operatingSystemDetailsType = OperatingSystemAssignedTargetingOptionDetails::class;
   protected $operatingSystemDetailsDataType = '';
+  public $operatingSystemDetails;
   protected $parentalStatusDetailsType = ParentalStatusAssignedTargetingOptionDetails::class;
   protected $parentalStatusDetailsDataType = '';
+  public $parentalStatusDetails;
   protected $poiDetailsType = PoiAssignedTargetingOptionDetails::class;
   protected $poiDetailsDataType = '';
+  public $poiDetails;
   protected $proximityLocationListDetailsType = ProximityLocationListAssignedTargetingOptionDetails::class;
   protected $proximityLocationListDetailsDataType = '';
+  public $proximityLocationListDetails;
   protected $regionalLocationListDetailsType = RegionalLocationListAssignedTargetingOptionDetails::class;
   protected $regionalLocationListDetailsDataType = '';
+  public $regionalLocationListDetails;
   protected $sensitiveCategoryExclusionDetailsType = SensitiveCategoryAssignedTargetingOptionDetails::class;
   protected $sensitiveCategoryExclusionDetailsDataType = '';
+  public $sensitiveCategoryExclusionDetails;
+  protected $sessionPositionDetailsType = SessionPositionAssignedTargetingOptionDetails::class;
+  protected $sessionPositionDetailsDataType = '';
+  public $sessionPositionDetails;
   protected $subExchangeDetailsType = SubExchangeAssignedTargetingOptionDetails::class;
   protected $subExchangeDetailsDataType = '';
+  public $subExchangeDetails;
   /**
    * @var string
    */
   public $targetingType;
   protected $thirdPartyVerifierDetailsType = ThirdPartyVerifierAssignedTargetingOptionDetails::class;
   protected $thirdPartyVerifierDetailsDataType = '';
+  public $thirdPartyVerifierDetails;
   protected $urlDetailsType = UrlAssignedTargetingOptionDetails::class;
   protected $urlDetailsDataType = '';
+  public $urlDetails;
   protected $userRewardedContentDetailsType = UserRewardedContentAssignedTargetingOptionDetails::class;
   protected $userRewardedContentDetailsDataType = '';
+  public $userRewardedContentDetails;
   protected $videoPlayerSizeDetailsType = VideoPlayerSizeAssignedTargetingOptionDetails::class;
   protected $videoPlayerSizeDetailsDataType = '';
+  public $videoPlayerSizeDetails;
   protected $viewabilityDetailsType = ViewabilityAssignedTargetingOptionDetails::class;
   protected $viewabilityDetailsDataType = '';
+  public $viewabilityDetails;
+  protected $youtubeChannelDetailsType = YoutubeChannelAssignedTargetingOptionDetails::class;
+  protected $youtubeChannelDetailsDataType = '';
+  public $youtubeChannelDetails;
+  protected $youtubeVideoDetailsType = YoutubeVideoAssignedTargetingOptionDetails::class;
+  protected $youtubeVideoDetailsDataType = '';
+  public $youtubeVideoDetails;
 
   /**
    * @param AgeRangeAssignedTargetingOptionDetails
@@ -181,6 +239,20 @@ class AssignedTargetingOption extends \Google\Model
   public function getAssignedTargetingOptionId()
   {
     return $this->assignedTargetingOptionId;
+  }
+  /**
+   * @param string
+   */
+  public function setAssignedTargetingOptionIdAlias($assignedTargetingOptionIdAlias)
+  {
+    $this->assignedTargetingOptionIdAlias = $assignedTargetingOptionIdAlias;
+  }
+  /**
+   * @return string
+   */
+  public function getAssignedTargetingOptionIdAlias()
+  {
+    return $this->assignedTargetingOptionIdAlias;
   }
   /**
    * @param AudienceGroupAssignedTargetingOptionDetails
@@ -715,6 +787,20 @@ class AssignedTargetingOption extends \Google\Model
     return $this->sensitiveCategoryExclusionDetails;
   }
   /**
+   * @param SessionPositionAssignedTargetingOptionDetails
+   */
+  public function setSessionPositionDetails(SessionPositionAssignedTargetingOptionDetails $sessionPositionDetails)
+  {
+    $this->sessionPositionDetails = $sessionPositionDetails;
+  }
+  /**
+   * @return SessionPositionAssignedTargetingOptionDetails
+   */
+  public function getSessionPositionDetails()
+  {
+    return $this->sessionPositionDetails;
+  }
+  /**
    * @param SubExchangeAssignedTargetingOptionDetails
    */
   public function setSubExchangeDetails(SubExchangeAssignedTargetingOptionDetails $subExchangeDetails)
@@ -811,6 +897,34 @@ class AssignedTargetingOption extends \Google\Model
   public function getViewabilityDetails()
   {
     return $this->viewabilityDetails;
+  }
+  /**
+   * @param YoutubeChannelAssignedTargetingOptionDetails
+   */
+  public function setYoutubeChannelDetails(YoutubeChannelAssignedTargetingOptionDetails $youtubeChannelDetails)
+  {
+    $this->youtubeChannelDetails = $youtubeChannelDetails;
+  }
+  /**
+   * @return YoutubeChannelAssignedTargetingOptionDetails
+   */
+  public function getYoutubeChannelDetails()
+  {
+    return $this->youtubeChannelDetails;
+  }
+  /**
+   * @param YoutubeVideoAssignedTargetingOptionDetails
+   */
+  public function setYoutubeVideoDetails(YoutubeVideoAssignedTargetingOptionDetails $youtubeVideoDetails)
+  {
+    $this->youtubeVideoDetails = $youtubeVideoDetails;
+  }
+  /**
+   * @return YoutubeVideoAssignedTargetingOptionDetails
+   */
+  public function getYoutubeVideoDetails()
+  {
+    return $this->youtubeVideoDetails;
   }
 }
 

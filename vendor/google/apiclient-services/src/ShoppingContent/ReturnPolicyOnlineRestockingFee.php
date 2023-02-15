@@ -21,6 +21,7 @@ class ReturnPolicyOnlineRestockingFee extends \Google\Model
 {
   protected $fixedFeeType = PriceAmount::class;
   protected $fixedFeeDataType = '';
+  public $fixedFee;
   /**
    * @var int
    */

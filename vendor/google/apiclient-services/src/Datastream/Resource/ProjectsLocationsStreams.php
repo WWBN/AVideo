@@ -26,7 +26,7 @@ use Google\Service\Datastream\Stream;
  * Typical usage is:
  *  <code>
  *   $datastreamService = new Google\Service\Datastream(...);
- *   $streams = $datastreamService->streams;
+ *   $streams = $datastreamService->projects_locations_streams;
  *  </code>
  */
 class ProjectsLocationsStreams extends \Google\Service\Resource

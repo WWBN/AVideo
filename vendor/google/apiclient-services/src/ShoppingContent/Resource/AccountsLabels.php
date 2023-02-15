@@ -25,7 +25,7 @@ use Google\Service\ShoppingContent\ListAccountLabelsResponse;
  * Typical usage is:
  *  <code>
  *   $contentService = new Google\Service\ShoppingContent(...);
- *   $labels = $contentService->labels;
+ *   $labels = $contentService->accounts_labels;
  *  </code>
  */
 class AccountsLabels extends \Google\Service\Resource

@@ -19,27 +19,53 @@ namespace Google\Service\Dialogflow;
 
 class GoogleCloudDialogflowCxV3ResponseMessage extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $channel;
   protected $conversationSuccessType = GoogleCloudDialogflowCxV3ResponseMessageConversationSuccess::class;
   protected $conversationSuccessDataType = '';
+  public $conversationSuccess;
   protected $endInteractionType = GoogleCloudDialogflowCxV3ResponseMessageEndInteraction::class;
   protected $endInteractionDataType = '';
+  public $endInteraction;
   protected $liveAgentHandoffType = GoogleCloudDialogflowCxV3ResponseMessageLiveAgentHandoff::class;
   protected $liveAgentHandoffDataType = '';
+  public $liveAgentHandoff;
   protected $mixedAudioType = GoogleCloudDialogflowCxV3ResponseMessageMixedAudio::class;
   protected $mixedAudioDataType = '';
+  public $mixedAudio;
   protected $outputAudioTextType = GoogleCloudDialogflowCxV3ResponseMessageOutputAudioText::class;
   protected $outputAudioTextDataType = '';
+  public $outputAudioText;
   /**
    * @var array[]
    */
   public $payload;
   protected $playAudioType = GoogleCloudDialogflowCxV3ResponseMessagePlayAudio::class;
   protected $playAudioDataType = '';
+  public $playAudio;
   protected $telephonyTransferCallType = GoogleCloudDialogflowCxV3ResponseMessageTelephonyTransferCall::class;
   protected $telephonyTransferCallDataType = '';
+  public $telephonyTransferCall;
   protected $textType = GoogleCloudDialogflowCxV3ResponseMessageText::class;
   protected $textDataType = '';
+  public $text;
 
+  /**
+   * @param string
+   */
+  public function setChannel($channel)
+  {
+    $this->channel = $channel;
+  }
+  /**
+   * @return string
+   */
+  public function getChannel()
+  {
+    return $this->channel;
+  }
   /**
    * @param GoogleCloudDialogflowCxV3ResponseMessageConversationSuccess
    */

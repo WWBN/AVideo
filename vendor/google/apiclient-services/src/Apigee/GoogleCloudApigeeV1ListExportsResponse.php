@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1ListExportsResponse extends \Google\Collection
   protected $collection_key = 'exports';
   protected $exportsType = GoogleCloudApigeeV1Export::class;
   protected $exportsDataType = 'array';
+  public $exports;
 
   /**
    * @param GoogleCloudApigeeV1Export[]

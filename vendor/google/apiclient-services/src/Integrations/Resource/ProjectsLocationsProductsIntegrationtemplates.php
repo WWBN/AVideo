@@ -22,7 +22,7 @@ namespace Google\Service\Integrations\Resource;
  * Typical usage is:
  *  <code>
  *   $integrationsService = new Google\Service\Integrations(...);
- *   $integrationtemplates = $integrationsService->integrationtemplates;
+ *   $integrationtemplates = $integrationsService->projects_locations_products_integrationtemplates;
  *  </code>
  */
 class ProjectsLocationsProductsIntegrationtemplates extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class LogSink extends \Google\Collection
   protected $collection_key = 'exclusions';
   protected $bigqueryOptionsType = BigQueryOptions::class;
   protected $bigqueryOptionsDataType = '';
+  public $bigqueryOptions;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class LogSink extends \Google\Collection
   public $disabled;
   protected $exclusionsType = LogExclusion::class;
   protected $exclusionsDataType = 'array';
+  public $exclusions;
   /**
    * @var string
    */

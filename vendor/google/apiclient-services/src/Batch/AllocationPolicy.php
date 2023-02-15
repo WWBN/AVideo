@@ -22,16 +22,20 @@ class AllocationPolicy extends \Google\Collection
   protected $collection_key = 'instances';
   protected $instancesType = InstancePolicyOrTemplate::class;
   protected $instancesDataType = 'array';
+  public $instances;
   /**
    * @var string[]
    */
   public $labels;
   protected $locationType = LocationPolicy::class;
   protected $locationDataType = '';
+  public $location;
   protected $networkType = NetworkPolicy::class;
   protected $networkDataType = '';
+  public $network;
   protected $serviceAccountType = ServiceAccount::class;
   protected $serviceAccountDataType = '';
+  public $serviceAccount;
 
   /**
    * @param InstancePolicyOrTemplate[]

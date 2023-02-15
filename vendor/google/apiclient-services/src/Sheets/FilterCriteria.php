@@ -22,18 +22,23 @@ class FilterCriteria extends \Google\Collection
   protected $collection_key = 'hiddenValues';
   protected $conditionType = BooleanCondition::class;
   protected $conditionDataType = '';
+  public $condition;
   /**
    * @var string[]
    */
   public $hiddenValues;
   protected $visibleBackgroundColorType = Color::class;
   protected $visibleBackgroundColorDataType = '';
+  public $visibleBackgroundColor;
   protected $visibleBackgroundColorStyleType = ColorStyle::class;
   protected $visibleBackgroundColorStyleDataType = '';
+  public $visibleBackgroundColorStyle;
   protected $visibleForegroundColorType = Color::class;
   protected $visibleForegroundColorDataType = '';
+  public $visibleForegroundColor;
   protected $visibleForegroundColorStyleType = ColorStyle::class;
   protected $visibleForegroundColorStyleDataType = '';
+  public $visibleForegroundColorStyle;
 
   /**
    * @param BooleanCondition

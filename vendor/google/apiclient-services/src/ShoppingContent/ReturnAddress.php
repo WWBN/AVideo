@@ -21,6 +21,7 @@ class ReturnAddress extends \Google\Model
 {
   protected $addressType = ReturnAddressAddress::class;
   protected $addressDataType = '';
+  public $address;
   /**
    * @var string
    */

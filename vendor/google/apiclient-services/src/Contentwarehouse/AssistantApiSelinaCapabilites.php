@@ -21,6 +21,7 @@ class AssistantApiSelinaCapabilites extends \Google\Model
 {
   protected $gestureCapabilitiesType = AssistantApiGestureCapabilities::class;
   protected $gestureCapabilitiesDataType = '';
+  public $gestureCapabilities;
   /**
    * @var bool
    */

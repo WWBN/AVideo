@@ -21,18 +21,21 @@ class GooglePrivacyDlpV2ReidentifyContentRequest extends \Google\Model
 {
   protected $inspectConfigType = GooglePrivacyDlpV2InspectConfig::class;
   protected $inspectConfigDataType = '';
+  public $inspectConfig;
   /**
    * @var string
    */
   public $inspectTemplateName;
   protected $itemType = GooglePrivacyDlpV2ContentItem::class;
   protected $itemDataType = '';
+  public $item;
   /**
    * @var string
    */
   public $locationId;
   protected $reidentifyConfigType = GooglePrivacyDlpV2DeidentifyConfig::class;
   protected $reidentifyConfigDataType = '';
+  public $reidentifyConfig;
   /**
    * @var string
    */

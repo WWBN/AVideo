@@ -22,6 +22,7 @@ class BatchUpdateDealsResponse extends \Google\Collection
   protected $collection_key = 'deals';
   protected $dealsType = Deal::class;
   protected $dealsDataType = 'array';
+  public $deals;
 
   /**
    * @param Deal[]

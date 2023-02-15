@@ -22,8 +22,10 @@ class CommitmentsScopedList extends \Google\Collection
   protected $collection_key = 'commitments';
   protected $commitmentsType = Commitment::class;
   protected $commitmentsDataType = 'array';
+  public $commitments;
   protected $warningType = CommitmentsScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param Commitment[]

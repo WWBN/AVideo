@@ -21,6 +21,7 @@ class AchievementConfigurationDetail extends \Google\Model
 {
   protected $descriptionType = LocalizedStringBundle::class;
   protected $descriptionDataType = '';
+  public $description;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class AchievementConfigurationDetail extends \Google\Model
   public $kind;
   protected $nameType = LocalizedStringBundle::class;
   protected $nameDataType = '';
+  public $name;
   /**
    * @var int
    */

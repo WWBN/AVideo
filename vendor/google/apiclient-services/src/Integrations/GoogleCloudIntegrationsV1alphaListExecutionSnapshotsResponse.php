@@ -22,6 +22,7 @@ class GoogleCloudIntegrationsV1alphaListExecutionSnapshotsResponse extends \Goog
   protected $collection_key = 'executionSnapshots';
   protected $executionSnapshotsType = EnterpriseCrmEventbusProtoEventExecutionSnapshot::class;
   protected $executionSnapshotsDataType = 'array';
+  public $executionSnapshots;
   /**
    * @var string
    */

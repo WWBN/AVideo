@@ -42,6 +42,7 @@ class Office extends \Google\Collection
   public $roles;
   protected $sourcesType = Source::class;
   protected $sourcesDataType = 'array';
+  public $sources;
 
   /**
    * @param string

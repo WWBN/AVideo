@@ -30,22 +30,27 @@ class CreativeAssignment extends \Google\Collection
   public $applyEventTags;
   protected $clickThroughUrlType = ClickThroughUrl::class;
   protected $clickThroughUrlDataType = '';
+  public $clickThroughUrl;
   protected $companionCreativeOverridesType = CompanionClickThroughOverride::class;
   protected $companionCreativeOverridesDataType = 'array';
+  public $companionCreativeOverrides;
   protected $creativeGroupAssignmentsType = CreativeGroupAssignment::class;
   protected $creativeGroupAssignmentsDataType = 'array';
+  public $creativeGroupAssignments;
   /**
    * @var string
    */
   public $creativeId;
   protected $creativeIdDimensionValueType = DimensionValue::class;
   protected $creativeIdDimensionValueDataType = '';
+  public $creativeIdDimensionValue;
   /**
    * @var string
    */
   public $endTime;
   protected $richMediaExitOverridesType = RichMediaExitOverride::class;
   protected $richMediaExitOverridesDataType = 'array';
+  public $richMediaExitOverrides;
   /**
    * @var int
    */

@@ -25,6 +25,7 @@ class GitLabEnterpriseConfig extends \Google\Model
   public $hostUri;
   protected $serviceDirectoryConfigType = ServiceDirectoryConfig::class;
   protected $serviceDirectoryConfigDataType = '';
+  public $serviceDirectoryConfig;
   /**
    * @var string
    */

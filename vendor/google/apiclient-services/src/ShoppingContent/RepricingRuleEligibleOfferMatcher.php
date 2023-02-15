@@ -21,14 +21,17 @@ class RepricingRuleEligibleOfferMatcher extends \Google\Model
 {
   protected $brandMatcherType = RepricingRuleEligibleOfferMatcherStringMatcher::class;
   protected $brandMatcherDataType = '';
+  public $brandMatcher;
   protected $itemGroupIdMatcherType = RepricingRuleEligibleOfferMatcherStringMatcher::class;
   protected $itemGroupIdMatcherDataType = '';
+  public $itemGroupIdMatcher;
   /**
    * @var string
    */
   public $matcherOption;
   protected $offerIdMatcherType = RepricingRuleEligibleOfferMatcherStringMatcher::class;
   protected $offerIdMatcherDataType = '';
+  public $offerIdMatcher;
   /**
    * @var bool
    */

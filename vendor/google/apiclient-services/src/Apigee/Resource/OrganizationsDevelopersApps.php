@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ListDeveloperAppsResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $apps = $apigeeService->apps;
+ *   $apps = $apigeeService->organizations_developers_apps;
  *  </code>
  */
 class OrganizationsDevelopersApps extends \Google\Service\Resource

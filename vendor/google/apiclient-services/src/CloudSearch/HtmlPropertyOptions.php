@@ -21,8 +21,10 @@ class HtmlPropertyOptions extends \Google\Model
 {
   protected $operatorOptionsType = HtmlOperatorOptions::class;
   protected $operatorOptionsDataType = '';
+  public $operatorOptions;
   protected $retrievalImportanceType = RetrievalImportance::class;
   protected $retrievalImportanceDataType = '';
+  public $retrievalImportance;
 
   /**
    * @param HtmlOperatorOptions

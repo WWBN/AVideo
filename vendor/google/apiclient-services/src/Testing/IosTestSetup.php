@@ -22,14 +22,17 @@ class IosTestSetup extends \Google\Collection
   protected $collection_key = 'pushFiles';
   protected $additionalIpasType = FileReference::class;
   protected $additionalIpasDataType = 'array';
+  public $additionalIpas;
   /**
    * @var string
    */
   public $networkProfile;
   protected $pullDirectoriesType = IosDeviceFile::class;
   protected $pullDirectoriesDataType = 'array';
+  public $pullDirectories;
   protected $pushFilesType = IosDeviceFile::class;
   protected $pushFilesDataType = 'array';
+  public $pushFiles;
 
   /**
    * @param FileReference[]

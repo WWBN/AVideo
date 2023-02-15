@@ -30,6 +30,7 @@ class ExternalVpnGatewayList extends \Google\Collection
   public $id;
   protected $itemsType = ExternalVpnGateway::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -44,6 +45,7 @@ class ExternalVpnGatewayList extends \Google\Collection
   public $selfLink;
   protected $warningType = ExternalVpnGatewayListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

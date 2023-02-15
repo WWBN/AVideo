@@ -21,6 +21,7 @@ class IndexingConverterRedirectChainHop extends \Google\Model
 {
   protected $paramsType = IndexingConverterRedirectParams::class;
   protected $paramsDataType = '';
+  public $params;
   /**
    * @var string
    */

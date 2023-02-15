@@ -22,6 +22,7 @@ class ListProperties extends \Google\Collection
   protected $collection_key = 'nestingLevels';
   protected $nestingLevelsType = NestingLevel::class;
   protected $nestingLevelsDataType = 'array';
+  public $nestingLevels;
 
   /**
    * @param NestingLevel[]

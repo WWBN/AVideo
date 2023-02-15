@@ -22,18 +22,23 @@ class OrderLineItem extends \Google\Collection
   protected $collection_key = 'returns';
   protected $adjustmentsType = OrderLineItemAdjustment::class;
   protected $adjustmentsDataType = 'array';
+  public $adjustments;
   protected $annotationsType = OrderMerchantProvidedAnnotation::class;
   protected $annotationsDataType = 'array';
+  public $annotations;
   protected $cancellationsType = OrderCancellation::class;
   protected $cancellationsDataType = 'array';
+  public $cancellations;
   /**
    * @var string
    */
   public $id;
   protected $priceType = Price::class;
   protected $priceDataType = '';
+  public $price;
   protected $productType = OrderLineItemProduct::class;
   protected $productDataType = '';
+  public $product;
   /**
    * @var string
    */
@@ -68,12 +73,16 @@ class OrderLineItem extends \Google\Collection
   public $quantityUndeliverable;
   protected $returnInfoType = OrderLineItemReturnInfo::class;
   protected $returnInfoDataType = '';
+  public $returnInfo;
   protected $returnsType = OrderReturn::class;
   protected $returnsDataType = 'array';
+  public $returns;
   protected $shippingDetailsType = OrderLineItemShippingDetails::class;
   protected $shippingDetailsDataType = '';
+  public $shippingDetails;
   protected $taxType = Price::class;
   protected $taxDataType = '';
+  public $tax;
 
   /**
    * @param OrderLineItemAdjustment[]

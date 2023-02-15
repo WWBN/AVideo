@@ -21,6 +21,7 @@ class NlpSemanticParsingLocalLocalResultId extends \Google\Model
 {
   protected $featureIdType = GeostoreFeatureIdProto::class;
   protected $featureIdDataType = '';
+  public $featureId;
   /**
    * @var string
    */
@@ -31,8 +32,10 @@ class NlpSemanticParsingLocalLocalResultId extends \Google\Model
   public $kgMid;
   protected $positionType = GeostorePointProto::class;
   protected $positionDataType = '';
+  public $position;
   protected $rectType = GeostoreRectProto::class;
   protected $rectDataType = '';
+  public $rect;
 
   /**
    * @param GeostoreFeatureIdProto

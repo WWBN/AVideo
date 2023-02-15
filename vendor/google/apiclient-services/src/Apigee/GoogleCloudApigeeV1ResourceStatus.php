@@ -26,6 +26,7 @@ class GoogleCloudApigeeV1ResourceStatus extends \Google\Collection
   public $resource;
   protected $revisionsType = GoogleCloudApigeeV1RevisionStatus::class;
   protected $revisionsDataType = 'array';
+  public $revisions;
   /**
    * @var int
    */

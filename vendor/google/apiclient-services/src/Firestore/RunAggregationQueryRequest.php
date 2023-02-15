@@ -21,12 +21,14 @@ class RunAggregationQueryRequest extends \Google\Model
 {
   protected $newTransactionType = TransactionOptions::class;
   protected $newTransactionDataType = '';
+  public $newTransaction;
   /**
    * @var string
    */
   public $readTime;
   protected $structuredAggregationQueryType = StructuredAggregationQuery::class;
   protected $structuredAggregationQueryDataType = '';
+  public $structuredAggregationQuery;
   /**
    * @var string
    */

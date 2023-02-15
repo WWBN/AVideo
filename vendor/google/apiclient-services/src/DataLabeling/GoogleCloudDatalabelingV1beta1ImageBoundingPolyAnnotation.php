@@ -21,10 +21,13 @@ class GoogleCloudDatalabelingV1beta1ImageBoundingPolyAnnotation extends \Google\
 {
   protected $annotationSpecType = GoogleCloudDatalabelingV1beta1AnnotationSpec::class;
   protected $annotationSpecDataType = '';
+  public $annotationSpec;
   protected $boundingPolyType = GoogleCloudDatalabelingV1beta1BoundingPoly::class;
   protected $boundingPolyDataType = '';
+  public $boundingPoly;
   protected $normalizedBoundingPolyType = GoogleCloudDatalabelingV1beta1NormalizedBoundingPoly::class;
   protected $normalizedBoundingPolyDataType = '';
+  public $normalizedBoundingPoly;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1AnnotationSpec

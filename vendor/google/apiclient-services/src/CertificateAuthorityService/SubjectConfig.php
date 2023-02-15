@@ -21,8 +21,10 @@ class SubjectConfig extends \Google\Model
 {
   protected $subjectType = Subject::class;
   protected $subjectDataType = '';
+  public $subject;
   protected $subjectAltNameType = SubjectAltNames::class;
   protected $subjectAltNameDataType = '';
+  public $subjectAltName;
 
   /**
    * @param Subject

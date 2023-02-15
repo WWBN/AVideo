@@ -25,6 +25,7 @@ class SourceSplitShard extends \Google\Model
   public $derivationMode;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
+  public $source;
 
   /**
    * @param string

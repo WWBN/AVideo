@@ -21,6 +21,7 @@ class GoogleCloudDocumentaiV1alpha1AnalyzeHitlDataMetadata extends \Google\Model
 {
   protected $commonMetadataType = GoogleCloudDocumentaiV1alpha1CommonOperationMetadata::class;
   protected $commonMetadataDataType = '';
+  public $commonMetadata;
 
   /**
    * @param GoogleCloudDocumentaiV1alpha1CommonOperationMetadata

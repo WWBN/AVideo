@@ -21,6 +21,7 @@ class SheetsClientActionMarkup extends \Google\Model
 {
   protected $customFunctionReturnValueMarkupType = CustomFunctionReturnValueMarkup::class;
   protected $customFunctionReturnValueMarkupDataType = '';
+  public $customFunctionReturnValueMarkup;
 
   /**
    * @param CustomFunctionReturnValueMarkup

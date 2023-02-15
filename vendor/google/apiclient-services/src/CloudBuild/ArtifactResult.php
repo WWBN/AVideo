@@ -22,6 +22,7 @@ class ArtifactResult extends \Google\Collection
   protected $collection_key = 'fileHash';
   protected $fileHashType = FileHashes::class;
   protected $fileHashDataType = 'array';
+  public $fileHash;
   /**
    * @var string
    */

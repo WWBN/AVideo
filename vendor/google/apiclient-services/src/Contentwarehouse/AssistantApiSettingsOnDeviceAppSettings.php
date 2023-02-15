@@ -21,8 +21,10 @@ class AssistantApiSettingsOnDeviceAppSettings extends \Google\Model
 {
   protected $carrierCallDeviceSettingsType = AssistantApiSettingsCarrierCallDeviceSettings::class;
   protected $carrierCallDeviceSettingsDataType = '';
+  public $carrierCallDeviceSettings;
   protected $duoCallDeviceSettingsType = AssistantApiSettingsDuoCallDeviceSettings::class;
   protected $duoCallDeviceSettingsDataType = '';
+  public $duoCallDeviceSettings;
 
   /**
    * @param AssistantApiSettingsCarrierCallDeviceSettings

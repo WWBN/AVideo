@@ -21,10 +21,13 @@ class GoogleCloudDataplexV1TaskInfrastructureSpec extends \Google\Model
 {
   protected $batchType = GoogleCloudDataplexV1TaskInfrastructureSpecBatchComputeResources::class;
   protected $batchDataType = '';
+  public $batch;
   protected $containerImageType = GoogleCloudDataplexV1TaskInfrastructureSpecContainerImageRuntime::class;
   protected $containerImageDataType = '';
+  public $containerImage;
   protected $vpcNetworkType = GoogleCloudDataplexV1TaskInfrastructureSpecVpcNetwork::class;
   protected $vpcNetworkDataType = '';
+  public $vpcNetwork;
 
   /**
    * @param GoogleCloudDataplexV1TaskInfrastructureSpecBatchComputeResources

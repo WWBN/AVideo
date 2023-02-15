@@ -22,6 +22,7 @@ class GoogleCloudRetailV2LocalInventory extends \Google\Collection
   protected $collection_key = 'fulfillmentTypes';
   protected $attributesType = GoogleCloudRetailV2CustomAttribute::class;
   protected $attributesDataType = 'map';
+  public $attributes;
   /**
    * @var string[]
    */
@@ -32,6 +33,7 @@ class GoogleCloudRetailV2LocalInventory extends \Google\Collection
   public $placeId;
   protected $priceInfoType = GoogleCloudRetailV2PriceInfo::class;
   protected $priceInfoDataType = '';
+  public $priceInfo;
 
   /**
    * @param GoogleCloudRetailV2CustomAttribute[]

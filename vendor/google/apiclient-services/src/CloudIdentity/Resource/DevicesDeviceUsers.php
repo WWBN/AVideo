@@ -31,7 +31,7 @@ use Google\Service\CloudIdentity\Operation;
  * Typical usage is:
  *  <code>
  *   $cloudidentityService = new Google\Service\CloudIdentity(...);
- *   $deviceUsers = $cloudidentityService->deviceUsers;
+ *   $deviceUsers = $cloudidentityService->devices_deviceUsers;
  *  </code>
  */
 class DevicesDeviceUsers extends \Google\Service\Resource

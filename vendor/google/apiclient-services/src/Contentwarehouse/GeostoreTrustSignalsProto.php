@@ -21,6 +21,7 @@ class GeostoreTrustSignalsProto extends \Google\Model
 {
   protected $sourceTrustType = GeostoreSourceTrustProto::class;
   protected $sourceTrustDataType = '';
+  public $sourceTrust;
 
   /**
    * @param GeostoreSourceTrustProto

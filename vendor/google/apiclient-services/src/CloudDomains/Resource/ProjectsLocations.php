@@ -25,7 +25,7 @@ use Google\Service\CloudDomains\Location;
  * Typical usage is:
  *  <code>
  *   $domainsService = new Google\Service\CloudDomains(...);
- *   $locations = $domainsService->locations;
+ *   $locations = $domainsService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

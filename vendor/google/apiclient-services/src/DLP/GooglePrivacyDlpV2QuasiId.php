@@ -25,10 +25,13 @@ class GooglePrivacyDlpV2QuasiId extends \Google\Model
   public $customTag;
   protected $fieldType = GooglePrivacyDlpV2FieldId::class;
   protected $fieldDataType = '';
+  public $field;
   protected $inferredType = GoogleProtobufEmpty::class;
   protected $inferredDataType = '';
+  public $inferred;
   protected $infoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypeDataType = '';
+  public $infoType;
 
   /**
    * @param string

@@ -22,14 +22,17 @@ class NlpSaftRelation extends \Google\Collection
   protected $collection_key = 'mention';
   protected $identifierType = NlpSaftIdentifier::class;
   protected $identifierDataType = '';
+  public $identifier;
   protected $infoType = Proto2BridgeMessageSet::class;
   protected $infoDataType = '';
+  public $info;
   /**
    * @var string
    */
   public $kind;
   protected $mentionType = NlpSaftRelationMention::class;
   protected $mentionDataType = 'array';
+  public $mention;
   /**
    * @var float
    */

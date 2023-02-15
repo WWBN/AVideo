@@ -26,6 +26,7 @@ class Binding extends \Google\Collection
   public $bindingId;
   protected $conditionType = Expr::class;
   protected $conditionDataType = '';
+  public $condition;
   /**
    * @var string[]
    */

@@ -38,6 +38,7 @@ class Operation extends \Google\Collection
   public $endTime;
   protected $errorType = OperationError::class;
   protected $errorDataType = '';
+  public $error;
   /**
    * @var string
    */
@@ -108,6 +109,7 @@ class Operation extends \Google\Collection
   public $user;
   protected $warningsType = OperationWarnings::class;
   protected $warningsDataType = 'array';
+  public $warnings;
   /**
    * @var string
    */

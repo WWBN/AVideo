@@ -17,9 +17,9 @@
 
 namespace Google\Service\GoogleAnalyticsAdmin\Resource;
 
-use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest;
-use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1alphaCustomMetric;
-use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1alphaListCustomMetricsResponse;
+use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1betaArchiveCustomMetricRequest;
+use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1betaCustomMetric;
+use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1betaListCustomMetricsResponse;
 use Google\Service\GoogleAnalyticsAdmin\GoogleProtobufEmpty;
 
 /**
@@ -27,7 +27,7 @@ use Google\Service\GoogleAnalyticsAdmin\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $analyticsadminService = new Google\Service\GoogleAnalyticsAdmin(...);
- *   $customMetrics = $analyticsadminService->customMetrics;
+ *   $customMetrics = $analyticsadminService->properties_customMetrics;
  *  </code>
  */
 class PropertiesCustomMetrics extends \Google\Service\Resource
@@ -37,11 +37,11 @@ class PropertiesCustomMetrics extends \Google\Service\Resource
    *
    * @param string $name Required. The name of the CustomMetric to archive.
    * Example format: properties/1234/customMetrics/5678
-   * @param GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest $postBody
+   * @param GoogleAnalyticsAdminV1betaArchiveCustomMetricRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
    */
-  public function archive($name, GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest $postBody, $optParams = [])
+  public function archive($name, GoogleAnalyticsAdminV1betaArchiveCustomMetricRequest $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
@@ -51,15 +51,15 @@ class PropertiesCustomMetrics extends \Google\Service\Resource
    * Creates a CustomMetric. (customMetrics.create)
    *
    * @param string $parent Required. Example format: properties/1234
-   * @param GoogleAnalyticsAdminV1alphaCustomMetric $postBody
+   * @param GoogleAnalyticsAdminV1betaCustomMetric $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleAnalyticsAdminV1alphaCustomMetric
+   * @return GoogleAnalyticsAdminV1betaCustomMetric
    */
-  public function create($parent, GoogleAnalyticsAdminV1alphaCustomMetric $postBody, $optParams = [])
+  public function create($parent, GoogleAnalyticsAdminV1betaCustomMetric $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('create', [$params], GoogleAnalyticsAdminV1alphaCustomMetric::class);
+    return $this->call('create', [$params], GoogleAnalyticsAdminV1betaCustomMetric::class);
   }
   /**
    * Lookup for a single CustomMetric. (customMetrics.get)
@@ -67,13 +67,13 @@ class PropertiesCustomMetrics extends \Google\Service\Resource
    * @param string $name Required. The name of the CustomMetric to get. Example
    * format: properties/1234/customMetrics/5678
    * @param array $optParams Optional parameters.
-   * @return GoogleAnalyticsAdminV1alphaCustomMetric
+   * @return GoogleAnalyticsAdminV1betaCustomMetric
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], GoogleAnalyticsAdminV1alphaCustomMetric::class);
+    return $this->call('get', [$params], GoogleAnalyticsAdminV1betaCustomMetric::class);
   }
   /**
    * Lists CustomMetrics on a property.
@@ -89,32 +89,32 @@ class PropertiesCustomMetrics extends \Google\Service\Resource
    * `ListCustomMetrics` call. Provide this to retrieve the subsequent page. When
    * paginating, all other parameters provided to `ListCustomMetrics` must match
    * the call that provided the page token.
-   * @return GoogleAnalyticsAdminV1alphaListCustomMetricsResponse
+   * @return GoogleAnalyticsAdminV1betaListCustomMetricsResponse
    */
   public function listPropertiesCustomMetrics($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
-    return $this->call('list', [$params], GoogleAnalyticsAdminV1alphaListCustomMetricsResponse::class);
+    return $this->call('list', [$params], GoogleAnalyticsAdminV1betaListCustomMetricsResponse::class);
   }
   /**
    * Updates a CustomMetric on a property. (customMetrics.patch)
    *
    * @param string $name Output only. Resource name for this CustomMetric
    * resource. Format: properties/{property}/customMetrics/{customMetric}
-   * @param GoogleAnalyticsAdminV1alphaCustomMetric $postBody
+   * @param GoogleAnalyticsAdminV1betaCustomMetric $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. The list of fields to be updated.
    * Omitted fields will not be updated. To replace the entire entity, use one
    * path with the string "*" to match all fields.
-   * @return GoogleAnalyticsAdminV1alphaCustomMetric
+   * @return GoogleAnalyticsAdminV1betaCustomMetric
    */
-  public function patch($name, GoogleAnalyticsAdminV1alphaCustomMetric $postBody, $optParams = [])
+  public function patch($name, GoogleAnalyticsAdminV1betaCustomMetric $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('patch', [$params], GoogleAnalyticsAdminV1alphaCustomMetric::class);
+    return $this->call('patch', [$params], GoogleAnalyticsAdminV1betaCustomMetric::class);
   }
 }
 

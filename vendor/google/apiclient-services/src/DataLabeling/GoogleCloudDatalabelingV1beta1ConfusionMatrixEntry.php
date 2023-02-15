@@ -21,6 +21,7 @@ class GoogleCloudDatalabelingV1beta1ConfusionMatrixEntry extends \Google\Model
 {
   protected $annotationSpecType = GoogleCloudDatalabelingV1beta1AnnotationSpec::class;
   protected $annotationSpecDataType = '';
+  public $annotationSpec;
   /**
    * @var int
    */

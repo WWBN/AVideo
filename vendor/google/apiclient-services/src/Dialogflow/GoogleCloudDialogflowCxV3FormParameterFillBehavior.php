@@ -22,8 +22,10 @@ class GoogleCloudDialogflowCxV3FormParameterFillBehavior extends \Google\Collect
   protected $collection_key = 'repromptEventHandlers';
   protected $initialPromptFulfillmentType = GoogleCloudDialogflowCxV3Fulfillment::class;
   protected $initialPromptFulfillmentDataType = '';
+  public $initialPromptFulfillment;
   protected $repromptEventHandlersType = GoogleCloudDialogflowCxV3EventHandler::class;
   protected $repromptEventHandlersDataType = 'array';
+  public $repromptEventHandlers;
 
   /**
    * @param GoogleCloudDialogflowCxV3Fulfillment

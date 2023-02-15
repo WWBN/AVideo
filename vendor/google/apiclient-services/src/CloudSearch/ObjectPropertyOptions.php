@@ -22,6 +22,7 @@ class ObjectPropertyOptions extends \Google\Collection
   protected $collection_key = 'subobjectProperties';
   protected $subobjectPropertiesType = PropertyDefinition::class;
   protected $subobjectPropertiesDataType = 'array';
+  public $subobjectProperties;
 
   /**
    * @param PropertyDefinition[]

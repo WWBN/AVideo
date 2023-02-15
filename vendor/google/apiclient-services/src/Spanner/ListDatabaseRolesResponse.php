@@ -22,6 +22,7 @@ class ListDatabaseRolesResponse extends \Google\Collection
   protected $collection_key = 'databaseRoles';
   protected $databaseRolesType = DatabaseRole::class;
   protected $databaseRolesDataType = 'array';
+  public $databaseRoles;
   /**
    * @var string
    */

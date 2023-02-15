@@ -26,6 +26,7 @@ class NodeTemplatesScopedListWarning extends \Google\Collection
   public $code;
   protected $dataType = NodeTemplatesScopedListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

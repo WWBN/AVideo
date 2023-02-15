@@ -21,8 +21,10 @@ class GoogleCloudDocumentaiV1beta2ProcessDocumentResponse extends \Google\Model
 {
   protected $inputConfigType = GoogleCloudDocumentaiV1beta2InputConfig::class;
   protected $inputConfigDataType = '';
+  public $inputConfig;
   protected $outputConfigType = GoogleCloudDocumentaiV1beta2OutputConfig::class;
   protected $outputConfigDataType = '';
+  public $outputConfig;
 
   /**
    * @param GoogleCloudDocumentaiV1beta2InputConfig

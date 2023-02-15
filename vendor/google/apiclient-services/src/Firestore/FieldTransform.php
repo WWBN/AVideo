@@ -21,18 +21,23 @@ class FieldTransform extends \Google\Model
 {
   protected $appendMissingElementsType = ArrayValue::class;
   protected $appendMissingElementsDataType = '';
+  public $appendMissingElements;
   /**
    * @var string
    */
   public $fieldPath;
   protected $incrementType = Value::class;
   protected $incrementDataType = '';
+  public $increment;
   protected $maximumType = Value::class;
   protected $maximumDataType = '';
+  public $maximum;
   protected $minimumType = Value::class;
   protected $minimumDataType = '';
+  public $minimum;
   protected $removeAllFromArrayType = ArrayValue::class;
   protected $removeAllFromArrayDataType = '';
+  public $removeAllFromArray;
   /**
    * @var string
    */

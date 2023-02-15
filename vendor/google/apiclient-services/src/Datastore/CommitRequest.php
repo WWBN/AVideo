@@ -30,6 +30,10 @@ class CommitRequest extends \Google\Collection
   public $mode;
   protected $mutationsType = Mutation::class;
   protected $mutationsDataType = 'array';
+  public $mutations;
+  protected $singleUseTransactionType = TransactionOptions::class;
+  protected $singleUseTransactionDataType = '';
+  public $singleUseTransaction;
   /**
    * @var string
    */
@@ -76,6 +80,20 @@ class CommitRequest extends \Google\Collection
   public function getMutations()
   {
     return $this->mutations;
+  }
+  /**
+   * @param TransactionOptions
+   */
+  public function setSingleUseTransaction(TransactionOptions $singleUseTransaction)
+  {
+    $this->singleUseTransaction = $singleUseTransaction;
+  }
+  /**
+   * @return TransactionOptions
+   */
+  public function getSingleUseTransaction()
+  {
+    return $this->singleUseTransaction;
   }
   /**
    * @param string

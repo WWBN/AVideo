@@ -21,6 +21,7 @@ class GoogleCloudBeyondcorpAppconnectorsV1AppConnectorPrincipalInfo extends \Goo
 {
   protected $serviceAccountType = GoogleCloudBeyondcorpAppconnectorsV1AppConnectorPrincipalInfoServiceAccount::class;
   protected $serviceAccountDataType = '';
+  public $serviceAccount;
 
   /**
    * @param GoogleCloudBeyondcorpAppconnectorsV1AppConnectorPrincipalInfoServiceAccount

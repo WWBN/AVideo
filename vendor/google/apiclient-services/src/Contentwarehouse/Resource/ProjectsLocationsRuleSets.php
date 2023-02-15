@@ -27,7 +27,7 @@ use Google\Service\Contentwarehouse\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $contentwarehouseService = new Google\Service\Contentwarehouse(...);
- *   $ruleSets = $contentwarehouseService->ruleSets;
+ *   $ruleSets = $contentwarehouseService->projects_locations_ruleSets;
  *  </code>
  */
 class ProjectsLocationsRuleSets extends \Google\Service\Resource

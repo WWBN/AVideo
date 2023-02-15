@@ -31,7 +31,7 @@ use Google\Service\ServiceDirectory\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $servicedirectoryService = new Google\Service\ServiceDirectory(...);
- *   $namespaces = $servicedirectoryService->namespaces;
+ *   $namespaces = $servicedirectoryService->projects_locations_namespaces;
  *  </code>
  */
 class ProjectsLocationsNamespaces extends \Google\Service\Resource

@@ -25,6 +25,7 @@ class AppsPeopleOzExternalMergedpeopleapiUserDefined extends \Google\Model
   public $key;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class UserManagedStatus extends \Google\Collection
   protected $collection_key = 'replicas';
   protected $replicasType = ReplicaStatus::class;
   protected $replicasDataType = 'array';
+  public $replicas;
 
   /**
    * @param ReplicaStatus[]

@@ -21,6 +21,7 @@ class AccountCount extends \Google\Model
 {
   protected $accountType = UserInfo::class;
   protected $accountDataType = '';
+  public $account;
   /**
    * @var string
    */

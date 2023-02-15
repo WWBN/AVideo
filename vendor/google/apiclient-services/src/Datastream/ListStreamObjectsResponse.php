@@ -26,6 +26,7 @@ class ListStreamObjectsResponse extends \Google\Collection
   public $nextPageToken;
   protected $streamObjectsType = StreamObject::class;
   protected $streamObjectsDataType = 'array';
+  public $streamObjects;
 
   /**
    * @param string

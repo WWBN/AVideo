@@ -27,7 +27,7 @@ use Google\Service\ServiceNetworking\Operation;
  * Typical usage is:
  *  <code>
  *   $servicenetworkingService = new Google\Service\ServiceNetworking(...);
- *   $connections = $servicenetworkingService->connections;
+ *   $connections = $servicenetworkingService->services_connections;
  *  </code>
  */
 class ServicesConnections extends \Google\Service\Resource

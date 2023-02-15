@@ -22,6 +22,7 @@ class ApigatewayBinding extends \Google\Collection
   protected $collection_key = 'members';
   protected $conditionType = ApigatewayExpr::class;
   protected $conditionDataType = '';
+  public $condition;
   /**
    * @var string[]
    */

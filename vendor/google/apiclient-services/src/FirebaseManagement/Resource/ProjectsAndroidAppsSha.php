@@ -26,7 +26,7 @@ use Google\Service\FirebaseManagement\ShaCertificate;
  * Typical usage is:
  *  <code>
  *   $firebaseService = new Google\Service\FirebaseManagement(...);
- *   $sha = $firebaseService->sha;
+ *   $sha = $firebaseService->projects_androidApps_sha;
  *  </code>
  */
 class ProjectsAndroidAppsSha extends \Google\Service\Resource

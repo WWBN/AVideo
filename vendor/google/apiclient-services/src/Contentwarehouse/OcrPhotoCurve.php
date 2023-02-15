@@ -22,6 +22,7 @@ class OcrPhotoCurve extends \Google\Collection
   protected $collection_key = 'points';
   protected $pointsType = OcrPhotoCurvePoint::class;
   protected $pointsDataType = 'array';
+  public $points;
 
   /**
    * @param OcrPhotoCurvePoint[]

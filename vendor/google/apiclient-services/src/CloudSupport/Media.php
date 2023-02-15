@@ -34,14 +34,17 @@ class Media extends \Google\Collection
   public $blobRef;
   protected $blobstore2InfoType = Blobstore2Info::class;
   protected $blobstore2InfoDataType = '';
+  public $blobstore2Info;
   protected $compositeMediaType = CompositeMedia::class;
   protected $compositeMediaDataType = 'array';
+  public $compositeMedia;
   /**
    * @var string
    */
   public $contentType;
   protected $contentTypeInfoType = ContentTypeInfo::class;
   protected $contentTypeInfoDataType = '';
+  public $contentTypeInfo;
   /**
    * @var string
    */
@@ -52,16 +55,22 @@ class Media extends \Google\Collection
   public $crc32cHash;
   protected $diffChecksumsResponseType = DiffChecksumsResponse::class;
   protected $diffChecksumsResponseDataType = '';
+  public $diffChecksumsResponse;
   protected $diffDownloadResponseType = DiffDownloadResponse::class;
   protected $diffDownloadResponseDataType = '';
+  public $diffDownloadResponse;
   protected $diffUploadRequestType = DiffUploadRequest::class;
   protected $diffUploadRequestDataType = '';
+  public $diffUploadRequest;
   protected $diffUploadResponseType = DiffUploadResponse::class;
   protected $diffUploadResponseDataType = '';
+  public $diffUploadResponse;
   protected $diffVersionResponseType = DiffVersionResponse::class;
   protected $diffVersionResponseDataType = '';
+  public $diffVersionResponse;
   protected $downloadParametersType = DownloadParameters::class;
   protected $downloadParametersDataType = '';
+  public $downloadParameters;
   /**
    * @var string
    */
@@ -96,6 +105,7 @@ class Media extends \Google\Collection
   public $mediaId;
   protected $objectIdType = ObjectId::class;
   protected $objectIdDataType = '';
+  public $objectId;
   /**
    * @var string
    */

@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1FlowHook;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $flowhooks = $apigeeService->flowhooks;
+ *   $flowhooks = $apigeeService->organizations_environments_flowhooks;
  *  </code>
  */
 class OrganizationsEnvironmentsFlowhooks extends \Google\Service\Resource

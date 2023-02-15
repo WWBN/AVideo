@@ -30,12 +30,16 @@ class SlsaProvenanceZeroTwo extends \Google\Collection
   public $buildType;
   protected $builderType = GrafeasV1SlsaProvenanceZeroTwoSlsaBuilder::class;
   protected $builderDataType = '';
+  public $builder;
   protected $invocationType = GrafeasV1SlsaProvenanceZeroTwoSlsaInvocation::class;
   protected $invocationDataType = '';
+  public $invocation;
   protected $materialsType = GrafeasV1SlsaProvenanceZeroTwoSlsaMaterial::class;
   protected $materialsDataType = 'array';
+  public $materials;
   protected $metadataType = GrafeasV1SlsaProvenanceZeroTwoSlsaMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
 
   /**
    * @param array[]

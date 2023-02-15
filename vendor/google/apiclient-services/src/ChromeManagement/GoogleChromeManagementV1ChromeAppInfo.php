@@ -50,12 +50,18 @@ class GoogleChromeManagementV1ChromeAppInfo extends \Google\Collection
   public $minUserCount;
   protected $permissionsType = GoogleChromeManagementV1ChromeAppPermission::class;
   protected $permissionsDataType = 'array';
+  public $permissions;
   protected $siteAccessType = GoogleChromeManagementV1ChromeAppSiteAccess::class;
   protected $siteAccessDataType = 'array';
+  public $siteAccess;
   /**
    * @var bool
    */
   public $supportEnabled;
+  /**
+   * @var string
+   */
+  public $type;
 
   /**
    * @param bool
@@ -196,6 +202,20 @@ class GoogleChromeManagementV1ChromeAppInfo extends \Google\Collection
   public function getSupportEnabled()
   {
     return $this->supportEnabled;
+  }
+  /**
+   * @param string
+   */
+  public function setType($type)
+  {
+    $this->type = $type;
+  }
+  /**
+   * @return string
+   */
+  public function getType()
+  {
+    return $this->type;
   }
 }
 

@@ -25,7 +25,7 @@ use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ListChangelogsResponse;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $changelogs = $dialogflowService->changelogs;
+ *   $changelogs = $dialogflowService->projects_locations_agents_changelogs;
  *  </code>
  */
 class ProjectsLocationsAgentsChangelogs extends \Google\Service\Resource

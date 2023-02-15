@@ -20,12 +20,49 @@ namespace Google\Service\Contentwarehouse;
 class RepositoryWebrefImageQueryIndices extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $canonicalDocid;
+  /**
+   * @var string
+   */
+  public $docid;
+  /**
    * @var int
    */
   public $imageIndex;
   protected $queryIndexType = RepositoryWebrefQueryIndices::class;
   protected $queryIndexDataType = '';
+  public $queryIndex;
 
+  /**
+   * @param string
+   */
+  public function setCanonicalDocid($canonicalDocid)
+  {
+    $this->canonicalDocid = $canonicalDocid;
+  }
+  /**
+   * @return string
+   */
+  public function getCanonicalDocid()
+  {
+    return $this->canonicalDocid;
+  }
+  /**
+   * @param string
+   */
+  public function setDocid($docid)
+  {
+    $this->docid = $docid;
+  }
+  /**
+   * @return string
+   */
+  public function getDocid()
+  {
+    return $this->docid;
+  }
   /**
    * @param int
    */

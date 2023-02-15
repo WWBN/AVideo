@@ -21,6 +21,7 @@ class InlineObjectPropertiesSuggestionState extends \Google\Model
 {
   protected $embeddedObjectSuggestionStateType = EmbeddedObjectSuggestionState::class;
   protected $embeddedObjectSuggestionStateDataType = '';
+  public $embeddedObjectSuggestionState;
 
   /**
    * @param EmbeddedObjectSuggestionState

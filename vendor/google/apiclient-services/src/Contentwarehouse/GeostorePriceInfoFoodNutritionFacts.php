@@ -21,16 +21,22 @@ class GeostorePriceInfoFoodNutritionFacts extends \Google\Model
 {
   protected $caloriesType = GeostorePriceInfoFoodNutritionFactsCaloriesFact::class;
   protected $caloriesDataType = '';
+  public $calories;
   protected $cholesterolType = GeostorePriceInfoFoodNutritionFactsNutritionFact::class;
   protected $cholesterolDataType = '';
+  public $cholesterol;
   protected $proteinType = GeostorePriceInfoFoodNutritionFactsNutritionFact::class;
   protected $proteinDataType = '';
+  public $protein;
   protected $sodiumType = GeostorePriceInfoFoodNutritionFactsNutritionFact::class;
   protected $sodiumDataType = '';
+  public $sodium;
   protected $totalCarbohydrateType = GeostorePriceInfoFoodNutritionFactsNutritionFact::class;
   protected $totalCarbohydrateDataType = '';
+  public $totalCarbohydrate;
   protected $totalFatType = GeostorePriceInfoFoodNutritionFactsNutritionFact::class;
   protected $totalFatDataType = '';
+  public $totalFat;
 
   /**
    * @param GeostorePriceInfoFoodNutritionFactsCaloriesFact

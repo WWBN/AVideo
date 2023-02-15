@@ -22,7 +22,7 @@ namespace Google\Service\Vision\Resource;
  * Typical usage is:
  *  <code>
  *   $visionService = new Google\Service\Vision(...);
- *   $locations = $visionService->locations;
+ *   $locations = $visionService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

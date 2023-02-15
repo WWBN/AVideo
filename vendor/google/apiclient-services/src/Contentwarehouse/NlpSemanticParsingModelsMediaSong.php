@@ -21,8 +21,10 @@ class NlpSemanticParsingModelsMediaSong extends \Google\Model
 {
   protected $annotationListType = NlpSemanticParsingModelsMediaMediaAnnotationList::class;
   protected $annotationListDataType = '';
+  public $annotationList;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var bool
    */
@@ -45,6 +47,7 @@ class NlpSemanticParsingModelsMediaSong extends \Google\Model
   public $latest;
   protected $qrefType = NlpSemanticParsingQRefAnnotation::class;
   protected $qrefDataType = '';
+  public $qref;
   /**
    * @var string
    */

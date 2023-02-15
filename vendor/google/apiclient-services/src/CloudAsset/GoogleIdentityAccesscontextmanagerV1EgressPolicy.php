@@ -21,8 +21,10 @@ class GoogleIdentityAccesscontextmanagerV1EgressPolicy extends \Google\Model
 {
   protected $egressFromType = GoogleIdentityAccesscontextmanagerV1EgressFrom::class;
   protected $egressFromDataType = '';
+  public $egressFrom;
   protected $egressToType = GoogleIdentityAccesscontextmanagerV1EgressTo::class;
   protected $egressToDataType = '';
+  public $egressTo;
 
   /**
    * @param GoogleIdentityAccesscontextmanagerV1EgressFrom

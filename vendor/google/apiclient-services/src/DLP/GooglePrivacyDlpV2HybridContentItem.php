@@ -21,8 +21,10 @@ class GooglePrivacyDlpV2HybridContentItem extends \Google\Model
 {
   protected $findingDetailsType = GooglePrivacyDlpV2HybridFindingDetails::class;
   protected $findingDetailsDataType = '';
+  public $findingDetails;
   protected $itemType = GooglePrivacyDlpV2ContentItem::class;
   protected $itemDataType = '';
+  public $item;
 
   /**
    * @param GooglePrivacyDlpV2HybridFindingDetails

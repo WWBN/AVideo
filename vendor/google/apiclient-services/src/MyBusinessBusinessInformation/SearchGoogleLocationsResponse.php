@@ -22,6 +22,7 @@ class SearchGoogleLocationsResponse extends \Google\Collection
   protected $collection_key = 'googleLocations';
   protected $googleLocationsType = GoogleLocation::class;
   protected $googleLocationsDataType = 'array';
+  public $googleLocations;
 
   /**
    * @param GoogleLocation[]

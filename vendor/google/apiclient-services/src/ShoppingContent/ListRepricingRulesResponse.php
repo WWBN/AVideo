@@ -26,6 +26,7 @@ class ListRepricingRulesResponse extends \Google\Collection
   public $nextPageToken;
   protected $repricingRulesType = RepricingRule::class;
   protected $repricingRulesDataType = 'array';
+  public $repricingRules;
 
   /**
    * @param string

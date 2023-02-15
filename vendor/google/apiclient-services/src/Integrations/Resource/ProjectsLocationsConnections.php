@@ -25,7 +25,7 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListConnectionsRes
  * Typical usage is:
  *  <code>
  *   $integrationsService = new Google\Service\Integrations(...);
- *   $connections = $integrationsService->connections;
+ *   $connections = $integrationsService->projects_locations_connections;
  *  </code>
  */
 class ProjectsLocationsConnections extends \Google\Service\Resource

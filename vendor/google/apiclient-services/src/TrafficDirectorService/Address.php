@@ -21,8 +21,10 @@ class Address extends \Google\Model
 {
   protected $pipeType = Pipe::class;
   protected $pipeDataType = '';
+  public $pipe;
   protected $socketAddressType = SocketAddress::class;
   protected $socketAddressDataType = '';
+  public $socketAddress;
 
   /**
    * @param Pipe
