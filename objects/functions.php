@@ -308,7 +308,8 @@ function isAPPInstalled($appName)
 
 function getPathToApplication()
 {
-    return str_replace("install/index.php", "", $_SERVER["SCRIPT_FILENAME"]);
+    $path = str_replace("install/index.php", "", $_SERVER["SCRIPT_FILENAME"]);
+    return str_replace("view/configurations.php", "", $path);
 }
 
 function getURLToApplication()
@@ -5041,7 +5042,7 @@ function getDirSize($dir, $forceNew = false)
 
     _error_log("getDirSize: start {$dir}");
 
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    if (isWindows()) {
         $return = foldersize($dir);
         $_getDirSize[$dir] = $return;
         return $return;
