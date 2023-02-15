@@ -3359,7 +3359,7 @@ if (!class_exists('Video')) {
             //return array();
             //}
 
-            $timeLog1Limit = 0.02;
+            $timeLog1Limit = 0.2;
             $timeLog1 = "getSourceFile($filename, $type, $includeS3)";
             TimeLogStart($timeLog1);
 
