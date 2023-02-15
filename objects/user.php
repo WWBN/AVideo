@@ -12,9 +12,9 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 
 /**
- * 
+ *
  * @var array $global
- * @var object $global['mysqli'] 
+ * @var object $global['mysqli']
  */
 class User {
 
@@ -747,9 +747,9 @@ if (typeof gtag !== \"function\") {
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 
         /**
-         * 
+         *
          * @var array $global
-         * @var object $global['mysqli'] 
+         * @var object $global['mysqli']
          */
         if ($insert_row) {
             if (empty($this->id)) {
@@ -953,7 +953,7 @@ if (typeof gtag !== \"function\") {
                 try {
                     sqlDAL::writeSql($sql, "i", [$this->id]);
                 } catch (Exception $exc) {
-                    
+
                 }
             }
 
@@ -1293,10 +1293,10 @@ if (typeof gtag !== \"function\") {
         }
         return $can;
     }
-    
+
     static public function getLastUserCanStreamReason() {
         global $_thisUserCanStreamReasonMessage;
-        
+
         return $_thisUserCanStreamReasonMessage;
     }
 
@@ -2398,7 +2398,7 @@ if (typeof gtag !== \"function\") {
             $contactEmail = $config->getContactEmail();
             $webSiteTitle = $config->getWebSiteTitle();
             /**
-             * @var string $email 
+             * @var string $email
              */
             $email = '';
             $email = $user->getEmail();
@@ -2577,9 +2577,9 @@ if (typeof gtag !== \"function\") {
         $row = self::getBlob($users_id, $type);
         $null = null;
         /**
-         * 
+         *
          * @var array $global
-         * @var object $global['mysqli'] 
+         * @var object $global['mysqli']
          */
         if (!empty($row['id'])) {
             $sql = "UPDATE users_blob SET `blob` = ? , modified = now() WHERE id = ?";
@@ -3065,5 +3065,4 @@ if (typeof gtag !== \"function\") {
         }
         return $_SESSION['swapUser']['id'];
     }
-
 }

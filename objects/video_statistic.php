@@ -65,9 +65,9 @@ class VideoStatistic extends ObjectYPT {
         $insert_row = sqlDAL::writeSql($sql, "si", [getRealIpAddr(), $videos_id]);
         //if($videos_id==4){_error_log($sql);}
         /**
-         * 
+         *
          * @var array $global
-         * @var object $global['mysqli'] 
+         * @var object $global['mysqli']
          */
         if (!empty($global['mysqli']->insert_id)) {
             return $global['mysqli']->insert_id;
@@ -129,14 +129,14 @@ class VideoStatistic extends ObjectYPT {
         $this->seconds_watching_video = intval($this->seconds_watching_video);
 
         $this->json = ($this->json);
-        
+
         if(empty($this->id)){
             $row = self::getLastStatistics($this->videos_id, $this->users_id);
             if(!empty($row)){
                 $this->id = $row['id'];
             }
         }
-        
+
         return parent::save();
     }
 
@@ -321,13 +321,13 @@ class VideoStatistic extends ObjectYPT {
 
     public static function getChannelsWithMoreViews($daysLimit = 0) {
         global $global, $advancedCustom;
-        
+
         if(empty($daysLimit)){
             $daysLimit = getTrendingLimit();
         }
-        
+
         //$dateDaysLimit = getTrendingLimitDate();
-        
+
         $cacheName3 = "getChannelsWithMoreViews{$daysLimit}" . DIRECTORY_SEPARATOR . md5(json_encode([$_GET, $_POST]));
         $cache = ObjectYPT::getCache($cacheName3, 3600); // 1 hour cache
         if (!empty($cache)) {
@@ -392,13 +392,13 @@ class VideoStatistic extends ObjectYPT {
 
     public static function getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly, $daysLimit = 0) {
         global $global, $advancedCustom;
-        
+
         if(empty($daysLimit)){
             $daysLimit = getTrendingLimit();
         }
-        
+
         $dateDaysLimit = getTrendingLimitDate();
-        
+
         // get unique videos ids from the requested timeframe
         $sql = "SELECT distinct(videos_id) as videos_id FROM videos_statistics s "
                 . " LEFT JOIN videos v ON v.id = videos_id "
@@ -479,13 +479,13 @@ class VideoStatistic extends ObjectYPT {
 
     public static function getChannelsTotalViews($users_id, $daysLimit = 0) {
         global $global, $advancedCustom;
-                
+
         if(empty($daysLimit)){
             $daysLimit = getTrendingLimit();
         }
-        
+
         $dateDaysLimit = getTrendingLimitDate();
-        
+
         $cacheName = "getChannelsTotalViews($users_id, $daysLimit)";
         $cache = ObjectYPT::getCache($cacheName, 3600); // 1 hour cache
         if (!empty($cache)) {

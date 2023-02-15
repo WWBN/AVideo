@@ -71,11 +71,11 @@ if (empty($users)) {
         }
         if(empty($u['creator'])){
             $u['creator'] = Video::getCreatorHTML($u['id'], '', true, true);
-        }  
+        }
         if(empty($u['photo'])){
             $u['photo'] = User::getPhoto($u['id']);
-        }  
-        $users[$key] = $u; 
+        }
+        $users[$key] = $u;
     }
 
     $json = _json_encode($users);

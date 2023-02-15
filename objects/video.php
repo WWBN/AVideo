@@ -367,7 +367,7 @@ if (!class_exists('Video')) {
             if (empty($this->type) || !in_array($this->type, self::$typeOptions)) {
                 $this->type = 'video';
             } else if (!empty($this->id) && $this->type == 'linkVideo') {
-                // chek if it has no media 
+                // chek if it has no media
                 $types = Video::getVideoTypeFromId($this->id);
                 if (!empty($types)) {
                     if ($types->mp4 || $types->webm || $types->m3u8) {
@@ -497,9 +497,9 @@ if (!class_exists('Video')) {
                 }
             }
             /**
-             * 
+             *
              * @var array $global
-             * @var object $global['mysqli'] 
+             * @var object $global['mysqli']
              */
             //var_dump($this->title, $insert_row);exit;
             if ($insert_row) {
@@ -547,9 +547,9 @@ if (!class_exists('Video')) {
                 return $id;
             }
             /**
-             * 
+             *
              * @var array $global
-             * @var object $global['mysqli'] 
+             * @var object $global['mysqli']
              */
             _error_log('Video::save Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             return false;
@@ -671,9 +671,9 @@ if (!class_exists('Video')) {
                     return false;
                 }
                 /**
-                 * 
+                 *
                  * @var array $global
-                 * @var object $global['mysqli'] 
+                 * @var object $global['mysqli']
                  */
                 _error_log("Video::setStatus  " . json_encode($_REQUEST));
                 _error_log("Video::setStatus({$status}) " . json_encode(debug_backtrace()));
@@ -746,9 +746,9 @@ if (!class_exists('Video')) {
                 $res = sqlDAL::writeSql($sql, $formats, $values);
 
                 /**
-                 * 
+                 *
                  * @var array $global
-                 * @var object $global['mysqli'] 
+                 * @var object $global['mysqli']
                  */
                 if ($global['mysqli']->errno !== 0) {
                     die('Error on update Rotation: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -762,7 +762,7 @@ if (!class_exists('Video')) {
         }
 
         /**
-         * 
+         *
          * @return int
          */
         public function getUsers_id() {
@@ -783,9 +783,9 @@ if (!class_exists('Video')) {
                 $values = [$saneZoom, $this->id];
                 $res = sqlDAL::writeSql($sql, $formats, $values);
                 /**
-                 * 
+                 *
                  * @var array $global
-                 * @var object $global['mysqli'] 
+                 * @var object $global['mysqli']
                  */
                 if ($global['mysqli']->errno !== 0) {
                     die('Error on update Zoom: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -1172,9 +1172,9 @@ if (!class_exists('Video')) {
                 return false;
             }
             /**
-             * 
+             *
              * @var array $global
-             * @var object $global['mysqli'] 
+             * @var object $global['mysqli']
              */
             $sql = "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='a' AND (categories_id = {$video['categories_id']} ";
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
@@ -1246,9 +1246,9 @@ if (!class_exists('Video')) {
             }
             $tolerance = 0.5;
             /**
-             * 
+             *
              * @var array $global
-             * @var object $global['mysqli'] 
+             * @var object $global['mysqli']
              */
             if (!empty($_POST['sort']['suggested'])) {
                 $suggestedOnly = true;
@@ -1485,9 +1485,9 @@ if (!class_exists('Video')) {
                 $allowedDurationTypes = array('video', 'audio');
 
                 /**
-                 * 
+                 *
                  * @var array $global
-                 * @var object $global['mysqli'] 
+                 * @var object $global['mysqli']
                  */
                 self::startTransaction();
                 foreach ($fullData as $index => $row) {
@@ -1885,7 +1885,7 @@ if (!class_exists('Video')) {
               if (!empty($_GET['catName'])) {
               $cn .= ", c.clean_name as cn";
               }
-             * 
+             *
              */
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
@@ -2013,7 +2013,7 @@ if (!class_exists('Video')) {
               $res = sqlDAL::readSql($sql);
               $numRows = sqlDal::num_rows($res);
               sqlDAL::close($res);
-             * 
+             *
              */
             global $lastGetTotalVideos;
             $lastGetTotalVideos = $sql;
@@ -2145,7 +2145,7 @@ if (!class_exists('Video')) {
                 if (!empty($content)) {
                     $object->$value = self::parseProgress($content);
                 } else {
-                    
+
                 }
 
                 if (!empty($object->$value->progress) && !is_numeric($object->$value->progress)) {
@@ -3742,9 +3742,9 @@ if (!class_exists('Video')) {
             }
 
             /**
-             * 
+             *
              * @var array $global
-             * @var array $global['avideo_resolutions'] 
+             * @var array $global['avideo_resolutions']
              */
             foreach ($global['avideo_resolutions'] as $value) {
                 $search[] = "_{$value}";
@@ -3851,7 +3851,7 @@ if (!class_exists('Video')) {
             }
             $HigestResolution = $video->getVideoHigestResolution();
             if (!empty($HigestResolution)) {
-                //_error_log("getHigestResolution($filename) 1 {$HigestResolution} ".$video->getType());                
+                //_error_log("getHigestResolution($filename) 1 {$HigestResolution} ".$video->getType());
                 $resolution = $HigestResolution;
                 $return['resolution'] = $resolution;
                 $return['resolution_text'] = getResolutionText($return['resolution']);
@@ -3954,9 +3954,9 @@ if (!class_exists('Video')) {
             global $global;
             $types = ['', '_HD', '_SD', '_Low'];
             /**
-             * 
+             *
              * @var array $global
-             * @var array $global['avideo_resolutions'] 
+             * @var array $global['avideo_resolutions']
              */
             $resolutions = $global['avideo_resolutions'];
             rsort($resolutions);
@@ -4058,9 +4058,9 @@ if (!class_exists('Video')) {
             $types = ['', '_Low', '_SD', '_HD'];
 
             /**
-             * 
+             *
              * @var array $global
-             * @var array $global['avideo_resolutions'] 
+             * @var array $global['avideo_resolutions']
              */
             foreach ($global['avideo_resolutions'] as $value) {
                 $types[] = "_{$value}";
@@ -5167,7 +5167,7 @@ if (!class_exists('Video')) {
             $video = new Video('', '', $videos_id);
 
             /**
-             * 
+             *
              * @var string $status
              */
             $status = $video->getStatus();
@@ -5475,16 +5475,16 @@ if (!class_exists('Video')) {
                 $galleryVideoButtons = '';
                 $galleryVideoButtons .= '
                 <!-- getVideoImagewithHoverAnimationFromVideosId --><div class="galleryVideoButtons ' . getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0) . '">
-                    <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Watch Later", true) . ' style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> 
+                    <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Watch Later", true) . ' style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button>
                     <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtn watchLaterBtn' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Watch Later", true) . ' style="' . $watchLaterBtnStyle . '" ><i class="fas fa-clock"></i></button>
                     <br>
-                    <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Favorite", true) . ' style="color: #4285f4; ' . $favoriteBtnAddedStyle . '"><i class="fas fa-check"></i></button>  
-                    <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="left" title=' . printJSString("Favorite", true) . ' style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>    
+                    <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtnAdded favoriteBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Favorite", true) . ' style="color: #4285f4; ' . $favoriteBtnAddedStyle . '"><i class="fas fa-check"></i></button>
+                    <button onclick="addVideoToPlayList(' . $videos_id . ', true, ' . $favoriteId . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $videos_id . ' faa-parent animated-hover" data-toggle="tooltip" data-placement="left" title=' . printJSString("Favorite", true) . ' style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart faa-pulse faa-fast" ></i></button>
                     <br>';
 
                 if (Video::canEdit($videos_id)) {
                     $galleryVideoButtons .= '
-                    <button onclick="avideoModalIframe(webSiteRootURL + \'view/managerVideosLight.php?image=1&avideoIframe=1&videos_id=' . $videos_id . '\');return false;" class="btn btn-dark btn-xs" data-toggle="tooltip" data-placement="left" title=' . printJSString("Edit Thumbnail", true) . '><i class="fas fa-edit"></i></button>  
+                    <button onclick="avideoModalIframe(webSiteRootURL + \'view/managerVideosLight.php?image=1&avideoIframe=1&videos_id=' . $videos_id . '\');return false;" class="btn btn-dark btn-xs" data-toggle="tooltip" data-placement="left" title=' . printJSString("Edit Thumbnail", true) . '><i class="fas fa-edit"></i></button>
                     <br>';
                 }
 
@@ -5493,9 +5493,9 @@ if (!class_exists('Video')) {
             $href = Video::getLink($video['id'], $video['clean_title']);
             $embed = Video::getLink($video['id'], $video['clean_title'], true);
             $title = safeString($video['title']);
-            $a = '<a videos_id="' . $videos_id . '" 
-                                       href="' . $href . '" 
-                                       embed="' . $embed . '" 
+            $a = '<a videos_id="' . $videos_id . '"
+                                       href="' . $href . '"
+                                       embed="' . $embed . '"
                                        title="' . $title . '" alternativeLink="' . $alternativeLink . '">';
             if ($addLink) {
                 $img = $a . $img . '</a>';

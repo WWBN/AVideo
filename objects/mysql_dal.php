@@ -1,5 +1,4 @@
 <?php
-
 /*
   tester-execution-code
   $sql = "SELECT * FROM users WHERE id=?;";
@@ -20,9 +19,9 @@
  */
 
 /**
- * 
+ *
  * @var array $global
- * @var object $global['mysqli'] 
+ * @var object $global['mysqli']
  */
 
 class iimysqli_result
@@ -65,9 +64,9 @@ class sqlDAL
                 // Perform the query
 
                 /**
-                 * 
+                 *
                  * @var array $global
-                 * @var object $global['mysqli'] 
+                 * @var object $global['mysqli']
                  */
                 if (!$global['mysqli']->query($templine)) {
                     _error_log('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />', AVideoLog::$ERROR);
@@ -117,9 +116,9 @@ class sqlDAL
         }
 
         /**
-         * 
+         *
          * @var array $global
-         * @var object $global['mysqli'] 
+         * @var object $global['mysqli']
          */
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error .
@@ -151,7 +150,7 @@ class sqlDAL
               _mysql_connect();
               return self::writeSql($preparedStatement, $formats, $values);
               }
-             * 
+             *
              */
 
             $stmt->close();
@@ -203,9 +202,9 @@ class sqlDAL
                 // When not cached
 
                 /**
-                 * 
+                 *
                  * @var array $global
-                 * @var object $global['mysqli'] 
+                 * @var object $global['mysqli']
                  */
                 $readSqlCached[$crc] = "false";
                 _mysql_connect();
@@ -290,9 +289,9 @@ class sqlDAL
             // Mysqlnd-fallback
 
             /**
-             * 
+             *
              * @var array $global
-             * @var object $global['mysqli'] 
+             * @var object $global['mysqli']
              */
             if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
                 log_error("[sqlDAL::readSql] (no mysqlnd) Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error . " ({$preparedStatement})");

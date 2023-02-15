@@ -106,7 +106,7 @@ class Sites extends ObjectYPT
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } 
+        }
         return $rows;
     }
 }

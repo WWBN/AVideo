@@ -61,7 +61,7 @@ foreach ($scanVars as $value) {
             }
         }
     }
-    
+
     foreach ($securityRemoveNonCharsStrict as $value) {
         if (!empty($scanThis[$value])) {
             if (is_string($scanThis[$value])) {

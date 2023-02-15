@@ -350,12 +350,12 @@ class PlayList extends ObjectYPT {
         _session_start();
         unset($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id]);
     }
-    
+
     public static function getSuggested() {
         global $global;
-        
+
         return Video::getAllVideosLight("viewableNotUnlisted", false, false, true, 'serie');
-        
+
     }
 
     public static function getVideosIDFromPlaylistLight($playlists_id) {
@@ -384,7 +384,7 @@ class PlayList extends ObjectYPT {
             foreach ($fullData as $key => $row) {
                 if (empty($playlists_id)) {
                     $row['order'] = $key;
-                } 
+                }
                 $rows[] = $row;
             }
         } else {
@@ -744,7 +744,7 @@ class PlayList extends ObjectYPT {
     public function getName() {
         return $this->name;
     }
-    
+
     public function getNameOrSerieTitle() {
         return PlayLists::getNameOrSerieTitle($this->id);
     }
@@ -865,5 +865,4 @@ class PlayList extends ObjectYPT {
         }
         return false;
     }
-
 }

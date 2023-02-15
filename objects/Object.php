@@ -372,9 +372,9 @@ abstract class ObjectYPT implements ObjectInterface
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 
         /**
-         * 
+         *
          * @var array $global
-         * @var object $global['mysqli'] 
+         * @var object $global['mysqli']
          */
         if ($insert_row) {
             if (empty($this->id)) {

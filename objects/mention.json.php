@@ -19,11 +19,10 @@ if(preg_match('/^@/', $_REQUEST['term'])){
     foreach ($users as $key => $value) {
         $response[] = array(
             'id'=>$value['id'],
-            'value'=>$value['identification'], 
+            'value'=>$value['identification'],
             'label'=>Video::getCreatorHTML($value['id'], '', true, true)
             );
     }
 }
-
 
 echo json_encode($response);

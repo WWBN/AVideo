@@ -436,7 +436,7 @@ function safeString($text, $strict = false, $try=0){
         //$text = cleanURLName($text);
     }
     $text = trim($text);
-    
+
     if(empty($try) && empty($text)){
         return safeString(utf8_encode($originalText), $strict, 1);
     }
@@ -1433,7 +1433,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
 
     $cacheName = "getVideosURL_V2$fileName";
     if (empty($recreateCache)) {
-        
+
         $lifetime = maxLifetime();
 
         $TimeLog1 = "getVideosURL_V2($fileName) empty recreateCache";
@@ -1496,7 +1496,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
         $isAVideo = false;
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
-            
+
             if($parts['extension'] == 'log'){
                 continue;
             }
@@ -1555,7 +1555,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
             $files[$key] = AVideoPlugin::modifyURL($_file);
         }
         TimeLogEnd($timeName, __LINE__);
-        
+
         $pdf = $paths['path'] . "{$cleanfilename}.pdf";
         $mp3 = $paths['path'] . "{$cleanfilename}.mp3";
 
@@ -1577,7 +1577,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
             $extraFiles = array_merge($extraFiles, $extraFilesMP3);
         }
         $files = array_merge($extraFiles, $files);
-        
+
         ObjectYPT::setCache($cacheName, $files);
     }
     if (is_array($files)) {
@@ -2004,7 +2004,7 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd)
       echo '<h1>Results</h1>';
       var_dump($sizes);exit;
       }
-     * 
+     *
      */
     $thumb_w = $sizes['w'];
     $thumb_h = $sizes['h'];
@@ -4704,9 +4704,9 @@ function _mysql_commit(){
     if (_mysql_is_open()) {
         try {
             /**
-             * 
+             *
              * @var array $global
-             * @var object $global['mysqli'] 
+             * @var object $global['mysqli']
              */
             @$global['mysqli']->commit();
         } catch (Exception $exc) {
@@ -4723,9 +4723,9 @@ function _mysql_close()
         $mysql_connect_was_closed = 1;
         try {
             /**
-             * 
+             *
              * @var array $global
-             * @var object $global['mysqli'] 
+             * @var object $global['mysqli']
              */
             @$global['mysqli']->close();
         } catch (Exception $exc) {
@@ -4968,7 +4968,7 @@ function getUsageFromFilename($filename, $dir = "")
  * @param $url - The location of the remote file to download. Cannot
  * be null or empty.
  *
- * @return int 
+ * @return int
  * return The size of the file referenced by $url, or false if the size
  * could not be determined.
  */
@@ -5796,14 +5796,14 @@ function isValidEmail($email) {
     if(!isset($_email_hosts_checked)){
         $_email_hosts_checked = array();
     }
-    
+
     //Get host name from email and check if it is valid
     $email_host = array_slice(explode("@", $email), -1)[0];
 
     if(isset($_email_hosts_checked[$email_host])){
         return $_email_hosts_checked[$email_host];
     }
-    
+
     $_email_hosts_checked[$email_host] = true;
     // Check if valid IP (v4 or v6). If it is we can't do a DNS lookup
     if (!filter_var($email_host, FILTER_VALIDATE_IP, [
@@ -9408,9 +9408,9 @@ function mysqlBeginTransaction()
     global $global;
     _error_log('Begin transaction ' . getSelfURI());
     /**
-     * 
+     *
      * @var array $global
-     * @var object $global['mysqli'] 
+     * @var object $global['mysqli']
      */
     $global['mysqli']->autocommit(false);
 }
@@ -9420,9 +9420,9 @@ function mysqlRollback()
     global $global;
     _error_log('Rollback transaction ' . getSelfURI(), AVideoLog::$ERROR);
     /**
-     * 
+     *
      * @var array $global
-     * @var object $global['mysqli'] 
+     * @var object $global['mysqli']
      */
     $global['mysqli']->rollback();
     $global['mysqli']->autocommit(true);
@@ -9433,9 +9433,9 @@ function mysqlCommit()
     global $global;
     _error_log('Commit transaction ' . getSelfURI());
     /**
-     * 
+     *
      * @var array $global
-     * @var object $global['mysqli'] 
+     * @var object $global['mysqli']
      */
     $global['mysqli']->commit();
     $global['mysqli']->autocommit(true);
@@ -10087,9 +10087,9 @@ function getValidCrontabLines()
 }
 
 /**
- * 
- * @param string $strOrArray 
- * @return string return an array with the valid emails. 
+ *
+ * @param string $strOrArray
+ * @return string return an array with the valid emails.
  */
 function is_email($strOrArray)
 {
@@ -10510,7 +10510,7 @@ function getFeedButton($rss, $mrss, $roku)
 {
     $buttons = '<div class="dropdown feedDropdown" style="display: inline-block;" data-toggle="tooltip" title="' . __("Feed") . '">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-            <i class="fas fa-rss-square"></i> 
+            <i class="fas fa-rss-square"></i>
             <span class="hidden-xs hidden-sm">' . __("Feed") . '</span>
             <span class="caret"></span>
         </button>

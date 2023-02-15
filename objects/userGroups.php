@@ -69,9 +69,9 @@ class UserGroups{
         }
         if (sqlDAL::writeSql($sql, $formats, $values)) {
             /**
-             * 
+             *
              * @var array $global
-             * @var object $global['mysqli'] 
+             * @var object $global['mysqli']
              */
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
@@ -279,7 +279,7 @@ class UserGroups{
 
         if(!isset($__getUserGroups)){
             $__getUserGroups = array();
-        } 
+        }
 
         if(isset($__getUserGroups[$users_id])){
             return $__getUserGroups[$users_id];
@@ -451,15 +451,15 @@ class UserGroups{
         }
         return $arr;
     }
-    
+
     public static function getCategoriesGroups($videos_id){
         if (empty($videos_id)) {
             return [];
         }
         global $global;
-        
+
         $v = Video::getVideoLight($videos_id);
-        
+
         $sql = "SELECT chug.*, ug.* FROM categories_has_users_groups as chug "
                 . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE categories_id = ? ";
         $res = sqlDAL::readSql($sql, "i", [$v['categories_id']]);
@@ -477,10 +477,10 @@ class UserGroups{
         }
         return $arr;
     }
-    
+
     public static function getVideosAndCategoriesUserGroups($videos_id, $force = false){
         global $_getVideosAndCategoriesUserGroups;
-        
+
         if(!isset($_getVideosAndCategoriesUserGroups)){
             $_getVideosAndCategoriesUserGroups = array();
         }
@@ -518,7 +518,7 @@ class UserGroups{
         } else {
             return false;
         }
-        
+
         unset($_getVideosAndCategoriesUserGroups[$videos_id]);
         return sqlDAL::writeSql($sql, "i", [$videos_id]);
     }

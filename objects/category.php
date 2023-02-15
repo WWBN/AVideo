@@ -182,7 +182,7 @@ class Category {
         }
     }
     /**
-     * 
+     *
      * @param string $clean_title
      * @param int $count
      * @param int $id
@@ -440,11 +440,11 @@ class Category {
 
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $totals = self::getTotalFromCategory($row['id']);
-                    
+
                     if($onlyWithVideos && empty($totals['total'])){
                         continue;
                     }
-                    
+
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
 
@@ -988,5 +988,4 @@ class Category {
         }
         return $return;
     }
-
 }
