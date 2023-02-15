@@ -316,15 +316,23 @@ class AVideoPlugin
         return $pluginIsLoaded[$name];
     }
 
-    public static function loadPluginIfEnabled($name)
-    {
+    public static function loadPluginIfEnabled($name){
+        global $_loadPluginIfEnabled;
+        if(!isset($_loadPluginIfEnabled)){
+            $_loadPluginIfEnabled = array();
+        }
+        if(isset($_loadPluginIfEnabled[$name])){
+            return $_loadPluginIfEnabled[$name];
+        }
         $p = static::loadPlugin($name);
         if ($p) {
             $uuid = $p->getUUID();
             if (static::isEnabled($uuid)) {
+                $_loadPluginIfEnabled[$name] = $p;
                 return $p;
             }
         }
+        $_loadPluginIfEnabled[$name] = false;
         return false;
     }
 

@@ -3396,16 +3396,19 @@ if (!class_exists('Video')) {
                     if (!empty($cdn_obj->enable_storage)) {
                         $includeS3 = true;
                     }
+                    TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 } elseif (!empty($aws_s3)) {
                     $aws_s3_obj = $aws_s3->getDataObject();
                     if (!empty($aws_s3_obj->useS3DirectLink)) {
                         $includeS3 = true;
                     }
+                    TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 } elseif (!empty($bb_b2)) {
                     $bb_b2_obj = $bb_b2->getDataObject();
                     if (!empty($bb_b2_obj->useDirectLink)) {
                         $includeS3 = true;
                     }
+                    TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 } elseif (!empty($ftp)) {
                     $includeS3 = true;
                 }
@@ -3443,13 +3446,14 @@ if (!class_exists('Video')) {
                     return false;
                 }
                 $canUseCDN = canUseCDN($video['id']);
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 $fsize = @filesize($source['path']);
                 $isValidType = (preg_match("/.*\\.mp3$/", $type) || preg_match("/.*\\.mp4$/", $type) || preg_match("/.*\\.webm$/", $type) || $type == ".m3u8" || $type == ".pdf" || $type == ".zip");
 
-                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if (!empty($video['sites_id'])) {
                     $site = new Sites($video['sites_id']);
                 }
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
 
                 if (!empty($cdn_obj->enable_storage) && $isValidType && $fsize < 20 && !empty($site) && (empty($yptStorage) || $site->getUrl() == 'url/')) {
                     if ($type == ".m3u8") {
