@@ -22,8 +22,10 @@ class AssistantApiSystemNotificationRestrictions extends \Google\Collection
   protected $collection_key = 'channelState';
   protected $categoryStateType = AssistantApiSystemNotificationRestrictionsNotificationCategoryState::class;
   protected $categoryStateDataType = 'array';
+  public $categoryState;
   protected $channelStateType = AssistantApiSystemNotificationRestrictionsNotificationChannelState::class;
   protected $channelStateDataType = 'array';
+  public $channelState;
   /**
    * @var string
    */

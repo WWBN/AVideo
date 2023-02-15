@@ -21,12 +21,16 @@ class NlpSemanticParsingSaftMentionAnnotation extends \Google\Model
 {
   protected $coreferenceType = NlpSemanticParsingSaftCoreference::class;
   protected $coreferenceDataType = '';
+  public $coreference;
   protected $entityType = NlpSemanticParsingSaftSpan::class;
   protected $entityDataType = '';
+  public $entity;
   protected $measureType = NlpSemanticParsingSaftMeasure::class;
   protected $measureDataType = '';
+  public $measure;
   protected $titleType = NlpSemanticParsingSaftSpan::class;
   protected $titleDataType = '';
+  public $title;
 
   /**
    * @param NlpSemanticParsingSaftCoreference

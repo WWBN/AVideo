@@ -26,7 +26,7 @@ use Google\Service\Classroom\ListCourseWorkMaterialResponse;
  * Typical usage is:
  *  <code>
  *   $classroomService = new Google\Service\Classroom(...);
- *   $courseWorkMaterials = $classroomService->courseWorkMaterials;
+ *   $courseWorkMaterials = $classroomService->courses_courseWorkMaterials;
  *  </code>
  */
 class CoursesCourseWorkMaterials extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class GeostoreRankSignalProto extends \Google\Model
 {
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var float
    */

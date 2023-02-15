@@ -28,7 +28,7 @@ use Google\Service\RecommendationsAI\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $recommendationengineService = new Google\Service\RecommendationsAI(...);
- *   $catalogItems = $recommendationengineService->catalogItems;
+ *   $catalogItems = $recommendationengineService->projects_locations_catalogs_catalogItems;
  *  </code>
  */
 class ProjectsLocationsCatalogsCatalogItems extends \Google\Service\Resource

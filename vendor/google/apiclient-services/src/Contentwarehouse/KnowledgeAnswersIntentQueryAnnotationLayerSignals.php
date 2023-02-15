@@ -21,18 +21,25 @@ class KnowledgeAnswersIntentQueryAnnotationLayerSignals extends \Google\Model
 {
   protected $customVehicleActionArgumentAnnotatorSignalsType = KnowledgeAnswersIntentQueryCustomVehicleActionArgumentAnnotatorSignals::class;
   protected $customVehicleActionArgumentAnnotatorSignalsDataType = '';
+  public $customVehicleActionArgumentAnnotatorSignals;
   protected $freetextAnnotationSignalsType = KnowledgeAnswersIntentQueryFreetextAnnotationSignals::class;
   protected $freetextAnnotationSignalsDataType = '';
+  public $freetextAnnotationSignals;
   protected $nimbleAnnotationSignalsType = KnowledgeAnswersIntentQueryNimbleAnnotationSignals::class;
   protected $nimbleAnnotationSignalsDataType = '';
+  public $nimbleAnnotationSignals;
   protected $ntprAnnotationSignalsType = KnowledgeAnswersIntentQueryNTPRAnnotationSignals::class;
   protected $ntprAnnotationSignalsDataType = '';
+  public $ntprAnnotationSignals;
   protected $qrefAnnotationSignalsType = KnowledgeAnswersIntentQueryQrefAnnotationSignals::class;
   protected $qrefAnnotationSignalsDataType = '';
+  public $qrefAnnotationSignals;
   protected $semanticAnnotationSignalsType = KnowledgeAnswersIntentQuerySemanticAnnotationSignals::class;
   protected $semanticAnnotationSignalsDataType = '';
+  public $semanticAnnotationSignals;
   protected $teleportArgumentAnnotatorSignalsType = KnowledgeAnswersIntentQueryTeleportArgumentAnnotatorSignals::class;
   protected $teleportArgumentAnnotatorSignalsDataType = '';
+  public $teleportArgumentAnnotatorSignals;
 
   /**
    * @param KnowledgeAnswersIntentQueryCustomVehicleActionArgumentAnnotatorSignals

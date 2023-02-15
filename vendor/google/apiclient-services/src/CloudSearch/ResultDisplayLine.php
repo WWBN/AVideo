@@ -22,6 +22,7 @@ class ResultDisplayLine extends \Google\Collection
   protected $collection_key = 'fields';
   protected $fieldsType = ResultDisplayField::class;
   protected $fieldsDataType = 'array';
+  public $fields;
 
   /**
    * @param ResultDisplayField[]

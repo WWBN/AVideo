@@ -26,7 +26,7 @@ use Google\Service\SecurityCommandCenter\SecuritycenterEmpty;
  * Typical usage is:
  *  <code>
  *   $securitycenterService = new Google\Service\SecurityCommandCenter(...);
- *   $muteConfigs = $securitycenterService->muteConfigs;
+ *   $muteConfigs = $securitycenterService->folders_muteConfigs;
  *  </code>
  */
 class FoldersMuteConfigs extends \Google\Service\Resource

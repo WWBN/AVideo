@@ -27,7 +27,7 @@ use Google\Service\Apigee\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $environments = $apigeeService->environments;
+ *   $environments = $apigeeService->organizations_securityProfiles_environments;
  *  </code>
  */
 class OrganizationsSecurityProfilesEnvironments extends \Google\Service\Resource

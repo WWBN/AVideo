@@ -26,6 +26,7 @@ class ListStudentSubmissionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $studentSubmissionsType = StudentSubmission::class;
   protected $studentSubmissionsDataType = 'array';
+  public $studentSubmissions;
 
   /**
    * @param string

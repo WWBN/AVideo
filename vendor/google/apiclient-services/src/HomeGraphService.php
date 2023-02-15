@@ -27,7 +27,7 @@ use Google\Client;
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://developers.google.com/actions/smarthome/create-app#request-sync" target="_blank">Documentation</a>
+ * <a href="https://developers.home.google.com/cloud-to-cloud/get-started" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.

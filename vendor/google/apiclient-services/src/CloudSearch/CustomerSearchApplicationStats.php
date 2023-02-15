@@ -25,6 +25,7 @@ class CustomerSearchApplicationStats extends \Google\Model
   public $count;
   protected $dateType = Date::class;
   protected $dateDataType = '';
+  public $date;
 
   /**
    * @param string

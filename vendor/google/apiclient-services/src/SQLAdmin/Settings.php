@@ -26,6 +26,7 @@ class Settings extends \Google\Collection
   public $activationPolicy;
   protected $activeDirectoryConfigType = SqlActiveDirectoryConfig::class;
   protected $activeDirectoryConfigDataType = '';
+  public $activeDirectoryConfig;
   /**
    * @var string[]
    */
@@ -36,6 +37,7 @@ class Settings extends \Google\Collection
   public $availabilityType;
   protected $backupConfigurationType = BackupConfiguration::class;
   protected $backupConfigurationDataType = '';
+  public $backupConfiguration;
   /**
    * @var string
    */
@@ -58,6 +60,7 @@ class Settings extends \Google\Collection
   public $dataDiskType;
   protected $databaseFlagsType = DatabaseFlags::class;
   protected $databaseFlagsDataType = 'array';
+  public $databaseFlags;
   /**
    * @var bool
    */
@@ -68,20 +71,26 @@ class Settings extends \Google\Collection
   public $deletionProtectionEnabled;
   protected $denyMaintenancePeriodsType = DenyMaintenancePeriod::class;
   protected $denyMaintenancePeriodsDataType = 'array';
+  public $denyMaintenancePeriods;
   protected $insightsConfigType = InsightsConfig::class;
   protected $insightsConfigDataType = '';
+  public $insightsConfig;
   protected $ipConfigurationType = IpConfiguration::class;
   protected $ipConfigurationDataType = '';
+  public $ipConfiguration;
   /**
    * @var string
    */
   public $kind;
   protected $locationPreferenceType = LocationPreference::class;
   protected $locationPreferenceDataType = '';
+  public $locationPreference;
   protected $maintenanceWindowType = MaintenanceWindow::class;
   protected $maintenanceWindowDataType = '';
+  public $maintenanceWindow;
   protected $passwordValidationPolicyType = PasswordValidationPolicy::class;
   protected $passwordValidationPolicyDataType = '';
+  public $passwordValidationPolicy;
   /**
    * @var string
    */
@@ -96,6 +105,7 @@ class Settings extends \Google\Collection
   public $settingsVersion;
   protected $sqlServerAuditConfigType = SqlServerAuditConfig::class;
   protected $sqlServerAuditConfigDataType = '';
+  public $sqlServerAuditConfig;
   /**
    * @var bool
    */

@@ -26,7 +26,7 @@ use Google\Service\CloudFilestore\Snapshot;
  * Typical usage is:
  *  <code>
  *   $fileService = new Google\Service\CloudFilestore(...);
- *   $snapshots = $fileService->snapshots;
+ *   $snapshots = $fileService->projects_locations_instances_snapshots;
  *  </code>
  */
 class ProjectsLocationsInstancesSnapshots extends \Google\Service\Resource

@@ -22,14 +22,17 @@ class GoogleCloudSecuritycenterV1ExposurePath extends \Google\Collection
   protected $collection_key = 'pathNodes';
   protected $edgesType = Edge::class;
   protected $edgesDataType = 'array';
+  public $edges;
   protected $exposedResourceType = GoogleCloudSecuritycenterV1ExposedResource::class;
   protected $exposedResourceDataType = '';
+  public $exposedResource;
   /**
    * @var string
    */
   public $name;
   protected $pathNodesType = PathNode::class;
   protected $pathNodesDataType = 'array';
+  public $pathNodes;
 
   /**
    * @param Edge[]

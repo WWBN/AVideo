@@ -21,6 +21,7 @@ class GooglePrivacyDlpV2HybridInspectJobTriggerRequest extends \Google\Model
 {
   protected $hybridItemType = GooglePrivacyDlpV2HybridContentItem::class;
   protected $hybridItemDataType = '';
+  public $hybridItem;
 
   /**
    * @param GooglePrivacyDlpV2HybridContentItem

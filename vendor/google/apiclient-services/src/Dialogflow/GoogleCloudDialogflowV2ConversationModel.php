@@ -22,12 +22,14 @@ class GoogleCloudDialogflowV2ConversationModel extends \Google\Collection
   protected $collection_key = 'datasets';
   protected $articleSuggestionModelMetadataType = GoogleCloudDialogflowV2ArticleSuggestionModelMetadata::class;
   protected $articleSuggestionModelMetadataDataType = '';
+  public $articleSuggestionModelMetadata;
   /**
    * @var string
    */
   public $createTime;
   protected $datasetsType = GoogleCloudDialogflowV2InputDataset::class;
   protected $datasetsDataType = 'array';
+  public $datasets;
   /**
    * @var string
    */
@@ -42,6 +44,7 @@ class GoogleCloudDialogflowV2ConversationModel extends \Google\Collection
   public $name;
   protected $smartReplyModelMetadataType = GoogleCloudDialogflowV2SmartReplyModelMetadata::class;
   protected $smartReplyModelMetadataDataType = '';
+  public $smartReplyModelMetadata;
   /**
    * @var string
    */

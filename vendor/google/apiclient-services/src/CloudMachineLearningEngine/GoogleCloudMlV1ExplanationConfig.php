@@ -21,10 +21,13 @@ class GoogleCloudMlV1ExplanationConfig extends \Google\Model
 {
   protected $integratedGradientsAttributionType = GoogleCloudMlV1IntegratedGradientsAttribution::class;
   protected $integratedGradientsAttributionDataType = '';
+  public $integratedGradientsAttribution;
   protected $sampledShapleyAttributionType = GoogleCloudMlV1SampledShapleyAttribution::class;
   protected $sampledShapleyAttributionDataType = '';
+  public $sampledShapleyAttribution;
   protected $xraiAttributionType = GoogleCloudMlV1XraiAttribution::class;
   protected $xraiAttributionDataType = '';
+  public $xraiAttribution;
 
   /**
    * @param GoogleCloudMlV1IntegratedGradientsAttribution

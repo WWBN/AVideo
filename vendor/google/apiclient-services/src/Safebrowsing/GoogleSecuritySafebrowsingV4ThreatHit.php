@@ -22,20 +22,24 @@ class GoogleSecuritySafebrowsingV4ThreatHit extends \Google\Collection
   protected $collection_key = 'resources';
   protected $clientInfoType = GoogleSecuritySafebrowsingV4ClientInfo::class;
   protected $clientInfoDataType = '';
+  public $clientInfo;
   protected $entryType = GoogleSecuritySafebrowsingV4ThreatEntry::class;
   protected $entryDataType = '';
+  public $entry;
   /**
    * @var string
    */
   public $platformType;
   protected $resourcesType = GoogleSecuritySafebrowsingV4ThreatHitThreatSource::class;
   protected $resourcesDataType = 'array';
+  public $resources;
   /**
    * @var string
    */
   public $threatType;
   protected $userInfoType = GoogleSecuritySafebrowsingV4ThreatHitUserInfo::class;
   protected $userInfoDataType = '';
+  public $userInfo;
 
   /**
    * @param GoogleSecuritySafebrowsingV4ClientInfo

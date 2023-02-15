@@ -21,6 +21,7 @@ class StatefulPolicyPreservedState extends \Google\Model
 {
   protected $disksType = StatefulPolicyPreservedStateDiskDevice::class;
   protected $disksDataType = 'map';
+  public $disks;
 
   /**
    * @param StatefulPolicyPreservedStateDiskDevice[]

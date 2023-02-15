@@ -21,8 +21,10 @@ class AssistantApiSettingsNotificationProfileAlloNotificationProfile extends \Go
 {
   protected $botSendTokenType = ChatBotPlatformBotSendToken::class;
   protected $botSendTokenDataType = '';
+  public $botSendToken;
   protected $idType = ChatBotPlatformFireballId::class;
   protected $idDataType = '';
+  public $id;
 
   /**
    * @param ChatBotPlatformBotSendToken

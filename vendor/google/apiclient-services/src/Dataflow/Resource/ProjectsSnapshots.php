@@ -25,7 +25,7 @@ use Google\Service\Dataflow\Snapshot;
  * Typical usage is:
  *  <code>
  *   $dataflowService = new Google\Service\Dataflow(...);
- *   $snapshots = $dataflowService->snapshots;
+ *   $snapshots = $dataflowService->projects_snapshots;
  *  </code>
  */
 class ProjectsSnapshots extends \Google\Service\Resource

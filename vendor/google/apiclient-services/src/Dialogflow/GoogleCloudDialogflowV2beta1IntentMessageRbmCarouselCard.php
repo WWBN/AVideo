@@ -22,6 +22,7 @@ class GoogleCloudDialogflowV2beta1IntentMessageRbmCarouselCard extends \Google\C
   protected $collection_key = 'cardContents';
   protected $cardContentsType = GoogleCloudDialogflowV2beta1IntentMessageRbmCardContent::class;
   protected $cardContentsDataType = 'array';
+  public $cardContents;
   /**
    * @var string
    */

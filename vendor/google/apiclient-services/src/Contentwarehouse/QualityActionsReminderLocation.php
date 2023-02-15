@@ -21,8 +21,10 @@ class QualityActionsReminderLocation extends \Google\Model
 {
   protected $categoryInfoType = QualityActionsReminderLocationCategoryInfo::class;
   protected $categoryInfoDataType = '';
+  public $categoryInfo;
   protected $chainInfoType = QualityActionsReminderLocationChainInfo::class;
   protected $chainInfoDataType = '';
+  public $chainInfo;
   /**
    * @var string
    */
@@ -33,6 +35,7 @@ class QualityActionsReminderLocation extends \Google\Model
   public $displayAddress;
   protected $geoFeatureIdType = GeostoreFeatureIdProto::class;
   protected $geoFeatureIdDataType = '';
+  public $geoFeatureId;
   public $lat;
   public $lng;
   /**
@@ -45,6 +48,7 @@ class QualityActionsReminderLocation extends \Google\Model
   public $name;
   protected $personalLocationMetadataType = CopleySourceTypeList::class;
   protected $personalLocationMetadataDataType = '';
+  public $personalLocationMetadata;
   /**
    * @var string
    */

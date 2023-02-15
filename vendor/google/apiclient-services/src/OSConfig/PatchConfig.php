@@ -21,26 +21,33 @@ class PatchConfig extends \Google\Model
 {
   protected $aptType = AptSettings::class;
   protected $aptDataType = '';
+  public $apt;
   protected $gooType = GooSettings::class;
   protected $gooDataType = '';
+  public $goo;
   /**
    * @var bool
    */
   public $migInstancesAllowed;
   protected $postStepType = ExecStep::class;
   protected $postStepDataType = '';
+  public $postStep;
   protected $preStepType = ExecStep::class;
   protected $preStepDataType = '';
+  public $preStep;
   /**
    * @var string
    */
   public $rebootConfig;
   protected $windowsUpdateType = WindowsUpdateSettings::class;
   protected $windowsUpdateDataType = '';
+  public $windowsUpdate;
   protected $yumType = YumSettings::class;
   protected $yumDataType = '';
+  public $yum;
   protected $zypperType = ZypperSettings::class;
   protected $zypperDataType = '';
+  public $zypper;
 
   /**
    * @param AptSettings

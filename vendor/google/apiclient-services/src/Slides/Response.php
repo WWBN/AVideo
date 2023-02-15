@@ -21,28 +21,40 @@ class Response extends \Google\Model
 {
   protected $createImageType = CreateImageResponse::class;
   protected $createImageDataType = '';
+  public $createImage;
   protected $createLineType = CreateLineResponse::class;
   protected $createLineDataType = '';
+  public $createLine;
   protected $createShapeType = CreateShapeResponse::class;
   protected $createShapeDataType = '';
+  public $createShape;
   protected $createSheetsChartType = CreateSheetsChartResponse::class;
   protected $createSheetsChartDataType = '';
+  public $createSheetsChart;
   protected $createSlideType = CreateSlideResponse::class;
   protected $createSlideDataType = '';
+  public $createSlide;
   protected $createTableType = CreateTableResponse::class;
   protected $createTableDataType = '';
+  public $createTable;
   protected $createVideoType = CreateVideoResponse::class;
   protected $createVideoDataType = '';
+  public $createVideo;
   protected $duplicateObjectType = DuplicateObjectResponse::class;
   protected $duplicateObjectDataType = '';
+  public $duplicateObject;
   protected $groupObjectsType = GroupObjectsResponse::class;
   protected $groupObjectsDataType = '';
+  public $groupObjects;
   protected $replaceAllShapesWithImageType = ReplaceAllShapesWithImageResponse::class;
   protected $replaceAllShapesWithImageDataType = '';
+  public $replaceAllShapesWithImage;
   protected $replaceAllShapesWithSheetsChartType = ReplaceAllShapesWithSheetsChartResponse::class;
   protected $replaceAllShapesWithSheetsChartDataType = '';
+  public $replaceAllShapesWithSheetsChart;
   protected $replaceAllTextType = ReplaceAllTextResponse::class;
   protected $replaceAllTextDataType = '';
+  public $replaceAllText;
 
   /**
    * @param CreateImageResponse

@@ -32,7 +32,9 @@ class Shoppingadsprogram extends \Google\Service\Resource
 {
   /**
    * Retrieves the status and review eligibility for the Shopping Ads program.
-   * (shoppingadsprogram.get)
+   * Returns errors and warnings if they require action to resolve, will become
+   * disapprovals, or impact impressions. Use `accountstatuses` to view all issues
+   * for an account. (shoppingadsprogram.get)
    *
    * @param string $merchantId Required. The ID of the account.
    * @param array $optParams Optional parameters.

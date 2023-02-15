@@ -25,7 +25,7 @@ use Google\Service\ServiceNetworking\Operation;
  * Typical usage is:
  *  <code>
  *   $servicenetworkingService = new Google\Service\ServiceNetworking(...);
- *   $roles = $servicenetworkingService->roles;
+ *   $roles = $servicenetworkingService->services_roles;
  *  </code>
  */
 class ServicesRoles extends \Google\Service\Resource

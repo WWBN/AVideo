@@ -26,7 +26,7 @@ use Google\Service\Sasportal\SasPortalListDevicesResponse;
  * Typical usage is:
  *  <code>
  *   $sasportalService = new Google\Service\Sasportal(...);
- *   $devices = $sasportalService->devices;
+ *   $devices = $sasportalService->nodes_nodes_devices;
  *  </code>
  */
 class NodesNodesDevices extends \Google\Service\Resource

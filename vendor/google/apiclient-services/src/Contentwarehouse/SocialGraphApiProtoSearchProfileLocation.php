@@ -21,16 +21,20 @@ class SocialGraphApiProtoSearchProfileLocation extends \Google\Model
 {
   protected $endTimeType = GoogleTypeDate::class;
   protected $endTimeDataType = '';
+  public $endTime;
   /**
    * @var string
    */
   public $lengthOfStay;
   protected $placeType = SocialGraphApiProtoSearchProfileEntity::class;
   protected $placeDataType = '';
+  public $place;
   protected $pointType = SocialGraphApiProtoSearchProfileLocationInfo::class;
   protected $pointDataType = '';
+  public $point;
   protected $startTimeType = GoogleTypeDate::class;
   protected $startTimeDataType = '';
+  public $startTime;
   /**
    * @var string
    */

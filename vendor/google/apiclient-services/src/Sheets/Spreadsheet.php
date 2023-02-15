@@ -22,16 +22,22 @@ class Spreadsheet extends \Google\Collection
   protected $collection_key = 'sheets';
   protected $dataSourceSchedulesType = DataSourceRefreshSchedule::class;
   protected $dataSourceSchedulesDataType = 'array';
+  public $dataSourceSchedules;
   protected $dataSourcesType = DataSource::class;
   protected $dataSourcesDataType = 'array';
+  public $dataSources;
   protected $developerMetadataType = DeveloperMetadata::class;
   protected $developerMetadataDataType = 'array';
+  public $developerMetadata;
   protected $namedRangesType = NamedRange::class;
   protected $namedRangesDataType = 'array';
+  public $namedRanges;
   protected $propertiesType = SpreadsheetProperties::class;
   protected $propertiesDataType = '';
+  public $properties;
   protected $sheetsType = Sheet::class;
   protected $sheetsDataType = 'array';
+  public $sheets;
   /**
    * @var string
    */

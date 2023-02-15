@@ -22,8 +22,10 @@ class TestMatrix extends \Google\Collection
   protected $collection_key = 'testExecutions';
   protected $clientInfoType = ClientInfo::class;
   protected $clientInfoDataType = '';
+  public $clientInfo;
   protected $environmentMatrixType = EnvironmentMatrix::class;
   protected $environmentMatrixDataType = '';
+  public $environmentMatrix;
   /**
    * @var bool
    */
@@ -46,18 +48,21 @@ class TestMatrix extends \Google\Collection
   public $projectId;
   protected $resultStorageType = ResultStorage::class;
   protected $resultStorageDataType = '';
+  public $resultStorage;
   /**
    * @var string
    */
   public $state;
   protected $testExecutionsType = TestExecution::class;
   protected $testExecutionsDataType = 'array';
+  public $testExecutions;
   /**
    * @var string
    */
   public $testMatrixId;
   protected $testSpecificationType = TestSpecification::class;
   protected $testSpecificationDataType = '';
+  public $testSpecification;
   /**
    * @var string
    */

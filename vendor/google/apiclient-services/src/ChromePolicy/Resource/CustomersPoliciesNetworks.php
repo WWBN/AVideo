@@ -31,7 +31,7 @@ use Google\Service\ChromePolicy\GoogleChromePolicyVersionsV1RemoveNetworkRespons
  * Typical usage is:
  *  <code>
  *   $chromepolicyService = new Google\Service\ChromePolicy(...);
- *   $networks = $chromepolicyService->networks;
+ *   $networks = $chromepolicyService->customers_policies_networks;
  *  </code>
  */
 class CustomersPoliciesNetworks extends \Google\Service\Resource

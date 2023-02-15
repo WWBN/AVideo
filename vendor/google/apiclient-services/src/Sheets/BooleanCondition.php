@@ -26,6 +26,7 @@ class BooleanCondition extends \Google\Collection
   public $type;
   protected $valuesType = ConditionValue::class;
   protected $valuesDataType = 'array';
+  public $values;
 
   /**
    * @param string

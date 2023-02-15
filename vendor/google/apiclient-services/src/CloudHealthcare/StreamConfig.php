@@ -22,8 +22,10 @@ class StreamConfig extends \Google\Collection
   protected $collection_key = 'resourceTypes';
   protected $bigqueryDestinationType = GoogleCloudHealthcareV1FhirBigQueryDestination::class;
   protected $bigqueryDestinationDataType = '';
+  public $bigqueryDestination;
   protected $deidentifiedStoreDestinationType = DeidentifiedStoreDestination::class;
   protected $deidentifiedStoreDestinationDataType = '';
+  public $deidentifiedStoreDestination;
   /**
    * @var string[]
    */

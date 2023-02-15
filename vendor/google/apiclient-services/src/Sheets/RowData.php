@@ -22,6 +22,7 @@ class RowData extends \Google\Collection
   protected $collection_key = 'values';
   protected $valuesType = CellData::class;
   protected $valuesDataType = 'array';
+  public $values;
 
   /**
    * @param CellData[]

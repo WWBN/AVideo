@@ -25,7 +25,7 @@ use Google\Service\CloudDataplex\GoogleCloudLocationLocation;
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $locations = $dataplexService->locations;
+ *   $locations = $dataplexService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

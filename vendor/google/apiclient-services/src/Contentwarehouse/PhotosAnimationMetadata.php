@@ -24,6 +24,10 @@ class PhotosAnimationMetadata extends \Google\Model
    */
   public $durationMs;
   /**
+   * @var int
+   */
+  public $loopCount;
+  /**
    * @var string
    */
   public $numFrames;
@@ -41,6 +45,20 @@ class PhotosAnimationMetadata extends \Google\Model
   public function getDurationMs()
   {
     return $this->durationMs;
+  }
+  /**
+   * @param int
+   */
+  public function setLoopCount($loopCount)
+  {
+    $this->loopCount = $loopCount;
+  }
+  /**
+   * @return int
+   */
+  public function getLoopCount()
+  {
+    return $this->loopCount;
   }
   /**
    * @param string

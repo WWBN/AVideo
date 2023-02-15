@@ -21,8 +21,10 @@ class ColumnFamily extends \Google\Model
 {
   protected $gcRuleType = GcRule::class;
   protected $gcRuleDataType = '';
+  public $gcRule;
   protected $statsType = ColumnFamilyStats::class;
   protected $statsDataType = '';
+  public $stats;
 
   /**
    * @param GcRule

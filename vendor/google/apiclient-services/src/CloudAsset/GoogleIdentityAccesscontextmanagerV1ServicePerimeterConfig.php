@@ -26,8 +26,10 @@ class GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig extends \Google
   public $accessLevels;
   protected $egressPoliciesType = GoogleIdentityAccesscontextmanagerV1EgressPolicy::class;
   protected $egressPoliciesDataType = 'array';
+  public $egressPolicies;
   protected $ingressPoliciesType = GoogleIdentityAccesscontextmanagerV1IngressPolicy::class;
   protected $ingressPoliciesDataType = 'array';
+  public $ingressPolicies;
   /**
    * @var string[]
    */
@@ -38,6 +40,7 @@ class GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig extends \Google
   public $restrictedServices;
   protected $vpcAccessibleServicesType = GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices::class;
   protected $vpcAccessibleServicesDataType = '';
+  public $vpcAccessibleServices;
 
   /**
    * @param string[]

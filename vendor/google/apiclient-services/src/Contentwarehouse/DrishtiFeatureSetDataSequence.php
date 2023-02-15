@@ -22,10 +22,13 @@ class DrishtiFeatureSetDataSequence extends \Google\Collection
   protected $collection_key = 'timestamp';
   protected $elementType = DrishtiFeatureSetData::class;
   protected $elementDataType = 'array';
+  public $element;
   protected $extraType = DrishtiFeatureExtra::class;
   protected $extraDataType = 'array';
+  public $extra;
   protected $labelType = DrishtiLabelSetElement::class;
   protected $labelDataType = 'array';
+  public $label;
   /**
    * @var string[]
    */

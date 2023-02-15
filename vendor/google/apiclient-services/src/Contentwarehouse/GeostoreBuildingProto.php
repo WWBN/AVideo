@@ -26,20 +26,24 @@ class GeostoreBuildingProto extends \Google\Collection
   public $baseHeightMetersAgl;
   protected $defaultDisplayLevelType = GeostoreFeatureIdProto::class;
   protected $defaultDisplayLevelDataType = '';
+  public $defaultDisplayLevel;
   /**
    * @var int
    */
   public $floors;
   protected $floorsMetadataType = GeostoreFieldMetadataProto::class;
   protected $floorsMetadataDataType = '';
+  public $floorsMetadata;
   /**
    * @var float
    */
   public $heightMeters;
   protected $heightMetersMetadataType = GeostoreFieldMetadataProto::class;
   protected $heightMetersMetadataDataType = '';
+  public $heightMetersMetadata;
   protected $levelType = GeostoreFeatureIdProto::class;
   protected $levelDataType = 'array';
+  public $level;
   /**
    * @var string
    */

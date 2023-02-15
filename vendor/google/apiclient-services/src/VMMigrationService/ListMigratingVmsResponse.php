@@ -22,6 +22,7 @@ class ListMigratingVmsResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $migratingVmsType = MigratingVm::class;
   protected $migratingVmsDataType = 'array';
+  public $migratingVms;
   /**
    * @var string
    */

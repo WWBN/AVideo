@@ -26,12 +26,14 @@ class ComputeEngineTargetDefaults extends \Google\Collection
   public $additionalLicenses;
   protected $appliedLicenseType = AppliedLicense::class;
   protected $appliedLicenseDataType = '';
+  public $appliedLicense;
   /**
    * @var string
    */
   public $bootOption;
   protected $computeSchedulingType = ComputeScheduling::class;
   protected $computeSchedulingDataType = '';
+  public $computeScheduling;
   /**
    * @var string
    */
@@ -62,6 +64,7 @@ class ComputeEngineTargetDefaults extends \Google\Collection
   public $metadata;
   protected $networkInterfacesType = NetworkInterface::class;
   protected $networkInterfacesDataType = 'array';
+  public $networkInterfaces;
   /**
    * @var string[]
    */

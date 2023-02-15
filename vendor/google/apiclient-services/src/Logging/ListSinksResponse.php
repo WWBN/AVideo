@@ -26,6 +26,7 @@ class ListSinksResponse extends \Google\Collection
   public $nextPageToken;
   protected $sinksType = LogSink::class;
   protected $sinksDataType = 'array';
+  public $sinks;
 
   /**
    * @param string

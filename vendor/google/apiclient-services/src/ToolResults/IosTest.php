@@ -21,14 +21,19 @@ class IosTest extends \Google\Model
 {
   protected $iosAppInfoType = IosAppInfo::class;
   protected $iosAppInfoDataType = '';
+  public $iosAppInfo;
   protected $iosRoboTestType = IosRoboTest::class;
   protected $iosRoboTestDataType = '';
+  public $iosRoboTest;
   protected $iosTestLoopType = IosTestLoop::class;
   protected $iosTestLoopDataType = '';
+  public $iosTestLoop;
   protected $iosXcTestType = IosXcTest::class;
   protected $iosXcTestDataType = '';
+  public $iosXcTest;
   protected $testTimeoutType = Duration::class;
   protected $testTimeoutDataType = '';
+  public $testTimeout;
 
   /**
    * @param IosAppInfo

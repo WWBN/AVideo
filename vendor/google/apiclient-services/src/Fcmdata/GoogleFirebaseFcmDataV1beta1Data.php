@@ -25,10 +25,13 @@ class GoogleFirebaseFcmDataV1beta1Data extends \Google\Model
   public $countMessagesAccepted;
   protected $deliveryPerformancePercentsType = GoogleFirebaseFcmDataV1beta1DeliveryPerformancePercents::class;
   protected $deliveryPerformancePercentsDataType = '';
+  public $deliveryPerformancePercents;
   protected $messageInsightPercentsType = GoogleFirebaseFcmDataV1beta1MessageInsightPercents::class;
   protected $messageInsightPercentsDataType = '';
+  public $messageInsightPercents;
   protected $messageOutcomePercentsType = GoogleFirebaseFcmDataV1beta1MessageOutcomePercents::class;
   protected $messageOutcomePercentsDataType = '';
+  public $messageOutcomePercents;
 
   /**
    * @param string

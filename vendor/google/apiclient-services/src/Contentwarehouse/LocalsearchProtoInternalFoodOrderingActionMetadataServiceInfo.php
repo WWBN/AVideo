@@ -22,12 +22,14 @@ class LocalsearchProtoInternalFoodOrderingActionMetadataServiceInfo extends \Goo
   protected $collection_key = 'availablePartnerInfo';
   protected $availablePartnerInfoType = LocalsearchProtoInternalFoodOrderingActionMetadataAvailablePartnerInfo::class;
   protected $availablePartnerInfoDataType = 'array';
+  public $availablePartnerInfo;
   /**
    * @var string
    */
   public $maxWaitTimeSec;
   protected $minDeliveryFeeType = GoogleTypeMoney::class;
   protected $minDeliveryFeeDataType = '';
+  public $minDeliveryFee;
   /**
    * @var string
    */

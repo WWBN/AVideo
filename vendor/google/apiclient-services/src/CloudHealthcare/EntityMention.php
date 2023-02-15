@@ -22,19 +22,24 @@ class EntityMention extends \Google\Collection
   protected $collection_key = 'linkedEntities';
   protected $certaintyAssessmentType = Feature::class;
   protected $certaintyAssessmentDataType = '';
+  public $certaintyAssessment;
   public $confidence;
   protected $linkedEntitiesType = LinkedEntity::class;
   protected $linkedEntitiesDataType = 'array';
+  public $linkedEntities;
   /**
    * @var string
    */
   public $mentionId;
   protected $subjectType = Feature::class;
   protected $subjectDataType = '';
+  public $subject;
   protected $temporalAssessmentType = Feature::class;
   protected $temporalAssessmentDataType = '';
+  public $temporalAssessment;
   protected $textType = TextSpan::class;
   protected $textDataType = '';
+  public $text;
   /**
    * @var string
    */

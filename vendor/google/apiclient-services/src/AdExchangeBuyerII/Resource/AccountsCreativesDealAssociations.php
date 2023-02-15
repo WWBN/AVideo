@@ -27,7 +27,7 @@ use Google\Service\AdExchangeBuyerII\RemoveDealAssociationRequest;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $dealAssociations = $adexchangebuyer2Service->dealAssociations;
+ *   $dealAssociations = $adexchangebuyer2Service->accounts_creatives_dealAssociations;
  *  </code>
  */
 class AccountsCreativesDealAssociations extends \Google\Service\Resource

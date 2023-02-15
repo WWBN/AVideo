@@ -22,6 +22,7 @@ class SettingsChange extends \Google\Collection
   protected $collection_key = 'restrictionChanges';
   protected $restrictionChangesType = RestrictionChange::class;
   protected $restrictionChangesDataType = 'array';
+  public $restrictionChanges;
 
   /**
    * @param RestrictionChange[]

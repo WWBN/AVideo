@@ -27,7 +27,7 @@ use Google\Service\CloudLifeSciences\Operation;
  * Typical usage is:
  *  <code>
  *   $lifesciencesService = new Google\Service\CloudLifeSciences(...);
- *   $operations = $lifesciencesService->operations;
+ *   $operations = $lifesciencesService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

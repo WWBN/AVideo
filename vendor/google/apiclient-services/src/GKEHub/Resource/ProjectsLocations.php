@@ -25,7 +25,7 @@ use Google\Service\GKEHub\Location;
  * Typical usage is:
  *  <code>
  *   $gkehubService = new Google\Service\GKEHub(...);
- *   $locations = $gkehubService->locations;
+ *   $locations = $gkehubService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

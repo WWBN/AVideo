@@ -26,20 +26,24 @@ class DataSourceTable extends \Google\Collection
   public $columnSelectionType;
   protected $columnsType = DataSourceColumnReference::class;
   protected $columnsDataType = 'array';
+  public $columns;
   protected $dataExecutionStatusType = DataExecutionStatus::class;
   protected $dataExecutionStatusDataType = '';
+  public $dataExecutionStatus;
   /**
    * @var string
    */
   public $dataSourceId;
   protected $filterSpecsType = FilterSpec::class;
   protected $filterSpecsDataType = 'array';
+  public $filterSpecs;
   /**
    * @var int
    */
   public $rowLimit;
   protected $sortSpecsType = SortSpec::class;
   protected $sortSpecsDataType = 'array';
+  public $sortSpecs;
 
   /**
    * @param string

@@ -20,6 +20,10 @@ namespace Google\Service\ApigeeRegistry;
 class Artifact extends \Google\Model
 {
   /**
+   * @var string[]
+   */
+  public $annotations;
+  /**
    * @var string
    */
   public $contents;
@@ -31,6 +35,10 @@ class Artifact extends \Google\Model
    * @var string
    */
   public $hash;
+  /**
+   * @var string[]
+   */
+  public $labels;
   /**
    * @var string
    */
@@ -48,6 +56,20 @@ class Artifact extends \Google\Model
    */
   public $updateTime;
 
+  /**
+   * @param string[]
+   */
+  public function setAnnotations($annotations)
+  {
+    $this->annotations = $annotations;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAnnotations()
+  {
+    return $this->annotations;
+  }
   /**
    * @param string
    */
@@ -89,6 +111,20 @@ class Artifact extends \Google\Model
   public function getHash()
   {
     return $this->hash;
+  }
+  /**
+   * @param string[]
+   */
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLabels()
+  {
+    return $this->labels;
   }
   /**
    * @param string

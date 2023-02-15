@@ -27,7 +27,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ListApiCategoriesResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $apicategories = $apigeeService->apicategories;
+ *   $apicategories = $apigeeService->organizations_sites_apicategories;
  *  </code>
  */
 class OrganizationsSitesApicategories extends \Google\Service\Resource

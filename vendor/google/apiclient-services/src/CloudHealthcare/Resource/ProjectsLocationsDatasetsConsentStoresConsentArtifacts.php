@@ -26,7 +26,7 @@ use Google\Service\CloudHealthcare\ListConsentArtifactsResponse;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $consentArtifacts = $healthcareService->consentArtifacts;
+ *   $consentArtifacts = $healthcareService->projects_locations_datasets_consentStores_consentArtifacts;
  *  </code>
  */
 class ProjectsLocationsDatasetsConsentStoresConsentArtifacts extends \Google\Service\Resource

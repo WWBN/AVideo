@@ -25,7 +25,7 @@ use Google\Service\Document\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $documentaiService = new Google\Service\Document(...);
- *   $humanReviewConfig = $documentaiService->humanReviewConfig;
+ *   $humanReviewConfig = $documentaiService->projects_locations_processors_humanReviewConfig;
  *  </code>
  */
 class ProjectsLocationsProcessorsHumanReviewConfig extends \Google\Service\Resource

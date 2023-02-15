@@ -26,6 +26,7 @@ class UrlMapList extends \Google\Collection
   public $id;
   protected $itemsType = UrlMap::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class UrlMapList extends \Google\Collection
   public $selfLink;
   protected $warningType = UrlMapListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

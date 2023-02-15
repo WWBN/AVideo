@@ -21,8 +21,10 @@ class WorkflowTemplatePlacement extends \Google\Model
 {
   protected $clusterSelectorType = ClusterSelector::class;
   protected $clusterSelectorDataType = '';
+  public $clusterSelector;
   protected $managedClusterType = ManagedCluster::class;
   protected $managedClusterDataType = '';
+  public $managedCluster;
 
   /**
    * @param ClusterSelector

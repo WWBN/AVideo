@@ -22,6 +22,7 @@ class InstallsListResponse extends \Google\Collection
   protected $collection_key = 'install';
   protected $installType = Install::class;
   protected $installDataType = 'array';
+  public $install;
 
   /**
    * @param Install[]

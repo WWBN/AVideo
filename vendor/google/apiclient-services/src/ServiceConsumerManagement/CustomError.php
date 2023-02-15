@@ -22,6 +22,7 @@ class CustomError extends \Google\Collection
   protected $collection_key = 'types';
   protected $rulesType = CustomErrorRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
   /**
    * @var string[]
    */

@@ -25,7 +25,7 @@ use Google\Service\SecretManager\Location;
  * Typical usage is:
  *  <code>
  *   $secretmanagerService = new Google\Service\SecretManager(...);
- *   $locations = $secretmanagerService->locations;
+ *   $locations = $secretmanagerService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

@@ -21,12 +21,16 @@ class NlpSemanticParsingModelsShoppingAssistantPhrase extends \Google\Model
 {
   protected $brandType = NlpSemanticParsingModelsShoppingAssistantBrandPhrase::class;
   protected $brandDataType = '';
+  public $brand;
   protected $offerType = NlpSemanticParsingModelsShoppingAssistantOffer::class;
   protected $offerDataType = '';
+  public $offer;
   protected $productType = NlpSemanticParsingModelsShoppingAssistantProductPhrase::class;
   protected $productDataType = '';
+  public $product;
   protected $unrecognizedType = NlpSemanticParsingModelsShoppingAssistantUnrecognizedPhrase::class;
   protected $unrecognizedDataType = '';
+  public $unrecognized;
 
   /**
    * @param NlpSemanticParsingModelsShoppingAssistantBrandPhrase

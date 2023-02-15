@@ -21,6 +21,7 @@ class Review extends \Google\Model
 {
   protected $authorType = ReviewAuthor::class;
   protected $authorDataType = '';
+  public $author;
   /**
    * @var string
    */
@@ -43,6 +44,7 @@ class Review extends \Google\Model
   public $rating;
   protected $sourceType = ReviewSource::class;
   protected $sourceDataType = '';
+  public $source;
   /**
    * @var string
    */

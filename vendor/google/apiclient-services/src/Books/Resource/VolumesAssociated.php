@@ -24,7 +24,7 @@ use Google\Service\Books\Volumes as VolumesModel;
  * Typical usage is:
  *  <code>
  *   $booksService = new Google\Service\Books(...);
- *   $associated = $booksService->associated;
+ *   $associated = $booksService->volumes_associated;
  *  </code>
  */
 class VolumesAssociated extends \Google\Service\Resource

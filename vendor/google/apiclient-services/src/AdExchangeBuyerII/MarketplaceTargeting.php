@@ -21,14 +21,19 @@ class MarketplaceTargeting extends \Google\Model
 {
   protected $geoTargetingType = CriteriaTargeting::class;
   protected $geoTargetingDataType = '';
+  public $geoTargeting;
   protected $inventorySizeTargetingType = InventorySizeTargeting::class;
   protected $inventorySizeTargetingDataType = '';
+  public $inventorySizeTargeting;
   protected $placementTargetingType = PlacementTargeting::class;
   protected $placementTargetingDataType = '';
+  public $placementTargeting;
   protected $technologyTargetingType = TechnologyTargeting::class;
   protected $technologyTargetingDataType = '';
+  public $technologyTargeting;
   protected $videoTargetingType = VideoTargeting::class;
   protected $videoTargetingDataType = '';
+  public $videoTargeting;
 
   /**
    * @param CriteriaTargeting

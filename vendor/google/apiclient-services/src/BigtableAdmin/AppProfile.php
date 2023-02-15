@@ -29,12 +29,14 @@ class AppProfile extends \Google\Model
   public $etag;
   protected $multiClusterRoutingUseAnyType = MultiClusterRoutingUseAny::class;
   protected $multiClusterRoutingUseAnyDataType = '';
+  public $multiClusterRoutingUseAny;
   /**
    * @var string
    */
   public $name;
   protected $singleClusterRoutingType = SingleClusterRouting::class;
   protected $singleClusterRoutingDataType = '';
+  public $singleClusterRouting;
 
   /**
    * @param string

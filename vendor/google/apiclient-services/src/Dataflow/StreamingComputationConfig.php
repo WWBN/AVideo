@@ -26,6 +26,7 @@ class StreamingComputationConfig extends \Google\Collection
   public $computationId;
   protected $instructionsType = ParallelInstruction::class;
   protected $instructionsDataType = 'array';
+  public $instructions;
   /**
    * @var string
    */

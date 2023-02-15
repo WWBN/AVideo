@@ -22,6 +22,7 @@ class SystemApksListResponse extends \Google\Collection
   protected $collection_key = 'variants';
   protected $variantsType = Variant::class;
   protected $variantsDataType = 'array';
+  public $variants;
 
   /**
    * @param Variant[]

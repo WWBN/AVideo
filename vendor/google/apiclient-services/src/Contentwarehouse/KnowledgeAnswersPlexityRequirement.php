@@ -21,6 +21,7 @@ class KnowledgeAnswersPlexityRequirement extends \Google\Model
 {
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
+  public $remodelings;
   /**
    * @var string
    */

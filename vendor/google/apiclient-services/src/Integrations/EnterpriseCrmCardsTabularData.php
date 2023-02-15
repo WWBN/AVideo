@@ -26,6 +26,7 @@ class EnterpriseCrmCardsTabularData extends \Google\Collection
   public $headers;
   protected $rowsType = EnterpriseCrmCardsRow::class;
   protected $rowsDataType = 'array';
+  public $rows;
 
   /**
    * @param string[]

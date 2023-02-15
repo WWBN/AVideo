@@ -21,6 +21,7 @@ class QueryResponse extends \Google\Model
 {
   protected $payloadType = QueryResponsePayload::class;
   protected $payloadDataType = '';
+  public $payload;
   /**
    * @var string
    */

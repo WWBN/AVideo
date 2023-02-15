@@ -29,8 +29,10 @@ class NotifierConfig extends \Google\Model
   public $kind;
   protected $metadataType = NotifierMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $specType = NotifierSpec::class;
   protected $specDataType = '';
+  public $spec;
 
   /**
    * @param string

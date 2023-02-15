@@ -37,14 +37,17 @@ class Blog extends \Google\Model
   public $kind;
   protected $localeType = BlogLocale::class;
   protected $localeDataType = '';
+  public $locale;
   /**
    * @var string
    */
   public $name;
   protected $pagesType = BlogPages::class;
   protected $pagesDataType = '';
+  public $pages;
   protected $postsType = BlogPosts::class;
   protected $postsDataType = '';
+  public $posts;
   /**
    * @var string
    */

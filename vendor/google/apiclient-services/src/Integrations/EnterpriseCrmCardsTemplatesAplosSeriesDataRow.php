@@ -21,8 +21,10 @@ class EnterpriseCrmCardsTemplatesAplosSeriesDataRow extends \Google\Model
 {
   protected $xType = EnterpriseCrmCardsCellValue::class;
   protected $xDataType = '';
+  public $x;
   protected $yType = EnterpriseCrmCardsCellValue::class;
   protected $yDataType = '';
+  public $y;
 
   /**
    * @param EnterpriseCrmCardsCellValue

@@ -33,6 +33,7 @@ class ClientEvent extends \Google\Model
   public $eventNotes;
   protected $jobEventType = JobEvent::class;
   protected $jobEventDataType = '';
+  public $jobEvent;
   /**
    * @var string
    */

@@ -22,8 +22,10 @@ class GooglePrivacyDlpV2RecordTransformations extends \Google\Collection
   protected $collection_key = 'recordSuppressions';
   protected $fieldTransformationsType = GooglePrivacyDlpV2FieldTransformation::class;
   protected $fieldTransformationsDataType = 'array';
+  public $fieldTransformations;
   protected $recordSuppressionsType = GooglePrivacyDlpV2RecordSuppression::class;
   protected $recordSuppressionsDataType = 'array';
+  public $recordSuppressions;
 
   /**
    * @param GooglePrivacyDlpV2FieldTransformation[]

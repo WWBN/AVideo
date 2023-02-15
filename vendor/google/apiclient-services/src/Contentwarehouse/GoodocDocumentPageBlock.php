@@ -35,14 +35,19 @@ class GoodocDocumentPageBlock extends \Google\Collection
   public $blockType;
   protected $boxType = GoodocBoundingBox::class;
   protected $boxDataType = '';
+  public $box;
   protected $labelType = GoodocLabel::class;
   protected $labelDataType = '';
+  public $label;
   protected $orientationLabelType = GoodocOrientationLabel::class;
   protected $orientationLabelDataType = '';
+  public $orientationLabel;
   protected $paragraphType = GoodocParagraph::class;
   protected $paragraphDataType = 'array';
+  public $paragraph;
   protected $rotatedBoxType = GoodocRotatedBoundingBox::class;
   protected $rotatedBoxDataType = '';
+  public $rotatedBox;
   /**
    * @var int
    */

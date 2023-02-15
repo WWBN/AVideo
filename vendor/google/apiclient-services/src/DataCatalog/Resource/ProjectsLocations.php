@@ -22,7 +22,7 @@ namespace Google\Service\DataCatalog\Resource;
  * Typical usage is:
  *  <code>
  *   $datacatalogService = new Google\Service\DataCatalog(...);
- *   $locations = $datacatalogService->locations;
+ *   $locations = $datacatalogService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

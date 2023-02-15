@@ -22,6 +22,7 @@ class TravelFlightsNameCatalogProto extends \Google\Collection
   protected $collection_key = 'name';
   protected $nameType = TravelFlightsNameCatalogEntry::class;
   protected $nameDataType = 'array';
+  public $name;
 
   /**
    * @param TravelFlightsNameCatalogEntry[]

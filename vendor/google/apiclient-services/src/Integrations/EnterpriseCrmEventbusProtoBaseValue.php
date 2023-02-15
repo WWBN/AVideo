@@ -21,8 +21,10 @@ class EnterpriseCrmEventbusProtoBaseValue extends \Google\Model
 {
   protected $baseFunctionType = EnterpriseCrmEventbusProtoFunction::class;
   protected $baseFunctionDataType = '';
+  public $baseFunction;
   protected $literalValueType = EnterpriseCrmEventbusProtoParameterValueType::class;
   protected $literalValueDataType = '';
+  public $literalValue;
   /**
    * @var string
    */

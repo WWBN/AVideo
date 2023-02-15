@@ -22,7 +22,7 @@ namespace Google\Service\PolicyAnalyzer\Resource;
  * Typical usage is:
  *  <code>
  *   $policyanalyzerService = new Google\Service\PolicyAnalyzer(...);
- *   $activityTypes = $policyanalyzerService->activityTypes;
+ *   $activityTypes = $policyanalyzerService->projects_locations_activityTypes;
  *  </code>
  */
 class ProjectsLocationsActivityTypes extends \Google\Service\Resource

@@ -25,14 +25,17 @@ class TableCell extends \Google\Model
   public $columnSpan;
   protected $locationType = TableCellLocation::class;
   protected $locationDataType = '';
+  public $location;
   /**
    * @var int
    */
   public $rowSpan;
   protected $tableCellPropertiesType = TableCellProperties::class;
   protected $tableCellPropertiesDataType = '';
+  public $tableCellProperties;
   protected $textType = TextContent::class;
   protected $textDataType = '';
+  public $text;
 
   /**
    * @param int

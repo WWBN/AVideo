@@ -22,22 +22,27 @@ class GoogleCloudDialogflowCxV3ConversationTurnVirtualAgentOutput extends \Googl
   protected $collection_key = 'textResponses';
   protected $currentPageType = GoogleCloudDialogflowCxV3Page::class;
   protected $currentPageDataType = '';
+  public $currentPage;
   /**
    * @var array[]
    */
   public $diagnosticInfo;
   protected $differencesType = GoogleCloudDialogflowCxV3TestRunDifference::class;
   protected $differencesDataType = 'array';
+  public $differences;
   /**
    * @var array[]
    */
   public $sessionParameters;
   protected $statusType = GoogleRpcStatus::class;
   protected $statusDataType = '';
+  public $status;
   protected $textResponsesType = GoogleCloudDialogflowCxV3ResponseMessageText::class;
   protected $textResponsesDataType = 'array';
+  public $textResponses;
   protected $triggeredIntentType = GoogleCloudDialogflowCxV3Intent::class;
   protected $triggeredIntentDataType = '';
+  public $triggeredIntent;
 
   /**
    * @param GoogleCloudDialogflowCxV3Page

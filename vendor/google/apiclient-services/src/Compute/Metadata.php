@@ -26,6 +26,7 @@ class Metadata extends \Google\Collection
   public $fingerprint;
   protected $itemsType = MetadataItems::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

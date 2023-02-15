@@ -22,12 +22,16 @@ class IosDeviceCatalog extends \Google\Collection
   protected $collection_key = 'xcodeVersions';
   protected $modelsType = IosModel::class;
   protected $modelsDataType = 'array';
+  public $models;
   protected $runtimeConfigurationType = IosRuntimeConfiguration::class;
   protected $runtimeConfigurationDataType = '';
+  public $runtimeConfiguration;
   protected $versionsType = IosVersion::class;
   protected $versionsDataType = 'array';
+  public $versions;
   protected $xcodeVersionsType = XcodeVersion::class;
   protected $xcodeVersionsDataType = 'array';
+  public $xcodeVersions;
 
   /**
    * @param IosModel[]

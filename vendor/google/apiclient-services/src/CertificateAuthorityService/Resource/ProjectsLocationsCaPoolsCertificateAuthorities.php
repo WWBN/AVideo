@@ -31,7 +31,7 @@ use Google\Service\CertificateAuthorityService\UndeleteCertificateAuthorityReque
  * Typical usage is:
  *  <code>
  *   $privatecaService = new Google\Service\CertificateAuthorityService(...);
- *   $certificateAuthorities = $privatecaService->certificateAuthorities;
+ *   $certificateAuthorities = $privatecaService->projects_locations_caPools_certificateAuthorities;
  *  </code>
  */
 class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Resource

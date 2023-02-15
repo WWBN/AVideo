@@ -25,13 +25,14 @@ use Google\Service\CloudSupport\ListCommentsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudsupportService = new Google\Service\CloudSupport(...);
- *   $comments = $cloudsupportService->comments;
+ *   $comments = $cloudsupportService->cases_comments;
  *  </code>
  */
 class CasesComments extends \Google\Service\Resource
 {
   /**
-   * Add a new comment to the specified Case. (comments.create)
+   * Add a new comment to the specified Case. The comment object must have the
+   * following fields set: body. (comments.create)
    *
    * @param string $parent Required. The resource name of Case to which this
    * comment should be added.

@@ -21,28 +21,40 @@ class EnterpriseCrmEventbusProtoFunctionType extends \Google\Model
 {
   protected $baseFunctionType = EnterpriseCrmEventbusProtoBaseFunction::class;
   protected $baseFunctionDataType = '';
+  public $baseFunction;
   protected $booleanArrayFunctionType = EnterpriseCrmEventbusProtoBooleanArrayFunction::class;
   protected $booleanArrayFunctionDataType = '';
+  public $booleanArrayFunction;
   protected $booleanFunctionType = EnterpriseCrmEventbusProtoBooleanFunction::class;
   protected $booleanFunctionDataType = '';
+  public $booleanFunction;
   protected $doubleArrayFunctionType = EnterpriseCrmEventbusProtoDoubleArrayFunction::class;
   protected $doubleArrayFunctionDataType = '';
+  public $doubleArrayFunction;
   protected $doubleFunctionType = EnterpriseCrmEventbusProtoDoubleFunction::class;
   protected $doubleFunctionDataType = '';
+  public $doubleFunction;
   protected $intArrayFunctionType = EnterpriseCrmEventbusProtoIntArrayFunction::class;
   protected $intArrayFunctionDataType = '';
+  public $intArrayFunction;
   protected $intFunctionType = EnterpriseCrmEventbusProtoIntFunction::class;
   protected $intFunctionDataType = '';
+  public $intFunction;
   protected $jsonFunctionType = EnterpriseCrmEventbusProtoJsonFunction::class;
   protected $jsonFunctionDataType = '';
+  public $jsonFunction;
   protected $protoArrayFunctionType = EnterpriseCrmEventbusProtoProtoArrayFunction::class;
   protected $protoArrayFunctionDataType = '';
+  public $protoArrayFunction;
   protected $protoFunctionType = EnterpriseCrmEventbusProtoProtoFunction::class;
   protected $protoFunctionDataType = '';
+  public $protoFunction;
   protected $stringArrayFunctionType = EnterpriseCrmEventbusProtoStringArrayFunction::class;
   protected $stringArrayFunctionDataType = '';
+  public $stringArrayFunction;
   protected $stringFunctionType = EnterpriseCrmEventbusProtoStringFunction::class;
   protected $stringFunctionDataType = '';
+  public $stringFunction;
 
   /**
    * @param EnterpriseCrmEventbusProtoBaseFunction

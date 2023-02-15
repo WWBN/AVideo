@@ -25,6 +25,7 @@ class AppsPeopleOzExternalMergedpeopleapiCircleMembership extends \Google\Model
   public $circleId;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
 
   /**
    * @param string

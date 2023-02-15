@@ -26,6 +26,7 @@ class SslPoliciesList extends \Google\Collection
   public $id;
   protected $itemsType = SslPolicy::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class SslPoliciesList extends \Google\Collection
   public $selfLink;
   protected $warningType = SslPoliciesListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

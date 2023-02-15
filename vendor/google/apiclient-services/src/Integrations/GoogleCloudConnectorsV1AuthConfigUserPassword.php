@@ -21,6 +21,7 @@ class GoogleCloudConnectorsV1AuthConfigUserPassword extends \Google\Model
 {
   protected $passwordType = GoogleCloudConnectorsV1Secret::class;
   protected $passwordDataType = '';
+  public $password;
   /**
    * @var string
    */

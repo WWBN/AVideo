@@ -21,8 +21,10 @@ class GooglePrivacyDlpV2InspectionRule extends \Google\Model
 {
   protected $exclusionRuleType = GooglePrivacyDlpV2ExclusionRule::class;
   protected $exclusionRuleDataType = '';
+  public $exclusionRule;
   protected $hotwordRuleType = GooglePrivacyDlpV2HotwordRule::class;
   protected $hotwordRuleDataType = '';
+  public $hotwordRule;
 
   /**
    * @param GooglePrivacyDlpV2ExclusionRule

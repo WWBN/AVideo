@@ -21,6 +21,7 @@ class NlpSemanticParsingDatetimeRelativeDateTime extends \Google\Model
 {
   protected $fetchedType = NlpSemanticParsingDatetimeFetchedRelativeDateTime::class;
   protected $fetchedDataType = '';
+  public $fetched;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class NlpSemanticParsingDatetimeRelativeDateTime extends \Google\Model
   public $modifier;
   protected $shiftedType = NlpSemanticParsingDatetimeShiftedRelativeDateTime::class;
   protected $shiftedDataType = '';
+  public $shifted;
 
   /**
    * @param NlpSemanticParsingDatetimeFetchedRelativeDateTime

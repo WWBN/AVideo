@@ -25,8 +25,10 @@ class SentimentSentiment extends \Google\Model
   public $polarity;
   protected $userBehaviorsType = SentimentSentimentBehaviors::class;
   protected $userBehaviorsDataType = '';
+  public $userBehaviors;
   protected $userEmotionsType = SentimentSentimentEmotions::class;
   protected $userEmotionsDataType = '';
+  public $userEmotions;
 
   /**
    * @param string

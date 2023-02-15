@@ -26,6 +26,7 @@ class TargetTcpProxyList extends \Google\Collection
   public $id;
   protected $itemsType = TargetTcpProxy::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class TargetTcpProxyList extends \Google\Collection
   public $selfLink;
   protected $warningType = TargetTcpProxyListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

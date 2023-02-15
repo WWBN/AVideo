@@ -26,6 +26,7 @@ class PlatformTypesListResponse extends \Google\Collection
   public $kind;
   protected $platformTypesType = PlatformType::class;
   protected $platformTypesDataType = 'array';
+  public $platformTypes;
 
   /**
    * @param string

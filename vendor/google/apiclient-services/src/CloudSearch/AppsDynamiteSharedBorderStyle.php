@@ -25,6 +25,7 @@ class AppsDynamiteSharedBorderStyle extends \Google\Model
   public $cornerRadius;
   protected $strokeColorType = Color::class;
   protected $strokeColorDataType = '';
+  public $strokeColor;
   /**
    * @var string
    */

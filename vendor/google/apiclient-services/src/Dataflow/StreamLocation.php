@@ -21,12 +21,16 @@ class StreamLocation extends \Google\Model
 {
   protected $customSourceLocationType = CustomSourceLocation::class;
   protected $customSourceLocationDataType = '';
+  public $customSourceLocation;
   protected $pubsubLocationType = PubsubLocation::class;
   protected $pubsubLocationDataType = '';
+  public $pubsubLocation;
   protected $sideInputLocationType = StreamingSideInputLocation::class;
   protected $sideInputLocationDataType = '';
+  public $sideInputLocation;
   protected $streamingStageLocationType = StreamingStageLocation::class;
   protected $streamingStageLocationDataType = '';
+  public $streamingStageLocation;
 
   /**
    * @param CustomSourceLocation

@@ -21,6 +21,7 @@ class RestrictionEvaluations extends \Google\Model
 {
   protected $memberRestrictionEvaluationType = MembershipRoleRestrictionEvaluation::class;
   protected $memberRestrictionEvaluationDataType = '';
+  public $memberRestrictionEvaluation;
 
   /**
    * @param MembershipRoleRestrictionEvaluation

@@ -22,7 +22,7 @@ namespace Google\Service\DiscoveryEngine\Resource;
  * Typical usage is:
  *  <code>
  *   $discoveryengineService = new Google\Service\DiscoveryEngine(...);
- *   $dataStores = $discoveryengineService->dataStores;
+ *   $dataStores = $discoveryengineService->projects_locations_dataStores;
  *  </code>
  */
 class ProjectsLocationsDataStores extends \Google\Service\Resource

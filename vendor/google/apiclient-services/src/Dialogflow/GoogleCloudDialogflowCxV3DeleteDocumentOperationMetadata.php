@@ -21,6 +21,7 @@ class GoogleCloudDialogflowCxV3DeleteDocumentOperationMetadata extends \Google\M
 {
   protected $genericMetadataType = GoogleCloudDialogflowCxV3GenericKnowledgeOperationMetadata::class;
   protected $genericMetadataDataType = '';
+  public $genericMetadata;
 
   /**
    * @param GoogleCloudDialogflowCxV3GenericKnowledgeOperationMetadata

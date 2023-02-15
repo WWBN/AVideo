@@ -25,6 +25,7 @@ class GoogleDocsResultInfo extends \Google\Model
   public $attachmentSha1;
   protected $cosmoIdType = Id::class;
   protected $cosmoIdDataType = '';
+  public $cosmoId;
   /**
    * @var int
    */
@@ -39,6 +40,7 @@ class GoogleDocsResultInfo extends \Google\Model
   public $mimeType;
   protected $shareScopeType = ShareScope::class;
   protected $shareScopeDataType = '';
+  public $shareScope;
 
   /**
    * @param string

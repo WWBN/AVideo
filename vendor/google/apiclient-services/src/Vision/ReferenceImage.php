@@ -22,6 +22,7 @@ class ReferenceImage extends \Google\Collection
   protected $collection_key = 'boundingPolys';
   protected $boundingPolysType = BoundingPoly::class;
   protected $boundingPolysDataType = 'array';
+  public $boundingPolys;
   /**
    * @var string
    */

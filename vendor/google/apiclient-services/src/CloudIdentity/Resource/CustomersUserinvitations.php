@@ -29,7 +29,7 @@ use Google\Service\CloudIdentity\UserInvitation;
  * Typical usage is:
  *  <code>
  *   $cloudidentityService = new Google\Service\CloudIdentity(...);
- *   $userinvitations = $cloudidentityService->userinvitations;
+ *   $userinvitations = $cloudidentityService->customers_userinvitations;
  *  </code>
  */
 class CustomersUserinvitations extends \Google\Service\Resource

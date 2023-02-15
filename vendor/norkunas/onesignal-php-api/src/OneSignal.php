@@ -12,7 +12,9 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+
 use const JSON_THROW_ON_ERROR;
+
 use function gettype;
 use function is_array;
 

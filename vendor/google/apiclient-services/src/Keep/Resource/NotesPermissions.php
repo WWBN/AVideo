@@ -27,7 +27,7 @@ use Google\Service\Keep\KeepEmpty;
  * Typical usage is:
  *  <code>
  *   $keepService = new Google\Service\Keep(...);
- *   $permissions = $keepService->permissions;
+ *   $permissions = $keepService->notes_permissions;
  *  </code>
  */
 class NotesPermissions extends \Google\Service\Resource

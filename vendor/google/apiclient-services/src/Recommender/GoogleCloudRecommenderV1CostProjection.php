@@ -21,6 +21,7 @@ class GoogleCloudRecommenderV1CostProjection extends \Google\Model
 {
   protected $costType = GoogleTypeMoney::class;
   protected $costDataType = '';
+  public $cost;
   /**
    * @var string
    */

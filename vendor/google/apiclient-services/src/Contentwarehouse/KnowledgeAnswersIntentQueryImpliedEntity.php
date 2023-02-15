@@ -25,6 +25,7 @@ class KnowledgeAnswersIntentQueryImpliedEntity extends \Google\Model
   public $annotatedSpan;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var bool
    */
@@ -39,6 +40,7 @@ class KnowledgeAnswersIntentQueryImpliedEntity extends \Google\Model
   public $qrefConfidenceScore;
   protected $shoppingIdsType = KnowledgeAnswersIntentQueryShoppingIds::class;
   protected $shoppingIdsDataType = '';
+  public $shoppingIds;
 
   /**
    * @param string

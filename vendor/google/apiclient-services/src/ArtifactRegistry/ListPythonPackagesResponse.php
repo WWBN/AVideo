@@ -26,6 +26,7 @@ class ListPythonPackagesResponse extends \Google\Collection
   public $nextPageToken;
   protected $pythonPackagesType = PythonPackage::class;
   protected $pythonPackagesDataType = 'array';
+  public $pythonPackages;
 
   /**
    * @param string

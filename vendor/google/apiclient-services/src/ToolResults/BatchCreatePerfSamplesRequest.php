@@ -22,6 +22,7 @@ class BatchCreatePerfSamplesRequest extends \Google\Collection
   protected $collection_key = 'perfSamples';
   protected $perfSamplesType = PerfSample::class;
   protected $perfSamplesDataType = 'array';
+  public $perfSamples;
 
   /**
    * @param PerfSample[]

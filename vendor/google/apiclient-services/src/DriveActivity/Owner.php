@@ -21,12 +21,16 @@ class Owner extends \Google\Model
 {
   protected $domainType = Domain::class;
   protected $domainDataType = '';
+  public $domain;
   protected $driveType = DriveReference::class;
   protected $driveDataType = '';
+  public $drive;
   protected $teamDriveType = TeamDriveReference::class;
   protected $teamDriveDataType = '';
+  public $teamDrive;
   protected $userType = User::class;
   protected $userDataType = '';
+  public $user;
 
   /**
    * @param Domain

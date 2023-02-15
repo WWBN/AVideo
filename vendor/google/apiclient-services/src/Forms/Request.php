@@ -21,16 +21,22 @@ class Request extends \Google\Model
 {
   protected $createItemType = CreateItemRequest::class;
   protected $createItemDataType = '';
+  public $createItem;
   protected $deleteItemType = DeleteItemRequest::class;
   protected $deleteItemDataType = '';
+  public $deleteItem;
   protected $moveItemType = MoveItemRequest::class;
   protected $moveItemDataType = '';
+  public $moveItem;
   protected $updateFormInfoType = UpdateFormInfoRequest::class;
   protected $updateFormInfoDataType = '';
+  public $updateFormInfo;
   protected $updateItemType = UpdateItemRequest::class;
   protected $updateItemDataType = '';
+  public $updateItem;
   protected $updateSettingsType = UpdateSettingsRequest::class;
   protected $updateSettingsDataType = '';
+  public $updateSettings;
 
   /**
    * @param CreateItemRequest

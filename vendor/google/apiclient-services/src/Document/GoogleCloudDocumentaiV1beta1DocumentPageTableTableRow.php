@@ -22,6 +22,7 @@ class GoogleCloudDocumentaiV1beta1DocumentPageTableTableRow extends \Google\Coll
   protected $collection_key = 'cells';
   protected $cellsType = GoogleCloudDocumentaiV1beta1DocumentPageTableTableCell::class;
   protected $cellsDataType = 'array';
+  public $cells;
 
   /**
    * @param GoogleCloudDocumentaiV1beta1DocumentPageTableTableCell[]

@@ -21,6 +21,7 @@ class InsertRangeRequest extends \Google\Model
 {
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
   /**
    * @var string
    */

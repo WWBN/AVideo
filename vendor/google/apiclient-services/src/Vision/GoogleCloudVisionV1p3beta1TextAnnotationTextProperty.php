@@ -22,8 +22,10 @@ class GoogleCloudVisionV1p3beta1TextAnnotationTextProperty extends \Google\Colle
   protected $collection_key = 'detectedLanguages';
   protected $detectedBreakType = GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak::class;
   protected $detectedBreakDataType = '';
+  public $detectedBreak;
   protected $detectedLanguagesType = GoogleCloudVisionV1p3beta1TextAnnotationDetectedLanguage::class;
   protected $detectedLanguagesDataType = 'array';
+  public $detectedLanguages;
 
   /**
    * @param GoogleCloudVisionV1p3beta1TextAnnotationDetectedBreak

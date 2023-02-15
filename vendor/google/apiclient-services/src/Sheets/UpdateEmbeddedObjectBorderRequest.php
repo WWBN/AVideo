@@ -21,6 +21,7 @@ class UpdateEmbeddedObjectBorderRequest extends \Google\Model
 {
   protected $borderType = EmbeddedObjectBorder::class;
   protected $borderDataType = '';
+  public $border;
   /**
    * @var string
    */

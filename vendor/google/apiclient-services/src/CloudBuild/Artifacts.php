@@ -26,10 +26,13 @@ class Artifacts extends \Google\Collection
   public $images;
   protected $mavenArtifactsType = MavenArtifact::class;
   protected $mavenArtifactsDataType = 'array';
+  public $mavenArtifacts;
   protected $objectsType = ArtifactObjects::class;
   protected $objectsDataType = '';
+  public $objects;
   protected $pythonPackagesType = PythonPackage::class;
   protected $pythonPackagesDataType = 'array';
+  public $pythonPackages;
 
   /**
    * @param string[]

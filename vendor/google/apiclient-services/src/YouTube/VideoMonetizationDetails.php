@@ -21,6 +21,7 @@ class VideoMonetizationDetails extends \Google\Model
 {
   protected $accessType = AccessPolicy::class;
   protected $accessDataType = '';
+  public $access;
 
   /**
    * @param AccessPolicy

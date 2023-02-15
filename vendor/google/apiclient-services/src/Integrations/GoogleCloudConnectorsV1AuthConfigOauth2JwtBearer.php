@@ -21,8 +21,10 @@ class GoogleCloudConnectorsV1AuthConfigOauth2JwtBearer extends \Google\Model
 {
   protected $clientKeyType = GoogleCloudConnectorsV1Secret::class;
   protected $clientKeyDataType = '';
+  public $clientKey;
   protected $jwtClaimsType = GoogleCloudConnectorsV1AuthConfigOauth2JwtBearerJwtClaims::class;
   protected $jwtClaimsDataType = '';
+  public $jwtClaims;
 
   /**
    * @param GoogleCloudConnectorsV1Secret

@@ -41,7 +41,7 @@ use Google\Service\BigtableAdmin\UndeleteTableRequest;
  * Typical usage is:
  *  <code>
  *   $bigtableadminService = new Google\Service\BigtableAdmin(...);
- *   $tables = $bigtableadminService->tables;
+ *   $tables = $bigtableadminService->projects_instances_tables;
  *  </code>
  */
 class ProjectsInstancesTables extends \Google\Service\Resource

@@ -49,6 +49,7 @@ class License extends \Google\Model
   public $name;
   protected $resourceRequirementsType = LicenseResourceRequirements::class;
   protected $resourceRequirementsDataType = '';
+  public $resourceRequirements;
   /**
    * @var string
    */

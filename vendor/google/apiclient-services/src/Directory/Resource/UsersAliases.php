@@ -26,7 +26,7 @@ use Google\Service\Directory\Channel;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $aliases = $adminService->aliases;
+ *   $aliases = $adminService->users_aliases;
  *  </code>
  */
 class UsersAliases extends \Google\Service\Resource

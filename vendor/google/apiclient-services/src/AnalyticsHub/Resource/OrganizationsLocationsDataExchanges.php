@@ -24,7 +24,7 @@ use Google\Service\AnalyticsHub\ListOrgDataExchangesResponse;
  * Typical usage is:
  *  <code>
  *   $analyticshubService = new Google\Service\AnalyticsHub(...);
- *   $dataExchanges = $analyticshubService->dataExchanges;
+ *   $dataExchanges = $analyticshubService->organizations_locations_dataExchanges;
  *  </code>
  */
 class OrganizationsLocationsDataExchanges extends \Google\Service\Resource

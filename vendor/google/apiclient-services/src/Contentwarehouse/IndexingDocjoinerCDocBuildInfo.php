@@ -21,6 +21,7 @@ class IndexingDocjoinerCDocBuildInfo extends \Google\Model
 {
   protected $extraMessageType = Proto2BridgeMessageSet::class;
   protected $extraMessageDataType = '';
+  public $extraMessage;
 
   /**
    * @param Proto2BridgeMessageSet

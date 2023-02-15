@@ -25,6 +25,7 @@ class CreateNodePoolRequest extends \Google\Model
   public $clusterId;
   protected $nodePoolType = NodePool::class;
   protected $nodePoolDataType = '';
+  public $nodePool;
   /**
    * @var string
    */

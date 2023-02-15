@@ -29,6 +29,7 @@ class WorkflowMetadata extends \Google\Model
   public $clusterUuid;
   protected $createClusterType = ClusterOperation::class;
   protected $createClusterDataType = '';
+  public $createCluster;
   /**
    * @var string
    */
@@ -43,12 +44,14 @@ class WorkflowMetadata extends \Google\Model
   public $dagTimeout;
   protected $deleteClusterType = ClusterOperation::class;
   protected $deleteClusterDataType = '';
+  public $deleteCluster;
   /**
    * @var string
    */
   public $endTime;
   protected $graphType = WorkflowGraph::class;
   protected $graphDataType = '';
+  public $graph;
   /**
    * @var string[]
    */

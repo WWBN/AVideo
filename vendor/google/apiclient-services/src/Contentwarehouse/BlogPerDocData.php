@@ -30,6 +30,7 @@ class BlogPerDocData extends \Google\Collection
   public $clientSpamminess;
   protected $convTreeType = BlogsearchConversationTree::class;
   protected $convTreeDataType = '';
+  public $convTree;
   /**
    * @var int
    */
@@ -44,12 +45,14 @@ class BlogPerDocData extends \Google\Collection
   public $isSyntacticReshare;
   protected $microblogQualityExptDataType = Proto2BridgeMessageSet::class;
   protected $microblogQualityExptDataDataType = '';
+  public $microblogQualityExptData;
   /**
    * @var int
    */
   public $numMentions;
   protected $outlinksType = BlogPerDocDataOutlinks::class;
   protected $outlinksDataType = 'array';
+  public $outlinks;
   /**
    * @var int
    */

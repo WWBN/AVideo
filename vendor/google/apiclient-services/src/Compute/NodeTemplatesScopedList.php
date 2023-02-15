@@ -22,8 +22,10 @@ class NodeTemplatesScopedList extends \Google\Collection
   protected $collection_key = 'nodeTemplates';
   protected $nodeTemplatesType = NodeTemplate::class;
   protected $nodeTemplatesDataType = 'array';
+  public $nodeTemplates;
   protected $warningType = NodeTemplatesScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param NodeTemplate[]

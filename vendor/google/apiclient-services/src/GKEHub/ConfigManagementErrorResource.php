@@ -21,6 +21,7 @@ class ConfigManagementErrorResource extends \Google\Model
 {
   protected $resourceGvkType = ConfigManagementGroupVersionKind::class;
   protected $resourceGvkDataType = '';
+  public $resourceGvk;
   /**
    * @var string
    */

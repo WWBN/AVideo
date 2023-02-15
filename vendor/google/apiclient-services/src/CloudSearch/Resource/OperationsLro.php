@@ -24,7 +24,7 @@ use Google\Service\CloudSearch\ListOperationsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $lro = $cloudsearchService->lro;
+ *   $lro = $cloudsearchService->operations_lro;
  *  </code>
  */
 class OperationsLro extends \Google\Service\Resource

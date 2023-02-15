@@ -14,7 +14,7 @@ setRowCount(10);
 //setDefaultSort('id', 'DESC');
 if(empty($_REQUEST['id'])){
     if(empty($_POST['sort'])){
-       $_POST['sort'] = array();
+       $_POST['sort'] = [];
        $_POST['sort']['pin'] = 'DESC';
        //$_POST['sort']['comments_id_pai'] = 'IS NULL DESC';
        //$_POST['sort']['comments_id_pai'] = 'DESC';
@@ -25,10 +25,10 @@ if(empty($_REQUEST['id'])){
 }else{
     $comment = Comment::getComment($_REQUEST['id']);
     if(!empty($comment)){
-        $comments = array($comment);
+        $comments = [$comment];
         $total = 1;
     }else{
-        $comments = array();
+        $comments = [];
         $total = 0;
     }
 }

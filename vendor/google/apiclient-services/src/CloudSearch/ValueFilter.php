@@ -25,6 +25,7 @@ class ValueFilter extends \Google\Model
   public $operatorName;
   protected $valueType = Value::class;
   protected $valueDataType = '';
+  public $value;
 
   /**
    * @param string

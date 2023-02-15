@@ -22,8 +22,10 @@ class GoogleCloudAssetV1IdentityList extends \Google\Collection
   protected $collection_key = 'identities';
   protected $groupEdgesType = GoogleCloudAssetV1Edge::class;
   protected $groupEdgesDataType = 'array';
+  public $groupEdges;
   protected $identitiesType = GoogleCloudAssetV1Identity::class;
   protected $identitiesDataType = 'array';
+  public $identities;
 
   /**
    * @param GoogleCloudAssetV1Edge[]

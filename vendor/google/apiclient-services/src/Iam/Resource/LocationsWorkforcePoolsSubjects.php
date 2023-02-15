@@ -22,7 +22,7 @@ namespace Google\Service\Iam\Resource;
  * Typical usage is:
  *  <code>
  *   $iamService = new Google\Service\Iam(...);
- *   $subjects = $iamService->subjects;
+ *   $subjects = $iamService->locations_workforcePools_subjects;
  *  </code>
  */
 class LocationsWorkforcePoolsSubjects extends \Google\Service\Resource

@@ -22,8 +22,10 @@ class BulkEditPartnerAssignedTargetingOptionsRequest extends \Google\Collection
   protected $collection_key = 'deleteRequests';
   protected $createRequestsType = CreateAssignedTargetingOptionsRequest::class;
   protected $createRequestsDataType = 'array';
+  public $createRequests;
   protected $deleteRequestsType = DeleteAssignedTargetingOptionsRequest::class;
   protected $deleteRequestsDataType = 'array';
+  public $deleteRequests;
 
   /**
    * @param CreateAssignedTargetingOptionsRequest[]

@@ -26,6 +26,7 @@ class Tokens extends \Google\Collection
   public $etag;
   protected $itemsType = Token::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

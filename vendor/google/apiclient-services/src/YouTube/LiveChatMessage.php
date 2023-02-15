@@ -21,6 +21,7 @@ class LiveChatMessage extends \Google\Model
 {
   protected $authorDetailsType = LiveChatMessageAuthorDetails::class;
   protected $authorDetailsDataType = '';
+  public $authorDetails;
   /**
    * @var string
    */
@@ -35,6 +36,7 @@ class LiveChatMessage extends \Google\Model
   public $kind;
   protected $snippetType = LiveChatMessageSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
 
   /**
    * @param LiveChatMessageAuthorDetails

@@ -22,8 +22,10 @@ class BatchWriteResponse extends \Google\Collection
   protected $collection_key = 'writeResults';
   protected $statusType = Status::class;
   protected $statusDataType = 'array';
+  public $status;
   protected $writeResultsType = WriteResult::class;
   protected $writeResultsDataType = 'array';
+  public $writeResults;
 
   /**
    * @param Status[]

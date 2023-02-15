@@ -22,20 +22,26 @@ class GeostoreAddressProto extends \Google\Collection
   protected $collection_key = 'crossStreet';
   protected $addressLinesType = GeostoreAddressLinesProto::class;
   protected $addressLinesDataType = 'array';
+  public $addressLines;
   protected $componentType = GeostoreAddressComponentProto::class;
   protected $componentDataType = 'array';
+  public $component;
   protected $crossStreetType = GeostoreAddressComponentProto::class;
   protected $crossStreetDataType = 'array';
+  public $crossStreet;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $partialDenormalizationType = GeostoreAddressProto::class;
   protected $partialDenormalizationDataType = '';
+  public $partialDenormalization;
   /**
    * @var string
    */
   public $templateId;
   protected $temporaryDataType = Proto2BridgeMessageSet::class;
   protected $temporaryDataDataType = '';
+  public $temporaryData;
 
   /**
    * @param GeostoreAddressLinesProto[]

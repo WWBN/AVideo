@@ -21,10 +21,13 @@ class TechnologyTargeting extends \Google\Model
 {
   protected $deviceCapabilityTargetingType = CriteriaTargeting::class;
   protected $deviceCapabilityTargetingDataType = '';
+  public $deviceCapabilityTargeting;
   protected $deviceCategoryTargetingType = CriteriaTargeting::class;
   protected $deviceCategoryTargetingDataType = '';
+  public $deviceCategoryTargeting;
   protected $operatingSystemTargetingType = OperatingSystemTargeting::class;
   protected $operatingSystemTargetingDataType = '';
+  public $operatingSystemTargeting;
 
   /**
    * @param CriteriaTargeting

@@ -21,10 +21,13 @@ class ResourcePolicySnapshotSchedulePolicySchedule extends \Google\Model
 {
   protected $dailyScheduleType = ResourcePolicyDailyCycle::class;
   protected $dailyScheduleDataType = '';
+  public $dailySchedule;
   protected $hourlyScheduleType = ResourcePolicyHourlyCycle::class;
   protected $hourlyScheduleDataType = '';
+  public $hourlySchedule;
   protected $weeklyScheduleType = ResourcePolicyWeeklyCycle::class;
   protected $weeklyScheduleDataType = '';
+  public $weeklySchedule;
 
   /**
    * @param ResourcePolicyDailyCycle

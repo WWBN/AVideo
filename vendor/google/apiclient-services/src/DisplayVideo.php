@@ -67,6 +67,9 @@ class DisplayVideo extends \Google\Service
   public $advertisers_negativeKeywordLists;
   public $advertisers_negativeKeywordLists_negativeKeywords;
   public $advertisers_targetingTypes_assignedTargetingOptions;
+  public $advertisers_youtubeAdGroupAds;
+  public $advertisers_youtubeAdGroups;
+  public $advertisers_youtubeAdGroups_targetingTypes_assignedTargetingOptions;
   public $combinedAudiences;
   public $customBiddingAlgorithms;
   public $customBiddingAlgorithms_scripts;
@@ -1093,10 +1096,10 @@ class DisplayVideo extends \Google\Service
                 ],
               ],
             ],'bulkUpdate' => [
-              'path' => 'v2/advertisers/{advertisersId}/lineItems:bulkUpdate',
+              'path' => 'v2/advertisers/{+advertiserId}/lineItems:bulkUpdate',
               'httpMethod' => 'POST',
               'parameters' => [
-                'advertisersId' => [
+                'advertiserId' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -1872,6 +1875,210 @@ class DisplayVideo extends \Google\Service
               'httpMethod' => 'GET',
               'parameters' => [
                 'advertiserId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'targetingType' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->advertisers_youtubeAdGroupAds = new DisplayVideo\Resource\AdvertisersYoutubeAdGroupAds(
+        $this,
+        $this->serviceName,
+        'youtubeAdGroupAds',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v2/advertisers/{+advertiserId}/youtubeAdGroupAds/{+youtubeAdGroupAdId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'advertiserId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'youtubeAdGroupAdId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v2/advertisers/{+advertiserId}/youtubeAdGroupAds',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'advertiserId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->advertisers_youtubeAdGroups = new DisplayVideo\Resource\AdvertisersYoutubeAdGroups(
+        $this,
+        $this->serviceName,
+        'youtubeAdGroups',
+        [
+          'methods' => [
+            'bulkListAdGroupAssignedTargetingOptions' => [
+              'path' => 'v2/advertisers/{+advertiserId}/youtubeAdGroups:bulkListAdGroupAssignedTargetingOptions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'advertiserId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'youtubeAdGroupIds' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v2/advertisers/{+advertiserId}/youtubeAdGroups/{+youtubeAdGroupId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'advertiserId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'youtubeAdGroupId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v2/advertisers/{+advertiserId}/youtubeAdGroups',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'advertiserId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->advertisers_youtubeAdGroups_targetingTypes_assignedTargetingOptions = new DisplayVideo\Resource\AdvertisersYoutubeAdGroupsTargetingTypesAssignedTargetingOptions(
+        $this,
+        $this->serviceName,
+        'assignedTargetingOptions',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v2/advertisers/{+advertiserId}/youtubeAdGroups/{+youtubeAdGroupId}/targetingTypes/{+targetingType}/assignedTargetingOptions/{+assignedTargetingOptionId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'advertiserId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'youtubeAdGroupId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'targetingType' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'assignedTargetingOptionId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v2/advertisers/{+advertiserId}/youtubeAdGroups/{+youtubeAdGroupId}/targetingTypes/{+targetingType}/assignedTargetingOptions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'advertiserId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'youtubeAdGroupId' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

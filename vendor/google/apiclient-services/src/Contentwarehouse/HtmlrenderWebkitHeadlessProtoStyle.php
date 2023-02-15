@@ -50,16 +50,20 @@ class HtmlrenderWebkitHeadlessProtoStyle extends \Google\Collection
   public $backgroundImageUrl;
   protected $backgroundImageXPosType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $backgroundImageXPosDataType = '';
+  public $backgroundImageXPos;
   protected $backgroundImageYPosType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $backgroundImageYPosDataType = '';
+  public $backgroundImageYPos;
   /**
    * @var string
    */
   public $backgroundSize;
   protected $backgroundSizeHeightType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $backgroundSizeHeightDataType = '';
+  public $backgroundSizeHeight;
   protected $backgroundSizeWidthType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $backgroundSizeWidthDataType = '';
+  public $backgroundSizeWidth;
   /**
    * @var string
    */
@@ -110,6 +114,7 @@ class HtmlrenderWebkitHeadlessProtoStyle extends \Google\Collection
   public $borderStyleTop;
   protected $clipType = HtmlrenderWebkitHeadlessProtoRectangle::class;
   protected $clipDataType = '';
+  public $clip;
   /**
    * @var string
    */
@@ -152,12 +157,16 @@ class HtmlrenderWebkitHeadlessProtoStyle extends \Google\Collection
   public $listStyleType;
   protected $marginBottomType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $marginBottomDataType = '';
+  public $marginBottom;
   protected $marginLeftType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $marginLeftDataType = '';
+  public $marginLeft;
   protected $marginRightType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $marginRightDataType = '';
+  public $marginRight;
   protected $marginTopType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $marginTopDataType = '';
+  public $marginTop;
   /**
    * @var float
    */
@@ -172,12 +181,16 @@ class HtmlrenderWebkitHeadlessProtoStyle extends \Google\Collection
   public $overflowY;
   protected $paddingBottomType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $paddingBottomDataType = '';
+  public $paddingBottom;
   protected $paddingLeftType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $paddingLeftDataType = '';
+  public $paddingLeft;
   protected $paddingRightType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $paddingRightDataType = '';
+  public $paddingRight;
   protected $paddingTopType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $paddingTopDataType = '';
+  public $paddingTop;
   /**
    * @var string
    */

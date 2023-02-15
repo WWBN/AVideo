@@ -31,7 +31,7 @@ use Google\Service\IAMCredentials\SignJwtResponse;
  * Typical usage is:
  *  <code>
  *   $iamcredentialsService = new Google\Service\IAMCredentials(...);
- *   $serviceAccounts = $iamcredentialsService->serviceAccounts;
+ *   $serviceAccounts = $iamcredentialsService->projects_serviceAccounts;
  *  </code>
  */
 class ProjectsServiceAccounts extends \Google\Service\Resource

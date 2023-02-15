@@ -22,6 +22,7 @@ class DocsList extends \Google\Collection
   protected $collection_key = 'suggestedDeletionIds';
   protected $listPropertiesType = ListProperties::class;
   protected $listPropertiesDataType = '';
+  public $listProperties;
   /**
    * @var string[]
    */
@@ -32,6 +33,7 @@ class DocsList extends \Google\Collection
   public $suggestedInsertionId;
   protected $suggestedListPropertiesChangesType = SuggestedListProperties::class;
   protected $suggestedListPropertiesChangesDataType = 'map';
+  public $suggestedListPropertiesChanges;
 
   /**
    * @param ListProperties

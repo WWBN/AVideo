@@ -21,16 +21,20 @@ class GoogleCloudContentwarehouseV1CreateDocumentRequest extends \Google\Model
 {
   protected $cloudAiDocumentOptionType = GoogleCloudContentwarehouseV1CloudAIDocumentOption::class;
   protected $cloudAiDocumentOptionDataType = '';
+  public $cloudAiDocumentOption;
   /**
    * @var string
    */
   public $createMask;
   protected $documentType = GoogleCloudContentwarehouseV1Document::class;
   protected $documentDataType = '';
+  public $document;
   protected $policyType = GoogleIamV1Policy::class;
   protected $policyDataType = '';
+  public $policy;
   protected $requestMetadataType = GoogleCloudContentwarehouseV1RequestMetadata::class;
   protected $requestMetadataDataType = '';
+  public $requestMetadata;
 
   /**
    * @param GoogleCloudContentwarehouseV1CloudAIDocumentOption

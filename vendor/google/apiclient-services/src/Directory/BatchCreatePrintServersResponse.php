@@ -22,8 +22,10 @@ class BatchCreatePrintServersResponse extends \Google\Collection
   protected $collection_key = 'printServers';
   protected $failuresType = PrintServerFailureInfo::class;
   protected $failuresDataType = 'array';
+  public $failures;
   protected $printServersType = PrintServer::class;
   protected $printServersDataType = 'array';
+  public $printServers;
 
   /**
    * @param PrintServerFailureInfo[]

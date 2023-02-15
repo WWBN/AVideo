@@ -45,11 +45,14 @@ class PolicySimulator extends \Google\Service
       "https://www.googleapis.com/auth/cloud-platform";
 
   public $folders_locations_replays;
+  public $folders_locations_replays_operations;
   public $folders_locations_replays_results;
   public $operations;
   public $organizations_locations_replays;
+  public $organizations_locations_replays_operations;
   public $organizations_locations_replays_results;
   public $projects_locations_replays;
+  public $projects_locations_replays_operations;
   public $projects_locations_replays_results;
 
   /**
@@ -92,6 +95,48 @@ class PolicySimulator extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->folders_locations_replays_operations = new PolicySimulator\Resource\FoldersLocationsReplaysOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -143,14 +188,15 @@ class PolicySimulator extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1/operations',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
-                'filter' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
                 'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -191,6 +237,48 @@ class PolicySimulator extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->organizations_locations_replays_operations = new PolicySimulator\Resource\OrganizationsLocationsReplaysOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -249,6 +337,48 @@ class PolicySimulator extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_replays_operations = new PolicySimulator\Resource\ProjectsLocationsReplaysOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

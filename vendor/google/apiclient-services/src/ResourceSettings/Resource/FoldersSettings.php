@@ -25,7 +25,7 @@ use Google\Service\ResourceSettings\GoogleCloudResourcesettingsV1Setting;
  * Typical usage is:
  *  <code>
  *   $resourcesettingsService = new Google\Service\ResourceSettings(...);
- *   $settings = $resourcesettingsService->settings;
+ *   $settings = $resourcesettingsService->folders_settings;
  *  </code>
  */
 class FoldersSettings extends \Google\Service\Resource

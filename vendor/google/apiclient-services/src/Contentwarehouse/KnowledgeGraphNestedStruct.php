@@ -22,6 +22,7 @@ class KnowledgeGraphNestedStruct extends \Google\Collection
   protected $collection_key = 'predicateObjs';
   protected $predicateObjsType = KnowledgeGraphNestedStructPredicateObjs::class;
   protected $predicateObjsDataType = 'array';
+  public $predicateObjs;
 
   /**
    * @param KnowledgeGraphNestedStructPredicateObjs[]

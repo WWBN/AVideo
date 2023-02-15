@@ -21,6 +21,7 @@ class CompensationEntry extends \Google\Model
 {
   protected $amountType = Money::class;
   protected $amountDataType = '';
+  public $amount;
   /**
    * @var string
    */
@@ -28,6 +29,7 @@ class CompensationEntry extends \Google\Model
   public $expectedUnitsPerYear;
   protected $rangeType = CompensationRange::class;
   protected $rangeDataType = '';
+  public $range;
   /**
    * @var string
    */

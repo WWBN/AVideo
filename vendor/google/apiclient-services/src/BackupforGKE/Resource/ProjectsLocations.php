@@ -26,7 +26,7 @@ use Google\Service\BackupforGKE\Location;
  * Typical usage is:
  *  <code>
  *   $gkebackupService = new Google\Service\BackupforGKE(...);
- *   $locations = $gkebackupService->locations;
+ *   $locations = $gkebackupService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

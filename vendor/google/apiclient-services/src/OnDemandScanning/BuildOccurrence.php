@@ -21,10 +21,13 @@ class BuildOccurrence extends \Google\Model
 {
   protected $intotoProvenanceType = InTotoProvenance::class;
   protected $intotoProvenanceDataType = '';
+  public $intotoProvenance;
   protected $intotoStatementType = InTotoStatement::class;
   protected $intotoStatementDataType = '';
+  public $intotoStatement;
   protected $provenanceType = BuildProvenance::class;
   protected $provenanceDataType = '';
+  public $provenance;
   /**
    * @var string
    */

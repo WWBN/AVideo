@@ -24,7 +24,7 @@ use Google\Service\CloudFunctions\ListLocationsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudfunctionsService = new Google\Service\CloudFunctions(...);
- *   $locations = $cloudfunctionsService->locations;
+ *   $locations = $cloudfunctionsService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

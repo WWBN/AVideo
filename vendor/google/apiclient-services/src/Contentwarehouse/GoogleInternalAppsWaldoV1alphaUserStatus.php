@@ -21,16 +21,22 @@ class GoogleInternalAppsWaldoV1alphaUserStatus extends \Google\Model
 {
   protected $calendarBusyType = GoogleInternalAppsWaldoV1alphaCalendarBusy::class;
   protected $calendarBusyDataType = '';
+  public $calendarBusy;
   protected $doNotDisturbType = GoogleInternalAppsWaldoV1alphaDoNotDisturb::class;
   protected $doNotDisturbDataType = '';
+  public $doNotDisturb;
   protected $inMeetingType = GoogleInternalAppsWaldoV1alphaInMeeting::class;
   protected $inMeetingDataType = '';
+  public $inMeeting;
   protected $inactiveType = GoogleInternalAppsWaldoV1alphaInactive::class;
   protected $inactiveDataType = '';
+  public $inactive;
   protected $outOfOfficeType = GoogleInternalAppsWaldoV1alphaOutOfOffice::class;
   protected $outOfOfficeDataType = '';
+  public $outOfOffice;
   protected $outsideWorkingHoursType = GoogleInternalAppsWaldoV1alphaOutsideWorkingHours::class;
   protected $outsideWorkingHoursDataType = '';
+  public $outsideWorkingHours;
 
   /**
    * @param GoogleInternalAppsWaldoV1alphaCalendarBusy

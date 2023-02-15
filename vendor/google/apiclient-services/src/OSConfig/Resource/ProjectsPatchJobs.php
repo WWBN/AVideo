@@ -27,7 +27,7 @@ use Google\Service\OSConfig\PatchJob;
  * Typical usage is:
  *  <code>
  *   $osconfigService = new Google\Service\OSConfig(...);
- *   $patchJobs = $osconfigService->patchJobs;
+ *   $patchJobs = $osconfigService->projects_patchJobs;
  *  </code>
  */
 class ProjectsPatchJobs extends \Google\Service\Resource

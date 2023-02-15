@@ -22,6 +22,7 @@ class AssistantLogsCommunicationDeviceContactInfoLog extends \Google\Collection
   protected $collection_key = 'rawContactInfo';
   protected $rawContactInfoType = AssistantLogsCommunicationRawDeviceContactInfoLog::class;
   protected $rawContactInfoDataType = 'array';
+  public $rawContactInfo;
 
   /**
    * @param AssistantLogsCommunicationRawDeviceContactInfoLog[]

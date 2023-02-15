@@ -27,7 +27,7 @@ use Google\Service\CloudMachineLearningEngine\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $mlService = new Google\Service\CloudMachineLearningEngine(...);
- *   $versions = $mlService->versions;
+ *   $versions = $mlService->projects_models_versions;
  *  </code>
  */
 class ProjectsModelsVersions extends \Google\Service\Resource

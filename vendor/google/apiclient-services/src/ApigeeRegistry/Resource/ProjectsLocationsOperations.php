@@ -27,7 +27,7 @@ use Google\Service\ApigeeRegistry\Operation;
  * Typical usage is:
  *  <code>
  *   $apigeeregistryService = new Google\Service\ApigeeRegistry(...);
- *   $operations = $apigeeregistryService->operations;
+ *   $operations = $apigeeregistryService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

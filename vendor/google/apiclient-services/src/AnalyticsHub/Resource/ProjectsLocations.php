@@ -22,7 +22,7 @@ namespace Google\Service\AnalyticsHub\Resource;
  * Typical usage is:
  *  <code>
  *   $analyticshubService = new Google\Service\AnalyticsHub(...);
- *   $locations = $analyticshubService->locations;
+ *   $locations = $analyticshubService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

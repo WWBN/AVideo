@@ -21,16 +21,20 @@ class Schedule extends \Google\Model
 {
   protected $endTimeOfDayType = TimeOfDay::class;
   protected $endTimeOfDayDataType = '';
+  public $endTimeOfDay;
   /**
    * @var string
    */
   public $repeatInterval;
   protected $scheduleEndDateType = Date::class;
   protected $scheduleEndDateDataType = '';
+  public $scheduleEndDate;
   protected $scheduleStartDateType = Date::class;
   protected $scheduleStartDateDataType = '';
+  public $scheduleStartDate;
   protected $startTimeOfDayType = TimeOfDay::class;
   protected $startTimeOfDayDataType = '';
+  public $startTimeOfDay;
 
   /**
    * @param TimeOfDay

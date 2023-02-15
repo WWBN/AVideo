@@ -25,8 +25,10 @@ class RateDetails extends \Google\Model
   public $inventorySourceRateType;
   protected $minimumSpendType = Money::class;
   protected $minimumSpendDataType = '';
+  public $minimumSpend;
   protected $rateType = Money::class;
   protected $rateDataType = '';
+  public $rate;
   /**
    * @var string
    */

@@ -24,7 +24,7 @@ use Google\Service\ArtifactRegistry\Operation;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $operations = $artifactregistryService->operations;
+ *   $operations = $artifactregistryService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

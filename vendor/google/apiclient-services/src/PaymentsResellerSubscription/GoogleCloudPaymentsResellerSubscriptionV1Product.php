@@ -26,14 +26,17 @@ class GoogleCloudPaymentsResellerSubscriptionV1Product extends \Google\Collectio
   public $name;
   protected $priceConfigsType = GoogleCloudPaymentsResellerSubscriptionV1ProductPriceConfig::class;
   protected $priceConfigsDataType = 'array';
+  public $priceConfigs;
   /**
    * @var string[]
    */
   public $regionCodes;
   protected $subscriptionBillingCycleDurationType = GoogleCloudPaymentsResellerSubscriptionV1Duration::class;
   protected $subscriptionBillingCycleDurationDataType = '';
+  public $subscriptionBillingCycleDuration;
   protected $titlesType = GoogleTypeLocalizedText::class;
   protected $titlesDataType = 'array';
+  public $titles;
 
   /**
    * @param string

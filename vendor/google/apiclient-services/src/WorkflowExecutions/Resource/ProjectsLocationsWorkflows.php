@@ -25,7 +25,7 @@ use Google\Service\WorkflowExecutions\TriggerPubsubExecutionRequest;
  * Typical usage is:
  *  <code>
  *   $workflowexecutionsService = new Google\Service\WorkflowExecutions(...);
- *   $workflows = $workflowexecutionsService->workflows;
+ *   $workflows = $workflowexecutionsService->projects_locations_workflows;
  *  </code>
  */
 class ProjectsLocationsWorkflows extends \Google\Service\Resource

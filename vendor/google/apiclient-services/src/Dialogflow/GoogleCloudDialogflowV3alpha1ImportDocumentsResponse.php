@@ -22,6 +22,7 @@ class GoogleCloudDialogflowV3alpha1ImportDocumentsResponse extends \Google\Colle
   protected $collection_key = 'warnings';
   protected $warningsType = GoogleRpcStatus::class;
   protected $warningsDataType = 'array';
+  public $warnings;
 
   /**
    * @param GoogleRpcStatus[]

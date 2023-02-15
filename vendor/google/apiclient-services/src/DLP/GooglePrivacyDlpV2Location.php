@@ -22,12 +22,16 @@ class GooglePrivacyDlpV2Location extends \Google\Collection
   protected $collection_key = 'contentLocations';
   protected $byteRangeType = GooglePrivacyDlpV2Range::class;
   protected $byteRangeDataType = '';
+  public $byteRange;
   protected $codepointRangeType = GooglePrivacyDlpV2Range::class;
   protected $codepointRangeDataType = '';
+  public $codepointRange;
   protected $containerType = GooglePrivacyDlpV2Container::class;
   protected $containerDataType = '';
+  public $container;
   protected $contentLocationsType = GooglePrivacyDlpV2ContentLocation::class;
   protected $contentLocationsDataType = 'array';
+  public $contentLocations;
 
   /**
    * @param GooglePrivacyDlpV2Range

@@ -21,12 +21,14 @@ class NlpSciencelitReferencedBlock extends \Google\Model
 {
   protected $captionType = NlpSciencelitTokenizedText::class;
   protected $captionDataType = '';
+  public $caption;
   /**
    * @var string
    */
   public $reference;
   protected $titleType = NlpSciencelitTokenizedText::class;
   protected $titleDataType = '';
+  public $title;
   /**
    * @var string
    */

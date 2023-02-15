@@ -22,6 +22,7 @@ class UpdateToRecipients extends \Google\Collection
   protected $collection_key = 'toRecipients';
   protected $toRecipientsType = Recipient::class;
   protected $toRecipientsDataType = 'array';
+  public $toRecipients;
 
   /**
    * @param Recipient[]

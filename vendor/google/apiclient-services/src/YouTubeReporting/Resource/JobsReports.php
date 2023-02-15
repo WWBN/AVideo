@@ -25,7 +25,7 @@ use Google\Service\YouTubeReporting\Report;
  * Typical usage is:
  *  <code>
  *   $youtubereportingService = new Google\Service\YouTubeReporting(...);
- *   $reports = $youtubereportingService->reports;
+ *   $reports = $youtubereportingService->jobs_reports;
  *  </code>
  */
 class JobsReports extends \Google\Service\Resource

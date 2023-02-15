@@ -22,7 +22,7 @@ namespace Google\Service\NetworkManagement\Resource;
  * Typical usage is:
  *  <code>
  *   $networkmanagementService = new Google\Service\NetworkManagement(...);
- *   $global = $networkmanagementService->global;
+ *   $global = $networkmanagementService->projects_locations_global;
  *  </code>
  */
 class ProjectsLocationsNetworkmanagementGlobal extends \Google\Service\Resource

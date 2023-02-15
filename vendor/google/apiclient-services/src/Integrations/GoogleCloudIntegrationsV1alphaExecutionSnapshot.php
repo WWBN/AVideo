@@ -26,10 +26,13 @@ class GoogleCloudIntegrationsV1alphaExecutionSnapshot extends \Google\Collection
   public $checkpointTaskNumber;
   protected $executionSnapshotMetadataType = GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata::class;
   protected $executionSnapshotMetadataDataType = '';
+  public $executionSnapshotMetadata;
   protected $paramsType = GoogleCloudIntegrationsV1alphaValueType::class;
   protected $paramsDataType = 'map';
+  public $params;
   protected $taskExecutionDetailsType = GoogleCloudIntegrationsV1alphaTaskExecutionDetails::class;
   protected $taskExecutionDetailsDataType = 'array';
+  public $taskExecutionDetails;
 
   /**
    * @param string

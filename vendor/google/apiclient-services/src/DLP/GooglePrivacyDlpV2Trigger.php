@@ -21,8 +21,10 @@ class GooglePrivacyDlpV2Trigger extends \Google\Model
 {
   protected $manualType = GooglePrivacyDlpV2Manual::class;
   protected $manualDataType = '';
+  public $manual;
   protected $scheduleType = GooglePrivacyDlpV2Schedule::class;
   protected $scheduleDataType = '';
+  public $schedule;
 
   /**
    * @param GooglePrivacyDlpV2Manual

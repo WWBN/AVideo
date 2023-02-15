@@ -38,7 +38,7 @@ use Google\Service\AndroidProvisioningPartner\UpdateDeviceMetadataRequest;
  * Typical usage is:
  *  <code>
  *   $androiddeviceprovisioningService = new Google\Service\AndroidProvisioningPartner(...);
- *   $devices = $androiddeviceprovisioningService->devices;
+ *   $devices = $androiddeviceprovisioningService->partners_devices;
  *  </code>
  */
 class PartnersDevices extends \Google\Service\Resource

@@ -22,16 +22,20 @@ class PathToConversionReportCompatibleFields extends \Google\Collection
   protected $collection_key = 'perInteractionDimensions';
   protected $conversionDimensionsType = Dimension::class;
   protected $conversionDimensionsDataType = 'array';
+  public $conversionDimensions;
   protected $customFloodlightVariablesType = Dimension::class;
   protected $customFloodlightVariablesDataType = 'array';
+  public $customFloodlightVariables;
   /**
    * @var string
    */
   public $kind;
   protected $metricsType = Metric::class;
   protected $metricsDataType = 'array';
+  public $metrics;
   protected $perInteractionDimensionsType = Dimension::class;
   protected $perInteractionDimensionsDataType = 'array';
+  public $perInteractionDimensions;
 
   /**
    * @param Dimension[]

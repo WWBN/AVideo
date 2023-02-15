@@ -21,12 +21,14 @@ class CreateConferenceRequest extends \Google\Model
 {
   protected $conferenceSolutionKeyType = ConferenceSolutionKey::class;
   protected $conferenceSolutionKeyDataType = '';
+  public $conferenceSolutionKey;
   /**
    * @var string
    */
   public $requestId;
   protected $statusType = ConferenceRequestStatus::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param ConferenceSolutionKey

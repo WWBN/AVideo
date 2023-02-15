@@ -122,6 +122,7 @@ class VideoContentSearchOnScreenTextFeature extends \Google\Collection
   public $isCountingNumberOoo;
   protected $languagesType = GoodocLanguageCombinationLanguage::class;
   protected $languagesDataType = 'array';
+  public $languages;
   /**
    * @var float
    */
@@ -148,6 +149,7 @@ class VideoContentSearchOnScreenTextFeature extends \Google\Collection
   public $occurrenceRatio;
   protected $ocrAsrFeatureType = VideoContentSearchOcrAsrFeature::class;
   protected $ocrAsrFeatureDataType = '';
+  public $ocrAsrFeature;
   /**
    * @var string
    */

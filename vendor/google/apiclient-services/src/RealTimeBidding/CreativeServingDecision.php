@@ -22,12 +22,16 @@ class CreativeServingDecision extends \Google\Collection
   protected $collection_key = 'detectedVendorIds';
   protected $adTechnologyProvidersType = AdTechnologyProviders::class;
   protected $adTechnologyProvidersDataType = '';
+  public $adTechnologyProviders;
   protected $chinaPolicyComplianceType = PolicyCompliance::class;
   protected $chinaPolicyComplianceDataType = '';
+  public $chinaPolicyCompliance;
   protected $dealsPolicyComplianceType = PolicyCompliance::class;
   protected $dealsPolicyComplianceDataType = '';
+  public $dealsPolicyCompliance;
   protected $detectedAdvertisersType = AdvertiserAndBrand::class;
   protected $detectedAdvertisersDataType = 'array';
+  public $detectedAdvertisers;
   /**
    * @var string[]
    */
@@ -62,10 +66,13 @@ class CreativeServingDecision extends \Google\Collection
   public $lastStatusUpdate;
   protected $networkPolicyComplianceType = PolicyCompliance::class;
   protected $networkPolicyComplianceDataType = '';
+  public $networkPolicyCompliance;
   protected $platformPolicyComplianceType = PolicyCompliance::class;
   protected $platformPolicyComplianceDataType = '';
+  public $platformPolicyCompliance;
   protected $russiaPolicyComplianceType = PolicyCompliance::class;
   protected $russiaPolicyComplianceDataType = '';
+  public $russiaPolicyCompliance;
 
   /**
    * @param AdTechnologyProviders

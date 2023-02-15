@@ -29,6 +29,7 @@ class PageAuthor extends \Google\Model
   public $id;
   protected $imageType = PageAuthorImage::class;
   protected $imageDataType = '';
+  public $image;
   /**
    * @var string
    */

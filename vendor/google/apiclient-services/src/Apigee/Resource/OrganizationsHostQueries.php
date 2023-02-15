@@ -28,7 +28,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1Query;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $hostQueries = $apigeeService->hostQueries;
+ *   $hostQueries = $apigeeService->organizations_hostQueries;
  *  </code>
  */
 class OrganizationsHostQueries extends \Google\Service\Resource

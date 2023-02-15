@@ -26,6 +26,7 @@ class GoogleCloudApigeeV1OperationMetadata extends \Google\Collection
   public $operationType;
   protected $progressType = GoogleCloudApigeeV1OperationMetadataProgress::class;
   protected $progressDataType = '';
+  public $progress;
   /**
    * @var string
    */

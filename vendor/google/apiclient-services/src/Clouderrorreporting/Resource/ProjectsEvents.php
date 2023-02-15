@@ -26,7 +26,7 @@ use Google\Service\Clouderrorreporting\ReportedErrorEvent;
  * Typical usage is:
  *  <code>
  *   $clouderrorreportingService = new Google\Service\Clouderrorreporting(...);
- *   $events = $clouderrorreportingService->events;
+ *   $events = $clouderrorreportingService->projects_events;
  *  </code>
  */
 class ProjectsEvents extends \Google\Service\Resource

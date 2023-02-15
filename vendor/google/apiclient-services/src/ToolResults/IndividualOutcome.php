@@ -29,6 +29,7 @@ class IndividualOutcome extends \Google\Model
   public $outcomeSummary;
   protected $runDurationType = Duration::class;
   protected $runDurationDataType = '';
+  public $runDuration;
   /**
    * @var string
    */

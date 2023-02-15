@@ -28,7 +28,7 @@ use Google\Service\CloudDebugger\SetBreakpointResponse;
  * Typical usage is:
  *  <code>
  *   $clouddebuggerService = new Google\Service\CloudDebugger(...);
- *   $breakpoints = $clouddebuggerService->breakpoints;
+ *   $breakpoints = $clouddebuggerService->debugger_debuggees_breakpoints;
  *  </code>
  */
 class DebuggerDebuggeesBreakpoints extends \Google\Service\Resource

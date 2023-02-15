@@ -22,16 +22,20 @@ class PathReportCompatibleFields extends \Google\Collection
   protected $collection_key = 'pathFilters';
   protected $channelGroupingsType = Dimension::class;
   protected $channelGroupingsDataType = 'array';
+  public $channelGroupings;
   protected $dimensionsType = Dimension::class;
   protected $dimensionsDataType = 'array';
+  public $dimensions;
   /**
    * @var string
    */
   public $kind;
   protected $metricsType = Metric::class;
   protected $metricsDataType = 'array';
+  public $metrics;
   protected $pathFiltersType = Dimension::class;
   protected $pathFiltersDataType = 'array';
+  public $pathFilters;
 
   /**
    * @param Dimension[]

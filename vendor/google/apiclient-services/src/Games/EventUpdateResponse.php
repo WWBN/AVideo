@@ -22,14 +22,17 @@ class EventUpdateResponse extends \Google\Collection
   protected $collection_key = 'playerEvents';
   protected $batchFailuresType = EventBatchRecordFailure::class;
   protected $batchFailuresDataType = 'array';
+  public $batchFailures;
   protected $eventFailuresType = EventRecordFailure::class;
   protected $eventFailuresDataType = 'array';
+  public $eventFailures;
   /**
    * @var string
    */
   public $kind;
   protected $playerEventsType = PlayerEvent::class;
   protected $playerEventsDataType = 'array';
+  public $playerEvents;
 
   /**
    * @param EventBatchRecordFailure[]

@@ -29,6 +29,7 @@ class SwitchWidget extends \Google\Model
   public $name;
   protected $onChangeType = FormAction::class;
   protected $onChangeDataType = '';
+  public $onChange;
   /**
    * @var bool
    */

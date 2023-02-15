@@ -21,8 +21,13 @@ class ReportAgentStateRequest extends \Google\Model
 {
   protected $agentInfoType = AgentInfo::class;
   protected $agentInfoDataType = '';
+  public $agentInfo;
+  protected $agentTimingInfoType = AgentTimingInfo::class;
+  protected $agentTimingInfoDataType = '';
+  public $agentTimingInfo;
   protected $metadataType = AgentMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
 
   /**
    * @param AgentInfo
@@ -37,6 +42,20 @@ class ReportAgentStateRequest extends \Google\Model
   public function getAgentInfo()
   {
     return $this->agentInfo;
+  }
+  /**
+   * @param AgentTimingInfo
+   */
+  public function setAgentTimingInfo(AgentTimingInfo $agentTimingInfo)
+  {
+    $this->agentTimingInfo = $agentTimingInfo;
+  }
+  /**
+   * @return AgentTimingInfo
+   */
+  public function getAgentTimingInfo()
+  {
+    return $this->agentTimingInfo;
   }
   /**
    * @param AgentMetadata

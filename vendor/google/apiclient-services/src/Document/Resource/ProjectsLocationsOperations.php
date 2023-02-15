@@ -26,7 +26,7 @@ use Google\Service\Document\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $documentaiService = new Google\Service\Document(...);
- *   $operations = $documentaiService->operations;
+ *   $operations = $documentaiService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

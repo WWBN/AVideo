@@ -22,6 +22,7 @@ class GoogleCloudRecommendationengineV1beta1CatalogInlineSource extends \Google\
   protected $collection_key = 'catalogItems';
   protected $catalogItemsType = GoogleCloudRecommendationengineV1beta1CatalogItem::class;
   protected $catalogItemsDataType = 'array';
+  public $catalogItems;
 
   /**
    * @param GoogleCloudRecommendationengineV1beta1CatalogItem[]

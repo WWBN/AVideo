@@ -22,6 +22,7 @@ class ApigatewayListLocationsResponse extends \Google\Collection
   protected $collection_key = 'locations';
   protected $locationsType = ApigatewayLocation::class;
   protected $locationsDataType = 'array';
+  public $locations;
   /**
    * @var string
    */

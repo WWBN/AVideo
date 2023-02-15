@@ -26,13 +26,13 @@ $caUid = 'ChannelArt_' . uniqid();
         border-bottom: solid 1px #FF0000AA;
     }
 </style>
-<div class="form-group" id="<?php echo $caUid; ?>">   
+<div class="form-group" id="<?php echo $caUid; ?>">
     <a href="<?php echo getURL('view/img/sampleGuide.png'); ?>" target="_blank" class="btn btn-default pull-right"><i class="fas fa-question-circle"></i> <?php echo __('Channel Art Help'); ?></a>
     <?php
     $croppie = getCroppie(__('Select new Channel Art'), 'channelArtUpload', $finalWidth, $finalHeight, $screenWidth, 0, $screenHeight, false);
     echo $croppie['html'];
     ?>
-</div>  
+</div>
 <button class="btn btn-success btn-block" type="button" onclick="<?php echo $croppie['getCroppieFunction']; ?>"><i class="fas fa-save"></i> <?php echo __('Save Channel Art'); ?></button>
 
 

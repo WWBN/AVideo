@@ -22,6 +22,7 @@ class GoogleCloudDatacatalogV1Contacts extends \Google\Collection
   protected $collection_key = 'people';
   protected $peopleType = GoogleCloudDatacatalogV1ContactsPerson::class;
   protected $peopleDataType = 'array';
+  public $people;
 
   /**
    * @param GoogleCloudDatacatalogV1ContactsPerson[]

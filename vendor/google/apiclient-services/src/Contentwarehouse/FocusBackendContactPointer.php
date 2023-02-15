@@ -25,14 +25,17 @@ class FocusBackendContactPointer extends \Google\Model
   public $annotationId;
   protected $deviceRawContactIdType = FocusBackendDeviceRawContactId::class;
   protected $deviceRawContactIdDataType = '';
+  public $deviceRawContactId;
   /**
    * @var string
    */
   public $focusContactId;
   protected $otherContactIdType = FocusBackendOtherContactId::class;
   protected $otherContactIdDataType = '';
+  public $otherContactId;
   protected $secondaryIdType = FocusBackendSecondaryContactId::class;
   protected $secondaryIdDataType = '';
+  public $secondaryId;
 
   /**
    * @param string

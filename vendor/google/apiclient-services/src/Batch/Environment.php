@@ -19,11 +19,46 @@ namespace Google\Service\Batch;
 
 class Environment extends \Google\Model
 {
+  protected $encryptedVariablesType = KMSEnvMap::class;
+  protected $encryptedVariablesDataType = '';
+  public $encryptedVariables;
+  /**
+   * @var string[]
+   */
+  public $secretVariables;
   /**
    * @var string[]
    */
   public $variables;
 
+  /**
+   * @param KMSEnvMap
+   */
+  public function setEncryptedVariables(KMSEnvMap $encryptedVariables)
+  {
+    $this->encryptedVariables = $encryptedVariables;
+  }
+  /**
+   * @return KMSEnvMap
+   */
+  public function getEncryptedVariables()
+  {
+    return $this->encryptedVariables;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSecretVariables($secretVariables)
+  {
+    $this->secretVariables = $secretVariables;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSecretVariables()
+  {
+    return $this->secretVariables;
+  }
   /**
    * @param string[]
    */

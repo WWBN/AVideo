@@ -25,7 +25,7 @@ use Google\Service\ToolResults\ListHistoriesResponse;
  * Typical usage is:
  *  <code>
  *   $toolresultsService = new Google\Service\ToolResults(...);
- *   $histories = $toolresultsService->histories;
+ *   $histories = $toolresultsService->projects_histories;
  *  </code>
  */
 class ProjectsHistories extends \Google\Service\Resource

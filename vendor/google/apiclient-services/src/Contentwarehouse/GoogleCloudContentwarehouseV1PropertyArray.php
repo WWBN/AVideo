@@ -22,6 +22,7 @@ class GoogleCloudContentwarehouseV1PropertyArray extends \Google\Collection
   protected $collection_key = 'properties';
   protected $propertiesType = GoogleCloudContentwarehouseV1Property::class;
   protected $propertiesDataType = 'array';
+  public $properties;
 
   /**
    * @param GoogleCloudContentwarehouseV1Property[]

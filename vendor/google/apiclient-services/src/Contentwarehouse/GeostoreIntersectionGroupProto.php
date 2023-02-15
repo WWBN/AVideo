@@ -22,14 +22,17 @@ class GeostoreIntersectionGroupProto extends \Google\Collection
   protected $collection_key = 'intersection';
   protected $childGroupType = GeostoreFeatureIdProto::class;
   protected $childGroupDataType = 'array';
+  public $childGroup;
   /**
    * @var string
    */
   public $groupType;
   protected $intersectionType = GeostoreFeatureIdProto::class;
   protected $intersectionDataType = 'array';
+  public $intersection;
   protected $parentGroupType = GeostoreFeatureIdProto::class;
   protected $parentGroupDataType = '';
+  public $parentGroup;
 
   /**
    * @param GeostoreFeatureIdProto[]

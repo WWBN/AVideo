@@ -22,6 +22,7 @@ class GoogleAppsScriptTypeFunctionSet extends \Google\Collection
   protected $collection_key = 'values';
   protected $valuesType = GoogleAppsScriptTypeFunction::class;
   protected $valuesDataType = 'array';
+  public $values;
 
   /**
    * @param GoogleAppsScriptTypeFunction[]

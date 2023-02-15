@@ -21,16 +21,22 @@ class GamesNumberAffixConfiguration extends \Google\Model
 {
   protected $fewType = LocalizedStringBundle::class;
   protected $fewDataType = '';
+  public $few;
   protected $manyType = LocalizedStringBundle::class;
   protected $manyDataType = '';
+  public $many;
   protected $oneType = LocalizedStringBundle::class;
   protected $oneDataType = '';
+  public $one;
   protected $otherType = LocalizedStringBundle::class;
   protected $otherDataType = '';
+  public $other;
   protected $twoType = LocalizedStringBundle::class;
   protected $twoDataType = '';
+  public $two;
   protected $zeroType = LocalizedStringBundle::class;
   protected $zeroDataType = '';
+  public $zero;
 
   /**
    * @param LocalizedStringBundle

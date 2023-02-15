@@ -25,6 +25,7 @@ class Payment extends \Google\Model
   public $amount;
   protected $dateType = Date::class;
   protected $dateDataType = '';
+  public $date;
   /**
    * @var string
    */

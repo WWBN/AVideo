@@ -21,8 +21,10 @@ class VideoPerDocData extends \Google\Model
 {
   protected $coreSignalsType = MediaIndexVideoCoreSignals::class;
   protected $coreSignalsDataType = '';
+  public $coreSignals;
   protected $framesType = MediaIndexVideoFrames::class;
   protected $framesDataType = '';
+  public $frames;
 
   /**
    * @param MediaIndexVideoCoreSignals

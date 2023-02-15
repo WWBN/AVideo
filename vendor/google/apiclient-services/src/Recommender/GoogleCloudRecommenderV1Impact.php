@@ -25,12 +25,16 @@ class GoogleCloudRecommenderV1Impact extends \Google\Model
   public $category;
   protected $costProjectionType = GoogleCloudRecommenderV1CostProjection::class;
   protected $costProjectionDataType = '';
+  public $costProjection;
   protected $reliabilityProjectionType = GoogleCloudRecommenderV1ReliabilityProjection::class;
   protected $reliabilityProjectionDataType = '';
+  public $reliabilityProjection;
   protected $securityProjectionType = GoogleCloudRecommenderV1SecurityProjection::class;
   protected $securityProjectionDataType = '';
+  public $securityProjection;
   protected $sustainabilityProjectionType = GoogleCloudRecommenderV1SustainabilityProjection::class;
   protected $sustainabilityProjectionDataType = '';
+  public $sustainabilityProjection;
 
   /**
    * @param string

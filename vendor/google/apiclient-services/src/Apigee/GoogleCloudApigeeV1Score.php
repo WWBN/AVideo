@@ -22,10 +22,13 @@ class GoogleCloudApigeeV1Score extends \Google\Collection
   protected $collection_key = 'subcomponents';
   protected $componentType = GoogleCloudApigeeV1ScoreComponent::class;
   protected $componentDataType = '';
+  public $component;
   protected $subcomponentsType = GoogleCloudApigeeV1ScoreComponent::class;
   protected $subcomponentsDataType = 'array';
+  public $subcomponents;
   protected $timeRangeType = GoogleTypeInterval::class;
   protected $timeRangeDataType = '';
+  public $timeRange;
 
   /**
    * @param GoogleCloudApigeeV1ScoreComponent

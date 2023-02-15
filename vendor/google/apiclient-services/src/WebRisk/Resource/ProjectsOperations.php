@@ -27,7 +27,7 @@ use Google\Service\WebRisk\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $webriskService = new Google\Service\WebRisk(...);
- *   $operations = $webriskService->operations;
+ *   $operations = $webriskService->projects_operations;
  *  </code>
  */
 class ProjectsOperations extends \Google\Service\Resource

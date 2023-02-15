@@ -26,7 +26,7 @@ use Google\Service\TagManager\Tag;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $tags = $tagmanagerService->tags;
+ *   $tags = $tagmanagerService->accounts_containers_workspaces_tags;
  *  </code>
  */
 class AccountsContainersWorkspacesTags extends \Google\Service\Resource

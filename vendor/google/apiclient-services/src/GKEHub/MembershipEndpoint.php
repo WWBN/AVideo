@@ -21,18 +21,29 @@ class MembershipEndpoint extends \Google\Model
 {
   protected $applianceClusterType = ApplianceCluster::class;
   protected $applianceClusterDataType = '';
+  public $applianceCluster;
   protected $edgeClusterType = EdgeCluster::class;
   protected $edgeClusterDataType = '';
+  public $edgeCluster;
   protected $gkeClusterType = GkeCluster::class;
   protected $gkeClusterDataType = '';
+  public $gkeCluster;
+  /**
+   * @var bool
+   */
+  public $googleManaged;
   protected $kubernetesMetadataType = KubernetesMetadata::class;
   protected $kubernetesMetadataDataType = '';
+  public $kubernetesMetadata;
   protected $kubernetesResourceType = KubernetesResource::class;
   protected $kubernetesResourceDataType = '';
+  public $kubernetesResource;
   protected $multiCloudClusterType = MultiCloudCluster::class;
   protected $multiCloudClusterDataType = '';
+  public $multiCloudCluster;
   protected $onPremClusterType = OnPremCluster::class;
   protected $onPremClusterDataType = '';
+  public $onPremCluster;
 
   /**
    * @param ApplianceCluster
@@ -75,6 +86,20 @@ class MembershipEndpoint extends \Google\Model
   public function getGkeCluster()
   {
     return $this->gkeCluster;
+  }
+  /**
+   * @param bool
+   */
+  public function setGoogleManaged($googleManaged)
+  {
+    $this->googleManaged = $googleManaged;
+  }
+  /**
+   * @return bool
+   */
+  public function getGoogleManaged()
+  {
+    return $this->googleManaged;
   }
   /**
    * @param KubernetesMetadata

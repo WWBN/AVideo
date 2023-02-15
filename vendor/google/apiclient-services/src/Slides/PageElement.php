@@ -25,32 +25,42 @@ class PageElement extends \Google\Model
   public $description;
   protected $elementGroupType = Group::class;
   protected $elementGroupDataType = '';
+  public $elementGroup;
   protected $imageType = Image::class;
   protected $imageDataType = '';
+  public $image;
   protected $lineType = Line::class;
   protected $lineDataType = '';
+  public $line;
   /**
    * @var string
    */
   public $objectId;
   protected $shapeType = Shape::class;
   protected $shapeDataType = '';
+  public $shape;
   protected $sheetsChartType = SheetsChart::class;
   protected $sheetsChartDataType = '';
+  public $sheetsChart;
   protected $sizeType = Size::class;
   protected $sizeDataType = '';
+  public $size;
   protected $tableType = Table::class;
   protected $tableDataType = '';
+  public $table;
   /**
    * @var string
    */
   public $title;
   protected $transformType = AffineTransform::class;
   protected $transformDataType = '';
+  public $transform;
   protected $videoType = Video::class;
   protected $videoDataType = '';
+  public $video;
   protected $wordArtType = WordArt::class;
   protected $wordArtDataType = '';
+  public $wordArt;
 
   /**
    * @param string

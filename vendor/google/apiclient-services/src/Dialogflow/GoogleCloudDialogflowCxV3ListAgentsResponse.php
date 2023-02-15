@@ -22,6 +22,7 @@ class GoogleCloudDialogflowCxV3ListAgentsResponse extends \Google\Collection
   protected $collection_key = 'agents';
   protected $agentsType = GoogleCloudDialogflowCxV3Agent::class;
   protected $agentsDataType = 'array';
+  public $agents;
   /**
    * @var string
    */

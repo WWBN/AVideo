@@ -29,18 +29,21 @@ class FloodlightActivityGroup extends \Google\Model
   public $advertiserId;
   protected $advertiserIdDimensionValueType = DimensionValue::class;
   protected $advertiserIdDimensionValueDataType = '';
+  public $advertiserIdDimensionValue;
   /**
    * @var string
    */
   public $floodlightConfigurationId;
   protected $floodlightConfigurationIdDimensionValueType = DimensionValue::class;
   protected $floodlightConfigurationIdDimensionValueDataType = '';
+  public $floodlightConfigurationIdDimensionValue;
   /**
    * @var string
    */
   public $id;
   protected $idDimensionValueType = DimensionValue::class;
   protected $idDimensionValueDataType = '';
+  public $idDimensionValue;
   /**
    * @var string
    */

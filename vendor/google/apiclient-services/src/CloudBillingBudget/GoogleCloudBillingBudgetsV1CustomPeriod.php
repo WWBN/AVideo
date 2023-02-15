@@ -21,8 +21,10 @@ class GoogleCloudBillingBudgetsV1CustomPeriod extends \Google\Model
 {
   protected $endDateType = GoogleTypeDate::class;
   protected $endDateDataType = '';
+  public $endDate;
   protected $startDateType = GoogleTypeDate::class;
   protected $startDateDataType = '';
+  public $startDate;
 
   /**
    * @param GoogleTypeDate

@@ -22,6 +22,7 @@ class NlpSaftLabeledSpans extends \Google\Collection
   protected $collection_key = 'labeledSpan';
   protected $labeledSpanType = NlpSaftLabeledSpan::class;
   protected $labeledSpanDataType = 'array';
+  public $labeledSpan;
 
   /**
    * @param NlpSaftLabeledSpan[]

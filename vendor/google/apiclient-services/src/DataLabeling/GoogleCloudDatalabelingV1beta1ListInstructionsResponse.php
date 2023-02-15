@@ -22,6 +22,7 @@ class GoogleCloudDatalabelingV1beta1ListInstructionsResponse extends \Google\Col
   protected $collection_key = 'instructions';
   protected $instructionsType = GoogleCloudDatalabelingV1beta1Instruction::class;
   protected $instructionsDataType = 'array';
+  public $instructions;
   /**
    * @var string
    */

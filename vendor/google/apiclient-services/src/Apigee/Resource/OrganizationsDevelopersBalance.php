@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1DeveloperBalance;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $balance = $apigeeService->balance;
+ *   $balance = $apigeeService->organizations_developers_balance;
  *  </code>
  */
 class OrganizationsDevelopersBalance extends \Google\Service\Resource

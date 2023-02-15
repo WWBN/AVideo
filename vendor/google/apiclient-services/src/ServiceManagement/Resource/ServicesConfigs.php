@@ -27,7 +27,7 @@ use Google\Service\ServiceManagement\SubmitConfigSourceRequest;
  * Typical usage is:
  *  <code>
  *   $servicemanagementService = new Google\Service\ServiceManagement(...);
- *   $configs = $servicemanagementService->configs;
+ *   $configs = $servicemanagementService->services_configs;
  *  </code>
  */
 class ServicesConfigs extends \Google\Service\Resource

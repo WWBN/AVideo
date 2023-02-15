@@ -21,8 +21,10 @@ class DriveMetadata extends \Google\Model
 {
   protected $aclFixRequestType = AclFixRequest::class;
   protected $aclFixRequestDataType = '';
+  public $aclFixRequest;
   protected $aclFixStatusType = AclFixStatus::class;
   protected $aclFixStatusDataType = '';
+  public $aclFixStatus;
   /**
    * @var bool
    */
@@ -45,6 +47,7 @@ class DriveMetadata extends \Google\Model
   public $driveState;
   protected $embedUrlType = TrustedResourceUrlProto::class;
   protected $embedUrlDataType = '';
+  public $embedUrl;
   /**
    * @var bool
    */
@@ -71,6 +74,7 @@ class DriveMetadata extends \Google\Model
   public $isOwner;
   protected $legacyUploadMetadataType = LegacyUploadMetadata::class;
   protected $legacyUploadMetadataDataType = '';
+  public $legacyUploadMetadata;
   /**
    * @var string
    */
@@ -81,6 +85,7 @@ class DriveMetadata extends \Google\Model
   public $organizationDisplayName;
   protected $shortcutAuthorizedItemIdType = AuthorizedItemId::class;
   protected $shortcutAuthorizedItemIdDataType = '';
+  public $shortcutAuthorizedItemId;
   /**
    * @var bool
    */
@@ -107,6 +112,7 @@ class DriveMetadata extends \Google\Model
   public $urlFragment;
   protected $wrappedResourceKeyType = WrappedResourceKey::class;
   protected $wrappedResourceKeyDataType = '';
+  public $wrappedResourceKey;
 
   /**
    * @param AclFixRequest

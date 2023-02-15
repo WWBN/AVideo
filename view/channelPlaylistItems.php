@@ -42,7 +42,7 @@ if (empty($_GET['current'])) {
 }
 $_REQUEST['rowCount'] = 4;
 $sort = @$_POST['sort'];
-$_POST['sort'] = array();
+$_POST['sort'] = [];
 $_POST['sort']['created'] = 'DESC';
 $playlists = PlayList::getAllFromUser($user_id, $publicOnly, false, 0, 0, true);
 $_POST['sort'] = $sort;
@@ -204,7 +204,7 @@ unset($_POST['current']);
                         $class = '';
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;">
-                            <?php                            
+                            <?php
                                 echo Video::getVideoImagewithHoverAnimationFromVideosId($value);
                             ?>
                             <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo getSEOTitle($value['title']); ?>">

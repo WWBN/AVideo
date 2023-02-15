@@ -24,14 +24,17 @@ class JobListJobs extends \Google\Model
   ];
   protected $configurationType = JobConfiguration::class;
   protected $configurationDataType = '';
+  public $configuration;
   protected $errorResultType = ErrorProto::class;
   protected $errorResultDataType = '';
+  public $errorResult;
   /**
    * @var string
    */
   public $id;
   protected $jobReferenceType = JobReference::class;
   protected $jobReferenceDataType = '';
+  public $jobReference;
   /**
    * @var string
    */
@@ -42,8 +45,10 @@ class JobListJobs extends \Google\Model
   public $state;
   protected $statisticsType = JobStatistics::class;
   protected $statisticsDataType = '';
+  public $statistics;
   protected $statusType = JobStatus::class;
   protected $statusDataType = '';
+  public $status;
   /**
    * @var string
    */

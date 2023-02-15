@@ -22,6 +22,7 @@ class GoogleCloudRetailV2UserEventInlineSource extends \Google\Collection
   protected $collection_key = 'userEvents';
   protected $userEventsType = GoogleCloudRetailV2UserEvent::class;
   protected $userEventsDataType = 'array';
+  public $userEvents;
 
   /**
    * @param GoogleCloudRetailV2UserEvent[]

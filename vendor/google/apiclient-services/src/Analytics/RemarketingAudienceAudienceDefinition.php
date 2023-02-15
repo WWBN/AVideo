@@ -21,6 +21,7 @@ class RemarketingAudienceAudienceDefinition extends \Google\Model
 {
   protected $includeConditionsType = IncludeConditions::class;
   protected $includeConditionsDataType = '';
+  public $includeConditions;
 
   /**
    * @param IncludeConditions

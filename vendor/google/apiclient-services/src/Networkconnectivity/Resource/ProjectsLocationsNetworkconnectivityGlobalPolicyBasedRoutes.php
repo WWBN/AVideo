@@ -27,7 +27,7 @@ use Google\Service\Networkconnectivity\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $networkconnectivityService = new Google\Service\Networkconnectivity(...);
- *   $policyBasedRoutes = $networkconnectivityService->policyBasedRoutes;
+ *   $policyBasedRoutes = $networkconnectivityService->projects_locations_global_policyBasedRoutes;
  *  </code>
  */
 class ProjectsLocationsNetworkconnectivityGlobalPolicyBasedRoutes extends \Google\Service\Resource

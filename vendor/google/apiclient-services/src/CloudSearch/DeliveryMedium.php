@@ -25,6 +25,7 @@ class DeliveryMedium extends \Google\Model
   public $mediumType;
   protected $selfPhoneType = VoicePhoneNumber::class;
   protected $selfPhoneDataType = '';
+  public $selfPhone;
 
   /**
    * @param string

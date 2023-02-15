@@ -27,7 +27,7 @@ use Google\Service\ServiceNetworking\UpdateDnsRecordSetRequest;
  * Typical usage is:
  *  <code>
  *   $servicenetworkingService = new Google\Service\ServiceNetworking(...);
- *   $dnsRecordSets = $servicenetworkingService->dnsRecordSets;
+ *   $dnsRecordSets = $servicenetworkingService->services_dnsRecordSets;
  *  </code>
  */
 class ServicesDnsRecordSets extends \Google\Service\Resource

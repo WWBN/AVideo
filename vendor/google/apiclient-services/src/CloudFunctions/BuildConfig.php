@@ -49,8 +49,10 @@ class BuildConfig extends \Google\Model
   public $runtime;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
+  public $source;
   protected $sourceProvenanceType = SourceProvenance::class;
   protected $sourceProvenanceDataType = '';
+  public $sourceProvenance;
   /**
    * @var string
    */

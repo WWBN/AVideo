@@ -22,6 +22,7 @@ class CrowdingPerDocData extends \Google\Collection
   protected $collection_key = 'newscluster';
   protected $newsclusterType = CrowdingPerDocDataNewsCluster::class;
   protected $newsclusterDataType = 'array';
+  public $newscluster;
 
   /**
    * @param CrowdingPerDocDataNewsCluster[]

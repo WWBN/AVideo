@@ -21,12 +21,14 @@ class GoogleCloudDocumentaiUiv1beta3ExportDocumentsMetadataIndividualExportStatu
 {
   protected $documentIdType = GoogleCloudDocumentaiUiv1beta3DocumentId::class;
   protected $documentIdDataType = '';
+  public $documentId;
   /**
    * @var string
    */
   public $outputGcsDestination;
   protected $statusType = GoogleRpcStatus::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param GoogleCloudDocumentaiUiv1beta3DocumentId

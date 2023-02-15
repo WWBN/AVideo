@@ -22,14 +22,17 @@ class DiscoveryOccurrence extends \Google\Collection
   protected $collection_key = 'analysisError';
   protected $analysisCompletedType = AnalysisCompleted::class;
   protected $analysisCompletedDataType = '';
+  public $analysisCompleted;
   protected $analysisErrorType = Status::class;
   protected $analysisErrorDataType = 'array';
+  public $analysisError;
   /**
    * @var string
    */
   public $analysisStatus;
   protected $analysisStatusErrorType = Status::class;
   protected $analysisStatusErrorDataType = '';
+  public $analysisStatusError;
   /**
    * @var string
    */

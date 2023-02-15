@@ -22,10 +22,13 @@ class SearchApplication extends \Google\Collection
   protected $collection_key = 'sourceConfig';
   protected $dataSourceRestrictionsType = DataSourceRestriction::class;
   protected $dataSourceRestrictionsDataType = 'array';
+  public $dataSourceRestrictions;
   protected $defaultFacetOptionsType = FacetOptions::class;
   protected $defaultFacetOptionsDataType = 'array';
+  public $defaultFacetOptions;
   protected $defaultSortOptionsType = SortOptions::class;
   protected $defaultSortOptionsDataType = '';
+  public $defaultSortOptions;
   /**
    * @var string
    */
@@ -44,14 +47,17 @@ class SearchApplication extends \Google\Collection
   public $operationIds;
   protected $queryInterpretationConfigType = QueryInterpretationConfig::class;
   protected $queryInterpretationConfigDataType = '';
+  public $queryInterpretationConfig;
   /**
    * @var bool
    */
   public $returnResultThumbnailUrls;
   protected $scoringConfigType = ScoringConfig::class;
   protected $scoringConfigDataType = '';
+  public $scoringConfig;
   protected $sourceConfigType = SourceConfig::class;
   protected $sourceConfigDataType = 'array';
+  public $sourceConfig;
 
   /**
    * @param DataSourceRestriction[]

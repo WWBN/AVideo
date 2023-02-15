@@ -22,6 +22,7 @@ class ListHubsResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $hubsType = Hub::class;
   protected $hubsDataType = 'array';
+  public $hubs;
   /**
    * @var string
    */

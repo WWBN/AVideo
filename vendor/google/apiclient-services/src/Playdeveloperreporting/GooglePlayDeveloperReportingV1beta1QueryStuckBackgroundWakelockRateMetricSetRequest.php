@@ -42,6 +42,7 @@ class GooglePlayDeveloperReportingV1beta1QueryStuckBackgroundWakelockRateMetricS
   public $pageToken;
   protected $timelineSpecType = GooglePlayDeveloperReportingV1beta1TimelineSpec::class;
   protected $timelineSpecDataType = '';
+  public $timelineSpec;
 
   /**
    * @param string[]

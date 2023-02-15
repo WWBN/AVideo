@@ -22,18 +22,23 @@ class InfoTypeTransformation extends \Google\Collection
   protected $collection_key = 'infoTypes';
   protected $characterMaskConfigType = CharacterMaskConfig::class;
   protected $characterMaskConfigDataType = '';
+  public $characterMaskConfig;
   protected $cryptoHashConfigType = CryptoHashConfig::class;
   protected $cryptoHashConfigDataType = '';
+  public $cryptoHashConfig;
   protected $dateShiftConfigType = DateShiftConfig::class;
   protected $dateShiftConfigDataType = '';
+  public $dateShiftConfig;
   /**
    * @var string[]
    */
   public $infoTypes;
   protected $redactConfigType = RedactConfig::class;
   protected $redactConfigDataType = '';
+  public $redactConfig;
   protected $replaceWithInfoTypeConfigType = ReplaceWithInfoTypeConfig::class;
   protected $replaceWithInfoTypeConfigDataType = '';
+  public $replaceWithInfoTypeConfig;
 
   /**
    * @param CharacterMaskConfig

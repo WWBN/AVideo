@@ -21,8 +21,10 @@ class ChartGroupRule extends \Google\Model
 {
   protected $dateTimeRuleType = ChartDateTimeRule::class;
   protected $dateTimeRuleDataType = '';
+  public $dateTimeRule;
   protected $histogramRuleType = ChartHistogramRule::class;
   protected $histogramRuleDataType = '';
+  public $histogramRule;
 
   /**
    * @param ChartDateTimeRule

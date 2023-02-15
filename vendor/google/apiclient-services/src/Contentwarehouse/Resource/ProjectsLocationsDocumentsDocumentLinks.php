@@ -27,7 +27,7 @@ use Google\Service\Contentwarehouse\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $contentwarehouseService = new Google\Service\Contentwarehouse(...);
- *   $documentLinks = $contentwarehouseService->documentLinks;
+ *   $documentLinks = $contentwarehouseService->projects_locations_documents_documentLinks;
  *  </code>
  */
 class ProjectsLocationsDocumentsDocumentLinks extends \Google\Service\Resource

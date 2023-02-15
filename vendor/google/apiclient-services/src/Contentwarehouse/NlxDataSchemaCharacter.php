@@ -21,16 +21,20 @@ class NlxDataSchemaCharacter extends \Google\Model
 {
   protected $documentType = MultiscalePointerIndex::class;
   protected $documentDataType = '';
+  public $document;
   protected $paragraphType = MultiscalePointerIndex::class;
   protected $paragraphDataType = '';
+  public $paragraph;
   protected $sentenceType = MultiscalePointerIndex::class;
   protected $sentenceDataType = '';
+  public $sentence;
   /**
    * @var string
    */
   public $text;
   protected $tokenType = MultiscalePointerIndex::class;
   protected $tokenDataType = '';
+  public $token;
 
   /**
    * @param MultiscalePointerIndex

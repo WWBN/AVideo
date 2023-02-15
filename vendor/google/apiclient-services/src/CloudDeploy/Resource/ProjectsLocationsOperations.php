@@ -27,7 +27,7 @@ use Google\Service\CloudDeploy\Operation;
  * Typical usage is:
  *  <code>
  *   $clouddeployService = new Google\Service\CloudDeploy(...);
- *   $operations = $clouddeployService->operations;
+ *   $operations = $clouddeployService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

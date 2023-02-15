@@ -26,7 +26,7 @@ use Google\Service\Cloudchannel\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $cloudchannelService = new Google\Service\Cloudchannel(...);
- *   $customerRepricingConfigs = $cloudchannelService->customerRepricingConfigs;
+ *   $customerRepricingConfigs = $cloudchannelService->accounts_customers_customerRepricingConfigs;
  *  </code>
  */
 class AccountsCustomersCustomerRepricingConfigs extends \Google\Service\Resource

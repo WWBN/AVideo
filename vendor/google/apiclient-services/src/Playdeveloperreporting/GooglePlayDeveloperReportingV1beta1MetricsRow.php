@@ -26,10 +26,13 @@ class GooglePlayDeveloperReportingV1beta1MetricsRow extends \Google\Collection
   public $aggregationPeriod;
   protected $dimensionsType = GooglePlayDeveloperReportingV1beta1DimensionValue::class;
   protected $dimensionsDataType = 'array';
+  public $dimensions;
   protected $metricsType = GooglePlayDeveloperReportingV1beta1MetricValue::class;
   protected $metricsDataType = 'array';
+  public $metrics;
   protected $startTimeType = GoogleTypeDateTime::class;
   protected $startTimeDataType = '';
+  public $startTime;
 
   /**
    * @param string

@@ -21,8 +21,10 @@ class AdvertiserAdServerConfig extends \Google\Model
 {
   protected $cmHybridConfigType = CmHybridConfig::class;
   protected $cmHybridConfigDataType = '';
+  public $cmHybridConfig;
   protected $thirdPartyOnlyConfigType = ThirdPartyOnlyConfig::class;
   protected $thirdPartyOnlyConfigDataType = '';
+  public $thirdPartyOnlyConfig;
 
   /**
    * @param CmHybridConfig

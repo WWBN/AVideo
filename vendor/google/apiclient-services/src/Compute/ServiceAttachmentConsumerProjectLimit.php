@@ -26,6 +26,10 @@ class ServiceAttachmentConsumerProjectLimit extends \Google\Model
   /**
    * @var string
    */
+  public $networkUrl;
+  /**
+   * @var string
+   */
   public $projectIdOrNum;
 
   /**
@@ -41,6 +45,20 @@ class ServiceAttachmentConsumerProjectLimit extends \Google\Model
   public function getConnectionLimit()
   {
     return $this->connectionLimit;
+  }
+  /**
+   * @param string
+   */
+  public function setNetworkUrl($networkUrl)
+  {
+    $this->networkUrl = $networkUrl;
+  }
+  /**
+   * @return string
+   */
+  public function getNetworkUrl()
+  {
+    return $this->networkUrl;
   }
   /**
    * @param string

@@ -22,6 +22,7 @@ class ManagedCertificate extends \Google\Collection
   protected $collection_key = 'domains';
   protected $authorizationAttemptInfoType = AuthorizationAttemptInfo::class;
   protected $authorizationAttemptInfoDataType = 'array';
+  public $authorizationAttemptInfo;
   /**
    * @var string[]
    */
@@ -36,6 +37,7 @@ class ManagedCertificate extends \Google\Collection
   public $issuanceConfig;
   protected $provisioningIssueType = ProvisioningIssue::class;
   protected $provisioningIssueDataType = '';
+  public $provisioningIssue;
   /**
    * @var string
    */

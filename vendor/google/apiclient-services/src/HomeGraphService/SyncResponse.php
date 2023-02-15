@@ -21,6 +21,7 @@ class SyncResponse extends \Google\Model
 {
   protected $payloadType = SyncResponsePayload::class;
   protected $payloadDataType = '';
+  public $payload;
   /**
    * @var string
    */

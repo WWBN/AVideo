@@ -26,6 +26,7 @@ class SMTPDelivery extends \Google\Collection
   public $fromAddress;
   protected $passwordType = NotifierSecretRef::class;
   protected $passwordDataType = '';
+  public $password;
   /**
    * @var string
    */

@@ -26,7 +26,7 @@ use Google\Service\Baremetalsolution\Operation;
  * Typical usage is:
  *  <code>
  *   $baremetalsolutionService = new Google\Service\Baremetalsolution(...);
- *   $nfsShares = $baremetalsolutionService->nfsShares;
+ *   $nfsShares = $baremetalsolutionService->projects_locations_nfsShares;
  *  </code>
  */
 class ProjectsLocationsNfsShares extends \Google\Service\Resource

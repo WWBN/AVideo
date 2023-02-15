@@ -25,6 +25,7 @@ class RepositoryWebrefWebrefStatus extends \Google\Model
   public $dataEpoch;
   protected $utilStatusType = UtilStatusProto::class;
   protected $utilStatusDataType = '';
+  public $utilStatus;
   /**
    * @var int
    */

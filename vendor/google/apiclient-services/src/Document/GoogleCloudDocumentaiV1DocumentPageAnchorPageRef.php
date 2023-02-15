@@ -21,6 +21,7 @@ class GoogleCloudDocumentaiV1DocumentPageAnchorPageRef extends \Google\Model
 {
   protected $boundingPolyType = GoogleCloudDocumentaiV1BoundingPoly::class;
   protected $boundingPolyDataType = '';
+  public $boundingPoly;
   /**
    * @var float
    */

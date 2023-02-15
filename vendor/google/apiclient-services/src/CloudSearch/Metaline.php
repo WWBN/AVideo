@@ -22,6 +22,7 @@ class Metaline extends \Google\Collection
   protected $collection_key = 'properties';
   protected $propertiesType = DisplayedProperty::class;
   protected $propertiesDataType = 'array';
+  public $properties;
 
   /**
    * @param DisplayedProperty[]

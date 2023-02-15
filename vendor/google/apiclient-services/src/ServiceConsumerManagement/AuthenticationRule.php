@@ -26,8 +26,10 @@ class AuthenticationRule extends \Google\Collection
   public $allowWithoutCredential;
   protected $oauthType = OAuthRequirements::class;
   protected $oauthDataType = '';
+  public $oauth;
   protected $requirementsType = AuthRequirement::class;
   protected $requirementsDataType = 'array';
+  public $requirements;
   /**
    * @var string
    */

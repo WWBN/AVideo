@@ -21,6 +21,7 @@ class Calendar extends \Google\Model
 {
   protected $conferencePropertiesType = ConferenceProperties::class;
   protected $conferencePropertiesDataType = '';
+  public $conferenceProperties;
   /**
    * @var string
    */

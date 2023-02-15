@@ -25,7 +25,7 @@ use Google\Service\CloudScheduler\Location;
  * Typical usage is:
  *  <code>
  *   $cloudschedulerService = new Google\Service\CloudScheduler(...);
- *   $locations = $cloudschedulerService->locations;
+ *   $locations = $cloudschedulerService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

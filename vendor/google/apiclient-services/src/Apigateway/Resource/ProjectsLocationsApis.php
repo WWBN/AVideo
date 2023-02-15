@@ -30,7 +30,7 @@ use Google\Service\Apigateway\ApigatewayTestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $apigatewayService = new Google\Service\Apigateway(...);
- *   $apis = $apigatewayService->apis;
+ *   $apis = $apigatewayService->projects_locations_apis;
  *  </code>
  */
 class ProjectsLocationsApis extends \Google\Service\Resource

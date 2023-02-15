@@ -21,8 +21,10 @@ class MergeConflict extends \Google\Model
 {
   protected $entityInBaseVersionType = Entity::class;
   protected $entityInBaseVersionDataType = '';
+  public $entityInBaseVersion;
   protected $entityInWorkspaceType = Entity::class;
   protected $entityInWorkspaceDataType = '';
+  public $entityInWorkspace;
 
   /**
    * @param Entity

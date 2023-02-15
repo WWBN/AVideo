@@ -24,7 +24,7 @@ use Google\Service\Ideahub\GoogleSearchIdeahubV1betaListAvailableLocalesResponse
  * Typical usage is:
  *  <code>
  *   $ideahubService = new Google\Service\Ideahub(...);
- *   $locales = $ideahubService->locales;
+ *   $locales = $ideahubService->platforms_properties_locales;
  *  </code>
  */
 class PlatformsPropertiesLocales extends \Google\Service\Resource

@@ -21,8 +21,10 @@ class ResourceUsageExportConfig extends \Google\Model
 {
   protected $bigqueryDestinationType = BigQueryDestination::class;
   protected $bigqueryDestinationDataType = '';
+  public $bigqueryDestination;
   protected $consumptionMeteringConfigType = ConsumptionMeteringConfig::class;
   protected $consumptionMeteringConfigDataType = '';
+  public $consumptionMeteringConfig;
   /**
    * @var bool
    */

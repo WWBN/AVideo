@@ -22,12 +22,14 @@ class GooglePrivacyDlpV2StoredInfoType extends \Google\Collection
   protected $collection_key = 'pendingVersions';
   protected $currentVersionType = GooglePrivacyDlpV2StoredInfoTypeVersion::class;
   protected $currentVersionDataType = '';
+  public $currentVersion;
   /**
    * @var string
    */
   public $name;
   protected $pendingVersionsType = GooglePrivacyDlpV2StoredInfoTypeVersion::class;
   protected $pendingVersionsDataType = 'array';
+  public $pendingVersions;
 
   /**
    * @param GooglePrivacyDlpV2StoredInfoTypeVersion

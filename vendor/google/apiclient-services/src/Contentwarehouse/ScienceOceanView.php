@@ -22,6 +22,7 @@ class ScienceOceanView extends \Google\Collection
   protected $collection_key = 'countryview';
   protected $countryviewType = ScienceOceanViewCountryView::class;
   protected $countryviewDataType = 'array';
+  public $countryview;
 
   /**
    * @param ScienceOceanViewCountryView[]

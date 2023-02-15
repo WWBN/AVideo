@@ -29,6 +29,7 @@ class GoogleCloudDocumentaiUiv1beta3ImportDocumentsMetadataIndividualImportStatu
   public $outputGcsDestination;
   protected $statusType = GoogleRpcStatus::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param string

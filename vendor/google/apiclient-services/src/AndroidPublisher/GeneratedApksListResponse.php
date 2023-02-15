@@ -22,6 +22,7 @@ class GeneratedApksListResponse extends \Google\Collection
   protected $collection_key = 'generatedApks';
   protected $generatedApksType = GeneratedApksPerSigningKey::class;
   protected $generatedApksDataType = 'array';
+  public $generatedApks;
 
   /**
    * @param GeneratedApksPerSigningKey[]

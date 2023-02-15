@@ -34,6 +34,7 @@ class AppsDynamiteSharedAction extends \Google\Collection
   public $loadIndicator;
   protected $parametersType = AppsDynamiteSharedActionActionParameter::class;
   protected $parametersDataType = 'array';
+  public $parameters;
 
   /**
    * @param string

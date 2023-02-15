@@ -21,8 +21,10 @@ class GoogleCloudDatacatalogV1BusinessContext extends \Google\Model
 {
   protected $contactsType = GoogleCloudDatacatalogV1Contacts::class;
   protected $contactsDataType = '';
+  public $contacts;
   protected $entryOverviewType = GoogleCloudDatacatalogV1EntryOverview::class;
   protected $entryOverviewDataType = '';
+  public $entryOverview;
 
   /**
    * @param GoogleCloudDatacatalogV1Contacts

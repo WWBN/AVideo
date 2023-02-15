@@ -25,7 +25,7 @@ use Google\Service\CloudDebugger\RegisterDebuggeeResponse;
  * Typical usage is:
  *  <code>
  *   $clouddebuggerService = new Google\Service\CloudDebugger(...);
- *   $debuggees = $clouddebuggerService->debuggees;
+ *   $debuggees = $clouddebuggerService->controller_debuggees;
  *  </code>
  */
 class ControllerDebuggees extends \Google\Service\Resource

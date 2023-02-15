@@ -21,8 +21,10 @@ class Replication extends \Google\Model
 {
   protected $automaticType = Automatic::class;
   protected $automaticDataType = '';
+  public $automatic;
   protected $userManagedType = UserManaged::class;
   protected $userManagedDataType = '';
+  public $userManaged;
 
   /**
    * @param Automatic

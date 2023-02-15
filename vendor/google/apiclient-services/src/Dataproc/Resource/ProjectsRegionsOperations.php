@@ -31,7 +31,7 @@ use Google\Service\Dataproc\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $dataprocService = new Google\Service\Dataproc(...);
- *   $operations = $dataprocService->operations;
+ *   $operations = $dataprocService->projects_regions_operations;
  *  </code>
  */
 class ProjectsRegionsOperations extends \Google\Service\Resource

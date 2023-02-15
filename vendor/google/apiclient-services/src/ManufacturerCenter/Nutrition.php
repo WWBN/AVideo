@@ -22,39 +22,51 @@ class Nutrition extends \Google\Collection
   protected $collection_key = 'voluntaryNutritionFact';
   protected $addedSugarsType = FloatUnit::class;
   protected $addedSugarsDataType = '';
+  public $addedSugars;
   public $addedSugarsDailyPercentage;
   protected $calciumType = FloatUnit::class;
   protected $calciumDataType = '';
+  public $calcium;
   public $calciumDailyPercentage;
   protected $cholesterolType = FloatUnit::class;
   protected $cholesterolDataType = '';
+  public $cholesterol;
   public $cholesterolDailyPercentage;
   protected $dietaryFiberType = FloatUnit::class;
   protected $dietaryFiberDataType = '';
+  public $dietaryFiber;
   public $dietaryFiberDailyPercentage;
   protected $energyType = FloatUnit::class;
   protected $energyDataType = '';
+  public $energy;
   protected $energyFromFatType = FloatUnit::class;
   protected $energyFromFatDataType = '';
+  public $energyFromFat;
   public $folateDailyPercentage;
   protected $folateFolicAcidType = FloatUnit::class;
   protected $folateFolicAcidDataType = '';
+  public $folateFolicAcid;
   public $folateMcgDfe;
   protected $ironType = FloatUnit::class;
   protected $ironDataType = '';
+  public $iron;
   public $ironDailyPercentage;
   protected $monounsaturatedFatType = FloatUnit::class;
   protected $monounsaturatedFatDataType = '';
+  public $monounsaturatedFat;
   /**
    * @var string
    */
   public $nutritionFactMeasure;
   protected $polyolsType = FloatUnit::class;
   protected $polyolsDataType = '';
+  public $polyols;
   protected $polyunsaturatedFatType = FloatUnit::class;
   protected $polyunsaturatedFatDataType = '';
+  public $polyunsaturatedFat;
   protected $potassiumType = FloatUnit::class;
   protected $potassiumDataType = '';
+  public $potassium;
   public $potassiumDailyPercentage;
   /**
    * @var string
@@ -62,9 +74,11 @@ class Nutrition extends \Google\Collection
   public $preparedSizeDescription;
   protected $proteinType = FloatUnit::class;
   protected $proteinDataType = '';
+  public $protein;
   public $proteinDailyPercentage;
   protected $saturatedFatType = FloatUnit::class;
   protected $saturatedFatDataType = '';
+  public $saturatedFat;
   public $saturatedFatDailyPercentage;
   /**
    * @var string
@@ -72,32 +86,41 @@ class Nutrition extends \Google\Collection
   public $servingSizeDescription;
   protected $servingSizeMeasureType = FloatUnit::class;
   protected $servingSizeMeasureDataType = '';
+  public $servingSizeMeasure;
   /**
    * @var string
    */
   public $servingsPerContainer;
   protected $sodiumType = FloatUnit::class;
   protected $sodiumDataType = '';
+  public $sodium;
   public $sodiumDailyPercentage;
   protected $starchType = FloatUnit::class;
   protected $starchDataType = '';
+  public $starch;
   protected $totalCarbohydrateType = FloatUnit::class;
   protected $totalCarbohydrateDataType = '';
+  public $totalCarbohydrate;
   public $totalCarbohydrateDailyPercentage;
   protected $totalFatType = FloatUnit::class;
   protected $totalFatDataType = '';
+  public $totalFat;
   public $totalFatDailyPercentage;
   protected $totalSugarsType = FloatUnit::class;
   protected $totalSugarsDataType = '';
+  public $totalSugars;
   public $totalSugarsDailyPercentage;
   protected $transFatType = FloatUnit::class;
   protected $transFatDataType = '';
+  public $transFat;
   public $transFatDailyPercentage;
   protected $vitaminDType = FloatUnit::class;
   protected $vitaminDDataType = '';
+  public $vitaminD;
   public $vitaminDDailyPercentage;
   protected $voluntaryNutritionFactType = VoluntaryNutritionFact::class;
   protected $voluntaryNutritionFactDataType = 'array';
+  public $voluntaryNutritionFact;
 
   /**
    * @param FloatUnit

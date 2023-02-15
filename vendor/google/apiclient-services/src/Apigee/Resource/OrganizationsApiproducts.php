@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ListApiProductsResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $apiproducts = $apigeeService->apiproducts;
+ *   $apiproducts = $apigeeService->organizations_apiproducts;
  *  </code>
  */
 class OrganizationsApiproducts extends \Google\Service\Resource

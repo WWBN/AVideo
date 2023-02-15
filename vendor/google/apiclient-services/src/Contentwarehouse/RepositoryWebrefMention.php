@@ -26,6 +26,7 @@ class RepositoryWebrefMention extends \Google\Collection
   public $addedByCloseAnswers;
   protected $additionalExplainedRangeType = RepositoryWebrefMentionAdditionalExplainedRange::class;
   protected $additionalExplainedRangeDataType = 'array';
+  public $additionalExplainedRange;
   /**
    * @var int
    */
@@ -36,14 +37,17 @@ class RepositoryWebrefMention extends \Google\Collection
   public $beginTokenIndex;
   protected $compoundMentionType = RepositoryWebrefMentionCompoundMention::class;
   protected $compoundMentionDataType = 'array';
+  public $compoundMention;
   /**
    * @var float
    */
   public $confidenceScore;
   protected $debugInfoType = RepositoryWebrefMentionDebugInfo::class;
   protected $debugInfoDataType = '';
+  public $debugInfo;
   protected $detailedMentionScoresType = RepositoryWebrefDetailedMentionScores::class;
   protected $detailedMentionScoresDataType = '';
+  public $detailedMentionScores;
   /**
    * @var int
    */
@@ -54,6 +58,7 @@ class RepositoryWebrefMention extends \Google\Collection
   public $endTokenIndex;
   protected $evalInfoType = RepositoryWebrefMentionEvalInfo::class;
   protected $evalInfoDataType = '';
+  public $evalInfo;
   /**
    * @var int[]
    */
@@ -64,6 +69,7 @@ class RepositoryWebrefMention extends \Google\Collection
   public $isImplicit;
   protected $lexicalAnnotationType = RepositoryWebrefLexicalAnnotation::class;
   protected $lexicalAnnotationDataType = '';
+  public $lexicalAnnotation;
   /**
    * @var bool
    */
@@ -74,14 +80,17 @@ class RepositoryWebrefMention extends \Google\Collection
   public $matchingText;
   protected $nameMetadataType = RepositoryWebrefConceptNameMetadata::class;
   protected $nameMetadataDataType = '';
+  public $nameMetadata;
   /**
    * @var float
    */
   public $nonLocationalScore;
   protected $perMentionLightweightTokenType = RepositoryWebrefLightweightTokensPerMentionLightweightToken::class;
   protected $perMentionLightweightTokenDataType = '';
+  public $perMentionLightweightToken;
   protected $personalizationContextOutputsType = RepositoryWebrefPersonalizationContextOutputs::class;
   protected $personalizationContextOutputsDataType = '';
+  public $personalizationContextOutputs;
   /**
    * @var float
    */
@@ -96,8 +105,10 @@ class RepositoryWebrefMention extends \Google\Collection
   public $resolutionScore;
   protected $stuffType = Proto2BridgeMessageSet::class;
   protected $stuffDataType = '';
+  public $stuff;
   protected $subsegmentIndexType = RepositoryWebrefSubSegmentIndex::class;
   protected $subsegmentIndexDataType = '';
+  public $subsegmentIndex;
   /**
    * @var int
    */

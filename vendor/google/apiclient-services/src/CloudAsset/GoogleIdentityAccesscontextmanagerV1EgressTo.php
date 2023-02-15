@@ -26,6 +26,7 @@ class GoogleIdentityAccesscontextmanagerV1EgressTo extends \Google\Collection
   public $externalResources;
   protected $operationsType = GoogleIdentityAccesscontextmanagerV1ApiOperation::class;
   protected $operationsDataType = 'array';
+  public $operations;
   /**
    * @var string[]
    */

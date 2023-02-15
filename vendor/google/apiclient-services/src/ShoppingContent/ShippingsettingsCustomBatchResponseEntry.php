@@ -25,12 +25,14 @@ class ShippingsettingsCustomBatchResponseEntry extends \Google\Model
   public $batchId;
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
+  public $errors;
   /**
    * @var string
    */
   public $kind;
   protected $shippingSettingsType = ShippingSettings::class;
   protected $shippingSettingsDataType = '';
+  public $shippingSettings;
 
   /**
    * @param string

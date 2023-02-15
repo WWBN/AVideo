@@ -21,6 +21,7 @@ class ActivityContentDetailsComment extends \Google\Model
 {
   protected $resourceIdType = ResourceId::class;
   protected $resourceIdDataType = '';
+  public $resourceId;
 
   /**
    * @param ResourceId

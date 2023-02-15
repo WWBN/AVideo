@@ -24,7 +24,7 @@ use Google\Service\Ideahub\GoogleSearchIdeahubV1betaTopicState;
  * Typical usage is:
  *  <code>
  *   $ideahubService = new Google\Service\Ideahub(...);
- *   $topicStates = $ideahubService->topicStates;
+ *   $topicStates = $ideahubService->platforms_properties_topicStates;
  *  </code>
  */
 class PlatformsPropertiesTopicStates extends \Google\Service\Resource

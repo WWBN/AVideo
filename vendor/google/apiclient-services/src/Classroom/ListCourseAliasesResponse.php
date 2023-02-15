@@ -22,6 +22,7 @@ class ListCourseAliasesResponse extends \Google\Collection
   protected $collection_key = 'aliases';
   protected $aliasesType = CourseAlias::class;
   protected $aliasesDataType = 'array';
+  public $aliases;
   /**
    * @var string
    */

@@ -27,16 +27,20 @@ class VideoVideoStreamInfoVideoStream extends \Google\Collection
   public $bitrate;
   protected $bitstreamColorInfoType = VideoFileColorInfo::class;
   protected $bitstreamColorInfoDataType = '';
+  public $bitstreamColorInfo;
   protected $cleanApertureType = VideoVideoStreamInfoVideoStreamCleanAperture::class;
   protected $cleanApertureDataType = '';
+  public $cleanAperture;
   /**
    * @var string
    */
   public $clockDiscontinuityUs;
   protected $closedCaptionsType = VideoClosedCaptions::class;
   protected $closedCaptionsDataType = '';
+  public $closedCaptions;
   protected $closedGopSizeType = VideoVideoStreamInfoVideoStreamStatistics::class;
   protected $closedGopSizeDataType = '';
+  public $closedGopSize;
   /**
    * @var string
    */
@@ -51,8 +55,10 @@ class VideoVideoStreamInfoVideoStream extends \Google\Collection
   public $codecString;
   protected $colorInfoType = VideoFileColorInfo::class;
   protected $colorInfoDataType = '';
+  public $colorInfo;
   protected $contentLightLevelType = VideoFileContentLightLevel::class;
   protected $contentLightLevelDataType = '';
+  public $contentLightLevel;
   /**
    * @var string
    */
@@ -67,6 +73,7 @@ class VideoVideoStreamInfoVideoStream extends \Google\Collection
   public $displayWidth;
   protected $doviConfigurationType = VideoDoViDecoderConfiguration::class;
   protected $doviConfigurationDataType = '';
+  public $doviConfiguration;
   /**
    * @var string
    */
@@ -82,12 +89,14 @@ class VideoVideoStreamInfoVideoStream extends \Google\Collection
   public $frameSize;
   protected $gopSizeType = VideoVideoStreamInfoVideoStreamStatistics::class;
   protected $gopSizeDataType = '';
+  public $gopSize;
   /**
    * @var bool
    */
   public $hasBFrames;
   protected $hdr10PlusStatsType = VideoFileHDR10PlusStats::class;
   protected $hdr10PlusStatsDataType = '';
+  public $hdr10PlusStats;
   /**
    * @var int
    */
@@ -102,6 +111,7 @@ class VideoVideoStreamInfoVideoStream extends \Google\Collection
   public $isInsaneSize;
   protected $ituTT35Type = VideoUserDataRegisteredItuTT35::class;
   protected $ituTT35DataType = 'array';
+  public $ituTT35;
   public $length;
   /**
    * @var int
@@ -109,9 +119,11 @@ class VideoVideoStreamInfoVideoStream extends \Google\Collection
   public $level;
   protected $masteringDisplayMetadataType = VideoFileMasteringDisplayMetadata::class;
   protected $masteringDisplayMetadataDataType = '';
+  public $masteringDisplayMetadata;
   public $maxFps;
   protected $metadataType = VideoClipInfo::class;
   protected $metadataDataType = 'array';
+  public $metadata;
   public $minFps;
   /**
    * @var string
@@ -132,14 +144,17 @@ class VideoVideoStreamInfoVideoStream extends \Google\Collection
   public $profile;
   protected $rationalFpsType = VideoRational32::class;
   protected $rationalFpsDataType = '';
+  public $rationalFps;
   /**
    * @var string
    */
   public $rotation;
   protected $seiMessageType = VideoSEIMessage::class;
   protected $seiMessageDataType = 'array';
+  public $seiMessage;
   protected $sphericalType = VideoFileSphericalMetadata::class;
   protected $sphericalDataType = '';
+  public $spherical;
   /**
    * @var string
    */
@@ -154,6 +169,7 @@ class VideoVideoStreamInfoVideoStream extends \Google\Collection
   public $streamIndex;
   protected $userDataUnregisteredType = VideoUserDataUnregistered::class;
   protected $userDataUnregisteredDataType = 'array';
+  public $userDataUnregistered;
   /**
    * @var int
    */

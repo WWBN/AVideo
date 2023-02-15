@@ -22,156 +22,233 @@ class AppsPeopleOzExternalMergedpeopleapiPerson extends \Google\Collection
   protected $collection_key = 'website';
   protected $aboutType = AppsPeopleOzExternalMergedpeopleapiAbout::class;
   protected $aboutDataType = 'array';
+  public $about;
   protected $addressType = AppsPeopleOzExternalMergedpeopleapiAddress::class;
   protected $addressDataType = 'array';
+  public $address;
   /**
    * @var string
    */
   public $ageRange;
   protected $ageRangeRepeatedType = AppsPeopleOzExternalMergedpeopleapiAgeRangeType::class;
   protected $ageRangeRepeatedDataType = 'array';
+  public $ageRangeRepeated;
   protected $birthdayType = AppsPeopleOzExternalMergedpeopleapiBirthday::class;
   protected $birthdayDataType = 'array';
+  public $birthday;
   protected $braggingRightsType = AppsPeopleOzExternalMergedpeopleapiBraggingRights::class;
   protected $braggingRightsDataType = 'array';
+  public $braggingRights;
   protected $calendarType = AppsPeopleOzExternalMergedpeopleapiCalendar::class;
   protected $calendarDataType = 'array';
+  public $calendar;
   protected $certifiedBornBeforeType = AppsPeopleOzExternalMergedpeopleapiCertifiedBornBefore::class;
   protected $certifiedBornBeforeDataType = 'array';
+  public $certifiedBornBefore;
   protected $circleMembershipType = AppsPeopleOzExternalMergedpeopleapiCircleMembership::class;
   protected $circleMembershipDataType = 'array';
+  public $circleMembership;
   protected $clientDataType = AppsPeopleOzExternalMergedpeopleapiClientData::class;
   protected $clientDataDataType = 'array';
+  public $clientData;
   protected $communicationEmailType = AppsPeopleOzExternalMergedpeopleapiCommunicationEmail::class;
   protected $communicationEmailDataType = 'array';
+  public $communicationEmail;
   protected $connectionReminderType = AppsPeopleOzExternalMergedpeopleapiConnectionReminder::class;
   protected $connectionReminderDataType = 'array';
+  public $connectionReminder;
+  protected $contactCreateContextInfoType = AppsPeopleOzExternalMergedpeopleapiContactCreateContextInfo::class;
+  protected $contactCreateContextInfoDataType = 'array';
+  public $contactCreateContextInfo;
+  protected $contactEditContextInfoType = AppsPeopleOzExternalMergedpeopleapiContactEditContextInfo::class;
+  protected $contactEditContextInfoDataType = 'array';
+  public $contactEditContextInfo;
   protected $contactGroupMembershipType = AppsPeopleOzExternalMergedpeopleapiContactGroupMembership::class;
   protected $contactGroupMembershipDataType = 'array';
+  public $contactGroupMembership;
   protected $contactStateInfoType = AppsPeopleOzExternalMergedpeopleapiContactStateInfo::class;
   protected $contactStateInfoDataType = 'array';
+  public $contactStateInfo;
   protected $coverPhotoType = AppsPeopleOzExternalMergedpeopleapiCoverPhoto::class;
   protected $coverPhotoDataType = 'array';
+  public $coverPhoto;
   protected $customSchemaFieldType = AppsPeopleOzExternalMergedpeopleapiCustomSchemaField::class;
   protected $customSchemaFieldDataType = 'array';
+  public $customSchemaField;
   protected $emailType = AppsPeopleOzExternalMergedpeopleapiEmail::class;
   protected $emailDataType = 'array';
+  public $email;
   protected $emergencyInfoType = AppsPeopleOzExternalMergedpeopleapiEmergencyInfo::class;
   protected $emergencyInfoDataType = 'array';
+  public $emergencyInfo;
   protected $eventType = AppsPeopleOzExternalMergedpeopleapiEvent::class;
   protected $eventDataType = 'array';
+  public $event;
   protected $extendedDataType = AppsPeopleOzExternalMergedpeopleapiPersonExtendedData::class;
   protected $extendedDataDataType = '';
+  public $extendedData;
   protected $externalIdType = AppsPeopleOzExternalMergedpeopleapiExternalId::class;
   protected $externalIdDataType = 'array';
+  public $externalId;
   protected $fileAsType = AppsPeopleOzExternalMergedpeopleapiFileAs::class;
   protected $fileAsDataType = 'array';
+  public $fileAs;
   /**
    * @var string
    */
   public $fingerprint;
   protected $genderType = AppsPeopleOzExternalMergedpeopleapiGender::class;
   protected $genderDataType = 'array';
+  public $gender;
   protected $imType = AppsPeopleOzExternalMergedpeopleapiIm::class;
   protected $imDataType = 'array';
+  public $im;
   protected $inAppNotificationTargetType = AppsPeopleOzExternalMergedpeopleapiInAppNotificationTarget::class;
   protected $inAppNotificationTargetDataType = 'array';
+  public $inAppNotificationTarget;
   protected $inAppReachabilityType = AppsPeopleOzExternalMergedpeopleapiInAppReachability::class;
   protected $inAppReachabilityDataType = 'array';
+  public $inAppReachability;
   protected $interactionSettingsType = AppsPeopleOzExternalMergedpeopleapiInteractionSettings::class;
   protected $interactionSettingsDataType = 'array';
+  public $interactionSettings;
   protected $interestType = AppsPeopleOzExternalMergedpeopleapiInterest::class;
   protected $interestDataType = 'array';
+  public $interest;
   protected $languageType = AppsPeopleOzExternalMergedpeopleapiLanguage::class;
   protected $languageDataType = 'array';
+  public $language;
   protected $legacyFieldsType = AppsPeopleOzExternalMergedpeopleapiLegacyFields::class;
   protected $legacyFieldsDataType = '';
+  public $legacyFields;
   protected $limitedProfileSettingsType = AppsPeopleOzExternalMergedpeopleapiLimitedProfileSettingsField::class;
   protected $limitedProfileSettingsDataType = 'array';
+  public $limitedProfileSettings;
   protected $linkedPersonType = AppsPeopleOzExternalMergedpeopleapiPerson::class;
   protected $linkedPersonDataType = 'array';
+  public $linkedPerson;
   protected $locationType = AppsPeopleOzExternalMergedpeopleapiLocation::class;
   protected $locationDataType = 'array';
+  public $location;
   protected $managementUpchainType = AppsPeopleOzExternalMergedpeopleapiManagementUpchain::class;
   protected $managementUpchainDataType = 'array';
+  public $managementUpchain;
   protected $mapsProfileType = AppsPeopleOzExternalMergedpeopleapiMapsProfile::class;
   protected $mapsProfileDataType = 'array';
+  public $mapsProfile;
   protected $membershipType = AppsPeopleOzExternalMergedpeopleapiMembership::class;
   protected $membershipDataType = 'array';
+  public $membership;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $missionType = AppsPeopleOzExternalMergedpeopleapiMission::class;
   protected $missionDataType = 'array';
+  public $mission;
   protected $nameType = AppsPeopleOzExternalMergedpeopleapiName::class;
   protected $nameDataType = 'array';
+  public $name;
+  protected $namePronunciationAudioMetadataInfoType = AppsPeopleOzExternalMergedpeopleapiNamePronunciationAudioMetadataInfo::class;
+  protected $namePronunciationAudioMetadataInfoDataType = 'array';
+  public $namePronunciationAudioMetadataInfo;
   protected $nicknameType = AppsPeopleOzExternalMergedpeopleapiNickname::class;
   protected $nicknameDataType = 'array';
+  public $nickname;
   protected $occupationType = AppsPeopleOzExternalMergedpeopleapiOccupation::class;
   protected $occupationDataType = 'array';
+  public $occupation;
   protected $organizationType = AppsPeopleOzExternalMergedpeopleapiOrganization::class;
   protected $organizationDataType = 'array';
+  public $organization;
   protected $otherKeywordType = AppsPeopleOzExternalMergedpeopleapiOtherKeyword::class;
   protected $otherKeywordDataType = 'array';
+  public $otherKeyword;
   protected $peopleInCommonType = AppsPeopleOzExternalMergedpeopleapiPerson::class;
   protected $peopleInCommonDataType = 'array';
+  public $peopleInCommon;
   protected $personAttributeType = AppsPeopleOzExternalMergedpeopleapiPersonAttribute::class;
   protected $personAttributeDataType = 'array';
+  public $personAttribute;
   /**
    * @var string
    */
   public $personId;
   protected $phoneType = AppsPeopleOzExternalMergedpeopleapiPhone::class;
   protected $phoneDataType = 'array';
+  public $phone;
   protected $photoType = AppsPeopleOzExternalMergedpeopleapiPhoto::class;
   protected $photoDataType = 'array';
+  public $photo;
   protected $placeDetailsType = AppsPeopleOzExternalMergedpeopleapiPlaceDetails::class;
   protected $placeDetailsDataType = 'array';
+  public $placeDetails;
   protected $plusPageInfoType = AppsPeopleOzExternalMergedpeopleapiPlusPageInfo::class;
   protected $plusPageInfoDataType = 'array';
+  public $plusPageInfo;
   protected $posixAccountType = AppsPeopleOzExternalMergedpeopleapiPosixAccount::class;
   protected $posixAccountDataType = 'array';
+  public $posixAccount;
   /**
    * @var string
    */
   public $profileUrl;
   protected $profileUrlRepeatedType = AppsPeopleOzExternalMergedpeopleapiProfileUrl::class;
   protected $profileUrlRepeatedDataType = 'array';
+  public $profileUrlRepeated;
   protected $pronounType = AppsPeopleOzExternalMergedpeopleapiPronoun::class;
   protected $pronounDataType = 'array';
+  public $pronoun;
   protected $readOnlyProfileInfoType = AppsPeopleOzExternalMergedpeopleapiReadOnlyProfileInfo::class;
   protected $readOnlyProfileInfoDataType = 'array';
+  public $readOnlyProfileInfo;
   protected $relationType = AppsPeopleOzExternalMergedpeopleapiRelation::class;
   protected $relationDataType = 'array';
+  public $relation;
   protected $relationshipInterestType = AppsPeopleOzExternalMergedpeopleapiRelationshipInterest::class;
   protected $relationshipInterestDataType = 'array';
+  public $relationshipInterest;
   protected $relationshipStatusType = AppsPeopleOzExternalMergedpeopleapiRelationshipStatus::class;
   protected $relationshipStatusDataType = 'array';
+  public $relationshipStatus;
   protected $rightOfPublicityStateType = AppsPeopleOzExternalMergedpeopleapiRightOfPublicityState::class;
   protected $rightOfPublicityStateDataType = 'array';
+  public $rightOfPublicityState;
   protected $rosterDetailsType = AppsPeopleOzExternalMergedpeopleapiRosterDetails::class;
   protected $rosterDetailsDataType = 'array';
+  public $rosterDetails;
   protected $searchProfileType = AppsPeopleOzExternalMergedpeopleapiSearchProfile::class;
   protected $searchProfileDataType = 'array';
+  public $searchProfile;
   protected $sipAddressType = AppsPeopleOzExternalMergedpeopleapiSipAddress::class;
   protected $sipAddressDataType = 'array';
+  public $sipAddress;
   protected $skillsType = AppsPeopleOzExternalMergedpeopleapiSkills::class;
   protected $skillsDataType = 'array';
+  public $skills;
   protected $socialConnectionType = AppsPeopleOzExternalMergedpeopleapiSocialConnection::class;
   protected $socialConnectionDataType = 'array';
+  public $socialConnection;
   protected $sortKeysType = AppsPeopleOzExternalMergedpeopleapiSortKeys::class;
   protected $sortKeysDataType = '';
+  public $sortKeys;
   protected $sshPublicKeyType = AppsPeopleOzExternalMergedpeopleapiSshPublicKey::class;
   protected $sshPublicKeyDataType = 'array';
+  public $sshPublicKey;
   protected $taglineType = AppsPeopleOzExternalMergedpeopleapiTagline::class;
   protected $taglineDataType = 'array';
+  public $tagline;
   protected $teamsExtendedDataType = AppsPeopleOzExternalMergedpeopleapiTeamsExtendedData::class;
   protected $teamsExtendedDataDataType = '';
+  public $teamsExtendedData;
   protected $userDefinedType = AppsPeopleOzExternalMergedpeopleapiUserDefined::class;
   protected $userDefinedDataType = 'array';
+  public $userDefined;
   protected $visibleToGuestsType = AppsPeopleOzExternalMergedpeopleapiVisibleToGuests::class;
   protected $visibleToGuestsDataType = 'array';
+  public $visibleToGuests;
   protected $websiteType = AppsPeopleOzExternalMergedpeopleapiWebsite::class;
   protected $websiteDataType = 'array';
+  public $website;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiAbout[]
@@ -340,6 +417,34 @@ class AppsPeopleOzExternalMergedpeopleapiPerson extends \Google\Collection
   public function getConnectionReminder()
   {
     return $this->connectionReminder;
+  }
+  /**
+   * @param AppsPeopleOzExternalMergedpeopleapiContactCreateContextInfo[]
+   */
+  public function setContactCreateContextInfo($contactCreateContextInfo)
+  {
+    $this->contactCreateContextInfo = $contactCreateContextInfo;
+  }
+  /**
+   * @return AppsPeopleOzExternalMergedpeopleapiContactCreateContextInfo[]
+   */
+  public function getContactCreateContextInfo()
+  {
+    return $this->contactCreateContextInfo;
+  }
+  /**
+   * @param AppsPeopleOzExternalMergedpeopleapiContactEditContextInfo[]
+   */
+  public function setContactEditContextInfo($contactEditContextInfo)
+  {
+    $this->contactEditContextInfo = $contactEditContextInfo;
+  }
+  /**
+   * @return AppsPeopleOzExternalMergedpeopleapiContactEditContextInfo[]
+   */
+  public function getContactEditContextInfo()
+  {
+    return $this->contactEditContextInfo;
   }
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiContactGroupMembership[]
@@ -732,6 +837,20 @@ class AppsPeopleOzExternalMergedpeopleapiPerson extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param AppsPeopleOzExternalMergedpeopleapiNamePronunciationAudioMetadataInfo[]
+   */
+  public function setNamePronunciationAudioMetadataInfo($namePronunciationAudioMetadataInfo)
+  {
+    $this->namePronunciationAudioMetadataInfo = $namePronunciationAudioMetadataInfo;
+  }
+  /**
+   * @return AppsPeopleOzExternalMergedpeopleapiNamePronunciationAudioMetadataInfo[]
+   */
+  public function getNamePronunciationAudioMetadataInfo()
+  {
+    return $this->namePronunciationAudioMetadataInfo;
   }
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiNickname[]

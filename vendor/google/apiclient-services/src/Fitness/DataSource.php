@@ -22,6 +22,7 @@ class DataSource extends \Google\Collection
   protected $collection_key = 'dataQualityStandard';
   protected $applicationType = Application::class;
   protected $applicationDataType = '';
+  public $application;
   /**
    * @var string[]
    */
@@ -36,8 +37,10 @@ class DataSource extends \Google\Collection
   public $dataStreamName;
   protected $dataTypeType = DataType::class;
   protected $dataTypeDataType = '';
+  public $dataType;
   protected $deviceType = Device::class;
   protected $deviceDataType = '';
+  public $device;
   /**
    * @var string
    */

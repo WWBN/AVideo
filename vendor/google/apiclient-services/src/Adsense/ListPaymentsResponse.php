@@ -22,6 +22,7 @@ class ListPaymentsResponse extends \Google\Collection
   protected $collection_key = 'payments';
   protected $paymentsType = Payment::class;
   protected $paymentsDataType = 'array';
+  public $payments;
 
   /**
    * @param Payment[]

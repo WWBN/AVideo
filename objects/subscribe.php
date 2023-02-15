@@ -82,7 +82,7 @@ class Subscribe extends ObjectYPT{
                 AVideoPlugin::onNewSubscription($this->users_id, $this->subscriber_users_id);
             }
         }
-        
+
         return $saved;
     }
 
@@ -205,7 +205,7 @@ class Subscribe extends ObjectYPT{
                     if (in_array($row['email'], $emails)) {
                         //continue;
                     }
-                    //$value['notify'] = 
+                    //$value['notify'] =
                     $emails[] = $row['email'];
                     $row['identification'] = User::getNameIdentificationById($row['subscriber_id']);
                     if ($row['identification'] === __("Unknown User")) {
@@ -289,7 +289,7 @@ class Subscribe extends ObjectYPT{
                 $subscribe[] = $row;
             }
             //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
-        } 
+        }
         return $subscribe;
     }
 

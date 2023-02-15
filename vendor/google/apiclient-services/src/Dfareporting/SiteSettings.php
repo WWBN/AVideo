@@ -33,6 +33,7 @@ class SiteSettings extends \Google\Model
   public $disableNewCookie;
   protected $tagSettingType = TagSetting::class;
   protected $tagSettingDataType = '';
+  public $tagSetting;
   /**
    * @var bool
    */

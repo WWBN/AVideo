@@ -21,6 +21,7 @@ class AdvertiserDataAccessConfig extends \Google\Model
 {
   protected $sdfConfigType = AdvertiserSdfConfig::class;
   protected $sdfConfigDataType = '';
+  public $sdfConfig;
 
   /**
    * @param AdvertiserSdfConfig

@@ -33,6 +33,7 @@ class AssistantApiCoreTypesWebProviderInfo extends \Google\Model
   public $openAppUrl;
   protected $thirdPartyCustomNluInfoType = AssistantApiCoreTypesWebProviderInfoThirdPartyCustomNluInfo::class;
   protected $thirdPartyCustomNluInfoDataType = '';
+  public $thirdPartyCustomNluInfo;
 
   /**
    * @param string

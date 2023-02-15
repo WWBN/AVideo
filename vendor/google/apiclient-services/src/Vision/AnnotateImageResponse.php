@@ -22,32 +22,46 @@ class AnnotateImageResponse extends \Google\Collection
   protected $collection_key = 'textAnnotations';
   protected $contextType = ImageAnnotationContext::class;
   protected $contextDataType = '';
+  public $context;
   protected $cropHintsAnnotationType = CropHintsAnnotation::class;
   protected $cropHintsAnnotationDataType = '';
+  public $cropHintsAnnotation;
   protected $errorType = Status::class;
   protected $errorDataType = '';
+  public $error;
   protected $faceAnnotationsType = FaceAnnotation::class;
   protected $faceAnnotationsDataType = 'array';
+  public $faceAnnotations;
   protected $fullTextAnnotationType = TextAnnotation::class;
   protected $fullTextAnnotationDataType = '';
+  public $fullTextAnnotation;
   protected $imagePropertiesAnnotationType = ImageProperties::class;
   protected $imagePropertiesAnnotationDataType = '';
+  public $imagePropertiesAnnotation;
   protected $labelAnnotationsType = EntityAnnotation::class;
   protected $labelAnnotationsDataType = 'array';
+  public $labelAnnotations;
   protected $landmarkAnnotationsType = EntityAnnotation::class;
   protected $landmarkAnnotationsDataType = 'array';
+  public $landmarkAnnotations;
   protected $localizedObjectAnnotationsType = LocalizedObjectAnnotation::class;
   protected $localizedObjectAnnotationsDataType = 'array';
+  public $localizedObjectAnnotations;
   protected $logoAnnotationsType = EntityAnnotation::class;
   protected $logoAnnotationsDataType = 'array';
+  public $logoAnnotations;
   protected $productSearchResultsType = ProductSearchResults::class;
   protected $productSearchResultsDataType = '';
+  public $productSearchResults;
   protected $safeSearchAnnotationType = SafeSearchAnnotation::class;
   protected $safeSearchAnnotationDataType = '';
+  public $safeSearchAnnotation;
   protected $textAnnotationsType = EntityAnnotation::class;
   protected $textAnnotationsDataType = 'array';
+  public $textAnnotations;
   protected $webDetectionType = WebDetection::class;
   protected $webDetectionDataType = '';
+  public $webDetection;
 
   /**
    * @param ImageAnnotationContext

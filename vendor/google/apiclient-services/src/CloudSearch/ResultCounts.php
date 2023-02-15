@@ -22,6 +22,7 @@ class ResultCounts extends \Google\Collection
   protected $collection_key = 'sourceResultCounts';
   protected $sourceResultCountsType = SourceResultCount::class;
   protected $sourceResultCountsDataType = 'array';
+  public $sourceResultCounts;
 
   /**
    * @param SourceResultCount[]

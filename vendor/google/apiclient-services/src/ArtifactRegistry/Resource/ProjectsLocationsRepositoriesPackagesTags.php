@@ -26,7 +26,7 @@ use Google\Service\ArtifactRegistry\Tag;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $tags = $artifactregistryService->tags;
+ *   $tags = $artifactregistryService->projects_locations_repositories_packages_tags;
  *  </code>
  */
 class ProjectsLocationsRepositoriesPackagesTags extends \Google\Service\Resource

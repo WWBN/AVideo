@@ -24,7 +24,7 @@ use Google\Service\ChromeManagement\GoogleChromeManagementV1CountChromeAppReques
  * Typical usage is:
  *  <code>
  *   $chromemanagementService = new Google\Service\ChromeManagement(...);
- *   $apps = $chromemanagementService->apps;
+ *   $apps = $chromemanagementService->customers_apps;
  *  </code>
  */
 class CustomersApps extends \Google\Service\Resource

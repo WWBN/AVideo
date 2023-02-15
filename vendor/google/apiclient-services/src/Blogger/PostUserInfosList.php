@@ -22,6 +22,7 @@ class PostUserInfosList extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = PostUserInfo::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

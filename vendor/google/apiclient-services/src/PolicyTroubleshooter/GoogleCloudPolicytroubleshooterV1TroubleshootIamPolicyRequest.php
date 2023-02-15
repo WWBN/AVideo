@@ -21,6 +21,7 @@ class GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyRequest extends \Goo
 {
   protected $accessTupleType = GoogleCloudPolicytroubleshooterV1AccessTuple::class;
   protected $accessTupleDataType = '';
+  public $accessTuple;
 
   /**
    * @param GoogleCloudPolicytroubleshooterV1AccessTuple

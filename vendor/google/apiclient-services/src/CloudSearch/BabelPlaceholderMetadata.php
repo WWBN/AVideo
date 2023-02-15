@@ -21,10 +21,13 @@ class BabelPlaceholderMetadata extends \Google\Model
 {
   protected $deleteMetadataType = DeleteMetadata::class;
   protected $deleteMetadataDataType = '';
+  public $deleteMetadata;
   protected $editMetadataType = EditMetadata::class;
   protected $editMetadataDataType = '';
+  public $editMetadata;
   protected $hangoutVideoMetadataType = HangoutVideoEventMetadata::class;
   protected $hangoutVideoMetadataDataType = '';
+  public $hangoutVideoMetadata;
 
   /**
    * @param DeleteMetadata

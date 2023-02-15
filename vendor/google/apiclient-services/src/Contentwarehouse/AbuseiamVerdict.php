@@ -22,6 +22,7 @@ class AbuseiamVerdict extends \Google\Collection
   protected $collection_key = 'userNotification';
   protected $clientType = AbuseiamClient::class;
   protected $clientDataType = '';
+  public $client;
   /**
    * @var string
    */
@@ -36,28 +37,34 @@ class AbuseiamVerdict extends \Google\Collection
   public $durationMins;
   protected $evaluationType = AbuseiamEvaluation::class;
   protected $evaluationDataType = 'array';
+  public $evaluation;
   protected $hashesType = AbuseiamHash::class;
   protected $hashesDataType = 'array';
+  public $hashes;
   /**
    * @var bool
    */
   public $isLegalIssued;
   protected $miscScoresType = AbuseiamNameValuePair::class;
   protected $miscScoresDataType = 'array';
+  public $miscScores;
   /**
    * @var string
    */
   public $reasonCode;
   protected $regionType = AbuseiamRegion::class;
   protected $regionDataType = 'array';
+  public $region;
   protected $restrictionType = AbuseiamVerdictRestriction::class;
   protected $restrictionDataType = 'array';
+  public $restriction;
   /**
    * @var string
    */
   public $strikeCategory;
   protected $targetType = AbuseiamTarget::class;
   protected $targetDataType = '';
+  public $target;
   /**
    * @var string
    */
@@ -68,6 +75,7 @@ class AbuseiamVerdict extends \Google\Collection
   public $timestampMicros;
   protected $userNotificationType = AbuseiamUserNotification::class;
   protected $userNotificationDataType = 'array';
+  public $userNotification;
   /**
    * @var string
    */

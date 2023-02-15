@@ -26,6 +26,7 @@ class ReplaceSitesRequest extends \Google\Collection
   public $advertiserId;
   protected $newSitesType = Site::class;
   protected $newSitesDataType = 'array';
+  public $newSites;
   /**
    * @var string
    */

@@ -25,6 +25,7 @@ class AutoRenewingPlan extends \Google\Model
   public $autoRenewEnabled;
   protected $priceChangeDetailsType = SubscriptionItemPriceChangeDetails::class;
   protected $priceChangeDetailsDataType = '';
+  public $priceChangeDetails;
 
   /**
    * @param bool

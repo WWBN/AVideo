@@ -22,10 +22,13 @@ class DnsSettings extends \Google\Collection
   protected $collection_key = 'glueRecords';
   protected $customDnsType = CustomDns::class;
   protected $customDnsDataType = '';
+  public $customDns;
   protected $glueRecordsType = GlueRecord::class;
   protected $glueRecordsDataType = 'array';
+  public $glueRecords;
   protected $googleDomainsDnsType = GoogleDomainsDns::class;
   protected $googleDomainsDnsDataType = '';
+  public $googleDomainsDns;
 
   /**
    * @param CustomDns

@@ -21,14 +21,17 @@ class VolumeannotationContentRanges extends \Google\Model
 {
   protected $cfiRangeType = BooksAnnotationsRange::class;
   protected $cfiRangeDataType = '';
+  public $cfiRange;
   /**
    * @var string
    */
   public $contentVersion;
   protected $gbImageRangeType = BooksAnnotationsRange::class;
   protected $gbImageRangeDataType = '';
+  public $gbImageRange;
   protected $gbTextRangeType = BooksAnnotationsRange::class;
   protected $gbTextRangeDataType = '';
+  public $gbTextRange;
 
   /**
    * @param BooksAnnotationsRange

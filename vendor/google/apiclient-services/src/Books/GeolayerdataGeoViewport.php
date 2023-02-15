@@ -21,8 +21,10 @@ class GeolayerdataGeoViewport extends \Google\Model
 {
   protected $hiType = GeolayerdataGeoViewportHi::class;
   protected $hiDataType = '';
+  public $hi;
   protected $loType = GeolayerdataGeoViewportLo::class;
   protected $loDataType = '';
+  public $lo;
 
   /**
    * @param GeolayerdataGeoViewportHi

@@ -21,8 +21,10 @@ class NlpSciencelitRetrievalSearchResultSetDebugInfo extends \Google\Model
 {
   protected $queryEncodingType = NlpSciencelitRetrievalQueryEncodingDebugInfo::class;
   protected $queryEncodingDataType = '';
+  public $queryEncoding;
   protected $scamResponseType = ResearchScamQueryResponse::class;
   protected $scamResponseDataType = '';
+  public $scamResponse;
 
   /**
    * @param NlpSciencelitRetrievalQueryEncodingDebugInfo

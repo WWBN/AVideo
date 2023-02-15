@@ -22,6 +22,7 @@ class DatabasesListResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Database::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

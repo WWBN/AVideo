@@ -24,18 +24,15 @@ class RepositoryWebrefPerDocRelevanceRatings extends \Google\Collection
    * @var string
    */
   public $docFp;
-  protected $docLevelRatingType = RepositoryWebrefPerDocRelevanceRating::class;
-  protected $docLevelRatingDataType = '';
   protected $entityNameRatingType = RepositoryWebrefEntityNameRatings::class;
   protected $entityNameRatingDataType = 'array';
-  protected $listMembershipType = RepositoryWebrefToprefListMembership::class;
-  protected $listMembershipDataType = 'array';
+  public $entityNameRating;
   protected $mentionRatingType = RepositoryWebrefMentionRatings::class;
   protected $mentionRatingDataType = 'array';
-  protected $pageClassificationType = RepositoryWebrefToprefPageClassification::class;
-  protected $pageClassificationDataType = 'array';
+  public $mentionRating;
   protected $taskLevelRatingType = RepositoryWebrefPerDocRelevanceRating::class;
   protected $taskLevelRatingDataType = 'array';
+  public $taskLevelRating;
   /**
    * @var string
    */
@@ -56,20 +53,6 @@ class RepositoryWebrefPerDocRelevanceRatings extends \Google\Collection
     return $this->docFp;
   }
   /**
-   * @param RepositoryWebrefPerDocRelevanceRating
-   */
-  public function setDocLevelRating(RepositoryWebrefPerDocRelevanceRating $docLevelRating)
-  {
-    $this->docLevelRating = $docLevelRating;
-  }
-  /**
-   * @return RepositoryWebrefPerDocRelevanceRating
-   */
-  public function getDocLevelRating()
-  {
-    return $this->docLevelRating;
-  }
-  /**
    * @param RepositoryWebrefEntityNameRatings[]
    */
   public function setEntityNameRating($entityNameRating)
@@ -84,20 +67,6 @@ class RepositoryWebrefPerDocRelevanceRatings extends \Google\Collection
     return $this->entityNameRating;
   }
   /**
-   * @param RepositoryWebrefToprefListMembership[]
-   */
-  public function setListMembership($listMembership)
-  {
-    $this->listMembership = $listMembership;
-  }
-  /**
-   * @return RepositoryWebrefToprefListMembership[]
-   */
-  public function getListMembership()
-  {
-    return $this->listMembership;
-  }
-  /**
    * @param RepositoryWebrefMentionRatings[]
    */
   public function setMentionRating($mentionRating)
@@ -110,20 +79,6 @@ class RepositoryWebrefPerDocRelevanceRatings extends \Google\Collection
   public function getMentionRating()
   {
     return $this->mentionRating;
-  }
-  /**
-   * @param RepositoryWebrefToprefPageClassification[]
-   */
-  public function setPageClassification($pageClassification)
-  {
-    $this->pageClassification = $pageClassification;
-  }
-  /**
-   * @return RepositoryWebrefToprefPageClassification[]
-   */
-  public function getPageClassification()
-  {
-    return $this->pageClassification;
   }
   /**
    * @param RepositoryWebrefPerDocRelevanceRating[]

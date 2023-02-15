@@ -29,7 +29,7 @@ use Google\Service\CloudMemorystoreforMemcached\UpdateParametersRequest;
  * Typical usage is:
  *  <code>
  *   $memcacheService = new Google\Service\CloudMemorystoreforMemcached(...);
- *   $instances = $memcacheService->instances;
+ *   $instances = $memcacheService->projects_locations_instances;
  *  </code>
  */
 class ProjectsLocationsInstances extends \Google\Service\Resource

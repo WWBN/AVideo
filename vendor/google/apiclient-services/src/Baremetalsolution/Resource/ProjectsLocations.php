@@ -25,7 +25,7 @@ use Google\Service\Baremetalsolution\Location;
  * Typical usage is:
  *  <code>
  *   $baremetalsolutionService = new Google\Service\Baremetalsolution(...);
- *   $locations = $baremetalsolutionService->locations;
+ *   $locations = $baremetalsolutionService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

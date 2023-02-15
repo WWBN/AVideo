@@ -26,6 +26,7 @@ class CommitResponse extends \Google\Collection
   public $commitTime;
   protected $writeResultsType = WriteResult::class;
   protected $writeResultsDataType = 'array';
+  public $writeResults;
 
   /**
    * @param string

@@ -19,13 +19,14 @@ namespace Google\Service\ArtifactRegistry\Resource;
 
 use Google\Service\ArtifactRegistry\ListLocationsResponse;
 use Google\Service\ArtifactRegistry\Location;
+use Google\Service\ArtifactRegistry\VPCSCConfig;
 
 /**
  * The "locations" collection of methods.
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $locations = $artifactregistryService->locations;
+ *   $locations = $artifactregistryService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource
@@ -42,6 +43,19 @@ class ProjectsLocations extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Location::class);
+  }
+  /**
+   * Retrieves the VPCSC Config for the Project. (locations.getVpcscConfig)
+   *
+   * @param string $name Required. The name of the VPCSCConfig resource.
+   * @param array $optParams Optional parameters.
+   * @return VPCSCConfig
+   */
+  public function getVpcscConfig($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getVpcscConfig', [$params], VPCSCConfig::class);
   }
   /**
    * Lists information about the supported locations for this service.
@@ -65,6 +79,24 @@ class ProjectsLocations extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListLocationsResponse::class);
+  }
+  /**
+   * Updates the VPCSC Config for the Project. (locations.updateVpcscConfig)
+   *
+   * @param string $name The name of the project's VPC SC Config. Always of the
+   * form: projects/{projectID}/locations/{location}/vpcscConfig In update
+   * request: never set In response: always set
+   * @param VPCSCConfig $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Field mask to support partial updates.
+   * @return VPCSCConfig
+   */
+  public function updateVpcscConfig($name, VPCSCConfig $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateVpcscConfig', [$params], VPCSCConfig::class);
   }
 }
 

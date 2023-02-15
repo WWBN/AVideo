@@ -21,6 +21,7 @@ class GoogleCloudAssetV1Resource extends \Google\Model
 {
   protected $analysisStateType = IamPolicyAnalysisState::class;
   protected $analysisStateDataType = '';
+  public $analysisState;
   /**
    * @var string
    */

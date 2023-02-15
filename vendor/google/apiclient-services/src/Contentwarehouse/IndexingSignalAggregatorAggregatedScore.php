@@ -24,10 +24,12 @@ class IndexingSignalAggregatorAggregatedScore extends \Google\Collection
   public $m2;
   protected $maxScoreUrlType = IndexingSignalAggregatorUrlScore::class;
   protected $maxScoreUrlDataType = '';
+  public $maxScoreUrl;
   public $mean;
   public $meanScore;
   protected $minScoreUrlType = IndexingSignalAggregatorUrlScore::class;
   protected $minScoreUrlDataType = '';
+  public $minScoreUrl;
   /**
    * @var string
    */
@@ -51,8 +53,10 @@ class IndexingSignalAggregatorAggregatedScore extends \Google\Collection
   public $percentile;
   protected $runningMeanAndVarianceInternalStateType = IndexingSignalAggregatorRunningMeanAndVarianceInternalState::class;
   protected $runningMeanAndVarianceInternalStateDataType = '';
+  public $runningMeanAndVarianceInternalState;
   protected $samplesType = IndexingSignalAggregatorUrlScore::class;
   protected $samplesDataType = 'array';
+  public $samples;
   public $scores;
   /**
    * @var int
@@ -60,6 +64,7 @@ class IndexingSignalAggregatorAggregatedScore extends \Google\Collection
   public $signalId;
   protected $singleUrlScoreType = IndexingSignalAggregatorUrlScore::class;
   protected $singleUrlScoreDataType = '';
+  public $singleUrlScore;
   public $totalScore;
   public $totalScoreLow;
   public $totalScoreSqr;

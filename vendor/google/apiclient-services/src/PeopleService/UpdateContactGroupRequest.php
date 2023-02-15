@@ -21,6 +21,7 @@ class UpdateContactGroupRequest extends \Google\Model
 {
   protected $contactGroupType = ContactGroup::class;
   protected $contactGroupDataType = '';
+  public $contactGroup;
   /**
    * @var string
    */

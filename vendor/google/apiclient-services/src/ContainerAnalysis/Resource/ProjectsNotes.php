@@ -33,7 +33,7 @@ use Google\Service\ContainerAnalysis\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $containeranalysisService = new Google\Service\ContainerAnalysis(...);
- *   $notes = $containeranalysisService->notes;
+ *   $notes = $containeranalysisService->projects_notes;
  *  </code>
  */
 class ProjectsNotes extends \Google\Service\Resource

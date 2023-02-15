@@ -26,18 +26,21 @@ class NlpSemanticParsingModelsMediaMediaAnnotation extends \Google\Collection
   public $artistName;
   protected $audiobookInfoType = NlpSemanticParsingModelsMediaAudiobookInfo::class;
   protected $audiobookInfoDataType = '';
+  public $audiobookInfo;
   /**
    * @var string
    */
   public $contentType;
   protected $imageType = AssistantApiCoreTypesImage::class;
   protected $imageDataType = 'array';
+  public $image;
   /**
    * @var string
    */
   public $name;
   protected $newsInfoType = NlpSemanticParsingModelsMediaNewsInfo::class;
   protected $newsInfoDataType = '';
+  public $newsInfo;
   /**
    * @var string
    */
@@ -48,24 +51,30 @@ class NlpSemanticParsingModelsMediaMediaAnnotation extends \Google\Collection
   public $playlistVisibility;
   protected $podcastInfoType = NlpSemanticParsingModelsMediaPodcastInfo::class;
   protected $podcastInfoDataType = '';
+  public $podcastInfo;
   /**
    * @var string
    */
   public $primaryEntityMid;
   protected $providerInfoType = NlpSemanticParsingModelsMediaMediaProviderInfo::class;
   protected $providerInfoDataType = 'array';
+  public $providerInfo;
   protected $purchaseInfoType = NlpSemanticParsingModelsMediaPurchaseInfo::class;
   protected $purchaseInfoDataType = '';
+  public $purchaseInfo;
   protected $radioInfoType = NlpSemanticParsingModelsMediaRadioInfo::class;
   protected $radioInfoDataType = '';
+  public $radioInfo;
   protected $rentalInfoType = NlpSemanticParsingModelsMediaRentalInfo::class;
   protected $rentalInfoDataType = '';
+  public $rentalInfo;
   /**
    * @var string
    */
   public $source;
   protected $youtubePlaylistInfoType = NlpSemanticParsingModelsMediaYouTubePlaylistInfo::class;
   protected $youtubePlaylistInfoDataType = '';
+  public $youtubePlaylistInfo;
 
   /**
    * @param string

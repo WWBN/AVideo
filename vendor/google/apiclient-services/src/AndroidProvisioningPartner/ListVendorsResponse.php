@@ -30,6 +30,7 @@ class ListVendorsResponse extends \Google\Collection
   public $totalSize;
   protected $vendorsType = Company::class;
   protected $vendorsDataType = 'array';
+  public $vendors;
 
   /**
    * @param string

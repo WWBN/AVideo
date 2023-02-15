@@ -26,7 +26,7 @@ use Google\Service\Vault\VaultEmpty;
  * Typical usage is:
  *  <code>
  *   $vaultService = new Google\Service\Vault(...);
- *   $accounts = $vaultService->accounts;
+ *   $accounts = $vaultService->matters_holds_accounts;
  *  </code>
  */
 class MattersHoldsAccounts extends \Google\Service\Resource

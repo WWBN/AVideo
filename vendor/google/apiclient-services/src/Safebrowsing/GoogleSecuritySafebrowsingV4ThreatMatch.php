@@ -28,8 +28,10 @@ class GoogleSecuritySafebrowsingV4ThreatMatch extends \Google\Model
    */
   public $platformType;
   protected $threatDataType = '';
+  public $threat;
   protected $threatEntryMetadataType = GoogleSecuritySafebrowsingV4ThreatEntryMetadata::class;
   protected $threatEntryMetadataDataType = '';
+  public $threatEntryMetadata;
   /**
    * @var string
    */

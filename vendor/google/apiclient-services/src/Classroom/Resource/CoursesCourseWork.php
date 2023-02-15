@@ -27,7 +27,7 @@ use Google\Service\Classroom\ModifyCourseWorkAssigneesRequest;
  * Typical usage is:
  *  <code>
  *   $classroomService = new Google\Service\Classroom(...);
- *   $courseWork = $classroomService->courseWork;
+ *   $courseWork = $classroomService->courses_courseWork;
  *  </code>
  */
 class CoursesCourseWork extends \Google\Service\Resource

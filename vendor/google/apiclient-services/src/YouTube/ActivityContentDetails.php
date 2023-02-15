@@ -21,26 +21,37 @@ class ActivityContentDetails extends \Google\Model
 {
   protected $bulletinType = ActivityContentDetailsBulletin::class;
   protected $bulletinDataType = '';
+  public $bulletin;
   protected $channelItemType = ActivityContentDetailsChannelItem::class;
   protected $channelItemDataType = '';
+  public $channelItem;
   protected $commentType = ActivityContentDetailsComment::class;
   protected $commentDataType = '';
+  public $comment;
   protected $favoriteType = ActivityContentDetailsFavorite::class;
   protected $favoriteDataType = '';
+  public $favorite;
   protected $likeType = ActivityContentDetailsLike::class;
   protected $likeDataType = '';
+  public $like;
   protected $playlistItemType = ActivityContentDetailsPlaylistItem::class;
   protected $playlistItemDataType = '';
+  public $playlistItem;
   protected $promotedItemType = ActivityContentDetailsPromotedItem::class;
   protected $promotedItemDataType = '';
+  public $promotedItem;
   protected $recommendationType = ActivityContentDetailsRecommendation::class;
   protected $recommendationDataType = '';
+  public $recommendation;
   protected $socialType = ActivityContentDetailsSocial::class;
   protected $socialDataType = '';
+  public $social;
   protected $subscriptionType = ActivityContentDetailsSubscription::class;
   protected $subscriptionDataType = '';
+  public $subscription;
   protected $uploadType = ActivityContentDetailsUpload::class;
   protected $uploadDataType = '';
+  public $upload;
 
   /**
    * @param ActivityContentDetailsBulletin

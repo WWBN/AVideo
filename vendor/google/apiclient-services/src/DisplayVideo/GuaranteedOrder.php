@@ -70,6 +70,7 @@ class GuaranteedOrder extends \Google\Collection
   public $readWritePartnerId;
   protected $statusType = GuaranteedOrderStatus::class;
   protected $statusDataType = '';
+  public $status;
   /**
    * @var string
    */

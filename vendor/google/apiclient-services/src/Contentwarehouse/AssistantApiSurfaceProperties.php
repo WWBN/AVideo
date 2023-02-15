@@ -21,6 +21,7 @@ class AssistantApiSurfaceProperties extends \Google\Model
 {
   protected $executionCapabilitiesType = AssistantApiSurfacePropertiesExecutionCapabilities::class;
   protected $executionCapabilitiesDataType = '';
+  public $executionCapabilities;
   /**
    * @var string
    */

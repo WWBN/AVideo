@@ -30,6 +30,7 @@ class SchemaGroup extends \Google\Collection
   public $maxOccurs;
   protected $membersType = GroupOrSegment::class;
   protected $membersDataType = 'array';
+  public $members;
   /**
    * @var int
    */

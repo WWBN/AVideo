@@ -25,6 +25,7 @@ class GoogleCloudApigeeV1Datastore extends \Google\Model
   public $createTime;
   protected $datastoreConfigType = GoogleCloudApigeeV1DatastoreConfig::class;
   protected $datastoreConfigDataType = '';
+  public $datastoreConfig;
   /**
    * @var string
    */

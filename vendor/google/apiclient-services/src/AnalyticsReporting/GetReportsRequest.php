@@ -22,6 +22,7 @@ class GetReportsRequest extends \Google\Collection
   protected $collection_key = 'reportRequests';
   protected $reportRequestsType = ReportRequest::class;
   protected $reportRequestsDataType = 'array';
+  public $reportRequests;
   /**
    * @var bool
    */

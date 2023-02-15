@@ -22,6 +22,7 @@ class GoogleExampleLibraryagentV1ListBooksResponse extends \Google\Collection
   protected $collection_key = 'books';
   protected $booksType = GoogleExampleLibraryagentV1Book::class;
   protected $booksDataType = 'array';
+  public $books;
   /**
    * @var string
    */

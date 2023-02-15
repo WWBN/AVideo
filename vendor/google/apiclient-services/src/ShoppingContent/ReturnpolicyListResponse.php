@@ -26,6 +26,7 @@ class ReturnpolicyListResponse extends \Google\Collection
   public $kind;
   protected $resourcesType = ReturnPolicy::class;
   protected $resourcesDataType = 'array';
+  public $resources;
 
   /**
    * @param string

@@ -26,6 +26,7 @@ class GuestUnitType extends \Google\Collection
   public $codes;
   protected $featuresType = GuestUnitFeatures::class;
   protected $featuresDataType = '';
+  public $features;
   /**
    * @var string
    */

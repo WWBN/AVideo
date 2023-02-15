@@ -22,6 +22,7 @@ class ListGuaranteedOrdersResponse extends \Google\Collection
   protected $collection_key = 'guaranteedOrders';
   protected $guaranteedOrdersType = GuaranteedOrder::class;
   protected $guaranteedOrdersDataType = 'array';
+  public $guaranteedOrders;
   /**
    * @var string
    */

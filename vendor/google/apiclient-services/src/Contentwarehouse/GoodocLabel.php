@@ -29,14 +29,19 @@ class GoodocLabel extends \Google\Collection
   ];
   protected $anchorLabelType = GoodocAnchorLabel::class;
   protected $anchorLabelDataType = 'array';
+  public $anchorLabel;
   protected $breakLabelType = GoodocBreakLabel::class;
   protected $breakLabelDataType = '';
+  public $breakLabel;
   protected $charLabelType = GoodocCharLabel::class;
   protected $charLabelDataType = '';
+  public $charLabel;
   protected $languageLabelType = GoodocLanguageLabel::class;
   protected $languageLabelDataType = 'array';
+  public $languageLabel;
   protected $semanticLabelType = GoodocSemanticLabel::class;
   protected $semanticLabelDataType = '';
+  public $semanticLabel;
 
   /**
    * @param GoodocAnchorLabel[]

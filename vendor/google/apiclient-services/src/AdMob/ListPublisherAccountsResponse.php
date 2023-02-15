@@ -22,6 +22,7 @@ class ListPublisherAccountsResponse extends \Google\Collection
   protected $collection_key = 'account';
   protected $accountType = PublisherAccount::class;
   protected $accountDataType = 'array';
+  public $account;
   /**
    * @var string
    */

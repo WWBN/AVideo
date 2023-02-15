@@ -29,6 +29,7 @@ class GoogleCloudApigeeV1TraceConfig extends \Google\Model
   public $exporter;
   protected $samplingConfigType = GoogleCloudApigeeV1TraceSamplingConfig::class;
   protected $samplingConfigDataType = '';
+  public $samplingConfig;
 
   /**
    * @param string

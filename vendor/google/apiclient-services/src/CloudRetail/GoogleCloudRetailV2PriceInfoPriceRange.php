@@ -21,8 +21,10 @@ class GoogleCloudRetailV2PriceInfoPriceRange extends \Google\Model
 {
   protected $originalPriceType = GoogleCloudRetailV2Interval::class;
   protected $originalPriceDataType = '';
+  public $originalPrice;
   protected $priceType = GoogleCloudRetailV2Interval::class;
   protected $priceDataType = '';
+  public $price;
 
   /**
    * @param GoogleCloudRetailV2Interval

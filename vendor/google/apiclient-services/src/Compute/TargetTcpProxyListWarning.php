@@ -26,6 +26,7 @@ class TargetTcpProxyListWarning extends \Google\Collection
   public $code;
   protected $dataType = TargetTcpProxyListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

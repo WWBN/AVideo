@@ -22,8 +22,10 @@ class ManualRuleGroup extends \Google\Collection
   protected $collection_key = 'items';
   protected $groupNameType = ExtendedValue::class;
   protected $groupNameDataType = '';
+  public $groupName;
   protected $itemsType = ExtendedValue::class;
   protected $itemsDataType = 'array';
+  public $items;
 
   /**
    * @param ExtendedValue

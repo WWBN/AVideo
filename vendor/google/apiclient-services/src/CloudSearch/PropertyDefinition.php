@@ -21,18 +21,25 @@ class PropertyDefinition extends \Google\Model
 {
   protected $booleanPropertyOptionsType = BooleanPropertyOptions::class;
   protected $booleanPropertyOptionsDataType = '';
+  public $booleanPropertyOptions;
   protected $datePropertyOptionsType = DatePropertyOptions::class;
   protected $datePropertyOptionsDataType = '';
+  public $datePropertyOptions;
   protected $displayOptionsType = PropertyDisplayOptions::class;
   protected $displayOptionsDataType = '';
+  public $displayOptions;
   protected $doublePropertyOptionsType = DoublePropertyOptions::class;
   protected $doublePropertyOptionsDataType = '';
+  public $doublePropertyOptions;
   protected $enumPropertyOptionsType = EnumPropertyOptions::class;
   protected $enumPropertyOptionsDataType = '';
+  public $enumPropertyOptions;
   protected $htmlPropertyOptionsType = HtmlPropertyOptions::class;
   protected $htmlPropertyOptionsDataType = '';
+  public $htmlPropertyOptions;
   protected $integerPropertyOptionsType = IntegerPropertyOptions::class;
   protected $integerPropertyOptionsDataType = '';
+  public $integerPropertyOptions;
   /**
    * @var bool
    */
@@ -63,10 +70,13 @@ class PropertyDefinition extends \Google\Model
   public $name;
   protected $objectPropertyOptionsType = ObjectPropertyOptions::class;
   protected $objectPropertyOptionsDataType = '';
+  public $objectPropertyOptions;
   protected $textPropertyOptionsType = TextPropertyOptions::class;
   protected $textPropertyOptionsDataType = '';
+  public $textPropertyOptions;
   protected $timestampPropertyOptionsType = TimestampPropertyOptions::class;
   protected $timestampPropertyOptionsDataType = '';
+  public $timestampPropertyOptions;
 
   /**
    * @param BooleanPropertyOptions

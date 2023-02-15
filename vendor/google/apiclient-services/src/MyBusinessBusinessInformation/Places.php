@@ -22,6 +22,7 @@ class Places extends \Google\Collection
   protected $collection_key = 'placeInfos';
   protected $placeInfosType = PlaceInfo::class;
   protected $placeInfosDataType = 'array';
+  public $placeInfos;
 
   /**
    * @param PlaceInfo[]

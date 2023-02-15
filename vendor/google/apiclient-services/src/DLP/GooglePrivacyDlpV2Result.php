@@ -22,8 +22,10 @@ class GooglePrivacyDlpV2Result extends \Google\Collection
   protected $collection_key = 'infoTypeStats';
   protected $hybridStatsType = GooglePrivacyDlpV2HybridInspectStatistics::class;
   protected $hybridStatsDataType = '';
+  public $hybridStats;
   protected $infoTypeStatsType = GooglePrivacyDlpV2InfoTypeStats::class;
   protected $infoTypeStatsDataType = 'array';
+  public $infoTypeStats;
   /**
    * @var string
    */

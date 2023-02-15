@@ -21,12 +21,16 @@ class CandlestickData extends \Google\Model
 {
   protected $closeSeriesType = CandlestickSeries::class;
   protected $closeSeriesDataType = '';
+  public $closeSeries;
   protected $highSeriesType = CandlestickSeries::class;
   protected $highSeriesDataType = '';
+  public $highSeries;
   protected $lowSeriesType = CandlestickSeries::class;
   protected $lowSeriesDataType = '';
+  public $lowSeries;
   protected $openSeriesType = CandlestickSeries::class;
   protected $openSeriesDataType = '';
+  public $openSeries;
 
   /**
    * @param CandlestickSeries

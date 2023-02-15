@@ -25,7 +25,7 @@ use Google\Service\Eventarc\Provider;
  * Typical usage is:
  *  <code>
  *   $eventarcService = new Google\Service\Eventarc(...);
- *   $providers = $eventarcService->providers;
+ *   $providers = $eventarcService->projects_locations_providers;
  *  </code>
  */
 class ProjectsLocationsProviders extends \Google\Service\Resource

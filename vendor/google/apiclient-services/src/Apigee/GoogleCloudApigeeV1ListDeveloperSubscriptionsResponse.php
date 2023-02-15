@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1ListDeveloperSubscriptionsResponse extends \Google\Coll
   protected $collection_key = 'developerSubscriptions';
   protected $developerSubscriptionsType = GoogleCloudApigeeV1DeveloperSubscription::class;
   protected $developerSubscriptionsDataType = 'array';
+  public $developerSubscriptions;
   /**
    * @var string
    */

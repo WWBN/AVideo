@@ -22,6 +22,7 @@ class GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse extends \Google
   protected $collection_key = 'feedbackMessages';
   protected $feedbackMessagesType = GoogleCloudDatalabelingV1beta1FeedbackMessage::class;
   protected $feedbackMessagesDataType = 'array';
+  public $feedbackMessages;
   /**
    * @var string
    */

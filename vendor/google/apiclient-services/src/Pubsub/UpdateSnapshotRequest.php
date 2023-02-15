@@ -21,6 +21,7 @@ class UpdateSnapshotRequest extends \Google\Model
 {
   protected $snapshotType = Snapshot::class;
   protected $snapshotDataType = '';
+  public $snapshot;
   /**
    * @var string
    */

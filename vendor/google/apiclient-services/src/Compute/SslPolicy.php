@@ -70,6 +70,7 @@ class SslPolicy extends \Google\Collection
   public $selfLink;
   protected $warningsType = SslPolicyWarnings::class;
   protected $warningsDataType = 'array';
+  public $warnings;
 
   /**
    * @param string

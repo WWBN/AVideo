@@ -25,12 +25,14 @@ class UpdateConditionalFormatRuleResponse extends \Google\Model
   public $newIndex;
   protected $newRuleType = ConditionalFormatRule::class;
   protected $newRuleDataType = '';
+  public $newRule;
   /**
    * @var int
    */
   public $oldIndex;
   protected $oldRuleType = ConditionalFormatRule::class;
   protected $oldRuleDataType = '';
+  public $oldRule;
 
   /**
    * @param int

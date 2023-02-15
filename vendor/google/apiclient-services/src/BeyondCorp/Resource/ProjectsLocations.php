@@ -25,7 +25,7 @@ use Google\Service\BeyondCorp\GoogleCloudLocationLocation;
  * Typical usage is:
  *  <code>
  *   $beyondcorpService = new Google\Service\BeyondCorp(...);
- *   $locations = $beyondcorpService->locations;
+ *   $locations = $beyondcorpService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

@@ -22,17 +22,21 @@ class LocalWWWInfo extends \Google\Collection
   protected $collection_key = 'wrapptorItem';
   protected $addressType = LocalWWWInfoAddress::class;
   protected $addressDataType = 'array';
+  public $address;
   public $brickAndMortarStrength;
   protected $clusterType = LocalWWWInfoCluster::class;
   protected $clusterDataType = 'array';
+  public $cluster;
   /**
    * @var string
    */
   public $docid;
   protected $geotopicalityType = RepositoryAnnotationsGeoTopicality::class;
   protected $geotopicalityDataType = '';
+  public $geotopicality;
   protected $hoursType = LocalWWWInfoOpeningHours::class;
   protected $hoursDataType = 'array';
+  public $hours;
   /**
    * @var bool
    */
@@ -43,6 +47,7 @@ class LocalWWWInfo extends \Google\Collection
   public $isLargeLocalwwwinfo;
   protected $phoneType = LocalWWWInfoPhone::class;
   protected $phoneDataType = 'array';
+  public $phone;
   /**
    * @var int
    */
@@ -53,6 +58,7 @@ class LocalWWWInfo extends \Google\Collection
   public $url;
   protected $wrapptorItemType = LocalWWWInfoWrapptorItem::class;
   protected $wrapptorItemDataType = 'array';
+  public $wrapptorItem;
 
   /**
    * @param LocalWWWInfoAddress[]

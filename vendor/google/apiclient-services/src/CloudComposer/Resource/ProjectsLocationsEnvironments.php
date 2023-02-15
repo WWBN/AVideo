@@ -19,14 +19,16 @@ namespace Google\Service\CloudComposer\Resource;
 
 use Google\Service\CloudComposer\Environment;
 use Google\Service\CloudComposer\ListEnvironmentsResponse;
+use Google\Service\CloudComposer\LoadSnapshotRequest;
 use Google\Service\CloudComposer\Operation;
+use Google\Service\CloudComposer\SaveSnapshotRequest;
 
 /**
  * The "environments" collection of methods.
  * Typical usage is:
  *  <code>
  *   $composerService = new Google\Service\CloudComposer(...);
- *   $environments = $composerService->environments;
+ *   $environments = $composerService->projects_locations_environments;
  *  </code>
  */
 class ProjectsLocationsEnvironments extends \Google\Service\Resource
@@ -91,6 +93,24 @@ class ProjectsLocationsEnvironments extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListEnvironmentsResponse::class);
+  }
+  /**
+   * Loads a snapshot of a Cloud Composer environment. As a result of this
+   * operation, a snapshot of environment's specified in LoadSnapshotRequest is
+   * loaded into the environment. (environments.loadSnapshot)
+   *
+   * @param string $environment The resource name of the target environment in the
+   * form:
+   * "projects/{projectId}/locations/{locationId}/environments/{environmentId}"
+   * @param LoadSnapshotRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function loadSnapshot($environment, LoadSnapshotRequest $postBody, $optParams = [])
+  {
+    $params = ['environment' => $environment, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('loadSnapshot', [$params], Operation::class);
   }
   /**
    * Update an environment. (environments.patch)
@@ -182,6 +202,24 @@ class ProjectsLocationsEnvironments extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * Creates a snapshots of a Cloud Composer environment. As a result of this
+   * operation, snapshot of environment's state is stored in a location specified
+   * in the SaveSnapshotRequest. (environments.saveSnapshot)
+   *
+   * @param string $environment The resource name of the source environment in the
+   * form:
+   * "projects/{projectId}/locations/{locationId}/environments/{environmentId}"
+   * @param SaveSnapshotRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function saveSnapshot($environment, SaveSnapshotRequest $postBody, $optParams = [])
+  {
+    $params = ['environment' => $environment, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('saveSnapshot', [$params], Operation::class);
   }
 }
 

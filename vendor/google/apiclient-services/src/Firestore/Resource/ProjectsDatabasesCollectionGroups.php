@@ -22,7 +22,7 @@ namespace Google\Service\Firestore\Resource;
  * Typical usage is:
  *  <code>
  *   $firestoreService = new Google\Service\Firestore(...);
- *   $collectionGroups = $firestoreService->collectionGroups;
+ *   $collectionGroups = $firestoreService->projects_databases_collectionGroups;
  *  </code>
  */
 class ProjectsDatabasesCollectionGroups extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class GooglePlayDeveloperReportingV1beta1FreshnessInfo extends \Google\Collectio
   protected $collection_key = 'freshnesses';
   protected $freshnessesType = GooglePlayDeveloperReportingV1beta1FreshnessInfoFreshness::class;
   protected $freshnessesDataType = 'array';
+  public $freshnesses;
 
   /**
    * @param GooglePlayDeveloperReportingV1beta1FreshnessInfoFreshness[]

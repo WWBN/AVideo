@@ -17,13 +17,147 @@
 
 namespace Google\Service\Contentwarehouse;
 
-class QualityNsrNsrDataMetadata extends \Google\Model
+class QualityNsrNsrDataMetadata extends \Google\Collection
 {
+  protected $collection_key = 'raffiaLookupKeys';
+  /**
+   * @var string
+   */
+  public $encodedLookupInformation;
+  /**
+   * @var int[]
+   */
+  public $goldmineLookupKeyPerField;
+  /**
+   * @var string[]
+   */
+  public $goldmineLookupKeys;
+  /**
+   * @var string
+   */
+  public $lastTimeProcessedGoldmineInSeconds;
+  /**
+   * @var string
+   */
+  public $lastTimeProcessedMduInSeconds;
+  /**
+   * @var string
+   */
+  public $lastTimeProcessedRaffiaInSeconds;
+  protected $nsrChunksWithSourceInfoType = QualityNsrNsrChunksWithSourceInfo::class;
+  protected $nsrChunksWithSourceInfoDataType = '';
+  public $nsrChunksWithSourceInfo;
   /**
    * @var string
    */
   public $raffiaLookupKey;
+  /**
+   * @var int[]
+   */
+  public $raffiaLookupKeyPerField;
+  /**
+   * @var string[]
+   */
+  public $raffiaLookupKeys;
 
+  /**
+   * @param string
+   */
+  public function setEncodedLookupInformation($encodedLookupInformation)
+  {
+    $this->encodedLookupInformation = $encodedLookupInformation;
+  }
+  /**
+   * @return string
+   */
+  public function getEncodedLookupInformation()
+  {
+    return $this->encodedLookupInformation;
+  }
+  /**
+   * @param int[]
+   */
+  public function setGoldmineLookupKeyPerField($goldmineLookupKeyPerField)
+  {
+    $this->goldmineLookupKeyPerField = $goldmineLookupKeyPerField;
+  }
+  /**
+   * @return int[]
+   */
+  public function getGoldmineLookupKeyPerField()
+  {
+    return $this->goldmineLookupKeyPerField;
+  }
+  /**
+   * @param string[]
+   */
+  public function setGoldmineLookupKeys($goldmineLookupKeys)
+  {
+    $this->goldmineLookupKeys = $goldmineLookupKeys;
+  }
+  /**
+   * @return string[]
+   */
+  public function getGoldmineLookupKeys()
+  {
+    return $this->goldmineLookupKeys;
+  }
+  /**
+   * @param string
+   */
+  public function setLastTimeProcessedGoldmineInSeconds($lastTimeProcessedGoldmineInSeconds)
+  {
+    $this->lastTimeProcessedGoldmineInSeconds = $lastTimeProcessedGoldmineInSeconds;
+  }
+  /**
+   * @return string
+   */
+  public function getLastTimeProcessedGoldmineInSeconds()
+  {
+    return $this->lastTimeProcessedGoldmineInSeconds;
+  }
+  /**
+   * @param string
+   */
+  public function setLastTimeProcessedMduInSeconds($lastTimeProcessedMduInSeconds)
+  {
+    $this->lastTimeProcessedMduInSeconds = $lastTimeProcessedMduInSeconds;
+  }
+  /**
+   * @return string
+   */
+  public function getLastTimeProcessedMduInSeconds()
+  {
+    return $this->lastTimeProcessedMduInSeconds;
+  }
+  /**
+   * @param string
+   */
+  public function setLastTimeProcessedRaffiaInSeconds($lastTimeProcessedRaffiaInSeconds)
+  {
+    $this->lastTimeProcessedRaffiaInSeconds = $lastTimeProcessedRaffiaInSeconds;
+  }
+  /**
+   * @return string
+   */
+  public function getLastTimeProcessedRaffiaInSeconds()
+  {
+    return $this->lastTimeProcessedRaffiaInSeconds;
+  }
+  /**
+   * @param QualityNsrNsrChunksWithSourceInfo
+   */
+  public function setNsrChunksWithSourceInfo(QualityNsrNsrChunksWithSourceInfo $nsrChunksWithSourceInfo)
+  {
+    $this->nsrChunksWithSourceInfo = $nsrChunksWithSourceInfo;
+  }
+  /**
+   * @return QualityNsrNsrChunksWithSourceInfo
+   */
+  public function getNsrChunksWithSourceInfo()
+  {
+    return $this->nsrChunksWithSourceInfo;
+  }
   /**
    * @param string
    */
@@ -37,6 +171,34 @@ class QualityNsrNsrDataMetadata extends \Google\Model
   public function getRaffiaLookupKey()
   {
     return $this->raffiaLookupKey;
+  }
+  /**
+   * @param int[]
+   */
+  public function setRaffiaLookupKeyPerField($raffiaLookupKeyPerField)
+  {
+    $this->raffiaLookupKeyPerField = $raffiaLookupKeyPerField;
+  }
+  /**
+   * @return int[]
+   */
+  public function getRaffiaLookupKeyPerField()
+  {
+    return $this->raffiaLookupKeyPerField;
+  }
+  /**
+   * @param string[]
+   */
+  public function setRaffiaLookupKeys($raffiaLookupKeys)
+  {
+    $this->raffiaLookupKeys = $raffiaLookupKeys;
+  }
+  /**
+   * @return string[]
+   */
+  public function getRaffiaLookupKeys()
+  {
+    return $this->raffiaLookupKeys;
   }
 }
 

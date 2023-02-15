@@ -33,12 +33,16 @@ class InTotoStatement extends \Google\Collection
   public $predicateType;
   protected $provenanceType = InTotoProvenance::class;
   protected $provenanceDataType = '';
+  public $provenance;
   protected $slsaProvenanceType = SlsaProvenance::class;
   protected $slsaProvenanceDataType = '';
+  public $slsaProvenance;
   protected $slsaProvenanceZeroTwoType = SlsaProvenanceZeroTwo::class;
   protected $slsaProvenanceZeroTwoDataType = '';
+  public $slsaProvenanceZeroTwo;
   protected $subjectType = Subject::class;
   protected $subjectDataType = 'array';
+  public $subject;
 
   /**
    * @param string

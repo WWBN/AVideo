@@ -21,8 +21,10 @@ class DynamicSourceSplit extends \Google\Model
 {
   protected $primaryType = DerivedSource::class;
   protected $primaryDataType = '';
+  public $primary;
   protected $residualType = DerivedSource::class;
   protected $residualDataType = '';
+  public $residual;
 
   /**
    * @param DerivedSource

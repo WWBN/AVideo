@@ -25,7 +25,7 @@ use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ListDeploymentsResponse;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $deployments = $dialogflowService->deployments;
+ *   $deployments = $dialogflowService->projects_locations_agents_environments_deployments;
  *  </code>
  */
 class ProjectsLocationsAgentsEnvironmentsDeployments extends \Google\Service\Resource

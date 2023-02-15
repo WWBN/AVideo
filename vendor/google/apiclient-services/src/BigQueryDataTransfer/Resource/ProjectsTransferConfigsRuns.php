@@ -26,7 +26,7 @@ use Google\Service\BigQueryDataTransfer\TransferRun;
  * Typical usage is:
  *  <code>
  *   $bigquerydatatransferService = new Google\Service\BigQueryDataTransfer(...);
- *   $runs = $bigquerydatatransferService->runs;
+ *   $runs = $bigquerydatatransferService->projects_transferConfigs_runs;
  *  </code>
  */
 class ProjectsTransferConfigsRuns extends \Google\Service\Resource

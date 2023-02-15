@@ -22,22 +22,27 @@ class AbuseiamEvaluation extends \Google\Collection
   protected $collection_key = 'region';
   protected $abuseTypeType = AbuseiamAbuseType::class;
   protected $abuseTypeDataType = '';
+  public $abuseType;
   /**
    * @var string
    */
   public $backend;
   protected $clusterEvaluationContextType = AbuseiamClusterEvaluationContext::class;
   protected $clusterEvaluationContextDataType = '';
+  public $clusterEvaluationContext;
   /**
    * @var string
    */
   public $comment;
   protected $featureType = AbuseiamFeature::class;
   protected $featureDataType = 'array';
+  public $feature;
   protected $manualReviewInfoType = AbuseiamManualReviewEvaluationInfo::class;
   protected $manualReviewInfoDataType = '';
+  public $manualReviewInfo;
   protected $miscDataType = AbuseiamNameValuePair::class;
   protected $miscDataDataType = 'array';
+  public $miscData;
   /**
    * @var string
    */
@@ -48,6 +53,7 @@ class AbuseiamEvaluation extends \Google\Collection
   public $processedMicros;
   protected $regionType = AbuseiamRegion::class;
   protected $regionDataType = 'array';
+  public $region;
   public $score;
   /**
    * @var string
@@ -55,18 +61,21 @@ class AbuseiamEvaluation extends \Google\Collection
   public $status;
   protected $targetType = AbuseiamTarget::class;
   protected $targetDataType = '';
+  public $target;
   /**
    * @var string
    */
   public $timestampMicros;
   protected $userRestrictionType = AbuseiamUserRestriction::class;
   protected $userRestrictionDataType = '';
+  public $userRestriction;
   /**
    * @var string
    */
   public $version;
   protected $videoReviewDataType = AbuseiamVideoReviewData::class;
   protected $videoReviewDataDataType = '';
+  public $videoReviewData;
 
   /**
    * @param AbuseiamAbuseType

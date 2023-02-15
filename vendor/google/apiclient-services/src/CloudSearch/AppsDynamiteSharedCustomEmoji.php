@@ -33,6 +33,7 @@ class AppsDynamiteSharedCustomEmoji extends \Google\Model
   public $createTimeMicros;
   protected $creatorUserIdType = UserId::class;
   protected $creatorUserIdDataType = '';
+  public $creatorUserId;
   /**
    * @var string
    */
@@ -43,6 +44,7 @@ class AppsDynamiteSharedCustomEmoji extends \Google\Model
   public $ephemeralUrl;
   protected $ownerCustomerIdType = CustomerId::class;
   protected $ownerCustomerIdDataType = '';
+  public $ownerCustomerId;
   /**
    * @var string
    */

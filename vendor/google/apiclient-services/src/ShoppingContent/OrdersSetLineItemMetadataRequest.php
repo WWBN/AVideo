@@ -22,6 +22,7 @@ class OrdersSetLineItemMetadataRequest extends \Google\Collection
   protected $collection_key = 'annotations';
   protected $annotationsType = OrderMerchantProvidedAnnotation::class;
   protected $annotationsDataType = 'array';
+  public $annotations;
   /**
    * @var string
    */

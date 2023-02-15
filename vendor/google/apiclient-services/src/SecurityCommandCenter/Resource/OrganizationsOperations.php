@@ -26,7 +26,7 @@ use Google\Service\SecurityCommandCenter\SecuritycenterEmpty;
  * Typical usage is:
  *  <code>
  *   $securitycenterService = new Google\Service\SecurityCommandCenter(...);
- *   $operations = $securitycenterService->operations;
+ *   $operations = $securitycenterService->organizations_operations;
  *  </code>
  */
 class OrganizationsOperations extends \Google\Service\Resource

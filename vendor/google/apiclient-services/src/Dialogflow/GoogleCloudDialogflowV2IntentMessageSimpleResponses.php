@@ -22,6 +22,7 @@ class GoogleCloudDialogflowV2IntentMessageSimpleResponses extends \Google\Collec
   protected $collection_key = 'simpleResponses';
   protected $simpleResponsesType = GoogleCloudDialogflowV2IntentMessageSimpleResponse::class;
   protected $simpleResponsesDataType = 'array';
+  public $simpleResponses;
 
   /**
    * @param GoogleCloudDialogflowV2IntentMessageSimpleResponse[]

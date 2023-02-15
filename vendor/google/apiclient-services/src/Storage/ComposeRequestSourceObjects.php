@@ -29,6 +29,7 @@ class ComposeRequestSourceObjects extends \Google\Model
   public $name;
   protected $objectPreconditionsType = ComposeRequestSourceObjectsObjectPreconditions::class;
   protected $objectPreconditionsDataType = '';
+  public $objectPreconditions;
 
   /**
    * @param string

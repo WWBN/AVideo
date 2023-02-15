@@ -22,6 +22,7 @@ class ListDataSourcesResponse extends \Google\Collection
   protected $collection_key = 'dataSource';
   protected $dataSourceType = DataSource::class;
   protected $dataSourceDataType = 'array';
+  public $dataSource;
 
   /**
    * @param DataSource[]

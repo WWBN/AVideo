@@ -21,6 +21,7 @@ class ImageRegionsImageRegion extends \Google\Model
 {
   protected $boundingBoxType = PhotosVisionGroundtruthdbNormalizedBoundingBox::class;
   protected $boundingBoxDataType = '';
+  public $boundingBox;
   /**
    * @var float
    */
@@ -36,18 +37,21 @@ class ImageRegionsImageRegion extends \Google\Model
   public $knnScore;
   protected $labelGroupType = ImageUnderstandingIndexingLabelGroup::class;
   protected $labelGroupDataType = '';
+  public $labelGroup;
   /**
    * @var string
    */
   public $labelVersion;
   protected $primaryLabelType = ImageUnderstandingIndexingLabel::class;
   protected $primaryLabelDataType = '';
+  public $primaryLabel;
   /**
    * @var string
    */
   public $renderType;
   protected $starburstV4Type = ImageUnderstandingIndexingFeature::class;
   protected $starburstV4DataType = '';
+  public $starburstV4;
 
   /**
    * @param PhotosVisionGroundtruthdbNormalizedBoundingBox

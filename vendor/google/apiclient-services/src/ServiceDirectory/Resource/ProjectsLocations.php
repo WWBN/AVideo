@@ -25,7 +25,7 @@ use Google\Service\ServiceDirectory\Location;
  * Typical usage is:
  *  <code>
  *   $servicedirectoryService = new Google\Service\ServiceDirectory(...);
- *   $locations = $servicedirectoryService->locations;
+ *   $locations = $servicedirectoryService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

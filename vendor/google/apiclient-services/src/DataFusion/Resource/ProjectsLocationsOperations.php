@@ -27,7 +27,7 @@ use Google\Service\DataFusion\Operation;
  * Typical usage is:
  *  <code>
  *   $datafusionService = new Google\Service\DataFusion(...);
- *   $operations = $datafusionService->operations;
+ *   $operations = $datafusionService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

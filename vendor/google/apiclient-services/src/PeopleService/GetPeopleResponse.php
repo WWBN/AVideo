@@ -22,6 +22,7 @@ class GetPeopleResponse extends \Google\Collection
   protected $collection_key = 'responses';
   protected $responsesType = PersonResponse::class;
   protected $responsesDataType = 'array';
+  public $responses;
 
   /**
    * @param PersonResponse[]

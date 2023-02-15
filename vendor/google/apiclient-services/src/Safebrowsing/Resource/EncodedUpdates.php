@@ -17,7 +17,7 @@
 
 namespace Google\Service\Safebrowsing\Resource;
 
-use Google\Service\Safebrowsing\GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponse;
+use Google\Service\Safebrowsing\FetchThreatListUpdatesResponse;
 
 /**
  * The "encodedUpdates" collection of methods.
@@ -39,13 +39,13 @@ class EncodedUpdates extends \Google\Service\Resource
    * @opt_param string clientId A client ID that uniquely identifies the client
    * implementation of the Safe Browsing API.
    * @opt_param string clientVersion The version of the client implementation.
-   * @return GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponse
+   * @return FetchThreatListUpdatesResponse
    */
   public function get($encodedRequest, $optParams = [])
   {
     $params = ['encodedRequest' => $encodedRequest];
     $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponse::class);
+    return $this->call('get', [$params], FetchThreatListUpdatesResponse::class);
   }
 }
 

@@ -21,18 +21,23 @@ class SortSpec extends \Google\Model
 {
   protected $backgroundColorType = Color::class;
   protected $backgroundColorDataType = '';
+  public $backgroundColor;
   protected $backgroundColorStyleType = ColorStyle::class;
   protected $backgroundColorStyleDataType = '';
+  public $backgroundColorStyle;
   protected $dataSourceColumnReferenceType = DataSourceColumnReference::class;
   protected $dataSourceColumnReferenceDataType = '';
+  public $dataSourceColumnReference;
   /**
    * @var int
    */
   public $dimensionIndex;
   protected $foregroundColorType = Color::class;
   protected $foregroundColorDataType = '';
+  public $foregroundColor;
   protected $foregroundColorStyleType = ColorStyle::class;
   protected $foregroundColorStyleDataType = '';
+  public $foregroundColorStyle;
   /**
    * @var string
    */

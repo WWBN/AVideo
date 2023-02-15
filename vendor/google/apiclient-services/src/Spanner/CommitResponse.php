@@ -21,6 +21,7 @@ class CommitResponse extends \Google\Model
 {
   protected $commitStatsType = CommitStats::class;
   protected $commitStatsDataType = '';
+  public $commitStats;
   /**
    * @var string
    */

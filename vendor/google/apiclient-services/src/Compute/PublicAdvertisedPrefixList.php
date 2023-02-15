@@ -26,6 +26,7 @@ class PublicAdvertisedPrefixList extends \Google\Collection
   public $id;
   protected $itemsType = PublicAdvertisedPrefix::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class PublicAdvertisedPrefixList extends \Google\Collection
   public $selfLink;
   protected $warningType = PublicAdvertisedPrefixListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

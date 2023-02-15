@@ -21,8 +21,10 @@ class GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestion extends \Google\Mod
 {
   protected $actionType = GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedAction::class;
   protected $actionDataType = '';
+  public $action;
   protected $replyType = GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedReply::class;
   protected $replyDataType = '';
+  public $reply;
 
   /**
    * @param GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedAction

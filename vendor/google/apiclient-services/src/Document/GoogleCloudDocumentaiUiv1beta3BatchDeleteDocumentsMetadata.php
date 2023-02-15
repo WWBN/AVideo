@@ -22,12 +22,14 @@ class GoogleCloudDocumentaiUiv1beta3BatchDeleteDocumentsMetadata extends \Google
   protected $collection_key = 'individualBatchDeleteStatuses';
   protected $commonMetadataType = GoogleCloudDocumentaiUiv1beta3CommonOperationMetadata::class;
   protected $commonMetadataDataType = '';
+  public $commonMetadata;
   /**
    * @var int
    */
   public $errorDocumentCount;
   protected $individualBatchDeleteStatusesType = GoogleCloudDocumentaiUiv1beta3BatchDeleteDocumentsMetadataIndividualBatchDeleteStatus::class;
   protected $individualBatchDeleteStatusesDataType = 'array';
+  public $individualBatchDeleteStatuses;
   /**
    * @var int
    */

@@ -21,14 +21,17 @@ class ParagraphBorder extends \Google\Model
 {
   protected $colorType = OptionalColor::class;
   protected $colorDataType = '';
+  public $color;
   /**
    * @var string
    */
   public $dashStyle;
   protected $paddingType = Dimension::class;
   protected $paddingDataType = '';
+  public $padding;
   protected $widthType = Dimension::class;
   protected $widthDataType = '';
+  public $width;
 
   /**
    * @param OptionalColor

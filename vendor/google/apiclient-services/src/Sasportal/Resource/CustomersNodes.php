@@ -28,7 +28,7 @@ use Google\Service\Sasportal\SasPortalOperation;
  * Typical usage is:
  *  <code>
  *   $sasportalService = new Google\Service\Sasportal(...);
- *   $nodes = $sasportalService->nodes;
+ *   $nodes = $sasportalService->customers_nodes;
  *  </code>
  */
 class CustomersNodes extends \Google\Service\Resource

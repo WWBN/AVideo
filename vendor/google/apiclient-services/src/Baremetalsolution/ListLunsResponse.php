@@ -22,6 +22,7 @@ class ListLunsResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $lunsType = Lun::class;
   protected $lunsDataType = 'array';
+  public $luns;
   /**
    * @var string
    */

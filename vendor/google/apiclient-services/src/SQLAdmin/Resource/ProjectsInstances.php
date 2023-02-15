@@ -28,7 +28,7 @@ use Google\Service\SQLAdmin\SqlInstancesVerifyExternalSyncSettingsResponse;
  * Typical usage is:
  *  <code>
  *   $sqladminService = new Google\Service\SQLAdmin(...);
- *   $instances = $sqladminService->instances;
+ *   $instances = $sqladminService->projects_instances;
  *  </code>
  */
 class ProjectsInstances extends \Google\Service\Resource

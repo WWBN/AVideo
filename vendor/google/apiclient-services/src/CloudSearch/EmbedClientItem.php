@@ -26,12 +26,14 @@ class EmbedClientItem extends \Google\Collection
   public $canonicalId;
   protected $deepLinkDataType = DeepLinkData::class;
   protected $deepLinkDataDataType = '';
+  public $deepLinkData;
   /**
    * @var string
    */
   public $id;
   protected $provenanceType = Provenance::class;
   protected $provenanceDataType = '';
+  public $provenance;
   /**
    * @var string
    */
@@ -42,6 +44,7 @@ class EmbedClientItem extends \Google\Collection
   public $signature;
   protected $transientDataType = TransientData::class;
   protected $transientDataDataType = '';
+  public $transientData;
   /**
    * @var string[]
    */

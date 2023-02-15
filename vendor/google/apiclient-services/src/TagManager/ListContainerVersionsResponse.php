@@ -22,6 +22,7 @@ class ListContainerVersionsResponse extends \Google\Collection
   protected $collection_key = 'containerVersionHeader';
   protected $containerVersionHeaderType = ContainerVersionHeader::class;
   protected $containerVersionHeaderDataType = 'array';
+  public $containerVersionHeader;
   /**
    * @var string
    */

@@ -26,12 +26,14 @@ class TestOrderPickupDetails extends \Google\Collection
   public $locationCode;
   protected $pickupLocationAddressType = TestOrderAddress::class;
   protected $pickupLocationAddressDataType = '';
+  public $pickupLocationAddress;
   /**
    * @var string
    */
   public $pickupLocationType;
   protected $pickupPersonsType = TestOrderPickupDetailsPickupPerson::class;
   protected $pickupPersonsDataType = 'array';
+  public $pickupPersons;
 
   /**
    * @param string

@@ -24,7 +24,7 @@ use Google\Service\Dataflow\StageExecutionDetails;
  * Typical usage is:
  *  <code>
  *   $dataflowService = new Google\Service\Dataflow(...);
- *   $stages = $dataflowService->stages;
+ *   $stages = $dataflowService->projects_locations_jobs_stages;
  *  </code>
  */
 class ProjectsLocationsJobsStages extends \Google\Service\Resource

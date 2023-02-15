@@ -34,7 +34,7 @@ use Google\Service\RealTimeBidding\SuspendPretargetingConfigRequest;
  * Typical usage is:
  *  <code>
  *   $realtimebiddingService = new Google\Service\RealTimeBidding(...);
- *   $pretargetingConfigs = $realtimebiddingService->pretargetingConfigs;
+ *   $pretargetingConfigs = $realtimebiddingService->bidders_pretargetingConfigs;
  *  </code>
  */
 class BiddersPretargetingConfigs extends \Google\Service\Resource

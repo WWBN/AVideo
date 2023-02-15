@@ -21,6 +21,7 @@ class EnterpriseCrmEventbusProtoConnectorsGenericConnectorTaskConfig extends \Go
 {
   protected $connectionType = EnterpriseCrmEventbusProtoConnectorsConnection::class;
   protected $connectionDataType = '';
+  public $connection;
   /**
    * @var string
    */

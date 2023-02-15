@@ -26,7 +26,7 @@ use Google\Service\AdExchangeBuyerII\ListFilterSetsResponse;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $filterSets = $adexchangebuyer2Service->filterSets;
+ *   $filterSets = $adexchangebuyer2Service->bidders_accounts_filterSets;
  *  </code>
  */
 class BiddersAccountsFilterSets extends \Google\Service\Resource

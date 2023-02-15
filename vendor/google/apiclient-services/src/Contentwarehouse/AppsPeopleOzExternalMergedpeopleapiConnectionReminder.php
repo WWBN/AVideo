@@ -22,10 +22,13 @@ class AppsPeopleOzExternalMergedpeopleapiConnectionReminder extends \Google\Coll
   protected $collection_key = 'prompt';
   protected $contactPromptSettingsType = SocialGraphApiProtoContactPromptSettings::class;
   protected $contactPromptSettingsDataType = '';
+  public $contactPromptSettings;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $promptType = SocialGraphApiProtoPrompt::class;
   protected $promptDataType = 'array';
+  public $prompt;
 
   /**
    * @param SocialGraphApiProtoContactPromptSettings

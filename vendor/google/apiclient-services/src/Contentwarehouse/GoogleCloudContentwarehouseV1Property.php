@@ -21,24 +21,32 @@ class GoogleCloudContentwarehouseV1Property extends \Google\Model
 {
   protected $dateTimeValuesType = GoogleCloudContentwarehouseV1DateTimeArray::class;
   protected $dateTimeValuesDataType = '';
+  public $dateTimeValues;
   protected $enumValuesType = GoogleCloudContentwarehouseV1EnumArray::class;
   protected $enumValuesDataType = '';
+  public $enumValues;
   protected $floatValuesType = GoogleCloudContentwarehouseV1FloatArray::class;
   protected $floatValuesDataType = '';
+  public $floatValues;
   protected $integerValuesType = GoogleCloudContentwarehouseV1IntegerArray::class;
   protected $integerValuesDataType = '';
+  public $integerValues;
   protected $mapPropertyType = GoogleCloudContentwarehouseV1MapProperty::class;
   protected $mapPropertyDataType = '';
+  public $mapProperty;
   /**
    * @var string
    */
   public $name;
   protected $propertyValuesType = GoogleCloudContentwarehouseV1PropertyArray::class;
   protected $propertyValuesDataType = '';
+  public $propertyValues;
   protected $textValuesType = GoogleCloudContentwarehouseV1TextArray::class;
   protected $textValuesDataType = '';
+  public $textValues;
   protected $timestampValuesType = GoogleCloudContentwarehouseV1TimestampArray::class;
   protected $timestampValuesDataType = '';
+  public $timestampValues;
 
   /**
    * @param GoogleCloudContentwarehouseV1DateTimeArray

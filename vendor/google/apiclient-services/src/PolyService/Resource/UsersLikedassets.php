@@ -24,7 +24,7 @@ use Google\Service\PolyService\ListLikedAssetsResponse;
  * Typical usage is:
  *  <code>
  *   $polyService = new Google\Service\PolyService(...);
- *   $likedassets = $polyService->likedassets;
+ *   $likedassets = $polyService->users_likedassets;
  *  </code>
  */
 class UsersLikedassets extends \Google\Service\Resource

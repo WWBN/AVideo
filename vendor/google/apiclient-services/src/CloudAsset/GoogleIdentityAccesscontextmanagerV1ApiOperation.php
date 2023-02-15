@@ -22,6 +22,7 @@ class GoogleIdentityAccesscontextmanagerV1ApiOperation extends \Google\Collectio
   protected $collection_key = 'methodSelectors';
   protected $methodSelectorsType = GoogleIdentityAccesscontextmanagerV1MethodSelector::class;
   protected $methodSelectorsDataType = 'array';
+  public $methodSelectors;
   /**
    * @var string
    */

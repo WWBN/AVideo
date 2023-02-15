@@ -22,6 +22,7 @@ class GoogleCloudDataplexV1ListAssetsResponse extends \Google\Collection
   protected $collection_key = 'assets';
   protected $assetsType = GoogleCloudDataplexV1Asset::class;
   protected $assetsDataType = 'array';
+  public $assets;
   /**
    * @var string
    */

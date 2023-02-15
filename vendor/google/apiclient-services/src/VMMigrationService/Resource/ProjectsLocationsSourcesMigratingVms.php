@@ -30,7 +30,7 @@ use Google\Service\VMMigrationService\StartMigrationRequest;
  * Typical usage is:
  *  <code>
  *   $vmmigrationService = new Google\Service\VMMigrationService(...);
- *   $migratingVms = $vmmigrationService->migratingVms;
+ *   $migratingVms = $vmmigrationService->projects_locations_sources_migratingVms;
  *  </code>
  */
 class ProjectsLocationsSourcesMigratingVms extends \Google\Service\Resource

@@ -27,6 +27,10 @@ class AssociatedFinding extends \Google\Model
    * @var string
    */
   public $findingCategory;
+  /**
+   * @var string
+   */
+  public $name;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class AssociatedFinding extends \Google\Model
   public function getFindingCategory()
   {
     return $this->findingCategory;
+  }
+  /**
+   * @param string
+   */
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+  /**
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->name;
   }
 }
 

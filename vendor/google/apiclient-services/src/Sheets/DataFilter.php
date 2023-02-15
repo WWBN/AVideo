@@ -25,8 +25,10 @@ class DataFilter extends \Google\Model
   public $a1Range;
   protected $developerMetadataLookupType = DeveloperMetadataLookup::class;
   protected $developerMetadataLookupDataType = '';
+  public $developerMetadataLookup;
   protected $gridRangeType = GridRange::class;
   protected $gridRangeDataType = '';
+  public $gridRange;
 
   /**
    * @param string

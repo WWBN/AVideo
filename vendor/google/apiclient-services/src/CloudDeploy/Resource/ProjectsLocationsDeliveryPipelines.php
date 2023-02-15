@@ -30,7 +30,7 @@ use Google\Service\CloudDeploy\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $clouddeployService = new Google\Service\CloudDeploy(...);
- *   $deliveryPipelines = $clouddeployService->deliveryPipelines;
+ *   $deliveryPipelines = $clouddeployService->projects_locations_deliveryPipelines;
  *  </code>
  */
 class ProjectsLocationsDeliveryPipelines extends \Google\Service\Resource

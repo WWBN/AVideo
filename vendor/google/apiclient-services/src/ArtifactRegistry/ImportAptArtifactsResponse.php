@@ -22,8 +22,10 @@ class ImportAptArtifactsResponse extends \Google\Collection
   protected $collection_key = 'errors';
   protected $aptArtifactsType = AptArtifact::class;
   protected $aptArtifactsDataType = 'array';
+  public $aptArtifacts;
   protected $errorsType = ImportAptArtifactsErrorInfo::class;
   protected $errorsDataType = 'array';
+  public $errors;
 
   /**
    * @param AptArtifact[]

@@ -22,6 +22,7 @@ class GoogleCloudDataplexV1AssetDiscoverySpec extends \Google\Collection
   protected $collection_key = 'includePatterns';
   protected $csvOptionsType = GoogleCloudDataplexV1AssetDiscoverySpecCsvOptions::class;
   protected $csvOptionsDataType = '';
+  public $csvOptions;
   /**
    * @var bool
    */
@@ -36,6 +37,7 @@ class GoogleCloudDataplexV1AssetDiscoverySpec extends \Google\Collection
   public $includePatterns;
   protected $jsonOptionsType = GoogleCloudDataplexV1AssetDiscoverySpecJsonOptions::class;
   protected $jsonOptionsDataType = '';
+  public $jsonOptions;
   /**
    * @var string
    */

@@ -26,6 +26,7 @@ class DataSourceRefreshMonthlySchedule extends \Google\Collection
   public $daysOfMonth;
   protected $startTimeType = TimeOfDay::class;
   protected $startTimeDataType = '';
+  public $startTime;
 
   /**
    * @param int[]

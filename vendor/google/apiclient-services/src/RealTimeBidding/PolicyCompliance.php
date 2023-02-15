@@ -26,6 +26,7 @@ class PolicyCompliance extends \Google\Collection
   public $status;
   protected $topicsType = PolicyTopicEntry::class;
   protected $topicsDataType = 'array';
+  public $topics;
 
   /**
    * @param string

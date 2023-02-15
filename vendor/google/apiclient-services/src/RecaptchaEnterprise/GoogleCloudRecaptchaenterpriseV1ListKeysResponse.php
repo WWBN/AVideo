@@ -22,6 +22,7 @@ class GoogleCloudRecaptchaenterpriseV1ListKeysResponse extends \Google\Collectio
   protected $collection_key = 'keys';
   protected $keysType = GoogleCloudRecaptchaenterpriseV1Key::class;
   protected $keysDataType = 'array';
+  public $keys;
   /**
    * @var string
    */

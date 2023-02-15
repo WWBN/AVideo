@@ -22,6 +22,7 @@ class LeaderboardScores extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = LeaderboardEntry::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -36,6 +37,7 @@ class LeaderboardScores extends \Google\Collection
   public $numScores;
   protected $playerScoreType = LeaderboardEntry::class;
   protected $playerScoreDataType = '';
+  public $playerScore;
   /**
    * @var string
    */

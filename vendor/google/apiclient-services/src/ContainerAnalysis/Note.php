@@ -22,26 +22,33 @@ class Note extends \Google\Collection
   protected $collection_key = 'relatedUrl';
   protected $attestationType = AttestationNote::class;
   protected $attestationDataType = '';
+  public $attestation;
   protected $buildType = BuildNote::class;
   protected $buildDataType = '';
+  public $build;
   protected $complianceType = ComplianceNote::class;
   protected $complianceDataType = '';
+  public $compliance;
   /**
    * @var string
    */
   public $createTime;
   protected $deploymentType = DeploymentNote::class;
   protected $deploymentDataType = '';
+  public $deployment;
   protected $discoveryType = DiscoveryNote::class;
   protected $discoveryDataType = '';
+  public $discovery;
   protected $dsseAttestationType = DSSEAttestationNote::class;
   protected $dsseAttestationDataType = '';
+  public $dsseAttestation;
   /**
    * @var string
    */
   public $expirationTime;
   protected $imageType = ImageNote::class;
   protected $imageDataType = '';
+  public $image;
   /**
    * @var string
    */
@@ -56,12 +63,14 @@ class Note extends \Google\Collection
   public $name;
   protected $packageType = PackageNote::class;
   protected $packageDataType = '';
+  public $package;
   /**
    * @var string[]
    */
   public $relatedNoteNames;
   protected $relatedUrlType = RelatedUrl::class;
   protected $relatedUrlDataType = 'array';
+  public $relatedUrl;
   /**
    * @var string
    */
@@ -72,8 +81,10 @@ class Note extends \Google\Collection
   public $updateTime;
   protected $upgradeType = UpgradeNote::class;
   protected $upgradeDataType = '';
+  public $upgrade;
   protected $vulnerabilityType = VulnerabilityNote::class;
   protected $vulnerabilityDataType = '';
+  public $vulnerability;
 
   /**
    * @param AttestationNote

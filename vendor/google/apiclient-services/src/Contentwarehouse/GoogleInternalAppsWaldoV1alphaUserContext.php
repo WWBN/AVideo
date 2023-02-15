@@ -21,12 +21,16 @@ class GoogleInternalAppsWaldoV1alphaUserContext extends \Google\Model
 {
   protected $localTimeType = GoogleInternalAppsWaldoV1alphaLocalTimeContext::class;
   protected $localTimeDataType = '';
+  public $localTime;
   protected $upcomingCommitmentContextType = GoogleInternalAppsWaldoV1alphaUpcomingCommitmentContext::class;
   protected $upcomingCommitmentContextDataType = '';
+  public $upcomingCommitmentContext;
   protected $upcomingOooType = GoogleInternalAppsWaldoV1alphaUpcomingOooContext::class;
   protected $upcomingOooDataType = '';
+  public $upcomingOoo;
   protected $workingElsewhereType = GoogleInternalAppsWaldoV1alphaWorkingElsewhereContext::class;
   protected $workingElsewhereDataType = '';
+  public $workingElsewhere;
 
   /**
    * @param GoogleInternalAppsWaldoV1alphaLocalTimeContext

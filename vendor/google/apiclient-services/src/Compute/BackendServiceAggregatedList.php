@@ -26,6 +26,7 @@ class BackendServiceAggregatedList extends \Google\Collection
   public $id;
   protected $itemsType = BackendServicesScopedList::class;
   protected $itemsDataType = 'map';
+  public $items;
   /**
    * @var string
    */
@@ -44,6 +45,7 @@ class BackendServiceAggregatedList extends \Google\Collection
   public $unreachables;
   protected $warningType = BackendServiceAggregatedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

@@ -22,6 +22,7 @@ class ProductSearchParams extends \Google\Collection
   protected $collection_key = 'productCategories';
   protected $boundingPolyType = BoundingPoly::class;
   protected $boundingPolyDataType = '';
+  public $boundingPoly;
   /**
    * @var string
    */

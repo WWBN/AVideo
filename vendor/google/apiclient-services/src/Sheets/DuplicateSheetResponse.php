@@ -21,6 +21,7 @@ class DuplicateSheetResponse extends \Google\Model
 {
   protected $propertiesType = SheetProperties::class;
   protected $propertiesDataType = '';
+  public $properties;
 
   /**
    * @param SheetProperties

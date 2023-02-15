@@ -22,6 +22,7 @@ class ChoiceQuestion extends \Google\Collection
   protected $collection_key = 'options';
   protected $optionsType = Option::class;
   protected $optionsDataType = 'array';
+  public $options;
   /**
    * @var bool
    */

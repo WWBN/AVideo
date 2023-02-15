@@ -37,6 +37,7 @@ class StringMatcher extends \Google\Model
   public $regex;
   protected $safeRegexType = RegexMatcher::class;
   protected $safeRegexDataType = '';
+  public $safeRegex;
   /**
    * @var string
    */

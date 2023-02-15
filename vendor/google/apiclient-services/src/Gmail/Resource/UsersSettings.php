@@ -28,7 +28,7 @@ use Google\Service\Gmail\VacationSettings;
  * Typical usage is:
  *  <code>
  *   $gmailService = new Google\Service\Gmail(...);
- *   $settings = $gmailService->settings;
+ *   $settings = $gmailService->users_settings;
  *  </code>
  */
 class UsersSettings extends \Google\Service\Resource

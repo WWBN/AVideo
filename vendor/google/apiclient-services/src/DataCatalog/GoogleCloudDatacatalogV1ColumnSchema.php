@@ -27,6 +27,10 @@ class GoogleCloudDatacatalogV1ColumnSchema extends \Google\Collection
   /**
    * @var string
    */
+  public $defaultValue;
+  /**
+   * @var string
+   */
   public $description;
   /**
    * @var string
@@ -35,9 +39,21 @@ class GoogleCloudDatacatalogV1ColumnSchema extends \Google\Collection
   /**
    * @var string
    */
+  public $highestIndexingType;
+  protected $lookerColumnSpecType = GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec::class;
+  protected $lookerColumnSpecDataType = '';
+  public $lookerColumnSpec;
+  /**
+   * @var string
+   */
   public $mode;
+  /**
+   * @var int
+   */
+  public $ordinalPosition;
   protected $subcolumnsType = GoogleCloudDatacatalogV1ColumnSchema::class;
   protected $subcolumnsDataType = 'array';
+  public $subcolumns;
   /**
    * @var string
    */
@@ -56,6 +72,20 @@ class GoogleCloudDatacatalogV1ColumnSchema extends \Google\Collection
   public function getColumn()
   {
     return $this->column;
+  }
+  /**
+   * @param string
+   */
+  public function setDefaultValue($defaultValue)
+  {
+    $this->defaultValue = $defaultValue;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultValue()
+  {
+    return $this->defaultValue;
   }
   /**
    * @param string
@@ -88,6 +118,34 @@ class GoogleCloudDatacatalogV1ColumnSchema extends \Google\Collection
   /**
    * @param string
    */
+  public function setHighestIndexingType($highestIndexingType)
+  {
+    $this->highestIndexingType = $highestIndexingType;
+  }
+  /**
+   * @return string
+   */
+  public function getHighestIndexingType()
+  {
+    return $this->highestIndexingType;
+  }
+  /**
+   * @param GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec
+   */
+  public function setLookerColumnSpec(GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec $lookerColumnSpec)
+  {
+    $this->lookerColumnSpec = $lookerColumnSpec;
+  }
+  /**
+   * @return GoogleCloudDatacatalogV1ColumnSchemaLookerColumnSpec
+   */
+  public function getLookerColumnSpec()
+  {
+    return $this->lookerColumnSpec;
+  }
+  /**
+   * @param string
+   */
   public function setMode($mode)
   {
     $this->mode = $mode;
@@ -98,6 +156,20 @@ class GoogleCloudDatacatalogV1ColumnSchema extends \Google\Collection
   public function getMode()
   {
     return $this->mode;
+  }
+  /**
+   * @param int
+   */
+  public function setOrdinalPosition($ordinalPosition)
+  {
+    $this->ordinalPosition = $ordinalPosition;
+  }
+  /**
+   * @return int
+   */
+  public function getOrdinalPosition()
+  {
+    return $this->ordinalPosition;
   }
   /**
    * @param GoogleCloudDatacatalogV1ColumnSchema[]

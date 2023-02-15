@@ -25,6 +25,7 @@ class RouterStatusResponse extends \Google\Model
   public $kind;
   protected $resultType = RouterStatus::class;
   protected $resultDataType = '';
+  public $result;
 
   /**
    * @param string

@@ -26,6 +26,7 @@ class QualityActionsReminder extends \Google\Collection
   public $archived;
   protected $archivedTimeType = AssistantApiDateTime::class;
   protected $archivedTimeDataType = '';
+  public $archivedTime;
   /**
    * @var string
    */
@@ -36,6 +37,7 @@ class QualityActionsReminder extends \Google\Collection
   public $asyncInteractionType;
   protected $attachmentType = AssistantRemindersAttachment::class;
   protected $attachmentDataType = 'array';
+  public $attachment;
   /**
    * @var string
    */
@@ -46,46 +48,59 @@ class QualityActionsReminder extends \Google\Collection
   public $clientId;
   protected $clientTypeType = QualityDialogManagerReminderClientType::class;
   protected $clientTypeDataType = '';
+  public $clientType;
   protected $createTimeType = AssistantApiDateTime::class;
   protected $createTimeDataType = '';
+  public $createTime;
   /**
    * @var string
    */
   public $createTimestamp;
   protected $creatorType = QualityActionsReminderPerson::class;
   protected $creatorDataType = '';
+  public $creator;
   protected $customizedNotificationCardType = QualityActionsCustomizedNotification::class;
   protected $customizedNotificationCardDataType = 'array';
+  public $customizedNotificationCard;
   protected $datetimeType = AssistantApiDateTime::class;
   protected $datetimeDataType = '';
+  public $datetime;
   /**
    * @var string
    */
   public $description;
   protected $documentAssignmentSourceType = QualityActionsReminderDocument::class;
   protected $documentAssignmentSourceDataType = '';
+  public $documentAssignmentSource;
   protected $dynamiteGroupAssignmentSourceType = QualityActionsReminderDynamiteGroup::class;
   protected $dynamiteGroupAssignmentSourceDataType = '';
+  public $dynamiteGroupAssignmentSource;
   /**
    * @var string
    */
   public $id;
   protected $locationType = QualityActionsReminderLocation::class;
   protected $locationDataType = '';
+  public $location;
   protected $logType = AssistantLogsReminderLog::class;
   protected $logDataType = '';
+  public $log;
   protected $memoryPayloadType = AssistantRemindersMemoryPayload::class;
   protected $memoryPayloadDataType = '';
+  public $memoryPayload;
   /**
    * @var bool
    */
   public $notifying;
   protected $personalReferenceMetadataType = CopleySourceTypeList::class;
   protected $personalReferenceMetadataDataType = '';
+  public $personalReferenceMetadata;
   protected $recipientType = QualityActionsReminderPerson::class;
   protected $recipientDataType = '';
+  public $recipient;
   protected $recurrenceType = QualityActionsReminderRecurrenceInfo::class;
   protected $recurrenceDataType = '';
+  public $recurrence;
   /**
    * @var string
    */

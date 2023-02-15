@@ -25,7 +25,7 @@ if (isset($_GET['getLanguage'])) {
     exit;
 }
 
-$vars = array();
+$vars = [];
 require_once '../videos/configuration.php';
 require_once '../objects/functions.php';
 

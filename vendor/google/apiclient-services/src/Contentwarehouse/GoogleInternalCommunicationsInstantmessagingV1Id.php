@@ -33,6 +33,7 @@ class GoogleInternalCommunicationsInstantmessagingV1Id extends \Google\Model
   public $id;
   protected $locationHintType = GoogleInternalCommunicationsInstantmessagingV1LocationHint::class;
   protected $locationHintDataType = '';
+  public $locationHint;
   /**
    * @var string
    */

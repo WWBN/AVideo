@@ -22,6 +22,7 @@ class TextAnnotation extends \Google\Collection
   protected $collection_key = 'pages';
   protected $pagesType = Page::class;
   protected $pagesDataType = 'array';
+  public $pages;
   /**
    * @var string
    */

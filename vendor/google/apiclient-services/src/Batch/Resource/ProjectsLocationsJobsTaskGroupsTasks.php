@@ -25,7 +25,7 @@ use Google\Service\Batch\Task;
  * Typical usage is:
  *  <code>
  *   $batchService = new Google\Service\Batch(...);
- *   $tasks = $batchService->tasks;
+ *   $tasks = $batchService->projects_locations_jobs_taskGroups_tasks;
  *  </code>
  */
 class ProjectsLocationsJobsTaskGroupsTasks extends \Google\Service\Resource

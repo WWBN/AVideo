@@ -21,20 +21,28 @@ class BandingProperties extends \Google\Model
 {
   protected $firstBandColorType = Color::class;
   protected $firstBandColorDataType = '';
+  public $firstBandColor;
   protected $firstBandColorStyleType = ColorStyle::class;
   protected $firstBandColorStyleDataType = '';
+  public $firstBandColorStyle;
   protected $footerColorType = Color::class;
   protected $footerColorDataType = '';
+  public $footerColor;
   protected $footerColorStyleType = ColorStyle::class;
   protected $footerColorStyleDataType = '';
+  public $footerColorStyle;
   protected $headerColorType = Color::class;
   protected $headerColorDataType = '';
+  public $headerColor;
   protected $headerColorStyleType = ColorStyle::class;
   protected $headerColorStyleDataType = '';
+  public $headerColorStyle;
   protected $secondBandColorType = Color::class;
   protected $secondBandColorDataType = '';
+  public $secondBandColor;
   protected $secondBandColorStyleType = ColorStyle::class;
   protected $secondBandColorStyleDataType = '';
+  public $secondBandColorStyle;
 
   /**
    * @param Color

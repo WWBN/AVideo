@@ -21,12 +21,14 @@ class Repo extends \Google\Model
 {
   protected $mirrorConfigType = MirrorConfig::class;
   protected $mirrorConfigDataType = '';
+  public $mirrorConfig;
   /**
    * @var string
    */
   public $name;
   protected $pubsubConfigsType = PubsubConfig::class;
   protected $pubsubConfigsDataType = 'map';
+  public $pubsubConfigs;
   /**
    * @var string
    */

@@ -25,8 +25,10 @@ class GoogleCloudDocumentaiV1ProcessRequest extends \Google\Model
   public $fieldMask;
   protected $inlineDocumentType = GoogleCloudDocumentaiV1Document::class;
   protected $inlineDocumentDataType = '';
+  public $inlineDocument;
   protected $rawDocumentType = GoogleCloudDocumentaiV1RawDocument::class;
   protected $rawDocumentDataType = '';
+  public $rawDocument;
   /**
    * @var bool
    */

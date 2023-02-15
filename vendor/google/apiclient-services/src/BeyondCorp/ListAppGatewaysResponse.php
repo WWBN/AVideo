@@ -22,6 +22,7 @@ class ListAppGatewaysResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $appGatewaysType = AppGateway::class;
   protected $appGatewaysDataType = 'array';
+  public $appGateways;
   /**
    * @var string
    */

@@ -21,8 +21,10 @@ class InstanceManagedByIgmError extends \Google\Model
 {
   protected $errorType = InstanceManagedByIgmErrorManagedInstanceError::class;
   protected $errorDataType = '';
+  public $error;
   protected $instanceActionDetailsType = InstanceManagedByIgmErrorInstanceActionDetails::class;
   protected $instanceActionDetailsDataType = '';
+  public $instanceActionDetails;
   /**
    * @var string
    */

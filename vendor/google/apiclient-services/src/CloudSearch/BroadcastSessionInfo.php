@@ -25,12 +25,14 @@ class BroadcastSessionInfo extends \Google\Model
   public $broadcastSessionId;
   protected $broadcastStatsType = BroadcastStats::class;
   protected $broadcastStatsDataType = '';
+  public $broadcastStats;
   /**
    * @var string
    */
   public $ingestionId;
   protected $sessionStateInfoType = SessionStateInfo::class;
   protected $sessionStateInfoDataType = '';
+  public $sessionStateInfo;
 
   /**
    * @param string

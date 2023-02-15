@@ -45,6 +45,7 @@ class GitHubEnterpriseConfig extends \Google\Model
   public $peeredNetwork;
   protected $secretsType = GitHubEnterpriseSecrets::class;
   protected $secretsDataType = '';
+  public $secrets;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class PublishXunitXmlFilesRequest extends \Google\Collection
   protected $collection_key = 'xunitXmlFiles';
   protected $xunitXmlFilesType = FileReference::class;
   protected $xunitXmlFilesDataType = 'array';
+  public $xunitXmlFiles;
 
   /**
    * @param FileReference[]

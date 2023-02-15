@@ -24,7 +24,7 @@ use Google\Service\Connectors\ListEntityTypesResponse;
  * Typical usage is:
  *  <code>
  *   $connectorsService = new Google\Service\Connectors(...);
- *   $entityTypes = $connectorsService->entityTypes;
+ *   $entityTypes = $connectorsService->projects_locations_connections_entityTypes;
  *  </code>
  */
 class ProjectsLocationsConnectionsEntityTypes extends \Google\Service\Resource

@@ -37,12 +37,14 @@ class GoodocParagraph extends \Google\Collection
   ];
   protected $boxType = GoodocBoundingBox::class;
   protected $boxDataType = '';
+  public $box;
   /**
    * @var int
    */
   public $firstLineIndent;
   protected $labelType = GoodocLabel::class;
   protected $labelDataType = '';
+  public $label;
   /**
    * @var int
    */
@@ -53,12 +55,14 @@ class GoodocParagraph extends \Google\Collection
   public $lineSpacing;
   protected $orientationLabelType = GoodocOrientationLabel::class;
   protected $orientationLabelDataType = '';
+  public $orientationLabel;
   /**
    * @var int
    */
   public $rightIndent;
   protected $rotatedBoxType = GoodocRotatedBoundingBox::class;
   protected $rotatedBoxDataType = '';
+  public $rotatedBox;
   /**
    * @var int
    */
@@ -69,6 +73,7 @@ class GoodocParagraph extends \Google\Collection
   public $spaceBefore;
   protected $subsumedParagraphPropertiesType = GoodocParagraph::class;
   protected $subsumedParagraphPropertiesDataType = 'array';
+  public $subsumedParagraphProperties;
   /**
    * @var int
    */
@@ -83,8 +88,10 @@ class GoodocParagraph extends \Google\Collection
   public $alignment;
   protected $droppedcapType = GoodocParagraphDroppedCap::class;
   protected $droppedcapDataType = '';
+  public $droppedcap;
   protected $routeType = GoodocParagraphRoute::class;
   protected $routeDataType = 'array';
+  public $route;
 
   /**
    * @param GoodocBoundingBox

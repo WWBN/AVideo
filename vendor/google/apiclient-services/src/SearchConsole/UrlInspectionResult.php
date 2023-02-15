@@ -21,16 +21,20 @@ class UrlInspectionResult extends \Google\Model
 {
   protected $ampResultType = AmpInspectionResult::class;
   protected $ampResultDataType = '';
+  public $ampResult;
   protected $indexStatusResultType = IndexStatusInspectionResult::class;
   protected $indexStatusResultDataType = '';
+  public $indexStatusResult;
   /**
    * @var string
    */
   public $inspectionResultLink;
   protected $mobileUsabilityResultType = MobileUsabilityInspectionResult::class;
   protected $mobileUsabilityResultDataType = '';
+  public $mobileUsabilityResult;
   protected $richResultsResultType = RichResultsInspectionResult::class;
   protected $richResultsResultDataType = '';
+  public $richResultsResult;
 
   /**
    * @param AmpInspectionResult

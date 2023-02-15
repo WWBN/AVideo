@@ -21,8 +21,10 @@ class VideoContentSearchSpanDolphinScoresSpanCandidate extends \Google\Model
 {
   protected $asrConfidenceStatsType = VideoContentSearchMetricStats::class;
   protected $asrConfidenceStatsDataType = '';
+  public $asrConfidenceStats;
   protected $scoreStatsType = VideoContentSearchMetricStats::class;
   protected $scoreStatsDataType = '';
+  public $scoreStats;
   /**
    * @var string
    */

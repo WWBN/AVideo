@@ -22,8 +22,10 @@ class OrderPickupDetails extends \Google\Collection
   protected $collection_key = 'collectors';
   protected $addressType = OrderAddress::class;
   protected $addressDataType = '';
+  public $address;
   protected $collectorsType = OrderPickupDetailsCollector::class;
   protected $collectorsDataType = 'array';
+  public $collectors;
   /**
    * @var string
    */

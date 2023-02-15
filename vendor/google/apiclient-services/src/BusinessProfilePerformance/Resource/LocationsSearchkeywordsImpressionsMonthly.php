@@ -24,7 +24,7 @@ use Google\Service\BusinessProfilePerformance\ListSearchKeywordImpressionsMonthl
  * Typical usage is:
  *  <code>
  *   $businessprofileperformanceService = new Google\Service\BusinessProfilePerformance(...);
- *   $monthly = $businessprofileperformanceService->monthly;
+ *   $monthly = $businessprofileperformanceService->locations_searchkeywords_impressions_monthly;
  *  </code>
  */
 class LocationsSearchkeywordsImpressionsMonthly extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class SecurityCredentialsSimpleSecretHolderProto extends \Google\Model
 {
   protected $labelType = SecurityCredentialsSimpleSecretLabelProto::class;
   protected $labelDataType = '';
+  public $label;
 
   /**
    * @param SecurityCredentialsSimpleSecretLabelProto

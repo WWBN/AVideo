@@ -17,7 +17,7 @@
 
 namespace Google\Service\Safebrowsing\Resource;
 
-use Google\Service\Safebrowsing\GoogleSecuritySafebrowsingV4ListThreatListsResponse;
+use Google\Service\Safebrowsing\ListThreatListsResponse;
 
 /**
  * The "threatLists" collection of methods.
@@ -34,13 +34,13 @@ class ThreatLists extends \Google\Service\Resource
    * (threatLists.listThreatLists)
    *
    * @param array $optParams Optional parameters.
-   * @return GoogleSecuritySafebrowsingV4ListThreatListsResponse
+   * @return ListThreatListsResponse
    */
   public function listThreatLists($optParams = [])
   {
     $params = [];
     $params = array_merge($params, $optParams);
-    return $this->call('list', [$params], GoogleSecuritySafebrowsingV4ListThreatListsResponse::class);
+    return $this->call('list', [$params], ListThreatListsResponse::class);
   }
 }
 

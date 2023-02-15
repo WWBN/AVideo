@@ -19,10 +19,10 @@ if (!empty($_REQUEST['users_id'])) {
     //echo __LINE__, PHP_EOL;
     $user = User::getUserFromID($_REQUEST['users_id']);
     if (!empty($user)) {
-        $users = array($user);
+        $users = [$user];
         $total = 1;
     } else {
-        $users = array();
+        $users = [];
         $total = 0;
     }
 } else if (empty($_REQUEST['user_groups_id'])) {
@@ -59,7 +59,7 @@ if (empty($users)) {
 } else {
     foreach ($users as $key => $value) {
         if(!$canAdminUsers){
-            $u = array();
+            $u = [];
             $u['id'] = $value['id'];
             //$u['user'] = $user['user'];
             $u['identification'] = $value['identification'];
@@ -71,11 +71,11 @@ if (empty($users)) {
         }
         if(empty($u['creator'])){
             $u['creator'] = Video::getCreatorHTML($u['id'], '', true, true);
-        }  
+        }
         if(empty($u['photo'])){
             $u['photo'] = User::getPhoto($u['id']);
-        }  
-        $users[$key] = $u; 
+        }
+        $users[$key] = $u;
     }
 
     $json = _json_encode($users);

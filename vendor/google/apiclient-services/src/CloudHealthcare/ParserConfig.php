@@ -25,6 +25,7 @@ class ParserConfig extends \Google\Model
   public $allowNullHeader;
   protected $schemaType = SchemaPackage::class;
   protected $schemaDataType = '';
+  public $schema;
   /**
    * @var string
    */

@@ -26,7 +26,7 @@ use Google\Service\AndroidPublisher\ImagesUploadResponse;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $images = $androidpublisherService->images;
+ *   $images = $androidpublisherService->edits_images;
  *  </code>
  */
 class EditsImages extends \Google\Service\Resource

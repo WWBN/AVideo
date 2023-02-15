@@ -29,6 +29,7 @@ class AppsDynamiteSharedDecoratedTextSwitchControl extends \Google\Model
   public $name;
   protected $onChangeActionType = AppsDynamiteSharedAction::class;
   protected $onChangeActionDataType = '';
+  public $onChangeAction;
   /**
    * @var bool
    */

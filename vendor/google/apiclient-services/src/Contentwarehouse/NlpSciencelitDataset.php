@@ -25,6 +25,7 @@ class NlpSciencelitDataset extends \Google\Model
   public $association;
   protected $datasetMetadataType = ResearchScienceSearchReconciledMetadata::class;
   protected $datasetMetadataDataType = '';
+  public $datasetMetadata;
 
   /**
    * @param string

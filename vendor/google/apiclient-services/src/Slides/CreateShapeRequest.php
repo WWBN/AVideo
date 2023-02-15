@@ -21,6 +21,7 @@ class CreateShapeRequest extends \Google\Model
 {
   protected $elementPropertiesType = PageElementProperties::class;
   protected $elementPropertiesDataType = '';
+  public $elementProperties;
   /**
    * @var string
    */

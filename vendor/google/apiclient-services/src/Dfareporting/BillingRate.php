@@ -46,6 +46,7 @@ class BillingRate extends \Google\Collection
   public $startDate;
   protected $tieredRatesType = BillingRateTieredRate::class;
   protected $tieredRatesDataType = 'array';
+  public $tieredRates;
   /**
    * @var string
    */

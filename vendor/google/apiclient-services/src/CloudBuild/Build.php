@@ -22,10 +22,13 @@ class Build extends \Google\Collection
   protected $collection_key = 'warnings';
   protected $approvalType = BuildApproval::class;
   protected $approvalDataType = '';
+  public $approval;
   protected $artifactsType = Artifacts::class;
   protected $artifactsDataType = '';
+  public $artifacts;
   protected $availableSecretsType = Secrets::class;
   protected $availableSecretsDataType = '';
+  public $availableSecrets;
   /**
    * @var string
    */
@@ -36,6 +39,7 @@ class Build extends \Google\Collection
   public $createTime;
   protected $failureInfoType = FailureInfo::class;
   protected $failureInfoDataType = '';
+  public $failureInfo;
   /**
    * @var string
    */
@@ -62,6 +66,7 @@ class Build extends \Google\Collection
   public $name;
   protected $optionsType = BuildOptions::class;
   protected $optionsDataType = '';
+  public $options;
   /**
    * @var string
    */
@@ -72,16 +77,20 @@ class Build extends \Google\Collection
   public $queueTtl;
   protected $resultsType = Results::class;
   protected $resultsDataType = '';
+  public $results;
   protected $secretsType = Secret::class;
   protected $secretsDataType = 'array';
+  public $secrets;
   /**
    * @var string
    */
   public $serviceAccount;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
+  public $source;
   protected $sourceProvenanceType = SourceProvenance::class;
   protected $sourceProvenanceDataType = '';
+  public $sourceProvenance;
   /**
    * @var string
    */
@@ -96,6 +105,7 @@ class Build extends \Google\Collection
   public $statusDetail;
   protected $stepsType = BuildStep::class;
   protected $stepsDataType = 'array';
+  public $steps;
   /**
    * @var string[]
    */
@@ -110,8 +120,10 @@ class Build extends \Google\Collection
   public $timeout;
   protected $timingType = TimeSpan::class;
   protected $timingDataType = 'map';
+  public $timing;
   protected $warningsType = Warning::class;
   protected $warningsDataType = 'array';
+  public $warnings;
 
   /**
    * @param BuildApproval

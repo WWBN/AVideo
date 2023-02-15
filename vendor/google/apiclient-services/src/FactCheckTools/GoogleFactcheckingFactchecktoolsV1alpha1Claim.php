@@ -26,6 +26,7 @@ class GoogleFactcheckingFactchecktoolsV1alpha1Claim extends \Google\Collection
   public $claimDate;
   protected $claimReviewType = GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview::class;
   protected $claimReviewDataType = 'array';
+  public $claimReview;
   /**
    * @var string
    */

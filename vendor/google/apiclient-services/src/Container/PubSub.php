@@ -25,6 +25,7 @@ class PubSub extends \Google\Model
   public $enabled;
   protected $filterType = Filter::class;
   protected $filterDataType = '';
+  public $filter;
   /**
    * @var string
    */

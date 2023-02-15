@@ -45,6 +45,7 @@ class KnowledgeAnswersIntentModifiers extends \Google\Model
   public $polarQuestion;
   protected $sentimentType = SentimentSentiment::class;
   protected $sentimentDataType = '';
+  public $sentiment;
   /**
    * @var string
    */

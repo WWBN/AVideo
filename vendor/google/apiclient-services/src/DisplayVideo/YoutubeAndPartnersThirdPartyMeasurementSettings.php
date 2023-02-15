@@ -22,12 +22,16 @@ class YoutubeAndPartnersThirdPartyMeasurementSettings extends \Google\Collection
   protected $collection_key = 'viewabilityVendorConfigs';
   protected $brandLiftVendorConfigsType = ThirdPartyVendorConfig::class;
   protected $brandLiftVendorConfigsDataType = 'array';
+  public $brandLiftVendorConfigs;
   protected $brandSafetyVendorConfigsType = ThirdPartyVendorConfig::class;
   protected $brandSafetyVendorConfigsDataType = 'array';
+  public $brandSafetyVendorConfigs;
   protected $reachVendorConfigsType = ThirdPartyVendorConfig::class;
   protected $reachVendorConfigsDataType = 'array';
+  public $reachVendorConfigs;
   protected $viewabilityVendorConfigsType = ThirdPartyVendorConfig::class;
   protected $viewabilityVendorConfigsDataType = 'array';
+  public $viewabilityVendorConfigs;
 
   /**
    * @param ThirdPartyVendorConfig[]

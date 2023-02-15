@@ -34,7 +34,7 @@ use Google\Service\DisplayVideo\ListLineItemsResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $lineItems = $displayvideoService->lineItems;
+ *   $lineItems = $displayvideoService->advertisers_lineItems;
  *  </code>
  */
 class AdvertisersLineItems extends \Google\Service\Resource
@@ -90,7 +90,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * a suffix "desc" should be added to the field name. Example: `targetingType
    * desc`.
    * @opt_param int pageSize Requested page size. The size must be an integer
-   * between `1` and `5000`. If unspecified, the default is '5000'. Returns error
+   * between `1` and `5000`. If unspecified, the default is `5000`. Returns error
    * code `INVALID_ARGUMENT` if an invalid value is specified.
    * @opt_param string pageToken A token that lets the client fetch the next page
    * of results. Typically, this is the value of next_page_token returned from the
@@ -111,14 +111,15 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * CreateLineItemAssignedTargetingOption * DeleteLineItemAssignedTargetingOption
    * (lineItems.bulkUpdate)
    *
-   * @param string $advertisersId
+   * @param string $advertiserId Required. The ID of the advertiser this line item
+   * belongs to.
    * @param BulkUpdateLineItemsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BulkUpdateLineItemsResponse
    */
-  public function bulkUpdate($advertisersId, BulkUpdateLineItemsRequest $postBody, $optParams = [])
+  public function bulkUpdate($advertiserId, BulkUpdateLineItemsRequest $postBody, $optParams = [])
   {
-    $params = ['advertisersId' => $advertisersId, 'postBody' => $postBody];
+    $params = ['advertiserId' => $advertiserId, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('bulkUpdate', [$params], BulkUpdateLineItemsResponse::class);
   }

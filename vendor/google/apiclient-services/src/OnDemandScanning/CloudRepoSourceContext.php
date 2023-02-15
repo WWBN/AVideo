@@ -21,8 +21,10 @@ class CloudRepoSourceContext extends \Google\Model
 {
   protected $aliasContextType = AliasContext::class;
   protected $aliasContextDataType = '';
+  public $aliasContext;
   protected $repoIdType = RepoId::class;
   protected $repoIdDataType = '';
+  public $repoId;
   /**
    * @var string
    */

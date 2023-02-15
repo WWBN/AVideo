@@ -26,12 +26,16 @@ class ComputationTopology extends \Google\Collection
   public $computationId;
   protected $inputsType = StreamLocation::class;
   protected $inputsDataType = 'array';
+  public $inputs;
   protected $keyRangesType = KeyRangeLocation::class;
   protected $keyRangesDataType = 'array';
+  public $keyRanges;
   protected $outputsType = StreamLocation::class;
   protected $outputsDataType = 'array';
+  public $outputs;
   protected $stateFamiliesType = StateFamilyConfig::class;
   protected $stateFamiliesDataType = 'array';
+  public $stateFamilies;
   /**
    * @var string
    */

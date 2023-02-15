@@ -95,7 +95,10 @@ class Mobiledevices extends \Google\Service\Resource
    * Retrieves a paginated list of all user-owned mobile devices for an account.
    * To retrieve a list that includes company-owned devices, use the Cloud
    * Identity [Devices API](https://cloud.google.com/identity/docs/concepts
-   * /overview-devices) instead. (mobiledevices.listMobiledevices)
+   * /overview-devices) instead. This method times out after 60 minutes. For more
+   * information, see [Troubleshoot error codes](https://developers.google.com
+   * /admin-sdk/directory/v1/guides/troubleshoot-error-codes).
+   * (mobiledevices.listMobiledevices)
    *
    * @param string $customerId The unique ID for the customer's Google Workspace
    * account. As an account administrator, you can also use the `my_customer`

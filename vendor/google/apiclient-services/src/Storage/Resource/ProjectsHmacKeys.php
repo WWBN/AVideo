@@ -26,7 +26,7 @@ use Google\Service\Storage\HmacKeysMetadata;
  * Typical usage is:
  *  <code>
  *   $storageService = new Google\Service\Storage(...);
- *   $hmacKeys = $storageService->hmacKeys;
+ *   $hmacKeys = $storageService->projects_hmacKeys;
  *  </code>
  */
 class ProjectsHmacKeys extends \Google\Service\Resource

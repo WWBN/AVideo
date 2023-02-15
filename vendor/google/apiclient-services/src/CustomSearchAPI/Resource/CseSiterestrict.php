@@ -24,7 +24,7 @@ use Google\Service\CustomSearchAPI\Search;
  * Typical usage is:
  *  <code>
  *   $customsearchService = new Google\Service\CustomSearchAPI(...);
- *   $siterestrict = $customsearchService->siterestrict;
+ *   $siterestrict = $customsearchService->cse_siterestrict;
  *  </code>
  */
 class CseSiterestrict extends \Google\Service\Resource

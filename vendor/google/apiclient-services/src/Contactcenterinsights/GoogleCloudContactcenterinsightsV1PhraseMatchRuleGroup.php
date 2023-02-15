@@ -22,6 +22,7 @@ class GoogleCloudContactcenterinsightsV1PhraseMatchRuleGroup extends \Google\Col
   protected $collection_key = 'phraseMatchRules';
   protected $phraseMatchRulesType = GoogleCloudContactcenterinsightsV1PhraseMatchRule::class;
   protected $phraseMatchRulesDataType = 'array';
+  public $phraseMatchRules;
   /**
    * @var string
    */

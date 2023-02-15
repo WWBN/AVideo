@@ -17,7 +17,7 @@
 
 namespace Google\Service\GoogleAnalyticsAdmin\Resource;
 
-use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1alphaListAccountSummariesResponse;
+use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1betaListAccountSummariesResponse;
 
 /**
  * The "accountSummaries" collection of methods.
@@ -43,13 +43,13 @@ class AccountSummaries extends \Google\Service\Resource
    * `ListAccountSummaries` call. Provide this to retrieve the subsequent page.
    * When paginating, all other parameters provided to `ListAccountSummaries` must
    * match the call that provided the page token.
-   * @return GoogleAnalyticsAdminV1alphaListAccountSummariesResponse
+   * @return GoogleAnalyticsAdminV1betaListAccountSummariesResponse
    */
   public function listAccountSummaries($optParams = [])
   {
     $params = [];
     $params = array_merge($params, $optParams);
-    return $this->call('list', [$params], GoogleAnalyticsAdminV1alphaListAccountSummariesResponse::class);
+    return $this->call('list', [$params], GoogleAnalyticsAdminV1betaListAccountSummariesResponse::class);
   }
 }
 

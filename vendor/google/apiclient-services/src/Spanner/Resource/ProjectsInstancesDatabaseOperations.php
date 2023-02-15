@@ -24,7 +24,7 @@ use Google\Service\Spanner\ListDatabaseOperationsResponse;
  * Typical usage is:
  *  <code>
  *   $spannerService = new Google\Service\Spanner(...);
- *   $databaseOperations = $spannerService->databaseOperations;
+ *   $databaseOperations = $spannerService->projects_instances_databaseOperations;
  *  </code>
  */
 class ProjectsInstancesDatabaseOperations extends \Google\Service\Resource

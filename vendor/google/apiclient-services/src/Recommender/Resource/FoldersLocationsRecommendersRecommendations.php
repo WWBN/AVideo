@@ -19,6 +19,7 @@ namespace Google\Service\Recommender\Resource;
 
 use Google\Service\Recommender\GoogleCloudRecommenderV1ListRecommendationsResponse;
 use Google\Service\Recommender\GoogleCloudRecommenderV1MarkRecommendationClaimedRequest;
+use Google\Service\Recommender\GoogleCloudRecommenderV1MarkRecommendationDismissedRequest;
 use Google\Service\Recommender\GoogleCloudRecommenderV1MarkRecommendationFailedRequest;
 use Google\Service\Recommender\GoogleCloudRecommenderV1MarkRecommendationSucceededRequest;
 use Google\Service\Recommender\GoogleCloudRecommenderV1Recommendation;
@@ -28,7 +29,7 @@ use Google\Service\Recommender\GoogleCloudRecommenderV1Recommendation;
  * Typical usage is:
  *  <code>
  *   $recommenderService = new Google\Service\Recommender(...);
- *   $recommendations = $recommenderService->recommendations;
+ *   $recommendations = $recommenderService->folders_locations_recommenders_recommendations;
  *  </code>
  */
 class FoldersLocationsRecommendersRecommendations extends \Google\Service\Resource
@@ -107,6 +108,24 @@ class FoldersLocationsRecommendersRecommendations extends \Google\Service\Resour
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('markClaimed', [$params], GoogleCloudRecommenderV1Recommendation::class);
+  }
+  /**
+   * Mark the Recommendation State as Dismissed. Users can use this method to
+   * indicate to the Recommender API that an ACTIVE recommendation has to be
+   * marked back as DISMISSED. MarkRecommendationDismissed can be applied to
+   * recommendations in ACTIVE state. Requires the recommender.*.update IAM
+   * permission for the specified recommender. (recommendations.markDismissed)
+   *
+   * @param string $name Name of the recommendation.
+   * @param GoogleCloudRecommenderV1MarkRecommendationDismissedRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudRecommenderV1Recommendation
+   */
+  public function markDismissed($name, GoogleCloudRecommenderV1MarkRecommendationDismissedRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('markDismissed', [$params], GoogleCloudRecommenderV1Recommendation::class);
   }
   /**
    * Marks the Recommendation State as Failed. Users can use this method to

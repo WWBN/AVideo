@@ -35,7 +35,7 @@ use Google\Service\ContainerAnalysis\VulnerabilityOccurrencesSummary;
  * Typical usage is:
  *  <code>
  *   $containeranalysisService = new Google\Service\ContainerAnalysis(...);
- *   $occurrences = $containeranalysisService->occurrences;
+ *   $occurrences = $containeranalysisService->projects_occurrences;
  *  </code>
  */
 class ProjectsOccurrences extends \Google\Service\Resource

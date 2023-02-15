@@ -21,8 +21,10 @@ class DialogAction extends \Google\Model
 {
   protected $actionStatusType = ActionStatus::class;
   protected $actionStatusDataType = '';
+  public $actionStatus;
   protected $dialogType = Dialog::class;
   protected $dialogDataType = '';
+  public $dialog;
 
   /**
    * @param ActionStatus

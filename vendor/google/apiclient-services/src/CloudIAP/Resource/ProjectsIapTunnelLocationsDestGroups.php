@@ -26,7 +26,7 @@ use Google\Service\CloudIAP\TunnelDestGroup;
  * Typical usage is:
  *  <code>
  *   $iapService = new Google\Service\CloudIAP(...);
- *   $destGroups = $iapService->destGroups;
+ *   $destGroups = $iapService->projects_iap_tunnel_locations_destGroups;
  *  </code>
  */
 class ProjectsIapTunnelLocationsDestGroups extends \Google\Service\Resource

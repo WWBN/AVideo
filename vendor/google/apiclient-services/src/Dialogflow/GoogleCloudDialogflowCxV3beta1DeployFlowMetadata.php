@@ -22,6 +22,7 @@ class GoogleCloudDialogflowCxV3beta1DeployFlowMetadata extends \Google\Collectio
   protected $collection_key = 'testErrors';
   protected $testErrorsType = GoogleCloudDialogflowCxV3beta1TestError::class;
   protected $testErrorsDataType = 'array';
+  public $testErrors;
 
   /**
    * @param GoogleCloudDialogflowCxV3beta1TestError[]

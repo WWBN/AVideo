@@ -21,16 +21,22 @@ class GooglePrivacyDlpV2PrivacyMetric extends \Google\Model
 {
   protected $categoricalStatsConfigType = GooglePrivacyDlpV2CategoricalStatsConfig::class;
   protected $categoricalStatsConfigDataType = '';
+  public $categoricalStatsConfig;
   protected $deltaPresenceEstimationConfigType = GooglePrivacyDlpV2DeltaPresenceEstimationConfig::class;
   protected $deltaPresenceEstimationConfigDataType = '';
+  public $deltaPresenceEstimationConfig;
   protected $kAnonymityConfigType = GooglePrivacyDlpV2KAnonymityConfig::class;
   protected $kAnonymityConfigDataType = '';
+  public $kAnonymityConfig;
   protected $kMapEstimationConfigType = GooglePrivacyDlpV2KMapEstimationConfig::class;
   protected $kMapEstimationConfigDataType = '';
+  public $kMapEstimationConfig;
   protected $lDiversityConfigType = GooglePrivacyDlpV2LDiversityConfig::class;
   protected $lDiversityConfigDataType = '';
+  public $lDiversityConfig;
   protected $numericalStatsConfigType = GooglePrivacyDlpV2NumericalStatsConfig::class;
   protected $numericalStatsConfigDataType = '';
+  public $numericalStatsConfig;
 
   /**
    * @param GooglePrivacyDlpV2CategoricalStatsConfig

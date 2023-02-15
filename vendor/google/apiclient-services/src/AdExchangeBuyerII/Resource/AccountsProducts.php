@@ -25,7 +25,7 @@ use Google\Service\AdExchangeBuyerII\Product;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $products = $adexchangebuyer2Service->products;
+ *   $products = $adexchangebuyer2Service->accounts_products;
  *  </code>
  */
 class AccountsProducts extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class CustomRichMediaEvents extends \Google\Collection
   protected $collection_key = 'filteredEventIds';
   protected $filteredEventIdsType = DimensionValue::class;
   protected $filteredEventIdsDataType = 'array';
+  public $filteredEventIds;
   /**
    * @var string
    */

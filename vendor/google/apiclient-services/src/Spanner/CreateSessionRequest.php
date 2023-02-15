@@ -21,6 +21,7 @@ class CreateSessionRequest extends \Google\Model
 {
   protected $sessionType = Session::class;
   protected $sessionDataType = '';
+  public $session;
 
   /**
    * @param Session

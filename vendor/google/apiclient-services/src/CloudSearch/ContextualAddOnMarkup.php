@@ -22,8 +22,10 @@ class ContextualAddOnMarkup extends \Google\Collection
   protected $collection_key = 'cards';
   protected $cardsType = Card::class;
   protected $cardsDataType = 'array';
+  public $cards;
   protected $toolbarType = Toolbar::class;
   protected $toolbarDataType = '';
+  public $toolbar;
 
   /**
    * @param Card[]

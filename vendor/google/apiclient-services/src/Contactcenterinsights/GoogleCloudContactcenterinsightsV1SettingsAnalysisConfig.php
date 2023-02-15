@@ -19,8 +19,25 @@ namespace Google\Service\Contactcenterinsights;
 
 class GoogleCloudContactcenterinsightsV1SettingsAnalysisConfig extends \Google\Model
 {
+  protected $annotatorSelectorType = GoogleCloudContactcenterinsightsV1AnnotatorSelector::class;
+  protected $annotatorSelectorDataType = '';
+  public $annotatorSelector;
   public $runtimeIntegrationAnalysisPercentage;
 
+  /**
+   * @param GoogleCloudContactcenterinsightsV1AnnotatorSelector
+   */
+  public function setAnnotatorSelector(GoogleCloudContactcenterinsightsV1AnnotatorSelector $annotatorSelector)
+  {
+    $this->annotatorSelector = $annotatorSelector;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1AnnotatorSelector
+   */
+  public function getAnnotatorSelector()
+  {
+    return $this->annotatorSelector;
+  }
   public function setRuntimeIntegrationAnalysisPercentage($runtimeIntegrationAnalysisPercentage)
   {
     $this->runtimeIntegrationAnalysisPercentage = $runtimeIntegrationAnalysisPercentage;

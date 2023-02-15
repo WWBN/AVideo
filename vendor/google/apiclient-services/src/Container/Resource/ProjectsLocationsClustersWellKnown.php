@@ -24,7 +24,7 @@ use Google\Service\Container\GetOpenIDConfigResponse;
  * Typical usage is:
  *  <code>
  *   $containerService = new Google\Service\Container(...);
- *   $well_known = $containerService->well_known;
+ *   $well_known = $containerService->projects_locations_clusters_well_known;
  *  </code>
  */
 class ProjectsLocationsClustersWellKnown extends \Google\Service\Resource

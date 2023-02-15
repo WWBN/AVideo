@@ -22,6 +22,7 @@ class FilterExpressionList extends \Google\Collection
   protected $collection_key = 'expressions';
   protected $expressionsType = FilterExpression::class;
   protected $expressionsDataType = 'array';
+  public $expressions;
 
   /**
    * @param FilterExpression[]

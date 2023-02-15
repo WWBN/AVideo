@@ -22,6 +22,7 @@ class GuaranteedFixedPriceTerms extends \Google\Collection
   protected $collection_key = 'fixedPrices';
   protected $fixedPricesType = PricePerBuyer::class;
   protected $fixedPricesDataType = 'array';
+  public $fixedPrices;
   /**
    * @var string
    */

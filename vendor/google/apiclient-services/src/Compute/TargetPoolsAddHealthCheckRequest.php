@@ -22,6 +22,7 @@ class TargetPoolsAddHealthCheckRequest extends \Google\Collection
   protected $collection_key = 'healthChecks';
   protected $healthChecksType = HealthCheckReference::class;
   protected $healthChecksDataType = 'array';
+  public $healthChecks;
 
   /**
    * @param HealthCheckReference[]

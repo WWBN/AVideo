@@ -22,6 +22,7 @@ class DeleteDeveloperMetadataResponse extends \Google\Collection
   protected $collection_key = 'deletedDeveloperMetadata';
   protected $deletedDeveloperMetadataType = DeveloperMetadata::class;
   protected $deletedDeveloperMetadataDataType = 'array';
+  public $deletedDeveloperMetadata;
 
   /**
    * @param DeveloperMetadata[]

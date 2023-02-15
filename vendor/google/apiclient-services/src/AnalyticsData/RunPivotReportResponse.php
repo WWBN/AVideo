@@ -22,22 +22,29 @@ class RunPivotReportResponse extends \Google\Collection
   protected $collection_key = 'rows';
   protected $aggregatesType = Row::class;
   protected $aggregatesDataType = 'array';
+  public $aggregates;
   protected $dimensionHeadersType = DimensionHeader::class;
   protected $dimensionHeadersDataType = 'array';
+  public $dimensionHeaders;
   /**
    * @var string
    */
   public $kind;
   protected $metadataType = ResponseMetaData::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $metricHeadersType = MetricHeader::class;
   protected $metricHeadersDataType = 'array';
+  public $metricHeaders;
   protected $pivotHeadersType = PivotHeader::class;
   protected $pivotHeadersDataType = 'array';
+  public $pivotHeaders;
   protected $propertyQuotaType = PropertyQuota::class;
   protected $propertyQuotaDataType = '';
+  public $propertyQuota;
   protected $rowsType = Row::class;
   protected $rowsDataType = 'array';
+  public $rows;
 
   /**
    * @param Row[]

@@ -33,8 +33,10 @@ class ExportResourcesRequest extends \Google\Model
   public $type;
   protected $bigqueryDestinationType = GoogleCloudHealthcareV1FhirBigQueryDestination::class;
   protected $bigqueryDestinationDataType = '';
+  public $bigqueryDestination;
   protected $gcsDestinationType = GoogleCloudHealthcareV1FhirGcsDestination::class;
   protected $gcsDestinationDataType = '';
+  public $gcsDestination;
 
   /**
    * @param string

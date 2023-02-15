@@ -21,12 +21,16 @@ class GoogleCloudDiscoveryengineV1betaImportUserEventsRequest extends \Google\Mo
 {
   protected $bigquerySourceType = GoogleCloudDiscoveryengineV1betaBigQuerySource::class;
   protected $bigquerySourceDataType = '';
+  public $bigquerySource;
   protected $errorConfigType = GoogleCloudDiscoveryengineV1betaImportErrorConfig::class;
   protected $errorConfigDataType = '';
+  public $errorConfig;
   protected $gcsSourceType = GoogleCloudDiscoveryengineV1betaGcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
   protected $inlineSourceType = GoogleCloudDiscoveryengineV1betaImportUserEventsRequestInlineSource::class;
   protected $inlineSourceDataType = '';
+  public $inlineSource;
 
   /**
    * @param GoogleCloudDiscoveryengineV1betaBigQuerySource

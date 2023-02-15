@@ -25,7 +25,7 @@ use Google\Service\Analytics\EntityUserLinks;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $accountUserLinks = $analyticsService->accountUserLinks;
+ *   $accountUserLinks = $analyticsService->management_accountUserLinks;
  *  </code>
  */
 class ManagementAccountUserLinks extends \Google\Service\Resource

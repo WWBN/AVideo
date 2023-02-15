@@ -25,22 +25,27 @@ class SlicerSpec extends \Google\Model
   public $applyToPivotTables;
   protected $backgroundColorType = Color::class;
   protected $backgroundColorDataType = '';
+  public $backgroundColor;
   protected $backgroundColorStyleType = ColorStyle::class;
   protected $backgroundColorStyleDataType = '';
+  public $backgroundColorStyle;
   /**
    * @var int
    */
   public $columnIndex;
   protected $dataRangeType = GridRange::class;
   protected $dataRangeDataType = '';
+  public $dataRange;
   protected $filterCriteriaType = FilterCriteria::class;
   protected $filterCriteriaDataType = '';
+  public $filterCriteria;
   /**
    * @var string
    */
   public $horizontalAlignment;
   protected $textFormatType = TextFormat::class;
   protected $textFormatDataType = '';
+  public $textFormat;
   /**
    * @var string
    */

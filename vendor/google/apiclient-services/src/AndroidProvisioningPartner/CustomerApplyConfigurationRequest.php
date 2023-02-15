@@ -25,6 +25,7 @@ class CustomerApplyConfigurationRequest extends \Google\Model
   public $configuration;
   protected $deviceType = DeviceReference::class;
   protected $deviceDataType = '';
+  public $device;
 
   /**
    * @param string

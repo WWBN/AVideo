@@ -21,6 +21,7 @@ class CreateGitLabConnectedRepositoryRequest extends \Google\Model
 {
   protected $gitlabConnectedRepositoryType = GitLabConnectedRepository::class;
   protected $gitlabConnectedRepositoryDataType = '';
+  public $gitlabConnectedRepository;
   /**
    * @var string
    */

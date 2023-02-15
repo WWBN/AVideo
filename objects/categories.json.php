@@ -27,7 +27,7 @@ $total = Category::getTotalCategories(true, $onlyWithVideos);
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";
     $categories[$key]['users_groups_ids_array'] = Categories_has_users_groups::getUserGroupsIdsFromCategory($value['id']);
-    
+
     if(empty($categories[$key]['users_groups_ids_array'])){
         $categories[$key]['total_users_groups'] = 0;
     }else{
@@ -56,13 +56,13 @@ if (empty($_POST['sort']) && empty($_GET['sort'])) {
     array_multisort($array_column, SORT_ASC, $categories);
 }
 
-$json = array(
+$json = [
     'current'=>getCurrentPage(),
     'rowCount'=>getRowCount(),
     'total'=>$total,
     'rows'=>$categories,
     'onlyWithVideos'=>$onlyWithVideos,
     'sameUserGroupAsMe'=>$sameUserGroupAsMe
-);
+];
 
 echo _json_encode($json);

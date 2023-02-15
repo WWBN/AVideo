@@ -21,6 +21,7 @@ class CreateFooterRequest extends \Google\Model
 {
   protected $sectionBreakLocationType = Location::class;
   protected $sectionBreakLocationDataType = '';
+  public $sectionBreakLocation;
   /**
    * @var string
    */

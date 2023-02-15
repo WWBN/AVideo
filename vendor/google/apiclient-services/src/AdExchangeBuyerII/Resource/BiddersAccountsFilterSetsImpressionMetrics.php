@@ -24,7 +24,7 @@ use Google\Service\AdExchangeBuyerII\ListImpressionMetricsResponse;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $impressionMetrics = $adexchangebuyer2Service->impressionMetrics;
+ *   $impressionMetrics = $adexchangebuyer2Service->bidders_accounts_filterSets_impressionMetrics;
  *  </code>
  */
 class BiddersAccountsFilterSetsImpressionMetrics extends \Google\Service\Resource

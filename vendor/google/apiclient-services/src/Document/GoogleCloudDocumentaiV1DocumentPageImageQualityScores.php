@@ -22,6 +22,7 @@ class GoogleCloudDocumentaiV1DocumentPageImageQualityScores extends \Google\Coll
   protected $collection_key = 'detectedDefects';
   protected $detectedDefectsType = GoogleCloudDocumentaiV1DocumentPageImageQualityScoresDetectedDefect::class;
   protected $detectedDefectsDataType = 'array';
+  public $detectedDefects;
   /**
    * @var float
    */

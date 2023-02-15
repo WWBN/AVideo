@@ -24,7 +24,7 @@ use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1Setti
  * Typical usage is:
  *  <code>
  *   $contactcenterinsightsService = new Google\Service\Contactcenterinsights(...);
- *   $locations = $contactcenterinsightsService->locations;
+ *   $locations = $contactcenterinsightsService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

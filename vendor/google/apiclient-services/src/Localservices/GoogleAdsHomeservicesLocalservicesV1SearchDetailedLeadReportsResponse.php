@@ -22,6 +22,7 @@ class GoogleAdsHomeservicesLocalservicesV1SearchDetailedLeadReportsResponse exte
   protected $collection_key = 'detailedLeadReports';
   protected $detailedLeadReportsType = GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport::class;
   protected $detailedLeadReportsDataType = 'array';
+  public $detailedLeadReports;
   /**
    * @var string
    */

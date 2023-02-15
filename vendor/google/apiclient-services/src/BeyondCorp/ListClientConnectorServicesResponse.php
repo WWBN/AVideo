@@ -22,6 +22,7 @@ class ListClientConnectorServicesResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $clientConnectorServicesType = ClientConnectorService::class;
   protected $clientConnectorServicesDataType = 'array';
+  public $clientConnectorServices;
   /**
    * @var string
    */

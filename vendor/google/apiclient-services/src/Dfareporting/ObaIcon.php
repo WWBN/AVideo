@@ -41,6 +41,7 @@ class ObaIcon extends \Google\Model
   public $resourceUrl;
   protected $sizeType = Size::class;
   protected $sizeDataType = '';
+  public $size;
   /**
    * @var string
    */

@@ -45,6 +45,7 @@ class GoogleCloudApigeeV1TargetServer extends \Google\Model
   public $protocol;
   protected $sSLInfoType = GoogleCloudApigeeV1TlsInfo::class;
   protected $sSLInfoDataType = '';
+  public $sSLInfo;
 
   /**
    * @param string

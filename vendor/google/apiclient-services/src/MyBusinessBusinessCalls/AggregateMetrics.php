@@ -26,16 +26,20 @@ class AggregateMetrics extends \Google\Collection
   public $answeredCallsCount;
   protected $endDateType = Date::class;
   protected $endDateDataType = '';
+  public $endDate;
   protected $hourlyMetricsType = HourlyMetrics::class;
   protected $hourlyMetricsDataType = 'array';
+  public $hourlyMetrics;
   /**
    * @var int
    */
   public $missedCallsCount;
   protected $startDateType = Date::class;
   protected $startDateDataType = '';
+  public $startDate;
   protected $weekdayMetricsType = WeekDayMetrics::class;
   protected $weekdayMetricsDataType = 'array';
+  public $weekdayMetrics;
 
   /**
    * @param int

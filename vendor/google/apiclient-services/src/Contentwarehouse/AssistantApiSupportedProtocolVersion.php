@@ -22,6 +22,7 @@ class AssistantApiSupportedProtocolVersion extends \Google\Collection
   protected $collection_key = 'messageVersion';
   protected $messageVersionType = AssistantApiSupportedProtocolVersionMessageVersionPair::class;
   protected $messageVersionDataType = 'array';
+  public $messageVersion;
 
   /**
    * @param AssistantApiSupportedProtocolVersionMessageVersionPair[]

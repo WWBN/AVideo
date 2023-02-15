@@ -26,7 +26,7 @@ use Google\Service\AndroidManagement\Operation;
  * Typical usage is:
  *  <code>
  *   $androidmanagementService = new Google\Service\AndroidManagement(...);
- *   $operations = $androidmanagementService->operations;
+ *   $operations = $androidmanagementService->enterprises_devices_operations;
  *  </code>
  */
 class EnterprisesDevicesOperations extends \Google\Service\Resource

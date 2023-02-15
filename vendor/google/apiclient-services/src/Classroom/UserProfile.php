@@ -30,8 +30,10 @@ class UserProfile extends \Google\Collection
   public $id;
   protected $nameType = Name::class;
   protected $nameDataType = '';
+  public $name;
   protected $permissionsType = GlobalPermission::class;
   protected $permissionsDataType = 'array';
+  public $permissions;
   /**
    * @var string
    */

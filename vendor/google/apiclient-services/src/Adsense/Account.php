@@ -46,6 +46,7 @@ class Account extends \Google\Collection
   public $state;
   protected $timeZoneType = TimeZone::class;
   protected $timeZoneDataType = '';
+  public $timeZone;
 
   /**
    * @param string

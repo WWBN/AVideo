@@ -24,7 +24,7 @@ use Google\Service\AdExchangeBuyerII\ListCreativeStatusBreakdownByDetailResponse
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $details = $adexchangebuyer2Service->details;
+ *   $details = $adexchangebuyer2Service->bidders_filterSets_filteredBids_details;
  *  </code>
  */
 class BiddersFilterSetsFilteredBidsDetails extends \Google\Service\Resource

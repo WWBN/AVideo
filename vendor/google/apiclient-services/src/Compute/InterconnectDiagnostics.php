@@ -22,8 +22,18 @@ class InterconnectDiagnostics extends \Google\Collection
   protected $collection_key = 'links';
   protected $arpCachesType = InterconnectDiagnosticsARPEntry::class;
   protected $arpCachesDataType = 'array';
+  public $arpCaches;
+  /**
+   * @var string
+   */
+  public $bundleAggregationType;
+  /**
+   * @var string
+   */
+  public $bundleOperationalStatus;
   protected $linksType = InterconnectDiagnosticsLinkStatus::class;
   protected $linksDataType = 'array';
+  public $links;
   /**
    * @var string
    */
@@ -42,6 +52,34 @@ class InterconnectDiagnostics extends \Google\Collection
   public function getArpCaches()
   {
     return $this->arpCaches;
+  }
+  /**
+   * @param string
+   */
+  public function setBundleAggregationType($bundleAggregationType)
+  {
+    $this->bundleAggregationType = $bundleAggregationType;
+  }
+  /**
+   * @return string
+   */
+  public function getBundleAggregationType()
+  {
+    return $this->bundleAggregationType;
+  }
+  /**
+   * @param string
+   */
+  public function setBundleOperationalStatus($bundleOperationalStatus)
+  {
+    $this->bundleOperationalStatus = $bundleOperationalStatus;
+  }
+  /**
+   * @return string
+   */
+  public function getBundleOperationalStatus()
+  {
+    return $this->bundleOperationalStatus;
   }
   /**
    * @param InterconnectDiagnosticsLinkStatus[]

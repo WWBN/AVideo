@@ -26,7 +26,7 @@ use Google\Service\Logging\LoggingEmpty;
  * Typical usage is:
  *  <code>
  *   $loggingService = new Google\Service\Logging(...);
- *   $views = $loggingService->views;
+ *   $views = $loggingService->folders_locations_buckets_views;
  *  </code>
  */
 class FoldersLocationsBucketsViews extends \Google\Service\Resource

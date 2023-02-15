@@ -25,7 +25,7 @@ use Google\Service\Testing\TestMatrix;
  * Typical usage is:
  *  <code>
  *   $testingService = new Google\Service\Testing(...);
- *   $testMatrices = $testingService->testMatrices;
+ *   $testMatrices = $testingService->projects_testMatrices;
  *  </code>
  */
 class ProjectsTestMatrices extends \Google\Service\Resource

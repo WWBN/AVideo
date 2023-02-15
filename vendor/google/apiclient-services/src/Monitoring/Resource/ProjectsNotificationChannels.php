@@ -30,7 +30,7 @@ use Google\Service\Monitoring\VerifyNotificationChannelRequest;
  * Typical usage is:
  *  <code>
  *   $monitoringService = new Google\Service\Monitoring(...);
- *   $notificationChannels = $monitoringService->notificationChannels;
+ *   $notificationChannels = $monitoringService->projects_notificationChannels;
  *  </code>
  */
 class ProjectsNotificationChannels extends \Google\Service\Resource

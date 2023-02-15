@@ -21,8 +21,10 @@ class QueryResponse extends \Google\Model
 {
   protected $recordType = Record::class;
   protected $recordDataType = '';
+  public $record;
   protected $urlNormalizationDetailsType = UrlNormalization::class;
   protected $urlNormalizationDetailsDataType = '';
+  public $urlNormalizationDetails;
 
   /**
    * @param Record

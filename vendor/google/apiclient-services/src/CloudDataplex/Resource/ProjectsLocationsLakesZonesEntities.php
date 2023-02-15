@@ -26,7 +26,7 @@ use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListEntitiesResponse;
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $entities = $dataplexService->entities;
+ *   $entities = $dataplexService->projects_locations_lakes_zones_entities;
  *  </code>
  */
 class ProjectsLocationsLakesZonesEntities extends \Google\Service\Resource

@@ -29,7 +29,7 @@ use Google\Service\SASPortalTesting\SasPortalUpdateSignedDeviceRequest;
  * Typical usage is:
  *  <code>
  *   $prod_tt_sasportalService = new Google\Service\SASPortalTesting(...);
- *   $devices = $prod_tt_sasportalService->devices;
+ *   $devices = $prod_tt_sasportalService->deployments_devices;
  *  </code>
  */
 class DeploymentsDevices extends \Google\Service\Resource

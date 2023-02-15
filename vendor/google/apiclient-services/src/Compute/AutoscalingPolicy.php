@@ -26,10 +26,13 @@ class AutoscalingPolicy extends \Google\Collection
   public $coolDownPeriodSec;
   protected $cpuUtilizationType = AutoscalingPolicyCpuUtilization::class;
   protected $cpuUtilizationDataType = '';
+  public $cpuUtilization;
   protected $customMetricUtilizationsType = AutoscalingPolicyCustomMetricUtilization::class;
   protected $customMetricUtilizationsDataType = 'array';
+  public $customMetricUtilizations;
   protected $loadBalancingUtilizationType = AutoscalingPolicyLoadBalancingUtilization::class;
   protected $loadBalancingUtilizationDataType = '';
+  public $loadBalancingUtilization;
   /**
    * @var int
    */
@@ -44,8 +47,10 @@ class AutoscalingPolicy extends \Google\Collection
   public $mode;
   protected $scaleInControlType = AutoscalingPolicyScaleInControl::class;
   protected $scaleInControlDataType = '';
+  public $scaleInControl;
   protected $scalingSchedulesType = AutoscalingPolicyScalingSchedule::class;
   protected $scalingSchedulesDataType = 'map';
+  public $scalingSchedules;
 
   /**
    * @param int

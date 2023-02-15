@@ -22,14 +22,19 @@ class CellData extends \Google\Collection
   protected $collection_key = 'textFormatRuns';
   protected $dataSourceFormulaType = DataSourceFormula::class;
   protected $dataSourceFormulaDataType = '';
+  public $dataSourceFormula;
   protected $dataSourceTableType = DataSourceTable::class;
   protected $dataSourceTableDataType = '';
+  public $dataSourceTable;
   protected $dataValidationType = DataValidationRule::class;
   protected $dataValidationDataType = '';
+  public $dataValidation;
   protected $effectiveFormatType = CellFormat::class;
   protected $effectiveFormatDataType = '';
+  public $effectiveFormat;
   protected $effectiveValueType = ExtendedValue::class;
   protected $effectiveValueDataType = '';
+  public $effectiveValue;
   /**
    * @var string
    */
@@ -44,12 +49,16 @@ class CellData extends \Google\Collection
   public $note;
   protected $pivotTableType = PivotTable::class;
   protected $pivotTableDataType = '';
+  public $pivotTable;
   protected $textFormatRunsType = TextFormatRun::class;
   protected $textFormatRunsDataType = 'array';
+  public $textFormatRuns;
   protected $userEnteredFormatType = CellFormat::class;
   protected $userEnteredFormatDataType = '';
+  public $userEnteredFormat;
   protected $userEnteredValueType = ExtendedValue::class;
   protected $userEnteredValueDataType = '';
+  public $userEnteredValue;
 
   /**
    * @param DataSourceFormula

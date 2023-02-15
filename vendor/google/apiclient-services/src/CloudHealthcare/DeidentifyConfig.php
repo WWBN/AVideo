@@ -21,12 +21,16 @@ class DeidentifyConfig extends \Google\Model
 {
   protected $dicomType = DicomConfig::class;
   protected $dicomDataType = '';
+  public $dicom;
   protected $fhirType = FhirConfig::class;
   protected $fhirDataType = '';
+  public $fhir;
   protected $imageType = ImageConfig::class;
   protected $imageDataType = '';
+  public $image;
   protected $textType = TextConfig::class;
   protected $textDataType = '';
+  public $text;
 
   /**
    * @param DicomConfig

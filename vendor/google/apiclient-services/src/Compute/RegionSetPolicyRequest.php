@@ -22,12 +22,14 @@ class RegionSetPolicyRequest extends \Google\Collection
   protected $collection_key = 'bindings';
   protected $bindingsType = Binding::class;
   protected $bindingsDataType = 'array';
+  public $bindings;
   /**
    * @var string
    */
   public $etag;
   protected $policyType = Policy::class;
   protected $policyDataType = '';
+  public $policy;
 
   /**
    * @param Binding[]

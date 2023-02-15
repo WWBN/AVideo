@@ -26,7 +26,7 @@ use Google\Service\Appengine\Operation;
  * Typical usage is:
  *  <code>
  *   $appengineService = new Google\Service\Appengine(...);
- *   $domainMappings = $appengineService->domainMappings;
+ *   $domainMappings = $appengineService->apps_domainMappings;
  *  </code>
  */
 class AppsDomainMappings extends \Google\Service\Resource

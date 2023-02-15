@@ -22,8 +22,10 @@ class GoogleCloudDiscoveryengineV1alphaImportUserEventsResponse extends \Google\
   protected $collection_key = 'errorSamples';
   protected $errorConfigType = GoogleCloudDiscoveryengineV1alphaImportErrorConfig::class;
   protected $errorConfigDataType = '';
+  public $errorConfig;
   protected $errorSamplesType = GoogleRpcStatus::class;
   protected $errorSamplesDataType = 'array';
+  public $errorSamples;
   /**
    * @var string
    */

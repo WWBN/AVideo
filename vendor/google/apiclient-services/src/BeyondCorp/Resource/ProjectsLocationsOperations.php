@@ -27,7 +27,7 @@ use Google\Service\BeyondCorp\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $beyondcorpService = new Google\Service\BeyondCorp(...);
- *   $operations = $beyondcorpService->operations;
+ *   $operations = $beyondcorpService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class ImportJob extends \Google\Model
 {
   protected $attestationType = KeyOperationAttestation::class;
   protected $attestationDataType = '';
+  public $attestation;
   /**
    * @var string
    */
@@ -51,6 +52,7 @@ class ImportJob extends \Google\Model
   public $protectionLevel;
   protected $publicKeyType = WrappingPublicKey::class;
   protected $publicKeyDataType = '';
+  public $publicKey;
   /**
    * @var string
    */

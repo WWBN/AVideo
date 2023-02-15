@@ -25,6 +25,7 @@ class GoogleCloudContactcenterinsightsV1alpha1IssueModelLabelStats extends \Goog
   public $analyzedConversationsCount;
   protected $issueStatsType = GoogleCloudContactcenterinsightsV1alpha1IssueModelLabelStatsIssueStats::class;
   protected $issueStatsDataType = 'map';
+  public $issueStats;
   /**
    * @var string
    */

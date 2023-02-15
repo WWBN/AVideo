@@ -25,7 +25,7 @@ use Google\Service\CloudIAP\ListBrandsResponse;
  * Typical usage is:
  *  <code>
  *   $iapService = new Google\Service\CloudIAP(...);
- *   $brands = $iapService->brands;
+ *   $brands = $iapService->projects_brands;
  *  </code>
  */
 class ProjectsBrands extends \Google\Service\Resource

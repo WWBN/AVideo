@@ -22,6 +22,7 @@ class KnowledgeAnswersTypeTrait extends \Google\Collection
   protected $collection_key = 'traitId';
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
+  public $remodelings;
   /**
    * @var string[]
    */

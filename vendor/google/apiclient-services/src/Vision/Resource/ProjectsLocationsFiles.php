@@ -27,7 +27,7 @@ use Google\Service\Vision\Operation;
  * Typical usage is:
  *  <code>
  *   $visionService = new Google\Service\Vision(...);
- *   $files = $visionService->files;
+ *   $files = $visionService->projects_locations_files;
  *  </code>
  */
 class ProjectsLocationsFiles extends \Google\Service\Resource

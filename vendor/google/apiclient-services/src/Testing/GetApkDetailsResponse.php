@@ -21,6 +21,7 @@ class GetApkDetailsResponse extends \Google\Model
 {
   protected $apkDetailType = ApkDetail::class;
   protected $apkDetailDataType = '';
+  public $apkDetail;
 
   /**
    * @param ApkDetail

@@ -22,7 +22,7 @@ namespace Google\Service\Transcoder\Resource;
  * Typical usage is:
  *  <code>
  *   $transcoderService = new Google\Service\Transcoder(...);
- *   $locations = $transcoderService->locations;
+ *   $locations = $transcoderService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

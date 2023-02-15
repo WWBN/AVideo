@@ -26,7 +26,7 @@ use Google\Service\Eventarc\Location;
  * Typical usage is:
  *  <code>
  *   $eventarcService = new Google\Service\Eventarc(...);
- *   $locations = $eventarcService->locations;
+ *   $locations = $eventarcService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

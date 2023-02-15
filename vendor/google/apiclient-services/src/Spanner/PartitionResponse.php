@@ -22,8 +22,10 @@ class PartitionResponse extends \Google\Collection
   protected $collection_key = 'partitions';
   protected $partitionsType = Partition::class;
   protected $partitionsDataType = 'array';
+  public $partitions;
   protected $transactionType = Transaction::class;
   protected $transactionDataType = '';
+  public $transaction;
 
   /**
    * @param Partition[]

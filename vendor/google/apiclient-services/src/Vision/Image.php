@@ -25,6 +25,7 @@ class Image extends \Google\Model
   public $content;
   protected $sourceType = ImageSource::class;
   protected $sourceDataType = '';
+  public $source;
 
   /**
    * @param string

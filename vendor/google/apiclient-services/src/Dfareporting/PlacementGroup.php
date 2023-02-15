@@ -34,12 +34,14 @@ class PlacementGroup extends \Google\Collection
   public $advertiserId;
   protected $advertiserIdDimensionValueType = DimensionValue::class;
   protected $advertiserIdDimensionValueDataType = '';
+  public $advertiserIdDimensionValue;
   /**
    * @var string
    */
   public $campaignId;
   protected $campaignIdDimensionValueType = DimensionValue::class;
   protected $campaignIdDimensionValueDataType = '';
+  public $campaignIdDimensionValue;
   /**
    * @var string[]
    */
@@ -54,12 +56,14 @@ class PlacementGroup extends \Google\Collection
   public $contentCategoryId;
   protected $createInfoType = LastModifiedInfo::class;
   protected $createInfoDataType = '';
+  public $createInfo;
   /**
    * @var string
    */
   public $directorySiteId;
   protected $directorySiteIdDimensionValueType = DimensionValue::class;
   protected $directorySiteIdDimensionValueDataType = '';
+  public $directorySiteIdDimensionValue;
   /**
    * @var string
    */
@@ -70,12 +74,14 @@ class PlacementGroup extends \Google\Collection
   public $id;
   protected $idDimensionValueType = DimensionValue::class;
   protected $idDimensionValueDataType = '';
+  public $idDimensionValue;
   /**
    * @var string
    */
   public $kind;
   protected $lastModifiedInfoType = LastModifiedInfo::class;
   protected $lastModifiedInfoDataType = '';
+  public $lastModifiedInfo;
   /**
    * @var string
    */
@@ -90,18 +96,21 @@ class PlacementGroup extends \Google\Collection
   public $placementStrategyId;
   protected $pricingScheduleType = PricingSchedule::class;
   protected $pricingScheduleDataType = '';
+  public $pricingSchedule;
   /**
    * @var string
    */
   public $primaryPlacementId;
   protected $primaryPlacementIdDimensionValueType = DimensionValue::class;
   protected $primaryPlacementIdDimensionValueDataType = '';
+  public $primaryPlacementIdDimensionValue;
   /**
    * @var string
    */
   public $siteId;
   protected $siteIdDimensionValueType = DimensionValue::class;
   protected $siteIdDimensionValueDataType = '';
+  public $siteIdDimensionValue;
   /**
    * @var string
    */

@@ -21,12 +21,14 @@ class GoogleDatastoreAdminV1IndexOperationMetadata extends \Google\Model
 {
   protected $commonType = GoogleDatastoreAdminV1CommonMetadata::class;
   protected $commonDataType = '';
+  public $common;
   /**
    * @var string
    */
   public $indexId;
   protected $progressEntitiesType = GoogleDatastoreAdminV1Progress::class;
   protected $progressEntitiesDataType = '';
+  public $progressEntities;
 
   /**
    * @param GoogleDatastoreAdminV1CommonMetadata

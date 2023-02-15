@@ -25,6 +25,7 @@ class ItemStructuredData extends \Google\Model
   public $hash;
   protected $objectType = StructuredDataObject::class;
   protected $objectDataType = '';
+  public $object;
 
   /**
    * @param string

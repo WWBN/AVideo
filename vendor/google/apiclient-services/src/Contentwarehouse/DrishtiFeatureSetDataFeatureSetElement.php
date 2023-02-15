@@ -21,16 +21,26 @@ class DrishtiFeatureSetDataFeatureSetElement extends \Google\Model
 {
   protected $denseType = DrishtiDenseFeatureData::class;
   protected $denseDataType = '';
+  public $dense;
   protected $indexedType = DrishtiIndexedFeatureData::class;
   protected $indexedDataType = '';
+  public $indexed;
   /**
    * @var string
    */
   public $name;
   protected $quantizedType = DrishtiQuantizedDenseFeatureData::class;
   protected $quantizedDataType = '';
+  public $quantized;
+  protected $quantizedByteDenseType = DrishtiQuantizedByteDenseFeatureData::class;
+  protected $quantizedByteDenseDataType = '';
+  public $quantizedByteDense;
+  protected $quantizedByteIndexedType = DrishtiQuantizedByteIndexedFeatureData::class;
+  protected $quantizedByteIndexedDataType = '';
+  public $quantizedByteIndexed;
   protected $sparseType = DrishtiSparseFeatureData::class;
   protected $sparseDataType = '';
+  public $sparse;
 
   /**
    * @param DrishtiDenseFeatureData
@@ -87,6 +97,34 @@ class DrishtiFeatureSetDataFeatureSetElement extends \Google\Model
   public function getQuantized()
   {
     return $this->quantized;
+  }
+  /**
+   * @param DrishtiQuantizedByteDenseFeatureData
+   */
+  public function setQuantizedByteDense(DrishtiQuantizedByteDenseFeatureData $quantizedByteDense)
+  {
+    $this->quantizedByteDense = $quantizedByteDense;
+  }
+  /**
+   * @return DrishtiQuantizedByteDenseFeatureData
+   */
+  public function getQuantizedByteDense()
+  {
+    return $this->quantizedByteDense;
+  }
+  /**
+   * @param DrishtiQuantizedByteIndexedFeatureData
+   */
+  public function setQuantizedByteIndexed(DrishtiQuantizedByteIndexedFeatureData $quantizedByteIndexed)
+  {
+    $this->quantizedByteIndexed = $quantizedByteIndexed;
+  }
+  /**
+   * @return DrishtiQuantizedByteIndexedFeatureData
+   */
+  public function getQuantizedByteIndexed()
+  {
+    return $this->quantizedByteIndexed;
   }
   /**
    * @param DrishtiSparseFeatureData

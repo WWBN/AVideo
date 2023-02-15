@@ -112,6 +112,16 @@ class CloudComposer extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'loadSnapshot' => [
+              'path' => 'v1/{+environment}:loadSnapshot',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'environment' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'patch' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
@@ -124,6 +134,16 @@ class CloudComposer extends \Google\Service
                 'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'saveSnapshot' => [
+              'path' => 'v1/{+environment}:saveSnapshot',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'environment' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],

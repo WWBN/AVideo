@@ -21,6 +21,7 @@ class Value extends \Google\Model
 {
   protected $arrayValueType = ArrayValue::class;
   protected $arrayValueDataType = '';
+  public $arrayValue;
   /**
    * @var string
    */
@@ -32,18 +33,21 @@ class Value extends \Google\Model
   public $doubleValue;
   protected $entityValueType = Entity::class;
   protected $entityValueDataType = '';
+  public $entityValue;
   /**
    * @var bool
    */
   public $excludeFromIndexes;
   protected $geoPointValueType = LatLng::class;
   protected $geoPointValueDataType = '';
+  public $geoPointValue;
   /**
    * @var string
    */
   public $integerValue;
   protected $keyValueType = Key::class;
   protected $keyValueDataType = '';
+  public $keyValue;
   /**
    * @var int
    */

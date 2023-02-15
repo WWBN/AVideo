@@ -29,6 +29,7 @@ class SafesearchVideoContentSignals extends \Google\Model
   public $versionTag;
   protected $videoClassifierOutputType = SafesearchVideoClassifierOutput::class;
   protected $videoClassifierOutputDataType = '';
+  public $videoClassifierOutput;
 
   /**
    * @param float[]

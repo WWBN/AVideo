@@ -22,12 +22,14 @@ class CheckRequest extends \Google\Collection
   protected $collection_key = 'resources';
   protected $attributesType = AttributeContext::class;
   protected $attributesDataType = '';
+  public $attributes;
   /**
    * @var string
    */
   public $flags;
   protected $resourcesType = ResourceInfo::class;
   protected $resourcesDataType = 'array';
+  public $resources;
   /**
    * @var string
    */

@@ -22,10 +22,13 @@ class GoogleCloudRetailV2alphaExportProductsResponse extends \Google\Collection
   protected $collection_key = 'errorSamples';
   protected $errorSamplesType = GoogleRpcStatus::class;
   protected $errorSamplesDataType = 'array';
+  public $errorSamples;
   protected $errorsConfigType = GoogleCloudRetailV2alphaExportErrorsConfig::class;
   protected $errorsConfigDataType = '';
+  public $errorsConfig;
   protected $outputResultType = GoogleCloudRetailV2alphaOutputResult::class;
   protected $outputResultDataType = '';
+  public $outputResult;
 
   /**
    * @param GoogleRpcStatus[]

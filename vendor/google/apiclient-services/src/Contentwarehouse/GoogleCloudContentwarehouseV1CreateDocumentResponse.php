@@ -21,10 +21,13 @@ class GoogleCloudContentwarehouseV1CreateDocumentResponse extends \Google\Model
 {
   protected $documentType = GoogleCloudContentwarehouseV1Document::class;
   protected $documentDataType = '';
+  public $document;
   protected $metadataType = GoogleCloudContentwarehouseV1ResponseMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $ruleEngineOutputType = GoogleCloudContentwarehouseV1RuleEngineOutput::class;
   protected $ruleEngineOutputDataType = '';
+  public $ruleEngineOutput;
 
   /**
    * @param GoogleCloudContentwarehouseV1Document

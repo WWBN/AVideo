@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ListHybridIssuersResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $issuers = $apigeeService->issuers;
+ *   $issuers = $apigeeService->hybrid_issuers;
  *  </code>
  */
 class HybridIssuers extends \Google\Service\Resource

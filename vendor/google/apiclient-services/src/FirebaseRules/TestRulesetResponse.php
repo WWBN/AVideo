@@ -22,8 +22,10 @@ class TestRulesetResponse extends \Google\Collection
   protected $collection_key = 'testResults';
   protected $issuesType = Issue::class;
   protected $issuesDataType = 'array';
+  public $issues;
   protected $testResultsType = TestResult::class;
   protected $testResultsDataType = 'array';
+  public $testResults;
 
   /**
    * @param Issue[]

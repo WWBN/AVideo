@@ -30,6 +30,7 @@ class RegionNetworkFirewallPoliciesGetEffectiveFirewallsResponseEffectiveFirewal
   public $name;
   protected $rulesType = FirewallPolicyRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
   /**
    * @var string
    */

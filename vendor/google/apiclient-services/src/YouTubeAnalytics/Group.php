@@ -21,8 +21,10 @@ class Group extends \Google\Model
 {
   protected $contentDetailsType = GroupContentDetails::class;
   protected $contentDetailsDataType = '';
+  public $contentDetails;
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
+  public $errors;
   /**
    * @var string
    */
@@ -37,6 +39,7 @@ class Group extends \Google\Model
   public $kind;
   protected $snippetType = GroupSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
 
   /**
    * @param GroupContentDetails

@@ -24,7 +24,7 @@ use Google\Service\Analytics\GaData;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $ga = $analyticsService->ga;
+ *   $ga = $analyticsService->data_ga;
  *  </code>
  */
 class DataGa extends \Google\Service\Resource

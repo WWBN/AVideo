@@ -26,6 +26,7 @@ class GoogleFirestoreAdminV1IndexConfig extends \Google\Collection
   public $ancestorField;
   protected $indexesType = GoogleFirestoreAdminV1Index::class;
   protected $indexesDataType = 'array';
+  public $indexes;
   /**
    * @var bool
    */

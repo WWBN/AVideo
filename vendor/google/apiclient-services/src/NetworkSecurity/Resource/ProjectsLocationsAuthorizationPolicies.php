@@ -30,7 +30,7 @@ use Google\Service\NetworkSecurity\Operation;
  * Typical usage is:
  *  <code>
  *   $networksecurityService = new Google\Service\NetworkSecurity(...);
- *   $authorizationPolicies = $networksecurityService->authorizationPolicies;
+ *   $authorizationPolicies = $networksecurityService->projects_locations_authorizationPolicies;
  *  </code>
  */
 class ProjectsLocationsAuthorizationPolicies extends \Google\Service\Resource

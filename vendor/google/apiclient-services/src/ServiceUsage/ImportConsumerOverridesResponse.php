@@ -22,6 +22,7 @@ class ImportConsumerOverridesResponse extends \Google\Collection
   protected $collection_key = 'overrides';
   protected $overridesType = QuotaOverride::class;
   protected $overridesDataType = 'array';
+  public $overrides;
 
   /**
    * @param QuotaOverride[]

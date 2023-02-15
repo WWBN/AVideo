@@ -25,8 +25,10 @@ class SeriesSeriesSeriesSubscriptionReleaseInfo extends \Google\Model
   public $cancelTime;
   protected $currentReleaseInfoType = SeriesSeriesSeriesSubscriptionReleaseInfoCurrentReleaseInfo::class;
   protected $currentReleaseInfoDataType = '';
+  public $currentReleaseInfo;
   protected $nextReleaseInfoType = SeriesSeriesSeriesSubscriptionReleaseInfoNextReleaseInfo::class;
   protected $nextReleaseInfoDataType = '';
+  public $nextReleaseInfo;
   /**
    * @var string
    */

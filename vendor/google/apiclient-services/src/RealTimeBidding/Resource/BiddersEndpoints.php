@@ -25,7 +25,7 @@ use Google\Service\RealTimeBidding\ListEndpointsResponse;
  * Typical usage is:
  *  <code>
  *   $realtimebiddingService = new Google\Service\RealTimeBidding(...);
- *   $endpoints = $realtimebiddingService->endpoints;
+ *   $endpoints = $realtimebiddingService->bidders_endpoints;
  *  </code>
  */
 class BiddersEndpoints extends \Google\Service\Resource

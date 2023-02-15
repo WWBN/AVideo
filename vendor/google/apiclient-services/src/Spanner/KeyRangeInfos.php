@@ -22,6 +22,7 @@ class KeyRangeInfos extends \Google\Collection
   protected $collection_key = 'infos';
   protected $infosType = KeyRangeInfo::class;
   protected $infosDataType = 'array';
+  public $infos;
   /**
    * @var int
    */

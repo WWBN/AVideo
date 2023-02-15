@@ -22,6 +22,7 @@ class SiteVerificationWebResourceListResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = SiteVerificationWebResourceResource::class;
   protected $itemsDataType = 'array';
+  public $items;
 
   /**
    * @param SiteVerificationWebResourceResource[]

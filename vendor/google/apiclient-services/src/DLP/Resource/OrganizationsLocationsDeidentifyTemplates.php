@@ -28,7 +28,7 @@ use Google\Service\DLP\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dlpService = new Google\Service\DLP(...);
- *   $deidentifyTemplates = $dlpService->deidentifyTemplates;
+ *   $deidentifyTemplates = $dlpService->organizations_locations_deidentifyTemplates;
  *  </code>
  */
 class OrganizationsLocationsDeidentifyTemplates extends \Google\Service\Resource

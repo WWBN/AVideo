@@ -21,6 +21,7 @@ class Result extends \Google\Model
 {
   protected $undefinedType = FirebaserulesEmpty::class;
   protected $undefinedDataType = '';
+  public $undefined;
   /**
    * @var array
    */

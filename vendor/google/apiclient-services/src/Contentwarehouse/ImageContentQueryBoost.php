@@ -22,6 +22,7 @@ class ImageContentQueryBoost extends \Google\Collection
   protected $collection_key = 'queryboost';
   protected $queryboostType = ImageContentQueryBoostQueryBoost::class;
   protected $queryboostDataType = 'array';
+  public $queryboost;
 
   /**
    * @param ImageContentQueryBoostQueryBoost[]

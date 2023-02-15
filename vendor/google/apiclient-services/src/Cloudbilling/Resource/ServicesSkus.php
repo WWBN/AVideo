@@ -24,7 +24,7 @@ use Google\Service\Cloudbilling\ListSkusResponse;
  * Typical usage is:
  *  <code>
  *   $cloudbillingService = new Google\Service\Cloudbilling(...);
- *   $skus = $cloudbillingService->skus;
+ *   $skus = $cloudbillingService->services_skus;
  *  </code>
  */
 class ServicesSkus extends \Google\Service\Resource

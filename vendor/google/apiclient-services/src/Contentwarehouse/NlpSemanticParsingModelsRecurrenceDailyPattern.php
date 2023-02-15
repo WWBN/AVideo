@@ -21,8 +21,10 @@ class NlpSemanticParsingModelsRecurrenceDailyPattern extends \Google\Model
 {
   protected $dayPeriodType = NlpSemanticParsingDateTimeAnnotation::class;
   protected $dayPeriodDataType = '';
+  public $dayPeriod;
   protected $timeOfDayType = NlpSemanticParsingDateTimeAnnotation::class;
   protected $timeOfDayDataType = '';
+  public $timeOfDay;
 
   /**
    * @param NlpSemanticParsingDateTimeAnnotation

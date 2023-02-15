@@ -22,6 +22,7 @@ class IndexingEmbeddedContentRenderingOutputMetadata extends \Google\Collection
   protected $collection_key = 'renderEvent';
   protected $configParamsType = IndexingEmbeddedContentRenderRequestConfigConfigParams::class;
   protected $configParamsDataType = '';
+  public $configParams;
   /**
    * @var string
    */
@@ -32,6 +33,7 @@ class IndexingEmbeddedContentRenderingOutputMetadata extends \Google\Collection
   public $experimentalRenderTimeMsec;
   protected $generationTimestampsType = IndexingEmbeddedContentOutputGenerationTimestamps::class;
   protected $generationTimestampsDataType = '';
+  public $generationTimestamps;
   /**
    * @var int
    */
@@ -51,12 +53,14 @@ class IndexingEmbeddedContentRenderingOutputMetadata extends \Google\Collection
   public $refresh;
   protected $renderCacheStatsType = IndexingEmbeddedContentRenderCacheStats::class;
   protected $renderCacheStatsDataType = '';
+  public $renderCacheStats;
   /**
    * @var string
    */
   public $renderEngine;
   protected $renderEventType = HtmlrenderWebkitHeadlessProtoRenderEvent::class;
   protected $renderEventDataType = 'array';
+  public $renderEvent;
   /**
    * @var string
    */
@@ -72,8 +76,10 @@ class IndexingEmbeddedContentRenderingOutputMetadata extends \Google\Collection
   public $renderedTimeUsec;
   protected $renderingFetchStatsType = IndexingEmbeddedContentRenderingFetchStats::class;
   protected $renderingFetchStatsDataType = '';
+  public $renderingFetchStats;
   protected $selectionResultType = IndexingEmbeddedContentSelectionResult::class;
   protected $selectionResultDataType = '';
+  public $selectionResult;
   public $snapshotQualityScore;
   /**
    * @var bool

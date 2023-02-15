@@ -26,7 +26,7 @@ use Google\Service\Contactcenterinsights\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $contactcenterinsightsService = new Google\Service\Contactcenterinsights(...);
- *   $operations = $contactcenterinsightsService->operations;
+ *   $operations = $contactcenterinsightsService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

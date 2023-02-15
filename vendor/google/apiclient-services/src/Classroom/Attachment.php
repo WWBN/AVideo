@@ -21,12 +21,16 @@ class Attachment extends \Google\Model
 {
   protected $driveFileType = DriveFile::class;
   protected $driveFileDataType = '';
+  public $driveFile;
   protected $formType = Form::class;
   protected $formDataType = '';
+  public $form;
   protected $linkType = Link::class;
   protected $linkDataType = '';
+  public $link;
   protected $youTubeVideoType = YouTubeVideo::class;
   protected $youTubeVideoDataType = '';
+  public $youTubeVideo;
 
   /**
    * @param DriveFile

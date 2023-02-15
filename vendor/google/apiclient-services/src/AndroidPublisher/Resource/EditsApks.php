@@ -27,7 +27,7 @@ use Google\Service\AndroidPublisher\ApksListResponse;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $apks = $androidpublisherService->apks;
+ *   $apks = $androidpublisherService->edits_apks;
  *  </code>
  */
 class EditsApks extends \Google\Service\Resource

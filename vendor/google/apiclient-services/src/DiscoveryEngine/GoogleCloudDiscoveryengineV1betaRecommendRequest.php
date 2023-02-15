@@ -33,6 +33,7 @@ class GoogleCloudDiscoveryengineV1betaRecommendRequest extends \Google\Model
   public $params;
   protected $userEventType = GoogleCloudDiscoveryengineV1betaUserEvent::class;
   protected $userEventDataType = '';
+  public $userEvent;
   /**
    * @var string[]
    */

@@ -34,6 +34,10 @@ class VendingConsumerProtoTrustedGenomeEntity extends \Google\Model
   /**
    * @var string
    */
+  public $predicateName;
+  /**
+   * @var string
+   */
   public $queryText;
   /**
    * @var float
@@ -89,6 +93,20 @@ class VendingConsumerProtoTrustedGenomeEntity extends \Google\Model
   public function getLevel()
   {
     return $this->level;
+  }
+  /**
+   * @param string
+   */
+  public function setPredicateName($predicateName)
+  {
+    $this->predicateName = $predicateName;
+  }
+  /**
+   * @return string
+   */
+  public function getPredicateName()
+  {
+    return $this->predicateName;
   }
   /**
    * @param string

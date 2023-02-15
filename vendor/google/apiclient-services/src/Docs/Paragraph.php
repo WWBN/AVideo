@@ -22,20 +22,26 @@ class Paragraph extends \Google\Collection
   protected $collection_key = 'positionedObjectIds';
   protected $bulletType = Bullet::class;
   protected $bulletDataType = '';
+  public $bullet;
   protected $elementsType = ParagraphElement::class;
   protected $elementsDataType = 'array';
+  public $elements;
   protected $paragraphStyleType = ParagraphStyle::class;
   protected $paragraphStyleDataType = '';
+  public $paragraphStyle;
   /**
    * @var string[]
    */
   public $positionedObjectIds;
   protected $suggestedBulletChangesType = SuggestedBullet::class;
   protected $suggestedBulletChangesDataType = 'map';
+  public $suggestedBulletChanges;
   protected $suggestedParagraphStyleChangesType = SuggestedParagraphStyle::class;
   protected $suggestedParagraphStyleChangesDataType = 'map';
+  public $suggestedParagraphStyleChanges;
   protected $suggestedPositionedObjectIdsType = ObjectReferences::class;
   protected $suggestedPositionedObjectIdsDataType = 'map';
+  public $suggestedPositionedObjectIds;
 
   /**
    * @param Bullet

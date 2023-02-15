@@ -50,12 +50,14 @@ class Result extends \Google\Collection
   public $htmlTitle;
   protected $imageType = ResultImage::class;
   protected $imageDataType = '';
+  public $image;
   /**
    * @var string
    */
   public $kind;
   protected $labelsType = ResultLabels::class;
   protected $labelsDataType = 'array';
+  public $labels;
   /**
    * @var string
    */

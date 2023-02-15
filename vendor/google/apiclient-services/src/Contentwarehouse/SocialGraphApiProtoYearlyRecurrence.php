@@ -22,6 +22,7 @@ class SocialGraphApiProtoYearlyRecurrence extends \Google\Collection
   protected $collection_key = 'months';
   protected $monthlyPatternType = SocialGraphApiProtoMonthlyRecurrence::class;
   protected $monthlyPatternDataType = '';
+  public $monthlyPattern;
   /**
    * @var string[]
    */

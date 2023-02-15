@@ -33,8 +33,10 @@ class Service extends \Google\Model
   public $name;
   protected $networkSettingsType = NetworkSettings::class;
   protected $networkSettingsDataType = '';
+  public $networkSettings;
   protected $splitType = TrafficSplit::class;
   protected $splitDataType = '';
+  public $split;
 
   /**
    * @param string

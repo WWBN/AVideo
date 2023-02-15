@@ -37,6 +37,7 @@ class ImagePropertiesSuggestionState extends \Google\Model
   public $contrastSuggested;
   protected $cropPropertiesSuggestionStateType = CropPropertiesSuggestionState::class;
   protected $cropPropertiesSuggestionStateDataType = '';
+  public $cropPropertiesSuggestionState;
   /**
    * @var bool
    */

@@ -21,6 +21,7 @@ class ChannelContentDetails extends \Google\Model
 {
   protected $relatedPlaylistsType = ChannelContentDetailsRelatedPlaylists::class;
   protected $relatedPlaylistsDataType = '';
+  public $relatedPlaylists;
 
   /**
    * @param ChannelContentDetailsRelatedPlaylists

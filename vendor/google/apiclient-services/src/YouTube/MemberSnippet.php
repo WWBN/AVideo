@@ -25,8 +25,10 @@ class MemberSnippet extends \Google\Model
   public $creatorChannelId;
   protected $memberDetailsType = ChannelProfileDetails::class;
   protected $memberDetailsDataType = '';
+  public $memberDetails;
   protected $membershipsDetailsType = MembershipsDetails::class;
   protected $membershipsDetailsDataType = '';
+  public $membershipsDetails;
 
   /**
    * @param string

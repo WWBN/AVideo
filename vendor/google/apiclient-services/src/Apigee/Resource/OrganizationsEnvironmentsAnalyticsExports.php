@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ListExportsResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $exports = $apigeeService->exports;
+ *   $exports = $apigeeService->organizations_environments_analytics_exports;
  *  </code>
  */
 class OrganizationsEnvironmentsAnalyticsExports extends \Google\Service\Resource

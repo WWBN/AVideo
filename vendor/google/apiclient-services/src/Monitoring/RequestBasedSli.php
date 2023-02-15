@@ -21,8 +21,10 @@ class RequestBasedSli extends \Google\Model
 {
   protected $distributionCutType = DistributionCut::class;
   protected $distributionCutDataType = '';
+  public $distributionCut;
   protected $goodTotalRatioType = TimeSeriesRatio::class;
   protected $goodTotalRatioDataType = '';
+  public $goodTotalRatio;
 
   /**
    * @param DistributionCut

@@ -21,10 +21,13 @@ class GoogleCloudDatalabelingV1beta1ImagePolylineAnnotation extends \Google\Mode
 {
   protected $annotationSpecType = GoogleCloudDatalabelingV1beta1AnnotationSpec::class;
   protected $annotationSpecDataType = '';
+  public $annotationSpec;
   protected $normalizedPolylineType = GoogleCloudDatalabelingV1beta1NormalizedPolyline::class;
   protected $normalizedPolylineDataType = '';
+  public $normalizedPolyline;
   protected $polylineType = GoogleCloudDatalabelingV1beta1Polyline::class;
   protected $polylineDataType = '';
+  public $polyline;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1AnnotationSpec

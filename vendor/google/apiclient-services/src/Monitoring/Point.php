@@ -21,8 +21,10 @@ class Point extends \Google\Model
 {
   protected $intervalType = TimeInterval::class;
   protected $intervalDataType = '';
+  public $interval;
   protected $valueType = TypedValue::class;
   protected $valueDataType = '';
+  public $value;
 
   /**
    * @param TimeInterval

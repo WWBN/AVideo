@@ -30,6 +30,7 @@ class Schemas extends \Google\Collection
   public $kind;
   protected $schemasType = Schema::class;
   protected $schemasDataType = 'array';
+  public $schemas;
 
   /**
    * @param string

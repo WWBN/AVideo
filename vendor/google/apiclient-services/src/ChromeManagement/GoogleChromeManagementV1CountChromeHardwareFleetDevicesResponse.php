@@ -22,12 +22,16 @@ class GoogleChromeManagementV1CountChromeHardwareFleetDevicesResponse extends \G
   protected $collection_key = 'storageReports';
   protected $cpuReportsType = GoogleChromeManagementV1DeviceHardwareCountReport::class;
   protected $cpuReportsDataType = 'array';
+  public $cpuReports;
   protected $memoryReportsType = GoogleChromeManagementV1DeviceHardwareCountReport::class;
   protected $memoryReportsDataType = 'array';
+  public $memoryReports;
   protected $modelReportsType = GoogleChromeManagementV1DeviceHardwareCountReport::class;
   protected $modelReportsDataType = 'array';
+  public $modelReports;
   protected $storageReportsType = GoogleChromeManagementV1DeviceHardwareCountReport::class;
   protected $storageReportsDataType = 'array';
+  public $storageReports;
 
   /**
    * @param GoogleChromeManagementV1DeviceHardwareCountReport[]

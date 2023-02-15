@@ -204,7 +204,7 @@ class PlayList extends ObjectYPT {
             }
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            $rows = array();
+            $rows = [];
         }
         return $rows;
     }
@@ -259,7 +259,7 @@ class PlayList extends ObjectYPT {
         if ($res !== false) {
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
-                $row['videos'] = array();
+                $row['videos'] = [];
                 if ($onlyWithVideos) {
                     $row['videos'] = self::getVideosIDFromPlaylistLight($row['id']);
                     if (empty($row['videos'])) {
@@ -270,7 +270,7 @@ class PlayList extends ObjectYPT {
             }
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            $rows = array();
+            $rows = [];
         }
         return $rows;
     }
@@ -350,12 +350,12 @@ class PlayList extends ObjectYPT {
         _session_start();
         unset($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id]);
     }
-    
+
     public static function getSuggested() {
         global $global;
-        
+
         return Video::getAllVideosLight("viewableNotUnlisted", false, false, true, 'serie');
-        
+
     }
 
     public static function getVideosIDFromPlaylistLight($playlists_id) {
@@ -384,12 +384,12 @@ class PlayList extends ObjectYPT {
             foreach ($fullData as $key => $row) {
                 if (empty($playlists_id)) {
                     $row['order'] = $key;
-                } 
+                }
                 $rows[] = $row;
             }
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            $rows = array();
+            $rows = [];
         }
         $getVideosIDFromPlaylistLight[$playlists_id] = $rows;
         return $rows;
@@ -457,7 +457,7 @@ class PlayList extends ObjectYPT {
                 $cache = self::setCache($cacheName, $rows);
             } else {
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-                $rows = array();
+                $rows = [];
             }
         } else {
             $rows = object_to_array($rows);
@@ -744,7 +744,7 @@ class PlayList extends ObjectYPT {
     public function getName() {
         return $this->name;
     }
-    
+
     public function getNameOrSerieTitle() {
         return PlayLists::getNameOrSerieTitle($this->id);
     }
@@ -840,7 +840,7 @@ class PlayList extends ObjectYPT {
             }
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            $rows = array();
+            $rows = [];
         }
         return $rows;
     }
@@ -865,5 +865,4 @@ class PlayList extends ObjectYPT {
         }
         return false;
     }
-
 }

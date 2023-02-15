@@ -22,6 +22,7 @@ class NetworkConfig extends \Google\Collection
   protected $collection_key = 'consumers';
   protected $consumersType = Consumer::class;
   protected $consumersDataType = 'array';
+  public $consumers;
 
   /**
    * @param Consumer[]

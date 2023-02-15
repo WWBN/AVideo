@@ -22,6 +22,7 @@ class GoogleCloudRecommendationengineV1beta1UserEventInlineSource extends \Googl
   protected $collection_key = 'userEvents';
   protected $userEventsType = GoogleCloudRecommendationengineV1beta1UserEvent::class;
   protected $userEventsDataType = 'array';
+  public $userEvents;
 
   /**
    * @param GoogleCloudRecommendationengineV1beta1UserEvent[]

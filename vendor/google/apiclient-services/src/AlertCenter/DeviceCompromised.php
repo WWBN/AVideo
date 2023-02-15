@@ -26,6 +26,7 @@ class DeviceCompromised extends \Google\Collection
   public $email;
   protected $eventsType = DeviceCompromisedSecurityDetail::class;
   protected $eventsDataType = 'array';
+  public $events;
 
   /**
    * @param string

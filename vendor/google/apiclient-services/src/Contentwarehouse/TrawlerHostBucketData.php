@@ -79,6 +79,7 @@ class TrawlerHostBucketData extends \Google\Collection
   public $totalUsedQps;
   protected $urllistType = TrawlerHostBucketDataUrlList::class;
   protected $urllistDataType = 'array';
+  public $urllist;
 
   /**
    * @param float

@@ -17,19 +17,36 @@
 
 namespace Google\Service\Baremetalsolution\Resource;
 
+use Google\Service\Baremetalsolution\EvictLunRequest;
 use Google\Service\Baremetalsolution\ListLunsResponse;
 use Google\Service\Baremetalsolution\Lun;
+use Google\Service\Baremetalsolution\Operation;
 
 /**
  * The "luns" collection of methods.
  * Typical usage is:
  *  <code>
  *   $baremetalsolutionService = new Google\Service\Baremetalsolution(...);
- *   $luns = $baremetalsolutionService->luns;
+ *   $luns = $baremetalsolutionService->projects_locations_volumes_luns;
  *  </code>
  */
 class ProjectsLocationsVolumesLuns extends \Google\Service\Resource
 {
+  /**
+   * Skips lun's cooloff and deletes it now. Lun must be in cooloff state.
+   * (luns.evict)
+   *
+   * @param string $name Required. The name of the lun.
+   * @param EvictLunRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function evict($name, EvictLunRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('evict', [$params], Operation::class);
+  }
   /**
    * Get details of a single storage logical unit number(LUN). (luns.get)
    *

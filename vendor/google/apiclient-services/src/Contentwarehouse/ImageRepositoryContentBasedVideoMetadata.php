@@ -34,58 +34,81 @@ class ImageRepositoryContentBasedVideoMetadata extends \Google\Collection
   public $audioOnly;
   protected $cloudSpeechSignalsType = ImageRepositoryAmarnaCloudSpeechSignals::class;
   protected $cloudSpeechSignalsDataType = '';
+  public $cloudSpeechSignals;
   protected $featureSetDataType = DrishtiFeatureSetData::class;
   protected $featureSetDataDataType = '';
+  public $featureSetData;
   protected $golden7SoapboxSummaryType = DrishtiFeatureSetData::class;
   protected $golden7SoapboxSummaryDataType = '';
+  public $golden7SoapboxSummary;
   protected $inlinePlaybackType = VideoCrawlVideoInlinePlaybackMetadata::class;
   protected $inlinePlaybackDataType = '';
+  public $inlinePlayback;
   protected $languageIdentificationType = VideoTimedtextS4ALIResults::class;
   protected $languageIdentificationDataType = '';
+  public $languageIdentification;
   protected $legosAnnotationDataType = VideoLegosLegosAnnotationsSets::class;
   protected $legosAnnotationDataDataType = '';
+  public $legosAnnotationData;
   protected $lmsPreviewFramePerdocsType = ImageRepositoryFramePerdocs::class;
   protected $lmsPreviewFramePerdocsDataType = '';
+  public $lmsPreviewFramePerdocs;
   protected $loudnessDataType = VideoStorageLoudnessData::class;
   protected $loudnessDataDataType = '';
+  public $loudnessData;
   protected $mediaInfoType = VideoMediaInfo::class;
   protected $mediaInfoDataType = '';
+  public $mediaInfo;
   protected $representativeFrameDataType = ImageData::class;
   protected $representativeFrameDataDataType = '';
+  public $representativeFrameData;
   protected $s3LanguageIdentificationType = ImageRepositoryS3LangIdSignals::class;
   protected $s3LanguageIdentificationDataType = '';
+  public $s3LanguageIdentification;
   protected $safesearchVideoContentSignalsType = SafesearchVideoContentSignals::class;
   protected $safesearchVideoContentSignalsDataType = '';
+  public $safesearchVideoContentSignals;
   /**
    * @var string
    */
   public $searchDocid;
   protected $signalsBlobType = ImageRepositoryAmarnaSignalsBlob::class;
   protected $signalsBlobDataType = '';
+  public $signalsBlob;
   protected $signalsBlobInfoType = ImageRepositoryAmarnaSignalsBlobInfo::class;
   protected $signalsBlobInfoDataType = '';
+  public $signalsBlobInfo;
   protected $speechPropertiesType = IndexingSpeechSpeechPropertiesProto::class;
   protected $speechPropertiesDataType = '';
+  public $speechProperties;
   protected $thumbnailQualityScoreType = VideoThumbnailsThumbnailScore::class;
   protected $thumbnailQualityScoreDataType = '';
+  public $thumbnailQualityScore;
   protected $thumbnailerDataType = VideoPipelineViperThumbnailerColumnData::class;
   protected $thumbnailerDataDataType = '';
+  public $thumbnailerData;
   protected $transcodeMetadataType = ImageRepositoryApiItagSpecificMetadata::class;
   protected $transcodeMetadataDataType = 'array';
+  public $transcodeMetadata;
   protected $transcriptAsrType = PseudoVideoData::class;
   protected $transcriptAsrDataType = '';
+  public $transcriptAsr;
   protected $truncationInfoType = ImageRepositoryFileTruncationInfo::class;
   protected $truncationInfoDataType = '';
+  public $truncationInfo;
   protected $unwantedContentType = ImageRepositoryUnwantedContent::class;
   protected $unwantedContentDataType = '';
+  public $unwantedContent;
   /**
    * @var string
    */
   public $venomId;
   protected $venomProcessingInfoType = ImageRepositoryVenomProcessingInfo::class;
   protected $venomProcessingInfoDataType = '';
+  public $venomProcessingInfo;
   protected $videoAnchorSetType = VideoContentSearchVideoAnchorSets::class;
   protected $videoAnchorSetDataType = '';
+  public $videoAnchorSet;
   public $videoDurationSec;
   /**
    * @var float
@@ -97,14 +120,19 @@ class ImageRepositoryContentBasedVideoMetadata extends \Google\Collection
   public $videoPornScoreV4;
   protected $videoPreviewBytesType = ImageRepositoryVideoPreviewsVideoPreview::class;
   protected $videoPreviewBytesDataType = 'array';
+  public $videoPreviewBytes;
   protected $videoPreviewsType = ImageBaseVideoPreviewMetadata::class;
   protected $videoPreviewsDataType = 'array';
+  public $videoPreviews;
   protected $videoStreamInfoType = VideoPipelineViperVSIColumnData::class;
   protected $videoStreamInfoDataType = '';
+  public $videoStreamInfo;
   protected $videoTranscriptAnnotationsType = QualityWebanswersVideoTranscriptAnnotations::class;
   protected $videoTranscriptAnnotationsDataType = '';
+  public $videoTranscriptAnnotations;
   protected $youtubeProcessingFilterType = ImageRepositoryYoutubeProcessingFilter::class;
   protected $youtubeProcessingFilterDataType = '';
+  public $youtubeProcessingFilter;
 
   /**
    * @param string

@@ -25,7 +25,7 @@ use Google\Service\DoubleClickBidManager\Report;
  * Typical usage is:
  *  <code>
  *   $doubleclickbidmanagerService = new Google\Service\DoubleClickBidManager(...);
- *   $reports = $doubleclickbidmanagerService->reports;
+ *   $reports = $doubleclickbidmanagerService->queries_reports;
  *  </code>
  */
 class QueriesReports extends \Google\Service\Resource

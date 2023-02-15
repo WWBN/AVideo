@@ -50,6 +50,7 @@ class GoodocOverrides extends \Google\Collection
   public $pageBreakBefore;
   protected $styleType = GoodocOverridesStyle::class;
   protected $styleDataType = 'array';
+  public $style;
   /**
    * @var string
    */

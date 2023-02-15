@@ -22,6 +22,7 @@ class SavedColumnList extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = SavedColumn::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

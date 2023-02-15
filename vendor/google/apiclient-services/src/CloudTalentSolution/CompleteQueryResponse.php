@@ -22,8 +22,10 @@ class CompleteQueryResponse extends \Google\Collection
   protected $collection_key = 'completionResults';
   protected $completionResultsType = CompletionResult::class;
   protected $completionResultsDataType = 'array';
+  public $completionResults;
   protected $metadataType = ResponseMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
 
   /**
    * @param CompletionResult[]

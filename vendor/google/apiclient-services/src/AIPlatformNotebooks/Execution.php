@@ -33,6 +33,7 @@ class Execution extends \Google\Model
   public $displayName;
   protected $executionTemplateType = ExecutionTemplate::class;
   protected $executionTemplateDataType = '';
+  public $executionTemplate;
   /**
    * @var string
    */

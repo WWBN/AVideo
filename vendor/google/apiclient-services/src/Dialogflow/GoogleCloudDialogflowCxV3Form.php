@@ -22,6 +22,7 @@ class GoogleCloudDialogflowCxV3Form extends \Google\Collection
   protected $collection_key = 'parameters';
   protected $parametersType = GoogleCloudDialogflowCxV3FormParameter::class;
   protected $parametersDataType = 'array';
+  public $parameters;
 
   /**
    * @param GoogleCloudDialogflowCxV3FormParameter[]

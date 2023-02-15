@@ -29,6 +29,7 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1BuiltImage extends \Google\Mode
   public $name;
   protected $pushTimingType = ContaineranalysisGoogleDevtoolsCloudbuildV1TimeSpan::class;
   protected $pushTimingDataType = '';
+  public $pushTiming;
 
   /**
    * @param string

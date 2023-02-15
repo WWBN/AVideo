@@ -21,6 +21,7 @@ class SlashCommandMetadata extends \Google\Model
 {
   protected $botType = User::class;
   protected $botDataType = '';
+  public $bot;
   /**
    * @var string
    */

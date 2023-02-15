@@ -21,8 +21,10 @@ class Comment extends \Google\Model
 {
   protected $authorType = CommentAuthor::class;
   protected $authorDataType = '';
+  public $author;
   protected $blogType = CommentBlog::class;
   protected $blogDataType = '';
+  public $blog;
   /**
    * @var string
    */
@@ -33,12 +35,14 @@ class Comment extends \Google\Model
   public $id;
   protected $inReplyToType = CommentInReplyTo::class;
   protected $inReplyToDataType = '';
+  public $inReplyTo;
   /**
    * @var string
    */
   public $kind;
   protected $postType = CommentPost::class;
   protected $postDataType = '';
+  public $post;
   /**
    * @var string
    */

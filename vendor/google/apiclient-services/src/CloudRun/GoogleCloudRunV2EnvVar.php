@@ -29,6 +29,7 @@ class GoogleCloudRunV2EnvVar extends \Google\Model
   public $value;
   protected $valueSourceType = GoogleCloudRunV2EnvVarSource::class;
   protected $valueSourceDataType = '';
+  public $valueSource;
 
   /**
    * @param string

@@ -21,14 +21,17 @@ class SocialGraphApiProtoContactMutationContext extends \Google\Model
 {
   protected $androidDeviceInfoType = SocialGraphApiProtoAndroidDeviceInfo::class;
   protected $androidDeviceInfoDataType = '';
+  public $androidDeviceInfo;
   protected $hostAppInfoType = SocialGraphApiProtoHostAppInfo::class;
   protected $hostAppInfoDataType = '';
+  public $hostAppInfo;
   /**
    * @var string
    */
   public $source;
   protected $thirdPartyInfoType = SocialGraphApiProtoThirdPartyInfo::class;
   protected $thirdPartyInfoDataType = '';
+  public $thirdPartyInfo;
   /**
    * @var string
    */

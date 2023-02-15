@@ -24,7 +24,7 @@ use Google\Service\Recommender\GoogleCloudRecommenderV1RecommenderConfig;
  * Typical usage is:
  *  <code>
  *   $recommenderService = new Google\Service\Recommender(...);
- *   $recommenders = $recommenderService->recommenders;
+ *   $recommenders = $recommenderService->organizations_locations_recommenders;
  *  </code>
  */
 class OrganizationsLocationsRecommenders extends \Google\Service\Resource

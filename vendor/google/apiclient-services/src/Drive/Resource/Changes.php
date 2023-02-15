@@ -83,7 +83,7 @@ class Changes extends \Google\Service\Resource
    * the Application Data folder or shared files which have not been added to My
    * Drive.
    * @opt_param string spaces A comma-separated list of spaces to query within the
-   * user corpus. Supported values are 'drive', 'appDataFolder' and 'photos'.
+   * corpora. Supported values are 'drive' and 'appDataFolder'.
    * @opt_param bool supportsAllDrives Whether the requesting application supports
    * both My Drives and shared drives.
    * @opt_param bool supportsTeamDrives Deprecated use supportsAllDrives instead.
@@ -129,7 +129,7 @@ class Changes extends \Google\Service\Resource
    * the Application Data folder or shared files which have not been added to My
    * Drive.
    * @opt_param string spaces A comma-separated list of spaces to query within the
-   * user corpus. Supported values are 'drive', 'appDataFolder' and 'photos'.
+   * corpora. Supported values are 'drive' and 'appDataFolder'.
    * @opt_param bool supportsAllDrives Whether the requesting application supports
    * both My Drives and shared drives.
    * @opt_param bool supportsTeamDrives Deprecated use supportsAllDrives instead.

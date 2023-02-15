@@ -22,6 +22,7 @@ class AppsPeopleOzExternalMergedpeopleapiSocialConnection extends \Google\Collec
   protected $collection_key = 'type';
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string[]
    */

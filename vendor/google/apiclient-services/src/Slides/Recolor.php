@@ -26,6 +26,7 @@ class Recolor extends \Google\Collection
   public $name;
   protected $recolorStopsType = ColorStop::class;
   protected $recolorStopsDataType = 'array';
+  public $recolorStops;
 
   /**
    * @param string

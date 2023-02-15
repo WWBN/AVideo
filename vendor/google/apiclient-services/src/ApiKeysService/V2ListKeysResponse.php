@@ -22,6 +22,7 @@ class V2ListKeysResponse extends \Google\Collection
   protected $collection_key = 'keys';
   protected $keysType = V2Key::class;
   protected $keysDataType = 'array';
+  public $keys;
   /**
    * @var string
    */

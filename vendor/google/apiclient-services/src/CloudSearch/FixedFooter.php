@@ -22,10 +22,13 @@ class FixedFooter extends \Google\Collection
   protected $collection_key = 'buttons';
   protected $buttonsType = Button::class;
   protected $buttonsDataType = 'array';
+  public $buttons;
   protected $primaryButtonType = TextButton::class;
   protected $primaryButtonDataType = '';
+  public $primaryButton;
   protected $secondaryButtonType = TextButton::class;
   protected $secondaryButtonDataType = '';
+  public $secondaryButton;
 
   /**
    * @param Button[]

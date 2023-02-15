@@ -21,6 +21,7 @@ class StartEnvironmentResponse extends \Google\Model
 {
   protected $environmentType = Environment::class;
   protected $environmentDataType = '';
+  public $environment;
 
   /**
    * @param Environment

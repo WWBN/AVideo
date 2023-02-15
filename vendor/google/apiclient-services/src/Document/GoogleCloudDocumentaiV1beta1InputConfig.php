@@ -21,6 +21,7 @@ class GoogleCloudDocumentaiV1beta1InputConfig extends \Google\Model
 {
   protected $gcsSourceType = GoogleCloudDocumentaiV1beta1GcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
   /**
    * @var string
    */

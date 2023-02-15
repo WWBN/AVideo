@@ -21,6 +21,7 @@ class UndeleteServiceAccountResponse extends \Google\Model
 {
   protected $restoredAccountType = ServiceAccount::class;
   protected $restoredAccountDataType = '';
+  public $restoredAccount;
 
   /**
    * @param ServiceAccount

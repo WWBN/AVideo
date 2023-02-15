@@ -29,8 +29,10 @@ class GlossaryEntry extends \Google\Model
   public $name;
   protected $termsPairType = GlossaryTermsPair::class;
   protected $termsPairDataType = '';
+  public $termsPair;
   protected $termsSetType = GlossaryTermsSet::class;
   protected $termsSetDataType = '';
+  public $termsSet;
 
   /**
    * @param string

@@ -21,6 +21,7 @@ class GoogleCloudDatalabelingV1p2alpha1LabelImageBoundingPolyOperationMetadata e
 {
   protected $basicConfigType = GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig::class;
   protected $basicConfigDataType = '';
+  public $basicConfig;
 
   /**
    * @param GoogleCloudDatalabelingV1p2alpha1HumanAnnotationConfig

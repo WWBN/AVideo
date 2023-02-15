@@ -22,6 +22,7 @@ class GoogleCloudDataplexV1ListContentResponse extends \Google\Collection
   protected $collection_key = 'content';
   protected $contentType = GoogleCloudDataplexV1Content::class;
   protected $contentDataType = 'array';
+  public $content;
   /**
    * @var string
    */

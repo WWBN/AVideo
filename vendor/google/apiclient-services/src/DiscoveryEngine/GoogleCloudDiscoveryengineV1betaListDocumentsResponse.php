@@ -22,6 +22,7 @@ class GoogleCloudDiscoveryengineV1betaListDocumentsResponse extends \Google\Coll
   protected $collection_key = 'documents';
   protected $documentsType = GoogleCloudDiscoveryengineV1betaDocument::class;
   protected $documentsDataType = 'array';
+  public $documents;
   /**
    * @var string
    */

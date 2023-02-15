@@ -21,8 +21,10 @@ class UpdateSchemaRequest extends \Google\Model
 {
   protected $debugOptionsType = DebugOptions::class;
   protected $debugOptionsDataType = '';
+  public $debugOptions;
   protected $schemaType = Schema::class;
   protected $schemaDataType = '';
+  public $schema;
   /**
    * @var bool
    */

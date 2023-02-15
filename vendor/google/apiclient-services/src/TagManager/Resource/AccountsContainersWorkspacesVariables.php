@@ -26,7 +26,7 @@ use Google\Service\TagManager\Variable;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $variables = $tagmanagerService->variables;
+ *   $variables = $tagmanagerService->accounts_containers_workspaces_variables;
  *  </code>
  */
 class AccountsContainersWorkspacesVariables extends \Google\Service\Resource

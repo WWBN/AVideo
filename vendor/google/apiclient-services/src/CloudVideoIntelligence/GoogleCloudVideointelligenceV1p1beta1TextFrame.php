@@ -21,6 +21,7 @@ class GoogleCloudVideointelligenceV1p1beta1TextFrame extends \Google\Model
 {
   protected $rotatedBoundingBoxType = GoogleCloudVideointelligenceV1p1beta1NormalizedBoundingPoly::class;
   protected $rotatedBoundingBoxDataType = '';
+  public $rotatedBoundingBox;
   /**
    * @var string
    */

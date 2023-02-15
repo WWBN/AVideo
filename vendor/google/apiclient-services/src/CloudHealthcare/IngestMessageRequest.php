@@ -21,6 +21,7 @@ class IngestMessageRequest extends \Google\Model
 {
   protected $messageType = Message::class;
   protected $messageDataType = '';
+  public $message;
 
   /**
    * @param Message

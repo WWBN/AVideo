@@ -22,14 +22,6 @@ class RepositoryWebrefDetailedEntityScores extends \Google\Model
   /**
    * @var float
    */
-  public $anchorScore;
-  /**
-   * @var float
-   */
-  public $bodyScore;
-  /**
-   * @var float
-   */
   public $connectedness;
   /**
    * @var float
@@ -58,54 +50,15 @@ class RepositoryWebrefDetailedEntityScores extends \Google\Model
   /**
    * @var float
    */
-  public $nbScore;
-  /**
-   * @var float
-   */
-  public $newConfidenceExperimentalDontUse;
-  /**
-   * @var float
-   */
-  public $newsTopicalityScore;
-  /**
-   * @var float
-   */
   public $normalizedTopicality;
   protected $referencePageScoresType = RepositoryWebrefReferencePageScores::class;
   protected $referencePageScoresDataType = '';
+  public $referencePageScores;
   /**
    * @var float
    */
   public $relevanceScore;
 
-  /**
-   * @param float
-   */
-  public function setAnchorScore($anchorScore)
-  {
-    $this->anchorScore = $anchorScore;
-  }
-  /**
-   * @return float
-   */
-  public function getAnchorScore()
-  {
-    return $this->anchorScore;
-  }
-  /**
-   * @param float
-   */
-  public function setBodyScore($bodyScore)
-  {
-    $this->bodyScore = $bodyScore;
-  }
-  /**
-   * @return float
-   */
-  public function getBodyScore()
-  {
-    return $this->bodyScore;
-  }
   /**
    * @param float
    */
@@ -203,48 +156,6 @@ class RepositoryWebrefDetailedEntityScores extends \Google\Model
   public function getLocalEntityLocationConfidence()
   {
     return $this->localEntityLocationConfidence;
-  }
-  /**
-   * @param float
-   */
-  public function setNbScore($nbScore)
-  {
-    $this->nbScore = $nbScore;
-  }
-  /**
-   * @return float
-   */
-  public function getNbScore()
-  {
-    return $this->nbScore;
-  }
-  /**
-   * @param float
-   */
-  public function setNewConfidenceExperimentalDontUse($newConfidenceExperimentalDontUse)
-  {
-    $this->newConfidenceExperimentalDontUse = $newConfidenceExperimentalDontUse;
-  }
-  /**
-   * @return float
-   */
-  public function getNewConfidenceExperimentalDontUse()
-  {
-    return $this->newConfidenceExperimentalDontUse;
-  }
-  /**
-   * @param float
-   */
-  public function setNewsTopicalityScore($newsTopicalityScore)
-  {
-    $this->newsTopicalityScore = $newsTopicalityScore;
-  }
-  /**
-   * @return float
-   */
-  public function getNewsTopicalityScore()
-  {
-    return $this->newsTopicalityScore;
   }
   /**
    * @param float

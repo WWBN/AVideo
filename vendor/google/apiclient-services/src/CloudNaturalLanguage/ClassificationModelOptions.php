@@ -21,8 +21,10 @@ class ClassificationModelOptions extends \Google\Model
 {
   protected $v1ModelType = V1Model::class;
   protected $v1ModelDataType = '';
+  public $v1Model;
   protected $v2ModelType = V2Model::class;
   protected $v2ModelDataType = '';
+  public $v2Model;
 
   /**
    * @param V1Model

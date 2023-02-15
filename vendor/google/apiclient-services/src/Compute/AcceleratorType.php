@@ -25,6 +25,7 @@ class AcceleratorType extends \Google\Model
   public $creationTimestamp;
   protected $deprecatedType = DeprecationStatus::class;
   protected $deprecatedDataType = '';
+  public $deprecated;
   /**
    * @var string
    */

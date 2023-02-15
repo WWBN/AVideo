@@ -21,6 +21,7 @@ class SubmitProvisioningConfigResponse extends \Google\Model
 {
   protected $provisioningConfigType = ProvisioningConfig::class;
   protected $provisioningConfigDataType = '';
+  public $provisioningConfig;
 
   /**
    * @param ProvisioningConfig

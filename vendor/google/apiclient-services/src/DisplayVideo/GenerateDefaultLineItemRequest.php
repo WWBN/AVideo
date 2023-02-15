@@ -33,6 +33,7 @@ class GenerateDefaultLineItemRequest extends \Google\Model
   public $lineItemType;
   protected $mobileAppType = MobileApp::class;
   protected $mobileAppDataType = '';
+  public $mobileApp;
 
   /**
    * @param string

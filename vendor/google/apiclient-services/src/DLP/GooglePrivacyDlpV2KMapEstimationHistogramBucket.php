@@ -30,6 +30,7 @@ class GooglePrivacyDlpV2KMapEstimationHistogramBucket extends \Google\Collection
   public $bucketValueCount;
   protected $bucketValuesType = GooglePrivacyDlpV2KMapEstimationQuasiIdValues::class;
   protected $bucketValuesDataType = 'array';
+  public $bucketValues;
   /**
    * @var string
    */

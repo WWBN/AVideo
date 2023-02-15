@@ -27,7 +27,7 @@ use Google\Service\AuthorizedBuyersMarketplace\ListDealsResponse;
  * Typical usage is:
  *  <code>
  *   $authorizedbuyersmarketplaceService = new Google\Service\AuthorizedBuyersMarketplace(...);
- *   $deals = $authorizedbuyersmarketplaceService->deals;
+ *   $deals = $authorizedbuyersmarketplaceService->buyers_proposals_deals;
  *  </code>
  */
 class BuyersProposalsDeals extends \Google\Service\Resource

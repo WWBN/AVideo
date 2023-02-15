@@ -33,6 +33,7 @@ class I18nRegion extends \Google\Model
   public $kind;
   protected $snippetType = I18nRegionSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
 
   /**
    * @param string

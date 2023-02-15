@@ -25,6 +25,7 @@ class ErrorMessage extends \Google\Model
   public $errorMessage;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
+  public $source;
 
   /**
    * @param string

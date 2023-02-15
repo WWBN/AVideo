@@ -22,6 +22,7 @@ class ProductstatusesCustomBatchRequest extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = ProductstatusesCustomBatchRequestEntry::class;
   protected $entriesDataType = 'array';
+  public $entries;
 
   /**
    * @param ProductstatusesCustomBatchRequestEntry[]

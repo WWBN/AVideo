@@ -21,6 +21,7 @@ class Job extends \Google\Model
 {
   protected $deployJobType = DeployJob::class;
   protected $deployJobDataType = '';
+  public $deployJob;
   /**
    * @var string
    */
@@ -35,6 +36,7 @@ class Job extends \Google\Model
   public $state;
   protected $verifyJobType = VerifyJob::class;
   protected $verifyJobDataType = '';
+  public $verifyJob;
 
   /**
    * @param DeployJob

@@ -22,6 +22,7 @@ class WindowsUpdatePackage extends \Google\Collection
   protected $collection_key = 'moreInfoUrls';
   protected $categoriesType = WindowsUpdateCategory::class;
   protected $categoriesDataType = 'array';
+  public $categories;
   /**
    * @var string
    */

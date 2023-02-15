@@ -25,24 +25,30 @@ class Item extends \Google\Model
   public $description;
   protected $imageItemType = ImageItem::class;
   protected $imageItemDataType = '';
+  public $imageItem;
   /**
    * @var string
    */
   public $itemId;
   protected $pageBreakItemType = PageBreakItem::class;
   protected $pageBreakItemDataType = '';
+  public $pageBreakItem;
   protected $questionGroupItemType = QuestionGroupItem::class;
   protected $questionGroupItemDataType = '';
+  public $questionGroupItem;
   protected $questionItemType = QuestionItem::class;
   protected $questionItemDataType = '';
+  public $questionItem;
   protected $textItemType = TextItem::class;
   protected $textItemDataType = '';
+  public $textItem;
   /**
    * @var string
    */
   public $title;
   protected $videoItemType = VideoItem::class;
   protected $videoItemDataType = '';
+  public $videoItem;
 
   /**
    * @param string

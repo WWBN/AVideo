@@ -21,10 +21,13 @@ class GoogleCloudDialogflowCxV3DetectIntentRequest extends \Google\Model
 {
   protected $outputAudioConfigType = GoogleCloudDialogflowCxV3OutputAudioConfig::class;
   protected $outputAudioConfigDataType = '';
+  public $outputAudioConfig;
   protected $queryInputType = GoogleCloudDialogflowCxV3QueryInput::class;
   protected $queryInputDataType = '';
+  public $queryInput;
   protected $queryParamsType = GoogleCloudDialogflowCxV3QueryParameters::class;
   protected $queryParamsDataType = '';
+  public $queryParams;
 
   /**
    * @param GoogleCloudDialogflowCxV3OutputAudioConfig

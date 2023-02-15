@@ -22,6 +22,7 @@ class FileUploadAnswers extends \Google\Collection
   protected $collection_key = 'answers';
   protected $answersType = FileUploadAnswer::class;
   protected $answersDataType = 'array';
+  public $answers;
 
   /**
    * @param FileUploadAnswer[]

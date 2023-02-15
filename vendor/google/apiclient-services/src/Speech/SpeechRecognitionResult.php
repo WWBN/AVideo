@@ -22,6 +22,7 @@ class SpeechRecognitionResult extends \Google\Collection
   protected $collection_key = 'alternatives';
   protected $alternativesType = SpeechRecognitionAlternative::class;
   protected $alternativesDataType = 'array';
+  public $alternatives;
   /**
    * @var int
    */

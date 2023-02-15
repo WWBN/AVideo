@@ -30,6 +30,7 @@ class Image extends \Google\Model
   public $imageUrl;
   protected $onClickType = OnClick::class;
   protected $onClickDataType = '';
+  public $onClick;
 
   /**
    * @param string

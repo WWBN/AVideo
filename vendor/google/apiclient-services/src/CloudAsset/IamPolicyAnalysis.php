@@ -22,14 +22,17 @@ class IamPolicyAnalysis extends \Google\Collection
   protected $collection_key = 'nonCriticalErrors';
   protected $analysisQueryType = IamPolicyAnalysisQuery::class;
   protected $analysisQueryDataType = '';
+  public $analysisQuery;
   protected $analysisResultsType = IamPolicyAnalysisResult::class;
   protected $analysisResultsDataType = 'array';
+  public $analysisResults;
   /**
    * @var bool
    */
   public $fullyExplored;
   protected $nonCriticalErrorsType = IamPolicyAnalysisState::class;
   protected $nonCriticalErrorsDataType = 'array';
+  public $nonCriticalErrors;
 
   /**
    * @param IamPolicyAnalysisQuery

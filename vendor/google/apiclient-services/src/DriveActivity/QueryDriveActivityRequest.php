@@ -25,6 +25,7 @@ class QueryDriveActivityRequest extends \Google\Model
   public $ancestorName;
   protected $consolidationStrategyType = ConsolidationStrategy::class;
   protected $consolidationStrategyDataType = '';
+  public $consolidationStrategy;
   /**
    * @var string
    */

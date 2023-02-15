@@ -22,6 +22,7 @@ class GoogleCloudDialogflowCxV3beta1ImportTestCasesMetadata extends \Google\Coll
   protected $collection_key = 'errors';
   protected $errorsType = GoogleCloudDialogflowCxV3beta1TestCaseError::class;
   protected $errorsDataType = 'array';
+  public $errors;
 
   /**
    * @param GoogleCloudDialogflowCxV3beta1TestCaseError[]

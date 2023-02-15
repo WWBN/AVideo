@@ -21,6 +21,7 @@ class SecuritySettings extends \Google\Model
 {
   protected $memberRestrictionType = MemberRestriction::class;
   protected $memberRestrictionDataType = '';
+  public $memberRestriction;
   /**
    * @var string
    */

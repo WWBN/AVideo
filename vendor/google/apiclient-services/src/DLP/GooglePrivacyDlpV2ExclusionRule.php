@@ -21,16 +21,20 @@ class GooglePrivacyDlpV2ExclusionRule extends \Google\Model
 {
   protected $dictionaryType = GooglePrivacyDlpV2Dictionary::class;
   protected $dictionaryDataType = '';
+  public $dictionary;
   protected $excludeByHotwordType = GooglePrivacyDlpV2ExcludeByHotword::class;
   protected $excludeByHotwordDataType = '';
+  public $excludeByHotword;
   protected $excludeInfoTypesType = GooglePrivacyDlpV2ExcludeInfoTypes::class;
   protected $excludeInfoTypesDataType = '';
+  public $excludeInfoTypes;
   /**
    * @var string
    */
   public $matchingType;
   protected $regexType = GooglePrivacyDlpV2Regex::class;
   protected $regexDataType = '';
+  public $regex;
 
   /**
    * @param GooglePrivacyDlpV2Dictionary

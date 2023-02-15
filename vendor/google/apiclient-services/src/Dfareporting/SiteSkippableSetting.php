@@ -25,8 +25,10 @@ class SiteSkippableSetting extends \Google\Model
   public $kind;
   protected $progressOffsetType = VideoOffset::class;
   protected $progressOffsetDataType = '';
+  public $progressOffset;
   protected $skipOffsetType = VideoOffset::class;
   protected $skipOffsetDataType = '';
+  public $skipOffset;
   /**
    * @var bool
    */

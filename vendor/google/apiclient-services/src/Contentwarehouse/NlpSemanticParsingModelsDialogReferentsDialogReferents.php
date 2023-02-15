@@ -22,18 +22,23 @@ class NlpSemanticParsingModelsDialogReferentsDialogReferents extends \Google\Col
   protected $collection_key = 'taskMention';
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   protected $fieldType = NlpSemanticParsingModelsDialogReferentsListSelection::class;
   protected $fieldDataType = '';
+  public $field;
   /**
    * @var int
    */
   public $index;
   protected $nextType = NlpSemanticParsingModelsDialogReferentsDialogReferents::class;
   protected $nextDataType = '';
+  public $next;
   protected $selectionType = NlpSemanticParsingModelsDialogReferentsListSelection::class;
   protected $selectionDataType = 'array';
+  public $selection;
   protected $taskMentionType = NlpSemanticParsingModelsDialogReferentsListSelection::class;
   protected $taskMentionDataType = 'array';
+  public $taskMention;
 
   /**
    * @param NlpSemanticParsingAnnotationEvalData

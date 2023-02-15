@@ -22,8 +22,10 @@ class NlpSemanticParsingPersonalReferenceAnnotation extends \Google\Collection
   protected $collection_key = 'resolutions';
   protected $referenceType = NlpSemanticParsingQRefAnnotation::class;
   protected $referenceDataType = '';
+  public $reference;
   protected $resolutionsType = NlpSemanticParsingQRefAnnotation::class;
   protected $resolutionsDataType = 'array';
+  public $resolutions;
 
   /**
    * @param NlpSemanticParsingQRefAnnotation

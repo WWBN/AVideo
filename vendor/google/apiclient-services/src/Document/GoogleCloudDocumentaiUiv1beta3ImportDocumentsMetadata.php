@@ -22,10 +22,13 @@ class GoogleCloudDocumentaiUiv1beta3ImportDocumentsMetadata extends \Google\Coll
   protected $collection_key = 'individualImportStatuses';
   protected $commonMetadataType = GoogleCloudDocumentaiUiv1beta3CommonOperationMetadata::class;
   protected $commonMetadataDataType = '';
+  public $commonMetadata;
   protected $importConfigValidationResultsType = GoogleCloudDocumentaiUiv1beta3ImportDocumentsMetadataImportConfigValidationResult::class;
   protected $importConfigValidationResultsDataType = 'array';
+  public $importConfigValidationResults;
   protected $individualImportStatusesType = GoogleCloudDocumentaiUiv1beta3ImportDocumentsMetadataIndividualImportStatus::class;
   protected $individualImportStatusesDataType = 'array';
+  public $individualImportStatuses;
   /**
    * @var int
    */

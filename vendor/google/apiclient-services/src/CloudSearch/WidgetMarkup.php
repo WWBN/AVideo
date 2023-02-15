@@ -22,32 +22,44 @@ class WidgetMarkup extends \Google\Collection
   protected $collection_key = 'buttons';
   protected $buttonsType = Button::class;
   protected $buttonsDataType = 'array';
+  public $buttons;
   protected $dateTimePickerType = DateTimePicker::class;
   protected $dateTimePickerDataType = '';
+  public $dateTimePicker;
   protected $dividerType = Divider::class;
   protected $dividerDataType = '';
+  public $divider;
   protected $gridType = Grid::class;
   protected $gridDataType = '';
+  public $grid;
   /**
    * @var string
    */
   public $horizontalAlignment;
   protected $imageType = Image::class;
   protected $imageDataType = '';
+  public $image;
   protected $imageKeyValueType = ImageKeyValue::class;
   protected $imageKeyValueDataType = '';
+  public $imageKeyValue;
   protected $keyValueType = KeyValue::class;
   protected $keyValueDataType = '';
+  public $keyValue;
   protected $menuType = Menu::class;
   protected $menuDataType = '';
+  public $menu;
   protected $selectionControlType = SelectionControl::class;
   protected $selectionControlDataType = '';
+  public $selectionControl;
   protected $textFieldType = TextField::class;
   protected $textFieldDataType = '';
+  public $textField;
   protected $textKeyValueType = TextKeyValue::class;
   protected $textKeyValueDataType = '';
+  public $textKeyValue;
   protected $textParagraphType = TextParagraph::class;
   protected $textParagraphDataType = '';
+  public $textParagraph;
 
   /**
    * @param Button[]

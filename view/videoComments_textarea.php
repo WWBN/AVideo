@@ -30,14 +30,14 @@ if (!User::canComment()) {
     if (User::isAdmin()) {
         ?>
         <div class="col-xs-12">
-            <label for="comment_users_id"><?php echo __('Select a user to comment as if you were him'); ?></label>  
+            <label for="comment_users_id"><?php echo __('Select a user to comment as if you were him'); ?></label>
         </div>
         <?php
         $users_autocomplete = Layout::getUserAutocomplete(0, 'comment_users_id');
     }
     ?>
     <div class="col-xs-10 col-lg-9" style="padding-right: 1px;">
-        <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment"  
+        <textarea class="form-control custom-control" rows="3" style="resize:none" id="comment"
                   <?php echo $disabled; ?>><?php
                       echo $content;
                       ?></textarea>

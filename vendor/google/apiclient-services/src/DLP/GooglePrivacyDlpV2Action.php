@@ -21,18 +21,25 @@ class GooglePrivacyDlpV2Action extends \Google\Model
 {
   protected $deidentifyType = GooglePrivacyDlpV2Deidentify::class;
   protected $deidentifyDataType = '';
+  public $deidentify;
   protected $jobNotificationEmailsType = GooglePrivacyDlpV2JobNotificationEmails::class;
   protected $jobNotificationEmailsDataType = '';
+  public $jobNotificationEmails;
   protected $pubSubType = GooglePrivacyDlpV2PublishToPubSub::class;
   protected $pubSubDataType = '';
+  public $pubSub;
   protected $publishFindingsToCloudDataCatalogType = GooglePrivacyDlpV2PublishFindingsToCloudDataCatalog::class;
   protected $publishFindingsToCloudDataCatalogDataType = '';
+  public $publishFindingsToCloudDataCatalog;
   protected $publishSummaryToCsccType = GooglePrivacyDlpV2PublishSummaryToCscc::class;
   protected $publishSummaryToCsccDataType = '';
+  public $publishSummaryToCscc;
   protected $publishToStackdriverType = GooglePrivacyDlpV2PublishToStackdriver::class;
   protected $publishToStackdriverDataType = '';
+  public $publishToStackdriver;
   protected $saveFindingsType = GooglePrivacyDlpV2SaveFindings::class;
   protected $saveFindingsDataType = '';
+  public $saveFindings;
 
   /**
    * @param GooglePrivacyDlpV2Deidentify

@@ -29,7 +29,7 @@ use Google\Service\FirebaseManagement\WebAppConfig;
  * Typical usage is:
  *  <code>
  *   $firebaseService = new Google\Service\FirebaseManagement(...);
- *   $webApps = $firebaseService->webApps;
+ *   $webApps = $firebaseService->projects_webApps;
  *  </code>
  */
 class ProjectsWebApps extends \Google\Service\Resource

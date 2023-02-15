@@ -25,7 +25,7 @@ use Google\Service\BigtableAdmin\Location;
  * Typical usage is:
  *  <code>
  *   $bigtableadminService = new Google\Service\BigtableAdmin(...);
- *   $locations = $bigtableadminService->locations;
+ *   $locations = $bigtableadminService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

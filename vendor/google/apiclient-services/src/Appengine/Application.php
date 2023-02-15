@@ -46,14 +46,17 @@ class Application extends \Google\Collection
   public $defaultHostname;
   protected $dispatchRulesType = UrlDispatchRule::class;
   protected $dispatchRulesDataType = 'array';
+  public $dispatchRules;
   protected $featureSettingsType = FeatureSettings::class;
   protected $featureSettingsDataType = '';
+  public $featureSettings;
   /**
    * @var string
    */
   public $gcrDomain;
   protected $iapType = IdentityAwareProxy::class;
   protected $iapDataType = '';
+  public $iap;
   /**
    * @var string
    */

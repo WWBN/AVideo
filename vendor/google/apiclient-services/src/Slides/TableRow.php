@@ -22,10 +22,13 @@ class TableRow extends \Google\Collection
   protected $collection_key = 'tableCells';
   protected $rowHeightType = Dimension::class;
   protected $rowHeightDataType = '';
+  public $rowHeight;
   protected $tableCellsType = TableCell::class;
   protected $tableCellsDataType = 'array';
+  public $tableCells;
   protected $tableRowPropertiesType = TableRowProperties::class;
   protected $tableRowPropertiesDataType = '';
+  public $tableRowProperties;
 
   /**
    * @param Dimension

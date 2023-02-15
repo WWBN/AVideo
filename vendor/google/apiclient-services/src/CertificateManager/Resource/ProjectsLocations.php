@@ -25,7 +25,7 @@ use Google\Service\CertificateManager\Location;
  * Typical usage is:
  *  <code>
  *   $certificatemanagerService = new Google\Service\CertificateManager(...);
- *   $locations = $certificatemanagerService->locations;
+ *   $locations = $certificatemanagerService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

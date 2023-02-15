@@ -33,6 +33,7 @@ class ResponseMetaData extends \Google\Model
   public $emptyReason;
   protected $schemaRestrictionResponseType = SchemaRestrictionResponse::class;
   protected $schemaRestrictionResponseDataType = '';
+  public $schemaRestrictionResponse;
   /**
    * @var bool
    */

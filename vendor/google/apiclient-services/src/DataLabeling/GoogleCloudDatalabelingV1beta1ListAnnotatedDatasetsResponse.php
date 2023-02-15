@@ -22,6 +22,7 @@ class GoogleCloudDatalabelingV1beta1ListAnnotatedDatasetsResponse extends \Googl
   protected $collection_key = 'annotatedDatasets';
   protected $annotatedDatasetsType = GoogleCloudDatalabelingV1beta1AnnotatedDataset::class;
   protected $annotatedDatasetsDataType = 'array';
+  public $annotatedDatasets;
   /**
    * @var string
    */

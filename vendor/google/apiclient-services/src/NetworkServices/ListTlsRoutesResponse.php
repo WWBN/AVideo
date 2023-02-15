@@ -26,6 +26,7 @@ class ListTlsRoutesResponse extends \Google\Collection
   public $nextPageToken;
   protected $tlsRoutesType = TlsRoute::class;
   protected $tlsRoutesDataType = 'array';
+  public $tlsRoutes;
 
   /**
    * @param string

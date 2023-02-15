@@ -21,6 +21,7 @@ class EnableServiceResponse extends \Google\Model
 {
   protected $serviceType = GoogleApiServiceusageV1Service::class;
   protected $serviceDataType = '';
+  public $service;
 
   /**
    * @param GoogleApiServiceusageV1Service

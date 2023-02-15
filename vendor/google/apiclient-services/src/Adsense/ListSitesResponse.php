@@ -26,6 +26,7 @@ class ListSitesResponse extends \Google\Collection
   public $nextPageToken;
   protected $sitesType = Site::class;
   protected $sitesDataType = 'array';
+  public $sites;
 
   /**
    * @param string

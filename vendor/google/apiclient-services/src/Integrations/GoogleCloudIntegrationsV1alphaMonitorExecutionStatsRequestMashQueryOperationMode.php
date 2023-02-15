@@ -21,12 +21,14 @@ class GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestMashQueryOperati
 {
   protected $joinConfigType = GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestMashQueryOperationModeJoinConfig::class;
   protected $joinConfigDataType = '';
+  public $joinConfig;
   /**
    * @var string
    */
   public $operationType;
   protected $unionConfigType = GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestMashQueryOperationModeUnionConfig::class;
   protected $unionConfigDataType = '';
+  public $unionConfig;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestMashQueryOperationModeJoinConfig

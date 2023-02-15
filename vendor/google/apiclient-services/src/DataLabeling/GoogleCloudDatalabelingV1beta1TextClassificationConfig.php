@@ -29,6 +29,7 @@ class GoogleCloudDatalabelingV1beta1TextClassificationConfig extends \Google\Mod
   public $annotationSpecSet;
   protected $sentimentConfigType = GoogleCloudDatalabelingV1beta1SentimentConfig::class;
   protected $sentimentConfigDataType = '';
+  public $sentimentConfig;
 
   /**
    * @param bool

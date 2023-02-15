@@ -64,8 +64,10 @@ class GoodocSemanticLabel extends \Google\Collection
   public $continuesOnNextPage;
   protected $endOfSpanningLabelType = GoodocLogicalEntity::class;
   protected $endOfSpanningLabelDataType = '';
+  public $endOfSpanningLabel;
   protected $experimentalDataType = Proto2BridgeMessageSet::class;
   protected $experimentalDataDataType = '';
+  public $experimentalData;
   /**
    * @var string
    */
@@ -76,24 +78,32 @@ class GoodocSemanticLabel extends \Google\Collection
   public $modificationRecord;
   protected $pageNumberOrdinalType = GoodocOrdinal::class;
   protected $pageNumberOrdinalDataType = '';
+  public $pageNumberOrdinal;
   /**
    * @var int
    */
   public $appearance;
   protected $columndetailsType = GoodocSemanticLabelColumnDetails::class;
   protected $columndetailsDataType = '';
+  public $columndetails;
   protected $contentlinkType = GoodocSemanticLabelContentLink::class;
   protected $contentlinkDataType = '';
+  public $contentlink;
   protected $editcorrectioncandidateType = GoodocSemanticLabelEditCorrectionCandidate::class;
   protected $editcorrectioncandidateDataType = 'array';
+  public $editcorrectioncandidate;
   protected $overridesType = GoodocOverrides::class;
   protected $overridesDataType = '';
+  public $overrides;
   protected $snippetfilterType = GoodocSemanticLabelSnippetFilter::class;
   protected $snippetfilterDataType = 'array';
+  public $snippetfilter;
   protected $tablecelldetailsType = GoodocSemanticLabelTableCellDetails::class;
   protected $tablecelldetailsDataType = '';
+  public $tablecelldetails;
   protected $tabledetailsType = GoodocSemanticLabelTableDetails::class;
   protected $tabledetailsDataType = '';
+  public $tabledetails;
 
   /**
    * @param string

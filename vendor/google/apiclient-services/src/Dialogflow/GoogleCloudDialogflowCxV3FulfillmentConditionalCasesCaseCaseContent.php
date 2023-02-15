@@ -21,8 +21,10 @@ class GoogleCloudDialogflowCxV3FulfillmentConditionalCasesCaseCaseContent extend
 {
   protected $additionalCasesType = GoogleCloudDialogflowCxV3FulfillmentConditionalCases::class;
   protected $additionalCasesDataType = '';
+  public $additionalCases;
   protected $messageType = GoogleCloudDialogflowCxV3ResponseMessage::class;
   protected $messageDataType = '';
+  public $message;
 
   /**
    * @param GoogleCloudDialogflowCxV3FulfillmentConditionalCases

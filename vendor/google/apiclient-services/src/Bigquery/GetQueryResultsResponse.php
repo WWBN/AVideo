@@ -26,6 +26,7 @@ class GetQueryResultsResponse extends \Google\Collection
   public $cacheHit;
   protected $errorsType = ErrorProto::class;
   protected $errorsDataType = 'array';
+  public $errors;
   /**
    * @var string
    */
@@ -36,6 +37,7 @@ class GetQueryResultsResponse extends \Google\Collection
   public $jobComplete;
   protected $jobReferenceType = JobReference::class;
   protected $jobReferenceDataType = '';
+  public $jobReference;
   /**
    * @var string
    */
@@ -50,8 +52,10 @@ class GetQueryResultsResponse extends \Google\Collection
   public $pageToken;
   protected $rowsType = TableRow::class;
   protected $rowsDataType = 'array';
+  public $rows;
   protected $schemaType = TableSchema::class;
   protected $schemaDataType = '';
+  public $schema;
   /**
    * @var string
    */

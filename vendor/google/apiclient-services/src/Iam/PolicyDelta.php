@@ -22,6 +22,7 @@ class PolicyDelta extends \Google\Collection
   protected $collection_key = 'bindingDeltas';
   protected $bindingDeltasType = BindingDelta::class;
   protected $bindingDeltasDataType = 'array';
+  public $bindingDeltas;
 
   /**
    * @param BindingDelta[]

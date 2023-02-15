@@ -26,6 +26,7 @@ class Report extends \Google\Collection
   public $averages;
   protected $headersType = ReportHeaders::class;
   protected $headersDataType = 'array';
+  public $headers;
   /**
    * @var string
    */

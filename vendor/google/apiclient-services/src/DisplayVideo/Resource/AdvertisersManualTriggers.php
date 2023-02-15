@@ -27,7 +27,7 @@ use Google\Service\DisplayVideo\ManualTrigger;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $manualTriggers = $displayvideoService->manualTriggers;
+ *   $manualTriggers = $displayvideoService->advertisers_manualTriggers;
  *  </code>
  */
 class AdvertisersManualTriggers extends \Google\Service\Resource

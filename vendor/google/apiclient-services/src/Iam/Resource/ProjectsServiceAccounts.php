@@ -40,7 +40,7 @@ use Google\Service\Iam\UndeleteServiceAccountResponse;
  * Typical usage is:
  *  <code>
  *   $iamService = new Google\Service\Iam(...);
- *   $serviceAccounts = $iamService->serviceAccounts;
+ *   $serviceAccounts = $iamService->projects_serviceAccounts;
  *  </code>
  */
 class ProjectsServiceAccounts extends \Google\Service\Resource
@@ -73,11 +73,18 @@ class ProjectsServiceAccounts extends \Google\Service\Resource
    * unintended consequences, you can delete the service account.
    * (serviceAccounts.delete)
    *
-   * @param string $name Required. The resource name of the service account in the
-   * following format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. Using
-   * `-` as a wildcard for the `PROJECT_ID` will infer the project from the
-   * account. The `ACCOUNT` value can be the `email` address or the `unique_id` of
-   * the service account.
+   * @param string $name Required. The resource name of the service account. Use
+   * one of the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you
+   * can use the `-` wildcard character instead of the project ID: *
+   * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
+   * wildcard character, because it can cause response messages to contain
+   * misleading error codes. For example, if you try to access the service account
+   * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
+   * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
+   * error.
    * @param array $optParams Optional parameters.
    * @return IamEmpty
    */
@@ -100,11 +107,17 @@ class ProjectsServiceAccounts extends \Google\Service\Resource
    * consequences. If there are no unintended consequences, you can delete the
    * service account with DeleteServiceAccount. (serviceAccounts.disable)
    *
-   * @param string $name The resource name of the service account in the following
-   * format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. Using `-` as a
-   * wildcard for the `PROJECT_ID` will infer the project from the account. The
-   * `ACCOUNT` value can be the `email` address or the `unique_id` of the service
-   * account.
+   * @param string $name The resource name of the service account. Use one of the
+   * following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}`
+   * * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you
+   * can use the `-` wildcard character instead of the project ID: *
+   * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
+   * wildcard character, because it can cause response messages to contain
+   * misleading error codes. For example, if you try to access the service account
+   * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
+   * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
+   * error.
    * @param DisableServiceAccountRequest $postBody
    * @param array $optParams Optional parameters.
    * @return IamEmpty
@@ -122,11 +135,17 @@ class ProjectsServiceAccounts extends \Google\Service\Resource
    * the service account because it was compromised—you cannot use this method to
    * enable the service account. (serviceAccounts.enable)
    *
-   * @param string $name The resource name of the service account in the following
-   * format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. Using `-` as a
-   * wildcard for the `PROJECT_ID` will infer the project from the account. The
-   * `ACCOUNT` value can be the `email` address or the `unique_id` of the service
-   * account.
+   * @param string $name The resource name of the service account. Use one of the
+   * following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}`
+   * * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you
+   * can use the `-` wildcard character instead of the project ID: *
+   * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
+   * wildcard character, because it can cause response messages to contain
+   * misleading error codes. For example, if you try to access the service account
+   * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
+   * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
+   * error.
    * @param EnableServiceAccountRequest $postBody
    * @param array $optParams Optional parameters.
    * @return IamEmpty
@@ -140,11 +159,18 @@ class ProjectsServiceAccounts extends \Google\Service\Resource
   /**
    * Gets a ServiceAccount. (serviceAccounts.get)
    *
-   * @param string $name Required. The resource name of the service account in the
-   * following format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. Using
-   * `-` as a wildcard for the `PROJECT_ID` will infer the project from the
-   * account. The `ACCOUNT` value can be the `email` address or the `unique_id` of
-   * the service account.
+   * @param string $name Required. The resource name of the service account. Use
+   * one of the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you
+   * can use the `-` wildcard character instead of the project ID: *
+   * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
+   * wildcard character, because it can cause response messages to contain
+   * misleading error codes. For example, if you try to access the service account
+   * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
+   * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
+   * error.
    * @param array $optParams Optional parameters.
    * @return ServiceAccount
    */
@@ -223,7 +249,7 @@ class ProjectsServiceAccounts extends \Google\Service\Resource
    * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
    * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
    * wildcard character, because it can cause response messages to contain
-   * misleading error codes. For example, if you try to get the service account
+   * misleading error codes. For example, if you try to access the service account
    * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
    * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
    * error.
@@ -277,10 +303,17 @@ class ProjectsServiceAccounts extends \Google\Service\Resource
    *
    * @param string $name Required. Deprecated. [Migrate to Service Account
    * Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api).
-   * The resource name of the service account in the following format:
-   * `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. Using `-` as a wildcard
-   * for the `PROJECT_ID` will infer the project from the account. The `ACCOUNT`
-   * value can be the `email` address or the `unique_id` of the service account.
+   * The resource name of the service account. Use one of the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you
+   * can use the `-` wildcard character instead of the project ID: *
+   * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
+   * wildcard character, because it can cause response messages to contain
+   * misleading error codes. For example, if you try to access the service account
+   * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
+   * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
+   * error.
    * @param SignBlobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SignBlobResponse
@@ -302,10 +335,17 @@ class ProjectsServiceAccounts extends \Google\Service\Resource
    *
    * @param string $name Required. Deprecated. [Migrate to Service Account
    * Credentials API](https://cloud.google.com/iam/help/credentials/migrate-api).
-   * The resource name of the service account in the following format:
-   * `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. Using `-` as a wildcard
-   * for the `PROJECT_ID` will infer the project from the account. The `ACCOUNT`
-   * value can be the `email` address or the `unique_id` of the service account.
+   * The resource name of the service account. Use one of the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you
+   * can use the `-` wildcard character instead of the project ID: *
+   * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
+   * wildcard character, because it can cause response messages to contain
+   * misleading error codes. For example, if you try to access the service account
+   * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
+   * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
+   * error.
    * @param SignJwtRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SignJwtResponse
@@ -341,10 +381,17 @@ class ProjectsServiceAccounts extends \Google\Service\Resource
    * account 30 days later. There is no way to restore a deleted service account
    * that has been permanently removed. (serviceAccounts.undelete)
    *
-   * @param string $name The resource name of the service account in the following
-   * format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT_UNIQUE_ID}`. Using
-   * `-` as a wildcard for the `PROJECT_ID` will infer the project from the
-   * account.
+   * @param string $name The resource name of the service account. Use one of the
+   * following formats: * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}`
+   * * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you
+   * can use the `-` wildcard character instead of the project ID: *
+   * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
+   * wildcard character, because it can cause response messages to contain
+   * misleading error codes. For example, if you try to access the service account
+   * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
+   * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
+   * error.
    * @param UndeleteServiceAccountRequest $postBody
    * @param array $optParams Optional parameters.
    * @return UndeleteServiceAccountResponse
@@ -367,7 +414,7 @@ class ProjectsServiceAccounts extends \Google\Service\Resource
    * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
    * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
    * wildcard character, because it can cause response messages to contain
-   * misleading error codes. For example, if you try to get the service account
+   * misleading error codes. For example, if you try to access the service account
    * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
    * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
    * error.

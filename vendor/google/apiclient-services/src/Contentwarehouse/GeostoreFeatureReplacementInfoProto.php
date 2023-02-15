@@ -22,8 +22,10 @@ class GeostoreFeatureReplacementInfoProto extends \Google\Collection
   protected $collection_key = 'replacedBy';
   protected $derivedFromType = GeostoreFeatureIdProto::class;
   protected $derivedFromDataType = 'array';
+  public $derivedFrom;
   protected $replacedByType = GeostoreFeatureIdProto::class;
   protected $replacedByDataType = 'array';
+  public $replacedBy;
 
   /**
    * @param GeostoreFeatureIdProto[]

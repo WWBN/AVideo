@@ -74,8 +74,10 @@ class Alerts extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string customerId Optional. The unique identifier of the Google
-   * Workspace organization account of the customer the alert is associated with.
-   * Inferred from the caller identity if not provided.
+   * Workspace account of the customer the alert is associated with. The
+   * `customer_id` must have the initial "C" stripped (for example, `046psxkn`).
+   * Inferred from the caller identity if not provided. [Find your customer
+   * ID](https://support.google.com/cloudidentity/answer/10070793).
    * @return AlertcenterEmpty
    */
   public function delete($alertId, $optParams = [])
@@ -92,8 +94,10 @@ class Alerts extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string customerId Optional. The unique identifier of the Google
-   * Workspace organization account of the customer the alert is associated with.
-   * Inferred from the caller identity if not provided.
+   * Workspace account of the customer the alert is associated with. The
+   * `customer_id` must have the initial "C" stripped (for example, `046psxkn`).
+   * Inferred from the caller identity if not provided. [Find your customer
+   * ID](https://support.google.com/cloudidentity/answer/10070793).
    * @return Alert
    */
   public function get($alertId, $optParams = [])
@@ -111,8 +115,10 @@ class Alerts extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string customerId Optional. The unique identifier of the Google
-   * Workspace organization account of the customer the alert metadata is
-   * associated with. Inferred from the caller identity if not provided.
+   * Workspace account of the customer the alert metadata is associated with. The
+   * `customer_id` must have the initial "C" stripped (for example, `046psxkn`).
+   * Inferred from the caller identity if not provided. [Find your customer
+   * ID](https://support.google.com/cloudidentity/answer/10070793).
    * @return AlertMetadata
    */
   public function getMetadata($alertId, $optParams = [])
@@ -127,8 +133,10 @@ class Alerts extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string customerId Optional. The unique identifier of the Google
-   * Workspace organization account of the customer the alerts are associated
-   * with. Inferred from the caller identity if not provided.
+   * Workspace account of the customer the alerts are associated with. The
+   * `customer_id` must have the initial "C" stripped (for example, `046psxkn`).
+   * Inferred from the caller identity if not provided. [Find your customer
+   * ID](https://support.google.com/cloudidentity/answer/10070793).
    * @opt_param string filter Optional. A query string for filtering alert
    * results. For more details, see [Query filters](https://developers.google.com
    * /admin-sdk/alertcenter/guides/query-filters) and [Supported query filter

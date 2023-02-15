@@ -21,8 +21,10 @@ class EnterpriseCrmEventbusProtoSuspensionAuthPermissions extends \Google\Model
 {
   protected $gaiaIdentityType = EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity::class;
   protected $gaiaIdentityDataType = '';
+  public $gaiaIdentity;
   protected $googleGroupType = EnterpriseCrmEventbusProtoSuspensionAuthPermissionsGaiaIdentity::class;
   protected $googleGroupDataType = '';
+  public $googleGroup;
   /**
    * @var string
    */

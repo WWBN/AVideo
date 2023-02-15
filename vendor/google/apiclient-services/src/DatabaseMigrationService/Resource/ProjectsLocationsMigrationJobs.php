@@ -38,7 +38,7 @@ use Google\Service\DatabaseMigrationService\VerifyMigrationJobRequest;
  * Typical usage is:
  *  <code>
  *   $datamigrationService = new Google\Service\DatabaseMigrationService(...);
- *   $migrationJobs = $datamigrationService->migrationJobs;
+ *   $migrationJobs = $datamigrationService->projects_locations_migrationJobs;
  *  </code>
  */
 class ProjectsLocationsMigrationJobs extends \Google\Service\Resource

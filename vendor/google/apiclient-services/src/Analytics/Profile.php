@@ -29,6 +29,7 @@ class Profile extends \Google\Model
   public $botFilteringEnabled;
   protected $childLinkType = ProfileChildLink::class;
   protected $childLinkDataType = '';
+  public $childLink;
   /**
    * @var string
    */
@@ -71,8 +72,10 @@ class Profile extends \Google\Model
   public $name;
   protected $parentLinkType = ProfileParentLink::class;
   protected $parentLinkDataType = '';
+  public $parentLink;
   protected $permissionsType = ProfilePermissions::class;
   protected $permissionsDataType = '';
+  public $permissions;
   /**
    * @var string
    */

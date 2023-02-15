@@ -22,12 +22,14 @@ class GoogleCloudApigeeV1Schema extends \Google\Collection
   protected $collection_key = 'metrics';
   protected $dimensionsType = GoogleCloudApigeeV1SchemaSchemaElement::class;
   protected $dimensionsDataType = 'array';
+  public $dimensions;
   /**
    * @var string[]
    */
   public $meta;
   protected $metricsType = GoogleCloudApigeeV1SchemaSchemaElement::class;
   protected $metricsDataType = 'array';
+  public $metrics;
 
   /**
    * @param GoogleCloudApigeeV1SchemaSchemaElement[]

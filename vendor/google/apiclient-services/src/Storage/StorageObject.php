@@ -22,6 +22,7 @@ class StorageObject extends \Google\Collection
   protected $collection_key = 'acl';
   protected $aclType = ObjectAccessControl::class;
   protected $aclDataType = 'array';
+  public $acl;
   /**
    * @var string
    */
@@ -60,6 +61,7 @@ class StorageObject extends \Google\Collection
   public $customTime;
   protected $customerEncryptionType = StorageObjectCustomerEncryption::class;
   protected $customerEncryptionDataType = '';
+  public $customerEncryption;
   /**
    * @var string
    */
@@ -106,6 +108,7 @@ class StorageObject extends \Google\Collection
   public $name;
   protected $ownerType = StorageObjectOwner::class;
   protected $ownerDataType = '';
+  public $owner;
   /**
    * @var string
    */

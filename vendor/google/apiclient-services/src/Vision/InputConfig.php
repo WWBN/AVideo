@@ -25,6 +25,7 @@ class InputConfig extends \Google\Model
   public $content;
   protected $gcsSourceType = GcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
   /**
    * @var string
    */

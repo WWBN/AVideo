@@ -26,6 +26,7 @@ class GoogleHomeEnterpriseSdmV1ListRoomsResponse extends \Google\Collection
   public $nextPageToken;
   protected $roomsType = GoogleHomeEnterpriseSdmV1Room::class;
   protected $roomsDataType = 'array';
+  public $rooms;
 
   /**
    * @param string

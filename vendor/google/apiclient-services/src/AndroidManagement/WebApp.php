@@ -26,6 +26,7 @@ class WebApp extends \Google\Collection
   public $displayMode;
   protected $iconsType = WebAppIcon::class;
   protected $iconsDataType = 'array';
+  public $icons;
   /**
    * @var string
    */

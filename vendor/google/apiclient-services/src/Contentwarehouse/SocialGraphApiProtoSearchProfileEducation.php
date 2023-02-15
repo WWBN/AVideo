@@ -22,12 +22,16 @@ class SocialGraphApiProtoSearchProfileEducation extends \Google\Collection
   protected $collection_key = 'fieldOfStudy';
   protected $endTimeType = GoogleTypeDate::class;
   protected $endTimeDataType = '';
+  public $endTime;
   protected $fieldOfStudyType = SocialGraphApiProtoSearchProfileEntity::class;
   protected $fieldOfStudyDataType = 'array';
+  public $fieldOfStudy;
   protected $institutionType = SocialGraphApiProtoSearchProfileEntity::class;
   protected $institutionDataType = '';
+  public $institution;
   protected $startTimeType = GoogleTypeDate::class;
   protected $startTimeDataType = '';
+  public $startTime;
 
   /**
    * @param GoogleTypeDate

@@ -21,10 +21,13 @@ class HistogramSeries extends \Google\Model
 {
   protected $barColorType = Color::class;
   protected $barColorDataType = '';
+  public $barColor;
   protected $barColorStyleType = ColorStyle::class;
   protected $barColorStyleDataType = '';
+  public $barColorStyle;
   protected $dataType = ChartData::class;
   protected $dataDataType = '';
+  public $data;
 
   /**
    * @param Color

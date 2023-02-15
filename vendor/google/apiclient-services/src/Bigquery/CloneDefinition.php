@@ -21,6 +21,7 @@ class CloneDefinition extends \Google\Model
 {
   protected $baseTableReferenceType = TableReference::class;
   protected $baseTableReferenceDataType = '';
+  public $baseTableReference;
   /**
    * @var string
    */

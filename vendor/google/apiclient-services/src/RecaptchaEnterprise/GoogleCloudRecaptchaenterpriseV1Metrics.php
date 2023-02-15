@@ -22,12 +22,14 @@ class GoogleCloudRecaptchaenterpriseV1Metrics extends \Google\Collection
   protected $collection_key = 'scoreMetrics';
   protected $challengeMetricsType = GoogleCloudRecaptchaenterpriseV1ChallengeMetrics::class;
   protected $challengeMetricsDataType = 'array';
+  public $challengeMetrics;
   /**
    * @var string
    */
   public $name;
   protected $scoreMetricsType = GoogleCloudRecaptchaenterpriseV1ScoreMetrics::class;
   protected $scoreMetricsDataType = 'array';
+  public $scoreMetrics;
   /**
    * @var string
    */

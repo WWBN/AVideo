@@ -22,8 +22,10 @@ class Move extends \Google\Collection
   protected $collection_key = 'removedParents';
   protected $addedParentsType = TargetReference::class;
   protected $addedParentsDataType = 'array';
+  public $addedParents;
   protected $removedParentsType = TargetReference::class;
   protected $removedParentsDataType = 'array';
+  public $removedParents;
 
   /**
    * @param TargetReference[]

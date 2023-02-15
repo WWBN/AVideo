@@ -29,7 +29,7 @@ class Comment {
             $this->load($id);
         }
     }
-    
+
     public function getPin() {
         return $this->pin;
     }
@@ -37,7 +37,7 @@ class Comment {
     public function setPin($pin): void {
         $this->pin = intval($pin);
     }
-    
+
     public function getId() {
         return $this->id;
     }
@@ -87,7 +87,7 @@ class Comment {
         if (empty($this->comments_id_pai)) {
             $this->comments_id_pai = 'NULL';
         }
-        
+
         $this->pin = intval($this->pin);
 
         if (empty($this->videos_id) && !empty($this->comments_id_pai)) {
@@ -375,13 +375,13 @@ class Comment {
         return $commentsArray;
     }
 
-    static function addExtraInfo2($row) {        
+    static function addExtraInfo2($row) {
         if(empty($row['commentHTML'])){
             $row['comment'] = str_replace('\n', "\n", $row['comment']);
             $row['commentPlain'] = xss_esc_back($row['comment']);
             $row['commentHTML'] = nl2br($row['commentPlain']);
         }
-                
+
         $row['identification'] = User::getNameIdentificationById($row['users_id']);
         $row['commentWithLinks'] = self::fixCommentText(textToLink($row['commentHTML']));
         $row['humanTiming'] = humanTiming(strtotime($row['created']));
@@ -408,5 +408,4 @@ class Comment {
         $replace = ["<br/>"];
         return stripslashes(str_replace($search, $replace, $subject));
     }
-
 }

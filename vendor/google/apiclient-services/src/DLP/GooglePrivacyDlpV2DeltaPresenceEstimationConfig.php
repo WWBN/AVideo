@@ -22,8 +22,10 @@ class GooglePrivacyDlpV2DeltaPresenceEstimationConfig extends \Google\Collection
   protected $collection_key = 'quasiIds';
   protected $auxiliaryTablesType = GooglePrivacyDlpV2StatisticalTable::class;
   protected $auxiliaryTablesDataType = 'array';
+  public $auxiliaryTables;
   protected $quasiIdsType = GooglePrivacyDlpV2QuasiId::class;
   protected $quasiIdsDataType = 'array';
+  public $quasiIds;
   /**
    * @var string
    */

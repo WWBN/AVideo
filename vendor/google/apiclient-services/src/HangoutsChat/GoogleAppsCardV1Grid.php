@@ -22,14 +22,17 @@ class GoogleAppsCardV1Grid extends \Google\Collection
   protected $collection_key = 'items';
   protected $borderStyleType = GoogleAppsCardV1BorderStyle::class;
   protected $borderStyleDataType = '';
+  public $borderStyle;
   /**
    * @var int
    */
   public $columnCount;
   protected $itemsType = GoogleAppsCardV1GridItem::class;
   protected $itemsDataType = 'array';
+  public $items;
   protected $onClickType = GoogleAppsCardV1OnClick::class;
   protected $onClickDataType = '';
+  public $onClick;
   /**
    * @var string
    */

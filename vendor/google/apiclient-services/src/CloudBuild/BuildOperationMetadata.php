@@ -21,6 +21,7 @@ class BuildOperationMetadata extends \Google\Model
 {
   protected $buildType = Build::class;
   protected $buildDataType = '';
+  public $build;
 
   /**
    * @param Build

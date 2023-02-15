@@ -22,6 +22,7 @@ class ListPopulationClause extends \Google\Collection
   protected $collection_key = 'terms';
   protected $termsType = ListPopulationTerm::class;
   protected $termsDataType = 'array';
+  public $terms;
 
   /**
    * @param ListPopulationTerm[]

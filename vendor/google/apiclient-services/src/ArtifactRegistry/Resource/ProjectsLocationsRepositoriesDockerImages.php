@@ -25,7 +25,7 @@ use Google\Service\ArtifactRegistry\ListDockerImagesResponse;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $dockerImages = $artifactregistryService->dockerImages;
+ *   $dockerImages = $artifactregistryService->projects_locations_repositories_dockerImages;
  *  </code>
  */
 class ProjectsLocationsRepositoriesDockerImages extends \Google\Service\Resource

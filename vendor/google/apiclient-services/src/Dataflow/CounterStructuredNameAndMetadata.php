@@ -21,8 +21,10 @@ class CounterStructuredNameAndMetadata extends \Google\Model
 {
   protected $metadataType = CounterMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $nameType = CounterStructuredName::class;
   protected $nameDataType = '';
+  public $name;
 
   /**
    * @param CounterMetadata

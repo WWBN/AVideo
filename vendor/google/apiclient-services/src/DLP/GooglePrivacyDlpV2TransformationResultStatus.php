@@ -21,6 +21,7 @@ class GooglePrivacyDlpV2TransformationResultStatus extends \Google\Model
 {
   protected $detailsType = GoogleRpcStatus::class;
   protected $detailsDataType = '';
+  public $details;
   /**
    * @var string
    */

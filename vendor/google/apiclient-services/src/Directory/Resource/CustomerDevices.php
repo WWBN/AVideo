@@ -22,7 +22,7 @@ namespace Google\Service\Directory\Resource;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $devices = $adminService->devices;
+ *   $devices = $adminService->customer_devices;
  *  </code>
  */
 class CustomerDevices extends \Google\Service\Resource

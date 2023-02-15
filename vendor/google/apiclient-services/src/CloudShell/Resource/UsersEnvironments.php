@@ -29,7 +29,7 @@ use Google\Service\CloudShell\StartEnvironmentRequest;
  * Typical usage is:
  *  <code>
  *   $cloudshellService = new Google\Service\CloudShell(...);
- *   $environments = $cloudshellService->environments;
+ *   $environments = $cloudshellService->users_environments;
  *  </code>
  */
 class UsersEnvironments extends \Google\Service\Resource

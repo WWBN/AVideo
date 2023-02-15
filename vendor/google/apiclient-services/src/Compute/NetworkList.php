@@ -26,6 +26,7 @@ class NetworkList extends \Google\Collection
   public $id;
   protected $itemsType = Network::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class NetworkList extends \Google\Collection
   public $selfLink;
   protected $warningType = NetworkListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

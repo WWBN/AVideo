@@ -25,7 +25,7 @@ use Google\Service\CloudFunctions\Operation;
  * Typical usage is:
  *  <code>
  *   $cloudfunctionsService = new Google\Service\CloudFunctions(...);
- *   $operations = $cloudfunctionsService->operations;
+ *   $operations = $cloudfunctionsService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

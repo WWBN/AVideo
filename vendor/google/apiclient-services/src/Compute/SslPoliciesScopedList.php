@@ -22,8 +22,10 @@ class SslPoliciesScopedList extends \Google\Collection
   protected $collection_key = 'sslPolicies';
   protected $sslPoliciesType = SslPolicy::class;
   protected $sslPoliciesDataType = 'array';
+  public $sslPolicies;
   protected $warningType = SslPoliciesScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param SslPolicy[]

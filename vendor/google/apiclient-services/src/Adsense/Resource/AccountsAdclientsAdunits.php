@@ -27,7 +27,7 @@ use Google\Service\Adsense\ListLinkedCustomChannelsResponse;
  * Typical usage is:
  *  <code>
  *   $adsenseService = new Google\Service\Adsense(...);
- *   $adunits = $adsenseService->adunits;
+ *   $adunits = $adsenseService->accounts_adclients_adunits;
  *  </code>
  */
 class AccountsAdclientsAdunits extends \Google\Service\Resource

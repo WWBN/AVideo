@@ -31,7 +31,7 @@ use Google\Service\DataFusion\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $datafusionService = new Google\Service\DataFusion(...);
- *   $instances = $datafusionService->instances;
+ *   $instances = $datafusionService->projects_locations_instances;
  *  </code>
  */
 class ProjectsLocationsInstances extends \Google\Service\Resource

@@ -22,6 +22,10 @@ class DirectoryChromeosdevicesCommandResult extends \Google\Model
   /**
    * @var string
    */
+  public $commandResultPayload;
+  /**
+   * @var string
+   */
   public $errorMessage;
   /**
    * @var string
@@ -32,6 +36,20 @@ class DirectoryChromeosdevicesCommandResult extends \Google\Model
    */
   public $result;
 
+  /**
+   * @param string
+   */
+  public function setCommandResultPayload($commandResultPayload)
+  {
+    $this->commandResultPayload = $commandResultPayload;
+  }
+  /**
+   * @return string
+   */
+  public function getCommandResultPayload()
+  {
+    return $this->commandResultPayload;
+  }
   /**
    * @param string
    */

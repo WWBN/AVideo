@@ -37,6 +37,7 @@ class Extension extends \Google\Model
   public $typeDescriptor;
   protected $versionType = BuildVersion::class;
   protected $versionDataType = '';
+  public $version;
 
   /**
    * @param string

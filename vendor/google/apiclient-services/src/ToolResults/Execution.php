@@ -22,18 +22,23 @@ class Execution extends \Google\Collection
   protected $collection_key = 'dimensionDefinitions';
   protected $completionTimeType = Timestamp::class;
   protected $completionTimeDataType = '';
+  public $completionTime;
   protected $creationTimeType = Timestamp::class;
   protected $creationTimeDataType = '';
+  public $creationTime;
   protected $dimensionDefinitionsType = MatrixDimensionDefinition::class;
   protected $dimensionDefinitionsDataType = 'array';
+  public $dimensionDefinitions;
   /**
    * @var string
    */
   public $executionId;
   protected $outcomeType = Outcome::class;
   protected $outcomeDataType = '';
+  public $outcome;
   protected $specificationType = Specification::class;
   protected $specificationDataType = '';
+  public $specification;
   /**
    * @var string
    */

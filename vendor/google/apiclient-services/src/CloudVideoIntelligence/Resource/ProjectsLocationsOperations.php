@@ -27,7 +27,7 @@ use Google\Service\CloudVideoIntelligence\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $videointelligenceService = new Google\Service\CloudVideoIntelligence(...);
- *   $operations = $videointelligenceService->operations;
+ *   $operations = $videointelligenceService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

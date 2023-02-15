@@ -22,14 +22,17 @@ class AppsPeopleOzExternalMergedpeopleapiMapsProfile extends \Google\Collection
   protected $collection_key = 'fieldRestriction';
   protected $fieldRestrictionType = AppsPeopleOzExternalMergedpeopleapiMapsProfileFieldRestriction::class;
   protected $fieldRestrictionDataType = 'array';
+  public $fieldRestriction;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
   public $tagline;
   protected $websiteLinkType = AppsPeopleOzExternalMergedpeopleapiMapsProfileUrlLink::class;
   protected $websiteLinkDataType = '';
+  public $websiteLink;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiMapsProfileFieldRestriction[]

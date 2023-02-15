@@ -28,7 +28,7 @@ use Google\Service\Script\UpdateDeploymentRequest;
  * Typical usage is:
  *  <code>
  *   $scriptService = new Google\Service\Script(...);
- *   $deployments = $scriptService->deployments;
+ *   $deployments = $scriptService->projects_deployments;
  *  </code>
  */
 class ProjectsDeployments extends \Google\Service\Resource

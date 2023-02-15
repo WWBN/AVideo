@@ -22,6 +22,7 @@ class GoogleCloudOrgpolicyV2ListCustomConstraintsResponse extends \Google\Collec
   protected $collection_key = 'customConstraints';
   protected $customConstraintsType = GoogleCloudOrgpolicyV2CustomConstraint::class;
   protected $customConstraintsDataType = 'array';
+  public $customConstraints;
   /**
    * @var string
    */

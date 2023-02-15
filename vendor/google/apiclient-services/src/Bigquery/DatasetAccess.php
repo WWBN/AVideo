@@ -21,6 +21,7 @@ class DatasetAccess extends \Google\Model
 {
   protected $datasetType = DatasetAccessEntry::class;
   protected $datasetDataType = '';
+  public $dataset;
   /**
    * @var string
    */
@@ -39,6 +40,7 @@ class DatasetAccess extends \Google\Model
   public $role;
   protected $routineType = RoutineReference::class;
   protected $routineDataType = '';
+  public $routine;
   /**
    * @var string
    */
@@ -49,6 +51,7 @@ class DatasetAccess extends \Google\Model
   public $userByEmail;
   protected $viewType = TableReference::class;
   protected $viewDataType = '';
+  public $view;
 
   /**
    * @param DatasetAccessEntry

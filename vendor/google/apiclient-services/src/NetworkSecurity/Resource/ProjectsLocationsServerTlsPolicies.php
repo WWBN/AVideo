@@ -30,7 +30,7 @@ use Google\Service\NetworkSecurity\ServerTlsPolicy;
  * Typical usage is:
  *  <code>
  *   $networksecurityService = new Google\Service\NetworkSecurity(...);
- *   $serverTlsPolicies = $networksecurityService->serverTlsPolicies;
+ *   $serverTlsPolicies = $networksecurityService->projects_locations_serverTlsPolicies;
  *  </code>
  */
 class ProjectsLocationsServerTlsPolicies extends \Google\Service\Resource

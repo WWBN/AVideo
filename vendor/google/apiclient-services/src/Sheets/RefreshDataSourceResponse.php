@@ -22,6 +22,7 @@ class RefreshDataSourceResponse extends \Google\Collection
   protected $collection_key = 'statuses';
   protected $statusesType = RefreshDataSourceObjectExecutionStatus::class;
   protected $statusesDataType = 'array';
+  public $statuses;
 
   /**
    * @param RefreshDataSourceObjectExecutionStatus[]

@@ -22,6 +22,7 @@ class Image extends \Google\Model
   public $alpha;
   protected $resolutionType = NormalizedCoordinate::class;
   protected $resolutionDataType = '';
+  public $resolution;
   /**
    * @var string
    */

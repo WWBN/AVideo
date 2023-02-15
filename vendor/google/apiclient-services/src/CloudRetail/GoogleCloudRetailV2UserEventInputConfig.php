@@ -21,10 +21,13 @@ class GoogleCloudRetailV2UserEventInputConfig extends \Google\Model
 {
   protected $bigQuerySourceType = GoogleCloudRetailV2BigQuerySource::class;
   protected $bigQuerySourceDataType = '';
+  public $bigQuerySource;
   protected $gcsSourceType = GoogleCloudRetailV2GcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
   protected $userEventInlineSourceType = GoogleCloudRetailV2UserEventInlineSource::class;
   protected $userEventInlineSourceDataType = '';
+  public $userEventInlineSource;
 
   /**
    * @param GoogleCloudRetailV2BigQuerySource

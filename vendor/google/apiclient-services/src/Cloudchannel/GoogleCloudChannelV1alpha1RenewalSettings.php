@@ -29,6 +29,7 @@ class GoogleCloudChannelV1alpha1RenewalSettings extends \Google\Model
   public $enableRenewal;
   protected $paymentCycleType = GoogleCloudChannelV1alpha1Period::class;
   protected $paymentCycleDataType = '';
+  public $paymentCycle;
   /**
    * @var string
    */

@@ -38,7 +38,7 @@ use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1GeneratePlayIntegrit
  * Typical usage is:
  *  <code>
  *   $firebaseappcheckService = new Google\Service\Firebaseappcheck(...);
- *   $apps = $firebaseappcheckService->apps;
+ *   $apps = $firebaseappcheckService->projects_apps;
  *  </code>
  */
 class ProjectsApps extends \Google\Service\Resource

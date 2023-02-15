@@ -21,6 +21,7 @@ class GoogleCloudDataplexV1Lake extends \Google\Model
 {
   protected $assetStatusType = GoogleCloudDataplexV1AssetStatus::class;
   protected $assetStatusDataType = '';
+  public $assetStatus;
   /**
    * @var string
    */
@@ -39,8 +40,10 @@ class GoogleCloudDataplexV1Lake extends \Google\Model
   public $labels;
   protected $metastoreType = GoogleCloudDataplexV1LakeMetastore::class;
   protected $metastoreDataType = '';
+  public $metastore;
   protected $metastoreStatusType = GoogleCloudDataplexV1LakeMetastoreStatus::class;
   protected $metastoreStatusDataType = '';
+  public $metastoreStatus;
   /**
    * @var string
    */

@@ -22,8 +22,10 @@ class GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage extends \Goo
   protected $collection_key = 'claimReviewMarkups';
   protected $claimReviewAuthorType = GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewAuthor::class;
   protected $claimReviewAuthorDataType = '';
+  public $claimReviewAuthor;
   protected $claimReviewMarkupsType = GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkup::class;
   protected $claimReviewMarkupsDataType = 'array';
+  public $claimReviewMarkups;
   /**
    * @var string
    */

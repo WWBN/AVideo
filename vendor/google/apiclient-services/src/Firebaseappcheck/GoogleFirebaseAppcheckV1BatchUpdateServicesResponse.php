@@ -22,6 +22,7 @@ class GoogleFirebaseAppcheckV1BatchUpdateServicesResponse extends \Google\Collec
   protected $collection_key = 'services';
   protected $servicesType = GoogleFirebaseAppcheckV1Service::class;
   protected $servicesDataType = 'array';
+  public $services;
 
   /**
    * @param GoogleFirebaseAppcheckV1Service[]

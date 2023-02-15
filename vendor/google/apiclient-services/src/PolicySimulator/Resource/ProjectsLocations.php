@@ -22,7 +22,7 @@ namespace Google\Service\PolicySimulator\Resource;
  * Typical usage is:
  *  <code>
  *   $policysimulatorService = new Google\Service\PolicySimulator(...);
- *   $locations = $policysimulatorService->locations;
+ *   $locations = $policysimulatorService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

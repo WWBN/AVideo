@@ -22,8 +22,10 @@ class GroupsCountResult extends \Google\Collection
   protected $collection_key = 'nonQueryableAccounts';
   protected $accountCountErrorsType = AccountCountError::class;
   protected $accountCountErrorsDataType = 'array';
+  public $accountCountErrors;
   protected $accountCountsType = AccountCount::class;
   protected $accountCountsDataType = 'array';
+  public $accountCounts;
   /**
    * @var string
    */

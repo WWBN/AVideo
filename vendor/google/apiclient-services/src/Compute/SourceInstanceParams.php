@@ -22,6 +22,7 @@ class SourceInstanceParams extends \Google\Collection
   protected $collection_key = 'diskConfigs';
   protected $diskConfigsType = DiskInstantiationConfig::class;
   protected $diskConfigsDataType = 'array';
+  public $diskConfigs;
 
   /**
    * @param DiskInstantiationConfig[]

@@ -21,6 +21,7 @@ class RegistryCredential extends \Google\Model
 {
   protected $publicKeyCertificateType = PublicKeyCertificate::class;
   protected $publicKeyCertificateDataType = '';
+  public $publicKeyCertificate;
 
   /**
    * @param PublicKeyCertificate

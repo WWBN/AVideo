@@ -30,6 +30,7 @@ class ConfigManagementSyncError extends \Google\Collection
   public $errorMessage;
   protected $errorResourcesType = ConfigManagementErrorResource::class;
   protected $errorResourcesDataType = 'array';
+  public $errorResources;
 
   /**
    * @param string

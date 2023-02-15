@@ -21,6 +21,7 @@ class DfareportingFile extends \Google\Model
 {
   protected $dateRangeType = DateRange::class;
   protected $dateRangeDataType = '';
+  public $dateRange;
   /**
    * @var string
    */
@@ -55,6 +56,7 @@ class DfareportingFile extends \Google\Model
   public $status;
   protected $urlsType = DfareportingFileUrls::class;
   protected $urlsDataType = '';
+  public $urls;
 
   /**
    * @param DateRange

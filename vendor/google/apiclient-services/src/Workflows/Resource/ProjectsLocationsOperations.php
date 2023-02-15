@@ -26,7 +26,7 @@ use Google\Service\Workflows\WorkflowsEmpty;
  * Typical usage is:
  *  <code>
  *   $workflowsService = new Google\Service\Workflows(...);
- *   $operations = $workflowsService->operations;
+ *   $operations = $workflowsService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

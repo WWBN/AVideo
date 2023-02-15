@@ -22,6 +22,7 @@ class TextConfig extends \Google\Collection
   protected $collection_key = 'transformations';
   protected $transformationsType = InfoTypeTransformation::class;
   protected $transformationsDataType = 'array';
+  public $transformations;
 
   /**
    * @param InfoTypeTransformation[]

@@ -47,9 +47,8 @@ class Document extends \Google\Service
   public $projects_locations_processors;
   public $projects_locations_processors_humanReviewConfig;
   public $projects_locations_processors_processorVersions;
+  public $projects_locations_processors_processorVersions_evaluations;
   public $projects_operations;
-  public $uiv1beta3_projects_locations;
-  public $uiv1beta3_projects_locations_operations;
 
   /**
    * Constructs the internal representation of the Document service.
@@ -197,7 +196,17 @@ class Document extends \Google\Service
         'processorTypes',
         [
           'methods' => [
-            'list' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
               'path' => 'v1/{+parent}/processorTypes',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -383,6 +392,16 @@ class Document extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'evaluateProcessorVersion' => [
+              'path' => 'v1/{+processorVersion}:evaluateProcessorVersion',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'processorVersion' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'get' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
@@ -421,6 +440,16 @@ class Document extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'train' => [
+              'path' => 'v1/{+parent}/processorVersions:train',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'undeploy' => [
               'path' => 'v1/{+name}:undeploy',
               'httpMethod' => 'POST',
@@ -429,6 +458,44 @@ class Document extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_processors_processorVersions_evaluations = new Document\Resource\ProjectsLocationsProcessorsProcessorVersionsEvaluations(
+        $this,
+        $this->serviceName,
+        'evaluations',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/evaluations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -449,100 +516,6 @@ class Document extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->uiv1beta3_projects_locations = new Document\Resource\Uiv1beta3ProjectsLocations(
-        $this,
-        $this->serviceName,
-        'locations',
-        [
-          'methods' => [
-            'get' => [
-              'path' => 'uiv1beta3/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'list' => [
-              'path' => 'uiv1beta3/{+name}/locations',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'filter' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->uiv1beta3_projects_locations_operations = new Document\Resource\Uiv1beta3ProjectsLocationsOperations(
-        $this,
-        $this->serviceName,
-        'operations',
-        [
-          'methods' => [
-            'cancel' => [
-              'path' => 'uiv1beta3/{+name}:cancel',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
-              'path' => 'uiv1beta3/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'list' => [
-              'path' => 'uiv1beta3/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'filter' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
                 ],
               ],
             ],

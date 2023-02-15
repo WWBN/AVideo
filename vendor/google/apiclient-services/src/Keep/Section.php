@@ -21,8 +21,10 @@ class Section extends \Google\Model
 {
   protected $listType = ListContent::class;
   protected $listDataType = '';
+  public $list;
   protected $textType = TextContent::class;
   protected $textDataType = '';
+  public $text;
 
   /**
    * @param ListContent

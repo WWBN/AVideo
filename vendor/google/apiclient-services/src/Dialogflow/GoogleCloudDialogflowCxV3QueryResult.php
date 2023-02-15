@@ -22,14 +22,17 @@ class GoogleCloudDialogflowCxV3QueryResult extends \Google\Collection
   protected $collection_key = 'webhookStatuses';
   protected $currentPageType = GoogleCloudDialogflowCxV3Page::class;
   protected $currentPageDataType = '';
+  public $currentPage;
   /**
    * @var array[]
    */
   public $diagnosticInfo;
   protected $dtmfType = GoogleCloudDialogflowCxV3DtmfInput::class;
   protected $dtmfDataType = '';
+  public $dtmf;
   protected $intentType = GoogleCloudDialogflowCxV3Intent::class;
   protected $intentDataType = '';
+  public $intent;
   /**
    * @var float
    */
@@ -40,14 +43,17 @@ class GoogleCloudDialogflowCxV3QueryResult extends \Google\Collection
   public $languageCode;
   protected $matchType = GoogleCloudDialogflowCxV3Match::class;
   protected $matchDataType = '';
+  public $match;
   /**
    * @var array[]
    */
   public $parameters;
   protected $responseMessagesType = GoogleCloudDialogflowCxV3ResponseMessage::class;
   protected $responseMessagesDataType = 'array';
+  public $responseMessages;
   protected $sentimentAnalysisResultType = GoogleCloudDialogflowCxV3SentimentAnalysisResult::class;
   protected $sentimentAnalysisResultDataType = '';
+  public $sentimentAnalysisResult;
   /**
    * @var string
    */
@@ -70,6 +76,7 @@ class GoogleCloudDialogflowCxV3QueryResult extends \Google\Collection
   public $webhookPayloads;
   protected $webhookStatusesType = GoogleRpcStatus::class;
   protected $webhookStatusesDataType = 'array';
+  public $webhookStatuses;
 
   /**
    * @param GoogleCloudDialogflowCxV3Page

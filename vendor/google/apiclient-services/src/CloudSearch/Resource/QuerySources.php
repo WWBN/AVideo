@@ -24,7 +24,7 @@ use Google\Service\CloudSearch\ListQuerySourcesResponse;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $sources = $cloudsearchService->sources;
+ *   $sources = $cloudsearchService->query_sources;
  *  </code>
  */
 class QuerySources extends \Google\Service\Resource

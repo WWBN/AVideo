@@ -21,8 +21,10 @@ class DeprecatedEvent extends \Google\Model
 {
   protected $actionType = FormAction::class;
   protected $actionDataType = '';
+  public $action;
   protected $commonType = CommonEventObject::class;
   protected $commonDataType = '';
+  public $common;
   /**
    * @var string
    */
@@ -41,8 +43,10 @@ class DeprecatedEvent extends \Google\Model
   public $isDialogEvent;
   protected $messageType = Message::class;
   protected $messageDataType = '';
+  public $message;
   protected $spaceType = Space::class;
   protected $spaceDataType = '';
+  public $space;
   /**
    * @var string
    */
@@ -57,6 +61,7 @@ class DeprecatedEvent extends \Google\Model
   public $type;
   protected $userType = User::class;
   protected $userDataType = '';
+  public $user;
 
   /**
    * @param FormAction

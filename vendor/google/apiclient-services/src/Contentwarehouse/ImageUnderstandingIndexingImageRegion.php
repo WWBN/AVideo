@@ -21,6 +21,7 @@ class ImageUnderstandingIndexingImageRegion extends \Google\Model
 {
   protected $boxType = PhotosVisionGroundtruthdbNormalizedBoundingBox::class;
   protected $boxDataType = '';
+  public $box;
   /**
    * @var float
    */

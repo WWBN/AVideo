@@ -45,6 +45,7 @@ class GoogleTypeDateTime extends \Google\Model
   public $seconds;
   protected $timeZoneType = GoogleTypeTimeZone::class;
   protected $timeZoneDataType = '';
+  public $timeZone;
   /**
    * @var string
    */

@@ -22,10 +22,13 @@ class ImageSearchImageIndexingInfo extends \Google\Collection
   protected $collection_key = 'selectedNotIndexedImageLink';
   protected $imageLinkSelectionInfoType = ImageSearchImageSelectionInfo::class;
   protected $imageLinkSelectionInfoDataType = 'array';
+  public $imageLinkSelectionInfo;
   protected $rejectedNotIndexedImageLinkType = ImageSearchUnindexedImageLink::class;
   protected $rejectedNotIndexedImageLinkDataType = 'array';
+  public $rejectedNotIndexedImageLink;
   protected $selectedNotIndexedImageLinkType = ImageSearchUnindexedImageLink::class;
   protected $selectedNotIndexedImageLinkDataType = 'array';
+  public $selectedNotIndexedImageLink;
 
   /**
    * @param ImageSearchImageSelectionInfo[]

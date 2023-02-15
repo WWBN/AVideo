@@ -22,6 +22,7 @@ class GoogleCloudSecuritycenterV1p1beta1Resource extends \Google\Collection
   protected $collection_key = 'folders';
   protected $foldersType = GoogleCloudSecuritycenterV1p1beta1Folder::class;
   protected $foldersDataType = 'array';
+  public $folders;
   /**
    * @var string
    */

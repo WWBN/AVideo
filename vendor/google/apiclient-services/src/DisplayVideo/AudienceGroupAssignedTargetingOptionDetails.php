@@ -22,16 +22,22 @@ class AudienceGroupAssignedTargetingOptionDetails extends \Google\Collection
   protected $collection_key = 'includedFirstAndThirdPartyAudienceGroups';
   protected $excludedFirstAndThirdPartyAudienceGroupType = FirstAndThirdPartyAudienceGroup::class;
   protected $excludedFirstAndThirdPartyAudienceGroupDataType = '';
+  public $excludedFirstAndThirdPartyAudienceGroup;
   protected $excludedGoogleAudienceGroupType = GoogleAudienceGroup::class;
   protected $excludedGoogleAudienceGroupDataType = '';
+  public $excludedGoogleAudienceGroup;
   protected $includedCombinedAudienceGroupType = CombinedAudienceGroup::class;
   protected $includedCombinedAudienceGroupDataType = '';
+  public $includedCombinedAudienceGroup;
   protected $includedCustomListGroupType = CustomListGroup::class;
   protected $includedCustomListGroupDataType = '';
+  public $includedCustomListGroup;
   protected $includedFirstAndThirdPartyAudienceGroupsType = FirstAndThirdPartyAudienceGroup::class;
   protected $includedFirstAndThirdPartyAudienceGroupsDataType = 'array';
+  public $includedFirstAndThirdPartyAudienceGroups;
   protected $includedGoogleAudienceGroupType = GoogleAudienceGroup::class;
   protected $includedGoogleAudienceGroupDataType = '';
+  public $includedGoogleAudienceGroup;
 
   /**
    * @param FirstAndThirdPartyAudienceGroup

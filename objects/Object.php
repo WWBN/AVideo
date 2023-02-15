@@ -20,7 +20,7 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function getSearchFieldsNames()
     {
-        return array();
+        return [];
     }
 
     public function load($id)
@@ -291,7 +291,7 @@ abstract class ObjectYPT implements ObjectInterface
             return false;
         }
         $formats = '';
-        $values = array();
+        $values = [];
         if (!empty($this->id)) {
             $sql = "UPDATE " . static::getTableName() . " SET ";
             $fields = [];
@@ -372,9 +372,9 @@ abstract class ObjectYPT implements ObjectInterface
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 
         /**
-         * 
+         *
          * @var array $global
-         * @var object $global['mysqli'] 
+         * @var object $global['mysqli']
          */
         if ($insert_row) {
             if (empty($this->id)) {
@@ -426,7 +426,7 @@ abstract class ObjectYPT implements ObjectInterface
     static function ignoreTableSecurityCheck()
     {
 
-        $ignoreArray = array(
+        $ignoreArray = [
             'vast_campaigns_logs',
             'videos', 'CachesInDB',
             'plugins',
@@ -438,7 +438,7 @@ abstract class ObjectYPT implements ObjectInterface
             'wallet_log',
             'live_restreams_logs',
             'clone_SitesAllowed'
-        );
+        ];
         return in_array(static::getTableName(), $ignoreArray);
     }
 

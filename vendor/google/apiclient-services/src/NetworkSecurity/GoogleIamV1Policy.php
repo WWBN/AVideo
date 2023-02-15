@@ -22,8 +22,10 @@ class GoogleIamV1Policy extends \Google\Collection
   protected $collection_key = 'bindings';
   protected $auditConfigsType = GoogleIamV1AuditConfig::class;
   protected $auditConfigsDataType = 'array';
+  public $auditConfigs;
   protected $bindingsType = GoogleIamV1Binding::class;
   protected $bindingsDataType = 'array';
+  public $bindings;
   /**
    * @var string
    */

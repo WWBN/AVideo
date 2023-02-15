@@ -21,6 +21,7 @@ class NlxDataSchemaByte extends \Google\Model
 {
   protected $documentType = MultiscalePointerIndex::class;
   protected $documentDataType = '';
+  public $document;
 
   /**
    * @param MultiscalePointerIndex

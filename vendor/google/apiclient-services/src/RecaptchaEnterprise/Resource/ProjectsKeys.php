@@ -29,7 +29,7 @@ use Google\Service\RecaptchaEnterprise\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $recaptchaenterpriseService = new Google\Service\RecaptchaEnterprise(...);
- *   $keys = $recaptchaenterpriseService->keys;
+ *   $keys = $recaptchaenterpriseService->projects_keys;
  *  </code>
  */
 class ProjectsKeys extends \Google\Service\Resource

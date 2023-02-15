@@ -21,6 +21,7 @@ class ReviewReplyResult extends \Google\Model
 {
   protected $lastEditedType = Timestamp::class;
   protected $lastEditedDataType = '';
+  public $lastEdited;
   /**
    * @var string
    */

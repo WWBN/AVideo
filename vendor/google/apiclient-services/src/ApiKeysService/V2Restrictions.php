@@ -22,14 +22,19 @@ class V2Restrictions extends \Google\Collection
   protected $collection_key = 'apiTargets';
   protected $androidKeyRestrictionsType = V2AndroidKeyRestrictions::class;
   protected $androidKeyRestrictionsDataType = '';
+  public $androidKeyRestrictions;
   protected $apiTargetsType = V2ApiTarget::class;
   protected $apiTargetsDataType = 'array';
+  public $apiTargets;
   protected $browserKeyRestrictionsType = V2BrowserKeyRestrictions::class;
   protected $browserKeyRestrictionsDataType = '';
+  public $browserKeyRestrictions;
   protected $iosKeyRestrictionsType = V2IosKeyRestrictions::class;
   protected $iosKeyRestrictionsDataType = '';
+  public $iosKeyRestrictions;
   protected $serverKeyRestrictionsType = V2ServerKeyRestrictions::class;
   protected $serverKeyRestrictionsDataType = '';
+  public $serverKeyRestrictions;
 
   /**
    * @param V2AndroidKeyRestrictions

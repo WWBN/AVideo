@@ -28,7 +28,7 @@ use Google\Service\Baremetalsolution\VolumeSnapshot;
  * Typical usage is:
  *  <code>
  *   $baremetalsolutionService = new Google\Service\Baremetalsolution(...);
- *   $snapshots = $baremetalsolutionService->snapshots;
+ *   $snapshots = $baremetalsolutionService->projects_locations_volumes_snapshots;
  *  </code>
  */
 class ProjectsLocationsVolumesSnapshots extends \Google\Service\Resource

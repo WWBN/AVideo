@@ -61,6 +61,7 @@ class SoftwareInfo extends \Google\Model
   public $securityPatchLevel;
   protected $systemUpdateInfoType = SystemUpdateInfo::class;
   protected $systemUpdateInfoDataType = '';
+  public $systemUpdateInfo;
 
   /**
    * @param string

@@ -26,6 +26,7 @@ class DataSourceRefreshWeeklySchedule extends \Google\Collection
   public $daysOfWeek;
   protected $startTimeType = TimeOfDay::class;
   protected $startTimeDataType = '';
+  public $startTime;
 
   /**
    * @param string[]

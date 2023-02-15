@@ -26,6 +26,7 @@ class JobDerivedInfo extends \Google\Collection
   public $jobCategories;
   protected $locationsType = Location::class;
   protected $locationsDataType = 'array';
+  public $locations;
 
   /**
    * @param string[]

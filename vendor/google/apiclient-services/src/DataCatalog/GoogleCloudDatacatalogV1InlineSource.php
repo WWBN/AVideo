@@ -22,6 +22,7 @@ class GoogleCloudDatacatalogV1InlineSource extends \Google\Collection
   protected $collection_key = 'taxonomies';
   protected $taxonomiesType = GoogleCloudDatacatalogV1SerializedTaxonomy::class;
   protected $taxonomiesDataType = 'array';
+  public $taxonomies;
 
   /**
    * @param GoogleCloudDatacatalogV1SerializedTaxonomy[]

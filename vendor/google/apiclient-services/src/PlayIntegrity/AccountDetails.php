@@ -21,6 +21,7 @@ class AccountDetails extends \Google\Model
 {
   protected $accountActivityType = AccountActivity::class;
   protected $accountActivityDataType = '';
+  public $accountActivity;
   /**
    * @var string
    */

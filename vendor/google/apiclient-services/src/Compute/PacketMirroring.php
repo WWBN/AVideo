@@ -21,6 +21,7 @@ class PacketMirroring extends \Google\Model
 {
   protected $collectorIlbType = PacketMirroringForwardingRuleInfo::class;
   protected $collectorIlbDataType = '';
+  public $collectorIlb;
   /**
    * @var string
    */
@@ -35,6 +36,7 @@ class PacketMirroring extends \Google\Model
   public $enable;
   protected $filterType = PacketMirroringFilter::class;
   protected $filterDataType = '';
+  public $filter;
   /**
    * @var string
    */
@@ -45,12 +47,14 @@ class PacketMirroring extends \Google\Model
   public $kind;
   protected $mirroredResourcesType = PacketMirroringMirroredResourceInfo::class;
   protected $mirroredResourcesDataType = '';
+  public $mirroredResources;
   /**
    * @var string
    */
   public $name;
   protected $networkType = PacketMirroringNetworkInfo::class;
   protected $networkDataType = '';
+  public $network;
   /**
    * @var string
    */

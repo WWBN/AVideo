@@ -22,7 +22,7 @@ namespace Google\Service\CloudIAP\Resource;
  * Typical usage is:
  *  <code>
  *   $iapService = new Google\Service\CloudIAP(...);
- *   $locations = $iapService->locations;
+ *   $locations = $iapService->projects_iap_tunnel_locations;
  *  </code>
  */
 class ProjectsIapTunnelLocations extends \Google\Service\Resource

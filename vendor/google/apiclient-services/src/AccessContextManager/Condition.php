@@ -22,6 +22,7 @@ class Condition extends \Google\Collection
   protected $collection_key = 'requiredAccessLevels';
   protected $devicePolicyType = DevicePolicy::class;
   protected $devicePolicyDataType = '';
+  public $devicePolicy;
   /**
    * @var string[]
    */

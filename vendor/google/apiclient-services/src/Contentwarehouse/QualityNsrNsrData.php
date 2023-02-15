@@ -42,12 +42,14 @@ class QualityNsrNsrData extends \Google\Collection
   public $clusterId;
   protected $clusterUpliftType = QualityNsrNsrDataClusterUplift::class;
   protected $clusterUpliftDataType = '';
+  public $clusterUplift;
   /**
    * @var float
    */
   public $clutterScore;
   protected $clutterScoresType = QualityNsrVersionedFloatSignal::class;
   protected $clutterScoresDataType = 'array';
+  public $clutterScores;
   /**
    * @var float
    */
@@ -94,6 +96,7 @@ class QualityNsrNsrData extends \Google\Collection
   public $localityScore;
   protected $metadataType = QualityNsrNsrDataMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var float
    */
@@ -102,6 +105,10 @@ class QualityNsrNsrData extends \Google\Collection
    * @var float
    */
   public $nsr;
+  /**
+   * @var string
+   */
+  public $nsrEpoch;
   /**
    * @var float
    */
@@ -120,6 +127,7 @@ class QualityNsrNsrData extends \Google\Collection
   public $pnav;
   protected $priorAdjustedNsrType = QualityNsrVersionedFloatSignal::class;
   protected $priorAdjustedNsrDataType = 'array';
+  public $priorAdjustedNsr;
   /**
    * @var string
    */
@@ -162,6 +170,7 @@ class QualityNsrNsrData extends \Google\Collection
   public $spambrainLavcScore;
   protected $spambrainLavcScoresType = QualityNsrVersionedFloatSignal::class;
   protected $spambrainLavcScoresDataType = 'array';
+  public $spambrainLavcScores;
   /**
    * @var float
    */
@@ -174,8 +183,12 @@ class QualityNsrNsrData extends \Google\Collection
    * @var string
    */
   public $url;
+  protected $versionedAsrDataType = QualityNsrVersionedFloatSignal::class;
+  protected $versionedAsrDataDataType = 'array';
+  public $versionedAsrData;
   protected $versionedDataType = QualityNsrNSRVersionedData::class;
   protected $versionedDataDataType = 'array';
+  public $versionedData;
   /**
    * @var float
    */
@@ -502,6 +515,20 @@ class QualityNsrNsrData extends \Google\Collection
     return $this->nsr;
   }
   /**
+   * @param string
+   */
+  public function setNsrEpoch($nsrEpoch)
+  {
+    $this->nsrEpoch = $nsrEpoch;
+  }
+  /**
+   * @return string
+   */
+  public function getNsrEpoch()
+  {
+    return $this->nsrEpoch;
+  }
+  /**
    * @param float
    */
   public function setNsrOverrideBid($nsrOverrideBid)
@@ -766,6 +793,20 @@ class QualityNsrNsrData extends \Google\Collection
   public function getUrl()
   {
     return $this->url;
+  }
+  /**
+   * @param QualityNsrVersionedFloatSignal[]
+   */
+  public function setVersionedAsrData($versionedAsrData)
+  {
+    $this->versionedAsrData = $versionedAsrData;
+  }
+  /**
+   * @return QualityNsrVersionedFloatSignal[]
+   */
+  public function getVersionedAsrData()
+  {
+    return $this->versionedAsrData;
   }
   /**
    * @param QualityNsrNSRVersionedData[]

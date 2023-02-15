@@ -15,7 +15,7 @@ if (!empty($_GET['catName'])) {
 $photo = Category::getCategoryPhotoPath($categories_id);
 $background = Category::getCategoryBackgroundPath($categories_id);
 
-$data = array('id'=>$categories_id);
+$data = ['id'=>$categories_id];
 
 ?>
 <div class="row" style="position: relative; z-index: 1; margin-top: -15px;">

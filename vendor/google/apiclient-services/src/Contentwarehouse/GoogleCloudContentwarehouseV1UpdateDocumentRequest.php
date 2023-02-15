@@ -21,12 +21,16 @@ class GoogleCloudContentwarehouseV1UpdateDocumentRequest extends \Google\Model
 {
   protected $cloudAiDocumentOptionType = GoogleCloudContentwarehouseV1CloudAIDocumentOption::class;
   protected $cloudAiDocumentOptionDataType = '';
+  public $cloudAiDocumentOption;
   protected $documentType = GoogleCloudContentwarehouseV1Document::class;
   protected $documentDataType = '';
+  public $document;
   protected $requestMetadataType = GoogleCloudContentwarehouseV1RequestMetadata::class;
   protected $requestMetadataDataType = '';
+  public $requestMetadata;
   protected $updateOptionsType = GoogleCloudContentwarehouseV1UpdateOptions::class;
   protected $updateOptionsDataType = '';
+  public $updateOptions;
 
   /**
    * @param GoogleCloudContentwarehouseV1CloudAIDocumentOption

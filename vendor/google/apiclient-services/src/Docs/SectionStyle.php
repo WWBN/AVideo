@@ -22,6 +22,7 @@ class SectionStyle extends \Google\Collection
   protected $collection_key = 'columnProperties';
   protected $columnPropertiesType = SectionColumnProperties::class;
   protected $columnPropertiesDataType = 'array';
+  public $columnProperties;
   /**
    * @var string
    */
@@ -56,16 +57,22 @@ class SectionStyle extends \Google\Collection
   public $firstPageHeaderId;
   protected $marginBottomType = Dimension::class;
   protected $marginBottomDataType = '';
+  public $marginBottom;
   protected $marginFooterType = Dimension::class;
   protected $marginFooterDataType = '';
+  public $marginFooter;
   protected $marginHeaderType = Dimension::class;
   protected $marginHeaderDataType = '';
+  public $marginHeader;
   protected $marginLeftType = Dimension::class;
   protected $marginLeftDataType = '';
+  public $marginLeft;
   protected $marginRightType = Dimension::class;
   protected $marginRightDataType = '';
+  public $marginRight;
   protected $marginTopType = Dimension::class;
   protected $marginTopDataType = '';
+  public $marginTop;
   /**
    * @var int
    */

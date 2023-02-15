@@ -21,14 +21,17 @@ class NlpSemanticParsingNumberFractionNumber extends \Google\Model
 {
   protected $denominatorType = NlpSemanticParsingNumberSimpleNumber::class;
   protected $denominatorDataType = '';
+  public $denominator;
   protected $numeratorType = NlpSemanticParsingNumberSimpleNumber::class;
   protected $numeratorDataType = '';
+  public $numerator;
   /**
    * @var int
    */
   public $precision;
   protected $wholeNumberType = NlpSemanticParsingNumberSimpleNumber::class;
   protected $wholeNumberDataType = '';
+  public $wholeNumber;
 
   /**
    * @param NlpSemanticParsingNumberSimpleNumber

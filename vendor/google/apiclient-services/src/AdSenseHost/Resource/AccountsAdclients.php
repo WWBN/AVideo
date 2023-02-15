@@ -25,7 +25,7 @@ use Google\Service\AdSenseHost\AdClients;
  * Typical usage is:
  *  <code>
  *   $adsensehostService = new Google\Service\AdSenseHost(...);
- *   $adclients = $adsensehostService->adclients;
+ *   $adclients = $adsensehostService->accounts_adclients;
  *  </code>
  */
 class AccountsAdclients extends \Google\Service\Resource

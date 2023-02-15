@@ -26,13 +26,13 @@ use Google\Service\OrgPolicyAPI\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $orgpolicyService = new Google\Service\OrgPolicyAPI(...);
- *   $customConstraints = $orgpolicyService->customConstraints;
+ *   $customConstraints = $orgpolicyService->organizations_customConstraints;
  *  </code>
  */
 class OrganizationsCustomConstraints extends \Google\Service\Resource
 {
   /**
-   * Creates a CustomConstraint. Returns a `google.rpc.Status` with
+   * Creates a custom constraint. Returns a `google.rpc.Status` with
    * `google.rpc.Code.NOT_FOUND` if the organization does not exist. Returns a
    * `google.rpc.Status` with `google.rpc.Code.ALREADY_EXISTS` if the constraint
    * already exists on the given organization. (customConstraints.create)
@@ -50,12 +50,12 @@ class OrganizationsCustomConstraints extends \Google\Service\Resource
     return $this->call('create', [$params], GoogleCloudOrgpolicyV2CustomConstraint::class);
   }
   /**
-   * Deletes a Custom Constraint. Returns a `google.rpc.Status` with
+   * Deletes a custom constraint. Returns a `google.rpc.Status` with
    * `google.rpc.Code.NOT_FOUND` if the constraint does not exist.
    * (customConstraints.delete)
    *
    * @param string $name Required. Name of the custom constraint to delete. See
-   * `CustomConstraint` for naming rules.
+   * the custom constraint entry for naming rules.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
    */
@@ -66,12 +66,12 @@ class OrganizationsCustomConstraints extends \Google\Service\Resource
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
   }
   /**
-   * Gets a CustomConstraint. Returns a `google.rpc.Status` with
-   * `google.rpc.Code.NOT_FOUND` if the CustomConstraint does not exist.
+   * Gets a custom constraint. Returns a `google.rpc.Status` with
+   * `google.rpc.Code.NOT_FOUND` if the custom constraint does not exist.
    * (customConstraints.get)
    *
-   * @param string $name Required. Resource name of the custom constraint. See
-   * `CustomConstraint` for naming requirements.
+   * @param string $name Required. Resource name of the custom constraint. See the
+   * custom constraint entry for naming requirements.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudOrgpolicyV2CustomConstraint
    */
@@ -82,12 +82,12 @@ class OrganizationsCustomConstraints extends \Google\Service\Resource
     return $this->call('get', [$params], GoogleCloudOrgpolicyV2CustomConstraint::class);
   }
   /**
-   * Retrieves all of the `CustomConstraints` that exist on a particular
+   * Retrieves all of the custom constraints that exist on a particular
    * organization resource. (customConstraints.listOrganizationsCustomConstraints)
    *
-   * @param string $parent Required. The target Cloud resource that parents the
-   * set of custom constraints that will be returned from this call. Must be in
-   * one of the following forms: * `organizations/{organization_id}`
+   * @param string $parent Required. The target Google Cloud resource that parents
+   * the set of custom constraints that will be returned from this call. Must be
+   * in one of the following forms: * `organizations/{organization_id}`
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Size of the pages to be returned. This is currently
@@ -105,7 +105,7 @@ class OrganizationsCustomConstraints extends \Google\Service\Resource
     return $this->call('list', [$params], GoogleCloudOrgpolicyV2ListCustomConstraintsResponse::class);
   }
   /**
-   * Updates a Custom Constraint. Returns a `google.rpc.Status` with
+   * Updates a custom constraint. Returns a `google.rpc.Status` with
    * `google.rpc.Code.NOT_FOUND` if the constraint does not exist. Note: the
    * supplied policy will perform a full overwrite of all fields.
    * (customConstraints.patch)
@@ -113,9 +113,9 @@ class OrganizationsCustomConstraints extends \Google\Service\Resource
    * @param string $name Immutable. Name of the constraint. This is unique within
    * the organization. Format of the name should be *
    * `organizations/{organization_id}/customConstraints/{custom_constraint_id}`
-   * Example : "organizations/123/customConstraints/custom.createOnlyE2TypeVms"
-   * The max length is 70 characters and the min length is 1. Note that the prefix
-   * "organizations/{organization_id}/customConstraints/" is not counted.
+   * Example: `organizations/123/customConstraints/custom.createOnlyE2TypeVms` The
+   * max length is 70 characters and the minimum length is 1. Note that the prefix
+   * `organizations/{organization_id}/customConstraints/` is not counted.
    * @param GoogleCloudOrgpolicyV2CustomConstraint $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudOrgpolicyV2CustomConstraint

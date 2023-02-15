@@ -20,10 +20,28 @@ namespace Google\Service\Contentwarehouse;
 class QualityPreviewSnippetBrainFeatures extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $isSnippetBrainBoldingTriggered;
+  /**
    * @var float
    */
   public $modelScore;
 
+  /**
+   * @param bool
+   */
+  public function setIsSnippetBrainBoldingTriggered($isSnippetBrainBoldingTriggered)
+  {
+    $this->isSnippetBrainBoldingTriggered = $isSnippetBrainBoldingTriggered;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsSnippetBrainBoldingTriggered()
+  {
+    return $this->isSnippetBrainBoldingTriggered;
+  }
   /**
    * @param float
    */

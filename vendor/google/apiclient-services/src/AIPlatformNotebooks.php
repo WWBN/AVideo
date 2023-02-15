@@ -362,6 +362,16 @@ class AIPlatformNotebooks extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'reportEvent' => [
+              'path' => 'v1/{+name}:reportEvent',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'reset' => [
               'path' => 'v1/{+name}:reset',
               'httpMethod' => 'POST',

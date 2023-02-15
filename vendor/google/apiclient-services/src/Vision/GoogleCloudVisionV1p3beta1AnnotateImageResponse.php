@@ -22,32 +22,46 @@ class GoogleCloudVisionV1p3beta1AnnotateImageResponse extends \Google\Collection
   protected $collection_key = 'textAnnotations';
   protected $contextType = GoogleCloudVisionV1p3beta1ImageAnnotationContext::class;
   protected $contextDataType = '';
+  public $context;
   protected $cropHintsAnnotationType = GoogleCloudVisionV1p3beta1CropHintsAnnotation::class;
   protected $cropHintsAnnotationDataType = '';
+  public $cropHintsAnnotation;
   protected $errorType = Status::class;
   protected $errorDataType = '';
+  public $error;
   protected $faceAnnotationsType = GoogleCloudVisionV1p3beta1FaceAnnotation::class;
   protected $faceAnnotationsDataType = 'array';
+  public $faceAnnotations;
   protected $fullTextAnnotationType = GoogleCloudVisionV1p3beta1TextAnnotation::class;
   protected $fullTextAnnotationDataType = '';
+  public $fullTextAnnotation;
   protected $imagePropertiesAnnotationType = GoogleCloudVisionV1p3beta1ImageProperties::class;
   protected $imagePropertiesAnnotationDataType = '';
+  public $imagePropertiesAnnotation;
   protected $labelAnnotationsType = GoogleCloudVisionV1p3beta1EntityAnnotation::class;
   protected $labelAnnotationsDataType = 'array';
+  public $labelAnnotations;
   protected $landmarkAnnotationsType = GoogleCloudVisionV1p3beta1EntityAnnotation::class;
   protected $landmarkAnnotationsDataType = 'array';
+  public $landmarkAnnotations;
   protected $localizedObjectAnnotationsType = GoogleCloudVisionV1p3beta1LocalizedObjectAnnotation::class;
   protected $localizedObjectAnnotationsDataType = 'array';
+  public $localizedObjectAnnotations;
   protected $logoAnnotationsType = GoogleCloudVisionV1p3beta1EntityAnnotation::class;
   protected $logoAnnotationsDataType = 'array';
+  public $logoAnnotations;
   protected $productSearchResultsType = GoogleCloudVisionV1p3beta1ProductSearchResults::class;
   protected $productSearchResultsDataType = '';
+  public $productSearchResults;
   protected $safeSearchAnnotationType = GoogleCloudVisionV1p3beta1SafeSearchAnnotation::class;
   protected $safeSearchAnnotationDataType = '';
+  public $safeSearchAnnotation;
   protected $textAnnotationsType = GoogleCloudVisionV1p3beta1EntityAnnotation::class;
   protected $textAnnotationsDataType = 'array';
+  public $textAnnotations;
   protected $webDetectionType = GoogleCloudVisionV1p3beta1WebDetection::class;
   protected $webDetectionDataType = '';
+  public $webDetection;
 
   /**
    * @param GoogleCloudVisionV1p3beta1ImageAnnotationContext

@@ -22,6 +22,7 @@ class ListBillingAccountsResponse extends \Google\Collection
   protected $collection_key = 'billingAccounts';
   protected $billingAccountsType = BillingAccount::class;
   protected $billingAccountsDataType = 'array';
+  public $billingAccounts;
   /**
    * @var string
    */

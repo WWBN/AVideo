@@ -110,7 +110,7 @@ class Playlists extends \Google\Service\Resource
    *
    * @opt_param string channelId Return the playlists owned by the specified
    * channel ID.
-   * @opt_param string hl Returen content in specified language
+   * @opt_param string hl Return content in specified language
    * @opt_param string id Return the playlists with the given IDs for Stubby or
    * Apiary.
    * @opt_param string maxResults The *maxResults* parameter specifies the maximum

@@ -21,14 +21,17 @@ class BasicSeriesDataPointStyleOverride extends \Google\Model
 {
   protected $colorType = Color::class;
   protected $colorDataType = '';
+  public $color;
   protected $colorStyleType = ColorStyle::class;
   protected $colorStyleDataType = '';
+  public $colorStyle;
   /**
    * @var int
    */
   public $index;
   protected $pointStyleType = PointStyle::class;
   protected $pointStyleDataType = '';
+  public $pointStyle;
 
   /**
    * @param Color

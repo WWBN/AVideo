@@ -21,6 +21,7 @@ class ConfigureDnsSettingsRequest extends \Google\Model
 {
   protected $dnsSettingsType = DnsSettings::class;
   protected $dnsSettingsDataType = '';
+  public $dnsSettings;
   /**
    * @var string
    */

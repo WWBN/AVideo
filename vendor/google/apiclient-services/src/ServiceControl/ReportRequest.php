@@ -22,6 +22,7 @@ class ReportRequest extends \Google\Collection
   protected $collection_key = 'operations';
   protected $operationsType = AttributeContext::class;
   protected $operationsDataType = 'array';
+  public $operations;
   /**
    * @var string
    */

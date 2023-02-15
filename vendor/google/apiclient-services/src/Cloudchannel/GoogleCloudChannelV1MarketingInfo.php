@@ -21,6 +21,7 @@ class GoogleCloudChannelV1MarketingInfo extends \Google\Model
 {
   protected $defaultLogoType = GoogleCloudChannelV1Media::class;
   protected $defaultLogoDataType = '';
+  public $defaultLogo;
   /**
    * @var string
    */

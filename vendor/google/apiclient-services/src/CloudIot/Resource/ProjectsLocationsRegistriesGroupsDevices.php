@@ -24,7 +24,7 @@ use Google\Service\CloudIot\ListDevicesResponse;
  * Typical usage is:
  *  <code>
  *   $cloudiotService = new Google\Service\CloudIot(...);
- *   $devices = $cloudiotService->devices;
+ *   $devices = $cloudiotService->projects_locations_registries_groups_devices;
  *  </code>
  */
 class ProjectsLocationsRegistriesGroupsDevices extends \Google\Service\Resource

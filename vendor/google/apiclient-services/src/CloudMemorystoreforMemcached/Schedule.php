@@ -29,6 +29,7 @@ class Schedule extends \Google\Model
   public $duration;
   protected $startTimeType = TimeOfDay::class;
   protected $startTimeDataType = '';
+  public $startTime;
 
   /**
    * @param string

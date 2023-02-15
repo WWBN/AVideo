@@ -28,7 +28,7 @@ use Google\Service\AndroidPublisher\Subscription;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $basePlans = $androidpublisherService->basePlans;
+ *   $basePlans = $androidpublisherService->monetization_subscriptions_basePlans;
  *  </code>
  */
 class MonetizationSubscriptionsBasePlans extends \Google\Service\Resource

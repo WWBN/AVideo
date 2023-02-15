@@ -27,7 +27,7 @@ use Google\Service\DatabaseMigrationService\Operation;
  * Typical usage is:
  *  <code>
  *   $datamigrationService = new Google\Service\DatabaseMigrationService(...);
- *   $operations = $datamigrationService->operations;
+ *   $operations = $datamigrationService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

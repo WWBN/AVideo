@@ -22,14 +22,17 @@ class MediationReportSpec extends \Google\Collection
   protected $collection_key = 'sortConditions';
   protected $dateRangeType = DateRange::class;
   protected $dateRangeDataType = '';
+  public $dateRange;
   protected $dimensionFiltersType = MediationReportSpecDimensionFilter::class;
   protected $dimensionFiltersDataType = 'array';
+  public $dimensionFilters;
   /**
    * @var string[]
    */
   public $dimensions;
   protected $localizationSettingsType = LocalizationSettings::class;
   protected $localizationSettingsDataType = '';
+  public $localizationSettings;
   /**
    * @var int
    */
@@ -40,6 +43,7 @@ class MediationReportSpec extends \Google\Collection
   public $metrics;
   protected $sortConditionsType = MediationReportSpecSortCondition::class;
   protected $sortConditionsDataType = 'array';
+  public $sortConditions;
   /**
    * @var string
    */

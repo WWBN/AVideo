@@ -27,7 +27,7 @@ use Google\Service\NetworkServices\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $networkservicesService = new Google\Service\NetworkServices(...);
- *   $edgeCacheOrigins = $networkservicesService->edgeCacheOrigins;
+ *   $edgeCacheOrigins = $networkservicesService->projects_locations_edgeCacheOrigins;
  *  </code>
  */
 class ProjectsLocationsEdgeCacheOrigins extends \Google\Service\Resource

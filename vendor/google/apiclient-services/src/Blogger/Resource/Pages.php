@@ -36,6 +36,8 @@ class Pages extends \Google\Service\Resource
    * @param string $blogId
    * @param string $pageId
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool useTrash Move to Trash if possible
    */
   public function delete($blogId, $pageId, $optParams = [])
   {

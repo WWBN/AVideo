@@ -33,7 +33,7 @@ use Google\Service\Dataproc\WorkflowTemplate;
  * Typical usage is:
  *  <code>
  *   $dataprocService = new Google\Service\Dataproc(...);
- *   $workflowTemplates = $dataprocService->workflowTemplates;
+ *   $workflowTemplates = $dataprocService->projects_locations_workflowTemplates;
  *  </code>
  */
 class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource

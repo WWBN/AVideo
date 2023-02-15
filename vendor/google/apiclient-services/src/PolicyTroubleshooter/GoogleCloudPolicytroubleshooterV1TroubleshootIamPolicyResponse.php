@@ -26,8 +26,10 @@ class GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyResponse extends \Go
   public $access;
   protected $errorsType = GoogleRpcStatus::class;
   protected $errorsDataType = 'array';
+  public $errors;
   protected $explainedPoliciesType = GoogleCloudPolicytroubleshooterV1ExplainedPolicy::class;
   protected $explainedPoliciesDataType = 'array';
+  public $explainedPolicies;
 
   /**
    * @param string

@@ -29,33 +29,43 @@ class CounterUpdate extends \Google\Model
   public $cumulative;
   protected $distributionType = DistributionUpdate::class;
   protected $distributionDataType = '';
+  public $distribution;
   public $floatingPoint;
   protected $floatingPointListType = FloatingPointList::class;
   protected $floatingPointListDataType = '';
+  public $floatingPointList;
   protected $floatingPointMeanType = FloatingPointMean::class;
   protected $floatingPointMeanDataType = '';
+  public $floatingPointMean;
   protected $integerType = SplitInt64::class;
   protected $integerDataType = '';
+  public $integer;
   protected $integerGaugeType = IntegerGauge::class;
   protected $integerGaugeDataType = '';
+  public $integerGauge;
   protected $integerListType = IntegerList::class;
   protected $integerListDataType = '';
+  public $integerList;
   protected $integerMeanType = IntegerMean::class;
   protected $integerMeanDataType = '';
+  public $integerMean;
   /**
    * @var array
    */
   public $internal;
   protected $nameAndKindType = NameAndKind::class;
   protected $nameAndKindDataType = '';
+  public $nameAndKind;
   /**
    * @var string
    */
   public $shortId;
   protected $stringListType = StringList::class;
   protected $stringListDataType = '';
+  public $stringList;
   protected $structuredNameAndMetadataType = CounterStructuredNameAndMetadata::class;
   protected $structuredNameAndMetadataDataType = '';
+  public $structuredNameAndMetadata;
 
   /**
    * @param bool

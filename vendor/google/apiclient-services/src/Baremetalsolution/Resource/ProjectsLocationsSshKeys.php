@@ -26,7 +26,7 @@ use Google\Service\Baremetalsolution\SSHKey;
  * Typical usage is:
  *  <code>
  *   $baremetalsolutionService = new Google\Service\Baremetalsolution(...);
- *   $sshKeys = $baremetalsolutionService->sshKeys;
+ *   $sshKeys = $baremetalsolutionService->projects_locations_sshKeys;
  *  </code>
  */
 class ProjectsLocationsSshKeys extends \Google\Service\Resource

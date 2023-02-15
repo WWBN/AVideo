@@ -27,6 +27,7 @@ class Value extends \Google\Collection
   public $intVal;
   protected $mapValType = ValueMapValEntry::class;
   protected $mapValDataType = 'array';
+  public $mapVal;
   /**
    * @var string
    */

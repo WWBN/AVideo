@@ -20,12 +20,9 @@ namespace Google\Service\Contentwarehouse;
 class GoogleCloudContentwarehouseV1Document extends \Google\Collection
 {
   protected $collection_key = 'properties';
-  /**
-   * @var bool
-   */
-  public $asyncEnabled;
   protected $cloudAiDocumentType = GoogleCloudDocumentaiV1Document::class;
   protected $cloudAiDocumentDataType = '';
+  public $cloudAiDocument;
   /**
    * @var string
    */
@@ -64,6 +61,7 @@ class GoogleCloudContentwarehouseV1Document extends \Google\Collection
   public $plainText;
   protected $propertiesType = GoogleCloudContentwarehouseV1Property::class;
   protected $propertiesDataType = 'array';
+  public $properties;
   /**
    * @var string
    */
@@ -77,13 +75,13 @@ class GoogleCloudContentwarehouseV1Document extends \Google\Collection
    */
   public $referenceId;
   /**
-   * @var string
-   */
-  public $structuredContentUri;
-  /**
    * @var bool
    */
   public $textExtractionDisabled;
+  /**
+   * @var bool
+   */
+  public $textExtractionEnabled;
   /**
    * @var string
    */
@@ -97,20 +95,6 @@ class GoogleCloudContentwarehouseV1Document extends \Google\Collection
    */
   public $updater;
 
-  /**
-   * @param bool
-   */
-  public function setAsyncEnabled($asyncEnabled)
-  {
-    $this->asyncEnabled = $asyncEnabled;
-  }
-  /**
-   * @return bool
-   */
-  public function getAsyncEnabled()
-  {
-    return $this->asyncEnabled;
-  }
   /**
    * @param GoogleCloudDocumentaiV1Document
    */
@@ -308,20 +292,6 @@ class GoogleCloudContentwarehouseV1Document extends \Google\Collection
     return $this->referenceId;
   }
   /**
-   * @param string
-   */
-  public function setStructuredContentUri($structuredContentUri)
-  {
-    $this->structuredContentUri = $structuredContentUri;
-  }
-  /**
-   * @return string
-   */
-  public function getStructuredContentUri()
-  {
-    return $this->structuredContentUri;
-  }
-  /**
    * @param bool
    */
   public function setTextExtractionDisabled($textExtractionDisabled)
@@ -334,6 +304,20 @@ class GoogleCloudContentwarehouseV1Document extends \Google\Collection
   public function getTextExtractionDisabled()
   {
     return $this->textExtractionDisabled;
+  }
+  /**
+   * @param bool
+   */
+  public function setTextExtractionEnabled($textExtractionEnabled)
+  {
+    $this->textExtractionEnabled = $textExtractionEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getTextExtractionEnabled()
+  {
+    return $this->textExtractionEnabled;
   }
   /**
    * @param string

@@ -29,6 +29,7 @@ class GoodocLogicalEntity extends \Google\Collection
   public $metadata;
   protected $linkType = GoodocLogicalEntityLink::class;
   protected $linkDataType = 'array';
+  public $link;
 
   /**
    * @param string

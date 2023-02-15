@@ -25,7 +25,7 @@ use Google\Service\Classroom\ListGuardianInvitationsResponse;
  * Typical usage is:
  *  <code>
  *   $classroomService = new Google\Service\Classroom(...);
- *   $guardianInvitations = $classroomService->guardianInvitations;
+ *   $guardianInvitations = $classroomService->userProfiles_guardianInvitations;
  *  </code>
  */
 class UserProfilesGuardianInvitations extends \Google\Service\Resource

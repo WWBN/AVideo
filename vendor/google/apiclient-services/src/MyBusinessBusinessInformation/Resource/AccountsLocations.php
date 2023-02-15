@@ -25,7 +25,7 @@ use Google\Service\MyBusinessBusinessInformation\Location;
  * Typical usage is:
  *  <code>
  *   $mybusinessbusinessinformationService = new Google\Service\MyBusinessBusinessInformation(...);
- *   $locations = $mybusinessbusinessinformationService->locations;
+ *   $locations = $mybusinessbusinessinformationService->accounts_locations;
  *  </code>
  */
 class AccountsLocations extends \Google\Service\Resource

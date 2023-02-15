@@ -22,8 +22,10 @@ class NodeTypesScopedList extends \Google\Collection
   protected $collection_key = 'nodeTypes';
   protected $nodeTypesType = NodeType::class;
   protected $nodeTypesDataType = 'array';
+  public $nodeTypes;
   protected $warningType = NodeTypesScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param NodeType[]

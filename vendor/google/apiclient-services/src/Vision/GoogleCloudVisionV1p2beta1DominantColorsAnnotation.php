@@ -22,6 +22,7 @@ class GoogleCloudVisionV1p2beta1DominantColorsAnnotation extends \Google\Collect
   protected $collection_key = 'colors';
   protected $colorsType = GoogleCloudVisionV1p2beta1ColorInfo::class;
   protected $colorsDataType = 'array';
+  public $colors;
 
   /**
    * @param GoogleCloudVisionV1p2beta1ColorInfo[]

@@ -29,6 +29,11 @@ class GoogleCloudContactcenterinsightsV1alpha1IssueModel extends \Google\Model
   public $displayName;
   protected $inputDataConfigType = GoogleCloudContactcenterinsightsV1alpha1IssueModelInputDataConfig::class;
   protected $inputDataConfigDataType = '';
+  public $inputDataConfig;
+  /**
+   * @var string
+   */
+  public $issueCount;
   /**
    * @var string
    */
@@ -39,6 +44,7 @@ class GoogleCloudContactcenterinsightsV1alpha1IssueModel extends \Google\Model
   public $state;
   protected $trainingStatsType = GoogleCloudContactcenterinsightsV1alpha1IssueModelLabelStats::class;
   protected $trainingStatsDataType = '';
+  public $trainingStats;
   /**
    * @var string
    */
@@ -85,6 +91,20 @@ class GoogleCloudContactcenterinsightsV1alpha1IssueModel extends \Google\Model
   public function getInputDataConfig()
   {
     return $this->inputDataConfig;
+  }
+  /**
+   * @param string
+   */
+  public function setIssueCount($issueCount)
+  {
+    $this->issueCount = $issueCount;
+  }
+  /**
+   * @return string
+   */
+  public function getIssueCount()
+  {
+    return $this->issueCount;
   }
   /**
    * @param string

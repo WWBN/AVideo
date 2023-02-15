@@ -25,7 +25,7 @@ use Google\Service\ToolResults\PerfSampleSeries;
  * Typical usage is:
  *  <code>
  *   $toolresultsService = new Google\Service\ToolResults(...);
- *   $perfSampleSeries = $toolresultsService->perfSampleSeries;
+ *   $perfSampleSeries = $toolresultsService->projects_histories_executions_steps_perfSampleSeries;
  *  </code>
  */
 class ProjectsHistoriesExecutionsStepsPerfSampleSeries extends \Google\Service\Resource

@@ -25,7 +25,7 @@ use Google\Service\TagManager\UserPermission;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $user_permissions = $tagmanagerService->user_permissions;
+ *   $user_permissions = $tagmanagerService->accounts_user_permissions;
  *  </code>
  */
 class AccountsUserPermissions extends \Google\Service\Resource

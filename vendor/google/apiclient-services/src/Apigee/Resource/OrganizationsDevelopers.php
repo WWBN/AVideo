@@ -29,7 +29,7 @@ use Google\Service\Apigee\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $developers = $apigeeService->developers;
+ *   $developers = $apigeeService->organizations_developers;
  *  </code>
  */
 class OrganizationsDevelopers extends \Google\Service\Resource

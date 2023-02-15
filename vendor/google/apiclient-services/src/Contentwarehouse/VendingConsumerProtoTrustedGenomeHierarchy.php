@@ -22,6 +22,7 @@ class VendingConsumerProtoTrustedGenomeHierarchy extends \Google\Collection
   protected $collection_key = 'entity';
   protected $entityType = VendingConsumerProtoTrustedGenomeEntity::class;
   protected $entityDataType = 'array';
+  public $entity;
   /**
    * @var string
    */

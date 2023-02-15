@@ -21,6 +21,7 @@ class CreateRoleRequest extends \Google\Model
 {
   protected $roleType = Role::class;
   protected $roleDataType = '';
+  public $role;
   /**
    * @var string
    */

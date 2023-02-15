@@ -22,8 +22,10 @@ class ArimaModelInfo extends \Google\Collection
   protected $collection_key = 'timeSeriesIds';
   protected $arimaCoefficientsType = ArimaCoefficients::class;
   protected $arimaCoefficientsDataType = '';
+  public $arimaCoefficients;
   protected $arimaFittingMetricsType = ArimaFittingMetrics::class;
   protected $arimaFittingMetricsDataType = '';
+  public $arimaFittingMetrics;
   /**
    * @var bool
    */
@@ -42,6 +44,7 @@ class ArimaModelInfo extends \Google\Collection
   public $hasStepChanges;
   protected $nonSeasonalOrderType = ArimaOrder::class;
   protected $nonSeasonalOrderDataType = '';
+  public $nonSeasonalOrder;
   /**
    * @var string[]
    */

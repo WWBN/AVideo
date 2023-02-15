@@ -21,6 +21,7 @@ class ListenRequest extends \Google\Model
 {
   protected $addTargetType = Target::class;
   protected $addTargetDataType = '';
+  public $addTarget;
   /**
    * @var string[]
    */

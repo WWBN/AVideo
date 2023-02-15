@@ -26,8 +26,10 @@ class GoogleCloudRunV2Revision extends \Google\Collection
   public $annotations;
   protected $conditionsType = GoogleCloudRunV2Condition::class;
   protected $conditionsDataType = 'array';
+  public $conditions;
   protected $containersType = GoogleCloudRunV2Container::class;
   protected $containersDataType = 'array';
+  public $containers;
   /**
    * @var string
    */
@@ -40,6 +42,14 @@ class GoogleCloudRunV2Revision extends \Google\Collection
    * @var string
    */
   public $encryptionKey;
+  /**
+   * @var string
+   */
+  public $encryptionKeyRevocationAction;
+  /**
+   * @var string
+   */
+  public $encryptionKeyShutdownDuration;
   /**
    * @var string
    */
@@ -86,6 +96,7 @@ class GoogleCloudRunV2Revision extends \Google\Collection
   public $reconciling;
   protected $scalingType = GoogleCloudRunV2RevisionScaling::class;
   protected $scalingDataType = '';
+  public $scaling;
   /**
    * @var string
    */
@@ -108,8 +119,10 @@ class GoogleCloudRunV2Revision extends \Google\Collection
   public $updateTime;
   protected $volumesType = GoogleCloudRunV2Volume::class;
   protected $volumesDataType = 'array';
+  public $volumes;
   protected $vpcAccessType = GoogleCloudRunV2VpcAccess::class;
   protected $vpcAccessDataType = '';
+  public $vpcAccess;
 
   /**
    * @param string[]
@@ -194,6 +207,34 @@ class GoogleCloudRunV2Revision extends \Google\Collection
   public function getEncryptionKey()
   {
     return $this->encryptionKey;
+  }
+  /**
+   * @param string
+   */
+  public function setEncryptionKeyRevocationAction($encryptionKeyRevocationAction)
+  {
+    $this->encryptionKeyRevocationAction = $encryptionKeyRevocationAction;
+  }
+  /**
+   * @return string
+   */
+  public function getEncryptionKeyRevocationAction()
+  {
+    return $this->encryptionKeyRevocationAction;
+  }
+  /**
+   * @param string
+   */
+  public function setEncryptionKeyShutdownDuration($encryptionKeyShutdownDuration)
+  {
+    $this->encryptionKeyShutdownDuration = $encryptionKeyShutdownDuration;
+  }
+  /**
+   * @return string
+   */
+  public function getEncryptionKeyShutdownDuration()
+  {
+    return $this->encryptionKeyShutdownDuration;
   }
   /**
    * @param string

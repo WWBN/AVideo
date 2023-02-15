@@ -34,7 +34,7 @@ use Google\Service\CloudMachineLearningEngine\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $mlService = new Google\Service\CloudMachineLearningEngine(...);
- *   $trials = $mlService->trials;
+ *   $trials = $mlService->projects_locations_studies_trials;
  *  </code>
  */
 class ProjectsLocationsStudiesTrials extends \Google\Service\Resource

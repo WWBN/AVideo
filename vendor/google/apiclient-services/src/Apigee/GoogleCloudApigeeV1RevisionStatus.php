@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1RevisionStatus extends \Google\Collection
   protected $collection_key = 'errors';
   protected $errorsType = GoogleCloudApigeeV1UpdateError::class;
   protected $errorsDataType = 'array';
+  public $errors;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class SitesListResponse extends \Google\Collection
   protected $collection_key = 'siteEntry';
   protected $siteEntryType = WmxSite::class;
   protected $siteEntryDataType = 'array';
+  public $siteEntry;
 
   /**
    * @param WmxSite[]

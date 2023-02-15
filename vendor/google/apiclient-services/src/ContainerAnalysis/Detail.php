@@ -29,8 +29,10 @@ class Detail extends \Google\Model
   public $affectedPackage;
   protected $affectedVersionEndType = Version::class;
   protected $affectedVersionEndDataType = '';
+  public $affectedVersionEnd;
   protected $affectedVersionStartType = Version::class;
   protected $affectedVersionStartDataType = '';
+  public $affectedVersionStart;
   /**
    * @var string
    */
@@ -45,6 +47,7 @@ class Detail extends \Google\Model
   public $fixedPackage;
   protected $fixedVersionType = Version::class;
   protected $fixedVersionDataType = '';
+  public $fixedVersion;
   /**
    * @var bool
    */

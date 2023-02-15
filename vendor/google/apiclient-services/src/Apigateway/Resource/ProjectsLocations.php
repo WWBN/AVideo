@@ -25,7 +25,7 @@ use Google\Service\Apigateway\ApigatewayLocation;
  * Typical usage is:
  *  <code>
  *   $apigatewayService = new Google\Service\Apigateway(...);
- *   $locations = $apigatewayService->locations;
+ *   $locations = $apigatewayService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class ListConnectionsResponse extends \Google\Collection
   protected $collection_key = 'connections';
   protected $connectionsType = Person::class;
   protected $connectionsDataType = 'array';
+  public $connections;
   /**
    * @var string
    */

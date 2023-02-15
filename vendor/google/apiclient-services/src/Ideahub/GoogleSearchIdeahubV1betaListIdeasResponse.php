@@ -22,6 +22,7 @@ class GoogleSearchIdeahubV1betaListIdeasResponse extends \Google\Collection
   protected $collection_key = 'ideas';
   protected $ideasType = GoogleSearchIdeahubV1betaIdea::class;
   protected $ideasDataType = 'array';
+  public $ideas;
   /**
    * @var string
    */

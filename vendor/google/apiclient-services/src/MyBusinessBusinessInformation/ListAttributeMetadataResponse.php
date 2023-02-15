@@ -22,6 +22,7 @@ class ListAttributeMetadataResponse extends \Google\Collection
   protected $collection_key = 'attributeMetadata';
   protected $attributeMetadataType = AttributeMetadata::class;
   protected $attributeMetadataDataType = 'array';
+  public $attributeMetadata;
   /**
    * @var string
    */

@@ -29,8 +29,10 @@ class UpdateTableCellPropertiesRequest extends \Google\Model
   public $objectId;
   protected $tableCellPropertiesType = TableCellProperties::class;
   protected $tableCellPropertiesDataType = '';
+  public $tableCellProperties;
   protected $tableRangeType = TableRange::class;
   protected $tableRangeDataType = '';
+  public $tableRange;
 
   /**
    * @param string

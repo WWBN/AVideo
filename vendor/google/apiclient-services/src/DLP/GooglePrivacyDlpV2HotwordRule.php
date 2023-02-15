@@ -21,10 +21,13 @@ class GooglePrivacyDlpV2HotwordRule extends \Google\Model
 {
   protected $hotwordRegexType = GooglePrivacyDlpV2Regex::class;
   protected $hotwordRegexDataType = '';
+  public $hotwordRegex;
   protected $likelihoodAdjustmentType = GooglePrivacyDlpV2LikelihoodAdjustment::class;
   protected $likelihoodAdjustmentDataType = '';
+  public $likelihoodAdjustment;
   protected $proximityType = GooglePrivacyDlpV2Proximity::class;
   protected $proximityDataType = '';
+  public $proximity;
 
   /**
    * @param GooglePrivacyDlpV2Regex

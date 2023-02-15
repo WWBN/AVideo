@@ -22,6 +22,7 @@ class OrdersRefundItemRequest extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = OrdersCustomBatchRequestEntryRefundItemItem::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -36,6 +37,7 @@ class OrdersRefundItemRequest extends \Google\Collection
   public $reasonText;
   protected $shippingType = OrdersCustomBatchRequestEntryRefundItemShipping::class;
   protected $shippingDataType = '';
+  public $shipping;
 
   /**
    * @param OrdersCustomBatchRequestEntryRefundItemItem[]

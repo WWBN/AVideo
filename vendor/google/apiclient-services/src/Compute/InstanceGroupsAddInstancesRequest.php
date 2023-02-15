@@ -22,6 +22,7 @@ class InstanceGroupsAddInstancesRequest extends \Google\Collection
   protected $collection_key = 'instances';
   protected $instancesType = InstanceReference::class;
   protected $instancesDataType = 'array';
+  public $instances;
 
   /**
    * @param InstanceReference[]

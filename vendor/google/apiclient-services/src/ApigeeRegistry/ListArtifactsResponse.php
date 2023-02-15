@@ -22,6 +22,7 @@ class ListArtifactsResponse extends \Google\Collection
   protected $collection_key = 'artifacts';
   protected $artifactsType = Artifact::class;
   protected $artifactsDataType = 'array';
+  public $artifacts;
   /**
    * @var string
    */

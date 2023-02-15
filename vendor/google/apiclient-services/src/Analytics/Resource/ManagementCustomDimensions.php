@@ -25,7 +25,7 @@ use Google\Service\Analytics\CustomDimensions;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $customDimensions = $analyticsService->customDimensions;
+ *   $customDimensions = $analyticsService->management_customDimensions;
  *  </code>
  */
 class ManagementCustomDimensions extends \Google\Service\Resource

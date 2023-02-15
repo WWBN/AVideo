@@ -30,6 +30,7 @@ class IndexingDocjoinerAnchorStatistics extends \Google\Collection
   public $anchorPhraseCount;
   protected $anchorSpamInfoType = IndexingDocjoinerAnchorSpamInfo::class;
   protected $anchorSpamInfoDataType = '';
+  public $anchorSpamInfo;
   /**
    * @var int
    */
@@ -152,16 +153,20 @@ class IndexingDocjoinerAnchorStatistics extends \Google\Collection
   public $penguinTooManySources;
   protected $perdupstatsType = IndexingDocjoinerAnchorStatisticsPerDupStats::class;
   protected $perdupstatsDataType = 'array';
+  public $perdupstats;
   protected $phraseAnchorSpamInfoType = IndexingDocjoinerAnchorPhraseSpamInfo::class;
   protected $phraseAnchorSpamInfoDataType = '';
+  public $phraseAnchorSpamInfo;
   /**
    * @var int
    */
   public $redundantAnchorForPhraseCapCount;
   protected $redundantanchorinfoType = IndexingDocjoinerAnchorStatisticsRedundantAnchorInfo::class;
   protected $redundantanchorinfoDataType = 'array';
+  public $redundantanchorinfo;
   protected $redundantanchorinfoforphrasecapType = IndexingDocjoinerAnchorStatisticsRedundantAnchorInfoForPhraseCap::class;
   protected $redundantanchorinfoforphrasecapDataType = 'array';
+  public $redundantanchorinfoforphrasecap;
   /**
    * @var int
    */

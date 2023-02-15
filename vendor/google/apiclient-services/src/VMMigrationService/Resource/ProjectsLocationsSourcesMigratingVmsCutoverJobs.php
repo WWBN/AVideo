@@ -27,7 +27,7 @@ use Google\Service\VMMigrationService\Operation;
  * Typical usage is:
  *  <code>
  *   $vmmigrationService = new Google\Service\VMMigrationService(...);
- *   $cutoverJobs = $vmmigrationService->cutoverJobs;
+ *   $cutoverJobs = $vmmigrationService->projects_locations_sources_migratingVms_cutoverJobs;
  *  </code>
  */
 class ProjectsLocationsSourcesMigratingVmsCutoverJobs extends \Google\Service\Resource

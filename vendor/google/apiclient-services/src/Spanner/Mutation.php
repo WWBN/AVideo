@@ -21,14 +21,19 @@ class Mutation extends \Google\Model
 {
   protected $deleteType = Delete::class;
   protected $deleteDataType = '';
+  public $delete;
   protected $insertType = Write::class;
   protected $insertDataType = '';
+  public $insert;
   protected $insertOrUpdateType = Write::class;
   protected $insertOrUpdateDataType = '';
+  public $insertOrUpdate;
   protected $replaceType = Write::class;
   protected $replaceDataType = '';
+  public $replace;
   protected $updateType = Write::class;
   protected $updateDataType = '';
+  public $update;
 
   /**
    * @param Delete

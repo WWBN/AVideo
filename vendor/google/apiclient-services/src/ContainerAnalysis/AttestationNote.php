@@ -21,6 +21,7 @@ class AttestationNote extends \Google\Model
 {
   protected $hintType = Hint::class;
   protected $hintDataType = '';
+  public $hint;
 
   /**
    * @param Hint

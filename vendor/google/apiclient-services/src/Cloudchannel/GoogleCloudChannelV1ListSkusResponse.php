@@ -26,6 +26,7 @@ class GoogleCloudChannelV1ListSkusResponse extends \Google\Collection
   public $nextPageToken;
   protected $skusType = GoogleCloudChannelV1Sku::class;
   protected $skusDataType = 'array';
+  public $skus;
 
   /**
    * @param string

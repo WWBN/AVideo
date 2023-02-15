@@ -34,22 +34,27 @@ class Service extends \Google\Collection
   public $deliveryCountry;
   protected $deliveryTimeType = DeliveryTime::class;
   protected $deliveryTimeDataType = '';
+  public $deliveryTime;
   /**
    * @var string
    */
   public $eligibility;
   protected $minimumOrderValueType = Price::class;
   protected $minimumOrderValueDataType = '';
+  public $minimumOrderValue;
   protected $minimumOrderValueTableType = MinimumOrderValueTable::class;
   protected $minimumOrderValueTableDataType = '';
+  public $minimumOrderValueTable;
   /**
    * @var string
    */
   public $name;
   protected $pickupServiceType = PickupCarrierService::class;
   protected $pickupServiceDataType = '';
+  public $pickupService;
   protected $rateGroupsType = RateGroup::class;
   protected $rateGroupsDataType = 'array';
+  public $rateGroups;
   /**
    * @var string
    */

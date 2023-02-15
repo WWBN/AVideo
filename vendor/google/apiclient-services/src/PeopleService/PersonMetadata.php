@@ -38,6 +38,7 @@ class PersonMetadata extends \Google\Collection
   public $previousResourceNames;
   protected $sourcesType = Source::class;
   protected $sourcesDataType = 'array';
+  public $sources;
 
   /**
    * @param bool

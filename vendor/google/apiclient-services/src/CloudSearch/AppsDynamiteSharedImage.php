@@ -29,6 +29,7 @@ class AppsDynamiteSharedImage extends \Google\Model
   public $imageUrl;
   protected $onClickType = AppsDynamiteSharedOnClick::class;
   protected $onClickDataType = '';
+  public $onClick;
 
   /**
    * @param string

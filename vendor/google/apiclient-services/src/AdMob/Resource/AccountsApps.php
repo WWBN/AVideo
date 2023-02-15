@@ -24,7 +24,7 @@ use Google\Service\AdMob\ListAppsResponse;
  * Typical usage is:
  *  <code>
  *   $admobService = new Google\Service\AdMob(...);
- *   $apps = $admobService->apps;
+ *   $apps = $admobService->accounts_apps;
  *  </code>
  */
 class AccountsApps extends \Google\Service\Resource

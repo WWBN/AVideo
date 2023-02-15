@@ -21,14 +21,19 @@ class TokenPayloadExternal extends \Google\Model
 {
   protected $accountDetailsType = AccountDetails::class;
   protected $accountDetailsDataType = '';
+  public $accountDetails;
   protected $appIntegrityType = AppIntegrity::class;
   protected $appIntegrityDataType = '';
+  public $appIntegrity;
   protected $deviceIntegrityType = DeviceIntegrity::class;
   protected $deviceIntegrityDataType = '';
+  public $deviceIntegrity;
   protected $requestDetailsType = RequestDetails::class;
   protected $requestDetailsDataType = '';
+  public $requestDetails;
   protected $testingDetailsType = TestingDetails::class;
   protected $testingDetailsDataType = '';
+  public $testingDetails;
 
   /**
    * @param AccountDetails

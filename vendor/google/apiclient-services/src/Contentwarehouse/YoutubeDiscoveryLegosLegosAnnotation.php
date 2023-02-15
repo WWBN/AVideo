@@ -21,14 +21,19 @@ class YoutubeDiscoveryLegosLegosAnnotation extends \Google\Model
 {
   protected $entityType = YoutubeDiscoveryLegosLegosEntity::class;
   protected $entityDataType = '';
+  public $entity;
   protected $formatType = YoutubeDiscoveryLegosLegosFormatRelationship::class;
   protected $formatDataType = '';
+  public $format;
   protected $presentType = YoutubeDiscoveryLegosLegosPresentRelationship::class;
   protected $presentDataType = '';
+  public $present;
   protected $semanticType = YoutubeDiscoveryLegosLegosSemanticRelationship::class;
   protected $semanticDataType = '';
+  public $semantic;
   protected $taxonomicType = YoutubeDiscoveryLegosLegosTaxonomicRelationship::class;
   protected $taxonomicDataType = '';
+  public $taxonomic;
 
   /**
    * @param YoutubeDiscoveryLegosLegosEntity

@@ -22,6 +22,7 @@ class MobileUsabilityInspectionResult extends \Google\Collection
   protected $collection_key = 'issues';
   protected $issuesType = MobileUsabilityIssue::class;
   protected $issuesDataType = 'array';
+  public $issues;
   /**
    * @var string
    */

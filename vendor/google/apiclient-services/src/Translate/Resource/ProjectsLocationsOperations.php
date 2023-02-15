@@ -28,7 +28,7 @@ use Google\Service\Translate\WaitOperationRequest;
  * Typical usage is:
  *  <code>
  *   $translateService = new Google\Service\Translate(...);
- *   $operations = $translateService->operations;
+ *   $operations = $translateService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

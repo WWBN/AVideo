@@ -21,8 +21,10 @@ class GoogleCloudDocumentaiV1BatchDocumentsInputConfig extends \Google\Model
 {
   protected $gcsDocumentsType = GoogleCloudDocumentaiV1GcsDocuments::class;
   protected $gcsDocumentsDataType = '';
+  public $gcsDocuments;
   protected $gcsPrefixType = GoogleCloudDocumentaiV1GcsPrefix::class;
   protected $gcsPrefixDataType = '';
+  public $gcsPrefix;
 
   /**
    * @param GoogleCloudDocumentaiV1GcsDocuments

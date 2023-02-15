@@ -26,7 +26,7 @@ use Google\Service\Classroom\ListCourseAliasesResponse;
  * Typical usage is:
  *  <code>
  *   $classroomService = new Google\Service\Classroom(...);
- *   $aliases = $classroomService->aliases;
+ *   $aliases = $classroomService->courses_aliases;
  *  </code>
  */
 class CoursesAliases extends \Google\Service\Resource

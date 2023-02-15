@@ -33,8 +33,10 @@ class ServicePerimeter extends \Google\Model
   public $perimeterType;
   protected $specType = ServicePerimeterConfig::class;
   protected $specDataType = '';
+  public $spec;
   protected $statusType = ServicePerimeterConfig::class;
   protected $statusDataType = '';
+  public $status;
   /**
    * @var string
    */

@@ -25,6 +25,7 @@ class AppsDynamiteSharedCallAnnotationData extends \Google\Model
   public $callEndedTimestamp;
   protected $callMetadataType = AppsDynamiteSharedCallMetadata::class;
   protected $callMetadataDataType = '';
+  public $callMetadata;
   /**
    * @var string
    */

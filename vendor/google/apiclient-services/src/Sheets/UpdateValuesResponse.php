@@ -33,6 +33,7 @@ class UpdateValuesResponse extends \Google\Model
   public $updatedColumns;
   protected $updatedDataType = ValueRange::class;
   protected $updatedDataDataType = '';
+  public $updatedData;
   /**
    * @var string
    */

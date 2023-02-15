@@ -21,6 +21,7 @@ class CertificateIssuanceConfig extends \Google\Model
 {
   protected $certificateAuthorityConfigType = CertificateAuthorityConfig::class;
   protected $certificateAuthorityConfigDataType = '';
+  public $certificateAuthorityConfig;
   /**
    * @var string
    */

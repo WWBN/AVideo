@@ -26,6 +26,7 @@ class ListNotificationChannelsResponse extends \Google\Collection
   public $nextPageToken;
   protected $notificationChannelsType = NotificationChannel::class;
   protected $notificationChannelsDataType = 'array';
+  public $notificationChannels;
   /**
    * @var int
    */

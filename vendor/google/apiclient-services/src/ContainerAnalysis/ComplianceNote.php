@@ -22,6 +22,7 @@ class ComplianceNote extends \Google\Collection
   protected $collection_key = 'version';
   protected $cisBenchmarkType = CisBenchmark::class;
   protected $cisBenchmarkDataType = '';
+  public $cisBenchmark;
   /**
    * @var string
    */
@@ -44,6 +45,7 @@ class ComplianceNote extends \Google\Collection
   public $title;
   protected $versionType = ComplianceVersion::class;
   protected $versionDataType = 'array';
+  public $version;
 
   /**
    * @param CisBenchmark

@@ -46,6 +46,7 @@ class RuntimeSoftwareConfig extends \Google\Collection
   public $installGpuDriver;
   protected $kernelsType = ContainerImage::class;
   protected $kernelsDataType = 'array';
+  public $kernels;
   /**
    * @var string
    */
@@ -62,6 +63,10 @@ class RuntimeSoftwareConfig extends \Google\Collection
    * @var bool
    */
   public $upgradeable;
+  /**
+   * @var string
+   */
+  public $version;
 
   /**
    * @param string
@@ -216,6 +221,20 @@ class RuntimeSoftwareConfig extends \Google\Collection
   public function getUpgradeable()
   {
     return $this->upgradeable;
+  }
+  /**
+   * @param string
+   */
+  public function setVersion($version)
+  {
+    $this->version = $version;
+  }
+  /**
+   * @return string
+   */
+  public function getVersion()
+  {
+    return $this->version;
   }
 }
 

@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $caches = $apigeeService->caches;
+ *   $caches = $apigeeService->organizations_environments_caches;
  *  </code>
  */
 class OrganizationsEnvironmentsCaches extends \Google\Service\Resource

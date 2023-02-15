@@ -25,7 +25,7 @@ use Google\Service\ResourceSettings\GoogleCloudResourcesettingsV1Setting;
  * Typical usage is:
  *  <code>
  *   $resourcesettingsService = new Google\Service\ResourceSettings(...);
- *   $settings = $resourcesettingsService->settings;
+ *   $settings = $resourcesettingsService->organizations_settings;
  *  </code>
  */
 class OrganizationsSettings extends \Google\Service\Resource

@@ -25,7 +25,7 @@ use Google\Service\AndroidPublisher\ListingsListResponse;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $listings = $androidpublisherService->listings;
+ *   $listings = $androidpublisherService->edits_listings;
  *  </code>
  */
 class EditsListings extends \Google\Service\Resource

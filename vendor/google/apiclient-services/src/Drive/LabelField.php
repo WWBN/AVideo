@@ -46,6 +46,7 @@ class LabelField extends \Google\Collection
   public $text;
   protected $userType = User::class;
   protected $userDataType = 'array';
+  public $user;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class QualityGenieComplexQueriesComplexQueriesOutputRewrite extends \Google\Coll
   protected $collection_key = 'entities';
   protected $entitiesType = QualityGenieComplexQueriesComplexQueriesOutputRewriteEntity::class;
   protected $entitiesDataType = 'array';
+  public $entities;
   /**
    * @var string
    */

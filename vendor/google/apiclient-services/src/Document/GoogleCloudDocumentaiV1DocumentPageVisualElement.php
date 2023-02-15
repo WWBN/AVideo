@@ -22,8 +22,10 @@ class GoogleCloudDocumentaiV1DocumentPageVisualElement extends \Google\Collectio
   protected $collection_key = 'detectedLanguages';
   protected $detectedLanguagesType = GoogleCloudDocumentaiV1DocumentPageDetectedLanguage::class;
   protected $detectedLanguagesDataType = 'array';
+  public $detectedLanguages;
   protected $layoutType = GoogleCloudDocumentaiV1DocumentPageLayout::class;
   protected $layoutDataType = '';
+  public $layout;
   /**
    * @var string
    */

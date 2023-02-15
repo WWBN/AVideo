@@ -26,10 +26,13 @@ class AssistantLogsMediaFocusesLog extends \Google\Collection
   public $dialogTriggered;
   protected $localMediaFocusType = AssistantLogsMediaFocusInfoLog::class;
   protected $localMediaFocusDataType = '';
+  public $localMediaFocus;
   protected $mediaFocusesType = AssistantLogsMediaFocusInfoLog::class;
   protected $mediaFocusesDataType = 'array';
+  public $mediaFocuses;
   protected $nearbyMediaFocusesType = AssistantLogsMediaFocusInfoLog::class;
   protected $nearbyMediaFocusesDataType = 'array';
+  public $nearbyMediaFocuses;
 
   /**
    * @param bool

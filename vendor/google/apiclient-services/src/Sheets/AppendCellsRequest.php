@@ -26,6 +26,7 @@ class AppendCellsRequest extends \Google\Collection
   public $fields;
   protected $rowsType = RowData::class;
   protected $rowsDataType = 'array';
+  public $rows;
   /**
    * @var int
    */

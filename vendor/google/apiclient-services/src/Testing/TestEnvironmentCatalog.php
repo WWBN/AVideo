@@ -21,14 +21,19 @@ class TestEnvironmentCatalog extends \Google\Model
 {
   protected $androidDeviceCatalogType = AndroidDeviceCatalog::class;
   protected $androidDeviceCatalogDataType = '';
+  public $androidDeviceCatalog;
   protected $deviceIpBlockCatalogType = DeviceIpBlockCatalog::class;
   protected $deviceIpBlockCatalogDataType = '';
+  public $deviceIpBlockCatalog;
   protected $iosDeviceCatalogType = IosDeviceCatalog::class;
   protected $iosDeviceCatalogDataType = '';
+  public $iosDeviceCatalog;
   protected $networkConfigurationCatalogType = NetworkConfigurationCatalog::class;
   protected $networkConfigurationCatalogDataType = '';
+  public $networkConfigurationCatalog;
   protected $softwareCatalogType = ProvidedSoftwareCatalog::class;
   protected $softwareCatalogDataType = '';
+  public $softwareCatalog;
 
   /**
    * @param AndroidDeviceCatalog

@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1ListApiCategoriesResponse extends \Google\Collection
   protected $collection_key = 'data';
   protected $dataType = GoogleCloudApigeeV1ApiCategoryData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

@@ -22,8 +22,10 @@ class GoogleCloudRetailV2Condition extends \Google\Collection
   protected $collection_key = 'queryTerms';
   protected $activeTimeRangeType = GoogleCloudRetailV2ConditionTimeRange::class;
   protected $activeTimeRangeDataType = 'array';
+  public $activeTimeRange;
   protected $queryTermsType = GoogleCloudRetailV2ConditionQueryTerm::class;
   protected $queryTermsDataType = 'array';
+  public $queryTerms;
 
   /**
    * @param GoogleCloudRetailV2ConditionTimeRange[]

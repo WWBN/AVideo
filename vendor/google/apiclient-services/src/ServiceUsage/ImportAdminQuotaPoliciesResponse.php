@@ -22,6 +22,7 @@ class ImportAdminQuotaPoliciesResponse extends \Google\Collection
   protected $collection_key = 'policies';
   protected $policiesType = AdminQuotaPolicy::class;
   protected $policiesDataType = 'array';
+  public $policies;
 
   /**
    * @param AdminQuotaPolicy[]

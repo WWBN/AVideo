@@ -22,8 +22,10 @@ class BatchEnableServicesResponse extends \Google\Collection
   protected $collection_key = 'services';
   protected $failuresType = EnableFailure::class;
   protected $failuresDataType = 'array';
+  public $failures;
   protected $servicesType = GoogleApiServiceusageV1Service::class;
   protected $servicesDataType = 'array';
+  public $services;
 
   /**
    * @param EnableFailure[]

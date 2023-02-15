@@ -22,6 +22,7 @@ class GoogleCloudChannelV1ListChannelPartnerRepricingConfigsResponse extends \Go
   protected $collection_key = 'channelPartnerRepricingConfigs';
   protected $channelPartnerRepricingConfigsType = GoogleCloudChannelV1ChannelPartnerRepricingConfig::class;
   protected $channelPartnerRepricingConfigsDataType = 'array';
+  public $channelPartnerRepricingConfigs;
   /**
    * @var string
    */

@@ -21,8 +21,10 @@ class IndexingSignalAggregatorSccData extends \Google\Model
 {
   protected $parentPatternType = IndexingSignalAggregatorSccSignal::class;
   protected $parentPatternDataType = '';
+  public $parentPattern;
   protected $patternType = IndexingSignalAggregatorSccSignal::class;
   protected $patternDataType = '';
+  public $pattern;
 
   /**
    * @param IndexingSignalAggregatorSccSignal

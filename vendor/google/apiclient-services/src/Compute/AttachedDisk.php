@@ -38,6 +38,7 @@ class AttachedDisk extends \Google\Collection
   public $deviceName;
   protected $diskEncryptionKeyType = CustomerEncryptionKey::class;
   protected $diskEncryptionKeyDataType = '';
+  public $diskEncryptionKey;
   /**
    * @var string
    */
@@ -48,12 +49,14 @@ class AttachedDisk extends \Google\Collection
   public $forceAttach;
   protected $guestOsFeaturesType = GuestOsFeature::class;
   protected $guestOsFeaturesDataType = 'array';
+  public $guestOsFeatures;
   /**
    * @var int
    */
   public $index;
   protected $initializeParamsType = AttachedDiskInitializeParams::class;
   protected $initializeParamsDataType = '';
+  public $initializeParams;
   /**
    * @var string
    */
@@ -72,6 +75,7 @@ class AttachedDisk extends \Google\Collection
   public $mode;
   protected $shieldedInstanceInitialStateType = InitialStateConfig::class;
   protected $shieldedInstanceInitialStateDataType = '';
+  public $shieldedInstanceInitialState;
   /**
    * @var string
    */

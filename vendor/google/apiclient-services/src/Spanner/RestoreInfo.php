@@ -21,6 +21,7 @@ class RestoreInfo extends \Google\Model
 {
   protected $backupInfoType = BackupInfo::class;
   protected $backupInfoDataType = '';
+  public $backupInfo;
   /**
    * @var string
    */

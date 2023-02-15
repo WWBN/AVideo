@@ -21,7 +21,7 @@ $obj->imagePNG = "{$obj->imageJPG}.png";
 
 $obj->imagePNGResponse = saveCroppieImage($obj->imagePNG, "image");
 $obj->imageJPGResponse = convertImage($obj->imagePNG, $obj->imageJPG, 70);
-$obj->variations = array();
+$obj->variations = [];
 //var_dump($obj);
 if (file_exists($obj->imagePNG)) {
     unlink($obj->imagePNG);

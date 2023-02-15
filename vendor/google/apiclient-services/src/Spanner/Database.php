@@ -38,14 +38,17 @@ class Database extends \Google\Collection
   public $earliestVersionTime;
   protected $encryptionConfigType = EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
+  public $encryptionConfig;
   protected $encryptionInfoType = EncryptionInfo::class;
   protected $encryptionInfoDataType = 'array';
+  public $encryptionInfo;
   /**
    * @var string
    */
   public $name;
   protected $restoreInfoType = RestoreInfo::class;
   protected $restoreInfoDataType = '';
+  public $restoreInfo;
   /**
    * @var string
    */

@@ -25,8 +25,10 @@ class PushItemRequest extends \Google\Model
   public $connectorName;
   protected $debugOptionsType = DebugOptions::class;
   protected $debugOptionsDataType = '';
+  public $debugOptions;
   protected $itemType = PushItem::class;
   protected $itemDataType = '';
+  public $item;
 
   /**
    * @param string

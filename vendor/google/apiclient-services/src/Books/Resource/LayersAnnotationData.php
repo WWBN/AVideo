@@ -25,7 +25,7 @@ use Google\Service\Books\DictionaryAnnotationdata;
  * Typical usage is:
  *  <code>
  *   $booksService = new Google\Service\Books(...);
- *   $annotationData = $booksService->annotationData;
+ *   $annotationData = $booksService->layers_annotationData;
  *  </code>
  */
 class LayersAnnotationData extends \Google\Service\Resource

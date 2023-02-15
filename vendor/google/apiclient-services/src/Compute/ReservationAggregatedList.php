@@ -26,6 +26,7 @@ class ReservationAggregatedList extends \Google\Collection
   public $id;
   protected $itemsType = ReservationsScopedList::class;
   protected $itemsDataType = 'map';
+  public $items;
   /**
    * @var string
    */
@@ -44,6 +45,7 @@ class ReservationAggregatedList extends \Google\Collection
   public $unreachables;
   protected $warningType = ReservationAggregatedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

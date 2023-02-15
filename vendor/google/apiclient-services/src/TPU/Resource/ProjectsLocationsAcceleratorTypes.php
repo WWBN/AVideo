@@ -25,7 +25,7 @@ use Google\Service\TPU\ListAcceleratorTypesResponse;
  * Typical usage is:
  *  <code>
  *   $tpuService = new Google\Service\TPU(...);
- *   $acceleratorTypes = $tpuService->acceleratorTypes;
+ *   $acceleratorTypes = $tpuService->projects_locations_acceleratorTypes;
  *  </code>
  */
 class ProjectsLocationsAcceleratorTypes extends \Google\Service\Resource

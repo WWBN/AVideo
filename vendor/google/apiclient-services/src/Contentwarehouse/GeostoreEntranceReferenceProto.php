@@ -21,6 +21,7 @@ class GeostoreEntranceReferenceProto extends \Google\Model
 {
   protected $featureIdType = GeostoreFeatureIdProto::class;
   protected $featureIdDataType = '';
+  public $featureId;
 
   /**
    * @param GeostoreFeatureIdProto

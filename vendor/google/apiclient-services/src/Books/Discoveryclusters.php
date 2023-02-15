@@ -22,6 +22,7 @@ class Discoveryclusters extends \Google\Collection
   protected $collection_key = 'clusters';
   protected $clustersType = DiscoveryclustersClusters::class;
   protected $clustersDataType = 'array';
+  public $clusters;
   /**
    * @var string
    */

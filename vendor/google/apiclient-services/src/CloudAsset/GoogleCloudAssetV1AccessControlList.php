@@ -22,12 +22,16 @@ class GoogleCloudAssetV1AccessControlList extends \Google\Collection
   protected $collection_key = 'resources';
   protected $accessesType = GoogleCloudAssetV1Access::class;
   protected $accessesDataType = 'array';
+  public $accesses;
   protected $conditionEvaluationType = ConditionEvaluation::class;
   protected $conditionEvaluationDataType = '';
+  public $conditionEvaluation;
   protected $resourceEdgesType = GoogleCloudAssetV1Edge::class;
   protected $resourceEdgesDataType = 'array';
+  public $resourceEdges;
   protected $resourcesType = GoogleCloudAssetV1Resource::class;
   protected $resourcesDataType = 'array';
+  public $resources;
 
   /**
    * @param GoogleCloudAssetV1Access[]

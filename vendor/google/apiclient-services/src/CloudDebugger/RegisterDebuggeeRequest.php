@@ -21,6 +21,7 @@ class RegisterDebuggeeRequest extends \Google\Model
 {
   protected $debuggeeType = Debuggee::class;
   protected $debuggeeDataType = '';
+  public $debuggee;
 
   /**
    * @param Debuggee

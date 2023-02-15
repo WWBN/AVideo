@@ -26,7 +26,7 @@ use Google\Service\ArtifactRegistry\Version;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $versions = $artifactregistryService->versions;
+ *   $versions = $artifactregistryService->projects_locations_repositories_packages_versions;
  *  </code>
  */
 class ProjectsLocationsRepositoriesPackagesVersions extends \Google\Service\Resource

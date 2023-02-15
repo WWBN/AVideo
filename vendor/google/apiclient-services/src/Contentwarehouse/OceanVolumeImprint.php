@@ -21,6 +21,7 @@ class OceanVolumeImprint extends \Google\Model
 {
   protected $accessRightsType = OceanVolumeAccessRights::class;
   protected $accessRightsDataType = '';
+  public $accessRights;
   /**
    * @var string
    */
@@ -75,6 +76,7 @@ class OceanVolumeImprint extends \Google\Model
   public $disableOtherBuyTheBookLinks;
   protected $displayDetailsType = OceanVolumeDisplayDetails::class;
   protected $displayDetailsDataType = '';
+  public $displayDetails;
   /**
    * @var string
    */

@@ -27,7 +27,7 @@ use Google\Service\OSConfig\Operation;
  * Typical usage is:
  *  <code>
  *   $osconfigService = new Google\Service\OSConfig(...);
- *   $osPolicyAssignments = $osconfigService->osPolicyAssignments;
+ *   $osPolicyAssignments = $osconfigService->projects_locations_osPolicyAssignments;
  *  </code>
  */
 class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource

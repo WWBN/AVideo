@@ -27,7 +27,7 @@ use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1Violation;
  * Typical usage is:
  *  <code>
  *   $assuredworkloadsService = new Google\Service\Assuredworkloads(...);
- *   $violations = $assuredworkloadsService->violations;
+ *   $violations = $assuredworkloadsService->organizations_locations_workloads_violations;
  *  </code>
  */
 class OrganizationsLocationsWorkloadsViolations extends \Google\Service\Resource

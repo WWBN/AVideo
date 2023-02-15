@@ -21,6 +21,7 @@ class Assignment extends \Google\Model
 {
   protected $assignedUserType = User::class;
   protected $assignedUserDataType = '';
+  public $assignedUser;
   /**
    * @var string
    */

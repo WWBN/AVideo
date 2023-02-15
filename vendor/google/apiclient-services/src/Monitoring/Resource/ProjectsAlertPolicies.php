@@ -26,7 +26,7 @@ use Google\Service\Monitoring\MonitoringEmpty;
  * Typical usage is:
  *  <code>
  *   $monitoringService = new Google\Service\Monitoring(...);
- *   $alertPolicies = $monitoringService->alertPolicies;
+ *   $alertPolicies = $monitoringService->projects_alertPolicies;
  *  </code>
  */
 class ProjectsAlertPolicies extends \Google\Service\Resource

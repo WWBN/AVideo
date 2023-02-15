@@ -30,6 +30,7 @@ class CommitResponse extends \Google\Collection
   public $indexUpdates;
   protected $mutationResultsType = MutationResult::class;
   protected $mutationResultsDataType = 'array';
+  public $mutationResults;
 
   /**
    * @param string

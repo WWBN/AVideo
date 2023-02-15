@@ -30,14 +30,17 @@ class AppsExtensionsMarkupCalendarClientActionMarkupConferenceDataMarkup extends
   public $conferenceSolutionId;
   protected $entryPointsType = AppsExtensionsMarkupCalendarClientActionMarkupConferenceDataMarkupEntryPointMarkup::class;
   protected $entryPointsDataType = 'array';
+  public $entryPoints;
   protected $errorType = AppsExtensionsMarkupCalendarClientActionMarkupConferenceDataMarkupError::class;
   protected $errorDataType = '';
+  public $error;
   /**
    * @var string
    */
   public $note;
   protected $parametersType = AppsExtensionsMarkupCalendarClientActionMarkupConferenceDataMarkupParameter::class;
   protected $parametersDataType = 'array';
+  public $parameters;
 
   /**
    * @param string

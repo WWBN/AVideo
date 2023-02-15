@@ -26,7 +26,7 @@ use Google\Service\CertificateManager\Operation;
  * Typical usage is:
  *  <code>
  *   $certificatemanagerService = new Google\Service\CertificateManager(...);
- *   $certificateIssuanceConfigs = $certificatemanagerService->certificateIssuanceConfigs;
+ *   $certificateIssuanceConfigs = $certificatemanagerService->projects_locations_certificateIssuanceConfigs;
  *  </code>
  */
 class ProjectsLocationsCertificateIssuanceConfigs extends \Google\Service\Resource

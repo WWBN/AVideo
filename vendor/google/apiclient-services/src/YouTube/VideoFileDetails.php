@@ -22,6 +22,7 @@ class VideoFileDetails extends \Google\Collection
   protected $collection_key = 'videoStreams';
   protected $audioStreamsType = VideoFileDetailsAudioStream::class;
   protected $audioStreamsDataType = 'array';
+  public $audioStreams;
   /**
    * @var string
    */
@@ -52,6 +53,7 @@ class VideoFileDetails extends \Google\Collection
   public $fileType;
   protected $videoStreamsType = VideoFileDetailsVideoStream::class;
   protected $videoStreamsDataType = 'array';
+  public $videoStreams;
 
   /**
    * @param VideoFileDetailsAudioStream[]

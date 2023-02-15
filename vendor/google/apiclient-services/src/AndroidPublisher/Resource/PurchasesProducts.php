@@ -25,7 +25,7 @@ use Google\Service\AndroidPublisher\ProductPurchasesAcknowledgeRequest;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $products = $androidpublisherService->products;
+ *   $products = $androidpublisherService->purchases_products;
  *  </code>
  */
 class PurchasesProducts extends \Google\Service\Resource

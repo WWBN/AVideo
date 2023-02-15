@@ -23,12 +23,16 @@ class FacetBucket extends \Google\Model
    * @var int
    */
   public $count;
+  protected $filterType = Filter::class;
+  protected $filterDataType = '';
+  public $filter;
   /**
    * @var int
    */
   public $percentage;
   protected $valueType = Value::class;
   protected $valueDataType = '';
+  public $value;
 
   /**
    * @param int
@@ -43,6 +47,20 @@ class FacetBucket extends \Google\Model
   public function getCount()
   {
     return $this->count;
+  }
+  /**
+   * @param Filter
+   */
+  public function setFilter(Filter $filter)
+  {
+    $this->filter = $filter;
+  }
+  /**
+   * @return Filter
+   */
+  public function getFilter()
+  {
+    return $this->filter;
   }
   /**
    * @param int

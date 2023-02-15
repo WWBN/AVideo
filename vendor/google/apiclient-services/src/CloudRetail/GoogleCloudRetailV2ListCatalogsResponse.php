@@ -22,6 +22,7 @@ class GoogleCloudRetailV2ListCatalogsResponse extends \Google\Collection
   protected $collection_key = 'catalogs';
   protected $catalogsType = GoogleCloudRetailV2Catalog::class;
   protected $catalogsDataType = 'array';
+  public $catalogs;
   /**
    * @var string
    */

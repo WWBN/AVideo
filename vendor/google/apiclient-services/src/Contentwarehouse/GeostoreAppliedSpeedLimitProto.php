@@ -21,6 +21,7 @@ class GeostoreAppliedSpeedLimitProto extends \Google\Model
 {
   protected $speedLimitType = GeostoreSpeedLimitProto::class;
   protected $speedLimitDataType = '';
+  public $speedLimit;
   /**
    * @var string
    */

@@ -22,14 +22,17 @@ class GeostoreAttributeProto extends \Google\Collection
   protected $collection_key = 'valueDisplay';
   protected $applicationDataType = Proto2BridgeMessageSet::class;
   protected $applicationDataDataType = '';
+  public $applicationData;
   protected $attributeDisplayType = GeostoreAttributeValueDisplayProto::class;
   protected $attributeDisplayDataType = 'array';
+  public $attributeDisplay;
   /**
    * @var bool
    */
   public $booleanValue;
   protected $canonicalAttributeIdType = GeostoreAttributeIdProto::class;
   protected $canonicalAttributeIdDataType = '';
+  public $canonicalAttributeId;
   public $doubleValue;
   /**
    * @var string
@@ -49,10 +52,13 @@ class GeostoreAttributeProto extends \Google\Collection
   public $integerValue;
   protected $itemClassIdType = GeostoreAttributeIdProto::class;
   protected $itemClassIdDataType = '';
+  public $itemClassId;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $protoValueType = Proto2BridgeMessageSet::class;
   protected $protoValueDataType = '';
+  public $protoValue;
   /**
    * @var string
    */
@@ -63,8 +69,10 @@ class GeostoreAttributeProto extends \Google\Collection
   public $uint32Value;
   protected $valueDisplayType = GeostoreAttributeValueDisplayProto::class;
   protected $valueDisplayDataType = 'array';
+  public $valueDisplay;
   protected $valueSpaceIdType = GeostoreAttributeIdProto::class;
   protected $valueSpaceIdDataType = '';
+  public $valueSpaceId;
   /**
    * @var string
    */

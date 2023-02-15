@@ -21,8 +21,10 @@ class AssistantApiRecurrenceDatetimeRange extends \Google\Model
 {
   protected $endDateType = AssistantApiDateTime::class;
   protected $endDateDataType = '';
+  public $endDate;
   protected $startDateType = AssistantApiDateTime::class;
   protected $startDateDataType = '';
+  public $startDate;
 
   /**
    * @param AssistantApiDateTime

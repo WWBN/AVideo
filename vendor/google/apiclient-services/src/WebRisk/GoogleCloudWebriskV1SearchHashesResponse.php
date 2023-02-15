@@ -26,6 +26,7 @@ class GoogleCloudWebriskV1SearchHashesResponse extends \Google\Collection
   public $negativeExpireTime;
   protected $threatsType = GoogleCloudWebriskV1SearchHashesResponseThreatHash::class;
   protected $threatsDataType = 'array';
+  public $threats;
 
   /**
    * @param string

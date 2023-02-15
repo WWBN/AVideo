@@ -22,52 +22,74 @@ class Lodging extends \Google\Collection
   protected $collection_key = 'guestUnits';
   protected $accessibilityType = Accessibility::class;
   protected $accessibilityDataType = '';
+  public $accessibility;
   protected $activitiesType = Activities::class;
   protected $activitiesDataType = '';
+  public $activities;
   protected $allUnitsType = GuestUnitFeatures::class;
   protected $allUnitsDataType = '';
+  public $allUnits;
   protected $businessType = Business::class;
   protected $businessDataType = '';
+  public $business;
   protected $commonLivingAreaType = LivingArea::class;
   protected $commonLivingAreaDataType = '';
+  public $commonLivingArea;
   protected $connectivityType = Connectivity::class;
   protected $connectivityDataType = '';
+  public $connectivity;
   protected $familiesType = Families::class;
   protected $familiesDataType = '';
+  public $families;
   protected $foodAndDrinkType = FoodAndDrink::class;
   protected $foodAndDrinkDataType = '';
+  public $foodAndDrink;
   protected $guestUnitsType = GuestUnitType::class;
   protected $guestUnitsDataType = 'array';
+  public $guestUnits;
   protected $healthAndSafetyType = HealthAndSafety::class;
   protected $healthAndSafetyDataType = '';
+  public $healthAndSafety;
   protected $housekeepingType = Housekeeping::class;
   protected $housekeepingDataType = '';
+  public $housekeeping;
   protected $metadataType = LodgingMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
   public $name;
   protected $parkingType = Parking::class;
   protected $parkingDataType = '';
+  public $parking;
   protected $petsType = Pets::class;
   protected $petsDataType = '';
+  public $pets;
   protected $policiesType = Policies::class;
   protected $policiesDataType = '';
+  public $policies;
   protected $poolsType = Pools::class;
   protected $poolsDataType = '';
+  public $pools;
   protected $propertyType = Property::class;
   protected $propertyDataType = '';
+  public $property;
   protected $servicesType = Services::class;
   protected $servicesDataType = '';
+  public $services;
   protected $someUnitsType = GuestUnitFeatures::class;
   protected $someUnitsDataType = '';
+  public $someUnits;
   protected $sustainabilityType = Sustainability::class;
   protected $sustainabilityDataType = '';
+  public $sustainability;
   protected $transportationType = Transportation::class;
   protected $transportationDataType = '';
+  public $transportation;
   protected $wellnessType = Wellness::class;
   protected $wellnessDataType = '';
+  public $wellness;
 
   /**
    * @param Accessibility

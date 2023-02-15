@@ -21,12 +21,14 @@ class BucketIamConfiguration extends \Google\Model
 {
   protected $bucketPolicyOnlyType = BucketIamConfigurationBucketPolicyOnly::class;
   protected $bucketPolicyOnlyDataType = '';
+  public $bucketPolicyOnly;
   /**
    * @var string
    */
   public $publicAccessPrevention;
   protected $uniformBucketLevelAccessType = BucketIamConfigurationUniformBucketLevelAccess::class;
   protected $uniformBucketLevelAccessDataType = '';
+  public $uniformBucketLevelAccess;
 
   /**
    * @param BucketIamConfigurationBucketPolicyOnly

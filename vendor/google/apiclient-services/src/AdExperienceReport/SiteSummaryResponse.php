@@ -21,8 +21,10 @@ class SiteSummaryResponse extends \Google\Model
 {
   protected $desktopSummaryType = PlatformSummary::class;
   protected $desktopSummaryDataType = '';
+  public $desktopSummary;
   protected $mobileSummaryType = PlatformSummary::class;
   protected $mobileSummaryDataType = '';
+  public $mobileSummary;
   /**
    * @var string
    */

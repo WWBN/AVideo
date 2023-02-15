@@ -22,6 +22,7 @@ class ListBiddersResponse extends \Google\Collection
   protected $collection_key = 'bidders';
   protected $biddersType = Bidder::class;
   protected $biddersDataType = 'array';
+  public $bidders;
   /**
    * @var string
    */

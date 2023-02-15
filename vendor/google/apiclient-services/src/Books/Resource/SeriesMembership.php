@@ -24,7 +24,7 @@ use Google\Service\Books\Seriesmembership as SeriesmembershipModel;
  * Typical usage is:
  *  <code>
  *   $booksService = new Google\Service\Books(...);
- *   $membership = $booksService->membership;
+ *   $membership = $booksService->series_membership;
  *  </code>
  */
 class SeriesMembership extends \Google\Service\Resource

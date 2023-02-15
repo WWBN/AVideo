@@ -21,8 +21,10 @@ class AppStartTime extends \Google\Model
 {
   protected $fullyDrawnTimeType = Duration::class;
   protected $fullyDrawnTimeDataType = '';
+  public $fullyDrawnTime;
   protected $initialDisplayTimeType = Duration::class;
   protected $initialDisplayTimeDataType = '';
+  public $initialDisplayTime;
 
   /**
    * @param Duration

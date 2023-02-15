@@ -21,8 +21,10 @@ class NlpSemanticParsingModelsMoneyMoney extends \Google\Model
 {
   protected $amountType = NlpSemanticParsingNumberNumber::class;
   protected $amountDataType = '';
+  public $amount;
   protected $currencyType = NlpSemanticParsingModelsMoneyCurrency::class;
   protected $currencyDataType = '';
+  public $currency;
 
   /**
    * @param NlpSemanticParsingNumberNumber

@@ -22,86 +22,121 @@ class Person extends \Google\Collection
   protected $collection_key = 'userDefined';
   protected $addressesType = Address::class;
   protected $addressesDataType = 'array';
+  public $addresses;
   /**
    * @var string
    */
   public $ageRange;
   protected $ageRangesType = AgeRangeType::class;
   protected $ageRangesDataType = 'array';
+  public $ageRanges;
   protected $biographiesType = Biography::class;
   protected $biographiesDataType = 'array';
+  public $biographies;
   protected $birthdaysType = Birthday::class;
   protected $birthdaysDataType = 'array';
+  public $birthdays;
   protected $braggingRightsType = BraggingRights::class;
   protected $braggingRightsDataType = 'array';
+  public $braggingRights;
   protected $calendarUrlsType = CalendarUrl::class;
   protected $calendarUrlsDataType = 'array';
+  public $calendarUrls;
   protected $clientDataType = ClientData::class;
   protected $clientDataDataType = 'array';
+  public $clientData;
   protected $coverPhotosType = CoverPhoto::class;
   protected $coverPhotosDataType = 'array';
+  public $coverPhotos;
   protected $emailAddressesType = EmailAddress::class;
   protected $emailAddressesDataType = 'array';
+  public $emailAddresses;
   /**
    * @var string
    */
   public $etag;
   protected $eventsType = Event::class;
   protected $eventsDataType = 'array';
+  public $events;
   protected $externalIdsType = ExternalId::class;
   protected $externalIdsDataType = 'array';
+  public $externalIds;
   protected $fileAsesType = FileAs::class;
   protected $fileAsesDataType = 'array';
+  public $fileAses;
   protected $gendersType = Gender::class;
   protected $gendersDataType = 'array';
+  public $genders;
   protected $imClientsType = ImClient::class;
   protected $imClientsDataType = 'array';
+  public $imClients;
   protected $interestsType = Interest::class;
   protected $interestsDataType = 'array';
+  public $interests;
   protected $localesType = Locale::class;
   protected $localesDataType = 'array';
+  public $locales;
   protected $locationsType = Location::class;
   protected $locationsDataType = 'array';
+  public $locations;
   protected $membershipsType = Membership::class;
   protected $membershipsDataType = 'array';
+  public $memberships;
   protected $metadataType = PersonMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $miscKeywordsType = MiscKeyword::class;
   protected $miscKeywordsDataType = 'array';
+  public $miscKeywords;
   protected $namesType = Name::class;
   protected $namesDataType = 'array';
+  public $names;
   protected $nicknamesType = Nickname::class;
   protected $nicknamesDataType = 'array';
+  public $nicknames;
   protected $occupationsType = Occupation::class;
   protected $occupationsDataType = 'array';
+  public $occupations;
   protected $organizationsType = Organization::class;
   protected $organizationsDataType = 'array';
+  public $organizations;
   protected $phoneNumbersType = PhoneNumber::class;
   protected $phoneNumbersDataType = 'array';
+  public $phoneNumbers;
   protected $photosType = Photo::class;
   protected $photosDataType = 'array';
+  public $photos;
   protected $relationsType = Relation::class;
   protected $relationsDataType = 'array';
+  public $relations;
   protected $relationshipInterestsType = RelationshipInterest::class;
   protected $relationshipInterestsDataType = 'array';
+  public $relationshipInterests;
   protected $relationshipStatusesType = RelationshipStatus::class;
   protected $relationshipStatusesDataType = 'array';
+  public $relationshipStatuses;
   protected $residencesType = Residence::class;
   protected $residencesDataType = 'array';
+  public $residences;
   /**
    * @var string
    */
   public $resourceName;
   protected $sipAddressesType = SipAddress::class;
   protected $sipAddressesDataType = 'array';
+  public $sipAddresses;
   protected $skillsType = Skill::class;
   protected $skillsDataType = 'array';
+  public $skills;
   protected $taglinesType = Tagline::class;
   protected $taglinesDataType = 'array';
+  public $taglines;
   protected $urlsType = Url::class;
   protected $urlsDataType = 'array';
+  public $urls;
   protected $userDefinedType = UserDefined::class;
   protected $userDefinedDataType = 'array';
+  public $userDefined;
 
   /**
    * @param Address[]

@@ -22,6 +22,7 @@ class WebServerNetworkAccessControl extends \Google\Collection
   protected $collection_key = 'allowedIpRanges';
   protected $allowedIpRangesType = AllowedIpRange::class;
   protected $allowedIpRangesDataType = 'array';
+  public $allowedIpRanges;
 
   /**
    * @param AllowedIpRange[]

@@ -22,12 +22,48 @@ class YoutubeAndPartnersBiddingStrategy extends \Google\Model
   /**
    * @var string
    */
+  public $adGroupEffectiveTargetCpaSource;
+  /**
+   * @var string
+   */
+  public $adGroupEffectiveTargetCpaValue;
+  /**
+   * @var string
+   */
   public $type;
   /**
    * @var string
    */
   public $value;
 
+  /**
+   * @param string
+   */
+  public function setAdGroupEffectiveTargetCpaSource($adGroupEffectiveTargetCpaSource)
+  {
+    $this->adGroupEffectiveTargetCpaSource = $adGroupEffectiveTargetCpaSource;
+  }
+  /**
+   * @return string
+   */
+  public function getAdGroupEffectiveTargetCpaSource()
+  {
+    return $this->adGroupEffectiveTargetCpaSource;
+  }
+  /**
+   * @param string
+   */
+  public function setAdGroupEffectiveTargetCpaValue($adGroupEffectiveTargetCpaValue)
+  {
+    $this->adGroupEffectiveTargetCpaValue = $adGroupEffectiveTargetCpaValue;
+  }
+  /**
+   * @return string
+   */
+  public function getAdGroupEffectiveTargetCpaValue()
+  {
+    return $this->adGroupEffectiveTargetCpaValue;
+  }
   /**
    * @param string
    */

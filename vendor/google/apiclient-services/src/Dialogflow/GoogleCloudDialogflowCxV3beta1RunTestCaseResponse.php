@@ -21,6 +21,7 @@ class GoogleCloudDialogflowCxV3beta1RunTestCaseResponse extends \Google\Model
 {
   protected $resultType = GoogleCloudDialogflowCxV3beta1TestCaseResult::class;
   protected $resultDataType = '';
+  public $result;
 
   /**
    * @param GoogleCloudDialogflowCxV3beta1TestCaseResult

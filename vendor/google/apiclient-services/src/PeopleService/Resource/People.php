@@ -370,8 +370,7 @@ class People extends \Google\Service\Resource
    * failures. (people.updateContact)
    *
    * @param string $resourceName The resource name for the person, assigned by the
-   * server. An ASCII string with a max length of 27 characters, in the form of
-   * `people/{person_id}`.
+   * server. An ASCII string in the form of `people/{person_id}`.
    * @param Person $postBody
    * @param array $optParams Optional parameters.
    *

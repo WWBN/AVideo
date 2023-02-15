@@ -26,7 +26,7 @@ use Google\Service\Spanner\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $spannerService = new Google\Service\Spanner(...);
- *   $databaseRoles = $spannerService->databaseRoles;
+ *   $databaseRoles = $spannerService->projects_instances_databases_databaseRoles;
  *  </code>
  */
 class ProjectsInstancesDatabasesDatabaseRoles extends \Google\Service\Resource

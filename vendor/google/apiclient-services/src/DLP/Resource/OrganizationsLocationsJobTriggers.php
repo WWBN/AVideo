@@ -28,7 +28,7 @@ use Google\Service\DLP\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dlpService = new Google\Service\DLP(...);
- *   $jobTriggers = $dlpService->jobTriggers;
+ *   $jobTriggers = $dlpService->organizations_locations_jobTriggers;
  *  </code>
  */
 class OrganizationsLocationsJobTriggers extends \Google\Service\Resource

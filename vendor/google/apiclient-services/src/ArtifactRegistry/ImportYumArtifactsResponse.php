@@ -22,8 +22,10 @@ class ImportYumArtifactsResponse extends \Google\Collection
   protected $collection_key = 'yumArtifacts';
   protected $errorsType = ImportYumArtifactsErrorInfo::class;
   protected $errorsDataType = 'array';
+  public $errors;
   protected $yumArtifactsType = YumArtifact::class;
   protected $yumArtifactsDataType = 'array';
+  public $yumArtifacts;
 
   /**
    * @param ImportYumArtifactsErrorInfo[]

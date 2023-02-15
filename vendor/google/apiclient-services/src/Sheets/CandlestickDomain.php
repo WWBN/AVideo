@@ -21,6 +21,7 @@ class CandlestickDomain extends \Google\Model
 {
   protected $dataType = ChartData::class;
   protected $dataDataType = '';
+  public $data;
   /**
    * @var bool
    */

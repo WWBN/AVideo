@@ -45,9 +45,9 @@ class Organizations extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1Organization $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string parent Required. Name of the GCP project in which to
-   * associate the Apigee organization. Pass the information as a query parameter
-   * using the following structure in your request: `projects/`
+   * @opt_param string parent Required. Name of the Google Cloud project in which
+   * to associate the Apigee organization. Pass the information as a query
+   * parameter using the following structure in your request: `projects/`
    * @return GoogleLongrunningOperation
    */
   public function create(GoogleCloudApigeeV1Organization $postBody, $optParams = [])
@@ -171,8 +171,8 @@ class Organizations extends \Google\Service\Resource
     return $this->call('getSyncAuthorization', [$params], GoogleCloudApigeeV1SyncAuthorization::class);
   }
   /**
-   * Lists the Apigee organizations and associated GCP projects that you have
-   * permission to access. See [Understanding
+   * Lists the Apigee organizations and associated Google Cloud projects that you
+   * have permission to access. See [Understanding
    * organizations](https://cloud.google.com/apigee/docs/api-platform/fundamentals
    * /organization-structure). (organizations.listOrganizations)
    *

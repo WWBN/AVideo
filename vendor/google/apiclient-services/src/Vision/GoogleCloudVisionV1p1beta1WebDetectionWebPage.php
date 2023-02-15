@@ -22,12 +22,14 @@ class GoogleCloudVisionV1p1beta1WebDetectionWebPage extends \Google\Collection
   protected $collection_key = 'partialMatchingImages';
   protected $fullMatchingImagesType = GoogleCloudVisionV1p1beta1WebDetectionWebImage::class;
   protected $fullMatchingImagesDataType = 'array';
+  public $fullMatchingImages;
   /**
    * @var string
    */
   public $pageTitle;
   protected $partialMatchingImagesType = GoogleCloudVisionV1p1beta1WebDetectionWebImage::class;
   protected $partialMatchingImagesDataType = 'array';
+  public $partialMatchingImages;
   /**
    * @var float
    */

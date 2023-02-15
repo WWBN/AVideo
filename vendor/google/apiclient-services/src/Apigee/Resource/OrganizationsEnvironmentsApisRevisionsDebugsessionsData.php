@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1DebugSessionTransaction;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $data = $apigeeService->data;
+ *   $data = $apigeeService->organizations_environments_apis_revisions_debugsessions_data;
  *  </code>
  */
 class OrganizationsEnvironmentsApisRevisionsDebugsessionsData extends \Google\Service\Resource

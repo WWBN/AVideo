@@ -25,6 +25,7 @@ class RunAggregationQueryResponse extends \Google\Model
   public $readTime;
   protected $resultType = AggregationResult::class;
   protected $resultDataType = '';
+  public $result;
   /**
    * @var string
    */

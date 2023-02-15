@@ -21,14 +21,17 @@ class GoogleCloudResourcesettingsV1Setting extends \Google\Model
 {
   protected $effectiveValueType = GoogleCloudResourcesettingsV1Value::class;
   protected $effectiveValueDataType = '';
+  public $effectiveValue;
   /**
    * @var string
    */
   public $etag;
   protected $localValueType = GoogleCloudResourcesettingsV1Value::class;
   protected $localValueDataType = '';
+  public $localValue;
   protected $metadataType = GoogleCloudResourcesettingsV1SettingMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
