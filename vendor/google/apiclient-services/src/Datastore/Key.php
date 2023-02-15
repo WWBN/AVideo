@@ -22,8 +22,10 @@ class Key extends \Google\Collection
   protected $collection_key = 'path';
   protected $partitionIdType = PartitionId::class;
   protected $partitionIdDataType = '';
+  public $partitionId;
   protected $pathType = PathElement::class;
   protected $pathDataType = 'array';
+  public $path;
 
   /**
    * @param PartitionId

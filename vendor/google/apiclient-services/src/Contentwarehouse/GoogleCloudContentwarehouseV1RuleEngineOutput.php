@@ -21,12 +21,14 @@ class GoogleCloudContentwarehouseV1RuleEngineOutput extends \Google\Model
 {
   protected $actionExecutorOutputType = GoogleCloudContentwarehouseV1ActionExecutorOutput::class;
   protected $actionExecutorOutputDataType = '';
+  public $actionExecutorOutput;
   /**
    * @var string
    */
   public $documentName;
   protected $ruleEvaluatorOutputType = GoogleCloudContentwarehouseV1RuleEvaluatorOutput::class;
   protected $ruleEvaluatorOutputDataType = '';
+  public $ruleEvaluatorOutput;
 
   /**
    * @param GoogleCloudContentwarehouseV1ActionExecutorOutput

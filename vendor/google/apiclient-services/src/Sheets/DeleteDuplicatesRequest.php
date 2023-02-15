@@ -22,8 +22,10 @@ class DeleteDuplicatesRequest extends \Google\Collection
   protected $collection_key = 'comparisonColumns';
   protected $comparisonColumnsType = DimensionRange::class;
   protected $comparisonColumnsDataType = 'array';
+  public $comparisonColumns;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
 
   /**
    * @param DimensionRange[]

@@ -22,10 +22,13 @@ class GoogleCloudContentwarehouseV1SearchDocumentsResponse extends \Google\Colle
   protected $collection_key = 'matchingDocuments';
   protected $histogramQueryResultsType = GoogleCloudContentwarehouseV1HistogramQueryResult::class;
   protected $histogramQueryResultsDataType = 'array';
+  public $histogramQueryResults;
   protected $matchingDocumentsType = GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument::class;
   protected $matchingDocumentsDataType = 'array';
+  public $matchingDocuments;
   protected $metadataType = GoogleCloudContentwarehouseV1ResponseMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */

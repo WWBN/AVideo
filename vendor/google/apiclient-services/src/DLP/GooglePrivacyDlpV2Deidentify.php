@@ -30,8 +30,10 @@ class GooglePrivacyDlpV2Deidentify extends \Google\Collection
   public $fileTypesToTransform;
   protected $transformationConfigType = GooglePrivacyDlpV2TransformationConfig::class;
   protected $transformationConfigDataType = '';
+  public $transformationConfig;
   protected $transformationDetailsStorageConfigType = GooglePrivacyDlpV2TransformationDetailsStorageConfig::class;
   protected $transformationDetailsStorageConfigDataType = '';
+  public $transformationDetailsStorageConfig;
 
   /**
    * @param string

@@ -25,7 +25,7 @@ use Google\Service\CloudBuild\Operation;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $connectedRepositories = $cloudbuildService->connectedRepositories;
+ *   $connectedRepositories = $cloudbuildService->projects_locations_bitbucketServerConfigs_connectedRepositories;
  *  </code>
  */
 class ProjectsLocationsBitbucketServerConfigsConnectedRepositories extends \Google\Service\Resource

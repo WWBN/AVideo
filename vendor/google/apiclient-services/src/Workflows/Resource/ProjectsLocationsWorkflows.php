@@ -26,14 +26,14 @@ use Google\Service\Workflows\Workflow;
  * Typical usage is:
  *  <code>
  *   $workflowsService = new Google\Service\Workflows(...);
- *   $workflows = $workflowsService->workflows;
+ *   $workflows = $workflowsService->projects_locations_workflows;
  *  </code>
  */
 class ProjectsLocationsWorkflows extends \Google\Service\Resource
 {
   /**
    * Creates a new workflow. If a workflow with the specified name already exists
-   * in the specified project and location, the long running operation will return
+   * in the specified project and location, the long running operation returns a
    * ALREADY_EXISTS error. (workflows.create)
    *
    * @param string $parent Required. Project and location in which the workflow
@@ -70,12 +70,18 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Gets details of a single Workflow. (workflows.get)
+   * Gets details of a single workflow. (workflows.get)
    *
-   * @param string $name Required. Name of the workflow which information should
-   * be retrieved. Format:
+   * @param string $name Required. Name of the workflow for which information
+   * should be retrieved. Format:
    * projects/{project}/locations/{location}/workflows/{workflow}
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string revisionId Optional. Optional. The revision of the workflow
+   * to retrieve. If the revision_id is empty, the latest revision is retrieved.
+   * The format is "000001-a4d", where the first 6 characters define the zero-
+   * padded decimal revision number. They are followed by a hyphen and 3
+   * hexadecimal characters. (go/wf_adr_clh_1)
    * @return Workflow
    */
   public function get($name, $optParams = [])
@@ -85,7 +91,7 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
     return $this->call('get', [$params], Workflow::class);
   }
   /**
-   * Lists Workflows in a given project and location. The default order is not
+   * Lists workflows in a given project and location. The default order is not
    * specified. (workflows.listProjectsLocationsWorkflows)
    *
    * @param string $parent Required. Project and location from which the workflows
@@ -93,14 +99,15 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Filter to restrict results to specific workflows.
-   * @opt_param string orderBy Comma-separated list of fields that that specify
-   * the order of the results. Default sorting order for a field is ascending. To
-   * specify descending order for a field, append a " desc" suffix. If not
-   * specified, the results will be returned in an unspecified order.
+   * @opt_param string orderBy Comma-separated list of fields that specify the
+   * order of the results. Default sorting order for a field is ascending. To
+   * specify descending order for a field, append a "desc" suffix. If not
+   * specified, the results are returned in an unspecified order.
    * @opt_param int pageSize Maximum number of workflows to return per call. The
-   * service may return fewer than this value. If the value is not specified, a
-   * default value of 500 will be used. The maximum permitted value is 1000 and
-   * values greater than 1000 will be coerced down to 1000.
+   * service might return fewer than this value even if not at the end of the
+   * collection. If a value is not specified, a default value of 500 is used. The
+   * maximum permitted value is 1000 and values greater than 1000 are coerced down
+   * to 1000.
    * @opt_param string pageToken A page token, received from a previous
    * `ListWorkflows` call. Provide this to retrieve the subsequent page. When
    * paginating, all other parameters provided to `ListWorkflows` must match the
@@ -115,9 +122,9 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
   }
   /**
    * Updates an existing workflow. Running this method has no impact on already
-   * running executions of the workflow. A new revision of the workflow may be
-   * created as a result of a successful update operation. In that case, such
-   * revision will be used in new workflow executions. (workflows.patch)
+   * running executions of the workflow. A new revision of the workflow might be
+   * created as a result of a successful update operation. In that case, the new
+   * revision is used in new workflow executions. (workflows.patch)
    *
    * @param string $name The resource name of the workflow. Format:
    * projects/{project}/locations/{location}/workflows/{workflow}

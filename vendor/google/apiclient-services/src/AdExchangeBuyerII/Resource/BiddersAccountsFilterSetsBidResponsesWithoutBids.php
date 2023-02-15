@@ -24,7 +24,7 @@ use Google\Service\AdExchangeBuyerII\ListBidResponsesWithoutBidsResponse;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $bidResponsesWithoutBids = $adexchangebuyer2Service->bidResponsesWithoutBids;
+ *   $bidResponsesWithoutBids = $adexchangebuyer2Service->bidders_accounts_filterSets_bidResponsesWithoutBids;
  *  </code>
  */
 class BiddersAccountsFilterSetsBidResponsesWithoutBids extends \Google\Service\Resource

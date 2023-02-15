@@ -21,8 +21,10 @@ class SourceProvenance extends \Google\Model
 {
   protected $resolvedRepoSourceType = RepoSource::class;
   protected $resolvedRepoSourceDataType = '';
+  public $resolvedRepoSource;
   protected $resolvedStorageSourceType = StorageSource::class;
   protected $resolvedStorageSourceDataType = '';
+  public $resolvedStorageSource;
 
   /**
    * @param RepoSource

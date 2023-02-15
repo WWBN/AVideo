@@ -27,7 +27,7 @@ use Google\Service\AIPlatformNotebooks\TriggerScheduleRequest;
  * Typical usage is:
  *  <code>
  *   $notebooksService = new Google\Service\AIPlatformNotebooks(...);
- *   $schedules = $notebooksService->schedules;
+ *   $schedules = $notebooksService->projects_locations_schedules;
  *  </code>
  */
 class ProjectsLocationsSchedules extends \Google\Service\Resource

@@ -22,8 +22,10 @@ class BasicSli extends \Google\Collection
   protected $collection_key = 'version';
   protected $availabilityType = AvailabilityCriteria::class;
   protected $availabilityDataType = '';
+  public $availability;
   protected $latencyType = LatencyCriteria::class;
   protected $latencyDataType = '';
+  public $latency;
   /**
    * @var string[]
    */

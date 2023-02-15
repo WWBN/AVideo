@@ -22,6 +22,7 @@ class StoreLayoutClustersListResponse extends \Google\Collection
   protected $collection_key = 'cluster';
   protected $clusterType = StoreCluster::class;
   protected $clusterDataType = 'array';
+  public $cluster;
 
   /**
    * @param StoreCluster[]

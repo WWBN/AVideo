@@ -22,8 +22,10 @@ class GooglePrivacyDlpV2InfoTypeTransformation extends \Google\Collection
   protected $collection_key = 'infoTypes';
   protected $infoTypesType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypesDataType = 'array';
+  public $infoTypes;
   protected $primitiveTransformationType = GooglePrivacyDlpV2PrimitiveTransformation::class;
   protected $primitiveTransformationDataType = '';
+  public $primitiveTransformation;
 
   /**
    * @param GooglePrivacyDlpV2InfoType[]

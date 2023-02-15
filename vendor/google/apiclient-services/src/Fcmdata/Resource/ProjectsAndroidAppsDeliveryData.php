@@ -24,7 +24,7 @@ use Google\Service\Fcmdata\GoogleFirebaseFcmDataV1beta1ListAndroidDeliveryDataRe
  * Typical usage is:
  *  <code>
  *   $fcmdataService = new Google\Service\Fcmdata(...);
- *   $deliveryData = $fcmdataService->deliveryData;
+ *   $deliveryData = $fcmdataService->projects_androidApps_deliveryData;
  *  </code>
  */
 class ProjectsAndroidAppsDeliveryData extends \Google\Service\Resource

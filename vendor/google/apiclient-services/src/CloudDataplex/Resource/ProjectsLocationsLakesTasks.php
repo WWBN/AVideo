@@ -18,6 +18,8 @@
 namespace Google\Service\CloudDataplex\Resource;
 
 use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListTasksResponse;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1RunTaskRequest;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1RunTaskResponse;
 use Google\Service\CloudDataplex\GoogleCloudDataplexV1Task;
 use Google\Service\CloudDataplex\GoogleIamV1Policy;
 use Google\Service\CloudDataplex\GoogleIamV1SetIamPolicyRequest;
@@ -30,7 +32,7 @@ use Google\Service\CloudDataplex\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $tasks = $dataplexService->tasks;
+ *   $tasks = $dataplexService->projects_locations_lakes_tasks;
  *  </code>
  */
 class ProjectsLocationsLakesTasks extends \Google\Service\Resource
@@ -155,6 +157,21 @@ class ProjectsLocationsLakesTasks extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Run an on demand execution of a Task. (tasks.run)
+   *
+   * @param string $name Required. The resource name of the task: projects/{projec
+   * t_number}/locations/{location_id}/lakes/{lake_id}/tasks/{task_id}.
+   * @param GoogleCloudDataplexV1RunTaskRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDataplexV1RunTaskResponse
+   */
+  public function run($name, GoogleCloudDataplexV1RunTaskRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('run', [$params], GoogleCloudDataplexV1RunTaskResponse::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

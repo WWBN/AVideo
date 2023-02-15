@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1KeyValueMap;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $keyvaluemaps = $apigeeService->keyvaluemaps;
+ *   $keyvaluemaps = $apigeeService->organizations_environments_keyvaluemaps;
  *  </code>
  */
 class OrganizationsEnvironmentsKeyvaluemaps extends \Google\Service\Resource

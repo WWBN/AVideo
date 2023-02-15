@@ -26,7 +26,7 @@ use Google\Service\Transcoder\TranscoderEmpty;
  * Typical usage is:
  *  <code>
  *   $transcoderService = new Google\Service\Transcoder(...);
- *   $jobTemplates = $transcoderService->jobTemplates;
+ *   $jobTemplates = $transcoderService->projects_locations_jobTemplates;
  *  </code>
  */
 class ProjectsLocationsJobTemplates extends \Google\Service\Resource

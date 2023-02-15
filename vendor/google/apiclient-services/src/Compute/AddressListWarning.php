@@ -26,6 +26,7 @@ class AddressListWarning extends \Google\Collection
   public $code;
   protected $dataType = AddressListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

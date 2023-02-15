@@ -21,6 +21,7 @@ class GoogleCloudDatalabelingV1beta1EvaluationConfig extends \Google\Model
 {
   protected $boundingBoxEvaluationOptionsType = GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions::class;
   protected $boundingBoxEvaluationOptionsDataType = '';
+  public $boundingBoxEvaluationOptions;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1BoundingBoxEvaluationOptions

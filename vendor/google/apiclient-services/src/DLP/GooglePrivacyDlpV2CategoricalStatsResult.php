@@ -22,6 +22,7 @@ class GooglePrivacyDlpV2CategoricalStatsResult extends \Google\Collection
   protected $collection_key = 'valueFrequencyHistogramBuckets';
   protected $valueFrequencyHistogramBucketsType = GooglePrivacyDlpV2CategoricalStatsHistogramBucket::class;
   protected $valueFrequencyHistogramBucketsDataType = 'array';
+  public $valueFrequencyHistogramBuckets;
 
   /**
    * @param GooglePrivacyDlpV2CategoricalStatsHistogramBucket[]

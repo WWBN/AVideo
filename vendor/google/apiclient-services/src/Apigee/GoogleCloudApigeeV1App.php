@@ -22,12 +22,14 @@ class GoogleCloudApigeeV1App extends \Google\Collection
   protected $collection_key = 'scopes';
   protected $apiProductsType = GoogleCloudApigeeV1ApiProductRef::class;
   protected $apiProductsDataType = 'array';
+  public $apiProducts;
   /**
    * @var string
    */
   public $appId;
   protected $attributesType = GoogleCloudApigeeV1Attribute::class;
   protected $attributesDataType = 'array';
+  public $attributes;
   /**
    * @var string
    */
@@ -42,6 +44,7 @@ class GoogleCloudApigeeV1App extends \Google\Collection
   public $createdAt;
   protected $credentialsType = GoogleCloudApigeeV1Credential::class;
   protected $credentialsDataType = 'array';
+  public $credentials;
   /**
    * @var string
    */

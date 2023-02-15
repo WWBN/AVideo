@@ -21,6 +21,7 @@ class InterconnectsGetDiagnosticsResponse extends \Google\Model
 {
   protected $resultType = InterconnectDiagnostics::class;
   protected $resultDataType = '';
+  public $result;
 
   /**
    * @param InterconnectDiagnostics

@@ -25,6 +25,7 @@ class GeocodingSummary extends \Google\Model
   public $addressUnderstood;
   protected $featureIdType = FeatureIdProto::class;
   protected $featureIdDataType = '';
+  public $featureId;
   /**
    * @var string
    */

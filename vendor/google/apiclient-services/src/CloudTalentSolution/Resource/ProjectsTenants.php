@@ -27,7 +27,7 @@ use Google\Service\CloudTalentSolution\Tenant;
  * Typical usage is:
  *  <code>
  *   $jobsService = new Google\Service\CloudTalentSolution(...);
- *   $tenants = $jobsService->tenants;
+ *   $tenants = $jobsService->projects_tenants;
  *  </code>
  */
 class ProjectsTenants extends \Google\Service\Resource

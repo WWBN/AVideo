@@ -21,6 +21,7 @@ class SetNodePoolAutoscalingRequest extends \Google\Model
 {
   protected $autoscalingType = NodePoolAutoscaling::class;
   protected $autoscalingDataType = '';
+  public $autoscaling;
   /**
    * @var string
    */

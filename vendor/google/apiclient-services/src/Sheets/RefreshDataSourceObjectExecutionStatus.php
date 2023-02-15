@@ -21,8 +21,10 @@ class RefreshDataSourceObjectExecutionStatus extends \Google\Model
 {
   protected $dataExecutionStatusType = DataExecutionStatus::class;
   protected $dataExecutionStatusDataType = '';
+  public $dataExecutionStatus;
   protected $referenceType = DataSourceObjectReference::class;
   protected $referenceDataType = '';
+  public $reference;
 
   /**
    * @param DataExecutionStatus

@@ -17,23 +17,12 @@
 
 namespace Google\Service\Contentwarehouse;
 
-class RepositoryWebrefAnnotationDebugInfo extends \Google\Collection
+class RepositoryWebrefAnnotationDebugInfo extends \Google\Model
 {
-  protected $collection_key = 'infoString';
   /**
    * @var string
    */
   public $description;
-  /**
-   * @var string[]
-   */
-  public $infoString;
-  protected $rawClassificationType = EntitySignalsEntityClassification::class;
-  protected $rawClassificationDataType = '';
-  /**
-   * @var string
-   */
-  public $url;
 
   /**
    * @param string
@@ -48,48 +37,6 @@ class RepositoryWebrefAnnotationDebugInfo extends \Google\Collection
   public function getDescription()
   {
     return $this->description;
-  }
-  /**
-   * @param string[]
-   */
-  public function setInfoString($infoString)
-  {
-    $this->infoString = $infoString;
-  }
-  /**
-   * @return string[]
-   */
-  public function getInfoString()
-  {
-    return $this->infoString;
-  }
-  /**
-   * @param EntitySignalsEntityClassification
-   */
-  public function setRawClassification(EntitySignalsEntityClassification $rawClassification)
-  {
-    $this->rawClassification = $rawClassification;
-  }
-  /**
-   * @return EntitySignalsEntityClassification
-   */
-  public function getRawClassification()
-  {
-    return $this->rawClassification;
-  }
-  /**
-   * @param string
-   */
-  public function setUrl($url)
-  {
-    $this->url = $url;
-  }
-  /**
-   * @return string
-   */
-  public function getUrl()
-  {
-    return $this->url;
   }
 }
 

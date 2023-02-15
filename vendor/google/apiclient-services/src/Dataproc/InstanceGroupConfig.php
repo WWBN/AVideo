@@ -22,8 +22,10 @@ class InstanceGroupConfig extends \Google\Collection
   protected $collection_key = 'instanceReferences';
   protected $acceleratorsType = AcceleratorConfig::class;
   protected $acceleratorsDataType = 'array';
+  public $accelerators;
   protected $diskConfigType = DiskConfig::class;
   protected $diskConfigDataType = '';
+  public $diskConfig;
   /**
    * @var string
    */
@@ -34,6 +36,7 @@ class InstanceGroupConfig extends \Google\Collection
   public $instanceNames;
   protected $instanceReferencesType = InstanceReference::class;
   protected $instanceReferencesDataType = 'array';
+  public $instanceReferences;
   /**
    * @var bool
    */
@@ -44,6 +47,7 @@ class InstanceGroupConfig extends \Google\Collection
   public $machineTypeUri;
   protected $managedGroupConfigType = ManagedGroupConfig::class;
   protected $managedGroupConfigDataType = '';
+  public $managedGroupConfig;
   /**
    * @var string
    */

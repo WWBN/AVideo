@@ -21,60 +21,86 @@ class PrincipalProto extends \Google\Model
 {
   protected $allAuthenticatedUsersType = AllAuthenticatedUsersProto::class;
   protected $allAuthenticatedUsersDataType = '';
+  public $allAuthenticatedUsers;
   protected $capTokenHolderType = CapTokenHolderProto::class;
   protected $capTokenHolderDataType = '';
+  public $capTokenHolder;
   protected $chatType = ChatProto::class;
   protected $chatDataType = '';
+  public $chat;
   protected $circleType = CircleProto::class;
   protected $circleDataType = '';
+  public $circle;
   protected $cloudPrincipalType = CloudPrincipalProto::class;
   protected $cloudPrincipalDataType = '';
+  public $cloudPrincipal;
   protected $contactGroupType = ContactGroupProto::class;
   protected $contactGroupDataType = '';
+  public $contactGroup;
   protected $emailOwnerType = EmailOwnerProto::class;
   protected $emailOwnerDataType = '';
+  public $emailOwner;
   protected $eventType = EventProto::class;
   protected $eventDataType = '';
+  public $event;
   protected $gaiaGroupType = GaiaGroupProto::class;
   protected $gaiaGroupDataType = '';
+  public $gaiaGroup;
   protected $gaiaUserType = GaiaUserProto::class;
   protected $gaiaUserDataType = '';
+  public $gaiaUser;
   protected $hostType = HostProto::class;
   protected $hostDataType = '';
+  public $host;
   protected $ldapGroupType = LdapGroupProto::class;
   protected $ldapGroupDataType = '';
+  public $ldapGroup;
   protected $ldapUserType = LdapUserProto::class;
   protected $ldapUserDataType = '';
+  public $ldapUser;
   protected $mdbGroupType = MdbGroupProto::class;
   protected $mdbGroupDataType = '';
+  public $mdbGroup;
   protected $mdbUserType = MdbUserProto::class;
   protected $mdbUserDataType = '';
+  public $mdbUser;
   protected $oauthConsumerType = OAuthConsumerProto::class;
   protected $oauthConsumerDataType = '';
+  public $oauthConsumer;
   protected $postiniUserType = PostiniUserProto::class;
   protected $postiniUserDataType = '';
+  public $postiniUser;
   protected $rbacRoleType = RbacRoleProto::class;
   protected $rbacRoleDataType = '';
+  public $rbacRole;
   protected $rbacSubjectType = RbacSubjectProto::class;
   protected $rbacSubjectDataType = '';
+  public $rbacSubject;
   protected $resourceRoleType = ResourceRoleProto::class;
   protected $resourceRoleDataType = '';
+  public $resourceRole;
   /**
    * @var string
    */
   public $scope;
   protected $signingKeyPossessorType = SigningKeyPossessorProto::class;
   protected $signingKeyPossessorDataType = '';
+  public $signingKeyPossessor;
   protected $simpleSecretHolderType = SimpleSecretHolderProto::class;
   protected $simpleSecretHolderDataType = '';
+  public $simpleSecretHolder;
   protected $socialGraphNodeType = SocialGraphNodeProto::class;
   protected $socialGraphNodeDataType = '';
+  public $socialGraphNode;
   protected $squareType = SquareProto::class;
   protected $squareDataType = '';
+  public $square;
   protected $youtubeUserType = YoutubeUserProto::class;
   protected $youtubeUserDataType = '';
+  public $youtubeUser;
   protected $zwiebackSessionType = ZwiebackSessionProto::class;
   protected $zwiebackSessionDataType = '';
+  public $zwiebackSession;
 
   /**
    * @param AllAuthenticatedUsersProto

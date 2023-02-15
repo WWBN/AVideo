@@ -62,8 +62,10 @@ class CompressedQualitySignals extends \Google\Collection
   public $exactMatchDomainDemotion;
   protected $experimentalNsrTeamDataType = QualityNsrExperimentalNsrTeamData::class;
   protected $experimentalNsrTeamDataDataType = '';
+  public $experimentalNsrTeamData;
   protected $experimentalNsrTeamWsjDataType = QualityNsrExperimentalNsrTeamWSJData::class;
   protected $experimentalNsrTeamWsjDataDataType = 'array';
+  public $experimentalNsrTeamWsjData;
   /**
    * @var float
    */
@@ -94,10 +96,13 @@ class CompressedQualitySignals extends \Google\Collection
   public $nsrOverrideBid;
   protected $nsrVersionedDataType = NSRVersionedItem::class;
   protected $nsrVersionedDataDataType = 'array';
+  public $nsrVersionedData;
   protected $pairwiseqScoringDataType = PairwiseQScoringData::class;
   protected $pairwiseqScoringDataDataType = '';
+  public $pairwiseqScoringData;
   protected $pairwiseqVersionedDataType = PairwiseQVersionedItem::class;
   protected $pairwiseqVersionedDataDataType = 'array';
+  public $pairwiseqVersionedData;
   /**
    * @var string
    */
@@ -108,6 +113,7 @@ class CompressedQualitySignals extends \Google\Collection
   public $pqData;
   protected $pqDataProtoType = QualityNsrPQData::class;
   protected $pqDataProtoDataType = '';
+  public $pqDataProto;
   /**
    * @var string
    */
@@ -138,6 +144,7 @@ class CompressedQualitySignals extends \Google\Collection
   public $siteAuthority;
   protected $topicEmbeddingsVersionedDataType = QualityAuthorityTopicEmbeddingsVersionedItem::class;
   protected $topicEmbeddingsVersionedDataDataType = 'array';
+  public $topicEmbeddingsVersionedData;
   /**
    * @var string
    */

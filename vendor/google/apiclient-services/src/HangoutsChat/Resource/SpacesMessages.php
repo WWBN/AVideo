@@ -25,7 +25,7 @@ use Google\Service\HangoutsChat\Message;
  * Typical usage is:
  *  <code>
  *   $chatService = new Google\Service\HangoutsChat(...);
- *   $messages = $chatService->messages;
+ *   $messages = $chatService->spaces_messages;
  *  </code>
  */
 class SpacesMessages extends \Google\Service\Resource
@@ -43,7 +43,10 @@ class SpacesMessages extends \Google\Service\Resource
    * access to certain features. [User
    * authentication](https://developers.google.com/chat/api/guides/auth/users)
    * requires the `chat.messages` or `chat.messages.create` authorization scope.
-   * (messages.create)
+   * Because Chat provides authentication for
+   * [webhooks](https://developers.google.com/chat/how-tos/webhooks) as part of
+   * the URL that's generated when a webhook is registered, webhooks can create
+   * messages without a service account or user authentication. (messages.create)
    *
    * @param string $parent Required. The resource name of the space in which to
    * create a message. Format: spaces/{space}
@@ -64,8 +67,8 @@ class SpacesMessages extends \Google\Service\Resource
    * @opt_param string threadKey Optional. Deprecated: Use thread.thread_key
    * instead. Opaque thread identifier. To start or add to a thread, create a
    * message and specify a `threadKey` or the thread.name. For example usage, see
-   * [Start or reply to a message
-   * thread](/chat/api/guides/crudl/messages#start_or_reply_to_a_message_thread).
+   * [Start or reply to a message thread](https://developers.google.com/chat/api/g
+   * uides/crudl/messages#start_or_reply_to_a_message_thread).
    * @return Message
    */
   public function create($parent, Message $postBody, $optParams = [])
@@ -134,9 +137,51 @@ class SpacesMessages extends \Google\Service\Resource
   /**
    * Updates a message. For example usage, see [Update a message](https://develope
    * rs.google.com/chat/api/guides/crudl/messages#update_a_message). Requires
-   * [service account
+   * [authentication](https://developers.google.com/chat/api/guides/auth/). Fully
+   * supports [service account
    * authentication](https://developers.google.com/chat/api/guides/auth/service-
-   * accounts). (messages.update)
+   * accounts). Supports [user
+   * authentication](https://developers.google.com/chat/api/guides/auth/users) as
+   * part of the [Google Workspace Developer Preview
+   * Program](https://developers.google.com/workspace/preview), which grants early
+   * access to certain features. [User
+   * authentication](https://developers.google.com/chat/api/guides/auth/users)
+   * requires the `chat.messages` authorization scope. (messages.patch)
+   *
+   * @param string $name Resource name in the form `spaces/messages`. Example:
+   * `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`
+   * @param Message $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool allowMissing Optional. If `true` and the message is not
+   * found, a new message is created and `updateMask` is ignored. The specified
+   * message ID must be [client-assigned](https://developers.google.com/chat/api/g
+   * uides/crudl/messages#name_a_created_message) or the request fails.
+   * @opt_param string updateMask Required. The field paths to update. Separate
+   * multiple values with commas. Currently supported field paths: - text - cards
+   * (Requires [service account authentication](/chat/api/guides/auth/service-
+   * accounts).) - cards_v2
+   * @return Message
+   */
+  public function patch($name, Message $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Message::class);
+  }
+  /**
+   * Updates a message. For example usage, see [Update a message](https://develope
+   * rs.google.com/chat/api/guides/crudl/messages#update_a_message). Requires
+   * [authentication](https://developers.google.com/chat/api/guides/auth/). Fully
+   * supports [service account
+   * authentication](https://developers.google.com/chat/api/guides/auth/service-
+   * accounts). Supports [user
+   * authentication](https://developers.google.com/chat/api/guides/auth/users) as
+   * part of the [Google Workspace Developer Preview
+   * Program](https://developers.google.com/workspace/preview), which grants early
+   * access to certain features. [User
+   * authentication](https://developers.google.com/chat/api/guides/auth/users)
+   * requires the `chat.messages` authorization scope. (messages.update)
    *
    * @param string $name Resource name in the form `spaces/messages`. Example:
    * `spaces/AAAAAAAAAAA/messages/BBBBBBBBBBB.BBBBBBBBBBB`

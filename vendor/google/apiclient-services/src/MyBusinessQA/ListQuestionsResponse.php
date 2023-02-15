@@ -26,6 +26,7 @@ class ListQuestionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $questionsType = Question::class;
   protected $questionsDataType = 'array';
+  public $questions;
   /**
    * @var int
    */

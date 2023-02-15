@@ -25,6 +25,7 @@ class CreatePrintServerRequest extends \Google\Model
   public $parent;
   protected $printServerType = PrintServer::class;
   protected $printServerDataType = '';
+  public $printServer;
 
   /**
    * @param string

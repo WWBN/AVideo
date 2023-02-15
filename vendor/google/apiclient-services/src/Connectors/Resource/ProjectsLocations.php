@@ -22,7 +22,7 @@ namespace Google\Service\Connectors\Resource;
  * Typical usage is:
  *  <code>
  *   $connectorsService = new Google\Service\Connectors(...);
- *   $locations = $connectorsService->locations;
+ *   $locations = $connectorsService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

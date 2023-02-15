@@ -21,12 +21,16 @@ class Borders extends \Google\Model
 {
   protected $bottomType = Border::class;
   protected $bottomDataType = '';
+  public $bottom;
   protected $leftType = Border::class;
   protected $leftDataType = '';
+  public $left;
   protected $rightType = Border::class;
   protected $rightDataType = '';
+  public $right;
   protected $topType = Border::class;
   protected $topDataType = '';
+  public $top;
 
   /**
    * @param Border

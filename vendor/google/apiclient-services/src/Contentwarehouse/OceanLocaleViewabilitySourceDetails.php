@@ -21,6 +21,7 @@ class OceanLocaleViewabilitySourceDetails extends \Google\Model
 {
   protected $imprintType = OceanVolumeImprint::class;
   protected $imprintDataType = '';
+  public $imprint;
 
   /**
    * @param OceanVolumeImprint

@@ -22,6 +22,7 @@ class RepositoryWebrefDisplayInfo extends \Google\Collection
   protected $collection_key = 'displayName';
   protected $displayNameType = RepositoryWebrefDisplayName::class;
   protected $displayNameDataType = 'array';
+  public $displayName;
 
   /**
    * @param RepositoryWebrefDisplayName[]

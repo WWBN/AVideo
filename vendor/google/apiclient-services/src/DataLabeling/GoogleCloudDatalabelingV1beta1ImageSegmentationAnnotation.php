@@ -21,6 +21,7 @@ class GoogleCloudDatalabelingV1beta1ImageSegmentationAnnotation extends \Google\
 {
   protected $annotationColorsType = GoogleCloudDatalabelingV1beta1AnnotationSpec::class;
   protected $annotationColorsDataType = 'map';
+  public $annotationColors;
   /**
    * @var string
    */

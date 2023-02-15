@@ -25,6 +25,7 @@ class AchievementConfiguration extends \Google\Model
   public $achievementType;
   protected $draftType = AchievementConfigurationDetail::class;
   protected $draftDataType = '';
+  public $draft;
   /**
    * @var string
    */
@@ -39,6 +40,7 @@ class AchievementConfiguration extends \Google\Model
   public $kind;
   protected $publishedType = AchievementConfigurationDetail::class;
   protected $publishedDataType = '';
+  public $published;
   /**
    * @var int
    */

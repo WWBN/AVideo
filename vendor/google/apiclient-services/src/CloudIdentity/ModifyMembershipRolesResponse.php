@@ -21,6 +21,7 @@ class ModifyMembershipRolesResponse extends \Google\Model
 {
   protected $membershipType = Membership::class;
   protected $membershipDataType = '';
+  public $membership;
 
   /**
    * @param Membership

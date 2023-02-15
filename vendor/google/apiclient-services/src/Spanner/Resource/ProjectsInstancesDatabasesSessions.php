@@ -43,7 +43,7 @@ use Google\Service\Spanner\Transaction;
  * Typical usage is:
  *  <code>
  *   $spannerService = new Google\Service\Spanner(...);
- *   $sessions = $spannerService->sessions;
+ *   $sessions = $spannerService->projects_instances_databases_sessions;
  *  </code>
  */
 class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource

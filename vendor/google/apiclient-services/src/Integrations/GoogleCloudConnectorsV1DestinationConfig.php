@@ -22,6 +22,7 @@ class GoogleCloudConnectorsV1DestinationConfig extends \Google\Collection
   protected $collection_key = 'destinations';
   protected $destinationsType = GoogleCloudConnectorsV1Destination::class;
   protected $destinationsDataType = 'array';
+  public $destinations;
   /**
    * @var string
    */

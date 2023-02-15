@@ -29,8 +29,10 @@ class UserMentionMetadata extends \Google\Model
   public $gender;
   protected $idType = UserId::class;
   protected $idDataType = '';
+  public $id;
   protected $inviteeInfoType = InviteeInfo::class;
   protected $inviteeInfoDataType = '';
+  public $inviteeInfo;
   /**
    * @var string
    */

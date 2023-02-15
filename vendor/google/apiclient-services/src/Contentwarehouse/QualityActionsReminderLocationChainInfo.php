@@ -29,6 +29,7 @@ class QualityActionsReminderLocationChainInfo extends \Google\Model
   public $chainName;
   protected $featureIdType = GeostoreFeatureIdProto::class;
   protected $featureIdDataType = '';
+  public $featureId;
 
   /**
    * @param string

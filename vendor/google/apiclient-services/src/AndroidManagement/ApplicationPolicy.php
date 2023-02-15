@@ -50,6 +50,7 @@ class ApplicationPolicy extends \Google\Collection
   public $disabled;
   protected $extensionConfigType = ExtensionConfig::class;
   protected $extensionConfigDataType = '';
+  public $extensionConfig;
   /**
    * @var string
    */
@@ -64,6 +65,7 @@ class ApplicationPolicy extends \Google\Collection
   public $managedConfiguration;
   protected $managedConfigurationTemplateType = ManagedConfigurationTemplate::class;
   protected $managedConfigurationTemplateDataType = '';
+  public $managedConfigurationTemplate;
   /**
    * @var int
    */
@@ -74,6 +76,11 @@ class ApplicationPolicy extends \Google\Collection
   public $packageName;
   protected $permissionGrantsType = PermissionGrant::class;
   protected $permissionGrantsDataType = 'array';
+  public $permissionGrants;
+  /**
+   * @var string
+   */
+  public $workProfileWidgets;
 
   /**
    * @param string[]
@@ -284,6 +291,20 @@ class ApplicationPolicy extends \Google\Collection
   public function getPermissionGrants()
   {
     return $this->permissionGrants;
+  }
+  /**
+   * @param string
+   */
+  public function setWorkProfileWidgets($workProfileWidgets)
+  {
+    $this->workProfileWidgets = $workProfileWidgets;
+  }
+  /**
+   * @return string
+   */
+  public function getWorkProfileWidgets()
+  {
+    return $this->workProfileWidgets;
   }
 }
 

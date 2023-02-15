@@ -22,6 +22,7 @@ class ManualSharding extends \Google\Collection
   protected $collection_key = 'testTargetsForShard';
   protected $testTargetsForShardType = TestTargetsForShard::class;
   protected $testTargetsForShardDataType = 'array';
+  public $testTargetsForShard;
 
   /**
    * @param TestTargetsForShard[]

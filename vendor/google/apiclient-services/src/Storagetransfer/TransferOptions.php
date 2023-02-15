@@ -29,6 +29,7 @@ class TransferOptions extends \Google\Model
   public $deleteObjectsUniqueInSink;
   protected $metadataOptionsType = MetadataOptions::class;
   protected $metadataOptionsDataType = '';
+  public $metadataOptions;
   /**
    * @var bool
    */

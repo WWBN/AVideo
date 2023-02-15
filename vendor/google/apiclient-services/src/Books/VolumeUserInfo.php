@@ -29,12 +29,14 @@ class VolumeUserInfo extends \Google\Model
   public $acquisitionType;
   protected $copyType = VolumeUserInfoCopy::class;
   protected $copyDataType = '';
+  public $copy;
   /**
    * @var int
    */
   public $entitlementType;
   protected $familySharingType = VolumeUserInfoFamilySharing::class;
   protected $familySharingDataType = '';
+  public $familySharing;
   /**
    * @var bool
    */
@@ -69,20 +71,24 @@ class VolumeUserInfo extends \Google\Model
   public $isUploaded;
   protected $readingPositionType = ReadingPosition::class;
   protected $readingPositionDataType = '';
+  public $readingPosition;
   protected $rentalPeriodType = VolumeUserInfoRentalPeriod::class;
   protected $rentalPeriodDataType = '';
+  public $rentalPeriod;
   /**
    * @var string
    */
   public $rentalState;
   protected $reviewType = Review::class;
   protected $reviewDataType = '';
+  public $review;
   /**
    * @var string
    */
   public $updated;
   protected $userUploadedVolumeInfoType = VolumeUserInfoUserUploadedVolumeInfo::class;
   protected $userUploadedVolumeInfoDataType = '';
+  public $userUploadedVolumeInfo;
 
   /**
    * @param string

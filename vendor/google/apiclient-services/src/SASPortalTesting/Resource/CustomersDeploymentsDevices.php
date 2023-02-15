@@ -26,7 +26,7 @@ use Google\Service\SASPortalTesting\SasPortalListDevicesResponse;
  * Typical usage is:
  *  <code>
  *   $prod_tt_sasportalService = new Google\Service\SASPortalTesting(...);
- *   $devices = $prod_tt_sasportalService->devices;
+ *   $devices = $prod_tt_sasportalService->customers_deployments_devices;
  *  </code>
  */
 class CustomersDeploymentsDevices extends \Google\Service\Resource

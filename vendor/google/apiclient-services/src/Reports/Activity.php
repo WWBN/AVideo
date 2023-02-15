@@ -22,14 +22,17 @@ class Activity extends \Google\Collection
   protected $collection_key = 'events';
   protected $actorType = ActivityActor::class;
   protected $actorDataType = '';
+  public $actor;
   /**
    * @var string
    */
   public $etag;
   protected $eventsType = ActivityEvents::class;
   protected $eventsDataType = 'array';
+  public $events;
   protected $idType = ActivityId::class;
   protected $idDataType = '';
+  public $id;
   /**
    * @var string
    */

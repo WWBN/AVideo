@@ -25,6 +25,7 @@ class Photo extends \Google\Model
   public $default;
   protected $metadataType = FieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */

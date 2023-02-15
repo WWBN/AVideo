@@ -28,6 +28,7 @@ class HistogramChartSpec extends \Google\Collection
   public $outlierPercentile;
   protected $seriesType = HistogramSeries::class;
   protected $seriesDataType = 'array';
+  public $series;
   /**
    * @var bool
    */

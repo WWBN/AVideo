@@ -26,7 +26,7 @@ use Google\Service\DisplayVideo\ListInsertionOrderAssignedTargetingOptionsRespon
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $assignedTargetingOptions = $displayvideoService->assignedTargetingOptions;
+ *   $assignedTargetingOptions = $displayvideoService->advertisers_insertionOrders_targetingTypes_assignedTargetingOptions;
  *  </code>
  */
 class AdvertisersInsertionOrdersTargetingTypesAssignedTargetingOptions extends \Google\Service\Resource
@@ -116,7 +116,33 @@ class AdvertisersInsertionOrdersTargetingTypesAssignedTargetingOptions extends \
    * @param string $insertionOrderId Required. The ID of the insertion order the
    * assigned targeting option belongs to.
    * @param string $targetingType Required. Identifies the type of this assigned
-   * targeting option.
+   * targeting option. Supported targeting types include: *
+   * `TARGETING_TYPE_AGE_RANGE` * `TARGETING_TYPE_APP` *
+   * `TARGETING_TYPE_APP_CATEGORY` * `TARGETING_TYPE_AUDIENCE_GROUP` *
+   * `TARGETING_TYPE_AUDIO_CONTENT_TYPE` *
+   * `TARGETING_TYPE_AUTHORIZED_SELLER_STATUS` * `TARGETING_TYPE_BROWSER` *
+   * `TARGETING_TYPE_BUSINESS_CHAIN` * `TARGETING_TYPE_CARRIER_AND_ISP` *
+   * `TARGETING_TYPE_CATEGORY` * `TARGETING_TYPE_CHANNEL` *
+   * `TARGETING_TYPE_CONTENT_DURATION` * `TARGETING_TYPE_CONTENT_GENRE` *
+   * `TARGETING_TYPE_CONTENT_INSTREAM_POSITION` *
+   * `TARGETING_TYPE_CONTENT_OUTSTREAM_POSITION` *
+   * `TARGETING_TYPE_CONTENT_STREAM_TYPE` * `TARGETING_TYPE_DAY_AND_TIME` *
+   * `TARGETING_TYPE_DEVICE_MAKE_MODEL` * `TARGETING_TYPE_DEVICE_TYPE` *
+   * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` *
+   * `TARGETING_TYPE_ENVIRONMENT` * `TARGETING_TYPE_EXCHANGE` *
+   * `TARGETING_TYPE_GENDER` * `TARGETING_TYPE_GEO_REGION` *
+   * `TARGETING_TYPE_HOUSEHOLD_INCOME` * `TARGETING_TYPE_INVENTORY_SOURCE` *
+   * `TARGETING_TYPE_INVENTORY_SOURCE_GROUP` * `TARGETING_TYPE_KEYWORD` *
+   * `TARGETING_TYPE_LANGUAGE` * `TARGETING_TYPE_NATIVE_CONTENT_POSITION` *
+   * `TARGETING_TYPE_NEGATIVE_KEYWORD_LIST` * `TARGETING_TYPE_OMID` *
+   * `TARGETING_TYPE_ON_SCREEN_POSITION` * `TARGETING_TYPE_OPERATING_SYSTEM` *
+   * `TARGETING_TYPE_PARENTAL_STATUS` * `TARGETING_TYPE_POI` *
+   * `TARGETING_TYPE_PROXIMITY_LOCATION_LIST` *
+   * `TARGETING_TYPE_REGIONAL_LOCATION_LIST` *
+   * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_SUB_EXCHANGE`
+   * * `TARGETING_TYPE_THIRD_PARTY_VERIFIER` * `TARGETING_TYPE_URL` *
+   * `TARGETING_TYPE_USER_REWARDED_CONTENT` * `TARGETING_TYPE_VIDEO_PLAYER_SIZE` *
+   * `TARGETING_TYPE_VIEWABILITY`
    * @param string $assignedTargetingOptionId Required. An identifier unique to
    * the targeting type in this insertion order that identifies the assigned
    * targeting option being requested.
@@ -139,7 +165,33 @@ class AdvertisersInsertionOrdersTargetingTypesAssignedTargetingOptions extends \
    * @param string $insertionOrderId Required. The ID of the insertion order to
    * list assigned targeting options for.
    * @param string $targetingType Required. Identifies the type of assigned
-   * targeting options to list.
+   * targeting options to list. Supported targeting types include: *
+   * `TARGETING_TYPE_AGE_RANGE` * `TARGETING_TYPE_APP` *
+   * `TARGETING_TYPE_APP_CATEGORY` * `TARGETING_TYPE_AUDIENCE_GROUP` *
+   * `TARGETING_TYPE_AUDIO_CONTENT_TYPE` *
+   * `TARGETING_TYPE_AUTHORIZED_SELLER_STATUS` * `TARGETING_TYPE_BROWSER` *
+   * `TARGETING_TYPE_BUSINESS_CHAIN` * `TARGETING_TYPE_CARRIER_AND_ISP` *
+   * `TARGETING_TYPE_CATEGORY` * `TARGETING_TYPE_CHANNEL` *
+   * `TARGETING_TYPE_CONTENT_DURATION` * `TARGETING_TYPE_CONTENT_GENRE` *
+   * `TARGETING_TYPE_CONTENT_INSTREAM_POSITION` *
+   * `TARGETING_TYPE_CONTENT_OUTSTREAM_POSITION` *
+   * `TARGETING_TYPE_CONTENT_STREAM_TYPE` * `TARGETING_TYPE_DAY_AND_TIME` *
+   * `TARGETING_TYPE_DEVICE_MAKE_MODEL` * `TARGETING_TYPE_DEVICE_TYPE` *
+   * `TARGETING_TYPE_DIGITAL_CONTENT_LABEL_EXCLUSION` *
+   * `TARGETING_TYPE_ENVIRONMENT` * `TARGETING_TYPE_EXCHANGE` *
+   * `TARGETING_TYPE_GENDER` * `TARGETING_TYPE_GEO_REGION` *
+   * `TARGETING_TYPE_HOUSEHOLD_INCOME` * `TARGETING_TYPE_INVENTORY_SOURCE` *
+   * `TARGETING_TYPE_INVENTORY_SOURCE_GROUP` * `TARGETING_TYPE_KEYWORD` *
+   * `TARGETING_TYPE_LANGUAGE` * `TARGETING_TYPE_NATIVE_CONTENT_POSITION` *
+   * `TARGETING_TYPE_NEGATIVE_KEYWORD_LIST` * `TARGETING_TYPE_OMID` *
+   * `TARGETING_TYPE_ON_SCREEN_POSITION` * `TARGETING_TYPE_OPERATING_SYSTEM` *
+   * `TARGETING_TYPE_PARENTAL_STATUS` * `TARGETING_TYPE_POI` *
+   * `TARGETING_TYPE_PROXIMITY_LOCATION_LIST` *
+   * `TARGETING_TYPE_REGIONAL_LOCATION_LIST` *
+   * `TARGETING_TYPE_SENSITIVE_CATEGORY_EXCLUSION` * `TARGETING_TYPE_SUB_EXCHANGE`
+   * * `TARGETING_TYPE_THIRD_PARTY_VERIFIER` * `TARGETING_TYPE_URL` *
+   * `TARGETING_TYPE_USER_REWARDED_CONTENT` * `TARGETING_TYPE_VIDEO_PLAYER_SIZE` *
+   * `TARGETING_TYPE_VIEWABILITY`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Allows filtering by assigned targeting option

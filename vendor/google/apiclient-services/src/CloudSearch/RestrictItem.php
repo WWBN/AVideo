@@ -21,12 +21,16 @@ class RestrictItem extends \Google\Model
 {
   protected $driveFollowUpRestrictType = DriveFollowUpRestrict::class;
   protected $driveFollowUpRestrictDataType = '';
+  public $driveFollowUpRestrict;
   protected $driveLocationRestrictType = DriveLocationRestrict::class;
   protected $driveLocationRestrictDataType = '';
+  public $driveLocationRestrict;
   protected $driveMimeTypeRestrictType = DriveMimeTypeRestrict::class;
   protected $driveMimeTypeRestrictDataType = '';
+  public $driveMimeTypeRestrict;
   protected $driveTimeSpanRestrictType = DriveTimeSpanRestrict::class;
   protected $driveTimeSpanRestrictDataType = '';
+  public $driveTimeSpanRestrict;
   /**
    * @var string
    */

@@ -26,7 +26,7 @@ use Google\Service\Datastream\Location;
  * Typical usage is:
  *  <code>
  *   $datastreamService = new Google\Service\Datastream(...);
- *   $locations = $datastreamService->locations;
+ *   $locations = $datastreamService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

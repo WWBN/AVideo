@@ -22,8 +22,10 @@ class Categories extends \Google\Collection
   protected $collection_key = 'additionalCategories';
   protected $additionalCategoriesType = Category::class;
   protected $additionalCategoriesDataType = 'array';
+  public $additionalCategories;
   protected $primaryCategoryType = Category::class;
   protected $primaryCategoryDataType = '';
+  public $primaryCategory;
 
   /**
    * @param Category[]

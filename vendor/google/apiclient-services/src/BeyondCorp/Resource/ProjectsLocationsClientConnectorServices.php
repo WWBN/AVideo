@@ -30,7 +30,7 @@ use Google\Service\BeyondCorp\ListClientConnectorServicesResponse;
  * Typical usage is:
  *  <code>
  *   $beyondcorpService = new Google\Service\BeyondCorp(...);
- *   $clientConnectorServices = $beyondcorpService->clientConnectorServices;
+ *   $clientConnectorServices = $beyondcorpService->projects_locations_clientConnectorServices;
  *  </code>
  */
 class ProjectsLocationsClientConnectorServices extends \Google\Service\Resource

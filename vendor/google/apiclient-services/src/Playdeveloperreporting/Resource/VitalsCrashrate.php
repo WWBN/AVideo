@@ -26,7 +26,7 @@ use Google\Service\Playdeveloperreporting\GooglePlayDeveloperReportingV1beta1Que
  * Typical usage is:
  *  <code>
  *   $playdeveloperreportingService = new Google\Service\Playdeveloperreporting(...);
- *   $crashrate = $playdeveloperreportingService->crashrate;
+ *   $crashrate = $playdeveloperreportingService->vitals_crashrate;
  *  </code>
  */
 class VitalsCrashrate extends \Google\Service\Resource

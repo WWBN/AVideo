@@ -25,6 +25,7 @@ class ProductSet extends \Google\Model
   public $displayName;
   protected $indexErrorType = Status::class;
   protected $indexErrorDataType = '';
+  public $indexError;
   /**
    * @var string
    */

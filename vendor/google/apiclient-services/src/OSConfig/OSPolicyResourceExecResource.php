@@ -21,8 +21,10 @@ class OSPolicyResourceExecResource extends \Google\Model
 {
   protected $enforceType = OSPolicyResourceExecResourceExec::class;
   protected $enforceDataType = '';
+  public $enforce;
   protected $validateType = OSPolicyResourceExecResourceExec::class;
   protected $validateDataType = '';
+  public $validate;
 
   /**
    * @param OSPolicyResourceExecResourceExec

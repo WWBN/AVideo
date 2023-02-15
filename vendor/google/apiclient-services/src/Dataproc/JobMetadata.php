@@ -33,6 +33,7 @@ class JobMetadata extends \Google\Model
   public $startTime;
   protected $statusType = JobStatus::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param string

@@ -26,6 +26,7 @@ class ListTagHoldsResponse extends \Google\Collection
   public $nextPageToken;
   protected $tagHoldsType = TagHold::class;
   protected $tagHoldsDataType = 'array';
+  public $tagHolds;
 
   /**
    * @param string

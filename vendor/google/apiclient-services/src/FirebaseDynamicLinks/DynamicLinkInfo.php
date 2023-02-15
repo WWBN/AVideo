@@ -21,10 +21,13 @@ class DynamicLinkInfo extends \Google\Model
 {
   protected $analyticsInfoType = AnalyticsInfo::class;
   protected $analyticsInfoDataType = '';
+  public $analyticsInfo;
   protected $androidInfoType = AndroidInfo::class;
   protected $androidInfoDataType = '';
+  public $androidInfo;
   protected $desktopInfoType = DesktopInfo::class;
   protected $desktopInfoDataType = '';
+  public $desktopInfo;
   /**
    * @var string
    */
@@ -35,14 +38,17 @@ class DynamicLinkInfo extends \Google\Model
   public $dynamicLinkDomain;
   protected $iosInfoType = IosInfo::class;
   protected $iosInfoDataType = '';
+  public $iosInfo;
   /**
    * @var string
    */
   public $link;
   protected $navigationInfoType = NavigationInfo::class;
   protected $navigationInfoDataType = '';
+  public $navigationInfo;
   protected $socialMetaTagInfoType = SocialMetaTagInfo::class;
   protected $socialMetaTagInfoDataType = '';
+  public $socialMetaTagInfo;
 
   /**
    * @param AnalyticsInfo

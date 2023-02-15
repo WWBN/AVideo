@@ -22,28 +22,36 @@ class GoogleApiServiceusageV1ServiceConfig extends \Google\Collection
   protected $collection_key = 'monitoredResources';
   protected $apisType = Api::class;
   protected $apisDataType = 'array';
+  public $apis;
   protected $authenticationType = Authentication::class;
   protected $authenticationDataType = '';
+  public $authentication;
   protected $documentationType = Documentation::class;
   protected $documentationDataType = '';
+  public $documentation;
   protected $endpointsType = Endpoint::class;
   protected $endpointsDataType = 'array';
+  public $endpoints;
   protected $monitoredResourcesType = MonitoredResourceDescriptor::class;
   protected $monitoredResourcesDataType = 'array';
+  public $monitoredResources;
   protected $monitoringType = Monitoring::class;
   protected $monitoringDataType = '';
+  public $monitoring;
   /**
    * @var string
    */
   public $name;
   protected $quotaType = Quota::class;
   protected $quotaDataType = '';
+  public $quota;
   /**
    * @var string
    */
   public $title;
   protected $usageType = Usage::class;
   protected $usageDataType = '';
+  public $usage;
 
   /**
    * @param Api[]

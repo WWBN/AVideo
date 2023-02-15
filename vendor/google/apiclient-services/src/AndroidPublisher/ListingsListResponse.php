@@ -26,6 +26,7 @@ class ListingsListResponse extends \Google\Collection
   public $kind;
   protected $listingsType = Listing::class;
   protected $listingsDataType = 'array';
+  public $listings;
 
   /**
    * @param string

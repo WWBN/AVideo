@@ -49,6 +49,7 @@ class NestingLevelSuggestionState extends \Google\Model
   public $startNumberSuggested;
   protected $textStyleSuggestionStateType = TextStyleSuggestionState::class;
   protected $textStyleSuggestionStateDataType = '';
+  public $textStyleSuggestionState;
 
   /**
    * @param bool

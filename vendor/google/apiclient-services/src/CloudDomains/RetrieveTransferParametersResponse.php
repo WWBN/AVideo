@@ -21,6 +21,7 @@ class RetrieveTransferParametersResponse extends \Google\Model
 {
   protected $transferParametersType = TransferParameters::class;
   protected $transferParametersDataType = '';
+  public $transferParameters;
 
   /**
    * @param TransferParameters

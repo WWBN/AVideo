@@ -33,7 +33,7 @@ use Google\Service\Spanner\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $spannerService = new Google\Service\Spanner(...);
- *   $backups = $spannerService->backups;
+ *   $backups = $spannerService->projects_instances_backups;
  *  </code>
  */
 class ProjectsInstancesBackups extends \Google\Service\Resource

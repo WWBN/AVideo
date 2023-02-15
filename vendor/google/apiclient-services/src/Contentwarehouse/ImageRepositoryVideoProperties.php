@@ -25,8 +25,10 @@ class ImageRepositoryVideoProperties extends \Google\Model
   public $audioOnly;
   protected $contentBasedMetadataType = ImageRepositoryContentBasedVideoMetadata::class;
   protected $contentBasedMetadataDataType = '';
+  public $contentBasedMetadata;
   protected $crawlStateType = ImageMoosedogCrawlState::class;
   protected $crawlStateDataType = '';
+  public $crawlState;
   /**
    * @var string
    */
@@ -37,6 +39,7 @@ class ImageRepositoryVideoProperties extends \Google\Model
   public $firstProcessingTimestampSec;
   protected $inlinePlaybackType = VideoCrawlVideoInlinePlaybackMetadata::class;
   protected $inlinePlaybackDataType = '';
+  public $inlinePlayback;
   /**
    * @var string
    */

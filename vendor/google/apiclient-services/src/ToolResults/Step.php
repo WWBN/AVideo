@@ -22,32 +22,40 @@ class Step extends \Google\Collection
   protected $collection_key = 'labels';
   protected $completionTimeType = Timestamp::class;
   protected $completionTimeDataType = '';
+  public $completionTime;
   protected $creationTimeType = Timestamp::class;
   protected $creationTimeDataType = '';
+  public $creationTime;
   /**
    * @var string
    */
   public $description;
   protected $deviceUsageDurationType = Duration::class;
   protected $deviceUsageDurationDataType = '';
+  public $deviceUsageDuration;
   protected $dimensionValueType = StepDimensionValueEntry::class;
   protected $dimensionValueDataType = 'array';
+  public $dimensionValue;
   /**
    * @var bool
    */
   public $hasImages;
   protected $labelsType = StepLabelsEntry::class;
   protected $labelsDataType = 'array';
+  public $labels;
   protected $multiStepType = MultiStep::class;
   protected $multiStepDataType = '';
+  public $multiStep;
   /**
    * @var string
    */
   public $name;
   protected $outcomeType = Outcome::class;
   protected $outcomeDataType = '';
+  public $outcome;
   protected $runDurationType = Duration::class;
   protected $runDurationDataType = '';
+  public $runDuration;
   /**
    * @var string
    */
@@ -58,8 +66,10 @@ class Step extends \Google\Collection
   public $stepId;
   protected $testExecutionStepType = TestExecutionStep::class;
   protected $testExecutionStepDataType = '';
+  public $testExecutionStep;
   protected $toolExecutionStepType = ToolExecutionStep::class;
   protected $toolExecutionStepDataType = '';
+  public $toolExecutionStep;
 
   /**
    * @param Timestamp

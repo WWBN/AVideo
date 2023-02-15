@@ -22,6 +22,7 @@ class VideoLegosLegosAnnotationsSets extends \Google\Collection
   protected $collection_key = 'annotationsSet';
   protected $annotationsSetType = VideoLegosLegosAnnotationsSet::class;
   protected $annotationsSetDataType = 'array';
+  public $annotationsSet;
 
   /**
    * @param VideoLegosLegosAnnotationsSet[]

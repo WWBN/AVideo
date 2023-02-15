@@ -30,8 +30,10 @@ class Hl7V2Store extends \Google\Collection
   public $name;
   protected $notificationConfigsType = Hl7V2NotificationConfig::class;
   protected $notificationConfigsDataType = 'array';
+  public $notificationConfigs;
   protected $parserConfigType = ParserConfig::class;
   protected $parserConfigDataType = '';
+  public $parserConfig;
   /**
    * @var bool
    */

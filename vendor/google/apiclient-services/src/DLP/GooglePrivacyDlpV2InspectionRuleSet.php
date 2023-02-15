@@ -22,8 +22,10 @@ class GooglePrivacyDlpV2InspectionRuleSet extends \Google\Collection
   protected $collection_key = 'rules';
   protected $infoTypesType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypesDataType = 'array';
+  public $infoTypes;
   protected $rulesType = GooglePrivacyDlpV2InspectionRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
 
   /**
    * @param GooglePrivacyDlpV2InfoType[]

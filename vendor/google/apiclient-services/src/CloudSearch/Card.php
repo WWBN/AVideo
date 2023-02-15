@@ -22,22 +22,27 @@ class Card extends \Google\Collection
   protected $collection_key = 'sections';
   protected $cardActionsType = CardAction::class;
   protected $cardActionsDataType = 'array';
+  public $cardActions;
   /**
    * @var string
    */
   public $displayStyle;
   protected $fixedFooterType = FixedFooter::class;
   protected $fixedFooterDataType = '';
+  public $fixedFooter;
   protected $headerType = CardHeader::class;
   protected $headerDataType = '';
+  public $header;
   /**
    * @var string
    */
   public $name;
   protected $peekCardHeaderType = CardHeader::class;
   protected $peekCardHeaderDataType = '';
+  public $peekCardHeader;
   protected $sectionsType = Section::class;
   protected $sectionsDataType = 'array';
+  public $sections;
 
   /**
    * @param CardAction[]

@@ -22,18 +22,21 @@ class MigrationError extends \Google\Collection
   protected $collection_key = 'helpLinks';
   protected $actionItemType = LocalizedMessage::class;
   protected $actionItemDataType = '';
+  public $actionItem;
   /**
    * @var string
    */
   public $code;
   protected $errorMessageType = LocalizedMessage::class;
   protected $errorMessageDataType = '';
+  public $errorMessage;
   /**
    * @var string
    */
   public $errorTime;
   protected $helpLinksType = Link::class;
   protected $helpLinksDataType = 'array';
+  public $helpLinks;
 
   /**
    * @param LocalizedMessage

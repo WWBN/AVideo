@@ -22,6 +22,7 @@ class Entity extends \Google\Collection
   protected $collection_key = 'mentions';
   protected $mentionsType = EntityMention::class;
   protected $mentionsDataType = 'array';
+  public $mentions;
   /**
    * @var string[]
    */
@@ -36,6 +37,7 @@ class Entity extends \Google\Collection
   public $salience;
   protected $sentimentType = Sentiment::class;
   protected $sentimentDataType = '';
+  public $sentiment;
   /**
    * @var string
    */

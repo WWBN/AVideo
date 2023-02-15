@@ -22,16 +22,20 @@ class Proto2DescriptorProto extends \Google\Collection
   protected $collection_key = 'oneofDecl';
   protected $enumTypeType = Proto2EnumDescriptorProto::class;
   protected $enumTypeDataType = 'array';
+  public $enumType;
   protected $fieldType = Proto2FieldDescriptorProto::class;
   protected $fieldDataType = 'array';
+  public $field;
   /**
    * @var string
    */
   public $name;
   protected $nestedTypeType = Proto2DescriptorProto::class;
   protected $nestedTypeDataType = 'array';
+  public $nestedType;
   protected $oneofDeclType = Proto2OneofDescriptorProto::class;
   protected $oneofDeclDataType = 'array';
+  public $oneofDecl;
 
   /**
    * @param Proto2EnumDescriptorProto[]

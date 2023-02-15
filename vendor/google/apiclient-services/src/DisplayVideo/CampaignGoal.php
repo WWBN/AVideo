@@ -25,6 +25,7 @@ class CampaignGoal extends \Google\Model
   public $campaignGoalType;
   protected $performanceGoalType = PerformanceGoal::class;
   protected $performanceGoalDataType = '';
+  public $performanceGoal;
 
   /**
    * @param string

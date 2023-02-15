@@ -21,6 +21,7 @@ class GoogleCloudApigeeV1ApiCategory extends \Google\Model
 {
   protected $dataType = GoogleCloudApigeeV1ApiCategoryData::class;
   protected $dataDataType = '';
+  public $data;
   /**
    * @var string
    */

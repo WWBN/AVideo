@@ -38,6 +38,10 @@ class QualityCalypsoAppsUniversalAuLiveOpFormat extends \Google\Model
   /**
    * @var string
    */
+  public $originalImageUrl;
+  /**
+   * @var string
+   */
   public $squareImageUrl;
   /**
    * @var string
@@ -111,6 +115,20 @@ class QualityCalypsoAppsUniversalAuLiveOpFormat extends \Google\Model
   public function getImageUrl()
   {
     return $this->imageUrl;
+  }
+  /**
+   * @param string
+   */
+  public function setOriginalImageUrl($originalImageUrl)
+  {
+    $this->originalImageUrl = $originalImageUrl;
+  }
+  /**
+   * @return string
+   */
+  public function getOriginalImageUrl()
+  {
+    return $this->originalImageUrl;
   }
   /**
    * @param string

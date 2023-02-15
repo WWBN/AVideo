@@ -22,8 +22,10 @@ class Location extends \Google\Collection
   protected $collection_key = 'serviceItems';
   protected $adWordsLocationExtensionsType = AdWordsLocationExtensions::class;
   protected $adWordsLocationExtensionsDataType = '';
+  public $adWordsLocationExtensions;
   protected $categoriesType = Categories::class;
   protected $categoriesDataType = '';
+  public $categories;
   /**
    * @var string[]
    */
@@ -34,36 +36,48 @@ class Location extends \Google\Collection
   public $languageCode;
   protected $latlngType = LatLng::class;
   protected $latlngDataType = '';
+  public $latlng;
   protected $metadataType = Metadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $moreHoursType = MoreHours::class;
   protected $moreHoursDataType = 'array';
+  public $moreHours;
   /**
    * @var string
    */
   public $name;
   protected $openInfoType = OpenInfo::class;
   protected $openInfoDataType = '';
+  public $openInfo;
   protected $phoneNumbersType = PhoneNumbers::class;
   protected $phoneNumbersDataType = '';
+  public $phoneNumbers;
   protected $profileType = Profile::class;
   protected $profileDataType = '';
+  public $profile;
   protected $regularHoursType = BusinessHours::class;
   protected $regularHoursDataType = '';
+  public $regularHours;
   protected $relationshipDataType = RelationshipData::class;
   protected $relationshipDataDataType = '';
+  public $relationshipData;
   protected $serviceAreaType = ServiceAreaBusiness::class;
   protected $serviceAreaDataType = '';
+  public $serviceArea;
   protected $serviceItemsType = ServiceItem::class;
   protected $serviceItemsDataType = 'array';
+  public $serviceItems;
   protected $specialHoursType = SpecialHours::class;
   protected $specialHoursDataType = '';
+  public $specialHours;
   /**
    * @var string
    */
   public $storeCode;
   protected $storefrontAddressType = PostalAddress::class;
   protected $storefrontAddressDataType = '';
+  public $storefrontAddress;
   /**
    * @var string
    */

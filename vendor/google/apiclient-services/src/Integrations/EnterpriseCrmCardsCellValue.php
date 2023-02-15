@@ -26,6 +26,7 @@ class EnterpriseCrmCardsCellValue extends \Google\Model
   public $doubleValue;
   protected $emptyType = GoogleProtobufEmpty::class;
   protected $emptyDataType = '';
+  public $empty;
   /**
    * @var string
    */

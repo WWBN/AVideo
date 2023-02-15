@@ -25,8 +25,10 @@ class AutomaticScaling extends \Google\Model
   public $coolDownPeriod;
   protected $cpuUtilizationType = CpuUtilization::class;
   protected $cpuUtilizationDataType = '';
+  public $cpuUtilization;
   protected $diskUtilizationType = DiskUtilization::class;
   protected $diskUtilizationDataType = '';
+  public $diskUtilization;
   /**
    * @var int
    */
@@ -57,10 +59,13 @@ class AutomaticScaling extends \Google\Model
   public $minTotalInstances;
   protected $networkUtilizationType = NetworkUtilization::class;
   protected $networkUtilizationDataType = '';
+  public $networkUtilization;
   protected $requestUtilizationType = RequestUtilization::class;
   protected $requestUtilizationDataType = '';
+  public $requestUtilization;
   protected $standardSchedulerSettingsType = StandardSchedulerSettings::class;
   protected $standardSchedulerSettingsDataType = '';
+  public $standardSchedulerSettings;
 
   /**
    * @param string

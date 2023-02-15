@@ -22,6 +22,7 @@ class GoogleFirebaseAppcheckV1BatchGetSafetyNetConfigsResponse extends \Google\C
   protected $collection_key = 'configs';
   protected $configsType = GoogleFirebaseAppcheckV1SafetyNetConfig::class;
   protected $configsDataType = 'array';
+  public $configs;
 
   /**
    * @param GoogleFirebaseAppcheckV1SafetyNetConfig[]

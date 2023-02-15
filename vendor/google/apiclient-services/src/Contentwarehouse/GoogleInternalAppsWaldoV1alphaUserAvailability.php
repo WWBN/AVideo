@@ -21,10 +21,13 @@ class GoogleInternalAppsWaldoV1alphaUserAvailability extends \Google\Model
 {
   protected $contextsType = GoogleInternalAppsWaldoV1alphaUserContext::class;
   protected $contextsDataType = '';
+  public $contexts;
   protected $statusType = GoogleInternalAppsWaldoV1alphaUserStatus::class;
   protected $statusDataType = '';
+  public $status;
   protected $timeRangeType = GoogleInternalAppsWaldoV1alphaTimeRange::class;
   protected $timeRangeDataType = '';
+  public $timeRange;
 
   /**
    * @param GoogleInternalAppsWaldoV1alphaUserContext

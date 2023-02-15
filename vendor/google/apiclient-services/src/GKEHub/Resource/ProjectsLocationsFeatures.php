@@ -30,7 +30,7 @@ use Google\Service\GKEHub\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $gkehubService = new Google\Service\GKEHub(...);
- *   $features = $gkehubService->features;
+ *   $features = $gkehubService->projects_locations_features;
  *  </code>
  */
 class ProjectsLocationsFeatures extends \Google\Service\Resource

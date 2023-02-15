@@ -21,12 +21,14 @@ class UrlRestriction extends \Google\Model
 {
   protected $endDateType = Date::class;
   protected $endDateDataType = '';
+  public $endDate;
   /**
    * @var string
    */
   public $restrictionType;
   protected $startDateType = Date::class;
   protected $startDateDataType = '';
+  public $startDate;
   /**
    * @var string
    */

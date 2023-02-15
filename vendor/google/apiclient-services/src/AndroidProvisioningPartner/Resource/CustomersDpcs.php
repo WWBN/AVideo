@@ -24,7 +24,7 @@ use Google\Service\AndroidProvisioningPartner\CustomerListDpcsResponse;
  * Typical usage is:
  *  <code>
  *   $androiddeviceprovisioningService = new Google\Service\AndroidProvisioningPartner(...);
- *   $dpcs = $androiddeviceprovisioningService->dpcs;
+ *   $dpcs = $androiddeviceprovisioningService->customers_dpcs;
  *  </code>
  */
 class CustomersDpcs extends \Google\Service\Resource

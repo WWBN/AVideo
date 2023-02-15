@@ -25,7 +25,7 @@ use Google\Service\SearchConsole\InspectUrlIndexResponse;
  * Typical usage is:
  *  <code>
  *   $searchconsoleService = new Google\Service\SearchConsole(...);
- *   $index = $searchconsoleService->index;
+ *   $index = $searchconsoleService->urlInspection_index;
  *  </code>
  */
 class UrlInspectionIndex extends \Google\Service\Resource

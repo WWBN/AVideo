@@ -27,7 +27,7 @@ use Google\Service\CloudDataplex\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $operations = $dataplexService->operations;
+ *   $operations = $dataplexService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

@@ -21,8 +21,10 @@ class OperatingSystemTargeting extends \Google\Model
 {
   protected $operatingSystemCriteriaType = CriteriaTargeting::class;
   protected $operatingSystemCriteriaDataType = '';
+  public $operatingSystemCriteria;
   protected $operatingSystemVersionCriteriaType = CriteriaTargeting::class;
   protected $operatingSystemVersionCriteriaDataType = '';
+  public $operatingSystemVersionCriteria;
 
   /**
    * @param CriteriaTargeting

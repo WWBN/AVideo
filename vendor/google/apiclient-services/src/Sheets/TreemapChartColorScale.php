@@ -21,20 +21,28 @@ class TreemapChartColorScale extends \Google\Model
 {
   protected $maxValueColorType = Color::class;
   protected $maxValueColorDataType = '';
+  public $maxValueColor;
   protected $maxValueColorStyleType = ColorStyle::class;
   protected $maxValueColorStyleDataType = '';
+  public $maxValueColorStyle;
   protected $midValueColorType = Color::class;
   protected $midValueColorDataType = '';
+  public $midValueColor;
   protected $midValueColorStyleType = ColorStyle::class;
   protected $midValueColorStyleDataType = '';
+  public $midValueColorStyle;
   protected $minValueColorType = Color::class;
   protected $minValueColorDataType = '';
+  public $minValueColor;
   protected $minValueColorStyleType = ColorStyle::class;
   protected $minValueColorStyleDataType = '';
+  public $minValueColorStyle;
   protected $noDataColorType = Color::class;
   protected $noDataColorDataType = '';
+  public $noDataColor;
   protected $noDataColorStyleType = ColorStyle::class;
   protected $noDataColorStyleDataType = '';
+  public $noDataColorStyle;
 
   /**
    * @param Color

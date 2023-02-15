@@ -21,6 +21,7 @@ class Ingress extends \Google\Model
 {
   protected $configType = Config::class;
   protected $configDataType = '';
+  public $config;
 
   /**
    * @param Config

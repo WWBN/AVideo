@@ -25,7 +25,7 @@ use Google\Service\AndroidPublisher\Variant;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $variants = $androidpublisherService->variants;
+ *   $variants = $androidpublisherService->systemapks_variants;
  *  </code>
  */
 class SystemapksVariants extends \Google\Service\Resource

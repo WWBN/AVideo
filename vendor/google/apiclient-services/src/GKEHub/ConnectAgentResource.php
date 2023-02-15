@@ -25,6 +25,7 @@ class ConnectAgentResource extends \Google\Model
   public $manifest;
   protected $typeType = TypeMeta::class;
   protected $typeDataType = '';
+  public $type;
 
   /**
    * @param string

@@ -28,7 +28,7 @@ use Google\Service\CloudBuild\RemoveGitLabConnectedRepositoryRequest;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $gitLabConfigs = $cloudbuildService->gitLabConfigs;
+ *   $gitLabConfigs = $cloudbuildService->projects_locations_gitLabConfigs;
  *  </code>
  */
 class ProjectsLocationsGitLabConfigs extends \Google\Service\Resource

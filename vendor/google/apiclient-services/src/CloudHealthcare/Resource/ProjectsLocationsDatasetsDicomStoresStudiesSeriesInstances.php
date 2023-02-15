@@ -25,7 +25,7 @@ use Google\Service\CloudHealthcare\HttpBody;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $instances = $healthcareService->instances;
+ *   $instances = $healthcareService->projects_locations_datasets_dicomStores_studies_series_instances;
  *  </code>
  */
 class ProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances extends \Google\Service\Resource

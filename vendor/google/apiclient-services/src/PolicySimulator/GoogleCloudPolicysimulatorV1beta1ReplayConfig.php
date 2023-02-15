@@ -25,6 +25,7 @@ class GoogleCloudPolicysimulatorV1beta1ReplayConfig extends \Google\Model
   public $logSource;
   protected $policyOverlayType = GoogleIamV1Policy::class;
   protected $policyOverlayDataType = 'map';
+  public $policyOverlay;
 
   /**
    * @param string

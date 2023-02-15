@@ -22,16 +22,20 @@ class Api extends \Google\Collection
   protected $collection_key = 'options';
   protected $methodsType = Method::class;
   protected $methodsDataType = 'array';
+  public $methods;
   protected $mixinsType = Mixin::class;
   protected $mixinsDataType = 'array';
+  public $mixins;
   /**
    * @var string
    */
   public $name;
   protected $optionsType = Option::class;
   protected $optionsDataType = 'array';
+  public $options;
   protected $sourceContextType = SourceContext::class;
   protected $sourceContextDataType = '';
+  public $sourceContext;
   /**
    * @var string
    */

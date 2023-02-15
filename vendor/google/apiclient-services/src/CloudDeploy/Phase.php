@@ -21,6 +21,7 @@ class Phase extends \Google\Model
 {
   protected $deploymentJobsType = DeploymentJobs::class;
   protected $deploymentJobsDataType = '';
+  public $deploymentJobs;
   /**
    * @var string
    */

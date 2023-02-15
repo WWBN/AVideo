@@ -21,6 +21,11 @@ class GoogleAssistantAccessoryV1ScreenOutConfig extends \Google\Model
 {
   protected $dimensionsType = GoogleAssistantAccessoryV1ScreenOutConfigDimensions::class;
   protected $dimensionsDataType = '';
+  public $dimensions;
+  /**
+   * @var float
+   */
+  public $fontScaleFactor;
 
   /**
    * @param GoogleAssistantAccessoryV1ScreenOutConfigDimensions
@@ -35,6 +40,20 @@ class GoogleAssistantAccessoryV1ScreenOutConfig extends \Google\Model
   public function getDimensions()
   {
     return $this->dimensions;
+  }
+  /**
+   * @param float
+   */
+  public function setFontScaleFactor($fontScaleFactor)
+  {
+    $this->fontScaleFactor = $fontScaleFactor;
+  }
+  /**
+   * @return float
+   */
+  public function getFontScaleFactor()
+  {
+    return $this->fontScaleFactor;
   }
 }
 

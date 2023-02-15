@@ -21,12 +21,14 @@ class Symbol extends \Google\Model
 {
   protected $boundingBoxType = BoundingPoly::class;
   protected $boundingBoxDataType = '';
+  public $boundingBox;
   /**
    * @var float
    */
   public $confidence;
   protected $propertyType = TextProperty::class;
   protected $propertyDataType = '';
+  public $property;
   /**
    * @var string
    */

@@ -42,6 +42,7 @@ class GoogleCloudDialogflowV2beta1Intent extends \Google\Collection
   public $events;
   protected $followupIntentInfoType = GoogleCloudDialogflowV2beta1IntentFollowupIntentInfo::class;
   protected $followupIntentInfoDataType = 'array';
+  public $followupIntentInfo;
   /**
    * @var string[]
    */
@@ -56,6 +57,7 @@ class GoogleCloudDialogflowV2beta1Intent extends \Google\Collection
   public $liveAgentHandoff;
   protected $messagesType = GoogleCloudDialogflowV2beta1IntentMessage::class;
   protected $messagesDataType = 'array';
+  public $messages;
   /**
    * @var bool
    */
@@ -70,8 +72,10 @@ class GoogleCloudDialogflowV2beta1Intent extends \Google\Collection
   public $name;
   protected $outputContextsType = GoogleCloudDialogflowV2beta1Context::class;
   protected $outputContextsDataType = 'array';
+  public $outputContexts;
   protected $parametersType = GoogleCloudDialogflowV2beta1IntentParameter::class;
   protected $parametersDataType = 'array';
+  public $parameters;
   /**
    * @var string
    */
@@ -90,6 +94,7 @@ class GoogleCloudDialogflowV2beta1Intent extends \Google\Collection
   public $rootFollowupIntentName;
   protected $trainingPhrasesType = GoogleCloudDialogflowV2beta1IntentTrainingPhrase::class;
   protected $trainingPhrasesDataType = 'array';
+  public $trainingPhrases;
   /**
    * @var string
    */

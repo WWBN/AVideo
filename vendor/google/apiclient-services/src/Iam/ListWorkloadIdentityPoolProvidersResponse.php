@@ -26,6 +26,7 @@ class ListWorkloadIdentityPoolProvidersResponse extends \Google\Collection
   public $nextPageToken;
   protected $workloadIdentityPoolProvidersType = WorkloadIdentityPoolProvider::class;
   protected $workloadIdentityPoolProvidersDataType = 'array';
+  public $workloadIdentityPoolProviders;
 
   /**
    * @param string

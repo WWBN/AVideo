@@ -29,7 +29,7 @@ use Google\Service\AuthorizedBuyersMarketplace\SetReadyToServeRequest;
  * Typical usage is:
  *  <code>
  *   $authorizedbuyersmarketplaceService = new Google\Service\AuthorizedBuyersMarketplace(...);
- *   $finalizedDeals = $authorizedbuyersmarketplaceService->finalizedDeals;
+ *   $finalizedDeals = $authorizedbuyersmarketplaceService->buyers_finalizedDeals;
  *  </code>
  */
 class BuyersFinalizedDeals extends \Google\Service\Resource

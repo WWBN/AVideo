@@ -38,6 +38,7 @@ class OSImage extends \Google\Collection
   public $name;
   protected $supportedNetworkTemplatesType = ServerNetworkTemplate::class;
   protected $supportedNetworkTemplatesDataType = 'array';
+  public $supportedNetworkTemplates;
 
   /**
    * @param string[]

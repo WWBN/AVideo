@@ -34,6 +34,7 @@ class WriteRequest extends \Google\Collection
   public $streamToken;
   protected $writesType = Write::class;
   protected $writesDataType = 'array';
+  public $writes;
 
   /**
    * @param string[]

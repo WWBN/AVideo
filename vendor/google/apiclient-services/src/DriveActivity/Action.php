@@ -21,12 +21,16 @@ class Action extends \Google\Model
 {
   protected $actorType = Actor::class;
   protected $actorDataType = '';
+  public $actor;
   protected $detailType = ActionDetail::class;
   protected $detailDataType = '';
+  public $detail;
   protected $targetType = Target::class;
   protected $targetDataType = '';
+  public $target;
   protected $timeRangeType = TimeRange::class;
   protected $timeRangeDataType = '';
+  public $timeRange;
   /**
    * @var string
    */

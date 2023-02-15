@@ -25,8 +25,10 @@ class GoogleCloudDialogflowV2beta1IntentMessageCarouselSelectItem extends \Googl
   public $description;
   protected $imageType = GoogleCloudDialogflowV2beta1IntentMessageImage::class;
   protected $imageDataType = '';
+  public $image;
   protected $infoType = GoogleCloudDialogflowV2beta1IntentMessageSelectItemInfo::class;
   protected $infoDataType = '';
+  public $info;
   /**
    * @var string
    */

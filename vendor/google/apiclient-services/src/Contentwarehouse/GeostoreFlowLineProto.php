@@ -21,6 +21,7 @@ class GeostoreFlowLineProto extends \Google\Model
 {
   protected $trackType = GeostoreTrackProto::class;
   protected $trackDataType = '';
+  public $track;
 
   /**
    * @param GeostoreTrackProto

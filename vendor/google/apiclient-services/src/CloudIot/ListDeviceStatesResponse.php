@@ -22,6 +22,7 @@ class ListDeviceStatesResponse extends \Google\Collection
   protected $collection_key = 'deviceStates';
   protected $deviceStatesType = DeviceState::class;
   protected $deviceStatesDataType = 'array';
+  public $deviceStates;
 
   /**
    * @param DeviceState[]

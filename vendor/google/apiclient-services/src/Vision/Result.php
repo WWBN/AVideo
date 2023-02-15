@@ -25,6 +25,7 @@ class Result extends \Google\Model
   public $image;
   protected $productType = Product::class;
   protected $productDataType = '';
+  public $product;
   /**
    * @var float
    */

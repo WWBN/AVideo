@@ -21,14 +21,19 @@ class LivingArea extends \Google\Model
 {
   protected $accessibilityType = LivingAreaAccessibility::class;
   protected $accessibilityDataType = '';
+  public $accessibility;
   protected $eatingType = LivingAreaEating::class;
   protected $eatingDataType = '';
+  public $eating;
   protected $featuresType = LivingAreaFeatures::class;
   protected $featuresDataType = '';
+  public $features;
   protected $layoutType = LivingAreaLayout::class;
   protected $layoutDataType = '';
+  public $layout;
   protected $sleepingType = LivingAreaSleeping::class;
   protected $sleepingDataType = '';
+  public $sleeping;
 
   /**
    * @param LivingAreaAccessibility

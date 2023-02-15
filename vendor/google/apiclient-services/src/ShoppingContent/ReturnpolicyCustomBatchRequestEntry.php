@@ -33,6 +33,7 @@ class ReturnpolicyCustomBatchRequestEntry extends \Google\Model
   public $method;
   protected $returnPolicyType = ReturnPolicy::class;
   protected $returnPolicyDataType = '';
+  public $returnPolicy;
   /**
    * @var string
    */

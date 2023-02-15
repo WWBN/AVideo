@@ -45,6 +45,7 @@ class Address extends \Google\Model
   public $formattedValue;
   protected $metadataType = FieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */

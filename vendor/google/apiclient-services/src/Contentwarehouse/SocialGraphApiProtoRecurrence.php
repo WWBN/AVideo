@@ -21,28 +21,36 @@ class SocialGraphApiProtoRecurrence extends \Google\Model
 {
   protected $dailyRecurrenceType = SocialGraphApiProtoDailyRecurrence::class;
   protected $dailyRecurrenceDataType = '';
+  public $dailyRecurrence;
   /**
    * @var int
    */
   public $every;
   protected $monthlyRecurrenceType = SocialGraphApiProtoMonthlyRecurrence::class;
   protected $monthlyRecurrenceDataType = '';
+  public $monthlyRecurrence;
   protected $recurrenceEndDateType = GoogleTypeDateTime::class;
   protected $recurrenceEndDateDataType = '';
+  public $recurrenceEndDate;
   protected $recurrenceStartType = GoogleTypeDateTime::class;
   protected $recurrenceStartDataType = '';
+  public $recurrenceStart;
   /**
    * @var int
    */
   public $repeatCount;
   protected $repeatForeverType = SocialGraphApiProtoRecurrenceRepeatForever::class;
   protected $repeatForeverDataType = '';
+  public $repeatForever;
   protected $singleRecurrenceType = SocialGraphApiProtoSingleRecurrence::class;
   protected $singleRecurrenceDataType = '';
+  public $singleRecurrence;
   protected $weeklyRecurrenceType = SocialGraphApiProtoWeeklyRecurrence::class;
   protected $weeklyRecurrenceDataType = '';
+  public $weeklyRecurrence;
   protected $yearlyRecurrenceType = SocialGraphApiProtoYearlyRecurrence::class;
   protected $yearlyRecurrenceDataType = '';
+  public $yearlyRecurrence;
 
   /**
    * @param SocialGraphApiProtoDailyRecurrence

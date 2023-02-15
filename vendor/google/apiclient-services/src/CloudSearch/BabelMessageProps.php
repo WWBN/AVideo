@@ -25,14 +25,17 @@ class BabelMessageProps extends \Google\Model
   public $clientGeneratedId;
   protected $contentExtensionType = ChatContentExtension::class;
   protected $contentExtensionDataType = '';
+  public $contentExtension;
   protected $deliveryMediumType = DeliveryMedium::class;
   protected $deliveryMediumDataType = '';
+  public $deliveryMedium;
   /**
    * @var string
    */
   public $eventId;
   protected $messageContentType = ChatConserverMessageContent::class;
   protected $messageContentDataType = '';
+  public $messageContent;
   /**
    * @var bool
    */

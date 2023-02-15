@@ -26,6 +26,7 @@ class RouteWarnings extends \Google\Collection
   public $code;
   protected $dataType = RouteWarningsData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class GoogleSecuritySafebrowsingV4ThreatEntryMetadata extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = GoogleSecuritySafebrowsingV4ThreatEntryMetadataMetadataEntry::class;
   protected $entriesDataType = 'array';
+  public $entries;
 
   /**
    * @param GoogleSecuritySafebrowsingV4ThreatEntryMetadataMetadataEntry[]

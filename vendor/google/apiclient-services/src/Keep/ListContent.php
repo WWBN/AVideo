@@ -22,6 +22,7 @@ class ListContent extends \Google\Collection
   protected $collection_key = 'listItems';
   protected $listItemsType = ListItem::class;
   protected $listItemsDataType = 'array';
+  public $listItems;
 
   /**
    * @param ListItem[]

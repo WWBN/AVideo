@@ -31,7 +31,7 @@ use Google\Service\DataCatalog\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $datacatalogService = new Google\Service\DataCatalog(...);
- *   $policyTags = $datacatalogService->policyTags;
+ *   $policyTags = $datacatalogService->projects_locations_taxonomies_policyTags;
  *  </code>
  */
 class ProjectsLocationsTaxonomiesPolicyTags extends \Google\Service\Resource

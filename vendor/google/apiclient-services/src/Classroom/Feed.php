@@ -21,8 +21,10 @@ class Feed extends \Google\Model
 {
   protected $courseRosterChangesInfoType = CourseRosterChangesInfo::class;
   protected $courseRosterChangesInfoDataType = '';
+  public $courseRosterChangesInfo;
   protected $courseWorkChangesInfoType = CourseWorkChangesInfo::class;
   protected $courseWorkChangesInfoDataType = '';
+  public $courseWorkChangesInfo;
   /**
    * @var string
    */

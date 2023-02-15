@@ -37,6 +37,7 @@ class GitLabRepository extends \Google\Model
   public $name;
   protected $repositoryIdType = GitLabRepositoryId::class;
   protected $repositoryIdDataType = '';
+  public $repositoryId;
 
   /**
    * @param string

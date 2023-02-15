@@ -25,6 +25,7 @@ class V1GenerateDefaultIdentityResponse extends \Google\Model
   public $attachStatus;
   protected $identityType = V1DefaultIdentity::class;
   protected $identityDataType = '';
+  public $identity;
   /**
    * @var string
    */

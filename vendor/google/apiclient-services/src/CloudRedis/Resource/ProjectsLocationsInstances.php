@@ -32,7 +32,7 @@ use Google\Service\CloudRedis\UpgradeInstanceRequest;
  * Typical usage is:
  *  <code>
  *   $redisService = new Google\Service\CloudRedis(...);
- *   $instances = $redisService->instances;
+ *   $instances = $redisService->projects_locations_instances;
  *  </code>
  */
 class ProjectsLocationsInstances extends \Google\Service\Resource

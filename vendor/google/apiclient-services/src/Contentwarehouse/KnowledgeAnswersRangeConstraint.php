@@ -21,8 +21,10 @@ class KnowledgeAnswersRangeConstraint extends \Google\Model
 {
   protected $maxType = KnowledgeAnswersRangeConstraintRangeEndpoint::class;
   protected $maxDataType = '';
+  public $max;
   protected $minType = KnowledgeAnswersRangeConstraintRangeEndpoint::class;
   protected $minDataType = '';
+  public $min;
 
   /**
    * @param KnowledgeAnswersRangeConstraintRangeEndpoint

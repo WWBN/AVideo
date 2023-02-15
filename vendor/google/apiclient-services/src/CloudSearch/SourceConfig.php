@@ -21,10 +21,13 @@ class SourceConfig extends \Google\Model
 {
   protected $crowdingConfigType = SourceCrowdingConfig::class;
   protected $crowdingConfigDataType = '';
+  public $crowdingConfig;
   protected $scoringConfigType = SourceScoringConfig::class;
   protected $scoringConfigDataType = '';
+  public $scoringConfig;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
+  public $source;
 
   /**
    * @param SourceCrowdingConfig

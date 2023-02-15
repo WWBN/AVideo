@@ -21,10 +21,13 @@ class Filter extends \Google\Model
 {
   protected $compositeFilterType = CompositeFilter::class;
   protected $compositeFilterDataType = '';
+  public $compositeFilter;
   protected $fieldFilterType = FieldFilter::class;
   protected $fieldFilterDataType = '';
+  public $fieldFilter;
   protected $unaryFilterType = UnaryFilter::class;
   protected $unaryFilterDataType = '';
+  public $unaryFilter;
 
   /**
    * @param CompositeFilter

@@ -29,12 +29,14 @@ class IosXcTest extends \Google\Model
   public $testSpecialEntitlements;
   protected $testsZipType = FileReference::class;
   protected $testsZipDataType = '';
+  public $testsZip;
   /**
    * @var string
    */
   public $xcodeVersion;
   protected $xctestrunType = FileReference::class;
   protected $xctestrunDataType = '';
+  public $xctestrun;
 
   /**
    * @param string

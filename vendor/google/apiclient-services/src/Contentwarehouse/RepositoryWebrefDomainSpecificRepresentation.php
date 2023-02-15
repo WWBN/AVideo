@@ -21,6 +21,7 @@ class RepositoryWebrefDomainSpecificRepresentation extends \Google\Model
 {
   protected $entityDataType = Proto2BridgeMessageSet::class;
   protected $entityDataDataType = '';
+  public $entityData;
 
   /**
    * @param Proto2BridgeMessageSet

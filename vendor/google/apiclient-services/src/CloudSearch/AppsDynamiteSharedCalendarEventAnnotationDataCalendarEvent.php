@@ -21,12 +21,14 @@ class AppsDynamiteSharedCalendarEventAnnotationDataCalendarEvent extends \Google
 {
   protected $endTimeType = AppsDynamiteSharedCalendarEventAnnotationDataCalendarEventTime::class;
   protected $endTimeDataType = '';
+  public $endTime;
   /**
    * @var string
    */
   public $eventId;
   protected $startTimeType = AppsDynamiteSharedCalendarEventAnnotationDataCalendarEventTime::class;
   protected $startTimeDataType = '';
+  public $startTime;
   /**
    * @var string
    */

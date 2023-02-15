@@ -21,6 +21,7 @@ class ImageNote extends \Google\Model
 {
   protected $fingerprintType = Fingerprint::class;
   protected $fingerprintDataType = '';
+  public $fingerprint;
   /**
    * @var string
    */

@@ -21,6 +21,7 @@ class UpdateDataSourceRequest extends \Google\Model
 {
   protected $dataSourceType = DataSource::class;
   protected $dataSourceDataType = '';
+  public $dataSource;
   /**
    * @var string
    */

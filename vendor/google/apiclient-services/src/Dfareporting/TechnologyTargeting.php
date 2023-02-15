@@ -22,16 +22,22 @@ class TechnologyTargeting extends \Google\Collection
   protected $collection_key = 'platformTypes';
   protected $browsersType = Browser::class;
   protected $browsersDataType = 'array';
+  public $browsers;
   protected $connectionTypesType = ConnectionType::class;
   protected $connectionTypesDataType = 'array';
+  public $connectionTypes;
   protected $mobileCarriersType = MobileCarrier::class;
   protected $mobileCarriersDataType = 'array';
+  public $mobileCarriers;
   protected $operatingSystemVersionsType = OperatingSystemVersion::class;
   protected $operatingSystemVersionsDataType = 'array';
+  public $operatingSystemVersions;
   protected $operatingSystemsType = OperatingSystem::class;
   protected $operatingSystemsDataType = 'array';
+  public $operatingSystems;
   protected $platformTypesType = PlatformType::class;
   protected $platformTypesDataType = 'array';
+  public $platformTypes;
 
   /**
    * @param Browser[]

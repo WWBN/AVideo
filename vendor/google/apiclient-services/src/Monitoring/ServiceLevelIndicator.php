@@ -21,10 +21,13 @@ class ServiceLevelIndicator extends \Google\Model
 {
   protected $basicSliType = BasicSli::class;
   protected $basicSliDataType = '';
+  public $basicSli;
   protected $requestBasedType = RequestBasedSli::class;
   protected $requestBasedDataType = '';
+  public $requestBased;
   protected $windowsBasedType = WindowsBasedSli::class;
   protected $windowsBasedDataType = '';
+  public $windowsBased;
 
   /**
    * @param BasicSli

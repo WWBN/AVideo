@@ -24,7 +24,7 @@ use Google\Service\Iam\Operation;
  * Typical usage is:
  *  <code>
  *   $iamService = new Google\Service\Iam(...);
- *   $operations = $iamService->operations;
+ *   $operations = $iamService->projects_locations_workloadIdentityPools_operations;
  *  </code>
  */
 class ProjectsLocationsWorkloadIdentityPoolsOperations extends \Google\Service\Resource

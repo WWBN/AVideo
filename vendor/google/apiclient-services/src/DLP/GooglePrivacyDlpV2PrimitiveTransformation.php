@@ -21,28 +21,40 @@ class GooglePrivacyDlpV2PrimitiveTransformation extends \Google\Model
 {
   protected $bucketingConfigType = GooglePrivacyDlpV2BucketingConfig::class;
   protected $bucketingConfigDataType = '';
+  public $bucketingConfig;
   protected $characterMaskConfigType = GooglePrivacyDlpV2CharacterMaskConfig::class;
   protected $characterMaskConfigDataType = '';
+  public $characterMaskConfig;
   protected $cryptoDeterministicConfigType = GooglePrivacyDlpV2CryptoDeterministicConfig::class;
   protected $cryptoDeterministicConfigDataType = '';
+  public $cryptoDeterministicConfig;
   protected $cryptoHashConfigType = GooglePrivacyDlpV2CryptoHashConfig::class;
   protected $cryptoHashConfigDataType = '';
+  public $cryptoHashConfig;
   protected $cryptoReplaceFfxFpeConfigType = GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig::class;
   protected $cryptoReplaceFfxFpeConfigDataType = '';
+  public $cryptoReplaceFfxFpeConfig;
   protected $dateShiftConfigType = GooglePrivacyDlpV2DateShiftConfig::class;
   protected $dateShiftConfigDataType = '';
+  public $dateShiftConfig;
   protected $fixedSizeBucketingConfigType = GooglePrivacyDlpV2FixedSizeBucketingConfig::class;
   protected $fixedSizeBucketingConfigDataType = '';
+  public $fixedSizeBucketingConfig;
   protected $redactConfigType = GooglePrivacyDlpV2RedactConfig::class;
   protected $redactConfigDataType = '';
+  public $redactConfig;
   protected $replaceConfigType = GooglePrivacyDlpV2ReplaceValueConfig::class;
   protected $replaceConfigDataType = '';
+  public $replaceConfig;
   protected $replaceDictionaryConfigType = GooglePrivacyDlpV2ReplaceDictionaryConfig::class;
   protected $replaceDictionaryConfigDataType = '';
+  public $replaceDictionaryConfig;
   protected $replaceWithInfoTypeConfigType = GooglePrivacyDlpV2ReplaceWithInfoTypeConfig::class;
   protected $replaceWithInfoTypeConfigDataType = '';
+  public $replaceWithInfoTypeConfig;
   protected $timePartConfigType = GooglePrivacyDlpV2TimePartConfig::class;
   protected $timePartConfigDataType = '';
+  public $timePartConfig;
 
   /**
    * @param GooglePrivacyDlpV2BucketingConfig

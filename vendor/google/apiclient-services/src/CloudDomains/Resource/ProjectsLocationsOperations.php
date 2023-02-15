@@ -25,7 +25,7 @@ use Google\Service\CloudDomains\Operation;
  * Typical usage is:
  *  <code>
  *   $domainsService = new Google\Service\CloudDomains(...);
- *   $operations = $domainsService->operations;
+ *   $operations = $domainsService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

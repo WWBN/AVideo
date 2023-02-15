@@ -22,12 +22,14 @@ class ServiceAttachment extends \Google\Collection
   protected $collection_key = 'natSubnets';
   protected $connectedEndpointsType = ServiceAttachmentConnectedEndpoint::class;
   protected $connectedEndpointsDataType = 'array';
+  public $connectedEndpoints;
   /**
    * @var string
    */
   public $connectionPreference;
   protected $consumerAcceptListsType = ServiceAttachmentConsumerProjectLimit::class;
   protected $consumerAcceptListsDataType = 'array';
+  public $consumerAcceptLists;
   /**
    * @var string[]
    */
@@ -74,6 +76,7 @@ class ServiceAttachment extends \Google\Collection
   public $producerForwardingRule;
   protected $pscServiceAttachmentIdType = Uint128::class;
   protected $pscServiceAttachmentIdDataType = '';
+  public $pscServiceAttachmentId;
   /**
    * @var string
    */

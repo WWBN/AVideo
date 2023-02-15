@@ -21,8 +21,10 @@ class DataRange extends \Google\Model
 {
   protected $customEndDateType = Date::class;
   protected $customEndDateDataType = '';
+  public $customEndDate;
   protected $customStartDateType = Date::class;
   protected $customStartDateDataType = '';
+  public $customStartDate;
   /**
    * @var string
    */

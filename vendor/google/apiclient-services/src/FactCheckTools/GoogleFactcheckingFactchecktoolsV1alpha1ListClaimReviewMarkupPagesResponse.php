@@ -22,6 +22,7 @@ class GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse
   protected $collection_key = 'claimReviewMarkupPages';
   protected $claimReviewMarkupPagesType = GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage::class;
   protected $claimReviewMarkupPagesDataType = 'array';
+  public $claimReviewMarkupPages;
   /**
    * @var string
    */

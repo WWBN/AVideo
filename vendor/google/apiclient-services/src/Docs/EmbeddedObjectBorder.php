@@ -21,6 +21,7 @@ class EmbeddedObjectBorder extends \Google\Model
 {
   protected $colorType = OptionalColor::class;
   protected $colorDataType = '';
+  public $color;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class EmbeddedObjectBorder extends \Google\Model
   public $propertyState;
   protected $widthType = Dimension::class;
   protected $widthDataType = '';
+  public $width;
 
   /**
    * @param OptionalColor

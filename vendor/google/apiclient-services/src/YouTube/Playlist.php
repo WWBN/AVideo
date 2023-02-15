@@ -21,6 +21,7 @@ class Playlist extends \Google\Model
 {
   protected $contentDetailsType = PlaylistContentDetails::class;
   protected $contentDetailsDataType = '';
+  public $contentDetails;
   /**
    * @var string
    */
@@ -35,12 +36,16 @@ class Playlist extends \Google\Model
   public $kind;
   protected $localizationsType = PlaylistLocalization::class;
   protected $localizationsDataType = 'map';
+  public $localizations;
   protected $playerType = PlaylistPlayer::class;
   protected $playerDataType = '';
+  public $player;
   protected $snippetType = PlaylistSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
   protected $statusType = PlaylistStatus::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param PlaylistContentDetails

@@ -21,6 +21,7 @@ class ScienceCitation extends \Google\Collection
 {
   protected $collection_key = 'unioncatalog';
   protected $internal_gapi_mappings = [
+        "abstractCitationSource" => "AbstractCitationSource",
         "abstractDisplay" => "AbstractDisplay",
         "abstractHtml" => "AbstractHtml",
         "abstractHtmlLeftOver" => "AbstractHtmlLeftOver",
@@ -40,6 +41,7 @@ class ScienceCitation extends \Google\Collection
         "citationSource" => "CitationSource",
         "citationSourceUrl" => "CitationSourceUrl",
         "citationSrc" => "CitationSrc",
+        "clearedReason" => "ClearedReason",
         "clusterDiscoveryDate" => "ClusterDiscoveryDate",
         "conferenceId" => "ConferenceId",
         "conferenceNumber" => "ConferenceNumber",
@@ -119,6 +121,10 @@ class ScienceCitation extends \Google\Collection
         "worldViewable" => "WorldViewable",
   ];
   /**
+   * @var int
+   */
+  public $abstractCitationSource;
+  /**
    * @var string
    */
   public $abstractDisplay;
@@ -148,6 +154,7 @@ class ScienceCitation extends \Google\Collection
   public $alternateVersionID;
   protected $anchorsType = ScienceCitationAnchor::class;
   protected $anchorsDataType = 'array';
+  public $anchors;
   /**
    * @var string
    */
@@ -192,6 +199,10 @@ class ScienceCitation extends \Google\Collection
    * @var string
    */
   public $citationSrc;
+  /**
+   * @var string
+   */
+  public $clearedReason;
   /**
    * @var string
    */
@@ -290,6 +301,7 @@ class ScienceCitation extends \Google\Collection
   public $language;
   protected $legalCitationType = LegalCitation::class;
   protected $legalCitationDataType = '';
+  public $legalCitation;
   /**
    * @var int
    */
@@ -500,27 +512,52 @@ class ScienceCitation extends \Google\Collection
   public $worldViewable;
   protected $accessurlType = ScienceCitationAccessURL::class;
   protected $accessurlDataType = 'array';
+  public $accessurl;
   protected $alternateabstractType = ScienceCitationAlternateAbstract::class;
   protected $alternateabstractDataType = 'array';
+  public $alternateabstract;
   protected $alternatetitleType = ScienceCitationAlternateTitle::class;
   protected $alternatetitleDataType = 'array';
+  public $alternatetitle;
   protected $authorType = ScienceCitationAuthor::class;
   protected $authorDataType = 'array';
+  public $author;
   protected $categoryType = ScienceCitationCategory::class;
   protected $categoryDataType = 'array';
+  public $category;
   protected $downloadurlType = ScienceCitationDownloadURL::class;
   protected $downloadurlDataType = 'array';
+  public $downloadurl;
   protected $fundingType = ScienceCitationFunding::class;
   protected $fundingDataType = 'array';
+  public $funding;
   protected $referencediscussionType = ScienceCitationReferenceDiscussion::class;
   protected $referencediscussionDataType = 'array';
+  public $referencediscussion;
   protected $subjectType = ScienceCitationSubject::class;
   protected $subjectDataType = 'array';
+  public $subject;
   protected $translatedauthorType = ScienceCitationTranslatedAuthor::class;
   protected $translatedauthorDataType = 'array';
+  public $translatedauthor;
   protected $unioncatalogType = ScienceCitationUnionCatalog::class;
   protected $unioncatalogDataType = 'array';
+  public $unioncatalog;
 
+  /**
+   * @param int
+   */
+  public function setAbstractCitationSource($abstractCitationSource)
+  {
+    $this->abstractCitationSource = $abstractCitationSource;
+  }
+  /**
+   * @return int
+   */
+  public function getAbstractCitationSource()
+  {
+    return $this->abstractCitationSource;
+  }
   /**
    * @param string
    */
@@ -786,6 +823,20 @@ class ScienceCitation extends \Google\Collection
   public function getCitationSrc()
   {
     return $this->citationSrc;
+  }
+  /**
+   * @param string
+   */
+  public function setClearedReason($clearedReason)
+  {
+    $this->clearedReason = $clearedReason;
+  }
+  /**
+   * @return string
+   */
+  public function getClearedReason()
+  {
+    return $this->clearedReason;
   }
   /**
    * @param string

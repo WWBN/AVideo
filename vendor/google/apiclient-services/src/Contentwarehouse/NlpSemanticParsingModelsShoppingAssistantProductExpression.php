@@ -22,6 +22,7 @@ class NlpSemanticParsingModelsShoppingAssistantProductExpression extends \Google
   protected $collection_key = 'phrases';
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var string
    */
@@ -32,10 +33,13 @@ class NlpSemanticParsingModelsShoppingAssistantProductExpression extends \Google
   public $grammaticalNumber;
   protected $phrasesType = NlpSemanticParsingModelsShoppingAssistantPhrase::class;
   protected $phrasesDataType = 'array';
+  public $phrases;
   protected $productClassificationType = NlpSemanticParsingModelsShoppingAssistantProductClassification::class;
   protected $productClassificationDataType = '';
+  public $productClassification;
   protected $shoppingListItemInfoType = NlpSemanticParsingModelsShoppingAssistantShoppingListItemInfo::class;
   protected $shoppingListItemInfoDataType = '';
+  public $shoppingListItemInfo;
 
   /**
    * @param NlpSemanticParsingAnnotationEvalData

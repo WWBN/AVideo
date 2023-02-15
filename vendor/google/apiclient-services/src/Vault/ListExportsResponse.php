@@ -22,6 +22,7 @@ class ListExportsResponse extends \Google\Collection
   protected $collection_key = 'exports';
   protected $exportsType = Export::class;
   protected $exportsDataType = 'array';
+  public $exports;
   /**
    * @var string
    */

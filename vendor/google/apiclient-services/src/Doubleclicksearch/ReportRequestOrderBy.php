@@ -21,6 +21,7 @@ class ReportRequestOrderBy extends \Google\Model
 {
   protected $columnType = ReportApiColumnSpec::class;
   protected $columnDataType = '';
+  public $column;
   /**
    * @var string
    */

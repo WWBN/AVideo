@@ -22,14 +22,17 @@ class CommitRequest extends \Google\Collection
   protected $collection_key = 'mutations';
   protected $mutationsType = Mutation::class;
   protected $mutationsDataType = 'array';
+  public $mutations;
   protected $requestOptionsType = RequestOptions::class;
   protected $requestOptionsDataType = '';
+  public $requestOptions;
   /**
    * @var bool
    */
   public $returnCommitStats;
   protected $singleUseTransactionType = TransactionOptions::class;
   protected $singleUseTransactionDataType = '';
+  public $singleUseTransaction;
   /**
    * @var string
    */

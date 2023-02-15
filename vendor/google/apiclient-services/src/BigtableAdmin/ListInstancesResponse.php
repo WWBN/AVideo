@@ -26,6 +26,7 @@ class ListInstancesResponse extends \Google\Collection
   public $failedLocations;
   protected $instancesType = Instance::class;
   protected $instancesDataType = 'array';
+  public $instances;
   /**
    * @var string
    */

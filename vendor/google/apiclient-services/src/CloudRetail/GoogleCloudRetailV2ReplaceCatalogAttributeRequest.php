@@ -21,6 +21,7 @@ class GoogleCloudRetailV2ReplaceCatalogAttributeRequest extends \Google\Model
 {
   protected $catalogAttributeType = GoogleCloudRetailV2CatalogAttribute::class;
   protected $catalogAttributeDataType = '';
+  public $catalogAttribute;
   /**
    * @var string
    */

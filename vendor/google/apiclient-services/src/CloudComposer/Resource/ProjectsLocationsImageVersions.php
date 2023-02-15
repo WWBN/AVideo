@@ -24,7 +24,7 @@ use Google\Service\CloudComposer\ListImageVersionsResponse;
  * Typical usage is:
  *  <code>
  *   $composerService = new Google\Service\CloudComposer(...);
- *   $imageVersions = $composerService->imageVersions;
+ *   $imageVersions = $composerService->projects_locations_imageVersions;
  *  </code>
  */
 class ProjectsLocationsImageVersions extends \Google\Service\Resource

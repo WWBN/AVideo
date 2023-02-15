@@ -25,6 +25,7 @@ class InsertTableColumnRequest extends \Google\Model
   public $insertRight;
   protected $tableCellLocationType = TableCellLocation::class;
   protected $tableCellLocationDataType = '';
+  public $tableCellLocation;
 
   /**
    * @param bool

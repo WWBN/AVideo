@@ -21,6 +21,7 @@ class KnowledgeAnswersSensitivityIntentEvalPolicy extends \Google\Model
 {
   protected $allArgumentsType = KnowledgeAnswersSensitivityArgumentEvalPolicy::class;
   protected $allArgumentsDataType = '';
+  public $allArguments;
   /**
    * @var bool
    */

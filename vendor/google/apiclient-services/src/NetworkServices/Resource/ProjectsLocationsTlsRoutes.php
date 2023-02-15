@@ -26,7 +26,7 @@ use Google\Service\NetworkServices\TlsRoute;
  * Typical usage is:
  *  <code>
  *   $networkservicesService = new Google\Service\NetworkServices(...);
- *   $tlsRoutes = $networkservicesService->tlsRoutes;
+ *   $tlsRoutes = $networkservicesService->projects_locations_tlsRoutes;
  *  </code>
  */
 class ProjectsLocationsTlsRoutes extends \Google\Service\Resource

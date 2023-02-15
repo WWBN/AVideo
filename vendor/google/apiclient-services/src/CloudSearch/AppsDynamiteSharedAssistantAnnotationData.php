@@ -21,8 +21,10 @@ class AppsDynamiteSharedAssistantAnnotationData extends \Google\Model
 {
   protected $suggestionType = AppsDynamiteSharedAssistantSuggestion::class;
   protected $suggestionDataType = '';
+  public $suggestion;
   protected $unfulfillableType = AppsDynamiteSharedAssistantUnfulfillableRequest::class;
   protected $unfulfillableDataType = '';
+  public $unfulfillable;
 
   /**
    * @param AppsDynamiteSharedAssistantSuggestion

@@ -26,7 +26,7 @@ use Google\Service\Monitoring\MonitoringEmpty;
  * Typical usage is:
  *  <code>
  *   $monitoringService = new Google\Service\Monitoring(...);
- *   $metricDescriptors = $monitoringService->metricDescriptors;
+ *   $metricDescriptors = $monitoringService->projects_metricDescriptors;
  *  </code>
  */
 class ProjectsMetricDescriptors extends \Google\Service\Resource

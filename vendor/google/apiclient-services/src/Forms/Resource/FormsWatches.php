@@ -28,7 +28,7 @@ use Google\Service\Forms\Watch;
  * Typical usage is:
  *  <code>
  *   $formsService = new Google\Service\Forms(...);
- *   $watches = $formsService->watches;
+ *   $watches = $formsService->forms_watches;
  *  </code>
  */
 class FormsWatches extends \Google\Service\Resource

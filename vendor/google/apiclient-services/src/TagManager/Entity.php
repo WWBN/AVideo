@@ -25,14 +25,19 @@ class Entity extends \Google\Model
   public $changeStatus;
   protected $clientType = Client::class;
   protected $clientDataType = '';
+  public $client;
   protected $folderType = Folder::class;
   protected $folderDataType = '';
+  public $folder;
   protected $tagType = Tag::class;
   protected $tagDataType = '';
+  public $tag;
   protected $triggerType = Trigger::class;
   protected $triggerDataType = '';
+  public $trigger;
   protected $variableType = Variable::class;
   protected $variableDataType = '';
+  public $variable;
 
   /**
    * @param string

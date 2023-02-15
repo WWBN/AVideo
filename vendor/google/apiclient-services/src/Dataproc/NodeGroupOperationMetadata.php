@@ -42,8 +42,10 @@ class NodeGroupOperationMetadata extends \Google\Collection
   public $operationType;
   protected $statusType = ClusterOperationStatus::class;
   protected $statusDataType = '';
+  public $status;
   protected $statusHistoryType = ClusterOperationStatus::class;
   protected $statusHistoryDataType = 'array';
+  public $statusHistory;
   /**
    * @var string[]
    */

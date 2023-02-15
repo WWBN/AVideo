@@ -21,14 +21,19 @@ class NlpSemanticParsingModelsShoppingAssistantProductMediaProduct extends \Goog
 {
   protected $authorType = NlpSemanticParsingModelsShoppingAssistantProductMediaProductMediaAttributeValue::class;
   protected $authorDataType = '';
+  public $author;
   protected $genreType = NlpSemanticParsingModelsShoppingAssistantProductMediaProductMediaAttributeValue::class;
   protected $genreDataType = '';
+  public $genre;
   protected $mediaTitleType = NlpSemanticParsingModelsShoppingAssistantProductMediaProductMediaAttributeValue::class;
   protected $mediaTitleDataType = '';
+  public $mediaTitle;
   protected $orderInSeriesType = NlpSemanticParsingModelsShoppingAssistantProductMediaProductMediaAttributeValue::class;
   protected $orderInSeriesDataType = '';
+  public $orderInSeries;
   protected $topicType = NlpSemanticParsingModelsShoppingAssistantProductMediaProductMediaAttributeValue::class;
   protected $topicDataType = '';
+  public $topic;
 
   /**
    * @param NlpSemanticParsingModelsShoppingAssistantProductMediaProductMediaAttributeValue

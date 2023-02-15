@@ -30,14 +30,19 @@ class ParagraphStyle extends \Google\Collection
   public $avoidWidowAndOrphan;
   protected $borderBetweenType = ParagraphBorder::class;
   protected $borderBetweenDataType = '';
+  public $borderBetween;
   protected $borderBottomType = ParagraphBorder::class;
   protected $borderBottomDataType = '';
+  public $borderBottom;
   protected $borderLeftType = ParagraphBorder::class;
   protected $borderLeftDataType = '';
+  public $borderLeft;
   protected $borderRightType = ParagraphBorder::class;
   protected $borderRightDataType = '';
+  public $borderRight;
   protected $borderTopType = ParagraphBorder::class;
   protected $borderTopDataType = '';
+  public $borderTop;
   /**
    * @var string
    */
@@ -48,10 +53,13 @@ class ParagraphStyle extends \Google\Collection
   public $headingId;
   protected $indentEndType = Dimension::class;
   protected $indentEndDataType = '';
+  public $indentEnd;
   protected $indentFirstLineType = Dimension::class;
   protected $indentFirstLineDataType = '';
+  public $indentFirstLine;
   protected $indentStartType = Dimension::class;
   protected $indentStartDataType = '';
+  public $indentStart;
   /**
    * @var bool
    */
@@ -74,16 +82,20 @@ class ParagraphStyle extends \Google\Collection
   public $pageBreakBefore;
   protected $shadingType = Shading::class;
   protected $shadingDataType = '';
+  public $shading;
   protected $spaceAboveType = Dimension::class;
   protected $spaceAboveDataType = '';
+  public $spaceAbove;
   protected $spaceBelowType = Dimension::class;
   protected $spaceBelowDataType = '';
+  public $spaceBelow;
   /**
    * @var string
    */
   public $spacingMode;
   protected $tabStopsType = TabStop::class;
   protected $tabStopsDataType = 'array';
+  public $tabStops;
 
   /**
    * @param string

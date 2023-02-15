@@ -21,6 +21,7 @@ class TopicId extends \Google\Model
 {
   protected $groupIdType = GroupId::class;
   protected $groupIdDataType = '';
+  public $groupId;
   /**
    * @var string
    */

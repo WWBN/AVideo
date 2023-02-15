@@ -21,18 +21,21 @@ class Span extends \Google\Model
 {
   protected $attributesType = Attributes::class;
   protected $attributesDataType = '';
+  public $attributes;
   /**
    * @var int
    */
   public $childSpanCount;
   protected $displayNameType = TruncatableString::class;
   protected $displayNameDataType = '';
+  public $displayName;
   /**
    * @var string
    */
   public $endTime;
   protected $linksType = Links::class;
   protected $linksDataType = '';
+  public $links;
   /**
    * @var string
    */
@@ -55,14 +58,17 @@ class Span extends \Google\Model
   public $spanKind;
   protected $stackTraceType = StackTrace::class;
   protected $stackTraceDataType = '';
+  public $stackTrace;
   /**
    * @var string
    */
   public $startTime;
   protected $statusType = Status::class;
   protected $statusDataType = '';
+  public $status;
   protected $timeEventsType = TimeEvents::class;
   protected $timeEventsDataType = '';
+  public $timeEvents;
 
   /**
    * @param Attributes

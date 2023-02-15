@@ -27,7 +27,7 @@ use Google\Service\TPU\Location;
  * Typical usage is:
  *  <code>
  *   $tpuService = new Google\Service\TPU(...);
- *   $locations = $tpuService->locations;
+ *   $locations = $tpuService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

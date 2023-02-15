@@ -26,7 +26,7 @@ use Google\Service\MyBusinessAccountManagement\MybusinessaccountmanagementEmpty;
  * Typical usage is:
  *  <code>
  *   $mybusinessaccountmanagementService = new Google\Service\MyBusinessAccountManagement(...);
- *   $admins = $mybusinessaccountmanagementService->admins;
+ *   $admins = $mybusinessaccountmanagementService->locations_admins;
  *  </code>
  */
 class LocationsAdmins extends \Google\Service\Resource

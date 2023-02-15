@@ -22,6 +22,7 @@ class GoogleCloudDialogflowCxV3beta1PageInfoFormInfo extends \Google\Collection
   protected $collection_key = 'parameterInfo';
   protected $parameterInfoType = GoogleCloudDialogflowCxV3beta1PageInfoFormInfoParameterInfo::class;
   protected $parameterInfoDataType = 'array';
+  public $parameterInfo;
 
   /**
    * @param GoogleCloudDialogflowCxV3beta1PageInfoFormInfoParameterInfo[]

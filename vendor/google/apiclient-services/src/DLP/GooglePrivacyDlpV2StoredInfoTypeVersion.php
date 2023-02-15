@@ -22,18 +22,21 @@ class GooglePrivacyDlpV2StoredInfoTypeVersion extends \Google\Collection
   protected $collection_key = 'errors';
   protected $configType = GooglePrivacyDlpV2StoredInfoTypeConfig::class;
   protected $configDataType = '';
+  public $config;
   /**
    * @var string
    */
   public $createTime;
   protected $errorsType = GooglePrivacyDlpV2Error::class;
   protected $errorsDataType = 'array';
+  public $errors;
   /**
    * @var string
    */
   public $state;
   protected $statsType = GooglePrivacyDlpV2StoredInfoTypeStats::class;
   protected $statsDataType = '';
+  public $stats;
 
   /**
    * @param GooglePrivacyDlpV2StoredInfoTypeConfig

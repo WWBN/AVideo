@@ -21,6 +21,7 @@ class CommonEventObject extends \Google\Model
 {
   protected $formInputsType = Inputs::class;
   protected $formInputsDataType = 'map';
+  public $formInputs;
   /**
    * @var string
    */
@@ -39,6 +40,7 @@ class CommonEventObject extends \Google\Model
   public $platform;
   protected $timeZoneType = TimeZone::class;
   protected $timeZoneDataType = '';
+  public $timeZone;
   /**
    * @var string
    */

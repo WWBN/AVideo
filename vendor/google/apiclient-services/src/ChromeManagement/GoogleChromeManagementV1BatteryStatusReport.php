@@ -38,6 +38,7 @@ class GoogleChromeManagementV1BatteryStatusReport extends \Google\Collection
   public $reportTime;
   protected $sampleType = GoogleChromeManagementV1BatterySampleReport::class;
   protected $sampleDataType = 'array';
+  public $sample;
   /**
    * @var string
    */

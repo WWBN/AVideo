@@ -22,7 +22,7 @@ namespace Google\Service\CloudRun\Resource;
  * Typical usage is:
  *  <code>
  *   $runService = new Google\Service\CloudRun(...);
- *   $locations = $runService->locations;
+ *   $locations = $runService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

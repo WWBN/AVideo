@@ -22,6 +22,7 @@ class CompositeDocIndexingInfo extends \Google\Collection
   protected $collection_key = 'tracingId';
   protected $cdocBuildInfoType = IndexingDocjoinerCDocBuildInfo::class;
   protected $cdocBuildInfoDataType = '';
+  public $cdocBuildInfo;
   /**
    * @var bool
    */
@@ -56,6 +57,7 @@ class CompositeDocIndexingInfo extends \Google\Collection
   public $ieIdentifier;
   protected $imageIndexingInfoType = ImageSearchImageIndexingInfo::class;
   protected $imageIndexingInfoDataType = '';
+  public $imageIndexingInfo;
   /**
    * @var string
    */
@@ -90,12 +92,16 @@ class CompositeDocIndexingInfo extends \Google\Collection
   public $tracingId;
   protected $urlChangerateType = CrawlerChangerateUrlChangerate::class;
   protected $urlChangerateDataType = '';
+  public $urlChangerate;
   protected $urlHistoryType = CrawlerChangerateUrlHistory::class;
   protected $urlHistoryDataType = '';
+  public $urlHistory;
   protected $urlPatternSignalsType = IndexingSignalAggregatorUrlPatternSignals::class;
   protected $urlPatternSignalsDataType = '';
+  public $urlPatternSignals;
   protected $videoIndexingInfoType = ImageRepositoryVideoIndexingInfo::class;
   protected $videoIndexingInfoDataType = '';
+  public $videoIndexingInfo;
 
   /**
    * @param IndexingDocjoinerCDocBuildInfo

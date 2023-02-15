@@ -21,12 +21,14 @@ class RepeatCellRequest extends \Google\Model
 {
   protected $cellType = CellData::class;
   protected $cellDataType = '';
+  public $cell;
   /**
    * @var string
    */
   public $fields;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
 
   /**
    * @param CellData

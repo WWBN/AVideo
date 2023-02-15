@@ -22,8 +22,10 @@ class AssistantApiNotificationOutputRestrictionsOptOutState extends \Google\Coll
   protected $collection_key = 'categoryState';
   protected $categoryGroupStateType = AssistantApiNotificationOutputRestrictionsOptOutStateCategoryGroupState::class;
   protected $categoryGroupStateDataType = 'array';
+  public $categoryGroupState;
   protected $categoryStateType = AssistantApiNotificationOutputRestrictionsOptOutStateCategoryState::class;
   protected $categoryStateDataType = 'array';
+  public $categoryState;
 
   /**
    * @param AssistantApiNotificationOutputRestrictionsOptOutStateCategoryGroupState[]

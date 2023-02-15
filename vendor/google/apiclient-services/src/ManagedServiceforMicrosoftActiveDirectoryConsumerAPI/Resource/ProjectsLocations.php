@@ -25,7 +25,7 @@ use Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI\Location
  * Typical usage is:
  *  <code>
  *   $managedidentitiesService = new Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI(...);
- *   $locations = $managedidentitiesService->locations;
+ *   $locations = $managedidentitiesService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

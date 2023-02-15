@@ -53,6 +53,7 @@ class BucketAccessControl extends \Google\Model
   public $kind;
   protected $projectTeamType = BucketAccessControlProjectTeam::class;
   protected $projectTeamDataType = '';
+  public $projectTeam;
   /**
    * @var string
    */

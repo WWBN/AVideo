@@ -24,7 +24,7 @@ use Google\Service\Document\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $documentaiService = new Google\Service\Document(...);
- *   $operations = $documentaiService->operations;
+ *   $operations = $documentaiService->projects_operations;
  *  </code>
  */
 class ProjectsOperations extends \Google\Service\Resource

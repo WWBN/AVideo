@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $endpointAttachments = $apigeeService->endpointAttachments;
+ *   $endpointAttachments = $apigeeService->organizations_endpointAttachments;
  *  </code>
  */
 class OrganizationsEndpointAttachments extends \Google\Service\Resource

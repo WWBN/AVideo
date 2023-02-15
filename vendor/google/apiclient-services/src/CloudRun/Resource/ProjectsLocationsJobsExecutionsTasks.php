@@ -25,7 +25,7 @@ use Google\Service\CloudRun\GoogleCloudRunV2Task;
  * Typical usage is:
  *  <code>
  *   $runService = new Google\Service\CloudRun(...);
- *   $tasks = $runService->tasks;
+ *   $tasks = $runService->projects_locations_jobs_executions_tasks;
  *  </code>
  */
 class ProjectsLocationsJobsExecutionsTasks extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class CopyPasteRequest extends \Google\Model
 {
   protected $destinationType = GridRange::class;
   protected $destinationDataType = '';
+  public $destination;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class CopyPasteRequest extends \Google\Model
   public $pasteType;
   protected $sourceType = GridRange::class;
   protected $sourceDataType = '';
+  public $source;
 
   /**
    * @param GridRange

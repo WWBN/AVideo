@@ -24,7 +24,7 @@ use Google\Service\Analytics\McfData;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $mcf = $analyticsService->mcf;
+ *   $mcf = $analyticsService->data_mcf;
  *  </code>
  */
 class DataMcf extends \Google\Service\Resource

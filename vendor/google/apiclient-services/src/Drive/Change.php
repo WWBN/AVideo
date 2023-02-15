@@ -25,12 +25,14 @@ class Change extends \Google\Model
   public $changeType;
   protected $driveType = Drive::class;
   protected $driveDataType = '';
+  public $drive;
   /**
    * @var string
    */
   public $driveId;
   protected $fileType = DriveFile::class;
   protected $fileDataType = '';
+  public $file;
   /**
    * @var string
    */
@@ -45,6 +47,7 @@ class Change extends \Google\Model
   public $removed;
   protected $teamDriveType = TeamDrive::class;
   protected $teamDriveDataType = '';
+  public $teamDrive;
   /**
    * @var string
    */

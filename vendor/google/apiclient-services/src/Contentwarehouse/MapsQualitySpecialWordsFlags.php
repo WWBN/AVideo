@@ -22,6 +22,10 @@ class MapsQualitySpecialWordsFlags extends \Google\Model
   /**
    * @var bool
    */
+  public $isAlleyAffix;
+  /**
+   * @var bool
+   */
   public $isCommonWord;
   /**
    * @var bool
@@ -100,6 +104,20 @@ class MapsQualitySpecialWordsFlags extends \Google\Model
    */
   public $isStreetNumberIdentifier;
 
+  /**
+   * @param bool
+   */
+  public function setIsAlleyAffix($isAlleyAffix)
+  {
+    $this->isAlleyAffix = $isAlleyAffix;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsAlleyAffix()
+  {
+    return $this->isAlleyAffix;
+  }
   /**
    * @param bool
    */

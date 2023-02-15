@@ -26,7 +26,7 @@ use Google\Service\MyBusinessPlaceActions\PlaceActionLink;
  * Typical usage is:
  *  <code>
  *   $mybusinessplaceactionsService = new Google\Service\MyBusinessPlaceActions(...);
- *   $placeActionLinks = $mybusinessplaceactionsService->placeActionLinks;
+ *   $placeActionLinks = $mybusinessplaceactionsService->locations_placeActionLinks;
  *  </code>
  */
 class LocationsPlaceActionLinks extends \Google\Service\Resource

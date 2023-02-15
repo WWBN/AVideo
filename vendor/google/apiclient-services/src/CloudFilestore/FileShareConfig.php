@@ -30,6 +30,7 @@ class FileShareConfig extends \Google\Collection
   public $name;
   protected $nfsExportOptionsType = NfsExportOptions::class;
   protected $nfsExportOptionsDataType = 'array';
+  public $nfsExportOptions;
   /**
    * @var string
    */

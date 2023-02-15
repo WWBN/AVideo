@@ -21,6 +21,7 @@ class ChatBotPlatformFireballId extends \Google\Model
 {
   protected $idType = GoogleInternalCommunicationsInstantmessagingV1Id::class;
   protected $idDataType = '';
+  public $id;
 
   /**
    * @param GoogleInternalCommunicationsInstantmessagingV1Id

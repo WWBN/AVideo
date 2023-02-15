@@ -29,7 +29,7 @@ use Google\Service\CloudHealthcare\Message;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $messages = $healthcareService->messages;
+ *   $messages = $healthcareService->projects_locations_datasets_hl7V2Stores_messages;
  *  </code>
  */
 class ProjectsLocationsDatasetsHl7V2StoresMessages extends \Google\Service\Resource

@@ -26,10 +26,13 @@ class ToolExecution extends \Google\Collection
   public $commandLineArguments;
   protected $exitCodeType = ToolExitCode::class;
   protected $exitCodeDataType = '';
+  public $exitCode;
   protected $toolLogsType = FileReference::class;
   protected $toolLogsDataType = 'array';
+  public $toolLogs;
   protected $toolOutputsType = ToolOutputReference::class;
   protected $toolOutputsDataType = 'array';
+  public $toolOutputs;
 
   /**
    * @param string[]

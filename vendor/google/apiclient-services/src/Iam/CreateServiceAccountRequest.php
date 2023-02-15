@@ -25,6 +25,7 @@ class CreateServiceAccountRequest extends \Google\Model
   public $accountId;
   protected $serviceAccountType = ServiceAccount::class;
   protected $serviceAccountDataType = '';
+  public $serviceAccount;
 
   /**
    * @param string

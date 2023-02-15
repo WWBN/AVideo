@@ -21,8 +21,10 @@ class GoogleCloudDatacatalogV1ImportTaxonomiesRequest extends \Google\Model
 {
   protected $crossRegionalSourceType = GoogleCloudDatacatalogV1CrossRegionalSource::class;
   protected $crossRegionalSourceDataType = '';
+  public $crossRegionalSource;
   protected $inlineSourceType = GoogleCloudDatacatalogV1InlineSource::class;
   protected $inlineSourceDataType = '';
+  public $inlineSource;
 
   /**
    * @param GoogleCloudDatacatalogV1CrossRegionalSource

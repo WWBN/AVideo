@@ -19,43 +19,6 @@ namespace Google\Service\Contentwarehouse;
 
 class PtokenPToken extends \Google\Model
 {
-  /**
-   * @var string
-   */
-  public $compoundPtokenData;
-  /**
-   * @var string
-   */
-  public $ptokenData;
-
-  /**
-   * @param string
-   */
-  public function setCompoundPtokenData($compoundPtokenData)
-  {
-    $this->compoundPtokenData = $compoundPtokenData;
-  }
-  /**
-   * @return string
-   */
-  public function getCompoundPtokenData()
-  {
-    return $this->compoundPtokenData;
-  }
-  /**
-   * @param string
-   */
-  public function setPtokenData($ptokenData)
-  {
-    $this->ptokenData = $ptokenData;
-  }
-  /**
-   * @return string
-   */
-  public function getPtokenData()
-  {
-    return $this->ptokenData;
-  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

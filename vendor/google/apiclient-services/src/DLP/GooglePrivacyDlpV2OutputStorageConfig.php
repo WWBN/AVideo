@@ -25,6 +25,7 @@ class GooglePrivacyDlpV2OutputStorageConfig extends \Google\Model
   public $outputSchema;
   protected $tableType = GooglePrivacyDlpV2BigQueryTable::class;
   protected $tableDataType = '';
+  public $table;
 
   /**
    * @param string

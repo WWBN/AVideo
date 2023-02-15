@@ -22,10 +22,13 @@ class GooglePrivacyDlpV2NumericalStatsResult extends \Google\Collection
   protected $collection_key = 'quantileValues';
   protected $maxValueType = GooglePrivacyDlpV2Value::class;
   protected $maxValueDataType = '';
+  public $maxValue;
   protected $minValueType = GooglePrivacyDlpV2Value::class;
   protected $minValueDataType = '';
+  public $minValue;
   protected $quantileValuesType = GooglePrivacyDlpV2Value::class;
   protected $quantileValuesDataType = 'array';
+  public $quantileValues;
 
   /**
    * @param GooglePrivacyDlpV2Value

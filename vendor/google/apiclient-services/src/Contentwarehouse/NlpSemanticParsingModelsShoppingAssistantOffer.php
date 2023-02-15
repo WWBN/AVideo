@@ -25,12 +25,16 @@ class NlpSemanticParsingModelsShoppingAssistantOffer extends \Google\Model
   public $docid;
   protected $merchantType = NlpSemanticParsingModelsShoppingAssistantMerchant::class;
   protected $merchantDataType = '';
+  public $merchant;
   protected $priceType = NlpSemanticParsingModelsMoneyMoney::class;
   protected $priceDataType = '';
+  public $price;
   protected $productType = NlpSemanticParsingModelsShoppingAssistantProduct::class;
   protected $productDataType = '';
+  public $product;
   protected $storeType = NlpSemanticParsingModelsShoppingAssistantStore::class;
   protected $storeDataType = '';
+  public $store;
 
   /**
    * @param string

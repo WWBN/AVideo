@@ -29,7 +29,7 @@ use Google\Service\PubsubLite\ComputeTimeCursorResponse;
  * Typical usage is:
  *  <code>
  *   $pubsubliteService = new Google\Service\PubsubLite(...);
- *   $topics = $pubsubliteService->topics;
+ *   $topics = $pubsubliteService->topicStats_projects_locations_topics;
  *  </code>
  */
 class TopicStatsProjectsLocationsTopics extends \Google\Service\Resource

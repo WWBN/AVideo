@@ -22,8 +22,10 @@ class AuditLog extends \Google\Collection
   protected $collection_key = 'authorizationInfo';
   protected $authenticationInfoType = AuthenticationInfo::class;
   protected $authenticationInfoDataType = '';
+  public $authenticationInfo;
   protected $authorizationInfoType = AuthorizationInfo::class;
   protected $authorizationInfoDataType = 'array';
+  public $authorizationInfo;
   /**
    * @var array[]
    */
@@ -38,14 +40,17 @@ class AuditLog extends \Google\Collection
   public $numResponseItems;
   protected $policyViolationInfoType = PolicyViolationInfo::class;
   protected $policyViolationInfoDataType = '';
+  public $policyViolationInfo;
   /**
    * @var array[]
    */
   public $request;
   protected $requestMetadataType = RequestMetadata::class;
   protected $requestMetadataDataType = '';
+  public $requestMetadata;
   protected $resourceLocationType = ResourceLocation::class;
   protected $resourceLocationDataType = '';
+  public $resourceLocation;
   /**
    * @var string
    */
@@ -68,6 +73,7 @@ class AuditLog extends \Google\Collection
   public $serviceName;
   protected $statusType = Status::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param AuthenticationInfo

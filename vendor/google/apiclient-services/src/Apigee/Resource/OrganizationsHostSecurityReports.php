@@ -28,7 +28,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1SecurityReportResultView;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $hostSecurityReports = $apigeeService->hostSecurityReports;
+ *   $hostSecurityReports = $apigeeService->organizations_hostSecurityReports;
  *  </code>
  */
 class OrganizationsHostSecurityReports extends \Google\Service\Resource

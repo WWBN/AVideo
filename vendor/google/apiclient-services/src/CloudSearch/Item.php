@@ -21,14 +21,17 @@ class Item extends \Google\Model
 {
   protected $aclType = ItemAcl::class;
   protected $aclDataType = '';
+  public $acl;
   protected $contentType = ItemContent::class;
   protected $contentDataType = '';
+  public $content;
   /**
    * @var string
    */
   public $itemType;
   protected $metadataType = ItemMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
@@ -43,8 +46,10 @@ class Item extends \Google\Model
   public $queue;
   protected $statusType = ItemStatus::class;
   protected $statusDataType = '';
+  public $status;
   protected $structuredDataType = ItemStructuredData::class;
   protected $structuredDataDataType = '';
+  public $structuredData;
   /**
    * @var string
    */

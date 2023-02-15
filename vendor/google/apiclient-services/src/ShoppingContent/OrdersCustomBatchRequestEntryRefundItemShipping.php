@@ -21,6 +21,7 @@ class OrdersCustomBatchRequestEntryRefundItemShipping extends \Google\Model
 {
   protected $amountType = Price::class;
   protected $amountDataType = '';
+  public $amount;
   /**
    * @var bool
    */

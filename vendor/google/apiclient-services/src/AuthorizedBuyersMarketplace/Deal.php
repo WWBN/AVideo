@@ -37,12 +37,14 @@ class Deal extends \Google\Model
   public $createTime;
   protected $creativeRequirementsType = CreativeRequirements::class;
   protected $creativeRequirementsDataType = '';
+  public $creativeRequirements;
   /**
    * @var string
    */
   public $dealType;
   protected $deliveryControlType = DeliveryControl::class;
   protected $deliveryControlDataType = '';
+  public $deliveryControl;
   /**
    * @var string
    */
@@ -53,6 +55,7 @@ class Deal extends \Google\Model
   public $displayName;
   protected $estimatedGrossSpendType = Money::class;
   protected $estimatedGrossSpendDataType = '';
+  public $estimatedGrossSpend;
   /**
    * @var string
    */
@@ -67,10 +70,13 @@ class Deal extends \Google\Model
   public $name;
   protected $preferredDealTermsType = PreferredDealTerms::class;
   protected $preferredDealTermsDataType = '';
+  public $preferredDealTerms;
   protected $privateAuctionTermsType = PrivateAuctionTerms::class;
   protected $privateAuctionTermsDataType = '';
+  public $privateAuctionTerms;
   protected $programmaticGuaranteedTermsType = ProgrammaticGuaranteedTerms::class;
   protected $programmaticGuaranteedTermsDataType = '';
+  public $programmaticGuaranteedTerms;
   /**
    * @var string
    */
@@ -81,8 +87,10 @@ class Deal extends \Google\Model
   public $publisherProfile;
   protected $sellerTimeZoneType = TimeZone::class;
   protected $sellerTimeZoneDataType = '';
+  public $sellerTimeZone;
   protected $targetingType = MarketplaceTargeting::class;
   protected $targetingDataType = '';
+  public $targeting;
   /**
    * @var string
    */

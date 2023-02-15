@@ -22,6 +22,7 @@ class Layersummaries extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Layersummary::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class ListApisResponse extends \Google\Collection
   protected $collection_key = 'apis';
   protected $apisType = Api::class;
   protected $apisDataType = 'array';
+  public $apis;
   /**
    * @var string
    */

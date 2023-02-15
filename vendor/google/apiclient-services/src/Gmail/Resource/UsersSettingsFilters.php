@@ -25,7 +25,7 @@ use Google\Service\Gmail\ListFiltersResponse;
  * Typical usage is:
  *  <code>
  *   $gmailService = new Google\Service\Gmail(...);
- *   $filters = $gmailService->filters;
+ *   $filters = $gmailService->users_settings_filters;
  *  </code>
  */
 class UsersSettingsFilters extends \Google\Service\Resource

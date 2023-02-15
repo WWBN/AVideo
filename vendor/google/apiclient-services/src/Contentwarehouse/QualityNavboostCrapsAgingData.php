@@ -21,12 +21,16 @@ class QualityNavboostCrapsAgingData extends \Google\Model
 {
   protected $lastMonthBucketType = QualityNavboostCrapsAgingDataAgingAgeBucket::class;
   protected $lastMonthBucketDataType = '';
+  public $lastMonthBucket;
   protected $lastWeekBucketType = QualityNavboostCrapsAgingDataAgingAgeBucket::class;
   protected $lastWeekBucketDataType = '';
+  public $lastWeekBucket;
   protected $lastYearBucketType = QualityNavboostCrapsAgingDataAgingAgeBucket::class;
   protected $lastYearBucketDataType = '';
+  public $lastYearBucket;
   protected $yearPlusBucketType = QualityNavboostCrapsAgingDataAgingAgeBucket::class;
   protected $yearPlusBucketDataType = '';
+  public $yearPlusBucket;
 
   /**
    * @param QualityNavboostCrapsAgingDataAgingAgeBucket

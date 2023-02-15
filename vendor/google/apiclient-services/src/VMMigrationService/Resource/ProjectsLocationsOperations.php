@@ -27,7 +27,7 @@ use Google\Service\VMMigrationService\VmmigrationEmpty;
  * Typical usage is:
  *  <code>
  *   $vmmigrationService = new Google\Service\VMMigrationService(...);
- *   $operations = $vmmigrationService->operations;
+ *   $operations = $vmmigrationService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

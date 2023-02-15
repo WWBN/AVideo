@@ -21,8 +21,10 @@ class TextField extends \Google\Model
 {
   protected $autoCompleteType = AutoComplete::class;
   protected $autoCompleteDataType = '';
+  public $autoComplete;
   protected $autoCompleteCallbackType = FormAction::class;
   protected $autoCompleteCallbackDataType = '';
+  public $autoCompleteCallback;
   /**
    * @var bool
    */
@@ -45,6 +47,7 @@ class TextField extends \Google\Model
   public $name;
   protected $onChangeType = FormAction::class;
   protected $onChangeDataType = '';
+  public $onChange;
   /**
    * @var string
    */

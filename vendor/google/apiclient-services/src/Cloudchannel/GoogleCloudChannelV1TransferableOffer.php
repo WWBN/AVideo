@@ -21,6 +21,7 @@ class GoogleCloudChannelV1TransferableOffer extends \Google\Model
 {
   protected $offerType = GoogleCloudChannelV1Offer::class;
   protected $offerDataType = '';
+  public $offer;
 
   /**
    * @param GoogleCloudChannelV1Offer

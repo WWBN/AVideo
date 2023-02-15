@@ -21,6 +21,7 @@ class AssistantDevicesPlatformProtoTriggerCondition extends \Google\Model
 {
   protected $requiredStateValuesType = AssistantDevicesPlatformProtoArgSpec::class;
   protected $requiredStateValuesDataType = 'map';
+  public $requiredStateValues;
   /**
    * @var string
    */

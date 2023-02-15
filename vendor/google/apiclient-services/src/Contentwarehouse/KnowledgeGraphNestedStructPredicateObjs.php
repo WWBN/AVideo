@@ -22,6 +22,7 @@ class KnowledgeGraphNestedStructPredicateObjs extends \Google\Collection
   protected $collection_key = 'objs';
   protected $objsType = KnowledgeGraphTripleObj::class;
   protected $objsDataType = 'array';
+  public $objs;
   /**
    * @var string
    */

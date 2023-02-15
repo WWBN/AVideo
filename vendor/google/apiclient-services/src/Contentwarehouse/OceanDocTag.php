@@ -61,20 +61,24 @@ class OceanDocTag extends \Google\Collection
   public $blockSnippet;
   protected $bookspecificType = OceanDocTagBookSpecific::class;
   protected $bookspecificDataType = '';
+  public $bookspecific;
   protected $catalogspecificType = OceanDocTagCatalogSpecific::class;
   protected $catalogspecificDataType = '';
+  public $catalogspecific;
   /**
    * @var int
    */
   public $contentType;
   protected $contributorType = OceanDocTagContributor::class;
   protected $contributorDataType = 'array';
+  public $contributor;
   /**
    * @var string
    */
   public $coverPage;
   protected $coverPageSizeType = OceanImageSize::class;
   protected $coverPageSizeDataType = '';
+  public $coverPageSize;
   /**
    * @var string
    */
@@ -109,14 +113,17 @@ class OceanDocTag extends \Google\Collection
   public $isLandingPage;
   protected $magazinespecificType = OceanDocTagMagazineSpecific::class;
   protected $magazinespecificDataType = '';
+  public $magazinespecific;
   /**
    * @var bool
    */
   public $metadataCoverExists;
   protected $metadataCoverSizeType = OceanImageSize::class;
   protected $metadataCoverSizeDataType = '';
+  public $metadataCoverSize;
   protected $newspaperspecificType = OceanDocTagNewspaperSpecific::class;
   protected $newspaperspecificDataType = '';
+  public $newspaperspecific;
   /**
    * @var int
    */
@@ -136,8 +143,10 @@ class OceanDocTag extends \Google\Collection
   public $pagerank;
   protected $patentspecificType = OceanDocTagPatentSpecific::class;
   protected $patentspecificDataType = '';
+  public $patentspecific;
   protected $priceType = OceanGEPrice::class;
   protected $priceDataType = '';
+  public $price;
   /**
    * @var string
    */
@@ -188,6 +197,7 @@ class OceanDocTag extends \Google\Collection
   public $usingActualCover;
   protected $viewabilityType = OceanVolumeViewability::class;
   protected $viewabilityDataType = '';
+  public $viewability;
   /**
    * @var int
    */
@@ -198,6 +208,7 @@ class OceanDocTag extends \Google\Collection
   public $volumeVersion;
   protected $workclusterType = OceanDocTagWorkCluster::class;
   protected $workclusterDataType = '';
+  public $workcluster;
 
   /**
    * @param string

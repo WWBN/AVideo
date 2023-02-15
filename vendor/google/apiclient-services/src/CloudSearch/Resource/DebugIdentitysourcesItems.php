@@ -24,7 +24,7 @@ use Google\Service\CloudSearch\ListItemNamesForUnmappedIdentityResponse;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $items = $cloudsearchService->items;
+ *   $items = $cloudsearchService->debug_identitysources_items;
  *  </code>
  */
 class DebugIdentitysourcesItems extends \Google\Service\Resource

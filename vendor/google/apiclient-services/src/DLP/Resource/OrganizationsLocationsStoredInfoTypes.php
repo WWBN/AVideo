@@ -28,7 +28,7 @@ use Google\Service\DLP\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dlpService = new Google\Service\DLP(...);
- *   $storedInfoTypes = $dlpService->storedInfoTypes;
+ *   $storedInfoTypes = $dlpService->organizations_locations_storedInfoTypes;
  *  </code>
  */
 class OrganizationsLocationsStoredInfoTypes extends \Google\Service\Resource

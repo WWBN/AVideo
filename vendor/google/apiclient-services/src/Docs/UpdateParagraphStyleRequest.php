@@ -25,8 +25,10 @@ class UpdateParagraphStyleRequest extends \Google\Model
   public $fields;
   protected $paragraphStyleType = ParagraphStyle::class;
   protected $paragraphStyleDataType = '';
+  public $paragraphStyle;
   protected $rangeType = Range::class;
   protected $rangeDataType = '';
+  public $range;
 
   /**
    * @param string

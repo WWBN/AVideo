@@ -21,8 +21,10 @@ class AutoFillRequest extends \Google\Model
 {
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
   protected $sourceAndDestinationType = SourceAndDestination::class;
   protected $sourceAndDestinationDataType = '';
+  public $sourceAndDestination;
   /**
    * @var bool
    */

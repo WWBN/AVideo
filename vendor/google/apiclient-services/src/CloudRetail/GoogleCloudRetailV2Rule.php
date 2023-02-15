@@ -21,22 +21,31 @@ class GoogleCloudRetailV2Rule extends \Google\Model
 {
   protected $boostActionType = GoogleCloudRetailV2RuleBoostAction::class;
   protected $boostActionDataType = '';
+  public $boostAction;
   protected $conditionType = GoogleCloudRetailV2Condition::class;
   protected $conditionDataType = '';
+  public $condition;
   protected $doNotAssociateActionType = GoogleCloudRetailV2RuleDoNotAssociateAction::class;
   protected $doNotAssociateActionDataType = '';
+  public $doNotAssociateAction;
   protected $filterActionType = GoogleCloudRetailV2RuleFilterAction::class;
   protected $filterActionDataType = '';
+  public $filterAction;
   protected $ignoreActionType = GoogleCloudRetailV2RuleIgnoreAction::class;
   protected $ignoreActionDataType = '';
+  public $ignoreAction;
   protected $onewaySynonymsActionType = GoogleCloudRetailV2RuleOnewaySynonymsAction::class;
   protected $onewaySynonymsActionDataType = '';
+  public $onewaySynonymsAction;
   protected $redirectActionType = GoogleCloudRetailV2RuleRedirectAction::class;
   protected $redirectActionDataType = '';
+  public $redirectAction;
   protected $replacementActionType = GoogleCloudRetailV2RuleReplacementAction::class;
   protected $replacementActionDataType = '';
+  public $replacementAction;
   protected $twowaySynonymsActionType = GoogleCloudRetailV2RuleTwowaySynonymsAction::class;
   protected $twowaySynonymsActionDataType = '';
+  public $twowaySynonymsAction;
 
   /**
    * @param GoogleCloudRetailV2RuleBoostAction

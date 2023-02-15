@@ -27,7 +27,7 @@ use Google\Service\CloudSearch\SearchItemsByViewUrlResponse;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $items = $cloudsearchService->items;
+ *   $items = $cloudsearchService->debug_datasources_items;
  *  </code>
  */
 class DebugDatasourcesItems extends \Google\Service\Resource

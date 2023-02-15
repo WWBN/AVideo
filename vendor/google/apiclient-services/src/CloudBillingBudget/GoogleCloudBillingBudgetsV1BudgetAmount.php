@@ -21,8 +21,10 @@ class GoogleCloudBillingBudgetsV1BudgetAmount extends \Google\Model
 {
   protected $lastPeriodAmountType = GoogleCloudBillingBudgetsV1LastPeriodAmount::class;
   protected $lastPeriodAmountDataType = '';
+  public $lastPeriodAmount;
   protected $specifiedAmountType = GoogleTypeMoney::class;
   protected $specifiedAmountDataType = '';
+  public $specifiedAmount;
 
   /**
    * @param GoogleCloudBillingBudgetsV1LastPeriodAmount

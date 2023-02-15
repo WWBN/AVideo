@@ -25,6 +25,7 @@ class SocialGraphApiProtoNotificationTrigger extends \Google\Model
   public $daysBeforeActiveDate;
   protected $notificationTimeOfDayType = GoogleTypeTimeOfDay::class;
   protected $notificationTimeOfDayDataType = '';
+  public $notificationTimeOfDay;
 
   /**
    * @param int

@@ -26,6 +26,7 @@ class SuspiciousActivity extends \Google\Collection
   public $email;
   protected $eventsType = SuspiciousActivitySecurityDetail::class;
   protected $eventsDataType = 'array';
+  public $events;
 
   /**
    * @param string

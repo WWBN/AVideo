@@ -29,6 +29,7 @@ class ChannelSectionSnippet extends \Google\Model
   public $defaultLanguage;
   protected $localizedType = ChannelSectionLocalization::class;
   protected $localizedDataType = '';
+  public $localized;
   /**
    * @var string
    */

@@ -23,7 +23,8 @@ use Google\Client;
  * Service definition for RecaptchaEnterprise (v1).
  *
  * <p>
-</p>
+ * Help protect your website from fraudulent activity, spam, and abuse without
+ * creating friction.</p>
  *
  * <p>
  * For more information about this service, see the API

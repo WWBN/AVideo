@@ -21,10 +21,13 @@ class EnterpriseCrmEventbusProtoParamSpecEntryValidationRule extends \Google\Mod
 {
   protected $doubleRangeType = EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleDoubleRange::class;
   protected $doubleRangeDataType = '';
+  public $doubleRange;
   protected $intRangeType = EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleIntRange::class;
   protected $intRangeDataType = '';
+  public $intRange;
   protected $stringRegexType = EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleStringRegex::class;
   protected $stringRegexDataType = '';
+  public $stringRegex;
 
   /**
    * @param EnterpriseCrmEventbusProtoParamSpecEntryValidationRuleDoubleRange

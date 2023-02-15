@@ -22,6 +22,7 @@ class NlpSciencelitRetrievalSearchResultDebugInfo extends \Google\Collection
   protected $collection_key = 'goldSnippets';
   protected $articleDataType = NlpSciencelitArticleData::class;
   protected $articleDataDataType = '';
+  public $articleData;
   /**
    * @var string[]
    */

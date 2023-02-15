@@ -21,12 +21,14 @@ class ExecutionTemplate extends \Google\Model
 {
   protected $acceleratorConfigType = SchedulerAcceleratorConfig::class;
   protected $acceleratorConfigDataType = '';
+  public $acceleratorConfig;
   /**
    * @var string
    */
   public $containerImageUri;
   protected $dataprocParametersType = DataprocParameters::class;
   protected $dataprocParametersDataType = '';
+  public $dataprocParameters;
   /**
    * @var string
    */
@@ -73,6 +75,7 @@ class ExecutionTemplate extends \Google\Model
   public $tensorboard;
   protected $vertexAiParametersType = VertexAIParameters::class;
   protected $vertexAiParametersDataType = '';
+  public $vertexAiParameters;
 
   /**
    * @param SchedulerAcceleratorConfig

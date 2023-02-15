@@ -34,6 +34,7 @@ class TestOrderLineItemProduct extends \Google\Collection
   public $contentLanguage;
   protected $feesType = OrderLineItemProductFee::class;
   protected $feesDataType = 'array';
+  public $fees;
   /**
    * @var string
    */
@@ -56,6 +57,7 @@ class TestOrderLineItemProduct extends \Google\Collection
   public $offerId;
   protected $priceType = Price::class;
   protected $priceDataType = '';
+  public $price;
   /**
    * @var string
    */
@@ -66,6 +68,7 @@ class TestOrderLineItemProduct extends \Google\Collection
   public $title;
   protected $variantAttributesType = OrderLineItemProductVariantAttribute::class;
   protected $variantAttributesDataType = 'array';
+  public $variantAttributes;
 
   /**
    * @param string

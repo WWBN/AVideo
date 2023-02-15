@@ -21,6 +21,7 @@ class BatchCreateNotesRequest extends \Google\Model
 {
   protected $notesType = Note::class;
   protected $notesDataType = 'map';
+  public $notes;
 
   /**
    * @param Note[]

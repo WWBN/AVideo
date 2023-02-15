@@ -21,8 +21,10 @@ class ReportHeader extends \Google\Model
 {
   protected $dateRangeType = DateRange::class;
   protected $dateRangeDataType = '';
+  public $dateRange;
   protected $localizationSettingsType = LocalizationSettings::class;
   protected $localizationSettingsDataType = '';
+  public $localizationSettings;
   /**
    * @var string
    */

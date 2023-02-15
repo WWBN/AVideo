@@ -25,6 +25,7 @@ class AppsPeopleOzExternalMergedpeopleapiCertifiedBornBefore extends \Google\Mod
   public $bornBefore;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
 
   /**
    * @param string

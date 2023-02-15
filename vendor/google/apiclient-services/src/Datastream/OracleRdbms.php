@@ -22,6 +22,7 @@ class OracleRdbms extends \Google\Collection
   protected $collection_key = 'oracleSchemas';
   protected $oracleSchemasType = OracleSchema::class;
   protected $oracleSchemasDataType = 'array';
+  public $oracleSchemas;
 
   /**
    * @param OracleSchema[]

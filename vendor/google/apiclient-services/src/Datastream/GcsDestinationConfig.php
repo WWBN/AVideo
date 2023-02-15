@@ -21,6 +21,7 @@ class GcsDestinationConfig extends \Google\Model
 {
   protected $avroFileFormatType = AvroFileFormat::class;
   protected $avroFileFormatDataType = '';
+  public $avroFileFormat;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class GcsDestinationConfig extends \Google\Model
   public $fileRotationMb;
   protected $jsonFileFormatType = JsonFileFormat::class;
   protected $jsonFileFormatDataType = '';
+  public $jsonFileFormat;
   /**
    * @var string
    */

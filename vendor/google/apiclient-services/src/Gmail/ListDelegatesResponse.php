@@ -22,6 +22,7 @@ class ListDelegatesResponse extends \Google\Collection
   protected $collection_key = 'delegates';
   protected $delegatesType = Delegate::class;
   protected $delegatesDataType = 'array';
+  public $delegates;
 
   /**
    * @param Delegate[]

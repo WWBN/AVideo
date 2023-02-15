@@ -26,7 +26,7 @@ use Google\Service\AndroidManagement\Policy;
  * Typical usage is:
  *  <code>
  *   $androidmanagementService = new Google\Service\AndroidManagement(...);
- *   $policies = $androidmanagementService->policies;
+ *   $policies = $androidmanagementService->enterprises_policies;
  *  </code>
  */
 class EnterprisesPolicies extends \Google\Service\Resource

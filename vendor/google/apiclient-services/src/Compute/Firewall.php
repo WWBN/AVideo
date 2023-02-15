@@ -22,12 +22,14 @@ class Firewall extends \Google\Collection
   protected $collection_key = 'targetTags';
   protected $allowedType = FirewallAllowed::class;
   protected $allowedDataType = 'array';
+  public $allowed;
   /**
    * @var string
    */
   public $creationTimestamp;
   protected $deniedType = FirewallDenied::class;
   protected $deniedDataType = 'array';
+  public $denied;
   /**
    * @var string
    */
@@ -54,6 +56,7 @@ class Firewall extends \Google\Collection
   public $kind;
   protected $logConfigType = FirewallLogConfig::class;
   protected $logConfigDataType = '';
+  public $logConfig;
   /**
    * @var string
    */

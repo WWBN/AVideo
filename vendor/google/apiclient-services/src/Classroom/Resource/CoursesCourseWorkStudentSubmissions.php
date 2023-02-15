@@ -30,7 +30,7 @@ use Google\Service\Classroom\TurnInStudentSubmissionRequest;
  * Typical usage is:
  *  <code>
  *   $classroomService = new Google\Service\Classroom(...);
- *   $studentSubmissions = $classroomService->studentSubmissions;
+ *   $studentSubmissions = $classroomService->courses_courseWork_studentSubmissions;
  *  </code>
  */
 class CoursesCourseWorkStudentSubmissions extends \Google\Service\Resource

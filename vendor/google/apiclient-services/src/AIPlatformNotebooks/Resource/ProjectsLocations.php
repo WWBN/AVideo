@@ -25,7 +25,7 @@ use Google\Service\AIPlatformNotebooks\Location;
  * Typical usage is:
  *  <code>
  *   $notebooksService = new Google\Service\AIPlatformNotebooks(...);
- *   $locations = $notebooksService->locations;
+ *   $locations = $notebooksService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

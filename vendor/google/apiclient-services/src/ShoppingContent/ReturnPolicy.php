@@ -42,14 +42,17 @@ class ReturnPolicy extends \Google\Collection
   public $nonFreeReturnReasons;
   protected $policyType = ReturnPolicyPolicy::class;
   protected $policyDataType = '';
+  public $policy;
   /**
    * @var string
    */
   public $returnPolicyId;
   protected $returnShippingFeeType = Price::class;
   protected $returnShippingFeeDataType = '';
+  public $returnShippingFee;
   protected $seasonalOverridesType = ReturnPolicySeasonalOverride::class;
   protected $seasonalOverridesDataType = 'array';
+  public $seasonalOverrides;
 
   /**
    * @param string

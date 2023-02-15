@@ -21,6 +21,7 @@ class GoogleCloudApigeeV1CreditDeveloperBalanceRequest extends \Google\Model
 {
   protected $transactionAmountType = GoogleTypeMoney::class;
   protected $transactionAmountDataType = '';
+  public $transactionAmount;
   /**
    * @var string
    */

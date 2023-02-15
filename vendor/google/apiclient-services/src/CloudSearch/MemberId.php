@@ -21,8 +21,10 @@ class MemberId extends \Google\Model
 {
   protected $rosterIdType = RosterId::class;
   protected $rosterIdDataType = '';
+  public $rosterId;
   protected $userIdType = UserId::class;
   protected $userIdDataType = '';
+  public $userId;
 
   /**
    * @param RosterId

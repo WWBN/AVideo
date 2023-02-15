@@ -21,6 +21,7 @@ class UpdateReleaseRequest extends \Google\Model
 {
   protected $releaseType = Release::class;
   protected $releaseDataType = '';
+  public $release;
   /**
    * @var string
    */

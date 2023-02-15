@@ -24,7 +24,7 @@ use Google\Service\CloudBuild\ListBitbucketServerRepositoriesResponse;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $repos = $cloudbuildService->repos;
+ *   $repos = $cloudbuildService->projects_locations_bitbucketServerConfigs_repos;
  *  </code>
  */
 class ProjectsLocationsBitbucketServerConfigsRepos extends \Google\Service\Resource

@@ -30,10 +30,15 @@ class CreateDatabaseRequest extends \Google\Collection
   public $databaseDialect;
   protected $encryptionConfigType = EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
+  public $encryptionConfig;
   /**
    * @var string[]
    */
   public $extraStatements;
+  /**
+   * @var string
+   */
+  public $protoDescriptors;
 
   /**
    * @param string
@@ -90,6 +95,20 @@ class CreateDatabaseRequest extends \Google\Collection
   public function getExtraStatements()
   {
     return $this->extraStatements;
+  }
+  /**
+   * @param string
+   */
+  public function setProtoDescriptors($protoDescriptors)
+  {
+    $this->protoDescriptors = $protoDescriptors;
+  }
+  /**
+   * @return string
+   */
+  public function getProtoDescriptors()
+  {
+    return $this->protoDescriptors;
   }
 }
 

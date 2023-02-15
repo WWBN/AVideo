@@ -21,6 +21,7 @@ class OrderDeliveryDetails extends \Google\Model
 {
   protected $addressType = OrderAddress::class;
   protected $addressDataType = '';
+  public $address;
   /**
    * @var string
    */

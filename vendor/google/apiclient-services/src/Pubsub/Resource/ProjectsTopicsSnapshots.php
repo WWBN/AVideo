@@ -24,7 +24,7 @@ use Google\Service\Pubsub\ListTopicSnapshotsResponse;
  * Typical usage is:
  *  <code>
  *   $pubsubService = new Google\Service\Pubsub(...);
- *   $snapshots = $pubsubService->snapshots;
+ *   $snapshots = $pubsubService->projects_topics_snapshots;
  *  </code>
  */
 class ProjectsTopicsSnapshots extends \Google\Service\Resource

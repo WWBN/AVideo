@@ -22,8 +22,10 @@ class GoogleCloudRetailV2Product extends \Google\Collection
   protected $collection_key = 'variants';
   protected $attributesType = GoogleCloudRetailV2CustomAttribute::class;
   protected $attributesDataType = 'map';
+  public $attributes;
   protected $audienceType = GoogleCloudRetailV2Audience::class;
   protected $audienceDataType = '';
+  public $audience;
   /**
    * @var string
    */
@@ -50,6 +52,7 @@ class GoogleCloudRetailV2Product extends \Google\Collection
   public $collectionMemberIds;
   protected $colorInfoType = GoogleCloudRetailV2ColorInfo::class;
   protected $colorInfoDataType = '';
+  public $colorInfo;
   /**
    * @var string[]
    */
@@ -64,6 +67,7 @@ class GoogleCloudRetailV2Product extends \Google\Collection
   public $expireTime;
   protected $fulfillmentInfoType = GoogleCloudRetailV2FulfillmentInfo::class;
   protected $fulfillmentInfoDataType = 'array';
+  public $fulfillmentInfo;
   /**
    * @var string
    */
@@ -74,12 +78,14 @@ class GoogleCloudRetailV2Product extends \Google\Collection
   public $id;
   protected $imagesType = GoogleCloudRetailV2Image::class;
   protected $imagesDataType = 'array';
+  public $images;
   /**
    * @var string
    */
   public $languageCode;
   protected $localInventoriesType = GoogleCloudRetailV2LocalInventory::class;
   protected $localInventoriesDataType = 'array';
+  public $localInventories;
   /**
    * @var string[]
    */
@@ -94,18 +100,21 @@ class GoogleCloudRetailV2Product extends \Google\Collection
   public $patterns;
   protected $priceInfoType = GoogleCloudRetailV2PriceInfo::class;
   protected $priceInfoDataType = '';
+  public $priceInfo;
   /**
    * @var string
    */
   public $primaryProductId;
   protected $promotionsType = GoogleCloudRetailV2Promotion::class;
   protected $promotionsDataType = 'array';
+  public $promotions;
   /**
    * @var string
    */
   public $publishTime;
   protected $ratingType = GoogleCloudRetailV2Rating::class;
   protected $ratingDataType = '';
+  public $rating;
   /**
    * @var string
    */
@@ -136,6 +145,7 @@ class GoogleCloudRetailV2Product extends \Google\Collection
   public $uri;
   protected $variantsType = GoogleCloudRetailV2Product::class;
   protected $variantsDataType = 'array';
+  public $variants;
 
   /**
    * @param GoogleCloudRetailV2CustomAttribute[]

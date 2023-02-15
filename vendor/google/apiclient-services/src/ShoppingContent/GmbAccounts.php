@@ -26,6 +26,7 @@ class GmbAccounts extends \Google\Collection
   public $accountId;
   protected $gmbAccountsType = GmbAccountsGmbAccount::class;
   protected $gmbAccountsDataType = 'array';
+  public $gmbAccounts;
 
   /**
    * @param string

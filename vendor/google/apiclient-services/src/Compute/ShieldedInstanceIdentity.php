@@ -21,12 +21,14 @@ class ShieldedInstanceIdentity extends \Google\Model
 {
   protected $encryptionKeyType = ShieldedInstanceIdentityEntry::class;
   protected $encryptionKeyDataType = '';
+  public $encryptionKey;
   /**
    * @var string
    */
   public $kind;
   protected $signingKeyType = ShieldedInstanceIdentityEntry::class;
   protected $signingKeyDataType = '';
+  public $signingKey;
 
   /**
    * @param ShieldedInstanceIdentityEntry

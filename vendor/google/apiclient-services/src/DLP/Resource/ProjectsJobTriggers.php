@@ -30,7 +30,7 @@ use Google\Service\DLP\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dlpService = new Google\Service\DLP(...);
- *   $jobTriggers = $dlpService->jobTriggers;
+ *   $jobTriggers = $dlpService->projects_jobTriggers;
  *  </code>
  */
 class ProjectsJobTriggers extends \Google\Service\Resource

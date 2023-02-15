@@ -21,6 +21,7 @@ class InstancesRotateServerCaRequest extends \Google\Model
 {
   protected $rotateServerCaContextType = RotateServerCaContext::class;
   protected $rotateServerCaContextDataType = '';
+  public $rotateServerCaContext;
 
   /**
    * @param RotateServerCaContext

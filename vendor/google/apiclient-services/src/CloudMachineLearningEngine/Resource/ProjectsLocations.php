@@ -25,7 +25,7 @@ use Google\Service\CloudMachineLearningEngine\GoogleCloudMlV1Location;
  * Typical usage is:
  *  <code>
  *   $mlService = new Google\Service\CloudMachineLearningEngine(...);
- *   $locations = $mlService->locations;
+ *   $locations = $mlService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

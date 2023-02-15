@@ -27,7 +27,7 @@ use Google\Service\BinaryAuthorization\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $binaryauthorizationService = new Google\Service\BinaryAuthorization(...);
- *   $policy = $binaryauthorizationService->policy;
+ *   $policy = $binaryauthorizationService->projects_policy;
  *  </code>
  */
 class ProjectsPolicy extends \Google\Service\Resource

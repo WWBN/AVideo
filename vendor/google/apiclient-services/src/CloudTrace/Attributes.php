@@ -21,6 +21,7 @@ class Attributes extends \Google\Model
 {
   protected $attributeMapType = AttributeValue::class;
   protected $attributeMapDataType = 'map';
+  public $attributeMap;
   /**
    * @var int
    */

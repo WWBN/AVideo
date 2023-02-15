@@ -25,8 +25,10 @@ class PivotFilterSpec extends \Google\Model
   public $columnOffsetIndex;
   protected $dataSourceColumnReferenceType = DataSourceColumnReference::class;
   protected $dataSourceColumnReferenceDataType = '';
+  public $dataSourceColumnReference;
   protected $filterCriteriaType = PivotFilterCriteria::class;
   protected $filterCriteriaDataType = '';
+  public $filterCriteria;
 
   /**
    * @param int

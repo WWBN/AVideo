@@ -26,6 +26,7 @@ class SslCertificateListWarning extends \Google\Collection
   public $code;
   protected $dataType = SslCertificateListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

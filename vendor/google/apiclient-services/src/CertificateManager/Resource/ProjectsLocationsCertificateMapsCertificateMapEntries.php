@@ -26,7 +26,7 @@ use Google\Service\CertificateManager\Operation;
  * Typical usage is:
  *  <code>
  *   $certificatemanagerService = new Google\Service\CertificateManager(...);
- *   $certificateMapEntries = $certificatemanagerService->certificateMapEntries;
+ *   $certificateMapEntries = $certificatemanagerService->projects_locations_certificateMaps_certificateMapEntries;
  *  </code>
  */
 class ProjectsLocationsCertificateMapsCertificateMapEntries extends \Google\Service\Resource

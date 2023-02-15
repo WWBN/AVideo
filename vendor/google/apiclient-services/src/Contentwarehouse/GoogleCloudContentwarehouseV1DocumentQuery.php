@@ -24,6 +24,9 @@ class GoogleCloudContentwarehouseV1DocumentQuery extends \Google\Collection
    * @var string
    */
   public $customPropertyFilter;
+  protected $customWeightsMetadataType = GoogleCloudContentwarehouseV1CustomWeightsMetadata::class;
+  protected $customWeightsMetadataDataType = '';
+  public $customWeightsMetadata;
   /**
    * @var string[]
    */
@@ -34,6 +37,7 @@ class GoogleCloudContentwarehouseV1DocumentQuery extends \Google\Collection
   public $documentSchemaNames;
   protected $fileTypeFilterType = GoogleCloudContentwarehouseV1FileTypeFilter::class;
   protected $fileTypeFilterDataType = '';
+  public $fileTypeFilter;
   /**
    * @var string
    */
@@ -44,6 +48,7 @@ class GoogleCloudContentwarehouseV1DocumentQuery extends \Google\Collection
   public $isNlQuery;
   protected $propertyFilterType = GoogleCloudContentwarehouseV1PropertyFilter::class;
   protected $propertyFilterDataType = 'array';
+  public $propertyFilter;
   /**
    * @var string
    */
@@ -54,6 +59,7 @@ class GoogleCloudContentwarehouseV1DocumentQuery extends \Google\Collection
   public $queryContext;
   protected $timeFiltersType = GoogleCloudContentwarehouseV1TimeFilter::class;
   protected $timeFiltersDataType = 'array';
+  public $timeFilters;
 
   /**
    * @param string
@@ -68,6 +74,20 @@ class GoogleCloudContentwarehouseV1DocumentQuery extends \Google\Collection
   public function getCustomPropertyFilter()
   {
     return $this->customPropertyFilter;
+  }
+  /**
+   * @param GoogleCloudContentwarehouseV1CustomWeightsMetadata
+   */
+  public function setCustomWeightsMetadata(GoogleCloudContentwarehouseV1CustomWeightsMetadata $customWeightsMetadata)
+  {
+    $this->customWeightsMetadata = $customWeightsMetadata;
+  }
+  /**
+   * @return GoogleCloudContentwarehouseV1CustomWeightsMetadata
+   */
+  public function getCustomWeightsMetadata()
+  {
+    return $this->customWeightsMetadata;
   }
   /**
    * @param string[]

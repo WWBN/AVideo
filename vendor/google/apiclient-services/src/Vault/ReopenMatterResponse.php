@@ -21,6 +21,7 @@ class ReopenMatterResponse extends \Google\Model
 {
   protected $matterType = Matter::class;
   protected $matterDataType = '';
+  public $matter;
 
   /**
    * @param Matter

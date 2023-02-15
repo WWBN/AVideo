@@ -30,6 +30,7 @@ class GoogleCloudApigeeV1SecurityReportResultView extends \Google\Collection
   public $error;
   protected $metadataType = GoogleCloudApigeeV1SecurityReportMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var array[]
    */

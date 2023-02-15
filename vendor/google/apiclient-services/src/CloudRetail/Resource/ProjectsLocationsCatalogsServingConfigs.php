@@ -32,7 +32,7 @@ use Google\Service\CloudRetail\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $retailService = new Google\Service\CloudRetail(...);
- *   $servingConfigs = $retailService->servingConfigs;
+ *   $servingConfigs = $retailService->projects_locations_catalogs_servingConfigs;
  *  </code>
  */
 class ProjectsLocationsCatalogsServingConfigs extends \Google\Service\Resource
@@ -162,9 +162,9 @@ class ProjectsLocationsCatalogsServingConfigs extends \Google\Service\Resource
    * We recommend using the `servingConfigs` resource. `placements` is a legacy
    * resource. The ID of the Recommendations AI serving config or placement.
    * Before you can request predictions from your model, you must create at least
-   * one serving config or placement for it. For more information, see [Managing
-   * serving configurations] (https://cloud.google.com/retail/docs/manage-
-   * configs). The full list of available serving configs can be seen at
+   * one serving config or placement for it. For more information, see [Manage
+   * serving configs] (https://cloud.google.com/retail/docs/manage-configs). The
+   * full list of available serving configs can be seen at
    * https://console.cloud.google.com/ai/retail/catalogs/default_catalog/configs
    * @param GoogleCloudRetailV2PredictRequest $postBody
    * @param array $optParams Optional parameters.
@@ -203,8 +203,8 @@ class ProjectsLocationsCatalogsServingConfigs extends \Google\Service\Resource
    * serving config, such as `projects/locations/global/catalogs/default_catalog/s
    * ervingConfigs/default_serving_config` or the name of the legacy placement
    * resource, such as `projects/locations/global/catalogs/default_catalog/placeme
-   * nts/default_search`. This field is used to identify the serving configuration
-   * name and the set of models that will be used to make the search.
+   * nts/default_search`. This field is used to identify the serving config name
+   * and the set of models that will be used to make the search.
    * @param GoogleCloudRetailV2SearchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRetailV2SearchResponse

@@ -21,6 +21,7 @@ class Features extends \Google\Model
 {
   protected $classificationModelOptionsType = ClassificationModelOptions::class;
   protected $classificationModelOptionsDataType = '';
+  public $classificationModelOptions;
   /**
    * @var bool
    */

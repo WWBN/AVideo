@@ -22,6 +22,7 @@ class Profiles extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Profile::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var int
    */

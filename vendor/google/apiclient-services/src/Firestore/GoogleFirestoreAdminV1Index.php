@@ -26,6 +26,7 @@ class GoogleFirestoreAdminV1Index extends \Google\Collection
   public $apiScope;
   protected $fieldsType = GoogleFirestoreAdminV1IndexField::class;
   protected $fieldsDataType = 'array';
+  public $fields;
   /**
    * @var string
    */

@@ -26,7 +26,7 @@ use Google\Service\DisplayVideo\ListPartnerAssignedTargetingOptionsResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $assignedTargetingOptions = $displayvideoService->assignedTargetingOptions;
+ *   $assignedTargetingOptions = $displayvideoService->partners_targetingTypes_assignedTargetingOptions;
  *  </code>
  */
 class PartnersTargetingTypesAssignedTargetingOptions extends \Google\Service\Resource

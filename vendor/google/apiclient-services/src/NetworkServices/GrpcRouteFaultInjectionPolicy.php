@@ -21,8 +21,10 @@ class GrpcRouteFaultInjectionPolicy extends \Google\Model
 {
   protected $abortType = GrpcRouteFaultInjectionPolicyAbort::class;
   protected $abortDataType = '';
+  public $abort;
   protected $delayType = GrpcRouteFaultInjectionPolicyDelay::class;
   protected $delayDataType = '';
+  public $delay;
 
   /**
    * @param GrpcRouteFaultInjectionPolicyAbort

@@ -22,12 +22,14 @@ class VendingConsumerProtoTrustedGenomeAnnotation extends \Google\Collection
   protected $collection_key = 'trustedGenomeHierarchy';
   protected $policyType = VendingConsumerProtoTrustedGenomePolicy::class;
   protected $policyDataType = '';
+  public $policy;
   /**
    * @var string[]
    */
   public $testCode;
   protected $trustedGenomeHierarchyType = VendingConsumerProtoTrustedGenomeHierarchy::class;
   protected $trustedGenomeHierarchyDataType = 'array';
+  public $trustedGenomeHierarchy;
 
   /**
    * @param VendingConsumerProtoTrustedGenomePolicy

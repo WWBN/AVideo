@@ -22,8 +22,10 @@ class Overlay extends \Google\Collection
   protected $collection_key = 'animations';
   protected $animationsType = Animation::class;
   protected $animationsDataType = 'array';
+  public $animations;
   protected $imageType = Image::class;
   protected $imageDataType = '';
+  public $image;
 
   /**
    * @param Animation[]

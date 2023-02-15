@@ -21,8 +21,10 @@ class AvailableUpdates extends \Google\Model
 {
   protected $inPlaceUpdateType = ApplianceVersion::class;
   protected $inPlaceUpdateDataType = '';
+  public $inPlaceUpdate;
   protected $newDeployableApplianceType = ApplianceVersion::class;
   protected $newDeployableApplianceDataType = '';
+  public $newDeployableAppliance;
 
   /**
    * @param ApplianceVersion

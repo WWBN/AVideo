@@ -22,6 +22,7 @@ class SnapshotSnapshotDocument extends \Google\Collection
   protected $collection_key = 'textNode';
   protected $imageNodeType = SnapshotImageNode::class;
   protected $imageNodeDataType = 'array';
+  public $imageNode;
   /**
    * @var bool
    */
@@ -32,8 +33,10 @@ class SnapshotSnapshotDocument extends \Google\Collection
   public $metaNoSnippet;
   protected $teradocType = TeragoogleDocumentInfo::class;
   protected $teradocDataType = '';
+  public $teradoc;
   protected $textNodeType = SnapshotTextNode::class;
   protected $textNodeDataType = 'array';
+  public $textNode;
   /**
    * @var string
    */

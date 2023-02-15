@@ -37,10 +37,13 @@ class ExecutePatchJobRequest extends \Google\Model
   public $duration;
   protected $instanceFilterType = PatchInstanceFilter::class;
   protected $instanceFilterDataType = '';
+  public $instanceFilter;
   protected $patchConfigType = PatchConfig::class;
   protected $patchConfigDataType = '';
+  public $patchConfig;
   protected $rolloutType = PatchRollout::class;
   protected $rolloutDataType = '';
+  public $rollout;
 
   /**
    * @param string

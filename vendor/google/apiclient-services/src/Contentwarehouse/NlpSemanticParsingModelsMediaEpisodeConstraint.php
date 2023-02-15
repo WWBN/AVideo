@@ -25,10 +25,13 @@ class NlpSemanticParsingModelsMediaEpisodeConstraint extends \Google\Model
   public $absoluteIndex;
   protected $dateTimeType = NlpSemanticParsingDatetimeDateTime::class;
   protected $dateTimeDataType = '';
+  public $dateTime;
   protected $descriptionType = NlpSemanticParsingModelsMediaDescription::class;
   protected $descriptionDataType = '';
+  public $description;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var string
    */

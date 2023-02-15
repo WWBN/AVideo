@@ -22,6 +22,7 @@ class GaDataDataTableRows extends \Google\Collection
   protected $collection_key = 'c';
   protected $cType = GaDataDataTableRowsC::class;
   protected $cDataType = 'array';
+  public $c;
 
   /**
    * @param GaDataDataTableRowsC[]

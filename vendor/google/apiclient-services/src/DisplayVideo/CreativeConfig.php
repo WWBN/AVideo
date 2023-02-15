@@ -25,8 +25,10 @@ class CreativeConfig extends \Google\Model
   public $creativeType;
   protected $displayCreativeConfigType = InventorySourceDisplayCreativeConfig::class;
   protected $displayCreativeConfigDataType = '';
+  public $displayCreativeConfig;
   protected $videoCreativeConfigType = InventorySourceVideoCreativeConfig::class;
   protected $videoCreativeConfigDataType = '';
+  public $videoCreativeConfig;
 
   /**
    * @param string

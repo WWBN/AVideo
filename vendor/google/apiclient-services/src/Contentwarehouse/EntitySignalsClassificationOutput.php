@@ -22,6 +22,7 @@ class EntitySignalsClassificationOutput extends \Google\Collection
   protected $collection_key = 'labels';
   protected $labelsType = EntitySignalsWeightedRelevanceRating::class;
   protected $labelsDataType = 'array';
+  public $labels;
   /**
    * @var float
    */

@@ -38,14 +38,17 @@ class ImageRepositoryShoppingProductInformationProductInformation extends \Googl
   public $embedding;
   protected $entitiesType = ImageRepositoryShoppingProductInformationEntity::class;
   protected $entitiesDataType = 'array';
+  public $entities;
   /**
    * @var string
    */
   public $featureType;
   protected $productLocationType = ImageRepositoryShoppingProductInformationBoundingBox::class;
   protected $productLocationDataType = '';
+  public $productLocation;
   protected $tokenGroupsType = ImageRepositoryShoppingProductInformationProductInformationTokenGroup::class;
   protected $tokenGroupsDataType = 'array';
+  public $tokenGroups;
 
   /**
    * @param int[]

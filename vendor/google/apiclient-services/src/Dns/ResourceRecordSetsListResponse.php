@@ -22,6 +22,7 @@ class ResourceRecordSetsListResponse extends \Google\Collection
   protected $collection_key = 'rrsets';
   protected $headerType = ResponseHeader::class;
   protected $headerDataType = '';
+  public $header;
   /**
    * @var string
    */
@@ -32,6 +33,7 @@ class ResourceRecordSetsListResponse extends \Google\Collection
   public $nextPageToken;
   protected $rrsetsType = ResourceRecordSet::class;
   protected $rrsetsDataType = 'array';
+  public $rrsets;
 
   /**
    * @param ResponseHeader

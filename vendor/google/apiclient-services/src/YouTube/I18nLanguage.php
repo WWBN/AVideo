@@ -33,6 +33,7 @@ class I18nLanguage extends \Google\Model
   public $kind;
   protected $snippetType = I18nLanguageSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
 
   /**
    * @param string

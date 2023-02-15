@@ -21,14 +21,19 @@ class DistributionUpdate extends \Google\Model
 {
   protected $countType = SplitInt64::class;
   protected $countDataType = '';
+  public $count;
   protected $histogramType = Histogram::class;
   protected $histogramDataType = '';
+  public $histogram;
   protected $maxType = SplitInt64::class;
   protected $maxDataType = '';
+  public $max;
   protected $minType = SplitInt64::class;
   protected $minDataType = '';
+  public $min;
   protected $sumType = SplitInt64::class;
   protected $sumDataType = '';
+  public $sum;
   public $sumOfSquares;
 
   /**

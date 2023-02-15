@@ -22,6 +22,7 @@ class ListAccessLevelsResponse extends \Google\Collection
   protected $collection_key = 'accessLevels';
   protected $accessLevelsType = AccessLevel::class;
   protected $accessLevelsDataType = 'array';
+  public $accessLevels;
   /**
    * @var string
    */

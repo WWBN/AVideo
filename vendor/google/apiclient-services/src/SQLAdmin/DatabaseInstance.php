@@ -50,14 +50,17 @@ class DatabaseInstance extends \Google\Collection
   public $databaseVersion;
   protected $diskEncryptionConfigurationType = DiskEncryptionConfiguration::class;
   protected $diskEncryptionConfigurationDataType = '';
+  public $diskEncryptionConfiguration;
   protected $diskEncryptionStatusType = DiskEncryptionStatus::class;
   protected $diskEncryptionStatusDataType = '';
+  public $diskEncryptionStatus;
   /**
    * @var string
    */
   public $etag;
   protected $failoverReplicaType = DatabaseInstanceFailoverReplica::class;
   protected $failoverReplicaDataType = '';
+  public $failoverReplica;
   /**
    * @var string
    */
@@ -68,6 +71,7 @@ class DatabaseInstance extends \Google\Collection
   public $instanceType;
   protected $ipAddressesType = IpMapping::class;
   protected $ipAddressesDataType = 'array';
+  public $ipAddresses;
   /**
    * @var string
    */
@@ -94,8 +98,10 @@ class DatabaseInstance extends \Google\Collection
   public $name;
   protected $onPremisesConfigurationType = OnPremisesConfiguration::class;
   protected $onPremisesConfigurationDataType = '';
+  public $onPremisesConfiguration;
   protected $outOfDiskReportType = SqlOutOfDiskReport::class;
   protected $outOfDiskReportDataType = '';
+  public $outOfDiskReport;
   /**
    * @var string
    */
@@ -106,6 +112,7 @@ class DatabaseInstance extends \Google\Collection
   public $region;
   protected $replicaConfigurationType = ReplicaConfiguration::class;
   protected $replicaConfigurationDataType = '';
+  public $replicaConfiguration;
   /**
    * @var string[]
    */
@@ -120,6 +127,7 @@ class DatabaseInstance extends \Google\Collection
   public $satisfiesPzs;
   protected $scheduledMaintenanceType = SqlScheduledMaintenance::class;
   protected $scheduledMaintenanceDataType = '';
+  public $scheduledMaintenance;
   /**
    * @var string
    */
@@ -130,12 +138,14 @@ class DatabaseInstance extends \Google\Collection
   public $selfLink;
   protected $serverCaCertType = SslCert::class;
   protected $serverCaCertDataType = '';
+  public $serverCaCert;
   /**
    * @var string
    */
   public $serviceAccountEmailAddress;
   protected $settingsType = Settings::class;
   protected $settingsDataType = '';
+  public $settings;
   /**
    * @var string
    */

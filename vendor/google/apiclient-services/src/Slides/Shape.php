@@ -21,14 +21,17 @@ class Shape extends \Google\Model
 {
   protected $placeholderType = Placeholder::class;
   protected $placeholderDataType = '';
+  public $placeholder;
   protected $shapePropertiesType = ShapeProperties::class;
   protected $shapePropertiesDataType = '';
+  public $shapeProperties;
   /**
    * @var string
    */
   public $shapeType;
   protected $textType = TextContent::class;
   protected $textDataType = '';
+  public $text;
 
   /**
    * @param Placeholder

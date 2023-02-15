@@ -24,7 +24,7 @@ use Google\Service\Adsense\ListPaymentsResponse;
  * Typical usage is:
  *  <code>
  *   $adsenseService = new Google\Service\Adsense(...);
- *   $payments = $adsenseService->payments;
+ *   $payments = $adsenseService->accounts_payments;
  *  </code>
  */
 class AccountsPayments extends \Google\Service\Resource

@@ -30,6 +30,7 @@ class GoogleIdentityAccesscontextmanagerV1DevicePolicy extends \Google\Collectio
   public $allowedEncryptionStatuses;
   protected $osConstraintsType = GoogleIdentityAccesscontextmanagerV1OsConstraint::class;
   protected $osConstraintsDataType = 'array';
+  public $osConstraints;
   /**
    * @var bool
    */

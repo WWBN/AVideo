@@ -21,12 +21,16 @@ class VideoContentSearchAnchorsCommonFeatureSet extends \Google\Model
 {
   protected $dolphinDescriptivenessStatsType = VideoContentSearchMetricStats::class;
   protected $dolphinDescriptivenessStatsDataType = '';
+  public $dolphinDescriptivenessStats;
   protected $dolphinUsefulnessStatsType = VideoContentSearchMetricStats::class;
   protected $dolphinUsefulnessStatsDataType = '';
+  public $dolphinUsefulnessStats;
   protected $mumDescriptivenessStatsType = VideoContentSearchMetricStats::class;
   protected $mumDescriptivenessStatsDataType = '';
+  public $mumDescriptivenessStats;
   protected $mumUsefulnessStatsType = VideoContentSearchMetricStats::class;
   protected $mumUsefulnessStatsDataType = '';
+  public $mumUsefulnessStats;
 
   /**
    * @param VideoContentSearchMetricStats

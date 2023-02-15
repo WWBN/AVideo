@@ -29,6 +29,7 @@ class QualityDniDocPreviewRestrictions extends \Google\Model
   public $crawlTsUsec;
   protected $extendedNewsPreviewsDomainType = QualityDniExtendedNewsPreviews::class;
   protected $extendedNewsPreviewsDomainDataType = '';
+  public $extendedNewsPreviewsDomain;
   /**
    * @var string
    */

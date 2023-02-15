@@ -26,6 +26,7 @@ class SearchDirectoryPeopleResponse extends \Google\Collection
   public $nextPageToken;
   protected $peopleType = Person::class;
   protected $peopleDataType = 'array';
+  public $people;
   /**
    * @var int
    */

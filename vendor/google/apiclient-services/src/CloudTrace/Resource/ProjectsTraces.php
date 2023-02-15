@@ -25,7 +25,7 @@ use Google\Service\CloudTrace\CloudtraceEmpty;
  * Typical usage is:
  *  <code>
  *   $cloudtraceService = new Google\Service\CloudTrace(...);
- *   $traces = $cloudtraceService->traces;
+ *   $traces = $cloudtraceService->projects_traces;
  *  </code>
  */
 class ProjectsTraces extends \Google\Service\Resource

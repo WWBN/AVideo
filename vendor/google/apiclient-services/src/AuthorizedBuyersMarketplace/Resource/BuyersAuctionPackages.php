@@ -29,7 +29,7 @@ use Google\Service\AuthorizedBuyersMarketplace\UnsubscribeClientsRequest;
  * Typical usage is:
  *  <code>
  *   $authorizedbuyersmarketplaceService = new Google\Service\AuthorizedBuyersMarketplace(...);
- *   $auctionPackages = $authorizedbuyersmarketplaceService->auctionPackages;
+ *   $auctionPackages = $authorizedbuyersmarketplaceService->buyers_auctionPackages;
  *  </code>
  */
 class BuyersAuctionPackages extends \Google\Service\Resource

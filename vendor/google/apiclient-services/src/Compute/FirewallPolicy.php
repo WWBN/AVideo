@@ -22,6 +22,7 @@ class FirewallPolicy extends \Google\Collection
   protected $collection_key = 'rules';
   protected $associationsType = FirewallPolicyAssociation::class;
   protected $associationsDataType = 'array';
+  public $associations;
   /**
    * @var string
    */
@@ -64,6 +65,7 @@ class FirewallPolicy extends \Google\Collection
   public $ruleTupleCount;
   protected $rulesType = FirewallPolicyRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
   /**
    * @var string
    */

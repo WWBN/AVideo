@@ -25,8 +25,10 @@ class AppsPeopleOzExternalMergedpeopleapiStructuredPhone extends \Google\Model
   public $formattedType;
   protected $phoneNumberType = AppsPeopleOzExternalMergedpeopleapiStructuredPhonePhoneNumber::class;
   protected $phoneNumberDataType = '';
+  public $phoneNumber;
   protected $shortCodeType = AppsPeopleOzExternalMergedpeopleapiStructuredPhoneShortCode::class;
   protected $shortCodeDataType = '';
+  public $shortCode;
   /**
    * @var string
    */

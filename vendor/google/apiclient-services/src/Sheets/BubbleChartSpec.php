@@ -21,10 +21,13 @@ class BubbleChartSpec extends \Google\Model
 {
   protected $bubbleBorderColorType = Color::class;
   protected $bubbleBorderColorDataType = '';
+  public $bubbleBorderColor;
   protected $bubbleBorderColorStyleType = ColorStyle::class;
   protected $bubbleBorderColorStyleDataType = '';
+  public $bubbleBorderColorStyle;
   protected $bubbleLabelsType = ChartData::class;
   protected $bubbleLabelsDataType = '';
+  public $bubbleLabels;
   /**
    * @var int
    */
@@ -39,18 +42,23 @@ class BubbleChartSpec extends \Google\Model
   public $bubbleOpacity;
   protected $bubbleSizesType = ChartData::class;
   protected $bubbleSizesDataType = '';
+  public $bubbleSizes;
   protected $bubbleTextStyleType = TextFormat::class;
   protected $bubbleTextStyleDataType = '';
+  public $bubbleTextStyle;
   protected $domainType = ChartData::class;
   protected $domainDataType = '';
+  public $domain;
   protected $groupIdsType = ChartData::class;
   protected $groupIdsDataType = '';
+  public $groupIds;
   /**
    * @var string
    */
   public $legendPosition;
   protected $seriesType = ChartData::class;
   protected $seriesDataType = '';
+  public $series;
 
   /**
    * @param Color

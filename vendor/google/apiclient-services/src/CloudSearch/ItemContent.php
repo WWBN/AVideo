@@ -21,6 +21,7 @@ class ItemContent extends \Google\Model
 {
   protected $contentDataRefType = UploadItemRef::class;
   protected $contentDataRefDataType = '';
+  public $contentDataRef;
   /**
    * @var string
    */

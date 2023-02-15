@@ -42,6 +42,7 @@ class GooglePlayDeveloperReportingV1beta1QueryAnrRateMetricSetRequest extends \G
   public $pageToken;
   protected $timelineSpecType = GooglePlayDeveloperReportingV1beta1TimelineSpec::class;
   protected $timelineSpecDataType = '';
+  public $timelineSpec;
 
   /**
    * @param string[]

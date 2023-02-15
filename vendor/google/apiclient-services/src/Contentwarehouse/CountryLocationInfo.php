@@ -21,6 +21,7 @@ class CountryLocationInfo extends \Google\Model
 {
   protected $centerType = GeostorePointProto::class;
   protected $centerDataType = '';
+  public $center;
   /**
    * @var string
    */
@@ -35,8 +36,10 @@ class CountryLocationInfo extends \Google\Model
   public $county;
   protected $enclosingStateFeatureIdType = GeostoreFeatureIdProto::class;
   protected $enclosingStateFeatureIdDataType = '';
+  public $enclosingStateFeatureId;
   protected $featureIdType = GeostoreFeatureIdProto::class;
   protected $featureIdDataType = '';
+  public $featureId;
   /**
    * @var string
    */

@@ -25,7 +25,7 @@ use Google\Service\SearchConsole\RunMobileFriendlyTestResponse;
  * Typical usage is:
  *  <code>
  *   $searchconsoleService = new Google\Service\SearchConsole(...);
- *   $mobileFriendlyTest = $searchconsoleService->mobileFriendlyTest;
+ *   $mobileFriendlyTest = $searchconsoleService->urlTestingTools_mobileFriendlyTest;
  *  </code>
  */
 class UrlTestingToolsMobileFriendlyTest extends \Google\Service\Resource

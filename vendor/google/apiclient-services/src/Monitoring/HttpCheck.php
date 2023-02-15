@@ -22,8 +22,10 @@ class HttpCheck extends \Google\Collection
   protected $collection_key = 'acceptedResponseStatusCodes';
   protected $acceptedResponseStatusCodesType = ResponseStatusCode::class;
   protected $acceptedResponseStatusCodesDataType = 'array';
+  public $acceptedResponseStatusCodes;
   protected $authInfoType = BasicAuthentication::class;
   protected $authInfoDataType = '';
+  public $authInfo;
   /**
    * @var string
    */
@@ -46,6 +48,7 @@ class HttpCheck extends \Google\Collection
   public $path;
   protected $pingConfigType = PingConfig::class;
   protected $pingConfigDataType = '';
+  public $pingConfig;
   /**
    * @var int
    */

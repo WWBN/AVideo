@@ -21,12 +21,14 @@ class Drive extends \Google\Model
 {
   protected $backgroundImageFileType = DriveBackgroundImageFile::class;
   protected $backgroundImageFileDataType = '';
+  public $backgroundImageFile;
   /**
    * @var string
    */
   public $backgroundImageLink;
   protected $capabilitiesType = DriveCapabilities::class;
   protected $capabilitiesDataType = '';
+  public $capabilities;
   /**
    * @var string
    */
@@ -57,6 +59,7 @@ class Drive extends \Google\Model
   public $orgUnitId;
   protected $restrictionsType = DriveRestrictions::class;
   protected $restrictionsDataType = '';
+  public $restrictions;
   /**
    * @var string
    */

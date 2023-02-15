@@ -21,6 +21,7 @@ class AddProtectedRangeRequest extends \Google\Model
 {
   protected $protectedRangeType = ProtectedRange::class;
   protected $protectedRangeDataType = '';
+  public $protectedRange;
 
   /**
    * @param ProtectedRange

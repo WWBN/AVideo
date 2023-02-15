@@ -26,7 +26,7 @@ use Google\Service\Contactcenterinsights\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $contactcenterinsightsService = new Google\Service\Contactcenterinsights(...);
- *   $phraseMatchers = $contactcenterinsightsService->phraseMatchers;
+ *   $phraseMatchers = $contactcenterinsightsService->projects_locations_phraseMatchers;
  *  </code>
  */
 class ProjectsLocationsPhraseMatchers extends \Google\Service\Resource

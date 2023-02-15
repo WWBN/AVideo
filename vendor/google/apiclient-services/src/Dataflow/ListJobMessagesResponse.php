@@ -22,8 +22,10 @@ class ListJobMessagesResponse extends \Google\Collection
   protected $collection_key = 'jobMessages';
   protected $autoscalingEventsType = AutoscalingEvent::class;
   protected $autoscalingEventsDataType = 'array';
+  public $autoscalingEvents;
   protected $jobMessagesType = JobMessage::class;
   protected $jobMessagesDataType = 'array';
+  public $jobMessages;
   /**
    * @var string
    */

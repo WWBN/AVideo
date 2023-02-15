@@ -25,6 +25,7 @@ class GridItem extends \Google\Model
   public $identifier;
   protected $imageType = ImageComponent::class;
   protected $imageDataType = '';
+  public $image;
   /**
    * @var string
    */

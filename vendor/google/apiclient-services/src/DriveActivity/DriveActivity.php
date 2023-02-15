@@ -22,14 +22,19 @@ class DriveActivity extends \Google\Collection
   protected $collection_key = 'targets';
   protected $actionsType = Action::class;
   protected $actionsDataType = 'array';
+  public $actions;
   protected $actorsType = Actor::class;
   protected $actorsDataType = 'array';
+  public $actors;
   protected $primaryActionDetailType = ActionDetail::class;
   protected $primaryActionDetailDataType = '';
+  public $primaryActionDetail;
   protected $targetsType = Target::class;
   protected $targetsDataType = 'array';
+  public $targets;
   protected $timeRangeType = TimeRange::class;
   protected $timeRangeDataType = '';
+  public $timeRange;
   /**
    * @var string
    */

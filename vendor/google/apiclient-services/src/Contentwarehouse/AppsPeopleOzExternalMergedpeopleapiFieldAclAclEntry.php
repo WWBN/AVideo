@@ -25,6 +25,7 @@ class AppsPeopleOzExternalMergedpeopleapiFieldAclAclEntry extends \Google\Model
   public $role;
   protected $scopeType = AppsPeopleOzExternalMergedpeopleapiFieldAclAclEntryScope::class;
   protected $scopeDataType = '';
+  public $scope;
 
   /**
    * @param string

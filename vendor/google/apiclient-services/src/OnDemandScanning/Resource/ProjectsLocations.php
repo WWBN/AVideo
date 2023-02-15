@@ -22,7 +22,7 @@ namespace Google\Service\OnDemandScanning\Resource;
  * Typical usage is:
  *  <code>
  *   $ondemandscanningService = new Google\Service\OnDemandScanning(...);
- *   $locations = $ondemandscanningService->locations;
+ *   $locations = $ondemandscanningService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

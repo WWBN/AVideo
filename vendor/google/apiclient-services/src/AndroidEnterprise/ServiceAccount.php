@@ -21,6 +21,7 @@ class ServiceAccount extends \Google\Model
 {
   protected $keyType = ServiceAccountKey::class;
   protected $keyDataType = '';
+  public $key;
   /**
    * @var string
    */

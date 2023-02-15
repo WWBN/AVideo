@@ -38,6 +38,7 @@ class Model extends \Google\Collection
   public $description;
   protected $encryptionConfigurationType = EncryptionConfiguration::class;
   protected $encryptionConfigurationDataType = '';
+  public $encryptionConfiguration;
   /**
    * @var string
    */
@@ -48,16 +49,20 @@ class Model extends \Google\Collection
   public $expirationTime;
   protected $featureColumnsType = StandardSqlField::class;
   protected $featureColumnsDataType = 'array';
+  public $featureColumns;
   /**
    * @var string
    */
   public $friendlyName;
   protected $hparamSearchSpacesType = HparamSearchSpaces::class;
   protected $hparamSearchSpacesDataType = '';
+  public $hparamSearchSpaces;
   protected $hparamTrialsType = HparamTuningTrial::class;
   protected $hparamTrialsDataType = 'array';
+  public $hparamTrials;
   protected $labelColumnsType = StandardSqlField::class;
   protected $labelColumnsDataType = 'array';
+  public $labelColumns;
   /**
    * @var string[]
    */
@@ -72,6 +77,7 @@ class Model extends \Google\Collection
   public $location;
   protected $modelReferenceType = ModelReference::class;
   protected $modelReferenceDataType = '';
+  public $modelReference;
   /**
    * @var string
    */
@@ -82,6 +88,7 @@ class Model extends \Google\Collection
   public $optimalTrialIds;
   protected $trainingRunsType = TrainingRun::class;
   protected $trainingRunsDataType = 'array';
+  public $trainingRuns;
 
   /**
    * @param string

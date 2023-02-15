@@ -22,18 +22,21 @@ class TransferDomainRequest extends \Google\Collection
   protected $collection_key = 'contactNotices';
   protected $authorizationCodeType = AuthorizationCode::class;
   protected $authorizationCodeDataType = '';
+  public $authorizationCode;
   /**
    * @var string[]
    */
   public $contactNotices;
   protected $registrationType = Registration::class;
   protected $registrationDataType = '';
+  public $registration;
   /**
    * @var bool
    */
   public $validateOnly;
   protected $yearlyPriceType = Money::class;
   protected $yearlyPriceDataType = '';
+  public $yearlyPrice;
 
   /**
    * @param AuthorizationCode

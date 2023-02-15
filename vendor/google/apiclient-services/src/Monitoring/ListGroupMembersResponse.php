@@ -22,6 +22,7 @@ class ListGroupMembersResponse extends \Google\Collection
   protected $collection_key = 'members';
   protected $membersType = MonitoredResource::class;
   protected $membersDataType = 'array';
+  public $members;
   /**
    * @var string
    */

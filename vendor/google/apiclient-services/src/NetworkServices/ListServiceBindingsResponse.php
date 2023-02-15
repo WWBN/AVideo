@@ -26,6 +26,7 @@ class ListServiceBindingsResponse extends \Google\Collection
   public $nextPageToken;
   protected $serviceBindingsType = ServiceBinding::class;
   protected $serviceBindingsDataType = 'array';
+  public $serviceBindings;
 
   /**
    * @param string

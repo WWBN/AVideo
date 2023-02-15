@@ -26,7 +26,7 @@ use Google\Service\VMMigrationService\UtilizationReport;
  * Typical usage is:
  *  <code>
  *   $vmmigrationService = new Google\Service\VMMigrationService(...);
- *   $utilizationReports = $vmmigrationService->utilizationReports;
+ *   $utilizationReports = $vmmigrationService->projects_locations_sources_utilizationReports;
  *  </code>
  */
 class ProjectsLocationsSourcesUtilizationReports extends \Google\Service\Resource

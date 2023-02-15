@@ -26,7 +26,7 @@ use Google\Service\TPU\TpuEmpty;
  * Typical usage is:
  *  <code>
  *   $tpuService = new Google\Service\TPU(...);
- *   $operations = $tpuService->operations;
+ *   $operations = $tpuService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

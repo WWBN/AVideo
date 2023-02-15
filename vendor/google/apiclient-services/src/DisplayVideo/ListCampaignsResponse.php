@@ -22,6 +22,7 @@ class ListCampaignsResponse extends \Google\Collection
   protected $collection_key = 'campaigns';
   protected $campaignsType = Campaign::class;
   protected $campaignsDataType = 'array';
+  public $campaigns;
   /**
    * @var string
    */

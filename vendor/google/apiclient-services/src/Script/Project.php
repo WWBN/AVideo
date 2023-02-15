@@ -25,8 +25,10 @@ class Project extends \Google\Model
   public $createTime;
   protected $creatorType = GoogleAppsScriptTypeUser::class;
   protected $creatorDataType = '';
+  public $creator;
   protected $lastModifyUserType = GoogleAppsScriptTypeUser::class;
   protected $lastModifyUserDataType = '';
+  public $lastModifyUser;
   /**
    * @var string
    */

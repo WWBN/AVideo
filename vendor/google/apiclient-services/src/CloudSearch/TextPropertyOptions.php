@@ -21,8 +21,10 @@ class TextPropertyOptions extends \Google\Model
 {
   protected $operatorOptionsType = TextOperatorOptions::class;
   protected $operatorOptionsDataType = '';
+  public $operatorOptions;
   protected $retrievalImportanceType = RetrievalImportance::class;
   protected $retrievalImportanceDataType = '';
+  public $retrievalImportance;
 
   /**
    * @param TextOperatorOptions

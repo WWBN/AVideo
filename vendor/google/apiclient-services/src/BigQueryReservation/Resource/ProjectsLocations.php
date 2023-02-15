@@ -26,7 +26,7 @@ use Google\Service\BigQueryReservation\SearchAssignmentsResponse;
  * Typical usage is:
  *  <code>
  *   $bigqueryreservationService = new Google\Service\BigQueryReservation(...);
- *   $locations = $bigqueryreservationService->locations;
+ *   $locations = $bigqueryreservationService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

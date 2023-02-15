@@ -25,7 +25,7 @@ use Google\Service\Monitoring\NotificationChannelDescriptor;
  * Typical usage is:
  *  <code>
  *   $monitoringService = new Google\Service\Monitoring(...);
- *   $notificationChannelDescriptors = $monitoringService->notificationChannelDescriptors;
+ *   $notificationChannelDescriptors = $monitoringService->projects_notificationChannelDescriptors;
  *  </code>
  */
 class ProjectsNotificationChannelDescriptors extends \Google\Service\Resource

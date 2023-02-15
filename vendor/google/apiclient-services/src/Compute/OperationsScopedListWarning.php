@@ -26,6 +26,7 @@ class OperationsScopedListWarning extends \Google\Collection
   public $code;
   protected $dataType = OperationsScopedListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

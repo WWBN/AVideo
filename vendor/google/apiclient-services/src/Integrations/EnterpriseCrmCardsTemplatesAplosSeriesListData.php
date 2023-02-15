@@ -22,6 +22,7 @@ class EnterpriseCrmCardsTemplatesAplosSeriesListData extends \Google\Collection
   protected $collection_key = 'series';
   protected $seriesType = EnterpriseCrmCardsTemplatesAplosSeriesListDataSeries::class;
   protected $seriesDataType = 'array';
+  public $series;
 
   /**
    * @param EnterpriseCrmCardsTemplatesAplosSeriesListDataSeries[]

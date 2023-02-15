@@ -30,12 +30,14 @@ class FloodlightConfiguration extends \Google\Collection
   public $advertiserId;
   protected $advertiserIdDimensionValueType = DimensionValue::class;
   protected $advertiserIdDimensionValueDataType = '';
+  public $advertiserIdDimensionValue;
   /**
    * @var bool
    */
   public $analyticsDataSharingEnabled;
   protected $customViewabilityMetricType = CustomViewabilityMetric::class;
   protected $customViewabilityMetricDataType = '';
+  public $customViewabilityMetric;
   /**
    * @var bool
    */
@@ -50,6 +52,7 @@ class FloodlightConfiguration extends \Google\Collection
   public $id;
   protected $idDimensionValueType = DimensionValue::class;
   protected $idDimensionValueDataType = '';
+  public $idDimensionValue;
   /**
    * @var bool
    */
@@ -60,22 +63,27 @@ class FloodlightConfiguration extends \Google\Collection
   public $kind;
   protected $lookbackConfigurationType = LookbackConfiguration::class;
   protected $lookbackConfigurationDataType = '';
+  public $lookbackConfiguration;
   /**
    * @var string
    */
   public $naturalSearchConversionAttributionOption;
   protected $omnitureSettingsType = OmnitureSettings::class;
   protected $omnitureSettingsDataType = '';
+  public $omnitureSettings;
   /**
    * @var string
    */
   public $subaccountId;
   protected $tagSettingsType = TagSettings::class;
   protected $tagSettingsDataType = '';
+  public $tagSettings;
   protected $thirdPartyAuthenticationTokensType = ThirdPartyAuthenticationToken::class;
   protected $thirdPartyAuthenticationTokensDataType = 'array';
+  public $thirdPartyAuthenticationTokens;
   protected $userDefinedVariableConfigurationsType = UserDefinedVariableConfiguration::class;
   protected $userDefinedVariableConfigurationsDataType = 'array';
+  public $userDefinedVariableConfigurations;
 
   /**
    * @param string

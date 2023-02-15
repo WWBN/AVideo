@@ -25,6 +25,7 @@ class AppsDynamiteSharedMessageIntegrationPayload extends \Google\Model
   public $projectNumber;
   protected $tasksMessageIntegrationPayloadType = AppsDynamiteSharedTasksMessageIntegrationPayload::class;
   protected $tasksMessageIntegrationPayloadDataType = '';
+  public $tasksMessageIntegrationPayload;
   /**
    * @var string
    */

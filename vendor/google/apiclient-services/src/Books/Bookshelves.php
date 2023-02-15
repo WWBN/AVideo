@@ -22,6 +22,7 @@ class Bookshelves extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Bookshelf::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

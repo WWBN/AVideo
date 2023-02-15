@@ -22,7 +22,7 @@ namespace Google\Service\Dataproc\Resource;
  * Typical usage is:
  *  <code>
  *   $dataprocService = new Google\Service\Dataproc(...);
- *   $regions = $dataprocService->regions;
+ *   $regions = $dataprocService->projects_regions;
  *  </code>
  */
 class ProjectsRegions extends \Google\Service\Resource

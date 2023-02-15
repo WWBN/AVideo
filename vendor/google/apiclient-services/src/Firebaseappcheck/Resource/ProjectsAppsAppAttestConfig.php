@@ -25,7 +25,7 @@ use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1BatchGetAppAttestCon
  * Typical usage is:
  *  <code>
  *   $firebaseappcheckService = new Google\Service\Firebaseappcheck(...);
- *   $appAttestConfig = $firebaseappcheckService->appAttestConfig;
+ *   $appAttestConfig = $firebaseappcheckService->projects_apps_appAttestConfig;
  *  </code>
  */
 class ProjectsAppsAppAttestConfig extends \Google\Service\Resource

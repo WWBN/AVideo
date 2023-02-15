@@ -22,6 +22,7 @@ class ListDockerImagesResponse extends \Google\Collection
   protected $collection_key = 'dockerImages';
   protected $dockerImagesType = DockerImage::class;
   protected $dockerImagesDataType = 'array';
+  public $dockerImages;
   /**
    * @var string
    */

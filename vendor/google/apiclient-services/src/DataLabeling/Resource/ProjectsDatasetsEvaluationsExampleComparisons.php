@@ -25,7 +25,7 @@ use Google\Service\DataLabeling\GoogleCloudDatalabelingV1beta1SearchExampleCompa
  * Typical usage is:
  *  <code>
  *   $datalabelingService = new Google\Service\DataLabeling(...);
- *   $exampleComparisons = $datalabelingService->exampleComparisons;
+ *   $exampleComparisons = $datalabelingService->projects_datasets_evaluations_exampleComparisons;
  *  </code>
  */
 class ProjectsDatasetsEvaluationsExampleComparisons extends \Google\Service\Resource

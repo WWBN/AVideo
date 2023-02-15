@@ -17,8 +17,13 @@
 
 namespace Google\Service\ServiceManagement;
 
-class Endpoint extends \Google\Model
+class Endpoint extends \Google\Collection
 {
+  protected $collection_key = 'aliases';
+  /**
+   * @var string[]
+   */
+  public $aliases;
   /**
    * @var bool
    */
@@ -32,6 +37,20 @@ class Endpoint extends \Google\Model
    */
   public $target;
 
+  /**
+   * @param string[]
+   */
+  public function setAliases($aliases)
+  {
+    $this->aliases = $aliases;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAliases()
+  {
+    return $this->aliases;
+  }
   /**
    * @param bool
    */

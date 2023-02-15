@@ -21,12 +21,14 @@ class TableCellBorder extends \Google\Model
 {
   protected $colorType = OptionalColor::class;
   protected $colorDataType = '';
+  public $color;
   /**
    * @var string
    */
   public $dashStyle;
   protected $widthType = Dimension::class;
   protected $widthDataType = '';
+  public $width;
 
   /**
    * @param OptionalColor

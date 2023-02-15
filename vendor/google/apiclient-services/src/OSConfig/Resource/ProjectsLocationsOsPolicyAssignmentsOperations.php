@@ -26,7 +26,7 @@ use Google\Service\OSConfig\OsconfigEmpty;
  * Typical usage is:
  *  <code>
  *   $osconfigService = new Google\Service\OSConfig(...);
- *   $operations = $osconfigService->operations;
+ *   $operations = $osconfigService->projects_locations_osPolicyAssignments_operations;
  *  </code>
  */
 class ProjectsLocationsOsPolicyAssignmentsOperations extends \Google\Service\Resource

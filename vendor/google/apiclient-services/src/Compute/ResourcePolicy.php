@@ -29,12 +29,14 @@ class ResourcePolicy extends \Google\Model
   public $description;
   protected $groupPlacementPolicyType = ResourcePolicyGroupPlacementPolicy::class;
   protected $groupPlacementPolicyDataType = '';
+  public $groupPlacementPolicy;
   /**
    * @var string
    */
   public $id;
   protected $instanceSchedulePolicyType = ResourcePolicyInstanceSchedulePolicy::class;
   protected $instanceSchedulePolicyDataType = '';
+  public $instanceSchedulePolicy;
   /**
    * @var string
    */
@@ -49,12 +51,14 @@ class ResourcePolicy extends \Google\Model
   public $region;
   protected $resourceStatusType = ResourcePolicyResourceStatus::class;
   protected $resourceStatusDataType = '';
+  public $resourceStatus;
   /**
    * @var string
    */
   public $selfLink;
   protected $snapshotSchedulePolicyType = ResourcePolicySnapshotSchedulePolicy::class;
   protected $snapshotSchedulePolicyDataType = '';
+  public $snapshotSchedulePolicy;
   /**
    * @var string
    */

@@ -26,6 +26,7 @@ class SubnetworkAggregatedList extends \Google\Collection
   public $id;
   protected $itemsType = SubnetworksScopedList::class;
   protected $itemsDataType = 'map';
+  public $items;
   /**
    * @var string
    */
@@ -44,6 +45,7 @@ class SubnetworkAggregatedList extends \Google\Collection
   public $unreachables;
   protected $warningType = SubnetworkAggregatedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

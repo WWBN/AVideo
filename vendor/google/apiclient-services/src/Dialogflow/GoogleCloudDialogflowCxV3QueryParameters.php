@@ -27,6 +27,10 @@ class GoogleCloudDialogflowCxV3QueryParameters extends \Google\Collection
   /**
    * @var string
    */
+  public $channel;
+  /**
+   * @var string
+   */
   public $currentPage;
   /**
    * @var bool
@@ -38,6 +42,7 @@ class GoogleCloudDialogflowCxV3QueryParameters extends \Google\Collection
   public $flowVersions;
   protected $geoLocationType = GoogleTypeLatLng::class;
   protected $geoLocationDataType = '';
+  public $geoLocation;
   /**
    * @var array[]
    */
@@ -48,6 +53,7 @@ class GoogleCloudDialogflowCxV3QueryParameters extends \Google\Collection
   public $payload;
   protected $sessionEntityTypesType = GoogleCloudDialogflowCxV3SessionEntityType::class;
   protected $sessionEntityTypesDataType = 'array';
+  public $sessionEntityTypes;
   /**
    * @var string
    */
@@ -70,6 +76,20 @@ class GoogleCloudDialogflowCxV3QueryParameters extends \Google\Collection
   public function getAnalyzeQueryTextSentiment()
   {
     return $this->analyzeQueryTextSentiment;
+  }
+  /**
+   * @param string
+   */
+  public function setChannel($channel)
+  {
+    $this->channel = $channel;
+  }
+  /**
+   * @return string
+   */
+  public function getChannel()
+  {
+    return $this->channel;
   }
   /**
    * @param string

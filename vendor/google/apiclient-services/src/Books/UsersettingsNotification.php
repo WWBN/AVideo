@@ -21,14 +21,19 @@ class UsersettingsNotification extends \Google\Model
 {
   protected $matchMyInterestsType = UsersettingsNotificationMatchMyInterests::class;
   protected $matchMyInterestsDataType = '';
+  public $matchMyInterests;
   protected $moreFromAuthorsType = UsersettingsNotificationMoreFromAuthors::class;
   protected $moreFromAuthorsDataType = '';
+  public $moreFromAuthors;
   protected $moreFromSeriesType = UsersettingsNotificationMoreFromSeries::class;
   protected $moreFromSeriesDataType = '';
+  public $moreFromSeries;
   protected $priceDropType = UsersettingsNotificationPriceDrop::class;
   protected $priceDropDataType = '';
+  public $priceDrop;
   protected $rewardExpirationsType = UsersettingsNotificationRewardExpirations::class;
   protected $rewardExpirationsDataType = '';
+  public $rewardExpirations;
 
   /**
    * @param UsersettingsNotificationMatchMyInterests

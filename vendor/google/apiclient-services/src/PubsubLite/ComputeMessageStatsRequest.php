@@ -21,12 +21,14 @@ class ComputeMessageStatsRequest extends \Google\Model
 {
   protected $endCursorType = Cursor::class;
   protected $endCursorDataType = '';
+  public $endCursor;
   /**
    * @var string
    */
   public $partition;
   protected $startCursorType = Cursor::class;
   protected $startCursorDataType = '';
+  public $startCursor;
 
   /**
    * @param Cursor

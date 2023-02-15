@@ -25,7 +25,7 @@ use Google\Service\Sasportal\SasPortalListDeploymentsResponse;
  * Typical usage is:
  *  <code>
  *   $sasportalService = new Google\Service\Sasportal(...);
- *   $deployments = $sasportalService->deployments;
+ *   $deployments = $sasportalService->nodes_nodes_deployments;
  *  </code>
  */
 class NodesNodesDeployments extends \Google\Service\Resource

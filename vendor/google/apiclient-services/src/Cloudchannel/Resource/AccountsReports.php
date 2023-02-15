@@ -26,7 +26,7 @@ use Google\Service\Cloudchannel\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $cloudchannelService = new Google\Service\Cloudchannel(...);
- *   $reports = $cloudchannelService->reports;
+ *   $reports = $cloudchannelService->accounts_reports;
  *  </code>
  */
 class AccountsReports extends \Google\Service\Resource

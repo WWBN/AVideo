@@ -24,14 +24,19 @@ class Categories extends \Google\Model
   ];
   protected $accessibilityType = LighthouseCategoryV5::class;
   protected $accessibilityDataType = '';
+  public $accessibility;
   protected $bestPracticesType = LighthouseCategoryV5::class;
   protected $bestPracticesDataType = '';
+  public $bestPractices;
   protected $performanceType = LighthouseCategoryV5::class;
   protected $performanceDataType = '';
+  public $performance;
   protected $pwaType = LighthouseCategoryV5::class;
   protected $pwaDataType = '';
+  public $pwa;
   protected $seoType = LighthouseCategoryV5::class;
   protected $seoDataType = '';
+  public $seo;
 
   /**
    * @param LighthouseCategoryV5

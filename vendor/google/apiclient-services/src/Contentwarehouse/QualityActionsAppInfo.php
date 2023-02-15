@@ -30,6 +30,7 @@ class QualityActionsAppInfo extends \Google\Collection
   public $appName;
   protected $categoryType = QualityActionsAppUnderstandingCategory::class;
   protected $categoryDataType = '';
+  public $category;
   /**
    * @var float
    */
@@ -52,6 +53,7 @@ class QualityActionsAppInfo extends \Google\Collection
   public $source;
   protected $sourceDataType = QualityActionsAppInfoSourceData::class;
   protected $sourceDataDataType = 'array';
+  public $sourceData;
 
   /**
    * @param string[]

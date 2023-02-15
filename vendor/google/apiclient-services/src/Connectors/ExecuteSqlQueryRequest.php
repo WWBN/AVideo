@@ -21,6 +21,7 @@ class ExecuteSqlQueryRequest extends \Google\Model
 {
   protected $queryType = Query::class;
   protected $queryDataType = '';
+  public $query;
 
   /**
    * @param Query

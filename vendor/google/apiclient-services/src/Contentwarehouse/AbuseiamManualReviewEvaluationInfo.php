@@ -21,8 +21,10 @@ class AbuseiamManualReviewEvaluationInfo extends \Google\Model
 {
   protected $reviewerType = AbuseiamManualReviewerInfo::class;
   protected $reviewerDataType = '';
+  public $reviewer;
   protected $toolType = AbuseiamManualReviewTool::class;
   protected $toolDataType = '';
+  public $tool;
 
   /**
    * @param AbuseiamManualReviewerInfo

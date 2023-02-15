@@ -26,8 +26,10 @@ class Subscription extends \Google\Collection
   public $archived;
   protected $basePlansType = BasePlan::class;
   protected $basePlansDataType = 'array';
+  public $basePlans;
   protected $listingsType = SubscriptionListing::class;
   protected $listingsDataType = 'array';
+  public $listings;
   /**
    * @var string
    */
@@ -38,6 +40,7 @@ class Subscription extends \Google\Collection
   public $productId;
   protected $taxAndComplianceSettingsType = SubscriptionTaxAndComplianceSettings::class;
   protected $taxAndComplianceSettingsDataType = '';
+  public $taxAndComplianceSettings;
 
   /**
    * @param bool

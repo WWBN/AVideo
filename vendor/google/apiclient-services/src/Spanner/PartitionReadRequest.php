@@ -30,14 +30,17 @@ class PartitionReadRequest extends \Google\Collection
   public $index;
   protected $keySetType = KeySet::class;
   protected $keySetDataType = '';
+  public $keySet;
   protected $partitionOptionsType = PartitionOptions::class;
   protected $partitionOptionsDataType = '';
+  public $partitionOptions;
   /**
    * @var string
    */
   public $table;
   protected $transactionType = TransactionSelector::class;
   protected $transactionDataType = '';
+  public $transaction;
 
   /**
    * @param string[]

@@ -25,7 +25,7 @@ use Google\Service\Apigee\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $apiproducts = $apigeeService->apiproducts;
+ *   $apiproducts = $apigeeService->organizations_developers_apps_keys_apiproducts;
  *  </code>
  */
 class OrganizationsDevelopersAppsKeysApiproducts extends \Google\Service\Resource

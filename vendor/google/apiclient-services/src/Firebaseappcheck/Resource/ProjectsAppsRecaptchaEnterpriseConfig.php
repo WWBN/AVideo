@@ -25,7 +25,7 @@ use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1RecaptchaEnterpriseC
  * Typical usage is:
  *  <code>
  *   $firebaseappcheckService = new Google\Service\Firebaseappcheck(...);
- *   $recaptchaEnterpriseConfig = $firebaseappcheckService->recaptchaEnterpriseConfig;
+ *   $recaptchaEnterpriseConfig = $firebaseappcheckService->projects_apps_recaptchaEnterpriseConfig;
  *  </code>
  */
 class ProjectsAppsRecaptchaEnterpriseConfig extends \Google\Service\Resource

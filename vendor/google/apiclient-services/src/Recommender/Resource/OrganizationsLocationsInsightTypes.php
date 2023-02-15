@@ -24,7 +24,7 @@ use Google\Service\Recommender\GoogleCloudRecommenderV1InsightTypeConfig;
  * Typical usage is:
  *  <code>
  *   $recommenderService = new Google\Service\Recommender(...);
- *   $insightTypes = $recommenderService->insightTypes;
+ *   $insightTypes = $recommenderService->organizations_locations_insightTypes;
  *  </code>
  */
 class OrganizationsLocationsInsightTypes extends \Google\Service\Resource

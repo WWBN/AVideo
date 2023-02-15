@@ -21,12 +21,14 @@ class AccountstatusesCustomBatchResponseEntry extends \Google\Model
 {
   protected $accountStatusType = AccountStatus::class;
   protected $accountStatusDataType = '';
+  public $accountStatus;
   /**
    * @var string
    */
   public $batchId;
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
+  public $errors;
 
   /**
    * @param AccountStatus

@@ -21,8 +21,10 @@ class DiagnosticMessage extends \Google\Model
 {
   protected $infoType = LocalizedString::class;
   protected $infoDataType = '';
+  public $info;
   protected $metricType = LocalizedString::class;
   protected $metricDataType = '';
+  public $metric;
   /**
    * @var bool
    */
@@ -33,6 +35,7 @@ class DiagnosticMessage extends \Google\Model
   public $severity;
   protected $shortMessageType = LocalizedString::class;
   protected $shortMessageDataType = '';
+  public $shortMessage;
 
   /**
    * @param LocalizedString

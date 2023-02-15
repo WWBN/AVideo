@@ -26,6 +26,7 @@ class ListScriptProcessesResponse extends \Google\Collection
   public $nextPageToken;
   protected $processesType = GoogleAppsScriptTypeProcess::class;
   protected $processesDataType = 'array';
+  public $processes;
 
   /**
    * @param string

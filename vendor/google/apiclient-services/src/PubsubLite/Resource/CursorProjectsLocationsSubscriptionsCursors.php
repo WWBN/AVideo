@@ -24,7 +24,7 @@ use Google\Service\PubsubLite\ListPartitionCursorsResponse;
  * Typical usage is:
  *  <code>
  *   $pubsubliteService = new Google\Service\PubsubLite(...);
- *   $cursors = $pubsubliteService->cursors;
+ *   $cursors = $pubsubliteService->cursor_projects_locations_subscriptions_cursors;
  *  </code>
  */
 class CursorProjectsLocationsSubscriptionsCursors extends \Google\Service\Resource

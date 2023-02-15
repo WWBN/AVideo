@@ -21,8 +21,10 @@ class GoogleCloudDialogflowCxV3beta1ConversationTurn extends \Google\Model
 {
   protected $userInputType = GoogleCloudDialogflowCxV3beta1ConversationTurnUserInput::class;
   protected $userInputDataType = '';
+  public $userInput;
   protected $virtualAgentOutputType = GoogleCloudDialogflowCxV3beta1ConversationTurnVirtualAgentOutput::class;
   protected $virtualAgentOutputDataType = '';
+  public $virtualAgentOutput;
 
   /**
    * @param GoogleCloudDialogflowCxV3beta1ConversationTurnUserInput

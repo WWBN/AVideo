@@ -25,7 +25,7 @@ use Google\Service\ArtifactRegistry\NpmPackage;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $npmPackages = $artifactregistryService->npmPackages;
+ *   $npmPackages = $artifactregistryService->projects_locations_repositories_npmPackages;
  *  </code>
  */
 class ProjectsLocationsRepositoriesNpmPackages extends \Google\Service\Resource

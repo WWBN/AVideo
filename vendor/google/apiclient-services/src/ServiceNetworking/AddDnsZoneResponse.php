@@ -21,8 +21,10 @@ class AddDnsZoneResponse extends \Google\Model
 {
   protected $consumerPeeringZoneType = DnsZone::class;
   protected $consumerPeeringZoneDataType = '';
+  public $consumerPeeringZone;
   protected $producerPrivateZoneType = DnsZone::class;
   protected $producerPrivateZoneDataType = '';
+  public $producerPrivateZone;
 
   /**
    * @param DnsZone

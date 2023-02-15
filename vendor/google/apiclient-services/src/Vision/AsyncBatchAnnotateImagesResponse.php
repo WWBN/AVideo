@@ -21,6 +21,7 @@ class AsyncBatchAnnotateImagesResponse extends \Google\Model
 {
   protected $outputConfigType = OutputConfig::class;
   protected $outputConfigDataType = '';
+  public $outputConfig;
 
   /**
    * @param OutputConfig

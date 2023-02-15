@@ -30,6 +30,7 @@ class ListSecretVersionsResponse extends \Google\Collection
   public $totalSize;
   protected $versionsType = SecretVersion::class;
   protected $versionsDataType = 'array';
+  public $versions;
 
   /**
    * @param string

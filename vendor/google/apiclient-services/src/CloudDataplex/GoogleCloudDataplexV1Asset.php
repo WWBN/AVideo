@@ -29,8 +29,10 @@ class GoogleCloudDataplexV1Asset extends \Google\Model
   public $description;
   protected $discoverySpecType = GoogleCloudDataplexV1AssetDiscoverySpec::class;
   protected $discoverySpecDataType = '';
+  public $discoverySpec;
   protected $discoveryStatusType = GoogleCloudDataplexV1AssetDiscoveryStatus::class;
   protected $discoveryStatusDataType = '';
+  public $discoveryStatus;
   /**
    * @var string
    */
@@ -45,10 +47,13 @@ class GoogleCloudDataplexV1Asset extends \Google\Model
   public $name;
   protected $resourceSpecType = GoogleCloudDataplexV1AssetResourceSpec::class;
   protected $resourceSpecDataType = '';
+  public $resourceSpec;
   protected $resourceStatusType = GoogleCloudDataplexV1AssetResourceStatus::class;
   protected $resourceStatusDataType = '';
+  public $resourceStatus;
   protected $securityStatusType = GoogleCloudDataplexV1AssetSecurityStatus::class;
   protected $securityStatusDataType = '';
+  public $securityStatus;
   /**
    * @var string
    */

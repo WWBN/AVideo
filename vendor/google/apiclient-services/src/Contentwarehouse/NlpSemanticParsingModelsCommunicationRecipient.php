@@ -21,12 +21,16 @@ class NlpSemanticParsingModelsCommunicationRecipient extends \Google\Model
 {
   protected $calendarEventType = AssistantApiCoreTypesCalendarEvent::class;
   protected $calendarEventDataType = '';
+  public $calendarEvent;
   protected $calendarEventWrapperType = AssistantApiCoreTypesCalendarEventWrapper::class;
   protected $calendarEventWrapperDataType = '';
+  public $calendarEventWrapper;
   protected $contactType = NlpSemanticParsingModelsPersonPerson::class;
   protected $contactDataType = '';
+  public $contact;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var bool
    */
@@ -49,6 +53,7 @@ class NlpSemanticParsingModelsCommunicationRecipient extends \Google\Model
   public $recipientType;
   protected $relationshipType = NlpSemanticParsingModelsCommunicationRelationshipArgument::class;
   protected $relationshipDataType = '';
+  public $relationship;
   /**
    * @var int
    */

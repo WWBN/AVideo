@@ -22,20 +22,26 @@ class WaterfallChartSeries extends \Google\Collection
   protected $collection_key = 'customSubtotals';
   protected $customSubtotalsType = WaterfallChartCustomSubtotal::class;
   protected $customSubtotalsDataType = 'array';
+  public $customSubtotals;
   protected $dataType = ChartData::class;
   protected $dataDataType = '';
+  public $data;
   protected $dataLabelType = DataLabel::class;
   protected $dataLabelDataType = '';
+  public $dataLabel;
   /**
    * @var bool
    */
   public $hideTrailingSubtotal;
   protected $negativeColumnsStyleType = WaterfallChartColumnStyle::class;
   protected $negativeColumnsStyleDataType = '';
+  public $negativeColumnsStyle;
   protected $positiveColumnsStyleType = WaterfallChartColumnStyle::class;
   protected $positiveColumnsStyleDataType = '';
+  public $positiveColumnsStyle;
   protected $subtotalColumnsStyleType = WaterfallChartColumnStyle::class;
   protected $subtotalColumnsStyleDataType = '';
+  public $subtotalColumnsStyle;
 
   /**
    * @param WaterfallChartCustomSubtotal[]

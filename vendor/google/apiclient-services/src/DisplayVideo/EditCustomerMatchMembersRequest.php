@@ -21,8 +21,10 @@ class EditCustomerMatchMembersRequest extends \Google\Model
 {
   protected $addedContactInfoListType = ContactInfoList::class;
   protected $addedContactInfoListDataType = '';
+  public $addedContactInfoList;
   protected $addedMobileDeviceIdListType = MobileDeviceIdList::class;
   protected $addedMobileDeviceIdListDataType = '';
+  public $addedMobileDeviceIdList;
   /**
    * @var string
    */

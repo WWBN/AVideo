@@ -41,7 +41,7 @@ use Google\Service\Container\UpdateMasterRequest;
  * Typical usage is:
  *  <code>
  *   $containerService = new Google\Service\Container(...);
- *   $clusters = $containerService->clusters;
+ *   $clusters = $containerService->projects_locations_clusters;
  *  </code>
  */
 class ProjectsLocationsClusters extends \Google\Service\Resource

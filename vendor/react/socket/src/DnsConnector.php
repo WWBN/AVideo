@@ -4,7 +4,7 @@ namespace React\Socket;
 
 use React\Dns\Resolver\ResolverInterface;
 use React\Promise;
-use React\Promise\CancellablePromiseInterface;
+use React\Promise\PromiseInterface;
 
 final class DnsConnector implements ConnectorInterface
 {
@@ -73,11 +73,11 @@ final class DnsConnector implements ConnectorInterface
 
                             // Exception trace arguments are not available on some PHP 7.4 installs
                             // @codeCoverageIgnoreStart
-                            foreach ($trace as &$one) {
+                            foreach ($trace as $ti => $one) {
                                 if (isset($one['args'])) {
-                                    foreach ($one['args'] as &$arg) {
+                                    foreach ($one['args'] as $ai => $arg) {
                                         if ($arg instanceof \Closure) {
-                                            $arg = 'Object(' . \get_class($arg) . ')';
+                                            $trace[$ti]['args'][$ai] = 'Object(' . \get_class($arg) . ')';
                                         }
                                     }
                                 }
@@ -103,7 +103,7 @@ final class DnsConnector implements ConnectorInterface
                 }
 
                 // (try to) cancel pending DNS lookup / connection attempt
-                if ($promise instanceof CancellablePromiseInterface) {
+                if ($promise instanceof PromiseInterface && \method_exists($promise, 'cancel')) {
                     // overwrite callback arguments for PHP7+ only, so they do not show
                     // up in the Exception trace and do not cause a possible cyclic reference.
                     $_ = $reject = null;

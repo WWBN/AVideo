@@ -26,7 +26,7 @@ use Google\Service\CloudComposer\Operation;
  * Typical usage is:
  *  <code>
  *   $composerService = new Google\Service\CloudComposer(...);
- *   $operations = $composerService->operations;
+ *   $operations = $composerService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

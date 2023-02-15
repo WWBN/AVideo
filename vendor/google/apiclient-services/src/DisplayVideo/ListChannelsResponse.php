@@ -22,6 +22,7 @@ class ListChannelsResponse extends \Google\Collection
   protected $collection_key = 'channels';
   protected $channelsType = Channel::class;
   protected $channelsDataType = 'array';
+  public $channels;
   /**
    * @var string
    */

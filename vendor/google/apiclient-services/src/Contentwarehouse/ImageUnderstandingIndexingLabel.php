@@ -30,6 +30,7 @@ class ImageUnderstandingIndexingLabel extends \Google\Collection
   public $entityId;
   protected $metaDataType = ImageUnderstandingIndexingMetaData::class;
   protected $metaDataDataType = 'array';
+  public $metaData;
   /**
    * @var float
    */

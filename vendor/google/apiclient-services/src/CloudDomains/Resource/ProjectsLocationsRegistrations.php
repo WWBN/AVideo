@@ -43,7 +43,7 @@ use Google\Service\CloudDomains\TransferDomainRequest;
  * Typical usage is:
  *  <code>
  *   $domainsService = new Google\Service\CloudDomains(...);
- *   $registrations = $domainsService->registrations;
+ *   $registrations = $domainsService->projects_locations_registrations;
  *  </code>
  */
 class ProjectsLocationsRegistrations extends \Google\Service\Resource

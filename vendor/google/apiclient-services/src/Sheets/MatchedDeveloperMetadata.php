@@ -22,8 +22,10 @@ class MatchedDeveloperMetadata extends \Google\Collection
   protected $collection_key = 'dataFilters';
   protected $dataFiltersType = DataFilter::class;
   protected $dataFiltersDataType = 'array';
+  public $dataFilters;
   protected $developerMetadataType = DeveloperMetadata::class;
   protected $developerMetadataDataType = '';
+  public $developerMetadata;
 
   /**
    * @param DataFilter[]

@@ -22,14 +22,17 @@ class GoogleSecuritySafebrowsingV4FindFullHashesRequest extends \Google\Collecti
   protected $collection_key = 'clientStates';
   protected $apiClientType = GoogleSecuritySafebrowsingV4ClientInfo::class;
   protected $apiClientDataType = '';
+  public $apiClient;
   protected $clientType = GoogleSecuritySafebrowsingV4ClientInfo::class;
   protected $clientDataType = '';
+  public $client;
   /**
    * @var string[]
    */
   public $clientStates;
   protected $threatInfoType = GoogleSecuritySafebrowsingV4ThreatInfo::class;
   protected $threatInfoDataType = '';
+  public $threatInfo;
 
   /**
    * @param GoogleSecuritySafebrowsingV4ClientInfo

@@ -27,7 +27,7 @@ use Google\Service\MyBusinessQA\UpsertAnswerRequest;
  * Typical usage is:
  *  <code>
  *   $mybusinessqandaService = new Google\Service\MyBusinessQA(...);
- *   $answers = $mybusinessqandaService->answers;
+ *   $answers = $mybusinessqandaService->locations_questions_answers;
  *  </code>
  */
 class LocationsQuestionsAnswers extends \Google\Service\Resource

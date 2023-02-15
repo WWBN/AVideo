@@ -22,22 +22,27 @@ class GoogleAppsCardV1Card extends \Google\Collection
   protected $collection_key = 'sections';
   protected $cardActionsType = GoogleAppsCardV1CardAction::class;
   protected $cardActionsDataType = 'array';
+  public $cardActions;
   /**
    * @var string
    */
   public $displayStyle;
   protected $fixedFooterType = GoogleAppsCardV1CardFixedFooter::class;
   protected $fixedFooterDataType = '';
+  public $fixedFooter;
   protected $headerType = GoogleAppsCardV1CardHeader::class;
   protected $headerDataType = '';
+  public $header;
   /**
    * @var string
    */
   public $name;
   protected $peekCardHeaderType = GoogleAppsCardV1CardHeader::class;
   protected $peekCardHeaderDataType = '';
+  public $peekCardHeader;
   protected $sectionsType = GoogleAppsCardV1Section::class;
   protected $sectionsDataType = 'array';
+  public $sections;
 
   /**
    * @param GoogleAppsCardV1CardAction[]

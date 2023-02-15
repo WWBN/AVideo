@@ -22,38 +22,51 @@ class AssistantLogsDeviceSelectionLog extends \Google\Collection
   protected $collection_key = 'testCodes';
   protected $allDefaultDevicesType = AssistantLogsDefaultDeviceLog::class;
   protected $allDefaultDevicesDataType = 'array';
+  public $allDefaultDevices;
   protected $allMediaStreamLogType = AssistantLogsAllMediaStreamLog::class;
   protected $allMediaStreamLogDataType = '';
+  public $allMediaStreamLog;
   protected $counterfactualDeviceSelectionLogType = AssistantLogsDeviceSelectionLog::class;
   protected $counterfactualDeviceSelectionLogDataType = '';
+  public $counterfactualDeviceSelectionLog;
   protected $defaultDevicesType = AssistantLogsDefaultDeviceLog::class;
   protected $defaultDevicesDataType = '';
+  public $defaultDevices;
   protected $defaultDevicesLogType = AssistantLogsDefaultDevicesLog::class;
   protected $defaultDevicesLogDataType = '';
+  public $defaultDevicesLog;
   /**
    * @var string[]
    */
   public $devicesStr;
   protected $inputErrorLogType = AssistantLogsInputErrorLog::class;
   protected $inputErrorLogDataType = 'array';
+  public $inputErrorLog;
   protected $localDeviceType = AssistantLogsDeviceInfoLog::class;
   protected $localDeviceDataType = '';
+  public $localDevice;
   /**
    * @var string
    */
   public $logDataSource;
   protected $mediaFocusType = AssistantLogsMediaFocusInfoLog::class;
   protected $mediaFocusDataType = '';
+  public $mediaFocus;
   protected $mediaFocusesLogType = AssistantLogsMediaFocusesLog::class;
   protected $mediaFocusesLogDataType = '';
+  public $mediaFocusesLog;
   protected $nearbyDevicesLogType = AssistantLogsNearbyDevicesLog::class;
   protected $nearbyDevicesLogDataType = '';
+  public $nearbyDevicesLog;
   protected $queryAnnotationType = AssistantLogsQueryAnnotationLog::class;
   protected $queryAnnotationDataType = '';
+  public $queryAnnotation;
   protected $selectionResultType = AssistantLogsDeviceSelectionResultLog::class;
   protected $selectionResultDataType = '';
+  public $selectionResult;
   protected $testCodesType = AssistantLogsDeviceTargetingTestCode::class;
   protected $testCodesDataType = 'array';
+  public $testCodes;
 
   /**
    * @param AssistantLogsDefaultDeviceLog[]

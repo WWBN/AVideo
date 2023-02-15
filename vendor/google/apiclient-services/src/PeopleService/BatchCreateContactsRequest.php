@@ -22,6 +22,7 @@ class BatchCreateContactsRequest extends \Google\Collection
   protected $collection_key = 'sources';
   protected $contactsType = ContactToCreate::class;
   protected $contactsDataType = 'array';
+  public $contacts;
   /**
    * @var string
    */

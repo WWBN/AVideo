@@ -22,12 +22,16 @@ class SlsaProvenance extends \Google\Collection
   protected $collection_key = 'materials';
   protected $builderType = SlsaBuilder::class;
   protected $builderDataType = '';
+  public $builder;
   protected $materialsType = Material::class;
   protected $materialsDataType = 'array';
+  public $materials;
   protected $metadataType = SlsaMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $recipeType = SlsaRecipe::class;
   protected $recipeDataType = '';
+  public $recipe;
 
   /**
    * @param SlsaBuilder

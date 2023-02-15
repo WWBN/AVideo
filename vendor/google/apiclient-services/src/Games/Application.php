@@ -30,12 +30,14 @@ class Application extends \Google\Collection
   public $achievementCount;
   protected $assetsType = ImageAsset::class;
   protected $assetsDataType = 'array';
+  public $assets;
   /**
    * @var string
    */
   public $author;
   protected $categoryType = ApplicationCategory::class;
   protected $categoryDataType = '';
+  public $category;
   /**
    * @var string
    */
@@ -50,6 +52,7 @@ class Application extends \Google\Collection
   public $id;
   protected $instancesType = Instance::class;
   protected $instancesDataType = 'array';
+  public $instances;
   /**
    * @var string
    */

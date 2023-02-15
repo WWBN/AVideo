@@ -25,7 +25,7 @@ use Google\Service\VMMigrationService\ReplicationCycle;
  * Typical usage is:
  *  <code>
  *   $vmmigrationService = new Google\Service\VMMigrationService(...);
- *   $replicationCycles = $vmmigrationService->replicationCycles;
+ *   $replicationCycles = $vmmigrationService->projects_locations_sources_migratingVms_replicationCycles;
  *  </code>
  */
 class ProjectsLocationsSourcesMigratingVmsReplicationCycles extends \Google\Service\Resource

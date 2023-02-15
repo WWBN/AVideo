@@ -34,6 +34,7 @@ class WriteResponse extends \Google\Collection
   public $streamToken;
   protected $writeResultsType = WriteResult::class;
   protected $writeResultsDataType = 'array';
+  public $writeResults;
 
   /**
    * @param string

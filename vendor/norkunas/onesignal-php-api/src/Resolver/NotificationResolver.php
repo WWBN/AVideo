@@ -39,6 +39,8 @@ class NotificationResolver implements ResolverInterface
             ->setAllowedTypes('isIos', 'bool')
             ->setDefined('isAndroid')
             ->setAllowedTypes('isAndroid', 'bool')
+            ->setDefined('isHuawei')
+            ->setAllowedTypes('isHuawei', 'bool')
             ->setDefined('isWP')
             ->setAllowedTypes('isWP', 'bool')
             ->setDefined('isWP_WNS')

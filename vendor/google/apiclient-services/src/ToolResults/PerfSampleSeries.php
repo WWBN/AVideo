@@ -21,6 +21,7 @@ class PerfSampleSeries extends \Google\Model
 {
   protected $basicPerfSampleSeriesType = BasicPerfSampleSeries::class;
   protected $basicPerfSampleSeriesDataType = '';
+  public $basicPerfSampleSeries;
   /**
    * @var string
    */

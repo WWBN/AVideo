@@ -21,6 +21,7 @@ class SourceOperationRequest extends \Google\Model
 {
   protected $getMetadataType = SourceGetMetadataRequest::class;
   protected $getMetadataDataType = '';
+  public $getMetadata;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class SourceOperationRequest extends \Google\Model
   public $originalName;
   protected $splitType = SourceSplitRequest::class;
   protected $splitDataType = '';
+  public $split;
   /**
    * @var string
    */

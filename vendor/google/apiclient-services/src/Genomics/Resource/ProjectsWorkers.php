@@ -25,7 +25,7 @@ use Google\Service\Genomics\CheckInResponse;
  * Typical usage is:
  *  <code>
  *   $genomicsService = new Google\Service\Genomics(...);
- *   $workers = $genomicsService->workers;
+ *   $workers = $genomicsService->projects_workers;
  *  </code>
  */
 class ProjectsWorkers extends \Google\Service\Resource

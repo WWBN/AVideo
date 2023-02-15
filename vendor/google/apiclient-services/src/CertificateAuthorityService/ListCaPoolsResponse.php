@@ -22,6 +22,7 @@ class ListCaPoolsResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $caPoolsType = CaPool::class;
   protected $caPoolsDataType = 'array';
+  public $caPools;
   /**
    * @var string
    */

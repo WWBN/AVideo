@@ -24,7 +24,7 @@ use Google\Service\CloudTalentSolution\Operation;
  * Typical usage is:
  *  <code>
  *   $jobsService = new Google\Service\CloudTalentSolution(...);
- *   $operations = $jobsService->operations;
+ *   $operations = $jobsService->projects_operations;
  *  </code>
  */
 class ProjectsOperations extends \Google\Service\Resource

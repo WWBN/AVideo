@@ -38,6 +38,7 @@ class ManufacturerCenter extends \Google\Service
   const MANUFACTURERCENTER =
       "https://www.googleapis.com/auth/manufacturercenter";
 
+  public $accounts_languages_productCertifications;
   public $accounts_products;
 
   /**
@@ -56,6 +57,68 @@ class ManufacturerCenter extends \Google\Service
     $this->version = 'v1';
     $this->serviceName = 'manufacturers';
 
+    $this->accounts_languages_productCertifications = new ManufacturerCenter\Resource\AccountsLanguagesProductCertifications(
+        $this,
+        $this->serviceName,
+        'productCertifications',
+        [
+          'methods' => [
+            'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/productCertifications',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->accounts_products = new ManufacturerCenter\Resource\AccountsProducts(
         $this,
         $this->serviceName,

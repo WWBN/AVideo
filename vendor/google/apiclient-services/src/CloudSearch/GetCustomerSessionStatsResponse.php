@@ -22,6 +22,7 @@ class GetCustomerSessionStatsResponse extends \Google\Collection
   protected $collection_key = 'stats';
   protected $statsType = CustomerSessionStats::class;
   protected $statsDataType = 'array';
+  public $stats;
 
   /**
    * @param CustomerSessionStats[]

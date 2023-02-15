@@ -22,12 +22,14 @@ class NlpSemanticParsingModelsShoppingAssistantMerchant extends \Google\Collecti
   protected $collection_key = 'merchantId';
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var string
    */
   public $localMerchantId;
   protected $mcidType = NlpSemanticParsingModelsShoppingAssistantMerchantMerchantCenterId::class;
   protected $mcidDataType = 'array';
+  public $mcid;
   /**
    * @var string[]
    */

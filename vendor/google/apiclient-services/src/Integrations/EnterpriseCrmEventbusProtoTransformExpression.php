@@ -22,8 +22,10 @@ class EnterpriseCrmEventbusProtoTransformExpression extends \Google\Collection
   protected $collection_key = 'transformationFunctions';
   protected $initialValueType = EnterpriseCrmEventbusProtoBaseValue::class;
   protected $initialValueDataType = '';
+  public $initialValue;
   protected $transformationFunctionsType = EnterpriseCrmEventbusProtoFunction::class;
   protected $transformationFunctionsDataType = 'array';
+  public $transformationFunctions;
 
   /**
    * @param EnterpriseCrmEventbusProtoBaseValue

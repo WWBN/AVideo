@@ -21,6 +21,7 @@ class CropHint extends \Google\Model
 {
   protected $boundingPolyType = BoundingPoly::class;
   protected $boundingPolyDataType = '';
+  public $boundingPoly;
   /**
    * @var float
    */

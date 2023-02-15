@@ -20,7 +20,7 @@ namespace Google\Service;
 use Google\Client;
 
 /**
- * Service definition for Iam (v1).
+ * Service definition for Iam (v2).
  *
  * <p>
  * Manages identity and access control for Google Cloud Platform resources,
@@ -40,22 +40,8 @@ class Iam extends \Google\Service
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
 
-  public $iamPolicies;
-  public $locations_workforcePools_operations;
-  public $locations_workforcePools_providers_keys_operations;
-  public $locations_workforcePools_providers_operations;
-  public $locations_workforcePools_subjects_operations;
-  public $organizations_roles;
-  public $permissions;
-  public $projects_locations_workloadIdentityPools;
-  public $projects_locations_workloadIdentityPools_operations;
-  public $projects_locations_workloadIdentityPools_providers;
-  public $projects_locations_workloadIdentityPools_providers_keys_operations;
-  public $projects_locations_workloadIdentityPools_providers_operations;
-  public $projects_roles;
-  public $projects_serviceAccounts;
-  public $projects_serviceAccounts_keys;
-  public $roles;
+  public $policies;
+  public $policies_operations;
 
   /**
    * Constructs the internal representation of the Iam service.
@@ -70,115 +56,17 @@ class Iam extends \Google\Service
     $this->rootUrl = $rootUrl ?: 'https://iam.googleapis.com/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
-    $this->version = 'v1';
+    $this->version = 'v2';
     $this->serviceName = 'iam';
 
-    $this->iamPolicies = new Iam\Resource\IamPolicies(
+    $this->policies = new Iam\Resource\Policies(
         $this,
         $this->serviceName,
-        'iamPolicies',
+        'policies',
         [
           'methods' => [
-            'lintPolicy' => [
-              'path' => 'v1/iamPolicies:lintPolicy',
-              'httpMethod' => 'POST',
-              'parameters' => [],
-            ],'queryAuditableServices' => [
-              'path' => 'v1/iamPolicies:queryAuditableServices',
-              'httpMethod' => 'POST',
-              'parameters' => [],
-            ],
-          ]
-        ]
-    );
-    $this->locations_workforcePools_operations = new Iam\Resource\LocationsWorkforcePoolsOperations(
-        $this,
-        $this->serviceName,
-        'operations',
-        [
-          'methods' => [
-            'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->locations_workforcePools_providers_keys_operations = new Iam\Resource\LocationsWorkforcePoolsProvidersKeysOperations(
-        $this,
-        $this->serviceName,
-        'operations',
-        [
-          'methods' => [
-            'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->locations_workforcePools_providers_operations = new Iam\Resource\LocationsWorkforcePoolsProvidersOperations(
-        $this,
-        $this->serviceName,
-        'operations',
-        [
-          'methods' => [
-            'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->locations_workforcePools_subjects_operations = new Iam\Resource\LocationsWorkforcePoolsSubjectsOperations(
-        $this,
-        $this->serviceName,
-        'operations',
-        [
-          'methods' => [
-            'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->organizations_roles = new Iam\Resource\OrganizationsRoles(
-        $this,
-        $this->serviceName,
-        'roles',
-        [
-          'methods' => [
-            'create' => [
-              'path' => 'v1/{+parent}/roles',
+            'createPolicy' => [
+              'path' => 'v2/{+parent}',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -186,9 +74,13 @@ class Iam extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'policyId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'delete' => [
-              'path' => 'v1/{+name}',
+              'path' => 'v2/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -202,7 +94,7 @@ class Iam extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1/{+name}',
+              'path' => 'v2/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -211,116 +103,8 @@ class Iam extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'list' => [
-              'path' => 'v1/{+parent}/roles',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'showDeleted' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
-                'view' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'patch' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'updateMask' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'undelete' => [
-              'path' => 'v1/{+name}:undelete',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->permissions = new Iam\Resource\Permissions(
-        $this,
-        $this->serviceName,
-        'permissions',
-        [
-          'methods' => [
-            'queryTestablePermissions' => [
-              'path' => 'v1/permissions:queryTestablePermissions',
-              'httpMethod' => 'POST',
-              'parameters' => [],
-            ],
-          ]
-        ]
-    );
-    $this->projects_locations_workloadIdentityPools = new Iam\Resource\ProjectsLocationsWorkloadIdentityPools(
-        $this,
-        $this->serviceName,
-        'workloadIdentityPools',
-        [
-          'methods' => [
-            'create' => [
-              'path' => 'v1/{+parent}/workloadIdentityPools',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'workloadIdentityPoolId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'delete' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'list' => [
-              'path' => 'v1/{+parent}/workloadIdentityPools',
+            ],'listPolicies' => [
+              'path' => 'v2/{+parent}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -335,434 +119,10 @@ class Iam extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
-                ],
-                'showDeleted' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
-              ],
-            ],'patch' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'updateMask' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'undelete' => [
-              'path' => 'v1/{+name}:undelete',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->projects_locations_workloadIdentityPools_operations = new Iam\Resource\ProjectsLocationsWorkloadIdentityPoolsOperations(
-        $this,
-        $this->serviceName,
-        'operations',
-        [
-          'methods' => [
-            'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->projects_locations_workloadIdentityPools_providers = new Iam\Resource\ProjectsLocationsWorkloadIdentityPoolsProviders(
-        $this,
-        $this->serviceName,
-        'providers',
-        [
-          'methods' => [
-            'create' => [
-              'path' => 'v1/{+parent}/providers',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'workloadIdentityPoolProviderId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'delete' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'list' => [
-              'path' => 'v1/{+parent}/providers',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'showDeleted' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
-              ],
-            ],'patch' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'updateMask' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'undelete' => [
-              'path' => 'v1/{+name}:undelete',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->projects_locations_workloadIdentityPools_providers_keys_operations = new Iam\Resource\ProjectsLocationsWorkloadIdentityPoolsProvidersKeysOperations(
-        $this,
-        $this->serviceName,
-        'operations',
-        [
-          'methods' => [
-            'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->projects_locations_workloadIdentityPools_providers_operations = new Iam\Resource\ProjectsLocationsWorkloadIdentityPoolsProvidersOperations(
-        $this,
-        $this->serviceName,
-        'operations',
-        [
-          'methods' => [
-            'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->projects_roles = new Iam\Resource\ProjectsRoles(
-        $this,
-        $this->serviceName,
-        'roles',
-        [
-          'methods' => [
-            'create' => [
-              'path' => 'v1/{+parent}/roles',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'delete' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'etag' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'list' => [
-              'path' => 'v1/{+parent}/roles',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'showDeleted' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
-                'view' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'patch' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'updateMask' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'undelete' => [
-              'path' => 'v1/{+name}:undelete',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->projects_serviceAccounts = new Iam\Resource\ProjectsServiceAccounts(
-        $this,
-        $this->serviceName,
-        'serviceAccounts',
-        [
-          'methods' => [
-            'create' => [
-              'path' => 'v1/{+name}/serviceAccounts',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'delete' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'disable' => [
-              'path' => 'v1/{+name}:disable',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'enable' => [
-              'path' => 'v1/{+name}:enable',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'getIamPolicy' => [
-              'path' => 'v1/{+resource}:getIamPolicy',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'options.requestedPolicyVersion' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-              ],
-            ],'list' => [
-              'path' => 'v1/{+name}/serviceAccounts',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'patch' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'setIamPolicy' => [
-              'path' => 'v1/{+resource}:setIamPolicy',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'signBlob' => [
-              'path' => 'v1/{+name}:signBlob',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'signJwt' => [
-              'path' => 'v1/{+name}:signJwt',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'testIamPermissions' => [
-              'path' => 'v1/{+resource}:testIamPermissions',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'undelete' => [
-              'path' => 'v1/{+name}:undelete',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
                 ],
               ],
             ],'update' => [
-              'path' => 'v1/{+name}',
+              'path' => 'v2/{+name}',
               'httpMethod' => 'PUT',
               'parameters' => [
                 'name' => [
@@ -775,103 +135,14 @@ class Iam extends \Google\Service
           ]
         ]
     );
-    $this->projects_serviceAccounts_keys = new Iam\Resource\ProjectsServiceAccountsKeys(
+    $this->policies_operations = new Iam\Resource\PoliciesOperations(
         $this,
         $this->serviceName,
-        'keys',
-        [
-          'methods' => [
-            'create' => [
-              'path' => 'v1/{+name}/keys',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'delete' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'disable' => [
-              'path' => 'v1/{+name}:disable',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'enable' => [
-              'path' => 'v1/{+name}:enable',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
-              'path' => 'v1/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'publicKeyType' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'list' => [
-              'path' => 'v1/{+name}/keys',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'keyTypes' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                  'repeated' => true,
-                ],
-              ],
-            ],'upload' => [
-              'path' => 'v1/{+name}/keys:upload',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->roles = new Iam\Resource\Roles(
-        $this,
-        $this->serviceName,
-        'roles',
+        'operations',
         [
           'methods' => [
             'get' => [
-              'path' => 'v1/{+name}',
+              'path' => 'v2/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -880,35 +151,6 @@ class Iam extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'list' => [
-              'path' => 'v1/roles',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'parent' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'showDeleted' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
-                'view' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'queryGrantableRoles' => [
-              'path' => 'v1/roles:queryGrantableRoles',
-              'httpMethod' => 'POST',
-              'parameters' => [],
             ],
           ]
         ]

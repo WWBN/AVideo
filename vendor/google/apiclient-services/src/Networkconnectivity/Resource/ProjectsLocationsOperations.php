@@ -27,7 +27,7 @@ use Google\Service\Networkconnectivity\NetworkconnectivityEmpty;
  * Typical usage is:
  *  <code>
  *   $networkconnectivityService = new Google\Service\Networkconnectivity(...);
- *   $operations = $networkconnectivityService->operations;
+ *   $operations = $networkconnectivityService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

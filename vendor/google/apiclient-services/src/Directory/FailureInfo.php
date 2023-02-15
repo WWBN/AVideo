@@ -29,6 +29,7 @@ class FailureInfo extends \Google\Model
   public $errorMessage;
   protected $printerType = Printer::class;
   protected $printerDataType = '';
+  public $printer;
   /**
    * @var string
    */

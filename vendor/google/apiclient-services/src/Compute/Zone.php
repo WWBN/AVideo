@@ -30,6 +30,7 @@ class Zone extends \Google\Collection
   public $creationTimestamp;
   protected $deprecatedType = DeprecationStatus::class;
   protected $deprecatedDataType = '';
+  public $deprecated;
   /**
    * @var string
    */

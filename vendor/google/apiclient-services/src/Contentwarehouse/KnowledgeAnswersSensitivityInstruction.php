@@ -21,16 +21,20 @@ class KnowledgeAnswersSensitivityInstruction extends \Google\Model
 {
   protected $argumentType = KnowledgeAnswersSensitivityInstructionArgument::class;
   protected $argumentDataType = '';
+  public $argument;
   protected $intentType = KnowledgeAnswersSensitivityInstructionIntent::class;
   protected $intentDataType = '';
+  public $intent;
   protected $legacyAssistantSensitivityType = SearchPolicyRankableSensitivity::class;
   protected $legacyAssistantSensitivityDataType = '';
+  public $legacyAssistantSensitivity;
   /**
    * @var bool
    */
   public $multiAccountAllowed;
   protected $previousQueryType = KnowledgeAnswersSensitivityInstructionPreviousQuery::class;
   protected $previousQueryDataType = '';
+  public $previousQuery;
 
   /**
    * @param KnowledgeAnswersSensitivityInstructionArgument

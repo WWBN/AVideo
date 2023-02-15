@@ -30,6 +30,7 @@ class ReturnaddressListResponse extends \Google\Collection
   public $nextPageToken;
   protected $resourcesType = ReturnAddress::class;
   protected $resourcesDataType = 'array';
+  public $resources;
 
   /**
    * @param string

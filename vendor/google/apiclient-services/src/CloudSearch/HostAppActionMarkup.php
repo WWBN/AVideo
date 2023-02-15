@@ -21,16 +21,22 @@ class HostAppActionMarkup extends \Google\Model
 {
   protected $calendarActionType = CalendarClientActionMarkup::class;
   protected $calendarActionDataType = '';
+  public $calendarAction;
   protected $chatActionType = ChatClientActionMarkup::class;
   protected $chatActionDataType = '';
+  public $chatAction;
   protected $driveActionType = DriveClientActionMarkup::class;
   protected $driveActionDataType = '';
+  public $driveAction;
   protected $editorActionType = EditorClientActionMarkup::class;
   protected $editorActionDataType = '';
+  public $editorAction;
   protected $gmailActionType = GmailClientActionMarkup::class;
   protected $gmailActionDataType = '';
+  public $gmailAction;
   protected $sheetsActionType = SheetsClientActionMarkup::class;
   protected $sheetsActionDataType = '';
+  public $sheetsAction;
 
   /**
    * @param CalendarClientActionMarkup

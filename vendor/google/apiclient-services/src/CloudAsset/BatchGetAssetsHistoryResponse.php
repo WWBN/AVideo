@@ -22,6 +22,7 @@ class BatchGetAssetsHistoryResponse extends \Google\Collection
   protected $collection_key = 'assets';
   protected $assetsType = TemporalAsset::class;
   protected $assetsDataType = 'array';
+  public $assets;
 
   /**
    * @param TemporalAsset[]

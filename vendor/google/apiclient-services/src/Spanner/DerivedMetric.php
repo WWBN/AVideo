@@ -21,8 +21,10 @@ class DerivedMetric extends \Google\Model
 {
   protected $denominatorType = LocalizedString::class;
   protected $denominatorDataType = '';
+  public $denominator;
   protected $numeratorType = LocalizedString::class;
   protected $numeratorDataType = '';
+  public $numerator;
 
   /**
    * @param LocalizedString

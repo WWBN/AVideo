@@ -26,7 +26,7 @@ use Google\Service\CloudRetail\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $retailService = new Google\Service\CloudRetail(...);
- *   $controls = $retailService->controls;
+ *   $controls = $retailService->projects_locations_catalogs_controls;
  *  </code>
  */
 class ProjectsLocationsCatalogsControls extends \Google\Service\Resource

@@ -21,14 +21,19 @@ class Sustainability extends \Google\Model
 {
   protected $energyEfficiencyType = EnergyEfficiency::class;
   protected $energyEfficiencyDataType = '';
+  public $energyEfficiency;
   protected $sustainabilityCertificationsType = SustainabilityCertifications::class;
   protected $sustainabilityCertificationsDataType = '';
+  public $sustainabilityCertifications;
   protected $sustainableSourcingType = SustainableSourcing::class;
   protected $sustainableSourcingDataType = '';
+  public $sustainableSourcing;
   protected $wasteReductionType = WasteReduction::class;
   protected $wasteReductionDataType = '';
+  public $wasteReduction;
   protected $waterConservationType = WaterConservation::class;
   protected $waterConservationDataType = '';
+  public $waterConservation;
 
   /**
    * @param EnergyEfficiency

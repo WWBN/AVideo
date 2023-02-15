@@ -21,6 +21,7 @@ class Connection extends \Google\Model
 {
   protected $cloudSqlType = CloudSqlProperties::class;
   protected $cloudSqlDataType = '';
+  public $cloudSql;
   /**
    * @var string
    */

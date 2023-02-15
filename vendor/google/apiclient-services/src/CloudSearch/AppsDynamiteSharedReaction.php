@@ -33,6 +33,7 @@ class AppsDynamiteSharedReaction extends \Google\Model
   public $currentUserParticipated;
   protected $emojiType = AppsDynamiteSharedEmoji::class;
   protected $emojiDataType = '';
+  public $emoji;
 
   /**
    * @param int

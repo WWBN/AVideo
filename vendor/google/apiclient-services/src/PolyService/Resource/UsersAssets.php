@@ -24,7 +24,7 @@ use Google\Service\PolyService\ListUserAssetsResponse;
  * Typical usage is:
  *  <code>
  *   $polyService = new Google\Service\PolyService(...);
- *   $assets = $polyService->assets;
+ *   $assets = $polyService->users_assets;
  *  </code>
  */
 class UsersAssets extends \Google\Service\Resource

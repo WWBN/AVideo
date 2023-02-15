@@ -30,6 +30,7 @@ class TimeEvents extends \Google\Collection
   public $droppedMessageEventsCount;
   protected $timeEventType = TimeEvent::class;
   protected $timeEventDataType = 'array';
+  public $timeEvent;
 
   /**
    * @param int

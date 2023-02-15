@@ -34,7 +34,7 @@ use Google\Service\CloudHealthcare\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $fhirStores = $healthcareService->fhirStores;
+ *   $fhirStores = $healthcareService->projects_locations_datasets_fhirStores;
  *  </code>
  */
 class ProjectsLocationsDatasetsFhirStores extends \Google\Service\Resource

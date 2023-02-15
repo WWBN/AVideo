@@ -21,6 +21,7 @@ class AppsPeopleOzExternalMergedpeopleapiPhoneExtendedData extends \Google\Model
 {
   protected $structuredPhoneType = AppsPeopleOzExternalMergedpeopleapiStructuredPhone::class;
   protected $structuredPhoneDataType = '';
+  public $structuredPhone;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiStructuredPhone

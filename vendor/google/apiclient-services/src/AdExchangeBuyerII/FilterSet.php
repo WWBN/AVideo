@@ -22,6 +22,7 @@ class FilterSet extends \Google\Collection
   protected $collection_key = 'sellerNetworkIds';
   protected $absoluteDateRangeType = AbsoluteDateRange::class;
   protected $absoluteDateRangeDataType = '';
+  public $absoluteDateRange;
   /**
    * @var string[]
    */
@@ -60,8 +61,10 @@ class FilterSet extends \Google\Collection
   public $publisherIdentifiers;
   protected $realtimeTimeRangeType = RealtimeTimeRange::class;
   protected $realtimeTimeRangeDataType = '';
+  public $realtimeTimeRange;
   protected $relativeDateRangeType = RelativeDateRange::class;
   protected $relativeDateRangeDataType = '';
+  public $relativeDateRange;
   /**
    * @var int[]
    */

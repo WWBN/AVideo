@@ -22,6 +22,7 @@ class CitiesListResponse extends \Google\Collection
   protected $collection_key = 'cities';
   protected $citiesType = City::class;
   protected $citiesDataType = 'array';
+  public $cities;
   /**
    * @var string
    */

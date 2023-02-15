@@ -21,8 +21,10 @@ class PopupWindowProperties extends \Google\Model
 {
   protected $dimensionType = Size::class;
   protected $dimensionDataType = '';
+  public $dimension;
   protected $offsetType = OffsetPosition::class;
   protected $offsetDataType = '';
+  public $offset;
   /**
    * @var string
    */

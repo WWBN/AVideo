@@ -21,12 +21,14 @@ class GeostoreBestLocaleProto extends \Google\Model
 {
   protected $localeType = GeostoreFeatureIdProto::class;
   protected $localeDataType = '';
+  public $locale;
   /**
    * @var string
    */
   public $localizationPolicyId;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
+  public $metadata;
 
   /**
    * @param GeostoreFeatureIdProto

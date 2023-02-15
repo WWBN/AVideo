@@ -22,26 +22,35 @@ class ChatContentExtension extends \Google\Collection
   protected $collection_key = 'annotation';
   protected $annotationType = EventAnnotation::class;
   protected $annotationDataType = 'array';
+  public $annotation;
   protected $dynamitePlaceholderMetadataType = ChatConserverDynamitePlaceholderMetadata::class;
   protected $dynamitePlaceholderMetadataDataType = '';
+  public $dynamitePlaceholderMetadata;
   /**
    * @var string
    */
   public $eventOtrStatus;
   protected $groupLinkSharingModificationEventType = GroupLinkSharingModificationEvent::class;
   protected $groupLinkSharingModificationEventDataType = '';
+  public $groupLinkSharingModificationEvent;
   protected $hangoutEventType = HangoutEvent::class;
   protected $hangoutEventDataType = '';
+  public $hangoutEvent;
   protected $inviteAcceptedEventType = InviteAcceptedEvent::class;
   protected $inviteAcceptedEventDataType = '';
+  public $inviteAcceptedEvent;
   protected $membershipChangeEventType = MembershipChangeEvent::class;
   protected $membershipChangeEventDataType = '';
+  public $membershipChangeEvent;
   protected $otrChatMessageEventType = OtrChatMessageEvent::class;
   protected $otrChatMessageEventDataType = '';
+  public $otrChatMessageEvent;
   protected $otrModificationEventType = OtrModificationEvent::class;
   protected $otrModificationEventDataType = '';
+  public $otrModificationEvent;
   protected $renameEventType = RenameEvent::class;
   protected $renameEventDataType = '';
+  public $renameEvent;
 
   /**
    * @param EventAnnotation[]

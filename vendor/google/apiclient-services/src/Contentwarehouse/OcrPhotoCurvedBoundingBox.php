@@ -21,6 +21,7 @@ class OcrPhotoCurvedBoundingBox extends \Google\Model
 {
   protected $midLineCurveType = OcrPhotoCurve::class;
   protected $midLineCurveDataType = '';
+  public $midLineCurve;
   public $thickness;
   /**
    * @var bool

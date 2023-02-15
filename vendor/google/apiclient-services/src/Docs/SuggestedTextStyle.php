@@ -21,8 +21,10 @@ class SuggestedTextStyle extends \Google\Model
 {
   protected $textStyleType = TextStyle::class;
   protected $textStyleDataType = '';
+  public $textStyle;
   protected $textStyleSuggestionStateType = TextStyleSuggestionState::class;
   protected $textStyleSuggestionStateDataType = '';
+  public $textStyleSuggestionState;
 
   /**
    * @param TextStyle

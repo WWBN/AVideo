@@ -21,16 +21,20 @@ class Grading extends \Google\Model
 {
   protected $correctAnswersType = CorrectAnswers::class;
   protected $correctAnswersDataType = '';
+  public $correctAnswers;
   protected $generalFeedbackType = Feedback::class;
   protected $generalFeedbackDataType = '';
+  public $generalFeedback;
   /**
    * @var int
    */
   public $pointValue;
   protected $whenRightType = Feedback::class;
   protected $whenRightDataType = '';
+  public $whenRight;
   protected $whenWrongType = Feedback::class;
   protected $whenWrongDataType = '';
+  public $whenWrong;
 
   /**
    * @param CorrectAnswers

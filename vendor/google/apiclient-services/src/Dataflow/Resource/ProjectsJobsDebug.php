@@ -27,7 +27,7 @@ use Google\Service\Dataflow\SendDebugCaptureResponse;
  * Typical usage is:
  *  <code>
  *   $dataflowService = new Google\Service\Dataflow(...);
- *   $debug = $dataflowService->debug;
+ *   $debug = $dataflowService->projects_jobs_debug;
  *  </code>
  */
 class ProjectsJobsDebug extends \Google\Service\Resource

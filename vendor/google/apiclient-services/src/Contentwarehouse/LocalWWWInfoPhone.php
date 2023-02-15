@@ -25,6 +25,7 @@ class LocalWWWInfoPhone extends \Google\Model
   public $phoneFprint;
   protected $phoneNumberType = TelephoneNumber::class;
   protected $phoneNumberDataType = '';
+  public $phoneNumber;
 
   /**
    * @param string

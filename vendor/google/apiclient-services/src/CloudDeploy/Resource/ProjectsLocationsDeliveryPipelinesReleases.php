@@ -28,7 +28,7 @@ use Google\Service\CloudDeploy\Release;
  * Typical usage is:
  *  <code>
  *   $clouddeployService = new Google\Service\CloudDeploy(...);
- *   $releases = $clouddeployService->releases;
+ *   $releases = $clouddeployService->projects_locations_deliveryPipelines_releases;
  *  </code>
  */
 class ProjectsLocationsDeliveryPipelinesReleases extends \Google\Service\Resource

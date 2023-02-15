@@ -21,6 +21,7 @@ class Strategy extends \Google\Model
 {
   protected $standardType = Standard::class;
   protected $standardDataType = '';
+  public $standard;
 
   /**
    * @param Standard

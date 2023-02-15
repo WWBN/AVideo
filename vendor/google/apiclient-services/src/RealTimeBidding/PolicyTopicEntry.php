@@ -22,6 +22,7 @@ class PolicyTopicEntry extends \Google\Collection
   protected $collection_key = 'evidences';
   protected $evidencesType = PolicyTopicEvidence::class;
   protected $evidencesDataType = 'array';
+  public $evidences;
   /**
    * @var string
    */

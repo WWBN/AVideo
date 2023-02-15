@@ -25,7 +25,7 @@ use Google\Service\ToolResults\ListEnvironmentsResponse;
  * Typical usage is:
  *  <code>
  *   $toolresultsService = new Google\Service\ToolResults(...);
- *   $environments = $toolresultsService->environments;
+ *   $environments = $toolresultsService->projects_histories_executions_environments;
  *  </code>
  */
 class ProjectsHistoriesExecutionsEnvironments extends \Google\Service\Resource

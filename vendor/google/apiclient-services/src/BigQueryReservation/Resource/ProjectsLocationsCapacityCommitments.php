@@ -29,7 +29,7 @@ use Google\Service\BigQueryReservation\SplitCapacityCommitmentResponse;
  * Typical usage is:
  *  <code>
  *   $bigqueryreservationService = new Google\Service\BigQueryReservation(...);
- *   $capacityCommitments = $bigqueryreservationService->capacityCommitments;
+ *   $capacityCommitments = $bigqueryreservationService->projects_locations_capacityCommitments;
  *  </code>
  */
 class ProjectsLocationsCapacityCommitments extends \Google\Service\Resource

@@ -21,8 +21,10 @@ class NlpSemanticParsingModelsRecurrence extends \Google\Model
 {
   protected $dailyPatternType = NlpSemanticParsingModelsRecurrenceDailyPattern::class;
   protected $dailyPatternDataType = '';
+  public $dailyPattern;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var int
    */
@@ -33,20 +35,26 @@ class NlpSemanticParsingModelsRecurrence extends \Google\Model
   public $frequency;
   protected $monthlyPatternType = NlpSemanticParsingModelsRecurrenceMonthlyPattern::class;
   protected $monthlyPatternDataType = '';
+  public $monthlyPattern;
   /**
    * @var int
    */
   public $numInstancesInFrequency;
   protected $recurrenceEndType = NlpSemanticParsingModelsRecurrenceRecurrenceEnd::class;
   protected $recurrenceEndDataType = '';
+  public $recurrenceEnd;
   protected $recurrenceStartType = NlpSemanticParsingModelsRecurrenceRecurrenceStart::class;
   protected $recurrenceStartDataType = '';
+  public $recurrenceStart;
   protected $timeType = NlpSemanticParsingDatetimeDateTime::class;
   protected $timeDataType = '';
+  public $time;
   protected $weeklyPatternType = NlpSemanticParsingModelsRecurrenceWeeklyPattern::class;
   protected $weeklyPatternDataType = '';
+  public $weeklyPattern;
   protected $yearlyPatternType = NlpSemanticParsingModelsRecurrenceYearlyPattern::class;
   protected $yearlyPatternDataType = '';
+  public $yearlyPattern;
 
   /**
    * @param NlpSemanticParsingModelsRecurrenceDailyPattern

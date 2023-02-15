@@ -33,6 +33,7 @@ class NotificationEndpointGrpcSettings extends \Google\Model
   public $payloadName;
   protected $resendIntervalType = Duration::class;
   protected $resendIntervalDataType = '';
+  public $resendInterval;
   /**
    * @var string
    */

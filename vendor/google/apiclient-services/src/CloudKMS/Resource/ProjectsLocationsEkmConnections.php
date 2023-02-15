@@ -29,7 +29,7 @@ use Google\Service\CloudKMS\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudkmsService = new Google\Service\CloudKMS(...);
- *   $ekmConnections = $cloudkmsService->ekmConnections;
+ *   $ekmConnections = $cloudkmsService->projects_locations_ekmConnections;
  *  </code>
  */
 class ProjectsLocationsEkmConnections extends \Google\Service\Resource

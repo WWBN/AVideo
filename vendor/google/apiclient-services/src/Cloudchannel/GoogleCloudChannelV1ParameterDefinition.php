@@ -22,10 +22,13 @@ class GoogleCloudChannelV1ParameterDefinition extends \Google\Collection
   protected $collection_key = 'allowedValues';
   protected $allowedValuesType = GoogleCloudChannelV1Value::class;
   protected $allowedValuesDataType = 'array';
+  public $allowedValues;
   protected $maxValueType = GoogleCloudChannelV1Value::class;
   protected $maxValueDataType = '';
+  public $maxValue;
   protected $minValueType = GoogleCloudChannelV1Value::class;
   protected $minValueDataType = '';
+  public $minValue;
   /**
    * @var string
    */

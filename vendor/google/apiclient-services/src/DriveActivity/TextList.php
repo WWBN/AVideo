@@ -22,6 +22,7 @@ class TextList extends \Google\Collection
   protected $collection_key = 'values';
   protected $valuesType = Text::class;
   protected $valuesDataType = 'array';
+  public $values;
 
   /**
    * @param Text[]

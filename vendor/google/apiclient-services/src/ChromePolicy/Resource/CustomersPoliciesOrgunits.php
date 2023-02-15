@@ -26,7 +26,7 @@ use Google\Service\ChromePolicy\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $chromepolicyService = new Google\Service\ChromePolicy(...);
- *   $orgunits = $chromepolicyService->orgunits;
+ *   $orgunits = $chromepolicyService->customers_policies_orgunits;
  *  </code>
  */
 class CustomersPoliciesOrgunits extends \Google\Service\Resource

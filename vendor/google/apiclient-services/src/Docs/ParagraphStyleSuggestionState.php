@@ -89,6 +89,7 @@ class ParagraphStyleSuggestionState extends \Google\Model
   public $pageBreakBeforeSuggested;
   protected $shadingSuggestionStateType = ShadingSuggestionState::class;
   protected $shadingSuggestionStateDataType = '';
+  public $shadingSuggestionState;
   /**
    * @var bool
    */

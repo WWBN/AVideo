@@ -21,6 +21,7 @@ class Modification extends \Google\Model
 {
   protected $createType = ColumnFamily::class;
   protected $createDataType = '';
+  public $create;
   /**
    * @var bool
    */
@@ -31,6 +32,7 @@ class Modification extends \Google\Model
   public $id;
   protected $updateType = ColumnFamily::class;
   protected $updateDataType = '';
+  public $update;
 
   /**
    * @param ColumnFamily

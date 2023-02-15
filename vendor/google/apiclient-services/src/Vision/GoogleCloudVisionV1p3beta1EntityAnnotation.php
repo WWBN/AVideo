@@ -22,6 +22,7 @@ class GoogleCloudVisionV1p3beta1EntityAnnotation extends \Google\Collection
   protected $collection_key = 'properties';
   protected $boundingPolyType = GoogleCloudVisionV1p3beta1BoundingPoly::class;
   protected $boundingPolyDataType = '';
+  public $boundingPoly;
   /**
    * @var float
    */
@@ -36,12 +37,14 @@ class GoogleCloudVisionV1p3beta1EntityAnnotation extends \Google\Collection
   public $locale;
   protected $locationsType = GoogleCloudVisionV1p3beta1LocationInfo::class;
   protected $locationsDataType = 'array';
+  public $locations;
   /**
    * @var string
    */
   public $mid;
   protected $propertiesType = GoogleCloudVisionV1p3beta1Property::class;
   protected $propertiesDataType = 'array';
+  public $properties;
   /**
    * @var float
    */

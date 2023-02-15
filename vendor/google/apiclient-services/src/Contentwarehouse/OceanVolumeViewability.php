@@ -29,12 +29,14 @@ class OceanVolumeViewability extends \Google\Collection
   public $dEPRECATEDDefaultViewType;
   protected $defaultViewabilityType = OceanLocaleViewability::class;
   protected $defaultViewabilityDataType = '';
+  public $defaultViewability;
   /**
    * @var bool
    */
   public $inViewabilityLimbo;
   protected $localeType = OceanVolumeViewabilityLocale::class;
   protected $localeDataType = 'array';
+  public $locale;
   /**
    * @var bool
    */

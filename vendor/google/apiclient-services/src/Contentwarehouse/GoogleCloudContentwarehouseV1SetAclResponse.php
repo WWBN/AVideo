@@ -21,8 +21,10 @@ class GoogleCloudContentwarehouseV1SetAclResponse extends \Google\Model
 {
   protected $metadataType = GoogleCloudContentwarehouseV1ResponseMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $policyType = GoogleIamV1Policy::class;
   protected $policyDataType = '';
+  public $policy;
 
   /**
    * @param GoogleCloudContentwarehouseV1ResponseMetadata

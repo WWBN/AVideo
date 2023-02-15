@@ -22,6 +22,7 @@ class Union extends \Google\Collection
   protected $collection_key = 'rules';
   protected $rulesType = GcRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
 
   /**
    * @param GcRule[]

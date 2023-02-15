@@ -26,12 +26,14 @@ class QuerySource extends \Google\Collection
   public $displayName;
   protected $operatorsType = QueryOperator::class;
   protected $operatorsDataType = 'array';
+  public $operators;
   /**
    * @var string
    */
   public $shortName;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
+  public $source;
 
   /**
    * @param string

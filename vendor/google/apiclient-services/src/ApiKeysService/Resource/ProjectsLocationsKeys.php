@@ -28,7 +28,7 @@ use Google\Service\ApiKeysService\V2UndeleteKeyRequest;
  * Typical usage is:
  *  <code>
  *   $apikeysService = new Google\Service\ApiKeysService(...);
- *   $keys = $apikeysService->keys;
+ *   $keys = $apikeysService->projects_locations_keys;
  *  </code>
  */
 class ProjectsLocationsKeys extends \Google\Service\Resource

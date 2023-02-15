@@ -22,6 +22,7 @@ class ListAndroidAppsResponse extends \Google\Collection
   protected $collection_key = 'apps';
   protected $appsType = AndroidApp::class;
   protected $appsDataType = 'array';
+  public $apps;
   /**
    * @var string
    */

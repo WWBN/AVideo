@@ -25,6 +25,7 @@ class DimensionCompatibility extends \Google\Model
   public $compatibility;
   protected $dimensionMetadataType = DimensionMetadata::class;
   protected $dimensionMetadataDataType = '';
+  public $dimensionMetadata;
 
   /**
    * @param string

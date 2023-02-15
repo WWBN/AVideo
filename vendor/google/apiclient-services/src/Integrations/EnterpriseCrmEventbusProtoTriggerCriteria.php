@@ -25,6 +25,7 @@ class EnterpriseCrmEventbusProtoTriggerCriteria extends \Google\Model
   public $condition;
   protected $parametersType = EnterpriseCrmEventbusProtoEventParameters::class;
   protected $parametersDataType = '';
+  public $parameters;
   /**
    * @var string
    */

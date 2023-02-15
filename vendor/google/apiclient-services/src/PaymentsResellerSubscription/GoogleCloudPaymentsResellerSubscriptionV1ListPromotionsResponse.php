@@ -26,6 +26,7 @@ class GoogleCloudPaymentsResellerSubscriptionV1ListPromotionsResponse extends \G
   public $nextPageToken;
   protected $promotionsType = GoogleCloudPaymentsResellerSubscriptionV1Promotion::class;
   protected $promotionsDataType = 'array';
+  public $promotions;
 
   /**
    * @param string

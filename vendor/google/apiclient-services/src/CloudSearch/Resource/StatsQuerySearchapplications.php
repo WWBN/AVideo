@@ -24,7 +24,7 @@ use Google\Service\CloudSearch\GetSearchApplicationQueryStatsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $searchapplications = $cloudsearchService->searchapplications;
+ *   $searchapplications = $cloudsearchService->stats_query_searchapplications;
  *  </code>
  */
 class StatsQuerySearchapplications extends \Google\Service\Resource

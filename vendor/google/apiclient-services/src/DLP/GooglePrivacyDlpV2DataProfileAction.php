@@ -21,8 +21,10 @@ class GooglePrivacyDlpV2DataProfileAction extends \Google\Model
 {
   protected $exportDataType = GooglePrivacyDlpV2Export::class;
   protected $exportDataDataType = '';
+  public $exportData;
   protected $pubSubNotificationType = GooglePrivacyDlpV2PubSubNotification::class;
   protected $pubSubNotificationDataType = '';
+  public $pubSubNotification;
 
   /**
    * @param GooglePrivacyDlpV2Export

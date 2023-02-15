@@ -25,6 +25,7 @@ class GoogleCloudRetailV2SearchResponseFacetFacetValue extends \Google\Model
   public $count;
   protected $intervalType = GoogleCloudRetailV2Interval::class;
   protected $intervalDataType = '';
+  public $interval;
   public $maxValue;
   public $minValue;
   /**

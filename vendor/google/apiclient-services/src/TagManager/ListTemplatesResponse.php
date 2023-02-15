@@ -26,6 +26,7 @@ class ListTemplatesResponse extends \Google\Collection
   public $nextPageToken;
   protected $templateType = CustomTemplate::class;
   protected $templateDataType = 'array';
+  public $template;
 
   /**
    * @param string

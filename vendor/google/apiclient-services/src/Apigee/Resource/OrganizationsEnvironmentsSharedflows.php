@@ -22,7 +22,7 @@ namespace Google\Service\Apigee\Resource;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $sharedflows = $apigeeService->sharedflows;
+ *   $sharedflows = $apigeeService->organizations_environments_sharedflows;
  *  </code>
  */
 class OrganizationsEnvironmentsSharedflows extends \Google\Service\Resource

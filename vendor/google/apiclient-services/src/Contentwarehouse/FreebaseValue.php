@@ -26,10 +26,13 @@ class FreebaseValue extends \Google\Collection
   public $boolValue;
   protected $citationType = FreebaseCitation::class;
   protected $citationDataType = '';
+  public $citation;
   protected $compoundValueType = FreebaseTopic::class;
   protected $compoundValueDataType = '';
+  public $compoundValue;
   protected $deletionProvenanceType = StorageGraphBfgTripleProvenance::class;
   protected $deletionProvenanceDataType = 'array';
+  public $deletionProvenance;
   /**
    * @var string
    */
@@ -45,6 +48,7 @@ class FreebaseValue extends \Google\Collection
   public $floatValue;
   protected $idValueType = FreebaseId::class;
   protected $idValueDataType = '';
+  public $idValue;
   /**
    * @var string
    */
@@ -59,12 +63,16 @@ class FreebaseValue extends \Google\Collection
   public $lang;
   protected $latLongValueType = FreebaseLatLong::class;
   protected $latLongValueDataType = '';
+  public $latLongValue;
   protected $measurementValueType = FreebaseMeasurement::class;
   protected $measurementValueDataType = '';
+  public $measurementValue;
   protected $nestedStructType = FreebaseNestedStruct::class;
   protected $nestedStructDataType = '';
+  public $nestedStruct;
   protected $provenanceType = StorageGraphBfgTripleProvenance::class;
   protected $provenanceDataType = 'array';
+  public $provenance;
   /**
    * @var string
    */

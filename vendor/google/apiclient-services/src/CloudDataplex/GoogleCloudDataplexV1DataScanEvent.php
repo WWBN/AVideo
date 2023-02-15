@@ -21,8 +21,10 @@ class GoogleCloudDataplexV1DataScanEvent extends \Google\Model
 {
   protected $dataProfileType = GoogleCloudDataplexV1DataScanEventDataProfileResult::class;
   protected $dataProfileDataType = '';
+  public $dataProfile;
   protected $dataQualityType = GoogleCloudDataplexV1DataScanEventDataQualityResult::class;
   protected $dataQualityDataType = '';
+  public $dataQuality;
   /**
    * @var string
    */

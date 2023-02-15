@@ -24,7 +24,7 @@ use Google\Service\Books\Volumes as VolumesModel;
  * Typical usage is:
  *  <code>
  *   $booksService = new Google\Service\Books(...);
- *   $useruploaded = $booksService->useruploaded;
+ *   $useruploaded = $booksService->volumes_useruploaded;
  *  </code>
  */
 class VolumesUseruploaded extends \Google\Service\Resource

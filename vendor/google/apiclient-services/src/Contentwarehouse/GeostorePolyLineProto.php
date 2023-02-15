@@ -22,10 +22,13 @@ class GeostorePolyLineProto extends \Google\Collection
   protected $collection_key = 'vertex';
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $temporaryDataType = Proto2BridgeMessageSet::class;
   protected $temporaryDataDataType = '';
+  public $temporaryData;
   protected $vertexType = GeostorePointProto::class;
   protected $vertexDataType = 'array';
+  public $vertex;
 
   /**
    * @param GeostoreFieldMetadataProto

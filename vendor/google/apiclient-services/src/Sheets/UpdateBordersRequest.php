@@ -21,18 +21,25 @@ class UpdateBordersRequest extends \Google\Model
 {
   protected $bottomType = Border::class;
   protected $bottomDataType = '';
+  public $bottom;
   protected $innerHorizontalType = Border::class;
   protected $innerHorizontalDataType = '';
+  public $innerHorizontal;
   protected $innerVerticalType = Border::class;
   protected $innerVerticalDataType = '';
+  public $innerVertical;
   protected $leftType = Border::class;
   protected $leftDataType = '';
+  public $left;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
   protected $rightType = Border::class;
   protected $rightDataType = '';
+  public $right;
   protected $topType = Border::class;
   protected $topDataType = '';
+  public $top;
 
   /**
    * @param Border

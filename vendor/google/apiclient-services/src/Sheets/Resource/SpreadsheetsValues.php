@@ -39,7 +39,7 @@ use Google\Service\Sheets\ValueRange;
  * Typical usage is:
  *  <code>
  *   $sheetsService = new Google\Service\Sheets(...);
- *   $values = $sheetsService->values;
+ *   $values = $sheetsService->spreadsheets_values;
  *  </code>
  */
 class SpreadsheetsValues extends \Google\Service\Resource

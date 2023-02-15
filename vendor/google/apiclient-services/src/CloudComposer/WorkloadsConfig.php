@@ -21,10 +21,13 @@ class WorkloadsConfig extends \Google\Model
 {
   protected $schedulerType = SchedulerResource::class;
   protected $schedulerDataType = '';
+  public $scheduler;
   protected $webServerType = WebServerResource::class;
   protected $webServerDataType = '';
+  public $webServer;
   protected $workerType = WorkerResource::class;
   protected $workerDataType = '';
+  public $worker;
 
   /**
    * @param SchedulerResource

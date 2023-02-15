@@ -45,6 +45,7 @@ class SentenceBoundaryAnnotationsInstance extends \Google\Model
   public $end;
   protected $infoType = Proto2BridgeMessageSet::class;
   protected $infoDataType = '';
+  public $info;
   /**
    * @var string
    */

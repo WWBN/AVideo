@@ -22,6 +22,7 @@ class GoogleCloudMlV1Model extends \Google\Collection
   protected $collection_key = 'regions';
   protected $defaultVersionType = GoogleCloudMlV1Version::class;
   protected $defaultVersionDataType = '';
+  public $defaultVersion;
   /**
    * @var string
    */

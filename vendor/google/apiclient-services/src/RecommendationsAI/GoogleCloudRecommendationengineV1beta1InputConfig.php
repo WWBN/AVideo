@@ -21,12 +21,16 @@ class GoogleCloudRecommendationengineV1beta1InputConfig extends \Google\Model
 {
   protected $bigQuerySourceType = GoogleCloudRecommendationengineV1beta1BigQuerySource::class;
   protected $bigQuerySourceDataType = '';
+  public $bigQuerySource;
   protected $catalogInlineSourceType = GoogleCloudRecommendationengineV1beta1CatalogInlineSource::class;
   protected $catalogInlineSourceDataType = '';
+  public $catalogInlineSource;
   protected $gcsSourceType = GoogleCloudRecommendationengineV1beta1GcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
   protected $userEventInlineSourceType = GoogleCloudRecommendationengineV1beta1UserEventInlineSource::class;
   protected $userEventInlineSourceDataType = '';
+  public $userEventInlineSource;
 
   /**
    * @param GoogleCloudRecommendationengineV1beta1BigQuerySource

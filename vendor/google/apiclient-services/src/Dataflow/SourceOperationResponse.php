@@ -21,8 +21,10 @@ class SourceOperationResponse extends \Google\Model
 {
   protected $getMetadataType = SourceGetMetadataResponse::class;
   protected $getMetadataDataType = '';
+  public $getMetadata;
   protected $splitType = SourceSplitResponse::class;
   protected $splitDataType = '';
+  public $split;
 
   /**
    * @param SourceGetMetadataResponse

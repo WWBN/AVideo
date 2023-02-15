@@ -38,10 +38,13 @@ class GoogleCloudRecommendationengineV1beta1ProductCatalogItem extends \Google\C
   public $currencyCode;
   protected $exactPriceType = GoogleCloudRecommendationengineV1beta1ProductCatalogItemExactPrice::class;
   protected $exactPriceDataType = '';
+  public $exactPrice;
   protected $imagesType = GoogleCloudRecommendationengineV1beta1Image::class;
   protected $imagesDataType = 'array';
+  public $images;
   protected $priceRangeType = GoogleCloudRecommendationengineV1beta1ProductCatalogItemPriceRange::class;
   protected $priceRangeDataType = '';
+  public $priceRange;
   /**
    * @var string
    */

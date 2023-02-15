@@ -22,10 +22,13 @@ class VoidedPurchasesListResponse extends \Google\Collection
   protected $collection_key = 'voidedPurchases';
   protected $pageInfoType = PageInfo::class;
   protected $pageInfoDataType = '';
+  public $pageInfo;
   protected $tokenPaginationType = TokenPagination::class;
   protected $tokenPaginationDataType = '';
+  public $tokenPagination;
   protected $voidedPurchasesType = VoidedPurchase::class;
   protected $voidedPurchasesDataType = 'array';
+  public $voidedPurchases;
 
   /**
    * @param PageInfo

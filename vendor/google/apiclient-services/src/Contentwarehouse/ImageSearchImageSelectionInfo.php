@@ -21,6 +21,7 @@ class ImageSearchImageSelectionInfo extends \Google\Model
 {
   protected $imageLinkSelectionInfoType = ImageMustangImageLinkSelectionInfo::class;
   protected $imageLinkSelectionInfoDataType = '';
+  public $imageLinkSelectionInfo;
   /**
    * @var string
    */

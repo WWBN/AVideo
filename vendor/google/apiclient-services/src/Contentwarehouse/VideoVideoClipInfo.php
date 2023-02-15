@@ -58,6 +58,7 @@ class VideoVideoClipInfo extends \Google\Collection
   public $engineer;
   protected $geolocationType = VideoVideoGeoLocation::class;
   protected $geolocationDataType = '';
+  public $geolocation;
   /**
    * @var string
    */
@@ -76,6 +77,7 @@ class VideoVideoClipInfo extends \Google\Collection
   public $medium;
   protected $metadataType = VideoClipInfo::class;
   protected $metadataDataType = 'array';
+  public $metadata;
   /**
    * @var string
    */

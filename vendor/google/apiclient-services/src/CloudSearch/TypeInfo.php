@@ -21,6 +21,7 @@ class TypeInfo extends \Google\Model
 {
   protected $videoInfoType = VideoInfo::class;
   protected $videoInfoDataType = '';
+  public $videoInfo;
 
   /**
    * @param VideoInfo

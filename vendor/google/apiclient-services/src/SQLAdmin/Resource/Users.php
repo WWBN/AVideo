@@ -55,9 +55,10 @@ class Users extends \Google\Service\Resource
    * @param string $project Project ID of the project that contains the instance.
    * @param string $instance Database instance ID. This does not include the
    * project ID.
-   * @param string $name User of the instance. If the database user has a host,
-   * this is specified as {username}@{host} else as {username}.
+   * @param string $name User of the instance.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string host Host of a user of the instance.
    * @return User
    */
   public function get($project, $instance, $name, $optParams = [])

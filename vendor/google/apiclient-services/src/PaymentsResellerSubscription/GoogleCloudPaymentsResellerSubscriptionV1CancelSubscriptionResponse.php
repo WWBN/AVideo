@@ -21,6 +21,7 @@ class GoogleCloudPaymentsResellerSubscriptionV1CancelSubscriptionResponse extend
 {
   protected $subscriptionType = GoogleCloudPaymentsResellerSubscriptionV1Subscription::class;
   protected $subscriptionDataType = '';
+  public $subscription;
 
   /**
    * @param GoogleCloudPaymentsResellerSubscriptionV1Subscription

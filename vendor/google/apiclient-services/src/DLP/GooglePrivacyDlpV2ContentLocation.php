@@ -33,12 +33,16 @@ class GooglePrivacyDlpV2ContentLocation extends \Google\Model
   public $containerVersion;
   protected $documentLocationType = GooglePrivacyDlpV2DocumentLocation::class;
   protected $documentLocationDataType = '';
+  public $documentLocation;
   protected $imageLocationType = GooglePrivacyDlpV2ImageLocation::class;
   protected $imageLocationDataType = '';
+  public $imageLocation;
   protected $metadataLocationType = GooglePrivacyDlpV2MetadataLocation::class;
   protected $metadataLocationDataType = '';
+  public $metadataLocation;
   protected $recordLocationType = GooglePrivacyDlpV2RecordLocation::class;
   protected $recordLocationDataType = '';
+  public $recordLocation;
 
   /**
    * @param string

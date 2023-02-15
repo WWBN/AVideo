@@ -32,7 +32,7 @@ use Google\Service\AdExchangeBuyerII\ResumeProposalRequest;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $proposals = $adexchangebuyer2Service->proposals;
+ *   $proposals = $adexchangebuyer2Service->accounts_proposals;
  *  </code>
  */
 class AccountsProposals extends \Google\Service\Resource

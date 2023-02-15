@@ -22,10 +22,13 @@ class PipelineDescription extends \Google\Collection
   protected $collection_key = 'originalPipelineTransform';
   protected $displayDataType = DisplayData::class;
   protected $displayDataDataType = 'array';
+  public $displayData;
   protected $executionPipelineStageType = ExecutionStageSummary::class;
   protected $executionPipelineStageDataType = 'array';
+  public $executionPipelineStage;
   protected $originalPipelineTransformType = TransformSummary::class;
   protected $originalPipelineTransformDataType = 'array';
+  public $originalPipelineTransform;
   /**
    * @var string
    */

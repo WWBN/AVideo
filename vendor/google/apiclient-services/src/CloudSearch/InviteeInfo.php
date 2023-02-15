@@ -25,6 +25,7 @@ class InviteeInfo extends \Google\Model
   public $email;
   protected $userIdType = UserId::class;
   protected $userIdDataType = '';
+  public $userId;
 
   /**
    * @param string

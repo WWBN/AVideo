@@ -21,6 +21,7 @@ class AgentPool extends \Google\Model
 {
   protected $bandwidthLimitType = BandwidthLimit::class;
   protected $bandwidthLimitDataType = '';
+  public $bandwidthLimit;
   /**
    * @var string
    */

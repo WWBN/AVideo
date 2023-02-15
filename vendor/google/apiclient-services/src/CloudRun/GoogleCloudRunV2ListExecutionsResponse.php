@@ -22,6 +22,7 @@ class GoogleCloudRunV2ListExecutionsResponse extends \Google\Collection
   protected $collection_key = 'executions';
   protected $executionsType = GoogleCloudRunV2Execution::class;
   protected $executionsDataType = 'array';
+  public $executions;
   /**
    * @var string
    */

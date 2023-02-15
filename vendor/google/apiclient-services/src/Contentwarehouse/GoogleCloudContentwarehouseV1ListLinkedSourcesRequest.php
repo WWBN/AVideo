@@ -29,6 +29,7 @@ class GoogleCloudContentwarehouseV1ListLinkedSourcesRequest extends \Google\Mode
   public $pageToken;
   protected $requestMetadataType = GoogleCloudContentwarehouseV1RequestMetadata::class;
   protected $requestMetadataDataType = '';
+  public $requestMetadata;
 
   /**
    * @param int

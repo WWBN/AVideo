@@ -34,6 +34,7 @@ class AppsDynamiteSharedColumnsColumn extends \Google\Collection
   public $verticalAlignment;
   protected $widgetsType = AppsDynamiteSharedColumnsColumnWidgets::class;
   protected $widgetsDataType = 'array';
+  public $widgets;
 
   /**
    * @param string

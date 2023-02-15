@@ -29,6 +29,7 @@ class WorkloadIdentityPoolProvider extends \Google\Model
   public $attributeMapping;
   protected $awsType = Aws::class;
   protected $awsDataType = '';
+  public $aws;
   /**
    * @var string
    */
@@ -47,8 +48,10 @@ class WorkloadIdentityPoolProvider extends \Google\Model
   public $name;
   protected $oidcType = Oidc::class;
   protected $oidcDataType = '';
+  public $oidc;
   protected $samlType = Saml::class;
   protected $samlDataType = '';
+  public $saml;
   /**
    * @var string
    */

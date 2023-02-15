@@ -22,6 +22,7 @@ class SendWorkerMessagesResponse extends \Google\Collection
   protected $collection_key = 'workerMessageResponses';
   protected $workerMessageResponsesType = WorkerMessageResponse::class;
   protected $workerMessageResponsesDataType = 'array';
+  public $workerMessageResponses;
 
   /**
    * @param WorkerMessageResponse[]

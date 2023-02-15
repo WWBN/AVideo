@@ -25,8 +25,10 @@ class GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport extends \Google\Mod
   public $accountId;
   protected $aggregatorInfoType = GoogleAdsHomeservicesLocalservicesV1AggregatorInfo::class;
   protected $aggregatorInfoDataType = '';
+  public $aggregatorInfo;
   protected $bookingLeadType = GoogleAdsHomeservicesLocalservicesV1BookingLead::class;
   protected $bookingLeadDataType = '';
+  public $bookingLead;
   /**
    * @var string
    */
@@ -66,10 +68,13 @@ class GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport extends \Google\Mod
   public $leadType;
   protected $messageLeadType = GoogleAdsHomeservicesLocalservicesV1MessageLead::class;
   protected $messageLeadDataType = '';
+  public $messageLead;
   protected $phoneLeadType = GoogleAdsHomeservicesLocalservicesV1PhoneLead::class;
   protected $phoneLeadDataType = '';
+  public $phoneLead;
   protected $timezoneType = GoogleTypeTimeZone::class;
   protected $timezoneDataType = '';
+  public $timezone;
 
   /**
    * @param string

@@ -21,8 +21,10 @@ class GoogleChatV1WidgetMarkupButton extends \Google\Model
 {
   protected $imageButtonType = GoogleChatV1WidgetMarkupImageButton::class;
   protected $imageButtonDataType = '';
+  public $imageButton;
   protected $textButtonType = GoogleChatV1WidgetMarkupTextButton::class;
   protected $textButtonDataType = '';
+  public $textButton;
 
   /**
    * @param GoogleChatV1WidgetMarkupImageButton

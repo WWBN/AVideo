@@ -25,6 +25,7 @@ class IntegerGauge extends \Google\Model
   public $timestamp;
   protected $valueType = SplitInt64::class;
   protected $valueDataType = '';
+  public $value;
 
   /**
    * @param string

@@ -21,14 +21,19 @@ class Actor extends \Google\Model
 {
   protected $administratorType = Administrator::class;
   protected $administratorDataType = '';
+  public $administrator;
   protected $anonymousType = AnonymousUser::class;
   protected $anonymousDataType = '';
+  public $anonymous;
   protected $impersonationType = Impersonation::class;
   protected $impersonationDataType = '';
+  public $impersonation;
   protected $systemType = SystemEvent::class;
   protected $systemDataType = '';
+  public $system;
   protected $userType = User::class;
   protected $userDataType = '';
+  public $user;
 
   /**
    * @param Administrator

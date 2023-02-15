@@ -34,6 +34,7 @@ class GooglePrivacyDlpV2HybridOptions extends \Google\Collection
   public $requiredFindingLabelKeys;
   protected $tableOptionsType = GooglePrivacyDlpV2TableOptions::class;
   protected $tableOptionsDataType = '';
+  public $tableOptions;
 
   /**
    * @param string

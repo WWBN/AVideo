@@ -26,6 +26,7 @@ class DimensionValueList extends \Google\Collection
   public $etag;
   protected $itemsType = DimensionValue::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

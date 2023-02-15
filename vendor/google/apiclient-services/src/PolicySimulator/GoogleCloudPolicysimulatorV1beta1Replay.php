@@ -21,12 +21,14 @@ class GoogleCloudPolicysimulatorV1beta1Replay extends \Google\Model
 {
   protected $configType = GoogleCloudPolicysimulatorV1beta1ReplayConfig::class;
   protected $configDataType = '';
+  public $config;
   /**
    * @var string
    */
   public $name;
   protected $resultsSummaryType = GoogleCloudPolicysimulatorV1beta1ReplayResultsSummary::class;
   protected $resultsSummaryDataType = '';
+  public $resultsSummary;
   /**
    * @var string
    */

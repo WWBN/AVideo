@@ -22,14 +22,19 @@ class Proposal extends \Google\Collection
   protected $collection_key = 'sellerContacts';
   protected $billedBuyerType = Buyer::class;
   protected $billedBuyerDataType = '';
+  public $billedBuyer;
   protected $buyerType = Buyer::class;
   protected $buyerDataType = '';
+  public $buyer;
   protected $buyerContactsType = ContactInformation::class;
   protected $buyerContactsDataType = 'array';
+  public $buyerContacts;
   protected $buyerPrivateDataType = PrivateData::class;
   protected $buyerPrivateDataDataType = '';
+  public $buyerPrivateData;
   protected $dealsType = Deal::class;
   protected $dealsDataType = 'array';
+  public $deals;
   /**
    * @var string
    */
@@ -48,6 +53,7 @@ class Proposal extends \Google\Collection
   public $lastUpdaterOrCommentorRole;
   protected $notesType = Note::class;
   protected $notesDataType = 'array';
+  public $notes;
   /**
    * @var string
    */
@@ -70,8 +76,10 @@ class Proposal extends \Google\Collection
   public $proposalState;
   protected $sellerType = Seller::class;
   protected $sellerDataType = '';
+  public $seller;
   protected $sellerContactsType = ContactInformation::class;
   protected $sellerContactsDataType = 'array';
+  public $sellerContacts;
   /**
    * @var string
    */

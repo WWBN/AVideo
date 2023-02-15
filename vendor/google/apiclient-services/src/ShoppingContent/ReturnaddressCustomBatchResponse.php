@@ -22,6 +22,7 @@ class ReturnaddressCustomBatchResponse extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = ReturnaddressCustomBatchResponseEntry::class;
   protected $entriesDataType = 'array';
+  public $entries;
   /**
    * @var string
    */

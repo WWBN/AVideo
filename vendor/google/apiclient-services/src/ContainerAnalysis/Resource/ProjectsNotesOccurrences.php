@@ -24,7 +24,7 @@ use Google\Service\ContainerAnalysis\ListNoteOccurrencesResponse;
  * Typical usage is:
  *  <code>
  *   $containeranalysisService = new Google\Service\ContainerAnalysis(...);
- *   $occurrences = $containeranalysisService->occurrences;
+ *   $occurrences = $containeranalysisService->projects_notes_occurrences;
  *  </code>
  */
 class ProjectsNotesOccurrences extends \Google\Service\Resource

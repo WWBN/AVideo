@@ -21,6 +21,7 @@ class AssistantApiCoreTypesCloudProviderInfoAgentStyle extends \Google\Model
 {
   protected $backgroundColorType = AssistantApiCoreTypesGovernedColor::class;
   protected $backgroundColorDataType = '';
+  public $backgroundColor;
   /**
    * @var string
    */
@@ -35,12 +36,14 @@ class AssistantApiCoreTypesCloudProviderInfoAgentStyle extends \Google\Model
   public $logoUrl;
   protected $maskColorType = AssistantApiCoreTypesGovernedColor::class;
   protected $maskColorDataType = '';
+  public $maskColor;
   /**
    * @var string
    */
   public $portraitBackgroundImageUrl;
   protected $primaryColorType = AssistantApiCoreTypesGovernedColor::class;
   protected $primaryColorDataType = '';
+  public $primaryColor;
 
   /**
    * @param AssistantApiCoreTypesGovernedColor

@@ -22,12 +22,14 @@ class EnumPropertyOptions extends \Google\Collection
   protected $collection_key = 'possibleValues';
   protected $operatorOptionsType = EnumOperatorOptions::class;
   protected $operatorOptionsDataType = '';
+  public $operatorOptions;
   /**
    * @var string
    */
   public $orderedRanking;
   protected $possibleValuesType = EnumValuePair::class;
   protected $possibleValuesDataType = 'array';
+  public $possibleValues;
 
   /**
    * @param EnumOperatorOptions

@@ -25,7 +25,7 @@ use Google\Service\DisplayVideo\ListChannelsResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $channels = $displayvideoService->channels;
+ *   $channels = $displayvideoService->advertisers_channels;
  *  </code>
  */
 class AdvertisersChannels extends \Google\Service\Resource

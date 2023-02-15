@@ -22,12 +22,16 @@ class IndexingUrlPatternUrlTreeUrlTree extends \Google\Collection
   protected $collection_key = 'node';
   protected $bigBranchType = IndexingUrlPatternUrlTreeBigTreeBranch::class;
   protected $bigBranchDataType = 'array';
+  public $bigBranch;
   protected $debugInfoType = IndexingUrlPatternUrlTreeUrlTreeDebugInfo::class;
   protected $debugInfoDataType = '';
+  public $debugInfo;
   protected $keyType = IndexingUrlPatternUrlTreeUrlTreeKey::class;
   protected $keyDataType = '';
+  public $key;
   protected $nodeType = IndexingUrlPatternUrlTreeUrlTreeNode::class;
   protected $nodeDataType = 'array';
+  public $node;
   /**
    * @var string
    */
@@ -42,6 +46,7 @@ class IndexingUrlPatternUrlTreeUrlTree extends \Google\Collection
   public $timestamp;
   protected $treeInfoType = Proto2BridgeMessageSet::class;
   protected $treeInfoDataType = '';
+  public $treeInfo;
 
   /**
    * @param IndexingUrlPatternUrlTreeBigTreeBranch[]

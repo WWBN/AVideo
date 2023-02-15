@@ -21,8 +21,10 @@ class RoboStartingIntent extends \Google\Model
 {
   protected $launcherActivityType = LauncherActivityIntent::class;
   protected $launcherActivityDataType = '';
+  public $launcherActivity;
   protected $startActivityType = StartActivityIntent::class;
   protected $startActivityDataType = '';
+  public $startActivity;
   /**
    * @var string
    */

@@ -27,7 +27,7 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaLinkAppsScriptProj
  * Typical usage is:
  *  <code>
  *   $integrationsService = new Google\Service\Integrations(...);
- *   $appsScriptProjects = $integrationsService->appsScriptProjects;
+ *   $appsScriptProjects = $integrationsService->projects_locations_appsScriptProjects;
  *  </code>
  */
 class ProjectsLocationsAppsScriptProjects extends \Google\Service\Resource

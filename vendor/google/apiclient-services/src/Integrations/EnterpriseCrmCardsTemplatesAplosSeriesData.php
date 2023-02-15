@@ -22,6 +22,7 @@ class EnterpriseCrmCardsTemplatesAplosSeriesData extends \Google\Collection
   protected $collection_key = 'rows';
   protected $rowsType = EnterpriseCrmCardsTemplatesAplosSeriesDataRow::class;
   protected $rowsDataType = 'array';
+  public $rows;
 
   /**
    * @param EnterpriseCrmCardsTemplatesAplosSeriesDataRow[]

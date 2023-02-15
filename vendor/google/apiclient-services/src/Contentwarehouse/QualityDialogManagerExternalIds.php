@@ -21,12 +21,14 @@ class QualityDialogManagerExternalIds extends \Google\Model
 {
   protected $blueGingerSupportedServicesType = BlueGingerClientVisibleProtoBlueGingerSupportedServices::class;
   protected $blueGingerSupportedServicesDataType = '';
+  public $blueGingerSupportedServices;
   /**
    * @var string
    */
   public $knowledgeGraphMid;
   protected $maddenSupportedActionsType = GeoOndemandAssistantSupportedActions::class;
   protected $maddenSupportedActionsDataType = '';
+  public $maddenSupportedActions;
   /**
    * @var string
    */

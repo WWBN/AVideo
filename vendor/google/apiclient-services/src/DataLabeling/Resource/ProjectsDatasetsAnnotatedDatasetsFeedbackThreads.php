@@ -26,7 +26,7 @@ use Google\Service\DataLabeling\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $datalabelingService = new Google\Service\DataLabeling(...);
- *   $feedbackThreads = $datalabelingService->feedbackThreads;
+ *   $feedbackThreads = $datalabelingService->projects_datasets_annotatedDatasets_feedbackThreads;
  *  </code>
  */
 class ProjectsDatasetsAnnotatedDatasetsFeedbackThreads extends \Google\Service\Resource

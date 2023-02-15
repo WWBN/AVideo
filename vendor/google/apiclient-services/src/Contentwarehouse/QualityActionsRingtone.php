@@ -22,6 +22,7 @@ class QualityActionsRingtone extends \Google\Collection
   protected $collection_key = 'soundUrl';
   protected $pauseDurationType = AssistantApiDuration::class;
   protected $pauseDurationDataType = '';
+  public $pauseDuration;
   /**
    * @var string[]
    */

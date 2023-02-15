@@ -21,6 +21,7 @@ class VideoFileSphericalMetadataMeshProjection extends \Google\Model
 {
   protected $boundsType = VideoFileSphericalMetadataFOVBounds::class;
   protected $boundsDataType = '';
+  public $bounds;
   /**
    * @var string
    */

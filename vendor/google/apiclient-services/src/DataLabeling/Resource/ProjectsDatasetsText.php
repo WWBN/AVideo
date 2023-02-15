@@ -25,7 +25,7 @@ use Google\Service\DataLabeling\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $datalabelingService = new Google\Service\DataLabeling(...);
- *   $text = $datalabelingService->text;
+ *   $text = $datalabelingService->projects_datasets_text;
  *  </code>
  */
 class ProjectsDatasetsText extends \Google\Service\Resource

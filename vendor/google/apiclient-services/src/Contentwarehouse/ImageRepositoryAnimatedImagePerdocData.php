@@ -21,6 +21,7 @@ class ImageRepositoryAnimatedImagePerdocData extends \Google\Model
 {
   protected $aggregatedPornScoresType = ImageSafesearchContentBrainPornAnnotation::class;
   protected $aggregatedPornScoresDataType = '';
+  public $aggregatedPornScores;
   /**
    * @var int
    */

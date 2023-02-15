@@ -21,6 +21,7 @@ class ComputeHeadCursorResponse extends \Google\Model
 {
   protected $headCursorType = Cursor::class;
   protected $headCursorDataType = '';
+  public $headCursor;
 
   /**
    * @param Cursor

@@ -24,6 +24,7 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
   public $automodScores;
   protected $blarneyStoneScoreType = YoutubeDistillerBlarneyStoneScores::class;
   protected $blarneyStoneScoreDataType = '';
+  public $blarneyStoneScore;
   /**
    * @var string
    */
@@ -70,12 +71,14 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
   public $detailedLanguageCode;
   protected $distillerEngagementsType = AppsPeopleActivityStreamqualityDistillerEngagements::class;
   protected $distillerEngagementsDataType = '';
+  public $distillerEngagements;
   /**
    * @var string[]
    */
   public $eligibleQualifiedTeaserFilters;
   protected $empiricalCtrsType = VideoYoutubeCommentsRankingCTRMetrics::class;
   protected $empiricalCtrsDataType = '';
+  public $empiricalCtrs;
   public $fds;
   /**
    * @var bool
@@ -161,19 +164,28 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
   public $rankingPostLanguage;
   protected $segmentsType = SocialCommonSegments::class;
   protected $segmentsDataType = '';
+  public $segments;
   public $sensitivityScores;
   protected $sentimentType = YoutubeCommentsSentimentSentiment::class;
   protected $sentimentDataType = '';
+  public $sentiment;
+  /**
+   * @var string
+   */
+  public $shortReplyVideoId;
   protected $smartRepliesType = VideoYoutubeCommentsClassificationProtoYouTubeCommentSmartReply::class;
   protected $smartRepliesDataType = 'map';
+  public $smartReplies;
   /**
    * @var string
    */
   public $stanzaId;
   protected $stanzaRestrictionsType = SocialStanzaStanzaRestriction::class;
   protected $stanzaRestrictionsDataType = 'array';
+  public $stanzaRestrictions;
   protected $subjectType = SecurityCredentialsPrincipalProto::class;
   protected $subjectDataType = '';
+  public $subject;
   /**
    * @var bool
    */
@@ -184,16 +196,20 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
   public $subscriptionTimestamp;
   protected $superThanksInfoType = YoutubeBackstageSuperVodCommentInfo::class;
   protected $superThanksInfoDataType = '';
+  public $superThanksInfo;
   protected $textEmbeddingType = YoutubeCommentsRankingYouTubeCommentTextEmbedding::class;
   protected $textEmbeddingDataType = 'map';
+  public $textEmbedding;
   /**
    * @var int
    */
   public $textLength;
   protected $textQualityScoresType = YoutubeCommentsRankingYouTubeCommentTextQualityAnnotation::class;
   protected $textQualityScoresDataType = '';
+  public $textQualityScores;
   protected $textQualityScores2Type = YoutubeCommentsRankingYouTubeCommentTextQualityAnnotation::class;
   protected $textQualityScores2DataType = '';
+  public $textQualityScores2;
   /**
    * @var string
    */
@@ -203,6 +219,10 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
    */
   public $videoTimestamps;
   public $wordEntropy;
+  /**
+   * @var string
+   */
+  public $ytAuthorChannelId;
   public $ytCommentQualityScore;
   public $ytCommentQualityScore2;
   public $ytCommentQualityScore3;
@@ -796,6 +816,20 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
     return $this->sentiment;
   }
   /**
+   * @param string
+   */
+  public function setShortReplyVideoId($shortReplyVideoId)
+  {
+    $this->shortReplyVideoId = $shortReplyVideoId;
+  }
+  /**
+   * @return string
+   */
+  public function getShortReplyVideoId()
+  {
+    return $this->shortReplyVideoId;
+  }
+  /**
    * @param VideoYoutubeCommentsClassificationProtoYouTubeCommentSmartReply[]
    */
   public function setSmartReplies($smartReplies)
@@ -984,6 +1018,20 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
   public function getWordEntropy()
   {
     return $this->wordEntropy;
+  }
+  /**
+   * @param string
+   */
+  public function setYtAuthorChannelId($ytAuthorChannelId)
+  {
+    $this->ytAuthorChannelId = $ytAuthorChannelId;
+  }
+  /**
+   * @return string
+   */
+  public function getYtAuthorChannelId()
+  {
+    return $this->ytAuthorChannelId;
   }
   public function setYtCommentQualityScore($ytCommentQualityScore)
   {

@@ -22,6 +22,7 @@ class AssistantApiAndroidIntentCapabilities extends \Google\Collection
   protected $collection_key = 'androidIntentCapability';
   protected $androidIntentCapabilityType = AssistantApiAndroidIntentCapabilitiesAndroidIntentCapability::class;
   protected $androidIntentCapabilityDataType = 'array';
+  public $androidIntentCapability;
 
   /**
    * @param AssistantApiAndroidIntentCapabilitiesAndroidIntentCapability[]

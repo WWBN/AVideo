@@ -22,8 +22,10 @@ class GkeNodePoolConfig extends \Google\Collection
   protected $collection_key = 'locations';
   protected $autoscalingType = GkeNodePoolAutoscalingConfig::class;
   protected $autoscalingDataType = '';
+  public $autoscaling;
   protected $configType = GkeNodeConfig::class;
   protected $configDataType = '';
+  public $config;
   /**
    * @var string[]
    */

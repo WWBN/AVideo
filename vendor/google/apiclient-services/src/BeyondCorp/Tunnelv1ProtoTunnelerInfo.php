@@ -29,6 +29,7 @@ class Tunnelv1ProtoTunnelerInfo extends \Google\Model
   public $id;
   protected $latestErrType = Tunnelv1ProtoTunnelerError::class;
   protected $latestErrDataType = '';
+  public $latestErr;
   /**
    * @var string
    */

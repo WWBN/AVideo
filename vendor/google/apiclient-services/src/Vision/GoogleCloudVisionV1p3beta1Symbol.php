@@ -21,12 +21,14 @@ class GoogleCloudVisionV1p3beta1Symbol extends \Google\Model
 {
   protected $boundingBoxType = GoogleCloudVisionV1p3beta1BoundingPoly::class;
   protected $boundingBoxDataType = '';
+  public $boundingBox;
   /**
    * @var float
    */
   public $confidence;
   protected $propertyType = GoogleCloudVisionV1p3beta1TextAnnotationTextProperty::class;
   protected $propertyDataType = '';
+  public $property;
   /**
    * @var string
    */

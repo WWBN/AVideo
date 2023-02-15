@@ -61,6 +61,7 @@ class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
   public $orgPolicyConstraint;
   protected $remediationType = GoogleCloudAssuredworkloadsV1ViolationRemediation::class;
   protected $remediationDataType = '';
+  public $remediation;
   /**
    * @var string
    */

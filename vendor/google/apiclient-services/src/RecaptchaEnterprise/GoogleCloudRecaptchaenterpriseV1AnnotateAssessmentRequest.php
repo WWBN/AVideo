@@ -32,6 +32,9 @@ class GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest extends \Google\
    * @var string[]
    */
   public $reasons;
+  protected $transactionEventType = GoogleCloudRecaptchaenterpriseV1TransactionEvent::class;
+  protected $transactionEventDataType = '';
+  public $transactionEvent;
 
   /**
    * @param string
@@ -74,6 +77,20 @@ class GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest extends \Google\
   public function getReasons()
   {
     return $this->reasons;
+  }
+  /**
+   * @param GoogleCloudRecaptchaenterpriseV1TransactionEvent
+   */
+  public function setTransactionEvent(GoogleCloudRecaptchaenterpriseV1TransactionEvent $transactionEvent)
+  {
+    $this->transactionEvent = $transactionEvent;
+  }
+  /**
+   * @return GoogleCloudRecaptchaenterpriseV1TransactionEvent
+   */
+  public function getTransactionEvent()
+  {
+    return $this->transactionEvent;
   }
 }
 

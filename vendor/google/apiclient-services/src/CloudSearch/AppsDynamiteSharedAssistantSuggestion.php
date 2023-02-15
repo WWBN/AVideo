@@ -21,16 +21,20 @@ class AppsDynamiteSharedAssistantSuggestion extends \Google\Model
 {
   protected $debugContextType = AppsDynamiteSharedAssistantDebugContext::class;
   protected $debugContextDataType = '';
+  public $debugContext;
   protected $feedbackContextType = AppsDynamiteSharedAssistantFeedbackContext::class;
   protected $feedbackContextDataType = '';
+  public $feedbackContext;
   protected $findDocumentSuggestionType = AppsDynamiteSharedFindDocumentSuggestion::class;
   protected $findDocumentSuggestionDataType = '';
+  public $findDocumentSuggestion;
   /**
    * @var string
    */
   public $serializedSuggestions;
   protected $sessionContextType = AppsDynamiteSharedAssistantSessionContext::class;
   protected $sessionContextDataType = '';
+  public $sessionContext;
 
   /**
    * @param AppsDynamiteSharedAssistantDebugContext

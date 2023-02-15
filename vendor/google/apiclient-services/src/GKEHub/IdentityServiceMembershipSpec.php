@@ -22,6 +22,7 @@ class IdentityServiceMembershipSpec extends \Google\Collection
   protected $collection_key = 'authMethods';
   protected $authMethodsType = IdentityServiceAuthMethod::class;
   protected $authMethodsDataType = 'array';
+  public $authMethods;
 
   /**
    * @param IdentityServiceAuthMethod[]

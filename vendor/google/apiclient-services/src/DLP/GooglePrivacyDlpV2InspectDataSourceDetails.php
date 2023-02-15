@@ -21,8 +21,10 @@ class GooglePrivacyDlpV2InspectDataSourceDetails extends \Google\Model
 {
   protected $requestedOptionsType = GooglePrivacyDlpV2RequestedOptions::class;
   protected $requestedOptionsDataType = '';
+  public $requestedOptions;
   protected $resultType = GooglePrivacyDlpV2Result::class;
   protected $resultDataType = '';
+  public $result;
 
   /**
    * @param GooglePrivacyDlpV2RequestedOptions

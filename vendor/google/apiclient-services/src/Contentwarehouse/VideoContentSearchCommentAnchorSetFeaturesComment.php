@@ -29,6 +29,7 @@ class VideoContentSearchCommentAnchorSetFeaturesComment extends \Google\Model
   public $likeCount;
   protected $miniStanzaType = YoutubeCommentsClusteringMiniStanza::class;
   protected $miniStanzaDataType = '';
+  public $miniStanza;
   /**
    * @var string
    */

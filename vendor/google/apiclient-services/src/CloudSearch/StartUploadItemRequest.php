@@ -25,6 +25,7 @@ class StartUploadItemRequest extends \Google\Model
   public $connectorName;
   protected $debugOptionsType = DebugOptions::class;
   protected $debugOptionsDataType = '';
+  public $debugOptions;
 
   /**
    * @param string

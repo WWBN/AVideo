@@ -22,12 +22,16 @@ class DictlayerdataDictWords extends \Google\Collection
   protected $collection_key = 'senses';
   protected $derivativesType = DictlayerdataDictWordsDerivatives::class;
   protected $derivativesDataType = 'array';
+  public $derivatives;
   protected $examplesType = DictlayerdataDictWordsExamples::class;
   protected $examplesDataType = 'array';
+  public $examples;
   protected $sensesType = DictlayerdataDictWordsSenses::class;
   protected $sensesDataType = 'array';
+  public $senses;
   protected $sourceType = DictlayerdataDictWordsSource::class;
   protected $sourceDataType = '';
+  public $source;
 
   /**
    * @param DictlayerdataDictWordsDerivatives[]

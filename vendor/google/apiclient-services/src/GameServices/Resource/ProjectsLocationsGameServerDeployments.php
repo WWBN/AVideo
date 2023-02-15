@@ -27,7 +27,7 @@ use Google\Service\GameServices\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $gameservicesService = new Google\Service\GameServices(...);
- *   $gameServerDeployments = $gameservicesService->gameServerDeployments;
+ *   $gameServerDeployments = $gameservicesService->projects_locations_gameServerDeployments;
  *  </code>
  */
 class ProjectsLocationsGameServerDeployments extends \Google\Service\Resource

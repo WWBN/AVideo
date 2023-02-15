@@ -25,8 +25,10 @@ class PositionedObjectPositioning extends \Google\Model
   public $layout;
   protected $leftOffsetType = Dimension::class;
   protected $leftOffsetDataType = '';
+  public $leftOffset;
   protected $topOffsetType = Dimension::class;
   protected $topOffsetDataType = '';
+  public $topOffset;
 
   /**
    * @param string

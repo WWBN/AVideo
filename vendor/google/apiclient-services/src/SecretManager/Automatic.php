@@ -21,6 +21,7 @@ class Automatic extends \Google\Model
 {
   protected $customerManagedEncryptionType = CustomerManagedEncryption::class;
   protected $customerManagedEncryptionDataType = '';
+  public $customerManagedEncryption;
 
   /**
    * @param CustomerManagedEncryption

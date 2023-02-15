@@ -21,10 +21,13 @@ class GeostoreLaneMarkerProto extends \Google\Model
 {
   protected $barrierMaterialsType = GeostoreBarrierLogicalMaterialProto::class;
   protected $barrierMaterialsDataType = '';
+  public $barrierMaterials;
   protected $crossingPatternType = GeostoreCrossingStripePatternProto::class;
   protected $crossingPatternDataType = '';
+  public $crossingPattern;
   protected $linearPatternType = GeostoreLinearStripePatternProto::class;
   protected $linearPatternDataType = '';
+  public $linearPattern;
 
   /**
    * @param GeostoreBarrierLogicalMaterialProto

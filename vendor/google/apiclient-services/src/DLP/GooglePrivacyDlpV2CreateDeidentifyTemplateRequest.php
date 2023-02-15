@@ -21,6 +21,7 @@ class GooglePrivacyDlpV2CreateDeidentifyTemplateRequest extends \Google\Model
 {
   protected $deidentifyTemplateType = GooglePrivacyDlpV2DeidentifyTemplate::class;
   protected $deidentifyTemplateDataType = '';
+  public $deidentifyTemplate;
   /**
    * @var string
    */

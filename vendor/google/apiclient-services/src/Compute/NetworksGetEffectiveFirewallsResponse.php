@@ -22,8 +22,10 @@ class NetworksGetEffectiveFirewallsResponse extends \Google\Collection
   protected $collection_key = 'firewalls';
   protected $firewallPolicysType = NetworksGetEffectiveFirewallsResponseEffectiveFirewallPolicy::class;
   protected $firewallPolicysDataType = 'array';
+  public $firewallPolicys;
   protected $firewallsType = Firewall::class;
   protected $firewallsDataType = 'array';
+  public $firewalls;
 
   /**
    * @param NetworksGetEffectiveFirewallsResponseEffectiveFirewallPolicy[]

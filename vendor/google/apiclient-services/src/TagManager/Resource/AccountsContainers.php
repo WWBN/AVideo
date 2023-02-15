@@ -26,7 +26,7 @@ use Google\Service\TagManager\ListContainersResponse;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $containers = $tagmanagerService->containers;
+ *   $containers = $tagmanagerService->accounts_containers;
  *  </code>
  */
 class AccountsContainers extends \Google\Service\Resource

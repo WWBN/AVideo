@@ -21,6 +21,7 @@ class GoogleCloudPaymentsResellerSubscriptionV1PromotionIntroductoryPricingDetai
 {
   protected $discountAmountType = GoogleCloudPaymentsResellerSubscriptionV1Amount::class;
   protected $discountAmountDataType = '';
+  public $discountAmount;
   /**
    * @var string
    */

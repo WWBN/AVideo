@@ -22,16 +22,20 @@ class NlpSciencelitArticleData extends \Google\Collection
   protected $collection_key = 'scholarDocument';
   protected $analyzedTextType = NlxDataSchemaScaleSet::class;
   protected $analyzedTextDataType = '';
+  public $analyzedText;
   protected $articleIdType = NlpSciencelitArticleId::class;
   protected $articleIdDataType = 'array';
+  public $articleId;
   protected $citationType = NlpSciencelitCitationData::class;
   protected $citationDataType = 'array';
+  public $citation;
   /**
    * @var string
    */
   public $earliestPubDate;
   protected $metadataType = NlpSciencelitArticleMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
@@ -42,14 +46,19 @@ class NlpSciencelitArticleData extends \Google\Collection
   public $parsedFrom;
   protected $pubDateType = NlpSciencelitPubDate::class;
   protected $pubDateDataType = 'array';
+  public $pubDate;
   protected $referencedBlockType = NlpSciencelitReferencedBlock::class;
   protected $referencedBlockDataType = 'array';
+  public $referencedBlock;
   protected $scholarCitationType = ScienceCitation::class;
   protected $scholarCitationDataType = '';
+  public $scholarCitation;
   protected $scholarDocumentType = CompositeDoc::class;
   protected $scholarDocumentDataType = 'array';
+  public $scholarDocument;
   protected $scholarSignalType = ScienceIndexSignal::class;
   protected $scholarSignalDataType = '';
+  public $scholarSignal;
   /**
    * @var string
    */

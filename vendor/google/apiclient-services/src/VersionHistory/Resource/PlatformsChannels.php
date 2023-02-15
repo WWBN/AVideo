@@ -24,7 +24,7 @@ use Google\Service\VersionHistory\ListChannelsResponse;
  * Typical usage is:
  *  <code>
  *   $versionhistoryService = new Google\Service\VersionHistory(...);
- *   $channels = $versionhistoryService->channels;
+ *   $channels = $versionhistoryService->platforms_channels;
  *  </code>
  */
 class PlatformsChannels extends \Google\Service\Resource

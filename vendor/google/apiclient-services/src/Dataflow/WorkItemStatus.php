@@ -26,30 +26,39 @@ class WorkItemStatus extends \Google\Collection
   public $completed;
   protected $counterUpdatesType = CounterUpdate::class;
   protected $counterUpdatesDataType = 'array';
+  public $counterUpdates;
   protected $dynamicSourceSplitType = DynamicSourceSplit::class;
   protected $dynamicSourceSplitDataType = '';
+  public $dynamicSourceSplit;
   protected $errorsType = Status::class;
   protected $errorsDataType = 'array';
+  public $errors;
   protected $metricUpdatesType = MetricUpdate::class;
   protected $metricUpdatesDataType = 'array';
+  public $metricUpdates;
   protected $progressType = ApproximateProgress::class;
   protected $progressDataType = '';
+  public $progress;
   /**
    * @var string
    */
   public $reportIndex;
   protected $reportedProgressType = ApproximateReportedProgress::class;
   protected $reportedProgressDataType = '';
+  public $reportedProgress;
   /**
    * @var string
    */
   public $requestedLeaseDuration;
   protected $sourceForkType = SourceFork::class;
   protected $sourceForkDataType = '';
+  public $sourceFork;
   protected $sourceOperationResponseType = SourceOperationResponse::class;
   protected $sourceOperationResponseDataType = '';
+  public $sourceOperationResponse;
   protected $stopPositionType = Position::class;
   protected $stopPositionDataType = '';
+  public $stopPosition;
   public $totalThrottlerWaitTimeSeconds;
   /**
    * @var string

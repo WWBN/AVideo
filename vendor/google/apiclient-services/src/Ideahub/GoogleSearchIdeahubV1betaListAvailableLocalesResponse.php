@@ -22,6 +22,7 @@ class GoogleSearchIdeahubV1betaListAvailableLocalesResponse extends \Google\Coll
   protected $collection_key = 'availableLocales';
   protected $availableLocalesType = GoogleSearchIdeahubV1betaAvailableLocale::class;
   protected $availableLocalesDataType = 'array';
+  public $availableLocales;
   /**
    * @var string
    */

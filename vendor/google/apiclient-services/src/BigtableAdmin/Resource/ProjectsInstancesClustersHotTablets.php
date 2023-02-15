@@ -24,7 +24,7 @@ use Google\Service\BigtableAdmin\ListHotTabletsResponse;
  * Typical usage is:
  *  <code>
  *   $bigtableadminService = new Google\Service\BigtableAdmin(...);
- *   $hotTablets = $bigtableadminService->hotTablets;
+ *   $hotTablets = $bigtableadminService->projects_instances_clusters_hotTablets;
  *  </code>
  */
 class ProjectsInstancesClustersHotTablets extends \Google\Service\Resource

@@ -21,8 +21,10 @@ class AppsPeopleOzExternalMergedpeopleapiLimitedProfileSettingsField extends \Go
 {
   protected $limitedProfileSettingsType = SocialGraphApiProtoLimitedProfileSettings::class;
   protected $limitedProfileSettingsDataType = '';
+  public $limitedProfileSettings;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
 
   /**
    * @param SocialGraphApiProtoLimitedProfileSettings

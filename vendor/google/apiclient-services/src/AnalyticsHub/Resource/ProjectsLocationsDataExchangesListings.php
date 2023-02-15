@@ -33,7 +33,7 @@ use Google\Service\AnalyticsHub\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $analyticshubService = new Google\Service\AnalyticsHub(...);
- *   $listings = $analyticshubService->listings;
+ *   $listings = $analyticshubService->projects_locations_dataExchanges_listings;
  *  </code>
  */
 class ProjectsLocationsDataExchangesListings extends \Google\Service\Resource

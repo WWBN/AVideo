@@ -34,6 +34,7 @@ class GoogleCloudApigeeV1Developer extends \Google\Collection
   public $apps;
   protected $attributesType = GoogleCloudApigeeV1Attribute::class;
   protected $attributesDataType = 'array';
+  public $attributes;
   /**
    * @var string[]
    */

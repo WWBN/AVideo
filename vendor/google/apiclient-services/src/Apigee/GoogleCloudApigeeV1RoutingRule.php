@@ -17,12 +17,17 @@
 
 namespace Google\Service\Apigee;
 
-class GoogleCloudApigeeV1RoutingRule extends \Google\Model
+class GoogleCloudApigeeV1RoutingRule extends \Google\Collection
 {
+  protected $collection_key = 'otherTargets';
   /**
    * @var string
    */
   public $basepath;
+  /**
+   * @var string
+   */
+  public $deploymentGroup;
   /**
    * @var string
    */
@@ -31,6 +36,10 @@ class GoogleCloudApigeeV1RoutingRule extends \Google\Model
    * @var string
    */
   public $environment;
+  /**
+   * @var string[]
+   */
+  public $otherTargets;
   /**
    * @var string
    */
@@ -53,6 +62,20 @@ class GoogleCloudApigeeV1RoutingRule extends \Google\Model
   public function getBasepath()
   {
     return $this->basepath;
+  }
+  /**
+   * @param string
+   */
+  public function setDeploymentGroup($deploymentGroup)
+  {
+    $this->deploymentGroup = $deploymentGroup;
+  }
+  /**
+   * @return string
+   */
+  public function getDeploymentGroup()
+  {
+    return $this->deploymentGroup;
   }
   /**
    * @param string
@@ -81,6 +104,20 @@ class GoogleCloudApigeeV1RoutingRule extends \Google\Model
   public function getEnvironment()
   {
     return $this->environment;
+  }
+  /**
+   * @param string[]
+   */
+  public function setOtherTargets($otherTargets)
+  {
+    $this->otherTargets = $otherTargets;
+  }
+  /**
+   * @return string[]
+   */
+  public function getOtherTargets()
+  {
+    return $this->otherTargets;
   }
   /**
    * @param string

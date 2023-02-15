@@ -24,7 +24,7 @@ use Google\Service\Directory\DirectoryChromeosdevicesCommand;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $commands = $adminService->commands;
+ *   $commands = $adminService->customer_devices_chromeos_commands;
  *  </code>
  */
 class CustomerDevicesChromeosCommands extends \Google\Service\Resource

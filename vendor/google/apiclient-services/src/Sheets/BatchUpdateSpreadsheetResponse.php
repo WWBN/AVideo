@@ -22,12 +22,14 @@ class BatchUpdateSpreadsheetResponse extends \Google\Collection
   protected $collection_key = 'replies';
   protected $repliesType = Response::class;
   protected $repliesDataType = 'array';
+  public $replies;
   /**
    * @var string
    */
   public $spreadsheetId;
   protected $updatedSpreadsheetType = Spreadsheet::class;
   protected $updatedSpreadsheetDataType = '';
+  public $updatedSpreadsheet;
 
   /**
    * @param Response[]

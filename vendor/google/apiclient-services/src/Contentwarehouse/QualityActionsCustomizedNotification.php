@@ -22,12 +22,14 @@ class QualityActionsCustomizedNotification extends \Google\Collection
   protected $collection_key = 'buttons';
   protected $buttonsType = QualityActionsCustomizedNotificationButton::class;
   protected $buttonsDataType = 'array';
+  public $buttons;
   /**
    * @var string
    */
   public $surfaceType;
   protected $tapActionType = QualityActionsCustomizedNotificationPayload::class;
   protected $tapActionDataType = '';
+  public $tapAction;
   /**
    * @var string
    */

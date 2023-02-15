@@ -28,7 +28,7 @@ use Google\Service\Essentialcontacts\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $essentialcontactsService = new Google\Service\Essentialcontacts(...);
- *   $contacts = $essentialcontactsService->contacts;
+ *   $contacts = $essentialcontactsService->projects_contacts;
  *  </code>
  */
 class ProjectsContacts extends \Google\Service\Resource

@@ -29,6 +29,7 @@ class ReturnPolicyOnlineReturnReasonCategoryInfo extends \Google\Model
   public $returnReasonCategory;
   protected $returnShippingFeeType = ReturnPolicyOnlineReturnShippingFee::class;
   protected $returnShippingFeeDataType = '';
+  public $returnShippingFee;
 
   /**
    * @param string

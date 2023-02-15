@@ -22,6 +22,7 @@ class AppsDynamiteSharedSelectionInput extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = AppsDynamiteSharedSelectionInputSelectionItem::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -32,6 +33,7 @@ class AppsDynamiteSharedSelectionInput extends \Google\Collection
   public $name;
   protected $onChangeActionType = AppsDynamiteSharedAction::class;
   protected $onChangeActionDataType = '';
+  public $onChangeAction;
   /**
    * @var string
    */

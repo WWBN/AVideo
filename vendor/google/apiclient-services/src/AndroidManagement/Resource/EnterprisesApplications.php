@@ -24,7 +24,7 @@ use Google\Service\AndroidManagement\Application;
  * Typical usage is:
  *  <code>
  *   $androidmanagementService = new Google\Service\AndroidManagement(...);
- *   $applications = $androidmanagementService->applications;
+ *   $applications = $androidmanagementService->enterprises_applications;
  *  </code>
  */
 class EnterprisesApplications extends \Google\Service\Resource

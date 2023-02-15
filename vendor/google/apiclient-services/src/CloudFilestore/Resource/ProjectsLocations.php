@@ -25,7 +25,7 @@ use Google\Service\CloudFilestore\Location;
  * Typical usage is:
  *  <code>
  *   $fileService = new Google\Service\CloudFilestore(...);
- *   $locations = $fileService->locations;
+ *   $locations = $fileService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

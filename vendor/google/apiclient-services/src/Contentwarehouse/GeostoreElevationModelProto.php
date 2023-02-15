@@ -33,6 +33,7 @@ class GeostoreElevationModelProto extends \Google\Model
   public $dataMaxlevel;
   protected $elevationDataType = Proto2BridgeMessageSet::class;
   protected $elevationDataDataType = '';
+  public $elevationData;
   /**
    * @var bool
    */

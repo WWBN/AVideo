@@ -25,6 +25,7 @@ class SolidFill extends \Google\Model
   public $alpha;
   protected $colorType = OpaqueColor::class;
   protected $colorDataType = '';
+  public $color;
 
   /**
    * @param float

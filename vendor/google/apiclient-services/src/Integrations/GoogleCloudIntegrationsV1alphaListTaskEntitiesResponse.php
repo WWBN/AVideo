@@ -22,6 +22,7 @@ class GoogleCloudIntegrationsV1alphaListTaskEntitiesResponse extends \Google\Col
   protected $collection_key = 'taskEntities';
   protected $taskEntitiesType = EnterpriseCrmFrontendsEventbusProtoTaskEntity::class;
   protected $taskEntitiesDataType = 'array';
+  public $taskEntities;
 
   /**
    * @param EnterpriseCrmFrontendsEventbusProtoTaskEntity[]

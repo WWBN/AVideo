@@ -21,8 +21,10 @@ class RequestAccessData extends \Google\Model
 {
   protected $concurrentAccessType = ConcurrentAccessRestriction::class;
   protected $concurrentAccessDataType = '';
+  public $concurrentAccess;
   protected $downloadAccessType = DownloadAccessRestriction::class;
   protected $downloadAccessDataType = '';
+  public $downloadAccess;
   /**
    * @var string
    */

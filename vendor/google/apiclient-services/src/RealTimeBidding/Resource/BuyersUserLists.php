@@ -28,7 +28,7 @@ use Google\Service\RealTimeBidding\UserList;
  * Typical usage is:
  *  <code>
  *   $realtimebiddingService = new Google\Service\RealTimeBidding(...);
- *   $userLists = $realtimebiddingService->userLists;
+ *   $userLists = $realtimebiddingService->buyers_userLists;
  *  </code>
  */
 class BuyersUserLists extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class ExpansionFilesUploadResponse extends \Google\Model
 {
   protected $expansionFileType = ExpansionFile::class;
   protected $expansionFileDataType = '';
+  public $expansionFile;
 
   /**
    * @param ExpansionFile

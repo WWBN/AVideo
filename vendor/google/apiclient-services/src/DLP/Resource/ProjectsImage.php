@@ -25,7 +25,7 @@ use Google\Service\DLP\GooglePrivacyDlpV2RedactImageResponse;
  * Typical usage is:
  *  <code>
  *   $dlpService = new Google\Service\DLP(...);
- *   $image = $dlpService->image;
+ *   $image = $dlpService->projects_image;
  *  </code>
  */
 class ProjectsImage extends \Google\Service\Resource

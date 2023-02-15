@@ -21,6 +21,7 @@ class GooglePlayDeveloperReportingV1beta1MetricValue extends \Google\Model
 {
   protected $decimalValueType = GoogleTypeDecimal::class;
   protected $decimalValueDataType = '';
+  public $decimalValue;
   /**
    * @var string
    */

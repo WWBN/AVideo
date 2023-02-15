@@ -24,7 +24,7 @@ use Google\Service\Vision\Operation;
  * Typical usage is:
  *  <code>
  *   $visionService = new Google\Service\Vision(...);
- *   $operations = $visionService->operations;
+ *   $operations = $visionService->locations_operations;
  *  </code>
  */
 class LocationsOperations extends \Google\Service\Resource

@@ -21,12 +21,16 @@ class AppsDynamiteSharedOnClick extends \Google\Model
 {
   protected $actionType = AppsDynamiteSharedAction::class;
   protected $actionDataType = '';
+  public $action;
   protected $hostAppActionType = HostAppActionMarkup::class;
   protected $hostAppActionDataType = '';
+  public $hostAppAction;
   protected $openDynamicLinkActionType = AppsDynamiteSharedAction::class;
   protected $openDynamicLinkActionDataType = '';
+  public $openDynamicLinkAction;
   protected $openLinkType = AppsDynamiteSharedOpenLink::class;
   protected $openLinkDataType = '';
+  public $openLink;
 
   /**
    * @param AppsDynamiteSharedAction

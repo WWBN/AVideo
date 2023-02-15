@@ -30,8 +30,10 @@ class GooglePrivacyDlpV2LDiversityEquivalenceClass extends \Google\Collection
   public $numDistinctSensitiveValues;
   protected $quasiIdsValuesType = GooglePrivacyDlpV2Value::class;
   protected $quasiIdsValuesDataType = 'array';
+  public $quasiIdsValues;
   protected $topSensitiveValuesType = GooglePrivacyDlpV2ValueFrequency::class;
   protected $topSensitiveValuesDataType = 'array';
+  public $topSensitiveValues;
 
   /**
    * @param string

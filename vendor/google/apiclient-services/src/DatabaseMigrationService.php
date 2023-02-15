@@ -40,8 +40,11 @@ class DatabaseMigrationService extends \Google\Service
 
   public $projects_locations;
   public $projects_locations_connectionProfiles;
+  public $projects_locations_conversionWorkspaces;
+  public $projects_locations_conversionWorkspaces_mappingRules;
   public $projects_locations_migrationJobs;
   public $projects_locations_operations;
+  public $projects_locations_privateConnections;
 
   /**
    * Constructs the internal representation of the DatabaseMigrationService
@@ -125,6 +128,14 @@ class DatabaseMigrationService extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'skipValidation' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+                'validateOnly' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
               ],
             ],'delete' => [
               'path' => 'v1/{+name}',
@@ -207,9 +218,17 @@ class DatabaseMigrationService extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'skipValidation' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
                 'updateMask' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+                'validateOnly' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
               ],
             ],'setIamPolicy' => [
@@ -227,6 +246,272 @@ class DatabaseMigrationService extends \Google\Service
               'httpMethod' => 'POST',
               'parameters' => [
                 'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_conversionWorkspaces = new DatabaseMigrationService\Resource\ProjectsLocationsConversionWorkspaces(
+        $this,
+        $this->serviceName,
+        'conversionWorkspaces',
+        [
+          'methods' => [
+            'apply' => [
+              'path' => 'v1/{+name}:apply',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'commit' => [
+              'path' => 'v1/{+name}:commit',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'convert' => [
+              'path' => 'v1/{+name}:convert',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
+              'path' => 'v1/{+parent}/conversionWorkspaces',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'conversionWorkspaceId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'describeConversionWorkspaceRevisions' => [
+              'path' => 'v1/{+conversionWorkspace}:describeConversionWorkspaceRevisions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'conversionWorkspace' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'commitId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'describeDatabaseEntities' => [
+              'path' => 'v1/{+conversionWorkspace}:describeDatabaseEntities',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'conversionWorkspace' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'commitId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'tree' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'uncommitted' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getIamPolicy' => [
+              'path' => 'v1/{+resource}:getIamPolicy',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'options.requestedPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/conversionWorkspaces',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'rollback' => [
+              'path' => 'v1/{+name}:rollback',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'searchBackgroundJobs' => [
+              'path' => 'v1/{+conversionWorkspace}:searchBackgroundJobs',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'conversionWorkspace' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'completedUntilTime' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'maxSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'returnMostRecentPerJobType' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
+            ],'seed' => [
+              'path' => 'v1/{+name}:seed',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'setIamPolicy' => [
+              'path' => 'v1/{+resource}:setIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'testIamPermissions' => [
+              'path' => 'v1/{+resource}:testIamPermissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_conversionWorkspaces_mappingRules = new DatabaseMigrationService\Resource\ProjectsLocationsConversionWorkspacesMappingRules(
+        $this,
+        $this->serviceName,
+        'mappingRules',
+        [
+          'methods' => [
+            'import' => [
+              'path' => 'v1/{+parent}/mappingRules:import',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -486,6 +771,88 @@ class DatabaseMigrationService extends \Google\Service
                   'required' => true,
                 ],
                 'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_privateConnections = new DatabaseMigrationService\Resource\ProjectsLocationsPrivateConnections(
+        $this,
+        $this->serviceName,
+        'privateConnections',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/privateConnections',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'privateConnectionId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'skipValidation' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/privateConnections',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

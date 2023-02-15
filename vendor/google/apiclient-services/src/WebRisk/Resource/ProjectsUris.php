@@ -25,7 +25,7 @@ use Google\Service\WebRisk\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $webriskService = new Google\Service\WebRisk(...);
- *   $uris = $webriskService->uris;
+ *   $uris = $webriskService->projects_uris;
  *  </code>
  */
 class ProjectsUris extends \Google\Service\Resource

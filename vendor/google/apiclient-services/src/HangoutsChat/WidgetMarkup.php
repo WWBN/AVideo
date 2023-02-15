@@ -22,12 +22,16 @@ class WidgetMarkup extends \Google\Collection
   protected $collection_key = 'buttons';
   protected $buttonsType = Button::class;
   protected $buttonsDataType = 'array';
+  public $buttons;
   protected $imageType = Image::class;
   protected $imageDataType = '';
+  public $image;
   protected $keyValueType = KeyValue::class;
   protected $keyValueDataType = '';
+  public $keyValue;
   protected $textParagraphType = TextParagraph::class;
   protected $textParagraphDataType = '';
+  public $textParagraph;
 
   /**
    * @param Button[]

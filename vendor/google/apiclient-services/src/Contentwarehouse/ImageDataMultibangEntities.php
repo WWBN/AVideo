@@ -22,6 +22,7 @@ class ImageDataMultibangEntities extends \Google\Collection
   protected $collection_key = 'entity';
   protected $entityType = ImageDataMultibangEntitiesMultibangEntity::class;
   protected $entityDataType = 'array';
+  public $entity;
 
   /**
    * @param ImageDataMultibangEntitiesMultibangEntity[]

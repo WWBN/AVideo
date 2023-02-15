@@ -30,7 +30,7 @@ use Google\Service\Directory\PrintServer;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $printServers = $adminService->printServers;
+ *   $printServers = $adminService->customers_chrome_printServers;
  *  </code>
  */
 class CustomersChromePrintServers extends \Google\Service\Resource

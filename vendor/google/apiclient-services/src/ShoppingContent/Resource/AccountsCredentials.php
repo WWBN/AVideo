@@ -24,7 +24,7 @@ use Google\Service\ShoppingContent\AccountCredentials;
  * Typical usage is:
  *  <code>
  *   $contentService = new Google\Service\ShoppingContent(...);
- *   $credentials = $contentService->credentials;
+ *   $credentials = $contentService->accounts_credentials;
  *  </code>
  */
 class AccountsCredentials extends \Google\Service\Resource

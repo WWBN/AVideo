@@ -63,25 +63,29 @@ final class UnixServer extends EventEmitter implements ServerInterface
             );
         }
 
-        $this->master = @\stream_socket_server(
+        $errno = 0;
+        $errstr = '';
+        \set_error_handler(function ($_, $error) use (&$errno, &$errstr) {
+            // PHP does not seem to report errno/errstr for Unix domain sockets (UDS) right now.
+            // This only applies to UDS server sockets, see also https://3v4l.org/NAhpr.
+            // Parse PHP warning message containing unknown error, HHVM reports proper info at least.
+            if (\preg_match('/\(([^\)]+)\)|\[(\d+)\]: (.*)/', $error, $match)) {
+                $errstr = isset($match[3]) ? $match['3'] : $match[1];
+                $errno = isset($match[2]) ? (int)$match[2] : 0;
+            }
+        });
+
+        $this->master = \stream_socket_server(
             $path,
             $errno,
             $errstr,
             \STREAM_SERVER_BIND | \STREAM_SERVER_LISTEN,
             \stream_context_create(array('socket' => $context))
         );
-        if (false === $this->master) {
-            // PHP does not seem to report errno/errstr for Unix domain sockets (UDS) right now.
-            // This only applies to UDS server sockets, see also https://3v4l.org/NAhpr.
-            // Parse PHP warning message containing unknown error, HHVM reports proper info at least.
-            if ($errno === 0 && $errstr === '') {
-                $error = \error_get_last();
-                if (\preg_match('/\(([^\)]+)\)|\[(\d+)\]: (.*)/', $error['message'], $match)) {
-                    $errstr = isset($match[3]) ? $match['3'] : $match[1];
-                    $errno = isset($match[2]) ? (int)$match[2] : 0;
-                }
-            }
 
+        \restore_error_handler();
+
+        if (false === $this->master) {
             throw new \RuntimeException(
                 'Failed to listen on Unix domain socket "' . $path . '": ' . $errstr . SocketServer::errconst($errno),
                 $errno

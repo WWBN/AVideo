@@ -22,6 +22,7 @@ class ChannelConversionPings extends \Google\Collection
   protected $collection_key = 'pings';
   protected $pingsType = ChannelConversionPing::class;
   protected $pingsDataType = 'array';
+  public $pings;
 
   /**
    * @param ChannelConversionPing[]

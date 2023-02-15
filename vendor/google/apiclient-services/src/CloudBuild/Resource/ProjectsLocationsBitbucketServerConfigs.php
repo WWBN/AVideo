@@ -28,7 +28,7 @@ use Google\Service\CloudBuild\RemoveBitbucketServerConnectedRepositoryRequest;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $bitbucketServerConfigs = $cloudbuildService->bitbucketServerConfigs;
+ *   $bitbucketServerConfigs = $cloudbuildService->projects_locations_bitbucketServerConfigs;
  *  </code>
  */
 class ProjectsLocationsBitbucketServerConfigs extends \Google\Service\Resource

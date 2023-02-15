@@ -21,6 +21,7 @@ class UpdateInfo extends \Google\Model
 {
   protected $blueGreenInfoType = BlueGreenInfo::class;
   protected $blueGreenInfoDataType = '';
+  public $blueGreenInfo;
 
   /**
    * @param BlueGreenInfo

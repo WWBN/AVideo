@@ -24,7 +24,7 @@ use Google\Service\FirebaseManagement\ListAvailableLocationsResponse;
  * Typical usage is:
  *  <code>
  *   $firebaseService = new Google\Service\FirebaseManagement(...);
- *   $availableLocations = $firebaseService->availableLocations;
+ *   $availableLocations = $firebaseService->projects_availableLocations;
  *  </code>
  */
 class ProjectsAvailableLocations extends \Google\Service\Resource

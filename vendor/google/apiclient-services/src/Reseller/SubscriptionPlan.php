@@ -21,6 +21,7 @@ class SubscriptionPlan extends \Google\Model
 {
   protected $commitmentIntervalType = SubscriptionPlanCommitmentInterval::class;
   protected $commitmentIntervalDataType = '';
+  public $commitmentInterval;
   /**
    * @var bool
    */

@@ -22,6 +22,7 @@ class ImagesListResponse extends \Google\Collection
   protected $collection_key = 'images';
   protected $imagesType = Image::class;
   protected $imagesDataType = 'array';
+  public $images;
 
   /**
    * @param Image[]

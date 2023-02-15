@@ -21,20 +21,28 @@ class GoogleCloudDialogflowV2IntentMessage extends \Google\Model
 {
   protected $basicCardType = GoogleCloudDialogflowV2IntentMessageBasicCard::class;
   protected $basicCardDataType = '';
+  public $basicCard;
   protected $browseCarouselCardType = GoogleCloudDialogflowV2IntentMessageBrowseCarouselCard::class;
   protected $browseCarouselCardDataType = '';
+  public $browseCarouselCard;
   protected $cardType = GoogleCloudDialogflowV2IntentMessageCard::class;
   protected $cardDataType = '';
+  public $card;
   protected $carouselSelectType = GoogleCloudDialogflowV2IntentMessageCarouselSelect::class;
   protected $carouselSelectDataType = '';
+  public $carouselSelect;
   protected $imageType = GoogleCloudDialogflowV2IntentMessageImage::class;
   protected $imageDataType = '';
+  public $image;
   protected $linkOutSuggestionType = GoogleCloudDialogflowV2IntentMessageLinkOutSuggestion::class;
   protected $linkOutSuggestionDataType = '';
+  public $linkOutSuggestion;
   protected $listSelectType = GoogleCloudDialogflowV2IntentMessageListSelect::class;
   protected $listSelectDataType = '';
+  public $listSelect;
   protected $mediaContentType = GoogleCloudDialogflowV2IntentMessageMediaContent::class;
   protected $mediaContentDataType = '';
+  public $mediaContent;
   /**
    * @var array[]
    */
@@ -45,14 +53,19 @@ class GoogleCloudDialogflowV2IntentMessage extends \Google\Model
   public $platform;
   protected $quickRepliesType = GoogleCloudDialogflowV2IntentMessageQuickReplies::class;
   protected $quickRepliesDataType = '';
+  public $quickReplies;
   protected $simpleResponsesType = GoogleCloudDialogflowV2IntentMessageSimpleResponses::class;
   protected $simpleResponsesDataType = '';
+  public $simpleResponses;
   protected $suggestionsType = GoogleCloudDialogflowV2IntentMessageSuggestions::class;
   protected $suggestionsDataType = '';
+  public $suggestions;
   protected $tableCardType = GoogleCloudDialogflowV2IntentMessageTableCard::class;
   protected $tableCardDataType = '';
+  public $tableCard;
   protected $textType = GoogleCloudDialogflowV2IntentMessageText::class;
   protected $textDataType = '';
+  public $text;
 
   /**
    * @param GoogleCloudDialogflowV2IntentMessageBasicCard

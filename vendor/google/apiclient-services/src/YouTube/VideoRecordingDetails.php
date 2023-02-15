@@ -21,6 +21,7 @@ class VideoRecordingDetails extends \Google\Model
 {
   protected $locationType = GeoPoint::class;
   protected $locationDataType = '';
+  public $location;
   /**
    * @var string
    */

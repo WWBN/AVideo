@@ -24,7 +24,7 @@ use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ListContinuousTestResults
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $continuousTestResults = $dialogflowService->continuousTestResults;
+ *   $continuousTestResults = $dialogflowService->projects_locations_agents_environments_continuousTestResults;
  *  </code>
  */
 class ProjectsLocationsAgentsEnvironmentsContinuousTestResults extends \Google\Service\Resource

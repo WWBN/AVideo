@@ -24,7 +24,7 @@ use Google\Service\Dataflow\ListSnapshotsResponse;
  * Typical usage is:
  *  <code>
  *   $dataflowService = new Google\Service\Dataflow(...);
- *   $snapshots = $dataflowService->snapshots;
+ *   $snapshots = $dataflowService->projects_locations_jobs_snapshots;
  *  </code>
  */
 class ProjectsLocationsJobsSnapshots extends \Google\Service\Resource

@@ -26,6 +26,7 @@ class GoogleCloudRecommenderV1ListRecommendationsResponse extends \Google\Collec
   public $nextPageToken;
   protected $recommendationsType = GoogleCloudRecommenderV1Recommendation::class;
   protected $recommendationsDataType = 'array';
+  public $recommendations;
 
   /**
    * @param string

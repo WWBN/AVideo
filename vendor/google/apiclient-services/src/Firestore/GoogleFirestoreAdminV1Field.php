@@ -21,12 +21,14 @@ class GoogleFirestoreAdminV1Field extends \Google\Model
 {
   protected $indexConfigType = GoogleFirestoreAdminV1IndexConfig::class;
   protected $indexConfigDataType = '';
+  public $indexConfig;
   /**
    * @var string
    */
   public $name;
   protected $ttlConfigType = GoogleFirestoreAdminV1TtlConfig::class;
   protected $ttlConfigDataType = '';
+  public $ttlConfig;
 
   /**
    * @param GoogleFirestoreAdminV1IndexConfig

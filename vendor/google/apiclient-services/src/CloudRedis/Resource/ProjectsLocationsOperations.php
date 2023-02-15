@@ -26,7 +26,7 @@ use Google\Service\CloudRedis\RedisEmpty;
  * Typical usage is:
  *  <code>
  *   $redisService = new Google\Service\CloudRedis(...);
- *   $operations = $redisService->operations;
+ *   $operations = $redisService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

@@ -26,7 +26,7 @@ use Google\Service\Translate\Operation;
  * Typical usage is:
  *  <code>
  *   $translateService = new Google\Service\Translate(...);
- *   $glossaries = $translateService->glossaries;
+ *   $glossaries = $translateService->projects_locations_glossaries;
  *  </code>
  */
 class ProjectsLocationsGlossaries extends \Google\Service\Resource

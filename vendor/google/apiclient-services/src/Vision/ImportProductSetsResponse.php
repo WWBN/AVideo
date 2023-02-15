@@ -22,8 +22,10 @@ class ImportProductSetsResponse extends \Google\Collection
   protected $collection_key = 'statuses';
   protected $referenceImagesType = ReferenceImage::class;
   protected $referenceImagesDataType = 'array';
+  public $referenceImages;
   protected $statusesType = Status::class;
   protected $statusesDataType = 'array';
+  public $statuses;
 
   /**
    * @param ReferenceImage[]

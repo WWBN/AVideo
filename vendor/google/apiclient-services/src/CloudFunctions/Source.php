@@ -21,8 +21,10 @@ class Source extends \Google\Model
 {
   protected $repoSourceType = RepoSource::class;
   protected $repoSourceDataType = '';
+  public $repoSource;
   protected $storageSourceType = StorageSource::class;
   protected $storageSourceDataType = '';
+  public $storageSource;
 
   /**
    * @param RepoSource

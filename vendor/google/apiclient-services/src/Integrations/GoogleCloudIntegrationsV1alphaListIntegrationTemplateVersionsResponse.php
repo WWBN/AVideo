@@ -22,6 +22,7 @@ class GoogleCloudIntegrationsV1alphaListIntegrationTemplateVersionsResponse exte
   protected $collection_key = 'integrationTemplateVersions';
   protected $integrationTemplateVersionsType = GoogleCloudIntegrationsV1alphaIntegrationTemplateVersion::class;
   protected $integrationTemplateVersionsDataType = 'array';
+  public $integrationTemplateVersions;
   /**
    * @var string
    */

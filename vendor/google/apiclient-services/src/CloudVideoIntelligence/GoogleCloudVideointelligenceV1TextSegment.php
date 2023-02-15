@@ -26,8 +26,10 @@ class GoogleCloudVideointelligenceV1TextSegment extends \Google\Collection
   public $confidence;
   protected $framesType = GoogleCloudVideointelligenceV1TextFrame::class;
   protected $framesDataType = 'array';
+  public $frames;
   protected $segmentType = GoogleCloudVideointelligenceV1VideoSegment::class;
   protected $segmentDataType = '';
+  public $segment;
 
   /**
    * @param float

@@ -21,6 +21,7 @@ class GoogleCloudPolicysimulatorV1ReplayDiff extends \Google\Model
 {
   protected $accessDiffType = GoogleCloudPolicysimulatorV1AccessStateDiff::class;
   protected $accessDiffDataType = '';
+  public $accessDiff;
 
   /**
    * @param GoogleCloudPolicysimulatorV1AccessStateDiff

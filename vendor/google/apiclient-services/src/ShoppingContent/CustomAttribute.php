@@ -22,6 +22,7 @@ class CustomAttribute extends \Google\Collection
   protected $collection_key = 'groupValues';
   protected $groupValuesType = CustomAttribute::class;
   protected $groupValuesDataType = 'array';
+  public $groupValues;
   /**
    * @var string
    */

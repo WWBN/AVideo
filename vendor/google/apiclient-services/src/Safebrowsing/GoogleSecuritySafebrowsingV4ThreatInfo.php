@@ -26,6 +26,7 @@ class GoogleSecuritySafebrowsingV4ThreatInfo extends \Google\Collection
   public $platformTypes;
   protected $threatEntriesType = GoogleSecuritySafebrowsingV4ThreatEntry::class;
   protected $threatEntriesDataType = 'array';
+  public $threatEntries;
   /**
    * @var string[]
    */

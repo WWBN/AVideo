@@ -22,6 +22,7 @@ class EnterprisesListResponse extends \Google\Collection
   protected $collection_key = 'enterprise';
   protected $enterpriseType = Enterprise::class;
   protected $enterpriseDataType = 'array';
+  public $enterprise;
 
   /**
    * @param Enterprise[]

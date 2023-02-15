@@ -30,6 +30,7 @@ class InstancesGetEffectiveFirewallsResponseEffectiveFirewallPolicy extends \Goo
   public $name;
   protected $rulesType = FirewallPolicyRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
   /**
    * @var string
    */

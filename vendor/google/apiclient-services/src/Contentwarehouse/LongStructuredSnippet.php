@@ -22,6 +22,7 @@ class LongStructuredSnippet extends \Google\Collection
   protected $collection_key = 'entry';
   protected $entryType = LongStructuredSnippetEntry::class;
   protected $entryDataType = 'array';
+  public $entry;
 
   /**
    * @param LongStructuredSnippetEntry[]

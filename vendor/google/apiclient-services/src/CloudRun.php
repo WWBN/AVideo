@@ -354,6 +354,16 @@ class CloudRun extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'wait' => [
+              'path' => 'v2/{+name}:wait',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],
           ]
         ]

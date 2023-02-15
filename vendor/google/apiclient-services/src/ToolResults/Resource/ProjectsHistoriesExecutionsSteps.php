@@ -28,7 +28,7 @@ use Google\Service\ToolResults\Step;
  * Typical usage is:
  *  <code>
  *   $toolresultsService = new Google\Service\ToolResults(...);
- *   $steps = $toolresultsService->steps;
+ *   $steps = $toolresultsService->projects_histories_executions_steps;
  *  </code>
  */
 class ProjectsHistoriesExecutionsSteps extends \Google\Service\Resource

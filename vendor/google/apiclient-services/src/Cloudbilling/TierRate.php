@@ -22,6 +22,7 @@ class TierRate extends \Google\Model
   public $startUsageAmount;
   protected $unitPriceType = Money::class;
   protected $unitPriceDataType = '';
+  public $unitPrice;
 
   public function setStartUsageAmount($startUsageAmount)
   {

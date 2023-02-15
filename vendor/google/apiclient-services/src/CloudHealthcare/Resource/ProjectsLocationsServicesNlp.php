@@ -25,7 +25,7 @@ use Google\Service\CloudHealthcare\AnalyzeEntitiesResponse;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $nlp = $healthcareService->nlp;
+ *   $nlp = $healthcareService->projects_locations_services_nlp;
  *  </code>
  */
 class ProjectsLocationsServicesNlp extends \Google\Service\Resource

@@ -22,12 +22,16 @@ class GoogleCloudDialogflowV2beta1IntentMessageTableCard extends \Google\Collect
   protected $collection_key = 'rows';
   protected $buttonsType = GoogleCloudDialogflowV2beta1IntentMessageBasicCardButton::class;
   protected $buttonsDataType = 'array';
+  public $buttons;
   protected $columnPropertiesType = GoogleCloudDialogflowV2beta1IntentMessageColumnProperties::class;
   protected $columnPropertiesDataType = 'array';
+  public $columnProperties;
   protected $imageType = GoogleCloudDialogflowV2beta1IntentMessageImage::class;
   protected $imageDataType = '';
+  public $image;
   protected $rowsType = GoogleCloudDialogflowV2beta1IntentMessageTableCardRow::class;
   protected $rowsDataType = 'array';
+  public $rows;
   /**
    * @var string
    */

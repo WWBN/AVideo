@@ -21,6 +21,7 @@ class GoogleCloudDatalabelingV1beta1CreateDatasetRequest extends \Google\Model
 {
   protected $datasetType = GoogleCloudDatalabelingV1beta1Dataset::class;
   protected $datasetDataType = '';
+  public $dataset;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1Dataset

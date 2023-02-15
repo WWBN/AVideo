@@ -21,12 +21,14 @@ class GoogleCloudChannelV1Sku extends \Google\Model
 {
   protected $marketingInfoType = GoogleCloudChannelV1MarketingInfo::class;
   protected $marketingInfoDataType = '';
+  public $marketingInfo;
   /**
    * @var string
    */
   public $name;
   protected $productType = GoogleCloudChannelV1Product::class;
   protected $productDataType = '';
+  public $product;
 
   /**
    * @param GoogleCloudChannelV1MarketingInfo

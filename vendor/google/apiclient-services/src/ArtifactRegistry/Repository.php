@@ -41,10 +41,18 @@ class Repository extends \Google\Model
   public $labels;
   protected $mavenConfigType = MavenRepositoryConfig::class;
   protected $mavenConfigDataType = '';
+  public $mavenConfig;
+  /**
+   * @var string
+   */
+  public $mode;
   /**
    * @var string
    */
   public $name;
+  protected $remoteRepositoryConfigType = RemoteRepositoryConfig::class;
+  protected $remoteRepositoryConfigDataType = '';
+  public $remoteRepositoryConfig;
   /**
    * @var bool
    */
@@ -57,6 +65,9 @@ class Repository extends \Google\Model
    * @var string
    */
   public $updateTime;
+  protected $virtualRepositoryConfigType = VirtualRepositoryConfig::class;
+  protected $virtualRepositoryConfigDataType = '';
+  public $virtualRepositoryConfig;
 
   /**
    * @param string
@@ -145,6 +156,20 @@ class Repository extends \Google\Model
   /**
    * @param string
    */
+  public function setMode($mode)
+  {
+    $this->mode = $mode;
+  }
+  /**
+   * @return string
+   */
+  public function getMode()
+  {
+    return $this->mode;
+  }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
@@ -155,6 +180,20 @@ class Repository extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param RemoteRepositoryConfig
+   */
+  public function setRemoteRepositoryConfig(RemoteRepositoryConfig $remoteRepositoryConfig)
+  {
+    $this->remoteRepositoryConfig = $remoteRepositoryConfig;
+  }
+  /**
+   * @return RemoteRepositoryConfig
+   */
+  public function getRemoteRepositoryConfig()
+  {
+    return $this->remoteRepositoryConfig;
   }
   /**
    * @param bool
@@ -197,6 +236,20 @@ class Repository extends \Google\Model
   public function getUpdateTime()
   {
     return $this->updateTime;
+  }
+  /**
+   * @param VirtualRepositoryConfig
+   */
+  public function setVirtualRepositoryConfig(VirtualRepositoryConfig $virtualRepositoryConfig)
+  {
+    $this->virtualRepositoryConfig = $virtualRepositoryConfig;
+  }
+  /**
+   * @return VirtualRepositoryConfig
+   */
+  public function getVirtualRepositoryConfig()
+  {
+    return $this->virtualRepositoryConfig;
   }
 }
 

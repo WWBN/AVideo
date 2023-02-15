@@ -21,10 +21,13 @@ class Report extends \Google\Model
 {
   protected $keyType = ReportKey::class;
   protected $keyDataType = '';
+  public $key;
   protected $metadataType = ReportMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $paramsType = Parameters::class;
   protected $paramsDataType = '';
+  public $params;
 
   /**
    * @param ReportKey

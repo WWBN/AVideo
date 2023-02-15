@@ -22,7 +22,7 @@ namespace Google\Service\FirebaseRealtimeDatabase\Resource;
  * Typical usage is:
  *  <code>
  *   $firebasedatabaseService = new Google\Service\FirebaseRealtimeDatabase(...);
- *   $locations = $firebasedatabaseService->locations;
+ *   $locations = $firebasedatabaseService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

@@ -26,8 +26,10 @@ class Metadata extends \Google\Collection
   public $createTime;
   protected $displayOptionsType = ResultDisplayMetadata::class;
   protected $displayOptionsDataType = '';
+  public $displayOptions;
   protected $fieldsType = NamedProperty::class;
   protected $fieldsDataType = 'array';
+  public $fields;
   /**
    * @var string
    */
@@ -38,8 +40,10 @@ class Metadata extends \Google\Collection
   public $objectType;
   protected $ownerType = Person::class;
   protected $ownerDataType = '';
+  public $owner;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
+  public $source;
   /**
    * @var string
    */

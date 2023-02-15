@@ -36,7 +36,7 @@ use Google\Service\Dataproc\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $dataprocService = new Google\Service\Dataproc(...);
- *   $clusters = $dataprocService->clusters;
+ *   $clusters = $dataprocService->projects_regions_clusters;
  *  </code>
  */
 class ProjectsRegionsClusters extends \Google\Service\Resource
@@ -228,7 +228,7 @@ class ProjectsRegionsClusters extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string gracefulDecommissionTimeout Optional. Timeout for graceful
-   * YARN decomissioning. Graceful decommissioning allows removing nodes from the
+   * YARN decommissioning. Graceful decommissioning allows removing nodes from the
    * cluster without interrupting jobs in progress. Timeout specifies how long to
    * wait for jobs in progress to finish before forcefully removing nodes (and
    * potentially interrupting jobs). Default timeout is 0 (for forceful

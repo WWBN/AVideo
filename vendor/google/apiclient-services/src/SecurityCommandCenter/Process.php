@@ -30,14 +30,17 @@ class Process extends \Google\Collection
   public $argumentsTruncated;
   protected $binaryType = SecuritycenterFile::class;
   protected $binaryDataType = '';
+  public $binary;
   protected $envVariablesType = EnvironmentVariable::class;
   protected $envVariablesDataType = 'array';
+  public $envVariables;
   /**
    * @var bool
    */
   public $envVariablesTruncated;
   protected $librariesType = SecuritycenterFile::class;
   protected $librariesDataType = 'array';
+  public $libraries;
   /**
    * @var string
    */
@@ -52,6 +55,7 @@ class Process extends \Google\Collection
   public $pid;
   protected $scriptType = SecuritycenterFile::class;
   protected $scriptDataType = '';
+  public $script;
 
   /**
    * @param string[]

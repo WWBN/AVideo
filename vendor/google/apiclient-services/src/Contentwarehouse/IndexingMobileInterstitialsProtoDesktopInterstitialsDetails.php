@@ -21,6 +21,7 @@ class IndexingMobileInterstitialsProtoDesktopInterstitialsDetails extends \Googl
 {
   protected $basicInfoType = IndexingMobileInterstitialsProtoInterstitialBasicInfo::class;
   protected $basicInfoDataType = '';
+  public $basicInfo;
   /**
    * @var bool
    */

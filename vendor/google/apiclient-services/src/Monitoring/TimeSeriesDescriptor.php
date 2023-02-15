@@ -22,8 +22,10 @@ class TimeSeriesDescriptor extends \Google\Collection
   protected $collection_key = 'pointDescriptors';
   protected $labelDescriptorsType = LabelDescriptor::class;
   protected $labelDescriptorsDataType = 'array';
+  public $labelDescriptors;
   protected $pointDescriptorsType = ValueDescriptor::class;
   protected $pointDescriptorsDataType = 'array';
+  public $pointDescriptors;
 
   /**
    * @param LabelDescriptor[]

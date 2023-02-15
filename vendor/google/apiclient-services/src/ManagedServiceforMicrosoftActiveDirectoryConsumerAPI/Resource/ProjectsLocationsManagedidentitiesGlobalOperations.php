@@ -27,7 +27,7 @@ use Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI\Operatio
  * Typical usage is:
  *  <code>
  *   $managedidentitiesService = new Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI(...);
- *   $operations = $managedidentitiesService->operations;
+ *   $operations = $managedidentitiesService->projects_locations_global_operations;
  *  </code>
  */
 class ProjectsLocationsManagedidentitiesGlobalOperations extends \Google\Service\Resource

@@ -21,8 +21,10 @@ class GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest extends \Goo
 {
   protected $errorsConfigType = GoogleCloudRecommendationengineV1beta1ImportErrorsConfig::class;
   protected $errorsConfigDataType = '';
+  public $errorsConfig;
   protected $inputConfigType = GoogleCloudRecommendationengineV1beta1InputConfig::class;
   protected $inputConfigDataType = '';
+  public $inputConfig;
   /**
    * @var string
    */

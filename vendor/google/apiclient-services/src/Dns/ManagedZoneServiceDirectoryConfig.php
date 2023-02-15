@@ -25,6 +25,7 @@ class ManagedZoneServiceDirectoryConfig extends \Google\Model
   public $kind;
   protected $namespaceType = ManagedZoneServiceDirectoryConfigNamespace::class;
   protected $namespaceDataType = '';
+  public $namespace;
 
   /**
    * @param string

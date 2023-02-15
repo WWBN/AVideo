@@ -26,6 +26,7 @@ class WafExpressionSet extends \Google\Collection
   public $aliases;
   protected $expressionsType = WafExpressionSetExpression::class;
   protected $expressionsDataType = 'array';
+  public $expressions;
   /**
    * @var string
    */

@@ -26,6 +26,7 @@ class BackendBucketList extends \Google\Collection
   public $id;
   protected $itemsType = BackendBucket::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class BackendBucketList extends \Google\Collection
   public $selfLink;
   protected $warningType = BackendBucketListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

@@ -30,6 +30,7 @@ class GoogleCloudApigeeV1TlsInfo extends \Google\Collection
   public $clientAuthEnabled;
   protected $commonNameType = GoogleCloudApigeeV1TlsInfoCommonName::class;
   protected $commonNameDataType = '';
+  public $commonName;
   /**
    * @var bool
    */

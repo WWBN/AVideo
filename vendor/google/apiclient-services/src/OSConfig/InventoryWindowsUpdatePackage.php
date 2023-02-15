@@ -22,6 +22,7 @@ class InventoryWindowsUpdatePackage extends \Google\Collection
   protected $collection_key = 'moreInfoUrls';
   protected $categoriesType = InventoryWindowsUpdatePackageWindowsUpdateCategory::class;
   protected $categoriesDataType = 'array';
+  public $categories;
   /**
    * @var string
    */

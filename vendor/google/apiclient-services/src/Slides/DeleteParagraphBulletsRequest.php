@@ -21,12 +21,14 @@ class DeleteParagraphBulletsRequest extends \Google\Model
 {
   protected $cellLocationType = TableCellLocation::class;
   protected $cellLocationDataType = '';
+  public $cellLocation;
   /**
    * @var string
    */
   public $objectId;
   protected $textRangeType = Range::class;
   protected $textRangeDataType = '';
+  public $textRange;
 
   /**
    * @param TableCellLocation

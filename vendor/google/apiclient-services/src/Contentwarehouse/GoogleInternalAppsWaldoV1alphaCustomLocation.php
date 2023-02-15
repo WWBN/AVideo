@@ -21,6 +21,7 @@ class GoogleInternalAppsWaldoV1alphaCustomLocation extends \Google\Model
 {
   protected $geoCoordinatesType = GoogleTypeLatLng::class;
   protected $geoCoordinatesDataType = '';
+  public $geoCoordinates;
   /**
    * @var string
    */

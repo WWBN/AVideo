@@ -21,32 +21,44 @@ class VideoContentSearchVideoAnchorsScoreInfo extends \Google\Model
 {
   protected $anchorsCommonFeatureSetType = VideoContentSearchAnchorsCommonFeatureSet::class;
   protected $anchorsCommonFeatureSetDataType = '';
+  public $anchorsCommonFeatureSet;
   protected $captionEntityAnchorSetFeaturesType = VideoContentSearchCaptionEntityAnchorSetFeatures::class;
   protected $captionEntityAnchorSetFeaturesDataType = '';
+  public $captionEntityAnchorSetFeatures;
   protected $captionSpanAnchorSetFeaturesType = VideoContentSearchCaptionSpanAnchorSetFeatures::class;
   protected $captionSpanAnchorSetFeaturesDataType = '';
+  public $captionSpanAnchorSetFeatures;
   protected $commentAnchorSetFeaturesType = VideoContentSearchCommentAnchorSetFeatures::class;
   protected $commentAnchorSetFeaturesDataType = '';
+  public $commentAnchorSetFeatures;
   protected $descriptionAnchorSetFeaturesType = VideoContentSearchDescriptionAnchorSetFeatures::class;
   protected $descriptionAnchorSetFeaturesDataType = '';
+  public $descriptionAnchorSetFeatures;
   /**
    * @var bool
    */
   public $filtered;
   protected $listAnchorSetFeaturesType = VideoContentSearchListAnchorSetFeatures::class;
   protected $listAnchorSetFeaturesDataType = '';
+  public $listAnchorSetFeatures;
   protected $listTrainingDataSetFeaturesType = VideoContentSearchListTrainingDataSetFeatures::class;
   protected $listTrainingDataSetFeaturesDataType = '';
+  public $listTrainingDataSetFeatures;
   protected $ocrAnchorClusterFeatureType = VideoContentSearchOnScreenTextClusterFeature::class;
   protected $ocrAnchorClusterFeatureDataType = '';
+  public $ocrAnchorClusterFeature;
   protected $ocrDescriptionTrainingDataSetFeaturesType = VideoContentSearchOcrDescriptionTrainingDataSetFeatures::class;
   protected $ocrDescriptionTrainingDataSetFeaturesDataType = '';
+  public $ocrDescriptionTrainingDataSetFeatures;
   protected $qnaAnchorSetFeaturesType = VideoContentSearchQnaAnchorSetFeatures::class;
   protected $qnaAnchorSetFeaturesDataType = '';
+  public $qnaAnchorSetFeatures;
   protected $ratingScoreType = VideoContentSearchVideoAnchorSetRatingScore::class;
   protected $ratingScoreDataType = '';
+  public $ratingScore;
   protected $sportsKeyMomentsAnchorSetFeaturesType = VideoContentSearchSportsKeyMomentsAnchorSetFeatures::class;
   protected $sportsKeyMomentsAnchorSetFeaturesDataType = '';
+  public $sportsKeyMomentsAnchorSetFeatures;
 
   /**
    * @param VideoContentSearchAnchorsCommonFeatureSet

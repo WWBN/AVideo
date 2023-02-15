@@ -22,12 +22,14 @@ class ListGroupItemsResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
+  public $errors;
   /**
    * @var string
    */
   public $etag;
   protected $itemsType = GroupItem::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

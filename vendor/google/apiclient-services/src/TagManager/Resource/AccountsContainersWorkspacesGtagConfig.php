@@ -25,7 +25,7 @@ use Google\Service\TagManager\ListGtagConfigResponse;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $gtag_config = $tagmanagerService->gtag_config;
+ *   $gtag_config = $tagmanagerService->accounts_containers_workspaces_gtag_config;
  *  </code>
  */
 class AccountsContainersWorkspacesGtagConfig extends \Google\Service\Resource

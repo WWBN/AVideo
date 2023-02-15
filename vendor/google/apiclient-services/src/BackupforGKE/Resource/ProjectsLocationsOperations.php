@@ -27,7 +27,7 @@ use Google\Service\BackupforGKE\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $gkebackupService = new Google\Service\BackupforGKE(...);
- *   $operations = $gkebackupService->operations;
+ *   $operations = $gkebackupService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

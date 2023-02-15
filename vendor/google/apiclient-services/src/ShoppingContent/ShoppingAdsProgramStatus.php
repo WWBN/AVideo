@@ -26,6 +26,7 @@ class ShoppingAdsProgramStatus extends \Google\Collection
   public $globalState;
   protected $regionStatusesType = ShoppingAdsProgramStatusRegionStatus::class;
   protected $regionStatusesDataType = 'array';
+  public $regionStatuses;
 
   /**
    * @param string

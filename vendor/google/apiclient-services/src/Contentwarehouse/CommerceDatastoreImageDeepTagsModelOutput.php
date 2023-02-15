@@ -22,22 +22,31 @@ class CommerceDatastoreImageDeepTagsModelOutput extends \Google\Collection
   protected $collection_key = 'textOverlay';
   protected $backgroundTypeType = CommerceDatastoreDeepTag::class;
   protected $backgroundTypeDataType = '';
+  public $backgroundType;
   protected $collageType = CommerceDatastoreDeepTag::class;
   protected $collageDataType = '';
+  public $collage;
   protected $croppingType = CommerceDatastoreDeepTag::class;
   protected $croppingDataType = '';
+  public $cropping;
   protected $modelTypeType = CommerceDatastoreDeepTag::class;
   protected $modelTypeDataType = '';
+  public $modelType;
   protected $nfsType = CommerceDatastoreDeepTag::class;
   protected $nfsDataType = '';
+  public $nfs;
   protected $objectCountType = CommerceDatastoreDeepTag::class;
   protected $objectCountDataType = '';
+  public $objectCount;
   protected $overlayType = CommerceDatastoreDeepTag::class;
   protected $overlayDataType = '';
+  public $overlay;
   protected $selfieType = CommerceDatastoreDeepTag::class;
   protected $selfieDataType = '';
+  public $selfie;
   protected $textOverlayType = CommerceDatastoreDeepTag::class;
   protected $textOverlayDataType = 'array';
+  public $textOverlay;
   /**
    * @var string
    */

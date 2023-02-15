@@ -27,7 +27,7 @@ use Google\Service\Apigee\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $natAddresses = $apigeeService->natAddresses;
+ *   $natAddresses = $apigeeService->organizations_instances_natAddresses;
  *  </code>
  */
 class OrganizationsInstancesNatAddresses extends \Google\Service\Resource

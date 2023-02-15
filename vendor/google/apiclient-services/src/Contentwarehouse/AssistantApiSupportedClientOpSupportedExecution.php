@@ -22,8 +22,26 @@ class AssistantApiSupportedClientOpSupportedExecution extends \Google\Model
   /**
    * @var bool
    */
+  public $supportsPartialFulfillment;
+  /**
+   * @var bool
+   */
   public $supportsSynchronousExecution;
 
+  /**
+   * @param bool
+   */
+  public function setSupportsPartialFulfillment($supportsPartialFulfillment)
+  {
+    $this->supportsPartialFulfillment = $supportsPartialFulfillment;
+  }
+  /**
+   * @return bool
+   */
+  public function getSupportsPartialFulfillment()
+  {
+    return $this->supportsPartialFulfillment;
+  }
   /**
    * @param bool
    */

@@ -21,6 +21,7 @@ class Video extends \Google\Model
 {
   protected $propertiesType = MediaProperties::class;
   protected $propertiesDataType = '';
+  public $properties;
   /**
    * @var string
    */

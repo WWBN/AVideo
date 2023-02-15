@@ -21,12 +21,18 @@ class Type extends \Google\Model
 {
   protected $arrayElementTypeType = Type::class;
   protected $arrayElementTypeDataType = '';
+  public $arrayElementType;
   /**
    * @var string
    */
   public $code;
+  /**
+   * @var string
+   */
+  public $protoTypeFqn;
   protected $structTypeType = StructType::class;
   protected $structTypeDataType = '';
+  public $structType;
   /**
    * @var string
    */
@@ -59,6 +65,20 @@ class Type extends \Google\Model
   public function getCode()
   {
     return $this->code;
+  }
+  /**
+   * @param string
+   */
+  public function setProtoTypeFqn($protoTypeFqn)
+  {
+    $this->protoTypeFqn = $protoTypeFqn;
+  }
+  /**
+   * @return string
+   */
+  public function getProtoTypeFqn()
+  {
+    return $this->protoTypeFqn;
   }
   /**
    * @param StructType

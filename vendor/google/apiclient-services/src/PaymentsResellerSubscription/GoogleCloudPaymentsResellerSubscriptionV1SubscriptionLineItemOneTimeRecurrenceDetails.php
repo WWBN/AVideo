@@ -21,6 +21,7 @@ class GoogleCloudPaymentsResellerSubscriptionV1SubscriptionLineItemOneTimeRecurr
 {
   protected $servicePeriodType = GoogleCloudPaymentsResellerSubscriptionV1ServicePeriod::class;
   protected $servicePeriodDataType = '';
+  public $servicePeriod;
 
   /**
    * @param GoogleCloudPaymentsResellerSubscriptionV1ServicePeriod

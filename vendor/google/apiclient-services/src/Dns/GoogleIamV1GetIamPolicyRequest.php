@@ -21,6 +21,7 @@ class GoogleIamV1GetIamPolicyRequest extends \Google\Model
 {
   protected $optionsType = GoogleIamV1GetPolicyOptions::class;
   protected $optionsDataType = '';
+  public $options;
 
   /**
    * @param GoogleIamV1GetPolicyOptions

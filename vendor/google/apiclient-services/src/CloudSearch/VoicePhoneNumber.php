@@ -25,6 +25,7 @@ class VoicePhoneNumber extends \Google\Model
   public $e164;
   protected $i18nDataType = VoicePhoneNumberI18nData::class;
   protected $i18nDataDataType = '';
+  public $i18nData;
 
   /**
    * @param string

@@ -22,40 +22,54 @@ class RepositoryWebrefExtraMetadata extends \Google\Collection
   protected $collection_key = 'supportTransferRules';
   protected $bookEditionMetadataType = RepositoryWebrefBookEditionMetadata::class;
   protected $bookEditionMetadataDataType = 'array';
+  public $bookEditionMetadata;
   protected $categoryInfoType = RepositoryWebrefCategoryInfo::class;
   protected $categoryInfoDataType = '';
+  public $categoryInfo;
   protected $clusterMetadataType = RepositoryWebrefClusterMetadata::class;
   protected $clusterMetadataDataType = '';
+  public $clusterMetadata;
   protected $displayInfoType = RepositoryWebrefDisplayInfo::class;
   protected $displayInfoDataType = '';
+  public $displayInfo;
   protected $entityScoresType = RepositoryWebrefEntityScores::class;
   protected $entityScoresDataType = '';
+  public $entityScores;
   protected $equivalentEntityIdType = RepositoryWebrefWebrefEntityId::class;
   protected $equivalentEntityIdDataType = 'array';
+  public $equivalentEntityId;
   protected $geoMetadataType = RepositoryWebrefGeoMetadataProto::class;
   protected $geoMetadataDataType = '';
+  public $geoMetadata;
   protected $kcAttributeMetadataType = RepositoryWebrefKCAttributeMetadata::class;
   protected $kcAttributeMetadataDataType = '';
+  public $kcAttributeMetadata;
   protected $latentEntitiesType = RepositoryWebrefLatentEntities::class;
   protected $latentEntitiesDataType = '';
+  public $latentEntities;
   protected $mdvcMetadataType = RepositoryWebrefMdvcMetadata::class;
   protected $mdvcMetadataDataType = '';
+  public $mdvcMetadata;
   protected $otherMetadataType = Proto2BridgeMessageSet::class;
   protected $otherMetadataDataType = '';
+  public $otherMetadata;
   /**
    * @var string
    */
   public $primaryRecording;
   protected $productMetadataType = RepositoryWebrefProductMetadata::class;
   protected $productMetadataDataType = '';
+  public $productMetadata;
   /**
    * @var string
    */
   public $specialEntityType;
   protected $specialWordType = MapsQualitySpecialWordsProto::class;
   protected $specialWordDataType = 'array';
+  public $specialWord;
   protected $supportTransferRulesType = RepositoryWebrefSupportTransferRule::class;
   protected $supportTransferRulesDataType = 'array';
+  public $supportTransferRules;
 
   /**
    * @param RepositoryWebrefBookEditionMetadata[]

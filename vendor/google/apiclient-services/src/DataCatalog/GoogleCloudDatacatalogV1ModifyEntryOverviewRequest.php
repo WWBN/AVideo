@@ -21,6 +21,7 @@ class GoogleCloudDatacatalogV1ModifyEntryOverviewRequest extends \Google\Model
 {
   protected $entryOverviewType = GoogleCloudDatacatalogV1EntryOverview::class;
   protected $entryOverviewDataType = '';
+  public $entryOverview;
 
   /**
    * @param GoogleCloudDatacatalogV1EntryOverview

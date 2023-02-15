@@ -25,6 +25,7 @@ class UserMentionData extends \Google\Model
   public $email;
   protected $userType = PrincipalProto::class;
   protected $userDataType = '';
+  public $user;
   /**
    * @var string
    */

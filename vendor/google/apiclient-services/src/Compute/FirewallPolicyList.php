@@ -26,6 +26,7 @@ class FirewallPolicyList extends \Google\Collection
   public $id;
   protected $itemsType = FirewallPolicy::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -36,6 +37,7 @@ class FirewallPolicyList extends \Google\Collection
   public $nextPageToken;
   protected $warningType = FirewallPolicyListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

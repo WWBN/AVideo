@@ -22,10 +22,13 @@ class SearchQueries extends \Google\Collection
   protected $collection_key = 'request';
   protected $nextPageType = SearchQueriesNextPage::class;
   protected $nextPageDataType = 'array';
+  public $nextPage;
   protected $previousPageType = SearchQueriesPreviousPage::class;
   protected $previousPageDataType = 'array';
+  public $previousPage;
   protected $requestType = SearchQueriesRequest::class;
   protected $requestDataType = 'array';
+  public $request;
 
   /**
    * @param SearchQueriesNextPage[]

@@ -22,7 +22,7 @@ namespace Google\Service\RecommendationsAI\Resource;
  * Typical usage is:
  *  <code>
  *   $recommendationengineService = new Google\Service\RecommendationsAI(...);
- *   $eventStores = $recommendationengineService->eventStores;
+ *   $eventStores = $recommendationengineService->projects_locations_catalogs_eventStores;
  *  </code>
  */
 class ProjectsLocationsCatalogsEventStores extends \Google\Service\Resource

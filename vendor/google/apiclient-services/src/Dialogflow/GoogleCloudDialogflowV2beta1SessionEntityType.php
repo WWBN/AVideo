@@ -22,6 +22,7 @@ class GoogleCloudDialogflowV2beta1SessionEntityType extends \Google\Collection
   protected $collection_key = 'entities';
   protected $entitiesType = GoogleCloudDialogflowV2beta1EntityTypeEntity::class;
   protected $entitiesDataType = 'array';
+  public $entities;
   /**
    * @var string
    */

@@ -37,6 +37,7 @@ class GoogleCloudDatacatalogV1SearchCatalogRequest extends \Google\Model
   public $query;
   protected $scopeType = GoogleCloudDatacatalogV1SearchCatalogRequestScope::class;
   protected $scopeDataType = '';
+  public $scope;
 
   /**
    * @param string

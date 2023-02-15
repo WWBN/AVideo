@@ -22,12 +22,14 @@ class RegionInstanceGroupManagersListInstanceConfigsResp extends \Google\Collect
   protected $collection_key = 'items';
   protected $itemsType = PerInstanceConfig::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
   public $nextPageToken;
   protected $warningType = RegionInstanceGroupManagersListInstanceConfigsRespWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param PerInstanceConfig[]

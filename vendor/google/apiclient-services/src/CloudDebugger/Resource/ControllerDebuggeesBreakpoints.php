@@ -26,7 +26,7 @@ use Google\Service\CloudDebugger\UpdateActiveBreakpointResponse;
  * Typical usage is:
  *  <code>
  *   $clouddebuggerService = new Google\Service\CloudDebugger(...);
- *   $breakpoints = $clouddebuggerService->breakpoints;
+ *   $breakpoints = $clouddebuggerService->controller_debuggees_breakpoints;
  *  </code>
  */
 class ControllerDebuggeesBreakpoints extends \Google\Service\Resource

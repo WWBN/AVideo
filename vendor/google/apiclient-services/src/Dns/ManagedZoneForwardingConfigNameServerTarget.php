@@ -30,6 +30,10 @@ class ManagedZoneForwardingConfigNameServerTarget extends \Google\Model
   /**
    * @var string
    */
+  public $ipv6Address;
+  /**
+   * @var string
+   */
   public $kind;
 
   /**
@@ -59,6 +63,20 @@ class ManagedZoneForwardingConfigNameServerTarget extends \Google\Model
   public function getIpv4Address()
   {
     return $this->ipv4Address;
+  }
+  /**
+   * @param string
+   */
+  public function setIpv6Address($ipv6Address)
+  {
+    $this->ipv6Address = $ipv6Address;
+  }
+  /**
+   * @return string
+   */
+  public function getIpv6Address()
+  {
+    return $this->ipv6Address;
   }
   /**
    * @param string

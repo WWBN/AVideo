@@ -22,8 +22,10 @@ class DictlayerdataDict extends \Google\Collection
   protected $collection_key = 'words';
   protected $sourceType = DictlayerdataDictSource::class;
   protected $sourceDataType = '';
+  public $source;
   protected $wordsType = DictlayerdataDictWords::class;
   protected $wordsDataType = 'array';
+  public $words;
 
   /**
    * @param DictlayerdataDictSource

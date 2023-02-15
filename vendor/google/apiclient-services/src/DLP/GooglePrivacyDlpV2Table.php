@@ -22,8 +22,10 @@ class GooglePrivacyDlpV2Table extends \Google\Collection
   protected $collection_key = 'rows';
   protected $headersType = GooglePrivacyDlpV2FieldId::class;
   protected $headersDataType = 'array';
+  public $headers;
   protected $rowsType = GooglePrivacyDlpV2Row::class;
   protected $rowsDataType = 'array';
+  public $rows;
 
   /**
    * @param GooglePrivacyDlpV2FieldId[]

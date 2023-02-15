@@ -22,7 +22,7 @@ namespace Google\Service\ServiceNetworking\Resource;
  * Typical usage is:
  *  <code>
  *   $servicenetworkingService = new Google\Service\ServiceNetworking(...);
- *   $global = $servicenetworkingService->global;
+ *   $global = $servicenetworkingService->services_projects_global;
  *  </code>
  */
 class ServicesProjectsServicenetworkingGlobal extends \Google\Service\Resource

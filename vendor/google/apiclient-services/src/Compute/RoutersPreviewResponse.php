@@ -21,6 +21,7 @@ class RoutersPreviewResponse extends \Google\Model
 {
   protected $resourceType = Router::class;
   protected $resourceDataType = '';
+  public $resource;
 
   /**
    * @param Router

@@ -29,7 +29,7 @@ use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3MatchIntentResponse;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $sessions = $dialogflowService->sessions;
+ *   $sessions = $dialogflowService->projects_locations_agents_environments_sessions;
  *  </code>
  */
 class ProjectsLocationsAgentsEnvironmentsSessions extends \Google\Service\Resource

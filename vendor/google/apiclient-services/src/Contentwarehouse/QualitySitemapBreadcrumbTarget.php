@@ -22,6 +22,7 @@ class QualitySitemapBreadcrumbTarget extends \Google\Collection
   protected $collection_key = 'docs';
   protected $docsType = QualitySitemapBreadcrumbTargetDoc::class;
   protected $docsDataType = 'array';
+  public $docs;
 
   /**
    * @param QualitySitemapBreadcrumbTargetDoc[]

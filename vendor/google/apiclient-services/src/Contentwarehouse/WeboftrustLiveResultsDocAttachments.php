@@ -22,8 +22,10 @@ class WeboftrustLiveResultsDocAttachments extends \Google\Collection
   protected $collection_key = 'providerAttachment';
   protected $docBoostType = WeboftrustLiveResultDocBoostData::class;
   protected $docBoostDataType = 'array';
+  public $docBoost;
   protected $providerAttachmentType = WeboftrustLiveResultProviderDocAttachment::class;
   protected $providerAttachmentDataType = 'array';
+  public $providerAttachment;
 
   /**
    * @param WeboftrustLiveResultDocBoostData[]

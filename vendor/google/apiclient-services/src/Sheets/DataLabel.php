@@ -21,12 +21,14 @@ class DataLabel extends \Google\Model
 {
   protected $customLabelDataType = ChartData::class;
   protected $customLabelDataDataType = '';
+  public $customLabelData;
   /**
    * @var string
    */
   public $placement;
   protected $textFormatType = TextFormat::class;
   protected $textFormatDataType = '';
+  public $textFormat;
   /**
    * @var string
    */

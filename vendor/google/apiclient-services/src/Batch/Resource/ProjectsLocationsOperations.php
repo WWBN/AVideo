@@ -27,7 +27,7 @@ use Google\Service\Batch\Operation;
  * Typical usage is:
  *  <code>
  *   $batchService = new Google\Service\Batch(...);
- *   $operations = $batchService->operations;
+ *   $operations = $batchService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

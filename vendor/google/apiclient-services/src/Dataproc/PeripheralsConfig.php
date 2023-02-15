@@ -25,6 +25,7 @@ class PeripheralsConfig extends \Google\Model
   public $metastoreService;
   protected $sparkHistoryServerConfigType = SparkHistoryServerConfig::class;
   protected $sparkHistoryServerConfigDataType = '';
+  public $sparkHistoryServerConfig;
 
   /**
    * @param string

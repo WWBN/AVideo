@@ -22,6 +22,7 @@ class GoogleCloudVideointelligenceV1p1beta1PersonDetectionAnnotation extends \Go
   protected $collection_key = 'tracks';
   protected $tracksType = GoogleCloudVideointelligenceV1p1beta1Track::class;
   protected $tracksDataType = 'array';
+  public $tracks;
   /**
    * @var string
    */

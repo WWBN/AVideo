@@ -22,6 +22,7 @@ class ConversionList extends \Google\Collection
   protected $collection_key = 'conversion';
   protected $conversionType = Conversion::class;
   protected $conversionDataType = 'array';
+  public $conversion;
   /**
    * @var string
    */

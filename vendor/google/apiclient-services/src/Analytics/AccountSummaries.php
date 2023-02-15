@@ -22,6 +22,7 @@ class AccountSummaries extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = AccountSummary::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var int
    */

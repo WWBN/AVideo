@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1ListApiProxiesResponse extends \Google\Collection
   protected $collection_key = 'proxies';
   protected $proxiesType = GoogleCloudApigeeV1ApiProxy::class;
   protected $proxiesDataType = 'array';
+  public $proxies;
 
   /**
    * @param GoogleCloudApigeeV1ApiProxy[]

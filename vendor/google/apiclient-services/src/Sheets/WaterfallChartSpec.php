@@ -22,8 +22,10 @@ class WaterfallChartSpec extends \Google\Collection
   protected $collection_key = 'series';
   protected $connectorLineStyleType = LineStyle::class;
   protected $connectorLineStyleDataType = '';
+  public $connectorLineStyle;
   protected $domainType = WaterfallChartDomain::class;
   protected $domainDataType = '';
+  public $domain;
   /**
    * @var bool
    */
@@ -34,12 +36,14 @@ class WaterfallChartSpec extends \Google\Collection
   public $hideConnectorLines;
   protected $seriesType = WaterfallChartSeries::class;
   protected $seriesDataType = 'array';
+  public $series;
   /**
    * @var string
    */
   public $stackedType;
   protected $totalDataLabelType = DataLabel::class;
   protected $totalDataLabelDataType = '';
+  public $totalDataLabel;
 
   /**
    * @param LineStyle

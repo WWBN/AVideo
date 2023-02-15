@@ -46,6 +46,7 @@ class TcpRoute extends \Google\Collection
   public $name;
   protected $rulesType = TcpRouteRouteRule::class;
   protected $rulesDataType = 'array';
+  public $rules;
   /**
    * @var string
    */

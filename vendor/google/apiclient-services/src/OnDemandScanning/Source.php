@@ -22,14 +22,17 @@ class Source extends \Google\Collection
   protected $collection_key = 'additionalContexts';
   protected $additionalContextsType = SourceContext::class;
   protected $additionalContextsDataType = 'array';
+  public $additionalContexts;
   /**
    * @var string
    */
   public $artifactStorageSourceUri;
   protected $contextType = SourceContext::class;
   protected $contextDataType = '';
+  public $context;
   protected $fileHashesType = FileHashes::class;
   protected $fileHashesDataType = 'map';
+  public $fileHashes;
 
   /**
    * @param SourceContext[]

@@ -58,11 +58,19 @@ class IPAllocationPolicy extends \Google\Model
   /**
    * @var string
    */
+  public $servicesIpv6CidrBlock;
+  /**
+   * @var string
+   */
   public $servicesSecondaryRangeName;
   /**
    * @var string
    */
   public $stackType;
+  /**
+   * @var string
+   */
+  public $subnetIpv6CidrBlock;
   /**
    * @var string
    */
@@ -209,6 +217,20 @@ class IPAllocationPolicy extends \Google\Model
   /**
    * @param string
    */
+  public function setServicesIpv6CidrBlock($servicesIpv6CidrBlock)
+  {
+    $this->servicesIpv6CidrBlock = $servicesIpv6CidrBlock;
+  }
+  /**
+   * @return string
+   */
+  public function getServicesIpv6CidrBlock()
+  {
+    return $this->servicesIpv6CidrBlock;
+  }
+  /**
+   * @param string
+   */
   public function setServicesSecondaryRangeName($servicesSecondaryRangeName)
   {
     $this->servicesSecondaryRangeName = $servicesSecondaryRangeName;
@@ -233,6 +255,20 @@ class IPAllocationPolicy extends \Google\Model
   public function getStackType()
   {
     return $this->stackType;
+  }
+  /**
+   * @param string
+   */
+  public function setSubnetIpv6CidrBlock($subnetIpv6CidrBlock)
+  {
+    $this->subnetIpv6CidrBlock = $subnetIpv6CidrBlock;
+  }
+  /**
+   * @return string
+   */
+  public function getSubnetIpv6CidrBlock()
+  {
+    return $this->subnetIpv6CidrBlock;
   }
   /**
    * @param string

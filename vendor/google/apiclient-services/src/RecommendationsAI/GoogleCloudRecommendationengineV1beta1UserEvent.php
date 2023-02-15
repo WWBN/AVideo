@@ -21,6 +21,7 @@ class GoogleCloudRecommendationengineV1beta1UserEvent extends \Google\Model
 {
   protected $eventDetailType = GoogleCloudRecommendationengineV1beta1EventDetail::class;
   protected $eventDetailDataType = '';
+  public $eventDetail;
   /**
    * @var string
    */
@@ -35,8 +36,10 @@ class GoogleCloudRecommendationengineV1beta1UserEvent extends \Google\Model
   public $eventType;
   protected $productEventDetailType = GoogleCloudRecommendationengineV1beta1ProductEventDetail::class;
   protected $productEventDetailDataType = '';
+  public $productEventDetail;
   protected $userInfoType = GoogleCloudRecommendationengineV1beta1UserInfo::class;
   protected $userInfoDataType = '';
+  public $userInfo;
 
   /**
    * @param GoogleCloudRecommendationengineV1beta1EventDetail

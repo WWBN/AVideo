@@ -21,12 +21,16 @@ class OSPolicyResourceRepositoryResource extends \Google\Model
 {
   protected $aptType = OSPolicyResourceRepositoryResourceAptRepository::class;
   protected $aptDataType = '';
+  public $apt;
   protected $gooType = OSPolicyResourceRepositoryResourceGooRepository::class;
   protected $gooDataType = '';
+  public $goo;
   protected $yumType = OSPolicyResourceRepositoryResourceYumRepository::class;
   protected $yumDataType = '';
+  public $yum;
   protected $zypperType = OSPolicyResourceRepositoryResourceZypperRepository::class;
   protected $zypperDataType = '';
+  public $zypper;
 
   /**
    * @param OSPolicyResourceRepositoryResourceAptRepository

@@ -22,8 +22,10 @@ class ModelDefinition extends \Google\Collection
   protected $collection_key = 'trainingRuns';
   protected $modelOptionsType = ModelDefinitionModelOptions::class;
   protected $modelOptionsDataType = '';
+  public $modelOptions;
   protected $trainingRunsType = BqmlTrainingRun::class;
   protected $trainingRunsDataType = 'array';
+  public $trainingRuns;
 
   /**
    * @param ModelDefinitionModelOptions

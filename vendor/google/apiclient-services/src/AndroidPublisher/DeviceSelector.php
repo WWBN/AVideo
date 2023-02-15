@@ -22,14 +22,19 @@ class DeviceSelector extends \Google\Collection
   protected $collection_key = 'requiredSystemFeatures';
   protected $deviceRamType = DeviceRam::class;
   protected $deviceRamDataType = '';
+  public $deviceRam;
   protected $excludedDeviceIdsType = DeviceId::class;
   protected $excludedDeviceIdsDataType = 'array';
+  public $excludedDeviceIds;
   protected $forbiddenSystemFeaturesType = SystemFeature::class;
   protected $forbiddenSystemFeaturesDataType = 'array';
+  public $forbiddenSystemFeatures;
   protected $includedDeviceIdsType = DeviceId::class;
   protected $includedDeviceIdsDataType = 'array';
+  public $includedDeviceIds;
   protected $requiredSystemFeaturesType = SystemFeature::class;
   protected $requiredSystemFeaturesDataType = 'array';
+  public $requiredSystemFeatures;
 
   /**
    * @param DeviceRam

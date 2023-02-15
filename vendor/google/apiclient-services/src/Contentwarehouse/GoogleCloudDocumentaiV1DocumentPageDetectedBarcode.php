@@ -21,8 +21,10 @@ class GoogleCloudDocumentaiV1DocumentPageDetectedBarcode extends \Google\Model
 {
   protected $barcodeType = GoogleCloudDocumentaiV1Barcode::class;
   protected $barcodeDataType = '';
+  public $barcode;
   protected $layoutType = GoogleCloudDocumentaiV1DocumentPageLayout::class;
   protected $layoutDataType = '';
+  public $layout;
 
   /**
    * @param GoogleCloudDocumentaiV1Barcode

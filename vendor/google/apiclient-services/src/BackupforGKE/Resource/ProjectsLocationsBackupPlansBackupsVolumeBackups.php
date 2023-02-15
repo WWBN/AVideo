@@ -29,7 +29,7 @@ use Google\Service\BackupforGKE\VolumeBackup;
  * Typical usage is:
  *  <code>
  *   $gkebackupService = new Google\Service\BackupforGKE(...);
- *   $volumeBackups = $gkebackupService->volumeBackups;
+ *   $volumeBackups = $gkebackupService->projects_locations_backupPlans_backups_volumeBackups;
  *  </code>
  */
 class ProjectsLocationsBackupPlansBackupsVolumeBackups extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class GoogleInternalAppsWaldoV1alphaWorkingElsewhereContext extends \Google\Mode
 {
   protected $locationType = GoogleInternalAppsWaldoV1alphaUserLocation::class;
   protected $locationDataType = '';
+  public $location;
 
   /**
    * @param GoogleInternalAppsWaldoV1alphaUserLocation

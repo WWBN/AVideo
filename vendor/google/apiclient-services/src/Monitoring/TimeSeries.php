@@ -22,16 +22,20 @@ class TimeSeries extends \Google\Collection
   protected $collection_key = 'points';
   protected $metadataType = MonitoredResourceMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $metricType = Metric::class;
   protected $metricDataType = '';
+  public $metric;
   /**
    * @var string
    */
   public $metricKind;
   protected $pointsType = Point::class;
   protected $pointsDataType = 'array';
+  public $points;
   protected $resourceType = MonitoredResource::class;
   protected $resourceDataType = '';
+  public $resource;
   /**
    * @var string
    */

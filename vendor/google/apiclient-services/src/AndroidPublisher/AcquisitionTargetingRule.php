@@ -21,6 +21,7 @@ class AcquisitionTargetingRule extends \Google\Model
 {
   protected $scopeType = TargetingRuleScope::class;
   protected $scopeDataType = '';
+  public $scope;
 
   /**
    * @param TargetingRuleScope

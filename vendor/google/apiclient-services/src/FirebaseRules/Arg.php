@@ -21,6 +21,7 @@ class Arg extends \Google\Model
 {
   protected $anyValueType = FirebaserulesEmpty::class;
   protected $anyValueDataType = '';
+  public $anyValue;
   /**
    * @var array
    */

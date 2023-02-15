@@ -26,10 +26,13 @@ class GoogleCloudApigeeV1Access extends \Google\Model
   ];
   protected $getType = GoogleCloudApigeeV1AccessGet::class;
   protected $getDataType = '';
+  public $get;
   protected $removeType = GoogleCloudApigeeV1AccessRemove::class;
   protected $removeDataType = '';
+  public $remove;
   protected $setType = GoogleCloudApigeeV1AccessSet::class;
   protected $setDataType = '';
+  public $set;
 
   /**
    * @param GoogleCloudApigeeV1AccessGet

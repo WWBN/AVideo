@@ -25,6 +25,7 @@ class LocalinventoryCustomBatchRequestEntry extends \Google\Model
   public $batchId;
   protected $localInventoryType = LocalInventory::class;
   protected $localInventoryDataType = '';
+  public $localInventory;
   /**
    * @var string
    */

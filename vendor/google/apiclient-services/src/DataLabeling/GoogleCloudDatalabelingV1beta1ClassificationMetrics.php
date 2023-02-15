@@ -21,8 +21,10 @@ class GoogleCloudDatalabelingV1beta1ClassificationMetrics extends \Google\Model
 {
   protected $confusionMatrixType = GoogleCloudDatalabelingV1beta1ConfusionMatrix::class;
   protected $confusionMatrixDataType = '';
+  public $confusionMatrix;
   protected $prCurveType = GoogleCloudDatalabelingV1beta1PrCurve::class;
   protected $prCurveDataType = '';
+  public $prCurve;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1ConfusionMatrix

@@ -38,6 +38,7 @@ class AudioStream extends \Google\Collection
   public $codec;
   protected $mappingType = AudioMapping::class;
   protected $mappingDataType = 'array';
+  public $mapping;
   /**
    * @var int
    */

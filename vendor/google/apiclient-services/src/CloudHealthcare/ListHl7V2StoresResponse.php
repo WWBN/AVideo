@@ -22,6 +22,7 @@ class ListHl7V2StoresResponse extends \Google\Collection
   protected $collection_key = 'hl7V2Stores';
   protected $hl7V2StoresType = Hl7V2Store::class;
   protected $hl7V2StoresDataType = 'array';
+  public $hl7V2Stores;
   /**
    * @var string
    */

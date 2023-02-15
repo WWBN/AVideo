@@ -22,14 +22,17 @@ class GooglePrivacyDlpV2RedactImageRequest extends \Google\Collection
   protected $collection_key = 'imageRedactionConfigs';
   protected $byteItemType = GooglePrivacyDlpV2ByteContentItem::class;
   protected $byteItemDataType = '';
+  public $byteItem;
   protected $imageRedactionConfigsType = GooglePrivacyDlpV2ImageRedactionConfig::class;
   protected $imageRedactionConfigsDataType = 'array';
+  public $imageRedactionConfigs;
   /**
    * @var bool
    */
   public $includeFindings;
   protected $inspectConfigType = GooglePrivacyDlpV2InspectConfig::class;
   protected $inspectConfigDataType = '';
+  public $inspectConfig;
   /**
    * @var string
    */

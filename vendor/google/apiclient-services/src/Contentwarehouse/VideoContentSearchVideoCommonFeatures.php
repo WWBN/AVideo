@@ -26,6 +26,7 @@ class VideoContentSearchVideoCommonFeatures extends \Google\Collection
   public $anchorCount;
   protected $captionInfoType = VideoContentSearchCaptionInfo::class;
   protected $captionInfoDataType = '';
+  public $captionInfo;
   /**
    * @var string
    */

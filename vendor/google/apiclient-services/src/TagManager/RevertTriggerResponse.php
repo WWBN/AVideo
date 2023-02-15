@@ -21,6 +21,7 @@ class RevertTriggerResponse extends \Google\Model
 {
   protected $triggerType = Trigger::class;
   protected $triggerDataType = '';
+  public $trigger;
 
   /**
    * @param Trigger

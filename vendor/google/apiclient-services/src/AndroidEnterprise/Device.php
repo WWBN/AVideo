@@ -29,8 +29,10 @@ class Device extends \Google\Model
   public $managementType;
   protected $policyType = Policy::class;
   protected $policyDataType = '';
+  public $policy;
   protected $reportType = DeviceReport::class;
   protected $reportDataType = '';
+  public $report;
 
   /**
    * @param string

@@ -25,6 +25,7 @@ class Invoice extends \Google\Collection
   ];
   protected $campaignSummariesType = CampaignSummary::class;
   protected $campaignSummariesDataType = 'array';
+  public $campaignSummaries;
   /**
    * @var string
    */

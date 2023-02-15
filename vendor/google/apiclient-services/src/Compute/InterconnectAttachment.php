@@ -122,8 +122,10 @@ class InterconnectAttachment extends \Google\Collection
   public $partnerAsn;
   protected $partnerMetadataType = InterconnectAttachmentPartnerMetadata::class;
   protected $partnerMetadataDataType = '';
+  public $partnerMetadata;
   protected $privateInterconnectInfoType = InterconnectAttachmentPrivateInfo::class;
   protected $privateInterconnectInfoDataType = '';
+  public $privateInterconnectInfo;
   /**
    * @var string
    */

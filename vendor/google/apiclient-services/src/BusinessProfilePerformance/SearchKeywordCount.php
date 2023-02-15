@@ -21,6 +21,7 @@ class SearchKeywordCount extends \Google\Model
 {
   protected $insightsValueType = InsightsValue::class;
   protected $insightsValueDataType = '';
+  public $insightsValue;
   /**
    * @var string
    */

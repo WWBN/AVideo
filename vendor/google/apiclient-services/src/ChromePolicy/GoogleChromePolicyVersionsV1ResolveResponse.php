@@ -26,6 +26,7 @@ class GoogleChromePolicyVersionsV1ResolveResponse extends \Google\Collection
   public $nextPageToken;
   protected $resolvedPoliciesType = GoogleChromePolicyVersionsV1ResolvedPolicy::class;
   protected $resolvedPoliciesDataType = 'array';
+  public $resolvedPolicies;
 
   /**
    * @param string

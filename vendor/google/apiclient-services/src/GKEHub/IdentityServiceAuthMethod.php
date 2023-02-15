@@ -21,14 +21,17 @@ class IdentityServiceAuthMethod extends \Google\Model
 {
   protected $azureadConfigType = IdentityServiceAzureADConfig::class;
   protected $azureadConfigDataType = '';
+  public $azureadConfig;
   protected $googleConfigType = IdentityServiceGoogleConfig::class;
   protected $googleConfigDataType = '';
+  public $googleConfig;
   /**
    * @var string
    */
   public $name;
   protected $oidcConfigType = IdentityServiceOidcConfig::class;
   protected $oidcConfigDataType = '';
+  public $oidcConfig;
   /**
    * @var string
    */

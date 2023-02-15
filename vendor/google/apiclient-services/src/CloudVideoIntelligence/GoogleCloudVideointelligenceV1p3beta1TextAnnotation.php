@@ -22,6 +22,7 @@ class GoogleCloudVideointelligenceV1p3beta1TextAnnotation extends \Google\Collec
   protected $collection_key = 'segments';
   protected $segmentsType = GoogleCloudVideointelligenceV1p3beta1TextSegment::class;
   protected $segmentsDataType = 'array';
+  public $segments;
   /**
    * @var string
    */

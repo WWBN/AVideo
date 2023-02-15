@@ -21,8 +21,10 @@ class TableBorderCell extends \Google\Model
 {
   protected $locationType = TableCellLocation::class;
   protected $locationDataType = '';
+  public $location;
   protected $tableBorderPropertiesType = TableBorderProperties::class;
   protected $tableBorderPropertiesDataType = '';
+  public $tableBorderProperties;
 
   /**
    * @param TableCellLocation

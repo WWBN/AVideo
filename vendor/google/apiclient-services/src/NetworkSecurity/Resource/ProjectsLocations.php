@@ -25,7 +25,7 @@ use Google\Service\NetworkSecurity\Location;
  * Typical usage is:
  *  <code>
  *   $networksecurityService = new Google\Service\NetworkSecurity(...);
- *   $locations = $networksecurityService->locations;
+ *   $locations = $networksecurityService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

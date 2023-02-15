@@ -22,18 +22,21 @@ class TransferOperation extends \Google\Collection
   protected $collection_key = 'errorBreakdowns';
   protected $countersType = TransferCounters::class;
   protected $countersDataType = '';
+  public $counters;
   /**
    * @var string
    */
   public $endTime;
   protected $errorBreakdownsType = ErrorSummary::class;
   protected $errorBreakdownsDataType = 'array';
+  public $errorBreakdowns;
   /**
    * @var string
    */
   public $name;
   protected $notificationConfigType = NotificationConfig::class;
   protected $notificationConfigDataType = '';
+  public $notificationConfig;
   /**
    * @var string
    */
@@ -52,6 +55,7 @@ class TransferOperation extends \Google\Collection
   public $transferJobName;
   protected $transferSpecType = TransferSpec::class;
   protected $transferSpecDataType = '';
+  public $transferSpec;
 
   /**
    * @param TransferCounters

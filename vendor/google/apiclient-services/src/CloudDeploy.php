@@ -383,6 +383,10 @@ class CloudDeploy extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'startingPhaseId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'validateOnly' => [
                   'location' => 'query',
                   'type' => 'boolean',

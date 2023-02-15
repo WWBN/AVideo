@@ -26,12 +26,14 @@ class GoogleCloudPolicysimulatorV1ExplainedPolicy extends \Google\Collection
   public $access;
   protected $bindingExplanationsType = GoogleCloudPolicysimulatorV1BindingExplanation::class;
   protected $bindingExplanationsDataType = 'array';
+  public $bindingExplanations;
   /**
    * @var string
    */
   public $fullResourceName;
   protected $policyType = GoogleIamV1Policy::class;
   protected $policyDataType = '';
+  public $policy;
   /**
    * @var string
    */

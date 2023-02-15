@@ -25,7 +25,7 @@ use Google\Service\Analytics\Experiments;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $experiments = $analyticsService->experiments;
+ *   $experiments = $analyticsService->management_experiments;
  *  </code>
  */
 class ManagementExperiments extends \Google\Service\Resource

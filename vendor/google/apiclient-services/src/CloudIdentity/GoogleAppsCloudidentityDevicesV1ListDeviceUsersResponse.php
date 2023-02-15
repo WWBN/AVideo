@@ -22,6 +22,7 @@ class GoogleAppsCloudidentityDevicesV1ListDeviceUsersResponse extends \Google\Co
   protected $collection_key = 'deviceUsers';
   protected $deviceUsersType = GoogleAppsCloudidentityDevicesV1DeviceUser::class;
   protected $deviceUsersDataType = 'array';
+  public $deviceUsers;
   /**
    * @var string
    */

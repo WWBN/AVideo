@@ -38,12 +38,14 @@ class CustomBiddingScript extends \Google\Collection
   public $customBiddingScriptId;
   protected $errorsType = ScriptError::class;
   protected $errorsDataType = 'array';
+  public $errors;
   /**
    * @var string
    */
   public $name;
   protected $scriptType = CustomBiddingScriptRef::class;
   protected $scriptDataType = '';
+  public $script;
   /**
    * @var string
    */

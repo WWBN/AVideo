@@ -22,8 +22,10 @@ class QueryParameterValue extends \Google\Collection
   protected $collection_key = 'arrayValues';
   protected $arrayValuesType = QueryParameterValue::class;
   protected $arrayValuesDataType = 'array';
+  public $arrayValues;
   protected $structValuesType = QueryParameterValue::class;
   protected $structValuesDataType = 'map';
+  public $structValues;
   /**
    * @var string
    */

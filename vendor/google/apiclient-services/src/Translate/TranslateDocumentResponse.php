@@ -21,10 +21,13 @@ class TranslateDocumentResponse extends \Google\Model
 {
   protected $documentTranslationType = DocumentTranslation::class;
   protected $documentTranslationDataType = '';
+  public $documentTranslation;
   protected $glossaryConfigType = TranslateTextGlossaryConfig::class;
   protected $glossaryConfigDataType = '';
+  public $glossaryConfig;
   protected $glossaryDocumentTranslationType = DocumentTranslation::class;
   protected $glossaryDocumentTranslationDataType = '';
+  public $glossaryDocumentTranslation;
   /**
    * @var string
    */

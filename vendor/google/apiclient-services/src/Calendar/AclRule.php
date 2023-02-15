@@ -37,6 +37,7 @@ class AclRule extends \Google\Model
   public $role;
   protected $scopeType = AclRuleScope::class;
   protected $scopeDataType = '';
+  public $scope;
 
   /**
    * @param string

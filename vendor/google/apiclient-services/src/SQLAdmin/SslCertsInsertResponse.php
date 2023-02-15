@@ -21,14 +21,17 @@ class SslCertsInsertResponse extends \Google\Model
 {
   protected $clientCertType = SslCertDetail::class;
   protected $clientCertDataType = '';
+  public $clientCert;
   /**
    * @var string
    */
   public $kind;
   protected $operationType = Operation::class;
   protected $operationDataType = '';
+  public $operation;
   protected $serverCaCertType = SslCert::class;
   protected $serverCaCertDataType = '';
+  public $serverCaCert;
 
   /**
    * @param SslCertDetail

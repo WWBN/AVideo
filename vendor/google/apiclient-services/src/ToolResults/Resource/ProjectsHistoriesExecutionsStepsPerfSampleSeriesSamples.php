@@ -26,7 +26,7 @@ use Google\Service\ToolResults\ListPerfSamplesResponse;
  * Typical usage is:
  *  <code>
  *   $toolresultsService = new Google\Service\ToolResults(...);
- *   $samples = $toolresultsService->samples;
+ *   $samples = $toolresultsService->projects_histories_executions_steps_perfSampleSeries_samples;
  *  </code>
  */
 class ProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples extends \Google\Service\Resource

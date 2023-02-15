@@ -21,6 +21,7 @@ class ProfileFilterLink extends \Google\Model
 {
   protected $filterRefType = FilterRef::class;
   protected $filterRefDataType = '';
+  public $filterRef;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class ProfileFilterLink extends \Google\Model
   public $kind;
   protected $profileRefType = ProfileRef::class;
   protected $profileRefDataType = '';
+  public $profileRef;
   /**
    * @var int
    */

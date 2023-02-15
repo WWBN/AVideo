@@ -27,6 +27,9 @@ class GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfig extends \Google
    * @var string
    */
   public $gcsUri;
+  protected $shardingConfigType = GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfigShardingConfig::class;
+  protected $shardingConfigDataType = '';
+  public $shardingConfig;
 
   /**
    * @param string
@@ -55,6 +58,20 @@ class GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfig extends \Google
   public function getGcsUri()
   {
     return $this->gcsUri;
+  }
+  /**
+   * @param GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfigShardingConfig
+   */
+  public function setShardingConfig(GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfigShardingConfig $shardingConfig)
+  {
+    $this->shardingConfig = $shardingConfig;
+  }
+  /**
+   * @return GoogleCloudDocumentaiV1DocumentOutputConfigGcsOutputConfigShardingConfig
+   */
+  public function getShardingConfig()
+  {
+    return $this->shardingConfig;
   }
 }
 

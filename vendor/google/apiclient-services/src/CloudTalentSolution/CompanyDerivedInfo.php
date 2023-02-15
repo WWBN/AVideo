@@ -21,6 +21,7 @@ class CompanyDerivedInfo extends \Google\Model
 {
   protected $headquartersLocationType = Location::class;
   protected $headquartersLocationDataType = '';
+  public $headquartersLocation;
 
   /**
    * @param Location

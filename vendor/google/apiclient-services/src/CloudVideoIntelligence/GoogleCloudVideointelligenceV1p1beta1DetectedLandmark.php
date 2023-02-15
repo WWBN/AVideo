@@ -29,6 +29,7 @@ class GoogleCloudVideointelligenceV1p1beta1DetectedLandmark extends \Google\Mode
   public $name;
   protected $pointType = GoogleCloudVideointelligenceV1p1beta1NormalizedVertex::class;
   protected $pointDataType = '';
+  public $point;
 
   /**
    * @param float

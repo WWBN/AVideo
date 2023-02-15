@@ -21,8 +21,10 @@ class RegionalSubscriptionOfferPhaseConfig extends \Google\Model
 {
   protected $absoluteDiscountType = Money::class;
   protected $absoluteDiscountDataType = '';
+  public $absoluteDiscount;
   protected $priceType = Money::class;
   protected $priceDataType = '';
+  public $price;
   /**
    * @var string
    */

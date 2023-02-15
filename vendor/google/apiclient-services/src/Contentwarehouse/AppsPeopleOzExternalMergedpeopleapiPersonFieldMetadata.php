@@ -22,10 +22,13 @@ class AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata extends \Google\Col
   protected $collection_key = 'productMetadata';
   protected $aclChoicesType = AppsPeopleOzExternalMergedpeopleapiFieldAcl::class;
   protected $aclChoicesDataType = 'array';
+  public $aclChoices;
   protected $additionalContainerInfoType = AppsPeopleOzExternalMergedpeopleapiAdditionalContainerInfo::class;
   protected $additionalContainerInfoDataType = '';
+  public $additionalContainerInfo;
   protected $affinityType = AppsPeopleOzExternalMergedpeopleapiAffinity::class;
   protected $affinityDataType = 'array';
+  public $affinity;
   /**
    * @var string[]
    */
@@ -52,6 +55,7 @@ class AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata extends \Google\Col
   public $crossDeviceAllowed;
   protected $defaultAclChoiceType = AppsPeopleOzExternalMergedpeopleapiFieldAcl::class;
   protected $defaultAclChoiceDataType = '';
+  public $defaultAclChoice;
   /**
    * @var string
    */
@@ -62,26 +66,31 @@ class AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata extends \Google\Col
   public $edgeKey;
   protected $edgeKeyInfoType = AppsPeopleOzExternalMergedpeopleapiEdgeKeyInfo::class;
   protected $edgeKeyInfoDataType = 'array';
+  public $edgeKeyInfo;
   /**
    * @var string
    */
   public $encodedContainerId;
   protected $fieldAclType = AppsPeopleOzExternalMergedpeopleapiFieldAcl::class;
   protected $fieldAclDataType = '';
+  public $fieldAcl;
   /**
    * @var string
    */
   public $lastUpdateTime;
   protected $matchingInfoType = AppsPeopleOzExternalMergedpeopleapiMatchInfo::class;
   protected $matchingInfoDataType = 'array';
+  public $matchingInfo;
   protected $otherDedupedContainersType = AppsPeopleOzExternalMergedpeopleapiDedupedContainerInfo::class;
   protected $otherDedupedContainersDataType = 'array';
+  public $otherDedupedContainers;
   /**
    * @var bool
    */
   public $primary;
   protected $productMetadataType = AppsPeopleOzExternalMergedpeopleapiProductMetadata::class;
   protected $productMetadataDataType = 'array';
+  public $productMetadata;
   /**
    * @var bool
    */

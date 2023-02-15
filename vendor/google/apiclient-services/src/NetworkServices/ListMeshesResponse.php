@@ -22,6 +22,7 @@ class ListMeshesResponse extends \Google\Collection
   protected $collection_key = 'meshes';
   protected $meshesType = Mesh::class;
   protected $meshesDataType = 'array';
+  public $meshes;
   /**
    * @var string
    */

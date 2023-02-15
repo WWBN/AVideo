@@ -21,8 +21,10 @@ class TargetingValue extends \Google\Model
 {
   protected $creativeSizeValueType = CreativeSize::class;
   protected $creativeSizeValueDataType = '';
+  public $creativeSizeValue;
   protected $dayPartTargetingValueType = DayPartTargeting::class;
   protected $dayPartTargetingValueDataType = '';
+  public $dayPartTargetingValue;
   /**
    * @var string
    */

@@ -25,6 +25,7 @@ class QualityActionsCustomizedNotificationButton extends \Google\Model
   public $label;
   protected $tapActionType = QualityActionsCustomizedNotificationPayload::class;
   protected $tapActionDataType = '';
+  public $tapAction;
 
   /**
    * @param string

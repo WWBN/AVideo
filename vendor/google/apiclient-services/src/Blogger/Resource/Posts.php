@@ -36,6 +36,8 @@ class Posts extends \Google\Service\Resource
    * @param string $blogId
    * @param string $postId
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool useTrash Move to Trash if possible
    */
   public function delete($blogId, $postId, $optParams = [])
   {
@@ -110,6 +112,7 @@ class Posts extends \Google\Service\Resource
    * @opt_param string maxResults
    * @opt_param string orderBy
    * @opt_param string pageToken
+   * @opt_param string sortOption Sort direction applied to post list.
    * @opt_param string startDate
    * @opt_param string status
    * @opt_param string view

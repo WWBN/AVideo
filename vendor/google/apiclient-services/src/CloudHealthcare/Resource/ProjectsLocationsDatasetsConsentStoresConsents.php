@@ -30,7 +30,7 @@ use Google\Service\CloudHealthcare\RevokeConsentRequest;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $consents = $healthcareService->consents;
+ *   $consents = $healthcareService->projects_locations_datasets_consentStores_consents;
  *  </code>
  */
 class ProjectsLocationsDatasetsConsentStoresConsents extends \Google\Service\Resource

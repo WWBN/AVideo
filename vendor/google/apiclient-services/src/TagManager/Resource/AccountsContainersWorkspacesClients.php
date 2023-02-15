@@ -26,7 +26,7 @@ use Google\Service\TagManager\RevertClientResponse;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $clients = $tagmanagerService->clients;
+ *   $clients = $tagmanagerService->accounts_containers_workspaces_clients;
  *  </code>
  */
 class AccountsContainersWorkspacesClients extends \Google\Service\Resource

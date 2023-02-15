@@ -21,6 +21,7 @@ class AppsDynamiteSharedSpaceInfo extends \Google\Model
 {
   protected $avatarInfoType = AppsDynamiteSharedAvatarInfo::class;
   protected $avatarInfoDataType = '';
+  public $avatarInfo;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class AppsDynamiteSharedSpaceInfo extends \Google\Model
   public $description;
   protected $groupIdType = GroupId::class;
   protected $groupIdDataType = '';
+  public $groupId;
   /**
    * @var string
    */

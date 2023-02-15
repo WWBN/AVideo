@@ -22,6 +22,7 @@ class OracleTable extends \Google\Collection
   protected $collection_key = 'oracleColumns';
   protected $oracleColumnsType = OracleColumn::class;
   protected $oracleColumnsDataType = 'array';
+  public $oracleColumns;
   /**
    * @var string
    */

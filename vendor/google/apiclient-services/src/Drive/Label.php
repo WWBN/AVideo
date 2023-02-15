@@ -21,6 +21,7 @@ class Label extends \Google\Model
 {
   protected $fieldsType = LabelField::class;
   protected $fieldsDataType = 'map';
+  public $fields;
   /**
    * @var string
    */

@@ -24,7 +24,7 @@ use Google\Service\AdExchangeBuyerII\ListFilteredBidRequestsResponse;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $filteredBidRequests = $adexchangebuyer2Service->filteredBidRequests;
+ *   $filteredBidRequests = $adexchangebuyer2Service->bidders_filterSets_filteredBidRequests;
  *  </code>
  */
 class BiddersFilterSetsFilteredBidRequests extends \Google\Service\Resource

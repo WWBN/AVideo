@@ -24,7 +24,7 @@ use Google\Service\Directory\UserPhoto;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $photos = $adminService->photos;
+ *   $photos = $adminService->users_photos;
  *  </code>
  */
 class UsersPhotos extends \Google\Service\Resource

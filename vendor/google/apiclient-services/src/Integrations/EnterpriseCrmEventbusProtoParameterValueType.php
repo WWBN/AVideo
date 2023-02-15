@@ -21,29 +21,35 @@ class EnterpriseCrmEventbusProtoParameterValueType extends \Google\Model
 {
   protected $booleanArrayType = EnterpriseCrmEventbusProtoBooleanParameterArray::class;
   protected $booleanArrayDataType = '';
+  public $booleanArray;
   /**
    * @var bool
    */
   public $booleanValue;
   protected $doubleArrayType = EnterpriseCrmEventbusProtoDoubleParameterArray::class;
   protected $doubleArrayDataType = '';
+  public $doubleArray;
   public $doubleValue;
   protected $intArrayType = EnterpriseCrmEventbusProtoIntParameterArray::class;
   protected $intArrayDataType = '';
+  public $intArray;
   /**
    * @var string
    */
   public $intValue;
   protected $protoArrayType = EnterpriseCrmEventbusProtoProtoParameterArray::class;
   protected $protoArrayDataType = '';
+  public $protoArray;
   /**
    * @var array[]
    */
   public $protoValue;
   protected $serializedObjectValueType = EnterpriseCrmEventbusProtoSerializedObjectParameter::class;
   protected $serializedObjectValueDataType = '';
+  public $serializedObjectValue;
   protected $stringArrayType = EnterpriseCrmEventbusProtoStringParameterArray::class;
   protected $stringArrayDataType = '';
+  public $stringArray;
   /**
    * @var string
    */

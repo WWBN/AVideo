@@ -26,6 +26,7 @@ class LocalInventory extends \Google\Collection
   public $availability;
   protected $customAttributesType = CustomAttribute::class;
   protected $customAttributesDataType = 'array';
+  public $customAttributes;
   /**
    * @var string
    */
@@ -44,12 +45,14 @@ class LocalInventory extends \Google\Collection
   public $pickupSla;
   protected $priceType = Price::class;
   protected $priceDataType = '';
+  public $price;
   /**
    * @var string
    */
   public $quantity;
   protected $salePriceType = Price::class;
   protected $salePriceDataType = '';
+  public $salePrice;
   /**
    * @var string
    */

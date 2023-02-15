@@ -38,6 +38,7 @@ class Deployment extends \Google\Collection
   public $insertTime;
   protected $labelsType = DeploymentLabelEntry::class;
   protected $labelsDataType = 'array';
+  public $labels;
   /**
    * @var string
    */
@@ -48,14 +49,17 @@ class Deployment extends \Google\Collection
   public $name;
   protected $operationType = Operation::class;
   protected $operationDataType = '';
+  public $operation;
   /**
    * @var string
    */
   public $selfLink;
   protected $targetType = TargetConfiguration::class;
   protected $targetDataType = '';
+  public $target;
   protected $updateType = DeploymentUpdate::class;
   protected $updateDataType = '';
+  public $update;
   /**
    * @var string
    */

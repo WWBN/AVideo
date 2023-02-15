@@ -21,10 +21,13 @@ class DimensionExpression extends \Google\Model
 {
   protected $concatenateType = ConcatenateExpression::class;
   protected $concatenateDataType = '';
+  public $concatenate;
   protected $lowerCaseType = CaseExpression::class;
   protected $lowerCaseDataType = '';
+  public $lowerCase;
   protected $upperCaseType = CaseExpression::class;
   protected $upperCaseDataType = '';
+  public $upperCase;
 
   /**
    * @param ConcatenateExpression

@@ -25,6 +25,7 @@ class ValidateResponse extends \Google\Model
   public $errorMessage;
   protected $queryInfoType = QueryInfo::class;
   protected $queryInfoDataType = '';
+  public $queryInfo;
 
   /**
    * @param string

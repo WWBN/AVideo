@@ -24,7 +24,7 @@ use Google\Service\AdExchangeBuyerII\ListLosingBidsResponse;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $losingBids = $adexchangebuyer2Service->losingBids;
+ *   $losingBids = $adexchangebuyer2Service->bidders_accounts_filterSets_losingBids;
  *  </code>
  */
 class BiddersAccountsFilterSetsLosingBids extends \Google\Service\Resource

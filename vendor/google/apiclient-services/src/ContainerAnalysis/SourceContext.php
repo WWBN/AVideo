@@ -21,10 +21,13 @@ class SourceContext extends \Google\Model
 {
   protected $cloudRepoType = CloudRepoSourceContext::class;
   protected $cloudRepoDataType = '';
+  public $cloudRepo;
   protected $gerritType = GerritSourceContext::class;
   protected $gerritDataType = '';
+  public $gerrit;
   protected $gitType = GitSourceContext::class;
   protected $gitDataType = '';
+  public $git;
   /**
    * @var string[]
    */

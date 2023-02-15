@@ -22,6 +22,7 @@ class GoogleCloudDialogflowV2beta1IntentMessageListSelect extends \Google\Collec
   protected $collection_key = 'items';
   protected $itemsType = GoogleCloudDialogflowV2beta1IntentMessageListSelectItem::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

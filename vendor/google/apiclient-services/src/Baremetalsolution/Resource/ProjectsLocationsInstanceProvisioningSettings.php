@@ -24,7 +24,7 @@ use Google\Service\Baremetalsolution\FetchInstanceProvisioningSettingsResponse;
  * Typical usage is:
  *  <code>
  *   $baremetalsolutionService = new Google\Service\Baremetalsolution(...);
- *   $instanceProvisioningSettings = $baremetalsolutionService->instanceProvisioningSettings;
+ *   $instanceProvisioningSettings = $baremetalsolutionService->projects_locations_instanceProvisioningSettings;
  *  </code>
  */
 class ProjectsLocationsInstanceProvisioningSettings extends \Google\Service\Resource

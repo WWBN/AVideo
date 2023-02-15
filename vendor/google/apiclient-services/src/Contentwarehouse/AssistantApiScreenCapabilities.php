@@ -21,15 +21,22 @@ class AssistantApiScreenCapabilities extends \Google\Collection
 {
   protected $collection_key = 'supportedScreenStates';
   /**
+   * @var float
+   */
+  public $fontScaleFactor;
+  /**
    * @var string[]
    */
   public $inputType;
   protected $maskType = AssistantApiScreenCapabilitiesMask::class;
   protected $maskDataType = '';
+  public $mask;
   protected $protoLayoutTargetedSchemaType = AssistantApiScreenCapabilitiesProtoLayoutVersion::class;
   protected $protoLayoutTargetedSchemaDataType = '';
+  public $protoLayoutTargetedSchema;
   protected $resolutionType = AssistantApiScreenCapabilitiesResolution::class;
   protected $resolutionDataType = '';
+  public $resolution;
   /**
    * @var bool
    */
@@ -51,6 +58,20 @@ class AssistantApiScreenCapabilities extends \Google\Collection
    */
   public $visionHelpEnabled;
 
+  /**
+   * @param float
+   */
+  public function setFontScaleFactor($fontScaleFactor)
+  {
+    $this->fontScaleFactor = $fontScaleFactor;
+  }
+  /**
+   * @return float
+   */
+  public function getFontScaleFactor()
+  {
+    return $this->fontScaleFactor;
+  }
   /**
    * @param string[]
    */

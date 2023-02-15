@@ -43,8 +43,10 @@ class LegalCitation extends \Google\Model
   public $type;
   protected $courtdocumentType = LegalCitationCourtDocument::class;
   protected $courtdocumentDataType = '';
+  public $courtdocument;
   protected $lawType = LegalCitationLaw::class;
   protected $lawDataType = '';
+  public $law;
 
   /**
    * @param string

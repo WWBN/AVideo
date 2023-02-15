@@ -21,15 +21,18 @@ class GoogleCloudIntegrationsV1alphaValueType extends \Google\Model
 {
   protected $booleanArrayType = GoogleCloudIntegrationsV1alphaBooleanParameterArray::class;
   protected $booleanArrayDataType = '';
+  public $booleanArray;
   /**
    * @var bool
    */
   public $booleanValue;
   protected $doubleArrayType = GoogleCloudIntegrationsV1alphaDoubleParameterArray::class;
   protected $doubleArrayDataType = '';
+  public $doubleArray;
   public $doubleValue;
   protected $intArrayType = GoogleCloudIntegrationsV1alphaIntParameterArray::class;
   protected $intArrayDataType = '';
+  public $intArray;
   /**
    * @var string
    */
@@ -40,6 +43,7 @@ class GoogleCloudIntegrationsV1alphaValueType extends \Google\Model
   public $jsonValue;
   protected $stringArrayType = GoogleCloudIntegrationsV1alphaStringParameterArray::class;
   protected $stringArrayDataType = '';
+  public $stringArray;
   /**
    * @var string
    */

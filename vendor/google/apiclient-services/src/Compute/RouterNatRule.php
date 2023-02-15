@@ -21,6 +21,7 @@ class RouterNatRule extends \Google\Model
 {
   protected $actionType = RouterNatRuleAction::class;
   protected $actionDataType = '';
+  public $action;
   /**
    * @var string
    */

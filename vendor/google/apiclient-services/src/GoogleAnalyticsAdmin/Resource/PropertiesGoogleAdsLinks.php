@@ -17,8 +17,8 @@
 
 namespace Google\Service\GoogleAnalyticsAdmin\Resource;
 
-use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1alphaGoogleAdsLink;
-use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse;
+use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1betaGoogleAdsLink;
+use Google\Service\GoogleAnalyticsAdmin\GoogleAnalyticsAdminV1betaListGoogleAdsLinksResponse;
 use Google\Service\GoogleAnalyticsAdmin\GoogleProtobufEmpty;
 
 /**
@@ -26,7 +26,7 @@ use Google\Service\GoogleAnalyticsAdmin\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $analyticsadminService = new Google\Service\GoogleAnalyticsAdmin(...);
- *   $googleAdsLinks = $analyticsadminService->googleAdsLinks;
+ *   $googleAdsLinks = $analyticsadminService->properties_googleAdsLinks;
  *  </code>
  */
 class PropertiesGoogleAdsLinks extends \Google\Service\Resource
@@ -35,15 +35,15 @@ class PropertiesGoogleAdsLinks extends \Google\Service\Resource
    * Creates a GoogleAdsLink. (googleAdsLinks.create)
    *
    * @param string $parent Required. Example format: properties/1234
-   * @param GoogleAnalyticsAdminV1alphaGoogleAdsLink $postBody
+   * @param GoogleAnalyticsAdminV1betaGoogleAdsLink $postBody
    * @param array $optParams Optional parameters.
-   * @return GoogleAnalyticsAdminV1alphaGoogleAdsLink
+   * @return GoogleAnalyticsAdminV1betaGoogleAdsLink
    */
-  public function create($parent, GoogleAnalyticsAdminV1alphaGoogleAdsLink $postBody, $optParams = [])
+  public function create($parent, GoogleAnalyticsAdminV1betaGoogleAdsLink $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('create', [$params], GoogleAnalyticsAdminV1alphaGoogleAdsLink::class);
+    return $this->call('create', [$params], GoogleAnalyticsAdminV1betaGoogleAdsLink::class);
   }
   /**
    * Deletes a GoogleAdsLink on a property (googleAdsLinks.delete)
@@ -73,13 +73,13 @@ class PropertiesGoogleAdsLinks extends \Google\Service\Resource
    * `ListGoogleAdsLinks` call. Provide this to retrieve the subsequent page. When
    * paginating, all other parameters provided to `ListGoogleAdsLinks` must match
    * the call that provided the page token.
-   * @return GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse
+   * @return GoogleAnalyticsAdminV1betaListGoogleAdsLinksResponse
    */
   public function listPropertiesGoogleAdsLinks($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
-    return $this->call('list', [$params], GoogleAnalyticsAdminV1alphaListGoogleAdsLinksResponse::class);
+    return $this->call('list', [$params], GoogleAnalyticsAdminV1betaListGoogleAdsLinksResponse::class);
   }
   /**
    * Updates a GoogleAdsLink on a property (googleAdsLinks.patch)
@@ -87,20 +87,20 @@ class PropertiesGoogleAdsLinks extends \Google\Service\Resource
    * @param string $name Output only. Format:
    * properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note:
    * googleAdsLinkId is not the Google Ads customer ID.
-   * @param GoogleAnalyticsAdminV1alphaGoogleAdsLink $postBody
+   * @param GoogleAnalyticsAdminV1betaGoogleAdsLink $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. The list of fields to be updated.
    * Field names must be in snake case (e.g., "field_to_update"). Omitted fields
    * will not be updated. To replace the entire entity, use one path with the
    * string "*" to match all fields.
-   * @return GoogleAnalyticsAdminV1alphaGoogleAdsLink
+   * @return GoogleAnalyticsAdminV1betaGoogleAdsLink
    */
-  public function patch($name, GoogleAnalyticsAdminV1alphaGoogleAdsLink $postBody, $optParams = [])
+  public function patch($name, GoogleAnalyticsAdminV1betaGoogleAdsLink $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('patch', [$params], GoogleAnalyticsAdminV1alphaGoogleAdsLink::class);
+    return $this->call('patch', [$params], GoogleAnalyticsAdminV1betaGoogleAdsLink::class);
   }
 }
 

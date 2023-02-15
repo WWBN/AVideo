@@ -21,6 +21,7 @@ class AdUnitContentAdsSettings extends \Google\Model
 {
   protected $backupOptionType = AdUnitContentAdsSettingsBackupOption::class;
   protected $backupOptionDataType = '';
+  public $backupOption;
   /**
    * @var string
    */

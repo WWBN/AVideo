@@ -22,6 +22,7 @@ class UploadAptArtifactResponse extends \Google\Collection
   protected $collection_key = 'aptArtifacts';
   protected $aptArtifactsType = AptArtifact::class;
   protected $aptArtifactsDataType = 'array';
+  public $aptArtifacts;
 
   /**
    * @param AptArtifact[]

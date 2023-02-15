@@ -25,7 +25,7 @@ use Google\Service\OnDemandScanning\Operation;
  * Typical usage is:
  *  <code>
  *   $ondemandscanningService = new Google\Service\OnDemandScanning(...);
- *   $scans = $ondemandscanningService->scans;
+ *   $scans = $ondemandscanningService->projects_locations_scans;
  *  </code>
  */
 class ProjectsLocationsScans extends \Google\Service\Resource

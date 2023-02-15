@@ -22,6 +22,7 @@ class Hold extends \Google\Collection
   protected $collection_key = 'accounts';
   protected $accountsType = HeldAccount::class;
   protected $accountsDataType = 'array';
+  public $accounts;
   /**
    * @var string
    */
@@ -36,8 +37,10 @@ class Hold extends \Google\Collection
   public $name;
   protected $orgUnitType = HeldOrgUnit::class;
   protected $orgUnitDataType = '';
+  public $orgUnit;
   protected $queryType = CorpusQuery::class;
   protected $queryDataType = '';
+  public $query;
   /**
    * @var string
    */

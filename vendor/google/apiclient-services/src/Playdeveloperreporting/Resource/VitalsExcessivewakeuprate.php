@@ -26,7 +26,7 @@ use Google\Service\Playdeveloperreporting\GooglePlayDeveloperReportingV1beta1Que
  * Typical usage is:
  *  <code>
  *   $playdeveloperreportingService = new Google\Service\Playdeveloperreporting(...);
- *   $excessivewakeuprate = $playdeveloperreportingService->excessivewakeuprate;
+ *   $excessivewakeuprate = $playdeveloperreportingService->vitals_excessivewakeuprate;
  *  </code>
  */
 class VitalsExcessivewakeuprate extends \Google\Service\Resource

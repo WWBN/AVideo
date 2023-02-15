@@ -29,6 +29,7 @@ class UpdateShapePropertiesRequest extends \Google\Model
   public $objectId;
   protected $shapePropertiesType = ShapeProperties::class;
   protected $shapePropertiesDataType = '';
+  public $shapeProperties;
 
   /**
    * @param string

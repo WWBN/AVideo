@@ -21,6 +21,7 @@ class GoogleCloudDocumentaiV1SetDefaultProcessorVersionMetadata extends \Google\
 {
   protected $commonMetadataType = GoogleCloudDocumentaiV1CommonOperationMetadata::class;
   protected $commonMetadataDataType = '';
+  public $commonMetadata;
 
   /**
    * @param GoogleCloudDocumentaiV1CommonOperationMetadata

@@ -22,6 +22,7 @@ class VideoContentSearchMatchScores extends \Google\Collection
   protected $collection_key = 'matchInfo';
   protected $matchInfoType = VideoContentSearchTextMatchInfo::class;
   protected $matchInfoDataType = 'array';
+  public $matchInfo;
   /**
    * @var string
    */

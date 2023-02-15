@@ -22,8 +22,10 @@ class GoogleCloudDatacatalogV1DataplexTableSpec extends \Google\Collection
   protected $collection_key = 'externalTables';
   protected $dataplexSpecType = GoogleCloudDatacatalogV1DataplexSpec::class;
   protected $dataplexSpecDataType = '';
+  public $dataplexSpec;
   protected $externalTablesType = GoogleCloudDatacatalogV1DataplexExternalTable::class;
   protected $externalTablesDataType = 'array';
+  public $externalTables;
   /**
    * @var bool
    */

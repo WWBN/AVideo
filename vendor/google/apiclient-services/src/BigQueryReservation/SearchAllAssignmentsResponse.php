@@ -22,6 +22,7 @@ class SearchAllAssignmentsResponse extends \Google\Collection
   protected $collection_key = 'assignments';
   protected $assignmentsType = Assignment::class;
   protected $assignmentsDataType = 'array';
+  public $assignments;
   /**
    * @var string
    */

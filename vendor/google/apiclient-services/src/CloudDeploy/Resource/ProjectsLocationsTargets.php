@@ -30,7 +30,7 @@ use Google\Service\CloudDeploy\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $clouddeployService = new Google\Service\CloudDeploy(...);
- *   $targets = $clouddeployService->targets;
+ *   $targets = $clouddeployService->projects_locations_targets;
  *  </code>
  */
 class ProjectsLocationsTargets extends \Google\Service\Resource

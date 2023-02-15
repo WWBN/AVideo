@@ -29,14 +29,19 @@ class ImageProperties extends \Google\Model
   public $contrast;
   protected $cropPropertiesType = CropProperties::class;
   protected $cropPropertiesDataType = '';
+  public $cropProperties;
   protected $linkType = Link::class;
   protected $linkDataType = '';
+  public $link;
   protected $outlineType = Outline::class;
   protected $outlineDataType = '';
+  public $outline;
   protected $recolorType = Recolor::class;
   protected $recolorDataType = '';
+  public $recolor;
   protected $shadowType = Shadow::class;
   protected $shadowDataType = '';
+  public $shadow;
   /**
    * @var float
    */

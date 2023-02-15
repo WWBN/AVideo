@@ -25,8 +25,10 @@ class GooglePlayDeveloperReportingV1beta1TimelineSpec extends \Google\Model
   public $aggregationPeriod;
   protected $endTimeType = GoogleTypeDateTime::class;
   protected $endTimeDataType = '';
+  public $endTime;
   protected $startTimeType = GoogleTypeDateTime::class;
   protected $startTimeDataType = '';
+  public $startTime;
 
   /**
    * @param string

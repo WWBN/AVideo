@@ -25,7 +25,7 @@ use Google\Service\Dialogflow\GoogleCloudLocationLocation;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $locations = $dialogflowService->locations;
+ *   $locations = $dialogflowService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

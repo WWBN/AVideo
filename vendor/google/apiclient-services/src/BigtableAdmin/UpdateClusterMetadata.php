@@ -25,6 +25,7 @@ class UpdateClusterMetadata extends \Google\Model
   public $finishTime;
   protected $originalRequestType = Cluster::class;
   protected $originalRequestDataType = '';
+  public $originalRequest;
   /**
    * @var string
    */

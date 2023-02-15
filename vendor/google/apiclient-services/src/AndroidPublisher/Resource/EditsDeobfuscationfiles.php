@@ -24,7 +24,7 @@ use Google\Service\AndroidPublisher\DeobfuscationFilesUploadResponse;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $deobfuscationfiles = $androidpublisherService->deobfuscationfiles;
+ *   $deobfuscationfiles = $androidpublisherService->edits_deobfuscationfiles;
  *  </code>
  */
 class EditsDeobfuscationfiles extends \Google\Service\Resource

@@ -21,12 +21,16 @@ class GoogleCloudPolicysimulatorV1ReplayResult extends \Google\Model
 {
   protected $accessTupleType = GoogleCloudPolicysimulatorV1AccessTuple::class;
   protected $accessTupleDataType = '';
+  public $accessTuple;
   protected $diffType = GoogleCloudPolicysimulatorV1ReplayDiff::class;
   protected $diffDataType = '';
+  public $diff;
   protected $errorType = GoogleRpcStatus::class;
   protected $errorDataType = '';
+  public $error;
   protected $lastSeenDateType = GoogleTypeDate::class;
   protected $lastSeenDateDataType = '';
+  public $lastSeenDate;
   /**
    * @var string
    */

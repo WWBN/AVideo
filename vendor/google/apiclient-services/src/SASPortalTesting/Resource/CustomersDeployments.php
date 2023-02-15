@@ -28,7 +28,7 @@ use Google\Service\SASPortalTesting\SasPortalOperation;
  * Typical usage is:
  *  <code>
  *   $prod_tt_sasportalService = new Google\Service\SASPortalTesting(...);
- *   $deployments = $prod_tt_sasportalService->deployments;
+ *   $deployments = $prod_tt_sasportalService->customers_deployments;
  *  </code>
  */
 class CustomersDeployments extends \Google\Service\Resource

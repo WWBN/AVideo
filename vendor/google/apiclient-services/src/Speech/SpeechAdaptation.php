@@ -20,15 +20,34 @@ namespace Google\Service\Speech;
 class SpeechAdaptation extends \Google\Collection
 {
   protected $collection_key = 'phraseSets';
+  protected $abnfGrammarType = ABNFGrammar::class;
+  protected $abnfGrammarDataType = '';
+  public $abnfGrammar;
   protected $customClassesType = CustomClass::class;
   protected $customClassesDataType = 'array';
+  public $customClasses;
   /**
    * @var string[]
    */
   public $phraseSetReferences;
   protected $phraseSetsType = PhraseSet::class;
   protected $phraseSetsDataType = 'array';
+  public $phraseSets;
 
+  /**
+   * @param ABNFGrammar
+   */
+  public function setAbnfGrammar(ABNFGrammar $abnfGrammar)
+  {
+    $this->abnfGrammar = $abnfGrammar;
+  }
+  /**
+   * @return ABNFGrammar
+   */
+  public function getAbnfGrammar()
+  {
+    return $this->abnfGrammar;
+  }
   /**
    * @param CustomClass[]
    */

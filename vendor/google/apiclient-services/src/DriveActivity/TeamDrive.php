@@ -25,6 +25,7 @@ class TeamDrive extends \Google\Model
   public $name;
   protected $rootType = DriveItem::class;
   protected $rootDataType = '';
+  public $root;
   /**
    * @var string
    */

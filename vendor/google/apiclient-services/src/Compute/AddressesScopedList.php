@@ -22,8 +22,10 @@ class AddressesScopedList extends \Google\Collection
   protected $collection_key = 'addresses';
   protected $addressesType = Address::class;
   protected $addressesDataType = 'array';
+  public $addresses;
   protected $warningType = AddressesScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param Address[]

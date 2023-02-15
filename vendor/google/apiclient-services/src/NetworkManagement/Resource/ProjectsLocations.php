@@ -25,7 +25,7 @@ use Google\Service\NetworkManagement\Location;
  * Typical usage is:
  *  <code>
  *   $networkmanagementService = new Google\Service\NetworkManagement(...);
- *   $locations = $networkmanagementService->locations;
+ *   $locations = $networkmanagementService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

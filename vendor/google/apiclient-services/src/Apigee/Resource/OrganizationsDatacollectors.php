@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $datacollectors = $apigeeService->datacollectors;
+ *   $datacollectors = $apigeeService->organizations_datacollectors;
  *  </code>
  */
 class OrganizationsDatacollectors extends \Google\Service\Resource

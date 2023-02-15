@@ -25,7 +25,7 @@ use Google\Service\ChromePolicy\GoogleChromePolicyVersionsV1PolicySchema;
  * Typical usage is:
  *  <code>
  *   $chromepolicyService = new Google\Service\ChromePolicy(...);
- *   $policySchemas = $chromepolicyService->policySchemas;
+ *   $policySchemas = $chromepolicyService->customers_policySchemas;
  *  </code>
  */
 class CustomersPolicySchemas extends \Google\Service\Resource

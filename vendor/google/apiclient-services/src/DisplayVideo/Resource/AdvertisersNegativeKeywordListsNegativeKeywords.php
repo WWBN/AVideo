@@ -30,7 +30,7 @@ use Google\Service\DisplayVideo\ReplaceNegativeKeywordsResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $negativeKeywords = $displayvideoService->negativeKeywords;
+ *   $negativeKeywords = $displayvideoService->advertisers_negativeKeywordLists_negativeKeywords;
  *  </code>
  */
 class AdvertisersNegativeKeywordListsNegativeKeywords extends \Google\Service\Resource

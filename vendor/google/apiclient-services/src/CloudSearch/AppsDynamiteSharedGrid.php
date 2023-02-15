@@ -22,14 +22,17 @@ class AppsDynamiteSharedGrid extends \Google\Collection
   protected $collection_key = 'items';
   protected $borderStyleType = AppsDynamiteSharedBorderStyle::class;
   protected $borderStyleDataType = '';
+  public $borderStyle;
   /**
    * @var int
    */
   public $columnCount;
   protected $itemsType = AppsDynamiteSharedGridGridItem::class;
   protected $itemsDataType = 'array';
+  public $items;
   protected $onClickType = AppsDynamiteSharedOnClick::class;
   protected $onClickDataType = '';
+  public $onClick;
   /**
    * @var string
    */

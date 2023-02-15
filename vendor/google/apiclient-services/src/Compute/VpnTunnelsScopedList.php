@@ -22,8 +22,10 @@ class VpnTunnelsScopedList extends \Google\Collection
   protected $collection_key = 'vpnTunnels';
   protected $vpnTunnelsType = VpnTunnel::class;
   protected $vpnTunnelsDataType = 'array';
+  public $vpnTunnels;
   protected $warningType = VpnTunnelsScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param VpnTunnel[]

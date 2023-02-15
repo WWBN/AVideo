@@ -21,18 +21,21 @@ class TextElement extends \Google\Model
 {
   protected $autoTextType = AutoText::class;
   protected $autoTextDataType = '';
+  public $autoText;
   /**
    * @var int
    */
   public $endIndex;
   protected $paragraphMarkerType = ParagraphMarker::class;
   protected $paragraphMarkerDataType = '';
+  public $paragraphMarker;
   /**
    * @var int
    */
   public $startIndex;
   protected $textRunType = TextRun::class;
   protected $textRunDataType = '';
+  public $textRun;
 
   /**
    * @param AutoText

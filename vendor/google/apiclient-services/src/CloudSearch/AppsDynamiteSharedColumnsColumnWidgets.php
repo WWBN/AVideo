@@ -21,18 +21,25 @@ class AppsDynamiteSharedColumnsColumnWidgets extends \Google\Model
 {
   protected $buttonListType = AppsDynamiteSharedButtonList::class;
   protected $buttonListDataType = '';
+  public $buttonList;
   protected $dateTimePickerType = AppsDynamiteSharedDateTimePicker::class;
   protected $dateTimePickerDataType = '';
+  public $dateTimePicker;
   protected $decoratedTextType = AppsDynamiteSharedDecoratedText::class;
   protected $decoratedTextDataType = '';
+  public $decoratedText;
   protected $imageType = AppsDynamiteSharedImage::class;
   protected $imageDataType = '';
+  public $image;
   protected $selectionInputType = AppsDynamiteSharedSelectionInput::class;
   protected $selectionInputDataType = '';
+  public $selectionInput;
   protected $textInputType = AppsDynamiteSharedTextInput::class;
   protected $textInputDataType = '';
+  public $textInput;
   protected $textParagraphType = AppsDynamiteSharedTextParagraph::class;
   protected $textParagraphDataType = '';
+  public $textParagraph;
 
   /**
    * @param AppsDynamiteSharedButtonList

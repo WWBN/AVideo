@@ -29,6 +29,7 @@ class PublicKeyCertificate extends \Google\Model
   public $format;
   protected $x509DetailsType = X509CertificateDetails::class;
   protected $x509DetailsDataType = '';
+  public $x509Details;
 
   /**
    * @param string

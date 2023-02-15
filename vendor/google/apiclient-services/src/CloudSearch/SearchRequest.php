@@ -22,10 +22,13 @@ class SearchRequest extends \Google\Collection
   protected $collection_key = 'facetOptions';
   protected $contextAttributesType = ContextAttribute::class;
   protected $contextAttributesDataType = 'array';
+  public $contextAttributes;
   protected $dataSourceRestrictionsType = DataSourceRestriction::class;
   protected $dataSourceRestrictionsDataType = 'array';
+  public $dataSourceRestrictions;
   protected $facetOptionsType = FacetOptions::class;
   protected $facetOptionsDataType = 'array';
+  public $facetOptions;
   /**
    * @var int
    */
@@ -36,10 +39,13 @@ class SearchRequest extends \Google\Collection
   public $query;
   protected $queryInterpretationOptionsType = QueryInterpretationOptions::class;
   protected $queryInterpretationOptionsDataType = '';
+  public $queryInterpretationOptions;
   protected $requestOptionsType = RequestOptions::class;
   protected $requestOptionsDataType = '';
+  public $requestOptions;
   protected $sortOptionsType = SortOptions::class;
   protected $sortOptionsDataType = '';
+  public $sortOptions;
   /**
    * @var int
    */

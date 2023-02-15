@@ -25,6 +25,7 @@ class VideoItem extends \Google\Model
   public $caption;
   protected $videoType = Video::class;
   protected $videoDataType = '';
+  public $video;
 
   /**
    * @param string

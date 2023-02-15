@@ -22,6 +22,7 @@ class McfData extends \Google\Collection
   protected $collection_key = 'rows';
   protected $columnHeadersType = McfDataColumnHeaders::class;
   protected $columnHeadersDataType = 'array';
+  public $columnHeaders;
   /**
    * @var bool
    */
@@ -48,10 +49,13 @@ class McfData extends \Google\Collection
   public $previousLink;
   protected $profileInfoType = McfDataProfileInfo::class;
   protected $profileInfoDataType = '';
+  public $profileInfo;
   protected $queryType = McfDataQuery::class;
   protected $queryDataType = '';
+  public $query;
   protected $rowsType = McfDataRows::class;
   protected $rowsDataType = 'array';
+  public $rows;
   /**
    * @var string
    */

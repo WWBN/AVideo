@@ -27,7 +27,7 @@ use Google\Service\Logging\UndeleteBucketRequest;
  * Typical usage is:
  *  <code>
  *   $loggingService = new Google\Service\Logging(...);
- *   $buckets = $loggingService->buckets;
+ *   $buckets = $loggingService->folders_locations_buckets;
  *  </code>
  */
 class FoldersLocationsBuckets extends \Google\Service\Resource

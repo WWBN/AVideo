@@ -21,8 +21,10 @@ class ClusterAutoscalingConfig extends \Google\Model
 {
   protected $autoscalingLimitsType = AutoscalingLimits::class;
   protected $autoscalingLimitsDataType = '';
+  public $autoscalingLimits;
   protected $autoscalingTargetsType = AutoscalingTargets::class;
   protected $autoscalingTargetsDataType = '';
+  public $autoscalingTargets;
 
   /**
    * @param AutoscalingLimits

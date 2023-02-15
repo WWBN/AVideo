@@ -25,7 +25,7 @@ use Google\Service\ApigeeRegistry\Location;
  * Typical usage is:
  *  <code>
  *   $apigeeregistryService = new Google\Service\ApigeeRegistry(...);
- *   $locations = $apigeeregistryService->locations;
+ *   $locations = $apigeeregistryService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

@@ -24,7 +24,7 @@ use Google\Service\OnDemandScanning\ListVulnerabilitiesResponseV1;
  * Typical usage is:
  *  <code>
  *   $ondemandscanningService = new Google\Service\OnDemandScanning(...);
- *   $vulnerabilities = $ondemandscanningService->vulnerabilities;
+ *   $vulnerabilities = $ondemandscanningService->projects_locations_scans_vulnerabilities;
  *  </code>
  */
 class ProjectsLocationsScansVulnerabilities extends \Google\Service\Resource

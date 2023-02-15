@@ -26,12 +26,16 @@ class Order extends \Google\Collection
   public $acknowledged;
   protected $annotationsType = OrderOrderAnnotation::class;
   protected $annotationsDataType = 'array';
+  public $annotations;
   protected $billingAddressType = OrderAddress::class;
   protected $billingAddressDataType = '';
+  public $billingAddress;
   protected $customerType = OrderCustomer::class;
   protected $customerDataType = '';
+  public $customer;
   protected $deliveryDetailsType = OrderDeliveryDetails::class;
   protected $deliveryDetailsDataType = '';
+  public $deliveryDetails;
   /**
    * @var string
    */
@@ -42,6 +46,7 @@ class Order extends \Google\Collection
   public $kind;
   protected $lineItemsType = OrderLineItem::class;
   protected $lineItemsDataType = 'array';
+  public $lineItems;
   /**
    * @var string
    */
@@ -52,28 +57,36 @@ class Order extends \Google\Collection
   public $merchantOrderId;
   protected $netPriceAmountType = Price::class;
   protected $netPriceAmountDataType = '';
+  public $netPriceAmount;
   protected $netTaxAmountType = Price::class;
   protected $netTaxAmountDataType = '';
+  public $netTaxAmount;
   /**
    * @var string
    */
   public $paymentStatus;
   protected $pickupDetailsType = OrderPickupDetails::class;
   protected $pickupDetailsDataType = '';
+  public $pickupDetails;
   /**
    * @var string
    */
   public $placedDate;
   protected $promotionsType = OrderPromotion::class;
   protected $promotionsDataType = 'array';
+  public $promotions;
   protected $refundsType = OrderRefund::class;
   protected $refundsDataType = 'array';
+  public $refunds;
   protected $shipmentsType = OrderShipment::class;
   protected $shipmentsDataType = 'array';
+  public $shipments;
   protected $shippingCostType = Price::class;
   protected $shippingCostDataType = '';
+  public $shippingCost;
   protected $shippingCostTaxType = Price::class;
   protected $shippingCostTaxDataType = '';
+  public $shippingCostTax;
   /**
    * @var string
    */

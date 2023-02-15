@@ -22,12 +22,14 @@ class GoogleCloudDatalabelingV1beta1PrCurve extends \Google\Collection
   protected $collection_key = 'confidenceMetricsEntries';
   protected $annotationSpecType = GoogleCloudDatalabelingV1beta1AnnotationSpec::class;
   protected $annotationSpecDataType = '';
+  public $annotationSpec;
   /**
    * @var float
    */
   public $areaUnderCurve;
   protected $confidenceMetricsEntriesType = GoogleCloudDatalabelingV1beta1ConfidenceMetricsEntry::class;
   protected $confidenceMetricsEntriesDataType = 'array';
+  public $confidenceMetricsEntries;
   /**
    * @var float
    */

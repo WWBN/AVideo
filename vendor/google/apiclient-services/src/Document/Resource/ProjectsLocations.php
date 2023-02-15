@@ -26,7 +26,7 @@ use Google\Service\Document\GoogleCloudLocationLocation;
  * Typical usage is:
  *  <code>
  *   $documentaiService = new Google\Service\Document(...);
- *   $locations = $documentaiService->locations;
+ *   $locations = $documentaiService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

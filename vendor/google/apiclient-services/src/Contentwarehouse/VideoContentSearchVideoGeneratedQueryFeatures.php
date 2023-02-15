@@ -30,6 +30,7 @@ class VideoContentSearchVideoGeneratedQueryFeatures extends \Google\Collection
   public $prefilteredPassageCount;
   protected $titleEntityAnnotationsType = VideoContentSearchEntityAnnotations::class;
   protected $titleEntityAnnotationsDataType = '';
+  public $titleEntityAnnotations;
   /**
    * @var int
    */

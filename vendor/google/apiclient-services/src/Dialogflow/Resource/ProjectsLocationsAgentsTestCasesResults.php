@@ -25,7 +25,7 @@ use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3TestCaseResult;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $results = $dialogflowService->results;
+ *   $results = $dialogflowService->projects_locations_agents_testCases_results;
  *  </code>
  */
 class ProjectsLocationsAgentsTestCasesResults extends \Google\Service\Resource

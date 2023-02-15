@@ -21,7 +21,17 @@ class GoogleCloudDocumentaiV1EvaluationReference extends \Google\Model
 {
   protected $aggregateMetricsType = GoogleCloudDocumentaiV1EvaluationMetrics::class;
   protected $aggregateMetricsDataType = '';
+  public $aggregateMetrics;
+  protected $aggregateMetricsExactType = GoogleCloudDocumentaiV1EvaluationMetrics::class;
+  protected $aggregateMetricsExactDataType = '';
+  public $aggregateMetricsExact;
+  /**
+   * @var string
+   */
   public $evaluation;
+  /**
+   * @var string
+   */
   public $operation;
 
   /**
@@ -38,18 +48,44 @@ class GoogleCloudDocumentaiV1EvaluationReference extends \Google\Model
   {
     return $this->aggregateMetrics;
   }
+  /**
+   * @param GoogleCloudDocumentaiV1EvaluationMetrics
+   */
+  public function setAggregateMetricsExact(GoogleCloudDocumentaiV1EvaluationMetrics $aggregateMetricsExact)
+  {
+    $this->aggregateMetricsExact = $aggregateMetricsExact;
+  }
+  /**
+   * @return GoogleCloudDocumentaiV1EvaluationMetrics
+   */
+  public function getAggregateMetricsExact()
+  {
+    return $this->aggregateMetricsExact;
+  }
+  /**
+   * @param string
+   */
   public function setEvaluation($evaluation)
   {
     $this->evaluation = $evaluation;
   }
+  /**
+   * @return string
+   */
   public function getEvaluation()
   {
     return $this->evaluation;
   }
+  /**
+   * @param string
+   */
   public function setOperation($operation)
   {
     $this->operation = $operation;
   }
+  /**
+   * @return string
+   */
   public function getOperation()
   {
     return $this->operation;

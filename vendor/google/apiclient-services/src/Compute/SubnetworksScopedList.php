@@ -22,8 +22,10 @@ class SubnetworksScopedList extends \Google\Collection
   protected $collection_key = 'subnetworks';
   protected $subnetworksType = Subnetwork::class;
   protected $subnetworksDataType = 'array';
+  public $subnetworks;
   protected $warningType = SubnetworksScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param Subnetwork[]

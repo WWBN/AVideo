@@ -21,6 +21,7 @@ class GeostoreCanonicalGConceptProto extends \Google\Model
 {
   protected $gconceptType = GeostoreGConceptInstanceProto::class;
   protected $gconceptDataType = '';
+  public $gconcept;
   /**
    * @var bool
    */

@@ -21,12 +21,14 @@ class RRSetRoutingPolicyPrimaryBackupPolicy extends \Google\Model
 {
   protected $backupGeoTargetsType = RRSetRoutingPolicyGeoPolicy::class;
   protected $backupGeoTargetsDataType = '';
+  public $backupGeoTargets;
   /**
    * @var string
    */
   public $kind;
   protected $primaryTargetsType = RRSetRoutingPolicyHealthCheckTargets::class;
   protected $primaryTargetsDataType = '';
+  public $primaryTargets;
   public $trickleTraffic;
 
   /**

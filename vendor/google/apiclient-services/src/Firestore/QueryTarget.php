@@ -25,6 +25,7 @@ class QueryTarget extends \Google\Model
   public $parent;
   protected $structuredQueryType = StructuredQuery::class;
   protected $structuredQueryDataType = '';
+  public $structuredQuery;
 
   /**
    * @param string

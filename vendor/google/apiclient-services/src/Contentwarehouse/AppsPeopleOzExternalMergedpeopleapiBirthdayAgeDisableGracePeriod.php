@@ -21,6 +21,7 @@ class AppsPeopleOzExternalMergedpeopleapiBirthdayAgeDisableGracePeriod extends \
 {
   protected $calendarDayType = GoogleTypeDate::class;
   protected $calendarDayDataType = '';
+  public $calendarDay;
   /**
    * @var string
    */
@@ -35,6 +36,7 @@ class AppsPeopleOzExternalMergedpeopleapiBirthdayAgeDisableGracePeriod extends \
   public $gracePeriodType;
   protected $manualGracePeriodInfoType = AppsPeopleOzExternalMergedpeopleapiBirthdayAgeDisableGracePeriodManualGracePeriodInfo::class;
   protected $manualGracePeriodInfoDataType = '';
+  public $manualGracePeriodInfo;
 
   /**
    * @param GoogleTypeDate

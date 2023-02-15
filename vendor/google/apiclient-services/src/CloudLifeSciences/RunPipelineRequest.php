@@ -25,6 +25,7 @@ class RunPipelineRequest extends \Google\Model
   public $labels;
   protected $pipelineType = Pipeline::class;
   protected $pipelineDataType = '';
+  public $pipeline;
   /**
    * @var string
    */

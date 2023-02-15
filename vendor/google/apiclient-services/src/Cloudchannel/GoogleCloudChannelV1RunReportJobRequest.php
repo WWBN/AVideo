@@ -21,6 +21,7 @@ class GoogleCloudChannelV1RunReportJobRequest extends \Google\Model
 {
   protected $dateRangeType = GoogleCloudChannelV1DateRange::class;
   protected $dateRangeDataType = '';
+  public $dateRange;
   /**
    * @var string
    */

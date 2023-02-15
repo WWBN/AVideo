@@ -21,12 +21,14 @@ class DestinationConfig extends \Google\Model
 {
   protected $bigqueryDestinationConfigType = BigQueryDestinationConfig::class;
   protected $bigqueryDestinationConfigDataType = '';
+  public $bigqueryDestinationConfig;
   /**
    * @var string
    */
   public $destinationConnectionProfile;
   protected $gcsDestinationConfigType = GcsDestinationConfig::class;
   protected $gcsDestinationConfigDataType = '';
+  public $gcsDestinationConfig;
 
   /**
    * @param BigQueryDestinationConfig

@@ -37,6 +37,7 @@ class SetMasterAuthRequest extends \Google\Model
   public $projectId;
   protected $updateType = MasterAuth::class;
   protected $updateDataType = '';
+  public $update;
   /**
    * @var string
    */

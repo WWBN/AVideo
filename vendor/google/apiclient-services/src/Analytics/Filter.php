@@ -25,32 +25,38 @@ class Filter extends \Google\Model
   public $accountId;
   protected $advancedDetailsType = FilterAdvancedDetails::class;
   protected $advancedDetailsDataType = '';
+  public $advancedDetails;
   /**
    * @var string
    */
   public $created;
   protected $excludeDetailsType = FilterExpression::class;
   protected $excludeDetailsDataType = '';
+  public $excludeDetails;
   /**
    * @var string
    */
   public $id;
   protected $includeDetailsType = FilterExpression::class;
   protected $includeDetailsDataType = '';
+  public $includeDetails;
   /**
    * @var string
    */
   public $kind;
   protected $lowercaseDetailsType = FilterLowercaseDetails::class;
   protected $lowercaseDetailsDataType = '';
+  public $lowercaseDetails;
   /**
    * @var string
    */
   public $name;
   protected $parentLinkType = FilterParentLink::class;
   protected $parentLinkDataType = '';
+  public $parentLink;
   protected $searchAndReplaceDetailsType = FilterSearchAndReplaceDetails::class;
   protected $searchAndReplaceDetailsDataType = '';
+  public $searchAndReplaceDetails;
   /**
    * @var string
    */
@@ -65,6 +71,7 @@ class Filter extends \Google\Model
   public $updated;
   protected $uppercaseDetailsType = FilterUppercaseDetails::class;
   protected $uppercaseDetailsDataType = '';
+  public $uppercaseDetails;
 
   /**
    * @param string

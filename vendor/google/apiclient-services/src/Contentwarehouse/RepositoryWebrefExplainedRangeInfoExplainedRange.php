@@ -21,6 +21,7 @@ class RepositoryWebrefExplainedRangeInfoExplainedRange extends \Google\Model
 {
   protected $mentionType = RepositoryWebrefSegmentMention::class;
   protected $mentionDataType = '';
+  public $mention;
 
   /**
    * @param RepositoryWebrefSegmentMention

@@ -26,6 +26,7 @@ class GoogleCloudDialogflowCxV3Experiment extends \Google\Collection
   public $createTime;
   protected $definitionType = GoogleCloudDialogflowCxV3ExperimentDefinition::class;
   protected $definitionDataType = '';
+  public $definition;
   /**
    * @var string
    */
@@ -52,14 +53,17 @@ class GoogleCloudDialogflowCxV3Experiment extends \Google\Collection
   public $name;
   protected $resultType = GoogleCloudDialogflowCxV3ExperimentResult::class;
   protected $resultDataType = '';
+  public $result;
   protected $rolloutConfigType = GoogleCloudDialogflowCxV3RolloutConfig::class;
   protected $rolloutConfigDataType = '';
+  public $rolloutConfig;
   /**
    * @var string
    */
   public $rolloutFailureReason;
   protected $rolloutStateType = GoogleCloudDialogflowCxV3RolloutState::class;
   protected $rolloutStateDataType = '';
+  public $rolloutState;
   /**
    * @var string
    */
@@ -70,6 +74,7 @@ class GoogleCloudDialogflowCxV3Experiment extends \Google\Collection
   public $state;
   protected $variantsHistoryType = GoogleCloudDialogflowCxV3VariantsHistory::class;
   protected $variantsHistoryDataType = 'array';
+  public $variantsHistory;
 
   /**
    * @param string

@@ -22,7 +22,7 @@ namespace Google\Service\Recommender\Resource;
  * Typical usage is:
  *  <code>
  *   $recommenderService = new Google\Service\Recommender(...);
- *   $insightTypes = $recommenderService->insightTypes;
+ *   $insightTypes = $recommenderService->folders_locations_insightTypes;
  *  </code>
  */
 class FoldersLocationsInsightTypes extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class GoogleCloudDatalabelingV1beta1ListDataItemsResponse extends \Google\Collec
   protected $collection_key = 'dataItems';
   protected $dataItemsType = GoogleCloudDatalabelingV1beta1DataItem::class;
   protected $dataItemsDataType = 'array';
+  public $dataItems;
   /**
    * @var string
    */

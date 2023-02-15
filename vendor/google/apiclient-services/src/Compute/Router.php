@@ -22,8 +22,10 @@ class Router extends \Google\Collection
   protected $collection_key = 'nats';
   protected $bgpType = RouterBgp::class;
   protected $bgpDataType = '';
+  public $bgp;
   protected $bgpPeersType = RouterBgpPeer::class;
   protected $bgpPeersDataType = 'array';
+  public $bgpPeers;
   /**
    * @var string
    */
@@ -42,18 +44,21 @@ class Router extends \Google\Collection
   public $id;
   protected $interfacesType = RouterInterface::class;
   protected $interfacesDataType = 'array';
+  public $interfaces;
   /**
    * @var string
    */
   public $kind;
   protected $md5AuthenticationKeysType = RouterMd5AuthenticationKey::class;
   protected $md5AuthenticationKeysDataType = 'array';
+  public $md5AuthenticationKeys;
   /**
    * @var string
    */
   public $name;
   protected $natsType = RouterNat::class;
   protected $natsDataType = 'array';
+  public $nats;
   /**
    * @var string
    */

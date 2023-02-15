@@ -21,6 +21,7 @@ class ImageSettings extends \Google\Model
 {
   protected $backgroundImageUrlType = LocalizedProperty::class;
   protected $backgroundImageUrlDataType = '';
+  public $backgroundImageUrl;
   /**
    * @var string
    */
@@ -83,12 +84,16 @@ class ImageSettings extends \Google\Model
   public $bannerTvMediumImageUrl;
   protected $largeBrandedBannerImageImapScriptType = LocalizedProperty::class;
   protected $largeBrandedBannerImageImapScriptDataType = '';
+  public $largeBrandedBannerImageImapScript;
   protected $largeBrandedBannerImageUrlType = LocalizedProperty::class;
   protected $largeBrandedBannerImageUrlDataType = '';
+  public $largeBrandedBannerImageUrl;
   protected $smallBrandedBannerImageImapScriptType = LocalizedProperty::class;
   protected $smallBrandedBannerImageImapScriptDataType = '';
+  public $smallBrandedBannerImageImapScript;
   protected $smallBrandedBannerImageUrlType = LocalizedProperty::class;
   protected $smallBrandedBannerImageUrlDataType = '';
+  public $smallBrandedBannerImageUrl;
   /**
    * @var string
    */

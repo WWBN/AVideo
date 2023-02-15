@@ -26,7 +26,7 @@ use Google\Service\DisplayVideo\ListCreativesResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $creatives = $displayvideoService->creatives;
+ *   $creatives = $displayvideoService->advertisers_creatives;
  *  </code>
  */
 class AdvertisersCreatives extends \Google\Service\Resource

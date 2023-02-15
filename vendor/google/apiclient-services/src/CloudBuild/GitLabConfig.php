@@ -22,18 +22,21 @@ class GitLabConfig extends \Google\Collection
   protected $collection_key = 'connectedRepositories';
   protected $connectedRepositoriesType = GitLabRepositoryId::class;
   protected $connectedRepositoriesDataType = 'array';
+  public $connectedRepositories;
   /**
    * @var string
    */
   public $createTime;
   protected $enterpriseConfigType = GitLabEnterpriseConfig::class;
   protected $enterpriseConfigDataType = '';
+  public $enterpriseConfig;
   /**
    * @var string
    */
   public $name;
   protected $secretsType = GitLabSecrets::class;
   protected $secretsDataType = '';
+  public $secrets;
   /**
    * @var string
    */

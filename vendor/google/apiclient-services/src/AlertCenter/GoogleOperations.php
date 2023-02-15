@@ -26,6 +26,7 @@ class GoogleOperations extends \Google\Collection
   public $affectedUserEmails;
   protected $attachmentDataType = Attachment::class;
   protected $attachmentDataDataType = '';
+  public $attachmentData;
   /**
    * @var string
    */

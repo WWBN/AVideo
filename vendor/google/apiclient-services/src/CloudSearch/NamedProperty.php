@@ -25,24 +25,32 @@ class NamedProperty extends \Google\Model
   public $booleanValue;
   protected $dateValuesType = DateValues::class;
   protected $dateValuesDataType = '';
+  public $dateValues;
   protected $doubleValuesType = DoubleValues::class;
   protected $doubleValuesDataType = '';
+  public $doubleValues;
   protected $enumValuesType = EnumValues::class;
   protected $enumValuesDataType = '';
+  public $enumValues;
   protected $htmlValuesType = HtmlValues::class;
   protected $htmlValuesDataType = '';
+  public $htmlValues;
   protected $integerValuesType = IntegerValues::class;
   protected $integerValuesDataType = '';
+  public $integerValues;
   /**
    * @var string
    */
   public $name;
   protected $objectValuesType = ObjectValues::class;
   protected $objectValuesDataType = '';
+  public $objectValues;
   protected $textValuesType = TextValues::class;
   protected $textValuesDataType = '';
+  public $textValues;
   protected $timestampValuesType = TimestampValues::class;
   protected $timestampValuesDataType = '';
+  public $timestampValues;
 
   /**
    * @param bool

@@ -22,20 +22,24 @@ class CheckInRequest extends \Google\Collection
   protected $collection_key = 'events';
   protected $deadlineExpiredType = GenomicsEmpty::class;
   protected $deadlineExpiredDataType = '';
+  public $deadlineExpired;
   /**
    * @var array[]
    */
   public $event;
   protected $eventsType = TimestampedEvent::class;
   protected $eventsDataType = 'array';
+  public $events;
   protected $resultType = Status::class;
   protected $resultDataType = '';
+  public $result;
   /**
    * @var string
    */
   public $sosReport;
   protected $workerStatusType = WorkerStatus::class;
   protected $workerStatusDataType = '';
+  public $workerStatus;
 
   /**
    * @param GenomicsEmpty

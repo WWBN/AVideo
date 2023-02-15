@@ -38,6 +38,7 @@ class ConfigManagementPolicyController extends \Google\Collection
   public $logDeniesEnabled;
   protected $monitoringType = ConfigManagementPolicyControllerMonitoring::class;
   protected $monitoringDataType = '';
+  public $monitoring;
   /**
    * @var bool
    */

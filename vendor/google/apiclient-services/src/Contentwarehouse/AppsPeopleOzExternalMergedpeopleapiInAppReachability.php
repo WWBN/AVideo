@@ -25,8 +25,10 @@ class AppsPeopleOzExternalMergedpeopleapiInAppReachability extends \Google\Model
   public $appType;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $reachabilityKeyType = AppsPeopleOzExternalMergedpeopleapiInAppReachabilityReachabilityKey::class;
   protected $reachabilityKeyDataType = '';
+  public $reachabilityKey;
   /**
    * @var string
    */

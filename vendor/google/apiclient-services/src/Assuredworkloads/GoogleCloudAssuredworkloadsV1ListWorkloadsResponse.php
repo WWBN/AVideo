@@ -26,6 +26,7 @@ class GoogleCloudAssuredworkloadsV1ListWorkloadsResponse extends \Google\Collect
   public $nextPageToken;
   protected $workloadsType = GoogleCloudAssuredworkloadsV1Workload::class;
   protected $workloadsDataType = 'array';
+  public $workloads;
 
   /**
    * @param string

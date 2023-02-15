@@ -26,6 +26,7 @@ class PeoplestackFlexorgsProtoInternalExternal extends \Google\Collection
   public $application;
   protected $stateStatusType = PeoplestackFlexorgsProtoInternalExternalStateStatus::class;
   protected $stateStatusDataType = 'array';
+  public $stateStatus;
 
   /**
    * @param string

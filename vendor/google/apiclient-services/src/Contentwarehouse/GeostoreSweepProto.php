@@ -21,10 +21,13 @@ class GeostoreSweepProto extends \Google\Model
 {
   protected $otherSegmentFeatureIdType = GeostoreFeatureIdProto::class;
   protected $otherSegmentFeatureIdDataType = '';
+  public $otherSegmentFeatureId;
   protected $polygonType = GeostorePolygonProto::class;
   protected $polygonDataType = '';
+  public $polygon;
   protected $sweepCurveType = GeostoreCurveConnectionProto::class;
   protected $sweepCurveDataType = '';
+  public $sweepCurve;
   /**
    * @var string
    */

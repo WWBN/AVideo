@@ -50,6 +50,7 @@ class ShoppingAdsProgramStatusRegionStatus extends \Google\Collection
   public $reviewIneligibilityReasonDescription;
   protected $reviewIneligibilityReasonDetailsType = ShoppingAdsProgramStatusReviewIneligibilityReasonDetails::class;
   protected $reviewIneligibilityReasonDetailsDataType = '';
+  public $reviewIneligibilityReasonDetails;
   /**
    * @var string[]
    */

@@ -25,7 +25,7 @@ use Google\Service\TPU\RuntimeVersion;
  * Typical usage is:
  *  <code>
  *   $tpuService = new Google\Service\TPU(...);
- *   $runtimeVersions = $tpuService->runtimeVersions;
+ *   $runtimeVersions = $tpuService->projects_locations_runtimeVersions;
  *  </code>
  */
 class ProjectsLocationsRuntimeVersions extends \Google\Service\Resource

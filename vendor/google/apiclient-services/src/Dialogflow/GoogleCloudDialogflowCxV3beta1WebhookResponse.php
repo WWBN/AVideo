@@ -21,14 +21,17 @@ class GoogleCloudDialogflowCxV3beta1WebhookResponse extends \Google\Model
 {
   protected $fulfillmentResponseType = GoogleCloudDialogflowCxV3beta1WebhookResponseFulfillmentResponse::class;
   protected $fulfillmentResponseDataType = '';
+  public $fulfillmentResponse;
   protected $pageInfoType = GoogleCloudDialogflowCxV3beta1PageInfo::class;
   protected $pageInfoDataType = '';
+  public $pageInfo;
   /**
    * @var array[]
    */
   public $payload;
   protected $sessionInfoType = GoogleCloudDialogflowCxV3beta1SessionInfo::class;
   protected $sessionInfoDataType = '';
+  public $sessionInfo;
   /**
    * @var string
    */

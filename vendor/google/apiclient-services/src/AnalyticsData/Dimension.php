@@ -21,6 +21,7 @@ class Dimension extends \Google\Model
 {
   protected $dimensionExpressionType = DimensionExpression::class;
   protected $dimensionExpressionDataType = '';
+  public $dimensionExpression;
   /**
    * @var string
    */

@@ -32,8 +32,12 @@ class GoogleChromePolicyVersionsV1PolicySchemaFieldDescription extends \Google\C
    * @var string
    */
   public $field;
+  protected $fieldConstraintsType = GoogleChromePolicyVersionsV1FieldConstraints::class;
+  protected $fieldConstraintsDataType = '';
+  public $fieldConstraints;
   protected $fieldDependenciesType = GoogleChromePolicyVersionsV1PolicySchemaFieldDependencies::class;
   protected $fieldDependenciesDataType = 'array';
+  public $fieldDependencies;
   /**
    * @var string
    */
@@ -44,14 +48,17 @@ class GoogleChromePolicyVersionsV1PolicySchemaFieldDescription extends \Google\C
   public $inputConstraint;
   protected $knownValueDescriptionsType = GoogleChromePolicyVersionsV1PolicySchemaFieldKnownValueDescription::class;
   protected $knownValueDescriptionsDataType = 'array';
+  public $knownValueDescriptions;
   /**
    * @var string
    */
   public $name;
   protected $nestedFieldDescriptionsType = GoogleChromePolicyVersionsV1PolicySchemaFieldDescription::class;
   protected $nestedFieldDescriptionsDataType = 'array';
+  public $nestedFieldDescriptions;
   protected $requiredItemsType = GoogleChromePolicyVersionsV1PolicySchemaRequiredItems::class;
   protected $requiredItemsDataType = 'array';
+  public $requiredItems;
 
   /**
    * @param array
@@ -94,6 +101,20 @@ class GoogleChromePolicyVersionsV1PolicySchemaFieldDescription extends \Google\C
   public function getField()
   {
     return $this->field;
+  }
+  /**
+   * @param GoogleChromePolicyVersionsV1FieldConstraints
+   */
+  public function setFieldConstraints(GoogleChromePolicyVersionsV1FieldConstraints $fieldConstraints)
+  {
+    $this->fieldConstraints = $fieldConstraints;
+  }
+  /**
+   * @return GoogleChromePolicyVersionsV1FieldConstraints
+   */
+  public function getFieldConstraints()
+  {
+    return $this->fieldConstraints;
   }
   /**
    * @param GoogleChromePolicyVersionsV1PolicySchemaFieldDependencies[]

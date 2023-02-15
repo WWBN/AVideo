@@ -22,6 +22,7 @@ class ListDealAssociationsResponse extends \Google\Collection
   protected $collection_key = 'associations';
   protected $associationsType = CreativeDealAssociation::class;
   protected $associationsDataType = 'array';
+  public $associations;
   /**
    * @var string
    */

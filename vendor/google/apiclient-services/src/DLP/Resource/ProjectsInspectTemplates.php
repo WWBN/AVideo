@@ -28,7 +28,7 @@ use Google\Service\DLP\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dlpService = new Google\Service\DLP(...);
- *   $inspectTemplates = $dlpService->inspectTemplates;
+ *   $inspectTemplates = $dlpService->projects_inspectTemplates;
  *  </code>
  */
 class ProjectsInspectTemplates extends \Google\Service\Resource

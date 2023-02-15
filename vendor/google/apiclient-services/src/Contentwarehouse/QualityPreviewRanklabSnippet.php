@@ -21,10 +21,13 @@ class QualityPreviewRanklabSnippet extends \Google\Model
 {
   protected $brainFeaturesType = QualityPreviewSnippetBrainFeatures::class;
   protected $brainFeaturesDataType = '';
+  public $brainFeatures;
   protected $documentFeaturesType = QualityPreviewSnippetDocumentFeatures::class;
   protected $documentFeaturesDataType = '';
+  public $documentFeatures;
   protected $experimentalFeaturesType = QualityPreviewSnippetExperimentalFeatures::class;
   protected $experimentalFeaturesDataType = '';
+  public $experimentalFeatures;
   /**
    * @var float
    */
@@ -35,14 +38,22 @@ class QualityPreviewRanklabSnippet extends \Google\Model
   public $isMuppetSelectedSnippet;
   protected $originalQueryTermCoverageFeaturesType = QualityPreviewSnippetQueryTermCoverageFeatures::class;
   protected $originalQueryTermCoverageFeaturesDataType = '';
+  public $originalQueryTermCoverageFeatures;
   protected $qualityFeaturesType = QualityPreviewSnippetQualityFeatures::class;
   protected $qualityFeaturesDataType = '';
+  public $qualityFeatures;
   protected $queryFeaturesType = QualityPreviewSnippetQueryFeatures::class;
   protected $queryFeaturesDataType = '';
+  public $queryFeatures;
   protected $queryTermCoverageFeaturesType = QualityPreviewSnippetQueryTermCoverageFeatures::class;
   protected $queryTermCoverageFeaturesDataType = '';
+  public $queryTermCoverageFeatures;
+  protected $radishFeaturesType = QualityPreviewSnippetRadishFeatures::class;
+  protected $radishFeaturesDataType = '';
+  public $radishFeatures;
   protected $snippetInfoType = QualityPreviewChosenSnippetInfo::class;
   protected $snippetInfoDataType = '';
+  public $snippetInfo;
 
   /**
    * @param QualityPreviewSnippetBrainFeatures
@@ -169,6 +180,20 @@ class QualityPreviewRanklabSnippet extends \Google\Model
   public function getQueryTermCoverageFeatures()
   {
     return $this->queryTermCoverageFeatures;
+  }
+  /**
+   * @param QualityPreviewSnippetRadishFeatures
+   */
+  public function setRadishFeatures(QualityPreviewSnippetRadishFeatures $radishFeatures)
+  {
+    $this->radishFeatures = $radishFeatures;
+  }
+  /**
+   * @return QualityPreviewSnippetRadishFeatures
+   */
+  public function getRadishFeatures()
+  {
+    return $this->radishFeatures;
   }
   /**
    * @param QualityPreviewChosenSnippetInfo

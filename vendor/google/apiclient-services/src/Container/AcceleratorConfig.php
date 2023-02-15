@@ -33,6 +33,7 @@ class AcceleratorConfig extends \Google\Model
   public $gpuPartitionSize;
   protected $gpuSharingConfigType = GPUSharingConfig::class;
   protected $gpuSharingConfigDataType = '';
+  public $gpuSharingConfig;
 
   /**
    * @param string

@@ -32,7 +32,7 @@ use Google\Service\CertificateAuthorityService\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $privatecaService = new Google\Service\CertificateAuthorityService(...);
- *   $caPools = $privatecaService->caPools;
+ *   $caPools = $privatecaService->projects_locations_caPools;
  *  </code>
  */
 class ProjectsLocationsCaPools extends \Google\Service\Resource

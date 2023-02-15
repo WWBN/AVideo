@@ -21,8 +21,10 @@ class RecognizeRequest extends \Google\Model
 {
   protected $audioType = RecognitionAudio::class;
   protected $audioDataType = '';
+  public $audio;
   protected $configType = RecognitionConfig::class;
   protected $configDataType = '';
+  public $config;
 
   /**
    * @param RecognitionAudio

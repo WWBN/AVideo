@@ -21,6 +21,7 @@ class GoogleCloudDatalabelingV1beta1AnnotationMetadata extends \Google\Model
 {
   protected $operatorMetadataType = GoogleCloudDatalabelingV1beta1OperatorMetadata::class;
   protected $operatorMetadataDataType = '';
+  public $operatorMetadata;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1OperatorMetadata

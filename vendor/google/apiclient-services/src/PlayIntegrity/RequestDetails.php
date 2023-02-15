@@ -26,6 +26,10 @@ class RequestDetails extends \Google\Model
   /**
    * @var string
    */
+  public $requestHash;
+  /**
+   * @var string
+   */
   public $requestPackageName;
   /**
    * @var string
@@ -45,6 +49,20 @@ class RequestDetails extends \Google\Model
   public function getNonce()
   {
     return $this->nonce;
+  }
+  /**
+   * @param string
+   */
+  public function setRequestHash($requestHash)
+  {
+    $this->requestHash = $requestHash;
+  }
+  /**
+   * @return string
+   */
+  public function getRequestHash()
+  {
+    return $this->requestHash;
   }
   /**
    * @param string

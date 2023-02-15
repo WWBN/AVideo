@@ -22,6 +22,7 @@ class PosCustomBatchRequest extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = PosCustomBatchRequestEntry::class;
   protected $entriesDataType = 'array';
+  public $entries;
 
   /**
    * @param PosCustomBatchRequestEntry[]

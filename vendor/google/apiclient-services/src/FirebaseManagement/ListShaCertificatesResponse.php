@@ -22,6 +22,7 @@ class ListShaCertificatesResponse extends \Google\Collection
   protected $collection_key = 'certificates';
   protected $certificatesType = ShaCertificate::class;
   protected $certificatesDataType = 'array';
+  public $certificates;
 
   /**
    * @param ShaCertificate[]

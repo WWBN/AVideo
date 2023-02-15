@@ -25,6 +25,7 @@ class StreamingSessionInfo extends \Google\Model
   public $applicationType;
   protected $latestSessionEventType = SessionEvent::class;
   protected $latestSessionEventDataType = '';
+  public $latestSessionEvent;
   /**
    * @var string
    */
@@ -47,6 +48,7 @@ class StreamingSessionInfo extends \Google\Model
   public $viewerAccessPolicy;
   protected $viewerStatsType = StreamViewerStats::class;
   protected $viewerStatsDataType = '';
+  public $viewerStats;
 
   /**
    * @param string

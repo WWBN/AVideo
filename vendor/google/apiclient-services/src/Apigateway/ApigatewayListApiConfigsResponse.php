@@ -22,6 +22,7 @@ class ApigatewayListApiConfigsResponse extends \Google\Collection
   protected $collection_key = 'unreachableLocations';
   protected $apiConfigsType = ApigatewayApiConfig::class;
   protected $apiConfigsDataType = 'array';
+  public $apiConfigs;
   /**
    * @var string
    */

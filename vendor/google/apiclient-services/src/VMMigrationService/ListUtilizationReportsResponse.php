@@ -30,6 +30,7 @@ class ListUtilizationReportsResponse extends \Google\Collection
   public $unreachable;
   protected $utilizationReportsType = UtilizationReport::class;
   protected $utilizationReportsDataType = 'array';
+  public $utilizationReports;
 
   /**
    * @param string

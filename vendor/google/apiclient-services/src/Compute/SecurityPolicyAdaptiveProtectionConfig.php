@@ -21,6 +21,7 @@ class SecurityPolicyAdaptiveProtectionConfig extends \Google\Model
 {
   protected $layer7DdosDefenseConfigType = SecurityPolicyAdaptiveProtectionConfigLayer7DdosDefenseConfig::class;
   protected $layer7DdosDefenseConfigDataType = '';
+  public $layer7DdosDefenseConfig;
 
   /**
    * @param SecurityPolicyAdaptiveProtectionConfigLayer7DdosDefenseConfig

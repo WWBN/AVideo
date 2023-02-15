@@ -21,8 +21,10 @@ class Partner extends \Google\Model
 {
   protected $adServerConfigType = PartnerAdServerConfig::class;
   protected $adServerConfigDataType = '';
+  public $adServerConfig;
   protected $dataAccessConfigType = PartnerDataAccessConfig::class;
   protected $dataAccessConfigDataType = '';
+  public $dataAccessConfig;
   /**
    * @var string
    */
@@ -33,8 +35,10 @@ class Partner extends \Google\Model
   public $entityStatus;
   protected $exchangeConfigType = ExchangeConfig::class;
   protected $exchangeConfigDataType = '';
+  public $exchangeConfig;
   protected $generalConfigType = PartnerGeneralConfig::class;
   protected $generalConfigDataType = '';
+  public $generalConfig;
   /**
    * @var string
    */

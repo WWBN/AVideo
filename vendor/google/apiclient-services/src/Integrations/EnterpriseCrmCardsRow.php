@@ -22,6 +22,7 @@ class EnterpriseCrmCardsRow extends \Google\Collection
   protected $collection_key = 'cells';
   protected $cellsType = EnterpriseCrmCardsCellValue::class;
   protected $cellsDataType = 'array';
+  public $cells;
 
   /**
    * @param EnterpriseCrmCardsCellValue[]

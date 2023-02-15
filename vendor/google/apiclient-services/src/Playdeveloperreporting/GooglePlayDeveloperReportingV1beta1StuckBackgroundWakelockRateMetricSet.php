@@ -21,6 +21,7 @@ class GooglePlayDeveloperReportingV1beta1StuckBackgroundWakelockRateMetricSet ex
 {
   protected $freshnessInfoType = GooglePlayDeveloperReportingV1beta1FreshnessInfo::class;
   protected $freshnessInfoDataType = '';
+  public $freshnessInfo;
   /**
    * @var string
    */

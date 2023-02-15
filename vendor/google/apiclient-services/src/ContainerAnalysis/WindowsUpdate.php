@@ -22,12 +22,14 @@ class WindowsUpdate extends \Google\Collection
   protected $collection_key = 'kbArticleIds';
   protected $categoriesType = Category::class;
   protected $categoriesDataType = 'array';
+  public $categories;
   /**
    * @var string
    */
   public $description;
   protected $identityType = Identity::class;
   protected $identityDataType = '';
+  public $identity;
   /**
    * @var string[]
    */

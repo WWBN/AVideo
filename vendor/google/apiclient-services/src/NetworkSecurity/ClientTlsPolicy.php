@@ -22,6 +22,7 @@ class ClientTlsPolicy extends \Google\Collection
   protected $collection_key = 'serverValidationCa';
   protected $clientCertificateType = GoogleCloudNetworksecurityV1CertificateProvider::class;
   protected $clientCertificateDataType = '';
+  public $clientCertificate;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class ClientTlsPolicy extends \Google\Collection
   public $name;
   protected $serverValidationCaType = ValidationCA::class;
   protected $serverValidationCaDataType = 'array';
+  public $serverValidationCa;
   /**
    * @var string
    */

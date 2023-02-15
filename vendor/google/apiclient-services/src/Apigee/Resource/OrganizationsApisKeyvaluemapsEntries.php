@@ -25,7 +25,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ListKeyValueEntriesResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $entries = $apigeeService->entries;
+ *   $entries = $apigeeService->organizations_apis_keyvaluemaps_entries;
  *  </code>
  */
 class OrganizationsApisKeyvaluemapsEntries extends \Google\Service\Resource

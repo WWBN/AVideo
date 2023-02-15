@@ -22,6 +22,7 @@ class ListLocationAdminsResponse extends \Google\Collection
   protected $collection_key = 'admins';
   protected $adminsType = Admin::class;
   protected $adminsDataType = 'array';
+  public $admins;
 
   /**
    * @param Admin[]

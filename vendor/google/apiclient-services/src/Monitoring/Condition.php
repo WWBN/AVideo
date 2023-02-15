@@ -21,12 +21,16 @@ class Condition extends \Google\Model
 {
   protected $conditionAbsentType = MetricAbsence::class;
   protected $conditionAbsentDataType = '';
+  public $conditionAbsent;
   protected $conditionMatchedLogType = LogMatch::class;
   protected $conditionMatchedLogDataType = '';
+  public $conditionMatchedLog;
   protected $conditionMonitoringQueryLanguageType = MonitoringQueryLanguageCondition::class;
   protected $conditionMonitoringQueryLanguageDataType = '';
+  public $conditionMonitoringQueryLanguage;
   protected $conditionThresholdType = MetricThreshold::class;
   protected $conditionThresholdDataType = '';
+  public $conditionThreshold;
   /**
    * @var string
    */

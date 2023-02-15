@@ -22,6 +22,7 @@ class ManagedConfigurationsSettingsListResponse extends \Google\Collection
   protected $collection_key = 'managedConfigurationsSettings';
   protected $managedConfigurationsSettingsType = ManagedConfigurationsSettings::class;
   protected $managedConfigurationsSettingsDataType = 'array';
+  public $managedConfigurationsSettings;
 
   /**
    * @param ManagedConfigurationsSettings[]

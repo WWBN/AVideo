@@ -34,6 +34,7 @@ class GoogleCloudApigeeV1RuntimeTraceConfig extends \Google\Collection
   public $name;
   protected $overridesType = GoogleCloudApigeeV1RuntimeTraceConfigOverride::class;
   protected $overridesDataType = 'array';
+  public $overrides;
   /**
    * @var string
    */
@@ -44,6 +45,7 @@ class GoogleCloudApigeeV1RuntimeTraceConfig extends \Google\Collection
   public $revisionId;
   protected $samplingConfigType = GoogleCloudApigeeV1RuntimeTraceSamplingConfig::class;
   protected $samplingConfigDataType = '';
+  public $samplingConfig;
 
   /**
    * @param string

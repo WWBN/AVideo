@@ -21,10 +21,13 @@ class ToolOutputReference extends \Google\Model
 {
   protected $creationTimeType = Timestamp::class;
   protected $creationTimeDataType = '';
+  public $creationTime;
   protected $outputType = FileReference::class;
   protected $outputDataType = '';
+  public $output;
   protected $testCaseType = TestCaseReference::class;
   protected $testCaseDataType = '';
+  public $testCase;
 
   /**
    * @param Timestamp

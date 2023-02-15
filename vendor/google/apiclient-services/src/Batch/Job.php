@@ -22,6 +22,7 @@ class Job extends \Google\Collection
   protected $collection_key = 'taskGroups';
   protected $allocationPolicyType = AllocationPolicy::class;
   protected $allocationPolicyDataType = '';
+  public $allocationPolicy;
   /**
    * @var string
    */
@@ -32,20 +33,24 @@ class Job extends \Google\Collection
   public $labels;
   protected $logsPolicyType = LogsPolicy::class;
   protected $logsPolicyDataType = '';
+  public $logsPolicy;
   /**
    * @var string
    */
   public $name;
   protected $notificationsType = JobNotification::class;
   protected $notificationsDataType = 'array';
+  public $notifications;
   /**
    * @var string
    */
   public $priority;
   protected $statusType = JobStatus::class;
   protected $statusDataType = '';
+  public $status;
   protected $taskGroupsType = TaskGroup::class;
   protected $taskGroupsDataType = 'array';
+  public $taskGroups;
   /**
    * @var string
    */

@@ -25,6 +25,7 @@ class GoogleCloudDatacatalogV1TagTemplate extends \Google\Model
   public $displayName;
   protected $fieldsType = GoogleCloudDatacatalogV1TagTemplateField::class;
   protected $fieldsDataType = 'map';
+  public $fields;
   /**
    * @var bool
    */

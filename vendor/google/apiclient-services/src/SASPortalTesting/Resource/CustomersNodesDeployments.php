@@ -25,7 +25,7 @@ use Google\Service\SASPortalTesting\SasPortalListDeploymentsResponse;
  * Typical usage is:
  *  <code>
  *   $prod_tt_sasportalService = new Google\Service\SASPortalTesting(...);
- *   $deployments = $prod_tt_sasportalService->deployments;
+ *   $deployments = $prod_tt_sasportalService->customers_nodes_deployments;
  *  </code>
  */
 class CustomersNodesDeployments extends \Google\Service\Resource

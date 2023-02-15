@@ -22,6 +22,7 @@ class GooglePrivacyDlpV2DeltaPresenceEstimationResult extends \Google\Collection
   protected $collection_key = 'deltaPresenceEstimationHistogram';
   protected $deltaPresenceEstimationHistogramType = GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucket::class;
   protected $deltaPresenceEstimationHistogramDataType = 'array';
+  public $deltaPresenceEstimationHistogram;
 
   /**
    * @param GooglePrivacyDlpV2DeltaPresenceEstimationHistogramBucket[]

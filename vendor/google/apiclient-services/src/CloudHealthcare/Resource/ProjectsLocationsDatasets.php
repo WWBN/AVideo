@@ -32,7 +32,7 @@ use Google\Service\CloudHealthcare\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $datasets = $healthcareService->datasets;
+ *   $datasets = $healthcareService->projects_locations_datasets;
  *  </code>
  */
 class ProjectsLocationsDatasets extends \Google\Service\Resource

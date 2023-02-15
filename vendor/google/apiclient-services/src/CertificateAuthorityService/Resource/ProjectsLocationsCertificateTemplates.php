@@ -30,7 +30,7 @@ use Google\Service\CertificateAuthorityService\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $privatecaService = new Google\Service\CertificateAuthorityService(...);
- *   $certificateTemplates = $privatecaService->certificateTemplates;
+ *   $certificateTemplates = $privatecaService->projects_locations_certificateTemplates;
  *  </code>
  */
 class ProjectsLocationsCertificateTemplates extends \Google\Service\Resource

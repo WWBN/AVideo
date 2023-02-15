@@ -26,7 +26,7 @@ use Google\Service\Cloudchannel\GoogleCloudChannelV1UpdateChannelPartnerLinkRequ
  * Typical usage is:
  *  <code>
  *   $cloudchannelService = new Google\Service\Cloudchannel(...);
- *   $channelPartnerLinks = $cloudchannelService->channelPartnerLinks;
+ *   $channelPartnerLinks = $cloudchannelService->accounts_channelPartnerLinks;
  *  </code>
  */
 class AccountsChannelPartnerLinks extends \Google\Service\Resource

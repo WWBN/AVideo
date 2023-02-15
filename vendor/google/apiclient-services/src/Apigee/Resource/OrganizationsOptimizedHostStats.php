@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1OptimizedStats;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $optimizedHostStats = $apigeeService->optimizedHostStats;
+ *   $optimizedHostStats = $apigeeService->organizations_optimizedHostStats;
  *  </code>
  */
 class OrganizationsOptimizedHostStats extends \Google\Service\Resource

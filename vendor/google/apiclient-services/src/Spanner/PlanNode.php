@@ -22,6 +22,7 @@ class PlanNode extends \Google\Collection
   protected $collection_key = 'childLinks';
   protected $childLinksType = ChildLink::class;
   protected $childLinksDataType = 'array';
+  public $childLinks;
   /**
    * @var string
    */
@@ -44,6 +45,7 @@ class PlanNode extends \Google\Collection
   public $metadata;
   protected $shortRepresentationType = ShortRepresentation::class;
   protected $shortRepresentationDataType = '';
+  public $shortRepresentation;
 
   /**
    * @param ChildLink[]

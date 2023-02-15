@@ -21,6 +21,7 @@ class GoogleCloudVisionV1p4beta1AsyncBatchAnnotateImagesResponse extends \Google
 {
   protected $outputConfigType = GoogleCloudVisionV1p4beta1OutputConfig::class;
   protected $outputConfigDataType = '';
+  public $outputConfig;
 
   /**
    * @param GoogleCloudVisionV1p4beta1OutputConfig

@@ -22,6 +22,7 @@ class SasPortalListDeploymentsResponse extends \Google\Collection
   protected $collection_key = 'deployments';
   protected $deploymentsType = SasPortalDeployment::class;
   protected $deploymentsDataType = 'array';
+  public $deployments;
   /**
    * @var string
    */

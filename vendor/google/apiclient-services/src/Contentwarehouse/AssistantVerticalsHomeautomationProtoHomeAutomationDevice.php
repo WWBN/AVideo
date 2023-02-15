@@ -22,14 +22,19 @@ class AssistantVerticalsHomeautomationProtoHomeAutomationDevice extends \Google\
   protected $collection_key = 'matchedItemValue';
   protected $deviceSelectionLogType = AssistantLogsDeviceSelectionLog::class;
   protected $deviceSelectionLogDataType = '';
+  public $deviceSelectionLog;
   protected $dtoErrorType = AssistantDeviceTargetingDeviceTargetingError::class;
   protected $dtoErrorDataType = '';
+  public $dtoError;
   protected $dtoQueryInfoType = AssistantVerticalsHomeautomationProtoDeviceTargetingOutputQueryInfo::class;
   protected $dtoQueryInfoDataType = '';
+  public $dtoQueryInfo;
   protected $homeautomationMetadataType = AssistantVerticalsHomeautomationProtoHomeAutomationMetaData::class;
   protected $homeautomationMetadataDataType = '';
+  public $homeautomationMetadata;
   protected $listType = AssistantVerticalsHomeautomationProtoHomeAutomationDeviceItem::class;
   protected $listDataType = 'array';
+  public $list;
   /**
    * @var string
    */

@@ -21,6 +21,7 @@ class InventoryItem extends \Google\Model
 {
   protected $availablePackageType = InventorySoftwarePackage::class;
   protected $availablePackageDataType = '';
+  public $availablePackage;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class InventoryItem extends \Google\Model
   public $id;
   protected $installedPackageType = InventorySoftwarePackage::class;
   protected $installedPackageDataType = '';
+  public $installedPackage;
   /**
    * @var string
    */

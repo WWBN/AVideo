@@ -22,6 +22,7 @@ class QualityCalypsoAppsUniversalAuLiveOpsDetailInfo extends \Google\Collection
   protected $collection_key = 'liveOpEvents';
   protected $liveOpEventsType = QualityCalypsoAppsUniversalAuLiveOpDetail::class;
   protected $liveOpEventsDataType = 'array';
+  public $liveOpEvents;
   /**
    * @var string
    */

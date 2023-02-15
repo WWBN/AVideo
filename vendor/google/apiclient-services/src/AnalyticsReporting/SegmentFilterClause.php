@@ -21,8 +21,10 @@ class SegmentFilterClause extends \Google\Model
 {
   protected $dimensionFilterType = SegmentDimensionFilter::class;
   protected $dimensionFilterDataType = '';
+  public $dimensionFilter;
   protected $metricFilterType = SegmentMetricFilter::class;
   protected $metricFilterDataType = '';
+  public $metricFilter;
   /**
    * @var bool
    */

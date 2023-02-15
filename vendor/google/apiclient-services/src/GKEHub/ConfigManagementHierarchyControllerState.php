@@ -21,8 +21,10 @@ class ConfigManagementHierarchyControllerState extends \Google\Model
 {
   protected $stateType = ConfigManagementHierarchyControllerDeploymentState::class;
   protected $stateDataType = '';
+  public $state;
   protected $versionType = ConfigManagementHierarchyControllerVersion::class;
   protected $versionDataType = '';
+  public $version;
 
   /**
    * @param ConfigManagementHierarchyControllerDeploymentState

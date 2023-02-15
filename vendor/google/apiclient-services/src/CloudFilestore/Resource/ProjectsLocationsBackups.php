@@ -26,7 +26,7 @@ use Google\Service\CloudFilestore\Operation;
  * Typical usage is:
  *  <code>
  *   $fileService = new Google\Service\CloudFilestore(...);
- *   $backups = $fileService->backups;
+ *   $backups = $fileService->projects_locations_backups;
  *  </code>
  */
 class ProjectsLocationsBackups extends \Google\Service\Resource
@@ -36,7 +36,7 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    *
    * @param string $parent Required. The backup's project and location, in the
    * format `projects/{project_number}/locations/{location}`. In Filestore, backup
-   * locations map to GCP regions, for example **us-west1**.
+   * locations map to Google Cloud regions, for example **us-west1**.
    * @param Backup $postBody
    * @param array $optParams Optional parameters.
    *
@@ -88,8 +88,8 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    * @param string $parent Required. The project and location for which to
    * retrieve backup information, in the format
    * `projects/{project_number}/locations/{location}`. In Filestore, backup
-   * locations map to GCP regions, for example **us-west1**. To retrieve backup
-   * information for all locations, use "-" for the `{location}` value.
+   * locations map to Google Cloud regions, for example **us-west1**. To retrieve
+   * backup information for all locations, use "-" for the `{location}` value.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter List filter.

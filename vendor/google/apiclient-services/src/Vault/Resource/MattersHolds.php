@@ -30,7 +30,7 @@ use Google\Service\Vault\VaultEmpty;
  * Typical usage is:
  *  <code>
  *   $vaultService = new Google\Service\Vault(...);
- *   $holds = $vaultService->holds;
+ *   $holds = $vaultService->matters_holds;
  *  </code>
  */
 class MattersHolds extends \Google\Service\Resource

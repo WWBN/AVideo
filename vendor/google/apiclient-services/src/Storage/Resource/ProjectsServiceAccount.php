@@ -24,7 +24,7 @@ use Google\Service\Storage\ServiceAccount;
  * Typical usage is:
  *  <code>
  *   $storageService = new Google\Service\Storage(...);
- *   $serviceAccount = $storageService->serviceAccount;
+ *   $serviceAccount = $storageService->projects_serviceAccount;
  *  </code>
  */
 class ProjectsServiceAccount extends \Google\Service\Resource

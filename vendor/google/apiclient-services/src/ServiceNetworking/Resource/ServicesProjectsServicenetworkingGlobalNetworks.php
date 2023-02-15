@@ -26,7 +26,7 @@ use Google\Service\ServiceNetworking\UpdateConsumerConfigRequest;
  * Typical usage is:
  *  <code>
  *   $servicenetworkingService = new Google\Service\ServiceNetworking(...);
- *   $networks = $servicenetworkingService->networks;
+ *   $networks = $servicenetworkingService->services_projects_global_networks;
  *  </code>
  */
 class ServicesProjectsServicenetworkingGlobalNetworks extends \Google\Service\Resource

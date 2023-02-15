@@ -21,6 +21,7 @@ class RestoreDatabaseMetadata extends \Google\Model
 {
   protected $backupInfoType = BackupInfo::class;
   protected $backupInfoDataType = '';
+  public $backupInfo;
   /**
    * @var string
    */
@@ -35,6 +36,7 @@ class RestoreDatabaseMetadata extends \Google\Model
   public $optimizeDatabaseOperationName;
   protected $progressType = OperationProgress::class;
   protected $progressDataType = '';
+  public $progress;
   /**
    * @var string
    */

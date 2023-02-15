@@ -21,16 +21,20 @@ class GoogleDatastoreAdminV1beta1ImportEntitiesMetadata extends \Google\Model
 {
   protected $commonType = GoogleDatastoreAdminV1beta1CommonMetadata::class;
   protected $commonDataType = '';
+  public $common;
   protected $entityFilterType = GoogleDatastoreAdminV1beta1EntityFilter::class;
   protected $entityFilterDataType = '';
+  public $entityFilter;
   /**
    * @var string
    */
   public $inputUrl;
   protected $progressBytesType = GoogleDatastoreAdminV1beta1Progress::class;
   protected $progressBytesDataType = '';
+  public $progressBytes;
   protected $progressEntitiesType = GoogleDatastoreAdminV1beta1Progress::class;
   protected $progressEntitiesDataType = '';
+  public $progressEntities;
 
   /**
    * @param GoogleDatastoreAdminV1beta1CommonMetadata

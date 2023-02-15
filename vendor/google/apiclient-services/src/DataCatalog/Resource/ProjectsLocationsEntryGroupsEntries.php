@@ -22,6 +22,7 @@ use Google\Service\DataCatalog\GetIamPolicyRequest;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1Contacts;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1Entry;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1EntryOverview;
+use Google\Service\DataCatalog\GoogleCloudDatacatalogV1ImportEntriesRequest;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1ListEntriesResponse;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1ModifyEntryContactsRequest;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1ModifyEntryOverviewRequest;
@@ -29,6 +30,7 @@ use Google\Service\DataCatalog\GoogleCloudDatacatalogV1StarEntryRequest;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1StarEntryResponse;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1UnstarEntryRequest;
 use Google\Service\DataCatalog\GoogleCloudDatacatalogV1UnstarEntryResponse;
+use Google\Service\DataCatalog\Operation;
 use Google\Service\DataCatalog\Policy;
 use Google\Service\DataCatalog\TestIamPermissionsRequest;
 use Google\Service\DataCatalog\TestIamPermissionsResponse;
@@ -38,7 +40,7 @@ use Google\Service\DataCatalog\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $datacatalogService = new Google\Service\DataCatalog(...);
- *   $entries = $datacatalogService->entries;
+ *   $entries = $datacatalogService->projects_locations_entryGroups_entries;
  *  </code>
  */
 class ProjectsLocationsEntryGroupsEntries extends \Google\Service\Resource
@@ -124,6 +126,26 @@ class ProjectsLocationsEntryGroupsEntries extends \Google\Service\Resource
     $params = ['resource' => $resource, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * Imports entries from a source, such as data previously dumped into a Cloud
+   * Storage bucket, into Data Catalog. `ImportEntries` accepts source data
+   * snapshots of third-party system state. Import of entries is a sync operation
+   * that reconciles the state of the third-party system with Data Catalog.
+   * `ImportEntries` returns a long-running operation resource that can be queried
+   * with Operations.GetOperation to return ImportEntriesMetadata and an
+   * ImportEntriesResponse message. (entries.import)
+   *
+   * @param string $parent Required. Target entry group for ingested entries.
+   * @param GoogleCloudDatacatalogV1ImportEntriesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function import($parent, GoogleCloudDatacatalogV1ImportEntriesRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('import', [$params], Operation::class);
   }
   /**
    * Lists entries. Note: Currently, this method can list only custom entries. To

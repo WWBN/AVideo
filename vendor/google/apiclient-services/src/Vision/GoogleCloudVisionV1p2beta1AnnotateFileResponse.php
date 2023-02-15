@@ -22,10 +22,13 @@ class GoogleCloudVisionV1p2beta1AnnotateFileResponse extends \Google\Collection
   protected $collection_key = 'responses';
   protected $errorType = Status::class;
   protected $errorDataType = '';
+  public $error;
   protected $inputConfigType = GoogleCloudVisionV1p2beta1InputConfig::class;
   protected $inputConfigDataType = '';
+  public $inputConfig;
   protected $responsesType = GoogleCloudVisionV1p2beta1AnnotateImageResponse::class;
   protected $responsesDataType = 'array';
+  public $responses;
   /**
    * @var int
    */

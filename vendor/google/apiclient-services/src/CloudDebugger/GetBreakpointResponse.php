@@ -21,6 +21,7 @@ class GetBreakpointResponse extends \Google\Model
 {
   protected $breakpointType = Breakpoint::class;
   protected $breakpointDataType = '';
+  public $breakpoint;
 
   /**
    * @param Breakpoint

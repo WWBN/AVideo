@@ -21,18 +21,21 @@ class PartitionQueryRequest extends \Google\Model
 {
   protected $paramTypesType = Type::class;
   protected $paramTypesDataType = 'map';
+  public $paramTypes;
   /**
    * @var array[]
    */
   public $params;
   protected $partitionOptionsType = PartitionOptions::class;
   protected $partitionOptionsDataType = '';
+  public $partitionOptions;
   /**
    * @var string
    */
   public $sql;
   protected $transactionType = TransactionSelector::class;
   protected $transactionDataType = '';
+  public $transaction;
 
   /**
    * @param Type[]

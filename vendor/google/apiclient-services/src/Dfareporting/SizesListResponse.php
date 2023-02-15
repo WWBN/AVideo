@@ -26,6 +26,7 @@ class SizesListResponse extends \Google\Collection
   public $kind;
   protected $sizesType = Size::class;
   protected $sizesDataType = 'array';
+  public $sizes;
 
   /**
    * @param string

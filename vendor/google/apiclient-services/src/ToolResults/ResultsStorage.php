@@ -21,8 +21,10 @@ class ResultsStorage extends \Google\Model
 {
   protected $resultsStoragePathType = FileReference::class;
   protected $resultsStoragePathDataType = '';
+  public $resultsStoragePath;
   protected $xunitXmlFileType = FileReference::class;
   protected $xunitXmlFileDataType = '';
+  public $xunitXmlFile;
 
   /**
    * @param FileReference

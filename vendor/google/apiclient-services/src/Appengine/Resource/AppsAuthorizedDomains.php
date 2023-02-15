@@ -24,7 +24,7 @@ use Google\Service\Appengine\ListAuthorizedDomainsResponse;
  * Typical usage is:
  *  <code>
  *   $appengineService = new Google\Service\Appengine(...);
- *   $authorizedDomains = $appengineService->authorizedDomains;
+ *   $authorizedDomains = $appengineService->apps_authorizedDomains;
  *  </code>
  */
 class AppsAuthorizedDomains extends \Google\Service\Resource

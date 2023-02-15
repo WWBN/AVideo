@@ -25,6 +25,7 @@ class AppsDynamiteSharedCardCardAction extends \Google\Model
   public $actionLabel;
   protected $onClickType = AppsDynamiteSharedOnClick::class;
   protected $onClickDataType = '';
+  public $onClick;
 
   /**
    * @param string

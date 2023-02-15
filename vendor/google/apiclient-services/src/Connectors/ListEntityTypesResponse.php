@@ -26,6 +26,7 @@ class ListEntityTypesResponse extends \Google\Collection
   public $nextPageToken;
   protected $typesType = EntityType::class;
   protected $typesDataType = 'array';
+  public $types;
   /**
    * @var string[]
    */

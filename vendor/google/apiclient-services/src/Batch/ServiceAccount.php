@@ -17,12 +17,17 @@
 
 namespace Google\Service\Batch;
 
-class ServiceAccount extends \Google\Model
+class ServiceAccount extends \Google\Collection
 {
+  protected $collection_key = 'scopes';
   /**
    * @var string
    */
   public $email;
+  /**
+   * @var string[]
+   */
+  public $scopes;
 
   /**
    * @param string
@@ -37,6 +42,20 @@ class ServiceAccount extends \Google\Model
   public function getEmail()
   {
     return $this->email;
+  }
+  /**
+   * @param string[]
+   */
+  public function setScopes($scopes)
+  {
+    $this->scopes = $scopes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getScopes()
+  {
+    return $this->scopes;
   }
 }
 

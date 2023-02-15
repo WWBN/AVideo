@@ -57,6 +57,7 @@ class CloudSqlSettings extends \Google\Model
   public $databaseVersion;
   protected $ipConfigType = SqlIpConfig::class;
   protected $ipConfigDataType = '';
+  public $ipConfig;
   /**
    * @var string
    */

@@ -21,20 +21,28 @@ class KnowledgeAnswersIntentQueryArgumentProvenance extends \Google\Model
 {
   protected $anaphorType = KnowledgeAnswersIntentQueryArgumentProvenanceQueryAnaphor::class;
   protected $anaphorDataType = '';
+  public $anaphor;
   protected $attentionalEntityType = KnowledgeAnswersIntentQueryArgumentProvenanceAttentionalEntity::class;
   protected $attentionalEntityDataType = '';
+  public $attentionalEntity;
   protected $currentQueryType = KnowledgeAnswersIntentQueryArgumentProvenanceCurrentQuery::class;
   protected $currentQueryDataType = '';
+  public $currentQuery;
   protected $injectedContextualSchemaType = KnowledgeAnswersIntentQueryArgumentProvenanceInjectedContextualSchema::class;
   protected $injectedContextualSchemaDataType = '';
+  public $injectedContextualSchema;
   protected $previousQueryType = KnowledgeAnswersIntentQueryArgumentProvenancePreviousQuery::class;
   protected $previousQueryDataType = '';
+  public $previousQuery;
   protected $previousResponseMeaningType = KnowledgeAnswersIntentQueryArgumentProvenancePreviousResponseMeaning::class;
   protected $previousResponseMeaningDataType = '';
+  public $previousResponseMeaning;
   protected $previousTaskStateType = KnowledgeAnswersIntentQueryArgumentProvenancePreviousTaskState::class;
   protected $previousTaskStateDataType = '';
+  public $previousTaskState;
   protected $searchAnswerValueType = KnowledgeAnswersIntentQueryArgumentProvenanceSearchAnswerValue::class;
   protected $searchAnswerValueDataType = '';
+  public $searchAnswerValue;
 
   /**
    * @param KnowledgeAnswersIntentQueryArgumentProvenanceQueryAnaphor

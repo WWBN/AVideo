@@ -28,7 +28,7 @@ use Google\Service\Firebasestorage\RemoveFirebaseRequest;
  * Typical usage is:
  *  <code>
  *   $firebasestorageService = new Google\Service\Firebasestorage(...);
- *   $buckets = $firebasestorageService->buckets;
+ *   $buckets = $firebasestorageService->projects_buckets;
  *  </code>
  */
 class ProjectsBuckets extends \Google\Service\Resource

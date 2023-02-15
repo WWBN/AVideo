@@ -25,6 +25,7 @@ class RepositoryWebrefCompactKgValue extends \Google\Model
   public $boolValue;
   protected $compoundValueType = RepositoryWebrefCompactKgTopic::class;
   protected $compoundValueDataType = '';
+  public $compoundValue;
   /**
    * @var string
    */

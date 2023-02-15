@@ -23,8 +23,8 @@ use Google\Client;
  * Service definition for FirebaseRealtimeDatabase (v1beta).
  *
  * <p>
- * The Firebase Realtime Database Management API enables programmatic
- * provisioning and management of Realtime Database instances.</p>
+ * The Firebase Realtime Database API enables programmatic provisioning and
+ * management of Realtime Database instances.</p>
  *
  * <p>
  * For more information about this service, see the API

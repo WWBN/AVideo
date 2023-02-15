@@ -26,6 +26,7 @@ class GoogleCloudChannelV1ListReportsResponse extends \Google\Collection
   public $nextPageToken;
   protected $reportsType = GoogleCloudChannelV1Report::class;
   protected $reportsDataType = 'array';
+  public $reports;
 
   /**
    * @param string

@@ -26,6 +26,7 @@ class ListVulnerabilitiesResponseV1 extends \Google\Collection
   public $nextPageToken;
   protected $occurrencesType = Occurrence::class;
   protected $occurrencesDataType = 'array';
+  public $occurrences;
 
   /**
    * @param string

@@ -24,7 +24,7 @@ use Google\Service\VersionHistory\ListVersionsResponse;
  * Typical usage is:
  *  <code>
  *   $versionhistoryService = new Google\Service\VersionHistory(...);
- *   $versions = $versionhistoryService->versions;
+ *   $versions = $versionhistoryService->platforms_channels_versions;
  *  </code>
  */
 class PlatformsChannelsVersions extends \Google\Service\Resource

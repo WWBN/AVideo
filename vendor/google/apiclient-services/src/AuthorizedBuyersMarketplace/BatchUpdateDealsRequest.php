@@ -22,6 +22,7 @@ class BatchUpdateDealsRequest extends \Google\Collection
   protected $collection_key = 'requests';
   protected $requestsType = UpdateDealRequest::class;
   protected $requestsDataType = 'array';
+  public $requests;
 
   /**
    * @param UpdateDealRequest[]

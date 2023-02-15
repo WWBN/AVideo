@@ -26,6 +26,7 @@ class GoogleCloudDatalabelingV1beta1Attempt extends \Google\Collection
   public $attemptTime;
   protected $partialFailuresType = GoogleRpcStatus::class;
   protected $partialFailuresDataType = 'array';
+  public $partialFailures;
 
   /**
    * @param string

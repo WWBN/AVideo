@@ -26,10 +26,13 @@ class EnterpriseCrmEventbusProtoSuspensionConfig extends \Google\Collection
   public $customMessage;
   protected $notificationsType = EnterpriseCrmEventbusProtoNotification::class;
   protected $notificationsDataType = 'array';
+  public $notifications;
   protected $suspensionExpirationType = EnterpriseCrmEventbusProtoSuspensionExpiration::class;
   protected $suspensionExpirationDataType = '';
+  public $suspensionExpiration;
   protected $whoMayResolveType = EnterpriseCrmEventbusProtoSuspensionAuthPermissions::class;
   protected $whoMayResolveDataType = 'array';
+  public $whoMayResolve;
 
   /**
    * @param string

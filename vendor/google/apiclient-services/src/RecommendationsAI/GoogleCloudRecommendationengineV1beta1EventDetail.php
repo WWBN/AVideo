@@ -22,6 +22,7 @@ class GoogleCloudRecommendationengineV1beta1EventDetail extends \Google\Collecti
   protected $collection_key = 'experimentIds';
   protected $eventAttributesType = GoogleCloudRecommendationengineV1beta1FeatureMap::class;
   protected $eventAttributesDataType = '';
+  public $eventAttributes;
   /**
    * @var string[]
    */

@@ -28,7 +28,7 @@ use Google\Service\FirebaseRules\UpdateReleaseRequest;
  * Typical usage is:
  *  <code>
  *   $firebaserulesService = new Google\Service\FirebaseRules(...);
- *   $releases = $firebaserulesService->releases;
+ *   $releases = $firebaserulesService->projects_releases;
  *  </code>
  */
 class ProjectsReleases extends \Google\Service\Resource

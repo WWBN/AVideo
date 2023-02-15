@@ -26,6 +26,7 @@ class ListReportsResponse extends \Google\Collection
   public $nextPageToken;
   protected $reportsType = Report::class;
   protected $reportsDataType = 'array';
+  public $reports;
 
   /**
    * @param string

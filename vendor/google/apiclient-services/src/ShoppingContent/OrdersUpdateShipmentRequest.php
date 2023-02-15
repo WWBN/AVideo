@@ -41,6 +41,7 @@ class OrdersUpdateShipmentRequest extends \Google\Model
   public $readyPickupDate;
   protected $scheduledDeliveryDetailsType = OrdersCustomBatchRequestEntryUpdateShipmentScheduledDeliveryDetails::class;
   protected $scheduledDeliveryDetailsDataType = '';
+  public $scheduledDeliveryDetails;
   /**
    * @var string
    */

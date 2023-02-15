@@ -22,6 +22,7 @@ class ListAnswersResponse extends \Google\Collection
   protected $collection_key = 'answers';
   protected $answersType = Answer::class;
   protected $answersDataType = 'array';
+  public $answers;
   /**
    * @var string
    */

@@ -26,10 +26,6 @@ class RepositoryWebrefReferencePageScores extends \Google\Model
   /**
    * @var float
    */
-  public $explainedNormalizedTopicality;
-  /**
-   * @var float
-   */
   public $firstScore;
   /**
    * @var bool
@@ -47,10 +43,6 @@ class RepositoryWebrefReferencePageScores extends \Google\Model
    * @var float
    */
   public $referencePageScore;
-  /**
-   * @var float
-   */
-  public $referencePageSelectionScore;
   /**
    * @var bool
    */
@@ -85,20 +77,6 @@ class RepositoryWebrefReferencePageScores extends \Google\Model
   public function getBookScore()
   {
     return $this->bookScore;
-  }
-  /**
-   * @param float
-   */
-  public function setExplainedNormalizedTopicality($explainedNormalizedTopicality)
-  {
-    $this->explainedNormalizedTopicality = $explainedNormalizedTopicality;
-  }
-  /**
-   * @return float
-   */
-  public function getExplainedNormalizedTopicality()
-  {
-    return $this->explainedNormalizedTopicality;
   }
   /**
    * @param float
@@ -169,20 +147,6 @@ class RepositoryWebrefReferencePageScores extends \Google\Model
   public function getReferencePageScore()
   {
     return $this->referencePageScore;
-  }
-  /**
-   * @param float
-   */
-  public function setReferencePageSelectionScore($referencePageSelectionScore)
-  {
-    $this->referencePageSelectionScore = $referencePageSelectionScore;
-  }
-  /**
-   * @return float
-   */
-  public function getReferencePageSelectionScore()
-  {
-    return $this->referencePageSelectionScore;
   }
   /**
    * @param bool

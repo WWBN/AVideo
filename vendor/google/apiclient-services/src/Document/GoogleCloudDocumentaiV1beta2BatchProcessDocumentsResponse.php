@@ -22,6 +22,7 @@ class GoogleCloudDocumentaiV1beta2BatchProcessDocumentsResponse extends \Google\
   protected $collection_key = 'responses';
   protected $responsesType = GoogleCloudDocumentaiV1beta2ProcessDocumentResponse::class;
   protected $responsesDataType = 'array';
+  public $responses;
 
   /**
    * @param GoogleCloudDocumentaiV1beta2ProcessDocumentResponse[]

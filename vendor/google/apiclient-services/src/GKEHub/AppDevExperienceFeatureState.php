@@ -21,6 +21,7 @@ class AppDevExperienceFeatureState extends \Google\Model
 {
   protected $networkingInstallSucceededType = Status::class;
   protected $networkingInstallSucceededDataType = '';
+  public $networkingInstallSucceeded;
 
   /**
    * @param Status

@@ -38,14 +38,19 @@ class GoogleCloudDataplexV1Action extends \Google\Collection
   public $detectTime;
   protected $failedSecurityPolicyApplyType = GoogleCloudDataplexV1ActionFailedSecurityPolicyApply::class;
   protected $failedSecurityPolicyApplyDataType = '';
+  public $failedSecurityPolicyApply;
   protected $incompatibleDataSchemaType = GoogleCloudDataplexV1ActionIncompatibleDataSchema::class;
   protected $incompatibleDataSchemaDataType = '';
+  public $incompatibleDataSchema;
   protected $invalidDataFormatType = GoogleCloudDataplexV1ActionInvalidDataFormat::class;
   protected $invalidDataFormatDataType = '';
+  public $invalidDataFormat;
   protected $invalidDataOrganizationType = GoogleCloudDataplexV1ActionInvalidDataOrganization::class;
   protected $invalidDataOrganizationDataType = '';
+  public $invalidDataOrganization;
   protected $invalidDataPartitionType = GoogleCloudDataplexV1ActionInvalidDataPartition::class;
   protected $invalidDataPartitionDataType = '';
+  public $invalidDataPartition;
   /**
    * @var string
    */
@@ -56,14 +61,17 @@ class GoogleCloudDataplexV1Action extends \Google\Collection
   public $lake;
   protected $missingDataType = GoogleCloudDataplexV1ActionMissingData::class;
   protected $missingDataDataType = '';
+  public $missingData;
   protected $missingResourceType = GoogleCloudDataplexV1ActionMissingResource::class;
   protected $missingResourceDataType = '';
+  public $missingResource;
   /**
    * @var string
    */
   public $name;
   protected $unauthorizedResourceType = GoogleCloudDataplexV1ActionUnauthorizedResource::class;
   protected $unauthorizedResourceDataType = '';
+  public $unauthorizedResource;
   /**
    * @var string
    */

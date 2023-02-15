@@ -25,7 +25,7 @@ use Google\Service\OSConfig\OSPolicyAssignmentReport;
  * Typical usage is:
  *  <code>
  *   $osconfigService = new Google\Service\OSConfig(...);
- *   $reports = $osconfigService->reports;
+ *   $reports = $osconfigService->projects_locations_instances_osPolicyAssignments_reports;
  *  </code>
  */
 class ProjectsLocationsInstancesOsPolicyAssignmentsReports extends \Google\Service\Resource

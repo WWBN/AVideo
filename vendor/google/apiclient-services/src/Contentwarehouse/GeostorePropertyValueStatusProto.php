@@ -21,6 +21,7 @@ class GeostorePropertyValueStatusProto extends \Google\Model
 {
   protected $propertyIdType = GeostoreFeaturePropertyIdProto::class;
   protected $propertyIdDataType = '';
+  public $propertyId;
   /**
    * @var string
    */

@@ -30,7 +30,7 @@ use Google\Service\Iam\UploadServiceAccountKeyRequest;
  * Typical usage is:
  *  <code>
  *   $iamService = new Google\Service\Iam(...);
- *   $keys = $iamService->keys;
+ *   $keys = $iamService->projects_serviceAccounts_keys;
  *  </code>
  */
 class ProjectsServiceAccountsKeys extends \Google\Service\Resource
@@ -38,11 +38,18 @@ class ProjectsServiceAccountsKeys extends \Google\Service\Resource
   /**
    * Creates a ServiceAccountKey. (keys.create)
    *
-   * @param string $name Required. The resource name of the service account in the
-   * following format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. Using
-   * `-` as a wildcard for the `PROJECT_ID` will infer the project from the
-   * account. The `ACCOUNT` value can be the `email` address or the `unique_id` of
-   * the service account.
+   * @param string $name Required. The resource name of the service account. Use
+   * one of the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you
+   * can use the `-` wildcard character instead of the project ID: *
+   * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
+   * wildcard character, because it can cause response messages to contain
+   * misleading error codes. For example, if you try to access the service account
+   * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
+   * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
+   * error.
    * @param CreateServiceAccountKeyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ServiceAccountKey
@@ -58,12 +65,18 @@ class ProjectsServiceAccountsKeys extends \Google\Service\Resource
    * short-lived credentials that have been issued based on the service account
    * key. (keys.delete)
    *
-   * @param string $name Required. The resource name of the service account key in
-   * the following format:
-   * `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}`. Using `-` as a
-   * wildcard for the `PROJECT_ID` will infer the project from the account. The
-   * `ACCOUNT` value can be the `email` address or the `unique_id` of the service
-   * account.
+   * @param string $name Required. The resource name of the service account key.
+   * Use one of the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}/keys/{KEY_ID}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}/keys/{KEY_ID}` As an
+   * alternative, you can use the `-` wildcard character instead of the project
+   * ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}/keys/{KEY_ID}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}/keys/{KEY_ID}` When possible, avoid
+   * using the `-` wildcard character, because it can cause response messages to
+   * contain misleading error codes. For example, if you try to access the service
+   * account key `projects/-/serviceAccounts/fake@example.com/keys/fake-key`,
+   * which does not exist, the response contains an HTTP `403 Forbidden` error
+   * instead of a `404 Not Found` error.
    * @param array $optParams Optional parameters.
    * @return IamEmpty
    */
@@ -77,12 +90,18 @@ class ProjectsServiceAccountsKeys extends \Google\Service\Resource
    * Disable a ServiceAccountKey. A disabled service account key can be re-enabled
    * with EnableServiceAccountKey. (keys.disable)
    *
-   * @param string $name Required. The resource name of the service account key in
-   * the following format:
-   * `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}`. Using `-` as a
-   * wildcard for the `PROJECT_ID` will infer the project from the account. The
-   * `ACCOUNT` value can be the `email` address or the `unique_id` of the service
-   * account.
+   * @param string $name Required. The resource name of the service account key.
+   * Use one of the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}/keys/{KEY_ID}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}/keys/{KEY_ID}` As an
+   * alternative, you can use the `-` wildcard character instead of the project
+   * ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}/keys/{KEY_ID}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}/keys/{KEY_ID}` When possible, avoid
+   * using the `-` wildcard character, because it can cause response messages to
+   * contain misleading error codes. For example, if you try to access the service
+   * account key `projects/-/serviceAccounts/fake@example.com/keys/fake-key`,
+   * which does not exist, the response contains an HTTP `403 Forbidden` error
+   * instead of a `404 Not Found` error.
    * @param DisableServiceAccountKeyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return IamEmpty
@@ -96,12 +115,18 @@ class ProjectsServiceAccountsKeys extends \Google\Service\Resource
   /**
    * Enable a ServiceAccountKey. (keys.enable)
    *
-   * @param string $name Required. The resource name of the service account key in
-   * the following format:
-   * `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}`. Using `-` as a
-   * wildcard for the `PROJECT_ID` will infer the project from the account. The
-   * `ACCOUNT` value can be the `email` address or the `unique_id` of the service
-   * account.
+   * @param string $name Required. The resource name of the service account key.
+   * Use one of the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}/keys/{KEY_ID}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}/keys/{KEY_ID}` As an
+   * alternative, you can use the `-` wildcard character instead of the project
+   * ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}/keys/{KEY_ID}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}/keys/{KEY_ID}` When possible, avoid
+   * using the `-` wildcard character, because it can cause response messages to
+   * contain misleading error codes. For example, if you try to access the service
+   * account key `projects/-/serviceAccounts/fake@example.com/keys/fake-key`,
+   * which does not exist, the response contains an HTTP `403 Forbidden` error
+   * instead of a `404 Not Found` error.
    * @param EnableServiceAccountKeyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return IamEmpty
@@ -115,12 +140,18 @@ class ProjectsServiceAccountsKeys extends \Google\Service\Resource
   /**
    * Gets a ServiceAccountKey. (keys.get)
    *
-   * @param string $name Required. The resource name of the service account key in
-   * the following format:
-   * `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}/keys/{key}`. Using `-` as a
-   * wildcard for the `PROJECT_ID` will infer the project from the account. The
-   * `ACCOUNT` value can be the `email` address or the `unique_id` of the service
-   * account.
+   * @param string $name Required. The resource name of the service account key.
+   * Use one of the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}/keys/{KEY_ID}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}/keys/{KEY_ID}` As an
+   * alternative, you can use the `-` wildcard character instead of the project
+   * ID: * `projects/-/serviceAccounts/{EMAIL_ADDRESS}/keys/{KEY_ID}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}/keys/{KEY_ID}` When possible, avoid
+   * using the `-` wildcard character, because it can cause response messages to
+   * contain misleading error codes. For example, if you try to access the service
+   * account key `projects/-/serviceAccounts/fake@example.com/keys/fake-key`,
+   * which does not exist, the response contains an HTTP `403 Forbidden` error
+   * instead of a `404 Not Found` error.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string publicKeyType Optional. The output format of the public
@@ -138,11 +169,18 @@ class ProjectsServiceAccountsKeys extends \Google\Service\Resource
    * Lists every ServiceAccountKey for a service account.
    * (keys.listProjectsServiceAccountsKeys)
    *
-   * @param string $name Required. The resource name of the service account in the
-   * following format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. Using
-   * `-` as a wildcard for the `PROJECT_ID`, will infer the project from the
-   * account. The `ACCOUNT` value can be the `email` address or the `unique_id` of
-   * the service account.
+   * @param string $name Required. The resource name of the service account. Use
+   * one of the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you
+   * can use the `-` wildcard character instead of the project ID: *
+   * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
+   * wildcard character, because it can cause response messages to contain
+   * misleading error codes. For example, if you try to access the service account
+   * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
+   * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
+   * error.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string keyTypes Filters the types of keys the user wants to
@@ -162,11 +200,18 @@ class ProjectsServiceAccountsKeys extends \Google\Service\Resource
    * can use the private key from the key pair as a service account key.
    * (keys.upload)
    *
-   * @param string $name The resource name of the service account in the following
-   * format: `projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}`. Using `-` as a
-   * wildcard for the `PROJECT_ID` will infer the project from the account. The
-   * `ACCOUNT` value can be the `email` address or the `unique_id` of the service
-   * account.
+   * @param string $name The resource name of the service account key. Use one of
+   * the following formats: *
+   * `projects/{PROJECT_ID}/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/{PROJECT_ID}/serviceAccounts/{UNIQUE_ID}` As an alternative, you
+   * can use the `-` wildcard character instead of the project ID: *
+   * `projects/-/serviceAccounts/{EMAIL_ADDRESS}` *
+   * `projects/-/serviceAccounts/{UNIQUE_ID}` When possible, avoid using the `-`
+   * wildcard character, because it can cause response messages to contain
+   * misleading error codes. For example, if you try to access the service account
+   * `projects/-/serviceAccounts/fake@example.com`, which does not exist, the
+   * response contains an HTTP `403 Forbidden` error instead of a `404 Not Found`
+   * error.
    * @param UploadServiceAccountKeyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ServiceAccountKey

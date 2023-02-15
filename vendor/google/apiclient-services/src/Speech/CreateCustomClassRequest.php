@@ -21,6 +21,7 @@ class CreateCustomClassRequest extends \Google\Model
 {
   protected $customClassType = CustomClass::class;
   protected $customClassDataType = '';
+  public $customClass;
   /**
    * @var string
    */

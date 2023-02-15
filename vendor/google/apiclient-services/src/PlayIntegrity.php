@@ -23,7 +23,10 @@ use Google\Client;
  * Service definition for PlayIntegrity (v1).
  *
  * <p>
- * Play Integrity</p>
+ * The Play Integrity API helps you check that you're interacting with your
+ * genuine app on a genuine Android device powered by Google Play services. The
+ * Play Integrity API has replaced SafetyNet Attestation and Android Device
+ * Verification.</p>
  *
  * <p>
  * For more information about this service, see the API

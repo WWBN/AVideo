@@ -26,6 +26,7 @@ class NodeGroupsListNodes extends \Google\Collection
   public $id;
   protected $itemsType = NodeGroupNode::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class NodeGroupsListNodes extends \Google\Collection
   public $selfLink;
   protected $warningType = NodeGroupsListNodesWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

@@ -24,7 +24,7 @@ use Google\Service\MyBusinessBusinessCalls\ListBusinessCallsInsightsResponse;
  * Typical usage is:
  *  <code>
  *   $mybusinessbusinesscallsService = new Google\Service\MyBusinessBusinessCalls(...);
- *   $businesscallsinsights = $mybusinessbusinesscallsService->businesscallsinsights;
+ *   $businesscallsinsights = $mybusinessbusinesscallsService->locations_businesscallsinsights;
  *  </code>
  */
 class LocationsBusinesscallsinsights extends \Google\Service\Resource

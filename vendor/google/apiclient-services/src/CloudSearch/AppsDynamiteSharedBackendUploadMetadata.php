@@ -41,12 +41,20 @@ class AppsDynamiteSharedBackendUploadMetadata extends \Google\Model
   public $dlpScanOutcome;
   protected $dlpScanSummaryType = DlpScanSummary::class;
   protected $dlpScanSummaryDataType = '';
+  public $dlpScanSummary;
   protected $groupIdType = GroupId::class;
   protected $groupIdDataType = '';
+  public $groupId;
+  /**
+   * @var bool
+   */
+  public $isClientSideTranscodedVideo;
   protected $originalDimensionType = AppsDynamiteSharedDimension::class;
   protected $originalDimensionDataType = '';
+  public $originalDimension;
   protected $quoteReplyMessageIdType = MessageId::class;
   protected $quoteReplyMessageIdDataType = '';
+  public $quoteReplyMessageId;
   /**
    * @var string
    */
@@ -169,6 +177,20 @@ class AppsDynamiteSharedBackendUploadMetadata extends \Google\Model
   public function getGroupId()
   {
     return $this->groupId;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsClientSideTranscodedVideo($isClientSideTranscodedVideo)
+  {
+    $this->isClientSideTranscodedVideo = $isClientSideTranscodedVideo;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsClientSideTranscodedVideo()
+  {
+    return $this->isClientSideTranscodedVideo;
   }
   /**
    * @param AppsDynamiteSharedDimension

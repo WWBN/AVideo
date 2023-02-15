@@ -26,6 +26,7 @@ class CustomClass extends \Google\Collection
   public $customClassId;
   protected $itemsType = ClassItem::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

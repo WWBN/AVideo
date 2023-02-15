@@ -33,7 +33,7 @@ use Google\Service\ServiceConsumerManagement\UndeleteTenantProjectRequest;
  * Typical usage is:
  *  <code>
  *   $serviceconsumermanagementService = new Google\Service\ServiceConsumerManagement(...);
- *   $tenancyUnits = $serviceconsumermanagementService->tenancyUnits;
+ *   $tenancyUnits = $serviceconsumermanagementService->services_tenancyUnits;
  *  </code>
  */
 class ServicesTenancyUnits extends \Google\Service\Resource

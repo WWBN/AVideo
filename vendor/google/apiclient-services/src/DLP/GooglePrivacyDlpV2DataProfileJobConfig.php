@@ -22,12 +22,14 @@ class GooglePrivacyDlpV2DataProfileJobConfig extends \Google\Collection
   protected $collection_key = 'inspectTemplates';
   protected $dataProfileActionsType = GooglePrivacyDlpV2DataProfileAction::class;
   protected $dataProfileActionsDataType = 'array';
+  public $dataProfileActions;
   /**
    * @var string[]
    */
   public $inspectTemplates;
   protected $locationType = GooglePrivacyDlpV2DataProfileLocation::class;
   protected $locationDataType = '';
+  public $location;
   /**
    * @var string
    */

@@ -21,8 +21,10 @@ class BooleanRule extends \Google\Model
 {
   protected $conditionType = BooleanCondition::class;
   protected $conditionDataType = '';
+  public $condition;
   protected $formatType = CellFormat::class;
   protected $formatDataType = '';
+  public $format;
 
   /**
    * @param BooleanCondition

@@ -21,6 +21,7 @@ class RepositoryWebrefSegmentMention extends \Google\Model
 {
   protected $mentionType = RepositoryWebrefMention::class;
   protected $mentionDataType = '';
+  public $mention;
   /**
    * @var string
    */

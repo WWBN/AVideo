@@ -22,6 +22,7 @@ class SendRfpRequest extends \Google\Collection
   protected $collection_key = 'buyerContacts';
   protected $buyerContactsType = Contact::class;
   protected $buyerContactsDataType = 'array';
+  public $buyerContacts;
   /**
    * @var string
    */
@@ -32,6 +33,7 @@ class SendRfpRequest extends \Google\Collection
   public $displayName;
   protected $estimatedGrossSpendType = Money::class;
   protected $estimatedGrossSpendDataType = '';
+  public $estimatedGrossSpend;
   /**
    * @var string
    */
@@ -42,16 +44,20 @@ class SendRfpRequest extends \Google\Collection
   public $flightStartTime;
   protected $geoTargetingType = CriteriaTargeting::class;
   protected $geoTargetingDataType = '';
+  public $geoTargeting;
   protected $inventorySizeTargetingType = InventorySizeTargeting::class;
   protected $inventorySizeTargetingDataType = '';
+  public $inventorySizeTargeting;
   /**
    * @var string
    */
   public $note;
   protected $preferredDealTermsType = PreferredDealTerms::class;
   protected $preferredDealTermsDataType = '';
+  public $preferredDealTerms;
   protected $programmaticGuaranteedTermsType = ProgrammaticGuaranteedTerms::class;
   protected $programmaticGuaranteedTermsDataType = '';
+  public $programmaticGuaranteedTerms;
   /**
    * @var string
    */

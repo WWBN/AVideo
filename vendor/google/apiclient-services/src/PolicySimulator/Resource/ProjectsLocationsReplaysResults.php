@@ -24,7 +24,7 @@ use Google\Service\PolicySimulator\GoogleCloudPolicysimulatorV1ListReplayResults
  * Typical usage is:
  *  <code>
  *   $policysimulatorService = new Google\Service\PolicySimulator(...);
- *   $results = $policysimulatorService->results;
+ *   $results = $policysimulatorService->projects_locations_replays_results;
  *  </code>
  */
 class ProjectsLocationsReplaysResults extends \Google\Service\Resource

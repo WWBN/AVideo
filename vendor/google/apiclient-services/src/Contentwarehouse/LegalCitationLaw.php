@@ -27,6 +27,7 @@ class LegalCitationLaw extends \Google\Collection
   ];
   protected $revisionDateType = LegalDate::class;
   protected $revisionDateDataType = '';
+  public $revisionDate;
   /**
    * @var int
    */
@@ -37,8 +38,10 @@ class LegalCitationLaw extends \Google\Collection
   public $type;
   protected $collectionnameType = LegalCitationLawCollectionName::class;
   protected $collectionnameDataType = '';
+  public $collectionname;
   protected $levelType = LegalCitationLawLevel::class;
   protected $levelDataType = 'array';
+  public $level;
 
   /**
    * @param LegalDate

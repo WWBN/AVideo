@@ -22,6 +22,7 @@ class InventoryItemsListResponse extends \Google\Collection
   protected $collection_key = 'inventoryItems';
   protected $inventoryItemsType = InventoryItem::class;
   protected $inventoryItemsDataType = 'array';
+  public $inventoryItems;
   /**
    * @var string
    */

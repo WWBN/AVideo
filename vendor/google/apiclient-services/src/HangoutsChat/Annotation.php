@@ -25,6 +25,7 @@ class Annotation extends \Google\Model
   public $length;
   protected $slashCommandType = SlashCommandMetadata::class;
   protected $slashCommandDataType = '';
+  public $slashCommand;
   /**
    * @var int
    */
@@ -35,6 +36,7 @@ class Annotation extends \Google\Model
   public $type;
   protected $userMentionType = UserMentionMetadata::class;
   protected $userMentionDataType = '';
+  public $userMention;
 
   /**
    * @param int

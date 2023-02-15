@@ -29,7 +29,7 @@ use Google\Service\SecretManager\SecretVersion;
  * Typical usage is:
  *  <code>
  *   $secretmanagerService = new Google\Service\SecretManager(...);
- *   $versions = $secretmanagerService->versions;
+ *   $versions = $secretmanagerService->projects_secrets_versions;
  *  </code>
  */
 class ProjectsSecretsVersions extends \Google\Service\Resource

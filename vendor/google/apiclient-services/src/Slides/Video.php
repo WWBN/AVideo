@@ -33,6 +33,7 @@ class Video extends \Google\Model
   public $url;
   protected $videoPropertiesType = VideoProperties::class;
   protected $videoPropertiesDataType = '';
+  public $videoProperties;
 
   /**
    * @param string

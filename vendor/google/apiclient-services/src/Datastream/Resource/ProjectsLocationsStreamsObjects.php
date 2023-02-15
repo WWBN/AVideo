@@ -30,7 +30,7 @@ use Google\Service\Datastream\StreamObject;
  * Typical usage is:
  *  <code>
  *   $datastreamService = new Google\Service\Datastream(...);
- *   $objects = $datastreamService->objects;
+ *   $objects = $datastreamService->projects_locations_streams_objects;
  *  </code>
  */
 class ProjectsLocationsStreamsObjects extends \Google\Service\Resource

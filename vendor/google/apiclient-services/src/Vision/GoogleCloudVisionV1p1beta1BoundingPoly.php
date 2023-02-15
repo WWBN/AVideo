@@ -22,8 +22,10 @@ class GoogleCloudVisionV1p1beta1BoundingPoly extends \Google\Collection
   protected $collection_key = 'vertices';
   protected $normalizedVerticesType = GoogleCloudVisionV1p1beta1NormalizedVertex::class;
   protected $normalizedVerticesDataType = 'array';
+  public $normalizedVertices;
   protected $verticesType = GoogleCloudVisionV1p1beta1Vertex::class;
   protected $verticesDataType = 'array';
+  public $vertices;
 
   /**
    * @param GoogleCloudVisionV1p1beta1NormalizedVertex[]

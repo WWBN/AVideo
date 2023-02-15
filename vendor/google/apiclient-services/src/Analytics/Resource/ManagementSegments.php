@@ -24,7 +24,7 @@ use Google\Service\Analytics\Segments;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $segments = $analyticsService->segments;
+ *   $segments = $analyticsService->management_segments;
  *  </code>
  */
 class ManagementSegments extends \Google\Service\Resource

@@ -21,8 +21,10 @@ class ImageRepositoryFrameIdentifier extends \Google\Model
 {
   protected $previewFrameZeroVariantType = ImageRepositoryFrameIdentifierPreviewFrameZeroVariant::class;
   protected $previewFrameZeroVariantDataType = '';
+  public $previewFrameZeroVariant;
   protected $thumbnailVariantType = ImageRepositoryFrameIdentifierThumbnailVariant::class;
   protected $thumbnailVariantDataType = '';
+  public $thumbnailVariant;
   /**
    * @var int
    */

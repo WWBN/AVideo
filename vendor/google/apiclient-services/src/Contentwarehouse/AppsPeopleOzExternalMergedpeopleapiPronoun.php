@@ -21,8 +21,10 @@ class AppsPeopleOzExternalMergedpeopleapiPronoun extends \Google\Model
 {
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $pronounDataType = SocialGraphApiProtoPronounData::class;
   protected $pronounDataDataType = '';
+  public $pronounData;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata

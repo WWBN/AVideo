@@ -22,10 +22,13 @@ class GoogleCloudDialogflowV2beta1WebhookRequest extends \Google\Collection
   protected $collection_key = 'alternativeQueryResults';
   protected $alternativeQueryResultsType = GoogleCloudDialogflowV2beta1QueryResult::class;
   protected $alternativeQueryResultsDataType = 'array';
+  public $alternativeQueryResults;
   protected $originalDetectIntentRequestType = GoogleCloudDialogflowV2beta1OriginalDetectIntentRequest::class;
   protected $originalDetectIntentRequestDataType = '';
+  public $originalDetectIntentRequest;
   protected $queryResultType = GoogleCloudDialogflowV2beta1QueryResult::class;
   protected $queryResultDataType = '';
+  public $queryResult;
   /**
    * @var string
    */

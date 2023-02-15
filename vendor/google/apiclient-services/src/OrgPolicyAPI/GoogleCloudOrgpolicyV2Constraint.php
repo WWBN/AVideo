@@ -21,6 +21,7 @@ class GoogleCloudOrgpolicyV2Constraint extends \Google\Model
 {
   protected $booleanConstraintType = GoogleCloudOrgpolicyV2ConstraintBooleanConstraint::class;
   protected $booleanConstraintDataType = '';
+  public $booleanConstraint;
   /**
    * @var string
    */
@@ -35,6 +36,7 @@ class GoogleCloudOrgpolicyV2Constraint extends \Google\Model
   public $displayName;
   protected $listConstraintType = GoogleCloudOrgpolicyV2ConstraintListConstraint::class;
   protected $listConstraintDataType = '';
+  public $listConstraint;
   /**
    * @var string
    */

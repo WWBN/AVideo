@@ -26,12 +26,16 @@ class CheckCompatibilityRequest extends \Google\Collection
   public $compatibilityFilter;
   protected $dimensionFilterType = FilterExpression::class;
   protected $dimensionFilterDataType = '';
+  public $dimensionFilter;
   protected $dimensionsType = Dimension::class;
   protected $dimensionsDataType = 'array';
+  public $dimensions;
   protected $metricFilterType = FilterExpression::class;
   protected $metricFilterDataType = '';
+  public $metricFilter;
   protected $metricsType = Metric::class;
   protected $metricsDataType = 'array';
+  public $metrics;
 
   /**
    * @param string

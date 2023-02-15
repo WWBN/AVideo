@@ -22,16 +22,20 @@ class VideoContentSearchMultimodalTopicTrainingFeatures extends \Google\Collecti
   protected $collection_key = 'topicDenseVector';
   protected $maxFrameSimilarityIntervalType = VideoContentSearchFrameSimilarityInterval::class;
   protected $maxFrameSimilarityIntervalDataType = '';
+  public $maxFrameSimilarityInterval;
   /**
    * @var string
    */
   public $normalizedTopic;
   protected $qbstTermsOverlapFeaturesType = VideoContentSearchQbstTermsOverlapFeatures::class;
   protected $qbstTermsOverlapFeaturesDataType = '';
+  public $qbstTermsOverlapFeatures;
   protected $rankembedNearestNeighborsFeaturesType = VideoContentSearchRankEmbedNearestNeighborsFeatures::class;
   protected $rankembedNearestNeighborsFeaturesDataType = '';
+  public $rankembedNearestNeighborsFeatures;
   protected $saftEntityInfoType = VideoContentSearchSaftEntityInfo::class;
   protected $saftEntityInfoDataType = '';
+  public $saftEntityInfo;
   /**
    * @var float[]
    */

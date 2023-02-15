@@ -22,6 +22,7 @@ class AppRestrictionsSchemaRestriction extends \Google\Collection
   protected $collection_key = 'nestedRestriction';
   protected $defaultValueType = AppRestrictionsSchemaRestrictionRestrictionValue::class;
   protected $defaultValueDataType = '';
+  public $defaultValue;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class AppRestrictionsSchemaRestriction extends \Google\Collection
   public $key;
   protected $nestedRestrictionType = AppRestrictionsSchemaRestriction::class;
   protected $nestedRestrictionDataType = 'array';
+  public $nestedRestriction;
   /**
    * @var string
    */

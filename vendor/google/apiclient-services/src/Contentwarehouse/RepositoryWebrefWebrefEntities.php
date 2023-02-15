@@ -22,24 +22,34 @@ class RepositoryWebrefWebrefEntities extends \Google\Collection
   protected $collection_key = 'rangeAnnotations';
   protected $annotationStatsType = RepositoryWebrefWebrefAnnotationStats::class;
   protected $annotationStatsDataType = '';
+  public $annotationStats;
   protected $annotatorCheckpointFingerprintsType = RepositoryWebrefAnnotatorCheckpointFprint::class;
   protected $annotatorCheckpointFingerprintsDataType = 'array';
+  public $annotatorCheckpointFingerprints;
   protected $categoryType = RepositoryWebrefCategoryAnnotation::class;
   protected $categoryDataType = 'array';
+  public $category;
   protected $dateRangeType = RepositoryWebrefSemanticDateRange::class;
   protected $dateRangeDataType = 'array';
+  public $dateRange;
   protected $documentInfoType = RepositoryWebrefWebrefDocumentInfo::class;
   protected $documentInfoDataType = '';
+  public $documentInfo;
   protected $entityType = RepositoryWebrefWebrefEntity::class;
   protected $entityDataType = 'array';
+  public $entity;
   protected $rangeAnnotationsType = RepositoryWebrefRangeAnnotations::class;
   protected $rangeAnnotationsDataType = 'array';
+  public $rangeAnnotations;
   protected $statusType = RepositoryWebrefWebrefStatus::class;
   protected $statusDataType = '';
+  public $status;
   protected $stuffType = Proto2BridgeMessageSet::class;
   protected $stuffDataType = '';
+  public $stuff;
   protected $tripleAnnotationsType = RepositoryWebrefTripleAnnotations::class;
   protected $tripleAnnotationsDataType = '';
+  public $tripleAnnotations;
 
   /**
    * @param RepositoryWebrefWebrefAnnotationStats

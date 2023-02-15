@@ -22,6 +22,7 @@ class ReplaceServicePerimetersResponse extends \Google\Collection
   protected $collection_key = 'servicePerimeters';
   protected $servicePerimetersType = ServicePerimeter::class;
   protected $servicePerimetersDataType = 'array';
+  public $servicePerimeters;
 
   /**
    * @param ServicePerimeter[]
