@@ -640,17 +640,17 @@ if (!class_exists('Video')) {
         }
 
         public function setDuration($duration) {
-            if(!self::isValidDuration($this->duration) || self::isValidDuration($duration)){
+            if (!self::isValidDuration($this->duration) || self::isValidDuration($duration)) {
                 _error_log("setDuration before {$duration}");
                 AVideoPlugin::onVideoSetDuration($this->id, $this->duration, $duration);
                 _error_log("setDuration after {$duration}");
                 $this->duration = $duration;
-            }else{
+            } else {
                 _error_log("setDuration error is not a valid {$duration}, old duration = {$this->duration}");
             }
         }
-        
-        private static function isValidDuration($duration){
+
+        private static function isValidDuration($duration) {
             if (empty($duration) || strtolower($duration) == "ee:ee:ee" || $duration == '0:00:00') {
                 return false;
             }
@@ -2159,7 +2159,7 @@ if (!class_exists('Video')) {
                 if (!empty($content)) {
                     $object->$value = self::parseProgress($content);
                 } else {
-
+                    
                 }
 
                 if (!empty($object->$value->progress) && !is_numeric($object->$value->progress)) {
@@ -3394,6 +3394,9 @@ if (!class_exists('Video')) {
             if ($type === '.gif' && (empty($_SERVER['HTTP_USER_AGENT']) || get_browser_name($_SERVER['HTTP_USER_AGENT']) !== 'Safari')) {
                 $path = "{$paths['path']}{$filename}.webp";
                 if (file_exists($path)) {
+                    $type = ".webp";
+                } else if (get_browser_name() !== 'Safari') {
+                    $path = createWebPIfNotExists($path);
                     $type = ".webp";
                 }
             }
