@@ -3396,9 +3396,11 @@ if (!class_exists('Video')) {
                 if (file_exists($path)) {
                     $type = ".webp";
                 }
-            }else if ($type === '_jpg.webp') {
-                $path = "{$paths['path']}{$filename}.jpg";
-                $path = createWebPIfNotExists($path);
+            }else if ($type === '.jpg' || $type == '_thumbsV2.jpg') {
+                $path = "{$paths['path']}{$filename}{$type}";
+                if (file_exists($path)) {
+                    creaeWebPIfNotExists($path);
+                }
             }
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
             if (empty($videosPaths[$filename][$type][intval($includeS3)])) {
