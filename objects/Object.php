@@ -68,13 +68,13 @@ abstract class ObjectYPT implements ObjectInterface
         date_default_timezone_set($timezone);
     }
 
-    protected static function getFromDb($id)
+    protected static function getFromDb($id, $refreshCache=false)
     {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = ? LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "i", [$id], true);
+        $res = sqlDAL::readSql($sql, "i", [$id], $refreshCache);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {

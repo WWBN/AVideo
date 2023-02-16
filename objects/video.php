@@ -119,12 +119,12 @@ if (!class_exists('Video')) {
         public static $searchFieldsNamesLabels = ['Video Title', 'Video Description', 'Channel Name', 'Channel Description', 'Video ID', 'Video Filename'];
         public static $iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
 
-        public function __construct($title = "", $filename = "", $id = 0) {
+        public function __construct($title = "", $filename = "", $id = 0, $refreshCache = false) {
             global $global;
             $this->rotation = 0;
             $this->zoom = 1;
             if (!empty($id)) {
-                $this->load($id);
+                $this->load($id, $refreshCache);
             }
             if (!empty($title)) {
                 $this->setTitle($title);
@@ -271,8 +271,8 @@ if (!class_exists('Video')) {
             }
         }
 
-        public function load($id) {
-            $video = self::getVideoLight($id);
+        public function load($id, $refreshCache = false) {
+            $video = self::getVideoLight($id, $refreshCache);
             if (empty($video)) {
                 return false;
             }
@@ -1074,11 +1074,11 @@ if (!class_exists('Video')) {
             return $obj;
         }
 
-        public static function getVideoLight($id) {
+        public static function getVideoLight($id, $refreshCache = false) {
             global $global, $config;
             $id = intval($id);
             $sql = "SELECT * FROM videos WHERE id = ? LIMIT 1";
-            $res = sqlDAL::readSql($sql, 'i', [$id]);
+            $res = sqlDAL::readSql($sql, 'i', [$id], $refreshCache);
             $video = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             return $video;
@@ -1736,7 +1736,7 @@ if (!class_exists('Video')) {
             TimeLogStart("Video::updateFilesize {$videos_id}");
             ini_set('max_execution_time', 300); // 5
             set_time_limit(300);
-            $video = new Video("", "", $videos_id);
+            $video = new Video("", "", $videos_id, true);
             $_type = $video->getType();
             if ($_type !== 'video' && $_type !== 'audio') {
                 return false;
