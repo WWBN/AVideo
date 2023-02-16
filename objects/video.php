@@ -3399,7 +3399,7 @@ if (!class_exists('Video')) {
             }else if ($type === '.jpg' || $type == '_thumbsV2.jpg') {
                 $path = "{$paths['path']}{$filename}{$type}";
                 if (file_exists($path)) {
-                    creaeWebPIfNotExists($path);
+                    createWebPIfNotExists($path);
                 }
             }
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
