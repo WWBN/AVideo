@@ -172,6 +172,8 @@ if (!empty($_REQUEST['duration'])) {
     }else if($_REQUEST['duration']!=='EE:EE:EE'){
         $video->setDuration($_REQUEST['duration']);
     }
+}else{
+    _error_log("ReceiveImage: duration was empty {$_REQUEST['duration']}");
 }
 
 $videos_id = $video->save();
