@@ -640,13 +640,13 @@ if (!class_exists('Video')) {
         }
 
         public function setDuration($duration) {
-            if(empty($this->duration) || self::isValidDuration($duration)){
+            if(!self::isValidDuration($this->duration) || self::isValidDuration($duration)){
                 _error_log("setDuration before {$duration}");
                 AVideoPlugin::onVideoSetDuration($this->id, $this->duration, $duration);
                 _error_log("setDuration after {$duration}");
                 $this->duration = $duration;
             }else{
-                _error_log("setDuration error isValidDuration {$duration}, old duretion = {$this->duration}");
+                _error_log("setDuration error is not a valid {$duration}, old duration = {$this->duration}");
             }
         }
         
