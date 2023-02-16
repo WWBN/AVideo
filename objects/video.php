@@ -503,7 +503,7 @@ if (!class_exists('Video')) {
              */
             //var_dump($this->title, $insert_row);exit;
             if ($insert_row) {
-                _error_log("Video::save ({$this->title}) Saved id = {$insert_row} ");
+                _error_log("Video::save ({$this->title}) Saved id = {$insert_row} {$this->duration} ");
                 Category::clearCacheCount();
                 if (empty($this->id)) {
                     $id = $global['mysqli']->insert_id;
