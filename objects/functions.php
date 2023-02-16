@@ -2135,11 +2135,16 @@ function convertImage($originalImage, $outputImage, $quality) {
     $extOutput = mb_strtolower(pathinfo($outputImage, PATHINFO_EXTENSION));
 
     if ($ext == $extOutput) {
+        _error_log("convertImage: same extension $ext == $extOutput [$originalImage, $outputImage]");
         return copy($originalImage, $outputImage);
     }
 
     try {
-        if ($imagetype == IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext)) {
+        if ($imagetype == IMAGETYPE_WEBP) {
+            //_error_log("convertImage: IMAGETYPE_WEBP");
+            $imageTmp = imagecreatefromwebp($originalImage);
+            convertImage($originalImage, $originalImage, $quality);//transform the webp to jpg
+        } else if ($imagetype == IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext)) {
             //_error_log("convertImage: IMAGETYPE_JPEG");
             $imageTmp = imagecreatefromjpeg($originalImage);
         } elseif ($imagetype == IMAGETYPE_PNG || preg_match('/png/i', $ext)) {
@@ -2163,7 +2168,7 @@ function convertImage($originalImage, $outputImage, $quality) {
         return 0;
     }
     if ($imageTmp === false) {
-        //_error_log("convertImage: could not create a resource: $originalImage, $outputImage, $quality, $ext " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        //_error_log("convertImage: could not create a resource: [$imagetype] $originalImage, $outputImage, $quality, $ext ");
         return 0;
     }
     // quality is a value from 0 (worst) to 100 (best)
