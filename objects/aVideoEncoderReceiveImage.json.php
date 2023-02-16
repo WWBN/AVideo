@@ -16,7 +16,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
  */
 
-if (empty($_POST)) {
+if (empty($_REQUEST)) {
     $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
     _error_log("ReceiveImage: " . $obj->msg);
     die(json_encode($obj));
@@ -24,20 +24,20 @@ if (empty($_POST)) {
 
 useVideoHashOrLogin();
 if (!User::canUpload()) {
-    $obj->msg = __("Permission denied to receive a image: " . json_encode($_POST));
+    $obj->msg = __("Permission denied to receive a image: " . json_encode($_REQUEST));
     _error_log("ReceiveImage: " . $obj->msg);
     die(json_encode($obj));
 }
 
-if (!Video::canEdit($_POST['videos_id'])) {
-    $obj->msg = __("Permission denied to edit a video: " . json_encode($_POST));
+if (!Video::canEdit($_REQUEST['videos_id'])) {
+    $obj->msg = __("Permission denied to edit a video: " . json_encode($_REQUEST));
     _error_log("ReceiveImage: " . $obj->msg);
     die(json_encode($obj));
 }
-_error_log("ReceiveImage: Start receiving image " . json_encode($_FILES) . "" . json_encode($_POST));
+_error_log("ReceiveImage: Start receiving image " . json_encode($_FILES) . "" . json_encode($_REQUEST));
 // check if there is en video id if yes update if is not create a new one
-$video = new Video("", "", $_POST['videos_id']);
-$obj->video_id = $_POST['videos_id'];
+$video = new Video("", "", $_REQUEST['videos_id']);
+$obj->video_id = $_REQUEST['videos_id'];
 
 $videoFileName = $video->getFilename();
 $paths = Video::getPaths($videoFileName, true);
@@ -184,7 +184,7 @@ _error_log("ReceiveImage: Files Received for video {$videos_id}: " . $video->get
 die($json);
 
 /*
-_error_log(json_encode($_POST));
+_error_log(json_encode($_REQUEST));
 _error_log(json_encode($_FILES));
-var_dump($_POST, $_FILES);
+var_dump($_REQUEST, $_FILES);
 */
