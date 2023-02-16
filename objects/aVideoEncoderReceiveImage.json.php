@@ -166,10 +166,13 @@ $obj->gifDest_deleteInvalidImage = deleteInvalidImage($obj->gifDest);
 $obj->webpDest_deleteInvalidImage = deleteInvalidImage($obj->webpDest);
 
 if (!empty($_REQUEST['duration'])) {
+    _error_log("ReceiveImage: duration NOT empty {$_REQUEST['duration']}");
     $duration = $video->getDuration();
     if (empty($duration) || $duration === 'EE:EE:EE') {
+        _error_log("ReceiveImage: duration Line ".__LINE__);
         $video->setDuration($_REQUEST['duration']);
     }else if($_REQUEST['duration']!=='EE:EE:EE'){
+        _error_log("ReceiveImage: duration Line ".__LINE__);
         $video->setDuration($_REQUEST['duration']);
     }
 }else{
