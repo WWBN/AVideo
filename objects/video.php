@@ -640,10 +640,21 @@ if (!class_exists('Video')) {
         }
 
         public function setDuration($duration) {
-            _error_log("setDuration before {$duration}");
-            AVideoPlugin::onVideoSetDuration($this->id, $this->duration, $duration);
-            _error_log("setDuration after {$duration}");
-            $this->duration = $duration;
+            if(empty($this->duration) || self::isValidDuration($duration)){
+                _error_log("setDuration before {$duration}");
+                AVideoPlugin::onVideoSetDuration($this->id, $this->duration, $duration);
+                _error_log("setDuration after {$duration}");
+                $this->duration = $duration;
+            }else{
+                _error_log("setDuration error isValidDuration {$duration}, old duretion = {$this->duration}");
+            }
+        }
+        
+        private static function isValidDuration($duration){
+            if (empty($duration) || strtolower($duration) == "ee:ee:ee" || $duration == '0:00:00') {
+                return false;
+            }
+            return preg_match('/^[0-9]{2}:[0-9]{2}:[0-9]{2}/', $subject);
         }
 
         public function getDuration() {
@@ -2492,7 +2503,7 @@ if (!class_exists('Video')) {
         }
 
         public static function getItemDurationSeconds($duration = '') {
-            if ($duration == "EE:EE:EE") {
+            if (!self::isValidDuration($duration)) {
                 return 0;
             }
             $duration = static::getCleanDuration($duration);
@@ -2562,7 +2573,7 @@ if (!class_exists('Video')) {
             $source = self::getSourceFile($this->filename, $fileExtension, true);
             $file = $source['path'];
 
-            if (!empty($this->id) && $this->duration == "EE:EE:EE" && file_exists($file)) {
+            if (!empty($this->id) && !self::isValidDuration($this->duration) && file_exists($file)) {
                 $this->duration = Video::getDurationFromFile($file);
                 _error_log("Duration Updated: " . json_encode($this));
 
@@ -5468,7 +5479,7 @@ if (!class_exists('Video')) {
 
             if (isToShowDuration($video['type'])) {
                 $duration = Video::getCleanDuration($video['duration']);
-                if ($duration != '0:00:00' && $duration != 'EE:EE:EE') {
+                if (self::isValidDuration($duration)) {
                     $img .= "<time class=\"duration\" "
                             . "itemprop=\"duration\" "
                             . "datetime=\"" . Video::getItemPropDuration($video['duration']) . "\" >"
