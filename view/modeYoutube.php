@@ -111,13 +111,16 @@ if (!empty($evideo)) {
             //var_dump('Line: '.__LINE__, $_REQUEST['v'], $video);exit;
         }
 
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
             $video = Video::getVideo("", "viewable", false, false, true, true);
         }
 
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
             $video = Video::getVideo("", "viewable", false, false, false, true);
         }
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
             $video = AVideoPlugin::getVideo();
         }

@@ -1,4 +1,7 @@
 <?php
+
+$tTolerance = 0.2;
+$tname = TimeLogStart(basename(__FILE__));
 if (isset($_GET['noNavbar'])) {
     _session_start();
     if (!empty($_GET['noNavbar'])) {
@@ -13,6 +16,7 @@ if (isset($_GET['noNavbar'])) {
         unset($_SESSION['noNavbar']);
     }
 }
+TimeLogEnd($tname, __LINE__, $tTolerance);
 if (!empty($_SESSION['noNavbar'])) {
     if (isset($_GET['noNavbarClose'])) {
         _session_start();
@@ -38,6 +42,7 @@ if (!empty($_SESSION['noNavbar'])) {
     echo '<nav class="hidden" id="mainNavBar" style="display:none;"></nav>';
     return '';
 }
+TimeLogEnd($tname, __LINE__, $tTolerance);
 if (!empty($advancedCustomUser->keepViewerOnChannel)) {
     if (!empty($_GET['channelName'])) {
         _session_start();
@@ -55,6 +60,8 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
+
+TimeLogEnd($tname, __LINE__, $tTolerance);
 $_GET['parentsOnly'] = "1";
 if (empty($_SESSION['language'])) {
     $lang = $config->getLanguage();
@@ -71,7 +78,9 @@ if (empty($sidebarStyle)) {
 }
 $includeDefaultNavBar = true;
 _ob_start();
+TimeLogEnd($tname, __LINE__, $tTolerance);
 echo AVideoPlugin::navBar();
+TimeLogEnd($tname, __LINE__, $tTolerance);
 if (!$includeDefaultNavBar) {
     return false;
 }
@@ -100,6 +109,7 @@ if(isFirstPage()){
         echo "<span class='hidden metaDescription'>{$metaDescription}</span>";
     }
 }
+TimeLogEnd($tname, __LINE__, $tTolerance);
 if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
     include $global['systemRootPath'] . 'view/include/navbarCloseButton.php';
 } elseif (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php" || $thisScriptFile["basename"] === "userRecoverPass.php") || User::isLogged()) {
@@ -144,6 +154,8 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
 } elseif ($thisScriptFile["basename"] !== 'user.php' && empty($advancedCustom->disableNavbar)) {
     
 }
+TimeLogEnd($tname, __LINE__, $tTolerance);
 echo '<!-- navBarAfter start -->', AVideoPlugin::navBarAfter(), '<!-- navBarAfter end -->';
+TimeLogEnd($tname, __LINE__, $tTolerance);
 unset($_GET['parentsOnly']);
 ?>
