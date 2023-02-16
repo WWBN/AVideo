@@ -17,8 +17,12 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
  */
 
+_error_log("REQUEST: " . json_encode($_REQUEST));
+_error_log("POST: " . json_encode($_REQUEST));
+_error_log("GET: " . json_encode($_GET));
+
 if (empty($_REQUEST)) {
-    $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
+    $obj->msg = ("Your REQUEST data is empty, maybe your video file is too big for the host");
     _error_log("ReceiveImage: " . $obj->msg);
     die(json_encode($obj));
 }

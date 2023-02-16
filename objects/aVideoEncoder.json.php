@@ -23,7 +23,7 @@ allowOrigin();
 
 $global['bypassSameDomainCheck'] = 1;
 if (empty($_REQUEST)) {
-    $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
+    $obj->msg = ("Your POST data is empty, maybe your video file is too big for the host");
     _error_log($obj->msg);
     die(json_encode($obj));
 }
