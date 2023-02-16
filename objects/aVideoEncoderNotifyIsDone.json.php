@@ -8,13 +8,14 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+inputToRequest();
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 $global['bypassSameDomainCheck'] = 1;
-$_POST['videos_id'] = intval($_POST['videos_id']);
+$_REQUEST['videos_id'] = intval($_REQUEST['videos_id']);
 
-if (empty($_POST)) {
+if (empty($_REQUEST)) {
     $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
     _error_log($obj->msg);
     die(json_encode($obj));
@@ -22,20 +23,20 @@ if (empty($_POST)) {
 
 useVideoHashOrLogin();
 if (!User::canUpload()) {
-    $obj->msg = __("Permission denied to Notify Done: ") . print_r($_POST, true);
+    $obj->msg = __("Permission denied to Notify Done: ") . print_r($_REQUEST, true);
     _error_log($obj->msg);
     die(json_encode($obj));
 }
 
-if (!Video::canEdit($_POST['videos_id'])) {
-    $obj->msg = __("Permission denied to edit a video: ") . print_r($_POST, true);
+if (!Video::canEdit($_REQUEST['videos_id'])) {
+    $obj->msg = __("Permission denied to edit a video: ") . print_r($_REQUEST, true);
     _error_log($obj->msg);
     die(json_encode($obj));
 }
-Video::clearCache($_POST['videos_id']);
+Video::clearCache($_REQUEST['videos_id']);
 // check if there is en video id if yes update if is not create a new one
-$video = new Video("", "", $_POST['videos_id']);
-$obj->video_id = $_POST['videos_id'];
+$video = new Video("", "", $_REQUEST['videos_id']);
+$obj->video_id = $_REQUEST['videos_id'];
 
 
 $video->setAutoStatus(Video::$statusActive);
@@ -59,7 +60,7 @@ AVideoPlugin::afterNewVideo($video_id);
 die(json_encode($obj));
 
 /*
-_error_log(print_r($_POST, true));
+_error_log(print_r($_REQUEST, true));
 _error_log(print_r($_FILES, true));
-var_dump($_POST, $_FILES);
+var_dump($_REQUEST, $_FILES);
 */
