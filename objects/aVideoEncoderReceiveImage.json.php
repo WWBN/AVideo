@@ -10,6 +10,7 @@ if (!isset($global['systemRootPath'])) {
 }
 
 $global['bypassSameDomainCheck'] = 1;
+inputToRequest();
 /*
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
