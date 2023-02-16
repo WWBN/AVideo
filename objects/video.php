@@ -3395,10 +3395,10 @@ if (!class_exists('Video')) {
                 $path = "{$paths['path']}{$filename}.webp";
                 if (file_exists($path)) {
                     $type = ".webp";
-                } else if (get_browser_name() !== 'Safari') {
-                    $path = createWebPIfNotExists($path);
-                    $type = ".webp";
                 }
+            }else if ($type === '_jpg.webp') {
+                $path = "{$paths['path']}{$filename}{$type}";
+                createWebPIfNotExists($path);
             }
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
             if (empty($videosPaths[$filename][$type][intval($includeS3)])) {
