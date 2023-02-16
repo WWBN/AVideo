@@ -640,7 +640,9 @@ if (!class_exists('Video')) {
         }
 
         public function setDuration($duration) {
+            _error_log("setDuration before {$duration}");
             AVideoPlugin::onVideoSetDuration($this->id, $this->duration, $duration);
+            _error_log("setDuration after {$duration}");
             $this->duration = $duration;
         }
 
