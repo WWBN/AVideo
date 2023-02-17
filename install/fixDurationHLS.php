@@ -16,7 +16,7 @@ ob_end_flush();
 $global['limitForUnlimitedVideos'] = -1;
 $videos = video::getAllVideosLight("", false, true);
 $count = 0;
-$total = count();
+$total = count($videos);
 foreach ($videos as $value) {
     $count++;
     
