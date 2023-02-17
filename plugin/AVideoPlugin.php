@@ -1227,7 +1227,7 @@ class AVideoPlugin
         }
         return $navBarButtons;
     }
-
+    
     /**
      * Execute update function at plugin and
      * update plugin version at database

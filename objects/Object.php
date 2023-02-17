@@ -774,7 +774,7 @@ abstract class ObjectYPT implements ObjectInterface
     {
         global $global;
         $tmpDir = self::getCacheDir($name, $createDir, $addSubDirs);
-        $uniqueHash = md5($name . $global['salt']); // add salt for security reasons
+        $uniqueHash = md5($name . $global['salt']); // add salt for security reasons 
         return $tmpDir . $uniqueHash . '.cache';
     }
 

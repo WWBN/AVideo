@@ -1,7 +1,8 @@
 <?php
-require_once '../videos/configuration.php';
-
-$offlineFile = $global['systemRootPath'] . 'plugin/VideoOffline/offlineVideo.php';
+//require_once '../videos/configuration.php';
+$file = __DIR__ . DIRECTORY_SEPARATOR.'../plugin/VideoOffline/offlineVideo.php';
+error_log($file);
+$offlineFile = $file;
 if(file_exists($offlineFile)){
     require_once $offlineFile;
     exit;

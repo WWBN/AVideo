@@ -137,6 +137,10 @@ class Cache extends PluginAbstract
                     $cacheName = "mobile_{$cacheName}";
                 }
                 $cacheName = 'firstPage' . DIRECTORY_SEPARATOR . $cacheName;
+                       
+                if(isIframe()){
+                    $cacheName .= '_iframe';
+                }
             }
 
             $lifetime = $obj->cacheTimeInSeconds;

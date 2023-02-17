@@ -1,5 +1,4 @@
 <?php
-
 $tTolerance = 0.2;
 $tname = TimeLogStart(basename(__FILE__));
 if (isset($_GET['noNavbar'])) {
@@ -60,7 +59,6 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
-
 TimeLogEnd($tname, __LINE__, $tTolerance);
 $_GET['parentsOnly'] = "1";
 if (empty($_SESSION['language'])) {
@@ -102,7 +100,7 @@ if (!empty($_GET['avideoIframe'])) { // comes from avideoModalIframe(url) javasc
 ?>
 <link href="<?php echo getURL('view/css/navbar.css'); ?>" rel="stylesheet" type="text/css"/>
 <?php
-if(isFirstPage()){
+if (isFirstPage()) {
     if (!empty($customizePluginDescription)) {
         echo "<span class='hidden metaDescription'>{$customizePluginDescription}</span>";
     } elseif (!empty($metaDescription)) {
@@ -111,39 +109,59 @@ if(isFirstPage()){
 }
 TimeLogEnd($tname, __LINE__, $tTolerance);
 if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !empty($advancedCustomUser->userMustBeLoggedInCloseButtonURL)) {
+    TimeLogEnd($tname, __LINE__, $tTolerance);
     include $global['systemRootPath'] . 'view/include/navbarCloseButton.php';
+    TimeLogEnd($tname, __LINE__, $tTolerance);
 } elseif (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php" || $thisScriptFile["basename"] === "userRecoverPass.php") || User::isLogged()) {
+    TimeLogEnd($tname, __LINE__, $tTolerance);
     $updateFiles = getUpdatesFilesArray();
     ?>
     <nav class="navbar navbar-default navbar-fixed-top navbar-expand-lg navbar-light bg-light" id="mainNavBar">
         <ul class="items-container">
             <?php
+            TimeLogEnd($tname, __LINE__, $tTolerance);
             include $global['systemRootPath'] . 'view/include/navbarMenuAndLogo.php';
+            TimeLogEnd($tname, __LINE__, $tTolerance);
             include $global['systemRootPath'] . 'view/include/navbarSearch.php';
+            TimeLogEnd($tname, __LINE__, $tTolerance);
             ?>
 
             <li id="lastItemOnMenu">
                 <div class="pull-right" id="myNavbar">
                     <ul class="right-menus align-center" style="padding-left: 0;">
                         <?php
+                        TimeLogEnd($tname, __LINE__, $tTolerance);
                         echo AVideoPlugin::getHTMLMenuRight();
+                        TimeLogEnd($tname, __LINE__, $tTolerance);
                         include $global['systemRootPath'] . 'view/include/navbarLang.php';
+                        TimeLogEnd($tname, __LINE__, $tTolerance);
                         include $global['systemRootPath'] . 'view/include/navbarRightSignIn.php';
+                        TimeLogEnd($tname, __LINE__, $tTolerance);
                         ?>
                     </ul>
                 </div>
                 <div class="pull-right">
                     <?php
+                    TimeLogEnd($tname, __LINE__, $tTolerance);
                     echo getHamburgerButton('buttonMyNavbar', 'x');
+                    TimeLogEnd($tname, __LINE__, $tTolerance);
                     ?>
                 </div>
                 <?php
+                TimeLogEnd($tname, __LINE__, $tTolerance);
                 include $global['systemRootPath'] . 'view/include/navbarRightProfile.php';
+                TimeLogEnd($tname, __LINE__, $tTolerance);
                 ?>
             </li>
         </ul>
         <?php
-        include $global['systemRootPath'] . 'view/include/navbarSidebar.php';
+        TimeLogEnd($tname, __LINE__, $tTolerance);
+        $varsArray = array('sidebarStyle'=>$sidebarStyle);
+        $filePath = $global['systemRootPath'] . 'view/include/navbarSidebar.php';
+        echo getIncludeFileContent($filePath, $varsArray, true);
+        //echo getIncludeFileContent($filePath);
+        //include $filePath;
+        TimeLogEnd($tname, __LINE__, $tTolerance);
         ?>
     </nav>
     <script src="<?php echo getURL('view/js/navbarLogged.js'); ?>" type="text/javascript"></script>

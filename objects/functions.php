@@ -9492,19 +9492,15 @@ function _ob_get_clean() {
     return $content;
 }
 
-function getIncludeFileContent($filePath, $varsArray = [])
-{
-    global $global, $config;
-    if (!empty($global['getIncludeFileContent'])) {
-        return getIncludeFileContentV2($filePath, $varsArray);
-    } else {
-        return getIncludeFileContentV1($filePath, $varsArray);
-    }
-}
+function getIncludeFileContent($filePath, $varsArray = [], $setCacheName = false) {
+    global $global, $config, $advancedCustom, $advancedCustomUser;    
 
-function getIncludeFileContentV1($filePath, $varsArray = [])
-{
-    global $global, $config;
+    if (empty($advancedCustom)) {
+        $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+    }
+    if (empty($advancedCustomUser)) {
+        $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
+    }
     foreach ($varsArray as $key => $value) {
         eval("\${$key} = \$value;");
     }
@@ -9530,32 +9526,21 @@ function getIncludeFileContentV1($filePath, $varsArray = [])
         return '';
     }
     //_ob_start();
-    $basename = basename($filePath);
+    //$basename = basename($filePath);
     //$return = "<!-- {$basename} start -->";
-    include $filePath;
-    _ob_start();
-    $return .= _ob_get_clean();
-    //$return .= "<!-- {$basename} end -->";
-    echo $__out;
-    return $return;
-}
-
-function getIncludeFileContentV2($filePath, $varsArray = [])
-{
-    global $global, $config;
-    foreach ($varsArray as $key => $value) {
-        $$key = $value;
+    if(!empty($setCacheName)){
+        $name = $filePath . '_' . User::getId().'_'.$setCacheName;
+        $return = ObjectYPT::getSessionCache($name, 0);
     }
-    _ob_start();
-    $__out = ob_get_contents();
-    _ob_clean();
-    $basename = basename($filePath);
-    $return = "<!-- {$basename} start -->";
-    include $filePath;
-    _ob_start();
-    $return .= ob_get_contents();
-    $return .= "<!-- {$basename} end -->";
-    _ob_clean();
+    if (empty($return)) {
+        include $filePath;
+        _ob_start();
+        $return = _ob_get_clean();
+        if(!empty($setCacheName)){
+            ObjectYPT::setSessionCache($name, $return);
+        }
+    }
+    //$return .= "<!-- {$basename} end -->";
     echo $__out;
     return $return;
 }
