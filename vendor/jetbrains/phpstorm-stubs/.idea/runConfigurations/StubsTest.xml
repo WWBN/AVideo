@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="StubsTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+    <TestRunner class="StubTests\StubsTest" file="$PROJECT_DIR$/tests/StubsTest.php" scope="Class" />
+    <method v="2" />
+  </configuration>
+</component>

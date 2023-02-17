@@ -283,17 +283,17 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.258.10",
-            "version_normalized": "3.258.10.0",
+            "version": "3.258.12",
+            "version_normalized": "3.258.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e164c9c5faf3965bd27ff2a4e9b7b3048ba8a337"
+                "reference": "43ee875456822ee7772cfc51da57bfa558ccb30c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e164c9c5faf3965bd27ff2a4e9b7b3048ba8a337",
-                "reference": "e164c9c5faf3965bd27ff2a4e9b7b3048ba8a337",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/43ee875456822ee7772cfc51da57bfa558ccb30c",
+                "reference": "43ee875456822ee7772cfc51da57bfa558ccb30c",
                 "shasum": ""
             },
             "require": {
@@ -333,7 +333,7 @@
                 "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages",
                 "ext-sockets": "To use client-side monitoring"
             },
-            "time": "2023-02-14T19:21:16+00:00",
+            "time": "2023-02-16T19:21:12+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -374,7 +374,7 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.258.10"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.258.12"
             },
             "install-path": "../aws/aws-sdk-php"
         },
@@ -4219,17 +4219,17 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v10.5.0",
-            "version_normalized": "10.5.0.0",
+            "version": "v10.6.0",
+            "version_normalized": "10.6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "331415b232d60d7c0449de7bde4cb7d4fedf982e"
+                "reference": "5fc46f43c743c715cb5edeb7be3383efb7b4bb2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/331415b232d60d7c0449de7bde4cb7d4fedf982e",
-                "reference": "331415b232d60d7c0449de7bde4cb7d4fedf982e",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/5fc46f43c743c715cb5edeb7be3383efb7b4bb2e",
+                "reference": "5fc46f43c743c715cb5edeb7be3383efb7b4bb2e",
                 "shasum": ""
             },
             "require": {
@@ -4245,7 +4245,7 @@
                 "phpunit/phpunit": "^5.7 || ^9.0",
                 "squizlabs/php_codesniffer": "^3.3"
             },
-            "time": "2023-02-02T21:02:09+00:00",
+            "time": "2023-02-16T23:01:54+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -4277,7 +4277,7 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v10.5.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v10.6.0"
             },
             "install-path": "../stripe/stripe-php"
         },
