@@ -25,5 +25,7 @@ foreach ($videos as $value) {
         }else{
             echo "[{$count}/{$total}] ERROR updated [{$value['id']}] ".$v->getDuration().PHP_EOL;
         }
+    }else{
+        echo "[{$count}/{$total}] No need to updated [{$value['id']}] {$value['duration']}".PHP_EOL;
     }
 }
