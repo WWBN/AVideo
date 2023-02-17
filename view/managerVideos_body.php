@@ -95,6 +95,7 @@ if (!empty($_GET['iframe'])) {
 </style>
 <script>
     var filterStatus = '';
+    var filterCategory = '';
 </script>
 <div class="container-fluid">
     <?php
@@ -210,7 +211,8 @@ if (!empty($_GET['iframe'])) {
     }
     ?>
     <div class="panel panel-default">
-        <div class="panel-body">
+        <div class="panel-heading">
+            
             <div class="btn-group" id="actionButtonsVideoManager">
                 <button class="btn btn-default" id="checkBtn">
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
@@ -317,16 +319,39 @@ if (!empty($_GET['iframe'])) {
                 }
                 ?>
             </div>
-
+        </div>
+        <div class="panel-heading clearfix">
+            
+            <div class="btn-group pull-right" id="filterButtonsVideoManagerCategory">
+                <div class="btn-group ">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="activeFilterCategory"><i class="fas fa-list"></i> <?php echo __('All Categories'); ?></span> <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li><a href="#" onclick="filterCategory = ''; $('.activeFilterCategory').html('<i class=\'fas fa-list\'></i> <?php echo __('All Categories'); ?>');
+                                $('.tooltip').tooltip('hide');
+                                $('#grid').bootgrid('reload');
+                                return false;"><i class="fas fa-list"></i> <?php echo __('All Categories'); ?></a></li>
+                            <?php
+                            $categories = Category::getAllCategories(true, true);
+                            //var_dump($categories);exit;
+                            foreach ($categories as $key => $value) {
+                                //$text = "<i class='{$value['iconClass']}'></i> ".__($value['hierarchyAndName'])." ({$value['fullTotal_videos']})";
+                                $text = "<i class='{$value['iconClass']}'></i> ".__($value['hierarchyAndName']);
+                                echo PHP_EOL . '<li><a href="#" onclick="filterCategory=\'' . $value['clean_name'] . '\'; $(\'.activeFilterCategory\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
+                            }
+                            ?>
+                    </ul>
+                </div>
+            </div>
             <div class="btn-group pull-right" id="filterButtonsVideoManager">
                 <div class="btn-group ">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span class="activeFilter"><?php echo __('All'); ?></span> <span class="caret"></span></button>
+                        <span class="activeFilter"><i class="fas fa-icons"></i> <?php echo __('All Statuses'); ?></span> <span class="caret"></span></button>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li><a href="#" onclick="filterStatus = ''; $('.activeFilter').html('<?php echo __('All'); ?>');
+                        <li><a href="#" onclick="filterStatus = ''; $('.activeFilter').html('<i class=\'fas fa-icons\'></i> <?php echo __('All Statuses'); ?>');
                                 $('.tooltip').tooltip('hide');
                                 $('#grid').bootgrid('reload');
-                                return false;"><?php echo __('All'); ?></a></li>
+                                return false;"><i class="fas fa-icons"></i> <?php echo __('All Statuses'); ?></a></li>
                             <?php
                             if (AVideoPlugin::isEnabled('FansSubscriptions')) {
                                 $statusSearchFilter[] = Video::$statusFansOnly;
@@ -370,6 +395,8 @@ if (!empty($_GET['iframe'])) {
                     </ul>
                 </div>
             </div>
+        </div>
+        <div class="panel-body">
 
             <table id="grid" class="table table-condensed table-hover table-striped videosManager">
                 <thead>
@@ -1561,7 +1588,10 @@ if (Permissions::canAdminVideos()) {
                                 }
 
                                 function getGridURL() {
-                                    var url = webSiteRootURL + "objects/videos.json.php?showAll=1&status=" + filterStatus;
+                                    var url = webSiteRootURL + "objects/videos.json.php";
+                                    url = addQueryStringParameter(url, 'showAll', 1);
+                                    url = addQueryStringParameter(url, 'status', filterStatus);
+                                    url = addQueryStringParameter(url, 'catName', filterCategory);
                                     $('.searchFieldsNames:checked').each(function (index) {
                                         url = addGetParam(url, 'searchFieldsNames[' + index + ']', $(this).val());
                                     });
