@@ -20,7 +20,7 @@ if (empty($_COOKIE) && isIframe() && isIframeInDifferentDomain()) {
     die('{"error":"isIframeInDifferentDomain"}');
 }
 require_once $global['systemRootPath'] . 'objects/video.php';
-$obj = new Video("", "", $_REQUEST['id']);
+$obj = new Video("", "", $_REQUEST['id'], true);
 if (empty($obj)) {
     die("Object not found");
 }
