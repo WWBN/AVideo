@@ -102,6 +102,9 @@ abstract class PluginAbstract {
         $o = array();
         if (!empty($obj['object_data'])) {
             $o = _json_decode(stripslashes($obj['object_data']));
+            if(empty($o)){
+                $o = _json_decode($obj['object_data']);
+            }
         }
         return $o;
     }
@@ -113,6 +116,7 @@ abstract class PluginAbstract {
             //echo $obj['object_data'];
             $o = self::getObjectDataFromDatabase($uuid);
             $eo = $this->getEmptyDataObject();
+            
             // check if the plugin define any array for the select option, if does, overwrite it
             foreach ($eo as $key => $value) {
                 if (empty($o->$key)) {
