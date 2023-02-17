@@ -2581,7 +2581,17 @@ if (!class_exists('Video')) {
                 $res = sqlDAL::writeSql($sql, "si", [$this->duration, $this->id]);
                 return $this->id;
             } else {
-                _error_log("Do not need update duration: ");
+                $reason = array();
+                if (empty($this->id)) {
+                    $reason[] = 'empty id';
+                }
+                if (self::isValidDuration($this->duration)) {
+                    $reason[] = 'duration is valid '.$this->duration;
+                }
+                if (!file_exists($file)) {
+                    $reason[] = 'file not exists '.$file;
+                }
+                _error_log("Do not need update duration: ".implode(', ', $reason));
                 return false;
             }
         }
