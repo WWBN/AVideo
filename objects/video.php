@@ -650,7 +650,7 @@ if (!class_exists('Video')) {
             }
         }
 
-        private static function isValidDuration($duration) {
+        static function isValidDuration($duration) {
             if (empty($duration) || strtolower($duration) == "ee:ee:ee" || $duration == '0:00:00') {
                 return false;
             }
