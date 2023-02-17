@@ -1048,7 +1048,7 @@ if (!class_exists('Video')) {
             return $video;
         }
 
-        public static function getVideoLikes($videos_id) {
+        public static function getVideoLikes($videos_id, $refreshCache = false) {
             global $global, $_getLikes;
 
             if (!isset($_getLikes)) {
@@ -1066,7 +1066,7 @@ if (!class_exists('Video')) {
             $obj->dislikes = 0;
             $obj->myVote = Like::getMyVote($videos_id);
 
-            $video = Video::getVideoLight($obj->videos_id);
+            $video = Video::getVideoLight($obj->videos_id, $refreshCache);
             $obj->likes = intval($video['likes']);
             $obj->dislikes = intval($video['dislikes']);
             $_getLikes[$videos_id] = $obj;
