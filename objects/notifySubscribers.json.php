@@ -45,4 +45,8 @@ if (!$mail->send()) {
     $obj->success = __("Message sent");
 }
 
-echo json_encode($obj);
+$json = json_encode($obj);
+
+_error_log('NotifySubscribers emails: '.$json);
+
+echo $json;
