@@ -367,7 +367,7 @@ abstract class ObjectYPT implements ObjectInterface
             _error_log("Plugin updated {$this->name}: $sql ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         }
         //var_dump(static::getTableName(), $sql, $values);
-        //if(static::getTableName() == 'videos'){ echo $sql;var_dump($values);exit;}return false;
+        //if(static::getTableName() == 'videos'){ echo $sql;var_dump($values); var_dump(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));}//return false;
         //echo $sql;var_dump($values);exit;
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 

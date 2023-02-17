@@ -729,7 +729,7 @@ Allow: .css";
         if (!Permissions::canAdminVideos()) {
             return false;
         }
-        $video = new Video('', '', $videos_id);
+        $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
         $externalOptions->doNotShowAdsOnThisVideo = $doNotShowAdsOnThisVideo;
         $video->setExternalOptions(json_encode($externalOptions));
@@ -764,7 +764,7 @@ Allow: .css";
         if (!Permissions::canAdminVideos()) {
             return false;
         }
-        $video = new Video('', '', $videos_id);
+        $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
         $externalOptions->redirectVideo = array('code'=>$code, 'url'=>$url);
         $video->setExternalOptions(json_encode($externalOptions));
@@ -781,7 +781,7 @@ Allow: .css";
         if (!Video::canEdit($videos_id)) {
             return false;
         }
-        $video = new Video('', '', $videos_id);
+        $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
         $externalOptions->SEO = array('ShortSummary'=>$ShortSummary, 'MetaDescription'=>$MetaDescription);
         $video->setExternalOptions(json_encode($externalOptions));

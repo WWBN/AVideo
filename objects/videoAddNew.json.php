@@ -29,7 +29,7 @@ if (!is_writable("{$global['systemRootPath']}vendor/ezyang/htmlpurifier/library/
 
 TimeLogStart(__FILE__);
 
-$obj = new Video($_POST['title'], "", @$_POST['id']);
+$obj = new Video($_POST['title'], "", @$_POST['id'], true);
 
 TimeLogEnd(__FILE__, __LINE__);
 
@@ -182,7 +182,7 @@ $obj->msg = $msg;
 $obj->info = json_encode($info);
 $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
-$obj->video = Video::getVideoLight($obj->videos_id);
+$obj->video = Video::getVideoLight($obj->videos_id, true);
 if ($obj->video['status'] == Video::$statusActive) {
     $obj->clearFirstPageCache = clearFirstPageCache();
     //clearAllUsersSessionCache();
