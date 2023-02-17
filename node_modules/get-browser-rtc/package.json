@@ -1,0 +1,29 @@
+{
+  "name": "get-browser-rtc",
+  "version": "1.1.0",
+  "description": "get webrtc browser methods unprefixed",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/substack/get-browser-rtc.git"
+  },
+  "keywords": [
+    "vendor",
+    "prefix",
+    "browser",
+    "webrtc",
+    "RTCIceCandidate",
+    "RTCPeerConnection",
+    "RTCSessionDescription",
+    "wrtc"
+  ],
+  "author": "substack",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/substack/get-browser-rtc/issues"
+  },
+  "homepage": "https://github.com/substack/get-browser-rtc#readme"
+}
