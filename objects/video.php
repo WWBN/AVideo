@@ -651,7 +651,7 @@ if (!class_exists('Video')) {
         }
 
         static function isValidDuration($duration) {
-            if (empty($duration) || strtolower($duration) == "ee:ee:ee" || $duration == '0:00:00') {
+            if (empty($duration) || strtolower($duration) == "ee:ee:ee" || $duration == '0:00:00' || $duration == '00:00:00') {
                 return false;
             }
             return preg_match('/^[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}/', $duration);
