@@ -2,6 +2,7 @@
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'plugin/VR360/Objects/VideosVR360.php';
 
 class VR360 extends PluginAbstract {
 
