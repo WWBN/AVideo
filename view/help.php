@@ -30,7 +30,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
                         <li><a href="#Videos help"><?php echo __('Videos'); ?></a></li>
                     </ul>
                     </p>
-                    <p><?php echo __('Here you can find help, how this plattform works.'); ?></p>
+                    <p><?php echo __('Here you can find help, how this platform works.'); ?></p>
                     <?php if (User::isAdmin()) { ?>
                         <h2><?php echo __('Admin\'s manual'); ?></h2>
                         <p><?php echo __('Only you can see this, because you are a admin.'); ?></p>

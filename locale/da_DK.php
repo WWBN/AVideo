@@ -359,7 +359,7 @@ $t['Groups that can see this video'] = 'Grupper, der kan se denne video';
 $t['Head Code'] = 'Hovedkode';
 $t['Help Page'] = 'Hjælpeside';
 $t['Help'] = 'Hjælp';
-$t['Here you can find help, how this plattform works.'] = 'Her kan du finde hjælp til, hvordan denne platform fungerer.';
+$t['Here you can find help, how this platform works.'] = 'Her kan du finde hjælp til, hvordan denne platform fungerer.';
 $t['Here you find information about how to handle videos.'] = 'Her finder du oplysninger om, hvordan du håndterer videoer.';
 $t['Here'] = 'Her';
 $t['Hi %s'] = 'Hej% s';
@@ -406,7 +406,7 @@ $t['Just like admin, this user will have permission to edit and delete videos fr
 $t['Keep Key Private, Anyone with key can broadcast on your account'] = 'Hold nøglen privat, enhver med nøgle kan sende på din konto';
 $t['Key is empty'] = 'Nøglen er tom';
 $t['Key'] = 'Nøgle';
-$t['LIVE NOW'] = 'LEV NU';
+$t['Live Now'] = 'LEV NU';
 $t['Language'] = 'Sprog';
 $t['Last 10 Attends'] = 'Sidste 10 deltagere';
 $t['Last 30 Days'] = 'Sidste 30 dage';
