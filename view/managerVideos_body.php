@@ -332,9 +332,9 @@ if (!empty($_GET['iframe'])) {
                                 $('#grid').bootgrid('reload');
                                 return false;"><i class="fas fa-list"></i> <?php echo __('All Categories'); ?></a></li>
                             <?php
-                            $categories = Category::getAllCategories(true, true);
+                            $categories_edit = Category::getAllCategories(true);
                             //var_dump($categories);exit;
-                            foreach ($categories as $key => $value) {
+                            foreach ($categories_edit as $key => $value) {
                                 //$text = "<i class='{$value['iconClass']}'></i> ".__($value['hierarchyAndName'])." ({$value['fullTotal_videos']})";
                                 $text = "<i class='{$value['iconClass']}'></i> ".__($value['hierarchyAndName']);
                                 echo PHP_EOL . '<li><a href="#" onclick="filterCategory=\'' . $value['clean_name'] . '\'; $(\'.activeFilterCategory\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
