@@ -557,7 +557,7 @@ $t['This help us to track and dettect errors'] = 'エラーをデバッグする
 $t['This is an experimental resource'] = 'これは実験的なリソースです。';
 $t['This is useful if you want to use our LDAP plugin or maybe only allow authentication from Social Networks'] = 'AVideoサーバでの認証/サインアップを無効にします。LDAP認証またはSNS認証でのログインのみ許可します';
 $t['This is where you can create groups and associate them with your videos and users. This will make your videos private. Only users who are in the same group as the videos can view them'] = 'グループを作成し、動画やユーザーに関連付けることができます。これにより、動画は非公開になります。動画と同じグループ属するユーザーだけが動画を見ることができます。';
-$t["This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/DanielnetoDotCom/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder.youphptube.com/' class='btn btn-warning btn-xs'>public</a> one"] = 'このページは、MP4、MP3、OGGファイルでのみ動作し、他の形式のファイルの場合、独自のPublic Encoderをインストールする必要があります';
+$t["This page works only with MP3, MP4, and OGG files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.wwbn.net/' class='btn btn-warning btn-xs'>public</a> one"] = 'このページは、MP4、MP3、OGGファイルでのみ動作し、他の形式のファイルの場合、独自のPublic Encoderをインストールする必要があります';
 $t['This type of user can edit users, can add or remove users into user groups, but cannot make them admins'] = 'ユーザーの編集や、ユーザーをユーザーグループに追加または削除することができます。ただし、ユーザーを管理者にすることはできません。';
 $t['This value must match with the language files on'] = 'この値は、以下の言語ファイルと一致する必要があります。';
 $t['This video was reported to our team, we will review it soon'] = 'この動画は私たちのチームに報告されました。';
