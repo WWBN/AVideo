@@ -20,7 +20,7 @@ if(empty($_REQUEST['custom'])){
 }
 if (!is_writable($dir) && !isWindows()) {
     $obj->status = 0;
-    $obj->error = sprintf(__("Your %slocale dir is not writable"), $global['systemRootPath']);
+    $obj->error = sprintf(__("Your %s locale dir is not writable"), $global['systemRootPath']);
     die(json_encode($obj));
 }
 

@@ -1,6 +1,6 @@
 <?php
 $filter = [
-    'useEncoderNetworkRecomendation' => __('Let the encoder network (If configured) choose what is the best encoder to use'),
+    'useEncoderNetworkRecomendation' => __('Let the encoder network (if configured) choose what is the best encoder to use'),
     'doNotShowEncoderResolutionLow' => __('Do not allow encode in Low resolution'),
     'doNotShowEncoderResolutionSD' => __('Do not allow encode in SD resolution'),
     'doNotShowEncoderResolutionHD' => __('Do not allow encode in HD resolution'),

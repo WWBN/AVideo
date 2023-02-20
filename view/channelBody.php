@@ -217,7 +217,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelLive" data-toggle="tab" aria-expanded="false">
-                                        <i class="fas fa-broadcast-tower"></i> <?php echo strtoupper(__("Live Now")); ?>
+                                        <i class="fas fa-broadcast-tower"></i> <span class="labelUpperCase"><?php echo __('Live Now'); ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -230,7 +230,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false">
-                                        <i class="fas fa-home"></i> <?php echo strtoupper(__("Home")); ?>
+                                        <i class="fas fa-home"></i> <span class="labelUpperCase"><?php echo __('Home'); ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -243,7 +243,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelVideos" data-toggle="tab" aria-expanded="false">
-                                        <i class="fas fa-file-video"></i> <?php echo strtoupper(__("Videos")); ?> <span class="badge"><?php echo $uploadedTotalVideos; ?></span>
+                                        <i class="fas fa-file-video"></i> <span class="labelUpperCase"><?php echo __('Videos'); ?></span> <span class="badge"><?php echo $uploadedTotalVideos; ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -256,7 +256,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelArticles" data-toggle="tab" aria-expanded="false">
-                                        <i class="far fa-file-alt"></i> <?php echo strtoupper(__("Articles")); ?> <span class="badge"><?php echo $uploadedTotalArticles; ?></span>
+                                        <i class="far fa-file-alt"></i> <span class="labelUpperCase"><?php echo __('Articles'); ?></span> <span class="badge"><?php echo $uploadedTotalArticles; ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -269,7 +269,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelAudio" data-toggle="tab" aria-expanded="false">
-                                        <i class="fas fa-file-audio"></i> <?php echo strtoupper(__("Audio")); ?> <span class="badge"><?php echo $uploadedTotalAudio; ?></span>
+                                        <i class="fas fa-file-audio"></i> <span class="labelUpperCase"><?php echo __('Audio'); ?></span> <span class="badge"><?php echo $uploadedTotalAudio; ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -281,7 +281,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                     ?>
                                     <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
                                         <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
-                                            <i class="fas fa-list"></i> <?php echo strtoupper(__($palyListsObj->name)); ?> <span class="badge"><?php echo count($totalPrograms); ?></span>
+                                            <i class="fas fa-list"></i> <span class="labelUpperCase"><?php echo __($palyListsObj->name); ?></span> <span class="badge"><?php echo count($totalPrograms); ?></span>
                                         </a>
                                     </li>
                                     <?php
