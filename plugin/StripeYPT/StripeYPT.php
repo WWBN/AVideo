@@ -530,7 +530,7 @@ class StripeYPT extends PluginAbstract {
 
     /**
      * Return plans an users id
-     * @param string $payload
+     * @param array $payload
      */
     static function getMetadata($payload) {
         foreach ($payload as $value) {

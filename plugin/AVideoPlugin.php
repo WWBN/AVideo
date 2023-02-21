@@ -300,17 +300,18 @@ class AVideoPlugin
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         if (!isset($pluginIsLoaded[$name]) && empty($forceReload)) {
             $pluginIsLoaded[$name] = false;
-            if (file_exists($loadPluginFile) && ($name != 'Live' && !class_exists($name))) {
+            $fexists = file_exists($loadPluginFile);
+            if ($fexists && !class_exists($name)) {
                 require_once $loadPluginFile;
-                if (class_exists($name)) {
-                    $code = "\$p = new {$name}();";
-                    eval($code);
-                    if (is_object($p)) {
-                        $pluginIsLoaded[$name] = $p;
-                    } else {
-                        _error_log("[loadPlugin] eval failed for plugin ($name) code ($code) code result ($codeResult) included file $loadPluginFile", AVideoLog::$ERROR);
-                    }
+                $code = "\$p = new {$name}();";
+                eval($code);
+                if (is_object($p)) {
+                    $pluginIsLoaded[$name] = $p;
+                } else {
+                    _error_log("[loadPlugin] eval failed for plugin ($name) code ($code) code result ($codeResult) included file $loadPluginFile", AVideoLog::$ERROR);
                 }
+            }else if(!$fexists){
+                _error_log("loadPlugin($name) Error file not exists {$loadPluginFile}", AVideoLog::$ERROR);
             }
         }
         return $pluginIsLoaded[$name];
