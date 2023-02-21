@@ -34,7 +34,9 @@ Additionally, if your server is on a private network and does not have a public 
 
 # Server Requirements
 
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg?style=flat-square)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue)](https://php.net/)
+[![Minimum MySQL Version](https://img.shields.io/badge/MySQL-5.0%2B-blue)](https://www.mysql.com/)
+[![Minimum Apache Version](https://img.shields.io/badge/Apache-2.x%20%28mod__rewrite%29-blue)](https://httpd.apache.org/)
 [![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
 
 To run the AVideo Platform, it is necessary to have certain tools installed on your server. Fortunately, all of these tools are available for free. For a comprehensive list of the required tools, please refer to the following link: https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Hardware-Requirements.
