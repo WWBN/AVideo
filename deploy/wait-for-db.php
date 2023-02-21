@@ -11,7 +11,7 @@ $db_user = getenv("DB_MYSQL_USER");
 $db_pass = getenv("DB_MYSQL_PASSWORD");
 
 while (!$connected) {
-  echo "Checking database connection....";
+  echo "Checking database connection.... $db_host, $db_user";
   $mysqli = @new mysqli($db_host, $db_user, $db_pass, $db_name, $db_port);
   if ($mysqli !== false) {
     echo "OK\n";

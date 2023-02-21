@@ -1,50 +1,67 @@
 version: '3'
 
 services:
-  web:
-    build: .
+  avideo:
+    build:
+      context: .
+      args:
+        SOCKET_PORT: ${SOCKET_PORT}
+        HTTP_PORT: ${HTTP_PORT}
+        HTTPS_PORT: ${HTTPS_PORT}
+        NGINX_RTMP_PORT: ${NGINX_RTMP_PORT}
+        NGINX_HTTP_PORT: ${NGINX_HTTP_PORT}
+        NGINX_HTTPS_PORT: ${NGINX_HTTPS_PORT}
+        DB_MYSQL_HOST: ${DB_MYSQL_HOST}
+        DB_MYSQL_PORT: ${DB_MYSQL_PORT}
+        DB_MYSQL_NAME: ${DB_MYSQL_NAME}
+        DB_MYSQL_USER: ${DB_MYSQL_USER}
+        DB_MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
+        SERVER_NAME: ${SERVER_NAME}
+        CREATE_TLS_CERTIFICATE: ${CREATE_TLS_CERTIFICATE}
+        TLS_CERTIFICATE_FILE: ${TLS_CERTIFICATE_FILE}
+        TLS_CERTIFICATE_KEY: ${TLS_CERTIFICATE_KEY}
+        CONTACT_EMAIL: ${CONTACT_EMAIL}
+        SYSTEM_ADMIN_PASSWORD: ${SYSTEM_ADMIN_PASSWORD}
+        WEBSITE_TITLE: ${WEBSITE_TITLE}
+        MAIN_LANGUAGE: ${MAIN_LANGUAGE}
     restart: "unless-stopped"
     environment:
+      SOCKET_PORT: ${SOCKET_PORT:-2053}
       HTTP_PORT: ${HTTP_PORT:-80}
-      HTTPS_PORT: ${HTTPS_PORT:-443}
-      DB_MYSQL_HOST: "database"
+      HTTPS_PORT: ${HTTP_PORT:-443}
+      NGINX_RTMP_PORT: ${NGINX_RTMP_PORT:-1935}
+      NGINX_HTTP_PORT: ${NGINX_HTTP_PORT:-8080}
+      NGINX_HTTPS_PORT: ${NGINX_HTTPS_PORT:-8443}
+      DB_MYSQL_HOST: "${DB_MYSQL_HOST:-database}"
       DB_MYSQL_PORT: ${DB_MYSQL_PORT:-3306}
-      DB_MYSQL_NAME: "avideo"
-      DB_MYSQL_USER: "avideo"
-      DB_MYSQL_PASSWORD: "avideo"
-      SERVER_NAME: "localhost"
-      ENABLE_PHPMYADMIN: "yes"
-      CREATE_TLS_CERTIFICATE: "yes"
-      TLS_CERTIFICATE_FILE: "/etc/apache2/ssl/localhost.crt"
-      TLS_CERTIFICATE_KEY: "/etc/apache2/ssl/localhost.key"
-      CONTACT_EMAIL: "admin@localhost"
-      SYSTEM_ADMIN_PASSWORD: "password"
-      WEBSITE_TITLE: "AVideo"
-      MAIN_LANGUAGE: "en_US"
+      DB_MYSQL_NAME: "${DB_MYSQL_NAME:-avideo}"
+      DB_MYSQL_USER: "${DB_MYSQL_USER:-avideo}"
+      DB_MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD:-avideo}"
+      SERVER_NAME: "${SERVER_NAME:-localhost}"
+      CREATE_TLS_CERTIFICATE: "${CREATE_TLS_CERTIFICATE:-yes}"
+      TLS_CERTIFICATE_FILE: "${TLS_CERTIFICATE_FILE:-/etc/apache2/ssl/localhost.crt}"
+      TLS_CERTIFICATE_KEY: "${TLS_CERTIFICATE_KEY:-/etc/apache2/ssl/localhost.key}"
+      CONTACT_EMAIL: "${CONTACT_EMAIL:-admin@localhost}"
+      SYSTEM_ADMIN_PASSWORD: "${SYSTEM_ADMIN_PASSWORD:-password}"
+      WEBSITE_TITLE: "${WEBSITE_TITLE:-AVideo}"
+      MAIN_LANGUAGE: "${MAIN_LANGUAGE:-en_US}"
+    env_file:
+      - .env
     ports:
-      - '${HTTP_PORT}:80'
-      - '${HTTPS_PORT}:443'
+      - "${SOCKET_PORT:-2053}:2053"
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+      - "${NGINX_RTMP_PORT:-1935}:1935"
+      - "${NGINX_HTTP_PORT:-8080}:8080"
+      - "${NGINX_HTTPS_PORT:-8443}:8443"
     volumes:
-      - "./var/www/avideo:/var/www/avideo"
+      - "./:/var/www/html/AVideo"
+      - "./.compose/videos:/var/www/html/AVideo/videos"
+      - "./.compose/encoder:/var/www/html/AVideo/Encoder"
+      - "./.compose/letsencrypt:/etc/letsencrypt/"
     depends_on:
       - database
-      - phpmyadmin
-    networks:
-      - app_net
-
-  phpmyadmin:
-    image: "phpmyadmin/phpmyadmin"
-    restart: "unless-stopped"
-    environment:
-      PMA_ABSOLUTE_URI: "https://localhost/phpmyadmin"
-      PMA_HOST: "database"
-      PMA_PORT: 3306
-      PMA_CONTROLUSER: "avideo"
-      PMA_CONTROLPASS: "avideo"
-      PMA_PMADB: "avideo"
-      HIDE_PHP_VERSION: "true"
-    depends_on:
-      - database
+      - database_encoder
     networks:
       - app_net
 
@@ -59,6 +76,20 @@ services:
       MYSQL_PASSWORD: "avideo"
     volumes:
       - ./.compose/db:/var/lib/mysql
+    networks:
+      - app_net
+
+  database_encoder:
+    image: "mariadb:latest"
+    restart: "unless-stopped"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_INITDB_SKIP_TZINFO: 1
+      MYSQL_DATABASE: "avideo_encoder"
+      MYSQL_USER: "avideo"
+      MYSQL_PASSWORD: "avideo"
+    volumes:
+      - ./.compose/db_encoder:/var/lib/mysql
     networks:
       - app_net
 

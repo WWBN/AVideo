@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `scheduler_commands` (
   `repeat_hour` INT NULL,
   `repeat_day_of_month` INT NULL,
   `repeat_month` INT NULL,
+  `repeat_day_of_week` INT NULL,
   `day_of_week` INT NULL,
   `videos_id` INT(11) NULL,
   PRIMARY KEY (`id`),

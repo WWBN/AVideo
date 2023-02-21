@@ -43,7 +43,7 @@ if ($totalPages < $page) {
         <div class="clear clearfix">
             <h3 class="galleryTitle">
                 <?php
-                echo VideoTags::getButton($value['tags_id'], 'btn-md', 'btn-link', 'btn-link', 'btn-link');
+                echo VideoTags::getButton($value['tags_id'], getVideos_id(),'btn-md', 'btn-link', 'btn-link', 'btn-link');
                 ?>
             </h3>
             <div class="">

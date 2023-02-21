@@ -109,6 +109,7 @@
                                         <div class="<?php echo $divCol2; ?>">
                                             <?php
                                             if ($showCategory) {
+                                                $categories = Category::getAllCategories(true, true);
                                                 ?>
                                                 <label class="control-label" for="inputCategory" ><?php echo __("Category"); ?></label>
                                                 <select class="form-control last" id="inputCategory" required>

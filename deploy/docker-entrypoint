@@ -2,6 +2,7 @@
 
 echo "Starting AVideo Platform..."
 CONFIG_FILE=/etc/apache2/sites-enabled/000-default.conf
+CONFIG_NGINX_FILE=/usr/local/nginx/conf/nginx.conf
 
 if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   echo "Generate Certificate..."
@@ -42,18 +43,25 @@ if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   openssl x509 -in ${TLS_CERTIFICATE_FILE} -noout -text || true
 fi
 
-echo "Configure Apache..."
 sed -i 's#SERVER_NAME#'${SERVER_NAME}'#' ${CONFIG_FILE}
+sed -i 's#CONTACT_EMAIL#'${CONTACT_EMAIL}'#' ${CONFIG_FILE}
+sed -i 's#server_name localhost _#server_name localhost _ '${SERVER_NAME}'#' ${CONFIG_NGINX_FILE}
+
+echo "Configure Apache..."
 sed -i 's#TLS_CERTIFICATE_FILE#'${TLS_CERTIFICATE_FILE}'#' ${CONFIG_FILE}
 sed -i 's#TLS_CERTIFICATE_KEY#'${TLS_CERTIFICATE_KEY}'#' ${CONFIG_FILE}
-sed -i 's#CONTACT_EMAIL#'${CONTACT_EMAIL}'#' ${CONFIG_FILE}
 
-if [ "_${ENABLE_PHPMYADMIN}_" = "_yes_" ]; then
-  echo "Enabling local PHPMyAdmin on https://${SERVER_NAME}/phpmyadmin"
-  cp /etc/apache2/conf-available/phpmyadmin.conf /etc/apache2/conf-enabled/phpmyadmin.conf
-  a2enmod proxy
-  a2enmod proxy_http
-fi
+echo "Configure Nginx..."
+sed -i 's#ssl_certificate /etc/apache2/ssl/localhost.crt#ssl_certificate '${TLS_CERTIFICATE_FILE}'#' ${CONFIG_NGINX_FILE}
+sed -i 's#ssl_certificate_key /etc/apache2/ssl/localhost.key#ssl_certificate_key '${TLS_CERTIFICATE_KEY}'#' ${CONFIG_NGINX_FILE}
+sed -i 's#listen 1935#listen '${NGINX_RTMP_PORT}'#' ${CONFIG_NGINX_FILE}
+sed -i 's#listen 8080#listen '${NGINX_HTTP_PORT}'#' ${CONFIG_NGINX_FILE}
+sed -i 's#listen 8443#listen '${NGINX_HTTPS_PORT}'#' ${CONFIG_NGINX_FILE}
+
+mkdir -p /etc/letsencrypt/live/localhost/
+
+cp ${TLS_CERTIFICATE_FILE} /etc/letsencrypt/live/localhost/fullchain.pem
+cp ${TLS_CERTIFICATE_KEY} /etc/letsencrypt/live/localhost/privkey.pem
 
 echo "Waiting for database ${DB_MYSQL_HOST} to be up and running"
 php /usr/local/bin/wait-for-db.php
@@ -62,14 +70,69 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-if [ -f /var/www/html/AVideo/videos/configuration.php ]; then
-  echo "Using existing configuration..."
+if [ -f /var/www/html/AVideo/plugin/User_Location/install/install.sql ]; then
+  echo "Using existing location tables..."
 else
-  echo "Create new configuration..."
-  cd /var/www/html/AVideo/install/
-  php ./cli.php
-  cd /var/www/html/AVideo/
+  echo "Create new locations tables..."
+  cd /var/www/html/AVideo/plugin/User_Location/install && unzip install.zip 
+  # Configure AVideo Encoder
+  cd /var/www/html/AVideo && git config --global advice.detachedHead false && git clone https://github.com/WWBN/AVideo-Encoder.git Encoder
+  # Configure AVideo permissions
+  chown -R www-data:www-data /var/www/html/AVideo
 fi
 
+if [ -f /var/www/html/AVideo/Encoder/index.php ]; then
+  echo "Using existing Encoder configuration..."
+else
+  echo "Create new  Encoder configuration..."
+  # Configure AVideo Encoder
+  cd /var/www/html/AVideo && git config --global advice.detachedHead false && git clone https://github.com/WWBN/AVideo-Encoder.git Encoder
+fi
+
+if [ -d /var/www/html/AVideo/Encoder/videos ]; then
+  echo "Using existing Encoder videos..."
+else
+  echo "Create new  Encoder videos..."
+  # Configure AVideo Encoder
+  mkdir -p /var/www/html/AVideo/Encoder/videos && chown www-data:www-data /var/www/html/AVideo/Encoder/videos && chmod 777 /var/www/html/AVideo/Encoder/videos
+fi
+
+echo "Checking configuration..."
+cd /var/www/html/AVideo/install/
+php ./cli.php
+cd /var/www/html/AVideo/
+
+echo "lets encrypt apache ${SERVER_NAME}"
+certbot --apache --non-interactive --agree-tos --register-unsafely-without-email --redirect --keep-until-expiring -d ${SERVER_NAME}
+
+/etc/init.d/apache2 stop
+
+if [ -f /usr/local/nginx/sbin/nginx ]; then
+  /usr/local/nginx/sbin/nginx -s stop
+  echo "lets encrypt nginx ${SERVER_NAME}"
+  apt-get install -y --no-install-recommends python3-certbot-nginx
+  mv /usr/sbin/nginx /usr/sbin/nginx.old && cp /usr/local/nginx/sbin/nginx /usr/sbin/nginx
+  mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old && cp /usr/local/nginx/conf/nginx.conf /etc/nginx/nginx.conf
+  certbot --nginx --non-interactive --agree-tos --nginx-server-root /usr/local/nginx/conf --no-redirect --register-unsafely-without-email --keep-until-expiring -d $SERVER_NAME
+  sed -i 's/listen 443 ssl/listen 8443 ssl/g' /usr/local/nginx/conf/nginx.conf
+  echo "nginx start"
+  /usr/local/nginx/sbin/nginx -s stop && sleep 3 && /usr/local/nginx/sbin/nginx
+fi
+
+nohup php /var/www/html/AVideo/plugin/YPTSocket/server.php &
+echo "socket done"
+
+echo "Reset log"
+echo '' > /var/www/html/AVideo/videos/avideo.log
+chmod 777 /var/www/html/AVideo/videos/avideo.log
+
+echo "deny access to .compose"
+echo "Deny from all" > /var/www/html/AVideo/.compose/.htaccess
+
 apache2-foreground
+echo "apache2-foreground done"
+
+cd /var/www/html/AVideo/install && php updatedb.php && installPluginsTables.php 4
+cd /var/www/html/AVideo/Encoder/install && php reencodeAllVideos.php
+
 #eof

@@ -357,7 +357,17 @@ class PlayList extends ObjectYPT {
         return Video::getAllVideosLight("viewableNotUnlisted", false, false, true, 'serie');
 
     }
-
+    public static function getVideosIndexFromPlaylistLight($playlists_id, $videos_id) {
+        if(!empty($videos_id)){
+            $pl = self::getVideosIDFromPlaylistLight($playlists_id);
+            foreach ($pl as $key => $value) {
+                if($value['videos_id']==$videos_id){
+                    return $key;
+                }
+            }
+        }
+        return 0;
+    }
     public static function getVideosIDFromPlaylistLight($playlists_id) {
         global $global, $getVideosIDFromPlaylistLight;
 

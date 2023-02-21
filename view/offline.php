@@ -1,6 +1,6 @@
 <?php
 //require_once '../videos/configuration.php';
-$file = __DIR__ . DIRECTORY_SEPARATOR.'../plugin/VideoOffline/offlineVideo.php';
+$file = dirname(__FILE__) . DIRECTORY_SEPARATOR.'../plugin/VideoOffline/offlineVideo.php';
 error_log($file);
 $offlineFile = $file;
 if(file_exists($offlineFile)){

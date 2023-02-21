@@ -116,6 +116,18 @@ class VideoTags extends PluginAbstract {
     static function getAllVideosIdFromTagsId($tags_id) {
         return TagsHasVideos::getAllVideosIdFromTagsId($tags_id);
     }
+
+    static function getVideoIndexFromTagsId($tags_id, $videos_id) {
+        if(!empty($videos_id)){
+            $pl = self::getAllVideosFromTagsId($tags_id);
+            foreach ($pl as $key => $value) {
+                if($value['videos_id']==$videos_id){
+                    return $key;
+                }
+            }
+        }
+        return 0;
+    }
     
     static function getAllVideosFromTagsId($tags_id) {
         return TagsHasVideos::getAllVideosFromTagsId($tags_id);
@@ -216,7 +228,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         return $_isUserSubscribedTags[$users_id][$tags_id];
     }
     
-    public static function getButton($tags_id, $btnClass = 'btn-xs', $btnClassPrimary = 'btn-primary', $btnClassSuccess = 'btn-success', $btnClassDefault = 'btn-default'){
+    public static function getButton($tags_id, $videos_id = 0, $btnClass = 'btn-xs', $btnClassPrimary = 'btn-primary', $btnClassSuccess = 'btn-success', $btnClassDefault = 'btn-default'){
         if(empty($tags_id)){
             return '';
         }
@@ -235,7 +247,9 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         $playAllLink = '#';
         $playAllClass = 'hidden';
         if(AVideoPlugin::isEnabledByName('PlayLists')){
-            $playAllLink = PlayLists::getTagLink($tags_id, $embed = false, $playlist_index = null);
+            $playlist_index = self::getVideoIndexFromTagsId($tags_id, $videos_id);
+            //var_dump($videos_id,getVideos_id(), $playlist_index);exit;
+            $playAllLink = PlayLists::getTagLink($tags_id, false, $playlist_index);
             $playAllClass = '';
         }
         
@@ -248,7 +262,6 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
             $btnFile = $global['systemRootPath'] . 'plugin/VideoTags/subscribeBtn.html';
             $email = User::getMail();
             $subs = self::isUserSubscribed($users_id, $tags_id);
-
             if (!empty($subs)) {
                 if (!empty($subs['notify'])) {
                     $notify = 'notify';
@@ -378,7 +391,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
                 if($obj->disableTagsSubscriptions){
                     $strT .= self::getTagHTMLLink($value['tags_id'], $value['total']);
                 }else{
-                    $strT .= self::getButton($value['tags_id']);
+                    $strT .= self::getButton($value['tags_id'], $videos_id);
                 }
             }
             if (!empty($strT)) {
