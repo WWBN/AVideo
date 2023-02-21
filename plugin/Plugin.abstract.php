@@ -444,6 +444,8 @@ abstract class PluginAbstract {
                 } else {
                     $return['ready'][] = array('name' => $name, 'uuid' => $uuid);
                 }
+            }else{
+                _error_log("isReady Error on load plugin {$name}");
             }
         }
         return $return;
