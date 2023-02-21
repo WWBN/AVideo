@@ -300,7 +300,7 @@ class AVideoPlugin
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         if (!isset($pluginIsLoaded[$name]) && empty($forceReload)) {
             $pluginIsLoaded[$name] = false;
-            if (file_exists($loadPluginFile) && !class_exists($name)) {
+            if (file_exists($loadPluginFile) && ($name != 'Live' && !class_exists($name))) {
                 require_once $loadPluginFile;
                 if (class_exists($name)) {
                     $code = "\$p = new {$name}();";
