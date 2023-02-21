@@ -59,6 +59,7 @@ class WWBNIndex extends PluginAbstract
         global $global;
         // HAS ACCOUNT
         $authenticated_btn = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block" id="wwbnIndexAuthenticatedBtn"><i class="fas fa-user-check"></i>&nbsp; Authenticated</button>';
+        $authenticated_btn .= '<button type="button" class="btn btn-primary btn-sm btn-xs btn-block" id="wwbnIndexRefreshTokenBtn"><i class="fa fa-coins"></i>&nbsp; Refresh Token</button>';
 
         $WWBNIndexModel = new WWBNIndexModel();
         $object_data = $WWBNIndexModel->getPluginData()[0]['object_data'];
@@ -103,6 +104,7 @@ class WWBNIndex extends PluginAbstract
                 if ($getFeedStatus->indexed) { // INDEX - ALREADY ADDED IN PUBLISHER
                     if ($getFeedStatus->status == "active") {
                         $plugin_menu = $authenticated_btn;
+                        $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexInReviewBtn" style="display: none;"><i class="fas fa-video"></i>&nbsp; In Review</button>';
                         $plugin_menu .= '<button type="button" class="btn btn-danger btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexActiveBtn" style="display: none;"><i class="fas fa-video"></i>&nbsp; Index Inactive </button>';
                         $plugin_menu .= '<button type="button" class="btn btn-danger btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexUnindexBtn"><i class="fas fa-video"></i>&nbsp; Unindex</button>';
                     } else if ($getFeedStatus->status == "review") { // PENDING / In REVIEW
@@ -146,7 +148,6 @@ class WWBNIndex extends PluginAbstract
             $plugin_menu .= '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexVerifyBtn" style="display:none;"><i class="fas fa-envelope"></i>&nbsp; Verify Email</button>';
             $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAcctStatusBtn" style="display:none;"><i class="fas fa-user"></i>&nbsp; Pending Account</button>';
         }
-        $plugin_menu .= '<input type="hidden" name="abcdefghijklmnop">'; //wwbnCode
         return $plugin_menu;
     }
 
@@ -162,10 +163,20 @@ class WWBNIndex extends PluginAbstract
     public function getYouPortalUser($email = "")
     {
         $configuration = new Configuration();
+        $model = new WWBNIndexModel();
+
+        $plugin_data = $model->getPluginData();
+        $object_data = json_decode($plugin_data[0]['object_data']);
+
         $data = array(
             "apiName"   => "getUser",
-            "email"     => ($email != "") ? $email : $configuration->getContactEmail()
+            "email"     => ($email != "") ? $email : $configuration->getContactEmail(),
+            "avideo_id" => getPlatformId(),
         );
+        if (isset($object_data->yp_token) && $object_data->yp_token != "") {
+            $data['yp_token'] = $object_data->yp_token;
+        }
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://wwbn.com/api/function.php");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -181,12 +192,21 @@ class WWBNIndex extends PluginAbstract
     private function getFeedStatus($host) 
     {
         $configuration = new Configuration();
+        $model = new WWBNIndexModel();
+        
+        $plugin_data = $model->getPluginData();
+        $object_data = json_decode($plugin_data[0]['object_data']);
+
         $data = array(
             "apiName"       => "getFeedStatus",
             "avideo_id"     => getPlatformId(),
             "engine_name"   => $configuration->getWebSiteTitle(),
             "host"          => $host,
         );
+        if (isset($object_data->yp_token) && $object_data->yp_token != "") {
+            $data['yp_token'] = $object_data->yp_token;
+        }
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://wwbn.com/api/function.php");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

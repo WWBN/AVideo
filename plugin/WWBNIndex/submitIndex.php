@@ -1,5 +1,7 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once ($_POST['systemRootPath'] . "plugin/WWBNIndex/Objects/WWBNIndexModel.php");
 $wwbnIndexModel = new WWBNIndexModel();
 
@@ -100,7 +102,17 @@ if (curl_errno($ch)) {
 curl_close ($ch);
 if (isset($response->error) && $response->error == false) {
     $object_data = array(
-        "engine_name" => $response->engine_name
+        "engine_name"   => $response->engine_name,
+        "organic"       => true,
+        "yp_token"      => $response->token
     );
-    $save = $wwbnIndexModel->saveObjectData(json_encode($object_data));
+    error_log("Installation: ".__LINE__);
+    $sql = "INSERT INTO `plugins` VALUES (NULL, 'WWBNIndex', 'active', now(), now(), '".json_encode($object_data)."', 'WWBNIndex', 'WWBNIndex', '1.0');";
+    try {
+        $mysqli->query($sql);
+    } catch (Exception $exc) {
+        $obj->error = "Error creating WWBNIndex plugin data: " . $mysqli->error;
+        echo json_encode($obj);
+    }
+    $mysqli->close();
 }

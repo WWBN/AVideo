@@ -3,7 +3,6 @@ var expireInterval, expireDownInterval, resendInterval, resendCountDownInterval;
 $(document).on("submit", "#verifyEmailForm", function (e) {
     e.preventDefault();
     var code = $(this).find("input[name=code]").val().trim();
-    var xxxxx = grid.find("input[name=abcdefghijklmnop]").val();
     var expire = parseInt($(this).find("input[name=expireTime]").val());
     if (code == "") {
         swal("Required Field", "Code is required.", "info");
@@ -13,47 +12,43 @@ $(document).on("submit", "#verifyEmailForm", function (e) {
     if (expire == 0) {
         swal("Code Expired", "Please try another code for verification", "info");
     } else {
-        if (code == xxxxx) {
-            $.ajax({
-                url: "<?= $global['webSiteRootURL'] ?>plugin/WWBNIndex/ajax.php",
-                type: "POST",
-                data: {action: "submitVerificationCode"},
-                dataType : 'json',
-                beforeSend: function() {
-                    modal.showPleaseWait();
-                },
-                success: function (response) {
-                    // console.log("submitVerificationCode")
-                    // console.log(response)
-                    modal.hidePleaseWait();
-                    if (response) {
-                        if (response.error) {
-                            swal(response.title, response.message, "error");
-                        } else {
-                            // 
-                            clearInterval(resendInterval);
-                            clearInterval(resendCountDownInterval);
-                            clearInterval(expireInterval);
-                            clearInterval(expireDownInterval);
-
-                            $("#wwbnIndexAuthBtn").css("display", "none");
-                            $("#wwbnIndexVerifyBtn").css("display", "none");
-                            $("#wwbnIndexAcctStatusBtn").css("display", "block");
-
-                            swal(response.title, response.message, "success");
-                            $("#verifyEmailModal").modal("hide");
-                        }
+        $.ajax({
+            url: "<?= $global['webSiteRootURL'] ?>plugin/WWBNIndex/ajax.php",
+            type: "POST",
+            data: {action: "submitVerificationCode", otp: code},
+            dataType : 'json',
+            beforeSend: function() {
+                modal.showPleaseWait();
+            },
+            success: function (response) {
+                // console.log("submitVerificationCode")
+                // console.log(response)
+                modal.hidePleaseWait();
+                if (response) {
+                    if (response.error) {
+                        swal(response.title, response.message, "error");
                     } else {
-                        swal("Error", "Ops! Something went wrong", "error");
+                        // 
+                        clearInterval(resendInterval);
+                        clearInterval(resendCountDownInterval);
+                        clearInterval(expireInterval);
+                        clearInterval(expireDownInterval);
+
+                        $("#wwbnIndexAuthBtn").css("display", "none");
+                        $("#wwbnIndexVerifyBtn").css("display", "none");
+                        $("#wwbnIndexAcctStatusBtn").css("display", "block");
+
+                        swal(response.title, response.message, "success");
+                        $("#verifyEmailModal").modal("hide");
                     }
-                }, 
-                error: function(err) {
-                    console.log(err)
+                } else {
+                    swal("Error", "Ops! Something went wrong", "error");
                 }
-            });
-        } else {
-            swal("Code not match", "Please enter the correct code for verification.", "info");
-        }
+            }, 
+            error: function(err) {
+                console.log(err)
+            }
+        });
     }
 });
 
@@ -106,7 +101,6 @@ function resendCodeAjax(resend = false) {
                     clearInterval(expireInterval);
                     $("#verifyEmailModal").modal({ backdrop: "static", keyboard: false });
                     var resendTime = $("#verifyEmailForm").find("input[name=resendTime]");
-                    grid.find("input[name=abcdefghijklmnop]").val(response.data.otp); 
                     var expireTime = $("#verifyEmailForm").find("input[name=expireTime]");
                     if (resend) {
                         $("#resendCodeDisplay").css("display", "block");
@@ -170,7 +164,6 @@ grid.find("#wwbnIndexAuthBtn").on("click", function (e) {
                 } else {
                     $("#wwbnIndexVerifyBtn").css("display", "block");
                     $("#wwbnIndexAuthBtn").css("display", "none");
-                    grid.find("input[name=abcdefghijklmnop]").val(response.data.otp);
                     var expireTime = $("#verifyEmailForm").find("input[name=expireTime]");
                     var resendTime = $("#verifyEmailForm").find("input[name=resendTime]");
                     expireTime.val(300); // 5mins
@@ -461,8 +454,6 @@ grid.find("#wwbnIndexIndexUnindexBtn").on("click", function (e) {
                     }
                 }
             });
-        } else {
-            swal("Error", "Ops! Something went wrong - unIndex", "error");
         }
     });
 });
@@ -478,4 +469,44 @@ grid.find("#wwbnIndexErrorBtn").on("click", function (e) {
     var title = $(this).data("title");
     var message = $(this).data("message");
     swal(title, message, "error");
+});
+
+
+grid.find("#wwbnIndexRefreshTokenBtn").on("click", function (e) {
+    e.preventDefault();
+    swal({
+        title: "Refresh Token",
+        text: "This will change the current token",
+        icon: "warning",
+        buttons: {
+            cancel : "Cancel",
+            confirm : {text: 'Confirm'}
+        },
+        dangerMode: true
+    })
+    .then((submit) => {
+        if (submit) {
+            $.ajax({
+                url: "<?= $global['webSiteRootURL'] ?>plugin/WWBNIndex/ajax.php",
+                type: "POST",
+                data: {action: "refreshToken"},
+                dataType : 'json',
+                beforeSend: function() {
+                    modal.showPleaseWait();
+                },
+                success: function (response) {
+                    modal.hidePleaseWait();
+                    if (response) {
+                        if (response.error) {
+                            swal(response.title, response.message, "error");
+                        } else {
+                            swal(response.title, response.message, "success");
+                        }
+                    } else {
+                        swal("Error", "Ops! Something went wrong", "error");
+                    }
+                }
+            });
+        }
+    });
 });
