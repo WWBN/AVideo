@@ -243,7 +243,7 @@ class Plugin extends ObjectYPT
                         $p = AVideoPlugin::loadPlugin($value);
                         if (!is_object($p) || $p->hidePlugin()) {
                             if ($value !== "Statistics") { // avoid error while this plugin is not ready
-                                _error_log("Plugin Not Found: {$value}");
+                                _error_log("Plugin Not Found 1: {$value}");
                             }
                             continue;
                         }
@@ -292,7 +292,7 @@ class Plugin extends ObjectYPT
                         $p = AVideoPlugin::loadPlugin($value);
                         if (!is_object($p) || $p->hidePlugin()) {
                             if ($value !== "Statistics") { // avoid error while this plugin is not ready
-                                _error_log("Plugin Not Found: {$value}");
+                                _error_log("Plugin Not Found 2: {$value}");
                             }
                             continue;
                         }
