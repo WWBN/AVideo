@@ -129,10 +129,14 @@ chmod 777 /var/www/html/AVideo/videos/avideo.log
 echo "deny access to .compose"
 echo "Deny from all" > /var/www/html/AVideo/.compose/.htaccess
 
+cd /var/www/html/AVideo/install && php updatedb.php
+cd /var/www/html/AVideo/Encoder/install && php reencodeAllVideos.php
+
+echo "crontab starting"
+cron
+
 apache2-foreground
 echo "apache2-foreground done"
 
-cd /var/www/html/AVideo/install && php updatedb.php && installPluginsTables.php 4
-cd /var/www/html/AVideo/Encoder/install && php reencodeAllVideos.php
 
 #eof

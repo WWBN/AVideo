@@ -6,9 +6,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 require_once $global['systemRootPath'] . 'plugin/Scheduler/Objects/Scheduler_commands.php';
 
-class Scheduler extends PluginAbstract {
+class Scheduler extends PluginAbstract
+{
 
-    public function getDescription() {
+    public function getDescription()
+    {
         global $global;
         $desc = "Scheduler Plugin";
         if (!_isSchedulerPresentOnCrontab()) {
@@ -17,23 +19,29 @@ class Scheduler extends PluginAbstract {
             $desc .= "</strong>";
             $desc .= "<br>Open a terminal and type <code>crontab -e</code> than add a crontab for every 1 minute<br><code>* * * * * php {$global['systemRootPath']}plugin/Scheduler/run.php</code>";
         }
+        $desc .= '<br>';
+        $desc .= getIncludeFileContent($global['systemRootPath'].'plugin/Scheduler/View/activeLabel.php');
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
         return $desc;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return "Scheduler";
     }
 
-    public function getUUID() {
+    public function getUUID()
+    {
         return "Scheduler-5ee8405eaaa16";
     }
 
-    public function getPluginVersion() {
+    public function getPluginVersion()
+    {
         return "4.2";
     }
 
-    public function updateScript() {
+    public function updateScript()
+    {
         global $global;
         if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV2.0.sql');
@@ -66,7 +74,8 @@ class Scheduler extends PluginAbstract {
         return true;
     }
 
-    public function getEmptyDataObject() {
+    public function getEmptyDataObject()
+    {
         $obj = new stdClass();
         /*
           $obj->textSample = "text";
@@ -86,25 +95,34 @@ class Scheduler extends PluginAbstract {
         return $obj;
     }
 
-    public function getPluginMenu() {
+    public function getPluginMenu()
+    {
         global $global;
         $btn = '<button onclick="avideoModalIframeLarge(webSiteRootURL+\'plugin/Scheduler/View/editor.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';
         $btn .= '<button onclick="avideoModalIframeLarge(webSiteRootURL+\'plugin/Scheduler/run.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-terminal"></i> Run now</button>';
         return $btn;
     }
 
-    static public function run($scheduler_commands_id) {
+    static public function run($scheduler_commands_id)
+    {
         global $_executeSchelude, $global;
+        _error_log("Scheduler::run {$scheduler_commands_id}");
         if (!isset($_executeSchelude)) {
             $_executeSchelude = array();
         }
-        $e = new Scheduler_commands($scheduler_commands_id);        
-        
+        $e = new Scheduler_commands($scheduler_commands_id);
+
         $videos_id = $e->getVideos_id();
-        if(!empty($videos_id)){ // make it active
-            self::releaseVideosNow($videos_id);
+        if (!empty($videos_id)) { // make it active
+            $response = self::releaseVideosNow($videos_id);
+            if(!$response){
+                _error_log("Scheduler::run error on release video {$videos_id} ");
+                return false;
+            }else{
+                return $e->setExecuted(array('videos_id'=>$videos_id, 'response'=>$response));
+            }
         }
-        
+
         $callBackURL = $e->getCallbackURL();
         $callBackURL = str_replace('{webSiteRootURL}', $global['webSiteRootURL'], $callBackURL);
         if (!isValidURL($callBackURL)) {
@@ -128,11 +146,13 @@ class Scheduler extends PluginAbstract {
         return false;
     }
 
-    static function isActiveFromVideosId($videos_id){
+    static function isActiveFromVideosId($videos_id)
+    {
         return Scheduler_commands::isActiveFromVideosId($videos_id);;
     }
-    
-    static public function addVideoToRelease($date_to_execute, $videos_id) {
+
+    static public function addVideoToRelease($date_to_execute, $videos_id)
+    {
         _error_log("Scheduler::addVideoToRelease [$date_to_execute] [$videos_id]");
         if (empty($date_to_execute)) {
             _error_log("Scheduler::addVideoToRelease ERROR date_to_execute is empty");
@@ -150,21 +170,22 @@ class Scheduler extends PluginAbstract {
             _error_log("Scheduler::addVideoToRelease ERROR videos_id is empty");
             return false;
         }
-        
+
         $id = 0;
         $row = Scheduler_commands::getFromVideosId($videos_id);
-        if(!empty($row)){
+        if (!empty($row)) {
             $id = $row['id'];
         }
-        
+
         $e = new Scheduler_commands($id);
         $e->setDate_to_execute($date_to_execute);
         $e->setVideos_id($videos_id);
-        
+
         return $e->save();
     }
-    
-    static public function add($date_to_execute, $callbackURL, $parameters = '', $type = '') {
+
+    static public function add($date_to_execute, $callbackURL, $parameters = '', $type = '')
+    {
         _error_log("Scheduler::add [$date_to_execute] [$callbackURL]");
         if (empty($date_to_execute)) {
             _error_log("Scheduler::add ERROR date_to_execute is empty");
@@ -194,7 +215,8 @@ class Scheduler extends PluginAbstract {
         return $e->save();
     }
 
-    static public function addSendEmail($date_to_execute, $emailTo, $emailSubject, $emailEmailBody, $emailFrom = '', $emailFromName = '', $type = '') {
+    static public function addSendEmail($date_to_execute, $emailTo, $emailSubject, $emailEmailBody, $emailFrom = '', $emailFromName = '', $type = '')
+    {
         global $global;
         $parameters = array(
             'emailSubject' => $emailSubject,
@@ -214,26 +236,35 @@ class Scheduler extends PluginAbstract {
         return $scheduler_commands_id;
     }
 
-    static public function getReminderOptions($destinationURL, $title, $date_start, $selectedEarlierOptions = array(), $date_end = '', $joinURL='', $description='',$earlierOptions = array(
-                '10 minutes earlier' => 10,
-                '30 minutes earlier' => 30,
-                '1 hour earlier' => 60,
-                '2 hours earlier' => 120,
-                '1 day earlier' => 1440,
-                '2 days earlier' => 2880,
-                '1 week earlier' => 10080
-            )
+    static public function getReminderOptions(
+        $destinationURL,
+        $title,
+        $date_start,
+        $selectedEarlierOptions = array(),
+        $date_end = '',
+        $joinURL = '',
+        $description = '',
+        $earlierOptions = array(
+            '10 minutes earlier' => 10,
+            '30 minutes earlier' => 30,
+            '1 hour earlier' => 60,
+            '2 hours earlier' => 120,
+            '1 day earlier' => 1440,
+            '2 days earlier' => 2880,
+            '1 week earlier' => 10080
+        )
     ) {
         global $global;
         $varsArray = array(
-            'destinationURL' => $destinationURL, 
-            'title' => $title, 
-            'date_start' => $date_start, 
-            'selectedEarlierOptions' => $selectedEarlierOptions, 
-            'date_end' => $date_end, 
-            'joinURL' => $joinURL, 
+            'destinationURL' => $destinationURL,
+            'title' => $title,
+            'date_start' => $date_start,
+            'selectedEarlierOptions' => $selectedEarlierOptions,
+            'date_end' => $date_end,
+            'joinURL' => $joinURL,
             'description' => $description,
-            'earlierOptions' => $earlierOptions);
+            'earlierOptions' => $earlierOptions
+        );
         $filePath = "{$global['systemRootPath']}plugin/Scheduler/reminderOptions.php";
         return getIncludeFileContent($filePath, $varsArray);
     }
@@ -253,43 +284,44 @@ class Scheduler extends PluginAbstract {
         summary - string short summary of the event - usually used as the title.
         url - string url to attach to the the event. Make sure to add the protocol (http:// or https://).
      */
-    static public function downloadICS($title, $date_start, $date_end = '', $reminderInMinutes='', $joinURL='', $description='') {
-        global $global,$config;        
+    static public function downloadICS($title, $date_start, $date_end = '', $reminderInMinutes = '', $joinURL = '', $description = '')
+    {
+        global $global, $config;
         //var_dump(date_default_timezone_get());exit;
         header('Content-Type: text/calendar; charset=utf-8');
-        if(empty($_REQUEST['open'])){
+        if (empty($_REQUEST['open'])) {
             $ContentDisposition = 'attachment';
-        }else{
+        } else {
             $ContentDisposition = 'inline';
         }
-        
+
         $filename = cleanURLName("{$title}-{$date_start}");
-        
+
         header("Content-Disposition: {$ContentDisposition}; filename={$filename}.ics");
         $location = $config->getWebSiteTitle();
-        if(!isValidURL($joinURL)){
+        if (!isValidURL($joinURL)) {
             $joinURL = $global['webSiteRootURL'];
         }
-        
-        if(empty($description)){
+
+        if (empty($description)) {
             $description = $location;
         }
-        
+
         $date_start = _strtotime($date_start);
         $date_end = _strtotime($date_end);
-        
-        if(empty($date_end) || $date_end <= $date_start){
-            $date_end = strtotime(date('Y/m/d H:i:s', $date_start).' + 1 hour');
+
+        if (empty($date_end) || $date_end <= $date_start) {
+            $date_end = strtotime(date('Y/m/d H:i:s', $date_start) . ' + 1 hour');
         }
         $dtstart = date('Y/m/d H:i:s', $date_start);
         $dtend = date('Y/m/d H:i:s', $date_end);
         $reminderInMinutes = intval($reminderInMinutes);
-        if(!empty($reminderInMinutes)){
+        if (!empty($reminderInMinutes)) {
             $VALARM = "-P{$reminderInMinutes}M";
-        }else{
+        } else {
             $VALARM = '';
         }
-        
+
         $props = array(
             'location' => $location,
             'description' => $description,
@@ -303,93 +335,101 @@ class Scheduler extends PluginAbstract {
         $ics = new ICS($props);
         //var_dump($props);
         $icsString = $ics->to_string();
-        
-        header('content-length: '. strlen($icsString));
+
+        header('content-length: ' . strlen($icsString));
         echo $icsString;
     }
-    
-    
-    
-    public static function getManagerVideosAddNew() {
+
+
+
+    public static function getManagerVideosAddNew()
+    {
         global $global;
         $filename = $global['systemRootPath'] . 'plugin/Scheduler/getManagerVideosAddNew.js';
         return file_get_contents($filename);
     }
 
-    public static function getManagerVideosEdit() {
+    public static function getManagerVideosEdit()
+    {
         global $global;
         $filename = $global['systemRootPath'] . 'plugin/Scheduler/getManagerVideosEdit.js';
         return file_get_contents($filename);
     }
 
-    public static function getManagerVideosEditField($type='Advanced') {
+    public static function getManagerVideosEditField($type = 'Advanced')
+    {
         global $global;
-        if($type == 'Advanced'){
+        if ($type == 'Advanced') {
             include $global['systemRootPath'] . 'plugin/Scheduler/managerVideosEdit.php';
         }
         return '';
     }
 
-    public static function releaseVideosNow($videos_id) {  
-        if(empty($videos_id)){
+    public static function releaseVideosNow($videos_id)
+    {
+        if (empty($videos_id)) {
             return false;
         }
-        if (!Video::canEdit($videos_id) || isCommandLineInterface()) {
+        if (!Video::canEdit($videos_id) && !isCommandLineInterface()) {
             return false;
         }
-        
+
         $video = new Video('', '', $videos_id);
         $row = Scheduler_commands::getFromVideosId($videos_id);
-        if(!empty($row)){
-            $e = new Scheduler_commands($row['id']); 
+        if (!empty($row)) {
+            $e = new Scheduler_commands($row['id']);
             $e->setExecuted($videos_id);
-        }       
-        
+        }
+
         $status = $video->setStatus(Video::$statusActive);
         AVideoPlugin::onNewVideo($videos_id);
         return true;
     }
-    
-    public static function saveVideosAddNew($post, $videos_id) {    
+
+    public static function saveVideosAddNew($post, $videos_id)
+    {
         return self::addNewVideoToRelease($videos_id, @$post['releaseDate'], @$post['releaseDateTime']);
     }
-    
-    public function afterNewVideo($videos_id) {
+
+    public function afterNewVideo($videos_id)
+    {
         return self::addNewVideoToRelease($videos_id, @$_REQUEST['releaseDate'], @$_REQUEST['releaseDateTime']);
     }
-    
-    public static function addNewVideoToRelease($videos_id, $releaseDate, $releaseDateTime='') {        
-        if(!empty($releaseDate)){
-            if($releaseDate !== 'now'){
-                if($releaseDate == 'in-1-hour'){
+
+    public static function addNewVideoToRelease($videos_id, $releaseDate, $releaseDateTime = '')
+    {
+        if (!empty($releaseDate)) {
+            if ($releaseDate !== 'now') {
+                if ($releaseDate == 'in-1-hour') {
                     $releaseTime = strtotime('+1 hour');
-                }else if(!empty($releaseDateTime)){
+                } else if (!empty($releaseDateTime)) {
                     $releaseTime = _strtotime($releaseDateTime);
-                }else{
+                } else {
                     $releaseTime = _strtotime($releaseDate);
                 }
                 $video = new Video('', '', $videos_id);
-                if($releaseTime>time()){
+                if ($releaseTime > time()) {
                     $releaseDateTime = date('Y-m-d H:i:s', $releaseTime);
                     $video->setStatus(Video::$statusScheduledReleaseDate);
                     self::setReleaseDateTime($videos_id, $releaseDateTime);
                     self::addVideoToRelease($releaseDateTime, $videos_id);
                     return true;
-                }else if($video->getStatus() == Video::$statusScheduledReleaseDate){
+                } else if ($video->getStatus() == Video::$statusScheduledReleaseDate) {
                     self::releaseVideosNow($videos_id);
                 }
             }
         }
         return false;
     }
-    
-    public static function setReleaseDateTime($videos_id, $releaseDateTime) {
+
+    public static function setReleaseDateTime($videos_id, $releaseDateTime)
+    {
         if (!Video::canEdit($videos_id)) {
             return false;
         }
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
-        if(empty($externalOptions)){
+        if (empty($externalOptions)) {
             $externalOptions = new stdClass();
         }
         $externalOptions->releaseDateTime = $releaseDateTime;
@@ -397,11 +437,48 @@ class Scheduler extends PluginAbstract {
         return $video->save();
     }
 
-    public static function getReleaseDateTime($videos_id) {
+    public static function getReleaseDateTime($videos_id)
+    {
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
         return @$externalOptions->releaseDateTime;
     }
-    
 
+    public static function getLastVisitFile()
+    {
+        $lastVisitFile = getVideosDir() . 'cache/schedulerLastVisit.log';
+        return $lastVisitFile;
+    }
+
+    public static function setLastVisit()
+    {
+        $lastVisitFile = self::getLastVisitFile();
+        if(_file_put_contents($lastVisitFile, time())){
+            return $lastVisitFile;
+        }else{
+            return false;
+        }
+    }
+
+    public static function getLastVisit()
+    {
+        $lastVisitFile = self::getLastVisitFile();
+        if (!file_exists($lastVisitFile)) {
+            return 0;
+        }
+        return file_get_contents($lastVisitFile);
+    }
+
+    public static function isActive()
+    {
+        $lastVisitTime = self::getLastVisit();
+        if (empty($lastVisitTime)) {
+            return false;
+        }
+
+        $TwoMinutes = 120;
+
+        $result = $lastVisitTime + $TwoMinutes - time();
+        return $result > 0;
+    }
 }

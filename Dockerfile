@@ -35,7 +35,7 @@ RUN apt update
 
 # Install dependencies
 RUN apt-get update -y && apt-get upgrade -y \
-      && apt install -y --no-install-recommends dos2unix bash-completion lsof cron rsync ca-certificates apt-transport-https software-properties-common curl \
+      && apt install -y --no-install-recommends dos2unix bash-completion lsof rsyslog cron rsync ca-certificates apt-transport-https software-properties-common curl \
       && curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp \
       && chmod a+rx /usr/local/bin/yt-dlp \
       && apt install -y --no-install-recommends sshpass nano net-tools curl apache2 php8.1 libapache2-mod-php8.1 php8.1-mysql php8.1-sqlite3 php8.1-curl php8.1-gd php8.1-intl \
@@ -70,7 +70,11 @@ RUN mkdir ~/build \
 COPY deploy/nginx/nginx.conf /usr/local/nginx/conf/nginx.conf
 
 COPY deploy/crontab /etc/cron.d/crontab
+RUN dos2unix /etc/cron.d/crontab
 RUN chmod 0644 /etc/cron.d/crontab
+RUN chmod +x /etc/cron.d/crontab
+RUN service cron start
+RUN crontab /etc/cron.d/crontab
 
 # Configure AVideo
 RUN dos2unix /usr/local/bin/docker-entrypoint && \

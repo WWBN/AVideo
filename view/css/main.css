@@ -389,12 +389,6 @@ footer ul.list-inline li {
 	border-color: transparent !important;
 }
 
-.no-outline:focus,
-.no-outline:active,
-.no-outline:hover {
-    /*color: #000;*/;
-}
-
 #showMore {
 	padding: 20px;
 	margin: 10px;
@@ -1163,6 +1157,10 @@ li.dropdown-submenu > ul > li > a {
 
 .glowText {
 	animation: socketGlow 1s infinite alternate;
+}
+
+.glowTextBlue {
+	animation: socketGlowBlue 1s infinite alternate;
 }
 
 .glowBox {

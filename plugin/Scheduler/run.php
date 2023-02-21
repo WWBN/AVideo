@@ -33,8 +33,14 @@ foreach ($rows2 as $value) {
     _log("getAllScheduledTORepeat run ". json_encode($value)); 
     $id = Scheduler::run($value['id']);
     if(empty($id)){
-        _log("error [{$value['id']}] callbackURL={$value['callbackURL']}"); 
+        _log("error [{$value['id']}] callbackURL={$value['callbackURL']} ".json_encode($value)); 
     }
+}
+
+if($lastVisitFile = Scheduler::setLastVisit()){
+    _error_log("Last visit set {$lastVisitFile}");
+}else{
+    _error_log('ERROR: Last visit NOT set');
 }
 
 function _log($msg){
