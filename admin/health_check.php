@@ -174,6 +174,12 @@ if (empty($verified)) {
      *
      */
 }
+
+if(Scheduler::isActive()){
+    $messages['Server'][] = "Scheduler plugin crontab is runing";
+}else{
+    $messages['Server'][] = ["Scheduler plugin crontab is NOT runing", Scheduler::getCronHelp()];
+}
 ?>
 <style>
     #healthCheck .alert{

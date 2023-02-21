@@ -15,13 +15,19 @@ class Scheduler extends PluginAbstract
         $desc = "Scheduler Plugin";
         if (!_isSchedulerPresentOnCrontab()) {
             $desc = "<strong onclick='tooglePluginDescription(this);'>";
-            $desc .= "To use the Scheduler Plugin, you MUST add it on your crontab";
-            $desc .= "</strong>";
-            $desc .= "<br>Open a terminal and type <code>crontab -e</code> than add a crontab for every 1 minute<br><code>* * * * * php {$global['systemRootPath']}plugin/Scheduler/run.php</code>";
+            $desc .= self::getCronHelp();
         }
         $desc .= '<br>';
         $desc .= getIncludeFileContent($global['systemRootPath'].'plugin/Scheduler/View/activeLabel.php');
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
+        return $desc;
+    }
+
+    static function getCronHelp(){
+        global $global;
+        $desc = "To use the Scheduler Plugin, you MUST add it on your crontab";
+        $desc .= "</strong>";
+        $desc .= "<br>Open a terminal and type <code>crontab -e</code> than add a crontab for every 1 minute<br><code>* * * * * php {$global['systemRootPath']}plugin/Scheduler/run.php</code>";
         return $desc;
     }
 
