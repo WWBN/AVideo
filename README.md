@@ -5,16 +5,13 @@ I thank God for graciously, through His mercy, giving me all the necessary knowl
 **For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
 `Apostle Paul in Romans 11:36`
 
-## Agreement on the Purpose of Software Installation
-
-This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.
-
 <center>
     <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
 </center>
 
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg?style=flat-square)](https://php.net/)
-[![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
+## Agreement on the Purpose of Software Installation
+
+This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.
 
 # Demonstration Sites
 
@@ -36,6 +33,9 @@ There may be several reasons why you may consider installing the encoder, such a
 Additionally, if your server is on a private network and does not have a public IP address, or if it uses an IP address within the 10.0.0.0/8, 127.0.0.0/8 (Localhost), 172.16.0.0/12, or 192.168.0.0/16 range, it is mandatory to install an encoder in order for it to properly communicate with the streamer site.
 
 # Server Requirements
+
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg?style=flat-square)](https://php.net/)
+[![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
 
 To run the AVideo Platform, it is necessary to have certain tools installed on your server. Fortunately, all of these tools are available for free. For a comprehensive list of the required tools, please refer to the following link: https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Hardware-Requirements.
 
