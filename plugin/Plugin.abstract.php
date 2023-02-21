@@ -437,11 +437,13 @@ abstract class PluginAbstract {
         $return = array('ready' => array(), 'missing' => array());
         foreach ($pluginsList as $name) {
             $plugin = AVideoPlugin::loadPlugin($name);
-            $uuid = $plugin->getUUID();
-            if (!AVideoPlugin::isEnabled($uuid)) {
-                $return['missing'][] = array('name' => $name, 'uuid' => $uuid);
-            } else {
-                $return['ready'][] = array('name' => $name, 'uuid' => $uuid);
+            if(!empty($plugin)){
+                $uuid = $plugin->getUUID();
+                if (!AVideoPlugin::isEnabled($uuid)) {
+                    $return['missing'][] = array('name' => $name, 'uuid' => $uuid);
+                } else {
+                    $return['ready'][] = array('name' => $name, 'uuid' => $uuid);
+                }
             }
         }
         return $return;
