@@ -301,8 +301,11 @@ class AVideoPlugin
         if (!isset($pluginIsLoaded[$name]) && empty($forceReload)) {
             $pluginIsLoaded[$name] = false;
             $fexists = file_exists($loadPluginFile);
-            if ($fexists && !class_exists($name)) {
-                require_once $loadPluginFile;
+            if ($fexists) {
+                if(!class_exists($name)){
+                    require_once $loadPluginFile;
+                }
+                
                 $code = "\$p = new {$name}();";
                 eval($code);
                 if (is_object($p)) {
@@ -312,13 +315,6 @@ class AVideoPlugin
                 }
             }else if(!$fexists && $name=='Live'){
                 _error_log("loadPlugin($name) Error file not exists {$loadPluginFile}", AVideoLog::$ERROR);
-            }
-        }else {
-            if ($name == 'Live' && !isset($pluginIsLoaded[$name])) {
-                _error_log("loadPlugin($name) empty pluginIsLoaded", AVideoLog::$ERROR);
-                if(!$forceReload){
-                    return self::loadPlugin($name, true);
-                }
             }
         }
         return $pluginIsLoaded[$name];
