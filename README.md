@@ -58,6 +58,7 @@ In summary, you will need:
 - [Ubuntu 18.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-18.x-for-AVideo-Platform-version-4.x-or-newer)
 - [Ubuntu 20.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-20.x-for-AVideo-Platform-version-11.x-or-newer)
 - [Ubuntu 22.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-22.x-for-AVideo-Platform-version-11.x-or-newer)
+- [Docker](https://github.com/WWBN/AVideo/wiki/Running-AVideo-with-Docker)
 
 ## Separated live server
 
@@ -83,8 +84,4 @@ For assistance with installation, consultin or plugins, our team of certified AV
 
 <a href="https://play.google.com/store/apps/details?id=platform.avideo.com">Android</a>
 
-# Docker
 
-We've created a docker compose environment for easy development and production.
-
-https://github.com/WWBN/AVideo/wiki/Running-AVideo-with-Docker
