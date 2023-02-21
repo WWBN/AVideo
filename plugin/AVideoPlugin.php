@@ -295,7 +295,7 @@ class AVideoPlugin
         if (empty($pluginIsLoaded)) {
             $pluginIsLoaded = [];
         }
-        $name = preg_replace('/[^0-9a-z_]/i', '', $name);
+        $name = trim(preg_replace('/[^0-9a-z_]/i', '', $name));
         $loadPluginFile = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         if (!isset($pluginIsLoaded[$name]) && empty($forceReload)) {
