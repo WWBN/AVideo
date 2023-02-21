@@ -310,7 +310,7 @@ class AVideoPlugin
                 } else {
                     _error_log("[loadPlugin] eval failed for plugin ($name) code ($code) code result ($codeResult) included file $loadPluginFile", AVideoLog::$ERROR);
                 }
-            }else if(!$fexists){
+            }else if(!$fexists && $name=='Live'){
                 _error_log("loadPlugin($name) Error file not exists {$loadPluginFile}", AVideoLog::$ERROR);
             }
         }
