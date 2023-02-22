@@ -124,6 +124,9 @@ cron
 bash
 source /etc/bash_completion
 
+sleep 5
+
+echo "apache2-foreground start"
 apache2-foreground
 echo "apache2-foreground done"
 
