@@ -6,7 +6,7 @@ use phpseclib3\Crypt\RSA\Formats\Keys\PKCS1;
 //require_once dirname(__FILE__).'/../../../objects/singpolyma/openpgp-php/lib/openpgp.php';
 //require_once dirname(__FILE__).'/../../../objects/singpolyma/openpgp-php/lib/openpgp_crypt_rsa.php';
 error_reporting(0);
-//error_reporting(E_ALL);
+error_reporting(E_ALL);
 
 function createKeys($UserIDPacket = 'Test <test@example.com>', $password = ''){
     /*
