@@ -35,6 +35,10 @@ class AppsDynamiteStorageAction extends \Google\Collection
   protected $parametersType = AppsDynamiteStorageActionActionParameter::class;
   protected $parametersDataType = 'array';
   public $parameters;
+  /**
+   * @var bool
+   */
+  public $persistValues;
 
   /**
    * @param string
@@ -91,6 +95,20 @@ class AppsDynamiteStorageAction extends \Google\Collection
   public function getParameters()
   {
     return $this->parameters;
+  }
+  /**
+   * @param bool
+   */
+  public function setPersistValues($persistValues)
+  {
+    $this->persistValues = $persistValues;
+  }
+  /**
+   * @return bool
+   */
+  public function getPersistValues()
+  {
+    return $this->persistValues;
   }
 }
 

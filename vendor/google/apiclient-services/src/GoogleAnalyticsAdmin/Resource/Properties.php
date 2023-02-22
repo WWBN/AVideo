@@ -36,7 +36,7 @@ class Properties extends \Google\Service\Resource
   /**
    * Acknowledges the terms of user data collection for the specified property.
    * This acknowledgement must be completed (either in the Google Analytics UI or
-   * via this API) before MeasurementProtocolSecret resources may be created.
+   * through this API) before MeasurementProtocolSecret resources may be created.
    * (properties.acknowledgeUserDataCollection)
    *
    * @param string $property Required. The property for which to acknowledge user

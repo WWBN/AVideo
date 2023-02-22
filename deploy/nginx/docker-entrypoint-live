@@ -1,0 +1,78 @@
+#!/bin/bash
+
+echo "Starting AVideo Live..."
+CONFIG_NGINX_FILE=/usr/local/nginx/conf/nginx.conf
+
+if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
+  echo "Generate Certificate..."
+  echo "Certificate file: ${TLS_CERTIFICATE_FILE}"
+  echo "Certificate key: ${TLS_CERTIFICATE_KEY}"
+
+  mkdir -p `dirname ${TLS_CERTIFICATE_FILE}`
+  mkdir -p `dirname ${TLS_CERTIFICATE_KEY}`
+  subjectAltName="IP:127.0.0.1,DNS:${SERVER_NAME}"
+  
+  CONFIG=""
+  CONFIG="${CONFIG}[dn]\n"
+  CONFIG="${CONFIG}C=NN\n"
+  CONFIG="${CONFIG}L=Earth\n"
+  CONFIG="${CONFIG}O=AVideo\n"
+  CONFIG="${CONFIG}OU=Development\n"
+  CONFIG="${CONFIG}CN=localhost\n"
+  CONFIG="${CONFIG}\n"
+  CONFIG="${CONFIG}[req]\n"
+  CONFIG="${CONFIG}distinguished_name=dn\n"
+  CONFIG="${CONFIG}\n"
+  CONFIG="${CONFIG}[EXT]\n"
+  CONFIG="${CONFIG}subjectAltName=${subjectAltName}\n"
+  CONFIG="${CONFIG}extendedKeyUsage=serverAuth\n"
+  CONFIG="${CONFIG}\n"
+  
+  openssl req -x509 \
+    -out ${TLS_CERTIFICATE_FILE} -keyout ${TLS_CERTIFICATE_KEY} \
+    -newkey rsa:4096 \
+    -nodes \
+    -sha256 \
+    -days 3650 \
+    -subj '/C=NN/L=Earth/O=avideo/OU=DEV/CN=localhost' \
+    -extensions EXT -config <( \
+      printf "${CONFIG}")
+  
+  echo "New Certificate config..."
+  openssl x509 -in ${TLS_CERTIFICATE_FILE} -noout -text || true
+fi
+
+sed -i 's#server_name localhost _#server_name localhost _ '${SERVER_NAME}'#' ${CONFIG_NGINX_FILE}
+
+echo "Configure Nginx..."
+sed -i 's#ssl_certificate /etc/apache2/ssl/localhost.crt#ssl_certificate '${TLS_CERTIFICATE_FILE}'#' ${CONFIG_NGINX_FILE}
+sed -i 's#ssl_certificate_key /etc/apache2/ssl/localhost.key#ssl_certificate_key '${TLS_CERTIFICATE_KEY}'#' ${CONFIG_NGINX_FILE}
+sed -i 's#listen 1935#listen '${NGINX_RTMP_PORT}'#' ${CONFIG_NGINX_FILE}
+sed -i 's#listen 8080#listen '${NGINX_HTTP_PORT}'#' ${CONFIG_NGINX_FILE}
+sed -i 's#listen 8443#listen '${NGINX_HTTPS_PORT}'#' ${CONFIG_NGINX_FILE}
+
+mkdir -p /etc/letsencrypt/live/localhost/
+
+cp ${TLS_CERTIFICATE_FILE} /etc/letsencrypt/live/localhost/fullchain.pem
+cp ${TLS_CERTIFICATE_KEY} /etc/letsencrypt/live/localhost/privkey.pem
+
+
+/usr/local/nginx/sbin/nginx -s stop
+echo "lets encrypt nginx ${SERVER_NAME}"
+mv /usr/sbin/nginx /usr/sbin/nginx.old && cp /usr/local/nginx/sbin/nginx /usr/sbin/nginx
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old && cp /usr/local/nginx/conf/nginx.conf /etc/nginx/nginx.conf
+certbot --nginx --non-interactive --agree-tos --nginx-server-root /usr/local/nginx/conf --no-redirect --register-unsafely-without-email --keep-until-expiring -d $SERVER_NAME
+sed -i 's/listen 443 ssl/listen 8443 ssl/g' /usr/local/nginx/conf/nginx.conf
+
+echo "crontab starting"
+cron
+
+bash
+source /etc/bash_completion
+
+#echo "nginx start"
+/usr/local/nginx/sbin/nginx -s stop
+/usr/local/nginx/sbin/nginx -g "daemon off;"
+#/usr/local/nginx/sbin/nginx -s stop && sleep 3 && /usr/local/nginx/sbin/nginx
+
+#eof

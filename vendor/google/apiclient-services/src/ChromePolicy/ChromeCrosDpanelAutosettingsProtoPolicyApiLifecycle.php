@@ -17,8 +17,13 @@
 
 namespace Google\Service\ChromePolicy;
 
-class ChromeCrosDpanelAutosettingsProtoPolicyApiLifecycle extends \Google\Model
+class ChromeCrosDpanelAutosettingsProtoPolicyApiLifecycle extends \Google\Collection
 {
+  protected $collection_key = 'deprecatedInFavorOf';
+  /**
+   * @var string[]
+   */
+  public $deprecatedInFavorOf;
   /**
    * @var string
    */
@@ -31,6 +36,20 @@ class ChromeCrosDpanelAutosettingsProtoPolicyApiLifecycle extends \Google\Model
    */
   public $policyApiLifecycleStage;
 
+  /**
+   * @param string[]
+   */
+  public function setDeprecatedInFavorOf($deprecatedInFavorOf)
+  {
+    $this->deprecatedInFavorOf = $deprecatedInFavorOf;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDeprecatedInFavorOf()
+  {
+    return $this->deprecatedInFavorOf;
+  }
   /**
    * @param string
    */

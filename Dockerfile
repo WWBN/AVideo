@@ -13,15 +13,15 @@ ARG DEBIAN_FRONTEND=noninteractive
 ARG SOCKET_PORT
 ARG HTTP_PORT
 ARG HTTPS_PORT
-ARG NGINX_RTMP_PORT
-ARG NGINX_HTTP_PORT
-ARG NGINX_HTTPS_PORT
 ARG DB_MYSQL_HOST
 ARG DB_MYSQL_PORT
 ARG DB_MYSQL_NAME
 ARG DB_MYSQL_USER
 ARG DB_MYSQL_PASSWORD
 ARG SERVER_NAME
+ARG ENABLE_PHPMYADMIN
+ARG PHPMYADMIN_PORT
+ARG PHPMYADMIN_ENCODER_PORT
 ARG CREATE_TLS_CERTIFICATE
 ARG TLS_CERTIFICATE_FILE
 ARG TLS_CERTIFICATE_KEY
@@ -48,28 +48,11 @@ RUN apt-get update -y && apt-get upgrade -y \
       && a2enmod headers  
 
 COPY deploy/apache/avideo.conf /etc/apache2/sites-enabled/000-default.conf
-COPY deploy/docker-entrypoint /usr/local/bin/docker-entrypoint
-COPY deploy/wait-for-db.php /usr/local/bin/wait-for-db.php
+COPY deploy/apache/docker-entrypoint /usr/local/bin/docker-entrypoint
+COPY deploy/apache/wait-for-db.php /usr/local/bin/wait-for-db.php
+#COPY deploy/apache/phpmyadmin.conf /etc/apache2/conf-available/phpmyadmin.conf
 
-# Install nginx
-RUN apt-get install build-essential libssl-dev libpcre3 libpcre3-dev wget -y \
-      && apt-get install --reinstall zlib1g zlib1g-dev -y \
-      && mkdir /var/www/tmp  && chmod -R 777 /var/www/tmp \
-      && mkdir /HLS && mkdir /HLS/live && chmod -R 777 /HLS
-
-RUN mkdir ~/build \
-      && cd ~/build \
-      && git clone https://github.com/arut/nginx-rtmp-module.git \
-      && git clone https://github.com/nginx/nginx.git \
-      && cd nginx \
-      && ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" \
-      && make \
-      && make install\
-      && cd /usr/local/nginx/html && wget https://youphp.tube/docs/stat.xsl    
-
-COPY deploy/nginx/nginx.conf /usr/local/nginx/conf/nginx.conf
-
-COPY deploy/crontab /etc/cron.d/crontab
+COPY deploy/apache/crontab /etc/cron.d/crontab
 RUN dos2unix /etc/cron.d/crontab
 RUN chmod 0644 /etc/cron.d/crontab
 RUN chmod +x /etc/cron.d/crontab
@@ -100,8 +83,8 @@ WORKDIR /var/www/html/AVideo/
 EXPOSE $SOCKET_PORT
 EXPOSE $HTTP_PORT
 EXPOSE $HTTPS_PORT
-EXPOSE $NGINX_RTMP_PORT
-EXPOSE $NGINX_HTTPS_PORT
+EXPOSE $PHPMYADMIN_PORT
+EXPOSE $PHPMYADMIN_ENCODER_PORT
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
 CMD ["apache2-foreground"]

@@ -20,6 +20,9 @@ namespace Google\Service\PaymentsResellerSubscription;
 class GoogleCloudPaymentsResellerSubscriptionV1SubscriptionLineItem extends \Google\Collection
 {
   protected $collection_key = 'lineItemPromotionSpecs';
+  protected $amountType = GoogleCloudPaymentsResellerSubscriptionV1Amount::class;
+  protected $amountDataType = '';
+  public $amount;
   /**
    * @var string
    */
@@ -50,6 +53,20 @@ class GoogleCloudPaymentsResellerSubscriptionV1SubscriptionLineItem extends \Goo
    */
   public $state;
 
+  /**
+   * @param GoogleCloudPaymentsResellerSubscriptionV1Amount
+   */
+  public function setAmount(GoogleCloudPaymentsResellerSubscriptionV1Amount $amount)
+  {
+    $this->amount = $amount;
+  }
+  /**
+   * @return GoogleCloudPaymentsResellerSubscriptionV1Amount
+   */
+  public function getAmount()
+  {
+    return $this->amount;
+  }
   /**
    * @param string
    */

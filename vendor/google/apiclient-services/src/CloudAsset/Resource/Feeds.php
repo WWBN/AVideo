@@ -40,7 +40,7 @@ class Feeds extends \Google\Service\Resource
    * @param string $parent Required. The name of the project/folder/organization
    * where this feed should be created in. It can only be an organization number
    * (such as "organizations/123"), a folder number (such as "folders/123"), a
-   * project ID (such as "projects/my-project-id")", or a project number (such as
+   * project ID (such as "projects/my-project-id"), or a project number (such as
    * "projects/12345").
    * @param CreateFeedRequest $postBody
    * @param array $optParams Optional parameters.

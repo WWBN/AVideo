@@ -4441,8 +4441,8 @@ function _session_start(array $options = []) {
 
 function _session_regenerate_id() {
     session_regenerate_id(true);
-    _resetcookie('PHPSESSID', session_id(), $expires);
-    _resetcookie(session_name(), session_id(), $expires);
+    _resetcookie('PHPSESSID', session_id());
+    _resetcookie(session_name(), session_id());
 }
 
 function debugMemmory($line) {
@@ -4568,7 +4568,11 @@ function _mysql_close() {
 function _mysql_is_open() {
     global $global, $mysql_connect_was_closed;
     try {
-
+        /**
+         *
+         * @var array $global
+         * @var object $global['mysqli']
+         */
         //if (is_object($global['mysqli']) && (empty($mysql_connect_was_closed) || !empty(@$global['mysqli']->ping()))) {
         if (!empty($global['mysqli']) && is_object($global['mysqli']) && empty($mysql_connect_was_closed) && isset($global['mysqli']->server_info) && is_resource($global['mysqli']) && get_resource_type($global['mysqli']) === 'mysql link') {
             return true;

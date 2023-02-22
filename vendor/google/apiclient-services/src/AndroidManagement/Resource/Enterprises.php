@@ -33,7 +33,7 @@ class Enterprises extends \Google\Service\Resource
 {
   /**
    * Creates an enterprise. This is the last step in the enterprise signup flow.
-   * (enterprises.create)
+   * See also: SigninDetail (enterprises.create)
    *
    * @param Enterprise $postBody
    * @param array $optParams Optional parameters.
@@ -120,7 +120,7 @@ class Enterprises extends \Google\Service\Resource
     return $this->call('list', [$params], ListEnterprisesResponse::class);
   }
   /**
-   * Updates an enterprise. (enterprises.patch)
+   * Updates an enterprise. See also: SigninDetail (enterprises.patch)
    *
    * @param string $name The name of the enterprise in the form
    * enterprises/{enterpriseId}.

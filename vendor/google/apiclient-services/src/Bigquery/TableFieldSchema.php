@@ -60,6 +60,10 @@ class TableFieldSchema extends \Google\Collection
   /**
    * @var string
    */
+  public $roundingMode;
+  /**
+   * @var string
+   */
   public $scale;
   /**
    * @var string
@@ -205,6 +209,20 @@ class TableFieldSchema extends \Google\Collection
   public function getPrecision()
   {
     return $this->precision;
+  }
+  /**
+   * @param string
+   */
+  public function setRoundingMode($roundingMode)
+  {
+    $this->roundingMode = $roundingMode;
+  }
+  /**
+   * @return string
+   */
+  public function getRoundingMode()
+  {
+    return $this->roundingMode;
   }
   /**
    * @param string

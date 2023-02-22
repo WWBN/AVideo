@@ -439,6 +439,7 @@ class Scheduler extends PluginAbstract
             $externalOptions = new stdClass();
         }
         $externalOptions->releaseDateTime = $releaseDateTime;
+        $externalOptions->releaseDateTimeZone = date_default_timezone_get();
         $video->setExternalOptions(json_encode($externalOptions));
         return $video->save();
     }
@@ -447,7 +448,8 @@ class Scheduler extends PluginAbstract
     {
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());
-        return @$externalOptions->releaseDateTime;
+
+        return convertDateFromToTimezone($externalOptions->releaseDateTime, $externalOptions->releaseDateTimeZone, date_default_timezone_get());
     }
 
     public static function getLastVisitFile()

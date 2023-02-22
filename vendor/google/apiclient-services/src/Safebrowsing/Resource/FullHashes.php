@@ -17,8 +17,8 @@
 
 namespace Google\Service\Safebrowsing\Resource;
 
-use Google\Service\Safebrowsing\FindFullHashesRequest;
-use Google\Service\Safebrowsing\FindFullHashesResponse;
+use Google\Service\Safebrowsing\GoogleSecuritySafebrowsingV4FindFullHashesRequest;
+use Google\Service\Safebrowsing\GoogleSecuritySafebrowsingV4FindFullHashesResponse;
 
 /**
  * The "fullHashes" collection of methods.
@@ -34,15 +34,15 @@ class FullHashes extends \Google\Service\Resource
    * Finds the full hashes that match the requested hash prefixes.
    * (fullHashes.find)
    *
-   * @param FindFullHashesRequest $postBody
+   * @param GoogleSecuritySafebrowsingV4FindFullHashesRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return FindFullHashesResponse
+   * @return GoogleSecuritySafebrowsingV4FindFullHashesResponse
    */
-  public function find(FindFullHashesRequest $postBody, $optParams = [])
+  public function find(GoogleSecuritySafebrowsingV4FindFullHashesRequest $postBody, $optParams = [])
   {
     $params = ['postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('find', [$params], FindFullHashesResponse::class);
+    return $this->call('find', [$params], GoogleSecuritySafebrowsingV4FindFullHashesResponse::class);
   }
 }
 

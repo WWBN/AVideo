@@ -122,9 +122,9 @@ class Accounts extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. The list of fields to be updated.
-   * Field names must be in snake case (e.g., "field_to_update"). Omitted fields
-   * will not be updated. To replace the entire entity, use one path with the
-   * string "*" to match all fields.
+   * Field names must be in snake case (for example, "field_to_update"). Omitted
+   * fields will not be updated. To replace the entire entity, use one path with
+   * the string "*" to match all fields.
    * @return GoogleAnalyticsAdminV1betaAccount
    */
   public function patch($name, GoogleAnalyticsAdminV1betaAccount $postBody, $optParams = [])

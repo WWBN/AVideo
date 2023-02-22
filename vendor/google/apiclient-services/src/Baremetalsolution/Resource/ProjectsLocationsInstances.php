@@ -152,19 +152,18 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
   /**
    * RenameInstance sets a new name for an instance. (instances.rename)
    *
-   * @param string $name Immutable. The resource name of this `Instance`. Resource
-   * names are schemeless URIs that follow the conventions in
-   * https://cloud.google.com/apis/design/resource_names. Format:
-   * `projects/{project}/locations/{location}/instances/{instance}`
+   * @param string $name Required. The `name` field is used to identify the
+   * instance. Format:
+   * projects/{project}/locations/{location}/instances/{instance}
    * @param RenameInstanceRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return Operation
+   * @return Instance
    */
   public function rename($name, RenameInstanceRequest $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('rename', [$params], Operation::class);
+    return $this->call('rename', [$params], Instance::class);
   }
   /**
    * Perform an ungraceful, hard reset on a server. Equivalent to shutting the

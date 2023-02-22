@@ -19,13 +19,16 @@ namespace Google\Service\CloudSearch;
 
 class MessageDeleted extends \Google\Collection
 {
-  protected $collection_key = 'messageKeys';
+  protected $collection_key = 'wonderCardMappings';
   protected $imapSyncMappingsType = ImapSyncDelete::class;
   protected $imapSyncMappingsDataType = 'array';
   public $imapSyncMappings;
   protected $messageKeysType = MultiKey::class;
   protected $messageKeysDataType = 'array';
   public $messageKeys;
+  protected $wonderCardMappingsType = WonderCardDelete::class;
+  protected $wonderCardMappingsDataType = 'array';
+  public $wonderCardMappings;
 
   /**
    * @param ImapSyncDelete[]
@@ -54,6 +57,20 @@ class MessageDeleted extends \Google\Collection
   public function getMessageKeys()
   {
     return $this->messageKeys;
+  }
+  /**
+   * @param WonderCardDelete[]
+   */
+  public function setWonderCardMappings($wonderCardMappings)
+  {
+    $this->wonderCardMappings = $wonderCardMappings;
+  }
+  /**
+   * @return WonderCardDelete[]
+   */
+  public function getWonderCardMappings()
+  {
+    return $this->wonderCardMappings;
   }
 }
 

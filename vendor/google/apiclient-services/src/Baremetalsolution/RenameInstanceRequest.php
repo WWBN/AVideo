@@ -19,41 +19,24 @@ namespace Google\Service\Baremetalsolution;
 
 class RenameInstanceRequest extends \Google\Model
 {
-  protected $instanceType = Instance::class;
-  protected $instanceDataType = '';
-  public $instance;
   /**
    * @var string
    */
-  public $name;
+  public $newName;
 
-  /**
-   * @param Instance
-   */
-  public function setInstance(Instance $instance)
-  {
-    $this->instance = $instance;
-  }
-  /**
-   * @return Instance
-   */
-  public function getInstance()
-  {
-    return $this->instance;
-  }
   /**
    * @param string
    */
-  public function setName($name)
+  public function setNewName($newName)
   {
-    $this->name = $name;
+    $this->newName = $newName;
   }
   /**
    * @return string
    */
-  public function getName()
+  public function getNewName()
   {
-    return $this->name;
+    return $this->newName;
   }
 }
 

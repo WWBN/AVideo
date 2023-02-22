@@ -17,8 +17,8 @@
 
 namespace Google\Service\Safebrowsing\Resource;
 
-use Google\Service\Safebrowsing\FetchThreatListUpdatesRequest;
-use Google\Service\Safebrowsing\FetchThreatListUpdatesResponse;
+use Google\Service\Safebrowsing\GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequest;
+use Google\Service\Safebrowsing\GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponse;
 
 /**
  * The "threatListUpdates" collection of methods.
@@ -34,15 +34,15 @@ class ThreatListUpdates extends \Google\Service\Resource
    * Fetches the most recent threat list updates. A client can request updates for
    * multiple lists at once. (threatListUpdates.fetch)
    *
-   * @param FetchThreatListUpdatesRequest $postBody
+   * @param GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return FetchThreatListUpdatesResponse
+   * @return GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponse
    */
-  public function fetch(FetchThreatListUpdatesRequest $postBody, $optParams = [])
+  public function fetch(GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequest $postBody, $optParams = [])
   {
     $params = ['postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('fetch', [$params], FetchThreatListUpdatesResponse::class);
+    return $this->call('fetch', [$params], GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponse::class);
   }
 }
 

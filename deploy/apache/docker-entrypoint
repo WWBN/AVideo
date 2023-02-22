@@ -2,7 +2,6 @@
 
 echo "Starting AVideo Platform..."
 CONFIG_FILE=/etc/apache2/sites-enabled/000-default.conf
-CONFIG_NGINX_FILE=/usr/local/nginx/conf/nginx.conf
 
 if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
   echo "Generate Certificate..."
@@ -45,18 +44,10 @@ fi
 
 sed -i 's#SERVER_NAME#'${SERVER_NAME}'#' ${CONFIG_FILE}
 sed -i 's#CONTACT_EMAIL#'${CONTACT_EMAIL}'#' ${CONFIG_FILE}
-sed -i 's#server_name localhost _#server_name localhost _ '${SERVER_NAME}'#' ${CONFIG_NGINX_FILE}
 
 echo "Configure Apache..."
 sed -i 's#TLS_CERTIFICATE_FILE#'${TLS_CERTIFICATE_FILE}'#' ${CONFIG_FILE}
 sed -i 's#TLS_CERTIFICATE_KEY#'${TLS_CERTIFICATE_KEY}'#' ${CONFIG_FILE}
-
-echo "Configure Nginx..."
-sed -i 's#ssl_certificate /etc/apache2/ssl/localhost.crt#ssl_certificate '${TLS_CERTIFICATE_FILE}'#' ${CONFIG_NGINX_FILE}
-sed -i 's#ssl_certificate_key /etc/apache2/ssl/localhost.key#ssl_certificate_key '${TLS_CERTIFICATE_KEY}'#' ${CONFIG_NGINX_FILE}
-sed -i 's#listen 1935#listen '${NGINX_RTMP_PORT}'#' ${CONFIG_NGINX_FILE}
-sed -i 's#listen 8080#listen '${NGINX_HTTP_PORT}'#' ${CONFIG_NGINX_FILE}
-sed -i 's#listen 8443#listen '${NGINX_HTTPS_PORT}'#' ${CONFIG_NGINX_FILE}
 
 mkdir -p /etc/letsencrypt/live/localhost/
 
@@ -102,25 +93,20 @@ cd /var/www/html/AVideo/install/
 php ./cli.php
 cd /var/www/html/AVideo/
 
+#if [ "_${ENABLE_PHPMYADMIN}_" = "_yes_" ]; then
+#  echo "Enabling local PHPMyAdmin on https://${SERVER_NAME}/phpmyadmin"
+#  cp /etc/apache2/conf-available/phpmyadmin.conf /etc/apache2/conf-enabled/phpmyadmin.conf
+#  a2enmod proxy
+#  a2enmod proxy_http
+#fi
+
 echo "lets encrypt apache ${SERVER_NAME}"
 certbot --apache --non-interactive --agree-tos --register-unsafely-without-email --redirect --keep-until-expiring -d ${SERVER_NAME}
 
 /etc/init.d/apache2 stop
 
-if [ -f /usr/local/nginx/sbin/nginx ]; then
-  /usr/local/nginx/sbin/nginx -s stop
-  echo "lets encrypt nginx ${SERVER_NAME}"
-  apt-get install -y --no-install-recommends python3-certbot-nginx
-  mv /usr/sbin/nginx /usr/sbin/nginx.old && cp /usr/local/nginx/sbin/nginx /usr/sbin/nginx
-  mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.old && cp /usr/local/nginx/conf/nginx.conf /etc/nginx/nginx.conf
-  certbot --nginx --non-interactive --agree-tos --nginx-server-root /usr/local/nginx/conf --no-redirect --register-unsafely-without-email --keep-until-expiring -d $SERVER_NAME
-  sed -i 's/listen 443 ssl/listen 8443 ssl/g' /usr/local/nginx/conf/nginx.conf
-  echo "nginx start"
-  /usr/local/nginx/sbin/nginx -s stop && sleep 3 && /usr/local/nginx/sbin/nginx
-fi
-
+echo "Start socket"
 nohup php /var/www/html/AVideo/plugin/YPTSocket/server.php &
-echo "socket done"
 
 echo "Reset log"
 echo '' > /var/www/html/AVideo/videos/avideo.log
@@ -134,6 +120,9 @@ cd /var/www/html/AVideo/Encoder/install && php reencodeAllVideos.php
 
 echo "crontab starting"
 cron
+
+bash
+source /etc/bash_completion
 
 apache2-foreground
 echo "apache2-foreground done"

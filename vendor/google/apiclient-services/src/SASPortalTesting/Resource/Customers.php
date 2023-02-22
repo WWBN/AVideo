@@ -19,6 +19,8 @@ namespace Google\Service\SASPortalTesting\Resource;
 
 use Google\Service\SASPortalTesting\SasPortalCustomer;
 use Google\Service\SASPortalTesting\SasPortalListCustomersResponse;
+use Google\Service\SASPortalTesting\SasPortalProvisionDeploymentRequest;
+use Google\Service\SASPortalTesting\SasPortalProvisionDeploymentResponse;
 
 /**
  * The "customers" collection of methods.
@@ -75,6 +77,21 @@ class Customers extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], SasPortalCustomer::class);
+  }
+  /**
+   * Creates a new SAS deployment through the GCP workflow. Creates a SAS
+   * organization if an organization match is not found.
+   * (customers.provisionDeployment)
+   *
+   * @param SasPortalProvisionDeploymentRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return SasPortalProvisionDeploymentResponse
+   */
+  public function provisionDeployment(SasPortalProvisionDeploymentRequest $postBody, $optParams = [])
+  {
+    $params = ['postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('provisionDeployment', [$params], SasPortalProvisionDeploymentResponse::class);
   }
 }
 

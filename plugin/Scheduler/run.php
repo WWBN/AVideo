@@ -19,7 +19,7 @@ $total2 = count($rows);
 
 $rows2 = Scheduler_commands::getAllScheduledTORepeat();
 $total3 = count($rows2);
-_log("There are {$total1} active requests; getAllActiveAndReady={$total2} getAllScheduledTORepeat={$total3} on time ". json_encode(Scheduler_commands::getTimesNow())); 
+//_log("There are {$total1} active requests; getAllActiveAndReady={$total2} getAllScheduledTORepeat={$total3} on time ". json_encode(Scheduler_commands::getTimesNow())); 
 
 foreach ($rows as $value) {
     _log("getAllActiveAndReady run ". json_encode($value)); 
@@ -38,7 +38,7 @@ foreach ($rows2 as $value) {
 }
 
 if($lastVisitFile = Scheduler::setLastVisit()){
-    _error_log("Last visit set {$lastVisitFile}");
+    //_error_log("Last visit set {$lastVisitFile}");
 }else{
     _error_log('ERROR: Last visit NOT set');
 }

@@ -140,8 +140,7 @@ class ProjectsLocationsSpokes extends \Google\Service\Resource
    * @opt_param string filter An expression that filters the results listed in the
    * response.
    * @opt_param string orderBy Sort the results by a certain order.
-   * @opt_param int pageSize The maximum number of results per page that should be
-   * returned.
+   * @opt_param int pageSize The maximum number of results to return per page.
    * @opt_param string pageToken The page token.
    * @return ListSpokesResponse
    */
