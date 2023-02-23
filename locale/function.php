@@ -128,6 +128,9 @@ function setSiteLang() {
         _session_start();
         $_SESSION['language'] = $config->getLanguage();
     }
+    if(empty($_SESSION['language'])){
+        $_SESSION['language'] = 'en_us';
+    }
     return setLanguage($_SESSION['language']);
 }
 

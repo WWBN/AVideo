@@ -3250,7 +3250,7 @@ if (!class_exists('Video')) {
                 $title = _substr($title, 0, 187) . '...';
                 _error_log("Video::setTitle($originalTitle) Title resized {$title} ");
             }
-            AVideoPlugin::onVideoSetTitle($this->id, $title, $new_title);
+            AVideoPlugin::onVideoSetTitle($this->id, $originalTitle, $title);
             if (!empty($new_title)) {
                 _error_log("Video::setTitle($originalTitle) Title 1 set to [" . json_encode($new_title) . "] ");
                 $this->title = $new_title;
@@ -3797,10 +3797,12 @@ if (!class_exists('Video')) {
              * @var array $global
              * @var array $global['avideo_resolutions']
              */
-            foreach ($global['avideo_resolutions'] as $value) {
-                $search[] = "_{$value}";
-
-                $search[] = "res{$value}";
+            if(!empty($global['avideo_resolutions']) && is_array($global['avideo_resolutions'])){
+                foreach ($global['avideo_resolutions'] as $value) {
+                    $search[] = "_{$value}";
+    
+                    $search[] = "res{$value}";
+                }
             }
             $cleanName = str_replace($search, '', $filename);
             if ($cleanName == $filename || preg_match('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', $filename)) {
@@ -5513,6 +5515,7 @@ if (!class_exists('Video')) {
                 $totalPL = count($plids);
                 $img .= '<div class="gallerySerieOverlay"><div class="gallerySerieOverlayTotal">' . $totalPL . '<br><i class="fas fa-list"></i></div><i class="fas fa-play"></i>' . __("Play All") . '</div>';
             }
+            $galleryVideoButtons = '';
             if (!empty($program) && User::isLogged()) {
                 $isFavorite = self::isFavorite($videos_id);
                 $isWatchLater = self::isWatchLater($videos_id);
@@ -5534,7 +5537,6 @@ if (!class_exists('Video')) {
                 }
 
                 $galleryDropDownMenu = Gallery::getVideoDropdownMenu($videos_id);
-                $galleryVideoButtons = '';
                 $galleryVideoButtons .= '
                 <!-- getVideoImagewithHoverAnimationFromVideosId --><div class="galleryVideoButtons ' . getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0) . '">
                     <button onclick="addVideoToPlayList(' . $videos_id . ', false, ' . $watchLaterId . ');return false;" class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $videos_id . '" data-toggle="tooltip" data-placement="left" title=' . printJSString("Added On Watch Later", true) . ' style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button>

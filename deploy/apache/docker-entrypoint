@@ -102,7 +102,6 @@ cd /var/www/html/AVideo/
 
 echo "lets encrypt apache ${SERVER_NAME}"
 certbot --apache --non-interactive --agree-tos --register-unsafely-without-email --redirect --keep-until-expiring -d ${SERVER_NAME}
-
 /etc/init.d/apache2 stop
 
 echo "Start socket"
@@ -120,11 +119,11 @@ cd /var/www/html/AVideo/Encoder/install && php reencodeAllVideos.php
 
 echo "crontab starting"
 cron
+service cron start
+crontab /etc/cron.d/crontab
 
 bash
 source /etc/bash_completion
-
-sleep 5
 
 echo "apache2-foreground start"
 apache2-foreground

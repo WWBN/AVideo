@@ -125,8 +125,8 @@ if (!empty($_GET['p'])) {
     if (!empty($obj->row)) {
         _error_log("NGINX ON Publish new User({$obj->row['users_id']})");
         $user = new User($obj->row['users_id']);
-        if (!$user->thisUserCanStream()) {
-            _error_log("NGINX ON Publish User [{$obj->row['users_id']}] can not stream");
+        if (!$user->thisUserCanStream() && !User::isAdmin($obj->row['users_id'])) {
+            _error_log("NGINX ON Publish User [{$obj->row['users_id']}] can not stream ".User::getLastUserCanStreamReason());
         } elseif (!empty($_GET['p']) && $_GET['p'] === $user->getPassword()) {
             _error_log("NGINX ON Publish get LiveTransmitionHistory");
             $lth = new LiveTransmitionHistory();

@@ -59,8 +59,15 @@ services:
       - "./.compose/encoder:/var/www/html/AVideo/Encoder"
       - "./.compose/letsencrypt:/etc/letsencrypt/"
     depends_on:
-      - database
-      - database_encoder
+      database:
+        condition: service_healthy
+      database_encoder:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - app_net
 
@@ -85,7 +92,15 @@ services:
       - "${NGINX_HTTP_PORT:-8080}:8080"
       - "${NGINX_HTTPS_PORT:-8443}:8443"
     depends_on:
-      - avideo
+      avideo:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost:8080 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - app_net
 
@@ -100,6 +115,11 @@ services:
       MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD}"
     volumes:
       - ./.compose/db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - app_net
 
@@ -114,6 +134,11 @@ services:
       MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD}"
     volumes:
       - ./.compose/db_encoder:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - app_net
 

@@ -3323,7 +3323,10 @@ function isGlobalTokenValid() {
  * @return string
  */
 function removeQueryStringParameter($url, $varname) {
-    $parsedUrl = parse_url($url);
+    $parsedUrl = parse_url($url);    
+    if(empty($parsedUrl) || empty($parsedUrl['host'])){
+        return $url;
+    }
     $query = [];
 
     if (isset($parsedUrl['query'])) {
@@ -4406,7 +4409,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10) {
 
 function _session_start(array $options = []) {
     try {
-        if (!_empty($_GET['PHPSESSID'])) {
+        if (isset($_GET['PHPSESSID']) && !_empty($_GET['PHPSESSID'])) {
             $PHPSESSID = $_GET['PHPSESSID'];
             unset($_GET['PHPSESSID']);
             if (!User::isLogged()) {

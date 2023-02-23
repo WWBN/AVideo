@@ -4,7 +4,12 @@ $obj = AVideoPlugin::getDataObject("Live");
 $buttonTitle = $this->getButtonTitle();
 $obj = $this->getDataObject();
 $isLive = isLive();
-$liveInfo = Live::getInfo($isLive['key'], $isLive['live_servers_id']);
+if(empty($isLive)){
+    $liveInfo = array();
+    $liveInfo['isLive'] = false;
+}else{
+    $liveInfo = Live::getInfo($isLive['key'], $isLive['live_servers_id']);
+}
 if (User::canStream()) {
     if (empty($obj->doNotShowGoLiveButton)) {
         ?>

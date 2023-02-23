@@ -58,7 +58,7 @@ if (empty($config)) {
 TimeLogEnd($timeLogHead, __LINE__);
 //$content = _ob_get_clean();
 _ob_start();
-echo $content;
+//echo $content;
 
 $keywords = strip_tags($advancedCustom->keywords);
 $head_videos_id = getVideos_id();

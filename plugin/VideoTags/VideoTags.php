@@ -257,7 +257,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         $subscribedText = $tag->getName();
         $users_id = User::getId();
         $encryptedIdAndUser = encryptString(array('tags_id'=>$tags_id, 'users_id'=> $users_id));
-                            
+        $subscribed = '';         
         if (User::isLogged()) {
             $btnFile = $global['systemRootPath'] . 'plugin/VideoTags/subscribeBtn.html';
             $email = User::getMail();

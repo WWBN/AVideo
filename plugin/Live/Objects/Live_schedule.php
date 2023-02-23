@@ -415,7 +415,7 @@ class Live_schedule extends ObjectYPT
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res) {
+        if (!empty($data)) {
             $row = $data;
             $row = cleanUpRowFromDatabase($row);
             $row['scheduled_password'] = $data['scheduled_password'];

@@ -56,8 +56,6 @@ COPY deploy/apache/crontab /etc/cron.d/crontab
 RUN dos2unix /etc/cron.d/crontab
 RUN chmod 0644 /etc/cron.d/crontab
 RUN chmod +x /etc/cron.d/crontab
-RUN service cron start
-RUN crontab /etc/cron.d/crontab
 
 # Configure AVideo
 RUN dos2unix /usr/local/bin/docker-entrypoint && \
@@ -87,5 +85,3 @@ EXPOSE $PHPMYADMIN_PORT
 EXPOSE $PHPMYADMIN_ENCODER_PORT
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
-CMD ["apache2-foreground"]
-HEALTHCHECK --interval=60s --timeout=55s --start-period=1s CMD curl --fail https://localhost/ || exit 1  

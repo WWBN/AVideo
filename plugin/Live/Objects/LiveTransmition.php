@@ -291,6 +291,7 @@ class LiveTransmition extends ObjectYPT
             if (!empty($row)) {
                 $row['live_schedule_id'] = 0;
                 $row['scheduled'] = 0;
+                $row['users_id'] = 0;
             }
             if (!empty($row)) {
                 $p = $row['live_password'];

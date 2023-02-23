@@ -61,8 +61,7 @@ session_name($global['session_name']);
 if (empty($global['logfile'])) {
     $global['logfile'] = $global['systemRootPath'] . 'videos/avideo.log';
 }
-
-ini_set('error_log', $global['logfile']);
+ini_set('error_log', "exec:/usr/bin/tee {$global['logfile']} 1>&2");
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
 
