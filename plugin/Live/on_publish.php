@@ -57,7 +57,7 @@ if (empty($_GET['p'])) {
         
         $lt = LiveTransmition::getFromKey($name);
 
-        if(!empty($lt)){
+        if(!empty($lt) && !empty($lt['users_id'])){
             $name = Live::cleanUpKey($_POST['name']);
             if($name == $lt['key']){
                 $user = new User($lt['users_id']);
@@ -67,7 +67,7 @@ if (empty($_GET['p'])) {
                 _error_log("NGINX ON Publish encryption token keys doe not matchd: {$name} == {$lt['key']}");
             }
         }else{
-            _error_log("NGINX ON Publish encryption token error livetransmition error: [{$name}]");
+            _error_log("NGINX ON Publish encryption token error livetransmition error: [{$name}] ".json_encode($lt));
         }
     }
 }
@@ -97,7 +97,7 @@ if (empty($_POST['name']) && !empty($_GET['name'])) {
 if (empty($_POST['name']) && !empty($_GET['key'])) {
     $_POST['name'] = $_GET['key'];
 }
-if (strpos($_GET['p'], '/') !== false) {
+if (!empty($_GET['p']) && strpos($_GET['p'], '/') !== false) {
     $parts = explode("/", $_GET['p']);
     if (!empty($parts[1])) {
         $_GET['p'] = $parts[0];
@@ -177,7 +177,7 @@ if (!empty($obj) && empty($obj->error)) {
     _error_log("NGINX Live::on_publish end");
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());
-        ob_end_flush();
+        @ob_clean();
         _ob_start();
         $lth = new LiveTransmitionHistory($obj->liveTransmitionHistory_id);
         $m3u8 = Live::getM3U8File($lth->getKey(), false,true);
@@ -187,7 +187,6 @@ if (!empty($obj) && empty($obj->error)) {
             include "{$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php";
         } else {
             $command = get_php(). " {$global['systemRootPath']}plugin/Live/on_publish_socket_notification.php '$users_id' '$m3u8' '{$obj->liveTransmitionHistory_id}'";
-
             _error_log("NGINX Live::on_publish YPTSocket start  ($command)");
             $pid = execAsync($command);
             _error_log("NGINX Live::on_publish YPTSocket end {$pid}");

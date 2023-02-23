@@ -239,13 +239,22 @@ class Message implements MessageComponentInterface {
     }
 
     private function shouldPropagateInfo($row) {
+        global $_shouldPropagateInfoLastMessage;
         if (!empty($row['yptDeviceId']) && preg_match('/^unknowDevice.*/', $row['yptDeviceId'])) {
+            $_shouldPropagateInfoLastMessage = 'unknowDevice';
             return false;
         }
         if (!empty($row['isCommandLine'])) {
+            $_shouldPropagateInfoLastMessage = 'isCommandLine';
             return false;
         }
         return true;
+    }
+
+    
+    private function getShouldPropagateInfoLastMessage() {
+        global $_shouldPropagateInfoLastMessage;
+        return $_shouldPropagateInfoLastMessage;
     }
 
     public function msgToResourceId($msg, $resourceId, $type = "", $totals = array()) {
@@ -261,7 +270,7 @@ class Message implements MessageComponentInterface {
         }
 
         if (!$this->shouldPropagateInfo($row)) {
-            _log_message("msgToResourceId: we wil NOT send the message to resourceId=({$resourceId}) {$type}");
+            _log_message("msgToResourceId: we wil NOT send the message to resourceId=({$resourceId}) [{$type}] ".$this->getShouldPropagateInfoLastMessage());
         }
 
         if (!is_array($msg)) {
@@ -437,17 +446,10 @@ class Message implements MessageComponentInterface {
         }
 
         $rows = dbGetAllResourcesIdFromLive($live_key, $live_servers_id);
-        $return = $this->getTotals();
-
-        $info = array(
-            'webSocketServerVersion' => $SocketDataObj->serverVersion,
-            'socket_users_id' => $users_id,
-            'socket_resourceId' => $resourceId,
-        );
-
-        $autoUpdateOnHTML = array_merge($info, $return);
+        $totals = $this->getTotals();
+        
         foreach ($rows as $value) {
-            $this->msgToResourceId($msg, $value['resourceId'], \SocketMessageType::ON_LIVE_MSG);
+            $this->msgToResourceId($msg, $value['resourceId'], \SocketMessageType::ON_LIVE_MSG, $totals);
         }
     }
 

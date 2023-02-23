@@ -3765,14 +3765,16 @@ function rrmdir($dir) {
     rrmdirCommandLine($dir);
     if (is_dir($dir)) {
         //_error_log('rrmdir: The Directory was not deleted, trying again ' . $dir);
-        $objects = scandir($dir);
-        //_error_log('rrmdir: scandir ' . $dir . ' '. json_encode($objects));
-        foreach ($objects as $object) {
-            if ($object !== '.' && $object !== '..') {
-                if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
-                    rrmdir($dir . DIRECTORY_SEPARATOR . $object);
-                } else {
-                    unlink($dir . DIRECTORY_SEPARATOR . $object);
+        $objects = @scandir($dir);
+        if(!empty($objects)){
+            //_error_log('rrmdir: scandir ' . $dir . ' '. json_encode($objects));
+            foreach ($objects as $object) {
+                if ($object !== '.' && $object !== '..') {
+                    if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
+                        rrmdir($dir . DIRECTORY_SEPARATOR . $object);
+                    } else {
+                        unlink($dir . DIRECTORY_SEPARATOR . $object);
+                    }
                 }
             }
         }
@@ -3781,11 +3783,13 @@ function rrmdir($dir) {
             // do not delete videos or cache folder
             return false;
         }
-        if (rmdir($dir)) {
-            return true;
-        } else if (is_dir($dir)) {
-            _error_log('rrmdir: could not delete folder ' . $dir);
-            return false;
+        if(is_dir($dir)){
+            if (@rmdir($dir)) {
+                return true;
+            } else if (is_dir($dir)) {
+                _error_log('rrmdir: could not delete folder ' . $dir);
+                return false;
+            }
         }
     } else {
         //_error_log('rrmdir: The Directory does not exists '.$dir);
@@ -5648,10 +5652,12 @@ function isValidURLOrPath($str, $insideCacheOrTmpDirOnly = true) {
 }
 
 function hasLastSlash($word) {
+    $word = trim($word);
     return substr($word, -1) === '/';
 }
 
 function addLastSlash($word) {
+    $word = trim($word);
     return $word . (hasLastSlash($word) ? "" : "/");
 }
 
@@ -10133,4 +10139,9 @@ function setIsConfirmationPage() {
 function isConfirmationPage() {
     global $_isConfirmationPage;
     return !empty($_isConfirmationPage);
+}
+
+function getDockerVars(){
+    $content = file_get_contents('/var/www/docker_vars.json');
+    return json_decode($content);
 }

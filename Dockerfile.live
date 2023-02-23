@@ -10,7 +10,10 @@ ARG CREATE_TLS_CERTIFICATE
 ARG TLS_CERTIFICATE_FILE
 ARG TLS_CERTIFICATE_KEY
 
+# Update and upgrade packages
 RUN apt-get update -y && apt-get upgrade -y
+
+# Install basic packages
 RUN apt-get install -y --no-install-recommends \
         dos2unix \
         bash-completion \
@@ -24,17 +27,28 @@ RUN apt-get install -y --no-install-recommends \
         curl \
         build-essential \
         libssl-dev \
-        php-fpm \
-        php-cli \
-        php-curl \
-        libpcre3 \
-        libpcre3-dev \
-        git \
-        python3-certbot-nginx \
         ffmpeg \
         zlib1g-dev \
         wget
- RUN mkdir ~/build && \
+
+# Install PHP packages
+RUN apt-get install -y --no-install-recommends \
+        php-fpm \
+        php-cli \
+        php-curl
+
+# Install NGINX dependencies
+RUN apt-get install -y --no-install-recommends \
+        libpcre3 \
+        libpcre3-dev
+
+# Install Git and Certbot
+RUN apt-get install -y --no-install-recommends \
+        git \
+        python3-certbot-nginx
+
+# Build NGINX with RTMP module
+RUN mkdir ~/build && \
       cd ~/build && \
       git clone https://github.com/arut/nginx-rtmp-module.git && \
       git clone https://github.com/nginx/nginx.git && \
@@ -42,7 +56,9 @@ RUN apt-get install -y --no-install-recommends \
       ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && \
       make && \
       make install
- RUN cd /usr/local/nginx/html && \
+
+# Download and configure NGINX
+RUN cd /usr/local/nginx/html && \
       wget https://youphp.tube/docs/stat.xsl  --no-check-certificate && \
       mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.old && \
       cd /usr/local/nginx/conf/ && \
@@ -51,32 +67,36 @@ RUN apt-get install -y --no-install-recommends \
       mkdir /HLS/live && \
       mkdir /HLS/low  && \
       mkdir /var/www/tmp/ && \
-      chmod 777 /var/www/tmp 
+      chmod 777 /var/www/tmp
 
+# Copy configuration files
 COPY deploy/nginx/docker-entrypoint-live /usr/local/bin/docker-entrypoint-live
 COPY deploy/nginx/nginx.conf /usr/local/nginx/conf/nginx.conf
-
 COPY deploy/nginx/crontab /etc/cron.d/crontab
-RUN dos2unix /etc/cron.d/crontab
-RUN chmod 0644 /etc/cron.d/crontab
-RUN chmod +x /etc/cron.d/crontab
-RUN service cron start
-RUN crontab /etc/cron.d/crontab
 
+# Set permissions for crontab
+RUN dos2unix /etc/cron.d/crontab && \
+    chmod 0644 /etc/cron.d/crontab && \
+    chmod +x /etc/cron.d/crontab && \
+    service cron start && \
+    crontab /etc/cron.d/crontab
+
+# Set permissions for docker-entrypoint-live
 RUN dos2unix /usr/local/bin/docker-entrypoint-live && \
     chmod 755 /usr/local/bin/docker-entrypoint-live && \
     chmod +x /usr/local/bin/docker-entrypoint-live
 
+# Create directory and set permissions
 VOLUME /var/www/tmp
 RUN mkdir -p /var/www/tmp && \
     chmod 777 /var/www/tmp
 
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Expose ports
 EXPOSE $NGINX_RTMP_PORT
 EXPOSE $NGINX_HTTP_PORT
 EXPOSE $NGINX_HTTPS_PORT
 
+# Set the entrypoint and command
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint-live"]
-
-CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
-
-#CMD ["bash"]

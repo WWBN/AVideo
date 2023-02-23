@@ -276,34 +276,6 @@ $global['doNotLoadPlayer'] = 1;
         var params = {};
         var attributes = {};
 
-        function amIOnline() {
-            $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/stats.json.php?checkIfYouOnline',
-                data: {
-                    "name": "<?php echo $streamName; ?>"
-                },
-                type: 'post',
-                success: function(response) {
-                    offLine = true;
-                    if (response.applications) {
-                        for (i = 0; i < response.applications.length; i++) {
-                            if (response.applications[i].key === "<?php echo $trasnmition['key']; ?>") {
-                                offLine = false;
-                                break;
-                            }
-                        }
-                    }
-                    // you online do not show webcam
-                    if (!offLine) {
-                        $('#webcam').find('.alert').text("<?php echo __("You are online now, web cam is disabled"); ?>");
-                    } else {
-                        $('#webcam').find('.alert').text("<?php echo __("You are not online, loading webcam..."); ?>");
-                        swfobject.embedSWF("<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/webcam.swf", "webcam", "100%", "100%", "9.0.0", "expressInstall.swf", flashvars, params, attributes);
-                    }
-                }
-            });
-        }
-
         function saveStream() {
             modal.showPleaseWait();
 
@@ -350,9 +322,6 @@ $global['doNotLoadPlayer'] = 1;
             });
             $('.btnSaveStream').click(function() {
                 saveStream();
-            });
-            $('#enableWebCam').click(function() {
-                amIOnline();
             });
 
             <?php

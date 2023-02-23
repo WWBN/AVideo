@@ -196,7 +196,11 @@ class YPTSocket extends PluginAbstract {
         $port = $socketobj->port;
         $protocol = "ws";
         $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
-        if (strtolower($scheme) === 'https') {
+        if($address == 'avideo'){
+            $protocol = "wss";
+            $dockerVars = getDockerVars();
+            $address = $dockerVars->SERVER_NAME;
+        }else if (strtolower($scheme) === 'https') {
             $protocol = "wss";
         }
         if (empty($webSocketToken)) {

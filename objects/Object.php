@@ -700,7 +700,7 @@ abstract class ObjectYPT implements ObjectInterface
             rrmdirCommandLine($newtmpDir, true);
         }
         self::setLastDeleteALLCacheTime();
-        unlink($lockFile);
+        @unlink($lockFile);
         $end = microtime(true) - $start;
         _error_log("deleteALLCache end in {$end} seconds");
         return true;

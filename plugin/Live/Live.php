@@ -3963,13 +3963,17 @@ class LiveStreamObject {
     public function getM3U8($doNotProtect = false, $allowOnlineIndex = false, $ignoreCDN = false) {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
-
         $uuid = $this->getKeyWithIndex($allowOnlineIndex, $allowOnlineIndex);
         //_error_log("Live:getM3U8($doNotProtect , $allowOnlineIndex e, $ignoreCDN) $uuid ($allowOnlineIndex");
         if (empty($o->server_type->value)) {
             $row = LiveTransmitionHistory::getLatest($this->key, $this->live_servers_id);
             if (!empty($row['domain'])) {
-                return "{$row['domain']}live/{$uuid}.m3u8";
+                if($row['domain'] == 'http://avideo:8080/'){
+                    $row['domain'] = $o->playerServer;
+                }
+                $url = "{$row['domain']}live/{$uuid}.m3u8";
+                //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) ".__LINE__." {$url}");
+                return $url;
             }
         }
 
@@ -3983,13 +3987,22 @@ class LiveStreamObject {
         }
 
         $playerServer = addLastSlash($playerServer);
-        if ($o->protectLive && empty($doNotProtect)) {
-            return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$this->live_servers_id}&uuid=" . encryptString($uuid);
-        } elseif ($o->useAadaptiveMode) {
-            return $playerServer . "{$uuid}.m3u8";
-        } else {
-            return $playerServer . "{$uuid}/index.m3u8";
+        if($playerServer == 'http://avideo:8080/live/'){
+            $dockerVars = getDockerVars();
+            $playerServer = "https://{$dockerVars->SERVER_NAME}:{$dockerVars->NGINX_HTTPS_PORT}/live/";
+            //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) {$playerServer} ".__LINE__);
         }
+        if ($o->protectLive && empty($doNotProtect)) {
+            $url = "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$this->live_servers_id}&uuid=" . encryptString($uuid);
+            //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) ".__LINE__." {$url}");
+        } elseif ($o->useAadaptiveMode) {
+            $url = $playerServer . "{$uuid}.m3u8";
+            //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) ".__LINE__." {$url}");
+        } else {
+            $url = $playerServer . "{$uuid}/index.m3u8";
+            //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) {$playerServer} ".__LINE__." {$url}");
+        }
+        return $url;
     }
 
     public function getOnlineM3U8($users_id, $doNotProtect = false) {

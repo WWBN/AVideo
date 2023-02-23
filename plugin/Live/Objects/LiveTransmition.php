@@ -139,7 +139,7 @@ class LiveTransmition extends ObjectYPT
         return true;
     }
 
-    public static function getFromDbByUser($user_id)
+    public static function getFromDbByUser($user_id, $refreshCache = false)
     {
         global $global;
         if (!self::isTableInstalled(static::getTableName())) {
@@ -148,10 +148,11 @@ class LiveTransmition extends ObjectYPT
         }
         $user_id = intval($user_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "i", [$user_id]);
+        $res = sqlDAL::readSql($sql, "i", [$user_id], $refreshCache);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res != false) {
+        if (!empty($data)) {
+            $data['live_servers_id'] = Live::getLiveServersIdRequest();
             $liveStreamObject = new LiveStreamObject($data['key'], $data['live_servers_id']);
             $data['key_with_index'] = $liveStreamObject->getKeyWithIndex(true);
             $data['live_index'] = $liveStreamObject->getIndex();
@@ -291,13 +292,17 @@ class LiveTransmition extends ObjectYPT
             if (!empty($row)) {
                 $row['live_schedule_id'] = 0;
                 $row['scheduled'] = 0;
-                $row['users_id'] = 0;
             }
             if (!empty($row)) {
                 $p = $row['live_password'];
                 $row = cleanUpRowFromDatabase($row);
                 $row['live_password'] = $p;
             }
+            
+            if (empty($row['users_id'])) {
+                $row['users_id'] = 0;
+            }
+            
         } else {
             $row = false;
         }
@@ -313,8 +318,15 @@ class LiveTransmition extends ObjectYPT
         return $row;
     }
 
-    public function save()
-    {
+    public function save(){
+        if(empty($this->users_id)){
+            return false;
+        }
+        $row = self::getFromDbByUser($this->users_id, true);
+        if(!empty($row)){
+            $this->id = $row['id'];
+        }
+
         $this->public = intval($this->public);
         $this->saveTransmition = intval($this->saveTransmition);
         $this->showOnTV = intval($this->showOnTV);
@@ -413,7 +425,6 @@ class LiveTransmition extends ObjectYPT
     }
 
     public static function getFromKey($key, $checkSchedule = true){
-        global $global;
         return self::keyExists($key, $checkSchedule);
     }
 
