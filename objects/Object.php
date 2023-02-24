@@ -73,7 +73,7 @@ abstract class ObjectYPT implements ObjectInterface
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = ? LIMIT 1";
-        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
+        //var_dump($sql, $id);
         $res = sqlDAL::readSql($sql, "i", [$id], $refreshCache);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

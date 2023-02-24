@@ -19,8 +19,12 @@ $objectToReturnToParentIframe->duration = '';
 $objectToReturnToParentIframe->views_count = 0;
 $objectToReturnToParentIframe->videoHumanTime = '';
 $objectToReturnToParentIframe->creator = '';
+$objectToReturnToParentIframe->live_transmitions_id = 0;
+$objectToReturnToParentIframe->users_id = 0;
+$objectToReturnToParentIframe->key = '';
 
 $liveVideo = Live::getLatest(true);
+//var_dump($liveVideo);exit;
 if (!empty($liveVideo)) {
     setLiveKey($liveVideo['key'], $liveVideo['live_servers_id'], $liveVideo['live_index']);
     $poster = getURL(Live::getPosterImage($liveVideo['users_id'], $liveVideo['live_servers_id']));
@@ -33,6 +37,10 @@ if (!empty($liveVideo)) {
     $objectToReturnToParentIframe->creator = User::getNameIdentificationById($liveVideo['users_id']);
     
     $objectToReturnToParentIframe->mediaSession = Live::getMediaSession($liveVideo['key'], $liveVideo['live_servers_id']);
+    $objectToReturnToParentIframe->live_transmitions_id = intval($liveVideo['live_transmitions_id']);
+    $objectToReturnToParentIframe->live_transmitions_history_id = intval($liveVideo['live_transmitions_history_id']);
+    $objectToReturnToParentIframe->users_id = intval($liveVideo['users_id']);
+    $objectToReturnToParentIframe->key = $liveVideo['key'];
 } else {
     $_POST['rowCount'] = 1;
     $_POST['sort']['created'] = 'DESC';
@@ -52,7 +60,10 @@ if (!empty($liveVideo)) {
     $objectToReturnToParentIframe->creator = User::getNameIdentificationById($video['users_id']);
     
     $objectToReturnToParentIframe->mediaSession = Video::getMediaSession($video['id']);
+    $objectToReturnToParentIframe->users_id = intval($liveVideo['users_id']);
 }
+$objectToReturnToParentIframe->user = User::getNameIdentificationById($objectToReturnToParentIframe->users_id);
+$objectToReturnToParentIframe->UserPhoto = User::getPhoto($objectToReturnToParentIframe->users_id);
 $objectToReturnToParentIframe->posterURL = $poster;
 
 //var_dump($liveVideo, $video['id'], $poster, $sources);exit;
@@ -76,13 +87,13 @@ $objectToReturnToParentIframe->posterURL = $poster;
             body {
                 padding: 0 !important;
                 margin: 0 !important;
-                <?php
-                if (!empty($customizedAdvanced->embedBackgroundColor)) {
-                    echo "background-color: $customizedAdvanced->embedBackgroundColor;";
-                }
-                ?>
                 overflow:hidden;
             }
+                <?php
+                if (!empty($customizedAdvanced->embedBackgroundColor)) {
+                    echo "body {background-color: $customizedAdvanced->embedBackgroundColor;}";
+                }
+                ?>
         </style>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';

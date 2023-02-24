@@ -25,6 +25,7 @@ if (!empty($_GET['u']) && isAVideoMobileApp()) {
 
 if (!empty($_GET['u'])) {
     $livet = LiveTransmition::getFromRequest();
+    //var_dump($livet);exit;
     $live_servers_id = Live::getLiveServersIdRequest();
     $live_index = @$_REQUEST['live_index'];
     //var_dump($live_servers_id);exit;

@@ -66,13 +66,13 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'],
             body {
                 padding: 0 !important;
                 margin: 0 !important;
-                <?php
-                if (!empty($customizedAdvanced->embedBackgroundColor)) {
-                    echo "background-color: $customizedAdvanced->embedBackgroundColor;";
-                }
-                ?>
                 overflow:hidden;
             }
+                <?php
+                if (!empty($customizedAdvanced->embedBackgroundColor)) {
+                    echo "body {background-color: $customizedAdvanced->embedBackgroundColor;}";
+                }
+                ?>
         </style>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';

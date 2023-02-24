@@ -391,7 +391,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     public static function getLatest($key='', $live_servers_id = null, $active=false) {
         global $global;
 
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE 1=1 ";
+        $sql = "SELECT *, (select id from live_transmitions lt WHERE lt.users_id = lth.users_id ) as live_transmitions_id FROM " . static::getTableName() . " lth WHERE 1=1 ";
         if (!empty($key)) {
             $sql .= " AND `key` LIKE '{$key}%' ";
         }
@@ -411,7 +411,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        //_error_log($sql);
+        //var_dump($sql, $data);exit;
         //_error_log($data);
         if (!empty($data)) {
             $row = $data;
