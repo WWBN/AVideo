@@ -1,6 +1,10 @@
 <?php
 global $t;
 
+$t['Only verified users can upload'] = 'Only verified users can upload media';
+
+
+// Previously missing from file.
 $t[' You can use the Edit Parameters button to rename it to your choosing.<br>We recommend to keep the Program name '] = ' You can use the Edit Parameters button to rename it to your choosing.<br>We recommend to keep the Program name ';
 $t[" You'll no longer receive emails from us"] = " You'll no longer receive emails from us";
 $t[' and also reset the stream name/key'] = ' and also reset the stream name/key';
@@ -235,6 +239,7 @@ $t['Comment Form'] = 'Comment Form';
 $t['Comment thumbs up - per Person'] = 'Comment thumbs up - per Person';
 $t['Comment'] = 'Comment';
 $t['Comments'] = 'Comments';
+$t['Comments Admin'] = 'Comments Admin';
 $t['Compatibility Check'] = 'Compatibility Check';
 $t['Configuration Saved'] = 'Configuration Saved';
 $t['Configuration'] = 'Configuration';
@@ -741,7 +746,6 @@ $t['Online Users'] = 'Online Users';
 $t['Only Paid Users Can see'] = 'Only Paid Users Can see';
 $t['Only direct mp3- or ogg-files - if you download it with the link, it shouldbe a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.'] = 'Only direct mp3- or ogg-files - if you download it with the link, it shouldbe a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.';
 $t['Only direct mp4-files - if you download it with the link, it should be a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.'] = 'Only direct mp4-files - if you download it with the link, it should be a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.';
-$t['Only verified users can upload'] = 'Only verified users can upload media';
 $t['Only you can see this, because you are a admin.'] = 'Only you can see this, because you are a admin.';
 $t['Opacity'] = 'Opacity';
 $t['Open in a new Tab'] = 'Open in a new Tab';
@@ -1001,6 +1005,7 @@ $t['Site Configurations'] = 'Site Configurations';
 $t['Site Maintenance'] = 'Site Maintenance';
 $t['Site Map'] = 'Site Map';
 $t['Site Settings'] = 'Site Settings';
+$t['Sitemap'] = 'Sitemap';
 $t['Size'] = 'Size';
 $t['Skip Ad'] = 'Skip Ad';
 $t['Skip Button appears after (X) seconds'] = 'Skip Button appears after (X) seconds';
@@ -1117,6 +1122,7 @@ $t['This creates a download-button under your video, suggest you title.mp4 as do
 $t['This e-mail will be used for this web site notifications'] = 'This e-mail will be used for this web site notifications';
 $t['This help us to track and detect errors'] = 'This help us to track and detect errors';
 $t['This help us to track and dettect errors'] = 'This help us to track and dettect errors';
+$t['This is a level below the (Videos Admin), this type of user can change the video publicity (Active, Inactive, Unlisted)'] = 'This is a level below the (Videos Admin), this type of user can change the video publicity (Active, Inactive, Unlisted)';
 $t['This is an experimental resource'] = 'This is an experimental resource';
 $t['This is not a valid URL'] = 'This is not a valid URL';
 $t['This is not a valid email'] = 'This is not a valid email';
@@ -1145,6 +1151,7 @@ $t['This video is unlisted, click here to inactivate it'] = 'This video is unlis
 $t['This video was reported to our team, we will review it soon'] = 'This video was reported to our team, we will review it soon';
 $t['This video will cost you %s point(s)'] = 'This video will cost you %s point(s)';
 $t['This video will work as an advertising and will no longer appear on videos list'] = 'This video will work as an advertising and will no longer appear on videos list';
+$t['This will give the option to can clear cache (Site and first page)'] = 'This will give the option to can clear cache (Site and first page)';
 $t['This will give the option to generate SiteMap'] = 'This will give the option to generate SiteMap';
 $t['This will give the option to see the log file menu'] = 'This will give the option to see the log file menu';
 $t['Thumbs Down'] = 'Thumbs Down';
@@ -1282,6 +1289,7 @@ $t['User'] = 'User';
 $t['User-manual of'] = 'User-manual of';
 $t['UserGroups'] = 'UserGroups';
 $t['Username or Email'] = 'Username or Email';
+$t['Users Groups Admin'] = 'Users Groups Admin';
 $t['Users Groups Id'] = 'Users Groups Id';
 $t['Users Groups Id1'] = 'Users Groups Id1';
 $t['Users Groups Permissions'] = 'Users Groups Permissions';
@@ -1333,6 +1341,7 @@ $t['Video re-encoding!'] = 'Video re-encoding!';
 $t['Video thumbs up - per Channel'] = 'Video thumbs up - per Channel';
 $t['Video views - per Channel'] = 'Video views - per Channel';
 $t['Video'] = 'Video';
+$t['Videos Admin'] = 'Videos Admin';
 $t['Videos Directory'] = 'Videos Directory';
 $t['Videos Moderator'] = 'Videos Moderator';
 $t['Videos Updated!'] = 'Videos Updated!';
