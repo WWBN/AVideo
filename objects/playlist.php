@@ -15,6 +15,7 @@ class PlayList extends ObjectYPT {
     protected $users_id;
     protected $status;
     protected $showOnTV;
+    protected $modified;
     public static $validStatus = ['public', 'private', 'unlisted', 'favorite', 'watch_later'];
 
     public static function getSearchFieldsNames() {
