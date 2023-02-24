@@ -47,7 +47,7 @@ if (!empty($ads1)) {
             }
         }
 
-        if ($advancedCustom->paidOnlyFreeLabel && !empty($value2->label) && $value2->label === __("Paid Content")) {
+        if ($advancedCustom->paidOnlyFreeLabel && !empty($value2->label) && $value2->label === __("Paid Content") && !empty($value2->type) && !empty($value2->text)) {
             ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
         }
         if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayPluginsTags)) {

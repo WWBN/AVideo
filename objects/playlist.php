@@ -47,7 +47,7 @@ class PlayList extends ObjectYPT {
         if (!User::isLogged()) {
             return false;
         }
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = ? AND users_id = " . User::getId() . " LIMIT 1";
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "i", [$id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
