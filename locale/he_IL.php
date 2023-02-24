@@ -1093,6 +1093,7 @@ $t['This is not a valid URL'] = 'כתובת קישור זו אינה חוקית'
 $t['This is not a valid email'] = 'זהו אינו דוא"ל חוקי';
 $t['This is useful if you want to use our LDAP plugin or maybe only allow authentication from Social Networks'] = 'אפשרות זו שימושית אם ברצונך להשתמש בתוסף LDAP שלנו או אולי לאפשר אימות רק מרשתות חברתיות';
 $t['This option will not make your videos private, this option is for other users not to be able to include their videos in this category. to make your videos private use the user groups feature'] = 'אפשרות זו לא תהפוך את הסרטונים שלך לפרטיים, אפשרות זו מיועדת למשתמשים אחרים שלא יוכלו לכלול את הסרטונים שלהם בקטגוריה זו. כדי להפוך את הסרטונים שלך לפרטיים השתמש בתכונה קבוצות משתמשים';
+$t["This page works only with MP3, MP4, and OGG files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.wwbn.net/' class='btn btn-warning btn-xs'>public</a> one"] = "דף זה פועל רק עם קבצי MP3, MP4 ו- OGG, אם יש לך או צריך פורמט אחר, נסה להתקין את עצמו <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-btn-xs '> או להשתמש ב <a href='https://encoder1.wwbn.net/' class='btn btn-warning btn-xs'> הציבור </a>";
 $t["This page works only with an MP4 File, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'>public</a> one"] = "דף זה פועל רק עם קובץ MP4, אם יש לך או צריך כל פורמט אחר, נסה להתקין משלך <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>המקודד</a> או השתמש בפקודה <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'>ציבורי</a> אחד";
 $t['This playlist is private, click to make it public'] = 'רשימת השמעה זו היא פרטית, לחץ כדי להפוך אותה לציבורית';
 $t['This playlist is public, click to make it unlisted'] = 'רשימת השמעה זו היא ציבורית, לחץ כדי להפוך אותה ללא רשומה';
@@ -1619,7 +1620,6 @@ $t['Roku Json'] = 'Roku Json';
 $t['Sitemap'] = 'Sitemap';
 $t['This is a level below the (Videos Admin), this type of user can change the video publicity (Active, Inactive, Unlisted)'] = 'This is a level below the (Videos Admin), this type of user can change the video publicity (Active, Inactive, Unlisted)';
 $t['This is where you can create groups and associate them with your videos and users. This will make your videos private. Only users who are in the same group as the videos can view them'] = 'This is where you can create groups and associate them with your videos and users. This will make your videos private. Only users who are in the same group as the videos can view them';
-$t["This page works only with MP3, MP4, and OGG files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.wwbn.net/' class='btn btn-warning btn-xs'>public</a> one"] = "This page works only with MP3, MP4, and OGG files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.wwbn.net/' class='btn btn-warning btn-xs'>public</a> one";
 $t['This will give the option to can clear cache (Site and first page)'] = 'This will give the option to can clear cache (Site and first page)';
 $t['Title (A-Z)'] = 'Title (A-Z)';
 $t['Title (Z-A)'] = 'Title (Z-A)';
@@ -1647,7 +1647,6 @@ $t['tls OR ssl'] = 'tls OR ssl';
 
 
 // Extras (might belong to a plugin, or might be outdated and not needed anymore; should confirm).
-$t['World Conspirecy'] = 'קנוניה עולמית';
 $t['Live Streams'] = 'שידורים חיים';
 $t['Publish'] = 'פרסם שידור';
 $t['Social528'] = 'רשת חברתית';
@@ -1657,7 +1656,6 @@ $t['add article'] = 'הוסף מאמר';
 $t['MORE FROM LIVE528'] = 'הפלטפורמה שלנו';
 $t['About Live528'] = 'אודות הפלטפורמה';
 $t['Mastodon528'] = 'מסטודון 528';
-$t["This page works only with MP3, MP4, and OGG files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'>public</a> one"] = "דף זה פועל רק עם קבצי MP3, MP4 ו- OGG, אם יש לך או צריך פורמט אחר, נסה להתקין את עצמו <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-btn-xs '> או להשתמש ב <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'> הציבור </a>";
 $t['Access denied'] = 'גישה נדחתה';
 $t['Add Campaign Views'] = 'הוסף תצוגות מסע פרסום';
 $t['Add balance'] = 'הוסף איזון';
