@@ -66,8 +66,12 @@ if (!empty($head_videos_id)) {
     $tags = Video::getSeoTags($head_videos_id);
     echo $tags['head'];
 }
+if(!isCommandLineInterface()){
 ?>
 <script class="doNotSepareteTag" src="<?php echo getURL('view/js/swRegister.js'); ?>" type="text/javascript"></script>
+<?php
+}
+?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">

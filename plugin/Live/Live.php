@@ -1438,7 +1438,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $o->requestStatsTimout = 2;
         }
         ini_set('allow_url_fopen ', 'ON');
-        $url = $this->getStatsURL($live_servers_id);
+        if(isDocker()){
+            $url = getDockerStatsURL();
+        }else{
+            $url = $this->getStatsURL($live_servers_id);
+        }
         if (!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])) {
             _error_log("Live::getStatsObject[$live_servers_id] RTMP Server ($url) is NOT responding we will wait less from now on => live_servers_id = ($live_servers_id) ");
             // if the server already fail, do not wait mutch for it next time, just wait 0.5 seconds
@@ -2575,6 +2579,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $ls = @$_REQUEST['live_servers_id'];
                 $_REQUEST['live_servers_id'] = $live_servers_id;
                 $m3u8 = self::getM3U8File($key, false, true);
+                if(isDocker()){
+                    $parts = explode('/live/', $m3u8);
+                    $m3u8 = getDockerInternalURL().'live/'.$parts[1];
+                }
                 $_REQUEST['live_servers_id'] = $ls;
                 //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
                 $is200 = isValidM3U8Link($m3u8);

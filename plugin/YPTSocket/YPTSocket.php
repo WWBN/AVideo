@@ -162,7 +162,7 @@ class YPTSocket extends PluginAbstract {
 
         require_once $global['systemRootPath'] . 'objects/autoload.php';
 
-        $SocketURL = self::getWebSocketURL(true, $SocketSendObj->webSocketToken);
+        $SocketURL = self::getWebSocketURL(true, $SocketSendObj->webSocketToken, isDocker());
         //_error_log("Socket Send: {$SocketURL}");
         \Ratchet\Client\connect($SocketURL)->then(function ($conn) {
             global $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj;
@@ -189,16 +189,17 @@ class YPTSocket extends PluginAbstract {
         return $SocketSendResponseObj;
     }
 
-    public static function getWebSocketURL($isCommandLine = false, $webSocketToken = '') {
+    public static function getWebSocketURL($isCommandLine = false, $webSocketToken = '', $internalDocker = false) {
         global $global;
         $socketobj = AVideoPlugin::getDataObject("YPTSocket");
         $address = $socketobj->host;
         $port = $socketobj->port;
         $protocol = "ws";
         $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
-        if($address == 'avideo'){
+        if(isDocker()){
             $protocol = "wss";
             $dockerVars = getDockerVars();
+            $port = $dockerVars->SOCKET_PORT;
             $address = $dockerVars->SERVER_NAME;
         }else if (strtolower($scheme) === 'https') {
             $protocol = "wss";

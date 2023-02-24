@@ -53,7 +53,8 @@ RUN apt-get install -y --no-install-recommends \
         rsyslog \
         rsync \
         software-properties-common \
-        unzip \        
+        unzip \       
+        wget \        
         sshpass
 
 # Install Apache and Apache modules

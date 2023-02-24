@@ -7810,10 +7810,10 @@ function execAsync($command) {
         //pclose($pid = popen($commandString, "r"));
         _error_log($command);
         $pid = exec($command, $output, $retval);
-        _error_log('execAsync: ' . json_encode($output) . ' ' . $retval);
+        _error_log('execAsync Win: ' . json_encode($output) . ' ' . $retval);
     } else {
         $newCommand = $command . " > /dev/null 2>&1 & echo $!; ";
-        _error_log($newCommand);
+        _error_log('execAsync Linux: '.$newCommand);
         $pid = exec($newCommand);
     }
     return $pid;
@@ -10141,7 +10141,31 @@ function isConfirmationPage() {
     return !empty($_isConfirmationPage);
 }
 
+function getDockerVarsFileName(){
+    return '/var/www/docker_vars.json';
+}
+
 function getDockerVars(){
-    $content = file_get_contents('/var/www/docker_vars.json');
-    return json_decode($content);
+    global $_getDockerVars;
+    if(!isset($_getDockerVars)){
+        if(file_exists(getDockerVarsFileName())){
+            $content = file_get_contents(getDockerVarsFileName());
+            $_getDockerVars = json_decode($content);
+        }else{
+            $_getDockerVars = false;
+        }
+    }
+    return $_getDockerVars;
+}
+
+function isDocker(){
+    return !empty(getDockerVars());
+}
+
+function getDockerInternalURL(){
+    return "http://live:8080/";
+}
+
+function getDockerStatsURL(){
+    return getDockerInternalURL()."stat";
 }
