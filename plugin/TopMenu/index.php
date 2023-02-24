@@ -14,6 +14,9 @@ $url = $menuItem->getUrl();
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <style>
+            #mainFooter{
+                display: none;
+            }
         </style>
     </head>
     <?php
