@@ -1,10 +1,6 @@
 <?php
 global $t;
 
-$t['Only verified users can upload'] = 'Only verified users can upload media';
-
-
-// Previously missing from file.
 $t[' You can use the Edit Parameters button to rename it to your choosing.<br>We recommend to keep the Program name '] = ' You can use the Edit Parameters button to rename it to your choosing.<br>We recommend to keep the Program name ';
 $t[" You'll no longer receive emails from us"] = " You'll no longer receive emails from us";
 $t[' and also reset the stream name/key'] = ' and also reset the stream name/key';
@@ -599,7 +595,7 @@ $t['Left'] = 'Left';
 $t['Legal Info'] = 'Legal Info';
 $t['Let the encoder network (if configured) choose what is the best encoder to use'] = 'Let the encoder network (if configured) choose what is the best encoder to use';
 $t['Let us upload your video to YouTube'] = 'Let us upload your video to YouTube';
-$t['Let users request withdraws from his wallet. the withdraw mus be donemanually'] = 'Let users request withdraws from his wallet. the withdraw mus be donemanually';
+$t['Let users request withdrawal from their wallets. The withdrawal must be done manually'] = 'Let users request withdrawal from their wallets. The withdrawal must be done manually';
 $t['Like this video? Sign in to make your opinion count.'] = 'Like this video? Sign in to make your opinion count.';
 $t['Link'] = 'Link';
 $t['Links'] = 'Links';
@@ -746,6 +742,7 @@ $t['Online Users'] = 'Online Users';
 $t['Only Paid Users Can see'] = 'Only Paid Users Can see';
 $t['Only direct mp3- or ogg-files - if you download it with the link, it shouldbe a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.'] = 'Only direct mp3- or ogg-files - if you download it with the link, it shouldbe a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.';
 $t['Only direct mp4-files - if you download it with the link, it should be a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.'] = 'Only direct mp4-files - if you download it with the link, it should be a movie-file. No google-drive or stream-hoster. Also, do not mix https and http.';
+$t['Only verified users can upload'] = 'Only verified users can upload media';
 $t['Only you can see this, because you are a admin.'] = 'Only you can see this, because you are a admin.';
 $t['Opacity'] = 'Opacity';
 $t['Open in a new Tab'] = 'Open in a new Tab';

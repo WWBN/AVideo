@@ -210,6 +210,7 @@ $t['Last 7 Days'] = 'Posledních 7 dnů';
 $t['Last'] = 'Poslední';
 $t['Left Menu'] = 'Levé menu';
 $t['Left'] = 'Levá';
+$t['Let users request withdrawal from their wallets. The withdrawal must be done manually'] = 'Umožněte uživatelům požadovat výběr z jeho peněženky. Výběr musí být proveden ručně';
 $t['Like this video? Sign in to make your opinion count.'] = 'Líbí se vám toto video? Přihlašte se, aby se vaše hodnocení započítalo.';
 $t['Live Chat'] = 'Živý Chat';
 $t['Live Info'] = 'Informace o živé přenosu';
@@ -964,7 +965,6 @@ $t['Leave blank for native code'] = 'Leave blank for native code';
 $t['Legal Info'] = 'Legal Info';
 $t['Let the encoder network (if configured) choose what is the best encoder to use'] = 'Let the encoder network (if configured) choose what is the best encoder to use';
 $t['Let us upload your video to YouTube'] = 'Let us upload your video to YouTube';
-$t['Let users request withdraws from his wallet. the withdraw mus be donemanually'] = 'Let users request withdraws from his wallet. the withdraw mus be donemanually';
 $t['Link'] = 'Link';
 $t['Links'] = 'Links';
 $t['List Files'] = 'List Files';
@@ -1647,7 +1647,6 @@ $t['videosList'] = 'videosList';
 
 
 // Extras (might belong to a plugin, or might be outdated and not needed anymore; should confirm).
-$t['Let users request withdraws from their wallet. The withdraw must be done manually'] = 'Umožněte uživatelům požadovat výběr z jeho peněženky. Výběr musí být proveden ručně';
 $t[' (set to not be listed)'] = ' (nezobrazeno ve veřejném seznamu)';
 $t[' (user is inactive)'] = ' (uživatel je neaktivní)';
 $t['$, R$, etc, the format will be  {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R$, ATD., formát bude  {currency} {value} {currency_symbol} například ($ 10.00 USD) nebo (R$ 10.00 BRL)';

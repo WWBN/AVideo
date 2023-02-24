@@ -423,6 +423,7 @@ $t['Left Menu'] = 'Venstre menu';
 $t['Left'] = 'Venstre';
 $t['Let the encoder network (if configured) choose what is the best encoder to use'] = 'Lad encodernetværket (hvis det er konfigureret) vælge, hvad der er den bedste encoder, der skal bruges';
 $t['Let us upload your video to YouTube'] = 'Lad os uploade din video til YouTube';
+$t['Let users request withdrawal from their wallets. The withdrawal must be done manually'] = 'Lad brugerne anmode om udtræk fra hans tegnebog. Tilbagetrækningen skal udføres manuelt';
 $t['Like this video? Sign in to make your opinion count.'] = 'Kan du lide denne video? Log ind for at få din mening til at tælle.';
 $t['List Files'] = 'Listefiler';
 $t['Listed'] = 'Opført';
@@ -1289,7 +1290,6 @@ $t['Last 90 Days'] = 'Last 90 Days';
 $t['Law'] = 'Law';
 $t['Layout'] = 'Layout';
 $t['Legal Info'] = 'Legal Info';
-$t['Let users request withdraws from his wallet. the withdraw mus be donemanually'] = 'Let users request withdraws from his wallet. the withdraw mus be donemanually';
 $t['Link'] = 'Link';
 $t['Links'] = 'Links';
 $t['Listed Transmition'] = 'Listed Transmition';
@@ -1648,7 +1648,6 @@ $t['youtube-dl uses Python and some servers does not came with python as default
 
 // Extras (might belong to a plugin, or might be outdated and not needed anymore; should confirm).
 $t['Start Live Now'] = 'Start live nu';
-$t['Let users request withdraws from their wallet. The withdraw must be done manually'] = 'Lad brugerne anmode om udtræk fra hans tegnebog. tilbagetrækningen skal udføres manuelt';
 $t['$, R$, etc, the format will be  {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'] = '$, R $ osv. Vil formatet være {currency} {value} {currency_symbol} for eksempel ($ 10,00 USD) eller (R $ 10,00 BRL)';
 $t['(Permalink .txt file)'] = '(Permalink .txt-fil)';
 $t['(SEO .txt file)'] = '(SEO .txt-fil)';
