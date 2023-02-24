@@ -156,6 +156,19 @@ echo PlayerSkins::getStartPlayerJS();
              });
              */
             parent.postMessage(<?php echo _json_encode($objectToReturnToParentIframe); ?>, "*");
+            function pausePlayer(){
+                player.pause();
+            }
+            window.addEventListener('message', event => {
+                switch (event.data.type) {
+                    case 'pausePlayer':
+                        player.pause();
+                        break;
+                
+                    default:
+                        break;
+                }
+            });
         </script>
     </body>
 </html>
