@@ -10,7 +10,7 @@
                     'currency_symbol' => __('$, R$, etc, the format will be  {currency} {value} {currency_symbol} for example ($ 10.00 USD) or (R$ 10.00 BRL)'),
                     'manualAddFundsTransferFromUserId' => __('When some one buy something on your web site, the wallet balance will be transferred to this user ID'),
                     'enablePlugin_YPTWalletPayPal' => __('You need to enable it to be able to use PayPal to add funds on your wallet'),
-                    'enableManualWithdrawFundsPage' => __('Let users request withdraws from his wallet. the withdraw mus be done manually'), ];
+                    'enableManualWithdrawFundsPage' => __('Let users request withdrawal from their wallets. The withdrawal must be done manually'), ];
                 createTable("YPTWallet", $filter);
                 ?>
             </div>
