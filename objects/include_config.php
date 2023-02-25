@@ -1,4 +1,11 @@
 <?php
+/**
+ * Global variables.
+ *
+ * @var array $global An array of global variables.
+ * @property \mysqli $global['mysqli'] A MySQLi connection object.
+ * @property mixed $global[] Dynamically loaded variables.
+ */
 if (!empty($doNotIncludeConfig)) {
     error_log('AVideo includeconfig ignored');
     return false;

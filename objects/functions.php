@@ -3620,8 +3620,14 @@ function siteMap() {
         TimeLogStart("siteMap Video::getPoster $videos_id");
         $img = Video::getPoster($videos_id);
         TimeLogEnd("siteMap Video::getPoster $videos_id", __LINE__, 0.5);
-
-        $description = str_replace(['"', "\n", "\r"], ['', ' ', ' '], empty(trim($video['description'])) ? $video['title'] : $video['description']);
+        
+        if(empty($advancedCustom->disableSiteMapVideoDescription)){
+            $description = str_replace(['"', "\n", "\r"], ['', ' ', ' '], empty(trim($video['description'])) ? $video['title'] : $video['description']);
+            $description = _substr(strip_tags(br2nl($description)), 0, 2048);
+        }else{
+            $description = false;
+        }
+        
         $duration = parseDurationToSeconds($video['duration']);
         if ($duration > 28800) {
             // this is because this issue https://github.com/WWBN/AVideo/issues/3338 remove in the future if is not necessary anymore
@@ -3633,7 +3639,6 @@ function siteMap() {
         //$loc = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false);
         TimeLogEnd("siteMap Video::getLink $videos_id", __LINE__, 0.5);
         $title = strip_tags($video['title']);
-        $description = _substr(strip_tags(br2nl($description)), 0, 2048);
         TimeLogStart("siteMap Video::getLinkToVideo $videos_id");
         $player_loc = Video::getLinkToVideo($video['id'], $video['clean_title'], true);
         TimeLogEnd("siteMap Video::getLinkToVideo $videos_id", __LINE__, 0.5);

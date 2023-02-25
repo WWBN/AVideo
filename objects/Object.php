@@ -9,6 +9,8 @@ $tableExists = [];
 abstract class ObjectYPT implements ObjectInterface
 {
     protected $fieldsName = [];
+    protected $id;
+    protected $created;
 
     public function __construct($id = "")
     {
@@ -363,9 +365,6 @@ abstract class ObjectYPT implements ObjectInterface
             }
             $sql .= " VALUES (" . implode(", ", $fields) . ")";
         }
-        if(static::getTableName() == 'plugins'){
-            _error_log("Plugin updated {$this->name}: $sql ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-        }
         //var_dump(static::getTableName(), $sql, $values);
         //if(static::getTableName() == 'videos'){ echo $sql;var_dump($values); var_dump(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));}//return false;
         //echo $sql;var_dump($values);exit;
@@ -515,7 +514,7 @@ abstract class ObjectYPT implements ObjectInterface
      *
      * @param string $name
      * @param int $lifetime, if is = 0 it is unlimited
-     * @return object
+     * @return object|string
      */
     public static function getCache($name, $lifetime = 60, $ignoreSessionCache = false, $addSubDirs = true)
     {

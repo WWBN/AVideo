@@ -216,7 +216,7 @@ class PlayList extends ObjectYPT {
      * @param string $publicOnly
      * @param string $userId if not present check session
      * @param string $isVideoIdPresent pass the ID of the video checking
-     * @return boolean
+     * @return array
      */
     public static function getAllFromUserLight($userId, $publicOnly = true, $status = false, $playlists_id = 0, $onlyWithVideos = false, $includeSeries = false) {
         global $global, $config, $refreshCacheFromPlaylist;

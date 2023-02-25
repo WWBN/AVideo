@@ -143,6 +143,7 @@ class CustomizeAdvanced extends PluginAbstract {
             'siteMapRowsLimit',
             'siteMapUTF8Fix',
             'showPrivateVideosOnSitemap',
+            'disableSiteMapVideoDescription',
             'enableOldPassHashCheck',
             'disableShowMOreLessDescription',
             'disableVideoSwap',
@@ -354,6 +355,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->siteMapRowsLimit = 100;
         $obj->siteMapUTF8Fix = false;
         $obj->showPrivateVideosOnSitemap = false;
+        $obj->disableSiteMapVideoDescription = false;
         $obj->enableOldPassHashCheck = true;
         $obj->disableHTMLDescription = false;
         $obj->disableShowMOreLessDescription = false;

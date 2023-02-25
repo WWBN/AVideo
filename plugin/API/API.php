@@ -327,6 +327,7 @@ class API extends PluginAbstract {
      * @return \ApiObject
      */
     public function get_api_suggested_programs($parameters) {
+        global $global;
         $playlists = AVideoPlugin::loadPlugin("PlayLists");
         //var_dump($videos);exit;
         $config = new Configuration();
@@ -1730,6 +1731,8 @@ class ApiObject {
     public $error;
     public $message;
     public $response;
+    public $msg;
+    public $users_id;
 
     public function __construct($message = "api not started or not found", $error = true, $response = []) {
         $response = cleanUpRowFromDatabase($response);
@@ -1741,4 +1744,28 @@ class ApiObject {
         $this->users_id = User::getId();
     }
 
+}
+
+class SectionFirstPage
+{
+    public $type;
+    public $title;
+    public $endpoint;
+    public $nextEndpoint;
+    public $rowCount;
+    public $endpointResponse;
+    public $totalRows;
+    // Add constructor, getter, and setter here
+    public function __construct($type, $title, $endpoint, $rowCount)
+    {
+        $this->type = $type;
+        $this->title = $title;
+        $this->endpoint = $endpoint;
+        $this->nextEndpoint = addQueryStringParameter($endpoint, 'current', 2);
+        $this->rowCount = $rowCount;
+        $endpointURL = addQueryStringParameter($endpoint, 'rowCount', $rowCount);
+        $response = json_decode(url_get_contents($endpointURL));
+        $this->endpointResponse = $response->response;
+        $this->totalRows = $this->endpointResponse->totalRows;
+    }
 }
