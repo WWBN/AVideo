@@ -10179,7 +10179,8 @@ function isConfirmationPage() {
 }
 
 function getDockerVarsFileName(){
-    return '/var/www/docker_vars.json';
+    global $global;
+    return $global['docker_vars'];
 }
 
 function getDockerVars(){

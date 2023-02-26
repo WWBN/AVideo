@@ -68,9 +68,15 @@ session_name($global['session_name']);
 if (empty($global['logfile'])) {
     $global['logfile'] = $global['systemRootPath'] . 'videos/avideo.log';
 }
-ini_set('error_log', "exec:/usr/bin/tee {$global['logfile']} 1>&2");
+
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
+$global['docker_vars'] = '/var/www/docker_vars.json';
+if(file_exists($global['docker_vars'])){
+    $global['logfile'] = 'php://stdout';
+}
+
+ini_set('error_log', $global['logfile']);
 
 if (empty($global['mysqli_charset'])) {
     //$global['mysqli_charset'] = 'latin1';
