@@ -393,25 +393,36 @@ function cleanString($text) {
     return preg_replace(array_keys($utf8), array_values($utf8), $text);
 }
 
+/**
+ * Sanitizes a string by removing HTML tags and special characters.
+ *
+ * @param string $text The text to sanitize.
+ * @param bool $strict (optional) Whether to apply strict sanitization. Defaults to false.
+ * @return string The sanitized string.
+ */
 function safeString($text, $strict = false, $try = 0) {
     if (empty($text)) {
         return '';
     }
+    
     $originalText = $text;
     $text = strip_tags($text);
     $text = str_replace(['&amp;', '&lt;', '&gt;'], ['', '', ''], $text);
     $text = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '', $text);
     $text = preg_replace('/(&#x*[0-9A-F]+);*/iu', '', $text);
     $text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
+    
     if ($strict) {
-        $text = filter_var($text, FILTER_SANITIZE_STRING);
+        $text = filter_var($text, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_ENCODE_LOW | FILTER_FLAG_ENCODE_HIGH | FILTER_FLAG_ENCODE_AMP);
         //$text = cleanURLName($text);
     }
+    
     $text = trim($text);
-
+    
     if(empty($try) && empty($text)){
         return safeString(utf8_encode($originalText), $strict, 1);
     }
+    
     return $text;
 }
 
@@ -490,21 +501,35 @@ function getMinutesTotalVideosLength() {
     return floor($seconds / 60);
 }
 
+/**
+ * Converts a duration in seconds to a formatted time string (hh:mm:ss).
+ *
+ * @param int|float|string $seconds The duration in seconds to convert.
+ * @return string The formatted time string.
+ */
 function secondsToVideoTime($seconds) {
     if (!is_numeric($seconds)) {
-        return $seconds;
+        return (string) $seconds;
     }
+    
     $seconds = round($seconds);
     $hours = floor($seconds / 3600);
-    $mins = floor(intval($seconds / 60) % 60);
-    $secs = floor($seconds % 60);
-    return sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
+    $minutes = floor(($seconds % 3600) / 60);
+    $seconds = $seconds % 60;
+    
+    return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
 }
 
 function parseSecondsToDuration($seconds) {
     return secondsToVideoTime($seconds);
 }
 
+/**
+ * Converts a duration string to the corresponding number of seconds.
+ *
+ * @param int|string $str The duration string to parse, in the format "HH:MM:SS".
+ * @return int The duration in seconds.
+ */
 function parseDurationToSeconds($str) {
     if ($str == "00:00:00") {
         return 0;
@@ -582,9 +607,16 @@ function setSiteSendMessage(\PHPMailer\PHPMailer\PHPMailer &$mail) {
     session_write_close();
 }
 
-function array_iunique($array) {
-    return array_intersect_key($array, array_unique(array_map("mb_strtolower", $array)));
+/**
+ * Returns an array with the unique values from the input array, ignoring case differences.
+ *
+ * @param array $array The input array.
+ * @return array The array with unique values.
+ */
+function array_iunique(array $array): array {
+    return array_intersect_key($array, array_unique(array_map('mb_strtolower', $array)));
 }
+
 
 function partition(array $list, $totalItens) {
     $listlen = count($list);

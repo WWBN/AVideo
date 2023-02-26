@@ -317,7 +317,9 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotDisplayPluginsTags = false;
         $obj->showNotRatedLabel = false;
         $obj->showShareMenuOpenByDefault = false;
-
+        /**
+         * @var mixed[] $global
+         */
         foreach ($global['social_medias'] as $key => $value) {
             eval("\$obj->showShareButton_{$key} = true;");
         }
