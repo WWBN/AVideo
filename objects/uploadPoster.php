@@ -62,7 +62,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         /**
          * This is when is using in a non file_dataoaded movie
          */
-        $paths = Video::getPaths($video->getFilename());
+        $paths = Video::getPaths($video->getFilename(), true);
         $destination = $paths['path'] . $video->getFilename() . $ext;
         _error_log("Try to move " . $destination . " \n " . print_r($video, true));
         if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $destination)) {

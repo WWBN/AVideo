@@ -1228,6 +1228,11 @@ if (!class_exists('Video')) {
                 return false;
             }
             $_video_startTransaction_started = 1;
+            /**
+             *
+             * @var array $global
+             * @var object $global['mysqli']
+             */
             $global['mysqli']->begin_transaction();
             return true;
         }
@@ -1239,6 +1244,11 @@ if (!class_exists('Video')) {
                 return false;
             }
             $_video_startTransaction_started = 0;
+            /**
+             *
+             * @var array $global
+             * @var object $global['mysqli']
+             */
             $global['mysqli']->commit();
             return true;
         }
@@ -5066,7 +5076,7 @@ if (!class_exists('Video')) {
 
         public function setVideoStartSeconds($videoStartSeconds) {
             $externalOptions = _json_decode($this->getExternalOptions());
-            AVideoPlugin::onVideoSetVideoStartSeconds($this->id, $this->videoStartSeconds, $videoStartSeconds);
+            AVideoPlugin::onVideoSetVideoStartSeconds($this->id, $externalOptions->videoStartSeconds, $videoStartSeconds);
             $externalOptions->videoStartSeconds = intval($videoStartSeconds);
             $this->setExternalOptions(json_encode($externalOptions));
         }
