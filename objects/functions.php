@@ -2121,7 +2121,7 @@ function convertImage($originalImage, $outputImage, $quality) {
     $extOutput = mb_strtolower(pathinfo($outputImage, PATHINFO_EXTENSION));
 
     if ($ext == $extOutput) {
-        _error_log("convertImage: same extension $ext == $extOutput [$originalImage, $outputImage]");
+        //_error_log("convertImage: same extension $ext == $extOutput [$originalImage, $outputImage]");
         return copy($originalImage, $outputImage);
     }
 
