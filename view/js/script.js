@@ -2399,7 +2399,6 @@ function downloadURL(url, filename) {
     var contentLength = 0;
     fetch(url)
             .then(response => {
-                downloadModal.hidePleaseWait();
                 avideoToastSuccess('Download Start');
                 const contentEncoding = response.headers.get('content-encoding');
                 const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
@@ -2499,8 +2498,9 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
             } else {
                 console.log('downloadURLOrAlertError 4', response);
                 avideoResponse(response);
-                downloadURLOrAlertModal.hidePleaseWait();
             }
+            
+            downloadURLOrAlertModal.hidePleaseWait();
         }
     });
 }
