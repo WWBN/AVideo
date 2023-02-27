@@ -8,6 +8,7 @@ $tableExists = [];
 
 abstract class ObjectYPT implements ObjectInterface
 {
+    private $properties = [];
     protected $fieldsName = [];
     protected $id;
     protected $created;
@@ -32,7 +33,8 @@ abstract class ObjectYPT implements ObjectInterface
             return false;
         }
         foreach ($row as $key => $value) {
-            $this->$key = $value;
+            //$this->$key = $value;
+            $this->properties[$key] = $value;
         }
         return true;
     }
