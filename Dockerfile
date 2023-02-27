@@ -119,10 +119,18 @@ RUN a2enmod xsendfile rewrite expires headers ssl
 RUN pip3 install youtube-dl --upgrade youtube-dl
 
 # Copy configuration files
-COPY deploy/apache/avideo.conf /etc/apache2/sites-enabled/000-default.conf
+COPY deploy/apache/avideo.conf /etc/apache2/sites-available/avideo.conf
+COPY deploy/apache/localhost.conf /etc/apache2/sites-available/localhost.conf
 COPY deploy/apache/docker-entrypoint /usr/local/bin/docker-entrypoint
 COPY deploy/apache/wait-for-db.php /usr/local/bin/wait-for-db.php
 COPY deploy/apache/crontab /etc/cron.d/crontab
+
+RUN if [ "$SERVER_NAME" != "localhost" ] ; \
+    then \
+        cp /etc/apache2/sites-available/avideo.conf /etc/apache2/sites-enabled/000-default.conf; \
+    else \
+        cp /etc/apache2/sites-available/localhost.conf /etc/apache2/sites-enabled/000-default.conf; \
+    fi
 
 # Set permissions for crontab
 RUN dos2unix /etc/cron.d/crontab && \
