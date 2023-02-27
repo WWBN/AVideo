@@ -2389,15 +2389,17 @@ function goToURLOrAlertError(jsonURL, data) {
     });
 }
 
+var downloadModal = getPleaseWait();
 function downloadURL(url, filename) {
-    modal.showPleaseWait();
+    
+    downloadModal.showPleaseWait();
     filename = clean_name(filename) + '.' + clean_name(url.split(/[#?]/)[0].split('.').pop().trim());
     console.log('downloadURL start ', url, filename);
     var loaded = 0;
     var contentLength = 0;
     fetch(url)
             .then(response => {
-                modal.hidePleaseWait();
+                downloadModal.hidePleaseWait();
                 avideoToastSuccess('Download Start');
                 const contentEncoding = response.headers.get('content-encoding');
                 const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
@@ -2421,8 +2423,8 @@ function downloadURL(url, filename) {
                                         loaded += value.byteLength;
                                         var percentageLoaded = Math.round(loaded / total * 100);
                                         ////console.log(percentageLoaded);
-                                        modal.setProgress(percentageLoaded);
-                                        modal.setText('Downloading ... ' + percentageLoaded + '%');
+                                        downloadModal.setProgress(percentageLoaded);
+                                        downloadModal.setText('Downloading ... ' + percentageLoaded + '%');
                                         controller.enqueue(value);
                                         read();
                                     }).catch(error => {
@@ -2446,7 +2448,7 @@ function downloadURL(url, filename) {
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
-                modal.hidePleaseWait();
+                downloadModal.hidePleaseWait();
                 avideoToastSuccess('Download complete ' + filename);
             })
             .catch(function (err) {
@@ -2459,12 +2461,13 @@ function downloadURL(url, filename) {
 }
 
 var downloadURLOrAlertErrorInterval;
+var downloadURLOrAlertModal = getPleaseWait();
 function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
     if (empty(jsonURL)) {
         console.log('downloadURLOrAlertError error empty jsonURL', jsonURL, data, filename, FFMpegProgress);
         return false;
     }
-    modal.showPleaseWait();
+    downloadURLOrAlertModal.showPleaseWait();
     avideoToastInfo('Converting');
     console.log('downloadURLOrAlertError 1', jsonURL, FFMpegProgress);
     checkFFMPEGProgress(FFMpegProgress);
@@ -2476,7 +2479,7 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
             clearInterval(downloadURLOrAlertErrorInterval);
             if (response.error) {
                 avideoAlertError(response.msg);
-                modal.hidePleaseWait();
+                downloadURLOrAlertModal.hidePleaseWait();
             } else if (response.url) {
                 if (response.msg) {
                     avideoAlertInfo(response.msg);
@@ -2496,7 +2499,7 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
             } else {
                 console.log('downloadURLOrAlertError 4', response);
                 avideoResponse(response);
-                modal.hidePleaseWait();
+                downloadURLOrAlertModal.hidePleaseWait();
             }
         }
     });
