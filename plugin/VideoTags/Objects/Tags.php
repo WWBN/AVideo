@@ -147,10 +147,8 @@ class Tags extends ObjectYPT {
         global $global;
         $fullData = self::getAllTags($tags_types_id);
         $rows = array();
-        if ($res!=false) {
-            foreach ($fullData as $row) {
-                $rows[] = $row['name'];
-            }
+        foreach ($fullData as $row) {
+            $rows[] = $row['name'];
         }
         return $rows;
     }   
