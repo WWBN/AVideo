@@ -82,7 +82,7 @@ $file = preg_replace("/[^0-9a-z_:-]/i", "", $key);
 ini_set('memory_limit', '-1');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 $filename = $record_path . $file . '_' . (date('Y-m-d-H-i-s')) . ".mp4";
 $DVRFile = "{$hls_path}{$key}";

@@ -7,7 +7,7 @@ $record_path = "/var/www/tmp/"; //update this URL
 ini_set('memory_limit', '-1');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 if (empty($_REQUEST['saveDVR'])) {
     if (empty($_REQUEST['file'])) {

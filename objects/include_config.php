@@ -45,7 +45,7 @@ $global['avideoStartMicrotime'] = microtime(true);
 try {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    error_reporting(E_ALL & ~E_DEPRECATED);
     $urandom = '/dev/urandom';
     if(file_exists($urandom)){ //https://stackoverflow.com/a/138748/2478180
         ini_set("session.entropy_file", $urandom);

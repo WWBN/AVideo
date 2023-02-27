@@ -8,7 +8,7 @@ use Ratchet\WebSocket\WsServer;
 use Socket\Message;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 //use React\Socket\Server as Reactor;
 if(empty($_SERVER['HTTP_HOST'])){
     $_SERVER['HTTP_HOST'] = 'localhost';
@@ -17,7 +17,7 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 _ob_end_clean();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 function riseSQLiteError(){
     _error_log("Socket server For better performance install PDO SQLite in your PHP", AVideoLog::$ERROR);

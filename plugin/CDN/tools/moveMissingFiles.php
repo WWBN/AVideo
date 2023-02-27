@@ -21,7 +21,7 @@ $_2hours = $_1hour*2;
 ob_end_flush();
 set_time_limit($_2hours);
 ini_set('max_execution_time', $_2hours);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', '1');
 
 $sort = @$argv[1];

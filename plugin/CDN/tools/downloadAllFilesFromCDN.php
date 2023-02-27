@@ -1,7 +1,7 @@
 <?php
 $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 if (!isCommandLineInterface()) {
     return die('Command Line only');
