@@ -81,7 +81,6 @@ class Configuration extends ObjectYPT{
 
     public function getVersion()
     {
-        var_dump($this->version, $this);
         if (empty($this->version)) {
             return " 0.1";
         }
