@@ -14,9 +14,9 @@ class LoginWordPress extends PluginAbstract {
     public function getDescription() {
         global $global;
         $obj = $this->getLogin();
-        $name = $obj->type;
+        $name = $obj[0]->type;
         $str = "Login with {$name} OAuth Integration";
-        $str .= "<br><a href='{$obj->linkToDevelopersPage}'>Get {$name} ID and Key</a>"
+        $str .= "<br><a href='{$obj[0]->linkToDevelopersPage}'>Get {$name} ID and Key</a>"
                 . "<br>Valid OAuth redirect URIs: <strong>{$global['webSiteRootURL']}objects/login.json.php?type=$name</strong>"
                 . "<br>For mobile a Valid OAuth redirect URIs: <strong>{$global['webSiteRootURL']}plugin/MobileManager/oauth2.php?type=$name</strong>";
         return $str;
@@ -62,6 +62,11 @@ class LoginWordPress extends PluginAbstract {
         return $obj;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return array
+     */
     public function getLogin() {
 
         global $global;

@@ -9673,6 +9673,9 @@ function getValidCrontabLines() {
     global $_validCrontabLines;
     if (empty($validCrontabLines)) {
         $crontab = shell_exec('crontab -l');
+        if(empty($crontab)){
+            return array();
+        }
         $crontabLines = preg_split("/\r\n|\n|\r/", $crontab);
         $_validCrontabLines = [];
 
