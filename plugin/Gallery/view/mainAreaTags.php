@@ -52,7 +52,6 @@ if ($totalPages < $page) {
                 unset($_POST['sort']);
                 $_POST['sort']['created'] = "DESC";
                 $_REQUEST['current'] = 1;
-                $_REQUEST['rowCount'] = $rowCount;
                 $old_tags_id = @$_GET['tags_id'];
                 $_GET['tags_id'] = $value['tags_id'];
                 $videos = Video::getAllVideos("viewable");

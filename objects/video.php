@@ -1326,7 +1326,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            if (!empty($videosArrayId) && is_array($videosArrayId) && is_string($videosArrayId[0])) {
+            if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
 

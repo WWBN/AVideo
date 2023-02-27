@@ -91,10 +91,11 @@ unset($_POST['current']);
             $videosP = [];
         } else {
             $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+            //var_dump($videosArrayId);exit;
         }//var_dump($videosArrayId, $videosP); exit;
-
         $totalDuration = 0;
         foreach ($videosP as $value) {
+            //var_dump($value['id'], $value['title'], $value['duration']);echo '<br>';
             $totalDuration += durationToSeconds($value['duration']);
         }
 
@@ -113,7 +114,7 @@ unset($_POST['current']);
         ?>
 
         <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>">
-            <div class="panel-heading">
+            <div class="panel-heading clearfix">
 
                 <strong style="font-size: 1.1em;" class="playlistName">
                     <?php echo __($playlist['name']); ?> (<?php echo secondsToDuration($totalDuration); ?>)
@@ -131,17 +132,16 @@ unset($_POST['current']);
                     <?php
                     $serie = PlayLists::isPlayListASerie($playlist['id']);
                     if (!empty($serie)) {
-                        $images = Video::getImageFromFilename($serie['filename'], $serie['type'], true);
-                        $imgGif = $images->thumbsGif;
-                        $poster = $images->thumbsJpg;
                         $category = new Category($serie['categories_id']);
                         ?>
                         <div style="overflow: hidden;">
-                            <div style="display: flex; margin-bottom: 10px;">
-                                <div style="margin-right: 5px; min-width: 30%;" >
-                                    <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" style="max-height: 200px;" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <?php
+                                        echo Video::getVideoImagewithHoverAnimationFromVideosId($serie['id'], true, true, true);
+                                    ?>
                                 </div>
-                                <div>
+                                <div class="col-md-8">
                                     <a class="h6 galleryLink hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo getSEOTitle($serie['title']); ?>">
                                         <strong class="title"><?php echo getSEOTitle($serie['title']); ?></strong>
                                     </a>
