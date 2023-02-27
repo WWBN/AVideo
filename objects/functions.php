@@ -1856,44 +1856,6 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80) {
     return true;
 }
 
-function im_resizeV2($file_src, $file_dest, $wd, $hd, $q = 80) {
-
-    //_error_log("im_resizeV2: $file_src, $file_dest, $wd, $hd, $q");
-    $newImage = im_resize($file_src, $file_dest, $wd, $hd, 100);
-    if (!$newImage) {
-        return false;
-    }
-    $src = imagecreatefromjpeg($file_dest);
-    if (empty($src)) {
-        return false;
-    }
-    $ws = imagesx($src);
-    $hs = imagesy($src);
-
-    if ($ws < $wd) {
-        $dst_x = ($wd - $ws) / 2;
-    } else {
-        $dst_x = 0;
-    }
-
-    if ($hs < $hd) {
-        $dst_y = ($hd - $hs) / 2;
-    } else {
-        $dst_y = 0;
-    }
-
-    $mapImage = imagecreatetruecolor($wd, $hd);
-    $bgColor = imagecolorallocate($mapImage, 0, 0, 0);
-    imagefill($mapImage, 0, 0, $bgColor);
-
-    $tileImg = imagecreatefromjpeg($file_dest);
-    imagecopy($mapImage, $tileImg, $dst_x, $dst_y, 0, 0, $ws, $hs);
-
-    $saved = imagejpeg($mapImage, $file_dest, $q);
-
-    return $saved;
-}
-
 function scaleUpAndMantainAspectRatioFinalSizes($new_w, $old_w, $new_h, $old_h) {
 
     if ($new_w < $new_h) {
@@ -2015,17 +1977,6 @@ function im_resizePNG($file_src, $file_dest, $wd, $hd) {
     $saved = imagepng($targetImage, $file_dest);
 
     return $saved;
-}
-
-function im_resizeV3($file_src, $file_dest, $wd, $hd) {
-    return im_resizeV2($file_src, $file_dest, $wd, $hd); // ffmpeg disabled
-
-    _error_log("im_resizeV3: $file_src, $file_dest, $wd, $hd");
-    // This tries to preserve the aspect ratio of the thumb while letterboxing it in
-    // The same way that the encoder now does.
-    $ffmpeg = '';
-    eval('$ffmpeg ="ffmpeg -i {$file_src} -filter_complex \"scale=(iw*sar)*min({$wd}/(iw*sar)\,{$hd}/ih):ih*min({$wd}/(iw*sar)\,{$hd}/ih), pad={$wd}:{$hd}:({$wd}-iw*min({$wd}/iw\,{$hd}/ih))/2:({$hd}-ih*min({$wd}/iw\,{$hd}/ih))/2\" -sws_flags lanczos -qscale:v 2 {$file_dest}";');
-    exec($ffmpeg . " < /dev/null 2>&1", $output, $return_val);
 }
 
 if (false) {
@@ -3995,7 +3946,7 @@ function convertImageToOG($source, $destination) {
             $tmpDir = getTmpDir();
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
-            im_resizeV2($fileConverted, $destination, $w, $h, 100);
+            im_resize($fileConverted, $destination, $w, $h, 100);
             unlink($fileConverted);
         }
     }
@@ -4032,7 +3983,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
             if ($scaleUp) {
                 scaleUpImage($fileConverted, $fileConverted, $width, $height);
             }
-            im_resizeV2($fileConverted, $destination, $width, $height, 100);
+            im_resize($fileConverted, $destination, $width, $height, 100);
             @unlink($fileConverted);
         } catch (Exception $exc) {
             _error_log("convertImageIfNotExists: " . $exc->getMessage());

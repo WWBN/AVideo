@@ -497,7 +497,7 @@ class PlayLists extends PluginAbstract {
             if (!file_exists($tvg_logo_path)) {
                 $images = Video::getSourceFile($serie['filename']);
                 $img = $images["path"];
-                im_resizeV2($img, $tvg_logo_path, 150, 150, 80);
+                im_resize($img, $tvg_logo_path, 150, 150, 80);
             }
 
             $tvg_logo_url = Video::getURLToFile($tvg_logo);
