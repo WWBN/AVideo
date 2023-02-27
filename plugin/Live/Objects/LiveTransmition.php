@@ -6,6 +6,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveTransmition extends ObjectYPT
 {
+    private $properties = [];
     protected $id;
     protected $title;
     protected $public;
@@ -122,7 +123,8 @@ class LiveTransmition extends ObjectYPT
             return false;
         }
         foreach ($user as $key => $value) {
-            $this->$key = $value;
+            //$this->$key = $value;
+            $this->properties[$key] = $value;
         }
         return true;
     }
@@ -134,7 +136,8 @@ class LiveTransmition extends ObjectYPT
             return false;
         }
         foreach ($row as $key => $value) {
-            $this->$key = $value;
+            //$this->$key = $value;
+            $this->properties[$key] = $value;
         }
         return true;
     }

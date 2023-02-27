@@ -721,7 +721,8 @@ class LiveTransmitionHistory extends ObjectYPT {
             _error_log("LiveTransmitionHistory::save: active live found ". json_encode($activeLive));
             foreach ($activeLive as $key => $value) {
                 if(empty($this->$key)){
-                    $this->$key = $value;
+                    //$this->$key = $value;
+                    $this->properties[$key] = $value;
                 }
             }
         }else{
