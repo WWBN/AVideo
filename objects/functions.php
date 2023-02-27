@@ -537,6 +537,9 @@ function parseDurationToSeconds($str) {
     if (is_numeric($str)) {
         return intval($str);
     }
+    if(empty($str)){
+        return 0;
+    }
     $durationParts = explode(":", $str);
     if (empty($durationParts[1]) || $durationParts[0] == "EE") {
         return 0;

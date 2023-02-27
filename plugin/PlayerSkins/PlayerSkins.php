@@ -573,20 +573,24 @@ class PlayerSkins extends PluginAbstract {
             $videos_id = getVideos_id();
             if (!empty($videos_id)) {
                 $video = Video::getVideoLight($videos_id);
-                $progress = Video::getVideoPogressPercent($videos_id);
-                if (!empty($progress) && !empty($progress['lastVideoTime'])) {
-                    $currentTime = intval($progress['lastVideoTime']);
-                } else if (!empty($video['externalOptions'])) {
-                    $json = _json_decode($video['externalOptions']);
-                    if (!empty($json->videoStartSeconds)) {
-                        $currentTime = intval(parseDurationToSeconds($json->videoStartSeconds));
-                    } else {
+                if(!empty($video)){
+                    $progress = Video::getVideoPogressPercent($videos_id);
+                    if (!empty($progress) && !empty($progress['lastVideoTime'])) {
+                        $currentTime = intval($progress['lastVideoTime']);
+                    } else if (!empty($video['externalOptions'])) {
+                        $json = _json_decode($video['externalOptions']);
+                        if (!empty($json->videoStartSeconds)) {
+                            $currentTime = intval(parseDurationToSeconds($json->videoStartSeconds));
+                        } else {
+                            $currentTime = 0;
+                        }
+                    }
+                    $maxCurrentTime = parseDurationToSeconds($video['duration']);
+                    if ($maxCurrentTime <= $currentTime + 5) {
                         $currentTime = 0;
                     }
-                }
-                $maxCurrentTime = parseDurationToSeconds($video['duration']);
-                if ($maxCurrentTime <= $currentTime + 5) {
-                    $currentTime = 0;
+                }else{
+                    return 0;
                 }
             }
         }

@@ -1563,6 +1563,9 @@ if (!class_exists('Video')) {
         }
 
         static function getInfo($row, $getStatistcs = false) {
+            if(empty($row)){
+                return array();
+            }
             $TimeLogLimit = 0.2;
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             $name = "_getVideoInfo_{$row['id']}";
