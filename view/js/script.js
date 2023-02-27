@@ -2485,13 +2485,16 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
                         isMobile()
                         //|| /cdn.ypt.me/.test(response.url)
                         ) {
+                            console.log('downloadURLOrAlertError 2', response.url);
                     window.open(response.url, '_blank');
                     avideoToastInfo('Opening file');
                     //document.location = response.url
                 } else {
+                    console.log('downloadURLOrAlertError 3', response.url, filename);
                     downloadURL(response.url, filename);
                 }
             } else {
+                console.log('downloadURLOrAlertError 4', response);
                 avideoResponse(response);
                 modal.hidePleaseWait();
             }
