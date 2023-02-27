@@ -20,7 +20,7 @@ require_once $global['systemRootPath'] . 'objects/Object.php';
 if (!class_exists('Video')) {
 
     class Video extends ObjectYPT {
-
+        private $properties = [];
         protected $id;
         protected $title;
         protected $clean_title;
@@ -277,7 +277,8 @@ if (!class_exists('Video')) {
                 return false;
             }
             foreach ($video as $key => $value) {
-                $this->$key = $value;
+                //$this->$key = $value;
+                $this->properties[$key] = $value;
             }
         }
 
