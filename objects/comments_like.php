@@ -9,6 +9,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 class CommentsLike
 {
+    private $properties = [];
     private $id;
     private $like;
     private $comments_id;
@@ -47,7 +48,8 @@ class CommentsLike
             return false;
         }
         foreach ($like as $key => $value) {
-            $this->$key = $value;
+            //$this->$key = $value;
+            $this->properties[$key] = $value;
         }
     }
 
@@ -101,7 +103,7 @@ class CommentsLike
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!$res) {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            return false;
         }
         $obj->likes = intval($result['total']);
 
@@ -110,7 +112,7 @@ class CommentsLike
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!$res) {
-            die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            return false;
         }
         $obj->dislikes = intval($result['total']);
         return $obj;
@@ -129,7 +131,7 @@ class CommentsLike
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!$res) {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            return false;
         }
         $obj->likes = intval($result['total']);
 
@@ -138,7 +140,7 @@ class CommentsLike
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!$res) {
-            die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            return false;
         }
         $obj->dislikes = intval($result['total']);
         return $obj;

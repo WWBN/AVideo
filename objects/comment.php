@@ -10,6 +10,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 class Comment {
+    private $properties = [];
 
     protected $id;
     protected $comment;
@@ -68,7 +69,8 @@ class Comment {
             return false;
         }
         foreach ($row as $key => $value) {
-            $this->$key = $value;
+            //$this->$key = $value;
+            $this->properties[$key] = $value;
         }
         return true;
     }

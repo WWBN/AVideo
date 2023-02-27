@@ -7,6 +7,7 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class Subscribe extends ObjectYPT{
+    private $properties = [];
     protected $id;
     protected $email;
     protected $status;
@@ -37,7 +38,8 @@ class Subscribe extends ObjectYPT{
             return false;
         }
         foreach ($obj as $key => $value) {
-            $this->$key = $value;
+            //$this->$key = $value;
+            $this->properties[$key] = $value;
         }
         return true;
     }
@@ -49,7 +51,8 @@ class Subscribe extends ObjectYPT{
             return false;
         }
         foreach ($obj as $key => $value) {
-            $this->$key = $value;
+            //$this->$key = $value;
+            $this->properties[$key] = $value;
         }
         return true;
     }
@@ -61,7 +64,8 @@ class Subscribe extends ObjectYPT{
             return false;
         }
         foreach ($obj as $key => $value) {
-            $this->$key = $value;
+            //$this->$key = $value;
+            $this->properties[$key] = $value;
         }
         return true;
     }
