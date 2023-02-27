@@ -649,7 +649,7 @@ class PlayList extends ObjectYPT {
     }
 
 
-    public static function getTotalDurationFromPlaylist($playlists_id) {  
+    public static function getTotalDurationFromPlaylistInSeconds($playlists_id) {  
         global $getTotalDurationFromPlaylist;
         if (empty($getTotalDurationFromPlaylist)) {
             $getTotalDurationFromPlaylist = [];
@@ -657,14 +657,18 @@ class PlayList extends ObjectYPT {
         if (isset($getTotalDurationFromPlaylist[$playlists_id])) {
             return $getTotalDurationFromPlaylist[$playlists_id];
         }      
-        $totalDuration = 0;
-        $rows = static::getVideosIDFromPlaylistLight($playlists_id);
-        foreach ($rows as $value) {
-            $totalDuration += $value['duration'];
+        $getTotalDurationFromPlaylist[$playlists_id] = 0;
+        $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
+        if(!empty($videosArrayId)){
+            $sql = "SELECT sum(duration_in_seconds) as total FROM videos WHERE id IN ('".implode("', '", $videosArrayId)."') ";
+            //var_dump($sql);exit;
+            $res = sqlDAL::readSql($sql);
+            $data = sqlDAL::fetchAssoc($res);
+            if(!empty($data)){
+                $getTotalDurationFromPlaylist[$playlists_id] = intval($data['total']);
+            }
         }
-
-        $getTotalDurationFromPlaylist[$playlists_id] = $totalDuration;
-        return $totalDuration;
+        return $getTotalDurationFromPlaylist[$playlists_id];
     }
 
     public static function sortVideos($videosList, $listIdOrder) {
