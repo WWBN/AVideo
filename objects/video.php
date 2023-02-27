@@ -335,6 +335,9 @@ if (!class_exists('Video')) {
         }
 
         public function getVideo_password() {
+            if(empty($this->video_password)){
+                return '';
+            }
             return trim($this->video_password);
         }
 

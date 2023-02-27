@@ -301,6 +301,9 @@ class Plugin extends ObjectYPT
                             continue;
                         }
                         $row = self::getPluginByUUID($p->getUUID());
+                        if(empty($row)){
+                            continue;
+                        }
                         $obj = new stdClass();
                         $obj->name = $p->getName();
                         $obj->pluginversion = $p->getPluginVersion();
