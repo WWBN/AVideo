@@ -3970,7 +3970,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
     if (file_exists($destination) && filesize($destination) > 1024) {
         $sizes = getimagesize($destination);
         if ($sizes[0] < $width || $sizes[1] < $height) {
-            _error_log("convertImageIfNotExists: file is smaller " . json_encode($sizes));
+            //_error_log("convertImageIfNotExists: file is smaller " . json_encode($sizes));
             unlink($destination);
             return false;
         }
