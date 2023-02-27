@@ -1,3 +1,8 @@
+<?php
+if(empty($obj)){
+    $obj = AVideoPlugin::loadPlugin('Layout');
+}
+?>
 <style>
     .categoriesTobButtons{
         border: none;
