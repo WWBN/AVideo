@@ -228,6 +228,9 @@ class CustomizeAdvanced extends PluginAbstract {
         
         $o = new stdClass();
         $o->type = array();
+        if(empty($statusThatTheUserCanUpdate)){
+            $statusThatTheUserCanUpdate = array();
+        }
         foreach ($statusThatTheUserCanUpdate as $value) {
             $statusIndex = $value[0];
             $statusColor = $value[1];
