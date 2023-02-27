@@ -1676,11 +1676,15 @@ if (!class_exists('Video')) {
 
         public static function getMediaSession($videos_id) {
             $video = Video::getVideoLight($videos_id);
+            
+            $MediaMetadata = new stdClass();
+            if(empty($video)){
+                return $MediaMetadata;
+            }
             $video = Video::getInfo($video);
 
             $posters = Video::getMediaSessionPosters($videos_id);
             //var_dump($posters);exit;
-            $MediaMetadata = new stdClass();
 
             $MediaMetadata->title = $video['title'];
             $MediaMetadata->artist = $video['identification'];
