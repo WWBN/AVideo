@@ -648,6 +648,25 @@ class PlayList extends ObjectYPT {
         return $videosId;
     }
 
+
+    public static function getTotalDurationFromPlaylist($playlists_id) {  
+        global $getTotalDurationFromPlaylist;
+        if (empty($getTotalDurationFromPlaylist)) {
+            $getTotalDurationFromPlaylist = [];
+        }
+        if (isset($getTotalDurationFromPlaylist[$playlists_id])) {
+            return $getTotalDurationFromPlaylist[$playlists_id];
+        }      
+        $totalDuration = 0;
+        $rows = static::getVideosIDFromPlaylistLight($playlists_id);
+        foreach ($rows as $value) {
+            $totalDuration += $value['duration'];
+        }
+
+        $getTotalDurationFromPlaylist[$playlists_id] = $totalDuration;
+        return $totalDuration;
+    }
+
     public static function sortVideos($videosList, $listIdOrder) {
         $list = [];
         foreach ($listIdOrder as $value) {

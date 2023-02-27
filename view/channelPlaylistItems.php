@@ -117,7 +117,7 @@ unset($_POST['current']);
             <div class="panel-heading clearfix">
 
                 <strong style="font-size: 1.1em;" class="playlistName">
-                    <?php echo __($playlist['name']); ?> (<?php echo secondsToDuration($totalDuration); ?>)
+                    <?php echo __($playlist['name']); ?> (<?php echo PlayList::getTotalDurationFromPlaylist($playlist['id']); ?>)
                 </strong>
                 <?php
                 PlayLists::getPLButtons($playlist['id']);
