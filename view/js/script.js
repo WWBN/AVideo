@@ -2390,12 +2390,14 @@ function goToURLOrAlertError(jsonURL, data) {
 }
 
 function downloadURL(url, filename) {
+    modal.showPleaseWait();
     filename = clean_name(filename) + '.' + clean_name(url.split(/[#?]/)[0].split('.').pop().trim());
     console.log('downloadURL start ', url, filename);
     var loaded = 0;
     var contentLength = 0;
     fetch(url)
             .then(response => {
+                modal.hidePleaseWait();
                 avideoToastSuccess('Download Start');
                 const contentEncoding = response.headers.get('content-encoding');
                 const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
