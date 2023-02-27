@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 class Like
 {
-    private $properties = [];
+    protected $properties = [];
     private $id;
     private $like;
     private $videos_id;
@@ -69,8 +69,8 @@ class Like
             return false;
         }
         foreach ($like as $key => $value) {
-            //$this->$key = $value;
-            $this->properties[$key] = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
     }
 

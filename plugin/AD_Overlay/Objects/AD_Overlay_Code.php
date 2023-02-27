@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class AD_Overlay_Code extends ObjectYPT {
-    private $properties = [];
+    protected $properties = [];
 
     protected $id, $users_id, $code, $status;
 
@@ -14,8 +14,8 @@ class AD_Overlay_Code extends ObjectYPT {
         if (empty($row))
             return false;
         foreach ($row as $key => $value) {
-            //$this->$key = $value;
-            $this->properties[$key] = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }

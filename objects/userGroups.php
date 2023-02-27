@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class UserGroups{
-    private $properties = [];
+    protected $properties = [];
     private $id;
     private $group_name;
 
@@ -30,8 +30,8 @@ class UserGroups{
             return false;
         }
         foreach ($user as $key => $value) {
-            //$this->$key = $value;
-            $this->properties[$key] = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
     }
 

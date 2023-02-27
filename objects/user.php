@@ -18,7 +18,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
  */
 class User {
 
-    private $properties = [];
+    protected $properties = [];
     private $id;
     private $user;
     private $name;
@@ -239,8 +239,8 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         foreach ($user as $key => $value) {
-            //$this->$key = $value;
-            $this->properties[$key] = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
@@ -253,8 +253,8 @@ if (typeof gtag !== \"function\") {
         //_error_log("User::loadFromUser($user) ");
         //_error_log("User::loadFromUser json " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         foreach ($userLoaded as $key => $value) {
-            //$this->$key = $value;
-            $this->properties[$key] = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }

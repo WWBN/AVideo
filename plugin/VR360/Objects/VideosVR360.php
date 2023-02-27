@@ -37,8 +37,8 @@ class VideosVR360 extends ObjectYPT {
             if(in_array($key, $this->intVal)){
                 $value = intval($value);
             }
-            //$this->$key = $value;
-            $this->properties[$key] = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }

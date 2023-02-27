@@ -9,7 +9,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class PlayList extends ObjectYPT {
-    private $properties = [];
+    protected $properties = [];
 
     protected $id;
     protected $name;
@@ -71,8 +71,8 @@ class PlayList extends ObjectYPT {
             return false;
         }
         foreach ($row as $key => $value) {
-            //$this->$key = $value;
-            $this->properties[$key] = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }

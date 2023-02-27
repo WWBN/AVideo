@@ -64,8 +64,8 @@ class Clones extends ObjectYPT
             return false;
         }
         foreach ($row as $key => $value) {
-            //$this->$key = $value;
-            $this->properties[$key] = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }

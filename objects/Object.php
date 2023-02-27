@@ -8,7 +8,7 @@ $tableExists = [];
 
 abstract class ObjectYPT implements ObjectInterface
 {
-    private $properties = [];
+    protected $properties = [];
     protected $fieldsName = [];
     protected $id;
     protected $created;
@@ -33,8 +33,8 @@ abstract class ObjectYPT implements ObjectInterface
             return false;
         }
         foreach ($row as $key => $value) {
-            //$this->$key = $value;
-            $this->properties[$key] = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
@@ -941,6 +941,18 @@ abstract class ObjectYPT implements ObjectInterface
 
         date_default_timezone_set($currentTimezone);
         return $dbDate;
+    }
+
+    public function __get($name) {
+        if (array_key_exists($name, $this->properties)) {
+            return $this->properties[$name];
+        }
+    }
+    
+    public static function __set_state($state) {
+        $obj = new self();
+        $obj->properties = $state['properties'];
+        return $obj;
     }
 }
 
