@@ -29,7 +29,7 @@ class Definition
     private $factory;
     private $shared = true;
     private $deprecation = [];
-    private $properties = [];
+    protected $properties = [];
     private $calls = [];
     private $instanceof = [];
     private $autoconfigured = false;

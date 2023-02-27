@@ -102,6 +102,7 @@ $global['dont_show_us_flag'] = false;
 
 if (empty($doNotStartSessionbaseIncludeConfig)) {
     $config = new Configuration();
+    //var_dump($config);exit;
     @session_write_close();
 
     // server should keep session data for AT LEAST 1 hour

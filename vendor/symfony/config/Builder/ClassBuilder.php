@@ -27,7 +27,7 @@ class ClassBuilder
     private $name;
 
     /** @var Property[] */
-    private $properties = [];
+    protected $properties = [];
 
     /** @var Method[] */
     private $methods = [];

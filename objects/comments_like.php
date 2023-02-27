@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 class CommentsLike
 {
-    private $properties = [];
+    protected $properties = [];
     private $id;
     private $like;
     private $comments_id;
@@ -48,8 +48,8 @@ class CommentsLike
             return false;
         }
         foreach ($like as $key => $value) {
-            //$this->$key = $value;
-            $this->properties[$key] = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
     }
 
