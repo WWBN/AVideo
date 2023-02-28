@@ -32,9 +32,9 @@ if (!empty($_SESSION['noNavbar'])) {
         unset($params['noNavbar']);
         $params['noNavbar'] = "0";
         $new_query_string = http_build_query($params);
-        ?>
-        <a href="<?php echo $actual_link, "?", $new_query_string; ?>" class="btn btn-default" style="position: absolute; right: 10px; top: 5px;"><i class="fas fa-bars"></i></a>    
-        <?php
+?>
+        <a href="<?php echo $actual_link, "?", $new_query_string; ?>" class="btn btn-default" style="position: absolute; right: 10px; top: 5px;"><i class="fas fa-bars"></i></a>
+    <?php
     } else {
         echo '<style>body{padding-top:0;}</style>';
     }
@@ -61,7 +61,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 TimeLogEnd($tname, __LINE__, $tTolerance);
 $_GET['parentsOnly'] = "1";
-if (empty($_SESSION['language'])) {
+if (empty($_SESSION['language']) || empty($lang)) {
     $lang = $config->getLanguage();
     if (empty($lang)) {
         $lang = 'us_EN';
@@ -86,19 +86,21 @@ if (!$includeDefaultNavBar) {
 if (!empty($_GET['avideoIframe'])) { // comes from avideoModalIframe(url) javascript
     ?>
     <style>
-        body, body > div.container-fluid > div.panel {
+        body,
+        body>div.container-fluid>div.panel {
             padding: 0;
             margin: 0;
         }
-        #mainFooter{
+
+        #mainFooter {
             display: none !important;
         }
     </style>
-    <?php
+<?php
     return false;
 }
 ?>
-<link href="<?php echo getURL('view/css/navbar.css'); ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('view/css/navbar.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
 if (isFirstPage()) {
     if (!empty($customizePluginDescription)) {
@@ -115,7 +117,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
 } elseif (((empty($advancedCustomUser->userMustBeLoggedIn) && empty($advancedCustom->disableNavbar)) || $thisScriptFile["basename"] === "signUp.php" || $thisScriptFile["basename"] === "userRecoverPass.php") || User::isLogged()) {
     TimeLogEnd($tname, __LINE__, $tTolerance);
     $updateFiles = getUpdatesFilesArray();
-    ?>
+?>
     <nav class="navbar navbar-default navbar-fixed-top navbar-expand-lg navbar-light bg-light" id="mainNavBar">
         <ul class="items-container">
             <?php
@@ -156,7 +158,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
         </ul>
         <?php
         TimeLogEnd($tname, __LINE__, $tTolerance);
-        $varsArray = array('sidebarStyle'=>$sidebarStyle);
+        $varsArray = array('sidebarStyle' => $sidebarStyle);
         $filePath = $global['systemRootPath'] . 'view/include/navbarSidebar.php';
         echo getIncludeFileContent($filePath, $varsArray, true);
         //echo getIncludeFileContent($filePath);
@@ -165,12 +167,11 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
         ?>
     </nav>
     <script src="<?php echo getURL('view/js/navbarLogged.js'); ?>" type="text/javascript"></script>
-    <?php
+<?php
     if (!empty($advancedCustom->underMenuBarHTMLCode->value)) {
         echo $advancedCustom->underMenuBarHTMLCode->value;
     }
 } elseif ($thisScriptFile["basename"] !== 'user.php' && empty($advancedCustom->disableNavbar)) {
-    
 }
 TimeLogEnd($tname, __LINE__, $tTolerance);
 echo '<!-- navBarAfter start -->', AVideoPlugin::navBarAfter(), '<!-- navBarAfter end -->';
