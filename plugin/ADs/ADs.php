@@ -301,14 +301,18 @@ class ADs extends PluginAbstract
         $label = "{$label} [$users_id] [{$type}]";
 
         $array = self::getAdsHTML($type, $users_id);
-        $adCode = $array['html'];
-
-        if (empty($adCode)) {
-            eval("\$adCode = \$ad->{$type}->value;");
-        }
-        if (empty($adCode)) {
-            $array = self::getAdsHTML($type);
+        if(empty($array)){
+            $adCode = '';
+        }else{
             $adCode = $array['html'];
+    
+            if (empty($adCode)) {
+                eval("\$adCode = \$ad->{$type}->value;");
+            }
+            if (empty($adCode)) {
+                $array = self::getAdsHTML($type);
+                $adCode = $array['html'];
+            }
         }
 
         return ['adCode' => $adCode, 'label' => $label, 'paths' => $array['paths']];

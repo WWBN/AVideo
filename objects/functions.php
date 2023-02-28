@@ -1410,7 +1410,10 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             $preg_match_url = addcslashes(getCDN(), "/") . "videos";
             foreach ($files as $value) {
                 // check if is a dummy file and the URL still wrong
-                $pathFilesize = filesize($value['path']);
+                $pathFilesize = 0;
+                if(isValidURL($value['path'])){
+                    $pathFilesize = filesize($value['path']);
+                }
                 if (
                         $value['type'] === 'video' && // is a video
                         preg_match("/^{$preg_match_url}/", $value['url']) && // the URL is the same as the main domain
