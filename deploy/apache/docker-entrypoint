@@ -119,6 +119,10 @@ echo "{\"SOCKET_PORT\":${SOCKET_PORT}, \"HTTP_PORT\":${HTTP_PORT}, \"HTTPS_PORT\
 echo "entrypoint -- Starting socket server..."
 nohup php /var/www/html/AVideo/plugin/YPTSocket/server.php &
 
+
+echo "Clear cache"
+rm -R /var/www/html/AVideo/videos/cache
+
 echo "entrypoint -- Reset log"
 echo '' > /var/www/html/AVideo/videos/avideo.log
 chmod 777 /var/www/html/AVideo/videos/avideo.log
