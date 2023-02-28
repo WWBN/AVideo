@@ -2019,8 +2019,10 @@ if (!class_exists('Video')) {
             }
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
-                $uid = intval($user['id']);
-                $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company  = '{$uid}')";
+                if(!empty($user)){
+                    $uid = intval($user['id']);
+                    $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company  = '{$uid}')";
+                }
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
