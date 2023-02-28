@@ -13,7 +13,7 @@ if(empty($obj) || !isset($obj->categoriesTopButtonsFluid)){
 </style>
 <div class="container-fluid">
     <div class="row">
-        <div class="<?php echo $obj->categoriesTopButtonsFluid ? '' : 'col-lg-10 col-lg-offset-1'; ?>">
+        <div class="<?php echo empty($obj->categoriesTopButtonsFluid) ? '' : 'col-lg-10 col-lg-offset-1'; ?>">
             
     <center>
         <ul class="nav nav-tabs nav-tabs-horizontal categoriesTobButtons" >
