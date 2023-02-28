@@ -242,7 +242,7 @@ class PlayLists extends PluginAbstract {
                 $obj = $this->getDataObject();
                 if ($obj->usePlaylistPlayerForSeries) {
                     $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-                    if ($video['type'] == 'serie' && !empty($video['serie_playlists_id'])) {
+                    if (!empty($video) && $video['type'] == 'serie' && !empty($video['serie_playlists_id'])) {
                         if (basename($_SERVER["SCRIPT_FILENAME"]) == "videoEmbeded.php") {
                             $link = PlayLists::getLink($video['serie_playlists_id'], true);
                         } else {

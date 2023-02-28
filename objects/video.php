@@ -1621,7 +1621,7 @@ if (!class_exists('Video')) {
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             if (empty($otherInfo)) {
                 $otherInfo = [];
-                $otherInfo['category'] = xss_esc_back($row['category']);
+                $otherInfo['category'] = xss_esc_back(@$row['category']);
                 //TimeLogStart("video::otherInfo");
                 $otherInfo['groups'] = UserGroups::getVideosAndCategoriesUserGroups($row['id']);
                 //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
