@@ -1,5 +1,5 @@
 <?php
-if(empty($obj) || empty($obj->categoriesTopButtonsFluid)){
+if(empty($obj) || !isset($obj->categoriesTopButtonsFluid)){
     $obj = AVideoPlugin::loadPlugin('Layout');
 }
 ?>
