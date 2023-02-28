@@ -122,6 +122,7 @@ $name = $plp->getName();
                             <option value="views_count" data-icon="glyphicon-eye-open"  <?php echo (!empty($_POST['sort']['views_count'])) ? "selected='selected'" : "" ?>> <?php echo __("Most watched"); ?></option>
                         <?php } ?>
                     </select>
+                    <!-- <?php echo basename(__FILE__); ?> -->
                     <div class="vjs-playlist" style="" id="playList">
                         <!--
                           The contents of this element will be filled based on the

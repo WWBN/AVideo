@@ -113,8 +113,12 @@ class VideoTags extends PluginAbstract {
         return $array;
     }
 
-    static function getAllVideosIdFromTagsId($tags_id) {
-        return TagsHasVideos::getAllVideosIdFromTagsId($tags_id);
+    static function getAllVideosIdFromTagsId($tags_id, $limit = 100, $status = "viewable") {
+        return TagsHasVideos::getAllVideosIdFromTagsId($tags_id, $limit, $status);
+    }
+    
+    static function getTotalVideosFromTagsId($tags_id, $status = "viewable") {
+        return TagsHasVideos::getTotalVideosFromTagsId($tags_id, $status);
     }
 
     static function getVideoIndexFromTagsId($tags_id, $videos_id) {
@@ -129,8 +133,8 @@ class VideoTags extends PluginAbstract {
         return 0;
     }
     
-    static function getAllVideosFromTagsId($tags_id) {
-        return TagsHasVideos::getAllVideosFromTagsId($tags_id);
+    static function getAllVideosFromTagsId($tags_id, $limit = 100) {
+        return TagsHasVideos::getAllVideosFromTagsId($tags_id, $limit);
     }
 
     static function getTagsInputs() {

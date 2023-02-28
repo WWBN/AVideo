@@ -35,7 +35,8 @@ if ($totalPages < $page) {
     <?php
     foreach ($tags as $value) {
         $_POST['disableAddTo'] = 0;
-        $totalVideos = VideoTags::getAllVideosIdFromTagsId($value['tags_id']);
+        $totalVideos = VideoTags::getTotalVideosFromTagsId($value['tags_id'], 'viewableNotUnlisted');
+        //var_dump($value['name'], $totalVideos);
         if (empty($totalVideos)) {
             continue;
         }
@@ -52,6 +53,7 @@ if ($totalPages < $page) {
                 unset($_POST['sort']);
                 $_POST['sort']['created'] = "DESC";
                 $_REQUEST['current'] = 1;
+                setRowCount($obj->SubscribedTagsRowCount);
                 $old_tags_id = @$_GET['tags_id'];
                 $_GET['tags_id'] = $value['tags_id'];
                 $videos = Video::getAllVideos("viewable");

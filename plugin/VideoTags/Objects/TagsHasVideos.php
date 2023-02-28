@@ -86,20 +86,57 @@ class TagsHasVideos extends ObjectYPT {
                 $row['total'] = self::getTotalVideosFromTagsId($row['tags_id']);
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 
-    static function getAllVideosFromTagsId($tags_id, $limit = 100) {
+    static function getTotalVideosFromTagsId($tags_id, $status = "viewable") {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $sql = "SELECT count(thv.id) as total FROM  " . static::getTableName() . " thv LEFT JOIN videos v ON v.id = thv.videos_id  "
+                . " WHERE tags_id=? ";
+        if ($status == "viewable") {
+            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(true)) . "')";
+        } elseif ($status == "viewableNotUnlisted") {
+            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
+        } elseif ($status == "publicOnly") {
+            $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
+        } elseif ($status == "privateOnly") {
+            $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) > 0";
+        } elseif (!empty($status)) {
+            $sql .= " AND v.status = '{$status}'";
+        }
+        $res = sqlDAL::readSql($sql, "i", array($tags_id));
+        $fullData = sqlDAL::fetchAssoc($res);
+
+        sqlDAL::close($res);
+
+        //var_dump($sql, $tags_id, $fullData);//exit;
+        return intval($fullData['total']);
+    }
+    
+    static function getAllVideosFromTagsId($tags_id, $limit = 100, $status = "viewable") {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
         $sql = "SELECT v.*, thv.* FROM  " . static::getTableName() . " thv LEFT JOIN videos v ON v.id = thv.videos_id  "
-                . " WHERE tags_id=? LIMIT {$limit}";
-        //var_dump($sql, $tags_id);
+                . " WHERE thv.tags_id=? ";
+        if ($status == "viewable") {
+            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(true)) . "')";
+        } elseif ($status == "viewableNotUnlisted") {
+            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
+        } elseif ($status == "publicOnly") {
+            $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
+        } elseif ($status == "privateOnly") {
+            $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) > 0";
+        } elseif (!empty($status)) {
+            $sql .= " AND v.status = '{$status}'";
+        }
+        $sql .= " LIMIT {$limit}";
+        //var_dump($sql, $tags_id);//exit;
         $res = sqlDAL::readSql($sql, "i", array($tags_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
 
@@ -108,13 +145,14 @@ class TagsHasVideos extends ObjectYPT {
         return $fullData;
     }
 
-    static function getAllVideosIdFromTagsId($tags_id) {
+    static function getAllVideosIdFromTagsId($tags_id, $limit = 100, $status = "viewable") {
         global $global;
-        $rows = self::getAllVideosFromTagsId($tags_id);
+        $rows = self::getAllVideosFromTagsId($tags_id, $limit, $status);
+        $ids = array();
         foreach ($rows as $row) {
-            $rows[] = $row['videos_id'];
+            $ids[] = $row['videos_id'];
         }
-        return $rows;
+        return $ids;
     }
 
     static function getAllFromVideosIdAndTagsTypesId($videos_id, $tags_types_id) {
@@ -133,28 +171,8 @@ class TagsHasVideos extends ObjectYPT {
                 $row['total'] = self::getTotalVideosFromTagsId($row['tags_id']);
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
-    }
-
-    static function getTotalVideosFromTagsId($tags_id) {
-        global $global;
-        if (!static::isTableInstalled()) {
-            return false;
-        }
-        $sql = "SELECT count(*) as total FROM  " . static::getTableName() . "  "
-                . " WHERE tags_id=? ";
-        $res = sqlDAL::readSql($sql, "i", array($tags_id));
-        $data = sqlDAL::fetchAssoc($res);
-        sqlDAL::close($res);
-        if ($res) {
-            $row = intval($data['total']);
-        } else {
-            $row = 0;
-        }
-        return $row;
     }
 
     static function removeAllTagsFromVideo($videos_id) {

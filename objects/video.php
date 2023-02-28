@@ -1284,6 +1284,7 @@ if (!class_exists('Video')) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
                     TimeLogStart("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})");
                     $videosArrayId = VideoTags::getAllVideosIdFromTagsId($_GET['tags_id']);
+                    //var_dump($videosArrayId);exit;
                     TimeLogEnd("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})", __LINE__, 0.2);
                 }
             }
