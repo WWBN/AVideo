@@ -30,7 +30,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
     console.log('Service worker activated');
 });
-
+/*
 self.addEventListener('fetch', (event) => {
     if (event.request.mode === 'navigate') {
         console.log(`Service worker intercepted request: ${event.request.url}`);
@@ -47,6 +47,7 @@ self.addEventListener('fetch', (event) => {
         })
       );
 });
+*/
 workbox.routing.registerRoute(
     ({ request }) => {
         return (request.destination === 'script' ||
