@@ -1893,6 +1893,11 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd) {
 
     $mime = getimagesize($path);
 
+    if (empty($mime)) {
+        _error_log("scaleUpImage error, undefined mime" );
+        return false;
+    }
+
     if ($mime['mime'] == 'image/png') {
         $src_img = imagecreatefrompng($path);
     }
