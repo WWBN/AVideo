@@ -112,6 +112,7 @@ $modestbranding = false;
 $autoplay = false;
 $controls = "controls";
 $showOnlyBasicControls = false;
+$hideProgressBarAndUnPause = false;
 $loop = '';
 $mute = '';
 $objectFit = '';
