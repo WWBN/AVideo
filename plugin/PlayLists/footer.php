@@ -1,7 +1,7 @@
 <script>
     var playListsAdding = false;
     var playList = [];
-    function reloadPlayLists() {
+    async function reloadPlayLists() {
         if (!isOnline()) {
             return false;
         }
@@ -40,14 +40,14 @@
     }
 
     loadPlayListsResponseObject = {timestamp: 0, response: false};
-    function loadPlayLists(videos_id, crc) {
+    async function loadPlayLists(videos_id, crc) {
         //console.log('loadPlayLists');
         if (loadPlayListsResponseObject.timestamp + 5000 < Date.now()) {
             loadPlayListsResponseObject.timestamp = Date.now();
             loadPlayListsResponseObject.response = [];
             setTimeout(function () {
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
+                    url: webSiteRootURL+'objects/playlists.json.php',
                     cache: true,
                     success: function (response) {
                         loadPlayListsResponseObject.response = response;

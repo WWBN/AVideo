@@ -5431,7 +5431,7 @@ if (!class_exists('Video')) {
                 $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', true, ' . $value['favoriteId'] . ');return false;" class="btn btn-dark btn-xs favoriteBtn favoriteBtn' . $value['id'] . '" title=' . printJSString('Favorite', true) . ' style="' . $favoriteBtnStyle . '" ><i class="fas fa-heart" ></i></button>    ';
                 $loggedUserHTML .= '</div>';
             }
-            $progress = self::getVideoPogressPercent($value['id']);
+            //$progress = self::getVideoPogressPercent($value['id']);
             $category = new Category($value['categories_id']);
 
             $categoryLink = $category->getLink();

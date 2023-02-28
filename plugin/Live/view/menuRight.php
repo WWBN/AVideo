@@ -116,7 +116,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         }, 200);
     }
 
-    function getStatsMenu(recurrentCall) {
+    async function getStatsMenu(recurrentCall) {
         if (avideoSocketIsActive()) {
             return false;
         }

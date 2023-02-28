@@ -67,8 +67,10 @@ if (!empty($head_videos_id)) {
     echo $tags['head'];
 }
 if(!isCommandLineInterface()){
+    $swRegister = getURL('view/js/swRegister.js');
+    $swRegister = addQueryStringParameter($swRegister, 'webSiteRootURL', $global['webSiteRootURL']);
 ?>
-<script class="doNotSepareteTag" src="<?php echo getURL('view/js/swRegister.js'); ?>" type="text/javascript"></script>
+<script class="doNotSepareteTag" src="<?php echo $swRegister; ?>" type="text/javascript"></script>
 <?php
 }
 ?>
