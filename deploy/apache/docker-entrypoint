@@ -10,36 +10,46 @@ if [ "_${CREATE_TLS_CERTIFICATE}_" == "_yes_" ]; then
 
   mkdir -p `dirname ${TLS_CERTIFICATE_FILE}`
   mkdir -p `dirname ${TLS_CERTIFICATE_KEY}`
-  subjectAltName="IP:127.0.0.1,DNS:${SERVER_NAME}"
+  # Set subjectAltName for certificate
+  if [ "${SERVER_NAME}" = "localhost" ]; then
+    subjectAltName="DNS:localhost,IP:127.0.0.1"
+  else
+    subjectAltName="DNS:${SERVER_NAME}"
+  fi
   
-  CONFIG=""
-  CONFIG="${CONFIG}[dn]\n"
-  CONFIG="${CONFIG}C=NN\n"
-  CONFIG="${CONFIG}L=Earth\n"
-  CONFIG="${CONFIG}O=AVideo\n"
-  CONFIG="${CONFIG}OU=Development\n"
-  CONFIG="${CONFIG}CN=localhost\n"
-  CONFIG="${CONFIG}\n"
-  CONFIG="${CONFIG}[req]\n"
-  CONFIG="${CONFIG}distinguished_name=dn\n"
-  CONFIG="${CONFIG}\n"
-  CONFIG="${CONFIG}[EXT]\n"
-  CONFIG="${CONFIG}subjectAltName=${subjectAltName}\n"
-  CONFIG="${CONFIG}extendedKeyUsage=serverAuth\n"
-  CONFIG="${CONFIG}\n"
+  # Create config file for OpenSSL
+  CONFIG=$(cat <<-EOF
+[dn]
+C=NN
+L=Earth
+O=AVideo
+OU=Development
+CN=${SERVER_NAME}
+
+[req]
+distinguished_name = dn
+
+[EXT]
+subjectAltName = ${subjectAltName}
+extendedKeyUsage = serverAuth
+EOF
+)
   
+  # Generate self-signed certificate with OpenSSL
   openssl req -x509 \
     -out ${TLS_CERTIFICATE_FILE} -keyout ${TLS_CERTIFICATE_KEY} \
     -newkey rsa:4096 \
     -nodes \
     -sha256 \
     -days 3650 \
-    -subj '/C=NN/L=Earth/O=avideo/OU=DEV/CN=localhost' \
-    -extensions EXT -config <( \
-      printf "${CONFIG}")
+    -subj "/C=NN/L=Earth/O=AVideo/OU=Development/CN=${SERVER_NAME}" \
+    -extensions EXT \
+    -config <(echo "${CONFIG}")
   
+  # Verify certificate
   echo "entrypoint -- New Certificate config..."
   openssl x509 -in ${TLS_CERTIFICATE_FILE} -noout -text || true
+
 fi
 
 sed -i 's#SERVER_NAME#'${SERVER_NAME}'#' ${CONFIG_FILE}
@@ -54,12 +64,12 @@ mkdir -p /etc/letsencrypt/live/localhost/
 cp ${TLS_CERTIFICATE_FILE} /etc/letsencrypt/live/localhost/fullchain.pem
 cp ${TLS_CERTIFICATE_KEY} /etc/letsencrypt/live/localhost/privkey.pem
 
-echo "entrypoint -- Waiting for database ${DB_MYSQL_HOST} to be up and running"
-php /usr/local/bin/wait-for-db.php
-if [ $? -ne 0 ]; then
-  echo "entrypoint -- Stopping container"
-  exit 1
-fi
+#echo "entrypoint -- Waiting for database ${DB_MYSQL_HOST} to be up and running"
+#php /usr/local/bin/wait-for-db.php
+#if [ $? -ne 0 ]; then
+#  echo "entrypoint -- Stopping container"
+#  exit 1
+#fi
 
 if [ -f /var/www/html/AVideo/plugin/User_Location/install/install.sql ]; then
   echo "entrypoint -- Using existing location tables..."
@@ -93,8 +103,14 @@ cd /var/www/html/AVideo/install/
 php ./cli.php
 cd /var/www/html/AVideo/
 
-echo "entrypoint -- Running certbot..."
-certbot --apache --non-interactive --agree-tos --register-unsafely-without-email --redirect --keep-until-expiring -d ${SERVER_NAME}
+
+if [ "${SERVER_NAME}" = "localhost" ] || [ "${SERVER_NAME}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]; then
+  echo "Not executing certbot for ${SERVER_NAME}"
+else
+  echo "entrypoint -- Running certbot for ${SERVER_NAME}"
+  certbot --apache --non-interactive --agree-tos --register-unsafely-without-email --redirect --keep-until-expiring -d ${SERVER_NAME}
+fi
+
 /etc/init.d/apache2 stop
 
 echo "entrypoint -- Writing /var/www/docker_vars.json"

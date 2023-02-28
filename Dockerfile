@@ -122,10 +122,10 @@ RUN pip3 install youtube-dl --upgrade youtube-dl
 COPY deploy/apache/avideo.conf /etc/apache2/sites-available/avideo.conf
 COPY deploy/apache/localhost.conf /etc/apache2/sites-available/localhost.conf
 COPY deploy/apache/docker-entrypoint /usr/local/bin/docker-entrypoint
-COPY deploy/apache/wait-for-db.php /usr/local/bin/wait-for-db.php
+#COPY deploy/apache/wait-for-db.php /usr/local/bin/wait-for-db.php
 COPY deploy/apache/crontab /etc/cron.d/crontab
 
-RUN if [ "$SERVER_NAME" != "localhost" ] ; \
+RUN if [ ["$SERVER_NAME" != "localhost"] || [ "${SERVER_NAME}" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] ; \
     then \
         cp /etc/apache2/sites-available/avideo.conf /etc/apache2/sites-enabled/000-default.conf; \
     else \
