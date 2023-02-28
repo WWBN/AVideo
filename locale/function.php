@@ -29,7 +29,7 @@ function __($str, $allowHTML = false)
 
     if (!empty($t[$str])) {
         $return = $t[$str];
-    } else if (!empty($t_insensitive) && !empty($t_insensitive[strtolower($str)])) {
+    } elseif (!empty($t_insensitive) && !empty($t_insensitive[strtolower($str)])) {
         $return = $t_insensitive[strtolower($str)];
     }
 
@@ -133,7 +133,7 @@ function setSiteLang()
     if (!empty($_GET['lang'])) {
         _session_start();
         $_SESSION['language'] = $_GET['lang'];
-    } else if (empty($_SESSION['language']) && !$userLocation) {
+    } elseif (empty($_SESSION['language']) && !$userLocation) {
         _session_start();
         $_SESSION['language'] = $config->getLanguage();
     }
@@ -185,5 +185,4 @@ function getLanguage()
         $_SESSION['language'] = $config->getLanguage();
     }
     return strtolower(str_replace('_', '-', $_SESSION['language']));
-    exit;
 }
