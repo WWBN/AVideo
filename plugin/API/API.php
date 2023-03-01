@@ -222,8 +222,8 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/category.php';
         $obj = $this->startResponseObject($parameters);
-        if (!empty($parameters['catname'])) {
-            $row = Category::getCategoryByName($parameters['catname']);
+        if (!empty($parameters['catName'])) {
+            $row = Category::getCategoryByName($parameters['catName']);
             $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
             $totals = self::getTotalFromCategory($row['id']);
             $row['total'] = $totals['total'];
