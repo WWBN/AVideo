@@ -266,8 +266,8 @@ class YouPHPFlix2 extends PluginAbstract
                         $type = 'SubCategory';
                     }
                     $title = $value2['name'];
-                    //$endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$value2['clean_name']}";
-                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=category&catName={$value2['clean_name']}";
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$value2['clean_name']}";
+                    //$endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=category&catName={$value2['clean_name']}";
                     $section = new SectionFirstPage($type, $title, $endpoint, $rowCount);
                     $countVideos += $section->totalRows;
                     $response->sections[] = $section;
