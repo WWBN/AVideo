@@ -153,6 +153,12 @@ class YouPHPFlix2 extends PluginAbstract
         return $js;
     }
 
+    /**
+     * @param string $parameters
+     * This will return the configuration of the first page, also the URL to retreive the videos list from each section
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIPlugin={APIPlugin}&APIName={APIName}
+     * @return \ApiObject
+     */
     static function API_get_firstPage($parameters)
     {
         global $global;
