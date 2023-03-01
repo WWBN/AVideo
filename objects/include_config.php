@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Global variables.
  *
@@ -47,7 +48,7 @@ try {
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL & ~E_DEPRECATED);
     $urandom = '/dev/urandom';
-    if(file_exists($urandom)){ //https://stackoverflow.com/a/138748/2478180
+    if (file_exists($urandom)) { //https://stackoverflow.com/a/138748/2478180
         ini_set("session.entropy_file", $urandom);
         ini_set("session.entropy_length", "512");
     }
@@ -65,15 +66,14 @@ $global['session_name'] = md5($global['systemRootPath']);
 
 session_name($global['session_name']);
 
-if (empty($global['logfile'])) {
-    $global['logfile'] = $global['systemRootPath'] . 'videos/avideo.log';
-}
 
 global $global, $config, $advancedCustom, $advancedCustomUser;
 
 $global['docker_vars'] = '/var/www/docker_vars.json';
-if(file_exists($global['docker_vars'])){
+if (file_exists($global['docker_vars'])) {
     $global['logfile'] = 'php://stdout';
+} else if (empty($global['logfile'])) {
+    $global['logfile'] = $global['systemRootPath'] . 'videos/avideo.log';
 }
 
 ini_set('error_log', $global['logfile']);
@@ -130,13 +130,15 @@ if (empty($doNotStartSessionbaseIncludeConfig)) {
 $url1['host'] = '';
 $global['HTTP_REFERER'] = '';
 if (!empty($_SERVER['HTTP_REFERER'])) {
-    if ((
-        strpos($_SERVER['HTTP_REFERER'], '/video/') !== false || strpos($_SERVER['HTTP_REFERER'], '/v/') !== false
-    ) &&
-            !empty($_SESSION['LAST_HTTP_REFERER'])) {
-        if (strpos($_SESSION['LAST_HTTP_REFERER'], 'cache/css/') !== false ||
-                strpos($_SESSION['LAST_HTTP_REFERER'], 'cache/js/') !== false ||
-                strpos($_SESSION['LAST_HTTP_REFERER'], 'cache/img/') !== false) {
+    if ((strpos($_SERVER['HTTP_REFERER'], '/video/') !== false || strpos($_SERVER['HTTP_REFERER'], '/v/') !== false
+        ) &&
+        !empty($_SESSION['LAST_HTTP_REFERER'])
+    ) {
+        if (
+            strpos($_SESSION['LAST_HTTP_REFERER'], 'cache/css/') !== false ||
+            strpos($_SESSION['LAST_HTTP_REFERER'], 'cache/js/') !== false ||
+            strpos($_SESSION['LAST_HTTP_REFERER'], 'cache/img/') !== false
+        ) {
             $_SESSION['LAST_HTTP_REFERER'] = $global['webSiteRootURL'];
         }
         $global['HTTP_REFERER'] = $_SESSION['LAST_HTTP_REFERER'];
