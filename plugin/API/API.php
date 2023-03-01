@@ -231,6 +231,8 @@ class API extends PluginAbstract {
             $row['fullTotal_videos'] = $fullTotals['videos'];
             $row['fullTotal_lives'] = $fullTotals['lives'];
             $row['fullTotal_livelinks'] = $fullTotals['livelinks'];
+            $row['fullTotal_livelinks'] = $fullTotals['livelinks'];
+
             $rows = array($row);
         } else {
             $rows = Category::getAllCategories();
@@ -458,7 +460,7 @@ class API extends PluginAbstract {
     public function get_api_video($parameters) {
         $start = microtime(true);
 
-        $cacheParameters = array('APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id');
+        $cacheParameters = array('noRelated','APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id');
 
         $cacheVars = array();
         foreach ($cacheParameters as $value) {
@@ -500,8 +502,16 @@ class API extends PluginAbstract {
         }
 
         if (!empty($_REQUEST['catName']) && empty($parameters['videos_id'])) {
-            $currentCat = Category::getCategoryByName($_REQUEST['catName']);
+            $currentCat = Category::getCategoryByName($_REQUEST['catName']); 
             if (!empty($currentCat)) {
+                $fullTotals = Category::getTotalFromCategory($currentCat['id'], false, true, true);
+                $totals = Category::getTotalFromCategory($currentCat['id']);
+                $currentCat['total'] = $totals['total'];
+                $currentCat['fullTotal'] = $fullTotals['total'];
+                $currentCat['fullTotal_videos'] = $fullTotals['videos'];
+                $currentCat['fullTotal_lives'] = $fullTotals['lives'];
+                $currentCat['fullTotal_livelinks'] = $fullTotals['livelinks'];
+                $currentCat['fullTotal_livelinks'] = $fullTotals['livelinks'];
                 $liveVideos = getLiveVideosFromCategory($currentCat['id']);
                 if (!empty($liveVideos)) {
                     $rows = array_merge($liveVideos, $rows);
@@ -1770,9 +1780,10 @@ class SectionFirstPage {
     public $rowCount;
     public $endpointResponse;
     public $totalRows;
+    public $childs;
 
     // Add constructor, getter, and setter here
-    public function __construct($type, $title, $endpoint, $rowCount) {
+    public function __construct($type, $title, $endpoint, $rowCount, $childs = array()) {
         $endpoint = addQueryStringParameter($endpoint, 'noRelated', 1);
         $this->type = $type;
         $this->title = $title;
@@ -1783,6 +1794,7 @@ class SectionFirstPage {
         $response = json_decode(url_get_contents($endpointURL));
         $this->endpointResponse = $response->response;
         $this->totalRows = $this->endpointResponse->totalRows;
+        $this->childs = $childs;
     }
 
 }
