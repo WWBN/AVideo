@@ -591,8 +591,10 @@ class API extends PluginAbstract {
             //$rows[$key]['wwbnProgram'] = $rows[$key]['pageUrl'];
             //$rows[$key]['wwbnProgramURL'] = $rows[$key]['pageUrl'];
             $rows[$key]['wwbnType'] = $rows[$key]['type'];
-            $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
-
+            
+            if(empty($parameters['noRelated'])){
+                $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
+            }
             $rows[$key]['adsImages'] = array();
             if (!empty($objAds)) {
                 foreach (ADs::$AdsPositions as $value) {
@@ -1758,6 +1760,7 @@ class SectionFirstPage
     // Add constructor, getter, and setter here
     public function __construct($type, $title, $endpoint, $rowCount)
     {
+        $endpoint = addQueryStringParameter($endpoint, 'noRelated', 1);
         $this->type = $type;
         $this->title = $title;
         $this->endpoint = $endpoint;
