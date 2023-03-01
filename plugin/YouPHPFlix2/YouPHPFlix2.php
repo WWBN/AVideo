@@ -261,9 +261,13 @@ class YouPHPFlix2 extends PluginAbstract
                 $categories = Category::getAllCategories(false, true);
                 reloadSearchVar();
                 foreach ($categories as $value2) {
+                    $type = 'Category';
+                    if(!empty($value2['parentId'])){
+                        $type = 'SubCategory';
+                    }
                     $title = $value2['name'];
                     $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$value2['clean_name']}";
-                    $section = new SectionFirstPage('Categories', $title, $endpoint, $rowCount);
+                    $section = new SectionFirstPage($type, $title, $endpoint, $rowCount);
                     $countVideos += $section->totalRows;
                     $response->sections[] = $section;
                 }
