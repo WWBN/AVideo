@@ -504,6 +504,12 @@ class API extends PluginAbstract {
         if (!empty($_REQUEST['catName']) && empty($parameters['videos_id'])) {
             $currentCat = Category::getCategoryByName($_REQUEST['catName']); 
             if (!empty($currentCat)) {
+                $liveVideos = getLiveVideosFromCategory($currentCat['id']);
+                if (!empty($liveVideos)) {
+                    $rows = array_merge($liveVideos, $rows);
+                    $totalRows += count($liveVideos);
+                }
+                
                 $fullTotals = Category::getTotalFromCategory($currentCat['id'], false, true, true);
                 $totals = Category::getTotalFromCategory($currentCat['id']);
                 $currentCat['total'] = $totals['total'];
@@ -512,11 +518,18 @@ class API extends PluginAbstract {
                 $currentCat['fullTotal_lives'] = $fullTotals['lives'];
                 $currentCat['fullTotal_livelinks'] = $fullTotals['livelinks'];
                 $currentCat['fullTotal_livelinks'] = $fullTotals['livelinks'];
-                $liveVideos = getLiveVideosFromCategory($currentCat['id']);
-                if (!empty($liveVideos)) {
-                    $rows = array_merge($liveVideos, $rows);
-                    $totalRows += count($liveVideos);
+                
+                $currentCat['totalVideosOnChilds'] = Category::getTotalFromChildCategory($currentCat['id']);
+                $currentCat['childs'] = Category::getChildCategories($currentCat['id']);
+                $currentCat['photo'] = Category::getCategoryPhotoPath($currentCat['id']);
+                $currentCat['photoBg'] = Category::getCategoryBackgroundPath($currentCat['id']);
+                $currentCat['link'] = $global['webSiteRootURL'] . 'cat/' . $currentCat['clean_name'];                        
+            
+                foreach ($currentCat['childs'] as $key => $child) {
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$child['clean_name']}";
+                    $currentCat['childs'][$key]['section'] = new SectionFirstPage('SubCategroy', $child['name'], $endpoint, getRowCount());
                 }
+                $obj->category = $currentCat; 
             }
         }
 

@@ -329,7 +329,7 @@ class Gallery extends PluginAbstract
     static function API_get_firstPage($parameters){
         global $global;
         $start = microtime(true);
-        $cacheName = 'Gallery_API_get_firstPage_'.md5(json_encode($parameters));
+        $cacheName = 'Gallery_API_get_firstPage_'.md5(json_encode($parameters)).'_'.User::getId();
         $object = ObjectYPT::getCache($cacheName, 3600); // 1 hour
         if(empty($object)){
             $obj = AVideoPlugin::getObjectData("Gallery");

@@ -598,6 +598,7 @@ class Category {
                 $row['name'] = xss_esc_back($row['name']);
                 $row['total'] = $totals['total'];
                 $row['total_array'] = $totals;
+                
                 $category[] = $row;
             }
         } else {
