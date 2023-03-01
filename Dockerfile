@@ -148,6 +148,8 @@ RUN dos2unix /usr/local/bin/docker-entrypoint && \
     sed -i 's/^memory_limit.*$/memory_limit = 512M/' /etc/php/8.1/apache2/php.ini && \
     a2enmod rewrite expires headers ssl xsendfile
 
+RUN echo "error_log = /dev/stdout" >> /etc/php/8.1/apache2/php.ini
+
 # Add Apache configuration
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 

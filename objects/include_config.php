@@ -71,7 +71,7 @@ global $global, $config, $advancedCustom, $advancedCustomUser;
 
 $global['docker_vars'] = '/var/www/docker_vars.json';
 if (file_exists($global['docker_vars'])) {
-    $global['logfile'] = 'php://stdout';
+    $global['logfile'] = 'php://stderr';
 } else if (empty($global['logfile'])) {
     $global['logfile'] = $global['systemRootPath'] . 'videos/avideo.log';
 }
