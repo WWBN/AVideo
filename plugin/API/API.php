@@ -224,8 +224,8 @@ class API extends PluginAbstract {
         $obj = $this->startResponseObject($parameters);
         if (!empty($parameters['catName'])) {
             $row = Category::getCategoryByName($parameters['catName']);
-            $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
-            $totals = self::getTotalFromCategory($row['id']);
+            $fullTotals = Category::getTotalFromCategory($row['id'], false, true, true);
+            $totals = Category::getTotalFromCategory($row['id']);
             $row['total'] = $totals['total'];
             $row['fullTotal'] = $fullTotals['total'];
             $row['fullTotal_videos'] = $fullTotals['videos'];
