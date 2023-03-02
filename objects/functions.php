@@ -6726,7 +6726,7 @@ function getSEOTitle($text, $maxChars = 60)
     $removeChars = ['|', '"'];
     $replaceChars = ['-', ''];
     $newText = trim(str_replace($removeChars, $replaceChars, safeString($text)));
-    if (_strlen($newText) < $maxChars) {
+    if (_strlen($newText) <= $maxChars) {
         return $newText;
     } else {
         return _substr($newText, 0, $maxChars - 3) . '...';
