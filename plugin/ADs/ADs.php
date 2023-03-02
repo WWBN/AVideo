@@ -302,7 +302,7 @@ class ADs extends PluginAbstract
 
         $array = self::getAdsHTML($type, $users_id);
         if(empty($array)){
-            $adCode = '';
+            eval("\$adCode = \$ad->{$type}->value;");
             $array=array('paths'=>array());
         }else{
             $adCode = $array['html'];
