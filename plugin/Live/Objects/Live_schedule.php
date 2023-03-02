@@ -158,7 +158,7 @@ class Live_schedule extends ObjectYPT
         return $rows;
     }
 
-    public static function getAllActiveLimit($users_id=0,$limit = 10)
+    public static function getAllActiveLimit($users_id=0,$limit = 100)
     {
         global $global;
         if (!static::isTableInstalled()) {
