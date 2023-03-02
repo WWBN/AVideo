@@ -4219,16 +4219,18 @@ if (!class_exists('Video')) {
                 if (in_array($ext, $allowedExtensions)) {
                     $path = "$dir/$file";
                     $resolution = self::getResolutionFromFilename($path);
-                    _error_log("getVideosPathsGloob($filename) new resolution found $resolution");
-                    $global['avideo_resolutions'][] = $resolution;
-                    if (!empty($resolution)) {
-                        closedir($dirHandle);
-                        return self::getVideosPaths($filename, $includeS3, 1);
+                    if(!in_array($resolution, $global['avideo_resolutions'])){
+                        _error_log("getVideosPathsGloob($filename) new resolution found $resolution");
+                        $global['avideo_resolutions'][] = $resolution;
+                        if (!empty($resolution)) {
+                            closedir($dirHandle);
+                            return self::getVideosPaths($filename, $includeS3, 1);
+                        }
                     }
                 }
             }
             closedir($dirHandle);
-            exit;
+            return array();
         }
 
         public static function getStoragePath() {
