@@ -3990,7 +3990,9 @@ if (!class_exists('Video')) {
             }
             //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 3 FROM database " . $return['resolution'] . ' - ' . $v['path']); //exit;
             //if($filename=='video_210916143432_c426'){var_dump(1, $filename, $return);exit;}
-            $video->setVideoHigestResolution($return['resolution']);
+            if(!empty($return)){
+                $video->setVideoHigestResolution($return['resolution']);
+            }
             TimeLogEnd($name0, __LINE__);
             ObjectYPT::setSessionCache($cacheName, $return);
             return $return;
