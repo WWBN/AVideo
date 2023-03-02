@@ -31,7 +31,7 @@ if (empty($_SESSION['addViewCount'])) {
 
 $seconds = parseDurationToSeconds($obj->getDuration());
 
-if (!empty($seconds)) {
+if (!empty($seconds) && isset($_REQUEST['currentTime'])) {
     $percent = (intval($_REQUEST['currentTime']) / $seconds) * 100;
     $percentOptions = [25,50,75,100];
     foreach ($percentOptions as $value) {
