@@ -710,9 +710,14 @@ if (!class_exists('Video')) {
                         Video::$statusBrokenMissingFiles
                     );
                     if(!in_array($this->status, $doNotNotify) && $status == Video::$statusActive){
+                        _error_log("Video::setStatus({$status}) AVideoPlugin::onNewVideo ");
                         AVideoPlugin::onNewVideo($this->id);
+                    }else{
+                        _error_log("Video::setStatus({$status}) clearCache only ");
                     }
                     clearCache(true);
+                }else{
+                    _error_log("Video::setStatus({$status}) [{$this->status}] ");
                 }
             }
             AVideoPlugin::onVideoSetStatus($this->id, $this->status, $status);
