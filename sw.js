@@ -7,7 +7,7 @@ workbox.setConfig({
 
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
-const CACHE_NAME = 'avideo-cache-ver-3.3';
+const CACHE_NAME = 'avideo-cache-ver-3.4';
 
 const staticAssetsCacheName = CACHE_NAME + '-static-assets';
 

@@ -153,11 +153,17 @@ class YouPHPFlix2 extends PluginAbstract
         return $js;
     }
 
+    /**
+     * @param string $parameters
+     * This will return the configuration of the first page, also the URL to retreive the videos list from each section
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIPlugin={APIPlugin}&APIName={APIName}
+     * @return \ApiObject
+     */
     static function API_get_firstPage($parameters)
     {
         global $global;
         $start = microtime(true);
-        $cacheName = 'YouPHPFlix2_API_get_firstPage_' . md5(json_encode($parameters));
+        $cacheName = 'YouPHPFlix2_API_get_firstPage_' . md5(json_encode($parameters)).'_'.User::getId();
         $object = ObjectYPT::getCache($cacheName, 3600); // 1 hour
         if (empty($object)) {
             $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
@@ -255,9 +261,14 @@ class YouPHPFlix2 extends PluginAbstract
                 $categories = Category::getAllCategories(false, true);
                 reloadSearchVar();
                 foreach ($categories as $value2) {
+                    $type = 'Category';
+                    if(!empty($value2['parentId'])){
+                        $type = 'SubCategory';
+                    }
                     $title = $value2['name'];
                     $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$value2['clean_name']}";
-                    $section = new SectionFirstPage('Categories', $title, $endpoint, $rowCount);
+                    //$endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=category&catName={$value2['clean_name']}";
+                    $section = new SectionFirstPage($type, $title, $endpoint, $rowCount);
                     $countVideos += $section->totalRows;
                     $response->sections[] = $section;
                 }

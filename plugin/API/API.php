@@ -214,6 +214,7 @@ class API extends PluginAbstract {
      * ['current' current page]
      * ['searchPhrase' to search on the categories]
      * ['parentsOnly' will bring only the parents, not children categories]
+     * ['catName' the clean_Name of the category you want to filter]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&rowCount=3&current=1&sort[created]=DESC
      * @return \ApiObject
      */
@@ -221,7 +222,21 @@ class API extends PluginAbstract {
         global $global;
         require_once $global['systemRootPath'] . 'objects/category.php';
         $obj = $this->startResponseObject($parameters);
-        $rows = Category::getAllCategories();
+        if (!empty($parameters['catName'])) {
+            $row = Category::getCategoryByName($parameters['catName']);
+            $fullTotals = Category::getTotalFromCategory($row['id'], false, true, true);
+            $totals = Category::getTotalFromCategory($row['id']);
+            $row['total'] = $totals['total'];
+            $row['fullTotal'] = $fullTotals['total'];
+            $row['fullTotal_videos'] = $fullTotals['videos'];
+            $row['fullTotal_lives'] = $fullTotals['lives'];
+            $row['fullTotal_livelinks'] = $fullTotals['livelinks'];
+            $row['fullTotal_livelinks'] = $fullTotals['livelinks'];
+
+            $rows = array($row);
+        } else {
+            $rows = Category::getAllCategories();
+        }
         foreach ($rows as $key => $value) {
             $totalVideosOnChilds = Category::getTotalFromChildCategory($value['id']);
             $childs = Category::getChildCategories($value['id']);
@@ -302,8 +317,8 @@ class API extends PluginAbstract {
             $parameters['channel_bg'] = $user->getBackground();
             $parameters['channel_link'] = $user->getChannelLink();
         }
-        
-        $parameters = array_merge($parameters, PlayLists::videosToPlaylist($videos, @$parameters['index'], !empty($parameters['audioOnly'])));        
+
+        $parameters = array_merge($parameters, PlayLists::videosToPlaylist($videos, @$parameters['index'], !empty($parameters['audioOnly'])));
 
         return new ApiObject("", false, $parameters);
     }
@@ -320,7 +335,7 @@ class API extends PluginAbstract {
         $parameters['audioOnly'] = 1;
         return $this->get_api_video_from_program($parameters);
     }
-    
+
     /**
      * @param string $parameters
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
@@ -345,23 +360,23 @@ class API extends PluginAbstract {
         $list[] = $obj;
         $videos = PlayList::getSuggested();
         foreach ($videos as $value) {
-                $videosArrayId = PlayList::getVideosIdFromPlaylist($value['serie_playlists_id']);
-                if (empty($videosArrayId) || $value['status'] == "favorite" || $value['status'] == "watch_later") {
-                    continue;
-                }
-                $obj = new stdClass();
-                $obj->id = $value['serie_playlists_id'];
-                $obj->photo = User::getPhoto($value['users_id']);
-                $obj->channelLink = User::getChannelLink($value['users_id']);
-                $obj->username = User::getNameIdentificationById($value['users_id']);
-                $obj->name = $value['title'];
-                $obj->link = PlayLists::getLink($value['serie_playlists_id']);
-                $obj->videos = PlayList::getVideosIDFromPlaylistLight($value['serie_playlists_id']);
-                $list[] = $obj;
+            $videosArrayId = PlayList::getVideosIdFromPlaylist($value['serie_playlists_id']);
+            if (empty($videosArrayId) || $value['status'] == "favorite" || $value['status'] == "watch_later") {
+                continue;
             }
+            $obj = new stdClass();
+            $obj->id = $value['serie_playlists_id'];
+            $obj->photo = User::getPhoto($value['users_id']);
+            $obj->channelLink = User::getChannelLink($value['users_id']);
+            $obj->username = User::getNameIdentificationById($value['users_id']);
+            $obj->name = $value['title'];
+            $obj->link = PlayLists::getLink($value['serie_playlists_id']);
+            $obj->videos = PlayList::getVideosIDFromPlaylistLight($value['serie_playlists_id']);
+            $list[] = $obj;
+        }
         return new ApiObject("", false, $list);
     }
-        
+
     /**
      * This API will return all the tags from VideoTags plugin, also will list the latest 100 videos from the tags your user is subscribed to
      * @param string $parameters
@@ -372,28 +387,28 @@ class API extends PluginAbstract {
     public function get_api_tags($parameters) {
         global $global;
         $vtags = AVideoPlugin::loadPluginIfEnabled("VideoTags");
-        
+
         if (empty($vtags)) {
             return new ApiObject("VideoTags is disabled");
         }
-                
-        $tags = VideoTags::getAll(User::getId());        
+
+        $tags = VideoTags::getAll(User::getId());
         if (is_array($tags)) {
             foreach ($tags as $key => $row) {
                 $tags[$key]['videos'] = array();
-                $tags[$key]['photo'] = $global['webSiteRootURL'].'view/img/notfound.jpg';
-                if(!empty($row['subscription'])){
+                $tags[$key]['photo'] = $global['webSiteRootURL'] . 'view/img/notfound.jpg';
+                if (!empty($row['subscription'])) {
                     $videos = TagsHasVideos::getAllVideosFromTagsId($row['id']);
                     $tags[$key]['videos'] = PlayLists::videosToPlaylist($videos, @$parameters['index'], !empty($parameters['audioOnly']));
-                    if(!empty($tags[$key]['videos'][0])){
+                    if (!empty($tags[$key]['videos'][0])) {
                         $tags[$key]['photo'] = $tags[$key]['videos'][0]['images']['poster'];
                     }
                 }
             }
-        }else{
+        } else {
             $tags = array();
         }
-        
+
         return new ApiObject("", false, $tags);
     }
 
@@ -444,17 +459,17 @@ class API extends PluginAbstract {
      */
     public function get_api_video($parameters) {
         $start = microtime(true);
-        
-        $cacheParameters = array('APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id');
-        
+
+        $cacheParameters = array('noRelated','APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id');
+
         $cacheVars = array();
         foreach ($cacheParameters as $value) {
             $cacheVars[$value] = @$_REQUEST[$value];
         }
-        
+
         // use 1 hour cache
         $cacheName = 'get_api_video' . md5(json_encode($cacheVars));
-        if(empty($parameters['videos_id'])){
+        if (empty($parameters['videos_id'])) {
             $obj = ObjectYPT::getCache($cacheName, 3600);
             if (!empty($obj)) {
                 $end = microtime(true) - $start;
@@ -487,13 +502,34 @@ class API extends PluginAbstract {
         }
 
         if (!empty($_REQUEST['catName']) && empty($parameters['videos_id'])) {
-            $currentCat = Category::getCategoryByName($_REQUEST['catName']);
+            $currentCat = Category::getCategoryByName($_REQUEST['catName']); 
             if (!empty($currentCat)) {
                 $liveVideos = getLiveVideosFromCategory($currentCat['id']);
                 if (!empty($liveVideos)) {
                     $rows = array_merge($liveVideos, $rows);
                     $totalRows += count($liveVideos);
                 }
+                
+                $fullTotals = Category::getTotalFromCategory($currentCat['id'], false, true, true);
+                $totals = Category::getTotalFromCategory($currentCat['id']);
+                $currentCat['total'] = $totals['total'];
+                $currentCat['fullTotal'] = $fullTotals['total'];
+                $currentCat['fullTotal_videos'] = $fullTotals['videos'];
+                $currentCat['fullTotal_lives'] = $fullTotals['lives'];
+                $currentCat['fullTotal_livelinks'] = $fullTotals['livelinks'];
+                $currentCat['fullTotal_livelinks'] = $fullTotals['livelinks'];
+                
+                $currentCat['totalVideosOnChilds'] = Category::getTotalFromChildCategory($currentCat['id']);
+                $currentCat['childs'] = Category::getChildCategories($currentCat['id']);
+                $currentCat['photo'] = Category::getCategoryPhotoPath($currentCat['id']);
+                $currentCat['photoBg'] = Category::getCategoryBackgroundPath($currentCat['id']);
+                $currentCat['link'] = $global['webSiteRootURL'] . 'cat/' . $currentCat['clean_name'];                        
+            
+                foreach ($currentCat['childs'] as $key => $child) {
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$child['clean_name']}";
+                    $currentCat['childs'][$key]['section'] = new SectionFirstPage('SubCategroy', $child['name'], $endpoint, getRowCount());
+                }
+                $obj->category = $currentCat; 
             }
         }
 
@@ -591,8 +627,10 @@ class API extends PluginAbstract {
             //$rows[$key]['wwbnProgram'] = $rows[$key]['pageUrl'];
             //$rows[$key]['wwbnProgramURL'] = $rows[$key]['pageUrl'];
             $rows[$key]['wwbnType'] = $rows[$key]['type'];
-            $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
 
+            if (empty($parameters['noRelated'])) {
+                $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
+            }
             $rows[$key]['adsImages'] = array();
             if (!empty($objAds)) {
                 foreach (ADs::$AdsPositions as $value) {
@@ -958,7 +996,7 @@ class API extends PluginAbstract {
      * ['current' current page]
      * ['searchPhrase' to search on the categories]
      * ['tags_id' the ID of the tag you want to filter]
-     * ['catName' the clean_APIName of the category you want to filter]
+     * ['catName' the clean_Name of the category you want to filter]
      * ['channelName' the channelName of the videos you want to filter]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}
      * @return \ApiObject
@@ -1736,7 +1774,7 @@ class ApiObject {
 
     public function __construct($message = "api not started or not found", $error = true, $response = []) {
         $response = cleanUpRowFromDatabase($response);
-        
+
         $this->error = $error;
         $this->msg = $message;
         $this->message = $message;
@@ -1746,8 +1784,8 @@ class ApiObject {
 
 }
 
-class SectionFirstPage
-{
+class SectionFirstPage {
+
     public $type;
     public $title;
     public $endpoint;
@@ -1755,9 +1793,11 @@ class SectionFirstPage
     public $rowCount;
     public $endpointResponse;
     public $totalRows;
+    public $childs;
+
     // Add constructor, getter, and setter here
-    public function __construct($type, $title, $endpoint, $rowCount)
-    {
+    public function __construct($type, $title, $endpoint, $rowCount, $childs = array()) {
+        $endpoint = addQueryStringParameter($endpoint, 'noRelated', 1);
         $this->type = $type;
         $this->title = $title;
         $this->endpoint = $endpoint;
@@ -1767,5 +1807,7 @@ class SectionFirstPage
         $response = json_decode(url_get_contents($endpointURL));
         $this->endpointResponse = $response->response;
         $this->totalRows = $this->endpointResponse->totalRows;
+        $this->childs = $childs;
     }
+
 }
