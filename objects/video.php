@@ -4196,14 +4196,14 @@ if (!class_exists('Video')) {
             }
 
             if (empty($videos) && $try===0) {
-                return self::getVideosPathsGloob($filename, $includeS3);
+                return self::getVideosPathsSearchingDir($filename, $includeS3);
             }
             $c = ObjectYPT::setCache($cacheName, $videos);
             //var_dump($cacheName, $c);exit;
             return $videos;
         }
 
-        public static function getVideosPathsGloob($filename, $includeS3 = false) {
+        public static function getVideosPathsSearchingDir($filename, $includeS3 = false) {
             global $global, $_getVideosPaths;
 
             $paths = self::getPaths($filename);
