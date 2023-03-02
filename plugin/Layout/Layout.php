@@ -677,6 +677,7 @@ class Layout extends PluginAbstract {
                 preg_match('/function gtag\(/i', $tag) ||
                 preg_match('/<script async/i', $tag) ||
                 preg_match('/doNotSepareteTag/', $tag) ||
+                preg_match('/window.googletag/', $tag) ||
                 preg_match('/document\.write/', $tag)) {
             return true;
         }
