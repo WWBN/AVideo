@@ -2905,6 +2905,21 @@ function copy_remotefile_if_local_is_smaller($url, $destination)
     return file_put_contents($destination, $content);
 }
 
+
+function try_get_contents_from_local_encoder($url){
+    global $global;
+    
+    $parts = explode('/videos/', $url);
+    if(!empty($parts[1])){
+        $tryFile = "{$global['systemRootPath']}Encoder/videos/{$parts[1]}";
+        _error_log("try_get_contents_from_local_encoder " . $tryFile);
+        if(file_exists($tryFile)){
+            return file_get_contents($tryFile);
+        }
+    }
+    return false;
+}
+
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
@@ -2915,6 +2930,12 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false)
     if ($debug) {
         _error_log("url_get_contents: Start $url, $ctx, $timeout " . getSelfURI() . " " . getRealIpAddr() . " " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     }
+    
+    $response = try_get_contents_from_local_encoder($url);
+    if(!empty($response)){
+        return $response;
+    }
+    
     $agent = getSelfUserAgent();
 
     if (empty($ctx)) {

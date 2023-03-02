@@ -20,6 +20,7 @@ require_once $global['systemRootPath'] . 'objects/Object.php';
 if (!class_exists('Video')) {
 
     class Video extends ObjectYPT {
+
         protected $properties = [];
         protected $id;
         protected $title;
@@ -335,7 +336,7 @@ if (!class_exists('Video')) {
         }
 
         public function getVideo_password() {
-            if(empty($this->video_password)){
+            if (empty($this->video_password)) {
                 return '';
             }
             return trim($this->video_password);
@@ -701,22 +702,22 @@ if (!class_exists('Video')) {
                 }
                 self::clearCache($this->id);
                 if ($this->status == Video::$statusActive || $status == Video::$statusActive && ($this->status != $status)) {
-                    
+
                     $doNotNotify = array(
-                        Video::$statusInactive, 
-                        Video::$statusUnlisted, 
-                        Video::$statusUnlistedButSearchable, 
-                        Video::$statusFansOnly, 
+                        Video::$statusInactive,
+                        Video::$statusUnlisted,
+                        Video::$statusUnlistedButSearchable,
+                        Video::$statusFansOnly,
                         Video::$statusBrokenMissingFiles
                     );
-                    if(!in_array($this->status, $doNotNotify) && $status == Video::$statusActive){
+                    if (!in_array($this->status, $doNotNotify) && $status == Video::$statusActive) {
                         _error_log("Video::setStatus({$status}) AVideoPlugin::onNewVideo ");
                         AVideoPlugin::onNewVideo($this->id);
-                    }else{
+                    } else {
                         _error_log("Video::setStatus({$status}) clearCache only ");
                     }
                     clearCache(true);
-                }else{
+                } else {
                     _error_log("Video::setStatus({$status}) [{$this->status}] ");
                 }
             }
@@ -1580,7 +1581,7 @@ if (!class_exists('Video')) {
         }
 
         static function getInfo($row, $getStatistcs = false) {
-            if(empty($row)){
+            if (empty($row)) {
                 return array();
             }
             $TimeLogLimit = 0.2;
@@ -1693,9 +1694,9 @@ if (!class_exists('Video')) {
 
         public static function getMediaSession($videos_id) {
             $video = Video::getVideoLight($videos_id);
-            
+
             $MediaMetadata = new stdClass();
-            if(empty($video)){
+            if (empty($video)) {
                 return $MediaMetadata;
             }
             $video = Video::getInfo($video);
@@ -1970,7 +1971,7 @@ if (!class_exists('Video')) {
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL('v.');
             }
-            if (!empty($videosArrayId) && is_array($videosArrayId) && is_string($videosArrayId[0]) ) {
+            if (!empty($videosArrayId) && is_array($videosArrayId) && is_string($videosArrayId[0])) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
             if ($status == "viewable") {
@@ -2035,7 +2036,7 @@ if (!class_exists('Video')) {
             }
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
-                if(!empty($user)){
+                if (!empty($user)) {
                     $uid = intval($user['id']);
                     $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company  = '{$uid}')";
                 }
@@ -2626,12 +2627,12 @@ if (!class_exists('Video')) {
                     $reason[] = 'empty id';
                 }
                 if (self::isValidDuration($this->duration)) {
-                    $reason[] = 'duration is valid '.$this->duration;
+                    $reason[] = 'duration is valid ' . $this->duration;
                 }
                 if (!file_exists($file)) {
-                    $reason[] = 'file not exists '.$file;
+                    $reason[] = 'file not exists ' . $file;
                 }
-                _error_log("Do not need update duration: ".implode(', ', $reason));
+                _error_log("Do not need update duration: " . implode(', ', $reason));
                 return false;
             }
         }
@@ -3613,7 +3614,7 @@ if (!class_exists('Video')) {
 
             $source = AVideoPlugin::modifyURL($source);
 
-            //var_dump($source);exit;
+            //var_dump($type, $source);exit;
             //ObjectYPT::setCache($name, $source);
             $VideoGetSourceFile[$cacheName] = $source;
             return $VideoGetSourceFile[$cacheName];
@@ -3837,10 +3838,10 @@ if (!class_exists('Video')) {
              * @var array $global
              * @var array $global['avideo_resolutions']
              */
-            if(!empty($global['avideo_resolutions']) && is_array($global['avideo_resolutions'])){
+            if (!empty($global['avideo_resolutions']) && is_array($global['avideo_resolutions'])) {
                 foreach ($global['avideo_resolutions'] as $value) {
                     $search[] = "_{$value}";
-    
+
                     $search[] = "res{$value}";
                 }
             }
@@ -3990,7 +3991,7 @@ if (!class_exists('Video')) {
             }
             //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 3 FROM database " . $return['resolution'] . ' - ' . $v['path']); //exit;
             //if($filename=='video_210916143432_c426'){var_dump(1, $filename, $return);exit;}
-            if(!empty($return)){
+            if (!empty($return)) {
                 $video->setVideoHigestResolution($return['resolution']);
             }
             TimeLogEnd($name0, __LINE__);
@@ -4140,7 +4141,7 @@ if (!class_exists('Video')) {
             return false;
         }
 
-        public static function getVideosPaths($filename, $includeS3 = false) {
+        public static function getVideosPaths($filename, $includeS3 = false, $try = 0) {
             global $global, $_getVideosPaths;
 
             $cacheName = "getVideosPaths_$filename" . ($includeS3 ? 1 : 0);
@@ -4193,10 +4194,41 @@ if (!class_exists('Video')) {
             if (!empty($source['url'])) {
                 $videos['mp3'] = $source['url'];
             }
-            //var_dump($videos);exit;
+
+            if (empty($videos) && $try===0) {
+                return self::getVideosPathsGloob($filename, $includeS3);
+            }
             $c = ObjectYPT::setCache($cacheName, $videos);
             //var_dump($cacheName, $c);exit;
             return $videos;
+        }
+
+        public static function getVideosPathsGloob($filename, $includeS3 = false) {
+            global $global, $_getVideosPaths;
+
+            $paths = self::getPaths($filename);
+            $dir = $paths["path"];
+            $allowedExtensions = array('mp4');
+            $dirHandle = opendir($dir);
+            $videos = array();
+            while ($file = readdir($dirHandle)) {
+                if ($file == '.' || $file == '..') {
+                    continue;
+                }
+                $ext = pathinfo($file, PATHINFO_EXTENSION);
+                if (in_array($ext, $allowedExtensions)) {
+                    $path = "$dir/$file";
+                    $resolution = self::getResolutionFromFilename($path);
+                    _error_log("getVideosPathsGloob($filename) new resolution found $resolution");
+                    $global['avideo_resolutions'][] = $resolution;
+                    if (!empty($resolution)) {
+                        closedir($dirHandle);
+                        return self::getVideosPaths($filename, $includeS3, 1);
+                    }
+                }
+            }
+            closedir($dirHandle);
+            exit;
         }
 
         public static function getStoragePath() {
