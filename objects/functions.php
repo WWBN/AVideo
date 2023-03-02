@@ -1411,7 +1411,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
             foreach ($files as $value) {
                 // check if is a dummy file and the URL still wrong
                 $pathFilesize = 0;
-                if(!isValidURL($value['path'])){
+                if(!isValidURL($value['path']) && file_exists($value['path'])){
                     $pathFilesize = filesize($value['path']);
                 }
                 if (
