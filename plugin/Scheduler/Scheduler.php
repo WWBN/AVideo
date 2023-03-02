@@ -388,7 +388,6 @@ class Scheduler extends PluginAbstract
         }
 
         $status = $video->setStatus(Video::$statusActive);
-        AVideoPlugin::onNewVideo($videos_id);
         return true;
     }
 

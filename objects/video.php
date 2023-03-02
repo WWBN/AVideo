@@ -701,6 +701,17 @@ if (!class_exists('Video')) {
                 }
                 self::clearCache($this->id);
                 if ($this->status == Video::$statusActive || $status == Video::$statusActive && ($this->status != $status)) {
+                    
+                    $doNotNotify = array(
+                        Video::$statusInactive, 
+                        Video::$statusUnlisted, 
+                        Video::$statusUnlistedButSearchable, 
+                        Video::$statusFansOnly, 
+                        Video::$statusBrokenMissingFiles
+                    );
+                    if(!in_array($this->status, $doNotNotify) && $status == Video::$statusActive){
+                        AVideoPlugin::onNewVideo($this->id);
+                    }
                     clearCache(true);
                 }
             }
