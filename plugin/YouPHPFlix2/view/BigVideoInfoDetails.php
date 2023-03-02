@@ -51,7 +51,7 @@ if (!empty($ads1)) {
             ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
         }
         if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayPluginsTags)) {
-            if ($value2->label === "Plugin") {
+            if (!empty($value2->label) && $value2->label === "Plugin") {
                 ?>
                 <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
                 <?php
