@@ -6428,15 +6428,15 @@ function html2plainText($html)
     return $text;
 }
 
-function getInputPassword($id, $attributes = 'class="form-control"', $paceholder = '')
+function getInputPassword($id, $attributes = 'class="form-control"', $placeholder = '')
 {
-    if (empty($paceholder)) {
-        $paceholder = __("Password");
+    if (empty($placeholder)) {
+        $placeholder = __("Password");
     }
 ?>
     <div class="input-group">
         <span class="input-group-addon"><i class="fas fa-lock"></i></span>
-        <input id="<?php echo $id; ?>" name="<?php echo $id; ?>" type="password" placeholder="<?php echo $paceholder; ?>" <?php echo $attributes; ?>>
+        <input id="<?php echo $id; ?>" name="<?php echo $id; ?>" type="password" placeholder="<?php echo $placeholder; ?>" <?php echo $attributes; ?>>
         <span class="input-group-addon" style="cursor: pointer;" id="toggle_<?php echo $id; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __('Show/Hide Password'); ?>"><i class="fas fa-eye-slash"></i></span>
     </div>
     <script>
@@ -6454,7 +6454,7 @@ function getInputPassword($id, $attributes = 'class="form-control"', $paceholder
 <?php
 }
 
-function getInputCopyToClipboard($id, $value, $attributes = 'class="form-control" readonly="readonly"', $paceholder = '')
+function getInputCopyToClipboard($id, $value, $attributes = 'class="form-control" readonly="readonly"', $placeholder = '')
 {
     if (strpos($value, '"') !== false) {
         $valueAttr = "value='{$value}'";
@@ -6463,7 +6463,7 @@ function getInputCopyToClipboard($id, $value, $attributes = 'class="form-control
     }
 ?>
     <div class="input-group">
-        <input id="<?php echo $id; ?>" type="text" placeholder="<?php echo $paceholder; ?>" <?php echo $attributes; ?> <?php echo $valueAttr; ?>>
+        <input id="<?php echo $id; ?>" type="text" placeholder="<?php echo $placeholder; ?>" <?php echo $attributes; ?> <?php echo $valueAttr; ?>>
         <span class="input-group-addon" style="cursor: pointer;" id="copyToClipboard_<?php echo $id; ?>" data-toggle="tooltip" data-placement="left" title="<?php echo __('Copy to Clipboard'); ?>"><i class="fas fa-clipboard"></i></span>
     </div>
     <script>
