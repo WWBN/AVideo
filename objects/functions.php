@@ -2898,14 +2898,19 @@ function copy_remotefile_if_local_is_smaller($url, $destination)
 }
 
 
-function try_get_contents_from_local_encoder($url)
+function try_get_contents_from_local($url)
 {
     global $global;
 
     $parts = explode('/videos/', $url);
     if (!empty($parts[1])) {
-        $tryFile = "{$global['systemRootPath']}Encoder/videos/{$parts[1]}";
-        _error_log("try_get_contents_from_local_encoder " . $tryFile);
+        if(preg_match('/cache\//', $parts[1])){
+            $encoder = '';
+        }else{
+            $encoder = 'Encoder/';
+        }
+        $tryFile = "{$global['systemRootPath']}{$encoder}videos/{$parts[1]}";
+        _error_log("try_get_contents_from_local {$url} => {$tryFile}" );
         if (file_exists($tryFile)) {
             return file_get_contents($tryFile);
         }
@@ -2924,7 +2929,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false)
         _error_log("url_get_contents: Start $url, $ctx, $timeout " . getSelfURI() . " " . getRealIpAddr() . " " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     }
 
-    $response = try_get_contents_from_local_encoder($url);
+    $response = try_get_contents_from_local($url);
     if (!empty($response)) {
         return $response;
     }
