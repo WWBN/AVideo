@@ -2293,11 +2293,12 @@ function convertImage($originalImage, $outputImage, $quality, $useExif = false)
                     if ($imageTmp) {
                         break;
                     }else{
-                        _error_log("convertImage: Could not create image resource using $function_name");
+                        //_error_log("convertImage: Could not create image resource using $function_name");
                     }
                 }
                 if (!$imageTmp) {
-                    _error_log("convertImage: Could not create image resource for $originalImage");
+                    copy($originalImage, $outputImage);
+                    _error_log("convertImage: Could not create image resource for $originalImage we will just copy it");
                     return false;
                 }
             }
