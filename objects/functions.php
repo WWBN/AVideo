@@ -2289,7 +2289,7 @@ function convertImage($originalImage, $outputImage, $quality, $useExif = false)
                 $supported_extensions = ['jpeg', 'png', 'bmp', 'gif'];
                 foreach ($supported_extensions as $ext) {
                     $function_name = "imagecreatefrom$ext";
-                    $imageTmp = $function_name($originalImage);
+                    $imageTmp = @$function_name($originalImage);
                     if ($imageTmp) {
                         break;
                     }else{
