@@ -2028,7 +2028,7 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd)
 
     imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $thumb_w, $thumb_h, $old_x, $old_y);
 
-    switch($mime['mime']) {
+    switch ($mime['mime']) {
         case 'image/png':
             $result = imagepng($dst_img, $new_thumb_loc, 8);
             break;
@@ -2224,7 +2224,8 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height)
     @unlink($tmpFile);
 }
 
-function detect_image_type($file_path) {
+function detect_image_type($file_path)
+{
     $image_info = getimagesize($file_path);
 
     if ($image_info !== false) {
@@ -2255,16 +2256,16 @@ function detect_image_type($file_path) {
 function convertImage($originalImage, $outputImage, $quality, $useExif = false)
 {
     ini_set('memory_limit', '512M');
-    if(!file_exists($originalImage,)){
+    if (!file_exists($originalImage,)) {
         return false;
     }
     $originalImage = str_replace('&quot;', '', $originalImage);
     $outputImage = str_replace('&quot;', '', $outputImage);
     $imagetype = 0;
-    
+
     if (!empty($useExif) && function_exists('exif_imagetype')) {
         $imagetype = exif_imagetype($originalImage);
-    }else{
+    } else {
         $imagetype = detect_image_type($originalImage);
     }
 
@@ -2280,19 +2281,28 @@ function convertImage($originalImage, $outputImage, $quality, $useExif = false)
         if ($imagetype == IMAGETYPE_WEBP) {
             //_error_log("convertImage: IMAGETYPE_WEBP");
             $imageTmp = imagecreatefromwebp($originalImage);
-            if(empty($imageTmp)){
-                _error_log("convertImage: imagecreatefromwebp error {$originalImage} [{$imagetype}] $useExif");
-                if(empty($useExif)){
-                    return convertImage($originalImage, $outputImage, $quality,true);
-                }else{
-                    $imageTmp = imagecreatefromjpeg($originalImage);
-                    if(empty($imageTmp)){
-                        return false;
+            if (!$imageTmp) {
+                _error_log("convertImage: imagecreatefromwebp error $originalImage [$imagetype] $useExif");
+                if (!$useExif) {
+                    return convertImage($originalImage, $outputImage, $quality, true);
+                }
+                $supported_extensions = ['jpeg', 'png', 'bmp', 'gif'];
+                foreach ($supported_extensions as $ext) {
+                    $function_name = "imagecreatefrom$ext";
+                    $imageTmp = $function_name($originalImage);
+                    if ($imageTmp) {
+                        break;
+                    }else{
+                        _error_log("convertImage: Could not create image resource using $function_name");
                     }
                 }
+                if (!$imageTmp) {
+                    _error_log("convertImage: Could not create image resource for $originalImage");
+                    return false;
+                }
             }
-        } 
-        if(empty($imageTmp)){
+        }
+        if (empty($imageTmp)) {
             if ($imagetype === IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext)) {
                 //_error_log("convertImage: IMAGETYPE_JPEG");
                 $imageTmp = imagecreatefromjpeg($originalImage);
@@ -2313,7 +2323,6 @@ function convertImage($originalImage, $outputImage, $quality, $useExif = false)
                 return 0;
             }
         }
-        
     } catch (Exception $exc) {
         _error_log("convertImage: " . $exc->getMessage());
         return 0;
@@ -2959,13 +2968,13 @@ function try_get_contents_from_local($url)
 
     $parts = explode('/videos/', $url);
     if (!empty($parts[1])) {
-        if(preg_match('/cache\//', $parts[1])){
+        if (preg_match('/cache\//', $parts[1])) {
             $encoder = '';
-        }else{
+        } else {
             $encoder = 'Encoder/';
         }
         $tryFile = "{$global['systemRootPath']}{$encoder}videos/{$parts[1]}";
-        _error_log("try_get_contents_from_local {$url} => {$tryFile}" );
+        _error_log("try_get_contents_from_local {$url} => {$tryFile}");
         if (file_exists($tryFile)) {
             return file_get_contents($tryFile);
         }
@@ -8643,7 +8652,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
         }
         $cache = ObjectYPT::setCache($cacheName, $json);
         Live::unfinishAllFromStats();
-    //_error_log('Live::createStatsCache ' . json_encode($cache));
+        //_error_log('Live::createStatsCache ' . json_encode($cache));
     } else {
         //_error_log('getStatsNotifications: 2 cached result');
         $json = object_to_array($json);
