@@ -7,7 +7,7 @@ workbox.setConfig({
 
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
-const CACHE_NAME = 'avideo-cache-ver-3.4';
+const CACHE_NAME = 'avideo-cache-ver-3.6';
 
 const staticAssetsCacheName = CACHE_NAME + '-static-assets';
 
@@ -56,7 +56,7 @@ workbox.routing.registerRoute(
             request.url.match(/\.map/) ||
             request.url.match(/\.woff2/));
     },
-    new workbox.strategies.CacheFirst({
+    new workbox.strategies.StaleWhileRevalidate({
         cacheName: staticAssetsCacheName,
         plugins: [
             new workbox.cacheableResponse.CacheableResponsePlugin({
