@@ -2226,6 +2226,7 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height)
 
 function convertImage($originalImage, $outputImage, $quality)
 {
+    ini_set('memory_limit', '512M');
     if(!file_exists($originalImage,)){
         return false;
     }
