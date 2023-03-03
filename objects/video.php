@@ -4204,7 +4204,7 @@ if (!class_exists('Video')) {
         }
 
         public static function getVideosPathsSearchingDir($filename, $includeS3 = false) {
-            global $global, $_getVideosPaths;
+            global $global;
 
             $paths = self::getPaths($filename);
             $dir = $paths["path"];
