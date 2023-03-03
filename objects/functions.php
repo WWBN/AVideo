@@ -2246,25 +2246,29 @@ function convertImage($originalImage, $outputImage, $quality)
             //_error_log("convertImage: IMAGETYPE_WEBP");
             $imageTmp = imagecreatefromwebp($originalImage);
             convertImage($originalImage, $originalImage, $quality); //transform the webp to jpg
-        } elseif ($imagetype === IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext)) {
-            //_error_log("convertImage: IMAGETYPE_JPEG");
-            $imageTmp = imagecreatefromjpeg($originalImage);
-        } elseif ($imagetype == IMAGETYPE_PNG || preg_match('/png/i', $ext)) {
-            //_error_log("convertImage: IMAGETYPE_PNG");
-            $imageTmp = imagecreatefrompng($originalImage);
-        } elseif ($imagetype == IMAGETYPE_GIF || preg_match('/gif/i', $ext)) {
-            //_error_log("convertImage: IMAGETYPE_GIF");
-            $imageTmp = imagecreatefromgif($originalImage);
-        } elseif ($imagetype == IMAGETYPE_BMP || preg_match('/bmp/i', $ext)) {
-            //_error_log("convertImage: IMAGETYPE_BMP");
-            $imageTmp = imagecreatefrombmp($originalImage);
-        } elseif ($imagetype == IMAGETYPE_WEBP || preg_match('/webp/i', $ext)) {
-            //_error_log("convertImage: IMAGETYPE_WEBP");
-            $imageTmp = imagecreatefromwebp($originalImage);
-        } else {
-            _error_log("convertImage: File Extension not found ($originalImage, $outputImage, $quality) " . exif_imagetype($originalImage));
-            return 0;
+        } 
+        if(empty($imageTmp)){
+            if ($imagetype === IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext)) {
+                //_error_log("convertImage: IMAGETYPE_JPEG");
+                $imageTmp = imagecreatefromjpeg($originalImage);
+            } elseif ($imagetype == IMAGETYPE_PNG || preg_match('/png/i', $ext)) {
+                //_error_log("convertImage: IMAGETYPE_PNG");
+                $imageTmp = imagecreatefrompng($originalImage);
+            } elseif ($imagetype == IMAGETYPE_GIF || preg_match('/gif/i', $ext)) {
+                //_error_log("convertImage: IMAGETYPE_GIF");
+                $imageTmp = imagecreatefromgif($originalImage);
+            } elseif ($imagetype == IMAGETYPE_BMP || preg_match('/bmp/i', $ext)) {
+                //_error_log("convertImage: IMAGETYPE_BMP");
+                $imageTmp = imagecreatefrombmp($originalImage);
+            } elseif ($imagetype == IMAGETYPE_WEBP || preg_match('/webp/i', $ext)) {
+                //_error_log("convertImage: IMAGETYPE_WEBP");
+                $imageTmp = imagecreatefromwebp($originalImage);
+            } else {
+                _error_log("convertImage: File Extension not found ($originalImage, $outputImage, $quality) " . exif_imagetype($originalImage));
+                return 0;
+            }
         }
+        
     } catch (Exception $exc) {
         _error_log("convertImage: " . $exc->getMessage());
         return 0;
