@@ -4208,9 +4208,11 @@ if (!class_exists('Video')) {
 
             $paths = self::getPaths($filename);
             $dir = $paths["path"];
+            if(!is_dir($dir)){
+                return array();
+            }
             $allowedExtensions = array('mp4');
             $dirHandle = opendir($dir);
-            $videos = array();
             while ($file = readdir($dirHandle)) {
                 if ($file == '.' || $file == '..') {
                     continue;
