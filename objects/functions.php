@@ -2285,7 +2285,10 @@ function convertImage($originalImage, $outputImage, $quality, $useExif = false)
                 if(empty($useExif)){
                     return convertImage($originalImage, $outputImage, $quality,true);
                 }else{
-                    return false;
+                    $imageTmp = imagecreatefromjpeg($originalImage);
+                    if(empty($imageTmp)){
+                        return false;
+                    }
                 }
             }
         } 
