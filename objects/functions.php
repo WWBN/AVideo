@@ -2902,6 +2902,10 @@ function copy_remotefile_if_local_is_smaller($url, $destination)
 
 function try_get_contents_from_local($url)
 {
+    if (substr($url, 0, 1) === '/') {
+        // it is not a URL
+        return file_get_contents($url);
+    }
     global $global;
 
     $parts = explode('/videos/', $url);
