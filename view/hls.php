@@ -84,7 +84,8 @@ if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->vi
         if (!preg_match('/index.m3u8$/', $filename)) {
             $filename .= '/index.m3u8';
         }
-        $content = file_get_contents($filename);
+        $context = stream_context_create(array('http' => array('timeout' => 30)));
+        $content = file_get_contents($filename, false, $context);
         $newContent = str_replace('{$pathToVideo}', "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
         if (!empty($_GET['token'])) {
             $newContent = str_replace('/index.m3u8', "/index.m3u8?token={$_GET['token']}", $newContent);
