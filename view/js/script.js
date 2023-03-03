@@ -1236,11 +1236,15 @@ async function showAutoPlayVideoDiv() {
 }
 
 function enableAutoPlay() {
+    forceNotautoplay = false;
+    forceautoplay = true;
     setAutoplay(true);
     checkAutoPlay();
 }
 
 function disableAutoPlay() {
+    forceautoplay = false;
+    forceNotautoplay = true;
     setAutoplay(false);
     checkAutoPlay();
 }
