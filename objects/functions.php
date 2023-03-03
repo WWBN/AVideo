@@ -2281,7 +2281,7 @@ function convertImage($originalImage, $outputImage, $quality, $useExif = false)
             //_error_log("convertImage: IMAGETYPE_WEBP");
             $imageTmp = imagecreatefromwebp($originalImage);
             if(empty($imageTmp)){
-                _error_log("convertImage: imagecreatefromwebp error {$originalImage}");
+                _error_log("convertImage: imagecreatefromwebp error {$originalImage} [{$imagetype}] $useExif");
                 if(empty($useExif)){
                     return convertImage($originalImage, $outputImage, $quality,true);
                 }else{
