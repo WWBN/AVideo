@@ -2224,7 +2224,35 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height)
     @unlink($tmpFile);
 }
 
-function convertImage($originalImage, $outputImage, $quality)
+function detect_image_type($file_path) {
+    $image_info = getimagesize($file_path);
+
+    if ($image_info !== false) {
+        $mime_type = $image_info['mime'];
+
+        switch ($mime_type) {
+            case 'image/jpeg':
+                return IMAGETYPE_JPEG;
+            case 'image/png':
+                return IMAGETYPE_PNG;
+            case 'image/gif':
+                return IMAGETYPE_GIF;
+            case 'image/bmp':
+                return IMAGETYPE_BMP;
+            case 'image/webp':
+                return IMAGETYPE_WEBP;
+            case 'image/x-icon':
+                return IMAGETYPE_ICO;
+            default:
+                return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+
+function convertImage($originalImage, $outputImage, $quality, $useExif = false)
 {
     ini_set('memory_limit', '512M');
     if(!file_exists($originalImage,)){
@@ -2233,8 +2261,11 @@ function convertImage($originalImage, $outputImage, $quality)
     $originalImage = str_replace('&quot;', '', $originalImage);
     $outputImage = str_replace('&quot;', '', $outputImage);
     $imagetype = 0;
-    if (function_exists('exif_imagetype')) {
+    
+    if (!empty($useExif) && function_exists('exif_imagetype')) {
         $imagetype = exif_imagetype($originalImage);
+    }else{
+        $imagetype = detect_image_type($originalImage);
     }
 
     $ext = mb_strtolower(pathinfo($originalImage, PATHINFO_EXTENSION));
@@ -2251,9 +2282,11 @@ function convertImage($originalImage, $outputImage, $quality)
             $imageTmp = imagecreatefromwebp($originalImage);
             if(empty($imageTmp)){
                 _error_log("convertImage: imagecreatefromwebp error {$originalImage}");
-                return false;
-            }else{
-                convertImage($originalImage, $originalImage, $quality); //transform the webp to jpg
+                if(empty($useExif)){
+                    return convertImage($originalImage, $outputImage, $quality,true);
+                }else{
+                    return false;
+                }
             }
         } 
         if(empty($imageTmp)){
