@@ -131,6 +131,8 @@ abstract class PluginAbstract {
                         if (!(is_int($value) && is_bool($o->$key)) && !(is_bool($value) && is_int($o->$key))) {
                             //_error_log("getDataObject - type is different $teo !== $to uuid = $uuid");
                             $o->$key = $value;
+                        }else if(empty($o->$key) && $teo == 'object' && $to='string'){
+                            $o->$key = $value;
                         }
                     }
                 }

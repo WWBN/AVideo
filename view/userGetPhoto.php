@@ -7,17 +7,22 @@
 if (empty($_REQUEST['users_id'])) {
     header('Content-Type: image/jpeg');
     $img = '../img/userSilhouette.jpg';
-} else{
+} else {
     header('Content-Type: image/png');
     $img = "../videos/userPhoto/photo{$_REQUEST['users_id']}.png";
 }
 
-if(!file_exists($img)){
+if (!file_exists($img)) {
     header('Content-Type: image/jpeg');
     $img = '../img/userSilhouette.jpg';
 }
+
+header('Content-Length: ' . filesize($img));
+//header("X-Sendfile: ../{$img}");
+//exit;
+
 //echo $img;
-echo file_get_contents($img);
+readfile($img);
 
 //header("Location: {$photo}");
 exit;
