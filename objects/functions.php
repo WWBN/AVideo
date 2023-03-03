@@ -2249,7 +2249,12 @@ function convertImage($originalImage, $outputImage, $quality)
         if ($imagetype == IMAGETYPE_WEBP) {
             //_error_log("convertImage: IMAGETYPE_WEBP");
             $imageTmp = imagecreatefromwebp($originalImage);
-            convertImage($originalImage, $originalImage, $quality); //transform the webp to jpg
+            if(empty($imageTmp)){
+                _error_log("convertImage: imagecreatefromwebp error {$originalImage}");
+                return false;
+            }else{
+                convertImage($originalImage, $originalImage, $quality); //transform the webp to jpg
+            }
         } 
         if(empty($imageTmp)){
             if ($imagetype === IMAGETYPE_JPEG || preg_match('/jpg|jpeg/i', $ext)) {
