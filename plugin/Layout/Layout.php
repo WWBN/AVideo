@@ -338,7 +338,8 @@ class Layout extends PluginAbstract {
         if ($selected == 'us') {
             $selected = 'en_US';
         }
-
+        $selected = revertLangString($selected);
+        //var_dump($selected, $flags[$selected], $flags);
         if (!empty($flags[$selected])) {
             $selectedJson = _json_decode($flags[$selected][0]);
             $selectedJsonIcon = $selectedJson->icon;

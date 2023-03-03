@@ -61,15 +61,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 TimeLogEnd($tname, __LINE__, $tTolerance);
 $_GET['parentsOnly'] = "1";
-if (empty($_SESSION['language']) || empty($lang)) {
-    $lang = $config->getLanguage();
-    if (empty($lang)) {
-        $lang = 'us_EN';
-    }
-} else {
-    $lang = $_SESSION['language'];
-}
-
+$lang = getLanguage();
 $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
 if (empty($sidebarStyle)) {
     $sidebarStyle = "display: none;";

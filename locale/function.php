@@ -184,5 +184,22 @@ function getLanguage()
         $config = new Configuration();
         $_SESSION['language'] = $config->getLanguage();
     }
-    return strtolower(str_replace('_', '-', $_SESSION['language']));
+    if(empty($_SESSION['language'])){
+        $_SESSION['language'] = 'us_EN';
+    }
+    return fixLangString($_SESSION['language']);
+}
+
+function fixLangString($lang){
+    return strtolower(str_replace('_', '-', $lang));
+}
+
+function revertLangString($lang){
+    $parts = explode('-', $lang);
+
+    $lang = strtolower($parts[0]);
+    if(!empty($parts[1])){
+        $lang .= '_'.strtoupper($parts[1]);
+    }
+    return $lang;
 }

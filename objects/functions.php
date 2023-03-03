@@ -10084,7 +10084,8 @@ function getIncludeFileContent($filePath, $varsArray = [], $setCacheName = false
     //$basename = basename($filePath);
     //$return = "<!-- {$basename} start -->";
     if (!empty($setCacheName)) {
-        $name = $filePath . '_' . User::getId() . '_' . $setCacheName;
+        $name = $filePath . '_' . User::getId() .'_'.getLanguage();
+        //var_dump($name);exit;
         $return = ObjectYPT::getSessionCache($name, 0);
     }
     if (empty($return)) {

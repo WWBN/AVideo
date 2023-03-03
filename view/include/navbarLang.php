@@ -1,9 +1,7 @@
 <li>
     <div class="navbar-lang-btn">
         <?php
-        if ($lang == 'en') {
-            $lang = 'en_US';
-        }
+        $lang = getLanguage();
         echo Layout::getLangsSelect('navBarFlag', $lang, 'navBarFlag', '', true);
         //var_dump($lang);exit;
         ?>
