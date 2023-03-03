@@ -2226,6 +2226,9 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height)
 
 function convertImage($originalImage, $outputImage, $quality)
 {
+    if(!file_exists($originalImage,)){
+        return false;
+    }
     $originalImage = str_replace('&quot;', '', $originalImage);
     $outputImage = str_replace('&quot;', '', $outputImage);
     $imagetype = 0;
