@@ -121,7 +121,7 @@ abstract class PluginAbstract {
             }
             // check if the plugin define any array for the select option, if does, overwrite it
             foreach ($eo as $key => $value) {
-                if (empty($o->$key)) {
+                if (!isset($o->$key)) {
                     continue;
                 }
                 $teo = gettype($value);
