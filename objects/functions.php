@@ -2829,6 +2829,9 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
         }
         $url = getURL(getRelativePath($file));
         $image_info = getimagesize($file);
+        if(empty($image_info)){
+            return '<!-- invalid IMAGE ' . $relativePathOriginal . ' -->';
+        }
         $wh = $image_info[3];
     } elseif (isValidURL($relativePathOriginal)) {
         $url = $relativePathOriginal;
