@@ -81,6 +81,9 @@ if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->vi
         } else {
             $filename = pathToRemoteURL($filename);
         }
+        if (!preg_match('/index.m3u8$/', $filename)) {
+            $filename .= '/index.m3u8';
+        }
         $content = file_get_contents($filename);
         $newContent = str_replace('{$pathToVideo}', "{$global['webSiteRootURL']}videos/{$_GET['videoDirectory']}/../", $content);
         if (!empty($_GET['token'])) {
