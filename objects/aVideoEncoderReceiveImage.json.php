@@ -161,16 +161,16 @@ if (!empty($_REQUEST['downloadURL_webpimage'])) {
 }
 
 if(!empty($obj->jpgDest)){
-    $obj->jpgDest_deleteInvalidImage = deleteInvalidImage($obj->jpgDest);
+    $obj->jpgDest_deleteInvalidImage = deleteInvalidImage(@$obj->jpgDest);
 }
 if(!empty($obj->jpgSpectrumDest)){
-    $obj->jpgSpectrumDest_deleteInvalidImage = deleteInvalidImage($obj->jpgSpectrumDest);
+    $obj->jpgSpectrumDest_deleteInvalidImage = deleteInvalidImage(@$obj->jpgSpectrumDest);
 }
 if(!empty($obj->gifDest)){
-    $obj->gifDest_deleteInvalidImage = deleteInvalidImage($obj->jpgSpegifDestctrumDest);
+    $obj->gifDest_deleteInvalidImage = deleteInvalidImage(@$obj->jpgSpegifDestctrumDest);
 }
 if(!empty($obj->webpDest)){
-    $obj->webpDest_deleteInvalidImage = deleteInvalidImage($obj->webpDest);
+    $obj->webpDest_deleteInvalidImage = deleteInvalidImage(@$obj->webpDest);
 }
 
 if (!empty($_REQUEST['duration'])) {

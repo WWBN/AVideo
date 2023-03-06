@@ -76,7 +76,7 @@ function pwaIconsArray()
     foreach ($sizes as $value) {
         $pwaIcon = "faviconPWA{$value}.png";
         if (!file_exists(getVideosDir() . $pwaIcon)) {
-            im_resizePNG($favicon['file'], getVideosDir() . $pwaIcon, $value, $value);
+            im_resize($favicon['file'], getVideosDir() . $pwaIcon, $value, $value);
         }
         $icon[] = pwaIcon(getCDN() . 'videos/' . $pwaIcon, 'image/png', "{$value}x{$value}");
     }
