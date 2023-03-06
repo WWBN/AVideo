@@ -28,7 +28,7 @@
     "tinymce": "^6.3.2",
     "tinymce-langs": "^1.0.0",
     "video.js": "^8.0.4",
-    "videojs-contrib-ads": "^6.8.0",
+    "videojs-contrib-ads": "^7.1.0",
     "videojs-font": "^4.1.0",
     "videojs-ima": "^2.1.0",
     "videojs-landscape-fullscreen": "^11.1111.0",
