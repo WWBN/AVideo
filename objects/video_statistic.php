@@ -413,7 +413,9 @@ class VideoStatistic extends ObjectYPT {
 
         if (!empty($_GET['channelName'])) {
             $user = User::getChannelOwner($_GET['channelName']);
-            $sql .= " AND v.users_id = '{$user['id']}' ";
+            if(!empty($user)){
+                $sql .= " AND v.users_id = '{$user['id']}' ";
+            }
         }
         if ($status == "viewable") {
             if (User::isLogged()) {

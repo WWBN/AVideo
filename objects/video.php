@@ -1332,8 +1332,10 @@ if (!class_exists('Video')) {
                 $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company ='{$uid}')";
             } elseif (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
-                $uid = intval($user['id']);
-                $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company = '{$uid}')";
+                if(!empty($user)){
+                    $uid = intval($user['id']);
+                    $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company = '{$uid}')";
+                }
             }
 
             if (isset($_REQUEST['is_serie']) && empty($is_serie)) {
@@ -4206,6 +4208,11 @@ if (!class_exists('Video')) {
         public static function getVideosPathsSearchingDir($filename, $includeS3 = false) {
             global $global;
 
+            /**
+             *
+             * @var array $global
+             * @var object $global['mysqli']
+             */
             $paths = self::getPaths($filename);
             $dir = $paths["path"];
             if(!is_dir($dir)){
