@@ -56,7 +56,7 @@ function dbInsertConnection($array) {
         echo PHP_EOL;
         echo PHP_EOL;
         var_dump($sql);
-        var_dump($sth->errorInfo());
+        var_dump($exc->getMessage());
         $count = 0;
         foreach ($holders as $key => $value) {
             $count++;
@@ -229,6 +229,7 @@ function dbGetDBTotals() {
             'os' => $client['os'],
             'country_code' => $client['country_code'],
             'country_name' => $client['country_name'],
+            'identification' => $client['identification'],
             'ip' => $client['ip'],
             'location' => $location,
             'client' => array('browser'=>$client['browser'], 'os'=>$client['os']));
@@ -268,7 +269,11 @@ function dbGetTotalConnections() {
 
 function dbGetUniqueUsers() {
     global $db;
-    $sql = "SELECT distinct(users_id) "
+    $sql = "SELECT distinct(users_id), 
+            isAdmin, live_key_servers_id, 
+            videos_id, selfURI, country_name, 
+            page_title, resourceId, room_users_id, 
+            chat_is_banned, identification "
             . "FROM `connections`"
             . "WHERE users_id IS NOT NULL AND users_id != '' ";
     $sth = $db->prepare($sql);

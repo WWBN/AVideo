@@ -43,7 +43,7 @@ class Scheduler extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "4.2";
+        return "4.3";
     }
 
     public function updateScript()
@@ -72,6 +72,13 @@ class Scheduler extends PluginAbstract
         }
         if (AVideoPlugin::compareVersion($this->getName(), "4.2") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.2.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "4.3") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.3.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
@@ -126,6 +133,20 @@ class Scheduler extends PluginAbstract
                 return false;
             }else{
                 return $e->setExecuted(array('videos_id'=>$videos_id, 'response'=>$response));
+            }
+        }
+
+        $type = $e->getType();
+        $parameters = $e->getParameters();
+        if($type == 'SocketRestart'){
+            if(AVideoPlugin::isEnabledByName('YPTSocket')){
+                YPTSocket::restart();
+                $json = _json_decode($parameters);
+                $users_id = $json->users_id;
+                _error_log("Scheduler::SocketRestart users_id={$users_id}");
+                //sleep(5);
+                //YPTSocket::send('Socket restarted', "", $users_id);
+                return $e->setExecuted(array('YPTSocket'=>time()));
             }
         }
 

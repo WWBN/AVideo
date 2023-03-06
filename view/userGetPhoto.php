@@ -6,7 +6,7 @@
 
 if (empty($_REQUEST['users_id'])) {
     header('Content-Type: image/jpeg');
-    $img = '../img/userSilhouette.jpg';
+    $img = 'img/userSilhouette.jpg';
 } else {
     header('Content-Type: image/png');
     $img = "../videos/userPhoto/photo{$_REQUEST['users_id']}.png";
@@ -14,7 +14,7 @@ if (empty($_REQUEST['users_id'])) {
 
 if (!file_exists($img)) {
     header('Content-Type: image/jpeg');
-    $img = '../img/userSilhouette.jpg';
+    $img = 'img/userSilhouette.jpg';
 }
 
 header('Content-Length: ' . filesize($img));

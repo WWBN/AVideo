@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `scheduler_commands` (
   `repeat_day_of_week` INT NULL,
   `day_of_week` INT NULL,
   `videos_id` INT(11) NULL,
+  `type` VARCHAR(45)  DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_scheduler_commands_videos1_idx` (`videos_id` ASC) VISIBLE,
   CONSTRAINT `fk_scheduler_commands_videos1`

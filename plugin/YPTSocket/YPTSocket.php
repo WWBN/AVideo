@@ -37,11 +37,11 @@ class YPTSocket extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";
+        return "2.1";
     }
 
     public static function getServerVersion() {
-        return "4.1";
+        return "4.2";
     }
 
     public function updateScript() {
@@ -257,5 +257,27 @@ class YPTSocket extends PluginAbstract {
         }
         return $_YPTSocketshouldShowCaller;
     }
+    
+    static public function scheduleRestart()
+    {
+        $scheduler_commands_id = Scheduler::add(strtotime('+5 seconds'), 'none', array('users_id'=>User::getId()), 'SocketRestart');
+        return $scheduler_commands_id;
+    }
 
+    public function getPluginMenu()
+    {
+        global $global;
+        $btn = '<button onclick="avideoAjax(webSiteRootURL+\'plugin/YPTSocket/restart.json.php\', {});" class="btn btn-danger btn-sm btn-xs btn-block"><i class="fas fa-power-off"></i> Restart</button>';
+        return $btn;
+    }
+    
+    static public function restart()
+    {
+        global $global;
+        exec("php {$global['systemRootPath']}plugin/YPTSocket/stopServer.php");
+        exec("sleep 1");
+        exec("nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &");
+        return true;
+    }
+    
 }

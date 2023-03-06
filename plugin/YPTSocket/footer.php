@@ -154,6 +154,8 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fas fa-users"></i> Total Users Online <span class="total_users_online">0</span></div>
         <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'socket'); ?>" id="socketUsersURI">    
         </div>
+        
+        <button onclick="avideoAjax(webSiteRootURL+'plugin/YPTSocket/restart.json.php', {});" style="color: #d43f3a" class="socketItem btn btn-danger btn-sm btn-xs btn-block"><i class="fas fa-power-off"></i> Restart</button>
     </div>
     <script>
         var socket_info_container_draging = false;

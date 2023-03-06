@@ -18,6 +18,8 @@ CREATE TABLE IF NOT EXISTS `connections` (
     `os` VARCHAR(255) NULL,
     `country_code` VARCHAR(255) NULL,
     `country_name` VARCHAR(255) NULL,
+    `identification` VARCHAR(255) NULL,
+    `chat_is_banned` TINYINT NULL,
     `ip` VARCHAR(45) NULL,
     `location` VARCHAR(45) NULL,
     `data` TEXT NULL

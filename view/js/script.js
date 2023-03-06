@@ -464,25 +464,34 @@ function subscribeNotify(email, user_id) {
         }
     });
 }
+
+var _mouseEffectTimeout;
 async function mouseEffect() {
-    $(".thumbsImage").on("mouseenter", function () {
-        var gif = $(this).find(".thumbsGIF");
-        var jpg = $(this).find(".thumbsJPG");
-        try {
-            gif.lazy({effect: 'fadeIn'});
-            setTimeout(function () {
-                gif.height(jpg.height());
-                gif.width(jpg.width());
-            }, 100);
-        } catch (e) {
-        }
-        gif.height(jpg.height());
-        gif.width(jpg.width());
-        gif.stop(true, true).fadeIn();
-    });
-    $(".thumbsImage").on("mouseleave", function () {
-        $(this).find(".thumbsGIF").stop(true, true).fadeOut();
-    });
+    //return false;
+    clearTimeout(_mouseEffectTimeout);
+    _mouseEffectTimeout = setTimeout(function(){
+        $(".thumbsImage").off("mouseenter");
+        $(".thumbsImage").off("mouseleave");
+        $(".thumbsImage").on("mouseenter", function () {
+            //console.log('mouseEffect()');
+            var gif = $(this).find(".thumbsGIF");
+            var jpg = $(this).find(".thumbsJPG");
+            try {
+                gif.lazy({effect: 'fadeIn'});
+                setTimeout(function () {
+                    gif.height(jpg.height());
+                    gif.width(jpg.width());
+                }, 100);
+            } catch (e) {
+            }
+            gif.height(jpg.height());
+            gif.width(jpg.width());
+            gif.stop(true, true).fadeIn();
+        });
+        $(".thumbsImage").on("mouseleave", function () {
+            $(this).find(".thumbsGIF").stop(true, true).fadeOut();
+        });
+    }, 100);
 }
 
 function isMobile() {
@@ -2322,9 +2331,6 @@ function avideoAjax2(url, data, pleaseWait) {
         data: data,
         type: 'post',
         success: function (response) {
-            if (pleaseWait) {
-                modal.hidePleaseWait();
-            }
             if (response.error) {
                 avideoAlertError(response.msg);
             } else {
@@ -2332,6 +2338,19 @@ function avideoAjax2(url, data, pleaseWait) {
                 if (typeof response.eval !== 'undefined') {
                     eval(response.eval);
                 }
+            }
+        },
+        error: function (response) {
+            //console.error('avideoAjax2', url, data, pleaseWait, response.responseJSON);
+            if (response.responseJSON.error) {
+                avideoAlertError(response.responseJSON.msg);
+            } else {
+                avideoToastError(response.responseJSON.msg);
+            }
+        },
+        complete: function (response) {
+            if (pleaseWait) {
+                modal.hidePleaseWait();
             }
         }
     });
@@ -2631,6 +2650,9 @@ function empty(data) {
     } else if (type === 'boolean') {
         return !data;
     } else if (type === 'string') {
+        if(data==0){
+            return true;
+        }
         return /^[\s]*$/.test(data);
     } else if (type !== 'undefined') {
         return Object.keys(data).length == 0;
@@ -2703,11 +2725,7 @@ function isUserOnline(users_id) {
         console.log('isUserOnline', users_id);
         return false;
     }
-    if (typeof users_id_online[users_id] === 'undefined' || empty(users_id_online[users_id])) {
-        console.log('isUserOnline array ', users_id);
-        return false;
-    }
-    return users_id_online[users_id];
+    return users_id_online.find((u) => u.users_id == users_id);
 }
 
 function isReadyToCheckIfIsOnline() {
