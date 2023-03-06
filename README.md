@@ -55,12 +55,16 @@ In summary, you will need:
 
 # Installation
 
+If you're looking to install Avideo on your Ubuntu system, there are several tutorials available to help you get started. These tutorials provide step-by-step instructions on how to install Avideo on various versions of Ubuntu, including using Docker.
+
 - [Video Tutorial](https://tutorials.avideo.com/video/streamer-and-encoder) (old but gives you a good idea)
 - [Ubuntu 16.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-16.x-For-AVideo-Platform-version-4.x-or-newer)
 - [Ubuntu 18.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-18.x-for-AVideo-Platform-version-4.x-or-newer)
 - [Ubuntu 20.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-20.x-for-AVideo-Platform-version-11.x-or-newer)
 - [Ubuntu 22.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-22.x-for-AVideo-Platform-version-11.x-or-newer)
 - [Docker](https://github.com/WWBN/AVideo/wiki/Running-AVideo-with-Docker)
+
+Each of these tutorials provides detailed instructions on how to download and install Avideo, as well as any dependencies that may be required. By following these tutorials, you'll be able to set up Avideo on your Ubuntu system in no time.
 
 ## Separated live server
 
