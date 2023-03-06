@@ -93,7 +93,7 @@ $obj->last90Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users
 $obj->performance->end = microtime(true);
 $obj->performance->time = time();
 $obj->performance->date = date('Y-m-d H:i:s');
-$obj->performance->duration = $obj->end - $obj->start;
+$obj->performance->duration = $obj->performance->end - $obj->performance->start;
 
 
 ObjectYPT::setCache($cacheName, $obj);

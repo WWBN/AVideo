@@ -8,8 +8,8 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 session_write_close();
-$from = date("Y-m-d 00:00:00", strtotime($_POST['dateFrom']));
-$to = date('Y-m-d 23:59:59', strtotime($_POST['dateTo']));
+$from = date("Y-m-d 00:00:00", strtotime(@$_POST['dateFrom']));
+$to = date('Y-m-d 23:59:59', strtotime(@$_POST['dateTo']));
 
 if ($config->getAuthCanViewChart() == 0) {
     // list all channels
