@@ -2721,10 +2721,11 @@ function getCursorPos(input) {
 
 function isUserOnline(users_id) {
     users_id = parseInt(users_id);
-    if (typeof users_id_online === 'undefined' || empty(users_id_online)) {
+    if (typeof users_id_online === 'undefined' || empty(users_id_online) || !Array.isArray(users_id_online)) {
         console.log('isUserOnline', users_id);
         return false;
     }
+    
     return users_id_online.find((u) => u.users_id == users_id);
 }
 

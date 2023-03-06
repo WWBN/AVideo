@@ -330,7 +330,6 @@ function parseSocketResponse() {
                     if (json.ResourceID == element.resourceId) {
                         text += '<stcong>(YOU)</strong>';
                     }
-                    ////console.log(json.users_uri[prop][prop2][prop3], json.users_uri[prop][prop2][prop3].client);
                     text = ' ' + element.page_title;
                     html = '<a href="' + element.selfURI + '" target="_blank" class="btn btn-xs btn-default btn-block"><i class="far fa-compass"></i> ' + text + '</a>';
                     $('#' + socketUserDivID + ' .socketUserPages').append(html);
