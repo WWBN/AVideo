@@ -167,6 +167,18 @@ class sqlDAL
         }
     }
 
+    public static function writeSqlTry($preparedStatement, $formats = "", $values = [])
+    {
+        try {
+            return self::writeSqlTry($preparedStatement, $formats, $values);
+        } catch (\Throwable $th) {
+            $search = array('COLUMN IF NOT EXISTS', 'IF NOT EXISTS');
+            $replace = array('COLUMN', 'COLUMN');
+            $preparedStatement = str_ireplace($search, $replace, $preparedStatement);
+            return self::writeSqlTry($preparedStatement, $formats, $values);
+        }
+    }
+
 
     static function wasSTMTError()
     {
