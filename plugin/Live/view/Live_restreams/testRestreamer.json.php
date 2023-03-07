@@ -24,7 +24,7 @@ $lth->setDescription('');
 $lth->setKey(uniqid());
 $lth->setDomain('localhost');
 $lth->setUsers_id(User::getId());
-$lth->setLive_servers_id(0);
+$lth->setLive_servers_id(Live::getLiveServersIdRequest());
 $obj->liveTransmitionHistory_id = $lth->save();
 $obj->restream = Live::restream($obj->liveTransmitionHistory_id, 0, true);
 

@@ -92,9 +92,7 @@ class LiveTransmitionHistoryLog extends ObjectYPT
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 

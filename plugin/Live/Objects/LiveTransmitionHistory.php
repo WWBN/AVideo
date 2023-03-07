@@ -341,7 +341,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $sql = "SELECT *, "
                 . " (SELECT count(id) FROM  live_transmition_history_log WHERE live_transmitions_history_id=lth.id ) as total_viewers_from_history "
                 . " FROM  " . static::getTableName() . " lth "
-                . " WHERE 1=1 ";
+                . " WHERE 1=1 AND title NOT LIKE 'Restream test%'";
         
         if(!empty($users_id)){
             $sql .= " AND (users_id = $users_id OR users_id_company = $users_id)  ";
