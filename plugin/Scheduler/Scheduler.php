@@ -81,7 +81,7 @@ class Scheduler extends PluginAbstract
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.3.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
+                sqlDal::writeSqlTry(trim($value));
             }
         }
         return true;
