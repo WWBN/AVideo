@@ -51,7 +51,7 @@ class Layout extends PluginAbstract {
         $obj->enableAccessibility = false;
 
         $o = new stdClass();
-        $o->type = array(0 => '-- ' . __("Random")) + self::getLoadersArray();
+        $o->type = array(0 => '-- ' . ("Random")) + self::getLoadersArray();
         $o->value = 'avideo';
         $obj->pageLoader = $o;
 
