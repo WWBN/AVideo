@@ -7,6 +7,17 @@ allowOrigin();
 $objMM = AVideoPlugin::getObjectData("MobileYPT");
 
 $customizeUser = AVideoPlugin::getDataObject('CustomizeUser');
+if(AVideoPlugin::isEnabled('YouPHPFlix2')){
+    $firstPage = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=YouPHPFlix2&APIName=firstPage";
+}else{
+    $firstPage = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=Gallery&APIName=firstPage";
+}
+
+$objMM->firstPageEndpoint = $firstPage;
+$objMM->firstPage = json_decode(url_get_contents($firstPage));
+
+$objMM->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
+
 $objMM->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
 
 $chat2 = AVideoPlugin::getDataObjectIfEnabled('Chat2');

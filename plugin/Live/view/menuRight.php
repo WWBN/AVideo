@@ -223,6 +223,10 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         user = application.user;
         photo = application.photo;
 
+        if(/Restream test/.test(title)){
+            return false;
+        }
+
         if (!empty(application.expires) && application.expires < _serverTime) {
             return false;
         }

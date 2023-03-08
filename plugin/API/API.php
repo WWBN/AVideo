@@ -29,8 +29,14 @@ class API extends PluginAbstract {
             $obj->current = getCurrentPage();
         }
         $obj->hasMore = true;
-        if (count($obj->rows) < $obj->rowCount) {
-            $obj->hasMore = false;
+        if(!empty($obj->rows) && is_array($obj->rows)){
+            if (count($obj->rows) < $obj->rowCount) {
+                $obj->hasMore = false;
+            }
+        }else if(!empty($obj->videos) && is_array($obj->videos)){
+            if (count($obj->videos) < $obj->rowCount) {
+                $obj->hasMore = false;
+            }
         }
         if ($obj->current * $obj->rowCount >= $obj->totalRows) {
             $obj->hasMore = false;
@@ -448,6 +454,7 @@ class API extends PluginAbstract {
      * ['tags_id' the ID of the tag you want to filter]
      * ['catName' the clean_APIName of the category you want to filter]
      * ['channelName' the channelName of the videos you want to filter]
+     * ['playlist' use playlist=1 to get a response compatible with the playlist endpoint]
      * ['videoType' the type of the video, the valid options are 'audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser']
      * ['is_serie' if is 0 return only videos, if is 1 return only series, if is not set, return all]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&catName=default&rowCount=10
@@ -460,7 +467,7 @@ class API extends PluginAbstract {
     public function get_api_video($parameters) {
         $start = microtime(true);
 
-        $cacheParameters = array('noRelated','APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id');
+        $cacheParameters = array('noRelated','APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id', 'playlist');
 
         $cacheVars = array();
         foreach ($cacheParameters as $value) {
@@ -523,7 +530,7 @@ class API extends PluginAbstract {
                 $currentCat['childs'] = Category::getChildCategories($currentCat['id']);
                 $currentCat['photo'] = Category::getCategoryPhotoPath($currentCat['id']);
                 $currentCat['photoBg'] = Category::getCategoryBackgroundPath($currentCat['id']);
-                $currentCat['link'] = $global['webSiteRootURL'] . 'cat/' . $currentCat['clean_name'];                        
+                $currentCat['link'] = $global['webSiteRootURL'] . 'cat/' . $currentCat['clean_name'];   
             
                 foreach ($currentCat['childs'] as $key => $child) {
                     $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$child['clean_name']}";
@@ -585,6 +592,15 @@ class API extends PluginAbstract {
             $rows[$key]['embedUrl'] = Video::getLink($rows[$key]['id'], $rows[$key]['clean_title'], true);
             $rows[$key]['UserPhoto'] = User::getPhoto($rows[$key]['users_id']);
             $rows[$key]['isSubscribed'] = false;
+
+            //make playlist compatible
+            if(!empty($parameters['playlist'])){
+                $rows[$key]['mp3'] = convertVideoToMP3FileIfNotExists($value['id']);
+                $rows[$key]['category_name'] = $value['category'];
+                $rows[$key]['category'] = array('name'=>$rows[$key]['category_name']);
+                $rows[$key]['channel_name'] = User::_getChannelName($rows[$key]['users_id']);;
+            }
+
             if (User::isLogged()) {
                 require_once $global['systemRootPath'] . 'objects/subscribe.php';
                 $rows[$key]['isSubscribed'] = Subscribe::isSubscribed($rows[$key]['users_id']);
@@ -640,7 +656,12 @@ class API extends PluginAbstract {
             }
         }
         $obj->totalRows = $totalRows;
-        $obj->rows = $rows;
+        
+        if(!empty($parameters['playlist'])){            
+            $obj->videos = $rows;
+        }else{
+            $obj->rows = $rows;
+        }
         $obj = self::addRowInfo($obj);
         //var_dump($obj->rows );exit;
         ObjectYPT::setCache($cacheName, $obj);
