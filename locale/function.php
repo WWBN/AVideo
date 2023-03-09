@@ -184,7 +184,9 @@ function setLanguage($lang)
 
 function getLanguage()
 {
-    setSiteLang();
+    if(empty($_SESSION['language'])){
+        return 'en_US';
+    }
     return fixLangString($_SESSION['language']);
 }
 
