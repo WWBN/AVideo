@@ -95,30 +95,33 @@ class User_Location extends PluginAbstract {
         return setLanguage($User_Location['country_code']);
     }
 
-    public function getStart() {
-        global $global, $config;
-        $obj = $this->getDataObject();
-        $User_Location = self::getThisUserLocation();
-        if ($obj->autoChangeLanguage && empty($_SESSION['language'])) {
-            if ($obj->useLanguageFrom->value == 'browser') {
-                $changed = self::setLanguageFromBrowser();
-                if (!$changed) {
-                    $changed = self::setLanguageFromIP();
+    static function changeLang($force=false) {
+        global $global;
+        if(!empty($force) || empty($_SESSION['language'])){
+            $obj = AVideoPlugin::getDataObject('User_Location');
+            if ($obj->autoChangeLanguage) {
+                $lang = self::getLanguage();
+                if(!empty($lang)){
+                    setLanguage($lang);
                 }
-            } else {
-                $changed = self::setLanguageFromIP();
-                if (!$changed) {
-                    $changed = self::setLanguageFromBrowser();
-                }
-            }
-            if (!$changed) {
-                //_error_log('getStart language: got from config ' . $file);
-                $_SESSION['language'] = $config->getLanguage();
             }
         }
-        $global['User_Location'] = $User_Location;
-        self::setSessionLocation($global['User_Location']);
-        return false;
+    }
+
+    
+    static function getLanguage() {
+        global $global;
+        $global['User_Location_lang'] = false;
+        if(empty($global['User_Location_lang'])){
+            $obj = AVideoPlugin::getDataObject('User_Location');
+            if ($obj->useLanguageFrom->value == 'browser') {
+                $global['User_Location_lang'] = self::getLanguageFromBrowser();
+            } else {
+                $User_Location = self::getThisUserLocation();
+                $global['User_Location_lang'] = $User_Location['country_code'];
+            }
+        }        
+        return $global['User_Location_lang'];
     }
 
     public function getPluginMenu() {

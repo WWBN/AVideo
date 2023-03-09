@@ -9,10 +9,7 @@ if (!empty($_GET['lang'])) {
     $_GET['lang'] = str_replace(["'", '"', "&quot;", "&#039;"], ['', '', '', ''], xss_esc($_GET['lang']));
 }
 
-if (!empty($_GET['lang'])) {
-    $_GET['lang'] = strip_tags($_GET['lang']);
-    $_SESSION['language'] = $_GET['lang'];
-}
+setSiteLang();
 @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 
 function __($str, $allowHTML = false)
@@ -132,19 +129,21 @@ function setSiteLang()
 
     if (!empty($_GET['lang'])) {
         _session_start();
-        $_SESSION['language'] = $_GET['lang'];
-    } elseif (empty($_SESSION['language']) && !$userLocation) {
-        _session_start();
-        $_SESSION['language'] = $config->getLanguage();
+        setLanguage($_GET['lang']);
+    } else if ($userLocation) {
+        User_Location::changeLang();
     }
     if (empty($_SESSION['language'])) {
-        $_SESSION['language'] = 'en_US';
+        setLanguage($config->getLanguage());
     }
-    return setLanguage($_SESSION['language']);
+    if (empty($_SESSION['language'])) {
+        return setLanguage('en_US');
+    }
 }
 
 function setLanguage($lang)
 {
+    $lang = strip_tags($lang);
     if (empty($lang)) {
         return false;
     }
@@ -169,7 +168,16 @@ function setLanguage($lang)
             include_once $file;
             return true;
         } else {
-            //_error_log('setLanguage: File does not exists 2 ' . $file);
+            $parts = explode('_', $lang);
+            $lang = $parts[0];
+            $file = "{$global['systemRootPath']}locale/{$lang}.php";
+            if (file_exists($file)) {
+                $_SESSION['language'] = $lang;
+                include_once $file;
+                return true;
+            } else {
+                //_error_log('setLanguage: File does not exists 2 ' . $file);
+            }
         }
     }
     return false;
@@ -177,29 +185,22 @@ function setLanguage($lang)
 
 function getLanguage()
 {
-    if (empty($_SESSION['language'])) {
-        global $global;
-        require_once $global['systemRootPath'] . 'objects/configuration.php';
-        require_once $global['systemRootPath'] . 'objects/functions.php';
-        $config = new Configuration();
-        $_SESSION['language'] = $config->getLanguage();
-    }
-    if(empty($_SESSION['language'])){
-        $_SESSION['language'] = 'us_EN';
-    }
+    setSiteLang();
     return fixLangString($_SESSION['language']);
 }
 
-function fixLangString($lang){
+function fixLangString($lang)
+{
     return strtolower(str_replace('_', '-', $lang));
 }
 
-function revertLangString($lang){
+function revertLangString($lang)
+{
     $parts = explode('-', $lang);
 
     $lang = strtolower($parts[0]);
-    if(!empty($parts[1])){
-        $lang .= '_'.strtoupper($parts[1]);
+    if (!empty($parts[1])) {
+        $lang .= '_' . strtoupper($parts[1]);
     }
     return $lang;
 }
