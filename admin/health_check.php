@@ -57,6 +57,11 @@ foreach ($phpExtensions as $value) {
     }
 }
 
+if (function_exists('imagewebp')) {
+    $messages['PHP'][] = "WebP is supported";
+} else {
+    $messages['PHP'][] = ["WebP is not supported", 'sudo apt-get install -y libwebp-dev libjpeg-dev libpng-dev libxpm-dev libfreetype6-dev php-gd'];
+}
 
 if (isset($_SERVER["HTTPS"])) {
     $messages['Apache'][] = "HTTPS is enabled";

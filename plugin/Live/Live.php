@@ -3463,7 +3463,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function passwordIsGood($key) {
         $row = LiveTransmition::getFromKey($key, true);
         if (empty($row) || empty($row['id']) || empty($row['users_id'])) {
-            return false;
+            return true;
         }
 
         $password = @$row['live_password'];

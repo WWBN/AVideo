@@ -182,6 +182,7 @@ function getLanguage()
         require_once $global['systemRootPath'] . 'objects/configuration.php';
         require_once $global['systemRootPath'] . 'objects/functions.php';
         $config = new Configuration();
+        var_dump($config->getLanguage());exit;
         $_SESSION['language'] = $config->getLanguage();
     }
     if(empty($_SESSION['language'])){
