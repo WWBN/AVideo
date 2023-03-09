@@ -8731,10 +8731,7 @@ function getLiveUsersLabelVideo($videos_id, $totalViews = null, $viewsClass = "l
 function getLiveUsersLabelLive($key, $live_servers_id, $viewsClass = "label label-default", $counterClass = "label label-primary")
 {
     if (AVideoPlugin::isEnabledByName('LiveUsers') && method_exists("LiveUsers", "getLabels")) {
-        $totalViews = 0;
-        if (User::isLogged()) {
-            $totalViews = LiveUsers::getTotalUsers($key, $live_servers_id);
-        }
+        $totalViews = LiveUsers::getTotalUsers($key, $live_servers_id);
         return LiveUsers::getLabels(getSocketLiveClassName($key, $live_servers_id), $totalViews, $viewsClass, $counterClass, 'live');
     }
 }
