@@ -2248,8 +2248,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
 
         $u = new User($row['users_id']);
-        if ($u->getStatus() !== 'a') {
-            $title = " <i class=\"fas fa-user-alt-slash\"></i> {$title}";
+        $status = $u->getStatus();
+        if ($status !== 'a') {
+            $title = " <i class=\"fas fa-user-alt-slash\"></i><!-- user status={$status} users_id={$row['users_id']}  --> {$title}";
         }
 
         $parameters = self::getLiveParametersFromKey($key);
