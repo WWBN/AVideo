@@ -1705,6 +1705,9 @@ if (!class_exists('Video')) {
 
             $posters = Video::getMediaSessionPosters($videos_id);
             //var_dump($posters);exit;
+            if(empty($posters)){
+                $posters = array();
+            }
 
             $MediaMetadata->title = $video['title'];
             $MediaMetadata->artist = $video['identification'];
