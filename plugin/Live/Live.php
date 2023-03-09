@@ -2247,10 +2247,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $title = " <i class=\"fas fa-lock\"></i> {$title}";
         }
 
-        $u = new User($row['users_id']);
-        $status = $u->getStatus();
-        if ($status !== 'a') {
-            $title = " <i class=\"fas fa-user-alt-slash\"></i><!-- user status={$status} users_id={$row['users_id']}  --> {$title}";
+        if(!empty($row['users_id'])){
+            $u = new User($row['users_id']);
+            $status = $u->getStatus();
+            if ($status !== 'a') {
+                $title = " <i class=\"fas fa-user-alt-slash\"></i><!-- user status={$status} users_id={$row['users_id']}  --> {$title}";
+            }
         }
 
         $parameters = self::getLiveParametersFromKey($key);
