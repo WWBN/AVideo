@@ -1,6 +1,6 @@
 <?php
-
 require_once '../../videos/configuration.php';
+set_time_limit(300);// 5 minutes
 _error_log("on_record_done SendRecordedToEncoder {$global['webSiteRootURL']} line=" . __LINE__);
 require_once '../AVideoPlugin.php';
 _error_log("on_record_done SendRecordedToEncoder {$global['webSiteRootURL']} line=" . __LINE__);

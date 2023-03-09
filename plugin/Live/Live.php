@@ -3500,6 +3500,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function getMediaSession($key, $live_servers_id, $live_schedule_id = 0) {
         $lt = LiveTransmition::getFromKey($key);
         $posters = self::getMediaSessionPosters($lt['users_id'], $lt['live_servers_id'], $lt['live_schedule_id']);
+        if(empty($posters)){
+            $posters = array();
+        }
         //var_dump($posters);exit;
         $category = Category::getCategory($lt['categories_id']);
         $MediaMetadata = new stdClass();

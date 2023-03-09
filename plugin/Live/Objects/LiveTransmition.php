@@ -305,6 +305,9 @@ class LiveTransmition extends ObjectYPT
             if (empty($row['users_id'])) {
                 $row['users_id'] = 0;
             }
+            if (!isset($row['live_servers_id'])) {
+                $row['live_servers_id'] = Live::getLiveServersIdRequest();
+            }
             
         } else {
             $row = false;

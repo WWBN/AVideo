@@ -1864,7 +1864,7 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80)
     }
 
     if (is_bool($src)) {
-        _error_log("im_resize error on source {$file_src} ", AVideoLog::$ERROR);
+        //_error_log("im_resize error on source {$file_src} ", AVideoLog::$ERROR);
         return false;
     }
 

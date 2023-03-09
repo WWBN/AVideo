@@ -1,4 +1,5 @@
 <?php
+set_time_limit(30);
 $facebookSizeRecomendationW = 1200;
 $facebookSizeRecomendationH = 630;
 
