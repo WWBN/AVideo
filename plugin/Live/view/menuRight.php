@@ -346,7 +346,7 @@ if ($obj->doNotProcessNotifications) {
         itemsArray.icon = 'fas fa-video';
         itemsArray.type = 'info';
         itemsArray.html = '<span class="label label-danger liveNow faa-flash faa-slow animated" style="display:inline-block; float:right;">LIVE NOW</span>';
-        addTemplateFromArray(itemsArray);
+        addTemplateFromArray(itemsArray, false);
     }
 
 <?php
