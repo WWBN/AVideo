@@ -86,15 +86,6 @@ class User_Location extends PluginAbstract {
         return str_replace('-', '_', $parts[0]);
     }
 
-    static function setLanguageFromBrowser() {
-        return setLanguage(self::getLanguageFromBrowser());
-    }
-
-    static function setLanguageFromIP() {
-        $User_Location = self::getThisUserLocation();
-        return setLanguage($User_Location['country_code']);
-    }
-
     static function changeLang($force=false) {
         global $global;
         if(!empty($force) || empty($_SESSION['language'])){
@@ -107,7 +98,6 @@ class User_Location extends PluginAbstract {
             }
         }
     }
-
     
     static function getLanguage() {
         global $global;

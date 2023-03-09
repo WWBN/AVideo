@@ -9,7 +9,6 @@ if (!empty($_GET['lang'])) {
     $_GET['lang'] = str_replace(["'", '"', "&quot;", "&#039;"], ['', '', '', ''], xss_esc($_GET['lang']));
 }
 
-setSiteLang();
 @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 
 function __($str, $allowHTML = false)
@@ -137,7 +136,7 @@ function setSiteLang()
         setLanguage($config->getLanguage());
     }
     if (empty($_SESSION['language'])) {
-        return setLanguage('en_US');
+        setLanguage('en_US');
     }
 }
 

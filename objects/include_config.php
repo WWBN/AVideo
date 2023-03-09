@@ -177,12 +177,14 @@ $_SESSION['savedQuerys'] = 0;
 require_once $global['systemRootPath'] . 'objects/Object.php';
 require_once $global['systemRootPath'] . 'locale/function.php';
 require_once $global['systemRootPath'] . 'objects/plugin.php';
+
+setSiteLang();
+
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
 adminSecurityCheck();
-setSiteLang();
 fixSystemPath();
 ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime();
 getDeviceID();
