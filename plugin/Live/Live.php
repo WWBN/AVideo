@@ -2278,7 +2278,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         if (!isset($_isApplicationListed[$key])) {
             $row = LiveTransmition::keyExists($key);
-            if (empty($row)) {
+            if (empty($row) || empty($row['users_id'])) {
                 $_isApplicationListed[$key] = __LINE__;
             } else if (!empty($row['scheduled'])) {
                 $_isApplicationListed[$key] = __LINE__;
