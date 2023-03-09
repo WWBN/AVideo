@@ -140,6 +140,11 @@ class Live_schedule extends ObjectYPT
             $sql .= " AND scheduled_time > DATE_SUB(NOW(), INTERVAL {$activeHoursAgo} HOUR) ";
         }
         $sql .= self::getSqlFromPost();
+        
+        if(!preg_match('/order by/i', $sql)){
+            $sql .= ' ORDER BY scheduled_time ASC';
+        }
+        
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
