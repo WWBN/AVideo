@@ -29,7 +29,7 @@ if (empty($obj->command)) {
 }
 
 if (!User::canStream()) {
-    $obj->msg = __("Permition denied");
+    $obj->msg = __('Permission denied');
     die(json_encode($obj));
 }
 

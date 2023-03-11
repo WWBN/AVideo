@@ -373,7 +373,6 @@ $t['Payments Settings'] = 'Configuraciones de pagos';
 $t['Pending Requests'] = 'solicitudes pendientes';
 $t['Permanent Link'] = 'Enlace Permanente';
 $t['Permission denied'] = 'Permiso denegado';
-$t['Permition denied'] = 'Permiso denegado';
 $t['Personal Info'] = 'Información personal';
 $t['Play All'] = 'Reproducir todo';
 $t['Play Live'] = 'Transmitir en vivo';

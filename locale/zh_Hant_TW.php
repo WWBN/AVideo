@@ -456,7 +456,6 @@ $t['Permission denied to Notify Done: '] = '沒有通知完成的權限：';
 $t['Permission denied to edit a video: '] = '沒有編輯視頻的權限：';
 $t['Permission denied to receive a file: '] = '沒有接收文件的權限：';
 $t['Permission denied'] = '權限不足';
-$t['Permition denied'] = '沒有權限';
 $t['Personal Info'] = '個人資料';
 $t['Play All'] = '全部播放';
 $t['Play Live'] = '現場直播';

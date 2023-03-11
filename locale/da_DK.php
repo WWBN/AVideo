@@ -561,7 +561,6 @@ $t['Payments Settings'] = 'Betalingsindstillinger';
 $t['Pending Requests'] = 'Afventende anmodninger';
 $t['Permission denied'] = 'Adgang nægtet';
 $t['Permissions'] = 'Tilladelser';
-$t['Permition denied'] = 'Tilladelse nægtet';
 $t['Personal Info'] = 'Personlig information';
 $t['Place a Link to play'] = 'Placer et link til at spille';
 $t['Place here the URL of the site you want to clone'] = "Placer her URL'en til det websted, du vil klone";
