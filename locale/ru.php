@@ -445,7 +445,6 @@ $t['Payments Settings'] = 'Настройки платежей';
 $t['Pending Requests'] = 'Ожидающие запросы';
 $t['Permanent Link'] = 'Постоянная ссылка';
 $t['Permission denied'] = 'В доступе отказано';
-$t['Permition denied'] = 'Доступ запрещён';
 $t['Personal Info'] = 'Персональная информация';
 $t['Play All'] = 'Воспроизвести всё';
 $t['Play a Link'] = 'Воспроизвести ссылку';

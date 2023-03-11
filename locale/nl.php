@@ -163,7 +163,6 @@ $t['Paste here the translated words, one each line'] = 'Plak hier de vertaalde w
 $t['Pay User per Video View'] = 'Betaal gebruiker per bekeken Video';
 $t['Payments Settings'] = 'Betaal Instellingen';
 $t['Permission denied'] = 'Geen toegang';
-$t['Permition denied'] = 'Geen toegang';
 $t['Play All'] = 'Speel alles';
 $t['Player Skin'] = 'Uiterlijk Videospeler';
 $t['Playlist name?'] = 'Afspeellijst titel';

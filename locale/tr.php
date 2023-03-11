@@ -240,7 +240,6 @@ $t['Paste here the translated words, one each line'] = 'Çevrilmiş sözcükleri
 $t['Payout'] = 'Ödeme';
 $t['Permanent Link'] = 'Kalıcı Bağlantı';
 $t['Permission denied'] = 'İzin reddedildi';
-$t['Permition denied'] = 'İzin reddedildi';
 $t['Play All'] = 'Hepsini Oynat';
 $t['Play'] = 'Oynat';
 $t['Player URL'] = 'Player Bağlantısı';

@@ -452,7 +452,6 @@ $t['Permission denied to Notify Done: '] = '没有通知完成的权限: ';
 $t['Permission denied to edit a video: '] = '没有编辑视频的权限: ';
 $t['Permission denied to receive a file: '] = '没有接收文件的权限: ';
 $t['Permission denied'] = '没有权限';
-$t['Permition denied'] = '没有权限';
 $t['Personal Info'] = '个人信息';
 $t['Play All'] = '全部播放';
 $t['Play Live'] = '现场直播';

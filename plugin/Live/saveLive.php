@@ -6,7 +6,7 @@ require_once '../../objects/user.php';
 $obj = new stdClass();
 $obj->error = true;
 if (!User::canStream()) {
-    $obj->msg = __("Permition denied");
+    $obj->msg = __('Permission denied');
     die(json_encode($obj));
 }
 

@@ -176,20 +176,20 @@ if (User::isAdmin()) {
                             ?>
                             <div class="alert alert-success">
                                 <span class="glyphicon glyphicon-check"></span>
-                                <strong>Your videos directory is writable</strong>
+                                <strong>Your video directory is writable</strong>
                             </div>
                             <?php
                         } else {
                             ?>
                             <div class="alert alert-danger">
                                 <span class="glyphicon glyphicon-unchecked"></span>
-                                <strong>Your videos directory must be writable</strong>
+                                <strong>Your video directory must be writable</strong>
                                 <details>
                                     <?php
                                     $dir = getPathToApplication() . "videos";
                                     if (!file_exists($dir)) {
                                         ?>
-                                        The video directory does not exists, AVideo had no permition to create it, you must create it manualy!
+                                        The video directory doesn't exist. AVideo doesn't have permission to create it. You must create it manually!
                                         <br>
                                         <pre><code>sudo mkdir <?php echo $dir; ?></code></pre>
             <?php }

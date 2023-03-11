@@ -714,7 +714,6 @@ $t['Permission denied to edit a video: '] = 'Engedély megtagadva a videó szerk
 $t['Permission denied to receive a file: '] = 'Engedély megtagadva a fájl fogadására:';
 $t['Permission denied'] = 'Engedély megtagadva';
 $t['Permissions'] = 'Engedélyek';
-$t['Permition denied'] = 'Engedély megtagadva';
 $t['Personal Info'] = 'Személyes információk';
 $t['Place a Link to play'] = 'Helyezzen el egy linket a játékhoz';
 $t['Place here the URL of the site you want to clone'] = 'Ide írja be a klónozni kívánt oldal URL-címét.';

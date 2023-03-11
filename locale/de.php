@@ -348,7 +348,6 @@ $t['Payments Settings'] = 'Zahlungseinstellungen';
 $t['Pending Requests'] = 'offene Anfragen';
 $t['Permanent Link'] = 'Dauerhafter Link';
 $t['Permission denied'] = 'Erlaubnis verweigert';
-$t['Permition denied'] = 'Erlaubnis verweigert';
 $t['Personal Info'] = 'Persönliche Daten';
 $t['Play All'] = 'Alle abspielen';
 $t['Play'] = 'Abspielen';

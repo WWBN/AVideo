@@ -883,7 +883,6 @@ $t['Permission denied to Notify Done: '] = 'Permission denied to Notify Done: ';
 $t['Permission denied to edit a video: '] = 'Permission denied to edit a video: ';
 $t['Permission denied to receive a file: '] = 'Permission denied to receive a file: ';
 $t['Permissions'] = 'Permissions';
-$t['Permition denied'] = 'Permition denied';
 $t['Personal Info'] = 'Personal Info';
 $t['Place a Link to play'] = 'Place a Link to play';
 $t['Place here the URL of the site you want to clone'] = 'Place here the URL of the site you want to clone';
