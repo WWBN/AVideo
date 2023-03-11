@@ -223,7 +223,6 @@ $t['Paste here the translated words, one each line'] = 'Tukaj prilepite preveden
 $t['Payout'] = 'Izplačilo';
 $t['Permanent Link'] = 'Začasna povezava';
 $t['Permission denied'] = 'Dostop zavrnjen';
-$t['Permition denied'] = 'Dovoljenje zavrnjeno';
 $t['Play All'] = 'Predvajaj vse';
 $t['Play'] = 'Predvajaj';
 $t['Player URL'] = 'URL predvajalnika';

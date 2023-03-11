@@ -360,7 +360,6 @@ $t['Payments Settings'] = '결제 설정';
 $t['Pending Requests'] = '보류 중인 요청';
 $t['Permanent Link'] = '영구 링크';
 $t['Permission denied'] = '권한 거부';
-$t['Permition denied'] = '퍼마션 거부됨';
 $t['Personal Info'] = '개인 정보';
 $t['Play All'] = '모두 재생';
 $t['Play'] = '놀고';

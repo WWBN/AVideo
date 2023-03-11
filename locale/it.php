@@ -649,7 +649,6 @@ $t['Permission denied to edit a video: '] = 'Permesso negato per modificare un v
 $t['Permission denied to receive a file: '] = 'Permesso negato a ricevere un file: ';
 $t['Permission denied'] = 'Autorizzazione negata';
 $t['Permissions'] = 'Permessi';
-$t['Permition denied'] = 'Autorizzazione negata';
 $t['Personal Info'] = 'Informazioni personali';
 $t['Place a Link to play'] = 'Inserisci un collegamento per giocare';
 $t['Place here the URL of the site you want to clone'] = "Inserisci qui l'URL del sito che vuoi clonare";

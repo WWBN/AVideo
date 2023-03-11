@@ -192,7 +192,6 @@ $t['Paste here the translated words, one each line'] = 'วางคำที่
 $t['Payout'] = 'การจ่ายเงิน';
 $t['Permanent Link'] = 'ลิงก์ถาวร';
 $t['Permission denied'] = 'การอนุญาตถูกปฏิเสธ &#34;';
-$t['Permition denied'] = 'การอนุญาตถูกปฏิเสธ &#34;';
 $t['Play All'] = 'เล่นทั้งหมด';
 $t['Player URL'] = 'URL ของผู้เล่น';
 $t['Playlist name?'] = 'ชื่อเพลย์์หรือไม่?';

@@ -350,7 +350,6 @@ $t['Payments Settings'] = 'Paramètres de paiement';
 $t['Payout'] = 'Paiment';
 $t['Permanent Link'] = 'Lien permanent';
 $t['Permission denied'] = 'Permission refusée';
-$t['Permition denied'] = 'Permission refusée';
 $t['Place here the URL of the site you want to clone'] = "Indiquez ici l'URL du site que vous souhaitez cloner.";
 $t['Play All'] = 'Tout regarder';
 $t['Play'] = 'Lire';

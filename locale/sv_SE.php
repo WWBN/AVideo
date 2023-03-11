@@ -243,7 +243,6 @@ $t['Paste here the translated words, one each line'] = 'Klistra in de översatta
 $t['Payout'] = 'Utbetalning';
 $t['Permanent Link'] = 'Permanent länk';
 $t['Permission denied'] = 'Tillstånd nekad';
-$t['Permition denied'] = 'Tillstånd nekad';
 $t['Play All'] = 'Spela alla';
 $t['Play'] = 'Spela upp';
 $t['Please login to proceed'] = 'Logga in för att fortsätta';

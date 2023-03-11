@@ -424,7 +424,6 @@ $t['Payments Settings'] = '決済設定';
 $t['Pending Requests'] = '保留中のリクエスト';
 $t['Permanent Link'] = '永久的なリンク';
 $t['Permission denied'] = '権限が許可されていません';
-$t['Permition denied'] = '権限が許可されていません';
 $t['Personal Info'] = '個人情報';
 $t['Play All'] = 'すべて再生';
 $t['Play'] = '再生';
