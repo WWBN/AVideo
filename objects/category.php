@@ -892,7 +892,7 @@ class Category {
         $photo = Category::getCategoryPhotoPath($categories_id);
         $background = Category::getCategoryBackgroundPath($categories_id);
         //var_dump(filesize($background['path']), $background['path'], filesize($photo['path']), $photo['path'] );
-        if (!file_exists($photo['path']) || !file_exists($background['path'])) {
+        if (!@file_exists($photo['path']) || !@file_exists($background['path'])) {
             return false;
         }
         if (filesize($photo['path']) <= 190) { // transparent image

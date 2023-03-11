@@ -925,7 +925,7 @@ class API extends PluginAbstract {
 
         $user = new User($parameters['users_id']);
         if (empty($user->getUser())) {
-            return new ApiObject("User Not defined");
+            return new ApiObject("User Not found");
         }
         $p = AVideoPlugin::loadPlugin("Live");
 

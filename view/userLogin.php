@@ -10,7 +10,7 @@ if (empty($_GET['redirectUri'])) {
 }
 if (empty($signUpURL)) {
     $signUpURL = "{$global['webSiteRootURL']}signUp";
-    if (isValidURL($_GET['redirectUri'])) {
+    if (isValidURL(@$_GET['redirectUri'])) {
         $signUpURL = addQueryStringParameter($signUpURL, 'redirectUri', $_GET['redirectUri']);
     }
 }

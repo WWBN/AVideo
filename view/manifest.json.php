@@ -69,7 +69,7 @@ function pwaIconsArray()
     $icon = [];
 
     $favicon = Configuration::_getFavicon(true);
-    $faviconICO = Configuration::_getFavicon(false);
+    //$faviconICO = Configuration::_getFavicon(false);
 
     $sizes = [72, 96, 120, 128, 144, 152, 180, 192, 384, 512];
 
