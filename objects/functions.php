@@ -10743,7 +10743,7 @@ function getDockerStatsURL()
 
 function set_error_reporting() {
     global $global;
-    if (!empty($global['debug'])) {
+    if (!empty($global['debug']) && empty($global['noDebug'])) {
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
     }else{
