@@ -6,6 +6,9 @@ if (empty($playlists_id)) {
 }
 
 $program = PlayList::getFromDbFromId($playlists_id);
+if(empty($program)){
+    return;
+}
 //var_dump($playlists_id, $program);
 $isMyChannel = $program['users_id'] == User::getId();
 
