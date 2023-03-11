@@ -10740,3 +10740,13 @@ function getDockerStatsURL()
 {
     return getDockerInternalURL() . "stat";
 }
+
+function set_error_reporting() {
+    if (!empty($global['debug'])) {
+        error_reporting(E_ALL);
+        ini_set('display_errors', 1);
+    }else{
+        error_reporting(E_ERROR);
+        ini_set('display_errors', 0);
+    }
+}

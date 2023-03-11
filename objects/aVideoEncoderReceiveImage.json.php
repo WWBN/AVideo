@@ -11,12 +11,6 @@ if (!isset($global['systemRootPath'])) {
 
 $global['bypassSameDomainCheck'] = 1;
 inputToRequest();
-/*
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL & ~E_DEPRECATED);
- */
-
 _error_log("REQUEST: " . json_encode($_REQUEST));
 _error_log("POST: " . json_encode($_REQUEST));
 _error_log("GET: " . json_encode($_GET));

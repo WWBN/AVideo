@@ -59,7 +59,7 @@ try {
 } catch (Exception $exc) {
     echo $exc->getTraceAsString();
 }
-error_reporting(error_reporting() & ~E_DEPRECATED);
+
 $global['webSiteRootURL'] .= (substr($global['webSiteRootURL'], -1) == '/' ? '' : '/');
 $global['systemRootPath'] .= (substr($global['systemRootPath'], -1) == '/' ? '' : '/');
 $global['session_name'] = md5($global['systemRootPath']);
@@ -180,6 +180,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+set_error_reporting();
 setSiteLang();
 
 adminSecurityCheck();

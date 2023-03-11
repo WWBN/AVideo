@@ -7,8 +7,6 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
-error_reporting(E_ALL & ~E_DEPRECATED);
-
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = true;
