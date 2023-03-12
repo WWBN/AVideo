@@ -279,8 +279,11 @@ class ADs extends PluginAbstract
     public static function getAdsFromVideosId($type, $videos_id = 0)
     {
         global $global;
+        
+        $emptyAd = ['adCode' => '', 'label' => '', 'paths' => array()];
+        
         if (isBot()) {
-            return false;
+            return $emptyAd;
         }
 
         if (empty($videos_id)) {
@@ -296,6 +299,9 @@ class ADs extends PluginAbstract
         }
         
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+        if(empty($ad->$type)){
+            return $emptyAd;
+        }
         $label = '';
         eval("\$label = \$ad->{$type}Label;");
         $label = "{$label} [$users_id] [{$type}]";
