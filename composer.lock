@@ -1439,16 +1439,16 @@
         },
         {
             "name": "hybridauth/hybridauth",
-            "version": "v3.8.2",
+            "version": "v3.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hybridauth/hybridauth.git",
-                "reference": "0d6e31482c544e5ed2bdc83bd3c033054129c482"
+                "reference": "a950212d2f52df5b0662cd520b0043c4ee6d0f1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hybridauth/hybridauth/zipball/0d6e31482c544e5ed2bdc83bd3c033054129c482",
-                "reference": "0d6e31482c544e5ed2bdc83bd3c033054129c482",
+                "url": "https://api.github.com/repos/hybridauth/hybridauth/zipball/a950212d2f52df5b0662cd520b0043c4ee6d0f1b",
+                "reference": "a950212d2f52df5b0662cd520b0043c4ee6d0f1b",
                 "shasum": ""
             },
             "require": {
@@ -1495,9 +1495,9 @@
             "support": {
                 "gitter": "https://gitter.im/hybridauth/hybridauth",
                 "issues": "https://github.com/hybridauth/hybridauth/issues",
-                "source": "https://github.com/hybridauth/hybridauth/tree/v3.8.2"
+                "source": "https://github.com/hybridauth/hybridauth/tree/v3.9.0"
             },
-            "time": "2022-08-18T19:48:17+00:00"
+            "time": "2023-03-12T09:30:26+00:00"
         },
         {
             "name": "james-heinrich/getid3",
