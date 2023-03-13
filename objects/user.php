@@ -2996,7 +2996,7 @@ if (typeof gtag !== \"function\") {
         $get = ['channelName' => $u->getChannelName()];
         $current = getCurrentPage();
         $rowCount = getRowCount();
-        $sort = $_POST['sort'];
+        $sort = @$_POST['sort'];
         $_POST['current'] = 1;
         $_REQUEST['rowCount'] = $objGallery->screenColsLarge;
         $_POST['sort']['created'] = "DESC";

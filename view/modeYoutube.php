@@ -79,18 +79,19 @@ if (!empty($evideo)) {
         $playListData = $plp->getPlayListData();
 
         $video = $plp->getCurrentVideo();
-
-        $_getVideos_id = intval($video['id']);
-        $playlist_index = $plp->getIndex();
-
-        if (empty($playListData)) {
-            videoNotFound('');
+        if(!empty($video)){
+            $_getVideos_id = intval($video['id']);
+            $playlist_index = $plp->getIndex();
+    
+            if (empty($playListData)) {
+                videoNotFound('');
+            }
+    
+            $videosPlayList = $plp->getVideos();
+            $autoPlayVideo = $plp->getNextVideo();
+            $playlist_id = $plp->getPlaylists_id();
+            //var_dump($video);exit;
         }
-
-        $videosPlayList = $plp->getVideos();
-        $autoPlayVideo = $plp->getNextVideo();
-        $playlist_id = $plp->getPlaylists_id();
-        //var_dump($video);exit;
     } else {
         $catLink = '';
         if (!empty($_GET['catName'])) {

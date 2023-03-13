@@ -1035,10 +1035,13 @@ class PlayListPlayer {
     public function getCurrentVideo() {
         global $global;
         $key = $this->getIndex();
+        if(empty($this->videos[$key])){
+            return false;
+        }
         $video = $this->videos[$key];
         $video['url'] = $global['webSiteRootURL'] . "playlist/{$this->playlists_id}/" . ($key);
         
-        if(!isValidURL($video['trailer1'])){
+        if(!isValidURL(@$video['trailer1'])){
             $video['trailer1'] = PlayLists::getTrailerIfIsSerie($this->playlists_id);
         }
         //$_GET['v'] = $video['id'];
